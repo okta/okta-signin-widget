@@ -24,7 +24,8 @@ export default class ConsentPageObject extends BasePageObject {
   }
 
   getScopeItemTexts() {
-    return this.form.getInnerTexts('.scope-item-text');
+    const selector = userVariables.v3 ? '[data-se="scope-item-text"]' : '.scope-item-text';
+    return this.form.getInnerTexts(selector);
   }
 
   hasScopeText(label) {
@@ -32,7 +33,8 @@ export default class ConsentPageObject extends BasePageObject {
   }
 
   getScopeGroupName() {
-    return this.form.getElement('.scope-group--header').innerText;
+    const selector = userVariables.v3 ? '[data-se="scope-group--header"]' : '.scope-group--header';
+    return this.form.getElement(selector).innerText;
   }
 
   async getHeaderTitleText() {

@@ -156,6 +156,13 @@ export type RegistrationElementSchema = Modify<Input, {
   wide?: boolean;
 }>;
 
+export type ConsentScope = {
+  name: string;
+  label: string;
+  value: string;
+  desc?: string;
+};
+
 export interface UISchemaElement {
   type: string;
   id?: string;
@@ -372,7 +379,6 @@ export interface DescriptionElement extends UISchemaElement {
   options: {
     content: string;
     dataSe?: string;
-    tooltip?: string;
   };
 }
 

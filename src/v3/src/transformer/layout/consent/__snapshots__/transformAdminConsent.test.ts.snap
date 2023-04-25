@@ -1,0 +1,253 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`transformAdminConsent tests should add customized scope elements to formbag 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.consent.scopes.granular.description",
+          "dataSe": "consent-description",
+        },
+        "type": "Description",
+      },
+      Object {
+        "noMargin": true,
+        "options": Object {
+          "content": "admin.consent.group.resource.policy",
+          "dataSe": "scope-group--header",
+          "level": 5,
+          "visualLevel": 3,
+        },
+        "type": "Heading",
+      },
+      Object {
+        "noMargin": true,
+        "noTranslate": false,
+        "options": Object {
+          "content": "consent.scopes.okta.clients.manage.desc",
+          "dataSe": "scope-item-text",
+        },
+        "type": "Description",
+      },
+      Object {
+        "noMargin": false,
+        "noTranslate": false,
+        "options": Object {
+          "content": "consent.scopes.okta.authenticators.manage.desc",
+          "dataSe": "scope-item-text",
+        },
+        "type": "Description",
+      },
+      Object {
+        "noMargin": true,
+        "options": Object {
+          "content": "admin.consent.group.system",
+          "dataSe": "scope-group--header",
+          "level": 5,
+          "visualLevel": 3,
+        },
+        "type": "Heading",
+      },
+      Object {
+        "noMargin": true,
+        "noTranslate": true,
+        "options": Object {
+          "content": "This will allow the app to view your custom info",
+          "dataSe": "scope-item-text",
+        },
+        "type": "Description",
+      },
+      Object {
+        "noMargin": false,
+        "noTranslate": true,
+        "options": Object {
+          "content": "custom4.custom5.custom6",
+          "dataSe": "scope-item-text",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "consent.required.consentButton",
+        "options": Object {
+          "actionParams": Object {
+            "consent": true,
+          },
+          "dataType": "save",
+          "includeData": false,
+          "step": "admin-consent",
+          "type": "button",
+          "variant": "secondary",
+        },
+        "type": "Button",
+      },
+      Object {
+        "label": "oform.cancel",
+        "options": Object {
+          "actionParams": Object {
+            "consent": false,
+          },
+          "dataType": "cancel",
+          "includeData": false,
+          "step": "admin-consent",
+          "type": "button",
+          "variant": "secondary",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`transformAdminConsent tests should add non-customized scope elements to formbag 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.consent.scopes.granular.description",
+          "dataSe": "consent-description",
+        },
+        "type": "Description",
+      },
+      Object {
+        "noMargin": true,
+        "options": Object {
+          "content": "admin.consent.group.resource.policy",
+          "dataSe": "scope-group--header",
+          "level": 5,
+          "visualLevel": 3,
+        },
+        "type": "Heading",
+      },
+      Object {
+        "noMargin": true,
+        "noTranslate": false,
+        "options": Object {
+          "content": "consent.scopes.okta.clients.manage.desc",
+          "dataSe": "scope-item-text",
+        },
+        "type": "Description",
+      },
+      Object {
+        "noMargin": false,
+        "noTranslate": false,
+        "options": Object {
+          "content": "consent.scopes.okta.authenticators.manage.desc",
+          "dataSe": "scope-item-text",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "consent.required.consentButton",
+        "options": Object {
+          "actionParams": Object {
+            "consent": true,
+          },
+          "dataType": "save",
+          "includeData": false,
+          "step": "admin-consent",
+          "type": "button",
+          "variant": "secondary",
+        },
+        "type": "Button",
+      },
+      Object {
+        "label": "oform.cancel",
+        "options": Object {
+          "actionParams": Object {
+            "consent": false,
+          },
+          "dataType": "cancel",
+          "includeData": false,
+          "step": "admin-consent",
+          "type": "button",
+          "variant": "secondary",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`transformAdminConsent tests should not add scopes when none exist in the transaction 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.consent.scopes.granular.description",
+          "dataSe": "consent-description",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "consent.required.consentButton",
+        "options": Object {
+          "actionParams": Object {
+            "consent": true,
+          },
+          "dataType": "save",
+          "includeData": false,
+          "step": "admin-consent",
+          "type": "button",
+          "variant": "secondary",
+        },
+        "type": "Button",
+      },
+      Object {
+        "label": "oform.cancel",
+        "options": Object {
+          "actionParams": Object {
+            "consent": false,
+          },
+          "dataType": "cancel",
+          "includeData": false,
+          "step": "admin-consent",
+          "type": "button",
+          "variant": "secondary",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

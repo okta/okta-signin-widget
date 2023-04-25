@@ -2,7 +2,10 @@
 
 exports[`transformEnduserConsent tests should add customized scope elements to formbag 1`] = `
 Object {
-  "data": Object {},
+  "data": Object {
+    "consent.scopes.custom1": true,
+    "consent.scopes.custom2": true,
+  },
   "dataSchema": Object {
     "fieldsToExclude": [Function],
     "fieldsToTrim": Array [],
@@ -15,24 +18,52 @@ Object {
   "uischema": Object {
     "elements": Array [
       Object {
-        "noMargin": true,
-        "noTranslate": true,
         "options": Object {
-          "content": "View your custom info",
-          "dataSe": "scope-item-text",
-          "tooltip": "This will allow the app to view your custom info",
+          "inputMeta": Object {
+            "mutable": false,
+            "name": "consent.scopes.custom1",
+            "type": "boolean",
+          },
         },
-        "type": "Description",
+        "translations": Array [
+          Object {
+            "i18nKey": "consent.scopes.custom1.label",
+            "name": "label",
+            "noTranslate": true,
+            "value": "View your custom info",
+          },
+          Object {
+            "i18nKey": "consent.scopes.custom1.desc",
+            "name": "description",
+            "noTranslate": true,
+            "value": "This will allow the app to view your custom info",
+          },
+        ],
+        "type": "Field",
       },
       Object {
-        "noMargin": true,
-        "noTranslate": true,
         "options": Object {
-          "content": "View your custom 2",
-          "dataSe": "scope-item-text",
-          "tooltip": "This will allow the app to view your custom 2 info",
+          "inputMeta": Object {
+            "mutable": false,
+            "name": "consent.scopes.custom2",
+            "type": "boolean",
+          },
         },
-        "type": "Description",
+        "translations": Array [
+          Object {
+            "i18nKey": "consent.scopes.custom2.label",
+            "name": "label",
+            "noTranslate": true,
+            "value": "View your custom 2",
+          },
+          Object {
+            "i18nKey": "consent.scopes.custom2.desc",
+            "name": "description",
+            "noTranslate": true,
+            "value": undefined,
+          },
+        ],
+        "type": "Field",
       },
       Object {
         "contentType": "subtitle",
@@ -78,7 +109,7 @@ Object {
         "type": "Button",
       },
       Object {
-        "label": "consent.required.cancelButton",
+        "label": "oform.cancel",
         "options": Object {
           "actionParams": Object {
             "consent": false,
@@ -99,7 +130,10 @@ Object {
 
 exports[`transformEnduserConsent tests should add non-customized scope elements to formbag 1`] = `
 Object {
-  "data": Object {},
+  "data": Object {
+    "consent.scopes.email": true,
+    "consent.scopes.phone": true,
+  },
   "dataSchema": Object {
     "fieldsToExclude": [Function],
     "fieldsToTrim": Array [],
@@ -112,24 +146,52 @@ Object {
   "uischema": Object {
     "elements": Array [
       Object {
-        "noMargin": true,
-        "noTranslate": false,
         "options": Object {
-          "content": "consent.scopes.email.label",
-          "dataSe": "scope-item-text",
-          "tooltip": "consent.scopes.email.desc",
+          "inputMeta": Object {
+            "mutable": false,
+            "name": "consent.scopes.email",
+            "type": "boolean",
+          },
         },
-        "type": "Description",
+        "translations": Array [
+          Object {
+            "i18nKey": "consent.scopes.email.label",
+            "name": "label",
+            "noTranslate": false,
+            "value": "consent.scopes.email.label",
+          },
+          Object {
+            "i18nKey": "consent.scopes.email.desc",
+            "name": "description",
+            "noTranslate": false,
+            "value": "consent.scopes.email.desc",
+          },
+        ],
+        "type": "Field",
       },
       Object {
-        "noMargin": true,
-        "noTranslate": false,
         "options": Object {
-          "content": "consent.scopes.phone.label",
-          "dataSe": "scope-item-text",
-          "tooltip": "consent.scopes.phone.desc",
+          "inputMeta": Object {
+            "mutable": false,
+            "name": "consent.scopes.phone",
+            "type": "boolean",
+          },
         },
-        "type": "Description",
+        "translations": Array [
+          Object {
+            "i18nKey": "consent.scopes.phone.label",
+            "name": "label",
+            "noTranslate": false,
+            "value": "consent.scopes.phone.label",
+          },
+          Object {
+            "i18nKey": "consent.scopes.phone.desc",
+            "name": "description",
+            "noTranslate": false,
+            "value": "consent.scopes.phone.desc",
+          },
+        ],
+        "type": "Field",
       },
       Object {
         "contentType": "subtitle",
@@ -175,7 +237,7 @@ Object {
         "type": "Button",
       },
       Object {
-        "label": "consent.required.cancelButton",
+        "label": "oform.cancel",
         "options": Object {
           "actionParams": Object {
             "consent": false,
@@ -252,7 +314,7 @@ Object {
         "type": "Button",
       },
       Object {
-        "label": "consent.required.cancelButton",
+        "label": "oform.cancel",
         "options": Object {
           "actionParams": Object {
             "consent": false,

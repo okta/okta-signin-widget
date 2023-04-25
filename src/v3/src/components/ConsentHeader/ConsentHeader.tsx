@@ -11,6 +11,7 @@
  */
 
 import { Link } from '@mui/material';
+import * as Tokens from '@okta/odyssey-design-tokens';
 import {
   Box, SettingsIcon, Typography,
 } from '@okta/odyssey-react-mui';
@@ -102,7 +103,7 @@ const ConsentHeader: FunctionComponent = () => {
   const getHeaderContent = () => {
     if ([IDX_STEP.CONSENT_ADMIN, IDX_STEP.CONSENT_ENDUSER].includes(stepName)) {
       // @ts-expect-error OKTA-598777 authentication missing from IdxContext interface
-      const { context: { authentication: { issuer } = {} } } = idxTransaction;
+      const { context: { authentication: { value: { issuer } } = {} } } = idxTransaction;
       const hasIssuer = stepName === IDX_STEP.CONSENT_ADMIN && typeof issuer?.uri !== 'undefined';
       const titleText = stepName === IDX_STEP.CONSENT_ADMIN
         ? loc('oie.consent.scopes.admin.title', 'login')
@@ -123,8 +124,25 @@ const ConsentHeader: FunctionComponent = () => {
               &nbsp;
             </Typography>
             <Typography paragraph>{titleText}</Typography>
+            {hasIssuer && (
+              <Box
+                display="flex"
+                justifyContent="center"
+              >
+                <Typography
+                  sx={(theme) => ({
+                    marginBlockEnd: theme.spacing(4),
+                    backgroundColor: Tokens.ColorBackgroundPrimaryLight,
+                    color: Tokens.ColorBackgroundPrimaryDark,
+                    padding: '4px 2px',
+                  })}
+                  className="issuer no-translate"
+                >
+                  {issuer.uri}
+                </Typography>
+              </Box>
+            )}
           </Box>
-          {hasIssuer && <Typography className="issuer no-translate">{issuer.uri}</Typography>}
         </Fragment>
       );
     }

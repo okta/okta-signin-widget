@@ -23,9 +23,10 @@ const shouldHideIdentifier = (
   identifier?: string,
   stepName?: string,
 ): boolean => {
+  const excludedSteps = [IDX_STEP.IDENTIFY, IDX_STEP.CONSENT_ADMIN];
   // Should not display identifier here because if invalid identifier
   // is used, introspect includes the invalid name in user context
-  if (stepName === IDX_STEP.IDENTIFY) {
+  if (typeof stepName !== 'undefined' && excludedSteps.includes(stepName)) {
     return true;
   }
 

@@ -105,7 +105,7 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
                 *
               </Box>
             )}
-            {descriptionInfo && (
+            {descriptionInfo?.value && (
               <FormHelperText className={descriptionInfo.noTranslate ? 'no-translate' : undefined}>
                 {descriptionInfo.value}
               </FormHelperText>

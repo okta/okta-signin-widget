@@ -234,7 +234,7 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
                                 class="MuiBox-root emotion-9"
                               >
                                 <div
-                                  class="MuiBox-root emotion-33"
+                                  class="MuiBox-root emotion-14"
                                 >
                                   <h3
                                     class="MuiTypography-root MuiTypography-h6 emotion-34"
@@ -275,7 +275,7 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
                                 class="MuiBox-root emotion-9"
                               >
                                 <div
-                                  class="MuiBox-root emotion-33"
+                                  class="MuiBox-root emotion-14"
                                 >
                                   <h3
                                     class="MuiTypography-root MuiTypography-h6 emotion-34"

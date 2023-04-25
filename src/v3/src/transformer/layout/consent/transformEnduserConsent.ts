@@ -10,19 +10,21 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { doesI18NKeyExist } from '../../../../../v2/ion/i18nTransformer';
 import {
   ButtonElement,
   ButtonType,
+  ConsentScope,
   DescriptionElement,
+  FieldElement,
   IdxStepTransformer,
   LinkElement,
 } from '../../../types';
 import { loc } from '../../../util';
 import { removeUIElementWithName } from '../../utils';
-import { buildScopeElements } from './buildScopeElements';
 
 export const transformEnduserConsent: IdxStepTransformer = ({ transaction, formBag }) => {
-  const { uischema } = formBag;
+  const { uischema, data } = formBag;
   const {
     // @ts-expect-error OKTA-598868 app is missing from rawIdxState type
     rawIdxState: { app },
@@ -35,9 +37,42 @@ export const transformEnduserConsent: IdxStepTransformer = ({ transaction, formB
 
   uischema.elements = removeUIElementWithName('consent', uischema.elements);
 
-  const scopeElements = buildScopeElements(scopes);
-  if (scopeElements) {
-    uischema.elements.push(...scopeElements);
+  if (Array.isArray(scopes)) {
+    uischema.elements.push(...(scopes?.map((scope: ConsentScope) => {
+      const labelI18nKey = `consent.scopes.${scope.name}.label`;
+      const descrI18nKey = `consent.scopes.${scope.name}.desc`;
+      const isPredefinedLabel = doesI18NKeyExist(labelI18nKey);
+      const label = isPredefinedLabel ? loc(labelI18nKey, 'login') : scope.label;
+      const description = doesI18NKeyExist(descrI18nKey)
+        ? loc(descrI18nKey, 'login')
+        : scope.desc;
+      const fieldName = `consent.scopes.${scope.name}`;
+      data[fieldName] = true;
+      return {
+        type: 'Field',
+        translations: [
+          {
+            name: 'label',
+            i18nKey: labelI18nKey,
+            value: label,
+            noTranslate: !isPredefinedLabel,
+          },
+          {
+            name: 'description',
+            i18nKey: descrI18nKey,
+            value: description,
+            noTranslate: !isPredefinedLabel,
+          },
+        ],
+        options: {
+          inputMeta: {
+            name: fieldName,
+            type: 'boolean',
+            mutable: false,
+          },
+        },
+      } as FieldElement;
+    })));
   }
 
   const descriptionEle: DescriptionElement = {
@@ -99,7 +134,7 @@ export const transformEnduserConsent: IdxStepTransformer = ({ transaction, formB
 
   const cancelButton: ButtonElement = {
     type: 'Button',
-    label: loc('consent.required.cancelButton', 'login'),
+    label: loc('oform.cancel', 'login'),
     options: {
       type: ButtonType.BUTTON,
       includeData: false,

@@ -1,5 +1,5 @@
 import { RequestMock, RequestLogger, userVariables } from 'testcafe';
-import { checkA11y } from '../framework/a11y';
+import { checkA11y, oktaDashboardContent } from '../framework/a11y';
 
 import ConsentPageObject from '../framework/page-objects/ConsentPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
@@ -13,7 +13,9 @@ const consentGranularMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrConsentGranular)
   .onRequestTo('http://localhost:3000/idp/idx/consent')
-  .respond(xhrSuccess);
+  .respond(xhrSuccess)
+  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+  .respond(oktaDashboardContent);
 
 const consentGranularFailedMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')

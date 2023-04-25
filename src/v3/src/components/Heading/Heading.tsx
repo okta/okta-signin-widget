@@ -22,6 +22,7 @@ const Heading: UISchemaElementComponent<{
   const {
     noTranslate,
     parserOptions,
+    noMargin,
     options: {
       content, dataSe, level, visualLevel,
     },
@@ -32,7 +33,7 @@ const Heading: UISchemaElementComponent<{
     <Box
       display="flex"
       justifyContent="flex-start"
-      marginBlockEnd={2}
+      marginBlockEnd={noMargin ? undefined : 2}
     >
       <Typography
         id={uischema.id}

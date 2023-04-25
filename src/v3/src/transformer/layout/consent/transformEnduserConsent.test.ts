@@ -90,7 +90,7 @@ describe('transformEnduserConsent tests', () => {
     expect((updatedFormBag.uischema.elements[3] as ButtonElement).label)
       .toBe('consent.required.consentButton');
     expect((updatedFormBag.uischema.elements[4] as ButtonElement).label)
-      .toBe('consent.required.cancelButton');
+      .toBe('oform.cancel');
   });
 
   it('should add non-customized scope elements to formbag', () => {
@@ -98,14 +98,40 @@ describe('transformEnduserConsent tests', () => {
 
     expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(7);
-    expect((updatedFormBag.uischema.elements[0] as DescriptionElement).options.content)
-      .toBe('consent.scopes.email.label');
-    expect((updatedFormBag.uischema.elements[0] as DescriptionElement).options.tooltip)
-      .toBe('consent.scopes.email.desc');
-    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
-      .toBe('consent.scopes.phone.label');
-    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.tooltip)
-      .toBe('consent.scopes.phone.desc');
+    expect((updatedFormBag.uischema.elements[0] as FieldElement).translations)
+      .toEqual([
+        {
+          name: 'label',
+          i18nKey: 'consent.scopes.email.label',
+          value: 'consent.scopes.email.label',
+          noTranslate: false,
+        },
+        {
+          name: 'description',
+          i18nKey: 'consent.scopes.email.desc',
+          value: 'consent.scopes.email.desc',
+          noTranslate: false,
+        },
+      ]);
+    expect((updatedFormBag.uischema.elements[0] as FieldElement).options.inputMeta.mutable)
+      .toBe(false);
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).translations)
+      .toEqual([
+        {
+          name: 'label',
+          i18nKey: 'consent.scopes.phone.label',
+          value: 'consent.scopes.phone.label',
+          noTranslate: false,
+        },
+        {
+          name: 'description',
+          i18nKey: 'consent.scopes.phone.desc',
+          value: 'consent.scopes.phone.desc',
+          noTranslate: false,
+        },
+      ]);
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options.inputMeta.mutable)
+      .toBe(false);
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
       .toBe('consent.required.description');
     expect((updatedFormBag.uischema.elements[3] as LinkElement).options.label)
@@ -115,7 +141,7 @@ describe('transformEnduserConsent tests', () => {
     expect((updatedFormBag.uischema.elements[5] as ButtonElement).label)
       .toBe('consent.required.consentButton');
     expect((updatedFormBag.uischema.elements[6] as ButtonElement).label)
-      .toBe('consent.required.cancelButton');
+      .toBe('oform.cancel');
   });
 
   it('should add customized scope elements to formbag', () => {
@@ -133,7 +159,6 @@ describe('transformEnduserConsent tests', () => {
           name: 'custom2',
           label: 'View your custom 2',
           value: 'custom2',
-          desc: 'This will allow the app to view your custom 2 info',
         },
       ],
     };
@@ -141,18 +166,40 @@ describe('transformEnduserConsent tests', () => {
 
     expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(7);
-    expect((updatedFormBag.uischema.elements[0] as DescriptionElement).options.content)
-      .toBe('View your custom info');
-    expect((updatedFormBag.uischema.elements[0] as DescriptionElement).options.tooltip)
-      .toBe('This will allow the app to view your custom info');
-    expect((updatedFormBag.uischema.elements[0] as DescriptionElement).noTranslate)
-      .toBe(true);
-    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
-      .toBe('View your custom 2');
-    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.tooltip)
-      .toBe('This will allow the app to view your custom 2 info');
-    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).noTranslate)
-      .toBe(true);
+    expect((updatedFormBag.uischema.elements[0] as FieldElement).translations)
+      .toEqual([
+        {
+          name: 'label',
+          i18nKey: 'consent.scopes.custom1.label',
+          value: 'View your custom info',
+          noTranslate: true,
+        },
+        {
+          name: 'description',
+          i18nKey: 'consent.scopes.custom1.desc',
+          value: 'This will allow the app to view your custom info',
+          noTranslate: true,
+        },
+      ]);
+    expect((updatedFormBag.uischema.elements[0] as FieldElement).options.inputMeta.mutable)
+      .toBe(false);
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).translations)
+      .toEqual([
+        {
+          name: 'label',
+          i18nKey: 'consent.scopes.custom2.label',
+          value: 'View your custom 2',
+          noTranslate: true,
+        },
+        {
+          name: 'description',
+          i18nKey: 'consent.scopes.custom2.desc',
+          value: undefined,
+          noTranslate: true,
+        },
+      ]);
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options.inputMeta.mutable)
+      .toBe(false);
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
       .toBe('consent.required.description');
     expect((updatedFormBag.uischema.elements[3] as LinkElement).options.label)
@@ -162,6 +209,6 @@ describe('transformEnduserConsent tests', () => {
     expect((updatedFormBag.uischema.elements[5] as ButtonElement).label)
       .toBe('consent.required.consentButton');
     expect((updatedFormBag.uischema.elements[6] as ButtonElement).label)
-      .toBe('consent.required.cancelButton');
+      .toBe('oform.cancel');
   });
 });
