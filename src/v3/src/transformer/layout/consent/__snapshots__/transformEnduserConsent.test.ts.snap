@@ -18,6 +18,15 @@ Object {
   "uischema": Object {
     "elements": Array [
       Object {
+        "contentType": "subtitle",
+        "noMargin": true,
+        "options": Object {
+          "content": "oie.consent.scopes.granular.description",
+          "dataSe": "consent-description",
+        },
+        "type": "Description",
+      },
+      Object {
         "options": Object {
           "inputMeta": Object {
             "mutable": false,
@@ -64,15 +73,6 @@ Object {
           },
         ],
         "type": "Field",
-      },
-      Object {
-        "contentType": "subtitle",
-        "noMargin": true,
-        "options": Object {
-          "content": "consent.required.description",
-          "dataSe": "consent-description",
-        },
-        "type": "Description",
       },
       Object {
         "options": Object {
@@ -146,6 +146,15 @@ Object {
   "uischema": Object {
     "elements": Array [
       Object {
+        "contentType": "subtitle",
+        "noMargin": true,
+        "options": Object {
+          "content": "oie.consent.scopes.granular.description",
+          "dataSe": "consent-description",
+        },
+        "type": "Description",
+      },
+      Object {
         "options": Object {
           "inputMeta": Object {
             "mutable": false,
@@ -192,15 +201,6 @@ Object {
           },
         ],
         "type": "Field",
-      },
-      Object {
-        "contentType": "subtitle",
-        "noMargin": true,
-        "options": Object {
-          "content": "consent.required.description",
-          "dataSe": "consent-description",
-        },
-        "type": "Description",
       },
       Object {
         "options": Object {
@@ -274,7 +274,7 @@ Object {
         "contentType": "subtitle",
         "noMargin": true,
         "options": Object {
-          "content": "consent.required.description",
+          "content": "oie.consent.scopes.granular.description",
           "dataSe": "consent-description",
         },
         "type": "Description",

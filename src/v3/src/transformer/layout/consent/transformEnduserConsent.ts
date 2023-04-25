@@ -37,6 +37,17 @@ export const transformEnduserConsent: IdxStepTransformer = ({ transaction, formB
 
   uischema.elements = removeUIElementWithName('consent', uischema.elements);
 
+  const descriptionEle: DescriptionElement = {
+    type: 'Description',
+    noMargin: true,
+    contentType: 'subtitle',
+    options: {
+      content: loc('oie.consent.scopes.granular.description', 'login'),
+      dataSe: 'consent-description',
+    },
+  };
+  uischema.elements.push(descriptionEle);
+
   if (Array.isArray(scopes)) {
     uischema.elements.push(...(scopes?.map((scope: ConsentScope) => {
       const labelI18nKey = `consent.scopes.${scope.name}.label`;
@@ -74,18 +85,6 @@ export const transformEnduserConsent: IdxStepTransformer = ({ transaction, formB
       } as FieldElement;
     })));
   }
-
-  const descriptionEle: DescriptionElement = {
-    type: 'Description',
-    contentType: 'subtitle',
-    noMargin: true,
-    options: {
-      content: loc('consent.required.description', 'login'),
-      dataSe: 'consent-description',
-    },
-  };
-
-  uischema.elements.push(descriptionEle);
 
   const termsOfServiceHref = app?.value?.termsOfService
     && (app.value.termsOfService as Record<string, Record<string, unknown>>).href;

@@ -82,7 +82,7 @@ describe('transformEnduserConsent tests', () => {
     expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(5);
     expect((updatedFormBag.uischema.elements[0] as DescriptionElement).options.content)
-      .toBe('consent.required.description');
+      .toBe('oie.consent.scopes.granular.description');
     expect((updatedFormBag.uischema.elements[1] as LinkElement).options.label)
       .toBe('consent.required.termsOfService');
     expect((updatedFormBag.uischema.elements[2] as LinkElement).options.label)
@@ -98,7 +98,9 @@ describe('transformEnduserConsent tests', () => {
 
     expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(7);
-    expect((updatedFormBag.uischema.elements[0] as FieldElement).translations)
+    expect((updatedFormBag.uischema.elements[0] as DescriptionElement).options.content)
+      .toBe('oie.consent.scopes.granular.description');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).translations)
       .toEqual([
         {
           name: 'label',
@@ -113,9 +115,9 @@ describe('transformEnduserConsent tests', () => {
           noTranslate: false,
         },
       ]);
-    expect((updatedFormBag.uischema.elements[0] as FieldElement).options.inputMeta.mutable)
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options.inputMeta.mutable)
       .toBe(false);
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).translations)
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).translations)
       .toEqual([
         {
           name: 'label',
@@ -130,10 +132,8 @@ describe('transformEnduserConsent tests', () => {
           noTranslate: false,
         },
       ]);
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).options.inputMeta.mutable)
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).options.inputMeta.mutable)
       .toBe(false);
-    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
-      .toBe('consent.required.description');
     expect((updatedFormBag.uischema.elements[3] as LinkElement).options.label)
       .toBe('consent.required.termsOfService');
     expect((updatedFormBag.uischema.elements[4] as LinkElement).options.label)
@@ -166,7 +166,9 @@ describe('transformEnduserConsent tests', () => {
 
     expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(7);
-    expect((updatedFormBag.uischema.elements[0] as FieldElement).translations)
+    expect((updatedFormBag.uischema.elements[0] as DescriptionElement).options.content)
+      .toBe('oie.consent.scopes.granular.description');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).translations)
       .toEqual([
         {
           name: 'label',
@@ -181,9 +183,9 @@ describe('transformEnduserConsent tests', () => {
           noTranslate: true,
         },
       ]);
-    expect((updatedFormBag.uischema.elements[0] as FieldElement).options.inputMeta.mutable)
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options.inputMeta.mutable)
       .toBe(false);
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).translations)
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).translations)
       .toEqual([
         {
           name: 'label',
@@ -198,10 +200,8 @@ describe('transformEnduserConsent tests', () => {
           noTranslate: true,
         },
       ]);
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).options.inputMeta.mutable)
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).options.inputMeta.mutable)
       .toBe(false);
-    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
-      .toBe('consent.required.description');
     expect((updatedFormBag.uischema.elements[3] as LinkElement).options.label)
       .toBe('consent.required.termsOfService');
     expect((updatedFormBag.uischema.elements[4] as LinkElement).options.label)
