@@ -38,7 +38,7 @@ export default Form.extend({
   scopeNames: function(index) {
     return this.scopeGroupListRow(index).find('.scope-item-text')
       .map(function() {
-        return this.innerText;
+        return this.innerHTML;
       })
       .get();
   },
