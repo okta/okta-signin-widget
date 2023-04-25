@@ -36,6 +36,7 @@ const suiteMap = {
     config: 'jest.config.js',
     preReq: [
       'grunt assets',
+      'ENTRY=css grunt exec:build-dev'
     ],
   },
   testcafe: {

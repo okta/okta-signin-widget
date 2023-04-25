@@ -1,4 +1,5 @@
 import Form from './Form';
+
 const PHONE_FIELD = 'phoneNumber';
 const CODE_FIELD = 'passCode';
 const COUNTRIES_FIELD = 'countryCode';

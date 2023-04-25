@@ -16,6 +16,7 @@ import resExistingPhone from 'helpers/xhr/MFA_ENROLL_callFactor_existingPhone';
 import Q from 'q';
 import $sandbox from 'sandbox';
 import LoginUtil from 'util/Util';
+import waitForExpect from 'wait-for-expect';
 const itp = Expect.itp;
 
 Expect.describe('EnrollCall', function() {
@@ -188,7 +189,9 @@ Expect.describe('EnrollCall', function() {
     itp('selects country based on defaultCountryCode from settings', function() {
       return setupFn(undefined, undefined, { defaultCountryCode: 'GB' })
         .then(function(test) {
-          expect(test.form.selectedCountry()).toBe('United Kingdom');
+          return waitForExpect(() => {
+            expect(test.form.selectedCountry()).toBe('United Kingdom');
+          });
         });
     });
     itp('uses "US" as countryCode if settings.defaultCountryCode is not valid', function() {
