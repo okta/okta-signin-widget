@@ -13,7 +13,6 @@ module.exports = [
   'EnrollDuo_spec.js',
   'EnrollHotpController_spec.js',
   'EnrollOnPrem_spec.js',
-  'EnrollPassword_spec.js',
   'EnrollQuestions_spec.js',
   'EnrollSms_spec.js',
   'EnrollSymantecVip_spec.js',
