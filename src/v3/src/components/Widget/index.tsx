@@ -43,10 +43,10 @@ import {
 import { createForm } from '../../transformer/utils';
 import {
   FormBag,
+  MessageType,
   UISchemaLayout,
   UISchemaLayoutType,
   WidgetProps,
-  MessageType,
 } from '../../types';
 import {
   areTransactionsEqual,
