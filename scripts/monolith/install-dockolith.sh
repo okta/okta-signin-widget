@@ -2,7 +2,7 @@
 
 if [[ -z ${DOCKOLITH_VERSION} ]]; then
   # export DOCKOLITH_VERSION=1.6.1
-  export DOCKOLITH_VERSION=1.9.0-g11f1d40
+  export DOCKOLITH_VERSION=1.9.0-ge196ec8
 fi
 
 
