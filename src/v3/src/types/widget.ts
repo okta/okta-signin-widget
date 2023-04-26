@@ -12,7 +12,9 @@
 
 import type { ThemeOptions as MuiThemeOptions } from '@mui/material';
 import {
-  FlowIdentifier, IdxActionParams, OktaAuth, OktaAuthOptions,
+  FlowIdentifier,
+  IdxActionParams,
+  OktaAuthOptions,
 } from '@okta/okta-auth-js';
 import {
   RawIdxResponse,
@@ -21,6 +23,7 @@ import {
 import {
   LanguageCallback,
   LanguageCode,
+  OktaSignInAPI,
   RegistrationErrorCallback,
   RegistrationOptions as RegOptions,
   RenderError,
@@ -132,7 +135,7 @@ export type WidgetOptions = {
   afterSubmit?: (data: JsonObject) => void;
 
   authParams?: OktaAuthOptions; // configs passed to authjs sdk
-  authClient?: OktaAuth; // instance of authjs
+  authClient?: OktaSignInAPI['authClient']; // instance of authjs
 
   issuer?: string;
   clientId?: string;

@@ -276,8 +276,7 @@ export interface ButtonElement extends UISchemaElement {
     ariaLabel?: string;
     classes?: string;
     disabled?: boolean;
-    Icon?: FunctionComponent | string;
-    iconAlt?: string;
+    Icon?: FunctionComponent;
     onClick?: (widgetContext: IWidgetContext) => unknown;
   };
 }
@@ -406,9 +405,10 @@ export interface ListElement extends UISchemaElement {
     /**
      * Items to render in the list.
      *
-     * **NOTE**: Only string and UISchemaElement with type 'Button' or
-     * 'Description' are supported. Other UISchemaElement types will not render
-     * and print a warning to the console.
+     * **NOTE**: Only string and UISchemaElement with type
+     * 'Button' or 'Description'
+     * are supported. Other UISchemaElement types will
+     * not render and print a warning to the console.
      */
     items: (string | UISchemaLayout)[];
     type: 'ul' | 'ol';

@@ -133,7 +133,7 @@
     "whatwg-fetch": "^3.6.2"
   },
   "engines": {
-    "node": ">=16"
+    "node": ">=14"
   },
   "msw": {
     "workerDirectory": "public"

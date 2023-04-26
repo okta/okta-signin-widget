@@ -28,6 +28,14 @@ import { transformTestAttribute } from './testAttribute';
 import { transformTransactionData } from './transaction';
 import { transformUISchema } from './uischema';
 
+// use this function after each transformation step to log the formbag output
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const logger: TransformStepFn = (formbag) => {
+  // eslint-disable-next-line no-console
+  console.log(formbag);
+  return formbag;
+};
+
 export const transformIdxTransaction = (options: TransformationOptions): FormBag => {
   const transformationStepFns: TransformStepFn[] = [
     transformTransactionData(options),

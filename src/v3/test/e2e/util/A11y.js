@@ -26,13 +26,16 @@ const ALWAYS_IGNORED_RULE_IDS = [
 
 const checkA11y = async (
   testController,
-  // options,
+  options,
 ) => {
-  const ignoredRuleIds = new Set(ALWAYS_IGNORED_RULE_IDS);
+  const ignoredRuleIds = new Set([
+    ...(options?.ignoredRuleIds ?? []),
+    ...ALWAYS_IGNORED_RULE_IDS,
+  ]);
   const axeOptions = {
     runOnly: {
       type: 'tag',
-      values: DEFAULT_A11Y_TAG_VALUES,
+      values: options?.tagValues || DEFAULT_A11Y_TAG_VALUES,
     },
     rules: {
       // skipping the "document-title" rule as there is an issue with testcafe
