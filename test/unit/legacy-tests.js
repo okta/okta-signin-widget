@@ -10,5 +10,4 @@ module.exports = [
   'LoginRouter_spec.js', // followup needed, 34 failed, login bundle + pkce + clock
   'MfaVerify_spec.js', // followup needed, 18 failed, isVisible + dropdown style + complex
   'PrimaryAuth_spec.js', // followup needed, 17 failed, css + clock + legacy function + isVisible
-  'PollController_spec.js',
 ];
