@@ -5,15 +5,8 @@ if [[ -z ${DOCKOLITH_VERSION} ]]; then
   export DOCKOLITH_VERSION=1.9.0-ge196ec8
 fi
 
-
-# only install if not triggered by upstream build
-if [[ -z ${DOCKOLITH_DOWNSTREAM} ]]; then
-  setup_service dockolith $DOCKOLITH_VERSION
-fi
-
-echo '#####################'
-dockolith --version
-echo '#####################'
+setup_service dockolith $DOCKOLITH_VERSION
+log_custom_message "Dockolith Version" "$(dockolith --version)"
 
 if [ -n "${CI}" ]; then # CI only
   echo "Boostrapping dockolith..."
