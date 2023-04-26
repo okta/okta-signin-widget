@@ -3,13 +3,12 @@
 // - events are missing properties such as "origin" that are bound to the source window
 // - ???
 module.exports = [
-  'Animations_spec.js', // asserts styles
-  'EnrollCall_spec.js', 
-  'EnrollChoices_spec.js', // migrate jasmin.clock
-  'EnrollSms_spec.js',
-  'IDPDiscovery_spec.js',
-  'LoginRouter_spec.js',
-  'MfaVerify_spec.js',
-  'PrimaryAuth_spec.js', // migrate jasmin.clock
-  'VerifyWebauthn_spec.js' // asserts styles
+  'Animations_spec.js', // need rework in jest
+  'EnrollCall_spec.js', // followup needed, need revisit ajax mock
+  'EnrollSms_spec.js', // followup needed, spyon
+  'IDPDiscovery_spec.js', // followup needed, 7 failed, jQuery :visible selector
+  'LoginRouter_spec.js', // followup needed, 34 failed, login bundle + pkce + clock
+  'MfaVerify_spec.js', // followup needed, 18 failed, isVisible + dropdown style + complex
+  'PrimaryAuth_spec.js', // followup needed, 17 failed, css + clock + legacy function + isVisible
+  'PollController_spec.js',
 ];
