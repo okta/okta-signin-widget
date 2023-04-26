@@ -65,7 +65,7 @@ test
     await t.expect(content).contains('Finish setting up your account in Okta Verify, then try accessing this app again.');
   });
 
-test.meta('v3', false) // mdm not enabled in v3
+test
   .requestHooks(logger, mdmMock)('shows the correct content in MDM terminal view', async t => {
     const deviceEnrollmentTerminalPage = await setup(t);
     await checkA11y(t);
@@ -78,7 +78,9 @@ test.meta('v3', false) // mdm not enabled in v3
     await t.expect(content).contains('Follow the instructions in your browser to set up Airwatch.');
     await t.expect(content).contains('Logout and re-login and then try accessing the app again.');
     await t.expect(deviceEnrollmentTerminalPage.getCopyButtonLabel()).eql('Copy link to clipboard');
-    await t.expect(deviceEnrollmentTerminalPage.getCopiedValue()).eql('https://sampleEnrollmentlink.com');
+    if (!userVariables.v3) {
+      await t.expect(deviceEnrollmentTerminalPage.getCopiedValue()).eql('https://sampleEnrollmentlink.com');
+    }
   });
 
 // Below two tests are covering special use cases in ODA Universal Link/App Link flow
@@ -123,7 +125,7 @@ test
     await t.expect(content).contains('Finish setting up your account in Okta Verify, then try accessing this app again.');
   });
 
-test.meta('v3', false) // mdm not enabled in v3
+test
   .requestHooks()('shows the correct content in iOS MDM terminal view when Okta Verify is not set up in Universal Link flow', async t => {
     const deviceEnrollmentTerminalPage = await setup(t);
     await rerenderWidget({
@@ -150,7 +152,9 @@ test.meta('v3', false) // mdm not enabled in v3
     await t.expect(content).contains('Follow the instructions in your browser to set up MobileIron.');
     await t.expect(content).contains('Logout and re-login and then try accessing the app again.');
     await t.expect(deviceEnrollmentTerminalPage.getCopyButtonLabel()).eql('Copy link to clipboard');
-    await t.expect(deviceEnrollmentTerminalPage.getCopiedValue()).eql('https://anotherSampleEnrollmentlink.com');
+    if (!userVariables.v3) {
+      await t.expect(deviceEnrollmentTerminalPage.getCopiedValue()).eql('https://anotherSampleEnrollmentlink.com');
+    }
   });
 
 test
@@ -268,7 +272,7 @@ test
     await t.expect(deviceEnrollmentTerminalPage.getBackLinkText()).eql('Back');
   });
 
-test.meta('v3', false) // mdm not enabled in v3
+test
   .requestHooks()('shows the correct content in ANDROID MDM terminal view when Okta Verify is not installed in App Link flow', async t => {
     const deviceEnrollmentTerminalPage = await setup(t);
     await rerenderWidget({
@@ -296,5 +300,7 @@ test.meta('v3', false) // mdm not enabled in v3
     await t.expect(content).contains('Follow the instructions in your browser to set up MobileIron.');
     await t.expect(content).contains('Logout and re-login and then try accessing the app again.');
     await t.expect(deviceEnrollmentTerminalPage.getCopyButtonLabel()).eql('Copy link to clipboard');
-    await t.expect(deviceEnrollmentTerminalPage.getCopiedValue()).eql('https://anotherSampleEnrollmentlink.com');
+    if (!userVariables.v3) {
+      await t.expect(deviceEnrollmentTerminalPage.getCopiedValue()).eql('https://anotherSampleEnrollmentlink.com');
+    }
   });
