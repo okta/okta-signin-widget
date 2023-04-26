@@ -12,6 +12,7 @@ if [ -z "${DOCKOLITH_CI}" ]; then # Local
 fi
 
 dockolith::setup;
+log_custom_message "Build Version" "${MONOLITH_BUILDVERSION}"
 
 #Set the spring config profiles. this determines which config files are loaded
 # http://localhost:8100/okta/ci,ci_test_shared_credentials
