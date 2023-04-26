@@ -1,6 +1,8 @@
 import 'jest-canvas-mock';
 import $ from 'jquery';
 import jasmine from 'jasmine';
+import fs from 'fs';
+import path from 'path';
 
 global.$ = global.jQuery = $;
 global.DEBUG = false;
@@ -22,6 +24,9 @@ navigator.credentials = {
     });
   }
 };
+
+const css = fs.readFileSync(path.resolve(__dirname, '../../..' ,'target/css/okta-sign-in.css'), 'utf8');
+$('head').append(`<style>${css}</style>`);
 
 // prevent unhandled promise
 process.on('unhandledRejection', console.error);
