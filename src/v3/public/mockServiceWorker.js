@@ -2,7 +2,7 @@
 /* tslint:disable */
 
 /**
- * Mock Service Worker (1.2.1).
+ * Mock Service Worker (1.1.1).
  * @see https://github.com/mswjs/msw
  * - Please do NOT modify this file.
  * - Please do NOT serve this file on production.
@@ -174,8 +174,8 @@ async function handleRequest(event, requestId) {
 async function resolveMainClient(event) {
   const client = await self.clients.get(event.clientId)
 
-  if (client && client.frameType === 'top-level') {
-    return client;
+  if (client?.frameType === 'top-level') {
+    return client
   }
 
   const allClients = await self.clients.matchAll({

@@ -23,12 +23,11 @@ export default defineConfig(({ mode, command }) => ({
   root: command === 'serve' && mode === 'testcafe'
     ? outDir
     : process.cwd(),
-
   plugins: [
     preact(),
   ],
   define: {
-    OKTA_SIW_VERSION: '"10.0.0"',
+    OKTA_SIW_VERSION: '"0.0.0"',
     OKTA_SIW_COMMIT_HASH: '"local"',
     DEBUG: true,
   },

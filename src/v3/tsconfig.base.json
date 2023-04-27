@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "allowImportingTsExtensions": true,
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
@@ -18,6 +19,9 @@
     "paths": {
       "@okta/courage": [
         "../../packages/@okta/courage-dist"
+      ],
+      "@okta/duo": [
+        "../../packages/vendor/duo_web_sdk/index.js"
       ],
       "@okta/mocks/*": [
         "../../playground/mocks/*"
