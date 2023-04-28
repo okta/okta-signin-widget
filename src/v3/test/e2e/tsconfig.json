@@ -20,8 +20,5 @@
     "strict": true,
     "strictNullChecks": true,
     "useDefineForClassFields": true
-  },
-  "include": [
-    "./**/*.ts"
-  ]
+  }
 }
