@@ -22,10 +22,13 @@ const esModules = [
 
 const devMode = process.env.NODE_ENV === 'development';
 
+/** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
 module.exports = {
   globals: {
     'ts-jest': {
       tsconfig: '<rootDir>/src/tsconfig.json',
+      // https://kulshekhar.github.io/ts-jest/docs/26.5/getting-started/options/isolatedModules
+      isolatedModules: true,
     },
   },
   transform: {
@@ -47,9 +50,7 @@ module.exports = {
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': '<rootDir>/src/tests/__mocks__/fileMock.js',
     '^.+\\.svg$': '<rootDir>/svgMockTransformer.js',
     '\\.(css|less|scss)$': 'identity-obj-proxy',
-    // 'preact/hooks': '<rootDir>/node_modules/preact/hooks',
     '^@okta/courage$': `${PACKAGES}/@okta/courage-dist/esm/src/index.js`,
-    '^@okta/duo': `${PROJECT_ROOT}/playground/mocks/spec-duo/duo-mock.js`,
     '^@okta/okta-i18n-bundles$': `${PROJECT_ROOT}/src/util/Bundles`,
     '^@okta/qtip$': `${PACKAGES}/@okta/qtip2/dist/jquery.qtip.js`,
     '^@okta/mocks/(.*)': `${PROJECT_ROOT}/playground/mocks/$1`,
