@@ -1,22 +1,34 @@
-export default {
-  init: (options) => {
-    const iframe = typeof options.iframe === 'string'
-      ? document.querySelector(options.iframe)
-      : (
-        options.iframe instanceof HTMLElement
-          ? options.iframe
-          : null
-      );
+import { InitOptions } from "duo_web_sdk";
 
-    // Load a mock iframe
-    // and add an event listener to continue with authentication
-    iframe.src = '/duo-iframe.html';
-    iframe.onload = () => {
-      var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
-      var duoMockLink = innerDoc.getElementById('duoVerifyLink');
-      duoMockLink.addEventListener('click', () => {
-        options.post_action('successDuoAuth');
-      }, false);
-    };
+const MockDuo = {
+  init: (options: InitOptions) => {
+    let iframe: HTMLIFrameElement = (() => {
+      if (options.iframe instanceof HTMLIFrameElement) {
+        return options.iframe;
+      }
+      if (typeof options.iframe === 'string') {
+        const el = document.querySelector(options.iframe);
+        if (el instanceof HTMLIFrameElement) {
+          return el;
+        }
+      }
+      throw new Error(`could not find iframe "${options.iframe}"`)
+    })();
+
+    if (iframe) {
+      iframe.src = '/duo-iframe.html';
+      iframe.onload = () => {
+        var innerDoc = iframe.contentDocument ?? iframe.contentWindow?.document;
+        var duoMockLink = innerDoc?.getElementById('duoVerifyLink');
+        duoMockLink?.addEventListener('click', () => {
+          if (options.post_action) {
+            // @ts-expect-error mistake in @types/duo_web_sdk
+            options.post_action('successDuoAuth');
+          }
+        }, false);
+      };
+    }
   }
 };
+
+export default MockDuo;

@@ -19,9 +19,6 @@
       "@okta/courage": [
         "../../packages/@okta/courage-dist"
       ],
-      "@okta/duo": [
-        "../../packages/vendor/duo_web_sdk/index.js"
-      ],
       "@okta/mocks/*": [
         "../../playground/mocks/*"
       ],

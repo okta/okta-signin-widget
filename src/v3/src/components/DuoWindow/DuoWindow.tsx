@@ -10,8 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-// import { init } from '@okta/duo';
-import Duo from '@okta/duo';
+import Duo from 'duo_web_sdk';
 import { useEffect, useState } from 'preact/hooks';
 
 import { useWidgetContext } from '../../contexts';
@@ -43,6 +42,8 @@ const DuoWindow: UISchemaElementComponent<{
         host,
         sig_request: signedToken,
         iframe: '#duo_iframe', // document.getElementById('duo_iframe'),
+
+        // @ts-expect-error type mismatch on post_action
         post_action: (signedData: string) => {
           handleDuoAuthSuccess({
             params: { 'credentials.signatureData': signedData },
