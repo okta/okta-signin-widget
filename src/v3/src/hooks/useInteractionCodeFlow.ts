@@ -40,8 +40,11 @@ export const useInteractionCodeFlow = (
       return;
     }
 
-    if (!([IdxStatus.TERMINAL, IdxStatus.SUCCESS].includes(transaction.status)
-        || !transaction.nextStep)) {
+    const isPendingTransactionOrHasNextStep = !(
+      [IdxStatus.TERMINAL, IdxStatus.SUCCESS].includes(transaction.status)
+      || !transaction.nextStep
+    );
+    if (isPendingTransactionOrHasNextStep) {
       setFormBag(undefined);
       return;
     }
