@@ -2,7 +2,12 @@
 
 exports[`transformAdminConsent tests should add customized scope elements to formbag 1`] = `
 Object {
-  "data": Object {},
+  "data": Object {
+    "consent.scopes.custom1.custom2.custom3": true,
+    "consent.scopes.custom4.custom5.custom6": true,
+    "consent.scopes.okta.authenticators.manage": true,
+    "consent.scopes.okta.clients.manage": true,
+  },
   "dataSchema": Object {
     "fieldsToExclude": [Function],
     "fieldsToTrim": Array [],
@@ -33,22 +38,52 @@ Object {
         "type": "Heading",
       },
       Object {
-        "noMargin": true,
-        "noTranslate": false,
         "options": Object {
-          "content": "consent.scopes.okta.clients.manage.desc",
-          "dataSe": "scope-item-text",
+          "inputMeta": Object {
+            "mutable": false,
+            "name": "consent.scopes.okta.clients.manage",
+            "type": "boolean",
+          },
         },
-        "type": "Description",
+        "translations": Array [
+          Object {
+            "i18nKey": "consent.scopes.okta.clients.manage.label",
+            "name": "label",
+            "noTranslate": true,
+            "value": "okta.clients.manage",
+          },
+          Object {
+            "i18nKey": "consent.scopes.okta.clients.manage.desc",
+            "name": "description",
+            "noTranslate": false,
+            "value": "consent.scopes.okta.clients.manage.desc",
+          },
+        ],
+        "type": "Field",
       },
       Object {
-        "noMargin": false,
-        "noTranslate": false,
         "options": Object {
-          "content": "consent.scopes.okta.authenticators.manage.desc",
-          "dataSe": "scope-item-text",
+          "inputMeta": Object {
+            "mutable": false,
+            "name": "consent.scopes.okta.authenticators.manage",
+            "type": "boolean",
+          },
         },
-        "type": "Description",
+        "translations": Array [
+          Object {
+            "i18nKey": "consent.scopes.okta.authenticators.manage.label",
+            "name": "label",
+            "noTranslate": true,
+            "value": "okta.authenticators.manage",
+          },
+          Object {
+            "i18nKey": "consent.scopes.okta.authenticators.manage.desc",
+            "name": "description",
+            "noTranslate": false,
+            "value": "consent.scopes.okta.authenticators.manage.desc",
+          },
+        ],
+        "type": "Field",
       },
       Object {
         "noMargin": true,
@@ -61,22 +96,52 @@ Object {
         "type": "Heading",
       },
       Object {
-        "noMargin": true,
-        "noTranslate": true,
         "options": Object {
-          "content": "This will allow the app to view your custom info",
-          "dataSe": "scope-item-text",
+          "inputMeta": Object {
+            "mutable": false,
+            "name": "consent.scopes.custom1.custom2.custom3",
+            "type": "boolean",
+          },
         },
-        "type": "Description",
+        "translations": Array [
+          Object {
+            "i18nKey": "consent.scopes.custom1.custom2.custom3.label",
+            "name": "label",
+            "noTranslate": true,
+            "value": "custom1.custom2.custom3",
+          },
+          Object {
+            "i18nKey": "consent.scopes.custom1.custom2.custom3.desc",
+            "name": "description",
+            "noTranslate": true,
+            "value": "This will allow the app to view your custom info",
+          },
+        ],
+        "type": "Field",
       },
       Object {
-        "noMargin": false,
-        "noTranslate": true,
         "options": Object {
-          "content": "custom4.custom5.custom6",
-          "dataSe": "scope-item-text",
+          "inputMeta": Object {
+            "mutable": false,
+            "name": "consent.scopes.custom4.custom5.custom6",
+            "type": "boolean",
+          },
         },
-        "type": "Description",
+        "translations": Array [
+          Object {
+            "i18nKey": "consent.scopes.custom4.custom5.custom6.label",
+            "name": "label",
+            "noTranslate": true,
+            "value": "custom4.custom5.custom6",
+          },
+          Object {
+            "i18nKey": "consent.scopes.custom4.custom5.custom6.desc",
+            "name": "description",
+            "noTranslate": true,
+            "value": undefined,
+          },
+        ],
+        "type": "Field",
       },
       Object {
         "label": "consent.required.consentButton",
@@ -114,7 +179,10 @@ Object {
 
 exports[`transformAdminConsent tests should add non-customized scope elements to formbag 1`] = `
 Object {
-  "data": Object {},
+  "data": Object {
+    "consent.scopes.okta.authenticators.manage": true,
+    "consent.scopes.okta.clients.manage": true,
+  },
   "dataSchema": Object {
     "fieldsToExclude": [Function],
     "fieldsToTrim": Array [],
@@ -145,22 +213,52 @@ Object {
         "type": "Heading",
       },
       Object {
-        "noMargin": true,
-        "noTranslate": false,
         "options": Object {
-          "content": "consent.scopes.okta.clients.manage.desc",
-          "dataSe": "scope-item-text",
+          "inputMeta": Object {
+            "mutable": false,
+            "name": "consent.scopes.okta.clients.manage",
+            "type": "boolean",
+          },
         },
-        "type": "Description",
+        "translations": Array [
+          Object {
+            "i18nKey": "consent.scopes.okta.clients.manage.label",
+            "name": "label",
+            "noTranslate": true,
+            "value": "okta.clients.manage",
+          },
+          Object {
+            "i18nKey": "consent.scopes.okta.clients.manage.desc",
+            "name": "description",
+            "noTranslate": false,
+            "value": "consent.scopes.okta.clients.manage.desc",
+          },
+        ],
+        "type": "Field",
       },
       Object {
-        "noMargin": false,
-        "noTranslate": false,
         "options": Object {
-          "content": "consent.scopes.okta.authenticators.manage.desc",
-          "dataSe": "scope-item-text",
+          "inputMeta": Object {
+            "mutable": false,
+            "name": "consent.scopes.okta.authenticators.manage",
+            "type": "boolean",
+          },
         },
-        "type": "Description",
+        "translations": Array [
+          Object {
+            "i18nKey": "consent.scopes.okta.authenticators.manage.label",
+            "name": "label",
+            "noTranslate": true,
+            "value": "okta.authenticators.manage",
+          },
+          Object {
+            "i18nKey": "consent.scopes.okta.authenticators.manage.desc",
+            "name": "description",
+            "noTranslate": false,
+            "value": "consent.scopes.okta.authenticators.manage.desc",
+          },
+        ],
+        "type": "Field",
       },
       Object {
         "label": "consent.required.consentButton",

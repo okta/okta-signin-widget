@@ -23,11 +23,6 @@ export default class ConsentPageObject extends BasePageObject {
     return this.form.getCancelButtonLabel();
   }
 
-  getScopeItemTexts() {
-    const selector = userVariables.v3 ? '[data-se="scope-item-text"]' : '.scope-item-text';
-    return this.form.getInnerTexts(selector);
-  }
-
   hasScopeText(label) {
     return this.form.getByText(label).exists;
   }

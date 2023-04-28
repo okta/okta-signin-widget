@@ -19,6 +19,7 @@ import {
   ButtonType,
   ConsentScope,
   DescriptionElement,
+  FieldElement,
   HeadingElement,
   IdxStepTransformer,
 } from '../../../types';
@@ -33,7 +34,7 @@ const GROUP_KEY_TO_I18N_KEY: Record<ConsentScopeGroup, string> = {
 };
 
 export const transformAdminConsent: IdxStepTransformer = ({ transaction, formBag }) => {
-  const { uischema } = formBag;
+  const { uischema, data } = formBag;
   const {
     nextStep: {
       name: stepName,
@@ -72,23 +73,41 @@ export const transformAdminConsent: IdxStepTransformer = ({ transaction, formBag
         },
       };
       uischema.elements.push(heading);
-      uischema.elements.push(...consentScopes.map((scope, index) => {
-        const isLast = index === consentScopes.length - 1;
+      uischema.elements.push(...consentScopes.map((scope) => {
         const labelI18nKey = `consent.scopes.${scope.name}.label`;
         const descrI18nKey = `consent.scopes.${scope.name}.desc`;
         const isPredefinedLabel = doesI18NKeyExist(labelI18nKey);
         const isPredefinedDesc = doesI18NKeyExist(descrI18nKey);
         const label = isPredefinedLabel ? loc(labelI18nKey, 'login') : scope.label;
-        const content = isPredefinedDesc
+        const description = isPredefinedDesc
           ? loc(descrI18nKey, 'login')
-          : (scope.desc || label);
-        const description: DescriptionElement = {
-          type: 'Description',
-          noMargin: !isLast,
-          noTranslate: isPredefinedDesc ? false : !isPredefinedLabel,
-          options: { content, dataSe: 'scope-item-text' },
-        };
-        return description;
+          : scope.desc;
+        const fieldName = `consent.scopes.${scope.name}`;
+        data[fieldName] = true;
+        return {
+          type: 'Field',
+          translations: [
+            {
+              name: 'label',
+              i18nKey: labelI18nKey,
+              value: label,
+              noTranslate: !isPredefinedLabel,
+            },
+            {
+              name: 'description',
+              i18nKey: descrI18nKey,
+              value: description,
+              noTranslate: !isPredefinedDesc,
+            },
+          ],
+          options: {
+            inputMeta: {
+              name: fieldName,
+              type: 'boolean',
+              mutable: false,
+            },
+          },
+        } as FieldElement;
       }));
     });
   }

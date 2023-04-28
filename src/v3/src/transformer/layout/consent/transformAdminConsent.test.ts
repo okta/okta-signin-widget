@@ -103,14 +103,40 @@ describe('transformAdminConsent tests', () => {
       .toBe('oie.consent.scopes.granular.description');
     expect((updatedFormBag.uischema.elements[1] as HeadingElement).options.content)
       .toBe('admin.consent.group.resource.policy');
-    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
-      .toBe('consent.scopes.okta.clients.manage.desc');
-    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).noTranslate)
-      .toBe(false);
-    expect((updatedFormBag.uischema.elements[3] as DescriptionElement).options.content)
-      .toBe('consent.scopes.okta.authenticators.manage.desc');
-    expect((updatedFormBag.uischema.elements[3] as DescriptionElement).noTranslate)
-      .toBe(false);
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).options.inputMeta.type)
+      .toBe('boolean');
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).translations)
+      .toEqual([
+        {
+          name: 'label',
+          i18nKey: 'consent.scopes.okta.clients.manage.label',
+          value: 'okta.clients.manage',
+          noTranslate: true,
+        },
+        {
+          name: 'description',
+          i18nKey: 'consent.scopes.okta.clients.manage.desc',
+          value: 'consent.scopes.okta.clients.manage.desc',
+          noTranslate: false,
+        },
+      ]);
+    expect((updatedFormBag.uischema.elements[3] as FieldElement).options.inputMeta.type)
+      .toBe('boolean');
+    expect((updatedFormBag.uischema.elements[3] as FieldElement).translations)
+      .toEqual([
+        {
+          name: 'label',
+          i18nKey: 'consent.scopes.okta.authenticators.manage.label',
+          value: 'okta.authenticators.manage',
+          noTranslate: true,
+        },
+        {
+          name: 'description',
+          i18nKey: 'consent.scopes.okta.authenticators.manage.desc',
+          value: 'consent.scopes.okta.authenticators.manage.desc',
+          noTranslate: false,
+        },
+      ]);
     expect((updatedFormBag.uischema.elements[4] as ButtonElement).label)
       .toBe('consent.required.consentButton');
     expect((updatedFormBag.uischema.elements[5] as ButtonElement).label)
@@ -155,24 +181,76 @@ describe('transformAdminConsent tests', () => {
       .toBe('oie.consent.scopes.granular.description');
     expect((updatedFormBag.uischema.elements[1] as HeadingElement).options.content)
       .toBe('admin.consent.group.resource.policy');
-    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
-      .toBe('consent.scopes.okta.clients.manage.desc');
-    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).noTranslate)
-      .toBe(false);
-    expect((updatedFormBag.uischema.elements[3] as DescriptionElement).options.content)
-      .toBe('consent.scopes.okta.authenticators.manage.desc');
-    expect((updatedFormBag.uischema.elements[3] as DescriptionElement).noTranslate)
-      .toBe(false);
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).options.inputMeta.type)
+      .toBe('boolean');
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).translations)
+      .toEqual([
+        {
+          name: 'label',
+          i18nKey: 'consent.scopes.okta.clients.manage.label',
+          value: 'okta.clients.manage',
+          noTranslate: true,
+        },
+        {
+          name: 'description',
+          i18nKey: 'consent.scopes.okta.clients.manage.desc',
+          value: 'consent.scopes.okta.clients.manage.desc',
+          noTranslate: false,
+        },
+      ]);
+    expect((updatedFormBag.uischema.elements[3] as FieldElement).options.inputMeta.type)
+      .toBe('boolean');
+    expect((updatedFormBag.uischema.elements[3] as FieldElement).translations)
+      .toEqual([
+        {
+          name: 'label',
+          i18nKey: 'consent.scopes.okta.authenticators.manage.label',
+          value: 'okta.authenticators.manage',
+          noTranslate: true,
+        },
+        {
+          name: 'description',
+          i18nKey: 'consent.scopes.okta.authenticators.manage.desc',
+          value: 'consent.scopes.okta.authenticators.manage.desc',
+          noTranslate: false,
+        },
+      ]);
     expect((updatedFormBag.uischema.elements[4] as HeadingElement).options.content)
       .toBe('admin.consent.group.system');
-    expect((updatedFormBag.uischema.elements[5] as DescriptionElement).options.content)
-      .toBe('This will allow the app to view your custom info');
-    expect((updatedFormBag.uischema.elements[5] as DescriptionElement).noTranslate)
-      .toBe(true);
-    expect((updatedFormBag.uischema.elements[6] as DescriptionElement).options.content)
-      .toBe('custom4.custom5.custom6');
-    expect((updatedFormBag.uischema.elements[6] as DescriptionElement).noTranslate)
-      .toBe(true);
+    expect((updatedFormBag.uischema.elements[5] as FieldElement).options.inputMeta.type)
+      .toBe('boolean');
+    expect((updatedFormBag.uischema.elements[5] as FieldElement).translations)
+      .toEqual([
+        {
+          name: 'label',
+          i18nKey: 'consent.scopes.custom1.custom2.custom3.label',
+          value: 'custom1.custom2.custom3',
+          noTranslate: true,
+        },
+        {
+          name: 'description',
+          i18nKey: 'consent.scopes.custom1.custom2.custom3.desc',
+          value: 'This will allow the app to view your custom info',
+          noTranslate: true,
+        },
+      ]);
+    expect((updatedFormBag.uischema.elements[6] as FieldElement).options.inputMeta.type)
+      .toBe('boolean');
+    expect((updatedFormBag.uischema.elements[6] as FieldElement).translations)
+      .toEqual([
+        {
+          name: 'label',
+          i18nKey: 'consent.scopes.custom4.custom5.custom6.label',
+          value: 'custom4.custom5.custom6',
+          noTranslate: true,
+        },
+        {
+          name: 'description',
+          i18nKey: 'consent.scopes.custom4.custom5.custom6.desc',
+          value: undefined,
+          noTranslate: true,
+        },
+      ]);
     expect((updatedFormBag.uischema.elements[7] as ButtonElement).label)
       .toBe('consent.required.consentButton');
     expect((updatedFormBag.uischema.elements[8] as ButtonElement).label)

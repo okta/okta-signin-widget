@@ -44,11 +44,13 @@ test.requestHooks(requestLogger, consentAdminMock)('should render scopes', async
   await checkA11y(t);
 
   await t.expect(consentPage.getScopeGroupName()).eql('Resource and policies');
-  // In Gen3 SIW UX decided to only display scope description instead of scope value. 
-  const scopeTextArr = userVariables.v3
-    ? ['Allows the app to manage clients in your Okta organization.', 'Allows the app to manage all security methods (e.g. enrollments, reset).']
-    : ['okta.authenticators.manage', 'okta.clients.manage',];
-  await t.expect(consentPage.getScopeItemTexts()).eql(scopeTextArr);
+  await t.expect(consentPage.hasScopeText('okta.authenticators.manage')).eql(true);
+  await t.expect(consentPage.hasScopeText('okta.clients.manage')).eql(true);
+  // In Gen 3 it also includes the description on the page for each scope
+  if (userVariables.v3) {
+    await t.expect(consentPage.hasScopeText('Allows the app to manage clients in your Okta organization.')).eql(true);
+    await t.expect(consentPage.hasScopeText('Allows the app to manage all security methods (e.g. enrollments, reset).')).eql(true);
+  }
 });
 
 test.requestHooks(requestLogger, consentAdminMock)('should call /consent and send {consent: true} on "Allow Access" click', async t => {
