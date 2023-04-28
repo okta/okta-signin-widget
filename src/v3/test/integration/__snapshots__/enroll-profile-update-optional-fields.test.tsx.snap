@@ -91,21 +91,41 @@ exports[`enroll-profile-update-optional-fields should render form with one requi
                 class="MuiBox-root emotion-12"
               >
                 <div
+                  class="MuiBox-root emotion-13"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
+                    data-se="o-form-explain"
+                    id="profile-update_Description_Fields_are_required_unless_marked_optional_2"
+                  >
+                    Fields are required unless marked optional.
+                  </p>
+                </div>
+              </div>
+              <div
+                class="MuiBox-root emotion-12"
+              >
+                <div
                   class="MuiBox-root emotion-8"
                 >
                   <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-17"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-20"
                     for="userProfile.newAttribute"
                   >
                     Some custom attribute
+                    <p
+                      class="MuiTypography-root MuiTypography-subtitle1 emotion-21"
+                    >
+                      Optional
+                    </p>
                   </label>
                   <div
-                    class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-18"
+                    class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-22"
                     required="true"
                   >
                     <input
                       aria-invalid="false"
-                      class="MuiInputBase-input emotion-19"
+                      class="MuiInputBase-input emotion-23"
                       data-se="userProfile.newAttribute"
                       id="userProfile.newAttribute"
                       name="userProfile.newAttribute"
@@ -122,19 +142,24 @@ exports[`enroll-profile-update-optional-fields should render form with one requi
                   class="MuiBox-root emotion-8"
                 >
                   <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-17"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-20"
                     for="userProfile.secondEmail"
                   >
                     Secondary email
+                    <p
+                      class="MuiTypography-root MuiTypography-subtitle1 emotion-21"
+                    >
+                      Optional
+                    </p>
                   </label>
                   <div
-                    class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-18"
+                    class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-22"
                     required="true"
                   >
                     <input
                       aria-describedby="userProfile.secondEmail-explain"
                       aria-invalid="false"
-                      class="MuiInputBase-input emotion-19"
+                      class="MuiInputBase-input emotion-23"
                       data-se="userProfile.secondEmail"
                       id="userProfile.secondEmail"
                       name="userProfile.secondEmail"
@@ -143,7 +168,7 @@ exports[`enroll-profile-update-optional-fields should render form with one requi
                     />
                   </div>
                   <p
-                    class="MuiFormHelperText-root o-form-explain emotion-25"
+                    class="MuiFormHelperText-root o-form-explain emotion-30"
                     data-se="userProfile.secondEmail-explain"
                     id="userProfile.secondEmail-explain"
                   >
@@ -164,18 +189,23 @@ exports[`enroll-profile-update-optional-fields should render form with one requi
                   class="MuiBox-root emotion-8"
                 >
                   <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-17"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-20"
                     for="userProfile.newAttribute2"
                   >
                     Some custom attribute 2
+                    <p
+                      class="MuiTypography-root MuiTypography-subtitle1 emotion-21"
+                    >
+                      Optional
+                    </p>
                   </label>
                   <div
-                    class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-18"
+                    class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-22"
                     required="true"
                   >
                     <input
                       aria-invalid="false"
-                      class="MuiInputBase-input emotion-19"
+                      class="MuiInputBase-input emotion-23"
                       data-se="userProfile.newAttribute2"
                       id="userProfile.newAttribute2"
                       name="userProfile.newAttribute2"
@@ -189,7 +219,7 @@ exports[`enroll-profile-update-optional-fields should render form with one requi
                 class="MuiBox-root emotion-12"
               >
                 <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-32"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-38"
                   data-type="save"
                   tabindex="0"
                   type="submit"
@@ -201,7 +231,7 @@ exports[`enroll-profile-update-optional-fields should render form with one requi
                 class="MuiBox-root emotion-12"
               >
                 <button
-                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-34"
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-40"
                   data-se="skip"
                   role="link"
                 >
@@ -212,7 +242,7 @@ exports[`enroll-profile-update-optional-fields should render form with one requi
                 class="MuiBox-root emotion-12"
               >
                 <button
-                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-34"
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-40"
                   data-se="cancel"
                   role="link"
                 >

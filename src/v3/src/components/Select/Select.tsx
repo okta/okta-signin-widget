@@ -11,7 +11,9 @@
  */
 
 import { SelectChangeEvent } from '@mui/material';
-import { FormControl, InputLabel, Select as MuiSelect } from '@okta/odyssey-react-mui';
+import {
+  Box, FormControl, InputLabel, Select as MuiSelect, Typography,
+} from '@okta/odyssey-react-mui';
 import { IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
 import { h } from 'preact';
 
@@ -34,14 +36,17 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
 }) => {
   const value = useValue(uischema);
   const { loading } = useWidgetContext();
-  const { focus, required, translations = [] } = uischema;
+  const { focus, translations = [], showAsterisk } = uischema;
   const label = getTranslation(translations, 'label');
   const emptyOptionLabel = getTranslation(translations, 'empty-option-label');
+  const optionalLabel = getTranslation(translations, 'optionalLabel');
+
   const {
     attributes,
     inputMeta: {
       name,
       options,
+      required,
     },
     customOptions,
   } = uischema.options;
@@ -65,9 +70,26 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
     <FormControl
       disabled={loading}
       error={hasErrors}
-      required={required}
     >
-      <InputLabel htmlFor={name}>{label}</InputLabel>
+      <InputLabel
+        htmlFor={name}
+        // To prevent asterisk from shifting far right
+        sx={{ justifyContent: showAsterisk ? 'flex-start' : undefined }}
+      >
+        {label}
+        {showAsterisk && (
+          <Box
+            component="span"
+            className="no-translate"
+            aria-hidden
+          >
+            &nbsp;&#42;
+          </Box>
+        )}
+        {required === false && (
+          <Typography variant="subtitle1">{optionalLabel}</Typography>
+        )}
+      </InputLabel>
       <MuiSelect
         native
         variant="standard"

@@ -11,11 +11,13 @@
  */
 
 import {
+  Box,
   FormControl,
   FormControlLabel,
   FormLabel,
   Radio as RadioMui,
   RadioGroup,
+  Typography,
 } from '@okta/odyssey-react-mui';
 import { IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
 import { h } from 'preact';
@@ -41,28 +43,48 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
   const value = useValue(uischema);
   const { loading } = useWidgetContext();
   const {
-    required,
     translations = [],
     options: {
       inputMeta: {
         name,
         options,
+        required,
       },
       customOptions,
     },
     focus,
+    showAsterisk,
   } = uischema;
   const label = getTranslation(translations, 'label');
+  const optionalLabel = getTranslation(translations, 'optionalLabel');
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
   const hasErrors = typeof errors !== 'undefined';
 
   return (
     <FormControl
       component="fieldset"
-      required={required}
       error={hasErrors}
     >
-      {label && (<FormLabel>{label}</FormLabel>)}
+      {label && (
+        <FormLabel
+          // To prevent asterisk from shifting far right
+          sx={{ display: 'flex', justifyContent: showAsterisk ? 'flex-start' : 'space-between' }}
+        >
+          {label}
+          {showAsterisk && (
+            <Box
+              component="span"
+              className="no-translate"
+              aria-hidden
+            >
+              &nbsp;&#42;
+            </Box>
+          )}
+          {required === false && (
+            <Typography variant="subtitle1">{optionalLabel}</Typography>
+          )}
+        </FormLabel>
+      )}
       <RadioGroup
         name={name}
         id={name}

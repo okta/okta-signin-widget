@@ -65,3 +65,13 @@ export const addLabelTranslationToFieldElement = (
     });
   }
 };
+
+export const addOptionalLabelTranslationToFieldElement = (
+  element: FieldElement,
+): void => {
+  if (element.options.inputMeta.required === false) {
+    addTranslation({
+      element, name: 'optionalLabel', i18nKey: 'oie.form.field.optional',
+    });
+  }
+};

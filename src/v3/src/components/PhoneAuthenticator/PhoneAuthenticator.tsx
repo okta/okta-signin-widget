@@ -17,6 +17,7 @@ import {
   InputBase,
   InputLabel,
   Select,
+  Typography,
 } from '@okta/odyssey-react-mui';
 import { IdxMessage } from '@okta/okta-auth-js';
 import { h } from 'preact';
@@ -52,13 +53,14 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
   const {
     translations = [],
     focus,
-    required,
     ariaDescribedBy,
+    showAsterisk,
     options: {
       inputMeta: {
         name: fieldName,
         // @ts-ignore TODO: OKTA-539834 - messages missing from type
         messages = {},
+        required,
       },
       attributes,
     },
@@ -66,6 +68,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
   const mainLabel = getTranslation(translations, 'label');
   const extensionLabel = getTranslation(translations, 'extension');
   const countryLabel = getTranslation(translations, 'country');
+  const optionalLabel = getTranslation(translations, 'optionalLabel');
 
   const countries = CountryUtil.getCountries() as Record<string, string>;
   const [phone, setPhone] = useState<string>('');
@@ -145,10 +148,23 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
     <Box marginBlockEnd={4}>
       <InputLabel
         id="countryLabel"
-        required={required}
         htmlFor="country"
+        // To prevent asterisk from shifting far right
+        sx={{ justifyContent: showAsterisk ? 'flex-start' : undefined }}
       >
         {countryLabel}
+        {showAsterisk && (
+          <Box
+            component="span"
+            className="no-translate"
+            aria-hidden
+          >
+            &nbsp;&#42;
+          </Box>
+        )}
+        {required === false && (
+          <Typography variant="subtitle1">{optionalLabel}</Typography>
+        )}
       </InputLabel>
       <Select
         id="country"
@@ -197,9 +213,22 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
         >
           <InputLabel
             htmlFor={fieldName}
-            required={required}
+            // To prevent asterisk from shifting far right
+            sx={{ justifyContent: showAsterisk ? 'flex-start' : undefined }}
           >
             {mainLabel}
+            {showAsterisk && (
+              <Box
+                component="span"
+                className="no-translate"
+                aria-hidden
+              >
+                &nbsp;&#42;
+              </Box>
+            )}
+            {required === false && (
+              <Typography variant="subtitle1">{optionalLabel}</Typography>
+            )}
           </InputLabel>
           <InputBase
             type="tel"

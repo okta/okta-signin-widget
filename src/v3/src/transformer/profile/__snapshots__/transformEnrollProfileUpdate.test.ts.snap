@@ -21,6 +21,13 @@ Object {
         "type": "Title",
       },
       Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.form.field.optional.description",
+        },
+        "type": "Description",
+      },
+      Object {
         "options": Object {
           "inputMeta": Object {
             "name": "userProfile.firstName",
@@ -94,6 +101,13 @@ Object {
         "type": "Title",
       },
       Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.form.field.optional.description",
+        },
+        "type": "Description",
+      },
+      Object {
         "options": Object {
           "inputMeta": Object {
             "name": "userProfile.firstName",
@@ -165,6 +179,13 @@ Object {
         "type": "Title",
       },
       Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.form.field.optional.description",
+        },
+        "type": "Description",
+      },
+      Object {
         "options": Object {
           "inputMeta": Object {
             "name": "userProfile.firstName",
@@ -224,6 +245,13 @@ Object {
           "content": "oie.profile.additional.title",
         },
         "type": "Title",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.form.field.optional.description",
+        },
+        "type": "Description",
       },
       Object {
         "options": Object {

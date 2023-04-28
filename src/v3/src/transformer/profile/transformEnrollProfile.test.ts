@@ -48,20 +48,22 @@ describe('Enroll Profile Transformer Tests', () => {
     const updatedFormBag = transformEnrollProfile({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag).toMatchSnapshot();
-    expect(updatedFormBag.uischema.elements.length).toBe(5);
+    expect(updatedFormBag.uischema.elements.length).toBe(6);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('oie.registration.form.title');
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).options?.inputMeta.name)
-      .toBe('userProfile.firstName');
+    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
+      .toBe('oie.form.field.optional.description');
     expect((updatedFormBag.uischema.elements[2] as FieldElement).options?.inputMeta.name)
-      .toBe('userProfile.lastName');
+      .toBe('userProfile.firstName');
     expect((updatedFormBag.uischema.elements[3] as FieldElement).options?.inputMeta.name)
+      .toBe('userProfile.lastName');
+    expect((updatedFormBag.uischema.elements[4] as FieldElement).options?.inputMeta.name)
       .toBe('userProfile.email');
-    expect((updatedFormBag.uischema.elements[4] as ButtonElement).label)
+    expect((updatedFormBag.uischema.elements[5] as ButtonElement).label)
       .toBe('oie.registration.form.submit');
-    expect((updatedFormBag.uischema.elements[4] as ButtonElement).type).toBe('Button');
-    expect((updatedFormBag.uischema.elements[4] as ButtonElement).options?.type)
+    expect((updatedFormBag.uischema.elements[5] as ButtonElement).type).toBe('Button');
+    expect((updatedFormBag.uischema.elements[5] as ButtonElement).options?.type)
       .toBe(ButtonType.SUBMIT);
   });
 
@@ -85,24 +87,26 @@ describe('Enroll Profile Transformer Tests', () => {
     const updatedFormBag = transformEnrollProfile({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag).toMatchSnapshot();
-    expect(updatedFormBag.uischema.elements.length).toBe(6);
+    expect(updatedFormBag.uischema.elements.length).toBe(7);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('oie.registration.form.title');
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).options?.inputMeta.name)
-      .toBe('userProfile.firstName');
+    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
+      .toBe('oie.form.field.optional.description');
     expect((updatedFormBag.uischema.elements[2] as FieldElement).options?.inputMeta.name)
-      .toBe('userProfile.lastName');
+      .toBe('userProfile.firstName');
     expect((updatedFormBag.uischema.elements[3] as FieldElement).options?.inputMeta.name)
-      .toBe('userProfile.email');
+      .toBe('userProfile.lastName');
     expect((updatedFormBag.uischema.elements[4] as FieldElement).options?.inputMeta.name)
+      .toBe('userProfile.email');
+    expect((updatedFormBag.uischema.elements[5] as FieldElement).options?.inputMeta.name)
       .toBe('credentials.passcode');
-    expect((updatedFormBag.uischema.elements[4] as FieldElement).options?.attributes?.autocomplete)
+    expect((updatedFormBag.uischema.elements[5] as FieldElement).options?.attributes?.autocomplete)
       .toBe('new-password');
-    expect((updatedFormBag.uischema.elements[5] as ButtonElement).label)
+    expect((updatedFormBag.uischema.elements[6] as ButtonElement).label)
       .toBe('oie.registration.form.submit');
-    expect((updatedFormBag.uischema.elements[5] as ButtonElement).type).toBe('Button');
-    expect((updatedFormBag.uischema.elements[5] as ButtonElement).options?.type)
+    expect((updatedFormBag.uischema.elements[6] as ButtonElement).type).toBe('Button');
+    expect((updatedFormBag.uischema.elements[6] as ButtonElement).options?.type)
       .toBe(ButtonType.SUBMIT);
   });
 
@@ -142,35 +146,37 @@ describe('Enroll Profile Transformer Tests', () => {
     const updatedFormBag = transformEnrollProfile({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag).toMatchSnapshot();
-    expect(updatedFormBag.uischema.elements.length).toBe(7);
+    expect(updatedFormBag.uischema.elements.length).toBe(8);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('oie.registration.form.title');
-    expect(updatedFormBag.uischema.elements[1].type).toBe('PasswordRequirements');
-    expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.id)
+    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
+      .toBe('oie.form.field.optional.description');
+    expect(updatedFormBag.uischema.elements[2].type).toBe('PasswordRequirements');
+    expect((updatedFormBag.uischema.elements[2] as PasswordRequirementsElement).options?.id)
       .toBe('password-authenticator--list');
-    expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.header)
+    expect((updatedFormBag.uischema.elements[2] as PasswordRequirementsElement).options?.header)
       .toBe('password.complexity.requirements.header');
-    expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.userInfo)
+    expect((updatedFormBag.uischema.elements[2] as PasswordRequirementsElement).options?.userInfo)
       .toEqual(mockUserInfo);
-    expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement).options?.settings)
+    expect((updatedFormBag.uischema.elements[2] as PasswordRequirementsElement).options?.settings)
       .toEqual({ complexity: { minNumber: 1, minSymbol: 1 } });
-    expect((updatedFormBag.uischema.elements[1] as PasswordRequirementsElement)
+    expect((updatedFormBag.uischema.elements[2] as PasswordRequirementsElement)
       .options?.validationDelayMs).toBe(PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS);
-    expect((updatedFormBag.uischema.elements[2] as FieldElement).options?.inputMeta.name)
-      .toBe('userProfile.firstName');
     expect((updatedFormBag.uischema.elements[3] as FieldElement).options?.inputMeta.name)
-      .toBe('userProfile.lastName');
+      .toBe('userProfile.firstName');
     expect((updatedFormBag.uischema.elements[4] as FieldElement).options?.inputMeta.name)
-      .toBe('userProfile.email');
+      .toBe('userProfile.lastName');
     expect((updatedFormBag.uischema.elements[5] as FieldElement).options?.inputMeta.name)
+      .toBe('userProfile.email');
+    expect((updatedFormBag.uischema.elements[6] as FieldElement).options?.inputMeta.name)
       .toBe('credentials.passcode');
-    expect((updatedFormBag.uischema.elements[5] as FieldElement).options?.attributes?.autocomplete)
+    expect((updatedFormBag.uischema.elements[6] as FieldElement).options?.attributes?.autocomplete)
       .toBe('new-password');
-    expect((updatedFormBag.uischema.elements[6] as ButtonElement).label)
+    expect((updatedFormBag.uischema.elements[7] as ButtonElement).label)
       .toBe('oie.registration.form.submit');
-    expect((updatedFormBag.uischema.elements[6] as ButtonElement).type).toBe('Button');
-    expect((updatedFormBag.uischema.elements[6] as ButtonElement).options?.type)
+    expect((updatedFormBag.uischema.elements[7] as ButtonElement).type).toBe('Button');
+    expect((updatedFormBag.uischema.elements[7] as ButtonElement).options?.type)
       .toBe(ButtonType.SUBMIT);
   });
 
@@ -183,25 +189,27 @@ describe('Enroll Profile Transformer Tests', () => {
     const updatedFormBag = transformEnrollProfile({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag).toMatchSnapshot();
-    expect(updatedFormBag.uischema.elements.length).toBe(7);
+    expect(updatedFormBag.uischema.elements.length).toBe(8);
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('oie.registration.form.title');
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).options?.inputMeta.name)
-      .toBe('userProfile.firstName');
+    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
+      .toBe('oie.form.field.optional.description');
     expect((updatedFormBag.uischema.elements[2] as FieldElement).options?.inputMeta.name)
-      .toBe('userProfile.lastName');
+      .toBe('userProfile.firstName');
     expect((updatedFormBag.uischema.elements[3] as FieldElement).options?.inputMeta.name)
+      .toBe('userProfile.lastName');
+    expect((updatedFormBag.uischema.elements[4] as FieldElement).options?.inputMeta.name)
       .toBe('userProfile.email');
-    expect((updatedFormBag.uischema.elements[4] as ButtonElement).label)
+    expect((updatedFormBag.uischema.elements[5] as ButtonElement).label)
       .toBe('oie.registration.form.submit');
-    expect((updatedFormBag.uischema.elements[4] as ButtonElement).type).toBe('Button');
-    expect((updatedFormBag.uischema.elements[4] as ButtonElement).options?.type)
+    expect((updatedFormBag.uischema.elements[5] as ButtonElement).type).toBe('Button');
+    expect((updatedFormBag.uischema.elements[5] as ButtonElement).options?.type)
       .toBe(ButtonType.SUBMIT);
-    expect(updatedFormBag.uischema.elements[5].type).toBe('Divider');
-    expect(updatedFormBag.uischema.elements[6].type).toBe('HorizontalLayout');
-    expect(((updatedFormBag.uischema.elements[6] as UISchemaLayout)
+    expect(updatedFormBag.uischema.elements[6].type).toBe('Divider');
+    expect(updatedFormBag.uischema.elements[7].type).toBe('HorizontalLayout');
+    expect(((updatedFormBag.uischema.elements[7] as UISchemaLayout)
       .elements[0] as DescriptionElement).options.content).toBe('haveaccount');
-    expect(((updatedFormBag.uischema.elements[6] as UISchemaLayout)
+    expect(((updatedFormBag.uischema.elements[7] as UISchemaLayout)
       .elements[1] as LinkElement).options.label).toBe('signin');
   });
 });

@@ -339,31 +339,36 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-18"
                   >
                     Which option do you want to try?
+                    <p
+                      class="MuiTypography-root MuiTypography-subtitle1 emotion-19"
+                    >
+                      Optional
+                    </p>
                   </label>
                   <div
-                    class="MuiFormGroup-root emotion-19"
+                    class="MuiFormGroup-root emotion-20"
                     data-se="authenticator.channel"
                     id="authenticator.channel"
                     role="radiogroup"
                   >
                     <label
-                      class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-20"
+                      class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-21"
                     >
                       <span
-                        class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary emotion-21"
+                        class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary emotion-22"
                       >
                         <input
-                          class="PrivateSwitchBase-input emotion-22"
+                          class="PrivateSwitchBase-input emotion-23"
                           name="authenticator.channel"
                           type="radio"
                           value="email"
                         />
                         <span
-                          class="emotion-23"
+                          class="emotion-24"
                         >
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-24"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-25"
                             data-testid="RadioButtonUncheckedIcon"
                             focusable="false"
                             viewBox="0 0 24 24"
@@ -374,7 +379,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                           </svg>
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-25"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-26"
                             data-testid="RadioButtonCheckedIcon"
                             focusable="false"
                             viewBox="0 0 24 24"
@@ -386,29 +391,29 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                         </span>
                       </span>
                       <span
-                        class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-26"
+                        class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-27"
                       >
                         Email me a setup link
                       </span>
                     </label>
                     <label
-                      class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-20"
+                      class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-21"
                     >
                       <span
-                        class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary emotion-21"
+                        class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary emotion-22"
                       >
                         <input
-                          class="PrivateSwitchBase-input emotion-22"
+                          class="PrivateSwitchBase-input emotion-23"
                           name="authenticator.channel"
                           type="radio"
                           value="sms"
                         />
                         <span
-                          class="emotion-23"
+                          class="emotion-24"
                         >
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-24"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-25"
                             data-testid="RadioButtonUncheckedIcon"
                             focusable="false"
                             viewBox="0 0 24 24"
@@ -419,7 +424,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                           </svg>
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-32"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-33"
                             data-testid="RadioButtonCheckedIcon"
                             focusable="false"
                             viewBox="0 0 24 24"
@@ -431,7 +436,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                         </span>
                       </span>
                       <span
-                        class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-26"
+                        class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-27"
                       >
                         Text me a setup link
                       </span>
@@ -443,7 +448,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 class="MuiBox-root emotion-13"
               >
                 <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-35"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-36"
                   data-type="save"
                   tabindex="0"
                   type="submit"
@@ -459,7 +464,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 >
                   Or 
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways switch-channel-link emotion-38"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways switch-channel-link emotion-39"
                     href="#"
                   >
                     try a different way
@@ -471,7 +476,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 class="MuiBox-root emotion-13"
               >
                 <button
-                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-40"
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-41"
                   data-se="switchAuthenticator"
                   role="link"
                 >
@@ -482,7 +487,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 class="MuiBox-root emotion-13"
               >
                 <button
-                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-40"
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-41"
                   data-se="cancel"
                   role="link"
                 >
@@ -1094,31 +1099,36 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-18"
                   >
                     Which option do you want to try?
+                    <p
+                      class="MuiTypography-root MuiTypography-subtitle1 emotion-19"
+                    >
+                      Optional
+                    </p>
                   </label>
                   <div
-                    class="MuiFormGroup-root emotion-19"
+                    class="MuiFormGroup-root emotion-20"
                     data-se="authenticator.channel"
                     id="authenticator.channel"
                     role="radiogroup"
                   >
                     <label
-                      class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-20"
+                      class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-21"
                     >
                       <span
-                        class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary emotion-21"
+                        class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary emotion-22"
                       >
                         <input
-                          class="PrivateSwitchBase-input emotion-22"
+                          class="PrivateSwitchBase-input emotion-23"
                           name="authenticator.channel"
                           type="radio"
                           value="qrcode"
                         />
                         <span
-                          class="emotion-23"
+                          class="emotion-24"
                         >
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-24"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-25"
                             data-testid="RadioButtonUncheckedIcon"
                             focusable="false"
                             viewBox="0 0 24 24"
@@ -1129,7 +1139,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                           </svg>
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-25"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-26"
                             data-testid="RadioButtonCheckedIcon"
                             focusable="false"
                             viewBox="0 0 24 24"
@@ -1141,29 +1151,29 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                         </span>
                       </span>
                       <span
-                        class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-26"
+                        class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-27"
                       >
                         Scan a QR code
                       </span>
                     </label>
                     <label
-                      class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-20"
+                      class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-21"
                     >
                       <span
-                        class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary emotion-21"
+                        class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary emotion-22"
                       >
                         <input
-                          class="PrivateSwitchBase-input emotion-22"
+                          class="PrivateSwitchBase-input emotion-23"
                           name="authenticator.channel"
                           type="radio"
                           value="sms"
                         />
                         <span
-                          class="emotion-23"
+                          class="emotion-24"
                         >
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-24"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-25"
                             data-testid="RadioButtonUncheckedIcon"
                             focusable="false"
                             viewBox="0 0 24 24"
@@ -1174,7 +1184,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                           </svg>
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-32"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-33"
                             data-testid="RadioButtonCheckedIcon"
                             focusable="false"
                             viewBox="0 0 24 24"
@@ -1186,7 +1196,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                         </span>
                       </span>
                       <span
-                        class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-26"
+                        class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-27"
                       >
                         Text me a setup link
                       </span>
@@ -1198,7 +1208,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 class="MuiBox-root emotion-13"
               >
                 <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-35"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-36"
                   data-type="save"
                   tabindex="0"
                   type="submit"
@@ -1210,7 +1220,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 class="MuiBox-root emotion-13"
               >
                 <button
-                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-37"
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-38"
                   data-se="switchAuthenticator"
                   role="link"
                 >
@@ -1221,7 +1231,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 class="MuiBox-root emotion-13"
               >
                 <button
-                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-37"
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-38"
                   data-se="cancel"
                   role="link"
                 >
@@ -1784,31 +1794,36 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-18"
                   >
                     Which option do you want to try?
+                    <p
+                      class="MuiTypography-root MuiTypography-subtitle1 emotion-19"
+                    >
+                      Optional
+                    </p>
                   </label>
                   <div
-                    class="MuiFormGroup-root emotion-19"
+                    class="MuiFormGroup-root emotion-20"
                     data-se="authenticator.channel"
                     id="authenticator.channel"
                     role="radiogroup"
                   >
                     <label
-                      class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-20"
+                      class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-21"
                     >
                       <span
-                        class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary emotion-21"
+                        class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary emotion-22"
                       >
                         <input
-                          class="PrivateSwitchBase-input emotion-22"
+                          class="PrivateSwitchBase-input emotion-23"
                           name="authenticator.channel"
                           type="radio"
                           value="email"
                         />
                         <span
-                          class="emotion-23"
+                          class="emotion-24"
                         >
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-24"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-25"
                             data-testid="RadioButtonUncheckedIcon"
                             focusable="false"
                             viewBox="0 0 24 24"
@@ -1819,7 +1834,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                           </svg>
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-25"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-26"
                             data-testid="RadioButtonCheckedIcon"
                             focusable="false"
                             viewBox="0 0 24 24"
@@ -1831,29 +1846,29 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                         </span>
                       </span>
                       <span
-                        class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-26"
+                        class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-27"
                       >
                         Email me a setup link
                       </span>
                     </label>
                     <label
-                      class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-20"
+                      class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-21"
                     >
                       <span
-                        class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary emotion-21"
+                        class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary emotion-22"
                       >
                         <input
-                          class="PrivateSwitchBase-input emotion-22"
+                          class="PrivateSwitchBase-input emotion-23"
                           name="authenticator.channel"
                           type="radio"
                           value="sms"
                         />
                         <span
-                          class="emotion-23"
+                          class="emotion-24"
                         >
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-24"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-25"
                             data-testid="RadioButtonUncheckedIcon"
                             focusable="false"
                             viewBox="0 0 24 24"
@@ -1864,7 +1879,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                           </svg>
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-32"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-33"
                             data-testid="RadioButtonCheckedIcon"
                             focusable="false"
                             viewBox="0 0 24 24"
@@ -1876,7 +1891,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                         </span>
                       </span>
                       <span
-                        class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-26"
+                        class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-27"
                       >
                         Text me a setup link
                       </span>
@@ -1888,7 +1903,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 class="MuiBox-root emotion-13"
               >
                 <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-35"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-36"
                   data-type="save"
                   tabindex="0"
                   type="submit"
@@ -1904,7 +1919,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 >
                   Or 
                   <a
-                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways switch-channel-link emotion-38"
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways switch-channel-link emotion-39"
                     href="#"
                   >
                     try a different way
@@ -1916,7 +1931,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 class="MuiBox-root emotion-13"
               >
                 <button
-                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-40"
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-41"
                   data-se="switchAuthenticator"
                   role="link"
                 >
@@ -1927,7 +1942,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 class="MuiBox-root emotion-13"
               >
                 <button
-                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-40"
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-41"
                   data-se="cancel"
                   role="link"
                 >
@@ -3796,31 +3811,36 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                     class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-18"
                   >
                     Which option do you want to try?
+                    <p
+                      class="MuiTypography-root MuiTypography-subtitle1 emotion-19"
+                    >
+                      Optional
+                    </p>
                   </label>
                   <div
-                    class="MuiFormGroup-root emotion-19"
+                    class="MuiFormGroup-root emotion-20"
                     data-se="authenticator.channel"
                     id="authenticator.channel"
                     role="radiogroup"
                   >
                     <label
-                      class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-20"
+                      class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-21"
                     >
                       <span
-                        class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary emotion-21"
+                        class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary emotion-22"
                       >
                         <input
-                          class="PrivateSwitchBase-input emotion-22"
+                          class="PrivateSwitchBase-input emotion-23"
                           name="authenticator.channel"
                           type="radio"
                           value="qrcode"
                         />
                         <span
-                          class="emotion-23"
+                          class="emotion-24"
                         >
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-24"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-25"
                             data-testid="RadioButtonUncheckedIcon"
                             focusable="false"
                             viewBox="0 0 24 24"
@@ -3831,7 +3851,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                           </svg>
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-25"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-26"
                             data-testid="RadioButtonCheckedIcon"
                             focusable="false"
                             viewBox="0 0 24 24"
@@ -3843,29 +3863,29 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                         </span>
                       </span>
                       <span
-                        class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-26"
+                        class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-27"
                       >
                         Scan a QR code
                       </span>
                     </label>
                     <label
-                      class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-20"
+                      class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-21"
                     >
                       <span
-                        class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary emotion-21"
+                        class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary emotion-22"
                       >
                         <input
-                          class="PrivateSwitchBase-input emotion-22"
+                          class="PrivateSwitchBase-input emotion-23"
                           name="authenticator.channel"
                           type="radio"
                           value="email"
                         />
                         <span
-                          class="emotion-23"
+                          class="emotion-24"
                         >
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-24"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-25"
                             data-testid="RadioButtonUncheckedIcon"
                             focusable="false"
                             viewBox="0 0 24 24"
@@ -3876,7 +3896,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                           </svg>
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-32"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-33"
                             data-testid="RadioButtonCheckedIcon"
                             focusable="false"
                             viewBox="0 0 24 24"
@@ -3888,7 +3908,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                         </span>
                       </span>
                       <span
-                        class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-26"
+                        class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-27"
                       >
                         Email me a setup link
                       </span>
@@ -3900,7 +3920,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 class="MuiBox-root emotion-13"
               >
                 <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-35"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-36"
                   data-type="save"
                   tabindex="0"
                   type="submit"
@@ -3912,7 +3932,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 class="MuiBox-root emotion-13"
               >
                 <button
-                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-37"
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-38"
                   data-se="switchAuthenticator"
                   role="link"
                 >
@@ -3923,7 +3943,7 @@ exports[`flow-okta-verify-enrollment qr polling -> channel selection -> data enr
                 class="MuiBox-root emotion-13"
               >
                 <button
-                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-37"
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-38"
                   data-se="cancel"
                   role="link"
                 >

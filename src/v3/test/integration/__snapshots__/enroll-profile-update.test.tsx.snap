@@ -124,29 +124,43 @@ exports[`enroll-profile-update fails client side validation with empty required 
                 class="MuiBox-root emotion-17"
               >
                 <div
+                  class="MuiBox-root emotion-18"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-22"
+                    data-se="o-form-explain"
+                    id="enroll-profile_Description_Fields_are_required_unless_marked_optional_2"
+                  >
+                    Fields are required unless marked optional.
+                  </p>
+                </div>
+              </div>
+              <div
+                class="MuiBox-root emotion-17"
+              >
+                <div
                   class="MuiBox-root emotion-8"
                 >
                   <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-22"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-25"
                     for="userProfile.favoriteSport"
                   >
                     Favorite sport
                     <span
                       aria-hidden="true"
-                      class="MuiFormLabel-asterisk MuiInputLabel-asterisk emotion-23"
+                      class="no-translate MuiBox-root emotion-8"
                     >
-                       
-                      *
+                       *
                     </span>
                   </label>
                   <div
-                    class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth Mui-focused emotion-24"
+                    class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth Mui-focused emotion-27"
                     required="true"
                   >
                     <input
                       aria-describedby=" userProfile.favoriteSport-error  "
                       aria-invalid="true"
-                      class="MuiInputBase-input emotion-25"
+                      class="MuiInputBase-input emotion-28"
                       data-se="userProfile.favoriteSport"
                       id="userProfile.favoriteSport"
                       name="userProfile.favoriteSport"
@@ -158,7 +172,7 @@ exports[`enroll-profile-update fails client side validation with empty required 
                     class="MuiBox-root emotion-8"
                   >
                     <p
-                      class="MuiFormHelperText-root Mui-error emotion-27"
+                      class="MuiFormHelperText-root Mui-error emotion-30"
                       data-se="userProfile.favoriteSport-error"
                       id="userProfile.favoriteSport-error"
                       role="alert"
@@ -175,26 +189,25 @@ exports[`enroll-profile-update fails client side validation with empty required 
                   class="MuiBox-root emotion-8"
                 >
                   <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-22"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-25"
                     for="userProfile.newAttribute"
                   >
                     Custom attribute
                     <span
                       aria-hidden="true"
-                      class="MuiFormLabel-asterisk MuiInputLabel-asterisk emotion-23"
+                      class="no-translate MuiBox-root emotion-8"
                     >
-                       
-                      *
+                       *
                     </span>
                   </label>
                   <div
-                    class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth emotion-24"
+                    class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth emotion-27"
                     required="true"
                   >
                     <input
                       aria-describedby=" userProfile.newAttribute-error  "
                       aria-invalid="true"
-                      class="MuiInputBase-input emotion-25"
+                      class="MuiInputBase-input emotion-28"
                       data-se="userProfile.newAttribute"
                       id="userProfile.newAttribute"
                       name="userProfile.newAttribute"
@@ -206,7 +219,7 @@ exports[`enroll-profile-update fails client side validation with empty required 
                     class="MuiBox-root emotion-8"
                   >
                     <p
-                      class="MuiFormHelperText-root Mui-error emotion-27"
+                      class="MuiFormHelperText-root Mui-error emotion-30"
                       data-se="userProfile.newAttribute-error"
                       id="userProfile.newAttribute-error"
                       role="alert"
@@ -220,7 +233,7 @@ exports[`enroll-profile-update fails client side validation with empty required 
                 class="MuiBox-root emotion-17"
               >
                 <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-37"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-40"
                   data-type="save"
                   tabindex="0"
                   type="submit"
@@ -328,28 +341,42 @@ exports[`enroll-profile-update should render form 1`] = `
                 class="MuiBox-root emotion-12"
               >
                 <div
+                  class="MuiBox-root emotion-13"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
+                    data-se="o-form-explain"
+                    id="enroll-profile_Description_Fields_are_required_unless_marked_optional_2"
+                  >
+                    Fields are required unless marked optional.
+                  </p>
+                </div>
+              </div>
+              <div
+                class="MuiBox-root emotion-12"
+              >
+                <div
                   class="MuiBox-root emotion-8"
                 >
                   <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-17"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-20"
                     for="userProfile.favoriteSport"
                   >
                     Favorite sport
                     <span
                       aria-hidden="true"
-                      class="MuiFormLabel-asterisk MuiInputLabel-asterisk emotion-18"
+                      class="no-translate MuiBox-root emotion-8"
                     >
-                       
-                      *
+                       *
                     </span>
                   </label>
                   <div
-                    class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-19"
+                    class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-22"
                     required="true"
                   >
                     <input
                       aria-invalid="false"
-                      class="MuiInputBase-input emotion-20"
+                      class="MuiInputBase-input emotion-23"
                       data-se="userProfile.favoriteSport"
                       id="userProfile.favoriteSport"
                       name="userProfile.favoriteSport"
@@ -366,25 +393,24 @@ exports[`enroll-profile-update should render form 1`] = `
                   class="MuiBox-root emotion-8"
                 >
                   <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-17"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-20"
                     for="userProfile.newAttribute"
                   >
                     Custom attribute
                     <span
                       aria-hidden="true"
-                      class="MuiFormLabel-asterisk MuiInputLabel-asterisk emotion-18"
+                      class="no-translate MuiBox-root emotion-8"
                     >
-                       
-                      *
+                       *
                     </span>
                   </label>
                   <div
-                    class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-19"
+                    class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-22"
                     required="true"
                   >
                     <input
                       aria-invalid="false"
-                      class="MuiInputBase-input emotion-20"
+                      class="MuiInputBase-input emotion-23"
                       data-se="userProfile.newAttribute"
                       id="userProfile.newAttribute"
                       name="userProfile.newAttribute"
@@ -398,7 +424,7 @@ exports[`enroll-profile-update should render form 1`] = `
                 class="MuiBox-root emotion-12"
               >
                 <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-28"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-31"
                   data-type="save"
                   tabindex="0"
                   type="submit"

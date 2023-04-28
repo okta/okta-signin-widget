@@ -16,20 +16,19 @@ import {
   TransformStepFnWithOptions,
 } from '../../types';
 import { addIdToElements } from './addIdToElements';
+import { applyAsteriskToFieldElements } from './applyAsteriskToFieldElements';
 import { createTextElementKeys } from './createTextElementKeys';
 import { setFocusOnFirstElement } from './setFocusOnFirstElement';
 import { updateCustomFields } from './updateCustomFields';
 import { updateElementKeys } from './updateElementKeys';
 import { updatePasswordDescribedByValue } from './updatePasswordDescribedByValue';
-import { updateRequiredFields } from './updateRequiredFields';
 
 export const transformUISchema: TransformStepFnWithOptions = (
   options,
 ) => (formbag) => flow(
   updateCustomFields,
   setFocusOnFirstElement,
-  // TODO: OKTA-524769 - temporary solution for custom fields in profile enrollment
-  updateRequiredFields(options),
+  applyAsteriskToFieldElements(options),
   createTextElementKeys,
   updateElementKeys(options),
   addIdToElements,

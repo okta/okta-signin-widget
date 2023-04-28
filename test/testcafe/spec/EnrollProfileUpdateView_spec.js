@@ -1,4 +1,4 @@
-import { RequestMock, RequestLogger, userVariables } from 'testcafe';
+import { RequestMock, RequestLogger } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import EnrollProfileUpdateViewPageObject from '../framework/page-objects/EnrollProfileUpdateViewPageObject';
@@ -55,10 +55,7 @@ test.requestHooks(xhrEnrollProfileUpdateMock)('should have correct form title, f
   await t.expect(enrollProfileUpdatePage.getFormTitle()).eql('Additional Profile information');
   await t.expect(await enrollProfileUpdatePage.skipProfileLinkExists()).eql(false);
   await t.expect(await enrollProfileUpdatePage.formFieldExistsByLabel('Secondary email')).eql(true);
-  // TODO: OKTA-524769 - awaitng ODY team to create wrapped components to enable optional sub label in v3
-  if (!userVariables.v3) {
-    await t.expect(enrollProfileUpdatePage.getFormFieldSubLabel('userProfile.secondEmail')).eql('Optional');
-  }
+  await t.expect(enrollProfileUpdatePage.getFormFieldSubLabel('userProfile.secondEmail')).eql('Optional');
 
   // show error when field is required
   await enrollProfileUpdatePage.clickFinishButton();
