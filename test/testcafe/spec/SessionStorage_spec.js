@@ -359,7 +359,7 @@ test.requestHooks(identifyChallengeMock)('shall back to sign-in and authenticate
       pkce: true,
     },
     stateToken: undefined,
-    useInteractionCodeFlow: true
+    authScheme: 'oauth2'
   };
   await identityPage.navigateToPage({ render: false });
   await identityPage.mockCrypto();
