@@ -46,13 +46,13 @@ test
     await t.expect(enrollOnPremPage.passcodeFieldExists()).eql(true);
 
     // Verify links (switch authenticator link is present even if there is just one authenticator available)
-    await t.expect(await enrollOnPremPage.switchAuthenticatorLinkExists()).ok();
+    await t.expect(await enrollOnPremPage.returnToAuthenticatorListLinkExists()).ok();
     await t.expect(await enrollOnPremPage.signoutLinkExists()).ok();
 
     // fields are required
     await enrollOnPremPage.fillUserName('');
     await enrollOnPremPage.clickNextButton();
-    await enrollOnPremPage.waitForErrorBox();
+    await enrollOnPremPage.waitForGeneralErrorBox();
     await t.expect(enrollOnPremPage.getPasscodeError()).eql('This field cannot be left blank');
     await t.expect(enrollOnPremPage.getUserNameError()).eql('This field cannot be left blank');
 
@@ -83,9 +83,8 @@ test
     await enrollOnPremPage.fillPasscode('abcdabcd');
     await enrollOnPremPage.clickNextButton();
 
-    await enrollOnPremPage.waitForErrorBox();
-    const errorBox = enrollOnPremPage.getErrorBox();
-    await t.expect(errorBox.innerText)
+    await enrollOnPremPage.form.waitForAnyAlertBox();
+    await t.expect(enrollOnPremPage.getErrorBoxText())
       .contains('Pin accepted, Wait for token to change, then enter new passcode.');
     await t.expect(enrollOnPremPage.getPasscodeValue()).eql('');
   });

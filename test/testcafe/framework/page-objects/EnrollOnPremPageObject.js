@@ -2,7 +2,6 @@ import BasePageObject from './BasePageObject';
 
 const PASSCODE_FIELD_NAME = 'credentials.passcode';
 const USER_NAME_FIELD_NAME = 'credentials.clientData';
-const FORM_INFOBOX_ERROR = '.o-form-error-container .infobox-error';
 
 export default class EnrollOnPremPageObject extends BasePageObject {
   constructor(t) {
@@ -29,16 +28,16 @@ export default class EnrollOnPremPageObject extends BasePageObject {
     return this.form.setTextBoxValue(USER_NAME_FIELD_NAME, value);
   }
 
-  clickNextButton() {
-    return this.form.clickSaveButton();
+  clickNextButton(label) {
+    return this.form.clickSaveButton(label);
   }
 
-  async waitForErrorBox() {
-    await this.form.el.find(FORM_INFOBOX_ERROR).exists;
+  async waitForGeneralErrorBox() {
+    await this.form.waitForErrorBox();
   }
 
-  getErrorBox() {
-    return this.form.getElement(FORM_INFOBOX_ERROR);
+  getErrorBoxText() {
+    return this.form.getAlertBox().innerText;
   }
 
   hasPasscodeError() {

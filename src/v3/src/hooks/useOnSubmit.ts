@@ -22,11 +22,12 @@ import {
 import { cloneDeep, merge, omit } from 'lodash';
 import { useCallback } from 'preact/hooks';
 
-import { IDX_STEP } from '../constants';
+import { IDX_STEP, ON_PREM_TOKEN_CHANGE_ERROR_KEY } from '../constants';
 import { useWidgetContext } from '../contexts';
 import { ErrorXHR, EventErrorContext, MessageType } from '../types';
 import {
   areTransactionsEqual,
+  containsMessageKey,
   formatError,
   getImmutableData,
   loc,
@@ -195,7 +196,9 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       const transactionHasWarning = (newTransaction.messages || []).some(
         (message) => message.class === MessageType.WARNING.toString(),
       );
-      const isClientTransaction = !newTransaction.requestDidSucceed
+      const isClientTransaction = (!newTransaction.requestDidSucceed
+          // do not preserve field data on token change errors
+          && !containsMessageKey(ON_PREM_TOKEN_CHANGE_ERROR_KEY, newTransaction.messages))
         || (areTransactionsEqual(currTransaction, newTransaction) && transactionHasWarning);
 
       const onSuccess = (resolve?: (val: unknown) => void) => {
