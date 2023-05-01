@@ -8,7 +8,8 @@ export default class ConsentPageObject extends BasePageObject {
   }
 
   clickAllowButton() {
-    return this.form.clickSaveButton('Allow Access');
+    const allowBtn = this.form.getByText('Allow Access');
+    return this.form.t.click(allowBtn);
   }
 
   clickDontAllowButton() {
