@@ -2,7 +2,7 @@ import { loc } from '@okta/courage';
 
 import { AuthSdkError, OAuthError as SdkOAuthError} from '@okta/okta-auth-js';
 import { OAuthError } from './Errors';
-import { ErrorDetails } from 'types/errors';
+import { ErrorDetails } from '../types/errors';
 
 type ErrorTraits = 'inline' | 'terminal';
 
@@ -23,7 +23,7 @@ class TypedOAuthError<T extends ErrorType> extends OAuthError {
   orginalError: AuthSdkError | SdkOAuthError;
   errorDetails: ErrorDetails
 
-  constructor(originalError, errorTypeCtor: new () => T) {
+  constructor(originalError: AuthSdkError | SdkOAuthError, errorTypeCtor: new () => T) {
     super(originalError.message);
     this.errorType = new errorTypeCtor();
     this.orginalError = originalError;
@@ -31,7 +31,7 @@ class TypedOAuthError<T extends ErrorType> extends OAuthError {
     this.errorDetails = {
       errorSummary: this.getErrorSummary(),
       errorCode: originalError.errorCode,
-      errorCauses: originalError.errorCauses,
+      errorCauses: 'errorCauses' in originalError ? originalError.errorCauses : undefined,
     }
   }
 
@@ -53,7 +53,7 @@ class NonRecoverableError<T extends ErrorType> extends TypedOAuthError<T> {
 }
 
 class ClockDriftError extends RecoverableError<TerminalErrorType> {
-  constructor(error) {
+  constructor(error: AuthSdkError | SdkOAuthError) {
     super(error, TerminalErrorType);
   }
 
@@ -63,13 +63,13 @@ class ClockDriftError extends RecoverableError<TerminalErrorType> {
 }
 
 class UserNotAssignedError extends RecoverableError<InlineErrorType> {
-  constructor(error) {
+  constructor(error: AuthSdkError | SdkOAuthError) {
     super(error, InlineErrorType);
   }
 }
 
 class JITProfileProvisioningError extends RecoverableError<InlineErrorType> {
-  constructor(error) {
+  constructor(error: AuthSdkError | SdkOAuthError) {
     super(error, InlineErrorType);
   }
   getErrorSummary(): string {
@@ -78,7 +78,7 @@ class JITProfileProvisioningError extends RecoverableError<InlineErrorType> {
 }
 
 class MfaRequiredError extends NonRecoverableError<InlineErrorType> {
-  constructor(error) {
+  constructor(error: AuthSdkError | SdkOAuthError) {
     super(error, InlineErrorType);
   }
 

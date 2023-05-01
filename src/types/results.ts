@@ -1,7 +1,7 @@
 import { Tokens } from "@okta/okta-auth-js";
 
 // Render result
-type RenderStatus =
+export type RenderStatus =
   'FORGOT_PASSWORD_EMAIL_SENT' |
     'ACTIVATION_EMAIL_SENT' |
     'REGISTRATION_COMPLETE' |

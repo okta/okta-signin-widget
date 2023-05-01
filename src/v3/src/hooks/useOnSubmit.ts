@@ -30,6 +30,7 @@ import {
   containsMessageKey,
   formatError,
   getImmutableData,
+  isOauth2Enabled,
   loc,
   postRegistrationSubmit,
   preRegistrationSubmit,
@@ -63,7 +64,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     setStepToRender,
     widgetProps,
   } = useWidgetContext();
-  const { events, useInteractionCodeFlow } = widgetProps;
+  const { events } = widgetProps;
 
   return useCallback(async (options: OnSubmitHandlerOptions) => {
     setLoading(true);
@@ -171,10 +172,12 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     if (currTransaction?.context.stateHandle) {
       payload.stateHandle = currTransaction.context.stateHandle;
     }
+    // Required to prevent auth-js from clearing sessionStorage and breaking interaction code flow
+    payload.exchangeCodeForTokens = false;
     if (step === 'cancel') {
       authClient?.transactionManager.clear({ clearIdxResponse: false });
       SessionStorage.removeStateHandle();
-      if (useInteractionCodeFlow) {
+      if (isOauth2Enabled(widgetProps)) {
         // In this case we need to restart login flow and recreate transaction meta
         fn = authClient.idx.start;
         payload = {};
@@ -269,6 +272,5 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     setLoading,
     setMessage,
     setStepToRender,
-    useInteractionCodeFlow,
   ]);
 };

@@ -25,6 +25,7 @@ import CountryUtil from '../../../util/CountryUtil';
 import Util from '../../../util/Util';
 import { FORM_NAME_TO_OPERATION_MAP } from '../constants';
 import {
+  AuthenticationMode,
   RegistrationDataCallbackV3,
   RegistrationElementSchema,
   RegistrationSchemaCallbackV3,
@@ -204,4 +205,18 @@ export const transformIdentifier = (
   }
   const operation: UserOperation = FORM_NAME_TO_OPERATION_MAP[step];
   return transformUsername(username, operation);
+};
+
+export const getAuthenticationMode = (widgetProps: WidgetProps): AuthenticationMode => {
+  const { codeChallenge } = widgetProps;
+  return codeChallenge ? 'remediation' : 'relying-party';
+};
+
+export const isOauth2Enabled = (widgetProps: WidgetProps): boolean => {
+  const { clientId: clientIdFromSettings, authScheme, authClient } = widgetProps;
+  let clientId = clientIdFromSettings;
+  if (!clientId && authClient) {
+    clientId = authClient.options?.clientId;
+  }
+  return typeof clientId !== 'undefined' && authScheme?.toLowerCase() === 'oauth2';
 };

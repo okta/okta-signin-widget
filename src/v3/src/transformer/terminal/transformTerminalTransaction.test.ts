@@ -14,7 +14,6 @@ import { IdxContext, IdxStatus, IdxTransaction } from '@okta/okta-auth-js';
 import {
   FormBag,
   LinkElement,
-  SuccessCallback,
   TitleElement,
   WidgetProps,
 } from 'src/types';
@@ -70,140 +69,14 @@ describe('Terminal Transaction Transformer Tests', () => {
     jest.restoreAllMocks();
   });
 
-  describe('Interaction code flow & Redirection Tests', () => {
-    const mockClearMetaFn = jest.fn();
-    const mockTokens = {
-      accessToken: {
-        accessToken: 'abc123456',
-        claims: { sub: '', user: true },
-        authorizeUrl: 'acme.okta1.com',
-        scopes: ['admin'],
-        expiresAt: 1234567,
-        tokenType: 'id',
-        userinfoUrl: 'acme.okta1.com/userinfo',
-      },
-      idToken: {
-        issuer: 'okta',
-        clientId: 'abcdefth',
-        idToken: '1234567asdfghj',
-        claims: { sub: '', user: true },
-        authorizeUrl: 'acme.okta1.com',
-        scopes: ['admin'],
-        expiresAt: 1234567,
-      },
-    };
-    beforeEach(() => {
-      transaction.messages = undefined;
-      transaction.meta = { urls: { issuer: '' }, interactionHandle: '123456abcdef' };
-      mockAuthClient = {
-        options: { state: 'abc123' },
-        idx: {
-          clearTransactionMeta: mockClearMetaFn,
-          getSavedTransactionMeta: () => undefined,
-        },
-      };
-    });
+  it('should add return empty formbag when interaction code flow transaction', () => {
+    transaction.messages = undefined;
+    transaction.interactionCode = '123456789aabbcc';
+    widgetProps = { clientId: 'abcd1234', authScheme: 'oauth2' };
+    const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
-    it('should add successCallback renderer for interaction code flow', () => {
-      transaction.tokens = mockTokens;
-      transaction.interactionCode = '123456789aabbcc';
-      widgetProps = {
-        authClient: mockAuthClient, useInteractionCodeFlow: true,
-      };
-      const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
-
-      expect(formBag).toMatchSnapshot();
-      expect(formBag.uischema.elements.length).toBe(2);
-      expect(formBag.uischema.elements[0].type).toBe('Spinner');
-      expect(formBag.uischema.elements[1].type).toBe('SuccessCallback');
-      expect((formBag.uischema.elements[1] as SuccessCallback).options?.data)
-        .toEqual({ status: IdxStatus.SUCCESS, tokens: mockTokens });
-    });
-
-    it('should add successCallback renderer for interaction code flow in remediation mode', () => {
-      transaction.tokens = mockTokens;
-      transaction.interactionCode = '123456789aabbcc';
-      widgetProps = {
-        authClient: mockAuthClient,
-        useInteractionCodeFlow: true,
-        codeChallenge: 'bbccdde',
-      };
-      const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
-
-      expect(formBag).toMatchSnapshot();
-      expect(formBag.uischema.elements.length).toBe(2);
-      expect(formBag.uischema.elements[0].type).toBe('Spinner');
-      expect(formBag.uischema.elements[1].type).toBe('SuccessCallback');
-      expect((formBag.uischema.elements[1] as SuccessCallback).options?.data)
-        .toEqual({
-          status: IdxStatus.SUCCESS,
-          interaction_code: transaction.interactionCode,
-          state: mockAuthClient.options.state,
-        });
-      expect(mockClearMetaFn).toHaveBeenCalled();
-    });
-
-    it('should throw error when in interaction code flow and missing transaction meta', () => {
-      transaction.meta = undefined;
-      transaction.interactionCode = '123456789aabbcc';
-      widgetProps = {
-        authClient: mockAuthClient, useInteractionCodeFlow: true,
-      };
-      expect(() => {
-        transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
-      }).toThrow('Could not load transaction data from storage');
-    });
-
-    it('should call redirect Transformer funcion when interaction code flow requires redirection', () => {
-      transaction.interactionCode = '123456789aabbcc';
-      widgetProps = {
-        authClient: mockAuthClient,
-        useInteractionCodeFlow: true,
-        redirectUri: 'http://acme.okta1.com',
-        redirect: 'always',
-      };
-      const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
-
-      expect(formBag).toEqual({});
-    });
-
-    it('should throw error when interaction code flow requires redirection but missing redirect URI', () => {
-      transaction.interactionCode = '123456789aabbcc';
-      widgetProps = {
-        authClient: mockAuthClient,
-        useInteractionCodeFlow: true,
-        redirect: 'always',
-      };
-      expect(() => {
-        transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
-      }).toThrow('redirectUri is required');
-    });
-
-    it('should call redirect Transformer funcion when transaction context contains success redirect href', () => {
-      transaction.context = {
-        ...transaction.context,
-        success: {
-          name: 'success',
-          href: 'http://acme.okta1.com',
-        },
-      };
-      widgetProps = { authClient: mockAuthClient };
-      const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
-
-      expect(formBag).toEqual({});
-    });
-
-    it('should throw error when transaction doesnt contain messages and useInteractionCodeFlow is not provided', () => {
-      transaction.interactionCode = '123456789aabbcc';
-      widgetProps = {
-        authClient: mockAuthClient,
-        redirect: 'always',
-      };
-      expect(() => {
-        transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
-      }).toThrow('Set "useInteractionCodeFlow" to true in configuration to enable the '
-        + 'interaction_code" flow for self-hosted widget.');
-    });
+    expect(formBag).toMatchSnapshot();
+    expect(formBag.uischema.elements.length).toBe(0);
   });
 
   it('should add back to signin element when transaction contains API error', () => {

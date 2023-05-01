@@ -15,10 +15,10 @@ import {
 } from 'preact/hooks';
 
 import { WidgetProps } from '../types';
-import { SessionStorage } from '../util';
+import { isOauth2Enabled, SessionStorage } from '../util';
 
 export const useStateHandle = (widgetProps: WidgetProps) => {
-  const { overrideExistingStateToken, stateToken, useInteractionCodeFlow } = widgetProps;
+  const { overrideExistingStateToken, stateToken } = widgetProps;
 
   const initStateHandle = () => {
     // If url changes then widget assumes that user's intention was to initiate a new login flow,
@@ -46,8 +46,8 @@ export const useStateHandle = (widgetProps: WidgetProps) => {
   }, [overrideExistingStateToken, unsetStateHandle]);
 
   const currentStateHandle = useMemo(() => (
-    useInteractionCodeFlow ? undefined : sessionStateHandle || stateToken
-  ), [sessionStateHandle, stateToken, useInteractionCodeFlow]);
+    isOauth2Enabled(widgetProps) ? undefined : sessionStateHandle || stateToken
+  ), [sessionStateHandle, stateToken, widgetProps]);
 
   return {
     unsetStateHandle,

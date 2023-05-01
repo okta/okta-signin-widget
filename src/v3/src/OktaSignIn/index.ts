@@ -163,8 +163,8 @@ export default class OktaSignIn {
           render(h(Widget, {
             events: this.events,
             authClient: this.authClient,
-            onSuccess: onSuccessWrapper,
-            onError: onErrorWrapper,
+            globalSuccessFn: onSuccessWrapper,
+            globalErrorFn: onErrorWrapper,
             ...this.options,
           }), target);
         } else {

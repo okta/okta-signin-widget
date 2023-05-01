@@ -12,7 +12,7 @@
 
 import { loc } from '@okta/courage';
 import Enums from './Enums';
-import { ErrorXHR, ErrorContextData } from 'types/errors';
+import { ErrorXHR, ErrorContextData } from '../types/errors';
 import { FlowIdentifier } from '@okta/okta-auth-js';
 
 abstract class CustomError extends Error {
@@ -57,7 +57,7 @@ export class U2FError extends CustomError {
   xhr: ErrorXHR;
   name = Enums.U2F_ERROR;
   constructor(err: ErrorContextData) {
-    super(err.xhr.responseJSON.errorSummary);
+    super(err.xhr?.responseJSON?.errorSummary);
     this.xhr = err.xhr;
   }
 }
@@ -66,7 +66,7 @@ export class WebAuthnError extends CustomError {
   xhr: ErrorXHR;
   name = Enums.WEB_AUTHN_ERROR;
   constructor(err: ErrorContextData) {
-    super(err.xhr.responseJSON.errorSummary);
+    super(err.xhr?.responseJSON?.errorSummary);
     this.xhr = err.xhr;
   }
 }

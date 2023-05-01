@@ -32,7 +32,6 @@ const ignoredMocks = [
 
 const v3IgnoredMocks = [
   'consent-granular.json', // TODO: Not yet implemented OKTA-594847
-  'success-with-interaction-code.json', // Receiving error regarding codeVerifier from auth-js, must investigate TODO: OKTA-594851
   /** The below mocks are all complaining about the "page" text in the description but it IS localized. Need to investigate TODO: OKTA-594852 **/ 
   'terminal-return-otp-only-full-location-mobile-icon-authentication.json',
   'terminal-return-otp-only-full-location-mobile-icon-enrollment.json',

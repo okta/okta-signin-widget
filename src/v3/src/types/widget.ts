@@ -23,6 +23,8 @@ import {
   LanguageCode,
   RegistrationErrorCallback,
   RegistrationOptions as RegOptions,
+  RenderError,
+  RenderResult,
   UserOperation,
 } from '../../../types';
 import { InterstitialRedirectView } from '../constants';
@@ -58,6 +60,8 @@ export type RenderOptions = {
   redirect?: 'always' | 'never';
   authParams?: OktaAuthOptions;
 };
+
+export type AuthenticationMode = 'remediation' | 'relying-party';
 
 export type OktaWidgetEventHandler = {
   (...args: unknown[]): void;
@@ -110,10 +114,6 @@ export type WidgetOptions = {
   events?: { [key in OktaWidgetEventType]: OktaWidgetEventHandler };
 
   // callbacks
-  // TODO: OKTA-502849 - Update param type (RenderResult) once merged into okta-signin-widget
-  onSuccess?: (res: Record<string, unknown>) => void;
-  // TODO: OKTA-502849 - Update param type (RenderError) once merged into okta-signin-widget
-  onError?: (err: Error) => void;
   onChange?: (data: JsonObject) => void;
   onSubmit?: (data: JsonObject) => void;
   onCancel?: (data: JsonObject) => void;
@@ -159,6 +159,10 @@ export type WidgetOptions = {
   consent?: {
     cancel: { (): void };
   };
+  /**
+   * @deprecated
+   * Deprecated as of SIW v7.0
+   */
   useInteractionCodeFlow?: boolean;
   authScheme?: string;
   relayState?: string;
@@ -191,6 +195,8 @@ export type WidgetOptions = {
   } & Record<string, string>;
   defaultCountryCode?: string;
   transformUsername?: (username: string, operation: UserOperation) => string;
+  globalSuccessFn?: (res: RenderResult) => void;
+  globalErrorFn?: (res: RenderError) => void;
 };
 
 export type IdxMethod =

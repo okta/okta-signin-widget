@@ -71,7 +71,7 @@ describe('authenticator-enroll-select-authenticator', () => {
           mockResponse,
           widgetOptions: {
             stateToken: '1234567890abcdefghij',
-            useInteractionCodeFlow: false,
+            authScheme: 'false',
           },
         },
       );
@@ -95,7 +95,7 @@ describe('authenticator-enroll-select-authenticator', () => {
         {
           mockResponse,
           widgetOptions: {
-            useInteractionCodeFlow: true,
+            authScheme: 'oauth2',
           },
         },
       );

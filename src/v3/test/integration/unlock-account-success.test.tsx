@@ -29,7 +29,7 @@ describe('unlock-account-success', () => {
     } = await setup({
       mockResponse,
       widgetOptions: {
-        useInteractionCodeFlow: false,
+        authScheme: 'false',
       },
     });
 
@@ -50,7 +50,7 @@ describe('unlock-account-success', () => {
       } = await setup({
         mockResponse,
         widgetOptions: {
-          useInteractionCodeFlow: true,
+          authScheme: 'oauth2',
         },
       });
 
