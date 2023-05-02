@@ -12,6 +12,7 @@ echo $OKTA_CLIENT_TOKEN
 
 # Creates a test org and outputs environment variables to a file named "testenv.local" in the project root
 dockolith exec --cwd test/e2e ./support/monolith/create-testenv.ts
+log_extra_file testenv.local
 cat testenv.local >> testenv
 echo "LOCAL_MONOLITH=1" >> testenv
 echo "updated testenv"
