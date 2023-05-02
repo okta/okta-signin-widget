@@ -11,8 +11,8 @@ setup_service dockolith $DOCKOLITH_VERSION
 log_custom_message "Dockolith Version" "$(dockolith --version)"
 
 if [ -n "${CI}" ]; then # CI only
-  echo "Boostrapping dockolith..."
-  dockolith bootstrap ${OKTA_HOME}/${REPO}
+  echo "Linking dockolith..."
+  dockolith link ${OKTA_HOME}/${REPO}
 fi
 
 export DOCKOLITH_HOME=$(dockolith home)
