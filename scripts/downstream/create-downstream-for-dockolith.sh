@@ -14,7 +14,7 @@ pushd ${OKTA_HOME}/okta-signin-widget/scripts > /dev/null
   DOCKOLITH_VERSION="$(echo ${upstream_artifact_version} | cut -d'@' -f3)"
 
   # Update setup script
-  echo "Update dockolith version in scripts/setup.sh to ${DOCKOLITH_VERSION}"
-  sed -i "s/\(DOCKOLITH_DOWNSTREAM\=\).*/\1\"${DOCKOLITH_DOWNSTREAM}\"/g" monolith/install-dockolith.sh
+  echo "Update dockolith version in scripts/monolith/install-dockolith.sh to ${DOCKOLITH_VERSION}"
+  sed -i "s/\(DOCKOLITH_DOWNSTREAM\=\).*/\1\"${DOCKOLITH_VERSION}\"/g" monolith/install-dockolith.sh
 
 popd > /dev/null
