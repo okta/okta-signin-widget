@@ -37,7 +37,7 @@ export class MonolithClient {
       emailAddress,
       phoneNumber,
     };
-    console.error('Created credentials: ', credentials);
+    console.log('Created credentials: ', credentials);
     return credentials;
   }
 
@@ -82,7 +82,7 @@ export class MonolithClient {
     if (!code) {
       throw new Error('Unable to retrieve code from email.');
     }
-    console.error('extracted code: ', code);
+    console.log('extracted code: ', code);
     return code;
   }
 
@@ -93,7 +93,7 @@ export class MonolithClient {
     if (!url) {
       throw new Error('Unable to retrieve magic link from email.');
     }
-    console.error('extracted url: ', url);
+    console.log('extracted url: ', url);
     return url;
   }
 
@@ -104,7 +104,7 @@ export class MonolithClient {
     if (!url) {
       throw new Error('Unable to retrieve unlock account link from email.');
     }
-    console.error('extracted url: ', url);
+    console.log('extracted url: ', url);
     return url;
   }
 
@@ -115,7 +115,7 @@ export class MonolithClient {
     if (!code) {
       throw new Error('Unable to retrieve code from SMS.');
     }
-    console.error('extracted code: ', code);
+    console.log('extracted code: ', code);
     return code;
   }
 

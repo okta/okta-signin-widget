@@ -4,7 +4,7 @@
 export DOCKOLITH_DOWNSTREAM=""
 
 if [[ -z ${DOCKOLITH_VERSION} ]]; then
-  export DOCKOLITH_VERSION="${DOCKOLITH_DOWNSTREAM:-1.9.0}"
+  export DOCKOLITH_VERSION="${DOCKOLITH_DOWNSTREAM:-1.9.1}"
 fi
 
 setup_service dockolith $DOCKOLITH_VERSION
