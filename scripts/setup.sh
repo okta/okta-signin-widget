@@ -8,9 +8,17 @@ export AUTHJS_VERSION=""
 # Install required node version
 export REGISTRY_REPO="npm-topic"
 export REGISTRY="${ARTIFACTORY_URL}/api/npm/${REGISTRY_REPO}"
-setup_service node v14.18.2
+
+if ! setup_service node v14.18.2 &> /dev/null; then
+  echo "Failed to install node"
+  exit ${FAILED_SETUP}
+fi
+
 # Use the cacert bundled with centos as okta root CA is self-signed and cause issues downloading from yarn
-setup_service yarn 1.21.1 /etc/pki/tls/certs/ca-bundle.crt
+if ! setup_service yarn 1.21.1 /etc/pki/tls/certs/ca-bundle.crt &> /dev/null; then
+  echo "Failed to install yarn"
+  exit ${FAILED_SETUP}
+fi
 
 cd ${OKTA_HOME}/${REPO}
 

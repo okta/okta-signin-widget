@@ -1,17 +1,18 @@
-#!/bin/bash -xe
+#!/bin/bash
+
+# DO NOT MERGE ANY CHANGES TO THIS LINE!!
+export DOCKOLITH_DOWNSTREAM=""
 
 if [[ -z ${DOCKOLITH_VERSION} ]]; then
-  export DOCKOLITH_VERSION=1.6.1
+  export DOCKOLITH_VERSION="${DOCKOLITH_DOWNSTREAM:-1.9.1}"
 fi
 
+setup_service dockolith $DOCKOLITH_VERSION
+log_custom_message "Dockolith Version" "$(dockolith --version)"
 
-# only install if not triggered by upstream build
-if [[ -z ${DOCKOLITH_DOWNSTREAM} ]]; then
-  # Yarn "add" always modifies package.json https://github.com/yarnpkg/yarn/issues/1743
-  # Make a backup of package.json and restore it after install
-  # NOTE: export YARN_REGISTRY as env var when running locally
-  # YARN_REGISTRY={internalRegistry} yarn add @okta/dockolith@1.6.1 -WD --no-lockfile
-  cp package.json package.json.bak
-  yarn add -DW --no-lockfile @okta/dockolith@$DOCKOLITH_VERSION
-  mv package.json.bak package.json
+if [ -n "${CI}" ]; then # CI only
+  echo "Linking dockolith..."
+  dockolith link ${OKTA_HOME}/${REPO}
 fi
+
+export DOCKOLITH_HOME=$(dockolith home)
