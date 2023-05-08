@@ -2,6 +2,7 @@ import { loc } from '@okta/courage';
 
 import { AuthSdkError, OAuthError as SdkOAuthError} from '@okta/okta-auth-js';
 import { OAuthError } from './Errors';
+import Bundles from './Bundles';
 import { ErrorDetails } from 'types/errors';
 
 type ErrorTraits = 'inline' | 'terminal';
@@ -65,6 +66,9 @@ class ClockDriftError extends RecoverableError<TerminalErrorType> {
 class UserNotAssignedError extends RecoverableError<InlineErrorType> {
   constructor(error) {
     super(error, InlineErrorType);
+  }
+  getErrorSummary(): string {
+    return Bundles.login['error.access_denied'] ? loc('error.access_denied', 'login') : super.getErrorSummary();
   }
 }
 

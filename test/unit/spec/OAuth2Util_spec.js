@@ -8,6 +8,7 @@ import Enums from 'util/Enums';
 import { AuthSdkError, OAuthError as OAuthSdkError } from '@okta/okta-auth-js';
 import { NonRecoverableError, ClockDriftError } from 'util/OAuthErrors';
 import { OAuthError } from 'util/Errors';
+import Bundles from 'util/Bundles';
 
 
 
@@ -32,6 +33,7 @@ describe('util/OAuth2Util', function() {
     let controller;
     let authClient;
     let settings;
+    let originalLoginBundle;
 
     beforeEach(function() {
       controller = new MockController();
@@ -42,6 +44,15 @@ describe('util/OAuth2Util', function() {
         baseUrl: 'https://foo',
         authClient
       });
+
+      originalLoginBundle = Bundles.login;
+      Bundles.login = {
+        ...originalLoginBundle,
+      };
+    });
+    afterEach(function() {
+      Bundles.login = originalLoginBundle;
+      originalLoginBundle = null;
     });
 
     it('exists', () => {
@@ -121,6 +132,14 @@ describe('util/OAuth2Util', function() {
       const authException = new AuthSdkError(errorMessage);
       authException.errorCode = errCode;
 
+      let expectedErrorSummary;
+      if (errCode === 'access_denied') {
+        Bundles.login['error.access_denied'] = 'User is not assigned to the client application.';
+        expectedErrorSummary = loc('error.access_denied', 'login');
+      } else {
+        expectedErrorSummary = loc('error.jit_failure', 'login');
+      }
+
       jest.spyOn(authClient.token, 'getWithPopup').mockImplementation(() => {
         return new Promise(function() {
           throw authException;
@@ -132,13 +151,34 @@ describe('util/OAuth2Util', function() {
         OAuth2Util.getTokens(settings, {}, controller);
       }).then(function() {
         expect(controller.model.trigger).toHaveBeenCalledTimes(1);
-        if (errCode === 'access_denied') {
-          expect(controller.model.trigger).toHaveBeenLastCalledWith('error', controller.model,
-            { responseJSON: { errorSummary: errorMessage } });
-        } else {
-          expect(controller.model.trigger).toHaveBeenLastCalledWith('error', controller.model,
-            { responseJSON: { errorSummary: loc('error.jit_failure', 'login') }});
-        }
+        expect(controller.model.trigger).toHaveBeenLastCalledWith('error', controller.model,
+          { responseJSON: { errorSummary: expectedErrorSummary } });
+        expect(Util.triggerAfterError).toHaveBeenCalledTimes(1);
+        expect(Util.triggerAfterError).toHaveBeenCalledWith(controller, new OAuthError(errorMessage), settings);
+        done();
+      }).catch(done.fail);
+    });
+
+    it('generates error message for errorCode "access_denied" from original errorSummary if i18n translation is missing', function(done) {  
+      const errorMessage = 'Auth SDK error';
+      const authException = new AuthSdkError(errorMessage);
+      authException.errorCode = 'access_denied';  
+
+      Bundles.login['error.access_denied'] = undefined;
+
+      jest.spyOn(authClient.token, 'getWithPopup').mockImplementation(() => {
+        return new Promise(function() {
+          throw authException;
+        });
+      });
+
+      return new Promise(function(resolve) {
+        jest.spyOn(Util, 'triggerAfterError').mockImplementation(resolve);
+        OAuth2Util.getTokens(settings, {}, controller);
+      }).then(function() {
+        expect(controller.model.trigger).toHaveBeenCalledTimes(1);
+        expect(controller.model.trigger).toHaveBeenLastCalledWith('error', controller.model,
+          { responseJSON: { errorSummary: errorMessage } });
         expect(Util.triggerAfterError).toHaveBeenCalledTimes(1);
         expect(Util.triggerAfterError).toHaveBeenCalledWith(controller, new OAuthError(errorMessage), settings);
         done();
