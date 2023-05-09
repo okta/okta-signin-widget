@@ -39,7 +39,7 @@ export default View.extend({
       {{#each remediationOptions}}
         <div class="{{className}}">
         {{#if link}}
-          <a href="{{link}}" target="_blank">{{message}}</a>
+          <a href="{{link}}" target="_blank" rel="noopener noreferrer">{{message}}</a>
         {{else}}
           {{message}}
         {{/if}}
@@ -52,13 +52,13 @@ export default View.extend({
       {{i18n
         code="idx.error.code.access_denied.device_assurance.remediation.additional_help_custom"
         bundle="login"
-        $1="<a href='#' target='_blank' class='additional-help'>$1</a>"
+        $1="<a href='#' target='_blank' rel='noopener noreferrer' class='additional-help'>$1</a>"
       }}
     {{else}}
       {{i18n
         code="idx.error.code.access_denied.device_assurance.remediation.additional_help_default"
         bundle="login"
-        $1="<a href='#' target='_blank' class='additional-help'>$1</a>"
+        $1="<a href='#' target='_blank' rel='noopener noreferrer' class='additional-help'>$1</a>"
       }}
     {{/if}}
     </div>

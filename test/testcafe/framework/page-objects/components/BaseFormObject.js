@@ -124,6 +124,10 @@ export default class BaseFormObject {
     return this.el.find(FORM_INFOBOX_ERROR).innerText;
   }
 
+  getErrorBox() {
+    return Selector(CALLOUT);
+  }
+
   getErrorBoxHtml() {
     return this.getCallout(CALLOUT).innerHTML;
   }
