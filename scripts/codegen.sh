@@ -10,7 +10,7 @@ first () {
 # input: packages/@okta/i18n
 # output: d39d70a51af9ccba5710a089f87a4470 packages/@okta/i18n
 dir-sum () (
-	SUM=$(tar -cf - $@ | md5sum | first)
+	SUM=$(tar -cf - $@ | md5sum)
 	echo "$SUM $@"
 )
 

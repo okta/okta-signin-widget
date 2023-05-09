@@ -19,13 +19,13 @@ import {
 } from '@okta/okta-auth-js';
 import { IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
 import { HTMLReactParserOptions } from 'html-react-parser';
-import { FunctionComponent } from 'preact';
 
 import { IStepperContext, IWidgetContext } from './context';
 import { ClickHandler } from './handlers';
 import { Modify } from './jsonforms';
 import { ListItem, PasswordSettings } from './password';
 import { UserInfo } from './userInfo';
+import { FunctionComponent } from 'preact';
 
 type GeneralDataSchemaBag = Record<string, DataSchema>;
 
@@ -407,9 +407,10 @@ export interface ListElement extends UISchemaElement {
     /**
      * Items to render in the list.
      *
-     * **NOTE**: Only string and UISchemaElement with type 'Button' or
-     * 'Description' are supported. Other UISchemaElement types will not render
-     * and print a warning to the console.
+     * **NOTE**: Only string and UISchemaElement with type
+     * 'Button' or 'Description'
+     * are supported. Other UISchemaElement types will
+     * not render and print a warning to the console.
      */
     items: (string | UISchemaLayout)[];
     type: 'ul' | 'ol';

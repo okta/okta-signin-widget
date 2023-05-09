@@ -18,7 +18,7 @@ module.exports = {
     node: true,
   },
   parserOptions: {
-    ecmaVersion: 2019,
+    ecmaVersion: 2020,
     sourceType: 'module',
   },
   settings: {
@@ -30,7 +30,6 @@ module.exports = {
       alias: {
         map: [
           ['src', './src'],
-          ['@okta/duo', '../../packages/vendor/duo_web_sdk/index.js'],
         ],
         extensions: [
           '.ts',
@@ -72,7 +71,7 @@ module.exports = {
       parser: '@typescript-eslint/parser',
       parserOptions: {
         project: './tsconfig.node.json',
-        ecmaVersion: 2018,
+        ecmaVersion: 2020,
         sourceType: 'module',
       },
       plugins: [
@@ -281,7 +280,7 @@ module.exports = {
       parserOptions: {
         project: './src/tsconfig.json',
         ecmaFeatures: { jsx: true },
-        ecmaVersion: 2018,
+        ecmaVersion: 2020,
         sourceType: 'module',
       },
       plugins: [
@@ -319,7 +318,7 @@ module.exports = {
       parserOptions: {
         project: './test/integration/tsconfig.json',
         ecmaFeatures: { jsx: true },
-        ecmaVersion: 2018,
+        ecmaVersion: 2020,
         sourceType: 'module',
       },
       plugins: [
@@ -344,7 +343,7 @@ module.exports = {
       parser: '@typescript-eslint/parser',
       parserOptions: {
         project: './test/e2e/tsconfig.json',
-        ecmaVersion: 2018,
+        ecmaVersion: 2020,
         sourceType: 'module',
       },
       plugins: [

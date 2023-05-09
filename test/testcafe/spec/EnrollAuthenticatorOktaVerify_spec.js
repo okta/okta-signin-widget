@@ -6,25 +6,25 @@ import EnrollOVViaEmailPageObject from '../framework/page-objects/EnrollOVViaEma
 import EnrollOVViaSMSPageObject from '../framework/page-objects/EnrollOVViaSMSPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import { checkConsoleMessages, oktaDashboardContent, renderWidget as rerenderWidget } from '../framework/shared';
-import xhrAuthenticatorEnrollOktaVerifyQr from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-qr';
-import xhrAuthenticatorEnrollOktaVerifyViaEmail from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-via-email';
-import xhrAuthenticatorEnrollOktaVerifyEmail from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-email';
-import xhrAuthenticatorEnrollOktaVerifyViaSMS from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-via-sms';
-import xhrAuthenticatorEnrollOktaVerifySMS from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-sms';
+import xhrAuthenticatorEnrollOktaVerifyQr from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-qr.json';
+import xhrAuthenticatorEnrollOktaVerifyViaEmail from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-via-email.json';
+import xhrAuthenticatorEnrollOktaVerifyEmail from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-email.json';
+import xhrAuthenticatorEnrollOktaVerifyViaSMS from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-via-sms.json';
+import xhrAuthenticatorEnrollOktaVerifySMS from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-sms.json';
 
-import xhrAuthenticatorEnrollOktaVerifyViaEmailVersionUpgrade from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-email-version-upgrade';
-import xhrAuthenticatorEnrollOktaVerifyViaSMSVersionUpgrade from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-sms-version-upgrade';
-import xhrAuthenticatorEnrollOktaVerifyViaQRVersionUpgrade from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-qr-version-upgrade';
+import xhrAuthenticatorEnrollOktaVerifyViaEmailVersionUpgrade from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-email-version-upgrade.json';
+import xhrAuthenticatorEnrollOktaVerifyViaSMSVersionUpgrade from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-sms-version-upgrade.json';
+import xhrAuthenticatorEnrollOktaVerifyViaQRVersionUpgrade from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-qr-version-upgrade.json';
 
-import xhrAuthenticatorEnrollOktaVerifyViaEmailVersionUpgradeNonIos from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-email-version-upgrade-non-ios';
-import xhrAuthenticatorEnrollOktaVerifyViaSMSVersionUpgradeNonIos from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-sms-version-upgrade-non-ios';
-import xhrAuthenticatorEnrollOktaVerifyViaQRVersionUpgradeNonIos from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-qr-version-upgrade-non-ios';
+import xhrAuthenticatorEnrollOktaVerifyViaEmailVersionUpgradeNonIos from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-email-version-upgrade-non-ios.json';
+import xhrAuthenticatorEnrollOktaVerifyViaSMSVersionUpgradeNonIos from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-sms-version-upgrade-non-ios.json';
+import xhrAuthenticatorEnrollOktaVerifyViaQRVersionUpgradeNonIos from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-qr-version-upgrade-non-ios.json';
 
-import xhrAuthenticatorEnrollEnableBiometricsQr from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-qr-enable-biometrics';
-import xhrAuthenticatorEnrollEnableBiometricsEmail from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-email-enable-biometrics';
-import xhrAuthenticatorEnrollEnableBiometricsSMS from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-sms-enable-biometrics';
+import xhrAuthenticatorEnrollEnableBiometricsQr from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-qr-enable-biometrics.json';
+import xhrAuthenticatorEnrollEnableBiometricsEmail from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-email-enable-biometrics.json';
+import xhrAuthenticatorEnrollEnableBiometricsSMS from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-sms-enable-biometrics.json';
 
-import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
+import xhrSuccess from '../../../playground/mocks/data/idp/idx/success.json';
 
 const logger = RequestLogger(/introspect|poll|send|enroll/, {
   logRequestBody: true,
@@ -170,7 +170,7 @@ const enrollViaSmsVersionUpgradeMocksGoBack = RequestMock()
   })
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
   .respond(oktaDashboardContent);
-  
+
 const enrollViaSmsVersionUpgradeMocksNonIos = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorEnrollOktaVerifyQr)
@@ -472,7 +472,7 @@ test.requestHooks(enrollViaEmailMocks)('should be able enroll via email', async 
   await t.expect(enrollOktaVerifyPage.getEmailInstruction()).contains(emailInstruction1);
   await t.expect(enrollOktaVerifyPage.getEmailInstruction()).contains(emailInstruction2);
 
-  
+
   isSuccess = true;
   const successPage = new SuccessPageObject(t);
   const pageUrl = await successPage.getPageUrl();
@@ -525,8 +525,8 @@ test.requestHooks(logger, enrollViaSmsMocks)('should be able enroll via sms', as
   await t.expect(await enrollOktaVerifyPage.hasEnrollViaEmailInstruction()).eql(false);
   await t.expect(await enrollOktaVerifyPage.hasEnrollViaSmsInstruction()).eql(true);
   await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction1);
-  await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction2);  
-  
+  await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction2);
+
   isSuccess = true;
   const successPage = new SuccessPageObject(t);
   const pageUrl = await successPage.getPageUrl();
@@ -566,7 +566,7 @@ test.requestHooks(resendSmsMocks)('after timeout should be able see and click se
   const enrollOktaVerifyPage = await setup(t);
   await checkA11y(t);
   await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction1);
-  await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction2);  
+  await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction2);
   await t.expect(enrollOktaVerifyPage.resendView().visible).notOk();
   await t.wait(30000);
   await t.expect(enrollOktaVerifyPage.resendViewExists()).ok();
@@ -575,7 +575,7 @@ test.requestHooks(resendSmsMocks)('after timeout should be able see and click se
   await enrollOktaVerifyPage.clickSendSMSAgainLink();
   await t.expect(enrollOktaVerifyPage.resendViewExists()).notOk();
   await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction1);
-  await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction2);  
+  await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction2);
 });
 
 const testSmsMsg = async (t, isIos) => {
@@ -608,7 +608,7 @@ const testSmsMsg = async (t, isIos) => {
   await t.expect(await enrollOktaVerifyPage.hasEnrollViaEmailInstruction()).eql(false);
   await t.expect(await enrollOktaVerifyPage.hasEnrollViaSmsInstruction()).eql(true);
   await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction1);
-  await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction2);  
+  await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction2);
 
   const errorBox = enrollOktaVerifyPage.getErrorBox();
   await t.expect(errorBox.innerText).contains(message);
@@ -627,9 +627,11 @@ test.requestHooks(logger, enrollViaSmsVersionUpgradeMocks)('should see ov upgrad
   await testSmsMsg(t, true);
 });
 
-test.requestHooks(logger, enrollViaSmsVersionUpgradeMocksNonIos)('should see ov upgrade error message during enroll via sms for non ios devices', async t => {
-  await testSmsMsg(t, false);
-});
+test
+  .meta('flaky', true)
+  .requestHooks(logger, enrollViaSmsVersionUpgradeMocksNonIos)('should see ov upgrade error message during enroll via sms for non ios devices', async t => {
+    await testSmsMsg(t, false);
+  });
 
 const testEmailMsg = async (t, isIos) => {
   isSuccess = false;
@@ -672,9 +674,11 @@ test.requestHooks(enrollViaEmailVersionUpgradeMocks)('should see ov upgrade erro
   await testEmailMsg(t, true);
 });
 
-test.requestHooks(enrollViaEmailVersionUpgradeMocksNonIos)('should see ov upgrade error message during enroll via email for non ios devices', async t => {
-  await testEmailMsg(t, false);
-});
+test
+  .meta('flaky', true)
+  .requestHooks(enrollViaEmailVersionUpgradeMocksNonIos)('should see ov upgrade error message during enroll via email for non ios devices', async t => {
+    await testEmailMsg(t, false);
+  });
 
 const testQRcodeMsg = async (t, isIos) => {
   isSuccess = false;
@@ -746,13 +750,13 @@ test.requestHooks(logger, enrollViaSmsVersionUpgradeMocksGoBack)('should not sho
     const answerRequestBody = JSON.parse(answerRequestBodyString);
     await t.expect(answerRequestBody.phoneNumber).eql('+18887227871');
   }
-  
+
   await t.expect(await enrollOktaVerifyPage.hasEnrollViaQRInstruction()).eql(false);
   await t.expect(await enrollOktaVerifyPage.hasEnrollViaEmailInstruction()).eql(false);
   await t.expect(await enrollOktaVerifyPage.hasEnrollViaSmsInstruction()).eql(true);
   await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction1);
-  await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction2);  
-  
+  await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction2);
+
   const errorBox = enrollOktaVerifyPage.getErrorBox();
   await t.expect(errorBox.innerText).contains(fipsUpgradeMessage);
   const errorTitle = enrollOktaVerifyPage.getErrorTitle();
@@ -820,7 +824,7 @@ test.requestHooks(enrollViaEmailEnableBiometricsMocks)('should see ov enable bio
   await t.expect(await enrollOktaVerifyPage.hasEnrollViaSmsInstruction()).eql(false);
   await t.expect(enrollOktaVerifyPage.getEmailInstruction()).contains(emailInstruction1);
   await t.expect(enrollOktaVerifyPage.getEmailInstruction()).contains(emailInstruction2);
-  
+
   const errorBox = enrollOktaVerifyPage.getErrorBox();
   await t.expect(errorBox.innerText).contains(enableBiometricsMessage);
   const errorTitle = enrollOktaVerifyPage.getErrorTitle();
@@ -833,48 +837,50 @@ test.requestHooks(enrollViaEmailEnableBiometricsMocks)('should see ov enable bio
   isSuccess = false;
 });
 
-test.requestHooks(logger, enrollViaSMSEnableBiometricsMocks)('should see ov enable biometrics message during enroll via sms', async t => {
-  isSuccess = false;
-  const enrollOktaVerifyPage = await setup(t);
-  await checkA11y(t);
-  await enrollOktaVerifyPage.clickSwitchChannel();
-  const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
-  await t.expect(switchChannelPageObject.getFormTitle()).eql('More options');
-  await t.expect(switchChannelPageObject.getOptionCount()).eql(2);
-  await t.expect(switchChannelPageObject.isRadioButtonChecked('sms')).eql(true);
-  await switchChannelPageObject.clickNextButton();
-  const enrollViaSMSPageObject = new EnrollOVViaSMSPageObject(t);
-  await t.expect(enrollViaSMSPageObject.getFormTitle()).eql('Set up Okta Verify via SMS');
-  await t.expect(enrollViaSMSPageObject.hasSwitchChannelText).ok();
-  await t.expect(enrollViaSMSPageObject.hasCountryField()).ok();
-  await t.expect(enrollViaSMSPageObject.getCountryLabel()).eql('+1');
-  await enrollViaSMSPageObject.fillPhoneField('8887227871');
-  await enrollViaSMSPageObject.clickSendSetupLink();
+test
+  .meta('flaky', true)
+  .requestHooks(logger, enrollViaSMSEnableBiometricsMocks)('should see ov enable biometrics message during enroll via sms', async t => {
+    isSuccess = false;
+    const enrollOktaVerifyPage = await setup(t);
+    await checkA11y(t);
+    await enrollOktaVerifyPage.clickSwitchChannel();
+    const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
+    await t.expect(switchChannelPageObject.getFormTitle()).eql('More options');
+    await t.expect(switchChannelPageObject.getOptionCount()).eql(2);
+    await t.expect(switchChannelPageObject.isRadioButtonChecked('sms')).eql(true);
+    await switchChannelPageObject.clickNextButton();
+    const enrollViaSMSPageObject = new EnrollOVViaSMSPageObject(t);
+    await t.expect(enrollViaSMSPageObject.getFormTitle()).eql('Set up Okta Verify via SMS');
+    await t.expect(enrollViaSMSPageObject.hasSwitchChannelText).ok();
+    await t.expect(enrollViaSMSPageObject.hasCountryField()).ok();
+    await t.expect(enrollViaSMSPageObject.getCountryLabel()).eql('+1');
+    await enrollViaSMSPageObject.fillPhoneField('8887227871');
+    await enrollViaSMSPageObject.clickSendSetupLink();
 
-  // logger.count ~ 10 in v3, and not consistent
-  if (!userVariables.v3) {
-    await t.expect(logger.count(() => true)).eql(3);
-    const { request: { body: answerRequestBodyString }} = logger.requests[2];
-    const answerRequestBody = JSON.parse(answerRequestBodyString);
-    await t.expect(answerRequestBody.phoneNumber).eql('+18887227871');
-  }
+    // logger.count ~ 10 in v3, and not consistent
+    if (!userVariables.v3) {
+      await t.expect(logger.count(() => true)).eql(3);
+      const { request: { body: answerRequestBodyString }} = logger.requests[2];
+      const answerRequestBody = JSON.parse(answerRequestBodyString);
+      await t.expect(answerRequestBody.phoneNumber).eql('+18887227871');
+    }
 
-  await t.expect(await enrollOktaVerifyPage.hasEnrollViaQRInstruction()).eql(false);
-  await t.expect(await enrollOktaVerifyPage.hasEnrollViaEmailInstruction()).eql(false);
-  await t.expect(await enrollOktaVerifyPage.hasEnrollViaSmsInstruction()).eql(true);
-  await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction1);
-  await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction2);  
-  
-  const errorBox = enrollOktaVerifyPage.getErrorBox();
-  await t.expect(errorBox.innerText).contains(enableBiometricsMessage);
+    await t.expect(await enrollOktaVerifyPage.hasEnrollViaQRInstruction()).eql(false);
+    await t.expect(await enrollOktaVerifyPage.hasEnrollViaEmailInstruction()).eql(false);
+    await t.expect(await enrollOktaVerifyPage.hasEnrollViaSmsInstruction()).eql(true);
+    await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction1);
+    await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction2);
 
-  const errorTitle = enrollOktaVerifyPage.getErrorTitle();
-  await t.expect(errorTitle.innerText).contains(enableBiometricsMessageTitle);
+    const errorBox = enrollOktaVerifyPage.getErrorBox();
+    await t.expect(errorBox.innerText).contains(enableBiometricsMessage);
 
-  isSuccess = true;
-  const successPage = new SuccessPageObject(t);
-  const pageUrl = await successPage.getPageUrl();
-  await t.expect(pageUrl)
-    .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
-  isSuccess = false;
-});
+    const errorTitle = enrollOktaVerifyPage.getErrorTitle();
+    await t.expect(errorTitle.innerText).contains(enableBiometricsMessageTitle);
+
+    isSuccess = true;
+    const successPage = new SuccessPageObject(t);
+    const pageUrl = await successPage.getPageUrl();
+    await t.expect(pageUrl)
+      .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
+    isSuccess = false;
+  });

@@ -218,6 +218,7 @@ async function setupLoopbackFallback(t) {
 }
 
 test
+  .meta('flaky', true)
   .requestHooks(loopbackSuccessLogger, loopbackSuccesskMock)('in loopback server approach, probing and polling requests are sent and responded', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);

@@ -48,6 +48,18 @@ const mocks = RequestMock()
   .onRequestTo({ url: regex`/sso/idps/facebook-123` })
   .respond('');
 
+const {
+  OKTA_SIW_ONLY_FLAKY,
+  OKTA_SIW_SKIP_FLAKY,
+  OKTA_SIW_V3,
+} = process.env;
+
+const env = {
+  OKTA_SIW_ONLY_FLAKY,
+  OKTA_SIW_SKIP_FLAKY,
+  OKTA_SIW_V3,
+};
+
 const config = {
   browsers: [ 'chrome:headless' ],
   clientScripts: [
@@ -56,21 +68,51 @@ const config = {
   ],
   src: [ 'test/testcafe/spec/*_spec.js' ],
   hooks: { request: mocks, },
-  userVariables: { v3: false, },
+  userVariables: {
+    v3: !!env.OKTA_SIW_V3,
+  },
 
   /*
    * NOTE: add a testcafe fixture to the list of specs to run for parity testing
    * by adding fixture metadata {"v3": true}. See example in
    * test/testcafe/spec/Smoke_spec.js
    */
-  ...(process.env.OKTA_SIW_V3 && {
-      filter: (_testName, _fixtureName, _fixturePath, testMeta, fixtureMeta) => (
-        fixtureMeta.v3 === true && testMeta.v3 !== false
-      ),
+  ...(env.OKTA_SIW_V3 && {
       userVariables: { v3: true },
       // OKTA-575629 Remove this when v3 parity test flakiness is resolved
       assertionTimeout: 20000,
-  })
+  }),
+
+  // limit concurrency when running flaky tests
+  concurrency: OKTA_SIW_ONLY_FLAKY ? 1 : undefined,
+
+  filter: (_testName, _fixtureName, _fixturePath, testMeta, fixtureMeta) => {
+    if (env.OKTA_SIW_V3) {
+      // run fixture on gen3
+      // fixture('my tests').meta('v3', true)
+      if (fixtureMeta.v3 !== true || testMeta.v3 === false) {
+        return false;
+      }
+
+      // skip test on gen3
+      // test.meta('v3', false)('my test', (t) => {})
+      if (testMeta.v3 === false) {
+        return false;
+      }
+    }
+
+    // flaky tests
+    // flaky tests should be run with low or no concurrency:
+    // yarn testcafe -c1
+    // fixture('my fixture').meta('flaky', true)
+    // test.meta('flaky', true)('my test', (t) => {})
+    if (fixtureMeta.flaky || testMeta.flaky) {
+      // OKTA_SIW_ONLY_FLAKY supercedes OKTA_SIW_SKIP_FLAKY
+      return !!env.OKTA_SIW_ONLY_FLAKY || !env.OKTA_SIW_SKIP_FLAKY;
+    }
+
+    return true;
+  },
 }
 
 module.exports = config;

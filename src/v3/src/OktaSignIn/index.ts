@@ -10,10 +10,11 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { OktaAuth, OktaAuthOptions } from '@okta/okta-auth-js';
+import { OktaAuth, OktaAuthOptions, Tokens } from '@okta/okta-auth-js';
 import pick from 'lodash/pick';
 import { h, render } from 'preact';
 
+import { OktaSignInAPI } from '../../../types';
 import { Widget } from '../components/Widget';
 import { JsonObject } from '../types';
 import {
@@ -23,10 +24,6 @@ import {
   WidgetProps,
 } from '../types/widget';
 import { RenderErrorCallback, RenderResult, RenderSuccessCallback } from '../../../types';
-
-// TODO: Once SIW is merged into okta-signin-widget repo, remove these
-// export type RenderResult = JsonObject;
-export type Tokens = JsonObject;
 
 console.debug(`${OKTA_SIW_VERSION}-g${OKTA_SIW_COMMIT_HASH.substring(0, 7)}`);
 
@@ -54,14 +51,14 @@ export default class OktaSignIn {
   /**
    * Instance of OktaAuth client
    */
-  readonly authClient: OktaAuth;
+  readonly authClient: OktaSignInAPI['authClient'];
 
   /**
    * Registered event handlers
    */
-  readonly events: {
+  private events: {
     [key in OktaWidgetEventType]: OktaWidgetEventHandler
-  } | Record<string, never>;
+  };
 
   el: string | null;
 
@@ -70,7 +67,11 @@ export default class OktaSignIn {
     this.options = options;
     this.el = null;
 
-    this.events = {};
+    this.events = {
+      ready: () => { },
+      afterRender: () => { },
+      afterError: () => { },
+    };
 
     // if authClient is set, authParams are disregarded
     if (options.authClient) {
@@ -155,8 +156,7 @@ export default class OktaSignIn {
         if (target) {
           // @ts-ignore OKTA-508744
           render(h(Widget, {
-            // @ts-expect-error
-            events: this.events,
+            events: this.events!,
             authClient: this.authClient,
             globalSuccessFn: onSuccessWrapper,
             globalErrorFn: onErrorWrapper,
@@ -175,7 +175,7 @@ export default class OktaSignIn {
   }
 
   showSignInToGetTokens(options = {}): Promise<Tokens> {
-    // @ts-expect-error
+    // @ts-expect-error isAuthorizationCodeFlow does not exist on type OktaAuth
     if (this.authClient.isAuthorizationCodeFlow() && this.authClient.isPKCE()) {
       throw new Error('"showSignInToGetTokens()" should not be used for authorization_code flow. Use "showSignInAndRedirect()" instead');
     }
@@ -203,16 +203,12 @@ export default class OktaSignIn {
     );
   }
 
-  // eslint-disable-next-line class-methods-use-this
   before(): void { }
 
-  // eslint-disable-next-line class-methods-use-this
   after(): void { }
 
-  // eslint-disable-next-line class-methods-use-this
   hide(): void { }
 
-  // eslint-disable-next-line class-methods-use-this
   show(): void { }
 
   remove(): void {
@@ -227,21 +223,19 @@ export default class OktaSignIn {
     }
   }
 
-  // eslint-disable-next-line class-methods-use-this
   getUser(): void { }
 
   on(eventName: OktaWidgetEventType, eventHandler: OktaWidgetEventHandler): void {
     this.events[eventName] = eventHandler;
   }
 
-  // eslint-disable-next-line class-methods-use-this
   off(): void { }
 
   private buildRenderOptions(
     options: WidgetProps & Record<string, string> = {},
   ): RenderOptions {
     const widgetOptions = this.options;
-    // @ts-ignore OKTA-508744
+    // @ts-expect-error OKTA-508744
     const authParams: OktaAuthOptions = {
       ...widgetOptions.authParams,
       ...{

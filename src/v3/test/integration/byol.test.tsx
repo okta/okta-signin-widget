@@ -109,8 +109,7 @@ describe('byol', () => {
       expect(container).toMatchSnapshot();
     });
 
-    it('should not load custom language when the language/assets.languages value is not provided '
-      + 'while assets.baseUrl is set to a path containing the language assets and navigator.languages containing language', async () => {
+    it('should not load custom language when the language/assets.languages value is not provided while assets.baseUrl is set to a path containing the language assets and navigator.languages containing language', async () => {
       const navigatorLanguagesSpy = jest.spyOn(global, 'navigator', 'get');
       navigatorLanguagesSpy.mockReturnValue(
         { languages: ['foo'] } as unknown as Navigator,
