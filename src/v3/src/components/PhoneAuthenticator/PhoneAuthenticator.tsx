@@ -159,7 +159,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
             className="no-translate"
             aria-hidden
           >
-            &nbsp;&#42;
+            {' *'}
           </Box>
         )}
         {required === false && (
@@ -223,7 +223,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
                 className="no-translate"
                 aria-hidden
               >
-                &nbsp;&#42;
+                {' *'}
               </Box>
             )}
             {required === false && (

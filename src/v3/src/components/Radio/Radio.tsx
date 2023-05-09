@@ -77,7 +77,7 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
               className="no-translate"
               aria-hidden
             >
-              &nbsp;&#42;
+              {' *'}
             </Box>
           )}
           {required === false && (

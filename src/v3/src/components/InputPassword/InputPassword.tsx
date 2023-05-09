@@ -93,7 +93,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
             className="no-translate"
             aria-hidden
           >
-            &nbsp;&#42;
+            {' *'}
           </Box>
         )}
         {required === false && (

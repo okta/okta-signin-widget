@@ -82,7 +82,7 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
                 className="no-translate"
                 aria-hidden
               >
-                &nbsp;&#42;
+                {' *'}
               </Box>
             )}
           </Fragment>

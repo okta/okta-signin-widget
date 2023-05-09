@@ -142,7 +142,7 @@ exports[`enroll-profile-update fails client side validation with empty required 
                   class="MuiBox-root emotion-8"
                 >
                   <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-22"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-25"
                     data-shrink="false"
                     for="userProfile.favoriteSport"
                   >
@@ -151,7 +151,7 @@ exports[`enroll-profile-update fails client side validation with empty required 
                       aria-hidden="true"
                       class="no-translate MuiBox-root emotion-8"
                     >
-                       *
+                       *
                     </span>
                   </label>
                   <div
@@ -190,7 +190,7 @@ exports[`enroll-profile-update fails client side validation with empty required 
                   class="MuiBox-root emotion-8"
                 >
                   <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-22"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-25"
                     data-shrink="false"
                     for="userProfile.newAttribute"
                   >
@@ -199,7 +199,7 @@ exports[`enroll-profile-update fails client side validation with empty required 
                       aria-hidden="true"
                       class="no-translate MuiBox-root emotion-8"
                     >
-                       *
+                       *
                     </span>
                   </label>
                   <div
@@ -361,7 +361,7 @@ exports[`enroll-profile-update should render form 1`] = `
                   class="MuiBox-root emotion-8"
                 >
                   <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-17"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-20"
                     data-shrink="false"
                     for="userProfile.favoriteSport"
                   >
@@ -370,7 +370,7 @@ exports[`enroll-profile-update should render form 1`] = `
                       aria-hidden="true"
                       class="no-translate MuiBox-root emotion-8"
                     >
-                       *
+                       *
                     </span>
                   </label>
                   <div
@@ -396,7 +396,7 @@ exports[`enroll-profile-update should render form 1`] = `
                   class="MuiBox-root emotion-8"
                 >
                   <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-17"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-20"
                     data-shrink="false"
                     for="userProfile.newAttribute"
                   >
@@ -405,7 +405,7 @@ exports[`enroll-profile-update should render form 1`] = `
                       aria-hidden="true"
                       class="no-translate MuiBox-root emotion-8"
                     >
-                       *
+                       *
                     </span>
                   </label>
                   <div

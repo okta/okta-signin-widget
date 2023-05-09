@@ -14,7 +14,9 @@ import { OktaAuth, OktaAuthOptions, Tokens } from '@okta/okta-auth-js';
 import pick from 'lodash/pick';
 import { h, render } from 'preact';
 
-import { OktaSignInAPI } from '../../../types';
+import {
+  OktaSignInAPI, RenderErrorCallback, RenderResult, RenderSuccessCallback,
+} from '../../../types';
 import { Widget } from '../components/Widget';
 import { JsonObject } from '../types';
 import {
@@ -23,7 +25,6 @@ import {
   RenderOptions,
   WidgetProps,
 } from '../types/widget';
-import { RenderErrorCallback, RenderResult, RenderSuccessCallback } from '../../../types';
 
 console.debug(`${OKTA_SIW_VERSION}-g${OKTA_SIW_COMMIT_HASH.substring(0, 7)}`);
 

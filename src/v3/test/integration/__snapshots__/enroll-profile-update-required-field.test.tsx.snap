@@ -142,7 +142,7 @@ exports[`enroll-profile-update-required-field fails client side validation with 
                   class="MuiBox-root emotion-8"
                 >
                   <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-22"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-25"
                     data-shrink="false"
                     for="userProfile.newAttribute"
                   >
@@ -176,7 +176,7 @@ exports[`enroll-profile-update-required-field fails client side validation with 
                   class="MuiBox-root emotion-8"
                 >
                   <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-22"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-25"
                     data-shrink="false"
                     for="userProfile.secondEmail"
                   >
@@ -224,7 +224,7 @@ exports[`enroll-profile-update-required-field fails client side validation with 
                   class="MuiBox-root emotion-8"
                 >
                   <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-22"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-38"
                     data-shrink="false"
                     for="userProfile.newAttribute2"
                   >
@@ -233,7 +233,7 @@ exports[`enroll-profile-update-required-field fails client side validation with 
                       aria-hidden="true"
                       class="no-translate MuiBox-root emotion-8"
                     >
-                       *
+                       *
                     </span>
                   </label>
                   <div
@@ -406,7 +406,7 @@ exports[`enroll-profile-update-required-field should render form with one requir
                   class="MuiBox-root emotion-8"
                 >
                   <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-17"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-20"
                     data-shrink="false"
                     for="userProfile.newAttribute"
                   >
@@ -440,7 +440,7 @@ exports[`enroll-profile-update-required-field should render form with one requir
                   class="MuiBox-root emotion-8"
                 >
                   <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-17"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-20"
                     data-shrink="false"
                     for="userProfile.secondEmail"
                   >
@@ -488,7 +488,7 @@ exports[`enroll-profile-update-required-field should render form with one requir
                   class="MuiBox-root emotion-8"
                 >
                   <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root emotion-17"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-33"
                     data-shrink="false"
                     for="userProfile.newAttribute2"
                   >
@@ -497,7 +497,7 @@ exports[`enroll-profile-update-required-field should render form with one requir
                       aria-hidden="true"
                       class="no-translate MuiBox-root emotion-8"
                     >
-                       *
+                       *
                     </span>
                   </label>
                   <div

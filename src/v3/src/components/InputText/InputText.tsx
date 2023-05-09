@@ -78,7 +78,7 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
             className="no-translate"
             aria-hidden
           >
-            &nbsp;&#42;
+            {' *'}
           </Box>
         )}
         {required === false && (
