@@ -22,16 +22,10 @@ import {
   RenderOptions,
   WidgetProps,
 } from '../types/widget';
+import { RenderErrorCallback, RenderResult, RenderSuccessCallback } from '../../../types';
 
-// TODO: Once SIW is merged into okta-signin-widget repo, remove these.
-export type RenderSuccessCallback = {
-  (res: JsonObject): void;
-};
-export type RenderErrorCallback = {
-  (args: Error): void;
-};
 // TODO: Once SIW is merged into okta-signin-widget repo, remove these
-export type RenderResult = JsonObject;
+// export type RenderResult = JsonObject;
 export type Tokens = JsonObject;
 
 console.debug(`${OKTA_SIW_VERSION}-g${OKTA_SIW_COMMIT_HASH.substring(0, 7)}`);
@@ -145,9 +139,9 @@ export default class OktaSignIn {
     this.el = el;
 
     return new Promise<RenderResult>((resolve, reject) => {
-      const onSuccessWrapper = (data: JsonObject): void => {
-        onSuccess?.(data);
-        resolve(data);
+      const onSuccessWrapper = (res: RenderResult): void => {
+        onSuccess?.(res);
+        resolve(res);
       };
       const onErrorWrapper = (err: Error): void => {
         onError?.(err);
@@ -181,6 +175,7 @@ export default class OktaSignIn {
   }
 
   showSignInToGetTokens(options = {}): Promise<Tokens> {
+    // @ts-expect-error
     if (this.authClient.isAuthorizationCodeFlow() && this.authClient.isPKCE()) {
       throw new Error('"showSignInToGetTokens()" should not be used for authorization_code flow. Use "showSignInAndRedirect()" instead');
     }
@@ -189,6 +184,7 @@ export default class OktaSignIn {
       ...this.buildRenderOptions(options),
       redirect: 'never',
     })
+      // @ts-expect-error
       .then((res) => res.tokens as JsonObject); // Remove this cast once merged into okta-signin-widget
   }
 
