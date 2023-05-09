@@ -23,7 +23,6 @@ describe('Flow transition from YubiKey verification to Password MFA', () => {
       user,
       findByTestId,
       findByText,
-      findByRole,
     } = await setup({
       widgetOptions: { features: { autoFocus: true } },
       mockResponses: {

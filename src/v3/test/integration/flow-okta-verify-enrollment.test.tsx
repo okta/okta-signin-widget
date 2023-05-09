@@ -102,7 +102,6 @@ describe('flow-okta-verify-enrollment', () => {
     const {
       authClient,
       user,
-      container,
       findByTestId,
       findByText,
       findByAltText,
@@ -185,7 +184,6 @@ describe('flow-okta-verify-enrollment', () => {
     const {
       authClient,
       user,
-      container,
       findByTestId,
       findByText,
       findByAltText,
