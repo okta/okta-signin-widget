@@ -85,8 +85,9 @@ const Button: UISchemaElementComponent<{
       ref={focusRef}
       disabled={loading || disabled}
       className={classes}
-        // Fixes text overflow
+      // Fixes text overflow
       sx={{ display: 'flex', whiteSpace: 'normal' }}
+      // @ts-expect-error ts doesnt like function component of button icon
       startIcon={loading ? <Spinner color="white" /> : ButtonImageIcon}
       aria-describedby={ariaDescribedBy}
       data-type={dataType}

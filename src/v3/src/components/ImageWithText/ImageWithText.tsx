@@ -19,7 +19,7 @@ import { ImageWithTextElement, UISchemaElementComponent } from 'src/types';
 const ImageWithText: UISchemaElementComponent<{
   uischema: ImageWithTextElement
 }> = ({ uischema }) => {
-  const iconUrl = uischema.options.SVGIcon; // FIXME
+  const Icon = uischema.options.SVGIcon; // FIXME
   const { noTranslate } = uischema;
   const { textContent, alignment = 'flex-start' } = uischema.options;
 
@@ -40,10 +40,8 @@ const ImageWithText: UISchemaElementComponent<{
         marginInlineEnd={2}
         data-se={`icon-${uischema.options.id}`}
       >
-        <img
-          src={iconUrl}
-          alt=""
-        />
+        {/* @ts-expect-error Doesnt like that type is a function component */}
+        <Icon />
       </Box>
       {
         textContent

@@ -25,6 +25,7 @@ import { ClickHandler } from './handlers';
 import { Modify } from './jsonforms';
 import { ListItem, PasswordSettings } from './password';
 import { UserInfo } from './userInfo';
+import { FunctionComponent } from 'preact';
 
 type GeneralDataSchemaBag = Record<string, DataSchema>;
 
@@ -276,7 +277,8 @@ export interface ButtonElement extends UISchemaElement {
     ariaLabel?: string;
     classes?: string;
     disabled?: boolean;
-    Icon?: FunctionComponent;
+    Icon?: FunctionComponent | string;
+    iconAlt?: string;
     onClick?: (widgetContext: IWidgetContext) => unknown;
   };
 }
@@ -458,7 +460,7 @@ export interface ImageWithTextElement extends UISchemaElement {
   type: 'ImageWithText';
   options: {
     id: string;
-    SVGIcon: string;
+    SVGIcon: FunctionComponent;
     textContent?: string;
     alignment?: string;
   };
