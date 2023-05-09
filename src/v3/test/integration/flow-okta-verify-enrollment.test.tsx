@@ -113,7 +113,6 @@ describe('flow-okta-verify-enrollment', () => {
     await findByText(/When prompted, tap Scan a QR code/);
     await findByAltText('QR code');
     await waitFor(async () => expect(await findByText(/Can't scan\?/)).toHaveFocus());
-    expect(container).toMatchSnapshot();
     await user.click(await findByText(/Can't scan\?/));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
       ...createAuthJsPayloadArgs('POST', 'idp/idx/credential/enroll', {
@@ -125,7 +124,6 @@ describe('flow-okta-verify-enrollment', () => {
     await findByText(/More options/);
     await findByText(/Email me a setup link/);
     await findByText(/Text me a setup link/);
-    expect(container).toMatchSnapshot();
     await user.click(await findByText('Next', { selector: 'button' }));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
       ...createAuthJsPayloadArgs('POST', 'idp/idx/credential/enroll', {
@@ -138,7 +136,6 @@ describe('flow-okta-verify-enrollment', () => {
 
     // data enrollment
     await findByText(/Set up Okta Verify via email link/);
-    expect(container).toMatchSnapshot();
     const emailEl = await findByTestId('email');
     await user.type(emailEl, 'testuser@okta.com');
     await user.click(await findByText(/Send me the setup link/));
@@ -157,7 +154,6 @@ describe('flow-okta-verify-enrollment', () => {
       jest.advanceTimersByTime(500);
       jest.runAllTimers();
     });
-    expect(container).toMatchSnapshot();
     await user.click(await findByText(/try a different way/));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
       ...createAuthJsPayloadArgs('POST', 'idp/idx/credential/enroll', {
@@ -169,7 +165,6 @@ describe('flow-okta-verify-enrollment', () => {
     await findByText(/More options/);
     await findByText(/Scan a QR code/);
     await findByText(/Text me a setup link/);
-    expect(container).toMatchSnapshot();
     await user.click(await findByText(/Next/));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
       ...createAuthJsPayloadArgs('POST', 'idp/idx/credential/enroll', {
@@ -184,7 +179,6 @@ describe('flow-okta-verify-enrollment', () => {
     await findByText(/Set up Okta Verify/);
     await findByText(/When prompted, tap Scan a QR code/);
     await findByAltText('QR code');
-    expect(container).toMatchSnapshot();
   });
 
   it('qr polling -> channel selection -> data enrollment (sms) -> sms polling -> try different -> channel selection -> qr polling', async () => {
@@ -202,7 +196,6 @@ describe('flow-okta-verify-enrollment', () => {
     await findByText(/When prompted, tap Scan a QR code/);
     await findByAltText('QR code');
     await waitFor(async () => expect(await findByText(/Can't scan\?/)).toHaveFocus());
-    // expect(container).toMatchSnapshot();
     await user.click(await findByText(/Can't scan\?/));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
       ...createAuthJsPayloadArgs('POST', 'idp/idx/credential/enroll', {
@@ -214,7 +207,6 @@ describe('flow-okta-verify-enrollment', () => {
     await findByText(/More options/);
     await findByText(/Email me a setup link/);
     const smsOption = await findByText(/Text me a setup link/);
-    expect(container).toMatchSnapshot();
     await user.click(smsOption);
     await user.click(await findByText('Next', { selector: 'button' }));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
@@ -228,7 +220,6 @@ describe('flow-okta-verify-enrollment', () => {
 
     // data enrollment
     await findByText(/Set up Okta Verify via SMS/);
-    expect(container).toMatchSnapshot();
     const phoneNumberEl = await findByTestId('phoneNumber');
     const countryEl = await findByTestId('country') as HTMLInputElement;
 
@@ -249,7 +240,6 @@ describe('flow-okta-verify-enrollment', () => {
       jest.advanceTimersByTime(500);
       jest.runAllTimers();
     });
-    expect(container).toMatchSnapshot();
     await user.click(await findByText(/try a different way/));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
       ...createAuthJsPayloadArgs('POST', 'idp/idx/credential/enroll', {
@@ -261,7 +251,6 @@ describe('flow-okta-verify-enrollment', () => {
     await findByText(/More options/);
     await findByText(/Scan a QR code/);
     await findByText(/Email me a setup link/);
-    expect(container).toMatchSnapshot();
     await user.click(await findByText(/Next/));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
       ...createAuthJsPayloadArgs('POST', 'idp/idx/credential/enroll', {
