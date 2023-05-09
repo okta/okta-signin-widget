@@ -49,6 +49,7 @@ import {
 import { transformWebAuthNAuthenticator } from '../webauthn';
 import { transformYubikeyOtpAuthenticator } from '../yubikey';
 import { transformDuoAuthenticator } from './duo';
+import { transformSymantecVipAuthenticator } from './symantecVip';
 import {
   transformEmailAuthenticatorEnroll,
   transformEmailAuthenticatorVerify,
@@ -136,6 +137,13 @@ const TransformerMap: {
     },
   },
   [IDX_STEP.CHALLENGE_AUTHENTICATOR]: {
+    [AUTHENTICATOR_KEY.SYMANTEC_VIP]: {
+      transform: transformSymantecVipAuthenticator,
+      buttonConfig: { 
+        showDefaultSubmit: false,
+        showVerifyWithOtherLink: true,
+      },
+    },
     [AUTHENTICATOR_KEY.DUO]: {
       transform: transformDuoAuthenticator,
       buttonConfig: { showDefaultSubmit: false },
@@ -239,6 +247,13 @@ const TransformerMap: {
     },
   },
   [IDX_STEP.ENROLL_AUTHENTICATOR]: {
+    [AUTHENTICATOR_KEY.SYMANTEC_VIP]: {
+      transform: transformSymantecVipAuthenticator,
+      buttonConfig: { 
+        showDefaultSubmit: false,
+        showReturnToAuthListLink: true,
+      },
+    },
     [AUTHENTICATOR_KEY.DUO]: {
       transform: transformDuoAuthenticator,
       buttonConfig: { showDefaultSubmit: false },
