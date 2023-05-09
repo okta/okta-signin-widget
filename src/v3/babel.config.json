@@ -1,0 +1,16 @@
+{	
+  "presets": [	
+    [	
+      "@okta/odyssey-babel-preset",	
+      {	
+        "odyssey": {},	
+        "react": {	
+          "runtime": "classic"	
+        }	
+      }	
+    ]	
+  ],	
+  "plugins": [	
+    "@babel/plugin-transform-runtime"	
+  ]	
+}
