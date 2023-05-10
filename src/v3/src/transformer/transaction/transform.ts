@@ -13,11 +13,12 @@
 import { APIError, IdxRemediation } from '@okta/okta-auth-js';
 import { flow } from 'lodash';
 
-import { IDX_STEP } from '../../constants';
+import { AUTHENTICATOR_KEY, IDX_STEP } from '../../constants';
 import { RegistrationElementSchema, TransformStepFnWithOptions } from '../../types';
 import {
   convertIdxInputsToRegistrationSchema,
   convertRegistrationSchemaToIdxInputs,
+  getAuthenticatorKey,
   parseRegistrationSchema,
   triggerRegistrationErrorMessages,
 } from '../../util';
@@ -25,14 +26,24 @@ import {
 export const PIV_TYPE = 'X509';
 
 const transformRemediationNameForIdp: TransformStepFnWithOptions = (options) => (formbag) => {
-  const { transaction: { neededToProceed: remediations, nextStep } } = options;
+  const { transaction } = options;
+  const { neededToProceed: remediations, nextStep, context } = transaction;
   if (!remediations.length) {
     return formbag;
   }
 
+  if (nextStep?.name === IDX_STEP.REDIRECT_IDP
+    && getAuthenticatorKey(transaction) === AUTHENTICATOR_KEY.IDP) {
+    // idp authenticator
+    const isVerifyFlow = Object.prototype.hasOwnProperty.call(context, 'currentAuthenticatorEnrollment');
+    const newRemediationName = isVerifyFlow ? 'challenge-authenticator' : 'enroll-authenticator';
+    nextStep!.name = newRemediationName;
+    // This is so the correct authenticator transformer is reached in idxTransformerMapping.ts
+    options.step = newRemediationName;
+  }
+
   // update Remediations array
   remediations.forEach((remediation: IdxRemediation) => {
-    // TODO: OKTA-504638 Can Add IDP remediation name renaming logic here
     if (remediation.name === IDX_STEP.REDIRECT_IDP && remediation.type === PIV_TYPE) {
       // piv idp
       remediation.name = IDX_STEP.PIV_IDP;
@@ -45,6 +56,54 @@ const transformRemediationNameForIdp: TransformStepFnWithOptions = (options) => 
   if (nextStep?.name === IDX_STEP.REDIRECT_IDP && isPivType) {
     nextStep.name = IDX_STEP.PIV_IDP;
     options.step = IDX_STEP.PIV_IDP;
+  }
+
+  return formbag;
+};
+
+/**
+ * To support `idps` configuration in OIE.  Adds IDP buttons from widget config.
+ * https://github.com/okta/okta-signin-widget#openid-connect
+ */
+const injectIdPConfigButtonToRemediation: TransformStepFnWithOptions = (options) => (formbag) => {
+  const { transaction, widgetProps } = options;
+  const widgetRemediations = transaction.neededToProceed;
+  const hasIdentifyRemediation = widgetRemediations.some((r) => r.name === IDX_STEP.IDENTIFY);
+  if (!hasIdentifyRemediation) {
+    return formbag;
+  }
+
+  // @ts-expect-error OKTA-609461 - idps missing from WidgetOptions type
+  const idpsConfig = widgetProps.idps;
+  if (Array.isArray(idpsConfig)) {
+    const existsRedirectIdpIds: Record<string, boolean> = {};
+    widgetRemediations.forEach((r) => {
+      if (r.name === IDX_STEP.REDIRECT_IDP && r.idp) {
+        existsRedirectIdpIds[r.idp.id] = true;
+      }
+    });
+    const { baseUrl } = widgetProps;
+    const { stateHandle } = transaction.context;
+    const redirectIdpRemediations = idpsConfig
+      .filter((c) => !existsRedirectIdpIds[c.id]) // omit idps that are already in remediation.
+      .map((idpConfig) => {
+        const idp = {
+          id: idpConfig.id,
+          name: idpConfig.text,
+        };
+        const redirectUri = `${baseUrl}/sso/idps/${idpConfig.id}?stateToken=${stateHandle}`;
+        if (idpConfig.className) {
+          // @ts-expect-error OKTA-609464 - className missing from IdpConfig type
+          idp.className = idpConfig.className;
+        }
+        return {
+          name: IDX_STEP.REDIRECT_IDP,
+          type: idpConfig.type,
+          idp,
+          href: redirectUri,
+        };
+      });
+    transaction.neededToProceed = widgetRemediations.concat(redirectIdpRemediations);
   }
 
   return formbag;
@@ -88,4 +147,5 @@ const transformRegistrationSchema: TransformStepFnWithOptions = (options) => (fo
 export const transformTransactionData: TransformStepFnWithOptions = (options) => (formbag) => flow(
   transformRemediationNameForIdp(options),
   transformRegistrationSchema(options),
+  injectIdPConfigButtonToRemediation(options),
 )(formbag);

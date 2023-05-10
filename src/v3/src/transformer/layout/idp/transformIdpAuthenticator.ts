@@ -42,8 +42,8 @@ export const transformIdpAuthenticator: IdxStepTransformer = ({ formBag, transac
     contentType: 'subtitle',
     options: {
       content: isEnrollStep
-      ? loc('oie.idp.enroll.description', 'login', [displayName])
-      : loc('oie.idp.challenge.description', 'login', [displayName]),
+        ? loc('oie.idp.enroll.description', 'login', [displayName])
+        : loc('oie.idp.challenge.description', 'login', [displayName]),
     },
   };
 
@@ -58,7 +58,7 @@ export const transformIdpAuthenticator: IdxStepTransformer = ({ formBag, transac
       isActionStep: false,
       onClick: () => {
         Util.redirectWithFormGet(nextStep?.href);
-      }
+      },
     },
   };
 

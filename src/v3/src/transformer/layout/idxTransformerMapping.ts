@@ -61,6 +61,10 @@ import {
   transformGoogleAuthenticatorVerify,
 } from './googleAuthenticator';
 import {
+  transformIdpAuthenticator,
+  transformIdpRedirect,
+} from './idp';
+import {
   transformOktaVerifyDeviceChallengePoll,
   transformOktaVerifyFPLaunchAuthenticator,
   transformOktaVerifyFPLoopbackPoll,
@@ -166,6 +170,10 @@ const TransformerMap: {
     },
     [AUTHENTICATOR_KEY.GOOGLE_OTP]: {
       transform: transformGoogleAuthenticatorVerify,
+      buttonConfig: { showDefaultSubmit: false },
+    },
+    [AUTHENTICATOR_KEY.IDP]: {
+      transform: transformIdpAuthenticator,
       buttonConfig: { showDefaultSubmit: false },
     },
     [AUTHENTICATOR_KEY.PASSWORD]: {
@@ -277,6 +285,10 @@ const TransformerMap: {
       transform: transformGoogleAuthenticatorEnroll,
       buttonConfig: { showDefaultSubmit: false },
     },
+    [AUTHENTICATOR_KEY.IDP]: {
+      transform: transformIdpAuthenticator,
+      buttonConfig: { showDefaultSubmit: false },
+    },
     [AUTHENTICATOR_KEY.PASSWORD]: {
       transform: transformEnrollPasswordAuthenticator,
     },
@@ -366,6 +378,12 @@ const TransformerMap: {
   [IDX_STEP.PIV_IDP]: {
     [AUTHENTICATOR_KEY.DEFAULT]: {
       transform: transformPIVAuthenticator,
+      buttonConfig: { showDefaultSubmit: false },
+    },
+  },
+  [IDX_STEP.REDIRECT_IDP]: {
+    [AUTHENTICATOR_KEY.DEFAULT]: {
+      transform: transformIdpRedirect,
       buttonConfig: { showDefaultSubmit: false },
     },
   },

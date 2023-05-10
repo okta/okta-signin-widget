@@ -16,7 +16,6 @@ import { TransformStepFnWithOptions } from '../../types';
 import { transformCancelButton } from './transformCancelButton';
 import { transformForgotPasswordButton } from './transformForgotPasswordButton';
 import { transformIDPButtons } from './transformIDPButtons';
-import { transformLaunchAuthenticatorButton } from './transformLaunchAuthenticatorButton';
 import { transformRegisterButton } from './transformRegisterButton';
 import { transformReturnToAuthenticatorListButton } from './transformReturnToAuthenticatorListButton';
 import { transformSubmitButton } from './transformSubmitButton';
@@ -32,5 +31,4 @@ export const transformButtons: TransformStepFnWithOptions = (options) => (formba
   transformRegisterButton(options),
   transformCancelButton(options),
   transformIDPButtons(options),
-  transformLaunchAuthenticatorButton(options),
 )(formbag);
