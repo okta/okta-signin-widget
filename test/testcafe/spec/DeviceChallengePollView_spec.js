@@ -386,6 +386,9 @@ test
 test
   // .meta('flaky', true)
   .requestHooks(loopbackChallengeErrorLogger, loopbackChallengeErrorMock)('in loopback server approach, will cancel polling when challenge errors out', async t => {
+    // disable concurrency for this test
+    t.ctx.concurrency = 1;
+
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
     await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
