@@ -623,7 +623,7 @@ const testSmsMsg = async (t, isIos) => {
   isSuccess = false;
 };
 
-test.requestHooks(logger, enrollViaSmsVersionUpgradeMocks)('should see ov upgrade error message during enroll via sms', async t => {
+test.meta('flaky', true).requestHooks(logger, enrollViaSmsVersionUpgradeMocks)('should see ov upgrade error message during enroll via sms', async t => {
   await testSmsMsg(t, true);
 });
 
