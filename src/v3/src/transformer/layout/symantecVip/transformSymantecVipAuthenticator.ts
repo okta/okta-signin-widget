@@ -14,13 +14,13 @@ import { NextStep } from '@okta/okta-auth-js';
 
 import { IDX_STEP } from '../../../constants';
 import {
-  IdxStepTransformer,
-  TitleElement,
-  DescriptionElement,
   ButtonElement,
   ButtonType,
+  DescriptionElement,
+  IdxStepTransformer,
+  TitleElement,
 } from '../../../types';
-import { loc, getDisplayName } from '../../../util';
+import { getDisplayName, loc } from '../../../util';
 
 export const transformSymantecVipAuthenticator: IdxStepTransformer = ({
   formBag,
@@ -37,8 +37,8 @@ export const transformSymantecVipAuthenticator: IdxStepTransformer = ({
     type: 'Title',
     options: {
       content: stepName === IDX_STEP.ENROLL_AUTHENTICATOR
-      ? loc('oie.symantecVip.enroll.title', 'login', [authenticatorVendorName])
-      : loc('oie.symantecVip.challenge.title', 'login', [authenticatorVendorName]),
+        ? loc('oie.symantecVip.enroll.title', 'login', [authenticatorVendorName])
+        : loc('oie.symantecVip.challenge.title', 'login', [authenticatorVendorName]),
     },
   };
 
@@ -47,8 +47,8 @@ export const transformSymantecVipAuthenticator: IdxStepTransformer = ({
     contentType: 'subtitle',
     options: {
       content: stepName === IDX_STEP.ENROLL_AUTHENTICATOR
-      ? loc('oie.symantecVip.enroll.description', 'login', [authenticatorVendorName])
-      : loc('oie.symantecVip.challenge.description', 'login', [authenticatorVendorName]),
+        ? loc('oie.symantecVip.enroll.description', 'login', [authenticatorVendorName])
+        : loc('oie.symantecVip.challenge.description', 'login', [authenticatorVendorName]),
     },
   };
 

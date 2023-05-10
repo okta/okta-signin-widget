@@ -49,7 +49,6 @@ import {
 import { transformWebAuthNAuthenticator } from '../webauthn';
 import { transformYubikeyOtpAuthenticator } from '../yubikey';
 import { transformDuoAuthenticator } from './duo';
-import { transformSymantecVipAuthenticator } from './symantecVip';
 import {
   transformEmailAuthenticatorEnroll,
   transformEmailAuthenticatorVerify,
@@ -76,6 +75,7 @@ import {
   transformSecurityQuestionEnroll,
   transformSecurityQuestionVerify,
 } from './securityQuestion';
+import { transformSymantecVipAuthenticator } from './symantecVip';
 
 /**
  * TransformerMap
@@ -137,13 +137,6 @@ const TransformerMap: {
     },
   },
   [IDX_STEP.CHALLENGE_AUTHENTICATOR]: {
-    [AUTHENTICATOR_KEY.SYMANTEC_VIP]: {
-      transform: transformSymantecVipAuthenticator,
-      buttonConfig: { 
-        showDefaultSubmit: false,
-        showVerifyWithOtherLink: true,
-      },
-    },
     [AUTHENTICATOR_KEY.DUO]: {
       transform: transformDuoAuthenticator,
       buttonConfig: { showDefaultSubmit: false },
@@ -177,6 +170,12 @@ const TransformerMap: {
     [AUTHENTICATOR_KEY.SECURITY_QUESTION]: {
       transform: transformSecurityQuestionVerify,
       buttonConfig: { showDefaultSubmit: false },
+    },
+    [AUTHENTICATOR_KEY.SYMANTEC_VIP]: {
+      transform: transformSymantecVipAuthenticator,
+      buttonConfig: {
+        showDefaultSubmit: false,
+      },
     },
     [AUTHENTICATOR_KEY.WEBAUTHN]: {
       transform: transformWebAuthNAuthenticator,
@@ -247,13 +246,6 @@ const TransformerMap: {
     },
   },
   [IDX_STEP.ENROLL_AUTHENTICATOR]: {
-    [AUTHENTICATOR_KEY.SYMANTEC_VIP]: {
-      transform: transformSymantecVipAuthenticator,
-      buttonConfig: { 
-        showDefaultSubmit: false,
-        showReturnToAuthListLink: true,
-      },
-    },
     [AUTHENTICATOR_KEY.DUO]: {
       transform: transformDuoAuthenticator,
       buttonConfig: { showDefaultSubmit: false },
@@ -280,6 +272,12 @@ const TransformerMap: {
     [AUTHENTICATOR_KEY.SECURITY_QUESTION]: {
       transform: transformSecurityQuestionEnroll,
       buttonConfig: { showDefaultSubmit: false },
+    },
+    [AUTHENTICATOR_KEY.SYMANTEC_VIP]: {
+      transform: transformSymantecVipAuthenticator,
+      buttonConfig: {
+        showDefaultSubmit: false,
+      },
     },
     [AUTHENTICATOR_KEY.WEBAUTHN]: {
       transform: transformWebAuthNAuthenticator,

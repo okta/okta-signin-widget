@@ -35,7 +35,7 @@ describe('SymantecVip Authenticator Transformer Tests', () => {
       {
         type: 'Field',
         label: 'Fake Label 2',
-      }
+      },
     ];
     widgetProps = {};
   });
