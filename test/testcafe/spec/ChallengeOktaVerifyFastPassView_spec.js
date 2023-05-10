@@ -68,7 +68,14 @@ const loopbackBiometricsErrorMobileMock = RequestMock()
       res.statusCode = '200';
       res.setBody(identifyWithUserVerificationLoopback);
     }
-  });
+  })
+  .onRequestTo(/2000|6511|6512|6513\/probe/)
+  .respond(null, 500, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
+  })
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll\/cancel/)
+  .respond(identifyWithUserVerificationLoopback);
 
 const loopbackBiometricsErrorDesktopMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/introspect/)
@@ -83,7 +90,14 @@ const loopbackBiometricsErrorDesktopMock = RequestMock()
       res.statusCode = '200';
       res.setBody(identifyWithUserVerificationLoopback);
     }
-  });
+  })
+  .onRequestTo(/2000|6511|6512|6513\/probe/)
+  .respond(null, 500, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
+  })
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll\/cancel/)
+  .respond(identifyWithUserVerificationLoopback);
 
 const loopbackBiometricsNoResponseErrorLogger = RequestLogger(
   /introspect|probe|cancel|challenge|poll/,
@@ -218,7 +232,6 @@ async function setupLoopbackFallback(t) {
 }
 
 test
-  // .meta('flaky', true)
   .requestHooks(loopbackSuccessLogger, loopbackSuccesskMock)('in loopback server approach, probing and polling requests are sent and responded', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
@@ -304,9 +317,6 @@ test
 
 test
   .requestHooks(loopbackBiometricsErrorDesktopMock)('show biometrics error for desktop platform in loopback', async t => {
-    // disable concurrency for this test
-    t.ctx.concurrency = 1;
-
     probeSuccess = false;
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
