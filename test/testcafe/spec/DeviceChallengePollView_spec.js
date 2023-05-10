@@ -384,6 +384,7 @@ test
   });
 
 test
+  .meta('flaky', true)
   .requestHooks(loopbackChallengeErrorLogger, loopbackChallengeErrorMock)('in loopback server approach, will cancel polling when challenge errors out', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
@@ -462,6 +463,7 @@ test
   });
 
 test
+  .meta('flaky', true)
   .requestHooks(loopbackSuccessLogger, loopbackSuccessButNotAssignedAppMock)('loopback succeeds but user is not assigned to app, then clicks cancel link', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
