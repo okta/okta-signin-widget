@@ -1,4 +1,4 @@
-import { RequestMock, RequestLogger, Selector, ClientFunction } from 'testcafe';
+import { RequestMock, RequestLogger, Selector, ClientFunction, userVariables } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import { checkConsoleMessages } from '../framework/shared';
@@ -60,7 +60,7 @@ const renderWidget = ClientFunction((settings) => {
   window.renderPlaygroundWidget(settings);
 });
 
-fixture('Identify + IDPs');
+fixture('Identify + IDPs').meta('v3', true);
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
@@ -77,7 +77,8 @@ async function setupDirectAuth(t) {
     codeChallenge: 'abc', // cannot do PKCE calcs on http://localhost
     authParams: {
       pkce: true // required for interaction code flow
-    }
+    },
+    authScheme: 'oauth2',
   });
   await identityPage.form.el.exists;
   return identityPage;
@@ -92,24 +93,24 @@ test.requestHooks(mockWithIdentify) ('should render idp buttons with identifier 
     formName: 'identify',
   });
 
-  await t.expect(identityPage.identifierFieldExists('.o-form-input .input-fix input')).eql(true);
-  await t.expect(identityPage.getIdpButton('.social-auth-facebook-button').textContent).eql('Sign in with Facebook');
-  await t.expect(identityPage.getIdpButton('.social-auth-google-button').textContent).eql('Sign in with Google');
-  await t.expect(identityPage.getIdpButton('.social-auth-linkedin-button').textContent).eql('Sign in with LinkedIn');
-  await t.expect(identityPage.getIdpButton('.social-auth-microsoft-button').textContent).eql('Sign in with Microsoft');
+  await t.expect(identityPage.identifierFieldExistsForIdpView()).eql(true);
+  await t.expect(identityPage.getIdpButton('Sign in with Facebook').exists).eql(true);
+  await t.expect(identityPage.getIdpButton('Sign in with Google').exists).eql(true);
+  await t.expect(identityPage.getIdpButton('Sign in with LinkedIn').exists).eql(true);
+  await t.expect(identityPage.getIdpButton('Sign in with Microsoft').exists).eql(true);
 });
 
 test
   .requestHooks(mockWithIdentify)('clicking on idp button does redirect ', async t => {
     const identityPage = await setup(t);
     await checkA11y(t);
-    await t.expect(identityPage.identifierFieldExists('.o-form-input .input-fix input')).eql(true);
-    await t.expect(identityPage.getIdpButton('.social-auth-facebook-button').textContent).eql('Sign in with Facebook');
-    await t.expect(identityPage.getIdpButton('.social-auth-google-button').textContent).eql('Sign in with Google');
-    await t.expect(identityPage.getIdpButton('.social-auth-linkedin-button').textContent).eql('Sign in with LinkedIn');
-    await t.expect(identityPage.getIdpButton('.social-auth-microsoft-button').textContent).eql('Sign in with Microsoft');
+    await t.expect(identityPage.identifierFieldExistsForIdpView()).eql(true);
+    await t.expect(identityPage.getIdpButton('Sign in with Facebook').exists).eql(true);
+    await t.expect(identityPage.getIdpButton('Sign in with Google').exists).eql(true);
+    await t.expect(identityPage.getIdpButton('Sign in with LinkedIn').exists).eql(true);
+    await t.expect(identityPage.getIdpButton('Sign in with Microsoft').exists).eql(true);
     //click on social idp button
-    await identityPage.clickIdpButton('.social-auth-facebook-button');
+    await identityPage.clickIdpButton('Sign in with Facebook');
     const pageUrl = await identityPage.getPageUrl();
     await t.expect(pageUrl)
       .eql('http://localhost:3000/sso/idps/facebook-123?stateToken=eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25rZXkiLCJ2ZXIiOiIxIiwib2lkIjoiMDBvczI0VHZiWHlqOVFLSm4wZzMiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0..aDi6JnIZwCRzk7RN.xQ1R9jj43bV5S17F1juzgTZGd9Gq7VvuE4Hc1V_tMVcTWiVQ1Ntim1tQPZtmnpfOifu-N_quGGDSdgiidb_2xU1m9SbDMJhV-Yp6E07tABwjaRd_ekuRzDFw7Jxknz33LtSwQOTQ-WiH2o6JikLiEz2BQbgoizIc2izbtdod7HJg0HVnMZ9ZlBqyBG1-EISI_xPypq8uzP8n79hP_Zz41RI7VJA35yfTuNLOX_k6B-mfeVKf4HyFsKm62XWQgcPIxhjxBMqmyZow2toNclV3sIqgw7I5tKCLQSmSnKbFxxuT4-G31BdaVOALAe9Z89zlluTYaKAPOr86RMsqaGKnQFaplc_0PiPbreKhVgvSeeJgqX2RwnLgckLLiRo7TRDs2kLhGY2ope0AeA9TSsTVdJzsScftZWKgh9iHpXjS-kGcbRx0etu4iTtbHOu3rDIfIcvvt55mfvA66wzy1CCxHt4WYNnBKHX0fIOW_fa_-RYGYug9YRV5G6nQ6V-CfHoxmEsMhsoFJu0hei34_SJv15w2l3vxxBytrWSWi5qUfm5zGjNlx8e9n1Sf_eAqXCfLhBLK4_14jwtjNbWOZCdg5dwzxQiQWDItBjijEjdQrK0i6tw2Rp-IMJD1-4_ZfFZDmAXgZZtBYc3kdmumgYpKeYUJJgw0ZJWoG-Xr0bbzGGMx46yHzMpDbSTpiWhKGytQPbNja8sf_eeOKx_AAosamDUub9yuZJb0-Nj0xvXZ89J0m_09wa2Z3G-zY01sv9ONkXMFzRVwAb2bHmGle082bq33-7Klk7_ZzzkBROJhgDHQcw5QibGWaqYqscgKv2NQV8ebGJO_BHU46p1T3MQzStxRZ2EZua9qQwsmL8P5yboNDt2YmYnUvaOcGfeAqwgovqNDQ0H4u-D5psFmiU1STLOlN5pSAauKe4VxlLxphiirrmiNOOOW0XTwaQ1vtPz8gFlXsmGB-0zcsySG6A6HJ49eOeEI0J2REy2dlFRxzdKthANM2xFc_AIgas9mcNhSWtmVEtMxv7N0xqGAJbxaJC6U4kDDXdImZVaovz4lgRFkIh3aUXgUMX558u9MBeF6Q7z3piIpT6A4I1ww_eDNM02Vew.inRUXNhsc6Evt7GAb8DPAA');
@@ -125,20 +126,22 @@ test.requestHooks(mockWithoutIdentify)('should only render idp buttons with iden
     formName: 'redirect-idp',
   });
 
-  await t.expect(identityPage.identifierFieldExists('.o-form-input .input-fix input')).eql(false);
-  await t.expect(identityPage.getIdpButton('.social-auth-facebook-button').textContent).eql('Sign in with Facebook');
-  await t.expect(identityPage.getIdpButton('.social-auth-google-button').textContent).eql('Sign in with Google');
-  await t.expect(identityPage.getIdpButton('.social-auth-linkedin-button').textContent).eql('Sign in with LinkedIn');
-  await t.expect(identityPage.getIdpButton('.social-auth-microsoft-button').textContent).eql('Sign in with Microsoft');
+  await t.expect(identityPage.identifierFieldExistsForIdpView()).eql(false);
+  await t.expect(identityPage.getIdpButton('Sign in with Facebook').exists).eql(true);
+  await t.expect(identityPage.getIdpButton('Sign in with Google').exists).eql(true);
+  await t.expect(identityPage.getIdpButton('Sign in with LinkedIn').exists).eql(true);
+  await t.expect(identityPage.getIdpButton('Sign in with Microsoft').exists).eql(true);
 });
 
 test.requestHooks(logger, mockOnlyOneIdp)('should auto redirect to 3rd party IdP login page with basic Signing in message', async t => {
   await setup(t);
 
-  await checkConsoleMessages({
-    controller: null,
-    formName: 'success-redirect',
-  });
+  if(!userVariables.v3) {
+    await checkConsoleMessages({
+      controller: null,
+      formName: 'success-redirect',
+    });
+  }
 
   // assert redirect to IdP login page eventually
   await t.expect(Selector('h1').innerText).eql('An external IdP login page for testcafe testing');
@@ -159,19 +162,20 @@ test.requestHooks(logger, mockOnlyOneIdp)('Direct auth: does not auto redirect t
     formName: 'redirect-idp',
   });
 
-  await t.expect(identityPage.identifierFieldExists('.o-form-input .input-fix input')).eql(false); // no username field
-  await t.expect(identityPage.getIdpButton('.social-auth-facebook-button').textContent).eql('Sign in with Facebook'); // has FB button
-  await t.expect(identityPage.getIdpsContainer().childElementCount).eql(1); // only one IDP button
+  await t.expect(identityPage.identifierFieldExistsForIdpView()).eql(false); // no username field
+  await t.expect(identityPage.getIdpButton('Sign in with Facebook').exists).eql(true); // has FB button
+  await t.expect(identityPage.getIdpButtonCount()).eql(1); // only one IDP button
 });
 
 test.requestHooks(logger, mockOnlyOneIdpAppUser)('should auto redirect to 3rd party IdP login page with Signing in longer message', async t => {
   await setup(t);
 
-  await checkConsoleMessages({
-    controller: null,
-    formName: 'success-redirect',
-  });
-
+  if (!userVariables.v3) {
+    await checkConsoleMessages({
+      controller: null,
+      formName: 'success-redirect',
+    });
+  }
   // assert redirect to IdP login page eventually
   await t.expect(Selector('h1').innerText).eql('An external IdP login page for testcafe testing');
   const pageUrl = await ClientFunction(() => window.location.href)();
@@ -202,7 +206,7 @@ test.requestHooks(logger, mockIdpDiscoveryWithOneIdp)('IDP discovery will auto r
 
 test.requestHooks(logger, mockIdpDiscoveryWithOneIdp)('Direct auth: IDP discovery will auto redirect to 3rd party IDP after identify with name', async t => {
   const identityPage = await setupDirectAuth(t);
-
+  await t.expect(identityPage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: 'primary-auth',
     formName: 'identify',
@@ -222,15 +226,15 @@ test.requestHooks(logger, mockIdpDiscoveryWithOneIdp)('Direct auth: IDP discover
 test.requestHooks(logger, mockWithoutIdentify)('custom idps should show correct label', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
-  await t.expect(identityPage.getIdpsContainer().childElementCount).eql(6);
-  await t.expect(identityPage.getCustomIdpButtonLabel(0)).contains('Sign in with My SAML IDP');
-  await t.expect(identityPage.getCustomIdpButtonLabel(1)).eql('Sign in with SAML IDP');
+  await t.expect(identityPage.getIdpButtonCount()).eql(6);
+  await t.expect(identityPage.getIdpButton('Sign in with My SAML IDP').exists).eql(true);
+  await t.expect(identityPage.getIdpButton('Sign in with SAML IDP').exists).eql(true);
 });
 
 test.requestHooks(logger, mockWithoutIdentify)('view with only idp buttons should render "Back to Sign In" link', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
-  await t.expect(identityPage.getIdpsContainer().childElementCount).eql(6);
+  await t.expect(identityPage.getIdpButtonCount()).eql(6);
   await t.expect(await identityPage.signoutLinkExists()).ok();
 });
 
