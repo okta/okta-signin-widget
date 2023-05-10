@@ -304,6 +304,9 @@ test
 
 test
   .requestHooks(loopbackBiometricsErrorDesktopMock)('show biometrics error for desktop platform in loopback', async t => {
+    // disable concurrency for this test
+    t.ctx.concurrency = 1;
+
     probeSuccess = false;
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
