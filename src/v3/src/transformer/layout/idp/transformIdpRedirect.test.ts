@@ -32,26 +32,26 @@ describe('IDP Redirect transformer Tests', () => {
       };
       transaction.neededToProceed = [
         {
-          "name": "redirect-idp",
-          "type": "GOOGLE",
-          "idp": {
-            "id": "google-123",
-            "name": "Google IDP"
+          name: 'redirect-idp',
+          type: 'GOOGLE',
+          idp: {
+            id: 'google-123',
+            name: 'Google IDP',
           },
-          "href": "testURL",
-          "method": "GET"
+          href: 'testURL',
+          method: 'GET',
         },
         {
-          "name": "redirect-idp",
-          "type": "FACEBOOK",
-          "idp": {
-            "id": "facebook-123",
-            "name": "Facebook IDP"
+          name: 'redirect-idp',
+          type: 'FACEBOOK',
+          idp: {
+            id: 'facebook-123',
+            name: 'Facebook IDP',
           },
-          "href": "testURL",
-          "method": "GET"
+          href: 'testURL',
+          method: 'GET',
         },
-      ]
+      ];
       widgetProps = {};
     });
 
