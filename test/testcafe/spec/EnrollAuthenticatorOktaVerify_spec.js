@@ -63,9 +63,9 @@ const enrollViaQRcodeMocks = RequestMock()
     } else {
       res.setBody(xhrAuthenticatorEnrollOktaVerifyQr);
     }
-  })
-  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
-  .respond(oktaDashboardContent);
+  });
+// .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+// .respond(oktaDashboardContent);
 
 const enrollViaEmailMocks = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -84,9 +84,9 @@ const enrollViaEmailMocks = RequestMock()
     } else {
       res.setBody(xhrAuthenticatorEnrollOktaVerifyQr);
     }
-  })
-  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
-  .respond(oktaDashboardContent);
+  });
+// .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+// .respond(oktaDashboardContent);
 
 const resendEmailMocks = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -115,9 +115,9 @@ const enrollViaSmsMocks = RequestMock()
     } else {
       res.setBody(xhrAuthenticatorEnrollOktaVerifyQr);
     }
-  })
-  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
-  .respond(oktaDashboardContent);
+  });
+// .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+// .respond(oktaDashboardContent);
 
 const resendSmsMocks = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -146,9 +146,9 @@ const enrollViaSmsVersionUpgradeMocks = RequestMock()
     } else {
       res.setBody(xhrAuthenticatorEnrollOktaVerifyQr);
     }
-  })
-  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
-  .respond(oktaDashboardContent);
+  });
+// .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+// .respond(oktaDashboardContent);
 
 const enrollViaSmsVersionUpgradeMocksGoBack = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -167,9 +167,9 @@ const enrollViaSmsVersionUpgradeMocksGoBack = RequestMock()
     } else {
       res.setBody(xhrAuthenticatorEnrollOktaVerifyQr);
     }
-  })
-  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
-  .respond(oktaDashboardContent);
+  });
+// .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+// .respond(oktaDashboardContent);
 
 const enrollViaSmsVersionUpgradeMocksNonIos = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -188,9 +188,9 @@ const enrollViaSmsVersionUpgradeMocksNonIos = RequestMock()
     } else {
       res.setBody(xhrAuthenticatorEnrollOktaVerifyQr);
     }
-  })
-  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
-  .respond(oktaDashboardContent);
+  });
+// .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+// .respond(oktaDashboardContent);
 
 const enrollViaEmailVersionUpgradeMocks = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -209,9 +209,9 @@ const enrollViaEmailVersionUpgradeMocks = RequestMock()
     } else {
       res.setBody(xhrAuthenticatorEnrollOktaVerifyQr);
     }
-  })
-  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
-  .respond(oktaDashboardContent);
+  });
+// .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+// .respond(oktaDashboardContent);
 
 const enrollViaEmailVersionUpgradeMocksNonIos = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -230,9 +230,9 @@ const enrollViaEmailVersionUpgradeMocksNonIos = RequestMock()
     } else {
       res.setBody(xhrAuthenticatorEnrollOktaVerifyQr);
     }
-  })
-  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
-  .respond(oktaDashboardContent);
+  });
+// .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+// .respond(oktaDashboardContent);
 
 const enrollViaQRcodeVersionUpgradeMocks = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -247,9 +247,9 @@ const enrollViaQRcodeVersionUpgradeMocks = RequestMock()
     } else {
       res.setBody(xhrAuthenticatorEnrollOktaVerifyViaQRVersionUpgrade);
     }
-  })
-  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
-  .respond(oktaDashboardContent);
+  });
+// .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+// .respond(oktaDashboardContent);
 
 const enrollViaQRcodeVersionUpgradeMocksNonIos = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -264,9 +264,9 @@ const enrollViaQRcodeVersionUpgradeMocksNonIos = RequestMock()
     } else {
       res.setBody(xhrAuthenticatorEnrollOktaVerifyViaQRVersionUpgradeNonIos);
     }
-  })
-  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
-  .respond(oktaDashboardContent);
+  });
+// .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+// .respond(oktaDashboardContent);
 
 const enrollViaQRcodeEnableBiometricsMocks = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -281,9 +281,9 @@ const enrollViaQRcodeEnableBiometricsMocks = RequestMock()
     } else {
       res.setBody(xhrAuthenticatorEnrollEnableBiometricsQr);
     }
-  })
-  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
-  .respond(oktaDashboardContent);
+  });
+// .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+// .respond(oktaDashboardContent);
 
 const enrollViaEmailEnableBiometricsMocks = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -302,9 +302,9 @@ const enrollViaEmailEnableBiometricsMocks = RequestMock()
     } else {
       res.setBody(xhrAuthenticatorEnrollOktaVerifyQr);
     }
-  })
-  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
-  .respond(oktaDashboardContent);
+  });
+// .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+// .respond(oktaDashboardContent);
 
 const enrollViaSMSEnableBiometricsMocks = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -323,9 +323,9 @@ const enrollViaSMSEnableBiometricsMocks = RequestMock()
     } else {
       res.setBody(xhrAuthenticatorEnrollOktaVerifyQr);
     }
-  })
-  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
-  .respond(oktaDashboardContent);
+  });
+// .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+// .respond(oktaDashboardContent);
 
 const smsInstruction1 = 'We sent an SMS to +18008885555 with an Okta Verify setup link. To continue, open the link on your mobile device.';
 const smsInstruction2 = 'Or try a different way to set up Okta Verify.';
@@ -623,12 +623,14 @@ const testSmsMsg = async (t, isIos) => {
   isSuccess = false;
 };
 
-test.meta('flaky', true).requestHooks(logger, enrollViaSmsVersionUpgradeMocks)('should see ov upgrade error message during enroll via sms', async t => {
-  await testSmsMsg(t, true);
-});
+test
+  // .meta('flaky', true)
+  .requestHooks(logger, enrollViaSmsVersionUpgradeMocks)('should see ov upgrade error message during enroll via sms', async t => {
+    await testSmsMsg(t, true);
+  });
 
 test
-  .meta('flaky', true)
+  // .meta('flaky', true)
   .requestHooks(logger, enrollViaSmsVersionUpgradeMocksNonIos)('should see ov upgrade error message during enroll via sms for non ios devices', async t => {
     await testSmsMsg(t, false);
   });
@@ -675,7 +677,7 @@ test.requestHooks(enrollViaEmailVersionUpgradeMocks)('should see ov upgrade erro
 });
 
 test
-  .meta('flaky', true)
+  // .meta('flaky', true)
   .requestHooks(enrollViaEmailVersionUpgradeMocksNonIos)('should see ov upgrade error message during enroll via email for non ios devices', async t => {
     await testEmailMsg(t, false);
   });
@@ -838,7 +840,7 @@ test.requestHooks(enrollViaEmailEnableBiometricsMocks)('should see ov enable bio
 });
 
 test
-  .meta('flaky', true)
+  // .meta('flaky', true)
   .requestHooks(logger, enrollViaSMSEnableBiometricsMocks)('should see ov enable biometrics message during enroll via sms', async t => {
     isSuccess = false;
     const enrollOktaVerifyPage = await setup(t);

@@ -150,38 +150,40 @@ test.requestHooks(identifyRequestLogger, identifyWithEmailAuthenticator)('identi
   await t.expect(identifier).eql('testUser@okta.com'); // FIXME failing
 });
 
-test.meta('flaky', true).requestHooks(identifyRequestLogger, identifyMock)('should pre-fill identifier field with config.username passed in and feature.rememberMe enabled', async t => {
-  const identityPage = await setup(t);
-  await checkA11y(t);
-  await rerenderWidget(baseConfig);
+test
+  // .meta('flaky', true)
+  .requestHooks(identifyRequestLogger, identifyMock)('should pre-fill identifier field with config.username passed in and feature.rememberMe enabled', async t => {
+    const identityPage = await setup(t);
+    await checkA11y(t);
+    await rerenderWidget(baseConfig);
 
-  // Go through authentication process to save cookie
-  await identityPage.fillIdentifierField('testUser@okta.com');
-  await identityPage.clickNextButton();
+    // Go through authentication process to save cookie
+    await identityPage.fillIdentifierField('testUser@okta.com');
+    await identityPage.clickNextButton();
 
-  await identityPage.fillPasswordField('testPassword');
-  await identityPage.clickVerifyButton();
+    await identityPage.fillPasswordField('testPassword');
+    await identityPage.clickVerifyButton();
 
-  await t.expect(identifyRequestLogger.count(() => true)).eql(2);
-  const req = identifyRequestLogger.requests[0].request;
-  const reqBody = JSON.parse(req.body);
-  await t.expect(reqBody).contains({
-    identifier: 'testUser@okta.com',
+    await t.expect(identifyRequestLogger.count(() => true)).eql(2);
+    const req = identifyRequestLogger.requests[0].request;
+    const reqBody = JSON.parse(req.body);
+    await t.expect(reqBody).contains({
+      identifier: 'testUser@okta.com',
+    });
+
+    // Ensure identifier field is pre-filled with config.username passed in
+    await identityPage.navigateToPage();
+    await rerenderWidget({
+      username: 'configUsername@okta.com',
+      features: {
+        rememberMe: true,
+        rememberMyUsernameOnOIE: true
+      }
+    });
+
+    const identifier = identityPage.getIdentifierValue();
+    await t.expect(identifier).eql('configUsername@okta.com');
   });
-
-  // Ensure identifier field is pre-filled with config.username passed in
-  await identityPage.navigateToPage();
-  await rerenderWidget({
-    username: 'configUsername@okta.com',
-    features: {
-      rememberMe: true,
-      rememberMyUsernameOnOIE: true
-    }
-  });
-
-  const identifier = identityPage.getIdentifierValue();
-  await t.expect(identifier).eql('configUsername@okta.com');
-});
 
 test.requestHooks(identifyRequestLogger, identifyMock)('should pre-fill identifier field with remediation identifier value over saved cookie', async t => {
   const identityPage = await setup(t);
