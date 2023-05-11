@@ -19,6 +19,7 @@ import {
   convertIdxInputsToRegistrationSchema,
   convertRegistrationSchemaToIdxInputs,
   getAuthenticatorKey,
+  isVerifyFlow,
   parseRegistrationSchema,
   triggerRegistrationErrorMessages,
 } from '../../util';
@@ -35,8 +36,7 @@ const transformRemediationNameForIdp: TransformStepFnWithOptions = (options) => 
   if (nextStep?.name === IDX_STEP.REDIRECT_IDP
     && getAuthenticatorKey(transaction) === AUTHENTICATOR_KEY.IDP) {
     // idp authenticator
-    const isVerifyFlow = Object.prototype.hasOwnProperty.call(context, 'currentAuthenticatorEnrollment');
-    const newRemediationName = isVerifyFlow ? 'challenge-authenticator' : 'enroll-authenticator';
+    const newRemediationName = isVerifyFlow(transaction) ? 'challenge-authenticator' : 'enroll-authenticator';
     nextStep!.name = newRemediationName;
     // This is so the correct authenticator transformer is reached in idxTransformerMapping.ts
     options.step = newRemediationName;
