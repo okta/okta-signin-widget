@@ -211,28 +211,38 @@ const assertSIWEndUserRemediationHeaders = async (t, terminalViewPage, explanati
   await t.expect(terminalViewPage.form.getErrorBox().find('.end-user-remediation-explanation').withExactText('To sign in, make the following updates. Then, access the app again.').exists).eql(explanationExists);
 };
 
-const endUserRemediationActionFound = async (t, terminalViewPage, url, text, optionIndex) => {
-  await t.expect(
-    terminalViewPage.form.getErrorBox()
-      .find('.end-user-remediation-options')
-      .child((node) => {
-        let currentOptionIndex = 0;
-        let prevNode = node.previousSibling;
+const endUserRemediationActionFound = async (t, terminalViewPage, optionIndex, remediationActions) => {
+  const anchors = terminalViewPage.form.getErrorBox()
+    .find('.end-user-remediation-options')
+    .child((node) => {
+      let currentOptionIndex = 0;
+      let prevNode = node.previousSibling;
 
-        // Count the number of "Option N" siblings before the current node, to figure out what position are in
-        while (prevNode) {
-          if (prevNode.classList.contains('end-user-remediation-option')) {
-            currentOptionIndex += 1;
-          }
-          prevNode = prevNode.previousSibling;
+      // Count the number of "Option N" siblings before the current node,
+      // to figure out what position we are in
+      while (prevNode) {
+        if (prevNode.classList.contains('end-user-remediation-option')) {
+          currentOptionIndex += 1;
         }
+        prevNode = prevNode.previousSibling;
+      }
 
-        return currentOptionIndex === optionIndex;
-      }, {optionIndex})
-      .filter('.end-user-remediation-action')
-      .child(`a[href="${url}"]`)
-      .withExactText(text).exists
-  ).eql(true);
+      return currentOptionIndex === optionIndex;
+    }, {optionIndex})
+    .filter('.end-user-remediation-action')
+    .child();
+
+  // assert anchor count
+  await t.expect(anchors.count).eql(remediationActions.length);
+
+  // assert anchor order, text and url line up
+  await t.expect(
+    anchors
+      .filter((node, index) => {
+        return node.getAttribute('href') === remediationActions[index].url && node.innerText === remediationActions[index].text;
+      }, {remediationActions})
+      .count
+  ).eql(remediationActions.length);
 };
 
 test.requestHooks(endUserRemediationOneOptionMock)('should render end user remediation error message when there is one option', async t => {
@@ -240,8 +250,10 @@ test.requestHooks(endUserRemediationOneOptionMock)('should render end user remed
   await checkA11y(t);
 
   assertSIWEndUserRemediationHeaders(t, terminalViewPage, true);
-  await endUserRemediationActionFound(t, terminalViewPage, 'https://okta.com/android-upgrade-os', 'Update to Android 100', 0);
-  await endUserRemediationActionFound(t, terminalViewPage, 'https://okta.com/android-biometric-lock', 'Enable lock screen and biometrics', 0);
+  await endUserRemediationActionFound(t, terminalViewPage, 0, [
+    {url: 'https://okta.com/android-upgrade-os', text: 'Update to Android 100'},
+    {url: 'https://okta.com/android-biometric-lock', text: 'Enable lock screen and biometrics'}
+  ]);
   await t.expect(terminalViewPage.form.getErrorBox().find('div.end-user-remediation-help-and-contact').withText('follow the instructions on the help page').child('a[href="https://okta.com/help"]').exists).eql(true);
   await assertAnchorWithBlankTargetHaveCorrectRelAttribute(t, terminalViewPage.form.getErrorBox());
 });
@@ -251,10 +263,14 @@ test.requestHooks(endUserRemediationMultipleOptionsMock)('should render end user
   await checkA11y(t);
 
   assertSIWEndUserRemediationHeaders(t, terminalViewPage, true);
-  await endUserRemediationActionFound(t, terminalViewPage, 'https://okta.com/android-upgrade-os', 'Update to Android 100', 1);
-  await endUserRemediationActionFound(t, terminalViewPage, 'https://okta.com/android-biometric-lock', 'Enable lock screen and biometrics', 1);
-  await endUserRemediationActionFound(t, terminalViewPage, 'https://okta.com/android-lock-screen', 'Enable lock screen', 2);
-  await endUserRemediationActionFound(t, terminalViewPage, 'https://okta.com/android-disk-encrypted', 'Encrypt your device', 2);
+  await endUserRemediationActionFound(t, terminalViewPage, 1, [
+    {url: 'https://okta.com/android-upgrade-os', text: 'Update to Android 100'},
+    {url: 'https://okta.com/android-biometric-lock', text: 'Enable lock screen and biometrics'}
+  ]);
+  await endUserRemediationActionFound(t, terminalViewPage, 2, [
+    {url: 'https://okta.com/android-lock-screen', text: 'Enable lock screen'},
+    {url: 'https://okta.com/android-disk-encrypted', text: 'Encrypt your device'}
+  ]);
   await t.expect(terminalViewPage.form.getErrorBox().find('div.end-user-remediation-help-and-contact').withText('follow the instructions on the help page').child('a[href="https://okta.com/help"]').exists).eql(true);
   await assertAnchorWithBlankTargetHaveCorrectRelAttribute(t, terminalViewPage.form.getErrorBox());
 });
@@ -267,15 +283,23 @@ test.requestHooks(endUserRemediationMultipleOptionsWithCustomHelpUrlMock)('shoul
   // platforms. The test exists to ensure all of the expected keys can be
   // localized
   assertSIWEndUserRemediationHeaders(t, terminalViewPage, true);
-  await endUserRemediationActionFound(t, terminalViewPage, 'https://okta.com/ios-upgrade-os', 'Update to iOS 12.0.1', 1);
-  await endUserRemediationActionFound(t, terminalViewPage, 'https://okta.com/ios-lock-screen', 'Set a passcode for the lock screen', 1);
-  await endUserRemediationActionFound(t, terminalViewPage, 'https://okta.com/ios-biometric-lock', 'Set a passcode for the lock screen and enable Touch ID or Face ID', 1);
-  await endUserRemediationActionFound(t, terminalViewPage, 'https://okta.com/macos-upgrade-os', 'Update to macOS 13.2', 2);
-  await endUserRemediationActionFound(t, terminalViewPage, 'https://okta.com/macos-lock-screen', 'Set a passcode for the lock screen', 2);
-  await endUserRemediationActionFound(t, terminalViewPage, 'https://okta.com/macos-disk-encrypted', 'Turn on FileVault', 2);
-  await endUserRemediationActionFound(t, terminalViewPage, 'https://okta.com/windows-upgrade-os', 'Update to Windows 10.0.25530.123', 3);
-  await endUserRemediationActionFound(t, terminalViewPage, 'https://okta.com/windows-disk-encrypted', 'Encrypt all internal disks with BitLocker', 3);
-  await endUserRemediationActionFound(t, terminalViewPage, 'https://okta.com/windows-biometric-lock', 'Enable Windows Hello for the lock screen', 4);
+  await endUserRemediationActionFound(t, terminalViewPage, 1, [
+    {url: 'https://okta.com/ios-upgrade-os', text: 'Update to iOS 12.0.1'},
+    {url: 'https://okta.com/ios-lock-screen', text: 'Set a passcode for the lock screen'},
+    {url: 'https://okta.com/ios-biometric-lock', text: 'Set a passcode for the lock screen and enable Touch ID or Face ID'},
+  ]);
+  await endUserRemediationActionFound(t, terminalViewPage, 2, [
+    {url: 'https://okta.com/macos-upgrade-os', text: 'Update to macOS 13.2'},
+    {url: 'https://okta.com/macos-lock-screen', text: 'Set a passcode for the lock screen'},
+    {url: 'https://okta.com/macos-disk-encrypted', text: 'Turn on FileVault'},
+  ]);
+  await endUserRemediationActionFound(t, terminalViewPage, 3, [
+    {url: 'https://okta.com/windows-upgrade-os', text: 'Update to Windows 10.0.25530.123'},
+    {url: 'https://okta.com/windows-disk-encrypted', text: 'Encrypt all internal disks with BitLocker'},
+  ]);
+  await endUserRemediationActionFound(t, terminalViewPage, 4, [
+    {url: 'https://okta.com/windows-biometric-lock', text: 'Enable Windows Hello for the lock screen'},
+  ]);
   await t.expect(terminalViewPage.form.getErrorBox().find('div.end-user-remediation-help-and-contact').withText('follow the instructions on your organization\'s help page').child('a[href="https://okta1.com/custom-help-me"]').exists).eql(true);
   await assertAnchorWithBlankTargetHaveCorrectRelAttribute(t, terminalViewPage.form.getErrorBox());
 });
