@@ -43,25 +43,35 @@ export const transformIDPButtons: TransformStepFnWithOptions = ({
     return formbag;
   }
 
+  const { idpDisplay } = widgetProps;
+  // Idp buttons are displayed above the login form by default
+  let displayAboveForm = typeof idpDisplay === 'undefined'
+    ? true
+    : idpDisplay.toUpperCase() === 'PRIMARY';
+
+  // Idp buttons are displayed below register form by default
+  if(containsEnrollProfileStep && typeof idpDisplay === 'undefined') {
+    displayAboveForm = false;
+  }
+
   const dividerElement: DividerElement = {
     type: 'Divider',
     options: { text: loc('socialauth.divider.text', 'login') },
   };
-
+  
   // show IDP buttons on the bottom for enroll profile flow
-  if (containsEnrollProfileStep) {
+  if (displayAboveForm) {
+    const titleIndex = formbag.uischema.elements.findIndex((element) => element.type === 'Title');
+    const insertPos = titleIndex !== -1 ? titleIndex + 1 : 0;
+    // Add buttons after title (if exists) otherwise add to top of array
+    formbag.uischema.elements.splice(insertPos, 0, ...buttonsToAdd, dividerElement);
+  } else {
     const firstLinkIndex = formbag.uischema.elements.findIndex((element) => element.type === 'Link');
     const firstButtonIndex = formbag.uischema.elements.findIndex((element) => element.type === 'Button');
     const firstButtonPos = firstButtonIndex !== -1 ? firstButtonIndex + 1 : 0;
     const insertPos = firstLinkIndex !== -1 ? firstLinkIndex : firstButtonPos;
     // Add buttons after login form but before links (if any exists)
     formbag.uischema.elements.splice(insertPos, 0, dividerElement, ...buttonsToAdd);
-  } else {
-    // Currently in G3 we are locking Idp buttons to the top of the identify flow
-    const titleIndex = formbag.uischema.elements.findIndex((element) => element.type === 'Title');
-    const insertPos = titleIndex !== -1 ? titleIndex + 1 : 0;
-    // Add buttons after title (if exists) otherwise add to top of array
-    formbag.uischema.elements.splice(insertPos, 0, ...buttonsToAdd, dividerElement);
   }
 
   return formbag;
