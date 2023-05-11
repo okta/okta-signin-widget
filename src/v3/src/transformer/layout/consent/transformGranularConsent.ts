@@ -58,13 +58,13 @@ export const transformGranularConsent: IdxStepTransformer = ({ transaction, form
   uischema.elements.unshift(descriptionEle);
 
   const termsOfServiceHref = app?.value?.termsOfService
-    && (app.value.termsOfService as Record<string, Record<string, unknown>>).href;
+    && (app.value.termsOfService as Record<string, string>).href;
   if (termsOfServiceHref) {
     const tosLink: LinkElement = {
       type: 'Link',
       options: {
         label: loc('consent.required.termsOfService', 'login'),
-        href: termsOfServiceHref as string,
+        href: termsOfServiceHref,
         dataSe: 'terms-of-service',
         target: '_blank',
         step: '',
@@ -74,13 +74,13 @@ export const transformGranularConsent: IdxStepTransformer = ({ transaction, form
   }
 
   const privacyPolicyHref = app?.value?.privacyPolicy
-    && (app.value.privacyPolicy as Record<string, Record<string, unknown>>).href;
+    && (app.value.privacyPolicy as Record<string, string>).href;
   if (privacyPolicyHref) {
     const privacyPolicyLink: LinkElement = {
       type: 'Link',
       options: {
         label: loc('consent.required.privacyPolicy', 'login'),
-        href: privacyPolicyHref as string,
+        href: privacyPolicyHref,
         dataSe: 'privacy-policy',
         target: '_blank',
         step: '',

@@ -75,8 +75,10 @@ const ConsentHeader: FunctionComponent = () => {
   );
 
   const getAppIcon = () => {
-    const href: string | undefined = (clientUri as Record<string, string | undefined>)?.href;
-    const logoHref: string | undefined = (logo as Record<string, string | undefined>)?.href;
+    const clientUriObj = (clientUri as Record<string, string | undefined> | undefined);
+    const logoObj = (logo as Record<string, string | undefined> | undefined);
+    const href: string | undefined = clientUriObj?.href;
+    const logoHref: string | undefined = logoObj?.href;
     const altText = loc('logo.for.the.app.alt.text', 'login');
     return (
       <Box
