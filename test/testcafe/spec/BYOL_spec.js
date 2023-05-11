@@ -15,7 +15,7 @@ const mock = RequestMock()
   .onRequestTo('http://localhost:3000/labels/json/country_foo.json')
   .respond(null, 404)
 
-  // FIXME Hostname is not set/available in node env, so requests to "/" are not
+  // Hostname is not set/available in node env, so requests to "/" are not
   // made relative to the location.href. This issue exists in tests only, i.e.,
   // it has no equivalent in prod. NOTE: Not providing these mocks cause the
   // test to hang indefinitely and time out when assertionTimeout is exceeded.

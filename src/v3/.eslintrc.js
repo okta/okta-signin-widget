@@ -179,7 +179,7 @@ module.exports = {
         // prefer named exports
         'import/named': 'error',
         'import/prefer-default-export': 'off',
-        // 'import/no-default-export': 'error', // FIXME re-enable rule
+        'import/no-default-export': 'warn',
         'import/no-unresolved': 'error',
 
         // prevent conflicts with ts lint rule

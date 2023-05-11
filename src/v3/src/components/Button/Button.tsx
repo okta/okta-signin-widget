@@ -87,13 +87,12 @@ const Button: UISchemaElementComponent<{
       className={classes}
       // Fixes text overflow
       sx={{ display: 'flex', whiteSpace: 'normal' }}
-      // @ts-expect-error ts doesnt like function component of button icon
       startIcon={loading ? <Spinner color="white" /> : ButtonImageIcon}
       aria-describedby={ariaDescribedBy}
       data-type={dataType}
       data-se={dataSe}
       aria-label={ariaLabel}
-        // eslint-disable-next-line react/jsx-props-no-spreading
+      // eslint-disable-next-line react/jsx-props-no-spreading
       {...(type !== 'submit' && { onClick: typeof onClick === 'function' ? customClickHandler : handleClick })}
     >
       {label}

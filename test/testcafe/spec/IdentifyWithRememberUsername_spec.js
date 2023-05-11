@@ -147,11 +147,10 @@ test.requestHooks(identifyRequestLogger, identifyWithEmailAuthenticator)('identi
   await identityPage.navigateToPage();
   await rerenderWidget(baseConfig);
   const identifier = identityPage.getIdentifierValue();
-  await t.expect(identifier).eql('testUser@okta.com'); // FIXME failing
+  await t.expect(identifier).eql('testUser@okta.com');
 });
 
 test
-  // .meta('flaky', true)
   .requestHooks(identifyRequestLogger, identifyMock)('should pre-fill identifier field with config.username passed in and feature.rememberMe enabled', async t => {
     const identityPage = await setup(t);
     await checkA11y(t);

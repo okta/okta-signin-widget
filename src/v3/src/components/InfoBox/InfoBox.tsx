@@ -50,10 +50,8 @@ const InfoBox: UISchemaElementComponent<{
       <Alert
         severity={MessageTypeVariant[messageClass as MessageType] ?? MessageTypeVariant.INFO}
         variant="infobox"
-        // eslint-disable-next-line react/jsx-props-no-spreading
-        {...({ 'data-se': dataSe })}
+        data-se={dataSe}
         className={`infobox-${messageClass.toLowerCase()}`}
-        role="alert"
       >
         {message.title && (
           <Typography

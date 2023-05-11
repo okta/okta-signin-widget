@@ -75,7 +75,6 @@ async function setup(t) {
 }
 
 test
-  // .meta('flaky', true)
   .requestHooks(logger, baseMock, initialPoll)('probing and polling APIs are sent and responded', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
