@@ -43,6 +43,10 @@ export const transformAdminConsent: IdxStepTransformer = ({ transaction, formBag
     } = {},
   } = transaction;
 
+  if (typeof stepName === 'undefined') {
+    return formBag;
+  }
+
   uischema.elements = removeUIElementWithName('consent', uischema.elements);
 
   const descriptionEle: DescriptionElement = {
@@ -119,7 +123,7 @@ export const transformAdminConsent: IdxStepTransformer = ({ transaction, formBag
       type: ButtonType.BUTTON,
       includeData: false,
       actionParams: { consent: true },
-      step: stepName!,
+      step: stepName,
       dataType: 'save',
       variant: 'secondary',
     },
@@ -132,7 +136,7 @@ export const transformAdminConsent: IdxStepTransformer = ({ transaction, formBag
       type: ButtonType.BUTTON,
       includeData: false,
       actionParams: { consent: false },
-      step: stepName!,
+      step: stepName,
       dataType: 'cancel',
       variant: 'secondary',
     },

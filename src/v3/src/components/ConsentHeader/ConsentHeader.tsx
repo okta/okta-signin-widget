@@ -64,7 +64,7 @@ const ConsentHeader: FunctionComponent = () => {
         />
       )
       : (
-        // TODO: This is a temporary icon used until UX provides one
+        // TODO: OKTA-609775 This is a temporary icon used until UX provides one
         <SettingsIcon
           titleAccess={altText}
           classes="client-logo default-logo"
@@ -121,7 +121,7 @@ const ConsentHeader: FunctionComponent = () => {
               className="no-translate"
             >
               {appName}
-              &nbsp;
+              {' '}
             </Typography>
             <Typography paragraph>{titleText}</Typography>
             {hasIssuer && (

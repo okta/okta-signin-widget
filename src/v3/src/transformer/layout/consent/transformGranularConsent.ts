@@ -28,6 +28,10 @@ export const transformGranularConsent: IdxStepTransformer = ({ transaction, form
     nextStep: { name: stepName } = {},
   } = transaction;
 
+  if (typeof stepName === 'undefined') {
+    return formBag;
+  }
+
   // sorting field elements to display mutuable items first.
   uischema.elements.sort((a, b) => {
     if (a.type !== 'Field' || b.type !== 'Field') {
@@ -92,7 +96,7 @@ export const transformGranularConsent: IdxStepTransformer = ({ transaction, form
       type: ButtonType.BUTTON,
       includeData: true,
       actionParams: { consent: true },
-      step: stepName!,
+      step: stepName,
       dataType: 'save',
       variant: 'secondary',
     },
@@ -105,7 +109,7 @@ export const transformGranularConsent: IdxStepTransformer = ({ transaction, form
       type: ButtonType.BUTTON,
       includeData: true,
       actionParams: { consent: false },
-      step: stepName!,
+      step: stepName,
       dataType: 'cancel',
       variant: 'secondary',
     },
