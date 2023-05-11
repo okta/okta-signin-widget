@@ -30,6 +30,11 @@ export const transformIdpRedirect: IdxStepTransformer = ({
     // Direct auth clients should not redirect on the initial response
     const isDirectAuth = isOauth2Enabled(widgetProps);
     if (!isDirectAuth || prevTransaction) {
+      // converts `redirect-idp` step to `success-redirect` step for hook
+      transaction.nextStep = {
+        name: IDX_STEP.SUCCESS_REDIRECT,
+        href: redirectIdpRemediations[0].href,
+      };
       return redirectTransformer(
         transaction,
         redirectIdpRemediations[0].href!,

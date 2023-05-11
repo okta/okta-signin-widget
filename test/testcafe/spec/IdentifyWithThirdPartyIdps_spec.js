@@ -1,4 +1,4 @@
-import { RequestMock, RequestLogger, Selector, ClientFunction, userVariables } from 'testcafe';
+import { RequestMock, RequestLogger, Selector, ClientFunction } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import { checkConsoleMessages } from '../framework/shared';
@@ -136,12 +136,10 @@ test.requestHooks(mockWithoutIdentify)('should only render idp buttons with iden
 test.requestHooks(logger, mockOnlyOneIdp)('should auto redirect to 3rd party IdP login page with basic Signing in message', async t => {
   await setup(t);
 
-  if(!userVariables.v3) {
-    await checkConsoleMessages({
-      controller: null,
-      formName: 'success-redirect',
-    });
-  }
+  await checkConsoleMessages({
+    controller: null,
+    formName: 'success-redirect',
+  });
 
   // assert redirect to IdP login page eventually
   await t.expect(Selector('h1').innerText).eql('An external IdP login page for testcafe testing');
@@ -170,12 +168,11 @@ test.requestHooks(logger, mockOnlyOneIdp)('Direct auth: does not auto redirect t
 test.requestHooks(logger, mockOnlyOneIdpAppUser)('should auto redirect to 3rd party IdP login page with Signing in longer message', async t => {
   await setup(t);
 
-  if (!userVariables.v3) {
-    await checkConsoleMessages({
-      controller: null,
-      formName: 'success-redirect',
-    });
-  }
+  await checkConsoleMessages({
+    controller: null,
+    formName: 'success-redirect',
+  });
+
   // assert redirect to IdP login page eventually
   await t.expect(Selector('h1').innerText).eql('An external IdP login page for testcafe testing');
   const pageUrl = await ClientFunction(() => window.location.href)();
