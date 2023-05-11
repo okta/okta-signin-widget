@@ -57,7 +57,7 @@ export const transformIDPButtons: TransformStepFnWithOptions = ({
     // Add buttons after login form but before links (if any exists)
     formbag.uischema.elements.splice(insertPos, 0, dividerElement, ...buttonsToAdd);
   } else {
-    // Currently we are locking Idp buttons to the top of the identify flow
+    // Currently in G3 we are locking Idp buttons to the top of the identify flow
     const titleIndex = formbag.uischema.elements.findIndex((element) => element.type === 'Title');
     const insertPos = titleIndex !== -1 ? titleIndex + 1 : 0;
     // Add buttons after title (if exists) otherwise add to top of array
