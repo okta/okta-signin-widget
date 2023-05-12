@@ -41,7 +41,7 @@ const DuoWindow: UISchemaElementComponent<{
       Duo.init({
         host,
         sig_request: signedToken,
-        iframe: 'duo_iframe',
+        iframe: '#duo_iframe',
 
         // @ts-expect-error type mismatch on post_action
         post_action: (signedData: string) => {
