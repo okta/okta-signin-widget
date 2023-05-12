@@ -101,7 +101,7 @@
     "start:mock-server": "MOCK_SERVER_PORT=3030 nodemon --delay 500ms -e js,json --watch playground --exec 'node playground/mocks/server.js'",
     "test:parity-setup": "mkdir -p test-reports/testcafe && yarn generate-config && mockDuo=true yarn workspace v3 build --mode testcafe && yarn workspace v3 serve --mode testcafe",
     "test:parity-run": "OKTA_SIW_V3=TRUE yarn testcafe -c 2 chrome:headless --reporter spec,xunit:build2/reports/junit/testcafe-results.xml",
-    "test:parity-ci": "OKTA_SIW_SKIP_FLAKY=true NODE_OPTIONS=--max-old-space-size=4096 yarn codegen && run-p -r start:mock-server test:parity-setup test:parity-run",
+    "test:parity-ci": "OKTA_SIW_SKIP_FLAKY=true NODE_OPTIONS=--max-old-space-size=32768 yarn codegen && run-p -r start:mock-server test:parity-setup test:parity-run",
     "test:testcafe-ci-flaky": "OKTA_SIW_V3= OKTA_SIW_ONLY_FLAKY=TRUE yarn test:testcafe-ci",
     "test:parity-ci-flaky": "OKTA_SIW_V3=TRUE OKTA_SIW_ONLY_FLAKY=TRUE yarn test:parity-ci"
   },
