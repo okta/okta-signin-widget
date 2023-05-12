@@ -4,7 +4,10 @@ import ConsentViewForm from './ConsentViewForm';
 import AdminConsentViewHeader from './AdminConsentViewHeader';
 import EnduserConsentViewFooter from './EnduserConsentViewFooter';
 import ScopeCheckBox from '../../components/ScopeCheckBox';
+// let { BaseSchema, SchemaProperty } = internal.models;
 import hbs from '@okta/handlebars-inline-precompile';
+// import oktaUnderscore from "@okta/courage/esm/src/courage/util/underscore-wrapper";
+// import Backbone from "@okta/courage/esm/src/courage/vendor/lib/backbone";
 
 const granularConsentViewHeader = AdminConsentViewHeader.extend({
   hasIssuer: false,
@@ -54,6 +57,58 @@ const granularConsentViewForm = ConsentViewForm.extend({
     return uiSchemas;
   }
 });
+
+// const modelExtend = BaseSchema.Model.extend({
+//
+//   toJSON: function (options) {
+//     options || (options = {});
+//
+//     var res = oktaUnderscore.clone(Backbone.Model.prototype.toJSON.apply(this, arguments));
+//
+//     var schema = this['__schema__']; // cleanup local properties
+//
+//     if (!options.verbose) {
+//       res = oktaUnderscore.omit(res, oktaUnderscore.keys(schema.local));
+//     } else {
+//       // add derived properties
+//       oktaUnderscore.each(schema.derived, function (options, name) {
+//         res[name] = this.get(name);
+//       }, this);
+//     }
+//
+//     if (this.flat) {
+//       res = unflatten(res);
+//     }
+//
+//     return res;
+//   },
+// });
+//
+//
+// function unflatten(data) {
+//   console.log("unflatten custom");
+//   oktaUnderscore.each(data, function (value, key, data) {
+//     if (key.indexOf('.') === -1) {
+//       return;
+//     }
+//
+//     var part;
+//     var ref = data;
+//     var parts = key.split('.');
+//
+//     while ((part = parts.shift()) !== undefined) {
+//       if (!ref[part]) {
+//         ref[part] = parts.length ? {} : value;
+//       }
+//
+//       ref = ref[part];
+//     }
+//
+//     delete data[key];
+//   });
+//
+//   return data;
+// }
 
 const GranularConsentAgreementText = View.extend({
   className: 'consent-description',

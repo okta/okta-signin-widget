@@ -329,7 +329,24 @@ export default Controller.extend({
   },
 
   transformIdentifier(formName, model) {
-    const modelJSON = model.toJSON();
+    let modelJSON;
+    if (formName === 'granular-consent') {
+      console.log("formName=", formName);
+      console.log("model=", model);
+      modelJSON = this.granularConsentToJSON(model);
+      console.log("modelJSON=", modelJSON);
+    } else {
+      console.log("formName=", formName);
+      console.log("model=", model);
+      modelJSON = model.toJSON();
+      console.log("modelJSON=", modelJSON);
+    }
+
+    // console.log("formName=", formName);
+    // console.log("model=", model);
+    // const modelJSON = model.toJSON();
+    // console.log("modelJSON=", modelJSON);
+
     if (Object.prototype.hasOwnProperty.call(modelJSON, 'identifier')) {
       // The callback function is passed two arguments:
       // 1) username: The name entered by the user
@@ -341,6 +358,56 @@ export default Controller.extend({
       modelJSON.identifier = this.settings.transformUsername(modelJSON.identifier, operation);
     }
     return modelJSON;
+  },
+
+  granularConsentToJSON(model) {
+    console.log("in granularConsentToJSON");
+    console.log("attributes=", model.attributes);
+    let res = _.clone(model.attributes);
+    console.log("after clone res=", res);
+    const schema = model['__schema__']; // cleanup local properties
+    console.log("schema=", schema);
+    res = _.omit(res, _.keys(schema.local));
+
+    console.log("in toJSON, before unflatten res=", _.clone(res));
+    if (model.flat) {
+      res = this.unflatten(res);
+    }
+    console.log("in toJSON, after unflatten res=", _.clone(res));
+
+    return res;
+  },
+
+  unflatten(data) {
+  _.each(data, function (value, key, data) {
+    if (key.indexOf('.') === -1) {
+      return;
+    }
+
+    let ref = data;
+    if (key.indexOf('optedScopes.') !== -1) {
+      const scopeName = key.substring(key.indexOf('optedScopes.') + 12);
+      if (!ref['optedScopes']) {
+        ref['optedScopes'] = {};
+      }
+      ref['optedScopes'][scopeName] = value;
+    } else {
+      let part;
+      const parts = key.split('.');
+
+      while ((part = parts.shift()) !== undefined) {
+        if (!ref[part]) {
+          ref[part] = parts.length ? {} : value;
+        }
+
+        ref = ref[part];
+      }
+    }
+
+    delete data[key];
+  });
+
+  return data;
   },
 
   /**
