@@ -40,7 +40,7 @@ const rerenderWidget = ClientFunction((settings) => {
 });
 
 fixture('Custom widget attributes')
-.meta('v3', true);
+  .meta('v3', true);
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
