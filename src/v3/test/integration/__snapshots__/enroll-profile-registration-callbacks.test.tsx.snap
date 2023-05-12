@@ -79,9 +79,9 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                     Last name
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-14"
+                      class="no-translate MuiBox-root emotion-16"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -115,9 +115,9 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                     First name
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-14"
+                      class="no-translate MuiBox-root emotion-16"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -151,9 +151,9 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                     Email
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-14"
+                      class="no-translate MuiBox-root emotion-16"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -188,9 +188,9 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                     Street Address
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-14"
+                      class="no-translate MuiBox-root emotion-16"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -379,9 +379,9 @@ exports[`enroll-profile-with-password should show custom error message and preve
                     Last name
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-19"
+                      class="no-translate MuiBox-root emotion-21"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -428,9 +428,9 @@ exports[`enroll-profile-with-password should show custom error message and preve
                     First name
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-19"
+                      class="no-translate MuiBox-root emotion-21"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -464,9 +464,9 @@ exports[`enroll-profile-with-password should show custom error message and preve
                     Email
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-19"
+                      class="no-translate MuiBox-root emotion-21"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -657,9 +657,9 @@ exports[`enroll-profile-with-password should show custom field level error messa
                     Last name
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-19"
+                      class="no-translate MuiBox-root emotion-21"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -706,9 +706,9 @@ exports[`enroll-profile-with-password should show custom field level error messa
                     First name
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-19"
+                      class="no-translate MuiBox-root emotion-21"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -742,9 +742,9 @@ exports[`enroll-profile-with-password should show custom field level error messa
                     Email
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-19"
+                      class="no-translate MuiBox-root emotion-21"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -935,9 +935,9 @@ exports[`enroll-profile-with-password should show generic error message and prev
                     Last name
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-19"
+                      class="no-translate MuiBox-root emotion-21"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -971,9 +971,9 @@ exports[`enroll-profile-with-password should show generic error message and prev
                     First name
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-19"
+                      class="no-translate MuiBox-root emotion-21"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -1007,9 +1007,9 @@ exports[`enroll-profile-with-password should show generic error message and prev
                     Email
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-19"
+                      class="no-translate MuiBox-root emotion-21"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -1200,9 +1200,9 @@ exports[`enroll-profile-with-password should show validation error messages on a
                     Last name
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-19"
+                      class="no-translate MuiBox-root emotion-21"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -1249,9 +1249,9 @@ exports[`enroll-profile-with-password should show validation error messages on a
                     First name
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-19"
+                      class="no-translate MuiBox-root emotion-21"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -1298,9 +1298,9 @@ exports[`enroll-profile-with-password should show validation error messages on a
                     Email
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-19"
+                      class="no-translate MuiBox-root emotion-21"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -1348,9 +1348,9 @@ exports[`enroll-profile-with-password should show validation error messages on a
                     Street Address
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-19"
+                      class="no-translate MuiBox-root emotion-21"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div

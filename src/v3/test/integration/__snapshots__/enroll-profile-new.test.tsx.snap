@@ -79,9 +79,9 @@ exports[`enroll-profile-new should render form 1`] = `
                     Last name
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-14"
+                      class="no-translate MuiBox-root emotion-16"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -115,9 +115,9 @@ exports[`enroll-profile-new should render form 1`] = `
                     First name
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-14"
+                      class="no-translate MuiBox-root emotion-16"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -151,9 +151,9 @@ exports[`enroll-profile-new should render form 1`] = `
                     Email
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-14"
+                      class="no-translate MuiBox-root emotion-16"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div

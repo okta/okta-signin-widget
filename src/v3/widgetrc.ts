@@ -36,36 +36,43 @@ const common: Partial<WidgetOptions> = {
 
   // https://github.com/okta/okta-signin-widget#feature-flags
   features: {
-    // autoFocus: true,
+    /** START: V1 Features that are NOT supported in v3 */
     // autoPush: true,
     // callRecovery: true,
-    // consent: true,
     // customExpiredPassword: true,
-    // deviceFingerprinting: true,
     // emailRecovery: true,
-    // engFastpassMultipleAccounts: true,
     // hideBackToSignInForReset: true,
-    // hideSignOutLinkInMFA: true,
     // idpDiscovery: true,
-    // mfaOnlyFlow: true,
     multiOptionalFactorEnroll: true,
     // passwordlessAuth: true,
     // redirectByFormSubmit: true,
     // registration: true,
-    rememberMe: false,
-    // rememberMyUsernameOnOIE: false,
-    // restrictRedirectToForeground: true,
     // securityImage: true,
     // selfServiceUnlock: true,
-    // showIdentifier: true,
-    // showKeepMeSignedIn: true,
     // showPasswordRequirementsAsHtmlList: true,
-    // showPasswordToggleOnSignInPage: true,
     // skipIdpFactorVerificationBtn: true,
     // smsRecovery: true,
     // trackTypingPattern: true,
     // useDeviceFingerprintForSecurityImage: true,
     // webauthn: true,
+    /** END: V1 Features that are NOT supported in v3 */
+
+    /** START: Features that are NOT yet supported in V3 */
+    // consent: true,
+    // deviceFingerprinting: true,
+    // restrictRedirectToForeground: true,
+    // showPasswordToggleOnSignInPage: true,
+    /** END: Features that are NOT yet supported in V3 */
+
+    /** START: Supported features in v3 */
+    // autoFocus: true,
+    // hideSignOutLinkInMFA: true,
+    // mfaOnlyFlow: true,
+    rememberMe: false,
+    // rememberMyUsernameOnOIE: false,
+    // showIdentifier: true,
+    // showKeepMeSignedIn: true,
+    /** END: Supported features in v3 */
   },
   // https://github.com/okta/okta-signin-widget#assets
   assets: {

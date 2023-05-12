@@ -231,9 +231,9 @@ exports[`enroll-profile-update-required-field fails client side validation with 
                     Some custom attribute 2
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-8"
+                      class="no-translate MuiBox-root emotion-39"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -495,9 +495,9 @@ exports[`enroll-profile-update-required-field should render form with one requir
                     Some custom attribute 2
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-8"
+                      class="no-translate MuiBox-root emotion-34"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div

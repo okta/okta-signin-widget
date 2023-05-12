@@ -149,9 +149,9 @@ exports[`enroll-profile-update fails client side validation with empty required 
                     Favorite sport
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-8"
+                      class="no-translate MuiBox-root emotion-26"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -197,9 +197,9 @@ exports[`enroll-profile-update fails client side validation with empty required 
                     Custom attribute
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-8"
+                      class="no-translate MuiBox-root emotion-26"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -368,9 +368,9 @@ exports[`enroll-profile-update should render form 1`] = `
                     Favorite sport
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-8"
+                      class="no-translate MuiBox-root emotion-21"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -403,9 +403,9 @@ exports[`enroll-profile-update should render form 1`] = `
                     Custom attribute
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-8"
+                      class="no-translate MuiBox-root emotion-21"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div

@@ -112,9 +112,9 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                     First name
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-19"
+                      class="no-translate MuiBox-root emotion-21"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -161,9 +161,9 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                     Last name
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-19"
+                      class="no-translate MuiBox-root emotion-21"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -210,9 +210,9 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                     Email
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-19"
+                      class="no-translate MuiBox-root emotion-21"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -260,9 +260,9 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                     Country
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-19"
+                      class="no-translate MuiBox-root emotion-21"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -1529,9 +1529,9 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                     Country code
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-19"
+                      class="no-translate MuiBox-root emotion-21"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -1577,9 +1577,9 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                     Time zone
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-19"
+                      class="no-translate MuiBox-root emotion-21"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -1929,9 +1929,9 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                     First name
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-14"
+                      class="no-translate MuiBox-root emotion-16"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -1965,9 +1965,9 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                     Last name
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-14"
+                      class="no-translate MuiBox-root emotion-16"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -2001,9 +2001,9 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                     Email
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-14"
+                      class="no-translate MuiBox-root emotion-16"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -2038,9 +2038,9 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                     Country
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-14"
+                      class="no-translate MuiBox-root emotion-16"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -3294,9 +3294,9 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                     Country code
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-14"
+                      class="no-translate MuiBox-root emotion-16"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -3329,9 +3329,9 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                     Time zone
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-14"
+                      class="no-translate MuiBox-root emotion-16"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div

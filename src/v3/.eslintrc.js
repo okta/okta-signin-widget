@@ -166,6 +166,7 @@ module.exports = {
           noStrings: true,
           ignoreProps: true,
           noAttributeStrings: true,
+          allowedStrings: ['*'],
         }],
         // check hooks deps
         'react-hooks/exhaustive-deps': 'error',
