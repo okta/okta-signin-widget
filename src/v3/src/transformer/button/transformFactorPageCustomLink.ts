@@ -17,6 +17,7 @@ import {
 } from '../../types';
 import {
   getFactorPageCustomLink,
+  isPasswordRecovery,
 } from '../../util';
 
 export const transformFactorPageCustomLink: TransformStepFnWithOptions = ({
@@ -25,7 +26,7 @@ export const transformFactorPageCustomLink: TransformStepFnWithOptions = ({
 }) => (
   formbag,
 ) => {
-  const shouldAddButton = transaction.availableSteps
+  const shouldAddButton = !isPasswordRecovery(transaction) && transaction.availableSteps
     ?.some(({ name }) => STEPS_REQUIRING_CUSTOM_LINK.includes(name));
   if (!shouldAddButton) {
     return formbag;
