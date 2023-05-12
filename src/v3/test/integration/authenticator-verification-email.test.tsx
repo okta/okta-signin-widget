@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { waitFor, within } from '@testing-library/preact';
+import { act, waitFor, within } from '@testing-library/preact';
 import { createAuthJsPayloadArgs, setup } from './util';
 
 import authenticatorVerificationEmail from '../../src/mocks/response/idp/idx/challenge/default.json';
@@ -82,7 +82,11 @@ describe('Email authenticator verification when email magic link = undefined', (
       await waitFor(() => expect(codeEntryBtn).toHaveFocus());
       // Advance system time to show resend email reminder element
       mockSystemTime += 31_000;
-      jest.advanceTimersByTime(500);
+      act(() => {
+        jest.advanceTimersByTime(500);
+        jest.runAllTimers();
+      });
+
       expect(container).toMatchSnapshot();
     });
 
@@ -189,6 +193,10 @@ describe('Email authenticator verification when email magic link = undefined', (
       await user.type(codeEle, verificationCode);
       await user.click(submitButton);
       await findByText('Invalid code. Try again.');
+      await waitFor( async () => {
+        const codeEntryEle = await findByTestId('credentials.passcode') as HTMLInputElement;
+        expect((codeEntryEle)).toHaveFocus();
+      });
       // After an error, verify that the Reminder prompt is removed in lieu of the global error
       expect(queryByText(/Haven't received an email?/)).toBeNull();
       await findByText(/We found some errors./);

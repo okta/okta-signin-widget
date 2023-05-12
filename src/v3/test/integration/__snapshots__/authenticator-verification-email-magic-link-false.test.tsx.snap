@@ -157,6 +157,7 @@ exports[`Email authenticator verification when email magic link = false Tests sh
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-22"
+                    data-shrink="false"
                     for="credentials.passcode"
                   >
                     Enter Code

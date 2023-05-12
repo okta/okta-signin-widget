@@ -3,10 +3,10 @@ import { checkA11y } from '../framework/a11y';
 
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import DuoPageObject from '../framework/page-objects/DuoPageObject';
-import xhrAuthenticatorVerifyDuo from '../../../playground/mocks/data/idp/idx/authenticator-verification-duo';
-import success from '../../../playground/mocks/data/idp/idx/success';
-import verificationTimeout from '../../../playground/mocks/data/idp/idx/error-authenticator-duo-verification-timeout';
-import verificationFailed from '../../../playground/mocks/data/idp/idx/error-authenticator-duo-verification-failed';
+import xhrAuthenticatorVerifyDuo from '../../../playground/mocks/data/idp/idx/authenticator-verification-duo.json';
+import success from '../../../playground/mocks/data/idp/idx/success.json';
+import verificationTimeout from '../../../playground/mocks/data/idp/idx/error-authenticator-duo-verification-timeout.json';
+import verificationFailed from '../../../playground/mocks/data/idp/idx/error-authenticator-duo-verification-failed.json';
 import { checkConsoleMessages, renderWidget, mockDuoIframeHtml } from '../framework/shared';
 
 const mock = RequestMock()

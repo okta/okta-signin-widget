@@ -106,14 +106,15 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-20"
+                    data-shrink="false"
                     for="userProfile.firstName"
                   >
                     First name
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-19"
+                      class="no-translate MuiBox-root emotion-21"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -154,14 +155,15 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-20"
+                    data-shrink="false"
                     for="userProfile.lastName"
                   >
                     Last name
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-19"
+                      class="no-translate MuiBox-root emotion-21"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -202,14 +204,15 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-20"
+                    data-shrink="false"
                     for="userProfile.email"
                   >
                     Email
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-19"
+                      class="no-translate MuiBox-root emotion-21"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -251,14 +254,15 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined emotion-44"
+                    data-shrink="false"
                     for="userProfile.country"
                   >
                     Country
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-19"
+                      class="no-translate MuiBox-root emotion-21"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -1519,14 +1523,15 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-20"
+                    data-shrink="false"
                     for="userProfile.countryCode"
                   >
                     Country code
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-19"
+                      class="no-translate MuiBox-root emotion-21"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -1566,14 +1571,15 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined emotion-44"
+                    data-shrink="false"
                     for="userProfile.timezone"
                   >
                     Time zone
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-19"
+                      class="no-translate MuiBox-root emotion-21"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -1917,14 +1923,15 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-15"
+                    data-shrink="false"
                     for="userProfile.firstName"
                   >
                     First name
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-14"
+                      class="no-translate MuiBox-root emotion-16"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -1952,14 +1959,15 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-15"
+                    data-shrink="false"
                     for="userProfile.lastName"
                   >
                     Last name
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-14"
+                      class="no-translate MuiBox-root emotion-16"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -1987,14 +1995,15 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-15"
+                    data-shrink="false"
                     for="userProfile.email"
                   >
                     Email
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-14"
+                      class="no-translate MuiBox-root emotion-16"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -2023,14 +2032,15 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined emotion-33"
+                    data-shrink="false"
                     for="userProfile.country"
                   >
                     Country
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-14"
+                      class="no-translate MuiBox-root emotion-16"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -3278,14 +3288,15 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-15"
+                    data-shrink="false"
                     for="userProfile.countryCode"
                   >
                     Country code
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-14"
+                      class="no-translate MuiBox-root emotion-16"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -3312,14 +3323,15 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined emotion-33"
+                    data-shrink="false"
                     for="userProfile.timezone"
                   >
                     Time zone
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-14"
+                      class="no-translate MuiBox-root emotion-16"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div

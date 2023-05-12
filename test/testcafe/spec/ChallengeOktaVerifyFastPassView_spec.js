@@ -15,6 +15,7 @@ import identifyWithUserVerificationLaunchUniversalLink from '../../../playground
 import mfaSelect from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator';
 import loopbackChallengeNotReceived from '../../../playground/mocks/data/idp/idx/identify-with-device-probing-loopback-challenge-not-received';
 import assureWithLaunchAppLink from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-signed-nonce-app-link';
+import identifyWithDeviceLaunchAuthenticator from '../../../playground/mocks/data/idp/idx/identify-with-device-launch-authenticator.json';
 import { renderWidget } from '../framework/shared';
 
 const BEACON_CLASS = 'mfa-okta-verify';
@@ -50,7 +51,9 @@ const loopbackSuccesskMock = RequestMock()
     'access-control-allow-origin': '*',
     'access-control-allow-headers': 'Origin, X-Requested-With, Content-Type, Accept, X-Okta-Xsrftoken',
     'access-control-allow-methods': 'POST, OPTIONS'
-  });
+  })
+  .onRequestTo(/\/idp\/idx\/authenticators\/okta-verify\/launch/)
+  .respond(identifyWithDeviceLaunchAuthenticator);
 
 const loopbackBiometricsErrorMobileMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/introspect/)
@@ -65,7 +68,14 @@ const loopbackBiometricsErrorMobileMock = RequestMock()
       res.statusCode = '200';
       res.setBody(identifyWithUserVerificationLoopback);
     }
-  });
+  })
+  .onRequestTo(/2000|6511|6512|6513\/probe/)
+  .respond(null, 500, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
+  })
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll\/cancel/)
+  .respond(identifyWithUserVerificationLoopback);
 
 const loopbackBiometricsErrorDesktopMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/introspect/)
@@ -80,7 +90,14 @@ const loopbackBiometricsErrorDesktopMock = RequestMock()
       res.statusCode = '200';
       res.setBody(identifyWithUserVerificationLoopback);
     }
-  });
+  })
+  .onRequestTo(/2000|6511|6512|6513\/probe/)
+  .respond(null, 500, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
+  })
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll\/cancel/)
+  .respond(identifyWithUserVerificationLoopback);
 
 const loopbackBiometricsNoResponseErrorLogger = RequestLogger(
   /introspect|probe|cancel|challenge|poll/,
@@ -408,7 +425,7 @@ test
     await t.wait(100); // opening the link takes just a moment
     await t.expect(await (new BasePageObject()).getPageUrl()).contains('okta-verify.html');
   });
-  
+
 test
   .requestHooks(universalLinkWithoutLaunchBiometricsErrorMock)('show biometrics error for mobile platform in universal link', async t => {
     const deviceChallengePollPageObject = await setup(t);

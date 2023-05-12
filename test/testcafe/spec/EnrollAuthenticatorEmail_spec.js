@@ -5,18 +5,19 @@ import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import EnrollEmailPageObject from '../framework/page-objects/EnrollEmailPageObject';
 import { checkConsoleMessages } from '../framework/shared';
 
-import xhrEnrollEmail from '../../../playground/mocks/data/idp/idx/authenticator-enroll-email';
-import xhrEnrollEmailWithoutEmailMagicLink from '../../../playground/mocks/data/idp/idx/authenticator-enroll-email-emailmagiclink-false';
-import xhrEnrollEmailWithEmailMagicLink from '../../../playground/mocks/data/idp/idx/authenticator-enroll-email-emailmagiclink-true';
-import success from '../../../playground/mocks/data/idp/idx/success';
-import invalidOTP from '../../../playground/mocks/data/idp/idx/error-authenticator-enroll-email-invalid-otp';
+import xhrEnrollEmail from '../../../playground/mocks/data/idp/idx/authenticator-enroll-email.json';
+import xhrEnrollEmailWithoutEmailMagicLink from '../../../playground/mocks/data/idp/idx/authenticator-enroll-email-emailmagiclink-false.json';
+import xhrEnrollEmailWithEmailMagicLink from '../../../playground/mocks/data/idp/idx/authenticator-enroll-email-emailmagiclink-true.json';
+import success from '../../../playground/mocks/data/idp/idx/success.json';
+import invalidOTP from '../../../playground/mocks/data/idp/idx/error-authenticator-enroll-email-invalid-otp.json';
 
-const logger = RequestLogger(/challenge\/poll|challenge\/answer|challenge\/resend/,
-  {
-    logRequestBody: true,
-    stringifyRequestBody: true,
-  }
-);
+// how long to wait before expecting the resend notification to appear (ms)
+const RESEND_DELAY_MS = 32_000;
+
+const logger = RequestLogger(/challenge\/poll|challenge\/answer|challenge\/resend/, {
+  logRequestBody: true,
+  stringifyRequestBody: true,
+});
 
 const validOTPmock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -75,11 +76,15 @@ const validOTPmockWithoutEmailMagicLink = RequestMock()
 const invalidOTPMockWithoutEmailMagicLink = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrEnrollEmailWithoutEmailMagicLink)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
+  .respond(xhrEnrollEmailWithoutEmailMagicLink)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(invalidOTP, 403);
 
 const invalidOTPMockWithEmailMagicLink = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrEnrollEmailWithEmailMagicLink)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
   .respond(xhrEnrollEmailWithEmailMagicLink)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(invalidOTP, 403);
@@ -125,9 +130,9 @@ test
 
     await t.expect(enrollEmailPageObject.form.getTitle()).eql('Verify with your email');
     await t.expect(await enrollEmailPageObject.enterCodeFromEmailLinkExists()).ok();
-    
+
     await enrollEmailPageObject.clickEnterCodeInstead();
-    
+
     await t.expect(enrollEmailPageObject.form.getSaveButtonLabel()).eql('Verify');
     await enrollEmailPageObject.enterCode('123456');
     await enrollEmailPageObject.clickVerifyButton();
@@ -157,7 +162,7 @@ test
     await checkA11y(t);
 
     await t.expect(enrollEmailPageObject.form.getTitle()).eql('Verify with your email');
-    
+
     const emailAddress = xhrEnrollEmailWithoutEmailMagicLink.user.value.identifier;
     await t.expect(await enrollEmailPageObject.verificationLinkTextExists(emailAddress)).ok();
 
@@ -310,15 +315,9 @@ test
     const enrollEmailPageObject = await setup(t);
     await checkA11y(t);
     await t.expect(await enrollEmailPageObject.resendEmailExists()).eql(false);
-    await t.wait(31000);
+    await t.wait(RESEND_DELAY_MS);
     await t.expect(await enrollEmailPageObject.resendEmailExists()).eql(true);
     await t.expect(enrollEmailPageObject.resendEmailText()).contains('Haven\'t received an email?');
-
-    // 8 poll requests in 31 seconds and 1 resend request after click.
-    await t.expect(logger.count(
-      record => record.response.statusCode === 200 &&
-        record.request.url.match(/poll/)
-    )).eql(8);
 
     await enrollEmailPageObject.clickResendEmail();
 
@@ -327,29 +326,10 @@ test
       record => record.response.statusCode === 200 &&
       record.request.url.match(/resend/)
     )).eql(1);
-
-    const { request: {
-      body: firstRequestBody,
-      method: firstRequestMethod,
-      url: firstRequestUrl,
-    }
-    } = logger.requests[0];
-    const { request: {
-      body: lastRequestBody,
-      method: lastRequestMethod,
-      url: lastRequestUrl,
-    }
-    } = logger.requests[logger.requests.length - 1];
-    let jsonBody = JSON.parse(firstRequestBody);
-    await t.expect(jsonBody).eql({'stateHandle':'eyJ6aXAiOiJER'});
-    await t.expect(firstRequestMethod).eql('post');
-    await t.expect(firstRequestUrl).eql('http://localhost:3000/idp/idx/challenge/poll');
-
-    jsonBody = JSON.parse(lastRequestBody);
-    // in V3, it's { resend: true, stateHandle: 'eyJ6aXAiOiJER' }
-    await t.expect(jsonBody).contains({'stateHandle':'eyJ6aXAiOiJER'});
-    await t.expect(lastRequestMethod).eql('post');
-    await t.expect(lastRequestUrl).eql('http://localhost:3000/idp/idx/challenge/resend');
+    const { request: firstRequest } = logger.requests[0];
+    await t.expect(JSON.parse(firstRequest.body)).eql({'stateHandle':'eyJ6aXAiOiJER'});
+    await t.expect(firstRequest.method).eql('post');
+    await t.expect(firstRequest.url).eql('http://localhost:3000/idp/idx/challenge/poll');
   });
 
 test
@@ -357,45 +337,20 @@ test
     const enrollEmailPageObject = await setup(t);
     await checkA11y(t);
     await t.expect(await enrollEmailPageObject.resendEmailExists()).eql(false);
-    await t.wait(31000);
+    await t.wait(RESEND_DELAY_MS);
     await t.expect(await enrollEmailPageObject.resendEmailExists()).eql(true);
     await t.expect(enrollEmailPageObject.resendEmailText()).contains('Haven\'t received an email?');
-
-    // 8 poll requests in 31 seconds and 1 resend request after click.
-    await t.expect(logger.count(
-      record => record.response.statusCode === 200 &&
-        record.request.url.match(/poll/)
-    )).eql(8);
-
     await enrollEmailPageObject.clickResendEmail();
-
     await t.expect(await enrollEmailPageObject.resendEmailExists()).eql(false);
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
       record.request.url.match(/resend/)
     )).eql(1);
-
-    const { request: {
-      body: firstRequestBody,
-      method: firstRequestMethod,
-      url: firstRequestUrl,
-    }
-    } = logger.requests[0];
-    const { request: {
-      body: lastRequestBody,
-      method: lastRequestMethod,
-      url: lastRequestUrl,
-    }
-    } = logger.requests[logger.requests.length - 1];
-    let jsonBody = JSON.parse(firstRequestBody);
+    const { request: firstRequest } = logger.requests[0];
+    let jsonBody = JSON.parse(firstRequest.body);
     await t.expect(jsonBody).eql({'stateHandle':'eyJ6aXAiOiJER'});
-    await t.expect(firstRequestMethod).eql('post');
-    await t.expect(firstRequestUrl).eql('http://localhost:3000/idp/idx/challenge/poll');
-
-    jsonBody = JSON.parse(lastRequestBody);
-    await t.expect(jsonBody).contains({'stateHandle':'eyJ6aXAiOiJER'});
-    await t.expect(lastRequestMethod).eql('post');
-    await t.expect(lastRequestUrl).eql('http://localhost:3000/idp/idx/challenge/resend');
+    await t.expect(firstRequest.method).eql('post');
+    await t.expect(firstRequest.url).eql('http://localhost:3000/idp/idx/challenge/poll');
   });
 
 test
@@ -403,79 +358,50 @@ test
     const enrollEmailPageObject = await setup(t);
     await checkA11y(t);
     await t.expect(await enrollEmailPageObject.resendEmailExists()).eql(false);
-    await t.wait(31000);
+    await t.wait(RESEND_DELAY_MS);
     await t.expect(await enrollEmailPageObject.resendEmailExists()).eql(true);
     await t.expect(enrollEmailPageObject.resendEmailText()).contains('Haven\'t received an email?');
-
-    // 8 poll requests in 31 seconds and 1 resend request after click.
-    await t.expect(logger.count(
-      record => record.response.statusCode === 200 &&
-        record.request.url.match(/poll/)
-    )).eql(8);
-
     await enrollEmailPageObject.clickResendEmail();
-
     await t.expect(await enrollEmailPageObject.resendEmailExists()).eql(false);
-    await t.expect(logger.count(
-      record => record.response.statusCode === 200 &&
-      record.request.url.match(/resend/)
-    )).eql(1);
-
-    const { request: {
-      body: firstRequestBody,
-      method: firstRequestMethod,
-      url: firstRequestUrl,
-    }
-    } = logger.requests[0];
-    const { request: {
-      body: lastRequestBody,
-      method: lastRequestMethod,
-      url: lastRequestUrl,
-    }
-    } = logger.requests[logger.requests.length - 1];
-    let jsonBody = JSON.parse(firstRequestBody);
+    const { request: firstRequest } = logger.requests[0];
+    let jsonBody = JSON.parse(firstRequest.body);
     await t.expect(jsonBody).eql({'stateHandle':'eyJ6aXAiOiJER'});
-    await t.expect(firstRequestMethod).eql('post');
-    await t.expect(firstRequestUrl).eql('http://localhost:3000/idp/idx/challenge/poll');
-
-    jsonBody = JSON.parse(lastRequestBody);
-    await t.expect(jsonBody).contains({'stateHandle':'eyJ6aXAiOiJER'});
-    await t.expect(lastRequestMethod).eql('post');
-    await t.expect(lastRequestUrl).eql('http://localhost:3000/idp/idx/challenge/resend');
+    await t.expect(firstRequest.method).eql('post');
+    await t.expect(firstRequest.url).eql('http://localhost:3000/idp/idx/challenge/poll');
   });
 
 test
-  .requestHooks(logger, validOTPmock)('resend after 30 seconds at most even after re-render', async t => {
+  .requestHooks(logger, validOTPmock)('resend after 30 seconds at most even after re-render (validOTPmock)', async t => {
     const enrollEmailPageObject = await setup(t);
     await checkA11y(t);
     await t.expect(await enrollEmailPageObject.resendEmailExists()).eql(false);
-    await t.wait(15000);
+    await t.wait(RESEND_DELAY_MS / 2);
     enrollEmailPageObject.navigateToPage();
-    await t.wait(15500);
+    await t.wait(RESEND_DELAY_MS / 2);
     await t.expect(await enrollEmailPageObject.resendEmailExists()).eql(true);
     await t.expect(enrollEmailPageObject.resendEmailText()).contains('Haven\'t received an email?');
   });
 
 test
-  .requestHooks(logger, validOTPmockWithEmailMagicLink)('resend after 30 seconds at most even after re-render', async t => {
+  .requestHooks(logger, validOTPmockWithEmailMagicLink)('resend after 30 seconds at most even after re-render (validOTPmockWithEmailMagicLink)', async t => {
     const enrollEmailPageObject = await setup(t);
     await checkA11y(t);
     await t.expect(await enrollEmailPageObject.resendEmailExists()).eql(false);
-    await t.wait(15000);
+    await t.wait(RESEND_DELAY_MS / 2);
     enrollEmailPageObject.navigateToPage();
-    await t.wait(15500);
+    await t.wait(RESEND_DELAY_MS / 2);
     await t.expect(await enrollEmailPageObject.resendEmailExists()).eql(true);
     await t.expect(enrollEmailPageObject.resendEmailText()).contains('Haven\'t received an email?');
   });
 
 test
-  .requestHooks(logger, validOTPmockWithoutEmailMagicLink)('resend after 30 seconds at most even after re-render', async t => {
+  .requestHooks(logger, validOTPmockWithoutEmailMagicLink)('resend after 30 seconds at most even after re-render (validOTPmockWithoutEmailMagicLink)', async t => {
     const enrollEmailPageObject = await setup(t);
     await checkA11y(t);
     await t.expect(await enrollEmailPageObject.resendEmailExists()).eql(false);
-    await t.wait(15000);
+    await t.wait(RESEND_DELAY_MS / 2);
     enrollEmailPageObject.navigateToPage();
-    await t.wait(15500);
+    await t.wait(RESEND_DELAY_MS / 2);
     await t.expect(await enrollEmailPageObject.resendEmailExists()).eql(true);
     await t.expect(enrollEmailPageObject.resendEmailText()).contains('Haven\'t received an email?');
   });

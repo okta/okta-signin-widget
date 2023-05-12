@@ -129,6 +129,7 @@ exports[`authenticator-verification-okta-verify-totp should have autocomplete at
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-18"
+                    data-shrink="false"
                     for="credentials.totp"
                   >
                     Enter code from Okta Verify app
@@ -323,6 +324,7 @@ exports[`authenticator-verification-okta-verify-totp should render form 1`] = `
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-18"
+                    data-shrink="false"
                     for="credentials.totp"
                   >
                     Enter code from Okta Verify app

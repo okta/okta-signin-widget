@@ -222,7 +222,7 @@ describe('authenticator-enroll-security-question-error', () => {
       await findByText(/Set up security question/);
 
       // switch to custom question form
-      user.click(await findByLabelText(/Create my own security question/));
+      await user.click(await findByLabelText(/Create my own security question/));
 
       const submitButton = await findByText('Verify', { selector: 'button' });
       const answerEle = await findByTestId('credentials.answer') as HTMLInputElement;

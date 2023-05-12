@@ -10,37 +10,31 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { AxeCheck, axeCheck, createReport } from '@testcafe-community/axe';
-import { TagValue } from 'axe-core';
+import { axeCheck, createReport } from '@testcafe-community/axe';
 
-const DEFAULT_A11Y_TAG_VALUES: TagValue[] = [
+const DEFAULT_A11Y_TAG_VALUES = [
   'best-practice',
   'wcag21aa',
   'wcag2a',
 ];
-const ALWAYS_IGNORED_RULE_IDS: string[] = [
+const ALWAYS_IGNORED_RULE_IDS = [
   'landmark-one-main',
   'page-has-heading-one',
   'presentation-role-conflict', // TODO OKTA-485565
   'aria-allowed-role', // TODO OKTA-485564
 ];
 
-interface A11yCheckOptions {
-  tagValues?: TagValue[],
-  ignoredRuleIds?: string[],
-}
-
 const checkA11y = async (
-  testController: TestController,
-  options?: A11yCheckOptions,
-): Promise<AxeCheck> => {
-  const ignoredRuleIds: Set<string> = new Set([
+  testController,
+  options,
+) => {
+  const ignoredRuleIds = new Set([
     ...(options?.ignoredRuleIds ?? []),
     ...ALWAYS_IGNORED_RULE_IDS,
   ]);
   const axeOptions = {
     runOnly: {
-      type: 'tag' as const,
+      type: 'tag',
       values: options?.tagValues || DEFAULT_A11Y_TAG_VALUES,
     },
     rules: {

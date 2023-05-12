@@ -74,29 +74,30 @@ async function setup(t) {
   return deviceChallengePollPage;
 }
 
-test.requestHooks(logger, baseMock, initialPoll)('probing and polling APIs are sent and responded', async t => {
-  const deviceChallengePollPageObject = await setup(t);
-  await checkA11y(t);
-  await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Verifying your identity');
+test
+  .requestHooks(logger, baseMock, initialPoll)('probing and polling APIs are sent and responded', async t => {
+    const deviceChallengePollPageObject = await setup(t);
+    await checkA11y(t);
+    await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Verifying your identity');
 
-  await t.removeRequestHooks(initialPoll);
-  await t.addRequestHooks(noPermissionErrorPoll);
+    await t.removeRequestHooks(initialPoll);
+    await t.addRequestHooks(noPermissionErrorPoll);
 
-  await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(true);
-  await t.expect(logger.count(
-    record => record.response.statusCode === 200 &&
-      record.request.method !== 'options' &&
-      record.request.url.match(/introspect|2000/)
-  )).eql(3);
-  await t.expect(logger.count(
-    record => record.response.statusCode === 200 &&
-      record.request.url.match(/challenge/) &&
-      record.request.body.match(/challengeRequest":"eyJraWQiOiI1/)
-  )).eql(1);
-  await t.expect(deviceChallengePollPageObject.getErrorBoxText()).eql('You do not have permission to perform the requested action');
-  await t.expect(await deviceChallengePollPageObject.hasSpinner()).eql(false);
-  await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().exists).eql(true);
-});
+    await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(true);
+    await t.expect(logger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.method !== 'options' &&
+        record.request.url.match(/introspect|2000/)
+    )).eql(3);
+    await t.expect(logger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.url.match(/challenge/) &&
+        record.request.body.match(/challengeRequest":"eyJraWQiOiI1/)
+    )).eql(1);
+    await t.expect(deviceChallengePollPageObject.getErrorBoxText()).eql('You do not have permission to perform the requested action');
+    await t.expect(await deviceChallengePollPageObject.hasSpinner()).eql(false);
+    await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().exists).eql(true);
+  });
 
 test
   .requestHooks(logger, baseMock, initialPoll)('add title when device or account is invalidated', async t => {

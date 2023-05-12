@@ -23,8 +23,8 @@ describe('Flow transition from YubiKey verification to Password MFA', () => {
       user,
       findByTestId,
       findByText,
-      findByRole,
     } = await setup({
+      widgetOptions: { features: { autoFocus: true } },
       mockResponses: {
         '/introspect': {
           data: yubikeyVerificationResponse,
@@ -37,13 +37,13 @@ describe('Flow transition from YubiKey verification to Password MFA', () => {
       },
     });
 
+    await waitFor(async () => expect(await findByTestId('credentials.passcode')).toHaveFocus());
     // form: Yubikey code entry
     const yubikeyCodeEl = await findByTestId('credentials.passcode') as HTMLInputElement;
-    await waitFor(async () => expect(await findByRole('heading', { level: 2 })).toHaveFocus());
     await user.type(yubikeyCodeEl, '1234abcd8520');
     expect(yubikeyCodeEl.value).toEqual('1234abcd8520');
-    await user.click(await findByText('Verify', { selector: 'button' }));
 
+    await user.click(await findByText('Verify', { selector: 'button' }));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
       ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/answer', { credentials: { passcode: '1234abcd8520' } }),
     );

@@ -14,40 +14,23 @@
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "umd:main": "dist/index.umd.js",
-  "module": "dist/index.m.js",
+  "module": "dist/index.mjs",
   "source": "components/widget/index.js",
-  "workspaces": {
-    "nohoist": [
-      "ajv-errors",
-      "@types/ajv-errors",
-      "@types/jest",
-      "preact",
-      "preact/**",
-      "preact-cli",
-      "preact-cli/**",
-      "preact-cli-plugin-env-vars",
-      "preact-cli-plugin-env-vars/**",
-      "preact-render-to-string",
-      "preact-render-to-string/**",
-      "preact-svg-loader",
-      "preact-svg-loader/**"
-    ]
-  },
   "scripts": {
-    "build": "preact build --no-prerender --no-sw --dest ../../dist/dist/js",
+    "build": "vite build",
     "clean-svg": "svgo -f src/img/authCoinIcons",
     "codegen": "yarn workspace @okta/okta-signin-widget codegen",
-    "dev": "yarn codegen && mockDuo=true preact watch --no-prerender --no-sw --port 3000",
+    "dev": "yarn codegen && mockDuo=true vite",
     "lint": "yarn codegen && eslint .",
     "lint:report": "scripts/buildtools/lint-report.sh",
-    "lint:styles": "npx stylelint **/*.css",
-    "lint:styles:report": "npx stylelint **/*.css --custom-formatter ../../node_modules/stylelint-checkstyle-formatter -o build2/reports/lint/OSW-stylelint-checkstyle-result.xml --quiet",
-    "serve": "sirv ../../dist/dist/js --port 3000",
+    "lint:styles": "stylelint **/*.css",
+    "lint:styles:report": "stylelint **/*.css --custom-formatter ../../node_modules/stylelint-checkstyle-formatter -o build2/reports/lint/OSW-stylelint-checkstyle-result.xml --quiet",
+    "serve": "vite preview --port 3000",
     "test": "yarn codegen && jest",
     "test:dev": "NODE_ENV=development jest",
-    "test:e2e": "NODE_ENV=test testcafe test/e2e/tests/**/*.ts --config-file test/e2e/.testcaferc.js",
+    "test:e2e": "NODE_ENV=test testcafe test/e2e/tests/**/*.js --config-file test/e2e/.testcaferc.js",
     "test:e2e:screenshots": "yarn test:e2e -s path=test/e2e/screenshots,thumbnails=false",
-    "test:report": "yarn && PREACT_APP_USE_PKCE=false NODE_ENV=test jest --coverage"
+    "test:report": "PREACT_APP_USE_PKCE=false NODE_ENV=test jest --coverage"
   },
   "browserslist": [
     "> 0.1%",
@@ -69,26 +52,25 @@
     "cross-fetch": "^3.1.5",
     "deepmerge": "^4.2.2",
     "dompurify": "^3.0.0",
+    "duo_web_sdk": "https://github.com/duosecurity/duo_web_sdk.git",
     "html-react-parser": "^3.0.9",
-    "i18next": "^21.6.0",
-    "i18next-browser-languagedetector": "^6.1.2",
-    "i18next-chained-backend": "^3.0.2",
-    "i18next-http-backend": "^1.4.0",
-    "i18next-localstorage-backend": "^3.1.3",
     "js-cookie": "^3.0.1",
     "lodash": "^4.17.21",
-    "preact": "^10.7.3",
-    "react-i18next": "^11.14.3",
-    "typescript": "4.4.4"
+    "preact": "^10.13.1",
+    "react": "npm:@preact/compat",
+    "react-dom": "npm:@preact/compat"
   },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.18.6",
     "@babel/preset-react": "^7.17.12",
     "@emotion/jest": "^11.9.3",
-    "@okta/mocks": "*",
+    "@okta/courage": "file:../../packages/@okta/courage-dist",
+    "@okta/mocks": "file:../../playground/mocks",
     "@okta/odyssey-babel-loader": "^0.17.1",
     "@okta/odyssey-babel-preset": "^0.17.1",
     "@okta/odyssey-postcss-preset": "^0.15.3",
+    "@preact/preset-vite": "^2.5.0",
+    "@rollup/plugin-commonjs": "^24.1.0",
     "@testcafe-community/axe": "^3.5.0",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/preact": "^2.0.1",
@@ -97,10 +79,11 @@
     "@types/ajv-errors": "1.0.1",
     "@types/chroma-js": "^2.1.3",
     "@types/dompurify": "^2.4.0",
+    "@types/duo_web_sdk": "^2.7.1",
     "@types/jest": "^25.1.4",
     "@types/js-cookie": "^3.0.2",
     "@types/lodash": "^4.14.172",
-    "@types/node": "^14.14.14",
+    "@types/node": "^16.0.0",
     "@typescript-eslint/eslint-plugin": "^4.29.1",
     "@typescript-eslint/parser": "^4.29.1",
     "axe-core": "^4.3.3",
@@ -129,11 +112,9 @@
     "jest-extended": "1.2.1",
     "jest-junit": "^12.2.0",
     "lint-staged": "^12.2.1",
-    "msw": "^0.35.0",
+    "msw": "^1.1.1",
     "postcss": "^8.4.13",
     "postcss-syntax": "^0.36.2",
-    "preact-cli": "^3.3.5",
-    "preact-cli-plugin-env-vars": "^1.2.1",
     "preact-render-to-string": "^5.1.19",
     "preact-svg-loader": "^0.2.1",
     "properties": "^1.2.1",
@@ -144,13 +125,15 @@
     "testcafe": "^1.20.1",
     "ts-jest": "^26.5.6",
     "ts-loader": "^6.2.1",
+    "typescript": "^4.9.5",
+    "vite": "^4.1.0",
     "wait-on": "^6.0.1",
     "whatwg-fetch": "^3.6.2"
   },
   "engines": {
-    "node": ">=14 <16"
+    "node": ">=16"
   },
   "msw": {
-    "workerDirectory": "src/static"
+    "workerDirectory": "public"
   }
 }

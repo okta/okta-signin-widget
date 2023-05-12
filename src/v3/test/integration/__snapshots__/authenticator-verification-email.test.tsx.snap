@@ -572,6 +572,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-23"
+                      data-shrink="false"
                       for="credentials.passcode"
                     >
                       Enter Code
@@ -820,12 +821,13 @@ exports[`Email authenticator verification when email magic link = undefined rend
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-28"
+                      data-shrink="false"
                       for="credentials.passcode"
                     >
                       Enter Code
                     </label>
                     <div
-                      class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth emotion-29"
+                      class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth Mui-focused emotion-29"
                       required="true"
                     >
                       <input
@@ -1136,6 +1138,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-35"
+                      data-shrink="false"
                       for="credentials.passcode"
                     >
                       Enter Code
@@ -1468,6 +1471,7 @@ exports[`Email authenticator verification when email magic link = undefined shou
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-23"
+                      data-shrink="false"
                       for="credentials.passcode"
                     >
                       Enter Code

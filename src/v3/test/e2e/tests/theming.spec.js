@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Selector } from 'testcafe';
+import { Selector, fixture } from 'testcafe';
 
 fixture('Theming')
   .page('http://localhost:3000/?siw-use-mocks=true&siw-mock-scenario=authenticator-verification-phone-sms');
@@ -42,12 +42,12 @@ test('Theme configuration applies correctly', async (t) => {
     .eql('rgb(241, 131, 255)');
 }).clientScripts({
   content: `
-    window.additionalOptions = {
-      brandColors: {
-        primaryColor: '#3e0046'
-      }
-    };
-  `,
+  window.additionalOptions = {
+    brandColors: {
+      primaryColor: '#3e0046'
+    }
+  };
+`,
 });
 
 test('should override text color based on MUI theme options override', async (t) => {

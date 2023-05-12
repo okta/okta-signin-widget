@@ -15,7 +15,7 @@ import loginFooBundle from '@okta/mocks/labels/json/login_foo.json';
 import countryFooBundle from '@okta/mocks/labels/json/country_foo.json';
 import { waitFor, cleanup } from '@testing-library/preact';
 import { rest } from 'msw';
-import { setupServer, SetupServerApi } from 'msw/node';
+import { SetupServer, setupServer } from 'msw/node';
 import { setup } from './util';
 
 describe('byol', () => {
@@ -36,7 +36,7 @@ describe('byol', () => {
   });
 
   describe('loading custom language', () => {
-    const server: SetupServerApi = setupServer();
+    const server: SetupServer = setupServer();
     beforeAll(() => {
       server.listen();
     });
@@ -109,8 +109,7 @@ describe('byol', () => {
       expect(container).toMatchSnapshot();
     });
 
-    it('should not load custom language when the language/assets.languages value is not provided '
-    + 'while assets.baseUrl is set to a path containing the language assets and navigator.languages containing language', async () => {
+    it('should not load custom language when the language/assets.languages value is not provided while assets.baseUrl is set to a path containing the language assets and navigator.languages containing language', async () => {
       const navigatorLanguagesSpy = jest.spyOn(global, 'navigator', 'get');
       navigatorLanguagesSpy.mockReturnValue(
         { languages: ['foo'] } as unknown as Navigator,

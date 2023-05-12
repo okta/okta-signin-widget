@@ -520,6 +520,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-22"
+                      data-shrink="false"
                       for="credentials.passcode"
                     >
                       Enter code
@@ -1097,6 +1098,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-22"
+                      data-shrink="false"
                       for="credentials.passcode"
                     >
                       Enter code

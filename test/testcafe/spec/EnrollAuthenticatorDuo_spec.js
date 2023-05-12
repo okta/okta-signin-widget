@@ -4,8 +4,8 @@ import { checkConsoleMessages, mockDuoIframeHtml, renderWidget } from '../framew
 
 import DuoPageObject from '../framework/page-objects/DuoPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
-import xhrAuthenticatorEnrollDuo from '../../../playground/mocks/data/idp/idx/authenticator-enroll-duo';
-import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
+import xhrAuthenticatorEnrollDuo from '../../../playground/mocks/data/idp/idx/authenticator-enroll-duo.json';
+import xhrSuccess from '../../../playground/mocks/data/idp/idx/success.json';
 
 const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')

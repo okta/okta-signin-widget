@@ -18,7 +18,7 @@ module.exports = {
     node: true,
   },
   parserOptions: {
-    ecmaVersion: 2019,
+    ecmaVersion: 2020,
     sourceType: 'module',
   },
   settings: {
@@ -30,7 +30,6 @@ module.exports = {
       alias: {
         map: [
           ['src', './src'],
-          ['@okta/duo', '../../packages/vendor/duo_web_sdk/index.js'],
         ],
         extensions: [
           '.ts',
@@ -64,6 +63,66 @@ module.exports = {
       plugins: [
         'json-format',
       ],
+    },
+    {
+      // typescript config files
+      env: { node: true },
+      files: ['./*.ts'],
+      parser: '@typescript-eslint/parser',
+      parserOptions: {
+        project: './tsconfig.node.json',
+        ecmaVersion: 2020,
+        sourceType: 'module',
+      },
+      plugins: [
+        '@typescript-eslint',
+        'jsx-a11y',
+      ],
+      extends: [
+        'plugin:@typescript-eslint/eslint-recommended',
+        'plugin:@typescript-eslint/recommended',
+        'airbnb-base',
+      ],
+      rules: {
+        // enforce simple-import-sort recommendations
+        'simple-import-sort/imports': 'error',
+        'simple-import-sort/exports': 'error',
+
+        // require follow curly brace convention
+        curly: ['error', 'all'],
+
+        // prefer named exports
+        // 'import/named': 'off',
+        // 'import/prefer-default-export': 'off',
+        // 'import/no-default-export': 'off',
+        'import/no-unresolved': ['error', {
+          ignore: [
+            '\\?\\w+',
+          ],
+          caseSensitiveStrict: true,
+        }],
+        // configs often import devDependencies
+        'import/no-extraneous-dependencies': ['off'],
+
+        // prevent conflicts with ts lint rule
+        'import/extensions': ['error', {
+          ts: 'never',
+          tsx: 'never',
+          json: 'always',
+        }],
+
+        // use @typescript-eslint/no-unused-vars
+        'no-unused-vars': 'off',
+
+        // allow ts-directives with a description >= 8 chars
+        '@typescript-eslint/ban-ts-comment': ['warn', {
+          'ts-expect-error': 'allow-with-description',
+          'ts-ignore': 'allow-with-description',
+          'ts-nocheck': 'allow-with-description',
+          'ts-check': 'allow-with-description',
+          minimumDescriptionLength: 8,
+        }],
+      },
     },
     // all typescript files in src
     {
@@ -107,6 +166,7 @@ module.exports = {
           noStrings: true,
           ignoreProps: true,
           noAttributeStrings: true,
+          allowedStrings: ['*'],
         }],
         // check hooks deps
         'react-hooks/exhaustive-deps': 'error',
@@ -120,7 +180,7 @@ module.exports = {
         // prefer named exports
         'import/named': 'error',
         'import/prefer-default-export': 'off',
-        // 'import/no-default-export': 'error', // FIXME re-enable rule
+        'import/no-default-export': 'warn',
         'import/no-unresolved': 'error',
 
         // prevent conflicts with ts lint rule
@@ -204,8 +264,8 @@ module.exports = {
         'class-methods-use-this': 'off',
       },
       globals: {
-        COMMITHASH: false,
-        VERSION: false,
+        OKTA_SIW_COMMIT_HASH: false,
+        OKTA_SIW_VERSION: false,
       },
     },
     // unit test files in src
@@ -221,7 +281,7 @@ module.exports = {
       parserOptions: {
         project: './src/tsconfig.json',
         ecmaFeatures: { jsx: true },
-        ecmaVersion: 2018,
+        ecmaVersion: 2020,
         sourceType: 'module',
       },
       plugins: [
@@ -259,7 +319,7 @@ module.exports = {
       parserOptions: {
         project: './test/integration/tsconfig.json',
         ecmaFeatures: { jsx: true },
-        ecmaVersion: 2018,
+        ecmaVersion: 2020,
         sourceType: 'module',
       },
       plugins: [
@@ -284,7 +344,7 @@ module.exports = {
       parser: '@typescript-eslint/parser',
       parserOptions: {
         project: './test/e2e/tsconfig.json',
-        ecmaVersion: 2018,
+        ecmaVersion: 2020,
         sourceType: 'module',
       },
       plugins: [

@@ -1,7 +1,5 @@
 import BYOLPageObject from '../framework/page-objects/BYOLPageObject';
-import countryFooLanguageBundle from '../../../playground/mocks/labels/json/country_foo';
-import loginFooLanguageBundle from '../../../playground/mocks/labels/json/login_foo';
-import xhrAuthenticatorEnrollDataPhone from '../../../playground/mocks/data/idp/idx/authenticator-enroll-data-phone';
+import xhrAuthenticatorEnrollDataPhone from '../../../playground/mocks/data/idp/idx/authenticator-enroll-data-phone.json';
 import { ClientFunction, RequestMock } from 'testcafe';
 
 
@@ -9,14 +7,27 @@ const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorEnrollDataPhone)
   .onRequestTo('http://localhost:3000/mocks/labels/json/login_foo.json')
-  .respond(loginFooLanguageBundle)
+  .respond({ 'oie.phone.enroll.title': 'Set up foo authentication' })
   .onRequestTo('http://localhost:3000/mocks/labels/json/country_foo.json')
-  .respond(countryFooLanguageBundle);
+  .respond({ 'US': 'Foonited States' })
+  .onRequestTo('http://localhost:3000/labels/json/login_foo.json')
+  .respond(null, 404)
+  .onRequestTo('http://localhost:3000/labels/json/country_foo.json')
+  .respond(null, 404)
 
+  // Hostname is not set/available in node env, so requests to "/" are not
+  // made relative to the location.href. This issue exists in tests only, i.e.,
+  // it has no equivalent in prod. NOTE: Not providing these mocks cause the
+  // test to hang indefinitely and time out when assertionTimeout is exceeded.
+  .onRequestTo('http://labels/json/login_foo.json')
+  .respond(null, 404)
+  .onRequestTo('http://labels/json/country_foo.json')
+  .respond(null, 404);
 
 fixture('BYOL (Bring Your Own Language)')
   .meta('v3', true);
 
+// NOTE: not rendering by default to override navigation.languages
 const renderWidget = ClientFunction((settings) => {
   // function `renderPlaygroundWidget` is defined in playground/main.js
   window.renderPlaygroundWidget(settings);

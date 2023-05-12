@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint-disable import/no-extraneous-dependencies */
-import { getFiles, setupPrecaching, setupRouting } from 'preact-cli/sw/';
+/* eslint-disable */
+import JSX = preact.JSX;
 
-setupRouting();
-setupPrecaching(getFiles());
+declare const OKTA_SIW_COMMIT_HASH: string;
+declare const OKTA_SIW_VERSION: string;

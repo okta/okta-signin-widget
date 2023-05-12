@@ -3,11 +3,11 @@
 # NOTE: MUST BE RAN *AFTER* THE PUBLISH SUITE
 
 # Install required node version
-export REGISTRY="https://artifacts.aue1d.saasure.com/artifactory/npm-topic"
+export REGISTRY="https://artifacts.aue1e.internal/artifactory/npm-topic"
 
 cd ${OKTA_HOME}/${REPO}
 
-setup_service node v14.18.0
+setup_service node v16.19.1
 setup_service yarn 1.21.1 /etc/pki/tls/certs/ca-bundle.crt
 
 # Install required dependencies

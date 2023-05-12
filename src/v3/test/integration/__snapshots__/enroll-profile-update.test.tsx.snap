@@ -143,14 +143,15 @@ exports[`enroll-profile-update fails client side validation with empty required 
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-25"
+                    data-shrink="false"
                     for="userProfile.favoriteSport"
                   >
                     Favorite sport
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-8"
+                      class="no-translate MuiBox-root emotion-26"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -190,14 +191,15 @@ exports[`enroll-profile-update fails client side validation with empty required 
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-25"
+                    data-shrink="false"
                     for="userProfile.newAttribute"
                   >
                     Custom attribute
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-8"
+                      class="no-translate MuiBox-root emotion-26"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -360,14 +362,15 @@ exports[`enroll-profile-update should render form 1`] = `
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-20"
+                    data-shrink="false"
                     for="userProfile.favoriteSport"
                   >
                     Favorite sport
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-8"
+                      class="no-translate MuiBox-root emotion-21"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -394,14 +397,15 @@ exports[`enroll-profile-update should render form 1`] = `
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-20"
+                    data-shrink="false"
                     for="userProfile.newAttribute"
                   >
                     Custom attribute
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-8"
+                      class="no-translate MuiBox-root emotion-21"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div

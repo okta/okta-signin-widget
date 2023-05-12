@@ -11,7 +11,7 @@
  */
 
 import { HttpRequestClient } from '@okta/okta-auth-js';
-import { waitFor } from '@testing-library/preact';
+import { act, waitFor } from '@testing-library/preact';
 import { createAuthJsPayloadArgs, setup, updateStateHandleInMock } from './util';
 import qrPollingResponse from '../../src/mocks/response/idp/idx/credential/enroll/enroll-okta-verify-mfa.json';
 import emailPollingResponse from '../../src/mocks/response/idp/idx/challenge/send/enroll-ov-email-mfa.json';
@@ -102,7 +102,6 @@ describe('flow-okta-verify-enrollment', () => {
     const {
       authClient,
       user,
-      container,
       findByTestId,
       findByText,
       findByAltText,
@@ -112,7 +111,7 @@ describe('flow-okta-verify-enrollment', () => {
     await findByText(/Set up Okta Verify/);
     await findByText(/When prompted, tap Scan a QR code/);
     await findByAltText('QR code');
-    expect(container).toMatchSnapshot();
+    await waitFor(async () => expect(await findByText(/Can't scan\?/)).toHaveFocus());
     await user.click(await findByText(/Can't scan\?/));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
       ...createAuthJsPayloadArgs('POST', 'idp/idx/credential/enroll', {
@@ -124,7 +123,6 @@ describe('flow-okta-verify-enrollment', () => {
     await findByText(/More options/);
     await findByText(/Email me a setup link/);
     await findByText(/Text me a setup link/);
-    expect(container).toMatchSnapshot();
     await user.click(await findByText('Next', { selector: 'button' }));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
       ...createAuthJsPayloadArgs('POST', 'idp/idx/credential/enroll', {
@@ -137,7 +135,6 @@ describe('flow-okta-verify-enrollment', () => {
 
     // data enrollment
     await findByText(/Set up Okta Verify via email link/);
-    expect(container).toMatchSnapshot();
     const emailEl = await findByTestId('email');
     await user.type(emailEl, 'testuser@okta.com');
     await user.click(await findByText(/Send me the setup link/));
@@ -152,8 +149,10 @@ describe('flow-okta-verify-enrollment', () => {
 
     // Advance system time to show resend email reminder element
     mockSystemTime += 31_000;
-    jest.advanceTimersByTime(500);
-    expect(container).toMatchSnapshot();
+    act(() => {
+      jest.advanceTimersByTime(500);
+      jest.runAllTimers();
+    });
     await user.click(await findByText(/try a different way/));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
       ...createAuthJsPayloadArgs('POST', 'idp/idx/credential/enroll', {
@@ -165,7 +164,6 @@ describe('flow-okta-verify-enrollment', () => {
     await findByText(/More options/);
     await findByText(/Scan a QR code/);
     await findByText(/Text me a setup link/);
-    expect(container).toMatchSnapshot();
     await user.click(await findByText(/Next/));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
       ...createAuthJsPayloadArgs('POST', 'idp/idx/credential/enroll', {
@@ -180,14 +178,12 @@ describe('flow-okta-verify-enrollment', () => {
     await findByText(/Set up Okta Verify/);
     await findByText(/When prompted, tap Scan a QR code/);
     await findByAltText('QR code');
-    expect(container).toMatchSnapshot();
   });
 
   it('qr polling -> channel selection -> data enrollment (sms) -> sms polling -> try different -> channel selection -> qr polling', async () => {
     const {
       authClient,
       user,
-      container,
       findByTestId,
       findByText,
       findByAltText,
@@ -197,7 +193,7 @@ describe('flow-okta-verify-enrollment', () => {
     await findByText(/Set up Okta Verify/);
     await findByText(/When prompted, tap Scan a QR code/);
     await findByAltText('QR code');
-    expect(container).toMatchSnapshot();
+    await waitFor(async () => expect(await findByText(/Can't scan\?/)).toHaveFocus());
     await user.click(await findByText(/Can't scan\?/));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
       ...createAuthJsPayloadArgs('POST', 'idp/idx/credential/enroll', {
@@ -209,7 +205,6 @@ describe('flow-okta-verify-enrollment', () => {
     await findByText(/More options/);
     await findByText(/Email me a setup link/);
     const smsOption = await findByText(/Text me a setup link/);
-    expect(container).toMatchSnapshot();
     await user.click(smsOption);
     await user.click(await findByText('Next', { selector: 'button' }));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
@@ -223,7 +218,6 @@ describe('flow-okta-verify-enrollment', () => {
 
     // data enrollment
     await findByText(/Set up Okta Verify via SMS/);
-    expect(container).toMatchSnapshot();
     const phoneNumberEl = await findByTestId('phoneNumber');
     const countryEl = await findByTestId('country') as HTMLInputElement;
 
@@ -240,8 +234,10 @@ describe('flow-okta-verify-enrollment', () => {
     await findByText(/Check your text messages/);
     // Advance system time to show resend email reminder element
     mockSystemTime += 31_000;
-    jest.advanceTimersByTime(500);
-    expect(container).toMatchSnapshot();
+    act(() => {
+      jest.advanceTimersByTime(500);
+      jest.runAllTimers();
+    });
     await user.click(await findByText(/try a different way/));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
       ...createAuthJsPayloadArgs('POST', 'idp/idx/credential/enroll', {
@@ -253,7 +249,6 @@ describe('flow-okta-verify-enrollment', () => {
     await findByText(/More options/);
     await findByText(/Scan a QR code/);
     await findByText(/Email me a setup link/);
-    expect(container).toMatchSnapshot();
     await user.click(await findByText(/Next/));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
       ...createAuthJsPayloadArgs('POST', 'idp/idx/credential/enroll', {

@@ -73,14 +73,15 @@ exports[`enroll-profile-new should render form 1`] = `
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-15"
+                    data-shrink="false"
                     for="userProfile.lastName"
                   >
                     Last name
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-14"
+                      class="no-translate MuiBox-root emotion-16"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -108,14 +109,15 @@ exports[`enroll-profile-new should render form 1`] = `
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-15"
+                    data-shrink="false"
                     for="userProfile.firstName"
                   >
                     First name
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-14"
+                      class="no-translate MuiBox-root emotion-16"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div
@@ -143,14 +145,15 @@ exports[`enroll-profile-new should render form 1`] = `
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-15"
+                    data-shrink="false"
                     for="userProfile.email"
                   >
                     Email
                     <span
                       aria-hidden="true"
-                      class="no-translate MuiBox-root emotion-14"
+                      class="no-translate MuiBox-root emotion-16"
                     >
-                       *
+                      *
                     </span>
                   </label>
                   <div

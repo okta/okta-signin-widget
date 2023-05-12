@@ -10,10 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-// eslint-disable-next-line import/no-extraneous-dependencies
-import Duo from '@okta/duo';
-import { FunctionComponent, h } from 'preact';
-import React from 'preact/compat';
+import Duo from 'duo_web_sdk';
 import { useEffect, useState } from 'preact/hooks';
 
 import { useWidgetContext } from '../../contexts';
@@ -23,20 +20,6 @@ import {
   UISchemaElementComponent,
 } from '../../types';
 import { loc } from '../../util';
-
-type IFrameProps = {
-  title: string;
-};
-
-const IFrame: FunctionComponent<IFrameProps> = ({ title }) => (
-  <iframe
-    id="duo_iframe"
-    title={title}
-    height="400px"
-    width="100%"
-    frameBorder={0}
-  />
-);
 
 const DuoWindow: UISchemaElementComponent<{
   uischema: DuoWindowElement
@@ -58,7 +41,9 @@ const DuoWindow: UISchemaElementComponent<{
       Duo.init({
         host,
         sig_request: signedToken,
-        iframe: document.getElementById('duo_iframe'),
+        iframe: 'duo_iframe',
+
+        // @ts-expect-error type mismatch on post_action
         post_action: (signedData: string) => {
           handleDuoAuthSuccess({
             params: { 'credentials.signatureData': signedData },
@@ -78,10 +63,14 @@ const DuoWindow: UISchemaElementComponent<{
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return (
-    <React.Fragment>
-      { !duoFailed && <IFrame title={iframeTitle} /> }
-    </React.Fragment>
+  return duoFailed ? null : (
+    <iframe
+      id="duo_iframe"
+      title={iframeTitle}
+      height="400px"
+      width="100%"
+      frameBorder={0}
+    />
   );
 };
 
