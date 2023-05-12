@@ -61,54 +61,6 @@ const transformRemediationNameForIdp: TransformStepFnWithOptions = (options) => 
   return formbag;
 };
 
-/**
- * To support `idps` configuration in OIE.  Adds IDP buttons from widget config.
- * https://github.com/okta/okta-signin-widget#openid-connect
- */
-const injectIdPConfigButtonToRemediation: TransformStepFnWithOptions = (options) => (formbag) => {
-  const { transaction, widgetProps } = options;
-  const widgetRemediations = transaction.neededToProceed;
-  const hasIdentifyRemediation = widgetRemediations.some((r) => r.name === IDX_STEP.IDENTIFY);
-  if (!hasIdentifyRemediation) {
-    return formbag;
-  }
-
-  // @ts-expect-error OKTA-609461 - idps missing from WidgetOptions type
-  const idpsConfig = widgetProps.idps;
-  if (Array.isArray(idpsConfig)) {
-    const existsRedirectIdpIds: Record<string, boolean> = {};
-    widgetRemediations.forEach((r) => {
-      if (r.name === IDX_STEP.REDIRECT_IDP && r.idp) {
-        existsRedirectIdpIds[r.idp.id] = true;
-      }
-    });
-    const { baseUrl } = widgetProps;
-    const { stateHandle } = transaction.context;
-    const redirectIdpRemediations = idpsConfig
-      .filter((c) => !existsRedirectIdpIds[c.id]) // omit idps that are already in remediation.
-      .map((idpConfig) => {
-        const idp = {
-          id: idpConfig.id,
-          name: idpConfig.text,
-        };
-        const redirectUri = `${baseUrl}/sso/idps/${idpConfig.id}?stateToken=${stateHandle}`;
-        if (idpConfig.className) {
-          // @ts-expect-error OKTA-609464 - className missing from IdpConfig type
-          idp.className = idpConfig.className;
-        }
-        return {
-          name: IDX_STEP.REDIRECT_IDP,
-          type: idpConfig.type,
-          idp,
-          href: redirectUri,
-        };
-      });
-    transaction.neededToProceed = widgetRemediations.concat(redirectIdpRemediations);
-  }
-
-  return formbag;
-};
-
 const transformRegistrationSchema: TransformStepFnWithOptions = (options) => (formbag) => {
   const {
     transaction: { nextStep: { inputs = [], name } = {} },
@@ -147,5 +99,4 @@ const transformRegistrationSchema: TransformStepFnWithOptions = (options) => (fo
 export const transformTransactionData: TransformStepFnWithOptions = (options) => (formbag) => flow(
   transformRemediationNameForIdp(options),
   transformRegistrationSchema(options),
-  injectIdPConfigButtonToRemediation(options),
 )(formbag);

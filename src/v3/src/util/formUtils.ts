@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxTransaction, NextStep } from '@okta/okta-auth-js';
+import { IdxRemediation, IdxTransaction, NextStep } from '@okta/okta-auth-js';
 import { FunctionComponent } from 'preact';
 
 import IDP from '../../../util/IDP';
@@ -129,6 +129,49 @@ export const getFastPassButtonElement = (
   return [launchAuthenticatorButton];
 };
 
+/**
+ * To support `idps` configuration in OIE.
+ * Gets IDP buttons from widget config that are not already present in transaction remediations.
+ * https://github.com/okta/okta-signin-widget#openid-connect
+ */
+const getConfigIdpButtonRemediations = (transaction: IdxTransaction, widgetProps: WidgetProps) : IdxRemediation[] => {
+  const widgetRemediations = transaction.neededToProceed;
+  // @ts-expect-error OKTA-609461 - idps missing from WidgetProps type
+  const idpsConfig = widgetProps.idps;
+
+  if (Array.isArray(idpsConfig)) {
+    const existsRedirectIdpIds: Record<string, boolean> = {};
+    widgetRemediations.forEach((r) => {
+      if (r.name === IDX_STEP.REDIRECT_IDP && r.idp) {
+        existsRedirectIdpIds[r.idp.id] = true;
+      }
+    });
+    const { baseUrl } = widgetProps;
+    const { stateHandle } = transaction.context;
+    return idpsConfig
+      .filter((c) => !existsRedirectIdpIds[c.id]) // omit idps that are already in remediation.
+      .map((idpConfig) => {
+        const idp = {
+          id: idpConfig.id,
+          name: idpConfig.text,
+        };
+        const redirectUri = `${baseUrl}/sso/idps/${idpConfig.id}?stateToken=${stateHandle}`;
+        if (idpConfig.className) {
+          // @ts-expect-error OKTA-609464 - className missing from IdpConfig type
+          idp.className = idpConfig.className;
+        }
+        return {
+          name: IDX_STEP.REDIRECT_IDP,
+          type: idpConfig.type,
+          idp,
+          href: redirectUri,
+        };
+      });
+  }
+
+  return [];
+};
+
 // TO DO: OKTA-609477 - Add rest of supported social idp icons here
 const getIdpButtonIcon = (idpType: string) : FunctionComponent => {
   const idpIconMapping: Record<string, FunctionComponent> = {
@@ -161,17 +204,12 @@ export const getIdpButtonElements = (
   widgetProps: WidgetProps,
 ) : ButtonElement[] => {
   const { neededToProceed: remediations } = transaction;
-  const redirectIdpRemediations = remediations.filter((idp) => idp.name === IDX_STEP.REDIRECT_IDP);
+  let redirectIdpRemediations = remediations.filter((idp) => idp.name === IDX_STEP.REDIRECT_IDP) || [];
+  // Add Idp buttons from widget config (openid-connect)
+  redirectIdpRemediations = redirectIdpRemediations.concat(getConfigIdpButtonRemediations(transaction, widgetProps));
 
-  if (!Array.isArray(redirectIdpRemediations)) {
-    return [];
-  }
-
-  // create piv button
-  const pivButton = getPIVButtonElement(transaction, widgetProps);
-
-  // add buttons from idp object
-  const idpButtons = redirectIdpRemediations.map((idpObject) => {
+  // create button elements from idp objects
+  const idpButtonElements = redirectIdpRemediations.map((idpObject) => {
     let type = idpObject.type?.toLowerCase() || '';
     let displayName;
 
@@ -198,7 +236,7 @@ export const getIdpButtonElements = (
       classNames.push(idpObject.idp.className);
     }
 
-    const IdpButtonElement: ButtonElement = {
+    return {
       type: 'Button',
       label: displayName,
       options: {
@@ -212,10 +250,11 @@ export const getIdpButtonElements = (
           Util.redirectWithFormGet(idpObject.href);
         },
       },
-    };
-
-    return IdpButtonElement;
+    } as ButtonElement;
   });
 
-  return [...pivButton, ...idpButtons];
+  // create piv button element to be added
+  const pivButtonElement = getPIVButtonElement(transaction, widgetProps);
+
+  return [...pivButtonElement, ...idpButtonElements];
 };
