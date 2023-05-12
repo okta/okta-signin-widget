@@ -77,7 +77,7 @@ describe('Button Transformer Tests', () => {
     const formBag = getStubFormBag();
     const mockOptions = {
       transaction: {
-        rawIdxState: {}
+        rawIdxState: {},
       },
       widgetProps: {},
     } as TransformationOptions;
