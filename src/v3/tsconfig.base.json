@@ -50,7 +50,7 @@
       ]
     },
     "resolveJsonModule": true,
-    "skipLibCheck": true,
+    "skipLibCheck": false,
     "strict": true,
     "target": "ES6",
     "useDefineForClassFields": true
