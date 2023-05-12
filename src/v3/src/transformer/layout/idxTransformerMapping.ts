@@ -75,6 +75,7 @@ import {
   transformSecurityQuestionEnroll,
   transformSecurityQuestionVerify,
 } from './securityQuestion';
+import { transformSymantecVipAuthenticator } from './symantecVip';
 
 /**
  * TransformerMap
@@ -169,6 +170,12 @@ const TransformerMap: {
     [AUTHENTICATOR_KEY.SECURITY_QUESTION]: {
       transform: transformSecurityQuestionVerify,
       buttonConfig: { showDefaultSubmit: false },
+    },
+    [AUTHENTICATOR_KEY.SYMANTEC_VIP]: {
+      transform: transformSymantecVipAuthenticator,
+      buttonConfig: {
+        showDefaultSubmit: false,
+      },
     },
     [AUTHENTICATOR_KEY.WEBAUTHN]: {
       transform: transformWebAuthNAuthenticator,
@@ -265,6 +272,12 @@ const TransformerMap: {
     [AUTHENTICATOR_KEY.SECURITY_QUESTION]: {
       transform: transformSecurityQuestionEnroll,
       buttonConfig: { showDefaultSubmit: false },
+    },
+    [AUTHENTICATOR_KEY.SYMANTEC_VIP]: {
+      transform: transformSymantecVipAuthenticator,
+      buttonConfig: {
+        showDefaultSubmit: false,
+      },
     },
     [AUTHENTICATOR_KEY.WEBAUTHN]: {
       transform: transformWebAuthNAuthenticator,
