@@ -194,6 +194,7 @@ export type WidgetOptions = {
   language?: LanguageCode | LanguageCallback | string;
   helpSupportNumber?: string;
   helpLinks?: {
+    help?: string;
     custom?: CustomLink[];
     factorPage?: CustomLink;
     forgotPassword?: string;
