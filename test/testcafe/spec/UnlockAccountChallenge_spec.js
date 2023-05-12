@@ -3,6 +3,7 @@ import { checkA11y } from '../framework/a11y';
 import SelectFactorPageObject from '../framework/page-objects/SelectAuthenticatorPageObject';
 import ChallengeEmailPageObject from '../framework/page-objects/ChallengeEmailPageObject';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
+import SignInDevicePageObject from '../framework/page-objects/SignInDevicePageObject';
 import xhrIdentifyWithUnlock from '../../../playground/mocks/data/idp/idx/identify-with-unlock-account-link';
 import xhrUserUnlockAuthSelector from '../../../playground/mocks/data/idp/idx/user-unlock-account';
 import xhrUserUnlockSuccess from '../../../playground/mocks/data/idp/idx/user-account-unlock-success';
@@ -10,6 +11,8 @@ import xhrUserUnlockSuccessLandOnApp from '../../../playground/mocks/data/idp/id
 import xhrUserUnlockEmailChallenge from '../../../playground/mocks/data/idp/idx/authenticator-verification-email';
 import xhrErrorUnlockAccount from '../../../playground/mocks/data/idp/idx/error-unlock-account';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
+import smartProbingRequired from '../../../playground/mocks/data/idp/idx/smart-probing-required';
+import launchAuthenticatorOption from '../../../playground/mocks/data/idp/idx/identify-with-device-launch-authenticator';
 
 
 const identifyLockedUserMock = RequestMock()
@@ -51,6 +54,12 @@ const identifyLockedUserMockWithOneAuthenticator = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/unlock-account')
   .respond(xhrUserUnlockAuthSelectorWithOneAuthenticator);
 
+const signInDeviceMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(smartProbingRequired)
+  .onRequestTo('http://localhost:3000/idp/idx/authenticators/okta-verify/launch')
+  .respond(launchAuthenticatorOption);
+
 
 const rerenderWidget = ClientFunction((settings) => {
   window.renderPlaygroundWidget(settings);
@@ -64,6 +73,11 @@ async function setup(t) {
   return identityPage;
 }
 
+async function setupSignInDevice(t) {
+  const signInDevicePageObject = new SignInDevicePageObject(t);
+  await signInDevicePageObject.navigateToPage();
+  return signInDevicePageObject;
+}
 
 test.requestHooks(identifyLockedUserMock)('should show unlock account link', async t => {
   const identityPage = await setup(t);
@@ -72,7 +86,7 @@ test.requestHooks(identifyLockedUserMock)('should show unlock account link', asy
 });
 
 
-test.meta('v3', false).requestHooks(identifyLockedUserMock)('should render custom Unlock account link', async t => {
+test.requestHooks(identifyLockedUserMock)('should render custom Unlock account link', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
   const customUnlockLinkText = 'HELP I\'M LOCKED OUT';
@@ -197,4 +211,15 @@ test.meta('v3', false).requestHooks(identifyLockedUserMock)('should show the cor
   await t.pressKey('enter');
 
   await t.expect(selectFactorPage.getErrorBoxText()).contains('To unlock your account, select one of the following authenticators.');
+});
+
+test.requestHooks(signInDeviceMock)('should show unlock account link on sign-in device page', async t => {
+  const signInDevicePage = await setupSignInDevice(t);
+  await rerenderWidget({
+    'helpLinks': {
+      'unlock': 'https://okta.okta.com/unlock',
+    }
+  });
+  await t.expect(signInDevicePage.unlockAccountLinkExists()).eql(true);
+  await t.expect(signInDevicePage.getCustomUnlockAccountLinkUrl()).eql('https://okta.okta.com/unlock');
 });

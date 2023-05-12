@@ -11,7 +11,9 @@
  */
 
 import { WidgetProps } from '../types';
-import { getDefaultCountryCode, getLanguageCode, transformIdentifier } from './settingsUtils';
+import {
+  getDefaultCountryCode, getHelpLink, getLanguageCode, transformIdentifier,
+} from './settingsUtils';
 
 jest.mock('../../../util/BrowserFeatures', () => ({
   getUserLanguages: jest.fn().mockReturnValue(['en', 'en-US']),
@@ -74,5 +76,12 @@ describe('Settings Utils Tests', () => {
     };
     const identifier = 'testuser@okta1.com';
     expect(transformIdentifier(widgetProps, 'identify', identifier)).toBe('testuser');
+  });
+
+  it('should return default help link if custom one is not provided', () => {
+    widgetProps = {
+      baseUrl: 'https://okta1.com',
+    };
+    expect(getHelpLink(widgetProps)).toBe('https://okta1.com/help/login');
   });
 });

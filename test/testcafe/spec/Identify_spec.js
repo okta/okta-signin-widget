@@ -4,6 +4,7 @@ import SelectFactorPageObject from '../framework/page-objects/SelectAuthenticato
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import { checkConsoleMessages, renderWidget as rerenderWidget } from '../framework/shared';
 import xhrIdentify from '../../../playground/mocks/data/idp/idx/identify';
+import xhrIdentifyWithUnlock from '../../../playground/mocks/data/idp/idx/identify-with-unlock-account-link';
 import xhrErrorIdentify from '../../../playground/mocks/data/idp/idx/error-identify-access-denied';
 import xhrAuthenticatorVerifySelect from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator';
 import xhrAuthenticatorOVTotp from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-totp';
@@ -25,6 +26,12 @@ const identifyMockWithUnsupportedResponseError = RequestMock()
 const identifyMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrIdentify)
+  .onRequestTo('http://localhost:3000/idp/idx/identify')
+  .respond(xhrErrorIdentify, 403);
+
+const identifyWithUnlockMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrIdentifyWithUnlock)
   .onRequestTo('http://localhost:3000/idp/idx/identify')
   .respond(xhrErrorIdentify, 403);
 
@@ -292,7 +299,7 @@ test.meta('v3', false).requestHooks(identifyRequestLogger, identifyMock)('should
   });
 });
 
-test.meta('v3', false).requestHooks(identifyMock)('should render custom Unlock account link', async t => {
+test.requestHooks(identifyWithUnlockMock)('should render custom Unlock account link', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
   const customUnlockLinkText = 'HELP I\'M LOCKED OUT';
@@ -312,7 +319,7 @@ test.meta('v3', false).requestHooks(identifyMock)('should render custom Unlock a
   await t.expect(identityPage.getCustomUnlockAccountLinkUrl(customUnlockLinkText)).eql('http://unlockaccount');
 });
 
-test.meta('v3', false).requestHooks(identifyMock)('should not render custom forgot password link', async t => {
+test.requestHooks(identifyMock)('should not render custom forgot password link', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
   await rerenderWidget({

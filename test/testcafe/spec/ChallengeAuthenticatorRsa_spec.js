@@ -103,8 +103,7 @@ test.requestHooks(mockPasscodeChange)('displays error and clears passcode when p
     .eql('');
 });
 
-// OKTA-465319 custom links are not supported in v3 yet
-test.meta('v3', false).requestHooks(mockPasscodeChange)('should show custom factor page link', async t => {
+test.requestHooks(mockPasscodeChange)('should show custom factor page link', async t => {
   const challengeRsaPage = await setup(t);
   await checkA11y(t);
 

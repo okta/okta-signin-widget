@@ -207,8 +207,7 @@ test.requestHooks(requestLogger, mockChallengeOVTotpMethod)('should show switch 
     .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
 });
 
-// Help links are not implemented in v3 - OKTA-609315
-test.meta('v3', false).requestHooks(mockChallengeOVTotpMethod)('should show custom factor page link', async t => {
+test.requestHooks(mockChallengeOVTotpMethod)('should show custom factor page link', async t => {
   const selectAuthenticatorPage = await setup(t);
   await checkA11y(t);
 

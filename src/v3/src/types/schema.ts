@@ -452,6 +452,7 @@ export interface LinkElement extends UISchemaElement {
   options: ActionOptions & {
     label: string;
     href?: string;
+    target?: string;
     dataSe?: string;
     target?: '_blank';
     onClick?: (widgetContext?: IWidgetContext) => unknown;

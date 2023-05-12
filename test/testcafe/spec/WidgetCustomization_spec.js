@@ -39,7 +39,9 @@ const rerenderWidget = ClientFunction((settings) => {
   window.renderPlaygroundWidget(settings);
 });
 
-fixture('Custom widget attributes');
+fixture('Custom widget attributes')
+.meta('v3', true);
+
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
   await identityPage.navigateToPage();
@@ -92,6 +94,7 @@ test.requestHooks(identifyMock)('should show custom footer links', async t => {
   await t.expect(identityPage.getCustomHelpLinks(1)).eql('https://acme.com');
   await t.expect(identityPage.getCustomHelpLinksLabel(0)).eql('What is Okta?');
   await t.expect(identityPage.getCustomHelpLinksLabel(1)).eql('Acme Portal');
+  await t.expect(identityPage.getCustomHelpLinksTarget(1)).eql('_blank');
 });
 
 test.requestHooks(xhrSelectAuthenticatorMock)('should show custom signout link', async t => {
@@ -129,7 +132,7 @@ test.requestHooks(xhrSelectAuthenticatorMock)('can customize back to signin link
   await t.expect(selectAuthenticatorPageObject.getSignoutLinkText()).eql('Back to sign in');
 });
 
-test.requestHooks(identifyMock)('should show custom buttons links', async t => {
+test.meta('v3', false).requestHooks(identifyMock)('should show custom buttons links', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
   await rerenderWidget({

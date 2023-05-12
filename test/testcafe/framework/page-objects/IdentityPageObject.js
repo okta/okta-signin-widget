@@ -5,9 +5,9 @@ import BasePageObject from './BasePageObject';
 
 const CALLOUT_SELECTOR = '[data-se="callout"]';
 const NEEDHELP_SELECTOR = 'a[data-se="help"]';
-const FORGOT_PASSWORD_SELECTOR = 'a[data-se="forgot-password"]';
-const CUSTOM_HELP_LINK_SELECTOR = '.auth-footer .js-help';
-const CUSTOM_HELP_LINKS_SELECTOR = '.auth-footer .js-custom';
+const FORGOT_PASSWORD_SELECTOR = '[data-se="forgot-password"]';
+const CUSTOM_HELP_LINK_SELECTOR = userVariables.v3 ? '[data-se="help"]' : '.auth-footer .js-help';
+const CUSTOM_HELP_LINKS_SELECTOR = userVariables.v3 ? '[data-se="custom"]' : '.auth-footer .js-custom';
 const CUSTOM_BUTTON = '.custom-buttons .okta-custom-buttons-container .default-custom-button';
 const SUB_LABEL_SELECTOR = '.o-form-explain';
 const IDPS_CONTAINER = '.okta-idps-container';
@@ -207,6 +207,10 @@ export default class IdentityPageObject extends BasePageObject {
 
   getCustomHelpLinks(index) {
     return Selector(CUSTOM_HELP_LINKS_SELECTOR).nth(index).getAttribute('href');
+  }
+
+  getCustomHelpLinksTarget(index) {
+    return Selector(CUSTOM_HELP_LINKS_SELECTOR).nth(index).getAttribute('target');
   }
 
   getCustomHelpLinksLabel(index) {

@@ -12,22 +12,22 @@
 
 import { IdxFeature } from '@okta/okta-auth-js';
 
-import { IDX_STEP } from '../../constants';
+import { STEPS_REQUIRING_UNLOCK_ACCOUNT_LINK } from '../../constants';
 import {
   LinkElement,
   TransformStepFnWithOptions,
 } from '../../types';
-import { loc } from '../../util';
+import { getUnlockAccountUri, loc } from '../../util';
 
 export const transformUnlockAccountButton: TransformStepFnWithOptions = ({
   transaction,
+  widgetProps,
 }) => (
   formbag,
 ) => {
   const { availableSteps, enabledFeatures } = transaction;
-  const hasIdentityStep = availableSteps?.some((s) => s.name === IDX_STEP.IDENTIFY);
   const shouldAddDefaultButton = enabledFeatures?.includes(IdxFeature.ACCOUNT_UNLOCK)
-    && hasIdentityStep;
+    && availableSteps?.some((s) => STEPS_REQUIRING_UNLOCK_ACCOUNT_LINK.includes(s.name));
   const unlockStep = availableSteps?.find(
     ({ name }) => name === 'unlock-account',
   );
@@ -41,8 +41,13 @@ export const transformUnlockAccountButton: TransformStepFnWithOptions = ({
     options: {
       label: loc('unlockaccount', 'login'),
       step: unlockStep.name,
+      dataSe: 'unlock',
     },
   };
+  const unlockAccountUri = getUnlockAccountUri(widgetProps);
+  if (unlockAccountUri) {
+    unlockLink.options.href = unlockAccountUri;
+  }
   formbag.uischema.elements.push(unlockLink);
 
   return formbag;

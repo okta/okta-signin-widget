@@ -17,7 +17,7 @@ import {
   LinkElement,
   TransformStepFnWithOptions,
 } from '../../types';
-import { getAuthenticatorKey, loc } from '../../util';
+import { getAuthenticatorKey, getForgotPasswordUri, loc } from '../../util';
 import TransformerMap from '../layout/idxTransformerMapping';
 
 const getStepByName = (
@@ -28,6 +28,7 @@ const getStepByName = (
 export const transformForgotPasswordButton: TransformStepFnWithOptions = ({
   transaction,
   step,
+  widgetProps,
 }) => (
   formbag,
 ) => {
@@ -52,6 +53,10 @@ export const transformForgotPasswordButton: TransformStepFnWithOptions = ({
       step: stepName,
     },
   };
+  const forgotPasswordUri = getForgotPasswordUri(widgetProps);
+  if (forgotPasswordUri) {
+    forgotPassword.options.href = forgotPasswordUri;
+  }
 
   formbag.uischema.elements.push(forgotPassword);
 

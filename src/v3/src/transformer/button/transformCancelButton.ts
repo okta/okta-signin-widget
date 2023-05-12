@@ -15,7 +15,9 @@ import {
   LinkElement,
   TransformStepFnWithOptions,
 } from '../../types';
-import { getAuthenticatorKey, loc, shouldShowCancelLink } from '../../util';
+import {
+  getAuthenticatorKey, getBackToSignInUri, loc, shouldShowCancelLink,
+} from '../../util';
 import TransformerMap from '../layout/idxTransformerMapping';
 
 export const transformCancelButton: TransformStepFnWithOptions = ({
@@ -40,8 +42,13 @@ export const transformCancelButton: TransformStepFnWithOptions = ({
       label: loc('goback', 'login'),
       isActionStep: true,
       step: cancelStep.name,
+      dataSe: 'cancel',
     },
   };
+  const backToSigninUri = getBackToSignInUri(widgetProps);
+  if (backToSigninUri) {
+    cancelLink.options.href = backToSigninUri;
+  }
 
   formbag.uischema.elements.push(cancelLink);
 

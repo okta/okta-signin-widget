@@ -195,6 +195,9 @@ export type WidgetOptions = {
   helpSupportNumber?: string;
   helpLinks?: {
     custom?: CustomLink[];
+    factorPage?: CustomLink;
+    forgotPassword?: string;
+    unlock?: string;
   } & Record<string, string>;
   defaultCountryCode?: string;
   transformUsername?: (username: string, operation: UserOperation) => string;
@@ -275,7 +278,8 @@ type CustomButton = {
   click: { (): void }
 };
 
-type CustomLink = {
+export type CustomLink = {
   text: string;
   href: string;
+  target?: string;
 };

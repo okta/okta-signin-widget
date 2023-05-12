@@ -14,7 +14,9 @@ import { flow } from 'lodash';
 
 import { TransformStepFnWithOptions } from '../../types';
 import { transformCancelButton } from './transformCancelButton';
+import { transformFactorPageCustomLink } from './transformFactorPageCustomLink';
 import { transformForgotPasswordButton } from './transformForgotPasswordButton';
+import { transformHelpLinks } from './transformHelpLinks';
 import { transformIDPButtons } from './transformIDPButtons';
 import { transformRegisterButton } from './transformRegisterButton';
 import { transformReturnToAuthenticatorListButton } from './transformReturnToAuthenticatorListButton';
@@ -26,6 +28,8 @@ export const transformButtons: TransformStepFnWithOptions = (options) => (formba
   transformSubmitButton(options),
   transformForgotPasswordButton(options),
   transformUnlockAccountButton(options),
+  transformHelpLinks(options),
+  transformFactorPageCustomLink(options),
   transformVerifyWithOtherButton(options),
   transformReturnToAuthenticatorListButton(options),
   transformRegisterButton(options),

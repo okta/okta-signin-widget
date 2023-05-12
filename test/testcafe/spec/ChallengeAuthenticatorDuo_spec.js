@@ -140,7 +140,7 @@ test.requestHooks(answerRequestLogger, verificationFailedMock)('verification fai
   await t.expect(duoPageObject.form.getErrorBoxText()).eql('We were unable to verify with Duo. Try again.');
 });
 
-test.meta('v3', false) // OKTA-465319 Help link is not supported in v3
+test
   .requestHooks(mock)('should show custom factor page link', async t => {
     const challengeDuoPage = await setup(t);
     await checkA11y(t);
