@@ -19,7 +19,7 @@ const MockDuo = {
         return options.iframe;
       }
       if (typeof options.iframe === 'string') {
-        const el = document.querySelector(options.iframe);
+        const el = document.getElementById(options.iframe);
         if (el instanceof HTMLIFrameElement) {
           return el;
         }
