@@ -80,7 +80,10 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
         {showAsterisk && (
           <Box
             component="span"
-            sx={(theme) => ({ marginInlineStart: theme.spacing(1), marginInlineEnd: theme.spacing(1) })}
+            sx={(theme) => ({
+              marginInlineStart: theme.spacing(1),
+              marginInlineEnd: theme.spacing(1),
+            })}
             className="no-translate"
             aria-hidden
           >
