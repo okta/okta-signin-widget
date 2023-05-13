@@ -17,7 +17,7 @@
   "module": "dist/index.mjs",
   "source": "components/widget/index.js",
   "scripts": {
-    "build": "NODE_OPTIONS=--max-old-space-size=8192 vite build",
+    "build": "vite build",
     "clean-svg": "svgo -f src/img/authCoinIcons",
     "codegen": "yarn workspace @okta/okta-signin-widget codegen",
     "dev": "yarn codegen && mockDuo=true vite",
