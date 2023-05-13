@@ -64,8 +64,9 @@ import { mapMuiThemeFromBrand } from '../../util/theme';
 import AuthContainer from '../AuthContainer/AuthContainer';
 import AuthContent from '../AuthContent/AuthContent';
 import AuthHeader from '../AuthHeader/AuthHeader';
+import ConsentHeader from '../ConsentHeader';
 import Form from '../Form';
-import IdentifierContainer from '../IdentifierContainer/IdentifierContainer';
+import IdentifierContainer from '../IdentifierContainer';
 import Spinner from '../Spinner';
 
 export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
@@ -405,6 +406,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
                 authCoinProps={buildAuthCoinProps(idxTransaction)}
               />
               <AuthContent>
+                <ConsentHeader />
                 <IdentifierContainer />
                 {
                   uischema.elements.length > 0

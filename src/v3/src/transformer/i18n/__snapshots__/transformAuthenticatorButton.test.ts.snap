@@ -33,6 +33,7 @@ Object {
                 Object {
                   "i18nKey": "",
                   "name": "label",
+                  "noTranslate": undefined,
                   "value": "My custom authenticator app",
                 },
               ],
@@ -87,6 +88,7 @@ Object {
                 Object {
                   "i18nKey": "oie.email.label",
                   "name": "label",
+                  "noTranslate": undefined,
                   "value": "oie.email.label",
                 },
               ],
@@ -144,6 +146,7 @@ Object {
                 Object {
                   "i18nKey": "oie.okta_verify.push.title",
                   "name": "label",
+                  "noTranslate": undefined,
                   "value": "oie.okta_verify.push.title",
                 },
               ],

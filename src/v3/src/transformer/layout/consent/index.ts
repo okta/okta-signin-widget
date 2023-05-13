@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022-present, Okta, Inc. and/or its affiliates. All rights reserved.
+ * Copyright (c) 2023-present, Okta, Inc. and/or its affiliates. All rights reserved.
  * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
  *
  * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
@@ -10,14 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { TranslationInfo } from '../types';
-
-export const getTranslationInfo = (
-  translations: TranslationInfo[],
-  name: string,
-): TranslationInfo | undefined => translations.find(({ name: fieldName }) => fieldName === name);
-
-export const getTranslation = (
-  translations: TranslationInfo[],
-  name: string,
-): string | undefined => getTranslationInfo(translations, name)?.value;
+export * from './transformAdminConsent';
+export * from './transformEnduserConsent';
+export * from './transformGranularConsent';

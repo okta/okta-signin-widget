@@ -204,7 +204,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
                   class="MuiBox-root emotion-9"
                 >
                   <div
-                    class="MuiBox-root emotion-18"
+                    class="MuiBox-root emotion-14"
                   >
                     <h3
                       class="MuiTypography-root MuiTypography-h5 emotion-19"
@@ -791,7 +791,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                   class="MuiBox-root emotion-9"
                 >
                   <div
-                    class="MuiBox-root emotion-18"
+                    class="MuiBox-root emotion-14"
                   >
                     <h3
                       class="MuiTypography-root MuiTypography-h5 emotion-19"

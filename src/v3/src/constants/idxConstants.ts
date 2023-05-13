@@ -228,3 +228,35 @@ export const FORM_NAME_TO_OPERATION_MAP: Record<string, UserOperation> = {
   [IDX_STEP.IDENTIFY]: 'PRIMARY_AUTH',
   [IDX_STEP.IDENTIFY_RECOVERY]: 'FORGOT_PASSWORD',
 };
+
+export const CONSENT_HEADER_STEPS: Array<string> = [
+  IDX_STEP.CONSENT_ADMIN,
+  IDX_STEP.CONSENT_ENDUSER,
+  IDX_STEP.CONSENT_GRANULAR,
+];
+
+export type ConsentScopeGroup = 'user' | 'resource' | 'system' | 'hook';
+export const SCOPE_GROUP_CONFIG: Record<string, ConsentScopeGroup> = {
+  groups: 'user',
+  myAccount: 'user',
+  users: 'user',
+  apps: 'resource',
+  authenticators: 'resource',
+  authorizationServers: 'resource',
+  clients: 'resource',
+  domains: 'resource',
+  factors: 'resource',
+  idps: 'resource',
+  linkedObjects: 'resource',
+  policies: 'resource',
+  templates: 'resource',
+  eventHooks: 'hook',
+  inlineHooks: 'hook',
+  events: 'system',
+  logs: 'system',
+  orgs: 'system',
+  roles: 'system',
+  schemas: 'system',
+  sessions: 'system',
+  trustedOrigins: 'system',
+};

@@ -138,7 +138,7 @@ export type TokenSearchValue = '$1' | '$2';
  * @prop {string} attributes.href - href value to apply to the target element
  */
 export type TokenReplacementValue = {
-  element: 'span' | 'a';
+  element: 'span' | 'a' | 'p' | 'h1' | 'h2';
   attributes?: {
     class?: string;
     href?: string;
@@ -155,6 +155,13 @@ export type RegistrationElementSchema = Modify<Input, {
   sublabel?: string;
   wide?: boolean;
 }>;
+
+export type ConsentScope = {
+  name: string;
+  label: string;
+  value: string;
+  desc?: string;
+};
 
 export interface UISchemaElement {
   type: string;
@@ -443,6 +450,7 @@ export interface LinkElement extends UISchemaElement {
     label: string;
     href?: string;
     dataSe?: string;
+    target?: '_blank';
     onClick?: (widgetContext?: IWidgetContext) => unknown;
   };
 }
@@ -547,6 +555,7 @@ export interface TranslationInfo {
   name: string;
   i18nKey: string;
   value: string;
+  noTranslate?: boolean;
 }
 
 export interface DividerElement extends UISchemaElement {

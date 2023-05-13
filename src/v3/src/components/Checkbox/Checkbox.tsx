@@ -15,6 +15,7 @@ import {
   Checkbox as CheckboxMui,
   FormControl,
   FormControlLabel,
+  FormHelperText,
 } from '@okta/odyssey-react-mui';
 import { Fragment, h } from 'preact';
 
@@ -25,7 +26,7 @@ import {
   UISchemaElementComponent,
   UISchemaElementComponentWithValidationProps,
 } from '../../types';
-import { getTranslation } from '../../util';
+import { getTranslationInfo } from '../../util';
 import FieldLevelMessageContainer from '../FieldLevelMessageContainer';
 import { withFormValidationState } from '../hocs';
 
@@ -40,9 +41,15 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
   const { loading } = useWidgetContext();
 
   const {
-    options: { inputMeta: { name } }, focus, translations = [], showAsterisk,
+    options: { inputMeta: { name, mutable } },
+    focus,
+    noTranslate,
+    translations = [],
+    showAsterisk,
   } = uischema;
-  const label = getTranslation(translations, 'label');
+  const isReadOnly = mutable === false;
+  const labelInfo = getTranslationInfo(translations, 'label');
+  const descriptionInfo = getTranslationInfo(translations, 'description');
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
   const hasErrors = typeof errors !== 'undefined';
 
@@ -51,8 +58,10 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
       component="fieldset"
       error={hasErrors}
       aria-describedby={describedByIds}
+      className={noTranslate ? 'no-translate' : undefined}
     >
       <FormControlLabel
+        sx={{ alignItems: 'flex-start' }}
         control={(
           <CheckboxMui
             size="medium"
@@ -66,7 +75,7 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
             onBlur={(e: ChangeEvent<HTMLInputElement>) => {
               handleBlur?.(e?.currentTarget?.checked);
             }}
-            disabled={loading}
+            disabled={loading || isReadOnly}
             inputProps={{
               'data-se': name,
               'data-se-for-name': name,
@@ -75,7 +84,14 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
         )}
         label={(
           <Fragment>
-            {label}
+            {labelInfo?.noTranslate ? (
+              <Box
+                component="span"
+                className="no-translate"
+              >
+                {labelInfo?.value as string}
+              </Box>
+            ) : labelInfo?.value as string}
             {showAsterisk && (
               <Box
                 component="span"
@@ -88,6 +104,11 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
               >
                 *
               </Box>
+            )}
+            {descriptionInfo?.value && (
+              <FormHelperText className={descriptionInfo.noTranslate ? 'no-translate' : undefined}>
+                {descriptionInfo.value}
+              </FormHelperText>
             )}
           </Fragment>
         )}

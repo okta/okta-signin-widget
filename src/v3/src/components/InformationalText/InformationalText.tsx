@@ -33,6 +33,7 @@ const InformationalText: UISchemaElementComponent<{
         id={uischema.id}
         paragraph
         data-se={dataSe || 'o-form-explain'}
+        className={uischema.noTranslate ? 'no-translate' : undefined}
       >
         {parsedContent}
       </Typography>

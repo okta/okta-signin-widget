@@ -13,7 +13,7 @@
 /// <reference types="vite/client" />
 import preact from '@preact/preset-vite';
 import { resolve } from 'path';
-import { BuildOptions, defineConfig } from 'vite';
+import { BuildOptions, defineConfig, splitVendorChunkPlugin } from 'vite';
 
 const outDir = resolve(__dirname, '../../dist/dist');
 const mockServerBaseUrl = 'http://localhost:3030';
@@ -25,6 +25,7 @@ export default defineConfig(({ mode, command }) => ({
     : process.cwd(),
   plugins: [
     preact(),
+    splitVendorChunkPlugin(),
   ],
   define: {
     OKTA_SIW_VERSION: '"0.0.0"',
@@ -87,7 +88,7 @@ export default defineConfig(({ mode, command }) => ({
       ...base,
 
       // hide sourcemaps
-      sourcemap: 'hidden',
+      sourcemap: false, // boolean | 'inline' | 'hidden'
 
       // set to library mode with "umd" format to expose `OktaSignIn` on the
       // `window`

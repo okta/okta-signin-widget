@@ -1,5 +1,5 @@
-import { RequestMock, RequestLogger } from 'testcafe';
-import { checkA11y } from '../framework/a11y';
+import { RequestMock, RequestLogger, userVariables } from 'testcafe';
+import { checkA11y, oktaDashboardContent } from '../framework/a11y';
 
 import ConsentPageObject from '../framework/page-objects/ConsentPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
@@ -14,13 +14,17 @@ const consentEnduserMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrConsentEnduser)
   .onRequestTo('http://localhost:3000/idp/idx/consent')
-  .respond(xhrSuccess);
+  .respond(xhrSuccess)
+  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+  .respond(oktaDashboardContent);
 
 const consentEnduserCustomScopesMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrConsentEnduserCustomScopes)
   .onRequestTo('http://localhost:3000/idp/idx/consent')
-  .respond(xhrSuccess);
+  .respond(xhrSuccess)
+  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+  .respond(oktaDashboardContent);
 
 const consentEnduserFailedMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -38,6 +42,7 @@ const requestLogger = RequestLogger(/consent/,
 async function setup(t) {
   const consentPage = new ConsentPageObject(t);
   await consentPage.navigateToPage();
+  await t.expect(consentPage.formExists()).eql(true);
   return consentPage;
 }
 
@@ -48,26 +53,22 @@ async function testRedirect(t) {
     .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
 }
 
-fixture('EnduserConsent');
+fixture('EnduserConsent').meta('v3', true);
 
 test.requestHooks(requestLogger, consentEnduserMock)('should render scopes', async t => {
   const consentPage  = await setup(t);
   await checkA11y(t);
 
-  await t.expect(consentPage.getScopeItemTexts()).eql([
-    'View your email address.',
-    'View your phone number.',
-  ]);
+  await t.expect(consentPage.hasScopeText('View your email address.')).eql(true);
+  await t.expect(consentPage.hasScopeText('View your phone number.')).eql(true);
 });
 
 test.requestHooks(requestLogger, consentEnduserCustomScopesMock)('should render custom scopes', async t => {
   const consentPage  = await setup(t);
   await checkA11y(t);
 
-  await t.expect(consentPage.getScopeItemTexts()).eql([
-    'View your mobile phone data plan.',
-    'View your internet search history.',
-  ]);
+  await t.expect(consentPage.hasScopeText('View your mobile phone data plan.')).eql(true);
+  await t.expect(consentPage.hasScopeText('View your internet search history.')).eql(true);
 });
 
 test.requestHooks(requestLogger, consentEnduserCustomScopesMock)('should display correct titleText', async t => {
@@ -120,7 +121,10 @@ test.requestHooks(requestLogger, consentEnduserFailedMock)('should go to Termina
   await t.expect(url).eql('http://localhost:3000/idp/idx/consent');
 
   const terminalPageObject = new TerminalPageObject(t);
-  await t.expect(await terminalPageObject.goBackLinkExists()).notOk();
+  // in v3 Go back and Signout links are the same (in v2 they vary based on class name)
+  if (!userVariables.v3) {
+    await t.expect(await terminalPageObject.goBackLinkExists()).notOk();
+  }
   await t.expect(await terminalPageObject.signoutLinkExists()).ok();
   await t.expect(terminalPageObject.getErrorMessages().isError()).eql(true);
   await t.expect(terminalPageObject.getErrorMessages().getTextContent()).contains('Reset password is not allowed at this time. Please contact support for assistance.');

@@ -1,0 +1,351 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`transformAdminConsent tests should add customized scope elements to formbag 1`] = `
+Object {
+  "data": Object {
+    "consent.scopes.custom1.custom2.custom3": true,
+    "consent.scopes.custom4.custom5.custom6": true,
+    "consent.scopes.okta.authenticators.manage": true,
+    "consent.scopes.okta.clients.manage": true,
+  },
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.consent.scopes.granular.description",
+          "dataSe": "consent-description",
+        },
+        "type": "Description",
+      },
+      Object {
+        "noMargin": true,
+        "options": Object {
+          "content": "admin.consent.group.resource.policy",
+          "dataSe": "scope-group--header",
+          "level": 5,
+          "visualLevel": 3,
+        },
+        "type": "Heading",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "mutable": false,
+            "name": "consent.scopes.okta.clients.manage",
+            "type": "boolean",
+          },
+        },
+        "translations": Array [
+          Object {
+            "i18nKey": "consent.scopes.okta.clients.manage.label",
+            "name": "label",
+            "noTranslate": true,
+            "value": "okta.clients.manage",
+          },
+          Object {
+            "i18nKey": "consent.scopes.okta.clients.manage.desc",
+            "name": "description",
+            "noTranslate": false,
+            "value": "consent.scopes.okta.clients.manage.desc",
+          },
+        ],
+        "type": "Field",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "mutable": false,
+            "name": "consent.scopes.okta.authenticators.manage",
+            "type": "boolean",
+          },
+        },
+        "translations": Array [
+          Object {
+            "i18nKey": "consent.scopes.okta.authenticators.manage.label",
+            "name": "label",
+            "noTranslate": true,
+            "value": "okta.authenticators.manage",
+          },
+          Object {
+            "i18nKey": "consent.scopes.okta.authenticators.manage.desc",
+            "name": "description",
+            "noTranslate": false,
+            "value": "consent.scopes.okta.authenticators.manage.desc",
+          },
+        ],
+        "type": "Field",
+      },
+      Object {
+        "noMargin": true,
+        "options": Object {
+          "content": "admin.consent.group.system",
+          "dataSe": "scope-group--header",
+          "level": 5,
+          "visualLevel": 3,
+        },
+        "type": "Heading",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "mutable": false,
+            "name": "consent.scopes.custom1.custom2.custom3",
+            "type": "boolean",
+          },
+        },
+        "translations": Array [
+          Object {
+            "i18nKey": "consent.scopes.custom1.custom2.custom3.label",
+            "name": "label",
+            "noTranslate": true,
+            "value": "custom1.custom2.custom3",
+          },
+          Object {
+            "i18nKey": "consent.scopes.custom1.custom2.custom3.desc",
+            "name": "description",
+            "noTranslate": true,
+            "value": "This will allow the app to view your custom info",
+          },
+        ],
+        "type": "Field",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "mutable": false,
+            "name": "consent.scopes.custom4.custom5.custom6",
+            "type": "boolean",
+          },
+        },
+        "translations": Array [
+          Object {
+            "i18nKey": "consent.scopes.custom4.custom5.custom6.label",
+            "name": "label",
+            "noTranslate": true,
+            "value": "custom4.custom5.custom6",
+          },
+          Object {
+            "i18nKey": "consent.scopes.custom4.custom5.custom6.desc",
+            "name": "description",
+            "noTranslate": true,
+            "value": undefined,
+          },
+        ],
+        "type": "Field",
+      },
+      Object {
+        "label": "consent.required.consentButton",
+        "options": Object {
+          "actionParams": Object {
+            "consent": true,
+          },
+          "dataType": "save",
+          "includeData": false,
+          "step": "admin-consent",
+          "type": "button",
+          "variant": "secondary",
+        },
+        "type": "Button",
+      },
+      Object {
+        "label": "oform.cancel",
+        "options": Object {
+          "actionParams": Object {
+            "consent": false,
+          },
+          "dataType": "cancel",
+          "includeData": false,
+          "step": "admin-consent",
+          "type": "button",
+          "variant": "secondary",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`transformAdminConsent tests should add non-customized scope elements to formbag 1`] = `
+Object {
+  "data": Object {
+    "consent.scopes.okta.authenticators.manage": true,
+    "consent.scopes.okta.clients.manage": true,
+  },
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.consent.scopes.granular.description",
+          "dataSe": "consent-description",
+        },
+        "type": "Description",
+      },
+      Object {
+        "noMargin": true,
+        "options": Object {
+          "content": "admin.consent.group.resource.policy",
+          "dataSe": "scope-group--header",
+          "level": 5,
+          "visualLevel": 3,
+        },
+        "type": "Heading",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "mutable": false,
+            "name": "consent.scopes.okta.clients.manage",
+            "type": "boolean",
+          },
+        },
+        "translations": Array [
+          Object {
+            "i18nKey": "consent.scopes.okta.clients.manage.label",
+            "name": "label",
+            "noTranslate": true,
+            "value": "okta.clients.manage",
+          },
+          Object {
+            "i18nKey": "consent.scopes.okta.clients.manage.desc",
+            "name": "description",
+            "noTranslate": false,
+            "value": "consent.scopes.okta.clients.manage.desc",
+          },
+        ],
+        "type": "Field",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "mutable": false,
+            "name": "consent.scopes.okta.authenticators.manage",
+            "type": "boolean",
+          },
+        },
+        "translations": Array [
+          Object {
+            "i18nKey": "consent.scopes.okta.authenticators.manage.label",
+            "name": "label",
+            "noTranslate": true,
+            "value": "okta.authenticators.manage",
+          },
+          Object {
+            "i18nKey": "consent.scopes.okta.authenticators.manage.desc",
+            "name": "description",
+            "noTranslate": false,
+            "value": "consent.scopes.okta.authenticators.manage.desc",
+          },
+        ],
+        "type": "Field",
+      },
+      Object {
+        "label": "consent.required.consentButton",
+        "options": Object {
+          "actionParams": Object {
+            "consent": true,
+          },
+          "dataType": "save",
+          "includeData": false,
+          "step": "admin-consent",
+          "type": "button",
+          "variant": "secondary",
+        },
+        "type": "Button",
+      },
+      Object {
+        "label": "oform.cancel",
+        "options": Object {
+          "actionParams": Object {
+            "consent": false,
+          },
+          "dataType": "cancel",
+          "includeData": false,
+          "step": "admin-consent",
+          "type": "button",
+          "variant": "secondary",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`transformAdminConsent tests should not add scopes when none exist in the transaction 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.consent.scopes.granular.description",
+          "dataSe": "consent-description",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "consent.required.consentButton",
+        "options": Object {
+          "actionParams": Object {
+            "consent": true,
+          },
+          "dataType": "save",
+          "includeData": false,
+          "step": "admin-consent",
+          "type": "button",
+          "variant": "secondary",
+        },
+        "type": "Button",
+      },
+      Object {
+        "label": "oform.cancel",
+        "options": Object {
+          "actionParams": Object {
+            "consent": false,
+          },
+          "dataType": "cancel",
+          "includeData": false,
+          "step": "admin-consent",
+          "type": "button",
+          "variant": "secondary",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

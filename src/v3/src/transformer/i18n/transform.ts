@@ -16,6 +16,7 @@ import { TransformStepFnWithOptions } from '../../types';
 import { transformAuthenticatorButton } from './transformAuthenticatorButton';
 import { transformDefaultSelectOptionLabel } from './transformDefaultSelectOptionLabel';
 import { transformField } from './transformField';
+import { transformGranularConsentFields } from './transformGranularConsentFields';
 import { transformIdentifierHint } from './transformIdentifierHint';
 import { transformInputPassword } from './transformInputPassword';
 import { transformLaunchAuthenticatorButton } from './transformLaunchAuthenticatorButton';
@@ -29,6 +30,7 @@ import { transformWebAuthNSubmitButton } from './transformWebAuthNSubmitButton';
 
 export const transformI18n: TransformStepFnWithOptions = (options) => (formbag) => flow(
   transformField(options),
+  transformGranularConsentFields(options),
   transformAuthenticatorButton(options),
   transformInputPassword,
   transformPhoneAuthenticator,

@@ -1,0 +1,358 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`transformGranularConsent tests should not add privacy policy or terms of service links when they do not exist in transaction 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "contentType": "subtitle",
+        "noMargin": true,
+        "options": Object {
+          "content": "oie.consent.scopes.granular.description",
+          "dataSe": "consent-description",
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "desc": "This is a custom description for the custom field.",
+            "label": "Custom 1 label",
+            "mutable": true,
+            "name": "optedScopes.custom1",
+            "required": true,
+            "type": "boolean",
+            "value": true,
+            "visible": true,
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "desc": "This is a custom description for the custom 2 field.",
+            "label": "Custom 2 label",
+            "mutable": true,
+            "name": "optedScopes.custom2",
+            "required": true,
+            "type": "boolean",
+            "value": true,
+            "visible": true,
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "mutable": false,
+            "name": "optedScopes.openid",
+            "required": true,
+            "type": "boolean",
+            "value": true,
+            "visible": true,
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "desc": "This is a description for the profile field.",
+            "label": "Label for profile field",
+            "mutable": false,
+            "name": "optedScopes.profile",
+            "required": true,
+            "type": "boolean",
+            "value": true,
+            "visible": true,
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "label": "consent.required.consentButton",
+        "options": Object {
+          "actionParams": Object {
+            "consent": true,
+          },
+          "dataType": "save",
+          "includeData": true,
+          "step": "",
+          "type": "button",
+          "variant": "secondary",
+        },
+        "type": "Button",
+      },
+      Object {
+        "label": "oform.cancel",
+        "options": Object {
+          "actionParams": Object {
+            "consent": false,
+          },
+          "dataType": "cancel",
+          "includeData": true,
+          "step": "",
+          "type": "button",
+          "variant": "secondary",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`transformGranularConsent tests should not reorder existing field elements when all are mutable and should add additional granular consent elements to formbag 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "contentType": "subtitle",
+        "noMargin": true,
+        "options": Object {
+          "content": "oie.consent.scopes.granular.description",
+          "dataSe": "consent-description",
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "desc": "This is a custom description for the custom field.",
+            "label": "Custom 1 label",
+            "mutable": true,
+            "name": "optedScopes.custom1",
+            "required": true,
+            "type": "boolean",
+            "value": true,
+            "visible": true,
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "desc": "This is a custom description for the custom 2 field.",
+            "label": "Custom 2 label",
+            "mutable": true,
+            "name": "optedScopes.custom2",
+            "required": true,
+            "type": "boolean",
+            "value": true,
+            "visible": true,
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "options": Object {
+          "dataSe": "terms-of-service",
+          "href": "https://okta1.com/tos",
+          "label": "consent.required.termsOfService",
+          "step": "",
+          "target": "_blank",
+        },
+        "type": "Link",
+      },
+      Object {
+        "options": Object {
+          "dataSe": "privacy-policy",
+          "href": "https://okta1.com/privacypolicy",
+          "label": "consent.required.privacyPolicy",
+          "step": "",
+          "target": "_blank",
+        },
+        "type": "Link",
+      },
+      Object {
+        "label": "consent.required.consentButton",
+        "options": Object {
+          "actionParams": Object {
+            "consent": true,
+          },
+          "dataType": "save",
+          "includeData": true,
+          "step": "",
+          "type": "button",
+          "variant": "secondary",
+        },
+        "type": "Button",
+      },
+      Object {
+        "label": "oform.cancel",
+        "options": Object {
+          "actionParams": Object {
+            "consent": false,
+          },
+          "dataType": "cancel",
+          "includeData": true,
+          "step": "",
+          "type": "button",
+          "variant": "secondary",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`transformGranularConsent tests should reorder existing field elements and add additional granular consent elements to formbag 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "contentType": "subtitle",
+        "noMargin": true,
+        "options": Object {
+          "content": "oie.consent.scopes.granular.description",
+          "dataSe": "consent-description",
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "desc": "This is a custom description for the custom field.",
+            "label": "Custom 1 label",
+            "mutable": true,
+            "name": "optedScopes.custom1",
+            "required": true,
+            "type": "boolean",
+            "value": true,
+            "visible": true,
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "desc": "This is a custom description for the custom 2 field.",
+            "label": "Custom 2 label",
+            "mutable": true,
+            "name": "optedScopes.custom2",
+            "required": true,
+            "type": "boolean",
+            "value": true,
+            "visible": true,
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "mutable": false,
+            "name": "optedScopes.openid",
+            "required": true,
+            "type": "boolean",
+            "value": true,
+            "visible": true,
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "desc": "This is a description for the profile field.",
+            "label": "Label for profile field",
+            "mutable": false,
+            "name": "optedScopes.profile",
+            "required": true,
+            "type": "boolean",
+            "value": true,
+            "visible": true,
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "options": Object {
+          "dataSe": "terms-of-service",
+          "href": "https://okta1.com/tos",
+          "label": "consent.required.termsOfService",
+          "step": "",
+          "target": "_blank",
+        },
+        "type": "Link",
+      },
+      Object {
+        "options": Object {
+          "dataSe": "privacy-policy",
+          "href": "https://okta1.com/privacypolicy",
+          "label": "consent.required.privacyPolicy",
+          "step": "",
+          "target": "_blank",
+        },
+        "type": "Link",
+      },
+      Object {
+        "label": "consent.required.consentButton",
+        "options": Object {
+          "actionParams": Object {
+            "consent": true,
+          },
+          "dataType": "save",
+          "includeData": true,
+          "step": "",
+          "type": "button",
+          "variant": "secondary",
+        },
+        "type": "Button",
+      },
+      Object {
+        "label": "oform.cancel",
+        "options": Object {
+          "actionParams": Object {
+            "consent": false,
+          },
+          "dataType": "cancel",
+          "includeData": true,
+          "step": "",
+          "type": "button",
+          "variant": "secondary",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

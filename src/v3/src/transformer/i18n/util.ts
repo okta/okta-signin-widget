@@ -28,6 +28,7 @@ export const addTranslation = ({
   params,
   defaultValue = '',
   tokenReplacement,
+  noTranslate,
 }: {
   element: UISchemaElement;
   name: string;
@@ -35,6 +36,7 @@ export const addTranslation = ({
   params?: any;
   defaultValue?: string;
   tokenReplacement?: TokenReplacement,
+  noTranslate?: boolean,
 }): void => {
   // TODO: change translations to required field with default value
   // eslint-disable-next-line no-param-reassign
@@ -43,6 +45,7 @@ export const addTranslation = ({
     name,
     i18nKey,
     value: i18nKey ? loc(i18nKey, 'login', params, tokenReplacement) : defaultValue,
+    noTranslate,
   });
 };
 

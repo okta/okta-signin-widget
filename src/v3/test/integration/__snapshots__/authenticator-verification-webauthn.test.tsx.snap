@@ -234,7 +234,7 @@ exports[`authenticator-verification-webauthn renders form - webauthn not support
                                 class="MuiBox-root emotion-9"
                               >
                                 <div
-                                  class="MuiBox-root emotion-33"
+                                  class="MuiBox-root emotion-14"
                                 >
                                   <h3
                                     class="MuiTypography-root MuiTypography-h6 emotion-34"
@@ -275,7 +275,7 @@ exports[`authenticator-verification-webauthn renders form - webauthn not support
                                 class="MuiBox-root emotion-9"
                               >
                                 <div
-                                  class="MuiBox-root emotion-33"
+                                  class="MuiBox-root emotion-14"
                                 >
                                   <h3
                                     class="MuiTypography-root MuiTypography-h6 emotion-34"
@@ -563,7 +563,7 @@ exports[`authenticator-verification-webauthn renders form - webauthn supported 1
                                 class="MuiBox-root emotion-9"
                               >
                                 <div
-                                  class="MuiBox-root emotion-33"
+                                  class="MuiBox-root emotion-14"
                                 >
                                   <h3
                                     class="MuiTypography-root MuiTypography-h6 emotion-34"
@@ -604,7 +604,7 @@ exports[`authenticator-verification-webauthn renders form - webauthn supported 1
                                 class="MuiBox-root emotion-9"
                               >
                                 <div
-                                  class="MuiBox-root emotion-33"
+                                  class="MuiBox-root emotion-14"
                                 >
                                   <h3
                                     class="MuiTypography-root MuiTypography-h6 emotion-34"
@@ -892,7 +892,7 @@ exports[`authenticator-verification-webauthn should render form with required us
                                 class="MuiBox-root emotion-9"
                               >
                                 <div
-                                  class="MuiBox-root emotion-33"
+                                  class="MuiBox-root emotion-14"
                                 >
                                   <h3
                                     class="MuiTypography-root MuiTypography-h6 emotion-34"
@@ -933,7 +933,7 @@ exports[`authenticator-verification-webauthn should render form with required us
                                 class="MuiBox-root emotion-9"
                               >
                                 <div
-                                  class="MuiBox-root emotion-33"
+                                  class="MuiBox-root emotion-14"
                                 >
                                   <h3
                                     class="MuiTypography-root MuiTypography-h6 emotion-34"

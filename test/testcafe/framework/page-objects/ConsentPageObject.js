@@ -1,5 +1,5 @@
 import BasePageObject from './BasePageObject';
-import { Selector } from 'testcafe';
+import { Selector, userVariables } from 'testcafe';
 
 
 export default class ConsentPageObject extends BasePageObject {
@@ -8,7 +8,8 @@ export default class ConsentPageObject extends BasePageObject {
   }
 
   clickAllowButton() {
-    return this.form.clickSaveButtonAsInput();
+    const allowBtn = this.form.getByText('Allow Access');
+    return this.form.t.click(allowBtn);
   }
 
   clickDontAllowButton() {
@@ -23,15 +24,19 @@ export default class ConsentPageObject extends BasePageObject {
     return this.form.getCancelButtonLabel();
   }
 
-  getScopeItemTexts() {
-    return this.form.getInnerTexts('.scope-item-text');
+  hasScopeText(label) {
+    return this.form.getByText(label).exists;
   }
 
   getScopeGroupName() {
-    return this.form.getElement('.scope-group--header').innerText;
+    const selector = userVariables.v3 ? '[data-se="scope-group--header"]' : '.scope-group--header';
+    return this.form.getElement(selector).innerText;
   }
 
   async getHeaderTitleText() {
+    if (userVariables.v3) {
+      return Selector('span.title-text > p').innerText;
+    }
     const parent = Selector('.consent-title .title-text');
     // Don't want the <b> nor its content (appName)
     const textChildren = parent.find((node, index, originNode) => {
@@ -42,10 +47,16 @@ export default class ConsentPageObject extends BasePageObject {
   }
 
   getConsentAgreementText() {
+    if (userVariables.v3) {
+      return this.form.getElement('[data-se="consent-description"]').innerText;
+    }
     return this.getTextContent('.consent-description');
   }
 
   getGranularHeaderClientName() {
+    if (userVariables.v3) {
+      return this.getFormTitle();
+    }
     return this.getTextContent('.title-text > b');
   }
 
@@ -58,6 +69,9 @@ export default class ConsentPageObject extends BasePageObject {
   }
 
   getDisabledCheckBoxLabels() {
+    if (userVariables.v3) {
+      return this.form.getInnerTexts('[aria-disabled="true"] ~ span');
+    }
     return this.form.getInnerTexts(':disabled ~ label');
   }
 
