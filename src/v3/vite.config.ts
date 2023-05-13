@@ -87,7 +87,7 @@ export default defineConfig(({ mode, command }) => ({
       ...base,
 
       // hide sourcemaps
-      sourcemap: 'hidden',
+      sourcemap: false, // boolean | 'inline' | 'hidden'
 
       // set to library mode with "umd" format to expose `OktaSignIn` on the
       // `window`
