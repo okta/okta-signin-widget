@@ -31,7 +31,6 @@ const Link: UISchemaElementComponent<{
     options: {
       label,
       href,
-      target,
       dataSe,
       actionParams,
       isActionStep,
@@ -85,7 +84,6 @@ const Link: UISchemaElementComponent<{
       : (
         <LinkMui
           href={href}
-          target={target}
           ref={focusRef}
           aria-describedby={ariaDescribedBy}
           data-se={dataSe}

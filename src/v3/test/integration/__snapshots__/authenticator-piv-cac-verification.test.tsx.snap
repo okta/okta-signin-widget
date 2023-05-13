@@ -253,7 +253,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                 class="MuiBox-root emotion-7"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-43"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-44"
                   data-se="help"
                   href="http://localhost:3000/help/login"
                 >
@@ -264,11 +264,11 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                 class="MuiBox-root emotion-7"
               >
                 <hr
-                  class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-44"
+                  class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-46"
                 />
               </div>
               <div
-                class="MuiBox-root emotion-45"
+                class="MuiBox-root emotion-47"
               >
                 <div
                   class="MuiBox-root emotion-7"
@@ -277,7 +277,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                     class="MuiBox-root emotion-8"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-48"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-50"
                       data-se="signup-info"
                       id="identify_Description_Dont_have_an_account_aut2h3ffszv3me6O31d7_13"
                     >
@@ -559,7 +559,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                 class="MuiBox-root emotion-7"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-43"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-44"
                   data-se="help"
                   href="http://localhost:3000/help/login"
                 >
@@ -570,11 +570,11 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                 class="MuiBox-root emotion-7"
               >
                 <hr
-                  class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-44"
+                  class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-46"
                 />
               </div>
               <div
-                class="MuiBox-root emotion-45"
+                class="MuiBox-root emotion-47"
               >
                 <div
                   class="MuiBox-root emotion-7"
@@ -583,7 +583,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                     class="MuiBox-root emotion-8"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-48"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-50"
                       data-se="signup-info"
                       id="identify_Description_Dont_have_an_account_aut2h3ffszv3me6O31d7_13"
                     >
@@ -865,7 +865,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                 class="MuiBox-root emotion-7"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-43"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-44"
                   data-se="help"
                   href="http://localhost:3000/help/login"
                 >
@@ -876,11 +876,11 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                 class="MuiBox-root emotion-7"
               >
                 <hr
-                  class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-44"
+                  class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-46"
                 />
               </div>
               <div
-                class="MuiBox-root emotion-45"
+                class="MuiBox-root emotion-47"
               >
                 <div
                   class="MuiBox-root emotion-7"
@@ -889,7 +889,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                     class="MuiBox-root emotion-8"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-48"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-50"
                       data-se="signup-info"
                       id="identify_Description_Dont_have_an_account_aut2h3ffszv3me6O31d7_13"
                     >
