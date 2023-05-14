@@ -134,7 +134,10 @@ export const getFastPassButtonElement = (
  * Gets IDP buttons from widget config that are not already present in transaction remediations.
  * https://github.com/okta/okta-signin-widget#openid-connect
  */
-const getConfigIdpButtonRemediations = (transaction: IdxTransaction, widgetProps: WidgetProps) : IdxRemediation[] => {
+const getConfigIdpButtonRemediations = (
+  transaction: IdxTransaction,
+  widgetProps: WidgetProps,
+) : IdxRemediation[] => {
   const widgetRemediations = transaction.neededToProceed;
   // @ts-expect-error OKTA-609461 - idps missing from WidgetProps type
   const idpsConfig = widgetProps.idps;
@@ -204,9 +207,13 @@ export const getIdpButtonElements = (
   widgetProps: WidgetProps,
 ) : ButtonElement[] => {
   const { neededToProceed: remediations } = transaction;
-  let redirectIdpRemediations = remediations.filter((idp) => idp.name === IDX_STEP.REDIRECT_IDP) || [];
+  let redirectIdpRemediations = remediations.filter(
+    (idp) => idp.name === IDX_STEP.REDIRECT_IDP,
+  ) || [];
   // Add Idp buttons from widget config (openid-connect)
-  redirectIdpRemediations = redirectIdpRemediations.concat(getConfigIdpButtonRemediations(transaction, widgetProps));
+  redirectIdpRemediations = redirectIdpRemediations.concat(
+    getConfigIdpButtonRemediations(transaction, widgetProps),
+  );
 
   // create button elements from idp objects
   const idpButtonElements = redirectIdpRemediations.map((idpObject) => {

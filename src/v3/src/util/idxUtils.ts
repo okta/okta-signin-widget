@@ -346,4 +346,4 @@ export const isVerifyFlow = (transaction: IdxTransaction): boolean => {
   // currentAuthenticator is from enrollment flows and currentAuthenticatorEnrollment is from verify flows
   const { context: { currentAuthenticatorEnrollment } } = transaction;
   return typeof currentAuthenticatorEnrollment !== 'undefined';
-}
+};

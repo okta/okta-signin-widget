@@ -50,7 +50,7 @@ export const transformIDPButtons: TransformStepFnWithOptions = ({
     : idpDisplay.toUpperCase() === 'PRIMARY';
 
   // Idp buttons are displayed below register form by default
-  if(containsEnrollProfileStep && typeof idpDisplay === 'undefined') {
+  if (containsEnrollProfileStep && typeof idpDisplay === 'undefined') {
     displayAboveForm = false;
   }
 
@@ -58,7 +58,7 @@ export const transformIDPButtons: TransformStepFnWithOptions = ({
     type: 'Divider',
     options: { text: loc('socialauth.divider.text', 'login') },
   };
-  
+
   // show IDP buttons on the bottom for enroll profile flow
   if (displayAboveForm) {
     const titleIndex = formbag.uischema.elements.findIndex((element) => element.type === 'Title');

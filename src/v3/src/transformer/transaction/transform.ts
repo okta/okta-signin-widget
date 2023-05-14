@@ -28,7 +28,7 @@ export const PIV_TYPE = 'X509';
 
 const transformRemediationNameForIdp: TransformStepFnWithOptions = (options) => (formbag) => {
   const { transaction } = options;
-  const { neededToProceed: remediations, nextStep, context } = transaction;
+  const { neededToProceed: remediations, nextStep } = transaction;
   if (!remediations.length) {
     return formbag;
   }

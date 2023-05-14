@@ -22,19 +22,16 @@ export const transformIdpRedirect: IdxStepTransformer = ({
   formBag, transaction, widgetProps, prevTransaction,
 }) => {
   const { uischema } = formBag;
-  const { neededToProceed: remediations } = transaction;
+  const { neededToProceed: remediations, nextStep } = transaction;
   const redirectIdpRemediations = remediations.filter((idp) => idp.name === IDX_STEP.REDIRECT_IDP);
 
   // IF there is one `redirect-idp` remediation form, widget will automatically redirect to `redirect-idp.href`.
   if (redirectIdpRemediations.length === 1) {
-    // Direct auth clients should not redirect on the initial response
     const isDirectAuth = isOauth2Enabled(widgetProps);
+    // Direct auth clients should not redirect on the initial response
     if (!isDirectAuth || prevTransaction) {
-      // converts `redirect-idp` step to `success-redirect` step for hook
-      transaction.nextStep = {
-        name: IDX_STEP.SUCCESS_REDIRECT,
-        href: redirectIdpRemediations[0].href,
-      };
+      nextStep!.name = IDX_STEP.SUCCESS_REDIRECT;
+      nextStep!.href = redirectIdpRemediations[0].href;
       return redirectTransformer(
         transaction,
         redirectIdpRemediations[0].href!,
