@@ -86,7 +86,6 @@ test.requestHooks(identifyMock)('should show custom footer links', async t => {
         }
       ]
     },
-    'signOutLink': 'https://okta.okta.com/',
   });
   await t.expect(identityPage.getCustomForgotPasswordLink()).eql('https://okta.okta.com/signin/forgot-password');
   await t.expect(identityPage.getCustomHelpLink()).eql('https://google.com');
@@ -101,25 +100,11 @@ test.requestHooks(xhrSelectAuthenticatorMock)('should show custom signout link',
   // setup selectAuthenticatorPageObject to see the signout link
   const selectAuthenticatorPageObject = await setupSelectAuthenticator(t);
   await rerenderWidget({
-    'helpLinks': {
-      'help': 'https://google.com',
-      'forgotPassword': 'https://okta.okta.com/signin/forgot-password',
-      'custom': [
-        {
-          'text': 'What is Okta?',
-          'href': 'https://acme.com/what-is-okta'
-        },
-        {
-          'text': 'Acme Portal',
-          'href': 'https://acme.com',
-          'target': '_blank'
-        }
-      ]
-    },
     'signOutLink': 'https://okta.okta.com/',
   });
   await t.expect(selectAuthenticatorPageObject.getCustomSignOutLink()).eql('https://okta.okta.com/');
   await t.expect(selectAuthenticatorPageObject.getSignoutLinkText()).eql('Back to sign in');
+  await t.expect(await selectAuthenticatorPageObject.helpLinkExists()).notOk();
 });
 
 test.requestHooks(xhrSelectAuthenticatorMock)('can customize back to signin link using `backToSignInLink`', async t => {

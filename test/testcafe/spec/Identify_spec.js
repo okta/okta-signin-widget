@@ -1,4 +1,4 @@
-import { RequestMock, RequestLogger } from 'testcafe';
+import { RequestMock, RequestLogger, userVariables } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 import SelectFactorPageObject from '../framework/page-objects/SelectAuthenticatorPageObject';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
@@ -207,7 +207,7 @@ test.requestHooks(identifyRequestLogger, identifyMock)('should not show custom e
   await t.expect(identifyRequestLogger.count(() => true)).eql(1);
 });
 
-test.meta('v3', false).requestHooks(identifyMock)('should have correct display text', async t => {
+test.requestHooks(identifyMock)('should have correct display text', async t => {
   // i18n values can be tested here.
   const identityPage = await setup(t);
   await checkA11y(t);
@@ -223,7 +223,11 @@ test.meta('v3', false).requestHooks(identifyMock)('should have correct display t
 
   const signupLinkText = identityPage.getSignupLinkText();
   await t.expect(signupLinkText).eql('Sign up');
-  await t.expect(identityPage.getFooterInfo()).eql('Don\'t have an account?Sign up');
+  if (userVariables.v3) {
+    await t.expect(identityPage.getFooterInfo()).eql('Don\'t have an account?');
+  } else {
+    await t.expect(identityPage.getFooterInfo()).eql('Don\'t have an account?Sign up');
+  }
 
   const needhelpLinkText = identityPage.getNeedhelpLinkText();
   await t.expect(needhelpLinkText).eql('Help');

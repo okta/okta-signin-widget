@@ -5,6 +5,7 @@ import ChallengeEmailPageObject from '../framework/page-objects/ChallengeEmailPa
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import SignInDevicePageObject from '../framework/page-objects/SignInDevicePageObject';
 import xhrIdentifyWithUnlock from '../../../playground/mocks/data/idp/idx/identify-with-unlock-account-link';
+import xhrIdentifyWithPassword from '../../../playground/mocks/data/idp/idx/identify-with-password';
 import xhrUserUnlockAuthSelector from '../../../playground/mocks/data/idp/idx/user-unlock-account';
 import xhrUserUnlockSuccess from '../../../playground/mocks/data/idp/idx/user-account-unlock-success';
 import xhrUserUnlockSuccessLandOnApp from '../../../playground/mocks/data/idp/idx/user-account-unlock-success-land-on-app';
@@ -24,6 +25,10 @@ const identifyLockedUserMock = RequestMock()
   .respond(xhrUserUnlockEmailChallenge)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(xhrUserUnlockSuccess);
+
+const identifyMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrIdentifyWithPassword);
 
 const errorUnlockAccount = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -83,6 +88,7 @@ test.requestHooks(identifyLockedUserMock)('should show unlock account link', asy
   const identityPage = await setup(t);
   await checkA11y(t);
   await t.expect(identityPage.getUnlockAccountLinkText()).eql('Unlock account?');
+  await t.expect(identityPage.getNeedhelpLinkText()).eql('Help');
 });
 
 
@@ -213,8 +219,9 @@ test.meta('v3', false).requestHooks(identifyLockedUserMock)('should show the cor
   await t.expect(selectFactorPage.getErrorBoxText()).contains('To unlock your account, select one of the following authenticators.');
 });
 
-test.requestHooks(signInDeviceMock)('should show unlock account link on sign-in device page', async t => {
+test.requestHooks(signInDeviceMock)('should render custom unlock account link on sign-in device page', async t => {
   const signInDevicePage = await setupSignInDevice(t);
+  await checkA11y(t);
   await rerenderWidget({
     'helpLinks': {
       'unlock': 'https://okta.okta.com/unlock',
@@ -223,3 +230,10 @@ test.requestHooks(signInDeviceMock)('should show unlock account link on sign-in 
   await t.expect(signInDevicePage.unlockAccountLinkExists()).eql(true);
   await t.expect(signInDevicePage.getCustomUnlockAccountLinkUrl()).eql('https://okta.okta.com/unlock');
 });
+
+test.requestHooks(identifyMock)('should not show unlock account link if feature is not available', async t => {
+  const identityPage = await setup(t);
+  await checkA11y(t);
+  await t.expect(identityPage.unlockAccountLinkExists()).eql(false);
+});
+

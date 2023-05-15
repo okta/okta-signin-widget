@@ -37,7 +37,6 @@ export const transformHelpLinks: TransformStepFnWithOptions = ({
     options: {
       href: helpLinkHref,
       step: '',
-      isActionStep: false,
       label: loc('help', 'login'),
       dataSe: 'help',
     },
@@ -50,9 +49,7 @@ export const transformHelpLinks: TransformStepFnWithOptions = ({
       href,
       target,
       step: '',
-      isActionStep: false,
       label: text,
-      contentClassname: 'js-custom',
       dataSe: 'custom',
     },
   });

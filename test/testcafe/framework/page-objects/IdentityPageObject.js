@@ -11,7 +11,7 @@ const CUSTOM_HELP_LINKS_SELECTOR = userVariables.v3 ? '[data-se="custom"]' : '.a
 const CUSTOM_BUTTON = '.custom-buttons .okta-custom-buttons-container .default-custom-button';
 const SUB_LABEL_SELECTOR = '.o-form-explain';
 const IDPS_CONTAINER = '.okta-idps-container';
-const FOOTER_INFO_SELECTOR = '.footer-info';
+const FOOTER_INFO_SELECTOR = userVariables.v3 ? '[data-se="signup-info"]' : '.footer-info';
 
 export default class IdentityPageObject extends BasePageObject {
   constructor(t) {

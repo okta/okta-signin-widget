@@ -42,7 +42,6 @@ export const transformFactorPageCustomLink: TransformStepFnWithOptions = ({
         href,
         target: '_blank',
         step: '',
-        isActionStep: false,
         label: text,
         dataSe: 'factorPageHelpLink',
       },
