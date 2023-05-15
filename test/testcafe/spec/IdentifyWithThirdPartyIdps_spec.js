@@ -31,13 +31,19 @@ const mockOnlyOneIdp = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(identifyOnlyOneIdp)
   .onRequestTo('http://localhost:3000/sso/idps/facebook-idp-id-123?stateToken=inRUXNhsc6Evt7GAb8DPAA')
-  .respond('<html><h1>An external IdP login page for testcafe testing</h1></html>');
+  .respond(async (req, res) => {
+    await new Promise((r) => setTimeout(r, 500));
+    res.setBody('<html><h1>An external IdP login page for testcafe testing</h1></html>');
+  });
 
 const mockOnlyOneIdpAppUser = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(identifyOnlyOneIdpAppUser)
   .onRequestTo('http://localhost:3000/sso/idps/facebook-idp-id-123?stateToken=inRUXNhsc6Evt7GAb8DPAA')
-  .respond('<html><h1>An external IdP login page for testcafe testing</h1></html>');
+  .respond(async (req, res) => {
+    await new Promise((r) => setTimeout(r, 500));
+    res.setBody('<html><h1>An external IdP login page for testcafe testing</h1></html>');
+  });
 
 const mockIdpDiscoveryWithOneIdp = RequestMock()
   .onRequestTo('http://localhost:3000/oauth2/default/v1/interact')
@@ -134,7 +140,8 @@ test.requestHooks(mockWithoutIdentify)('should only render idp buttons with iden
 });
 
 test.requestHooks(logger, mockOnlyOneIdp)('should auto redirect to 3rd party IdP login page with basic Signing in message', async t => {
-  await setup(t);
+  const identityPage = await setup(t);
+  await t.expect(identityPage.formExists()).eql(true);
 
   await checkConsoleMessages({
     controller: null,
@@ -166,7 +173,8 @@ test.requestHooks(logger, mockOnlyOneIdp)('Direct auth: does not auto redirect t
 });
 
 test.requestHooks(logger, mockOnlyOneIdpAppUser)('should auto redirect to 3rd party IdP login page with Signing in longer message', async t => {
-  await setup(t);
+  const identityPage = await setup(t);
+  await t.expect(identityPage.formExists()).eql(true);
 
   await checkConsoleMessages({
     controller: null,
