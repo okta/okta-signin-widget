@@ -176,8 +176,8 @@ const getConfigIdpButtonRemediations = (
 };
 
 // TO DO: OKTA-609477 - Add rest of supported social idp icons here
-const getIdpButtonIcon = (idpType: string) : FunctionComponent => {
-  const idpIconMapping: Record<string, FunctionComponent> = {
+const getIdpButtonIcon = (idpType: string) : string => {
+  const idpIconMapping: Record<string, string> = {
     facebook: facebookIconSvg,
     google: googleIconSvg,
     linkedin: linkedinIconSvg,
@@ -253,6 +253,7 @@ export const getIdpButtonElements = (
         classes: classNames.join(' '),
         variant: 'secondary',
         Icon: getIdpButtonIcon(type),
+        iconAlt: loc('piv.card', 'login'),
         onClick: () => {
           Util.redirectWithFormGet(idpObject.href);
         },
