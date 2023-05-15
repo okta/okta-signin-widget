@@ -105,7 +105,7 @@ test.requestHooks(requestLogger, consentGranularMock)('payload test', async t =>
 
   await t.expect(jsonBody.consent).eql(true);
   await t.expect(jsonBody.optedScopes.openid).eql(true);
-  await t.expect(jsonBody.optedScopes.custom1.level1.level2.level3.level4).eql(false);
+  await t.expect(jsonBody.optedScopes['custom1.level1.level2.level3.level4']).eql(false);
   await t.expect(jsonBody.optedScopes.custom2).eql(true);
   await t.expect(jsonBody.optedScopes.email).eql(false);
   await t.expect(jsonBody.optedScopes.profile).eql(true);
