@@ -11,7 +11,6 @@
  */
 
 import { IdxRemediation, IdxTransaction, NextStep } from '@okta/okta-auth-js';
-import { FunctionComponent } from 'preact';
 
 import IDP from '../../../util/IDP';
 import Util from '../../../util/Util';
