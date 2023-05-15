@@ -89,8 +89,7 @@ describe('IDP Button transformer tests', () => {
       .toBe('socialauth.divider.text');
   });
 
-  /* IDP buttons in G3 currently only show on top (no 'SECONDARY' idpDisplay) */
-  it.skip('should add PIV/CAC IDP button when exists in remediation with SECONDARY display', async () => {
+  it('should add PIV/CAC IDP button when exists in remediation with SECONDARY display', async () => {
     transaction.neededToProceed = [
       { name: IDX_STEP.IDENTIFY },
       { name: IDX_STEP.PIV_IDP, type: 'X509' },
