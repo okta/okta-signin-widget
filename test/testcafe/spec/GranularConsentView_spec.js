@@ -99,9 +99,9 @@ test.requestHooks(requestLogger, consentGranularMock)('payload test', async t =>
   const { request: {body, method, url}} = requestLogger.requests[requestLogger.requests.length - 1];
   const jsonBody = JSON.parse(body);
 
-  console.log("jsonbody = ", JSON.stringify(jsonBody));
-  const { log } = await t.getBrowserConsoleMessages();
-  console.log("console = ", log);
+  // console.log("jsonbody = ", JSON.stringify(jsonBody));
+  // const { log } = await t.getBrowserConsoleMessages();
+  // console.log("console = ", log);
 
   await t.expect(jsonBody.consent).eql(true);
   await t.expect(jsonBody.optedScopes.openid).eql(true);

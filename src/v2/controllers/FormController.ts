@@ -331,15 +331,15 @@ export default Controller.extend({
   transformIdentifier(formName, model) {
     let modelJSON;
     if (formName === 'granular-consent') {
-      console.log("formName=", formName);
-      console.log("model=", model);
+      // console.log("formName=", formName);
+      // console.log("model=", model);
       modelJSON = this.granularConsentToJSON(model);
-      console.log("modelJSON=", modelJSON);
+      // console.log("modelJSON=", modelJSON);
     } else {
-      console.log("formName=", formName);
-      console.log("model=", model);
+      // console.log("formName=", formName);
+      // console.log("model=", model);
       modelJSON = model.toJSON();
-      console.log("modelJSON=", modelJSON);
+      // console.log("modelJSON=", modelJSON);
     }
 
     // console.log("formName=", formName);
@@ -361,19 +361,19 @@ export default Controller.extend({
   },
 
   granularConsentToJSON(model) {
-    console.log("in granularConsentToJSON");
-    console.log("attributes=", model.attributes);
+    // console.log("in granularConsentToJSON");
+    // console.log("attributes=", model.attributes);
     let res = _.clone(model.attributes);
-    console.log("after clone res=", res);
+    // console.log("after clone res=", res);
     const schema = model['__schema__']; // cleanup local properties
-    console.log("schema=", schema);
+    // console.log("schema=", schema);
     res = _.omit(res, _.keys(schema.local));
 
-    console.log("in toJSON, before unflatten res=", _.clone(res));
+    // console.log("in toJSON, before unflatten res=", _.clone(res));
     if (model.flat) {
       res = this.unflatten(res);
     }
-    console.log("in toJSON, after unflatten res=", _.clone(res));
+    // console.log("in toJSON, after unflatten res=", _.clone(res));
 
     return res;
   },
