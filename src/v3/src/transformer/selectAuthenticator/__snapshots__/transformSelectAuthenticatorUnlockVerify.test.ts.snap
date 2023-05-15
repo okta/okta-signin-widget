@@ -45,6 +45,7 @@ Object {
               "type": "AuthenticatorButton",
             },
           ],
+          "dataSe": "authenticator-verify-list",
         },
         "type": "AuthenticatorButtonList",
       },

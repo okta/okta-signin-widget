@@ -107,7 +107,7 @@ export const transformSelectOVMethodVerify: IdxStepTransformer = ({ transaction,
     );
     const authenticatorListElement: AuthenticatorButtonListElement = {
       type: 'AuthenticatorButtonList',
-      options: { buttons: buttonElements },
+      options: { buttons: buttonElements, dataSe: 'authenticator-verify-list' },
     };
     uischema.elements.push(authenticatorListElement);
 

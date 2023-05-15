@@ -214,6 +214,8 @@ describe('Transform Select OV Method Verify Tests', () => {
       .toBe('oie.select.authenticators.verify.subtitle');
     expect((updatedFormBag.uischema.elements[2] as AuthenticatorButtonElement).type).toBe('AuthenticatorButtonList');
     expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonListElement)
+      .options.dataSe)).toBe('authenticator-verify-list');
+    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonListElement)
       .options.buttons.length)).toBe(2);
     expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonListElement)
       .options.buttons[0] as AuthenticatorButtonElement)

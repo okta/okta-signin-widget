@@ -23,11 +23,12 @@ import AuthenticatorButton from './AuthenticatorButton';
 const AuthenticatorButtonList: UISchemaElementComponent<{
   uischema: AuthenticatorButtonListElement
 }> = ({ uischema }) => {
-  const { buttons } = uischema.options;
+  const { buttons, dataSe } = uischema.options;
 
   return (
     <Box
       component="ul"
+      data-se={dataSe}
       sx={{ listStyle: 'none', padding: '0', marginBlockStart: 0 }}
     >
       {
