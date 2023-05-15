@@ -62,7 +62,6 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                     class="MuiButton-startIcon MuiButton-iconSizeMedium emotion-12"
                   >
                     <img
-                      alt="PIV Card"
                       aria-hidden="true"
                       class="MuiBox-root emotion-13"
                       src="MockSVGIcon"
@@ -357,7 +356,6 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                     class="MuiButton-startIcon MuiButton-iconSizeMedium emotion-12"
                   >
                     <img
-                      alt="PIV Card"
                       aria-hidden="true"
                       class="MuiBox-root emotion-13"
                       src="MockSVGIcon"
@@ -648,6 +646,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-12"
+                    data-shrink="false"
                     for="identifier"
                   >
                     Username
@@ -677,6 +676,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                 >
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-12"
+                    data-shrink="false"
                     for="credentials.passcode"
                   >
                     Password
@@ -741,6 +741,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                     >
                       <input
                         class="PrivateSwitchBase-input emotion-27"
+                        data-indeterminate="false"
                         data-se="rememberMe"
                         data-se-for-name="rememberMe"
                         id="rememberMe"
@@ -804,7 +805,11 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                   <span
                     class="MuiButton-startIcon MuiButton-iconSizeMedium emotion-37"
                   >
-                    <mocksvgicon />
+                    <img
+                      aria-hidden="true"
+                      class="MuiBox-root emotion-11"
+                      src="MockSVGIcon"
+                    />
                   </span>
                   Sign in with PIV / CAC card
                 </button>
