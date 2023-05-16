@@ -252,7 +252,7 @@ export default class BaseFormObject {
     await this.t.click(this.el.find(selector));
   }
 
-  getAnchorsWithoutRelevantRelAttributes() {
+  getAnchorsWithBlankTargetsWithoutRelevantAttributes() {
     return Selector('a[target="_blank"]')
       .filter((node) => {
         const relValues = (node.getAttribute('rel') || '').split(' ');

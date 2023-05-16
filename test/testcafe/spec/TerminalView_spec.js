@@ -206,7 +206,7 @@ test.requestHooks(endUserRemediationOneOptionMock)('should render end user remed
   await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://okta.com/android-biometric-lock').withExactText('Enable lock screen and biometrics').exists).eql(true);
 
   await t.expect(terminalViewPage.form.getErrorBox().withText('follow the instructions on the help page').find('a[href="https://okta.com/help"]').exists).eql(true);
-  await t.expect(terminalViewPage.form.getAnchorsWithoutRelevantRelAttributes().exists).eql(false);
+  await t.expect(terminalViewPage.form.getAnchorsWithBlankTargetsWithoutRelevantAttributes().exists).eql(false);
 });
 
 test.requestHooks(endUserRemediationMultipleOptionsMock)('should render end user remediation error message when there are multiple options', async t => {
@@ -223,7 +223,7 @@ test.requestHooks(endUserRemediationMultipleOptionsMock)('should render end user
   await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://okta.com/android-disk-encrypted').withExactText('Encrypt your device').exists).eql(true);
 
   await t.expect(terminalViewPage.form.getErrorBox().withText('follow the instructions on the help page').find('a[href="https://okta.com/help"]').exists).eql(true);
-  await t.expect(terminalViewPage.form.getAnchorsWithoutRelevantRelAttributes().exists).eql(false);
+  await t.expect(terminalViewPage.form.getAnchorsWithBlankTargetsWithoutRelevantAttributes().exists).eql(false);
 });
 
 test.requestHooks(endUserRemediationMultipleOptionsWithCustomHelpUrlMock)('should render end user remediation error message when there are multiple options and a custom URL is set for the organization help page', async t => {
@@ -250,7 +250,7 @@ test.requestHooks(endUserRemediationMultipleOptionsWithCustomHelpUrlMock)('shoul
   await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://okta.com/windows-biometric-lock').withExactText('Enable Windows Hello for the lock screen').exists).eql(true);
 
   await t.expect(terminalViewPage.form.getErrorBox().withText('follow the instructions on your organization\'s help page').find('a[href="https://okta1.com/custom-help-me"]').exists).eql(true);
-  await t.expect(terminalViewPage.form.getAnchorsWithoutRelevantRelAttributes().exists).eql(false);
+  await t.expect(terminalViewPage.form.getAnchorsWithBlankTargetsWithoutRelevantAttributes().exists).eql(false);
 });
 
 test.requestHooks(endUserRemediationNoOptionsMock)('should render end user remediation error message when there are no options', async t => {
@@ -261,5 +261,5 @@ test.requestHooks(endUserRemediationNoOptionsMock)('should render end user remed
   await t.expect(terminalViewPage.form.getErrorBox().withText('To sign in, make the following updates. Then, access the app again.').exists).eql(false);
 
   await t.expect(terminalViewPage.form.getErrorBox().withText('follow the instructions on your organization\'s help page').find('a[href="https://okta1.com/custom-help-me"]').exists).eql(true);
-  await t.expect(terminalViewPage.form.getAnchorsWithoutRelevantRelAttributes().exists).eql(false);
+  await t.expect(terminalViewPage.form.getAnchorsWithBlankTargetsWithoutRelevantAttributes().exists).eql(false);
 });
