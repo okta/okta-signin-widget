@@ -62,6 +62,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                     class="MuiButton-startIcon MuiButton-iconSizeMedium emotion-12"
                   >
                     <img
+                      alt="PIV Card"
                       aria-hidden="true"
                       class="MuiBox-root emotion-13"
                       src="MockSVGIcon"
@@ -356,6 +357,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                     class="MuiButton-startIcon MuiButton-iconSizeMedium emotion-12"
                   >
                     <img
+                      alt="PIV Card"
                       aria-hidden="true"
                       class="MuiBox-root emotion-13"
                       src="MockSVGIcon"
@@ -806,6 +808,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                     class="MuiButton-startIcon MuiButton-iconSizeMedium emotion-37"
                   >
                     <img
+                      alt="PIV Card"
                       aria-hidden="true"
                       class="MuiBox-root emotion-11"
                       src="MockSVGIcon"
