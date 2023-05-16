@@ -45,7 +45,7 @@ test.requestHooks(mockChallengeAuthenticatorCustomOTP)('challenge custom OTP aut
 
   // verify otp
   await challengeCustomOTPPage.verifyFactor('credentials.passcode', '1234');
-  await challengeCustomOTPPage.clickNextButton();
+  await challengeCustomOTPPage.clickNextButton('Verify');
   const successPage = new SuccessPageObject(t);
   const pageUrl = await successPage.getPageUrl();
   await t.expect(pageUrl)
@@ -59,7 +59,7 @@ test.requestHooks(mockChallengeAuthenticatorCustomOTP)('OTP is required', async 
   // verify otp
   await challengeOnPremPage.verifyFactor('credentials.passcode', '');
   await t.pressKey('tab');
-  await challengeOnPremPage.clickNextButton();
+  await challengeOnPremPage.clickNextButton('Verify');
 
   await challengeOnPremPage.waitForErrorBox();
   await t.expect(challengeOnPremPage.getPasscodeError()).eql('This field cannot be left blank');
