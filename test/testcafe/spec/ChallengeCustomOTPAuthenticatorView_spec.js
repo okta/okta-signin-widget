@@ -70,7 +70,6 @@ test.requestHooks(mockInvalidPasscode)('challege custom otp authenticator with i
   await checkA11y(t);
   await challengeOnPremPage.verifyFactor('credentials.passcode', 'test');
   await challengeOnPremPage.clickNextButton('Verify');
-  await challengeOnPremPage.waitForErrorBox();
   await t.expect(challengeOnPremPage.getInvalidOTPError()).eql('Invalid code. Try again.');
 });
 

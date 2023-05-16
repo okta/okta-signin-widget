@@ -47,7 +47,7 @@ export default class ChallengeFactorPageObject extends BasePageObject {
   }
 
   getInvalidOTPError() {
-    return this.form.getTextBoxErrorMessage('credentials.passcode');
+    return this.form.getErrorBoxText();
   }
 
   getErrorFromErrorBox() {
