@@ -77,6 +77,7 @@ const getPIVButtonElement = (
       classes: `${piv?.className || ''} piv-button`,
       variant: 'secondary',
       Icon: SmartCardIconSvg,
+      iconAlt: loc('piv.card', 'login'),
       onClick: (widgetContext: IWidgetContext) => {
         // To render the PIV view, we have to use a remediation that is provided on initial load
         // This remediation doesn't allow a network request, so we have to update the transaction
@@ -252,7 +253,7 @@ export const getIdpButtonElements = (
         classes: classNames.join(' '),
         variant: 'secondary',
         Icon: getIdpButtonIcon(type),
-        iconAlt: loc('piv.card', 'login'),
+        iconAlt: '',
         onClick: () => {
           Util.redirectWithFormGet(idpObject.href);
         },

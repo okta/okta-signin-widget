@@ -36,7 +36,10 @@ const transformRemediationNameForIdp: TransformStepFnWithOptions = (options) => 
   if (nextStep?.name === IDX_STEP.REDIRECT_IDP
     && getAuthenticatorKey(transaction) === AUTHENTICATOR_KEY.IDP) {
     // idp authenticator
-    const newRemediationName = isVerifyFlow(transaction) ? 'challenge-authenticator' : 'enroll-authenticator';
+    const newRemediationName = isVerifyFlow(transaction)
+      ? IDX_STEP.CHALLENGE_AUTHENTICATOR
+      : IDX_STEP.ENROLL_AUTHENTICATOR;
+
     nextStep!.name = newRemediationName;
     // This is so the correct authenticator transformer is reached in idxTransformerMapping.ts
     options.step = newRemediationName;
