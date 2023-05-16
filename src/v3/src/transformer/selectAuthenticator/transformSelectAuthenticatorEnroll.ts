@@ -72,7 +72,7 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
   };
   const authenticatorListElement: AuthenticatorButtonListElement = {
     type: 'AuthenticatorButtonList',
-    options: { buttons: authenticatorButtons },
+    options: { buttons: authenticatorButtons, dataSe: 'authenticator-enroll-list' },
   };
   const skipButton: ButtonElement = {
     type: 'Button',

@@ -122,6 +122,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
               >
                 <ul
                   class="MuiBox-root emotion-22"
+                  data-se="authenticator-enroll-list"
                 >
                   <li
                     class="MuiBox-root emotion-12"

@@ -85,6 +85,7 @@ exports[`user-unlock-account renders form 1`] = `
               >
                 <ul
                   class="MuiBox-root emotion-16"
+                  data-se="authenticator-verify-list"
                 >
                   <li
                     class="MuiBox-root emotion-7"

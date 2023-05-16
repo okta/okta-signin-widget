@@ -97,6 +97,8 @@ describe('Verify Authenticator Selector Transformer Tests', () => {
       .toBe('oie.select.authenticators.verify.subtitle');
     expect(updatedFormBag.uischema.elements[2].type).toBe('AuthenticatorButtonList');
     expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonListElement)
+      .options.dataSe)).toBe('authenticator-verify-list');
+    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonListElement)
       .options.buttons.length)).toBe(1);
     expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonListElement)
       .options.buttons[0] as AuthenticatorButtonElement)
@@ -131,6 +133,8 @@ describe('Verify Authenticator Selector Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
       .toBe('oie.password.reset.verification');
     expect(updatedFormBag.uischema.elements[2].type).toBe('AuthenticatorButtonList');
+    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonListElement)
+      .options.dataSe)).toBe('authenticator-verify-list');
     expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonListElement)
       .options.buttons.length)).toBe(1);
     expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonListElement)
@@ -169,6 +173,8 @@ describe('Verify Authenticator Selector Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
       .toBe('oie.password.reset.verification');
     expect(updatedFormBag.uischema.elements[2].type).toBe('AuthenticatorButtonList');
+    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonListElement)
+      .options.dataSe)).toBe('authenticator-verify-list');
     expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonListElement)
       .options.buttons.length)).toBe(1);
     expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonListElement)

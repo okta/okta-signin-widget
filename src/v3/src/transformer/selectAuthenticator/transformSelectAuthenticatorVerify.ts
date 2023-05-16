@@ -63,7 +63,7 @@ export const transformSelectAuthenticatorVerify: IdxStepTransformer = ({
 
   const authenticatorListElement: AuthenticatorButtonListElement = {
     type: 'AuthenticatorButtonList',
-    options: { buttons: authenticatorButtonElements },
+    options: { buttons: authenticatorButtonElements, dataSe: 'authenticator-verify-list' },
   };
   uischema.elements.push(authenticatorListElement);
 

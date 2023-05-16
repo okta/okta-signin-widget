@@ -110,6 +110,8 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
     expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonListElement)
       .options.buttons.length)).toBe(1);
     expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonListElement)
+      .options.dataSe)).toBe('authenticator-enroll-list');
+    expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonListElement)
       .options.buttons[0] as AuthenticatorButtonElement).options.actionParams?.['authenticator.id'])
       .toBe('123abc');
     expect(updatedFormBag.uischema.elements[4].type).toBe('Button');
@@ -140,6 +142,8 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[3] as AuthenticatorButtonListElement)
       .options.buttons.length).toBe(1);
     expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonListElement)
+      .options.dataSe)).toBe('authenticator-enroll-list');
+    expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonListElement)
       .options.buttons[0] as AuthenticatorButtonElement).options.step)
       .toBe('select-authenticator-enroll');
     expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonListElement)
@@ -168,6 +172,8 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
       .toBe('oie.setup.optional');
     expect(updatedFormBag.uischema.elements[3].type).toBe('AuthenticatorButtonList');
+    expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonListElement)
+      .options.dataSe)).toBe('authenticator-enroll-list');
     expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonListElement)
       .options.buttons[0] as AuthenticatorButtonElement)
       .options.actionParams?.['authenticator.id']).toBe('123abc');

@@ -307,7 +307,10 @@ export interface AuthenticatorButtonElement extends UISchemaElement {
 
 export interface AuthenticatorButtonListElement extends UISchemaElement {
   type: 'AuthenticatorButtonList';
-  options: { buttons: AuthenticatorButtonElement[] };
+  options: {
+    buttons: AuthenticatorButtonElement[];
+    dataSe: string;
+  };
 }
 
 export interface WebAuthNButtonElement extends UISchemaElement {
