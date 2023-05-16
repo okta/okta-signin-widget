@@ -19,6 +19,7 @@ import {
   FieldElement,
   FormBag,
   IWidgetContext,
+  LaunchAuthenticatorButtonElement,
   LinkElement,
   TitleElement,
   WidgetProps,
@@ -135,5 +136,25 @@ describe('IDP Button transformer tests', () => {
       availableSteps: [{ name: IDX_STEP.PIV_IDP, type: 'X509' }],
       nextStep: { name: IDX_STEP.PIV_IDP, type: 'X509' },
     });
+  });
+  it('should add Fastpass button when exists in remediation', async () => {
+    transaction.nextStep!.name = IDX_STEP.IDENTIFY;
+    transaction.neededToProceed = [
+      { name: IDX_STEP.IDENTIFY },
+      { name: IDX_STEP.LAUNCH_AUTHENTICATOR },
+    ];
+    const updatedFormBag = transformIDPButtons({
+      transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
+    })(formBag);
+
+    expect(updatedFormBag).toMatchSnapshot();
+    expect(updatedFormBag.uischema.elements.length).toBe(7);
+    expect((updatedFormBag.uischema.elements[1] as LaunchAuthenticatorButtonElement).label).toBe('oktaVerify.button');
+    expect((updatedFormBag.uischema.elements[1] as LaunchAuthenticatorButtonElement).options.step)
+      .toBe(IDX_STEP.LAUNCH_AUTHENTICATOR);
+    expect((updatedFormBag.uischema.elements[1] as LaunchAuthenticatorButtonElement).type)
+      .toBe('LaunchAuthenticatorButton');
+    expect((updatedFormBag.uischema.elements[2] as DividerElement).options?.text)
+      .toBe('socialauth.divider.text');
   });
 });

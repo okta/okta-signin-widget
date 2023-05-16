@@ -30,8 +30,9 @@ export const transformRegisterButton: TransformStepFnWithOptions = ({
   const { availableSteps, enabledFeatures, nextStep } = transaction;
   const hasIdentityStep = availableSteps?.some((s) => s.name === IDX_STEP.IDENTIFY);
   const isLaunchAuthenticatorStep = nextStep?.name === IDX_STEP.LAUNCH_AUTHENTICATOR;
+  const isRedirectIdpStep = nextStep?.name === IDX_STEP.REDIRECT_IDP;
   const shouldAddDefaultButton = enabledFeatures?.includes(IdxFeature.REGISTRATION)
-    && (hasIdentityStep || isLaunchAuthenticatorStep);
+    && (hasIdentityStep || isLaunchAuthenticatorStep || isRedirectIdpStep);
   const registerStep = availableSteps?.find(
     ({ name }) => name === IDX_STEP.SELECT_ENROLL_PROFILE,
   );

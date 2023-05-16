@@ -13,11 +13,13 @@
 import { APIError, IdxRemediation } from '@okta/okta-auth-js';
 import { flow } from 'lodash';
 
-import { IDX_STEP } from '../../constants';
+import { AUTHENTICATOR_KEY, IDX_STEP } from '../../constants';
 import { RegistrationElementSchema, TransformStepFnWithOptions } from '../../types';
 import {
   convertIdxInputsToRegistrationSchema,
   convertRegistrationSchemaToIdxInputs,
+  getAuthenticatorKey,
+  isVerifyFlow,
   parseRegistrationSchema,
   triggerRegistrationErrorMessages,
 } from '../../util';
@@ -25,14 +27,26 @@ import {
 export const PIV_TYPE = 'X509';
 
 const transformRemediationNameForIdp: TransformStepFnWithOptions = (options) => (formbag) => {
-  const { transaction: { neededToProceed: remediations, nextStep } } = options;
+  const { transaction } = options;
+  const { neededToProceed: remediations, nextStep } = transaction;
   if (!remediations.length) {
     return formbag;
   }
 
+  if (nextStep?.name === IDX_STEP.REDIRECT_IDP
+    && getAuthenticatorKey(transaction) === AUTHENTICATOR_KEY.IDP) {
+    // idp authenticator
+    const newRemediationName = isVerifyFlow(transaction)
+      ? IDX_STEP.CHALLENGE_AUTHENTICATOR
+      : IDX_STEP.ENROLL_AUTHENTICATOR;
+
+    nextStep!.name = newRemediationName;
+    // This is so the correct authenticator transformer is reached in idxTransformerMapping.ts
+    options.step = newRemediationName;
+  }
+
   // update Remediations array
   remediations.forEach((remediation: IdxRemediation) => {
-    // TODO: OKTA-504638 Can Add IDP remediation name renaming logic here
     if (remediation.name === IDX_STEP.REDIRECT_IDP && remediation.type === PIV_TYPE) {
       // piv idp
       remediation.name = IDX_STEP.PIV_IDP;

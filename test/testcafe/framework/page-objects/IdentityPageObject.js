@@ -1,4 +1,6 @@
 import { Selector, userVariables } from 'testcafe';
+import { within } from '@testing-library/testcafe';
+
 import BasePageObject from './BasePageObject';
 
 const CALLOUT_SELECTOR = '[data-se="callout"]';
@@ -10,7 +12,6 @@ const CUSTOM_BUTTON = '.custom-buttons .okta-custom-buttons-container .default-c
 const SUB_LABEL_SELECTOR = '.o-form-explain';
 const IDPS_CONTAINER = '.okta-idps-container';
 const FOOTER_INFO_SELECTOR = '.footer-info';
-const CUSTOM_IDP_BUTTON = '.social-auth-general-idp-button';
 
 export default class IdentityPageObject extends BasePageObject {
   constructor(t) {
@@ -169,12 +170,19 @@ export default class IdentityPageObject extends BasePageObject {
     return this.form.getErrorBoxText();
   }
 
-  getIdpButton(selector) {
-    return this.form.getCallout(selector);
+  getIdpButton(name) {
+    if(userVariables.v3) {
+      return this.form.getButton(name);
+    }
+    
+    return this.form.getLink(name);
   }
 
-  clickIdpButton(selector) {
-    return this.form.clickElement(selector);
+  clickIdpButton(name) {
+    if (userVariables.v3) {
+      return this.form.clickButton(name);
+    }
+    return this.t.click(this.form.getLink(name));
   }
 
   identifierFieldExists(selector) {
@@ -182,6 +190,10 @@ export default class IdentityPageObject extends BasePageObject {
   }
 
   identifierFieldExistsForPIVView() {
+    return this.form.fieldByLabelExists('Username');
+  }
+
+  identifierFieldExistsForIdpView() {
     return this.form.fieldByLabelExists('Username');
   }
 
@@ -249,7 +261,10 @@ export default class IdentityPageObject extends BasePageObject {
     return Selector(IDPS_CONTAINER);
   }
 
-  getCustomIdpButtonLabel(index) {
-    return Selector(CUSTOM_IDP_BUTTON).nth(index).textContent;
+  getIdpButtonCount() {
+    if (userVariables.v3) {
+      return within(this.form.el).getAllByRole('button', { name: /Sign in with/}).count;
+    }
+    return this.getIdpsContainer().childElementCount;
   }
 }

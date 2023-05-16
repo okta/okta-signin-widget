@@ -6,14 +6,14 @@ export default class IdPAuthenticatorPageObject extends BasePageObject {
   }
 
   getPageSubtitle() {
-    return this.form.getElement('.okta-form-subtitle').textContent;
+    return this.form.getSubtitle();
   }
 
   getErrorFromErrorBox() {
-    return this.form.getElement('.o-form-error-container').textContent;
+    return this.form.getErrorBoxText();
   }
 
-  submit() {
-    return this.form.clickSaveButton();
+  submit(name) {
+    return this.form.clickSaveButton(name);
   }
 }

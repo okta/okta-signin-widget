@@ -217,6 +217,29 @@ export const CHALLENGE_INTENT_TO_I18KEY: Record<string, string> = {
   ENROLLMENT: 'idx.return.link.otponly.enter.code.on.page.registration',
 };
 
+export const SOCIAL_IDP_TYPE_TO_I18KEY: Record<string, string> = {
+  facebook: 'socialauth.facebook.label',
+  google: 'socialauth.google.label',
+  linkedin: 'socialauth.linkedin.label',
+  microsoft: 'socialauth.microsoft.label',
+  apple: 'socialauth.apple.label',
+  github: 'socialauth.github.label',
+  gitlab: 'socialauth.gitlab.label',
+  yahoo: 'socialauth.yahoo.label',
+  line: 'socialauth.line.label',
+  paypal: 'socialauth.paypal.label',
+  paypal_sandbox: 'socialauth.paypal_sandbox.label',
+  salesforce: 'socialauth.salesforce.label',
+  amazon: 'socialauth.amazon.label',
+  yahoojp: 'socialauth.yahoojp.label',
+  discord: 'socialauth.discord.label',
+  adobe: 'socialauth.adobe.label',
+  orcid: 'socialauth.orcid.label',
+  spotify: 'socialauth.spotify.label',
+  xero: 'socialauth.xero.label',
+  quickbooks: 'socialauth.quickbooks.label',
+};
+
 // Possible options for the SIW interstitial redirect view
 export enum InterstitialRedirectView {
   DEFAULT = 'DEFAULT',
