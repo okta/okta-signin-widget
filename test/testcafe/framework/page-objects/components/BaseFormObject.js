@@ -256,7 +256,7 @@ export default class BaseFormObject {
     return Selector('a[target="_blank"]')
       .filter((node) => {
         const relValues = (node.getAttribute('rel') || '').split(' ');
-        return relValues.indexOf('noopener') < 0 || relValues.indexOf('noreferrer') < 0;
+        return !(relValues.includes('noopener') && relValues.includes('noreferrer'));
       });
   }
 
