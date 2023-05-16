@@ -125,7 +125,7 @@ export default class BaseFormObject {
   }
 
   getErrorBox() {
-    return Selector(CALLOUT);
+    return this.getCallout(CALLOUT);
   }
 
   getErrorBoxHtml() {
@@ -250,6 +250,18 @@ export default class BaseFormObject {
 
   async clickElement(selector) {
     await this.t.click(this.el.find(selector));
+  }
+
+  getAnchorsWithoutRelevantRelAttributes() {
+    return Selector('a[target="_blank"]')
+      .filter((node) => {
+        const relValues = (node.getAttribute('rel') || '').split(' ');
+        return relValues.indexOf('noopener') < 0 || relValues.indexOf('noreferrer') < 0;
+      });
+  }
+
+  getErrorBoxAnchor(url) {
+    return this.getErrorBox().find(`a[href="${url}"]`);
   }
 
   /**
