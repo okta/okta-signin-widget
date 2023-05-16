@@ -14,7 +14,7 @@ import { IdxRemediation, IdxTransaction, NextStep } from '@okta/okta-auth-js';
 
 import IDP from '../../../util/IDP';
 import Util from '../../../util/Util';
-import { IDX_STEP } from '../constants';
+import { IDX_STEP, SOCIAL_IDP_TYPE_TO_I18KEY } from '../constants';
 import SmartCardIconSvg from '../img/smartCardButtonIcon.svg';
 import appleIconSvg from '../img/socialButtonIcons/apple.svg';
 import facebookIconSvg from '../img/socialButtonIcons/facebook.svg';
@@ -220,12 +220,13 @@ export const getIdpButtonElements = (
     let type = idpObject.type?.toLowerCase() || '';
     let displayName;
 
-    if (IDP.SUPPORTED_SOCIAL_IDPS.includes(type) === false) {
+    const buttonI18key = SOCIAL_IDP_TYPE_TO_I18KEY[type];
+    if (IDP.SUPPORTED_SOCIAL_IDPS.includes(type) === false || typeof buttonI18key === 'undefined') {
       type = 'general-idp';
       // OKTA-396684 - makes sure that custom idps always have a name
       displayName = loc('customauth.sign.in.with.label', 'login', [idpObject.idp?.name]);
     } else {
-      displayName = loc(`socialauth.${type}.label`, 'login');
+      displayName = loc(buttonI18key, 'login');
     }
 
     const classNames = [
