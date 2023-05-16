@@ -19,11 +19,12 @@ const mockInvalidPasscode = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(xhrInvalidOTP, 403);
 
-fixture('Challenge Authenticator Custom OTP');
+fixture('Challenge Authenticator Custom OTP').meta('v3', true);
 
 async function setup(t) {
   const challengeCustomOTPPage = new ChallengeCustomOTPPageObject(t);
   await challengeCustomOTPPage.navigateToPage();
+  await t.expect(challengeCustomOTPPage.formExists()).eql(true);
   return challengeCustomOTPPage;
 }
 
@@ -57,6 +58,7 @@ test.requestHooks(mockChallengeAuthenticatorCustomOTP)('OTP is required', async 
 
   // verify otp
   await challengeOnPremPage.verifyFactor('credentials.passcode', '');
+  await t.pressKey('tab');
   await challengeOnPremPage.clickNextButton();
 
   await challengeOnPremPage.waitForErrorBox();
@@ -67,13 +69,13 @@ test.requestHooks(mockInvalidPasscode)('challege custom otp authenticator with i
   const challengeOnPremPage = await setup(t);
   await checkA11y(t);
   await challengeOnPremPage.verifyFactor('credentials.passcode', 'test');
-  await challengeOnPremPage.clickNextButton();
-
-  await t.expect(challengeOnPremPage.getInvalidOTPError())
-    .eql('Invalid code. Try again.');
+  await challengeOnPremPage.clickNextButton('Verify');
+  await challengeOnPremPage.waitForErrorBox();
+  await t.expect(challengeOnPremPage.getInvalidOTPError()).eql('Invalid code. Try again.');
 });
 
-test.requestHooks(mockChallengeAuthenticatorCustomOTP)('should show custom factor page link', async t => {
+// OKTA-465319 Help link is not supported in v3
+test.meta('v3', false).requestHooks(mockChallengeAuthenticatorCustomOTP)('should show custom factor page link', async t => {
   const challengeOnPremPage = await setup(t);
   await checkA11y(t);
 
