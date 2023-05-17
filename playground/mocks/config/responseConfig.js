@@ -19,7 +19,6 @@ const idx = {
 
   '/idp/idx/introspect': [
     'identify',
-    // 'consent-granular',
     // 'error-identify-multiple-errors',
     // 'authenticator-enroll-ov-qr-enable-biometrics',
     // 'authenticator-verification-okta-verify-push',
@@ -105,7 +104,8 @@ const idx = {
     // 'oda-enrollment-android',
     // 'mdm-enrollment',
     // 'authenticator-verification-custom-app-push',
-    // 'authenticator-enroll-custom-app-push'    
+    // 'authenticator-enroll-custom-app-push',
+    // 'consent-granular',
   ],
   '/idp/idx/enroll': [
     'enroll-profile-new',

@@ -620,9 +620,11 @@ const props =
     var res = oktaUnderscore.clone(Backbone.Model.prototype.toJSON.apply(this, arguments));
 
     var schema = this['__schema__']; // cleanup local properties
+
     if (!options.verbose) {
       res = oktaUnderscore.omit(res, oktaUnderscore.keys(schema.local));
     } else {
+      // add derived properties
       oktaUnderscore.each(schema.derived, function (options, name) {
         res[name] = this.get(name);
       }, this);

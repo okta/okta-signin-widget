@@ -363,29 +363,17 @@ export default Controller.extend({
 
   unflatten(data) {
   _.each(data, function (value, key, data) {
-    if (key.indexOf('.') === -1) {
+    if (key.indexOf('optedScopes.') === -1) {
       return;
     }
 
-    let ref = data;
-    if (key.indexOf('optedScopes.') !== -1) {
-      const scopeName = key.substring(key.indexOf('optedScopes.') + 12);
-      if (!ref['optedScopes']) {
-        ref['optedScopes'] = {};
-      }
-      ref['optedScopes'][scopeName] = value;
-    } else {
-      let part;
-      const parts = key.split('.');
-
-      while ((part = parts.shift()) !== undefined) {
-        if (!ref[part]) {
-          ref[part] = parts.length ? {} : value;
-        }
-
-        ref = ref[part];
-      }
+    // Extract scope name following "optedScopes." prefix
+    const ref = data;
+    const scopeName = key.substring(key.indexOf('optedScopes.') + 12);
+    if (!ref['optedScopes']) {
+      ref['optedScopes'] = {};
     }
+    ref['optedScopes'][scopeName] = value;
 
     delete data[key];
   });
