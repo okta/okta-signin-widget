@@ -61,10 +61,30 @@ const GranularConsentAgreementText = View.extend({
 });
 
 
+const unflatten = (obj) => {
+  let result = '';
+  const key = Object.keys(obj)[0];
+
+  if (obj[key] !== true) {
+    result += unflatten(obj[key]);
+  }
+
+  return result;
+};
+
 export default BaseView.extend({
   Header: granularConsentViewHeader,
   Body: granularConsentViewForm,
   Footer: EnduserConsentViewFooter,
+
+  transformPayload (modelJson) {
+    if (modelJson.optedScopes && typeof modelJson.optedScopes !== 'string') {
+      return {
+        ...modelJson,
+        optedScopes: unflatten(modelJson.optedScopes)
+      }
+    }
+  },
 
   postRender() {
     const scopeList = this.$el.find('.o-form-fieldset-container');

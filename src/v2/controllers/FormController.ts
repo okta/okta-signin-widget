@@ -247,7 +247,8 @@ export default Controller.extend({
     }
 
     // Run hook: transform the user name (a.k.a identifier)
-    const values = this.transformIdentifier(formName, model);
+    let values = this.transformPayloadValues(model);
+    values = this.transformIdentifier(formName, model);
 
     // widget rememberMe feature stores the entered identifier in a cookie, to pre-fill the form on subsequent visits to page
     if (this.options.settings.get('features.rememberMe') && this.options.settings.get('features.rememberMyUsernameOnOIE')) {
@@ -339,6 +340,14 @@ export default Controller.extend({
       //      - UNLOCK_ACCOUNT
       const operation = FORM_NAME_TO_OPERATION_MAP[formName];
       modelJSON.identifier = this.settings.transformUsername(modelJSON.identifier, operation);
+    }
+    return modelJSON;
+  },
+
+  transformPayloadValues(model) {
+    const modelJSON = model.toJSON();
+    if (model.hasOwnProperty('transformPayload') && typeof model.transformPayload === 'function') {
+      return model.transformPayload(modelJSON);
     }
     return modelJSON;
   },
