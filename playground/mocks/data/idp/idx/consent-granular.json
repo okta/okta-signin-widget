@@ -53,6 +53,16 @@
                 "mutable": true
               },
               {
+                "name": "custom3.custom4.custom5",
+                "label": "View your mobile phone call history.",
+                "desc": "This allows the app to view your mobile phone call history.",
+                "type": "boolean",
+                "required": true,
+                "value": true,
+                "visible": true,
+                "mutable": true
+              },
+              {
                 "name": "email",
                 "label": "View your email address.",
                 "desc": "This allows the app to view your email address.",

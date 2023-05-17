@@ -103,6 +103,7 @@ test.requestHooks(requestLogger, consentGranularMock)('should send correct paylo
   await t.expect(jsonBody.optedScopes.openid).eql(true);
   await t.expect(jsonBody.optedScopes.custom1).eql(false);
   await t.expect(jsonBody.optedScopes.custom2).eql(true);
+  await t.expect(jsonBody.optedScopes['custom3.custom4.custom5']).eql(true);
   await t.expect(jsonBody.optedScopes.email).eql(false);
   await t.expect(jsonBody.optedScopes.profile).eql(true);
   await t.expect(method).eql('post');
