@@ -16,7 +16,7 @@ const flattenObj = (obj) => {
   let result = {};
 
   Object.keys(obj).forEach((key) => {
-    if (typeof obj[key] !== 'object' || Array.isArray(obj[key])) {
+    if (typeof obj[key] !== 'object') {
       result[key] = obj[key];
       return;
     }
