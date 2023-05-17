@@ -84,6 +84,7 @@ export default BaseView.extend({
         optedScopes: unflatten(modelJson.optedScopes)
       }
     }
+    return modelJson;
   },
 
   postRender() {
