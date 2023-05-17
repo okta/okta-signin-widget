@@ -199,40 +199,31 @@ test.requestHooks(endUserRemediationOneOptionMock)('should render end user remed
   const terminalViewPage = await setup(t);
   await checkA11y(t);
 
-  await t.expect(terminalViewPage.form.getErrorBoxHtml()).eql([
-    '<span data-se="icon" class="icon error-16"></span>',
-    '<div class="end-user-remediation-terminal-view">',
-    '<div class="end-user-remediation-title">Your device doesn\'t meet the security requirements</div>',
-    '<div class="end-user-remediation-explanation">To sign in, make the following updates. Then, access the app again.</div>',
-    '<div class="end-user-remediation-options">',
-    '<div class="end-user-remediation-action"><a href="https://okta.com/android-upgrade-os" target="_blank">Update to Android 100</a></div>',
-    '<div class="end-user-remediation-action"><a href="https://okta.com/android-biometric-lock" target="_blank">Enable lock screen and biometrics</a></div>',
-    '</div>',
-    '<div class="end-user-remediation-help-and-contact">For more information, follow the instructions on <a href="https://okta.com/help" target="_blank" class="additional-help">the help page</a> or contact your administrator for help</div>',
-    '</div>'
-  ].join(''));
+  await t.expect(terminalViewPage.form.getErrorBox().withText('Your device doesn\'t meet the security requirements').exists).eql(true);
+  await t.expect(terminalViewPage.form.getErrorBox().withText('To sign in, make the following updates. Then, access the app again.').exists).eql(true);
+
+  await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://okta.com/android-upgrade-os').withExactText('Update to Android 100').exists).eql(true);
+  await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://okta.com/android-biometric-lock').withExactText('Enable lock screen and biometrics').exists).eql(true);
+
+  await t.expect(terminalViewPage.form.getErrorBox().withText('follow the instructions on the help page').find('a[href="https://okta.com/help"]').exists).eql(true);
+  await t.expect(terminalViewPage.form.getAnchorsWithBlankTargetsWithoutRelevantAttributes().exists).eql(false);
 });
 
 test.requestHooks(endUserRemediationMultipleOptionsMock)('should render end user remediation error message when there are multiple options', async t => {
   const terminalViewPage = await setup(t);
   await checkA11y(t);
 
-  await t.expect(terminalViewPage.form.getErrorBoxHtml()).eql([
-    '<span data-se="icon" class="icon error-16"></span>',
-    '<div class="end-user-remediation-terminal-view">',
-    '<div class="end-user-remediation-title">Your device doesn\'t meet the security requirements</div>',
-    '<div class="end-user-remediation-explanation">To sign in, make the following updates. Then, access the app again.</div>',
-    '<div class="end-user-remediation-options">',
-    '<div class="end-user-remediation-option">Option 1:</div>',
-    '<div class="end-user-remediation-action"><a href="https://okta.com/android-upgrade-os" target="_blank">Update to Android 100</a></div>',
-    '<div class="end-user-remediation-action"><a href="https://okta.com/android-biometric-lock" target="_blank">Enable lock screen and biometrics</a></div>',
-    '<div class="end-user-remediation-option">Option 2:</div>',
-    '<div class="end-user-remediation-action"><a href="https://okta.com/android-lock-screen" target="_blank">Enable lock screen</a></div>',
-    '<div class="end-user-remediation-action"><a href="https://okta.com/android-disk-encrypted" target="_blank">Encrypt your device</a></div>',
-    '</div>',
-    '<div class="end-user-remediation-help-and-contact">For more information, follow the instructions on <a href="https://okta.com/help" target="_blank" class="additional-help">the help page</a> or contact your administrator for help</div>',
-    '</div>'
-  ].join(''));
+  await t.expect(terminalViewPage.form.getErrorBox().withText('Your device doesn\'t meet the security requirements').exists).eql(true);
+  await t.expect(terminalViewPage.form.getErrorBox().withText('To sign in, make the following updates. Then, access the app again.').exists).eql(true);
+
+  await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://okta.com/android-upgrade-os').withExactText('Update to Android 100').exists).eql(true);
+  await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://okta.com/android-biometric-lock').withExactText('Enable lock screen and biometrics').exists).eql(true);
+
+  await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://okta.com/android-lock-screen').withExactText('Enable lock screen').exists).eql(true);
+  await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://okta.com/android-disk-encrypted').withExactText('Encrypt your device').exists).eql(true);
+
+  await t.expect(terminalViewPage.form.getErrorBox().withText('follow the instructions on the help page').find('a[href="https://okta.com/help"]').exists).eql(true);
+  await t.expect(terminalViewPage.form.getAnchorsWithBlankTargetsWithoutRelevantAttributes().exists).eql(false);
 });
 
 test.requestHooks(endUserRemediationMultipleOptionsWithCustomHelpUrlMock)('should render end user remediation error message when there are multiple options and a custom URL is set for the organization help page', async t => {
@@ -242,40 +233,33 @@ test.requestHooks(endUserRemediationMultipleOptionsWithCustomHelpUrlMock)('shoul
   // The body of the API response is not normally returned for multiple different
   // platforms. The test exists to ensure all of the expected keys can be
   // localized
-  await t.expect(terminalViewPage.form.getErrorBoxHtml()).eql([
-    '<span data-se="icon" class="icon error-16"></span>',
-    '<div class="end-user-remediation-terminal-view">',
-    '<div class="end-user-remediation-title">Your device doesn\'t meet the security requirements</div>',
-    '<div class="end-user-remediation-explanation">To sign in, make the following updates. Then, access the app again.</div>',
-    '<div class="end-user-remediation-options">',
-    '<div class="end-user-remediation-option">Option 1:</div>',
-    '<div class="end-user-remediation-action"><a href="https://okta.com/ios-upgrade-os" target="_blank">Update to iOS 12.0.1</a></div>',
-    '<div class="end-user-remediation-action"><a href="https://okta.com/ios-lock-screen" target="_blank">Set a passcode for the lock screen</a></div>',
-    '<div class="end-user-remediation-action"><a href="https://okta.com/ios-biometric-lock" target="_blank">Set a passcode for the lock screen and enable Touch ID or Face ID</a></div>',
-    '<div class="end-user-remediation-option">Option 2:</div>',
-    '<div class="end-user-remediation-action"><a href="https://okta.com/macos-upgrade-os" target="_blank">Update to macOS 13.2</a></div>',
-    '<div class="end-user-remediation-action"><a href="https://okta.com/macos-lock-screen" target="_blank">Set a passcode for the lock screen</a></div>',
-    '<div class="end-user-remediation-action"><a href="https://okta.com/macos-disk-encrypted" target="_blank">Turn on FileVault</a></div>',
-    '<div class="end-user-remediation-option">Option 3:</div>',
-    '<div class="end-user-remediation-action"><a href="https://okta.com/windows-upgrade-os" target="_blank">Update to Windows 10.0.25530.123</a></div>',
-    '<div class="end-user-remediation-action"><a href="https://okta.com/windows-disk-encrypted" target="_blank">Encrypt all internal disks with BitLocker</a></div>',
-    '<div class="end-user-remediation-option">Option 4:</div>',
-    '<div class="end-user-remediation-action"><a href="https://okta.com/windows-biometric-lock" target="_blank">Enable Windows Hello for the lock screen</a></div>',
-    '</div>',
-    '<div class="end-user-remediation-help-and-contact">For more information, follow the instructions on <a href="https://okta1.com/custom-help-me" target="_blank" class="additional-help">your organization\'s help page</a> or contact your administrator for help</div>',
-    '</div>'
-  ].join(''));
+  await t.expect(terminalViewPage.form.getErrorBox().withText('Your device doesn\'t meet the security requirements').exists).eql(true);
+  await t.expect(terminalViewPage.form.getErrorBox().withText('To sign in, make the following updates. Then, access the app again.').exists).eql(true);
+
+  await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://okta.com/ios-upgrade-os').withExactText('Update to iOS 12.0.1').exists).eql(true);
+  await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://okta.com/ios-lock-screen').withExactText('Set a passcode for the lock screen').exists).eql(true);
+  await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://okta.com/ios-biometric-lock').withExactText('Set a passcode for the lock screen and enable Touch ID or Face ID').exists).eql(true);
+
+  await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://okta.com/macos-upgrade-os').withExactText('Update to macOS 13.2').exists).eql(true);
+  await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://okta.com/macos-lock-screen').withExactText('Set a passcode for the lock screen').exists).eql(true);
+  await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://okta.com/macos-disk-encrypted').withExactText('Turn on FileVault').exists).eql(true);
+
+  await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://okta.com/windows-upgrade-os').withExactText('Update to Windows 10.0.25530.123').exists).eql(true);
+  await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://okta.com/windows-disk-encrypted').withExactText('Encrypt all internal disks with BitLocker').exists).eql(true);
+
+  await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://okta.com/windows-biometric-lock').withExactText('Enable Windows Hello for the lock screen').exists).eql(true);
+
+  await t.expect(terminalViewPage.form.getErrorBox().withText('follow the instructions on your organization\'s help page').find('a[href="https://okta1.com/custom-help-me"]').exists).eql(true);
+  await t.expect(terminalViewPage.form.getAnchorsWithBlankTargetsWithoutRelevantAttributes().exists).eql(false);
 });
 
 test.requestHooks(endUserRemediationNoOptionsMock)('should render end user remediation error message when there are no options', async t => {
   const terminalViewPage = await setup(t);
   await checkA11y(t);
 
-  await t.expect(terminalViewPage.form.getErrorBoxHtml()).eql([
-    '<span data-se="icon" class="icon error-16"></span>',
-    '<div class="end-user-remediation-terminal-view">',
-    '<div class="end-user-remediation-title">Your device doesn\'t meet the security requirements</div>',
-    '<div class="end-user-remediation-help-and-contact">For more information, follow the instructions on <a href="https://okta1.com/custom-help-me" target="_blank" class="additional-help">your organization\'s help page</a> or contact your administrator for help</div>',
-    '</div>'
-  ].join(''));
+  await t.expect(terminalViewPage.form.getErrorBox().withText('Your device doesn\'t meet the security requirements').exists).eql(true);
+  await t.expect(terminalViewPage.form.getErrorBox().withText('To sign in, make the following updates. Then, access the app again.').exists).eql(false);
+
+  await t.expect(terminalViewPage.form.getErrorBox().withText('follow the instructions on your organization\'s help page').find('a[href="https://okta1.com/custom-help-me"]').exists).eql(true);
+  await t.expect(terminalViewPage.form.getAnchorsWithBlankTargetsWithoutRelevantAttributes().exists).eql(false);
 });

@@ -124,6 +124,10 @@ export default class BaseFormObject {
     return this.el.find(FORM_INFOBOX_ERROR).innerText;
   }
 
+  getErrorBox() {
+    return this.getCallout(CALLOUT);
+  }
+
   getErrorBoxHtml() {
     return this.getCallout(CALLOUT).innerHTML;
   }
@@ -246,6 +250,18 @@ export default class BaseFormObject {
 
   async clickElement(selector) {
     await this.t.click(this.el.find(selector));
+  }
+
+  getAnchorsWithBlankTargetsWithoutRelevantAttributes() {
+    return Selector('a[target="_blank"]')
+      .filter((node) => {
+        const relValues = (node.getAttribute('rel') || '').split(' ');
+        return !(relValues.includes('noopener') && relValues.includes('noreferrer'));
+      });
+  }
+
+  getErrorBoxAnchor(url) {
+    return this.getErrorBox().find(`a[href="${url}"]`);
   }
 
   /**
