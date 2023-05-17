@@ -86,9 +86,6 @@ function unflatten(data) {
       return;
     }
 
-    // let clonedData = oktaUnderscore.clone(data);
-    // console.log("in unflatten, data=", clonedData);
-
     var part;
     var ref = data;
     var parts = key.split('.');
@@ -623,26 +620,17 @@ const props =
     var res = oktaUnderscore.clone(Backbone.Model.prototype.toJSON.apply(this, arguments));
 
     var schema = this['__schema__']; // cleanup local properties
-    // console.log("in toJSON, before processing res=", res);
     if (!options.verbose) {
-      // console.log("not verbose, keys to omit=", oktaUnderscore.keys(schema.local));
       res = oktaUnderscore.omit(res, oktaUnderscore.keys(schema.local));
     } else {
-      // console.log("verbose");
-      // add derived properties
       oktaUnderscore.each(schema.derived, function (options, name) {
         res[name] = this.get(name);
       }, this);
     }
 
-    // const prevRes =  oktaUnderscore.clone(res);
-    // console.log("in toJSON, after processing prevRes=", prevRes);
-
     if (this.flat) {
-      // console.log("flat=", this.flat);
       res = unflatten(res);
     }
-    // console.log("in toJSON, after unflattening res=", res);
 
     return res;
   },
