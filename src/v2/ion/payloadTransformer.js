@@ -36,6 +36,8 @@ const flattenObj = (obj) => {
  * these should not be nested and the delimited key names should stay as is. So this function will
  * flatten those nested proeprties to format it how the backend expects it. 
  * i.e. { optedScopes: { some: { scope: true }}} = { optedScopes: { 'some.scope': true }}
+ * Currently, this is only used when the Granular Consent view form is saved see:
+ * src/v2/view-builder/views/consent/GranularConsentView.js
  * 
  * @param {JSON} modelJSON JSON Equivalent of the Backbone Model's attributes/fields
  * @returns If the JSON contains the optedScopes Property, we will flatten the fields from
