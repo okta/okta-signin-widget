@@ -92,7 +92,7 @@ test.requestHooks(requestLogger, consentGranularMock)('should send correct paylo
   const consentPage  = await setup(t);
   await checkA11y(t);
 
-  await consentPage.setScopeCheckBox('optedScopes.custom1', false);
+  await consentPage.setScopeCheckBox('optedScopes.level1.level2.level3.level4', false);
   await consentPage.setScopeCheckBox('optedScopes.email', false);
 
   await consentPage.clickAllowButton();
@@ -101,7 +101,7 @@ test.requestHooks(requestLogger, consentGranularMock)('should send correct paylo
 
   await t.expect(jsonBody.consent).eql(true);
   await t.expect(jsonBody.optedScopes.openid).eql(true);
-  await t.expect(jsonBody.optedScopes.custom1).eql(false);
+  await t.expect(jsonBody.optedScopes['level1.level2.level3.level4']).eql(false);
   await t.expect(jsonBody.optedScopes.custom2).eql(true);
   await t.expect(jsonBody.optedScopes.email).eql(false);
   await t.expect(jsonBody.optedScopes.profile).eql(true);

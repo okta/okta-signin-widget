@@ -34,7 +34,7 @@
                 "mutable": false
               },
               {
-                "name": "custom1",
+                "name": "level1.level2.level3.level4",
                 "label": "View your mobile phone data plan.",
                 "desc": "This allows the app to view your mobile phone data plan.",
                 "type": "boolean",

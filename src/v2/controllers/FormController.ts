@@ -329,7 +329,13 @@ export default Controller.extend({
   },
 
   transformIdentifier(formName, model) {
-    const modelJSON = model.toJSON();
+    let modelJSON;
+    if (formName === 'granular-consent') {
+      modelJSON = this.granularConsentToJSON(model);
+    } else {
+      modelJSON = model.toJSON();
+    }
+
     if (Object.prototype.hasOwnProperty.call(modelJSON, 'identifier')) {
       // The callback function is passed two arguments:
       // 1) username: The name entered by the user
@@ -341,6 +347,38 @@ export default Controller.extend({
       modelJSON.identifier = this.settings.transformUsername(modelJSON.identifier, operation);
     }
     return modelJSON;
+  },
+
+  granularConsentToJSON(model) {
+    let res = _.clone(model.attributes);
+    const schema = model['__schema__']; // cleanup local properties
+    res = _.omit(res, _.keys(schema.local));
+
+    if (model.flat) {
+      res = this.unflatten(res);
+    }
+
+    return res;
+  },
+
+  unflatten(data) {
+    _.each(data, function (value, key, data) {
+      if (key.indexOf('optedScopes.') === -1) {
+        return;
+      }
+
+      // Extract scope name following "optedScopes." prefix
+      const ref = data;
+      const scopeName = key.substring(key.indexOf('optedScopes.') + 12);
+      if (!ref['optedScopes']) {
+        ref['optedScopes'] = {};
+      }
+      ref['optedScopes'][scopeName] = value;
+
+      delete data[key];
+    });
+
+    return data;
   },
 
   /**
