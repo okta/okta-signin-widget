@@ -250,7 +250,7 @@ export default Controller.extend({
     const values = this.transformIdentifier(formName, model);
 
     // widget rememberMe feature stores the entered identifier in a cookie, to pre-fill the form on subsequent visits to page
-    if (this.options.settings.get('features.rememberMe') && this.options.settings.get('features.rememberMyUsernameOnOIE')) {
+    if (this.options.settings.get('features.rememberMe')) {
       if (values.identifier) {
         CookieUtil.setUsernameCookie(values.identifier);
       }
