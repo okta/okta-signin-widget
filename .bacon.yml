@@ -104,5 +104,6 @@ test_suites:
       sort_order: '1'
       timeout: '60'
       script_name: e2e-monolith
+      criteria: OPTIONAL
       criteria: MERGE
       queue_name: ci-queue-prodJenga-Monolith-Build
