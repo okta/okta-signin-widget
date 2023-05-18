@@ -14,6 +14,7 @@ import ViewFactory from '../view-builder/ViewFactory';
 import IonResponseHelper from '../ion/IonResponseHelper';
 import { getV1ClassName } from '../ion/ViewClassNamesFactory';
 import { FORMS, TERMINAL_FORMS, FORM_NAME_TO_OPERATION_MAP } from '../ion/RemediationConstants';
+import transformPayload from '../ion/payloadTransformer';
 import Util from 'util/Util';
 import sessionStorageHelper from '../client/sessionStorageHelper';
 import { HttpResponse, IdxStatus, ProceedOptions } from '@okta/okta-auth-js';
@@ -246,8 +247,9 @@ export default Controller.extend({
       return;
     }
 
+    const payload = transformPayload(formName, model);
     // Run hook: transform the user name (a.k.a identifier)
-    const values = this.transformIdentifier(formName, model);
+    const values = this.transformIdentifier(formName, payload);
 
     // widget rememberMe feature stores the entered identifier in a cookie, to pre-fill the form on subsequent visits to page
     if (this.options.settings.get('features.rememberMe') && this.options.settings.get('features.rememberMyUsernameOnOIE')) {
@@ -328,8 +330,7 @@ export default Controller.extend({
     }
   },
 
-  transformIdentifier(formName, model) {
-    const modelJSON = model.toJSON();
+  transformIdentifier(formName, modelJSON) {
     if (Object.prototype.hasOwnProperty.call(modelJSON, 'identifier')) {
       // The callback function is passed two arguments:
       // 1) username: The name entered by the user
