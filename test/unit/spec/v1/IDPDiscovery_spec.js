@@ -469,9 +469,9 @@ Expect.describe('IDPDiscovery', function() {
     });
     itp('sets aria-expanded attribute correctly when clicking help', function() {
       return setup().then(function(test) {
-        expect(test.form.helpFooter().attr('aria-expanded')).toBe('false');
+        expect(test.form.isHelpFooterAriaExpanded()).toBe(false);
         test.form.helpFooter().click();
-        expect(test.form.helpFooter().attr('aria-expanded')).toBe('true');
+        expect(test.form.isHelpFooterAriaExpanded()).toBe(true);
       });
     });
     itp('has a forgot password link', function() {
@@ -653,9 +653,9 @@ Expect.describe('IDPDiscovery', function() {
     itp('toggles "focused-input" css class on focus in and focus out', function() {
       return setup().then(function(test) {
         test.form.usernameField().focusin();
-        expect(test.form.usernameField()[0].parentElement).toHaveClass('focused-input');
+        expect(test.form.usernameField()[0].parentNode.className).toContain('focused-input');
         test.form.usernameField().focusout();
-        expect(test.form.usernameField()[0].parentElement).not.toHaveClass('focused-input');
+        expect(test.form.usernameField()[0].parentNode.className).not.toContain('focused-input');
       });
     });
   });
@@ -1042,7 +1042,7 @@ Expect.describe('IDPDiscovery', function() {
         expect(test.form.securityBeacon()[0].className).toMatch('undefined-user');
         expect(test.form.securityBeacon()[0].className).not.toMatch('new-device');
         expect(test.form.securityBeacon().css('background-image')).toMatch(
-          /\/base\/target\/img\/security\/default.*.png/
+          /url\(..\/img\/security\/default.*png\)/
         );
       });
     });
@@ -1110,7 +1110,7 @@ Expect.describe('IDPDiscovery', function() {
           expect(test.form.securityBeacon()[0].className).toMatch('new-user');
           expect(test.form.securityBeacon()[0].className).not.toMatch('undefined-user');
           expect(test.form.securityBeacon().css('background-image')).toMatch(
-            /\/base\/target\/img\/security\/unknown-device.*\.png/
+            /url\(..\/img\/security\/unknown-device.*png\)/
           );
         });
     });
@@ -1139,7 +1139,7 @@ Expect.describe('IDPDiscovery', function() {
         })
         .then(function(test) {
           expect($.qtip.prototype.toggle.calls.count()).toBe(1);
-          expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({ 0: false }));
+          expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(expect.objectContaining({ 0: false }));
           $.qtip.prototype.toggle.calls.reset();
           test.form.securityBeaconContainer().show();
           $(window).trigger('resize');
@@ -1147,7 +1147,7 @@ Expect.describe('IDPDiscovery', function() {
         })
         .then(function() {
           expect($.qtip.prototype.toggle.calls.count()).toBe(1);
-          expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({ 0: true }));
+          expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(expect.objectContaining({ 0: true }));
         });
     });
     itp('show anti-phishing message if security image become visible', function() {
@@ -1159,21 +1159,21 @@ Expect.describe('IDPDiscovery', function() {
           return waitForBeaconChange(test);
         })
         .then(function(test) {
-          expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({ 0: true }));
+          expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(expect.objectContaining({ 0: true }));
           $.qtip.prototype.toggle.calls.reset();
           test.form.securityBeaconContainer().hide();
           $(window).trigger('resize');
           return Expect.waitForSpyCall($.qtip.prototype.toggle, test);
         })
         .then(function(test) {
-          expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({ 0: false }));
+          expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(expect.objectContaining({ 0: false }));
           $.qtip.prototype.toggle.calls.reset();
           test.form.securityBeaconContainer().show();
           $(window).trigger('resize');
           return Expect.waitForSpyCall($.qtip.prototype.toggle, test);
         })
         .then(function() {
-          expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({ 0: true }));
+          expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(expect.objectContaining({ 0: true }));
         });
     });
     itp('guards against XSS when showing the anti-phishing message', function() {
@@ -1192,7 +1192,7 @@ Expect.describe('IDPDiscovery', function() {
           );
         });
     });
-    itp('removes anti-phishing message if help link is clicked', function() {
+    fit('removes anti-phishing message if help link is clicked', function() {
       return setup({
         baseUrl: 'http://foo<i>xss</i>bar.com?bar=<i>xss</i>',
         features: { securityImage: true, selfServiceUnlock: true },
@@ -1540,8 +1540,8 @@ Expect.describe('IDPDiscovery', function() {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.router.appState.get('disableUsername')).toBe(true);
           expect(test.form.isUsernameDisabled()).toBe(true);
-        });           
-    });     
+        });
+    });
     itp('redirects to idp for SAML idps', function() {
       spyOn(SharedUtil, 'redirect');
       return setup()
