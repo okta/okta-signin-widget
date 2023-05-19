@@ -87,13 +87,13 @@ test.requestHooks(identifyMock)('should show custom footer links', async t => {
       ]
     },
   });
-  await t.expect(identityPage.getCustomForgotPasswordLink()).eql('https://okta.okta.com/signin/forgot-password');
-  await t.expect(identityPage.getCustomHelpLink()).eql('https://google.com');
-  await t.expect(identityPage.getCustomHelpLinks(0)).eql('https://acme.com/what-is-okta');
-  await t.expect(identityPage.getCustomHelpLinks(1)).eql('https://acme.com');
-  await t.expect(identityPage.getCustomHelpLinksLabel(0)).eql('What is Okta?');
-  await t.expect(identityPage.getCustomHelpLinksLabel(1)).eql('Acme Portal');
-  await t.expect(identityPage.getCustomHelpLinksTarget(1)).eql('_blank');
+  await t.expect(identityPage.getCustomForgotPasswordLinkUrl()).eql('https://okta.okta.com/signin/forgot-password');
+  await t.expect(identityPage.getHelpLinkUrl()).eql('https://google.com');
+  await t.expect(identityPage.getCustomHelpLinkUrl(0, 'What is Okta?')).eql('https://acme.com/what-is-okta');
+  await t.expect(identityPage.getCustomHelpLinkUrl(1, 'Acme Portal')).eql('https://acme.com');
+  await t.expect(identityPage.getCustomHelpLinkLabel(0, 'What is Okta?')).eql('What is Okta?');
+  await t.expect(identityPage.getCustomHelpLinkLabel(1, 'Acme Portal')).eql('Acme Portal');
+  await t.expect(identityPage.getCustomHelpLinkTarget(1, 'Acme Portal')).eql('_blank');
 });
 
 test.requestHooks(xhrSelectAuthenticatorMock)('should show custom signout link', async t => {
@@ -117,6 +117,7 @@ test.requestHooks(xhrSelectAuthenticatorMock)('can customize back to signin link
   await t.expect(selectAuthenticatorPageObject.getSignoutLinkText()).eql('Back to sign in');
 });
 
+// OKTA-594754 Custom buttons are not supported in v3
 test.meta('v3', false).requestHooks(identifyMock)('should show custom buttons links', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
