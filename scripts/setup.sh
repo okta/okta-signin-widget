@@ -29,7 +29,7 @@ if ! yarn install ; then
   exit ${FAILED_SETUP}
 fi
 
-# Add beta artifact after yarn install
+# Install upstream artifacts
 if [ ! -z "$AUTHJS_VERSION" ]; then
   echo "Installing AUTHJS_VERSION: ${AUTHJS_VERSION}"
 
@@ -37,6 +37,9 @@ if [ ! -z "$AUTHJS_VERSION" ]; then
     echo "AUTHJS_VERSION could not be installed: ${AUTHJS_VERSION}"
     exit ${FAILED_SETUP}
   fi
+
+  # Remove any changes to package.json
+  git checkout .
   
   echo "AUTHJS_VERSION installed: ${AUTHJS_VERSION}"
 fi
