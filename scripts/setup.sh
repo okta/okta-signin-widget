@@ -22,13 +22,10 @@ fi
 
 cd ${OKTA_HOME}/${REPO}
 
-yarn info @okta/siw-platform-scripts versions
-
-yarn add -W --force --no-lockfile @okta/siw-platform-scripts
+yarn add -W --force --no-lockfile @okta/siw-platform-scripts@0.1.0-gfec26e6
 
 if [ ! -z "$AUTHJS_VERSION" ]; then
   echo "Installing AUTHJS_VERSION: ${AUTHJS_VERSION}"
-  npm config set strict-ssl false
 
   if ! yarn run siw-platform install-artifact -n @okta/okta-auth-js -v ${AUTHJS_VERSION} ; then
     echo "AUTHJS_VERSION could not be installed: ${AUTHJS_VERSION}"
