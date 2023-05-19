@@ -25,6 +25,12 @@ cd ${OKTA_HOME}/${REPO}
 
 yarn add -W --force --no-lockfile @okta/siw-platform-scripts@0.4.0
 
+if ! yarn install ; then
+  echo "yarn install failed! Exiting..."
+  exit ${FAILED_SETUP}
+fi
+
+# Add beta artifact after yarn install
 if [ ! -z "$AUTHJS_VERSION" ]; then
   echo "Installing AUTHJS_VERSION: ${AUTHJS_VERSION}"
 
@@ -33,16 +39,5 @@ if [ ! -z "$AUTHJS_VERSION" ]; then
     exit ${FAILED_SETUP}
   fi
   
-  # MATCH="$(yarn why @okta/okta-auth-js | grep ${AUTHJS_VERSION})"
-  # echo ${MATCH}
-  # if [ -z "$MATCH" ]; then
-  #   echo "AUTHJS_VERSION was not installed: ${AUTHJS_VERSION}"
-  #   exit ${FAILED_SETUP}
-  # fi
   echo "AUTHJS_VERSION installed: ${AUTHJS_VERSION}"
-fi
-
-if ! yarn install ; then
-  echo "yarn install failed! Exiting..."
-  exit ${FAILED_SETUP}
 fi
