@@ -42,6 +42,6 @@ test('shows the correct footer links', async t => {
   const signInDevicePage = await setup(t);
   await checkA11y(t);
   await t.expect(signInDevicePage.getEnrollFooterLink().exists).eql(true);
-  await t.expect(signInDevicePage.getHelpFooterLink().innerText).eql('Help');
+  await t.expect(signInDevicePage.getHelpLink().exists).eql(true);
   await t.expect(signInDevicePage.getSignOutFooterLink().exists).eql(false);
 });

@@ -54,10 +54,6 @@ export default class SignInDeviceViewPageObject extends BasePageObject {
     return this.getUnlockAccountLink(name).getAttribute('href');
   }
 
-  getHelpFooterLink() {
-    return userVariables.v3 ? new Selector('[data-se="help"]') : this.footer.find('[data-se="help"]');
-  }
-
   getSignOutFooterLink() {
     return this.getCancelLink();
   }
