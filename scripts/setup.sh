@@ -23,7 +23,9 @@ fi
 
 cd ${OKTA_HOME}/${REPO}
 
-yarn add -W --force --no-lockfile @okta/siw-platform-scripts@0.1.0
+yarn info @okta/siw-platform-scripts versions
+
+yarn add -W --force --no-lockfile @okta/siw-platform-scripts
 
 if [ ! -z "$AUTHJS_VERSION" ]; then
   echo "Installing AUTHJS_VERSION: ${AUTHJS_VERSION}"
