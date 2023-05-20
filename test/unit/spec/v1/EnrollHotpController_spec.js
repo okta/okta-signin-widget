@@ -10,15 +10,15 @@ import $sandbox from 'sandbox';
 
 const itp = Expect.itp;
 
-Expect.describe('EnrollHotp', function() {
+Expect.describe('EnrollHotp', function () {
   function setup() {
     const setNextResponse = Util.mockAjax();
     const baseUrl = 'https://foo.com';
     const authClient = getAuthClient({
       authParams: { issuer: baseUrl }
     });
-    const successSpy = jasmine.createSpy('success');
-    const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
+    const successSpy = jest.fn();
+    const afterErrorHandler = jest.fn();
     const router = new Router({
       el: $sandbox,
       baseUrl: baseUrl,
@@ -31,7 +31,7 @@ Expect.describe('EnrollHotp', function() {
 
     setNextResponse(resEnrollAllFactors);
     router.refreshAuthState('dummy-token');
-    return Expect.waitForEnrollChoices().then(function() {
+    return Expect.waitForEnrollChoices().then(function () {
       router.enrollHotpFactor('custom', 'token:hotp');
       return Expect.waitForEnrollHotp({
         router: router,
@@ -45,30 +45,30 @@ Expect.describe('EnrollHotp', function() {
     });
   }
 
-  Expect.describe('Header & Footer', function() {
-    itp('displays the correct factorBeacon', function() {
-      return setup().then(function(test) {
+  Expect.describe('Header & Footer', function () {
+    itp('displays the correct factorBeacon', function () {
+      return setup().then(function (test) {
         expect(test.beacon.isFactorBeacon()).toBe(true);
         expect(test.beacon.hasClass('mfa-hotp')).toBe(true);
       });
     });
-    itp('has a "back" link in the footer', function() {
-      return setup().then(function(test) {
+    itp('has a "back" link in the footer', function () {
+      return setup().then(function (test) {
         Expect.isVisible(test.form.backLink());
       });
     });
   });
 
-  Expect.describe('Enroll factor', function() {
-    itp('is restricted', function() {
-      return setup().then(function(test) {
+  Expect.describe('Enroll factor', function () {
+    itp('is restricted', function () {
+      return setup().then(function (test) {
         expect(test.form.errorHtml().length).toEqual(1);
         expect(test.form.errorHtml().html()).toEqual('Contact your administrator to continue enrollment.');
       });
     });
 
-    itp('has right profile name', function() {
-      return setup().then(function(test) {
+    itp('has right profile name', function () {
+      return setup().then(function (test) {
         expect(test.form.title().length).toEqual(1);
         expect(test.form.title().html()).toEqual('Setup Entrust');
       });

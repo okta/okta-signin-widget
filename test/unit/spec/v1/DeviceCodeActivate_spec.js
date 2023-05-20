@@ -14,7 +14,7 @@ const itp = Expect.itp;
 
 function setup(settings, res) {
   settings || (settings = {});
-  const successSpy = jasmine.createSpy('successSpy');
+  const successSpy = jest.fn();
   const setNextResponse = Util.mockAjax();
   const baseUrl = window.location.origin;
   const logoUrl = '/img/logos/default.png';
@@ -49,40 +49,40 @@ function setup(settings, res) {
   return Expect.waitForDeviceCodeActivate(settings);
 }
 
-Expect.describe('DeviceCodeActivate', function() {
-  describe('DeviceCodeActivateForm', function() {
-    itp('has the correct title', function() {
-      return setup().then(function(test) {
+Expect.describe('DeviceCodeActivate', function () {
+  describe('DeviceCodeActivateForm', function () {
+    itp('has the correct title', function () {
+      return setup().then(function (test) {
         expect(test.form.titleText()).toBe('Activate your device');
       });
     });
-    itp('has the correct subtitle', function() {
-      return setup().then(function(test) {
+    itp('has the correct subtitle', function () {
+      return setup().then(function (test) {
         expect(test.form.subtitleText()).toBe(
           'Follow the instructions on your device to get an activation code'
         );
       });
     });
-    itp('has the correct input label', function() {
-      return setup().then(function(test) {
+    itp('has the correct input label', function () {
+      return setup().then(function (test) {
         expect(test.form.userCodeLabel().trimmedText()).toBe('Activation Code');
       });
     });
-    itp('has the correct input field', function() {
-      return setup().then(function(test) {
+    itp('has the correct input field', function () {
+      return setup().then(function (test) {
         expect(test.form.userCodeField().attr('name')).toBe('userCode');
       });
     });
-    itp('next button click makes the correct post', function() {
+    itp('next button click makes the correct post', function () {
       return setup()
-        .then(function(test) {
+        .then(function (test) {
           Util.resetAjaxRequests();
           test.setNextResponse(resDeviceCodeActivated);
           test.form.setUserCode('ABCD-WXYZ');
           test.form.nextButton().click();
           return Expect.waitForAjaxRequest();
         })
-        .then(function() {
+        .then(function () {
           expect(Util.numAjaxRequests()).toBe(1);
           Expect.isJsonPost(Util.lastAjaxRequest(), {
             url: 'http://localhost:3000/api/v1/authn/device/activate',
@@ -93,42 +93,42 @@ Expect.describe('DeviceCodeActivate', function() {
           });
         });
     });
-    itp('next button click with invalid code shows error', function() {
+    itp('next button click with invalid code shows error', function () {
       return setup()
-        .then(function(test) {
+        .then(function (test) {
           Util.resetAjaxRequests();
           test.setNextResponse(resDeviceCodeActivateInvalidCode);
           test.form.setUserCode('BAD-CODE');
           test.form.nextButton().click();
           return Expect.waitForFormError(test.form, test);
         })
-        .then(function(test) {
+        .then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorMessage()).toBe('Invalid code. Try again.');
         });
     });
-    itp('next button click with empty code shows inline error', function() {
+    itp('next button click with empty code shows inline error', function () {
       return setup()
-        .then(function(test) {
+        .then(function (test) {
           test.form.nextButton().click();
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.userCodeErrorField().trimmedText()).toBe('This field cannot be left blank');
         });
     });
-    itp('add hyphen after 4th character on input', function() {
+    itp('add hyphen after 4th character on input', function () {
       return setup()
-        .then(function(test) {
+        .then(function (test) {
           test.form.setUserCodeAndTriggerKeyup('BADD');
           expect(test.form.userCodeField().val()).toBe('BADD-');
         });
     });
-    itp('url with invalid user code shows error', function() {
+    itp('url with invalid user code shows error', function () {
       return setup(undefined, resDeviceCodeActivateError)
-        .then(function(test) {
+        .then(function (test) {
           Util.resetAjaxRequests();
           return Expect.waitForFormError(test.form, test);
         })
-        .then(function(test) {
+        .then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorMessage()).toBe('Invalid code. Try again.');
         });

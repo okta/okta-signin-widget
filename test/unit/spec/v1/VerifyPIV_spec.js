@@ -20,8 +20,11 @@ function setup(errorResponse, pivConfig) {
   const authClient = getAuthClient({
     authParams: { issuer: baseUrl }
   });
-  const successSpy = jasmine.createSpy('success');
-  const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
+  // const successSpy = jasmine.createSpy('success');
+  // const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
+
+  const successSpy = jest.fn();
+  const afterErrorHandler = jest.fn();
   const defaultConfig = {
     certAuthUrl: 'https://foo.com',
     isCustomDomain: true,
@@ -44,7 +47,7 @@ function setup(errorResponse, pivConfig) {
   router.on('afterError', afterErrorHandler);
   Util.registerRouter(router);
   Util.mockRouterNavigate(router);
-  spyOn(SharedUtil, 'redirect');
+  jest.spyOn(SharedUtil, 'redirect');
   setNextResponse(errorResponse ? [errorResponse] : [resGet, resPost]);
   Util.resetAjaxRequests();
   router.verifyPIV();
@@ -64,41 +67,41 @@ function deepClone(res) {
   return JSON.parse(JSON.stringify(res));
 }
 
-Expect.describe('PIV', function() {
-  Expect.describe('General', function() {
-    itp('displays the correct beacon', function() {
-      return setup().then(function(test) {
+Expect.describe('PIV', function () {
+  Expect.describe('General', function () {
+    itp('displays the correct beacon', function () {
+      return setup().then(function (test) {
         expect(test.beacon.isPIVBeacon()).toBe(true);
         expect(test.beacon.hasClass('smartcard')).toBe(true);
       });
     });
-    itp('displays the correct title', function() {
-      return setup().then(function(test) {
+    itp('displays the correct title', function () {
+      return setup().then(function (test) {
         expect(test.form.titleText()).toBe('PIV / CAC card');
       });
     });
-    itp('has a "back" link in the footer', function() {
-      return setup().then(function(test) {
+    itp('has a "back" link in the footer', function () {
+      return setup().then(function (test) {
         Expect.isVisible(test.form.backLink());
       });
     });
-    itp('has spinning wait icon', function() {
-      return setup().then(function(test) {
+    itp('has spinning wait icon', function () {
+      return setup().then(function (test) {
         Expect.isVisible(test.form.spinningIcon());
         Expect.isNotVisible(test.form.submitButton());
       });
     });
-    itp('displays the correct instructions', function() {
-      return setup().then(function(test) {
+    itp('displays the correct instructions', function () {
+      return setup().then(function (test) {
         expect(test.form.instructions()).toBe('Please insert your PIV / CAC card and select the user certificate.');
       });
     });
-    itp('makes ajax get and post calls with correct data', function() {
+    itp('makes ajax get and post calls with correct data', function () {
       return setup()
-        .then(function() {
+        .then(function () {
           return Expect.waitForSpyCall(SharedUtil.redirect);
         })
-        .then(function() {
+        .then(function () {
           expect(Util.numAjaxRequests()).toBe(2);
 
           const argsForGet = Util.getAjaxRequest(0);
@@ -117,17 +120,17 @@ Expect.describe('PIV', function() {
           });
         });
     });
-    itp('makes post call with correct data when isCustomDomain is false', function() {
+    itp('makes post call with correct data when isCustomDomain is false', function () {
       const config = {
         certAuthUrl: 'https://foo.com',
         isCustomDomain: false,
       };
 
       return setup(null, config)
-        .then(function() {
+        .then(function () {
           return Expect.waitForSpyCall(SharedUtil.redirect);
         })
-        .then(function() {
+        .then(function () {
           expect(Util.numAjaxRequests()).toBe(2);
           const argsForPost = Util.getAjaxRequest(1);
 
@@ -137,7 +140,7 @@ Expect.describe('PIV', function() {
           });
         });
     });
-    itp('makes post call with correct data when isCustomDomain is false and customDomain is set', function() {
+    itp('makes post call with correct data when isCustomDomain is false and customDomain is set', function () {
       const config = {
         certAuthUrl: 'https://foo.com',
         isCustomDomain: false,
@@ -145,10 +148,10 @@ Expect.describe('PIV', function() {
       };
 
       return setup(null, config)
-        .then(function() {
+        .then(function () {
           return Expect.waitForSpyCall(SharedUtil.redirect);
         })
-        .then(function() {
+        .then(function () {
           expect(Util.numAjaxRequests()).toBe(2);
           const argsForPost = Util.getAjaxRequest(1);
 
@@ -159,7 +162,7 @@ Expect.describe('PIV', function() {
           });
         });
     });
-    itp('makes post call with correct data when isCustomDomain is false and customDomain is undefined', function() {
+    itp('makes post call with correct data when isCustomDomain is false and customDomain is undefined', function () {
       const config = {
         certAuthUrl: 'https://foo.com',
         isCustomDomain: false,
@@ -167,10 +170,10 @@ Expect.describe('PIV', function() {
       };
 
       return setup(null, config)
-        .then(function() {
+        .then(function () {
           return Expect.waitForSpyCall(SharedUtil.redirect);
         })
-        .then(function() {
+        .then(function () {
           expect(Util.numAjaxRequests()).toBe(2);
           const argsForPost = Util.getAjaxRequest(1);
 
@@ -180,17 +183,17 @@ Expect.describe('PIV', function() {
           });
         });
     });
-    itp('makes post call with correct data when isCustomDomain is undefined', function() {
+    itp('makes post call with correct data when isCustomDomain is undefined', function () {
       const config = {
         certAuthUrl: 'https://foo.com',
         isCustomDomain: undefined,
       };
 
       return setup(null, config)
-        .then(function() {
+        .then(function () {
           return Expect.waitForSpyCall(SharedUtil.redirect);
         })
-        .then(function() {
+        .then(function () {
           expect(Util.numAjaxRequests()).toBe(2);
           const argsForPost = Util.getAjaxRequest(1);
 
@@ -199,7 +202,7 @@ Expect.describe('PIV', function() {
           });
         });
     });
-    itp('makes post call with correct data when isCustomDomain is undefined and customDomain is set', function() {
+    itp('makes post call with correct data when isCustomDomain is undefined and customDomain is set', function () {
       const config = {
         certAuthUrl: 'https://foo.com',
         isCustomDomain: undefined,
@@ -207,10 +210,10 @@ Expect.describe('PIV', function() {
       };
 
       return setup(null, config)
-        .then(function() {
+        .then(function () {
           return Expect.waitForSpyCall(SharedUtil.redirect);
         })
-        .then(function() {
+        .then(function () {
           expect(Util.numAjaxRequests()).toBe(2);
           const argsForPost = Util.getAjaxRequest(1);
 
@@ -220,17 +223,17 @@ Expect.describe('PIV', function() {
           });
         });
     });
-    itp('makes post call with correct data when customDomain is undefined', function() {
+    itp('makes post call with correct data when customDomain is undefined', function () {
       const config = {
         certAuthUrl: 'https://foo.com',
         customDomain: undefined,
       };
 
       return setup(null, config)
-        .then(function() {
+        .then(function () {
           return Expect.waitForSpyCall(SharedUtil.redirect);
         })
-        .then(function() {
+        .then(function () {
           expect(Util.numAjaxRequests()).toBe(2);
           const argsForPost = Util.getAjaxRequest(1);
 
@@ -239,67 +242,67 @@ Expect.describe('PIV', function() {
           });
         });
     });
-    itp('redirects on successful cert auth', function() {
+    itp('redirects on successful cert auth', function () {
       return setup()
-        .then(function() {
+        .then(function () {
           return Expect.waitForSpyCall(SharedUtil.redirect);
         })
-        .then(function() {
+        .then(function () {
           expect(SharedUtil.redirect).toHaveBeenCalledWith(
             'https://rain.okta1.com/login/sessionCookieRedirect?redirectUrl=%2Fapp%2FUserHome&amp;token=token1'
           );
         });
     });
   });
-  Expect.describe('Error', function() {
+  Expect.describe('Error', function () {
     const pivError = deepClone(resError);
 
-    itp('shows error box with error response', function() {
+    itp('shows error box with error response', function () {
       return setup(pivError)
-        .then(function(test) {
+        .then(function (test) {
           return Expect.waitForFormError(test.form, test);
         })
-        .then(function(test) {
+        .then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorBox().length).toEqual(1);
           expect(test.form.errorMessage()).toEqual('Invalid certificate.');
         });
     });
-    itp('displays retry button', function() {
+    itp('displays retry button', function () {
       return setup(pivError)
-        .then(function(test) {
+        .then(function (test) {
           return Expect.waitForFormError(test.form, test);
         })
-        .then(function(test) {
+        .then(function (test) {
           Expect.isVisible(test.form.submitButton());
           Expect.isNotVisible(test.form.spinningIcon());
         });
     });
-    itp('can retry authentication', function() {
+    itp('can retry authentication', function () {
       return setup(pivError)
-        .then(function(test) {
+        .then(function (test) {
           return Expect.waitForFormError(test.form, test);
         })
-        .then(function(test) {
+        .then(function (test) {
           test.setNextResponse([resGet, resPost]);
           test.form.submit();
           return Expect.waitForSpyCall(SharedUtil.redirect);
         })
-        .then(function() {
+        .then(function () {
           expect(SharedUtil.redirect).toHaveBeenCalledWith(
             'https://rain.okta1.com/login/sessionCookieRedirect?redirectUrl=%2Fapp%2FUserHome&amp;token=token1'
           );
         });
     });
-    itp('shows generic error message for undefined error response', function() {
+    itp('shows generic error message for undefined error response', function () {
       const res = deepClone(resError);
 
       res.response = undefined;
       return setup(res)
-        .then(function(test) {
+        .then(function (test) {
           return Expect.waitForFormError(test.form, test);
         })
-        .then(function(test) {
+        .then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorBox().length).toEqual(1);
           expect(test.form.errorMessage()).toEqual(
@@ -307,16 +310,16 @@ Expect.describe('PIV', function() {
           );
         });
     });
-    itp('shows generic error message for empty text error response', function() {
+    itp('shows generic error message for empty text error response', function () {
       const res = deepClone(resError);
 
       res.responseType = 'text';
       res.response = '';
       return setup(res)
-        .then(function(test) {
+        .then(function (test) {
           return Expect.waitForFormError(test.form, test);
         })
-        .then(function(test) {
+        .then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorBox().length).toEqual(1);
           expect(test.form.errorMessage()).toEqual(
@@ -324,17 +327,17 @@ Expect.describe('PIV', function() {
           );
         });
     });
-    itp('shows correct error message for text error response', function() {
+    itp('shows correct error message for text error response', function () {
       const res = deepClone(resError);
 
       res.responseType = 'text';
       res.response =
         '{"errorCode":"E0000004","errorSummary":"Authentication failed","errorLink":"E0000004","errorId":"oaeDtg9knyJR7agwMN-70SYgw","errorCauses":[]}';
       return setup(res)
-        .then(function(test) {
+        .then(function (test) {
           return Expect.waitForFormError(test.form, test);
         })
-        .then(function(test) {
+        .then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorBox().length).toEqual(1);
           expect(test.form.errorMessage()).toEqual('Authentication failed');

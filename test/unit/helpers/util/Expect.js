@@ -12,15 +12,15 @@ const fn = {};
 const WAIT_MAX_TIME = 2000;
 const WAIT_INTERVAL = 20;
 
-const unhandledRejectionListener = function(event) {
+const unhandledRejectionListener = function (event) {
   // We've thrown an unexpected error in the test - setup a fake
   // expectation to expose it to the developer
   expect('Unhandled promise rejection').toEqual(event.reason);
 };
 
 function runTest(jasmineFn, desc, testFn) {
-  jasmineFn(desc, function() {
-    const errListener = function(err) {
+  jasmineFn(desc, function () {
+    const errListener = function (err) {
       // We've thrown an unexpected error in the test - setup a fake
       // expectation to expose it to the developer
       expect('Unexpected error thrown').toEqual(err.message);
@@ -29,7 +29,7 @@ function runTest(jasmineFn, desc, testFn) {
     window.addEventListener('error', errListener);
     window.addEventListener('unhandledrejection', unhandledRejectionListener);
 
-    return testFn.call(this).then(function() {
+    return testFn.call(this).then(function () {
       const unhandledFailures = Q.getUnhandledReasons();
       if (unhandledFailures.length) {
         // eslint-disable-next-line no-console
@@ -52,7 +52,7 @@ function runTest(jasmineFn, desc, testFn) {
 /**
  * @deprecated
  */
-fn.allowUnhandledPromiseRejection = function() {
+fn.allowUnhandledPromiseRejection = function () {
   throw new Error(
     'Expect.allowUnhandledPromiseRejection is DEPRECATED. ' +
     'Add .catch() blocks to handle promise rejections.'
@@ -60,13 +60,13 @@ fn.allowUnhandledPromiseRejection = function() {
 };
 
 function wrapDescribe(_describe, desc, fn) {
-  return _describe(desc, function() {
-    beforeAll(function() {
+  return _describe(desc, function () {
+    beforeAll(function () {
       Util.mockSetTimeout();
       Util.mockSetInterval();
     });
 
-    beforeEach(function() {
+    beforeEach(function () {
       this._origDeprecate = Logger.deprecate;
       Logger.deprecate = jasmine.createSpy('deprecate');
 
@@ -77,7 +77,7 @@ function wrapDescribe(_describe, desc, fn) {
       localStorage.clear();
     });
 
-    afterEach(function() {
+    afterEach(function () {
       Logger.deprecate = this._origDeprecate;
       config.version = this._origVersion;
       Util.clearAllTimeouts();
@@ -106,16 +106,16 @@ fn.fitp = runTest.bind({}, fit);
  * @deprecated This function is non deterministic and can affect the output of the tests
  *             Instead use any of the Expect.wait* functions.
  */
-fn.tick = function(returnVal) {
+fn.tick = function (returnVal) {
   const deferred = Q.defer();
 
   // Using four setTimeouts to remove flakiness (some tests need an extra
   // cycle when transitioning/setting up, and the new tick in OktaAuth makes
   // for three)
-  setTimeout(function() {
-    setTimeout(function() {
-      setTimeout(function() {
-        setTimeout(function() {
+  setTimeout(function () {
+    setTimeout(function () {
+      setTimeout(function () {
+        setTimeout(function () {
           deferred.resolve(returnVal);
         });
       });
@@ -124,8 +124,8 @@ fn.tick = function(returnVal) {
   return deferred.promise;
 };
 
-fn.waitForController = function(pageClass, resolveValue) {
-  const condition = function() {
+fn.waitForController = function (pageClass, resolveValue) {
+  const condition = function () {
     const pages = $('.auth-content-inner', $sandbox).children();
 
     return pages.length === 1 && pages.eq(0).hasClass(pageClass);
@@ -134,8 +134,8 @@ fn.waitForController = function(pageClass, resolveValue) {
   return fn.wait(condition, resolveValue);
 };
 
-fn.waitForVerifyView = function(verifyClass, resolveValue) {
-  const condition = function() {
+fn.waitForVerifyView = function (verifyClass, resolveValue) {
+  const condition = function () {
     const pages = $('.auth-content-inner', $sandbox).children();
     const txSettled = pages.length === 1 && pages.eq(0).hasClass('mfa-verify');
 
@@ -145,32 +145,33 @@ fn.waitForVerifyView = function(verifyClass, resolveValue) {
   return fn.wait(condition, resolveValue);
 };
 
-fn.waitForCss = function(css, resolveValue) {
-  const condition = function() {
+fn.waitForCss = function (css, resolveValue) {
+  const condition = function () {
     return $(css, $sandbox).length > 0;
   };
 
   return fn.wait(condition, resolveValue);
 };
 
-fn.waitForSpyCall = function(spy, resolveValue) {
-  const condition = function() {
-    return spy.calls.count() > 0;
+fn.waitForSpyCall = function (spy, resolveValue) {
+  const condition = function () {
+    // return spy.calls.count() > 0;
+    return spy.mock.calls.length > 0;
   };
 
   return fn.wait(condition, resolveValue);
 };
 
-fn.waitForAjaxRequest = function(resolveValue) {
-  const condition = function() {
+fn.waitForAjaxRequest = function (resolveValue) {
+  const condition = function () {
     return jasmine.Ajax.requests.count() > 0;
   };
 
   return fn.wait(condition, resolveValue);
 };
 
-fn.waitForAjaxRequests = function(numRequests, resolveValue, timeout) {
-  const condition = function() {
+fn.waitForAjaxRequests = function (numRequests, resolveValue, timeout) {
+  const condition = function () {
     return jasmine.Ajax.requests.count() === numRequests;
   };
 
@@ -180,8 +181,8 @@ fn.waitForAjaxRequests = function(numRequests, resolveValue, timeout) {
 /**
  * Use this function to wait for an error view which has top level class '.okta-form-infobox-error'.
  */
-fn.waitForFormError = function(form, resolveValue) {
-  const condition = function() {
+fn.waitForFormError = function (form, resolveValue) {
+  const condition = function () {
     return form.hasErrors();
   };
 
@@ -191,8 +192,8 @@ fn.waitForFormError = function(form, resolveValue) {
 /**
  * Use this function to wait for an error view which has top level class '.okta-infobox-error'.
  */
-fn.waitForFormErrorBox = function(form, resolveValue) {
-  const condition = function() {
+fn.waitForFormErrorBox = function (form, resolveValue) {
+  const condition = function () {
     return form.errorBox().length > 0;
   };
 
@@ -202,30 +203,42 @@ fn.waitForFormErrorBox = function(form, resolveValue) {
 /**
  * Wait for a window event handler to be added
  */
-fn.waitForWindowListener = function(eventName, resolveValue) {
-  const condition = function() {
-    const calls = window.addEventListener.calls;
-    const count = calls.count();
+fn.waitForWindowListener = function (eventName, resolveValue) {
+  const condition = function () {
+    const mock = window.addEventListener.mock;
+    const count = mock.calls.length;
     if (count) {
-      const args = calls.argsFor(count - 1);
+      const args = mock.calls[count - 1];
       if (args[0] === eventName) {
         return true;
       }
     }
+
+    // const calls = window.addEventListener.calls;
+    // const count = calls.count();
+    // if (count) {
+    //   const args = calls.argsFor(count - 1);
+    //   if (args[0] === eventName) {
+    //     return true;
+    //   }
+    // }
   };
 
   return fn.wait(condition, resolveValue);
 };
 
-fn.waitForSecurityImageTooltip = function(expectToBeVisible, resolveValue) {
+fn.waitForSecurityImageTooltip = function (expectToBeVisible, resolveValue) {
   return fn.wait(() => {
     const $el = $('.okta-security-image-tooltip:visible');
+    // const $el = $('.okta-security-image-tooltip[style*="display: block"]');
+    // const $el = $('.okta-security-image-tooltip');
     const isVisible = $el.isInViewport();
+    // console.log(isVisible, ' expected ', expectToBeVisible, ' resolveValue ');
     return isVisible === expectToBeVisible;
   }, resolveValue);
 };
 
-fn.wait = function(condition, resolveValue, timeout) {
+fn.wait = function (condition, resolveValue, timeout) {
   function check(success, fail, triesLeft) {
     if (condition()) {
       success(resolveValue);
@@ -235,56 +248,56 @@ fn.wait = function(condition, resolveValue, timeout) {
       setTimeout(check.bind(null, success, fail, triesLeft - 1), WAIT_INTERVAL);
     }
   }
-  return Q.Promise(function(resolve, reject) {
+  return Q.Promise(function (resolve, reject) {
     const numTries = (timeout || WAIT_MAX_TIME) / WAIT_INTERVAL;
 
     check(resolve, reject, numTries);
   });
 };
 
-fn.isTextField = function($input) {
+fn.isTextField = function ($input) {
   expect($input.length).toBe(1);
   expect($input.attr('type')).toEqual('text');
 };
 
-fn.isPasswordField = function($input) {
+fn.isPasswordField = function ($input) {
   expect($input.length).toBe(1);
   expect($input.attr('type')).toEqual('password');
 };
 
-fn.isLink = function($el) {
+fn.isLink = function ($el) {
   expect($el.length).toBe(1);
   expect($el.is('a')).toBe(true);
 };
 
-fn.isEmptyFieldError = function($errorField) {
+fn.isEmptyFieldError = function ($errorField) {
   expect($errorField.length).toBe(1);
   expect($errorField.text()).toBe('This field cannot be left blank');
 };
 
-fn.isNotVisible = function($input) {
+fn.isNotVisible = function ($input) {
   expect($input.length).toBe(1);
   expect(Dom.isVisible($input)).toBe(false);
 };
 
-fn.isVisible = function($input) {
+fn.isVisible = function ($input) {
   expect($input.length).toBe(1);
   expect(Dom.isVisible($input)).toBe(true);
 };
 
-fn.isController = function(className, controller) {
+fn.isController = function (className, controller) {
   expect(controller.className).toBe(className);
   fn.isVisible(controller.$el);
 };
 
-fn.deprecated = function(msg) {
+fn.deprecated = function (msg) {
   expect(Logger.deprecate).toHaveBeenCalledWith(msg);
 };
 
 // Convenience function to test a json response - pass in url and data, and it
 // will test the rest. Note: We JSON.stringify data here so you don't have to
 // JSON posts are done using fetch
-fn.isJsonResponse = function(args, method, expected) {
+fn.isJsonResponse = function (args, method, expected) {
   // Jasmine times out if args doesn't exist when we try to retrieve
   // its properties. This makes it fail faster.
   if (!args) {
@@ -305,20 +318,20 @@ fn.isJsonResponse = function(args, method, expected) {
   }
 };
 
-fn.isJsonGet = function(args, expected) {
+fn.isJsonGet = function (args, expected) {
   fn.isJsonResponse(args, 'GET', expected);
 };
 
-fn.isJsonPost = function(args, expected) {
+fn.isJsonPost = function (args, expected) {
   fn.isJsonResponse(args, 'POST', expected);
 };
 
-fn.isJsonDelete = function(args, expected) {
+fn.isJsonDelete = function (args, expected) {
   fn.isJsonResponse(args, 'DELETE', expected);
 };
 
 // Form post is done using $.post
-fn.isFormPost = function(args, expected) {
+fn.isFormPost = function (args, expected) {
   if (!args) {
     expect(args).not.toBeUndefined();
     return;
@@ -336,7 +349,7 @@ fn.isFormPost = function(args, expected) {
 };
 
 // For JSON assets such as language files
-fn.isJsonAssetRequest = function(args, expected) {
+fn.isJsonAssetRequest = function (args, expected) {
   // Jasmine times out if args doesn't exist when we try to retrieve
   // its properties. This makes it fail faster.
   if (!args) {
@@ -415,7 +428,7 @@ const controllerClasses = {
   DeviceCodeTerminal: 'device-code-terminal'
 };
 
-_.each(controllerClasses, function(className, controller) {
+_.each(controllerClasses, function (className, controller) {
   fn['waitFor' + controller] = _.partial(fn.waitForController, className);
   fn['is' + controller] = _.partial(fn.isController, className);
 });
@@ -434,7 +447,7 @@ const verifyClasses = {
   VerifyPush: 'mfa-verify-push',
 };
 
-_.each(verifyClasses, function(className, verifyView) {
+_.each(verifyClasses, function (className, verifyView) {
   fn['waitFor' + verifyView] = _.partial(fn.waitForVerifyView, className);
 });
 

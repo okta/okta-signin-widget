@@ -12,14 +12,14 @@ import $sandbox from 'sandbox';
 import LoginUtil from 'util/Util';
 const itp = Expect.itp;
 
-Expect.describe('EnrollSymantecVip', function() {
+Expect.describe('EnrollSymantecVip', function () {
   function setup(startRouter) {
     const setNextResponse = Util.mockAjax();
     const baseUrl = 'https://foo.com';
     const authClient = getAuthClient({
       authParams: { issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR }
     });
-    const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
+    const afterErrorHandler = jest.fn();
     const router = new Router({
       el: $sandbox,
       baseUrl: baseUrl,
@@ -43,7 +43,7 @@ Expect.describe('EnrollSymantecVip', function() {
     const enrollSymantecVip = test => {
       setNextResponse(resAllFactors);
       router.refreshAuthState('dummy-token');
-      return Expect.waitForEnrollChoices(test).then(function(test) {
+      return Expect.waitForEnrollChoices(test).then(function (test) {
         router.enrollSymantecVip();
         return Expect.waitForEnrollSymantecVip(test);
       });
@@ -56,55 +56,55 @@ Expect.describe('EnrollSymantecVip', function() {
     }
   }
 
-  Expect.describe('Header & Footer', function() {
-    itp('displays the correct factorBeacon', function() {
-      return setup().then(function(test) {
+  Expect.describe('Header & Footer', function () {
+    itp('displays the correct factorBeacon', function () {
+      return setup().then(function (test) {
         expect(test.beacon.isFactorBeacon()).toBe(true);
         expect(test.beacon.hasClass('mfa-symantec')).toBe(true);
       });
     });
-    itp('has autocomplete off', function() {
-      return setup().then(function(test) {
+    itp('has autocomplete off', function () {
+      return setup().then(function (test) {
         expect(test.form.getCodeFieldAutocomplete()).toBe('off');
       });
     });
-    itp('has a "back" link in the footer', function() {
-      return setup().then(function(test) {
+    itp('has a "back" link in the footer', function () {
+      return setup().then(function (test) {
         Expect.isVisible(test.form.backLink());
       });
     });
-    itp('returns to factor list when browser\'s back button is clicked', function() {
+    itp('returns to factor list when browser\'s back button is clicked', function () {
       return setup(true)
-        .then(function(test) {
+        .then(function (test) {
           Util.triggerBrowserBackButton();
           return Expect.waitForEnrollChoices(test);
         })
-        .then(function(test) {
+        .then(function (test) {
           Expect.isEnrollChoices(test.router.controller);
           Util.stopRouter();
         });
     });
   });
 
-  Expect.describe('Enroll factor', function() {
-    itp('has a credentialId text field', function() {
-      return setup().then(function(test) {
+  Expect.describe('Enroll factor', function () {
+    itp('has a credentialId text field', function () {
+      return setup().then(function (test) {
         Expect.isTextField(test.form.credentialIdField());
       });
     });
-    itp('has two text fields for pass codes', function() {
-      return setup().then(function(test) {
+    itp('has two text fields for pass codes', function () {
+      return setup().then(function (test) {
         Expect.isTextField(test.form.codeField());
         Expect.isTextField(test.form.secondCodeField());
       });
     });
-    itp('has a verify button', function() {
-      return setup().then(function(test) {
+    itp('has a verify button', function () {
+      return setup().then(function (test) {
         Expect.isVisible(test.form.submitButton());
       });
     });
-    itp('does not send request and shows error if codes are not entered', function() {
-      return setup().then(function(test) {
+    itp('does not send request and shows error if codes are not entered', function () {
+      return setup().then(function (test) {
         Util.resetAjaxRequests();
         test.form.setCredentialId('Cred_Id');
         test.form.submit();
@@ -112,9 +112,9 @@ Expect.describe('EnrollSymantecVip', function() {
         expect(Util.numAjaxRequests()).toBe(0);
       });
     });
-    itp('shows error in case of an error response', function() {
+    itp('shows error in case of an error response', function () {
       return setup()
-        .then(function(test) {
+        .then(function (test) {
           test.setNextResponse(resEnrollError);
           test.form.setCredentialId('Cred_Id');
           test.form.setCode(123);
@@ -122,11 +122,12 @@ Expect.describe('EnrollSymantecVip', function() {
           test.form.submit();
           return Expect.waitForFormError(test.form, test);
         })
-        .then(function(test) {
+        .then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorMessage()).toBe('Invalid Phone Number.');
           expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
-          expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+          // expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+          expect(test.afterErrorHandler.mock.calls[0]).toEqual([
             {
               controller: 'enroll-symantec',
             },
@@ -155,8 +156,8 @@ Expect.describe('EnrollSymantecVip', function() {
           ]);
         });
     });
-    itp('calls activate with the right params', function() {
-      return setup().then(function(test) {
+    itp('calls activate with the right params', function () {
+      return setup().then(function (test) {
         Util.resetAjaxRequests();
         test.form.setCredentialId('Cred_Id');
         test.form.setCode(123456);

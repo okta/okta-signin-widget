@@ -14,14 +14,15 @@ import LoginUtil from 'util/Util';
 import webauthn from 'util/webauthn';
 const itp = Expect.itp;
 
-Expect.describe('EnrollWindowsHello', function() {
+Expect.describe('EnrollWindowsHello', function () {
   function setup() {
     const setNextResponse = Util.mockAjax([responseMfaEnrollAll, responseMfaEnrollActivateWindowsHello]);
     const baseUrl = 'https://foo.com';
     const authClient = getAuthClient({
       authParams: { issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR }
     });
-    const successSpy = jasmine.createSpy('success');
+    // const successSpy = jasmine.createSpy('success');
+    const successSpy = jest.fn();
     const router = new Router({
       el: $sandbox,
       baseUrl: baseUrl,
@@ -32,7 +33,7 @@ Expect.describe('EnrollWindowsHello', function() {
     Util.registerRouter(router);
     Util.mockRouterNavigate(router);
     router.refreshAuthState('dummy-token');
-    return Expect.waitForEnrollChoices().then(function() {
+    return Expect.waitForEnrollChoices().then(function () {
       router.enrollWebauthn();
       return Expect.waitForEnrollWindowsHello({
         router: router,
@@ -46,36 +47,36 @@ Expect.describe('EnrollWindowsHello', function() {
   }
 
   function emulateNotWindows() {
-    spyOn(webauthn, 'isAvailable').and.returnValue(false);
-    spyOn(webauthn, 'makeCredential');
-    spyOn(webauthn, 'getAssertion');
+    jest.spyOn(webauthn, 'isAvailable').mockReturnValue(false);
+    jest.spyOn(webauthn, 'makeCredential');
+    jest.spyOn(webauthn, 'getAssertion');
     return Q();
   }
 
   function emulateWindows(errorType) {
-    spyOn(webauthn, 'isAvailable').and.returnValue(true);
+    jest.spyOn(webauthn, 'isAvailable').mockReturnValue(true);
 
-    spyOn(webauthn, 'makeCredential').and.callFake(function() {
+    jest.spyOn(webauthn, 'makeCredential').mockImplementation(function () {
       const deferred = Q.defer();
 
       switch (errorType) {
-      case 'AbortError':
-        deferred.reject({
-          message: 'AbortError',
-        });
-        break;
+        case 'AbortError':
+          deferred.reject({
+            message: 'AbortError',
+          });
+          break;
 
-      case 'NotSupportedError':
-        deferred.reject({
-          message: 'NotSupportedError',
-        });
-        break;
+        case 'NotSupportedError':
+          deferred.reject({
+            message: 'NotSupportedError',
+          });
+          break;
 
-      default:
-        deferred.resolve({
-          credential: { id: 'credentialId' },
-          publicKey: 'publicKey',
-        });
+        default:
+          deferred.resolve({
+            credential: { id: 'credentialId' },
+            publicKey: 'publicKey',
+          });
       }
 
       return deferred.promise;
@@ -84,37 +85,37 @@ Expect.describe('EnrollWindowsHello', function() {
     return Q();
   }
 
-  describe('Header & Footer', function() {
-    itp('displays the correct factorBeacon', function() {
-      return emulateNotWindows().then(setup).then(function(test) {
+  describe('Header & Footer', function () {
+    itp('displays the correct factorBeacon', function () {
+      return emulateNotWindows().then(setup).then(function (test) {
         expect(test.beacon.isFactorBeacon()).toBe(true);
         expect(test.beacon.hasClass('mfa-windows-hello')).toBe(true);
       });
     });
-    itp('has a "back" link in the footer', function() {
-      return emulateNotWindows().then(setup).then(function(test) {
+    itp('has a "back" link in the footer', function () {
+      return emulateNotWindows().then(setup).then(function (test) {
         Expect.isVisible(test.form.backLink());
       });
     });
   });
 
-  describe('Enroll factor', function() {
-    itp('displays error if not Windows', function() {
-      return emulateNotWindows().then(setup).then(function(test) {
+  describe('Enroll factor', function () {
+    itp('displays error if not Windows', function () {
+      return emulateNotWindows().then(setup).then(function (test) {
         expect(test.form.hasErrorHtml()).toBe(true);
         expect(test.form.submitButton().length).toBe(0);
       });
     });
 
-    itp('does not display error if Windows', function() {
-      return emulateWindows().then(setup).then(function(test) {
+    itp('does not display error if Windows', function () {
+      return emulateWindows().then(setup).then(function (test) {
         expect(test.form.hasErrorHtml()).toBe(false);
         expect(test.form.submitButton().length).toBe(1);
       });
     });
 
-    itp('subtitle changes after submitting the form', function() {
-      return emulateWindows().then(setup).then(function(test) {
+    itp('subtitle changes after submitting the form', function () {
+      return emulateWindows().then(setup).then(function (test) {
         test.setNextResponse(responseSuccess);
         expect(test.form.subtitleText()).toBe('Click below to enroll Windows Hello as a second form of authentication');
         expect(test.form.buttonBar().hasClass('hide')).toBe(false);
@@ -125,15 +126,15 @@ Expect.describe('EnrollWindowsHello', function() {
       });
     });
 
-    itp('sends enroll request after submitting the form', function() {
+    itp('sends enroll request after submitting the form', function () {
       return emulateWindows()
         .then(setup)
-        .then(function(test) {
+        .then(function (test) {
           test.setNextResponse(responseSuccess);
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy);
         })
-        .then(function() {
+        .then(function () {
           expect(Util.numAjaxRequests()).toBe(2);
           Expect.isJsonPost(Util.getAjaxRequest(1), {
             url: 'https://foo.com/api/v1/authn/factors',
@@ -146,15 +147,15 @@ Expect.describe('EnrollWindowsHello', function() {
         });
     });
 
-    itp('calls webauthn.makeCredential and activates the factor', function() {
+    itp('calls webauthn.makeCredential and activates the factor', function () {
       return emulateWindows()
         .then(setup)
-        .then(function(test) {
+        .then(function (test) {
           test.setNextResponse([responseMfaEnrollActivateWindowsHello, responseSuccess]);
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy);
         })
-        .then(function() {
+        .then(function () {
           expect(webauthn.makeCredential).toHaveBeenCalled();
           expect(Util.numAjaxRequests()).toBe(3);
           Expect.isJsonPost(Util.getAjaxRequest(2), {
@@ -169,18 +170,18 @@ Expect.describe('EnrollWindowsHello', function() {
         });
     });
 
-    itp('does not show error if webauthn.makeCredential fails with AbortError', function() {
+    itp('does not show error if webauthn.makeCredential fails with AbortError', function () {
       return emulateWindows('AbortError')
         .then(setup)
-        .then(function(test) {
+        .then(function (test) {
           test.setNextResponse([responseMfaEnrollActivateWindowsHello, responseSuccess]);
           test.form.submit();
           expect(test.form.subtitleText()).toBe('Please wait while Windows Hello is loading...');
-          return Expect.wait(function() {
+          return Expect.wait(function () {
             return test.form.$('.o-form-button-bar').hasClass('hide') === false;
           }, test);
         })
-        .then(function(test) {
+        .then(function (test) {
           expect(Util.numAjaxRequests()).toBe(2);
           expect(test.form.subtitleText()).toBe(
             'Click below to enroll Windows Hello as a second form of authentication'
@@ -189,18 +190,18 @@ Expect.describe('EnrollWindowsHello', function() {
         });
     });
 
-    itp('shows error if webauthn.makeCredential fails with NotSupportedError', function() {
+    itp('shows error if webauthn.makeCredential fails with NotSupportedError', function () {
       return emulateWindows('NotSupportedError')
         .then(setup)
-        .then(function(test) {
+        .then(function (test) {
           test.setNextResponse([responseMfaEnrollActivateWindowsHello, responseSuccess]);
           test.form.submit();
           expect(test.form.subtitleText()).toBe('Please wait while Windows Hello is loading...');
-          return Expect.wait(function() {
+          return Expect.wait(function () {
             return test.form.$('.o-form-button-bar').hasClass('hide') === false;
           }, test);
         })
-        .then(function(test) {
+        .then(function (test) {
           expect(Util.numAjaxRequests()).toBe(2);
           expect(test.form.subtitleText()).toBe(
             'Click below to enroll Windows Hello as a second form of authentication'

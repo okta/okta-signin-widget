@@ -14,15 +14,15 @@ import $sandbox from 'sandbox';
 const itp = Expect.itp;
 const tick = Expect.tick;
 
-Expect.describe('EnrollU2F', function() {
+Expect.describe('EnrollU2F', function () {
   function setup(startRouter, onlyU2F) {
     const setNextResponse = Util.mockAjax();
     const baseUrl = 'https://foo.com';
     const authClient = getAuthClient({
       authParams: { issuer: baseUrl }
     });
-    const successSpy = jasmine.createSpy('success');
-    const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
+    const successSpy = jest.fn();
+    const afterErrorHandler = jest.fn();
     const router = new Router({
       el: $sandbox,
       baseUrl: baseUrl,
@@ -34,12 +34,12 @@ Expect.describe('EnrollU2F', function() {
     Util.registerRouter(router);
     Util.mockRouterNavigate(router, startRouter);
     return tick()
-      .then(function() {
+      .then(function () {
         setNextResponse(onlyU2F ? resU2F : resAllFactors);
         router.refreshAuthState('dummy-token');
         return Expect.waitForEnrollChoices();
       })
-      .then(function() {
+      .then(function () {
         router.enrollU2F();
         return Expect.waitForEnrollU2F({
           router: router,
@@ -54,12 +54,12 @@ Expect.describe('EnrollU2F', function() {
   }
 
   function mockU2f() {
-    window.u2f = { register: function() {} };
+    window.u2f = { register: function () { } };
   }
 
   function mocku2fSuccessRegistration() {
     mockU2f();
-    spyOn(window.u2f, 'register').and.callFake(function(appId, registerRequests, registeredKeys, callback) {
+    jest.spyOn(window.u2f, 'register').mockImplementation(function (appId, registerRequests, registeredKeys, callback) {
       callback({
         registrationData: 'someRegistrationData',
         version: 'U2F_V2',
@@ -72,11 +72,11 @@ Expect.describe('EnrollU2F', function() {
   function setupU2fFails(errorCode) {
     Q.stopUnhandledRejectionTracking();
     mockU2f();
-    spyOn(window.u2f, 'register').and.callFake(function(appId, registerRequests, registeredKeys, callback) {
+    jest.spyOn(window.u2f, 'register').mockImplementation(function (appId, registerRequests, registeredKeys, callback) {
       callback({ errorCode: errorCode });
     });
 
-    return setup().then(function(test) {
+    return setup().then(function (test) {
       test.setNextResponse(resEnrollActivateU2F);
       test.form.submit();
       return tick(test);
@@ -89,7 +89,7 @@ Expect.describe('EnrollU2F', function() {
     expect(test.form.errorBox().length).toEqual(1);
     expect(test.form.errorMessage()).toEqual(errorMessage);
     expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
-    expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+    expect(test.afterErrorHandler.mock.calls[0]).toEqual([
       {
         controller: 'enroll-u2f',
       },
@@ -105,37 +105,37 @@ Expect.describe('EnrollU2F', function() {
     ]);
   }
 
-  Expect.describe('Header & Footer', function() {
-    itp('displays the correct factorBeacon', function() {
-      return setup().then(function(test) {
+  Expect.describe('Header & Footer', function () {
+    itp('displays the correct factorBeacon', function () {
+      return setup().then(function (test) {
         expect(test.beacon.isFactorBeacon()).toBe(true);
         expect(test.beacon.hasClass('mfa-u2f')).toBe(true);
       });
     });
-    itp('has a "back" link in the footer', function() {
-      return setup().then(function(test) {
+    itp('has a "back" link in the footer', function () {
+      return setup().then(function (test) {
         Expect.isVisible(test.form.backLink());
       });
     });
   });
 
-  Expect.describe('Enroll factor', function() {
-    itp('shows error if browser does not support u2f', function() {
+  Expect.describe('Enroll factor', function () {
+    itp('shows error if browser does not support u2f', function () {
       delete window.u2f;
 
-      return setup().then(function(test) {
+      return setup().then(function (test) {
         expect(test.form.errorHtml().length).toEqual(1);
         expect(test.form.errorHtml().html()).toEqual(
           'Security Key (U2F) is not supported on this browser.' +
-            ' Select another factor or contact your admin for assistance.'
+          ' Select another factor or contact your admin for assistance.'
         );
       });
     });
 
-    itp('shows error if browser does not support u2f and only one factor', function() {
+    itp('shows error if browser does not support u2f and only one factor', function () {
       delete window.u2f;
 
-      return setup(false, true).then(function(test) {
+      return setup(false, true).then(function (test) {
         expect(test.form.errorHtml().length).toEqual(1);
         expect(test.form.errorHtml().html()).toEqual(
           'Security Key (U2F) is not supported on this browser.' + ' Contact your admin for assistance.'
@@ -143,32 +143,32 @@ Expect.describe('EnrollU2F', function() {
       });
     });
 
-    itp('does not show error if browser supports u2f', function() {
+    itp('does not show error if browser supports u2f', function () {
       mockU2f();
 
-      return setup().then(function(test) {
+      return setup().then(function (test) {
         expect(test.form.errorHtml().length).toEqual(0);
       });
     });
 
-    itp('shows instructions and a register button', function() {
+    itp('shows instructions and a register button', function () {
       mockU2f();
 
-      return setup().then(function(test) {
+      return setup().then(function (test) {
         Expect.isVisible(test.form.enrollInstructions());
         Expect.isVisible(test.form.submitButton());
       });
     });
 
-    itp('shows a waiting spinner and devices images after submitting the form', function() {
+    itp('shows a waiting spinner and devices images after submitting the form', function () {
       mocku2fSuccessRegistration();
       return setup()
-        .then(function(test) {
+        .then(function (test) {
           test.setNextResponse([resEnrollActivateU2F, resSuccess]);
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy, test);
         })
-        .then(function(test) {
+        .then(function (test) {
           Expect.isVisible(test.form.enrollWaitingText());
           Expect.isVisible(test.form.enrollDeviceImages());
           Expect.isVisible(test.form.enrollSpinningIcon());
@@ -176,16 +176,16 @@ Expect.describe('EnrollU2F', function() {
         });
     });
 
-    itp('sends enroll request after submitting the form', function() {
+    itp('sends enroll request after submitting the form', function () {
       mocku2fSuccessRegistration();
       return setup()
-        .then(function(test) {
+        .then(function (test) {
           Util.resetAjaxRequests();
           test.setNextResponse([resEnrollActivateU2F, resSuccess]);
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy);
         })
-        .then(function() {
+        .then(function () {
           expect(Util.numAjaxRequests()).toBe(2);
           Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/v1/authn/factors',
@@ -198,16 +198,16 @@ Expect.describe('EnrollU2F', function() {
         });
     });
 
-    itp('calls u2f.register and activates the factor', function() {
+    itp('calls u2f.register and activates the factor', function () {
       mocku2fSuccessRegistration();
       return setup()
-        .then(function(test) {
+        .then(function (test) {
           Util.resetAjaxRequests();
           test.setNextResponse([resEnrollActivateU2F, resSuccess]);
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy);
         })
-        .then(function() {
+        .then(function () {
           expect(window.u2f.register).toHaveBeenCalled();
           expect(Util.numAjaxRequests()).toBe(2);
           Expect.isJsonPost(Util.getAjaxRequest(1), {
@@ -223,32 +223,32 @@ Expect.describe('EnrollU2F', function() {
         });
     });
 
-    itp('shows proper error if u2f.register fails with code 1', function() {
-      return setupU2fFails(1).then(function(test) {
+    itp('shows proper error if u2f.register fails with code 1', function () {
+      return setupU2fFails(1).then(function (test) {
         expectError(test, 'An unknown error has occured. Try again or select another factor.');
       });
     });
 
-    itp('shows proper error if u2f.register fails with code 2', function() {
-      return setupU2fFails(2).then(function(test) {
+    itp('shows proper error if u2f.register fails with code 2', function () {
+      return setupU2fFails(2).then(function (test) {
         expectError(test, 'There was an error with the U2F request. Try again or select another factor.');
       });
     });
 
-    itp('shows proper error if u2f.register fails with code 3', function() {
-      return setupU2fFails(3).then(function(test) {
+    itp('shows proper error if u2f.register fails with code 3', function () {
+      return setupU2fFails(3).then(function (test) {
         expectError(test, 'There was an error with the U2F request. Try again or select another factor.');
       });
     });
 
-    itp('shows proper error if u2f.register fails with code 4', function() {
-      return setupU2fFails(4).then(function(test) {
+    itp('shows proper error if u2f.register fails with code 4', function () {
+      return setupU2fFails(4).then(function (test) {
         expectError(test, 'The security key is unsupported. Select another factor.');
       });
     });
 
-    itp('shows proper error if u2f.register fails with code 5', function() {
-      return setupU2fFails(5).then(function(test) {
+    itp('shows proper error if u2f.register fails with code 5', function () {
+      return setupU2fFails(5).then(function (test) {
         expectError(test, 'You have timed out of the authentication period. Please try again.');
       });
     });

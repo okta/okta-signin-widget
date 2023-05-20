@@ -42,14 +42,21 @@ function setup(settings) {
 function mockAnimations() {
   const ret = {
     afterAnimation: null,
-    waitForAnimationComplete: function(cb) {
+    waitForAnimationComplete: function (cb) {
       return Expect.wait(() => !!ret.afterAnimation, cb);
     }
   };
   const originalSwapPages = Animations.swapPages;
-  spyOn(Animations, 'swapPages').and.callFake(function(opts) {
+  // spyOn(Animations, 'swapPages').and.callFake(function(opts) {
+  //   const origSuccess = opts.success;
+  //   spyOn(opts, 'success').and.callFake(function() {
+  //     ret.afterAnimation = () => origSuccess.apply(this, arguments);
+  //   });
+  //   return originalSwapPages.apply(this, arguments);
+  // });
+  jest.spyOn(Animations, 'swapPages').mockImplementation(function (opts) {
     const origSuccess = opts.success;
-    spyOn(opts, 'success').and.callFake(function() {
+    jest.spyOn(opts, 'success').mockImplementation(function () {
       ret.afterAnimation = () => origSuccess.apply(this, arguments);
     });
     return originalSwapPages.apply(this, arguments);
@@ -58,22 +65,22 @@ function mockAnimations() {
 }
 
 
-Expect.describe('Animations', function() {
-  describe('swapPages', function() {
-    itp('should remove styles from new form on animation complete', function() {
+Expect.describe('Animations', function () {
+  describe('swapPages', function () {
+    itp('should remove styles from new form on animation complete', function () {
       const mock = mockAnimations();
       // Open PrimaryAuth page
-      return setup().then(function(test) {
+      return setup().then(function (test) {
         // Trigger transition to ForgotPassword page
         test.form.helpFooter().click();
         test.form.forgotPasswordLink().click();
         expect(test.router.navigate).toHaveBeenCalledWith('signin/forgot-password', { trigger: true });
         // Wait for animation is completed, but success callback is not called
-        return mock.waitForAnimationComplete(test).then(function(test) {
+        return mock.waitForAnimationComplete(test).then(function (test) {
           // Check that styles were cleared for old and new pages
           const oldForm = test.form.$('.primary-auth').get(0);
           const newForm = test.form.$('.forgot-password').get(0);
-          expect(getComputedStyle(oldForm).position).withContext('old form position').toBe('static');
+          expect(getComputedStyle(oldForm).position).toBe('static');
           expect(getComputedStyle(oldForm).opacity).withContext('old form opacity').toBe('0');
           expect(getComputedStyle(newForm).position).withContext('new form position').toBe('static');
           expect(getComputedStyle(newForm).opacity).withContext('new form opacity').toBe('1');
@@ -82,7 +89,7 @@ Expect.describe('Animations', function() {
 
           // Run a success callback manually
           mock.afterAnimation();
-          return Expect.waitForForgotPassword(test).then(function(test) {
+          return Expect.waitForForgotPassword(test).then(function (test) {
             // Old page should be removed from DOM
             const $oldForm = test.form.$('.primary-auth');
             expect($oldForm.length).withContext('$oldForm.length').toBe(0);

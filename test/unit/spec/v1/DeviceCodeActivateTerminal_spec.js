@@ -13,7 +13,7 @@ const itp = Expect.itp;
 
 function setup(res) {
   let settings = {};
-  const successSpy = jasmine.createSpy('successSpy');
+  const successSpy = jest.fn();
   const setNextResponse = Util.mockAjax();
   const baseUrl = window.location.origin;
   const logoUrl = '/img/logos/default.png';
@@ -57,10 +57,10 @@ function assertDeviceNotActivatedPage(test, subtitle) {
   expect(test.form.tryAgainButton().attr('href')).toBe('/activate');
 }
 
-Expect.describe('DeviceCodeActivateTerminal', function() {
-  describe('DeviceCodeActivateTerminalForm', function() {
-    itp('renders correctly when device is activated', function() {
-      return setup(resDeviceCodeActivated).then(function(test) {
+Expect.describe('DeviceCodeActivateTerminal', function () {
+  describe('DeviceCodeActivateTerminalForm', function () {
+    itp('renders correctly when device is activated', function () {
+      return setup(resDeviceCodeActivated).then(function (test) {
         expect(test.form.titleText()).toBe('Device activated');
         expect(test.form.subtitleText()).toBe('Follow the instructions on your device for next steps');
         expect(test.form.isTerminalSuccessIconPresent()).toBe(true);
@@ -68,13 +68,13 @@ Expect.describe('DeviceCodeActivateTerminal', function() {
         expect(test.form.isTryAgainButtonPresent()).toBe(false);
       });
     });
-    itp('renders correctly when device is not activated', function() {
-      return setup(resDeviceCodeNotActivated).then(function(test) {
+    itp('renders correctly when device is not activated', function () {
+      return setup(resDeviceCodeNotActivated).then(function (test) {
         assertDeviceNotActivatedPage(test, 'Your device cannot be activated because of an internal error');
       });
     });
-    itp('renders correctly when consent is denied', function() {
-      return setup(resDeviceCodeConsentDenied).then(function(test) {
+    itp('renders correctly when consent is denied', function () {
+      return setup(resDeviceCodeConsentDenied).then(function (test) {
         assertDeviceNotActivatedPage(test, 'Your device cannot be activated because you did not allow access');
       });
     });

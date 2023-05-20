@@ -13,17 +13,17 @@ global.jasmine = jasmine;
 global.useJest = true;
 
 navigator.credentials = {
-  create: function() {
+  create: function () {
     return Promise.resolve({
       response: {}
     });
   },
-  get: function() {
+  get: function () {
     return Promise.resolve({
       response: {}
     });
   }
 };
 
-const css = fs.readFileSync(path.resolve(__dirname, '../../..' ,'target/css/okta-sign-in.css'), 'utf8');
+const css = fs.readFileSync(path.resolve(__dirname, '../../..', 'target/css/okta-sign-in.css'), 'utf8');
 $('head').append(`<style>${css}</style>`);

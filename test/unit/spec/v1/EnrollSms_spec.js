@@ -19,14 +19,14 @@ import $sandbox from 'sandbox';
 import LoginUtil from 'util/Util';
 const itp = Expect.itp;
 
-Expect.describe('EnrollSms', function() {
+Expect.describe('EnrollSms', function () {
   function setup(resp, startRouter, routerOptions = {}) {
     const setNextResponse = Util.mockAjax();
     const baseUrl = 'https://foo.com';
     const authClient = getAuthClient({
       authParams: { issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR }
     });
-    const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
+    const afterErrorHandler = jest.fn();
     const router = new Router({
       el: $sandbox,
       baseUrl: baseUrl,
@@ -53,12 +53,12 @@ Expect.describe('EnrollSms', function() {
       setNextResponse(resp || resAllFactors);
       router.refreshAuthState('dummy-token');
       return Expect.waitForEnrollChoices(test)
-        .then(function(test) {
+        .then(function (test) {
           router.enrollSms();
           return Expect.waitForEnrollSms(test);
         })
         .then(test => {
-          spyOn(test.router.controller, 'trapAuthResponse').and.callThrough();
+          jest.spyOn(test.router.controller, 'trapAuthResponse');
           return test;
         });
     };
@@ -97,25 +97,26 @@ Expect.describe('EnrollSms', function() {
   }
 
   function waitForEnrollActivateSuccess(test) {
-    test.router.controller.trapAuthResponse.calls.reset();
+    // test.router.controller.trapAuthResponse.calls.reset();
+    test.router.controller.trapAuthResponse.mockClear();
     return Expect.waitForSpyCall(test.router.controller.trapAuthResponse, test);
   }
 
   function setupAndSendCode(res, countryCode, phoneNumber) {
-    return setup().then(function(test) {
+    return setup().then(function (test) {
       return sendCode(test, res, countryCode, phoneNumber);
     });
   }
 
-  const setupAndSendValidCode = function() {
-    return setup().then(function(test) {
+  const setupAndSendValidCode = function () {
+    return setup().then(function (test) {
       sendCode(test, resEnrollSuccess, 'US', '4151234567');
       return waitForEnrollActivateSuccess(test);
     });
   };
 
-  const setupAndSendInvalidCode = function() {
-    return setup().then(function(test) {
+  const setupAndSendInvalidCode = function () {
+    return setup().then(function (test) {
       sendCode(test, resEnrollError, 'US', '415');
       return Expect.waitForFormError(test.form, test);
     });
@@ -124,58 +125,70 @@ Expect.describe('EnrollSms', function() {
   function expectResendButton(test) {
     const button = test.form.sendCodeButton();
 
-    expect(button.trimmedText()).toEqual('Re-send code');
-    expect(button.hasClass('button-primary')).toBe(false);
+    // expect(button.trimmedText()).toEqual('Re-send code');
+    // expect(button.hasClass('button-primary')).toBe(false);
+
+    expect(button.innerHTML).toEqual('Re-send code');
+    expect(button.className.indexOf('button-primary') < 0).toBe(true);
   }
 
   function expectSentButton(test) {
     const button = test.form.sendCodeButton();
 
-    expect(button.trimmedText()).toEqual('Sent');
-    expect(button.attr('class')).not.toMatch('button-primary');
-    expect(button.attr('class')).toMatch('link-button-disabled');
+    // expect(button.trimmedText()).toEqual('Sent');
+    // expect(button.attr('class')).not.toMatch('button-primary');
+    // expect(button.attr('class')).toMatch('link-button-disabled');
+
+    expect(button.innerHTML).toEqual('Sent');
+    expect(button.className.indexOf('button-primary') < 0).toBe(true);
+    expect(button.className.indexOf('link-button-disabled') >= 0).toBe(true);
   }
 
   function expectSendButton(test) {
     const button = test.form.sendCodeButton();
 
-    expect(button.trimmedText()).toEqual('Send code');
-    expect(button.hasClass('button-primary')).toBe(true);
+    // expect(button.trimmedText()).toEqual('Send code');
+    // expect(button.hasClass('button-primary')).toBe(true);
+
+    expect(button.innerHTML).toEqual('Send code');
+    expect(button.className.indexOf('button-primary') >= 0).toBe(true);
   }
 
   function testHeaderAndFooter(allFactorsRes, sendValidCodeFn, expectedStateToken) {
-    itp('displays the correct factorBeacon', function() {
-      return setup(allFactorsRes).then(function(test) {
+    itp('displays the correct factorBeacon', function () {
+      return setup(allFactorsRes).then(function (test) {
         expect(test.beacon.isFactorBeacon()).toBe(true);
         expect(test.beacon.hasClass('mfa-okta-sms')).toBe(true);
       });
     });
-    itp('links back to factors directly if phone has not been enrolled', function() {
-      return setup(allFactorsRes).then(function(test) {
+    itp('links back to factors directly if phone has not been enrolled', function () {
+      return setup(allFactorsRes).then(function (test) {
         test.form.backLink().click();
-        expect(test.router.navigate.calls.mostRecent().args).toEqual(['signin/enroll', { trigger: true }]);
+        // expect(test.router.navigate.calls.mostRecent().args).toEqual(['signin/enroll', { trigger: true }]);
+
+        expect(test.router.navigate.mock.calls[test.router.navigate.mock.calls.length - 1]).toEqual(['signin/enroll', { trigger: true }]);
       });
     });
-    itp('returns to factor list when browser\'s back button is clicked', function() {
+    itp('returns to factor list when browser\'s back button is clicked', function () {
       return setup(allFactorsRes, true)
-        .then(function(test) {
+        .then(function (test) {
           Util.triggerBrowserBackButton();
           return Expect.waitForEnrollChoices(test);
         })
-        .then(function(test) {
+        .then(function (test) {
           Expect.isEnrollChoices(test.router.controller);
           Util.stopRouter();
         });
     });
-    itp('visits previous link if phone is enrolled, but not activated', function() {
+    itp('visits previous link if phone is enrolled, but not activated', function () {
       return sendValidCodeFn()
-        .then(function(test) {
+        .then(function (test) {
           Util.resetAjaxRequests();
           test.setNextResponse(resAllFactors);
           test.form.backLink().click();
           return Expect.waitForEnrollChoices();
         })
-        .then(function() {
+        .then(function () {
           expect(Util.numAjaxRequests()).toBe(1);
           Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/v1/authn/previous',
@@ -189,8 +202,8 @@ Expect.describe('EnrollSms', function() {
   }
 
   function testEnrollPhoneNumber(allFactorsRes, successRes, sendCodeFn, expectedStateToken) {
-    itp('has a list of countries in alphabetical order', function() {
-      return setup(allFactorsRes).then(function(test) {
+    itp('has a list of countries in alphabetical order', function () {
+      return setup(allFactorsRes).then(function (test) {
         const countries = test.form.countriesList();
 
         expect(countries[0]).toEqual({ val: 'AF', text: 'Afghanistan' });
@@ -198,8 +211,8 @@ Expect.describe('EnrollSms', function() {
         expect(countries[239]).toEqual({ val: 'ZW', text: 'Zimbabwe' });
       });
     });
-    itp('does not include countries with no calling codes', function() {
-      return setup(allFactorsRes).then(function(test) {
+    itp('does not include countries with no calling codes', function () {
+      return setup(allFactorsRes).then(function (test) {
         const countries = test.form.countriesList();
 
         expect(_.findWhere(countries, { val: 'HM' })).toBe(undefined);
@@ -207,108 +220,108 @@ Expect.describe('EnrollSms', function() {
         expect(_.findWhere(countries, { val: 'TF' })).toBe(undefined);
       });
     });
-    itp('beacon could not be minimized if it is a factor beacon', function() {
-      return setup(allFactorsRes).then(function(test) {
+    itp('beacon could not be minimized if it is a factor beacon', function () {
+      return setup(allFactorsRes).then(function (test) {
         expect(test.authContainer.canBeMinimized()).toBe(false);
       });
     });
-    itp('has autocomplete set to false', function() {
-      return setup().then(function(test) {
+    itp('has autocomplete set to false', function () {
+      return setup().then(function (test) {
         expect(test.form.getCodeFieldAutocomplete()).toBe('off');
       });
     });
-    itp('has hidden country search input by default', function() {
-      return setup().then(function() {
+    itp('has hidden country search input by default', function () {
+      return setup().then(function () {
         const searchInput = $sandbox.find('.chzn-search > input');
         expect(searchInput.css('display')).toBe('none');
       });
     });
-    itp('shows country search input on mousedown of country dropdown', function() {
-      return setup().then(function(test) {
+    itp('shows country search input on mousedown of country dropdown', function () {
+      return setup().then(function (test) {
         const searchInput = $sandbox.find('.chzn-search > input');
         const mousedown = $.Event('mousedown');
         test.form.countryDropdown().trigger(mousedown);
         expect(searchInput.css('display')).toBe('inline-block');
       });
     });
-    itp('defaults to United States for the country', function() {
+    itp('defaults to United States for the country', function () {
       return setup(allFactorsRes)
-        .then(function(test) {
-          return Expect.wait(function() {
+        .then(function (test) {
+          return Expect.wait(function () {
             return test.form.hasCountriesList();
           }, test);
         })
-        .then(function(test) {
+        .then(function (test) {
           expect(test.form.selectedCountry()).toBe('United States');
         });
     });
-    itp('selects country based on defaultCountryCode from settings', function() {
+    itp('selects country based on defaultCountryCode from settings', function () {
       return setup(allFactorsRes, undefined, { defaultCountryCode: 'GB' })
-        .then(function(test) {
-          return Expect.wait(function() {
+        .then(function (test) {
+          return Expect.wait(function () {
             return test.form.hasCountriesList();
           }, test);
         })
-        .then(function(test) {
+        .then(function (test) {
           expect(test.form.selectedCountry()).toBe('United Kingdom');
         });
     });
-    itp('uses "US" as countryCode if settings.defaultCountryCode is not valid', function() {
+    itp('uses "US" as countryCode if settings.defaultCountryCode is not valid', function () {
       return setup(allFactorsRes, undefined, { defaultCountryCode: 'FAKECODE' })
-        .then(function(test) {
-          return Expect.wait(function() {
+        .then(function (test) {
+          return Expect.wait(function () {
             return test.form.hasCountriesList();
           }, test);
         })
-        .then(function(test) {
+        .then(function (test) {
           expect(test.form.selectedCountry()).toBe('United States');
         });
     });
-    itp('updates the phone number country calling code when country is changed', function() {
-      return setup(allFactorsRes).then(function(test) {
+    itp('updates the phone number country calling code when country is changed', function () {
+      return setup(allFactorsRes).then(function (test) {
         expect(test.form.phonePrefixText()).toBe('+1');
         test.form.selectCountry('AQ');
         expect(test.form.phonePrefixText()).toBe('+672');
       });
     });
-    itp('has a phone number text field', function() {
-      return setup(allFactorsRes).then(function(test) {
+    itp('has a phone number text field', function () {
+      return setup(allFactorsRes).then(function (test) {
         Expect.isTextField(test.form.phoneNumberField());
       });
     });
-    itp('allows autocomplete for phone number text field', function() {
-      return setup(allFactorsRes).then(function(test) {
+    itp('allows autocomplete for phone number text field', function () {
+      return setup(allFactorsRes).then(function (test) {
         expect(test.form.getPhoneNumberAutocomplete()).toBe('tel');
       });
     });
-    itp('has a button with primary class and text "Send Code"', function() {
-      return setup(allFactorsRes).then(function(test) {
+    itp('has a button with primary class and text "Send Code"', function () {
+      return setup(allFactorsRes).then(function (test) {
         expectSendButton(test);
       });
     });
-    itp('does not show divider', function() {
-      return setup(allFactorsRes).then(function(test) {
+    itp('does not show divider', function () {
+      return setup(allFactorsRes).then(function (test) {
         Expect.isNotVisible(test.form.divider());
       });
     });
-    itp('does not show enter code input', function() {
-      return setup(allFactorsRes).then(function(test) {
+    itp('does not show enter code input', function () {
+      return setup(allFactorsRes).then(function (test) {
         Expect.isNotVisible(test.form.codeField());
       });
     });
-    itp('does not show verify button', function() {
-      return setup(allFactorsRes).then(function(test) {
+    itp('does not show verify button', function () {
+      return setup(allFactorsRes).then(function (test) {
         Expect.isNotVisible(test.form.submitButton());
       });
     });
 
-    itp('sends sms when return key is pressed in phoneNumber field', function() {
+    itp('sends sms when return key is pressed in phoneNumber field', function () {
       return setup(allFactorsRes)
-        .then(function(test) {
+        .then(function (test) {
           Util.resetAjaxRequests();
           return sendCodeOnEnter(test, successRes, 'US', '4151111111');
         })
-        .then(function() {
+        .then(function () {
           expect(Util.numAjaxRequests()).toBe(1);
           Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/v1/authn/factors',
@@ -324,36 +337,36 @@ Expect.describe('EnrollSms', function() {
         });
     });
 
-    itp('clears previous errors in form when resend code', function() {
+    itp('clears previous errors in form when resend code', function () {
       return setupAndSendInvalidCode()
-        .then(function(test) {
+        .then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorMessage()).toBe('Invalid Phone Number.');
           sendCodeOnEnter(test, successRes, 'US', '4151111111');
           return waitForEnrollActivateSuccess(test);
         })
-        .then(function(test) {
+        .then(function (test) {
           expect(test.form.hasErrors()).toBe(false);
         });
     });
 
-    itp('validation error if phone number field is blank', function() {
-      return sendCodeFn(successRes, 'US', '').then(function(test) {
+    itp('validation error if phone number field is blank', function () {
+      return sendCodeFn(successRes, 'US', '').then(function (test) {
         expect(test.form.hasErrors()).toBe(true);
       });
     });
 
-    itp('shows warning message to click "Re-send" after 30s', function() {
+    itp('shows warning message to click "Re-send" after 30s', function () {
       Util.speedUpDelay();
       return sendCodeFn(successRes, 'US', '4151111111')
         .then(waitForEnrollActivateSuccess)
-        .then(function(test) {
+        .then(function (test) {
           expectResendButton(test);
           expect(test.form.hasWarningMessage()).toBe(true);
           expect(test.form.warningMessage()).toContain('Haven\'t received an SMS? To try again, click Re-send code.');
           return test;
         })
-        .then(function(test) {
+        .then(function (test) {
           // Re-send will clear the warning
           Util.resetAjaxRequests();
           test.setNextResponse(successRes);
@@ -363,7 +376,7 @@ Expect.describe('EnrollSms', function() {
           return test;
         })
         .then(waitForEnrollActivateSuccess)
-        .then(function(test) {
+        .then(function (test) {
           // Re-send after 30s wil show the warning again
           expectResendButton(test);
           expect(test.form.warningMessage()).toContain('Haven\'t received an SMS? To try again, click Re-send code.');
@@ -372,8 +385,8 @@ Expect.describe('EnrollSms', function() {
         });
     });
 
-    itp('enrolls with correct info when sendCode is clicked', function() {
-      return sendCodeFn(successRes, 'AQ', '12345678900').then(waitForEnrollActivateSuccess).then(function() {
+    itp('enrolls with correct info when sendCode is clicked', function () {
+      return sendCodeFn(successRes, 'AQ', '12345678900').then(waitForEnrollActivateSuccess).then(function () {
         expect(Util.numAjaxRequests()).toBe(2);
         Expect.isJsonPost(Util.getAjaxRequest(0), {
           url: 'https://foo.com/api/v1/authn/introspect',
@@ -395,8 +408,8 @@ Expect.describe('EnrollSms', function() {
       });
     });
 
-    itp('shows error and does not go to next step if error response', function() {
-      return setupAndSendInvalidCode().then(function(test) {
+    itp('shows error and does not go to next step if error response', function () {
+      return setupAndSendInvalidCode().then(function (test) {
         expectSendButton(test);
         Expect.isNotVisible(test.form.divider());
         Expect.isNotVisible(test.form.codeField());
@@ -404,7 +417,8 @@ Expect.describe('EnrollSms', function() {
         expect(test.form.hasErrors()).toBe(true);
         expect(test.form.errorMessage()).toBe('Invalid Phone Number.');
         expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
-        expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+        // expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+        expect(test.afterErrorHandler.mock.calls[0]).toEqual([
           {
             controller: 'enroll-sms',
           },
@@ -434,28 +448,28 @@ Expect.describe('EnrollSms', function() {
       });
     });
 
-    itp('shows error message only (no warning), when invalid phonenumber is inputted', function() {
+    itp('shows error message only (no warning), when invalid phonenumber is inputted', function () {
       return setup(allFactorsRes)
-        .then(function(test) {
+        .then(function (test) {
           Util.resetAjaxRequests();
           sendCode(test, resEnrollInvalidPhoneError, 'PF', '12345678');
           return Expect.waitForFormError(test.form, test);
         })
-        .then(function(test) {
+        .then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorMessage()).toBe('The number you entered seems invalid. If the number is correct, please try again.');
           expect(test.form.hasWarningMessage()).toBe(false);
         });
     });
 
-    itp('shows error message only (no warning), when toll-free phonenumber is inputted', function() {
+    itp('shows error message only (no warning), when toll-free phonenumber is inputted', function () {
       return setup(allFactorsRes)
-        .then(function(test) {
+        .then(function (test) {
           Util.resetAjaxRequests();
           sendCode(test, resEnrollTollFreePhoneError, 'US', '8557494750');
           return Expect.waitForFormError(test.form, test);
         })
-        .then(function(test) {
+        .then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorMessage()).toBe('Invalid Phone Number.');
           expect(test.form.hasWarningMessage()).toBe(false);
@@ -464,18 +478,18 @@ Expect.describe('EnrollSms', function() {
   }
 
   function testVerifyPhoneNumber(allFactorsRes, successRes, sendValidCodeFn, existingPhoneRes, expectedStateToken) {
-    itp('replaces send code with sent button, disabled and with no primary class', function() {
-      return sendValidCodeFn().then(function(test) {
+    itp('replaces send code with sent button, disabled and with no primary class', function () {
+      return sendValidCodeFn().then(function (test) {
         expectSentButton(test);
       });
     });
-    itp('uses send code button with updatePhone=true, if user has an existing phone', function() {
+    itp('uses send code button with updatePhone=true, if user has an existing phone', function () {
       return setup(existingPhoneRes)
-        .then(function(test) {
+        .then(function (test) {
           Util.resetAjaxRequests();
           return sendCode(test, successRes, 'US', '4151234567');
         })
-        .then(function() {
+        .then(function () {
           expect(Util.numAjaxRequests()).toBe(1);
           Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/v1/authn/factors?updatePhone=true',
@@ -490,14 +504,14 @@ Expect.describe('EnrollSms', function() {
           });
         });
     });
-    itp('uses send code button with validatePhone:false if user has retried with invalid phone number', function() {
+    itp('uses send code button with validatePhone:false if user has retried with invalid phone number', function () {
       return setup(allFactorsRes)
-        .then(function(test) {
+        .then(function (test) {
           Util.resetAjaxRequests();
           sendCode(test, resEnrollInvalidPhoneError, 'PF', '12345678');
           return Expect.waitForFormError(test.form, test);
         })
-        .then(function(test) {
+        .then(function (test) {
           expect(Util.numAjaxRequests()).toBe(1);
           Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/v1/authn/factors',
@@ -520,7 +534,7 @@ Expect.describe('EnrollSms', function() {
           sendCode(test, resEnrollInvalidPhoneError, 'PF', '12345678');
           return Expect.waitForAjaxRequest(test);
         })
-        .then(function() {
+        .then(function () {
           expect(Util.numAjaxRequests()).toBe(1);
           Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/v1/authn/factors',
@@ -536,14 +550,14 @@ Expect.describe('EnrollSms', function() {
           });
         });
     });
-    itp('does not set validatePhone:false if the error is not a validation error (E0000098).', function() {
+    itp('does not set validatePhone:false if the error is not a validation error (E0000098).', function () {
       return setup(allFactorsRes)
-        .then(function(test) {
+        .then(function (test) {
           Util.resetAjaxRequests();
           sendCode(test, resEnrollError, 'PF', '12345678');
           return Expect.waitForFormError(test.form, test);
         })
-        .then(function(test) {
+        .then(function (test) {
           expect(Util.numAjaxRequests()).toBe(1);
           Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/v1/authn/factors',
@@ -564,7 +578,7 @@ Expect.describe('EnrollSms', function() {
           sendCode(test, resEnrollError, 'PF', '12345678');
           return Expect.waitForAjaxRequest(test);
         })
-        .then(function() {
+        .then(function () {
           expect(Util.numAjaxRequests()).toBe(1);
           Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/v1/authn/factors',
@@ -579,16 +593,16 @@ Expect.describe('EnrollSms', function() {
           });
         });
     });
-    itp('uses resend and not enrollFactor when re-send is clicked', function() {
+    itp('uses resend and not enrollFactor when re-send is clicked', function () {
       Util.speedUpDelay();
       return sendValidCodeFn()
-        .then(function(test) {
+        .then(function (test) {
           Util.resetAjaxRequests();
           test.setNextResponse(successRes);
           test.form.sendCodeButton().click();
           return Expect.waitForAjaxRequest();
         })
-        .then(function() {
+        .then(function () {
           expect(Util.numAjaxRequests()).toBe(1);
           Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/v1/authn/factors/mbli45IDbggtwb4j40g3/lifecycle/resend',
@@ -600,10 +614,10 @@ Expect.describe('EnrollSms', function() {
     });
     itp(
       'if phone number is changed after enroll, resets the status to MFA_Enroll ' +
-        'and then enrolls with updatePhone=true',
-      function() {
+      'and then enrolls with updatePhone=true',
+      function () {
         return sendValidCodeFn()
-          .then(function(test) {
+          .then(function (test) {
             expectSentButton(test);
             Expect.isVisible(test.form.codeField());
             enterCode(test, 'US', '4151112222');
@@ -615,7 +629,7 @@ Expect.describe('EnrollSms', function() {
               return Util.numAjaxRequests() === 2;
             }, test);
           })
-          .then(function(test) {
+          .then(function (test) {
             expect(Util.numAjaxRequests()).toBe(2);
             Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn/previous',
@@ -634,7 +648,7 @@ Expect.describe('EnrollSms', function() {
             });
             return test;
           })
-          .then(function(test) {
+          .then(function (test) {
             // form wasn't rerendered
             expect(test.form.phoneNumberField().val()).toEqual('4151112222');
             expectSentButton(test);
@@ -645,25 +659,25 @@ Expect.describe('EnrollSms', function() {
     );
     itp(
       'submitting a number, then changing it, and then changing it back ' + 'will still use the resend endpoint',
-      function() {
+      function () {
         // The send button is normally diabled for several seconds
         // to prevent too many calls to the API, but for testing
         // we mock out the delay function to wait 0 seconds.
         Util.speedUpDelay();
         return sendValidCodeFn()
-          .then(function(test) {
+          .then(function (test) {
             // change the number from 'US' to 'AQ'
             enterCode(test, 'AQ', '4151234567');
             expectSendButton(test);
             return test;
           })
-          .then(function(test) {
+          .then(function (test) {
             // change the number back to 'US'
             enterCode(test, 'US', '4151234567');
             expectResendButton(test);
             return test;
           })
-          .then(function(test) {
+          .then(function (test) {
             // resubmit the 'US' number
             Util.resetAjaxRequests();
             test.setNextResponse(successRes);
@@ -671,7 +685,7 @@ Expect.describe('EnrollSms', function() {
             expectSentButton(test);
             return Expect.waitForAjaxRequest();
           })
-          .then(function() {
+          .then(function () {
             expect(Util.numAjaxRequests()).toBe(1);
             Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn/factors/mbli45IDbggtwb4j40g3/lifecycle/resend',
@@ -682,32 +696,32 @@ Expect.describe('EnrollSms', function() {
           });
       }
     );
-    itp('shows divider', function() {
-      return sendValidCodeFn().then(function(test) {
+    itp('shows divider', function () {
+      return sendValidCodeFn().then(function (test) {
         Expect.isVisible(test.form.divider());
       });
     });
-    itp('shows enter code input', function() {
-      return sendValidCodeFn().then(function(test) {
+    itp('shows enter code input', function () {
+      return sendValidCodeFn().then(function (test) {
         Expect.isVisible(test.form.codeField());
       });
     });
-    itp('shows verify button when enrolled', function() {
-      return sendValidCodeFn().then(function(test) {
+    itp('shows verify button when enrolled', function () {
+      return sendValidCodeFn().then(function (test) {
         Expect.isVisible(test.form.submitButton());
       });
     });
-    itp('does not send request and shows error if code is not entered', function() {
-      return sendValidCodeFn().then(function(test) {
+    itp('does not send request and shows error if code is not entered', function () {
+      return sendValidCodeFn().then(function (test) {
         Util.resetAjaxRequests();
         test.form.submit();
         expect(Util.numAjaxRequests()).toBe(0);
         expect(test.form.hasErrors()).toBe(true);
       });
     });
-    itp('calls activate with the right params if passes validation', function() {
+    itp('calls activate with the right params if passes validation', function () {
       return sendValidCodeFn()
-        .then(function(test) {
+        .then(function (test) {
           Util.resetAjaxRequests();
           expect(test.form.codeField().attr('type')).toBe('tel');
           test.form.setCode(123456);
@@ -715,7 +729,7 @@ Expect.describe('EnrollSms', function() {
           test.form.submit();
           return Expect.waitForAjaxRequest();
         })
-        .then(function() {
+        .then(function () {
           expect(Util.numAjaxRequests()).toBe(1);
           Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/v1/authn/factors/mbli45IDbggtwb4j40g3/lifecycle/activate',
@@ -726,19 +740,20 @@ Expect.describe('EnrollSms', function() {
           });
         });
     });
-    itp('shows error if error response on verification', function() {
+    itp('shows error if error response on verification', function () {
       return sendValidCodeFn()
-        .then(function(test) {
+        .then(function (test) {
           test.setNextResponse(resEnrollActivateError);
           test.form.setCode(123);
           test.form.submit();
           return Expect.waitForFormError(test.form, test);
         })
-        .then(function(test) {
+        .then(function (test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorMessage()).toBe('Your token doesn\'t match our records. Please try again.');
           expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
-          expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+          // expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+          expect(test.afterErrorHandler.mock.calls[0]).toEqual([
             {
               controller: 'enroll-sms',
             },
@@ -769,15 +784,15 @@ Expect.describe('EnrollSms', function() {
     });
   }
 
-  describe('Header & Footer', function() {
+  describe('Header & Footer', function () {
     testHeaderAndFooter(resAllFactors, setupAndSendValidCode, 'testStateToken');
   });
 
-  describe('Enroll phone number', function() {
+  describe('Enroll phone number', function () {
     testEnrollPhoneNumber(resAllFactors, resEnrollSuccess, setupAndSendCode, 'testStateToken');
   });
 
-  describe('Verify phone number', function() {
+  describe('Verify phone number', function () {
     testVerifyPhoneNumber(resAllFactors, resSuccess, setupAndSendValidCode, resExistingPhone, 'testStateToken');
   });
 });

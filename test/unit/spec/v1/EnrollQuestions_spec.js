@@ -25,8 +25,8 @@ function setup(res, startRouter, languagesResponse) {
   const authClient = getAuthClient({
     authParams: { issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR }
   });
-  const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
-  const successSpy = jasmine.createSpy('success');
+  const afterErrorHandler = jest.fn();
+  const successSpy = jest.fn();
   const router = new Router({
     el: $sandbox,
     baseUrl: baseUrl,
@@ -54,7 +54,7 @@ function setup(res, startRouter, languagesResponse) {
       setNextResponse(languagesResponse);
     }
     router.refreshAuthState('dummy-token');
-    return Expect.waitForEnrollChoices(test).then(function(test) {
+    return Expect.waitForEnrollChoices(test).then(function (test) {
       setNextResponse(resQuestions);
       router.enrollQuestion();
       return Expect.waitForEnrollQuestion(test);
@@ -68,25 +68,25 @@ function setup(res, startRouter, languagesResponse) {
 }
 
 function setupWithLanguage(res, options, startRouter) {
-  spyOn(BrowserFeatures, 'localStorageIsNotSupported').and.returnValue(options.localStorageIsNotSupported);
-  spyOn(BrowserFeatures, 'getUserLanguages').and.returnValue(['ja', 'en']);
+  jest.spyOn(BrowserFeatures, 'localStorageIsNotSupported').mockReturnValue(options.localStorageIsNotSupported);
+  jest.spyOn(BrowserFeatures, 'getUserLanguages').mockReturnValue(['ja', 'en']);
   return setup(res, startRouter, [_.extend({ delay: 0 }, labelsLoginJa), _.extend({ delay: 0 }, labelsCountryJa)]);
 }
 
 function testEnrollQuestion(allFactors, expectedStateToken) {
-  itp('displays the correct factorBeacon', function() {
-    return setup(allFactors).then(function(test) {
+  itp('displays the correct factorBeacon', function () {
+    return setup(allFactors).then(function (test) {
       expect(test.beacon.isFactorBeacon()).toBe(true);
       expect(test.beacon.hasClass('mfa-okta-security-question')).toBe(true);
     });
   });
-  itp('does not allow autocomplete', function() {
-    return setup(allFactors).then(function(test) {
+  itp('does not allow autocomplete', function () {
+    return setup(allFactors).then(function (test) {
       expect(test.form.getAnswerAutocomplete()).toBe('off');
     });
   });
-  itp('has a list of questions to choose from', function() {
-    return setup(allFactors).then(function(test) {
+  itp('has a list of questions to choose from', function () {
+    return setup(allFactors).then(function (test) {
       const questions = test.form.questionList();
 
       expect(questions.length).toBe(20);
@@ -100,8 +100,8 @@ function testEnrollQuestion(allFactors, expectedStateToken) {
       });
     });
   });
-  itp('has a localized list of questions if language is specified no local storage', function() {
-    return setupWithLanguage(allFactors, { localStorageIsNotSupported: true }).then(function(test) {
+  itp('has a localized list of questions if language is specified no local storage', function () {
+    return setupWithLanguage(allFactors, { localStorageIsNotSupported: true }).then(function (test) {
       const questions = test.form.questionList();
 
       expect(questions.length).toBe(20);
@@ -111,8 +111,8 @@ function testEnrollQuestion(allFactors, expectedStateToken) {
       });
     });
   });
-  itp('has a localized list of questions if language is specified', function() {
-    return setupWithLanguage(allFactors, { localStorageIsNotSupported: false }).then(function(test) {
+  itp('has a localized list of questions if language is specified', function () {
+    return setupWithLanguage(allFactors, { localStorageIsNotSupported: false }).then(function (test) {
       const questions = test.form.questionList();
 
       expect(questions.length).toBe(20);
@@ -122,8 +122,8 @@ function testEnrollQuestion(allFactors, expectedStateToken) {
       });
     });
   });
-  itp('has a localized list of questions if language is specified and no local storage', function() {
-    return setupWithLanguage(allFactors, { localStorageIsNotSupported: true }).then(function(test) {
+  itp('has a localized list of questions if language is specified and no local storage', function () {
+    return setupWithLanguage(allFactors, { localStorageIsNotSupported: true }).then(function (test) {
       const questions = test.form.questionList();
 
       expect(questions.length).toBe(20);
@@ -133,8 +133,8 @@ function testEnrollQuestion(allFactors, expectedStateToken) {
       });
     });
   });
-  itp('has a localized list of questions if language is specified', function() {
-    return setupWithLanguage(allFactors, { localStorageIsNotSupported: false }).then(function(test) {
+  itp('has a localized list of questions if language is specified', function () {
+    return setupWithLanguage(allFactors, { localStorageIsNotSupported: false }).then(function (test) {
       const questions = test.form.questionList();
 
       expect(questions.length).toBe(20);
@@ -144,8 +144,8 @@ function testEnrollQuestion(allFactors, expectedStateToken) {
       });
     });
   });
-  itp('fallbacks to English if the question is not in the specified language bundle with local storage', function() {
-    return setupWithLanguage(allFactors, { localStorageIsNotSupported: false }).then(function(test) {
+  itp('fallbacks to English if the question is not in the specified language bundle with local storage', function () {
+    return setupWithLanguage(allFactors, { localStorageIsNotSupported: false }).then(function (test) {
       const questions = test.form.questionList();
 
       expect(questions.length).toBe(20);
@@ -155,8 +155,8 @@ function testEnrollQuestion(allFactors, expectedStateToken) {
       });
     });
   });
-  itp('fallbacks to English if the question is not in the specified language bundle no local storage', function() {
-    return setupWithLanguage(allFactors, { localStorageIsNotSupported: true }).then(function(test) {
+  itp('fallbacks to English if the question is not in the specified language bundle no local storage', function () {
+    return setupWithLanguage(allFactors, { localStorageIsNotSupported: true }).then(function (test) {
       const questions = test.form.questionList();
 
       expect(questions.length).toBe(20);
@@ -166,47 +166,48 @@ function testEnrollQuestion(allFactors, expectedStateToken) {
       });
     });
   });
-  itp('has an answer text box', function() {
-    return setup(allFactors).then(function(test) {
+  itp('has an answer text box', function () {
+    return setup(allFactors).then(function (test) {
       const answer = test.form.answerField();
 
       expect(answer.length).toBe(1);
       expect(answer.attr('type')).toEqual('text');
     });
   });
-  itp('returns to factor list when browser\'s back button is clicked', function() {
+  itp('returns to factor list when browser\'s back button is clicked', function () {
     return setup(allFactors, true)
-      .then(function(test) {
+      .then(function (test) {
         Util.triggerBrowserBackButton();
         return Expect.waitForEnrollChoices(test);
       })
-      .then(function(test) {
+      .then(function (test) {
         Expect.isEnrollChoices(test.router.controller);
         Util.stopRouter();
       });
   });
-  itp('calls enroll with the right arguments when save is clicked', function() {
+  itp('calls enroll with the right arguments when save is clicked', function () {
     return setup(allFactors)
-      .then(function(test) {
-        test.successSpy.calls.reset();
+      .then(function (test) {
+        // test.successSpy.calls.reset();
+        test.successSpy.mockClear();
         Util.resetAjaxRequests();
         test.form.selectQuestion('favorite_security_question');
         test.form.setAnswer('No question! Hah!');
         test.setNextResponse(resSuccess);
-        spyOn(RouterUtil, 'isHostBackgroundChromeTab').and.callFake(function() {
+        jest.spyOn(RouterUtil, 'isHostBackgroundChromeTab').mockImplementation(function () {
           return true;
         });
-        spyOn(document, 'addEventListener').and.callFake(function(type, fn) {
+        jest.spyOn(document, 'addEventListener').mockImplementation(function (type, fn) {
           fn();
         });
-        spyOn(document, 'removeEventListener').and.callThrough();
+        jest.spyOn(document, 'removeEventListener');
         test.form.submit();
-        spyOn(RouterUtil, 'isDocumentVisible').and.callFake(function() {
+        jest.spyOn(RouterUtil, 'isDocumentVisible').mockImplementation(function () {
           return true;
         });
         return Expect.waitForSpyCall(test.successSpy);
       })
-      .then(function() {
+      .then(function () {
         expect(RouterUtil.isHostBackgroundChromeTab).toHaveBeenCalled();
         expect(RouterUtil.isDocumentVisible).toHaveBeenCalled();
         expect(document.removeEventListener).toHaveBeenCalled();
@@ -227,28 +228,28 @@ function testEnrollQuestion(allFactors, expectedStateToken) {
       });
   });
 
-  itp('validates answer field and errors before the request', function() {
-    return setup(allFactors).then(function(test) {
+  itp('validates answer field and errors before the request', function () {
+    return setup(allFactors).then(function (test) {
       Util.resetAjaxRequests();
       test.form.submit();
       expect(test.form.hasErrors()).toBe(true);
       expect(Util.numAjaxRequests()).toBe(0);
     });
   });
-  itp('shows error if error response on enrollment', function() {
+  itp('shows error if error response on enrollment', function () {
     return setup(allFactors)
-      .then(function(test) {
+      .then(function (test) {
         Q.stopUnhandledRejectionTracking();
         test.setNextResponse(resError);
         test.form.setAnswer('the answer');
         test.form.submit();
         return Expect.waitForFormError(test.form, test);
       })
-      .then(function(test) {
+      .then(function (test) {
         expect(test.form.hasErrors()).toBe(true);
         expect(test.form.errorMessage()).toBe('Invalid Profile.');
         expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
-        expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+        expect(test.afterErrorHandler.mock.calls[0]).toEqual([
           {
             controller: 'enroll-question',
           },
@@ -277,14 +278,15 @@ function testEnrollQuestion(allFactors, expectedStateToken) {
         ]);
       });
   });
-  itp('returns to factor list when back link is clicked', function() {
-    return setup(allFactors).then(function(test) {
+  itp('returns to factor list when back link is clicked', function () {
+    return setup(allFactors).then(function (test) {
       test.form.backLink().click();
-      expect(test.router.navigate.calls.mostRecent().args).toEqual(['signin/enroll', { trigger: true }]);
+      // expect(test.router.navigate.calls.mostRecent().args).toEqual(['signin/enroll', { trigger: true }]);
+      expect(test.router.navigate.mock.calls[test.router.navigate.mock.calls.length - 1]).toEqual(['signin/enroll', { trigger: true }]);
     });
   });
 }
 
-Expect.describe('EnrollQuestions', function() {
+Expect.describe('EnrollQuestions', function () {
   testEnrollQuestion(resAllFactors, 'testStateToken');
 });

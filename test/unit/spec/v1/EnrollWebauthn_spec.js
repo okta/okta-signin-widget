@@ -19,9 +19,9 @@ const itp = Expect.itp;
 const testAttestationObject = 'c29tZS1yYW5kb20tYXR0ZXN0YXRpb24tb2JqZWN0';
 const testClientData = 'c29tZS1yYW5kb20tY2xpZW50LWRhdGE=';
 const transports = ['usb', 'nfc'];
-const clientExtensions = {'credProps':{'rk':true}};
+const clientExtensions = { 'credProps': { 'rk': true } };
 
-Expect.describe('EnrollWebauthn', function() {
+Expect.describe('EnrollWebauthn', function () {
   function setup(startRouter, onlyWebauthn) {
     const settings = {};
 
@@ -32,8 +32,10 @@ Expect.describe('EnrollWebauthn', function() {
     const authClient = getAuthClient({
       authParams: { issuer: baseUrl }
     });
-    const successSpy = jasmine.createSpy('success');
-    const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
+    // const successSpy = jasmine.createSpy('success');
+    const successSpy = jest.fn();
+    // const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
+    const afterErrorHandler = jest.fn();
     const router = new Router(
       _.extend(
         {
@@ -63,7 +65,7 @@ Expect.describe('EnrollWebauthn', function() {
     const enrollWebAuthn = test => {
       setNextResponse(onlyWebauthn ? resWebauthn : resAllFactors);
       router.refreshAuthState('dummy-token');
-      return Expect.waitForEnrollChoices(test).then(function(test) {
+      return Expect.waitForEnrollChoices(test).then(function (test) {
         router.enrollWebauthn();
         return Expect.waitForEnrollWebauthn(test);
       });
@@ -78,16 +80,17 @@ Expect.describe('EnrollWebauthn', function() {
   function mockWebauthn() {
     Object.defineProperty(navigator, 'credentials', {
       value: {
-        create: () => jasmine.createSpy('enroll-webauthn-spy'),
+        // create: () => jasmine.createSpy('enroll-webauthn-spy'),
+        create: () => jest.fn(),
       },
       configurable: true
     });
   }
 
-  function mockWebauthnSuccessRegistration(resolvePromise, isNullable=false) {
+  function mockWebauthnSuccessRegistration(resolvePromise, isNullable = false) {
     mockWebauthn();
-    spyOn(webauthn, 'isNewApiAvailable').and.returnValue(true);
-    spyOn(navigator.credentials, 'create').and.callFake(function() {
+    jest.spyOn(webauthn, 'isNewApiAvailable').mockReturnValue(true);
+    jest.spyOn(navigator.credentials, 'create').mockImplementation(function () {
       const deferred = Q.defer();
       var localTransports;
       var localClientExtensions;
@@ -104,9 +107,9 @@ Expect.describe('EnrollWebauthn', function() {
           response: {
             attestationObject: CryptoUtil.strToBin(testAttestationObject),
             clientDataJSON: CryptoUtil.strToBin(testClientData),
-            getTransports: function() { return localTransports; },
+            getTransports: function () { return localTransports; },
           },
-          getClientExtensionResults: function() { return localClientExtensions; },
+          getClientExtensionResults: function () { return localClientExtensions; },
         });
       }
       return deferred.promise;
@@ -116,7 +119,7 @@ Expect.describe('EnrollWebauthn', function() {
   function mockWebauthnFailureRegistration() {
     Q.stopUnhandledRejectionTracking();
     mockWebauthn();
-    spyOn(navigator.credentials, 'create').and.callFake(function() {
+    jest.spyOn(navigator.credentials, 'create').mockImplementation(function () {
       const deferred = Q.defer();
 
       deferred.reject({ message: 'something went wrong' });
@@ -126,8 +129,8 @@ Expect.describe('EnrollWebauthn', function() {
 
   function mockWebauthnNonSupportResponse(mockGetTransports, mockGetClientExtensions) {
     mockWebauthn();
-    spyOn(webauthn, 'isNewApiAvailable').and.returnValue(true);
-    spyOn(navigator.credentials, 'create').and.callFake(function() {
+    jest.spyOn(webauthn, 'isNewApiAvailable').mockReturnValue(true);
+    jest.spyOn(navigator.credentials, 'create').mockImplementation(function () {
       const deferred = Q.defer();
       const localTransports = transports;
       const localClientExtensions = clientExtensions;
@@ -140,10 +143,10 @@ Expect.describe('EnrollWebauthn', function() {
       };
 
       if (mockGetTransports) {
-        authenticatorResponse.response.getTransports = function() { return localTransports; };
+        authenticatorResponse.response.getTransports = function () { return localTransports; };
       }
       if (mockGetClientExtensions) {
-        authenticatorResponse.getClientExtensionResults = function() { return localClientExtensions; };
+        authenticatorResponse.getClientExtensionResults = function () { return localClientExtensions; };
       }
 
       deferred.resolve(authenticatorResponse);
@@ -151,81 +154,81 @@ Expect.describe('EnrollWebauthn', function() {
     });
   }
 
-  Expect.describe('Header & Footer', function() {
-    itp('displays the correct factorBeacon', function() {
-      return setup().then(function(test) {
+  Expect.describe('Header & Footer', function () {
+    itp('displays the correct factorBeacon', function () {
+      return setup().then(function (test) {
         expect(test.beacon.isFactorBeacon()).toBe(true);
         expect(test.beacon.hasClass('mfa-webauthn')).toBe(true);
       });
     });
-    itp('has a "back" link in the footer', function() {
-      return setup().then(function(test) {
+    itp('has a "back" link in the footer', function () {
+      return setup().then(function (test) {
         Expect.isVisible(test.form.backLink());
       });
     });
   });
 
-  Expect.describe('Enroll factor', function() {
-    itp('shows error if browser does not support webauthn', function() {
-      spyOn(webauthn, 'isNewApiAvailable').and.returnValue(false);
+  Expect.describe('Enroll factor', function () {
+    itp('shows error if browser does not support webauthn', function () {
+      jest.spyOn(webauthn, 'isNewApiAvailable').mockReturnValue(false);
 
-      return setup().then(function(test) {
+      return setup().then(function (test) {
         expect(test.form.errorHtml().length).toEqual(1);
         expect(test.form.errorHtml().html()).toEqual(
           'Security key or biometric authenticator is not supported on this browser.' +
-            ' Select another factor or contact your admin for assistance.'
+          ' Select another factor or contact your admin for assistance.'
         );
       });
     });
 
-    itp('shows error if browser does not support webauthn and only one factor', function() {
-      spyOn(webauthn, 'isNewApiAvailable').and.returnValue(false);
+    itp('shows error if browser does not support webauthn and only one factor', function () {
+      jest.spyOn(webauthn, 'isNewApiAvailable').mockReturnValue(false);
 
-      return setup(false, true).then(function(test) {
+      return setup(false, true).then(function (test) {
         expect(test.form.errorHtml().length).toEqual(1);
         expect(test.form.errorHtml().html()).toEqual(
           'Security key or biometric authenticator is not supported on this browser.' +
-            ' Contact your admin for assistance.'
+          ' Contact your admin for assistance.'
         );
       });
     });
 
-    itp('does not show error if browser supports webauthn', function() {
-      spyOn(webauthn, 'isNewApiAvailable').and.returnValue(true);
-      return setup().then(function(test) {
+    itp('does not show error if browser supports webauthn', function () {
+      jest.spyOn(webauthn, 'isNewApiAvailable').mockReturnValue(true);
+      return setup().then(function (test) {
         expect(test.form.errorHtml().length).toEqual(0);
       });
     });
 
-    itp('shows instructions and a register button', function() {
-      spyOn(webauthn, 'isNewApiAvailable').and.returnValue(true);
-      return setup().then(function(test) {
+    itp('shows instructions and a register button', function () {
+      jest.spyOn(webauthn, 'isNewApiAvailable').mockReturnValue(true);
+      return setup().then(function (test) {
         Expect.isVisible(test.form.enrollInstructions());
         Expect.isVisible(test.form.submitButton());
       });
     });
 
-    itp('shows correct instructions for Edge browser', function() {
-      spyOn(webauthn, 'isNewApiAvailable').and.returnValue(true);
-      spyOn(BrowserFeatures, 'isEdge').and.returnValue(true);
-      return setup().then(function(test) {
+    itp('shows correct instructions for Edge browser', function () {
+      jest.spyOn(webauthn, 'isNewApiAvailable').mockReturnValue(true);
+      jest.spyOn(BrowserFeatures, 'isEdge').mockReturnValue(true);
+      return setup().then(function (test) {
         Expect.isVisible(test.form.enrollInstructions());
         Expect.isVisible(test.form.enrollEdgeInstructions());
         expect(test.form.enrollEdgeInstructions().text()).toEqual(
           'Note: If you are enrolling a security key and' +
-            ' Windows Hello or PIN is enabled, you will need to select \'Cancel\' in the prompt before continuing.'
+          ' Windows Hello or PIN is enabled, you will need to select \'Cancel\' in the prompt before continuing.'
         );
         Expect.isVisible(test.form.submitButton());
         expect(BrowserFeatures.isEdge).toHaveBeenCalled();
       });
     });
 
-    itp('shows a note on support restrictions for firefox on mac', function() {
-      spyOn(webauthn, 'isNewApiAvailable').and.returnValue(true);
-      spyOn(BrowserFeatures, 'isFirefox').and.returnValue(true);
-      spyOn(BrowserFeatures, 'isSafari').and.returnValue(false);
-      spyOn(BrowserFeatures, 'isMac').and.returnValue(true);
-      return setup().then(function(test) {
+    itp('shows a note on support restrictions for firefox on mac', function () {
+      jest.spyOn(webauthn, 'isNewApiAvailable').mockReturnValue(true);
+      jest.spyOn(BrowserFeatures, 'isFirefox').mockReturnValue(true);
+      jest.spyOn(BrowserFeatures, 'isSafari').mockReturnValue(false);
+      jest.spyOn(BrowserFeatures, 'isMac').mockReturnValue(true);
+      return setup().then(function (test) {
         Expect.isVisible(test.form.enrollInstructions());
         Expect.isVisible(test.form.enrollRestrictions());
         expect(test.form.enrollRestrictions().text()).toEqual(
@@ -238,12 +241,12 @@ Expect.describe('EnrollWebauthn', function() {
       });
     });
 
-    itp('shows a note on support restrictions for safari on mac', function() {
-      spyOn(webauthn, 'isNewApiAvailable').and.returnValue(true);
-      spyOn(BrowserFeatures, 'isFirefox').and.returnValue(false);
-      spyOn(BrowserFeatures, 'isSafari').and.returnValue(true);
-      spyOn(BrowserFeatures, 'isMac').and.returnValue(true);
-      return setup().then(function(test) {
+    itp('shows a note on support restrictions for safari on mac', function () {
+      jest.spyOn(webauthn, 'isNewApiAvailable').mockReturnValue(true);
+      jest.spyOn(BrowserFeatures, 'isFirefox').mockReturnValue(false);
+      jest.spyOn(BrowserFeatures, 'isSafari').mockReturnValue(true);
+      jest.spyOn(BrowserFeatures, 'isMac').mockReturnValue(true);
+      return setup().then(function (test) {
         Expect.isVisible(test.form.enrollInstructions());
         Expect.isVisible(test.form.enrollRestrictions());
         expect(test.form.enrollRestrictions().text()).toEqual(
@@ -256,55 +259,56 @@ Expect.describe('EnrollWebauthn', function() {
       });
     });
 
-    itp('calls abort on appstate when switching to factor list after clicking enroll', function() {
+    itp('calls abort on appstate when switching to factor list after clicking enroll', function () {
       mockWebauthnSuccessRegistration(false);
       return setup()
-        .then(function(test) {
+        .then(function (test) {
           Util.resetAjaxRequests();
           test.setNextResponse([resEnrollActivateWebauthn]);
           test.form.submit();
           return Expect.waitForSpyCall(navigator.credentials.create, test);
         })
-        .then(function(test) {
+        .then(function (test) {
           Util.resetAjaxRequests();
           test.webauthnAbortController = test.router.controller.model.webauthnAbortController;
           expect(test.webauthnAbortController).toBeDefined();
-          spyOn(test.webauthnAbortController, 'abort').and.callThrough();
+          // jest.spyOn(test.webauthnAbortController, 'abort').and.callThrough();
+          jest.spyOn(test.webauthnAbortController, 'abort');
           test.setNextResponse([resAllFactors]);
           test.form.backLink().click();
           return Expect.waitForEnrollChoices(test);
         })
-        .then(function(test) {
+        .then(function (test) {
           expect(test.router.controller.model.webauthnAbortController).not.toBeDefined();
           expect(test.webauthnAbortController.abort).toHaveBeenCalled();
         });
     });
 
-    itp('shows a waiting spinner after submitting the form', function() {
+    itp('shows a waiting spinner after submitting the form', function () {
       mockWebauthnSuccessRegistration(true);
       return setup()
-        .then(function(test) {
+        .then(function (test) {
           test.setNextResponse([resEnrollActivateWebauthn, resSuccess]);
           test.form.submit();
           return Expect.waitForSpyCall(navigator.credentials.create, test);
         })
-        .then(function(test) {
+        .then(function (test) {
           Expect.isVisible(test.form.enrollInstructions());
           Expect.isVisible(test.form.enrollSpinningIcon());
           Expect.isNotVisible(test.form.submitButton());
         });
     });
 
-    itp('sends enroll request after submitting the form', function() {
+    itp('sends enroll request after submitting the form', function () {
       mockWebauthnSuccessRegistration(true);
       return setup()
-        .then(function(test) {
+        .then(function (test) {
           Util.resetAjaxRequests();
           test.setNextResponse([resEnrollActivateWebauthn, resSuccess]);
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy);
         })
-        .then(function() {
+        .then(function () {
           expect(Util.numAjaxRequests()).toBe(2);
           Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/v1/authn/factors',
@@ -317,16 +321,16 @@ Expect.describe('EnrollWebauthn', function() {
         });
     });
 
-    itp('calls navigator.credentials.create and activates the factor', function() {
+    itp('calls navigator.credentials.create and activates the factor', function () {
       mockWebauthnSuccessRegistration(true);
       return setup()
-        .then(function(test) {
+        .then(function (test) {
           Util.resetAjaxRequests();
           test.setNextResponse([resEnrollActivateWebauthn, resSuccess]);
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy, test);
         })
-        .then(function(test) {
+        .then(function (test) {
           expect(navigator.credentials.create).toHaveBeenCalledWith({
             publicKey: {
               rp: {
@@ -361,7 +365,8 @@ Expect.describe('EnrollWebauthn', function() {
                 },
               ],
             },
-            signal: jasmine.any(Object),
+            // signal: jasmine.any(Object),
+            signal: expect.any(Object),
           });
           expect(Util.numAjaxRequests()).toBe(2);
           Expect.isJsonPost(Util.getAjaxRequest(1), {
@@ -378,16 +383,16 @@ Expect.describe('EnrollWebauthn', function() {
         });
     });
 
-    itp('calls navigator.credentials.create and receives null response', function() {
+    itp('calls navigator.credentials.create and receives null response', function () {
       mockWebauthnSuccessRegistration(true, true);
       return setup()
-        .then(function(test) {
+        .then(function (test) {
           Util.resetAjaxRequests();
           test.setNextResponse([resEnrollActivateWebauthn, resSuccess]);
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy, test);
         })
-        .then(function(test) {
+        .then(function (test) {
           expect(navigator.credentials.create).toHaveBeenCalledWith({
             publicKey: {
               rp: {
@@ -422,7 +427,8 @@ Expect.describe('EnrollWebauthn', function() {
                 },
               ],
             },
-            signal: jasmine.any(Object),
+            // signal: jasmine.any(Object),
+            signal: expect.any(Object),
           });
           expect(Util.numAjaxRequests()).toBe(2);
           Expect.isJsonPost(Util.getAjaxRequest(1), {
@@ -439,16 +445,16 @@ Expect.describe('EnrollWebauthn', function() {
         });
     });
 
-    itp('calls navigator.credentials.create on getTransports non-supported browser', function() {
+    itp('calls navigator.credentials.create on getTransports non-supported browser', function () {
       mockWebauthnNonSupportResponse(false, true);
       return setup()
-        .then(function(test) {
+        .then(function (test) {
           Util.resetAjaxRequests();
           test.setNextResponse([resEnrollActivateWebauthn, resSuccess]);
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy, test);
         })
-        .then(function(test) {
+        .then(function (test) {
           expect(navigator.credentials.create).toHaveBeenCalledWith({
             publicKey: {
               rp: {
@@ -483,7 +489,8 @@ Expect.describe('EnrollWebauthn', function() {
                 },
               ],
             },
-            signal: jasmine.any(Object),
+            // signal: jasmine.any(Object),
+            signal: expect.any(Object),
           });
           expect(Util.numAjaxRequests()).toBe(2);
           const dataObject = {
@@ -502,16 +509,16 @@ Expect.describe('EnrollWebauthn', function() {
         });
     });
 
-    itp('calls navigator.credentials.create on getClientExtensions non-supported browser', function() {
+    itp('calls navigator.credentials.create on getClientExtensions non-supported browser', function () {
       mockWebauthnNonSupportResponse(true, false);
       return setup()
-        .then(function(test) {
+        .then(function (test) {
           Util.resetAjaxRequests();
           test.setNextResponse([resEnrollActivateWebauthn, resSuccess]);
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy, test);
         })
-        .then(function(test) {
+        .then(function (test) {
           expect(navigator.credentials.create).toHaveBeenCalledWith({
             publicKey: {
               rp: {
@@ -546,7 +553,8 @@ Expect.describe('EnrollWebauthn', function() {
                 },
               ],
             },
-            signal: jasmine.any(Object),
+            // signal: jasmine.any(Object),
+            signal: expect.any(Object),
           });
           expect(Util.numAjaxRequests()).toBe(2);
           const dataObject = {
@@ -565,24 +573,24 @@ Expect.describe('EnrollWebauthn', function() {
         });
     });
 
-    itp('shows error when navigator.credentials.create failed', function() {
-      spyOn(webauthn, 'isNewApiAvailable').and.returnValue(true);
+    itp('shows error when navigator.credentials.create failed', function () {
+      jest.spyOn(webauthn, 'isNewApiAvailable').mockReturnValue(true);
 
       mockWebauthnFailureRegistration();
       return setup()
-        .then(function(test) {
+        .then(function (test) {
           Util.resetAjaxRequests();
           test.setNextResponse([resEnrollActivateWebauthn, resSuccess]);
           test.form.submit();
           return Expect.waitForSpyCall(navigator.credentials.create, test);
         })
-        .then(function(test) {
+        .then(function (test) {
           expect(navigator.credentials.create).toHaveBeenCalled();
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorBox().length).toEqual(1);
           expect(test.form.errorMessage()).toEqual('something went wrong');
           expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
-          expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+          expect(test.afterErrorHandler.mock.calls[0]).toEqual([
             {
               controller: 'enroll-webauthn',
             },

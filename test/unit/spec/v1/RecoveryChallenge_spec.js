@@ -18,7 +18,11 @@ const itp = Expect.itp;
 async function setup(settings, mockDelay = false) {
   if (mockDelay) {
     const originalDelay = _.delay;
-    spyOn(_, 'delay').and.callFake(function(func, wait, args) {
+    // spyOn(_, 'delay').and.callFake(function(func, wait, args) {
+    //   return originalDelay(func, 0, args); // delay will call function wrapped in setTimeout()
+    // });
+
+    jest.spyOn(_, 'delay').mockImplementation(function (func, wait, args) {
       return originalDelay(func, 0, args); // delay will call function wrapped in setTimeout()
     });
   }
@@ -28,7 +32,8 @@ async function setup(settings, mockDelay = false) {
   const authClient = getAuthClient({
     authParams: { issuer: baseUrl }
   });
-  const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
+  // const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
+  const afterErrorHandler = jest.fn();
   const router = new Router(
     _.extend(
       {
@@ -69,23 +74,28 @@ async function setup(settings, mockDelay = false) {
   return test;
 }
 
-Expect.describe('RecoveryChallenge', function() {
-  beforeEach(function() {
+Expect.describe('RecoveryChallenge', function () {
+  beforeEach(function () {
     const throttle = _.throttle;
 
-    spyOn(_, 'throttle').and.callFake(function(fn) {
+    // spyOn(_, 'throttle').and.callFake(function (fn) {
+    //   return throttle(fn, 0);
+    // });
+
+    jest.spyOn(_, 'throttle').mockImplementation(function (fn) {
       return throttle(fn, 0);
     });
   });
-  itp('displays the security beacon', function() {
-    return setup().then(function(test) {
+  itp('displays the security beacon', function () {
+    return setup().then(function (test) {
       expect(test.beacon.isSecurityBeacon()).toBe(true);
     });
   });
-  itp('has a signout link which cancels the current stateToken and navigates to primaryAuth', function() {
+  itp('has a signout link which cancels the current stateToken and navigates to primaryAuth', function () {
     return setup()
-      .then(function(test) {
-        spyOn(test.router.controller.options.appState, 'clearLastAuthResponse').and.callThrough();
+      .then(function (test) {
+        // spyOn(test.router.controller.options.appState, 'clearLastAuthResponse').and.callThrough();
+        jest.spyOn(test.router.controller.options.appState, 'clearLastAuthResponse');
         Util.resetAjaxRequests();
         test.setNextResponse(res200);
         const $link = test.form.signoutLink();
@@ -95,7 +105,7 @@ Expect.describe('RecoveryChallenge', function() {
         $link.click();
         return Expect.waitForPrimaryAuth(test);
       })
-      .then(function(test) {
+      .then(function (test) {
         expect(Util.numAjaxRequests()).toBe(1);
         Expect.isJsonPost(Util.getAjaxRequest(0), {
           url: 'https://foo.com/api/v1/authn/cancel',
@@ -108,19 +118,22 @@ Expect.describe('RecoveryChallenge', function() {
       });
   });
 
-  itp('does not show back link if hideBackToSignInForReset is true', function() {
-    return setup({ 'features.hideBackToSignInForReset': true }).then(function(test) {
+  itp('does not show back link if hideBackToSignInForReset is true', function () {
+    return setup({ 'features.hideBackToSignInForReset': true }).then(function (test) {
       const $link = test.form.signoutLink();
 
       expect($link.length).toBe(0);
     });
   });
 
-  itp('has a signout link which cancels the current stateToken and redirects to the provided signout url', function() {
+  itp('has a signout link which cancels the current stateToken and redirects to the provided signout url', function () {
     return setup({ signOutLink: 'http://www.goodbye.com' })
-      .then(function(test) {
-        spyOn(test.router.controller.options.appState, 'clearLastAuthResponse').and.callThrough();
-        spyOn(SharedUtil, 'redirect');
+      .then(function (test) {
+        // spyOn(test.router.controller.options.appState, 'clearLastAuthResponse').and.callThrough();
+        // spyOn(SharedUtil, 'redirect');
+
+        jest.spyOn(test.router.controller.options.appState, 'clearLastAuthResponse');
+        jest.spyOn(SharedUtil, 'redirect');
         Util.resetAjaxRequests();
         test.setNextResponse(res200);
         const $signOut = test.form.signoutLink($sandbox);
@@ -128,7 +141,7 @@ Expect.describe('RecoveryChallenge', function() {
         $signOut.click();
         return Expect.waitForSpyCall(test.router.controller.options.appState.clearLastAuthResponse, test);
       })
-      .then(function(test) {
+      .then(function (test) {
         expect(Util.numAjaxRequests()).toBe(1);
         Expect.isJsonPost(Util.getAjaxRequest(0), {
           url: 'https://foo.com/api/v1/authn/cancel',
@@ -140,37 +153,38 @@ Expect.describe('RecoveryChallenge', function() {
         expect(SharedUtil.redirect).toHaveBeenCalledWith('http://www.goodbye.com');
       });
   });
-  itp('has a text field to enter the recovery sms code', function() {
-    return setup().then(function(test) {
+  itp('has a text field to enter the recovery sms code', function () {
+    return setup().then(function (test) {
       Expect.isTextField(test.form.codeField());
     });
   });
-  itp('does not allow autocomplete', function() {
-    return setup().then(function(test) {
+  itp('does not allow autocomplete', function () {
+    return setup().then(function (test) {
       expect(test.form.getAutocompleteCodeField()).toBe('off');
     });
   });
-  itp('has a disabled "Sent" button on initialize', function() {
-    return setup().then(function(test) {
+  itp('has a disabled "Sent" button on initialize', function () {
+    return setup().then(function (test) {
       Util.resetAjaxRequests();
-      spyOn(test.router.controller.model, 'resendCode').and.callThrough();
+      //spyOn(test.router.controller.model, 'resendCode').and.callThrough();
+      jest.spyOn(test.router.controller.model, 'resendCode');
       const button = test.form.resendButton();
 
       expect(button.text()).toBe('Sent');
       button.click();
-      expect(test.router.controller.model.resendCode.calls.count()).toBe(0);
+      expect(test.router.controller.model.resendCode.mock.calls.length).toBe(0);
       expect(Util.numAjaxRequests()).toBe(0);
     });
   });
-  itp('has a "Re-send" button after a short delay', function() {
-    return setup(undefined, true).then(function(test) {
+  itp('has a "Re-send" button after a short delay', function () {
+    return setup(undefined, true).then(function (test) {
       Util.callAllTimeouts();
       expect(test.form.resendButton().text()).toBe('Re-send code');
     });
   });
-  itp('"Re-send" button will resend the code and then be disabled', function() {
+  itp('"Re-send" button will resend the code and then be disabled', function () {
     return setup(undefined, true)
-      .then(function(test) {
+      .then(function (test) {
         Util.resetAjaxRequests();
         test.setNextResponse(resChallenge);
         test.button = test.form.resendButton();
@@ -179,7 +193,7 @@ Expect.describe('RecoveryChallenge', function() {
         expect(test.button.attr('class')).toMatch('link-button-disabled');
         return Expect.waitForAjaxRequest();
       })
-      .then(function() {
+      .then(function () {
         expect(Util.numAjaxRequests()).toBe(1);
         Expect.isJsonPost(Util.getAjaxRequest(0), {
           url: 'https://foo.com/api/v1/authn/recovery/factors/SMS/resend',
@@ -189,18 +203,20 @@ Expect.describe('RecoveryChallenge', function() {
         });
       });
   });
-  itp('displays only one error block when a resend button clicked several time and got error resp', function() {
+  itp('displays only one error block when a resend button clicked several time and got error resp', function () {
     return setup(undefined, true)
-      .then(function(test) {
+      .then(function (test) {
         Util.callAllTimeouts();
-        spyOn(test.router.controller.model, 'resendCode').and.callThrough();
+        // spyOn(test.router.controller.model, 'resendCode').and.callThrough();
+        jest.spyOn(test.router.controller.model, 'resendCode');
         Util.resetAjaxRequests();
         test.setNextResponse(resResendError);
         test.form.resendButton().click();
-        expect(test.router.controller.model.resendCode.calls.count()).toBe(1);
+        //expect(test.router.controller.model.resendCode.calls.count()).toBe(1);
+        expect(test.router.controller.model.resendCode.mock.calls.length).toBe(1);
         return Expect.waitForFormError(test.form, test);
       })
-      .then(function(test) {
+      .then(function (test) {
         expect(test.form.hasErrors()).toBe(true);
         expect(test.form.errorBox().length).toBe(1);
         Expect.isJsonPost(Util.getAjaxRequest(0), {
@@ -217,7 +233,7 @@ Expect.describe('RecoveryChallenge', function() {
         test.form.resendButton().click();
         return Expect.waitForAjaxRequest(test);
       })
-      .then(function(test) {
+      .then(function (test) {
         expect(test.form.hasErrors()).toBe(true);
         expect(test.form.errorBox().length).toBe(1);
         Expect.isJsonPost(Util.getAjaxRequest(0), {
@@ -228,16 +244,16 @@ Expect.describe('RecoveryChallenge', function() {
         });
       });
   });
-  itp('makes the right auth request when form is submitted', function() {
+  itp('makes the right auth request when form is submitted', function () {
     return setup()
-      .then(function(test) {
+      .then(function (test) {
         Util.resetAjaxRequests();
         test.form.setCode('1234');
         test.setNextResponse(resSuccess);
         test.form.submit();
         return Expect.waitForAjaxRequest(test);
       })
-      .then(function() {
+      .then(function () {
         expect(Util.numAjaxRequests()).toBe(1);
         Expect.isJsonPost(Util.getAjaxRequest(0), {
           url: 'https://foo.com/api/v1/authn/recovery/factors/SMS/verify',
@@ -248,26 +264,27 @@ Expect.describe('RecoveryChallenge', function() {
         });
       });
   });
-  itp('validates that the code is not empty before submitting', function() {
-    return setup().then(function(test) {
+  itp('validates that the code is not empty before submitting', function () {
+    return setup().then(function (test) {
       Util.resetAjaxRequests();
       test.form.submit();
       expect(Util.numAjaxRequests()).toBe(0);
       expect(test.form.hasErrors()).toBe(true);
     });
   });
-  itp('shows an error msg if there is an error re-sending the code', function() {
+  itp('shows an error msg if there is an error re-sending the code', function () {
     return setup(undefined, true)
-      .then(function(test) {
+      .then(function (test) {
         test.setNextResponse(resResendError);
         test.form.resendButton().click();
         return Expect.waitForFormError(test.form, test);
       })
-      .then(function(test) {
+      .then(function (test) {
         expect(test.form.hasErrors()).toBe(true);
         expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
         expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
-        expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+        // expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+        expect(test.afterErrorHandler.mock.calls[0]).toEqual([
           {
             controller: 'recovery-challenge',
           },
@@ -292,19 +309,20 @@ Expect.describe('RecoveryChallenge', function() {
         ]);
       });
   });
-  itp('shows an error msg if there is an error submitting the code', function() {
+  itp('shows an error msg if there is an error submitting the code', function () {
     return setup()
-      .then(function(test) {
+      .then(function (test) {
         test.setNextResponse(resVerifyError);
         test.form.setCode('1234');
         test.form.submit();
         return Expect.waitForFormError(test.form, test);
       })
-      .then(function(test) {
+      .then(function (test) {
         expect(test.form.hasErrors()).toBe(true);
         expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
         expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
-        expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+        // expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+        expect(test.afterErrorHandler.mock.calls[0]).toEqual([
           {
             controller: 'recovery-challenge',
           },
