@@ -122,24 +122,21 @@ Expect.describe('EnrollCall', function() {
 
   function expectRedialButton(test) {
     const button = test.form.sendCodeButton();
-
-    expect(button.trimmedText()).toEqual('Redial');
-    expect(button.hasClass('button-primary')).toBe(false);
+    expect(button.innerHTML).toEqual('Redial');
+    expect(button.className.indexOf('button-primary') < 0).toBe(true);
   }
 
   function expectCallingButton(test) {
     const button = test.form.sendCodeButton();
-
-    expect(button.trimmedText()).toEqual('Calling');
-    expect(button.attr('class')).not.toMatch('button-primary');
-    expect(button.attr('class')).toMatch('link-button-disabled');
+    expect(button.innerHTML).toEqual('Calling');
+    expect(button.className.indexOf('button-primary') < 0).toBe(true);
+    expect(button.className.indexOf('link-button-disabled') >= 0).toBe(true);
   }
 
   function expectCallButton(test) {
     const button = test.form.sendCodeButton();
-
-    expect(button.trimmedText()).toEqual('Call');
-    expect(button.hasClass('button-primary')).toBe(true);
+    expect(button.innerHTML).toEqual('Call');
+    expect(button.className.indexOf('button-primary') >= 0).toBe(true);
   }
 
   function expectAlphabeticalCountryList(test) {

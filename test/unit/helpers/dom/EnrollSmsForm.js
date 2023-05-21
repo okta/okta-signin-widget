@@ -36,7 +36,12 @@ export default Form.extend({
   },
 
   sendCodeButton: function() {
-    return this.el('sms-request-button').filter(':visible');
+    const smsButtons = this.el('sms-request-button');
+    for (let i = 0; i < smsButtons.length; i++) {
+      if (smsButtons[i].style._length === 0) {
+        return smsButtons[i];
+      }
+    }
   },
 
   divider: function() {
