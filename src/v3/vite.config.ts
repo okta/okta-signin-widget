@@ -13,117 +13,125 @@
 /// <reference types="vite/client" />
 import preact from '@preact/preset-vite';
 import { resolve } from 'path';
-import { BuildOptions, defineConfig, splitVendorChunkPlugin } from 'vite';
+import {
+  BuildOptions,
+  defineConfig,
+  loadEnv,
+  splitVendorChunkPlugin,
+} from 'vite';
 
 const outDir = resolve(__dirname, '../../dist/dist');
 const mockServerBaseUrl = 'http://localhost:3030';
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode, command }) => ({
-  root: command === 'serve' && mode === 'testcafe'
-    ? outDir
-    : process.cwd(),
-  plugins: [
-    preact(),
-    splitVendorChunkPlugin(),
-  ],
-  define: {
-    OKTA_SIW_VERSION: '"0.0.0"',
-    OKTA_SIW_COMMIT_HASH: '"local"',
-    DEBUG: true,
-  },
-  resolve: {
-    alias: {
-      '@okta/courage': resolve(__dirname, '../../packages/@okta/courage-dist'),
-      '@okta/mocks': resolve(__dirname, '../../playground/mocks'),
-      '@okta/okta-i18n-bundles': resolve(__dirname, '../util/Bundles.ts'),
-      '@okta/qtip': resolve(__dirname, '../../packages/@okta/qtip2/dist/jquery.qtip.js'),
-      config: resolve(__dirname, '../config'),
-      nls: resolve(__dirname, '../../packages/@okta/i18n/src/json'),
-      okta: resolve(__dirname, '../../packages/@okta/courage-dist'),
-      src: resolve(__dirname, './src'), // FIXME use relative imports
-      'util/BrowserFeatures': resolve(__dirname, '../util/BrowserFeatures'),
-      'util/Bundles': resolve(__dirname, '../util/Bundles'),
-      'util/Enums': resolve(__dirname, '../util/Enums'),
-      'util/FactorUtil': resolve(__dirname, '../util/FactorUtil'),
-      'util/Logger': resolve(__dirname, '../util/Logger'),
-      'util/TimeUtil': resolve(__dirname, '../util/TimeUtil'),
-      v1: resolve(__dirname, '../v1'),
-      v2: resolve(__dirname, '../v2'),
-
-      duo_web_sdk: process.env.mockDuo
-        ? resolve(__dirname, 'src/__mocks__/duo_web_sdk') // mock
-        : 'duo_web_sdk', // real
-
-      // react -> preact alias
-      react: 'preact/compat',
-      'react-dom/test-utils': 'preact/test-utils',
-      'react-dom': 'preact/compat',
-      'react/jsx-runtime': 'preact/jsx-runtime',
+export default defineConfig(({ mode, command }) => {
+  const env = loadEnv(mode, process.cwd());
+  return {
+    root: command === 'serve' && mode === 'testcafe'
+      ? outDir
+      : process.cwd(),
+    plugins: [
+      preact(),
+      splitVendorChunkPlugin(),
+    ],
+    define: {
+      OKTA_SIW_VERSION: '"0.0.0"',
+      OKTA_SIW_COMMIT_HASH: '"local"',
+      DEBUG: env.VITE_DEBUG,
     },
-  },
+    resolve: {
+      alias: {
+        '@okta/courage': resolve(__dirname, '../../packages/@okta/courage-dist'),
+        '@okta/mocks': resolve(__dirname, '../../playground/mocks'),
+        '@okta/okta-i18n-bundles': resolve(__dirname, '../util/Bundles.ts'),
+        '@okta/qtip': resolve(__dirname, '../../packages/@okta/qtip2/dist/jquery.qtip.js'),
+        config: resolve(__dirname, '../config'),
+        nls: resolve(__dirname, '../../packages/@okta/i18n/src/json'),
+        okta: resolve(__dirname, '../../packages/@okta/courage-dist'),
+        src: resolve(__dirname, './src'), // FIXME use relative imports
+        'util/BrowserFeatures': resolve(__dirname, '../util/BrowserFeatures'),
+        'util/Bundles': resolve(__dirname, '../util/Bundles'),
+        'util/Enums': resolve(__dirname, '../util/Enums'),
+        'util/FactorUtil': resolve(__dirname, '../util/FactorUtil'),
+        'util/Logger': resolve(__dirname, '../util/Logger'),
+        'util/TimeUtil': resolve(__dirname, '../util/TimeUtil'),
+        v1: resolve(__dirname, '../v1'),
+        v2: resolve(__dirname, '../v2'),
 
-  // not used in "dev" mode, i.e., when `command === 'serve'`
-  build: ((): BuildOptions => {
-    const base: BuildOptions = {
-      // send output to ../../dist/dist
-      outDir,
+        duo_web_sdk: env.VITE_MOCK_DUO
+          ? resolve(__dirname, 'src/__mocks__/duo_web_sdk') // mock
+          : 'duo_web_sdk', // real
 
-      // for debugging
-      sourcemap: 'inline',
-
-      // chained with g1,g2 in `yarn build:release`
-      emptyOutDir: false,
-
-      // playground assets, e.g., logo, favicon
-      copyPublicDir: true,
-    };
-
-    if (mode === 'testcafe') {
-      return base;
-    }
-
-    // default mode for build is "production"
-    return {
-      ...base,
-
-      // hide sourcemaps
-      sourcemap: false, // boolean | 'inline' | 'hidden'
-
-      // set to library mode with "umd" format to expose `OktaSignIn` on the
-      // `window`
-      // https://vitejs.dev/guide/build.html#library-mode
-      lib: {
-        entry: resolve(__dirname, 'src/index.ts'),
-        name: 'OktaSignIn',
-        formats: ['umd'],
-        fileName: () => 'js/okta-sign-in.next.js',
+        // react -> preact alias
+        react: 'preact/compat',
+        'react-dom/test-utils': 'preact/test-utils',
+        'react-dom': 'preact/compat',
+        'react/jsx-runtime': 'preact/jsx-runtime',
       },
-      rollupOptions: {
-        output: {
-          assetFileNames: ({ name }) => (
-            name === 'style.css'
-              ? 'css/okta-sign-in.next.css'
-              : '[name][hash][extname]'
-          ),
+    },
+
+    // not used in "dev" mode, i.e., when `command === 'serve'`
+    build: ((): BuildOptions => {
+      const base: BuildOptions = {
+        // send output to ../../dist/dist
+        outDir,
+
+        // for debugging
+        sourcemap: 'inline',
+
+        // chained with g1,g2 in `yarn build:release`
+        emptyOutDir: false,
+
+        // playground assets, e.g., logo, favicon
+        copyPublicDir: true,
+      };
+
+      if (mode === 'testcafe') {
+        return base;
+      }
+
+      // default mode for build is "production"
+      return {
+        ...base,
+
+        // hide sourcemaps
+        sourcemap: false, // boolean | 'inline' | 'hidden'
+
+        // set to library mode with "umd" format to expose `OktaSignIn` on the
+        // `window`
+        // https://vitejs.dev/guide/build.html#library-mode
+        lib: {
+          entry: resolve(__dirname, 'src/index.ts'),
+          name: 'OktaSignIn',
+          formats: ['umd'],
+          fileName: () => 'js/okta-sign-in.next.js',
         },
-      },
-    };
-  })(),
+        rollupOptions: {
+          output: {
+            assetFileNames: ({ name }) => (
+              name === 'style.css'
+                ? 'css/okta-sign-in.next.css'
+                : '[name][hash][extname]'
+            ),
+          },
+        },
+      };
+    })(),
 
-  server: {
-    host: 'localhost',
-    proxy: {
-      '/oauth2/': mockServerBaseUrl,
-      '/api/v1/': mockServerBaseUrl,
-      '/idp/idx/': mockServerBaseUrl,
-      '/login/getimage': mockServerBaseUrl,
-      '/sso/idps/': mockServerBaseUrl,
-      '/app/UserHome': mockServerBaseUrl,
-      '/oauth2/v1/authorize': mockServerBaseUrl,
-      '/auth/services/': mockServerBaseUrl,
-      '/.well-known/webfinger': mockServerBaseUrl,
+    server: {
+      host: 'localhost',
+      proxy: {
+        '/oauth2/': mockServerBaseUrl,
+        '/api/v1/': mockServerBaseUrl,
+        '/idp/idx/': mockServerBaseUrl,
+        '/login/getimage': mockServerBaseUrl,
+        '/sso/idps/': mockServerBaseUrl,
+        '/app/UserHome': mockServerBaseUrl,
+        '/oauth2/v1/authorize': mockServerBaseUrl,
+        '/auth/services/': mockServerBaseUrl,
+        '/.well-known/webfinger': mockServerBaseUrl,
+      },
+      port: 3000,
     },
-    port: 3000,
-  },
-}));
+  };
+});
