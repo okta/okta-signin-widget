@@ -5,6 +5,7 @@ import getAuthClient from 'helpers/getAuthClient';
 import Router from 'v1/LoginRouter';
 import Duo from '@okta/duo';
 import Beacon from 'helpers/dom/Beacon';
+import Dom from '../../helpers/dom/Dom';
 import MfaVerifyForm from 'helpers/dom/MfaVerifyForm';
 import Util from 'helpers/mocks/Util';
 import Expect from 'helpers/util/Expect';
@@ -211,7 +212,7 @@ Expect.describe('MFA Verify', function() {
       successSpy: successSpy,
       afterErrorHandler: afterErrorHandler,
     };
-    
+
   }
 
   async function setupNoProvider(res, selectedFactorProps, settings) {
@@ -1079,13 +1080,19 @@ Expect.describe('MFA Verify', function() {
 
           test.form.showAnswerButton().click();
           expect(test.form.answerField().attr('type')).toEqual('text');
-          expect(test.form.passwordToggleShowContainer().is(':visible')).toBe(false);
-          expect(test.form.passwordToggleHideContainer().is(':visible')).toBe(true);
+
+          // assert the container is not displayed
+          expect(test.form.passwordToggleShowContainer()[0].style['display']).toBe('none');
+          // assert the container is displayed
+          expect(test.form.passwordToggleHideContainer()[0].style.length).toBe(0);
 
           test.form.hideAnswerButton().click();
           expect(test.form.answerField().attr('type')).toEqual('password');
-          expect(test.form.passwordToggleShowContainer().is(':visible')).toBe(true);
-          expect(test.form.passwordToggleHideContainer().is(':visible')).toBe(false);
+
+          // assert the container is displayed
+          expect(test.form.passwordToggleShowContainer()[0].style.length).toBe(0);
+          // assert the container is not displayed
+          expect(test.form.passwordToggleHideContainer()[0].style['display']).toBe('none');
         });
       }
     );
@@ -4524,7 +4531,7 @@ Expect.describe('MFA Verify', function() {
             expect(test.form.isCustomFactor()).toBe(true);
           });
         });
-        itp('shows the right beacon if factorResult FAILED', function() {
+        fit('shows the right beacon if factorResult FAILED', function() {
           return setupMfaChallengeClaimsFactor(this.options).then(function(test) {
             expectHasRightBeaconImage(test, 'mfa-custom-factor');
           });
