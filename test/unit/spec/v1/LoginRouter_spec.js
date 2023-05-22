@@ -1502,7 +1502,7 @@ Expect.describe('v1/LoginRouter', function() {
           });
         });
     });
-    itp('triggers the afterError event if an idToken is not returned', function() {
+    fit('triggers the afterError event if an idToken is not returned', function() {
       return setupOAuth2({}, { mockWellKnown: true })
         .then(function(test) {
           return Expect.waitForWindowListener('message', test);

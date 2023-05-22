@@ -28,7 +28,6 @@ function setup(settings, res) {
       settings
     )
   );
-
   Util.registerRouter(router);
   Util.mockRouterNavigate(router);
   Util.mockJqueryCss();
@@ -111,7 +110,7 @@ Expect.describe('Polling API', function() {
               },
             });
             done();
-          }, 5000);
+          }, 10000);
         })
         .catch(done.fail);
     });

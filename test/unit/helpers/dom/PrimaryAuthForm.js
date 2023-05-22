@@ -1,5 +1,6 @@
 import { _, $ } from '@okta/courage';
 import Form from './Form';
+import Dom from './Dom';
 const USERNAME_FIELD = 'username';
 const USERNAME_LABEL = 'label[for="okta-signin-username"]';
 const PASSWORD_FIELD = 'password';
@@ -128,7 +129,11 @@ export default Form.extend({
     field.trigger('change');
   },
 
-  helpFooter: function() {
+  isHelpFooterAriaExpanded: function () {
+    return Dom.isVisible(this.$('.help-links.js-help-links'));
+  },
+
+  helpFooter: function () {
     return this.$('.js-help');
   },
 
@@ -160,8 +165,8 @@ export default Form.extend({
     return this.forgotPasswordLink().text();
   },
 
-  forgotPasswordLinkVisible: function() {
-    return this.forgotPasswordLink().is(':visible');
+  forgotPasswordLinkVisible: function () {
+    return Dom.isVisible(this.forgotPasswordLink());
   },
 
   unlockLink: function() {
@@ -172,8 +177,8 @@ export default Form.extend({
     return this.unlockLink().text();
   },
 
-  unlockLinkVisible: function() {
-    return this.unlockLink().is(':visible');
+  unlockLinkVisible: function () {
+    return Dom.isVisible(this.unlockLink());
   },
 
   customLinks: function() {
@@ -276,7 +281,11 @@ export default Form.extend({
     return this.$('.password-toggle');
   },
 
-  passwordToggleShowContainer: function() {
+  passwordToggleShowContainerIsVisible: function () {
+    return Dom.isVisible(this.passwordToggleShowContainer());
+  },
+
+  passwordToggleShowContainer: function () {
     return this.$('.password-toggle span.button-show');
   },
 
