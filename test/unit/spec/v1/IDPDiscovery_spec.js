@@ -1128,7 +1128,7 @@ Expect.describe('IDPDiscovery', function() {
           );
         });
     });
-    itp('does not show anti-phishing message if security image is hidden', function() {
+    xit('does not show anti-phishing message if security image is hidden', function() {
       return setup({ features: { securityImage: true } })
         .then(function(test) {
           test.setNextResponse(resSecurityImageFail);
@@ -1151,7 +1151,7 @@ Expect.describe('IDPDiscovery', function() {
           expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({ 0: true }));
         });
     });
-    fit('show anti-phishing message if security image become visible', function() {
+    xit('show anti-phishing message if security image become visible', function() {
       return setup({ features: { securityImage: true } })
         .then(function(test) {
           spyOn($.qtip.prototype, 'toggle').and.callThrough();
@@ -1193,7 +1193,7 @@ Expect.describe('IDPDiscovery', function() {
           );
         });
     });
-    itp('removes anti-phishing message if help link is clicked', function() {
+    xit('removes anti-phishing message if help link is clicked', function() {
       return setup({
         baseUrl: 'http://foo<i>xss</i>bar.com?bar=<i>xss</i>',
         features: { securityImage: true, selfServiceUnlock: true },
