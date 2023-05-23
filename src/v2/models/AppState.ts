@@ -198,7 +198,10 @@ export default class AppState extends Model {
   }
 
   shouldReRenderView(transformedResponse) {
-    if (transformedResponse?.idx?.hasFormError) {
+    const isWebAuthnTerminalError = this._isWebAuthnTerminalErrorResponse(transformedResponse);
+
+    // if it is webauthn terminal error, always re-render the view.
+    if (!isWebAuthnTerminalError && transformedResponse?.idx?.hasFormError) {
       return false;
     }
 
@@ -393,4 +396,17 @@ export default class AppState extends Model {
 
     return isSameExceptMessages && isChallengeAuthenticator && isCurrentAuthenticatorEmail;
   }
+
+   /**
+   * Check if the response is due to policy non-satisfiable error which is terminal error.
+   * In this case, we should re-render the view to display the error page to user.
+   * @returns {boolean}
+   */ 
+    _isWebAuthnTerminalErrorResponse(transformedResponse) {
+      const enrollmentAuthenticator =  this.get('enrollmentAuthenticator')?.key;
+      const remediationName = transformedResponse?.remediations?.[0]?.name;
+      const errorI18NKey = transformedResponse?.messages?.value?.[0]?.i18n?.key;
+      return (enrollmentAuthenticator && enrollmentAuthenticator === AUTHENTICATOR_KEY.WEBAUTHN && remediationName && remediationName === FORMS.IDENTIFY && 
+      errorI18NKey && errorI18NKey === 'errors.E0000004');
+    }
 }

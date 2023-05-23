@@ -234,7 +234,68 @@ describe('v2/models/AppState', function() {
       expect(this.appState.shouldReRenderView(transformedResponse)).toBe(true);
     });
 
+    it.each([['errors.E0000004', 'webauthn', 'identify', true],
+      ['errors.E0000003', 'webauthn','identify', false],
+      ['errors.E0000004', 'okta_verify', 'identify', false],
+      ['errors.E0000004', 'webauthn', 'challenge-poll', false],
+    ])('rerender view should be true if webauthn got terminal error', (errorCode, authenticatorKey, remediationFormName, expectedResult) => {
+      const idxObj = {
+        'idx': {
+          'enabledFeatures': [],
+          'messages': [
+            {
+              'message': 'Unable to sign in',
+              'i18n': {
+                'key': errorCode
+              },
+              'class': 'ERROR'
+            }
+          ],
+          'actions': {},
+          'rawIdxState': {
+            'version':'1.0.0',
+            'stateHandle':'abcdf',
+            'intent':'LOGIN',
+            'remediation':{
+              'type':'array',
+              'value':[]
+            },
+            'messages': {
+              'type': 'array',
+              'value': [
+                {
+                  'message': 'Unable to sign in',
+                  'i18n': { 'key': errorCode, 'params': [] },
+                  'class': 'ERROR'
+                }
+              ]
+            },
+          },
+          'requestDidSucceed': false,
+          'hasFormError': true
+        },
+        'messages': {'value': [
+          {
+            'message': 'Unable to sign in',
+            'i18n': {
+              'key': errorCode,
+              'params': []
+            },
+            'class': 'ERROR'
+          }
+        ]},
+        'remediations': [
+          {
+            'name': remediationFormName,
+            'refresh': 2000,
+          }
+        ],
+      };
 
+      const transformedResponse = JSON.parse(JSON.stringify(idxObj));
+      this.initAppState({'enrollmentAuthenticator': {'key': authenticatorKey}}, remediationFormName);
+      expect(this.appState.shouldReRenderView(transformedResponse)).toBe(expectedResult);
+    });
   });
 
   describe('hasRemediationObject', () => {
