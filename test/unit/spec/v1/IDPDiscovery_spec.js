@@ -471,7 +471,6 @@ Expect.describe('IDPDiscovery', function() {
       return setup().then(function(test) {
         expect(test.form.helpFooter().attr('aria-expanded')).toBe('false');
         test.form.helpFooter().click();
-        // expect(test.form.helpFooter().attr('aria-expanded')).toBe('true');
         expect(test.form.isHelpFooterAriaExpanded()).toBe(true);
       });
     });
