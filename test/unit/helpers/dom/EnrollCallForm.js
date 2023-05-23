@@ -1,11 +1,12 @@
 import SmsForm from './EnrollSmsForm';
+import Dom from './Dom';
 const PHONE_EXTENSION_FIELD = 'phoneExtension';
 export default SmsForm.extend({
   //Override
   sendCodeButton: function () {
     const callRequestButtons = this.el('call-request-button');
     for (let i = 0; i < callRequestButtons.length; i++) {
-      if (callRequestButtons[i].style._length === 0) {
+      if (Dom.isVisible(this.$(callRequestButtons[i]))) {
         return callRequestButtons[i];
       }
     }
