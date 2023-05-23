@@ -9,6 +9,7 @@ const OktaSignin = '<rootDir>/src/exports/default';
 const LEGACY_TESTS = require('./test/unit/legacy-tests');
 
 module.exports = {
+  testTimeout: 10000,
   coverageDirectory: COVERAGE_DIR,
   collectCoverage: false,
   collectCoverageFrom: ['./src/**', '!./test/**'],

@@ -110,7 +110,7 @@ Expect.describe('Polling API', function() {
               },
             });
             done();
-          }, 10000);
+          }, 5000);
         })
         .catch(done.fail);
     });
