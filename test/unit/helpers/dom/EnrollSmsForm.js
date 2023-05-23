@@ -1,4 +1,5 @@
 import Form from './Form';
+import Dom from './Dom';
 const PHONE_FIELD = 'phoneNumber';
 const CODE_FIELD = 'passCode';
 const COUNTRIES_FIELD = 'countryCode';
@@ -38,7 +39,7 @@ export default Form.extend({
   sendCodeButton: function() {
     const smsButtons = this.el('sms-request-button');
     for (let i = 0; i < smsButtons.length; i++) {
-      if (smsButtons[i].style._length === 0) {
+      if (Dom.isVisible(this.$(smsButtons[i]))) {
         return smsButtons[i];
       }
     }
