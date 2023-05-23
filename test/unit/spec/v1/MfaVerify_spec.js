@@ -4531,7 +4531,7 @@ Expect.describe('MFA Verify', function() {
             expect(test.form.isCustomFactor()).toBe(true);
           });
         });
-        fit('shows the right beacon if factorResult FAILED', function() {
+        itp('shows the right beacon if factorResult FAILED', function() {
           return setupMfaChallengeClaimsFactor(this.options).then(function(test) {
             expectHasRightBeaconImage(test, 'mfa-custom-factor');
           });
