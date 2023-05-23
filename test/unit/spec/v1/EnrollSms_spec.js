@@ -124,20 +124,20 @@ Expect.describe('EnrollSms', function() {
   function expectResendButton(test) {
     const button = test.form.sendCodeButton();
     expect(button.innerHTML).toEqual('Re-send code');
-    expect(button.className.indexOf('button-primary') < 0).toBe(true);
+    expect(button.className).not.toContain('button-primary');
   }
 
   function expectSentButton(test) {
     const button = test.form.sendCodeButton();
     expect(button.innerHTML).toEqual('Sent');
-    expect(button.className.indexOf('button-primary') < 0).toBe(true);
-    expect(button.className.indexOf('link-button-disabled') >= 0).toBe(true);
+    expect(button.className).not.toContain('button-primary');
+    expect(button.className).toContain('link-button-disabled');
   }
 
   function expectSendButton(test) {
     const button = test.form.sendCodeButton();
     expect(button.innerHTML).toEqual('Send code');
-    expect(button.className.indexOf('button-primary') >= 0).toBe(true);
+    expect(button.className).toContain('button-primary');
   }
 
   function testHeaderAndFooter(allFactorsRes, sendValidCodeFn, expectedStateToken) {
