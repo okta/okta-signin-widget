@@ -28,6 +28,7 @@ function setup(settings, res) {
       settings
     )
   );
+
   Util.registerRouter(router);
   Util.mockRouterNavigate(router);
   Util.mockJqueryCss();
