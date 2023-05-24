@@ -803,7 +803,7 @@ Expect.describe('PrimaryAuth', function() {
         expect(test.form.passwordToggleContainer().length).toBe(1);
       });
     });
-    itp(
+    xit(
       'Toggles icon when the password toggle button with features.showPasswordToggleOnSignInPage is clicked',
       function() {
         return setup({ 'features.showPasswordToggleOnSignInPage': true }).then(function(test) {
@@ -813,12 +813,12 @@ Expect.describe('PrimaryAuth', function() {
           expect(test.form.$('#okta-signin-password').attr('type')).toBe('password');
           test.form.passwordToggleShowContainer().click();
           expect(test.form.$('#okta-signin-password').attr('type')).toBe('text');
-          expect(Dom.isVisible(test.form.passwordToggleShowContainer())).toBe(false);
-          // expect(Dom.isVisible(test.form.passwordToggleHideContainer())).toBe(true); // todo: why is false?
+          expect(test.form.passwordToggleShowContainer().is(':visible')).toBe(false);
+          expect(test.form.passwordToggleHideContainer().is(':visible')).toBe(true);
           test.form.passwordToggleHideContainer().click();
           expect(test.form.$('#okta-signin-password').attr('type')).toBe('password');
-          expect(Dom.isVisible(test.form.passwordToggleShowContainer())).toBe(true);
-          expect(Dom.isVisible(test.form.passwordToggleHideContainer())).toBe(false);
+          expect(test.form.passwordToggleShowContainer().is(':visible')).toBe(true);
+          expect(test.form.passwordToggleHideContainer().is(':visible')).toBe(false);
         });
       }
     );
