@@ -38,6 +38,7 @@ export default defineConfig(({ mode, command }) => {
       OKTA_SIW_VERSION: '"0.0.0"',
       OKTA_SIW_COMMIT_HASH: '"local"',
       DEBUG: env.VITE_DEBUG,
+      'process.env.NODE_ENV': `"${process.env.NODE_ENV}"`,
     },
     resolve: {
       alias: {

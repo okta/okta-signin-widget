@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Okta</title>
+  <script src="/js/okta-sign-in.next.js"></script>
+  <link rel="stylesheet" href="/css/okta-sign-in.next.css">
+</head>
+
+<body>
+  <div id="okta-login-container"></div>
+  <script>
+    new OktaSignIn({
+      el: '#okta-login-container',
+      // base url for building issuer, localhost:3030 is dyson mock server
+      issuer: 'http://localhost:3030/oauth2/default',
+      logo: '/img/widgico.png',
+      logoText: 'widgico',
+      redirectUri: `http://localhost:3030/login/callback`,
+      features: {},
+      assets: {
+        baseUrl: 'http://localhost:3030/mocks',
+      },
+      authParams: {
+        pkce: false, // pkce enabled by default in okta-auth-js@3.0
+      },
+    })
+  </script>
+</body>
+
+</html>

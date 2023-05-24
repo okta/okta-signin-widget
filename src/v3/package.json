@@ -26,6 +26,7 @@
     "lint:styles": "stylelint **/*.css",
     "lint:styles:report": "stylelint **/*.css --custom-formatter ../../node_modules/stylelint-checkstyle-formatter -o build2/reports/lint/OSW-stylelint-checkstyle-result.xml --quiet",
     "serve": "vite preview --port 3000",
+    "preview": "yarn build && cp public/index.html ../../dist/dist && yarn serve",
     "test": "yarn codegen && jest",
     "test:dev": "NODE_ENV=development jest",
     "test:e2e": "NODE_ENV=test testcafe test/e2e/tests/**/*.js --config-file test/e2e/.testcaferc.js",
