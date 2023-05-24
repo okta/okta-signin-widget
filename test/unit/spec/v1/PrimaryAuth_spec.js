@@ -571,6 +571,7 @@ Expect.describe('PrimaryAuth', function() {
         expect(test.form.helpFooter().attr('aria-controls')).toBe('help-links-container');
       });
     });
+    // Testcafe migration candidate
     // OKTA-407603 enable or move this test
     // eslint-disable-next-line jasmine/no-disabled-tests
     xit('sets aria-expanded attribute correctly when clicking help', function() {
@@ -803,6 +804,7 @@ Expect.describe('PrimaryAuth', function() {
         expect(test.form.passwordToggleContainer().length).toBe(1);
       });
     });
+    // Testcafe migration candidate
     xit(
       'Toggles icon when the password toggle button with features.showPasswordToggleOnSignInPage is clicked',
       function() {
@@ -822,35 +824,32 @@ Expect.describe('PrimaryAuth', function() {
         });
       }
     );
+    // Testcafe migration candidate
     xit('Toggles password field from text to password after 30 seconds', function() {
       return setup({ 'features.showPasswordToggleOnSignInPage': true }).then(function(test) {
-        // jasmine.clock().uninstall();
-        MockDate.reset();
+        jasmine.clock().uninstall();
         const originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
 
         jasmine.DEFAULT_TIMEOUT_INTERVAL = 35000;
-        // jasmine.clock().install();
-        MockDate.set(new Date(AUTH_TIME + 10000));
+        jasmine.clock().install();
         test.form.setPassword('testpass');
         test.form.setUsername('testuser');
         expect(test.form.passwordToggleContainer().length).toBe(1);
         expect(test.form.$('#okta-signin-password').attr('type')).toBe('password');
         test.form.passwordToggleShowContainer().click();
         expect(test.form.$('#okta-signin-password').attr('type')).toBe('text');
-        expect(Dom.isVisible(test.form.passwordToggleShowContainer())).toBe(false);
-        // expect(Dom.isVisible(test.form.passwordToggleHideContainer()).toBe(true); //todo why is failing?
-
+        expect(test.form.passwordToggleShowContainer().is(':visible')).toBe(false);
+        expect(test.form.passwordToggleHideContainer().is(':visible')).toBe(true);
         // t25
         jasmine.clock().tick(25 * 1000);
         expect(test.form.$('#okta-signin-password').attr('type')).toBe('text');
-        expect(Dom.isVisible(test.form.passwordToggleShowContainer())).toBe(false);
-        // expect(Dom.isVisible(test.form.passwordToggleHideContainer())).toBe(true); //todo why is failing?
-
+        expect(test.form.passwordToggleShowContainer().is(':visible')).toBe(false);
+        expect(test.form.passwordToggleHideContainer().is(':visible')).toBe(true);
         // t35
         jasmine.clock().tick(35 * 1000);
         expect(test.form.$('#okta-signin-password').attr('type')).toBe('password');
-        expect(Dom.isVisible(test.form.passwordToggleShowContainer())).toBe(true);
-        expect(Dom.isVisible(test.form.passwordToggleHideContainer())).toBe(false); //todo why is failing?
+        expect(test.form.passwordToggleShowContainer().is(':visible')).toBe(true);
+        expect(test.form.passwordToggleHideContainer().is(':visible')).toBe(false);
         jasmine.clock().uninstall();
         jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
       });
@@ -1766,6 +1765,7 @@ Expect.describe('PrimaryAuth', function() {
           );
         });
     });
+    // Testcafe migration candidate
     xit('does not show anti-phishing message if security image is hidden', function() {
       return setup({ features: { securityImage: true } })
         .then(function(test) {
@@ -1788,6 +1788,7 @@ Expect.describe('PrimaryAuth', function() {
         });
     });
 
+    // Testcafe migration candidate
     xit('show anti-phishing message when security image is new user', function() {
       return setup({ features: { securityImage: true } })
         .then(function(test) {
@@ -1814,6 +1815,7 @@ Expect.describe('PrimaryAuth', function() {
           expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({ 0: true }));
         });
     });
+    // Testcafe migration candidate
     xit('show anti-phishing message if security image become visible', function() {
       return setup({ features: { securityImage: true } })
         .then(function(test) {
@@ -1856,6 +1858,7 @@ Expect.describe('PrimaryAuth', function() {
           );
         });
     });
+    // Testcafe migration candidate 'isSecurityImageTooltipDestroyed' uses Qtip
     xit('removes anti-phishing message if help link is clicked', function() {
       return setup({
         baseUrl: 'http://foo<i>xss</i>bar.com?bar=<i>xss</i>',
