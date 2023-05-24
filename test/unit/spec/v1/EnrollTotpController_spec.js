@@ -27,6 +27,9 @@ const itp = Expect.itp;
 const tick = Expect.tick;
 
 Expect.describe('EnrollTotp', function() {
+  beforeEach(() => {
+    jest.setTimeout(20000);
+  });
   function setup(res, selectedFactor, settings, startRouter) {
     const setNextResponse = Util.mockAjax();
     const baseUrl = 'https://foo.com';

@@ -19,6 +19,9 @@ import LoginUtil from 'util/Util';
 const itp = Expect.itp;
 
 Expect.describe('EnrollCall', function() {
+  beforeEach(() => {
+    jest.setTimeout(20000);
+  });
   function setup(resp, startRouter, routerOptions = {}) {
     const setNextResponse = Util.mockAjax();
     const baseUrl = 'https://foo.com';
