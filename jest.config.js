@@ -10,7 +10,6 @@ const LEGACY_TESTS = require('./test/unit/legacy-tests');
 
 /** @type {import('@jest/types').Config.InitialOptions} */
 module.exports = {
-  testTimeout: 10000,
   coverageDirectory: COVERAGE_DIR,
   collectCoverage: false,
   collectCoverageFrom: ['./src/**', '!./test/**'],

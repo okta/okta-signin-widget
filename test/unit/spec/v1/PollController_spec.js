@@ -46,6 +46,9 @@ function setup(settings, res) {
 
 Expect.describe('Polling', function() {
   describe('Form Content', function() {
+    beforeEach(() => {
+      jest.setTimeout(10000);
+    });
     it('shows the correct content on load', function(done) {
       return setup()
         .then(function(test) {
@@ -89,6 +92,9 @@ Expect.describe('Polling', function() {
 
 Expect.describe('Polling API', function() {
   describe('called on load', function() {
+    beforeEach(() => {
+      jest.setTimeout(10000);
+    });
     it('makes the request correctly', function(done) {
       setup({}, [resPolling, resPolling, resSuccess])
         .then(() => {
