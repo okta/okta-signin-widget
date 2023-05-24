@@ -3152,7 +3152,7 @@ Expect.describe('PrimaryAuth', function() {
               ver: 1,
             });
           })
-          .finally(function () {
+          .finally(function() {
             MockDate.reset();
           });
       }
@@ -3196,7 +3196,7 @@ Expect.describe('PrimaryAuth', function() {
           expect(data.tokens.accessToken.scopes).toEqual(['openid', 'email', 'profile']);
           expect(data.tokens.accessToken.tokenType).toBe('Bearer');
         })
-        .finally(function () {
+        .finally(function() {
           MockDate.reset();
         });
     });

@@ -1110,7 +1110,7 @@ Expect.describe('IDPDiscovery', function() {
           expect(test.form.securityBeacon()[0].className).toMatch('new-user');
           expect(test.form.securityBeacon()[0].className).not.toMatch('undefined-user');
           expect(test.form.securityBeacon().css('background-image')).toMatch(
-          /url\(..\/img\/security\/unknown-device.*png\)/
+            /url\(..\/img\/security\/unknown-device.*png\)/
           );
         });
     });

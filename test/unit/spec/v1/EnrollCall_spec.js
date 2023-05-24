@@ -19,9 +19,6 @@ import LoginUtil from 'util/Util';
 const itp = Expect.itp;
 
 Expect.describe('EnrollCall', function() {
-  beforeEach(() => {
-    jest.setTimeout(20000);
-  });
   function setup(resp, startRouter, routerOptions = {}) {
     const setNextResponse = Util.mockAjax();
     const baseUrl = 'https://foo.com';
@@ -553,6 +550,9 @@ Expect.describe('EnrollCall', function() {
   }
 
   describe('Header & Footer', function() {
+    beforeEach(() => {
+      jest.setTimeout(20000);
+    });
     itp('displays the correct factorBeacon', function() {
       return setup().then(function(test) {
         expect(test.beacon.isFactorBeacon()).toBe(true);
@@ -598,10 +598,16 @@ Expect.describe('EnrollCall', function() {
   });
 
   describe('Enroll phone number', function() {
+    beforeEach(() => {
+      jest.setTimeout(20000);
+    });
     testEnrollPhoneNumber(setup, resEnrollSuccess);
   });
 
   describe('Verify phone number', function() {
+    beforeEach(() => {
+      jest.setTimeout(20000);
+    });
     testVerifyPhoneNumber(setup, setupAndSendValidCode, resEnrollSuccess, 'testStateToken');
     itp('appends updatePhone=true to the request if user has an existing phone', function() {
       return setup(resExistingPhone)

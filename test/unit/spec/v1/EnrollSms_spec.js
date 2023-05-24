@@ -20,9 +20,6 @@ import LoginUtil from 'util/Util';
 const itp = Expect.itp;
 
 Expect.describe('EnrollSms', function() {
-  beforeEach(() => {
-    jest.setTimeout(20000);
-  });
   function setup(resp, startRouter, routerOptions = {}) {
     const setNextResponse = Util.mockAjax();
     const baseUrl = 'https://foo.com';
@@ -770,14 +767,23 @@ Expect.describe('EnrollSms', function() {
   }
 
   describe('Header & Footer', function() {
+    beforeEach(() => {
+      jest.setTimeout(20000);
+    });
     testHeaderAndFooter(resAllFactors, setupAndSendValidCode, 'testStateToken');
   });
 
   describe('Enroll phone number', function() {
+    beforeEach(() => {
+      jest.setTimeout(20000);
+    });
     testEnrollPhoneNumber(resAllFactors, resEnrollSuccess, setupAndSendCode, 'testStateToken');
   });
 
   describe('Verify phone number', function() {
+    beforeEach(() => {
+      jest.setTimeout(20000);
+    });
     testVerifyPhoneNumber(resAllFactors, resSuccess, setupAndSendValidCode, resExistingPhone, 'testStateToken');
   });
 });

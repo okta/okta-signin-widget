@@ -129,11 +129,11 @@ export default Form.extend({
     field.trigger('change');
   },
 
-  isHelpFooterAriaExpanded: function () {
+  isHelpFooterAriaExpanded: function() {
     return Dom.isVisible(this.$('.help-links.js-help-links'));
   },
 
-  helpFooter: function () {
+  helpFooter: function() {
     return this.$('.js-help');
   },
 
@@ -165,7 +165,7 @@ export default Form.extend({
     return this.forgotPasswordLink().text();
   },
 
-  forgotPasswordLinkVisible: function () {
+  forgotPasswordLinkVisible: function() {
     return Dom.isVisible(this.forgotPasswordLink());
   },
 
@@ -177,7 +177,7 @@ export default Form.extend({
     return this.unlockLink().text();
   },
 
-  unlockLinkVisible: function () {
+  unlockLinkVisible: function() {
     return Dom.isVisible(this.unlockLink());
   },
 
@@ -281,11 +281,11 @@ export default Form.extend({
     return this.$('.password-toggle');
   },
 
-  passwordToggleShowContainerIsVisible: function () {
+  passwordToggleShowContainerIsVisible: function() {
     return Dom.isVisible(this.passwordToggleShowContainer());
   },
 
-  passwordToggleShowContainer: function () {
+  passwordToggleShowContainer: function() {
     return this.$('.password-toggle span.button-show');
   },
 
