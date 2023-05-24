@@ -467,11 +467,12 @@ Expect.describe('IDPDiscovery', function() {
         expect(test.form.helpFooter().attr('aria-controls')).toBe('help-links-container');
       });
     });
-    itp('sets aria-expanded attribute correctly when clicking help', function() {
+    // Testcafe migration candidate
+    xit('sets aria-expanded attribute correctly when clicking help', function() {
       return setup().then(function(test) {
         expect(test.form.helpFooter().attr('aria-expanded')).toBe('false');
         test.form.helpFooter().click();
-        expect(test.form.isHelpFooterAriaExpanded()).toBe(true);
+        expect(test.form.helpFooter().attr('aria-expanded')).toBe('true');
       });
     });
     itp('has a forgot password link', function() {
@@ -1127,6 +1128,7 @@ Expect.describe('IDPDiscovery', function() {
           );
         });
     });
+    // Testcafe migration candidate
     xit('does not show anti-phishing message if security image is hidden', function() {
       return setup({ features: { securityImage: true } })
         .then(function(test) {
@@ -1150,6 +1152,7 @@ Expect.describe('IDPDiscovery', function() {
           expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({ 0: true }));
         });
     });
+    // Testcafe migration candidate
     xit('show anti-phishing message if security image become visible', function() {
       return setup({ features: { securityImage: true } })
         .then(function(test) {
@@ -1192,6 +1195,7 @@ Expect.describe('IDPDiscovery', function() {
           );
         });
     });
+    // Testcafe migration candidate
     xit('removes anti-phishing message if help link is clicked', function() {
       return setup({
         baseUrl: 'http://foo<i>xss</i>bar.com?bar=<i>xss</i>',

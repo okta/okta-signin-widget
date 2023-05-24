@@ -129,12 +129,8 @@ export default Form.extend({
     field.trigger('change');
   },
 
-  isHelpFooterAriaExpanded: function() {
-    return Dom.isVisible(this.$('.help-links.js-help-links'));
-  },
-
   helpFooter: function() {
-    return this.$('.js-help');
+    return this.el('needhelp');
   },
 
   helpFooterLabel: function() {
