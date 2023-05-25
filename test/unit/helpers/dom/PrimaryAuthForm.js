@@ -130,7 +130,7 @@ export default Form.extend({
   },
 
   helpFooter: function() {
-    return this.el('needhelp');
+    return this.$('.js-help');
   },
 
   helpFooterLabel: function() {
