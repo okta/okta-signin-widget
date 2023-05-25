@@ -593,30 +593,30 @@ Expect.describe('MFA Verify', function() {
       const deferred = Q.defer();
 
       switch (errorType) {
-        case 'AbortError':
-          deferred.reject({
-            message: 'AbortError',
-          });
-          break;
+      case 'AbortError':
+        deferred.reject({
+          message: 'AbortError',
+        });
+        break;
 
-        case 'NotSupportedError':
-          deferred.reject({
-            message: 'NotSupportedError',
-          });
-          break;
+      case 'NotSupportedError':
+        deferred.reject({
+          message: 'NotSupportedError',
+        });
+        break;
 
-        case 'NotFoundError':
-          deferred.reject({
-            message: 'NotFoundError',
-          });
-          break;
+      case 'NotFoundError':
+        deferred.reject({
+          message: 'NotFoundError',
+        });
+        break;
 
-        default:
-          deferred.resolve({
-            authenticatorData: 'authenticatorData1234',
-            clientData: 'clientData1234',
-            signature: 'signature1234',
-          });
+      default:
+        deferred.resolve({
+          authenticatorData: 'authenticatorData1234',
+          clientData: 'clientData1234',
+          signature: 'signature1234',
+        });
       }
 
       return tick(deferred.promise);
