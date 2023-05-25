@@ -4,6 +4,7 @@ import { _, $, internal } from '@okta/courage';
 import getAuthClient from 'helpers/getAuthClient';
 import Router from 'v1/LoginRouter';
 import Duo from '@okta/duo';
+import Dom from '../../helpers/dom/Dom';
 import Beacon from 'helpers/dom/Beacon';
 import MfaVerifyForm from 'helpers/dom/MfaVerifyForm';
 import Util from 'helpers/mocks/Util';
@@ -5760,8 +5761,8 @@ Expect.describe('MFA Verify', function() {
               expect(test.form.hasErrors()).toBeTruthy();
               expect(test.form.errorMessage()).toBe('You have chosen to reject this login.');
               expect(test.form.hasWarningMessage()).toBeFalsy();
-              expect(Dom.isVisible(test.router.controller.$('[data-se="o-form-input-autoPush"]'))).toBeTruthy;
-              expect(Dom.isVisible(test.router.controller.$('[data-se="o-form-input-rememberDevice"]'))).toBeTruthy;
+              expect(Dom.isVisible(test.router.controller.$('[data-se="o-form-input-autoPush"]'))).toBeTruthy();
+              expect(Dom.isVisible(test.router.controller.$('[data-se="o-form-input-rememberDevice"]'))).toBeTruthy();
               expect(Dom.isVisible(test.form.submitButton())).toBeTruthy();
               expect(Dom.isVisible(test.form.numberChallengeView())).toBeFalsy();
               return tick(test);
