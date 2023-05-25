@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import mockResponseWithRequiredUserVerification from '@okta/mocks/data/idp/idx/authenticator-verification-webauthn.json';
+import mockResponseWithRequiredUserVerification from '../../../../playground/mocks/data/idp/idx/authenticator-verification-webauthn.json';
 import { setup, getMockCredentialsResponse } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/challenge/unlock-account-email-verify-webauthn.json';

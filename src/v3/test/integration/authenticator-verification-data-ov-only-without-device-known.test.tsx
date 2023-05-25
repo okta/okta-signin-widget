@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import mockResponse from '@okta/mocks/data/idp/idx/authenticator-verification-data-ov-only-without-device-known.json';
+import mockResponse from '../../../../playground/mocks/data/idp/idx/authenticator-verification-data-ov-only-without-device-known.json';
 import { createAuthJsPayloadArgs, setup } from './util';
 
 describe('authenticator-verification-data-ov-only-without-device-known', () => {

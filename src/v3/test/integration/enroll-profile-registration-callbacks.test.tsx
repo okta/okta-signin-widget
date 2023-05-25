@@ -10,8 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import enrollProfileResponse from '@okta/mocks/data/idp/idx/enroll-profile.json';
-import enrollProfileTerminalResponse from '@okta/mocks/data/idp/idx/terminal-registration.json';
 import {
   RegistrationDataCallbackV3,
   RegistrationElementSchema,
@@ -19,6 +17,8 @@ import {
 } from 'src/types';
 import { IdxActionParams } from '@okta/okta-auth-js';
 import { within, waitFor } from '@testing-library/preact';
+import enrollProfileTerminalResponse from '../../../../playground/mocks/data/idp/idx/terminal-registration.json';
+import enrollProfileResponse from '../../../../playground/mocks/data/idp/idx/enroll-profile.json';
 import { createAuthJsPayloadArgs, setup } from './util';
 import { RegistrationErrorCallback, RegistrationPostSubmitCallback } from '../../../types';
 

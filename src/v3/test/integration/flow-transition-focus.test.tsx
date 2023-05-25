@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import identifyWithPassword from '@okta/mocks/data/idp/idx/authenticator-verification-password.json';
 import { waitFor } from '@testing-library/preact';
+import identifyWithPassword from '../../../../playground/mocks/data/idp/idx/authenticator-verification-password.json';
 
 import authenticatorSecurityQuestion from '../../src/mocks/response/idp/idx/identify/securityquestion-verify.json';
 import { setup } from './util';
