@@ -12,12 +12,12 @@
 
 /// <reference types="vite/client" />
 import preact from '@preact/preset-vite';
+import legacy from '@vitejs/plugin-legacy';
 import { resolve } from 'path';
 import {
   BuildOptions,
   defineConfig,
   loadEnv,
-  splitVendorChunkPlugin,
 } from 'vite';
 
 const outDir = resolve(__dirname, '../../dist/dist');
@@ -32,7 +32,9 @@ export default defineConfig(({ mode, command }) => {
       : process.cwd(),
     plugins: [
       preact(),
-      splitVendorChunkPlugin(),
+      legacy({
+        targets: ['defaults', 'ie 11'],
+      }),
     ],
     define: {
       OKTA_SIW_VERSION: '"7.8.0"',
@@ -85,6 +87,8 @@ export default defineConfig(({ mode, command }) => {
 
         // playground assets, e.g., logo, favicon
         copyPublicDir: true,
+
+        minify: false,
       };
 
       if (mode === 'testcafe') {
@@ -98,22 +102,14 @@ export default defineConfig(({ mode, command }) => {
         // generate sourcemaps
         sourcemap: true, // boolean | 'inline' | 'hidden'
 
-        // set to library mode with "umd" format to expose `OktaSignIn` on the
-        // `window`
-        // https://vitejs.dev/guide/build.html#library-mode
-        lib: {
-          entry: resolve(__dirname, 'src/index.ts'),
-          name: 'OktaSignIn',
-          formats: ['umd'],
-          fileName: () => 'js/okta-sign-in.next.js',
-        },
         rollupOptions: {
           output: {
             assetFileNames: ({ name }) => (
               name === 'style.css'
                 ? 'css/okta-sign-in.next.css'
-                : '[name][hash][extname]'
+                : 'assets/[name][hash][extname]'
             ),
+            entryFileNames: "js/[name].1.js",
           },
         },
       };
