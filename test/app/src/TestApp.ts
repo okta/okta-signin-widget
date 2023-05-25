@@ -86,6 +86,10 @@ const CSPErrorsTemplate = `
   <div id="csp-errors-container"></div>
 `;
 
+const UnhandledRejectionsTemplate = `
+  <div id="unhandled-rejections-container"></div>
+`;
+
 const OIDCErrorTemplate = `
   <div id="oidc-error-container"></div>
 `;
@@ -114,6 +118,7 @@ const LayoutTemplate = `
         ${CodeTemplate}
         ${ErrorsTemplate}
         ${CSPErrorsTemplate}
+        ${UnhandledRejectionsTemplate}
         ${OIDCErrorTemplate}
       </div>
       <div class="right-column">
@@ -128,6 +133,7 @@ export default class TestApp {
   oktaSignIn: OktaSignIn;
   errors: Error[] = [];
   cspErrors: SecurityPolicyViolationEvent[] = [];
+  unhandledRejections: PromiseRejectionEvent[] = [];
   
   // config
   configArea: ConfigArea;
@@ -155,6 +161,7 @@ export default class TestApp {
   errorsContainer: HTMLElement;
   cspErrorsContainer: HTMLElement;
   oidcErrorContainer: HTMLElement;
+  unhandledRejectionsContainer: HTMLElement;
 
   async bootstrap(rootElem: Element): Promise<void> {
     rootElem.innerHTML = LayoutTemplate;
@@ -181,6 +188,7 @@ export default class TestApp {
     this.errorsContainer = document.getElementById('errors-container');
     this.cspErrorsContainer = document.getElementById('csp-errors-container');
     this.oidcErrorContainer = document.getElementById('oidc-error-container');
+    this.unhandledRejectionsContainer = document.getElementById('unhandled-rejections-container');
 
     this.callbackContainer.style.display = 'none';
 
@@ -215,6 +223,17 @@ export default class TestApp {
   }
 
   addEventListeners(): void {
+    // listen to unhandled rejections
+    window.addEventListener("unhandledrejection", (event) => {
+      this.unhandledRejections = [...this.unhandledRejections, event];
+      this.unhandledRejectionsContainer.innerHTML = '';
+      this.unhandledRejections.forEach(event => {
+        const errorEl = document.createElement('div');
+        errorEl.innerHTML = `${event.reason}`;
+        this.unhandledRejectionsContainer.appendChild(errorEl);
+      });
+    });
+
     // csp listener
     document.addEventListener('securitypolicyviolation', (err) => {
       this.cspErrors = [...this.cspErrors, err];

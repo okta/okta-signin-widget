@@ -284,4 +284,8 @@ export default class IdentityPageObject extends BasePageObject {
     }
     return this.getIdpsContainer().childElementCount;
   }
+
+  async clickShowPasswordIcon() {
+    await this.t.click(Selector('.password-toggle .button-show'));
+  }
 }

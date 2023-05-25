@@ -3,12 +3,15 @@ const { resolve, join } = require('path');
 const { readFileSync } = require('fs');
 
 const TerserPlugin = require('terser-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
 const terserOptions = require('./scripts/buildtools/terser/config');
 
 var SRC = resolve(__dirname, 'src');
 var TARGET_JS = resolve(__dirname, 'target/js/');
 var LOCAL_PACKAGES = resolve(__dirname, 'packages/');
 var COURAGE_DIST = `${LOCAL_PACKAGES}/@okta/courage-dist/esm`;
+var QTIP2_DIST = `${LOCAL_PACKAGES}/@okta/qtip2/dist`;
 
 // Return a function so that all consumers get a new copy of the config
 module.exports = function({
@@ -82,6 +85,7 @@ module.exports = function({
         'handlebars$': `${COURAGE_DIST}/lib/handlebars/dist/cjs/handlebars.runtime`,
 
         '@okta/qtip': '@okta/qtip2/dist/jquery.qtip.js',
+        'widgets/jquery.qtip': `${QTIP2_DIST}/jquery.qtip.css`,
 
         '@okta/duo': `${LOCAL_PACKAGES}/vendor/duo_web_sdk/index.js`,
         '@okta/typingdna': `${LOCAL_PACKAGES}/vendor/TypingDnaRecorder-JavaScript/typingdna`,
@@ -116,7 +120,43 @@ module.exports = function({
           test: /\.js$/,
           use: ['source-map-loader'],
           enforce: 'pre'
-        }
+        },
+        {
+          test: /\.scss$/,
+          use: [
+            MiniCssExtractPlugin.loader,
+            {
+              loader: 'css-loader',
+              options: {
+                url: false,
+              }
+            },
+            {
+              loader: 'postcss-loader',
+              options: {
+                postcssOptions: {
+                  map: true,
+                  plugins: [
+                    ['autoprefixer', { remove: false }],
+                    ...(mode === 'production' ? [
+                      ['cssnano', { save: true }]
+                    ] : [])  
+                  ]
+                }
+              }
+            },
+            {
+              loader: 'sass-loader',
+              options: {
+                sassOptions: {
+                  includePaths: ['target/sass'],
+                  outputStyle: 'expanded',
+                }
+              }
+            }
+            
+          ],
+        },
       ]
     },
 

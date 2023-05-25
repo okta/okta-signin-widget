@@ -28,7 +28,7 @@ describe('v2/view-builder/views/IdentifierView', function() {
     originalLoginEnBundle = null;
   });
 
-  beforeEach(function() { 
+  beforeEach(function() {
     testContext = {};
     testContext.init = (remediations = XHRIdentifyWithThirdPartyIdps.remediation.value) => {
       const appState = new AppState({}, {});
@@ -62,7 +62,7 @@ describe('v2/view-builder/views/IdentifierView', function() {
     jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
     jest.spyOn(AppState.prototype, 'isIdentifierOnlyView').mockReturnValue(false);
     testContext.init(XHRIdentifyWithPassword.remediation.value);
-    
+
     // The forgot password link should be in the siw-main-footer
     expect(testContext.view.$el.find('.siw-main-footer .js-forgot-password').length).toEqual(1);
     expect(testContext.view.$el.find('.links-primary .js-forgot-password').length).toEqual(0);
@@ -98,7 +98,7 @@ describe('v2/view-builder/views/IdentifierView', function() {
     jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
     jest.spyOn(AppState.prototype, 'isIdentifierOnlyView').mockReturnValue(false);
     testContext.init(XHRIdentifyWithPassword.remediation.value);
-    
+
     // No IDP buttons should be rendered.
     expect(testContext.view.$el.find('.o-form-fieldset-container .sign-in-with-idp').length).toEqual(0);
     expect(testContext.view.$el.find('.o-form-button-bar .sign-in-with-idp').length).toEqual(0);
@@ -115,7 +115,7 @@ describe('v2/view-builder/views/IdentifierView', function() {
 
     // Get the idp buttons
     let buttons = testContext.view.$el.find('.o-form-button-bar .sign-in-with-idp .social-auth-button.link-button');
-    
+
     buttons.each(function(){
       // Ensure there is no tooltip when text is short.
       expect($(this).attr('title')).toEqual(undefined);
@@ -128,7 +128,7 @@ describe('v2/view-builder/views/IdentifierView', function() {
 
     // Get the idp buttons
     buttons = testContext.view.$el.find('.o-form-button-bar .sign-in-with-idp .social-auth-button.link-button');
-    
+
     buttons.each(function(){
       // Ensure the button tooltip is equal to the button title when it is long
       expect($(this).attr('title')).toEqual($(this).text());
@@ -145,7 +145,7 @@ describe('v2/view-builder/views/IdentifierView', function() {
     jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
     jest.spyOn(AppState.prototype, 'isIdentifierOnlyView').mockReturnValue(false);
     testContext.init(XHRIdentifyWithPassword.remediation.value);
-    
+
     const $customButton = testContext.view.$el.find('.o-form-button-bar .custom-buttons .btn-customAuth');
     expect($customButton.text()).toEqual('Click Me');
   });
@@ -167,7 +167,7 @@ describe('v2/view-builder/views/IdentifierView', function() {
     jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
     jest.spyOn(AppState.prototype, 'isIdentifierOnlyView').mockReturnValue(false);
     testContext.init(XHRIdentifyWithPassword.remediation.value);
-    
+
     const $customButton = testContext.view.$el.find('.o-form-button-bar .custom-buttons .btn-customAuth');
     expect($customButton.text()).toEqual('Custom Button Title');
   });
@@ -179,7 +179,7 @@ describe('v2/view-builder/views/IdentifierView', function() {
     jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
     jest.spyOn(AppState.prototype, 'isIdentifierOnlyView').mockReturnValue(false);
 
-    currentViewState = { 
+    currentViewState = {
       uiSchema: [{
         'autoComplete': 'username',
         'data-se': 'o-form-fieldset-identifier',
@@ -194,19 +194,18 @@ describe('v2/view-builder/views/IdentifierView', function() {
     testContext.init(XHRIdentifyWithPassword.remediation.value);
     expect(testContext.view.model.get('identifier')).toEqual('testUsername');
     expect(testContext.view.$el.find('.o-form-input-name-identifier input').val()).toEqual('testUsername');
-  });  
+  });
 
   it('pre-fill identifier form with username from cookie when rememberMe feature is enabled', function() {
     settings.set('username', '');
     settings.set('features.rememberMe', true);
-    settings.set('features.rememberMyUsernameOnOIE', true);
 
     jest.spyOn(AppState.prototype, 'hasRemediationObject').mockReturnValue(true);
     jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
     jest.spyOn(AppState.prototype, 'isIdentifierOnlyView').mockReturnValue(false);
     jest.spyOn(CookieUtil, 'getCookieUsername').mockReturnValue('testUsername');
 
-    currentViewState = { 
+    currentViewState = {
       uiSchema: [{
         'autoComplete': 'username',
         'data-se': 'o-form-fieldset-identifier',
@@ -226,7 +225,7 @@ describe('v2/view-builder/views/IdentifierView', function() {
 
   it('does not pre-fill identifier form with username from cookie when rememberMe feature is disabled', function() {
     settings.set('username', '');
-   
+
     jest.spyOn(AppState.prototype, 'hasRemediationObject').mockReturnValue(true);
     jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
     jest.spyOn(AppState.prototype, 'isIdentifierOnlyView').mockReturnValue(false);
@@ -234,7 +233,7 @@ describe('v2/view-builder/views/IdentifierView', function() {
     jest.spyOn(IdentifierView.prototype.Body.prototype, '_shouldApplyRememberMyUsername').mockReturnValue(false);
     jest.spyOn(CookieUtil, 'getCookieUsername').mockReturnValue('testUsername');
 
-    currentViewState = { 
+    currentViewState = {
       uiSchema: [{
         'autoComplete': 'username',
         'data-se': 'o-form-fieldset-identifier',
@@ -249,7 +248,7 @@ describe('v2/view-builder/views/IdentifierView', function() {
     testContext.init(XHRIdentifyWithPassword.remediation.value);
     expect(testContext.view.model.get('identifier')).not.toEqual('testUsername');
     expect(testContext.view.$el.find('.o-form-input-name-identifier input').val()).toEqual('');
-    expect(testContext.view.$el.find('.o-form-input-name-identifier input').attr('autocomplete')).toEqual('username');    
+    expect(testContext.view.$el.find('.o-form-input-name-identifier input').attr('autocomplete')).toEqual('username');
   });
 
   it('should customize username/password required messages', function() {
@@ -268,8 +267,8 @@ describe('v2/view-builder/views/IdentifierView', function() {
     jest.spyOn(AppState.prototype, 'hasRemediationObject').mockReturnValue(true);
     jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
     jest.spyOn(AppState.prototype, 'isIdentifierOnlyView').mockReturnValue(false);
-    
-    currentViewState = { 
+
+    currentViewState = {
       uiSchema: [{
         'autoComplete': 'username',
         'data-se': 'o-form-fieldset-identifier',
@@ -306,7 +305,7 @@ describe('v2/view-builder/views/IdentifierView', function() {
     jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
     jest.spyOn(AppState.prototype, 'isIdentifierOnlyView').mockReturnValue(true);
     testContext.init(XHRIdentifyWithWebAuthn.remediation.value);
-    
+
     expect(testContext.view.$el.find('.sign-in-with-webauthn-option').length).toEqual(1);
   });
 });

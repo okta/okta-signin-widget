@@ -55,7 +55,6 @@ test.requestHooks(successMock)('should have both password and confirmPassword fi
   await t.expect(enrollPasswordPage.getSaveButtonLabel()).eql('Next');
   await t.expect(enrollPasswordPage.passwordFieldExists()).eql(true);
   await t.expect(enrollPasswordPage.confirmPasswordFieldExists()).eql(true);
-  await t.expect(enrollPasswordPage.sessionRevocationToggleExist()).eql(true);
 
   // assert switch authenticator link shows up
   await t.expect(await enrollPasswordPage.returnToAuthenticatorListLinkExists()).ok();
@@ -114,35 +113,6 @@ test.requestHooks(logger, successMock)('should succeed when same values are fill
 
   const answerRequestBody = JSON.parse(answerRequestBodyString);
   await t.expect(answerRequestBody).eql(expectedPayload);
-
-  const pageUrl = await successPage.getPageUrl();
-  await t.expect(pageUrl)
-    .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
-});
-
-test.requestHooks(logger, successMock)('should succeed when session revocation is checked', async t => {
-  const enrollPasswordPage = await setup(t);
-  await checkA11y(t);
-  const successPage = new SuccessPageObject(t);
-
-  await enrollPasswordPage.fillPassword('abcdabcdA3@');
-  await enrollPasswordPage.fillConfirmPassword('abcdabcdA3@');
-  await enrollPasswordPage.checkSessionRevocationToggle();
-  await enrollPasswordPage.clickNextButton();
-
-  const { request: {
-    body: answerRequestBodyString,
-  }
-  } = logger.requests[0];
-
-  const answerRequestBody = JSON.parse(answerRequestBodyString);
-  await t.expect(answerRequestBody).eql({
-    credentials: {
-      passcode: 'abcdabcdA3@',
-      revokeSessions: true
-    },
-    stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
-  });
 
   const pageUrl = await successPage.getPageUrl();
   await t.expect(pageUrl)

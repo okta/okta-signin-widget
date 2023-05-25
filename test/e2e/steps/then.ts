@@ -185,6 +185,11 @@ Then(
   });
 
 Then(
+  /^user sees no unhandled rejections$/, async () => {
+    await TestAppPage.assertNoUnhandledRejections();
+  });
+
+Then(
   /^user sees the password reset page$/,
   async function() {
     await ResetPasswordPage.waitForPageLoad();

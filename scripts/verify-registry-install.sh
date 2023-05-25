@@ -8,7 +8,7 @@ export REGISTRY="https://artifacts.aue1e.internal/artifactory/npm-topic"
 cd ${OKTA_HOME}/${REPO}
 
 setup_service node v16.19.1
-setup_service yarn 1.21.1 /etc/pki/tls/certs/ca-bundle.crt
+setup_service yarn 1.22.19 /etc/pki/tls/certs/ca-bundle.crt
 
 # Install required dependencies
 yarn global add @okta/ci-append-sha

@@ -209,3 +209,10 @@ Given(
     await waitForLoad(TestAppPage.widget);
   }
 );
+
+Given(
+  /^transaction storage is empty$/,
+  async function name() {
+    await TestAppPage.clearTransaction();
+  }
+);

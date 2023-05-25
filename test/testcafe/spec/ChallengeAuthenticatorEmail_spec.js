@@ -564,6 +564,16 @@ test
     const resendEmailViewText = challengeEmailPageObject.resendEmailViewText();
     await t.expect(resendEmailViewText).contains('Haven\'t received an email?');
 
+    await t.expect(challengeEmailPageObject.form.el.innerText).match(new RegExp([
+      // title
+      'Verify with your email',
+      // resend prompt
+      'Haven\'t received an email\\? Send again',
+      // instructions and form imputs
+      'Click the verification link in your email to continue or enter the code below',
+      'Enter Code'
+    ].join('.+'), 'si'));
+
     // 8 poll requests in 32 seconds and 1 resend request after click.
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
@@ -616,6 +626,19 @@ test.meta('v3', false)
     await t.expect(await challengeEmailPageObject.resendEmailExists()).eql(true);
     const resendEmailViewText = challengeEmailPageObject.resendEmailViewText();
     await t.expect(resendEmailViewText).contains('Haven\'t received an email?');
+
+    // Asserts the order of display of elements in v2
+    if (!userVariables.v3) {
+      await t.expect(challengeEmailPageObject.form.el.innerText).match(new RegExp([
+        // title
+        'Verify with your email',
+        // resend prompt
+        'Haven\'t received an email\\? Send again',
+        // instructions and form imputs
+        'Click the verification link in your email to continue or enter the code below',
+        'Enter Code'
+      ].join('.+'), 'si'));
+    }
   });
 
 test
@@ -630,6 +653,16 @@ test
     let resendEmailViewText = challengeEmailPageObject.resendEmailViewText();
     await t.expect(resendEmailViewText).contains('Haven\'t received an email?');
 
+    await t.expect(challengeEmailPageObject.form.el.innerText).match(new RegExp([
+      // title
+      'Verify with your email',
+      // resend prompt
+      'Haven\'t received an email\\? Send again',
+      // instructions and form imputs
+      'Click the verification link in your email to continue or enter the code below',
+      'Enter Code'
+    ].join('.+'), 'si'));
+
     // Navigate away from the view
     await challengeEmailPageObject.clickSignOutLink();
     challengeEmailPageObject.navigateToPage();
@@ -640,6 +673,19 @@ test
     await t.expect(await challengeEmailPageObject.resendEmailExists()).eql(true);
     resendEmailViewText = challengeEmailPageObject.resendEmailViewText();
     await t.expect(resendEmailViewText).contains('Haven\'t received an email?');
+
+    // Asserts the order of display of elements in v2
+    if (!userVariables.v3) {
+      await t.expect(challengeEmailPageObject.form.el.innerText).match(new RegExp([
+        // title
+        'Verify with your email',
+        // resend prompt
+        'Haven\'t received an email\\? Send again',
+        // instructions and form imputs
+        'Click the verification link in your email to continue or enter the code below',
+        'Enter Code'
+      ].join('.+'), 'si'));
+    }
   });
 
 test
