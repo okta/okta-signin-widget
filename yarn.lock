@@ -4754,12 +4754,6 @@
     "@nodelib/fs.scandir" "2.1.3"
     fastq "^1.6.0"
 
-"@okta/courage@file:packages/@okta/courage-dist":
-  version "1.0.0"
-  dependencies:
-    clipboard "^1.5.16"
-    jquery "^3.6.0"
-
 "@okta/eslint-plugin-okta@0.5.0":
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/@okta/eslint-plugin-okta/-/eslint-plugin-okta-0.5.0.tgz#0ea7919988670a1a169e8e63e6e9d5015d0a5766"
@@ -4769,9 +4763,6 @@
     i18n-lint "^1.1.0"
     node-properties-parser "^0.0.2"
     properties-to-json "^0.1.7"
-
-"@okta/mocks@file:playground/mocks":
-  version "1.0.0"
 
 "@okta/odyssey-babel-loader@^0.17.1":
   version "0.17.1"
