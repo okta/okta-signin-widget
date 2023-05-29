@@ -14,4 +14,4 @@ import OktaSignIn from './OktaSignIn';
 
 export default OktaSignIn;
 
-window.OktaSignIn = OktaSignIn;
+// window.OktaSignIn = OktaSignIn;

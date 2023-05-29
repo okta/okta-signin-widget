@@ -116,7 +116,6 @@
     "@babel/preset-env": "^7.15.6",
     "@babel/preset-typescript": "^7.16.7",
     "@babel/register": "^7.15.3",
-    "@babel/runtime": "^7.10.3",
     "@babel/runtime-corejs3": "^7.10.3",
     "@okta/eslint-plugin-okta": "0.5.0",
     "@rollup/plugin-alias": "^3.1.9",
@@ -231,7 +230,7 @@
   },
   "dependencies": {
     "@okta/okta-auth-js": "~7.0.0",
-    "@sindresorhus/to-milliseconds": "^1.0.0",
+    "@sindresorhus/to-milliseconds": "^2.0.0",
     "@types/backbone": "^1.4.15",
     "@types/eslint-scope": "^3.7.3",
     "@types/jquery": "^3.5.14",
@@ -248,7 +247,8 @@
     "parse-ms": "^2.0.0",
     "q": "1.4.1",
     "u2f-api-polyfill": "0.4.3",
-    "underscore": "1.13.1"
+    "underscore": "1.13.1",
+    "@babel/runtime": "^7.21.5"
   },
   "optionalDependencies": {
     "fsevents": "*"
@@ -264,7 +264,8 @@
     "grunt/minimatch": "^3.1.2",
     "**/globule/minimatch": "^3.1.2",
     "ansi-regex": "^5.0.1",
-    "testcafe/**/jsonwebtoken": "^9.0.0"
+    "testcafe/**/jsonwebtoken": "^9.0.0",
+    "p-cancelable": "4.0.1"
   },
   "workspaces": {
     "packages": [

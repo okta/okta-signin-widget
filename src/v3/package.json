@@ -38,6 +38,7 @@
     "not ie <= 9"
   ],
   "dependencies": {
+    "@sindresorhus/to-milliseconds": "^2.0.0",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
     "@mui/icons-material": "^5.8.4",
@@ -54,10 +55,13 @@
     "deepmerge": "^4.2.2",
     "dompurify": "^3.0.0",
     "duo_web_sdk": "https://github.com/duosecurity/duo_web_sdk.git",
-    "html-react-parser": "^3.0.9",
+    "html-react-parser": "^1.4.14",
     "js-cookie": "^3.0.1",
     "lodash": "^4.17.21",
-    "preact": "^10.13.1"
+    "preact": "^10.13.1",
+    "core-js": "^3.9.1",
+    "@babel/runtime": "^7.22.3",
+    "@babel/runtime-corejs3": "^7.22.3"
   },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.18.6",
@@ -126,7 +130,11 @@
     "vite": "^4.1.0",
     "wait-on": "^6.0.1",
     "whatwg-fetch": "^3.6.2",
-    "@vitejs/plugin-legacy": "^4.0.4"
+    "@vitejs/plugin-legacy": "^4.0.4",
+    "svg-inline-loader": "0.8.2",
+    "css-loader": "^6.7.4",
+    "style-loader": "^3.3.3",
+    "@babel/plugin-transform-react-jsx": "^7.21.5"
   },
   "engines": {
     "node": ">=16"
