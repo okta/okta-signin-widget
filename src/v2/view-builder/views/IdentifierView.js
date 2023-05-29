@@ -48,6 +48,7 @@ const Body = BaseForm.extend({
   },
 
   saveForm() {
+    //throw new Error('test error at saveForm');
     // Ideally this can be added to a "preSaveForm" handler - but keeping this here for now.
     if (!this.settings.get('features.deviceFingerprinting')) {
       BaseForm.prototype.saveForm.apply(this, arguments);
@@ -75,6 +76,7 @@ const Body = BaseForm.extend({
   },
 
   render() {
+    //throw new Error('test error at render');
     BaseForm.prototype.render.apply(this, arguments);
 
     // Launch Device Authenticator

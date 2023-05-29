@@ -13,15 +13,19 @@
 import { AbstractRouter } from 'types';
 import BaseLoginRouter, { BaseLoginRouterOptions } from './BaseLoginRouter';
 import FormController from './controllers/FormController';
+import { initSentry, configureSentry } from '../util/Sentry';
 
 const routes = {
   '': 'defaultAuth',
   '*wildcard': 'defaultAuth',
 };
 
+initSentry();
+
 export default class WidgetRouter extends BaseLoginRouter implements AbstractRouter {
   constructor(options: BaseLoginRouterOptions) {
     super({ routes, ...options });
+    configureSentry(this.appState);
   }
 
   defaultAuth() {

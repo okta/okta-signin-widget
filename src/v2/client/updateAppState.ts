@@ -4,7 +4,7 @@ import sessionStorageHelper from './sessionStorageHelper';
 import { interactionCodeFlow } from './interactionCodeFlow';
 import { FORMS } from "../ion/RemediationConstants";
 import transformIdxResponse from '../ion/transformIdxResponse';
-
+import { updateSentryContext } from '../../util/Sentry';
 
 export async function updateAppState(appState: AppState, idxResponse: IdxResponse): Promise<void> {
   const settings = appState.settings;
@@ -50,4 +50,6 @@ export async function updateAppState(appState: AppState, idxResponse: IdxRespons
   const ionResponse = transformIdxResponse(settings, idxResponse, lastResponse);
 
   await appState.setIonResponse(ionResponse);
+
+  updateSentryContext(appState);
 }

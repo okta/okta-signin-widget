@@ -23,6 +23,7 @@ import { CONFIGURED_FLOW } from '../client/constants';
 import { ConfigError } from 'util/Errors';
 import { updateAppState } from 'v2/client';
 import CookieUtil from '../../util/CookieUtil';
+import * as Sentry from "@sentry/browser";
 
 export interface ContextData {
   controller: string;
@@ -70,6 +71,7 @@ export default Controller.extend({
         }
       }).last();
     } catch (error) {
+      Sentry.captureException(error);
       // This is the place where runtime error (NPE) happens at most of time.
       // It has been swallowed by Q.js hence add try/catch to surface up errors.
       this.options.settings.callGlobalError(error);
@@ -89,6 +91,13 @@ export default Controller.extend({
 
   triggerAfterRenderEvent() {
     const contextData = this.createAfterEventContext();
+    Sentry.addBreadcrumb({
+      type: 'debug',
+      category: 'custom',
+      data: {
+        contextData
+      },
+    });
     this.trigger('afterRender', contextData);
   },
 
@@ -102,6 +111,14 @@ export default Controller.extend({
       xhr: error,
       errorSummary: error.responseJSON && error.responseJSON.errorSummary,
     };
+    Sentry.addBreadcrumb({
+      type: 'error',
+      category: 'custom',
+      data: {
+        contextData,
+        errorContextData,
+      },
+    });
     // TODO: need some enhancement after https://github.com/okta/okta-idx-js/pull/27
     // OKTA-318062
     this.trigger('afterError', contextData, errorContextData);
@@ -196,6 +213,7 @@ export default Controller.extend({
       };
     } else {
       error = new ConfigError(`Invalid action selected: ${actionPath}`);
+      Sentry.captureException(error);
       this.options.settings.callGlobalError(error);
       await this.showFormErrors(this.formView.model, error, this.formView.form);
       return;
@@ -263,7 +281,13 @@ export default Controller.extend({
 
     // Error out when this is not a remediation form. Unexpected Exception.
     if (!this.options.appState.hasRemediationObject(formName)) {
-      this.options.settings.callGlobalError(`Cannot find http action for "${formName}".`);
+      const error = `Cannot find http action for "${formName}".`;
+      Sentry.captureException(error, {
+        extra: {
+          formName,
+        }
+      });
+      this.options.settings.callGlobalError(error);
       await this.showFormErrors(this.formView.model, 'Cannot find action to proceed.', this.formView.form);
       return;
     }
