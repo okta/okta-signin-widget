@@ -99,7 +99,7 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should have 
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.fillPasswordField('random password 123');
   await t.expect(await identityPage.hasForgotPasswordLinkText()).ok();
-  await t.expect(await identityPage.helpLinkExists()).ok();
+  await t.expect(await identityPage.helpLinkExists()).eql(true);
 
   await t.expect(await identityPage.hasShowTogglePasswordIcon()).ok();
   await t.expect(identityPage.getSaveButtonLabel()).eql('Sign in');

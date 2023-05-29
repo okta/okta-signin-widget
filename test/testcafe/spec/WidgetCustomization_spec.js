@@ -104,7 +104,7 @@ test.requestHooks(xhrSelectAuthenticatorMock)('should show custom signout link',
   });
   await t.expect(selectAuthenticatorPageObject.getCustomSignOutLink()).eql('https://okta.okta.com/');
   await t.expect(selectAuthenticatorPageObject.getSignoutLinkText()).eql('Back to sign in');
-  await t.expect(await selectAuthenticatorPageObject.helpLinkExists()).notOk();
+  await t.expect(await selectAuthenticatorPageObject.helpLinkExists()).eql(false);
 });
 
 test.requestHooks(xhrSelectAuthenticatorMock)('can customize back to signin link using `backToSignInLink`', async t => {
