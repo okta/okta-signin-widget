@@ -11,6 +11,7 @@
  */
 
 import { IdxRemediation, IdxTransaction, NextStep } from '@okta/okta-auth-js';
+import classNames from 'classnames';
 
 import IDP from '../../../util/IDP';
 import Util from '../../../util/Util';
@@ -53,6 +54,25 @@ export const handleFormFieldBlur = (
   setPristineFn?.(false);
   setTouchedFn?.(true);
   setUntouchedFn?.(false);
+};
+
+export const getCustomButtonElements = (widgetProps: WidgetProps): ButtonElement[] => {
+  const { customButtons = [] } = widgetProps;
+  return customButtons.map((customButton) => {
+    const customButtonElement: ButtonElement = {
+      type: 'Button',
+      label: customButton.title ?? loc(customButton.i18nKey, 'login'),
+      options: {
+        type: ButtonType.BUTTON,
+        step: '',
+        dataSe: customButton.dataAttr,
+        classes: classNames(customButton.className, 'default-custom-button'),
+        variant: 'secondary',
+        onClick: customButton.click,
+      },
+    };
+    return customButtonElement;
+  });
 };
 
 const getPIVButtonElement = (
@@ -103,14 +123,12 @@ const getPIVButtonElement = (
 export const getFastPassButtonElement = (
   transaction: IdxTransaction,
 ) : LaunchAuthenticatorButtonElement[] => {
-  const { context, nextStep, neededToProceed: remediations } = transaction;
-  const isIdentifyStep = nextStep?.name === IDX_STEP.IDENTIFY;
+  const { context, neededToProceed: remediations } = transaction;
   const containsLaunchAuthenticator = remediations.some(
     (remediation) => remediation.name === IDX_STEP.LAUNCH_AUTHENTICATOR,
   );
 
-  // only include fastpass button in identify flow
-  if (!isIdentifyStep || !containsLaunchAuthenticator) {
+  if (!containsLaunchAuthenticator) {
     return [];
   }
 
@@ -229,21 +247,6 @@ export const getIdpButtonElements = (
       displayName = loc(buttonI18key, 'login');
     }
 
-    const classNames = [
-      'social-auth-button',
-      `social-auth-${type}-button`,
-    ];
-
-    if (type === 'general-idp') {
-      classNames.push('no-translate');
-    }
-
-    // @ts-expect-error OKTA-609464 - className missing from IdpConfig type
-    if (idpObject.idp?.className) {
-      // @ts-expect-error OKTA-609464 - className missing from IdpConfig type
-      classNames.push(idpObject.idp.className);
-    }
-
     return {
       type: 'Button',
       label: displayName,
@@ -251,7 +254,13 @@ export const getIdpButtonElements = (
         type: ButtonType.BUTTON,
         step: IDX_STEP.PIV_IDP,
         dataSe: 'piv-card-button',
-        classes: classNames.join(' '),
+        classes: classNames(
+          'social-auth-button',
+          `social-auth-${type}-button`,
+          // @ts-expect-error OKTA-609464 - className missing from IdpConfig type
+          idpObject.idp?.className,
+          { 'no-translate': type === 'general-idp' },
+        ),
         variant: 'secondary',
         Icon: getIdpButtonIcon(type),
         iconAlt: '',
