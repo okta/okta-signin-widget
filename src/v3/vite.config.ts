@@ -86,8 +86,6 @@ export default defineConfig(({ mode, command }) => {
 
         // playground assets, e.g., logo, favicon
         copyPublicDir: true,
-
-        minify: false,
       };
 
       if (mode === 'testcafe') {
@@ -104,11 +102,16 @@ export default defineConfig(({ mode, command }) => {
         rollupOptions: {
           output: {
             assetFileNames: ({ name }) => (
-              name?.endsWith('css')
+              name?.endsWith('.css')
                 ? 'css/okta-sign-in.next.css'
                 : 'assets/[name][hash][extname]'
             ),
-            entryFileNames: "js-vite/[name].js",
+            entryFileNames: ({ name }) => {
+              if (name === 'polyfills') {
+                return 'js/okta-sign-in.next.polyfills.js';
+              }
+              return 'js/okta-sign-in.next.js';
+            },
           },
         },
       };
