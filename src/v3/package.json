@@ -128,11 +128,7 @@
     "vite": "^4.1.0",
     "wait-on": "^6.0.1",
     "whatwg-fetch": "^3.6.2",
-    "@vitejs/plugin-legacy": "^4.0.4",
-    "svg-inline-loader": "0.8.2",
-    "css-loader": "^6.7.4",
-    "style-loader": "^3.3.3",
-    "@babel/plugin-transform-react-jsx": "^7.21.5"
+    "@vitejs/plugin-legacy": "^4.0.4"
   },
   "engines": {
     "node": ">=16"
