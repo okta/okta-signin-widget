@@ -1,4 +1,5 @@
 #!/bin/bash
+set -exo pipefail
 export CI=true
 
 source $OKTA_HOME/$REPO/scripts/setup.sh
