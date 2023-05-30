@@ -56,7 +56,7 @@ function createWidgetInstance(options: any = {}) {
     siw.remove();
   }
   // @ts-expect-error mismatch between OktaSignIn and OktaSignInAPI
-  siw = new OktaSignIn.default({ ...config, ...options });
+  siw = new OktaSignIn({ ...config, ...options });
   return siw;
 }
 
