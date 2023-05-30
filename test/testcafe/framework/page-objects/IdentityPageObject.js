@@ -234,12 +234,19 @@ export default class IdentityPageObject extends BasePageObject {
     return Selector(FOOTER_INFO_SELECTOR).textContent;
   }
 
-  async clickCustomButtonLink(index) {
-    await this.t.click(Selector(CUSTOM_BUTTON).nth(index));
+  getCustomButton(index) {
+    if(userVariables.v3) {
+      return Selector('.default-custom-button').nth(index);
+    }
+    return Selector(CUSTOM_BUTTON).nth(index);
   }
 
+  async clickCustomButtonLink(index) {
+    await this.t.click(this.getCustomButton(index));
+  }
+  
   getCustomButtonText(index) {
-    return Selector(CUSTOM_BUTTON).nth(index).textContent;
+    return this.getCustomButton(index).textContent;
   }
 
   async clickSignUpLink() {
