@@ -38,7 +38,7 @@ describe('identify-with-password-error-flow', () => {
           status: 401,
         },
       },
-      widgetOptions: { features: { rememberMyUsernameOnOIE: true } },
+      widgetOptions: { features: { rememberMe: true } },
     });
 
     const submitButton = await findByText('Sign in', { selector: 'button' });

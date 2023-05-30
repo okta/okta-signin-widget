@@ -6,11 +6,6 @@ source $OKTA_HOME/$REPO/scripts/setup.sh
 setup_service java 1.8.222
 setup_service google-chrome-stable 89.0.4389.72-1
 
-if ! setup_service node v16.19.1 &> /dev/null; then
-  echo "Failed to install node"
-  exit ${FAILED_SETUP}
-fi
-
 export TEST_SUITE_TYPE="junit"
 export TEST_RESULT_FILE_DIR="${REPO}/build2/reports/junit"
 echo $TEST_SUITE_TYPE > $TEST_SUITE_TYPE_FILE

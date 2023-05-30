@@ -104,12 +104,6 @@ test.requestHooks(logger, successMock)('should succeed when same values are fill
     },
     stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'
   };
-  // In v3, if a boolean field is present in the idx response,
-  // and the user does not check it, we send 'false' by default for the value
-  // V2 will ignore the boolean field unless they check and uncheck it.
-  if (userVariables.v3) {
-    expectedPayload.credentials.revokeSessions = false;
-  }
 
   const answerRequestBody = JSON.parse(answerRequestBodyString);
   await t.expect(answerRequestBody).eql(expectedPayload);

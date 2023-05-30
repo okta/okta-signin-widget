@@ -41,7 +41,7 @@ export const transformIdentify: IdxStepTransformer = ({
       data.identifier = identifierElement.options.inputMeta.value;
     // TODO: OKTA-508744 - to use rememberMe in features once Default values are added widgetProps.
     // (i.e. rememberMe is default = true in v2)
-    } else if (features?.rememberMe !== false && features?.rememberMyUsernameOnOIE) {
+    } else if (typeof features?.rememberMe === 'undefined' || features?.rememberMe === true) {
       const usernameCookie = getUsernameCookie();
       data.identifier = usernameCookie;
     }

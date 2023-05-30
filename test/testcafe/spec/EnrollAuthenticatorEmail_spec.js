@@ -359,7 +359,7 @@ test
     await t.expect(enrollEmailPageObject.resendEmailText()).contains('Haven\'t received an email?');
     
     // Assert the order of elements in v2
-    if (userVariables.v3) {
+    if (!userVariables.v3) {
       await t.expect(enrollEmailPageObject.form.el.innerText).match(new RegExp([
         // title
         'Verify with your email',

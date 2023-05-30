@@ -152,7 +152,7 @@ describe('Identify Transformer Tests', () => {
 
   it('should add UI elements for identifier, passcode & rememberMe with username default option '
     + 'when username is provided in remediation (inputMeta)', () => {
-    widgetProps = { features: { rememberMe: true, rememberMyUsernameOnOIE: true } };
+    widgetProps = { features: { rememberMe: true } };
     formBag.uischema.elements = [
       {
         type: 'Field',
@@ -188,9 +188,9 @@ describe('Identify Transformer Tests', () => {
   });
 
   it('should add UI elements for identifier, passcode & rememberMe with username pulled from '
-    + 'cookie as the default option when username is not provided in options but features '
-    + 'rememberMe & rememberMyUsernameOnOIE are provided', () => {
-    widgetProps = { features: { rememberMe: true, rememberMyUsernameOnOIE: true } };
+    + 'cookie as the default option when username is not provided in options but feature '
+    + 'rememberMe is provided', () => {
+    widgetProps = { features: { rememberMe: true } };
     const updatedFormBag = transformIdentify({ transaction, formBag, widgetProps });
 
     expect(updatedFormBag).toMatchSnapshot();

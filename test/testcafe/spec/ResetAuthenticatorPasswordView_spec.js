@@ -123,7 +123,7 @@ test
     await resetPasswordPage.fillConfirmPassword('abcdabcd');
     await resetPasswordPage.sessionRevocationToggleExist();
     await resetPasswordPage.checkSessionRevocationToggle();
-    await resetPasswordPage.clickNextButton();
+    await resetPasswordPage.clickNextButton('Reset Password');
 
     const pageUrl = await successPage.getPageUrl();
     await t.expect(pageUrl)
