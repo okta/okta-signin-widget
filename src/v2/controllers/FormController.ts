@@ -24,7 +24,6 @@ import { ConfigError } from 'util/Errors';
 import { updateAppState } from 'v2/client';
 import CookieUtil from '../../util/CookieUtil';
 import * as Sentry from "@sentry/browser";
-import { datadogRum } from '@datadog/browser-rum';
 
 export interface ContextData {
   controller: string;
@@ -99,9 +98,6 @@ export default Controller.extend({
         contextData
       },
     });
-    datadogRum.addAction('debug', {
-      contextData
-    });
     this.trigger('afterRender', contextData);
   },
 
@@ -122,10 +118,6 @@ export default Controller.extend({
         contextData,
         errorContextData,
       },
-    });
-    datadogRum.addAction('error', {
-      contextData,
-      errorContextData,
     });
     // TODO: need some enhancement after https://github.com/okta/okta-idx-js/pull/27
     // OKTA-318062

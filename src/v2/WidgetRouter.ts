@@ -14,7 +14,6 @@ import { AbstractRouter } from 'types';
 import BaseLoginRouter, { BaseLoginRouterOptions } from './BaseLoginRouter';
 import FormController from './controllers/FormController';
 import { initSentry, configureSentry } from '../util/Sentry';
-import { initDatadog } from '../util/Datadog';
 
 const routes = {
   '': 'defaultAuth',
@@ -22,7 +21,6 @@ const routes = {
 };
 
 initSentry();
-initDatadog();
 
 export default class WidgetRouter extends BaseLoginRouter implements AbstractRouter {
   constructor(options: BaseLoginRouterOptions) {
