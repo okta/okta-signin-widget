@@ -124,14 +124,13 @@ test
   .requestHooks(logger, mock)('should succeed when session revocation is checked', async t => {
     const resetPasswordPage = await setup(t);
     await checkA11y(t);
-    const successPage = new SuccessPageObject(t);
-
     await resetPasswordPage.fillPassword('abcdabcd');
     await resetPasswordPage.fillConfirmPassword('abcdabcd');
     await resetPasswordPage.sessionRevocationToggleExist();
     await resetPasswordPage.checkSessionRevocationToggle();
     await resetPasswordPage.clickNextButton('Reset Password');
 
+    const successPage = new SuccessPageObject(t);
     const pageUrl = await successPage.getPageUrl();
     await t.expect(pageUrl)
       .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
