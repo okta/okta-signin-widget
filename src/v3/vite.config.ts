@@ -19,6 +19,7 @@ import {
   defineConfig,
   loadEnv,
 } from 'vite';
+import pkg from './package.json';
 
 const outDir = resolve(__dirname, '../../dist/dist');
 const mockServerBaseUrl = 'http://localhost:3030';
@@ -33,7 +34,7 @@ export default defineConfig(({ mode, command }) => {
     plugins: [
       preact(),
       legacy({
-        targets: ['defaults', 'ie 11'],
+        targets: pkg.browserslist,
       }),
     ],
     define: {

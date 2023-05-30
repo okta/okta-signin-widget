@@ -5,13 +5,7 @@ module.exports = (ctx) => {
   if (!ctx.odyssey) {
     return {
       plugins: [
-        postcssPresetEnv({
-          browsers: 'defaults, ie 11',
-          // logical: {
-          //   inlineDirection: 'left-to-right'
-          // }
-  
-        })
+        postcssPresetEnv()
       ],
     };
   }
