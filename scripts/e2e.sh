@@ -15,6 +15,26 @@ echo $TEST_RESULT_FILE_DIR > $TEST_RESULT_FILE_DIR_FILE
 aws s3 --quiet --region us-east-1 cp s3://ci-secret-stash/prod/signinwidget/export-test-credentials.sh $OKTA_HOME/$REPO/scripts/export-test-credentials.sh
 source $OKTA_HOME/$REPO/scripts/export-test-credentials.sh
 
+#get_vault_secret_key path/to/secret example_key SECRET1
+#repo_gh-{org}-{repo_name}/default
+get_vault_secret_key repo_gh-okta-okta-signin-widget/default WIDGET_TEST_SERVER WIDGET_TEST_SERVER
+get_vault_secret_key repo_gh-okta-okta-signin-widget/default WIDGET_BASIC_USER WIDGET_BASIC_USER
+get_vault_secret_key repo_gh-okta-okta-signin-widget/default WIDGET_BASIC_PASSWORD WIDGET_BASIC_PASSWORD
+get_vault_secret_key repo_gh-okta-okta-signin-widget/default WIDGET_BASIC_USER_2 WIDGET_BASIC_USER_2
+get_vault_secret_key repo_gh-okta-okta-signin-widget/default WIDGET_BASIC_PASSWORD_2 WIDGET_BASIC_PASSWORD_2
+get_vault_secret_key repo_gh-okta-okta-signin-widget/default WIDGET_BASIC_USER_3 WIDGET_BASIC_USER_3
+get_vault_secret_key repo_gh-okta-okta-signin-widget/default WIDGET_BASIC_PASSWORD_3 WIDGET_BASIC_PASSWORD_3
+get_vault_secret_key repo_gh-okta-okta-signin-widget/default WIDGET_BASIC_USER_4 WIDGET_BASIC_USER_4
+get_vault_secret_key repo_gh-okta-okta-signin-widget/default WIDGET_BASIC_PASSWORD_4 WIDGET_BASIC_PASSWORD_4
+get_vault_secret_key repo_gh-okta-okta-signin-widget/default WIDGET_BASIC_USER_5 WIDGET_BASIC_USER_5
+get_vault_secret_key repo_gh-okta-okta-signin-widget/default WIDGET_BASIC_PASSWORD_5 WIDGET_BASIC_PASSWORD_5
+get_vault_secret_key repo_gh-okta-okta-signin-widget/default WIDGET_FB_USER WIDGET_FB_USER
+get_vault_secret_key repo_gh-okta-okta-signin-widget/default WIDGET_FB_PASSWORD WIDGET_FB_PASSWORD
+get_vault_secret_key repo_gh-okta-okta-signin-widget/default WIDGET_FB_USER_2 WIDGET_FB_USER_2
+get_vault_secret_key repo_gh-okta-okta-signin-widget/default WIDGET_FB_PASSWORD_2 WIDGET_FB_PASSWORD_2
+get_vault_secret_key repo_gh-okta-okta-signin-widget/default WIDGET_FB_USER_3 WIDGET_FB_USER_3
+get_vault_secret_key repo_gh-okta-okta-signin-widget/default WIDGET_FB_PASSWORD_3 WIDGET_FB_PASSWORD_3
+
 # We use the below OIE enabled org and clients for OIE tests
 export WIDGET_TEST_SERVER=https://oie-signin-widget.okta.com
 export WIDGET_SPA_CLIENT_ID=0oa8lrg7ojTsbJgRQ696
