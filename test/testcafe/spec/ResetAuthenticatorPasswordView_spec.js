@@ -105,12 +105,19 @@ test
     await t.expect(method).eql('post');
     const requestBody = JSON.parse(body);
 
-    await t.expect(requestBody).eql({
+    const expectedPayload = {
       'stateHandle': '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
       'credentials': {
         'passcode': 'abcdabcdA3@'
       },
-    });
+    };
+
+    // In v3 if the idx response includes a boolean field, we will automatically include it in the payload if untoucbed
+    if (userVariables.v3) {
+      expectedPayload.credentials.revokeSessions = false;
+    }
+
+    await t.expect(requestBody).eql(expectedPayload);
   });
 
 test
