@@ -1,9 +1,22 @@
 const { default: postcssOdyssey } = require("@okta/odyssey-postcss-preset");
+const postcssPresetEnv = require('postcss-preset-env');
 
 module.exports = (ctx) => {
-  if (!ctx.odyssey) {
-    return {};
-  }
+  console.log('postcss', ctx.odyssey);
+
+  // if (!ctx.odyssey) {
+    return {
+      plugins: [
+        postcssPresetEnv({
+          browsers: 'defaults, ie 11',
+          logical: {
+            inlineDirection: 'left-to-right'
+          }
+  
+        })
+      ],
+    };
+  // }
 
   const options = Object.assign(
     ctx.odyssey,
@@ -25,6 +38,8 @@ module.exports = (ctx) => {
   );
 
   return {
-    plugins: [postcssOdyssey(options)],
+    plugins: [
+      postcssOdyssey(options),
+    ],
   };
 };

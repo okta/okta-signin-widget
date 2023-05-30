@@ -13,8 +13,14 @@
 module.exports = {
   plugins: [
     'stylelint-use-logical-spec',
+    'stylelint-no-unsupported-browser-features',
   ],
   rules: {
     'liberty/use-logical-spec': 'always',
+    "plugin/no-unsupported-browser-features": [true, {
+      "browsers": ["defaults", "ie 11"],
+      "ignore": ["rem"],
+      "ignorePartialSupport": true
+    }]
   },
 };

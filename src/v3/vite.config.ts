@@ -104,11 +104,11 @@ export default defineConfig(({ mode, command }) => {
         rollupOptions: {
           output: {
             assetFileNames: ({ name }) => (
-              name === 'style.css'
+              name?.endsWith('css')
                 ? 'css/okta-sign-in.next.css'
                 : 'assets/[name][hash][extname]'
             ),
-            entryFileNames: "js/[name].1.js",
+            entryFileNames: "js-vite/[name].js",
           },
         },
       };
