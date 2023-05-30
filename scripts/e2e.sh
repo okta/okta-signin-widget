@@ -12,8 +12,8 @@ echo $TEST_SUITE_TYPE > $TEST_SUITE_TYPE_FILE
 echo $TEST_RESULT_FILE_DIR > $TEST_RESULT_FILE_DIR_FILE
 
 # This file contains all the env vars we need for e2e tests
-aws s3 --quiet --region us-east-1 cp s3://ci-secret-stash/prod/signinwidget/export-test-credentials.sh $OKTA_HOME/$REPO/scripts/export-test-credentials.sh
-source $OKTA_HOME/$REPO/scripts/export-test-credentials.sh
+#aws s3 --quiet --region us-east-1 cp s3://ci-secret-stash/prod/signinwidget/export-test-credentials.sh $OKTA_HOME/$REPO/scripts/export-test-credentials.sh
+#source $OKTA_HOME/$REPO/scripts/export-test-credentials.sh
 
 #get_vault_secret_key path/to/secret example_key SECRET1
 #repo_gh-{org}-{repo_name}/default
