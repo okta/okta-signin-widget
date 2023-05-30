@@ -34,8 +34,8 @@
     "test:report": "PREACT_APP_USE_PKCE=false NODE_ENV=test jest --coverage"
   },
   "browserslist": [
-    "> 0.1%",
-    "not ie <= 9"
+    "defaults",
+    "ie 11"
   ],
   "dependencies": {
     "@emotion/react": "^11.9.3",
