@@ -34,7 +34,6 @@ import { UnsupportedBrowserError } from 'util/Errors';
 import TypingUtil from 'v1/util/TypingUtil';
 import LoginUtil from 'util/Util';
 import CookieUtil from 'util/CookieUtil';
-import Dom from '../../helpers/dom/Dom';
 const SharedUtil = internal.util.Util;
 const itp = Expect.itp;
 const BEACON_LOADING_CLS = 'beacon-loading';
