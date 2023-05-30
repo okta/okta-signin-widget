@@ -38,7 +38,6 @@
     "not ie <= 9"
   ],
   "dependencies": {
-    "@sindresorhus/to-milliseconds": "^2.0.0",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
     "@mui/icons-material": "^5.8.4",
@@ -58,10 +57,7 @@
     "html-react-parser": "^1.4.14",
     "js-cookie": "^3.0.1",
     "lodash": "^4.17.21",
-    "preact": "^10.13.1",
-    "core-js": "^3.9.1",
-    "@babel/runtime": "^7.22.3",
-    "@babel/runtime-corejs3": "^7.22.3"
+    "preact": "^10.13.1"
   },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.18.6",
