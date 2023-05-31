@@ -1,4 +1,4 @@
-import { RequestMock } from 'testcafe';
+import { RequestMock, userVariables } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 import terminalReturnEmail from '../../../playground/mocks/data/idp/idx/terminal-return-email';
 import terminalTransferEmail from '../../../playground/mocks/data/idp/idx/terminal-transfered-email';
@@ -19,8 +19,6 @@ import endUserRemediationOneOption from '../../../playground/mocks/data/idp/idx/
 import endUserRemediationMultipleOptions from '../../../playground/mocks/data/idp/idx/end-user-remediation-multiple-options.json';
 import endUserRemediationMultipleOptionsWithCustomHelpUrl from '../../../playground/mocks/data/idp/idx/end-user-remediation-multiple-options-with-custom-help-url.json';
 import endUserRemediationNoOptions from '../../../playground/mocks/data/idp/idx/end-user-remediation-no-options.json';
-
-import { userVariables } from 'testcafe';
 
 const terminalTransferredEmailMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')

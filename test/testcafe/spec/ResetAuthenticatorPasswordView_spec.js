@@ -152,3 +152,33 @@ test
       },
     });
   });
+
+test
+  .requestHooks(logger, mock)('should succeed when session revocation is checked', async t => {
+    const resetPasswordPage = await setup(t);
+    await checkA11y(t);
+    const successPage = new SuccessPageObject(t);
+
+    await resetPasswordPage.fillPassword('abcdabcd');
+    await resetPasswordPage.fillConfirmPassword('abcdabcd');
+    await resetPasswordPage.sessionRevocationToggleExist();
+    await resetPasswordPage.checkSessionRevocationToggle();
+    await resetPasswordPage.clickNextButton();
+
+    const pageUrl = await successPage.getPageUrl();
+    await t.expect(pageUrl)
+      .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
+
+    let { request: { body, method, url } } = logger.requests[0];
+    await t.expect(url).eql('http://localhost:3000/idp/idx/challenge/answer');
+    await t.expect(method).eql('post');
+    const requestBody = JSON.parse(body);
+
+    await t.expect(requestBody).eql({
+      'stateHandle': '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
+      'credentials': {
+        'passcode': 'abcdabcd',
+        'revokeSessions': true
+      },
+    });
+  });

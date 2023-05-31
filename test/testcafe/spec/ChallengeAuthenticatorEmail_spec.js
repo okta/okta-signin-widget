@@ -577,6 +577,16 @@ test
       ].join('.+'), 'si'));
     }
 
+    await t.expect(challengeEmailPageObject.form.el.innerText).match(new RegExp([
+      // title
+      'Verify with your email',
+      // resend prompt
+      'Haven\'t received an email\\? Send again',
+      // instructions and form imputs
+      'Click the verification link in your email to continue or enter the code below',
+      'Enter Code'
+    ].join('.+'), 'si'));
+
     // 8 poll requests in 32 seconds and 1 resend request after click.
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
@@ -668,6 +678,16 @@ test
         'Enter Code'
       ].join('.+'), 'si'));
     }
+
+    await t.expect(challengeEmailPageObject.form.el.innerText).match(new RegExp([
+      // title
+      'Verify with your email',
+      // resend prompt
+      'Haven\'t received an email\\? Send again',
+      // instructions and form imputs
+      'Click the verification link in your email to continue or enter the code below',
+      'Enter Code'
+    ].join('.+'), 'si'));
 
     // Navigate away from the view
     await challengeEmailPageObject.clickSignOutLink();
