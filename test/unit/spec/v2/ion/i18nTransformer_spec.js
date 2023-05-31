@@ -224,6 +224,37 @@ describe('v2/ion/i18nTransformer', function() {
     });
   });
 
+  it('renders custom label for enroll-profile', () => {
+    const resp = {
+      remediations: [
+        {
+          name: 'enroll-profile',
+          uiSchema: [
+            {
+              'name': 'userProfile.firstName',
+              'label': 'First name custom',
+              'customLabel': true,
+            }
+          ]
+        }
+      ]
+    };
+    expect(i18nTransformer(resp)).toEqual({
+      remediations: [
+        {
+          name: 'enroll-profile',
+          uiSchema: [
+            {
+              'name': 'userProfile.firstName',
+              'label': 'First name custom',
+              'customLabel': true,
+            }
+          ]
+        }
+      ]
+    });
+  });
+
   it('converts label for select-authenticator-authenticate', () => {
     const resp = {
       remediations: [

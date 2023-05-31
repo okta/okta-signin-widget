@@ -339,7 +339,7 @@ const updateLabelForUiSchema = (remediation, uiSchema) => {
   if (uiSchema.label) {
     Logger.info('\t 2: ', i18nPath);
     const params = getI18NParams(remediation, authenticatorKey);
-    uiSchema.label = getI18NValue(i18nPath, uiSchema.label, params);
+    uiSchema.label = uiSchema.customLabel ? uiSchema.label : getI18NValue(i18nPath, uiSchema.label, params);
   }
   if ($.isPlainObject(uiSchema.options)) {
     uiSchema.options = _.mapObject(uiSchema.options, (value, key) => {
