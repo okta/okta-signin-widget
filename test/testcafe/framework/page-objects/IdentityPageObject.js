@@ -288,8 +288,4 @@ export default class IdentityPageObject extends BasePageObject {
   async clickShowPasswordIcon() {
     await this.t.click(Selector('.password-toggle .button-show'));
   }
-
-  async clickShowPasswordIcon() {
-    await this.t.click(Selector('.password-toggle .button-show'));
-  }
 }

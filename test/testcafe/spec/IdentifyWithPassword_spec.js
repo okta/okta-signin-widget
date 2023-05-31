@@ -5,8 +5,7 @@ import { checkConsoleMessages, renderWidget } from '../framework/shared';
 import xhrIdentifyWithPassword from '../../../playground/mocks/data/idp/idx/identify-with-password';
 import xhrIdentifyRecover from '../../../playground/mocks/data/idp/idx/identify-recovery';
 import xhrErrorIdentify from '../../../playground/mocks/data/idp/idx/error-identify-access-denied';
-import xhrErrorIdentifyAccessDeniedCustomMessage
-  from '../../../playground/mocks/data/idp/idx/error-identify-access-denied-custom-message';
+import xhrErrorIdentifyAccessDeniedCustomMessage from '../../../playground/mocks/data/idp/idx/error-identify-access-denied-custom-message';
 
 const identifyWithPasswordMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
