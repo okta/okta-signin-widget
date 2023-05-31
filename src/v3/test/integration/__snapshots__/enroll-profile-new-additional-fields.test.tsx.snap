@@ -272,7 +272,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                     <select
                       aria-describedby=" userProfile.country-error  "
                       aria-invalid="true"
-                      class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-47"
+                      class="MuiNativeSelect-select MuiNativeSelect-standard Mui-error MuiInputBase-input MuiInput-input emotion-47"
                       data-se="userProfile.country"
                       id="userProfile.country"
                       name="userProfile.country"
@@ -1589,7 +1589,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                     <select
                       aria-describedby=" userProfile.timezone-error  "
                       aria-invalid="true"
-                      class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-47"
+                      class="MuiNativeSelect-select MuiNativeSelect-standard Mui-error MuiInputBase-input MuiInput-input emotion-47"
                       data-se="userProfile.timezone"
                       id="userProfile.timezone"
                       name="userProfile.timezone"
