@@ -52,6 +52,7 @@ test.requestHooks(identifyRecoveryMock)('should have correct display texts', asy
   await t.expect(saveButtonText).eql('Next');
 
   await t.expect(await identityPage.signoutLinkExists()).ok();
+  await t.expect(await identityPage.helpLinkExists()).eql(false);
 });
 
 test.requestHooks(identifyRequestLogger, identifyRecoveryMock)('should be able to submit identifier', async t => {

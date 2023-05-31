@@ -38,8 +38,20 @@ export default class SignInDeviceViewPageObject extends BasePageObject {
     return this.form.getLink('Sign up');
   }
 
-  getHelpFooterLink() {
-    return this.footer.find('[data-se="help"]');
+  getUnlockAccountLink(name = 'Unlock account?') {
+    return this.form.getLink(name);
+  }
+
+  unlockAccountLinkExists(name = 'Unlock account?') {
+    return this.getUnlockAccountLink(name).exists;
+  }
+
+  getUnlockAccountLinkText() {
+    return this.getUnlockAccountLink().textContent;
+  }
+
+  getCustomUnlockAccountLinkUrl(name) {
+    return this.getUnlockAccountLink(name).getAttribute('href');
   }
 
   getSignOutFooterLink() {

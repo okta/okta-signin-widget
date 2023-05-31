@@ -79,7 +79,8 @@ test.requestHooks(mock)('should have editable fields and have account label', as
 
   /* i18n tests */
   await t.expect(registrationPage.alreadyHaveAccountExists()).eql(true);
-  await t.expect(await registrationPage.signoutLinkExists()).notOk();
+  await t.expect(await registrationPage.signoutLinkExists()).eql(false);
+  await t.expect(await registrationPage.helpLinkExists()).eql(false);
 
   await t.expect(await registrationPage.form.fieldByLabelExists('Email')).eql(true);
   await t.expect(await registrationPage.form.fieldByLabelExists('First name')).eql(true);

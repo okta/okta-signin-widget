@@ -590,7 +590,7 @@ test.meta('v3', false).requestHooks(mockChallengeCustomOTP)('should navigate to 
   await t.expect(challengeFactorPage.getFormTitle()).eql('Verify with Atko Custom OTP Authenticator');
 });
 
-test.meta('v3', false).requestHooks(mockChallengePassword)('should show custom factor page link', async t => {
+test.requestHooks(mockChallengePassword)('should show custom factor page link', async t => {
   const pageObject = await setup(t);
   await checkA11y(t);
 
@@ -607,7 +607,7 @@ test.meta('v3', false).requestHooks(mockChallengePassword)('should show custom f
   await t.expect(pageObject.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');
 });
 
-test.meta('v3', false).requestHooks(mockSelectAuthenticatorForRecovery)('should not show custom factor page link', async t => {
+test.requestHooks(mockSelectAuthenticatorForRecovery)('should not show custom factor page link', async t => {
   const pageObject = await setup(t);
   await checkA11y(t);
 

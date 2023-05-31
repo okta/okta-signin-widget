@@ -11,7 +11,11 @@
  */
 
 import { WidgetProps } from '../types';
-import { getDefaultCountryCode, getLanguageCode, transformIdentifier } from './settingsUtils';
+import {
+  getBackToSignInUri, getCustomHelpLinks, getDefaultCountryCode, getFactorPageCustomLink,
+  getForgotPasswordUri, getHelpLink, getLanguageCode, getUnlockAccountUri,
+  transformIdentifier,
+} from './settingsUtils';
 
 jest.mock('../../../util/BrowserFeatures', () => ({
   getUserLanguages: jest.fn().mockReturnValue(['en', 'en-US']),
@@ -74,5 +78,65 @@ describe('Settings Utils Tests', () => {
     };
     const identifier = 'testuser@okta1.com';
     expect(transformIdentifier(widgetProps, 'identify', identifier)).toBe('testuser');
+  });
+
+  it('should return help links', () => {
+    widgetProps = {
+      baseUrl: 'https://acme.com',
+      helpLinks: {
+        help: 'https://acme.com/help',
+        forgotPassword: 'https://okta.okta.com/signin/forgot-password',
+        unlock: 'https://acme.com/unlock-account',
+        custom: [
+          {
+            text: 'What is Okta?',
+            href: 'https://acme.com/what-is-okta',
+          },
+          {
+            text: 'Acme Portal',
+            href: 'https://acme.com',
+            target: '_blank',
+          },
+        ],
+        factorPage: {
+          text: 'custom factor page link',
+          href: 'https://acme.com/what-is-okta-autheticators',
+        },
+      },
+      backToSignInLink: 'https://okta.okta.com/',
+    };
+    expect(getHelpLink(widgetProps)).toBe('https://acme.com/help');
+    expect(getBackToSignInUri(widgetProps)).toBe('https://okta.okta.com/');
+    expect(getForgotPasswordUri(widgetProps)).toBe('https://okta.okta.com/signin/forgot-password');
+    expect(getUnlockAccountUri(widgetProps)).toBe('https://acme.com/unlock-account');
+    expect(getCustomHelpLinks(widgetProps)).toStrictEqual([
+      {
+        text: 'What is Okta?',
+        href: 'https://acme.com/what-is-okta',
+      },
+      {
+        text: 'Acme Portal',
+        href: 'https://acme.com',
+        target: '_blank',
+      },
+    ]);
+    expect(getFactorPageCustomLink(widgetProps)).toStrictEqual({
+      text: 'custom factor page link',
+      href: 'https://acme.com/what-is-okta-autheticators',
+    });
+  });
+
+  it('should return default help link if `helpLinks.help` is not provided', () => {
+    widgetProps = {
+      baseUrl: 'https://acme.com',
+    };
+    expect(getHelpLink(widgetProps)).toBe('https://acme.com/help/login');
+  });
+
+  it('should accept `signOutLink` as an alias for `backToSignInLink`', () => {
+    widgetProps = {
+      signOutLink: 'https://okta.okta.com/',
+    };
+    expect(getBackToSignInUri(widgetProps)).toBe('https://okta.okta.com/');
   });
 });

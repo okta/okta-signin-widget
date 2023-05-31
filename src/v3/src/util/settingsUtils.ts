@@ -26,6 +26,7 @@ import Util from '../../../util/Util';
 import { FORM_NAME_TO_OPERATION_MAP } from '../constants';
 import {
   AuthenticationMode,
+  CustomLink,
   RegistrationDataCallbackV3,
   RegistrationElementSchema,
   RegistrationSchemaCallbackV3,
@@ -89,11 +90,6 @@ export const getLanguageCode = (widgetProps: WidgetProps): LanguageCode => {
   return (supportedLanguages[supportedPos] ?? config.defaultLanguage) as LanguageCode;
 };
 
-export const getBackToSignInUri = (widgetProps: WidgetProps): string | undefined => {
-  const { backToSignInLink, signOutLink } = widgetProps;
-  return backToSignInLink || signOutLink;
-};
-
 export const getBaseUrl = (widgetProps: WidgetProps): string | undefined => {
   const {
     authClient, authParams, baseUrl, issuer,
@@ -109,6 +105,36 @@ export const getBaseUrl = (widgetProps: WidgetProps): string | undefined => {
   const issuerPath = issuer || authParams?.issuer;
   const [parsedBaseUrl] = issuerPath?.split('/oauth2/') ?? [];
   return parsedBaseUrl;
+};
+
+export const getBackToSignInUri = (widgetProps: WidgetProps): string | undefined => {
+  const { backToSignInLink, signOutLink } = widgetProps;
+  return backToSignInLink || signOutLink;
+};
+
+export const getForgotPasswordUri = (widgetProps: WidgetProps): string | undefined => {
+  const { forgotPassword } = widgetProps.helpLinks || {};
+  return forgotPassword;
+};
+
+export const getUnlockAccountUri = (widgetProps: WidgetProps): string | undefined => {
+  const { unlock } = widgetProps.helpLinks || {};
+  return unlock;
+};
+
+export const getHelpLink = (widgetProps: WidgetProps): string => {
+  const { help } = widgetProps.helpLinks || {};
+  return help || `${getBaseUrl(widgetProps)}/help/login`;
+};
+
+export const getCustomHelpLinks = (widgetProps: WidgetProps): CustomLink[] => {
+  const { custom } = widgetProps.helpLinks || {};
+  return custom || [];
+};
+
+export const getFactorPageCustomLink = (widgetProps: WidgetProps): Omit<CustomLink, 'target'> | undefined => {
+  const { factorPage } = widgetProps.helpLinks || {};
+  return factorPage;
 };
 
 export const getDefaultCountryCode = (widgetProps: WidgetProps): string => {

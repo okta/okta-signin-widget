@@ -139,8 +139,7 @@ test
       .eql('Your code doesn\'t match our records. Please try again.');
   });
 
-// Help links are not implemented in v3 - OKTA-609315
-test.meta('v3', false).requestHooks(verifyMock)('should show custom factor page link', async t => {
+test.requestHooks(verifyMock)('should show custom factor page link', async t => {
   const pageObject = await setup(t);
   await checkA11y(t);
 

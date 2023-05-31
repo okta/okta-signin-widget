@@ -27,6 +27,12 @@ jest.mock('./transformForgotPasswordButton', () => ({
 jest.mock('./transformUnlockAccountButton', () => ({
   transformUnlockAccountButton: () => () => ({}),
 }));
+jest.mock('./transformHelpLinks', () => ({
+  transformHelpLinks: () => () => ({}),
+}));
+jest.mock('./transformFactorPageCustomLink', () => ({
+  transformFactorPageCustomLink: () => () => ({}),
+}));
 jest.mock('./transformVerifyWithOtherButton', () => ({
   transformVerifyWithOtherButton: () => () => ({}),
 }));
@@ -46,6 +52,8 @@ const mocked = {
   submit: require('./transformSubmitButton'),
   forgotPassword: require('./transformForgotPasswordButton'),
   unlockAccount: require('./transformUnlockAccountButton'),
+  helpLinks: require('./transformHelpLinks'),
+  factorPageCustomLink: require('./transformFactorPageCustomLink'),
   verifyWithOther: require('./transformVerifyWithOtherButton'),
   returnToAuthenticatorList: require('./transformReturnToAuthenticatorListButton'),
   register: require('./transformRegisterButton'),
@@ -59,6 +67,8 @@ describe('Button Transformer Tests', () => {
     jest.spyOn(mocked.submit, 'transformSubmitButton');
     jest.spyOn(mocked.forgotPassword, 'transformForgotPasswordButton');
     jest.spyOn(mocked.unlockAccount, 'transformUnlockAccountButton');
+    jest.spyOn(mocked.helpLinks, 'transformHelpLinks');
+    jest.spyOn(mocked.factorPageCustomLink, 'transformFactorPageCustomLink');
     jest.spyOn(mocked.verifyWithOther, 'transformVerifyWithOtherButton');
     jest.spyOn(mocked.returnToAuthenticatorList, 'transformReturnToAuthenticatorListButton');
     jest.spyOn(mocked.register, 'transformRegisterButton');
@@ -66,7 +76,9 @@ describe('Button Transformer Tests', () => {
 
     const formBag = getStubFormBag();
     const mockOptions = {
-      transaction: {},
+      transaction: {
+        rawIdxState: {},
+      },
       widgetProps: {},
     } as TransformationOptions;
     transformButtons(mockOptions)(formBag);
@@ -77,6 +89,8 @@ describe('Button Transformer Tests', () => {
     expect(mocked.submit.transformSubmitButton).toHaveBeenCalled();
     expect(mocked.forgotPassword.transformForgotPasswordButton).toHaveBeenCalled();
     expect(mocked.unlockAccount.transformUnlockAccountButton).toHaveBeenCalled();
+    expect(mocked.helpLinks.transformHelpLinks).toHaveBeenCalled();
+    expect(mocked.factorPageCustomLink.transformFactorPageCustomLink).toHaveBeenCalled();
     expect(mocked.verifyWithOther.transformVerifyWithOtherButton).toHaveBeenCalled();
     expect(mocked.returnToAuthenticatorList.transformReturnToAuthenticatorListButton)
       .toHaveBeenCalled();

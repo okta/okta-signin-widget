@@ -136,12 +136,23 @@ exports[`authenticator-apple-sso-extension calls verify then cancels the transac
               <div
                 class="MuiBox-root emotion-7"
               >
+                <a
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-25"
+                  data-se="help"
+                  href="http://localhost:3000/help/login"
+                >
+                  Help
+                </a>
+              </div>
+              <div
+                class="MuiBox-root emotion-7"
+              >
                 <hr
-                  class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-25"
+                  class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-27"
                 />
               </div>
               <div
-                class="MuiBox-root emotion-26"
+                class="MuiBox-root emotion-28"
               >
                 <div
                   class="MuiBox-root emotion-7"
@@ -150,9 +161,9 @@ exports[`authenticator-apple-sso-extension calls verify then cancels the transac
                     class="MuiBox-root emotion-8"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-29"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-31"
                       data-se="signup-info"
-                      id="identify_Description_Dont_have_an_account_7"
+                      id="identify_Description_Dont_have_an_account_8"
                     >
                       Don't have an account?
                     </p>
@@ -162,7 +173,7 @@ exports[`authenticator-apple-sso-extension calls verify then cancels the transac
                   class="MuiBox-root emotion-7"
                 >
                   <button
-                    class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-31"
+                    class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-33"
                     data-se="enroll"
                     role="link"
                   >
@@ -315,12 +326,23 @@ exports[`authenticator-apple-sso-extension cancels the transaction when sso exte
               <div
                 class="MuiBox-root emotion-7"
               >
+                <a
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-25"
+                  data-se="help"
+                  href="http://localhost:3000/help/login"
+                >
+                  Help
+                </a>
+              </div>
+              <div
+                class="MuiBox-root emotion-7"
+              >
                 <hr
-                  class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-25"
+                  class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-27"
                 />
               </div>
               <div
-                class="MuiBox-root emotion-26"
+                class="MuiBox-root emotion-28"
               >
                 <div
                   class="MuiBox-root emotion-7"
@@ -329,9 +351,9 @@ exports[`authenticator-apple-sso-extension cancels the transaction when sso exte
                     class="MuiBox-root emotion-8"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-29"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-31"
                       data-se="signup-info"
-                      id="identify_Description_Dont_have_an_account_7"
+                      id="identify_Description_Dont_have_an_account_8"
                     >
                       Don't have an account?
                     </p>
@@ -341,7 +363,7 @@ exports[`authenticator-apple-sso-extension cancels the transaction when sso exte
                   class="MuiBox-root emotion-7"
                 >
                   <button
-                    class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-31"
+                    class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-33"
                     data-se="enroll"
                     role="link"
                   >
@@ -494,12 +516,23 @@ exports[`authenticator-apple-sso-extension opens the verify url with credential 
               <div
                 class="MuiBox-root emotion-7"
               >
+                <a
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-25"
+                  data-se="help"
+                  href="http://localhost:3000/help/login"
+                >
+                  Help
+                </a>
+              </div>
+              <div
+                class="MuiBox-root emotion-7"
+              >
                 <hr
-                  class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-25"
+                  class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-27"
                 />
               </div>
               <div
-                class="MuiBox-root emotion-26"
+                class="MuiBox-root emotion-28"
               >
                 <div
                   class="MuiBox-root emotion-7"
@@ -508,9 +541,9 @@ exports[`authenticator-apple-sso-extension opens the verify url with credential 
                     class="MuiBox-root emotion-8"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-29"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-31"
                       data-se="signup-info"
-                      id="identify_Description_Dont_have_an_account_7"
+                      id="identify_Description_Dont_have_an_account_8"
                     >
                       Don't have an account?
                     </p>
@@ -520,7 +553,7 @@ exports[`authenticator-apple-sso-extension opens the verify url with credential 
                   class="MuiBox-root emotion-7"
                 >
                   <button
-                    class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-31"
+                    class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-33"
                     data-se="enroll"
                     role="link"
                   >

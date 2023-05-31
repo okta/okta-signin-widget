@@ -773,9 +773,7 @@ test
     )).eql(1);
   });
 
-// OKTA-465319 Help link is not supported in v3
 test
-  .meta('v3', false)
   .requestHooks(sendEmailMock)('should show custom factor page link', async t => {
     const challengeEmailPageObject = await setup(t);
     await checkA11y(t);

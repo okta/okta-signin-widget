@@ -1,9 +1,10 @@
-import { RequestMock, RequestLogger } from 'testcafe';
+import { RequestMock, RequestLogger, userVariables } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 import SelectFactorPageObject from '../framework/page-objects/SelectAuthenticatorPageObject';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import { checkConsoleMessages, renderWidget as rerenderWidget } from '../framework/shared';
 import xhrIdentify from '../../../playground/mocks/data/idp/idx/identify';
+import xhrIdentifyWithUnlock from '../../../playground/mocks/data/idp/idx/identify-with-unlock-account-link';
 import xhrErrorIdentify from '../../../playground/mocks/data/idp/idx/error-identify-access-denied';
 import xhrAuthenticatorVerifySelect from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator';
 import xhrAuthenticatorOVTotp from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-totp';
@@ -25,6 +26,12 @@ const identifyMockWithUnsupportedResponseError = RequestMock()
 const identifyMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrIdentify)
+  .onRequestTo('http://localhost:3000/idp/idx/identify')
+  .respond(xhrErrorIdentify, 403);
+
+const identifyWithUnlockMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrIdentifyWithUnlock)
   .onRequestTo('http://localhost:3000/idp/idx/identify')
   .respond(xhrErrorIdentify, 403);
 
@@ -200,7 +207,7 @@ test.requestHooks(identifyRequestLogger, identifyMock)('should not show custom e
   await t.expect(identifyRequestLogger.count(() => true)).eql(1);
 });
 
-test.meta('v3', false).requestHooks(identifyMock)('should have correct display text', async t => {
+test.requestHooks(identifyMock)('should have correct display text', async t => {
   // i18n values can be tested here.
   const identityPage = await setup(t);
   await checkA11y(t);
@@ -216,7 +223,11 @@ test.meta('v3', false).requestHooks(identifyMock)('should have correct display t
 
   const signupLinkText = identityPage.getSignupLinkText();
   await t.expect(signupLinkText).eql('Sign up');
-  await t.expect(identityPage.getFooterInfo()).eql('Don\'t have an account?Sign up');
+  if (userVariables.v3) {
+    await t.expect(identityPage.getFooterInfo()).eql('Don\'t have an account?');
+  } else {
+    await t.expect(identityPage.getFooterInfo()).eql('Don\'t have an account?Sign up');
+  }
 
   const needhelpLinkText = identityPage.getNeedhelpLinkText();
   await t.expect(needhelpLinkText).eql('Help');
@@ -292,7 +303,7 @@ test.meta('v3', false).requestHooks(identifyRequestLogger, identifyMock)('should
   });
 });
 
-test.meta('v3', false).requestHooks(identifyMock)('should render custom Unlock account link', async t => {
+test.requestHooks(identifyWithUnlockMock)('should render custom Unlock account link', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
   const customUnlockLinkText = 'HELP I\'M LOCKED OUT';
@@ -312,7 +323,7 @@ test.meta('v3', false).requestHooks(identifyMock)('should render custom Unlock a
   await t.expect(identityPage.getCustomUnlockAccountLinkUrl(customUnlockLinkText)).eql('http://unlockaccount');
 });
 
-test.meta('v3', false).requestHooks(identifyMock)('should not render custom forgot password link', async t => {
+test.requestHooks(identifyMock)('should not render custom forgot password link', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
   await rerenderWidget({

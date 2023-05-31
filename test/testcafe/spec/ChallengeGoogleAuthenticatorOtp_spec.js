@@ -114,8 +114,7 @@ test
     await t.expect(challengeGoogleAuthenticatorPageObject.getAnswerInlineError()).eql('Each code can only be used once. Please wait for a new code and try again.');
   });
 
-// OKTA-465319 Help link is not supported in v3
-test.meta('v3', false).requestHooks(validOTPmock)('should show custom factor page link', async t => {
+test.requestHooks(validOTPmock)('should show custom factor page link', async t => {
   const challengeGoogleAuthenticatorPageObject = await setup(t);
   await checkA11y(t);
 

@@ -7,6 +7,7 @@ const SWITCH_AUTHENTICATOR_LINK = '[data-se="switchAuthenticator"]';
 const ionMessagesSelector = '.ion-messages-container';
 const SUBTITLE_SELECTOR = '[data-se="o-form-explain"]';
 const FACTOR_PAGE_HELP_LINK = '[data-se="factorPageHelpLink"]';
+const HELP_LINK_SELECTOR = '.auth-footer .js-help';
 
 export default class BasePageObject {
   constructor(t) {
@@ -107,6 +108,13 @@ export default class BasePageObject {
     return this.form.getLink('Back to sign in');
   }
 
+  getHelpLink() {
+    if (userVariables.v3) {
+      return this.form.getLink('Help');
+    }
+    return Selector(HELP_LINK_SELECTOR);
+  }
+
   getForgotPasswordLink() {
     return Selector('[data-se="forgot-password"]');
   }
@@ -127,6 +135,10 @@ export default class BasePageObject {
 
   async forgotPasswordLinkExists() {
     return this.getForgotPasswordLink().exists;
+  }
+
+  async helpLinkExists() {
+    return this.getHelpLink().exists;
   }
 
   // in v2 the Cancel Link covers multiple links like 'Go Back' and 'Sign out'
