@@ -119,6 +119,7 @@ fi
 
 mkdir -p "test-reports/verify-package"
 
+npm --version
 pushd dist
 npm pack --dry-run --json > ../test-reports/verify-package/pack-report.json
 popd
