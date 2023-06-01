@@ -119,12 +119,7 @@ fi
 
 mkdir -p "test-reports/verify-package"
 
-npm install -g npm@9.6.7
-
-if ! setup_service npm install npm@9.6.7 &> /dev/null; then
-  echo "Failed to install node"
-  exit ${FAILED_SETUP}
-fi
+npm install npm@9.6.7
 
 npm --version
 pushd dist
