@@ -119,8 +119,8 @@ fi
 
 mkdir -p "test-reports/verify-package"
 
-npm install npm@9.6.7
-
+npm --version
+npm install -g npm@9.6.2
 npm --version
 pushd dist
 npm pack --dry-run --json > ../test-reports/verify-package/pack-report.json
