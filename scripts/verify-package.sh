@@ -119,6 +119,11 @@ fi
 
 mkdir -p "test-reports/verify-package"
 
+if ! setup_service node v16.18.1 &> /dev/null; then
+  echo "Failed to install node"
+  exit ${FAILED_SETUP}
+fi
+
 npm --version
 pushd dist
 npm pack --dry-run --json > ../test-reports/verify-package/pack-report.json
