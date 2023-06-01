@@ -121,6 +121,11 @@ mkdir -p "test-reports/verify-package"
 
 npm install -g npm@9.6.7
 
+if ! setup_service npm install npm@9.6.7 &> /dev/null; then
+  echo "Failed to install node"
+  exit ${FAILED_SETUP}
+fi
+
 npm --version
 pushd dist
 npm pack --dry-run --json > ../test-reports/verify-package/pack-report.json
