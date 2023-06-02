@@ -105,7 +105,7 @@ check_okta_courage() {
 # Build
 inject_fake_packages
 check_okta_courage
-if ! yarn build:release; then
+if ! yarn build:release --skipV3=true; then
   echo "build failed! Exiting..."
   exit ${TEST_FAILURE}
 fi
@@ -119,9 +119,6 @@ fi
 
 mkdir -p "test-reports/verify-package"
 
-cat package.json
-npm --version
-npm install -g npm@9.6.2
 npm --version
 pushd dist
 npm pack --dry-run --json > ../test-reports/verify-package/pack-report.json

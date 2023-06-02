@@ -19,6 +19,7 @@ module.exports = function(grunt) {
       DEFAULT_SERVER_PORT   = 3000;
 
   var mockDuo = grunt.option('env.mockDuo');
+  var skipV3 = grunt.option('env.skipV3');
   var buildAllBundles = grunt.option('buildAllBundles');
 
   grunt.initConfig({
@@ -236,7 +237,9 @@ module.exports = function(grunt) {
       'build-esm': 'yarn build:esm',
       'build-dev-watch':
       'yarn build:webpack-dev --watch --env skipAnalyzer=true' + (mockDuo ? ' --env mockDuo=true' : ''),
-      'build-release': 'yarn build:webpack-release && yarn workspace v3 build',
+      'build-release': skipV3
+        ? 'yarn build:webpack-release'
+        : 'yarn build:webpack-release && yarn workspace v3 build',
       'build-e2e-app': 'yarn build:webpack-e2e-app',
       'generate-config': 'yarn generate-config',
       'run-protractor': 'yarn protractor',

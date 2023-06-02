@@ -130,7 +130,6 @@
     "whatwg-fetch": "^3.6.2"
   },
   "engines": {
-    "npm" : ">=9.1.3",
     "node": ">=16"
   },
   "msw": {
