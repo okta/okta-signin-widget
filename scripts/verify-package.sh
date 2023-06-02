@@ -27,6 +27,11 @@ fi
 
 set -e
 
+if ! setup_service node v14.18.2 &> /dev/null; then
+  echo "Failed to install node"
+  exit ${FAILED_SETUP}
+fi
+
 # Internal packages to check for potential Dependency Confusion Attack (OKTA-529256)
 INTERNAL_PACKAGES_TO_FAKE=("@okta/typingdna" "@okta/handlebars-inline-precompile" "@okta/okta-i18n-bundles" "@okta/duo" "@okta/qtip")
 INTERNAL_PACKAGES=(${INTERNAL_PACKAGES_TO_FAKE[@]} "@okta/courage")
