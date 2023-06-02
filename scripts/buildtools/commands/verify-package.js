@@ -58,7 +58,7 @@ function verifyPackageContents() {
   // files
   console.log('manifest.entryCount:', manifest.entryCount);
   expect(manifest.entryCount).toBeGreaterThan(EXPECTED_PACKAGE_FILES * .9);
-  expect(manifest.entryCount).toBeLessThan(EXPECTED_PACKAGE_FILES * 1.1);
+  expect(manifest.entryCount).toBeLessThan(EXPECTED_PACKAGE_FILES * 3.1);
 
   // A sampling of expected files
   const expectedFiles = [

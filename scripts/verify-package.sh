@@ -105,7 +105,7 @@ check_okta_courage() {
 # Build
 inject_fake_packages
 check_okta_courage
-if ! yarn build:release --skipV3=true; then
+if ! yarn build:release; then
   echo "build failed! Exiting..."
   exit ${TEST_FAILURE}
 fi
