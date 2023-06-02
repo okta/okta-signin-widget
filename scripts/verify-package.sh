@@ -124,7 +124,6 @@ if ! setup_service node v14.18.2 &> /dev/null; then
   exit ${FAILED_SETUP}
 fi
 
-npm --version
 pushd dist
 npm pack --dry-run --json > ../test-reports/verify-package/pack-report.json
 popd
