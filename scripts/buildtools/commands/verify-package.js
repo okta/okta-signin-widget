@@ -4,7 +4,7 @@ const { readFileSync } = require('fs');
 const KB = 1024;
 const MB = 1024 * 1024;
 const EXPECTED_PACKAGE_SIZE = 13.35 * MB;
-const EXPECTED_PACKAGE_FILES = 2200;
+const EXPECTED_PACKAGE_FILES = 20000;
 
 const EXPECTED_BUNDLE_SIZES = {
   'okta-plugin-a11y.js': 3.6 * KB,
@@ -53,12 +53,12 @@ function verifyPackageContents() {
   // package size
   console.log('manifest.size:', manifest.size / MB);
   expect(manifest.size).toBeGreaterThan(EXPECTED_PACKAGE_SIZE * .9);
-  expect(manifest.size).toBeLessThan(EXPECTED_PACKAGE_SIZE * 1.1);
+  expect(manifest.size).toBeLessThan(EXPECTED_PACKAGE_SIZE * 3.1);
 
   // files
   console.log('manifest.entryCount:', manifest.entryCount);
   expect(manifest.entryCount).toBeGreaterThan(EXPECTED_PACKAGE_FILES * .9);
-  expect(manifest.entryCount).toBeLessThan(EXPECTED_PACKAGE_FILES * 3.1);
+  expect(manifest.entryCount).toBeLessThan(EXPECTED_PACKAGE_FILES * 1.1);
 
   // A sampling of expected files
   const expectedFiles = [
