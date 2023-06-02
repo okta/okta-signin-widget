@@ -119,6 +119,7 @@ fi
 
 mkdir -p "test-reports/verify-package"
 
+cat package.json
 npm --version
 npm install npm@9.6.2
 npm --version
