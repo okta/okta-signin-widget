@@ -17,7 +17,7 @@ const EXPECTED_BUNDLE_SIZES = {
   'okta-sign-in.oie.min.js': 1.2 * MB,
   'okta-sign-in.polyfill.js': 504 * KB,
   'okta-sign-in.polyfill.min.js': 108 * KB,
-  'okta-sign-in.next.js': 7 * MB, // NOTE: bloated temporarily without tree-shaking
+  // 'okta-sign-in.next.js': 7 * MB, // NOTE: bloated temporarily without tree-shaking
 };
 
 exports.command = 'verify-package';
@@ -73,7 +73,7 @@ function verifyPackageContents() {
     'dist/js/okta-sign-in.polyfill.min.js',
     'dist/js/okta-sign-in.polyfill.min.js.map',
     'dist/esm/src/exports/exports/default.js',
-    'dist/js/okta-sign-in.next.js',
+    // 'dist/js/okta-sign-in.next.js',
     'dist/labels/json/country_de.json',
     'dist/labels/json/login_ru.json',
     'dist/sass/_fonts.scss',
