@@ -15,7 +15,7 @@ const EXPECTED_BUNDLE_SIZES = {
   'okta-sign-in.no-polyfill.min.js': 1.6 * MB,
   'okta-sign-in.oie.js': 2.4 * MB,
   'okta-sign-in.oie.min.js': 1.2 * MB,
-  'okta-sign-in.polyfill.js': 460 * KB,
+  'okta-sign-in.polyfill.js': 380 * KB,
   'okta-sign-in.polyfill.min.js': 90 * KB,
   'okta-sign-in.next.js': 1.6 * MB, // NOTE: bloated temporarily without tree-shaking
 };
