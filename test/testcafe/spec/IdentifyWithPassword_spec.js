@@ -182,7 +182,7 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should not t
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.clickShowPasswordIcon();
   await identityPage.fillPasswordField('  password with whitespace  ');
-  await identityPage.clickNextButton();
+  await identityPage.clickSignInButton();
 
   await t.expect(identifyRequestLogger.count(() => true)).eql(1);
   const req = identifyRequestLogger.requests[0].request;
