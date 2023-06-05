@@ -2,7 +2,9 @@
 
 exports[`Identify Transformer Tests should add UI elements for identifier and rememberMe inputs when no features are provided 1`] = `
 Object {
-  "data": Object {},
+  "data": Object {
+    "identifier": "testUserFromCookie",
+  },
   "dataSchema": Object {
     "fieldsToExclude": [Function],
     "fieldsToTrim": Array [],
@@ -173,7 +175,7 @@ Object {
 }
 `;
 
-exports[`Identify Transformer Tests should add UI elements for identifier, passcode & rememberMe with username pulled from cookie as the default option when username is not provided in options but features rememberMe & rememberMyUsernameOnOIE are provided 1`] = `
+exports[`Identify Transformer Tests should add UI elements for identifier, passcode & rememberMe with username pulled from cookie as the default option when username is not provided in options but feature rememberMe is provided 1`] = `
 Object {
   "data": Object {
     "identifier": "testUserFromCookie",
@@ -236,7 +238,9 @@ Object {
 
 exports[`Identify Transformer Tests should add UI elements for identifier, passcode and rememberMe inputs when no features are provided 1`] = `
 Object {
-  "data": Object {},
+  "data": Object {
+    "identifier": "testUserFromCookie",
+  },
   "dataSchema": Object {
     "fieldsToExclude": [Function],
     "fieldsToTrim": Array [],
@@ -295,7 +299,9 @@ Object {
 
 exports[`Identify Transformer Tests should remove rememberMe element from formBag when showKeepMeSignedIn feature is set to false 1`] = `
 Object {
-  "data": Object {},
+  "data": Object {
+    "identifier": "testUserFromCookie",
+  },
   "dataSchema": Object {
     "fieldsToExclude": [Function],
     "fieldsToTrim": Array [],

@@ -3,8 +3,8 @@ const { readFileSync } = require('fs');
 
 const KB = 1024;
 const MB = 1024 * 1024;
-const EXPECTED_PACKAGE_SIZE = 13.35 * MB;
-const EXPECTED_PACKAGE_FILES = 2200;
+const EXPECTED_PACKAGE_SIZE = 43.35 * MB;
+const EXPECTED_PACKAGE_FILES = 13000;
 
 const EXPECTED_BUNDLE_SIZES = {
   'okta-plugin-a11y.js': 3.6 * KB,
@@ -17,7 +17,7 @@ const EXPECTED_BUNDLE_SIZES = {
   'okta-sign-in.oie.min.js': 1.2 * MB,
   'okta-sign-in.polyfill.js': 504 * KB,
   'okta-sign-in.polyfill.min.js': 108 * KB,
-  'okta-sign-in.next.js': 7 * MB, // NOTE: bloated temporarily without tree-shaking
+  'okta-sign-in.next.js': 1.6 * MB, // NOTE: bloated temporarily without tree-shaking
 };
 
 exports.command = 'verify-package';

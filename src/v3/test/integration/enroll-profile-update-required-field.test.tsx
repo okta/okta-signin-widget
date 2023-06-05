@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import enrollProfileUpdatMockResponse from '@okta/mocks/data/idp/idx/enroll-profile-update-params.json';
 import { waitFor } from '@testing-library/preact';
+import enrollProfileUpdatMockResponse from '../../../../playground/mocks/data/idp/idx/enroll-profile-update-params.json';
 import { setup } from './util';
 
 describe('enroll-profile-update-required-field', () => {

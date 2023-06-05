@@ -1879,15 +1879,6 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@okta/courage@file:../../packages/@okta/courage-dist":
-  version "1.0.0"
-  dependencies:
-    clipboard "^1.5.16"
-    jquery "^3.6.0"
-
-"@okta/mocks@file:../../playground/mocks":
-  version "1.0.0"
-
 "@okta/odyssey-babel-loader@^0.17.1":
   version "0.17.1"
   resolved "https://registry.yarnpkg.com/@okta/odyssey-babel-loader/-/odyssey-babel-loader-0.17.1.tgz#4e9bd7f97a1aee54a257cc5cbf7c366c02a5d8f3"

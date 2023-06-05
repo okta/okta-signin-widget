@@ -256,7 +256,7 @@ describe('Terminal Transaction Transformer Tests', () => {
     expect((formBag.uischema.elements[0] as LinkElement).options?.href).toBe('/');
   });
 
-  it('should set username cookie when successful authentication and rememberMyUsernameOnOIE feature is set', () => {
+  it('should set username cookie when successful authentication and rememberMe feature is set', () => {
     const mockIdentifier = 'testUser';
     transaction.context = {
       success: { name: 'success' },
@@ -268,14 +268,14 @@ describe('Terminal Transaction Transformer Tests', () => {
       },
     } as unknown as IdxContext;
     widgetProps = {
-      features: { rememberMyUsernameOnOIE: true, rememberMe: true },
+      features: { rememberMe: true },
     };
     transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
     expect(setUsernameCookie).toHaveBeenCalledWith(mockIdentifier);
   });
 
-  it('should remove username cookie when successful authentication and rememberMyUsernameOnOIE feature is true but rememberMe is false', () => {
+  it('should remove username cookie when successful authentication and rememberMe feature is false', () => {
     transaction.context = {
       success: { name: 'success' },
       user: {
@@ -286,7 +286,7 @@ describe('Terminal Transaction Transformer Tests', () => {
       },
     } as unknown as IdxContext;
     widgetProps = {
-      features: { rememberMyUsernameOnOIE: true, rememberMe: false },
+      features: { rememberMe: false },
     };
     transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 

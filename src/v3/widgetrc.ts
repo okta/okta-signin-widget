@@ -68,7 +68,7 @@ const common: Partial<WidgetOptions> = {
     // autoFocus: true,
     // hideSignOutLinkInMFA: true,
     // mfaOnlyFlow: true,
-    rememberMe: false,
+    rememberMe: true,
     // rememberMyUsernameOnOIE: false,
     // showIdentifier: true,
     // showKeepMeSignedIn: true,

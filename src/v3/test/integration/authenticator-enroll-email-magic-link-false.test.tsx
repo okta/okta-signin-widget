@@ -10,8 +10,9 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import mockResponse from '@okta/mocks/data/idp/idx/authenticator-enroll-email-emailmagiclink-false.json';
 import { waitFor } from '@testing-library/preact';
+
+import mockResponse from '../../../../playground/mocks/data/idp/idx/authenticator-enroll-email-emailmagiclink-false.json';
 import { createAuthJsPayloadArgs, setup } from './util';
 
 describe('Email authenticator enroll when magic link = false Tests', () => {
