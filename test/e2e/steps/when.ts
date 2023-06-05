@@ -319,6 +319,7 @@ When(
 
 When(
   /^user enters the SMS code$/,
+  { timeout: 30 * 1000 },
   async function() {
     let code = '';
     if (process.env.LOCAL_MONOLITH) {
