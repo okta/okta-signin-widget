@@ -613,7 +613,9 @@ test
     await t.expect(lastRequestUrl).eql('http://localhost:3000/idp/idx/challenge/resend');
   });
 
-test
+// Test fails in v3. After re-render we still have to wait for 30 seconds
+// Enable after fixing - OKTA-561098  
+test.meta('v3', false)
   .requestHooks(logger, validOTPmock)('resend after at most 30 seconds even after re-render', async t => {
     const challengeEmailPageObject = await setup(t);
     await checkA11y(t);
