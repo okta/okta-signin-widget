@@ -128,7 +128,8 @@
     "vite": "^4.1.0",
     "wait-on": "^6.0.1",
     "whatwg-fetch": "^3.6.2",
-    "@vitejs/plugin-legacy": "^4.0.4"
+    "@vitejs/plugin-legacy": "^4.0.4",
+    "rollup-plugin-visualizer": "^5.9.0"
   },
   "engines": {
     "node": ">=16"
