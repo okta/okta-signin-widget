@@ -74,7 +74,6 @@ function verifyPackageContents() {
     'dist/js/okta-sign-in.polyfill.min.js.map',
     'dist/esm/src/exports/exports/default.js',
     'dist/js/okta-sign-in.next.js',
-    'dist/esm/src/index.js',
     'dist/labels/json/country_de.json',
     'dist/labels/json/login_ru.json',
     'dist/sass/_fonts.scss',
