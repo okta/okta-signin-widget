@@ -359,8 +359,6 @@ test
     await t.wait(RESEND_DELAY_MS);
     await t.expect(await enrollEmailPageObject.resendEmailExists()).eql(true);
     await t.expect(enrollEmailPageObject.resendEmailText()).contains('Haven\'t received an email?');
-    await enrollEmailPageObject.clickResendEmail();
-    await t.expect(await enrollEmailPageObject.resendEmailExists()).eql(false);
 
     // Asserts the display order of elements in v2
     if (!userVariables.v3) {
@@ -381,9 +379,8 @@ test
       )).eql(8);
     }
 
-    await enrollEmailPageObject.resendEmail.click();
-
-    await t.expect(enrollEmailPageObject.resendEmail.isHidden()).ok();
+    await enrollEmailPageObject.clickResendEmail();
+    await t.expect(await enrollEmailPageObject.resendEmailExists()).eql(false);
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
       record.request.url.match(/resend/)
@@ -428,7 +425,6 @@ test
     const { request: firstRequest } = logger.requests[0];
     let jsonBody = JSON.parse(firstRequest.body);
 
-    await t.expect(enrollEmailPageObject.resendEmail.isHidden()).ok();
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
       record.request.url.match(/resend/)

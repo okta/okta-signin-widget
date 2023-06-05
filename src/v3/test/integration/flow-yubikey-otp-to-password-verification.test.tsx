@@ -11,8 +11,6 @@
  */
 
 import { waitFor } from '@testing-library/preact';
-
-
 import identifyWithPassword from '../../../../playground/mocks/data/idp/idx/authenticator-verification-password.json';
 import yubikeyVerificationResponse from '../../../../playground/mocks/data/idp/idx/authenticator-verification-yubikey.json';
 import { createAuthJsPayloadArgs, setup } from './util';
