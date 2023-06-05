@@ -77,8 +77,7 @@ import ChallengeOktaVerifyCustomAppDataView from './views/shared/ChallengeOktaVe
 import ChallengeOktaVerifySSOExtensionView from './views/ov/ChallengeOktaVerifySSOExtensionView';
 
 // app (google authenticator)
-import EnrollAuthenticatorGoogleAuthenticatorView
-  from './views/google-authenticator/EnrollAuthenticatorGoogleAuthenticatorView';
+import EnrollAuthenticatorGoogleAuthenticatorView from './views/google-authenticator/EnrollAuthenticatorGoogleAuthenticatorView';
 import ChallengeGoogleAuthenticatorView from './views/google-authenticator/ChallengeGoogleAuthenticatorView';
 
 // on-prem mfa

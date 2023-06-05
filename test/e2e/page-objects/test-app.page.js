@@ -9,6 +9,7 @@ class TestAppPage {
   get tokens() { return $('#tokens-container'); }
   get code() { return $('#code-container'); }
   get cspErrors() { return $('#csp-errors-container'); }
+  get unhandledRejections() { return $('#unhandled-rejections-container'); }
   get oidcError() { return $('#oidc-error-container'); }
   // widget general elements
   get widgetTitle() { return $('[data-se="o-form-head"]'); }
@@ -26,6 +27,7 @@ class TestAppPage {
   get triggerCspEvalFail() { return $('button[name="fail-csp-eval"]'); }
   get triggerCspStyleAttrFail() { return $('button[name="fail-csp-style-attr"]'); }
   get flowDropdown() { return $('#f_flow'); }
+  get clearTransactionButton() { return $('button[name="clearTransaction"]'); }
 
   
   async open(path = '') {
@@ -51,11 +53,18 @@ class TestAppPage {
     await browser.newWindow(`http://localhost:3000/${path}`, { windowFeatures: 'noopener=yes' });
   }
 
+  async switchToPreviousTab() {
+    const windowHandles = await browser.getWindowHandles();
+    const previousHandle = windowHandles.slice(-2)[0];
+    await browser.switchToWindow(previousHandle);
+  }
+
   async ssoLogout() {
     await browser.url(`${WIDGET_TEST_SERVER}/login/signout`);
   }
 
   async setConfig(config) {
+    await waitForLoad(this.configEditor);
     await this.configEditor.then(el => el.setValue(JSON.stringify(config)));
   }
 
@@ -98,12 +107,7 @@ class TestAppPage {
   }
 
   async assertWidget(displayed) {
-    if (displayed) {
-      await waitForLoad(this.widget);
-    }
-    await this.widget.then(el => el.isDisplayed()).then(isDisplayed => {
-      expect(isDisplayed).toBe(displayed);
-    });
+    await this.widget.waitForDisplayed({ reverse: !displayed });
   }
 
   async assertWidgetRemoved() {
@@ -142,6 +146,16 @@ class TestAppPage {
     await PrimaryAuthPage.errorBox.then(el => el.getText()).then(txt => {
       expect(txt).toBe(errorMessage);
     });
+  }
+
+  async assertNoUnhandledRejections() {
+    await this.unhandledRejections.then(el => el.getText()).then(txt => {
+      expect(txt).toBe('');
+    });
+  }
+
+  async clearTransaction() {
+    await this.clearTransactionButton.click();
   }
 
 }

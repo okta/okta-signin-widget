@@ -1,17 +1,18 @@
 #!/bin/bash -xe
 
-setup_service node v16.19.1
+# Must switch the node version back to v14.18.2 due to bug in v16 see https://github.com/npm/cli/pull/5894
+setup_service node v14.18.2
 # Use the cacert bundled with centos as okta root CA is self-signed and cause issues downloading from yarn
 setup_service yarn 1.21.1 /etc/pki/tls/certs/ca-bundle.crt
 
-# Get monolith build version based on commit sha
+# install dockolith based on upstream branch
+export DOCKOLITH_BRANCH=${upstream_artifact_branch}
 source ./scripts/monolith/install-dockolith.sh
+
+# prepare dockolith
 pushd ./scripts/dockolith > /dev/null
   yarn # install dependencies and build TS
-  mono_build_version=`./scripts/api/get-build-version.sh "${upstream_artifact_sha}"`
 popd > /dev/null
 
-# Update script: MONOLITH_BUILDVERSION in e2e-monolith.sh
-pushd ./scripts > /dev/null
-  sed -i "s/\(MONOLITH_BUILDVERSION\=\).*/\1\"${mono_build_version}\"/g" e2e-monolith.sh
-popd > /dev/null
+# run e2e
+source ./scripts/e2e-monolith.sh

@@ -2,8 +2,7 @@ import { Model } from '@okta/courage';
 import AutoRedirectView from 'v2/view-builder/views/AutoRedirectView';
 import AppState from 'v2/models/AppState';
 import Settings from 'models/Settings';
-import SuccessWithAppUser
-  from '../../../../../../playground/mocks/data/idp/idx/success-with-app-user.json';
+import SuccessWithAppUser from '../../../../../../playground/mocks/data/idp/idx/success-with-app-user.json';
 import { INTERSTITIAL_REDIRECT_VIEW } from 'v2/ion/RemediationConstants';
 
 

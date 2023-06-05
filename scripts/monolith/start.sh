@@ -12,6 +12,7 @@ if [ -z "${DOCKOLITH_CI}" ]; then # Local
 fi
 
 dockolith::setup;
+log_custom_message "Build Version" "${MONOLITH_BUILDVERSION}"
 
 #Set the spring config profiles. this determines which config files are loaded
 # http://localhost:8100/okta/ci,ci_test_shared_credentials
@@ -26,7 +27,10 @@ update_hosts_entry $DOCKER_HOST_CONTAINER_IP cdn.okta1.com
 update_hosts_entry $DOCKER_HOST_CONTAINER_IP rain.okta1.com
 update_hosts_entry $DOCKER_HOST_CONTAINER_IP backdoorentry.okta1.com
 
-curl http://backdoorentry.okta1.com:1802
+if ! curl -s http://backdoorentry.okta1.com:1802; then
+  echo "failed to access mono_app container via http!"
+  exit ${FAILED_SETUP}
+fi
 
 export METRIC_TO_LOG=bootstrap_db
 if ! log_metric_wrapper dockolith::bootstrap;

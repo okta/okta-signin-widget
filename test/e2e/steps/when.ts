@@ -27,6 +27,7 @@ import EnrollPhonePage from '../page-objects/enroll-phone-authenticator.page';
 import VerifyPhoneAuthenticatorPage from '../page-objects/verify-phone-authenticator.page';
 import UnlockPage from '../page-objects/unlock.page.js'
 import elementExists from '../util/elementExists';
+import ForgotPasswordPage from '../page-objects/forgot-password.page';
 
 When(
   /^user logs in with username and password$/,
@@ -94,6 +95,12 @@ When(
   }
 );
 
+When(
+  /^user goes back to signin$/,
+  async function() {
+    await ForgotPasswordPage.clickBackToSignin();
+  }
+);
 
 When(
   /^user opens another instance in a new tab$/,
@@ -101,6 +108,13 @@ When(
     await TestAppPage.openInNewTab();
     await TestAppPage.startButton.click();
     return await waitForLoad(TestAppPage.widget);
+  }
+);
+
+When(
+  /^user switches to previous tab$/,
+  async function() {
+    await TestAppPage.switchToPreviousTab();
   }
 );
 

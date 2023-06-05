@@ -1,6 +1,5 @@
-import { loc } from '@okta/courage';
 import BaseAuthenticatorEmailView from './BaseAuthenticatorEmailView';
-import { getCheckYourEmailTitle, getEnterCodeLink } from './AuthenticatorEmailViewUtil';
+import { getCheckYourEmailTitle, getEnterCodeLink, getCheckYourEmailEnrollTitle } from './AuthenticatorEmailViewUtil';
 
 const BaseAuthenticatorEmailForm = BaseAuthenticatorEmailView.prototype.Body;
 
@@ -33,13 +32,16 @@ const Body = BaseAuthenticatorEmailForm.extend(
           options: { email, useEmailMagicLinkValue },
         });
       } else {
-        this.subtitle = loc('oie.email.enroll.subtitle', 'login');
+        this.add(getCheckYourEmailEnrollTitle(), {
+          prepend: true,
+          selector: '.o-form-error-container',
+        });
       }
     },
 
     postRender() {
+      BaseAuthenticatorEmailForm.prototype.postRender.apply(this, arguments);
       if (this.isUseEmailMagicLink() !== undefined) {
-        BaseAuthenticatorEmailForm.prototype.postRender.apply(this, arguments);
         if (this.isUseEmailMagicLink()) {
           this.showCodeEntryField(false);
         } else {

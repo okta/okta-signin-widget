@@ -1,6 +1,8 @@
 import BaseModel from './courage/models/BaseModel';
 import Model from './courage/models/Model';
-import Handlebars from './courage/util/handlebars-wrapper';
+import Handlebars from 'handlebars';
+import './courage/util/handlebars/handle-url';
+import './courage/util/handlebars/helper-i18n';
 import $ from './courage/util/jquery-wrapper';
 import _ from './courage/util/underscore-wrapper';
 import ListView from './courage/views/Backbone.ListView';

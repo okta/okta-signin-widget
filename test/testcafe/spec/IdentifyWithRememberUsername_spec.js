@@ -48,8 +48,7 @@ const identifyRequestLogger = RequestLogger(
 
 const baseConfig = {
   features: {
-    rememberMe: true,
-    rememberMyUsernameOnOIE: true
+    rememberMe: true
   }
 };
 
@@ -117,8 +116,7 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('identifer wi
 test.requestHooks(identifyRequestLogger, identifyWithEmailAuthenticator)('identifer with email challenge - should remember username after successful authentication', async t => {
   const options = {
     features: {
-      rememberMe: true,
-      rememberMyUsernameOnOIE: true
+      rememberMe: true
     },
   };
 
@@ -175,8 +173,7 @@ test
     await rerenderWidget({
       username: 'configUsername@okta.com',
       features: {
-        rememberMe: true,
-        rememberMyUsernameOnOIE: true
+        rememberMe: true
       }
     });
 
@@ -210,8 +207,7 @@ test.requestHooks(identifyRequestLogger, identifyMock)('should pre-fill identifi
   await identityPage.navigateToPage({ 'login_hint': 'testUsername@okta.com' });
   await rerenderWidget({
     features: {
-      rememberMe: true,
-      rememberMyUsernameOnOIE: true
+      rememberMe: true
     }
   });
 
@@ -229,8 +225,7 @@ test.meta('v3', false).requestHooks(identifyRequestLogger, identifyMock)('should
 
   await rerenderWidget({
     features: {
-      rememberMe: true,
-      rememberMyUsernameOnOIE: true
+      rememberMe: true
     }
   });
 

@@ -14,6 +14,7 @@ import ViewFactory from '../view-builder/ViewFactory';
 import IonResponseHelper from '../ion/IonResponseHelper';
 import { getV1ClassName } from '../ion/ViewClassNamesFactory';
 import { FORMS, TERMINAL_FORMS, FORM_NAME_TO_OPERATION_MAP } from '../ion/RemediationConstants';
+import transformPayload from '../ion/payloadTransformer';
 import Util from 'util/Util';
 import sessionStorageHelper from '../client/sessionStorageHelper';
 import { HttpResponse, IdxStatus, ProceedOptions } from '@okta/okta-auth-js';
@@ -173,7 +174,17 @@ export default Controller.extend({
     }
 
     // Build options to invoke or throw error for invalid action
-    if (idx['neededToProceed'].find(item => item.name === actionPath)) {
+    if (FORMS.LAUNCH_AUTHENTICATOR === actionPath && actionParams) {
+      //https://oktainc.atlassian.net/browse/OKTA-562885  a temp solution to send rememberMe when click the launch OV buttion.
+      //will redesign to handle FastPass silent probing case where no username and rememberMe opiton at all.
+      invokeOptions = {
+        ...invokeOptions,
+        actions: [{
+          name: actionPath,
+          params: actionParams
+        }]
+      };
+    } else if (idx['neededToProceed'].find(item => item.name === actionPath)) {
       invokeOptions = { ...invokeOptions, step: actionPath };
     } else if (_.isFunction(idx['actions'][actionPath])) {
       invokeOptions = {
@@ -236,11 +247,12 @@ export default Controller.extend({
       return;
     }
 
+    const payload = transformPayload(formName, model);
     // Run hook: transform the user name (a.k.a identifier)
-    const values = this.transformIdentifier(formName, model);
+    const values = this.transformIdentifier(formName, payload);
 
     // widget rememberMe feature stores the entered identifier in a cookie, to pre-fill the form on subsequent visits to page
-    if (this.options.settings.get('features.rememberMe') && this.options.settings.get('features.rememberMyUsernameOnOIE')) {
+    if (this.options.settings.get('features.rememberMe')) {
       if (values.identifier) {
         CookieUtil.setUsernameCookie(values.identifier);
       }
@@ -318,8 +330,7 @@ export default Controller.extend({
     }
   },
 
-  transformIdentifier(formName, model) {
-    const modelJSON = model.toJSON();
+  transformIdentifier(formName, modelJSON) {
     if (Object.prototype.hasOwnProperty.call(modelJSON, 'identifier')) {
       // The callback function is passed two arguments:
       // 1) username: The name entered by the user

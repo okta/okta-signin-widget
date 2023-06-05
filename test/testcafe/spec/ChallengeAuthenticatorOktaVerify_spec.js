@@ -5,14 +5,10 @@ import { renderWidget } from '../framework/shared';
 import SelectAuthenticatorPageObject from '../framework/page-objects/SelectAuthenticatorPageObject';
 import ChallengeOktaVerifyTotpPageObject from '../framework/page-objects/ChallengeOktaVerifyTotpPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
-import xhrOktaVerifyOnlyMethodsWithoutDeviceKnown
-  from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-ov-only-without-device-known';
-import xhrOktaVerifyOnlyMethodsWithDeviceKnown
-  from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-ov-only-with-device-known';
-import xhrOktaVerifyPushOnlyWithoutAutoChallenge
-  from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-okta-verify-push-only-without-autochallenge';
-import xhrChallengeTotpOktaVerifyOnly
-  from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-totp-onlyOV';
+import xhrOktaVerifyOnlyMethodsWithoutDeviceKnown from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-ov-only-without-device-known';
+import xhrOktaVerifyOnlyMethodsWithDeviceKnown from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-ov-only-with-device-known';
+import xhrOktaVerifyPushOnlyWithoutAutoChallenge from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-okta-verify-push-only-without-autochallenge';
+import xhrChallengeTotpOktaVerifyOnly from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-totp-onlyOV';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 
 const FORM_TITLE = 'Verify it\'s you with a security method';

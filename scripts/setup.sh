@@ -1,4 +1,5 @@
 #!/bin/bash
+set -eo pipefail
 
 # Can be used to run a canary build against a beta AuthJS version that has been published to artifactory.
 # This is available from the "downstream artifact" menu on any okta-auth-js build in Bacon.
@@ -8,9 +9,17 @@ export AUTHJS_VERSION=""
 # Install required node version
 export REGISTRY_REPO="npm-topic"
 export REGISTRY="${ARTIFACTORY_URL}/api/npm/${REGISTRY_REPO}"
-setup_service node v16.19.1
+
+if ! setup_service node v16.18.1 &> /dev/null; then
+  echo "Failed to install node"
+  exit ${FAILED_SETUP}
+fi
+
 # Use the cacert bundled with centos as okta root CA is self-signed and cause issues downloading from yarn
-setup_service yarn 1.22.19 /etc/pki/tls/certs/ca-bundle.crt
+if ! setup_service yarn 1.21.1 /etc/pki/tls/certs/ca-bundle.crt &> /dev/null; then
+  echo "Failed to install yarn"
+  exit ${FAILED_SETUP}
+fi
 
 cd ${OKTA_HOME}/${REPO}
 

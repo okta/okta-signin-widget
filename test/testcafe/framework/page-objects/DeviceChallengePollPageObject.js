@@ -13,6 +13,14 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
     return Selector('iframe');
   }
 
+  getCustomUriIframeAttributes() {
+    return this.getIframe().attributes;
+  }
+
+  getChromeDTCIframeAttributes() {
+    return Selector('#chrome-dtc-container').attributes;
+  }
+
   getContent() {
     if (userVariables.v3) {
       return this.form.el.innerText;

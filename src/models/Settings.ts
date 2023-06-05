@@ -37,7 +37,7 @@ const local: Record<string, ModelProperty> = {
   username: ['string', false],
   relayState: ['string', false],
 
-  // These two settings are aliases. Setting either value will set `backToSignInUri` 
+  // These two settings are aliases. Setting either value will set `backToSignInUri`
   signOutLink: ['string', false], // for backward compatibility
   backToSignInLink: ['string', false], // preferred setting
 
@@ -107,9 +107,8 @@ const local: Record<string, ModelProperty> = {
   'features.showKeepMeSignedIn': ['boolean', false, true],
   'features.showIdentifier': ['boolean', false, true],
   'features.autoFocus': ['boolean', false, true],
-  'features.rememberMyUsernameOnOIE': ['boolean', false, false],
   'features.showSessionRevocation': ['boolean', false, false],
-  
+
   defaultCountryCode: ['string', false, 'US'],
 
   // I18N
@@ -222,8 +221,8 @@ const derived: Record<string, ModelProperty>  = {
       // Developers can also provide a list of languages with hosted assets, these replace the default list
       const supportedLanguages = hostedLanguages || config.supportedLanguages;
       return _.union(
-        supportedLanguages, 
-        _.keys(i18n), 
+        supportedLanguages,
+        _.keys(i18n),
         _.isString(language) ? [language] : []
       );
     },
@@ -243,7 +242,7 @@ const derived: Record<string, ModelProperty>  = {
           userLanguages[idx] = 'pt-BR';
         }
       });
-      
+
       const preferred = _.clone(userLanguages);
 
       const supportedLowerCase = Util.toLower(supportedLanguages);
@@ -404,7 +403,7 @@ export default class Settings extends Model {
 
   initialize(options) {
     options = options || {};
-    const { colors, authClient } = options;
+    const { colors, authClient, flow } = options;
     let { baseUrl } = options;
 
     if (!baseUrl) {
@@ -420,6 +419,11 @@ export default class Settings extends Model {
         baseUrl = issuer?.split('/oauth2/')[0];
       }
       this.set('baseUrl', baseUrl);
+    }
+
+    // If `flow` and `authClient` instance are passed to settings, set flow in auth client
+    if (authClient && flow) {
+      authClient.idx.setFlow(flow);
     }
 
     if (!baseUrl) {

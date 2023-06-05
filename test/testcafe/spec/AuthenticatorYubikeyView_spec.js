@@ -52,6 +52,9 @@ test
       authenticatorKey:'yubikey_token',
       methodType: 'otp'
     });
+
+    await t.expect(pageObject.getFormTitle()).eql('Set up YubiKey');
+    await t.expect(pageObject.getFormSubtitle()).eql('Use your YubiKey to insert a verification code.');
     
     // Fill out form and submit
     await pageObject.verifyFactor('credentials.passcode', '1234');
@@ -90,6 +93,9 @@ test
       authenticatorKey:'yubikey_token',
       methodType: 'otp'
     });
+
+    await t.expect(pageObject.getFormTitle()).eql('Verify with YubiKey');
+    await t.expect(pageObject.getFormSubtitle()).eql('Use your YubiKey to insert a verification code.');
     
     // Fill out form and submit
     await pageObject.verifyFactor('credentials.passcode', '1234');

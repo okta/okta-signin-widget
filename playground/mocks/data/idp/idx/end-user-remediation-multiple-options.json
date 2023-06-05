@@ -1,0 +1,84 @@
+{
+  "stateHandle": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
+  "version": "1.0.0",
+  "expiresAt": "2020-05-18T20:42:23.000Z",
+
+  "intent": "LOGIN",
+  "messages": {
+    "type": "array",
+    "value": [
+      {
+        "i18n": {
+          "key": "idx.error.code.access_denied.device_assurance.remediation.title"
+        },
+        "class": "ERROR"
+      },
+      {
+        "i18n": {
+          "key": "idx.error.code.access_denied.device_assurance.remediation.explanation_one_rule"
+        },
+        "class": "ERROR"
+      },
+      {
+        "i18n": {
+          "key": "idx.error.code.access_denied.device_assurance.remediation.option_index",
+          "params": ["1"]
+        },
+        "class": "ERROR"
+      },
+      {
+        "links": [
+          {"url": "https://okta.com/android-upgrade-os"}
+        ],
+        "i18n": {
+          "key": "idx.error.code.access_denied.device_assurance.remediation.android.upgrade_os_version",
+          "params": ["100"]
+        },
+        "class": "ERROR"
+      },
+      {
+        "links": [
+          {"url": "https://okta.com/android-biometric-lock"}
+        ],
+        "i18n": {
+          "key": "idx.error.code.access_denied.device_assurance.remediation.android.use_biometric_lock_screen"
+        },
+        "class": "ERROR"
+      },
+      {
+        "i18n": {
+          "key": "idx.error.code.access_denied.device_assurance.remediation.option_index",
+          "params": ["2"]
+        },
+        "class": "ERROR"
+      },
+      {
+        "links": [
+          {"url": "https://okta.com/android-lock-screen"}
+        ],
+        "i18n": {
+          "key": "idx.error.code.access_denied.device_assurance.remediation.android.use_lock_screen"
+        },
+        "class": "ERROR"
+      },
+      {
+        "links": [
+          {"url": "https://okta.com/android-disk-encrypted"}
+        ],
+        "i18n": {
+          "key": "idx.error.code.access_denied.device_assurance.remediation.android.device_disk_encrypted"
+        },
+        "class": "ERROR"
+      },
+      {
+        "links": [
+          {"url": "https://okta.com/help"}
+        ],
+        "i18n": {
+          "key": "idx.error.code.access_denied.device_assurance.remediation.additional_help_default"
+        },
+        "class": "ERROR"
+      }
+    ]
+  }
+}

@@ -7,7 +7,8 @@ export REGISTRY="https://artifacts.aue1e.internal/artifactory/npm-topic"
 
 cd ${OKTA_HOME}/${REPO}
 
-setup_service node v16.19.1
+# Must switch the node version back to v14.18.2 due to bug in v16 see https://github.com/npm/cli/pull/5894
+setup_service node v14.18.2
 setup_service yarn 1.21.1 /etc/pki/tls/certs/ca-bundle.crt
 
 # Install required dependencies
