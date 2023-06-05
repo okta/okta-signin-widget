@@ -19,6 +19,7 @@ import {
   defineConfig,
   loadEnv,
 } from 'vite';
+import { visualizer } from "rollup-plugin-visualizer";
 import pkg from './package.json';
 
 const outDir = resolve(__dirname, '../../dist/dist');
@@ -35,6 +36,13 @@ export default defineConfig(({ mode, command }) => {
       preact(),
       legacy({
         targets: pkg.browserslist,
+      }),
+      visualizer({
+        template: "treemap", // or sunburst
+        open: true,
+        gzipSize: true,
+        brotliSize: true,
+        filename: "analyse.html", // will be saved in project's root
       }),
     ],
     define: {
