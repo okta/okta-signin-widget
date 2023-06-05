@@ -21,17 +21,20 @@
                 {
                   "name": "lastName",
                   "label": "Please enter your last name",
-                  "required": true
+                  "required": true,
+                  "customLabel": true
                 },
                 {
                   "name": "firstName",
                   "label": "Please enter your first name",
-                  "required": true
+                  "required": true,
+                  "customLabel": true
                 },
                 {
                   "name": "email",
                   "label": "This is your awesome email address",
-                  "required": true
+                  "required": true,
+                  "customLabel": true
                 }
               ]
             }
