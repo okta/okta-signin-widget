@@ -70,6 +70,7 @@ const idx = {
     // 'device-code-activate',
     // 'enroll-profile',
     // 'enroll-profile-new',
+    // 'enroll-profile-new-custom-labels',
     // 'identify-unknown-user',
     // 'identify-with-apple-credential-sso-extension',
     // 'identify-with-apple-redirect-sso-extension',

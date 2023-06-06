@@ -5,6 +5,7 @@ import EnrollProfileViewPageObject from '../framework/page-objects/EnrollProfile
 import Identify from '../../../playground/mocks/data/idp/idx/identify-with-password';
 import EnrollProfileSubmit from '../../../playground/mocks/data/idp/idx/enroll-profile-submit';
 import EnrollProfileSignUp from '../../../playground/mocks/data/idp/idx/enroll-profile-new';
+import EnrollProfileSignUpWithCustomLabels from '../../../playground/mocks/data/idp/idx/enroll-profile-new-custom-labels.json';
 import EnrollProfileSignUpWithAdditionalFields from '../../../playground/mocks/data/idp/idx/enroll-profile-new-additional-fields';
 import EnrollProfileSignUpWithBooleanFields from '../../../playground/mocks/data/idp/idx/enroll-profile-new-boolean-fields';
 import EnrollProfileSignUpAllBaseAttributes from '../../../playground/mocks/data/idp/idx/enroll-profile-all-base-attributes';
@@ -25,6 +26,12 @@ const EnrollProfileSubmitMock = RequestMock()
   .respond(Identify)
   .onRequestTo('http://localhost:3000/idp/idx/identify')
   .respond(EnrollProfileSubmit);
+
+const EnrollProfileSignUpWithCustomLabelsMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(Identify)
+  .onRequestTo('http://localhost:3000/idp/idx/enroll')
+  .respond(EnrollProfileSignUpWithCustomLabels);
 
 const EnrollProfileSignUpWithAdditionalFieldsMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -109,6 +116,22 @@ test.requestHooks(requestLogger, EnrollProfileSubmitMock)('should show submit bu
   await t.expect(enrollProfilePage.getFormTitle()).eql('Sign in');
   await t.expect(await enrollProfilePage.submitButtonExists()).eql(true);
 });
+
+// TODO: OKTA-616638 - enable custom label in v3
+test.meta('v3', false).requestHooks(requestLogger, EnrollProfileSignUpWithCustomLabelsMock)('should show custom label when provided in response', async t => {
+  const enrollProfilePage = new EnrollProfileViewPageObject(t);
+  const identityPage = await setup(t);
+  await checkA11y(t);
+  await identityPage.clickSignUpLink();
+
+  requestLogger.clear();
+  await t.expect(enrollProfilePage.getFormTitle()).eql('Sign up');
+  await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.firstName')).eql('Please enter your first name');
+  await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.lastName')).eql('Please enter your last name');
+  await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.email')).eql('This is your awesome email address');
+  await t.expect(await enrollProfilePage.getSaveButtonLabel()).eql('Sign Up');
+});
+
 
 test.requestHooks(requestLogger, EnrollProfileSignUpWithAdditionalFieldsMock)('should show dropdown values for base properties (country code and timezone) on registration form', async t => {
   const enrollProfilePage = new EnrollProfileViewPageObject(t);
