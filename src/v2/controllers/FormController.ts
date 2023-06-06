@@ -298,6 +298,14 @@ export default Controller.extend({
         await this.handleIdxResponse(resp);
         return;
       }
+      // follow idx transaction to render terminal view for custom access denied expired error
+      if (IonResponseHelper.isIdxCustomAccessDeniedError(resp) && resp.neededToProceed.length === 0) {
+        const authClient = this.settings.getAuthClient();
+        authClient.transactionManager.clear();
+        await this.handleIdxResponse(resp);
+        return;
+      }
+
       // If the last request did not succeed, show errors on the current form
       // Special case: Okta server responds 401 status code with WWW-Authenticate header and new remediation
       // so that the iOS/MacOS credential SSO extension (Okta Verify) can intercept

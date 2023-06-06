@@ -158,8 +158,14 @@ const isIdxSessionExpiredError = (response) => {
   return errorI18NKey && errorI18NKey === 'idx.session.expired';
 };
 
+const isIdxCustomAccessDeniedError = (response) => {
+  const errorI18NKey = response?.context?.messages?.value[0]?.i18n?.key;
+  return errorI18NKey && errorI18NKey === 'security.access_denied_custom_message';
+};
+
 export default {
   convertFormErrors,
   isIonErrorResponse,
-  isIdxSessionExpiredError
+  isIdxSessionExpiredError,
+  isIdxCustomAccessDeniedError
 };
