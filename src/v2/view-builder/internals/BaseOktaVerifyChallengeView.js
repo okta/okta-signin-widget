@@ -63,6 +63,8 @@ const Body = BaseFormWithPolling.extend({
     let challengeRequest = deviceChallenge.challengeRequest !== undefined ? deviceChallenge.challengeRequest : '';
     let probeTimeoutMillis = deviceChallenge.probeTimeoutMillis !== undefined ?
       deviceChallenge.probeTimeoutMillis : 100;
+    let isEnhancedPollingEnabled = deviceChallenge.enhancedPollingEnabled !== undefined
+      && deviceChallenge.enhancedPollingEnabled === true;
     let currentPort;
     let foundPort = false;
     let ovFailed = false;
@@ -109,6 +111,9 @@ const Body = BaseFormWithPolling.extend({
               // once the OV challenge succeeds,
               // triggers another polling right away without waiting for the next ongoing polling to be triggered
               // to make the authentication flow goes faster 
+              if (isEnhancedPollingEnabled === true) {
+                this.stopPolling();
+              }
               return this.trigger('save', this.model);
             })
             .fail((xhr) => {
