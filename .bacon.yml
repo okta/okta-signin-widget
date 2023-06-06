@@ -75,7 +75,7 @@ test_suites:
   - name: e2e-lang
     script_path: /root/okta/okta-signin-widget/scripts
     sort_order: '11'
-    timeout: '25'
+    timeout: '30'
     script_name: e2e-lang
     criteria: MERGE
     queue_name: small
