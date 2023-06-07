@@ -59,7 +59,7 @@ const IdentifierContainer: FunctionComponent = () => {
       display="flex"
       justifyContent="center"
       alignItems="center"
-      marginBlockEnd={4}
+      marginBottom={4}
       maxWidth={1}
       className={mainContainerClasses}
       sx={(theme) => ({

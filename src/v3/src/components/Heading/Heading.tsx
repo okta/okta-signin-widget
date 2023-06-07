@@ -33,7 +33,7 @@ const Heading: UISchemaElementComponent<{
     <Box
       display="flex"
       justifyContent="flex-start"
-      marginBlockEnd={noMargin ? undefined : 2}
+      marginBottom={noMargin ? undefined : 2}
     >
       <Typography
         id={uischema.id}

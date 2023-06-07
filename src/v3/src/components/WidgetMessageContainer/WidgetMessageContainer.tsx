@@ -21,7 +21,7 @@ const WidgetMessageContainer: FunctionComponent<{ message?: WidgetMessage }> = (
   const { message } = props;
 
   const createListMessages = (widgetMsg: WidgetMessage) => (
-    <Box marginBlockStart={2}>
+    <Box marginTop={2}>
       {
         widgetMsg.description && (
           <Typography
@@ -35,7 +35,7 @@ const WidgetMessageContainer: FunctionComponent<{ message?: WidgetMessage }> = (
       <List
         dense
         disablePadding
-        sx={{ listStyleType: 'disc', paddingInlineStart: 4 }}
+        sx={{ listStyleType: 'disc', paddingLeft: 4 }}
       >
         {
           (widgetMsg.message as WidgetMessage[])?.map((wm: WidgetMessage) => {

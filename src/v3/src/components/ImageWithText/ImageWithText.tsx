@@ -37,7 +37,7 @@ const ImageWithText: UISchemaElementComponent<{
       })}
     >
       <Box
-        marginInlineEnd={2}
+        marginRight={2}
         data-se={`icon-${uischema.options.id}`}
       >
         <Icon />

@@ -35,7 +35,7 @@ const Icon: FunctionComponent<PasswordRequirementIconProps> = (
   return (
     <Box
       className={iconClasses}
-      marginInlineEnd={1}
+      marginRight={1}
       display="flex"
       aria-hidden
     >

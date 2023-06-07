@@ -20,10 +20,10 @@ const AuthContent: FunctionComponent = ({ children }) => (
     justifyContent="flex-start"
     flexWrap="wrap"
     paddingX={7}
-    paddingBlockStart={7}
-    paddingBlockEnd={0}
+    paddingTop={7}
+    paddingBottom={0}
     maxWidth={1}
-    marginBlockEnd={3}
+    marginBottom={3}
   >
     { children }
   </Box>

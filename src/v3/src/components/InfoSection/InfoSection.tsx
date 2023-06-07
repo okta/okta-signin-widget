@@ -22,7 +22,7 @@ type Props = {
 
 const InfoSection: FunctionComponent<Props> = ({ message }) => (message ? (
   <Box
-    marginBlockEnd={4}
+    marginBottom={4}
     width={1}
   >
     <Alert

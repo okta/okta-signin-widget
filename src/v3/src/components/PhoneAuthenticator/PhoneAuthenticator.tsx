@@ -145,7 +145,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
   );
 
   const renderCountrySelect = () => (
-    <Box marginBlockEnd={4}>
+    <Box marginBottom={4}>
       <InputLabel
         id="countryLabel"
         htmlFor="country"
@@ -157,8 +157,8 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
           <Box
             component="span"
             sx={(theme) => ({
-              marginInlineStart: theme.spacing(1),
-              marginInlineEnd: theme.spacing(1),
+              marginLeft: theme.spacing(1),
+              marginleft: theme.spacing(1),
             })}
             className="no-translate"
             aria-hidden
@@ -213,7 +213,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
       >
         <Box
           width={showExtension ? 0.7 : 1}
-          marginInlineEnd={showExtension ? 2 : 0}
+          marginRight={showExtension ? 2 : 0}
         >
           <InputLabel
             htmlFor={fieldName}
@@ -225,8 +225,8 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
               <Box
                 component="span"
                 sx={(theme) => ({
-                  marginInlineStart: theme.spacing(1),
-                  marginInlineEnd: theme.spacing(1),
+                  marginLeft: theme.spacing(1),
+                  marginRight: theme.spacing(1),
                 })}
                 className="no-translate"
                 aria-hidden

@@ -43,7 +43,7 @@ const InfoBox: UISchemaElementComponent<{
 
   return loading ? null : (
     <Box
-      marginBlockEnd={4}
+      marginBottom={4}
       width={1}
       data-se="message"
     >

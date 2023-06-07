@@ -76,8 +76,8 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
           <Box
             component="span"
             sx={(theme) => ({
-              marginInlineStart: theme.spacing(1),
-              marginInlineEnd: theme.spacing(1),
+              marginLeft: theme.spacing(1),
+              marginRight: theme.spacing(1),
             })}
             className="no-translate"
             aria-hidden
@@ -120,6 +120,9 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
           'data-se': dataSe,
           'aria-describedby': ariaDescribedByIds,
           ...attributes,
+        }}
+        sx={{
+          padding: 'calc(0.857143rem - 1px)'
         }}
         inputRef={focusRef}
       />
