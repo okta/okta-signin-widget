@@ -28,7 +28,6 @@ const ignoredMocks = [
   'error-identify-access-denied-custom-message.json', // custom message
   'enroll-profile-new-boolean-fields.json', // custom registration fields
   'authenticator-expired-custom-password.json', // seems to be flaky
-  'enroll-profile-new-custom-labels.json', // No english leaks on UI. firstname and lastname fields are not localized due to the customLabel indicator provided by the backend
 ];
 
 const optionsForInteractionCodeFlow = {
