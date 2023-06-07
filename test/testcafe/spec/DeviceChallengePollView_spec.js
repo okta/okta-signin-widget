@@ -13,6 +13,7 @@ import identifyWithSSOExtensionFallbackWithoutLink from '../../../playground/moc
 import identifyWithLaunchUniversalLink from '../../../playground/mocks/data/idp/idx/identify-with-universal-link';
 import identifyWithLaunchAppLink from '../../../playground/mocks/data/idp/idx/identify-with-app-link';
 import userIsNotAssignedError from '../../../playground/mocks/data/idp/idx/error-user-is-not-assigned.json';
+import customAccessDeniedErrorMessage from '../../../playground/mocks/data/idp/idx/error-identify-access-denied-custom-message.json';
 
 const BEACON_CLASS = 'mfa-okta-verify';
 
@@ -134,6 +135,32 @@ const loopbackSuccessButNotAssignedAppMock = RequestMock()
     if (pollingError) {
       res.statusCode = '400';
       res.setBody(userIsNotAssignedError);
+    } else {
+      res.statusCode = '200';
+      res.setBody(identifyWithDeviceProbingLoopback);
+    }
+  })
+  .onRequestTo(/2000\/probe/)
+  .respond(null, 200, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
+  })
+  .onRequestTo(/2000\/challenge/)
+  .respond(null, 200, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'Origin, X-Requested-With, Content-Type, Accept, X-Okta-Xsrftoken',
+    'access-control-allow-methods': 'POST, OPTIONS'
+  });
+
+const loopbackCustomAccessDeniedErrorMessage = RequestMock()
+  .onRequestTo(/\/idp\/idx\/introspect/)
+  .respond(identifyWithDeviceProbingLoopback)
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
+  .respond((req, res) => {
+    res.headers['content-type'] = 'application/json';
+    if (pollingError) {
+      res.statusCode = '403';
+      res.setBody(customAccessDeniedErrorMessage);
     } else {
       res.statusCode = '200';
       res.setBody(identifyWithDeviceProbingLoopback);
@@ -480,6 +507,35 @@ test
     pollingError = true;
     await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
     await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Take me to sign in');
+  });
+
+test
+  .requestHooks(loopbackSuccessLogger, loopbackCustomAccessDeniedErrorMessage)('should show custom access denied errors with correct message with links', async t => {
+    const deviceChallengePollPageObject = await setup(t);
+    await checkA11y(t);
+    await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().innerText).eql('Cancel and take me to sign in');
+
+    await t.expect(loopbackSuccessLogger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.url.match(/introspect/)
+    )).eql(1);
+    await t.expect(loopbackSuccessLogger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.method === 'get' &&
+        record.request.url.match(/2000\/probe/)
+    )).eql(1);
+    await t.expect(loopbackSuccessLogger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.url.match(/2000\/challenge/) &&
+        record.request.body.match(/challengeRequest":"eyJraWQiOiI1/)
+    )).eql(1);
+
+    await t.expect(loopbackSuccessLogger.contains(record => record.request.url.match(/6511/))).eql(false);
+    await t.expect(loopbackSuccessLogger.contains(record => record.request.url.match(/6512/))).eql(false);
+    await t.expect(loopbackSuccessLogger.contains(record => record.request.url.match(/6513/))).eql(false);
+
+    pollingError = true;
+    await t.expect(deviceChallengePollPageObject.form.getErrorBoxHtml()).eql('<span data-se="icon" class="icon error-16"></span><div class="custom-access-denied-error-message"><p>You do not have permission to perform the requested action.</p><ul class="custom-links"><li><a href="https://www.okta.com/" target="_blank" rel="noopener noreferrer">Help link 1</a></li><li><a href="https://www.okta.com/help?page=1" target="_blank" rel="noopener noreferrer">Help link 2</a></li></ul></div>');
   });
 
 test
