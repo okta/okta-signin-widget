@@ -221,10 +221,10 @@ export const AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP: Record<string, string> = {
 };
 
 export const CHALLENGE_INTENT_TO_I18KEY: Record<string, string> = {
-  AUTHENTICATION: 'idx.return.link.otponly.enter.code.on.page.sign.in',
-  RECOVERY: 'idx.return.link.otponly.enter.code.on.page.password.reset',
-  UNLOCK_ACCOUNT: 'idx.return.link.otponly.enter.code.on.page.account.unlock',
-  ENROLLMENT: 'idx.return.link.otponly.enter.code.on.page.registration',
+  AUTHENTICATION: 'idx.return.link.otponly.enter.code.on.sign.in.page',
+  RECOVERY: 'idx.return.link.otponly.enter.code.on.password.reset.page',
+  UNLOCK_ACCOUNT: 'idx.return.link.otponly.enter.code.on.account.unlock.page',
+  ENROLLMENT: 'idx.return.link.otponly.enter.code.on.sign.up.page',
 };
 
 export const SOCIAL_IDP_TYPE_TO_I18KEY: Record<string, string> = {

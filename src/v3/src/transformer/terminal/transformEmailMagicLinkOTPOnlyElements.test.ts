@@ -100,7 +100,7 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     ];
     expect(el1.type).toBe('Description');
     expect(el1.options?.content)
-      .toBe('idx.return.link.otponly.enter.code.on.page');
+      .toBe('idx.return.link.otponly.enter.code.on.sign.in.page');
     expect(el2.type).toBe('Heading');
     expect(el2.options?.level).toBe(3);
     expect(el2.options?.visualLevel).toBe(3);
@@ -130,7 +130,7 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     ];
     expect(el1.type).toBe('Description');
     expect(el1.options?.content)
-      .toBe('idx.return.link.otponly.enter.code.on.page');
+      .toBe('idx.return.link.otponly.enter.code.on.sign.up.page');
     expect(el2.type).toBe('Heading');
     expect(el2.options?.level).toBe(3);
     expect(el2.options?.visualLevel).toBe(3);
@@ -160,7 +160,7 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     ];
     expect(updatedFormBag.uischema.elements[0].type).toBe('Description');
     expect(el1.options?.content)
-      .toBe('idx.return.link.otponly.enter.code.on.page');
+      .toBe('idx.return.link.otponly.enter.code.on.password.reset.page');
     expect(el2.type).toBe('Heading');
     expect(el2.options?.level).toBe(3);
     expect(el2.options?.visualLevel).toBe(3);
@@ -190,7 +190,7 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     ];
     expect(el1.type).toBe('Description');
     expect(el1.options?.content)
-      .toBe('idx.return.link.otponly.enter.code.on.page');
+      .toBe('idx.return.link.otponly.enter.code.on.account.unlock.page');
     expect(el2.type).toBe('Heading');
     expect(el2.options?.level).toBe(3);
     expect(el2.options?.visualLevel).toBe(3);
@@ -228,7 +228,7 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     ];
     expect(el1.type).toBe('Description');
     expect(el1.options?.content)
-      .toBe('idx.return.link.otponly.enter.code.on.page');
+      .toBe('idx.return.link.otponly.enter.code.on.sign.in.page');
     expect(el2.type).toBe('Heading');
     expect(el2.options?.level).toBe(3);
     expect(el2.options?.visualLevel).toBe(3);
@@ -281,7 +281,7 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     ];
     expect(el1.type).toBe('Description');
     expect(el1.options?.content)
-      .toBe('idx.return.link.otponly.enter.code.on.page');
+      .toBe('idx.return.link.otponly.enter.code.on.sign.in.page');
     expect(el2.type).toBe('Heading');
     expect(el2.options?.level).toBe(3);
     expect(el2.options?.visualLevel).toBe(3);
@@ -348,7 +348,7 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     ];
     expect(el1.type).toBe('Description');
     expect(el1.options?.content)
-      .toBe('idx.return.link.otponly.enter.code.on.page');
+      .toBe('idx.return.link.otponly.enter.code.on.sign.in.page');
     expect(el2.type).toBe('Heading');
     expect(el2.options?.level).toBe(3);
     expect(el2.options?.visualLevel).toBe(3);
@@ -392,7 +392,7 @@ describe('Email Magic Link OTP Only Transformer Tests', () => {
     ];
     expect(el1.type).toBe('Description');
     expect(el1.options?.content)
-      .toBe('idx.return.link.otponly.enter.code.on.page');
+      .toBe('idx.return.link.otponly.enter.code.on.sign.in.page');
     expect(el2.type).toBe('Heading');
     expect(el2.options?.level).toBe(3);
     expect(el2.options?.visualLevel).toBe(3);

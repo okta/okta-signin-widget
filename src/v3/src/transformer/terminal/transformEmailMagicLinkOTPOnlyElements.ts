@@ -60,14 +60,14 @@ export const transformEmailMagicLinkOTPOnly: TerminalKeyTransformer = (transacti
     },
   };
 
-  const challengeIntent: string | undefined = CHALLENGE_INTENT_TO_I18KEY[intent]
+  const challengeIntentContentKey: string | undefined = CHALLENGE_INTENT_TO_I18KEY[intent]
     && loc(CHALLENGE_INTENT_TO_I18KEY[intent], 'login');
   const codeEntryInstructionElement: DescriptionElement = {
     type: 'Description',
     contentType: 'subtitle',
     options: {
-      content: challengeIntent
-        ? loc('idx.return.link.otponly.enter.code.on.page', 'login', [challengeIntent])
+      content: challengeIntentContentKey
+        ? loc(challengeIntentContentKey, 'login')
         : loc('idx.enter.otp.in.original.tab', 'login'),
       dataSe: 'enter-code-instr',
     },
