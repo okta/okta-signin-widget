@@ -510,7 +510,7 @@ test
   });
 
 test
-  .requestHooks(loopbackSuccessLogger, loopbackCustomAccessDeniedErrorMessage)('should show custom access denied errors with correct message with links', async t => {
+  .requestHooks(loopbackSuccessLogger, loopbackCustomAccessDeniedErrorMessage)('should show custom access denied errors with message and links', async t => {
     pollingError = false;
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
