@@ -511,6 +511,7 @@ test
 
 test
   .requestHooks(loopbackSuccessLogger, loopbackCustomAccessDeniedErrorMessage)('should show custom access denied errors with correct message with links', async t => {
+    pollingError = false;
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
     await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().innerText).eql('Cancel and take me to sign in');
