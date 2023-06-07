@@ -133,7 +133,7 @@ const ConsentHeader: FunctionComponent = () => {
               >
                 <Typography
                   sx={(theme) => ({
-                    marginBlockEnd: theme.spacing(4),
+                    marginBottom: theme.spacing(4),
                     backgroundColor: Tokens.ColorBackgroundPrimaryLight,
                     color: Tokens.ColorBackgroundPrimaryDark,
                     padding: '4px 2px',

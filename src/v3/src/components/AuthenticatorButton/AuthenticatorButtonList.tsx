@@ -29,14 +29,14 @@ const AuthenticatorButtonList: UISchemaElementComponent<{
     <Box
       component="ul"
       data-se={dataSe}
-      sx={{ listStyle: 'none', padding: '0', marginBlockStart: 0 }}
+      sx={{ listStyle: 'none', padding: '0', marginTop: 0 }}
     >
       {
         buttons.map((button: AuthenticatorButtonElement, index: number) => (
           <Box
             key={button.id}
             component="li"
-            sx={{ marginBlockEnd: (theme) => theme.spacing(4) }}
+            sx={{ marginBottom: (theme) => theme.spacing(4) }}
           >
             <AuthenticatorButton
               uischema={{

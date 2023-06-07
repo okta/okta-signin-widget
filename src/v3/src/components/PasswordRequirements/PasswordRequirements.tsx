@@ -90,7 +90,7 @@ const PasswordRequirements: UISchemaElementComponent<{
   return requirements?.length > 0 ? (
     <Box
       component="figure"
-      sx={{ marginBlock: 0, marginInline: 0 }}
+      sx={{ margin: 0, marginInline: 0 }}
       data-se="password-authenticator--rules"
       id={uischema.id}
     >
@@ -103,7 +103,7 @@ const PasswordRequirements: UISchemaElementComponent<{
       <Box
         component="ul"
         id={listId}
-        sx={{ listStyle: 'none', padding: '0', marginBlockStart: (theme) => theme.spacing(2) }}
+        sx={{ listStyle: 'none', padding: '0', marginTop: (theme) => theme.spacing(2) }}
       >
         {requirements.map(({ ruleKey, label }) => (
           <PasswordRequirementListItem

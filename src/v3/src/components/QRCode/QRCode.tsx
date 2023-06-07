@@ -28,10 +28,10 @@ const QRCode: UISchemaElementComponent<{
     <Box
       className="qrContainer"
       sx={(theme) => ({
-        marginBlockStart: theme.spacing(4),
-        marginBlockEnd: theme.spacing(4),
-        marginInlineStart: theme.spacing(0),
-        marginInlineEnd: theme.spacing(0),
+        marginTop: theme.spacing(4),
+        marginBottom: theme.spacing(4),
+        marginLeft: theme.spacing(0),
+        marginRight: theme.spacing(0),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',

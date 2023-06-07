@@ -60,7 +60,7 @@ const PasswordMatches: UISchemaElementComponent<{
       <Box
         component="ul"
         id="credentials.newPassword-list"
-        sx={{ listStyle: 'none', padding: '0', marginBlockStart: '0' }}
+        sx={{ listStyle: 'none', padding: '0', marginTop: '0' }}
         aria-hidden
       >
         <PasswordRequirementListItem

@@ -39,7 +39,7 @@ export default defineConfig(({ mode, command }) => {
       }),
       visualizer({
         template: "treemap", // or sunburst
-        open: true,
+        open: false,
         gzipSize: true,
         brotliSize: true,
         filename: "analyse.html", // will be saved in project's root
@@ -79,6 +79,13 @@ export default defineConfig(({ mode, command }) => {
         'react-dom/test-utils': 'preact/test-utils',
         'react-dom': 'preact/compat',
         'react/jsx-runtime': 'preact/jsx-runtime',
+
+        '@mui/base': '@mui/base/legacy',
+        '@mui/lab': '@mui/lab/legacy',
+        '@mui/material': '@mui/material/legacy',
+        '@mui/styled-engine': '@mui/styled-engine/legacy',
+        '@mui/system': '@mui/system/legacy',
+        '@mui/utils': '@mui/utils/legacy',
       },
     },
 
@@ -96,6 +103,8 @@ export default defineConfig(({ mode, command }) => {
 
         // playground assets, e.g., logo, favicon
         copyPublicDir: true,
+
+        minify: false,
       };
 
       if (mode === 'testcafe') {

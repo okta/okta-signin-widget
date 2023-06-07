@@ -63,11 +63,11 @@ const AuthHeader: FunctionComponent<AuthHeaderProps> = ({
     <Box
       className={containerClasses}
       sx={{
-        paddingBlockStart: (theme) => theme.spacing(4),
-        paddingInlineEnd: (theme) => theme.spacing(5),
-        paddingBlockEnd: (theme) => theme.spacing(showAuthCoin ? 0 : 4),
-        paddingInlineStart: (theme) => theme.spacing(5),
-        borderBlockEnd: (theme) => `1px solid ${theme.palette.grey[400]}`,
+        paddingTop: (theme) => theme.spacing(4),
+        paddingRight: (theme) => theme.spacing(5),
+        paddingBottom: (theme) => theme.spacing(showAuthCoin ? 0 : 4),
+        paddingLeft: (theme) => theme.spacing(5),
+        borderBottom: (theme) => `1px solid ${theme.palette.grey[400]}`,
       }}
     >
       <Typography variant="h1">
