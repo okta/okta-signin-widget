@@ -14,21 +14,21 @@ const generateGeolocationString = (location = {}) => {
 };
 
 // A map from FactorTransactionIntent in okta-core to customer-facing flow name
-const challengeIntentToFlowMap = {
-  'AUTHENTICATION': loc('idx.return.link.otponly.enter.code.on.page.sign.in', 'login'),
-  'RECOVERY': loc('idx.return.link.otponly.enter.code.on.page.password.reset', 'login'),
-  'UNLOCK_ACCOUNT': loc('idx.return.link.otponly.enter.code.on.page.account.unlock', 'login'),
-  'ENROLLMENT': loc('idx.return.link.otponly.enter.code.on.page.registration', 'login')
+const challengeIntentToI18nKeyMap = {
+  'AUTHENTICATION': 'idx.return.link.otponly.enter.code.on.sign.in.page',
+  'RECOVERY': 'idx.return.link.otponly.enter.code.on.password.reset.page',
+  'UNLOCK_ACCOUNT': 'idx.return.link.otponly.enter.code.on.account.unlock.page',
+  'ENROLLMENT': 'idx.return.link.otponly.enter.code.on.sign.up.page'
 };
 
 const getTerminalOtpEmailMagicLinkContext = (settings, appState) => {
   const app = appState.get('app');
   const client = appState.get('client');
-  const challengeIntent = challengeIntentToFlowMap[appState.get('idx').context.intent];
-  let enterCodeOnFlowPage, appName, browserOnOsString, isMobileDevice, geolocation;
-  enterCodeOnFlowPage = challengeIntent
-    ? loc('idx.return.link.otponly.enter.code.on.page', 'login', [challengeIntent])
+  const challengeIntentContentKey = challengeIntentToI18nKeyMap[appState.get('idx').context.intent];
+  const enterCodeOnFlowPage = challengeIntentContentKey
+    ? loc(challengeIntentContentKey, 'login')
     : loc('idx.enter.otp.in.original.tab', 'login');
+  let appName, browserOnOsString, isMobileDevice, geolocation;
   if (app) {
     appName = loc('idx.return.link.otponly.app', 'login', [app.label]);
   }
