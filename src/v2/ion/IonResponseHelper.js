@@ -158,14 +158,8 @@ const isIdxSessionExpiredError = (response) => {
   return errorI18NKey && errorI18NKey === 'idx.session.expired';
 };
 
-const isIdxTerminalResponse = (response) => {
-  const { neededToProceed, interactionCode } = response;
-  return !neededToProceed.length && !interactionCode;
-};
-
 export default {
   convertFormErrors,
   isIonErrorResponse,
-  isIdxSessionExpiredError,
-  isIdxTerminalResponse
+  isIdxSessionExpiredError
 };
