@@ -10,6 +10,9 @@ import Link from '../../components/Link';
 import { doChallenge, cancelPollingWithParams } from '../../utils/ChallengeViewUtil';
 import OktaVerifyAuthenticatorHeader from '../../components/OktaVerifyAuthenticatorHeader';
 import { getSignOutLink } from '../../utils/LinksUtil';
+import CustomAccessDeniedErrorMessage from '../shared/CustomAccessDeniedErrorMessage';
+
+const CUSTOM_ACCESS_DENIED_KEY = 'security.access_denied_custom_message';
 
 const Body = BaseOktaVerifyChallengeView.extend({
   pollingCancelAction: CANCEL_POLLING_ACTION,
@@ -30,9 +33,9 @@ const Body = BaseOktaVerifyChallengeView.extend({
     this.options.appState.trigger('updateFooterLink', data);
   },
 
-  showCustomFormErrorCallout(error) {
+  showCustomFormErrorCallout(error, messages) {
     const responseJSON = error.responseJSON;
-    const options = {
+    let options = {
       type: 'error',
       className: 'okta-verify-uv-callout-content',
       subtitle: responseJSON.errorSummary,
@@ -42,6 +45,22 @@ const Body = BaseOktaVerifyChallengeView.extend({
       responseJSON.errorSummaryKeys.some((key) => key.includes('auth.factor.signedNonce.error'));
     if (containsSignedNonceError) {
       options.title = loc('user.fail.verifyIdentity', 'login');
+    }
+
+    const containsCustomAccessDeniedError = responseJSON.errorSummaryKeys &&
+      responseJSON.errorSummaryKeys.some((key) => key.includes('security.access_denied_custom_message'));
+    if(containsCustomAccessDeniedError) {
+      const message = messages?.find(message => message.i18n.key === CUSTOM_ACCESS_DENIED_KEY);
+      if (!message) {
+        return false;
+      }
+      options = {
+        type: 'error',
+        content: new CustomAccessDeniedErrorMessage({
+          message: responseJSON.errorSummary,
+          links: message.links,
+        })
+      };
     }
 
     this.showMessages(createCallout(options));
