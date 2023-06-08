@@ -292,7 +292,7 @@ export default Controller.extend({
         throw resp.error; // caught and handled in this function
       }
 
-      // follow idx transaction to render terminal view for terminal responses or session expired error
+      // follow idx transaction to render terminal view for session expired error
       if (IonResponseHelper.isIdxSessionExpiredError(resp)) {
         const authClient = this.settings.getAuthClient();
         authClient.transactionManager.clear();
