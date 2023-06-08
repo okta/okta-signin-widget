@@ -292,11 +292,8 @@ export default Controller.extend({
         throw resp.error; // caught and handled in this function
       }
 
-      const shouldRenderTerminalView = IonResponseHelper.isIdxSessionExpiredError(resp)
-        || (IonResponseHelper.isIdxCustomAccessDeniedError(resp) && resp.neededToProceed.length === 0)
-
-      // follow idx transaction to render terminal view for session expired error or custom access denied expired error
-      if (shouldRenderTerminalView) {
+      // follow idx transaction to render terminal view for terminal responses or session expired error
+      if (IonResponseHelper.isIdxTerminalResponse(resp) || IonResponseHelper.isIdxSessionExpiredError(resp)) {
         const authClient = this.settings.getAuthClient();
         authClient.transactionManager.clear();
         await this.handleIdxResponse(resp);
