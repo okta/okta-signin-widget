@@ -23,7 +23,7 @@ fi
 
 cd ${OKTA_HOME}/${REPO}
 
-yarn add -W --force --no-lockfile @okta/siw-platform-scripts@0.4.0
+yarn add -W --force --no-lockfile @okta/siw-platform-scripts@0.5.0
 
 if ! yarn install ; then
   echo "yarn install failed! Exiting..."

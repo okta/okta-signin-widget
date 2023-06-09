@@ -2,11 +2,11 @@
 
 # NOTE: MUST BE RAN *AFTER* THE PUBLISH SUITE
 
-# Install required node version
-export REGISTRY="https://artifacts.aue1d.saasure.com/artifactory/npm-topic"
-
 cd ${OKTA_HOME}/${REPO}
 
+yarn add -W --force --no-lockfile @okta/siw-platform-scripts@0.5.0
+
+# Install required node version
 setup_service node v14.18.2
 setup_service yarn 1.21.1 /etc/pki/tls/certs/ca-bundle.crt
 
@@ -40,15 +40,14 @@ if ! npm i; then
 fi
 
 # install the version of @okta/okta-signin-widget from artifactory that was published during the `publish` suite
-published_tarball=${REGISTRY}/@okta/okta-signin-widget/-/${artifact_version}.tgz
-if ! npm i ${published_tarball}; then
-  echo "install ${published_tarball} failed! Exiting..."
+if ! yarn run siw-platform install-artifact -n @okta/okta-signin-widget -v ${artifact_version}; then
+  echo "install @okta/okta-signin-wdiget@${artifact_version} failed! Exiting..."
   exit ${FAILED_SETUP}
 fi
 
 # use the same version of auth-js as the widget, otherwise you'll get type errors
 auth_js_version=$(jq -r '.dependencies."@okta/okta-auth-js" node_modules/@okta/okta-signin-widget/package.json')
-if ! npm i @okta/okta-auth-js@${auth_js_version}; then
+if ! yarn run siw-platform install-artifact -n @okta/okta-auth-js -v ${auth_js_version}; then
   echo "install auth-js@${auth_js_version} failed! Exiting..."
   exit ${FAILED_SETUP}
 fi
