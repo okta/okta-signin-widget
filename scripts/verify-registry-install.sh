@@ -24,7 +24,7 @@ if ! ci-append-sha; then
 fi
 
 # NOTE: hyphen rather than '@'
-artifact_version="$(ci-pkginfo -t pkgname)-$(ci-pkginfo -t pkgsemver)"
+artifact_version="$(ci-pkginfo -t pkgsemver)"
 
 # clone angular sample, using angular sample because angular toolchain is *very* opinionated about modules
 git clone --depth 1 https://github.com/okta/samples-js-angular.git test/package/angular-sample
