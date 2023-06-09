@@ -47,11 +47,11 @@ if ! yarn run siw-platform install-artifact -n @okta/okta-signin-widget -v ${art
 fi
 
 # use the same version of auth-js as the widget, otherwise you'll get type errors
-auth_js_version=$(jq -r '.dependencies."@okta/okta-auth-js" node_modules/@okta/okta-signin-widget/package.json')
-if ! npm i @okta/okta-auth-js@${auth_js_version}; then
-  echo "install auth-js@${auth_js_version} failed! Exiting..."
-  exit ${FAILED_SETUP}
-fi
+# auth_js_version=$(jq -r '.dependencies."@okta/okta-auth-js" node_modules/@okta/okta-signin-widget/package.json')
+# if ! npm i @okta/okta-auth-js@${auth_js_version}; then
+#   echo "install auth-js@${auth_js_version} failed! Exiting..."
+#   exit ${FAILED_SETUP}
+# fi
 
 export ISSUER="https://oie-signin-widget.okta.com"
 export CLIENT_ID="0oa8lrg7ojTsbJgRQ696"
