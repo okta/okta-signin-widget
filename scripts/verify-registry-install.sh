@@ -12,8 +12,6 @@ setup_service yarn 1.21.1 /etc/pki/tls/certs/ca-bundle.crt
 yarn global add @okta/ci-append-sha
 yarn global add @okta/ci-pkginfo
 
-yarn add -W --force --no-lockfile @okta/siw-platform-scripts@0.5.0
-
 export PATH="${PATH}:$(yarn global bin)"
 export TEST_SUITE_TYPE="build"
 
@@ -30,6 +28,8 @@ artifact_version=7.8.0-g1acc5cd
 # clone angular sample, using angular sample because angular toolchain is *very* opinionated about modules
 git clone --depth 1 https://github.com/okta/samples-js-angular.git test/package/angular-sample
 pushd test/package/angular-sample/custom-login
+
+yarn add -W --force --no-lockfile @okta/siw-platform-scripts@0.5.0
 
 # NOTE: setup_service sets the registry to internal mirror, add certs to chain
 export NODE_EXTRA_CA_CERTS="/etc/pki/tls/certs/ca-bundle.crt"
