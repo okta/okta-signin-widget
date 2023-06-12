@@ -8,8 +8,7 @@ const browserOptions = {
     args: []
 };
 
-// const IS_RELEASE_BRANCH = process.env.BRANCH && (/master|\d+\.\d+/).test(process.env.BRANCH);
-const IS_RELEASE_BRANCH = process.env.BRANCH && (/jp-OKTA-600762/).test(process.env.BRANCH); 
+const IS_RELEASE_BRANCH = process.env.BRANCH && (/master|release|\d+\.\d+\.\d+|\d+\.\d+-\w+|\d+\.\d+/).test(process.env.BRANCH);
 
 // Default timeout for all waitFor* commands.
 let waitforTimeout = 10000;

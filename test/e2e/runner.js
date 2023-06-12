@@ -3,8 +3,7 @@ const spawn = require('cross-spawn-with-kill');
 const waitOn = require('wait-on');
 require('@okta/env').config();
 
-// const IS_RELEASE_BRANCH = process.env.BRANCH && (/master|\d+\.\d+/).test(process.env.BRANCH);
-const IS_RELEASE_BRANCH = process.env.BRANCH && (/jp-OKTA-600762/).test(process.env.BRANCH); 
+const IS_RELEASE_BRANCH = process.env.BRANCH && (/master|release|\d+\.\d+\.\d+|\d+\.\d+-\w+|\d+\.\d+/).test(process.env.BRANCH);
 
 const getTask = ({ bundle }) => {
   const fn = function() {

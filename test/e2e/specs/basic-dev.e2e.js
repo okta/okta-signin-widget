@@ -41,7 +41,6 @@ describe('Dev Mode flows', () => {
       config = { ...config, clientId };
       await TestAppPage.setConfig(config);
       await TestAppPage.showSignInToGetTokens.click();
-      throw new Error('THIS IS A TEST');
       await waitForLoad(TestAppPage.widget);
       await PrimaryAuthPage.login(WIDGET_BASIC_USER, WIDGET_BASIC_PASSWORD);
       await TestAppPage.assertIDToken(WIDGET_BASIC_NAME);
