@@ -8,7 +8,9 @@ const browserOptions = {
     args: []
 };
 
-const IS_RELEASE_BRANCH = process.env.BRANCH && (/master|release|\d+\.\d+\.\d+|\d+\.\d+-\w+|\d+\.\d+/).test(process.env.BRANCH);
+const IS_RELEASE_BRANCH = process.env.BRANCH &&
+  // eslint-disable-next-line @okta/okta/no-exclusive-language
+  (/master|release|\d+\.\d+\.\d+|\d+\.\d+-\w+|\d+\.\d+/).test(process.env.BRANCH);
 
 // Default timeout for all waitFor* commands.
 let waitforTimeout = 10000;
