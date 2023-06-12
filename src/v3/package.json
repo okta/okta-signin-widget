@@ -18,6 +18,7 @@
   "source": "components/widget/index.js",
   "scripts": {
     "build": "vite build",
+    "build:playground": "vite build --mode playground",
     "clean-svg": "svgo -f src/img/authCoinIcons",
     "codegen": "yarn workspace @okta/okta-signin-widget codegen",
     "dev": "yarn codegen && VITE_MOCK_DUO=true vite",
@@ -130,6 +131,7 @@
     "wait-on": "^6.0.1",
     "whatwg-fetch": "^3.6.2",
     "@vitejs/plugin-legacy": "^4.0.4",
+    "vite-plugin-html": "^3.2.0",
     "rollup-plugin-visualizer": "^5.9.0"
   },
   "engines": {
