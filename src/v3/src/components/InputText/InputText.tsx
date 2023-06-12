@@ -121,9 +121,6 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
           'aria-describedby': ariaDescribedByIds,
           ...attributes,
         }}
-        sx={{
-          padding: 'calc(0.857143rem - 1px)'
-        }}
         inputRef={focusRef}
       />
       {hasErrors && (

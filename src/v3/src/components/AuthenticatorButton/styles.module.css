@@ -16,7 +16,7 @@
   display: flex;
   flex-grow: 1;
   flex-direction: column;
-  /* gap: 6px; */
+  gap: 6px;
   padding-block: 0;
   padding-inline: 12px 0;
 }

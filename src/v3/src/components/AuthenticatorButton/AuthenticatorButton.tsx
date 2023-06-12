@@ -106,7 +106,6 @@ const AuthenticatorButton: UISchemaElementComponent<{
         width: 1,
         backgroundColor: 'inherit',
         padding: theme.spacing(2),
-        // paddingInline: theme.spacing(2),
       })}
       display="flex"
       border={1}

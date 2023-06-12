@@ -14,14 +14,15 @@
 import preact from '@preact/preset-vite';
 import legacy from '@vitejs/plugin-legacy';
 import { resolve } from 'path';
+import { visualizer } from 'rollup-plugin-visualizer';
+import type { PluginOption } from 'vite';
 import {
   BuildOptions,
   defineConfig,
   loadEnv,
 } from 'vite';
-import type { PluginOption } from 'vite';
-import { visualizer } from "rollup-plugin-visualizer";
 import { createHtmlPlugin } from 'vite-plugin-html';
+
 import pkg from './package.json';
 
 const outDir = resolve(__dirname, '../../dist/dist');
@@ -45,12 +46,12 @@ export default defineConfig(({ mode, command }) => {
   if (mode === 'production') {
     plugins.push(
       visualizer({
-        template: "treemap", // or sunburst
+        template: 'treemap', // or sunburst
         open: false,
         gzipSize: true,
         brotliSize: true,
-        filename: "analyse.html", // will be saved in project's root
-      }) as unknown as PluginOption[]
+        filename: 'analyse.html', // will be saved in project's root
+      }) as unknown as PluginOption[],
     );
   }
 

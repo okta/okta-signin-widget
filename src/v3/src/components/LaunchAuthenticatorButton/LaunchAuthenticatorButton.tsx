@@ -83,7 +83,7 @@ const LaunchAuthenticatorButton: UISchemaElementComponent<{
         alignItems="center"
         justifyContent="center"
         alignContent="space-between"
-        // gap="5px"
+        gap="5px"
         // keep the icon from stretching the button vertically
         marginY="-3px"
       >
