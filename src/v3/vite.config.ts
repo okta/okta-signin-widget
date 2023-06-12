@@ -19,7 +19,9 @@ import {
   defineConfig,
   loadEnv,
 } from 'vite';
+import type { PluginOption } from 'vite';
 import { visualizer } from "rollup-plugin-visualizer";
+import { createHtmlPlugin } from 'vite-plugin-html';
 import pkg from './package.json';
 
 const outDir = resolve(__dirname, '../../dist/dist');
@@ -28,23 +30,35 @@ const mockServerBaseUrl = 'http://localhost:3030';
 // https://vitejs.dev/config/
 export default defineConfig(({ mode, command }) => {
   const env = loadEnv(mode, process.cwd());
-  return {
-    root: command === 'serve' && mode === 'testcafe'
-      ? outDir
-      : process.cwd(),
-    plugins: [
-      preact(),
-      legacy({
-        targets: pkg.browserslist,
-      }),
+
+  const plugins = [
+    preact(),
+    legacy({
+      targets: pkg.browserslist,
+    }),
+    createHtmlPlugin({
+      minify: mode === 'production',
+      entry: mode === 'production' ? 'src/index.ts' : 'src/playground.ts',
+    }),
+  ];
+
+  if (mode === 'production') {
+    plugins.push(
       visualizer({
         template: "treemap", // or sunburst
         open: false,
         gzipSize: true,
         brotliSize: true,
         filename: "analyse.html", // will be saved in project's root
-      }),
-    ],
+      }) as unknown as PluginOption[]
+    );
+  }
+
+  return {
+    root: command === 'serve' && mode === 'testcafe'
+      ? outDir
+      : process.cwd(),
+    plugins,
     define: {
       OKTA_SIW_VERSION: '"7.8.0"',
       OKTA_SIW_COMMIT_HASH: '"local"',
@@ -80,6 +94,7 @@ export default defineConfig(({ mode, command }) => {
         'react-dom': 'preact/compat',
         'react/jsx-runtime': 'preact/jsx-runtime',
 
+        // @mui -> @mui/legacy
         '@mui/base': '@mui/base/legacy',
         '@mui/lab': '@mui/lab/legacy',
         '@mui/material': '@mui/material/legacy',
@@ -104,7 +119,7 @@ export default defineConfig(({ mode, command }) => {
         // playground assets, e.g., logo, favicon
         copyPublicDir: true,
 
-        minify: false,
+        minify: mode === 'production',
       };
 
       if (mode === 'testcafe') {
