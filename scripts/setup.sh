@@ -23,25 +23,24 @@ fi
 
 cd ${OKTA_HOME}/${REPO}
 
-if [ ! -z "$AUTHJS_VERSION" ]; then
-  echo "Installing AUTHJS_VERSION: ${AUTHJS_VERSION}"
-  npm config set strict-ssl false
-
-  if ! yarn add -W --force --no-lockfile https://artifacts.aue1d.saasure.com/artifactory/npm-topic/@okta/okta-auth-js/-/@okta/okta-auth-js-${AUTHJS_VERSION}.tgz ; then
-    echo "AUTHJS_VERSION could not be installed: ${AUTHJS_VERSION}"
-    exit ${FAILED_SETUP}
-  fi
-  
-  MATCH="$(yarn why @okta/okta-auth-js | grep ${AUTHJS_VERSION})"
-  echo ${MATCH}
-  if [ -z "$MATCH" ]; then
-    echo "AUTHJS_VERSION was not installed: ${AUTHJS_VERSION}"
-    exit ${FAILED_SETUP}
-  fi
-  echo "AUTHJS_VERSION installed: ${AUTHJS_VERSION}"
-fi
+yarn add -W --force --no-lockfile @okta/siw-platform-scripts@0.5.0
 
 if ! yarn install ; then
   echo "yarn install failed! Exiting..."
   exit ${FAILED_SETUP}
+fi
+
+# Install upstream artifacts
+if [ ! -z "$AUTHJS_VERSION" ]; then
+  echo "Installing AUTHJS_VERSION: ${AUTHJS_VERSION}"
+
+  if ! yarn run siw-platform install-artifact -n @okta/okta-auth-js -v ${AUTHJS_VERSION} ; then
+    echo "AUTHJS_VERSION could not be installed: ${AUTHJS_VERSION}"
+    exit ${FAILED_SETUP}
+  fi
+
+  # Remove any changes to package.json
+  git checkout .
+  
+  echo "AUTHJS_VERSION installed: ${AUTHJS_VERSION}"
 fi
