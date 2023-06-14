@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="/css/okta-sign-in.next.css" />
+    <script src="/js/okta-sign-in.next.polyfills-legacy.js"></script>
+    <script src="/js/okta-sign-in.next-legacy.js"></script>
+    <title>G3 Playground</title>
+  </head>
+  <body>
+    <div id="okta-login-container"></div>
+    <script>
+      setTimeout(function() {
+        var config = {
+          el: '#okta-login-container',
+          baseUrl: 'http://localhost:3000',
+        
+          // OIE config
+          stateToken: 'abc',
+        
+          // https://github.com/okta/okta-signin-widget#logo
+          logo: '/img/widgico.png',
+        
+          // https://github.com/okta/okta-signin-widget#logotext
+          logoText: 'widgico',
+        
+          // Classic config
+          // stateToken: '00abc',
+          // useClassicEngine: true,
+          // features: {
+          //   router: false
+          // }
+        };
+        var signIn = new window.OktaSignIn(config);
+        signIn.renderEl(config);  
+      }, 100);
+    </script>
+  </body>
+</html>
