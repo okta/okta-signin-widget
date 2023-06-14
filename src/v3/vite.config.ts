@@ -39,7 +39,7 @@ export default defineConfig(({ mode, command }) => {
     }),
     createHtmlPlugin({
       minify: mode === 'production',
-      entry: mode === 'production' ? 'src/index.ts' : 'src/playground.ts',
+      entry: 'src/index.ts',
     }),
   ];
 
@@ -120,7 +120,7 @@ export default defineConfig(({ mode, command }) => {
         // playground assets, e.g., logo, favicon
         copyPublicDir: true,
 
-        minify: mode === 'production',
+        minify: false, //mode === 'production',
       };
 
       if (mode === 'testcafe') {

@@ -274,6 +274,7 @@
       "test/e2e",
       "test/types",
       "playground",
+      "playground-g3",
       "playground/mocks",
       "packages/@okta/courage-dist",
       "src/v3"
