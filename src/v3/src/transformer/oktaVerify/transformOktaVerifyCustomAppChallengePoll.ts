@@ -13,7 +13,7 @@
 import { NextStep } from '@okta/okta-auth-js';
 
 import { PhoneIcon } from '../../components/Images';
-import { CHALLENGE_METHOD, IDX_STEP } from '../../constants';
+import { AUTHENTICATOR_KEY, CHALLENGE_METHOD, IDX_STEP } from '../../constants';
 import {
   ButtonElement,
   DescriptionElement,
@@ -26,6 +26,8 @@ import {
   TitleElement,
 } from '../../types';
 import {
+  getAuthenticatorKey,
+  getDisplayName,
   hasMinAuthenticatorOptions,
   loc,
   updateTransactionWithNextStep,
@@ -33,7 +35,7 @@ import {
 import { transformOktaVerifyDeviceChallengePoll, transformOktaVerifyFPLoopbackPoll } from '../layout/oktaVerify';
 import { getUIElementWithName } from '../utils';
 
-export const transformOktaVerifyChallengePoll: IdxStepTransformer = (options) => {
+export const transformOktaVerifyCustomAppChallengePoll: IdxStepTransformer = (options) => {
   const { transaction, formBag } = options;
   const { nextStep = {} as NextStep, availableSteps } = transaction;
   const { relatesTo } = nextStep;
@@ -108,20 +110,29 @@ export const transformOktaVerifyChallengePoll: IdxStepTransformer = (options) =>
       uischema.elements.push(description);
       uischema.elements.push(phoneIconImage);
     } else {
+      const isOV = getAuthenticatorKey(transaction) === AUTHENTICATOR_KEY.OV;
       uischema.elements.unshift({
         type: 'Reminder',
         noMargin: true,
         options: {
-          content: loc('oktaverify.warning', 'login'),
+          content: isOV
+            ? loc('oktaverify.warning', 'login')
+            : loc('oie.custom_app.push.warning', 'login', [getDisplayName(transaction)]),
         },
       } as ReminderElement);
       uischema.elements.unshift({
         type: 'Title',
-        options: { content: loc('oie.okta_verify.push.title', 'login') },
+        options: {
+          content: isOV
+            ? loc('oie.okta_verify.push.title', 'login')
+            : loc('oie.verify.custom_app.title', 'login', [getDisplayName(transaction)]),
+        },
       } as TitleElement);
       uischema.elements.push({
         type: 'Button',
-        label: loc('oie.okta_verify.push.sent', 'login'),
+        label: isOV
+          ? loc('oie.okta_verify.push.sent', 'login')
+          : loc('oie.custom_app.push.sent', 'login'),
         options: { disabled: true },
       } as ButtonElement);
     }

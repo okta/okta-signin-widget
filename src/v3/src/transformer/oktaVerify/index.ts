@@ -11,9 +11,9 @@
  */
 
 export * from './transformAppleSsoExtension';
-export * from './transformOktaVerifyChallengePoll';
 export * from './transformOktaVerifyChannelSelection';
+export * from './transformOktaVerifyCustomAppChallengePoll';
+export * from './transformOktaVerifyCustomAppResendPush';
 export * from './transformOktaVerifyEnrollChannel';
 export * from './transformOktaVerifyEnrollPoll';
-export * from './transformOktaVerifyResendPushNotification';
 export * from './transformTOTPChallenge';

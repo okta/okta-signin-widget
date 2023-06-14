@@ -10,30 +10,36 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { AUTHENTICATOR_KEY } from '../../constants';
 import {
   ButtonElement,
   ButtonType,
   IdxStepTransformer,
   TitleElement,
 } from '../../types';
-import { loc } from '../../util';
+import { getAuthenticatorKey, getDisplayName, loc } from '../../util';
 
-export const transformOktaVerifyResendPushNotification: IdxStepTransformer = ({
+export const transformOktaVerifyCustomAppResendPush: IdxStepTransformer = ({
   formBag,
   transaction,
 }) => {
   const { uischema } = formBag;
+  const isOV = getAuthenticatorKey(transaction) === AUTHENTICATOR_KEY.OV;
 
   const titleElement: TitleElement = {
     type: 'Title',
     options: {
-      content: loc('oie.okta_verify.push.title', 'login'),
+      content: isOV
+        ? loc('oie.okta_verify.push.title', 'login')
+        : loc('oie.verify.custom_app.title', 'login', [getDisplayName(transaction)]),
     },
   };
 
   const buttonElement: ButtonElement = {
     type: 'Button',
-    label: loc('oie.okta_verify.push.resend', 'login'),
+    label: isOV
+      ? loc('oie.okta_verify.push.resend', 'login')
+      : loc('oie.custom_app.push.resend', 'login'),
     options: {
       type: ButtonType.SUBMIT,
       step: transaction.nextStep!.name,
