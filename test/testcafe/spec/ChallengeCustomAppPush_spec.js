@@ -56,6 +56,8 @@ const pushNoAutoChallengeMock = RequestMock()
 
 const pushAutoChallengeMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(pushPollAutoChallenge)
+  .onRequestTo('http://localhost:3000/idp/idx/authenticators/poll')
   .respond(pushPollAutoChallenge);
 
 const pushWaitAutoChallengeMock = RequestMock()
