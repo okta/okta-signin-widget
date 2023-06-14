@@ -10,10 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import yubikeyVerificationResponse from '@okta/mocks/data/idp/idx/authenticator-verification-yubikey.json';
-
-import identifyWithPassword from '@okta/mocks/data/idp/idx/authenticator-verification-password.json';
 import { waitFor } from '@testing-library/preact';
+
+import identifyWithPassword from '../../../../playground/mocks/data/idp/idx/authenticator-verification-password.json';
+import yubikeyVerificationResponse from '../../../../playground/mocks/data/idp/idx/authenticator-verification-yubikey.json';
 import { createAuthJsPayloadArgs, setup } from './util';
 
 describe('Flow transition from YubiKey verification to Password MFA', () => {

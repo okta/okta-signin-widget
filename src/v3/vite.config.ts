@@ -35,7 +35,7 @@ export default defineConfig(({ mode, command }) => {
       splitVendorChunkPlugin(),
     ],
     define: {
-      OKTA_SIW_VERSION: '"0.0.0"',
+      OKTA_SIW_VERSION: '"7.8.0"',
       OKTA_SIW_COMMIT_HASH: '"local"',
       DEBUG: env.VITE_DEBUG,
       'process.env.NODE_ENV': `"${process.env.NODE_ENV}"`,
@@ -95,8 +95,8 @@ export default defineConfig(({ mode, command }) => {
       return {
         ...base,
 
-        // hide sourcemaps
-        sourcemap: false, // boolean | 'inline' | 'hidden'
+        // generate sourcemaps
+        sourcemap: true, // boolean | 'inline' | 'hidden'
 
         // set to library mode with "umd" format to expose `OktaSignIn` on the
         // `window`

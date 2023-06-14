@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import mockResponse from '@okta/mocks/data/idp/idx/authenticator-enroll-email-emailmagiclink-true.json';
+import mockResponse from '../../../../playground/mocks/data/idp/idx/authenticator-enroll-email-emailmagiclink-true.json';
 import { createAuthJsPayloadArgs, setup } from './util';
 
 describe('Email authenticator enroll when email magic link = true Tests', () => {

@@ -14,8 +14,7 @@ import { HttpRequestClient } from '@okta/okta-auth-js';
 import { createAuthJsPayloadArgs, setup, updateStateHandleInMock } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/credential/enroll/securityquestion-enroll-mfa.json';
-import responseWithCharacterLimitError
-  from '../../src/mocks/response/idp/idx/challenge/answer/enroll-security-question-with-character-limit-error.json';
+import responseWithCharacterLimitError from '../../src/mocks/response/idp/idx/challenge/answer/enroll-security-question-with-character-limit-error.json';
 
 describe('authenticator-enroll-security-question-error', () => {
   let mockRequestClientWithError: HttpRequestClient;

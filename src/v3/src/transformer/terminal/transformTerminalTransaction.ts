@@ -152,7 +152,7 @@ export const transformTerminalTransaction = (
   bootstrapFn: () => Promise<void>,
 ): FormBag => {
   const { authClient, features } = widgetProps;
-  if (isSuccessfulAuthentication(transaction) && features?.rememberMyUsernameOnOIE) {
+  if (isSuccessfulAuthentication(transaction)) {
     // TODO: OKTA-506358 This identifier cookie can be removed once implemented in auth-js
     updateIdentifierCookie(transaction, features?.rememberMe);
   }

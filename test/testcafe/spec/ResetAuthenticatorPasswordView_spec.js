@@ -38,7 +38,7 @@ async function setup(t) {
   return resetPasswordPage;
 }
 
-test.meta('v3', false)
+test
   .requestHooks(logger, mock)('Should have the correct labels', async t => {
     const resetPasswordPage = await setup(t);
     await checkA11y(t);
@@ -48,10 +48,14 @@ test.meta('v3', false)
     await t.expect(resetPasswordPage.getRequirements()).contains('At least 8 characters');
     await t.expect(resetPasswordPage.getRequirements()).contains('An uppercase letter');
     await t.expect(resetPasswordPage.getRequirements()).contains('A number');
+    await t.expect(resetPasswordPage.getRequirements()).contains('A symbol');
     await t.expect(resetPasswordPage.getRequirements()).contains('No parts of your username');
-    await t.expect(resetPasswordPage.getRequirements()).contains('Your password cannot be any of your last 4 passwords');
     await t.expect(resetPasswordPage.getRequirements()).contains('A lowercase letter');
-    await t.expect(resetPasswordPage.getRequirements()).contains('At least 10 minute(s) must have elapsed since you last changed your password');
+    // V3 does not display server side requirements
+    if (!userVariables.v3) {
+      await t.expect(resetPasswordPage.getRequirements()).contains('Your password cannot be any of your last 4 passwords');
+      await t.expect(resetPasswordPage.getRequirements()).contains('At least 10 minute(s) must have elapsed since you last changed your password');
+    }
   });
 
 test
@@ -105,10 +109,47 @@ test
     await t.expect(method).eql('post');
     const requestBody = JSON.parse(body);
 
-    await t.expect(requestBody).eql({
+    const expectedPayload = {
       'stateHandle': '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
       'credentials': {
         'passcode': 'abcdabcdA3@'
+      },
+    };
+
+    // In v3 if the idx response includes a boolean field, we will automatically include it in the payload if untoucbed
+    if (userVariables.v3) {
+      expectedPayload.credentials.revokeSessions = false;
+    }
+
+    await t.expect(requestBody).eql(expectedPayload);
+  });
+
+test
+  .requestHooks(logger, mock)('should succeed when session revocation is checked', async t => {
+    const resetPasswordPage = await setup(t);
+    await checkA11y(t);
+
+    await resetPasswordPage.fillPassword('abcdabcdE1@');
+    await resetPasswordPage.fillConfirmPassword('abcdabcdE1@');
+    await resetPasswordPage.sessionRevocationToggleExist();
+    await resetPasswordPage.checkSessionRevocationToggle();
+    await resetPasswordPage.clickNextButton('Reset Password');
+
+    const successPage = new SuccessPageObject(t);
+    const pageUrl = await successPage.getPageUrl();
+    await t.expect(pageUrl)
+      .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
+
+    let { request: { body, method, url } } = logger.requests[0];
+    await t.expect(url).eql('http://localhost:3000/idp/idx/challenge/answer');
+    await t.expect(method).eql('post');
+    const requestBody = JSON.parse(body);
+
+    await t.expect(requestBody).eql({
+      'stateHandle': '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
+      'credentials': {
+        'passcode': 'abcdabcdE1@',
+        'revokeSessions': true
       },
     });
   });

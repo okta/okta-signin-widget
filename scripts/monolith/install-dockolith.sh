@@ -1,18 +1,18 @@
-#!/bin/bash -xe
+#!/bin/bash
 
-if [[ -z ${DOCKOLITH_BRANCH} ]]; then
-  export DOCKOLITH_BRANCH=master
+# DO NOT MERGE ANY CHANGES TO THIS LINE!!
+export DOCKOLITH_DOWNSTREAM=""
+
+if [[ -z ${DOCKOLITH_VERSION} ]]; then
+  export DOCKOLITH_VERSION="${DOCKOLITH_DOWNSTREAM:-1.9.1}"
 fi
 
-pushd ./scripts
-rm -rf dockolith
-echo "Cloning dockolith from branch: ${DOCKOLITH_BRANCH}"
-git clone --depth 1 -b $DOCKOLITH_BRANCH https://github.com/okta/dockolith.git
-popd
+setup_service dockolith $DOCKOLITH_VERSION
+log_custom_message "Dockolith Version" "$(dockolith --version)"
 
-# Yarn "add" always modifies package.json https://github.com/yarnpkg/yarn/issues/1743
-# Make a backup of package.json and restore it after install
-cp package.json package.json.bak
-yarn add -DW --no-lockfile file:./scripts/dockolith
-mv package.json.bak package.json
+if [ -n "${CI}" ]; then # CI only
+  echo "Linking dockolith..."
+  dockolith link ${OKTA_HOME}/${REPO}
+fi
 
+export DOCKOLITH_HOME=$(dockolith home)

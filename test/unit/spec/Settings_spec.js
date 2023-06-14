@@ -12,12 +12,19 @@ describe('models/Settings', () => {
   });
   
   function mockAuthClient(baseUrl) {
+    let flow;
     const authClient = {
       options: {},
       http: {
         setRequestHeader: () => {}
       },
-      getIssuerOrigin: () => baseUrl
+      getIssuerOrigin: () => baseUrl,
+      idx: {
+        getFlow: () => flow,
+        setFlow: jest.fn().mockImplementation((newFlow) => {
+          flow = newFlow;
+        }),
+      }
     };
     return authClient;
   }
@@ -78,6 +85,22 @@ describe('models/Settings', () => {
       settings.setAuthClient(authClient);
       expect(settings.getAuthClient()).toBe(authClient);
       expect(settings.get('authClient')).toBe(authClient);
+    });
+  });
+
+  describe('flow', () => {
+    it('sets flow in authClient if authClient is passed to settings', () => {
+      const { baseUrl } = testContext;
+      const authClient = mockAuthClient(baseUrl);
+      const flow = 'register';
+      const settings = new Settings({
+        baseUrl,
+        flow,
+        authClient,
+      });
+      expect(settings.getAuthClient()).toBe(authClient);
+      expect(settings.getAuthClient().idx.setFlow).toHaveBeenCalledWith(flow);
+      expect(settings.getAuthClient().idx.getFlow()).toBe(flow);
     });
   });
 

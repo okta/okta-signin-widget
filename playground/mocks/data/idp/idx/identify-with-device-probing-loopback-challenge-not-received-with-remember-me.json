@@ -1,0 +1,101 @@
+{
+    "stateHandle": "02Su_kH3sC3blG075ZdSW5v0N-oiOpK3HqGmR5TS1b",
+    "version": "1.0.0",
+    "expiresAt": "2020-12-18T21:48:11.000Z",
+
+    "intent": "LOGIN",
+    "remediation": {
+        "type": "array",
+        "value": [
+            {
+                "rel": ["create-form"],
+                "name": "identify",
+                "href": "http://localhost:3000/idp/idx/identify",
+                "method": "POST",
+                "accepts": "application/vnd.okta.v1+json",
+                "value": [
+                    {
+                        "name": "identifier",
+                        "label": "Username"
+                    },
+                    {
+                        "name":"rememberMe",
+                        "type":"boolean",
+                        "label":"Remember this device"
+                    },
+                    {
+                        "name": "stateHandle",
+                        "required": true,
+                        "value": "02Su_kH3sC3blG075ZdSW5v0N-oiOpK3HqGmR5TS1b",
+                        "visible": false,
+                        "mutable": false
+                    }
+                ]
+            },
+            {
+                "rel": ["create-form"],
+                "name": "launch-authenticator",
+                "href": "http://localhost:3000/idp/idx/authenticators/okta-verify/launch",
+                "method": "POST",
+                "accepts": "application/vnd.okta.v1+json",
+                "value": [
+                    {
+                        "name": "stateHandle",
+                        "required": true,
+                        "value": "02Su_kH3sC3blG075ZdSW5v0N-oiOpK3HqGmR5TS1b",
+                        "visible": false,
+                        "mutable": false
+                    }
+                ]
+            },
+            {
+                "rel": ["create-form"],
+                "name": "select-enroll-profile",
+                "href": "http://localhost:3000/idp/idx/enroll",
+                "method": "POST",
+                "accepts": "application/vnd.okta.v1+json",
+                "value": [
+                    {
+                        "name": "stateHandle",
+                        "required": true,
+                        "value": "02Su_kH3sC3blG075ZdSW5v0N-oiOpK3HqGmR5TS1b",
+                        "visible": false,
+                        "mutable": false
+                    }
+                ]
+            }
+        ]
+    },
+    "cancel": {
+        "rel": ["create-form"],
+        "name": "cancel",
+        "href": "http://localhost:3000/idp/idx/cancel",
+        "method": "POST",
+        "accepts": "application/vnd.okta.v1+json",
+        "value": [
+            {
+                "name": "stateHandle",
+                "required": true,
+                "value": "02Su_kH3sC3blG075ZdSW5v0N-oiOpK3HqGmR5TS1b",
+                "visible": false,
+                "mutable": false
+            }
+        ]
+    },
+    "context": {
+        "rel": ["create-form"],
+        "name": "context",
+        "href": "http://localhost:3000/idp/idx/context",
+        "method": "POST",
+        "accepts": "application/vnd.okta.v1+json",
+        "value": [
+            {
+                "name": "stateHandle",
+                "required": true,
+                "value": "02Su_kH3sC3blG075ZdSW5v0N-oiOpK3HqGmR5TS1b",
+                "visible": false,
+                "mutable": false
+            }
+        ]
+    }
+}

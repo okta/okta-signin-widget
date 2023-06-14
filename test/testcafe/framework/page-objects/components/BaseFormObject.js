@@ -261,6 +261,10 @@ export default class BaseFormObject {
     return this.getErrorBox().innerText;
   }
 
+  getErrorBoxCallout() {
+    return this.getCallout(CALLOUT);
+  }
+
   getErrorBoxHtml() {
     return this.getCallout(CALLOUT).innerHTML;
   }
@@ -468,6 +472,18 @@ export default class BaseFormObject {
 
   getButtonIcon(buttonName) {
     return within(this.getButton(buttonName)).getByRole('img');
+  }
+
+  getAnchorsWithBlankTargetsWithoutRelevantAttributes() {
+    return Selector('a[target="_blank"]')
+      .filter((node) => {
+        const relValues = (node.getAttribute('rel') || '').split(' ');
+        return !(relValues.includes('noopener') && relValues.includes('noreferrer'));
+      });
+  }
+
+  getErrorBoxAnchor(url) {
+    return this.getErrorBoxCallout().find(`a[href="${url}"]`);
   }
 
   /**

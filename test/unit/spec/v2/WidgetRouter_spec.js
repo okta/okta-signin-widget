@@ -2,8 +2,7 @@ import WidgetRouter from 'v2/WidgetRouter';
 import FormController from 'v2/controllers/FormController';
 import $sandbox from 'sandbox';
 import getAuthClient from 'helpers/getAuthClient';
-import XHRIdentifyWithPassword
-  from '../../../../playground/mocks/data/idp/idx/identify-with-password.json';
+import XHRIdentifyWithPassword from '../../../../playground/mocks/data/idp/idx/identify-with-password.json';
 import Util from 'helpers/mocks/Util';
 import RAW_IDX_RESPONSE from 'helpers/v2/idx/fullFlowResponse';
 

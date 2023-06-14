@@ -10,12 +10,13 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import mockResponse from '@okta/mocks/data/idp/idx/authenticator-enroll-data-phone.json';
-import loginFooBundle from '@okta/mocks/labels/json/login_foo.json';
-import countryFooBundle from '@okta/mocks/labels/json/country_foo.json';
 import { waitFor, cleanup } from '@testing-library/preact';
 import { rest } from 'msw';
 import { SetupServer, setupServer } from 'msw/node';
+
+import mockResponse from '../../../../playground/mocks/data/idp/idx/authenticator-enroll-data-phone.json';
+import loginFooBundle from '../../../../playground/mocks/labels/json/login_foo.json';
+import countryFooBundle from '../../../../playground/mocks/labels/json/country_foo.json';
 import { setup } from './util';
 
 describe('byol', () => {

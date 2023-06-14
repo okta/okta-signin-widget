@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import enrollProfile from '@okta/mocks/data/idp/idx/enroll-profile-new.json';
+import enrollProfile from '../../../../playground/mocks/data/idp/idx/enroll-profile-new.json';
 import identifyWithPassword from '../../src/mocks/response/idp/idx/identify/select/default.json';
 import { setup } from './util';
 

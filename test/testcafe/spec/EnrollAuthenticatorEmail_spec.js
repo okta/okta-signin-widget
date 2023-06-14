@@ -1,4 +1,4 @@
-import { RequestMock, RequestLogger } from 'testcafe';
+import { RequestMock, RequestLogger, userVariables } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 import { oktaDashboardContent } from '../framework/shared';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
@@ -319,6 +319,25 @@ test
     await t.expect(await enrollEmailPageObject.resendEmailExists()).eql(true);
     await t.expect(enrollEmailPageObject.resendEmailText()).contains('Haven\'t received an email?');
 
+    // Asserts the display order of elements in v2
+    if (!userVariables.v3) {
+      await t.expect(enrollEmailPageObject.form.el.innerText).match(new RegExp([
+        // title
+        'Verify with your email',
+        // resend prompt
+        'Haven\'t received an email\\? Send again',
+        // instructions and form imputs
+        'Please check your email and enter the code below',
+        'Enter Code'
+      ].join('.+'), 'si'));
+
+      // 8 poll requests in 31 seconds and 1 resend request after click.
+      await t.expect(logger.count(
+        record => record.response.statusCode === 200 &&
+          record.request.url.match(/poll/)
+      )).eql(8);
+    }
+
     await enrollEmailPageObject.clickResendEmail();
 
     await t.expect(await enrollEmailPageObject.resendEmailExists()).eql(false);
@@ -340,6 +359,26 @@ test
     await t.wait(RESEND_DELAY_MS);
     await t.expect(await enrollEmailPageObject.resendEmailExists()).eql(true);
     await t.expect(enrollEmailPageObject.resendEmailText()).contains('Haven\'t received an email?');
+
+    // Asserts the display order of elements in v2
+    if (!userVariables.v3) {
+      await t.expect(enrollEmailPageObject.form.el.innerText).match(new RegExp([
+        // title
+        'Verify with your email',
+        // resend prompt
+        'Haven\'t received an email\\? Send again',
+        // instructions and form imputs
+        'Click the verification link in your email to continue or enter the code below',
+        'Enter a verification code instead'
+      ].join('.+'), 'si'));
+
+      // 8 poll requests in 31 seconds and 1 resend request after click.
+      await t.expect(logger.count(
+        record => record.response.statusCode === 200 &&
+          record.request.url.match(/poll/)
+      )).eql(8);
+    }
+
     await enrollEmailPageObject.clickResendEmail();
     await t.expect(await enrollEmailPageObject.resendEmailExists()).eql(false);
     await t.expect(logger.count(
@@ -361,10 +400,36 @@ test
     await t.wait(RESEND_DELAY_MS);
     await t.expect(await enrollEmailPageObject.resendEmailExists()).eql(true);
     await t.expect(enrollEmailPageObject.resendEmailText()).contains('Haven\'t received an email?');
+    
+    // Assert element order in v2
+    if (!userVariables.v3) {
+      await t.expect(enrollEmailPageObject.form.el.innerText).match(new RegExp([
+        // title
+        'Verify with your email',
+        // resend prompt
+        'Haven\'t received an email\\? Send again',
+        // instructions and form imputs
+        'Enter the verification code in the text box',
+        'Enter Code'
+      ].join('.+'), 'si'));
+
+      // 8 poll requests in 31 seconds and 1 resend request after click.
+      await t.expect(logger.count(
+        record => record.response.statusCode === 200 &&
+          record.request.url.match(/poll/)
+      )).eql(8);
+    }
+
     await enrollEmailPageObject.clickResendEmail();
     await t.expect(await enrollEmailPageObject.resendEmailExists()).eql(false);
     const { request: firstRequest } = logger.requests[0];
     let jsonBody = JSON.parse(firstRequest.body);
+
+    await t.expect(logger.count(
+      record => record.response.statusCode === 200 &&
+      record.request.url.match(/resend/)
+    )).eql(1);
+
     await t.expect(jsonBody).eql({'stateHandle':'eyJ6aXAiOiJER'});
     await t.expect(firstRequest.method).eql('post');
     await t.expect(firstRequest.url).eql('http://localhost:3000/idp/idx/challenge/poll');
@@ -380,6 +445,19 @@ test
     await t.wait(RESEND_DELAY_MS / 2);
     await t.expect(await enrollEmailPageObject.resendEmailExists()).eql(true);
     await t.expect(enrollEmailPageObject.resendEmailText()).contains('Haven\'t received an email?');
+
+    // Assert element order in v2
+    if (!userVariables.v3) {
+      await t.expect(enrollEmailPageObject.form.el.innerText).match(new RegExp([
+        // title
+        'Verify with your email',
+        // resend prompt
+        'Haven\'t received an email\\? Send again',
+        // instructions and form imputs
+        'Please check your email and enter the code below',
+        'Enter Code'
+      ].join('.+'), 'si'));
+    }
   });
 
 test
@@ -392,6 +470,19 @@ test
     await t.wait(RESEND_DELAY_MS / 2);
     await t.expect(await enrollEmailPageObject.resendEmailExists()).eql(true);
     await t.expect(enrollEmailPageObject.resendEmailText()).contains('Haven\'t received an email?');
+
+    // Assert element order in v2
+    if (!userVariables.v3) {
+      await t.expect(enrollEmailPageObject.form.el.innerText).match(new RegExp([
+        // title
+        'Verify with your email',
+        // resend prompt
+        'Haven\'t received an email\\? Send again',
+        // instructions and form imputs
+        'Click the verification link in your email to continue or enter the code below',
+        'Enter a verification code instead'
+      ].join('.+'), 'si'));
+    }
   });
 
 test
@@ -404,4 +495,17 @@ test
     await t.wait(RESEND_DELAY_MS / 2);
     await t.expect(await enrollEmailPageObject.resendEmailExists()).eql(true);
     await t.expect(enrollEmailPageObject.resendEmailText()).contains('Haven\'t received an email?');
+
+    // Assert element order in v2
+    if (!userVariables.v3) {
+      await t.expect(enrollEmailPageObject.form.el.innerText).match(new RegExp([
+        // title
+        'Verify with your email',
+        // resend prompt
+        'Haven\'t received an email\\? Send again',
+        // instructions and form imputs
+        'Enter the verification code in the text box',
+        'Enter Code'
+      ].join('.+'), 'si'));
+    }
   });

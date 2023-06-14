@@ -4,6 +4,7 @@ import { getBackToSignInLink, getSkipSetupLink, getReloadPageButtonLink } from '
 import EmailAuthenticatorHeader from '../components/EmailAuthenticatorHeader';
 import { OTPInformationTerminalView } from './consent/EmailMagicLinkOTPTerminalView';
 import CustomAccessDeniedErrorMessage from './shared/CustomAccessDeniedErrorMessage';
+import EndUserRemediationTerminalMessage from './end-user-remediation/EndUserRemediationTerminalMessage';
 
 const RETURN_LINK_EXPIRED_KEY = 'idx.return.link.expired';
 const IDX_RETURN_LINK_OTP_ONLY = 'idx.enter.otp.in.original.tab';
@@ -21,6 +22,7 @@ const FLOW_CONTINUE_IN_NEW_TAB = 'idx.transferred.to.new.tab';
 const EMAIL_LINK_OUT_OF_DATE = 'idx.return.stale';
 const EMAIL_LINK_CANT_BE_PROCESSED = 'idx.return.error';
 const EMAIL_VERIFICATION_REQUIRED = 'idx.email.verification.required';
+const END_USER_REMEDIATION_KEY_PREFIX = 'idx.error.code.access_denied.device_assurance.remediation.';
 
 const EMAIL_ACTIVATION_EMAIL_EXPIRE = 'idx.expired.activation.token';
 const EMAIL_ACTIVATION_EMAIL_INVALID = 'idx.missing.activation.token';
@@ -117,6 +119,29 @@ const Body = BaseForm.extend({
     }
   },
 
+  prepareMessageForCustomView(messagesObjs) {
+    let hasCustomView = false;
+    if (this.options.appState.containsMessageWithI18nKey(IDX_RETURN_LINK_OTP_ONLY)) {
+      this.add(OTPInformationTerminalView);
+      hasCustomView = true;
+    } else if (this.options.appState.containsMessageStartingWithI18nKey(CUSTOM_ACCESS_DENIED_KEY)) {
+      this.add(createCallout({
+        type: 'error',
+        content: new CustomAccessDeniedErrorMessage(
+          { message: messagesObjs.value[0].message, links: messagesObjs.value[0].links })
+      }));
+      hasCustomView = true;
+    } else if (this.options.appState.containsMessageStartingWithI18nKey(END_USER_REMEDIATION_KEY_PREFIX)) {
+      this.add(createCallout({
+        type: 'error',
+        content: new EndUserRemediationTerminalMessage({messages: messagesObjs}),
+      }));
+      hasCustomView = true;
+    }
+
+    return hasCustomView;
+  },
+
   showMessages() {
     const messagesObjs = this.options.appState.get('messages');
     let hasCustomView = false;
@@ -131,16 +156,8 @@ const Body = BaseForm.extend({
       description = loc('oie.tooManyRequests', 'login');
     } else if (this.options.appState.containsMessageWithI18nKey(RETURN_LINK_EXPIRED_KEY)) {
       messagesObjs.value[0].class = 'ERROR';
-    } else if (this.options.appState.containsMessageWithI18nKey(IDX_RETURN_LINK_OTP_ONLY)) {
-      this.add(OTPInformationTerminalView);
-      hasCustomView = true;
-    } else if (this.options.appState.containsMessageStartingWithI18nKey(CUSTOM_ACCESS_DENIED_KEY)) {
-      this.add(createCallout({
-        type: 'error',
-        content: new CustomAccessDeniedErrorMessage(
-          { message: messagesObjs.value[0].message, links: messagesObjs.value[0].links })
-      }));
-      hasCustomView = true;
+    } else {
+      hasCustomView = this.prepareMessageForCustomView(messagesObjs);
     }
 
     if (description && Array.isArray(messagesObjs?.value)) {

@@ -63,7 +63,7 @@ Object {
       Object {
         "contentType": "subtitle",
         "options": Object {
-          "content": "idx.return.link.otponly.enter.code.on.page",
+          "content": "idx.return.link.otponly.enter.code.on.password.reset.page",
           "dataSe": "enter-code-instr",
         },
         "type": "Description",
@@ -109,7 +109,7 @@ Object {
       Object {
         "contentType": "subtitle",
         "options": Object {
-          "content": "idx.return.link.otponly.enter.code.on.page",
+          "content": "idx.return.link.otponly.enter.code.on.sign.up.page",
           "dataSe": "enter-code-instr",
         },
         "type": "Description",
@@ -155,7 +155,7 @@ Object {
       Object {
         "contentType": "subtitle",
         "options": Object {
-          "content": "idx.return.link.otponly.enter.code.on.page",
+          "content": "idx.return.link.otponly.enter.code.on.sign.in.page",
           "dataSe": "enter-code-instr",
         },
         "type": "Description",
@@ -201,7 +201,7 @@ Object {
       Object {
         "contentType": "subtitle",
         "options": Object {
-          "content": "idx.return.link.otponly.enter.code.on.page",
+          "content": "idx.return.link.otponly.enter.code.on.sign.in.page",
           "dataSe": "enter-code-instr",
         },
         "type": "Description",
@@ -264,7 +264,7 @@ Object {
       Object {
         "contentType": "subtitle",
         "options": Object {
-          "content": "idx.return.link.otponly.enter.code.on.page",
+          "content": "idx.return.link.otponly.enter.code.on.sign.in.page",
           "dataSe": "enter-code-instr",
         },
         "type": "Description",
@@ -343,7 +343,7 @@ Object {
       Object {
         "contentType": "subtitle",
         "options": Object {
-          "content": "idx.return.link.otponly.enter.code.on.page",
+          "content": "idx.return.link.otponly.enter.code.on.sign.in.page",
           "dataSe": "enter-code-instr",
         },
         "type": "Description",
@@ -414,7 +414,7 @@ Object {
       Object {
         "contentType": "subtitle",
         "options": Object {
-          "content": "idx.return.link.otponly.enter.code.on.page",
+          "content": "idx.return.link.otponly.enter.code.on.sign.in.page",
           "dataSe": "enter-code-instr",
         },
         "type": "Description",
@@ -493,7 +493,7 @@ Object {
       Object {
         "contentType": "subtitle",
         "options": Object {
-          "content": "idx.return.link.otponly.enter.code.on.page",
+          "content": "idx.return.link.otponly.enter.code.on.account.unlock.page",
           "dataSe": "enter-code-instr",
         },
         "type": "Description",

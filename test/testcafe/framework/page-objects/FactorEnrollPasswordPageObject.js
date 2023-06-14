@@ -38,8 +38,8 @@ export default class EnrollPasswordPageObject extends BasePageObject {
     return this.form.setTextBoxValue(confirmPasswordFieldName, value);
   }
 
-  clickNextButton() {
-    return this.form.clickSaveButton();
+  clickNextButton(name = 'Next') {
+    return this.form.clickSaveButton(name);
   }
 
   clickResetPasswordButton() {

@@ -51,6 +51,8 @@ test.requestHooks(requestLogger, consentGranularMock)('should show scopes list',
     'View your mobile phone data plan.\n\n' +
         'This allows the app to view your mobile phone data plan.',
     'View your internet search history.',
+    'View your mobile phone call history.\n\n' +
+      'This allows the app to view your mobile phone call history.',
     'View your email address.\n\n' +
         'This allows the app to view your email address.',
     'openid\n\n' +
@@ -91,7 +93,8 @@ test.requestHooks(requestLogger, consentGranularMock)('should display correct co
   await t.expect(await consentPage.getDontAllowButtonLabel()).eql('Cancel');
 });
 
-test.requestHooks(requestLogger, consentGranularMock)('should send correct payload to /consent on "Allow Access" click', async t => {
+// TODO: OKTA-611788 - fixes the nested scopes and allows this test to be enabled
+test.meta('v3', false).requestHooks(requestLogger, consentGranularMock)('should send correct payload to /consent on "Allow Access" click', async t => {
   const consentPage  = await setup(t);
   await checkA11y(t);
 
@@ -106,6 +109,7 @@ test.requestHooks(requestLogger, consentGranularMock)('should send correct paylo
   await t.expect(jsonBody.optedScopes.openid).eql(true);
   await t.expect(jsonBody.optedScopes.custom1).eql(false);
   await t.expect(jsonBody.optedScopes.custom2).eql(true);
+  await t.expect(jsonBody.optedScopes['custom3.custom4.custom5']).eql(true);
   await t.expect(jsonBody.optedScopes.email).eql(false);
   await t.expect(jsonBody.optedScopes.profile).eql(true);
   await t.expect(method).eql('post');

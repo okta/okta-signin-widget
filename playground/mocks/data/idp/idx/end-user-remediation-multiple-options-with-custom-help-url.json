@@ -1,0 +1,145 @@
+{
+    "stateHandle": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
+    "version": "1.0.0",
+    "expiresAt": "2020-05-18T20:42:23.000Z",
+  
+    "intent": "LOGIN",
+    "messages": {
+      "type": "array",
+      "value": [
+        {
+          "i18n": {
+            "key": "idx.error.code.access_denied.device_assurance.remediation.title"
+          },
+          "class": "ERROR"
+        },
+        {
+          "i18n": {
+            "key": "idx.error.code.access_denied.device_assurance.remediation.explanation_one_rule"
+          },
+          "class": "ERROR"
+        },
+        {
+          "i18n": {
+            "key": "idx.error.code.access_denied.device_assurance.remediation.option_index",
+            "params": ["1"]
+          },
+          "class": "ERROR"
+        },
+        {
+            "i18n": {
+                "key": "idx.error.code.access_denied.device_assurance.remediation.ios.upgrade_os_version",
+                "params": ["12.0.1"]
+            },
+            "links": [
+              {"url": "https://okta.com/ios-upgrade-os"}
+            ],
+            "class": "ERROR"
+        },
+        {
+            "i18n": {
+                "key": "idx.error.code.access_denied.device_assurance.remediation.ios.use_lock_screen"
+            },
+            "links": [
+              {"url": "https://okta.com/ios-lock-screen"}
+            ],
+            "class": "ERROR"
+        },
+        {
+            "i18n": {
+                "key": "idx.error.code.access_denied.device_assurance.remediation.ios.use_biometric_lock_screen"
+            },
+            "links": [
+              {"url": "https://okta.com/ios-biometric-lock"}
+            ],
+            "class": "ERROR"
+        },
+        {
+          "i18n": {
+            "key": "idx.error.code.access_denied.device_assurance.remediation.option_index",
+            "params": ["2"]
+          },
+          "class": "ERROR"
+        },
+        {
+            "i18n": {
+                "key": "idx.error.code.access_denied.device_assurance.remediation.macos.upgrade_os_version",
+                "params": ["13.2"]
+            },
+            "links": [
+              {"url": "https://okta.com/macos-upgrade-os"}
+            ],
+            "class": "ERROR"
+        },
+        {
+            "i18n": {
+                "key": "idx.error.code.access_denied.device_assurance.remediation.macos.use_lock_screen"
+            },
+            "links": [
+              {"url": "https://okta.com/macos-lock-screen"}
+            ],
+            "class": "ERROR"
+        },
+        {
+            "i18n": {
+                "key": "idx.error.code.access_denied.device_assurance.remediation.macos.device_disk_encrypted"
+            },
+            "links": [
+              {"url": "https://okta.com/macos-disk-encrypted"}
+            ],
+            "class": "ERROR"
+        },
+        {
+            "i18n": {
+              "key": "idx.error.code.access_denied.device_assurance.remediation.option_index",
+              "params": ["3"]
+            },
+            "class": "ERROR"
+        },
+        {
+            "i18n": {
+                "key": "idx.error.code.access_denied.device_assurance.remediation.windows.upgrade_os_version",
+                "params": ["10.0.25530.123"]
+            },
+            "links": [
+              {"url": "https://okta.com/windows-upgrade-os"}
+            ],
+            "class": "ERROR"
+        },
+        {
+            "i18n": {
+                "key": "idx.error.code.access_denied.device_assurance.remediation.windows.device_disk_encrypted"
+            },
+            "links": [
+              {"url": "https://okta.com/windows-disk-encrypted"}
+            ],
+            "class": "ERROR"
+        },
+        {
+            "i18n": {
+              "key": "idx.error.code.access_denied.device_assurance.remediation.option_index",
+              "params": ["4"]
+            },
+            "class": "ERROR"
+        },
+        {
+            "i18n": {
+                "key": "idx.error.code.access_denied.device_assurance.remediation.windows.use_biometric_lock_screen"
+            },
+            "links": [
+              {"url": "https://okta.com/windows-biometric-lock"}
+            ],
+            "class": "ERROR"
+        },
+        {
+            "i18n": {
+                "key": "idx.error.code.access_denied.device_assurance.remediation.additional_help_custom"
+            },
+            "links": [
+              {"url": "https://okta1.com/custom-help-me"}
+            ],
+            "class": "ERROR"
+        }
+      ]
+    }
+  }

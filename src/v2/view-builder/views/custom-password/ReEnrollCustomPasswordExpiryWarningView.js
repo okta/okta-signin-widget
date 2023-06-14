@@ -5,11 +5,8 @@ import Util from '../../../../util/Util';
 const Body = BaseForm.extend({
   className: 'password-authenticator',
   subtitle() {
-    const subtitle = this.settings.get('brandName')
-      ? loc('password.expiring.subtitle.specific', 'login', [this.settings.get('brandName')])
-      : loc('password.expiring.subtitle.generic', 'login');
-
-    return subtitle + ' ' + loc('password.expired.custom.subtitle', 'login');
+    return this.settings.get('brandName') ? loc('password.expiring.soon.subtitle.specific', 'login', 
+      [this.settings.get('brandName')]) : loc('password.expiring.soon.subtitle.generic', 'login');
   },
   title() {
     const passwordPolicy = this.options.appState.get('currentAuthenticator')?.settings;

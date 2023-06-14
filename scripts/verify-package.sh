@@ -119,6 +119,12 @@ fi
 
 mkdir -p "test-reports/verify-package"
 
+# Must switch the node version back to v14.18.2 due to bug in v16 see https://github.com/npm/cli/pull/5894
+if ! setup_service node v14.18.2 &> /dev/null; then
+  echo "Failed to install node"
+  exit ${FAILED_SETUP}
+fi
+
 pushd dist
 npm pack --dry-run --json > ../test-reports/verify-package/pack-report.json
 popd
@@ -149,7 +155,7 @@ if [ -n "${TEST_SUITE_ID}" ]; then
   set +e
   # Verify minimum supported version of node
   export PATH=$ORIGINAL_PATH
-  setup_service node v16.19.1
+  setup_service node v14.18.2
 
   # Verify minimum supported version of yarn
   # Use the cacert bundled with centos as okta root CA is self-signed and cause issues downloading from yarn

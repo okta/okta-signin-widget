@@ -6,6 +6,6 @@
     "pseudo-loc": "node pseudo-loc.js"
   },
   "devDependencies": {
-    "@okta/i18n.pseudo-loc": "0.0.0-4584-gced6ef0"
+    "@okta/tools.i18n.pseudo-loc": "0.1.0-34-g8b1e866"
   }
 }

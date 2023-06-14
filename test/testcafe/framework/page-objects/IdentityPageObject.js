@@ -284,4 +284,13 @@ export default class IdentityPageObject extends BasePageObject {
     }
     return this.getIdpsContainer().childElementCount;
   }
+
+  async clickShowPasswordIcon() {
+    if (userVariables.v3) {
+      const pwToggleBtn = within(this.form.el).getAllByRole('button', { name: 'Show password' }).nth(0);
+      await this.t.click(pwToggleBtn);
+      return;
+    }
+    await this.t.click(Selector('.password-toggle .button-show'));
+  }
 }

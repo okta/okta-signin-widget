@@ -1,4 +1,4 @@
-import { RequestMock, Selector, userVariables } from 'testcafe';
+import { RequestMock, Selector } from 'testcafe';
 import PageObject from '../framework/page-objects/IdentityPageObject';
 import { renderWidget } from '../framework/shared';
 import { assertNoEnglishLeaks } from '../../../playground/LocaleUtils';
@@ -30,18 +30,6 @@ const ignoredMocks = [
   'authenticator-expired-custom-password.json' // seems to be flaky
 ];
 
-const v3IgnoredMocks = [
-  /** The below mocks are all complaining about the "page" text in the description but it IS localized. Need to investigate TODO: OKTA-594852 **/ 
-  'terminal-return-otp-only-full-location-mobile-icon-authentication.json',
-  'terminal-return-otp-only-full-location-mobile-icon-enrollment.json',
-  'terminal-return-otp-only-full-location-mobile-icon-recovery.json',
-  'terminal-return-otp-only-full-location-mobile-icon-unlock.json',
-  'terminal-return-otp-only-full-location.json',
-  'terminal-return-otp-only-no-location.json',
-  'terminal-return-otp-only-partial-location.json',
-  /** END of "page" issue **/
-];
-
 const optionsForInteractionCodeFlow = {
   clientId: 'fake',
   authParams: {
@@ -65,8 +53,7 @@ const parseMockData = () => {
   // eslint-disable-next-line no-console
   console.log('================= Parsing mocks for en leaks automation =============');
   fs.readdirSync(mocksFolder).forEach(file => {
-    const isIgnored = ignoredMocks.includes(file)
-      || (userVariables.v3 && v3IgnoredMocks.includes(file));
+    const isIgnored = ignoredMocks.includes(file);
     //only allow json mock files
     const isJsonMock = path.extname(file) === '.json';
     if (!isIgnored && isJsonMock) {

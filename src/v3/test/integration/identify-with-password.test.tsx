@@ -87,7 +87,7 @@ describe('identify-with-password', () => {
       findByTestId,
     } = await setup({
       mockResponse,
-      widgetOptions: { features: { rememberMyUsernameOnOIE: true } },
+      widgetOptions: { features: { rememberMe: true } },
     });
 
     const usernameEl = await findByTestId('identifier') as HTMLInputElement;
