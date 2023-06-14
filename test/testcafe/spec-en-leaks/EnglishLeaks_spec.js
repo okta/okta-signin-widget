@@ -27,7 +27,8 @@ const ignoredMocks = [
   'error-custom-access-denied-success-redirect.json', // custom message
   'error-identify-access-denied-custom-message.json', // custom message
   'enroll-profile-new-boolean-fields.json', // custom registration fields
-  'authenticator-expired-custom-password.json' // seems to be flaky
+  'authenticator-expired-custom-password.json', // seems to be flaky
+  'enroll-profile-new-custom-labels.json', // custom message/label
 ];
 
 const optionsForInteractionCodeFlow = {
