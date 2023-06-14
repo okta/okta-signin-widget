@@ -132,6 +132,7 @@ export const TERMINAL_KEY: Record<string, string> = {
   UNLOCK_ACCOUNT_KEY: 'oie.selfservice.unlock_user.success.message',
 };
 
+export const CUSTOM_APP_UV_ENABLE_BIOMETRIC_SERVER_KEY = 'oie.authenticator.custom_app.method.push.verify.enable.biometrics';
 export const OV_UV_ENABLE_BIOMETRIC_SERVER_KEY = 'oie.authenticator.oktaverify.method.totp.verify.enable.biometrics';
 export const OV_UV_RESEND_ENABLE_BIOMETRIC_SERVER_KEY = 'oie.authenticator.app.method.push.verify.enable.biometrics';
 export const OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP = 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.desktop';
