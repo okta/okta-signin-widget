@@ -121,7 +121,11 @@ export const buildAuthCoinProps = (
 
   const authenticatorKey = getAuthenticatorKey(transaction);
   if (authenticatorKey) {
-    return { authenticatorKey };
+    return {
+      authenticatorKey,
+      // @ts-ignore logoUri missing from interface
+      url: nextStep?.relatesTo?.value.logoUri,
+    };
   }
 
   return undefined;
