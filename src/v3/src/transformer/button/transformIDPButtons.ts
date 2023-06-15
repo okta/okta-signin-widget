@@ -15,7 +15,9 @@ import {
   DividerElement,
   TransformStepFnWithOptions,
 } from '../../types';
-import { getFastPassButtonElement, getIdpButtonElements, loc } from '../../util';
+import {
+  getCustomButtonElements, getFastPassButtonElement, getIdpButtonElements, loc,
+} from '../../util';
 
 export const transformIDPButtons: TransformStepFnWithOptions = ({
   transaction,
@@ -36,9 +38,17 @@ export const transformIDPButtons: TransformStepFnWithOptions = ({
     return formbag;
   }
 
-  const fastPassButtonElement = getFastPassButtonElement(transaction);
+  // only include fastpass button in identify flow
+  const fastPassButtonElement = containsIdentifyStep ? getFastPassButtonElement(transaction) : [];
   const idpButtonElements = getIdpButtonElements(transaction, widgetProps);
-  const buttonsToAdd = [...fastPassButtonElement, ...idpButtonElements];
+  // Only identify step contains custom buttons
+  const customButtonElements = containsIdentifyStep ? getCustomButtonElements(widgetProps) : [];
+  const buttonsToAdd = [
+    ...fastPassButtonElement,
+    ...idpButtonElements,
+    ...customButtonElements,
+  ];
+
   if (buttonsToAdd.length < 1) {
     return formbag;
   }

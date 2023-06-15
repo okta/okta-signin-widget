@@ -117,8 +117,7 @@ test.requestHooks(xhrSelectAuthenticatorMock)('can customize back to signin link
   await t.expect(selectAuthenticatorPageObject.getSignoutLinkText()).eql('Back to sign in');
 });
 
-// OKTA-594754 Custom buttons are not supported in v3
-test.meta('v3', false).requestHooks(identifyMock)('should show custom buttons links', async t => {
+test.requestHooks(identifyMock)('should show custom buttons links', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
   await rerenderWidget({
