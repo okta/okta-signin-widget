@@ -136,6 +136,9 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
           ...attributes,
         }}
         className={noTranslate ? 'no-translate' : undefined}
+        sx={{ 
+          padding: (theme) => theme.spacing(3),
+        }}
         endAdornment={(
           <InputAdornment position="end">
             <Tooltip title={showPassword ? getTranslation(translations, 'hide') : getTranslation(translations, 'show')}>

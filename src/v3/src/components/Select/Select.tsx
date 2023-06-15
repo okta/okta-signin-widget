@@ -74,7 +74,10 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
       <InputLabel
         htmlFor={name}
         // To prevent asterisk from shifting far right
-        sx={{ justifyContent: showAsterisk ? 'flex-start' : undefined }}
+        sx={{ 
+          justifyContent: showAsterisk ? 'flex-start' : undefined, 
+          position: 'static',
+        }}
       >
         {label}
         {showAsterisk && (
@@ -97,6 +100,9 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
       <MuiSelect
         native
         variant="standard"
+        sx={{
+          padding: theme => theme.spacing(3),
+        }}
         onChange={(e: SelectChangeEvent<string>) => {
           const selectTarget = (
             e?.target as SelectChangeEvent['target'] & { value: string; name: string; }
