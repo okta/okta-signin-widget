@@ -1,6 +1,5 @@
 .identifierContainer {
   border-radius: 36px;
-  background-color: var(--BackgroundFill);
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;

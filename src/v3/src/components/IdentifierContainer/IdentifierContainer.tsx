@@ -63,6 +63,7 @@ const IdentifierContainer: FunctionComponent = () => {
       maxWidth={1}
       className={mainContainerClasses}
       sx={(theme) => ({
+        /* TODO: replace with another approach, css var() is not support in IE11 */
         '--PrimaryFill': theme.palette.primary.main,
         '--BackgroundFill': theme.palette.grey[50],
       })}
@@ -74,6 +75,9 @@ const IdentifierContainer: FunctionComponent = () => {
         paddingX={4}
         paddingY={2}
         className={identiferContainerClasses}
+        sx={{
+          backgroundColor: theme => theme.palette.grey[50],
+        }}
       >
         <Box
           component="span"
