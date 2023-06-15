@@ -19,7 +19,8 @@ import {
   loadEnv,
   splitVendorChunkPlugin,
 } from 'vite';
-import { getResolveAlias, getViteServerProxy } from './buildUtils.js';
+
+import { getResolveAlias, getViteServerProxy } from './buildUtils';
 
 const outDir = resolve(__dirname, '../../dist/dist');
 
