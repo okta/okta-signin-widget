@@ -61,9 +61,15 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
       className={noTranslate ? 'no-translate' : undefined}
     >
       <FormControlLabel
-        sx={{ alignItems: 'flex-start' }}
+        sx={{ 
+          alignItems: 'flex-start',
+          gap: 0,
+        }}
         control={(
           <CheckboxMui
+            sx={{
+              marginRight: theme => theme.spacing(2),
+            }}
             size="medium"
             checked={value === true}
             id={name}

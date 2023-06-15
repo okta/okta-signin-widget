@@ -34,8 +34,6 @@ const Layout: FunctionComponent<{ uischema: UISchemaLayout }> = ({ uischema }) =
     <Box
       display="flex"
       flexDirection={flexDirection}
-      // eslint-disable-next-line react/jsx-props-no-spreading
-      {...(isHorizontalLayout && { gap: 1 })}
     >
       {
         elements.map((element, index) => {

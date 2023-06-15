@@ -16,11 +16,11 @@ import { h } from 'preact';
 import { DividerElement, UISchemaElementComponent } from '../../types';
 
 const Divider: UISchemaElementComponent<{ uischema: DividerElement }> = ({ uischema }) => {
-  const { options } = uischema;
+  const { text, componentProps } = uischema.options || {};
 
-  return typeof options?.text !== 'undefined' ? (
-    <MuiDivider className="separation-line">{options.text}</MuiDivider>
-  ) : <MuiDivider className="separation-line" />;
+  return typeof text !== 'undefined' ? (
+    <MuiDivider className="separation-line" {...componentProps}>{text}</MuiDivider>
+  ) : <MuiDivider className="separation-line" {...componentProps} />;
 };
 
 export default Divider;
