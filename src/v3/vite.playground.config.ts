@@ -10,4 +10,22 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import 'core-js';
+/// <reference types="vite/client" />
+import { defineConfig } from 'vite';
+import { createHtmlPlugin } from 'vite-plugin-html';
+
+import { getViteServerProxy } from './buildUtils';
+
+export default defineConfig({
+  plugins: [
+    createHtmlPlugin({
+      minify: false,
+      template: 'playground/index.html',
+    }),
+  ],
+  server: {
+    host: 'localhost',
+    proxy: getViteServerProxy(),
+    port: 3010,
+  },
+});
