@@ -106,6 +106,9 @@ const Body = BaseFormWithPolling.extend({
           return onPortFound()
             .done(() => {
               foundPort = true;
+              if (deviceChallenge.enhancedPollingEnabled !== false) {
+                this.stopPolling();
+              }
               // once the OV challenge succeeds,
               // triggers another polling right away without waiting for the next ongoing polling to be triggered
               // to make the authentication flow goes faster 
