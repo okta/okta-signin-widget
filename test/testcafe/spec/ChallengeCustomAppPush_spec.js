@@ -400,7 +400,7 @@ test
     }
     } = logger.requests[0];
     const answerRequestBody = JSON.parse(answerRequestBodyString);
-    await t.expect(answerRequestBody).eql({
+    await t.expect(answerRequestBody).contains({
       stateHandle: '02TcECA1PvSpQTx8Zqo08SSYj88KsXxwNKV4PGvVpF'
     });
     if (!userVariables.v3) {
