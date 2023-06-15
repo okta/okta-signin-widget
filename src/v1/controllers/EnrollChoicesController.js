@@ -47,7 +47,9 @@ export default FormController.extend({
         return loc('enroll.choices.optional', 'login');
       case Enums.HAS_REQUIRED_SOME_REQUIRED_ENROLLED: {
         const remainingDays = this.options.appState.get('gracePeriodRemainingDays');
-        return Number.isInteger(remainingDays) && remainingDays >= 0
+
+        // remainingDays is null if there is no grace period, 0 if we are still in grace period
+        return (remainingDays !== null && remainingDays >= 0)
           ? this.getGracePeriodSubtitle(remainingDays)
           : this.getDefaultSubtitle();
       }
