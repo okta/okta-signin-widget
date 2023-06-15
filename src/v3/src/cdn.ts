@@ -12,4 +12,5 @@
 
 import OktaSignIn from './OktaSignIn';
 
-export default OktaSignIn;
+// @ts-ignore
+window.OktaSignIn = OktaSignIn;

@@ -12,54 +12,32 @@
 
 /// <reference types="vite/client" />
 import preact from '@preact/preset-vite';
-import legacy from '@vitejs/plugin-legacy';
 import { resolve } from 'path';
-import { visualizer } from 'rollup-plugin-visualizer';
-import type { PluginOption } from 'vite';
 import {
   BuildOptions,
   defineConfig,
   loadEnv,
 } from 'vite';
 import { createHtmlPlugin } from 'vite-plugin-html';
-
-import pkg from './package.json';
+import { getResolveAlias, getViteServerProxy } from './buildUtils.js';
 
 const outDir = resolve(__dirname, '../../dist/dist');
-const mockServerBaseUrl = 'http://localhost:3030';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode, command }) => {
   const env = loadEnv(mode, process.cwd());
 
-  const plugins = [
-    preact(),
-    legacy({
-      targets: pkg.browserslist,
-    }),
-    createHtmlPlugin({
-      minify: mode === 'production',
-      entry: 'src/index.ts',
-    }),
-  ];
-
-  if (mode === 'production') {
-    plugins.push(
-      visualizer({
-        template: 'treemap', // or sunburst
-        open: false,
-        gzipSize: true,
-        brotliSize: true,
-        filename: 'analyse.html', // will be saved in project's root
-      }) as unknown as PluginOption[],
-    );
-  }
-
   return {
     root: command === 'serve' && mode === 'testcafe'
       ? outDir
       : process.cwd(),
-    plugins,
+    plugins: [
+      preact(),
+      createHtmlPlugin({
+        minify: false,
+        entry: 'src/playground.ts',
+      }),
+    ],
     define: {
       OKTA_SIW_VERSION: '"7.8.0"',
       OKTA_SIW_COMMIT_HASH: '"local"',
@@ -67,44 +45,10 @@ export default defineConfig(({ mode, command }) => {
       'process.env.NODE_ENV': `"${process.env.NODE_ENV}"`,
     },
     resolve: {
-      alias: {
-        '@okta/courage': resolve(__dirname, '../../packages/@okta/courage-dist'),
-        '@okta/mocks': resolve(__dirname, '../../playground/mocks'),
-        '@okta/okta-i18n-bundles': resolve(__dirname, '../util/Bundles.ts'),
-        '@okta/qtip': resolve(__dirname, '../../packages/@okta/qtip2/dist/jquery.qtip.js'),
-        config: resolve(__dirname, '../config'),
-        nls: resolve(__dirname, '../../packages/@okta/i18n/src/json'),
-        okta: resolve(__dirname, '../../packages/@okta/courage-dist'),
-        src: resolve(__dirname, './src'), // FIXME use relative imports
-        'util/BrowserFeatures': resolve(__dirname, '../util/BrowserFeatures'),
-        'util/Bundles': resolve(__dirname, '../util/Bundles'),
-        'util/Enums': resolve(__dirname, '../util/Enums'),
-        'util/FactorUtil': resolve(__dirname, '../util/FactorUtil'),
-        'util/Logger': resolve(__dirname, '../util/Logger'),
-        'util/TimeUtil': resolve(__dirname, '../util/TimeUtil'),
-        v1: resolve(__dirname, '../v1'),
-        v2: resolve(__dirname, '../v2'),
-
-        duo_web_sdk: env.VITE_MOCK_DUO
-          ? resolve(__dirname, 'src/__mocks__/duo_web_sdk') // mock
-          : 'duo_web_sdk', // real
-
-        // react -> preact alias
-        react: 'preact/compat',
-        'react-dom/test-utils': 'preact/test-utils',
-        'react-dom': 'preact/compat',
-        'react/jsx-runtime': 'preact/jsx-runtime',
-
-        // @mui -> @mui/legacy
-        '@mui/base': '@mui/base/legacy',
-        '@mui/lab': '@mui/lab/legacy',
-        '@mui/material': '@mui/material/legacy',
-        '@mui/styled-engine': '@mui/styled-engine/legacy',
-        '@mui/system': '@mui/system/legacy',
-        '@mui/utils': '@mui/utils/legacy',
-      },
+      alias: getResolveAlias(mode),
     },
 
+    // TODO: remove build section
     // not used in "dev" mode, i.e., when `command === 'serve'`
     build: ((): BuildOptions => {
       const base: BuildOptions = {
@@ -154,17 +98,7 @@ export default defineConfig(({ mode, command }) => {
 
     server: {
       host: 'localhost',
-      proxy: {
-        '/oauth2/': mockServerBaseUrl,
-        '/api/v1/': mockServerBaseUrl,
-        '/idp/idx/': mockServerBaseUrl,
-        '/login/getimage': mockServerBaseUrl,
-        '/sso/idps/': mockServerBaseUrl,
-        '/app/UserHome': mockServerBaseUrl,
-        '/oauth2/v1/authorize': mockServerBaseUrl,
-        '/auth/services/': mockServerBaseUrl,
-        '/.well-known/webfinger': mockServerBaseUrl,
-      },
+      proxy: getViteServerProxy(),
       port: 3000,
     },
   };

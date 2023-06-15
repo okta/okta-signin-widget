@@ -17,3 +17,4 @@ stats.json
 yalc.lock
 .npmrc
 analyse.html
+playground/js
