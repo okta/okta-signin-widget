@@ -16,7 +16,7 @@ import classNames from 'classnames';
 import IDP from '../../../util/IDP';
 import Util from '../../../util/Util';
 import { IDX_STEP, SOCIAL_IDP_TYPE_TO_I18KEY } from '../constants';
-
+import SmartCardIconSvg from '../img/smartCardButtonIcon.svg';
 import {
   ButtonElement,
   ButtonType,
@@ -24,9 +24,8 @@ import {
   LaunchAuthenticatorButtonElement,
   WidgetProps,
 } from '../types';
+import { getSocialIdpButtonIcon } from './getSocialIdpButtonIcon';
 import { loc } from './locUtil';
-import { getSocialIdpButtonIcon } from '../util';
-import SmartCardIconSvg from '../img/smartCardButtonIcon.svg';
 
 export const handleFormFieldChange = (
   path: string,
