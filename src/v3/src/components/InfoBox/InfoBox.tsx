@@ -52,6 +52,12 @@ const InfoBox: UISchemaElementComponent<{
         variant="infobox"
         data-se={dataSe}
         className={`infobox-${messageClass.toLowerCase()}`}
+        sx={{
+          gap: 0,
+          '& .MuiAlert-icon': {
+            marginRight: theme => theme.spacing(2),
+          }
+        }}
       >
         {message.title && (
           <Typography
