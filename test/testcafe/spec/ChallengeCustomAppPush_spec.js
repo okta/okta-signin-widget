@@ -401,9 +401,13 @@ test
     } = logger.requests[0];
     const answerRequestBody = JSON.parse(answerRequestBodyString);
     await t.expect(answerRequestBody).eql({
-      autoChallenge: true,
       stateHandle: '02TcECA1PvSpQTx8Zqo08SSYj88KsXxwNKV4PGvVpF'
     });
+    if (!userVariables.v3) {
+      await t.expect(answerRequestBody).contains({
+        autoChallenge: true,
+      });
+    }
     await t.expect(answerRequestMethod).eql('post');
     await t.expect(answerRequestUrl).eql('http://localhost:3000/idp/idx/authenticators/poll');
 
