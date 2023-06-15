@@ -17,8 +17,8 @@ import {
   BuildOptions,
   defineConfig,
   loadEnv,
+  splitVendorChunkPlugin,
 } from 'vite';
-import { createHtmlPlugin } from 'vite-plugin-html';
 import { getResolveAlias, getViteServerProxy } from './buildUtils.js';
 
 const outDir = resolve(__dirname, '../../dist/dist');
@@ -33,10 +33,7 @@ export default defineConfig(({ mode, command }) => {
       : process.cwd(),
     plugins: [
       preact(),
-      createHtmlPlugin({
-        minify: false,
-        entry: 'src/playground.ts',
-      }),
+      splitVendorChunkPlugin(),
     ],
     define: {
       OKTA_SIW_VERSION: '"0.0.0"',
@@ -62,8 +59,6 @@ export default defineConfig(({ mode, command }) => {
 
         // playground assets, e.g., logo, favicon
         copyPublicDir: true,
-
-        minify: false, //mode === 'production',
       };
 
       if (mode === 'testcafe') {
