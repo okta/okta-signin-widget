@@ -16,17 +16,17 @@ import classNames from 'classnames';
 import IDP from '../../../util/IDP';
 import Util from '../../../util/Util';
 import { IDX_STEP, SOCIAL_IDP_TYPE_TO_I18KEY } from '../constants';
-import SmartCardIconSvg from '../img/smartCardButtonIcon.svg';
-import appleIconSvg from '../img/socialButtonIcons/apple.svg';
-import facebookIconSvg from '../img/socialButtonIcons/facebook.svg';
-import googleIconSvg from '../img/socialButtonIcons/google.svg';
-import linkedinIconSvg from '../img/socialButtonIcons/linkedin.svg';
-import msIconSvg from '../img/socialButtonIcons/ms.svg';
-import oktaIconSvg from '../img/socialButtonIcons/okta.svg';
+
 import {
-  ButtonElement, ButtonType, IWidgetContext, LaunchAuthenticatorButtonElement, WidgetProps,
+  ButtonElement,
+  ButtonType,
+  IWidgetContext,
+  LaunchAuthenticatorButtonElement,
+  WidgetProps,
 } from '../types';
 import { loc } from './locUtil';
+import { getSocialIdpButtonIcon } from '../util';
+import SmartCardIconSvg from '../img/smartCardButtonIcon.svg';
 
 export const handleFormFieldChange = (
   path: string,
@@ -193,19 +193,6 @@ const getConfigIdpButtonRemediations = (
   return [];
 };
 
-// TO DO: OKTA-609477 - Add rest of supported social idp icons here
-const getIdpButtonIcon = (idpType: string) : string => {
-  const idpIconMapping: Record<string, string> = {
-    facebook: facebookIconSvg,
-    google: googleIconSvg,
-    linkedin: linkedinIconSvg,
-    microsoft: msIconSvg,
-    apple: appleIconSvg,
-    okta: oktaIconSvg,
-  };
-  return idpIconMapping[idpType];
-};
-
 /**
  * Example of `redirect-idp` remediation.
  * {
@@ -262,7 +249,7 @@ export const getIdpButtonElements = (
           { 'no-translate': type === 'general-idp' },
         ),
         variant: 'secondary',
-        Icon: getIdpButtonIcon(type),
+        Icon: getSocialIdpButtonIcon(type),
         iconAlt: '',
         onClick: () => {
           Util.redirectWithFormGet(idpObject.href);
