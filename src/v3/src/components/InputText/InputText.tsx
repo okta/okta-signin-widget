@@ -103,6 +103,9 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
         )
       }
       <InputBase
+        sx={{ 
+          padding: (theme) => theme.spacing(3),
+        }}
         value={value}
         type={type || 'text'}
         id={name}
