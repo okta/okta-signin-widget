@@ -69,6 +69,7 @@ import {
   transformOktaVerifyFPLaunchAuthenticator,
   transformOktaVerifyFPLoopbackPoll,
 } from './oktaVerify';
+import { transformCustomOtpAuthenticator } from './otp';
 import { transformPIVAuthenticator } from './piv';
 import {
   transformIdentityRecovery,
@@ -160,6 +161,10 @@ const TransformerMap: {
     },
   },
   [IDX_STEP.CHALLENGE_AUTHENTICATOR]: {
+    [AUTHENTICATOR_KEY.CUSTOM_OTP]: {
+      transform: transformCustomOtpAuthenticator,
+      buttonConfig: { showDefaultSubmit: false },
+    },
     [AUTHENTICATOR_KEY.DUO]: {
       transform: transformDuoAuthenticator,
       buttonConfig: { showDefaultSubmit: false },
