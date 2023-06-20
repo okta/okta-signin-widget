@@ -53,7 +53,6 @@ const IdentifierContainer: FunctionComponent = () => {
   const mainContainerClasses = classNames('identifier-container');
   const identiferContainerClasses = classNames(style.identifierContainer);
   const identifierSpanClasses = classNames('identifier', 'no-translate', style.identifierSpan);
-  const iconContainerClasses = classNames(style.userIconContainer);
   return (
     <Box
       display="flex"
@@ -62,11 +61,6 @@ const IdentifierContainer: FunctionComponent = () => {
       marginBottom={4}
       maxWidth={1}
       className={mainContainerClasses}
-      sx={(theme) => ({
-        /* TODO: replace with another approach, css var() is not support in IE11 */
-        '--PrimaryFill': theme.palette.primary.main,
-        '--BackgroundFill': theme.palette.grey[50],
-      })}
     >
       <Box
         flex="auto"
@@ -81,7 +75,10 @@ const IdentifierContainer: FunctionComponent = () => {
       >
         <Box
           component="span"
-          className={iconContainerClasses}
+          sx={{
+            color: theme => theme.palette.primary.main,
+            verticalAlign: 'middle',
+          }}
         >
           <Icon
             name="user"

@@ -1,30 +1,13 @@
-.authButton:hover {
-  cursor: pointer;
-  border-color: var(--ColorPrimaryBase, #1662dd);
-}
-.authButton:hover .actionName {
-  color: var(--ColorHover);
-}
-.authButton:focus {
-  outline-color: var(--FocusOutlineColor);
-  outline-offset: var(--FocusOutlineOffset);
-  outline-style: var(--FocusOutlineStyle);
-  outline-width: var(--FocusOutlineWidth);
-}
-
 .infoSection {
   display: flex;
   flex-grow: 1;
   flex-direction: column;
-  gap: 6px;
-  padding-block: 0;
-  padding-inline: 12px 0;
+  padding-left: 12px;
 }
 
 .actionName {
   margin-block: 5px;
   margin-inline: 0;
-  color: var(--ColorPrimaryBase);
   display: flex;
   font-weight: 500;
   align-items: center;

@@ -71,10 +71,18 @@ const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
       data-se="factor-beacon"
       aria-hidden
       sx={(theme) => ({
-        '--PrimaryFill': theme.palette.primary.main,
-        '--PrimaryDarkFill': theme.palette.primary.dark,
-        '--SecondaryFill': theme.palette.primary.light,
-        '--BackgroundFill': theme.palette.grey[50],
+        '& .siwFillPrimary': {
+          fill: theme.palette.primary.main,
+        },
+        '& .siwFillPrimaryDark': {
+          fill: theme.palette.primary.dark,
+        },
+        '& .siwFillSecondary': {
+          fill: theme.palette.primary.light,
+        },
+        '& .siwFillBg': {
+          fill: theme.palette.grey[50],
+        },
       })}
     >
       { createAuthCoinIcon() }

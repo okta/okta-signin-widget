@@ -8,8 +8,3 @@
 .identifierSpan {
   margin-inline-start: 10px;
 }
-
-.userIconContainer {
-  color: var(--PrimaryFill);
-  vertical-align: middle;
-}

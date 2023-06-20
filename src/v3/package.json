@@ -74,6 +74,7 @@
     "@okta/odyssey-babel-preset": "^0.17.1",
     "@preact/preset-vite": "^2.5.0",
     "@rollup/plugin-commonjs": "^24.1.0",
+    "@svgr/webpack": "^8.0.1",
     "@testcafe-community/axe": "^3.5.0",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/preact": "^2.0.1",
