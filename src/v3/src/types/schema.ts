@@ -563,7 +563,10 @@ export interface TranslationInfo {
 
 export interface DividerElement extends UISchemaElement {
   type: 'Divider';
-  options?: { text: string; };
+  options?: { 
+    text: string;
+    componentProps: object;
+  };
 }
 
 export interface DuoWindowElement extends UISchemaElement {

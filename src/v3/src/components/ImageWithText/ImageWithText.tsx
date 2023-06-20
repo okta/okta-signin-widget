@@ -10,8 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import './style.module.css';
-
 import { Box, Typography } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 import { ImageWithTextElement, UISchemaElementComponent } from 'src/types';
@@ -31,9 +29,18 @@ const ImageWithText: UISchemaElementComponent<{
       alignItems="center"
       flexWrap="wrap"
       sx={(theme) => ({
-        '--PrimaryFill': theme.palette.primary.main,
-        '--PrimaryDarkFill': theme.palette.primary.dark,
-        '--SecondaryFill': theme.palette.primary.light,
+        '& .siwIconFillPrimary': {
+          fill: theme.palette.primary.main,
+        },
+        '& .siwIconStrokePrimary': {
+          stroke: theme.palette.primary.main,
+        },
+        '& .siwIconFillPrimaryDark': {
+          fill: theme.palette.primary.dark,
+        },
+        '& .siwIconFillSecondary': {
+          fill: theme.palette.primary.light,
+        },
       })}
     >
       <Box
