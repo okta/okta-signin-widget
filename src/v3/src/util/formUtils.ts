@@ -24,7 +24,7 @@ import {
   LaunchAuthenticatorButtonElement,
   WidgetProps,
 } from '../types';
-import { getSocialIdpButtonIcon } from './getSocialIdpButtonIcon';
+import { idpButtonIconMap } from './idpButtonIconMap';
 import { loc } from './locUtil';
 
 export const handleFormFieldChange = (
@@ -248,7 +248,7 @@ export const getIdpButtonElements = (
           { 'no-translate': type === 'general-idp' },
         ),
         variant: 'secondary',
-        Icon: getSocialIdpButtonIcon(type),
+        Icon: idpButtonIconMap[type],
         iconAlt: '',
         onClick: () => {
           Util.redirectWithFormGet(idpObject.href);

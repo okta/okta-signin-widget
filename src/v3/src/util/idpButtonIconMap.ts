@@ -31,29 +31,26 @@ import xeroIconSvg from '../img/socialButtonIcons/xero.svg';
 import yahooIconSvg from '../img/socialButtonIcons/yahoo.svg';
 import yahooJapanIconSvg from '../img/socialButtonIcons/yahoo-japan.svg';
 
-export const getSocialIdpButtonIcon = (idpType: string) : string => {
-  const idpIconMapping: Record<string, string> = {
-    apple: appleIconSvg,
-    facebook: facebookIconSvg,
-    google: googleIconSvg,
-    linkedin: linkedinIconSvg,
-    microsoft: msIconSvg,
-    okta: oktaIconSvg,
-    github: githubIconSvg,
-    gitlab: gitlabIconSvg,
-    yahoo: yahooIconSvg,
-    line: lineIconSvg,
-    paypal: paypalIconSvg,
-    paypal_sandbox: paypalIconSvg,
-    salesforce: salesforceIconSvg,
-    amazon: amazonIconSvg,
-    yahoojp: yahooJapanIconSvg,
-    discord: discordIconSvg,
-    adobe: adobeIconSvg,
-    orcid: orcidIconSvg,
-    spotify: spotifyIconSvg,
-    xero: xeroIconSvg,
-    quickbooks: quickbooksIconSvg,
-  };
-  return idpIconMapping[idpType];
+export const idpButtonIconMap: Record<string, string> = {
+  apple: appleIconSvg,
+  facebook: facebookIconSvg,
+  google: googleIconSvg,
+  linkedin: linkedinIconSvg,
+  microsoft: msIconSvg,
+  okta: oktaIconSvg,
+  github: githubIconSvg,
+  gitlab: gitlabIconSvg,
+  yahoo: yahooIconSvg,
+  line: lineIconSvg,
+  paypal: paypalIconSvg,
+  paypal_sandbox: paypalIconSvg,
+  salesforce: salesforceIconSvg,
+  amazon: amazonIconSvg,
+  yahoojp: yahooJapanIconSvg,
+  discord: discordIconSvg,
+  adobe: adobeIconSvg,
+  orcid: orcidIconSvg,
+  spotify: spotifyIconSvg,
+  xero: xeroIconSvg,
+  quickbooks: quickbooksIconSvg,
 };
