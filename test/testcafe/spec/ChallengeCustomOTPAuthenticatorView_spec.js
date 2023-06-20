@@ -73,8 +73,7 @@ test.requestHooks(mockInvalidPasscode)('challege custom otp authenticator with i
   await t.expect(challengeOnPremPage.getInvalidOTPError()).eql('Invalid code. Try again.');
 });
 
-// OKTA-465319 Help link is not supported in v3
-test.meta('v3', false).requestHooks(mockChallengeAuthenticatorCustomOTP)('should show custom factor page link', async t => {
+test.requestHooks(mockChallengeAuthenticatorCustomOTP)('should show custom factor page link', async t => {
   const challengeOnPremPage = await setup(t);
   await checkA11y(t);
 
