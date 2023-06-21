@@ -30,6 +30,10 @@ import {
   useRef,
   useState,
 } from 'preact/hooks';
+import rtlPlugin from 'stylis-plugin-rtl';
+import { CacheProvider } from '@emotion/react';
+import createCache from '@emotion/cache';
+import { prefixer } from 'stylis';
 
 import Bundles from '../../../../util/Bundles';
 import { IDX_STEP } from '../../constants';
@@ -360,6 +364,12 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [responseError]);
 
+  // Create rtl cache
+  const cacheRtl = createCache({
+    key: 'muirtl',
+    stylisPlugins: [prefixer, rtlPlugin],
+  });
+
   return (
     <WidgetContextProvider value={{
       authClient,
@@ -387,6 +397,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     }}
     >
       <OdysseyCacheProvider nonce={cspNonce}>
+        <CacheProvider value={cacheRtl}>
         <MuiThemeProvider theme={brandedTheme}>
           {/* the style is to allow the widget to inherit the parent's bg color */}
           <ScopedCssBaseline
@@ -417,6 +428,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
             </AuthContainer>
           </ScopedCssBaseline>
         </MuiThemeProvider>
+        </CacheProvider>
       </OdysseyCacheProvider>
     </WidgetContextProvider>
   );
