@@ -29,7 +29,7 @@ import {
   getAuthenticatorKey, hasMinAuthenticatorOptions, loc, updateTransactionWithNextStep,
 } from '../../util';
 import { getUIElementWithName, removeUIElementWithName } from '../utils';
-import { getCustomAppMethodTypeAuthenticatorButtonElements, getOVMethodTypeAuthenticatorButtonElements, isOnlyPushWithAutoChallenge } from './utils';
+import { getAppAuthenticatorMethodButtonElements, isOnlyPushWithAutoChallenge } from './utils';
 
 export const transformSelectOVCustomAppMethodVerify: IdxStepTransformer = ({
   transaction,
@@ -108,17 +108,12 @@ export const transformSelectOVCustomAppMethodVerify: IdxStepTransformer = ({
       uischema.elements.push(listLink);
     }
   } else {
-    const buttonElements = isOV
-      ? getOVMethodTypeAuthenticatorButtonElements(
-        authenticator,
-        stepName,
-        relatesTo?.value?.deviceKnown,
-      )
-      : getCustomAppMethodTypeAuthenticatorButtonElements(
-        authenticator,
-        stepName,
-        relatesTo?.value?.deviceKnown,
-      );
+    const buttonElements = getAppAuthenticatorMethodButtonElements(
+      authenticator,
+      stepName,
+      relatesTo?.value?.deviceKnown,
+      isOV ? AUTHENTICATOR_KEY.OV : AUTHENTICATOR_KEY.CUSTOM_APP,
+    );
     uischema.elements = removeUIElementWithName(
       'authenticator.methodType',
       uischema.elements as UISchemaElement[],

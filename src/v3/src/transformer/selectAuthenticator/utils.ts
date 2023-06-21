@@ -303,10 +303,11 @@ const getAuthenticatorButtonElements = (
   return reorderAuthenticatorButtons(formattedOptions, deviceKnown);
 };
 
-export const getOVMethodTypeAuthenticatorButtonElements = (
+export const getAppAuthenticatorMethodButtonElements = (
   authenticator: Input,
   step: string,
   deviceKnown?: boolean,
+  authKey = AUTHENTICATOR_KEY.OV,
 ): AuthenticatorButtonElement[] => {
   const id = (authenticator.value as Input[])?.find(({ name }) => name === 'id')?.value as string;
   const methodType = (authenticator.value as Input[])?.find(({ name }) => name === 'methodType');
@@ -317,10 +318,11 @@ export const getOVMethodTypeAuthenticatorButtonElements = (
   const authButtons = methodType.options.map((option, index) => ({
     type: 'AuthenticatorButton',
     label: option.label,
-    id: `auth_btn_${AUTHENTICATOR_KEY.OV}_${option.value as string}`,
+    id: `auth_btn_${authKey}_${option.value as string}`,
+    noTranslate: authKey === AUTHENTICATOR_KEY.CUSTOM_APP,
     options: {
       type: ButtonType.BUTTON,
-      key: AUTHENTICATOR_KEY.OV,
+      key: authKey,
       ctaLabel: loc('oie.verify.authenticator.button.text', 'login'),
       actionParams: {
         'authenticator.id': id,
@@ -328,61 +330,17 @@ export const getOVMethodTypeAuthenticatorButtonElements = (
       },
       description: getAuthenticatorDescription(
         option,
-        AUTHENTICATOR_KEY.OV,
+        authKey,
         false,
       ),
       dataSe: getAuthenticatorDataSeVal(
-        AUTHENTICATOR_KEY.OV,
+        authKey,
         option.value as string,
       ),
-      iconName: `${AUTHENTICATOR_KEY.OV}_${index}`,
+      iconName: `${authKey}_${index}`,
       step,
       includeData: true,
       includeImmutableData: false,
-    },
-  })) as AuthenticatorButtonElement[];
-
-  return reorderAuthenticatorButtons(authButtons, deviceKnown);
-};
-
-export const getCustomAppMethodTypeAuthenticatorButtonElements = (
-  authenticator: Input,
-  step: string,
-  deviceKnown?: boolean,
-): AuthenticatorButtonElement[] => {
-  const id = (authenticator.value as Input[])?.find(({ name }) => name === 'id')?.value as string;
-  const methodType = (authenticator.value as Input[])?.find(({ name }) => name === 'methodType');
-  if (!methodType?.options?.length) {
-    return [];
-  }
-
-  const authButtons = methodType.options.map((option, index) => ({
-    type: 'AuthenticatorButton',
-    label: option.label,
-    id: `auth_btn_${AUTHENTICATOR_KEY.CUSTOM_APP}_${option.value as string}`,
-    options: {
-      type: ButtonType.BUTTON,
-      key: AUTHENTICATOR_KEY.CUSTOM_APP,
-      ctaLabel: loc('oie.verify.authenticator.button.text', 'login'),
-      actionParams: {
-        'authenticator.id': id,
-        'authenticator.methodType': (option.value as string),
-      },
-      description: getAuthenticatorDescription(
-        option,
-        AUTHENTICATOR_KEY.CUSTOM_APP,
-        false,
-      ),
-      dataSe: getAuthenticatorDataSeVal(
-        AUTHENTICATOR_KEY.CUSTOM_APP,
-        option.value as string,
-      ),
-      iconName: `${AUTHENTICATOR_KEY.CUSTOM_APP}_${index}`,
-      step,
-      includeData: true,
-      includeImmutableData: false,
-      // @ts-ignore logoUri missing from interface
-      logoUri: option.logoUri,
     },
   })) as AuthenticatorButtonElement[];
 

@@ -16,17 +16,17 @@ import { AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP, AUTHENTICATOR_KEY, IDX_STEP } f
 import { ButtonType } from 'src/types';
 
 import {
+  getAppAuthenticatorMethodButtonElements,
   getAuthenticatorEnrollButtonElements,
   getAuthenticatorVerifyButtonElements,
-  getOVMethodTypeAuthenticatorButtonElements,
   isOnlyPushWithAutoChallenge,
 } from './utils';
 
 describe('Select Authenticator Utility Tests', () => {
   const stepName = IDX_STEP.SELECT_AUTHENTICATOR_ENROLL;
-  describe('getOVMethodTypeAuthenticatorButtonElements Tests', () => {
+  describe('getAppAuthenticatorMethodButtonElements Tests', () => {
     it('should return an empty array when an empty array of options is provided', () => {
-      expect(getOVMethodTypeAuthenticatorButtonElements({ name: 'authenticator' }, stepName)).toEqual([]);
+      expect(getAppAuthenticatorMethodButtonElements({ name: 'authenticator' }, stepName)).toEqual([]);
     });
 
     it('should return formatted Authenticator Option Values '
@@ -42,11 +42,12 @@ describe('Select Authenticator Utility Tests', () => {
           { name: 'methodType', options },
         ],
       };
-      expect(getOVMethodTypeAuthenticatorButtonElements(authenticator, stepName)).toEqual([
+      expect(getAppAuthenticatorMethodButtonElements(authenticator, stepName)).toEqual([
         {
           type: 'AuthenticatorButton',
           label: options[0].label,
           id: 'auth_btn_okta_verify_totp',
+          noTranslate: false,
           options: {
             key: AUTHENTICATOR_KEY.OV,
             ctaLabel: 'oie.verify.authenticator.button.text',
@@ -67,6 +68,7 @@ describe('Select Authenticator Utility Tests', () => {
           type: 'AuthenticatorButton',
           label: options[1].label,
           id: 'auth_btn_okta_verify_push',
+          noTranslate: false,
           options: {
             key: AUTHENTICATOR_KEY.OV,
             ctaLabel: 'oie.verify.authenticator.button.text',
@@ -100,11 +102,12 @@ describe('Select Authenticator Utility Tests', () => {
           { name: 'methodType', options },
         ],
       };
-      expect(getOVMethodTypeAuthenticatorButtonElements(authenticator, stepName, true)).toEqual([
+      expect(getAppAuthenticatorMethodButtonElements(authenticator, stepName, true)).toEqual([
         {
           type: 'AuthenticatorButton',
           label: options[2].label,
           id: 'auth_btn_okta_verify_signed_nonce',
+          noTranslate: false,
           options: {
             key: AUTHENTICATOR_KEY.OV,
             ctaLabel: 'oie.verify.authenticator.button.text',
@@ -125,6 +128,7 @@ describe('Select Authenticator Utility Tests', () => {
           type: 'AuthenticatorButton',
           label: options[0].label,
           id: 'auth_btn_okta_verify_totp',
+          noTranslate: false,
           options: {
             key: AUTHENTICATOR_KEY.OV,
             ctaLabel: 'oie.verify.authenticator.button.text',
@@ -145,6 +149,7 @@ describe('Select Authenticator Utility Tests', () => {
           type: 'AuthenticatorButton',
           label: options[1].label,
           id: 'auth_btn_okta_verify_push',
+          noTranslate: false,
           options: {
             key: AUTHENTICATOR_KEY.OV,
             ctaLabel: 'oie.verify.authenticator.button.text',

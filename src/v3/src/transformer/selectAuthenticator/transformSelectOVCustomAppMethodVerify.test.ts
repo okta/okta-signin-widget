@@ -28,7 +28,7 @@ import {
 import { hasMinAuthenticatorOptions } from '../../util';
 import { transformSelectOVCustomAppMethodVerify } from './transformSelectOVCustomAppMethodVerify';
 import {
-  getOVMethodTypeAuthenticatorButtonElements,
+  getAppAuthenticatorMethodButtonElements,
   isOnlyPushWithAutoChallenge,
 } from './utils';
 
@@ -66,7 +66,7 @@ const getMockMethodTypes = (): AuthenticatorButtonElement[] => {
 };
 
 jest.mock('./utils', () => ({
-  getOVMethodTypeAuthenticatorButtonElements: jest.fn().mockImplementation(
+  getAppAuthenticatorMethodButtonElements: jest.fn().mockImplementation(
     () => jest.fn().mockReturnValue(getMockMethodTypes()),
   ),
   isOnlyPushWithAutoChallenge: jest.fn().mockImplementation(
@@ -136,7 +136,7 @@ describe('Transform Select OV Method Verify Tests', () => {
   it('should transform elements when transaction only contains push method type '
     + 'with autoChallenge option', () => {
     (isOnlyPushWithAutoChallenge as jest.Mock).mockReturnValue(true);
-    (getOVMethodTypeAuthenticatorButtonElements as jest.Mock).mockReturnValue([]);
+    (getAppAuthenticatorMethodButtonElements as jest.Mock).mockReturnValue([]);
     const updatedFormBag = transformSelectOVCustomAppMethodVerify({
       transaction,
       formBag,
@@ -168,7 +168,7 @@ describe('Transform Select OV Method Verify Tests', () => {
     }];
     (hasMinAuthenticatorOptions as jest.Mock).mockReturnValue(true);
     (isOnlyPushWithAutoChallenge as jest.Mock).mockReturnValue(true);
-    (getOVMethodTypeAuthenticatorButtonElements as jest.Mock).mockReturnValue([]);
+    (getAppAuthenticatorMethodButtonElements as jest.Mock).mockReturnValue([]);
     const updatedFormBag = transformSelectOVCustomAppMethodVerify({
       transaction,
       formBag,
@@ -230,7 +230,7 @@ describe('Transform Select OV Method Verify Tests', () => {
       },
     };
     (isOnlyPushWithAutoChallenge as jest.Mock).mockReturnValue(false);
-    (getOVMethodTypeAuthenticatorButtonElements as jest.Mock).mockReturnValue(getMockMethodTypes());
+    (getAppAuthenticatorMethodButtonElements as jest.Mock).mockReturnValue(getMockMethodTypes());
     const updatedFormBag = transformSelectOVCustomAppMethodVerify({
       transaction,
       formBag,
@@ -300,7 +300,7 @@ describe('Transform Select Custom App Method Verify Tests', () => {
   it('should transform elements when transaction only contains push method type '
     + 'with autoChallenge option and Custom App authenticator key', () => {
     (isOnlyPushWithAutoChallenge as jest.Mock).mockReturnValue(true);
-    (getOVMethodTypeAuthenticatorButtonElements as jest.Mock).mockReturnValue([]);
+    (getAppAuthenticatorMethodButtonElements as jest.Mock).mockReturnValue([]);
     const updatedFormBag = transformSelectOVCustomAppMethodVerify({
       transaction,
       formBag,
@@ -332,7 +332,7 @@ describe('Transform Select Custom App Method Verify Tests', () => {
     }];
     (hasMinAuthenticatorOptions as jest.Mock).mockReturnValue(true);
     (isOnlyPushWithAutoChallenge as jest.Mock).mockReturnValue(true);
-    (getOVMethodTypeAuthenticatorButtonElements as jest.Mock).mockReturnValue([]);
+    (getAppAuthenticatorMethodButtonElements as jest.Mock).mockReturnValue([]);
     const updatedFormBag = transformSelectOVCustomAppMethodVerify({
       transaction,
       formBag,
