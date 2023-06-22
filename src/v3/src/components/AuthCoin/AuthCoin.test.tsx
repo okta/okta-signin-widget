@@ -58,7 +58,7 @@ describe('AuthCoin tests', () => {
     + 'AuthCoin when image URL is provided', async () => {
     props = {
       ...props,
-      url: '/img/socialButtonIcons/okta.svg',
+      url: '/img/socialIcons/okta.svg',
     };
 
     const { container, findByRole } = render(<AuthCoin {...props} />);
@@ -71,7 +71,7 @@ describe('AuthCoin tests', () => {
     + 'AuthenticatorKey requires a branded Type', async () => {
     props = {
       authenticatorKey: 'duo',
-      url: '/img/socialButtonIcons/okta.svg',
+      url: '/img/socialIcons/okta.svg',
     };
 
     const { container, findByRole } = render(<AuthCoin {...props} />);

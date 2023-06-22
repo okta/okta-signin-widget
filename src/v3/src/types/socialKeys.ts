@@ -10,18 +10,25 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-export * from './appInfo';
-export * from './authcoin';
-export * from './component';
-export * from './context';
-export * from './error';
-export * from './handlers';
-export * from './ion';
-export * from './json';
-export * from './jsonforms';
-export * from './password';
-export * from './schema';
-export * from './socialKeys';
-export * from './stepTransformer';
-export * from './userInfo';
-export * from './widget';
+export type SocialKey = 
+  'okta' |
+  'facebook' |
+  'google' |
+  'linkedin' |
+  'microsoft' |
+  'apple' |
+  'github' |
+  'gitlab' |
+  'yahoo' |
+  'line' |
+  'paypal' |
+  'paypal_sandbox' |
+  'salesforce' |
+  'amazon' |
+  'yahoojp' |
+  'discord' |
+  'adobe' |
+  'orcid' |
+  'spotify' |
+  'xero' |
+  'quickbooks';
