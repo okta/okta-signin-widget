@@ -17,22 +17,16 @@ const logger = RequestLogger(/challenge|challenge\/poll|authenticators\/poll/,
   }
 );
 
-let shouldProceed = false;
-const pushSuccessMock = RequestMock()
+const pushSuccessMock = pollResponse => RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(pushPoll)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
-  .respond((req, res) => {
-    res.statusCode = '200';
-    res.headers['content-type'] = 'application/json';
-    if (!userVariables.v3 || shouldProceed) {
-      res.setBody(success);
-    } else {
-      res.setBody(pushPoll);
-    }
-  })
+  .respond(pollResponse)
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
   .respond(oktaDashboardContent);
+
+const pushSuccessMock1 = pushSuccessMock(!userVariables.v3 ? success : pushPoll);
+const pushSuccessMock2 = pushSuccessMock(success);
 
 const pushRejectMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -117,7 +111,7 @@ test.requestHooks(mockCustomAppSendPush)(
   });
 
 test
-  .requestHooks(pushSuccessMock)('challenge custom app push screen has right labels', async t => {
+  .requestHooks(pushSuccessMock1)('challenge custom app push screen has right labels', async t => {
     const challengeCustomAppPushPageObject = await setup(t);
     await checkA11y(t);
     await checkConsoleMessages({
@@ -229,7 +223,7 @@ test
   });
 
 test
-  .requestHooks(pushSuccessMock)('challenge custom push screen has right labels and logo', async t => {
+  .requestHooks(pushSuccessMock1)('challenge custom push screen has right labels and logo', async t => {
     const challengeCustomAppPushPageObject = await setup(t);
     await checkA11y(t);
     await checkConsoleMessages({
@@ -296,11 +290,13 @@ test
   });
 
 test
-  .requestHooks(logger, pushSuccessMock)('challenge Custom App push request', async t => {
+  .requestHooks(logger, pushSuccessMock1)('challenge Custom App push request', async t => {
     await setup(t);
     await checkA11y(t);
     if (userVariables.v3) {
-      shouldProceed = true;
+      logger.clear();
+      await t.removeRequestHooks(pushSuccessMock1);
+      await t.addRequestHooks(pushSuccessMock2);
       // wait for additional poll
       await t.wait(4000);
     }
@@ -325,13 +321,13 @@ test
     });
     await t.expect(answerRequestMethod).eql('post');
     await t.expect(answerRequestUrl).eql('http://localhost:3000/idp/idx/challenge/poll');
-    shouldProceed = false;
   });
 
 test
   .requestHooks(logger, pushWaitMock)('challenge Custom App push polling', async t => {
     await setup(t);
     await checkA11y(t);
+    logger.clear();
     await t.wait(4000);
     // polling API should be called
     // polling issue in v3 - https://oktainc.atlassian.net/browse/OKTA-587189
@@ -386,6 +382,7 @@ test
 
     await setup(t);
     await checkA11y(t);
+    logger.clear();
     await t.wait(4000);
     // polling API should be called
     // polling issue in v3 - https://oktainc.atlassian.net/browse/OKTA-587189
@@ -494,8 +491,7 @@ test
       .eql('Haven\'t received a push notification yet? Try opening Custom Push on your phone.');
   });
 
-test.requestHooks(pushSuccessMock)('should show custom factor page link', async t => {
-  shouldProceed = false;
+test.requestHooks(pushSuccessMock1)('should show custom factor page link', async t => {
   const challengeCustomAppPushPageObject = await setup(t);
   await checkA11y(t);
 
