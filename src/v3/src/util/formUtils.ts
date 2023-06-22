@@ -25,8 +25,8 @@ import {
   SocialKey,
   WidgetProps,
 } from '../types';
-import { socialIconMap } from './socialIconMap';
 import { loc } from './locUtil';
+import { socialIconMap } from './socialIconMap';
 
 export const handleFormFieldChange = (
   path: string,
