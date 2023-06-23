@@ -306,8 +306,8 @@ const getAuthenticatorButtonElements = (
 export const getAppAuthenticatorMethodButtonElements = (
   authenticator: Input,
   step: string,
-  deviceKnown?: boolean,
   authKey = AUTHENTICATOR_KEY.OV,
+  deviceKnown?: boolean,
 ): AuthenticatorButtonElement[] => {
   const id = (authenticator.value as Input[])?.find(({ name }) => name === 'id')?.value as string;
   const methodType = (authenticator.value as Input[])?.find(({ name }) => name === 'methodType');

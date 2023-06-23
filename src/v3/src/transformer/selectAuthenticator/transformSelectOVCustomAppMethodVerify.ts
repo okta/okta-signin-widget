@@ -111,8 +111,8 @@ export const transformSelectOVCustomAppMethodVerify: IdxStepTransformer = ({
     const buttonElements = getAppAuthenticatorMethodButtonElements(
       authenticator,
       stepName,
-      relatesTo?.value?.deviceKnown,
       isOV ? AUTHENTICATOR_KEY.OV : AUTHENTICATOR_KEY.CUSTOM_APP,
+      relatesTo?.value?.deviceKnown,
     );
     uischema.elements = removeUIElementWithName(
       'authenticator.methodType',

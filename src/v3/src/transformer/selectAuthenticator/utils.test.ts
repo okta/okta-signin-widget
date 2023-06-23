@@ -102,7 +102,12 @@ describe('Select Authenticator Utility Tests', () => {
           { name: 'methodType', options },
         ],
       };
-      expect(getAppAuthenticatorMethodButtonElements(authenticator, stepName, true)).toEqual([
+      expect(getAppAuthenticatorMethodButtonElements(
+        authenticator,
+        stepName,
+        AUTHENTICATOR_KEY.OV,
+        true,
+      )).toEqual([
         {
           type: 'AuthenticatorButton',
           label: options[2].label,
