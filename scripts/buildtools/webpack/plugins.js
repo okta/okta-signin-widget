@@ -1,4 +1,4 @@
-const { DefinePlugin, IgnorePlugin } = require('webpack');
+const { DefinePlugin } = require('webpack');
 const fs = require('fs-extra');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -11,14 +11,6 @@ function webpackBundleAnalyzer(reportFilename = 'okta-sign-in.analyzer') {
     reportFilename: `${reportFilename}.html`,
     analyzerMode: 'static',
     defaultSizes: 'stat'
-  });
-}
-
-// https://webpack.js.org/plugins/ignore-plugin/#example-of-ignoring-moment-locales
-function emptyModule() {
-  return new IgnorePlugin({
-    resourceRegExp: /^\.\/locale$/,
-    contextRegExp: /moment$/,
   });
 }
 
@@ -59,13 +51,11 @@ function plugins(options = {}) {
   const list = isProduction ? 
     [
       failOnBuildFail(),
-      emptyModule(),
       prodMode(),
     ] : 
     // Use DEBUG/development environment w/ console warnings
     [
       failOnBuildFail(),
-      emptyModule(),
       devMode(),
     ];
   

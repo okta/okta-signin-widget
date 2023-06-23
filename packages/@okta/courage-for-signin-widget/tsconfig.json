@@ -15,8 +15,7 @@
     "paths": {
       "vendor/*": ["./src/courage/vendor/*"],
       "@okta/handlebars-inline-precompile": ["./src/util/handlebars-inline-precompile"],
-      "@okta/okta-i18n-bundles": ["./src/courage/okta-i18n-bundles.js"],
-      "moment": ["./src/courage/vendor/lib/moment-with-locales"]
+      "@okta/okta-i18n-bundles": ["./src/courage/okta-i18n-bundles.js"]
     }
   },
   "include": [
