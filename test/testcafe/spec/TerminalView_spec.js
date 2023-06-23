@@ -194,7 +194,7 @@ test.requestHooks(terminalMultipleErrorsMock)('should render each error message 
 test.requestHooks(terminalCustomAccessDeniedErrorMessageMock)('should render custom access denied error message', async t => {
   const terminalViewPage = await setup(t);
   await checkA11y(t);
-  const errorBox = terminalViewPage.form.getAlertBox();
+  const errorBox = userVariables.v3 ? terminalViewPage.form.getErrorBox() : terminalViewPage.form.getErrorBoxCallout();
   await t.expect(errorBox.innerText).contains('You do not have permission to perform the requested action.');
 
   const errorLink1 = within(errorBox).getByRole('link', {name: 'Help link 1'});
