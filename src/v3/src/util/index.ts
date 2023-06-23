@@ -29,6 +29,7 @@ export * from './getPasswordExpiryContentTitleAndParams';
 export * from './getTranslation';
 export * from './getValidationMessages';
 export * from './htmlContentParserUtils';
+export * from './idpIconMap';
 export * from './idxUtils';
 export * from './isInteractiveElement';
 export * from './isPasswordRecovery';
