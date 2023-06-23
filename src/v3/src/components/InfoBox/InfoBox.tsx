@@ -20,11 +20,14 @@ import { h } from 'preact';
 import { useWidgetContext } from '../../contexts';
 import {
   InfoboxElement,
+  LinkElement,
   MessageType,
   MessageTypeVariant,
   UISchemaElementComponent,
 } from '../../types';
 import WidgetMessageContainer from '../WidgetMessageContainer';
+import Link from '../Link';
+import { List, ListItem } from '@mui/material';
 
 const InfoBox: UISchemaElementComponent<{
   uischema: InfoboxElement
@@ -40,6 +43,8 @@ const InfoBox: UISchemaElementComponent<{
       dataSe,
     },
   } = uischema;
+
+  const { links = [] } = message;
 
   return loading ? null : (
     <Box
@@ -62,6 +67,20 @@ const InfoBox: UISchemaElementComponent<{
           </Typography>
         )}
         <WidgetMessageContainer message={message} />
+        <List className="custom-links" disablePadding>
+        {links.length > 0 && links.map(link => (
+            <ListItem sx={{ paddingLeft: 0 }}>
+            <Link uischema={
+              {
+                type: 'Link',
+                options: {
+                  label: link.label,
+                  href: link.url,
+                }
+              } as LinkElement} />
+            </ListItem>)
+        )}
+        </List>
       </Alert>
     </Box>
   );
