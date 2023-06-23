@@ -98,9 +98,9 @@ function runNextTask() {
   console.log(`Running next task: ${task.description}`);
   task().then((code) => {
     if (code !== 0 && IS_RELEASE_BRANCH) {
-      console.log('###\nRELEASE BRANCH DETECTED, EXITTING EARLY DUE TO FAILURE\n###');
+      console.log('###\nRELEASE BRANCH DETECTED, EXITING EARLY DUE TO FAILURE\n###');
       // eslint-disable-next-line no-process-exit
-      process.exit(1);
+      process.exit(code);
     }
 
     codes.push(code);
