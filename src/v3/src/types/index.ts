@@ -16,7 +16,6 @@ export * from './component';
 export * from './context';
 export * from './error';
 export * from './handlers';
-export * from './IdpKey';
 export * from './ion';
 export * from './json';
 export * from './jsonforms';

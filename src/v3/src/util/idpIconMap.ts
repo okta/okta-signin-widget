@@ -29,9 +29,8 @@ import spotifyIconSvg from '../img/socialIcons/spotify.svg';
 import xeroIconSvg from '../img/socialIcons/xero.svg';
 import yahooIconSvg from '../img/socialIcons/yahoo.svg';
 import yahooJapanIconSvg from '../img/socialIcons/yahoo-japan.svg';
-import { IdpKey } from '../types';
 
-export const idpIconMap: Record<IdpKey, string> = {
+export const idpIconMap: Record<string, string> = {
   apple: appleIconSvg,
   facebook: facebookIconSvg,
   google: googleIconSvg,

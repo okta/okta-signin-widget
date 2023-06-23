@@ -11,7 +11,6 @@
  */
 
 import { UserOperation } from '../../../types';
-import { IdpKey } from '../types/IdpKey';
 
 export const PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS = 50;
 
@@ -228,7 +227,7 @@ export const CHALLENGE_INTENT_TO_I18KEY: Record<string, string> = {
   ENROLLMENT: 'idx.return.link.otponly.enter.code.on.sign.up.page',
 };
 
-export const SOCIAL_IDP_TYPE_TO_I18KEY: Record<IdpKey, string> = {
+export const SOCIAL_IDP_TYPE_TO_I18KEY: Record<string, string> = {
   facebook: 'socialauth.facebook.label',
   google: 'socialauth.google.label',
   linkedin: 'socialauth.linkedin.label',

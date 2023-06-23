@@ -20,7 +20,6 @@ import SmartCardIconSvg from '../img/smartCardButtonIcon.svg';
 import {
   ButtonElement,
   ButtonType,
-  IdpKey,
   IWidgetContext,
   LaunchAuthenticatorButtonElement,
   WidgetProps,
@@ -225,7 +224,7 @@ export const getIdpButtonElements = (
     let type = idpObject.type?.toLowerCase() || '';
     let displayName;
 
-    const buttonI18key = SOCIAL_IDP_TYPE_TO_I18KEY[type as IdpKey];
+    const buttonI18key = SOCIAL_IDP_TYPE_TO_I18KEY[type];
     if (IDP.SUPPORTED_SOCIAL_IDPS.includes(type) === false || typeof buttonI18key === 'undefined') {
       type = 'general-idp';
       // OKTA-396684 - makes sure that custom idps always have a name
@@ -249,7 +248,7 @@ export const getIdpButtonElements = (
           { 'no-translate': type === 'general-idp' },
         ),
         variant: 'secondary',
-        Icon: idpIconMap[type as IdpKey],
+        Icon: idpIconMap[type],
         iconAlt: '',
         onClick: () => {
           Util.redirectWithFormGet(idpObject.href);
