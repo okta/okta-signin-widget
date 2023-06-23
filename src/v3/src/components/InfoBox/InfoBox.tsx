@@ -75,7 +75,11 @@ const InfoBox: UISchemaElementComponent<{
               sx={{ paddingLeft: 0 }}
               key={link.label}
             >
-              <Link href={link.url} target = "_blank" variant='monochrome'>
+              <Link
+                href={link.url}
+                target="_blank"
+                variant="monochrome"
+              >
                 {link.label}
               </Link>
             </ListItem>
