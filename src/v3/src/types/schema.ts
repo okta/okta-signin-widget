@@ -497,7 +497,6 @@ export interface InfoboxElement extends UISchemaElement {
     message: WidgetMessage;
     class: string;
     dataSe?: string;
-    links?: LinkElement[]
   }
 }
 
