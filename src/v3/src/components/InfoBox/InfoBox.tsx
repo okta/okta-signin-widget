@@ -44,6 +44,27 @@ const InfoBox: UISchemaElementComponent<{
   } = uischema;
 
   const { links = [] } = message;
+  const renderLinks = () => (
+    <List
+      className="custom-links"
+      disablePadding
+    >
+      {links.map((link) => (
+        <ListItem
+          sx={{ paddingLeft: 0 }}
+          key={link.label}
+        >
+          <Link
+            href={link.url}
+            target="_blank"
+            variant="monochrome"
+          >
+            {link.label}
+          </Link>
+        </ListItem>
+      ))}
+    </List>
+  );
 
   return loading ? null : (
     <Box
@@ -66,25 +87,7 @@ const InfoBox: UISchemaElementComponent<{
           </Typography>
         )}
         <WidgetMessageContainer message={message} />
-        <List
-          className="custom-links"
-          disablePadding
-        >
-          {links.length > 0 && links.map((link) => (
-            <ListItem
-              sx={{ paddingLeft: 0 }}
-              key={link.label}
-            >
-              <Link
-                href={link.url}
-                target="_blank"
-                variant="monochrome"
-              >
-                {link.label}
-              </Link>
-            </ListItem>
-          ))}
-        </List>
+        {links.length > 0 && renderLinks()}
       </Alert>
     </Box>
   );
