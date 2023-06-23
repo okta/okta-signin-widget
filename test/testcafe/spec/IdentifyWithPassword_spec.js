@@ -171,7 +171,6 @@ test.requestHooks(identifyWithPasswordErrorMock)('should show custom access deni
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.fillPasswordField('adasdas');
   await identityPage.clickSignInButton();
-  await identityPage.waitForErrorBox();
 
   const errorBox = identityPage.form.getErrorBox();
   await t.expect(errorBox.innerText).contains('You do not have permission to perform the requested action.');
