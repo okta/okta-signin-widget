@@ -8,6 +8,10 @@ const browserOptions = {
     args: []
 };
 
+const IS_RELEASE_BRANCH = process.env.BRANCH &&
+  // eslint-disable-next-line @okta/okta/no-exclusive-language
+  (/master|release|\d+\.\d+\.\d+|\d+\.\d+-\w+|\d+\.\d+/).test(process.env.BRANCH);
+
 // Default timeout for all waitFor* commands.
 let waitforTimeout = 10000;
 
@@ -133,7 +137,7 @@ const conf = {
     //
     // If you only want to run your tests until a specific amount of tests have failed use
     // bail (default is 0 - don't bail, run all tests).
-    bail: 0,
+    bail: IS_RELEASE_BRANCH ? 1 : 0,      // bail after 1 test failure on release branches, otherwise run full suite
     //
     // Set a base URL in order to shorten url command calls. If your `url` parameter starts
     // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
