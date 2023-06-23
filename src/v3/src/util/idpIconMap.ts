@@ -21,7 +21,6 @@ import googleIconSvg from '../img/socialIcons/google.svg';
 import lineIconSvg from '../img/socialIcons/line.svg';
 import linkedinIconSvg from '../img/socialIcons/linkedin.svg';
 import msIconSvg from '../img/socialIcons/ms.svg';
-import oktaIconSvg from '../img/socialIcons/okta.svg';
 import orcidIconSvg from '../img/socialIcons/orcid.svg';
 import paypalIconSvg from '../img/socialIcons/paypal.svg';
 import quickbooksIconSvg from '../img/socialIcons/quickbooks.svg';
@@ -30,15 +29,14 @@ import spotifyIconSvg from '../img/socialIcons/spotify.svg';
 import xeroIconSvg from '../img/socialIcons/xero.svg';
 import yahooIconSvg from '../img/socialIcons/yahoo.svg';
 import yahooJapanIconSvg from '../img/socialIcons/yahoo-japan.svg';
-import { SocialKey } from '../types';
+import { IdpKey } from '../types';
 
-export const socialIconMap: Record<SocialKey, string> = {
+export const idpIconMap: Record<IdpKey, string> = {
   apple: appleIconSvg,
   facebook: facebookIconSvg,
   google: googleIconSvg,
   linkedin: linkedinIconSvg,
   microsoft: msIconSvg,
-  okta: oktaIconSvg,
   github: githubIconSvg,
   gitlab: gitlabIconSvg,
   yahoo: yahooIconSvg,
