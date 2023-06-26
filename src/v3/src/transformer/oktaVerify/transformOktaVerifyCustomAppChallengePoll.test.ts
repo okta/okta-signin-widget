@@ -22,11 +22,11 @@ import {
   WidgetProps,
 } from 'src/types';
 
-import { IDX_STEP } from '../../constants';
+import { AUTHENTICATOR_KEY, IDX_STEP } from '../../constants';
 import * as utils from '../../util/idxUtils';
 import { transformOktaVerifyDeviceChallengePoll } from '../layout/oktaVerify/transformOktaVerifyDeviceChallengePoll';
 import { transformOktaVerifyFPLoopbackPoll } from '../layout/oktaVerify/transformOktaVerifyFPLoopbackPoll';
-import { transformOktaVerifyChallengePoll } from './transformOktaVerifyChallengePoll';
+import { transformOktaVerifyCustomAppChallengePoll } from './transformOktaVerifyCustomAppChallengePoll';
 
 jest.mock('../layout/oktaVerify/transformOktaVerifyDeviceChallengePoll');
 jest.mock('../layout/oktaVerify/transformOktaVerifyFPLoopbackPoll');
@@ -43,6 +43,7 @@ describe('Transform Okta Verify Challenge Poll Tests', () => {
       relatesTo: {
         value: {
           methods: [{ type: 'push' }],
+          key: AUTHENTICATOR_KEY.OV,
         } as IdxAuthenticator,
       },
     };
@@ -61,7 +62,7 @@ describe('Transform Okta Verify Challenge Poll Tests', () => {
         } as unknown as IdxAuthenticator,
       },
     };
-    expect(transformOktaVerifyChallengePoll({ transaction, formBag, widgetProps }))
+    expect(transformOktaVerifyCustomAppChallengePoll({ transaction, formBag, widgetProps }))
       .toEqual(formBag);
   });
 
@@ -74,12 +75,16 @@ describe('Transform Okta Verify Challenge Poll Tests', () => {
         } as IdxAuthenticator,
       },
     };
-    expect(transformOktaVerifyChallengePoll({ transaction, formBag, widgetProps }))
+    expect(transformOktaVerifyCustomAppChallengePoll({ transaction, formBag, widgetProps }))
       .toEqual(formBag);
   });
 
   it('should transform elements when method type is standard push only', () => {
-    const updatedFormBag = transformOktaVerifyChallengePoll({ transaction, formBag, widgetProps });
+    const updatedFormBag = transformOktaVerifyCustomAppChallengePoll({
+      transaction,
+      formBag,
+      widgetProps,
+    });
 
     expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(4);
@@ -95,9 +100,43 @@ describe('Transform Okta Verify Challenge Poll Tests', () => {
       .toBe('goback');
   });
 
+  it('should transform correct elements when method type is standard push only with Custom app authenticator key', () => {
+    transaction.nextStep = {
+      name: '',
+      relatesTo: {
+        value: {
+          methods: [{ type: 'push' }],
+          key: AUTHENTICATOR_KEY.CUSTOM_APP,
+        } as IdxAuthenticator,
+      },
+    };
+    const updatedFormBag = transformOktaVerifyCustomAppChallengePoll({
+      transaction,
+      formBag,
+      widgetProps,
+    });
+
+    expect(updatedFormBag).toMatchSnapshot();
+    expect(updatedFormBag.uischema.elements.length).toBe(4);
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+      .toBe('oie.verify.custom_app.title');
+    expect((updatedFormBag.uischema.elements[1] as ReminderElement).options.content)
+      .toBe('oie.custom_app.push.warning');
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).label)
+      .toBe('oie.custom_app.push.sent');
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).options.disabled)
+      .toBe(true);
+    expect((updatedFormBag.uischema.elements[3] as LinkElement).options.label)
+      .toBe('goback');
+  });
+
   it('should transform elements when method type is standard push only and include verify with other link when additional options exist in remediation', () => {
     jest.spyOn(utils, 'hasMinAuthenticatorOptions').mockReturnValue(true);
-    const updatedFormBag = transformOktaVerifyChallengePoll({ transaction, formBag, widgetProps });
+    const updatedFormBag = transformOktaVerifyCustomAppChallengePoll({
+      transaction,
+      formBag,
+      widgetProps,
+    });
 
     expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(5);
@@ -130,8 +169,12 @@ describe('Transform Okta Verify Challenge Poll Tests', () => {
         },
       },
     };
-    const updatedFormBag = transformOktaVerifyChallengePoll({ transaction, formBag, widgetProps });
 
+    const updatedFormBag = transformOktaVerifyCustomAppChallengePoll({
+      transaction,
+      formBag,
+      widgetProps,
+    });
     expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(5);
     expect((updatedFormBag.uischema.elements[0] as ReminderElement).options.content)
@@ -171,7 +214,11 @@ describe('Transform Okta Verify Challenge Poll Tests', () => {
       },
     };
     jest.spyOn(utils, 'hasMinAuthenticatorOptions').mockReturnValue(true);
-    const updatedFormBag = transformOktaVerifyChallengePoll({ transaction, formBag, widgetProps });
+    const updatedFormBag = transformOktaVerifyCustomAppChallengePoll({
+      transaction,
+      formBag,
+      widgetProps,
+    });
 
     expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(6);
@@ -211,7 +258,11 @@ describe('Transform Okta Verify Challenge Poll Tests', () => {
         },
       },
     };
-    const updatedFormBag = transformOktaVerifyChallengePoll({ transaction, formBag, widgetProps });
+    const updatedFormBag = transformOktaVerifyCustomAppChallengePoll({
+      transaction,
+      formBag,
+      widgetProps,
+    });
 
     expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(4);
@@ -236,7 +287,7 @@ describe('Transform Okta Verify Challenge Poll Tests', () => {
       },
     };
 
-    transformOktaVerifyChallengePoll({ transaction, formBag, widgetProps });
+    transformOktaVerifyCustomAppChallengePoll({ transaction, formBag, widgetProps });
 
     expect(transformOktaVerifyDeviceChallengePoll).toHaveBeenCalledTimes(1);
     expect(transformOktaVerifyDeviceChallengePoll).toHaveBeenLastCalledWith({
@@ -264,7 +315,7 @@ describe('Transform Okta Verify Challenge Poll Tests', () => {
       },
     };
 
-    transformOktaVerifyChallengePoll({ transaction, formBag, widgetProps });
+    transformOktaVerifyCustomAppChallengePoll({ transaction, formBag, widgetProps });
 
     expect(transformOktaVerifyFPLoopbackPoll).toHaveBeenCalledTimes(1);
     expect(transformOktaVerifyFPLoopbackPoll).toHaveBeenLastCalledWith({
@@ -272,5 +323,71 @@ describe('Transform Okta Verify Challenge Poll Tests', () => {
       formBag,
       widgetProps,
     });
+  });
+});
+
+describe('Transform Custom App Challenge Poll Tests', () => {
+  const transaction = getStubTransactionWithNextStep();
+  const formBag = getStubFormBag();
+  const widgetProps: WidgetProps = {};
+
+  beforeEach(() => {
+    formBag.uischema.elements = [];
+    transaction.nextStep = {
+      name: '',
+      relatesTo: {
+        value: {
+          methods: [{ type: 'push' }],
+          key: AUTHENTICATOR_KEY.CUSTOM_APP,
+        } as IdxAuthenticator,
+      },
+    };
+    transaction.availableSteps = [
+      { name: IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE },
+      { name: 'cancel' },
+    ];
+  });
+
+  it('should correct elements when method type is standard push only with Custom app authenticator key', () => {
+    const updatedFormBag = transformOktaVerifyCustomAppChallengePoll({
+      transaction,
+      formBag,
+      widgetProps,
+    });
+
+    expect(updatedFormBag).toMatchSnapshot();
+    expect(updatedFormBag.uischema.elements.length).toBe(4);
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+      .toBe('oie.verify.custom_app.title');
+    expect((updatedFormBag.uischema.elements[1] as ReminderElement).options.content)
+      .toBe('oie.custom_app.push.warning');
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).label)
+      .toBe('oie.custom_app.push.sent');
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).options.disabled)
+      .toBe(true);
+    expect((updatedFormBag.uischema.elements[3] as LinkElement).options.label)
+      .toBe('goback');
+  });
+
+  it('should transform elements when method type is standard push only with Custom app authenticator key and include verify with other link when additional options exist in remediation', () => {
+    jest.spyOn(utils, 'hasMinAuthenticatorOptions').mockReturnValue(true);
+    const updatedFormBag = transformOktaVerifyCustomAppChallengePoll({
+      transaction,
+      formBag,
+      widgetProps,
+    });
+
+    expect(updatedFormBag).toMatchSnapshot();
+    expect(updatedFormBag.uischema.elements.length).toBe(5);
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+      .toBe('oie.verify.custom_app.title');
+    expect((updatedFormBag.uischema.elements[1] as ReminderElement).options.content)
+      .toBe('oie.custom_app.push.warning');
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).label)
+      .toBe('oie.custom_app.push.sent');
+    expect((updatedFormBag.uischema.elements[3] as LinkElement).options.label)
+      .toBe('oie.verification.switch.authenticator');
+    expect((updatedFormBag.uischema.elements[4] as LinkElement).options.label)
+      .toBe('goback');
   });
 });

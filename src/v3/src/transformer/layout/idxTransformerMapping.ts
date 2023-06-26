@@ -16,11 +16,11 @@ import { AUTHENTICATOR_KEY, CHALLENGE_METHOD, IDX_STEP } from '../../constants';
 import { transformIdentify } from '../identify';
 import {
   transformAppleSsoExtension,
-  transformOktaVerifyChallengePoll,
   transformOktaVerifyChannelSelection,
+  transformOktaVerifyCustomAppChallengePoll,
+  transformOktaVerifyCustomAppResendPush,
   transformOktaVerifyEnrollChannel,
   transformOktaVerifyEnrollPoll,
-  transformOktaVerifyResendPushNotification,
   transformTOTPChallenge,
 } from '../oktaVerify';
 import {
@@ -44,7 +44,7 @@ import {
   transformSelectAuthenticatorEnroll,
   transformSelectAuthenticatorUnlockVerify,
   transformSelectAuthenticatorVerify,
-  transformSelectOVMethodVerify,
+  transformSelectOVCustomAppMethodVerify,
 } from '../selectAuthenticator';
 import { transformWebAuthNAuthenticator } from '../webauthn';
 import { transformYubikeyOtpAuthenticator } from '../yubikey';
@@ -120,12 +120,19 @@ const TransformerMap: {
     },
   },
   [IDX_STEP.AUTHENTICATOR_VERIFICATION_DATA]: {
+    [AUTHENTICATOR_KEY.CUSTOM_APP]: {
+      transform: transformSelectOVCustomAppMethodVerify,
+      buttonConfig: {
+        showDefaultSubmit: false,
+        showVerifyWithOtherLink: false,
+      },
+    },
     [AUTHENTICATOR_KEY.EMAIL]: {
       transform: transformEmailVerification,
       buttonConfig: { showDefaultSubmit: false },
     },
     [AUTHENTICATOR_KEY.OV]: {
-      transform: transformSelectOVMethodVerify,
+      transform: transformSelectOVCustomAppMethodVerify,
       buttonConfig: {
         showDefaultSubmit: false,
         showVerifyWithOtherLink: false,
@@ -220,7 +227,15 @@ const TransformerMap: {
   },
   [IDX_STEP.CHALLENGE_POLL]: {
     [AUTHENTICATOR_KEY.OV]: {
-      transform: transformOktaVerifyChallengePoll,
+      transform: transformOktaVerifyCustomAppChallengePoll,
+      buttonConfig: {
+        showDefaultSubmit: false,
+        showDefaultCancel: false,
+        showVerifyWithOtherLink: false,
+      },
+    },
+    [AUTHENTICATOR_KEY.CUSTOM_APP]: {
+      transform: transformOktaVerifyCustomAppChallengePoll,
       buttonConfig: {
         showDefaultSubmit: false,
         showDefaultCancel: false,
@@ -428,7 +443,11 @@ const TransformerMap: {
   },
   [IDX_STEP.RESEND]: {
     [AUTHENTICATOR_KEY.OV]: {
-      transform: transformOktaVerifyResendPushNotification,
+      transform: transformOktaVerifyCustomAppResendPush,
+      buttonConfig: { showDefaultSubmit: false },
+    },
+    [AUTHENTICATOR_KEY.CUSTOM_APP]: {
+      transform: transformOktaVerifyCustomAppResendPush,
       buttonConfig: { showDefaultSubmit: false },
     },
   },

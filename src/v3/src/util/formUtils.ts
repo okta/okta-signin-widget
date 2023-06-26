@@ -15,13 +15,14 @@ import classNames from 'classnames';
 
 import IDP from '../../../util/IDP';
 import Util from '../../../util/Util';
-import { IDX_STEP, SOCIAL_IDP_TYPE_TO_I18KEY } from '../constants';
+import { CUSTOM_APP_UV_ENABLE_BIOMETRIC_SERVER_KEY, IDX_STEP, SOCIAL_IDP_TYPE_TO_I18KEY } from '../constants';
 import SmartCardIconSvg from '../img/smartCardButtonIcon.svg';
 import {
   ButtonElement,
   ButtonType,
   IWidgetContext,
   LaunchAuthenticatorButtonElement,
+  WidgetMessage,
   WidgetProps,
 } from '../types';
 import { idpIconMap } from './idpIconMap';
@@ -261,4 +262,38 @@ export const getIdpButtonElements = (
   const pivButtonElement = getPIVButtonElement(transaction, widgetProps);
 
   return [...pivButtonElement, ...idpButtonElements];
+};
+
+export const getBiometricsErrorMessageElement = (
+  messageKey: string | undefined,
+  displayName?: string,
+): WidgetMessage => {
+  let title;
+  let customMessage;
+  let messageBullets = [];
+
+  if (messageKey === CUSTOM_APP_UV_ENABLE_BIOMETRIC_SERVER_KEY) {
+    title = loc('oie.authenticator.custom_app.method.push.verify.enable.biometrics.title', 'login', [displayName]);
+    customMessage = loc('oie.authenticator.custom_app.method.push.verify.enable.biometrics.description', 'login');
+    messageBullets = [
+      loc('oie.authenticator.custom_app.method.push.verify.enable.biometrics.point1', 'login'),
+      loc('oie.authenticator.custom_app.method.push.verify.enable.biometrics.point2', 'login', [displayName]),
+      loc('oie.authenticator.custom_app.method.push.verify.enable.biometrics.point3', 'login', [displayName]),
+    ];
+  } else {
+    title = loc('oie.authenticator.app.method.push.verify.enable.biometrics.title', 'login');
+    customMessage = loc('oie.authenticator.app.method.push.verify.enable.biometrics.description', 'login');
+    messageBullets = [
+      loc('oie.authenticator.app.method.push.verify.enable.biometrics.point1', 'login'),
+      loc('oie.authenticator.app.method.push.verify.enable.biometrics.point2', 'login'),
+      loc('oie.authenticator.app.method.push.verify.enable.biometrics.point3', 'login'),
+    ];
+  }
+
+  return {
+    class: 'ERROR',
+    title,
+    description: customMessage,
+    message: messageBullets.map((msg: string) => ({ class: 'INFO', message: msg })) as WidgetMessage[],
+  };
 };

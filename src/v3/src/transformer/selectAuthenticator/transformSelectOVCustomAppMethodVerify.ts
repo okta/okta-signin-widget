@@ -12,7 +12,7 @@
 
 import { Input, NextStep } from '@okta/okta-auth-js';
 
-import { IDX_STEP } from '../../constants';
+import { AUTHENTICATOR_KEY, IDX_STEP } from '../../constants';
 import {
   AuthenticatorButtonListElement,
   ButtonElement,
@@ -25,11 +25,16 @@ import {
   TitleElement,
   UISchemaElement,
 } from '../../types';
-import { hasMinAuthenticatorOptions, loc, updateTransactionWithNextStep } from '../../util';
+import {
+  getAuthenticatorKey, hasMinAuthenticatorOptions, loc, updateTransactionWithNextStep,
+} from '../../util';
 import { getUIElementWithName, removeUIElementWithName } from '../utils';
-import { getOVMethodTypeAuthenticatorButtonElements, isOnlyPushWithAutoChallenge } from './utils';
+import { getAppAuthenticatorMethodButtonElements, isOnlyPushWithAutoChallenge } from './utils';
 
-export const transformSelectOVMethodVerify: IdxStepTransformer = ({ transaction, formBag }) => {
+export const transformSelectOVCustomAppMethodVerify: IdxStepTransformer = ({
+  transaction,
+  formBag,
+}) => {
   const {
     availableSteps,
     nextStep: { inputs, name: stepName, relatesTo } = {} as NextStep,
@@ -40,6 +45,7 @@ export const transformSelectOVMethodVerify: IdxStepTransformer = ({ transaction,
   }
 
   const { uischema, data } = formBag;
+  const isOV = getAuthenticatorKey(transaction) === AUTHENTICATOR_KEY.OV;
 
   if (isOnlyPushWithAutoChallenge(authenticator.value as Input[])) {
     uischema.elements = removeUIElementWithName(
@@ -57,12 +63,18 @@ export const transformSelectOVMethodVerify: IdxStepTransformer = ({ transaction,
 
     uischema.elements.unshift({
       type: 'Title',
-      options: { content: loc('oie.okta_verify.push.title', 'login') },
+      options: {
+        content: isOV
+          ? loc('oie.okta_verify.push.title', 'login')
+          : loc('oie.custom_app.push.title', 'login'),
+      },
     } as TitleElement);
 
     const sendPushButton: ButtonElement = {
       type: 'Button',
-      label: loc('oie.okta_verify.sendPushButton', 'login'),
+      label: isOV
+        ? loc('oie.okta_verify.sendPushButton', 'login')
+        : loc('oie.custom_app.sendPushButton', 'login'),
       options: {
         type: ButtonType.SUBMIT,
         step: stepName,
@@ -96,9 +108,10 @@ export const transformSelectOVMethodVerify: IdxStepTransformer = ({ transaction,
       uischema.elements.push(listLink);
     }
   } else {
-    const buttonElements = getOVMethodTypeAuthenticatorButtonElements(
+    const buttonElements = getAppAuthenticatorMethodButtonElements(
       authenticator,
       stepName,
+      isOV ? AUTHENTICATOR_KEY.OV : AUTHENTICATOR_KEY.CUSTOM_APP,
       relatesTo?.value?.deviceKnown,
     );
     uischema.elements = removeUIElementWithName(

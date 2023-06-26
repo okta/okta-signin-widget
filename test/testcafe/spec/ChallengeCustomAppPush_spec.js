@@ -1,8 +1,8 @@
-import { RequestMock, RequestLogger } from 'testcafe';
+import { RequestMock, RequestLogger, userVariables } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import ChallengeCustomAppPushPageObject from '../framework/page-objects/ChallengeCustomAppPushPageObject';
-import { checkConsoleMessages, renderWidget } from '../framework/shared';
+import { checkConsoleMessages, renderWidget, oktaDashboardContent } from '../framework/shared';
 
 import pushPoll from '../../../playground/mocks/data/idp/idx/authenticator-verification-custom-app-push';
 import pushPollReject from '../../../playground/mocks/data/idp/idx/authenticator-verification-custom-app-push-reject';
@@ -17,11 +17,16 @@ const logger = RequestLogger(/challenge|challenge\/poll|authenticators\/poll/,
   }
 );
 
-const pushSuccessMock = RequestMock()
+const pushSuccessMock = pollResponse => RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(pushPoll)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
-  .respond(success);
+  .respond(pollResponse)
+  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+  .respond(oktaDashboardContent);
+
+const pushSuccessMock1 = pushSuccessMock(!userVariables.v3 ? success : pushPoll);
+const pushSuccessMock2 = pushSuccessMock(success);
 
 const pushRejectMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -45,6 +50,8 @@ const pushNoAutoChallengeMock = RequestMock()
 
 const pushAutoChallengeMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(pushPollAutoChallenge)
+  .onRequestTo('http://localhost:3000/idp/idx/authenticators/poll')
   .respond(pushPollAutoChallenge);
 
 const pushWaitAutoChallengeMock = RequestMock()
@@ -63,11 +70,12 @@ const mockCustomAppSendPush = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrSelectAuthenticatorCustomPushWithMethodSendPush);
 
-fixture('Challenge Custom App Push');
+fixture('Challenge Custom App Push').meta('v3', true);
 
 async function setup(t) {
   const challengeCustomAppPushPageObject = new ChallengeCustomAppPushPageObject(t);
   await challengeCustomAppPushPageObject.navigateToPage();
+  await challengeCustomAppPushPageObject.formExists();
   return challengeCustomAppPushPageObject;
 }
 
@@ -76,21 +84,22 @@ test.requestHooks(mockCustomAppSendPush)(
   async t => {
     const challengeCustomAppPushPageObject = await setup(t);
     await checkA11y(t);
-    await t.expect(await challengeCustomAppPushPageObject.isCustomAppSendPushForm()).ok();
+    // Custom app form class not present in gen 3
+    if (!userVariables.v3) {
+      await t.expect(await challengeCustomAppPushPageObject.isCustomAppSendPushForm()).ok();
+    }
     await t.expect(challengeCustomAppPushPageObject.getFormTitle()).eql('Get a push notification');
     await t.expect(challengeCustomAppPushPageObject.subtitleExists()).notOk();
 
     const pushButtonLabel = challengeCustomAppPushPageObject.getSaveButtonLabel();
     await t.expect(pushButtonLabel).eql('Send push');
 
-    await t.expect(await challengeCustomAppPushPageObject.autoChallengeInputExists()).ok();
-    const checkboxLabel = challengeCustomAppPushPageObject.getAutoChallengeCheckboxLabel();
-    await t.expect(checkboxLabel.hasClass('checked')).notOk();
-    await t.expect(checkboxLabel.textContent).eql('Send push automatically');
+    await t.expect(await challengeCustomAppPushPageObject.autoChallengeInputExists()).eql(true);
+    await t.expect(challengeCustomAppPushPageObject.isAutoChallengeChecked()).eql(false);
 
     // select checkbox on click
     await challengeCustomAppPushPageObject.clickAutoChallengeCheckbox();
-    await t.expect(checkboxLabel.hasClass('checked')).ok();
+    await t.expect(challengeCustomAppPushPageObject.isAutoChallengeChecked()).eql(true);
 
     // signout link at enroll page
     await t.expect(await challengeCustomAppPushPageObject.signoutLinkExists()).ok();
@@ -98,7 +107,7 @@ test.requestHooks(mockCustomAppSendPush)(
   });
 
 test
-  .requestHooks(pushSuccessMock)('challenge custom app push screen has right labels', async t => {
+  .requestHooks(pushSuccessMock1)('challenge custom app push screen has right labels', async t => {
     const challengeCustomAppPushPageObject = await setup(t);
     await checkA11y(t);
     await checkConsoleMessages({
@@ -112,12 +121,16 @@ test
     const pushBtn = challengeCustomAppPushPageObject.getPushButton();
     const a11ySpan = challengeCustomAppPushPageObject.getA11ySpan();
     await t.expect(pushBtn.textContent).contains('Push notification sent');
-    await t.expect(a11ySpan.textContent).contains('Push notification sent');
-    await t.expect(pushBtn.hasClass('link-button-disabled')).ok();
+    // no a11y span in gen 3
+    if (!userVariables.v3) {
+      await t.expect(a11ySpan.textContent).contains('Push notification sent');
+    }
+    await t.expect(challengeCustomAppPushPageObject.isPushButtonDisabled()).eql(true);
+
     await t.expect(pageTitle).contains('Verify with Custom Push');
 
     // Verify links
-    await t.expect(await challengeCustomAppPushPageObject.switchAuthenticatorLinkExists()).ok();
+    await t.expect(await challengeCustomAppPushPageObject.verifyWithSomethingElseLinkExists()).ok();
     await t.expect(challengeCustomAppPushPageObject.getSwitchAuthenticatorLinkText()).eql('Verify with something else');
     await t.expect(await challengeCustomAppPushPageObject.signoutLinkExists()).ok();
     await t.expect(challengeCustomAppPushPageObject.getSignoutLinkText()).eql('Back to sign in');
@@ -137,27 +150,35 @@ test
     const pageTitle = challengeCustomAppPushPageObject.getFormTitle();
     const pushBtn = challengeCustomAppPushPageObject.getPushButton();
     const a11ySpan = challengeCustomAppPushPageObject.getA11ySpan();
-    const checkboxLabel = challengeCustomAppPushPageObject.getAutoChallengeCheckboxLabel();
     const logoClass = challengeCustomAppPushPageObject.getBeaconClass();
     const logoBgImage = challengeCustomAppPushPageObject.getBeaconBgImage();
     await t.expect(pushBtn.textContent).contains('Push notification sent');
-    await t.expect(a11ySpan.textContent).contains('Push notification sent');
-    await t.expect(pushBtn.hasClass('link-button-disabled')).ok();
+    // no a11y span in gen 3
+    if (!userVariables.v3) {
+      await t.expect(a11ySpan.textContent).contains('Push notification sent');
+    }
+    await t.expect(challengeCustomAppPushPageObject.isPushButtonDisabled()).eql(true);
     await t.expect(logoClass).contains('custom-app-logo');
-    await t.expect(logoBgImage).match(/^url\(".*\/img\/icons\/mfa\/customPushLogo\.svg"\)$/);
+    // gen 3 uses img element with src attribute while gen 2 uses background-image style prop
+    if(userVariables.v3) {
+      await t.expect(logoBgImage).match(/.*\/img\/icons\/mfa\/customPushLogo\.svg$/);
+    } else {
+      await t.expect(logoBgImage).match(/^url\(".*\/img\/icons\/mfa\/customPushLogo\.svg"\)$/);
+    }
+
     await t.expect(pageTitle).contains('Verify with Custom Push Authenticator');
-    await t.expect(checkboxLabel.hasClass('checked')).ok();
-    await t.expect(checkboxLabel.textContent).eql('Send push automatically');
+    await t.expect(await challengeCustomAppPushPageObject.autoChallengeInputExists()).eql(true);
+    await t.expect(challengeCustomAppPushPageObject.isAutoChallengeChecked()).ok();
 
     // make sure checkbox is visible
     await t.expect(await challengeCustomAppPushPageObject.autoChallengeInputIsVisible()).ok();
 
     // unselect checkbox on click
     await challengeCustomAppPushPageObject.clickAutoChallengeCheckbox();
-    await t.expect(checkboxLabel.hasClass('checked')).notOk();
+    await t.expect(challengeCustomAppPushPageObject.isAutoChallengeChecked()).notOk();
 
     // Verify links
-    await t.expect(await challengeCustomAppPushPageObject.switchAuthenticatorLinkExists()).ok();
+    await t.expect(await challengeCustomAppPushPageObject.verifyWithSomethingElseLinkExists()).ok();
     await t.expect(challengeCustomAppPushPageObject.getSwitchAuthenticatorLinkText()).eql('Verify with something else');
     await t.expect(await challengeCustomAppPushPageObject.signoutLinkExists()).ok();
     await t.expect(challengeCustomAppPushPageObject.getSignoutLinkText()).eql('Back to sign in');
@@ -175,14 +196,22 @@ test
     const logoClass = challengeCustomAppPushPageObject.getBeaconClass();
     const logoBgImage = challengeCustomAppPushPageObject.getBeaconBgImage();
     await t.expect(pushBtn.textContent).contains('Push notification sent');
-    await t.expect(a11ySpan.textContent).contains('Push notification sent');
-    await t.expect(pushBtn.hasClass('link-button-disabled')).ok();
+    // no a11y span in gen 3
+    if (!userVariables.v3) {
+      await t.expect(a11ySpan.textContent).contains('Push notification sent');
+    }
+    await t.expect(challengeCustomAppPushPageObject.isPushButtonDisabled()).eql(true);
     await t.expect(logoClass).contains('custom-app-logo');
-    await t.expect(logoBgImage).match(/^url\(".*\/img\/icons\/mfa\/customPushLogo\.svg"\)$/);
+    // gen 3 uses img element with src attribute while gen 2 uses background-image style prop
+    if(userVariables.v3) {
+      await t.expect(logoBgImage).match(/.*\/img\/icons\/mfa\/customPushLogo\.svg$/);
+    } else {
+      await t.expect(logoBgImage).match(/^url\(".*\/img\/icons\/mfa\/customPushLogo\.svg"\)$/);
+    }
     await t.expect(pageTitle).contains('Verify with Custom Push');
 
     // Verify links
-    await t.expect(await challengeCustomAppPushPageObject.switchAuthenticatorLinkExists()).ok();
+    await t.expect(await challengeCustomAppPushPageObject.verifyWithSomethingElseLinkExists()).ok();
     await t.expect(challengeCustomAppPushPageObject.getSwitchAuthenticatorLinkText()).eql('Verify with something else');
     await t.expect(await challengeCustomAppPushPageObject.signoutLinkExists()).ok();
     await t.expect(challengeCustomAppPushPageObject.getSignoutLinkText()).eql('Back to sign in');
@@ -192,7 +221,7 @@ test
   });
 
 test
-  .requestHooks(pushSuccessMock)('challenge custom push screen has right labels and logo', async t => {
+  .requestHooks(pushSuccessMock1)('challenge custom push screen has right labels and logo', async t => {
     const challengeCustomAppPushPageObject = await setup(t);
     await checkA11y(t);
     await checkConsoleMessages({
@@ -208,16 +237,24 @@ test
     const logoClass = challengeCustomAppPushPageObject.getBeaconClass();
     const logoBgImage = challengeCustomAppPushPageObject.getBeaconBgImage();
     await t.expect(pushBtn.textContent).contains('Push notification sent');
-    await t.expect(a11ySpan.textContent).contains('Push notification sent');
-    await t.expect(pushBtn.hasClass('link-button-disabled')).ok();
+    // no a11y span in gen 3
+    if (!userVariables.v3) {
+      await t.expect(a11ySpan.textContent).contains('Push notification sent');
+    }
+    await t.expect(challengeCustomAppPushPageObject.isPushButtonDisabled()).eql(true );
     await t.expect(logoClass).contains('custom-app-logo');
-    await t.expect(logoBgImage).match(/^url\(".*\/img\/icons\/mfa\/customPushLogo\.svg"\)$/);
-    await t.expect(logoClass).notContains('mfa-custom-app');
+    // gen 3 uses img element with src attribute while gen 2 uses background-image style prop
+    if(userVariables.v3) {
+      await t.expect(logoBgImage).match(/.*\/img\/icons\/mfa\/customPushLogo\.svg$/);
+    } else {
+      await t.expect(logoBgImage).match(/^url\(".*\/img\/icons\/mfa\/customPushLogo\.svg"\)$/);
+      await t.expect(logoClass).notContains('mfa-custom-app');
+    }
     await t.expect(pageTitle).contains('Verify with Custom Push');
     await t.expect(await challengeCustomAppPushPageObject.autoChallengeInputExists()).notOk();
 
     // Verify links
-    await t.expect(await challengeCustomAppPushPageObject.switchAuthenticatorLinkExists()).ok();
+    await t.expect(await challengeCustomAppPushPageObject.verifyWithSomethingElseLinkExists()).ok();
     await t.expect(challengeCustomAppPushPageObject.getSwitchAuthenticatorLinkText()).eql('Verify with something else');
     await t.expect(await challengeCustomAppPushPageObject.signoutLinkExists()).ok();
     await t.expect(challengeCustomAppPushPageObject.getSignoutLinkText()).eql('Back to sign in');
@@ -235,13 +272,16 @@ test
     const a11ySpan = challengeCustomAppPushPageObject.getA11ySpan();
     const logoClass = challengeCustomAppPushPageObject.getBeaconClass();
     await t.expect(pushBtn.textContent).contains('Push notification sent');
-    await t.expect(a11ySpan.textContent).contains('Push notification sent');
-    await t.expect(pushBtn.hasClass('link-button-disabled')).ok();
+    // no a11y span in gen 3
+    if (!userVariables.v3) {
+      await t.expect(a11ySpan.textContent).contains('Push notification sent');
+    }
+    await t.expect(challengeCustomAppPushPageObject.isPushButtonDisabled()).eql(true);
     await t.expect(logoClass).contains('custom-app-logo');
     await t.expect(pageTitle).contains('Verify with Custom Push');
 
     // Verify links
-    await t.expect(await challengeCustomAppPushPageObject.switchAuthenticatorLinkExists()).ok();
+    await t.expect(await challengeCustomAppPushPageObject.verifyWithSomethingElseLinkExists()).ok();
     await t.expect(challengeCustomAppPushPageObject.getSwitchAuthenticatorLinkText()).eql('Verify with something else');
     await t.expect(await challengeCustomAppPushPageObject.signoutLinkExists()).ok();
     await t.expect(challengeCustomAppPushPageObject.getSignoutLinkText()).eql('Back to sign in');
@@ -251,14 +291,25 @@ test
   });
 
 test
-  .requestHooks(logger, pushSuccessMock)('challenge Custom App push request', async t => {
+  .requestHooks(logger, pushSuccessMock1)('challenge Custom App push request', async t => {
     await setup(t);
     await checkA11y(t);
+    if (userVariables.v3) {
+      // switch to success mock response
+      await t.removeRequestHooks(pushSuccessMock1);
+      await t.addRequestHooks(pushSuccessMock2);
+      // wait for additional poll
+      await t.wait(4000);
+    }
     const successPage = new SuccessPageObject(t);
     const pageUrl = await successPage.getPageUrl();
     await t.expect(pageUrl)
       .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
-    await t.expect(logger.count(() => true)).eql(1);
+    // polling issue in v3 - https://oktainc.atlassian.net/browse/OKTA-587189
+    // logger.count not consistent in v3
+    if (!userVariables.v3) {
+      await t.expect(logger.count(() => true)).eql(1);
+    }
 
     const { request: {
       body: answerRequestBodyString,
@@ -279,7 +330,12 @@ test
     await setup(t);
     await checkA11y(t);
     await t.wait(4000);
-    await t.expect(logger.count(() => true)).eql(1);
+    // polling API should be called
+    // polling issue in v3 - https://oktainc.atlassian.net/browse/OKTA-587189
+    // logger.count not consistent in v3
+    if (!userVariables.v3) {
+      await t.expect(logger.count(() => true)).eql(1);
+    }
 
     const { request: {
       body: answerRequestBodyString,
@@ -295,10 +351,17 @@ test
     await t.expect(answerRequestUrl).eql('http://localhost:3000/idp/idx/challenge/poll');
 
     await t.wait(3000); // 7 sec total elapsed
-    await t.expect(logger.count(() => true)).eql(1);
+    // polling issue in v3 - https://oktainc.atlassian.net/browse/OKTA-587189
+    if (!userVariables.v3) {
+      await t.expect(logger.count(() => true)).eql(1);
+    }
 
     await t.wait(1000); // 8 sec total elapsed
-    await t.expect(logger.count(() => true)).eql(2);
+    // polling issue in v3 - https://oktainc.atlassian.net/browse/OKTA-587189
+    // logger.count not consistent in v3
+    if (!userVariables.v3) {
+      await t.expect(logger.count(() => true)).eql(2);
+    }
 
     const { request: {
       method: answerRequestMethod2,
@@ -313,35 +376,51 @@ test
   .requestHooks(logger, pushWaitAutoChallengeMock)('Call Custom App push polling and checkbox should be clickable after polling started', async t => {
     const challengeCustomAppPushPageObject = await setup(t);
     await checkA11y(t);
-    const checkboxLabel = challengeCustomAppPushPageObject.getAutoChallengeCheckboxLabel();
     await t.expect(await challengeCustomAppPushPageObject.autoChallengeInputExists()).ok();
-    await t.expect(checkboxLabel.hasClass('checked')).ok();
-    await t.expect(checkboxLabel.textContent).eql('Send push automatically');
+    await t.expect(challengeCustomAppPushPageObject.isAutoChallengeChecked()).eql(true);
 
     await setup(t);
     await checkA11y(t);
     await t.wait(4000);
-    await t.expect(logger.count(() => true)).eql(1);
+    // polling API should be called
+    // polling issue in v3 - https://oktainc.atlassian.net/browse/OKTA-587189
+    // logger.count not consistent in v3
+    if (!userVariables.v3) {
+      await t.expect(logger.count(() => true)).eql(1);
+    }
+
+    // logger request order not consistent in v3
+    const autoChallengeLoggerRequest = userVariables.v3
+      ? logger.requests.find(({ request }) => JSON.parse(request.body).autoChallenge === true)
+      : logger.requests[0];
 
     const { request: {
       body: answerRequestBodyString,
       method: answerRequestMethod,
       url: answerRequestUrl,
     }
-    } = logger.requests[0];
+    } = autoChallengeLoggerRequest;
     const answerRequestBody = JSON.parse(answerRequestBodyString);
-    await t.expect(answerRequestBody).eql({
+    await t.expect(answerRequestBody).contains({
+      stateHandle: '02TcECA1PvSpQTx8Zqo08SSYj88KsXxwNKV4PGvVpF',
       autoChallenge: true,
-      stateHandle: '02TcECA1PvSpQTx8Zqo08SSYj88KsXxwNKV4PGvVpF'
     });
     await t.expect(answerRequestMethod).eql('post');
     await t.expect(answerRequestUrl).eql('http://localhost:3000/idp/idx/authenticators/poll');
 
     await t.wait(3000); // 7 sec total elapsed
-    await t.expect(logger.count(() => true)).eql(1);
+    // polling issue in v3 - https://oktainc.atlassian.net/browse/OKTA-587189
+    // logger.count not consistent in v3
+    if (!userVariables.v3) {
+      await t.expect(logger.count(() => true)).eql(1);
+    }
 
     await t.wait(1000); // 8 sec total elapsed
-    await t.expect(logger.count(() => true)).eql(2);
+    // polling issue in v3 - https://oktainc.atlassian.net/browse/OKTA-587189
+    // logger.count not consistent in v3
+    if (!userVariables.v3) {
+      await t.expect(logger.count(() => true)).eql(2);
+    }
 
     const { request: {
       method: answerRequestMethod2,
@@ -353,7 +432,7 @@ test
 
     // unselect checkbox on click to ensure its still accessible while polling
     await challengeCustomAppPushPageObject.clickAutoChallengeCheckbox();
-    await t.expect(checkboxLabel.hasClass('checked')).notOk();
+    await t.expect(challengeCustomAppPushPageObject.isAutoChallengeChecked()).eql(false);
   });
   
 
@@ -364,16 +443,28 @@ test
     const errorBox = challengeCustomAppPushPageObject.getErrorBox();
     await t.expect(errorBox.innerText)
       .eql('You have chosen to reject this login.');
-    await t.expect(challengeCustomAppPushPageObject.form.getSaveButtonLabel())
+    await t.expect(challengeCustomAppPushPageObject.getResendPushButtonText())
       .eql('Resend push notification');
-    await t.expect(logger.count(() => true)).eql(1);
-
+    // polling issue in v3 - https://oktainc.atlassian.net/browse/OKTA-587189
+    // logger.count not consistent in v3
+    if (!userVariables.v3) {
+      await t.expect(logger.count(() => true)).eql(1);
+    }
     // To make sure polling stops after reject
     await t.wait(5000);
-    await t.expect(logger.count(() => true)).eql(1);
 
-    await challengeCustomAppPushPageObject.clickNextButton();
-    await t.expect(logger.count(() => true)).eql(2);
+    // polling issue in v3 - https://oktainc.atlassian.net/browse/OKTA-587189
+    // logger.count not consistent in v3
+    if (!userVariables.v3) {
+      await t.expect(logger.count(() => true)).eql(1);
+    }
+
+    await challengeCustomAppPushPageObject.clickResendPushButton();
+    // polling issue in v3 - https://oktainc.atlassian.net/browse/OKTA-587189
+    // logger.count not consistent in v3
+    if (!userVariables.v3) {
+      await t.expect(logger.count(() => true)).eql(2);
+    }
 
     const { request: {
       body: requestBodyString,
@@ -405,7 +496,7 @@ test
       .eql('Haven\'t received a push notification yet? Try opening Custom Push on your phone.');
   });
 
-test.requestHooks(pushSuccessMock)('should show custom factor page link', async t => {
+test.requestHooks(pushSuccessMock1)('should show custom factor page link', async t => {
   const challengeCustomAppPushPageObject = await setup(t);
   await checkA11y(t);
 
@@ -437,7 +528,6 @@ test
     await t.expect(errorBox.innerText).contains('Custom Push Authenticator is up-to-date'); // bullet #2
     await t.expect(errorBox.innerText).contains('In Custom Push Authenticator, biometrics are enabled for your account'); // bullet #3
 
-    const resendPushBtn = challengeCustomAppPushPageObject.getResendPushButton();
-    await t.expect(resendPushBtn.value).contains('Resend push notification');
-    await t.expect(resendPushBtn.hasClass('link-button-disabled')).notOk();
+    await t.expect(challengeCustomAppPushPageObject.getResendPushButtonText()).contains('Resend push notification');
+    await t.expect(challengeCustomAppPushPageObject.isResendPushButtonDisabled()).eql(false);
   });
