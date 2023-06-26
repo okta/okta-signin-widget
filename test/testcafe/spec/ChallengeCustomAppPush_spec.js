@@ -389,21 +389,22 @@ test
       await t.expect(logger.count(() => true)).eql(1);
     }
 
+    // logger request order not consistent in v3
+    const autoChallengeLoggerRequest = userVariables.v3
+      ? logger.requests.find(({ request }) => JSON.parse(request.body).autoChallenge === true)
+      : logger.requests[0];
+
     const { request: {
       body: answerRequestBodyString,
       method: answerRequestMethod,
       url: answerRequestUrl,
     }
-    } = logger.requests[0];
+    } = autoChallengeLoggerRequest;
     const answerRequestBody = JSON.parse(answerRequestBodyString);
     await t.expect(answerRequestBody).contains({
-      stateHandle: '02TcECA1PvSpQTx8Zqo08SSYj88KsXxwNKV4PGvVpF'
+      stateHandle: '02TcECA1PvSpQTx8Zqo08SSYj88KsXxwNKV4PGvVpF',
+      autoChallenge: true,
     });
-    if (!userVariables.v3) {
-      await t.expect(answerRequestBody).contains({
-        autoChallenge: true,
-      });
-    }
     await t.expect(answerRequestMethod).eql('post');
     await t.expect(answerRequestUrl).eql('http://localhost:3000/idp/idx/authenticators/poll');
 
