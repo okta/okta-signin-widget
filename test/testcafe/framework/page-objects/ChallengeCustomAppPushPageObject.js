@@ -1,12 +1,9 @@
 import { Selector, userVariables } from 'testcafe';
 import ChallengeFactorPageObject from './ChallengeFactorPageObject';
-import { queryByLabelText } from '@testing-library/dom';
 import { within } from '@testing-library/testcafe';
 
 const FORM_INFOBOX_ERROR = '[data-se="o-form-error-container"] [data-se="callout"]';
 const FORM_INFOBOX_ERROR_TITLE = '[data-se="o-form-error-container"] [data-se="callout"] > h3';
-const AUTO_CHALLENGE_CHECKBOX_SELECTOR = '[name$="autoChallenge"]';
-const AUTO_CHALLENGE_CHECKBOX_LABEL_SELECTOR = '[data-se-for-name$="autoChallenge"]';
 const FACTOR_BEACON = '.auth-beacon.auth-beacon-factor';
 const FORM_SELECTOR = '.custom-app-send-push-form';
 
@@ -29,6 +26,7 @@ export default class ChallengeCustomAppPushPageObject extends ChallengeFactorPag
 
   isPushButtonDisabled() {
     const pushBtn = this.getPushButton();
+    // v3 button uses disabled prop and v2 uses disabled class
     if (userVariables.v3) {
       return pushBtn.hasAttribute('disabled');
     }
@@ -37,6 +35,7 @@ export default class ChallengeCustomAppPushPageObject extends ChallengeFactorPag
 
   isResendPushButtonDisabled() {
     const pushBtn = this.getResendPushButton();
+    // v3 button uses disabled prop and v2 uses disabled class
     if (userVariables.v3) {
       return pushBtn.hasAttribute('disabled');
     }
@@ -90,47 +89,23 @@ export default class ChallengeCustomAppPushPageObject extends ChallengeFactorPag
   }
 
   async autoChallengeInputExists() {
-    if (userVariables.v3) {
-      return this.form.getCheckbox('Send push automatically').exists;
-    }
-    return this.form.elementExist(AUTO_CHALLENGE_CHECKBOX_SELECTOR);
+    return this.form.getCheckbox('Send push automatically').exists;
   }
 
   async autoChallengeInputIsVisible() {
-    if (userVariables.v3) {
-      return this.autoChallengeInputExists();
-    }
-    return this.form.getElement(AUTO_CHALLENGE_CHECKBOX_SELECTOR).visible;
-  }
-
-  getAutoChallengeCheckBox() {
-    if (userVariables.v3) {
-      return queryByLabelText('Send push automatically');
-    }
-    return this.form.getElement(AUTO_CHALLENGE_CHECKBOX_LABEL_SELECTOR);
+    return this.autoChallengeInputExists();
   }
 
   getAutoChallengeCheckboxLabel() {
-    if (userVariables.v3) {
-      return this.form.getCheckbox('Send push automatically');
-    }
-    return this.form.getElement(AUTO_CHALLENGE_CHECKBOX_LABEL_SELECTOR);
+    return this.form.getCheckbox('Send push automatically');
   }
 
   isAutoChallengeChecked() {
-    const checkboxLabel = this.getAutoChallengeCheckboxLabel();
-    if (userVariables.v3) {
-      return checkboxLabel.checked;
-    }
-    return checkboxLabel.hasClass('checked');
+    return this.getAutoChallengeCheckboxLabel().checked;
   }
 
   async clickAutoChallengeCheckbox() {
-    if (userVariables.v3) {
-      await this.t.click(this.form.getCheckbox('Send push automatically'));
-    } else {
-      await this.t.click(this.form.getElement(AUTO_CHALLENGE_CHECKBOX_LABEL_SELECTOR));
-    }
+    await this.t.click(this.form.getCheckbox('Send push automatically'));
   }
 
   getBeaconClass() {
