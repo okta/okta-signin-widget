@@ -264,7 +264,10 @@ export const getIdpButtonElements = (
   return [...pivButtonElement, ...idpButtonElements];
 };
 
-export const getBiometricsErrorMessageElement = (messageKey: string | undefined, displayName = 'Custom App'): WidgetMessage => {
+export const getBiometricsErrorMessageElement = (
+  messageKey: string | undefined,
+  displayName?: string,
+): WidgetMessage => {
   let title;
   let customMessage;
   let messageBullets = [];
