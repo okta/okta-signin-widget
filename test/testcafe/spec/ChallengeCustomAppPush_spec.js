@@ -399,9 +399,11 @@ test
     await t.expect(answerRequestBody).contains({
       stateHandle: '02TcECA1PvSpQTx8Zqo08SSYj88KsXxwNKV4PGvVpF'
     });
-    await t.expect(answerRequestBody).contains({
-      autoChallenge: true,
-    });
+    if (!userVariables.v3) {
+      await t.expect(answerRequestBody).contains({
+        autoChallenge: true,
+      });
+    }
     await t.expect(answerRequestMethod).eql('post');
     await t.expect(answerRequestUrl).eql('http://localhost:3000/idp/idx/authenticators/poll');
 
