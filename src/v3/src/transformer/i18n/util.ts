@@ -41,10 +41,11 @@ export const addTranslation = ({
   // TODO: change translations to required field with default value
   // eslint-disable-next-line no-param-reassign
   element.translations = element.translations || [];
+  const useDefault = !i18nKey || noTranslate && defaultValue;
   element.translations.push({
     name,
     i18nKey,
-    value: i18nKey ? loc(i18nKey, 'login', params, tokenReplacement) : defaultValue,
+    value: useDefault ? defaultValue : loc(i18nKey, 'login', params, tokenReplacement),
     noTranslate,
   });
 };
@@ -63,8 +64,9 @@ export const addLabelTranslationToFieldElement = (
   const i18nKey = getI18nKey(path);
   const params = getI18NParams(nextStep, authenticatorKey);
   if (i18nKey || element.label) {
+    const noTranslate = element.options.inputMeta.customLabel;
     addTranslation({
-      element, name: 'label', i18nKey, params, defaultValue: element.label,
+      element, name: 'label', i18nKey, params, defaultValue: element.label, noTranslate,
     });
   }
 };
