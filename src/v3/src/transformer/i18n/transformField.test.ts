@@ -10,15 +10,15 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxTransaction, Input } from '@okta/okta-auth-js';
+import { IdxTransaction } from '@okta/okta-auth-js';
 
 import { IDX_STEP } from '../../constants';
 import { getStubFormBag, getStubTransactionWithNextStep } from '../../mocks/utils/utils';
 import {
-  FormBag,
-  WidgetProps,
   FieldElement,
+  FormBag,
   TranslationInfo,
+  WidgetProps,
 } from '../../types';
 import { transformField } from './transformField';
 
@@ -34,26 +34,32 @@ describe('Field transformer tests', () => {
       {
         type: 'Field',
         label: 'Please enter your first name',
-        options: { inputMeta: {
-          name: 'userProfile.firstName',
-          customLabel: true,
-        } }
+        options: {
+          inputMeta: {
+            name: 'userProfile.firstName',
+            customLabel: true,
+          },
+        },
       } as FieldElement,
       {
         type: 'Field',
         label: 'Please enter your last name',
-        options: { inputMeta: {
-          name: 'userProfile.lastName',
-          customLabel: true,
-        } }
+        options: {
+          inputMeta: {
+            name: 'userProfile.lastName',
+            customLabel: true,
+          },
+        },
       } as FieldElement,
       {
         type: 'Field',
         label: 'Please enter your email',
-        options: { inputMeta: {
-          name: 'userProfile.email',
-          customLabel: false,
-        } }
+        options: {
+          inputMeta: {
+            name: 'userProfile.email',
+            customLabel: false,
+          },
+        },
       } as FieldElement,
     ];
     widgetProps = {};
