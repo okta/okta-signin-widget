@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EmailChallengeConsentTransformer Tests should create email consent ui elements with valid response 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "email-challenge-consent",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.consent.enduser.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "noTranslate": true,
+        "options": Object {
+          "SVGIcon": [Function],
+          "id": "browser",
+          "textContent": "CHROME",
+        },
+        "type": "ImageWithText",
+      },
+      Object {
+        "noTranslate": true,
+        "options": Object {
+          "SVGIcon": [Function],
+          "id": "appName",
+          "textContent": "Okta Dashboard",
+        },
+        "type": "ImageWithText",
+      },
+      Object {
+        "label": "oie.consent.enduser.deny.label",
+        "options": Object {
+          "actionParams": Object {
+            "consent": false,
+          },
+          "dataType": "cancel",
+          "step": "email-challenge-consent",
+          "type": "button",
+          "variant": "secondary",
+        },
+        "type": "Button",
+      },
+      Object {
+        "label": "oie.consent.enduser.accept.label",
+        "options": Object {
+          "actionParams": Object {
+            "consent": true,
+          },
+          "dataType": "save",
+          "step": "email-challenge-consent",
+          "type": "button",
+          "variant": "primary",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

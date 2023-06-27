@@ -3,17 +3,13 @@ import Settings from 'models/Settings';
 import transformResponse from 'v2/ion/responseTransformer';
 
 import MockUtil from '../../../helpers/v2/MockUtil';
-import XHRAuthenticatorRequiredEmail
-from '../../../../../playground/mocks/data/idp/idx/authenticator-verification-email.json';
-import XHRErrorIdentifyAccessDenied
-from '../../../../../playground/mocks/data/idp/idx/error-identify-access-denied.json';
-import XHRServerSafeMode
-from '../../../../../playground/mocks/data/idp/idx/safe-mode-optional-enrollment.json';
+import XHRAuthenticatorRequiredEmail from '../../../../../playground/mocks/data/idp/idx/authenticator-verification-email.json';
+import XHRErrorIdentifyAccessDenied from '../../../../../playground/mocks/data/idp/idx/error-identify-access-denied.json';
+import XHRServerSafeMode from '../../../../../playground/mocks/data/idp/idx/safe-mode-optional-enrollment.json';
 import XHRSuccess from '../../../../../playground/mocks/data/idp/idx/success.json';
 import XHRSuccessWithAppUser from '../../../../../playground/mocks/data/idp/idx/success-with-app-user.json';
 import XHRIdentify from '../../../../../playground/mocks/data/idp/idx/identify.json';
-import XHRIdentifyWithThirdPartyIdps
-from '../../../../../playground/mocks/data/idp/idx/identify-with-third-party-idps.json';
+import XHRIdentifyWithThirdPartyIdps from '../../../../../playground/mocks/data/idp/idx/identify-with-third-party-idps.json';
 import XHRIdentifyButUnknownUser from '../../../../../playground/mocks/data/idp/idx/identify-unknown-user.json';
 
 describe('v2/ion/responseTransformer', function() {
@@ -305,7 +301,7 @@ describe('v2/ion/responseTransformer', function() {
             action: expect.any(Function),
             href: 'http://localhost:3000/idp/idx/identify',
             value: [
-              { name: 'identifier', label: 'Username' },
+              { name: 'identifier', label: 'Username', required: true },
               { name: 'rememberMe', label: 'Remember Me', type: 'boolean' },
               {
                 name: 'stateHandle',

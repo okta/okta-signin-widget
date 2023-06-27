@@ -1,0 +1,433 @@
+{
+  "version": "1.0.0",
+  "stateHandle": "02.id.ytI3tVH36qutwgUXrM01OmsGxbZeJf5EnT5RGbw8~c.9PNaKqqlVJMEjtMFMDqVwXsbiW9Q5wYqOcOYHTdRwD5A4jbupjcqT2d_XzKrE6G_KmMG6Xel1GlmOMBpR4u_k-vyJYlumQKb5MzR-cFpH41vOWXwGnBcrNXg43R9juPawr20MBz6VW_zYIsQhKa9cBQ7I0GBU53TVEARk757xvKEXhF4s8XXOw7R59OZn0sx1gTdMAOuYhvCgEegpgjmRRKJAo6pIE-3fFqyId2TGFm4utlFTDcr6i_AX_VVUMj3g-F9N_wo4RHuo67d38XYkDx0vQ4wi-G2nWGzqQ_F8_8BzhGoi4-il_AMYKCj1xdEDh4LsqIMzhX6nTy1Ak-BcAcU19S99G9IS_SHjxLBT8jcSRS87oR6V1OsVkgPVbDN6I8AknnXSFhShUfPGo_Auzq_GZG5NvgmlTUh3pxZzrKzUDWx21fppvx3H5S1oKDG2JHW-Z1Nil3EBRcziv9JwqyqaXt8LvY_WrJ_j3-n2qReVlnameKvBwUx5xWZ_m96n6bCwm5uCLfC4toWf_tNLKpMZp3AaoHCHCcAfDcyE88Ss5r4-65XAaFq9Oeqd0PREBDcg0Qsp_C5zkdM9pSmoyCTIYvpzKBRJbHwhk_k9enpwIwjqTfq3b_6Jz9BGGiVoqnh4IESMc96ta5znMCglLAbYeV0YBYY90FV2ZxLNANl4k0lmA6VINMkI8qVbD94w3VFK_nZBsKP8Sz7Oj9IhM669Pv0FjYdTQ7KW--_ZYsVBF2Unw9oyDV0SNby4NB9IdJP0W2_ZqPTbdfjAgYPufzA_QgVpp7qW22a48bf2eqAv0CxguN1I5JF0nGc8InDo5DQJ3-yGaZ3b9qj581DUHh80n0dbVzkykBdJl5z36u_6j7HWf7C4W7-r7EIktX7OYBVW4sc-mv2B1N_P5DFsA",
+  "expiresAt": "2023-03-09T18:39:06.000Z",
+  "intent": "LOGIN",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": ["create-form"],
+        "name": "resend",
+        "relatesTo": ["$.currentAuthenticator"],
+        "href": "http://localhost:3000/idp/idx/challenge",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "authenticator",
+            "type": "object",
+            "label": "Okta Verify",
+            "value": {
+              "form": {
+                "value": [
+                  {
+                    "name": "id",
+                    "required": true,
+                    "value": "aut2h3fft4y9pDPCS1d7",
+                    "mutable": false
+                  },
+                  {
+                    "name": "methodType",
+                    "required": false,
+                    "value": "push",
+                    "mutable": false
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02.id.ytI3tVH36qutwgUXrM01OmsGxbZeJf5EnT5RGbw8~c.9PNaKqqlVJMEjtMFMDqVwXsbiW9Q5wYqOcOYHTdRwD5A4jbupjcqT2d_XzKrE6G_KmMG6Xel1GlmOMBpR4u_k-vyJYlumQKb5MzR-cFpH41vOWXwGnBcrNXg43R9juPawr20MBz6VW_zYIsQhKa9cBQ7I0GBU53TVEARk757xvKEXhF4s8XXOw7R59OZn0sx1gTdMAOuYhvCgEegpgjmRRKJAo6pIE-3fFqyId2TGFm4utlFTDcr6i_AX_VVUMj3g-F9N_wo4RHuo67d38XYkDx0vQ4wi-G2nWGzqQ_F8_8BzhGoi4-il_AMYKCj1xdEDh4LsqIMzhX6nTy1Ak-BcAcU19S99G9IS_SHjxLBT8jcSRS87oR6V1OsVkgPVbDN6I8AknnXSFhShUfPGo_Auzq_GZG5NvgmlTUh3pxZzrKzUDWx21fppvx3H5S1oKDG2JHW-Z1Nil3EBRcziv9JwqyqaXt8LvY_WrJ_j3-n2qReVlnameKvBwUx5xWZ_m96n6bCwm5uCLfC4toWf_tNLKpMZp3AaoHCHCcAfDcyE88Ss5r4-65XAaFq9Oeqd0PREBDcg0Qsp_C5zkdM9pSmoyCTIYvpzKBRJbHwhk_k9enpwIwjqTfq3b_6Jz9BGGiVoqnh4IESMc96ta5znMCglLAbYeV0YBYY90FV2ZxLNANl4k0lmA6VINMkI8qVbD94w3VFK_nZBsKP8Sz7Oj9IhM669Pv0FjYdTQ7KW--_ZYsVBF2Unw9oyDV0SNby4NB9IdJP0W2_ZqPTbdfjAgYPufzA_QgVpp7qW22a48bf2eqAv0CxguN1I5JF0nGc8InDo5DQJ3-yGaZ3b9qj581DUHh80n0dbVzkykBdJl5z36u_6j7HWf7C4W7-r7EIktX7OYBVW4sc-mv2B1N_P5DFsA",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      },
+      {
+        "rel": ["create-form"],
+        "name": "select-authenticator-authenticate",
+        "href": "http://localhost:3000/idp/idx/challenge",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "authenticator",
+            "type": "object",
+            "options": [
+              {
+                "label": "Email",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "aut2h3fft0FbVvFYV1d7",
+                        "mutable": false
+                      },
+                      {
+                        "name": "methodType",
+                        "required": false,
+                        "value": "email",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticatorEnrollments.value[0]"
+              },
+              {
+                "label": "Google Authenticator",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "aut2m5drzzUlo4Bn81d7",
+                        "mutable": false
+                      },
+                      {
+                        "name": "methodType",
+                        "required": false,
+                        "value": "otp",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticatorEnrollments.value[1]"
+              },
+              {
+                "label": "Okta Verify",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "aut2h3fft4y9pDPCS1d7",
+                        "mutable": false
+                      },
+                      {
+                        "name": "methodType",
+                        "type": "string",
+                        "required": false,
+                        "options": [
+                          { "label": "Enter a code", "value": "totp" },
+                          {
+                            "label": "Get a push notification",
+                            "value": "push"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[2]"
+              },
+              {
+                "label": "Phone",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "aut2h3fft10VeLDPD1d7",
+                        "mutable": false
+                      },
+                      {
+                        "name": "methodType",
+                        "type": "string",
+                        "required": false,
+                        "options": [
+                          { "label": "SMS", "value": "sms" },
+                          { "label": "Voice call", "value": "voice" }
+                        ]
+                      },
+                      {
+                        "name": "enrollmentId",
+                        "required": true,
+                        "value": "sms2h3goa8cfOEBYw1d7",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticatorEnrollments.value[3]"
+              },
+              {
+                "label": "Security Key or Biometric",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "aut2h3f9ovE2RV96P1d7",
+                        "mutable": false
+                      },
+                      {
+                        "name": "methodType",
+                        "required": false,
+                        "value": "webauthn",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[4]"
+              },
+              {
+                "label": "Security Question",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "aut2h3fft3N1BApga1d7",
+                        "mutable": false
+                      },
+                      {
+                        "name": "methodType",
+                        "required": false,
+                        "value": "security_question",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticatorEnrollments.value[6]"
+              }
+            ]
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02.id.ytI3tVH36qutwgUXrM01OmsGxbZeJf5EnT5RGbw8~c.9PNaKqqlVJMEjtMFMDqVwXsbiW9Q5wYqOcOYHTdRwD5A4jbupjcqT2d_XzKrE6G_KmMG6Xel1GlmOMBpR4u_k-vyJYlumQKb5MzR-cFpH41vOWXwGnBcrNXg43R9juPawr20MBz6VW_zYIsQhKa9cBQ7I0GBU53TVEARk757xvKEXhF4s8XXOw7R59OZn0sx1gTdMAOuYhvCgEegpgjmRRKJAo6pIE-3fFqyId2TGFm4utlFTDcr6i_AX_VVUMj3g-F9N_wo4RHuo67d38XYkDx0vQ4wi-G2nWGzqQ_F8_8BzhGoi4-il_AMYKCj1xdEDh4LsqIMzhX6nTy1Ak-BcAcU19S99G9IS_SHjxLBT8jcSRS87oR6V1OsVkgPVbDN6I8AknnXSFhShUfPGo_Auzq_GZG5NvgmlTUh3pxZzrKzUDWx21fppvx3H5S1oKDG2JHW-Z1Nil3EBRcziv9JwqyqaXt8LvY_WrJ_j3-n2qReVlnameKvBwUx5xWZ_m96n6bCwm5uCLfC4toWf_tNLKpMZp3AaoHCHCcAfDcyE88Ss5r4-65XAaFq9Oeqd0PREBDcg0Qsp_C5zkdM9pSmoyCTIYvpzKBRJbHwhk_k9enpwIwjqTfq3b_6Jz9BGGiVoqnh4IESMc96ta5znMCglLAbYeV0YBYY90FV2ZxLNANl4k0lmA6VINMkI8qVbD94w3VFK_nZBsKP8Sz7Oj9IhM669Pv0FjYdTQ7KW--_ZYsVBF2Unw9oyDV0SNby4NB9IdJP0W2_ZqPTbdfjAgYPufzA_QgVpp7qW22a48bf2eqAv0CxguN1I5JF0nGc8InDo5DQJ3-yGaZ3b9qj581DUHh80n0dbVzkykBdJl5z36u_6j7HWf7C4W7-r7EIktX7OYBVW4sc-mv2B1N_P5DFsA",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      }
+    ]
+  },
+  "currentAuthenticator": {
+    "type": "object",
+    "value": {
+      "resend": {
+        "rel": ["create-form"],
+        "name": "resend",
+        "href": "http://localhost:3000/idp/idx/challenge",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "authenticator",
+            "required": true,
+            "value": { "methodType": "push", "id": "aut2h3fft4y9pDPCS1d7" },
+            "visible": false,
+            "mutable": false
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02.id.ytI3tVH36qutwgUXrM01OmsGxbZeJf5EnT5RGbw8~c.9PNaKqqlVJMEjtMFMDqVwXsbiW9Q5wYqOcOYHTdRwD5A4jbupjcqT2d_XzKrE6G_KmMG6Xel1GlmOMBpR4u_k-vyJYlumQKb5MzR-cFpH41vOWXwGnBcrNXg43R9juPawr20MBz6VW_zYIsQhKa9cBQ7I0GBU53TVEARk757xvKEXhF4s8XXOw7R59OZn0sx1gTdMAOuYhvCgEegpgjmRRKJAo6pIE-3fFqyId2TGFm4utlFTDcr6i_AX_VVUMj3g-F9N_wo4RHuo67d38XYkDx0vQ4wi-G2nWGzqQ_F8_8BzhGoi4-il_AMYKCj1xdEDh4LsqIMzhX6nTy1Ak-BcAcU19S99G9IS_SHjxLBT8jcSRS87oR6V1OsVkgPVbDN6I8AknnXSFhShUfPGo_Auzq_GZG5NvgmlTUh3pxZzrKzUDWx21fppvx3H5S1oKDG2JHW-Z1Nil3EBRcziv9JwqyqaXt8LvY_WrJ_j3-n2qReVlnameKvBwUx5xWZ_m96n6bCwm5uCLfC4toWf_tNLKpMZp3AaoHCHCcAfDcyE88Ss5r4-65XAaFq9Oeqd0PREBDcg0Qsp_C5zkdM9pSmoyCTIYvpzKBRJbHwhk_k9enpwIwjqTfq3b_6Jz9BGGiVoqnh4IESMc96ta5znMCglLAbYeV0YBYY90FV2ZxLNANl4k0lmA6VINMkI8qVbD94w3VFK_nZBsKP8Sz7Oj9IhM669Pv0FjYdTQ7KW--_ZYsVBF2Unw9oyDV0SNby4NB9IdJP0W2_ZqPTbdfjAgYPufzA_QgVpp7qW22a48bf2eqAv0CxguN1I5JF0nGc8InDo5DQJ3-yGaZ3b9qj581DUHh80n0dbVzkykBdJl5z36u_6j7HWf7C4W7-r7EIktX7OYBVW4sc-mv2B1N_P5DFsA",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      },
+      "contextualData": { "correctAnswer": "9" },
+      "type": "app",
+      "key": "okta_verify",
+      "id": "aut2h3fft4y9pDPCS1d7",
+      "displayName": "Okta Verify",
+      "methods": [{ "type": "push" }]
+    }
+  },
+  "authenticators": {
+    "type": "array",
+    "value": [
+      {
+        "type": "email",
+        "key": "okta_email",
+        "id": "aut2h3fft0FbVvFYV1d7",
+        "displayName": "Email",
+        "methods": [{ "type": "email" }],
+        "allowedFor": "any"
+      },
+      {
+        "type": "app",
+        "key": "google_otp",
+        "id": "aut2m5drzzUlo4Bn81d7",
+        "displayName": "Google Authenticator",
+        "methods": [{ "type": "otp" }],
+        "allowedFor": "sso"
+      },
+      {
+        "type": "app",
+        "key": "okta_verify",
+        "id": "aut2h3fft4y9pDPCS1d7",
+        "displayName": "Okta Verify",
+        "methods": [{ "type": "push" }, { "type": "totp" }],
+        "allowedFor": "any"
+      },
+      {
+        "type": "phone",
+        "key": "phone_number",
+        "id": "aut2h3fft10VeLDPD1d7",
+        "displayName": "Phone",
+        "methods": [{ "type": "sms" }, { "type": "voice" }],
+        "allowedFor": "any"
+      },
+      {
+        "type": "security_key",
+        "key": "webauthn",
+        "id": "aut2h3f9ovE2RV96P1d7",
+        "displayName": "Security Key or Biometric",
+        "methods": [{ "type": "webauthn" }],
+        "allowedFor": "sso"
+      },
+      {
+        "type": "security_question",
+        "key": "security_question",
+        "id": "aut2h3fft3N1BApga1d7",
+        "displayName": "Security Question",
+        "methods": [{ "type": "security_question" }],
+        "allowedFor": "sso"
+      }
+    ]
+  },
+  "authenticatorEnrollments": {
+    "type": "array",
+    "value": [
+      {
+        "profile": { "email": "g***n@icloud.com" },
+        "type": "email",
+        "key": "okta_email",
+        "id": "eae2h3ffskT0IBZD11d7",
+        "displayName": "Email",
+        "methods": [{ "type": "email" }]
+      },
+      {
+        "type": "app",
+        "key": "google_otp",
+        "id": "uft2nai75idszAT621d7",
+        "displayName": "Google Authenticator",
+        "methods": [{ "type": "otp" }]
+      },
+      {
+        "profile": { "deviceName": "iPhone" },
+        "type": "app",
+        "key": "okta_verify",
+        "id": "pfd5jiq9xvXLazdFL1d7",
+        "displayName": "Okta Verify",
+        "methods": [{ "type": "push" }, { "type": "totp" }]
+      },
+      {
+        "profile": { "phoneNumber": "+1 XXX-XXX-2241" },
+        "type": "phone",
+        "key": "phone_number",
+        "id": "sms2h3goa8cfOEBYw1d7",
+        "displayName": "Phone",
+        "methods": [{ "type": "sms" }, { "type": "voice" }]
+      },
+      {
+        "type": "security_key",
+        "key": "webauthn",
+        "id": "fwf5vvl31jqRN3J6A1d7",
+        "displayName": "Authenticator",
+        "credentialId": "vN_Tvba-b8nwtbn8_vMrruAMP6I",
+        "methods": [{ "type": "webauthn" }]
+      },
+      {
+        "type": "security_key",
+        "key": "webauthn",
+        "id": "fwf5vvif7ouqP2bmd1d7",
+        "displayName": "MacBook Touch ID",
+        "credentialId": "Yb8CHRvfEIerbXFt6iSq3PdSKGVbaO8eRfcTZi5s6b0",
+        "methods": [{ "type": "webauthn" }]
+      },
+      {
+        "profile": {
+          "questionKey": "childhood_dream_job",
+          "question": "What was your dream job as a child?"
+        },
+        "type": "security_question",
+        "key": "security_question",
+        "id": "qae5o29d6xbA1hNCU1d7",
+        "displayName": "Security Question",
+        "methods": [{ "type": "security_question" }]
+      }
+    ]
+  },
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00u2h3ffs5elyqiQU1d7",
+      "identifier": "tester@okta1.com",
+      "profile": {
+        "firstName": "Tester",
+        "lastName": "McTesterson",
+        "timeZone": "America/Los_Angeles",
+        "locale": "en_US"
+      }
+    }
+  },
+  "cancel": {
+    "rel": ["create-form"],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "produces": "application/ion+json; okta-version=1.0.0",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02.id.ytI3tVH36qutwgUXrM01OmsGxbZeJf5EnT5RGbw8~c.9PNaKqqlVJMEjtMFMDqVwXsbiW9Q5wYqOcOYHTdRwD5A4jbupjcqT2d_XzKrE6G_KmMG6Xel1GlmOMBpR4u_k-vyJYlumQKb5MzR-cFpH41vOWXwGnBcrNXg43R9juPawr20MBz6VW_zYIsQhKa9cBQ7I0GBU53TVEARk757xvKEXhF4s8XXOw7R59OZn0sx1gTdMAOuYhvCgEegpgjmRRKJAo6pIE-3fFqyId2TGFm4utlFTDcr6i_AX_VVUMj3g-F9N_wo4RHuo67d38XYkDx0vQ4wi-G2nWGzqQ_F8_8BzhGoi4-il_AMYKCj1xdEDh4LsqIMzhX6nTy1Ak-BcAcU19S99G9IS_SHjxLBT8jcSRS87oR6V1OsVkgPVbDN6I8AknnXSFhShUfPGo_Auzq_GZG5NvgmlTUh3pxZzrKzUDWx21fppvx3H5S1oKDG2JHW-Z1Nil3EBRcziv9JwqyqaXt8LvY_WrJ_j3-n2qReVlnameKvBwUx5xWZ_m96n6bCwm5uCLfC4toWf_tNLKpMZp3AaoHCHCcAfDcyE88Ss5r4-65XAaFq9Oeqd0PREBDcg0Qsp_C5zkdM9pSmoyCTIYvpzKBRJbHwhk_k9enpwIwjqTfq3b_6Jz9BGGiVoqnh4IESMc96ta5znMCglLAbYeV0YBYY90FV2ZxLNANl4k0lmA6VINMkI8qVbD94w3VFK_nZBsKP8Sz7Oj9IhM669Pv0FjYdTQ7KW--_ZYsVBF2Unw9oyDV0SNby4NB9IdJP0W2_ZqPTbdfjAgYPufzA_QgVpp7qW22a48bf2eqAv0CxguN1I5JF0nGc8InDo5DQJ3-yGaZ3b9qj581DUHh80n0dbVzkykBdJl5z36u_6j7HWf7C4W7-r7EIktX7OYBVW4sc-mv2B1N_P5DFsA",
+        "visible": false,
+        "mutable": false
+      }
+    ],
+    "accepts": "application/json; okta-version=1.0.0"
+  },
+  "app": {
+    "type": "object",
+    "value": {
+      "name": "oidc_client",
+      "label": "SIW Next",
+      "id": "0oa2h3j3ysoR3eHN11d7"
+    }
+  },
+  "authentication": {
+    "type": "object",
+    "value": {
+      "protocol": "OAUTH2.0",
+      "issuer": {
+        "id": "aus2h3f9n6mV9Rynu1d7",
+        "name": "default",
+        "uri": "http://localhost:3000/oauth2/default"
+      },
+      "request": {
+        "max_age": -1,
+        "scope": "openid profile email",
+        "response_type": "code",
+        "redirect_uri": "http://localhost:3000/login/callback",
+        "state": "jLPTewfwdN0ya4QBOEK3zclw9fEQKxoIZVLQj63pI1Rlc8wnc6GHbeGULphki2Hp",
+        "code_challenge_method": "S256",
+        "nonce": "DsKGbZ0KFGBgL5GBT8RW8Siuj6lKpBxixfh2Ag29FiBDBqwpladY2xwKvyNAMDbj",
+        "code_challenge": "JB-R5j16Fnwm1Vov51i7Ujv-mPYEXvtbOEgB3-rgGHc",
+        "response_mode": "query"
+      }
+    }
+  }
+}

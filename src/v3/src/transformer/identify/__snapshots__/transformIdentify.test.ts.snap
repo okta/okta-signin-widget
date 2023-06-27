@@ -1,0 +1,351 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Identify Transformer Tests should add UI elements for identifier and rememberMe inputs when no features are provided 1`] = `
+Object {
+  "data": Object {
+    "identifier": "testUserFromCookie",
+  },
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "primaryauth.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "name": "identifier",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "name": "rememberMe",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "label": "oform.next",
+        "options": Object {
+          "step": "identify",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Identify Transformer Tests should add UI elements for identifier, passcode & rememberMe with username default option when username is provided in options 1`] = `
+Object {
+  "data": Object {
+    "identifier": "testUser",
+  },
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "primaryauth.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "name": "identifier",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "name": "credentials.passcode",
+            "secret": true,
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "name": "rememberMe",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "label": "oie.primaryauth.submit",
+        "options": Object {
+          "step": "identify",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Identify Transformer Tests should add UI elements for identifier, passcode & rememberMe with username default option when username is provided in remediation (inputMeta) 1`] = `
+Object {
+  "data": Object {
+    "identifier": "mockUser",
+  },
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "primaryauth.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "name": "identifier",
+            "value": "mockUser",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "name": "credentials.passcode",
+            "secret": true,
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "name": "rememberMe",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "label": "oie.primaryauth.submit",
+        "options": Object {
+          "step": "identify",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Identify Transformer Tests should add UI elements for identifier, passcode & rememberMe with username pulled from cookie as the default option when username is not provided in options but feature rememberMe is provided 1`] = `
+Object {
+  "data": Object {
+    "identifier": "testUserFromCookie",
+  },
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "primaryauth.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "name": "identifier",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "name": "credentials.passcode",
+            "secret": true,
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "name": "rememberMe",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "label": "oie.primaryauth.submit",
+        "options": Object {
+          "step": "identify",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Identify Transformer Tests should add UI elements for identifier, passcode and rememberMe inputs when no features are provided 1`] = `
+Object {
+  "data": Object {
+    "identifier": "testUserFromCookie",
+  },
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "primaryauth.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "name": "identifier",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "name": "credentials.passcode",
+            "secret": true,
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "name": "rememberMe",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "label": "oie.primaryauth.submit",
+        "options": Object {
+          "step": "identify",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Identify Transformer Tests should remove rememberMe element from formBag when showKeepMeSignedIn feature is set to false 1`] = `
+Object {
+  "data": Object {
+    "identifier": "testUserFromCookie",
+  },
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "primaryauth.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "name": "identifier",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "name": "credentials.passcode",
+            "secret": true,
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "label": "oie.primaryauth.submit",
+        "options": Object {
+          "step": "identify",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

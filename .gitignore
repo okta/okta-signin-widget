@@ -25,6 +25,7 @@ test-reports/
 package-lock.json
 .eslintcache
 /types
+.codegen.sum
 
 # Test dist package
 node_modules2

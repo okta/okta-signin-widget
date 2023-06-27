@@ -1,0 +1,188 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SecurityQuestionEnroll Tests should create security question enrollment UI elements 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [
+      "credentials.answer",
+      "credentials.questionKey",
+    ],
+    "submit": Object {
+      "includeImmutableData": false,
+      "step": "",
+      "type": "submit",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "elements": Array [
+          Object {
+            "elements": Array [
+              Object {
+                "options": Object {
+                  "content": "oie.security.question.enroll.title",
+                },
+                "type": "Title",
+                "viewIndex": 0,
+              },
+              Object {
+                "options": Object {
+                  "customOptions": Array [
+                    Object {
+                      "callback": [Function],
+                      "label": "oie.security.question.questionKey.label",
+                      "value": "predefined",
+                    },
+                    Object {
+                      "callback": [Function],
+                      "key": "credentials.questionKey",
+                      "label": "oie.security.question.createQuestion.label",
+                      "value": "custom",
+                    },
+                  ],
+                  "defaultValue": [Function],
+                  "name": "questionType",
+                },
+                "type": "StepperRadio",
+                "viewIndex": 0,
+              },
+              Object {
+                "key": "credentials.questionKey",
+                "label": "oie.security.question.questionKey.label",
+                "options": Object {
+                  "customOptions": Array [
+                    Object {
+                      "label": "security.disliked_food",
+                      "value": "disliked_food",
+                    },
+                    Object {
+                      "label": "security.name_of_first_plush_toy",
+                      "value": "name_of_first_plush_toy",
+                    },
+                  ],
+                  "format": "select",
+                  "inputMeta": Object {
+                    "name": "credentials.questionKey",
+                    "options": Array [
+                      Object {
+                        "label": "What is the food you least liked as a child?",
+                        "value": "disliked_food",
+                      },
+                      Object {
+                        "label": "What is the name of your first stuffed animal?",
+                        "value": "name_of_first_plush_toy",
+                      },
+                    ],
+                  },
+                },
+                "type": "Field",
+                "viewIndex": 0,
+              },
+              Object {
+                "key": "credentials.answer_predefined",
+                "noTranslate": true,
+                "options": Object {
+                  "inputMeta": Object {
+                    "name": "credentials.answer",
+                    "secret": true,
+                  },
+                },
+                "type": "Field",
+                "viewIndex": 0,
+              },
+              Object {
+                "label": "mfa.challenge.verify",
+                "options": Object {
+                  "includeImmutableData": false,
+                  "step": "",
+                  "type": "submit",
+                },
+                "type": "Button",
+                "viewIndex": 0,
+              },
+            ],
+            "type": "VerticalLayout",
+          },
+          Object {
+            "elements": Array [
+              Object {
+                "options": Object {
+                  "content": "oie.security.question.enroll.title",
+                },
+                "type": "Title",
+                "viewIndex": 1,
+              },
+              Object {
+                "options": Object {
+                  "customOptions": Array [
+                    Object {
+                      "callback": [Function],
+                      "label": "oie.security.question.questionKey.label",
+                      "value": "predefined",
+                    },
+                    Object {
+                      "callback": [Function],
+                      "key": "credentials.questionKey",
+                      "label": "oie.security.question.createQuestion.label",
+                      "value": "custom",
+                    },
+                  ],
+                  "defaultValue": [Function],
+                  "name": "questionType",
+                },
+                "type": "StepperRadio",
+                "viewIndex": 1,
+              },
+              Object {
+                "label": "oie.security.question.createQuestion.label",
+                "noTranslate": true,
+                "options": Object {
+                  "inputMeta": Object {
+                    "name": "credentials.question",
+                  },
+                },
+                "type": "Field",
+                "viewIndex": 1,
+              },
+              Object {
+                "key": "credentials.answer_custom",
+                "label": "Answer",
+                "noTranslate": true,
+                "options": Object {
+                  "inputMeta": Object {
+                    "label": "Answer",
+                    "name": "credentials.answer",
+                    "secret": true,
+                  },
+                },
+                "type": "Field",
+                "viewIndex": 1,
+              },
+              Object {
+                "label": "mfa.challenge.verify",
+                "options": Object {
+                  "actionParams": Object {
+                    "credentials.questionKey": "custom",
+                  },
+                  "step": "",
+                  "type": "submit",
+                },
+                "type": "Button",
+                "viewIndex": 1,
+              },
+            ],
+            "type": "VerticalLayout",
+          },
+        ],
+        "type": "Stepper",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

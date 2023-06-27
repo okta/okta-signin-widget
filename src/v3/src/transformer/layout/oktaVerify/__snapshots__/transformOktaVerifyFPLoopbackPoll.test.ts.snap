@@ -1,0 +1,137 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Transform Okta Verify FP Loopback Poll where remediation is challenge-poll should create Loopback Poll elements for display 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "deviceTrust.sso.redirectText",
+        },
+        "type": "Title",
+      },
+      Object {
+        "type": "Spinner",
+      },
+      Object {
+        "options": Object {
+          "cancelStep": "currentAuthenticator-cancel",
+          "deviceChallengePayload": Object {
+            "challengeRequest": "mockChallengeRequest",
+            "domain": "http://localhost",
+            "ports": Array [
+              "2000",
+              "6511",
+              "6512",
+              "6513",
+            ],
+          },
+          "step": "challenge-poll",
+        },
+        "type": "LoopbackProbe",
+      },
+      Object {
+        "contentType": "footer",
+        "options": Object {
+          "label": "oie.verification.switch.authenticator",
+          "onClick": [Function],
+          "step": "select-authenticator-authenticate",
+        },
+        "type": "Link",
+      },
+      Object {
+        "contentType": "footer",
+        "options": Object {
+          "actionParams": Object {
+            "reason": "USER_CANCELED",
+            "statusCode": null,
+          },
+          "isActionStep": true,
+          "label": "goback",
+          "step": "currentAuthenticator-cancel",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Transform Okta Verify FP Loopback Poll where remediation is device-challenge-poll should create Loopback Poll elements for display when step is device-challenge-poll 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "deviceTrust.sso.redirectText",
+        },
+        "type": "Title",
+      },
+      Object {
+        "type": "Spinner",
+      },
+      Object {
+        "options": Object {
+          "cancelStep": "authenticatorChallenge-cancel",
+          "deviceChallengePayload": Object {
+            "challengeRequest": "mockChallengeRequest",
+            "domain": "http://localhost",
+            "ports": Array [
+              "2000",
+              "6511",
+              "6512",
+              "6513",
+            ],
+          },
+          "step": "device-challenge-poll",
+        },
+        "type": "LoopbackProbe",
+      },
+      Object {
+        "contentType": "footer",
+        "options": Object {
+          "label": "oie.verification.switch.authenticator",
+          "onClick": [Function],
+          "step": "select-authenticator-authenticate",
+        },
+        "type": "Link",
+      },
+      Object {
+        "contentType": "footer",
+        "options": Object {
+          "actionParams": Object {
+            "reason": "USER_CANCELED",
+            "statusCode": null,
+          },
+          "isActionStep": true,
+          "label": "goback",
+          "step": "authenticatorChallenge-cancel",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

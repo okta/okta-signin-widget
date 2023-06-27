@@ -1,0 +1,152 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Transaction Data transformer tests should modify input fields in transaction based on the parseSchema callback 1`] = `
+Array [
+  Object {
+    "name": "userProfile",
+    "value": Array [
+      Object {
+        "data-se": "userProfile.firstName",
+        "label": "First name",
+        "label-top": true,
+        "name": "firstName",
+        "required": false,
+        "wide": true,
+      },
+      Object {
+        "data-se": "userProfile.lastName",
+        "label": "Last name",
+        "label-top": true,
+        "name": "lastName",
+        "required": true,
+        "wide": true,
+      },
+      Object {
+        "data-se": "userProfile.email",
+        "label": "Email",
+        "label-top": true,
+        "name": "email",
+        "required": true,
+        "wide": true,
+      },
+      Object {
+        "label": "Street Address",
+        "label-top": true,
+        "maxLength": 255,
+        "name": "address",
+        "placeholder": "Enter your street address",
+        "required": true,
+        "sublabel": "Use your home address",
+        "type": "text",
+        "wide": true,
+      },
+      Object {
+        "label": "Select your favorite dessert",
+        "label-top": true,
+        "name": "dessert",
+        "options": Array [
+          Object {
+            "label": "I like cookies",
+            "value": "likeCookies",
+          },
+          Object {
+            "label": "I like muffins",
+            "value": "likeMuffins",
+          },
+          Object {
+            "label": "I like games",
+            "value": "likeGames",
+          },
+        ],
+        "required": true,
+        "type": "radio",
+        "wide": true,
+      },
+      Object {
+        "label": "Select your car",
+        "label-top": true,
+        "name": "car",
+        "options": Object {
+          "bmw": "BMW",
+          "chevy": "Chevrolet",
+          "volkswagon": "Volkswagon",
+        },
+        "placeholder": "Select your car",
+        "required": true,
+        "type": "select",
+        "wide": true,
+      },
+      Object {
+        "label": "Confirm your agreement to terms of service",
+        "label-top": true,
+        "name": "agreement",
+        "placeholder": "I agree to the terms of service",
+        "required": true,
+        "type": "checkbox",
+        "wide": true,
+      },
+    ],
+  },
+]
+`;
+
+exports[`Transaction Data transformer tests should not execute parseSchema callback when not defined in widget config options 1`] = `
+Array [
+  Object {
+    "name": "userProfile",
+    "value": Array [
+      Object {
+        "label": "First name",
+        "name": "firstName",
+        "required": true,
+      },
+      Object {
+        "label": "Last name",
+        "name": "lastName",
+        "required": true,
+      },
+      Object {
+        "label": "Email",
+        "name": "email",
+        "required": true,
+      },
+    ],
+  },
+]
+`;
+
+exports[`Transaction Data transformer tests should set global and field level error messages when triggered from registration callback 1`] = `
+Array [
+  Object {
+    "name": "userProfile",
+    "value": Array [
+      Object {
+        "label": "First name",
+        "messages": undefined,
+        "name": "firstName",
+        "required": true,
+      },
+      Object {
+        "label": "Last name",
+        "messages": Object {
+          "type": "object",
+          "value": Array [
+            Object {
+              "class": "ERROR",
+              "message": "Custom parseSchema error",
+            },
+          ],
+        },
+        "name": "lastName",
+        "required": true,
+      },
+      Object {
+        "label": "Email",
+        "messages": undefined,
+        "name": "email",
+        "required": true,
+      },
+    ],
+  },
+]
+`;

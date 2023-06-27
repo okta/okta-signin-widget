@@ -1,0 +1,169 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Authenticator Button transformer tests should add translations for Custom Authenticator button 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "Sign in",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "buttons": Array [
+            Object {
+              "label": "My custom authenticator app",
+              "options": Object {
+                "ctaLabel": "Verify",
+                "key": "custom_app",
+              },
+              "translations": Array [
+                Object {
+                  "i18nKey": "",
+                  "name": "label",
+                  "noTranslate": undefined,
+                  "value": "My custom authenticator app",
+                },
+              ],
+              "type": "AuthenticatorButton",
+            },
+          ],
+        },
+        "type": "AuthenticatorButtonList",
+      },
+      Object {
+        "options": Object {
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Authenticator Button transformer tests should add translations for Email Authenticator button 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "Sign in",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "buttons": Array [
+            Object {
+              "label": "Okta Email",
+              "options": Object {
+                "ctaLabel": "Verify",
+                "key": "okta_email",
+              },
+              "translations": Array [
+                Object {
+                  "i18nKey": "oie.email.label",
+                  "name": "label",
+                  "noTranslate": undefined,
+                  "value": "oie.email.label",
+                },
+              ],
+              "type": "AuthenticatorButton",
+            },
+          ],
+        },
+        "type": "AuthenticatorButtonList",
+      },
+      Object {
+        "options": Object {
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Authenticator Button transformer tests should add translations for OV button with Method type 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "Sign in",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "buttons": Array [
+            Object {
+              "label": "Okta Verify",
+              "options": Object {
+                "actionParams": Object {
+                  "authenticator.methodType": "push",
+                },
+                "ctaLabel": "Verify",
+                "key": "okta_verify",
+              },
+              "translations": Array [
+                Object {
+                  "i18nKey": "oie.okta_verify.push.title",
+                  "name": "label",
+                  "noTranslate": undefined,
+                  "value": "oie.okta_verify.push.title",
+                },
+              ],
+              "type": "AuthenticatorButton",
+            },
+          ],
+        },
+        "type": "AuthenticatorButtonList",
+      },
+      Object {
+        "options": Object {
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

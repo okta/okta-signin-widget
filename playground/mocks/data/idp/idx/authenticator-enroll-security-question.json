@@ -215,6 +215,27 @@
   "currentAuthenticator": {
     "type": "object",
     "value": {
+      "contextualData": {
+        "questionKeys": [
+          "disliked_food",
+          "name_of_first_plush_toy",
+          "favorite_vacation_location"
+        ],
+        "questions": [
+          {
+            "question": "What is the food you least liked as a child?",
+            "questionKey": "disliked_food"
+          },
+          {
+            "question": "What is the name of your first stuffed animal?",
+            "questionKey": "name_of_first_plush_toy"
+          },
+          {
+            "question": "Where did you go for your favorite vacation?",
+            "questionKey": "favorite_vacation_location"
+          }
+        ]
+      },
       "displayName": "Okta Security Question",
       "type": "security_question",
       "key": "security_question",

@@ -11,7 +11,9 @@ const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/authenticators/okta-verify/launch')
   .respond('');
 
+// TODO: OKTA-616191 - enable in G3
 fixture('Launch OV with rememberMe')
+  .meta('v3', false)
   .requestHooks(logger, mock);
 
 

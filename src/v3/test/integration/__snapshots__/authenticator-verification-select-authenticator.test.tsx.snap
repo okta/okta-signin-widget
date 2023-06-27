@@ -1,0 +1,1785 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`authenticator-verification-select-authenticator renders form 1`] = `
+<div>
+  <div
+    class="MuiScopedCssBaseline-root emotion-0"
+  >
+    <main
+      class="auth-container main-container mainViewContainer MuiBox-root emotion-1"
+      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+      data-version="0.0.0"
+      dir="ltr"
+      id="okta-sign-in"
+      lang="en"
+    >
+      <div
+        class="siwContainer MuiBox-root emotion-2"
+      >
+        <div
+          class="okta-sign-in-header auth-header siwHeader MuiBox-root emotion-3"
+        >
+          <h1
+            class="MuiTypography-root MuiTypography-h1 emotion-4"
+          />
+        </div>
+        <div
+          class="MuiBox-root emotion-5"
+        >
+          <div
+            class="identifier-container MuiBox-root emotion-6"
+          >
+            <div
+              class="identifierContainer MuiBox-root emotion-7"
+            >
+              <span
+                class="userIconContainer MuiBox-root emotion-8"
+              >
+                <svg
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-9"
+                  fill="none"
+                  focusable="false"
+                  role="img"
+                  viewBox="0 0 16 16"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    clip-rule="evenodd"
+                    d="M10 3V5C10 6.10457 9.10457 7 8 7C6.89543 7 6 6.10457 6 5V3C6 1.89543 6.89543 1 8 1C9.10457 1 10 1.89543 10 3ZM5 3C5 1.34315 6.34315 0 8 0C9.65685 0 11 1.34315 11 3V5C11 6.65685 9.65685 8 8 8C6.34315 8 5 6.65685 5 5V3ZM4.1305 10.0742C4.26803 10.0181 4.459 10 5.41376 10H10.5862C11.541 10 11.732 10.0181 11.8695 10.0742C12.0299 10.1398 12.1706 10.2459 12.2777 10.3821C12.3695 10.4989 12.4393 10.6776 12.7016 11.5956L13.6743 15H2.32573L3.29841 11.5956C3.5607 10.6776 3.63054 10.4989 3.72233 10.3821C3.82941 10.2459 3.97006 10.1398 4.1305 10.0742ZM13.6631 11.3209L14.7143 15L15 16H13.96H2.04002H1L1.28571 15L2.33689 11.3209C2.57458 10.489 2.69343 10.073 2.93606 9.76423C3.15022 9.49171 3.43152 9.27953 3.75239 9.14848C4.11592 9 4.54854 9 5.41376 9H10.5862C11.4515 9 11.8841 9 12.2476 9.14848C12.5685 9.27953 12.8498 9.49171 13.0639 9.76423C13.3066 10.073 13.4254 10.489 13.6631 11.3209Z"
+                    fill="currentColor"
+                    fill-rule="evenodd"
+                  />
+                  <title>
+                    User
+                  </title>
+                </svg>
+              </span>
+              <span
+                class="identifier no-translate identifierSpan MuiBox-root emotion-8"
+                data-se="identifier"
+                title="testUser@okta.com"
+              >
+                testUser@okta.com
+              </span>
+            </div>
+          </div>
+          <form
+            class="o-form siwForm"
+            data-se="o-form"
+            novalidate=""
+          >
+            <div
+              class="MuiBox-root emotion-11"
+            >
+              <div
+                class="MuiBox-root emotion-12"
+              >
+                <div
+                  class="MuiBox-root emotion-13"
+                >
+                  <h2
+                    class="MuiTypography-root MuiTypography-h4 emotion-14"
+                    data-se="o-form-head"
+                    id="select-authenticator-authenticate_Title_Verify_its_you_with_a_security_method_1"
+                    tabindex="-1"
+                  >
+                    Verify it's you with a security method
+                  </h2>
+                </div>
+              </div>
+              <div
+                class="MuiBox-root emotion-8"
+              >
+                <div
+                  class="MuiBox-root emotion-13"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
+                    data-se="o-form-explain"
+                    id="select-authenticator-authenticate_Description_Select_from_the_following_options_2"
+                  >
+                    Select from the following options
+                  </p>
+                </div>
+              </div>
+              <div
+                class="MuiBox-root emotion-12"
+              >
+                <ul
+                  class="MuiBox-root emotion-19"
+                  data-se="authenticator-verify-list"
+                >
+                  <li
+                    class="MuiBox-root emotion-12"
+                  >
+                    <button
+                      aria-describedby="okta_password_0-ctaLabel"
+                      aria-labelledby="okta_password_0-label"
+                      class="authenticator-row authButton MuiBox-root emotion-21"
+                      data-se="authenticator-button"
+                      tabindex="0"
+                      type="button"
+                    >
+                      <div
+                        class="authenticator-icon-container MuiBox-root emotion-8"
+                        data-se="authenticator-icon"
+                      >
+                        <div
+                          aria-hidden="true"
+                          class="iconContainer mfa-okta-password authenticator-icon MuiBox-root emotion-23"
+                          data-se="factor-beacon"
+                        >
+                          <svg
+                            aria-labelledby="okta_password_0"
+                            fill="none"
+                            height="48"
+                            role="img"
+                            viewBox="0 0 48 48"
+                            width="48"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <title
+                              id="okta_password_0"
+                            >
+                              Password
+                            </title>
+                            <circle
+                              class="siwFillBg"
+                              cx="24"
+                              cy="24"
+                              fill="#F5F5F6"
+                              r="24"
+                            />
+                            <path
+                              class="siwFillSecondary"
+                              d="M11 17h-1V9h8v1h-7v7Zm28 0h-1v-7h-7V9h8v8ZM18 39h-8v-8h1v7h7v1Zm21 0h-8v-1h7v-7h1v8Z"
+                              fill="#A7B5EC"
+                            />
+                            <path
+                              class="siwFillPrimaryDark"
+                              d="m14.91 22.067-1.829 1.064V21h-1v2.131l-1.83-1.064-.502.866L11.585 24l-1.836 1.067.502.866 1.83-1.064V27h1v-2.131l1.829 1.064.503-.866L13.576 24l1.837-1.067-.503-.866Zm7.946 0-1.829 1.064V21h-1v2.131l-1.829-1.064-.503.866L19.531 24l-1.836 1.067.503.866 1.83-1.064V27h1v-2.131l1.828 1.064.503-.866L21.523 24l1.836-1.067-.503-.866Zm7.946 0-1.829 1.064V21h-1v2.131l-1.829-1.064-.503.866L27.477 24l-1.836 1.067.503.866 1.83-1.064V27h1v-2.131l1.828 1.064.503-.866L29.47 24l1.836-1.067-.503-.866Zm8.448.866-.501-.866-1.83 1.064V21h-1v2.131l-1.83-1.064-.502.866L35.424 24l-1.837 1.067.503.866 1.829-1.064V27h1v-2.131l1.83 1.064.502-.866L37.415 24l1.836-1.067Z"
+                              fill="#00297A"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                      <div
+                        class="authenticator-description infoSection MuiBox-root emotion-8"
+                      >
+                        <h3
+                          class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-25"
+                          data-se="authenticator-button-label"
+                          id="okta_password_0-label"
+                        >
+                          Password
+                        </h3>
+                        <div
+                          class="cta-button authenticator-button actionName MuiBox-root emotion-8"
+                          data-se="okta_password"
+                        >
+                          <span
+                            class="button select-factor link-button MuiBox-root emotion-27"
+                            data-se="cta-button-label"
+                            id="okta_password_0-ctaLabel"
+                          >
+                            Select
+                          </span>
+                          <svg
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-28"
+                            fill="none"
+                            focusable="false"
+                            role="img"
+                            viewBox="0 0 16 16"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              clip-rule="evenodd"
+                              d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
+                              fill="currentColor"
+                              fill-rule="evenodd"
+                            />
+                            <title>
+                              Select
+                            </title>
+                          </svg>
+                        </div>
+                      </div>
+                    </button>
+                  </li>
+                  <li
+                    class="MuiBox-root emotion-12"
+                  >
+                    <button
+                      aria-describedby="webauthn_1-ctaLabel"
+                      aria-labelledby="webauthn_1-label"
+                      class="authenticator-row authButton MuiBox-root emotion-21"
+                      data-se="authenticator-button"
+                      tabindex="0"
+                      type="button"
+                    >
+                      <div
+                        class="authenticator-icon-container MuiBox-root emotion-8"
+                        data-se="authenticator-icon"
+                      >
+                        <div
+                          aria-hidden="true"
+                          class="iconContainer mfa-webauthn authenticator-icon MuiBox-root emotion-23"
+                          data-se="factor-beacon"
+                        >
+                          <svg
+                            aria-labelledby="webauthn_1"
+                            fill="none"
+                            height="48"
+                            role="img"
+                            viewBox="0 0 48 48"
+                            width="48"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <title
+                              id="webauthn_1"
+                            >
+                              Security Key or Biometric Authenticator
+                            </title>
+                            <path
+                              class="siwFillBg"
+                              clip-rule="evenodd"
+                              d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
+                              fill="#F5F5F6"
+                              fill-rule="evenodd"
+                            />
+                            <path
+                              class="siwFillPrimaryDark"
+                              d="M24 17V9h-9v8h-3v15.5a2.5 2.5 0 0 0 2.5 2.5h6.34a8.58 8.58 0 0 1-.38-1H14.5a1.5 1.5 0 0 1-1.5-1.5V18h13v3.84a8.58 8.58 0 0 1 1-.38V17h-3Zm-8 0v-7h7v7h-7Z"
+                              fill="#00297A"
+                            />
+                            <path
+                              class="siwFillPrimaryDark"
+                              d="M19.5 25a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5Zm0-4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Z"
+                              fill="#00297A"
+                            />
+                            <path
+                              class="siwFillSecondary"
+                              d="M30 40a9 9 0 1 1 9-9 9.01 9.01 0 0 1-9 9Zm0-17a8 8 0 1 0 8 8 8.009 8.009 0 0 0-8-8Z"
+                              fill="#A7B5EC"
+                            />
+                            <path
+                              class="siwFillSecondary"
+                              d="M32.084 36.019a.472.472 0 0 1-.319-.112.501.501 0 0 1-.159-.532c.43-1.389 1.274-4.787-.119-6.352a1.962 1.962 0 0 0-1.946-.6 1.93 1.93 0 0 0-1.387 2.354c.007.024.666 2.823-.966 4.55a.5.5 0 1 1-.727-.685c1.24-1.314.728-3.6.723-3.622a2.933 2.933 0 0 1 2.106-3.566 2.977 2.977 0 0 1 2.944.906c1.67 1.875.922 5.386.328 7.312a.5.5 0 0 1-.478.347Z"
+                              fill="#A7B5EC"
+                            />
+                            <path
+                              class="siwFillSecondary"
+                              d="M28.63 37.25a.5.5 0 0 1-.359-.849c2.235-2.3 1.345-5.782 1.336-5.817a.5.5 0 0 1 .966-.259c.045.165 1.052 4.067-1.586 6.774a.5.5 0 0 1-.358.151Z"
+                              fill="#A7B5EC"
+                            />
+                            <path
+                              class="siwFillSecondary"
+                              d="M34.88 35.2a.5.5 0 0 1-.488-.612c.493-2.2.716-5.235-1.03-7.2a4.508 4.508 0 0 0-4.455-1.357 4.416 4.416 0 0 0-2.72 2.069 4.2 4.2 0 0 0-.468 3.2 3.1 3.1 0 0 1-.355 2.347.5.5 0 1 1-.728-.685 2.37 2.37 0 0 0 .11-1.434 5.174 5.174 0 0 1 .577-3.939 5.42 5.42 0 0 1 3.333-2.518 5.524 5.524 0 0 1 5.453 1.66c1.628 1.832 2.051 4.551 1.257 8.082a.5.5 0 0 1-.487.387Z"
+                              fill="#A7B5EC"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                      <div
+                        class="authenticator-description infoSection MuiBox-root emotion-8"
+                      >
+                        <h3
+                          class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-25"
+                          data-se="authenticator-button-label"
+                          id="webauthn_1-label"
+                        >
+                          Security Key or Biometric Authenticator
+                        </h3>
+                        <div
+                          class="cta-button authenticator-button actionName MuiBox-root emotion-8"
+                          data-se="webauthn"
+                        >
+                          <span
+                            class="button select-factor link-button MuiBox-root emotion-27"
+                            data-se="cta-button-label"
+                            id="webauthn_1-ctaLabel"
+                          >
+                            Select
+                          </span>
+                          <svg
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-28"
+                            fill="none"
+                            focusable="false"
+                            role="img"
+                            viewBox="0 0 16 16"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              clip-rule="evenodd"
+                              d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
+                              fill="currentColor"
+                              fill-rule="evenodd"
+                            />
+                            <title>
+                              Select
+                            </title>
+                          </svg>
+                        </div>
+                      </div>
+                    </button>
+                  </li>
+                  <li
+                    class="MuiBox-root emotion-12"
+                  >
+                    <button
+                      aria-describedby="okta_email_2-ctaLabel"
+                      aria-labelledby="okta_email_2-label"
+                      class="authenticator-row authButton MuiBox-root emotion-21"
+                      data-se="authenticator-button"
+                      tabindex="0"
+                      type="button"
+                    >
+                      <div
+                        class="authenticator-icon-container MuiBox-root emotion-8"
+                        data-se="authenticator-icon"
+                      >
+                        <div
+                          aria-hidden="true"
+                          class="iconContainer mfa-okta-email authenticator-icon MuiBox-root emotion-23"
+                          data-se="factor-beacon"
+                        >
+                          <svg
+                            aria-labelledby="okta_email_2"
+                            fill="none"
+                            height="48"
+                            role="img"
+                            viewBox="0 0 48 48"
+                            width="48"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <title
+                              id="okta_email_2"
+                            >
+                              Email Authentication
+                            </title>
+                            <circle
+                              class="siwFillBg"
+                              cx="24"
+                              cy="24"
+                              fill="#F5F5F6"
+                              r="24"
+                            />
+                            <path
+                              class="siwFillSecondary"
+                              d="M32 18v1h5.3L32 24.29v1.42l6-6.01v12.8a1.5 1.5 0 0 1-1.5 1.5h-17a1.5 1.5 0 0 1-1.5-1.5V31h-1v1.5a2.5 2.5 0 0 0 2.5 2.5h17a2.5 2.5 0 0 0 2.5-2.5V18h-7Z"
+                              fill="#A7B5EC"
+                            />
+                            <path
+                              class="siwFillPrimaryDark"
+                              d="M9 13v14.5a2.5 2.5 0 0 0 2.5 2.5h17a2.5 2.5 0 0 0 2.5-2.5V13H9Zm20.293 1-8.81 8.81L10.794 14h18.499ZM28.5 29h-17a1.5 1.5 0 0 1-1.5-1.5V14.63l10.517 9.56L30 14.707V27.5a1.5 1.5 0 0 1-1.5 1.5Z"
+                              fill="#00297A"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                      <div
+                        class="authenticator-description infoSection MuiBox-root emotion-8"
+                      >
+                        <h3
+                          class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-25"
+                          data-se="authenticator-button-label"
+                          id="okta_email_2-label"
+                        >
+                          Email
+                        </h3>
+                        <div
+                          class="cta-button authenticator-button actionName MuiBox-root emotion-8"
+                          data-se="okta_email"
+                        >
+                          <span
+                            class="button select-factor link-button MuiBox-root emotion-27"
+                            data-se="cta-button-label"
+                            id="okta_email_2-ctaLabel"
+                          >
+                            Select
+                          </span>
+                          <svg
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-28"
+                            fill="none"
+                            focusable="false"
+                            role="img"
+                            viewBox="0 0 16 16"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              clip-rule="evenodd"
+                              d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
+                              fill="currentColor"
+                              fill-rule="evenodd"
+                            />
+                            <title>
+                              Select
+                            </title>
+                          </svg>
+                        </div>
+                      </div>
+                    </button>
+                  </li>
+                  <li
+                    class="MuiBox-root emotion-12"
+                  >
+                    <button
+                      aria-describedby="phone_number_3-description phone_number_3-ctaLabel"
+                      aria-labelledby="phone_number_3-label"
+                      class="authenticator-row authButton MuiBox-root emotion-21"
+                      data-se="authenticator-button"
+                      tabindex="0"
+                      type="button"
+                    >
+                      <div
+                        class="authenticator-icon-container MuiBox-root emotion-8"
+                        data-se="authenticator-icon"
+                      >
+                        <div
+                          aria-hidden="true"
+                          class="iconContainer mfa-okta-phone authenticator-icon MuiBox-root emotion-23"
+                          data-se="factor-beacon"
+                        >
+                          <svg
+                            aria-labelledby="phone_number_3"
+                            fill="none"
+                            height="48"
+                            role="img"
+                            viewBox="0 0 48 48"
+                            width="48"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <title
+                              id="phone_number_3"
+                            >
+                              Voice Call Authentication
+                            </title>
+                            <circle
+                              class="siwFillBg"
+                              cx="24"
+                              cy="24"
+                              fill="#F5F5F6"
+                              r="24"
+                            />
+                            <path
+                              class="siwFillPrimaryDark"
+                              d="M21.5 37h-9a2.6 2.6 0 0 1-2.5-2.682V14.682A2.6 2.6 0 0 1 12.5 12h9a2.6 2.6 0 0 1 2.5 2.682v19.636A2.6 2.6 0 0 1 21.5 37Zm-9-24a1.6 1.6 0 0 0-1.5 1.682v19.636A1.6 1.6 0 0 0 12.5 36h9a1.6 1.6 0 0 0 1.5-1.682V14.682A1.6 1.6 0 0 0 21.5 13h-9Z"
+                              fill="#00297A"
+                            />
+                            <path
+                              class="siwFillPrimaryDark"
+                              d="M19 34h-4v1h4v-1Zm-1-19a1 1 0 1 0-2 0 1 1 0 0 0 2 0Z"
+                              fill="#00297A"
+                            />
+                            <path
+                              class="siwFillSecondary"
+                              d="M34.606 34.606 33.9 33.9a13.998 13.998 0 0 0 0-19.8l.707-.707a15 15 0 0 1 0 21.212l-.001.001Z"
+                              fill="#A7B5EC"
+                            />
+                            <path
+                              class="siwFillSecondary"
+                              d="m31.071 31.071-.707-.707a9 9 0 0 0 0-12.728l.707-.707a10 10 0 0 1 0 14.142Zm-3.535-3.536-.707-.707a4 4 0 0 0 0-5.656l.707-.707a5 5 0 0 1 0 7.07Z"
+                              fill="#A7B5EC"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                      <div
+                        class="authenticator-description infoSection MuiBox-root emotion-8"
+                      >
+                        <h3
+                          class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-25"
+                          data-se="authenticator-button-label"
+                          id="phone_number_3-label"
+                        >
+                          Phone
+                        </h3>
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text no-translate emotion-53"
+                          data-se="authenticator-button-description"
+                          id="phone_number_3-description"
+                        >
+                          +1 XXX-XXX-5309
+                        </p>
+                        <div
+                          class="cta-button authenticator-button actionName MuiBox-root emotion-8"
+                          data-se="phone_number"
+                        >
+                          <span
+                            class="button select-factor link-button MuiBox-root emotion-27"
+                            data-se="cta-button-label"
+                            id="phone_number_3-ctaLabel"
+                          >
+                            Select
+                          </span>
+                          <svg
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-28"
+                            fill="none"
+                            focusable="false"
+                            role="img"
+                            viewBox="0 0 16 16"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              clip-rule="evenodd"
+                              d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
+                              fill="currentColor"
+                              fill-rule="evenodd"
+                            />
+                            <title>
+                              Select
+                            </title>
+                          </svg>
+                        </div>
+                      </div>
+                    </button>
+                  </li>
+                  <li
+                    class="MuiBox-root emotion-12"
+                  >
+                    <button
+                      aria-describedby="phone_number_4-description phone_number_4-ctaLabel"
+                      aria-labelledby="phone_number_4-label"
+                      class="authenticator-row authButton MuiBox-root emotion-21"
+                      data-se="authenticator-button"
+                      tabindex="0"
+                      type="button"
+                    >
+                      <div
+                        class="authenticator-icon-container MuiBox-root emotion-8"
+                        data-se="authenticator-icon"
+                      >
+                        <div
+                          aria-hidden="true"
+                          class="iconContainer mfa-okta-phone authenticator-icon MuiBox-root emotion-23"
+                          data-se="factor-beacon"
+                        >
+                          <svg
+                            aria-labelledby="phone_number_4"
+                            fill="none"
+                            height="48"
+                            role="img"
+                            viewBox="0 0 48 48"
+                            width="48"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <title
+                              id="phone_number_4"
+                            >
+                              Voice Call Authentication
+                            </title>
+                            <circle
+                              class="siwFillBg"
+                              cx="24"
+                              cy="24"
+                              fill="#F5F5F6"
+                              r="24"
+                            />
+                            <path
+                              class="siwFillPrimaryDark"
+                              d="M21.5 37h-9a2.6 2.6 0 0 1-2.5-2.682V14.682A2.6 2.6 0 0 1 12.5 12h9a2.6 2.6 0 0 1 2.5 2.682v19.636A2.6 2.6 0 0 1 21.5 37Zm-9-24a1.6 1.6 0 0 0-1.5 1.682v19.636A1.6 1.6 0 0 0 12.5 36h9a1.6 1.6 0 0 0 1.5-1.682V14.682A1.6 1.6 0 0 0 21.5 13h-9Z"
+                              fill="#00297A"
+                            />
+                            <path
+                              class="siwFillPrimaryDark"
+                              d="M19 34h-4v1h4v-1Zm-1-19a1 1 0 1 0-2 0 1 1 0 0 0 2 0Z"
+                              fill="#00297A"
+                            />
+                            <path
+                              class="siwFillSecondary"
+                              d="M34.606 34.606 33.9 33.9a13.998 13.998 0 0 0 0-19.8l.707-.707a15 15 0 0 1 0 21.212l-.001.001Z"
+                              fill="#A7B5EC"
+                            />
+                            <path
+                              class="siwFillSecondary"
+                              d="m31.071 31.071-.707-.707a9 9 0 0 0 0-12.728l.707-.707a10 10 0 0 1 0 14.142Zm-3.535-3.536-.707-.707a4 4 0 0 0 0-5.656l.707-.707a5 5 0 0 1 0 7.07Z"
+                              fill="#A7B5EC"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                      <div
+                        class="authenticator-description infoSection MuiBox-root emotion-8"
+                      >
+                        <h3
+                          class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-25"
+                          data-se="authenticator-button-label"
+                          id="phone_number_4-label"
+                        >
+                          Phone
+                        </h3>
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text no-translate emotion-53"
+                          data-se="authenticator-button-description"
+                          id="phone_number_4-description"
+                        >
+                          +1 XXX-XXX-5310
+                        </p>
+                        <div
+                          class="cta-button authenticator-button actionName MuiBox-root emotion-8"
+                          data-se="phone_number"
+                        >
+                          <span
+                            class="button select-factor link-button MuiBox-root emotion-27"
+                            data-se="cta-button-label"
+                            id="phone_number_4-ctaLabel"
+                          >
+                            Select
+                          </span>
+                          <svg
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-28"
+                            fill="none"
+                            focusable="false"
+                            role="img"
+                            viewBox="0 0 16 16"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              clip-rule="evenodd"
+                              d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
+                              fill="currentColor"
+                              fill-rule="evenodd"
+                            />
+                            <title>
+                              Select
+                            </title>
+                          </svg>
+                        </div>
+                      </div>
+                    </button>
+                  </li>
+                  <li
+                    class="MuiBox-root emotion-12"
+                  >
+                    <button
+                      aria-describedby="security_question_5-ctaLabel"
+                      aria-labelledby="security_question_5-label"
+                      class="authenticator-row authButton MuiBox-root emotion-21"
+                      data-se="authenticator-button"
+                      tabindex="0"
+                      type="button"
+                    >
+                      <div
+                        class="authenticator-icon-container MuiBox-root emotion-8"
+                        data-se="authenticator-icon"
+                      >
+                        <div
+                          aria-hidden="true"
+                          class="iconContainer mfa-okta-security-question authenticator-icon MuiBox-root emotion-23"
+                          data-se="factor-beacon"
+                        >
+                          <svg
+                            aria-labelledby="security_question_5"
+                            fill="none"
+                            height="48"
+                            role="img"
+                            viewBox="0 0 48 48"
+                            width="48"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <title
+                              id="security_question_5"
+                            >
+                              Security Question
+                            </title>
+                            <circle
+                              class="siwFillBg"
+                              cx="24"
+                              cy="24"
+                              fill="#F5F5F6"
+                              r="24"
+                            />
+                            <path
+                              class="siwFillSecondary"
+                              d="m24.25 39.123-4.615-3.433a21.799 21.799 0 0 1-8.827-16.259l-.329-5.738 12.84-4.534a2.818 2.818 0 0 1 1.862 0l12.84 4.534-.329 5.738a21.8 21.8 0 0 1-8.827 16.259l-4.615 3.433ZM11.521 14.387l.285 4.987a20.811 20.811 0 0 0 8.425 15.514l4.019 2.989 4.019-2.989a20.81 20.81 0 0 0 8.425-15.514l.285-4.987L24.848 10.1a1.792 1.792 0 0 0-1.2 0l-12.127 4.287Z"
+                              fill="#A7B5EC"
+                            />
+                            <path
+                              class="siwFillPrimaryDark"
+                              d="M29.44 19.729a5.007 5.007 0 0 0-8.846-2.356 4.484 4.484 0 0 0-.827 4.385l.929-.367A3.48 3.48 0 0 1 21.369 18a4.027 4.027 0 1 1 5.244 5.972C25 25 23.5 26.252 23.5 28.528h1c0-1.691 1.058-2.7 2.646-3.707a5.067 5.067 0 0 0 2.294-5.092Zm-5.454 12.246a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z"
+                              fill="#00297A"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                      <div
+                        class="authenticator-description infoSection MuiBox-root emotion-8"
+                      >
+                        <h3
+                          class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-25"
+                          data-se="authenticator-button-label"
+                          id="security_question_5-label"
+                        >
+                          Security Question
+                        </h3>
+                        <div
+                          class="cta-button authenticator-button actionName MuiBox-root emotion-8"
+                          data-se="security_question"
+                        >
+                          <span
+                            class="button select-factor link-button MuiBox-root emotion-27"
+                            data-se="cta-button-label"
+                            id="security_question_5-ctaLabel"
+                          >
+                            Select
+                          </span>
+                          <svg
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-28"
+                            fill="none"
+                            focusable="false"
+                            role="img"
+                            viewBox="0 0 16 16"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              clip-rule="evenodd"
+                              d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
+                              fill="currentColor"
+                              fill-rule="evenodd"
+                            />
+                            <title>
+                              Select
+                            </title>
+                          </svg>
+                        </div>
+                      </div>
+                    </button>
+                  </li>
+                  <li
+                    class="MuiBox-root emotion-12"
+                  >
+                    <button
+                      aria-describedby="okta_verify_6-description okta_verify_6-ctaLabel"
+                      aria-labelledby="okta_verify_6-label"
+                      class="authenticator-row authButton MuiBox-root emotion-21"
+                      data-se="authenticator-button"
+                      tabindex="0"
+                      type="button"
+                    >
+                      <div
+                        class="authenticator-icon-container MuiBox-root emotion-8"
+                        data-se="authenticator-icon"
+                      >
+                        <div
+                          aria-hidden="true"
+                          class="iconContainer mfa-okta-verify authenticator-icon MuiBox-root emotion-23"
+                          data-se="factor-beacon"
+                        >
+                          <svg
+                            aria-labelledby="okta_verify_6"
+                            fill="none"
+                            height="48"
+                            role="img"
+                            viewBox="0 0 48 48"
+                            width="48"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <title
+                              id="okta_verify_6"
+                            >
+                              Okta Verify
+                            </title>
+                            <circle
+                              class="siwFillBg"
+                              cx="24"
+                              cy="24"
+                              fill="#F5F5F6"
+                              r="24"
+                            />
+                            <path
+                              clip-rule="evenodd"
+                              d="M32.872 22.853a8.947 8.947 0 1 1-2.288-4.91L24 24.498l-3.205-3.19c-.482-.48-1.322-.48-1.804 0a1.26 1.26 0 0 0-.374.898c0 .34.133.659.374.898l4.107 4.09c.24.239.561.371.902.371.336 0 .664-.136.902-.372L38.636 13.52a18.089 18.089 0 0 0-1.634-1.967A17.947 17.947 0 0 0 24 6C14.059 6 6 14.059 6 24s8.059 18 18 18 18-8.059 18-18c0-2.972-.722-5.775-1.998-8.245l-7.13 7.098Z"
+                              fill="#00297A"
+                              fill-rule="evenodd"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                      <div
+                        class="authenticator-description infoSection MuiBox-root emotion-8"
+                      >
+                        <h3
+                          class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-25"
+                          data-se="authenticator-button-label"
+                          id="okta_verify_6-label"
+                        >
+                          Use Okta FastPass
+                        </h3>
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-53"
+                          data-se="authenticator-button-description"
+                          id="okta_verify_6-description"
+                        >
+                          Okta Verify
+                        </p>
+                        <div
+                          class="cta-button authenticator-button actionName MuiBox-root emotion-8"
+                          data-se="okta_verify-signed_nonce"
+                        >
+                          <span
+                            class="button select-factor link-button MuiBox-root emotion-27"
+                            data-se="cta-button-label"
+                            id="okta_verify_6-ctaLabel"
+                          >
+                            Select
+                          </span>
+                          <svg
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-28"
+                            fill="none"
+                            focusable="false"
+                            role="img"
+                            viewBox="0 0 16 16"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              clip-rule="evenodd"
+                              d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
+                              fill="currentColor"
+                              fill-rule="evenodd"
+                            />
+                            <title>
+                              Select
+                            </title>
+                          </svg>
+                        </div>
+                      </div>
+                    </button>
+                  </li>
+                  <li
+                    class="MuiBox-root emotion-12"
+                  >
+                    <button
+                      aria-describedby="google_otp_7-ctaLabel"
+                      aria-labelledby="google_otp_7-label"
+                      class="authenticator-row authButton MuiBox-root emotion-21"
+                      data-se="authenticator-button"
+                      tabindex="0"
+                      type="button"
+                    >
+                      <div
+                        class="authenticator-icon-container MuiBox-root emotion-8"
+                        data-se="authenticator-icon"
+                      >
+                        <div
+                          aria-hidden="true"
+                          class="iconContainer mfa-google-auth authenticator-icon MuiBox-root emotion-23"
+                          data-se="factor-beacon"
+                        >
+                          <svg
+                            aria-labelledby="google_otp_7"
+                            fill="none"
+                            height="48"
+                            role="img"
+                            viewBox="0 0 48 48"
+                            width="48"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <title
+                              id="google_otp_7"
+                            >
+                              Google Authenticator
+                            </title>
+                            <path
+                              class="siwFillBg"
+                              clip-rule="evenodd"
+                              d="M24 48C37.2548 48 48 37.2548 48 24C48 10.7452 37.2548 0 24 0C10.7452 0 0 10.7452 0 24C0 37.2548 10.7452 48 24 48Z"
+                              fill="#F5F5F6"
+                              fill-rule="evenodd"
+                            />
+                            <path
+                              clip-rule="evenodd"
+                              d="M39.5 26.9545C41.1569 26.9545 42.5 25.6113 42.5 23.9545C42.5 22.2976 41.1569 20.9545 39.5 20.9545H28.6963L34.0982 11.5981C34.9266 10.1632 34.435 8.32845 33.0001 7.50002C31.5652 6.67159 29.7304 7.16322 28.902 8.5981L18.304 26.9545H39.5Z"
+                              fill="#1A73E7"
+                              fill-rule="evenodd"
+                            />
+                            <path
+                              clip-rule="evenodd"
+                              d="M18.0981 8.5981C17.2697 7.16322 15.4349 6.67159 14 7.50002C12.5651 8.32845 12.0735 10.1632 12.9019 11.5981L18.3039 20.9545H21.7681L23.5001 17.9546L18.0981 8.5981Z"
+                              fill="#FABB04"
+                              fill-rule="evenodd"
+                            />
+                            <path
+                              clip-rule="evenodd"
+                              d="M21.768 20.9545H7.5C5.84315 20.9545 4.5 22.2976 4.5 23.9545C4.5 25.6114 5.84315 26.9545 7.5 26.9545H18.3039L21.768 20.9545Z"
+                              fill="#34A753"
+                              fill-rule="evenodd"
+                            />
+                            <path
+                              clip-rule="evenodd"
+                              d="M18.304 26.9545L12.9021 36.3109C12.0736 37.7458 12.5653 39.5806 14.0001 40.409C15.435 41.2374 17.2698 40.7458 18.0982 39.3109L23.5001 29.9546L28.902 39.3109C29.7304 40.7458 31.5652 41.2374 33 40.409C34.4349 39.5805 34.9265 37.7458 34.0981 36.3109L28.6962 26.9545H18.304Z"
+                              fill="#E94335"
+                              fill-rule="evenodd"
+                            />
+                            <path
+                              clip-rule="evenodd"
+                              d="M23.5001 17.9546L28.6962 26.9545H18.304L23.5001 17.9546Z"
+                              fill="#174EA5"
+                              fill-rule="evenodd"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                      <div
+                        class="authenticator-description infoSection MuiBox-root emotion-8"
+                      >
+                        <h3
+                          class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-25"
+                          data-se="authenticator-button-label"
+                          id="google_otp_7-label"
+                        >
+                          Google Authenticator
+                        </h3>
+                        <div
+                          class="cta-button authenticator-button actionName MuiBox-root emotion-8"
+                          data-se="google_otp"
+                        >
+                          <span
+                            class="button select-factor link-button MuiBox-root emotion-27"
+                            data-se="cta-button-label"
+                            id="google_otp_7-ctaLabel"
+                          >
+                            Select
+                          </span>
+                          <svg
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-28"
+                            fill="none"
+                            focusable="false"
+                            role="img"
+                            viewBox="0 0 16 16"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              clip-rule="evenodd"
+                              d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
+                              fill="currentColor"
+                              fill-rule="evenodd"
+                            />
+                            <title>
+                              Select
+                            </title>
+                          </svg>
+                        </div>
+                      </div>
+                    </button>
+                  </li>
+                  <li
+                    class="MuiBox-root emotion-12"
+                  >
+                    <button
+                      aria-describedby="onprem_mfa_8-ctaLabel"
+                      aria-labelledby="onprem_mfa_8-label"
+                      class="authenticator-row authButton MuiBox-root emotion-21"
+                      data-se="authenticator-button"
+                      tabindex="0"
+                      type="button"
+                    >
+                      <div
+                        class="authenticator-icon-container MuiBox-root emotion-8"
+                        data-se="authenticator-icon"
+                      >
+                        <div
+                          aria-hidden="true"
+                          class="iconContainer mfa-onprem authenticator-icon MuiBox-root emotion-23"
+                          data-se="factor-beacon"
+                        >
+                          <svg
+                            aria-labelledby="onprem_mfa_8"
+                            fill="none"
+                            height="48"
+                            role="img"
+                            viewBox="0 0 48 48"
+                            width="48"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <title
+                              id="onprem_mfa_8"
+                            >
+                              Enter a single-use code from a hardware token.
+                            </title>
+                            <path
+                              class="siwFillBg"
+                              clip-rule="evenodd"
+                              d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
+                              fill="#F5F5F6"
+                              fill-rule="evenodd"
+                            />
+                            <path
+                              class="siwFillPrimaryDark"
+                              d="M39 20h-8v-3H16.5a7.5 7.5 0 0 0 0 15H31v-3h8v-9Zm-9 11H16.5a6.5 6.5 0 1 1 0-13H30v13Zm8-3h-7v-7h7v7Z"
+                              fill="#00297A"
+                            />
+                            <path
+                              class="siwFillSecondary"
+                              d="M15.5 28a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0-6a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5Z"
+                              fill="#A7B5EC"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                      <div
+                        class="authenticator-description infoSection MuiBox-root emotion-8"
+                      >
+                        <h3
+                          class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-25"
+                          data-se="authenticator-button-label"
+                          id="onprem_mfa_8-label"
+                        >
+                          Atko Custom On-prem
+                        </h3>
+                        <div
+                          class="cta-button authenticator-button actionName MuiBox-root emotion-8"
+                          data-se="onprem_mfa"
+                        >
+                          <span
+                            class="button select-factor link-button MuiBox-root emotion-27"
+                            data-se="cta-button-label"
+                            id="onprem_mfa_8-ctaLabel"
+                          >
+                            Select
+                          </span>
+                          <svg
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-28"
+                            fill="none"
+                            focusable="false"
+                            role="img"
+                            viewBox="0 0 16 16"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              clip-rule="evenodd"
+                              d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
+                              fill="currentColor"
+                              fill-rule="evenodd"
+                            />
+                            <title>
+                              Select
+                            </title>
+                          </svg>
+                        </div>
+                      </div>
+                    </button>
+                  </li>
+                  <li
+                    class="MuiBox-root emotion-12"
+                  >
+                    <button
+                      aria-describedby="rsa_token_9-ctaLabel"
+                      aria-labelledby="rsa_token_9-label"
+                      class="authenticator-row authButton MuiBox-root emotion-21"
+                      data-se="authenticator-button"
+                      tabindex="0"
+                      type="button"
+                    >
+                      <div
+                        class="authenticator-icon-container MuiBox-root emotion-8"
+                        data-se="authenticator-icon"
+                      >
+                        <div
+                          aria-hidden="true"
+                          class="iconContainer mfa-rsa authenticator-icon MuiBox-root emotion-23"
+                          data-se="factor-beacon"
+                        >
+                          <svg
+                            aria-labelledby="rsa_token_9"
+                            fill="none"
+                            height="48"
+                            role="img"
+                            viewBox="0 0 48 48"
+                            width="48"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <title
+                              id="rsa_token_9"
+                            >
+                              RSA SecurID
+                            </title>
+                            <path
+                              class="siwFillBg"
+                              clip-rule="evenodd"
+                              d="M24 48C37.2548 48 48 37.2548 48 24C48 10.7452 37.2548 0 24 0C10.7452 0 0 10.7452 0 24C0 37.2548 10.7452 48 24 48Z"
+                              fill="#F5F5F6"
+                              fill-rule="evenodd"
+                            />
+                            <path
+                              d="M26.5875 22.9472C26.2842 22.7225 26.009 22.5148 25.7788 22.2115H18.3937L18.287 22.2059C16.9953 22.1104 15.99 21.0209 15.99 19.7292C15.99 18.3589 17.1076 17.2413 18.4779 17.2413L18.9609 17.2581L18.9665 16.8594C18.989 15.7193 19.9268 14.8039 21.0557 14.8039C21.4993 14.8039 21.9205 14.9387 22.28 15.197L22.6731 15.4834L22.8697 15.0398C23.4144 13.8155 24.6331 13.0292 25.9697 13.0292C27.5928 13.0292 28.9519 14.1749 29.2888 15.7025C29.5752 15.7249 29.8504 15.7699 30.1144 15.8485C29.8336 13.8099 28.0814 12.2374 25.9697 12.2374C24.4702 12.2374 23.0943 13.0405 22.3474 14.3209C21.9486 14.1187 21.505 14.012 21.0501 14.012C19.618 14.012 18.4105 15.0791 18.1971 16.4606C16.5123 16.601 15.1869 18.0107 15.1869 19.7292C15.1869 21.3129 16.3326 22.6608 17.8545 22.9528H26.5875V22.9472Z"
+                              fill="black"
+                            />
+                            <path
+                              d="M31.9284 18.8306C31.8666 18.6397 31.788 18.4543 31.6981 18.2802C31.6925 18.269 31.6869 18.2578 31.6813 18.2465L28.7385 21.1725L27.2109 19.6899C27.0536 19.5382 27.0536 19.2855 27.2053 19.1283C27.3569 18.971 27.6096 18.971 27.7669 19.1226L28.7272 20.0605L31.1983 17.6063C31.1871 17.5951 31.1758 17.5838 31.1702 17.5726C31.1646 17.567 31.159 17.5614 31.1477 17.5558C30.5918 17.011 29.8336 16.674 28.9968 16.674C27.3007 16.674 25.9248 18.05 25.9248 19.746C25.9248 21.4421 27.3007 22.818 28.9968 22.818C30.1649 22.818 31.1758 22.1665 31.6981 21.2118C31.7936 21.0377 31.8722 20.8524 31.9284 20.6614C31.9901 20.4705 32.0295 20.2683 32.0519 20.0605C32.0632 19.9594 32.0688 19.8527 32.0688 19.746C32.0688 19.6393 32.0632 19.5326 32.0519 19.4315C32.0295 19.2237 31.9901 19.0216 31.9284 18.8306Z"
+                              fill="#00B9E4"
+                            />
+                            <path
+                              d="M7.54547 29.9486C7.62971 30.1059 7.73642 30.2351 7.8712 30.3305C8.00599 30.426 8.16324 30.499 8.34857 30.5496C8.5339 30.5945 8.71923 30.6226 8.91579 30.6226C9.05058 30.6226 9.19098 30.6113 9.34261 30.5889C9.49424 30.5664 9.63465 30.5271 9.76943 30.4597C9.90422 30.3979 10.0109 30.3081 10.1008 30.2014C10.1906 30.089 10.2356 29.9486 10.2356 29.7802C10.2356 29.5948 10.1794 29.4488 10.0615 29.3365C9.94353 29.2242 9.7919 29.1287 9.60095 29.0557C9.41 28.9827 9.19659 28.9153 8.96072 28.8591C8.71923 28.803 8.47774 28.7412 8.23063 28.6682C7.97791 28.6064 7.7308 28.5278 7.49493 28.4379C7.25344 28.3481 7.04003 28.2301 6.8547 28.0841C6.66375 27.9381 6.51212 27.7584 6.39418 27.5394C6.27624 27.3203 6.22008 27.0564 6.22008 26.7475C6.22008 26.3993 6.29309 26.1016 6.44472 25.8433C6.59636 25.585 6.78731 25.3772 7.0288 25.2031C7.27029 25.0346 7.53986 24.9054 7.84312 24.8268C8.14639 24.7426 8.44966 24.7032 8.75292 24.7032C9.10674 24.7032 9.4437 24.7426 9.76943 24.8212C10.0952 24.8998 10.3816 25.029 10.6343 25.2031C10.887 25.3772 11.0892 25.6074 11.2352 25.877C11.3812 26.1522 11.4599 26.4835 11.4599 26.8767H10.0222C10.0109 26.6745 9.96599 26.506 9.89299 26.3768C9.81998 26.242 9.7245 26.141 9.60657 26.0623C9.48863 25.9893 9.34823 25.9332 9.19659 25.8995C9.04496 25.8658 8.87648 25.8545 8.69115 25.8545C8.57321 25.8545 8.44966 25.8658 8.33172 25.8939C8.21378 25.9163 8.10146 25.9612 8.00599 26.0286C7.91052 26.0904 7.82627 26.169 7.7645 26.2645C7.70272 26.36 7.66903 26.4779 7.66903 26.6239C7.66903 26.7587 7.69149 26.8654 7.74203 26.9441C7.79258 27.0283 7.89367 27.1013 8.03969 27.1687C8.1857 27.2361 8.3935 27.3091 8.65184 27.3765C8.91579 27.4439 9.25275 27.5337 9.67957 27.6404C9.80313 27.6629 9.98284 27.7135 10.2019 27.7752C10.4265 27.8426 10.6455 27.9493 10.8702 28.0897C11.0892 28.2357 11.2802 28.4267 11.443 28.6738C11.6059 28.9153 11.6845 29.2242 11.6845 29.6061C11.6845 29.915 11.6227 30.2014 11.5048 30.4653C11.3869 30.7293 11.2071 30.9595 10.9713 31.1505C10.7354 31.3414 10.4434 31.4931 10.0895 31.5998C9.74135 31.7065 9.337 31.7626 8.87648 31.7626C8.50582 31.7626 8.14639 31.7177 7.79258 31.6278C7.44438 31.538 7.1355 31.392 6.86593 31.1954C6.59636 30.9988 6.38295 30.7517 6.2257 30.4485C6.06845 30.1452 5.98982 29.7858 6.00106 29.3702H7.43877C7.42754 29.6005 7.46685 29.7914 7.54547 29.9486Z"
+                              fill="black"
+                            />
+                            <path
+                              d="M13.8411 30.4372C14.0432 30.6338 14.3353 30.7293 14.7116 30.7293C14.9811 30.7293 15.217 30.6619 15.4136 30.5271C15.6101 30.3923 15.7281 30.2463 15.773 30.0947H16.9524C16.7614 30.6787 16.475 31.0999 16.0819 31.3527C15.6888 31.6054 15.217 31.7289 14.6666 31.7289C14.2847 31.7289 13.9365 31.6672 13.6277 31.5436C13.3188 31.4201 13.0548 31.246 12.8414 31.0213C12.628 30.7967 12.4595 30.5215 12.3472 30.207C12.2293 29.8925 12.1731 29.5443 12.1731 29.168C12.1731 28.803 12.2349 28.4604 12.3528 28.1459C12.4707 27.8314 12.6448 27.5562 12.8639 27.3259C13.0829 27.0957 13.3469 26.916 13.6557 26.7812C13.959 26.6464 14.3016 26.5846 14.6722 26.5846C15.0878 26.5846 15.4529 26.6632 15.7618 26.8261C16.0706 26.989 16.3234 27.2024 16.5255 27.472C16.7221 27.7415 16.8681 28.0504 16.958 28.3986C17.0478 28.7468 17.0759 29.1062 17.0535 29.4881H13.5266C13.5322 29.9262 13.6389 30.2463 13.8411 30.4372ZM15.363 27.8651C15.2002 27.691 14.9587 27.6011 14.6329 27.6011C14.4195 27.6011 14.2398 27.6348 14.0994 27.7078C13.959 27.7808 13.8467 27.8707 13.7568 27.9774C13.6726 28.0841 13.6108 28.1964 13.5771 28.32C13.5434 28.4379 13.521 28.5446 13.5153 28.6401H15.7C15.6326 28.3031 15.5203 28.0448 15.363 27.8651Z"
+                              fill="black"
+                            />
+                            <path
+                              d="M20.1648 27.6011C19.9514 27.6011 19.7717 27.6517 19.6257 27.7472C19.4796 27.8426 19.3617 27.9718 19.2718 28.1234C19.182 28.2807 19.1146 28.4492 19.0753 28.6345C19.036 28.8198 19.0191 29.0051 19.0191 29.1849C19.0191 29.359 19.036 29.5387 19.0753 29.724C19.1146 29.9093 19.1764 30.0722 19.2606 30.2182C19.3449 30.3642 19.4628 30.4878 19.6032 30.5833C19.7492 30.6787 19.9233 30.7237 20.1311 30.7237C20.4512 30.7237 20.6983 30.6338 20.8724 30.4541C21.0465 30.2744 21.1532 30.0329 21.1981 29.7296H22.4955C22.4056 30.3811 22.1529 30.8753 21.7373 31.2123C21.3217 31.5548 20.7882 31.7233 20.1423 31.7233C19.7773 31.7233 19.4403 31.6615 19.1371 31.538C18.8338 31.4144 18.5698 31.246 18.3564 31.0213C18.143 30.8023 17.9745 30.5383 17.8566 30.2294C17.7387 29.9262 17.6769 29.5892 17.6769 29.2242C17.6769 28.8479 17.733 28.4941 17.8397 28.1684C17.9521 27.8426 18.1149 27.5618 18.3283 27.3259C18.5418 27.0901 18.8057 26.9047 19.1146 26.7756C19.4235 26.6408 19.7773 26.579 20.176 26.579C20.4681 26.579 20.7432 26.6183 21.0128 26.6913C21.2824 26.7643 21.5183 26.8823 21.7317 27.0339C21.9451 27.1912 22.1136 27.3821 22.2484 27.6124C22.3831 27.8426 22.4561 28.1122 22.473 28.4323H21.1588C21.069 27.8819 20.7432 27.6011 20.1648 27.6011Z"
+                              fill="black"
+                            />
+                            <path
+                              d="M26.567 31.611V30.9315H26.5389C26.3705 31.2123 26.1458 31.4201 25.8762 31.5436C25.6067 31.6672 25.3259 31.7346 25.0451 31.7346C24.6856 31.7346 24.3936 31.6896 24.1633 31.5942C23.9331 31.4987 23.7534 31.3639 23.6186 31.1898C23.4838 31.0157 23.3939 30.8079 23.3378 30.5552C23.2816 30.3081 23.2592 30.0329 23.2592 29.7296V26.725H24.6014V29.4825C24.6014 29.8869 24.6632 30.1845 24.7923 30.3867C24.9159 30.5833 25.1405 30.6844 25.4607 30.6844C25.8257 30.6844 26.0896 30.5777 26.2525 30.3586C26.4154 30.1396 26.4996 29.7858 26.4996 29.286V26.725H27.8419V31.611H26.567Z"
+                              fill="black"
+                            />
+                            <path
+                              d="M30.1389 26.725V27.6348H30.1557C30.2175 27.4832 30.3017 27.3428 30.4084 27.2136C30.5151 27.0845 30.6387 26.9721 30.7791 26.8823C30.9195 26.7924 31.0655 26.7194 31.2228 26.6689C31.38 26.6183 31.5429 26.5959 31.717 26.5959C31.8068 26.5959 31.9023 26.6127 32.009 26.6408V27.8875C31.9472 27.8763 31.8686 27.8651 31.7844 27.8539C31.6945 27.8426 31.6103 27.837 31.5316 27.837C31.2845 27.837 31.0767 27.8763 30.9083 27.9606C30.7398 28.0448 30.5994 28.1571 30.4983 28.2975C30.3916 28.4379 30.3186 28.6064 30.2736 28.7917C30.2287 28.9827 30.2063 29.1849 30.2063 29.4039V31.6054H28.864V26.7194H30.1389V26.725Z"
+                              fill="black"
+                            />
+                            <path
+                              d="M34.1656 24.8605V31.611H32.683V24.8605H34.1656Z"
+                              fill="black"
+                            />
+                            <path
+                              d="M38.3832 24.8605C38.8157 24.8605 39.2256 24.9279 39.5963 25.0683C39.9726 25.2087 40.2983 25.4165 40.5679 25.6917C40.8431 25.9669 41.0565 26.3151 41.2081 26.7307C41.3598 27.1462 41.4384 27.6348 41.4384 28.1964C41.4384 28.6907 41.3766 29.1399 41.2474 29.5555C41.1239 29.9711 40.9329 30.3305 40.6746 30.6338C40.4219 30.9371 40.1018 31.173 39.7199 31.3471C39.338 31.5212 38.8887 31.6054 38.372 31.6054H35.4629V24.8605H38.3832ZM38.2765 30.3642C38.4899 30.3642 38.6977 30.3305 38.8999 30.2575C39.1021 30.1901 39.2818 30.0722 39.4391 29.915C39.5963 29.7521 39.7255 29.5443 39.8153 29.286C39.9108 29.0276 39.9557 28.7131 39.9557 28.3425C39.9557 27.9999 39.922 27.6966 39.8546 27.4214C39.7873 27.1462 39.6806 26.9104 39.5289 26.7194C39.3773 26.5229 39.1751 26.3768 38.928 26.2701C38.6809 26.1634 38.372 26.1129 38.007 26.1129H36.9455V30.3642H38.2765Z"
+                              fill="black"
+                            />
+                            <path
+                              d="M40.6465 25.0121V24.9335H41.2137V25.0121H40.9778V25.6411H40.8824V25.0121H40.6465Z"
+                              fill="black"
+                            />
+                            <path
+                              d="M41.4215 24.9335L41.6462 25.5288L41.8708 24.9335H42V25.6411H41.9101V25.0514L41.6911 25.6411H41.6125L41.3934 25.0514V25.6411H41.3036V24.9335H41.4215Z"
+                              fill="black"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                      <div
+                        class="authenticator-description infoSection MuiBox-root emotion-8"
+                      >
+                        <h3
+                          class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-25"
+                          data-se="authenticator-button-label"
+                          id="rsa_token_9-label"
+                        >
+                          RSA SecurID
+                        </h3>
+                        <div
+                          class="cta-button authenticator-button actionName MuiBox-root emotion-8"
+                          data-se="rsa_token"
+                        >
+                          <span
+                            class="button select-factor link-button MuiBox-root emotion-27"
+                            data-se="cta-button-label"
+                            id="rsa_token_9-ctaLabel"
+                          >
+                            Select
+                          </span>
+                          <svg
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-28"
+                            fill="none"
+                            focusable="false"
+                            role="img"
+                            viewBox="0 0 16 16"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              clip-rule="evenodd"
+                              d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
+                              fill="currentColor"
+                              fill-rule="evenodd"
+                            />
+                            <title>
+                              Select
+                            </title>
+                          </svg>
+                        </div>
+                      </div>
+                    </button>
+                  </li>
+                  <li
+                    class="MuiBox-root emotion-12"
+                  >
+                    <button
+                      aria-describedby="duo_10-ctaLabel"
+                      aria-labelledby="duo_10-label"
+                      class="authenticator-row authButton MuiBox-root emotion-21"
+                      data-se="authenticator-button"
+                      tabindex="0"
+                      type="button"
+                    >
+                      <div
+                        class="authenticator-icon-container MuiBox-root emotion-8"
+                        data-se="authenticator-icon"
+                      >
+                        <div
+                          aria-hidden="true"
+                          class="iconContainer mfa-duo authenticator-icon MuiBox-root emotion-23"
+                          data-se="factor-beacon"
+                        >
+                          <svg
+                            aria-labelledby="duo_10"
+                            fill="none"
+                            height="48"
+                            role="img"
+                            viewBox="0 0 48 48"
+                            width="48"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <title
+                              id="duo_10"
+                            >
+                              Duo Security
+                            </title>
+                            <path
+                              class="siwFillBg"
+                              clip-rule="evenodd"
+                              d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
+                              fill="#F5F5F6"
+                              fill-rule="evenodd"
+                            />
+                            <path
+                              clip-rule="evenodd"
+                              d="M10.632 17H4v6.13h13.25c-.197-3.418-3.085-6.13-6.618-6.13Zm7.242 0v6.506c0 3.466 2.766 6.3 6.25 6.494V17h-6.25Zm13.886 6.13c.2-3.418 3.087-6.13 6.62-6.13s6.42 2.712 6.62 6.13H31.76Zm-6.873 6.859h6.238v-6.114a6.32 6.32 0 0 0 .012-.375V17h-6.25v12.989Zm-14.255.01H4v-6.124h13.25C17.054 27.291 14.166 30 10.633 30ZM38.38 30c-3.533 0-6.42-2.709-6.62-6.125H45C44.801 27.291 41.913 30 38.38 30Z"
+                              fill="#77AF54"
+                              fill-rule="evenodd"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                      <div
+                        class="authenticator-description infoSection MuiBox-root emotion-8"
+                      >
+                        <h3
+                          class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-25"
+                          data-se="authenticator-button-label"
+                          id="duo_10-label"
+                        >
+                          Duo Security
+                        </h3>
+                        <div
+                          class="cta-button authenticator-button actionName MuiBox-root emotion-8"
+                          data-se="duo"
+                        >
+                          <span
+                            class="button select-factor link-button MuiBox-root emotion-27"
+                            data-se="cta-button-label"
+                            id="duo_10-ctaLabel"
+                          >
+                            Select
+                          </span>
+                          <svg
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-28"
+                            fill="none"
+                            focusable="false"
+                            role="img"
+                            viewBox="0 0 16 16"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              clip-rule="evenodd"
+                              d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
+                              fill="currentColor"
+                              fill-rule="evenodd"
+                            />
+                            <title>
+                              Select
+                            </title>
+                          </svg>
+                        </div>
+                      </div>
+                    </button>
+                  </li>
+                  <li
+                    class="MuiBox-root emotion-12"
+                  >
+                    <button
+                      aria-describedby="external_idp_11-ctaLabel"
+                      aria-labelledby="external_idp_11-label"
+                      class="authenticator-row authButton MuiBox-root emotion-21"
+                      data-se="authenticator-button"
+                      tabindex="0"
+                      type="button"
+                    >
+                      <div
+                        class="authenticator-icon-container MuiBox-root emotion-8"
+                        data-se="authenticator-icon"
+                      >
+                        <div
+                          aria-hidden="true"
+                          class="iconContainer mfa-custom-factor authenticator-icon MuiBox-root emotion-23"
+                          data-se="factor-beacon"
+                        >
+                          <svg
+                            aria-labelledby="external_idp_11"
+                            fill="none"
+                            height="48"
+                            role="img"
+                            viewBox="0 0 48 48"
+                            width="48"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <title
+                              id="external_idp_11"
+                            >
+                              Redirect to a third party MFA provider to sign in.
+                            </title>
+                            <path
+                              class="siwFillBg"
+                              clip-rule="evenodd"
+                              d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
+                              fill="#F5F5F6"
+                              fill-rule="evenodd"
+                            />
+                            <path
+                              class="siwFillSecondary"
+                              d="M15 29.5a5 5 0 1 1 4.78-6.5h1.03a6 6 0 1 0 0 3h-1.03A5.013 5.013 0 0 1 15 29.5Z"
+                              fill="#A7B5EC"
+                            />
+                            <path
+                              class="siwFillPrimaryDark"
+                              d="M27.5 36a11.433 11.433 0 0 1-6.61-2.088l-.186-.134.592-.806.17.123a10.5 10.5 0 1 0-.166-17.066l-.592-.806A11.5 11.5 0 1 1 27.5 36Z"
+                              fill="#00297A"
+                            />
+                            <path
+                              class="siwFillPrimaryDark"
+                              d="m29.354 19.646-.708.708L32.293 24H14.707l1.647-1.646-.708-.708-2.853 2.854 2.853 2.854.708-.708L14.707 25h17.586l-3.647 3.646.708.708 4.853-4.854-4.853-4.854Z"
+                              fill="#00297A"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                      <div
+                        class="authenticator-description infoSection MuiBox-root emotion-8"
+                      >
+                        <h3
+                          class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-25"
+                          data-se="authenticator-button-label"
+                          id="external_idp_11-label"
+                        >
+                          IDP Authenticator
+                        </h3>
+                        <div
+                          class="cta-button authenticator-button actionName MuiBox-root emotion-8"
+                          data-se="external_idp"
+                        >
+                          <span
+                            class="button select-factor link-button MuiBox-root emotion-27"
+                            data-se="cta-button-label"
+                            id="external_idp_11-ctaLabel"
+                          >
+                            Select
+                          </span>
+                          <svg
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-28"
+                            fill="none"
+                            focusable="false"
+                            role="img"
+                            viewBox="0 0 16 16"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              clip-rule="evenodd"
+                              d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
+                              fill="currentColor"
+                              fill-rule="evenodd"
+                            />
+                            <title>
+                              Select
+                            </title>
+                          </svg>
+                        </div>
+                      </div>
+                    </button>
+                  </li>
+                  <li
+                    class="MuiBox-root emotion-12"
+                  >
+                    <button
+                      aria-describedby="custom_otp_12-ctaLabel"
+                      aria-labelledby="custom_otp_12-label"
+                      class="authenticator-row authButton MuiBox-root emotion-21"
+                      data-se="authenticator-button"
+                      tabindex="0"
+                      type="button"
+                    >
+                      <div
+                        class="authenticator-icon-container MuiBox-root emotion-8"
+                        data-se="authenticator-icon"
+                      >
+                        <div
+                          aria-hidden="true"
+                          class="iconContainer mfa-hotp authenticator-icon MuiBox-root emotion-23"
+                          data-se="factor-beacon"
+                        >
+                          <svg
+                            aria-labelledby="custom_otp_12"
+                            fill="none"
+                            height="48"
+                            role="img"
+                            viewBox="0 0 48 48"
+                            width="48"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <title
+                              id="custom_otp_12"
+                            >
+                              Enter a single-use code from an authenticator.
+                            </title>
+                            <path
+                              class="siwFillBg"
+                              clip-rule="evenodd"
+                              d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
+                              fill="#F5F5F6"
+                              fill-rule="evenodd"
+                            />
+                            <path
+                              class="siwFillSecondary"
+                              d="M28 23h-6v-6h1v5h5v1Z"
+                              fill="#A7B5EC"
+                            />
+                            <path
+                              class="siwFillSecondary"
+                              d="m29.39 14.32 1.46-1.47-.7-.7-1.6 1.59A11.323 11.323 0 0 0 23 12.03V10h2V9h-5v1h2v2.03c-1.967.078-3.88.667-5.55 1.71l-1.6-1.59-.7.7 1.46 1.47A11.459 11.459 0 0 0 13.79 31h1.37a10.5 10.5 0 1 1 14.68 0h1.37a11.459 11.459 0 0 0-1.82-16.68Z"
+                              fill="#A7B5EC"
+                            />
+                            <path
+                              class="siwFillPrimaryDark"
+                              d="m21.257 33.929-.514-.858L19 34.117V32h-1v2.117l-1.743-1.046-.514.858L17.528 35l-1.785 1.071.514.858L18 35.883V38h1v-2.117l1.743 1.046.514-.858L19.472 35l1.785-1.071Zm8 0-.514-.858L27 34.117V32h-1v2.117l-1.743-1.046-.514.858L25.528 35l-1.785 1.071.514.858L26 35.883V38h1v-2.117l1.743 1.046.514-.858L27.472 35l1.785-1.071Zm8 0-.514-.858L35 34.117V32h-1v2.117l-1.743-1.046-.514.858L33.528 35l-1.785 1.071.514.858L34 35.883V38h1v-2.117l1.743 1.046.514-.858L35.472 35l1.785-1.071Z"
+                              fill="#00297A"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                      <div
+                        class="authenticator-description infoSection MuiBox-root emotion-8"
+                      >
+                        <h3
+                          class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-25"
+                          data-se="authenticator-button-label"
+                          id="custom_otp_12-label"
+                        >
+                          Atko Custom OTP Authenticator
+                        </h3>
+                        <div
+                          class="cta-button authenticator-button actionName MuiBox-root emotion-8"
+                          data-se="custom_otp"
+                        >
+                          <span
+                            class="button select-factor link-button MuiBox-root emotion-27"
+                            data-se="cta-button-label"
+                            id="custom_otp_12-ctaLabel"
+                          >
+                            Select
+                          </span>
+                          <svg
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-28"
+                            fill="none"
+                            focusable="false"
+                            role="img"
+                            viewBox="0 0 16 16"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              clip-rule="evenodd"
+                              d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
+                              fill="currentColor"
+                              fill-rule="evenodd"
+                            />
+                            <title>
+                              Select
+                            </title>
+                          </svg>
+                        </div>
+                      </div>
+                    </button>
+                  </li>
+                  <li
+                    class="MuiBox-root emotion-12"
+                  >
+                    <button
+                      aria-describedby="symantec_vip_13-ctaLabel"
+                      aria-labelledby="symantec_vip_13-label"
+                      class="authenticator-row authButton MuiBox-root emotion-21"
+                      data-se="authenticator-button"
+                      tabindex="0"
+                      type="button"
+                    >
+                      <div
+                        class="authenticator-icon-container MuiBox-root emotion-8"
+                        data-se="authenticator-icon"
+                      >
+                        <div
+                          aria-hidden="true"
+                          class="iconContainer mfa-symantec authenticator-icon MuiBox-root emotion-23"
+                          data-se="factor-beacon"
+                        >
+                          <svg
+                            aria-labelledby="symantec_vip_13"
+                            fill="none"
+                            height="48"
+                            role="img"
+                            viewBox="0 0 48 48"
+                            width="48"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <title
+                              id="symantec_vip_13"
+                            >
+                              Symantec VIP
+                            </title>
+                            <path
+                              class="siwFillBg"
+                              clip-rule="evenodd"
+                              d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
+                              fill="#F5F5F6"
+                              fill-rule="evenodd"
+                            />
+                            <path
+                              d="M40.92 5v1.046H42V5h-1.08Zm0 2.092v1.046H42V7.092h-1.08Zm-3.243 1.046v1.047h1.08V8.138h-1.08Zm-14.141.784C14.954 8.922 8 15.654 8 23.96 8 32.267 14.954 39 23.536 39c8.581 0 15.536-6.732 15.536-15.04 0-8.307-6.955-15.038-15.535-15.038h-.001Zm0 4.796c5.839 0 10.583 4.59 10.583 10.242 0 5.652-4.744 10.244-10.583 10.244-5.84 0-10.537-4.591-10.537-10.244 0-5.652 4.698-10.242 10.537-10.242Z"
+                              fill="#FDB511"
+                            />
+                            <path
+                              d="M39.839 6.046v1.046h1.08V6.046h-1.08Zm0 1.046h-2.162v1.046h2.162V7.092Zm-2.162 1.046h-1.08v2.093h1.08V8.138Zm0 2.093v1.046h1.08V10.23h-1.08Zm1.08 0h1.082V9.185h-1.081v1.046Zm-1.08 1.046h-1.08v1.046h-1.082v-1.046h-2.161v1.046h-1.08v1.046h1.08v1.046h-1.08V13.37h-1.082v1.046h-1.08v1.046H29.03v4.185h2.161V18.6h1.081v-1.046h1.08v-1.046h-1.08V15.46h1.08v1.047h1.082V15.46h1.08v-1.046h1.081V13.37h1.08v-2.092Zm-2.162 0h1.081V10.23h-1.08v1.046Zm0-1.046V9.185h-1.08v1.046h1.08Z"
+                              fill="#000"
+                            />
+                            <path
+                              d="M23.294 24.178c1.124-2.76 1.834-4.259 4.656-7.67l2.162-.002v4.185c-3.005 2.77-3.643 5.076-4.136 7.306-.304 1.36-.304 2.145-1.898 2.328-.298 0-1.076-.254-1.398-.828-.403-.724-1.602-3.501-2.566-5.188-.822-1.438-2.008-2.61-3.063-3.879-.402-.484-.608-.895-.27-1.352.337-.456.582-.385 1.08-.26 2.636 1.14 4.158 2.863 5.433 5.36Z"
+                              fill="#000"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                      <div
+                        class="authenticator-description infoSection MuiBox-root emotion-8"
+                      >
+                        <h3
+                          class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-25"
+                          data-se="authenticator-button-label"
+                          id="symantec_vip_13-label"
+                        >
+                          Symantec VIP
+                        </h3>
+                        <div
+                          class="cta-button authenticator-button actionName MuiBox-root emotion-8"
+                          data-se="symantec_vip"
+                        >
+                          <span
+                            class="button select-factor link-button MuiBox-root emotion-27"
+                            data-se="cta-button-label"
+                            id="symantec_vip_13-ctaLabel"
+                          >
+                            Select
+                          </span>
+                          <svg
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-28"
+                            fill="none"
+                            focusable="false"
+                            role="img"
+                            viewBox="0 0 16 16"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              clip-rule="evenodd"
+                              d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
+                              fill="currentColor"
+                              fill-rule="evenodd"
+                            />
+                            <title>
+                              Select
+                            </title>
+                          </svg>
+                        </div>
+                      </div>
+                    </button>
+                  </li>
+                  <li
+                    class="MuiBox-root emotion-12"
+                  >
+                    <button
+                      aria-describedby="yubikey_token_14-ctaLabel"
+                      aria-labelledby="yubikey_token_14-label"
+                      class="authenticator-row authButton MuiBox-root emotion-21"
+                      data-se="authenticator-button"
+                      tabindex="0"
+                      type="button"
+                    >
+                      <div
+                        class="authenticator-icon-container MuiBox-root emotion-8"
+                        data-se="authenticator-icon"
+                      >
+                        <div
+                          aria-hidden="true"
+                          class="iconContainer mfa-yubikey authenticator-icon MuiBox-root emotion-23"
+                          data-se="factor-beacon"
+                        >
+                          <svg
+                            aria-labelledby="yubikey_token_14"
+                            fill="none"
+                            height="48"
+                            role="img"
+                            viewBox="0 0 48 48"
+                            width="48"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <title
+                              id="yubikey_token_14"
+                            >
+                              YubiKey
+                            </title>
+                            <path
+                              class="siwFillBg"
+                              clip-rule="evenodd"
+                              d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
+                              fill="#F5F5F6"
+                              fill-rule="evenodd"
+                            />
+                            <circle
+                              cx="24"
+                              cy="24"
+                              fill="#fff"
+                              r="18.5"
+                              stroke="#A3C753"
+                              stroke-width="3"
+                            />
+                            <path
+                              d="m24.406 23.977 1.416-3.996c.723-2.04 1.454-4.08 2.16-6.127.13-.382.328-.525.722-.52 1.466.014 2.933.004 4.4.006.7.001.748.064.49.701-.66 1.62-1.33 3.236-1.988 4.856-1.165 2.872-2.319 5.748-3.486 8.618-1.098 2.7-2.205 5.397-3.315 8.092-.396.961-.405.957-1.472.958-1.417.001-2.833.004-4.25 0-.605-.002-.646-.077-.407-.636.746-1.747 1.482-3.497 2.236-5.24.15-.345.16-.658.022-1.009-1.836-4.666-3.664-9.334-5.494-14.002-.23-.589-.468-1.176-.695-1.767-.164-.425-.084-.564.361-.567 1.6-.01 3.2 0 4.8-.01.38-.002.52.227.63.527.5 1.36 1.004 2.72 1.506 4.08l2.095 5.671c.045.122.101.241.151.361l.118.004Z"
+                              fill="#A3C753"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                      <div
+                        class="authenticator-description infoSection MuiBox-root emotion-8"
+                      >
+                        <h3
+                          class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-25"
+                          data-se="authenticator-button-label"
+                          id="yubikey_token_14-label"
+                        >
+                          YubiKey Authenticator
+                        </h3>
+                        <div
+                          class="cta-button authenticator-button actionName MuiBox-root emotion-8"
+                          data-se="yubikey_token"
+                        >
+                          <span
+                            class="button select-factor link-button MuiBox-root emotion-27"
+                            data-se="cta-button-label"
+                            id="yubikey_token_14-ctaLabel"
+                          >
+                            Select
+                          </span>
+                          <svg
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-28"
+                            fill="none"
+                            focusable="false"
+                            role="img"
+                            viewBox="0 0 16 16"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              clip-rule="evenodd"
+                              d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
+                              fill="currentColor"
+                              fill-rule="evenodd"
+                            />
+                            <title>
+                              Select
+                            </title>
+                          </svg>
+                        </div>
+                      </div>
+                    </button>
+                  </li>
+                  <li
+                    class="MuiBox-root emotion-12"
+                  >
+                    <button
+                      aria-describedby="custom_app_15-description custom_app_15-ctaLabel"
+                      aria-labelledby="custom_app_15-label"
+                      class="authenticator-row authButton MuiBox-root emotion-21"
+                      data-se="authenticator-button"
+                      tabindex="0"
+                      type="button"
+                    >
+                      <div
+                        class="authenticator-icon-container MuiBox-root emotion-8"
+                        data-se="authenticator-icon"
+                      >
+                        <div
+                          aria-hidden="true"
+                          class="iconContainer mfa-custom-app-logo authenticator-icon MuiBox-root emotion-23"
+                          data-se="factor-beacon"
+                        >
+                          <img
+                            alt="Redirect to a third party MFA provider to sign in."
+                            class="custom-logo MuiBox-root emotion-162"
+                            src="/img/logos/default.png"
+                          />
+                        </div>
+                      </div>
+                      <div
+                        class="authenticator-description infoSection MuiBox-root emotion-8"
+                      >
+                        <h3
+                          class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-25"
+                          data-se="authenticator-button-label"
+                          id="custom_app_15-label"
+                        >
+                          Get a push notification
+                        </h3>
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text no-translate emotion-53"
+                          data-se="authenticator-button-description"
+                          id="custom_app_15-description"
+                        >
+                          Custom Push App
+                        </p>
+                        <div
+                          class="cta-button authenticator-button actionName MuiBox-root emotion-8"
+                          data-se="custom_app"
+                        >
+                          <span
+                            class="button select-factor link-button MuiBox-root emotion-27"
+                            data-se="cta-button-label"
+                            id="custom_app_15-ctaLabel"
+                          >
+                            Select
+                          </span>
+                          <svg
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-28"
+                            fill="none"
+                            focusable="false"
+                            role="img"
+                            viewBox="0 0 16 16"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              clip-rule="evenodd"
+                              d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
+                              fill="currentColor"
+                              fill-rule="evenodd"
+                            />
+                            <title>
+                              Select
+                            </title>
+                          </svg>
+                        </div>
+                      </div>
+                    </button>
+                  </li>
+                </ul>
+              </div>
+              <div
+                class="MuiBox-root emotion-12"
+              >
+                <button
+                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-170"
+                  data-se="cancel"
+                  role="link"
+                >
+                  Back to sign in
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+`;

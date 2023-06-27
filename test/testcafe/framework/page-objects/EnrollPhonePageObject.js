@@ -1,9 +1,12 @@
 import BasePageObject from './BasePageObject';
+import { userVariables } from 'testcafe';
+import { within } from '@testing-library/testcafe';
 
 const PASSCODE_FIELD_NAME = 'credentials.passcode';
 const PHONE_NUMBER_SELECTOR = '.phone-authenticator-enroll__phone';
 const PHONE_NUMBER_EXTENSION_SELECTOR = '.phone-authenticator-enroll__phone-ext';
-const phoneFieldName = 'authenticator\\.phoneNumber';
+const PHONE_FIELD_NAME = 'authenticator\\.phoneNumber';
+const PHONE_CODE_FIELD_NAME = 'phoneCode';
 const RESEND_VIEW_SELECTOR = '.phone-authenticator-enroll--warning';
 const PHONE_NUMBER_COUNTRY_CODE = '.phone-authenticator-enroll__phone-code';
 
@@ -17,7 +20,11 @@ export default class EnrollAuthenticatorPhonePageObject extends BasePageObject {
     return this.form.selectRadioButtonOptionByValue('authenticator\\.methodType', methodType);
   }
 
-  extensionIsHidden() {
+  async extensionIsHidden() {
+    if (userVariables.v3) {
+      const exists = await this.form.fieldByLabelExists('Extension');
+      return !exists;
+    }
     return this.form.getElement(PHONE_NUMBER_EXTENSION_SELECTOR).hasClass('hide');
   }
 
@@ -26,10 +33,16 @@ export default class EnrollAuthenticatorPhonePageObject extends BasePageObject {
   }
 
   hasPhoneNumberError() {
-    return this.form.hasTextBoxError(phoneFieldName);
+    if (userVariables.v3) {
+      return this.form.hasTextBoxErrorMessage(PHONE_FIELD_NAME);    
+    }
+    return this.form.hasTextBoxErrorMessage(PHONE_CODE_FIELD_NAME);
   }
 
-  clickSaveButton() {
+  clickSaveButton(name) {
+    if (userVariables.v3) {
+      return this.form.clickSaveButton(name);
+    }
     return this.form.clickSaveButton();
   }
 
@@ -38,20 +51,26 @@ export default class EnrollAuthenticatorPhonePageObject extends BasePageObject {
   }
 
   getCountryCodeValue() {
+    if (userVariables.v3) {
+      return within(this.form.el).findByLabelText('Phone number').parent('div').innerText;
+    }
     return this.form.getElement(PHONE_NUMBER_COUNTRY_CODE).innerText;
   }
 
   fillPhoneNumber(value) {
-    return this.form.setTextBoxValue(phoneFieldName, value);
+    return this.form.setTextBoxValue(PHONE_FIELD_NAME, value);
   }
 
   phoneNumberFieldIsSmall() {
+    if (userVariables.v3) {
+      return this.form.elementExist('[inputmode="tel"]');
+    }
     return this.form.getElement(PHONE_NUMBER_SELECTOR)
       .hasClass('phone-authenticator-enroll__phone--small');
   }
 
   clickNextButton() {
-    return this.form.clickSaveButton();
+    return this.form.clickSaveButton('Verify');
   }
 
   verifyFactor(name, value) {
@@ -69,9 +88,31 @@ export default class EnrollAuthenticatorPhonePageObject extends BasePageObject {
   getInvalidOTPFieldError() {
     return this.form.getTextBoxErrorMessage(PASSCODE_FIELD_NAME);
   }
+  
+  resendCodeText(index) {
+    if (userVariables.v3) {
+      if (index === undefined) {
+        index = 0;
+      }
+      return this.form.getErrorBoxTextByIndex(index);
+    }
+    return this.form.getElement(RESEND_VIEW_SELECTOR).innerText;
+  }
 
-  resendEmailView() {
-    return this.form.getElement(RESEND_VIEW_SELECTOR);
+  async resendCodeExists(index) {
+    if (userVariables.v3) {
+      if (index === undefined) {
+        index = 0;
+      }
+      return this.form.hasAlertBox(index);
+    }
+
+    const isHidden = await this.form.getElement(RESEND_VIEW_SELECTOR).hasClass('hide');
+    return !isHidden;
+  }
+
+  formFieldExistsByLabel(label) {
+    return this.form.fieldByLabelExists(label);
   }
 
 }

@@ -5,8 +5,7 @@ import { checkConsoleMessages, renderWidget } from '../framework/shared';
 import xhrIdentifyWithPassword from '../../../playground/mocks/data/idp/idx/identify-with-password';
 import xhrIdentifyRecover from '../../../playground/mocks/data/idp/idx/identify-recovery';
 import xhrErrorIdentify from '../../../playground/mocks/data/idp/idx/error-identify-access-denied';
-import xhrErrorIdentifyAccessDeniedCustomMessage
-from '../../../playground/mocks/data/idp/idx/error-identify-access-denied-custom-message';
+import xhrErrorIdentifyAccessDeniedCustomMessage from '../../../playground/mocks/data/idp/idx/error-identify-access-denied-custom-message';
 
 const identifyWithPasswordMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -30,11 +29,13 @@ const identifyRequestLogger = RequestLogger(
   }
 );
 
-fixture('Identify + Password');
+fixture('Identify + Password')
+  .meta('v3', true);
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
   await identityPage.navigateToPage();
+  await t.expect(identityPage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: 'primary-auth',
     formName: 'identify',
@@ -49,18 +50,16 @@ test.requestHooks(identifyWithPasswordMock)('should show errors if required fiel
   const identityPage = await setup(t);
   await checkA11y(t);
 
-  await identityPage.clickNextButton();
+  await identityPage.clickSignInButton();
   await identityPage.waitForErrorBox();
 
-  await t.expect(identityPage.hasIdentifierError()).eql(true);
   await t.expect(identityPage.hasIdentifierErrorMessage()).eql(true);
   await t.expect(identityPage.getIdentifierErrorMessage()).eql('This field cannot be left blank');
 
   await identityPage.fillIdentifierField('Test Identifier');
-  await identityPage.clickNextButton();
+  await identityPage.clickSignInButton();
   await identityPage.waitForErrorBox();
 
-  await t.expect(identityPage.hasPasswordError()).eql(true);
   await t.expect(identityPage.hasPasswordErrorMessage()).eql(true);
   await t.expect(identityPage.getPasswordErrorMessage()).eql('This field cannot be left blank');
 });
@@ -77,19 +76,17 @@ test.requestHooks(identifyWithPasswordMock)('should show customized error if req
     }
   });
 
-  await identityPage.clickNextButton();
+  await identityPage.clickSignInButton();
   await identityPage.waitForErrorBox();
 
-  await t.expect(identityPage.hasIdentifierError()).eql(true);
   await t.expect(identityPage.hasIdentifierErrorMessage()).eql(true);
   await t.expect(identityPage.getIdentifierErrorMessage()).eql('Username is required!');
 
 
   await identityPage.fillIdentifierField('Test Identifier');
-  await identityPage.clickNextButton();
+  await identityPage.clickSignInButton();
   await identityPage.waitForErrorBox();
 
-  await t.expect(identityPage.hasPasswordError()).eql(true);
   await t.expect(identityPage.hasPasswordErrorMessage()).eql(true);
   await t.expect(identityPage.getPasswordErrorMessage()).eql('Password is required!');
 });
@@ -101,12 +98,12 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should have 
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.fillPasswordField('random password 123');
   await t.expect(await identityPage.hasForgotPasswordLinkText()).ok();
-  await t.expect(await identityPage.getForgotPasswordLinkText()).eql('Forgot password?');
+  await t.expect(await identityPage.helpLinkExists()).eql(true);
 
   await t.expect(await identityPage.hasShowTogglePasswordIcon()).ok();
   await t.expect(identityPage.getSaveButtonLabel()).eql('Sign in');
 
-  await identityPage.clickNextButton();
+  await identityPage.clickSignInButton();
 
   await t.expect(identifyRequestLogger.count(() => true)).eql(1);
   const req = identifyRequestLogger.requests[0].request;
@@ -131,7 +128,8 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should have 
   await t.expect(await identityPage.hasShowTogglePasswordIcon()).ok();
 });
 
-test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should not have password toggle if features.showPasswordToggleOnSignInPage is false', async t => {
+// OKTA-555502 - showPasswordToggleOnSignInPage feature not supported yet
+test.meta('v3', false).requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should not have password toggle if features.showPasswordToggleOnSignInPage is false', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
   await renderWidget({
@@ -140,7 +138,8 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should not h
   await t.expect(await identityPage.hasShowTogglePasswordIcon()).notOk();
 });
 
-test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should not have password toggle if "features.showPasswordToggleOnSignInPage" is false', async t => {
+// OKTA-555502 - showPasswordToggleOnSignInPage feature not supported yet
+test.meta('v3', false).requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should not have password toggle if "features.showPasswordToggleOnSignInPage" is false', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
   await renderWidget({
@@ -164,13 +163,14 @@ test.requestHooks(identifyWithPasswordMock)('should add sub labels for Username 
   await t.expect(identityPage.getPasswordSubLabelValue()).eql('Your password goes here');
 });
 
-test.requestHooks(identifyWithPasswordErrorMock)('should show custom access denied error message', async t => {
+// OKTA-585921 - custom error message links not supported in gen3 widget
+test.meta('v3', false).requestHooks(identifyWithPasswordErrorMock)('should show custom access denied error message', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
 
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.fillPasswordField('adasdas');
-  await identityPage.clickNextButton();
+  await identityPage.clickSignInButton();
   await identityPage.waitForErrorBox();
   await t.expect(identityPage.form.getErrorBoxHtml()).eql('<span data-se="icon" class="icon error-16"></span><div class="custom-access-denied-error-message"><p>You do not have permission to perform the requested action.</p><ul class="custom-links"><li><a href="https://www.okta.com/" target="_blank" rel="noopener noreferrer">Help link 1</a></li><li><a href="https://www.okta.com/help?page=1" target="_blank" rel="noopener noreferrer">Help link 2</a></li></ul></div>');
 });
@@ -182,7 +182,7 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should not t
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.clickShowPasswordIcon();
   await identityPage.fillPasswordField('  password with whitespace  ');
-  await identityPage.clickNextButton();
+  await identityPage.clickSignInButton();
 
   await t.expect(identifyRequestLogger.count(() => true)).eql(1);
   const req = identifyRequestLogger.requests[0].request;

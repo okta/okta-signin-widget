@@ -1,4 +1,4 @@
-import { Selector } from 'testcafe';
+import { Selector, userVariables } from 'testcafe';
 import BasePageObject from './BasePageObject';
 
 const COPY_BUTTON_CLASS = '.copy-clipboard-button';
@@ -8,7 +8,6 @@ export default class DeviceEnrollmentTerminalPageObject extends BasePageObject {
   constructor(t) {
     super(t);
     this.t = t;
-    this.beacon = new Selector('.beacon-container');
     this.body = new Selector('.device-enrollment-terminal');
     this.footer = new Selector('.auth-footer');
   }
@@ -26,7 +25,7 @@ export default class DeviceEnrollmentTerminalPageObject extends BasePageObject {
   }
 
   getBackLink() {
-    return Selector('[data-se="back-to-preselect"]');
+    return this.form.getLink('Back');
   }
 
   async clickBackLink() {
@@ -37,23 +36,24 @@ export default class DeviceEnrollmentTerminalPageObject extends BasePageObject {
     return this.getBackLink().innerText;
   }
 
-  getBeaconClass() {
-    return this.beacon.find('[data-se="factor-beacon"]').getAttribute('class');
-  }
-
-  getHeader() {
-    return this.getTextContent('[data-se="o-form-head"]');
-  }
-
   getSubHeader() {
+    if (userVariables.v3) {
+      return this.form.getSubtitle();
+    }
     return this.getTextContent('[data-se="subheader"]');
   }
 
   getContentText() {
+    if(userVariables.v3) {
+      return this.getTextContent('[data-se="o-form"]');
+    }
     return this.getTextContent('[data-se="o-form-fieldset-container"]');
   }
 
   getContentByIndex(idx = 1) {
+    if (userVariables.v3) {
+      return this.getTextContent(`ol li:nth-of-type(${idx})`);
+    }
     return this.getTextContent(`.o-form-fieldset-container ol li:nth-of-type(${idx})`);
   }
 
@@ -66,6 +66,9 @@ export default class DeviceEnrollmentTerminalPageObject extends BasePageObject {
   }
 
   getCopyButtonLabel() {
+    if(userVariables.v3) {
+      return this.form.getButton('Copy link to clipboard').innerText;
+    }
     return this.getTextContent(COPY_BUTTON_CLASS);
   }
 
@@ -74,6 +77,9 @@ export default class DeviceEnrollmentTerminalPageObject extends BasePageObject {
   }
 
   getCopyOrgLinkButtonLabel() {
+    if(userVariables.v3) {
+      return this.form.getButton('Copy sign-in URL to clipboard').innerText;
+    }
     return this.getTextContent(COPY_ORG_LINK_BUTTON_CLASS);
   }
 

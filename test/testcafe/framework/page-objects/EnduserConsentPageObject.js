@@ -1,4 +1,5 @@
 import ConsentPageObject from './ConsentPageObject';
+import { userVariables } from 'testcafe';
 
 export default class EnduserConsentPageObject extends ConsentPageObject {
   constructor(t) {
@@ -6,22 +7,31 @@ export default class EnduserConsentPageObject extends ConsentPageObject {
   }
 
   clickAllowButton() {
-    return this.form.clickSaveButton();
+    return this.form.clickSaveButtonAsInput();
   }
 
   clickDontAllowButton() {
     return this.form.clickCancelButton();
   }
 
-  getInfoItemTexts() {
+  getInfoItemTextBrowser() {
+    if(userVariables.v3) {
+      return this.form.getElement('[data-se="text-browser"]').innerText;
+    }
     return this.form.getInnerTexts('.enduser-email-consent--info');
   }
 
-  getSaveButtonLabel() {
-    return this.form.getElement('input[type="submit"]').value;
+  getInfoItemTextAppName() {
+    if(userVariables.v3) {
+      return this.form.getElement('[data-se="text-appName"]').innerText;
+    }
+    return this.form.getInnerTexts('.enduser-email-consent--info');
   }
 
   getCancelButtonLabel() {
+    if (userVariables.v3) {
+      return this.form.getElement('[data-type="cancel"]').innerText; 
+    }
     return this.form.getElement('input[data-type="cancel"]').value;
   }
 }

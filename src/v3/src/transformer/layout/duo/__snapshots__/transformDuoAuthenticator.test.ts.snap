@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Duo Authenticator Transformer Tests should add correct title and DuoWindow in enroll flow 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.duo.enroll.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "host": "testhost",
+          "signedToken": "testSignedToken",
+          "step": "enroll-authenticator",
+          "title": "oie.duo.enroll.title",
+        },
+        "type": "DuoWindow",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Duo Authenticator Transformer Tests should add correct title and DuoWindow in verify flow 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.duo.verify.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "host": "testhost",
+          "signedToken": "testSignedToken",
+          "step": "challenge-authenticator",
+          "title": "oie.duo.verify.title",
+        },
+        "type": "DuoWindow",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

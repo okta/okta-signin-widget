@@ -1,4 +1,4 @@
-import { ClientFunction, RequestLogger, RequestMock } from 'testcafe';
+import { ClientFunction, RequestLogger, RequestMock, userVariables } from 'testcafe';
 import xhrEmailVerification from '../../../playground/mocks/data/idp/idx/authenticator-verification-email';
 import xhrSessionExpried from '../../../playground/mocks/data/idp/idx/error-401-session-expired';
 import xhrIdentify from '../../../playground/mocks/data/idp/idx/identify';
@@ -29,6 +29,18 @@ const identifyChallengeMockWithError = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/cancel')
   .respond(xhrIdentify);
 
+const identifyChallengeMockWithSessionExpired = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrIdentify)
+  .onRequestTo('http://localhost:3000/idp/idx/identify')
+  .respond(xhrEmailVerification)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
+  .respond(xhrEmailVerification)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
+  .respond(xhrSessionExpried)
+  .onRequestTo('http://localhost:3000/idp/idx/cancel')
+  .respond(xhrIdentify);
+
 const identifyChallengeMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrIdentify)
@@ -56,6 +68,7 @@ const credentialSSONotExistMock = RequestMock()
 const credentialSSONotExistLogger = RequestLogger(/introspect|verify\/cancel/);
 
 fixture('Session Storage - manage state in client side')
+  .meta('v3', true)
   .afterEach(() => {
     ClientFunction(() => { window.sessionStorage.clear(); });
   });
@@ -99,7 +112,7 @@ test.requestHooks(identifyChallengeMockWithError)('shall save state handle durin
   // Verify
   await challengeEmailPageObject.clickEnterCodeLink();
   await challengeEmailPageObject.verifyFactor('credentials.passcode', '1234');
-  await challengeEmailPageObject.clickNextButton();
+  await challengeEmailPageObject.clickNextButton('Verify');
 
   // Success page
   const pageUrl = await successPage.getPageUrl();
@@ -131,7 +144,7 @@ test.requestHooks(identifyChallengeMockWithError)('shall save state handle durin
   await t.expect(getStateHandleFromSessionStorage()).eql(xhrEmailVerification.stateHandle);
   await challengeEmailPageObject.clickEnterCodeLink();
   await challengeEmailPageObject.verifyFactor('credentials.passcode', '1234');
-  await challengeEmailPageObject.clickNextButton();
+  await challengeEmailPageObject.clickNextButton('Verify');
 
   // Reset mocks
   await t.removeRequestHooks(identifyChallengeMockWithError);
@@ -146,14 +159,18 @@ test.requestHooks(identifyChallengeMockWithError)('shall save state handle durin
   // Verify
   await challengeEmailPageObject.clickEnterCodeLink();
   await challengeEmailPageObject.verifyFactor('credentials.passcode', '1234');
-  await challengeEmailPageObject.clickNextButton();
+  await challengeEmailPageObject.clickNextButton('Verify');
 
   // Terminal page
   await t.expect(terminalPageObject.form.getTitle()).eql('Verify with your email');
   await t.expect(terminalPageObject.getErrorMessages().isError()).eql(true);
   await t.expect(terminalPageObject.getErrorMessages().getTextContent()).eql('This email link has expired. To resend it, return to the screen where you requested it.');
-  // TODO: OKTA-392835 shall not clear state handle at terminal page
-  await t.expect(getStateHandleFromSessionStorage()).eql(null);
+  if (userVariables.v3) {
+    await t.expect(getStateHandleFromSessionStorage()).eql(xhrInvalidOTP.stateHandle);
+  } else {
+    // TODO: OKTA-392835 shall not clear state handle at terminal page
+    await t.expect(getStateHandleFromSessionStorage()).eql(null);
+  }
 });
 
 test.requestHooks(identifyChallengeMockWithError)('shall clear session.stateHandle when click sign-out', async t => {
@@ -174,6 +191,36 @@ test.requestHooks(identifyChallengeMockWithError)('shall clear session.stateHand
 
   // Go back to Identify page after sign-out
   await t.expect(identityPage.form.getTitle()).eql('Sign In');
+  await t.expect(getStateHandleFromSessionStorage()).eql(null);
+});
+
+test.requestHooks(identifyChallengeMockWithSessionExpired)('shall clear session.stateHandle when session expired', async t => {
+  const identityPage = new IdentityPageObject(t);
+  const challengeEmailPageObject = new ChallengeEmailPageObject(t);
+
+  // Identify page
+  await identityPage.navigateToPage();
+  await t.expect(getStateHandleFromSessionStorage()).eql(null);
+  await identityPage.fillIdentifierField('foo@test.com');
+  await identityPage.clickNextButton();
+
+  // Email challenge page
+  const pageTitle = challengeEmailPageObject.form.getTitle();
+  await t.expect(pageTitle).eql('Verify with your email');
+  await challengeEmailPageObject.clickEnterCodeLink();
+  await challengeEmailPageObject.verifyFactor('credentials.passcode', '1234');
+  await challengeEmailPageObject.clickNextButton('Verify');
+
+  // Expect session expired error
+  await t.expect(challengeEmailPageObject.form.getErrorBoxText()).eql('You have been logged out due to inactivity. Refresh or return to the sign in screen.');
+  await t.expect(challengeEmailPageObject.getSignoutLinkText()).eql('Back to sign in');
+
+  // Refresh
+  await challengeEmailPageObject.refresh();
+
+  // Widget should load without session expired error
+  await t.expect(identityPage.getFormTitle()).eql('Sign In');
+  await t.expect(identityPage.getTotalGlobalErrors()).eql(0);
   await t.expect(getStateHandleFromSessionStorage()).eql(null);
 });
 
@@ -259,7 +306,9 @@ test.requestHooks(introspectRequestLogger, identifyChallengeMockWithError)('shal
   await t.expect(getStateHandleFromSessionStorage()).eql(xhrEmailVerification.stateHandle);
 
   // Change apps
-  await t.navigateTo('/app/phpsaml/123/sso/saml');
+  await identityPage.navigateToPage({path: '/app/phpsaml/123/sso/saml'});
+  const pageObject = new BasePageObject(t);
+  await t.expect(pageObject.formExists()).eql(true);
 
   // Verify introspect requests, one for each app visit
   await t.expect(introspectRequestLogger.count(() => true)).eql(2);
@@ -273,6 +322,7 @@ test.requestHooks(introspectRequestLogger, identifyChallengeMockWithError)('shal
 test.requestHooks(credentialSSONotExistLogger, credentialSSONotExistMock)('shall clear session.stateHandle when SSO extension fails', async t => {
   const ssoExtensionPage = new BasePageObject(t);
   await ssoExtensionPage.navigateToPage();
+  await ssoExtensionPage.formExists();
   await t.expect(credentialSSONotExistLogger.count(
     record => record.response.statusCode === 200 &&
       record.request.url.match(/introspect/)
@@ -308,7 +358,8 @@ test.requestHooks(identifyChallengeMock)('shall back to sign-in and authenticate
       ignoreSignature: true,
       pkce: true,
     },
-    stateToken: undefined
+    stateToken: undefined,
+    authScheme: 'oauth2'
   };
   await identityPage.navigateToPage({ render: false });
   await identityPage.mockCrypto();
@@ -335,10 +386,10 @@ test.requestHooks(identifyChallengeMock)('shall back to sign-in and authenticate
   await t.expect(pageTitle).eql('Verify with your email');
   await challengeEmailPageObject.clickEnterCodeLink();
   await challengeEmailPageObject.verifyFactor('credentials.passcode', '1234');
-  await challengeEmailPageObject.clickNextButton();
+  await challengeEmailPageObject.clickNextButton('Verify');
 
   // Check success
-  await checkConsoleMessages([
+  const expectedMessages = [
     'ready',
     'afterRender',
     {
@@ -369,5 +420,15 @@ test.requestHooks(identifyChallengeMock)('shall back to sign-in and authenticate
       accessToken: xhrSuccessTokens.access_token,
       idToken: xhrSuccessTokens.id_token
     }
-  ]);
+  ];
+  if (userVariables.v3) {
+    expectedMessages.push(...[
+      'afterRender',
+      {
+        controller: null,
+        formName: 'cancel'
+      },
+    ]);
+  }
+  await checkConsoleMessages(expectedMessages);
 });

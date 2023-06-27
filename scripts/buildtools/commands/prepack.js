@@ -20,7 +20,6 @@ exports.handler = async () => {
     'src'
   ], `${BUILD_DIR}`);
 
-  shell.echo('Modifying final package.json');
   let packageJSON = JSON.parse(fs.readFileSync(`${BUILD_DIR}/package.json`));
   packageJSON.private = false;
 

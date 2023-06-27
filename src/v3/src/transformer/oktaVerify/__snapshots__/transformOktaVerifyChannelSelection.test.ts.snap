@@ -1,0 +1,437 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TransformOktaVerifyChannelSelection Tests should only append (qrcode/email) channel options when NOT on mobile and sms is the selectedChannel 1`] = `
+Object {
+  "data": Object {
+    "authenticator.channel": "qrcode",
+  },
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.enroll.okta_verify.select.channel.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "label": "oie.enroll.okta_verify.select.channel.description",
+        "options": Object {
+          "customOptions": Array [
+            Object {
+              "label": "oie.enroll.okta_verify.select.channel.qrcode.label",
+              "value": "qrcode",
+            },
+            Object {
+              "label": "oie.enroll.okta_verify.select.channel.email.label",
+              "value": "email",
+            },
+          ],
+          "format": "radio",
+          "inputMeta": Object {
+            "name": "authenticator.channel",
+            "options": Array [
+              Object {
+                "label": "QRCode",
+                "value": "qrcode",
+              },
+              Object {
+                "label": "SMS",
+                "value": "sms",
+              },
+              Object {
+                "label": "EMAIL",
+                "value": "email",
+              },
+            ],
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "label": "oform.next",
+        "options": Object {
+          "step": "select-enrollment-channel",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`TransformOktaVerifyChannelSelection Tests should only append (qrcode/sms) channel options when NOT on mobile and email is the selectedChannel 1`] = `
+Object {
+  "data": Object {
+    "authenticator.channel": "qrcode",
+  },
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.enroll.okta_verify.select.channel.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "label": "oie.enroll.okta_verify.select.channel.description",
+        "options": Object {
+          "customOptions": Array [
+            Object {
+              "label": "oie.enroll.okta_verify.select.channel.qrcode.label",
+              "value": "qrcode",
+            },
+            Object {
+              "label": "oie.enroll.okta_verify.select.channel.sms.label",
+              "value": "sms",
+            },
+          ],
+          "format": "radio",
+          "inputMeta": Object {
+            "name": "authenticator.channel",
+            "options": Array [
+              Object {
+                "label": "QRCode",
+                "value": "qrcode",
+              },
+              Object {
+                "label": "SMS",
+                "value": "sms",
+              },
+              Object {
+                "label": "EMAIL",
+                "value": "email",
+              },
+            ],
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "label": "oform.next",
+        "options": Object {
+          "step": "select-enrollment-channel",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`TransformOktaVerifyChannelSelection Tests should only append (sms/email) channel options when NOT on mobile and qrcode is the selectedChannel 1`] = `
+Object {
+  "data": Object {
+    "authenticator.channel": "sms",
+  },
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.enroll.okta_verify.select.channel.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "label": "oie.enroll.okta_verify.select.channel.description",
+        "options": Object {
+          "customOptions": Array [
+            Object {
+              "label": "oie.enroll.okta_verify.select.channel.sms.label",
+              "value": "sms",
+            },
+            Object {
+              "label": "oie.enroll.okta_verify.select.channel.email.label",
+              "value": "email",
+            },
+          ],
+          "format": "radio",
+          "inputMeta": Object {
+            "name": "authenticator.channel",
+            "options": Array [
+              Object {
+                "label": "QRCode",
+                "value": "qrcode",
+              },
+              Object {
+                "label": "SMS",
+                "value": "sms",
+              },
+              Object {
+                "label": "EMAIL",
+                "value": "email",
+              },
+            ],
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "label": "oform.next",
+        "options": Object {
+          "step": "select-enrollment-channel",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.enroll.okta_verify.switch.channel.link.text",
+          "contentClassname": "switch-channel-link",
+          "step": "select-enrollment-channel",
+        },
+        "type": "TextWithActionLink",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`TransformOktaVerifyChannelSelection Tests should only append (sms/email) channel options when on mobile and email is the selectedChannel 1`] = `
+Object {
+  "data": Object {
+    "authenticator.channel": "qrcode",
+  },
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.enroll.okta_verify.setup.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "label": "oie.enroll.okta_verify.select.channel.description",
+        "options": Object {
+          "customOptions": Array [
+            Object {
+              "label": "oie.enroll.okta_verify.select.channel.qrcode.label",
+              "value": "qrcode",
+            },
+            Object {
+              "label": "oie.enroll.okta_verify.select.channel.sms.label",
+              "value": "sms",
+            },
+          ],
+          "format": "radio",
+          "inputMeta": Object {
+            "name": "authenticator.channel",
+            "options": Array [
+              Object {
+                "label": "QRCode",
+                "value": "qrcode",
+              },
+              Object {
+                "label": "SMS",
+                "value": "sms",
+              },
+              Object {
+                "label": "EMAIL",
+                "value": "email",
+              },
+            ],
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "label": "oform.next",
+        "options": Object {
+          "step": "select-enrollment-channel",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`TransformOktaVerifyChannelSelection Tests should only append (sms/email) channel options when on mobile and qrcode is the selectedChannel 1`] = `
+Object {
+  "data": Object {
+    "authenticator.channel": "sms",
+  },
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.enroll.okta_verify.setup.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "label": "oie.enroll.okta_verify.select.channel.description",
+        "options": Object {
+          "customOptions": Array [
+            Object {
+              "label": "oie.enroll.okta_verify.select.channel.sms.label",
+              "value": "sms",
+            },
+            Object {
+              "label": "oie.enroll.okta_verify.select.channel.email.label",
+              "value": "email",
+            },
+          ],
+          "format": "radio",
+          "inputMeta": Object {
+            "name": "authenticator.channel",
+            "options": Array [
+              Object {
+                "label": "QRCode",
+                "value": "qrcode",
+              },
+              Object {
+                "label": "SMS",
+                "value": "sms",
+              },
+              Object {
+                "label": "EMAIL",
+                "value": "email",
+              },
+            ],
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "label": "oform.next",
+        "options": Object {
+          "step": "select-enrollment-channel",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.enroll.okta_verify.switch.channel.link.text",
+          "contentClassname": "switch-channel-link",
+          "step": "select-enrollment-channel",
+        },
+        "type": "TextWithActionLink",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`TransformOktaVerifyChannelSelection Tests should only append (sms/email) channel options when on mobile and sms is the selectedChannel 1`] = `
+Object {
+  "data": Object {
+    "authenticator.channel": "qrcode",
+  },
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.enroll.okta_verify.setup.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "label": "oie.enroll.okta_verify.select.channel.description",
+        "options": Object {
+          "customOptions": Array [
+            Object {
+              "label": "oie.enroll.okta_verify.select.channel.qrcode.label",
+              "value": "qrcode",
+            },
+            Object {
+              "label": "oie.enroll.okta_verify.select.channel.email.label",
+              "value": "email",
+            },
+          ],
+          "format": "radio",
+          "inputMeta": Object {
+            "name": "authenticator.channel",
+            "options": Array [
+              Object {
+                "label": "QRCode",
+                "value": "qrcode",
+              },
+              Object {
+                "label": "SMS",
+                "value": "sms",
+              },
+              Object {
+                "label": "EMAIL",
+                "value": "email",
+              },
+            ],
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "label": "oform.next",
+        "options": Object {
+          "step": "select-enrollment-channel",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

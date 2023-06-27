@@ -7,6 +7,60 @@
     "type":"array",
     "value":[
       {
+        "rel": [
+          "create-form"
+        ],
+        "name": "authenticator-enrollment-data",
+        "relatesTo": [
+          "$.currentAuthenticator"
+        ],
+        "href": "http://localhost:3000/idp/idx/credential/enroll",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "authenticator",
+            "label": "Phone",
+            "form": {
+              "value": [
+                {
+                  "name": "id",
+                  "required": true,
+                  "id":"aut23bgproCCEkFom0g4",
+                  "mutable": false
+                },
+                {
+                  "name": "methodType",
+                  "type": "string",
+                  "required": true,
+                  "options": [
+                    {
+                      "label": "SMS",
+                      "value": "sms"
+                    },
+                    {
+                      "type": "voice"
+                    }
+                  ]
+                },
+                {
+                  "name": "phoneNumber",
+                  "required": true
+                }
+              ]
+            }
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02A2CNDXsH6luRQV4R-GOWt2_ynSdb3UWg-3Ce_-sN",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      },
+      {
         "rel":[
           "create-form"
         ],
@@ -115,6 +169,42 @@
         "class":"ERROR"
       }
     ]
+  },
+  "currentAuthenticator": {
+    "type": "object",
+    "value": {
+      "resend": {
+        "rel": [
+          "create-form"
+        ],
+        "name": "resend",
+        "href": "http://localhost:3000/idp/idx/challenge/resend",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02A2CNDXsH6luRQV4R-GOWt2_ynSdb3UWg-3Ce_-sN",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      },
+      "type": "phone",
+      "key": "phone_number",
+      "id":"aut23bgproCCEkFom0g4",
+      "displayName": "Phone",
+      "methods": [
+        {
+          "type": "sms"
+        },
+        {
+          "type": "voice"
+        }
+      ]
+    }
   },
   "authenticators":{
     "type":"array",

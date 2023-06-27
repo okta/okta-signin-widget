@@ -1,0 +1,89 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Email Verification Transformer Tests should update methodType element and add appropriate UI elements to schema when redacted email does not exist in Idx response 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.email.challenge.mfa.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.email.verify.subtitle.text.without.email",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "oie.email.verify.primaryButton",
+        "options": Object {
+          "actionParams": Object {
+            "authenticator.methodType": "email",
+          },
+          "step": "",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Email Verification Transformer Tests should update methodType element and add appropriate UI elements to schema when redacted email exists in Idx response 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.email.challenge.mfa.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.email.verify.subtitle.text.with.email",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "oie.email.verify.primaryButton",
+        "options": Object {
+          "actionParams": Object {
+            "authenticator.methodType": "email",
+          },
+          "step": "mock-step",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

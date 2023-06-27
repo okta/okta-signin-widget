@@ -10,12 +10,15 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
 import config from 'config/config.json';
 import fetch from 'cross-fetch';
 import country from 'nls/country.json';
 import login from 'nls/login.json';
 import Q from 'q';
-import { _ } from '@okta/courage';
+import _ from 'underscore';
 import BrowserFeatures from 'util/BrowserFeatures';
 import Logger from 'util/Logger';
 const STORAGE_KEY = 'osw.languages';

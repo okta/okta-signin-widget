@@ -1,0 +1,16 @@
+.identifierContainer {
+  border-radius: 36px;
+  background-color: var(--BackgroundFill);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.identifierSpan {
+  margin-inline-start: 10px;
+}
+
+.userIconContainer {
+  color: var(--PrimaryFill);
+  vertical-align: middle;
+}

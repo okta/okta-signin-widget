@@ -12,8 +12,11 @@
     "allowSyntheticDefaultImports": true,
     "allowJs": true,
     "checkJs": false,
+    "skipLibCheck": false,
     "plugins": [
-      { "transform": "@zerollup/ts-transform-paths" }
+      {
+        "transform": "@zerollup/ts-transform-paths"
+      }
     ],
     "paths": {
       "@okta/okta-i18n-bundles": ["./src/util/Bundles.ts"],
@@ -32,7 +35,8 @@
       "types/*": ["./src/types/*"],
       "views/*": ["./src/views/*"],
       "config/*": ["./src/config/*"],
-      "exports/*": ["./src/exports/*"]
+      "exports/*": ["./src/exports/*"],
+      "src/*": ["./src/v3/src/*"]
     }
   },
   "include": [
@@ -42,7 +46,7 @@
     "src/router/*"
   ],
   "exclude": [
-    "types/generated/*"
+    "./types/generated/*"
   ],
   "files": [
     "src/exports/default.ts"

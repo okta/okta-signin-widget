@@ -1,0 +1,243 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PhoneEnrollmentTransformer Tests should create phone enrollment UI elements when multiple method types exist in transaction 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "",
+      "type": "submit",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.phone.enroll.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "elements": Array [
+          Object {
+            "elements": Array [
+              Object {
+                "contentType": "subtitle",
+                "options": Object {
+                  "content": "oie.phone.enroll.sms.subtitle",
+                },
+                "type": "Description",
+                "viewIndex": 0,
+              },
+              Object {
+                "options": Object {
+                  "customOptions": Array [
+                    Object {
+                      "callback": [Function],
+                      "label": "oie.phone.enroll.sms.label",
+                      "value": "sms",
+                    },
+                    Object {
+                      "callback": [Function],
+                      "label": "oie.phone.enroll.voice.label",
+                      "value": "voice",
+                    },
+                  ],
+                  "defaultValue": [Function],
+                  "name": "authenticator.methodType",
+                },
+                "type": "StepperRadio",
+                "viewIndex": 0,
+              },
+              Object {
+                "label": "mfa.phoneNumber.placeholder",
+                "options": Object {
+                  "inputMeta": Object {
+                    "name": "authenticator.phoneNumber",
+                  },
+                },
+                "type": "Field",
+                "viewIndex": 0,
+              },
+              Object {
+                "label": "oie.phone.sms.primaryButton",
+                "options": Object {
+                  "step": "",
+                  "type": "submit",
+                },
+                "type": "Button",
+                "viewIndex": 0,
+              },
+            ],
+            "type": "VerticalLayout",
+          },
+          Object {
+            "elements": Array [
+              Object {
+                "contentType": "subtitle",
+                "options": Object {
+                  "content": "oie.phone.enroll.call.subtitle",
+                },
+                "type": "Description",
+                "viewIndex": 1,
+              },
+              Object {
+                "options": Object {
+                  "customOptions": Array [
+                    Object {
+                      "callback": [Function],
+                      "label": "oie.phone.enroll.sms.label",
+                      "value": "sms",
+                    },
+                    Object {
+                      "callback": [Function],
+                      "label": "oie.phone.enroll.voice.label",
+                      "value": "voice",
+                    },
+                  ],
+                  "defaultValue": [Function],
+                  "name": "authenticator.methodType",
+                },
+                "type": "StepperRadio",
+                "viewIndex": 1,
+              },
+              Object {
+                "label": "mfa.phoneNumber.placeholder",
+                "options": Object {
+                  "inputMeta": Object {
+                    "name": "authenticator.phoneNumber",
+                  },
+                },
+                "type": "Field",
+                "viewIndex": 1,
+              },
+              Object {
+                "label": "oie.phone.call.primaryButton",
+                "options": Object {
+                  "step": "",
+                  "type": "submit",
+                },
+                "type": "Button",
+                "viewIndex": 1,
+              },
+            ],
+            "type": "VerticalLayout",
+          },
+        ],
+        "type": "Stepper",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`PhoneEnrollmentTransformer Tests should create phone enrollment UI elements when only sms method types exist in transaction 1`] = `
+Object {
+  "data": Object {
+    "authenticator.methodType": "sms",
+  },
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "",
+      "type": "submit",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.phone.enroll.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.phone.enroll.sms.subtitle",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "mfa.phoneNumber.placeholder",
+        "options": Object {
+          "inputMeta": Object {
+            "name": "authenticator.phoneNumber",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "label": "oie.phone.sms.primaryButton",
+        "options": Object {
+          "step": "",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`PhoneEnrollmentTransformer Tests should create phone enrollment UI elements when only voice method types exist in transaction 1`] = `
+Object {
+  "data": Object {
+    "authenticator.methodType": "voice",
+  },
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "",
+      "type": "submit",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.phone.enroll.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.phone.enroll.call.subtitle",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "mfa.phoneNumber.placeholder",
+        "options": Object {
+          "inputMeta": Object {
+            "name": "authenticator.phoneNumber",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "label": "oie.phone.call.primaryButton",
+        "options": Object {
+          "step": "",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

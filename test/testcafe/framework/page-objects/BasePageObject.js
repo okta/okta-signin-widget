@@ -1,20 +1,18 @@
 import BaseFormObject from './components/BaseFormObject';
-import { Selector, ClientFunction } from 'testcafe';
+import { Selector, ClientFunction, userVariables } from 'testcafe';
 
 const SIGNOUT_LINK = '.auth-footer .js-cancel';
 const GO_BACK_LINK = '.auth-footer .js-go-back';
-const SKIP_LINK = '.auth-footer .js-skip';
-const SKIP_SET_UP_LINK = '.auth-footer .js-skip-setup';
-const SWITCH_AUTHENTICATOR_LINK = '.auth-footer .js-switchAuthenticator';
+const SWITCH_AUTHENTICATOR_LINK = '[data-se="switchAuthenticator"]';
 const ionMessagesSelector = '.ion-messages-container';
 const SUBTITLE_SELECTOR = '[data-se="o-form-explain"]';
 const FACTOR_PAGE_HELP_LINK = '[data-se="factorPageHelpLink"]';
+const HELP_LINK_SELECTOR = '.auth-footer .js-help';
 
 export default class BasePageObject {
   constructor(t) {
     this.t = t;
     this.url = '';
-    this.beacon = new Selector('.beacon-container');
     this.form = new BaseFormObject(t);
   }
 
@@ -87,7 +85,7 @@ export default class BasePageObject {
   }
 
   getSaveButtonLabel() {
-    return this.form.getElement('.button-primary').value;
+    return this.form.getSaveButtonLabel();
   }
 
   getFormSubtitle() {
@@ -99,80 +97,147 @@ export default class BasePageObject {
   }
 
   getIonMessages() {
+    if (userVariables.v3) {
+      return this.getFormSubtitle(); 
+    }
     return this.form.getElement(ionMessagesSelector).innerText;
   }
 
+  // in v3 all Cancel links use the same wording
+  getCancelLink() {
+    return this.form.getLink('Back to sign in');
+  }
+
+  getHelpLink() {
+    if (userVariables.v3) {
+      return this.form.getLink('Help');
+    }
+    return Selector(HELP_LINK_SELECTOR);
+  }
+
+  getForgotPasswordLink() {
+    return Selector('[data-se="forgot-password"]');
+  }
+
+  async clickForgotPasswordLink() {
+    await this.t.click(this.getForgotPasswordLink());
+  }
+  
+  // in v2 the Cancel Link covers multiple links like 'Go Back' and 'Sign out'
+  // in v3 all Cancel links use the same wording
   async signoutLinkExists() {
+    if(userVariables.v3){
+      return this.getCancelLink().exists;
+    }
     const elCount = await Selector(SIGNOUT_LINK).count;
     return elCount === 1;
   }
 
+  async forgotPasswordLinkExists() {
+    return this.getForgotPasswordLink().exists;
+  }
+
+  async helpLinkExists() {
+    return this.getHelpLink().exists;
+  }
+
+  // in v2 the Cancel Link covers multiple links like 'Go Back' and 'Sign out'
+  // in v3 all Cancel links use the same wording
   getSignoutLinkText() {
-    return Selector(SIGNOUT_LINK).textContent;
+    return this.getCancelLink().textContent;
   }
 
+  // in v2 the Cancel Link covers multiple links like 'Go Back' and 'Sign out'
+  // in v3 all Cancel links use the same wording
   async clickSignOutLink() {
-    await this.t.click(Selector(SIGNOUT_LINK));
+    await this.t.click(this.getCancelLink());
   }
 
+  // in v2 the Cancel Link covers multiple links like 'Go Back' and 'Sign out'
+  // in v3 all Cancel links use the same wording
   async goBackLinkExists() {
+    if(userVariables.v3) {
+      return this.getCancelLink().exists;
+    }
     const elCount = await Selector(GO_BACK_LINK).count;
     return elCount === 1;
   }
 
+  // in v2 the Cancel Link covers multiple links like 'Go Back' and 'Sign out'
+  // in v3 all Cancel links use the same wording
   getGoBackLinkText() {
-    return Selector(GO_BACK_LINK).textContent;
+    return this.getCancelLink().textContent;
   }
 
+  // in v2 the Cancel Link covers multiple links like 'Go Back' and 'Sign out'
+  // in v3 all Cancel links use the same wording
   async clickGoBackLink() {
-    await this.t.click(Selector(GO_BACK_LINK));
+    await this.t.click(this.getCancelLink());
   }
 
-  async skipLinkExists() {
-    const elCount = await Selector(SKIP_LINK).count;
-    return elCount === 1;
-  }
-
+  /**
+   * @deprecated
+   */
   getSkipLinkText() {
+    const SKIP_LINK = '.auth-footer .js-skip';
+
     return Selector(SKIP_LINK).textContent;
   }
 
-  async clickSkipLink() {
-    await this.t.click(Selector(SKIP_LINK));
+  getSkipSetUpLink() {
+    return this.form.getLink('Skip set up');
   }
 
-  async skipSetUpLinkExists() {
-    const elCount = await Selector(SKIP_SET_UP_LINK).count;
-    return elCount === 1;
-  }
-
-  getSetUpSkipLinkText() {
-    return Selector(SKIP_SET_UP_LINK).textContent;
+  async clickSetUpSkipLink() {
+    await this.t.click(await this.getSkipSetUpLink());
   }
 
   getErrorBoxText() {
     return this.form.getErrorBoxText();
   }
 
-  async clickSetUpSkipLink() {
-    await this.t.click(Selector(SKIP_SET_UP_LINK));
+  getReturnToAuthenticatorListLink() {
+    return this.form.getLink('Return to authenticator list');
   }
 
-  async clickSwitchAuthenticatorButton() {
-    await this.t.click(Selector(SWITCH_AUTHENTICATOR_LINK));
+  getVerifyWithSomethingElseLink() {
+    return this.form.getLink('Verify with something else');
   }
 
-  getSwitchAuthenticatorLinkText() {
+  async clickVerifyWithSomethingElseLink() {
+    return await this.t.click(await this.getVerifyWithSomethingElseLink());
+  }
+
+  async clickReturnToAuthenticatorListLink() {
+    return await this.t.click(await this.getReturnToAuthenticatorListLink());
+  }
+
+  getSwitchAuthenticatorLinkText() {  
     return Selector(SWITCH_AUTHENTICATOR_LINK).textContent;
   }
 
+  async verifyWithSomethingElseLinkExists() {
+    return await this.getVerifyWithSomethingElseLink().exists;
+  }
+
+  async returnToAuthenticatorListLinkExists() {
+    return await this.getReturnToAuthenticatorListLink().exists;
+  }
+
+  /**
+   * @deprecated
+   * @see verifyWithSomethingElseLinkExists
+   * @see returnToAuthenticatorListLinkExists
+   * Depending on the test (Challenge vs Enroll) use one of the new functions
+   * to check if the switch authenticator link exists
+   */
   async switchAuthenticatorLinkExists() {
     const elCount = await Selector(SWITCH_AUTHENTICATOR_LINK).count;
     return elCount === 1;
   }
 
   getBeaconClass() {
-    return this.beacon.find('[data-se="factor-beacon"]').getAttribute('class');
+    return Selector('[data-se="factor-beacon"]').getAttribute('class');
   }
 
   refresh() {
@@ -195,5 +260,25 @@ export default class BasePageObject {
     const elCount = await Selector(FACTOR_PAGE_HELP_LINK).count;
 
     return elCount === 1;
+  }
+
+  hasText(text) {
+    return this.form.getByText(text).exists;
+  }
+
+  formExists() {
+    return Selector('form').exists;
+  }
+
+  spinnerExists() {
+    if(userVariables.v3) {
+      return this.form.getSpinner().exists;
+    }
+
+    return Selector('.spinner').exists;
+  }
+
+  getSpinnerStyle() {
+    return Selector('.spinner').getStyleProperty('display');
   }
 }

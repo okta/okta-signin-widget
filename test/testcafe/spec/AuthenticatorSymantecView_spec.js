@@ -45,7 +45,7 @@ async function setup(t) {
   return pageObject;
 }
 
-fixture('Enroll Symantec VIP Authenticator');
+fixture('Enroll Symantec VIP Authenticator').meta('v3', true);
 test
   .requestHooks(logger, enrollMock)('enroll with Symantec VIP authenticator', async t => {
     const pageObject = await setup(t);
@@ -58,14 +58,14 @@ test
       methodType: 'otp'
     });
 
-    await t.expect(pageObject.getPageTitle()).eql('Set up Symantec VIP');
+    await t.expect(pageObject.getFormTitle()).eql('Set up Symantec VIP');
     await t.expect(pageObject.getPageSubtitle()).eql('From the Symantec VIP app, enter your credential ID and two consecutive generated codes');
     
     // Fill out form and submit
     await pageObject.verifyFactor('credentials.credentialId', '1234');
     await pageObject.verifyFactor('credentials.passcode', '1234');
     await pageObject.verifyFactor('credentials.nextPasscode', '1234');
-    await pageObject.submit();
+    await pageObject.submit('Enroll');
 
     const pageUrl = await pageObject.getPageUrl();
     await t.expect(pageUrl).eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
@@ -76,17 +76,17 @@ test
     const pageObject = await setup(t);
     await checkA11y(t);
 
-    await t.expect(pageObject.getPageTitle()).eql('Set up Symantec VIP');
+    await t.expect(pageObject.getFormTitle()).eql('Set up Symantec VIP');
     
     // Fill out only first part of the form and submit
     await pageObject.verifyFactor('credentials.credentialId', '1234');
-    await pageObject.submit();
+    await pageObject.submit('Enroll');
 
     pageObject.form.waitForErrorBox();
     await t.expect(pageObject.form.getErrorBoxText()).eql('We found some errors. Please review the form and make corrections.');
   });
 
-fixture('Verify Symantec VIP Authenticator');
+fixture('Verify Symantec VIP Authenticator').meta('v3', true);
 test
   .requestHooks(logger, verifyMock)('verify with Symantec VIP authenticator', async t => {
     const pageObject = await setup(t);
@@ -99,12 +99,12 @@ test
       methodType: 'otp'
     });
 
-    await t.expect(pageObject.getPageTitle()).eql('Verify with Symantec VIP');
+    await t.expect(pageObject.getFormTitle()).eql('Verify with Symantec VIP');
     await t.expect(pageObject.getPageSubtitle()).eql('Enter the generated security code from the Symantec VIP app.');
     
     // Fill out form and submit
     await pageObject.verifyFactor('credentials.passcode', '1234');
-    await pageObject.submit();
+    await pageObject.submit('Verify');
 
     const pageUrl = await pageObject.getPageUrl();
     await t.expect(pageUrl).eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
@@ -115,9 +115,9 @@ test
     const pageObject = await setup(t);
     await checkA11y(t);
 
-    await t.expect(pageObject.getPageTitle()).eql('Verify with Symantec VIP');
+    await t.expect(pageObject.getFormTitle()).eql('Verify with Symantec VIP');
     
-    await pageObject.submit();
+    await pageObject.submit('Verify');
 
     pageObject.form.waitForErrorBox();
     await t.expect(pageObject.form.getErrorBoxText()).eql('We found some errors. Please review the form and make corrections.');
@@ -128,12 +128,12 @@ test
     const pageObject = await setup(t);
     await checkA11y(t);
 
-    await t.expect(pageObject.getPageTitle()).eql('Verify with Symantec VIP');
+    await t.expect(pageObject.getFormTitle()).eql('Verify with Symantec VIP');
 
     // Fill out form and submit
     const fieldName = 'credentials.passcode';
     await pageObject.verifyFactor(fieldName, 'somethingInvalid');
-    await pageObject.submit();
+    await pageObject.submit('Verify');
 
     await t.expect(pageObject.form.getTextBoxErrorMessage(fieldName))
       .eql('Your code doesn\'t match our records. Please try again.');

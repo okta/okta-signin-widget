@@ -1,0 +1,253 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PhoneChallengeTransformer Tests should create SMS challenge UI elements when phone number not available 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.phone.verify.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "mfa.calling oie.phone.alternate.title. oie.phone.verify.enterCodeText",
+        },
+        "type": "Description",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.phone.carrier.charges",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "mfa.challenge.verify",
+        "options": Object {
+          "step": "",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`PhoneChallengeTransformer Tests should create SMS challenge UI elements when resend code is NOT available 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.phone.verify.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.phone.verify.sms.codeSentText <span class=\\"strong no-translate\\">+1 XXX-XXX-4601.</span> oie.phone.verify.enterCodeText",
+        },
+        "type": "Description",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.phone.carrier.charges",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "mfa.challenge.verify",
+        "options": Object {
+          "step": "mock-step",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`PhoneChallengeTransformer Tests should create SMS challenge UI elements when resend code is available 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "actionParams": Object {
+            "resend": true,
+          },
+          "buttonText": "oie.phone.verify.sms.resendLinkText",
+          "content": "oie.phone.verify.sms.resendText",
+          "isActionStep": true,
+          "step": "resend",
+        },
+        "type": "Reminder",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.phone.verify.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.phone.verify.sms.codeSentText <span class=\\"strong no-translate\\">+1 XXX-XXX-4601.</span> oie.phone.verify.enterCodeText",
+        },
+        "type": "Description",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.phone.carrier.charges",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "mfa.challenge.verify",
+        "options": Object {
+          "step": "mock-step",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`PhoneChallengeTransformer Tests should create voice challenge UI elements when phoneNumber is available 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.phone.verify.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "mfa.calling <span class=\\"strong no-translate\\">+1 XXX-XXX-4601.</span> oie.phone.verify.enterCodeText",
+        },
+        "type": "Description",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.phone.carrier.charges",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "mfa.challenge.verify",
+        "options": Object {
+          "step": "mock-step",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`PhoneChallengeTransformer Tests should create voice challenge UI elements when phoneNumber not available 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.phone.verify.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "mfa.calling oie.phone.alternate.title. oie.phone.verify.enterCodeText",
+        },
+        "type": "Description",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.phone.carrier.charges",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "mfa.challenge.verify",
+        "options": Object {
+          "step": "mock-step",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

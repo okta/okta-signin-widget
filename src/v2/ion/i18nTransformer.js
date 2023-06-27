@@ -94,7 +94,7 @@ const I18N_OVERRIDE_MAPPINGS = {
   'select-authenticator-unlock-account.authenticator.okta_email': 'oie.email.label',
   'select-authenticator-unlock-account.authenticator.phone_number': 'oie.phone.label',
   'select-authenticator-unlock-account.authenticator.okta_verify.push': 'oie.okta_verify.push.title',
-  
+
   'authenticator-verification-data.okta_verify.authenticator.methodType.signed_nonce':
     'oie.okta_verify.signed_nonce.label',
   'authenticator-verification-data.okta_verify.authenticator.methodType.push': 'oie.okta_verify.push.title',
@@ -123,6 +123,7 @@ const I18N_OVERRIDE_MAPPINGS = {
   'enroll-authenticator.yubikey_token.credentials.passcode': 'oie.yubikey.passcode.label',
 
   'enrollment-channel-data.email': 'oie.enroll.okta_verify.channel.email.label',
+  'enrollment-channel-data.phoneNumber': 'mfa.phoneNumber.placeholder',
 
   'select-enrollment-channel.authenticator.channel.qrcode': 'oie.enroll.okta_verify.select.channel.qrcode.label',
   'select-enrollment-channel.authenticator.channel.email': 'oie.enroll.okta_verify.select.channel.email.label',
@@ -142,11 +143,18 @@ const I18N_OVERRIDE_MAPPINGS = {
   'challenge-authenticator.credentials.passcode': 'oie.password.label',
 
   'reset-authenticator.okta_password.credentials.passcode': 'oie.password.newPasswordLabel',
+  'reset-authenticator.okta_password.confirmPassword': 'oie.password.confirmPasswordLabel',
   'reset-authenticator.okta_password.credentials.revokeSessions': 'password.reset.revokeSessions',
   'reenroll-authenticator.okta_password.credentials.passcode': 'oie.password.newPasswordLabel',
+  'reenroll-authenticator.okta_password.confirmPassword': 'oie.password.confirmPasswordLabel',
+  'reenroll-authenticator.okta_password.credentials.revokeSessions': 'password.reset.revokeSessions',
   'reenroll-authenticator-warning.okta_password.credentials.passcode': 'oie.password.newPasswordLabel',
+  'reenroll-authenticator-warning.okta_password.confirmPassword': 'oie.password.confirmPasswordLabel',
+  'reenroll-authenticator-warning.okta_password.credentials.revokeSessions': 'password.reset.revokeSessions',
+  'enroll-authenticator.okta_password.confirmPassword': 'oie.password.confirmPasswordLabel',
+  'enroll-authenticator.okta_password.credentials.revokeSessions': 'password.reset.revokeSessions',
   'incorrectPassword': 'oie.password.incorrect.message',
-  
+
   'profile-update.userProfile.secondEmail': 'oie.user.profile.secondary.email',
 
   'user-code.userCode': 'device.code.activate.label',
@@ -268,7 +276,7 @@ const getI18nKey = (i18nPath) => {
   let i18nKey;
   // Extract security question value from i18nPath
   SECURITY_QUESTION_PREFIXES.forEach(prefix => {
-    if (i18nPath.indexOf(prefix) === 0 ) {
+    if (i18nPath.indexOf(prefix) === 0) {
       const securityQuestionValue = i18nPath.replace(prefix, '');
       i18nKey = `security.${securityQuestionValue}`;
     }
@@ -379,7 +387,7 @@ const updateLabelForUiSchema = (remediation, uiSchema) => {
 
 };
 
-const isWebAuthnAPIError = ( i18nKey ) => i18nKey.startsWith(WEBAUTHN_API_GENERIC_ERROR_KEY);
+const isWebAuthnAPIError = (i18nKey) => i18nKey.startsWith(WEBAUTHN_API_GENERIC_ERROR_KEY);
 
 /**
  * @typedef {Object} Message
@@ -499,6 +507,8 @@ export {
   getMessage,
   getMessageKey,
   getI18NParams,
+  getI18nKey,
+  getI18NValue,
   doesI18NKeyExist,
   isCustomizedI18nKey,
   getMessageFromBrowserError

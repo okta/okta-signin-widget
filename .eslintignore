@@ -14,3 +14,5 @@ types/.eslintrc.js
 types/generated
 types/**/*.test-d.ts
 scripts/dockolith
+
+src/v3/

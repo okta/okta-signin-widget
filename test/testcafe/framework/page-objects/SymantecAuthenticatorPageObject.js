@@ -1,3 +1,4 @@
+import { userVariables } from 'testcafe';
 import BasePageObject from './BasePageObject';
 
 export default class SymantecAuthenticatorPageObject extends BasePageObject {
@@ -9,15 +10,17 @@ export default class SymantecAuthenticatorPageObject extends BasePageObject {
     return this.form.setTextBoxValue(name, value);
   }
 
-  getPageTitle() {
-    return this.form.getElement('.okta-form-title').textContent;
-  }
-
   getPageSubtitle() {
+    if (userVariables.v3) {
+      return this.getFormSubtitle();
+    }
     return this.form.getElement('.okta-form-subtitle').textContent;
   }
 
-  submit() {
+  submit(buttonName) {
+    if (userVariables.v3) {
+      return this.form.clickButton(buttonName);
+    }
     return this.form.clickSaveButton();
   }
 }

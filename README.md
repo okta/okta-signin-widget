@@ -1101,7 +1101,7 @@ Custom link href for the "Unlock Account" link. For this link to display, `featu
 
 ##### helpLinks.custom
 
-Array of custom link objects `{text, href, target}` that will be added to the *"Need help signing in?"* section. The `target` of the link is optional.
+Array of custom link objects `{text, href, target}` that will be added after the "Help" link. The `target` of the link is optional.
 
 ### Hooks
 

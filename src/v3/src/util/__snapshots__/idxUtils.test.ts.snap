@@ -1,0 +1,95 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IdxUtils Tests should convert array of Idx Input objects into an array of Registration schema objects 1`] = `
+Array [
+  Object {
+    "data-se": "userProfile.firstName",
+    "label": "First name",
+    "label-top": true,
+    "name": "userProfile.firstName",
+    "required": true,
+    "wide": true,
+  },
+  Object {
+    "data-se": "userProfile.lastName",
+    "label": "Last name",
+    "label-top": true,
+    "name": "userProfile.lastName",
+    "required": true,
+    "wide": true,
+  },
+  Object {
+    "data-se": "userProfile.email",
+    "label": "Email",
+    "label-top": true,
+    "name": "userProfile.email",
+    "required": true,
+    "wide": true,
+  },
+  Object {
+    "data-se": "credentials.passcode",
+    "label": "Password",
+    "label-top": true,
+    "name": "credentials.passcode",
+    "required": false,
+    "secret": true,
+    "wide": true,
+  },
+]
+`;
+
+exports[`IdxUtils Tests should update Idx Inputs array with modified registration schema elements when adding new field and updating existing 1`] = `
+Array [
+  Object {
+    "name": "userProfile",
+    "value": Array [
+      Object {
+        "data-se": "userProfile.firstName",
+        "label": "Given name",
+        "label-top": true,
+        "name": "firstName",
+        "required": false,
+        "wide": true,
+      },
+      Object {
+        "data-se": "userProfile.lastName",
+        "label": "Family name",
+        "label-top": true,
+        "name": "lastName",
+        "required": false,
+        "wide": true,
+      },
+      Object {
+        "data-se": "userProfile.email",
+        "label": "Company login",
+        "label-top": true,
+        "name": "email",
+        "required": false,
+        "wide": true,
+      },
+      Object {
+        "data-se": "userProfile.favoriteCar",
+        "label": "Favorite car",
+        "label-top": true,
+        "name": "favoriteCar",
+        "required": true,
+        "wide": true,
+      },
+    ],
+  },
+  Object {
+    "name": "credentials",
+    "value": Array [
+      Object {
+        "data-se": "credentials.passcode",
+        "label": "Password",
+        "label-top": true,
+        "name": "passcode",
+        "required": true,
+        "secret": true,
+        "wide": true,
+      },
+    ],
+  },
+]
+`;

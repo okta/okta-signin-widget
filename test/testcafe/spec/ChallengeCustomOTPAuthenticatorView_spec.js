@@ -19,11 +19,12 @@ const mockInvalidPasscode = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(xhrInvalidOTP, 403);
 
-fixture('Challenge Authenticator Custom OTP');
+fixture('Challenge Authenticator Custom OTP').meta('v3', true);
 
 async function setup(t) {
   const challengeCustomOTPPage = new ChallengeCustomOTPPageObject(t);
   await challengeCustomOTPPage.navigateToPage();
+  await t.expect(challengeCustomOTPPage.formExists()).eql(true);
   return challengeCustomOTPPage;
 }
 
@@ -44,7 +45,7 @@ test.requestHooks(mockChallengeAuthenticatorCustomOTP)('challenge custom OTP aut
 
   // verify otp
   await challengeCustomOTPPage.verifyFactor('credentials.passcode', '1234');
-  await challengeCustomOTPPage.clickNextButton();
+  await challengeCustomOTPPage.clickNextButton('Verify');
   const successPage = new SuccessPageObject(t);
   const pageUrl = await successPage.getPageUrl();
   await t.expect(pageUrl)
@@ -57,7 +58,8 @@ test.requestHooks(mockChallengeAuthenticatorCustomOTP)('OTP is required', async 
 
   // verify otp
   await challengeOnPremPage.verifyFactor('credentials.passcode', '');
-  await challengeOnPremPage.clickNextButton();
+  await t.pressKey('tab');
+  await challengeOnPremPage.clickNextButton('Verify');
 
   await challengeOnPremPage.waitForErrorBox();
   await t.expect(challengeOnPremPage.getPasscodeError()).eql('This field cannot be left blank');
@@ -67,10 +69,8 @@ test.requestHooks(mockInvalidPasscode)('challege custom otp authenticator with i
   const challengeOnPremPage = await setup(t);
   await checkA11y(t);
   await challengeOnPremPage.verifyFactor('credentials.passcode', 'test');
-  await challengeOnPremPage.clickNextButton();
-
-  await t.expect(challengeOnPremPage.getInvalidOTPError())
-    .eql('Invalid code. Try again.');
+  await challengeOnPremPage.clickNextButton('Verify');
+  await t.expect(challengeOnPremPage.getInvalidOTPError()).eql('Invalid code. Try again.');
 });
 
 test.requestHooks(mockChallengeAuthenticatorCustomOTP)('should show custom factor page link', async t => {

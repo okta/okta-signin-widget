@@ -1,4 +1,4 @@
-import { RequestLogger, RequestMock, ClientFunction, Selector } from 'testcafe';
+import { RequestLogger, RequestMock, ClientFunction, Selector, userVariables } from 'testcafe';
 import BasePageObject from '../framework/page-objects/BasePageObject';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import identifyWithAppleRedirectSSOExtension from '../../../playground/mocks/data/idp/idx/identify-with-apple-redirect-sso-extension';
@@ -82,13 +82,14 @@ const stepUpMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/authenticators/sso_extension/transactions/456/verify/cancel')
   .respond(identify);
 
-fixture('App SSO Extension View');
+fixture('App SSO Extension View').meta('v3', true);
 
 const getPageUrl = ClientFunction(() => window.location.href);
 test
   .requestHooks(logger, redirectSSOExtensionMock)('with redirect SSO Extension approach, opens the verify URL', async t => {
     const ssoExtensionPage = new BasePageObject(t);
     await ssoExtensionPage.navigateToPage();
+    await ssoExtensionPage.formExists();
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/introspect/)
@@ -101,6 +102,7 @@ test
   .requestHooks(logger, credentialSSOExtensionMock)('with credential SSO Extension approach, opens the verify URL', async t => {
     const ssoExtensionPage = new BasePageObject(t);
     await ssoExtensionPage.navigateToPage();
+    await ssoExtensionPage.formExists();
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/introspect/)
@@ -110,9 +112,8 @@ test
     const ssoExtensionHeader = new Selector('.device-apple-sso-extension .siw-main-header');
     await t.expect(ssoExtensionHeader.find('.beacon-container').exists).eql(false);
     await t.expect(ssoExtensionPage.getFormTitle()).eql('Verifying your identity');
-    await t.expect(Selector('.spinner').exists).ok();
-    await t.expect(ssoExtensionPage.form.el.hasClass('device-challenge-poll')).ok();
-    await t.expect(Selector('[data-se="cancel"]').innerText).eql('Back to sign in');
+    await t.expect(ssoExtensionPage.spinnerExists()).eql(true);
+    await t.expect(await ssoExtensionPage.getCancelLink().exists).eql(true);
 
     // the next ajax mock (credentialSSOExtensionMock) set up for delaying 4s
     // testcafe waits 3s by default for ajax call
@@ -129,6 +130,7 @@ test
   .requestHooks(logger, uvCredentialSSOExtensionMock)('with credential SSO Extension approach during user verification, opens the verify URL', async t => {
     const ssoExtensionPage = new BasePageObject(t);
     await ssoExtensionPage.navigateToPage();
+    await ssoExtensionPage.formExists();
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/introspect/)
@@ -142,6 +144,7 @@ test
   .requestHooks(credentialSSONotExistLogger, credentialSSONotExistMock)('cancels transaction when the authenticator does not exist', async t => {
     const ssoExtensionPage = new BasePageObject(t);
     await ssoExtensionPage.navigateToPage();
+    await ssoExtensionPage.formExists();
     await t.expect(credentialSSONotExistLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/introspect/)
@@ -157,16 +160,21 @@ test
   });
 
 test
-  .requestHooks(logger, verifyErrorMock)('hideds the spinner when authenticator verification fails', async t => {
+  .requestHooks(logger, verifyErrorMock)('hides the spinner when authenticator verification fails', async t => {
     const ssoExtensionPage = new BasePageObject(t);
     await ssoExtensionPage.navigateToPage();
-    await t.expect(Selector('.spinner').getStyleProperty('display')).eql('none');
+    await ssoExtensionPage.formExists();
+    await ssoExtensionPage.form.waitForErrorBox();
+    if(!userVariables.v3) {
+      await t.expect(ssoExtensionPage.getSpinnerStyle()).eql('none');
+    }
   });
 
 test
   .requestHooks(stepUpLogger, stepUpMock)('Calls verify/cancel when it encounters a 401 (stepUp) error', async t => {
     const ssoExtensionPage = new BasePageObject(t);
     await ssoExtensionPage.navigateToPage();
+    await ssoExtensionPage.formExists();
     await t.expect(stepUpLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/introspect/)

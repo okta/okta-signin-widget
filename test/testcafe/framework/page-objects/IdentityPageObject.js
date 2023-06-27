@@ -1,81 +1,82 @@
-import { Selector } from 'testcafe';
+import { Selector, userVariables } from 'testcafe';
+import { within } from '@testing-library/testcafe';
+
 import BasePageObject from './BasePageObject';
 
 const CALLOUT_SELECTOR = '[data-se="callout"]';
-const ENROLL_SELECTOR = 'a[data-se="enroll"]';
 const NEEDHELP_SELECTOR = 'a[data-se="help"]';
-const FORGOT_PASSWORD_SELECTOR = 'a[data-se="forgot-password"]';
-const CUSTOM_CHECKBOX_SELECTOR = '.custom-checkbox';
-const REMEMBER_ME_FIELD_NAME = 'rememberMe';
-const CUSTOM_HELP_LINK_SELECTOR = '.auth-footer .js-help';
+const FORGOT_PASSWORD_SELECTOR = '[data-se="forgot-password"]';
 const CUSTOM_HELP_LINKS_SELECTOR = '.auth-footer .js-custom';
 const CUSTOM_BUTTON = '.custom-buttons .okta-custom-buttons-container .default-custom-button';
-const UNLOCK_ACCOUNT = '.auth-footer .js-unlock';
 const SUB_LABEL_SELECTOR = '.o-form-explain';
 const IDPS_CONTAINER = '.okta-idps-container';
-const FOOTER_INFO_SELECTOR = '.footer-info';
-const CUSTOM_IDP_BUTTON = '.social-auth-general-idp-button';
+const FOOTER_INFO_SELECTOR = userVariables.v3 ? '[data-se="signup-info"]' : '.footer-info';
 
 export default class IdentityPageObject extends BasePageObject {
   constructor(t) {
     super(t);
   }
 
-  getPageTitle() {
-    return this.form.getElement('.okta-form-title').textContent;
-  }
-
   getOktaVerifyButtonText() {
+    if (userVariables.v3) {
+      return this.form.getButton(/Sign in with Okta FastPass/).textContent;
+    }
     return this.form.getElement('.sign-in-with-device-option .okta-verify-container .link-button').textContent;
   }
 
-  getRememberMeText() {
-    return this.form.getElement(CUSTOM_CHECKBOX_SELECTOR).textContent;
+  getRememberMeCheckbox() {
+    return this.form.getCheckbox('Keep me signed in');
   }
 
   getRememberMeValue() {
-    return this.form.getCheckboxValue(REMEMBER_ME_FIELD_NAME);
+    return this.getRememberMeCheckbox().checked;
   }
 
   checkRememberMe() {
-    return this.form.setCheckbox(REMEMBER_ME_FIELD_NAME, true);
+    return this.form.setCheckbox('Keep me signed in', true, true);
   }
 
   getSignupLinkText() {
-    return Selector(ENROLL_SELECTOR).textContent;
+    return this.form.getLink('Sign up').textContent;
   }
 
   getNeedhelpLinkText() {
     return Selector(NEEDHELP_SELECTOR).textContent;
   }
 
-  getForgotPasswordLinkText() {
-    return Selector(FORGOT_PASSWORD_SELECTOR).textContent;
-  }
-
-  getUnlockAccountLinkText() {
-    return Selector(UNLOCK_ACCOUNT).textContent;
-  }
-
   async hasForgotPasswordLinkText() {
-    const elCount = await Selector(FORGOT_PASSWORD_SELECTOR).count;
-    return elCount === 1;
+    return this.form.getLink('Forgot password?').exists;
   }
 
   async clickOktaVerifyButton() {
-    await this.t.click(Selector('.sign-in-with-device-option .okta-verify-container .link-button'));
+    if (userVariables.v3) {
+      await this.form.clickButton(/Sign in with Okta FastPass/);
+    } else {
+      await this.t.click(Selector('.sign-in-with-device-option .okta-verify-container .link-button'));
+    }
+  }
+
+  async clickPivButton() {
+    if (userVariables.v3) {
+      await this.form.clickButton('Sign in with PIV / CAC card');
+    } else {
+      await this.t.click(this.form.getLink('Sign in with PIV / CAC card'));
+    }
   }
 
   getSeparationLineText() {
+    if (userVariables.v3) {
+      return this.form.getElement('[role="separator"]').textContent;  
+    }
     return this.form.getElement('.sign-in-with-device-option .separation-line').textContent;
   }
 
   fillIdentifierField(value) {
-    return this.form.setTextBoxValue('identifier', value);
+    return this.form.setTextBoxValue('Username', value, true);
   }
 
   getIdentifierValue() {
-    return this.form.getTextBoxValue('identifier');
+    return this.form.getTextBoxValue('Username', true);
   }
 
   fillPasswordField(value) {
@@ -83,7 +84,14 @@ export default class IdentityPageObject extends BasePageObject {
   }
 
   async hasShowTogglePasswordIcon() {
+    if (userVariables.v3) {
+      return await this.form.getButton('Show password').exists;
+    }
     return await Selector('.password-toggle').count;
+  }
+
+  getNextButton() {
+    return this.form.getButton('Next');
   }
 
   getSaveButtonLabel() {
@@ -91,7 +99,15 @@ export default class IdentityPageObject extends BasePageObject {
   }
 
   clickNextButton() {
-    return this.form.clickSaveButton();
+    return this.form.clickSaveButton('Next');
+  }
+
+  clickVerifyButton() {
+    return this.form.clickSaveButton('Verify');
+  }
+
+  clickSignInButton() {
+    return this.form.clickSaveButton('Sign in');
   }
 
   waitForErrorBox() {
@@ -114,10 +130,6 @@ export default class IdentityPageObject extends BasePageObject {
     return this.form.waitForTextBoxError('identifier');
   }
 
-  hasIdentifierError() {
-    return this.form.hasTextBoxError('identifier');
-  }
-
   hasIdentifierErrorMessage() {
     return this.form.hasTextBoxErrorMessage('identifier');
   }
@@ -126,6 +138,10 @@ export default class IdentityPageObject extends BasePageObject {
     return this.form.getTextBoxErrorMessage('identifier');
   }
 
+  /**
+   * @deprecated
+   * @see hasPasswordErrorMessage
+   */
   hasPasswordError() {
     return this.form.hasTextBoxError('credentials\\.passcode');
   }
@@ -143,63 +159,118 @@ export default class IdentityPageObject extends BasePageObject {
   }
 
   hasUnknownUserErrorCallout() {
+    if(userVariables.v3) {
+      return this.form.hasAlertBox();
+    }
     return this.form.getCallout(CALLOUT_SELECTOR).hasClass('infobox-error');
   }
 
   getUnknownUserCalloutContent() {
-    return this.form.getCallout(CALLOUT_SELECTOR).textContent;
+    return this.form.getErrorBoxText();
   }
 
-  getIdpButton(selector) {
-    return this.form.getCallout(selector);
+  getIdpButton(name) {
+    if(userVariables.v3) {
+      return this.form.getButton(name);
+    }
+    
+    return this.form.getLink(name);
   }
 
-  clickIdpButton(selector) {
-    return this.form.clickElement(selector);
+  clickIdpButton(name) {
+    if (userVariables.v3) {
+      return this.form.clickButton(name);
+    }
+    return this.t.click(this.form.getLink(name));
   }
 
   identifierFieldExists(selector) {
     return this.form.elementExist(selector);
   }
 
+  identifierFieldExistsForPIVView() {
+    return this.form.fieldByLabelExists('Username');
+  }
+
+  identifierFieldExistsForIdpView() {
+    return this.form.fieldByLabelExists('Username');
+  }
+
   getCustomForgotPasswordLink() {
-    return Selector(FORGOT_PASSWORD_SELECTOR).getAttribute('href');
+    if (userVariables.v3) {
+      return this.form.getLink('Forgot password?');
+    }
+    return Selector(FORGOT_PASSWORD_SELECTOR);
   }
 
-  getCustomHelpLink() {
-    return Selector(CUSTOM_HELP_LINK_SELECTOR).getAttribute('href');
+  getCustomForgotPasswordLinkUrl() {
+    return this.getCustomForgotPasswordLink().getAttribute('href');
   }
 
-  getCustomHelpLinks(index) {
-    return Selector(CUSTOM_HELP_LINKS_SELECTOR).nth(index).getAttribute('href');
+  getHelpLinkUrl() {
+    return this.getHelpLink().getAttribute('href');
   }
 
-  getCustomHelpLinksLabel(index) {
-    return Selector(CUSTOM_HELP_LINKS_SELECTOR).nth(index).textContent;
+  getCustomHelpLink(index, name) {
+    if (userVariables.v3) {
+      return this.form.getLink(name);
+    }
+    return Selector(CUSTOM_HELP_LINKS_SELECTOR).nth(index);
+  }
+
+  getCustomHelpLinkUrl(index, name) {
+    return this.getCustomHelpLink(index, name).getAttribute('href');
+  }
+
+  getCustomHelpLinkTarget(index, name) {
+    return this.getCustomHelpLink(index, name).getAttribute('target');
+  }
+
+  getCustomHelpLinkLabel(index, name) {
+    return this.getCustomHelpLink(index, name).textContent;
   }
 
   getFooterInfo() {
     return Selector(FOOTER_INFO_SELECTOR).textContent;
   }
 
-  async clickCustomButtonLink(index) {
-    await this.t.click(Selector(CUSTOM_BUTTON).nth(index));
+  getCustomButton(index) {
+    if(userVariables.v3) {
+      return Selector('.default-custom-button').nth(index);
+    }
+    return Selector(CUSTOM_BUTTON).nth(index);
   }
 
+  async clickCustomButtonLink(index) {
+    await this.t.click(this.getCustomButton(index));
+  }
+  
   getCustomButtonText(index) {
-    return Selector(CUSTOM_BUTTON).nth(index).textContent;
+    return this.getCustomButton(index).textContent;
   }
 
   async clickSignUpLink() {
-    await this.t.click(Selector(ENROLL_SELECTOR));
+    await this.t.click(this.form.getLink('Sign up'));
+  }
+
+  getUnlockAccountLink(name = 'Unlock account?') {
+    return this.form.getLink(name);
+  }
+
+  unlockAccountLinkExists(name = 'Unlock account?') {
+    return this.getUnlockAccountLink(name).exists;
+  }
+
+  getUnlockAccountLinkText() {
+    return this.getUnlockAccountLink().textContent;
   }
 
   async clickUnlockAccountLink() {
-    await this.t.click(Selector(UNLOCK_ACCOUNT));
+    await this.t.click(this.getUnlockAccountLink());
   }
 
-  getCustomUnlockAccountLink() {
-    return Selector(UNLOCK_ACCOUNT).getAttribute('href');
+  getCustomUnlockAccountLinkUrl(name) {
+    return this.getUnlockAccountLink(name).getAttribute('href');
   }
 
   getIdentifierSubLabelValue() {
@@ -214,11 +285,19 @@ export default class IdentityPageObject extends BasePageObject {
     return Selector(IDPS_CONTAINER);
   }
 
-  getCustomIdpButtonLabel(index) {
-    return Selector(CUSTOM_IDP_BUTTON).nth(index).textContent;
+  getIdpButtonCount() {
+    if (userVariables.v3) {
+      return within(this.form.el).getAllByRole('button', { name: /Sign in with/}).count;
+    }
+    return this.getIdpsContainer().childElementCount;
   }
 
   async clickShowPasswordIcon() {
+    if (userVariables.v3) {
+      const pwToggleBtn = within(this.form.el).getAllByRole('button', { name: 'Show password' }).nth(0);
+      await this.t.click(pwToggleBtn);
+      return;
+    }
     await this.t.click(Selector('.password-toggle .button-show'));
   }
 }

@@ -24,6 +24,7 @@ declare global {
     getWidgetInstance: () => OktaSignInAPI;
     createWidgetInstance: (options: WidgetOptions) => OktaSignInAPI;
     renderPlaygroundWidget: (options: WidgetOptions) => void;
+    additionalOptions?: Partial<WidgetOptions>;
   }
 }
 
@@ -158,4 +159,4 @@ if (typeof URL !== 'undefined') {
     render = false;
   }
 }
-render && renderPlaygroundWidget();
+render && renderPlaygroundWidget(window.additionalOptions ?? {});

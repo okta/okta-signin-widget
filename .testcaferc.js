@@ -1,33 +1,115 @@
-const {readFileSync} = require('fs');
-const { RequestMock } = require("testcafe");
-const mockWellKnownOpenIdConfiguration = require('./playground/mocks/data/oauth2/well-known-openid-configuration.json');
+const { readFileSync } = require('fs');
+const { RequestMock } = require('testcafe');
 
-const mockUserHome = readFileSync('./playground/mocks/app/UserHome.html', 'utf8');
+/**
+ * Escapes special regex chars in string so it can be used as the pattern for
+ * RegExp constructor. Useful when trying to match strings that frequently
+ * contain special chars, e.g., (parts of) a URL,
+ * currency, dates.
+ *
+ * NOTE: all special chars including "^" and "$" are escaped
+ *
+ * Examples:
+ *
+ * escapeRegex("http://example.com/path") // "http:\\/\\/example\\.com\\/path"
+ *
+ * escapeRegex('$12.34') // "\\$12\\.34"
+ *
+ * escapeRegex('7/12/2021') // "7\\/12\\/2021"
+ *
+ * @param s {string} the string to escape
+ * @returns {string} the escaped string
+ */
+const escapeRegex = (s) => s.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
 
-// global mocks
+/**
+ * Creates an escaped regex from a string template literal.
+ *
+ * Example: regex`$12.34` // new RegExp("\\$12\\.34")
+ */
+const regex = (strings, ...values) => {
+	const pattern = strings[0] + values.map(
+    (v, i) => escapeRegex(v) + strings[i + 1]
+  ).join('');
+	return RegExp(pattern);
+};
+
+// common/shared mocks
 const mocks = RequestMock()
-  .onRequestTo({ url: new RegExp('http://localhost:3000/app/UserHome') })
-  .respond(mockUserHome, 200, { 'content-type': 'text/html; charset=utf-8' })
+  .onRequestTo({ url: regex`/app/UserHome` })
+  .respond(readFileSync('./playground/mocks/app/UserHome.html', 'utf8'), 200, { 'content-type': 'text/html; charset=utf-8' })
 
-  .onRequestTo({ url: new RegExp('http://localhost:3000/oauth2/default/\.well-known/openid-configuration') })
-  .respond(mockWellKnownOpenIdConfiguration)
-  
-  .onRequestTo({ url: new RegExp('http://localhost:3000/sso/idps/facebook-123') })
+  .onRequestTo({ url: regex`/oauth2/default/.well-known/openid-configuration` })
+  .respond(require('./playground/mocks/data/oauth2/well-known-openid-configuration.json'))
+
+  .onRequestTo({ url: regex`/sso/idps/facebook-123` })
   .respond('');
 
-module.exports = {
-  browsers: [
-    'chrome:headless'
-  ],
+const {
+  OKTA_SIW_ONLY_FLAKY,
+  OKTA_SIW_SKIP_FLAKY,
+  OKTA_SIW_V3,
+} = process.env;
+
+const env = {
+  OKTA_SIW_ONLY_FLAKY,
+  OKTA_SIW_SKIP_FLAKY,
+  OKTA_SIW_V3,
+};
+
+const config = {
+  browsers: [ 'chrome:headless' ],
   clientScripts: [
-    {
-      module: 'axe-core/axe.min.js'
+    { module: 'axe-core/axe.min.js' },
+    { module: '@testing-library/dom/dist/@testing-library/dom.umd.js' }
+  ],
+  src: [ 'test/testcafe/spec/*_spec.js' ],
+  hooks: { request: mocks, },
+  userVariables: {
+    v3: !!env.OKTA_SIW_V3,
+  },
+
+  /*
+   * NOTE: add a testcafe fixture to the list of specs to run for parity testing
+   * by adding fixture metadata {"v3": true}. See example in
+   * test/testcafe/spec/Smoke_spec.js
+   */
+  ...(env.OKTA_SIW_V3 && {
+      userVariables: { v3: true },
+      // OKTA-575629 Remove this when v3 parity test flakiness is resolved
+      assertionTimeout: 20000,
+  }),
+
+  // limit concurrency when running flaky tests
+  concurrency: OKTA_SIW_ONLY_FLAKY ? 1 : undefined,
+
+  filter: (_testName, _fixtureName, _fixturePath, testMeta, fixtureMeta) => {
+    if (env.OKTA_SIW_V3) {
+      // run fixture on gen3
+      // fixture('my tests').meta('v3', true)
+      if (fixtureMeta.v3 !== true || testMeta.v3 === false) {
+        return false;
+      }
+
+      // skip test on gen3
+      // test.meta('v3', false)('my test', (t) => {})
+      if (testMeta.v3 === false) {
+        return false;
+      }
     }
-  ],
-  src: [
-    'test/testcafe/spec/*_spec.js'
-  ],
-  hooks: {
-    request: mocks,
-  }
+
+    // flaky tests
+    // flaky tests should be run with low or no concurrency:
+    // yarn testcafe -c1
+    // fixture('my fixture').meta('flaky', true)
+    // test.meta('flaky', true)('my test', (t) => {})
+    if (fixtureMeta.flaky || testMeta.flaky) {
+      // OKTA_SIW_ONLY_FLAKY supercedes OKTA_SIW_SKIP_FLAKY
+      return !!env.OKTA_SIW_ONLY_FLAKY || !env.OKTA_SIW_SKIP_FLAKY;
+    }
+
+    return true;
+  },
 }
+
+module.exports = config;

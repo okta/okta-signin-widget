@@ -41,6 +41,24 @@
                   }
               ],
               "accepts": "application/ion+json; okta-version=1.0.0"
+          },
+          {
+              "rel": [
+                  "create-form"
+              ],
+              "name": "unlock-account",
+              "href": "http://localhost:3000/idp/idx/unlock-account",
+              "method": "POST",
+              "value": [
+                  {
+                      "name": "stateHandle",
+                      "required": true,
+                      "value": "02MmwXJegtQ1FxZnnbHFdnzSaD-_r2Ae3Nz6M1m91C",
+                      "visible": false,
+                      "mutable": false
+                  }
+              ],
+              "accepts": "application/ion+json; okta-version=1.0.0"
           }
       ]
   },

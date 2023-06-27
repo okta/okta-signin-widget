@@ -37,6 +37,11 @@ if ! yarn build:release; then
   exit ${TEST_FAILURE}
 fi
 
+if ! setup_service node v14.18.2 &> /dev/null; then
+  echo "Failed to install node"
+  exit ${FAILED_SETUP}
+fi
+
 # Run spec tests
 export USE_MIN=1
 if ! yarn test:e2e:lang; then

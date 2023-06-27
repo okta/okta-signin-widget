@@ -1,0 +1,99 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SymantecVip Authenticator Transformer Tests should have correct elements in enroll flow 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.symantecVip.enroll.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.symantecVip.enroll.description",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "Fake Label 1",
+        "type": "Field",
+      },
+      Object {
+        "label": "Fake Label 2",
+        "type": "Field",
+      },
+      Object {
+        "label": "mfa.enroll",
+        "options": Object {
+          "step": "enroll-authenticator",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`SymantecVip Authenticator Transformer Tests should have correct elements in verify flow 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.symantecVip.challenge.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.symantecVip.challenge.description",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "Fake Label 1",
+        "type": "Field",
+      },
+      Object {
+        "label": "Fake Label 2",
+        "type": "Field",
+      },
+      Object {
+        "label": "mfa.challenge.verify",
+        "options": Object {
+          "step": "challenge-authenticator",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

@@ -1,17 +1,13 @@
-import { Selector } from 'testcafe';
+import { Selector, userVariables } from 'testcafe';
+import { within } from '@testing-library/testcafe';
 import BasePageObject from './BasePageObject';
 
 export default class SignInDeviceViewPageObject extends BasePageObject {
   constructor(t) {
     super(t);
     this.t = t;
-    this.beacon = new Selector('.beacon-container');
     this.body = new Selector('.launch-authenticator');
     this.footer = new Selector('.auth-footer');
-  }
-
-  getBeaconClass() {
-    return this.beacon.find('[data-se="factor-beacon"]').getAttribute('class');
   }
 
   getHeader() {
@@ -19,30 +15,54 @@ export default class SignInDeviceViewPageObject extends BasePageObject {
   }
 
   getContentText() {
-    return this.getTextContent('[data-se="o-form-fieldset-container"] .signin-with-ov-description');
+    return this.form.getByText('To access Microsoft Office 365, your organization requires you to sign in with Okta FastPass.');
   }
 
   getOVButtonIcon() {
-    return this.body.find('.okta-verify-container [data-se="button"] span').getAttribute('class');
+    if (userVariables.v3) {
+      return within(
+        this.form.getButton('Okta Verify Sign in with Okta FastPass')
+      ).queryByRole('img', { name: 'Okta Verify' });
+    }
+    return this.body.find('.okta-verify-container [data-se="button"] span.icon.okta-verify-authenticator');
   }
 
   getOVButtonLabel() {
+    if (userVariables.v3) {
+      return this.form.getButton('Okta Verify Sign in with Okta FastPass').innerText;
+    }
     return this.getTextContent('.okta-verify-container [data-se="button"]');
   }
 
   getEnrollFooterLink() {
-    return this.footer.find('[data-se="enroll"]');
+    return this.form.getLink('Sign up');
   }
 
-  getHelpFooterLink() {
-    return this.footer.find('[data-se="help"]');
+  getUnlockAccountLink(name = 'Unlock account?') {
+    return this.form.getLink(name);
+  }
+
+  unlockAccountLinkExists(name = 'Unlock account?') {
+    return this.getUnlockAccountLink(name).exists;
+  }
+
+  getUnlockAccountLinkText() {
+    return this.getUnlockAccountLink().textContent;
+  }
+
+  getCustomUnlockAccountLinkUrl(name) {
+    return this.getUnlockAccountLink(name).getAttribute('href');
   }
 
   getSignOutFooterLink() {
-    return this.footer.find('[data-se="cancel"]');
+    return this.getCancelLink();
   }
 
   async clickLaunchOktaVerifyButton() {
-    await this.t.click(this.body.find('.okta-verify-container [data-se="button"]'));
+    if (userVariables.v3) {
+      await this.form.clickButton('Okta Verify Sign in with Okta FastPass');
+    } else {
+      await this.t.click(this.body.find('.okta-verify-container [data-se="button"]'));
+    }
   }
 }

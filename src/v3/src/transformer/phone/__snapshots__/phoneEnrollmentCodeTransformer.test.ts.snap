@@ -1,0 +1,193 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PhoneEnrollmentCodeTransformer Tests should create phone code enrollment UI elements with sms as the first method type 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.phone.enroll.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.phone.verify.sms.codeSentText oie.phone.alternate.title. oie.phone.verify.enterCodeText",
+        },
+        "type": "Description",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.phone.carrier.charges",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "mfa.challenge.verify",
+        "options": Object {
+          "step": "",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`PhoneEnrollmentCodeTransformer Tests should create phone code enrollment UI elements with sms as the first method type and phoneNumber in profile 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.phone.enroll.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.phone.verify.sms.codeSentText <span class=\\"strong no-translate\\">1215XXXXXX8.</span> oie.phone.verify.enterCodeText",
+        },
+        "type": "Description",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.phone.carrier.charges",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "mfa.challenge.verify",
+        "options": Object {
+          "step": "",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`PhoneEnrollmentCodeTransformer Tests should create phone code enrollment UI elements with voice as the first method type 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.phone.enroll.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "mfa.calling oie.phone.alternate.title. oie.phone.verify.enterCodeText",
+        },
+        "type": "Description",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.phone.carrier.charges",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "mfa.challenge.verify",
+        "options": Object {
+          "step": "",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`PhoneEnrollmentCodeTransformer Tests should create phone code enrollment UI elements with voice as the first method type and phoneNumber in profile 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.phone.enroll.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "mfa.calling <span class=\\"strong no-translate\\">1215XXXXXX8.</span> oie.phone.verify.enterCodeText",
+        },
+        "type": "Description",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.phone.carrier.charges",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "mfa.challenge.verify",
+        "options": Object {
+          "step": "",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

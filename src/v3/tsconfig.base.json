@@ -1,0 +1,63 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact",
+    "lib": [
+      "ES2020",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "noEmit": true,
+    "paths": {
+      "@okta/courage": [
+        "../../packages/@okta/courage-dist"
+      ],
+      "@okta/mocks/*": [
+        "../../playground/mocks/*"
+      ],
+      "@okta/okta-i18n-bundles": [
+        "../util/Bundles.ts"
+      ],
+      "@okta/qtip": [
+        "../../packages/@okta/qtip2/dist/jquery.qtip.js"
+      ],
+      "config/config.json": [
+        "../config/config.json"
+      ],
+      "nls/*": [
+        "../../packages/@okta/i18n/src/json/*"
+      ],
+      "react": [
+        "./node_modules/preact/compat",
+        "../../node_modules/preact/compat"
+      ],
+      "react-dom": [
+        "./node_modules/preact/compat",
+        "../../node_modules/preact/compat"
+      ],
+      "src/*": [
+        "./src/*"
+      ],
+      "util/*": [
+        "../util/*"
+      ]
+    },
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "ES6",
+    "useDefineForClassFields": true
+  },
+  "extends": "../../tsconfig.json",
+  "files": [
+    "global.d.ts",
+    "widgetrc.ts"
+  ]
+}

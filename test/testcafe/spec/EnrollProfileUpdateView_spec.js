@@ -35,7 +35,8 @@ const requestLogger = RequestLogger(
   }
 );
 
-fixture('Enroll Profile update additional information');
+fixture('Enroll Profile update additional information')
+  .meta('v3', true);
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
@@ -49,16 +50,16 @@ test.requestHooks(xhrEnrollProfileUpdateMock)('should have correct form title, f
   await checkA11y(t);
   await identityPage.fillIdentifierField('test');
   await identityPage.fillPasswordField('test 123');
-  await identityPage.clickNextButton();
+  await identityPage.clickSignInButton();
 
   await t.expect(enrollProfileUpdatePage.getFormTitle()).eql('Additional Profile information');
-  await t.expect(await enrollProfileUpdatePage.skipSetUpLinkExists()).notOk();
-  await t.expect(await enrollProfileUpdatePage.getFormFieldLabel('userProfile.secondEmail')).eql('Secondary email');
+  await t.expect(await enrollProfileUpdatePage.skipProfileLinkExists()).eql(false);
+  await t.expect(await enrollProfileUpdatePage.formFieldExistsByLabel('Secondary email')).eql(true);
   await t.expect(enrollProfileUpdatePage.getFormFieldSubLabel('userProfile.secondEmail')).eql('Optional');
 
   // show error when field is required
   await enrollProfileUpdatePage.clickFinishButton();
-  await t.expect(enrollProfileUpdatePage.getTextBoxErrorMessage('userProfile.newAttribute2')).eql('This field cannot be left blank');
+  await t.expect(await enrollProfileUpdatePage.getTextBoxErrorMessage('userProfile.newAttribute2')).eql('This field cannot be left blank');
 });
 
 test.requestHooks(requestLogger, xhrEnrollProfileUpdateAllOptionalMock)('should have skip link when all fields are optional', async t => {
@@ -67,14 +68,13 @@ test.requestHooks(requestLogger, xhrEnrollProfileUpdateAllOptionalMock)('should 
   await checkA11y(t);
   await identityPage.fillIdentifierField('test');
   await identityPage.fillPasswordField('test 123');
-  await identityPage.clickNextButton();
+  await identityPage.clickSignInButton();
 
-  await t.expect(await enrollProfileUpdatePage.skipSetUpLinkExists()).ok();
-  await t.expect(enrollProfileUpdatePage.getSetUpSkipLinkText()).eql('Skip Profile');
-  await t.expect(enrollProfileUpdatePage.getSaveButtonLabel()).eql('Finish');
+  await t.expect(await enrollProfileUpdatePage.skipProfileLinkExists()).ok();
+  await t.expect(enrollProfileUpdatePage.form.getButton('Finish').exists).eql(true);
 
   requestLogger.clear();
-  await enrollProfileUpdatePage.clickSetUpSkipLink();
+  await enrollProfileUpdatePage.clickSkipProfileLink();
   const req = requestLogger.requests[0].request;
   await t.expect(req.url).eql('http://localhost:3000/idp/idx/skip');
 });
@@ -85,7 +85,7 @@ test.requestHooks(requestLogger, xhrEnrollProfileUpdateAllOptionalSuccess)('shou
   await checkA11y(t);
   await identityPage.fillIdentifierField('test');
   await identityPage.fillPasswordField('test 123');
-  await identityPage.clickNextButton();
+  await identityPage.clickSignInButton();
 
   requestLogger.clear();
   await enrollProfileUpdatePage.clickFinishButton();

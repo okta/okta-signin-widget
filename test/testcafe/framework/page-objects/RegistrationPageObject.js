@@ -1,5 +1,5 @@
 import BasePageObject from './BasePageObject';
-import { Selector } from 'testcafe';
+import { Selector, userVariables } from 'testcafe';
 
 const FIRSTNAME_FIELD = 'userProfile\\.firstName';
 const LASTNAME_FIELD = 'userProfile\\.lastName';
@@ -48,7 +48,7 @@ export default class RegistrationPageObject extends BasePageObject {
   }
 
   clickRegisterButton() {
-    return this.form.clickSaveButton();
+    return this.form.clickSaveButton('Sign Up');
   }
 
   waitForErrorBox() {
@@ -60,7 +60,7 @@ export default class RegistrationPageObject extends BasePageObject {
   }
 
   hasFirstNameError() {
-    return this.form.hasTextBoxError(FIRSTNAME_FIELD);
+    return this.form.hasTextBoxErrorMessage(FIRSTNAME_FIELD);
   }
 
   hasFirstNameErrorMessage() {
@@ -68,19 +68,19 @@ export default class RegistrationPageObject extends BasePageObject {
   }
 
   hasLastNameError() {
-    return this.form.hasTextBoxError(LASTNAME_FIELD);
+    return this.form.hasTextBoxErrorMessage(LASTNAME_FIELD);
   }
 
   hasLastNameErrorMessage() {
     return this.form.hasTextBoxErrorMessage(LASTNAME_FIELD);
   }
 
-  hasEmailError() {
-    return this.form.hasTextBoxError(EMAIL_FIELD);
+  hasEmailError(index = undefined) {
+    return this.form.hasTextBoxErrorMessage(EMAIL_FIELD, index);
   }
 
-  hasEmailErrorMessage() {
-    return this.form.hasTextBoxErrorMessage(EMAIL_FIELD);
+  hasEmailErrorMessage(index = undefined) {
+    return this.form.hasTextBoxErrorMessage(EMAIL_FIELD, index);
   }
 
   waitForLastNameError() {
@@ -91,19 +91,22 @@ export default class RegistrationPageObject extends BasePageObject {
     return this.form.waitForTextBoxError(EMAIL_FIELD);
   }
 
-  getEmailErrorMessage() {
-    return this.form.getTextBoxErrorMessage(EMAIL_FIELD);
+  getEmailErrorMessage(index = undefined) {
+    return this.form.getTextBoxErrorMessage(EMAIL_FIELD, index);
   }
 
   getNthEmailErrorMessage(value) {
     return this.form.getNthErrorMessage(EMAIL_FIELD, value);
   }
 
-  getHaveAccountLabel() {
-    return Selector(BACK).textContent;
+  alreadyHaveAccountExists() {
+    if (userVariables.v3) {
+      return this.form.getByText('Already have an account?').exists;
+    }
+    return Selector(BACK).exists;
   }
 
-  getTerminalContent() {
-    return this.form.getTerminalContent();
+  terminalMessageExist(message) {
+    return this.form.getByText(message).exists;
   }
 }

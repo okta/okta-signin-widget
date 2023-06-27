@@ -105,6 +105,19 @@ module.exports = function(grunt) {
             cwd: 'polyfill',
             src: ['*.js'],
             dest: 'dist/polyfill'
+          },
+          {
+            expand: true,
+            dest: 'dist/src/v3',
+            cwd: 'src/v3/src',
+            src: [
+              '**',
+              '!bin/**',
+              '!mocks/**',
+              '!**/__snapshots__/**',
+              '!**/*.svg',
+              '!**/*.test.{js,jsx,ts,tsx}',
+            ],
           }
         ]
       },
@@ -213,7 +226,7 @@ module.exports = function(grunt) {
             dest: 'target/js'
           }
         ]
-      }
+      },
     },
 
     exec: {
@@ -222,8 +235,8 @@ module.exports = function(grunt) {
       'build-dev': 'yarn build:webpack-dev' + (mockDuo ? ' --env mockDuo=true' : ''),
       'build-esm': 'yarn build:esm',
       'build-dev-watch':
-        'yarn build:webpack-dev --watch --env skipAnalyzer=true' + (mockDuo ? ' --env mockDuo=true' : ''),
-      'build-release': 'yarn build:webpack-release',
+      'yarn build:webpack-dev --watch --env skipAnalyzer=true' + (mockDuo ? ' --env mockDuo=true' : ''),
+      'build-release': 'yarn build:webpack-release && yarn workspace v3 build',
       'build-e2e-app': 'yarn build:webpack-e2e-app',
       'generate-config': 'yarn generate-config',
       'run-protractor': 'yarn protractor',
@@ -241,7 +254,7 @@ module.exports = function(grunt) {
             extensions: ['html'],
             setHeaders: res => {
               res.setHeader(
-                'Content-Security-Policy', 
+                'Content-Security-Policy',
                 `script-src 'unsafe-inline' http://localhost:${DEFAULT_SERVER_PORT}`
               );
             }

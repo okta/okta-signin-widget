@@ -1,0 +1,326 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IDP Button transformer tests should add Fastpass button when exists in remediation 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "Sign in",
+        },
+        "type": "Title",
+      },
+      Object {
+        "label": "oktaVerify.button",
+        "options": Object {
+          "challengeMethod": undefined,
+          "deviceChallengeUrl": undefined,
+          "step": "launch-authenticator",
+        },
+        "type": "LaunchAuthenticatorButton",
+      },
+      Object {
+        "options": Object {
+          "text": "socialauth.divider.text",
+        },
+        "type": "Divider",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "name": "identifier",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "name": "credentials.passcode",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "options": Object {
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+      Object {
+        "options": Object {
+          "label": "Forgot Password",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`IDP Button transformer tests should add PIV/CAC IDP button when exists in remediation with SECONDARY display 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "Sign in",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "name": "identifier",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "name": "credentials.passcode",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "options": Object {
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+      Object {
+        "options": Object {
+          "text": "socialauth.divider.text",
+        },
+        "type": "Divider",
+      },
+      Object {
+        "label": "piv.cac.card",
+        "options": Object {
+          "Icon": "MockSVGIcon",
+          "classes": " piv-button",
+          "dataSe": "piv-card-button",
+          "iconAlt": "piv.card",
+          "onClick": [Function],
+          "step": "piv-idp",
+          "type": "button",
+          "variant": "secondary",
+        },
+        "type": "Button",
+      },
+      Object {
+        "options": Object {
+          "label": "Forgot Password",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`IDP Button transformer tests should add PIV/CAC IDP button when exists in remediation with default (PRIMARY) display 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "Sign in",
+        },
+        "type": "Title",
+      },
+      Object {
+        "label": "piv.cac.card",
+        "options": Object {
+          "Icon": "MockSVGIcon",
+          "classes": " piv-button",
+          "dataSe": "piv-card-button",
+          "iconAlt": "piv.card",
+          "onClick": [Function],
+          "step": "piv-idp",
+          "type": "button",
+          "variant": "secondary",
+        },
+        "type": "Button",
+      },
+      Object {
+        "options": Object {
+          "text": "socialauth.divider.text",
+        },
+        "type": "Divider",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "name": "identifier",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "name": "credentials.passcode",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "options": Object {
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+      Object {
+        "options": Object {
+          "label": "Forgot Password",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`IDP Button transformer tests should not add PIV IDP button when PIV does not exist in remediation but Identify does 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "Sign in",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "name": "identifier",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "name": "credentials.passcode",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "options": Object {
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+      Object {
+        "options": Object {
+          "label": "Forgot Password",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`IDP Button transformer tests should not add PIV IDP button when PIV remediation exists but identify does not 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "Sign in",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "name": "identifier",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "name": "credentials.passcode",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "options": Object {
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+      Object {
+        "options": Object {
+          "label": "Forgot Password",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

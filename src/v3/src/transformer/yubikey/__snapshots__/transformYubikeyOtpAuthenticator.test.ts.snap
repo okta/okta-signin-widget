@@ -1,0 +1,115 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Yubikey OTP transformer Tests Yubikey OTP Enroll tests should add correct title, image, description, passcode input, and Set up button 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "SVGIcon": [Function],
+          "alignment": "center",
+          "id": "yubikey",
+        },
+        "type": "ImageWithText",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.yubikey.enroll.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.yubikey.description",
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "attributes": Object {
+            "autocomplete": "off",
+          },
+          "inputMeta": Object {
+            "name": "credentials.passcode",
+            "secret": true,
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "label": "oie.enroll.authenticator.button.text",
+        "options": Object {
+          "step": "enroll-authenticator",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Yubikey OTP transformer Tests Yubikey OTP Verify tests should add correct title, description, passcode input, and Verify button 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.yubikey.challenge.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.yubikey.description",
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "attributes": Object {
+            "autocomplete": "off",
+          },
+          "inputMeta": Object {
+            "name": "credentials.passcode",
+            "secret": true,
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "label": "oform.verify",
+        "options": Object {
+          "step": "challenge-authenticator",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

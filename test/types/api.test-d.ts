@@ -36,16 +36,16 @@ expectType<void>(signIn.remove());
 
 // Test event subscibe
 signIn.on('ready', (context: EventContext) => {
-  expectType<string>(context.controller);
+  expectType<string | null>(context.controller);
 });
 signIn.on('afterError', (context: EventContext, error: EventErrorContext) => {
-  expectType<string>(context.controller);
+  expectType<string | null>(context.controller);
   expectType<string | undefined>(error.message);
   expectType<number | undefined>(error.statusCode);
   expectType<number | undefined>(error.xhr?.status);
 });
 signIn.on('afterRender', (context: EventContext) => {
-  expectType<string>(context.controller);
+  expectType<string | null>(context.controller);
 });
 
 // Test event unsubscribe

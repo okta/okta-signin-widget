@@ -2,7 +2,7 @@ import { RequestMock } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 import EnrollRsaPageObject from '../framework/page-objects/EnrollOnPremPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { checkConsoleMessages, oktaDashboardContent } from '../framework/shared';
 import xhrAuthenticatorEnrollRsa from '../../../playground/mocks/data/idp/idx/authenticator-enroll-rsa';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 import xhrPasscodeChange from '../../../playground/mocks/data/idp/idx/error-authenticator-enroll-passcode-change-rsa';
@@ -11,7 +11,9 @@ const successMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorEnrollRsa)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
-  .respond(xhrSuccess);
+  .respond(xhrSuccess)
+  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+  .respond(oktaDashboardContent);
 
 const passcodeChangeMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -19,11 +21,12 @@ const passcodeChangeMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(xhrPasscodeChange, 403);
 
-fixture('Authenticator RSA');
+fixture('Authenticator RSA').meta('v3', true);
 
 async function setup(t) {
   const enrollRsaPage = new EnrollRsaPageObject(t);
   await enrollRsaPage.navigateToPage();
+  await t.expect(enrollRsaPage.formExists()).eql(true);
 
   await checkConsoleMessages({
     controller: 'enroll-rsa',
@@ -47,19 +50,20 @@ test
     await t.expect(enrollRsaPage.passcodeFieldExists()).eql(true);
 
     // Verify links (switch authenticator link is present even if there is just one authenticator available))
-    await t.expect(await enrollRsaPage.switchAuthenticatorLinkExists()).ok();
-    await t.expect(await enrollRsaPage.signoutLinkExists()).ok();
+    await t.expect(await enrollRsaPage.returnToAuthenticatorListLinkExists()).eql(true);
+    await t.expect(await enrollRsaPage.signoutLinkExists()).eql(true);
 
     // fields are required
     await enrollRsaPage.fillUserName('');
-    await enrollRsaPage.clickNextButton();
-    await enrollRsaPage.waitForErrorBox();
+    await t.pressKey('tab');
+    await enrollRsaPage.clickNextButton('Verify');
+    await enrollRsaPage.waitForGeneralErrorBox();
     await t.expect(enrollRsaPage.getPasscodeError()).eql('This field cannot be left blank');
     await t.expect(enrollRsaPage.getUserNameError()).eql('This field cannot be left blank');
 
     // Verify links (switch authenticator link is present even if there is just one authenticator available)
-    await t.expect(await enrollRsaPage.switchAuthenticatorLinkExists()).ok();
-    await t.expect(await enrollRsaPage.signoutLinkExists()).ok();
+    await t.expect(await enrollRsaPage.returnToAuthenticatorListLinkExists()).eql(true);
+    await t.expect(await enrollRsaPage.signoutLinkExists()).eql(true);
   });
 
 test
@@ -70,7 +74,7 @@ test
 
     await enrollRsaPage.fillUserName('abcdabcd');
     await enrollRsaPage.fillPasscode('abcdabcd');
-    await enrollRsaPage.clickNextButton();
+    await enrollRsaPage.clickNextButton('Verify');
 
     const pageUrl = await successPage.getPageUrl();
     await t.expect(pageUrl)
@@ -84,11 +88,10 @@ test
 
     await enrollRsaPage.fillUserName('abcdabcd');
     await enrollRsaPage.fillPasscode('abcdabcd');
-    await enrollRsaPage.clickNextButton();
+    await enrollRsaPage.clickNextButton('Verify');
 
-    await enrollRsaPage.waitForErrorBox();
-    const errorBox = enrollRsaPage.getErrorBox();
-    await t.expect(errorBox.innerText)
+    await enrollRsaPage.form.waitForAnyAlertBox();
+    await t.expect(enrollRsaPage.getErrorBoxText())
       .contains('Pin accepted, Wait for token to change, then enter new passcode.');
     await t.expect(enrollRsaPage.getPasscodeValue()).eql('');
   });

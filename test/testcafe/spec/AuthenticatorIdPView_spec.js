@@ -49,6 +49,7 @@ const verifyErrorMock = RequestMock()
 async function setup(t, isVerify) {
   const pageObject = new IdPAuthenticatorPageObject(t);
   await pageObject.navigateToPage();
+  await t.expect(pageObject.formExists()).eql(true);
 
   const { log } = await t.getBrowserConsoleMessages();
   await t.expect(log.length).eql(3);
@@ -63,15 +64,15 @@ async function setup(t, isVerify) {
   return pageObject;
 }
 
-fixture('Enroll IdP Authenticator');
+fixture('Enroll IdP Authenticator').meta('v3', true);
 test
   .requestHooks(logger, enrollMock)('enroll with IdP authenticator', async t => {
     const pageObject = await setup(t);
     await checkA11y(t);
 
-    await t.expect(pageObject.getPageTitle()).eql('Set up IDP Authenticator');
+    await t.expect(pageObject.getFormTitle()).eql('Set up IDP Authenticator');
     await t.expect(pageObject.getPageSubtitle()).eql('You will be redirected to enroll in IDP Authenticator');
-    await pageObject.submit();
+    await pageObject.submit('Enroll');
 
     const pageUrl = await pageObject.getPageUrl();
     await t.expect(pageUrl)
@@ -83,20 +84,20 @@ test
     const pageObject = await setup(t);
     await checkA11y(t);
 
-    await t.expect(pageObject.getPageTitle()).eql('Set up IDP Authenticator');
+    await t.expect(pageObject.getFormTitle()).eql('Set up IDP Authenticator');
     await t.expect(pageObject.getPageSubtitle()).eql('You will be redirected to enroll in IDP Authenticator');
     await t.expect(pageObject.getErrorFromErrorBox()).eql('Unable to enroll authenticator. Try again.');
   });
 
-fixture('Verify IdP Authenticator');
+fixture('Verify IdP Authenticator').meta('v3', true);
 test
   .requestHooks(logger, verifyMock)('verify with IdP authenticator', async t => {
     const pageObject = await setup(t, true);
     await checkA11y(t);
 
-    await t.expect(pageObject.getPageTitle()).eql('Verify with IDP Authenticator');
+    await t.expect(pageObject.getFormTitle()).eql('Verify with IDP Authenticator');
     await t.expect(pageObject.getPageSubtitle()).eql('You will be redirected to verify with IDP Authenticator');
-    await pageObject.submit();
+    await pageObject.submit('Verify');
 
     const pageUrl = await pageObject.getPageUrl();
     await t.expect(pageUrl)
@@ -108,9 +109,9 @@ test
     const pageObject = await setup(t, true);
     await checkA11y(t);
 
-    await t.expect(pageObject.getPageTitle()).eql('Verify with IDP Authenticator');
+    await t.expect(pageObject.getFormTitle()).eql('Verify with IDP Authenticator');
     await t.expect(pageObject.getPageSubtitle()).eql('You will be redirected to verify with IDP Authenticator');
-    await pageObject.submit();
+    await pageObject.submit('Verify');
 
     const pageUrl = await pageObject.getPageUrl();
     await t.expect(pageUrl)
@@ -122,7 +123,7 @@ test
     const pageObject = await setup(t, true);
     await checkA11y(t);
 
-    await t.expect(pageObject.getPageTitle()).eql('Verify with IDP Authenticator');
+    await t.expect(pageObject.getFormTitle()).eql('Verify with IDP Authenticator');
     await t.expect(pageObject.getPageSubtitle()).eql('You will be redirected to verify with IDP Authenticator');
     await t.expect(pageObject.getErrorFromErrorBox()).eql('Unable to verify authenticator. Try again.');
   });

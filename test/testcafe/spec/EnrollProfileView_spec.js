@@ -1,4 +1,4 @@
-import { RequestMock, RequestLogger } from 'testcafe';
+import { RequestMock, RequestLogger, userVariables } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import EnrollProfileViewPageObject from '../framework/page-objects/EnrollProfileViewPageObject';
@@ -81,7 +81,8 @@ const requestLogger = RequestLogger(
   }
 );
 
-fixture('Enroll Profile');
+fixture('Enroll Profile')
+  .meta('v3', true);
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
@@ -97,10 +98,10 @@ test.requestHooks(requestLogger, EnrollProfileSignUpMock)('should show sign up b
 
   requestLogger.clear();
   await t.expect(enrollProfilePage.getFormTitle()).eql('Sign up');
-  await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.firstName')).eql('First name');
-  await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.lastName')).eql('Last name');
-  await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.email')).eql('Email');
-  await t.expect(await enrollProfilePage.getSaveButtonLabel()).eql('Sign Up');
+  await t.expect(await enrollProfilePage.formFieldExistsByLabel('First name')).eql(true);
+  await t.expect(await enrollProfilePage.formFieldExistsByLabel('Last name')).eql(true);
+  await t.expect(await enrollProfilePage.formFieldExistsByLabel('Email')).eql(true);
+  await t.expect(await enrollProfilePage.signUpButtonExists()).eql(true);
 });
 
 test.requestHooks(requestLogger, EnrollProfileSubmitMock)('should show submit button when updating info for an existing user', async t => {
@@ -109,14 +110,15 @@ test.requestHooks(requestLogger, EnrollProfileSubmitMock)('should show submit bu
   await checkA11y(t);
   await identityPage.fillIdentifierField('test');
   await identityPage.fillPasswordField('test 123');
-  await identityPage.clickNextButton();
+  await identityPage.clickSignInButton();
 
   requestLogger.clear();
   await t.expect(enrollProfilePage.getFormTitle()).eql('Sign in');
-  await t.expect(await enrollProfilePage.getSaveButtonLabel()).eql('Submit');
+  await t.expect(await enrollProfilePage.submitButtonExists()).eql(true);
 });
 
-test.requestHooks(requestLogger, EnrollProfileSignUpWithCustomLabelsMock)('should show custom label when provided in response', async t => {
+// TODO: OKTA-616638 - enable custom label in v3
+test.meta('v3', false).requestHooks(requestLogger, EnrollProfileSignUpWithCustomLabelsMock)('should show custom label when provided in response', async t => {
   const enrollProfilePage = new EnrollProfileViewPageObject(t);
   const identityPage = await setup(t);
   await checkA11y(t);
@@ -138,17 +140,16 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithAdditionalFieldsMock)('s
   await identityPage.clickSignUpLink();
 
   requestLogger.clear();
-  await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.country')).eql('Country');
-  await t.expect(await enrollProfilePage.isDropdownVisible('userProfile.country')).ok();
-  await t.expect(await enrollProfilePage.getValueFromDropdown('userProfile.country')).eql('Select an Option');
+  await t.expect(await enrollProfilePage.dropDownExistsByLabel('Country')).eql(true);
+  const defaultOptionLabel = userVariables.v3 ? 'Select an option' : 'Select an Option';
+  await t.expect(await enrollProfilePage.form.getValueFromDropdown('userProfile.country')).eql(defaultOptionLabel);
   await enrollProfilePage.selectValueFromDropdown('userProfile.country', 1);
 
-  await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.countryCode')).eql('Country code');
+  await t.expect(await enrollProfilePage.formFieldExistsByLabel('Country code')).eql(true);
   await enrollProfilePage.setTextBoxValue('userProfile.countryCode', 'US');
 
-  await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.timezone')).eql('Time zone');
-  await t.expect(await enrollProfilePage.isDropdownVisible('userProfile.timezone')).ok();
-  await t.expect(await enrollProfilePage.getValueFromDropdown('userProfile.timezone')).eql('Select an Option');
+  await t.expect(await enrollProfilePage.dropDownExistsByLabel('Time zone')).eql(true);
+  await t.expect(await enrollProfilePage.getValueFromDropdown('userProfile.timezone')).eql(defaultOptionLabel);
   await enrollProfilePage.selectValueFromDropdown('userProfile.timezone', 1);
 });
 
@@ -209,10 +210,9 @@ test.requestHooks(requestLogger, EnrollProfileSignUpAllBaseAttributesMock)('All 
   };
 
   Object.keys(formFieldToLabel).forEach(async (formField) => {
-    const selector = `userProfile.${formField}`;
     // verify all base attributes map to correct translation
     // all 'label' fields for base attributes in json are appended with a '1'
-    await t.expect(await enrollProfilePage.getFormFieldLabel(selector)).eql(formFieldToLabel[formField]);
+    await t.expect(await enrollProfilePage.form.fieldByLabelExists(formFieldToLabel[formField])).eql(true);
   });
 });
 
@@ -224,19 +224,22 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithPasswordMock)('should sh
 
   requestLogger.clear();
   await t.expect(enrollProfilePage.getFormTitle()).eql('Sign up');
-  await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.firstName')).eql('First name');
-  await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.lastName')).eql('Last name');
-  await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.email')).eql('Email');
+  await t.expect(await enrollProfilePage.formFieldExistsByLabel('First name')).eql(true);
+  await t.expect(await enrollProfilePage.formFieldExistsByLabel('Last name')).eql(true);
+  await t.expect(await enrollProfilePage.formFieldExistsByLabel('Email')).eql(true);
   // verify prompt & field for password are rendered
-  await t.expect(await enrollProfilePage.getFormFieldLabel('credentials.passcode')).eql('Password');
+  await t.expect(await enrollProfilePage.formFieldExistsByLabel('Password')).eql(true);
   // verify password text toggle is rendered
   await t.expect(await identityPage.hasShowTogglePasswordIcon()).ok();
   // verify password requirements are rendered
-  await t.expect(await enrollProfilePage.form.elementExist('section[data-se="password-authenticator--rules"]')).ok();
-  await t.expect(await enrollProfilePage.form.getInnerTexts('div[class="password-authenticator--heading"]')).eql(['Password requirements:']);
-  await t.expect(await enrollProfilePage.form.elementExist('ul[class="password-authenticator--list"]')).ok();
+  await t.expect(enrollProfilePage.hasText('Password requirements:')).eql(true);
+  await t.expect(enrollProfilePage.hasText('At least 8 characters')).eql(true);
+  await t.expect(enrollProfilePage.hasText('An uppercase letter')).eql(true);
+  await t.expect(enrollProfilePage.hasText('A lowercase letter')).eql(true);
+  await t.expect(enrollProfilePage.hasText('A number')).eql(true);
+  await t.expect(enrollProfilePage.hasText('No parts of your username')).eql(true);
 
-  await t.expect(await enrollProfilePage.getSaveButtonLabel()).eql('Sign Up');
+  await t.expect(await enrollProfilePage.signUpButtonExists()).eql(true);
 
   // Fill in attribute fields
   await enrollProfilePage.setTextBoxValue('userProfile.firstName', 'First');
@@ -258,15 +261,20 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithPasswordMock)('should sh
   await enrollProfilePage.setTextBoxValue('userProfile.lastName', 'Last');
   await enrollProfilePage.setTextBoxValue('userProfile.email', 'first@last.com');
   await identityPage.fillPasswordField('invalid');
-  // click Save
-  await enrollProfilePage.form.clickSaveButton();
+  // click Sign Up
+  await enrollProfilePage.form.clickSaveButton('Sign Up');
   // Verify error handling
   await enrollProfilePage.form.waitForErrorBox();
 
-  await t.expect(await enrollProfilePage.getErrorBoxText())
-    .eql('We found some errors. Please review the form and make corrections.');
-  await t.expect(await enrollProfilePage.form.getTextBoxErrorMessage('credentials.passcode'))
-    .eql('Password requirements were not met');
+  // Field level error for v3 has been changed to display a list of failed requirements
+  // Prefixed with "Password requirements were not met"
+  const passwordErrorMessage = await enrollProfilePage.form.getTextBoxErrorMessage('credentials.passcode');
+  await t.expect(passwordErrorMessage).contains('Password requirements were not met');
+  if (userVariables.v3) {
+    await t.expect(passwordErrorMessage).contains('A number');
+    await t.expect(passwordErrorMessage).contains('At least 8 characters');
+    await t.expect(passwordErrorMessage).contains('An uppercase letter'); 
+  }
 });
 
 test.requestHooks(requestLogger, EnrollProfileSignUpWithPasswordMultipleErrorsMock)('should show multiple errors when multiple fields are invalid, including invalid password', async t => {
@@ -284,15 +292,28 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithPasswordMultipleErrorsMo
   await enrollProfilePage.setTextBoxValue('userProfile.email', 'first@last');
   await identityPage.fillPasswordField('invalid');
   // click Save
-  await enrollProfilePage.form.clickSaveButton();
+  await enrollProfilePage.form.clickSaveButton('Sign Up');
   // Verify error handling
   await enrollProfilePage.form.waitForErrorBox();
 
-  await t.expect(await enrollProfilePage.getErrorBoxText())
-    .eql('We found some errors. Please review the form and make corrections.');
-  await t.expect(await enrollProfilePage.form.hasTextBoxErrorMessage('userProfile.email')).eql(true);
-  await t.expect(await enrollProfilePage.form.getTextBoxErrorMessage('credentials.passcode'))
-    .eql('Password requirements were not met');
+  // Field level error for v3 has been changed to display a list of failed requirements
+  // Prefixed with "Password requirements were not met"
+  const passwordErrorMessage = await enrollProfilePage.form.getTextBoxErrorMessage('credentials.passcode');
+  await t.expect(passwordErrorMessage).contains('Password requirements were not met');
+  if (userVariables.v3) {
+    await t.expect(passwordErrorMessage).contains('A number');
+    await t.expect(passwordErrorMessage).contains('At least 8 characters');
+    await t.expect(passwordErrorMessage).contains('An uppercase letter');
+
+    // v3 implements requirements as a client-side error so we must complete and resubmit for
+    // additional errors
+    await identityPage.fillPasswordField('invalid3A');
+    // v3 triggers field level validation on blur, so to prevent a mis-click we are triggering the blur
+    await t.pressKey('tab');
+    await enrollProfilePage.form.clickSaveButton('Sign Up');
+  }
+
+  await t.expect(await enrollProfilePage.form.hasTextBoxErrorMessage('userProfile.email', 0)).eql(true);
 });
 
 test.requestHooks(requestLogger, EnrollProfileSignUpWIthIdpsMock)('Should render social IDP buttons when returned via remediation', async t => {
@@ -303,10 +324,10 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWIthIdpsMock)('Should render
 
   requestLogger.clear();
 
-  await t.expect(enrollProfilePage.getIdpButton('.social-auth-facebook-button').textContent).eql('Sign in with Facebook');
-  await t.expect(enrollProfilePage.getIdpButton('.social-auth-google-button').textContent).eql('Sign in with Google');
-  await t.expect(enrollProfilePage.getIdpButton('.social-auth-linkedin-button').textContent).eql('Sign in with LinkedIn');
-  await t.expect(enrollProfilePage.getIdpButton('.social-auth-microsoft-button').textContent).eql('Sign in with Microsoft');
+  await t.expect(enrollProfilePage.getIdpButton('Sign in with Facebook').exists).eql(true);
+  await t.expect(enrollProfilePage.getIdpButton('Sign in with Google').exists).eql(true);
+  await t.expect(enrollProfilePage.getIdpButton('Sign in with LinkedIn').exists).eql(true);
+  await t.expect(enrollProfilePage.getIdpButton('Sign in with Microsoft').exists).eql(true);
 });
 
 test.requestHooks(requestLogger, EnrollProfileSignUpWIthIdpsMock)('Clicking IDP buttons does redirect', async t => {
@@ -317,13 +338,13 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWIthIdpsMock)('Clicking IDP 
 
   requestLogger.clear();
 
-  await t.expect(enrollProfilePage.getIdpButton('.social-auth-facebook-button').textContent).eql('Sign in with Facebook');
-  await t.expect(enrollProfilePage.getIdpButton('.social-auth-google-button').textContent).eql('Sign in with Google');
-  await t.expect(enrollProfilePage.getIdpButton('.social-auth-linkedin-button').textContent).eql('Sign in with LinkedIn');
-  await t.expect(enrollProfilePage.getIdpButton('.social-auth-microsoft-button').textContent).eql('Sign in with Microsoft');
+  await t.expect(enrollProfilePage.getIdpButton('Sign in with Facebook').exists).eql(true);
+  await t.expect(enrollProfilePage.getIdpButton('Sign in with Google').exists).eql(true);
+  await t.expect(enrollProfilePage.getIdpButton('Sign in with LinkedIn').exists).eql(true);
+  await t.expect(enrollProfilePage.getIdpButton('Sign in with Microsoft').exists).eql(true);
 
   //click on social idp button
-  await enrollProfilePage.clickIdpButton('.social-auth-facebook-button');
+  await enrollProfilePage.clickIdpButton('Sign in with Facebook');
   const pageUrl = await enrollProfilePage.getPageUrl();
   await t.expect(pageUrl)
     .eql('http://localhost:3000/sso/idps/facebook-123?stateToken=eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25rZXkiLCJ2ZXIiOiIxIiwib2lkIjoiMDBvczI0VHZiWHlqOVFLSm4wZzMiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0..aDi6JnIZwCRzk7RN.xQ1R9jj43bV5S17F1juzgTZGd9Gq7VvuE4Hc1V_tMVcTWiVQ1Ntim1tQPZtmnpfOifu-N_quGGDSdgiidb_2xU1m9SbDMJhV-Yp6E07tABwjaRd_ekuRzDFw7Jxknz33LtSwQOTQ-WiH2o6JikLiEz2BQbgoizIc2izbtdod7HJg0HVnMZ9ZlBqyBG1-EISI_xPypq8uzP8n79hP_Zz41RI7VJA35yfTuNLOX_k6B-mfeVKf4HyFsKm62XWQgcPIxhjxBMqmyZow2toNclV3sIqgw7I5tKCLQSmSnKbFxxuT4-G31BdaVOALAe9Z89zlluTYaKAPOr86RMsqaGKnQFaplc_0PiPbreKhVgvSeeJgqX2RwnLgckLLiRo7TRDs2kLhGY2ope0AeA9TSsTVdJzsScftZWKgh9iHpXjS-kGcbRx0etu4iTtbHOu3rDIfIcvvt55mfvA66wzy1CCxHt4WYNnBKHX0fIOW_fa_-RYGYug9YRV5G6nQ6V-CfHoxmEsMhsoFJu0hei34_SJv15w2l3vxxBytrWSWi5qUfm5zGjNlx8e9n1Sf_eAqXCfLhBLK4_14jwtjNbWOZCdg5dwzxQiQWDItBjijEjdQrK0i6tw2Rp-IMJD1-4_ZfFZDmAXgZZtBYc3kdmumgYpKeYUJJgw0ZJWoG-Xr0bbzGGMx46yHzMpDbSTpiWhKGytQPbNja8sf_eeOKx_AAosamDUub9yuZJb0-Nj0xvXZ89J0m_09wa2Z3G-zY01sv9ONkXMFzRVwAb2bHmGle082bq33-7Klk7_ZzzkBROJhgDHQcw5QibGWaqYqscgKv2NQV8ebGJO_BHU46p1T3MQzStxRZ2EZua9qQwsmL8P5yboNDt2YmYnUvaOcGfeAqwgovqNDQ0H4u-D5psFmiU1STLOlN5pSAauKe4VxlLxphiirrmiNOOOW0XTwaQ1vtPz8gFlXsmGB-0zcsySG6A6HJ49eOeEI0J2REy2dlFRxzdKthANM2xFc_AIgas9mcNhSWtmVEtMxv7N0xqGAJbxaJC6U4kDDXdImZVaovz4lgRFkIh3aUXgUMX558u9MBeF6Q7z3piIpT6A4I1ww_eDNM02Vew.inRUXNhsc6Evt7GAb8DPAA');
@@ -336,7 +357,7 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWIthIdpsMock)('custom idps s
 
   requestLogger.clear();
   
-  await t.expect(enrollProfilePage.getIdpsContainer().childElementCount).eql(8);
-  await t.expect(enrollProfilePage.getCustomIdpButtonLabel(0)).contains('Sign in with My SAML IDP');
-  await t.expect(enrollProfilePage.getCustomIdpButtonLabel(1)).eql('Sign in with SAML IDP');
+  await t.expect(enrollProfilePage.getIdpButtonCount()).eql(8);
+  await t.expect(enrollProfilePage.getIdpButton('Sign in with My SAML IDP').exists).eql(true);
+  await t.expect(enrollProfilePage.getIdpButton('Sign in with SAML IDP').exists).eql(true);
 });

@@ -1,3 +1,4 @@
+import { userVariables } from 'testcafe';
 import BasePageObject from './BasePageObject';
 
 export default class PIVPageObject extends BasePageObject {
@@ -13,19 +14,17 @@ export default class PIVPageObject extends BasePageObject {
     return this.form.getCallout(selector);
   }
 
-  clickIdpButton(selector) {
-    return this.form.clickElement(selector);
-  }
-
-  getPageTitle() {
-    return this.form.getElement('.okta-form-title').textContent;
-  }
-
   getPageSubtitle() {
+    if (userVariables.v3) {
+      return this.getFormSubtitle();
+    }
     return this.form.getElement('.piv-verify-text').textContent;
   }
 
   getErrorFromErrorBox() {
+    if (userVariables.v3) {
+      return this.getErrorBoxText();
+    }
     return this.form.getElement('.o-form-error-container').textContent;
   }
 

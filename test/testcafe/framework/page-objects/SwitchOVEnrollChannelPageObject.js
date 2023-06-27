@@ -1,7 +1,9 @@
 import BasePageObject from './BasePageObject';
+import { userVariables } from 'testcafe';
 
 const optionLabelSelector = '.radio-label';
 const channelOptionFieldName = 'authenticator.channel';
+const optionLabelSelectorV3 = '[type="radio"]';
 
 export default class SwitchOVEnrollPageObject extends BasePageObject {
   constructor(t) {
@@ -9,10 +11,19 @@ export default class SwitchOVEnrollPageObject extends BasePageObject {
   }
 
   getOptionCount() {
+    if (userVariables.v3) {
+      return this.form.getElement(optionLabelSelectorV3).count;
+    }
     return this.form.getElement(optionLabelSelector).count;
   }
 
   getOptionLabel(index) {
+    if (userVariables.v3) {
+      return this.form.getElement(optionLabelSelectorV3).nth(index)
+        .parent('span')
+        .parent('label')
+        .textContent;
+    }
     return this.form.getElement(optionLabelSelector).nth(index).textContent;
   }
 
@@ -21,7 +32,7 @@ export default class SwitchOVEnrollPageObject extends BasePageObject {
   }
 
   isRadioButtonChecked(value) {
-    return this.form.elementExist(`input[value="${value}"] + .checked`);
+    return this.form.getElement(`input[value="${value}"]`).checked;
   }
 
   clickNextButton() {

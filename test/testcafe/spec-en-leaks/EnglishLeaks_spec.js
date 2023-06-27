@@ -9,7 +9,7 @@ const PLAYGROUND = path.resolve(__dirname, '../../../playground');
 const mocksFolder = `${PLAYGROUND}/mocks/data/idp/idx`;
 const mocksOauth2Folder = `${PLAYGROUND}/mocks/data/oauth2`;
 
-fixture('English Leaks');
+fixture('English Leaks').meta('v3', true);
 
 // These mocks have known english leaks ignoring them temporarily
 const ignoredMocks = [

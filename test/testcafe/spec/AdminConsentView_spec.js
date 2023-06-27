@@ -1,5 +1,5 @@
-import { RequestMock, RequestLogger } from 'testcafe';
-import { checkA11y } from '../framework/a11y';
+import { RequestMock, RequestLogger, userVariables } from 'testcafe';
+import { checkA11y, oktaDashboardContent } from '../framework/a11y';
 
 import ConsentPageObject from '../framework/page-objects/ConsentPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
@@ -12,7 +12,9 @@ const consentAdminMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrConsentAdmin)
   .onRequestTo('http://localhost:3000/idp/idx/consent')
-  .respond(xhrSuccess);
+  .respond(xhrSuccess)
+  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+  .respond(oktaDashboardContent);
 
 const requestLogger = RequestLogger(/consent/,
   {
@@ -21,11 +23,12 @@ const requestLogger = RequestLogger(/consent/,
   }
 );
 
-fixture('AdminConsent');
+fixture('AdminConsent').meta('v3', true);
 
 async function setup(t) {
   const consentPage = new ConsentPageObject(t);
   await consentPage.navigateToPage();
+  await t.expect(consentPage.formExists()).eql(true);
   return consentPage;
 }
 
@@ -41,10 +44,13 @@ test.requestHooks(requestLogger, consentAdminMock)('should render scopes', async
   await checkA11y(t);
 
   await t.expect(consentPage.getScopeGroupName()).eql('Resource and policies');
-  await t.expect(consentPage.getScopeItemTexts()).eql([
-    'okta.authenticators.manage',
-    'okta.clients.manage',
-  ]);
+  await t.expect(consentPage.hasScopeText('okta.authenticators.manage')).eql(true);
+  await t.expect(consentPage.hasScopeText('okta.clients.manage')).eql(true);
+  // In Gen 3 it also includes the description on the page for each scope
+  if (userVariables.v3) {
+    await t.expect(consentPage.hasScopeText('Allows the app to manage clients in your Okta organization.')).eql(true);
+    await t.expect(consentPage.hasScopeText('Allows the app to manage all security methods (e.g. enrollments, reset).')).eql(true);
+  }
 });
 
 test.requestHooks(requestLogger, consentAdminMock)('should call /consent and send {consent: true} on "Allow Access" click', async t => {

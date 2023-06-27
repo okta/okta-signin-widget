@@ -14,11 +14,13 @@ const mock = RequestMock()
   .respond(launchAuthenticatorOption);
 
 fixture('Identify + Okta Verify')
-  .requestHooks(logger, mock);
+  .requestHooks(logger, mock)
+  .meta('v3', true);
 
 async function setup(t) {
   const deviceChallengePollPage = new IdentityPageObject(t);
   await deviceChallengePollPage.navigateToPage();
+  await t.expect(deviceChallengePollPage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: 'primary-auth',
     formName: 'identify',
@@ -43,23 +45,23 @@ test('should show errors if required fields are empty', async t => {
   await identityPage.clickNextButton();
   await identityPage.waitForErrorBox();
 
-  await t.expect(identityPage.hasIdentifierError()).eql(true);
   await t.expect(identityPage.hasIdentifierErrorMessage()).eql(true);
 });
 
 test('should the correct title', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
-  const pageTitle = identityPage.getPageTitle();
+  const pageTitle = identityPage.getFormTitle();
   await t.expect(pageTitle).eql('Sign In');
 });
 
 test('should the correct content', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
-  await t.expect(identityPage.getPageTitle()).eql('Sign In');
-  await t.expect(identityPage.getOktaVerifyButtonText()).eql('Sign in with Okta FastPass');
-  await t.expect(identityPage.getSeparationLineText()).eql('or');
+  await t.expect(identityPage.getFormTitle()).eql('Sign In');
+  await t.expect(identityPage.getOktaVerifyButtonText()).contains('Sign in with Okta FastPass');
+  const separationText = await identityPage.getSeparationLineText();
+  await t.expect(separationText.toString().toLowerCase()).eql('or');
   await identityPage.clickOktaVerifyButton();
   const header = new Selector('h2[data-se="o-form-head"]');
   await t.expect(header.textContent).eql('Click "Open Okta Verify" on the browser prompt');

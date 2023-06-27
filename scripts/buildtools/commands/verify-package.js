@@ -3,8 +3,8 @@ const { readFileSync } = require('fs');
 
 const KB = 1024;
 const MB = 1024 * 1024;
-const EXPECTED_PACKAGE_SIZE = 13.35 * MB;
-const EXPECTED_PACKAGE_FILES = 2200;
+const EXPECTED_PACKAGE_SIZE = 49 * MB;
+const EXPECTED_PACKAGE_FILES = 20000;
 
 const EXPECTED_BUNDLE_SIZES = {
   'okta-plugin-a11y.js': 3.6 * KB,
@@ -17,6 +17,7 @@ const EXPECTED_BUNDLE_SIZES = {
   'okta-sign-in.oie.min.js': 1.2 * MB,
   'okta-sign-in.polyfill.js': 504 * KB,
   'okta-sign-in.polyfill.min.js': 108 * KB,
+  'okta-sign-in.next.js': 1.6 * MB,
 };
 
 exports.command = 'verify-package';
@@ -72,6 +73,7 @@ function verifyPackageContents() {
     'dist/js/okta-sign-in.polyfill.min.js',
     'dist/js/okta-sign-in.polyfill.min.js.map',
     'dist/esm/src/exports/exports/default.js',
+    'dist/js/okta-sign-in.next.js',
     'dist/labels/json/country_de.json',
     'dist/labels/json/login_ru.json',
     'dist/sass/_fonts.scss',
@@ -103,9 +105,11 @@ function verifyPackageContents() {
   Object.keys(EXPECTED_BUNDLE_SIZES).forEach(bundleName => {
     const entry = manifest.files.find(entry => entry.path === `dist/js/${bundleName}`);
     const expectedSize = EXPECTED_BUNDLE_SIZES[bundleName];
-    console.log(`Validating bundle size: ${bundleName}`);
-    expect(entry.size).toBeGreaterThan(expectedSize * .9);
-    expect(entry.size).toBeLessThan(expectedSize * 1.1);
+    const min = expectedSize * 0.9;
+    const max = expectedSize * 1.1;
+    console.log(`Validating bundle size: ${bundleName} (${min} <  < ${max})`);
+    expect(entry.size).toBeGreaterThan(min);
+    expect(entry.size).toBeLessThan(max);
   });
 }
 

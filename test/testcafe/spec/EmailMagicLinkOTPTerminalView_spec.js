@@ -41,11 +41,13 @@ const terminalReturnOtpUnexpectedResponseyMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(terminalReturnOtpUnexpectedResponse);
 
-fixture('Email Magic Link OTP Terminal view');
+fixture('Email Magic Link OTP Terminal view')
+  .meta('v3', true);
 
 async function setupOtpOnly(t) {
   const terminalOtpOnlyPageObject = new TerminalOtpOnlyPageObject(t);
   await terminalOtpOnlyPageObject.navigateToPage();
+  await t.expect(terminalOtpOnlyPageObject.formExists()).eql(true);
   return terminalOtpOnlyPageObject;
 }
 

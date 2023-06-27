@@ -1,0 +1,103 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SecurityQuestionVerify Tests should create security question verify UI elements 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.security.question.challenge.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "noTranslate": true,
+        "options": Object {
+          "inputMeta": Object {
+            "name": "credentials.answer",
+            "secret": true,
+          },
+        },
+        "translations": Array [
+          Object {
+            "i18nKey": "",
+            "name": "label",
+            "value": "security.disliked_food",
+          },
+        ],
+        "type": "Field",
+      },
+      Object {
+        "label": "oform.verify",
+        "options": Object {
+          "step": "mock-step",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`SecurityQuestionVerify Tests should create security question verify UI elements for custom question 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.security.question.challenge.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "noTranslate": true,
+        "options": Object {
+          "inputMeta": Object {
+            "name": "credentials.answer",
+            "secret": true,
+          },
+        },
+        "translations": Array [
+          Object {
+            "i18nKey": "",
+            "name": "label",
+            "value": "What is love?",
+          },
+        ],
+        "type": "Field",
+      },
+      Object {
+        "label": "oform.verify",
+        "options": Object {
+          "step": "mock-step",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

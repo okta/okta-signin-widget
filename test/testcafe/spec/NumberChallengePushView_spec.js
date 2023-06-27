@@ -4,7 +4,6 @@ import ChallengeOktaVerifyPushPageObject from '../framework/page-objects/Challen
 import { checkConsoleMessages } from '../framework/shared';
 
 import numberChallenge from '../../../playground/mocks/data/idp/idx/authenticator-verification-number-challenge';
-import success from '../../../playground/mocks/data/idp/idx/success';
 import serverError from '../../../playground/mocks/data/idp/idx/error-internal-server-error.json';
 
 const logger = RequestLogger(/challenge|challenge\/poll/,
@@ -18,7 +17,7 @@ const numberChallengeSuccessMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(numberChallenge)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
-  .respond(success);
+  .respond(numberChallenge);
 
 const numberChallengeWaitMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -35,11 +34,12 @@ const serverErrorMock = RequestMock()
   .respond(serverError);
 
 
-fixture('Number Challenge Okta Verify Push');
+fixture('Number Challenge Okta Verify Push').meta('v3', true);
 
 async function setup(t) {
   const challengeOktaVerifyPushPageObject = new ChallengeOktaVerifyPushPageObject(t);
   await challengeOktaVerifyPushPageObject.navigateToPage();
+  await challengeOktaVerifyPushPageObject.formExists();
   return challengeOktaVerifyPushPageObject;
 }
 
@@ -59,6 +59,7 @@ test
   });
 
 test
+  .meta('v3', false) // OKTA-587189 - disabled in v3 due to immediate polling issue
   .requestHooks(logger, numberChallengeWaitMock)('Calls resend when we click the resend link from within the warning modal', async t => {
     const challengeOktaVerifyPushPageObject = await setup(t);
     await checkA11y(t);
@@ -87,10 +88,10 @@ test
     await checkA11y(t);
     // wait and see that there is only one call for poll
     await t.wait(5000);
-    let warningBox = challengeOktaVerifyPushPageObject.getWarningBox();
     await t.expect(logger.count(() => true)).eql(1);
     await challengeOktaVerifyPushPageObject.waitForErrorBox();
-    await t.expect(warningBox.visible).notOk();
-    const error = challengeOktaVerifyPushPageObject.getErrorBox().textContent;
+    // Check that the reminder prompt is not displayed
+    await t.expect(challengeOktaVerifyPushPageObject.form.getAllAlertBoxes().count).eql(1);
+    const error = challengeOktaVerifyPushPageObject.getErrorBoxText();
     await t.expect(error).contains('Internal Server Error');
   });

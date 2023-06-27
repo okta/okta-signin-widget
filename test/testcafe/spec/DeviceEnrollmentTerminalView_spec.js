@@ -1,4 +1,4 @@
-import {RequestLogger, RequestMock} from 'testcafe';
+import {RequestLogger, RequestMock, userVariables} from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 import { renderWidget as rerenderWidget } from '../framework/shared';
 import DeviceEnrollmentTerminalPageObject from '../framework/page-objects/DeviceEnrollmentTerminalPageObject';
@@ -18,7 +18,7 @@ const mdmMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(MdmEnrollment);
 
-fixture('Device enrollment terminal view for ODA and MDM');
+fixture('Device enrollment terminal view for ODA and MDM').meta('v3', true);
 
 async function setup(t) {
   const deviceEnrollmentTerminalPageObject = new DeviceEnrollmentTerminalPageObject(t);
@@ -30,14 +30,16 @@ test
   .requestHooks(logger, iosOdaMock)('shows the correct content in iOS ODA terminal view', async t => {
     const deviceEnrollmentTerminalPage = await setup(t);
     await checkA11y(t);
-    await t.expect(deviceEnrollmentTerminalPage.getHeader()).eql('Download Okta Verify');
+    await t.expect(deviceEnrollmentTerminalPage.getFormTitle()).eql('Download Okta Verify');
     await t.expect(deviceEnrollmentTerminalPage.getBeaconClass()).contains('mfa-okta-verify');
     const content = deviceEnrollmentTerminalPage.getContentText();
     await t.expect(content).contains('To sign in using Okta Verify, you will need to set up');
     await t.expect(content).contains('Okta Verify on this device.');
     await t.expect(content).contains('Tap the Copy Link button below.');
     await t.expect(deviceEnrollmentTerminalPage.getCopyButtonLabel()).eql('Copy link to clipboard');
-    await t.expect(deviceEnrollmentTerminalPage.getCopiedValue()).eql('https://apps.apple.com/us/app/okta-verify/id490179405');
+    if (!userVariables.v3) {
+      await t.expect(deviceEnrollmentTerminalPage.getCopiedValue()).eql('https://apps.apple.com/us/app/okta-verify/id490179405');
+    }
     await t.expect(content).contains('On this device, open your browser, then paste the copied link into the address bar.');
     await t.expect(content).contains('Download the Okta Verify app.');
     await t.expect(content).contains('Open Okta Verify and follow the steps to add your account.');
@@ -51,7 +53,7 @@ test
   .requestHooks(logger, androidOdaLoopbackMock)('shows the correct content in Android ODA Loopback terminal view', async t => {
     const deviceEnrollmentTerminalPage = await setup(t);
     await checkA11y(t);
-    await t.expect(deviceEnrollmentTerminalPage.getHeader()).eql('Download Okta Verify');
+    await t.expect(deviceEnrollmentTerminalPage.getFormTitle()).eql('Download Okta Verify');
     await t.expect(deviceEnrollmentTerminalPage.getBeaconClass()).contains('mfa-okta-verify');
     const content = deviceEnrollmentTerminalPage.getContentText();
     await t.expect(content).contains('To sign in using Okta Verify, you will need to set up');
@@ -67,7 +69,7 @@ test
   .requestHooks(logger, mdmMock)('shows the correct content in MDM terminal view', async t => {
     const deviceEnrollmentTerminalPage = await setup(t);
     await checkA11y(t);
-    await t.expect(deviceEnrollmentTerminalPage.getHeader()).eql('Additional setup required');
+    await t.expect(deviceEnrollmentTerminalPage.getFormTitle()).eql('Additional setup required');
     const content = deviceEnrollmentTerminalPage.getContentText();
     await t.expect(content).contains('To access this app, your device needs to meet your organization');
     await t.expect(content).contains('s security requirements. Follow the instructions below to continue.');
@@ -76,7 +78,9 @@ test
     await t.expect(content).contains('Follow the instructions in your browser to set up Airwatch.');
     await t.expect(content).contains('Logout and re-login and then try accessing the app again.');
     await t.expect(deviceEnrollmentTerminalPage.getCopyButtonLabel()).eql('Copy link to clipboard');
-    await t.expect(deviceEnrollmentTerminalPage.getCopiedValue()).eql('https://sampleEnrollmentlink.com');
+    if (!userVariables.v3) {
+      await t.expect(deviceEnrollmentTerminalPage.getCopiedValue()).eql('https://sampleEnrollmentlink.com');
+    }
   });
 
 // Below two tests are covering special use cases in ODA Universal Link/App Link flow
@@ -102,14 +106,16 @@ test
       }
     });
     await checkA11y(t);
-    await t.expect(deviceEnrollmentTerminalPage.getHeader()).eql('Download Okta Verify');
+    await t.expect(deviceEnrollmentTerminalPage.getFormTitle()).eql('Download Okta Verify');
     await t.expect(deviceEnrollmentTerminalPage.getBeaconClass()).contains('mfa-okta-verify');
     const content = deviceEnrollmentTerminalPage.getContentText();
     await t.expect(content).contains('To sign in using Okta Verify, you will need to set up');
     await t.expect(content).contains('Okta Verify on this device.');
     await t.expect(content).contains('Tap the Copy Link button below.');
     await t.expect(deviceEnrollmentTerminalPage.getCopyButtonLabel()).eql('Copy link to clipboard');
-    await t.expect(deviceEnrollmentTerminalPage.getCopiedValue()).eql('https://apps.apple.com/us/app/okta-verify/id490179405');
+    if(!userVariables.v3) {
+      await t.expect(deviceEnrollmentTerminalPage.getCopiedValue()).eql('https://apps.apple.com/us/app/okta-verify/id490179405');
+    }
     await t.expect(content).contains('On this device, open your browser, then paste the copied link into the address bar.');
     await t.expect(content).contains('Download the Okta Verify app.');
     await t.expect(content).contains('Open Okta Verify and follow the steps to add your account.');
@@ -137,7 +143,7 @@ test
       }
     });
     await checkA11y(t);
-    await t.expect(deviceEnrollmentTerminalPage.getHeader()).eql('Additional setup required');
+    await t.expect(deviceEnrollmentTerminalPage.getFormTitle()).eql('Additional setup required');
     const content = deviceEnrollmentTerminalPage.getContentText();
     await t.expect(content).contains('To access this app, your device needs to meet your organization');
     await t.expect(content).contains('s security requirements. Follow the instructions below to continue.');
@@ -146,7 +152,9 @@ test
     await t.expect(content).contains('Follow the instructions in your browser to set up MobileIron.');
     await t.expect(content).contains('Logout and re-login and then try accessing the app again.');
     await t.expect(deviceEnrollmentTerminalPage.getCopyButtonLabel()).eql('Copy link to clipboard');
-    await t.expect(deviceEnrollmentTerminalPage.getCopiedValue()).eql('https://anotherSampleEnrollmentlink.com');
+    if (!userVariables.v3) {
+      await t.expect(deviceEnrollmentTerminalPage.getCopiedValue()).eql('https://anotherSampleEnrollmentlink.com');
+    }
   });
 
 test
@@ -169,7 +177,7 @@ test
       }
     });
     await checkA11y(t);
-    await t.expect(deviceEnrollmentTerminalPage.getHeader()).eql('Additional setup required to use Okta FastPass');
+    await t.expect(deviceEnrollmentTerminalPage.getFormTitle()).eql('Additional setup required to use Okta FastPass');
     await t.expect(deviceEnrollmentTerminalPage.getBeaconClass()).contains('mfa-okta-verify');
     const content = deviceEnrollmentTerminalPage.getContentText();
     await t.expect(content).contains('On this device, do you already have an Okta Verify account for testOrg?');
@@ -191,7 +199,7 @@ test
 
     await deviceEnrollmentTerminalPage.clickBackLink();
     await t.expect(deviceEnrollmentTerminalPage.getBackLink().exists).eql(false);
-    await t.expect(deviceEnrollmentTerminalPage.getHeader()).eql('Additional setup required to use Okta FastPass');
+    await t.expect(deviceEnrollmentTerminalPage.getFormTitle()).eql('Additional setup required to use Okta FastPass');
   });
 
 test
@@ -217,7 +225,7 @@ test
     // switch to the next page when OV account is not setup
     await deviceEnrollmentTerminalPage.clickWithoutOVAccount();
     await deviceEnrollmentTerminalPage.clickNextButton();
-    await t.expect(deviceEnrollmentTerminalPage.getHeader()).eql('Set up an Okta Verify account');
+    await t.expect(deviceEnrollmentTerminalPage.getFormTitle()).eql('Set up an Okta Verify account');
     await t.expect(deviceEnrollmentTerminalPage.getSubHeader()).eql('To sign in with Okta FastPass, you’ll need to set up Okta Verify on this device.');
     await t.expect(deviceEnrollmentTerminalPage.getContentByIndex(1)).contains('If you don’t have Okta Verify installed,');
     await t.expect(deviceEnrollmentTerminalPage.getContentByIndex(1)).contains('download the app.');
@@ -253,9 +261,9 @@ test
     // go back then switch to the next page when OV account is setup
     await deviceEnrollmentTerminalPage.clickWithOVAccount();
     await deviceEnrollmentTerminalPage.clickNextButton();
-    await t.expect(deviceEnrollmentTerminalPage.getHeader()).eql('Additional setup required to use Okta FastPass');
+    await t.expect(deviceEnrollmentTerminalPage.getFormTitle()).eql('Additional setup required to use Okta FastPass');
     await t.expect(deviceEnrollmentTerminalPage.getSubHeader()).eql('Okta FastPass is a security method that can sign you in without needing your username.');
-    await t.expect(deviceEnrollmentTerminalPage.getTextContent('.subtitle ')).eql('Already have Okta FastPass enabled for your account?');
+    await t.expect(deviceEnrollmentTerminalPage.hasText('Already have Okta FastPass enabled for your account?')).eql(true);
     await t.expect(deviceEnrollmentTerminalPage.getContentByIndex(1)).eql('On this device, open the Okta Verify app.');
     await t.expect(deviceEnrollmentTerminalPage.getContentByIndex(2)).eql('On the list of accounts, tap your account for https://rain.okta1.com.');
     await t.expect(deviceEnrollmentTerminalPage.getContentByIndex(3)).eql('Under the “Okta FastPass” section, tap Setup, then follow the instructions.');
@@ -283,7 +291,7 @@ test
       }
     });
     await checkA11y(t);
-    await t.expect(deviceEnrollmentTerminalPage.getHeader()).eql('Additional setup required');
+    await t.expect(deviceEnrollmentTerminalPage.getFormTitle()).eql('Additional setup required');
     const content = deviceEnrollmentTerminalPage.getContentText();
     await t.expect(content).contains('To access this app, your device needs to meet your organization');
     await t.expect(content).contains('s security requirements. Follow the instructions below to continue.');
@@ -292,5 +300,7 @@ test
     await t.expect(content).contains('Follow the instructions in your browser to set up MobileIron.');
     await t.expect(content).contains('Logout and re-login and then try accessing the app again.');
     await t.expect(deviceEnrollmentTerminalPage.getCopyButtonLabel()).eql('Copy link to clipboard');
-    await t.expect(deviceEnrollmentTerminalPage.getCopiedValue()).eql('https://anotherSampleEnrollmentlink.com');
+    if (!userVariables.v3) {
+      await t.expect(deviceEnrollmentTerminalPage.getCopiedValue()).eql('https://anotherSampleEnrollmentlink.com');
+    }
   });

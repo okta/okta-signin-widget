@@ -24,7 +24,8 @@ const identifyPollErrorMock = RequestMock()
 
 const requestLogger = RequestLogger(/poll/);
 
-fixture('Safemode Polling');
+fixture('Safemode Polling')
+  .meta('v3', true);
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
@@ -39,14 +40,14 @@ test.requestHooks(requestLogger, identifyMock)('should make request based on tim
 
   await identityPage.fillIdentifierField('username');
   await identityPage.fillPasswordField('password');
-  await identityPage.clickNextButton();
+  await identityPage.clickSignInButton();
   const pollingPageObject = new PollingPageObject();
 
   await t.wait(2000);
   await t.expect(requestLogger.count(() => true)).eql(1);
 
   await t.expect(pollingPageObject.getHeader()).eql('Unable to complete your request');
-  await t.expect(pollingPageObject.getContent().innerText).contains('We will automatically retry in');
+  await t.expect(pollingPageObject.getRetryMessage().exists).eql(true);
   await t.wait(3000);
   await t.expect(requestLogger.count(() => true)).eql(2);
 });
@@ -56,8 +57,8 @@ test.requestHooks(requestLogger, identifyPollErrorMock)('not poll on error', asy
   await checkA11y(t);
   await identityPage.fillIdentifierField('username');
   await identityPage.fillPasswordField('password');
-  await identityPage.clickNextButton();
+  await identityPage.clickSignInButton();
   const pollingPageObject = new PollingPageObject();
   await t.expect(pollingPageObject.getErrorMessages().getTextContent()).eql('Server is unable to respond at the moment.');
-  await t.expect(pollingPageObject.getContent().length).eql(0);
+  await t.expect(pollingPageObject.getRetryMessage().length).eql(0);
 });
