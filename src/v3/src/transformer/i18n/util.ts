@@ -41,7 +41,7 @@ export const addTranslation = ({
   // TODO: change translations to required field with default value
   // eslint-disable-next-line no-param-reassign
   element.translations = element.translations || [];
-  const useDefault = !i18nKey || noTranslate && defaultValue;
+  const useDefault = !i18nKey || noTranslate && !!defaultValue;
   element.translations.push({
     name,
     i18nKey,
