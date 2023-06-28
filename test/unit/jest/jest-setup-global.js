@@ -10,7 +10,7 @@ global.getJasmineRequireObj = function jestSetupGlobalJasmine() {
   return jasmine;
 };
 global.jasmine = jasmine;
-global.useJest = true;
+global.useJsdom = true;
 
 navigator.credentials = {
   create: function() {

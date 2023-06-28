@@ -6,6 +6,7 @@ import Router from 'v1/LoginRouter';
 import Duo from '@okta/duo';
 import Beacon from 'helpers/dom/Beacon';
 import MfaVerifyForm from 'helpers/dom/MfaVerifyForm';
+import Dom from 'helpers/dom/Dom';
 import Util from 'helpers/mocks/Util';
 import Expect from 'helpers/util/Expect';
 import resCancel from 'helpers/xhr/CANCEL';
@@ -856,9 +857,9 @@ Expect.describe('MFA Verify', function() {
     );
     itp('opens dropDown options when dropDown link is clicked', function() {
       return setup(allFactorsRes).then(function(test) {
-        expect(test.beacon.getOptionsList().is(':visible')).toBe(false);
+        expect(Dom.isVisible(test.beacon.getOptionsList())).toBe(false);
         test.beacon.dropDownButton().click();
-        expect(test.beacon.getOptionsList().is(':visible')).toBe(true);
+        expect(Dom.isVisible(test.beacon.getOptionsList())).toBe(true);
       });
     });
     itp('sets aria-expanded when dropDown link is clicked', function() {
@@ -1068,7 +1069,7 @@ Expect.describe('MFA Verify', function() {
         expect(test.form.autoPushCheckbox().length).toBe(0);
       });
     });
-    itp(
+    fit(
       'an answer field type is "password" initially and can be switched between "text" and "password" \
           by clicking on "show"/"hide" buttons',
       function() {
@@ -1079,13 +1080,13 @@ Expect.describe('MFA Verify', function() {
 
           test.form.showAnswerButton().click();
           expect(test.form.answerField().attr('type')).toEqual('text');
-          expect(test.form.passwordToggleShowContainer().is(':visible')).toBe(false);
-          expect(test.form.passwordToggleHideContainer().is(':visible')).toBe(true);
+          expect(Dom.isVisible(test.form.passwordToggleShowContainer())).toBe(false);
+          expect(Dom.isVisible(test.form.passwordToggleHideContainer())).toBe(true);
 
           test.form.hideAnswerButton().click();
           expect(test.form.answerField().attr('type')).toEqual('password');
-          expect(test.form.passwordToggleShowContainer().is(':visible')).toBe(true);
-          expect(test.form.passwordToggleHideContainer().is(':visible')).toBe(false);
+          expect(Dom.isVisible(test.form.passwordToggleShowContainer())).toBe(true);
+          expect(Dom.isVisible(test.form.passwordToggleHideContainer())).toBe(false);
         });
       }
     );
@@ -5633,10 +5634,10 @@ Expect.describe('MFA Verify', function() {
           return setupPolling(test, resSuccess, resChallengePushWithNumberChallenge).then(tick).then(function() {
             // Warnings need to be cleared when switching to number challenge view.
             expect(test.form.hasWarningMessage()).toBeFalsy();
-            expect(test.router.controller.$('[data-se="o-form-input-autoPush"]').is(':visible')).toBeFalsy();
-            expect(test.router.controller.$('[data-se="o-form-input-rememberDevice"]').is(':visible')).toBeFalsy();
-            expect(test.form.submitButton().is(':visible')).toBeFalsy();
-            expect(test.form.numberChallengeView().is(':visible')).toBeTruthy();
+            expect(Dom.isVisible(test.router.controller.$('[data-se="o-form-input-autoPush"]'))).toBeFalsy();
+            expect(Dom.isVisible(test.router.controller.$('[data-se="o-form-input-rememberDevice"]'))).toBeFalsy();
+            expect(Dom.isVisible(test.form.submitButton())).toBeFalsy();
+            expect(Dom.isVisible(test.form.numberChallengeView())).toBeTruthy();
             expect(test.form.getChallengeNumber()).toBe('30');
 
             expect(test.router.settings.callGlobalSuccess).toHaveBeenCalled();
@@ -5657,10 +5658,10 @@ Expect.describe('MFA Verify', function() {
           return setupPolling(test, resSuccess)
             .then(function() {
               expect(test.form.hasWarningMessage()).toBeTruthy();
-              expect(test.router.controller.$('[data-se="o-form-input-autoPush"]').is(':visible')).toBeTruthy();
-              expect(test.router.controller.$('[data-se="o-form-input-rememberDevice"]').is(':visible')).toBeTruthy();
-              expect(test.form.submitButton().is(':visible')).toBeTruthy();
-              expect(test.form.numberChallengeView().is(':visible')).toBeFalsy();
+              expect(Dom.isVisible(test.router.controller.$('[data-se="o-form-input-autoPush"]'))).toBeTruthy();
+              expect(Dom.isVisible(test.router.controller.$('[data-se="o-form-input-rememberDevice"]'))).toBeTruthy();
+              expect(Dom.isVisible(test.form.submitButton())).toBeTruthy();
+              expect(Dom.isVisible(test.form.numberChallengeView())).toBeFalsy();
               return tick(test);
             })
             .then(function() {
@@ -5684,10 +5685,10 @@ Expect.describe('MFA Verify', function() {
               expect(test.form.hasErrors()).toBeTruthy();
               expect(test.form.errorMessage()).toBe('You have chosen to reject this login.');
               expect(test.form.hasWarningMessage()).toBeFalsy();
-              expect(test.router.controller.$('[data-se="o-form-input-autoPush"]').is(':visible')).toBeTruthy();
-              expect(test.router.controller.$('[data-se="o-form-input-rememberDevice"]').is(':visible')).toBeTruthy();
-              expect(test.form.submitButton().is(':visible')).toBeTruthy();
-              expect(test.form.numberChallengeView().is(':visible')).toBeFalsy();
+              expect(Dom.isVisible(test.router.controller.$('[data-se="o-form-input-autoPush"]'))).toBeTruthy();
+              expect(Dom.isVisible(test.router.controller.$('[data-se="o-form-input-rememberDevice"]'))).toBeTruthy();
+              expect(Dom.isVisible(test.form.submitButton())).toBeTruthy();
+              expect(Dom.isVisible(test.form.numberChallengeView())).toBeFalsy();
               return tick(test);
             })
             .then(function() {

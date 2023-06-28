@@ -7,6 +7,7 @@ import PrimaryAuthController from 'v1/controllers/PrimaryAuthController';
 import AuthContainer from 'helpers/dom/AuthContainer';
 import Beacon from 'helpers/dom/Beacon';
 import PrimaryAuthForm from 'helpers/dom/PrimaryAuthForm';
+import Dom from 'helpers/dom/Dom';
 import Util from 'helpers/mocks/Util';
 import Expect from 'helpers/util/Expect';
 import resLockedOut from 'helpers/xhr/ACCOUNT_LOCKED_OUT';
@@ -811,12 +812,12 @@ Expect.describe('PrimaryAuth', function() {
           expect(test.form.$('#okta-signin-password').attr('type')).toBe('password');
           test.form.passwordToggleShowContainer().click();
           expect(test.form.$('#okta-signin-password').attr('type')).toBe('text');
-          expect(test.form.passwordToggleShowContainer().is(':visible')).toBe(false);
-          expect(test.form.passwordToggleHideContainer().is(':visible')).toBe(true);
+          expect(Dom.isVisible(test.form.passwordToggleShowContainer())).toBe(false);
+          expect(Dom.isVisible(test.form.passwordToggleHideContainer())).toBe(true);
           test.form.passwordToggleHideContainer().click();
           expect(test.form.$('#okta-signin-password').attr('type')).toBe('password');
-          expect(test.form.passwordToggleShowContainer().is(':visible')).toBe(true);
-          expect(test.form.passwordToggleHideContainer().is(':visible')).toBe(false);
+          expect(Dom.isVisible(test.form.passwordToggleShowContainer())).toBe(true);
+          expect(Dom.isVisible(test.form.passwordToggleHideContainer())).toBe(false);
         });
       }
     );
@@ -833,18 +834,18 @@ Expect.describe('PrimaryAuth', function() {
         expect(test.form.$('#okta-signin-password').attr('type')).toBe('password');
         test.form.passwordToggleShowContainer().click();
         expect(test.form.$('#okta-signin-password').attr('type')).toBe('text');
-        expect(test.form.passwordToggleShowContainer().is(':visible')).toBe(false);
-        expect(test.form.passwordToggleHideContainer().is(':visible')).toBe(true);
+        expect(Dom.isVisible(test.form.passwordToggleShowContainer())).toBe(false);
+        expect(Dom.isVisible(test.form.passwordToggleHideContainer())).toBe(true);
         // t25
         jasmine.clock().tick(25 * 1000);
         expect(test.form.$('#okta-signin-password').attr('type')).toBe('text');
-        expect(test.form.passwordToggleShowContainer().is(':visible')).toBe(false);
-        expect(test.form.passwordToggleHideContainer().is(':visible')).toBe(true);
+        expect(Dom.isVisible(test.form.passwordToggleShowContainer())).toBe(false);
+        expect(Dom.isVisible(test.form.passwordToggleHideContainer())).toBe(true);
         // t35
         jasmine.clock().tick(35 * 1000);
         expect(test.form.$('#okta-signin-password').attr('type')).toBe('password');
-        expect(test.form.passwordToggleShowContainer().is(':visible')).toBe(true);
-        expect(test.form.passwordToggleHideContainer().is(':visible')).toBe(false);
+        expect(Dom.isVisible(test.form.passwordToggleShowContainer())).toBe(true);
+        expect(Dom.isVisible(test.form.passwordToggleHideContainer())).toBe(false);
         jasmine.clock().uninstall();
         jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
       });

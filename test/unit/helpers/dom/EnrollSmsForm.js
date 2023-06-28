@@ -1,4 +1,7 @@
+import $ from 'jquery';
 import Form from './Form';
+import Dom from '../dom/Dom';
+
 const PHONE_FIELD = 'phoneNumber';
 const CODE_FIELD = 'passCode';
 const COUNTRIES_FIELD = 'countryCode';
@@ -36,7 +39,7 @@ export default Form.extend({
   },
 
   sendCodeButton: function() {
-    return this.el('sms-request-button').filter(':visible');
+    return this.el('sms-request-button').filter((_, el) => Dom.isVisible($(el))).eq(0);
   },
 
   divider: function() {

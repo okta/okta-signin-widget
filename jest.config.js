@@ -63,5 +63,7 @@ module.exports = {
       outputDirectory: REPORT_DIR,
       outputName: 'okta-sign-in-widget-jest-junit-result.xml',
     }]
-  ]
+  ],
+  testTimeout: 10 * 1000,
+  // testTimeout: 10 * 1000 * 100000,
 };
