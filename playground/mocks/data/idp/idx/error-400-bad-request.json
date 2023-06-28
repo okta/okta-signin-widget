@@ -9,7 +9,7 @@
           {
               "message": "Bad request.",
               "i18n": {
-                  "key": "errors.E0000020"
+                  "key": "E0000020"
               },
               "class": "ERROR"
           }

@@ -171,6 +171,7 @@ const I18N_OVERRIDE_MAPPINGS = {
   'api.users.auth.error.POST_PASSWORD_UPDATE_AUTH_FAILURE': 'oie.post.password.update.auth.failure.error',
   'security.access_denied': 'errors.E0000006',
   'E0000009': 'errors.E0000009',
+  'E0000020': 'errors.E0000020',
   'api.factors.error.sms.invalid_phone': 'oie.phone.invalid',
   'app.ldap.password.reset.failed': 'errors.E0000017',
   'oie.selfservice.unlock_user.challenge.failed.permissions': 'errors.E0000006',
