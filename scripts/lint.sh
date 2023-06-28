@@ -8,7 +8,7 @@ echo $TEST_SUITE_TYPE > $TEST_SUITE_TYPE_FILE
 echo $TEST_RESULT_FILE_DIR > $TEST_RESULT_FILE_DIR_FILE
 
 RESTRICTED_URL_SECTION='npm-okta-all\|npm-okta-master'
-if grep -q "${RESTRICTED_URL_SECTION}" "${REPO}/yarn.lock"; then
+if grep -q "${RESTRICTED_URL_SECTION}" "${OKTA_HOME}/${REPO}/yarn.lock"; then
   echo "lint failed! yarn.lock contains restricted URL. Exiting..."
   exit 1
 fi
