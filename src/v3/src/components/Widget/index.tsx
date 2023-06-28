@@ -58,6 +58,7 @@ import {
   isOauth2Enabled,
   loadLanguage,
   SessionStorage,
+  shouldSkipAfterRender,
 } from '../../util';
 import { getEventContext } from '../../util/getEventContext';
 import { mapMuiThemeFromBrand } from '../../util/theme';
@@ -344,7 +345,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     if (isClientTransaction) {
       return;
     }
-    if (widgetRendered && typeof idxTransaction !== 'undefined') {
+    if (widgetRendered && typeof idxTransaction !== 'undefined'
+      && !shouldSkipAfterRender(idxTransaction)) {
       events?.afterRender?.(getEventContext(idxTransaction));
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
