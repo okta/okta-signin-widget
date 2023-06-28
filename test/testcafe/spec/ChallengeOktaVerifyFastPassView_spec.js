@@ -70,7 +70,7 @@ const loopbackRedundantPollingMock = RequestMock()
       firstPollCalledForRedundantPolling = true;
       // specifically make the first poll call takes more time to complete
       // so that we can verify if there will be a redundant poll call after it
-      await new Promise((r) => setTimeout(r, 8000));
+      await new Promise((r) => setTimeout(r, 5000));
       res.statusCode = '200';
       res.setBody(identify);
     } else {
@@ -104,7 +104,7 @@ const loopbackEnhancedPollingMock = RequestMock()
     if (!firstPollCalledForEnhancedPolling) {
       firstPollCalledForEnhancedPolling = true;
       // with enhanced polling, this interval can be shorter for testing
-      await new Promise((r) => setTimeout(r, 4000));
+      await new Promise((r) => setTimeout(r, 3000));
       res.statusCode = '200';
       res.setBody(identify);
     } else {
@@ -319,7 +319,7 @@ test
     await t.expect(loopbackPollingLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/challenge/) &&
-        record.request.body.match(/challengeRequest":"eyJraWQiOiJW/)
+        record.request.body.match(/challengeRequest":"02vQULJDA20fnlkloDn2/)
     )).eql(1);
 
     // If there is redundant polling, SIW will show bad request error
@@ -344,7 +344,7 @@ test
     await t.expect(loopbackPollingLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/challenge/) &&
-        record.request.body.match(/challengeRequest":"eyJraWQiOiJW/)
+        record.request.body.match(/challengeRequest":"02vQULJDA20fnlkloDn2/)
     )).eql(1);
 
     // If there is no redundant polling, SIW will not show bad request error
@@ -373,7 +373,7 @@ test
     await t.expect(loopbackSuccessLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/challenge/) &&
-        record.request.body.match(/challengeRequest":"eyJraWQiOiJW/)
+        record.request.body.match(/challengeRequest":"02vQULJDA20fnlkloDn2/)
     )).eql(1);
     // Check if pre-flight HTTP requests were sent
     await t.expect(loopbackSuccessLogger.count(
