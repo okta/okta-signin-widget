@@ -264,8 +264,6 @@ test.requestHooks(identifyChallengeMockWithError)('shall clear when session.stat
 
   // Refresh
   await challengeEmailPageObject.refresh();
-  // wait for refresh to complete
-  await t.wait(1000);
   await t.expect(challengeEmailPageObject.formExists()).eql(true);
 
   // Verify introspect requests
