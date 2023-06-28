@@ -64,17 +64,15 @@ const loopbackRedundantPollingMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/introspect/)
   .respond(identifyWithUserVerificationLoopback)
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
-  .respond((req, res) => {
+  .respond(async (req, res) => {
     res.headers['content-type'] = 'application/json';
     if (!firstPollCalledForRedundantPolling) {
       firstPollCalledForRedundantPolling = true;
       // specifically make the first poll call takes more time to complete
       // so that we can verify if there will be a redundant poll call after it
-      return new Promise((resolve) => setTimeout(function() {
-        res.statusCode = '200';
-        res.setBody(identify);
-        resolve(res);
-      }, 8000));
+      await new Promise((r) => setTimeout(r, 8000));
+      res.statusCode = '200';
+      res.setBody(identify);
     } else {
       res.statusCode = '400';
       res.setBody(badRequestError);
@@ -101,16 +99,14 @@ const loopbackEnhancedPollingMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/introspect/)
   .respond(identifyWithUserVerificationLoopbackWithEnhancedPolling)
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
-  .respond((req, res) => {
+  .respond(async (req, res) => {
     res.headers['content-type'] = 'application/json';
     if (!firstPollCalledForEnhancedPolling) {
       firstPollCalledForEnhancedPolling = true;
       // with enhanced polling, this interval can be shorter for testing
-      return new Promise((resolve) => setTimeout(function() {
-        res.statusCode = '200';
-        res.setBody(identify);
-        resolve(res);
-      }, 1000));
+      await new Promise((r) => setTimeout(r, 4000));
+      res.statusCode = '200';
+      res.setBody(identify);
     } else {
       res.statusCode = '400';
       res.setBody(badRequestError);
@@ -309,12 +305,14 @@ async function setupLoopbackFallback(t) {
   return deviceChallengeFalllbackPage;
 }
 
+// TODO: OKTA-623228 - fix for Gen 3 SIW
 test
+  .meta('v3', false)
   .requestHooks(loopbackPollingLogger, loopbackRedundantPollingMock)('in loopback server, redundant polling exists if server returns enhancedPollingEnabled as false', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
     await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
-    await t.expect(deviceChallengePollPageObject.getHeader()).eql('Verifying your identity');
+    await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Verifying your identity');
     await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
     await t.expect(deviceChallengePollPageObject.getFooterSwitchAuthenticatorLink().innerText).eql('Verify with something else');
     await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Back to sign in');
@@ -332,12 +330,14 @@ test
     await t.expect(identityPage.getIdentifierValue()).eql('Test Identifier');
   });
 
+// TODO: OKTA-623228 - fix for Gen 3 SIW
 test
+  .meta('v3', false)
   .requestHooks(loopbackPollingLogger, loopbackEnhancedPollingMock)('in loopback server, no redundant polling if server returns enhancedPollingEnabled as true', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
     await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
-    await t.expect(deviceChallengePollPageObject.getHeader()).eql('Verifying your identity');
+    await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Verifying your identity');
     await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
     await t.expect(deviceChallengePollPageObject.getFooterSwitchAuthenticatorLink().innerText).eql('Verify with something else');
     await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Back to sign in');
