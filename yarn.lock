@@ -2532,7 +2532,7 @@
   dependencies:
     stackframe "^1.1.1"
 
-"@discoveryjs/json-ext@0.5.7", "@discoveryjs/json-ext@^0.5.0":
+"@discoveryjs/json-ext@^0.5.0":
   version "0.5.7"
   resolved "https://registry.yarnpkg.com/@discoveryjs/json-ext/-/json-ext-0.5.7.tgz#1d572bfbbe14b7704e0ba0f39b74815b84870d70"
   integrity sha512-dBVuXR082gk3jsFp7Rd/JI4kytwGHecnCoTtXFb7DB6CNHp4rg5k1bhg0nWdLGLnOV71lmDzGQaLMy8iPLY0pw==
@@ -3538,8 +3538,28 @@
     safe-flat "^2.0.2"
 
 "@okta/okta-signin-widget@link:dist":
-  version "0.0.0"
-  uid ""
+  version "7.7.0"
+  dependencies:
+    "@okta/okta-auth-js" "~7.0.0"
+    "@sindresorhus/to-milliseconds" "^1.0.0"
+    "@types/backbone" "^1.4.15"
+    "@types/jquery" "^3.5.14"
+    "@types/jqueryui" "^1.12.16"
+    "@types/q" "^1.5.5"
+    "@types/selectize" "^0.12.35"
+    "@types/underscore" "^1.11.4"
+    chokidar "^3.5.1"
+    clipboard "^1.5.16"
+    cross-fetch "^3.1.5"
+    ejs "^3.1.7"
+    handlebars "^4.7.7"
+    jquery "^3.6.0"
+    parse-ms "^2.0.0"
+    q "1.4.1"
+    u2f-api-polyfill "0.4.3"
+    underscore "1.13.1"
+  optionalDependencies:
+    fsevents "*"
 
 "@open-draft/until@^1.0.3":
   version "1.0.3"
@@ -13854,14 +13874,6 @@ latest-version@^5.1.0:
   dependencies:
     package-json "^6.3.0"
 
-launch-editor@^2.6.0:
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/launch-editor/-/launch-editor-2.6.0.tgz#4c0c1a6ac126c572bd9ff9a30da1d2cae66defd7"
-  integrity sha512-JpDCcQnyAAzZZaZ7vEiSqL690w7dAEyLao+KC96zBplnYbJS7TYNjvM3M7y3dGz+v7aIsJk3hllWuc0kWAjyRQ==
-  dependencies:
-    picocolors "^1.0.0"
-    shell-quote "^1.7.3"
-
 lazystream@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/lazystream/-/lazystream-1.0.1.tgz#494c831062f1f9408251ec44db1cba29242a2638"
@@ -18201,11 +18213,6 @@ shell-quote@^1.6.1:
   version "1.7.4"
   resolved "https://registry.yarnpkg.com/shell-quote/-/shell-quote-1.7.4.tgz#33fe15dee71ab2a81fcbd3a52106c5cfb9fb75d8"
   integrity sha512-8o/QEhSSRb1a5i7TFR0iM4G16Z0vYB2OQVs4G3aAFXjn3T6yEx8AZxy1PgDF7I00LZHYA3WxaSYIf5e5sAX8Rw==
-
-shell-quote@^1.7.3:
-  version "1.8.1"
-  resolved "https://registry.yarnpkg.com/shell-quote/-/shell-quote-1.8.1.tgz#6dbf4db75515ad5bac63b4f1894c3a154c766680"
-  integrity sha512-6j1W9l1iAs/4xYBI1SYOVZyFcCis9b4KCLQ8fgAGG07QvzaRLVVRQvAy85yNmmZSjYjg4MWh4gNvlPujU/5LpA==
 
 shelljs@^0.8.5:
   version "0.8.5"
