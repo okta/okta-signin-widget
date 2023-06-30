@@ -83,6 +83,10 @@ export const initSentry = () => {
       console.log('>>> [sentry] event: ', event);
       return event;
     },
+    beforeSendTransaction(event, _hint) {
+      return event;
+    },
+
   });
 
   Sentry.setTags({
