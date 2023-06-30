@@ -1,12 +1,10 @@
-import $ from 'jquery';
 import SmsForm from './EnrollSmsForm';
-import Dom from '../dom/Dom';
 
 const PHONE_EXTENSION_FIELD = 'phoneExtension';
 export default SmsForm.extend({
   //Override
   sendCodeButton: function() {
-    return this.el('call-request-button').filter((_, el) => Dom.isVisible($(el))).eq(0);
+    return this.el('call-request-button').filter(':visible');
   },
 
   phoneExtensionField: function() {

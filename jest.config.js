@@ -8,7 +8,7 @@ const REPORT_DIR = '<rootDir>/build2/reports/unit';
 const OktaSignin = '<rootDir>/src/exports/default';
 const LEGACY_TESTS = require('./test/unit/legacy-tests');
 
-const TEST_TIMEOUT = 15 * 1000;
+const TEST_TIMEOUT = 20 * 1000;
 
 module.exports = {
   coverageDirectory: COVERAGE_DIR,

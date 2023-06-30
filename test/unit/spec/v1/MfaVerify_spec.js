@@ -858,9 +858,9 @@ Expect.describe('MFA Verify', function() {
     );
     itp('opens dropDown options when dropDown link is clicked', function() {
       return setup(allFactorsRes).then(function(test) {
-        expect(Dom.isVisible(test.beacon.getOptionsList())).toBe(false);
+        expect(test.beacon.getOptionsList().is(':visible')).toBe(false);
         test.beacon.dropDownButton().click();
-        expect(Dom.isVisible(test.beacon.getOptionsList())).toBe(true);
+        expect(test.beacon.getOptionsList().is(':visible')).toBe(true);
       });
     });
     itp('sets aria-expanded when dropDown link is clicked', function() {
@@ -5637,10 +5637,10 @@ Expect.describe('MFA Verify', function() {
           return setupPolling(test, resSuccess, resChallengePushWithNumberChallenge).then(tick).then(function() {
             // Warnings need to be cleared when switching to number challenge view.
             expect(test.form.hasWarningMessage()).toBeFalsy();
-            expect(Dom.isVisible(test.router.controller.$('[data-se="o-form-input-autoPush"]'))).toBeFalsy();
-            expect(Dom.isVisible(test.router.controller.$('[data-se="o-form-input-rememberDevice"]'))).toBeFalsy();
-            expect(Dom.isVisible(test.form.submitButton())).toBeFalsy();
-            expect(Dom.isVisible(test.form.numberChallengeView())).toBeTruthy();
+            expect(test.router.controller.$('[data-se="o-form-input-autoPush"]').is(':visible')).toBeFalsy();
+            expect(test.router.controller.$('[data-se="o-form-input-rememberDevice"]').is(':visible')).toBeFalsy();
+            expect(test.form.submitButton().is(':visible')).toBeFalsy();
+            expect(test.form.numberChallengeView().is(':visible')).toBeTruthy();
             expect(test.form.getChallengeNumber()).toBe('30');
 
             expect(test.router.settings.callGlobalSuccess).toHaveBeenCalled();
@@ -5661,10 +5661,10 @@ Expect.describe('MFA Verify', function() {
           return setupPolling(test, resSuccess)
             .then(function() {
               expect(test.form.hasWarningMessage()).toBeTruthy();
-              expect(Dom.isVisible(test.router.controller.$('[data-se="o-form-input-autoPush"]'))).toBeTruthy();
-              expect(Dom.isVisible(test.router.controller.$('[data-se="o-form-input-rememberDevice"]'))).toBeTruthy();
-              expect(Dom.isVisible(test.form.submitButton())).toBeTruthy();
-              expect(Dom.isVisible(test.form.numberChallengeView())).toBeFalsy();
+              expect(test.router.controller.$('[data-se="o-form-input-autoPush"]').is(':visible')).toBeTruthy();
+              expect(test.router.controller.$('[data-se="o-form-input-rememberDevice"]').is(':visible')).toBeTruthy();
+              expect(test.form.submitButton().is(':visible')).toBeTruthy();
+              expect(test.form.numberChallengeView().is(':visible')).toBeFalsy();
               return tick(test);
             })
             .then(function() {
@@ -5688,10 +5688,10 @@ Expect.describe('MFA Verify', function() {
               expect(test.form.hasErrors()).toBeTruthy();
               expect(test.form.errorMessage()).toBe('You have chosen to reject this login.');
               expect(test.form.hasWarningMessage()).toBeFalsy();
-              expect(Dom.isVisible(test.router.controller.$('[data-se="o-form-input-autoPush"]'))).toBeTruthy();
-              expect(Dom.isVisible(test.router.controller.$('[data-se="o-form-input-rememberDevice"]'))).toBeTruthy();
-              expect(Dom.isVisible(test.form.submitButton())).toBeTruthy();
-              expect(Dom.isVisible(test.form.numberChallengeView())).toBeFalsy();
+              expect(test.router.controller.$('[data-se="o-form-input-autoPush"]').is(':visible')).toBeTruthy();
+              expect(test.router.controller.$('[data-se="o-form-input-rememberDevice"]').is(':visible')).toBeTruthy();
+              expect(test.form.submitButton().is(':visible')).toBeTruthy();
+              expect(test.form.numberChallengeView().is(':visible')).toBeFalsy();
               return tick(test);
             })
             .then(function() {

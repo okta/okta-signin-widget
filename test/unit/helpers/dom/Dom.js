@@ -21,16 +21,7 @@ const Dom = Class.extend({
 });
 
 Dom.isVisible = function($el) {
-  // jsdom has issue with :visible selector
-  // check visibility recursively instead
-  if (global.useJsdom) {
-    if ($el.is('body')) {
-      return true;
-    }
-    return $el.css('visibility') === 'visible' && $el.css('display') !== 'none' && Dom.isVisible($el.parent());
-  } else {
-    return $el.is(':visible');
-  }
+  return $el.is(':visible');
 };
 
 export default Dom;

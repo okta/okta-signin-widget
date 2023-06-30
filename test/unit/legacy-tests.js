@@ -4,7 +4,7 @@
 // - ???
 module.exports = [
   'Animations_spec.js', // need rework in jest
-  'EnrollTotpController_spec.js', // timeout
-  // 'IDPDiscovery_spec.js', // 2 failed (xit) about window resize event
-  // 'PrimaryAuth_spec.js', // 2 failed (xit) about window resize event
+  // 'EnrollTotpController_spec.js', // timeout
+  // 'IDPDiscovery_spec.js', // 2 failed (xit) need a way to assert change with securityBeaconContainer.hide
+  // 'PrimaryAuth_spec.js', // 2 failed (xit) need a way to assert change with securityBeaconContainer.hide
 ];
