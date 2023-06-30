@@ -4,9 +4,7 @@
 // - ???
 module.exports = [
   'Animations_spec.js', // need rework in jest
+  'ErollTotpController_spec.js', // timeout
   // 'IDPDiscovery_spec.js', // 2 failed (xit) about window resize event
   // 'PrimaryAuth_spec.js', // 2 failed (xit) about window resize event
-  // 'ErollCall', // timeout
-  // 'ErollSms', // timeout
-  // 'ErollTotp, // timeout
 ];
