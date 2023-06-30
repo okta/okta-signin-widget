@@ -3,8 +3,10 @@ import AppState from 'v2/models/AppState';
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';
 
-const SENTRY_DSN = 'https://3aeb188c43df4230921b7bf857b8ac83@o4505233867538432.ingest.sentry.io/4505268101120000';
+//const SENTRY_DSN = 'https://3aeb188c43df4230921b7bf857b8ac83@o4505233867538432.ingest.sentry.io/4505268101120000'; // siw6
+const SENTRY_DSN = 'https://0014e1b37cf7473d977b85aea504af70@o4505233867538432.ingest.sentry.io/4505448311816192'; // siw-v2-demo-1
 
+// https://okta-24.sentry.io/settings/projects/siw6/security-and-privacy/
 // Safe fields in project config:
 //  currentAuthenticator
 //  currentAuthenticatorEnrollment
@@ -26,15 +28,41 @@ export const initSentry = () => {
     normalizeDepth: 10, // to view structured context data instead of "[Object]", "[Array]"
     integrations: [
       new Sentry.BrowserTracing(),
+      // Replay
+      new Sentry.Replay({
+        networkDetailAllowUrls: [
+          'http://localhost:3000/idp/idx/'
+        ],
+        beforeAddRecordingEvent: (e) => {
+          if (e.data.tag == 'breadcrumb') {
+            console.log('@@@ [replay]', e?.data?.tag, e?.data?.payload?.category, e)
+          }
+          return e;
+        },
+        // https://github.com/denysoblohin-okta/sentry-javascript/pull/1
+        filterNetwork: (info: any) => {
+          if (info?.body?.stateHandle) {
+            info.body.stateHandle = '!!! Filtered';
+          }
+          if (info?.body?.identifier) {
+            info.body.identifier = '!!! Filtered';
+          }
+          if (info?.body?.credentials) {
+            info.body.credentials = '!!! Filtered';
+          }
+          console.log('@@@ [replay] fetch: ', info);
+          return info;
+        }
+      }),
     ],
     // Performance Monitoring
     tracesSampleRate: 0.0, // disable
 
+    // Replay
+    replaysSessionSampleRate: 1.0,
+    replaysOnErrorSampleRate: 1.0,
+
     // Hooks
-    beforeSendTransaction(_event, _hint) {
-      // don't send session replay data
-      return null;
-    },
     beforeBreadcrumb(breadcrumb, _hint) {
       // Filter breadcrumbs
       // - Filter out console logs, use `custom` breadcrumbs instead
@@ -45,10 +73,14 @@ export const initSentry = () => {
         || breadcrumb.category.startsWith('ui.')
         || breadcrumb.category.startsWith('sentry.')
         || breadcrumb.category === 'custom';
+      if (allow) {
+        console.log('>>> [sentry] breadcrumb: ', breadcrumb.type, breadcrumb.category, breadcrumb);
+      }
       return allow ? breadcrumb : null;
     },
     beforeSend(event, _hint) {
       // delete event.breadcrumbs;
+      console.log('>>> [sentry] event: ', event);
       return event;
     },
   });
