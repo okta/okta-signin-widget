@@ -30,10 +30,10 @@ import {
   useRef,
   useState,
 } from 'preact/hooks';
-import rtlPlugin from 'stylis-plugin-rtl';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import { prefixer } from 'stylis';
+import rtlPlugin from 'stylis-plugin-rtl';
 
 import Bundles from '../../../../util/Bundles';
 import { IDX_STEP } from '../../constants';
@@ -364,7 +364,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [responseError]);
 
-  // Create rtl cache
+  // Create RTL cache
   const cacheRtl = createCache({
     key: 'muirtl',
     stylisPlugins: [prefixer, rtlPlugin],
@@ -398,36 +398,36 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     >
       <OdysseyCacheProvider nonce={cspNonce}>
         <CacheProvider value={cacheRtl}>
-        <MuiThemeProvider theme={brandedTheme}>
-          {/* the style is to allow the widget to inherit the parent's bg color */}
-          <ScopedCssBaseline
-            sx={{
-              backgroundColor: 'inherit',
-              'span.strong': {
-                fontWeight: 'bold',
-                wordBreak: 'break-all',
-              },
-            }}
-          >
-            <AuthContainer>
-              <AuthHeader
-                logo={logo}
-                logoText={logoText}
-                brandName={brandName}
-                authCoinProps={buildAuthCoinProps(idxTransaction)}
-              />
-              <AuthContent>
-                <ConsentHeader />
-                <IdentifierContainer />
-                {
-                  uischema.elements.length > 0
-                    ? <Form uischema={uischema as UISchemaLayout} />
-                    : <Spinner />
-                }
-              </AuthContent>
-            </AuthContainer>
-          </ScopedCssBaseline>
-        </MuiThemeProvider>
+          <MuiThemeProvider theme={brandedTheme}>
+            {/* the style is to allow the widget to inherit the parent's bg color */}
+            <ScopedCssBaseline
+              sx={{
+                backgroundColor: 'inherit',
+                'span.strong': {
+                  fontWeight: 'bold',
+                  wordBreak: 'break-all',
+                },
+              }}
+            >
+              <AuthContainer>
+                <AuthHeader
+                  logo={logo}
+                  logoText={logoText}
+                  brandName={brandName}
+                  authCoinProps={buildAuthCoinProps(idxTransaction)}
+                />
+                <AuthContent>
+                  <ConsentHeader />
+                  <IdentifierContainer />
+                  {
+                    uischema.elements.length > 0
+                      ? <Form uischema={uischema as UISchemaLayout} />
+                      : <Spinner />
+                  }
+                </AuthContent>
+              </AuthContainer>
+            </ScopedCssBaseline>
+          </MuiThemeProvider>
         </CacheProvider>
       </OdysseyCacheProvider>
     </WidgetContextProvider>
