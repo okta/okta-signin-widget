@@ -11,7 +11,6 @@
  */
 
 import { IdxFeature } from '@okta/okta-auth-js';
-import type { Theme } from '@mui/material/styles';
 
 import { IDX_STEP } from '../../constants';
 import {
@@ -64,21 +63,12 @@ export const transformRegisterButton: TransformStepFnWithOptions = ({
       dataSe: 'signup-info',
     },
   };
-  const divider = {
-    type: 'Divider',
-    options: {
-      orientation: 'vertical',
-      componentProps: {
-        sx: {
-          border: 0,
-          padding: (theme: Theme) => theme.spacing(1),
-        }
-      }
-    }
-  };
   const registerEntryLayout = {
     type: UISchemaLayoutType.HORIZONTAL,
-    elements: [registrationLabel, divider, registerLink],
+    elements: [
+      registrationLabel,
+      registerLink,
+    ],
   };
 
   formbag.uischema.elements.push(registerEntryLayout);
