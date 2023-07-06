@@ -19,6 +19,7 @@ import {
   UISchemaLayoutType,
 } from '../types';
 import { transformButtons } from './button';
+import { transformCaptcha } from './captcha';
 import { transformDataSchema } from './dataSchema';
 import { transformFields } from './field';
 import { transformI18n } from './i18n';
@@ -42,6 +43,7 @@ export const transformIdxTransaction = (options: TransformationOptions): FormBag
     transformFields(options),
     transformLayout(options),
     transformButtons(options),
+    transformCaptcha(options),
     transformMessages(options),
     transformI18n(options),
     transformUISchema(options),

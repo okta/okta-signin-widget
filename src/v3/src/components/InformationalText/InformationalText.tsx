@@ -21,7 +21,11 @@ const InformationalText: UISchemaElementComponent<{
 }> = ({
   uischema,
 }) => {
-  const { content, dataSe } = uischema.options;
+  const {
+    content,
+    dataSe,
+    variant,
+  } = uischema.options;
   const parsedContent = useHtmlContentParser(content, uischema.parserOptions);
 
   return (
@@ -34,6 +38,7 @@ const InformationalText: UISchemaElementComponent<{
         paragraph
         data-se={dataSe || 'o-form-explain'}
         className={uischema.noTranslate ? 'no-translate' : undefined}
+        variant={variant ?? 'body1'}
       >
         {parsedContent}
       </Typography>
