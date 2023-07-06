@@ -60,6 +60,7 @@ const Form: FunctionComponent<{
         step,
         includeImmutableData,
       },
+      captchaRef,
     } = dataSchemaRef.current!;
 
     // client side validation - only validate for fields in nextStep
@@ -79,13 +80,21 @@ const Form: FunctionComponent<{
       }
     }
 
-    // submit request
-    onSubmitHandler({
-      includeData: true,
-      includeImmutableData,
-      params,
-      step,
-    });
+    // @ts-expect-error captcha missing from context type
+    const { context: { captcha: captchaConfig } } = currTransaction!;
+    const hasCaptcha = typeof captchaConfig !== 'undefined';
+    if (hasCaptcha && captchaRef?.current) {
+      // launch the captcha challenge
+      captchaRef.current.execute();
+    } else {
+      // submit request
+      onSubmitHandler({
+        includeData: true,
+        includeImmutableData,
+        params,
+        step,
+      });
+    }
   }, [
     currTransaction,
     data,
