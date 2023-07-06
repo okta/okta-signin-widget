@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import HCaptcha from '@hcaptcha/react-hcaptcha';
 import {
   IdxAuthenticator,
   IdxMessage,
@@ -22,7 +23,6 @@ import { HTMLReactParserOptions } from 'html-react-parser';
 import { FunctionComponent } from 'preact';
 import { Ref } from 'preact/hooks';
 import ReCAPTCHA from 'react-google-recaptcha';
-import HCaptcha from '@hcaptcha/react-hcaptcha';
 
 import { IStepperContext, IWidgetContext } from './context';
 import { ClickHandler } from './handlers';

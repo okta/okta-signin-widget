@@ -105,18 +105,17 @@ const CaptchaContainer: UISchemaElementComponent<{
         />
       </Box>
     );
-  } else {
-    return (
-      <HCaptcha
-        id="captcha-container"
-        sitekey={siteKey}
-        ref={captchaRef}
-        onVerify={onVerifyCaptcha}
-        onError={onErrorCaptcha}
-        size="invisible"
-      />
-    );
   }
+  return (
+    <HCaptcha
+      id="captcha-container"
+      sitekey={siteKey}
+      ref={captchaRef}
+      onVerify={onVerifyCaptcha}
+      onError={onErrorCaptcha}
+      size="invisible"
+    />
+  );
 };
 
 export default CaptchaContainer;

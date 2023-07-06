@@ -11,6 +11,7 @@
  */
 
 import { IdxTransaction } from '@okta/okta-auth-js';
+
 import { getStubFormBag, getStubTransaction } from '../../mocks/utils/utils';
 import {
   ButtonElement,
@@ -51,8 +52,8 @@ describe('Captcha container transformer tests', () => {
           type: 'captcha_type',
           id: 'test_id',
           siteKey: 'test_site_key',
-        }
-      }
+        },
+      },
     };
     const updatedFormBag = transformCaptcha({
       transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
@@ -83,8 +84,8 @@ describe('Captcha container transformer tests', () => {
           type: 'HCAPTCHA',
           id: 'test_id',
           siteKey: 'test_site_key',
-        }
-      }
+        },
+      },
     };
     const updatedFormBag = transformCaptcha({
       transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
@@ -102,8 +103,8 @@ describe('Captcha container transformer tests', () => {
           type: 'RECAPTCHA_V2',
           id: 'test_id',
           siteKey: 'test_site_key',
-        }
-      }
+        },
+      },
     };
     const updatedFormBag = transformCaptcha({
       transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
