@@ -19,6 +19,7 @@ import endUserRemediationOneOption from '../../../playground/mocks/data/idp/idx/
 import endUserRemediationMultipleOptions from '../../../playground/mocks/data/idp/idx/end-user-remediation-multiple-options.json';
 import endUserRemediationMultipleOptionsWithCustomHelpUrl from '../../../playground/mocks/data/idp/idx/end-user-remediation-multiple-options-with-custom-help-url.json';
 import endUserRemediationNoOptions from '../../../playground/mocks/data/idp/idx/end-user-remediation-no-options.json';
+import { within } from '@testing-library/testcafe';
 
 const terminalTransferredEmailMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -190,12 +191,20 @@ test.requestHooks(terminalMultipleErrorsMock)('should render each error message 
   await t.expect(await terminalViewPage.form.getErrorBoxTextByIndex(2)).eql('Your session has expired. Please try to sign in again.');
 });
 
-// OKTA-585921 - custom error message not supported in gen3 widget
-test.meta('v3', false).requestHooks(terminalCustomAccessDeniedErrorMessageMock)('should render custom access denied error message', async t => {
+test.requestHooks(terminalCustomAccessDeniedErrorMessageMock)('should render custom access denied error message', async t => {
   const terminalViewPage = await setup(t);
   await checkA11y(t);
+  const errorBox = userVariables.v3 ? terminalViewPage.form.getErrorBox() : terminalViewPage.form.getErrorBoxCallout();
+  await t.expect(errorBox.innerText).contains('You do not have permission to perform the requested action.');
 
-  await t.expect(terminalViewPage.form.getErrorBoxHtml()).eql('<span data-se="icon" class="icon error-16"></span><div class="custom-access-denied-error-message"><p>You do not have permission to perform the requested action.</p><ul class="custom-links"><li><a href="https://www.okta.com/" target="_blank" rel="noopener noreferrer">Help link 1</a></li><li><a href="https://www.okta.com/help?page=1" target="_blank" rel="noopener noreferrer">Help link 2</a></li></ul></div>');
+  const errorLink1 = within(errorBox).getByRole('link', {name: 'Help link 1'});
+  const errorLink2 = within(errorBox).getByRole('link', {name: 'Help link 2'});
+
+  await t.expect(errorLink1.exists).eql(true);
+  await t.expect(errorLink1.getAttribute('href')).eql('https://www.okta.com/');
+
+  await t.expect(errorLink2.exists).eql(true);
+  await t.expect(errorLink2.getAttribute('href')).eql('https://www.okta.com/help?page=1');
 });
 
 // TODO: OKTA-616188 - add end user remediation changes in v3

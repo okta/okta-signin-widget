@@ -10,9 +10,11 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { List, ListItem } from '@mui/material';
 import {
   Alert,
   Box,
+  Link,
   Typography,
 } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
@@ -41,6 +43,29 @@ const InfoBox: UISchemaElementComponent<{
     },
   } = uischema;
 
+  const { links = [] } = message;
+  const renderLinks = () => (
+    <List
+      className="custom-links"
+      disablePadding
+    >
+      {links.map((link) => (
+        <ListItem
+          sx={{ paddingLeft: 0 }}
+          key={link.label}
+        >
+          <Link
+            href={link.url}
+            target="_blank"
+            variant="monochrome"
+          >
+            {link.label}
+          </Link>
+        </ListItem>
+      ))}
+    </List>
+  );
+
   return loading ? null : (
     <Box
       marginBlockEnd={4}
@@ -62,6 +87,7 @@ const InfoBox: UISchemaElementComponent<{
           </Typography>
         )}
         <WidgetMessageContainer message={message} />
+        {links.length > 0 && renderLinks()}
       </Alert>
     </Box>
   );

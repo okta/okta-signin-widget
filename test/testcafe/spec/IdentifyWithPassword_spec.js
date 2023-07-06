@@ -6,6 +6,7 @@ import xhrIdentifyWithPassword from '../../../playground/mocks/data/idp/idx/iden
 import xhrIdentifyRecover from '../../../playground/mocks/data/idp/idx/identify-recovery';
 import xhrErrorIdentify from '../../../playground/mocks/data/idp/idx/error-identify-access-denied';
 import xhrErrorIdentifyAccessDeniedCustomMessage from '../../../playground/mocks/data/idp/idx/error-identify-access-denied-custom-message';
+import { within } from '@testing-library/testcafe';
 
 const identifyWithPasswordMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -163,17 +164,25 @@ test.requestHooks(identifyWithPasswordMock)('should add sub labels for Username 
   await t.expect(identityPage.getPasswordSubLabelValue()).eql('Your password goes here');
 });
 
-// OKTA-585921 - custom error message links not supported in gen3 widget
-test.meta('v3', false).requestHooks(identifyWithPasswordErrorMock)('should show custom access denied error message', async t => {
+test.requestHooks(identifyWithPasswordErrorMock)('should show custom access denied error message', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
 
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.fillPasswordField('adasdas');
   await identityPage.clickSignInButton();
-  await identityPage.waitForErrorBox();
-  await t.expect(identityPage.form.getErrorBoxHtml()).eql('<span data-se="icon" class="icon error-16"></span><div class="custom-access-denied-error-message"><p>You do not have permission to perform the requested action.</p><ul class="custom-links"><li><a href="https://www.okta.com/" target="_blank" rel="noopener noreferrer">Help link 1</a></li><li><a href="https://www.okta.com/help?page=1" target="_blank" rel="noopener noreferrer">Help link 2</a></li></ul></div>');
-});
+
+  const errorBox = identityPage.form.getErrorBox();
+  await t.expect(errorBox.innerText).contains('You do not have permission to perform the requested action.');
+
+  const errorLink1 = within(errorBox).getByRole('link', {name: 'Help link 1'});
+  const errorLink2 = within(errorBox).getByRole('link', {name: 'Help link 2'});
+
+  await t.expect(errorLink1.exists).eql(true);
+  await t.expect(errorLink1.getAttribute('href')).eql('https://www.okta.com/');
+
+  await t.expect(errorLink2.exists).eql(true);
+  await t.expect(errorLink2.getAttribute('href')).eql('https://www.okta.com/help?page=1');});
 
 test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should not trim whitespace characters from password when password field is in plain text view', async t => {
   const identityPage = await setup(t);

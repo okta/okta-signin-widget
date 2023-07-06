@@ -54,6 +54,10 @@ export type WidgetMessage = Modify<IdxMessage, {
   title?: string;
   name?: string;
   description?: string;
+  links?: {
+    label: string,
+    url: string,
+  }[];
 }>;
 
 export type AutoCompleteValue = 'username'
