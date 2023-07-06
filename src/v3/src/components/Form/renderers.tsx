@@ -23,6 +23,7 @@ import {
 import AuthenticatorButtonList from '../AuthenticatorButton';
 import AutoSubmit from '../AutoSubmit';
 import Button from '../Button';
+import CaptchaContainer from '../CaptchaContainer';
 import Checkbox from '../Checkbox';
 import Divider from '../Divider';
 import DuoWindow from '../DuoWindow';
@@ -203,5 +204,9 @@ export default [
   {
     tester: ({ type }) => type === 'DuoWindow',
     renderer: DuoWindow,
+  },
+  {
+    tester: ({ type }) => type === 'CaptchaContainer',
+    renderer: CaptchaContainer,
   },
 ] as Renderer[];
