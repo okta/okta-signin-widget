@@ -28,7 +28,7 @@ navigator.credentials = {
   }
 };
 
-// solve jquery 3 visible pseudos selector issue in jsdom
+// patch jquery 3 visible pseudos selector issue in jsdom
 // https://github.com/jsdom/jsdom/issues/1048#issuecomment-401599392
 // https://github.com/jsdom/jsdom/issues/1048#issuecomment-595961496
 window.Element.prototype.getClientRects = function() {
@@ -43,9 +43,11 @@ window.Element.prototype.getClientRects = function() {
     node = node.parentNode;
   }
   
-  return [{width: 1111, height: 1111}];
+  // any random number should be fine, any we only care about element visibility in tests
+  return [{ width: 1111, height: 1111 }];
 };
 
+// inject style file to jsdom
 const css = fs.readFileSync(path.resolve(__dirname, '../../..' ,'target/css/okta-sign-in.css'), 'utf8');
 $('head').append(`<style>${css}</style>`);
 
