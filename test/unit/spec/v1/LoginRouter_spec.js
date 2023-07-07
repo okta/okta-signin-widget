@@ -276,7 +276,7 @@ Expect.describe('v1/LoginRouter', function() {
             mockAjax: false,
             language: lang,
             assets: {
-              baseUrl: '/base/target', // local json bundles are served to us through karma
+              baseUrl: '/base/target', // local json bundles are served to us from mocked fetch
             },
           })
             .then(function(test) {
@@ -292,13 +292,9 @@ Expect.describe('v1/LoginRouter', function() {
               }, test);
             })
             .then(function() {
-              fetch.dontMock();
-
               expect(Bundles.loadLanguage).toHaveBeenCalled();
               expect(Bundles.currentLanguage).toBe(lang);
               // Verify that the translation is being applied
-
-              const loginBundle = require('@okta/i18n/src/json/login_' + lang.replace(/-/g, '_') + '.json');
 
               const title = loginBundle['password.expired.title.generic'];
               const $title = $sandbox.find('.password-expired .okta-form-title');
@@ -312,6 +308,9 @@ Expect.describe('v1/LoginRouter', function() {
             })
             .then(function() {
               expect(Bundles.currentLanguage).toBe('en');
+            })
+            .finally(() => {
+              fetch.dontMock();
             });
         });
       });
