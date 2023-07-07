@@ -8,7 +8,6 @@ import PrimaryAuthController from 'v1/controllers/PrimaryAuthController';
 import AuthContainer from 'helpers/dom/AuthContainer';
 import Beacon from 'helpers/dom/Beacon';
 import PrimaryAuthForm from 'helpers/dom/PrimaryAuthForm';
-import Dom from 'helpers/dom/Dom';
 import Util from 'helpers/mocks/Util';
 import Expect from 'helpers/util/Expect';
 import resLockedOut from 'helpers/xhr/ACCOUNT_LOCKED_OUT';
