@@ -51,8 +51,18 @@ const CaptchaContainer: UISchemaElementComponent<{
     return () => {
       dataSchema.captchaRef = undefined;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dataSchema]);
+
+  const onErrorCaptcha = (e: Event | string) => {
+    console.error(e);
+  };
+
+  const resetCaptchaContainer = () => {
+    if (captchaType === 'RECAPTCHA_V2') {
+      (captchaRef.current as ReCAPTCHA)?.reset();
+    }
+    (captchaRef.current as HCaptcha)?.resetCaptcha();
+  }
 
   const onVerifyCaptcha = (token: string | null) => {
     if (!token) {
@@ -84,10 +94,10 @@ const CaptchaContainer: UISchemaElementComponent<{
       params: captchaSubmitParams,
       step,
     });
-  };
 
-  const onErrorCaptcha = (e: Event | string) => {
-    console.error(e);
+    // tokens are one-time use, so if we submit the same token twice then it will be rejected
+    // by the server the second time, so we must reset the captcha state
+    resetCaptchaContainer();
   };
 
   if (captchaType === 'RECAPTCHA_V2') {
