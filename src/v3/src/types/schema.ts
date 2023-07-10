@@ -258,7 +258,7 @@ export interface FieldElement extends UISchemaElement {
    */
   showAsterisk?: boolean;
   options: {
-    // TODO: remove customLabel after https://github.com/okta/okta-auth-js/pull/1422
+    // TODO: remove customLabel after updating okta-auth-js (OKTA-626602)
     inputMeta: Input & {
       customLabel?: boolean;
     };
