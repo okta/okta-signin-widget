@@ -51,6 +51,7 @@ const CaptchaContainer: UISchemaElementComponent<{
     return () => {
       dataSchema.captchaRef = undefined;
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dataSchema]);
 
   const onErrorCaptcha = (e: Event | string) => {
@@ -62,7 +63,7 @@ const CaptchaContainer: UISchemaElementComponent<{
       (captchaRef.current as ReCAPTCHA)?.reset();
     }
     (captchaRef.current as HCaptcha)?.resetCaptcha();
-  }
+  };
 
   const onVerifyCaptcha = (token: string | null) => {
     if (!token) {
@@ -103,7 +104,10 @@ const CaptchaContainer: UISchemaElementComponent<{
   if (captchaType === 'RECAPTCHA_V2') {
     return (
       // set z-index to 9999 for ReCaptcha so the badge does not get covered by the footer
-      <Box zIndex={9999} position='relative'>
+      <Box
+        zIndex={9999}
+        position="relative"
+      >
         <ReCAPTCHA
           id="captcha-container"
           sitekey={siteKey}

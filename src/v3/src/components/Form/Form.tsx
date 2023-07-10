@@ -87,10 +87,6 @@ const Form: FunctionComponent<{
       if (captchaRef?.current) {
         // launch the captcha challenge
         captchaRef.current.execute();
-      } else {
-        // if captcha is enabled in the form but somehow the captchaRef is null,
-        // we dont want the form to submit
-        return;
       }
     } else {
       // submit request
