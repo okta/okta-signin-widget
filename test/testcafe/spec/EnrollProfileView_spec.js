@@ -117,8 +117,7 @@ test.requestHooks(requestLogger, EnrollProfileSubmitMock)('should show submit bu
   await t.expect(await enrollProfilePage.submitButtonExists()).eql(true);
 });
 
-// TODO: OKTA-616638 - enable custom label in v3
-test.meta('v3', false).requestHooks(requestLogger, EnrollProfileSignUpWithCustomLabelsMock)('should show custom label when provided in response', async t => {
+test.requestHooks(requestLogger, EnrollProfileSignUpWithCustomLabelsMock)('should show custom label when provided in response', async t => {
   const enrollProfilePage = new EnrollProfileViewPageObject(t);
   const identityPage = await setup(t);
   await checkA11y(t);

@@ -326,14 +326,3 @@ test.requestHooks(mock)('should call settings.registration.click on "Sign Up" cl
   await t.expect(identityPage.getFormTitle()).eql('Sign In');
 });
 
-// TODO : OKTA-397225
-// Uncomment once we support custom labels
-// test.requestHooks(enrollProfileNewCustomLabelMock)('should show custom labels', async t => {
-//   const registrationPage = await setup(t);
-//   await checkA11y(t);
-
-//   await t.expect(await registrationPage.getFormFieldLabel('userProfile.email')).eql('This is your awesome email address');
-//   await t.expect(await registrationPage.getFormFieldLabel('userProfile.firstName')).eql('Please enter your first name');
-//   await t.expect(await registrationPage.getFormFieldLabel('userProfile.lastName')).eql('Please enter your last name');
-
-// });

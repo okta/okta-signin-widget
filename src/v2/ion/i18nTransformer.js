@@ -309,9 +309,6 @@ const doesI18NKeyExist = (i18nKey) => {
  */
 const getI18NValue = (i18nPath, defaultValue, params = []) => {
   const i18nKey = getI18nKey(i18nPath);
-  // TODO : OKTA-397225
-  // here defaultValue is uiSchema label or placeholders, some lables may be customized by 
-  // admin to anything string. We should not localize and replace these customized labels even if i18nkey exists
   if (i18nKey) {
     return loc(i18nKey, 'login', params);
   } else {

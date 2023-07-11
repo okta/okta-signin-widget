@@ -435,11 +435,18 @@ export default class BaseFormObject {
   }
 
   findFormFieldInputLabel(fieldName) {
-    return this.el
-      .find(`[data-se="o-form-input-${fieldName}"]`)
-      .parent('[data-se="o-form-input-container"]')
-      .sibling('[data-se="o-form-label"]')
-      .child('label');
+    if (userVariables.v3) {
+      return this.el
+        .find(`label[for="${fieldName}"]`)
+        // get first text node
+        .find((_node, index) => index === 0);
+    } else {
+      return this.el
+        .find(`[data-se="o-form-input-${fieldName}"]`)
+        .parent('[data-se="o-form-input-container"]')
+        .sibling('[data-se="o-form-label"]')
+        .child('label');
+    }
   }
 
   getFormFieldSubLabel(fieldName) {
