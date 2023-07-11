@@ -1,0 +1,75 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Field transformer tests should use provided custom labels instead of translations 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "label": "Please enter your first name",
+        "options": Object {
+          "inputMeta": Object {
+            "customLabel": true,
+            "name": "userProfile.firstName",
+          },
+        },
+        "translations": Array [
+          Object {
+            "i18nKey": "oie.user.profile.firstname",
+            "name": "label",
+            "noTranslate": true,
+            "value": "Please enter your first name",
+          },
+        ],
+        "type": "Field",
+      },
+      Object {
+        "label": "Please enter your last name",
+        "options": Object {
+          "inputMeta": Object {
+            "customLabel": true,
+            "name": "userProfile.lastName",
+          },
+        },
+        "translations": Array [
+          Object {
+            "i18nKey": "oie.user.profile.lastname",
+            "name": "label",
+            "noTranslate": true,
+            "value": "Please enter your last name",
+          },
+        ],
+        "type": "Field",
+      },
+      Object {
+        "label": "Please enter your email",
+        "options": Object {
+          "inputMeta": Object {
+            "customLabel": false,
+            "name": "userProfile.email",
+          },
+        },
+        "translations": Array [
+          Object {
+            "i18nKey": "oie.user.profile.primary.email",
+            "name": "label",
+            "noTranslate": false,
+            "value": "oie.user.profile.primary.email",
+          },
+        ],
+        "type": "Field",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

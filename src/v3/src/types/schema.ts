@@ -258,7 +258,10 @@ export interface FieldElement extends UISchemaElement {
    */
   showAsterisk?: boolean;
   options: {
-    inputMeta: Input;
+    // TODO: remove customLabel after updating okta-auth-js (OKTA-626602)
+    inputMeta: Input & {
+      customLabel?: boolean;
+    };
     format?: 'select' | 'radio';
     attributes?: InputAttributes;
     type?: string;
