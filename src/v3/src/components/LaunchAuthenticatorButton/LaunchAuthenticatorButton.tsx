@@ -65,6 +65,11 @@ const LaunchAuthenticatorButton: UISchemaElementComponent<{
     }
     onSubmitHandler({
       step,
+      isActionStep: true,
+      // pass the rememberMe checkbox value into the request params
+      params: {
+        rememberMe: data['rememberMe'],
+      }
     });
   };
 
