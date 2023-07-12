@@ -15,21 +15,18 @@ import {
   DescriptionElement,
   TransformStepFnWithOptions,
 } from '../../types';
-import { loc } from '../../util';
+import { isCaptchaEnabled, loc } from '../../util';
 
 export const transformCaptcha: TransformStepFnWithOptions = ({ transaction }) => (
   formbag,
 ) => {
-  // @ts-expect-error captcha missing from context type
-  const hasCaptcha = typeof transaction.context?.captcha !== 'undefined';
-
-  if (!hasCaptcha) {
+  if (!isCaptchaEnabled(transaction)) {
     return formbag;
   }
 
   const {
     context: {
-      // @ts-expect-error captcha missing from context type
+      // @ts-expect-error OKTA-627610 captcha missing from context type
       captcha: {
         value: {
           id: captchaId,

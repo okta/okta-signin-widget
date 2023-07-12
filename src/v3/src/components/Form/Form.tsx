@@ -20,7 +20,7 @@ import {
   SubmitEvent,
   UISchemaLayout,
 } from '../../types';
-import { getValidationMessages } from '../../util';
+import { getValidationMessages, isCaptchaEnabled } from '../../util';
 import InfoSection from '../InfoSection/InfoSection';
 import Layout from './Layout';
 import style from './style.module.css';
@@ -80,10 +80,7 @@ const Form: FunctionComponent<{
       }
     }
 
-    // @ts-expect-error captcha missing from context type
-    const { context: { captcha: captchaConfig } } = currTransaction!;
-    const hasCaptcha = typeof captchaConfig !== 'undefined';
-    if (hasCaptcha) {
+    if (currTransaction && isCaptchaEnabled(currTransaction)) {
       if (captchaRef?.current) {
         // launch the captcha challenge
         captchaRef.current.execute();

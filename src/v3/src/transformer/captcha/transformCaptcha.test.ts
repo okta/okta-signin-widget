@@ -46,7 +46,7 @@ describe('Captcha container transformer tests', () => {
 
   it('should add captcha container when captcha object is in transaction context', () => {
     transaction.context = {
-      // @ts-expect-error captcha missing from context type
+      // @ts-expect-error OKTA-627610 captcha missing from context type
       captcha: {
         value: {
           type: 'captcha_type',
@@ -78,7 +78,7 @@ describe('Captcha container transformer tests', () => {
 
   it('should add footer text when captcha type is HCAPTCHA', () => {
     transaction.context = {
-      // @ts-expect-error captcha missing from context type
+      // @ts-expect-error OKTA-627610 captcha missing from context type
       captcha: {
         value: {
           type: 'HCAPTCHA',
@@ -97,7 +97,7 @@ describe('Captcha container transformer tests', () => {
 
   it('should not add footer text when captcha type is RECAPTCHA_V2', () => {
     transaction.context = {
-      // @ts-expect-error captcha missing from context type
+      // @ts-expect-error OKTA-627610 captcha missing from context type
       captcha: {
         value: {
           type: 'RECAPTCHA_V2',
