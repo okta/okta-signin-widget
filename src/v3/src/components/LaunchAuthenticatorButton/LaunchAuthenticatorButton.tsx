@@ -68,8 +68,8 @@ const LaunchAuthenticatorButton: UISchemaElementComponent<{
       isActionStep: true,
       // pass the rememberMe checkbox value into the request params
       params: {
-        rememberMe: data['rememberMe'],
-      }
+        rememberMe: data.rememberMe,
+      },
     });
   };
 
