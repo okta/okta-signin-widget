@@ -103,9 +103,9 @@ const CaptchaContainer: UISchemaElementComponent<{
 
   if (captchaType === 'RECAPTCHA_V2') {
     return (
-      // set z-index to 9999 for ReCaptcha so the badge does not get covered by the footer
+      // set z-index to 1 for ReCaptcha so the badge does not get covered by the footer
       <Box
-        zIndex={9999}
+        zIndex={1}
         position="relative"
       >
         <ReCAPTCHA
