@@ -38,9 +38,8 @@ const CaptchaContainer: UISchemaElementComponent<{
   const dataSchema = dataSchemaRef.current!;
   const captchaRef = useRef<ReCAPTCHA | HCaptcha>(null);
 
-  const isHcaptchaInstance = (captchaObj: HCaptcha | ReCAPTCHA): captchaObj is HCaptcha => {
-    return captchaObj instanceof HCaptcha;
-  }
+  const isHcaptchaInstance = (captchaObj: HCaptcha | ReCAPTCHA)
+  : captchaObj is HCaptcha => captchaObj instanceof HCaptcha;
 
   useEffect(() => {
     // set the reference in dataSchema context to this captcha instance
@@ -62,10 +61,6 @@ const CaptchaContainer: UISchemaElementComponent<{
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dataSchema]);
-
-  const onErrorCaptcha = (e: Event | string) => {
-    console.error(e);
-  };
 
   const resetCaptchaContainer = () => {
     if (captchaRef.current === null) {
@@ -127,7 +122,6 @@ const CaptchaContainer: UISchemaElementComponent<{
           sitekey={siteKey}
           ref={captchaRef}
           onChange={onVerifyCaptcha}
-          onError={onErrorCaptcha}
           size="invisible"
           badge="bottomright"
         />
@@ -140,7 +134,6 @@ const CaptchaContainer: UISchemaElementComponent<{
       sitekey={siteKey}
       ref={captchaRef}
       onVerify={onVerifyCaptcha}
-      onError={onErrorCaptcha}
       size="invisible"
     />
   );
