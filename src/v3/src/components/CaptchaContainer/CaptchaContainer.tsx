@@ -38,15 +38,24 @@ const CaptchaContainer: UISchemaElementComponent<{
   const dataSchema = dataSchemaRef.current!;
   const captchaRef = useRef<ReCAPTCHA | HCaptcha>(null);
 
+  const isHcaptchaInstance = (captchaObj: HCaptcha | ReCAPTCHA): captchaObj is HCaptcha => {
+    return captchaObj instanceof HCaptcha;
+  }
+
   useEffect(() => {
     // set the reference in dataSchema context to this captcha instance
     dataSchema.captchaRef = captchaRef;
-    //  For some reason Hcaptcha does not initially auto render only when in development mode
-    //  This delayed manual render is only used in development mode for hcaptcha
-    if (process.env.NODE_ENV === 'development' && captchaType === 'HCAPTCHA') {
-      setTimeout(() => {
-        (captchaRef.current as HCaptcha)?.renderCaptcha();
-      }, 500);
+    if (captchaRef.current !== null) {
+      //  For some reason Hcaptcha does not initially auto render only when in development mode
+      //  https://github.com/hCaptcha/react-hcaptcha/issues/53
+      //  This delayed manual render is only used in development mode for hcaptcha
+      if (process.env.NODE_ENV === 'development' && isHcaptchaInstance(captchaRef.current)) {
+        setTimeout(() => {
+          if (isHcaptchaInstance(captchaRef.current!)) {
+            captchaRef.current?.renderCaptcha();
+          }
+        }, 500);
+      }
     }
     return () => {
       dataSchema.captchaRef = undefined;
@@ -59,10 +68,15 @@ const CaptchaContainer: UISchemaElementComponent<{
   };
 
   const resetCaptchaContainer = () => {
-    if (captchaType === 'RECAPTCHA_V2') {
-      (captchaRef.current as ReCAPTCHA)?.reset();
+    if (captchaRef.current === null) {
+      return;
     }
-    (captchaRef.current as HCaptcha)?.resetCaptcha();
+
+    if (isHcaptchaInstance(captchaRef.current)) {
+      captchaRef.current.resetCaptcha();
+    } else {
+      captchaRef.current.reset();
+    }
   };
 
   const onVerifyCaptcha = (token: string | null) => {

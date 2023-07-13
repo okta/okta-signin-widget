@@ -37,6 +37,10 @@ export const transformCaptcha: TransformStepFnWithOptions = ({ transaction }) =>
     },
   } = transaction;
 
+  if (!['HCAPTCHA', 'RECAPTCHA_V2'].includes(captchaType)) {
+    return formbag;
+  }
+
   // if HCAPTCHA type, render the footer - we need to do this manually since the HCAPTCHA lib doesn't do it
   if (captchaType === 'HCAPTCHA') {
     const hcaptchaFooterContent = loc(
