@@ -22,7 +22,7 @@ if ! ci-append-sha; then
 fi
 
 # NOTE: hyphen rather than '@'
-artifact_version="$(ci-pkginfo -t pkgsemver)"
+artifact_version="$(ci-pkginfo -t pkgname)-$(ci-pkginfo -t pkgsemver)"
 
 # clone angular sample, using angular sample because angular toolchain is *very* opinionated about modules
 git clone --depth 1 https://github.com/okta/samples-js-angular.git test/package/angular-sample
@@ -40,8 +40,16 @@ if ! npm i; then
 fi
 
 # install the version of @okta/okta-signin-widget from artifactory that was published during the `publish` suite
-if ! yarn run siw-platform install-artifact -n @okta/okta-signin-widget -v ${artifact_version}; then
-  echo "install @okta/okta-signin-wdiget@${artifact_version} failed! Exiting..."
+published_tarball=${REGISTRY}/@okta/okta-signin-widget/-/${artifact_version}.tgz
+if ! npm i ${published_tarball}; then
+  echo "install ${published_tarball} failed! Exiting..."
+  exit ${FAILED_SETUP}
+fi
+
+# use the same version of auth-js as the widget, otherwise you'll get type errors
+auth_js_version=$(jq -r '.dependencies."@okta/okta-auth-js" node_modules/@okta/okta-signin-widget/package.json')
+if ! npm i @okta/okta-auth-js@${auth_js_version}; then
+  echo "install auth-js@${auth_js_version} failed! Exiting..."
   exit ${FAILED_SETUP}
 fi
 
