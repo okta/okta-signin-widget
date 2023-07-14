@@ -47,6 +47,7 @@ const CaptchaContainer: UISchemaElementComponent<{
     if (captchaRef.current !== null) {
       //  For some reason Hcaptcha does not initially auto render only when in development mode
       //  https://github.com/hCaptcha/react-hcaptcha/issues/53
+      //  May be an issue with compiling typescript and hot module updating
       //  This delayed manual render is only used in development mode for hcaptcha
       if (process.env.NODE_ENV === 'development' && isHcaptchaInstance(captchaRef.current)) {
         setTimeout(() => {
