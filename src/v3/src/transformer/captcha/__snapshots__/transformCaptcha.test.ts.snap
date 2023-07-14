@@ -52,7 +52,7 @@ Object {
         "options": Object {
           "captchaId": "test_id",
           "siteKey": "test_site_key",
-          "type": "captcha_type",
+          "type": "RECAPTCHA_V2",
         },
         "type": "CaptchaContainer",
       },

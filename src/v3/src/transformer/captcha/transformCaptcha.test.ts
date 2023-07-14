@@ -49,7 +49,7 @@ describe('Captcha container transformer tests', () => {
       // @ts-expect-error OKTA-627610 captcha missing from context type
       captcha: {
         value: {
-          type: 'captcha_type',
+          type: 'RECAPTCHA_V2',
           id: 'test_id',
           siteKey: 'test_site_key',
         },
@@ -62,7 +62,7 @@ describe('Captcha container transformer tests', () => {
     expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(6);
     expect((updatedFormBag.uischema.elements[5] as CaptchaContainerElement).type).toBe('CaptchaContainer');
-    expect((updatedFormBag.uischema.elements[5] as CaptchaContainerElement).options.type).toBe('captcha_type');
+    expect((updatedFormBag.uischema.elements[5] as CaptchaContainerElement).options.type).toBe('RECAPTCHA_V2');
     expect((updatedFormBag.uischema.elements[5] as CaptchaContainerElement).options.captchaId).toBe('test_id');
     expect((updatedFormBag.uischema.elements[5] as CaptchaContainerElement).options.siteKey).toBe('test_site_key');
   });
