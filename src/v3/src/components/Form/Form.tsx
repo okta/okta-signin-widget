@@ -81,10 +81,8 @@ const Form: FunctionComponent<{
     }
 
     if (currTransaction && isCaptchaEnabled(currTransaction)) {
-      if (captchaRef?.current) {
-        // launch the captcha challenge
-        captchaRef.current.execute();
-      }
+      // launch the captcha challenge
+      captchaRef?.current?.execute();
     } else {
       // submit request
       onSubmitHandler({
