@@ -6,7 +6,7 @@ cd ${OKTA_HOME}/${REPO}
 
 # Install required node version
 setup_service node v14.18.2
-setup_service yarn 1.21.1 /etc/pki/tls/certs/ca-bundle.crt
+setup_service yarn 1.22.19
 
 # Install required dependencies
 yarn global add @okta/ci-append-sha
@@ -29,9 +29,6 @@ git clone --depth 1 https://github.com/okta/samples-js-angular.git test/package/
 pushd test/package/angular-sample/custom-login
 
 yarn add -W --force --no-lockfile @okta/siw-platform-scripts@0.5.0
-
-# NOTE: setup_service sets the registry to internal mirror, add certs to chain
-export NODE_EXTRA_CA_CERTS="/etc/pki/tls/certs/ca-bundle.crt"
 
 # use npm instead of yarn to test as a community dev
 if ! npm i; then

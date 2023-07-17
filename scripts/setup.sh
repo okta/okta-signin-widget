@@ -15,8 +15,7 @@ if ! setup_service node v16.19.1 &> /dev/null; then
   exit ${FAILED_SETUP}
 fi
 
-# Use the cacert bundled with centos as okta root CA is self-signed and cause issues downloading from yarn
-if ! setup_service yarn 1.21.1 /etc/pki/tls/certs/ca-bundle.crt &> /dev/null; then
+if ! setup_service yarn 1.22.19 &> /dev/null; then
   echo "Failed to install yarn"
   exit ${FAILED_SETUP}
 fi
