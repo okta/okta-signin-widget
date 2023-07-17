@@ -22,7 +22,7 @@
   ],
   "engines": {
     "node": ">=14.18",
-    "yarn": "^1.22.19"
+    "yarn": "^1.7.0"
   },
   "types": "./types/src/exports/default.d.ts",
   "main": "./target/js/okta-sign-in.js",
