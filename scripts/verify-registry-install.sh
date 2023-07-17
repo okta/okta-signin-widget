@@ -28,10 +28,12 @@ artifact_version="$(ci-pkginfo -t pkgname)-$(ci-pkginfo -t pkgsemver)"
 git clone --depth 1 https://github.com/okta/samples-js-angular.git test/package/angular-sample
 pushd test/package/angular-sample/custom-login
 
-yarn add -W --force --no-lockfile @okta/siw-platform-scripts@0.5.0
+yarn add -W --force --no-lockfile @okta/siw-platform-scripts@0.6.0-g5877d12
 
 # NOTE: setup_service sets the registry to internal mirror, add certs to chain
 export NODE_EXTRA_CA_CERTS="/etc/pki/tls/certs/ca-bundle.crt"
+export REGISTRY=$(siw-platform get-registry)
+echo $REGISTRY
 
 # use npm instead of yarn to test as a community dev
 if ! npm i; then
