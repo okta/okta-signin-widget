@@ -31,7 +31,7 @@ fi
 if [ ! -z "$AUTHJS_VERSION" ]; then
   echo "Installing AUTHJS_VERSION: ${AUTHJS_VERSION}"
 
-  yarn add -W --force --no-lockfile @okta/siw-platform-scripts@0.5.0
+  yarn add -W --force --no-lockfile @okta/siw-platform-scripts@0.7.0
 
   if ! yarn run siw-platform install-artifact -n @okta/okta-auth-js -v ${AUTHJS_VERSION} ; then
     echo "AUTHJS_VERSION could not be installed: ${AUTHJS_VERSION}"
