@@ -158,8 +158,7 @@ if [ -n "${TEST_SUITE_ID}" ]; then
   setup_service node v14.18.2
 
   # Verify minimum supported version of yarn
-  # Use the cacert bundled with centos as okta root CA is self-signed and cause issues downloading from yarn
-  setup_service yarn 1.7.0 /etc/pki/tls/certs/ca-bundle.crt
+  setup_service yarn 1.22.19
   export PATH="${PATH}:$(yarn global bin)"
   set -e
 fi
