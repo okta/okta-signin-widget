@@ -38,7 +38,7 @@ fi
 
 # install the version of @okta/okta-signin-widget from artifactory that was published during the `publish` suite
 if ! yarn run siw-platform install-artifact -n @okta/okta-signin-widget -v ${artifact_version}; then
-  echo "install @okta/okta-signin-wdiget@${artifact_version} failed! Exiting..."
+  echo "install @okta/okta-signin-widget@${artifact_version} failed! Exiting..."
   exit ${FAILED_SETUP}
 fi
 
