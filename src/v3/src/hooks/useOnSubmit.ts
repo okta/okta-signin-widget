@@ -140,7 +140,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       payload.identifier = transformIdentifier(widgetProps, step, payload.identifier as string);
     }
 
-    payload = toNestedObject(payload);
+    payload = toNestedObject(payload, step);
     if (step === IDX_STEP.ENROLL_PROFILE) {
       const preRegistrationSubmitPromise = new Promise((resolve) => {
         preRegistrationSubmit(

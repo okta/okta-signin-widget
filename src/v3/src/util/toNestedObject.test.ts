@@ -11,6 +11,7 @@
  */
 
 import { toNestedObject } from './toNestedObject';
+import { IDX_STEP } from '../constants/idxConstants';
 
 describe('toNestedObject', () => {
   it('produces nested object', () => {
@@ -34,6 +35,20 @@ describe('toNestedObject', () => {
         },
       },
       b: 'foobar',
+    });
+  });
+
+  it('should not produce nested object for optedScopes (for Granular Consent)', () => {
+    expect(toNestedObject({
+      'consent': true,
+      'optedScopes.email': true,
+      'optedScopes.some.scope': true
+    }, IDX_STEP.CONSENT_GRANULAR)).toEqual({
+      consent: true,
+      optedScopes: {
+        'email': true,
+        'some.scope': true,
+      },
     });
   });
 });

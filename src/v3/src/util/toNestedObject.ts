@@ -12,6 +12,7 @@
 
 import { IdxActionParams } from '@okta/okta-auth-js';
 import merge from 'lodash/merge';
+import { PAYLOAD_KEYS_WITHOUT_NESTING } from '../constants/idxConstants';
 
 const nestEntry = (parts: string[], value: unknown): IdxActionParams => {
   const res: IdxActionParams = {};
@@ -27,9 +28,19 @@ const nestEntry = (parts: string[], value: unknown): IdxActionParams => {
 
 export const toNestedObject = (
   params: Record<string, unknown>,
+  idxStep?: string
 ): IdxActionParams => Object.entries(params || {})
   .reduce((acc, [key, value]) => {
-    const parts = key.split('.');
+    let parts = key.split('.');
+    const [firstPart, ...otherParts] = parts;
+    if (idxStep && PAYLOAD_KEYS_WITHOUT_NESTING[idxStep]?.includes(firstPart)) {
+      // For Granular Consent remediation, scopes within the `optedScopes`
+      //  property can include a singular value or n values delimited by a "." eg "some.scope"
+      // When they are delimited, properties should not be nested in the final payload
+      // - Wrong:   { optedScopes: { some: { scope: true }}}
+      // - Correct: { optedScopes: { 'some.scope': true }}
+      parts = [firstPart, otherParts.join('.')];
+    }
     const nestedField = nestEntry(parts, value);
     return merge(acc, nestedField);
   }, {});

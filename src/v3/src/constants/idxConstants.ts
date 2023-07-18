@@ -294,3 +294,7 @@ export const SCOPE_GROUP_CONFIG: Record<string, ConsentScopeGroup> = {
   sessions: 'system',
   trustedOrigins: 'system',
 };
+
+export const PAYLOAD_KEYS_WITHOUT_NESTING: Record<string, string[]> = {
+  [IDX_STEP.CONSENT_GRANULAR]: ['optedScopes'],
+};
