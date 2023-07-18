@@ -28,7 +28,7 @@ artifact_version="$(ci-pkginfo -t pkgsemver)"
 git clone --depth 1 https://github.com/okta/samples-js-angular.git test/package/angular-sample
 pushd test/package/angular-sample/custom-login
 
-yarn add -W --force --no-lockfile @okta/siw-platform-scripts@0.8.0
+yarn add -W --force --no-lockfile @okta/siw-platform-scripts@0.7.0
 
 # use npm instead of yarn to test as a community dev
 if ! npm i; then
