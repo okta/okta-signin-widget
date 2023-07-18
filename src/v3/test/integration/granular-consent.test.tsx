@@ -28,20 +28,20 @@ describe('granular-consent', () => {
   it('should send correct payload when consent is given', async () => {
     const { authClient, user, findByText } = await setup({ mockResponse });
 
-    const checkCustom2 = await findByText("View your internet search history.");
+    const checkCustom2 = await findByText('View your internet search history.');
     await user.click(checkCustom2);
-    const allowConsentBtn = await findByText("Allow Access");
+    const allowConsentBtn = await findByText('Allow Access');
     await user.click(allowConsentBtn);
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
       ...createAuthJsPayloadArgs('POST', 'idp/idx/consent', {
         consent: true,
         optedScopes: {
-          'openid': true,
-          'custom1': true,
-          'custom2': false,
+          openid: true,
+          custom1: true,
+          custom2: false,
           'custom3.custom4.custom5': true,
-          'email': true,
-          'profile': true,
+          email: true,
+          profile: true,
         },
       }),
     );
@@ -50,18 +50,18 @@ describe('granular-consent', () => {
   it('should send correct payload when consent is denied', async () => {
     const { authClient, user, findByText } = await setup({ mockResponse });
 
-    const denyConsentBtn = await findByText("Cancel");
+    const denyConsentBtn = await findByText('Cancel');
     await user.click(denyConsentBtn);
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
       ...createAuthJsPayloadArgs('POST', 'idp/idx/consent', {
         consent: false,
         optedScopes: {
-          'openid': true,
-          'custom1': true,
-          'custom2': true,
+          openid: true,
+          custom1: true,
+          custom2: true,
           'custom3.custom4.custom5': true,
-          'email': true,
-          'profile': true,
+          email: true,
+          profile: true,
         },
       }),
     );

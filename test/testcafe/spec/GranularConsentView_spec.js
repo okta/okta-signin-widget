@@ -93,7 +93,6 @@ test.requestHooks(requestLogger, consentGranularMock)('should display correct co
   await t.expect(await consentPage.getDontAllowButtonLabel()).eql('Cancel');
 });
 
-// TODO: OKTA-611788 - fixes the nested scopes and allows this test to be enabled
 test.requestHooks(requestLogger, consentGranularMock)('should send correct payload to /consent on "Allow Access" click', async t => {
   const consentPage  = await setup(t);
   await checkA11y(t);
