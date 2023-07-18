@@ -12,6 +12,7 @@
 
 import { IdxActionParams } from '@okta/okta-auth-js';
 import merge from 'lodash/merge';
+
 import { PAYLOAD_KEYS_WITHOUT_NESTING } from '../constants/idxConstants';
 
 const nestEntry = (parts: string[], value: unknown): IdxActionParams => {
@@ -28,7 +29,7 @@ const nestEntry = (parts: string[], value: unknown): IdxActionParams => {
 
 export const toNestedObject = (
   params: Record<string, unknown>,
-  idxStep?: string
+  idxStep?: string,
 ): IdxActionParams => Object.entries(params || {})
   .reduce((acc, [key, value]) => {
     let parts = key.split('.');

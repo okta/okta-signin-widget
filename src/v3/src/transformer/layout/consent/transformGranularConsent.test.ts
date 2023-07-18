@@ -59,7 +59,7 @@ describe('transformGranularConsent tests', () => {
         type: 'Field',
         options: {
           inputMeta: {
-            name: 'optedScopes.custom1',
+            name: 'optedScopes.custom.custom1',
             label: 'Custom 1 label',
             // TODO: OKTA-598864 Input type is missing desc as a property
             desc: 'This is a custom description for the custom field.',
@@ -76,7 +76,7 @@ describe('transformGranularConsent tests', () => {
         type: 'Field',
         options: {
           inputMeta: {
-            name: 'optedScopes.custom2',
+            name: 'optedScopes.custom.custom2',
             label: 'Custom 2 label',
             // TODO: OKTA-598864 Input type is missing desc as a property
             desc: 'This is a custom description for the custom 2 field.',
@@ -117,9 +117,9 @@ describe('transformGranularConsent tests', () => {
     expect((updatedFormBag.uischema.elements[0] as DescriptionElement).options.content)
       .toBe('oie.consent.scopes.granular.description');
     expect((updatedFormBag.uischema.elements[1] as FieldElement).options.inputMeta.name)
-      .toBe('optedScopes.custom1');
+      .toBe('optedScopes.custom.custom1');
     expect((updatedFormBag.uischema.elements[2] as FieldElement).options.inputMeta.name)
-      .toBe('optedScopes.custom2');
+      .toBe('optedScopes.custom.custom2');
     expect((updatedFormBag.uischema.elements[3] as FieldElement).options.inputMeta.name)
       .toBe('optedScopes.openid');
     expect((updatedFormBag.uischema.elements[4] as FieldElement).options.inputMeta.name)

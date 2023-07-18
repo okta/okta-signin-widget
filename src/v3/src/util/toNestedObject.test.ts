@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { toNestedObject } from './toNestedObject';
 import { IDX_STEP } from '../constants/idxConstants';
+import { toNestedObject } from './toNestedObject';
 
 describe('toNestedObject', () => {
   it('produces nested object', () => {
@@ -40,13 +40,13 @@ describe('toNestedObject', () => {
 
   it('should not produce nested object for optedScopes (for Granular Consent)', () => {
     expect(toNestedObject({
-      'consent': true,
+      consent: true,
       'optedScopes.email': true,
-      'optedScopes.some.scope': true
+      'optedScopes.some.scope': true,
     }, IDX_STEP.CONSENT_GRANULAR)).toEqual({
       consent: true,
       optedScopes: {
-        'email': true,
+        email: true,
         'some.scope': true,
       },
     });
