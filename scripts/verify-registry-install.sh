@@ -6,7 +6,7 @@ cd ${OKTA_HOME}/${REPO}
 
 # Install required node version
 setup_service node v14.18.2
-setup_service yarn 1.21.1 /etc/pki/tls/certs/ca-bundle.crt
+setup_service yarn 1.22.19
 
 # Install required dependencies
 yarn global add @okta/ci-append-sha
@@ -28,10 +28,7 @@ artifact_version="$(ci-pkginfo -t pkgsemver)"
 git clone --depth 1 https://github.com/okta/samples-js-angular.git test/package/angular-sample
 pushd test/package/angular-sample/custom-login
 
-yarn add -W --force --no-lockfile @okta/siw-platform-scripts@0.5.0
-
-# NOTE: setup_service sets the registry to internal mirror, add certs to chain
-export NODE_EXTRA_CA_CERTS="/etc/pki/tls/certs/ca-bundle.crt"
+yarn add -W --force --no-lockfile @okta/siw-platform-scripts@0.7.0
 
 # use npm instead of yarn to test as a community dev
 if ! npm i; then
@@ -41,7 +38,7 @@ fi
 
 # install the version of @okta/okta-signin-widget from artifactory that was published during the `publish` suite
 if ! yarn run siw-platform install-artifact -n @okta/okta-signin-widget -v ${artifact_version}; then
-  echo "install @okta/okta-signin-wdiget@${artifact_version} failed! Exiting..."
+  echo "install @okta/okta-signin-widget@${artifact_version} failed! Exiting..."
   exit ${FAILED_SETUP}
 fi
 

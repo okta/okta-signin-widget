@@ -15,8 +15,7 @@ if ! setup_service node v16.19.1 &> /dev/null; then
   exit ${FAILED_SETUP}
 fi
 
-# Use the cacert bundled with centos as okta root CA is self-signed and cause issues downloading from yarn
-if ! setup_service yarn 1.21.1 /etc/pki/tls/certs/ca-bundle.crt &> /dev/null; then
+if ! setup_service yarn 1.22.19 &> /dev/null; then
   echo "Failed to install yarn"
   exit ${FAILED_SETUP}
 fi
@@ -32,7 +31,7 @@ fi
 if [ ! -z "$AUTHJS_VERSION" ]; then
   echo "Installing AUTHJS_VERSION: ${AUTHJS_VERSION}"
 
-  yarn add -W --force --no-lockfile @okta/siw-platform-scripts@0.5.0
+  yarn add -W --force --no-lockfile @okta/siw-platform-scripts@0.7.0
 
   if ! yarn run siw-platform install-artifact -n @okta/okta-auth-js -v ${AUTHJS_VERSION} ; then
     echo "AUTHJS_VERSION could not be installed: ${AUTHJS_VERSION}"
