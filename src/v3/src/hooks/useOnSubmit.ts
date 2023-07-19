@@ -140,7 +140,14 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       payload.identifier = transformIdentifier(widgetProps, step, payload.identifier as string);
     }
 
-    payload = toNestedObject(payload, step);
+    // For Granular Consent remediation, scopes within the `optedScopes`
+    //  property can include a singular value or n values delimited by a "." eg "some.scope"
+    // When they are delimited, properties should not be nested in the final payload
+    // - Wrong:   { optedScopes: { some: { scope: true }}}
+    // - Correct: { optedScopes: { 'some.scope': true }}
+    const keysWithoutNesting = step === IDX_STEP.CONSENT_GRANULAR ? ['optedScopes'] : [];
+    payload = toNestedObject(payload, keysWithoutNesting);
+
     if (step === IDX_STEP.ENROLL_PROFILE) {
       const preRegistrationSubmitPromise = new Promise((resolve) => {
         preRegistrationSubmit(
