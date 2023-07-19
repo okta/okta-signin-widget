@@ -58,7 +58,6 @@ import {
   isOauth2Enabled,
   loadLanguage,
   SessionStorage,
-  shouldSkipAfterRender,
 } from '../../util';
 import { getEventContext } from '../../util/getEventContext';
 import { mapMuiThemeFromBrand } from '../../util/theme';
@@ -156,7 +155,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         });
         return;
       }
-      const transaction = await authClient.idx.start({
+      const transaction: IdxTransaction = await authClient.idx.start({
         stateHandle,
         // Required to prevent auth-js from clearing sessionStorage and breaking interaction code flow
         exchangeCodeForTokens: false,
@@ -346,7 +345,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       return;
     }
     if (widgetRendered && typeof idxTransaction !== 'undefined'
-      && !shouldSkipAfterRender(idxTransaction)) {
+      && uischema.elements.length > 0) {
       events?.afterRender?.(getEventContext(idxTransaction));
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps

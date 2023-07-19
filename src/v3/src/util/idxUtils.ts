@@ -15,7 +15,6 @@ import {
   FieldError,
   IdxMessage,
   IdxRemediation,
-  IdxStatus,
   IdxTransaction,
   Input,
   NextStep,
@@ -355,19 +354,3 @@ export const isVerifyFlow = (transaction: IdxTransaction): boolean => {
 
 // @ts-expect-error OKTA-627610 captcha missing from context type
 export const isCaptchaEnabled = (transaction: IdxTransaction): boolean => typeof transaction.context?.captcha !== 'undefined';
-
-export const shouldSkipAfterRender = (idxTransaction: IdxTransaction): boolean => {
-  const {
-    nextStep: { name: stepName } = {},
-    neededToProceed,
-    messages,
-    context,
-  } = idxTransaction;
-  // When a transaction is in this scenario, it usually indicates a successful
-  // interaction code flow token response which means we should not trigger the afterRender event.
-  return idxTransaction.status === IdxStatus.SUCCESS
-    && stepName === 'cancel'
-    && neededToProceed.length === 0
-    && !messages?.length
-    && !context.messages;
-};
