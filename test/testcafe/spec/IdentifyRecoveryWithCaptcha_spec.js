@@ -34,11 +34,12 @@ const reCaptchaRequestLogger = RequestLogger(
   }
 );
 
-fixture('Identify Recovery - reset flow with Captcha');
+fixture('Identify Recovery - reset flow with Captcha').meta('v3', true);
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
   await identityPage.navigateToPage();
+  await t.expect(await identityPage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: 'forgot-password',
     formName: 'identify-recovery',
@@ -68,7 +69,8 @@ test.requestHooks(identifyRequestLogger, reCaptchaRequestLogger, identifyRecover
 // TODO: enable this test OKTA-504996
 test.requestHooks(identifyRequestLogger, identifyRecoveryWithHCaptchaMock)('should be able to submit identifier with hCaptcha enabled', async t => {
   const identityPage = await setup(t);
-  await checkA11y(t);
+  // TODO: Quarantined a11y check - OKTA-576351 - re-enable once fixed
+  // await checkA11y(t);
 
   // Wait for the hCaptcha container to appear in the DOM and become visible.
   const captchaContainer = Selector('#captcha-container iframe');

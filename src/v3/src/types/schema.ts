@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import HCaptcha from '@hcaptcha/react-hcaptcha';
 import {
   IdxAuthenticator,
   IdxMessage,
@@ -20,6 +21,8 @@ import {
 import { IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
 import { HTMLReactParserOptions } from 'html-react-parser';
 import { FunctionComponent } from 'preact';
+import { Ref } from 'preact/hooks';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 import { IStepperContext, IWidgetContext } from './context';
 import { ClickHandler } from './handlers';
@@ -34,6 +37,7 @@ export type DataSchemaBag = GeneralDataSchemaBag & {
   fieldsToTrim: string[];
   fieldsToValidate: string[];
   fieldsToExclude: (data: FormBag['data']) => string[];
+  captchaRef?: Ref<ReCAPTCHA | HCaptcha>;
 };
 
 export type FormBag = {
@@ -389,6 +393,7 @@ export interface DescriptionElement extends UISchemaElement {
   options: {
     content: string;
     dataSe?: string;
+    variant?: 'body1' | 'subtitle1' | 'legend';
   };
 }
 
@@ -580,5 +585,14 @@ export interface DuoWindowElement extends UISchemaElement {
     host: string;
     signedToken: string;
     step: string;
+  };
+}
+
+export interface CaptchaContainerElement extends UISchemaElement {
+  type: 'CaptchaContainer';
+  options: {
+    captchaId: string;
+    siteKey: string;
+    type: 'HCAPTCHA' | 'RECAPTCHA_V2';
   };
 }

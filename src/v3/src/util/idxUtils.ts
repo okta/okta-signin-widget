@@ -351,3 +351,6 @@ export const isVerifyFlow = (transaction: IdxTransaction): boolean => {
   const { context: { currentAuthenticatorEnrollment } } = transaction;
   return typeof currentAuthenticatorEnrollment !== 'undefined';
 };
+
+// @ts-expect-error OKTA-627610 captcha missing from context type
+export const isCaptchaEnabled = (transaction: IdxTransaction): boolean => typeof transaction.context?.captcha !== 'undefined';

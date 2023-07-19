@@ -20,7 +20,7 @@ import {
   SubmitEvent,
   UISchemaLayout,
 } from '../../types';
-import { getValidationMessages } from '../../util';
+import { getValidationMessages, isCaptchaEnabled } from '../../util';
 import InfoSection from '../InfoSection/InfoSection';
 import Layout from './Layout';
 import style from './style.module.css';
@@ -60,6 +60,7 @@ const Form: FunctionComponent<{
         step,
         includeImmutableData,
       },
+      captchaRef,
     } = dataSchemaRef.current!;
 
     // client side validation - only validate for fields in nextStep
@@ -79,13 +80,18 @@ const Form: FunctionComponent<{
       }
     }
 
-    // submit request
-    onSubmitHandler({
-      includeData: true,
-      includeImmutableData,
-      params,
-      step,
-    });
+    if (currTransaction && isCaptchaEnabled(currTransaction)) {
+      // launch the captcha challenge
+      captchaRef?.current?.execute();
+    } else {
+      // submit request
+      onSubmitHandler({
+        includeData: true,
+        includeImmutableData,
+        params,
+        step,
+      });
+    }
   }, [
     currTransaction,
     data,

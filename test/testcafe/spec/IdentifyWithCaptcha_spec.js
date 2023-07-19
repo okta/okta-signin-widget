@@ -34,11 +34,12 @@ const reCaptchaRequestLogger = RequestLogger(
   }
 );
 
-fixture('Identify + Password With Captcha');
+fixture('Identify + Password With Captcha').meta('v3', true);
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
   await identityPage.navigateToPage();
+  await t.expect(await identityPage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: 'primary-auth',
     formName: 'identify',
@@ -63,7 +64,7 @@ test.requestHooks(identifyRequestLogger, identifyMockwithHCaptcha)('should sign 
 
   // Wait for the hCaptcha container to appear in the DOM and become visible.
   await t.expect(Selector('#captcha-container').find('iframe').exists).ok();
-  await identityPage.clickNextButton();
+  await identityPage.clickSignInButton();
   await t.expect(identifyRequestLogger.count(() => true)).eql(1);
 
   const req = identifyRequestLogger.requests[0].request;
@@ -87,7 +88,7 @@ test.requestHooks(identifyRequestLogger, reCaptchaRequestLogger, identifyMockWit
   
   // Wait for the reCaptcha container to appear in the DOM and become visible.
   await t.expect(Selector('#captcha-container').find('.grecaptcha-badge').exists).ok();
-  await identityPage.clickNextButton();
+  await identityPage.clickSignInButton();
 
   // Ensure request to google's API was sent out with the correct siteKey. This is our best option to validate that this
   // flow works because otherwise in Bacon for some reason, the full reCaptcha flow does not always work - it's very flaky.
