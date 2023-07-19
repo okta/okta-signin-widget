@@ -73,4 +73,5 @@ import './webauthn-verify-mfa';
 import './verify-ov-code-mfa';
 import './verify-ov-push-mfa';
 import './verify-ov-push-code-mfa';
+import './granular-consent';
 import './development';
