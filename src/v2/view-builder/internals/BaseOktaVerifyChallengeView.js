@@ -63,6 +63,8 @@ const Body = BaseFormWithPolling.extend({
     let challengeRequest = deviceChallenge.challengeRequest !== undefined ? deviceChallenge.challengeRequest : '';
     let probeTimeoutMillis = deviceChallenge.probeTimeoutMillis !== undefined ?
       deviceChallenge.probeTimeoutMillis : 100;
+    // TODO: add https domain from loopback challenge
+    let orgOrigin = deviceChallenge.cancel.href;
     let currentPort;
     let foundPort = false;
     let ovFailed = false;
@@ -75,6 +77,7 @@ const Body = BaseFormWithPolling.extend({
     const checkPort = () => {
       return request({
         url: getAuthenticatorUrl('probe'),
+        headers: {'orgUrl' : orgOrigin},
         /*
         OKTA-278573 in loopback server, SSL handshake sometimes takes more than 100ms and thus needs additional
         timeout however, increasing timeout is a temporary solution since user will need to wait much longer in
@@ -83,11 +86,23 @@ const Body = BaseFormWithPolling.extend({
         OKTA-365427 introduces probeTimeoutMillis; but we should also consider probeTimeoutMillisHTTPS for
         customizing timeouts in the more costly Android and other (keyless) HTTPS scenarios.
         */
-        timeout: BrowserFeatures.isAndroid() ? 3000 : probeTimeoutMillis
+        timeout: BrowserFeatures.isAndroid() ? 3000 : probeTimeoutMillis,
+        // success: function(data) {
+        //   httpsPortResponse = data;
+        // }
       });
     };
 
-    const onPortFound = () => {
+    const onPortFound = (data) => {
+      if (data != null) {
+        // if https port is returned, make request to https domain
+        return request({
+          url: getAuthenticatorUrl('testurl'),
+          method: 'POST',
+          data: JSON.stringify({ challengeRequest }),
+          timeout: CHALLENGE_TIMEOUT // authenticator should respond within 5 min (300000ms) for challenge request
+        });
+      }
       return request({
         url: getAuthenticatorUrl('challenge'),
         method: 'POST',
@@ -102,8 +117,8 @@ const Body = BaseFormWithPolling.extend({
 
     const doProbing = () => {
       return checkPort()
-        .done(() => {
-          return onPortFound()
+        .done((data) => {
+          return onPortFound(data)
             .done(() => {
               foundPort = true;
               if (deviceChallenge.enhancedPollingEnabled !== false) {

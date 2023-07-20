@@ -1081,5 +1081,5 @@ const smartCardEnrollOrVerify = {
 };
 
 module.exports = {
-  mocks: idx
+  mocks: windowAuthnLoopback
 };
