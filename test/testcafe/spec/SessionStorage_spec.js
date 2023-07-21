@@ -246,6 +246,7 @@ test.requestHooks(identifyChallengeMockWithError)('shall clear when session.stat
 
   // Identify page
   await identityPage.navigateToPage();
+  await t.expect(identityPage.formExists()).eql(true);
   await t.expect(getStateHandleFromSessionStorage()).eql(null);
   await identityPage.fillIdentifierField('foo@test.com');
   await identityPage.clickNextButton();
@@ -263,6 +264,7 @@ test.requestHooks(identifyChallengeMockWithError)('shall clear when session.stat
 
   // Refresh
   await challengeEmailPageObject.refresh();
+  await t.expect(challengeEmailPageObject.formExists()).eql(true);
 
   // Verify introspect requests
   // introspect with session.stateHandle
@@ -367,6 +369,7 @@ test.requestHooks(identifyChallengeMock)('shall back to sign-in and authenticate
   await renderWidget(optionsForInteractionCodeFlow);
 
   // Identify page
+  await t.expect(identityPage.formExists()).eql(true);
   await identityPage.fillIdentifierField('foo@test.com');
   await identityPage.clickNextButton();
 
@@ -421,14 +424,5 @@ test.requestHooks(identifyChallengeMock)('shall back to sign-in and authenticate
       idToken: xhrSuccessTokens.id_token
     }
   ];
-  if (userVariables.v3) {
-    expectedMessages.push(...[
-      'afterRender',
-      {
-        controller: null,
-        formName: 'cancel'
-      },
-    ]);
-  }
   await checkConsoleMessages(expectedMessages);
 });
