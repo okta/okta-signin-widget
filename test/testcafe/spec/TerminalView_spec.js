@@ -207,8 +207,7 @@ test.requestHooks(terminalCustomAccessDeniedErrorMessageMock)('should render cus
   await t.expect(errorLink2.getAttribute('href')).eql('https://www.okta.com/help?page=1');
 });
 
-// TODO: OKTA-616188 - add end user remediation changes in v3
-test.meta('v3', false).requestHooks(endUserRemediationOneOptionMock)('should render end user remediation error message when there is one option', async t => {
+test.requestHooks(endUserRemediationOneOptionMock)('should render end user remediation error message when there is one option', async t => {
   const terminalViewPage = await setup(t);
   await checkA11y(t);
 
@@ -222,8 +221,7 @@ test.meta('v3', false).requestHooks(endUserRemediationOneOptionMock)('should ren
   await t.expect(terminalViewPage.form.getAnchorsWithBlankTargetsWithoutRelevantAttributes().exists).eql(false);
 });
 
-// TODO: OKTA-616188 - add end user remediation changes in v3
-test.meta('v3', false).requestHooks(endUserRemediationMultipleOptionsMock)('should render end user remediation error message when there are multiple options', async t => {
+test.requestHooks(endUserRemediationMultipleOptionsMock)('should render end user remediation error message when there are multiple options', async t => {
   const terminalViewPage = await setup(t);
   await checkA11y(t);
 
@@ -240,8 +238,7 @@ test.meta('v3', false).requestHooks(endUserRemediationMultipleOptionsMock)('shou
   await t.expect(terminalViewPage.form.getAnchorsWithBlankTargetsWithoutRelevantAttributes().exists).eql(false);
 });
 
-// TODO: OKTA-616188 - add end user remediation changes in v3
-test.meta('v3', false).requestHooks(endUserRemediationMultipleOptionsWithCustomHelpUrlMock)('should render end user remediation error message when there are multiple options and a custom URL is set for the organization help page', async t => {
+test.requestHooks(endUserRemediationMultipleOptionsWithCustomHelpUrlMock)('should render end user remediation error message when there are multiple options and a custom URL is set for the organization help page', async t => {
   const terminalViewPage = await setup(t);
   await checkA11y(t);
 
@@ -268,8 +265,7 @@ test.meta('v3', false).requestHooks(endUserRemediationMultipleOptionsWithCustomH
   await t.expect(terminalViewPage.form.getAnchorsWithBlankTargetsWithoutRelevantAttributes().exists).eql(false);
 });
 
-// TODO: OKTA-616188 - add end user remediation changes in v3
-test.meta('v3', false).requestHooks(endUserRemediationNoOptionsMock)('should render end user remediation error message when there are no options', async t => {
+test.requestHooks(endUserRemediationNoOptionsMock)('should render end user remediation error message when there are no options', async t => {
   const terminalViewPage = await setup(t);
   await checkA11y(t);
 
