@@ -100,8 +100,8 @@ const WidgetMessageContainer: FunctionComponent<{
     </Box>
   );
 
+  const parsedContent = useHtmlContentParser(typeof message?.message === 'string' ? message.message : '', parserOptions);
   if (typeof message !== 'undefined') {
-    const parsedContent = useHtmlContentParser(typeof message.message === 'string' ? message.message : '', parserOptions)
     return (
       <Box marginBlockEnd={2}>
         {message.title && (
