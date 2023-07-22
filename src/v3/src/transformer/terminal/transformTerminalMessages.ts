@@ -23,6 +23,7 @@ import {
   WidgetMessage,
 } from '../../types';
 import {
+  buildEndUserRemediationError,
   containsMessageKey, containsMessageKeyPrefix, containsOneOfMessageKeys, loc,
 } from '../../util';
 import { transactionMessageTransformer } from '../i18n';
@@ -143,6 +144,12 @@ export const transformTerminalMessages: TerminalKeyTransformer = (transaction, f
   } else if (containsMessageKeyPrefix('core.auth.factor.signedNonce.error', displayedMessages)) {
     // custom title for signed nonce errors
     displayedMessages[0].title = loc('user.fail.verifyIdentity', 'login');
+  } else if (containsMessageKeyPrefix('idx.error.code.access_denied.device_assurance.remediation', displayedMessages)) {
+    // OKTA-630044 - messages from rawIdxState are used until this issue is solved
+    uischema.elements.push(
+      buildEndUserRemediationError(transaction.rawIdxState.messages?.value || []),
+    );
+    return formBag;
   } else if (containsMessageKey(TERMINAL_KEY.IDX_RETURN_LINK_OTP_ONLY, displayedMessages)) {
     return transformEmailMagicLinkOTPOnly(transaction, formBag);
   } else if (
