@@ -61,6 +61,7 @@ export type WidgetMessage = Modify<IdxMessage, {
   links?: {
     label: string,
     url: string,
+    withBullet?: boolean,
   }[];
 }>;
 
@@ -150,6 +151,8 @@ export type TokenReplacementValue = {
   attributes?: {
     class?: string;
     href?: string;
+    target?: string;
+    rel?: string;
   };
 };
 
@@ -502,7 +505,7 @@ export interface SpinnerElement extends UISchemaElement {
 
 export interface InfoboxElement extends UISchemaElement {
   options: {
-    message: WidgetMessage;
+    message: WidgetMessage | WidgetMessage[];
     class: string;
     dataSe?: string;
   }

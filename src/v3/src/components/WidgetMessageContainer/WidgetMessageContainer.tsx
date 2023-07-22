@@ -11,14 +11,47 @@
  */
 
 import { List, ListItem } from '@mui/material';
-import { Box, Typography } from '@okta/odyssey-react-mui';
+import { Box, Link, Typography } from '@okta/odyssey-react-mui';
+import { HTMLReactParserOptions } from 'html-react-parser';
 import { FunctionComponent, h } from 'preact';
-import React from 'preact/compat';
 
+import { useHtmlContentParser } from '../../hooks';
 import { WidgetMessage } from '../../types';
 
-const WidgetMessageContainer: FunctionComponent<{ message?: WidgetMessage }> = (props) => {
-  const { message } = props;
+const WidgetMessageContainer: FunctionComponent<{
+  message?: WidgetMessage,
+  parserOptions?: HTMLReactParserOptions
+}> = (props) => {
+  const { message, parserOptions } = props;
+
+  const renderLinks = (widgetMsg: WidgetMessage) => (
+    <List
+      className="custom-links"
+      disablePadding
+      sx={{ pl: 4 }}
+      dense
+    >
+      {widgetMsg.links?.map((link) => (
+        <ListItem
+          sx={{
+            listStyleType: link.withBullet ? 'disc' : 'none',
+            paddingLeft: 0,
+            display: 'list-item',
+          }}
+          key={link.url}
+        >
+          <Link
+            href={link.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            variant="monochrome"
+          >
+            {link.label ?? widgetMsg.message}
+          </Link>
+        </ListItem>
+      ))}
+    </List>
+  );
 
   const createListMessages = (widgetMsg: WidgetMessage) => (
     <Box marginBlockStart={2}>
@@ -68,9 +101,23 @@ const WidgetMessageContainer: FunctionComponent<{ message?: WidgetMessage }> = (
   );
 
   if (typeof message !== 'undefined') {
-    return Array.isArray(message.message)
-      ? createListMessages(message)
-      : <React.Fragment>{message.message}</React.Fragment>;
+    const parsedContent = useHtmlContentParser(typeof message.message === 'string' ? message.message : '', parserOptions)
+    return (
+      <Box marginBlockEnd={2}>
+        {message.title && (
+          <Typography
+            component="h2"
+            variant="h6"
+          >
+            {message.title}
+          </Typography>
+        )}
+        {
+          Array.isArray(message.message) ? createListMessages(message) : <Box>{parsedContent}</Box>
+        }
+        {message.links && renderLinks(message)}
+      </Box>
+    );
   }
   return null;
 };
