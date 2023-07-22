@@ -91,6 +91,7 @@ const ConsentHeader: FunctionComponent = () => {
               <Link
                 href={href}
                 target="_blank"
+                rel="noopener noreferrer"
                 aria-label={altText}
               >
                 {getAppLogo(altText, logoHref)}

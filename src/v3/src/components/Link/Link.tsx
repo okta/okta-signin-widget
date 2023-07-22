@@ -88,6 +88,8 @@ const Link: UISchemaElementComponent<{
           aria-describedby={ariaDescribedBy}
           data-se={dataSe}
           target={target}
+          // eslint-disable-next-line react/jsx-props-no-spreading
+          {...(target === '_blank' && { rel: 'noopener noreferrer' })}
         >
           {label}
         </LinkMui>
