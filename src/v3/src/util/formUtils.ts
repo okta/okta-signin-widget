@@ -336,7 +336,6 @@ export const buildEndUserRemediationError = (messages: IdxMessage[]) : InfoboxEl
       const linkObject = {
         url: links[0].url,
         label: message,
-        withBullet: true,
       };
       if (resultMessageArray[lastIndex].links) {
         resultMessageArray[lastIndex].links?.push(linkObject);

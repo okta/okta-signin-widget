@@ -37,13 +37,12 @@ const WidgetMessageContainer: FunctionComponent<{
     <List
       className="custom-links"
       disablePadding
-      sx={{ pl: 4 }}
       dense
+      sx={{ pl: 4, listStyleType: message.listStyleType ?? 'disc', }}
     >
       {links.map((link) => (
         <ListItem
           sx={{
-            listStyleType: link.withBullet ? 'disc' : 'none',
             paddingLeft: 0,
             display: 'list-item',
           }}
@@ -77,7 +76,7 @@ const WidgetMessageContainer: FunctionComponent<{
       <List
         dense
         disablePadding
-        sx={{ listStyleType: 'disc', paddingInlineStart: 4 }}
+        sx={{ listStyleType: message.listStyleType ?? 'disc', paddingInlineStart: 4 }}
       >
         {
           (widgetMsg.message as WidgetMessage[])?.map((wm: WidgetMessage) => {

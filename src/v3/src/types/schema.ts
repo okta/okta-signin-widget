@@ -59,12 +59,12 @@ export type WidgetMessage = Modify<IdxMessage, {
   name?: string;
   description?: string;
   links?: WidgetMessageLink[];
+  listStyleType?: 'circle' | 'disc' | 'square' | 'decimal',
 }>;
 
 export type WidgetMessageLink = {
   label: string,
   url: string,
-  withBullet?: boolean,
 }
 
 export type AutoCompleteValue = 'username'
