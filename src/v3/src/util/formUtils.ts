@@ -26,6 +26,7 @@ import {
   IWidgetContext,
   LaunchAuthenticatorButtonElement,
   WidgetMessage,
+  WidgetMessageLink,
   WidgetProps,
 } from '../types';
 import { idpIconMap } from './idpIconMap';
@@ -333,9 +334,10 @@ export const buildEndUserRemediationError = (messages: IdxMessage[]) : InfoboxEl
       if (lastIndex < 0) {
         return;
       }
-      const linkObject = {
+      const linkObject: WidgetMessageLink = {
         url: links[0].url,
         label: message,
+        variant: 'monochrome'
       };
       if (resultMessageArray[lastIndex].links) {
         resultMessageArray[lastIndex].links?.push(linkObject);

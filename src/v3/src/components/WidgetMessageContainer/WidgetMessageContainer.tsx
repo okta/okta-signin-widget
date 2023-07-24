@@ -52,7 +52,7 @@ const WidgetMessageContainer: FunctionComponent<{
             href={link.url}
             target="_blank"
             rel="noopener noreferrer"
-            variant="monochrome"
+            variant={link.variant ?? 'body1'}
           >
             {link.label}
           </Link>
