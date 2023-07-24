@@ -14,10 +14,10 @@ import { List, ListItem } from '@mui/material';
 import { Box, Link, Typography } from '@okta/odyssey-react-mui';
 import { HTMLReactParserOptions } from 'html-react-parser';
 import { FunctionComponent, h } from 'preact';
+import React from 'preact/compat';
 
 import { useHtmlContentParser } from '../../hooks';
 import { ListStyleType, WidgetMessage, WidgetMessageLink } from '../../types';
-import React from 'preact/compat';
 
 const WidgetMessageContainer: FunctionComponent<{
   message?: WidgetMessage,
