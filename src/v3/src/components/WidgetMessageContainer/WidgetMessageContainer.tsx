@@ -16,7 +16,7 @@ import { HTMLReactParserOptions } from 'html-react-parser';
 import { FunctionComponent, h } from 'preact';
 
 import { useHtmlContentParser } from '../../hooks';
-import { WidgetMessage, WidgetMessageLink } from '../../types';
+import { ListStyleType, WidgetMessage, WidgetMessageLink } from '../../types';
 
 const WidgetMessageContainer: FunctionComponent<{
   message?: WidgetMessage,
@@ -24,21 +24,21 @@ const WidgetMessageContainer: FunctionComponent<{
 }> = (props) => {
   const { message, parserOptions } = props;
 
-  const renderTitle = (title: string) => (
+  const renderTitle = (title?: string) => title ? (
     <Typography
       component="h2"
       variant="h6"
     >
       {title}
     </Typography>
-  );
+  ) : null;
 
-  const renderLinks = (links: WidgetMessageLink[]) => (
+  const renderLinks = (links?: WidgetMessageLink[], listStyleType?: ListStyleType) => links ? (
     <List
       className="custom-links"
       disablePadding
       dense
-      sx={{ pl: 4, listStyleType: message.listStyleType ?? 'disc', }}
+      sx={{ pl: 4, listStyleType: listStyleType ?? 'disc', }}
     >
       {links.map((link) => (
         <ListItem
@@ -59,7 +59,7 @@ const WidgetMessageContainer: FunctionComponent<{
         </ListItem>
       ))}
     </List>
-  );
+  ) : null;
 
   const createListMessages = (widgetMsg: WidgetMessage) => (
     <Box marginBlockStart={2}>
@@ -76,7 +76,7 @@ const WidgetMessageContainer: FunctionComponent<{
       <List
         dense
         disablePadding
-        sx={{ listStyleType: message.listStyleType ?? 'disc', paddingInlineStart: 4 }}
+        sx={{ listStyleType: widgetMsg.listStyleType ?? 'disc', paddingInlineStart: 4 }}
       >
         {
           (widgetMsg.message as WidgetMessage[])?.map((wm: WidgetMessage) => {
@@ -112,9 +112,9 @@ const WidgetMessageContainer: FunctionComponent<{
   if (typeof message !== 'undefined') {
     return (
       <Box marginBlockEnd={2}>
-        {message.title && renderTitle(message.title)}
+        {renderTitle(message.title)}
         {Array.isArray(message.message) ? createListMessages(message) : <Box>{parsedContent}</Box>}
-        {message.links && renderLinks(message.links)}
+        {renderLinks(message.links, message.listStyleType)}
       </Box>
     );
   }

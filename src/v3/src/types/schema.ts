@@ -59,8 +59,10 @@ export type WidgetMessage = Modify<IdxMessage, {
   name?: string;
   description?: string;
   links?: WidgetMessageLink[];
-  listStyleType?: 'circle' | 'disc' | 'square' | 'decimal',
+  listStyleType?: ListStyleType,
 }>;
+
+export type ListStyleType = 'circle' | 'disc' | 'square' | 'decimal'
 
 export type WidgetMessageLink = {
   label: string,
