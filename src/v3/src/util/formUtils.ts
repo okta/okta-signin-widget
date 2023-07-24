@@ -327,7 +327,7 @@ export const buildEndUserRemediationError = (messages: IdxMessage[]) : InfoboxEl
         },
       );
     } else if (links && links[0] && links[0].url) {
-      // each link is inside an invidual message
+      // each link is inside an individual message
       // We find the last message which contains the option title key and insert the link into that message
       const lastIndex = resultMessageArray.length - 1;
       if (lastIndex < 0) {
