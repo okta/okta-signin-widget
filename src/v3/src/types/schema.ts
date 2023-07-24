@@ -156,10 +156,12 @@ export type TokenReplacementValue = {
   attributes?: {
     class?: string;
     href?: string;
-    target?: string;
+    target?: AnchorTargetType;
     rel?: string;
   };
 };
+
+export type AnchorTargetType = '_self' | '_blank' | '_parent' | 'top';
 
 export type TokenReplacement = Partial<Record<TokenSearchValue, TokenReplacementValue>>;
 
@@ -473,7 +475,7 @@ export interface LinkElement extends UISchemaElement {
     label: string;
     href?: string;
     dataSe?: string;
-    target?: '_blank';
+    target?: AnchorTargetType;
     onClick?: (widgetContext?: IWidgetContext) => unknown;
   };
 }
