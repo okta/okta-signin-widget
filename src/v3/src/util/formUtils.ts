@@ -337,7 +337,7 @@ export const buildEndUserRemediationError = (messages: IdxMessage[]) : InfoboxEl
       const linkObject: WidgetMessageLink = {
         url: links[0].url,
         label: message,
-        variant: 'monochrome'
+        variant: 'monochrome',
       };
       if (resultMessageArray[lastIndex].links) {
         resultMessageArray[lastIndex].links?.push(linkObject);

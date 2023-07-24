@@ -24,21 +24,21 @@ const WidgetMessageContainer: FunctionComponent<{
 }> = (props) => {
   const { message, parserOptions } = props;
 
-  const renderTitle = (title?: string) => title ? (
+  const renderTitle = (title?: string) => (title ? (
     <Typography
       component="h2"
       variant="h6"
     >
       {title}
     </Typography>
-  ) : null;
+  ) : null);
 
-  const renderLinks = (links?: WidgetMessageLink[], listStyleType?: ListStyleType) => links ? (
+  const renderLinks = (links?: WidgetMessageLink[], listStyleType?: ListStyleType) => (links ? (
     <List
       className="custom-links"
       disablePadding
       dense
-      sx={{ pl: 4, listStyleType: listStyleType ?? 'disc', }}
+      sx={{ pl: 4, listStyleType: listStyleType ?? 'disc' }}
     >
       {links.map((link) => (
         <ListItem
@@ -59,7 +59,7 @@ const WidgetMessageContainer: FunctionComponent<{
         </ListItem>
       ))}
     </List>
-  ) : null;
+  ) : null);
 
   const createListMessages = (widgetMsg: WidgetMessage) => (
     <Box marginBlockStart={2}>

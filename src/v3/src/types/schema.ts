@@ -62,13 +62,13 @@ export type WidgetMessage = Modify<IdxMessage, {
   listStyleType?: ListStyleType,
 }>;
 
-export type ListStyleType = 'circle' | 'disc' | 'square' | 'decimal'
+export type ListStyleType = 'circle' | 'disc' | 'square' | 'decimal';
 
 export type WidgetMessageLink = {
   label: string,
   url: string,
   variant?: 'monochrome' | 'body1',
-}
+};
 
 export type AutoCompleteValue = 'username'
 | 'current-password'
