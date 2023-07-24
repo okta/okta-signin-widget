@@ -56,7 +56,10 @@ const InfoBox: UISchemaElementComponent<{
         {
           Array.isArray(message)
             ? message.map((msg) => (
-              <Box marginBlockEnd={2}>
+              <Box
+                marginBlockEnd={2}
+                key={msg.message}
+              >
                 <WidgetMessageContainer
                   key={msg.message}
                   message={msg}

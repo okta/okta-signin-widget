@@ -17,7 +17,9 @@ import classNames from 'classnames';
 
 import IDP from '../../../util/IDP';
 import Util from '../../../util/Util';
-import { CUSTOM_APP_UV_ENABLE_BIOMETRIC_SERVER_KEY, IDX_STEP, SOCIAL_IDP_TYPE_TO_I18KEY } from '../constants';
+import {
+  CUSTOM_APP_UV_ENABLE_BIOMETRIC_SERVER_KEY, IDX_STEP, SOCIAL_IDP_TYPE_TO_I18KEY, TERMINAL_KEY,
+} from '../constants';
 import SmartCardIconSvg from '../img/smartCardButtonIcon.svg';
 import {
   ButtonElement,
@@ -303,7 +305,7 @@ export const getBiometricsErrorMessageElement = (
 };
 
 export const buildEndUserRemediationError = (messages: IdxMessage[]) : InfoboxElement => {
-  const I18N_KEY_PREFIX = 'idx.error.code.access_denied.device_assurance.remediation';
+  const I18N_KEY_PREFIX = TERMINAL_KEY.END_USER_REMEDIATION_ERROR_PREFIX;
   const HELP_AND_CONTACT_KEY_PREFIX = `${I18N_KEY_PREFIX}.additional_help_`;
   const REMEDIATION_OPTION_INDEX_KEY = `${I18N_KEY_PREFIX}.option_index`;
   const TITLE_KEY = `${I18N_KEY_PREFIX}.title`;
