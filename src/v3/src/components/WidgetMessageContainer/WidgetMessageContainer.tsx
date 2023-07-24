@@ -16,7 +16,7 @@ import { HTMLReactParserOptions } from 'html-react-parser';
 import { FunctionComponent, h } from 'preact';
 
 import { useHtmlContentParser } from '../../hooks';
-import { WidgetMessage } from '../../types';
+import { WidgetMessage, WidgetMessageLink } from '../../types';
 
 const WidgetMessageContainer: FunctionComponent<{
   message?: WidgetMessage,
@@ -24,14 +24,23 @@ const WidgetMessageContainer: FunctionComponent<{
 }> = (props) => {
   const { message, parserOptions } = props;
 
-  const renderLinks = (widgetMsg: WidgetMessage) => (
+  const renderTitle = (title: string) => (
+    <Typography
+      component="h2"
+      variant="h6"
+    >
+      {title}
+    </Typography>
+  );
+
+  const renderLinks = (links: WidgetMessageLink[]) => (
     <List
       className="custom-links"
       disablePadding
       sx={{ pl: 4 }}
       dense
     >
-      {widgetMsg.links?.map((link) => (
+      {links.map((link) => (
         <ListItem
           sx={{
             listStyleType: link.withBullet ? 'disc' : 'none',
@@ -46,7 +55,7 @@ const WidgetMessageContainer: FunctionComponent<{
             rel="noopener noreferrer"
             variant="monochrome"
           >
-            {link.label ?? widgetMsg.message}
+            {link.label}
           </Link>
         </ListItem>
       ))}
@@ -104,18 +113,9 @@ const WidgetMessageContainer: FunctionComponent<{
   if (typeof message !== 'undefined') {
     return (
       <Box marginBlockEnd={2}>
-        {message.title && (
-          <Typography
-            component="h2"
-            variant="h6"
-          >
-            {message.title}
-          </Typography>
-        )}
-        {
-          Array.isArray(message.message) ? createListMessages(message) : <Box>{parsedContent}</Box>
-        }
-        {message.links && renderLinks(message)}
+        {message.title && renderTitle(message.title)}
+        {Array.isArray(message.message) ? createListMessages(message) : <Box>{parsedContent}</Box>}
+        {message.links && renderLinks(message.links)}
       </Box>
     );
   }

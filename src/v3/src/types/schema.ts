@@ -58,12 +58,14 @@ export type WidgetMessage = Modify<IdxMessage, {
   title?: string;
   name?: string;
   description?: string;
-  links?: {
-    label: string,
-    url: string,
-    withBullet?: boolean,
-  }[];
+  links?: WidgetMessageLink[];
 }>;
+
+export type WidgetMessageLink = {
+  label: string,
+  url: string,
+  withBullet?: boolean,
+}
 
 export type AutoCompleteValue = 'username'
 | 'current-password'
