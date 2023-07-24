@@ -148,9 +148,12 @@ export const transformTerminalMessages: TerminalKeyTransformer = (transaction, f
     containsMessageKeyPrefix(TERMINAL_KEY.END_USER_REMEDIATION_ERROR_PREFIX, displayedMessages)
   ) {
     // OKTA-630044 - messages from rawIdxState are used until this issue is solved
-    uischema.elements.push(
-      buildEndUserRemediationError(transaction.rawIdxState.messages?.value || []),
+    const userRemediationErrorElement = buildEndUserRemediationError(
+      transaction.rawIdxState.messages?.value || [],
     );
+    if (userRemediationErrorElement) {
+      uischema.elements.push(userRemediationErrorElement);
+    }
     return formBag;
   } else if (containsMessageKey(TERMINAL_KEY.IDX_RETURN_LINK_OTP_ONLY, displayedMessages)) {
     return transformEmailMagicLinkOTPOnly(transaction, formBag);

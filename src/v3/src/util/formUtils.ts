@@ -304,7 +304,12 @@ export const getBiometricsErrorMessageElement = (
   };
 };
 
-export const buildEndUserRemediationError = (messages: IdxMessage[]) : InfoboxElement => {
+export const buildEndUserRemediationError = (messages: IdxMessage[]) :
+InfoboxElement | undefined => {
+  if (messages.length === 0) {
+    return undefined;
+  }
+
   const I18N_KEY_PREFIX = TERMINAL_KEY.END_USER_REMEDIATION_ERROR_PREFIX;
   const HELP_AND_CONTACT_KEY_PREFIX = `${I18N_KEY_PREFIX}.additional_help_`;
   const REMEDIATION_OPTION_INDEX_KEY = `${I18N_KEY_PREFIX}.option_index`;
