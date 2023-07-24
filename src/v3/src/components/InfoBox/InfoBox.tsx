@@ -56,11 +56,13 @@ const InfoBox: UISchemaElementComponent<{
         {
           Array.isArray(message)
             ? message.map((msg) => (
-              <WidgetMessageContainer
-                key={msg.message}
-                message={msg}
-                parserOptions={{ replace: getLinkReplacerFn({}, 'monochrome') }}
-              />
+              <Box marginBlockEnd={2}>
+                <WidgetMessageContainer
+                  key={msg.message}
+                  message={msg}
+                  parserOptions={{ replace: getLinkReplacerFn({}, 'monochrome') }}
+                />
+              </Box>
             ))
             : <WidgetMessageContainer message={message} />
         }
