@@ -100,8 +100,10 @@ export const mapMuiThemeFromBrand = (
   // TODO: OKTA-517723 temporary override until odyssey-react-mui theme borderRadius value is fixed
   odysseyTheme.shape.borderRadius = 4;
 
-  const odysseyThemeCopy = cloneDeep(odysseyTheme);
   odysseyTheme.direction = languageDirection;
+
+  // Do not modify `odysseyTheme` after this line, it will have no effect on the resulting theme
+  const odysseyThemeCopy = cloneDeep(odysseyTheme);
 
   if (brand) {
     const derivedTheme = deriveThemeFromBrand(brand);
