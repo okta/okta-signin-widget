@@ -26,16 +26,16 @@ const WidgetMessageContainer: FunctionComponent<{
 }> = (props) => {
   const { message, parserOptions, linkVariant } = props;
 
-  const renderTitle = (title?: string) => (title ? (
+  const renderTitle = (title?: string) => (title && (
     <Typography
       component="h2"
       variant="h6"
     >
       {title}
     </Typography>
-  ) : null);
+  ));
 
-  const renderLinks = (links?: WidgetMessageLink[], listStyleType?: ListStyleType) => (links ? (
+  const renderLinks = (links?: WidgetMessageLink[], listStyleType?: ListStyleType) => (links && (
     <List
       className="custom-links"
       disablePadding
@@ -61,7 +61,7 @@ const WidgetMessageContainer: FunctionComponent<{
         </ListItem>
       ))}
     </List>
-  ) : null);
+  ));
 
   const createListMessages = (widgetMsg: WidgetMessage) => (
     <Box marginBlockStart={2}>
