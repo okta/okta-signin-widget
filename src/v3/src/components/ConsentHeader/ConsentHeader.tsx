@@ -10,9 +10,11 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Link } from '@mui/material';
+import { Link, Theme, createTheme } from '@mui/material';
 import * as Tokens from '@okta/odyssey-design-tokens';
-import { Box, Typography } from '@okta/odyssey-react-mui';
+import {
+  Box, MuiThemeProvider, Typography,
+} from '@okta/odyssey-react-mui';
 import { escape } from 'lodash';
 import { Fragment, FunctionComponent, h } from 'preact';
 
@@ -117,17 +119,29 @@ const ConsentHeader: FunctionComponent = () => {
                 display="flex"
                 justifyContent="center"
               >
-                <Typography
-                  sx={(theme) => ({
-                    marginBlockEnd: theme.spacing(4),
-                    backgroundColor: Tokens.ColorBackgroundPrimaryLight,
-                    color: Tokens.ColorBackgroundPrimaryDark,
-                    padding: '4px 2px',
-                  })}
-                  className="issuer no-translate"
-                >
-                  {issuer.uri}
-                </Typography>
+                <MuiThemeProvider theme={(theme: Theme) =>
+                  createTheme({
+                    ...theme,
+                    components: {
+                      'MuiTypography': {
+                        styleOverrides: {
+                          root: {
+                            marginBottom: theme.spacing(4),
+                            backgroundColor: Tokens.ColorBackgroundPrimaryLight,
+                            color: Tokens.ColorBackgroundPrimaryDark,
+                            padding: '4px 2px',
+                          },
+                        },
+                      },
+                    },
+                  })
+                }>
+                  <Typography
+                    className="issuer no-translate"
+                  >
+                    {issuer.uri}
+                  </Typography>
+                </MuiThemeProvider>
               </Box>
             )}
           </Box>
