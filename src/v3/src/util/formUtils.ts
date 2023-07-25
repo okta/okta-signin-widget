@@ -320,7 +320,7 @@ InfoboxElement | undefined => {
     // @ts-expect-error OKTA-630508 links is missing from IdxMessage type
     const { i18n: { key, params }, links, message } = msg;
 
-    const widgetMsg = {} as WidgetMessage;
+    const widgetMsg = { listStyleType: 'disc' } as WidgetMessage;
     if (key === TITLE_KEY) {
       widgetMsg.title = loc(TITLE_KEY, 'login');
     } else if (key === REMEDIATION_OPTION_INDEX_KEY) {

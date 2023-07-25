@@ -40,7 +40,7 @@ const WidgetMessageContainer: FunctionComponent<{
       className="custom-links"
       disablePadding
       dense
-      sx={{ pl: 4, listStyleType: listStyleType ?? 'disc' }}
+      sx={{ pl: listStyleType ? 4 : 0, listStyleType: listStyleType ?? 'none' }}
     >
       {links.map((link) => (
         <ListItem
