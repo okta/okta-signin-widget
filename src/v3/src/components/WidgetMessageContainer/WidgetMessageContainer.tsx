@@ -21,9 +21,10 @@ import { ListStyleType, WidgetMessage, WidgetMessageLink } from '../../types';
 
 const WidgetMessageContainer: FunctionComponent<{
   message?: WidgetMessage,
-  parserOptions?: HTMLReactParserOptions
+  parserOptions?: HTMLReactParserOptions,
+  linkVariant?: 'monochrome' | 'body1',
 }> = (props) => {
-  const { message, parserOptions } = props;
+  const { message, parserOptions, linkVariant } = props;
 
   const renderTitle = (title?: string) => (title ? (
     <Typography
@@ -53,7 +54,7 @@ const WidgetMessageContainer: FunctionComponent<{
             href={link.url}
             target="_blank"
             rel="noopener noreferrer"
-            variant={link.variant}
+            variant={linkVariant}
           >
             {link.label}
           </Link>
