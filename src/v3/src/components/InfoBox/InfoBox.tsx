@@ -64,11 +64,16 @@ const InfoBox: UISchemaElementComponent<{
                   key={msg.message}
                   message={msg}
                   parserOptions={{ replace: getLinkReplacerFn({}, 'monochrome') }}
-                  linkVariant='monochrome'
+                  linkVariant="monochrome"
                 />
               </Box>
             ))
-            : <WidgetMessageContainer message={message} linkVariant='monochrome' />
+            : (
+              <WidgetMessageContainer
+                message={message}
+                linkVariant="monochrome"
+              />
+            )
         }
       </Alert>
     </Box>
