@@ -156,7 +156,7 @@ export type TokenReplacementValue = {
     class?: string;
     href?: string;
     target?: AnchorTargetType;
-    rel?: string;
+    rel?: 'noopener noreferrer';
   };
 };
 
