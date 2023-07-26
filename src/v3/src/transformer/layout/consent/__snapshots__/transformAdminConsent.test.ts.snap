@@ -38,6 +38,7 @@ Object {
         "type": "Heading",
       },
       Object {
+        "key": "consent.scopes.okta.clients.manage",
         "options": Object {
           "inputMeta": Object {
             "mutable": false,
@@ -62,6 +63,7 @@ Object {
         "type": "Field",
       },
       Object {
+        "key": "consent.scopes.okta.authenticators.manage",
         "options": Object {
           "inputMeta": Object {
             "mutable": false,
@@ -96,6 +98,7 @@ Object {
         "type": "Heading",
       },
       Object {
+        "key": "consent.scopes.custom1.custom2.custom3",
         "options": Object {
           "inputMeta": Object {
             "mutable": false,
@@ -120,6 +123,7 @@ Object {
         "type": "Field",
       },
       Object {
+        "key": "consent.scopes.custom4.custom5.custom6",
         "options": Object {
           "inputMeta": Object {
             "mutable": false,
@@ -213,6 +217,7 @@ Object {
         "type": "Heading",
       },
       Object {
+        "key": "consent.scopes.okta.clients.manage",
         "options": Object {
           "inputMeta": Object {
             "mutable": false,
@@ -237,6 +242,7 @@ Object {
         "type": "Field",
       },
       Object {
+        "key": "consent.scopes.okta.authenticators.manage",
         "options": Object {
           "inputMeta": Object {
             "mutable": false,

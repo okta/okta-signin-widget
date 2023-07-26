@@ -90,6 +90,7 @@ export const transformAdminConsent: IdxStepTransformer = ({ transaction, formBag
         data[fieldName] = true;
         return {
           type: 'Field',
+          key: fieldName,
           translations: [
             {
               name: 'label',

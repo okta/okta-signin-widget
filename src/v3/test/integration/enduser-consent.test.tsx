@@ -12,21 +12,11 @@
 
 import { createAuthJsPayloadArgs, setup } from './util';
 
-import mockResponse from '../../../../playground/mocks/data/idp/idx/consent-granular.json';
+import enduserConsentResponse from '../../../../playground/mocks/data/idp/idx/consent-enduser.json';
 
-describe('granular-consent', () => {
+describe('enduser-consent', () => {
   it('should render form with logo', async () => {
-    const granularConsentResponseWithLogo = {
-      ...mockResponse,
-      app: {
-        ...mockResponse.app,
-        value: {
-          ...mockResponse.app.value,
-          logo: { ...mockResponse.app.value.logo, href: 'http://okta1.com/logo.png' },
-        },
-      },
-    };
-    const { container, findByRole } = await setup({ mockResponse: granularConsentResponseWithLogo });
+    const { container, findByRole } = await setup({ mockResponse: enduserConsentResponse });
     const appNameHeading = await findByRole('heading', { level: 2 });
 
     expect(appNameHeading.textContent).toBe('Native client');
@@ -34,55 +24,40 @@ describe('granular-consent', () => {
   });
 
   it('should render form without logo', async () => {
-    const { container, findByText, findByRole } = await setup({ mockResponse });
+    const enduserConsentResponseWithoutLogo = {
+      ...enduserConsentResponse,
+      app: {
+        ...enduserConsentResponse.app,
+        value: { ...enduserConsentResponse.app.value, logo: undefined },
+      },
+    };
+    const { container, findByRole } = await setup({ mockResponse: enduserConsentResponseWithoutLogo });
     const appNameHeading = await findByRole('heading', { level: 2 });
 
     expect(appNameHeading.textContent).toBe('Native client');
-    await findByText(/wants to access/);
-    await findByText(/testUser@okta.com/);
-    await findByText(/Allowing access will share/);
-    await findByText(/View your internet search history/);
     expect(container).toMatchSnapshot();
   });
 
   it('should send correct payload when consent is given', async () => {
-    const { authClient, user, findByText } = await setup({ mockResponse });
+    const { authClient, user, findByText } = await setup({ mockResponse: enduserConsentResponse });
 
-    const checkCustom2 = await findByText('View your internet search history.');
-    await user.click(checkCustom2);
     const allowConsentBtn = await findByText('Allow Access');
     await user.click(allowConsentBtn);
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
       ...createAuthJsPayloadArgs('POST', 'idp/idx/consent', {
         consent: true,
-        optedScopes: {
-          openid: true,
-          custom1: true,
-          custom2: false,
-          'custom3.custom4.custom5': true,
-          email: true,
-          profile: true,
-        },
       }, 'application/ion+json; okta-version=1.0.0'),
     );
   });
 
-  it('should send correct payload when consent is denied', async () => {
-    const { authClient, user, findByText } = await setup({ mockResponse });
+  it('should send correct payload when cancel is clicked', async () => {
+    const { authClient, user, findByText } = await setup({ mockResponse: enduserConsentResponse });
 
-    const denyConsentBtn = await findByText('Cancel');
-    await user.click(denyConsentBtn);
+    const allowConsentBtn = await findByText('Cancel');
+    await user.click(allowConsentBtn);
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
       ...createAuthJsPayloadArgs('POST', 'idp/idx/consent', {
         consent: false,
-        optedScopes: {
-          openid: true,
-          custom1: true,
-          custom2: true,
-          'custom3.custom4.custom5': true,
-          email: true,
-          profile: true,
-        },
       }, 'application/ion+json; okta-version=1.0.0'),
     );
   });

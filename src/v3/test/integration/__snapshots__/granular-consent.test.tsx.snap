@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`granular-consent should render form 1`] = `
+exports[`granular-consent should render form with logo 1`] = `
 <div>
   <div
     class="MuiScopedCssBaseline-root emotion-0"
@@ -42,23 +42,146 @@ exports[`granular-consent should render form 1`] = `
                   rel="noopener noreferrer"
                   target="_blank"
                 >
-                  <svg
+                  <img
+                    alt="Logo for the app"
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-10"
-                    fill="none"
-                    focusable="false"
-                    role="img"
-                    viewBox="0 0 16 16"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M12.7918 8.31498L11.6591 7.45248C11.6943 7.15145 11.6943 6.84752 11.6591 6.54649L12.7928 5.6835C13.0053 5.51688 13.062 5.22471 12.9268 4.99399L11.7485 3.0105C11.6128 2.77833 11.3237 2.67694 11.0672 2.77151L9.73219 3.29452C9.48134 3.11729 9.21262 2.96534 8.93019 2.84103L8.72532 1.46002C8.68838 1.1949 8.4548 0.997838 8.18005 1.00002H5.81822C5.54575 0.998424 5.31405 1.19328 5.27602 1.45602L5.07065 2.841C4.78909 2.96651 4.5208 3.11857 4.26968 3.29501L2.93111 2.771C2.6772 2.67352 2.38841 2.77369 2.25491 3.00549L1.07552 4.99249C0.936676 5.22358 0.993837 5.51897 1.20953 5.685L2.34218 6.54749C2.30673 6.8485 2.30673 7.15248 2.34218 7.45349L1.2085 8.31599C0.99569 8.48237 0.938649 8.77471 1.07398 9.00549L2.25183 10.9895C2.38738 11.2218 2.6766 11.3233 2.93316 11.2285L4.26812 10.7055C4.51919 10.8828 4.78807 11.0349 5.07063 11.1595L5.276 12.5395C5.31215 12.8039 5.54428 13.0011 5.81819 13H8.18002C8.453 13.0021 8.68544 12.8072 8.72376 12.544L8.92913 11.159C9.21067 11.0334 9.47893 10.8814 9.7301 10.705L11.0702 11.2295C11.3241 11.3267 11.6127 11.2266 11.7464 10.995L12.9294 9.00001C13.0618 8.76962 13.0036 8.47979 12.7918 8.31498ZM6.99912 9.49998C5.5813 9.49998 4.4319 8.3807 4.4319 6.99998C4.4319 5.61925 5.58127 4.49998 6.99912 4.49998C8.41697 4.49998 9.56634 5.61925 9.56634 6.99998C9.56463 8.38002 8.41625 9.49834 6.99912 9.49998Z"
-                      fill="currentColor"
-                    />
-                    <title>
-                      Logo for the app
-                    </title>
-                  </svg>
+                    class="client-logo custom-logo MuiBox-root emotion-10"
+                    src="http://okta1.com/logo.png"
+                  />
+                </a>
+              </div>
+            </div>
+            <div
+              class="title-text MuiBox-root emotion-11"
+            >
+              <h2
+                class="MuiTypography-root MuiTypography-h3 no-translate emotion-12"
+              >
+                Native client
+              </h2>
+               
+              <p>
+                wants to access
+              </p>
+            </div>
+          </div>
+          <div
+            class="identifier-container MuiBox-root emotion-13"
+          >
+            <div
+              class="identifierContainer MuiBox-root emotion-14"
+            >
+              <span
+                class="userIconContainer MuiBox-root emotion-6"
+              >
+                <svg
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-16"
+                  fill="none"
+                  focusable="false"
+                  role="img"
+                  viewBox="0 0 16 16"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    clip-rule="evenodd"
+                    d="M10 3V5C10 6.10457 9.10457 7 8 7C6.89543 7 6 6.10457 6 5V3C6 1.89543 6.89543 1 8 1C9.10457 1 10 1.89543 10 3ZM5 3C5 1.34315 6.34315 0 8 0C9.65685 0 11 1.34315 11 3V5C11 6.65685 9.65685 8 8 8C6.34315 8 5 6.65685 5 5V3ZM4.1305 10.0742C4.26803 10.0181 4.459 10 5.41376 10H10.5862C11.541 10 11.732 10.0181 11.8695 10.0742C12.0299 10.1398 12.1706 10.2459 12.2777 10.3821C12.3695 10.4989 12.4393 10.6776 12.7016 11.5956L13.6743 15H2.32573L3.29841 11.5956C3.5607 10.6776 3.63054 10.4989 3.72233 10.3821C3.82941 10.2459 3.97006 10.1398 4.1305 10.0742ZM13.6631 11.3209L14.7143 15L15 16H13.96H2.04002H1L1.28571 15L2.33689 11.3209C2.57458 10.489 2.69343 10.073 2.93606 9.76423C3.15022 9.49171 3.43152 9.27953 3.75239 9.14848C4.11592 9 4.54854 9 5.41376 9H10.5862C11.4515 9 11.8841 9 12.2476 9.14848C12.5685 9.27953 12.8498 9.49171 13.0639 9.76423C13.3066 10.073 13.4254 10.489 13.6631 11.3209Z"
+                    fill="currentColor"
+                    fill-rule="evenodd"
+                  />
+                  <title>
+                    User
+                  </title>
+                </svg>
+              </span>
+              <span
+                class="identifier no-translate identifierSpan MuiBox-root emotion-6"
+                data-se="identifier"
+                title="testUser@okta.com"
+              >
+                testUser@okta.com
+              </span>
+            </div>
+          </div>
+          <div
+            class="MuiBox-root emotion-18"
+          >
+            <span
+              aria-label="Processing..."
+              aria-valuetext="Processing..."
+              class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-19"
+              role="progressbar"
+              style="width: 1.14285714rem; height: 1.14285714rem;"
+            >
+              <svg
+                class="MuiCircularProgress-svg emotion-20"
+                viewBox="22 22 44 44"
+              >
+                <circle
+                  class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate emotion-21"
+                  cx="44"
+                  cy="44"
+                  fill="none"
+                  r="18"
+                  stroke-width="8"
+                />
+              </svg>
+            </span>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+`;
+
+exports[`granular-consent should render form without logo 1`] = `
+<div>
+  <div
+    class="MuiScopedCssBaseline-root emotion-0"
+  >
+    <main
+      class="auth-container main-container mainViewContainer MuiBox-root emotion-1"
+      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+      data-version="0.0.0"
+      dir="ltr"
+      id="okta-sign-in"
+      lang="en"
+    >
+      <div
+        class="siwContainer MuiBox-root emotion-2"
+      >
+        <div
+          class="okta-sign-in-header auth-header siwHeader MuiBox-root emotion-3"
+        >
+          <h1
+            class="MuiTypography-root MuiTypography-h1 emotion-4"
+          />
+        </div>
+        <div
+          class="MuiBox-root emotion-5"
+        >
+          <div
+            class="MuiBox-root emotion-6"
+          >
+            <div
+              class="MuiBox-root emotion-7"
+            >
+              <div
+                class="MuiBox-root emotion-6"
+              >
+                <a
+                  aria-label="Logo for the app"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
+                  href="https://client._funky-ch4rs.com"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <img
+                    alt="Logo for the app"
+                    aria-hidden="true"
+                    class="client-logo custom-logo MuiBox-root emotion-10"
+                    src="http://okta1.com/logo.png"
+                  />
                 </a>
               </div>
             </div>
