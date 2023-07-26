@@ -347,8 +347,27 @@ exports[`oda-enrollment-android-applink should render view when "No, I don’t h
                                   class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways download-ov-link emotion-23"
                                   href="https://play.google.com/store/apps/details?id=com.okta.android.auth"
                                   id="download-ov"
+                                  target="_blank"
                                 >
                                   download the app.
+                                  <span
+                                    class="Link-indicator"
+                                    role="presentation"
+                                  >
+                                    <svg
+                                      aria-hidden="true"
+                                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-24"
+                                      focusable="false"
+                                      viewBox="0 0 16 16"
+                                    >
+                                      <path
+                                        clip-rule="evenodd"
+                                        d="M13.2929 2H7.99998V1H14.5C14.7761 1 15 1.22386 15 1.5V8H14V2.70711L6.35353 10.3536L5.64642 9.64645L13.2929 2ZM1.5 4H1V4.5V14.5V15H1.5H11.5H12V14.5V8H11V14H2V5H8V4H1.5Z"
+                                        fill="currentColor"
+                                        fill-rule="evenodd"
+                                      />
+                                    </svg>
+                                  </span>
                                 </a>
                               </p>
                             </div>
@@ -419,7 +438,7 @@ exports[`oda-enrollment-android-applink should render view when "No, I don’t h
                             class="MuiBox-root emotion-9"
                           >
                             <button
-                              class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-38"
+                              class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-39"
                               tabindex="0"
                               type="button"
                             >
@@ -440,7 +459,7 @@ exports[`oda-enrollment-android-applink should render view when "No, I don’t h
                   class="MuiBox-root emotion-9"
                 >
                   <button
-                    class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-41"
+                    class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-42"
                     role="link"
                   >
                     Back

@@ -39,6 +39,7 @@ exports[`granular-consent should render form 1`] = `
                   aria-label="Logo for the app"
                   class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
                   href="https://client._funky-ch4rs.com"
+                  rel="noopener noreferrer"
                   target="_blank"
                 >
                   <svg
@@ -435,6 +436,7 @@ exports[`granular-consent should render form 1`] = `
                   class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
                   data-se="terms-of-service"
                   href="https://example.com/tos"
+                  rel="noopener noreferrer"
                   target="_blank"
                 >
                   Terms of Service
@@ -447,6 +449,7 @@ exports[`granular-consent should render form 1`] = `
                   class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
                   data-se="privacy-policy"
                   href="https://example.com/privacypolicy"
+                  rel="noopener noreferrer"
                   target="_blank"
                 >
                   Privacy Policy

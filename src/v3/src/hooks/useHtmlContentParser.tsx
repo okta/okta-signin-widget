@@ -34,6 +34,6 @@ export const useHtmlContentParser = (
     parserOptions.replace = getLinkReplacerFn(parserOptions);
   }
 
-  const sanitizedContent = dompurify.sanitize(content);
+  const sanitizedContent = dompurify.sanitize(content, { ADD_ATTR: ['target'] });
   return HtmlReactParser(sanitizedContent, parserOptions);
 };

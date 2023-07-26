@@ -23,6 +23,7 @@ import {
   WidgetMessage,
 } from '../../types';
 import {
+  buildEndUserRemediationError,
   containsMessageKey, containsMessageKeyPrefix, containsOneOfMessageKeys, loc,
 } from '../../util';
 import { transactionMessageTransformer } from '../i18n';
@@ -140,9 +141,20 @@ export const transformTerminalMessages: TerminalKeyTransformer = (transaction, f
   } else if (containsMessageKey(TERMINAL_KEY.SESSION_EXPIRED, displayedMessages)) {
     displayedMessages[0].class = 'ERROR';
     displayedMessages[0].message = loc(TERMINAL_KEY.SESSION_EXPIRED, 'login');
-  } else if (containsMessageKeyPrefix('core.auth.factor.signedNonce.error', displayedMessages)) {
+  } else if (containsMessageKeyPrefix(TERMINAL_KEY.SIGNED_NONCE_ERROR, displayedMessages)) {
     // custom title for signed nonce errors
     displayedMessages[0].title = loc('user.fail.verifyIdentity', 'login');
+  } else if (
+    containsMessageKeyPrefix(TERMINAL_KEY.END_USER_REMEDIATION_ERROR_PREFIX, displayedMessages)
+  ) {
+    // OKTA-630044 - messages from rawIdxState are used until this issue is solved
+    const userRemediationErrorElement = buildEndUserRemediationError(
+      transaction.rawIdxState.messages?.value || [],
+    );
+    if (userRemediationErrorElement) {
+      uischema.elements.push(userRemediationErrorElement);
+    }
+    return formBag;
   } else if (containsMessageKey(TERMINAL_KEY.IDX_RETURN_LINK_OTP_ONLY, displayedMessages)) {
     return transformEmailMagicLinkOTPOnly(transaction, formBag);
   } else if (

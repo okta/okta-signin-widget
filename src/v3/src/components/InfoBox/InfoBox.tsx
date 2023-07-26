@@ -10,12 +10,9 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { List, ListItem } from '@mui/material';
 import {
   Alert,
   Box,
-  Link,
-  Typography,
 } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 
@@ -26,6 +23,7 @@ import {
   MessageTypeVariant,
   UISchemaElementComponent,
 } from '../../types';
+import { getLinkReplacerFn } from '../../util';
 import WidgetMessageContainer from '../WidgetMessageContainer';
 
 const InfoBox: UISchemaElementComponent<{
@@ -43,29 +41,6 @@ const InfoBox: UISchemaElementComponent<{
     },
   } = uischema;
 
-  const { links = [] } = message;
-  const renderLinks = () => (
-    <List
-      className="custom-links"
-      disablePadding
-    >
-      {links.map((link) => (
-        <ListItem
-          sx={{ paddingLeft: 0 }}
-          key={link.label}
-        >
-          <Link
-            href={link.url}
-            target="_blank"
-            variant="monochrome"
-          >
-            {link.label}
-          </Link>
-        </ListItem>
-      ))}
-    </List>
-  );
-
   return loading ? null : (
     <Box
       marginBlockEnd={4}
@@ -78,16 +53,28 @@ const InfoBox: UISchemaElementComponent<{
         data-se={dataSe}
         className={`infobox-${messageClass.toLowerCase()}`}
       >
-        {message.title && (
-          <Typography
-            component="h2"
-            variant="h6"
-          >
-            {message.title}
-          </Typography>
-        )}
-        <WidgetMessageContainer message={message} />
-        {links.length > 0 && renderLinks()}
+        {
+          Array.isArray(message)
+            ? message.map((msg) => (
+              <Box
+                marginBlockEnd={2}
+                key={msg.message}
+              >
+                <WidgetMessageContainer
+                  key={msg.message}
+                  message={msg}
+                  parserOptions={{ replace: getLinkReplacerFn({}, 'monochrome') }}
+                  linkVariant="monochrome"
+                />
+              </Box>
+            ))
+            : (
+              <WidgetMessageContainer
+                message={message}
+                linkVariant="monochrome"
+              />
+            )
+        }
       </Alert>
     </Box>
   );

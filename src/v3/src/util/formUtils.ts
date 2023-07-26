@@ -10,19 +10,25 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxRemediation, IdxTransaction, NextStep } from '@okta/okta-auth-js';
+import {
+  IdxMessage, IdxRemediation, IdxTransaction, NextStep,
+} from '@okta/okta-auth-js';
 import classNames from 'classnames';
 
 import IDP from '../../../util/IDP';
 import Util from '../../../util/Util';
-import { CUSTOM_APP_UV_ENABLE_BIOMETRIC_SERVER_KEY, IDX_STEP, SOCIAL_IDP_TYPE_TO_I18KEY } from '../constants';
+import {
+  CUSTOM_APP_UV_ENABLE_BIOMETRIC_SERVER_KEY, IDX_STEP, SOCIAL_IDP_TYPE_TO_I18KEY, TERMINAL_KEY,
+} from '../constants';
 import SmartCardIconSvg from '../img/smartCardButtonIcon.svg';
 import {
   ButtonElement,
   ButtonType,
+  InfoboxElement,
   IWidgetContext,
   LaunchAuthenticatorButtonElement,
   WidgetMessage,
+  WidgetMessageLink,
   WidgetProps,
 } from '../types';
 import { idpIconMap } from './idpIconMap';
@@ -296,4 +302,68 @@ export const getBiometricsErrorMessageElement = (
     description: customMessage,
     message: messageBullets.map((msg: string) => ({ class: 'INFO', message: msg })) as WidgetMessage[],
   };
+};
+
+export const buildEndUserRemediationError = (messages: IdxMessage[]) :
+InfoboxElement | undefined => {
+  if (messages.length === 0) {
+    return undefined;
+  }
+
+  const I18N_KEY_PREFIX = TERMINAL_KEY.END_USER_REMEDIATION_ERROR_PREFIX;
+  const HELP_AND_CONTACT_KEY_PREFIX = `${I18N_KEY_PREFIX}.additional_help_`;
+  const REMEDIATION_OPTION_INDEX_KEY = `${I18N_KEY_PREFIX}.option_index`;
+  const TITLE_KEY = `${I18N_KEY_PREFIX}.title`;
+  const resultMessageArray: WidgetMessage[] = [];
+
+  messages.forEach((msg) => {
+    // @ts-expect-error OKTA-630508 links is missing from IdxMessage type
+    const { i18n: { key, params }, links, message } = msg;
+
+    const widgetMsg = { listStyleType: 'disc' } as WidgetMessage;
+    if (key === TITLE_KEY) {
+      widgetMsg.title = loc(TITLE_KEY, 'login');
+    } else if (key === REMEDIATION_OPTION_INDEX_KEY) {
+      widgetMsg.title = loc(REMEDIATION_OPTION_INDEX_KEY, 'login', params);
+    } else if (key.startsWith(HELP_AND_CONTACT_KEY_PREFIX)) {
+      widgetMsg.message = loc(
+        key,
+        'login',
+        undefined,
+        {
+          $1: { element: 'a', attributes: { href: links[0].url, target: '_blank', rel: 'noopener noreferrer' } },
+        },
+      );
+    } else if (links && links[0] && links[0].url) {
+      // each link is inside an individual message
+      // We find the last message which contains the option title key and insert the link into that message
+      const lastIndex = resultMessageArray.length - 1;
+      if (lastIndex < 0) {
+        return;
+      }
+      const linkObject: WidgetMessageLink = {
+        url: links[0].url,
+        label: message,
+      };
+      if (resultMessageArray[lastIndex].links) {
+        resultMessageArray[lastIndex].links?.push(linkObject);
+      } else {
+        resultMessageArray[lastIndex].links = [linkObject];
+      }
+      return;
+    } else {
+      widgetMsg.message = loc(key, 'login');
+    }
+
+    resultMessageArray.push(widgetMsg);
+  });
+
+  return {
+    type: 'InfoBox',
+    options: {
+      message: resultMessageArray,
+      class: 'ERROR',
+      dataSe: 'callout',
+    },
+  } as InfoboxElement;
 };

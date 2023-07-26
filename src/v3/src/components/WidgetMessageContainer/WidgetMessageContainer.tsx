@@ -11,14 +11,57 @@
  */
 
 import { List, ListItem } from '@mui/material';
-import { Box, Typography } from '@okta/odyssey-react-mui';
+import { Box, Link, Typography } from '@okta/odyssey-react-mui';
+import { HTMLReactParserOptions } from 'html-react-parser';
 import { FunctionComponent, h } from 'preact';
 import React from 'preact/compat';
 
-import { WidgetMessage } from '../../types';
+import { useHtmlContentParser } from '../../hooks';
+import { ListStyleType, WidgetMessage, WidgetMessageLink } from '../../types';
 
-const WidgetMessageContainer: FunctionComponent<{ message?: WidgetMessage }> = (props) => {
-  const { message } = props;
+const WidgetMessageContainer: FunctionComponent<{
+  message?: WidgetMessage,
+  parserOptions?: HTMLReactParserOptions,
+  linkVariant?: 'monochrome' | 'body1',
+}> = (props) => {
+  const { message, parserOptions, linkVariant } = props;
+
+  const renderTitle = (title?: string) => (title && (
+    <Typography
+      component="h2"
+      variant="h6"
+    >
+      {title}
+    </Typography>
+  ));
+
+  const renderLinks = (links?: WidgetMessageLink[], listStyleType?: ListStyleType) => (links && (
+    <List
+      className="custom-links"
+      disablePadding
+      dense
+      sx={{ pl: listStyleType ? 4 : 0, listStyle: listStyleType ?? 'none' }}
+    >
+      {links.map((link) => (
+        <ListItem
+          sx={{
+            paddingLeft: 0,
+            display: 'list-item',
+          }}
+          key={link.url}
+        >
+          <Link
+            href={link.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            variant={linkVariant}
+          >
+            {link.label}
+          </Link>
+        </ListItem>
+      ))}
+    </List>
+  ));
 
   const createListMessages = (widgetMsg: WidgetMessage) => (
     <Box marginBlockStart={2}>
@@ -35,7 +78,7 @@ const WidgetMessageContainer: FunctionComponent<{ message?: WidgetMessage }> = (
       <List
         dense
         disablePadding
-        sx={{ listStyleType: 'disc', paddingInlineStart: 4 }}
+        sx={{ listStyle: widgetMsg.listStyleType ?? 'disc', paddingInlineStart: 4 }}
       >
         {
           (widgetMsg.message as WidgetMessage[])?.map((wm: WidgetMessage) => {
@@ -67,10 +110,15 @@ const WidgetMessageContainer: FunctionComponent<{ message?: WidgetMessage }> = (
     </Box>
   );
 
+  const parsedContent = useHtmlContentParser(typeof message?.message === 'string' ? message.message : '', parserOptions);
   if (typeof message !== 'undefined') {
-    return Array.isArray(message.message)
-      ? createListMessages(message)
-      : <React.Fragment>{message.message}</React.Fragment>;
+    return (
+      <React.Fragment>
+        {renderTitle(message.title)}
+        {Array.isArray(message.message) ? createListMessages(message) : parsedContent}
+        {renderLinks(message.links, message.listStyleType)}
+      </React.Fragment>
+    );
   }
   return null;
 };

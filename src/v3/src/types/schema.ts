@@ -58,11 +58,16 @@ export type WidgetMessage = Modify<IdxMessage, {
   title?: string;
   name?: string;
   description?: string;
-  links?: {
-    label: string,
-    url: string,
-  }[];
+  links?: WidgetMessageLink[];
+  listStyleType?: ListStyleType,
 }>;
+
+export type ListStyleType = 'circle' | 'disc' | 'square' | 'decimal';
+
+export type WidgetMessageLink = {
+  label: string,
+  url: string,
+};
 
 export type AutoCompleteValue = 'username'
 | 'current-password'
@@ -150,8 +155,12 @@ export type TokenReplacementValue = {
   attributes?: {
     class?: string;
     href?: string;
+    target?: AnchorTargetType;
+    rel?: 'noopener noreferrer';
   };
 };
+
+export type AnchorTargetType = '_self' | '_blank' | '_parent' | 'top';
 
 export type TokenReplacement = Partial<Record<TokenSearchValue, TokenReplacementValue>>;
 
@@ -465,7 +474,7 @@ export interface LinkElement extends UISchemaElement {
     label: string;
     href?: string;
     dataSe?: string;
-    target?: '_blank';
+    target?: AnchorTargetType;
     onClick?: (widgetContext?: IWidgetContext) => unknown;
   };
 }
@@ -502,7 +511,7 @@ export interface SpinnerElement extends UISchemaElement {
 
 export interface InfoboxElement extends UISchemaElement {
   options: {
-    message: WidgetMessage;
+    message: WidgetMessage | WidgetMessage[];
     class: string;
     dataSe?: string;
   }
