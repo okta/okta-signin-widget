@@ -31,7 +31,9 @@ describe('enduser-consent', () => {
         value: { ...enduserConsentResponse.app.value, logo: undefined },
       },
     };
-    const { container, findByRole } = await setup({ mockResponse: enduserConsentResponseWithoutLogo });
+    const { container, findByRole } = await setup({
+      mockResponse: enduserConsentResponseWithoutLogo,
+    });
     const appNameHeading = await findByRole('heading', { level: 2 });
 
     expect(appNameHeading.textContent).toBe('Native client');

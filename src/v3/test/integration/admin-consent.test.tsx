@@ -34,7 +34,9 @@ describe('admin-consent', () => {
         value: { ...adminConsentResponse.app.value, logo: undefined },
       },
     };
-    const { container, findByRole } = await setup({ mockResponse: adminConsentResponseWithoutLogo });
+    const { container, findByRole } = await setup({
+      mockResponse: adminConsentResponseWithoutLogo,
+    });
     const appNameHeading = await findByRole('heading', { level: 2 });
     const groupHeading = await findByRole('heading', { level: 3 });
 

@@ -26,7 +26,9 @@ describe('granular-consent', () => {
         },
       },
     };
-    const { container, findByRole } = await setup({ mockResponse: granularConsentResponseWithLogo });
+    const { container, findByRole } = await setup({
+      mockResponse: granularConsentResponseWithLogo,
+    });
     const appNameHeading = await findByRole('heading', { level: 2 });
 
     expect(appNameHeading.textContent).toBe('Native client');
