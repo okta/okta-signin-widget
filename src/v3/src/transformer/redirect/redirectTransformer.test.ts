@@ -56,7 +56,10 @@ describe('Success Redirect Transform Tests', () => {
     const userInfo = { identifier: 'testuser@okta.com' };
     transaction.context.app.value = appInfo;
     // @ts-expect-error OKTA-598868 app is missing from rawIdxState type
-    transaction.rawIdxState.app.value = appInfo
+    transaction.rawIdxState.app = {
+      type: 'object',
+      value: appInfo,
+    };
     transaction.context.user = { type: 'object', value: userInfo };
     widgetProps = {
       interstitialBeforeLoginRedirect: InterstitialRedirectView.DEFAULT,
@@ -105,7 +108,10 @@ describe('Success Redirect Transform Tests', () => {
     const appInfo = { name: 'Okta Dashboard' };
     transaction.context.app.value = appInfo;
     // @ts-expect-error OKTA-598868 app is missing from rawIdxState type
-    transaction.rawIdxState.app.value = appInfo
+    transaction.rawIdxState.app = {
+      type: 'object',
+      value: appInfo,
+    };
     widgetProps = { interstitialBeforeLoginRedirect: InterstitialRedirectView.DEFAULT };
     const formBag = redirectTransformer(
       transaction,
