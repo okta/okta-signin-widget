@@ -12,6 +12,12 @@ const config = {
   authParams: {
     pkce: false // PKCE is enabled by default in okta-auth-js@3.0
   },
+  i18n: {
+    en: {
+      'consent.scopes.profile.desc': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Pellentesque nec nam aliquam sem et tortor. Amet consectetur adipiscing elit duis tristique sollicitudin nibh sit. Non tellus orci ac auctor augue mauris augue neque gravida. Mauris a diam maecenas sed enim. Felis eget velit aliquet sagittis. Nisl purus in mollis nunc sed. Risus pretium quam vulputate dignissim suspendisse in est ante. Metus aliquam eleifend mi in nulla. Volutpat maecenas volutpat blandit aliquam. Eu consequat ac felis donec et odio pellentesque diam volutpat. Interdum velit euismod in pellentesque massa placerat. Posuere lorem ipsum dolor sit amet. Venenatis cras sed felis eget velit aliquet sagittis id consectetur. Vitae suscipit tellus mauris a diam maecenas.'
+    }
+  },
+
   // Host the assets (i.e. json files) locally
   assets: {
     baseUrl: '/'

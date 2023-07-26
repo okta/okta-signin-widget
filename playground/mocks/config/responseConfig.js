@@ -226,7 +226,7 @@ const consent = {
   '/idp/idx/introspect': [
     // 'consent-admin',
     'consent-enduser',
-    'consent-granular',
+    // 'consent-granular',
   ],
   '/idp/idx/consent': [
     // note that the success 'href' is in reality a redirect (i.e. /login/token/redirect?stateToken={{stateToken}})
@@ -1081,5 +1081,5 @@ const smartCardEnrollOrVerify = {
 };
 
 module.exports = {
-  mocks: idx
+  mocks: consent
 };
