@@ -85,6 +85,21 @@ export default defineConfig(({ mode, command }) => {
 
         // playground assets, e.g., logo, favicon
         copyPublicDir: true,
+
+        // TODO: remove or return to `true` before merging, this is just
+        // to make it easier to inspect the bundle while editing configs
+        minify: false,
+
+        commonjsOptions: {
+          include: [
+            // Part of the default `include` rules, so we need to list it again here
+            // since this array will overwrite the default
+            /node_modules/,
+            // Polyfill entry point uses `require`, so read it as CommonJS instead
+            // of duplicating it as ESM for maintainability
+            resolve(__dirname, '../..', 'polyfill/index.js'),
+          ]
+        }
       };
 
       if (mode === 'testcafe') {
