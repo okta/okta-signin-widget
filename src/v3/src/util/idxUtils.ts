@@ -56,7 +56,8 @@ export const getUserInfo = (transaction: IdxTransaction): UserInfo => {
 };
 
 export const getAppInfo = (transaction: IdxTransaction): AppInfo => {
-  const { context: { app } } = transaction;
+  // @ts-expect-error OKTA-598868 app is missing from rawIdxState type
+  const { rawIdxState: { app } } = transaction;
 
   if (!app) {
     return {};
