@@ -16,26 +16,11 @@ import enduserConsentResponse from '../../../../playground/mocks/data/idp/idx/co
 
 describe('enduser-consent', () => {
   it('should render form with logo', async () => {
-    const { container, findByRole } = await setup({ mockResponse: enduserConsentResponse });
+    const { container, findByRole, queryByAltText } = await setup({ mockResponse: enduserConsentResponse });
     const appNameHeading = await findByRole('heading', { level: 2 });
+    const logo = queryByAltText('Logo for the app');
 
-    expect(appNameHeading.textContent).toBe('Native client');
-    expect(container).toMatchSnapshot();
-  });
-
-  it('should render form without logo', async () => {
-    const enduserConsentResponseWithoutLogo = {
-      ...enduserConsentResponse,
-      app: {
-        ...enduserConsentResponse.app,
-        value: { ...enduserConsentResponse.app.value, logo: undefined },
-      },
-    };
-    const { container, findByRole } = await setup({
-      mockResponse: enduserConsentResponseWithoutLogo,
-    });
-    const appNameHeading = await findByRole('heading', { level: 2 });
-
+    expect(logo).toBeDefined();
     expect(appNameHeading.textContent).toBe('Native client');
     expect(container).toMatchSnapshot();
   });
@@ -55,8 +40,8 @@ describe('enduser-consent', () => {
   it('should send correct payload when cancel is clicked', async () => {
     const { authClient, user, findByText } = await setup({ mockResponse: enduserConsentResponse });
 
-    const allowConsentBtn = await findByText('Cancel');
-    await user.click(allowConsentBtn);
+    const cancelBtn = await findByText('Cancel');
+    await user.click(cancelBtn);
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
       ...createAuthJsPayloadArgs('POST', 'idp/idx/consent', {
         consent: false,

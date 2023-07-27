@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`enduser-consent should render form with logo 1`] = `
+exports[`enduser-consent-without-lgoo should render form 1`] = `
 <div>
   <div
     class="MuiScopedCssBaseline-root emotion-0"
@@ -31,52 +31,33 @@ exports[`enduser-consent should render form with logo 1`] = `
           >
             <div
               class="MuiBox-root emotion-7"
-            >
-              <div
-                class="MuiBox-root emotion-6"
-              >
-                <a
-                  aria-label="Logo for the app"
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-9"
-                  href="https://client._funky-ch4rs.com"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  <img
-                    alt="Logo for the app"
-                    aria-hidden="true"
-                    class="client-logo custom-logo MuiBox-root emotion-10"
-                    src="https://example.com/logo"
-                  />
-                </a>
-              </div>
-            </div>
+            />
             <span
-              class="title-text MuiBox-root emotion-11"
+              class="title-text MuiBox-root emotion-8"
             >
               <h2
-                class="MuiTypography-root MuiTypography-h3 no-translate emotion-12"
+                class="MuiTypography-root MuiTypography-h3 no-translate emotion-9"
               >
                 Native client
               </h2>
               <p
-                class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-13"
+                class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-10"
               >
                 would like to:
               </p>
             </span>
           </div>
           <div
-            class="identifier-container MuiBox-root emotion-14"
+            class="identifier-container MuiBox-root emotion-11"
           >
             <div
-              class="identifierContainer MuiBox-root emotion-15"
+              class="identifierContainer MuiBox-root emotion-12"
             >
               <span
                 class="userIconContainer MuiBox-root emotion-6"
               >
                 <svg
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-17"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-14"
                   fill="none"
                   focusable="false"
                   role="img"
@@ -104,21 +85,21 @@ exports[`enduser-consent should render form with logo 1`] = `
             </div>
           </div>
           <div
-            class="MuiBox-root emotion-19"
+            class="MuiBox-root emotion-16"
           >
             <span
               aria-label="Processing..."
               aria-valuetext="Processing..."
-              class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-20"
+              class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-17"
               role="progressbar"
               style="width: 1.14285714rem; height: 1.14285714rem;"
             >
               <svg
-                class="MuiCircularProgress-svg emotion-21"
+                class="MuiCircularProgress-svg emotion-18"
                 viewBox="22 22 44 44"
               >
                 <circle
-                  class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate emotion-22"
+                  class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate emotion-19"
                   cx="44"
                   cy="44"
                   fill="none"

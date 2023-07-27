@@ -26,24 +26,14 @@ describe('granular-consent', () => {
         },
       },
     };
-    const { container, findByRole } = await setup({
+    const { container, findByRole, queryByAltText } = await setup({
       mockResponse: granularConsentResponseWithLogo,
     });
     const appNameHeading = await findByRole('heading', { level: 2 });
+    const logo = queryByAltText('Logo for the app');
 
+    expect(logo).toBeDefined();
     expect(appNameHeading.textContent).toBe('Native client');
-    expect(container).toMatchSnapshot();
-  });
-
-  it('should render form without logo', async () => {
-    const { container, findByText, findByRole } = await setup({ mockResponse });
-    const appNameHeading = await findByRole('heading', { level: 2 });
-
-    expect(appNameHeading.textContent).toBe('Native client');
-    await findByText(/wants to access/);
-    await findByText(/testUser@okta.com/);
-    await findByText(/Allowing access will share/);
-    await findByText(/View your internet search history/);
     expect(container).toMatchSnapshot();
   });
 
