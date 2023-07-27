@@ -16,7 +16,9 @@ import adminConsentResponse from '../../../../playground/mocks/data/idp/idx/cons
 
 describe('admin-consent', () => {
   it('should render form with logo', async () => {
-    const { container, findByRole, queryByAltText } = await setup({ mockResponse: adminConsentResponse });
+    const { container, findByRole, queryByAltText } = await setup({
+      mockResponse: adminConsentResponse,
+    });
     const appNameHeading = await findByRole('heading', { level: 2 });
     const groupHeading = await findByRole('heading', { level: 3 });
     const logo = queryByAltText('Logo for the app');

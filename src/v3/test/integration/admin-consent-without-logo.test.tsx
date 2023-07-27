@@ -15,7 +15,6 @@ import { setup } from './util';
 import adminConsentResponse from '../../../../playground/mocks/data/idp/idx/consent-admin.json';
 
 describe('admin-consent-without-logo', () => {
-
   it('should render form without logo', async () => {
     const adminConsentResponseWithoutLogo = {
       ...adminConsentResponse,

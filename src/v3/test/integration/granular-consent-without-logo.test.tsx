@@ -16,7 +16,12 @@ import mockResponse from '../../../../playground/mocks/data/idp/idx/consent-gran
 
 describe('granular-consent-without-logo', () => {
   it('should render form', async () => {
-    const { container, findByText, findByRole, queryByAltText } = await setup({ mockResponse });
+    const {
+      container,
+      findByText,
+      findByRole,
+      queryByAltText,
+    } = await setup({ mockResponse });
     const appNameHeading = await findByRole('heading', { level: 2 });
     const logo = queryByAltText('Logo for the app');
 
