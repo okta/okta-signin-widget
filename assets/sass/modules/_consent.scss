@@ -84,6 +84,9 @@ $consent-light-text-color: #6e6e78; // Gray 600 in Odyssey
 
     input {
       width: 140px;
+      height: auto;
+      min-height: 50px;
+      white-space: normal;
     }
 
 
