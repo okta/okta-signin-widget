@@ -70,7 +70,7 @@ export const transformAdminConsent: IdxStepTransformer = ({ transaction, formBag
         type: 'Heading',
         noMargin: true,
         options: {
-          level: 5,
+          level: 6,
           visualLevel: 3,
           content: loc(GROUP_KEY_TO_I18N_KEY[key as ConsentScopeGroup], 'login'),
           dataSe: 'scope-group--header',
@@ -90,6 +90,7 @@ export const transformAdminConsent: IdxStepTransformer = ({ transaction, formBag
         data[fieldName] = true;
         return {
           type: 'Field',
+          key: fieldName,
           translations: [
             {
               name: 'label',

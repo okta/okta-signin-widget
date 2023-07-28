@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`granular-consent should render form with logo 1`] = `
+exports[`enduser-consent should render form with logo 1`] = `
 <div>
   <div
     class="MuiScopedCssBaseline-root emotion-0"
@@ -46,12 +46,12 @@ exports[`granular-consent should render form with logo 1`] = `
                     alt="Logo for the app"
                     aria-hidden="true"
                     class="client-logo custom-logo MuiBox-root emotion-10"
-                    src="http://okta1.com/logo.png"
+                    src="https://example.com/logo"
                   />
                 </a>
               </div>
             </div>
-            <div
+            <span
               class="title-text MuiBox-root emotion-11"
             >
               <h2
@@ -59,23 +59,24 @@ exports[`granular-consent should render form with logo 1`] = `
               >
                 Native client
               </h2>
-               
-              <p>
-                wants to access
+              <p
+                class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-13"
+              >
+                would like to:
               </p>
-            </div>
+            </span>
           </div>
           <div
-            class="identifier-container MuiBox-root emotion-13"
+            class="identifier-container MuiBox-root emotion-14"
           >
             <div
-              class="identifierContainer MuiBox-root emotion-14"
+              class="identifierContainer MuiBox-root emotion-15"
             >
               <span
                 class="userIconContainer MuiBox-root emotion-6"
               >
                 <svg
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-16"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-17"
                   fill="none"
                   focusable="false"
                   role="img"
@@ -103,21 +104,21 @@ exports[`granular-consent should render form with logo 1`] = `
             </div>
           </div>
           <div
-            class="MuiBox-root emotion-18"
+            class="MuiBox-root emotion-19"
           >
             <span
               aria-label="Processing..."
               aria-valuetext="Processing..."
-              class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-19"
+              class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-20"
               role="progressbar"
               style="width: 1.14285714rem; height: 1.14285714rem;"
             >
               <svg
-                class="MuiCircularProgress-svg emotion-20"
+                class="MuiCircularProgress-svg emotion-21"
                 viewBox="22 22 44 44"
               >
                 <circle
-                  class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate emotion-21"
+                  class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate emotion-22"
                   cx="44"
                   cy="44"
                   fill="none"

@@ -134,7 +134,7 @@ export const getCustomHelpLinks = (widgetProps: WidgetProps): CustomLink[] => {
 
 export const getFactorPageCustomLink = (widgetProps: WidgetProps): Omit<CustomLink, 'target'> | undefined => {
   const { factorPage } = widgetProps.helpLinks || {};
-  return factorPage;
+  return typeof factorPage !== 'undefined' && 'href' in factorPage ? factorPage : undefined;
 };
 
 export const getDefaultCountryCode = (widgetProps: WidgetProps): string => {
