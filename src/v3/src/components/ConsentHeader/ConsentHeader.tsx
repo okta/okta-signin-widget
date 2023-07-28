@@ -38,7 +38,7 @@ const ConsentHeader: FunctionComponent = () => {
   );
   const parsedGranularConsentTitle = useHtmlContentParser(
     granularConsentTitle,
-    { replace: getHeadingReplacerFn({}, 'h2', 2, 3) },
+    { replace: getHeadingReplacerFn({}, 'h2', 2, 6) },
   );
 
   if (!idxTransaction?.nextStep || !CONSENT_HEADER_STEPS.includes(idxTransaction.nextStep.name)) {
@@ -106,7 +106,7 @@ const ConsentHeader: FunctionComponent = () => {
           >
             <Typography
               component="h2"
-              variant="h3"
+              variant="h6"
               className="no-translate"
             >
               {appName}
