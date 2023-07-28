@@ -55,7 +55,7 @@ exports[`granular-consent should render form with logo 1`] = `
               class="title-text MuiBox-root emotion-11"
             >
               <h2
-                class="MuiTypography-root MuiTypography-h3 no-translate emotion-12"
+                class="MuiTypography-root MuiTypography-h6 no-translate emotion-12"
               >
                 Native client
               </h2>

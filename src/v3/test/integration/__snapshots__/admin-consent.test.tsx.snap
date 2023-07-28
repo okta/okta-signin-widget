@@ -55,7 +55,7 @@ exports[`admin-consent should render form with logo 1`] = `
               class="title-text MuiBox-root emotion-11"
             >
               <h2
-                class="MuiTypography-root MuiTypography-h3 no-translate emotion-12"
+                class="MuiTypography-root MuiTypography-h6 no-translate emotion-12"
               >
                 Native client
               </h2>
@@ -105,7 +105,7 @@ exports[`admin-consent should render form with logo 1`] = `
                   class="MuiBox-root emotion-18"
                 >
                   <h3
-                    class="MuiTypography-root MuiTypography-h5 emotion-22"
+                    class="MuiTypography-root MuiTypography-h6 emotion-12"
                     data-se="scope-group--header"
                     id="admin-consent_Heading_Resource_and_policies_2"
                   >
