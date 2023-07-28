@@ -1,0 +1,205 @@
+{
+  "version": "1.0.0",
+  "stateHandle": "02.id.1CM0TDC7I8MUKWKGZPQaS4pgOLOKJ-xww5e00fOR",
+  "expiresAt": "2023-07-27T20:03:21.000Z",
+  "intent": "CREDENTIAL_ENROLLMENT",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": ["create-form"],
+        "name": "select-authenticator-authenticate",
+        "href": "http://localhost:3000/idp/idx/challenge",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "authenticator",
+            "type": "object",
+            "options": [
+              {
+                "label": "Password",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "aut42u00ukViK2Gua1d7",
+                        "mutable": false
+                      },
+                      {
+                        "name": "methodType",
+                        "required": false,
+                        "value": "password",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticatorEnrollments.value[0]"
+              },
+              {
+                "label": "Phone",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "aut42u00umbdGDfcc1d7",
+                        "mutable": false
+                      },
+                      {
+                        "name": "methodType",
+                        "type": "string",
+                        "required": false,
+                        "options": [{ "label": "SMS", "value": "sms" }]
+                      },
+                      {
+                        "name": "enrollmentId",
+                        "required": true,
+                        "value": "sms7mc16ur99o1gjM1d7",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticatorEnrollments.value[1]"
+              },
+              {
+                "label": "Smart Card IdP",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "aut7rcjloeQUmFInC1d7",
+                        "mutable": false
+                      },
+                      {
+                        "name": "methodType",
+                        "required": false,
+                        "value": "cert",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[2]"
+              }
+            ]
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02.id.1CM0TDC7I8MUKWKGZPQaS4pgOLOKJ-xww5e00fOR",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      }
+    ]
+  },
+  "authenticators": {
+    "type": "array",
+    "value": [
+      {
+        "type": "password",
+        "key": "okta_password",
+        "id": "aut42u00ukViK2Gua1d7",
+        "displayName": "Password",
+        "methods": [{ "type": "password" }],
+        "allowedFor": "sso"
+      },
+      {
+        "type": "phone",
+        "key": "phone_number",
+        "id": "aut42u00umbdGDfcc1d7",
+        "displayName": "Phone",
+        "methods": [{ "type": "sms" }],
+        "allowedFor": "sso"
+      },
+      {
+        "type": "federated",
+        "key": "smart_card_idp",
+        "id": "aut7rcjloeQUmFInC1d7",
+        "displayName": "Smart Card IdP",
+        "methods": [{ "type": "cert" }],
+        "allowedFor": "sso"
+      }
+    ]
+  },
+  "authenticatorEnrollments": {
+    "type": "array",
+    "value": [
+      {
+        "type": "password",
+        "key": "okta_password",
+        "id": "laeopzs1cwf0I15oA1d6",
+        "displayName": "Password",
+        "methods": [{ "type": "password" }]
+      },
+      {
+        "profile": { "phoneNumber": "+1 XXX-XXX-5183" },
+        "type": "phone",
+        "key": "phone_number",
+        "id": "sms7mc16ur99o1gjM1d7",
+        "displayName": "Phone",
+        "methods": [{ "type": "sms" }]
+      },
+      {
+        "profile": { "idpAppInstanceId": "0oa6ui8lerELIyoA21d7" },
+        "type": "federated",
+        "key": "smart_card_idp",
+        "id": "piv85oiyd2nonGAQh1d7",
+        "displayName": "Smart Card IdP",
+        "methods": [{ "type": "cert" }]
+      }
+    ]
+  },
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00u6ui5kjwAARdR9u1d7",
+      "identifier": "32011152472674@upn.example.com",
+      "profile": {
+        "firstName": "32011152472674",
+        "lastName": "32011152472674",
+        "timeZone": "America/Los_Angeles",
+        "locale": "en_US"
+      }
+    }
+  },
+  "cancel": {
+    "rel": ["create-form"],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "produces": "application/ion+json; okta-version=1.0.0",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02.id.1CM0TDC7I8MUKWKGZPQaS4pgOLOKJ-xww5e00fOR",
+        "visible": false,
+        "mutable": false
+      }
+    ],
+    "accepts": "application/json; okta-version=1.0.0"
+  },
+  "app": {
+    "type": "object",
+    "value": {
+      "name": "okta_enduser",
+      "label": "Okta Dashboard",
+      "id": "DEFAULT_APP"
+    }
+  },
+  "authentication": {
+    "type": "object",
+    "value": { "protocol": "URL", "request": {} }
+  }
+}

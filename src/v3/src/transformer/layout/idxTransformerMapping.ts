@@ -400,6 +400,10 @@ const TransformerMap: {
       transform: transformPIVAuthenticator,
       buttonConfig: { showDefaultSubmit: false },
     },
+    [AUTHENTICATOR_KEY.SMART_CARD_IDP]: {
+      transform: transformPIVAuthenticator,
+      buttonConfig: { showDefaultSubmit: false },
+    },
   },
   [IDX_STEP.REDIRECT_IDP]: {
     [AUTHENTICATOR_KEY.DEFAULT]: {
