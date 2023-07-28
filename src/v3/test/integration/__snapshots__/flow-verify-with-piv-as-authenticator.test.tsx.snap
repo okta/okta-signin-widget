@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`flow-verify-with-piv-as-authenticator should clear global errors when transitioning between pages 1`] = `
+exports[`flow-verify-with-piv-as-authenticator should render select authenticator page with PIV as authenticator and clicking it will render PIV verify view 1`] = `
 <div>
   <div
     class="MuiScopedCssBaseline-root emotion-0"

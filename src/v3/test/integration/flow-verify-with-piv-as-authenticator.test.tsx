@@ -15,7 +15,7 @@ import pivVerifyResponse from '../../src/mocks/response/idp/idx/authenticator-pi
 import { createAuthJsPayloadArgs, setup } from './util';
 
 describe('flow-verify-with-piv-as-authenticator', () => {
-  it('should clear global errors when transitioning between pages', async () => {
+  it('should render select authenticator page with PIV as authenticator and clicking it will render PIV verify view', async () => {
     const {
       authClient,
       container,
