@@ -20,9 +20,6 @@ const LOG_IGNORE_PATTERNS = [
 
   // log from msw
   /\[MSW-Wrapper\]/,
-
-  // log from vite
-  /\[vite\]/,
 ];
 
 export const renderWidget = ClientFunction((settings) => {
