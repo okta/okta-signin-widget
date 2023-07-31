@@ -17,7 +17,7 @@
   "module": "dist/index.mjs",
   "source": "components/widget/index.js",
   "scripts": {
-    "build": "vite build",
+    "build": "webpack",
     "clean-svg": "svgo -f src/img/authCoinIcons",
     "codegen": "yarn workspace @okta/okta-signin-widget codegen",
     "dev": "yarn codegen && VITE_MOCK_DUO=true vite",
@@ -34,8 +34,8 @@
     "test:report": "PREACT_APP_USE_PKCE=false NODE_ENV=test jest --coverage"
   },
   "browserslist": [
-    "> 0.1%",
-    "not ie <= 9"
+    "defaults",
+    "ie 11"
   ],
   "dependencies": {
     "@emotion/react": "^11.9.3",
@@ -91,6 +91,7 @@
     "@typescript-eslint/eslint-plugin": "^4.29.1",
     "@typescript-eslint/parser": "^4.29.1",
     "axe-core": "^4.3.3",
+    "css-loader": "^6.7.4",
     "encoding": "^0.1.13",
     "eslint": "^7.32.0",
     "eslint-config-airbnb-typescript": "^12.3.1",
@@ -118,20 +119,27 @@
     "lint-staged": "^12.2.1",
     "msw": "^1.1.1",
     "postcss": "^8.4.13",
+    "postcss-loader": "^7.3.3",
+    "postcss-preset-env": "^8.4.1",
     "postcss-syntax": "^0.36.2",
     "preact-render-to-string": "^5.1.19",
     "preact-svg-loader": "^0.2.1",
     "properties": "^1.2.1",
     "sirv-cli": "^2.0.2",
+    "style-loader": "^3.3.3",
     "stylelint": "^14.16.1",
     "stylelint-use-logical-spec": "^5.0.0",
     "svgo": "^2.3.0",
+    "svg-inline-loader": "^0.8.2",
+    "terser-webpack-plugin": "^5.2.4",
     "testcafe": "^1.20.1",
     "ts-jest": "^26.5.6",
     "ts-loader": "^6.2.1",
     "typescript": "^4.9.5",
     "vite": "^4.1.0",
     "wait-on": "^6.0.1",
+    "webpack": "^5.51.1",
+    "webpack-bundle-analyzer": "^4.5.0",
     "whatwg-fetch": "^3.6.2"
   },
   "engines": {
