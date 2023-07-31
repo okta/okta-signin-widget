@@ -39,8 +39,10 @@ const headers = {};
 if (!process.env.DISABLE_CSP) {
   // Allow google domains for testing recaptcha
   const scriptSrc = `script-src http://${HOST}:${DEV_SERVER_PORT} https://www.google.com https://www.gstatic.com`;
-  const styleSrc =  `style-src http://${HOST}:${DEV_SERVER_PORT} 'nonce-playground'`;
-  const workerSrc = `worker-src http://${HOST}:${DEV_SERVER_PORT}`;
+  //todo: sentry
+  //const styleSrc = `style-src http://${HOST}:${DEV_SERVER_PORT} 'nonce-playground'`;
+  const styleSrc = `style-src http://${HOST}:${DEV_SERVER_PORT} 'unsafe-inline'`;
+  const workerSrc = `worker-src 'self' blob:; child-src 'self' blob:`;
   const reportUri = `report-uri https://sentry.io/api/${SENTRY_PROJECT}/security/?sentry_key=${SENTRY_KEY} ${SENTRY_REPORT_URI}`;
   const csp = `${scriptSrc}; ${styleSrc}; ${workerSrc}; ${reportUri};`;
   headers['Content-Security-Policy'] = csp;

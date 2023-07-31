@@ -16,6 +16,8 @@ interface TranslationMeta {
 
 const SENTRY_DSN = 'https://0014e1b37cf7473d977b85aea504af70@o4505233867538432.ingest.sentry.io/4505448311816192'; // siw-v2-demo-1
 
+let transport;
+
 // https://okta-24.sentry.io/settings/projects/siw6/security-and-privacy/
 // Safe fields in project config:
 //  currentAuthenticator
@@ -30,14 +32,13 @@ const SENTRY_DSN = 'https://0014e1b37cf7473d977b85aea504af70@o4505233867538432.i
 //  authenticatorKey
 //  controller
 
-let baseUrl;
-
-export const stopSentry = () => {
-  //todo
+export const stopSentry = async () => {
+  await Sentry.close(2000);
 };
 
 export const initSentry = (widget: OktaSignInAPI) => {
-  console.log('>>>> sentry init');
+  const baseUrl = widget.options['baseUrl'] as string;
+  console.log('>>>> sentry init', baseUrl);
 
   Sentry.init({
     dsn: SENTRY_DSN,
@@ -92,6 +93,11 @@ export const initSentry = (widget: OktaSignInAPI) => {
       if (allow) {
         console.log('>>> [sentry] breadcrumb: ', breadcrumb.type, breadcrumb.category, breadcrumb);
       }
+      if (breadcrumb.type === 'error' || breadcrumb.level === 'error') {
+        if (confirm("send error report?")) {
+          transport?.flush?.();
+        }
+      }
       return allow ? breadcrumb : null;
     },
     beforeSend(event, _hint) {
@@ -101,6 +107,12 @@ export const initSentry = (widget: OktaSignInAPI) => {
     },
     beforeSendTransaction(event, _hint) {
       return event;
+    },
+
+    transport: (transportOptions) => {
+      const makeTransport = Sentry.makeBrowserOfflineTransport(Sentry.makeFetchTransport);
+      transport = makeTransport(transportOptions);
+      return transport;
     },
 
   });
@@ -117,12 +129,10 @@ export const initSentry = (widget: OktaSignInAPI) => {
 };
 
 export const updateSentryContext = (appState: AppState) => {
-  baseUrl = appState.settings.get('baseUrl');
   const languageCode = appState.settings.get('languageCode');
   const configuredFlow = appState.settings.get('flow');
   const app = {
     ...appState.get('app'),
-    baseUrl,
   };
   const user = appState.get('user');
   const currentFormName = appState.get('currentFormName');
