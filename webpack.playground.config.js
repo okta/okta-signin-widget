@@ -4,6 +4,8 @@ const path = require('path');
 const fs = require('fs');
 const nodemon = require('nodemon');
 const { DefinePlugin } = require('webpack');
+const ENV = require('@okta/env');
+ENV.config();
 
 const TARGET = path.resolve(__dirname, 'target');
 const ASSETS = path.resolve(__dirname, 'assets');
@@ -12,6 +14,7 @@ const DEV_SERVER_PORT = 3000;
 const MOCK_SERVER_PORT = 3030;
 const WIDGET_RC_JS = path.resolve(__dirname, '.widgetrc.js');
 const WIDGET_RC = path.resolve(__dirname, '.widgetrc');
+const { SENTRY_PROJECT, SENTRY_KEY, SENTRY_REPORT_URI } = process.env;
 
 // run `OKTA_SIW_HOST=0.0.0.0 yarn start --watch` to override the host
 const HOST = process.env.OKTA_SIW_HOST || 'localhost';
@@ -37,7 +40,9 @@ if (!process.env.DISABLE_CSP) {
   // Allow google domains for testing recaptcha
   const scriptSrc = `script-src http://${HOST}:${DEV_SERVER_PORT} https://www.google.com https://www.gstatic.com`;
   const styleSrc =  `style-src http://${HOST}:${DEV_SERVER_PORT} 'nonce-playground'`;
-  const csp = `${scriptSrc}; ${styleSrc};`;
+  const workerSrc = `worker-src http://${HOST}:${DEV_SERVER_PORT}`;
+  const reportUri = `report-uri https://sentry.io/api/${SENTRY_PROJECT}/security/?sentry_key=${SENTRY_KEY} ${SENTRY_REPORT_URI}`;
+  const csp = `${scriptSrc}; ${styleSrc}; ${workerSrc}; ${reportUri};`;
   headers['Content-Security-Policy'] = csp;
 }
 
@@ -80,8 +85,8 @@ module.exports = {
           presets: [
             // preset-env is disabled for a better debugging experience.
             // It can be enabled if necessary to run playground on IE11
-            // '@babel/preset-env',
-            '@babel/preset-typescript' // must run before preset-env: https://github.com/babel/babel/issues/12066
+            '@babel/preset-env',
+            '@babel/preset-typescript', // must run before preset-env: https://github.com/babel/babel/issues/12066
           ]
         }
       },

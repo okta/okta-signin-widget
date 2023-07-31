@@ -14,6 +14,8 @@
 
 // 6. plugin a11y - okta-plugin-a11y.js - add-on that enhances support for accesibility
 
+// 7. plugin sentry
+
 var path = require('path');
 var config  = require('./webpack.common.config');
 var plugins = require('./scripts/buildtools/webpack/plugins');
@@ -62,6 +64,12 @@ var DEFAULT_ENTRIES = {
     entry: './src/plugins/OktaPluginA11y.ts',
     outputFilename: 'okta-plugin-a11y.js',
     outputLibrary: 'OktaPluginA11y'
+  },
+  // 7. plugins: sentry
+  'sentry': {
+    entry: './src/plugins/OktaPluginSentry.ts',
+    outputFilename: 'okta-plugin-sentry.js',
+    outputLibrary: 'OktaPluginSentry'
   },
   'css': {
     entry: `${TARGET_DIR}/sass/okta-sign-in.scss`,

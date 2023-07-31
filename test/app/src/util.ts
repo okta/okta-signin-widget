@@ -99,6 +99,22 @@ export async function loadWidgetScript(bundle: string, minified: boolean) {
   }
 }
 
+export async function loadSentry(minified: boolean) {
+  const existingEl = document.getElementById('widget-sentry') as HTMLScriptElement;
+
+  let url = `${window.location.origin}/js/okta-sign-in.sentry`;
+  if (minified) {
+    url += '.min';
+  }
+  url += '.js';
+
+  if (!existingEl || existingEl.src !== url) {
+    existingEl && existingEl.parentElement.removeChild(existingEl);
+    await loadScript('widget-sentry', url, 'widget-sentry');
+    
+  }
+}
+
 export async function loadPolyfill(minified: boolean) {
   const existingEl = document.getElementById('widget-polyfill') as HTMLScriptElement;
 
@@ -117,6 +133,13 @@ export async function loadPolyfill(minified: boolean) {
 // This will probably not remove the side effects of the polyfill
 export function removePolyfill() {
   const existingEl = document.getElementById('widget-polyfill') as HTMLScriptElement;
+  if (existingEl) {
+    existingEl.parentElement.removeChild(existingEl);
+  }
+}
+
+export function removeSentry() {
+  const existingEl = document.getElementById('widget-sentry') as HTMLScriptElement;
   if (existingEl) {
     existingEl.parentElement.removeChild(existingEl);
   }

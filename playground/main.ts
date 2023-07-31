@@ -23,6 +23,9 @@ declare global {
     
     // from <script src="/js/okta-plugin-a11y.js">
     OktaPluginA11y: { init: (widget: OktaSignInAPI) => void };
+    
+    // from <script src="/js/okta-plugin-sentry.js">
+    OktaPluginSentry: { initSentry: (widget: OktaSignInAPI) => void };
 
     // added in this file
     getWidgetInstance: () => OktaSignInAPI;
@@ -63,6 +66,10 @@ const renderPlaygroundWidget = (options = {}) => {
 
   if (window.OktaPluginA11y) {
     window.OktaPluginA11y.init(signIn);
+  }
+
+  if (window.OktaPluginSentry) {
+    window.OktaPluginSentry.initSentry(signIn);
   }
 
   signIn.renderEl(

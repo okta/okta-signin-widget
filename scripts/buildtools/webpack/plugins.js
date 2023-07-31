@@ -1,9 +1,10 @@
-const { DefinePlugin, IgnorePlugin } = require('webpack');
+const { DefinePlugin, IgnorePlugin, ProvidePlugin } = require('webpack');
 const fs = require('fs-extra');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const EventHooksPlugin = require('event-hooks-webpack-plugin');
 const { sentryWebpackPlugin } = require("@sentry/webpack-plugin");
+require('@okta/env').config();
 
 const FailOnBuildFailPlugin = require('./FailOnBuildFailPlugin');
 
@@ -76,8 +77,8 @@ function plugins(options = {}) {
   }
 
   list.push(sentryWebpackPlugin({
-    org: "okta-24",
-    project: "siw-v2-demo-1",
+    org: process.env.SENTRY_ORG,
+    project: process.env.SENTRY_PROJECT,
     authToken: process.env.SENTRY_AUTH_TOKEN,
   }));
 

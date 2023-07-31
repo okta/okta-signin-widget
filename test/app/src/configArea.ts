@@ -9,7 +9,7 @@ import {
 } from './config';
 import { ConfigForm, getConfigFromForm, updateFormFromConfig } from './configForm';
 import { Config } from './types';
-import { loadPolyfill, loadWidgetScript, makeClickHandler, removePolyfill } from './util';
+import { loadPolyfill, loadWidgetScript, loadSentry, makeClickHandler, removePolyfill, removeSentry } from './util';
 
 export const ConfigHeader = `
   <div class="header">
@@ -110,6 +110,11 @@ export default class ConfigArea {
           loadPolyfill(config.useMinBundle);
         } else {
           removePolyfill();
+        }
+        if (config.useSentry) {
+          loadSentry(config.useMinBundle);
+        } else {
+          removeSentry();
         }
         const str = formatWidgetOptions(config.widgetOptions);
         this.updateConfigPreview(str);

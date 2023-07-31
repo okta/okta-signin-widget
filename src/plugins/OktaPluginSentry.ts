@@ -1,9 +1,19 @@
 import * as Sentry from '@sentry/browser';
-import AppState from 'v2/models/AppState';
+import { OktaSignInAPI } from '../types/api';
+import { EventContext } from '../types/events';
+import { EventErrorContext } from '../types/events';
+import type AppState from '../v2/models/AppState';
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';
 
-//const SENTRY_DSN = 'https://3aeb188c43df4230921b7bf857b8ac83@o4505233867538432.ingest.sentry.io/4505268101120000'; // siw6
+interface TranslationMeta {
+  key?: string;
+  type?: string;
+  bundleName?: string;
+};
+
+//todo:  1. this.options.settings.callGlobalError(error);  2. updateAppState
+
 const SENTRY_DSN = 'https://0014e1b37cf7473d977b85aea504af70@o4505233867538432.ingest.sentry.io/4505448311816192'; // siw-v2-demo-1
 
 // https://okta-24.sentry.io/settings/projects/siw6/security-and-privacy/
@@ -22,7 +32,13 @@ const SENTRY_DSN = 'https://0014e1b37cf7473d977b85aea504af70@o4505233867538432.i
 
 let baseUrl;
 
-export const initSentry = () => {
+export const stopSentry = () => {
+  //todo
+};
+
+export const initSentry = (widget: OktaSignInAPI) => {
+  console.log('>>>> sentry init');
+
   Sentry.init({
     dsn: SENTRY_DSN,
     normalizeDepth: 10, // to view structured context data instead of "[Object]", "[Array]"
@@ -94,10 +110,10 @@ export const initSentry = () => {
   });
 
   catchTranslationErrors();
-};
 
-export const configureSentry = (appState: AppState) => {
-  updateSentryContext(appState);
+  updateContextOnRender(widget);
+
+  catchErrors(widget);
 };
 
 export const updateSentryContext = (appState: AppState) => {
@@ -150,8 +166,34 @@ export const updateSentryContext = (appState: AppState) => {
   });
 }
 
+const catchErrors = (widget: OktaSignInAPI) => {
+  widget.on('afterError', function (context: EventContext, errorContext: EventErrorContext) {
+    Sentry.addBreadcrumb({
+      type: 'error',
+      category: 'custom',
+      data: {
+        context,
+        errorContext,
+      },
+    });
+  });
+};
+
+const updateContextOnRender = (widget: OktaSignInAPI) => {
+  widget.on('afterRender', function (context: EventContext) {
+    Sentry.addBreadcrumb({
+      type: 'debug',
+      category: 'custom',
+      data: {
+        context
+      },
+    });
+  });
+};
+
 const catchTranslationErrors = () => {
-  document.addEventListener('okta-i18n-error', (ev: CustomEvent) => {
+  document.addEventListener('okta-i18n-error', (evt) => {
+    const ev = evt as CustomEvent<TranslationMeta>;
     const ignore = !ev.detail.key || ev.detail.key == 'errors.undefined';
     if (!ignore) {
       Sentry.withScope(function (scope) {

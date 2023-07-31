@@ -2,14 +2,14 @@ import type { AuthSdkError, OAuthResponseMode, OktaAuth, TokenResponse, Tokens }
 import type { OktaSignIn, RenderResult, RenderResultSuccess, WidgetOptions } from '@okta/okta-signin-widget';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import getOktaSignIn from './getOktaSignIn';
+import getOktaSignIn, {initSentry, stopSentry} from './getOktaSignIn';
 import ConfigArea, { ConfigTemplate } from './configArea';
 import {
   getBaseUrl,
   getConfigFromStorage,
   getDefaultConfig
 } from './config';
-import { loadPolyfill, loadWidgetScript } from './util';
+import { loadPolyfill, loadSentry, loadWidgetScript } from './util';
 
 const ActionsTemplate = `
   <div id="actions-container" class="pure-menu">
@@ -207,6 +207,9 @@ export default class TestApp {
     if (!config.useBundledWidget) {
       await loadWidgetScript(config.bundle, config.useMinBundle);
     }
+    if (config.useSentry) {
+      await loadSentry(config.useMinBundle);
+    }
   }
 
   renderError(err?: Error): void {
@@ -248,6 +251,7 @@ export default class TestApp {
     this.startButton.addEventListener('click', async () => {
       const options = this.getWidgetOptions();
       this.oktaSignIn = await getOktaSignIn(options);
+      initSentry(this.oktaSignIn);
       this.oktaSignIn.renderEl({
         el: '#okta-login-container'
       }, (res: RenderResult) => {
@@ -271,10 +275,12 @@ export default class TestApp {
     this.removeButton.addEventListener('click', () => {
       this.oktaSignIn.remove();
       this.oktaSignIn = null;
+      stopSentry();
     });
     this.showSignInButton.addEventListener('click', async () => {
       const options = this.getWidgetOptions();
       this.oktaSignIn = await getOktaSignIn(options);
+      initSentry(this.oktaSignIn);
       this.oktaSignIn.showSignIn({ el: '#okta-login-container' }).then((res: RenderResultSuccess) => {
         if (res.tokens) {
           this.setTokens(res.tokens);
@@ -285,11 +291,13 @@ export default class TestApp {
     this.showSignInAndRedirectButton.addEventListener('click', async () => {
       const options = this.getWidgetOptions();
       this.oktaSignIn = await getOktaSignIn(options);
+      initSentry(this.oktaSignIn);
       this.oktaSignIn.showSignInAndRedirect({ el: '#okta-login-container' });
     });
     this.showSignInToGetTokensButton.addEventListener('click', async () => {
       const config = this.getWidgetOptions();
       this.oktaSignIn = await getOktaSignIn(config);
+      initSentry(this.oktaSignIn);
       this.oktaSignIn.showSignInToGetTokens({ el: '#okta-login-container' }).then((tokens: Tokens) => {
         this.setTokens(tokens);
         this.oktaSignIn.remove();
@@ -298,6 +306,7 @@ export default class TestApp {
     this.renderElButton.addEventListener('click', async () => {
       const options = this.getWidgetOptions();
       this.oktaSignIn = await getOktaSignIn(options);
+      initSentry(this.oktaSignIn);
       this.oktaSignIn.renderEl(
         { el: '#okta-login-container' },
         (res: RenderResult) => {
@@ -319,6 +328,7 @@ export default class TestApp {
       if (!this.oktaSignIn) {
         const options = this.getWidgetOptions();
         this.oktaSignIn = await getOktaSignIn(options);
+        initSentry(this.oktaSignIn);
       }
       this.oktaSignIn.authClient.transactionManager.clear();
     });
@@ -326,6 +336,7 @@ export default class TestApp {
       if (!this.oktaSignIn) {
         const options = this.getWidgetOptions();
         this.oktaSignIn = await getOktaSignIn(options);
+        initSentry(this.oktaSignIn);
       }
       this.oktaSignIn.authClient.signOut();
     });
@@ -408,6 +419,7 @@ export default class TestApp {
     if (authClient.idx.isEmailVerifyCallback(window.location.search)) {
       const { state, otp } = authClient.idx.parseEmailVerifyCallback(window.location.search);
       this.oktaSignIn = await getOktaSignIn({ ...config.widgetOptions, state, otp });
+      initSentry(this.oktaSignIn);
       this.oktaSignIn.showSignIn({ el: '#okta-login-container' }).then((res: RenderResultSuccess) => {
         if (res.tokens) {
           this.setTokens(res.tokens);
