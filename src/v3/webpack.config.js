@@ -144,6 +144,14 @@ module.exports = (_, argv) => {
         v2: resolve(__dirname, '../v2'),
 
         // TODO handle this instead of set true
+        /*
+        if (env.mockDuo) {
+          console.log('======> Mocking Duo iFrame');  // eslint-disable-line no-console
+          Object.assign(webpackConfig.resolve.alias, {
+            '@okta/duo': `${PLAYGROUND}/mocks/spec-duo/duo-mock.js`,
+          });
+        }
+        */
         duo_web_sdk: true
           ? resolve(__dirname, 'src/__mocks__/duo_web_sdk') // mock
           : 'duo_web_sdk', // real
