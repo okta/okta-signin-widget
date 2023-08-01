@@ -24,10 +24,6 @@ const TARGET = resolve(__dirname, '../..', 'target');
 const ASSETS = resolve(__dirname, '../..', 'assets');
 const PLAYGROUND = resolve(__dirname, '../..', 'playground');
 
-const getOutputPath = () => {
-  return resolve(__dirname, '../..', 'dist/dist/js');
-};
-
 module.exports = (_, argv) => {
   const config = {
     devtool: 'inline-source-map',
@@ -37,7 +33,7 @@ module.exports = (_, argv) => {
     ],
     output: {
       filename: 'okta-sign-in.next.min.js',
-      path: getOutputPath(),
+      path: resolve(__dirname, '../..', 'dist/dist/js'),
       library: {
         name: 'OktaSignIn',
         type: 'umd',
