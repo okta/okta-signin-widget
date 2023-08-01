@@ -115,6 +115,7 @@
     "jest-junit": "^12.2.0",
     "lint-staged": "^12.2.1",
     "msw": "^1.1.1",
+    "nodemon": "^3.0.1",
     "postcss": "^8.4.13",
     "postcss-loader": "^7.3.3",
     "postcss-preset-env": "^8.4.1",

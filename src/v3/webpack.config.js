@@ -172,6 +172,10 @@ module.exports = (_, argv) => {
       //     },
       //   ],
       // }),
+      // TODO: set value based on prod/release mode
+      new webpack.DefinePlugin({
+        DEBUG: true,
+      }),
       new webpack.DefinePlugin({
         OKTA_SIW_VERSION: '"0.0.0"',
         OKTA_SIW_COMMIT_HASH: '"local"',

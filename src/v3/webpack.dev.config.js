@@ -11,11 +11,13 @@
  */
 
 const { resolve } = require('path');
+const nodemon = require('nodemon');
 
 const makeConfig = require('./webpack.config');
 
 const HOST = 'localhost';
 const MOCK_SERVER_PORT = 3030;
+const DEV_SERVER_PORT = 3000;
 const TARGET = resolve(__dirname, '../..', 'target');
 const ASSETS = resolve(__dirname, '../..', 'assets');
 const PLAYGROUND = resolve(__dirname, '../..', 'playground');
@@ -51,7 +53,7 @@ devConfig.devServer = {
   host: HOST,
   watchFiles: [TARGET, ASSETS, PLAYGROUND],
   static: [TARGET, ASSETS, PLAYGROUND],
-  port: 3000,
+  port: DEV_SERVER_PORT,
   compress: true,
   proxy: [{
     context: [
@@ -67,6 +69,14 @@ devConfig.devServer = {
     ],
     target: `http://${HOST}:${MOCK_SERVER_PORT}`
   }],
+  setupMiddlewares(middlewares) {
+    const script = resolve(PLAYGROUND, 'mocks/server.js');
+    const watch = [resolve(PLAYGROUND, 'mocks')];
+    const env = { MOCK_SERVER_PORT, DEV_SERVER_PORT };
+    nodemon({ script, watch, env, delay: 50 })
+      .on('crash', console.error);
+    return middlewares;
+  },
 };
 
 module.exports = devConfig;
