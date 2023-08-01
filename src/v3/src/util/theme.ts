@@ -102,59 +102,6 @@ export const mapMuiThemeFromBrand = (
 
   odysseyTheme.direction = languageDirection;
 
-  if (odysseyTheme.components) {
-
-    if (odysseyTheme.components.MuiAlert?.styleOverrides) {
-      odysseyTheme.components.MuiAlert.styleOverrides.root = ({ ownerState, theme }) => ({
-        padding: theme.spacing(4),
-        gap: 0,
-        // gap: theme.spacing(4),
-        color: theme.palette.text.primary,
-        ...(ownerState.severity && {
-          backgroundColor: theme.palette[ownerState.severity].lighter,
-          borderColor: theme.palette[ownerState.severity].light,
-        }),
-        ...(ownerState.variant === "banner" && {
-          position: "relative",
-          justifyContent: "center",
-          alignItems: "center",
-          borderWidth: 0,
-          borderRadius: 0,
-        }),
-        ...(ownerState.variant === "infobox" && {
-          borderStyle: theme.mixins.borderStyle,
-          borderWidth: theme.mixins.borderWidth,
-          borderRadius: theme.mixins.borderRadius,
-          "&:not(:last-child)": {
-            marginBottom: theme.spacing(4),
-          },
-        }),
-        ...(ownerState.variant === "toast" && {
-          maxWidth: theme.mixins.maxWidth,
-          borderStyle: theme.mixins.borderStyle,
-          borderWidth: theme.mixins.borderWidth,
-          borderRadius: theme.mixins.borderRadius,
-          position: "relative",
-          alignItems: "start",
-        }),
-      });
-
-      odysseyTheme.components.MuiAlert.styleOverrides.icon = ({ ownerState, theme }) => ({
-        marginRight: theme.spacing(2),
-        // marginRight: 0,
-        padding: 0,
-        fontSize: "1.429rem",
-        opacity: 1,
-        ...(ownerState.severity && {
-          color: theme.palette[ownerState.severity].main,
-        }),
-        ...(ownerState.severity === "warning" && {
-          color: theme.palette[ownerState.severity].dark,
-        }),
-      });
-    }
-  }
-
   // Do not modify `odysseyTheme` after this line, it will have no effect on the resulting theme
   const odysseyThemeCopy = cloneDeep(odysseyTheme);
 
