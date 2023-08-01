@@ -14,22 +14,21 @@ const { resolve, join } = require('path');
 const { readFileSync } = require('fs');
 
 const webpack = require('webpack');
+const CopyPlugin = require('copy-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
-const { getResolveAlias } = require('./buildUtils');
 const terserOptions = require('../../scripts/buildtools/terser/config');
 
-const getOutputPath = (mode) => {
-  // if (mode === 'development') {
-  //   return resolve(__dirname, 'dist');
-  // }
+const TARGET = resolve(__dirname, '../..', 'target');
+const ASSETS = resolve(__dirname, '../..', 'assets');
+const PLAYGROUND = resolve(__dirname, '../..', 'playground');
+
+const getOutputPath = () => {
   return resolve(__dirname, '../..', 'dist/dist/js');
 };
 
 module.exports = (_, argv) => {
-  const mode = argv.mode || 'production';
-
   const config = {
     devtool: 'inline-source-map',
     entry: [
@@ -38,9 +37,14 @@ module.exports = (_, argv) => {
     ],
     output: {
       filename: 'okta-sign-in.next.min.js',
-      path: getOutputPath(mode),
+      path: getOutputPath(),
+      library: {
+        name: 'OktaSignIn',
+        type: 'umd',
+        export: 'default',
+      }
     },
-    mode,
+    mode: 'production',
     module: {
       rules: [
         {
@@ -89,7 +93,7 @@ module.exports = (_, argv) => {
           },
         },
         {
-          test: /\.css$/,
+          test: /\.s?css$/,
           use: [
             'style-loader',
             {
@@ -100,6 +104,15 @@ module.exports = (_, argv) => {
               },
             },
             'postcss-loader',
+            {
+              loader: 'sass-loader',
+              options: {
+                sassOptions: {
+                  includePaths: ['target/sass'],
+                  outputStyle: 'expanded',
+                }
+              }
+            },
           ],
         },
         {
@@ -110,43 +123,86 @@ module.exports = (_, argv) => {
     },
     resolve: {
       extensions: ['.ts', '.js', '.tsx', '.jsx'],
-      alias: getResolveAlias(mode),
+      alias: {
+        '@okta/okta-auth-js': resolve(__dirname, 'node_modules/@okta/okta-auth-js/esm/browser/exports/exports/idx.js'),
+        '@okta/courage': resolve(__dirname, '../../packages/@okta/courage-dist'),
+        '@okta/mocks': resolve(__dirname, '../../playground/mocks'),
+        '@okta/okta-i18n-bundles': resolve(__dirname, '../util/Bundles.ts'),
+        '@okta/qtip': resolve(__dirname, '../../packages/@okta/qtip2/dist/jquery.qtip.js'),
+        'widgets/jquery.qtip': resolve(__dirname, '../../packages/@okta/qtip2/dist/jquery.qtip.css'),
+        config: resolve(__dirname, '../config'),
+        nls: resolve(__dirname, '../../packages/@okta/i18n/src/json'),
+        okta: resolve(__dirname, '../../packages/@okta/courage-dist'),
+        src: resolve(__dirname, './src'), // FIXME use relative imports
+        'util/BrowserFeatures': resolve(__dirname, '../util/BrowserFeatures'),
+        'util/Bundles': resolve(__dirname, '../util/Bundles'),
+        'util/Enums': resolve(__dirname, '../util/Enums'),
+        'util/FactorUtil': resolve(__dirname, '../util/FactorUtil'),
+        'util/Logger': resolve(__dirname, '../util/Logger'),
+        'util/TimeUtil': resolve(__dirname, '../util/TimeUtil'),
+        v1: resolve(__dirname, '../v1'),
+        v2: resolve(__dirname, '../v2'),
+
+        // TODO handle this instead of set true
+        duo_web_sdk: true
+          ? resolve(__dirname, 'src/__mocks__/duo_web_sdk') // mock
+          : 'duo_web_sdk', // real
+
+        // react -> preact alias
+        react: 'preact/compat',
+        'react-dom/test-utils': 'preact/test-utils',
+        'react-dom': 'preact/compat',
+        'react/jsx-runtime': 'preact/jsx-runtime',
+
+        // @mui -> @mui/legacy
+        '@mui/base': '@mui/base/legacy',
+        '@mui/lab': '@mui/lab/legacy',
+        '@mui/material': '@mui/material/legacy',
+        '@mui/styled-engine': '@mui/styled-engine/legacy',
+        '@mui/system': '@mui/system/legacy',
+        '@mui/utils': '@mui/utils/legacy',
+      },
     },
     plugins: [
+      // new CopyPlugin({
+      //   patterns: [
+      //     {
+      //       from: ASSETS,
+      //       to: TARGET,
+      //     },
+      //   ],
+      // }),
       new webpack.DefinePlugin({
         OKTA_SIW_VERSION: '"0.0.0"',
         OKTA_SIW_COMMIT_HASH: '"local"',
       }),
     ],
-    optimization: {
-      minimize: false,
-    }
   };
 
-  if (mode === 'production') {
-    // add optimization config
-    config.optimization = {
-      minimize: true,
-      minimizer: [
-        new TerserPlugin({
-          terserOptions,
-          extractComments: {
-            // `banner` config option is intended for a message pointing to file containing license info
-            // we use it to place single Okta license banner
-            banner: readFileSync(join(__dirname, '../widget/copyright.txt'), 'utf8'),
-          },
-        }),
-      ],
-    };
+  // if (mode === 'production') {
+  //   // add optimization config
+  //   config.optimization = {
+  //     minimize: true,
+  //     minimizer: [
+  //       new TerserPlugin({
+  //         terserOptions,
+  //         extractComments: {
+  //           // `banner` config option is intended for a message pointing to file containing license info
+  //           // we use it to place single Okta license banner
+  //           banner: readFileSync(join(__dirname, '../widget/copyright.txt'), 'utf8'),
+  //         },
+  //       }),
+  //     ],
+  //   };
 
-    // generate bundle analyzer file
-    config.plugins.push(new BundleAnalyzerPlugin({
-      openAnalyzer: false,
-      reportFilename: 'okta-sign-in.analyzer.next.html',
-      analyzerMode: 'static',
-      defaultSizes: 'stat',
-    }));
-  }
+  //   // generate bundle analyzer file
+  //   config.plugins.push(new BundleAnalyzerPlugin({
+  //     openAnalyzer: false,
+  //     reportFilename: 'okta-sign-in.analyzer.next.html',
+  //     analyzerMode: 'static',
+  //     defaultSizes: 'stat',
+  //   }));
+  // }
 
   return config;
 };
