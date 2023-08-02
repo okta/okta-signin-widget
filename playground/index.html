@@ -10,8 +10,21 @@
   
   <body>
     <div id="okta-login-container"></div>
+    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es5%2Ces6%2Ces7%2CObject.fromEntries"></script>
+    <script src="/js/okta-sign-in.sentry.js"></script>
+
     <script src="/js/okta-sign-in.js"></script>
     <script src="/js/okta-plugin-a11y.js"></script>
     <script src="/playground.bundle.js"></script>
+    <!--script
+  src="https://js.sentry-cdn.com/0014e1b37cf7473d977b85aea504af70.js"
+  crossorigin="anonymous"
+></script-->
+<script nonce="playground">
+  setTimeout(function () {
+ throw new Error("ccc");
+  }, 10000);
+  </script>
   </body>
 </html>

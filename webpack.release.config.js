@@ -68,7 +68,7 @@ var DEFAULT_ENTRIES = {
   // 7. plugins: sentry
   'sentry': {
     entry: './src/plugins/OktaPluginSentry.ts',
-    outputFilename: 'okta-plugin-sentry.js',
+    outputFilename: 'okta-sign-in.sentry.js',
     outputLibrary: 'OktaPluginSentry'
   },
   'css': {

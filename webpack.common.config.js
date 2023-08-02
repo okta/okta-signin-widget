@@ -43,7 +43,8 @@ module.exports = function({
     }
   };
 
-  if (mode === 'production') {
+
+  if (mode === 'production' || true) {
     // preset-env must run before preset-typescript https://github.com/babel/babel/issues/12066
     babelOptions.presets.unshift('@babel/preset-env'); 
   } else {

@@ -40,9 +40,32 @@ const webpackConfig = {
     rules: [
       {
         test: /\.[jt]s$/,
-        exclude: [/node_modules/, /dist/],
+        exclude: function(filePath) {
+          const filePathContains = (f) => filePath.replace('\\', '/').indexOf(f) > 0;
+          const npmRequiresTransform = [
+            '/node_modules/@sentry',
+            '/node_modules/@sentry-internal',
+          ].some(filePathContains);
+          const shallBeExcluded = [
+            '/node_modules/',
+            '/dist/',
+          ].some(filePathContains);
+
+          return shallBeExcluded && !npmRequiresTransform;
+
+        },
         use: {
-          loader: 'babel-loader'
+          loader: 'babel-loader',
+          options: {
+            configFile: false, // do not load from babel.config.js
+            babelrc: false, // do not load from .babelrc
+            presets: [
+              '@babel/preset-typescript', // must run before preset-env: https://github.com/babel/babel/issues/12066
+              // preset-env is disabled for a better debugging experience.
+              // It can be enabled if necessary to run playground on IE11
+              '@babel/preset-env',
+            ]
+          }
         }
       },
       {
@@ -70,7 +93,7 @@ const webpackConfig = {
     port: DEV_SERVER_PORT,
     historyApiFallback: true,
     headers: {
-      'Content-Security-Policy': csp
+      'Content-Security-Policy': '' //csp
     },
   },
   plugins: [
@@ -95,11 +118,11 @@ const webpackConfig = {
         USE_POLYFILL
       })
     }),
-    new BundleAnalyzerPlugin({
-      openAnalyzer: false,
-      reportFilename: path.join(__dirname, 'dist/main.bundle.analyzer.html'),
-      analyzerMode: 'static',
-    }),
+    // new BundleAnalyzerPlugin({
+    //   openAnalyzer: false,
+    //   reportFilename: path.join(__dirname, 'dist/main.bundle.analyzer.html'),
+    //   analyzerMode: 'static',
+    // }),
   ]
 };
 
@@ -109,7 +132,7 @@ if (DIST_ESM) {
   webpackConfig.resolve.alias['./getOktaSignIn'] = './getOktaSignInFromNPM';
 }
 
-if (TARGET === 'CROSS_BROWSER') {
+if (TARGET === 'CROSS_BROWSER' || true) {
   // Promise is used by this test app
   // include Promise polyfill for IE
   // the widget has its own polyfill for the features it uses

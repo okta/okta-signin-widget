@@ -38,6 +38,7 @@ export const stopSentry = async () => {
 
 export const initSentry = (widget: OktaSignInAPI) => {
   const baseUrl = widget.options['baseUrl'] as string;
+  //todo: baseUrl can be empty
   console.log('>>>> sentry init', baseUrl);
 
   Sentry.init({
@@ -92,11 +93,14 @@ export const initSentry = (widget: OktaSignInAPI) => {
         || breadcrumb.category === 'custom';
       if (allow) {
         console.log('>>> [sentry] breadcrumb: ', breadcrumb.type, breadcrumb.category, breadcrumb);
+      } else {
+        console.log('sentry ignore', breadcrumb.type, breadcrumb.category, breadcrumb);
       }
       if (breadcrumb.type === 'error' || breadcrumb.level === 'error') {
-        if (confirm("send error report?")) {
+        console.log('!!! [sentry] found error1')
+        //if (confirm("send error report?")) {
           transport?.flush?.();
-        }
+        //}
       }
       return allow ? breadcrumb : null;
     },
@@ -109,11 +113,11 @@ export const initSentry = (widget: OktaSignInAPI) => {
       return event;
     },
 
-    transport: (transportOptions) => {
-      const makeTransport = Sentry.makeBrowserOfflineTransport(Sentry.makeFetchTransport);
-      transport = makeTransport(transportOptions);
-      return transport;
-    },
+    // transport: (transportOptions) => {
+    //   const makeTransport = Sentry.makeBrowserOfflineTransport(Sentry.makeFetchTransport);
+    //   transport = makeTransport(transportOptions);
+    //   return transport;
+    // },
 
   });
 
@@ -121,11 +125,13 @@ export const initSentry = (widget: OktaSignInAPI) => {
     'siw.version': window['OKTA_SIW_VERSION'] || '0.0.0',
   });
 
-  catchTranslationErrors();
+  // catchTranslationErrors();
 
-  updateContextOnRender(widget);
+  // updateContextOnRender(widget);
 
-  catchErrors(widget);
+  // catchErrors(widget);
+
+  console.log('@@@ inited')
 };
 
 export const updateSentryContext = (appState: AppState) => {

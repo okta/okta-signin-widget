@@ -57,6 +57,10 @@ function plugins(options = {}) {
       devMode(),
     ];
   
+  list.push(new ProvidePlugin({
+    Promise: 'es6-promise'
+  }));
+    
   if (copyAssets) {
     list.push(new EventHooksPlugin({
       beforeRun: () => {

@@ -1,5 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 
+var ES6Promise = require("es6-promise");
+ES6Promise.polyfill();
+
 // core features
 require('core-js/features/object/set-prototype-of');
 require('core-js/features/object/assign');
@@ -26,3 +29,9 @@ require('core-js/web/url');
 // crypto is needed for PKCE
 require('fast-text-encoding'); // TextEncoder
 require('webcrypto-shim'); // crypto.subtle
+
+// Sentry
+if (typeof Proxy === "undefined" && typeof window !== "undefined") {
+  const ProxyPolyfill = require('es6-proxy-polyfill');
+  window.Proxy = ProxyPolyfill;
+}

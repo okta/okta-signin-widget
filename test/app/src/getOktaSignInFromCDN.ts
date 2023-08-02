@@ -15,11 +15,21 @@ function getOktaSignIn(options: WidgetOptions): OktaSignIn {
 }
 
 export function initSentry(widget: OktaSignIn) {
+
+  console.log('??? init sentry', widget, widget.options.baseUrl, window.OktaPluginSentry?.initSentry)
+
   window.OktaPluginSentry?.initSentry?.(widget);
+
+  setTimeout(function() {
+    throw new Error('gggg');
+  }, 3000);
+
+
 }
 
 export function stopSentry() {
-  window.OktaPluginSentry?.stopSentry?.();
+  console.log('??? stop sentry')
+  //window.OktaPluginSentry?.stopSentry?.();
 }
 
 export default getOktaSignIn;
