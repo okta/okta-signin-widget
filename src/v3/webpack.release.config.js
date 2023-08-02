@@ -12,6 +12,8 @@
 
 const { resolve, join } = require('path');
 const { readFileSync } = require('fs');
+
+const webpack = require('webpack');
 const { mergeWithCustomize } = require('webpack-merge');
 const TerserPlugin = require('terser-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
@@ -21,12 +23,9 @@ const makeConfig = require('./webpack.common.config');
 
 const ASSETS = resolve(__dirname, '../..', 'assets');
 
+// TODO: remove customize if not used
+// TODO handle analyzer file
 const prodConfig = mergeWithCustomize({
-  customizeObject(baseValue, prodValue, key) {
-    if (key === 'entry') {
-      return prodValue;
-    }
-  },
 })(
   makeConfig(),
   {
@@ -46,27 +45,17 @@ const prodConfig = mergeWithCustomize({
           export: 'default',
         },
       },
-      // noPolyfill: {
-        // import: [
-          // resolve(__dirname, 'src/index.ts'),
-          // resolve(__dirname, '../..', './polyfill/index.js'),
-        // ],
-        // filename: 'okta-sign-in.polyfill.min.js',
-        // library: {
-        //   name: 'OktaSignIn',
-        //   type: 'umd',
-        //   export: 'default',
-        // },
-      // },
-      // polyfill: {
-      //   import: resolve(__dirname, '../..', './polyfill/index.js'),
-      //   filename: 'okta-sign-in.polyfill.min.js',
-      //   // library: {
-      //   //   name: 'OktaSignIn',
-      //   //   type: 'umd',
-      //   //   export: 'default',
-      //   // },
-      // },
+      noPolyfill: {
+        import: [
+          resolve(__dirname, 'src/index.ts'),
+        ],
+        filename: 'js/okta-sign-in.no-polyfill.min.js',
+        library: {
+          name: 'OktaSignIn',
+          type: 'umd',
+          export: 'default',
+        },
+      },
       // a11y: {
       //   import: resolve(__dirname, '../'),
       //   library: {
@@ -80,12 +69,20 @@ const prodConfig = mergeWithCustomize({
         filename: 'css/okta-sign-in.css',
       },
     },
+    resolve: {
+      alias: {
+        duo_web_sdk: 'duo_web_sdk',
+      }
+    },
     plugins: [
       new BundleAnalyzerPlugin({
         openAnalyzer: false,
         reportFilename: 'okta-sign-in.analyzer.next.html',
         analyzerMode: 'static',
         defaultSizes: 'stat',
+      }),
+      new webpack.DefinePlugin({
+        DEBUG: false,
       }),
     ],
     optimization: {

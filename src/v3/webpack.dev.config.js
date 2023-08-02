@@ -12,6 +12,7 @@
 
 const { resolve } = require('path');
 const nodemon = require('nodemon');
+const webpack = require('webpack');
 const { merge } = require('webpack-merge');
 
 const makeConfig = require('./webpack.common.config');
@@ -50,6 +51,17 @@ const devConfig = merge(
     output: {
       path: `${PLAYGROUND}/target`,
     },
+    resolve: {
+      alias: {
+        '@okta/duo': `${PLAYGROUND}/mocks/spec-duo/duo-mock.js`,
+        duo_web_sdk: resolve(__dirname, 'src/__mocks__/duo_web_sdk'),
+      }
+    },
+    plugins: [
+      new webpack.DefinePlugin({
+        DEBUG: true,
+      }),
+    ],
     devServer: {
       host: HOST,
       watchFiles: [TARGET, ASSETS, PLAYGROUND],
@@ -82,7 +94,5 @@ const devConfig = merge(
     },
   },
 );
-
-console.warn('devConfig', devConfig);
 
 module.exports = devConfig;

@@ -19,18 +19,7 @@ const PLAYGROUND = resolve(__dirname, '../..', 'playground');
 module.exports = () => {
   return {
     mode: 'production',
-    devtool: 'inline-source-map',
-    // entry: {
-    //   widget: {
-    //     import: './src/index.ts',
-    //     filename: 'js/okta-sign-in.next.min.js',
-    //     library: {
-    //       name: 'OktaSignIn',
-    //       type: 'umd',
-    //       export: 'default',
-    //     },
-    //   },
-    // },
+    devtool: 'source-map',
     output: {
       path: resolve(__dirname, '../..', 'dist/dist'),
     },
@@ -99,8 +88,8 @@ module.exports = () => {
                 sassOptions: {
                   includePaths: ['target/sass'],
                   outputStyle: 'expanded',
-                }
-              }
+                },
+              },
             },
           ],
         },
@@ -132,19 +121,6 @@ module.exports = () => {
         v1: resolve(__dirname, '../v1'),
         v2: resolve(__dirname, '../v2'),
 
-        // TODO handle this instead of set true
-        /*
-        if (env.mockDuo) {
-          console.log('======> Mocking Duo iFrame');  // eslint-disable-line no-console
-          Object.assign(webpackConfig.resolve.alias, {
-            '@okta/duo': `${PLAYGROUND}/mocks/spec-duo/duo-mock.js`,
-          });
-        }
-        */
-        duo_web_sdk: true
-          ? resolve(__dirname, 'src/__mocks__/duo_web_sdk') // mock
-          : 'duo_web_sdk', // real
-
         // react -> preact alias
         react: 'preact/compat',
         'react-dom/test-utils': 'preact/test-utils',
@@ -161,11 +137,14 @@ module.exports = () => {
       },
     },
     plugins: [
-      // TODO: set value based on prod/release mode
       new webpack.DefinePlugin({
-        DEBUG: true,
         OKTA_SIW_VERSION: '"0.0.0"',
         OKTA_SIW_COMMIT_HASH: '"local"',
+      }),
+      // https://webpack.js.org/plugins/ignore-plugin/#example-of-ignoring-moment-locales
+      new webpack.IgnorePlugin({
+        resourceRegExp: /^\.\/locale$/,
+        contextRegExp: /moment$/,
       }),
     ],
   };
