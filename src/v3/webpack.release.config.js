@@ -10,11 +10,11 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-const { resolve, join } = require('path');
+const { resolve } = require('path');
 const { readFileSync } = require('fs');
 
 const webpack = require('webpack');
-const { mergeWithCustomize } = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
@@ -22,12 +22,7 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const terserOptions = require('../../scripts/buildtools/terser/config');
 const makeConfig = require('./webpack.common.config');
 
-const ASSETS = resolve(__dirname, '../..', 'assets');
-
-// TODO: remove customize if not used
-// TODO handle analyzer file
-const prodConfig = mergeWithCustomize({
-})(
+const prodConfig = merge(
   makeConfig(),
   {
     mode: 'production',
@@ -57,14 +52,6 @@ const prodConfig = mergeWithCustomize({
           export: 'default',
         },
       },
-      // a11y: {
-      //   import: resolve(__dirname, '../'),
-      //   library: {
-      //     name: 'OktaSignIn',
-      //     type: 'umd',
-      //     export: 'default',
-      //   },
-      // },
     },
     resolve: {
       alias: {
@@ -75,7 +62,8 @@ const prodConfig = mergeWithCustomize({
       new MiniCssExtractPlugin({
         filename: 'css/okta-sign-in.min.css',
       }),
-      // OKTA-429162: webpack-bundle-analyzer does not report bundled modules stats after upgrade to webpack@5
+      // OKTA-429162: webpack-bundle-analyzer does not report bundled modules stats after
+      // upgrade to webpack@5
       new BundleAnalyzerPlugin({
         openAnalyzer: false,
         reportFilename: 'okta-sign-in.analyzer.next.html',
@@ -92,16 +80,14 @@ const prodConfig = mergeWithCustomize({
         new TerserPlugin({
           terserOptions,
           extractComments: {
-            // `banner` config option is intended for a message pointing to file containing license info
-            // we use it to place single Okta license banner
-            banner: readFileSync(join(__dirname, '../widget/copyright.txt'), 'utf8'),
+            // `banner` config option is intended for a message pointing to file containing
+            // license info. We use it to place a single Okta license banner.
+            banner: readFileSync(resolve(__dirname, '..', 'widget/copyright.txt'), 'utf8'),
           },
         }),
       ],
     },
   },
 );
-
-console.warn('prodConfig', prodConfig);
 
 module.exports = prodConfig;
