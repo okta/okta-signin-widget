@@ -10,37 +10,30 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-const { resolve, join } = require('path');
-const { readFileSync } = require('fs');
+const { resolve } = require('path');
 
 const webpack = require('webpack');
-const CopyPlugin = require('copy-webpack-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
-const terserOptions = require('../../scripts/buildtools/terser/config');
-
-const TARGET = resolve(__dirname, '../..', 'target');
-const ASSETS = resolve(__dirname, '../..', 'assets');
 const PLAYGROUND = resolve(__dirname, '../..', 'playground');
 
-module.exports = (_, argv) => {
-  const config = {
-    devtool: 'inline-source-map',
-    entry: [
-      './src/index.ts',
-      // './src/cdn.ts',
-    ],
-    output: {
-      filename: 'okta-sign-in.next.min.js',
-      path: resolve(__dirname, '../..', 'dist/dist/js'),
-      library: {
-        name: 'OktaSignIn',
-        type: 'umd',
-        export: 'default',
-      }
-    },
+module.exports = () => {
+  return {
     mode: 'production',
+    devtool: 'inline-source-map',
+    // entry: {
+    //   widget: {
+    //     import: './src/index.ts',
+    //     filename: 'js/okta-sign-in.next.min.js',
+    //     library: {
+    //       name: 'OktaSignIn',
+    //       type: 'umd',
+    //       export: 'default',
+    //     },
+    //   },
+    // },
+    output: {
+      path: resolve(__dirname, '../..', 'dist/dist'),
+    },
     module: {
       rules: [
         {
@@ -168,49 +161,12 @@ module.exports = (_, argv) => {
       },
     },
     plugins: [
-      // new CopyPlugin({
-      //   patterns: [
-      //     {
-      //       from: ASSETS,
-      //       to: TARGET,
-      //     },
-      //   ],
-      // }),
       // TODO: set value based on prod/release mode
       new webpack.DefinePlugin({
         DEBUG: true,
-      }),
-      new webpack.DefinePlugin({
         OKTA_SIW_VERSION: '"0.0.0"',
         OKTA_SIW_COMMIT_HASH: '"local"',
       }),
     ],
   };
-
-  // if (mode === 'production') {
-  //   // add optimization config
-  //   config.optimization = {
-  //     minimize: true,
-  //     minimizer: [
-  //       new TerserPlugin({
-  //         terserOptions,
-  //         extractComments: {
-  //           // `banner` config option is intended for a message pointing to file containing license info
-  //           // we use it to place single Okta license banner
-  //           banner: readFileSync(join(__dirname, '../widget/copyright.txt'), 'utf8'),
-  //         },
-  //       }),
-  //     ],
-  //   };
-
-  //   // generate bundle analyzer file
-  //   config.plugins.push(new BundleAnalyzerPlugin({
-  //     openAnalyzer: false,
-  //     reportFilename: 'okta-sign-in.analyzer.next.html',
-  //     analyzerMode: 'static',
-  //     defaultSizes: 'stat',
-  //   }));
-  // }
-
-  return config;
 };

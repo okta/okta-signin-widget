@@ -12,7 +12,4 @@
 
 import OktaSignIn from './OktaSignIn';
 
-// TODO refactor into multiple entry points
-import '../../../polyfill';
-
 export default OktaSignIn;

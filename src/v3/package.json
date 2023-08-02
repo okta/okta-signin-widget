@@ -17,7 +17,8 @@
   "module": "dist/index.mjs",
   "source": "components/widget/index.js",
   "scripts": {
-    "build": "yarn codegen && webpack",
+    "build:dev": "yarn codegen && webpack --config webpack.dev.config.js",
+    "build:release": "yarn codegen && webpack --config webpack.release.config.js",
     "clean-svg": "svgo -f src/img/authCoinIcons",
     "codegen": "yarn workspace @okta/okta-signin-widget codegen",
     "dev": "yarn codegen && webpack-dev-server --config webpack.dev.config.js",
@@ -139,6 +140,7 @@
     "webpack": "^5.51.1",
     "webpack-bundle-analyzer": "^4.5.0",
     "webpack-dev-server": "^4.15.1",
+    "webpack-merge": "^5.9.0",
     "whatwg-fetch": "^3.6.2"
   },
   "engines": {

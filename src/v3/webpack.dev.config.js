@@ -12,8 +12,9 @@
 
 const { resolve } = require('path');
 const nodemon = require('nodemon');
+const { merge } = require('webpack-merge');
 
-const makeConfig = require('./webpack.config');
+const makeConfig = require('./webpack.common.config');
 
 const HOST = 'localhost';
 const MOCK_SERVER_PORT = 3030;
@@ -22,61 +23,66 @@ const TARGET = resolve(__dirname, '../..', 'target');
 const ASSETS = resolve(__dirname, '../..', 'assets');
 const PLAYGROUND = resolve(__dirname, '../..', 'playground');
 
-const devConfig = makeConfig();
-
-devConfig.mode = 'development';
-devConfig.devtool = 'source-map';
-devConfig.entry = {
-  playground: {
-    import: `${PLAYGROUND}/main.ts`,
-    filename: 'playground.bundle.js',
-  },
-  widget: {
-    import: resolve(__dirname, 'src/index.ts'),
-    filename: 'js/okta-sign-in.js',
-    library: {
-      name: 'OktaSignIn',
-      type: 'umd',
-      export: 'default',
+const devConfig = merge(
+  makeConfig(),
+  {
+    mode: 'development',
+    devtool: 'source-map',
+    entry: {
+      playground: {
+        import: `${PLAYGROUND}/main.ts`,
+        filename: 'playground.bundle.js',
+      },
+      widget: {
+        import: resolve(__dirname, 'src/index.ts'),
+        filename: 'js/okta-sign-in.js',
+        library: {
+          name: 'OktaSignIn',
+          type: 'umd',
+          export: 'default',
+        },
+      },
+      css: {
+        import: `${ASSETS}/sass/okta-sign-in.scss`,
+        filename: 'css/okta-sign-in.css',
+      },
+    },
+    output: {
+      path: `${PLAYGROUND}/target`,
+    },
+    devServer: {
+      host: HOST,
+      watchFiles: [TARGET, ASSETS, PLAYGROUND],
+      static: [TARGET, ASSETS, PLAYGROUND],
+      historyApiFallback: true,
+      port: DEV_SERVER_PORT,
+      compress: true,
+      proxy: [{
+        context: [
+          '/oauth2/',
+          '/api/v1/',
+          '/idp/idx/',
+          '/login/getimage',
+          '/sso/idps/',
+          '/app/UserHome',
+          '/oauth2/v1/authorize',
+          '/auth/services/',
+          '/.well-known/webfinger'
+        ],
+        target: `http://${HOST}:${MOCK_SERVER_PORT}`
+      }],
+      setupMiddlewares(middlewares) {
+        const script = resolve(PLAYGROUND, 'mocks/server.js');
+        const watch = [resolve(PLAYGROUND, 'mocks')];
+        const env = { MOCK_SERVER_PORT, DEV_SERVER_PORT };
+        nodemon({ script, watch, env, delay: 50 })
+          .on('crash', console.error);
+        return middlewares;
+      },
     },
   },
-  css: {
-    import: `${ASSETS}/sass/okta-sign-in.scss`,
-    filename: 'css/okta-sign-in.css',
-  },
-};
-devConfig.output = {
-  path: `${PLAYGROUND}/target`,
-  filename: 'js/[name].js',
-};
-devConfig.devServer = {
-  host: HOST,
-  watchFiles: [TARGET, ASSETS, PLAYGROUND],
-  static: [TARGET, ASSETS, PLAYGROUND],
-  port: DEV_SERVER_PORT,
-  compress: true,
-  proxy: [{
-    context: [
-      '/oauth2/',
-      '/api/v1/',
-      '/idp/idx/',
-      '/login/getimage',
-      '/sso/idps/',
-      '/app/UserHome',
-      '/oauth2/v1/authorize',
-      '/auth/services/',
-      '/.well-known/webfinger'
-    ],
-    target: `http://${HOST}:${MOCK_SERVER_PORT}`
-  }],
-  setupMiddlewares(middlewares) {
-    const script = resolve(PLAYGROUND, 'mocks/server.js');
-    const watch = [resolve(PLAYGROUND, 'mocks')];
-    const env = { MOCK_SERVER_PORT, DEV_SERVER_PORT };
-    nodemon({ script, watch, env, delay: 50 })
-      .on('crash', console.error);
-    return middlewares;
-  },
-};
+);
+
+console.warn('devConfig', devConfig);
 
 module.exports = devConfig;
