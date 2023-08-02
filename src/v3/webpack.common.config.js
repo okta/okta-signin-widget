@@ -13,6 +13,7 @@
 const { resolve } = require('path');
 
 const webpack = require('webpack');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const FailOnBuildFailPlugin = require('../../scripts/buildtools/webpack/FailOnBuildFailPlugin');
 
@@ -71,9 +72,9 @@ module.exports = () => {
           },
         },
         {
-          test: /\.s?css$/,
+          test: /\.css$/,
           use: [
-            'style-loader',
+            MiniCssExtractPlugin.loader,
             {
               loader: 'css-loader',
               options: {
@@ -82,15 +83,6 @@ module.exports = () => {
               },
             },
             'postcss-loader',
-            {
-              loader: 'sass-loader',
-              options: {
-                sassOptions: {
-                  includePaths: ['target/sass'],
-                  outputStyle: 'expanded',
-                },
-              },
-            },
           ],
         },
         {
@@ -139,6 +131,10 @@ module.exports = () => {
     plugins: [
       FailOnBuildFailPlugin,
       // TODO: handle copy assets?
+      // TODO: minicssextractplugin?
+      // new MiniCssExtractPlugin({
+      //   filename: isProduction ? '../css/okta-sign-in.min.css' : '../css/okta-sign-in.css',
+      // }),
       new webpack.DefinePlugin({
         OKTA_SIW_VERSION: '"0.0.0"',
         OKTA_SIW_COMMIT_HASH: '"local"',

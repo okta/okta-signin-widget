@@ -15,6 +15,7 @@ const { readFileSync } = require('fs');
 
 const webpack = require('webpack');
 const { mergeWithCustomize } = require('webpack-merge');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
@@ -64,10 +65,6 @@ const prodConfig = mergeWithCustomize({
       //     export: 'default',
       //   },
       // },
-      css: {
-        import: `${ASSETS}/sass/okta-sign-in.scss`,
-        filename: 'css/okta-sign-in.css',
-      },
     },
     resolve: {
       alias: {
@@ -75,6 +72,9 @@ const prodConfig = mergeWithCustomize({
       }
     },
     plugins: [
+      new MiniCssExtractPlugin({
+        filename: 'css/okta-sign-in.min.css',
+      }),
       // OKTA-429162: webpack-bundle-analyzer does not report bundled modules stats after upgrade to webpack@5
       new BundleAnalyzerPlugin({
         openAnalyzer: false,

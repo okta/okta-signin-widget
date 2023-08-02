@@ -14,6 +14,7 @@ const { resolve } = require('path');
 const nodemon = require('nodemon');
 const webpack = require('webpack');
 const { merge } = require('webpack-merge');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const makeConfig = require('./webpack.common.config');
 
@@ -51,6 +52,43 @@ const devConfig = merge(
     output: {
       path: `${PLAYGROUND}/target`,
     },
+    module: {
+      rules: [
+        {
+          test: /\.scss$/,
+          use: [
+            MiniCssExtractPlugin.loader,
+            {
+              loader: 'css-loader',
+              options: {
+                url: false,
+              }
+            },
+            {
+              loader: 'postcss-loader',
+              options: {
+                postcssOptions: {
+                  map: true,
+                  plugins: [
+                    ['autoprefixer', { remove: false }],
+                  ]
+                }
+              }
+            },
+            {
+              loader: 'sass-loader',
+              options: {
+                sassOptions: {
+                  includePaths: ['target/sass'],
+                  outputStyle: 'expanded',
+                }
+              }
+            }
+            
+          ],
+        },
+      ],
+    },
     resolve: {
       alias: {
         '@okta/duo': `${PLAYGROUND}/mocks/spec-duo/duo-mock.js`,
@@ -58,6 +96,9 @@ const devConfig = merge(
       }
     },
     plugins: [
+      new MiniCssExtractPlugin({
+        filename: 'css/okta-sign-in.css',
+      }),
       new webpack.DefinePlugin({
         DEBUG: true,
       }),
