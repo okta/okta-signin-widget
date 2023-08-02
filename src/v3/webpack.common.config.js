@@ -14,7 +14,7 @@ const { resolve } = require('path');
 
 const webpack = require('webpack');
 
-const PLAYGROUND = resolve(__dirname, '../..', 'playground');
+const FailOnBuildFailPlugin = require('../../scripts/buildtools/webpack/FailOnBuildFailPlugin');
 
 module.exports = () => {
   return {
@@ -137,6 +137,8 @@ module.exports = () => {
       },
     },
     plugins: [
+      FailOnBuildFailPlugin,
+      // TODO: handle copy assets?
       new webpack.DefinePlugin({
         OKTA_SIW_VERSION: '"0.0.0"',
         OKTA_SIW_COMMIT_HASH: '"local"',

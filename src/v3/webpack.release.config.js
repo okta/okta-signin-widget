@@ -75,6 +75,7 @@ const prodConfig = mergeWithCustomize({
       }
     },
     plugins: [
+      // OKTA-429162: webpack-bundle-analyzer does not report bundled modules stats after upgrade to webpack@5
       new BundleAnalyzerPlugin({
         openAnalyzer: false,
         reportFilename: 'okta-sign-in.analyzer.next.html',
