@@ -57,11 +57,17 @@ const devConfig = merge(
     devtool: 'source-map',
     entry: {
       playground: {
-        import: `${PLAYGROUND}/main.ts`,
+        import: [
+          `${PLAYGROUND}/main.ts`,
+        ],
         filename: 'playground.bundle.js',
       },
       widget: {
-        import: resolve(__dirname, 'src/index.ts'),
+        import: [
+          // polyfill must appear first in entry point array
+          resolve(__dirname, '../..', './polyfill/modern.js'),
+          resolve(__dirname, 'src/index.ts'),
+        ],
         filename: 'js/okta-sign-in.js',
         library: {
           name: 'OktaSignIn',

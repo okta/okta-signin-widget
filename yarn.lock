@@ -7606,6 +7606,11 @@ crc32-stream@^4.0.2:
     crc-32 "^1.2.0"
     readable-stream "^3.4.0"
 
+create-html-document-polyfill@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/create-html-document-polyfill/-/create-html-document-polyfill-1.0.1.tgz#15f533ecfc2ef49802b9a3d94d98944794cd7907"
+  integrity sha512-O1sLlAE+jmhUhSsQu9aLg7TRPG/kGa+mBi5/jj1puKD5gNYVpqv42/GnU/MxDRthK0NLlQdG2Ubjt1Jf8i9Ftg==
+
 create-jest-runner@^0.11.2:
   version "0.11.2"
   resolved "https://registry.yarnpkg.com/create-jest-runner/-/create-jest-runner-0.11.2.tgz#4b4f62ccef1e4de12e80f81c2cf8211fa392a962"

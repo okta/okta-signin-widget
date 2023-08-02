@@ -31,7 +31,7 @@ const prodConfig = merge(
       default: {
         import: [
           // polyfill must appear first in entry point array
-          resolve(__dirname, '../..', './polyfill/index.js'),
+          resolve(__dirname, '../..', './polyfill/modern.js'),
           resolve(__dirname, 'src/index.ts'),
         ],
         filename: 'js/okta-sign-in.min.js',
