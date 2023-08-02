@@ -17,131 +17,131 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const FailOnBuildFailPlugin = require('../../scripts/buildtools/webpack/FailOnBuildFailPlugin');
 
-module.exports = () => {
-  return {
-    mode: 'production',
-    devtool: 'source-map',
-    output: {
-      path: resolve(__dirname, '../..', 'dist/dist'),
-    },
-    module: {
-      rules: [
-        {
-          test: /\.[jt]sx?$/,
-          exclude(filePath) {
-            const filePathContains = (f) => filePath.indexOf(f) > 0;
-            const npmRequiresTransform = [
-              '/node_modules/parse-ms',
-              '/node_modules/@sindresorhus/to-milliseconds',
-              '/node_modules/@okta/odyssey-react-mui',
-              '/node_modules/@mui',
-              '/node_modules/@okta/okta-auth-js',
-              '/node_modules/p-cancelable',
-            ].some(filePathContains);
-            const shallBeExcluded = [
-              '/node_modules/',
-              'packages/@okta/qtip2',
-            ].some(filePathContains);
+const baseConfig = {
+  mode: 'production',
+  devtool: 'source-map',
+  output: {
+    path: resolve(__dirname, '../..', 'dist/dist'),
+  },
+  module: {
+    rules: [
+      {
+        test: /\.[jt]sx?$/,
+        exclude(filePath) {
+          const filePathContains = (f) => filePath.indexOf(f) > 0;
+          const npmRequiresTransform = [
+            '/node_modules/parse-ms',
+            '/node_modules/@sindresorhus/to-milliseconds',
+            '/node_modules/@okta/odyssey-react-mui',
+            '/node_modules/@mui',
+            '/node_modules/@okta/okta-auth-js',
+            '/node_modules/p-cancelable',
+          ].some(filePathContains);
+          const shallBeExcluded = [
+            '/node_modules/',
+            'packages/@okta/qtip2',
+          ].some(filePathContains);
 
-            return shallBeExcluded && !npmRequiresTransform;
-          },
-          loader: 'babel-loader',
-          options: {
-            sourceType: 'unambiguous',
-            presets: [
-              [
-                '@babel/preset-env',
-                {
-                  // TODO: resolve issue with authjs esm bundle, then switch to "usage" to reduce polyfill size
-                  useBuiltIns: 'entry',
-                  corejs: '3.9',
-                },
-              ],
-              '@babel/preset-react',
-              '@babel/preset-typescript',
-            ],
-            plugins: [
-              [
-                '@babel/plugin-transform-react-jsx',
-                {
-                  runtime: 'automatic',
-                  importSource: 'preact',
-                },
-              ],
-            ],
-          },
+          return shallBeExcluded && !npmRequiresTransform;
         },
-        {
-          test: /\.css$/,
-          use: [
-            MiniCssExtractPlugin.loader,
-            {
-              loader: 'css-loader',
-              options: {
-                importLoaders: 1,
-                modules: true,
+        loader: 'babel-loader',
+        options: {
+          sourceType: 'unambiguous',
+          presets: [
+            [
+              '@babel/preset-env',
+              {
+                // TODO: resolve issue with authjs esm bundle, then switch to "usage" to reduce polyfill size
+                useBuiltIns: 'entry',
+                corejs: '3.9',
               },
-            },
-            {
-              loader: 'postcss-loader',
-            },
+            ],
+            '@babel/preset-react',
+            '@babel/preset-typescript',
+          ],
+          plugins: [
+            [
+              '@babel/plugin-transform-react-jsx',
+              {
+                runtime: 'automatic',
+                importSource: 'preact',
+              },
+            ],
           ],
         },
-        {
-          test: /\.svg$/,
-          loader: 'svg-inline-loader',
-        },
-      ],
-    },
-    resolve: {
-      extensions: ['.ts', '.js', '.tsx', '.jsx'],
-      alias: {
-        '@okta/okta-auth-js': resolve(__dirname, 'node_modules/@okta/okta-auth-js/esm/browser/exports/exports/idx.js'),
-        '@okta/courage': resolve(__dirname, '../../packages/@okta/courage-dist'),
-        '@okta/mocks': resolve(__dirname, '../../playground/mocks'),
-        '@okta/okta-i18n-bundles': resolve(__dirname, '../util/Bundles.ts'),
-        '@okta/qtip': resolve(__dirname, '../../packages/@okta/qtip2/dist/jquery.qtip.js'),
-        'widgets/jquery.qtip': resolve(__dirname, '../../packages/@okta/qtip2/dist/jquery.qtip.css'),
-        config: resolve(__dirname, '../config'),
-        nls: resolve(__dirname, '../../packages/@okta/i18n/src/json'),
-        okta: resolve(__dirname, '../../packages/@okta/courage-dist'),
-        src: resolve(__dirname, './src'), // FIXME use relative imports
-        'util/BrowserFeatures': resolve(__dirname, '../util/BrowserFeatures'),
-        'util/Bundles': resolve(__dirname, '../util/Bundles'),
-        'util/Enums': resolve(__dirname, '../util/Enums'),
-        'util/FactorUtil': resolve(__dirname, '../util/FactorUtil'),
-        'util/Logger': resolve(__dirname, '../util/Logger'),
-        'util/TimeUtil': resolve(__dirname, '../util/TimeUtil'),
-        v1: resolve(__dirname, '../v1'),
-        v2: resolve(__dirname, '../v2'),
-
-        // react -> preact alias
-        react: 'preact/compat',
-        'react-dom/test-utils': 'preact/test-utils',
-        'react-dom': 'preact/compat',
-        'react/jsx-runtime': 'preact/jsx-runtime',
-
-        // @mui -> @mui/legacy
-        '@mui/base': '@mui/base/legacy',
-        '@mui/lab': '@mui/lab/legacy',
-        '@mui/material': '@mui/material/legacy',
-        '@mui/styled-engine': '@mui/styled-engine/legacy',
-        '@mui/system': '@mui/system/legacy',
-        '@mui/utils': '@mui/utils/legacy',
       },
-    },
-    plugins: [
-      FailOnBuildFailPlugin,
-      // TODO: handle copy assets?
-      new webpack.DefinePlugin({
-        OKTA_SIW_VERSION: '"0.0.0"',
-        OKTA_SIW_COMMIT_HASH: '"local"',
-      }),
-      // https://webpack.js.org/plugins/ignore-plugin/#example-of-ignoring-moment-locales
-      new webpack.IgnorePlugin({
-        resourceRegExp: /^\.\/locale$/,
-        contextRegExp: /moment$/,
-      }),
+      {
+        test: /\.css$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
+              modules: true,
+            },
+          },
+          {
+            loader: 'postcss-loader',
+          },
+        ],
+      },
+      {
+        test: /\.svg$/,
+        loader: 'svg-inline-loader',
+      },
     ],
-  };
+  },
+  resolve: {
+    extensions: ['.ts', '.js', '.tsx', '.jsx'],
+    alias: {
+      '@okta/okta-auth-js': resolve(__dirname, 'node_modules/@okta/okta-auth-js/esm/browser/exports/exports/idx.js'),
+      '@okta/courage': resolve(__dirname, '../../packages/@okta/courage-dist'),
+      '@okta/mocks': resolve(__dirname, '../../playground/mocks'),
+      '@okta/okta-i18n-bundles': resolve(__dirname, '../util/Bundles.ts'),
+      '@okta/qtip': resolve(__dirname, '../../packages/@okta/qtip2/dist/jquery.qtip.js'),
+      'widgets/jquery.qtip': resolve(__dirname, '../../packages/@okta/qtip2/dist/jquery.qtip.css'),
+      config: resolve(__dirname, '../config'),
+      nls: resolve(__dirname, '../../packages/@okta/i18n/src/json'),
+      okta: resolve(__dirname, '../../packages/@okta/courage-dist'),
+      src: resolve(__dirname, './src'), // FIXME use relative imports
+      'util/BrowserFeatures': resolve(__dirname, '../util/BrowserFeatures'),
+      'util/Bundles': resolve(__dirname, '../util/Bundles'),
+      'util/Enums': resolve(__dirname, '../util/Enums'),
+      'util/FactorUtil': resolve(__dirname, '../util/FactorUtil'),
+      'util/Logger': resolve(__dirname, '../util/Logger'),
+      'util/TimeUtil': resolve(__dirname, '../util/TimeUtil'),
+      v1: resolve(__dirname, '../v1'),
+      v2: resolve(__dirname, '../v2'),
+
+      // react -> preact alias
+      react: 'preact/compat',
+      'react-dom/test-utils': 'preact/test-utils',
+      'react-dom': 'preact/compat',
+      'react/jsx-runtime': 'preact/jsx-runtime',
+
+      // @mui -> @mui/legacy
+      '@mui/base': '@mui/base/legacy',
+      '@mui/lab': '@mui/lab/legacy',
+      '@mui/material': '@mui/material/legacy',
+      '@mui/styled-engine': '@mui/styled-engine/legacy',
+      '@mui/system': '@mui/system/legacy',
+      '@mui/utils': '@mui/utils/legacy',
+    },
+  },
+  plugins: [
+    FailOnBuildFailPlugin,
+    // TODO: handle copy assets?
+    new webpack.DefinePlugin({
+      OKTA_SIW_VERSION: '"0.0.0"',
+      OKTA_SIW_COMMIT_HASH: '"local"',
+    }),
+    // https://webpack.js.org/plugins/ignore-plugin/#example-of-ignoring-moment-locales
+    new webpack.IgnorePlugin({
+      resourceRegExp: /^\.\/locale$/,
+      contextRegExp: /moment$/,
+    }),
+  ],
 };
+
+module.exports = baseConfig;

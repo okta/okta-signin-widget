@@ -17,7 +17,7 @@ const webpack = require('webpack');
 const { merge } = require('webpack-merge');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-const makeConfig = require('./webpack.common.config');
+const baseConfig = require('./webpack.common.config');
 
 const HOST = 'localhost';
 const MOCK_SERVER_PORT = 3030;
@@ -27,7 +27,7 @@ const ASSETS = resolve(__dirname, '../..', 'assets');
 const PLAYGROUND = resolve(__dirname, '../..', 'playground');
 
 const devConfig = merge(
-  makeConfig(),
+  baseConfig,
   {
     mode: 'development',
     devtool: 'source-map',

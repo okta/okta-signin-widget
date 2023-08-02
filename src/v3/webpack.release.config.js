@@ -20,10 +20,10 @@ const TerserPlugin = require('terser-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 const terserOptions = require('../../scripts/buildtools/terser/config');
-const makeConfig = require('./webpack.common.config');
+const baseConfig = require('./webpack.common.config');
 
 const prodConfig = merge(
-  makeConfig(),
+  baseConfig,
   {
     mode: 'production',
     devtool: 'source-map',
