@@ -82,7 +82,9 @@ module.exports = () => {
                 modules: true,
               },
             },
-            'postcss-loader',
+            {
+              loader: 'postcss-loader',
+            },
           ],
         },
         {
@@ -131,10 +133,6 @@ module.exports = () => {
     plugins: [
       FailOnBuildFailPlugin,
       // TODO: handle copy assets?
-      // TODO: minicssextractplugin?
-      // new MiniCssExtractPlugin({
-      //   filename: isProduction ? '../css/okta-sign-in.min.css' : '../css/okta-sign-in.css',
-      // }),
       new webpack.DefinePlugin({
         OKTA_SIW_VERSION: '"0.0.0"',
         OKTA_SIW_COMMIT_HASH: '"local"',

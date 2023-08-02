@@ -44,6 +44,7 @@ const devConfig = merge(
           export: 'default',
         },
       },
+      // entry to generate styles for page (not SIW itself)
       css: {
         import: `${ASSETS}/sass/okta-sign-in.scss`,
         filename: 'css/okta-sign-in.css',
@@ -54,6 +55,8 @@ const devConfig = merge(
     },
     module: {
       rules: [
+        // Additional loader rules to handle styles for page (not SIW itself)
+        // which uses sass
         {
           test: /\.scss$/,
           use: [
