@@ -53,6 +53,13 @@ const Body = BaseFormWithPolling.extend(Object.assign(
       const schema = [];
       const contextualData = this.options.appState.get('currentAuthenticator').contextualData;
       const selectedChannel = contextualData.selectedChannel;
+      let selector;
+      if (selectedChannel === 'qrcode') {
+        selector = '.qrcode-container';
+      } else if (selectedChannel === 'email' || selectedChannel === 'sms') {
+        selector = '.qrcode-container';
+      } // no selector if the channel is same device or device bootstrap
+      
       schema.push({
         View: EnrollChannelPollDescriptionView,
       });
@@ -61,7 +68,7 @@ const Body = BaseFormWithPolling.extend(Object.assign(
         options: {
           selectedChannel
         },
-        selector: selectedChannel === 'qrcode' ? '.qrcode-container' : '.switch-channel-content',
+        selector: selector,
       });
       if (['email', 'sms'].includes(selectedChannel)) {
         schema.push({

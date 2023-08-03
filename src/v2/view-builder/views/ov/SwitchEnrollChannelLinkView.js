@@ -8,12 +8,18 @@ export default View.extend({
     {{#if isQRcodeChannel}}
       <a href="#" class="switch-channel-link" aria-label="{{i18n code="enroll.totp.aria.cannotScan" bundle="login" }}">
         {{i18n code="enroll.totp.cannotScan" bundle="login"}}</a>
+    {{else if isSameDeviceChannel}}
+    {{else if isDeviceBootstrapChannel}}
     {{else}}
       {{{i18n code="oie.enroll.okta_verify.switch.channel.link.text" bundle="login"}}}
     {{/if}}`,
   getTemplateData() {
+    const selectedChannel = this.options.appState.get('currentAuthenticator').contextualData.selectedChannel;
     return {
-      isQRcodeChannel: this.options.appState.get('currentAuthenticator').contextualData.selectedChannel === 'qrcode',
+      isQRcodeChannel: selectedChannel === 'qrcode',
+      // Do not show switch channel link for sameDevice or deviceBootstrap
+      isSameDeviceChannel: selectedChannel === 'samedevice',
+      isDeviceBootstrapChannel: selectedChannel === 'devicebootstrap',
     };
   },
   postRender() {

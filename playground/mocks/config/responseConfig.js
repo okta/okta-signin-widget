@@ -18,7 +18,7 @@ const idx = {
   ],
 
   '/idp/idx/introspect': [
-    'identify',
+    //'identify',
     // 'error-identify-multiple-errors',
     // 'authenticator-enroll-ov-qr-enable-biometrics',
     // 'authenticator-verification-okta-verify-push',
@@ -44,7 +44,9 @@ const idx = {
     // 'authenticator-enroll-ov-sms',
     // 'authenticator-enroll-ov-sms-enable-biometrics',
     // 'authenticator-enroll-ov-via-sms',
-    // 'authenticator-enroll-ov-qr',
+    //'authenticator-enroll-ov-qr',
+    //'authenticator-enroll-ov-same-device',
+    'authenticator-enroll-ov-device-bootstrap',
     // 'authenticator-enroll-ov-qr-enable-biometrics',
     // 'error-internal-server-error',
     // 'authenticator-enroll-security-question',
@@ -163,7 +165,8 @@ const idx = {
     // 'authenticator-verification-phone-voice'
   ],
   '/idp/idx/challenge/poll': [
-    'authenticator-verification-email',
+    'authenticator-enroll-ov-device-bootstrap'
+    //'authenticator-verification-email',
     // 'success',
     // 'authenticator-verification-email-polling-long',
     // 'error-429-too-many-request',
