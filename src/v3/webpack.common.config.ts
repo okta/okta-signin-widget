@@ -10,14 +10,16 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-const { resolve } = require('path');
+import { resolve } from 'path';
 
-const webpack = require('webpack');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+import webpack from 'webpack';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
-const FailOnBuildFailPlugin = require('../../scripts/buildtools/webpack/FailOnBuildFailPlugin');
+import type { Configuration } from 'webpack';
 
-const baseConfig = {
+import FailOnBuildFailPlugin from '../../scripts/buildtools/webpack/FailOnBuildFailPlugin';
+
+const baseConfig: Partial<Configuration> = {
   mode: 'production',
   devtool: 'source-map',
   output: {
@@ -144,4 +146,4 @@ const baseConfig = {
   ],
 };
 
-module.exports = baseConfig;
+export default baseConfig;

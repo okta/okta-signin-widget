@@ -10,19 +10,21 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-const { resolve } = require('path');
-const { readFileSync } = require('fs');
+import { resolve } from 'path';
+import { readFileSync } from 'fs';
 
-const webpack = require('webpack');
-const { merge } = require('webpack-merge');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+import webpack from 'webpack';
+import { merge } from 'webpack-merge';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import TerserPlugin from 'terser-webpack-plugin';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 
-const terserOptions = require('../../scripts/buildtools/terser/config');
-const baseConfig = require('./webpack.common.config');
+import terserOptions from '../../scripts/buildtools/terser/config';
+import baseConfig from './webpack.common.config';
 
-const prodConfig = merge(
+import type { Configuration } from 'webpack';
+
+const prodConfig: Configuration = merge(
   baseConfig,
   {
     mode: 'production',
@@ -90,4 +92,4 @@ const prodConfig = merge(
   },
 );
 
-module.exports = prodConfig;
+export default prodConfig;

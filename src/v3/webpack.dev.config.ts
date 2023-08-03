@@ -10,15 +10,18 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-const fs = require('fs');
-const { resolve } = require('path');
+import fs from 'fs';
+import { resolve } from 'path';
 
-const nodemon = require('nodemon');
-const webpack = require('webpack');
-const { merge } = require('webpack-merge');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+import nodemon from 'nodemon';
+import webpack from 'webpack';
+import { merge } from 'webpack-merge';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
-const baseConfig = require('./webpack.common.config');
+import baseConfig from './webpack.common.config';
+
+import type { Configuration } from 'webpack';
+import type { Configuration as DevServerConfiguration } from 'webpack-dev-server';
 
 const DEV_SERVER_PORT = 3000;
 const MOCK_SERVER_PORT = 3030;
@@ -42,15 +45,15 @@ const headers = (() => {
       'Content-Security-Policy': `${scriptSrc}; ${styleSrc};`,
     };
   }
-  return {};
+  return;
 })();
 
 if (!fs.existsSync(WIDGET_RC_JS)) {
   // create default WIDGET_RC if it doesn't exist to simplifed the build process
-  fs.copyFileSync(path.resolve(__dirname, '../..', '.widgetrc.sample.js'), WIDGET_RC_JS);
+  fs.copyFileSync(resolve(__dirname, '../..', '.widgetrc.sample.js'), WIDGET_RC_JS);
 }
 
-const devConfig = merge(
+const devConfig: Configuration = merge(
   baseConfig,
   {
     mode: 'development',
@@ -120,12 +123,14 @@ const devConfig = merge(
         const script = resolve(PLAYGROUND, 'mocks/server.js');
         const watch = [resolve(PLAYGROUND, 'mocks')];
         const env = { MOCK_SERVER_PORT, DEV_SERVER_PORT };
+
         nodemon({ script, watch, env, delay: 50 })
-          .on('crash', console.error);
+          ?.on('crash', console.error);
+
         return middlewares;
       },
-    },
+    } as DevServerConfiguration,
   },
 );
 
-module.exports = devConfig;
+export default devConfig;
