@@ -129,7 +129,6 @@
     "stylelint": "^14.16.1",
     "stylelint-use-logical-spec": "^5.0.0",
     "svgo": "^2.3.0",
-    "svg-inline-loader": "^0.8.2",
     "terser-webpack-plugin": "^5.2.4",
     "testcafe": "^1.20.1",
     "ts-jest": "^26.5.6",

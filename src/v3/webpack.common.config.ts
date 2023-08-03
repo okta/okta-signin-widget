@@ -90,7 +90,7 @@ const baseConfig: Partial<Configuration> = {
       },
       {
         test: /\.svg$/,
-        loader: 'svg-inline-loader',
+        type: 'asset/source',
       },
     ],
   },
