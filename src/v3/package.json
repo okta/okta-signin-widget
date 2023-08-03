@@ -124,7 +124,6 @@
     "preact-render-to-string": "^5.1.19",
     "preact-svg-loader": "^0.2.1",
     "properties": "^1.2.1",
-    "sass-loader": "^13.2.2",
     "sirv-cli": "^2.0.2",
     "style-loader": "^3.3.3",
     "stylelint": "^14.16.1",
