@@ -36,7 +36,7 @@ const prodConfig: Configuration = merge<Partial<Configuration>>(
           resolve(__dirname, '../..', './polyfill/modern.js'),
           resolve(__dirname, 'src/index.ts'),
         ],
-        filename: 'js/okta-sign-in.min.js',
+        filename: 'js/okta-sign-in.next.min.js',
         library: {
           name: 'OktaSignIn',
           type: 'umd',
@@ -47,7 +47,7 @@ const prodConfig: Configuration = merge<Partial<Configuration>>(
         import: [
           resolve(__dirname, 'src/index.ts'),
         ],
-        filename: 'js/okta-sign-in.no-polyfill.min.js',
+        filename: 'js/okta-sign-in.next.no-polyfill.min.js',
         library: {
           name: 'OktaSignIn',
           type: 'umd',
@@ -62,7 +62,7 @@ const prodConfig: Configuration = merge<Partial<Configuration>>(
     },
     plugins: [
       new MiniCssExtractPlugin({
-        filename: 'css/okta-sign-in.min.css',
+        filename: 'css/okta-sign-in.next.min.css',
       }),
       // OKTA-429162: webpack-bundle-analyzer does not report bundled modules stats after
       // upgrade to webpack@5
