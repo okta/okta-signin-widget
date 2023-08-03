@@ -82,7 +82,6 @@
     "@types/js-cookie": "^3.0.2",
     "@types/lodash": "^4.14.172",
     "@types/node": "^16.0.0",
-    "@types/webpack": "^5.28.1",
     "@types/react-google-recaptcha": "^2.1.5",
     "@typescript-eslint/eslint-plugin": "^4.29.1",
     "@typescript-eslint/parser": "^4.29.1",
