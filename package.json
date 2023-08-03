@@ -227,7 +227,7 @@
     "webpack": "^5.51.1",
     "webpack-bundle-analyzer": "^4.5.0",
     "webpack-cli": "^4.8.0",
-    "webpack-dev-server": "^4.9.2"
+    "webpack-dev-server": "^4.15.1"
   },
   "dependencies": {
     "@okta/okta-auth-js": "~7.0.0",

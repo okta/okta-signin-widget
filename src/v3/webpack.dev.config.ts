@@ -20,8 +20,9 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 import baseConfig from './webpack.common.config';
 
-/// <reference path="node_modules/webpack-dev-server/types/lib/Server.d.ts"/>
 import type { Configuration } from 'webpack';
+// loads augmented Configuration type containing `devServer` type definition
+import 'webpack-dev-server';
 
 const DEV_SERVER_PORT = 3000;
 const MOCK_SERVER_PORT = 3030;
