@@ -29,7 +29,7 @@ export function initSentry(widget: OktaSignIn) {
 
 export function stopSentry() {
   console.log('??? stop sentry')
-  //window.OktaPluginSentry?.stopSentry?.();
+  window.OktaPluginSentry?.stopSentry?.();
 }
 
 export default getOktaSignIn;

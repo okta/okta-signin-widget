@@ -33,12 +33,12 @@ let transport;
 //  controller
 
 export const stopSentry = async () => {
-  await Sentry.close(2000);
+  await transport?.flush?.();
+  //await Sentry.close(2000);
 };
 
 export const initSentry = (widget: OktaSignInAPI) => {
-  const baseUrl = widget.options['baseUrl'] as string;
-  //todo: baseUrl can be empty
+  const baseUrl = widget.options['baseUrl']?.replace(/\/$/, '') || widget.options['issuer']?.split('/oauth2/')[0] as string;
   console.log('>>>> sentry init', baseUrl);
 
   Sentry.init({
@@ -49,7 +49,7 @@ export const initSentry = (widget: OktaSignInAPI) => {
       // Replay
       new Sentry.Replay({
         networkDetailAllowUrls: [
-          'http://localhost:3000/idp/idx/'
+          `${baseUrl}/idp/idx/`
         ],
         beforeAddRecordingEvent: (e) => {
           if (e.data.tag == 'breadcrumb') {
@@ -87,7 +87,7 @@ export const initSentry = (widget: OktaSignInAPI) => {
       // - UI click and input events are useful to reproduce errors, contains no input data, just DOM selector
       // - Fetch info has no req/res data, just URL and status text
       // TODO: Message for `ui.*` can be "[Filtered]" by Sentry. Can be fixed by moving into `data` with whitelisted key?
-      const allow = breadcrumb.category === 'fetch' && breadcrumb.data.url?.startsWith(baseUrl)
+      const allow = ['fetch', 'xhr'].includes(breadcrumb.category) && breadcrumb.data.url?.startsWith(baseUrl)
         || breadcrumb.category.startsWith('ui.')
         || breadcrumb.category.startsWith('sentry.')
         || breadcrumb.category === 'custom';
@@ -98,9 +98,6 @@ export const initSentry = (widget: OktaSignInAPI) => {
       }
       if (breadcrumb.type === 'error' || breadcrumb.level === 'error') {
         console.log('!!! [sentry] found error1')
-        //if (confirm("send error report?")) {
-          transport?.flush?.();
-        //}
       }
       return allow ? breadcrumb : null;
     },
@@ -113,11 +110,11 @@ export const initSentry = (widget: OktaSignInAPI) => {
       return event;
     },
 
-    // transport: (transportOptions) => {
-    //   const makeTransport = Sentry.makeBrowserOfflineTransport(Sentry.makeFetchTransport);
-    //   transport = makeTransport(transportOptions);
-    //   return transport;
-    // },
+    transport: (transportOptions) => {
+      const makeTransport = Sentry.makeBrowserOfflineTransport(Sentry.makeFetchTransport);
+      transport = makeTransport(transportOptions);
+      return transport;
+    },
 
   });
 

@@ -31,7 +31,5 @@ require('fast-text-encoding'); // TextEncoder
 require('webcrypto-shim'); // crypto.subtle
 
 // Sentry
-if (typeof Proxy === "undefined" && typeof window !== "undefined") {
-  const ProxyPolyfill = require('es6-proxy-polyfill');
-  window.Proxy = ProxyPolyfill;
-}
+require('proxy-polyfill');
+require('indexeddb-getall-shim');

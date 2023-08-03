@@ -105,6 +105,7 @@ module.exports = function({
               '/node_modules/@sindresorhus/to-milliseconds',
               '/node_modules/@sentry',
               '/node_modules/@sentry-internal',
+              '/node_modules/proxy-polyfill',
               //'/node_modules/p-cancelable'
             ].some(filePathContains);
             const shallBeExcluded = [
