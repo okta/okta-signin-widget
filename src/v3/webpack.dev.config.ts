@@ -20,8 +20,8 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 import baseConfig from './webpack.common.config';
 
+/// <reference path="node_modules/webpack-dev-server/types/lib/Server.d.ts"/>
 import type { Configuration } from 'webpack';
-import type { Configuration as DevServerConfiguration } from 'webpack-dev-server';
 
 const DEV_SERVER_PORT = 3000;
 const MOCK_SERVER_PORT = 3030;
@@ -53,7 +53,7 @@ if (!fs.existsSync(WIDGET_RC_JS)) {
   fs.copyFileSync(resolve(__dirname, '../..', '.widgetrc.sample.js'), WIDGET_RC_JS);
 }
 
-const devConfig: Configuration = merge(
+const devConfig: Configuration = merge<Partial<Configuration>>(
   baseConfig,
   {
     mode: 'development',
@@ -129,7 +129,7 @@ const devConfig: Configuration = merge(
 
         return middlewares;
       },
-    } as DevServerConfiguration,
+    },
   },
 );
 

@@ -24,7 +24,7 @@ import baseConfig from './webpack.common.config';
 
 import type { Configuration } from 'webpack';
 
-const prodConfig: Configuration = merge(
+const prodConfig: Configuration = merge<Partial<Configuration>>(
   baseConfig,
   {
     mode: 'production',
