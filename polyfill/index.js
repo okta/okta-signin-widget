@@ -33,3 +33,7 @@ require('webcrypto-shim'); // crypto.subtle
 // Sentry
 require('proxy-polyfill');
 require('indexeddb-getall-shim');
+require('element-closest');
+require('core-js/features/object/get-own-property-descriptor');
+require('core-js/features/string/repeat');
+require('core-js/features/number/is-nan');

@@ -62,6 +62,9 @@ export const initSentry = (widget: OktaSignInAPI) => {
           if (info?.body?.stateHandle) {
             info.body.stateHandle = '!!! Filtered';
           }
+          if (info?.body?.interactionHandle) {
+            info.body.interactionHandle = '!!! Filtered';
+          }
           if (info?.body?.identifier) {
             info.body.identifier = '!!! Filtered';
           }
@@ -111,7 +114,9 @@ export const initSentry = (widget: OktaSignInAPI) => {
     },
 
     transport: (transportOptions) => {
-      const makeTransport = Sentry.makeBrowserOfflineTransport(Sentry.makeFetchTransport);
+      const makeTransport = Sentry.makeBrowserOfflineTransport(
+        ('fetch' in window) ? Sentry.makeFetchTransport : Sentry.makeXHRTransport
+      );
       transport = makeTransport(transportOptions);
       return transport;
     },
