@@ -165,7 +165,6 @@ if (typeof URL !== 'undefined') {
     render = false;
   }
 }
-render && renderPlaygroundWidget(window.additionalOptions ?? {});
 
 // set up msw
 getWorker()
