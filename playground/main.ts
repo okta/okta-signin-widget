@@ -17,6 +17,8 @@ declare global {
   interface Window {
     // added by widget CDN bundle
     OktaSignIn: OktaSignInConstructor;
+    // added by login page in Okta-hosted
+    cspNonce: string;
     
     // from <script src="/js/okta-plugin-a11y.js">
     OktaPluginA11y: { init: (widget: OktaSignInAPI) => void };
@@ -53,6 +55,9 @@ if (typeof window.OktaSignIn === 'undefined') {
   setTimeout(() => window.location.reload(), 2 * 1000);
 }
 const renderPlaygroundWidget = (options = {}) => {
+  // Okta-hosted widget page has this value set for CSP
+  window.cspNonce = 'playground';
+
   createWidgetInstance(options);
 
   if (window.OktaPluginA11y) {
