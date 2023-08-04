@@ -28,7 +28,7 @@
     "lint:styles:report": "stylelint **/*.css --custom-formatter ../../node_modules/stylelint-checkstyle-formatter -o build2/reports/lint/OSW-stylelint-checkstyle-result.xml --quiet",
     "test": "yarn codegen && jest",
     "test:dev": "NODE_ENV=development jest",
-    "test:e2e": "NODE_ENV=test testcafe test/e2e/tests/**/*.js --config-file test/e2e/.testcaferc.js",
+    "test:e2e": "testcafe test/e2e/tests/**/*.js --config-file test/e2e/.testcaferc.js",
     "test:e2e:screenshots": "yarn test:e2e -s path=test/e2e/screenshots,thumbnails=false",
     "test:report": "PREACT_APP_USE_PKCE=false NODE_ENV=test jest --coverage"
   },
