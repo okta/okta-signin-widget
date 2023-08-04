@@ -15,8 +15,8 @@ const LOG_IGNORE_PATTERNS = [
   // example: console.log('[DEBUG]', {foo: 'baz'});
   /\[DEBUG\]/,
 
-  // log from preact-cli
-  /\[HMR\]/,
+  // log from webpack-dev-server
+  /\[webpack-dev-server\]/,
 
   // log from msw
   /\[MSW-Wrapper\]/,
