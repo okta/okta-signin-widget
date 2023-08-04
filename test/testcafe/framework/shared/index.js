@@ -18,6 +18,9 @@ const LOG_IGNORE_PATTERNS = [
   // log from webpack-dev-server
   /\[webpack-dev-server\]/,
 
+  // log from webpack hot module reload
+  /\[HMR\]/,
+
   // log from msw
   /\[MSW-Wrapper\]/,
 ];
