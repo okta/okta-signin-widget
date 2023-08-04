@@ -11,6 +11,7 @@ import {
   RenderResultSuccessNonOIDCSession,
 } from '../src/types';
 import { assertNoEnglishLeaks } from '../playground/LocaleUtils';
+import { getWorker } from '../src/v3/src/mocks/browser';
 
 declare global {
   interface Window {
@@ -160,3 +161,12 @@ if (typeof URL !== 'undefined') {
   }
 }
 render && renderPlaygroundWidget(window.additionalOptions ?? {});
+
+// set up msw
+getWorker()
+  .then((worker) => worker?.start())
+  .then(() => {
+    if (render) {
+      renderPlaygroundWidget(window.additionalOptions ?? {});
+    }
+  });
