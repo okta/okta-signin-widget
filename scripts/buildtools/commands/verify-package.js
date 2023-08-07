@@ -3,8 +3,8 @@ const { readFileSync } = require('fs');
 
 const KB = 1024;
 const MB = 1024 * 1024;
-const EXPECTED_PACKAGE_SIZE = 49 * MB;
-const EXPECTED_PACKAGE_FILES = 20000;
+const EXPECTED_PACKAGE_SIZE = 75 * MB;
+const EXPECTED_PACKAGE_FILES = 38000;
 
 const EXPECTED_BUNDLE_SIZES = {
   'okta-plugin-a11y.js': 3.6 * KB,
@@ -17,7 +17,8 @@ const EXPECTED_BUNDLE_SIZES = {
   'okta-sign-in.oie.min.js': 1.2 * MB,
   'okta-sign-in.polyfill.js': 504 * KB,
   'okta-sign-in.polyfill.min.js': 108 * KB,
-  'okta-sign-in.next.js': 1.6 * MB,
+  'okta-sign-in.next.js': 1.9 * MB,
+  'okta-sign-in.next.no-polyfill.js': 1.7 * MB,
 };
 
 exports.command = 'verify-package';
@@ -73,7 +74,11 @@ function verifyPackageContents() {
     'dist/js/okta-sign-in.polyfill.min.js',
     'dist/js/okta-sign-in.polyfill.min.js.map',
     'dist/esm/src/exports/exports/default.js',
+    'dist/css/okta-sign-in.next.css',
     'dist/js/okta-sign-in.next.js',
+    'dist/js/okta-sign-in.next.js.map',
+    'dist/js/okta-sign-in.next.no-polyfill.js',
+    'dist/js/okta-sign-in.next.no-polyfill.js.map',
     'dist/labels/json/country_de.json',
     'dist/labels/json/login_ru.json',
     'dist/sass/_fonts.scss',
