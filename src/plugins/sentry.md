@@ -1,6 +1,4 @@
 
-# Create Sentry project
-...todo
 
 # Use Sentry fork
 https://github.com/denysoblohin-okta/sentry-javascript/pull/1
@@ -27,13 +25,13 @@ Also see [CSP](#csp) issue
 
 # Env
 ```
-SENTRY_AUTH_TOKEN=
-SENTRY_ORG=
-SENTRY_PROJECT=
-SENTRY_KEY=
-SENTRY_REPORT_URI=
+SENTRY_ORG=your Sentry org slug
+SENTRY_PROJECT=your Sentry project slug
+SENTRY_DSN= get at https://{SENTRY_ORG}.sentry.io/settings/projects/{SENTRY_PROJECT}/keys/
+SENTRY_AUTH_TOKEN=your Sentry auth token, get at https://{SENTRY_ORG}.sentry.io/settings/auth-tokens/
+SENTRY_REPORT_URI=get at https://{SENTRY_ORG}.sentry.io/settings/projects/{SENTRY_PROJECT}/security-headers/
+SENTRY_KEY=value of `sentry_key` url param in SENTRY_REPORT_URI
 ```
-...todo
 
 # Test app
 ```sh
