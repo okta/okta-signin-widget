@@ -106,7 +106,6 @@ module.exports = function({
               '/node_modules/@sentry',
               '/node_modules/@sentry-internal',
               '/node_modules/proxy-polyfill',
-              //'/node_modules/p-cancelable'
             ].some(filePathContains);
             const shallBeExcluded = [
               '/node_modules/',
@@ -115,7 +114,6 @@ module.exports = function({
             ].some(filePathContains);
 
             return shallBeExcluded && !npmRequiresTransform;
-
           },
           loader: 'babel-loader',
           options: babelOptions

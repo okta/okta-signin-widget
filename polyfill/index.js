@@ -1,8 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 
-var ES6Promise = require("es6-promise");
-ES6Promise.polyfill();
-
 // core features
 require('core-js/features/object/set-prototype-of');
 require('core-js/features/object/assign');
@@ -33,7 +30,10 @@ require('webcrypto-shim'); // crypto.subtle
 // Sentry
 require('proxy-polyfill');
 require('indexeddb-getall-shim');
-require('element-closest');
+require("element-closest-polyfill");
+require('element-matches-polyfill');
 require('core-js/features/object/get-own-property-descriptor');
 require('core-js/features/string/repeat');
 require('core-js/features/number/is-nan');
+require('core-js/features/array/values');
+require('core-js/stable/map');

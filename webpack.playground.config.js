@@ -1,5 +1,6 @@
 /* eslint no-console:0 */
 
+const { DefinePlugin } = require('webpack');
 const path = require('path');
 const fs = require('fs');
 const nodemon = require('nodemon');
@@ -14,7 +15,7 @@ const DEV_SERVER_PORT = 3000;
 const MOCK_SERVER_PORT = 3030;
 const WIDGET_RC_JS = path.resolve(__dirname, '.widgetrc.js');
 const WIDGET_RC = path.resolve(__dirname, '.widgetrc');
-const { SENTRY_PROJECT, SENTRY_KEY, SENTRY_REPORT_URI } = process.env;
+const { SENTRY_PROJECT, SENTRY_KEY, SENTRY_REPORT_URI, IE_COMPAT } = process.env;
 
 // run `OKTA_SIW_HOST=0.0.0.0 yarn start --watch` to override the host
 const HOST = process.env.OKTA_SIW_HOST || 'localhost';
@@ -39,7 +40,7 @@ const headers = {};
 if (!process.env.DISABLE_CSP) {
   // Allow google domains for testing recaptcha
   const scriptSrc = `script-src http://${HOST}:${DEV_SERVER_PORT} https://www.google.com https://www.gstatic.com`;
-  //todo: sentry
+  //todo: sentry's rrweb needs to be updated to fix the issue
   //const styleSrc = `style-src http://${HOST}:${DEV_SERVER_PORT} 'nonce-playground'`;
   const styleSrc = `style-src http://${HOST}:${DEV_SERVER_PORT} 'unsafe-inline'`;
   const workerSrc = `worker-src 'self' blob:; child-src 'self' blob:`;
@@ -47,6 +48,11 @@ if (!process.env.DISABLE_CSP) {
   const csp = `${scriptSrc}; ${styleSrc}; ${workerSrc}; ${reportUri};`;
   headers['Content-Security-Policy'] = csp;
 }
+
+const plugins = [];
+plugins.push(new DefinePlugin({
+  SENTRY_DSN: JSON.stringify(process.env.SENTRY_DSN),
+}));
 
 module.exports = {
   mode: 'development',
@@ -57,6 +63,7 @@ module.exports = {
   entry: {
     'playground.js': [`${PLAYGROUND}/main.ts`]
   },
+  plugins,
   output: {
     path: `${PLAYGROUND}/target`,
     filename: 'playground.bundle.js',

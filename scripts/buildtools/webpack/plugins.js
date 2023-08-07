@@ -28,13 +28,15 @@ function emptyModule() {
 
 function prodMode() {
   return new DefinePlugin({
-    DEBUG: false
+    DEBUG: false,
+    SENTRY_DSN: JSON.stringify(process.env.SENTRY_DSN),
   });
 }
 
 function devMode() {
   return new DefinePlugin({
-    DEBUG: true
+    DEBUG: true,
+    SENTRY_DSN: JSON.stringify(process.env.SENTRY_DSN),
   });
 }
 
@@ -56,10 +58,6 @@ function plugins(options = {}) {
       emptyModule(),
       devMode(),
     ];
-  
-  list.push(new ProvidePlugin({
-    Promise: 'es6-promise'
-  }));
     
   if (copyAssets) {
     list.push(new EventHooksPlugin({

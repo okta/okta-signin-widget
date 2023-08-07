@@ -4,17 +4,31 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 const ENV = require('@okta/env');
+const nodemon = require('nodemon');
 ENV.config();
 const DEV_SERVER_PORT = 3000;
+const MOCK_SERVER_PORT = 3030;
+const HOST = process.env.OKTA_SIW_HOST || 'localhost';
 
-const { DIST_ESM, BUNDLE, USE_MIN, USE_POLYFILL, TARGET } = process.env;
+const {
+  DIST_ESM, BUNDLE, USE_MIN, USE_POLYFILL, TARGET, 
+  SENTRY_PROJECT, SENTRY_KEY, SENTRY_REPORT_URI, IE_COMPAT
+} = process.env;
+
+const headers = {};
 
 // CSP settings
 const scriptSrc = `script-src http://localhost:${DEV_SERVER_PORT} https://global.oktacdn.com 'nonce-e2e'`;
-const styleSrc = `style-src http://localhost:${DEV_SERVER_PORT} https://unpkg.com 'nonce-e2e'`;
-
+//todo: sentry's rrweb needs to be updated to fix the issue
+//const styleSrc = `style-src http://localhost:${DEV_SERVER_PORT} https://unpkg.com 'nonce-e2e'`;
+const styleSrc = `style-src http://localhost:${DEV_SERVER_PORT} https://unpkg.com 'unsafe-inline'`;
 const styleSrcElem = `style-src-elem http://localhost:${DEV_SERVER_PORT} https://unpkg.com 'nonce-e2e'`;
-const csp = `${scriptSrc}; ${styleSrc}; ${styleSrcElem}`;
+const workerSrc = `worker-src 'self' blob:; child-src 'self' blob:`;
+const reportUri = `report-uri https://sentry.io/api/${SENTRY_PROJECT}/security/?sentry_key=${SENTRY_KEY} ${SENTRY_REPORT_URI}`;
+const csp = `${scriptSrc}; ${styleSrc}; ${styleSrcElem}; ${workerSrc}; ${reportUri};`;
+if (!process.env.DISABLE_CSP) {
+  headers['Content-Security-Policy'] = csp;
+}
 
 const webpackConfig = {
   mode: 'development',
@@ -50,9 +64,7 @@ const webpackConfig = {
             '/node_modules/',
             '/dist/',
           ].some(filePathContains);
-
           return shallBeExcluded && !npmRequiresTransform;
-
         },
         use: {
           loader: 'babel-loader',
@@ -92,8 +104,29 @@ const webpackConfig = {
     ],
     port: DEV_SERVER_PORT,
     historyApiFallback: true,
-    headers: {
-      'Content-Security-Policy': '' //csp
+    headers,
+    proxy: [{
+      context: [
+        '/oauth2/',
+        '/api/v1/',
+        '/idp/idx/',
+        '/login/getimage',
+        '/sso/idps/',
+        '/app/UserHome',
+        '/oauth2/v1/authorize',
+        '/auth/services/',
+        '/.well-known/webfinger'
+      ],
+      target: `http://${HOST}:${MOCK_SERVER_PORT}`
+    }],
+    // https://webpack.js.org/configuration/dev-server/#devserversetupmiddlewares
+    setupMiddlewares(middlewares) {
+      const script = path.resolve(__dirname, '..', '..', 'playground/mocks/server.js');
+      const watch = [path.resolve(__dirname, '..', '..', 'playground/mocks')];
+      const env = { MOCK_SERVER_PORT, DEV_SERVER_PORT };
+      nodemon({ script, watch, env, delay: 50 })
+        .on('crash', console.error);
+      return middlewares;
     },
   },
   plugins: [
@@ -132,7 +165,7 @@ if (DIST_ESM) {
   webpackConfig.resolve.alias['./getOktaSignIn'] = './getOktaSignInFromNPM';
 }
 
-if (TARGET === 'CROSS_BROWSER' || true) {
+if (TARGET === 'CROSS_BROWSER' || IE_COMPAT) {
   // Promise is used by this test app
   // include Promise polyfill for IE
   // the widget has its own polyfill for the features it uses

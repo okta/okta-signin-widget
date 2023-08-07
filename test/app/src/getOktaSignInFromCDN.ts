@@ -1,10 +1,11 @@
 import type { OktaSignIn, WidgetOptions } from '@okta/okta-signin-widget';
+import type { SentryOptions } from '../../../src/plugins/OktaPluginSentry';
 
 declare global {
   interface Window {
     OktaSignIn: typeof OktaSignIn;
     OktaPluginSentry: {
-      initSentry: (widget: OktaSignIn) => void,
+      initSentry: (widget: OktaSignIn, options?: SentryOptions) => void,
       stopSentry: () => void,
     };
   }
@@ -15,16 +16,11 @@ function getOktaSignIn(options: WidgetOptions): OktaSignIn {
 }
 
 export function initSentry(widget: OktaSignIn) {
-
-  console.log('??? init sentry', widget, widget.options.baseUrl, window.OktaPluginSentry?.initSentry)
-
-  window.OktaPluginSentry?.initSentry?.(widget);
-
   setTimeout(function() {
-    throw new Error('gggg');
-  }, 3000);
-
-
+    window.OktaPluginSentry?.initSentry?.(widget, {
+      sendReportOnStart: true
+    });
+  }, 0);
 }
 
 export function stopSentry() {

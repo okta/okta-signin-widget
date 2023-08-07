@@ -11,6 +11,7 @@ import {
   RenderResultSuccessNonOIDCSession,
 } from '../src/types';
 import { assertNoEnglishLeaks } from '../playground/LocaleUtils';
+import type { SentryOptions } from '../src/plugins/OktaPluginSentry';
 
 declare global {
   const OMIT_MSWJS: boolean;
@@ -25,7 +26,7 @@ declare global {
     OktaPluginA11y: { init: (widget: OktaSignInAPI) => void };
     
     // from <script src="/js/okta-plugin-sentry.js">
-    OktaPluginSentry: { initSentry: (widget: OktaSignInAPI) => void };
+    OktaPluginSentry: { initSentry: (widget: OktaSignInAPI, options?: SentryOptions) => void };
 
     // added in this file
     getWidgetInstance: () => OktaSignInAPI;
@@ -69,7 +70,9 @@ const renderPlaygroundWidget = (options = {}) => {
   }
 
   if (window.OktaPluginSentry) {
-    window.OktaPluginSentry.initSentry(signIn);
+    window.OktaPluginSentry.initSentry(signIn, {
+      sendReportOnStart: true
+    });
   }
 
   signIn.renderEl(
