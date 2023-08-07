@@ -263,20 +263,19 @@ test.requestHooks(identifyThenSelectAuthenticatorMock)('navigate to other screen
 
   await t.expect(selectAuthenticatorPage.getFormTitle()).eql('Verify it\'s you with a security method');
 
-  const { log } = await t.getBrowserConsoleMessages();
-
-  await t.expect(log.length).eql(5);
-  await t.expect(log[0]).eql('===== playground widget ready event received =====');
-  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-  await t.expect(JSON.parse(log[2])).eql({
-    controller: 'primary-auth',
-    formName: 'identify',
-  });
-  await t.expect(log[3]).eql('===== playground widget afterRender event received =====');
-  await t.expect(JSON.parse(log[4])).eql({
-    controller: null,
-    formName: 'select-authenticator-authenticate'
-  });
+  await checkConsoleMessages([
+    'ready',
+    'afterRender',
+    {
+      controller: 'primary-auth',
+      formName: 'identify',
+    },
+    'afterRender',
+    {
+      controller: null,
+      formName: 'select-authenticator-authenticate'
+    }
+  ]);
 });
 
 test.meta('v3', false).requestHooks(identifyRequestLogger, identifyMock)('should transform identifier using settings.transformUsername', async t => {

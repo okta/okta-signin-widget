@@ -5,6 +5,7 @@ import xhrWellknownOpenidConfiguration from '../../../../playground/mocks/data/o
 
 const READY_MESSAGE = '===== playground widget ready event received =====';
 const AFTER_RENDER_MESSAGE = '===== playground widget afterRender event received =====';
+const AFTER_ERROR_MESSAGE = '===== playground widget afterError event received =====';
 
 /**
  * Console messages matching these patterns are filtered out before checking
@@ -50,6 +51,9 @@ export async function checkConsoleMessages(context = {}) {
       break;
     case 'afterRender':
       await t.expect(log[i]).eql(AFTER_RENDER_MESSAGE);
+      break;
+    case 'afterError':
+      await t.expect(log[i]).eql(AFTER_ERROR_MESSAGE);
       break;
     default: {
       /* eslint max-depth: [2, 3] */

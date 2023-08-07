@@ -306,23 +306,23 @@ test
     await checkA11y(t);
     await challengePhonePageObject.clickNextButton('Receive a code via SMS');
 
-    const { log } = await t.getBrowserConsoleMessages();
-    await t.expect(log.length).eql(5);
-    await t.expect(log[0]).eql('===== playground widget ready event received =====');
-    await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-    await t.expect(JSON.parse(log[2])).eql({
-      controller: null,
-      formName: 'authenticator-verification-data',
-      authenticatorKey: 'phone_number',
-      methodType: 'sms',
-    });
-    await t.expect(log[3]).eql('===== playground widget afterRender event received =====');
-    await t.expect(JSON.parse(log[4])).eql({
-      controller: 'mfa-verify-passcode',
-      formName: 'challenge-authenticator',
-      authenticatorKey: 'phone_number',
-      methodType: 'sms',
-    });
+    await checkConsoleMessages([
+      'ready',
+      'afterRender',
+      {
+        controller: null,
+        formName: 'authenticator-verification-data',
+        authenticatorKey: 'phone_number',
+        methodType: 'sms',
+      },
+      'afterRender',
+      {
+        controller: 'mfa-verify-passcode',
+        formName: 'challenge-authenticator',
+        authenticatorKey: 'phone_number',
+        methodType: 'sms',
+      },
+    ]);
 
     const pageSubtitle = challengePhonePageObject.getFormSubtitle();
     await t.expect(challengePhonePageObject.getSaveButtonLabel()).eql('Verify');
@@ -336,23 +336,23 @@ test
     await checkA11y(t);
     await challengePhonePageObject.clickNextButton('Receive a code via voice call');
 
-    const { log } = await t.getBrowserConsoleMessages();
-    await t.expect(log.length).eql(5);
-    await t.expect(log[0]).eql('===== playground widget ready event received =====');
-    await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-    await t.expect(JSON.parse(log[2])).eql({
-      controller: null,
-      formName: 'authenticator-verification-data',
-      authenticatorKey: 'phone_number',
-      methodType: 'voice',
-    });
-    await t.expect(log[3]).eql('===== playground widget afterRender event received =====');
-    await t.expect(JSON.parse(log[4])).eql({
-      controller: 'mfa-verify-passcode',
-      formName: 'challenge-authenticator',
-      authenticatorKey: 'phone_number',
-      methodType: 'voice',
-    });
+    await checkConsoleMessages([
+      'ready',
+      'afterRender',
+      {
+        controller: null,
+        formName: 'authenticator-verification-data',
+        authenticatorKey: 'phone_number',
+        methodType: 'voice',
+      },
+      'afterRender',
+      {
+        controller: 'mfa-verify-passcode',
+        formName: 'challenge-authenticator',
+        authenticatorKey: 'phone_number',
+        methodType: 'voice',
+      },
+    ]);
 
     const pageSubtitle = challengePhonePageObject.getFormSubtitle();
     await t.expect(challengePhonePageObject.getSaveButtonLabel()).eql('Verify');

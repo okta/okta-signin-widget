@@ -1,5 +1,6 @@
 import { RequestMock, RequestLogger } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
+import { checkConsoleMessages } from '../framework/shared';
 import IdPAuthenticatorPageObject from '../framework/page-objects/IdPAuthenticatorPageObject';
 import xhrEnrollIdPAuthenticator from '../../../playground/mocks/data/idp/idx/authenticator-enroll-idp.json';
 import xhrEnrollIdPAuthenticatorError from '../../../playground/mocks/data/idp/idx/error-authenticator-enroll-idp.json';
@@ -51,11 +52,7 @@ async function setup(t, isVerify) {
   await pageObject.navigateToPage();
   await t.expect(pageObject.formExists()).eql(true);
 
-  const { log } = await t.getBrowserConsoleMessages();
-  await t.expect(log.length).eql(3);
-  await t.expect(log[0]).eql('===== playground widget ready event received =====');
-  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-  await t.expect(JSON.parse(log[2])).eql({
+  await checkConsoleMessages({
     controller: null,
     formName: isVerify ? 'challenge-authenticator' : 'enroll-authenticator',
     authenticatorKey: 'external_idp',

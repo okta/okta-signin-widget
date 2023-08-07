@@ -153,36 +153,47 @@ test.requestHooks(enrollProfileErrorMock)('should show email field validation er
   await t.expect(registrationPage.hasEmailErrorMessage(0)).eql(true);
   await t.expect(registrationPage.getEmailErrorMessage(0)).contains('\'Email\' must be in the form of an email address');
 
-  const { log } = await t.getBrowserConsoleMessages();
-  await t.expect(log.length).eql(8);
-  await t.expect(log[5]).eql('===== playground widget afterError event received =====');
-  await t.expect(JSON.parse(log[6])).eql({
-    controller: 'registration',
-    formName: 'enroll-profile',
-  });
-  await t.expect(JSON.parse(log[7])).eql({
-    'errorSummary': '',
-    'xhr': {
-      'responseJSON': {
-        'errorSummary': '',
-        'errorCauses': [
-          {
-            'errorKey': [
-              'registration.error.invalidLoginEmail',
-              'registration.error.doesNotMatchPattern'
-            ],
-            'errorSummary': [
-              '\'Email\' must be in the form of an email address',
-              'Provided value for property \'Email\' does not match required pattern'
-            ],
-            'property': 'userProfile.email'
-          }
-        ],
-        'errorSummaryKeys': [],
-        'errorIntent': 'LOGIN',
-      }
-    }
-  });
+  await checkConsoleMessages([
+    'ready',
+    'afterRender',
+    {
+      controller: 'primary-auth',
+      formName: 'identify',
+    },
+    'afterRender',
+    {
+      controller: 'registration',
+      formName: 'enroll-profile',
+    },
+    'afterError',
+    {
+      controller: 'registration',
+      formName: 'enroll-profile',
+    },
+    {
+      errorSummary: '',
+      xhr: {
+        responseJSON: {
+          errorSummary: '',
+          errorCauses: [
+            {
+              errorKey: [
+                'registration.error.invalidLoginEmail',
+                'registration.error.doesNotMatchPattern'
+              ],
+              errorSummary: [
+                '\'Email\' must be in the form of an email address',
+                'Provided value for property \'Email\' does not match required pattern'
+              ],
+              property: 'userProfile.email'
+            }
+          ],
+          errorSummaryKeys: [],
+          errorIntent: 'LOGIN',
+        },
+      },
+    },
+  ]);
   await t.expect(registrationPage.getNthEmailErrorMessage(0)).eql('\'Email\' must be in the form of an email address');
   await t.expect(registrationPage.getNthEmailErrorMessage(1)).eql('Provided value for property \'Email\' does not match required pattern');
 });
