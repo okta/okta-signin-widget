@@ -29,7 +29,9 @@ export function stopSentry() {
 }
 
 export function setWidgetForSentry(widget: OktaSignIn) {
-  window.OktaPluginSentry?.setWidgetForSentry?.(widget);
+  setTimeout(function() {
+    window.OktaPluginSentry?.setWidgetForSentry?.(widget);
+  }, 0);
 }
 
 export default getOktaSignIn;

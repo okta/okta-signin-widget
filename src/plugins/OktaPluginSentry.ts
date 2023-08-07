@@ -49,7 +49,11 @@ export const setWidgetForSentry = (widget: OktaSignIn) => {
     filterNetwork,
     stickySession: false,
   });
-  Sentry.getCurrentHub().getClient().addIntegration(replay);
+  const client = Sentry.getCurrentHub().getClient();
+  if (client)
+    client.addIntegration(replay);
+  else
+    throw new Error('No Sentry client');
 };
 
 export const initSentry = (widget?: OktaSignIn, options: SentryOptions = {}) => {
