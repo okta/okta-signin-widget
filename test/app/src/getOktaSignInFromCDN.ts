@@ -5,7 +5,8 @@ declare global {
   interface Window {
     OktaSignIn: typeof OktaSignIn;
     OktaPluginSentry: {
-      initSentry: (widget: OktaSignIn, options?: SentryOptions) => void,
+      initSentry: (widget?: OktaSignIn, options?: SentryOptions) => void,
+      setWidgetForSentry: (widget: OktaSignIn) => void,
       stopSentry: () => void,
     };
   }
@@ -15,7 +16,7 @@ function getOktaSignIn(options: WidgetOptions): OktaSignIn {
   return new window.OktaSignIn(options);
 }
 
-export function initSentry(widget: OktaSignIn) {
+export function initSentry(widget?: OktaSignIn) {
   setTimeout(function() {
     window.OktaPluginSentry?.initSentry?.(widget, {
       sendReportOnStart: true
@@ -24,8 +25,11 @@ export function initSentry(widget: OktaSignIn) {
 }
 
 export function stopSentry() {
-  console.log('??? stop sentry')
   window.OktaPluginSentry?.stopSentry?.();
+}
+
+export function setWidgetForSentry(widget: OktaSignIn) {
+  window.OktaPluginSentry?.setWidgetForSentry?.(widget);
 }
 
 export default getOktaSignIn;

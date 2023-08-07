@@ -2,7 +2,7 @@ import type { AuthSdkError, OAuthResponseMode, OktaAuth, TokenResponse, Tokens }
 import type { OktaSignIn, RenderResult, RenderResultSuccess, WidgetOptions } from '@okta/okta-signin-widget';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import getOktaSignIn, {initSentry, stopSentry} from './getOktaSignIn';
+import getOktaSignIn, {initSentry, stopSentry, setWidgetForSentry} from './getOktaSignIn';
 import ConfigArea, { ConfigTemplate } from './configArea';
 import {
   getBaseUrl,
@@ -204,11 +204,11 @@ export default class TestApp {
     if (config.usePolyfill) {
       await loadPolyfill(config.useMinBundle);
     }
-    if (!config.useBundledWidget) {
-      await loadWidgetScript(config.bundle, config.useMinBundle);
-    }
     if (config.useSentry) {
       await loadSentry(config.useMinBundle);
+    }
+    if (!config.useBundledWidget) {
+      await loadWidgetScript(config.bundle, config.useMinBundle);
     }
   }
 
@@ -250,8 +250,9 @@ export default class TestApp {
     // actions
     this.startButton.addEventListener('click', async () => {
       const options = this.getWidgetOptions();
+      initSentry();
       this.oktaSignIn = await getOktaSignIn(options);
-      initSentry(this.oktaSignIn);
+      setWidgetForSentry(this.oktaSignIn);
       this.oktaSignIn.renderEl({
         el: '#okta-login-container'
       }, (res: RenderResult) => {
@@ -279,8 +280,9 @@ export default class TestApp {
     });
     this.showSignInButton.addEventListener('click', async () => {
       const options = this.getWidgetOptions();
+      initSentry();
       this.oktaSignIn = await getOktaSignIn(options);
-      initSentry(this.oktaSignIn);
+      setWidgetForSentry(this.oktaSignIn);
       this.oktaSignIn.showSignIn({ el: '#okta-login-container' }).then((res: RenderResultSuccess) => {
         if (res.tokens) {
           this.setTokens(res.tokens);

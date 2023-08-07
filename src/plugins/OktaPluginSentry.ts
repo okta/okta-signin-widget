@@ -18,6 +18,8 @@ export interface SentryOptions {
   sendReportOnStart?: boolean;
 };
 
+type BeforeSend = Parameters<typeof Sentry.init>[0]['beforeSend'];
+
 // globals
 declare const SENTRY_DSN: string;
 declare const OKTA_SIW_VERSION: string;
@@ -35,35 +37,49 @@ export const stopSentry = async (timeout = 2000) => {
   await Sentry.close(timeout);
 };
 
+export const setWidgetForSentry = (widget: OktaSignIn) => {
+  baseUrl = widget?.options.baseUrl?.replace(/\/$/, '')
+    || widget?.options.issuer?.split('/oauth2/')[0] as string;
+  replay?.stop();
+  replay = new Sentry.Replay({
+    networkDetailAllowUrls: baseUrl ? [
+      `${baseUrl}/idp/idx/`
+    ] : [],
+    beforeAddRecordingEvent,
+    filterNetwork,
+    stickySession: false,
+  });
+  Sentry.getCurrentHub().getClient().addIntegration(replay);
+};
 
-export const initSentry = (widget: OktaSignIn, options: SentryOptions = {}) => {
+export const initSentry = (widget?: OktaSignIn, options: SentryOptions = {}) => {
   opts = options;
   if (typeof SENTRY_DSN === 'undefined') {
     throw new Error('SENTRY_DSN not provided');
   }
 
-  baseUrl = widget.options.baseUrl?.replace(/\/$/, '')
-    || widget.options.issuer?.split('/oauth2/')[0] as string;
+  baseUrl = widget?.options.baseUrl?.replace(/\/$/, '')
+    || widget?.options.issuer?.split('/oauth2/')[0] as string;
 
   const makeOfflineTransport = Sentry.makeBrowserOfflineTransport(
     ('fetch' in window) ? Sentry.makeFetchTransport : Sentry.makeXHRTransport
   );
 
-  replay = new Sentry.Replay({
-    networkDetailAllowUrls: [
-      `${baseUrl}/idp/idx/`
-    ],
-    beforeAddRecordingEvent,
-    filterNetwork,
-    stickySession: false,
-  });
+  // replay = new Sentry.Replay({
+  //   networkDetailAllowUrls: baseUrl ? [
+  //     `${baseUrl}/idp/idx/`
+  //   ] : [],
+  //   beforeAddRecordingEvent,
+  //   filterNetwork,
+  //   stickySession: false,
+  // });
 
   Sentry.init({
     dsn: SENTRY_DSN,
     normalizeDepth: 10, // to view structured context data instead of "[Object]", "[Array]"
     integrations: [
       new Sentry.BrowserTracing(),
-      replay,
+      //replay,
     ],
     // Performance Monitoring
     tracesSampleRate: 0.0, // disable
@@ -162,15 +178,18 @@ const beforeBreadcrumb = (breadcrumb: Sentry.Breadcrumb, _hint?: Sentry.Breadcru
   } else {
     console.log('sentry ignore', breadcrumb.type, breadcrumb.category, breadcrumb);
   }
-  if (breadcrumb.type === 'error' || breadcrumb.level === 'error') {
-    incrErrorCount();
-  }
+  // if (breadcrumb.type === 'error' || breadcrumb.category !== 'custom') {
+  //   incrErrorCount();
+  // }
   return allow ? breadcrumb : null;
 };
 
-const beforeSend = (event: Sentry.Event, _hint: Sentry.EventHint) => {
+const beforeSend: BeforeSend = (event, _hint) => {
   // delete event.breadcrumbs;
-  console.log('>>> [sentry] event: ', event);
+  console.log('>>> [sentry] event: ', event.level, event);
+  if (event.level === 'error' || event.level === 'fatal') {
+    incrErrorCount();
+  }
   return event;
 };
 
@@ -208,6 +227,7 @@ const beforeAddRecordingEvent = (e: Replay.ReplayFrameEvent) => {
 // Event listeners
 
 const catchErrors = (widget: OktaSignInAPI) => {
+  if (!widget) return;
   widget.on('afterError', function (context: EventContext, errorContext: EventErrorContext) {
     Sentry.addBreadcrumb({
       type: 'error',
@@ -221,6 +241,7 @@ const catchErrors = (widget: OktaSignInAPI) => {
 };
 
 const updateContextOnRender = (widget: OktaSignIn) => {
+  if (!widget) return;
   widget.on('afterRender', function (context: EventContext) {
     Sentry.addBreadcrumb({
       type: 'debug',

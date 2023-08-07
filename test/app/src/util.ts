@@ -84,6 +84,7 @@ export async function loadWidgetScript(bundle: string, minified: boolean) {
   const existingEl = document.getElementById('widget-bundle') as HTMLScriptElement;
 
   let url = `${window.location.origin}/js/okta-sign-in`;
+  //url = 'https://global.oktacdn.com/okta-signin-widget/7.9.0/js/okta-sign-in';
   if (bundle !== 'default') {
     url += `.${bundle}`;
   }
