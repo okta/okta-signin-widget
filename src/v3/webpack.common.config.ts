@@ -23,7 +23,7 @@ const baseConfig: Partial<Configuration> = {
   mode: 'production',
   devtool: 'source-map',
   output: {
-    path: resolve(__dirname, '../..', 'dist/dist'),
+    path: resolve(__dirname, '../..', 'target'),
   },
   module: {
     rules: [
@@ -144,6 +144,10 @@ const baseConfig: Partial<Configuration> = {
       contextRegExp: /moment$/,
     }),
   ],
+  // Webpack attempts to add a polyfill for process
+  // and setImmediate, because q uses process to see
+  // if it's in a Node.js environment
+  node: false,
 };
 
 export default baseConfig;
