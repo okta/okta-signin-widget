@@ -20,6 +20,11 @@ exports.handler = async () => {
     'src'
   ], `${BUILD_DIR}`);
 
+  // remove node_modules/ from package in case it gets copied in previous step
+  shell.rm('-Rf', [
+    `${BUILD_DIR}/src/v3/node_modules/`,
+  ]);
+
   let packageJSON = JSON.parse(fs.readFileSync(`${BUILD_DIR}/package.json`));
   packageJSON.private = false;
 
