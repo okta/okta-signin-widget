@@ -290,5 +290,8 @@
   "packageManager": "yarn@1.22.19",
   "tsd": {
     "directory": "test/types"
+  },
+  "msw": {
+    "workerDirectory": "playground"
   }
 }

@@ -144,8 +144,5 @@
   },
   "engines": {
     "node": ">=16"
-  },
-  "msw": {
-    "workerDirectory": "public"
   }
 }
