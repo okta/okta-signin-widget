@@ -3,8 +3,8 @@ const { readFileSync } = require('fs');
 
 const KB = 1024;
 const MB = 1024 * 1024;
-const EXPECTED_PACKAGE_SIZE = 75 * MB;
-const EXPECTED_PACKAGE_FILES = 38000;
+const EXPECTED_PACKAGE_SIZE = 54 * MB;
+const EXPECTED_PACKAGE_FILES = 31000;
 
 const EXPECTED_BUNDLE_SIZES = {
   'okta-plugin-a11y.js': 3.6 * KB,
