@@ -2,6 +2,8 @@
 
 # NOTE: MUST BE RAN *AFTER* THE PUBLISH SUITE
 
+export REGISTRY="${ARTIFACTORY_URL}/npm-topic"
+
 cd ${OKTA_HOME}/${REPO}
 
 # Install required node version
@@ -22,13 +24,12 @@ if ! ci-append-sha; then
 fi
 
 # NOTE: hyphen rather than '@'
-artifact_version="$(ci-pkginfo -t pkgsemver)"
+artifact_version="$(ci-pkginfo -t pkgname)-$(ci-pkginfo -t pkgsemver)"
+published_tarball=${REGISTRY}/@okta/okta-signin-widget/-/${artifact_version}.tgz
 
 # clone angular sample, using angular sample because angular toolchain is *very* opinionated about modules
 git clone --depth 1 https://github.com/okta/samples-js-angular.git test/package/angular-sample
 pushd test/package/angular-sample/custom-login
-
-yarn add -W --force --no-lockfile @okta/siw-platform-scripts@0.7.0
 
 # use npm instead of yarn to test as a community dev
 if ! npm i; then
@@ -37,8 +38,8 @@ if ! npm i; then
 fi
 
 # install the version of @okta/okta-signin-widget from artifactory that was published during the `publish` suite
-if ! yarn run siw-platform install-artifact -n @okta/okta-signin-widget -v ${artifact_version}; then
-  echo "install @okta/okta-signin-widget@${artifact_version} failed! Exiting..."
+if ! npm i ${published_tarball}; then
+  echo "install ${published_tarball} failed! Exiting..."
   exit ${FAILED_SETUP}
 fi
 
