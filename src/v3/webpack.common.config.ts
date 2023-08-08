@@ -133,7 +133,6 @@ const baseConfig: Partial<Configuration> = {
   },
   plugins: [
     FailOnBuildFailPlugin,
-    // TODO: handle copy assets?
     new webpack.DefinePlugin({
       OKTA_SIW_VERSION: '"0.0.0"',
       OKTA_SIW_COMMIT_HASH: '"local"',

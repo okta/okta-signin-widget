@@ -50,7 +50,7 @@ const headers = (() => {
 })();
 
 if (!fs.existsSync(WIDGET_RC_JS)) {
-  // create default WIDGET_RC if it doesn't exist to simplifed the build process
+  // create default WIDGET_RC if it doesn't exist to simplify the build process
   fs.copyFileSync(resolve(__dirname, '../..', '.widgetrc.sample.js'), WIDGET_RC_JS);
 }
 
