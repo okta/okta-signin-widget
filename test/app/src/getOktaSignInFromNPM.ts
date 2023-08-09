@@ -1,5 +1,5 @@
 import { OktaSignIn, WidgetOptions } from '@okta/okta-signin-widget';
-import OktaPluginSentry from '@okta/okta-signin-widget/sentry';
+import * as OktaPluginSentry from '@okta/okta-signin-widget/sentry';
 import '@okta/okta-signin-widget/css/okta-sign-in.min.css';
 
 const getOktaSignIn = (options: WidgetOptions): OktaSignIn => {
