@@ -1,7 +1,7 @@
-node_modules/
-test/
-build2/
-scripts/
+node_modules
+test
+build2
+scripts
 .eslintrc.json
 .eslintignore
 .travis.yml
