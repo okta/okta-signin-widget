@@ -1,10 +1,10 @@
-test
-build2
+node_modules/
+test/
+build2/
+scripts/
 .eslintrc.json
 .eslintignore
 .travis.yml
-ci-scripts
-webpack*config.js
-preact.config.js
-scripts
+yarn-error.log
+webpack*config.ts
 bundles-for-validation

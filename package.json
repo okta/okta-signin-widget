@@ -51,7 +51,7 @@
     "./css/": "./target/css/"
   },
   "scripts": {
-    "clean": "rimraf target && rimraf dist && rimraf build2 && rimraf src/v3/build2",
+    "clean": "rimraf target && rimraf dist && rimraf build2",
     "clean:esm": "rimraf target/esm",
     "codegen": "./scripts/codegen.sh",
     "generate-phone-codes": "node scripts/buildtools generate-phone-codes",
