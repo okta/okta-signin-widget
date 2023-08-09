@@ -263,8 +263,7 @@ export default Controller.extend({
 
     // Error out when this is not a remediation form. Unexpected Exception.
     if (!this.options.appState.hasRemediationObject(formName)) {
-      const error = `Cannot find http action for "${formName}".`;
-      this.options.settings.callGlobalError(error);
+      this.options.settings.callGlobalError(`Cannot find http action for "${formName}".`);
       await this.showFormErrors(this.formView.model, 'Cannot find action to proceed.', this.formView.form);
       return;
     }

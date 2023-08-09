@@ -5,6 +5,7 @@ import { interactionCodeFlow } from './interactionCodeFlow';
 import { FORMS } from "../ion/RemediationConstants";
 import transformIdxResponse from '../ion/transformIdxResponse';
 
+
 export async function updateAppState(appState: AppState, idxResponse: IdxResponse): Promise<void> {
   const settings = appState.settings;
 
