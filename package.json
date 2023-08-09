@@ -230,7 +230,7 @@
     "webpack-dev-server": "^4.9.2"
   },
   "dependencies": {
-    "@okta/okta-auth-js": "~7.0.0",
+    "@okta/okta-auth-js": "https://artifacts.aue1d.saasure.com/artifactory/npm-topic/@okta/okta-auth-js/-/@okta/okta-auth-js-7.4.0-g90a88d8.tgz",
     "@sindresorhus/to-milliseconds": "^1.0.0",
     "@types/backbone": "^1.4.15",
     "@types/eslint-scope": "^3.7.3",

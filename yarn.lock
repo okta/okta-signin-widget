@@ -3490,10 +3490,9 @@
     "@mui/utils" "^5.10.9"
     "@okta/odyssey-design-tokens" "^0.17.0"
 
-"@okta/okta-auth-js@^7.2.0":
-  version "7.2.0"
-  resolved "https://registry.yarnpkg.com/@okta/okta-auth-js/-/okta-auth-js-7.2.0.tgz#7380d1ab8a5d62ce289a1320346079ff24d58cee"
-  integrity sha512-0YZ8cEbTGwlw9KGey+4ZnGJs4qKs8PkQsbaCyQ1q9jKMftuDlGXL85jrLpnEqg3jfYCpi6GDtEl/QquOKMvAFw==
+"@okta/okta-auth-js@https://artifacts.aue1d.saasure.com/artifactory/npm-topic/@okta/okta-auth-js/-/@okta/okta-auth-js-7.4.0-g90a88d8.tgz":
+  version "7.4.0-g90a88d8"
+  resolved "https://artifacts.aue1d.saasure.com/artifactory/npm-topic/@okta/okta-auth-js/-/@okta/okta-auth-js-7.4.0-g90a88d8.tgz#dfaac31bed5fd2e1334c47fd92a5e075cf4fb8bb"
   dependencies:
     "@babel/runtime" "^7.12.5"
     "@peculiar/webcrypto" "^1.4.0"
@@ -3552,28 +3551,8 @@
     safe-flat "^2.0.2"
 
 "@okta/okta-signin-widget@link:dist":
-  version "7.8.0"
-  dependencies:
-    "@okta/okta-auth-js" "~7.0.0"
-    "@sindresorhus/to-milliseconds" "^1.0.0"
-    "@types/backbone" "^1.4.15"
-    "@types/jquery" "^3.5.14"
-    "@types/jqueryui" "^1.12.16"
-    "@types/q" "^1.5.5"
-    "@types/selectize" "^0.12.35"
-    "@types/underscore" "^1.11.4"
-    chokidar "^3.5.1"
-    clipboard "^1.5.16"
-    cross-fetch "^3.1.5"
-    ejs "^3.1.7"
-    handlebars "^4.7.7"
-    jquery "^3.6.0"
-    parse-ms "^2.0.0"
-    q "1.4.1"
-    u2f-api-polyfill "0.4.3"
-    underscore "1.13.1"
-  optionalDependencies:
-    fsevents "*"
+  version "0.0.0"
+  uid ""
 
 "@open-draft/until@^1.0.3":
   version "1.0.3"

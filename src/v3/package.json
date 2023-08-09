@@ -45,7 +45,7 @@
     "@mui/material": "^5.8.5",
     "@okta/odyssey-design-tokens": "^0.17.1",
     "@okta/odyssey-react-mui": "^0.17.0",
-    "@okta/okta-auth-js": "^7.2.0",
+    "@okta/okta-auth-js": "https://artifacts.aue1d.saasure.com/artifactory/npm-topic/@okta/okta-auth-js/-/@okta/okta-auth-js-7.4.0-g90a88d8.tgz",
     "ajv": "^8.6.1",
     "ajv-errors": "^3.0.0",
     "babel-jest": "^27.3.1",
