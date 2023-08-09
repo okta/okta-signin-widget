@@ -11,13 +11,21 @@
  */
 
 import { resolve } from 'path';
+import { execSync } from 'child_process';
 
 import webpack from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 import type { Configuration } from 'webpack';
 
+import { version } from '../../package.json';
 import FailOnBuildFailPlugin from '../../scripts/buildtools/webpack/FailOnBuildFailPlugin';
+
+const getShortGitHash = () => {
+  const hash = execSync('git rev-parse HEAD')?.toString()?.trim() ?? '';
+
+  return hash.slice(0, 7);
+};
 
 const baseConfig: Partial<Configuration> = {
   mode: 'production',
@@ -134,8 +142,8 @@ const baseConfig: Partial<Configuration> = {
   plugins: [
     FailOnBuildFailPlugin,
     new webpack.DefinePlugin({
-      OKTA_SIW_VERSION: '"0.0.0"',
-      OKTA_SIW_COMMIT_HASH: '"local"',
+      OKTA_SIW_VERSION: `"${version}"`,
+      OKTA_SIW_COMMIT_HASH: `"${getShortGitHash()}"`,
     }),
     // https://webpack.js.org/plugins/ignore-plugin/#example-of-ignoring-moment-locales
     new webpack.IgnorePlugin({
