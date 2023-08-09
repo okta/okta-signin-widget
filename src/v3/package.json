@@ -37,6 +37,8 @@
     "ie 11"
   ],
   "dependencies": {
+    "@emotion/react": "^11.9.3",
+    "@emotion/styled": "^11.9.3",
     "@hcaptcha/react-hcaptcha": "^1.8.1",
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.8.5",
