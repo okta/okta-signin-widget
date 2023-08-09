@@ -108,9 +108,7 @@ const Body = BaseFormWithPolling.extend({
               foundPort = true;
               if (deviceChallenge.enhancedPollingEnabled !== false) {
                 this.stopPolling();
-                this.trigger('save', this.model);
-                // if this poll doesn't return a different remediation, start polling again
-                this.startPolling();
+                this.startPolling(0);
                 return;
               }
               // once the OV challenge succeeds,
