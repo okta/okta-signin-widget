@@ -48,7 +48,10 @@
       "default": "./target/js/okta-sign-in.oie.js"
     },
     "./polyfill": "./target/js/okta-sign-in.polyfill.js",
-    "./sentry": "./target/js/okta-sign-in.sentry.js",
+    "./sentry": {
+      "types": "./types/src/plugins/OktaPluginSentry.d.ts",
+      "default": "./target/js/okta-sign-in.sentry.js"
+    },
     "./css/": "./target/css/"
   },
   "scripts": {

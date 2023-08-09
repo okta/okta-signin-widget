@@ -36,7 +36,7 @@ SENTRY_KEY=value of `sentry_key` url param in SENTRY_REPORT_URI
 # Test app
 ```sh
 cd test/app
-DISABLE_CSP=1 IE_COMPAT=1 yarn start
+DISABLE_CSP=1 TARGET=CROSS_BROWSER yarn start
 ```
 Click 'Use Sentry' (and 'Use polyfill' for IE11)
 

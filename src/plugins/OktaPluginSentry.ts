@@ -8,14 +8,20 @@ import type { OktaSignIn } from '@okta/okta-signin-widget';
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';
 
+export interface SentryOptions {
+  sendReportOnStart?: boolean;
+}
+
+export interface OktaPluginSentry {
+  initSentry(widget?: OktaSignInAPI, options?: SentryOptions): Promise<void>;
+  setWidgetForSentry(widget: OktaSignIn): Promise<void>;
+  stopSentry(): void;
+}
+
 interface TranslationMeta {
   key?: string;
   type?: string;
   bundleName?: string;
-};
-
-export interface SentryOptions {
-  sendReportOnStart?: boolean;
 };
 
 type BeforeSend = Parameters<typeof Sentry.init>[0]['beforeSend'];
@@ -31,13 +37,12 @@ let opts: SentryOptions;
 
 const SENTRY_HAS_ERRORS_KEY = 'sentry-has-error'; // key in local storage
 
-
 export const stopSentry = async (timeout = 2000) => {
   await replay?.stop();
   await Sentry.close(timeout);
 };
 
-export const setWidgetForSentry = (widget: OktaSignIn) => {
+export const setWidgetForSentry = async (widget: OktaSignIn) => {
   baseUrl = widget?.options.baseUrl?.replace(/\/$/, '')
     || widget?.options.issuer?.split('/oauth2/')[0] as string;
   replay?.stop();
@@ -54,16 +59,22 @@ export const setWidgetForSentry = (widget: OktaSignIn) => {
     client.addIntegration(replay);
   else
     throw new Error('No Sentry client');
+
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(undefined);
+    }, 0);
+  });
 };
 
-export const initSentry = (widget?: OktaSignIn, options: SentryOptions = {}) => {
+export const initSentry = async (widget?: OktaSignInAPI, options: SentryOptions = {}) => {
   opts = options;
   if (typeof SENTRY_DSN === 'undefined') {
     throw new Error('SENTRY_DSN not provided');
   }
 
-  baseUrl = widget?.options.baseUrl?.replace(/\/$/, '')
-    || widget?.options.issuer?.split('/oauth2/')[0] as string;
+  baseUrl = (widget as OktaSignIn)?.options.baseUrl?.replace(/\/$/, '')
+    || (widget as OktaSignIn)?.options.issuer?.split('/oauth2/')[0] as string;
 
   const makeOfflineTransport = Sentry.makeBrowserOfflineTransport(
     ('fetch' in window) ? Sentry.makeFetchTransport : Sentry.makeXHRTransport
@@ -122,6 +133,12 @@ export const initSentry = (widget?: OktaSignIn, options: SentryOptions = {}) => 
   if (opts.sendReportOnStart) {
     sendErrorReportWithConsent();
   }
+
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(undefined);
+    }, 0);
+  });
 };
 
 export const canSendErrorReport = () => {
@@ -244,7 +261,7 @@ const catchErrors = (widget: OktaSignInAPI) => {
   });
 };
 
-const updateContextOnRender = (widget: OktaSignIn) => {
+const updateContextOnRender = (widget: OktaSignInAPI) => {
   if (!widget) return;
   widget.on('afterRender', function (context: EventContext) {
     Sentry.addBreadcrumb({
@@ -254,7 +271,7 @@ const updateContextOnRender = (widget: OktaSignIn) => {
         context
       },
     });
-    updateContextFromWidget(widget);
+    updateContextFromWidget(widget as OktaSignIn);
   });
 };
 

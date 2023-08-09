@@ -15,7 +15,7 @@ const DEV_SERVER_PORT = 3000;
 const MOCK_SERVER_PORT = 3030;
 const WIDGET_RC_JS = path.resolve(__dirname, '.widgetrc.js');
 const WIDGET_RC = path.resolve(__dirname, '.widgetrc');
-const { SENTRY_PROJECT, SENTRY_KEY, SENTRY_REPORT_URI, IE_COMPAT } = process.env;
+const { SENTRY_PROJECT, SENTRY_KEY, SENTRY_REPORT_URI } = process.env;
 
 // run `OKTA_SIW_HOST=0.0.0.0 yarn start --watch` to override the host
 const HOST = process.env.OKTA_SIW_HOST || 'localhost';

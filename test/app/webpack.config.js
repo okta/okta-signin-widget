@@ -12,7 +12,7 @@ const HOST = process.env.OKTA_SIW_HOST || 'localhost';
 
 const {
   DIST_ESM, BUNDLE, USE_MIN, USE_POLYFILL, TARGET, 
-  SENTRY_PROJECT, SENTRY_KEY, SENTRY_REPORT_URI, IE_COMPAT
+  SENTRY_PROJECT, SENTRY_KEY, SENTRY_REPORT_URI
 } = process.env;
 
 const headers = {};
@@ -151,11 +151,11 @@ const webpackConfig = {
         USE_POLYFILL
       })
     }),
-    // new BundleAnalyzerPlugin({
-    //   openAnalyzer: false,
-    //   reportFilename: path.join(__dirname, 'dist/main.bundle.analyzer.html'),
-    //   analyzerMode: 'static',
-    // }),
+    new BundleAnalyzerPlugin({
+      openAnalyzer: false,
+      reportFilename: path.join(__dirname, 'dist/main.bundle.analyzer.html'),
+      analyzerMode: 'static',
+    }),
   ]
 };
 
@@ -165,7 +165,7 @@ if (DIST_ESM) {
   webpackConfig.resolve.alias['./getOktaSignIn'] = './getOktaSignInFromNPM';
 }
 
-if (TARGET === 'CROSS_BROWSER' || IE_COMPAT) {
+if (TARGET === 'CROSS_BROWSER') {
   // Promise is used by this test app
   // include Promise polyfill for IE
   // the widget has its own polyfill for the features it uses

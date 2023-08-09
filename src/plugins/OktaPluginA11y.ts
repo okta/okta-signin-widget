@@ -78,9 +78,11 @@ export const init = (widget: OktaSignInAPI): void => {
           const isVisible = input.type !== 'password';
           button.type = 'button';
           if (isVisible) {
+            // @ts-ignore
             button.ariaLabel = 'Hide password';
             button.className = 'eyeicon visibility-off-16';
           } else {
+            // @ts-ignore
             button.ariaLabel = 'Show password';
             button.className = 'eyeicon visibility-16';
           }
