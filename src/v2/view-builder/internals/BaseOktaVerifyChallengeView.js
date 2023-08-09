@@ -108,7 +108,7 @@ const Body = BaseFormWithPolling.extend({
               foundPort = true;
               if (deviceChallenge.enhancedPollingEnabled !== false) {
                 this.stopPolling();
-                this.startPolling(0);
+                this.startPolling(1);
                 return;
               }
               // once the OV challenge succeeds,
