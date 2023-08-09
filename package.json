@@ -203,7 +203,7 @@
     "regenerator-runtime": "^0.13.7",
     "replace-in-file": "^6.2.0",
     "retire": "^2.0.3",
-    "rimraf": "^2.6.2",
+    "rimraf": "^4.3.0",
     "rollup": "^2.70.2",
     "rollup-plugin-amd": "^4.0.0",
     "rollup-plugin-multi-input": "^1.3.1",
