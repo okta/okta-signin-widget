@@ -11,6 +11,7 @@
  */
 
 import { OktaAuth, OktaAuthOptions, Tokens } from '@okta/okta-auth-js';
+import EventEmitter from 'tiny-emitter';
 import pick from 'lodash/pick';
 import { h, render } from 'preact';
 
@@ -61,12 +62,15 @@ export default class OktaSignIn {
     [key in OktaWidgetEventType]: OktaWidgetEventHandler
   };
 
+  private eventEmitter: EventEmitter;
+
   el: string | null;
 
   constructor(options: WidgetProps) {
     this.version = OKTA_SIW_VERSION;
     this.options = options;
     this.el = null;
+    this.eventEmitter = new EventEmitter();
 
     this.events = {
       ready: () => { },
@@ -161,6 +165,7 @@ export default class OktaSignIn {
             authClient: this.authClient,
             globalSuccessFn: onSuccessWrapper,
             globalErrorFn: onErrorWrapper,
+            eventEmitter: this.eventEmitter,
             ...this.options,
           }), target);
         } else {
@@ -208,9 +213,13 @@ export default class OktaSignIn {
 
   after(): void { }
 
-  hide(): void { }
+  hide(): void {
+    this.eventEmitter.emit('hide', true);
+  }
 
-  show(): void { }
+  show(): void {
+    this.eventEmitter.emit('hide', false);
+  }
 
   remove(): void {
     const target = typeof this.el === 'string'

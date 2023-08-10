@@ -281,4 +281,8 @@ export default class BasePageObject {
   getSpinnerStyle() {
     return Selector('.spinner').getStyleProperty('display');
   }
+
+  isVisible() {
+    return this.form.el.visible;
+  }
 }

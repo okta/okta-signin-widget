@@ -10,7 +10,7 @@
   visibility: hidden;
 }
 :global(.hide) {
-  display: none;
+  display: none !important;
 }
 :global(.auth .content) {
   min-block-size: 100%;
