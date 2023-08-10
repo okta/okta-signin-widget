@@ -32,7 +32,6 @@ const PLAYGROUND = resolve(__dirname, '../..', 'playground');
 const TARGET = resolve(__dirname, '../..', 'target');
 const ASSETS = resolve(__dirname, '../..', 'assets');
 
-// run `OKTA_SIW_HOST=0.0.0.0 yarn start --watch` to override the host
 const HOST = process.env.OKTA_SIW_HOST || 'localhost';
 const STATIC_DIRS = [PLAYGROUND, TARGET, ASSETS];
 

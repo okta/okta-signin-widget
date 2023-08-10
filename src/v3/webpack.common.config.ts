@@ -109,8 +109,10 @@ const baseConfig: Partial<Configuration> = {
       '@okta/courage': resolve(__dirname, '../../packages/@okta/courage-dist'),
       '@okta/mocks': resolve(__dirname, '../../playground/mocks'),
       '@okta/okta-i18n-bundles': resolve(__dirname, '../util/Bundles.ts'),
+      // needed because we use courage in src/util/locUtil.ts
       '@okta/qtip': resolve(__dirname, '../../packages/@okta/qtip2/dist/jquery.qtip.js'),
       'widgets/jquery.qtip': resolve(__dirname, '../../packages/@okta/qtip2/dist/jquery.qtip.css'),
+
       config: resolve(__dirname, '../config'),
       nls: resolve(__dirname, '../../packages/@okta/i18n/src/json'),
       okta: resolve(__dirname, '../../packages/@okta/courage-dist'),
