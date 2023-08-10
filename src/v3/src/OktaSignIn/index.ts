@@ -11,9 +11,9 @@
  */
 
 import { OktaAuth, OktaAuthOptions, Tokens } from '@okta/okta-auth-js';
-import EventEmitter from 'tiny-emitter';
 import pick from 'lodash/pick';
 import { h, render } from 'preact';
+import EventEmitter from 'tiny-emitter';
 
 import {
   OktaSignInAPI, RenderErrorCallback, RenderResult, RenderSuccessCallback,

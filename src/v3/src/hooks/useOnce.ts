@@ -10,19 +10,13 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import {
-  useEffect, useRef,
-} from 'preact/hooks';
+import { useRef } from 'preact/hooks';
 
-export const useOnce = (callbackStart: () => void, callbackEnd: () => void) => {
-  const callbackStartCalled = useRef(false);
+export const useOnce = (callback: () => void) => {
+  const callbackCalled = useRef(false);
 
-  if (!callbackStartCalled.current) {
-    callbackStartCalled.current = true;
-    callbackStart();
+  if (!callbackCalled.current) {
+    callbackCalled.current = true;
+    callback();
   }
-
-  useEffect(() => {
-    return callbackEnd;
-  }, []);
 };

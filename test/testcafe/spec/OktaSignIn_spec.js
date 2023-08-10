@@ -1,4 +1,4 @@
-import { ClientFunction, RequestMock } from 'testcafe';
+import { ClientFunction, RequestMock, userVariables } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import xhrIdentifyWithPassword from '../../../playground/mocks/data/idp/idx/identify-with-password';
@@ -17,10 +17,16 @@ const showWidget = ClientFunction(() => {
   window.getWidgetInstance().show();
 });
 
-const renderHiddenWidget = ClientFunction((settings) => {
+const renderHiddenWidget = ClientFunction(({v3}) => {
   // functions `renderPlaygroundWidget` and `getWidgetInstance` are defined in playground/main.js
-  window.renderPlaygroundWidget(settings);
-  window.getWidgetInstance().hide();
+  window.renderPlaygroundWidget();
+  if (v3) {
+    window.getWidgetInstance().hide();
+  } else {
+    window.getWidgetInstance().on('ready', () => {
+      window.getWidgetInstance().hide();
+    });
+  }
 });
 
 fixture('OktaSignIn')
@@ -45,7 +51,7 @@ test.requestHooks(identifyMock)('should hide and show with corresponding methods
 test.requestHooks(identifyMock)('can render initially hidden widget', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
-  await renderHiddenWidget();
+  await renderHiddenWidget(userVariables);
   await t.expect(identityPage.isVisible()).eql(false);
   await showWidget();
   await t.expect(identityPage.isVisible()).eql(true);

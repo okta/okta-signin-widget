@@ -35,7 +35,10 @@ import { mergeThemes } from 'src/util/mergeThemes';
 import Bundles from '../../../../util/Bundles';
 import { IDX_STEP } from '../../constants';
 import { WidgetContextProvider } from '../../contexts';
-import { useInteractionCodeFlow, usePolling, useStateHandle, useOnce } from '../../hooks';
+import {
+  useInteractionCodeFlow, useOnce,
+  usePolling, useStateHandle,
+} from '../../hooks';
 import { transformIdxTransaction } from '../../transformer';
 import {
   transformTerminalTransaction,
@@ -381,14 +384,15 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   }, [responseError]);
 
   // listen to 'hide' event
-  const onHide = useCallback((hide: boolean) => {
-    setHide(hide);
+  const onHide = useCallback((hideValue: boolean) => {
+    setHide(hideValue);
   }, []);
   useOnce(() => {
     eventEmitter?.on('hide', onHide);
-  }, () => {
-    eventEmitter?.off('hide', onHide);
   });
+  useEffect(() => () => {
+    eventEmitter?.off('hide', onHide);
+  }, [eventEmitter, onHide]);
 
   return (
     <WidgetContextProvider value={{
