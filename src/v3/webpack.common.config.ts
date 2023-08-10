@@ -116,7 +116,7 @@ const baseConfig: Partial<Configuration> = {
       config: resolve(__dirname, '../config'),
       nls: resolve(__dirname, '../../packages/@okta/i18n/src/json'),
       okta: resolve(__dirname, '../../packages/@okta/courage-dist'),
-      src: resolve(__dirname, './src'), // FIXME use relative imports
+      src: resolve(__dirname, './src'), // FIXME OKTA-637372 use relative imports
       'util/BrowserFeatures': resolve(__dirname, '../util/BrowserFeatures'),
       'util/Bundles': resolve(__dirname, '../util/Bundles'),
       'util/Enums': resolve(__dirname, '../util/Enums'),
