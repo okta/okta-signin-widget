@@ -140,11 +140,11 @@ exports[`Email authenticator verification when email magic link = undefined rend
                     <p
                       class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-20"
                       data-se="o-form-explain"
-                      id="challenge-authenticator_Description_We_sent_an_email_to_<span_class=strong_no-translate>f****************e@examplecom</span>_Click_the_verification_link_in_your_email_to_continue_or_enter_the_code_below_okta_email_eae1egri5eK5zce0V1d7_4_1"
+                      id="challenge-authenticator_Description_We_sent_an_email_to_<span_class=strong_no-translate_dir-ltr>f****************e@examplecom</span>_Click_the_verification_link_in_your_email_to_continue_or_enter_the_code_below_okta_email_eae1egri5eK5zce0V1d7_4_1"
                     >
                       We sent an email to 
                       <span
-                        class="strong no-translate"
+                        class="strong no-translate dir-ltr"
                       >
                         f****************e@example.com
                       </span>
@@ -368,11 +368,11 @@ exports[`Email authenticator verification when email magic link = undefined rend
                     <p
                       class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-27"
                       data-se="o-form-explain"
-                      id="challenge-authenticator_Description_We_sent_an_email_to_<span_class=strong_no-translate>f****************e@examplecom</span>_Click_the_verification_link_in_your_email_to_continue_or_enter_the_code_below_okta_email_eae1egri5eK5zce0V1d7_4_1"
+                      id="challenge-authenticator_Description_We_sent_an_email_to_<span_class=strong_no-translate_dir-ltr>f****************e@examplecom</span>_Click_the_verification_link_in_your_email_to_continue_or_enter_the_code_below_okta_email_eae1egri5eK5zce0V1d7_4_1"
                     >
                       We sent an email to 
                       <span
-                        class="strong no-translate"
+                        class="strong no-translate dir-ltr"
                       >
                         f****************e@example.com
                       </span>
@@ -552,11 +552,11 @@ exports[`Email authenticator verification when email magic link = undefined rend
                     <p
                       class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-20"
                       data-se="o-form-explain"
-                      id="challenge-authenticator_Description_We_sent_an_email_to_<span_class=strong_no-translate>f****************e@examplecom</span>_Click_the_verification_link_in_your_email_to_continue_or_enter_the_code_below_okta_email_eae1egri5eK5zce0V1d7_8_2"
+                      id="challenge-authenticator_Description_We_sent_an_email_to_<span_class=strong_no-translate_dir-ltr>f****************e@examplecom</span>_Click_the_verification_link_in_your_email_to_continue_or_enter_the_code_below_okta_email_eae1egri5eK5zce0V1d7_8_2"
                     >
                       We sent an email to 
                       <span
-                        class="strong no-translate"
+                        class="strong no-translate dir-ltr"
                       >
                         f****************e@example.com
                       </span>
@@ -801,11 +801,11 @@ exports[`Email authenticator verification when email magic link = undefined rend
                     <p
                       class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
                       data-se="o-form-explain"
-                      id="challenge-authenticator_Description_We_sent_an_email_to_<span_class=strong_no-translate>t***t@idxcom</span>_Click_the_verification_link_in_your_email_to_continue_or_enter_the_code_below_okta_email_eaexdyjzXZ3iWikza0g3_8_2"
+                      id="challenge-authenticator_Description_We_sent_an_email_to_<span_class=strong_no-translate_dir-ltr>t***t@idxcom</span>_Click_the_verification_link_in_your_email_to_continue_or_enter_the_code_below_okta_email_eaexdyjzXZ3iWikza0g3_8_2"
                     >
                       We sent an email to 
                       <span
-                        class="strong no-translate"
+                        class="strong no-translate dir-ltr"
                       >
                         t***t@idx.com
                       </span>
@@ -1118,11 +1118,11 @@ exports[`Email authenticator verification when email magic link = undefined rend
                     <p
                       class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-32"
                       data-se="o-form-explain"
-                      id="challenge-authenticator_Description_We_sent_an_email_to_<span_class=strong_no-translate>t***t@idxcom</span>_Click_the_verification_link_in_your_email_to_continue_or_enter_the_code_below_okta_email_eaexdyjzXZ3iWikza0g3_8_2"
+                      id="challenge-authenticator_Description_We_sent_an_email_to_<span_class=strong_no-translate_dir-ltr>t***t@idxcom</span>_Click_the_verification_link_in_your_email_to_continue_or_enter_the_code_below_okta_email_eaexdyjzXZ3iWikza0g3_8_2"
                     >
                       We sent an email to 
                       <span
-                        class="strong no-translate"
+                        class="strong no-translate dir-ltr"
                       >
                         t***t@idx.com
                       </span>
@@ -1451,11 +1451,11 @@ exports[`Email authenticator verification when email magic link = undefined shou
                     <p
                       class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-20"
                       data-se="o-form-explain"
-                      id="challenge-authenticator_Description_We_sent_an_email_to_<span_class=strong_no-translate>f****************e@examplecom</span>_Click_the_verification_link_in_your_email_to_continue_or_enter_the_code_below_okta_email_eae1egri5eK5zce0V1d7_8_2"
+                      id="challenge-authenticator_Description_We_sent_an_email_to_<span_class=strong_no-translate_dir-ltr>f****************e@examplecom</span>_Click_the_verification_link_in_your_email_to_continue_or_enter_the_code_below_okta_email_eae1egri5eK5zce0V1d7_8_2"
                     >
                       We sent an email to 
                       <span
-                        class="strong no-translate"
+                        class="strong no-translate dir-ltr"
                       >
                         f****************e@example.com
                       </span>

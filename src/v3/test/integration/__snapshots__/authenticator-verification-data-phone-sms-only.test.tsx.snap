@@ -144,11 +144,11 @@ exports[`authenticator-verification-data-phone-sms-only should render form 1`] =
                   <p
                     class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-18"
                     data-se="o-form-explain"
-                    id="authenticator-verification-data_Description_Send_a_code_via_SMS_to_<span_class=strong_no-translate>1_XXX-XXX-4601</span>_phone_number_sms4bvjioge7Sdu3p5d7_2"
+                    id="authenticator-verification-data_Description_Send_a_code_via_SMS_to_<span_class=strong_no-translate_dir-ltr>1_XXX-XXX-4601</span>_phone_number_sms4bvjioge7Sdu3p5d7_2"
                   >
                     Send a code via SMS to 
                     <span
-                      class="strong no-translate"
+                      class="strong no-translate dir-ltr"
                     >
                       +1 XXX-XXX-4601
                     </span>

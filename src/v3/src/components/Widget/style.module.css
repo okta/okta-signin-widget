@@ -1,6 +1,10 @@
 :global(.clearfix) {
   display: block;
 }
+:global(.dir-ltr) {
+  direction: ltr;
+  unicode-bidi: embed;
+}
 :global(.clearfix:after,
 .clearfix:before) {
   display: block;

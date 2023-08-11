@@ -70,7 +70,7 @@ export const transformEmailAuthenticatorEnroll: IdxStepTransformer = ({ transact
   } else {
     const emailAddress = getUserInfo(transaction).identifier;
     const tokenReplacement: TokenReplacement | undefined = typeof emailAddress !== 'undefined'
-      ? { $1: { element: 'span', attributes: { class: 'strong no-translate' } } }
+      ? { $1: { element: 'span', attributes: { class: 'strong no-translate dir-ltr' } } }
       : undefined;
     subTitleElement.options.content = getEmailAuthenticatorSubtitle(
       emailAddress,

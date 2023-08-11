@@ -67,7 +67,7 @@ export const transformEmailAuthenticatorVerify: IdxStepTransformer = ({ transact
 
   const redactedEmailAddress = nextStep.relatesTo?.value?.profile?.email;
   const tokenReplacement: TokenReplacement | undefined = typeof redactedEmailAddress !== 'undefined'
-    ? { $1: { element: 'span', attributes: { class: 'strong no-translate' } } }
+    ? { $1: { element: 'span', attributes: { class: 'strong no-translate dir-ltr' } } }
     : undefined;
   const informationalText: DescriptionElement = {
     type: 'Description',

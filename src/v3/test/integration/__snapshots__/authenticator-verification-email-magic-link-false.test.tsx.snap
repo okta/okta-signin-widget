@@ -137,11 +137,11 @@ exports[`Email authenticator verification when email magic link = false Tests sh
                   <p
                     class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-19"
                     data-se="o-form-explain"
-                    id="challenge-authenticator_Description_We_sent_an_email_to_<span_class=strong_no-translate>f****************e@examplecom</span>_Enter_the_verification_code_in_the_text_box_okta_email_eae1egri5eK5zce0V1d7_3"
+                    id="challenge-authenticator_Description_We_sent_an_email_to_<span_class=strong_no-translate_dir-ltr>f****************e@examplecom</span>_Enter_the_verification_code_in_the_text_box_okta_email_eae1egri5eK5zce0V1d7_3"
                   >
                     We sent an email to 
                     <span
-                      class="strong no-translate"
+                      class="strong no-translate dir-ltr"
                     >
                       f****************e@example.com
                     </span>

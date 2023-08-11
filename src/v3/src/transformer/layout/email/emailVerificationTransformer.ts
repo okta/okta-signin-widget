@@ -50,7 +50,7 @@ export const transformEmailVerification: IdxStepTransformer = ({ transaction, fo
           'oie.email.verify.subtitle.text.with.email',
           'login',
           [redactedEmailAddress],
-          { $1: { element: 'span', attributes: { class: 'strong no-translate' } } },
+          { $1: { element: 'span', attributes: { class: 'strong no-translate dir-ltr' } } },
         )
         : loc('oie.email.verify.subtitle.text.without.email', 'login'),
     },

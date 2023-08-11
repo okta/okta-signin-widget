@@ -137,11 +137,11 @@ exports[`Email authenticator enroll when magic link = false Tests should render 
                   <p
                     class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-19"
                     data-se="o-form-explain"
-                    id="enroll-authenticator_Description_We_sent_an_email_to_<span_class=strong_no-translate>testUser@oktacom</span>_Enter_the_verification_code_in_the_text_box_okta_email_aut2m2nnGGzJy8uO80g4_3"
+                    id="enroll-authenticator_Description_We_sent_an_email_to_<span_class=strong_no-translate_dir-ltr>testUser@oktacom</span>_Enter_the_verification_code_in_the_text_box_okta_email_aut2m2nnGGzJy8uO80g4_3"
                   >
                     We sent an email to 
                     <span
-                      class="strong no-translate"
+                      class="strong no-translate dir-ltr"
                     >
                       testUser@okta.com
                     </span>
