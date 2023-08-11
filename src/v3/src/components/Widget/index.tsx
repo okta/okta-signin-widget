@@ -384,15 +384,15 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   }, [responseError]);
 
   // listen to 'hide' event
-  const onHide = useCallback((hideValue: boolean) => {
+  const toggleVisibility = useCallback((hideValue: boolean) => {
     setHide(hideValue);
   }, []);
   useOnce(() => {
-    eventEmitter?.on('hide', onHide);
+    eventEmitter?.on('hide', toggleVisibility);
   });
   useEffect(() => () => {
-    eventEmitter?.off('hide', onHide);
-  }, [eventEmitter, onHide]);
+    eventEmitter?.off('hide', toggleVisibility);
+  }, [eventEmitter, toggleVisibility]);
 
   return (
     <WidgetContextProvider value={{

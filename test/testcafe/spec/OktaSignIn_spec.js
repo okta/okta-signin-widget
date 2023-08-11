@@ -21,6 +21,7 @@ const renderHiddenWidget = ClientFunction(({v3}) => {
   // functions `renderPlaygroundWidget` and `getWidgetInstance` are defined in playground/main.js
   window.renderPlaygroundWidget();
   if (v3) {
+    // TODO: call `hide()` on `ready` event after OKTA-637702
     window.getWidgetInstance().hide();
   } else {
     window.getWidgetInstance().on('ready', () => {

@@ -20,7 +20,7 @@ import style from './style.module.css';
 
 const AuthContainer: FunctionComponent<{ hide?: boolean }> = ({ children, hide }) => {
   const { languageDirection, languageCode } = useWidgetContext();
-  const classes = classNames('auth-container', 'main-container', style.mainViewContainer, hide && 'hide');
+  const classes = classNames('auth-container', 'main-container', style.mainViewContainer, hide && style.hide);
   const isMobileWidth = useMediaQuery('screen and (max-width: 391px)');
 
   return (
