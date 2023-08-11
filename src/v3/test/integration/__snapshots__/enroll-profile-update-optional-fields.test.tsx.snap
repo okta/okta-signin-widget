@@ -78,7 +78,7 @@ exports[`enroll-profile-update-optional-fields should render form with one requi
                   class="MuiBox-root emotion-13"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-14"
+                    class="MuiTypography-root MuiTypography-h4 okta-form-title o-form-head emotion-14"
                     data-se="o-form-head"
                     id="profile-update_Title_Additional_Profile_information_1"
                     tabindex="-1"

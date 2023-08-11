@@ -32,7 +32,7 @@ const ConsentHeader: FunctionComponent = () => {
     'login',
     [appName],
     {
-      $1: { element: 'h2', attributes: { class: 'no-translate' } },
+      $1: { element: 'h2', attributes: { class: 'okta-form-title no-translate' } },
       $2: { element: 'p' },
     },
   );
@@ -107,7 +107,7 @@ const ConsentHeader: FunctionComponent = () => {
             <Typography
               component="h2"
               variant="h6"
-              className="no-translate"
+              className="okta-form-title no-translate"
             >
               {appName}
             </Typography>

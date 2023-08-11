@@ -121,7 +121,7 @@ exports[`authenticator-verification-custom-otp should render form 1`] = `
                   class="MuiBox-root emotion-14"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-15"
+                    class="MuiTypography-root MuiTypography-h4 okta-form-title o-form-head emotion-15"
                     data-se="o-form-head"
                     id="challenge-authenticator_Title_Verify_with_Atko_Custom_OTP_Authenticator_custom_otp_aut11ceMaP0B0EzMI0g4_1"
                     tabindex="-1"

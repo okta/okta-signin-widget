@@ -36,7 +36,7 @@ exports[`granular-consent-without-logo should render form 1`] = `
               class="title-text MuiBox-root emotion-8"
             >
               <h2
-                class="MuiTypography-root MuiTypography-h6 no-translate emotion-9"
+                class="MuiTypography-root MuiTypography-h6 okta-form-title no-translate emotion-9"
               >
                 Native client
               </h2>
@@ -245,7 +245,7 @@ exports[`granular-consent-without-logo should render form 1`] = `
                       <p
                         class="MuiFormHelperText-root MuiFormHelperText-sizeMedium no-translate emotion-27"
                       >
-                        This allows the app to view your mobile phone call history.
+                        Donec vel suscipit odio, vel porttitor nisl. Sed viverra mauris sit amet finibus lobortis. Cras in tempor libero, quis ullamcorper ante. Donec efficitur diam augue, sit amet ullamcorper lorem vestibulum consequat. Fusce vitae ipsum mollis, auctor tellus eu, pellentesque sapien. Vivamus suscipit molestie nibh, vestibulum tincidunt neque mollis ac. Vestibulum bibendum magna gravida leo mattis, ut semper tortor pharetra. Aenean dolor magna, pulvinar vel laoreet eu, rutrum vitae neque. Nulla egestas, nisl at dictum aliquam, nulla massa condimentum neque, ac bibendum nibh turpis auctor ligula. Nunc tempor augue libero, maximus pretium ipsum rutrum sed. Curabitur consectetur mauris id urna sodales, sit amet tincidunt diam dapibus. Etiam imperdiet ultrices nisl. Nunc eu diam nec dui porttitor sodales vel tristique mauris. Mauris id tortor leo. Etiam in dolor faucibus eros elementum suscipit. Donec at ex lacus.
                       </p>
                     </span>
                   </label>

@@ -112,7 +112,7 @@ exports[`authenticator-verification-okta-verify-push should render form 1`] = `
                   class="MuiBox-root emotion-14"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-15"
+                    class="MuiTypography-root MuiTypography-h4 okta-form-title o-form-head emotion-15"
                     data-se="o-form-head"
                     id="authenticator-verification-data_Title_Get_a_push_notification_okta_verify_aut2h3fft4y9pDPCS1d7_1"
                     tabindex="-1"

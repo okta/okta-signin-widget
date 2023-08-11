@@ -126,7 +126,7 @@ exports[`authenticator-verification-data-phone-sms-only should render form 1`] =
                   class="MuiBox-root emotion-14"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-15"
+                    class="MuiTypography-root MuiTypography-h4 okta-form-title o-form-head emotion-15"
                     data-se="o-form-head"
                     id="authenticator-verification-data_Title_Verify_with_your_phone_phone_number_sms4bvjioge7Sdu3p5d7_1"
                     tabindex="-1"

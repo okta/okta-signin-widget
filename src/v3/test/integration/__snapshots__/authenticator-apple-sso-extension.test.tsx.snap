@@ -41,7 +41,7 @@ exports[`authenticator-apple-sso-extension calls verify then cancels the transac
                   class="MuiBox-root emotion-8"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-9"
+                    class="MuiTypography-root MuiTypography-h4 okta-form-title o-form-head emotion-9"
                     data-se="o-form-head"
                     id="identify_Title_Sign_In_1"
                     tabindex="-1"
@@ -232,7 +232,7 @@ exports[`authenticator-apple-sso-extension cancels the transaction when sso exte
                   class="MuiBox-root emotion-8"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-9"
+                    class="MuiTypography-root MuiTypography-h4 okta-form-title o-form-head emotion-9"
                     data-se="o-form-head"
                     id="identify_Title_Sign_In_1"
                     tabindex="-1"
@@ -423,7 +423,7 @@ exports[`authenticator-apple-sso-extension opens the verify url with credential 
                   class="MuiBox-root emotion-8"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-9"
+                    class="MuiTypography-root MuiTypography-h4 okta-form-title o-form-head emotion-9"
                     data-se="o-form-head"
                     id="identify_Title_Sign_In_1"
                     tabindex="-1"

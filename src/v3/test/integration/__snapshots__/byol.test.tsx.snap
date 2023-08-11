@@ -126,7 +126,7 @@ exports[`byol loading custom language should load custom language with "language
                   class="MuiBox-root emotion-14"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-15"
+                    class="MuiTypography-root MuiTypography-h4 okta-form-title o-form-head emotion-15"
                     data-se="o-form-head"
                     id="authenticator-enrollment-data_Title_Set_up_foo_authentication_phone_number_aid568g3mXgtID0X1SLH_1"
                     tabindex="-1"
@@ -1719,7 +1719,7 @@ exports[`byol loading custom language should load custom language with assets.ba
                   class="MuiBox-root emotion-14"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-15"
+                    class="MuiTypography-root MuiTypography-h4 okta-form-title o-form-head emotion-15"
                     data-se="o-form-head"
                     id="authenticator-enrollment-data_Title_Set_up_foo_authentication_phone_number_aid568g3mXgtID0X1SLH_1"
                     tabindex="-1"
@@ -3312,7 +3312,7 @@ exports[`byol loading default language should not load custom language when the 
                   class="MuiBox-root emotion-14"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-15"
+                    class="MuiTypography-root MuiTypography-h4 okta-form-title o-form-head emotion-15"
                     data-se="o-form-head"
                     id="authenticator-enrollment-data_Title_Set_up_phone_authentication_phone_number_aid568g3mXgtID0X1SLH_1"
                     tabindex="-1"
@@ -4905,7 +4905,7 @@ exports[`byol loading default language should not load custom language with "lan
                   class="MuiBox-root emotion-14"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-15"
+                    class="MuiTypography-root MuiTypography-h4 okta-form-title o-form-head emotion-15"
                     data-se="o-form-head"
                     id="authenticator-enrollment-data_Title_Set_up_phone_authentication_phone_number_aid568g3mXgtID0X1SLH_1"
                     tabindex="-1"

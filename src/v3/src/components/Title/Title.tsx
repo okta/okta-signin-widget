@@ -40,6 +40,7 @@ const Title: UISchemaElementComponent<{
     >
       <Typography
         id={id}
+        className="okta-form-title o-form-head"
         component="h2"
         variant="h4"
         data-se="o-form-head"

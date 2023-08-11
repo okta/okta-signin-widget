@@ -116,7 +116,7 @@ exports[`terminal-return-otp-only-full-location-unlock renders form 1`] = `
                   class="MuiBox-root emotion-14"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-15"
+                    class="MuiTypography-root MuiTypography-h4 okta-form-title o-form-head emotion-15"
                     data-se="o-form-head"
                     tabindex="-1"
                   >
