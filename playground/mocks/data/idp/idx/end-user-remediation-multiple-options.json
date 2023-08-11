@@ -8,18 +8,21 @@
     "type": "array",
     "value": [
       {
+        "message": "Your device doesn't meet the security requirements",
         "i18n": {
           "key": "idx.error.code.access_denied.device_assurance.remediation.title"
         },
         "class": "ERROR"
       },
       {
+        "message": "To sign in, pick an option and make the updates. Then, access the app again.",
         "i18n": {
-          "key": "idx.error.code.access_denied.device_assurance.remediation.explanation_one_rule"
+          "key": "idx.error.code.access_denied.device_assurance.remediation.explanation_multiple_rules"
         },
         "class": "ERROR"
       },
       {
+        "message": "Option 1:",
         "i18n": {
           "key": "idx.error.code.access_denied.device_assurance.remediation.option_index",
           "params": ["1"]
@@ -30,6 +33,7 @@
         "links": [
           {"url": "https://okta.com/android-upgrade-os"}
         ],
+        "message": "Update to Android 100",
         "i18n": {
           "key": "idx.error.code.access_denied.device_assurance.remediation.android.upgrade_os_version",
           "params": ["100"]
@@ -40,12 +44,14 @@
         "links": [
           {"url": "https://okta.com/android-biometric-lock"}
         ],
+        "message": "Enable lock screen and biometrics",
         "i18n": {
           "key": "idx.error.code.access_denied.device_assurance.remediation.android.use_biometric_lock_screen"
         },
         "class": "ERROR"
       },
       {
+        "message": "Option 2:",
         "i18n": {
           "key": "idx.error.code.access_denied.device_assurance.remediation.option_index",
           "params": ["2"]
@@ -56,6 +62,7 @@
         "links": [
           {"url": "https://okta.com/android-lock-screen"}
         ],
+        "message": "Enable lock screen",
         "i18n": {
           "key": "idx.error.code.access_denied.device_assurance.remediation.android.use_lock_screen"
         },
@@ -65,6 +72,7 @@
         "links": [
           {"url": "https://okta.com/android-disk-encrypted"}
         ],
+        "message": "Encrypt your device",
         "i18n": {
           "key": "idx.error.code.access_denied.device_assurance.remediation.android.device_disk_encrypted"
         },
@@ -74,6 +82,7 @@
         "links": [
           {"url": "https://okta.com/help"}
         ],
+        "message": "For more information, follow the instructions on the help page or contact your administrator for help",
         "i18n": {
           "key": "idx.error.code.access_denied.device_assurance.remediation.additional_help_default"
         },

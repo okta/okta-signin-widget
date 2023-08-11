@@ -8,18 +8,21 @@
       "type": "array",
       "value": [
         {
+          "message": "Your device doesn't meet the security requirements",
           "i18n": {
             "key": "idx.error.code.access_denied.device_assurance.remediation.title"
           },
           "class": "ERROR"
         },
         {
+          "message": "To sign in, pick an option and make the updates. Then, access the app again.",
           "i18n": {
-            "key": "idx.error.code.access_denied.device_assurance.remediation.explanation_one_rule"
+            "key": "idx.error.code.access_denied.device_assurance.remediation.explanation_multiple_rules"
           },
           "class": "ERROR"
         },
         {
+          "message": "Option 1:",
           "i18n": {
             "key": "idx.error.code.access_denied.device_assurance.remediation.option_index",
             "params": ["1"]
@@ -27,6 +30,7 @@
           "class": "ERROR"
         },
         {
+            "message": "Update to iOS 12.0.1",
             "i18n": {
                 "key": "idx.error.code.access_denied.device_assurance.remediation.ios.upgrade_os_version",
                 "params": ["12.0.1"]
@@ -37,6 +41,7 @@
             "class": "ERROR"
         },
         {
+            "message": "Set a passcode for the lock screen",
             "i18n": {
                 "key": "idx.error.code.access_denied.device_assurance.remediation.ios.use_lock_screen"
             },
@@ -46,6 +51,7 @@
             "class": "ERROR"
         },
         {
+            "message": "Set a passcode for the lock screen and enable Touch ID or Face ID",
             "i18n": {
                 "key": "idx.error.code.access_denied.device_assurance.remediation.ios.use_biometric_lock_screen"
             },
@@ -55,6 +61,7 @@
             "class": "ERROR"
         },
         {
+          "message": "Option 2:",
           "i18n": {
             "key": "idx.error.code.access_denied.device_assurance.remediation.option_index",
             "params": ["2"]
@@ -62,6 +69,7 @@
           "class": "ERROR"
         },
         {
+            "message": "Update to macOS 13.2",
             "i18n": {
                 "key": "idx.error.code.access_denied.device_assurance.remediation.macos.upgrade_os_version",
                 "params": ["13.2"]
@@ -72,6 +80,7 @@
             "class": "ERROR"
         },
         {
+            "message": "Set a passcode for the lock screen",
             "i18n": {
                 "key": "idx.error.code.access_denied.device_assurance.remediation.macos.use_lock_screen"
             },
@@ -81,6 +90,7 @@
             "class": "ERROR"
         },
         {
+            "message": "Turn on FileVault",
             "i18n": {
                 "key": "idx.error.code.access_denied.device_assurance.remediation.macos.device_disk_encrypted"
             },
@@ -90,6 +100,7 @@
             "class": "ERROR"
         },
         {
+            "message": "Option 3:",
             "i18n": {
               "key": "idx.error.code.access_denied.device_assurance.remediation.option_index",
               "params": ["3"]
@@ -97,6 +108,7 @@
             "class": "ERROR"
         },
         {
+            "message": "Update to Windows 10.0.25530.123",
             "i18n": {
                 "key": "idx.error.code.access_denied.device_assurance.remediation.windows.upgrade_os_version",
                 "params": ["10.0.25530.123"]
@@ -107,6 +119,7 @@
             "class": "ERROR"
         },
         {
+            "message": "Encrypt all internal disks with BitLocker",
             "i18n": {
                 "key": "idx.error.code.access_denied.device_assurance.remediation.windows.device_disk_encrypted"
             },
@@ -116,6 +129,7 @@
             "class": "ERROR"
         },
         {
+            "message": "Option 4:",
             "i18n": {
               "key": "idx.error.code.access_denied.device_assurance.remediation.option_index",
               "params": ["4"]
@@ -123,6 +137,7 @@
             "class": "ERROR"
         },
         {
+            "message": "Enable Windows Hello for the lock screen",
             "i18n": {
                 "key": "idx.error.code.access_denied.device_assurance.remediation.windows.use_biometric_lock_screen"
             },
@@ -132,6 +147,7 @@
             "class": "ERROR"
         },
         {
+            "message": "For more information, follow the instructions on your organization's help page or contact your administrator for help",
             "i18n": {
                 "key": "idx.error.code.access_denied.device_assurance.remediation.additional_help_custom"
             },
