@@ -107,10 +107,16 @@ const Body = BaseFormWithPolling.extend({
             .done(() => {
               foundPort = true;
               if (deviceChallenge.enhancedPollingEnabled !== false) {
+                // this way we can gurantee that
+                // 1. the polling is triggered right away (1ms interval)
+                // 2. Only one polling queue
+                // 3. follwoing polling will continue with refresh interval from previous polling response
+                // NOTE: technically, there could still be concurrency issue where when we called stopPolling,
+                // there is already a polling triggered and hasn't completed yet
+                // but the possibility would be much smaller than previous concurrency issue
+                // this is a best effort change
                 this.stopPolling();
-                this.trigger('save', this.model);
-                // if this poll doesn't return a different remediation, start polling again
-                this.startPolling();
+                this.startPolling(1);
                 return;
               }
               // once the OV challenge succeeds,

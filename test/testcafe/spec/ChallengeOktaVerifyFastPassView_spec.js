@@ -103,8 +103,8 @@ const loopbackEnhancedPollingMock = RequestMock()
     res.headers['content-type'] = 'application/json';
     if (!firstPollCalledForEnhancedPolling) {
       firstPollCalledForEnhancedPolling = true;
-      // with enhanced polling, this interval can be shorter for testing
-      await new Promise((r) => setTimeout(r, 3000));
+      // give more time for the waiting time
+      await new Promise((r) => setTimeout(r, 8000));
       res.statusCode = '200';
       res.setBody(identify);
     } else {
@@ -324,6 +324,7 @@ test
 
     // If there is redundant polling, SIW will show bad request error
     await t.expect(deviceChallengePollPageObject.form.getErrorBoxText()).contains('Bad request');
+    await t.expect(deviceChallengePollPageObject.hasErrorBox()).eql(true);
 
     const identityPage = new IdentityPageObject(t);
     await identityPage.fillIdentifierField('Test Identifier');
@@ -348,6 +349,13 @@ test
     )).eql(1);
 
     // If there is no redundant polling, SIW will not show bad request error
+    // This waiting time is necessary. It will make sure:
+    // 1. if there is a bad request the error, the hasErrorBox will be executed after error box is visible
+    // 2. if there is no error, the view is a spinner and hasErrorBox will be false
+    // Hence, it's not making sense to use await inside the hasErrorBox method
+    await t.wait(2500);
+    await t.expect(deviceChallengePollPageObject.hasErrorBox()).eql(false);
+
     const identityPage = new IdentityPageObject(t);
     await identityPage.fillIdentifierField('Test Identifier');
     await t.expect(identityPage.getIdentifierValue()).eql('Test Identifier');
