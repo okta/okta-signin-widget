@@ -226,7 +226,7 @@ test.requestHooks(endUserRemediationMultipleOptionsMock)('should render end user
   await checkA11y(t);
 
   await t.expect(terminalViewPage.form.getErrorBoxCallout().withText('Your device doesn\'t meet the security requirements').exists).eql(true);
-  await t.expect(terminalViewPage.form.getErrorBoxCallout().withText('To sign in, make the following updates. Then, access the app again.').exists).eql(true);
+  await t.expect(terminalViewPage.form.getErrorBoxCallout().withText('To sign in, pick an option and make the updates. Then, access the app again.').exists).eql(true);
 
   await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://okta.com/android-upgrade-os').withExactText('Update to Android 100').exists).eql(true);
   await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://okta.com/android-biometric-lock').withExactText('Enable lock screen and biometrics').exists).eql(true);
@@ -246,7 +246,7 @@ test.requestHooks(endUserRemediationMultipleOptionsWithCustomHelpUrlMock)('shoul
   // platforms. The test exists to ensure all of the expected keys can be
   // localized
   await t.expect(terminalViewPage.form.getErrorBoxCallout().withText('Your device doesn\'t meet the security requirements').exists).eql(true);
-  await t.expect(terminalViewPage.form.getErrorBoxCallout().withText('To sign in, make the following updates. Then, access the app again.').exists).eql(true);
+  await t.expect(terminalViewPage.form.getErrorBoxCallout().withText('To sign in, pick an option and make the updates. Then, access the app again.').exists).eql(true);
 
   await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://okta.com/ios-upgrade-os').withExactText('Update to iOS 12.0.1').exists).eql(true);
   await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://okta.com/ios-lock-screen').withExactText('Set a passcode for the lock screen').exists).eql(true);
