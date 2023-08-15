@@ -109,7 +109,7 @@ const ConsentHeader: FunctionComponent = () => {
             <Typography
               component="h2"
               variant="h6"
-              className="okta-form-title no-translate"
+              className="no-translate"
             >
               {appName}
             </Typography>
