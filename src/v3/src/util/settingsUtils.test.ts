@@ -166,6 +166,18 @@ describe('Settings Utils Tests', () => {
   });
 
   it.each`
+    brandNameProvided
+    ${false}
+    ${true}
+  `('should not return page title when setPageTitle is false and brandName provided: $brandNameProvided', ({ brandNameProvided }) => {
+    const formTitle = 'Sign In';
+    const brandName: string | undefined = brandNameProvided && 'Acme Inc.';
+    widgetProps = { brandName, features: { setPageTitle: false } };
+
+    expect(getPageTitle(widgetProps, formTitle)).toBeUndefined();
+  });
+
+  it.each`
     setPageTitle
     ${''}
     ${'My custom page title'}
