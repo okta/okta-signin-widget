@@ -33,7 +33,7 @@ import {
 import { mergeThemes } from 'src/util/mergeThemes';
 
 import Bundles from '../../../../util/Bundles';
-import { IDX_STEP } from '../../constants';
+import { CONSENT_HEADER_STEPS, IDX_STEP } from '../../constants';
 import { WidgetContextProvider } from '../../contexts';
 import {
   useInteractionCodeFlow, useOnce,
@@ -447,7 +447,11 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
                 authCoinProps={buildAuthCoinProps(idxTransaction)}
               />
               <AuthContent>
-                <ConsentHeader />
+                {
+                  idxTransaction?.nextStep?.name
+                  && CONSENT_HEADER_STEPS.includes(idxTransaction.nextStep.name)
+                  && <ConsentHeader />
+                }
                 <IdentifierContainer />
                 {
                   uischema.elements.length > 0

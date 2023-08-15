@@ -16,7 +16,7 @@ import { Box, Typography } from '@okta/odyssey-react-mui';
 import { escape } from 'lodash';
 import { Fragment, FunctionComponent, h } from 'preact';
 
-import { CONSENT_HEADER_STEPS, IDX_STEP } from '../../constants';
+import { IDX_STEP } from '../../constants';
 import { useWidgetContext } from '../../contexts';
 import { useDocumentTitle, useHtmlContentParser } from '../../hooks';
 import { getAppInfo, getHeadingReplacerFn, loc } from '../../util';
@@ -41,10 +41,6 @@ const ConsentHeader: FunctionComponent = () => {
     { replace: getHeadingReplacerFn({}, 'h2', 2, 6) },
   );
 
-  if (!idxTransaction?.nextStep || !CONSENT_HEADER_STEPS.includes(idxTransaction.nextStep.name)) {
-    return null;
-  }
-  const stepName = idxTransaction.nextStep.name;
   // Dynamically update page title
   useDocumentTitle(appName);
 
@@ -92,6 +88,7 @@ const ConsentHeader: FunctionComponent = () => {
   };
 
   const getHeaderContent = () => {
+    const stepName = idxTransaction!.nextStep!.name;
     if ([IDX_STEP.CONSENT_ADMIN, IDX_STEP.CONSENT_ENDUSER].includes(stepName)) {
       // @ts-expect-error OKTA-598777 authentication missing from IdxContext interface
       const { rawIdxState: { authentication: { value: { issuer } } = {} } } = idxTransaction;

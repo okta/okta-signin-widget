@@ -11,13 +11,14 @@
  */
 
 import { IdxTransaction } from '@okta/okta-auth-js';
+import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
+
 import { WidgetProps } from '../types';
 import {
   getBackToSignInUri, getCustomHelpLinks, getDefaultCountryCode, getFactorPageCustomLink,
   getForgotPasswordUri, getHelpLink, getLanguageCode, getPageTitle, getUnlockAccountUri,
   transformIdentifier,
 } from './settingsUtils';
-import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 
 jest.mock('../../../util/BrowserFeatures', () => ({
   getUserLanguages: jest.fn().mockReturnValue(['en', 'en-US']),
@@ -156,10 +157,11 @@ describe('Settings Utils Tests', () => {
     const formTitle = 'Sign In';
     const brandName: string | undefined = brandNameProvided && 'Acme Inc.';
     widgetProps = { brandName, features: { setPageTitle } };
-    
-    const expectedPageTitle = setPageTitle !== false
-      ? (brandNameProvided ? `${brandName} | ${formTitle}` : formTitle)
-      : undefined;
+
+    let expectedPageTitle: string | undefined = brandNameProvided ? `${brandName} | ${formTitle}` : formTitle;
+    if (setPageTitle === false) {
+      expectedPageTitle = undefined;
+    }
     expect(getPageTitle(widgetProps, formTitle)).toBe(expectedPageTitle);
   });
 
@@ -189,7 +191,7 @@ describe('Settings Utils Tests', () => {
     };
     widgetProps = {
       features: {
-        setPageTitle: (context, params) => {
+        setPageTitle: (context) => {
           const CONTROLLER_TITLE_MAP: Record<string, string> = {
             'primary-auth': 'Sign In',
             registration: 'Enroll Profile',
