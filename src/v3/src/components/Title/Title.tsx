@@ -13,10 +13,10 @@
 import { Box, Typography } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 import { useEffect, useRef } from 'preact/hooks';
+import { useDocumentTitle } from 'src/hooks';
 
 import { useWidgetContext } from '../../contexts';
 import { TitleElement, UISchemaElementComponent } from '../../types';
-import { useDocumentTitle } from 'src/hooks';
 
 const Title: UISchemaElementComponent<{
   uischema: TitleElement

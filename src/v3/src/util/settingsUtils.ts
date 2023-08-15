@@ -33,8 +33,8 @@ import {
   RegistrationSchemaCallbackV3,
   WidgetProps,
 } from '../types';
-import { loc } from './locUtil';
 import { getEventContext } from './getEventContext';
+import { loc } from './locUtil';
 
 export const getSupportedLanguages = (widgetProps: WidgetProps): string[] => {
   const { i18n, language, assets: { languages } = {} } = widgetProps;
@@ -260,7 +260,7 @@ export const getPageTitle = (
   // When setPageTitle option is 'true', set title based on page header
   if ((typeof setPageTitle === 'boolean' && setPageTitle === true)
     || typeof setPageTitle === 'undefined') {
-      return brandName ? `${brandName} | ${formTitle}` : formTitle;
+    return brandName ? `${brandName} | ${formTitle}` : formTitle;
   }
 
   if (typeof setPageTitle === 'string') {
