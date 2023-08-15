@@ -49,7 +49,7 @@ const Title: UISchemaElementComponent<{
         ref={titleRef}
         tabIndex={-1}
         sx={{
-          outline: 'none'
+          outline: 'none',
         }}
       >
         {options.content}
