@@ -3,6 +3,7 @@
 const path = require('path');
 const fs = require('fs');
 const nodemon = require('nodemon');
+const { DefinePlugin } = require('webpack');
 
 const TARGET = path.resolve(__dirname, 'target');
 const ASSETS = path.resolve(__dirname, 'assets');
@@ -61,6 +62,11 @@ module.exports = {
     // Add `.ts` and `.tsx` as a resolvable extension.
     extensions: ['.ts', '.tsx', '.js']
   },
+  plugins: [
+    new DefinePlugin({
+      OMIT_MSWJS: process.env.OMIT_MSWJS === 'true',
+    })
+  ],
   module: {
     rules: [
       // all files with a `.ts` or `.tsx` extension will be handled by `preset-typescript`
