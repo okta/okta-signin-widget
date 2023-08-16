@@ -98,8 +98,8 @@ const devConfig: Configuration = merge<Partial<Configuration>>(
     ],
     devServer: {
       host: HOST,
-      watchFiles: [...STATIC_DIRS],
-      static: [...STATIC_DIRS],
+      watchFiles: STATIC_DIRS,
+      static: STATIC_DIRS,
       historyApiFallback: true,
       headers,
       compress: true,
