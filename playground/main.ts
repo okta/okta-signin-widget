@@ -11,9 +11,10 @@ import {
   RenderResultSuccessNonOIDCSession,
 } from '../src/types';
 import { assertNoEnglishLeaks } from '../playground/LocaleUtils';
-import { getWorker } from '../src/v3/src/mocks/browser';
 
 declare global {
+  const OMIT_MSWJS: boolean;
+
   interface Window {
     // added by widget CDN bundle
     OktaSignIn: OktaSignInConstructor;
@@ -166,11 +167,22 @@ if (typeof URL !== 'undefined') {
   }
 }
 
-// set up msw
-getWorker()
-  .then((worker) => worker?.start())
-  .then(() => {
-    if (render) {
-      renderPlaygroundWidget(window.additionalOptions ?? {});
-    }
-  });
+let preRenderTasks = Promise.resolve();
+
+// code pulled in by msw and its dependencies don't play well with ie11, so conditionally
+// exclude this from the bundle entirely using an env variable. you must restart the server
+// after setting this for it to take effect.
+if (!OMIT_MSWJS) {
+  // set up msw
+  preRenderTasks = import('../src/v3/src/mocks/browser')
+    .then(({ getWorker }) => getWorker())
+    .then((worker) => {
+      worker?.start();
+    });
+}
+
+preRenderTasks.then(() => {
+  if (render) {
+    renderPlaygroundWidget(window.additionalOptions ?? {});
+  }
+});

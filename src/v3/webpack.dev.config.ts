@@ -95,6 +95,7 @@ const devConfig: Configuration = merge<Partial<Configuration>>(
       }),
       new webpack.DefinePlugin({
         DEBUG: true,
+        OMIT_MSWJS: process.env.OMIT_MSWJS === 'true',
       }),
     ],
     devServer: {
