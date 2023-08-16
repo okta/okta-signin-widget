@@ -38,7 +38,7 @@ const baseConfig: Partial<Configuration> = {
       {
         test: /\.[jt]sx?$/,
         exclude(filePath) {
-          const filePathContains = (f) => filePath.indexOf(f) > 0;
+          const filePathContains = (f) => filePath.indexOf(f) >= 0;
           const npmRequiresTransform = [
             '/node_modules/parse-ms',
             '/node_modules/@sindresorhus/to-milliseconds',
@@ -133,6 +133,9 @@ const baseConfig: Partial<Configuration> = {
       'react/jsx-runtime': 'preact/jsx-runtime',
 
       // @mui -> @mui/legacy
+      // use the legacy @mui/* bundles for ie11 support
+      // https://mui.com/material-ui/guides/minimizing-bundle-size/#legacy-bundle
+      // https://mui.com/material-ui/getting-started/supported-platforms/#ie-11
       '@mui/base': '@mui/base/legacy',
       '@mui/lab': '@mui/lab/legacy',
       '@mui/material': '@mui/material/legacy',
