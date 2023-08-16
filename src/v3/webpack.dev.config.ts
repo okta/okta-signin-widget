@@ -84,7 +84,8 @@ const devConfig: Configuration = merge<Partial<Configuration>>(
     },
     resolve: {
       alias: {
-        '@okta/duo': `${PLAYGROUND}/mocks/spec-duo/duo-mock.js`,
+        // mock duo
+        '@okta/duo': resolve(PLAYGROUND, '/mocks/spec-duo/duo-mock.js'),
         duo_web_sdk: resolve(__dirname, 'src/__mocks__/duo_web_sdk'),
       }
     },

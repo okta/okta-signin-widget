@@ -55,11 +55,6 @@ const prodConfig: Configuration = merge<Partial<Configuration>>(
         },
       },
     },
-    resolve: {
-      alias: {
-        duo_web_sdk: 'duo_web_sdk',
-      }
-    },
     plugins: [
       new MiniCssExtractPlugin({
         filename: 'css/okta-sign-in.next.css',
