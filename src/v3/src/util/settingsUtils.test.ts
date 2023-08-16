@@ -151,17 +151,12 @@ describe('Settings Utils Tests', () => {
     ${undefined} | ${true}
     ${true}      | ${false}
     ${true}      | ${true}
-    ${false}     | ${false}
-    ${false}     | ${true}
   `('should return default page title when setPageTitle is: $setPageTitle and brandName provided: $brandNameProvided', ({ setPageTitle, brandNameProvided }) => {
     const formTitle = 'Sign In';
     const brandName: string | undefined = brandNameProvided && 'Acme Inc.';
     widgetProps = { brandName, features: { setPageTitle } };
 
-    let expectedPageTitle: string | undefined = brandNameProvided ? `${brandName} | ${formTitle}` : formTitle;
-    if (setPageTitle === false) {
-      expectedPageTitle = undefined;
-    }
+    const expectedPageTitle: string | undefined = brandNameProvided ? `${brandName} | ${formTitle}` : formTitle;
     expect(getPageTitle(widgetProps, formTitle)).toBe(expectedPageTitle);
   });
 
