@@ -2,7 +2,7 @@ node_modules
 test
 build2
 scripts
-.eslintrc.json
+.eslintrc.js
 .eslintignore
 .travis.yml
 yarn-error.log
