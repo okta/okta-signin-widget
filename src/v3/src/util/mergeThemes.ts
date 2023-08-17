@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { CSSInterpolation, CSSObject, ThemeOptions } from '@mui/material';
+import { CSSInterpolation, ThemeOptions } from '@mui/material';
 import { odysseyTheme } from '@okta/odyssey-react-mui';
 import { merge } from 'lodash';
 
@@ -35,7 +35,7 @@ const resolve = (override: StyleOverride, arg: Props): CSSInterpolation => {
     return cssInterpolate(override);
   }
   if (typeof override !== 'object') {
-    console.warn(`unrecognized type ${typeof override}`);
+    // console.warn(`unrecognized type ${typeof override}`);
   }
   return override;
 };
@@ -43,7 +43,10 @@ const resolve = (override: StyleOverride, arg: Props): CSSInterpolation => {
 /**
  * Merge themes
  */
-export const mergeThemes = (first: Theme, ...rest: Array<ThemeOptions | Partial<Theme>>): ThemeOptions => (
+export const mergeThemes = (
+  first: Theme,
+  ...rest: Array<ThemeOptions | Partial<Theme>>
+): ThemeOptions => (
   rest.reduce((prev, theme) => (
     !theme.components
       ? merge(prev, theme)
