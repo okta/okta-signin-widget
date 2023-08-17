@@ -167,7 +167,12 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
           </Box>
         )}
         {required === false && (
-          <Typography variant="subtitle1">{optionalLabel}</Typography>
+          <Typography
+            variant="subtitle1"
+            sx={{ whiteSpace: 'nowrap' }}
+          >
+            {optionalLabel}
+          </Typography>
         )}
       </InputLabel>
       <Select
@@ -206,7 +211,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
 
   return (
     <Box>
-      { renderCountrySelect() }
+      {renderCountrySelect()}
       <Box
         display="flex"
         flexWrap="wrap"
@@ -276,7 +281,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
             />
           )}
         </Box>
-        { renderExtension() }
+        {renderExtension()}
       </Box>
     </Box>
   );
