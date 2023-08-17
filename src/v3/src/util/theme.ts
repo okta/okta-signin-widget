@@ -10,10 +10,11 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { ThemeOptions } from '@mui/material';
 import { Theme } from '@mui/material/styles/createTheme';
 import { odysseyTheme } from '@okta/odyssey-react-mui';
 import chroma from 'chroma-js';
-import { cloneDeep } from 'lodash';
+import { cloneDeep, merge } from 'lodash';
 
 import { BrandColors, LanguageDirection } from '../types';
 
@@ -94,6 +95,7 @@ export const deriveThemeFromBrand = (brand: BrandColors): DerivedTheme | null =>
 export const mapMuiThemeFromBrand = (
   brand: BrandColors | undefined,
   languageDirection: LanguageDirection,
+  muiThemeOverrides?: ThemeOptions,
 ): Theme => {
   // TODO: OKTA-517723 temporary override until odyssey-react-mui theme borderRadius value is fixed
   odysseyTheme.shape.borderRadius = 4;
@@ -117,5 +119,5 @@ export const mapMuiThemeFromBrand = (
     }
   }
 
-  return odysseyThemeCopy;
+  return merge(odysseyThemeCopy, muiThemeOverrides);
 };

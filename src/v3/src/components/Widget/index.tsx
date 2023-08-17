@@ -117,7 +117,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
 
   // merge themes
   const theme = useMemo(() => mergeThemes(
-    mapMuiThemeFromBrand(brandColors, languageDirection),
+    mapMuiThemeFromBrand(brandColors, languageDirection, muiThemeOverrides),
     {
       components: {
         MuiInputLabel: {
@@ -129,8 +129,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
           },
         },
       },
-    },
-    muiThemeOverrides ?? {},
+    }
   ), [brandColors, languageDirection, muiThemeOverrides]);
 
   // on unmount, remove the language
