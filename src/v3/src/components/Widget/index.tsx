@@ -129,7 +129,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
           },
         },
       },
-    }
+    },
   ), [brandColors, languageDirection, muiThemeOverrides]);
 
   // on unmount, remove the language
