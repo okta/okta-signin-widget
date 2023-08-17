@@ -31,6 +31,7 @@ test('mergeThemes()', () => {
       components: {
         MuiInputLabel: {
           styleOverrides: {
+            // @ts-expect-error
             root: () => ({
               whiteSpace: 'break-spaces',
               justifyContent: 'revert',
@@ -66,15 +67,14 @@ test('mergeThemes()', () => {
     color: 'blue',
   };
 
-  if (typeof root === 'function') {
-    const actual = root({
-      ownerState: {},
-      theme: odysseyTheme,
-    });
-    expect(actual).toEqual(expected);
-  } else {
-    fail('expected styleOverrides.root to be function');
-  }
+  expect(typeof root).toBe('function');
+
+  // @ts-expect-error root is function
+  const actual = root({
+    ownerState: {},
+    theme: odysseyTheme,
+  });
+  expect(actual).toEqual(expected);
 
   const { getByText } = render(
     <ThemeProvider theme={merged}>
