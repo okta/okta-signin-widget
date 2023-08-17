@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { TextField, ThemeProvider } from '@mui/material';
+import { CSSObject, TextField, ThemeProvider } from '@mui/material';
 import { odysseyTheme } from '@okta/odyssey-react-mui';
 import { render } from '@testing-library/preact';
 
@@ -31,12 +31,11 @@ test('mergeThemes()', () => {
       components: {
         MuiInputLabel: {
           styleOverrides: {
-            // @ts-expect-error
             root: () => ({
               whiteSpace: 'break-spaces',
               justifyContent: 'revert',
               color: 'blue',
-            }),
+            } as CSSObject),
           },
         },
       },
