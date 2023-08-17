@@ -18,6 +18,7 @@ import { mergeThemes } from './mergeThemes';
 
 test('mergeThemes()', () => {
   const merged = mergeThemes(
+    odysseyTheme,
     {
       components: {
         MuiInputLabel: {

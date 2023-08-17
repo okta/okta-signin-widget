@@ -10,11 +10,11 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { CSSInterpolation, ThemeOptions } from '@mui/material';
+import { CSSInterpolation, CSSObject, ThemeOptions } from '@mui/material';
 import { odysseyTheme } from '@okta/odyssey-react-mui';
+import { merge } from 'lodash';
 
 import { cssInterpolate } from './cssInterpolate';
-import { merge } from 'lodash';
 
 type Theme = typeof odysseyTheme;
 type Props = Record<string, unknown>;
@@ -53,15 +53,15 @@ export const mergeThemes = (first: Theme, ...rest: Array<ThemeOptions | Partial<
           components: {
             ...t.components,
             [component]: {
-              // @ts-expect-error
+              // @ts-expect-error cannot index Components by string
               ...t.components[component],
               styleOverrides: {
-                // @ts-expect-error
+                // @ts-expect-error cannot index Components by string
                 ...t.components[component].styleOverrides,
                 root: (options: Record<string, unknown>) => ({
-                  // @ts-expect-error
+                  // @ts-expect-error FIXME CSSInterpolation may not be CSSObject
                   ...resolve(prev.components?.[component]?.styleOverrides?.root, options),
-                  // @ts-expect-error
+                  // @ts-expect-error FIXME CSSInterpolation may not be CSSObject
                   ...resolve(config.styleOverrides?.root, options),
                 }),
               },
