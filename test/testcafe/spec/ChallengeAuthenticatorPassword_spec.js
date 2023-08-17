@@ -52,7 +52,7 @@ const recoveryRequestLogger = RequestLogger(
 );
 
 fixture('Challenge Authenticator Password')
-  .meta('v3', true);  
+  .meta('v3', true);
 
 async function setup(t) {
   const challengePasswordPage = new ChallengePasswordPageObject(t);
@@ -114,25 +114,32 @@ test.requestHooks(mockInvalidPassword)('challege password authenticator with inv
 
   await t.expect(challengePasswordPage.getInvalidOTPError()).contains('Password is incorrect');
 
-  const { log } = await t.getBrowserConsoleMessages();
-  await t.expect(log.length).eql(6);
-  await t.expect(log[3]).eql('===== playground widget afterError event received =====');
-  await t.expect(JSON.parse(log[4])).eql({
-    controller: 'mfa-verify-password',
-    formName: 'challenge-authenticator',
-    authenticatorKey: 'okta_password',
-  });
-  await t.expect(JSON.parse(log[5])).eql({
-    'errorSummary': 'Password is incorrect',
-    'xhr': {
-      'responseJSON': {
-        'errorCauses': [],
-        'errorSummary': 'Password is incorrect',
-        'errorSummaryKeys': ['incorrectPassword'],
-        'errorIntent': 'LOGIN',
-      }
-    }
-  });
+  await checkConsoleMessages([
+    'ready',
+    'afterRender',
+    {
+      controller: 'mfa-verify-password',
+      formName: 'challenge-authenticator',
+      authenticatorKey: 'okta_password',
+    },
+    'afterError',
+    {
+      controller: 'mfa-verify-password',
+      formName: 'challenge-authenticator',
+      authenticatorKey: 'okta_password',
+    },
+    {
+      'errorSummary': 'Password is incorrect',
+      'xhr': {
+        'responseJSON': {
+          'errorCauses': [],
+          'errorSummary': 'Password is incorrect',
+          'errorSummaryKeys': ['incorrectPassword'],
+          'errorIntent': 'LOGIN',
+        }
+      },
+    },
+  ]);
   await t.expect(challengePasswordPage.getIdentifier()).eql('testUser@okta.com');
 });
 

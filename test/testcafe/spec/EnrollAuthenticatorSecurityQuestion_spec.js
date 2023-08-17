@@ -155,37 +155,42 @@ test.requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionErrorM
   await t.expect(req.method).eql('post');
   await t.expect(req.url).eql('http://localhost:3000/idp/idx/challenge/answer');
 
-  // asser that afterError event has been triggered
-  const { log } = await t.getBrowserConsoleMessages();
-  await t.expect(log.length).eql(6);
-  await t.expect(log[3]).eql('===== playground widget afterError event received =====');
-  await t.expect(JSON.parse(log[4])).eql({
-    controller: 'enroll-question',
-    formName: 'enroll-authenticator',
-    authenticatorKey: 'security_question',
-  });
-  await t.expect(JSON.parse(log[5])).eql({
-    'errorSummary': '',
-    'xhr': {
-      'responseJSON': {
-        'errorSummary': '',
-        'errorCauses': [
-          {
-            'errorKey': [
-              'securityQuestion.answer.tooShort.arg'
-            ],
-            'errorSummary': [
-              'The security question answer must be at least 4 characters in length'
-            ],
-            'property': 'credentials.answer'
-          }
-        ],
-        'errorSummaryKeys': [],
-        'errorIntent': 'LOGIN',
-      }
-    }
-  });
-
+  await checkConsoleMessages([
+    'ready',
+    'afterRender',
+    {
+      controller: 'enroll-question',
+      formName: 'enroll-authenticator',
+      authenticatorKey: 'security_question',
+    },
+    'afterError',
+    {
+      controller: 'enroll-question',
+      formName: 'enroll-authenticator',
+      authenticatorKey: 'security_question',
+    },
+    {
+      errorSummary: '',
+      xhr: {
+        responseJSON: {
+          errorSummary: '',
+          errorCauses: [
+            {
+              errorKey: [
+                'securityQuestion.answer.tooShort.arg'
+              ],
+              errorSummary: [
+                'The security question answer must be at least 4 characters in length'
+              ],
+              property: 'credentials.answer'
+            }
+          ],
+          errorSummaryKeys: [],
+          errorIntent: 'LOGIN',
+        },
+      },
+    },
+  ]);
 });
 
 test.requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionCreateQuestionErrorMock)('enroll custom security question error', async t => {

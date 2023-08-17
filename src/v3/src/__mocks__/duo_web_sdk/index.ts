@@ -28,7 +28,7 @@ const MockDuo = {
     })();
 
     if (iframe) {
-      iframe.src = '/duo-iframe.html';
+      iframe.src = '/mocks/spec-duo/duo-iframe.html';
       iframe.onload = () => {
         const innerDoc = iframe.contentDocument ?? iframe.contentWindow?.document;
         const duoMockLink = innerDoc?.getElementById('duoVerifyLink');
