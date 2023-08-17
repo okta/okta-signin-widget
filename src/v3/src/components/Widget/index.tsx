@@ -122,10 +122,10 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       components: {
         MuiInputLabel: {
           styleOverrides: {
-            root: () => ({
+            root: {
               wordBreak: 'break-word',
               whiteSpace: 'normal',
-            }),
+            },
           },
         },
       },
