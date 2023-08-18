@@ -30,6 +30,7 @@ import {
   useRef,
   useState,
 } from 'preact/hooks';
+import { mergeThemes } from 'src/util/mergeThemes';
 
 import Bundles from '../../../../util/Bundles';
 import { IDX_STEP } from '../../constants';
@@ -112,22 +113,38 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const [loginHint, setloginHint] = useState<string | null>(null);
   const languageCode = getLanguageCode(widgetProps);
   const languageDirection = getLanguageDirection(languageCode);
-  const brandedTheme = mapMuiThemeFromBrand(brandColors, languageDirection, muiThemeOverrides);
   const { stateHandle, unsetStateHandle } = useStateHandle(widgetProps);
+
+  // merge themes
+  const theme = useMemo(() => mergeThemes(
+    mapMuiThemeFromBrand(brandColors, languageDirection, muiThemeOverrides),
+    {
+      components: {
+        MuiInputLabel: {
+          styleOverrides: {
+            root: {
+              wordBreak: 'break-word',
+              whiteSpace: 'normal',
+            },
+          },
+        },
+      },
+    },
+  ), [brandColors, languageDirection, muiThemeOverrides]);
 
   // on unmount, remove the language
   useEffect(() => () => {
     if (Bundles.isLoaded(languageCode)) {
       Bundles.remove();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const initLanguage = useCallback(async () => {
     if (!Bundles.isLoaded(languageCode)) {
       await loadLanguage(widgetProps);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleError = (error: unknown) => {
@@ -184,7 +201,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         handleError(error);
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authClient, stateHandle, setIdxTransaction, setResponseError, initLanguage]);
 
   // Derived value from idxTransaction
@@ -203,8 +220,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     }
 
     if ([IdxStatus.TERMINAL, IdxStatus.SUCCESS].includes(idxTransaction.status)
-        || idxTransaction.nextStep?.name === IDX_STEP.SKIP // force safe mode to be terminal
-        || !idxTransaction.nextStep) {
+      || idxTransaction.nextStep?.name === IDX_STEP.SKIP // force safe mode to be terminal
+      || !idxTransaction.nextStep) {
       return transformTerminalTransaction(idxTransaction, widgetProps, bootstrap);
     }
 
@@ -231,8 +248,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     // Mobile devices cannot scan QR codes while navigating through flow
     // so we force them to select either email / sms for enrollment
     if (idxTransaction.context.currentAuthenticator?.value.key === AuthenticatorKey.OKTA_VERIFY
-        && idxTransaction.nextStep.name === 'enroll-poll'
-        && isAndroidOrIOS()) {
+      && idxTransaction.nextStep.name === 'enroll-poll'
+      && isAndroidOrIOS()) {
       step = 'select-enrollment-channel';
     }
     return transformIdxTransaction({
@@ -243,7 +260,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       setMessage,
       isClientTransaction,
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     idxTransaction,
     responseError,
@@ -300,7 +317,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
 
       handleError(error);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authClient, setIdxTransaction, setResponseError, initLanguage]);
 
   // bootstrap / resume the widget
@@ -329,7 +346,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     if (!areTransactionsEqual(idxTransaction, pollingTransaction)) {
       setIdxTransaction(pollingTransaction);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pollingTransaction]); // only watch on pollingTransaction changes
 
   useEffect(() => {
@@ -348,7 +365,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       && uischema.elements.length > 0) {
       events?.afterRender?.(getEventContext(idxTransaction));
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [widgetRendered, idxTransaction]);
 
   useEffect(() => {
@@ -358,7 +375,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         formName: 'terminal',
       });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [responseError]);
 
   return (
@@ -388,7 +405,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     }}
     >
       <OdysseyCacheProvider nonce={cspNonce}>
-        <MuiThemeProvider theme={brandedTheme}>
+        <MuiThemeProvider theme={theme}>
           {/* the style is to allow the widget to inherit the parent's bg color */}
           <ScopedCssBaseline
             sx={{

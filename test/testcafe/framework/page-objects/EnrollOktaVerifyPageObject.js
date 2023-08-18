@@ -1,15 +1,21 @@
 import BasePageObject from './BasePageObject';
-import { userVariables } from 'testcafe';
+import { userVariables, Selector } from 'testcafe';
 import { within } from '@testing-library/testcafe';
 
 const FORM_INFOBOX_ERROR_TITLE = '[data-se="o-form-error-container"] [data-se="callout"] > h3';
 const FORM_INFOBOX_ERROR_TITLE_V3 = '[data-se="callout"] > div > h2';
 const CANT_SCAN_BUTTON_TEXT = 'Setup without scanning a QR code.';
 const FORM_SELECTOR = '[data-se="o-form-explain"]';
+const SUB_HEADER = '[data-se="subheader"]';
+const COPY_ORG_LINK_BUTTON_CLASS = '.copy-org-clipboard-button';
+const CLIPBOARD_TEXT = 'data-clipboard-text';
+const DOWNLOAD_OV_LINK_CLASS = '.download-ov-link';
+const CLOSING_CLASS = '.closing';
 
 export default class EnrollOktaVerifyPageObject extends BasePageObject {
   constructor(t) {
     super(t);
+    this.body = new Selector('.ov-info');
   }
 
   async hasEnrollViaQRInstruction() {
@@ -156,5 +162,25 @@ export default class EnrollOktaVerifyPageObject extends BasePageObject {
       return this.form.getNthTitle(index);
     }
     return this.form.getTitle();
+  }
+
+  getSubHeader() {
+    return this.getTextContent(SUB_HEADER);
+  }
+  
+  getCopyOrgLinkButtonLabel() {
+    return this.getTextContent(COPY_ORG_LINK_BUTTON_CLASS);
+  }
+
+  getCopiedOrgLinkValue() {
+    return this.body.find(COPY_ORG_LINK_BUTTON_CLASS).getAttribute(CLIPBOARD_TEXT);
+  }
+
+  getDownloadAppHref() {
+    return this.body.find(DOWNLOAD_OV_LINK_CLASS).getAttribute('href');
+  }
+
+  getClosingText() {
+    return this.getTextContent(CLOSING_CLASS);
   }
 }

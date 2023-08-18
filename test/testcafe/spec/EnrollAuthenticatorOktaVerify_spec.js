@@ -7,6 +7,8 @@ import EnrollOVViaSMSPageObject from '../framework/page-objects/EnrollOVViaSMSPa
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import { checkConsoleMessages, oktaDashboardContent, renderWidget as rerenderWidget } from '../framework/shared';
 import xhrAuthenticatorEnrollOktaVerifyQr from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-qr.json';
+import xhrAuthenticatorEnrollOktaVerifySameDevice from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-same-device.json';
+import xhrAuthenticatorEnrollOktaVerifyDeviceBootstrap from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-device-bootstrap.json';
 import xhrAuthenticatorEnrollOktaVerifyViaEmail from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-via-email.json';
 import xhrAuthenticatorEnrollOktaVerifyEmail from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-email.json';
 import xhrAuthenticatorEnrollOktaVerifyViaSMS from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-via-sms.json';
@@ -49,6 +51,16 @@ const enrollViaQRcodeMocks = pollResponse => RequestMock()
   .respond(oktaDashboardContent);
 const enrollViaQRcodeMocks1 = enrollViaQRcodeMocks(!userVariables.v3 ? xhrSuccess : xhrAuthenticatorEnrollOktaVerifyQr);
 const enrollViaQRcodeMocks2 = enrollViaQRcodeMocks(xhrSuccess);
+
+// this mock doesn't need poll to return successful response
+const enrollSameDeviceMocks = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrAuthenticatorEnrollOktaVerifySameDevice);
+
+// this mock doesn't need poll to return successful response
+const enrollDeviceBootstrapMocks = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrAuthenticatorEnrollOktaVerifyDeviceBootstrap);
 
 const enrollViaEmailMocks = pollResponse => RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -233,6 +245,16 @@ const emailInstruction2 = 'Or try a different way to set up Okta Verify.';
 const qrCodeInstruction1 = 'On your mobile device, download the Okta Verify app from the App Store (iPhone and iPad) or Google Play (Android devices).';
 const qrCodeInstruction2 = 'Open the app and follow the instructions to add your account';
 const qrCodeInstruction3 = 'When prompted, tap Scan a QR code, then scan the QR code below:';
+const sameDeviceSubtitle = 'To continue, you\'ll need an Okta Verify account on this device.';
+const sameDeviceInstruction1 = 'If you don’t have Okta Verify installed, download the app.';
+const sameDeviceInstruction2 = 'Open Okta Verify and follow the steps to add your account.';
+const sameDeviceInstruction3 = 'When prompted, choose Sign In, then enter the sign-in URL:';
+const deviceBootstrapSubtitle = 'To set up Okta Verify on additional devices, you can copy an existing Okta Verify account onto a new device.';
+const deviceBootstrapInstruction1 = 'Open Okta Verify on any of your other Okta Verify devices';
+const deviceBootstrapInstruction2 = 'In the app, select your account.';
+const deviceBootstrapInstruction3 = 'Choose Add Account to Another Device.';
+const deviceBootstrapInstruction4 = 'Follow the rest of the instructions shown in Okta Verify.';
+const deviceBootstrapClosing = 'This screen can be closed at any time.';
 
 const fipsUpgradeMessage = 'The device used to set up Okta Verify does not meet your organization’s security requirements because it is not FIPS compliant. Contact your administrator for help.';
 const fipsUpgradeMessageNonIos = 'The Okta Verify version on the device used does not meet your organization’s security requirements. To add your account, update Okta Verify to the latest version, then try again.';
@@ -240,6 +262,9 @@ const fipsUpgradeTitle = 'Update Okta Verify';
 
 const enableBiometricsMessage = 'Your organization requires biometrics. To proceed, ensure your device supports biometrics, then add your account and enable biometrics when prompted.';
 const enableBiometricsMessageTitle = 'Enable biometrics to add an account in Okta Verify';
+
+const urlCopiedToClipboardMessage = 'Copy sign-in URL to clipboard';
+const oktaVerifyAppStoreDownloadUrl = 'https://apps.apple.com/us/app/okta-verify/id490179405';
 
 fixture('Enroll Okta Verify Authenticator')
   .meta('v3', true);
@@ -802,4 +827,58 @@ test
     const pageUrl = await successPage.getPageUrl();
     await t.expect(pageUrl)
       .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
+  });
+
+
+test
+  .meta('v3', false)
+  .requestHooks(logger, enrollSameDeviceMocks)('should be able to see OV same device enrollment instructions without polling', async t => {
+    const enrollOktaVerifyPage = await setup(t);
+    await checkA11y(t);
+    await t.expect(enrollOktaVerifyPage.getFormTitle()).eql('Set up Okta Verify');
+    await t.expect(enrollOktaVerifyPage.getSubHeader()).eql(sameDeviceSubtitle);
+    await t.expect(await enrollOktaVerifyPage.getNthInstructionBulletPoint(0)).eql(sameDeviceInstruction1);
+    await t.expect(await enrollOktaVerifyPage.getNthInstructionBulletPoint(1)).eql(sameDeviceInstruction2);
+    await t.expect(await enrollOktaVerifyPage.getNthInstructionBulletPoint(2)).contains(sameDeviceInstruction3);
+    await t.expect(await enrollOktaVerifyPage.getNthInstructionBulletPoint(2)).contains('okta.okta.com');
+    await t.expect(await enrollOktaVerifyPage.getNthInstructionBulletPoint(3)).eql(deviceBootstrapInstruction4);
+
+    await t.expect(enrollOktaVerifyPage.getDownloadAppHref()).eql(oktaVerifyAppStoreDownloadUrl);
+    await t.expect(enrollOktaVerifyPage.getCopyOrgLinkButtonLabel()).eql(urlCopiedToClipboardMessage);
+    await t.expect(enrollOktaVerifyPage.getCopiedOrgLinkValue()).eql('okta.okta.com');
+
+    await t.expect(enrollOktaVerifyPage.getTryDifferentWayText().exists).notOk();
+    await t.expect(await enrollOktaVerifyPage.returnToAuthenticatorListLinkExists()).ok();
+    await t.expect(await enrollOktaVerifyPage.signoutLinkExists()).ok();
+
+    // expect no polling for same device page
+    await t.expect(logger.count(
+      record => record.response.statusCode === 200 &&
+      record.request.url.match(/poll/)
+    )).eql(0);
+  });
+
+test
+  .meta('v3', false)
+  .requestHooks(logger, enrollDeviceBootstrapMocks)('should be able to see OV device bootstrap enrollment instructions without polling', async t => {
+    const enrollOktaVerifyPage = await setup(t);
+    await checkA11y(t);
+    await t.expect(enrollOktaVerifyPage.getFormTitle()).eql('Set up Okta Verify');
+    await t.expect(enrollOktaVerifyPage.getSubHeader()).eql(deviceBootstrapSubtitle);
+    await t.expect(await enrollOktaVerifyPage.getNthInstructionBulletPoint(0)).contains(deviceBootstrapInstruction1);
+    await t.expect(await enrollOktaVerifyPage.getNthInstructionBulletPoint(0)).contains('testDevice1');
+    await t.expect(await enrollOktaVerifyPage.getNthInstructionBulletPoint(1)).eql(deviceBootstrapInstruction2);
+    await t.expect(await enrollOktaVerifyPage.getNthInstructionBulletPoint(2)).eql(deviceBootstrapInstruction3);
+    await t.expect(await enrollOktaVerifyPage.getNthInstructionBulletPoint(3)).eql(deviceBootstrapInstruction4);
+    await t.expect(await enrollOktaVerifyPage.getClosingText()).eql(deviceBootstrapClosing);
+
+    await t.expect(enrollOktaVerifyPage.getTryDifferentWayText().exists).notOk();
+    await t.expect(await enrollOktaVerifyPage.returnToAuthenticatorListLinkExists()).ok();
+    await t.expect(await enrollOktaVerifyPage.signoutLinkExists()).ok();
+
+    // expect no polling for device bootstrap page
+    await t.expect(logger.count(
+      record => record.response.statusCode === 200 &&
+      record.request.url.match(/poll/)
+    )).eql(0);
   });

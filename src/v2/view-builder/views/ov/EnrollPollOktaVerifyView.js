@@ -11,6 +11,7 @@ const OV_FORCE_FIPS_COMPLIANCE_UPGRAGE_KEY_IOS =
 const OV_FORCE_FIPS_COMPLIANCE_UPGRAGE_KEY_NON_IOS =
   'oie.authenticator.app.non_fips_compliant_enrollment_app_update_required';
 const OV_QR_ENROLL_ENABLE_BIOMETRICS_KEY = 'oie.authenticator.app.method.push.enroll.enable.biometrics';
+let shouldStartPolling = true;
 
 const Body = BaseFormWithPolling.extend(Object.assign(
   {
@@ -34,7 +35,9 @@ const Body = BaseFormWithPolling.extend(Object.assign(
     initialize() {
       BaseFormWithPolling.prototype.initialize.apply(this, arguments);
       this.listenTo(this.model, 'error', this.stopPolling);
-      this.startPolling();
+      if (shouldStartPolling) {
+        this.startPolling();
+      }
     },
     showMessages() {
       // override showMessages to display custom callout
@@ -53,6 +56,19 @@ const Body = BaseFormWithPolling.extend(Object.assign(
       const schema = [];
       const contextualData = this.options.appState.get('currentAuthenticator').contextualData;
       const selectedChannel = contextualData.selectedChannel;
+      let selector;
+      if (selectedChannel === 'qrcode') {
+        selector = '.qrcode-container';
+        shouldStartPolling = true;
+      } else if (['email', 'sms'].includes(selectedChannel)) {
+        selector = '.switch-channel-content';
+        shouldStartPolling = true;
+      } else if (['samedevice', 'devicebootstrap'].includes(selectedChannel)) { 
+        // no selector if the channel is same device or device bootstrap
+        // additionally, stop polling as it should be a terminal page
+        shouldStartPolling = false;
+      }
+      
       schema.push({
         View: EnrollChannelPollDescriptionView,
       });
@@ -61,7 +77,7 @@ const Body = BaseFormWithPolling.extend(Object.assign(
         options: {
           selectedChannel
         },
-        selector: selectedChannel === 'qrcode' ? '.qrcode-container' : '.switch-channel-content',
+        selector: selector,
       });
       if (['email', 'sms'].includes(selectedChannel)) {
         schema.push({

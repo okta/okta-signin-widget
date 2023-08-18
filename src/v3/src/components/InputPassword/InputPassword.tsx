@@ -101,7 +101,12 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
           </Box>
         )}
         {required === false && (
-          <Typography variant="subtitle1">{optionalLabel}</Typography>
+          <Typography
+            variant="subtitle1"
+            sx={{ whiteSpace: 'nowrap' }}
+          >
+            {optionalLabel}
+          </Typography>
         )}
       </InputLabel>
       {hint && (
