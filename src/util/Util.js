@@ -243,4 +243,12 @@ Util.isV1StateToken = function(token) {
   return !!(token && _.isString(token) && token.startsWith('00'));
 };
 
+Util.getAutocompleteValue = function(settings, defaultValue) {
+  const shouldDisableAutocomplete = settings.get('features.disableAutocomplete');
+  if (shouldDisableAutocomplete) {
+    return 'off';
+  }
+  return defaultValue;
+};
+
 export default Util;

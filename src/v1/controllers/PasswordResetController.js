@@ -99,7 +99,7 @@ export default FormController.extend({
           name: 'newPassword',
           input: TextBox,
           type: 'password',
-          autoComplete: 'new-password',
+          autoComplete: Util.getAutocompleteValue(this.settings, 'new-password'),
         }),
         FormType.Input({
           label: loc('password.confirmPassword.placeholder', 'login'),
@@ -113,7 +113,7 @@ export default FormController.extend({
           name: 'confirmPassword',
           input: TextBox,
           type: 'password',
-          autoComplete: 'new-password',
+          autoComplete: Util.getAutocompleteValue(this.settings, 'new-password'),
         }),
       ]);
 
