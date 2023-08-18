@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+const path = require('path');
 const {
   ensureDirSync,
   readFileSync,
@@ -17,7 +18,6 @@ const {
   removeSync,
   writeFileSync,
 } = require('fs-extra');
-const path = require('path');
 const properties = require('properties');
 
 const PROPERTIES_EXTENSION = '.properties';

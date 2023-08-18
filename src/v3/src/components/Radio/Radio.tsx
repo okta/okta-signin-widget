@@ -85,7 +85,12 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
             </Box>
           )}
           {required === false && (
-            <Typography variant="subtitle1">{optionalLabel}</Typography>
+            <Typography
+              variant="subtitle1"
+              sx={{ whiteSpace: 'nowrap' }}
+            >
+              {optionalLabel}
+            </Typography>
           )}
         </FormLabel>
       )}
@@ -111,7 +116,7 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
                 handleBlur?.(e?.currentTarget?.value);
               }}
               // eslint-disable-next-line react/jsx-props-no-spreading
-              {...(index === 0 && { inputRef: focusRef } )}
+              {...(index === 0 && { inputRef: focusRef })}
             />
           ))
         }

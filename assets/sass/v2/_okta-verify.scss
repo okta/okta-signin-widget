@@ -21,6 +21,16 @@
     list-style-position: inside;
   }
 
+  .sameDevice-info,
+  .deviceBootstrap-info {
+    list-style: decimal;
+    list-style-position: inside;
+
+    li:last-child {
+      margin-bottom: 10px;
+    }
+  }
+
   .switch-channel-link {
     color: $link-text-color;
   }
@@ -28,6 +38,31 @@
   .o-form-error-container > .infobox + .resend-ov-link-view {
     // if error callout and warning callout show up on ov enroll screen, add margin between callouts
     margin-top: 20px;
+  }
+
+  .copy-org-clipboard-button {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    margin-left: 5%;
+    height: 44px;
+    line-height: 44px;
+    width: 90%;
+    text-align: center;
+  }
+  .download-ov-link {
+    color: $primary-color;
+  }
+  .explanation {
+    margin-top: -12px;
+    margin-bottom: 12px;
+  }
+  .closing {
+    margin-top: 12px;
+    margin-bottom: 12px;
+  }
+  .semi-strong {
+    word-break: break-word;
+    font-weight: $font-weight-labels;
   }
 }
 

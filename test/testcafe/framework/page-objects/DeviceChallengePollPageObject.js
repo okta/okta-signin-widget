@@ -108,4 +108,8 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
       await this.t.click(this.form.getLink('Open Okta Verify'));
     }
   }
+
+  hasErrorBox() {
+    return this.form.getErrorBox().exists;
+  }
 }
