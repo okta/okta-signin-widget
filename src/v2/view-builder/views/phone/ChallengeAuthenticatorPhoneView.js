@@ -62,7 +62,7 @@ const Body = BaseForm.extend(Object.assign(
         'strong no-translate' : '';
       // Courage doesn't support HTML, hence creating a subtitle here.
       this.add(`<div class="okta-form-subtitle" data-se="o-form-explain">
-        ${sendText}&nbsp;<span class='${strongClass}'>${this.model.escape('phoneNumber')}.</span>
+        ${sendText}<br/><span class='${strongClass}'>${this.model.escape('phoneNumber')}<br/>.&#40;${this.model.escape('nickname')}&#41;</span>
         &nbsp;${enterCodeText}
         <p>${carrierChargesText}</p>
         </div>`, {
@@ -95,6 +95,10 @@ export default BaseAuthenticatorView.extend({
       },
       phoneNumber: {
         'value': profile?.phoneNumber ? profile.phoneNumber : loc('oie.phone.alternate.title', 'login'),
+        'type': 'string',
+      },
+      nickname: {
+        'value': nickname ? nickname : '',
         'type': 'string',
       }
     }, ModelClass.prototype.local );

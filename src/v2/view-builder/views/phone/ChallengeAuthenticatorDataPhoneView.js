@@ -41,7 +41,7 @@ const Body = BaseForm.extend(
           'strong no-translate' : '';
       // Courage doesn't support HTML, hence creating a subtitle here.
       this.add(`<div class="okta-form-subtitle" data-se="o-form-explain">${sendText}
-        <span ${ extraCssClasses ? 'class="' + extraCssClasses + '"' : ''}>${this.model.escape('phoneNumber')}</span>
+        <span ${ extraCssClasses ? 'class="' + extraCssClasses + '"' : ''}>${this.model.escape('phoneNumber')}&nbsp;&#40;${this.model.escape('nickname')}&#41;</span>
         <p>${carrierChargesText}</p>
       </div>`);
     },
@@ -77,6 +77,7 @@ export default BaseAuthenticatorView.extend({
     const { options: methods } = _.find(uiSchema, schema => schema.name === 'authenticator.methodType');
     const relatesToObject = this.options.currentViewState.relatesTo;
     const { profile } = relatesToObject?.value || {};
+    const nickname = relatesToObject?.value || '';
     const ModelClass = BaseView.prototype.createModelClass.apply(this, arguments);
     const local = Object.assign({
       primaryMode: {
@@ -89,6 +90,10 @@ export default BaseAuthenticatorView.extend({
       },
       phoneNumber: {
         'value': profile?.phoneNumber ? profile.phoneNumber : loc('oie.phone.alternate.title', 'login'),
+        'type': 'string',
+      },
+      nickname: {
+        'value': nickname?.nickname,
         'type': 'string',
       },
     }, ModelClass.prototype.local);

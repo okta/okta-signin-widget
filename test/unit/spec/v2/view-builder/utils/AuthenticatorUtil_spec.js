@@ -1,4 +1,4 @@
-import { removeRequirementsFromError, getAuthenticatorDisplayName } from 'v2/view-builder/utils/AuthenticatorUtil';
+import { removeRequirementsFromError, getAuthenticatorDisplayName, getAuthenticatorData } from 'v2/view-builder/utils/AuthenticatorUtil';
 
 describe('v2/utils/AuthenticatorUtil', function() {
   it('filters requirements from password error', function() {
@@ -60,5 +60,15 @@ describe('v2/utils/AuthenticatorUtil', function() {
       }
     };
     expect(getAuthenticatorDisplayName(remediation)).toEqual('authenticator name');
+  });
+
+  it('shows nickname when available from remediation', function() {
+    const authenticator = {
+      'authenticatorKey': 'phone_number',
+      'relatesTo': {
+        'nickname': 'authenticator nickname'
+      }
+    };
+    expect(getAuthenticatorData(authenticator, true).nickname).toEqual('authenticator nickname');
   });
 });
