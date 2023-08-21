@@ -169,7 +169,7 @@ describe('Settings Utils Tests', () => {
     const brandName: string | undefined = brandNameProvided && 'Acme Inc.';
     widgetProps = { brandName, features: { setPageTitle: false } };
 
-    expect(getPageTitle(widgetProps, formTitle)).toBeUndefined();
+    expect(getPageTitle(widgetProps, formTitle)).toBeNull();
   });
 
   it.each`

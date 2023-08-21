@@ -20,7 +20,7 @@ export const useDocumentTitle = (title: string): null => {
   const pageTitle = getPageTitle(widgetProps, title, idxTransaction);
 
   useEffect(() => {
-    if (typeof pageTitle !== 'undefined') {
+    if (pageTitle !== null) {
       document.title = pageTitle;
     }
   }, [pageTitle]);

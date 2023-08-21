@@ -253,27 +253,28 @@ export const getPageTitle = (
   widgetProps: WidgetProps,
   formTitle: string,
   idxTransaction?: IdxTransaction,
-): string | undefined => {
+): string | null => {
   const { brandName, features: { setPageTitle } = {} } = widgetProps;
 
-  // When setPageTitle option is 'undefined', default will be to set title based on page header
-  // When setPageTitle option is 'true', set title based on page header
-  if ((typeof setPageTitle === 'boolean' && setPageTitle === true)
-    || typeof setPageTitle === 'undefined') {
-    return brandName ? `${brandName} | ${formTitle}` : formTitle;
-  }
-
-  if (typeof setPageTitle === 'string') {
-    return setPageTitle;
-  }
-
-  if (typeof setPageTitle === 'function') {
-    const eventContext: EventContext = typeof idxTransaction === 'undefined'
+  switch(typeof setPageTitle) {
+    // When setPageTitle option is 'undefined', default will be to set title based on page header
+    // When setPageTitle option is 'true', set title based on page header
+    case 'boolean':
+    case 'undefined':
+      if (setPageTitle === false) {
+        // Indicates setPageTitle config option was purposefully disabled
+        return null;
+      }
+      return brandName ? `${brandName} | ${formTitle}` : formTitle;
+    case 'string':
+      return setPageTitle;
+    case 'function':
+      const eventContext: EventContext = typeof idxTransaction === 'undefined'
       ? { controller: null }
       : getEventContext(idxTransaction);
-    return setPageTitle(eventContext, { formTitle, brandName });
+      return setPageTitle(eventContext, { formTitle, brandName });
+    default:
+      // Indicates an invalid/unexpected value was passed into the config option
+      return null;
   }
-
-  // Indicates setPageTitle config option was purposefully disabled
-  return undefined;
 };
