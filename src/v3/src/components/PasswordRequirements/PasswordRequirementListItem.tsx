@@ -30,7 +30,7 @@ const PasswordRequirementListItem: FunctionComponent<PasswordRequirementProps> =
     >
       <Box
         display="flex"
-        alignItems="center"
+        alignItems="start"
       >
         {/*
           If any changes are made here, please test with addtl languages i.e. ok-pl / ok-sk
