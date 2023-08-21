@@ -19,6 +19,7 @@ import {
 import {
   RawIdxResponse,
 } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
+import EventEmitter from 'tiny-emitter';
 
 import {
   LanguageCallback,
@@ -115,6 +116,7 @@ export type WidgetOptions = {
 
   // events
   events?: { [key in OktaWidgetEventType]: OktaWidgetEventHandler };
+  eventEmitter?: EventEmitter;
 
   // callbacks
   onChange?: (data: JsonObject) => void;

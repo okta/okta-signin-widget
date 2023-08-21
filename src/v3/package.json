@@ -57,7 +57,8 @@
     "preact": "^10.13.1",
     "react": "npm:@preact/compat",
     "react-dom": "npm:@preact/compat",
-    "react-google-recaptcha": "^3.1.0"
+    "react-google-recaptcha": "^3.1.0",
+    "tiny-emitter": "^2.1.0"
   },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.18.6",

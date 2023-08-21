@@ -35,7 +35,10 @@ import { mergeThemes } from 'src/util/mergeThemes';
 import Bundles from '../../../../util/Bundles';
 import { IDX_STEP } from '../../constants';
 import { WidgetContextProvider } from '../../contexts';
-import { useInteractionCodeFlow, usePolling, useStateHandle } from '../../hooks';
+import {
+  useInteractionCodeFlow, useOnce,
+  usePolling, useStateHandle,
+} from '../../hooks';
 import { transformIdxTransaction } from '../../transformer';
 import {
   transformTerminalTransaction,
@@ -87,8 +90,10 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     globalSuccessFn,
     globalErrorFn,
     proxyIdxResponse,
+    eventEmitter,
   } = widgetProps;
 
+  const [hide, setHide] = useState<boolean>(false);
   const [data, setData] = useState<FormBag['data']>({});
   const [uischema, setUischema] = useState<FormBag['uischema']>({
     type: UISchemaLayoutType.VERTICAL,
@@ -378,6 +383,17 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [responseError]);
 
+  // listen to 'hide' event
+  const toggleVisibility = useCallback((hideValue: boolean) => {
+    setHide(hideValue);
+  }, []);
+  useOnce(() => {
+    eventEmitter?.on('hide', toggleVisibility);
+  });
+  useEffect(() => () => {
+    eventEmitter?.off('hide', toggleVisibility);
+  }, [eventEmitter, toggleVisibility]);
+
   return (
     <WidgetContextProvider value={{
       authClient,
@@ -416,7 +432,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
               },
             }}
           >
-            <AuthContainer>
+            <AuthContainer hide={hide}>
               <AuthHeader
                 logo={logo}
                 logoText={logoText}
