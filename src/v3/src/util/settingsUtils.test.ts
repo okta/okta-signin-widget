@@ -217,4 +217,13 @@ describe('Settings Utils Tests', () => {
 
     expect(getPageTitle(widgetProps, 'Static title', transaction)).toBe(EXPECTED_FORM_TITLE_MAP[step]);
   });
+
+  it('should not return page title when setPageTitle is set to an invalid value', () => {
+    const formTitle = 'Sign In';
+    const brandName: string | undefined = 'Acme Inc.';
+    // @ts-expect-error forcing invalid value to be passed to setPageTitle for test
+    widgetProps = { brandName, features: { setPageTitle: 123 } };
+
+    expect(getPageTitle(widgetProps, formTitle)).toBeNull();
+  });
 });
