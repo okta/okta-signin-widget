@@ -32,9 +32,7 @@ const PasswordRequirementListItem: FunctionComponent<PasswordRequirementProps> =
         display="flex"
         alignItems="center"
       >
-        <Box sx={{ minInlineSize: (theme) => theme.spacing(2) }}>
-          <Icon status={status} />
-        </Box>
+        <Icon status={status} />
         <Box><Typography variant="body1">{label}</Typography></Box>
       </Box>
     </Box>
