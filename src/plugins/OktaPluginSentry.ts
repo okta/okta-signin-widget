@@ -199,7 +199,7 @@ const beforeBreadcrumb = (breadcrumb: Sentry.Breadcrumb, _hint?: Sentry.Breadcru
   if (allow) {
     console.log('>>> [sentry] breadcrumb: ', breadcrumb.type, breadcrumb.category, breadcrumb);
   } else {
-    console.log('sentry ignore', breadcrumb.type, breadcrumb.category, breadcrumb);
+    //console.log('sentry ignore', breadcrumb.type, breadcrumb.category, breadcrumb);
   }
   // if (breadcrumb.type === 'error' || breadcrumb.category !== 'custom') {
   //   incrErrorCount();

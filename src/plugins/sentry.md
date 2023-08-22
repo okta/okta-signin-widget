@@ -32,11 +32,9 @@ SENTRY_REPORT_URI=get at https://{SENTRY_ORG}.sentry.io/settings/projects/{SENTR
 SENTRY_KEY=value of `sentry_key` url param in SENTRY_REPORT_URI
 ```
 
-# Test app
+# Test app Gen2
 ```sh
 TARGET=CROSS_BROWSER yarn build:webpack-dev
-# cd test/app
-# DISABLE_CSP=1 TARGET=CROSS_BROWSER yarn start
 DISABLE_CSP=1 TARGET=CROSS_BROWSER yarn start:test:app
 ```
 
@@ -52,8 +50,16 @@ And open `https://xxx.ngrok-free.app` in Windows virtual machine.
 
 In test app click 'Use Sentry' (and 'Use polyfill' for IE 11)
 
-# Playground
-Not compatible with IE 11
+# Playground Gen3
+Sentry is used by default.  
+```sh
+OKTA_SIW_HOST=0.0.0.0 DISABLE_CSP=1 OMIT_MSWJS=1 TARGET=CROSS_BROWSER yarn workspace v3 dev
+```
+Change `baseUrl` in `.widgetrc.js` to `https://xxx.ngrok-free.app` for IE 11.
+
+# Issues
+- See [CSP](#csp)
+- IE 11: network responses in session replay have no bodies
 
 # CSP
 Sentry uses fork of `rrweb` for Session Replay.  

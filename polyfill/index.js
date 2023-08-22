@@ -27,6 +27,12 @@ require('core-js/web/url');
 require('fast-text-encoding'); // TextEncoder
 require('webcrypto-shim'); // crypto.subtle
 
+// Gen3
+require('core-js/features/symbol');
+require('core-js/features/array/fill');
+require('create-html-document-polyfill');
+require('core-js/features/global-this'); // msw
+
 // Sentry
 require('proxy-polyfill');
 require('indexeddb-getall-shim');
@@ -35,6 +41,6 @@ require("dom4");
 // require('element-matches-polyfill');
 require('core-js/features/object/get-own-property-descriptor');
 require('core-js/features/string/repeat');
-require('core-js/features/number/is-nan');
+require('core-js/features/number');
 require('core-js/features/array/values');
 require('core-js/stable/map');

@@ -18,11 +18,11 @@ const {
 const headers = {};
 
 // CSP settings
-const scriptSrc = `script-src http://localhost:${DEV_SERVER_PORT} https://global.oktacdn.com 'nonce-e2e'`;
+const scriptSrc = `script-src http://${HOST}:${DEV_SERVER_PORT} https://global.oktacdn.com 'nonce-e2e'`;
 //todo: sentry's rrweb needs to be updated to fix the issue
-//const styleSrc = `style-src http://localhost:${DEV_SERVER_PORT} https://unpkg.com 'nonce-e2e'`;
-const styleSrc = `style-src http://localhost:${DEV_SERVER_PORT} https://unpkg.com 'unsafe-inline'`;
-const styleSrcElem = `style-src-elem http://localhost:${DEV_SERVER_PORT} https://unpkg.com 'nonce-e2e'`;
+//const styleSrc = `style-src http://${HOST}:${DEV_SERVER_PORT} https://unpkg.com 'nonce-e2e'`;
+const styleSrc = `style-src http://${HOST}:${DEV_SERVER_PORT} https://unpkg.com 'unsafe-inline'`;
+const styleSrcElem = `style-src-elem http://${HOST}:${DEV_SERVER_PORT} https://unpkg.com 'nonce-e2e'`;
 const workerSrc = `worker-src 'self' blob:; child-src 'self' blob:`;
 const reportUri = `report-uri https://sentry.io/api/${SENTRY_PROJECT}/security/?sentry_key=${SENTRY_KEY} ${SENTRY_REPORT_URI}`;
 const csp = `${scriptSrc}; ${styleSrc}; ${styleSrcElem}; ${workerSrc}; ${reportUri};`;

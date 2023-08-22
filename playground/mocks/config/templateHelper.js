@@ -1,3 +1,5 @@
+const signinWidgetOptions = require('../../../.widgetrc.js');
+
 const path = require('path');
 const responseConfig = require('./responseConfig');
 const supportedApi = [
@@ -75,7 +77,9 @@ const configMock = (option) => {
         // move cursor to next response only after mock has been generated.
         updateIndex();
 
-        return require(mockFile);
+        const json = require(mockFile);
+        const str = JSON.stringify(json).replace(/http\:\/\/localhost\:3000/g, signinWidgetOptions.baseUrl);
+        return JSON.parse(str);
       }
 
     }
