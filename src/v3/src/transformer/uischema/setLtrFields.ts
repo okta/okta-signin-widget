@@ -17,7 +17,6 @@ import {
 import { traverseLayout } from '../util';
 
 export const setLtrFields: TransformStepFn = (formbag) => {
-  console.log(formbag.uischema.elements);
   traverseLayout({
     layout: formbag.uischema,
     predicate: (el) => {
