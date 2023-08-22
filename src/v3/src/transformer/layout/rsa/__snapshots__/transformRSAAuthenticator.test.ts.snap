@@ -23,6 +23,7 @@ Object {
         "type": "Title",
       },
       Object {
+        "dir": "ltr",
         "options": Object {
           "inputMeta": Object {
             "name": "credentials.clientData",
@@ -77,6 +78,7 @@ Object {
         "type": "Title",
       },
       Object {
+        "dir": "ltr",
         "options": Object {
           "inputMeta": Object {
             "name": "credentials.clientData",
@@ -131,6 +133,7 @@ Object {
         "type": "Title",
       },
       Object {
+        "dir": "ltr",
         "options": Object {
           "inputMeta": Object {
             "name": "credentials.clientData",
@@ -185,6 +188,7 @@ Object {
         "type": "Title",
       },
       Object {
+        "dir": "ltr",
         "options": Object {
           "inputMeta": Object {
             "name": "credentials.clientData",
@@ -240,6 +244,7 @@ Object {
         "type": "Title",
       },
       Object {
+        "dir": "ltr",
         "options": Object {
           "inputMeta": Object {
             "name": "credentials.clientData",

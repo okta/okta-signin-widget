@@ -175,6 +175,7 @@ exports[`authenticator-verification-google-authenticator should render form 1`] 
                   </label>
                   <div
                     class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-22"
+                    dir="ltr"
                     required="true"
                   >
                     <input

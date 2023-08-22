@@ -198,6 +198,7 @@ exports[`authenticator-enroll-yubikey-otp renders form 1`] = `
                   </label>
                   <div
                     class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-25"
+                    dir="ltr"
                     required="true"
                   >
                     <input
