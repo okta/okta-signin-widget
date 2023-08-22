@@ -64,7 +64,6 @@ describe('UISchema transformer', () => {
     jest.spyOn(mocked.updatePasswordEle, 'updatePasswordDescribedByValue');
     jest.spyOn(mocked.setLtrField, 'setLtrFields');
 
-
     const formBag = getStubFormBag();
     const mockOptions = {
       transaction: {},
@@ -87,6 +86,5 @@ describe('UISchema transformer', () => {
     expect(mocked.applyAsterisk.applyAsteriskToFieldElements).toHaveBeenCalled();
     expect(mocked.updatePasswordEle.updatePasswordDescribedByValue).toHaveBeenCalled();
     expect(mocked.setLtrField.setLtrFields).toHaveBeenCalled();
-
   });
 });
