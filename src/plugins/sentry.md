@@ -3,6 +3,7 @@
 # Use Sentry fork
 https://github.com/denysoblohin-okta/sentry-javascript/pull/1
 ```shell
+cd <sentry>
 yarn
 yarn build
 cd packages/core
@@ -21,8 +22,6 @@ yarn link @sentry/core
 yarn link @sentry/replay
 ```
 
-Also see [CSP](#csp) issue
-
 # Env
 ```
 SENTRY_ORG=your Sentry org slug
@@ -35,13 +34,26 @@ SENTRY_KEY=value of `sentry_key` url param in SENTRY_REPORT_URI
 
 # Test app
 ```sh
-cd test/app
-DISABLE_CSP=1 TARGET=CROSS_BROWSER yarn start
+TARGET=CROSS_BROWSER yarn build:webpack-dev
+# cd test/app
+# DISABLE_CSP=1 TARGET=CROSS_BROWSER yarn start
+DISABLE_CSP=1 TARGET=CROSS_BROWSER yarn start:test:app
 ```
-Click 'Use Sentry' (and 'Use polyfill' for IE11)
+
+For IE 11:
+```sh
+# https://ngrok.com/download
+ngrok http --host-header=rewrite 3000
+# or
+npm install -g localtunnel
+lt --port 3000 --local-host localhost
+```
+And open `https://xxx.ngrok-free.app` in Windows virtual machine.
+
+In test app click 'Use Sentry' (and 'Use polyfill' for IE 11)
 
 # Playground
-Not compatible with IE11
+Not compatible with IE 11
 
 # CSP
 Sentry uses fork of `rrweb` for Session Replay.  

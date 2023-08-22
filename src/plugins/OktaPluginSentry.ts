@@ -3,6 +3,7 @@ import * as Replay from '@sentry/replay';
 import { OktaSignInAPI } from '../types/api';
 import { EventContext } from '../types/events';
 import { EventErrorContext } from '../types/events';
+import { RenderError } from '../types/results';
 import type AppState from '../v2/models/AppState';
 import type { OktaSignIn } from '@okta/okta-signin-widget';
 import omit from 'lodash/omit';
@@ -14,8 +15,9 @@ export interface SentryOptions {
 
 export interface OktaPluginSentry {
   initSentry(widget?: OktaSignInAPI, options?: SentryOptions): Promise<void>;
-  setWidgetForSentry(widget: OktaSignIn): Promise<void>;
+  setWidgetForSentry(widget: OktaSignInAPI): Promise<void>;
   stopSentry(): void;
+  captureWidgetError(err: RenderError): void;
 }
 
 interface TranslationMeta {
@@ -42,6 +44,14 @@ export const stopSentry = async (timeout = 2000) => {
   await Sentry.close(timeout);
 };
 
+export const captureWidgetError = (err: RenderError) => {
+  const ignore = ['CONFIG_ERROR', 'UNSUPPORTED_BROWSER_ERROR'].includes(err?.name);
+  if (!ignore) {
+    Sentry.captureException(err);
+    incrErrorCount();
+  }
+};
+
 export const setWidgetForSentry = async (widget: OktaSignIn) => {
   baseUrl = widget?.options.baseUrl?.replace(/\/$/, '')
     || widget?.options.issuer?.split('/oauth2/')[0] as string;
@@ -60,6 +70,11 @@ export const setWidgetForSentry = async (widget: OktaSignIn) => {
   else
     throw new Error('No Sentry client');
 
+  // Event listeners
+  catchTranslationErrors();
+  updateContextOnRender(widget);
+  catchErrors(widget);
+
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(undefined);
@@ -73,21 +88,9 @@ export const initSentry = async (widget?: OktaSignInAPI, options: SentryOptions 
     throw new Error('SENTRY_DSN not provided');
   }
 
-  baseUrl = (widget as OktaSignIn)?.options.baseUrl?.replace(/\/$/, '')
-    || (widget as OktaSignIn)?.options.issuer?.split('/oauth2/')[0] as string;
-
   const makeOfflineTransport = Sentry.makeBrowserOfflineTransport(
     ('fetch' in window) ? Sentry.makeFetchTransport : Sentry.makeXHRTransport
   );
-
-  // replay = new Sentry.Replay({
-  //   networkDetailAllowUrls: baseUrl ? [
-  //     `${baseUrl}/idp/idx/`
-  //   ] : [],
-  //   beforeAddRecordingEvent,
-  //   filterNetwork,
-  //   stickySession: false,
-  // });
 
   Sentry.init({
     dsn: SENTRY_DSN,
@@ -125,10 +128,9 @@ export const initSentry = async (widget?: OktaSignInAPI, options: SentryOptions 
     });
   }
 
-  // Event listeners
-  catchTranslationErrors();
-  updateContextOnRender(widget);
-  catchErrors(widget);
+  if (widget) {
+    await setWidgetForSentry(widget as OktaSignIn);
+  }
 
   if (opts.sendReportOnStart) {
     sendErrorReportWithConsent();

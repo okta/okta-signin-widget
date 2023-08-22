@@ -1,8 +1,8 @@
 import type { AuthSdkError, OAuthResponseMode, OktaAuth, TokenResponse, Tokens } from '@okta/okta-auth-js';
-import type { OktaSignIn, RenderResult, RenderResultSuccess, WidgetOptions } from '@okta/okta-signin-widget';
+import type { OktaSignIn, RenderResult, RenderError, RenderResultSuccess, WidgetOptions } from '@okta/okta-signin-widget';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import getOktaSignIn, {initSentry, stopSentry, setWidgetForSentry} from './getOktaSignIn';
+import getOktaSignIn, {initSentry, stopSentry, setWidgetForSentry, captureWidgetError} from './getOktaSignIn';
 import ConfigArea, { ConfigTemplate } from './configArea';
 import {
   getBaseUrl,
@@ -288,6 +288,8 @@ export default class TestApp {
           this.setTokens(res.tokens);
           this.oktaSignIn.remove();
         }
+      }).catch((err: RenderError) => {
+        captureWidgetError(err);
       });
     });
     this.showSignInAndRedirectButton.addEventListener('click', async () => {

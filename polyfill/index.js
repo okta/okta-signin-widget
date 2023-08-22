@@ -30,8 +30,9 @@ require('webcrypto-shim'); // crypto.subtle
 // Sentry
 require('proxy-polyfill');
 require('indexeddb-getall-shim');
-require("element-closest-polyfill");
-require('element-matches-polyfill');
+require("dom4");
+// require("element-closest-polyfill");
+// require('element-matches-polyfill');
 require('core-js/features/object/get-own-property-descriptor');
 require('core-js/features/string/repeat');
 require('core-js/features/number/is-nan');

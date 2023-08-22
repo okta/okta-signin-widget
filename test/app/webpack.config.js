@@ -93,6 +93,13 @@ const webpackConfig = {
   },
   devtool: 'source-map',
   devServer: {
+    client: {
+      // Issue with IE 11:
+      // webpack adds iframe #webpack-dev-server-client-overlay
+      // rrweb from sentry tries to serialize its content
+      //  and calls `matches` method on `contentDocument` which does not exist (even after polyfilling)
+      overlay: TARGET !== 'CROSS_BROWSER',
+    },
     static: [
       path.resolve(__dirname, '..', '..', 'target'),
       path.resolve(__dirname, 'public'),

@@ -256,7 +256,7 @@ export default Router.extend({
           },
         });
       })
-      .catch(function() {
+      .catch((e) => {
         // OKTA-69665 - if an error occurs in fetchInitialData, we're left in
         // a state with two active controllers. Therefore, we clean up the
         // old one. Note: This explicitly handles the invalid token case -
@@ -267,6 +267,9 @@ export default Router.extend({
           oldController.remove();
           oldController.$el.remove();
         }
+
+        // to catch errors like https://github.com/okta/okta-signin-widget/pull/3276
+        this.settings.callGlobalError(e);
       });
   },
 

@@ -1,4 +1,4 @@
-import { OktaSignIn, WidgetOptions } from '@okta/okta-signin-widget';
+import { OktaSignIn, RenderError, WidgetOptions } from '@okta/okta-signin-widget';
 import * as OktaPluginSentry from '@okta/okta-signin-widget/sentry';
 import '@okta/okta-signin-widget/css/okta-sign-in.min.css';
 
@@ -7,17 +7,21 @@ const getOktaSignIn = (options: WidgetOptions): OktaSignIn => {
 };
 
 export async function initSentry(widget?: OktaSignIn) {
-  await OktaPluginSentry.initSentry?.(widget, {
+  await OktaPluginSentry.initSentry(widget, {
     sendReportOnStart: true
   });
 }
 
 export function stopSentry() {
-  OktaPluginSentry.stopSentry?.();
+  OktaPluginSentry.stopSentry();
 }
 
 export async function setWidgetForSentry(widget: OktaSignIn) {
-  await OktaPluginSentry.setWidgetForSentry?.(widget);
+  await OktaPluginSentry.setWidgetForSentry(widget);
+}
+
+export function captureWidgetError(err: RenderError) {
+  OktaPluginSentry.captureWidgetError(err);
 }
 
 export default getOktaSignIn;

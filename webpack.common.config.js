@@ -12,6 +12,7 @@ var TARGET_JS = resolve(__dirname, 'target/js/');
 var LOCAL_PACKAGES = resolve(__dirname, 'packages/');
 var COURAGE_DIST = `${LOCAL_PACKAGES}/@okta/courage-dist/esm`;
 var QTIP2_DIST = `${LOCAL_PACKAGES}/@okta/qtip2/dist`;
+const { TARGET } = process.env;
 
 // Return a function so that all consumers get a new copy of the config
 module.exports = function({
@@ -44,7 +45,7 @@ module.exports = function({
   };
 
 
-  if (mode === 'production') {
+  if (mode === 'production' || TARGET === 'CROSS_BROWSER') {
     // preset-env must run before preset-typescript https://github.com/babel/babel/issues/12066
     babelOptions.presets.unshift('@babel/preset-env'); 
   } else {
