@@ -33,7 +33,7 @@ import {
 import { mergeThemes } from 'src/util/mergeThemes';
 
 import Bundles from '../../../../util/Bundles';
-import { CONSENT_HEADER_STEPS, IDX_STEP } from '../../constants';
+import { IDX_STEP } from '../../constants';
 import { WidgetContextProvider } from '../../contexts';
 import {
   useInteractionCodeFlow, useOnce,

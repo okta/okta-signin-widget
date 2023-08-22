@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { escape } from 'lodash';
 import {
   APIError,
   FieldError,
@@ -20,6 +19,7 @@ import {
   Input,
   NextStep,
 } from '@okta/okta-auth-js';
+import { escape } from 'lodash';
 import { StateUpdater } from 'preact/hooks';
 
 import { getMessage } from '../../../v2/ion/i18nTransformer';
@@ -358,11 +358,11 @@ export const isVerifyFlow = (transaction: IdxTransaction): boolean => {
 // @ts-expect-error OKTA-627610 captcha missing from context type
 export const isCaptchaEnabled = (transaction: IdxTransaction): boolean => typeof transaction.context?.captcha !== 'undefined';
 
-export const isConsentStep = (transaction: IdxTransaction | undefined): boolean => {
-  return transaction?.nextStep?.name
+export const isConsentStep = (transaction: IdxTransaction | undefined): boolean => (
+  transaction?.nextStep?.name
     ? CONSENT_HEADER_STEPS.includes(transaction.nextStep.name)
-    : false;
-};
+    : false
+);
 
 export const getApplicationName = (transaction: IdxTransaction | undefined): string | null => {
   if (typeof transaction === 'undefined') {
