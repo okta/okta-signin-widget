@@ -13,7 +13,6 @@
 import { Box, Typography } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 import { useEffect, useRef } from 'preact/hooks';
-import { useDocumentTitle } from 'src/hooks';
 
 import { useWidgetContext } from '../../contexts';
 import { TitleElement, UISchemaElementComponent } from '../../types';
@@ -26,8 +25,6 @@ const Title: UISchemaElementComponent<{
   const titleRef = useRef<HTMLTitleElement>(null);
   const { widgetProps } = useWidgetContext();
   const { features: { autoFocus = false } = {} } = widgetProps;
-  // Dynamically update page title
-  useDocumentTitle(options.content);
 
   useEffect(() => {
     if (!autoFocus) {

@@ -18,7 +18,7 @@ import { Fragment, FunctionComponent, h } from 'preact';
 
 import { IDX_STEP } from '../../constants';
 import { useWidgetContext } from '../../contexts';
-import { useDocumentTitle, useHtmlContentParser } from '../../hooks';
+import { useHtmlContentParser } from '../../hooks';
 import { getAppInfo, getHeadingReplacerFn, loc } from '../../util';
 
 const ConsentHeader: FunctionComponent = () => {
@@ -40,9 +40,6 @@ const ConsentHeader: FunctionComponent = () => {
     granularConsentTitle,
     { replace: getHeadingReplacerFn({}, 'h2', 2, 6) },
   );
-
-  // Dynamically update page title
-  useDocumentTitle(appName);
 
   const getAppLogo = (altText: string, logoHref?: string) => (
     typeof logoHref !== 'undefined' && (

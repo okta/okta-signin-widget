@@ -56,10 +56,14 @@ import {
   areTransactionsEqual,
   buildAuthCoinProps,
   canBootstrapWidget,
+  extractFormTitle,
+  getApplicationName,
   getLanguageCode,
   getLanguageDirection,
+  getPageTitle,
   isAndroidOrIOS,
   isAuthClientSet,
+  isConsentStep,
   isOauth2Enabled,
   loadLanguage,
   SessionStorage,
@@ -394,12 +398,30 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const toggleVisibility = useCallback((hideValue: boolean) => {
     setHide(hideValue);
   }, []);
+
   useOnce(() => {
     eventEmitter?.on('hide', toggleVisibility);
   });
+
   useEffect(() => () => {
     eventEmitter?.off('hide', toggleVisibility);
   }, [eventEmitter, toggleVisibility]);
+
+  const getDocumentTitle = useCallback(() => {
+    const headerTitle = extractFormTitle(formBag.uischema);
+    const title = isConsentStep(idxTransaction) ? getApplicationName(idxTransaction) : headerTitle;
+    if (title) {
+      return getPageTitle(widgetProps, title, idxTransaction);
+    }
+    return null;
+  }, [idxTransaction, widgetProps, formBag.uischema]);
+
+  useEffect(() => {
+    const title = getDocumentTitle();
+    if (title !== null) {
+      document.title = title;
+    }
+  }, [getDocumentTitle]);
 
   return (
     <WidgetContextProvider value={{
@@ -447,11 +469,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
                 authCoinProps={buildAuthCoinProps(idxTransaction)}
               />
               <AuthContent>
-                {
-                  idxTransaction?.nextStep?.name
-                  && CONSENT_HEADER_STEPS.includes(idxTransaction.nextStep.name)
-                  && <ConsentHeader />
-                }
+                {isConsentStep(idxTransaction) && <ConsentHeader />}
                 <IdentifierContainer />
                 {
                   uischema.elements.length > 0

@@ -21,12 +21,15 @@ import {
   CUSTOM_APP_UV_ENABLE_BIOMETRIC_SERVER_KEY, IDX_STEP, SOCIAL_IDP_TYPE_TO_I18KEY, TERMINAL_KEY,
 } from '../constants';
 import SmartCardIconSvg from '../img/smartCardButtonIcon.svg';
+import { traverseLayout } from '../transformer/util';
 import {
   ButtonElement,
   ButtonType,
   InfoboxElement,
   IWidgetContext,
   LaunchAuthenticatorButtonElement,
+  TitleElement,
+  UISchemaLayout,
   WidgetMessage,
   WidgetMessageLink,
   WidgetProps,
@@ -366,4 +369,18 @@ InfoboxElement | undefined => {
       dataSe: 'callout',
     },
   } as InfoboxElement;
+};
+
+export const extractFormTitle = (uischema: UISchemaLayout): string | null => {
+  let headerTitleContent: string | null = null;
+  traverseLayout({
+    layout: uischema,
+    predicate: (element) => element.type === 'Title',
+    callback: (element) => {
+      if (headerTitleContent === null) {
+        headerTitleContent = (element as TitleElement).options.content;
+      }
+    },
+  });
+  return headerTitleContent;
 };

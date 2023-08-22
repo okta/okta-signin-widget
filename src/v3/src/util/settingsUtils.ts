@@ -255,8 +255,11 @@ export const getPageTitle = (
   idxTransaction?: IdxTransaction,
 ): string | null => {
   const { brandName, features: { setPageTitle } = {} } = widgetProps;
+  const eventContext: EventContext = typeof idxTransaction === 'undefined'
+    ? { controller: null }
+    : getEventContext(idxTransaction);
 
-  switch(typeof setPageTitle) {
+  switch (typeof setPageTitle) {
     // When setPageTitle option is 'undefined', default will be to set title based on page header
     // When setPageTitle option is 'true', set title based on page header
     case 'boolean':
@@ -269,9 +272,6 @@ export const getPageTitle = (
     case 'string':
       return setPageTitle;
     case 'function':
-      const eventContext: EventContext = typeof idxTransaction === 'undefined'
-      ? { controller: null }
-      : getEventContext(idxTransaction);
       return setPageTitle(eventContext, { formTitle, brandName });
     default:
       // Indicates an invalid/unexpected value was passed into the config option
