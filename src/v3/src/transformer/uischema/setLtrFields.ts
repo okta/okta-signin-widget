@@ -20,19 +20,20 @@ export const setLtrFields: TransformStepFn = (formbag) => {
   traverseLayout({
     layout: formbag.uischema,
     predicate: (el) => {
-      if (el.type === 'Field') {
-        // fields with these names should always be LTR
-        const ltrOnlyFieldNames = ['credentials.passcode', 'identifier', 'credentials.newPassword', 'confirmPassword'];
-        const fieldElement = (el as FieldElement);
-        if (ltrOnlyFieldNames.includes(fieldElement.options.inputMeta.name)) {
-          return true;
-        }
+      if (el.type !== 'Field') {
+        return false;
       }
-      return false;
+
+      // fields with these names should always be LTR
+      const ltrOnlyFieldNames = ['credentials.passcode', 'identifier', 'credentials.newPassword', 'confirmPassword'];
+      const fieldElement = (el as FieldElement);
+      return ltrOnlyFieldNames.includes(fieldElement.options.inputMeta.name);
     },
     callback: (el) => {
-      const fieldElement = (el as FieldElement);
-      fieldElement.dir = 'ltr';
+      if (el.type === 'Field') {
+        const fieldElement = (el as FieldElement);
+        fieldElement.dir = 'ltr';
+      }
     },
   });
   return formbag;
