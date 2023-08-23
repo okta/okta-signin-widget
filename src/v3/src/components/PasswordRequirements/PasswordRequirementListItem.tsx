@@ -36,7 +36,7 @@ const PasswordRequirementListItem: FunctionComponent<PasswordRequirementProps> =
          * If any changes are made here, please test with addtl languages i.e. ok-pl / ok-sk
          * This is due to an issue that was found where the label text below modified the size of
          * of the icon. See: OKTA-586924
-        **/}
+         * */}
         <Icon status={status} />
         <Box><Typography variant="body1">{label}</Typography></Box>
       </Box>
