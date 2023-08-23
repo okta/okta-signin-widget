@@ -22,7 +22,8 @@ const Body = BaseForm.extend({
 
   displayPasswordPolicy(policy) {
     if (policy) {
-      const rulesList = getPasswordComplexityDescriptionForHtmlList( policy );
+      const rulesList =
+        getPasswordComplexityDescriptionForHtmlList(policy, this.settings.get('updatePasswordRequirementsText'));
       generatePasswordPolicyHtml(this, rulesList, true);
     }
   },

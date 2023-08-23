@@ -72,7 +72,10 @@ export default FormController.extend({
         return;
       }
 
-      return FactorUtil.getPasswordComplexityDescription(policy);
+      return FactorUtil.getPasswordComplexityDescription(
+        policy,
+        this.settings.get('features.updatePasswordRequirementsText')
+      );
     },
     parseErrorMessage: function(responseJSON) {
       const policy = this.options.appState.get('policy');

@@ -36,7 +36,10 @@ export default View.extend({
       return;
     }
 
-    this.allRequirements = FactorUtil.getPasswordComplexityDescriptionForHtmlList(policy);
+    this.allRequirements = FactorUtil.getPasswordComplexityDescriptionForHtmlList(
+      policy,
+      this.settings.get('updatePasswordRequirementsText')
+    );
   },
 
   getTemplateData: function() {

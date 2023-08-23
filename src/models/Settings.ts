@@ -108,6 +108,7 @@ const local: Record<string, ModelProperty> = {
   'features.showIdentifier': ['boolean', false, true],
   'features.autoFocus': ['boolean', false, true],
   'features.showSessionRevocation': ['boolean', false, false],
+  'features.updatePasswordRequirementsText': ['boolean', false, false], 
 
   defaultCountryCode: ['string', false, 'US'],
 

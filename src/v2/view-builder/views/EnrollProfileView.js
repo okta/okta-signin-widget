@@ -151,10 +151,12 @@ export default BaseView.extend({
 
     // if "passcode" is present in "credentials", render password rules
     const form = credentials?.form?.value;
+    const passwordComplexityDescription = getPasswordComplexityDescriptionForHtmlList(
+      credentials?.relatesTo?.value?.settings,
+      this.settings.get('updatePasswordRequirementsText')
+    );
     if (form && form.filter((obj) => { return obj.name === 'passcode'; })) {
-      generatePasswordPolicyHtml(this,
-        getPasswordComplexityDescriptionForHtmlList(credentials?.relatesTo?.value?.settings),
-        false);
+      generatePasswordPolicyHtml(this, passwordComplexityDescription, false);
     }
   },
 
