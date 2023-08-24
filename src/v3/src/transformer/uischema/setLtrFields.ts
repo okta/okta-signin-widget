@@ -24,15 +24,15 @@ export const setLtrFields: TransformStepFn = (formbag) => {
         return false;
       }
 
-      // fields with these names should always be LTR
+      // fields with these names should stay LTR by default
       const ltrOnlyFieldNames = ['credentials.passcode', 'identifier', 'credentials.newPassword', 'confirmPassword'];
       const fieldElement = (el as FieldElement);
       return ltrOnlyFieldNames.includes(fieldElement.options.inputMeta.name);
     },
     callback: (el) => {
-      if (el.type === 'Field') {
-        const fieldElement = (el as FieldElement);
-        fieldElement.dir = 'ltr';
+      // only set dir here when it has not already been set and overridden
+      if (el.type === 'Field' && typeof el.dir === 'undefined') {
+        el.dir = 'ltr';
       }
     },
   });
