@@ -57,7 +57,7 @@ describe('PhoneChallengeTransformer Tests', () => {
       .toBe('oie.phone.verify.title');
     expect(updatedFormBag.uischema.elements[2].type).toBe('Description');
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
-      .toBe(`oie.phone.verify.sms.codeSentText <span class="strong no-translate">${redactedPhone}.</span> oie.phone.verify.enterCodeText`);
+      .toBe(`oie.phone.verify.sms.codeSentText <span class="strong no-translate">&lrm;${redactedPhone}.</span> oie.phone.verify.enterCodeText`);
 
     expect(updatedFormBag.uischema.elements[3].type).toBe('Description');
     expect((updatedFormBag.uischema.elements[3] as DescriptionElement).options?.content)
@@ -91,7 +91,7 @@ describe('PhoneChallengeTransformer Tests', () => {
       .toBe('oie.phone.verify.title');
     expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
-      .toBe(`oie.phone.verify.sms.codeSentText <span class="strong no-translate">${redactedPhone}.</span> oie.phone.verify.enterCodeText`);
+      .toBe(`oie.phone.verify.sms.codeSentText <span class="strong no-translate">&lrm;${redactedPhone}.</span> oie.phone.verify.enterCodeText`);
 
     expect(updatedFormBag.uischema.elements[2].type).toBe('Description');
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)
@@ -182,7 +182,7 @@ describe('PhoneChallengeTransformer Tests', () => {
       .toBe('oie.phone.verify.title');
     expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
-      .toBe(`mfa.calling <span class="strong no-translate">${redactedPhone}.</span> oie.phone.verify.enterCodeText`);
+      .toBe(`mfa.calling <span class="strong no-translate">&lrm;${redactedPhone}.</span> oie.phone.verify.enterCodeText`);
 
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).type).toBe('Description');
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)
