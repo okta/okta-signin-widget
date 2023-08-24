@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import * as Tokens from '@okta/odyssey-design-tokens';
 import { Box, Typography } from '@okta/odyssey-react-mui';
 import classNames from 'classnames/bind';
 import { FunctionComponent, h } from 'preact';
@@ -67,7 +68,7 @@ const AuthHeader: FunctionComponent<AuthHeaderProps> = ({
         paddingInlineEnd: (theme) => theme.spacing(5),
         paddingBlockEnd: (theme) => theme.spacing(showAuthCoin ? 0 : 4),
         paddingInlineStart: (theme) => theme.spacing(5),
-        borderBlockEnd: (theme) => `1px solid ${theme.palette.grey[400]}`,
+        borderBlockEnd: `1px solid ${Tokens.ColorBorderDisplay}`,
       }}
     >
       <Typography variant="h1">

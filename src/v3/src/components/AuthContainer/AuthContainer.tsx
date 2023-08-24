@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import * as Tokens from '@okta/odyssey-design-tokens';
 import { useMediaQuery } from '@mui/material';
 import { Box } from '@okta/odyssey-react-mui';
 import classNames from 'classnames';
@@ -41,7 +42,7 @@ const AuthContainer: FunctionComponent<{ hide: boolean }> = ({ children, hide })
         flexDirection="column"
         border={isMobileWidth ? 0 : 1}
         borderRadius={1}
-        borderColor="grey.400"
+        borderColor={Tokens.ColorBorderDisplay}
         bgcolor="common.white"
         fontFamily="fontFamily"
         className={style.siwContainer}
