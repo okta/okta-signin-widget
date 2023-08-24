@@ -116,6 +116,10 @@ const renderPlaygroundWidget = (options = {}) => {
 
     function error(err) {
       console.error('global error handler: ', err);
+
+      if (window.OktaPluginSentry) {
+        window.OktaPluginSentry.captureWidgetError(err);
+      }
     }
   ).catch(() => { /* we are using global error handler */});
 
@@ -161,6 +165,11 @@ const renderPlaygroundWidget = (options = {}) => {
     console.log('===== playground widget afterError event received =====');
     console.log(JSON.stringify(context));
     console.log(JSON.stringify(error));
+    
+    //todo: move to OktaPluginSentry after OKTA-594740
+    if (window.OktaPluginSentry && error.error) {
+      window.OktaPluginSentry.captureWidgetError(error.error);
+    }
   });
 
 };

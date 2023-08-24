@@ -1,6 +1,5 @@
 /* eslint no-console:0 */
 
-const { DefinePlugin } = require('webpack');
 const path = require('path');
 const fs = require('fs');
 const nodemon = require('nodemon');
@@ -49,21 +48,15 @@ if (!process.env.DISABLE_CSP) {
   headers['Content-Security-Policy'] = csp;
 }
 
-const plugins = [];
-plugins.push(new DefinePlugin({
-  SENTRY_DSN: JSON.stringify(process.env.SENTRY_DSN),
-}));
-
 module.exports = {
   mode: 'development',
-  target: 'web',
+  target: ['web', 'es5'],
   infrastructureLogging: {
     level: 'warn',
   },
   entry: {
     'playground.js': [`${PLAYGROUND}/main.ts`]
   },
-  plugins,
   output: {
     path: `${PLAYGROUND}/target`,
     filename: 'playground.bundle.js',
@@ -79,14 +72,35 @@ module.exports = {
   plugins: [
     new DefinePlugin({
       OMIT_MSWJS: process.env.OMIT_MSWJS === 'true',
+      SENTRY_DSN: JSON.stringify(process.env.SENTRY_DSN),
     })
   ],
   module: {
     rules: [
       // all files with a `.ts` or `.tsx` extension will be handled by `preset-typescript`
       {
-        test: /\.[jt]sx?$/,
-        exclude: /node_modules/,
+        test: /\.m?[jt]sx?$/,
+        exclude: function(filePath) {
+          const filePathContains = (f) => filePath.indexOf(f) > 0;
+          const npmRequiresTransform = [
+            //msw
+            '/node_modules/msw',
+            '/node_modules/@mswjs',
+            '/node_modules/@open-draft',
+            '/node_modules/headers-polyfill',
+            '/node_modules/outvariant',
+            '/node_modules/strict-event-emitter',
+            '/node_modules/graphql',
+          ].some(filePathContains);
+          const shallBeExcluded = [
+            '/node_modules/',
+            'packages/@okta/qtip2',
+            'okta-auth-js'
+          ].some(filePathContains);
+
+          return shallBeExcluded && !npmRequiresTransform;
+
+        },
         loader: 'babel-loader',
         options: {
           configFile: false, // do not load from babel.config.js
@@ -102,6 +116,13 @@ module.exports = {
     ]
   },
   devServer: {
+    client: {
+      // Issue with IE 11:
+      // webpack adds iframe #webpack-dev-server-client-overlay
+      // rrweb from sentry tries to serialize its content
+      //  and calls `matches` method on `contentDocument` which does not exist (even after polyfilling)
+      overlay: process.env.TARGET !== 'CROSS_BROWSER',
+    },
     host: HOST,
     watchFiles: [...staticDirs],
     static: [

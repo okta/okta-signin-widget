@@ -22,7 +22,10 @@ export interface EventErrorContext {
   statusCode?: number;
 
   // OIE
-  errorSummary?: string
+  errorSummary?: string;
+
+  // original error
+  error?: Error;
 }
 
 export interface EventData {

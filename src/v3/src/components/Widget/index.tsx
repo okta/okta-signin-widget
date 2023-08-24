@@ -158,6 +158,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     // We will want to expose development stage errors from auth-js and file jiras against it
     setResponseError(error as (AuthApiError | OAuthError));
     console.error(error);
+    globalErrorFn?.(error as (AuthApiError | OAuthError));
     return null;
   };
 
@@ -182,6 +183,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         // Required to prevent auth-js from clearing sessionStorage and breaking interaction code flow
         exchangeCodeForTokens: false,
       });
+      //throw new Error('test error on bootstrap for sentry');
       const hasError = !transaction.requestDidSucceed || transaction.messages?.some(
         (msg) => msg.class === MessageType.ERROR.toString(),
       );

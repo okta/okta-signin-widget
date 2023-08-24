@@ -71,11 +71,11 @@ const baseConfig: Partial<Configuration> = {
           presets: [
             [
               '@babel/preset-env',
-              {
-                // TODO: resolve issue with authjs esm bundle, then switch to "usage" to reduce polyfill size
-                useBuiltIns: 'entry',
-                corejs: '3.9',
-              },
+              // {
+              //   // TODO: resolve issue with authjs esm bundle, then switch to "usage" to reduce polyfill size
+              //   useBuiltIns: 'entry',
+              //   corejs: '3.9',
+              // },
             ],
             '@babel/preset-react',
             '@babel/preset-typescript',

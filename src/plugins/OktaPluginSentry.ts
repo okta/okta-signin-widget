@@ -5,7 +5,8 @@ import { EventContext } from '../types/events';
 import { EventErrorContext } from '../types/events';
 import { RenderError } from '../types/results';
 import type AppState from '../v2/models/AppState';
-import type { OktaSignIn } from '@okta/okta-signin-widget';
+import type { OktaSignIn } from '../../src/exports/default';
+import Enums from 'util/Enums';
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';
 
@@ -38,49 +39,14 @@ let baseUrl: string;
 let opts: SentryOptions;
 
 const SENTRY_HAS_ERRORS_KEY = 'sentry-has-error'; // key in local storage
+const KNOWN_ERROR_NAMES = [
+  // auth-js errors
+  'OAuthError', 'AuthSdkError', 'AuthPollStopError', 'AuthApiError',
+  // SIW errors (src/util/Errors)
+  Enums.CONFIG_ERROR, Enums.UNSUPPORTED_BROWSER_ERROR, Enums.OAUTH_ERROR, Enums.AUTH_STOP_POLL_INITIATION_ERROR, 
+  Enums.U2F_ERROR, Enums.WEB_AUTHN_ERROR, Enums.WEBAUTHN_ABORT_ERROR, Enums.CONFIGURED_FLOW_ERROR,
+];
 
-export const stopSentry = async (timeout = 2000) => {
-  await replay?.stop();
-  await Sentry.close(timeout);
-};
-
-export const captureWidgetError = (err: RenderError) => {
-  const ignore = ['CONFIG_ERROR', 'UNSUPPORTED_BROWSER_ERROR'].includes(err?.name);
-  if (!ignore) {
-    Sentry.captureException(err);
-    incrErrorCount();
-  }
-};
-
-export const setWidgetForSentry = async (widget: OktaSignIn) => {
-  baseUrl = widget?.options.baseUrl?.replace(/\/$/, '')
-    || widget?.options.issuer?.split('/oauth2/')[0] as string;
-  replay?.stop();
-  replay = new Sentry.Replay({
-    networkDetailAllowUrls: baseUrl ? [
-      `${baseUrl}/idp/idx/`
-    ] : [],
-    beforeAddRecordingEvent,
-    filterNetwork,
-    stickySession: false,
-  });
-  const client = Sentry.getCurrentHub().getClient();
-  if (client)
-    client.addIntegration(replay);
-  else
-    throw new Error('No Sentry client');
-
-  // Event listeners
-  catchTranslationErrors();
-  updateContextOnRender(widget);
-  catchErrors(widget);
-
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(undefined);
-    }, 0);
-  });
-};
 
 export const initSentry = async (widget?: OktaSignInAPI, options: SentryOptions = {}) => {
   opts = options;
@@ -97,7 +63,6 @@ export const initSentry = async (widget?: OktaSignInAPI, options: SentryOptions 
     normalizeDepth: 10, // to view structured context data instead of "[Object]", "[Array]"
     integrations: [
       new Sentry.BrowserTracing(),
-      //replay,
     ],
     // Performance Monitoring
     tracesSampleRate: 0.0, // disable
@@ -142,6 +107,43 @@ export const initSentry = async (widget?: OktaSignInAPI, options: SentryOptions 
     }, 0);
   });
 };
+
+export const setWidgetForSentry = async (widget: OktaSignIn) => {
+  baseUrl = widget?.options.baseUrl?.replace(/\/$/, '')
+    || widget?.options.issuer?.split('/oauth2/')[0] as string;
+  replay?.stop();
+  replay = new Sentry.Replay({
+    networkDetailAllowUrls: baseUrl ? [
+      `${baseUrl}/idp/idx/`
+    ] : [],
+    beforeAddRecordingEvent,
+    filterNetwork,
+    stickySession: false,
+  });
+  const client = Sentry.getCurrentHub().getClient();
+  if (client)
+    client.addIntegration(replay);
+  else
+    throw new Error('No Sentry client');
+
+  // Event listeners
+  catchTranslationErrors();
+  updateContextOnRender(widget);
+  catchErrors(widget);
+
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(undefined);
+    }, 0);
+  });
+};
+
+export const stopSentry = async (timeout = 2000) => {
+  await replay?.stop();
+  await Sentry.close(timeout);
+};
+
+// Manage error report
 
 export const canSendErrorReport = () => {
   return getErrorCount() > 0;
@@ -241,10 +243,20 @@ const filterNetwork = (info: any) => {
 };
 
 const beforeAddRecordingEvent = (e: Replay.ReplayFrameEvent) => {
-  if (e.data.tag == 'breadcrumb') {
+  if (e?.data?.tag == 'breadcrumb') {
     console.log('@@@ [replay]', e?.data?.tag, e?.data?.payload?.category, e)
   }
   return e;
+};
+
+// Manually capture errors
+
+export const captureWidgetError = (err: RenderError) => {
+  const ignore = KNOWN_ERROR_NAMES.includes(err?.name) || !(err instanceof Error);
+  if (!ignore) {
+    Sentry.captureException(err);
+    incrErrorCount();
+  }
 };
 
 // Event listeners

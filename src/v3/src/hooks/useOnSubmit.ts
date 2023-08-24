@@ -85,6 +85,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       return {
         xhr: error as unknown as ErrorXHR,
         errorSummary: error.responseJSON && error.responseJSON.errorSummary,
+        error: resp instanceof Error ? resp as Error : undefined,
       };
     };
 
@@ -230,6 +231,8 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
         setStepToRender(stepToRender);
         setLoading(false);
         resolve?.(true);
+
+        //throw new Error('test error on submit for sentry');
       };
 
       if (step === IDX_STEP.ENROLL_PROFILE && !isClientTransaction) {
