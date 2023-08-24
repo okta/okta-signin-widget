@@ -32,6 +32,7 @@ export const setLtrFields: TransformStepFn = (formbag) => {
     callback: (el) => {
       // only set dir here when it has not already been set and overridden
       if (el.type === 'Field' && typeof el.dir === 'undefined') {
+        // eslint-disable-next-line no-param-reassign
         el.dir = 'ltr';
       }
     },
