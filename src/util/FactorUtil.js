@@ -308,6 +308,9 @@ fn.getFactorNameForFactorType = function(factorType) {
   if (factorType === 'token:software:totp') {
     return 'OKTA_VERIFY';
   }
+  if (factorType === 'push') {
+    return 'OKTA_VERIFY_PUSH';
+  }
   if (factorType === 'webauthn') {
     if (this.settings.get('features.webauthn')) {
       return 'WEBAUTHN';

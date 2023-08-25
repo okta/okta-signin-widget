@@ -1,0 +1,172 @@
+{
+  "stateToken": "00ru8RamDs4FkMmv8rN1tLqEcNnr0M6g-_3u2KEwmL",
+  "expiresAt": "2023-08-24T20:40:28.000Z",
+  "status": "MFA_REQUIRED",
+  "_embedded": {
+      "user": {
+          "id": "00u4knrrv0ZGWmGy90g7",
+          "passwordChanged": "2023-08-21T20:19:09.000Z",
+          "profile": {
+              "login": "test@test.com",
+              "firstName": "testuser",
+              "lastName": "testuser",
+              "locale": "en_US",
+              "timeZone": "America/Los_Angeles"
+          }
+      },
+      "factorTypes": [
+          {
+              "factorType": "token:software:totp",
+              "_links": {
+                  "next": {
+                      "name": "verify",
+                      "href": "https://praveentest.trexcloud.com/api/v1/authn/factors/token:software:totp/verify",
+                      "hints": {
+                          "allow": [
+                              "POST"
+                          ]
+                      }
+                  }
+              }
+          },
+          {
+              "factorType": "push",
+              "_links": {
+                  "next": {
+                      "name": "verify",
+                      "href": "https://praveentest.trexcloud.com/api/v1/authn/factors/push/verify",
+                      "hints": {
+                          "allow": [
+                              "POST"
+                          ]
+                      }
+                  }
+              }
+          }
+      ],
+      "factors": [
+          {
+              "id": "opf4kns7bqm0XFJt50g7",
+              "factorType": "push",
+              "provider": "OKTA",
+              "vendorName": "OKTA",
+              "profile": {
+                  "credentialId": "test@test.com",
+                  "deviceType": "SmartPhone_Android",
+                  "keys": [
+                      {
+                          "kty": "RSA",
+                          "use": "sig",
+                          "kid": "default",
+                          "e": "AQAB\n",
+                          "n": "APKXUfXVdcosG0fFkodJNE67QBnXmj83WNXhxhreAX6naUY_Z2NLDTYlzWNJQNiv1JLJQKssDRx3\ncIHfmk5vf8cK6L1ZvCbsZSVrD4IV7AkWf9RN01DgZl-41kq5P-ILm43L1hDpJH2jRu038Ov_3mw3\nSU5vjJGDdtk0lfQCmEGWN7veyuy1W4AsOUsSMtKLHlii9nb0JwDaUqVhTe8sQl8V57pHTIAj6mwT\n4krdcd4HS1jq-9Xdv-YI9j_K_QnkgFsiRmSx_DCbY274G8pDTomWd3-TChSuvntjyn5Q9FgDHat5\n4_2ZLmMYGIMcCp0Y5qQ4LFVonq2X_W0D0ciKdrc=\n"
+                      }
+                  ],
+                  "name": "Pixel 6 Pro",
+                  "platform": "ANDROID",
+                  "version": "13:2023-08-05"
+              },
+              "_links": {
+                  "verify": {
+                      "href": "https://praveentest.trexcloud.com/api/v1/authn/factors/opf4kns7bqm0XFJt50g7/verify",
+                      "hints": {
+                          "allow": [
+                              "POST"
+                          ]
+                      }
+                  }
+              }
+          },
+          {
+              "id": "opf4kns8u1uS0AeUb0g7",
+              "factorType": "push",
+              "provider": "OKTA",
+              "vendorName": "OKTA",
+              "profile": {
+                  "credentialId": "test@test.com",
+                  "deviceType": "SmartPhone_Android",
+                  "keys": [
+                      {
+                          "kty": "RSA",
+                          "use": "sig",
+                          "kid": "default",
+                          "e": "AQAB\n",
+                          "n": "ALqmSCvINm2Luc7iwYwK4by4RKg4lg71acIRycDXKo371K0Wiioa5xggGcZ6zrygDyRlHArBycdh\nGUqnVMqd7KFBjccE0Oq8C2jdDX7q3xgg0mZE3TiwIBiOoIzAHr6jTY3BP88tSNyS-z7RUgrccLl1\n7KVEaBXd-Hdd4cW57MVFlLPCz7XPHcQpTAO6eHDFAm78qH2Unpi64lwGAf9IdspBY80ybXqKaQWu\nkgurppE7oQ3oHnNFHfOX7PMqunpciyFlnnjytp67uH1UprM30Qjfm8rWmU2RpGyGWWepcTW8r83m\nW5KEs9OaLJpNxv3fhIGHAjI22CrQbxiIn1fNW2M=\n"
+                      }
+                  ],
+                  "name": "Pixel 6 Pro",
+                  "platform": "ANDROID",
+                  "version": "13:2023-08-05"
+              },
+              "_links": {
+                  "verify": {
+                      "href": "https://praveentest.trexcloud.com/api/v1/authn/factors/opf4kns8u1uS0AeUb0g7/verify",
+                      "hints": {
+                          "allow": [
+                              "POST"
+                          ]
+                      }
+                  }
+              }
+          },
+          {
+              "id": "ost4kns8u3cF6Z8M70g7",
+              "factorType": "token:software:totp",
+              "provider": "OKTA",
+              "vendorName": "OKTA",
+              "profile": {
+                  "credentialId": "test@test.com"
+              },
+              "_links": {
+                  "verify": {
+                      "href": "https://praveentest.trexcloud.com/api/v1/authn/factors/ost4kns8u3cF6Z8M70g7/verify",
+                      "hints": {
+                          "allow": [
+                              "POST"
+                          ]
+                      }
+                  }
+              }
+          },
+          {
+              "id": "ost4kns7brh3fpFHm0g7",
+              "factorType": "token:software:totp",
+              "provider": "OKTA",
+              "vendorName": "OKTA",
+              "profile": {
+                  "credentialId": "test@test.com"
+              },
+              "_links": {
+                  "verify": {
+                      "href": "https://praveentest.trexcloud.com/api/v1/authn/factors/ost4kns7brh3fpFHm0g7/verify",
+                      "hints": {
+                          "allow": [
+                              "POST"
+                          ]
+                      }
+                  }
+              }
+          }
+      ],
+      "policy": {
+          "allowRememberDevice": false,
+          "rememberDeviceLifetimeInMinutes": 0,
+          "rememberDeviceByDefault": false,
+          "factorsPolicyInfo": {
+              "opf4kns7bqm0XFJt50g7": {
+                  "autoPushEnabled": false
+              }
+          }
+      }
+  },
+  "_links": {
+      "cancel": {
+          "href": "https://praveentest.trexcloud.com/api/v1/authn/cancel",
+          "hints": {
+              "allow": [
+                  "POST"
+              ]
+          }
+      }
+  }
+}
