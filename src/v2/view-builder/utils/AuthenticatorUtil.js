@@ -80,9 +80,6 @@ export const getAuthenticatorData = function(authenticator, isVerifyAuthenticato
 
   case AUTHENTICATOR_KEY.WEBAUTHN:
     Object.assign(authenticatorData, {
-      nickname: isVerifyAuthenticator
-        ? nicknameText
-        : undefined,
       description: isVerifyAuthenticator
         ? ''
         : loc('oie.webauthn.description', 'login'),
@@ -93,9 +90,6 @@ export const getAuthenticatorData = function(authenticator, isVerifyAuthenticato
 
   case AUTHENTICATOR_KEY.OV:
     Object.assign(authenticatorData, {
-      nickname: isVerifyAuthenticator
-        ? nicknameText
-        : undefined,
       description: isVerifyAuthenticator
         ? loc('oie.okta_verify.label', 'login')
         : loc('oie.okta_verify.authenticator.description', 'login'),
