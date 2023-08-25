@@ -2,6 +2,7 @@ import { loc, createCallout } from '@okta/courage';
 import { BaseForm, BaseView } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import BaseResendView from '../shared/BaseResendView';
+import { isTextOverflowing } from '../../../view-builder/internals/FormInputFactory';
 
 const ResendView = BaseResendView.extend(
   {
@@ -60,6 +61,9 @@ const Body = BaseForm.extend(Object.assign(
       let nicknameText = '';
       if (this.model.get('nickname')) {
         nicknameText = '(' + this.model.escape('nickname') + ')';
+      }
+      if (nicknameText.length > 20) {
+        nicknameText = nicknameText.substring(0, 20) + '...';
       }
 
       const strongClass = this.model.get('phoneNumber') !== loc('oie.phone.alternate.title', 'login') ?

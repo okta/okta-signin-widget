@@ -24,11 +24,15 @@ const getButtonDataSeAttr = function(authenticator) {
   return '';
 };
 
-/* eslint complexity: [0, 0], max-statements: [2, 24] */
+/* eslint complexity: [0, 0], max-statements: [2, 25] */
 export const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
   const authenticatorKey = authenticator.authenticatorKey;
   const key = _.isString(authenticatorKey) ? authenticatorKey.toLowerCase() : '';
   let authenticatorData = {};
+  let nicknameText = authenticator.relatesTo?.nickname;
+  if (nicknameText && nicknameText.length > 20) {
+    nicknameText = nicknameText.substring(0, 20) + '...';
+  }
   switch (key) {
   case AUTHENTICATOR_KEY.EMAIL:
     Object.assign(authenticatorData, {
@@ -53,7 +57,7 @@ export const getAuthenticatorData = function(authenticator, isVerifyAuthenticato
   case AUTHENTICATOR_KEY.PHONE:
     Object.assign(authenticatorData, {
       nickname: isVerifyAuthenticator
-        ? authenticator.relatesTo?.nickname
+        ? nicknameText
         : undefined,
       description: isVerifyAuthenticator
         ? authenticator.relatesTo?.profile?.phoneNumber
@@ -77,7 +81,7 @@ export const getAuthenticatorData = function(authenticator, isVerifyAuthenticato
   case AUTHENTICATOR_KEY.WEBAUTHN:
     Object.assign(authenticatorData, {
       nickname: isVerifyAuthenticator
-        ? authenticator.relatesTo?.nickname
+        ? nicknameText
         : undefined,
       description: isVerifyAuthenticator
         ? ''
@@ -90,7 +94,7 @@ export const getAuthenticatorData = function(authenticator, isVerifyAuthenticato
   case AUTHENTICATOR_KEY.OV:
     Object.assign(authenticatorData, {
       nickname: isVerifyAuthenticator
-        ? authenticator.relatesTo?.nickname
+        ? nicknameText
         : undefined,
       description: isVerifyAuthenticator
         ? loc('oie.okta_verify.label', 'login')

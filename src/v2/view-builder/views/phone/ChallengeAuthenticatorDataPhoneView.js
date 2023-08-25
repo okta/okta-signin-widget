@@ -1,6 +1,7 @@
 import { _, loc } from '@okta/courage';
 import { BaseForm, BaseView } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
+import { isTextOverflowing } from '../../../view-builder/internals/FormInputFactory';
 
 const Body = BaseForm.extend(
   {
@@ -42,6 +43,9 @@ const Body = BaseForm.extend(
       let nicknameText = '';
       if (this.model.get('nickname')) {
         nicknameText = '(' + this.model.escape('nickname') + ')';
+      }
+      if (nicknameText.length > 20) {
+        nicknameText = nicknameText.substring(0, 20) + '...';
       }
       // Courage doesn't support HTML, hence creating a subtitle here.
       this.add(`<div class="okta-form-subtitle" data-se="o-form-explain">${sendText}
