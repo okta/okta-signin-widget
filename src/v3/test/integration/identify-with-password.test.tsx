@@ -417,4 +417,16 @@ describe('identify-with-password', () => {
     await user.dblClick(cancelLink);
     expect(authClient.options.httpRequestClient).toHaveBeenCalledTimes(1);
   });
+
+  it('identifier and password fields should be ltr even when a rtl language is set', async () => {
+    const {
+      findByTestId,
+    } = await setup({ mockResponse, widgetOptions: { language: 'ar' } });
+
+    const usernameEl = await findByTestId('identifier') as HTMLInputElement;
+    const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
+
+    expect(usernameEl.parentElement?.getAttribute('dir')).toBe('ltr');
+    expect(passwordEl.parentElement?.getAttribute('dir')).toBe('ltr');
+  });
 });

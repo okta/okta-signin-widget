@@ -19,6 +19,7 @@ import { addIdToElements } from './addIdToElements';
 import { applyAsteriskToFieldElements } from './applyAsteriskToFieldElements';
 import { createTextElementKeys } from './createTextElementKeys';
 import { setFocusOnFirstElement } from './setFocusOnFirstElement';
+import { setLtrFields } from './setLtrFields';
 import { updateCustomFields } from './updateCustomFields';
 import { updateElementKeys } from './updateElementKeys';
 import { updatePasswordDescribedByValue } from './updatePasswordDescribedByValue';
@@ -33,4 +34,5 @@ export const transformUISchema: TransformStepFnWithOptions = (
   updateElementKeys(options),
   addIdToElements,
   updatePasswordDescribedByValue,
+  setLtrFields,
 )(formbag);

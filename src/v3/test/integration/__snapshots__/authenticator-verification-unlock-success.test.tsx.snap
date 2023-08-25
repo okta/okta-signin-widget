@@ -189,6 +189,7 @@ exports[`authenticator-verification-unlock-success should render form 1`] = `
                   </label>
                   <div
                     class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-26"
+                    dir="ltr"
                     required="true"
                   >
                     <input

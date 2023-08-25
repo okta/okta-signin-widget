@@ -44,7 +44,11 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
   const value = useValue(uischema);
   const { loading } = useWidgetContext();
   const {
-    translations = [], focus, parserOptions, showAsterisk,
+    translations = [],
+    focus,
+    parserOptions,
+    showAsterisk,
+    dir,
   } = uischema;
   const label = getTranslation(translations, 'label');
   const hint = getTranslation(translations, 'hint');
@@ -127,6 +131,7 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
           ...attributes,
         }}
         inputRef={focusRef}
+        dir={dir}
       />
       {hasErrors && (
         <FieldLevelMessageContainer

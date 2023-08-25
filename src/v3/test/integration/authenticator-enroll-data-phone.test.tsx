@@ -79,6 +79,21 @@ describe('authenticator-enroll-data-phone', () => {
     );
   });
 
+  it('phone number and extension fields should be ltr even when a rtl language is set', async () => {
+    const {
+      findByTestId, user, findByLabelText,
+    } = await setup({ mockResponse, widgetOptions: { language: 'ar' } });
+
+    const phoneNumberEle = await findByTestId('authenticator.phoneNumber') as HTMLInputElement;
+
+    const methodType = await findByLabelText(/Voice call/);
+    await user.click(methodType);
+    const extensionEle = await findByTestId('extension') as HTMLInputElement;
+
+    expect(phoneNumberEle.parentElement?.getAttribute('dir')).toBe('ltr');
+    expect(extensionEle.parentElement?.getAttribute('dir')).toBe('ltr');
+  });
+
   it('should send correct payload when selecting voice', async () => {
     const {
       authClient, user, findByTestId, findByText, findByLabelText, container,

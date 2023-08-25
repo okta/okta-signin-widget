@@ -423,6 +423,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                     </label>
                     <div
                       class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-23"
+                      dir="ltr"
                       required="true"
                     >
                       <input
@@ -897,6 +898,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                     </label>
                     <div
                       class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-23"
+                      dir="ltr"
                       required="true"
                     >
                       <input

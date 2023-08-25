@@ -65,6 +65,7 @@ exports[`identify-recovery renders form 1`] = `
                   </label>
                   <div
                     class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-13"
+                    dir="ltr"
                     required="true"
                   >
                     <input

@@ -100,6 +100,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                   </label>
                   <div
                     class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-20"
+                    dir="ltr"
                     required="true"
                   >
                     <input
@@ -130,6 +131,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                   </label>
                   <div
                     class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-20"
+                    dir="ltr"
                     required="true"
                   >
                     <input
@@ -406,6 +408,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                   </label>
                   <div
                     class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-20"
+                    dir="ltr"
                     required="true"
                   >
                     <input
@@ -436,6 +439,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                   </label>
                   <div
                     class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-20"
+                    dir="ltr"
                     required="true"
                   >
                     <input
@@ -677,6 +681,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                   </label>
                   <div
                     class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-13"
+                    dir="ltr"
                     required="true"
                   >
                     <input
@@ -707,6 +712,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                   </label>
                   <div
                     class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-13"
+                    dir="ltr"
                     required="true"
                   >
                     <input

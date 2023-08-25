@@ -208,6 +208,7 @@ export interface UISchemaElement {
    * and rendered in the UI. See htmlContentParserUtils.tsx for reference.
    */
   parserOptions?: HTMLReactParserOptions;
+  dir?: 'ltr' | 'rtl'
 }
 
 /**

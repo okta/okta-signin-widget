@@ -164,6 +164,7 @@ exports[`Email authenticator enroll when magic link = false Tests should render 
                   </label>
                   <div
                     class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-23"
+                    dir="ltr"
                     required="true"
                   >
                     <input

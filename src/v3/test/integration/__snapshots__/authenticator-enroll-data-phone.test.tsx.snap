@@ -1506,6 +1506,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                     </div>
                     <div
                       class="MuiBox-root emotion-44"
+                      dir="ltr"
                     >
                       <div
                         class="MuiBox-root emotion-45"
@@ -1513,12 +1514,14 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                         <label
                           class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-40"
                           data-shrink="false"
+                          dir="ltr"
                           for="authenticator.phoneNumber"
                         >
                           Phone number
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedStart emotion-47"
+                          dir="ltr"
                           required="true"
                         >
                           <span
@@ -3096,6 +3099,7 @@ exports[`authenticator-enroll-data-phone should render form without an autoFocus
                     </div>
                     <div
                       class="MuiBox-root emotion-44"
+                      dir="ltr"
                     >
                       <div
                         class="MuiBox-root emotion-45"
@@ -3103,12 +3107,14 @@ exports[`authenticator-enroll-data-phone should render form without an autoFocus
                         <label
                           class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-40"
                           data-shrink="false"
+                          dir="ltr"
                           for="authenticator.phoneNumber"
                         >
                           Phone number
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedStart emotion-47"
+                          dir="ltr"
                           required="true"
                         >
                           <span
@@ -4686,6 +4692,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                     </div>
                     <div
                       class="MuiBox-root emotion-44"
+                      dir="ltr"
                     >
                       <div
                         class="MuiBox-root emotion-45"
@@ -4693,12 +4700,14 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                         <label
                           class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-40"
                           data-shrink="false"
+                          dir="ltr"
                           for="authenticator.phoneNumber"
                         >
                           Phone number
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedStart emotion-47"
+                          dir="ltr"
                           required="true"
                         >
                           <span
@@ -4729,12 +4738,14 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                         <label
                           class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-40"
                           data-shrink="false"
+                          dir="ltr"
                           for="phoneExtension"
                         >
                           Extension
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary emotion-53"
+                          dir="ltr"
                           required="true"
                         >
                           <input

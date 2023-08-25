@@ -579,6 +579,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                     </label>
                     <div
                       class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth Mui-focused emotion-24"
+                      dir="ltr"
                       required="true"
                     >
                       <input
@@ -828,6 +829,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                     </label>
                     <div
                       class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth Mui-focused emotion-29"
+                      dir="ltr"
                       required="true"
                     >
                       <input
@@ -1145,6 +1147,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                     </label>
                     <div
                       class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth Mui-focused emotion-36"
+                      dir="ltr"
                       required="true"
                     >
                       <input
@@ -1478,6 +1481,7 @@ exports[`Email authenticator verification when email magic link = undefined shou
                     </label>
                     <div
                       class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth Mui-focused emotion-24"
+                      dir="ltr"
                       required="true"
                     >
                       <input

@@ -164,6 +164,7 @@ exports[`Email authenticator verification when email magic link = false Tests sh
                   </label>
                   <div
                     class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-23"
+                    dir="ltr"
                     required="true"
                   >
                     <input

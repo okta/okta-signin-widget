@@ -48,7 +48,11 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
   describedByIds,
 }) => {
   const {
-    data, dataSchemaRef, loading, widgetProps,
+    data,
+    dataSchemaRef,
+    loading,
+    widgetProps,
+    languageDirection,
   } = useWidgetContext();
   const {
     translations = [],
@@ -124,12 +128,19 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
   const renderExtension = () => (
     showExtension && (
       <Box width={0.25}>
-        <InputLabel htmlFor="phoneExtension">{extensionLabel}</InputLabel>
+        <InputLabel
+          htmlFor="phoneExtension"
+          // label should remain in rtl format if rtl language is set
+          dir={languageDirection}
+        >
+          {extensionLabel}
+        </InputLabel>
         <InputBase
           value={extension}
           type="text"
           name="extension"
           id="phoneExtension"
+          dir="ltr"
           disabled={loading}
           onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
             setExtension(e.currentTarget.value);
@@ -215,6 +226,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
       <Box
         display="flex"
         flexWrap="wrap"
+        dir="ltr"
       >
         <Box
           width={showExtension ? 0.7 : 1}
@@ -224,6 +236,8 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
             htmlFor={fieldName}
             // To prevent asterisk from shifting far right
             sx={{ justifyContent: showAsterisk ? 'flex-start' : undefined }}
+            // label should remain in rtl format if rtl language is set
+            dir={languageDirection}
           >
             {mainLabel}
             {showAsterisk && (
@@ -249,6 +263,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
             id={fieldName}
             error={phoneHasErrors}
             disabled={loading}
+            dir="ltr"
             onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
               // Set new phone value without phone code
               setPhone(e.currentTarget.value);
