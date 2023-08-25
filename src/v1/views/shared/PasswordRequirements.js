@@ -30,16 +30,15 @@ export default View.extend({
   allRequirements: [],
 
   initialize: function(options) {
-    const policy = options.policy;
+    const policy  = options.policy;
+    const updatePasswordRequirementsText = options.updatePasswordRequirementsText;
 
     if (!policy) {
       return;
     }
 
-    this.allRequirements = FactorUtil.getPasswordComplexityDescriptionForHtmlList(
-      policy,
-      this.settings.get('updatePasswordRequirementsText')
-    );
+    this.allRequirements =
+      FactorUtil.getPasswordComplexityDescriptionForHtmlList(policy, updatePasswordRequirementsText);
   },
 
   getTemplateData: function() {

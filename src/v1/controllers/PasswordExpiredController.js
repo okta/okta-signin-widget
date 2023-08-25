@@ -99,7 +99,10 @@ export default FormController.extend({
       if (this.settings.get('features.showPasswordRequirementsAsHtmlList')) {
         children.push(
           FormType.View({
-            View: new PasswordRequirements({ policy: this.options.appState.get('policy') }),
+            View: new PasswordRequirements({
+              policy: this.options.appState.get('policy'),
+              updatePasswordRequirementsText: this.settings.get('features.updatePasswordRequirementsText')
+            }),
           })
         );
       }
