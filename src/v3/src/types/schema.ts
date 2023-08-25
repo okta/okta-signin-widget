@@ -511,6 +511,7 @@ export interface SpinnerElement extends UISchemaElement {
 }
 
 export interface InfoboxElement extends UISchemaElement {
+  type: 'InfoBox',
   options: {
     message: WidgetMessage | WidgetMessage[];
     class: string;

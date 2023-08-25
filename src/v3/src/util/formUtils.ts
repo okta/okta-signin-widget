@@ -25,6 +25,7 @@ import { traverseLayout } from '../transformer/util';
 import {
   ButtonElement,
   ButtonType,
+  DescriptionElement,
   InfoboxElement,
   IWidgetContext,
   LaunchAuthenticatorButtonElement,
@@ -371,14 +372,62 @@ InfoboxElement | undefined => {
   } as InfoboxElement;
 };
 
+const extractWidgetMessageStr = (widgetMessage: WidgetMessage | undefined): string | null => {
+  if (typeof widgetMessage?.message === 'string') {
+    return widgetMessage.message;
+  }
+
+  if (typeof widgetMessage !== 'undefined' && Array.isArray(widgetMessage.message)) {
+    return extractFirstWidgetMessageStr(widgetMessage.message);
+  }
+  return null;
+};
+
+export const extractFirstWidgetMessageStr = (widgetMessage: WidgetMessage | WidgetMessage[] | undefined): string | null => {
+  if (Array.isArray(widgetMessage)) {
+    const [message] = widgetMessage;
+    return extractFirstWidgetMessageStr(message);
+  } else {
+    return extractWidgetMessageStr(widgetMessage);
+  }
+};
+
 export const extractFormTitle = (uischema: UISchemaLayout): string | null => {
   let headerTitleContent: string | null = null;
+  // Title Header 
   traverseLayout({
     layout: uischema,
     predicate: (element) => element.type === 'Title',
     callback: (element) => {
       if (headerTitleContent === null) {
         headerTitleContent = (element as TitleElement).options.content;
+      }
+    },
+  });
+
+  // Error Info Boxes
+  traverseLayout({
+    layout: uischema,
+    predicate: (element) => element.type === 'InfoBox',
+    callback: (element) => {
+      if (headerTitleContent !== null) {
+        return;
+      }
+      const widgetMessage = (element as InfoboxElement).options.message;
+      const message = Array.isArray(widgetMessage) ? widgetMessage[0] : widgetMessage;
+      headerTitleContent = typeof message.title === 'undefined'
+        ? extractFirstWidgetMessageStr(message)
+        : message.title;
+    },
+  });
+
+  // Description text only (terminal pages)
+  traverseLayout({
+    layout: uischema,
+    predicate: (element) => element.type === 'Description',
+    callback: (element) => {
+      if (headerTitleContent === null) {
+        headerTitleContent = (element as DescriptionElement).options.content;
       }
     },
   });
