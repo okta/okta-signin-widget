@@ -184,7 +184,7 @@ describe('Phone verification Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('oie.phone.verify.title');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
-      .toBe(`oie.phone.verify.sms.sendText <span class="strong no-translate">${mockPhoneNumber}</span>`);
+      .toBe(`oie.phone.verify.sms.sendText <span class="strong no-translate">&lrm;${mockPhoneNumber}</span>`);
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)
       .toBe('oie.phone.carrier.charges');
     // primary button
@@ -225,7 +225,7 @@ describe('Phone verification Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('oie.phone.verify.title');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
-      .toBe(`oie.phone.verify.call.sendText <span class="strong no-translate">${mockPhoneNumber}</span>`);
+      .toBe(`oie.phone.verify.call.sendText <span class="strong no-translate">&lrm;${mockPhoneNumber}</span>`);
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)
       .toBe('oie.phone.carrier.charges');
     // primary button

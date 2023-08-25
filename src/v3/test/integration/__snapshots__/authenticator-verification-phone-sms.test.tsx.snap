@@ -147,13 +147,13 @@ exports[`authenticator-verification-phone-sms should render form 1`] = `
                   <p
                     class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-19"
                     data-se="o-form-explain"
-                    id="challenge-authenticator_Description_A_code_was_sent_to_<span_class=strong_no-translate>1_XXX-XXX-4601</span>_Enter_the_code_below_to_verify_phone_number_sms4bvjioge7Sdu3p5d7_3"
+                    id="challenge-authenticator_Description_A_code_was_sent_to_<span_class=strong_no-translate>&lrm;1_XXX-XXX-4601</span>_Enter_the_code_below_to_verify_phone_number_sms4bvjioge7Sdu3p5d7_3"
                   >
                     A code was sent to 
                     <span
                       class="strong no-translate"
                     >
-                      +1 XXX-XXX-4601.
+                      ‎+1 XXX-XXX-4601.
                     </span>
                      Enter the code below to verify.
                   </p>

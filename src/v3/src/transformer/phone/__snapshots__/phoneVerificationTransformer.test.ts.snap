@@ -200,7 +200,7 @@ Object {
       Object {
         "contentType": "subtitle",
         "options": Object {
-          "content": "oie.phone.verify.sms.sendText <span class=\\"strong no-translate\\">+121xxxxx34</span>",
+          "content": "oie.phone.verify.sms.sendText <span class=\\"strong no-translate\\">&lrm;+121xxxxx34</span>",
         },
         "type": "Description",
       },
@@ -302,7 +302,7 @@ Object {
       Object {
         "contentType": "subtitle",
         "options": Object {
-          "content": "oie.phone.verify.call.sendText <span class=\\"strong no-translate\\">+121xxxxx34</span>",
+          "content": "oie.phone.verify.call.sendText <span class=\\"strong no-translate\\">&lrm;+121xxxxx34</span>",
         },
         "type": "Description",
       },
