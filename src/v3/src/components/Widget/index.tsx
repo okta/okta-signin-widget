@@ -183,7 +183,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         // Required to prevent auth-js from clearing sessionStorage and breaking interaction code flow
         exchangeCodeForTokens: false,
       });
-      //throw new Error('test error on bootstrap for sentry');
+      //throw new Error('(for sentry) test error on bootstrap');
       const hasError = !transaction.requestDidSucceed || transaction.messages?.some(
         (msg) => msg.class === MessageType.ERROR.toString(),
       );

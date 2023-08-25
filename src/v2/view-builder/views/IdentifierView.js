@@ -48,7 +48,7 @@ const Body = BaseForm.extend({
   },
 
   saveForm() {
-    //throw new Error('test error at saveForm for sentry');
+    //throw new Error('(for sentry) test error at saveForm');
     // Ideally this can be added to a "preSaveForm" handler - but keeping this here for now.
     if (!this.settings.get('features.deviceFingerprinting')) {
       BaseForm.prototype.saveForm.apply(this, arguments);

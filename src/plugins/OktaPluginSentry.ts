@@ -162,7 +162,7 @@ export const sendErrorReport = async () => {
 const sendErrorReportWithConsent = () => {
   if (canSendErrorReport()) {
     setErrorCount(0);
-    if (confirm("Send errors to Sentry?")) {
+    if (confirm("Send last error to Sentry?")) {
       sendErrorReport();
     } else {
       clearErrorReport();
@@ -213,7 +213,12 @@ const beforeSend: BeforeSend = (event, _hint) => {
   // delete event.breadcrumbs;
   console.log('>>> [sentry] event: ', event.level, event);
   if (event.level === 'error' || event.level === 'fatal') {
-    incrErrorCount();
+    // ignore `SCRIPT0: Script Error` for IE 11
+    const ignore = event.level === 'error' && event.message === 'Script Error'
+      && event.exception?.values?.[0]?.stacktrace?.frames?.[0]?.function === '?';
+    if (!ignore) {
+      incrErrorCount();
+    }
   }
   return event;
 };

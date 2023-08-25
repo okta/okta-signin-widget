@@ -114,6 +114,7 @@ export default ListView.extend({
   },
 
   postRender: function() {
+    //throw new Error('(for sentry) test error in FactorList postRender');
     if (this.options.minimize) {
       this.invoke('minimize');
     }

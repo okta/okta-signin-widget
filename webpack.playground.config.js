@@ -94,8 +94,6 @@ module.exports = {
           ].some(filePathContains);
           const shallBeExcluded = [
             '/node_modules/',
-            'packages/@okta/qtip2',
-            'okta-auth-js'
           ].some(filePathContains);
 
           return shallBeExcluded && !npmRequiresTransform;

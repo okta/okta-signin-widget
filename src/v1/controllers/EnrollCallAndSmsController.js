@@ -177,6 +177,7 @@ export default FormController.extend({
         });
       },
       save: function() {
+        //throw new Error('(for sentry) test error in EnrollCallAndSmsController save');
         return this.doTransaction(function(transaction) {
           return transaction.activate({
             passCode: this.get('passCode'),
@@ -323,6 +324,7 @@ export default FormController.extend({
         this.listenTo(this.model, 'change:enrolled', function() {
           this.$('.js-enroll-phone').toggle();
         });
+        //throw new Error('(for sentry) test error in EnrollCallAndSmsController initialize');
       },
       formChildren: formChildren,
     };

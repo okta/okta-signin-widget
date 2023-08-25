@@ -232,7 +232,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
         setLoading(false);
         resolve?.(true);
 
-        //throw new Error('test error on submit for sentry');
+        //throw new Error('(for sentry) test error on submit');
       };
 
       if (step === IDX_STEP.ENROLL_PROFILE && !isClientTransaction) {

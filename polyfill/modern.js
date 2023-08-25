@@ -9,3 +9,8 @@ require('core-js/stable');
 require('fast-text-encoding'); // TextEncoder
 require('webcrypto-shim'); // crypto.subtle
 require('create-html-document-polyfill');
+
+// Sentry
+require('proxy-polyfill');
+require('indexeddb-getall-shim');
+require("dom4");

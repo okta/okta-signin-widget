@@ -42,6 +42,7 @@ const Body = BaseFormWithPolling.extend(Object.assign(
     },
 
     postRender() {
+      //throw new Error('(for sentry) test error at postRender');
       BaseForm.prototype.postRender.apply(this, arguments);
 
       // Add 1 instance of resend view
@@ -57,6 +58,7 @@ const Body = BaseFormWithPolling.extend(Object.assign(
     },
 
     saveForm() {
+      //throw new Error('(for sentry) test error at saveForm');
       BaseForm.prototype.saveForm.apply(this, arguments);
       this.stopPolling();
     },
