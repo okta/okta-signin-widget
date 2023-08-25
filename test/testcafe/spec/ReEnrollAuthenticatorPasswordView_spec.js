@@ -75,7 +75,7 @@ test.meta('v3', false)
     await t.expect(expiredPasswordPage.getRequirements()).contains('An uppercase letter');
     await t.expect(expiredPasswordPage.getRequirements()).contains('A number');
     await t.expect(expiredPasswordPage.getRequirements()).contains('No parts of your username');
-    await t.expect(expiredPasswordPage.getRequirements()).contains('Your password cannot be any of your last 4 passwords');
+    await t.expect(expiredPasswordPage.getRequirements()).contains('Password can\'t be the same as your last 4 passwords');
     await t.expect(expiredPasswordPage.getRequirements()).contains('A lowercase letter');
     await t.expect(expiredPasswordPage.getRequirements()).contains('At least 10 minute(s) must have elapsed since you last changed your password');
   });

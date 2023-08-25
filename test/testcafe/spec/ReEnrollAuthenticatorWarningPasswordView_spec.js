@@ -87,7 +87,7 @@ async function setup(t) {
       // to not confuse users. They are considering additional UI changes OKTA-533383 for server side requirements
       // but for now, it does not display in v3
       if (!userVariables.v3) {
-        await t.expect(passwordExpiryWarningPage.getRequirements()).contains('Your password cannot be any of your last 4 passwords');
+        await t.expect(passwordExpiryWarningPage.getRequirements()).contains('Password can\'t be the same as your last 4 passwords');
       }
       await t.expect(passwordExpiryWarningPage.remindMeLaterLinkExists()).eql(true);
       await t.expect(passwordExpiryWarningPage.getSignoutLinkText()).eql('Back to sign in');

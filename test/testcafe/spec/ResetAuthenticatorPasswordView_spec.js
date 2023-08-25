@@ -53,7 +53,7 @@ test
     await t.expect(resetPasswordPage.getRequirements()).contains('A lowercase letter');
     // V3 does not display server side requirements
     if (!userVariables.v3) {
-      await t.expect(resetPasswordPage.getRequirements()).contains('Your password cannot be any of your last 4 passwords');
+      await t.expect(resetPasswordPage.getRequirements()).contains('Password can\'t be the same as your last 4 passwords');
       await t.expect(resetPasswordPage.getRequirements()).contains('At least 10 minute(s) must have elapsed since you last changed your password');
     }
   });

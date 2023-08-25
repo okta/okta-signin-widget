@@ -140,7 +140,7 @@ test.requestHooks(successMock)('should have the correct requirements', async t =
   // but for now, it does not display in v3
   if (!userVariables.v3) {
     await t.expect(enrollPasswordPage.getRequirements()).contains('At least 2 hour(s) must have elapsed since you last changed your password');
-    await t.expect(enrollPasswordPage.getRequirements()).contains('Your password cannot be any of your last 4 passwords');
+    await t.expect(enrollPasswordPage.getRequirements()).contains('Password can\'t be the same as your last 4 passwords');
   }
   await t.expect(enrollPasswordPage.getRequirements()).contains('No parts of your username');
   await t.expect(enrollPasswordPage.getRequirements()).contains('A lowercase letter');
