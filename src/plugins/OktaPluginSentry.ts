@@ -154,7 +154,7 @@ export const clearErrorReport = async () => {
 };
 
 export const sendErrorReport = async () => {
-  console.log('*****************')
+  console.log('***************** start sending error report to sentry')
   await transport?.flush?.();
   console.log('***************** end')
 };

@@ -23,7 +23,7 @@ https://github.com/denysoblohin-okta/sentry-javascript/pull/1
 Justification of fork:
 1) Need to preprocess network request/response body (filter sensitive data) captured by Session Replay.
    Solution: Added `filterNetwork` callback
-2) Need an ability to not send events to Sentry automatically (which is done by default), but only if user gives consent (after page reload, if error occued).
+2) Need an ability to not send events to Sentry automatically (which is done by default), but only if user gives consent (after page reload, if error occured).
    Solution: Using offline transport with `fullOffline: true`
 
 Please checkout fork and run:
@@ -45,19 +45,40 @@ cd <siw>
 yarn link @sentry/browser
 yarn link @sentry/core
 yarn link @sentry/replay
-ENTRY=sentry TARGET=CROSS_BROWSER yarn build:webpack-dev
 ```
 
-# Playground Gen3
+# Build
+Run to build `okta-sign-in.sentry.js` (after linking to the Sentry fork):
+```sh
+ENTRY=sentry TARGET=CROSS_BROWSER yarn build:webpack-dev # or webpack-release
+```
+To enable Sentry for playground app, please manually add to `playground/index.html` (before other scripts):
+```html
+    <script src="/js/okta-sign-in.sentry.js"></script>
+```
+Then run playground or test app.
+
+
+# Run
+
+## Run playground Gen3
 Run:
 ```sh
-ENTRY=sentry TARGET=CROSS_BROWSER yarn build:webpack-dev
 OKTA_SIW_HOST=0.0.0.0 DISABLE_CSP=1 TARGET=CROSS_BROWSER yarn workspace v3 dev
 ```
-Sentry is used by default.................
 
-# Playground Gen1/2
-If you want to run it in IE 11, please manually add to `playground/index.html` (before other scripts):
+## Run playground Gen3 release
+In `playground/index.html`:
+- change `/css/okta-sign-in.css` to `/css/okta-sign-in.next.css`
+- change `/js/okta-sign-in.js` to `/js/okta-sign-in.next.js`
+Run:
+```sh
+TARGET=CROSS_BROWSER yarn workspace v3 build:release
+OKTA_SIW_HOST=0.0.0.0 DISABLE_CSP=1 TARGET=CROSS_BROWSER npx webpack-dev-server --config webpack.playground.config.js
+```
+
+## Run playground Gen1/2
+If you want to run it on IE 11, please manually add to `playground/index.html` (before other scripts):
 ```html
     <script src="/js/okta-sign-in.polyfill.js"></script>
 ```
@@ -66,16 +87,16 @@ Run:
 OKTA_SIW_HOST=0.0.0.0 DISABLE_CSP=1 OMIT_MSWJS=true TARGET=CROSS_BROWSER yarn start --watch
 ```
 
-# Test app Gen1/2
+## Run test app Gen1/2
 Run:
 ```sh
-TARGET=CROSS_BROWSER yarn build:webpack-dev
+TARGET=CROSS_BROWSER yarn build:webpack-dev # or webpack-release
 DISABLE_CSP=1 TARGET=CROSS_BROWSER yarn start:test:app
 ```
 
 In test app click 'Use Sentry' (and 'Use polyfill' for IE 11)
 
-# IE 11
+## IE 11
 For IE 11:
 - Run webpack dev server at Mac machine, use Windows virtual machine with IE 11 (or IE Edge with IE 11 compat mode)
 - Use ngrok or localtunnel to expose localhost to VM:

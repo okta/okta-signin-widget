@@ -78,11 +78,13 @@ function plugins(options = {}) {
     list.push(webpackBundleAnalyzer(options.analyzerFile));
   }
 
-  list.push(sentryWebpackPlugin({
-    org: process.env.SENTRY_ORG,
-    project: process.env.SENTRY_PROJECT,
-    authToken: process.env.SENTRY_AUTH_TOKEN,
-  }));
+  if (process.env.SENTRY_AUTH_TOKEN) {
+    list.push(sentryWebpackPlugin({
+      org: process.env.SENTRY_ORG,
+      project: process.env.SENTRY_PROJECT,
+      authToken: process.env.SENTRY_AUTH_TOKEN,
+    }));
+  }
 
   return list;
 }

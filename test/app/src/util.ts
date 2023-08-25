@@ -104,9 +104,9 @@ export async function loadSentry(minified: boolean) {
   const existingEl = document.getElementById('widget-sentry') as HTMLScriptElement;
 
   let url = `${window.location.origin}/js/okta-sign-in.sentry`;
-  if (minified) {
-    url += '.min';
-  }
+  // if (minified) {
+  //   url += '.min';
+  // }
   url += '.js';
 
   if (!existingEl || existingEl.src !== url) {
