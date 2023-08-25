@@ -58,7 +58,7 @@ function plugins(options = {}) {
       emptyModule(),
       devMode(),
     ];
-    
+
   if (copyAssets) {
     list.push(new EventHooksPlugin({
       beforeRun: () => {
