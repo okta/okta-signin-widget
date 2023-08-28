@@ -25,11 +25,11 @@ const getButtonDataSeAttr = function(authenticator) {
 };
 
 /* eslint complexity: [0, 0], max-statements: [2, 25] */
-export const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
+const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
   const authenticatorKey = authenticator.authenticatorKey;
   const key = _.isString(authenticatorKey) ? authenticatorKey.toLowerCase() : '';
   let authenticatorData = {};
-  let nicknameText = authenticator.relatesTo?.nickname;
+  let nicknameText = isVerifyAuthenticator ? authenticator.relatesTo?.nickname : undefined;
   if (nicknameText && nicknameText.length > 20) {
     nicknameText = nicknameText.substring(0, 20) + '...';
   }
@@ -56,9 +56,7 @@ export const getAuthenticatorData = function(authenticator, isVerifyAuthenticato
 
   case AUTHENTICATOR_KEY.PHONE:
     Object.assign(authenticatorData, {
-      nickname: isVerifyAuthenticator
-        ? nicknameText
-        : undefined,
+      nickname: nicknameText,
       description: isVerifyAuthenticator
         ? authenticator.relatesTo?.profile?.phoneNumber
         : loc('oie.phone.authenticator.description', 'login'),

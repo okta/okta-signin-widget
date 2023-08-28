@@ -1,4 +1,4 @@
-import { removeRequirementsFromError, getAuthenticatorDisplayName, getAuthenticatorData } from 'v2/view-builder/utils/AuthenticatorUtil';
+import { removeRequirementsFromError, getAuthenticatorDisplayName, getAuthenticatorDataForVerification } from 'v2/view-builder/utils/AuthenticatorUtil';
 
 describe('v2/utils/AuthenticatorUtil', function() {
   it('filters requirements from password error', function() {
@@ -69,6 +69,6 @@ describe('v2/utils/AuthenticatorUtil', function() {
         'nickname': 'authenticator nickname'
       }
     };
-    expect(getAuthenticatorData(authenticator, true).nickname).toEqual('authenticator nickna...');
+    expect(getAuthenticatorDataForVerification(authenticator).nickname).toEqual('authenticator nickna...');
   });
 });
