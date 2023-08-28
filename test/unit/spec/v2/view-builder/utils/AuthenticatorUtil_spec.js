@@ -69,6 +69,6 @@ describe('v2/utils/AuthenticatorUtil', function() {
         'nickname': 'authenticator nickname'
       }
     };
-    expect(getAuthenticatorData(authenticator, true).nickname).toEqual('authenticator nickname');
+    expect(getAuthenticatorData(authenticator, true).nickname).toEqual('authenticator nickna...');
   });
 });
