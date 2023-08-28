@@ -85,7 +85,6 @@ export default BaseAuthenticatorView.extend({
     const { options: methods } = _.find(uiSchema, schema => schema.name === 'authenticator.methodType');
     const relatesToObject = this.options.currentViewState.relatesTo;
     const { profile } = relatesToObject?.value || {};
-    const nickname = relatesToObject?.value || '';
     const ModelClass = BaseView.prototype.createModelClass.apply(this, arguments);
     const local = Object.assign({
       primaryMode: {
