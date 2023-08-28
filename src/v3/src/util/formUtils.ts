@@ -372,7 +372,14 @@ InfoboxElement | undefined => {
   } as InfoboxElement;
 };
 
-const extractWidgetMessageStr = (widgetMessage: WidgetMessage | undefined): string | null => {
+export const extractFirstWidgetMessageStr = (
+  widgetMessage: WidgetMessage | WidgetMessage[] | undefined,
+): string | null => {
+  if (Array.isArray(widgetMessage)) {
+    const [message] = widgetMessage;
+    return extractFirstWidgetMessageStr(message);
+  }
+
   if (typeof widgetMessage?.message === 'string') {
     return widgetMessage.message;
   }
@@ -383,18 +390,9 @@ const extractWidgetMessageStr = (widgetMessage: WidgetMessage | undefined): stri
   return null;
 };
 
-export const extractFirstWidgetMessageStr = (widgetMessage: WidgetMessage | WidgetMessage[] | undefined): string | null => {
-  if (Array.isArray(widgetMessage)) {
-    const [message] = widgetMessage;
-    return extractFirstWidgetMessageStr(message);
-  } else {
-    return extractWidgetMessageStr(widgetMessage);
-  }
-};
-
 export const extractFormTitle = (uischema: UISchemaLayout): string | null => {
   let headerTitleContent: string | null = null;
-  // Title Header 
+  // Title Header
   traverseLayout({
     layout: uischema,
     predicate: (element) => element.type === 'Title',
