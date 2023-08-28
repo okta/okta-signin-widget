@@ -57,12 +57,12 @@ const Body = BaseForm.extend(Object.assign(
         : loc('mfa.calling', 'login');
       const enterCodeText = loc('oie.phone.verify.enterCodeText', 'login');
       const carrierChargesText = loc('oie.phone.carrier.charges', 'login');
-      let nicknameText = '';
-      if (this.model.get('nickname')) {
-        nicknameText = '(' + this.model.escape('nickname') + ')';
-      }
+      let nicknameText = this.model.get('nickname') || '';
       if (nicknameText.length > 20) {
         nicknameText = nicknameText.substring(0, 20) + '...';
+      }
+      if (nicknameText !== '') {
+        nicknameText = '(' + nicknameText + ')';
       }
 
       const strongClass = this.model.get('phoneNumber') !== loc('oie.phone.alternate.title', 'login') ?
