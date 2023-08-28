@@ -93,7 +93,7 @@ export default BaseAuthenticatorView.extend({
 
   createModelClass() {
     const relatesToObject = this.options.currentViewState.relatesTo;
-    const { methods, profile } = relatesToObject?.value || {};
+    const { methods, profile, nickname } = relatesToObject?.value || {};
     const nickname = relatesToObject?.value || '';
     const ModelClass = BaseView.prototype.createModelClass.apply(this, arguments);
     const local = Object.assign({
