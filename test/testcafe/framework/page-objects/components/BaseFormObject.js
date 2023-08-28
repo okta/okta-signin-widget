@@ -72,14 +72,18 @@ export default class BaseFormObject {
     });
   }
 
+  getTextBox(name, findByLabel) {
+    return findByLabel ?
+      within(this.el).getByLabelText(name) :
+      this.el.find(`input[name="${name}"]`);
+  }
+
   /**
    * @param {string} name The name or label of the text box to get
    * @param {boolean} findByLabel Find the text box by its label rather than name attribute
    */
   getTextBoxValue(name, findByLabel = false) {
-    return findByLabel ?
-      within(this.el).getByLabelText(name).value :
-      this.el.find(`input[name="${name}"]`).value;
+    return this.getTextBox(name, findByLabel).value;
   }
 
   /**

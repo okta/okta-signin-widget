@@ -206,3 +206,19 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should not t
   await t.expect(req.method).eql('post');
   await t.expect(req.url).eql('http://localhost:3000/idp/idx/identify');
 });
+
+test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should set autocomplete to off on username and password fields when features.disableAutocomplete is true', async t => {
+  const identityPage = await setup(t);
+  await checkA11y(t);
+  await renderWidget({
+    features: {
+      disableAutocomplete: true,
+    },
+  });
+
+  await t.expect(identityPage.getFormTitle()).eql('Sign In');
+  const userNameField = identityPage.getTextField('Username');
+  await t.expect(userNameField.getAttribute('autocomplete')).eql('off');
+  const passwordField = identityPage.getTextField('Password');
+  await t.expect(passwordField.getAttribute('autocomplete')).eql('off');
+});

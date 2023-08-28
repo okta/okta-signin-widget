@@ -300,4 +300,8 @@ export default class IdentityPageObject extends BasePageObject {
     }
     await this.t.click(Selector('.password-toggle .button-show'));
   }
+
+  getTextField(label) {
+    return this.form.getTextBox(label, true);
+  }
 }
