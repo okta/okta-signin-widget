@@ -48,6 +48,7 @@ const Body = BaseForm.extend(
         nicknameText = nicknameText.substring(0, 20) + '...';
       }
       // Courage doesn't support HTML, hence creating a subtitle here.
+      // eslint-disable-next-line max-len
       this.add(`<div class="okta-form-subtitle" data-se="o-form-explain">${sendText}
         <span ${ extraCssClasses ? 'class="' + extraCssClasses + '"' : ''}>${this.model.escape('phoneNumber')}&nbsp;${nicknameText}</span>
         <p>${carrierChargesText}</p>
