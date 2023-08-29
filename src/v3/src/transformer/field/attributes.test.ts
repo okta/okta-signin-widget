@@ -11,9 +11,9 @@
  */
 
 import { Input } from '@okta/okta-auth-js';
+import { WidgetProps } from 'src/types';
 
 import { transformer } from './attributes';
-import { WidgetProps } from 'src/types';
 
 describe('Attributes transformer', () => {
   let widgetProps: WidgetProps;
@@ -32,7 +32,7 @@ describe('Attributes transformer', () => {
 
   it('should return uischema object with options.attributes.autocomplete === "off" when features.disableAutocomplete === "false"', () => {
     const formfield: Input = { name: 'identifier' };
-    widgetProps = { features: { disableAutocomplete: true }};
+    widgetProps = { features: { disableAutocomplete: true } };
 
     const result = { attributes: { autocomplete: 'off' } };
 

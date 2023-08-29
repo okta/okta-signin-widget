@@ -12,7 +12,12 @@
 
 import { Input } from '@okta/okta-auth-js';
 
-import { AutoCompleteValue, InputAttributes, InputModeValue, WidgetProps } from '../../types';
+import {
+  AutoCompleteValue,
+  InputAttributes,
+  InputModeValue,
+  WidgetProps,
+} from '../../types';
 import { isAndroidOrIOS } from '../../util';
 
 type Result = {
