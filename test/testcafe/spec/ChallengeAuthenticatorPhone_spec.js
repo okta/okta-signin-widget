@@ -207,8 +207,8 @@ test
     const challengePhonePageObject = await setup(t);
     await checkA11y(t);
     await checkConsoleMessages({
-      controller: null,
-      formName: 'authenticator-verification-data',
+      controller: 'mfa-verify-passcode',
+      formName: 'challenge-authenticator',
       authenticatorKey: 'phone_number',
       methodType: 'sms',
     });
