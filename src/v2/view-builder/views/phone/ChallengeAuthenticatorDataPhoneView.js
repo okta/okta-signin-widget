@@ -44,12 +44,12 @@ const Body = BaseForm.extend(
         nicknameText = nicknameText.substring(0, 20) + '...';
       }
       if (nicknameText !== '') {
-        nicknameText = '(' + nicknameText + ')';
+        nicknameText = ' (' + nicknameText + ')';
       }
       // Courage doesn't support HTML, hence creating a subtitle here.
       this.add(`<div class="okta-form-subtitle" data-se="o-form-explain">${sendText}
         <span ${ extraCssClasses ? 'class="' + extraCssClasses + '"' : ''}>
-        ${this.model.escape('phoneNumber')}&nbsp;${nicknameText}</span>
+        ${this.model.escape('phoneNumber')}${nicknameText}</span>
         <p>${carrierChargesText}</p>
       </div>`);
     },

@@ -11,6 +11,7 @@ import voiceVerification from '../../../playground/mocks/data/idp/idx/authentica
 import phoneVerificationSMSThenVoiceNoProfile from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-phone-sms-then-voice-no-profile';
 import phoneVerificationVoiceThenSMSNoProfile from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-phone-voice-then-sms-no-profile';
 import smsVerificationNoProfile from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone-sms-no-profile';
+import smsVerificationNickname from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone-sms-nickname';
 import voiceVerificationNoProfile from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone-voice-no-profile';
 import success from '../../../playground/mocks/data/idp/idx/success';
 import invalidCode from '../../../playground/mocks/data/idp/idx/error-authenticator-challenge-phone-invalid-otp';
@@ -28,6 +29,10 @@ phoneVerificationVoiceThenSMSEmptyProfile.remediation.value[0].profile = {};
 const smsVerificationEmptyProfile = JSON.parse(JSON.stringify(smsVerificationNoProfile));
 // add empty profile to test
 smsVerificationEmptyProfile.remediation.value[0].profile = {};
+
+const smsVerificationWithNickname = JSON.parse(JSON.stringify(smsVerificationNickname));
+// add empty profile to test
+smsVerificationWithNickname.remediation.value[0].profile = {};
 
 const voiceVerificationEmptyProfile = JSON.parse(JSON.stringify(voiceVerificationNoProfile));
 // add empty profile to test
@@ -87,6 +92,18 @@ const voicePrimaryMockNoProfile  = RequestMock()
 const smsPrimaryMockEmptyProfile = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(phoneVerificationSMSThenVoiceEmptyProfile)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge')
+  .respond(smsVerificationEmptyProfile)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/resend')
+  .respond(smsVerificationEmptyProfile)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
+  .respond(success)
+  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+  .respond(oktaDashboardContent);
+
+const smsPrimaryMockWithNickname = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(smsVerificationWithNickname)
   .onRequestTo('http://localhost:3000/idp/idx/challenge')
   .respond(smsVerificationEmptyProfile)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/resend')
@@ -178,6 +195,32 @@ test
     await t.expect(pageTitle).contains('Verify with your phone');
     await t.expect(pageSubtitle).contains('Send a code via SMS to');
     await t.expect(pageSubtitle).contains('+1 XXX-XXX-2342');
+    await t.expect(primaryButtonText).contains('Receive a code via SMS');
+    await t.expect(secondaryButtonText).contains('Receive a voice call instead');
+
+    await t.expect(await challengePhonePageObject.signoutLinkExists()).ok();
+    await t.expect(challengePhonePageObject.getSignoutLinkText()).eql('Back to sign in');
+  });
+
+test
+  .requestHooks(smsPrimaryMockWithNickname)('SMS primary mode - shows nickname when present in API response', async t => {
+    const challengePhonePageObject = await setup(t);
+    await checkA11y(t);
+    await checkConsoleMessages({
+      controller: null,
+      formName: 'authenticator-verification-data',
+      authenticatorKey: 'phone_number',
+      methodType: 'sms',
+    });
+
+    const pageTitle = challengePhonePageObject.getFormTitle();
+    const pageSubtitle = challengePhonePageObject.getFormSubtitle();
+    const primaryButtonText = challengePhonePageObject.getSaveButtonLabel();
+    const secondaryButtonText = challengePhonePageObject.getSecondaryLinkText('Receive a voice call instead');
+    await t.expect(pageTitle).contains('Verify with your phone');
+    await t.expect(pageSubtitle).contains('Send a code via SMS to');
+    await t.expect(pageSubtitle).contains('+1 XXX-XXX-2342');
+    await t.expect(pageSubtitle).contains('(phone-nn)');
     await t.expect(primaryButtonText).contains('Receive a code via SMS');
     await t.expect(secondaryButtonText).contains('Receive a voice call instead');
 
