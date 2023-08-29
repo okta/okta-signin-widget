@@ -23,6 +23,13 @@ const successMock = RequestMock()
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
   .respond(oktaDashboardContent);
 
+const xhrAuthenticatorEnrollPasswordUpdatedHistoryCount = JSON.parse(JSON.stringify(xhrAuthenticatorEnrollPassword));
+xhrAuthenticatorEnrollPasswordUpdatedHistoryCount.currentAuthenticator.value.settings.age.historyCount = 1;
+
+const updatedHistoryCountMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrAuthenticatorEnrollPasswordUpdatedHistoryCount);  
+
 const errorMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorEnrollPassword)
@@ -124,24 +131,32 @@ test.requestHooks(errorMock)('should show a callout when server-side field error
   await enrollPasswordPage.waitForErrorBox();
   await t.expect(enrollPasswordPage.getPasswordError()).eql('This password was found in a list of commonly used passwords. Please try another password.');
 });
+[
+  [ successMock, false],
+  [ updatedHistoryCountMock, true ]
+].forEach(([ mock, isHistoryCountOne ]) => {
+  test.requestHooks(mock)('should have the correct requirements', async t => {
+    const enrollPasswordPage = await setup(t);
+    await checkA11y(t);
+    await t.expect(enrollPasswordPage.getRequirements()).contains('Password requirements:');
+    await t.expect(enrollPasswordPage.getRequirements()).contains('At least 8 characters');
+    await t.expect(enrollPasswordPage.getRequirements()).contains('An uppercase letter');
+    await t.expect(enrollPasswordPage.getRequirements()).contains('A number');
+    await t.expect(enrollPasswordPage.getRequirements()).contains('A symbol');
+    await t.expect(enrollPasswordPage.getRequirements()).contains('Does not include your first name');
+    await t.expect(enrollPasswordPage.getRequirements()).contains('Does not include your last name');
+    // In V3, UX made a conscious decision to not include server side requirements in the UI
+    // to not confuse users. They are considering additional UI changes OKTA-533383 for server side requirements
+    // but for now, it does not display in v3
+    if (!userVariables.v3) {
+      await t.expect(enrollPasswordPage.getRequirements()).contains('At least 2 hour(s) must have elapsed since you last changed your password');
 
-test.requestHooks(successMock)('should have the correct requirements', async t => {
-  const enrollPasswordPage = await setup(t);
-  await checkA11y(t);
-  await t.expect(enrollPasswordPage.getRequirements()).contains('Password requirements:');
-  await t.expect(enrollPasswordPage.getRequirements()).contains('At least 8 characters');
-  await t.expect(enrollPasswordPage.getRequirements()).contains('An uppercase letter');
-  await t.expect(enrollPasswordPage.getRequirements()).contains('A number');
-  await t.expect(enrollPasswordPage.getRequirements()).contains('A symbol');
-  await t.expect(enrollPasswordPage.getRequirements()).contains('Does not include your first name');
-  await t.expect(enrollPasswordPage.getRequirements()).contains('Does not include your last name');
-  // In V3, UX made a conscious decision to not include server side requirements in the UI
-  // to not confuse users. They are considering additional UI changes OKTA-533383 for server side requirements
-  // but for now, it does not display in v3
-  if (!userVariables.v3) {
-    await t.expect(enrollPasswordPage.getRequirements()).contains('At least 2 hour(s) must have elapsed since you last changed your password');
-    await t.expect(enrollPasswordPage.getRequirements()).contains('Password can\'t be the same as your last 4 passwords');
-  }
-  await t.expect(enrollPasswordPage.getRequirements()).contains('No parts of your username');
-  await t.expect(enrollPasswordPage.getRequirements()).contains('A lowercase letter');
+      const historyCountMessage = isHistoryCountOne ? 
+        'Password can\'t be the same as your last password'
+        : 'Password can\'t be the same as your last 4 passwords';
+      await t.expect(enrollPasswordPage.getRequirements()).contains(historyCountMessage);
+    }
+    await t.expect(enrollPasswordPage.getRequirements()).contains('No parts of your username');
+    await t.expect(enrollPasswordPage.getRequirements()).contains('A lowercase letter');
+  });
 });

@@ -60,10 +60,15 @@ function setup(settings) {
 
     if (settings.policyAge === 'all') {
       responsePolicy.age = policyAgeDefaults;
-    } else if (settings.policyAge) {
+    } else if (settings.policyAge && typeof settings.policyAge === 'string') {
       const ageKey = settings.policyAge;
 
       responsePolicy.age[ageKey] = policyAgeDefaults[ageKey];
+    } else if (settings.policyAge && typeof settings.policyAge === 'object') {
+      responsePolicy.age = {
+        ...policyAgeDefaults,
+        ...settings.policyAge
+      };
     }
 
     // test when enough minutes for hours
@@ -480,6 +485,17 @@ Expect.describe('PasswordReset', function() {
         expect(test.form.passwordRequirementsHtmlListItems().length).toEqual(1);
         expect(test.form.passwordRequirementsHtmlListItems().eq(0).text()).toEqual(
           'Password can\'t be the same as your last 7 passwords'
+        );
+      });
+    });
+
+    itp('has a valid subtitle if "historyCount" is equal to 1', function() {
+      const policyAge = { historyCount: 1 };
+      return setup({ policyAge, 'features.showPasswordRequirementsAsHtmlList': true }).then(function(
+        test
+      ) {
+        expect(test.form.passwordRequirementsHtmlListItems().eq(0).text()).toEqual(
+          'Password can\'t be the same as your last password'
         );
       });
     });

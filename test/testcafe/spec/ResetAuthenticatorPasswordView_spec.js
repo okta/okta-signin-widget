@@ -22,6 +22,13 @@ const mock = RequestMock()
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
   .respond(oktaDashboardContent);
 
+const xhrAuthenticatorResetPasswordUpdatedHistoryCount = JSON.parse(JSON.stringify(xhrAuthenticatorResetPassword));
+xhrAuthenticatorResetPasswordUpdatedHistoryCount.currentAuthenticator.value.settings.age.historyCount = 1;
+
+const updatedHistoryCountMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrAuthenticatorResetPasswordUpdatedHistoryCount);
+
 fixture('Authenticator Reset Password').meta('v3', true);
 
 async function setup(t) {
@@ -38,25 +45,33 @@ async function setup(t) {
   return resetPasswordPage;
 }
 
-test
-  .requestHooks(logger, mock)('Should have the correct labels', async t => {
-    const resetPasswordPage = await setup(t);
-    await checkA11y(t);
-    await t.expect(resetPasswordPage.getFormTitle()).eql('Reset your password');
-    await t.expect(resetPasswordPage.resetPasswordButtonExists()).eql(true);
-    await t.expect(resetPasswordPage.getRequirements()).contains('Password requirements:');
-    await t.expect(resetPasswordPage.getRequirements()).contains('At least 8 characters');
-    await t.expect(resetPasswordPage.getRequirements()).contains('An uppercase letter');
-    await t.expect(resetPasswordPage.getRequirements()).contains('A number');
-    await t.expect(resetPasswordPage.getRequirements()).contains('A symbol');
-    await t.expect(resetPasswordPage.getRequirements()).contains('No parts of your username');
-    await t.expect(resetPasswordPage.getRequirements()).contains('A lowercase letter');
-    // V3 does not display server side requirements
-    if (!userVariables.v3) {
-      await t.expect(resetPasswordPage.getRequirements()).contains('Password can\'t be the same as your last 4 passwords');
-      await t.expect(resetPasswordPage.getRequirements()).contains('At least 10 minute(s) must have elapsed since you last changed your password');
-    }
-  });
+[
+  [ mock, false],
+  [ updatedHistoryCountMock, true ]
+].forEach(([ localMock, isHistoryCountOne ]) => {
+  test
+    .requestHooks(logger, localMock)('Should have the correct labels', async t => {
+      const resetPasswordPage = await setup(t);
+      await checkA11y(t);
+      await t.expect(resetPasswordPage.getFormTitle()).eql('Reset your password');
+      await t.expect(resetPasswordPage.resetPasswordButtonExists()).eql(true);
+      await t.expect(resetPasswordPage.getRequirements()).contains('Password requirements:');
+      await t.expect(resetPasswordPage.getRequirements()).contains('At least 8 characters');
+      await t.expect(resetPasswordPage.getRequirements()).contains('An uppercase letter');
+      await t.expect(resetPasswordPage.getRequirements()).contains('A number');
+      await t.expect(resetPasswordPage.getRequirements()).contains('A symbol');
+      await t.expect(resetPasswordPage.getRequirements()).contains('No parts of your username');
+      await t.expect(resetPasswordPage.getRequirements()).contains('A lowercase letter');
+      // V3 does not display server side requirements
+      if (!userVariables.v3) {
+        const historyCountMessage = isHistoryCountOne ? 
+          'Password can\'t be the same as your last password'
+          : 'Password can\'t be the same as your last 4 passwords';
+        await t.expect(resetPasswordPage.getRequirements()).contains(historyCountMessage);
+        await t.expect(resetPasswordPage.getRequirements()).contains('At least 10 minute(s) must have elapsed since you last changed your password');
+      }
+    });
+});
 
 test
   .requestHooks(logger, mock)('should have both password and confirmPassword fields and both are required', async t => {
