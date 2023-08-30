@@ -34,6 +34,9 @@ yarn build
 cd packages/core
 yarn build
 yarn link
+cd ../../packages/replay-worker
+yarn build
+yarn link
 cd ../../packages/replay
 yarn build
 yarn link
@@ -45,6 +48,7 @@ cd <siw>
 yarn link @sentry/browser
 yarn link @sentry/core
 yarn link @sentry/replay
+yarn link @sentry/replay-worker
 ```
 
 # Build

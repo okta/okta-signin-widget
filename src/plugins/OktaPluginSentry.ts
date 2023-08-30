@@ -213,12 +213,7 @@ const beforeSend: BeforeSend = (event, _hint) => {
   // delete event.breadcrumbs;
   console.log('>>> [sentry] event: ', event.level, event);
   if (event.level === 'error' || event.level === 'fatal') {
-    // ignore `SCRIPT0: Script Error` for IE 11
-    const ignore = event.level === 'error' && event.message === 'Script Error'
-      && event.exception?.values?.[0]?.stacktrace?.frames?.[0]?.function === '?';
-    if (!ignore) {
-      incrErrorCount();
-    }
+    incrErrorCount();
   }
   return event;
 };
