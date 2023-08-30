@@ -10,8 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import './style.module.css';
-
 import { ScopedCssBaseline } from '@mui/material';
 import { MuiThemeProvider } from '@okta/odyssey-react-mui';
 import {
@@ -70,6 +68,7 @@ import {
 } from '../../util';
 import { getEventContext } from '../../util/getEventContext';
 import { mapMuiThemeFromBrand } from '../../util/theme';
+import GlobalStyles from './GlobalStyles';
 import AuthContainer from '../AuthContainer/AuthContainer';
 import AuthContent from '../AuthContent/AuthContent';
 import AuthHeader from '../AuthHeader/AuthHeader';
@@ -454,6 +453,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     }}
     >
       <CustomPluginsOdysseyCacheProvider nonce={cspNonce}>
+        <GlobalStyles />
         <MuiThemeProvider theme={theme}>
           {/* the style is to allow the widget to inherit the parent's bg color */}
           <ScopedCssBaseline
