@@ -21,16 +21,12 @@ import {
   CUSTOM_APP_UV_ENABLE_BIOMETRIC_SERVER_KEY, IDX_STEP, SOCIAL_IDP_TYPE_TO_I18KEY, TERMINAL_KEY,
 } from '../constants';
 import SmartCardIconSvg from '../img/smartCardButtonIcon.svg';
-import { traverseLayout } from '../transformer/util';
 import {
   ButtonElement,
   ButtonType,
-  DescriptionElement,
   InfoboxElement,
   IWidgetContext,
   LaunchAuthenticatorButtonElement,
-  TitleElement,
-  UISchemaLayout,
   WidgetMessage,
   WidgetMessageLink,
   WidgetProps,
@@ -370,64 +366,4 @@ InfoboxElement | undefined => {
       dataSe: 'callout',
     },
   } as InfoboxElement;
-};
-
-export const extractFirstWidgetMessageStr = (
-  widgetMessage: WidgetMessage | WidgetMessage[] | undefined,
-): string | null => {
-  if (Array.isArray(widgetMessage)) {
-    const [message] = widgetMessage;
-    return extractFirstWidgetMessageStr(message);
-  }
-
-  if (typeof widgetMessage?.message === 'string') {
-    return widgetMessage.message;
-  }
-
-  if (typeof widgetMessage !== 'undefined' && Array.isArray(widgetMessage.message)) {
-    return extractFirstWidgetMessageStr(widgetMessage.message);
-  }
-  return null;
-};
-
-export const extractFormTitle = (uischema: UISchemaLayout): string | null => {
-  let headerTitleContent: string | null = null;
-  // Title Header
-  traverseLayout({
-    layout: uischema,
-    predicate: (element) => element.type === 'Title',
-    callback: (element) => {
-      if (headerTitleContent === null) {
-        headerTitleContent = (element as TitleElement).options.content;
-      }
-    },
-  });
-
-  // Error Info Boxes
-  traverseLayout({
-    layout: uischema,
-    predicate: (element) => element.type === 'InfoBox',
-    callback: (element) => {
-      if (headerTitleContent !== null) {
-        return;
-      }
-      const widgetMessage = (element as InfoboxElement).options.message;
-      const message = Array.isArray(widgetMessage) ? widgetMessage[0] : widgetMessage;
-      headerTitleContent = typeof message.title === 'undefined'
-        ? extractFirstWidgetMessageStr(message)
-        : message.title;
-    },
-  });
-
-  // Description text only (terminal pages)
-  traverseLayout({
-    layout: uischema,
-    predicate: (element) => element.type === 'Description',
-    callback: (element) => {
-      if (headerTitleContent === null) {
-        headerTitleContent = (element as DescriptionElement).options.content;
-      }
-    },
-  });
-  return headerTitleContent;
 };

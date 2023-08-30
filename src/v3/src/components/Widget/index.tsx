@@ -56,11 +56,9 @@ import {
   areTransactionsEqual,
   buildAuthCoinProps,
   canBootstrapWidget,
-  extractFormTitle,
-  getApplicationName,
+  extractPageTitle,
   getLanguageCode,
   getLanguageDirection,
-  getPageTitle,
   isAndroidOrIOS,
   isAuthClientSet,
   isConsentStep,
@@ -407,14 +405,9 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     eventEmitter?.off('hide', toggleVisibility);
   }, [eventEmitter, toggleVisibility]);
 
-  const getDocumentTitle = useCallback(() => {
-    const headerTitle = extractFormTitle(formBag.uischema);
-    const title = isConsentStep(idxTransaction) ? getApplicationName(idxTransaction) : headerTitle;
-    if (title) {
-      return getPageTitle(widgetProps, title, idxTransaction);
-    }
-    return null;
-  }, [idxTransaction, widgetProps, formBag.uischema]);
+  const getDocumentTitle = useCallback(() => (
+    extractPageTitle(formBag.uischema, widgetProps, idxTransaction)
+  ),[idxTransaction, widgetProps, formBag.uischema]);
 
   useEffect(() => {
     const title = getDocumentTitle();

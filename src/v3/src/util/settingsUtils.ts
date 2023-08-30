@@ -251,9 +251,13 @@ export const isOauth2Enabled = (widgetProps: WidgetProps): boolean => {
 
 export const getPageTitle = (
   widgetProps: WidgetProps,
-  formTitle: string,
+  formTitle: string | null,
   idxTransaction?: IdxTransaction,
 ): string | null => {
+  if (formTitle === null) {
+    return null;
+  }
+
   const { brandName, features: { setPageTitle } = {} } = widgetProps;
   const eventContext: EventContext = typeof idxTransaction === 'undefined'
     ? { controller: null }

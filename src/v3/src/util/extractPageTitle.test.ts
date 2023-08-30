@@ -18,8 +18,12 @@ import {
   UISchemaLayout,
   UISchemaLayoutType,
   WidgetMessage,
+  WidgetProps,
 } from 'src/types';
-import { extractFirstWidgetMessageStr, extractFormTitle } from 'src/util';
+import { extractFirstWidgetMessageStr, extractPageTitle } from '../util';
+import { IdxTransaction } from '@okta/okta-auth-js';
+import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
+import { IDX_STEP } from 'src/constants';
 
 describe('FormUtils Tests', () => {
   describe('WidgetMessage extraction tests', () => {
@@ -53,17 +57,42 @@ describe('FormUtils Tests', () => {
     });
   });
 
-  describe('ExtractFormTitle tests', () => {
+  describe('ExtractPageTitle tests', () => {
     let uischema: UISchemaLayout;
+    let widgetProps: WidgetProps;
+    let transaction: IdxTransaction;
 
     beforeEach(() => {
       uischema = {
         type: UISchemaLayoutType.VERTICAL,
         elements: [],
       };
+      widgetProps = {};
+      transaction = getStubTransactionWithNextStep();
     });
 
-    it('should not return page title when no title elements exist', () => {
+    it('should return application name as title when nextStep is consent-admin', () => {
+      transaction.nextStep = {
+        ...transaction.nextStep,
+        name: IDX_STEP.CONSENT_ADMIN,
+      };
+      transaction.rawIdxState = {
+        ...transaction.rawIdxState,
+        // @ts-expect-error OKTA-598868 app is missing from rawIdxState type
+        app: {
+          type: 'object',
+          value: {
+            label: 'Workflow Application'
+          },
+        },
+      };
+
+      const title = extractPageTitle(uischema, widgetProps, transaction);
+
+      expect(title).toBe('Workflow Application');
+    });
+
+    it('should not return page title when no title elements exist and no page content', () => {
       const linkEle: LinkElement = {
         type: 'Link',
         options: {
@@ -73,7 +102,7 @@ describe('FormUtils Tests', () => {
       };
       uischema.elements.push(linkEle);
 
-      const title = extractFormTitle(uischema);
+      const title = extractPageTitle(uischema, widgetProps, transaction);
 
       expect(title).toBeNull();
     });
@@ -86,7 +115,7 @@ describe('FormUtils Tests', () => {
       };
       uischema.elements.push(titleEle);
 
-      const title = extractFormTitle(uischema);
+      const title = extractPageTitle(uischema, widgetProps, transaction);
 
       expect(title).toBe(TEST_MESSAGE_STR);
     });
@@ -104,7 +133,7 @@ describe('FormUtils Tests', () => {
       uischema.elements.push(titleEle);
       uischema.elements.push(titleEle2);
 
-      const title = extractFormTitle(uischema);
+      const title = extractPageTitle(uischema, widgetProps, transaction);
 
       expect(title).toBe(TEST_MESSAGE_STR);
     });
@@ -122,7 +151,7 @@ describe('FormUtils Tests', () => {
       };
       uischema.elements.push(errorBoxEle);
 
-      const title = extractFormTitle(uischema);
+      const title = extractPageTitle(uischema, widgetProps, transaction);
 
       expect(title).toBe(TEST_MESSAGE_STR);
     });
@@ -152,7 +181,7 @@ describe('FormUtils Tests', () => {
       uischema.elements.push(errorBoxEle);
       uischema.elements.push(linkEle);
 
-      const title = extractFormTitle(uischema);
+      const title = extractPageTitle(uischema, widgetProps, transaction);
 
       expect(title).toBe(TEST_MESSAGE_STR);
     });
@@ -173,7 +202,7 @@ describe('FormUtils Tests', () => {
       uischema.elements.push(descrEle);
       uischema.elements.push(linkEle);
 
-      const title = extractFormTitle(uischema);
+      const title = extractPageTitle(uischema, widgetProps, transaction);
 
       expect(title).toBe(TEST_MESSAGE_STR);
     });

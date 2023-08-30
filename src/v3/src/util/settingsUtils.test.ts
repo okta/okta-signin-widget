@@ -188,7 +188,9 @@ describe('Settings Utils Tests', () => {
     step
     ${'identify'}
     ${'enroll-profile'}
+    ${'select-authenticator-enroll'}
   `('should return custom page title when setPageTitle config option is provided as a function and step is: $step', ({ step }) => {
+    const DEFAULT_TITLE = 'Deafult page title';
     transaction = {
       ...transaction,
       nextStep: {
@@ -198,14 +200,15 @@ describe('Settings Utils Tests', () => {
     };
     widgetProps = {
       features: {
-        setPageTitle: (context) => {
+        setPageTitle: (context, { formTitle }) => {
           const CONTROLLER_TITLE_MAP: Record<string, string> = {
             'primary-auth': 'Sign In',
             registration: 'Enroll Profile',
           };
-          return context.controller
+          // Use default page title provided by SIW if not in CONTROLLER_TITLE_MAP
+          return context.controller && CONTROLLER_TITLE_MAP[context.controller]
             ? CONTROLLER_TITLE_MAP[context.controller]
-            : 'Generic page title';
+            : formTitle;
         },
       },
     };
@@ -213,9 +216,9 @@ describe('Settings Utils Tests', () => {
     const EXPECTED_FORM_TITLE_MAP: Record<string, string> = {
       identify: 'Sign In',
       'enroll-profile': 'Enroll Profile',
+      'select-authenticator-enroll': DEFAULT_TITLE,
     };
-
-    expect(getPageTitle(widgetProps, 'Static title', transaction)).toBe(EXPECTED_FORM_TITLE_MAP[step]);
+    expect(getPageTitle(widgetProps, DEFAULT_TITLE, transaction)).toBe(EXPECTED_FORM_TITLE_MAP[step]);
   });
 
   it('should not return page title when setPageTitle is set to an invalid value', () => {
