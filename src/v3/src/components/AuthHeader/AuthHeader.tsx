@@ -12,16 +12,13 @@
 
 import * as Tokens from '@okta/odyssey-design-tokens';
 import { Box, Typography } from '@okta/odyssey-react-mui';
-import classNames from 'classnames/bind';
+import classNames from 'classnames';
 import { FunctionComponent, h } from 'preact';
 import { AuthCoinProps } from 'src/types';
 
 import { loc } from '../../util';
 import AuthCoin from '../AuthCoin/AuthCoin';
 import { getAuthCoinConfiguration } from '../AuthCoin/authCoinConfigUtil';
-import style from './style.module.css';
-
-const cx = classNames.bind(style);
 
 // TODO: maybe extract to util class if used reused
 const shouldRenderAuthCoin = (props?: AuthCoinProps): boolean => {
@@ -46,16 +43,19 @@ const AuthHeader: FunctionComponent<AuthHeaderProps> = ({
   authCoinProps,
 }) => {
   const showAuthCoin = shouldRenderAuthCoin(authCoinProps);
-  const containerClasses = cx('okta-sign-in-header', 'auth-header', 'siwHeader', { authCoinSpacing: showAuthCoin });
-  const imageClasses = cx('auth-org-logo', 'siwOrgLogo');
+  const containerClasses = classNames('okta-sign-in-header', 'auth-header', { authCoinSpacing: showAuthCoin });
+  const imageClasses = classNames('auth-org-logo', 'siwOrgLogo');
 
   function renderAuthCoin() {
     return (showAuthCoin && authCoinProps) && (
       <AuthCoin
-        customClasses={style.authCoinOverlay}
         authenticatorKey={authCoinProps.authenticatorKey}
         url={authCoinProps.url}
         theme={authCoinProps.theme}
+        sxOverrides={{
+          margin: 'auto',
+          insetBlockStart: '24px',
+        }}
       />
     );
   }
@@ -65,10 +65,15 @@ const AuthHeader: FunctionComponent<AuthHeaderProps> = ({
       className={containerClasses}
       sx={{
         paddingBlockStart: (theme) => theme.spacing(4),
-        paddingInlineEnd: (theme) => theme.spacing(5),
         paddingBlockEnd: (theme) => theme.spacing(showAuthCoin ? 0 : 4),
         paddingInlineStart: (theme) => theme.spacing(5),
-        borderBlockEnd: `1px solid ${Tokens.ColorBorderDisplay}`,
+        paddingInlineEnd: (theme) => theme.spacing(5),
+        borderBlockEnd: (theme) => `1px solid ${Tokens.ColorBorderDisplay}`,
+        '& h1': {
+          lineHeight: 0,
+          marginBlock: 0,
+          textAlign: 'center',
+        }
       }}
     >
       <Typography variant="h1">
@@ -77,6 +82,11 @@ const AuthHeader: FunctionComponent<AuthHeaderProps> = ({
             alt={logoText || brandName || loc('logo.default.alt.text', 'login')}
             src={logo}
             className={imageClasses}
+            style={{
+              // TODO use logical props. need to migrate img to JSS-compat tag
+              maxWidth: '200px',
+              maxHeight: '40px',
+            }}
           />
         )}
       </Typography>

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { useMediaQuery } from '@mui/material';
+import { useMediaQuery, GlobalStyles } from '@mui/material';
 import * as Tokens from '@okta/odyssey-design-tokens';
 import { Box } from '@okta/odyssey-react-mui';
 import classNames from 'classnames';
@@ -48,6 +48,15 @@ const AuthContainer: FunctionComponent<{ hide: boolean }> = ({ children, hide })
         } : {}),
       }}
     >
+      {/* Global fill styles used by SVGs */}
+      <GlobalStyles
+        styles={(theme) => ({
+          '.siwFillPrimary': theme.palette.primary.main,
+          '.siwFillPrimaryDark': theme.palette.primary.dark,
+          '.siwFillSecondary': theme.palette.primary.light,
+          '.siwFillBg': theme.palette.grey[50],
+        })}
+      />
       <Box
         flex="auto"
         flexDirection="column"

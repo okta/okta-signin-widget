@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { SxProps } from '@mui/material';
+
 export type AuthCoinTheme = {
   primaryColor?: string;
   secondaryColor?: string;
@@ -22,9 +24,9 @@ export type AuthCoinProps = {
   authenticatorKey: string;
   url?: string;
   theme?: AuthCoinTheme;
-  customClasses?: string[];
   name?: string;
   description?: string;
+  sxOverrides?: SxProps;
 };
 
 export type IconProps = {
