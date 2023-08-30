@@ -23,12 +23,11 @@ import {
 import { getValidationMessages, isCaptchaEnabled } from '../../util';
 import InfoSection from '../InfoSection/InfoSection';
 import Layout from './Layout';
-import style from './style.module.css';
 
 const Form: FunctionComponent<{
   uischema: UISchemaLayout;
 }> = ({ uischema }) => {
-  const classes = classNames('o-form', style.siwForm);
+  const classes = classNames('o-form');
   const {
     data,
     idxTransaction: currTransaction,
@@ -108,6 +107,11 @@ const Form: FunctionComponent<{
       onSubmit={handleSubmit}
       className={classes} // TODO: FIXME OKTA-578584 - update page objects using .o-form selectors
       data-se="o-form"
+      style={{
+        // TODO use jss so we can use logical props
+        maxWidth: '100%',
+        wordBreak: 'break-word',
+      }}
     >
       <InfoSection message={message} />
       <Layout uischema={uischema} />
