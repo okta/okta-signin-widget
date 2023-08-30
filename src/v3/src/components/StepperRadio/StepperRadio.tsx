@@ -81,11 +81,20 @@ const StepperRadio: UISchemaElementComponent<{
         {
           customOptions?.map((item: IdxOption, index) => (
             <FormControlLabel
-              control={<Radio />}
+              control={(
+                <Radio
+                  sx={(theme) => ({
+                    marginInlineEnd: theme.spacing(2),
+                  })}
+                />
+              )}
               key={item.value}
               value={item.value}
               label={item.label}
               disabled={loading}
+              sx={{
+                gap: 0,
+              }}
               // eslint-disable-next-line react/jsx-props-no-spreading
               {...(index === 0 && { inputRef: focusRef } )}
             />
