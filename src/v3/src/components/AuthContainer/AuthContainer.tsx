@@ -17,11 +17,10 @@ import classNames from 'classnames';
 import { FunctionComponent, h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
-import style from './style.module.css';
 
 const AuthContainer: FunctionComponent<{ hide: boolean }> = ({ children, hide }) => {
   const { languageDirection, languageCode } = useWidgetContext();
-  const classes = classNames('auth-container', 'main-container', style.mainViewContainer, hide && style.hide);
+  const classes = classNames('auth-container', 'main-container');
   const isMobileWidth = useMediaQuery('screen and (max-width: 391px)');
 
   return (
@@ -36,6 +35,18 @@ const AuthContainer: FunctionComponent<{ hide: boolean }> = ({ children, hide })
       data-commit={OKTA_SIW_COMMIT_HASH}
       lang={languageCode}
       dir={languageDirection}
+      sx={{
+        minInlineSize: '100%',
+        marginBlockStart: '100px',
+        marginBlockEnd: '8px',
+        marginInline: 'auto',
+        '@media only screen and (max-device-width: 750px)': {
+          marginBlockStart: 0,
+        },
+        ...(hide ? {
+          display: 'none',
+        } : {}),
+      }}
     >
       <Box
         flex="auto"
@@ -45,7 +56,10 @@ const AuthContainer: FunctionComponent<{ hide: boolean }> = ({ children, hide })
         borderColor={Tokens.ColorBorderDisplay}
         bgcolor="common.white"
         fontFamily="fontFamily"
-        className={style.siwContainer}
+        sx={{
+          maxInlineSize: '432px',
+          minInlineSize: '320px',
+        }}
       >
         {children}
       </Box>
