@@ -139,6 +139,7 @@ See the [Usage Guide](#usage-guide) for more information on how to get started u
     - [features.hideSignOutLinkInMFA](#featureshidesignoutlinkinmfa)
     - [features.rememberMe](#featuresrememberme)
     - [features.autoFocus](#featuresautofocus)
+    - [features.disableAutocomplete](#featuresautofocus)
   - [cspNonce](#cspNonce)
 - [Events](#events)
   - [ready](#ready)
@@ -1354,6 +1355,11 @@ Pre-fills the identifier field with the previously used username.
 
 Defaults to `true`.
 Automatically focuses the first input field of any form when displayed. 
+
+#### features.disableAutocomplete
+
+Defaults to `false`.
+Sets the autocomplete attribute on Input fields to `off`.
 
 ### cspNonce
 

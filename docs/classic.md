@@ -1541,6 +1541,8 @@ features: {
 
 - **features.showSessionRevocation** - If set to `true`, it will show a checkbox that allows the user to revoke all of their active sessions during a Self Service Password Reset.
 
+- **features.disableAutocomplete** - If set to `true`, it will set the autocomplete attribute on Input fields to `off`.
+
 ### Hooks
 
 > **Note**: Hooks are only supported when using the [Okta Identity Engine](#okta-identity-engine)
