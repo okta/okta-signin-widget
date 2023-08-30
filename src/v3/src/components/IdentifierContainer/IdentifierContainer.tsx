@@ -16,7 +16,6 @@ import { FunctionComponent, h } from 'preact';
 
 import { IDX_STEP } from '../../constants';
 import { useWidgetContext } from '../../contexts';
-import style from './style.module.css';
 
 const shouldHideIdentifier = (
   showIdentifier?: boolean,
@@ -51,9 +50,8 @@ const IdentifierContainer: FunctionComponent = () => {
   }
 
   const mainContainerClasses = classNames('identifier-container');
-  const identiferContainerClasses = classNames(style.identifierContainer);
-  const identifierSpanClasses = classNames('identifier', 'no-translate', style.identifierSpan);
-  const iconContainerClasses = classNames(style.userIconContainer);
+  const identifierSpanClasses = classNames('identifier', 'no-translate');
+
   return (
     <Box
       display="flex"
@@ -62,10 +60,6 @@ const IdentifierContainer: FunctionComponent = () => {
       marginBlockEnd={4}
       maxWidth={1}
       className={mainContainerClasses}
-      sx={(theme) => ({
-        '--PrimaryFill': theme.palette.primary.main,
-        '--BackgroundFill': theme.palette.grey[50],
-      })}
     >
       <Box
         flex="auto"
@@ -73,11 +67,20 @@ const IdentifierContainer: FunctionComponent = () => {
         flexGrow="0"
         paddingX={4}
         paddingY={2}
-        className={identiferContainerClasses}
+        sx={(theme) => ({
+          borderRadius: '36px',
+          backgroundColor: theme.palette.grey[50],
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+        })}
       >
         <Box
           component="span"
-          className={iconContainerClasses}
+          sx={(theme) => ({
+            color: theme.palette.primary.main,
+            verticalAlign: 'middle',
+          })}
         >
           <Icon
             name="user"
@@ -90,6 +93,9 @@ const IdentifierContainer: FunctionComponent = () => {
           className={identifierSpanClasses}
           data-se="identifier"
           title={identifier}
+          sx={{
+            marginInlineStart: '10px',
+          }}
         >
           {identifier}
         </Box>
