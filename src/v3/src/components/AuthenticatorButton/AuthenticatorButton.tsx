@@ -35,7 +35,6 @@ const AuthenticatorButton: UISchemaElementComponent<{
   uischema: AuthenticatorButtonElement
 }> = ({ uischema }) => {
   const ctaButtonClasses = classNames('cta-button', 'authenticator-button', style.actionName);
-  const buttonClasses = classNames('authenticator-row', style.authButton);
   const buttonDescrClasses = classNames('authenticator-description', style.infoSection);
   const {
     translations = [],
@@ -97,14 +96,19 @@ const AuthenticatorButton: UISchemaElementComponent<{
       component="button"
       type={type}
       sx={(theme) => ({
-        '--ColorHover': theme.palette.primary.dark,
-        '--ColorPrimaryBase': theme.palette.primary.main,
-        '--FocusOutlineColor': theme.palette.primary.main,
-        '--FocusOutlineOffset': Tokens.FocusOutlineOffsetBase,
-        '--FocusOutlineStyle': Tokens.FocusOutlineStyle,
-        '--FocusOutlineWidth': Tokens.FocusOutlineWidthBase,
+        '&:focus': {
+          outlineColor: theme.palette.primary.main,
+          outlineOffset: Tokens.FocusOutlineOffsetBase,
+          outlineStyle: Tokens.FocusOutlineStyle,
+          outlineWidth: Tokens.FocusOutlineWidthBase,
+        },
+        '&:hover': {
+          color: theme.palette.primary.dark,
+          cursor: 'pointer',
+          borderColor: theme.palette.primary.main,
+        },
         width: 1,
-        backgroundColor: 'inherit',
+        backgroundColor: theme.palette.background.paper,
         paddingBlock: theme.spacing(2),
         paddingInline: theme.spacing(2),
       })}
@@ -113,7 +117,6 @@ const AuthenticatorButton: UISchemaElementComponent<{
       borderColor="grey.200"
       borderRadius={Tokens.BorderRadiusBase}
       boxShadow={Tokens.ShadowScale0}
-      className={buttonClasses}
       data-se="authenticator-button"
       tabIndex={0}
       onClick={onClick}
@@ -173,6 +176,9 @@ const AuthenticatorButton: UISchemaElementComponent<{
         <Box
           className={ctaButtonClasses}
           data-se={dataSe}
+          sx={(theme) => ({
+            color: theme.palette.primary.main,
+          })}
         >
           <Box
             component="span"

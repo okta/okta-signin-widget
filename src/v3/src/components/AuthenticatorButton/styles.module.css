@@ -1,17 +1,3 @@
-.authButton:hover {
-  cursor: pointer;
-  border-color: var(--ColorPrimaryBase, #1662dd);
-}
-.authButton:hover .actionName {
-  color: var(--ColorHover);
-}
-.authButton:focus {
-  outline-color: var(--FocusOutlineColor);
-  outline-offset: var(--FocusOutlineOffset);
-  outline-style: var(--FocusOutlineStyle);
-  outline-width: var(--FocusOutlineWidth);
-}
-
 .infoSection {
   display: flex;
   flex-grow: 1;
@@ -24,7 +10,6 @@
 .actionName {
   margin-block: 5px;
   margin-inline: 0;
-  color: var(--ColorPrimaryBase);
   display: flex;
   font-weight: 500;
   align-items: center;
