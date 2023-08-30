@@ -10,6 +10,9 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { IdxTransaction } from '@okta/okta-auth-js';
+import { IDX_STEP } from 'src/constants';
+import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
   DescriptionElement,
   InfoboxElement,
@@ -20,10 +23,8 @@ import {
   WidgetMessage,
   WidgetProps,
 } from 'src/types';
-import { extractFirstWidgetMessageStr, extractPageTitle } from '../util';
-import { IdxTransaction } from '@okta/okta-auth-js';
-import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
-import { IDX_STEP } from 'src/constants';
+
+import { extractFirstWidgetMessageStr, extractPageTitle } from '.';
 
 describe('FormUtils Tests', () => {
   describe('WidgetMessage extraction tests', () => {
@@ -82,7 +83,7 @@ describe('FormUtils Tests', () => {
         app: {
           type: 'object',
           value: {
-            label: 'Workflow Application'
+            label: 'Workflow Application',
           },
         },
       };

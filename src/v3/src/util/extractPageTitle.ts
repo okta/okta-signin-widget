@@ -10,18 +10,19 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxTransaction } from "@okta/okta-auth-js";
-import { traverseLayout } from "../transformer/util";
+import { IdxTransaction } from '@okta/okta-auth-js';
+
+import { traverseLayout } from '../transformer/util';
 import {
-  WidgetMessage,
-  UISchemaLayout,
-  TitleElement,
-  InfoboxElement,
   DescriptionElement,
+  InfoboxElement,
+  TitleElement,
+  UISchemaLayout,
+  WidgetMessage,
   WidgetProps,
-} from "../types";
-import { getApplicationName, isConsentStep } from "./idxUtils";
-import { getPageTitle } from "./settingsUtils";
+} from '../types';
+import { getApplicationName, isConsentStep } from './idxUtils';
+import { getPageTitle } from './settingsUtils';
 
 export const extractFirstWidgetMessageStr = (
   widgetMessage?: WidgetMessage | WidgetMessage[],

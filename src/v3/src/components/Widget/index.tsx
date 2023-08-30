@@ -407,7 +407,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
 
   const getDocumentTitle = useCallback(() => (
     extractPageTitle(formBag.uischema, widgetProps, idxTransaction)
-  ),[idxTransaction, widgetProps, formBag.uischema]);
+  ), [idxTransaction, widgetProps, formBag.uischema]);
 
   useEffect(() => {
     const title = getDocumentTitle();

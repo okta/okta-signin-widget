@@ -19,7 +19,6 @@ import {
   Input,
   NextStep,
 } from '@okta/okta-auth-js';
-import { escape } from 'lodash';
 import { StateUpdater } from 'preact/hooks';
 
 import { getMessage } from '../../../v2/ion/i18nTransformer';
@@ -40,6 +39,7 @@ import {
   WidgetMessage,
   WidgetProps,
 } from '../types';
+import { escape } from './escape';
 import { flattenInputs } from './flattenInputs';
 import { getAuthenticatorKey } from './getAuthenticatorKey';
 import { getCurrentAuthenticator } from './getCurrentAuthenticator';

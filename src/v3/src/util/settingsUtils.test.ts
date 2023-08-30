@@ -146,17 +146,16 @@ describe('Settings Utils Tests', () => {
   });
 
   it.each`
-    setPageTitle | brandNameProvided
-    ${undefined} | ${false}
-    ${undefined} | ${true}
-    ${true}      | ${false}
-    ${true}      | ${true}
-  `('should return default page title when setPageTitle is: $setPageTitle and brandName provided: $brandNameProvided', ({ setPageTitle, brandNameProvided }) => {
+    setPageTitle | brandName
+    ${undefined} | ${undefined}
+    ${undefined} | ${'Acme Inc.'}
+    ${true}      | ${undefined}
+    ${true}      | ${'Acme Inc.'}
+  `('should return default page title when setPageTitle is: $setPageTitle and brandName: $brandName', ({ setPageTitle, brandName }) => {
     const formTitle = 'Sign In';
-    const brandName: string | undefined = brandNameProvided && 'Acme Inc.';
     widgetProps = { brandName, features: { setPageTitle } };
 
-    const expectedPageTitle: string | undefined = brandNameProvided ? `${brandName} | ${formTitle}` : formTitle;
+    const expectedPageTitle: string | undefined = brandName ? `${brandName} | ${formTitle}` : formTitle;
     expect(getPageTitle(widgetProps, formTitle)).toBe(expectedPageTitle);
   });
 
@@ -218,7 +217,8 @@ describe('Settings Utils Tests', () => {
       'enroll-profile': 'Enroll Profile',
       'select-authenticator-enroll': DEFAULT_TITLE,
     };
-    expect(getPageTitle(widgetProps, DEFAULT_TITLE, transaction)).toBe(EXPECTED_FORM_TITLE_MAP[step]);
+    expect(getPageTitle(widgetProps, DEFAULT_TITLE, transaction))
+      .toBe(EXPECTED_FORM_TITLE_MAP[step]);
   });
 
   it('should not return page title when setPageTitle is set to an invalid value', () => {
