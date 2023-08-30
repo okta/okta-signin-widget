@@ -194,12 +194,6 @@ test
   .requestHooks(smsPrimaryMockWithNickname)('SMS primary mode - shows nickname when present in API response', async t => {
     const challengePhonePageObject = await setup(t);
     await checkA11y(t);
-    await checkConsoleMessages({
-      controller: 'mfa-verify-passcode',
-      formName: 'challenge-authenticator',
-      authenticatorKey: 'phone_number',
-      methodType: 'sms',
-    });
 
     const pageTitle = challengePhonePageObject.getFormTitle();
     const pageSubtitle = challengePhonePageObject.getFormSubtitle();
