@@ -51,10 +51,30 @@ const AuthContainer: FunctionComponent<{ hide: boolean }> = ({ children, hide })
       {/* Global fill styles used by SVGs */}
       <GlobalStyles
         styles={(theme) => ({
-          '.siwFillPrimary': theme.palette.primary.main,
-          '.siwFillPrimaryDark': theme.palette.primary.dark,
-          '.siwFillSecondary': theme.palette.primary.light,
-          '.siwFillBg': theme.palette.grey[50],
+          '.siwFillPrimary': {
+            fill: theme.palette.primary.main,
+          },
+          '.siwFillPrimaryDark': {
+            fill: theme.palette.primary.dark,
+          },
+          '.siwFillSecondary': {
+            fill: theme.palette.primary.light,
+          },
+          '.siwFillBg': {
+            fill: theme.palette.grey[50],
+          },
+          '.siwIconFillPrimary': {
+            fill: theme.palette.primary.main,
+          },
+          '.siwIconStrokePrimary': {
+            stroke: theme.palette.primary.main,
+          },
+          '.siwIconFillPrimaryDark': {
+            fill: theme.palette.primary.dark,
+          },
+          '.siwIconFillSecondary': {
+            fill: theme.palette.primary.light,
+          },
         })}
       />
       <Box
