@@ -103,15 +103,7 @@ const smsPrimaryMockEmptyProfile = RequestMock()
 
 const smsPrimaryMockWithNickname = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(smsVerificationWithNickname)
-  .onRequestTo('http://localhost:3000/idp/idx/challenge')
-  .respond(smsVerificationWithNickname)
-  .onRequestTo('http://localhost:3000/idp/idx/challenge/resend')
-  .respond(smsVerificationWithNickname)
-  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
-  .respond(success)
-  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
-  .respond(oktaDashboardContent);
+  .respond(smsVerificationNickname);
 
 const voicePrimaryMockEmptyProfile = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
