@@ -61,7 +61,7 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
       className={noTranslate ? 'no-translate' : undefined}
     >
       <FormControlLabel
-        sx={{ alignItems: 'flex-start' }}
+        sx={{ alignItems: 'flex-start', gap: 0 }}
         control={(
           <CheckboxMui
             size="medium"
@@ -80,6 +80,9 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
               'data-se': name,
               'data-se-for-name': name,
             }}
+            sx={(theme) => ({
+              marginInlineEnd: theme.spacing(2),
+            })}
           />
         )}
         label={(
