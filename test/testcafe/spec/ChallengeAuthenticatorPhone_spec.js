@@ -190,7 +190,7 @@ test
     await t.expect(challengePhonePageObject.getSignoutLinkText()).eql('Back to sign in');
   });
 
-test
+test.meta('v3', false)
   .requestHooks(smsPrimaryMockWithNickname)('SMS primary mode - shows nickname when present in API response', async t => {
     const challengePhonePageObject = await setup(t);
     await checkA11y(t);

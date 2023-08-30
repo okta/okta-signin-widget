@@ -99,7 +99,7 @@ export default BaseAuthenticatorView.extend({
         'type': 'string',
       },
       nickname: {
-        'value': nickname,
+        'value': nickname ? nickname : '',
         'type': 'string',
       },
     }, ModelClass.prototype.local);

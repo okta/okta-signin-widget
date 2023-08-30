@@ -57,8 +57,8 @@ const Body = BaseForm.extend(Object.assign(
         : loc('mfa.calling', 'login');
       const enterCodeText = loc('oie.phone.verify.enterCodeText', 'login');
       const carrierChargesText = loc('oie.phone.carrier.charges', 'login');
-      const isPhoneAvailable = this.model.get('phoneNumber') !== loc('oie.phone.alternate.title', 'login');
-      let nicknameText = isPhoneAvailable ? this.model.get('nickname') : '';
+      const isPhoneNumberAvailable = this.model.get('phoneNumber') !== loc('oie.phone.alternate.title', 'login');
+      let nicknameText = isPhoneNumberAvailable ? this.model.get('nickname') : '';
       if (nicknameText.length > 20) {
         nicknameText = nicknameText.substring(0, 20) + '...';
       }
@@ -106,7 +106,7 @@ export default BaseAuthenticatorView.extend({
         'type': 'string',
       },
       nickname: {
-        'value': nickname,
+        'value': nickname ? nickname : '',
         'type': 'string',
       }
     }, ModelClass.prototype.local );
