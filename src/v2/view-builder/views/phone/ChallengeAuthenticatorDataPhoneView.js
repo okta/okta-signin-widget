@@ -36,10 +36,9 @@ const Body = BaseForm.extend(
         ? loc('oie.phone.verify.sms.sendText', 'login')
         : loc('oie.phone.verify.call.sendText', 'login');
       const carrierChargesText = loc('oie.phone.carrier.charges', 'login');
-      const extraCssClasses =
-        this.model.get('phoneNumber') !== loc('oie.phone.alternate.title', 'login') ?
-          'strong no-translate' : '';
-      let nicknameText = this.model.get('nickname') || '';
+      const isPhoneNumberAvailable = this.model.get('phoneNumber') !== loc('oie.phone.alternate.title', 'login');
+      const extraCssClasses = isPhoneNumberAvailable ? 'strong no-translate' : '';
+      let nicknameText = isPhoneNumberAvailable ? this.model.get('nickname') : '';
       if (nicknameText.length > 20) {
         nicknameText = nicknameText.substring(0, 20) + '...';
       }
