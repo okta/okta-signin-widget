@@ -30,10 +30,6 @@ const smsVerificationEmptyProfile = JSON.parse(JSON.stringify(smsVerificationNoP
 // add empty profile to test
 smsVerificationEmptyProfile.remediation.value[0].profile = {};
 
-const smsVerificationWithNickname = JSON.parse(JSON.stringify(smsVerificationNickname));
-// add empty profile to test
-smsVerificationWithNickname.remediation.value[0].profile = {};
-
 const voiceVerificationEmptyProfile = JSON.parse(JSON.stringify(voiceVerificationNoProfile));
 // add empty profile to test
 voiceVerificationEmptyProfile.remediation.value[0].profile = {};
