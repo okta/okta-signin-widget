@@ -37,6 +37,7 @@
     "ie 11"
   ],
   "dependencies": {
+    "@emotion/cache": "^11.9.3",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
     "@hcaptcha/react-hcaptcha": "^1.8.1",
@@ -58,6 +59,7 @@
     "react": "npm:@preact/compat",
     "react-dom": "npm:@preact/compat",
     "react-google-recaptcha": "^3.1.0",
+    "stylis": "4.3.0",
     "tiny-emitter": "^2.1.0"
   },
   "devDependencies": {
