@@ -231,6 +231,8 @@ module.exports = {
               { propName: 'bottom', message: 'Use "insetBlockEnd" instead.' },
               { propName: 'left', message: 'Use "insetInlineStart" instead.' },
               { propName: 'right', message: 'Use "insetInlineEnd" instead.' },
+              // do not use IE11 incompatible properties that cannot be transformed
+              { propName: 'gap', message: '"gap" is not compatible with IE11 and cannot be transformed by CSS post-processors' },
             ],
           },
         ],
