@@ -5,7 +5,7 @@ import BasePageObject from './BasePageObject';
 const factorListRowSelector = userVariables.v3 ? '.authenticator-row' : '.authenticator-list .authenticator-row';
 const factorLabelSelector = `${factorListRowSelector} .authenticator-label`;
 const factorDescriptionSelector = `${factorListRowSelector} .authenticator-description .authenticator-description--text`;
-const factorNicknameSelector = `${factorListRowSelector} .authenticator-description .authenticator-nickname--text`;
+const factorNicknameSelector = `${factorListRowSelector} .authenticator-description .authenticator-enrollment-nickname`;
 const factorIconSelector = `${factorListRowSelector} .authenticator-icon-container .authenticator-icon`;
 const factorCustomLogoSelector = `${factorListRowSelector} .authenticator-icon-container`;
 const factorSelectButtonDiv = `${factorListRowSelector} .authenticator-button`;

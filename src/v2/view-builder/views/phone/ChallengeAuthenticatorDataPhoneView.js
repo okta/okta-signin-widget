@@ -39,16 +39,17 @@ const Body = BaseForm.extend(
       const isPhoneNumberAvailable = this.model.get('phoneNumber') !== loc('oie.phone.alternate.title', 'login');
       const extraCssClasses = isPhoneNumberAvailable ? 'strong no-translate' : '';
       let nicknameText = isPhoneNumberAvailable ? this.model.get('nickname') : '';
-      if (nicknameText.length > 20) {
-        nicknameText = nicknameText.substring(0, 20) + '...';
-      }
+      let extraNicknameCssClasses = '';
       if (nicknameText !== '') {
         nicknameText = ' (' + nicknameText + ')';
+        extraNicknameCssClasses = 'strong no-translate authenticator-enrollment-nickname';
       }
       // Courage doesn't support HTML, hence creating a subtitle here.
       this.add(`<div class="okta-form-subtitle" data-se="o-form-explain">${sendText}
         <span ${ extraCssClasses ? 'class="' + extraCssClasses + '"' : ''}>
-        ${this.model.escape('phoneNumber')}${nicknameText}</span>
+        ${this.model.escape('phoneNumber')}</span>
+        <span ${ extraNicknameCssClasses ? 'class="' + extraNicknameCssClasses + '"' : ''}>
+        ${nicknameText}.</span>
         <p>${carrierChargesText}</p>
       </div>`);
     },
