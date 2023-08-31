@@ -140,6 +140,46 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
             },
           },
         },
+        // ruleset with :focus-visible pseudo-selector break entire ruleset in
+        // ie11 because its not supported. re-define the :hover rule separately
+        // again so the ruleset is applied in ie11
+        MuiButton: {
+          styleOverrides: {
+            root: ({ ownerState, theme }) => ({
+              ...(ownerState.variant === 'primary' && {
+                '&:hover': {
+                  backgroundColor: theme.palette.primary.dark,
+                },
+              }),
+              ...(ownerState.variant === 'secondary' && {
+                '&:hover': {
+                  backgroundColor: theme.palette.primary.lighter,
+                  borderColor: theme.palette.primary.light,
+                  color: theme.palette.primary.main,
+                },
+              }),
+              ...(ownerState.variant === 'floating' && {
+                '&:hover': {
+                  backgroundColor: 'rgba(29, 29, 33, 0.1)',
+                  borderColor: 'transparent',
+                },
+              }),
+            }),
+          },
+        },
+        // ruleset with :focus-visible pseudo-selector break entire ruleset in
+        // ie11 because its not supported. re-define the :hover rule separately
+        // again so the ruleset is applied in ie11
+        MuiIconButton: {
+          styleOverrides: {
+            root: () => ({
+              '&:hover': {
+                backgroundColor: 'rgba(29, 29, 33, 0.1)',
+                borderColor: 'transparent',
+              },
+            }),
+          },
+        },
       },
     },
   ), [brandColors, languageDirection, muiThemeOverrides]);

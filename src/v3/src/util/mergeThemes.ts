@@ -45,7 +45,7 @@ const resolve = (override: StyleOverride, arg: Props): CSSInterpolation => {
  */
 export const mergeThemes = (
   first: Theme,
-  ...rest: Array<ThemeOptions | Partial<Theme>>
+  ...rest: Array<Partial<Theme>>
 ): ThemeOptions => (
   rest.reduce((prev, theme) => (
     !theme.components
