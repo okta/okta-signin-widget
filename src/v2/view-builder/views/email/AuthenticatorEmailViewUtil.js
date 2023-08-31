@@ -9,32 +9,42 @@ const CheckYourEmailTitle = View.extend({
   },
   template: hbs`
       {{#if email}}
-        {{i18n 
-            code="oie.email.verify.alternate.magicLinkToEmailAddress" 
-            bundle="login" 
-            arguments="email" 
-            $1="<span class='strong'>$1</span>"
-        }}
+        {{#if secondaryEmail}}
+          {{i18n
+              code="oie.email.verify.alternate.magicLinkToEmailAddress.with.secondary.email"
+              bundle="login"
+              arguments="email;secondaryEmail"
+              $1="<span class='strong'>$1</span>"
+              $2="<span class='strong'>$2</span>"
+          }}
+        {{else}}
+          {{i18n
+              code="oie.email.verify.alternate.magicLinkToEmailAddress"
+              bundle="login"
+              arguments="email"
+              $1="<span class='strong'>$1</span>"
+          }}
+        {{/if}}
       {{else}}
-        {{i18n 
-          code="oie.email.verify.alternate.magicLinkToYourEmail" 
+        {{i18n
+          code="oie.email.verify.alternate.magicLinkToYourEmail"
           bundle="login"
         }}
       {{/if}}
-      
+
       {{#if useEmailMagicLinkValue}}
-        {{i18n 
-          code="oie.email.verify.alternate.instructions" 
-          bundle="login" 
+        {{i18n
+          code="oie.email.verify.alternate.instructions"
+          bundle="login"
         }}
       {{else}}
-        {{i18n 
-          code="oie.email.verify.alternate.verificationCode.instructions" 
-          bundle="login" 
+        {{i18n
+          code="oie.email.verify.alternate.verificationCode.instructions"
+          bundle="login"
         }}
       {{/if}}
     `,
-  
+
   getTemplateData() {
     return this.options;
   },
@@ -52,7 +62,7 @@ const CheckYourEmailEnrollTitle = View.extend({
 
 const EnterCodeLink = View.extend({
   template: hbs`
-      <button 
+      <button
         class="button-link enter-auth-code-instead-link"
       >
           {{i18n code="oie.email.verify.alternate.show.verificationCode.text"}}

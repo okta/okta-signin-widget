@@ -8,12 +8,22 @@ const SubtitleView = View.extend({
   template: hbs`
     <div class="okta-form-subtitle" data-se="o-form-explain">
       {{#if email}}
-        {{i18n
-          code="oie.email.verify.subtitle.text.with.email"
-          bundle="login"
-          arguments="email"
-          $1="<span class='strong no-translate'>$1</span>"
-        }}
+        {{#if secondaryEmail}}
+          {{i18n
+            code="oie.email.verify.subtitle.text.with.email.and.secondary.email"
+            bundle="login"
+            arguments="email;secondaryEmail"
+            $1="<span class='strong no-translate'>$1</span>"
+            $2="<span class='strong no-translate'>$2</span>"
+          }}
+        {{else}}
+          {{i18n
+            code="oie.email.verify.subtitle.text.with.email"
+            bundle="login"
+            arguments="email"
+            $1="<span class='strong no-translate'>$1</span>"
+          }}
+        {{/if}}
       {{else}}
         {{i18n
           code="oie.email.verify.subtitle.text.without.email"
@@ -25,8 +35,10 @@ const SubtitleView = View.extend({
 
   getTemplateData() {
     const email = this.options.appState.get('currentAuthenticatorEnrollment')?.profile?.email;
+    const secondaryEmail = this.options.appState.get('currentAuthenticatorEnrollment')?.profile?.secondaryEmail;
     return {
       email,
+      secondaryEmail
     };
   },
 });
