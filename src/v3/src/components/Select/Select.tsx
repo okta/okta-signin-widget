@@ -74,7 +74,10 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
       <InputLabel
         htmlFor={name}
         // To prevent asterisk from shifting far right
-        sx={{ justifyContent: showAsterisk ? 'flex-start' : undefined }}
+        sx={{
+          justifyContent: showAsterisk ? 'flex-start' : undefined,
+          position: 'static',
+        }}
       >
         {label}
         {showAsterisk && (
