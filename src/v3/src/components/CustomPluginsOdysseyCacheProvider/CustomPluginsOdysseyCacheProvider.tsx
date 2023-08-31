@@ -17,9 +17,11 @@ declare global {
 }
 
 import { prefixer } from 'stylis';
-import createCache from "@emotion/cache";
-import { CacheProvider } from "@emotion/react";
+import createCache from '@emotion/cache';
+import { CacheProvider } from '@emotion/react';
 import { memo, useMemo, ReactElement } from 'preact/compat';
+
+import logical from '../../../stylis-logical-plugin/src';
 
 export const createUniqueAlphabeticalId = () =>
   Math.random()
@@ -46,7 +48,7 @@ const OdysseyCacheProvider = ({
       createCache({
         key: uniqueAlphabeticalId,
         nonce: nonce || window.cspNonce,
-        stylisPlugins: [prefixer],
+        stylisPlugins: [prefixer, logical],
       }),
     [nonce, uniqueAlphabeticalId]
   );

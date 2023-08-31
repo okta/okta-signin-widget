@@ -1,0 +1,20 @@
+{
+  "include": ["index.d.ts", "src/**/*.ts"],
+  "exclude": ["node_modules", "src/__tests__"],
+  "compilerOptions": {
+    "allowJs": true,
+    "outDir": "./dist",
+    "target": "es5",
+    "module": "commonjs",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "strict": true,
+    "moduleResolution": "node16",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "strictNullChecks": true,
+    "jsx": "react",
+  },
+}

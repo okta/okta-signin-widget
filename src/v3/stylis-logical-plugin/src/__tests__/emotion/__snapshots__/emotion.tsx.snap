@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`with emotion environment generates styles for simple scenario 1`] = `
+.emotion-0 {
+  padding-right: 10px;
+}
+
+[dir="rtl"] .emotion-0 {
+  padding-left: 10px;
+}
+
+<body>
+  
+      
+  <div
+    id="container"
+  >
+    
+    
+    <style
+      data-emotion="test"
+      data-s=""
+    >
+      
+      .emotion-0{padding-right:10px;}
+    </style>
+    <style
+      data-emotion="test"
+      data-s=""
+    >
+      
+      [dir="rtl"] .emotion-0{padding-left:10px;}
+    </style>
+  </div>
+  <div>
+    <div
+      class="emotion-0"
+    />
+  </div>
+</body>
+`;
