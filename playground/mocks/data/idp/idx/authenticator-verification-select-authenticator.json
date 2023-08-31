@@ -464,6 +464,7 @@
         "key": "phone_number",
         "id":"pae5ykx4eIvfslkO90g4",
         "displayName":"Phone Number",
+        "nickname":"ph-nn",
         "methods":[
           {
             "type":"sms"

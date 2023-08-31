@@ -31,7 +31,7 @@ const AuthenticatorRow = View.extend({
           <p class="authenticator-description--text {{noTranslateClassName}}">{{description}}</p>
         {{/if}}
         {{#if nickname}}
-          <p class="authenticator-description--text {{noTranslateClassName}}">{{nickname}}</p>
+          <p class="authenticator-nickname--text {{noTranslateClassName}}">{{nickname}}</p>
         {{/if}}
       </div>
       <div class="authenticator-button" {{#if buttonDataSeAttr}}data-se="{{buttonDataSeAttr}}"{{/if}}></div>

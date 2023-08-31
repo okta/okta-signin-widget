@@ -53,6 +53,18 @@ const smsPrimaryMock = RequestMock()
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
   .respond(oktaDashboardContent);
 
+const smsPrimaryNicknameMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(smsVerificationNickname)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge')
+  .respond(smsVerification)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/resend')
+  .respond(smsVerification)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
+  .respond(success)
+  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+  .respond(oktaDashboardContent);
+
 const voicePrimaryMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(phoneVerificationVoiceThenSMS)
@@ -96,10 +108,6 @@ const smsPrimaryMockEmptyProfile = RequestMock()
   .respond(success)
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
   .respond(oktaDashboardContent);
-
-const smsPrimaryMockWithNickname = RequestMock()
-  .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(smsVerificationNickname);
 
 const voicePrimaryMockEmptyProfile = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -191,20 +199,15 @@ test
   });
 
 test.meta('v3', false)
-  .requestHooks(smsPrimaryMockWithNickname)('SMS primary mode - shows nickname when present in API response', async t => {
+  .requestHooks(smsPrimaryNicknameMock)('SMS primary mode - shows nickname when present in API response', async t => {
     const challengePhonePageObject = await setup(t);
     await checkA11y(t);
 
-    const pageTitle = challengePhonePageObject.getFormTitle();
     const pageSubtitle = challengePhonePageObject.getFormSubtitle();
-    const primaryButtonText = challengePhonePageObject.getSaveButtonLabel();
-    const secondaryButtonText = challengePhonePageObject.getSecondaryLinkText('Receive a voice call instead');
-    await t.expect(pageTitle).contains('Verify with your phone');
-    await t.expect(pageSubtitle).contains('Send a code via SMS to');
-    await t.expect(pageSubtitle).contains('+1 XXX-XXX-2342');
-    await t.expect(pageSubtitle).contains('(phone-nn)');
-    await t.expect(primaryButtonText).contains('Receive a code via SMS');
-    await t.expect(secondaryButtonText).contains('Receive a voice call instead');
+    await t.expect(challengePhonePageObject.getSaveButtonLabel()).eql('Verify');
+    await t.expect(pageSubtitle).contains('A code was sent to');
+    await t.expect(pageSubtitle).contains('Enter the code below to verify.');
+    await t.expect(pageSubtitle).contains('+1 XXX-XXX-2342 (ph-nn).');
 
     await t.expect(await challengePhonePageObject.signoutLinkExists()).ok();
     await t.expect(challengePhonePageObject.getSignoutLinkText()).eql('Back to sign in');

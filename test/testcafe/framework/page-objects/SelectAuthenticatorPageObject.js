@@ -5,6 +5,7 @@ import BasePageObject from './BasePageObject';
 const factorListRowSelector = userVariables.v3 ? '.authenticator-row' : '.authenticator-list .authenticator-row';
 const factorLabelSelector = `${factorListRowSelector} .authenticator-label`;
 const factorDescriptionSelector = `${factorListRowSelector} .authenticator-description .authenticator-description--text`;
+const factorNicknameSelector = `${factorListRowSelector} .authenticator-description .authenticator-nickname--text`;
 const factorIconSelector = `${factorListRowSelector} .authenticator-icon-container .authenticator-icon`;
 const factorCustomLogoSelector = `${factorListRowSelector} .authenticator-icon-container`;
 const factorSelectButtonDiv = `${factorListRowSelector} .authenticator-button`;
@@ -48,9 +49,27 @@ export default class SelectFactorPageObject extends BasePageObject {
     return this.getFactorDescriptionElementByIndex(index).textContent;
   }
 
+  getFactorNicknameElementByIndex(index) {
+    return this.getFactorButtons().nth(index).find(factorNicknameSelector);
+  }
+
+  getFactorNicknameByIndex(index) {
+    return this.getFactorNicknameElementByIndex(index).textContent;
+  }
+
   async factorDescriptionExistsByIndex(index) {
     const elCount = await this.getFactorDescriptionElementByIndex(index).count;
     return elCount === 1;
+  }
+
+  async factorNicknameExistsByIndex(index) {
+    const elCount = await this.getFactorNicknameElementByIndex(index).count;
+    return elCount === 1;
+  }
+
+  async factorNicknameDoesNotExistByIndex(index) {
+    const elCount = await this.getFactorNicknameElementByIndex(index).count;
+    return elCount === 0;
   }
 
   getFactorIconClassByIndex(index) {

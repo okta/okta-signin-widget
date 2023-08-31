@@ -155,6 +155,8 @@ test.requestHooks(mockChallengePassword)('should load select authenticator list'
   await t.expect(selectFactorPage.getFactorLabelByIndex(3)).eql('Phone');
   await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(3)).eql(true);
   await t.expect(selectFactorPage.getFactorDescriptionByIndex(3)).eql('+1 XXX-XXX-5309');
+  await t.expect(await selectFactorPage.factorNicknameExistsByIndex(3)).eql(true);
+  await t.expect(selectFactorPage.getFactorNicknameByIndex(3)).eql('ph-nn');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(3)).contains('mfa-okta-phone');
   await t.expect(await selectFactorPage.factorCustomLogoExist(3)).eql(false);
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(3)).eql('Select');

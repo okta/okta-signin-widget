@@ -70,7 +70,7 @@ const Body = BaseForm.extend(Object.assign(
         'strong no-translate' : '';
       // Courage doesn't support HTML, hence creating a subtitle here.
       this.add(`<div class="okta-form-subtitle" data-se="o-form-explain">
-        ${sendText}&nbsp;<span class='${strongClass}'>${this.model.escape('phoneNumber')}.${nicknameText}</span>
+        ${sendText}&nbsp;<span class='${strongClass}'>${this.model.escape('phoneNumber')}${nicknameText}.</span>
         &nbsp;${enterCodeText}
         <p>${carrierChargesText}</p>
         </div>`, {
