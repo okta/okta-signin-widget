@@ -138,3 +138,11 @@ test_suites:
     script_name: e2e-monolith
     criteria: OPTIONAL
     queue_name: ci-queue-prodJenga-Monolith-Build
+  - name: semgrep
+    script_path: /root/okta/okta-signin-widget/scripts
+    sort_order: '31'
+    timeout: '10'
+    script_name: semgrep
+    script_env: {}
+    criteria: MERGE
+    queue_name: small
