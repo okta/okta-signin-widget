@@ -17,6 +17,7 @@ import nodemon from 'nodemon';
 import webpack from 'webpack';
 import { merge } from 'webpack-merge';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import PreactRefreshPlugin from '@prefresh/webpack';
 
 import baseConfig from './webpack.common.config';
 
@@ -97,6 +98,7 @@ const devConfig: Configuration = merge<Partial<Configuration>>(
         DEBUG: true,
         OMIT_MSWJS: process.env.OMIT_MSWJS === 'true',
       }),
+      new PreactRefreshPlugin(),
     ],
     devServer: {
       host: HOST,
