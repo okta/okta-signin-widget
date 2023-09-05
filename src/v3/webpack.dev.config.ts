@@ -82,13 +82,6 @@ const devConfig: Configuration = merge<Partial<Configuration>>(
     output: {
       path: `${PLAYGROUND}/target`,
     },
-    resolve: {
-      alias: {
-        // mock duo
-        '@okta/duo': resolve(PLAYGROUND, '/mocks/spec-duo/duo-mock.js'),
-        duo_web_sdk: resolve(__dirname, 'src/__mocks__/duo_web_sdk'),
-      }
-    },
     plugins: [
       new MiniCssExtractPlugin({
         filename: 'css/okta-sign-in.css',
