@@ -1541,7 +1541,7 @@ features: {
 
 - **features.showSessionRevocation** - If set to `true`, it will show a checkbox that allows the user to revoke all of their active sessions during a Self Service Password Reset.
 
-- **features.disableAutocomplete** - If set to `true`, it will set the autocomplete attribute on Input fields to `off`.
+- **features.disableAutocomplete** - If set to `true`, it sets the autocomplete attribute on input fields to `off`.
 
 ### Hooks
 

@@ -1359,7 +1359,7 @@ Automatically focuses the first input field of any form when displayed.
 #### features.disableAutocomplete
 
 Defaults to `false`.
-Sets the autocomplete attribute on Input fields to `off`.
+Sets the autocomplete attribute on input fields to `off`.
 
 ### cspNonce
 
