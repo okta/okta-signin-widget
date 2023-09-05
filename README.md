@@ -139,7 +139,7 @@ See the [Usage Guide](#usage-guide) for more information on how to get started u
     - [features.hideSignOutLinkInMFA](#featureshidesignoutlinkinmfa)
     - [features.rememberMe](#featuresrememberme)
     - [features.autoFocus](#featuresautofocus)
-    - [features.disableAutocomplete](#featuresautofocus)
+    - [features.disableAutocomplete](#featuresdisableautocomplete)
   - [cspNonce](#cspNonce)
 - [Events](#events)
   - [ready](#ready)
