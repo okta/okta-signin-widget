@@ -11,16 +11,32 @@
  */
 
 import { Input } from '@okta/okta-auth-js';
+import { WidgetProps } from 'src/types';
 
 import { transformer } from './attributes';
 
 describe('Attributes transformer', () => {
+  let widgetProps: WidgetProps;
+
+  beforeEach(() => {
+    widgetProps = {};
+  });
+
   it('should return uischema object with options.attributes.autocomplete === "username" if formfield.name === "identifier" is present in ion object', () => {
     const formfield: Input = { name: 'identifier' };
 
     const result = { attributes: { autocomplete: 'username' } };
 
-    expect(transformer(formfield)).toEqual(result);
+    expect(transformer(formfield, widgetProps)).toEqual(result);
+  });
+
+  it('should return uischema object with options.attributes.autocomplete === "off" when features.disableAutocomplete === "false"', () => {
+    const formfield: Input = { name: 'identifier' };
+    widgetProps = { features: { disableAutocomplete: true } };
+
+    const result = { attributes: { autocomplete: 'off' } };
+
+    expect(transformer(formfield, widgetProps)).toEqual(result);
   });
 
   it('should return uischema object with options.attributes.autocomplete === "current-password" if formfield.name === "password" is present in ion object', () => {
@@ -28,7 +44,7 @@ describe('Attributes transformer', () => {
 
     const result = { attributes: { autocomplete: 'current-password' } };
 
-    expect(transformer(formfield)).toEqual(result);
+    expect(transformer(formfield, widgetProps)).toEqual(result);
   });
 
   it('should return uischema object with options.attributes.autocomplete === "current-password" if formfield.name === "newPassword" is present in ion object', () => {
@@ -36,7 +52,7 @@ describe('Attributes transformer', () => {
 
     const result = { attributes: { autocomplete: 'current-password' } };
 
-    expect(transformer(formfield)).toEqual(result);
+    expect(transformer(formfield, widgetProps)).toEqual(result);
   });
 
   it('should return uischema object with options.attributes.autocomplete === "current-password" if formfield.name === "passcode" & formfield.secret === true is present in ion object', () => {
@@ -44,7 +60,7 @@ describe('Attributes transformer', () => {
 
     const result = { attributes: { autocomplete: 'current-password' } };
 
-    expect(transformer(formfield)).toEqual(result);
+    expect(transformer(formfield, widgetProps)).toEqual(result);
   });
 
   it('should return uischema object with options.attributes.autocomplete === "one-time-code" and options.attributes.inputmode === "numeric" if formfield.name === "passcode" & secret property doesnt exist in ion object when on ios device', () => {
@@ -56,7 +72,7 @@ describe('Attributes transformer', () => {
 
     const result = { attributes: { autocomplete: 'one-time-code', inputmode: 'numeric' } };
 
-    expect(transformer(formfield)).toEqual(result);
+    expect(transformer(formfield, widgetProps)).toEqual(result);
   });
 
   it('should return uischema object with options.attributes.autocomplete === "off" if formfield.name === "passcode" & secret property doesnt exist in ion object when on desktop', () => {
@@ -68,7 +84,7 @@ describe('Attributes transformer', () => {
 
     const result = { attributes: { autocomplete: 'off', inputmode: 'numeric' } };
 
-    expect(transformer(formfield)).toEqual(result);
+    expect(transformer(formfield, widgetProps)).toEqual(result);
   });
 
   it('should return uischema object with options.attributes.autocomplete === "one-time-code" if formfield.name === "totp" is present in ion object when on ios device', () => {
@@ -80,7 +96,7 @@ describe('Attributes transformer', () => {
 
     const result = { attributes: { autocomplete: 'one-time-code', inputmode: 'numeric' } };
 
-    expect(transformer(formfield)).toEqual(result);
+    expect(transformer(formfield, widgetProps)).toEqual(result);
   });
 
   it('should return uischema object with options.attributes.autocomplete === "off" if formfield.name === "totp" is present in ion object when on desktop', () => {
@@ -92,7 +108,7 @@ describe('Attributes transformer', () => {
 
     const result = { attributes: { autocomplete: 'off', inputmode: 'numeric' } };
 
-    expect(transformer(formfield)).toEqual(result);
+    expect(transformer(formfield, widgetProps)).toEqual(result);
   });
 
   it('should return uischema object with options.attributes.autocomplete === "tel-national" if formfield.name === "phoneNumber" is present in ion object', () => {
@@ -100,6 +116,6 @@ describe('Attributes transformer', () => {
 
     const result = { attributes: { autocomplete: 'tel-national', inputmode: 'tel' } };
 
-    expect(transformer(formfield)).toEqual(result);
+    expect(transformer(formfield, widgetProps)).toEqual(result);
   });
 });

@@ -478,3 +478,17 @@ test.meta('v3', false).requestHooks(identifyRequestLogger, baseIdentifyMock)('sh
   doesFormHaveFocus = identityPage.form.getElement('[data-se="o-form-input-identifier"] input').focused;
   await t.expect(doesFormHaveFocus).eql(false);
 });
+
+test.requestHooks(identifyRequestLogger, baseIdentifyMock)('should set autocomplete to off on username field when features.disableAutocomplete is true', async t => {
+  const identityPage = await setup(t);
+  await checkA11y(t);
+  await rerenderWidget({
+    features: {
+      disableAutocomplete: true,
+    },
+  });
+
+  await t.expect(identityPage.getFormTitle()).eql('Sign In');
+  const userNameField = identityPage.getTextField('Username');
+  await t.expect(userNameField.getAttribute('autocomplete')).eql('off');
+});

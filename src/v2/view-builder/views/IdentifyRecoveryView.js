@@ -1,5 +1,6 @@
 import { loc } from '@okta/courage';
 import { BaseForm, BaseFooter, BaseView } from '../internals';
+import Util from 'util/Util';
 
 const Body = BaseForm.extend({
 
@@ -20,7 +21,7 @@ const Body = BaseForm.extend({
         // because we want to allow the user to choose from previously used identifiers.
         newSchema = {
           ...newSchema,
-          autoComplete: 'username'
+          autoComplete: Util.getAutocompleteValue(this.options.settings, 'username')
         };
       }
       return newSchema;

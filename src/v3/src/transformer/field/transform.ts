@@ -24,10 +24,13 @@ import { isCustomizedI18nKey } from '../i18n';
 import { transformer as attributesTransformer } from './attributes';
 import { transformer as typeTransformer } from './type';
 
-const mapUiElement = (input: Input): FieldElement => {
+const mapUiElement = (
+  input: Input,
+  widgetProps: WidgetProps,
+): FieldElement => {
   const { label, name } = input;
   const fieldType = typeTransformer(input);
-  const attributes = attributesTransformer(input);
+  const attributes = attributesTransformer(input, widgetProps);
 
   return {
     type: 'Field',
@@ -89,7 +92,7 @@ export const transformStepInputs = (
       } = input;
 
       // add uischema
-      const uischema = mapUiElement(input);
+      const uischema = mapUiElement(input, widgetProps);
       acc.uischema.elements = [...acc.uischema.elements, uischema];
 
       if (type === 'boolean' && required) {

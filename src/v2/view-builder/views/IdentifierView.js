@@ -12,6 +12,7 @@ import { isCustomizedI18nKey } from '../../ion/i18nTransformer';
 import { getForgotPasswordLink } from '../utils/LinksUtil';
 import CookieUtil from 'util/CookieUtil';
 import CustomAccessDeniedErrorMessage from './shared/CustomAccessDeniedErrorMessage';
+import Util from 'util/Util';
 
 const CUSTOM_ACCESS_DENIED_KEY = 'security.access_denied_custom_message';
 
@@ -140,12 +141,12 @@ const Body = BaseForm.extend({
         // because we want to allow the user to choose from previously used identifiers.
         newSchema = {
           ...newSchema,
-          autoComplete: 'username'
+          autoComplete: Util.getAutocompleteValue(this.options.settings, 'username')
         };
       } else if (schema.name === 'credentials.passcode') {
         newSchema = {
           ...newSchema,
-          autoComplete: 'current-password'
+          autoComplete: Util.getAutocompleteValue(this.options.settings, 'current-password')
         };
 
         if (isCustomizedI18nKey(passwordExplainLabeli18nKey, settings)) {

@@ -260,6 +260,7 @@ export type OktaWidgetFeatures = {
   redirectByFormSubmit?: boolean;
   restrictRedirectToForeground?: boolean;
   showPasswordRequirementsAsHtmlList?: boolean;
+  disableAutocomplete?: boolean;
 };
 
 interface ProxyIdxResponse {
