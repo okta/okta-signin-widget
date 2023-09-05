@@ -400,7 +400,7 @@ fn.getPasswordComplexityDescriptionForHtmlList = function(policy) {
     },
     history: {
       one: { i18n: 'password.complexity.history.one.description' },
-      many: { i18n: 'password.complexity.history.many.description' }
+      many: { i18n: 'password.complexity.history.description' }
     },
     age: {
       minutes: { i18n: 'password.complexity.minAgeMinutes.description' },
