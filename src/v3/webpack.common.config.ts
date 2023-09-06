@@ -132,8 +132,6 @@ const baseConfig: Partial<Configuration> = {
       'react-dom': 'preact/compat',
       'react/jsx-runtime': 'preact/jsx-runtime',
 
-      'duo_web_sdk': 'duo_web_sdk',
-
       // @mui -> @mui/legacy
       // use the legacy @mui/* bundles for ie11 support
       // https://mui.com/material-ui/guides/minimizing-bundle-size/#legacy-bundle
