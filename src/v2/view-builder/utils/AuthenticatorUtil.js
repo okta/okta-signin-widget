@@ -30,9 +30,6 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
   const key = _.isString(authenticatorKey) ? authenticatorKey.toLowerCase() : '';
   let authenticatorData = {};
   let nicknameText = isVerifyAuthenticator ? authenticator.relatesTo?.nickname : undefined;
-  if (nicknameText && nicknameText.length > 20) {
-    nicknameText = nicknameText.substring(0, 20) + '...';
-  }
   switch (key) {
   case AUTHENTICATOR_KEY.EMAIL:
     Object.assign(authenticatorData, {
