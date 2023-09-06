@@ -134,6 +134,9 @@ const devConfig: Configuration = merge<Partial<Configuration>>(
         return middlewares;
       },
     },
+    optimization: {
+      runtimeChunk: 'single',
+    },
   },
 );
 

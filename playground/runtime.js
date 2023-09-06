@@ -1,0 +1,1 @@
+// For v3 `runtime.js` will be provided by webpack when using `runtimeChunk: 'single'`
