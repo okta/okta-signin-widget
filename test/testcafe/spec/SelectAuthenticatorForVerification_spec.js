@@ -258,6 +258,7 @@ test.requestHooks(mockChallengePassword)('should load select authenticator list'
   await t.expect(await selectFactorPage.signoutLinkExists()).eql(true);
 });
 
+// OKTA-642786 - awaiting Gen3 implementation
 test.meta('v3', false).requestHooks(mockChallengeWithNickname)('should load select authenticator list with nicknames if available', async t => {
   const selectFactorPage = await setup(t);
   await checkA11y(t);
