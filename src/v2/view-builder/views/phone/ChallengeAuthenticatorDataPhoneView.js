@@ -36,12 +36,21 @@ const Body = BaseForm.extend(
         ? loc('oie.phone.verify.sms.sendText', 'login')
         : loc('oie.phone.verify.call.sendText', 'login');
       const carrierChargesText = loc('oie.phone.carrier.charges', 'login');
-      const extraCssClasses =
-        this.model.get('phoneNumber') !== loc('oie.phone.alternate.title', 'login') ?
-          'strong no-translate' : '';
+      const isPhoneNumberAvailable = this.model.get('phoneNumber') !== loc('oie.phone.alternate.title', 'login');
+      const extraCssClasses = isPhoneNumberAvailable ? 'strong no-translate' : '';
+      let nicknameText = isPhoneNumberAvailable ? this.model.get('nickname') : '';
+      let extraNicknameCssClasses = '';
+      if (nicknameText !== '') {
+        nicknameText = ' (' + nicknameText + ')';
+        extraNicknameCssClasses = 'strong no-translate authenticator-enrollment-nickname';
+      }
+      const nicknameTemplate = nicknameText ? `<span ${ extraNicknameCssClasses ? 
+        'class="' + extraNicknameCssClasses + '"' : ''}>
+      ${nicknameText}.</span>` : '<span class="no-translate">.</span>';
       // Courage doesn't support HTML, hence creating a subtitle here.
       this.add(`<div class="okta-form-subtitle" data-se="o-form-explain">${sendText}
-        <span ${ extraCssClasses ? 'class="' + extraCssClasses + '"' : ''}>${this.model.escape('phoneNumber')}</span>
+        <span ${ extraCssClasses ? 'class="' + extraCssClasses + '"' : ''}>
+        ${this.model.escape('phoneNumber')}</span>${nicknameTemplate}
         <p>${carrierChargesText}</p>
       </div>`);
     },
@@ -76,7 +85,7 @@ export default BaseAuthenticatorView.extend({
     // It is important to get methods from here to maintain single source of truth.
     const { options: methods } = _.find(uiSchema, schema => schema.name === 'authenticator.methodType');
     const relatesToObject = this.options.currentViewState.relatesTo;
-    const { profile } = relatesToObject?.value || {};
+    const { profile, nickname } = relatesToObject?.value || {};
     const ModelClass = BaseView.prototype.createModelClass.apply(this, arguments);
     const local = Object.assign({
       primaryMode: {
@@ -89,6 +98,10 @@ export default BaseAuthenticatorView.extend({
       },
       phoneNumber: {
         'value': profile?.phoneNumber ? profile.phoneNumber : loc('oie.phone.alternate.title', 'login'),
+        'type': 'string',
+      },
+      nickname: {
+        'value': nickname ? nickname : '',
         'type': 'string',
       },
     }, ModelClass.prototype.local);

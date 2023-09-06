@@ -24,11 +24,12 @@ const getButtonDataSeAttr = function(authenticator) {
   return '';
 };
 
-/* eslint complexity: [0, 0], max-statements: [2, 24] */
+/* eslint complexity: [0, 0], max-statements: [2, 25] */
 const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
   const authenticatorKey = authenticator.authenticatorKey;
   const key = _.isString(authenticatorKey) ? authenticatorKey.toLowerCase() : '';
   let authenticatorData = {};
+  let nicknameText = isVerifyAuthenticator ? authenticator.relatesTo?.nickname : undefined;
   switch (key) {
   case AUTHENTICATOR_KEY.EMAIL:
     Object.assign(authenticatorData, {
@@ -52,6 +53,7 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
 
   case AUTHENTICATOR_KEY.PHONE:
     Object.assign(authenticatorData, {
+      nickname: nicknameText,
       description: isVerifyAuthenticator
         ? authenticator.relatesTo?.profile?.phoneNumber
         : loc('oie.phone.authenticator.description', 'login'),

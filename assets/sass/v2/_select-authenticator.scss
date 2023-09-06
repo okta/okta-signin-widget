@@ -42,6 +42,10 @@
   }
 }
 
+.authenticator-enrollment-nickname {
+  text-overflow: ellipsis;
+}
+
 .authenticator-verify-list {
   .authenticator-description {
     display: flex;

@@ -11,6 +11,7 @@ import voiceVerification from '../../../playground/mocks/data/idp/idx/authentica
 import phoneVerificationSMSThenVoiceNoProfile from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-phone-sms-then-voice-no-profile';
 import phoneVerificationVoiceThenSMSNoProfile from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-phone-voice-then-sms-no-profile';
 import smsVerificationNoProfile from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone-sms-no-profile';
+import smsVerificationNickname from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone-sms-nickname';
 import voiceVerificationNoProfile from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone-voice-no-profile';
 import success from '../../../playground/mocks/data/idp/idx/success';
 import invalidCode from '../../../playground/mocks/data/idp/idx/error-authenticator-challenge-phone-invalid-otp';
@@ -43,6 +44,18 @@ const logger = RequestLogger(/challenge|challenge\/resend|challenge\/answer/,
 const smsPrimaryMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(phoneVerificationSMSThenVoice)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge')
+  .respond(smsVerification)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/resend')
+  .respond(smsVerification)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
+  .respond(success)
+  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+  .respond(oktaDashboardContent);
+
+const smsPrimaryNicknameMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(smsVerificationNickname)
   .onRequestTo('http://localhost:3000/idp/idx/challenge')
   .respond(smsVerification)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/resend')
@@ -180,6 +193,22 @@ test
     await t.expect(pageSubtitle).contains('+1 XXX-XXX-2342');
     await t.expect(primaryButtonText).contains('Receive a code via SMS');
     await t.expect(secondaryButtonText).contains('Receive a voice call instead');
+
+    await t.expect(await challengePhonePageObject.signoutLinkExists()).ok();
+    await t.expect(challengePhonePageObject.getSignoutLinkText()).eql('Back to sign in');
+  });
+
+// OKTA-642786 - awaiting Gen3 implementation
+test.meta('v3', false)
+  .requestHooks(smsPrimaryNicknameMock)('SMS primary mode - shows nickname when present in API response', async t => {
+    const challengePhonePageObject = await setup(t);
+    await checkA11y(t);
+
+    const pageSubtitle = challengePhonePageObject.getFormSubtitle();
+    await t.expect(challengePhonePageObject.getSaveButtonLabel()).eql('Verify');
+    await t.expect(pageSubtitle).contains('A code was sent to');
+    await t.expect(pageSubtitle).contains('Enter the code below to verify.');
+    await t.expect(pageSubtitle).contains('+1 XXX-XXX-2342 (ph-nn).');
 
     await t.expect(await challengePhonePageObject.signoutLinkExists()).ok();
     await t.expect(challengePhonePageObject.getSignoutLinkText()).eql('Back to sign in');
