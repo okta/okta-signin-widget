@@ -69,6 +69,6 @@ describe('v2/utils/AuthenticatorUtil', function() {
         'nickname': 'authenticator nickname'
       }
     };
-    expect(getAuthenticatorDataForVerification(authenticator).nickname).toEqual('authenticator nickna...');
+    expect(getAuthenticatorDataForVerification(authenticator).nickname).toEqual('authenticator nickname');
   });
 });
