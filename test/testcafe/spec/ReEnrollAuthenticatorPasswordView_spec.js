@@ -28,6 +28,13 @@ const mock = RequestMock()
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
   .respond(oktaDashboardContent);
 
+const xhrAuthenticatorExpiredPasswordUpdatedHistoryCount = JSON.parse(JSON.stringify(xhrAuthenticatorExpiredPassword));
+xhrAuthenticatorExpiredPasswordUpdatedHistoryCount.recoveryAuthenticator.value.settings.age.historyCount = 1;
+
+const updatedHistoryCountMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrAuthenticatorExpiredPasswordUpdatedHistoryCount);
+
 const noComplexityMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorExpiredPasswordNoComplexity)
@@ -64,21 +71,31 @@ async function setup(t) {
   return expiredPasswordPage;
 }
 
-test.meta('v3', false)
-  .requestHooks(logger, mock)('Should have the correct labels', async t => {
-    const expiredPasswordPage = await setup(t);
-    await checkA11y(t);
-    await t.expect(expiredPasswordPage.getFormTitle()).eql('Your password has expired');
-    await t.expect(expiredPasswordPage.changePasswordButtonExists()).eql(true);
-    await t.expect(expiredPasswordPage.getRequirements()).contains('Password requirements:');
-    await t.expect(expiredPasswordPage.getRequirements()).contains('At least 8 characters');
-    await t.expect(expiredPasswordPage.getRequirements()).contains('An uppercase letter');
-    await t.expect(expiredPasswordPage.getRequirements()).contains('A number');
-    await t.expect(expiredPasswordPage.getRequirements()).contains('No parts of your username');
-    await t.expect(expiredPasswordPage.getRequirements()).contains('Your password cannot be any of your last 4 passwords');
-    await t.expect(expiredPasswordPage.getRequirements()).contains('A lowercase letter');
-    await t.expect(expiredPasswordPage.getRequirements()).contains('At least 10 minute(s) must have elapsed since you last changed your password');
-  });
+[
+  [ mock, false],
+  [ updatedHistoryCountMock, true ]
+].forEach(([ localMock, isHistoryCountOne ]) => {
+  test.meta('v3', false)
+    .requestHooks(logger, localMock)('Should have the correct labels', async t => {
+      const expiredPasswordPage = await setup(t);
+      await checkA11y(t);
+      await t.expect(expiredPasswordPage.getFormTitle()).eql('Your password has expired');
+      await t.expect(expiredPasswordPage.changePasswordButtonExists()).eql(true);
+      await t.expect(expiredPasswordPage.getRequirements()).contains('Password requirements:');
+      await t.expect(expiredPasswordPage.getRequirements()).contains('At least 8 characters');
+      await t.expect(expiredPasswordPage.getRequirements()).contains('An uppercase letter');
+      await t.expect(expiredPasswordPage.getRequirements()).contains('A number');
+      await t.expect(expiredPasswordPage.getRequirements()).contains('No parts of your username');
+
+      const historyCountMessage = isHistoryCountOne ? 
+        'Password can\'t be the same as your last password'
+        : 'Password can\'t be the same as your last 4 passwords';
+      await t.expect(expiredPasswordPage.getRequirements()).contains(historyCountMessage);
+
+      await t.expect(expiredPasswordPage.getRequirements()).contains('A lowercase letter');
+      await t.expect(expiredPasswordPage.getRequirements()).contains('At least 10 minute(s) must have elapsed since you last changed your password');
+    });
+});
 
 test
   .requestHooks(logger, noComplexityMock)('Should not show any password requirements', async t => {

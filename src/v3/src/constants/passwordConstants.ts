@@ -22,7 +22,6 @@ export const PASSWORD_REQUIREMENTS_KEYS: Record<'complexity' | 'age', { [key: st
     excludeLastName: 'password.complexity.no_last_name.description',
   },
   age: {
-    historyCount: 'password.complexity.history.description',
     minAgeMinutes: 'password.complexity.minAgeMinutes.description',
     minAgeHours: 'password.complexity.minAgeHours.description',
     minAgeDays: 'password.complexity.minAgeDays.description',

@@ -60,10 +60,15 @@ function setup(settings) {
 
     if (settings.policyAge === 'all') {
       responsePolicy.age = policyAgeDefaults;
-    } else if (settings.policyAge) {
+    } else if (settings.policyAge && typeof settings.policyAge === 'string') {
       const ageKey = settings.policyAge;
 
       responsePolicy.age[ageKey] = policyAgeDefaults[ageKey];
+    } else if (settings.policyAge && typeof settings.policyAge === 'object') {
+      responsePolicy.age = {
+        ...policyAgeDefaults,
+        ...settings.policyAge
+      };
     }
 
     // test when enough minutes for hours
@@ -479,7 +484,18 @@ Expect.describe('PasswordReset', function() {
         expect(test.form.passwordRequirementsHtmlHeader().trimmedText()).toEqual('Password requirements:');
         expect(test.form.passwordRequirementsHtmlListItems().length).toEqual(1);
         expect(test.form.passwordRequirementsHtmlListItems().eq(0).text()).toEqual(
-          'Your password cannot be any of your last 7 passwords'
+          'Password can\'t be the same as your last 7 passwords'
+        );
+      });
+    });
+
+    itp('has a valid subtitle if "historyCount" is equal to 1', function() {
+      const policyAge = { historyCount: 1 };
+      return setup({ policyAge, 'features.showPasswordRequirementsAsHtmlList': true }).then(function(
+        test
+      ) {
+        expect(test.form.passwordRequirementsHtmlListItems().eq(0).text()).toEqual(
+          'Password can\'t be the same as your last password'
         );
       });
     });
@@ -534,7 +550,7 @@ Expect.describe('PasswordReset', function() {
           expect(test.form.passwordRequirementsHtmlListItems().length).toEqual(2);
           expect(test.form.passwordRequirementsHtmlListItems().eq(0).text()).toEqual('No parts of your username');
           expect(test.form.passwordRequirementsHtmlListItems().eq(1).text()).toEqual(
-            'Your password cannot be any of your last 7 passwords'
+            'Password can\'t be the same as your last 7 passwords'
           );
         });
       }
@@ -562,7 +578,7 @@ Expect.describe('PasswordReset', function() {
         expect(test.form.passwordRequirementsHtmlHeader().trimmedText()).toEqual('Password requirements:');
         expect(test.form.passwordRequirementsHtmlListItems().length).toEqual(2);
         expect(test.form.passwordRequirementsHtmlListItems().eq(0).text()).toEqual(
-          'Your password cannot be any of your last 7 passwords'
+          'Password can\'t be the same as your last 7 passwords'
         );
         expect(test.form.passwordRequirementsHtmlListItems().eq(1).text()).toEqual(
           'At least 30 minute(s) must have elapsed since you last changed your password'
@@ -591,7 +607,7 @@ Expect.describe('PasswordReset', function() {
           );
           expect(test.form.passwordRequirementsHtmlListItems().eq(7).text()).toEqual('Does not include your last name');
           expect(test.form.passwordRequirementsHtmlListItems().eq(8).text()).toEqual(
-            'Your password cannot be any of your last 7 passwords'
+            'Password can\'t be the same as your last 7 passwords'
           );
         });
       }
@@ -614,7 +630,7 @@ Expect.describe('PasswordReset', function() {
         expect(test.form.passwordRequirementsHtmlListItems().eq(6).text()).toEqual('Does not include your first name');
         expect(test.form.passwordRequirementsHtmlListItems().eq(7).text()).toEqual('Does not include your last name');
         expect(test.form.passwordRequirementsHtmlListItems().eq(8).text()).toEqual(
-          'Your password cannot be any of your last 7 passwords'
+          'Password can\'t be the same as your last 7 passwords'
         );
         expect(test.form.passwordRequirementsHtmlListItems().eq(9).text()).toEqual(
           'At least 30 minute(s) must have elapsed since you last changed your password'

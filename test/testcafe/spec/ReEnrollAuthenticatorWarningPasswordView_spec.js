@@ -4,7 +4,7 @@ import { oktaDashboardContent } from '../framework/shared';
 import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import { checkConsoleMessages } from '../framework/shared';
-import xhrAuthenticatorExpiryWarningPassword from '../../../playground/mocks/data/idp/idx/authenticator-expiry-warning-password.json';
+import xhrAuthenticatorExpiryWarningPassword from '../../../playground/mocks/data/idp/idx/authenticator-expiry-warning-password';
 import xhrErrorChangePasswordNotAllowed from '../../../playground/mocks/data/idp/idx/error-change-password-not-allowed';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 
@@ -22,6 +22,13 @@ const mockExpireInDays = RequestMock()
   .respond(xhrSuccess)
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
   .respond(oktaDashboardContent);
+
+const xhrAuthenticatorExpiryWarningPasswordUpdatedHistoryCount = JSON.parse(JSON.stringify(xhrAuthenticatorExpiryWarningPassword));
+xhrAuthenticatorExpiryWarningPasswordUpdatedHistoryCount.currentAuthenticator.value.settings.age.historyCount = 1;
+
+const updatedHistoryCountMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrAuthenticatorExpiryWarningPasswordUpdatedHistoryCount);
 
 const xhrAuthenticatorExpiryWarningPasswordExpireToday = JSON.parse(JSON.stringify(xhrAuthenticatorExpiryWarningPassword));
 xhrAuthenticatorExpiryWarningPasswordExpireToday.currentAuthenticator.value.settings.daysToExpiry = 0;
@@ -67,10 +74,11 @@ async function setup(t) {
 }
 
 [
-  [ 'Your password will expire in 4 days', mockExpireInDays],
-  [ 'Your password will expire later today', mockExpireToday ],
-  [ 'Your password is expiring soon', mockExpireSoon ],
-].forEach(([ formTitle, mock ]) => {
+  [ 'Your password will expire in 4 days', mockExpireInDays, false],
+  [ 'Your password will expire in 4 days', updatedHistoryCountMock, true ],
+  [ 'Your password will expire later today', mockExpireToday, false ],
+  [ 'Your password is expiring soon', mockExpireSoon, false ],
+].forEach(([ formTitle, mock, isHistoryCountOne ]) => {
   test
     .requestHooks(logger, mock)('Should have the correct labels - expire in days', async t => {
       const passwordExpiryWarningPage = await setup(t);
@@ -87,7 +95,10 @@ async function setup(t) {
       // to not confuse users. They are considering additional UI changes OKTA-533383 for server side requirements
       // but for now, it does not display in v3
       if (!userVariables.v3) {
-        await t.expect(passwordExpiryWarningPage.getRequirements()).contains('Your password cannot be any of your last 4 passwords');
+        const historyCountMessage = isHistoryCountOne ? 
+          'Password can\'t be the same as your last password'
+          : 'Password can\'t be the same as your last 4 passwords';
+        await t.expect(passwordExpiryWarningPage.getRequirements()).contains(historyCountMessage);
       }
       await t.expect(passwordExpiryWarningPage.remindMeLaterLinkExists()).eql(true);
       await t.expect(passwordExpiryWarningPage.getSignoutLinkText()).eql('Back to sign in');

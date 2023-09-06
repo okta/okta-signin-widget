@@ -196,9 +196,15 @@ const getPasswordComplexityRequirementsAsArray = function(policy, i18nKeys) {
   return [];
 };
 
-const getPasswordHistoryRequirementDescription = function(policy, i18nKeys) {
+const getPasswordHistoryRequirementDescription = function(policy, i18nKeys, isUpdatedPasswordRequirementsText) {
   if (policy.age && policy.age.historyCount > 0) {
-    return loc(i18nKeys.history.i18n, 'login', [policy.age.historyCount]);
+    if (isUpdatedPasswordRequirementsText) {
+      return policy.age.historyCount === 1 ?
+        loc(i18nKeys.history.one.i18n, 'login')
+        : loc(i18nKeys.history.many.i18n, 'login', [policy.age.historyCount]);
+    } else {
+      return loc(i18nKeys.history.i18n, 'login', [policy.age.historyCount]);
+    }
   }
   return null;
 };
@@ -228,7 +234,7 @@ const getPasswordAgeRequirementDescription = function(policy, i18nKeys) {
   return null;
 };
 
-const getPasswordRequirements = function(policy, i18nKeys) {
+const getPasswordRequirements = function(policy, i18nKeys, isUpdatedPasswordRequirementsText) {
   const passwordRequirements = {
     complexity: [],
     history: [],
@@ -237,7 +243,8 @@ const getPasswordRequirements = function(policy, i18nKeys) {
 
   passwordRequirements.complexity = getPasswordComplexityRequirementsAsArray(policy, i18nKeys);
 
-  const historyRequirement = getPasswordHistoryRequirementDescription(policy, i18nKeys);
+  const historyRequirement =
+    getPasswordHistoryRequirementDescription(policy, i18nKeys, isUpdatedPasswordRequirementsText);
 
   if (historyRequirement) {
     passwordRequirements.history.push(historyRequirement);
@@ -391,14 +398,17 @@ fn.getPasswordComplexityDescriptionForHtmlList = function(policy) {
       excludeFirstName: { i18n: 'password.complexity.no_first_name.description' },
       excludeLastName: { i18n: 'password.complexity.no_last_name.description' },
     },
-    history: { i18n: 'password.complexity.history.description' },
+    history: {
+      one: { i18n: 'password.complexity.history.one.description' },
+      many: { i18n: 'password.complexity.history.description' }
+    },
     age: {
       minutes: { i18n: 'password.complexity.minAgeMinutes.description' },
       hours: { i18n: 'password.complexity.minAgeHours.description' },
       days: { i18n: 'password.complexity.minAgeDays.description' },
     },
   };
-  const passwordRequirements = getPasswordRequirements(policy, passwordRequirementHtmlI18nKeys);
+  const passwordRequirements = getPasswordRequirements(policy, passwordRequirementHtmlI18nKeys, true);
 
   return _.union(passwordRequirements.complexity, passwordRequirements.history, passwordRequirements.age);
 };
@@ -423,7 +433,7 @@ fn.getPasswordComplexityDescription = function(policy) {
     },
   };
   const result = [];
-  const passwordRequirements = getPasswordRequirements(policy, passwordRequirementI18nKeys);
+  const passwordRequirements = getPasswordRequirements(policy, passwordRequirementI18nKeys, false);
   let requirements = passwordRequirements.complexity;
 
   // Generate and add complexity string to result
