@@ -67,7 +67,7 @@ const Body = BaseForm.extend(Object.assign(
 
       const nicknameTemplate = nicknameText ? `<span ${ extraNicknameCssClasses ? 'class="' + 
       extraNicknameCssClasses + '"' : ''}>
-      ${nicknameText}.</span>` : '';
+      ${nicknameText}.</span>` : '<span class="no-translate">.</span>';
       const strongClass = this.model.get('phoneNumber') !== loc('oie.phone.alternate.title', 'login') ?
         'strong no-translate' : '';
       // Courage doesn't support HTML, hence creating a subtitle here.
