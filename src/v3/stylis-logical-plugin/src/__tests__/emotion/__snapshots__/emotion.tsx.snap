@@ -1,12 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`with emotion environment generates styles for simple scenario 1`] = `
-.emotion-0 {
+[dir="ltr"] .emotion-0 {
+  color: red;
   padding-right: 10px;
+  padding-bottom: 10px;
 }
 
 [dir="rtl"] .emotion-0 {
+  color: red;
   padding-left: 10px;
+  padding-bottom: 10px;
 }
 
 <body>
@@ -22,14 +26,14 @@ exports[`with emotion environment generates styles for simple scenario 1`] = `
       data-s=""
     >
       
-      .emotion-0{padding-right:10px;}
+      [dir="ltr"] .emotion-0{color:red;padding-right:10px;padding-bottom:10px;}
     </style>
     <style
       data-emotion="test"
       data-s=""
     >
       
-      [dir="rtl"] .emotion-0{padding-left:10px;}
+      [dir="rtl"] .emotion-0{color:red;padding-left:10px;padding-bottom:10px;}
     </style>
   </div>
   <div>

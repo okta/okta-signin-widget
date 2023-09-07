@@ -3,7 +3,6 @@
  */
 
 import React from 'react';
-import { prefixer } from 'stylis';
 import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/react';
 import { createSerializer } from '@emotion/jest';
@@ -23,13 +22,15 @@ describe('with emotion environment', () => {
 
     const cache = createCache({
       key: 'test',
-      stylisPlugins: [prefixer, logicalRtl],
+      stylisPlugins: [logicalRtl],
       // @ts-expect-error
       container: document.querySelector('#container'),
     });
 
     const Button = styled.div(() => ({
+      color: 'red',
       paddingInlineEnd: '10px',
+      paddingBlockEnd: '10px',
     }));
 
     render(

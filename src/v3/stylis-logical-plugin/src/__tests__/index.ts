@@ -15,7 +15,10 @@ describe('compile, transform, and serialize', () => {
 
   it('handles ruleset without logical declaration', () => {
     const css = `
-      .a {
+      [dir="ltr"] .a {
+        color: red;
+      }
+      [dir="rtl"] .a {
         color: red;
       }
     `;
@@ -31,7 +34,7 @@ describe('compile, transform, and serialize', () => {
     `;
 
     expect(processor(css)).toBe(ensmallen(`
-      .a {
+      [dir="ltr"] .a {
         margin-right: 5px;
       }
       [dir="rtl"] .a {
@@ -49,11 +52,12 @@ describe('compile, transform, and serialize', () => {
     `;
 
     expect(processor(css)).toBe(ensmallen(`
-      .a {
+      [dir="ltr"] .a {
         color: red;
         margin-right: 5px;
       }
       [dir="rtl"] .a {
+        color: red;
         margin-left: 5px;
       }
     `));
@@ -67,11 +71,34 @@ describe('compile, transform, and serialize', () => {
     `;
 
     expect(processor(css)).toBe(ensmallen(`
-      .a, .b {
+      [dir="ltr"] .a, [dir="ltr"] .b {
         margin-right: 5px;
       }
       [dir="rtl"] .a, [dir="rtl"] .b {
         margin-left: 5px;
+      }
+    `));
+  });
+
+  it('handles ruleset with mixture of declarations', () => {
+    const css = `
+      .a {
+        color: red;
+        padding-inline-end: 5px;
+        padding-block-end: 5px;
+      }
+    `;
+
+    expect(processor(css)).toBe(ensmallen(`
+      [dir="ltr"] .a {
+        color: red;
+        padding-right: 5px;
+        padding-bottom: 5px;
+      }
+      [dir="rtl"] .a {
+        color: red;
+        padding-left: 5px;
+        padding-bottom: 5px;
       }
     `));
   });
@@ -85,7 +112,11 @@ describe('compile, transform, and serialize', () => {
       `;
 
       expect(processor(css)).toBe(ensmallen(`
-        .a {
+        [dir="ltr"] .a {
+          margin-right: 5px;
+          margin-left: 5px;
+        }
+        [dir="rtl"] .a {
           margin-right: 5px;
           margin-left: 5px;
         }
@@ -100,7 +131,7 @@ describe('compile, transform, and serialize', () => {
       `;
 
       expect(processor(css)).toBe(ensmallen(`
-        .a {
+        [dir="ltr"] .a {
           margin-right: 10px;
           margin-left: 5px;
         }
@@ -120,7 +151,10 @@ describe('compile, transform, and serialize', () => {
       `;
 
       expect(processor(css)).toBe(ensmallen(`
-        .a {
+        [dir="ltr"] .a {
+          height: 5px;
+        }
+        [dir="rtl"] .a {
           height: 5px;
         }
       `));
@@ -135,7 +169,13 @@ describe('compile, transform, and serialize', () => {
       `;
 
       expect(processor(css)).toBe(ensmallen(`
-        .a {
+        [dir="ltr"] .a {
+          margin-top: 5px;
+          top: 5px 10px;
+          margin-bottom: 5px;
+          bottom: 5px 10px;
+        }
+        [dir="rtl"] .a {
           margin-top: 5px;
           top: 5px 10px;
           margin-bottom: 5px;
@@ -153,7 +193,10 @@ describe('compile, transform, and serialize', () => {
       `;
 
       expect(processor(css)).toBe(ensmallen(`
-        .a {
+        [dir="ltr"] .a {
+          clear: both;
+        }
+        [dir="rtl"] .a {
           clear: both;
         }
       `));
@@ -167,7 +210,7 @@ describe('compile, transform, and serialize', () => {
       `;
 
       expect(processor(css)).toBe(ensmallen(`
-        .a {
+        [dir="ltr"] .a {
           clear: left;
         }
         [dir="rtl"] .a {

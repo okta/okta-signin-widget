@@ -18,9 +18,6 @@ export function transformLogicalProperty({
       return;
     }
 
-    // don't need an rtl element
-    deleteRtlSiblingElement(root);
-
     const [firstProperty, ...otherProperties] = properties;
 
     Object.assign(element, {
@@ -80,9 +77,6 @@ export function transformLogicalInlinePropertyWithShorthand({
     const values = getInlineValue(element.children);
 
     if ('baseValue' in values) {
-      // don't need the rtl ruleset
-      deleteRtlSiblingElement(root);
-
       // assign only to the default element
       Object.assign(element, {
         value: `${ltrEndProperty}:${values.baseValue};`,
@@ -160,9 +154,6 @@ export function transformPropertyWithLogicalDirectionalValues({
           props: [property],
         });
       }
-    } else {
-      // don't need the rtl ruleset
-      deleteRtlSiblingElement(root);
     }
   };
 }
@@ -190,23 +181,3 @@ function getInlineValue(value: string): {
     endValue: keys[1],
   };
 }
-
-function deleteRtlSiblingElement(root: RulesetElement) {
-  root.siblings = root.siblings.filter((e => {
-    // find the one with the rtl sentinel value
-    if (e.return === RTL_ATTR_SELECTOR) {
-      // setting props to [] on a ruleset prevents it from being serialized
-      // because the element is still in the top-level array of elements
-      Object.assign(e, {
-        value: '',
-        props: [],
-        return: '',
-      });
-
-      // remove it from the siblings array
-      return false;
-    }
-    // all other siblings can stay
-    return true;
-  }));
-};

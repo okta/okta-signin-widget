@@ -40,30 +40,29 @@ const stylisLogicalPlugin: Middleware = function(
     // from logical to physical, we create a matching RTL element and add it
     // to the list of elements to be processed.
     case ('rule'):
+      const ltrElement = element;
+
       // check if this already has rtl/ltr return sentinel value,
       // if so, skip because we created it earlier
-      if ([LTR_ATTR_SELECTOR, RTL_ATTR_SELECTOR].includes(element.return)) {
+      if ([LTR_ATTR_SELECTOR, RTL_ATTR_SELECTOR].includes(ltrElement.return)) {
         return;
       }
 
       // skip if no logical declarations
-      if (!hasAnyLogicalDeclarations(element)) {
+      if (!hasAnyLogicalDeclarations(ltrElement)) {
         return;
       }
 
       // make a copy of element, mark as [dir="rtl"], push to children
-      const rtlElement = copy(element, {
+      const rtlElement = copy(ltrElement, {
         // need to spread this in because `copy` doesn't deeply copy the array
-        props: [...element.props],
+        props: [...ltrElement.props],
         // set sentinel value on `return` to be used later
         return: RTL_ATTR_SELECTOR,
       });
 
       // also do deep copy of the children so we have new references
-      rtlElement.children = element.children.filter(e => {
-        // do not copy elements that are not going to get a transform applied
-        return e.type === 'decl' && transforms.has(e.props);
-      }).map(e => {
+      rtlElement.children = ltrElement.children.map(e => {
         // point the `root` and `parent` references at the new rtl element
         return copy(e, {
           root: rtlElement,
@@ -71,17 +70,17 @@ const stylisLogicalPlugin: Middleware = function(
         });
       });
 
-      // TODO this isn't right
       // apply [dir="rtl"] to all rules in this ruleset
       rtlElement.props = rtlElement.props.map(prop => `${RTL_ATTR_SELECTOR} ${prop}`);
 
       // add to the list of elements for processing
       append(rtlElement, children);
 
-      // TODO might still need to add dir=ltr!
+      // apply [dir="ltr"] to all rules in this ruleset
+      ltrElement.props = ltrElement.props.map(prop => `${LTR_ATTR_SELECTOR} ${prop}`);
       // e.g. marginInlineEnd 5px the rtl one and ltr ones are mutually exclusive results
       // set sentinel value on `return` to be used later
-      element.return = LTR_ATTR_SELECTOR;
+      ltrElement.return = LTR_ATTR_SELECTOR;
 
       break;
 
@@ -92,9 +91,6 @@ const stylisLogicalPlugin: Middleware = function(
       const property = element.props;
 
       if (transforms.has(property)) {
-        // clear sentinel value out
-        element.return = '';
-
         // transform declaration
         transforms.get(property)?.(element);
       }
