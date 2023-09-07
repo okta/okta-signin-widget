@@ -37,14 +37,18 @@ import {
 import { buildPasswordRequirementListItems } from '../password';
 import { getUIElementWithName } from '../utils';
 
-export const transformEnrollProfile: IdxStepTransformer = ({ transaction, formBag, widgetProps }) => {
+export const transformEnrollProfile: IdxStepTransformer = ({
+  transaction,
+  formBag,
+  widgetProps,
+}) => {
   const {
     availableSteps,
     nextStep: { name: stepName, inputs } = {},
     context,
     neededToProceed,
   } = transaction;
-  const { features: { disableAutocomplete } = {}} = widgetProps;
+  const { features: { disableAutocomplete } = {} } = widgetProps;
   // @ts-ignore OKTA-538692 uiDisplay missing from interface
   const { uiDisplay: { value: { label, buttonLabel } = {} } = {} } = context;
   const currentRemediation = neededToProceed.find((remediation) => remediation.name === stepName);

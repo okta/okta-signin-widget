@@ -37,7 +37,7 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
   formBag,
   widgetProps,
 }) => {
-  const { features: { disableAutocomplete } = {}} = widgetProps;
+  const { features: { disableAutocomplete } = {} } = widgetProps;
   const { nextStep: { relatesTo } = {} } = transaction;
   const passwordSettings = (relatesTo?.value?.settings || {}) as PasswordSettings;
 
