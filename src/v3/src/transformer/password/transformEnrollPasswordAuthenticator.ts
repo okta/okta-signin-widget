@@ -35,7 +35,9 @@ import { buildPasswordRequirementListItems } from './passwordSettingsUtils';
 export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
   transaction,
   formBag,
+  widgetProps,
 }) => {
+  const { features: { disableAutocomplete } = {}} = widgetProps;
   const { nextStep: { relatesTo } = {} } = transaction;
   const passwordSettings = (relatesTo?.value?.settings || {}) as PasswordSettings;
 
@@ -60,7 +62,7 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
       ...passwordElement.options,
       attributes: {
         ...passwordElement.options?.attributes,
-        autocomplete: 'new-password',
+        autocomplete: disableAutocomplete ? 'off' : 'new-password',
       },
     };
   }
@@ -80,7 +82,7 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
         // @ts-ignore TODO: OKTA-539834 - messages missing from type
         messages: { value: undefined },
       },
-      attributes: { autocomplete: 'new-password' },
+      attributes: { autocomplete: disableAutocomplete ? 'off' : 'new-password' },
     },
   };
 

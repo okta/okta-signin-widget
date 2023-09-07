@@ -67,7 +67,7 @@ describe('Enroll Profile Transformer Tests', () => {
       .toBe(ButtonType.SUBMIT);
   });
 
-  it('should add password requirements along with title, and submit button when passcode exists but password settings are empty', () => {
+  it('should not add password requirements but should add title, password, and button elements when passcode exists but password settings are empty', () => {
     formBag.uischema.elements.push({
       type: 'Field',
       label: 'Password',
@@ -103,6 +103,50 @@ describe('Enroll Profile Transformer Tests', () => {
       .toBe('credentials.passcode');
     expect((updatedFormBag.uischema.elements[5] as FieldElement).options?.attributes?.autocomplete)
       .toBe('new-password');
+    expect((updatedFormBag.uischema.elements[6] as ButtonElement).label)
+      .toBe('oie.registration.form.submit');
+    expect((updatedFormBag.uischema.elements[6] as ButtonElement).type).toBe('Button');
+    expect((updatedFormBag.uischema.elements[6] as ButtonElement).options?.type)
+      .toBe(ButtonType.SUBMIT);
+  });
+
+  it('should password element with autocomplete attribute set to "off" when disableAutocomplete config option is true', () => {
+    widgetProps = { features: { disableAutocomplete: true } };
+    formBag.uischema.elements.push({
+      type: 'Field',
+      label: 'Password',
+      options: {
+        inputMeta: { name: 'credentials.passcode', secret: true },
+      },
+    } as FieldElement);
+    const mockUserInfo = {
+      identifier: 'testuser@okta.com',
+      profile: { firstName: 'test', lastName: 'user' },
+    };
+    transaction.context.user = {
+      type: 'object',
+      value: mockUserInfo,
+    };
+
+    const updatedFormBag = transformEnrollProfile({ transaction, formBag, widgetProps });
+
+    expect(updatedFormBag).toMatchSnapshot();
+    expect(updatedFormBag.uischema.elements.length).toBe(7);
+    expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
+      .toBe('oie.registration.form.title');
+    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
+      .toBe('oie.form.field.optional.description');
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).options?.inputMeta.name)
+      .toBe('userProfile.firstName');
+    expect((updatedFormBag.uischema.elements[3] as FieldElement).options?.inputMeta.name)
+      .toBe('userProfile.lastName');
+    expect((updatedFormBag.uischema.elements[4] as FieldElement).options?.inputMeta.name)
+      .toBe('userProfile.email');
+    expect((updatedFormBag.uischema.elements[5] as FieldElement).options?.inputMeta.name)
+      .toBe('credentials.passcode');
+    expect((updatedFormBag.uischema.elements[5] as FieldElement).options?.attributes?.autocomplete)
+      .toBe('off');
     expect((updatedFormBag.uischema.elements[6] as ButtonElement).label)
       .toBe('oie.registration.form.submit');
     expect((updatedFormBag.uischema.elements[6] as ButtonElement).type).toBe('Button');
