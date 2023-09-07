@@ -73,6 +73,8 @@ import Form from '../Form';
 import IdentifierContainer from '../IdentifierContainer';
 import Spinner from '../Spinner';
 
+/* global __PREFRESH__ */
+
 export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   if (!isAuthClientSet(widgetProps)) {
     throw new Error('authClient is required');
