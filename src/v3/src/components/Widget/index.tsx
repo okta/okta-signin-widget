@@ -327,7 +327,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
 
   // bootstrap / resume the widget
   useEffect(() => {
-    /** 
+    /**
      * Only for HMR at development:
      *  If some file change triggers hot update of current file, all `useEffect` hooks will be triggered.
      *  `useCallback` hooks will be re-executed, so values of `bootstrap` and `resume` will be updated.
@@ -336,11 +336,11 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
      */
     if (typeof __PREFRESH__ !== 'undefined') {
       const deps: Record<string, unknown> = {
-        authClient, stateHandle, setIdxTransaction, setResponseError
+        authClient, stateHandle, setIdxTransaction, setResponseError,
       };
-      const prevDeps = __PREFRESH__._widgetBootstrapDeps as typeof deps;
-      const depsChanged = !prevDeps || Object.keys(prevDeps).some(k => deps[k] !== prevDeps[k]);
-      __PREFRESH__._widgetBootstrapDeps = deps;
+      const prevDeps = __PREFRESH__.widgetBootstrapDeps as typeof deps;
+      const depsChanged = !prevDeps || Object.keys(prevDeps).some((k) => deps[k] !== prevDeps[k]);
+      __PREFRESH__.widgetBootstrapDeps = deps;
       if (!depsChanged) {
         // eslint-disable-next-line no-console
         console.info('[HMR] Skip Widget bootstrap');
@@ -353,7 +353,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     } else {
       bootstrap();
     }
-  }, [authClient, setIdxTransaction, bootstrap, resume]);
+  }, [authClient, setIdxTransaction, bootstrap, resume, stateHandle]);
 
   // Update idxTransaction when new status comes back from polling
   useEffect(() => {

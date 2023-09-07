@@ -59,9 +59,9 @@ const devConfig: Configuration = mergeWithRules({
     rules: {
       test: 'match',
       include: 'match',
-      options: 'merge'
-    }
-  }
+      options: 'merge',
+    },
+  },
 })(
   baseConfig,
   {
@@ -108,11 +108,11 @@ const devConfig: Configuration = mergeWithRules({
           loader: 'babel-loader',
           options: {
             plugins: [
-              '@prefresh/babel-plugin'
-            ]
-          }
+              '@prefresh/babel-plugin',
+            ],
+          },
         },
-      ]
+      ],
     },
     plugins: [
       new MiniCssExtractPlugin({
