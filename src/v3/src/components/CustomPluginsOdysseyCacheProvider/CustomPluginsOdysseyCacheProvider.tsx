@@ -23,12 +23,12 @@ import { memo, useMemo, ReactElement } from 'preact/compat';
 
 import logical from '../../../stylis-logical-plugin/src';
 
-export const createUniqueAlphabeticalId = () =>
+const createUniqueAlphabeticalId = () =>
   Math.random()
     .toString(36)
     .replace(/[\d\.]/g, "");
 
-export const useUniqueAlphabeticalId = (id?: string) => {
+const useUniqueAlphabeticalId = (id?: string) => {
   const uniqueAlphabeticalId = useMemo(() => createUniqueAlphabeticalId(), []);
 
   return id ?? uniqueAlphabeticalId;
