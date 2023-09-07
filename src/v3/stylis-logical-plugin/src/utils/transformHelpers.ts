@@ -1,6 +1,6 @@
 import { append, copy } from 'stylis';
 
-import type { DeclarationElement, RulesetElement } from 'stylis';
+import type { DeclarationElement } from 'stylis';
 
 import { LTR_ATTR_SELECTOR, RTL_ATTR_SELECTOR } from '../plugin';
 

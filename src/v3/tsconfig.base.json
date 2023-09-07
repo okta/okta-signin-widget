@@ -57,6 +57,7 @@
   },
   "extends": "../../tsconfig.json",
   "files": [
-    "global.d.ts"
+    "global.d.ts",
+    "stylis-logical-plugin/index.d.ts"
   ]
 }

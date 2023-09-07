@@ -17,7 +17,7 @@ declare global {
 }
 
 import { prefixer } from 'stylis';
-import createCache from '@emotion/cache';
+import createCache, { StylisPlugin } from '@emotion/cache';
 import { CacheProvider } from '@emotion/react';
 import { memo, useMemo, ReactElement } from 'preact/compat';
 
@@ -48,7 +48,7 @@ const OdysseyCacheProvider = ({
       createCache({
         key: uniqueAlphabeticalId,
         nonce: nonce || window.cspNonce,
-        stylisPlugins: [prefixer, logical],
+        stylisPlugins: [prefixer as unknown as StylisPlugin, logical as unknown as StylisPlugin],
       }),
     [nonce, uniqueAlphabeticalId]
   );
