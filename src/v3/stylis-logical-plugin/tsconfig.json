@@ -1,6 +1,6 @@
 {
   "include": ["src/**/*.ts"],
-  "files": ["index.d.ts"],
+  "files": ["stylis.d.ts"],
   "exclude": ["src/__tests__"],
   "extends": "../tsconfig.base.json"
 }
