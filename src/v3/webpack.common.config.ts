@@ -27,6 +27,31 @@ const getShortGitHash = () => {
   return hash.slice(0, 7);
 };
 
+const babelOptions = {
+  sourceType: 'unambiguous',
+  presets: [
+    [
+      '@babel/preset-env',
+      {
+        // TODO: resolve issue with authjs esm bundle, then switch to "usage" to reduce polyfill size
+        useBuiltIns: 'entry',
+        corejs: '3.9',
+      },
+    ],
+    '@babel/preset-react',
+    '@babel/preset-typescript',
+  ],
+  plugins: [
+    [
+      '@babel/plugin-transform-react-jsx',
+      {
+        runtime: 'automatic',
+        importSource: 'preact',
+      },
+    ],
+  ],
+};
+
 const baseConfig: Partial<Configuration> = {
   mode: 'production',
   devtool: 'source-map',
@@ -48,6 +73,8 @@ const baseConfig: Partial<Configuration> = {
             '/node_modules/p-cancelable',
           ].some(filePathContains);
           const shallBeExcluded = [
+            // /src/ will be handled in next rule
+            resolve(__dirname, '..'),
             '/node_modules/',
             'packages/@okta/qtip2',
           ].some(filePathContains);
@@ -55,30 +82,15 @@ const baseConfig: Partial<Configuration> = {
           return shallBeExcluded && !npmRequiresTransform;
         },
         loader: 'babel-loader',
-        options: {
-          sourceType: 'unambiguous',
-          presets: [
-            [
-              '@babel/preset-env',
-              {
-                // TODO: resolve issue with authjs esm bundle, then switch to "usage" to reduce polyfill size
-                useBuiltIns: 'entry',
-                corejs: '3.9',
-              },
-            ],
-            '@babel/preset-react',
-            '@babel/preset-typescript',
-          ],
-          plugins: [
-            [
-              '@babel/plugin-transform-react-jsx',
-              {
-                runtime: 'automatic',
-                importSource: 'preact',
-              },
-            ],
-          ],
-        },
+        options: babelOptions,
+      },
+      {
+        test: /\.[jt]sx?$/,
+        include: [
+          resolve(__dirname, '..'), // /src/
+        ],
+        loader: 'babel-loader',
+        options: babelOptions,
       },
       {
         test: /\.css$/,
