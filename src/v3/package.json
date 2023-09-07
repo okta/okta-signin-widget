@@ -68,6 +68,7 @@
     "@okta/odyssey-babel-preset": "^0.17.1",
     "@okta/odyssey-postcss-preset": "^0.15.3",
     "@prefresh/webpack": "^4.0.0",
+    "@prefresh/babel-plugin": "^0.5.0",
     "@testcafe-community/axe": "^3.5.0",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/preact": "^2.0.1",

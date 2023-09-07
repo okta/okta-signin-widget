@@ -302,4 +302,5 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
   );
 };
 
-export default withFormValidationState(PhoneAuthenticator);
+const WrappedPhoneAuthenticator = withFormValidationState(PhoneAuthenticator);
+export default WrappedPhoneAuthenticator;

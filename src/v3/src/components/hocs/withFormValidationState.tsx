@@ -82,6 +82,6 @@ export const withFormValidationState: WrappedFunctionComponent<
     // eslint-disable-next-line react/jsx-props-no-spreading
     return <Component {...combinedProps} />;
   };
-  ParentComponent.displayName = `WithFormValidationState(${getDisplayName(ParentComponent)})`;
+  ParentComponent.displayName = `WithFormValidationState(${getDisplayName(Component)})`;
   return ParentComponent;
 };
