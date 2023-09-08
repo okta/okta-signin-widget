@@ -22,6 +22,9 @@ function hasAnyLogicalDeclarations(element: RulesetElement) {
  * This stylis plugin transforms CSS logical properties to their equivalent physical ones. In some
  * cases, this means generating a second set of rules for the RTL (right-to-left) attribute selector.
  * 
+ * Note that this plugin does not account for CSS properties `writing-mode`, `direction`, and
+ * `text-orientation` as these are not within the scope of our use-cases currently.
+ *
  * @param element
  * @param index
  * @param children

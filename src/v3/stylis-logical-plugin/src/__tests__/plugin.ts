@@ -1,7 +1,6 @@
 import { setupSerializer } from '../testUtils';
 import { ensmallen } from '../utils';
 
-// TODO handle writing-mode, direction, text-orientation
 describe('compile, transform, and serialize', () => {
   const processor = setupSerializer();
 
