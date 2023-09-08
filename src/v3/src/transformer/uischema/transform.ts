@@ -18,12 +18,12 @@ import {
 import { addIdToElements } from './addIdToElements';
 import { applyAsteriskToFieldElements } from './applyAsteriskToFieldElements';
 import { createTextElementKeys } from './createTextElementKeys';
+import { overwriteAutocomplete } from './overwriteAutocomplete';
 import { setFocusOnFirstElement } from './setFocusOnFirstElement';
 import { setLtrFields } from './setLtrFields';
 import { updateCustomFields } from './updateCustomFields';
 import { updateElementKeys } from './updateElementKeys';
 import { updatePasswordDescribedByValue } from './updatePasswordDescribedByValue';
-import { overwriteAutocomplete } from './overwriteAutocomplete';
 
 export const transformUISchema: TransformStepFnWithOptions = (
   options,
