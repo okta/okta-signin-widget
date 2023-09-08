@@ -119,6 +119,7 @@ export const setWidgetForSentry = async (widget: OktaSignIn) => {
     beforeAddRecordingEvent,
     filterNetwork,
     stickySession: false,
+    useCompression: false,
   });
   const client = Sentry.getCurrentHub().getClient();
   if (client)

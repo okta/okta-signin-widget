@@ -70,6 +70,7 @@ Run:
 ```sh
 OKTA_SIW_HOST=0.0.0.0 DISABLE_CSP=1 TARGET=CROSS_BROWSER yarn workspace v3 dev
 ```
+Tip: `OKTA_SIW_HOST=0.0.0.0` is needed only for `ngrok`/`localtunnel` proxy for running on IE 11.
 
 ## Run playground Gen3 release
 In `playground/index.html`:
@@ -138,14 +139,22 @@ On next widget load, user will be asked to send captured events with error to Se
   - v3: see `src/v3/src/components/Widget` - `handleError` method is called from catch block and suppress error. Added `globalErrorFn` call
 
 # CSP
-Sentry uses fork of `rrweb` for Session Replay.  
+*Issue #1*: 
+Sentry uses fork of `rrweb` for Session Replay which has CSP issue (works only with `style-src 'unsafe-inline'`).  
 Fork: https://github.com/getsentry/rrweb/  
 NPM: https://www.npmjs.com/package/@sentry-internal/rrweb  (currently latest is 1.108.0)  
 CSP issue: https://github.com/rrweb-io/rrweb/issues/816  
 PR to fix it in original repo: https://github.com/rrweb-io/rrweb/pull/846  
 Already merged in fork.  
 But waiting for release (next after 1.108.0).  
-Until update, `DISABLE_CSP=1` should be used.
+Until update, `DISABLE_CSP=1` should be used or `style-src 'unsafe-inline'`.  
+
+*Issue #2*: 
+By default Sentry Session Replay [uses](https://github.com/getsentry/sentry-javascript/blob/develop/packages/replay/src/eventBuffer/index.ts#L17) [compression worker](https://github.com/getsentry/sentry-javascript/tree/develop/packages/replay-worker) to compress events with zlib with `pako` package.  
+Worker source is inline which requires using CSP `worker-src 'self' blob:; child-src 'self' blob:`  
+This can be considered as [unsecure](https://github.com/w3c/webappsec-csp/commit/0f497cbe6f28dc9698fa4dc04a91b407278f8735).  
+Solution: disable compression with `useCompression: false`
+
 
 # Safe fields
 https://{SENTRY_ORG}.sentry.io/settings/projects/{SENTRY_PROJECT}/security-and-privacy/
