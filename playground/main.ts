@@ -11,6 +11,7 @@ import {
   RenderResultSuccessNonOIDCSession,
 } from '../src/types';
 import { assertNoEnglishLeaks } from '../playground/LocaleUtils';
+import type { OktaPluginSentry } from '../src/plugins/OktaPluginSentry';
 
 declare global {
   const OMIT_MSWJS: boolean;
@@ -23,6 +24,9 @@ declare global {
     
     // from <script src="/js/okta-plugin-a11y.js">
     OktaPluginA11y: { init: (widget: OktaSignInAPI) => void };
+    
+    // from <script src="/js/okta-plugin-sentry.js">
+    OktaPluginSentry: OktaPluginSentry;
 
     // added in this file
     getWidgetInstance: () => OktaSignInAPI;
@@ -63,6 +67,12 @@ const renderPlaygroundWidget = (options = {}) => {
 
   if (window.OktaPluginA11y) {
     window.OktaPluginA11y.init(signIn);
+  }
+
+  if (window.OktaPluginSentry) {
+    window.OktaPluginSentry.initSentry(signIn, {
+      sendReportOnStart: true
+    });
   }
 
   signIn.renderEl(
@@ -106,6 +116,10 @@ const renderPlaygroundWidget = (options = {}) => {
 
     function error(err) {
       console.error('global error handler: ', err);
+
+      if (window.OktaPluginSentry) {
+        window.OktaPluginSentry.captureWidgetError(err);
+      }
     }
   ).catch(() => { /* we are using global error handler */});
 
@@ -151,6 +165,11 @@ const renderPlaygroundWidget = (options = {}) => {
     console.log('===== playground widget afterError event received =====');
     console.log(JSON.stringify(context));
     console.log(JSON.stringify(error));
+    
+    //todo: move to OktaPluginSentry after OKTA-594740
+    if (window.OktaPluginSentry && error.error) {
+      window.OktaPluginSentry.captureWidgetError(error.error);
+    }
   });
 
 };

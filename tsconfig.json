@@ -43,7 +43,8 @@
     "src/types/*",
     "src/exports/*",
     "src/authClient/*",
-    "src/router/*"
+    "src/router/*",
+    "src/plugins/*"
   ],
   "exclude": [
     "./types/generated/*"

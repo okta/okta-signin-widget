@@ -36,7 +36,7 @@ const baseConfig: Partial<Configuration> = {
   module: {
     rules: [
       {
-        test: /\.[jt]sx?$/,
+        test: /\.m?[jt]sx?$/,
         exclude(filePath) {
           const filePathContains = (f) => filePath.indexOf(f) >= 0;
           const npmRequiresTransform = [
@@ -46,6 +46,17 @@ const baseConfig: Partial<Configuration> = {
             '/node_modules/@mui',
             '/node_modules/@okta/okta-auth-js',
             '/node_modules/p-cancelable',
+            '/node_modules/@sentry',
+            '/node_modules/@sentry-internal',
+            '/node_modules/proxy-polyfill',
+            //msw
+            '/node_modules/msw',
+            '/node_modules/@mswjs',
+            '/node_modules/@open-draft',
+            '/node_modules/headers-polyfill',
+            '/node_modules/outvariant',
+            '/node_modules/strict-event-emitter',
+            '/node_modules/graphql',
           ].some(filePathContains);
           const shallBeExcluded = [
             '/node_modules/',

@@ -46,7 +46,10 @@ export interface EventErrorContext {
   statusCode?: number;
 
   // OIE
-  errorSummary?: string
+  errorSummary?: string;
+
+  // original error
+  error?: Error;
 }
 
 // TODO: Once SIW is merged into okta-signin-widget repo, remove this. Ticket#: OKTA-508189

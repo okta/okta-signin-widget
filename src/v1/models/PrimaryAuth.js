@@ -17,6 +17,7 @@ import BaseLoginModel from './BaseLoginModel';
 
 export default BaseLoginModel.extend({
   props: function() {
+    //throw new Error('(for sentry) test error in model props');
     const cookieUsername = CookieUtil.getCookieUsername();
     const properties = this.getUsernameAndRemember(cookieUsername);
     const props = {
@@ -179,6 +180,7 @@ export default BaseLoginModel.extend({
       authClient.http.setRequestHeader('X-Typing-Pattern', this.appState.get('typingPattern'));
     }
 
+    //throw new Error('(for sentry) test error in model save');
     const self = this;
 
     return func(signInArgs).finally(function() {

@@ -17,6 +17,7 @@ export interface Config {
   bundle?: string;
   useMinBundle?: boolean;
   usePolyfill?: boolean;
+  useSentry?: boolean;
   useBundledWidget?: boolean;
   widgetOptions?: WidgetOptions
 }

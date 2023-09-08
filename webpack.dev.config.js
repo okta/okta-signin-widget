@@ -28,6 +28,10 @@ var DEFAULT_ENTRIES = {
     entry: './polyfill/index.js',
     outputLibrary: null
   },
+  'sentry': {
+    entry: './src/plugins/OktaPluginSentry.ts',
+    outputLibrary: 'OktaPluginSentry'
+  },
   'css': {
     entry: `${ASSETS_DIR}/sass/okta-sign-in.scss`,
     copyAssets: true,

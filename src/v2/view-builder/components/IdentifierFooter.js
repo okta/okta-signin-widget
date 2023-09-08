@@ -19,7 +19,7 @@ export default BaseFooter.extend({
       SignUpLinkWithText = View.extend({
         className: 'signup-info',
         template: hbs`
-          <span>{{i18n code="registration.signup.label" bundle="login"}}</span><span class="signup-link"></span>
+          <span>{{i18n code="registration.signup.label000" bundle="login"}}</span><span class="signup-link"></span>
           `,
         initialize() {
           this.add(Link, '.signup-link', {

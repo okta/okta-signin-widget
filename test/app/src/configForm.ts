@@ -38,6 +38,11 @@ export const ConfigForm = `
       <input id="f_usePolyfill-off" name="usePolyfill" type="radio" value="false"/>NO
     </div>
     <div class="pure-control-group">
+      <label for="useSentry">Use Sentry</label>
+      <input id="f_useSentry-on" name="useSentry" type="radio" value="true"/>YES
+      <input id="f_useSentry-off" name="useSentry" type="radio" value="false"/>NO
+    </div>
+    <div class="pure-control-group">
       <label for="issuer">Issuer</label><input id="f_issuer" name="issuer" type="text" />
     </div>
     <div class="pure-control-group">
@@ -69,6 +74,7 @@ export function getConfigFromForm(): Config {
   const bundle = (document.querySelector('#f_bundle') as HTMLSelectElement).value;
   const useMinBundle = (document.getElementById('f_useMinBundle-on') as HTMLInputElement).checked;
   const usePolyfill = (document.getElementById('f_usePolyfill-on') as HTMLInputElement).checked;
+  const useSentry = (document.getElementById('f_useSentry-on') as HTMLInputElement).checked;
 
   // Widget options
   const issuer = (document.getElementById('f_issuer') as HTMLInputElement).value;
@@ -89,6 +95,7 @@ export function getConfigFromForm(): Config {
     bundle,
     useMinBundle,
     usePolyfill,
+    useSentry,
     widgetOptions
   };
 
@@ -97,7 +104,7 @@ export function getConfigFromForm(): Config {
 
 export function updateFormFromConfig(config: Config): void {
   const { bundle, useBundledWidget, widgetOptions = {} } = config;
-  const { useMinBundle, usePolyfill } = config;
+  const { useMinBundle, usePolyfill, useSentry } = config;
 
   // Widget options
   const baseUrl = getBaseUrl(widgetOptions);
@@ -115,6 +122,11 @@ export function updateFormFromConfig(config: Config): void {
     (document.getElementById('f_usePolyfill-on') as HTMLInputElement).checked = true;
   } else {
     (document.getElementById('f_usePolyfill-off') as HTMLInputElement).checked = true;
+  }
+  if (useSentry) {
+    (document.getElementById('f_useSentry-on') as HTMLInputElement).checked = true;
+  } else {
+    (document.getElementById('f_useSentry-off') as HTMLInputElement).checked = true;
   }
   if (useBundledWidget) {
     (document.querySelector(`#f_bundle`) as HTMLOptionElement).disabled = true;

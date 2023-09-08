@@ -195,16 +195,19 @@ export default Router.extend({
 
     const oldController = this.controller;
 
-    this.controller = new Controller(controllerOptions);
+    const createControllerAndFetchInitialData = async () => {
+      this.controller = new Controller(controllerOptions);
 
-    // Bubble up all controller events
-    this.listenTo(this.controller, 'all', this.trigger);
+      // Bubble up all controller events
+      this.listenTo(this.controller, 'all', this.trigger);
+
+      return this.controller.fetchInitialData();
+    };
 
     // First run fetchInitialData, in case the next controller needs data
     // before it's initial render. This will leave the current page in a
     // loading state.
-    return this.controller
-      .fetchInitialData()
+    return createControllerAndFetchInitialData()
       .then(() => {
         // Beacon transition occurs in parallel to page swap
         if (!beaconIsAvailable(Beacon, this.settings)) {
@@ -214,6 +217,8 @@ export default Router.extend({
 
         // Show before initial render
         this.show();
+
+        //throw new Error('(for sentry) test error in router render');
 
         this.controller.render();
 
@@ -256,7 +261,7 @@ export default Router.extend({
           },
         });
       })
-      .catch(function() {
+      .catch((e) => {
         // OKTA-69665 - if an error occurs in fetchInitialData, we're left in
         // a state with two active controllers. Therefore, we clean up the
         // old one. Note: This explicitly handles the invalid token case -
@@ -267,6 +272,9 @@ export default Router.extend({
           oldController.remove();
           oldController.$el.remove();
         }
+
+        // to catch errors like https://github.com/okta/okta-signin-widget/pull/3276
+        this.settings.callGlobalError(e);
       });
   },
 

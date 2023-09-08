@@ -1,8 +1,10 @@
-const { DefinePlugin, IgnorePlugin } = require('webpack');
+const { DefinePlugin, IgnorePlugin, ProvidePlugin } = require('webpack');
 const fs = require('fs-extra');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const EventHooksPlugin = require('event-hooks-webpack-plugin');
+const { sentryWebpackPlugin } = require("@sentry/webpack-plugin");
+require('@okta/env').config();
 
 const FailOnBuildFailPlugin = require('./FailOnBuildFailPlugin');
 
@@ -26,13 +28,15 @@ function emptyModule() {
 
 function prodMode() {
   return new DefinePlugin({
-    DEBUG: false
+    DEBUG: false,
+    SENTRY_DSN: JSON.stringify(process.env.SENTRY_DSN),
   });
 }
 
 function devMode() {
   return new DefinePlugin({
-    DEBUG: true
+    DEBUG: true,
+    SENTRY_DSN: JSON.stringify(process.env.SENTRY_DSN),
   });
 }
 
@@ -54,7 +58,7 @@ function plugins(options = {}) {
       emptyModule(),
       devMode(),
     ];
-  
+
   if (copyAssets) {
     list.push(new EventHooksPlugin({
       beforeRun: () => {
@@ -72,6 +76,14 @@ function plugins(options = {}) {
 
   if (!skipAnalyzer) {
     list.push(webpackBundleAnalyzer(options.analyzerFile));
+  }
+
+  if (process.env.SENTRY_AUTH_TOKEN) {
+    list.push(sentryWebpackPlugin({
+      org: process.env.SENTRY_ORG,
+      project: process.env.SENTRY_PROJECT,
+      authToken: process.env.SENTRY_AUTH_TOKEN,
+    }));
   }
 
   return list;
