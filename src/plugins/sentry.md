@@ -140,6 +140,7 @@ On next widget load, user will be asked to send captured events with error to Se
 # CSP
 Sentry uses fork of `rrweb` for Session Replay.  
 Fork: https://github.com/getsentry/rrweb/  
+NPM: https://www.npmjs.com/package/@sentry-internal/rrweb  (currently latest is 1.108.0)  
 CSP issue: https://github.com/rrweb-io/rrweb/issues/816  
 PR to fix it in original repo: https://github.com/rrweb-io/rrweb/pull/846  
 Already merged in fork.  
