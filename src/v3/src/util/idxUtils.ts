@@ -358,17 +358,17 @@ export const isVerifyFlow = (transaction: IdxTransaction): boolean => {
 // @ts-expect-error OKTA-627610 captcha missing from context type
 export const isCaptchaEnabled = (transaction: IdxTransaction): boolean => typeof transaction.context?.captcha !== 'undefined';
 
-export const isConsentStep = (transaction: IdxTransaction | undefined): boolean => (
+export const isConsentStep = (transaction?: IdxTransaction): boolean => (
   transaction?.nextStep?.name
     ? CONSENT_HEADER_STEPS.includes(transaction.nextStep.name)
     : false
 );
 
-export const getApplicationName = (transaction: IdxTransaction | undefined): string | null => {
+export const getApplicationName = (transaction?: IdxTransaction): string | null => {
   if (typeof transaction === 'undefined') {
     return null;
   }
 
   const { label } = getAppInfo(transaction);
-  return escape(label);
+  return label ?? null;
 };

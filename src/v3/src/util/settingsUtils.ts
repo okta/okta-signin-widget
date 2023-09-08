@@ -278,6 +278,9 @@ export const getPageTitle = (
     case 'function':
       return setPageTitle(eventContext, { formTitle, brandName });
     default:
+      console.error(
+        'Invalid value passed to setPageTitle, valid types include boolean, string or function.'
+      );
       // Indicates an invalid/unexpected value was passed into the config option
       return null;
   }

@@ -56,6 +56,7 @@ import {
   areTransactionsEqual,
   buildAuthCoinProps,
   canBootstrapWidget,
+  escape,
   extractPageTitle,
   getLanguageCode,
   getLanguageDirection,
@@ -406,7 +407,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   }, [eventEmitter, toggleVisibility]);
 
   const getDocumentTitle = useCallback(() => (
-    extractPageTitle(formBag.uischema, widgetProps, idxTransaction)
+    escape(extractPageTitle(formBag.uischema, widgetProps, idxTransaction))
   ), [idxTransaction, widgetProps, formBag.uischema]);
 
   useEffect(() => {

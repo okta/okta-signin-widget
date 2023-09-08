@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-export const escape = (str?: string): string | null => {
-  if (typeof str === 'undefined') {
+export const escape = (str?: string | null): string | null => {
+  if (typeof str === 'undefined' || str === null) {
     return null;
   }
 

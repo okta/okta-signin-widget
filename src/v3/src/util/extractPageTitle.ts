@@ -47,7 +47,7 @@ export const extractPageTitle = (
   widgetProps: WidgetProps,
   idxTransaction?: IdxTransaction,
 ): string | null => {
-  // Consent remediations should set title to the Applciation name
+  // Consent remediations should set title to the Application name
   if (isConsentStep(idxTransaction)) {
     return getApplicationName(idxTransaction);
   }
