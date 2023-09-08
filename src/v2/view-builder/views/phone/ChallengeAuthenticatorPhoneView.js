@@ -62,7 +62,7 @@ const Body = BaseForm.extend(Object.assign(
       let extraNicknameCssClasses = '';
       if (nicknameText !== '') {
         nicknameText = ' (' + nicknameText + ')';
-        extraNicknameCssClasses = 'strong no-translate authenticator-enrollment-nickname';
+        extraNicknameCssClasses = 'no-translate authenticator-verify-nickname';
       }
 
       const nicknameTemplate = nicknameText ? `<span ${ extraNicknameCssClasses ? 'class="' + 
