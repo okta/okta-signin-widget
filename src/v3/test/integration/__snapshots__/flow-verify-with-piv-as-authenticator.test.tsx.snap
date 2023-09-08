@@ -120,7 +120,7 @@ exports[`flow-verify-with-piv-as-authenticator should render select authenticato
                   class="MuiBox-root emotion-14"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 okta-form-title o-form-head emotion-15"
+                    class="MuiTypography-root MuiTypography-h4 emotion-15"
                     data-se="o-form-head"
                     id="piv-idp_Title_PIV_/_CAC_card_smart_card_idp_aut7rcjloeQUmFInC1d7_1"
                     tabindex="-1"

@@ -136,7 +136,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
                   class="MuiBox-root emotion-14"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 okta-form-title o-form-head emotion-15"
+                    class="MuiTypography-root MuiTypography-h4 emotion-15"
                     data-se="o-form-head"
                     id="enroll-authenticator_Title_Set_up_Google_Authenticator_google_otp_aut2m5drzzUlo4Bn81d7_1"
                     tabindex="-1"
@@ -381,7 +381,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                   class="MuiBox-root emotion-14"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 okta-form-title o-form-head emotion-15"
+                    class="MuiTypography-root MuiTypography-h4 emotion-15"
                     data-se="o-form-head"
                     id="enroll-authenticator_Title_Set_up_Google_Authenticator_google_otp_aut2m5drzzUlo4Bn81d7_1"
                     tabindex="-1"
@@ -620,7 +620,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                   class="MuiBox-root emotion-14"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 okta-form-title o-form-head emotion-15"
+                    class="MuiTypography-root MuiTypography-h4 emotion-15"
                     data-se="o-form-head"
                     id="enroll-authenticator_Title_Set_up_Google_Authenticator_google_otp_aut2m5drzzUlo4Bn81d7_1"
                     tabindex="-1"
@@ -856,7 +856,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                   class="MuiBox-root emotion-14"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 okta-form-title o-form-head emotion-15"
+                    class="MuiTypography-root MuiTypography-h4 emotion-15"
                     data-se="o-form-head"
                     id="enroll-authenticator_Title_Set_up_Google_Authenticator_google_otp_aut2m5drzzUlo4Bn81d7_1"
                     tabindex="-1"

@@ -16,6 +16,7 @@ import { useEffect, useRef } from 'preact/hooks';
 
 import { useWidgetContext } from '../../contexts';
 import { TitleElement, UISchemaElementComponent } from '../../types';
+import { useDocumentTitle } from 'src/hooks';
 
 const Title: UISchemaElementComponent<{
   uischema: TitleElement
@@ -25,6 +26,8 @@ const Title: UISchemaElementComponent<{
   const titleRef = useRef<HTMLTitleElement>(null);
   const { widgetProps } = useWidgetContext();
   const { features: { autoFocus = false } = {} } = widgetProps;
+  // Dynamically update page title
+  useDocumentTitle(options.content);
 
   useEffect(() => {
     if (!autoFocus) {
@@ -40,15 +43,16 @@ const Title: UISchemaElementComponent<{
     >
       <Typography
         id={id}
-        className="okta-form-title o-form-head"
         component="h2"
         variant="h4"
         data-se="o-form-head"
         ref={titleRef}
         tabIndex={-1}
-        sx={{ outline: 'none' }}
+        sx={{
+          outline: 'none'
+        }}
       >
-        {options?.content}
+        {options.content}
       </Typography>
     </Box>
   );

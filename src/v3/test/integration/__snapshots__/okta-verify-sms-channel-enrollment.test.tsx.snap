@@ -112,7 +112,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                   class="MuiBox-root emotion-14"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 okta-form-title o-form-head emotion-15"
+                    class="MuiTypography-root MuiTypography-h4 emotion-15"
                     data-se="o-form-head"
                     id="enrollment-channel-data_Title_Set_up_Okta_Verify_via_SMS_okta_verify_aut2h3fft4y9pDPCS1d7_1"
                     tabindex="-1"
@@ -1599,7 +1599,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form witho
                   class="MuiBox-root emotion-14"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h4 okta-form-title o-form-head emotion-15"
+                    class="MuiTypography-root MuiTypography-h4 emotion-15"
                     data-se="o-form-head"
                     id="enrollment-channel-data_Title_Set_up_Okta_Verify_via_SMS_okta_verify_aut2h3fft4y9pDPCS1d7_1"
                     tabindex="-1"

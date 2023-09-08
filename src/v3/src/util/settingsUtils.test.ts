@@ -10,12 +10,14 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { IdxTransaction } from '@okta/okta-auth-js';
 import { WidgetProps } from '../types';
 import {
   getBackToSignInUri, getCustomHelpLinks, getDefaultCountryCode, getFactorPageCustomLink,
-  getForgotPasswordUri, getHelpLink, getLanguageCode, getUnlockAccountUri,
+  getForgotPasswordUri, getHelpLink, getLanguageCode, getPageTitle, getUnlockAccountUri,
   transformIdentifier,
 } from './settingsUtils';
+import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 
 jest.mock('../../../util/BrowserFeatures', () => ({
   getUserLanguages: jest.fn().mockReturnValue(['en', 'en-US']),
@@ -28,9 +30,11 @@ jest.mock('../../../config/config.json', () => ({
 
 describe('Settings Utils Tests', () => {
   let widgetProps: WidgetProps = {};
+  let transaction: IdxTransaction;
 
   beforeEach(() => {
     widgetProps = { language: 'en' };
+    transaction = getStubTransactionWithNextStep();
   });
 
   it('should return requested language even if it is not a supported language', () => {
@@ -138,5 +142,70 @@ describe('Settings Utils Tests', () => {
       signOutLink: 'https://okta.okta.com/',
     };
     expect(getBackToSignInUri(widgetProps)).toBe('https://okta.okta.com/');
+  });
+
+  it.each`
+    setPageTitle | brandNameProvided
+    ${undefined} | ${false}
+    ${undefined} | ${true}
+    ${true}      | ${false}
+    ${true}      | ${true}
+    ${false}     | ${false}
+    ${false}     | ${true}
+  `('should return default page title when setPageTitle is: $setPageTitle and brandName provided: $brandNameProvided', ({ setPageTitle, brandNameProvided }) => {
+    const formTitle = 'Sign In';
+    const brandName: string | undefined = brandNameProvided && 'Acme Inc.';
+    widgetProps = { brandName, features: { setPageTitle } };
+    
+    const expectedPageTitle = setPageTitle !== false
+      ? (brandNameProvided ? `${brandName} | ${formTitle}` : formTitle)
+      : undefined;
+    expect(getPageTitle(widgetProps, formTitle)).toBe(expectedPageTitle);
+  });
+
+  it.each`
+    setPageTitle
+    ${''}
+    ${'My custom page title'}
+    ${'   '}
+  `('should return custom page title when setPageTitle config option is a string: $setPageTitle', ({ setPageTitle }) => {
+    const formTitle = 'Sign In';
+    widgetProps = { features: { setPageTitle } };
+
+    expect(getPageTitle(widgetProps, formTitle)).toBe(setPageTitle);
+  });
+
+  it.each`
+    step
+    ${'identify'}
+    ${'enroll-profile'}
+  `('should return custom page title when setPageTitle config option is provided as a function and step is: $step', ({ step }) => {
+    transaction = {
+      ...transaction,
+      nextStep: {
+        ...transaction.nextStep,
+        name: step,
+      },
+    };
+    widgetProps = {
+      features: {
+        setPageTitle: (context, params) => {
+          const CONTROLLER_TITLE_MAP: Record<string, string> = {
+            'primary-auth': 'Sign In',
+            registration: 'Enroll Profile',
+          };
+          return context.controller
+            ? CONTROLLER_TITLE_MAP[context.controller]
+            : 'Generic page title';
+        },
+      },
+    };
+
+    const EXPECTED_FORM_TITLE_MAP: Record<string, string> = {
+      identify: 'Sign In',
+      'enroll-profile': 'Enroll Profile',
+    };
+
+    expect(getPageTitle(widgetProps, 'Static title', transaction)).toBe(EXPECTED_FORM_TITLE_MAP[step]);
   });
 });

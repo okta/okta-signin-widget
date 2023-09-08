@@ -10,11 +10,12 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { APIError, IdxActionParams } from '@okta/okta-auth-js';
+import { APIError, IdxActionParams, IdxTransaction } from '@okta/okta-auth-js';
 import { union } from 'lodash';
 
 import config from '../../../config/config.json';
 import {
+  EventContext,
   LanguageCode,
   RegistrationErrorCallback,
   RegistrationPostSubmitCallback,
@@ -33,6 +34,7 @@ import {
   WidgetProps,
 } from '../types';
 import { loc } from './locUtil';
+import { getEventContext } from './getEventContext';
 
 export const getSupportedLanguages = (widgetProps: WidgetProps): string[] => {
   const { i18n, language, assets: { languages } = {} } = widgetProps;
@@ -245,4 +247,33 @@ export const isOauth2Enabled = (widgetProps: WidgetProps): boolean => {
     clientId = authClient.options?.clientId;
   }
   return typeof clientId !== 'undefined' && authScheme?.toLowerCase() === 'oauth2';
+};
+
+export const getPageTitle = (
+  widgetProps: WidgetProps,
+  formTitle: string,
+  idxTransaction?: IdxTransaction,
+): string | undefined => {
+  const { brandName, features: { setPageTitle } = {} } = widgetProps;
+
+  // When setPageTitle option is 'undefined', default will be to set title based on page header
+  // When setPageTitle option is 'true', set title based on page header
+  if ((typeof setPageTitle === 'boolean' && setPageTitle === true)
+    || typeof setPageTitle === 'undefined') {
+      return brandName ? `${brandName} | ${formTitle}` : formTitle;
+  }
+
+  if (typeof setPageTitle === 'string') {
+    return setPageTitle;
+  }
+
+  if (typeof setPageTitle === 'function') {
+    const eventContext: EventContext = typeof idxTransaction === 'undefined'
+      ? { controller: null }
+      : getEventContext(idxTransaction);
+    return setPageTitle(eventContext, { formTitle, brandName });
+  }
+
+  // Indicates setPageTitle config option was purposefully disabled
+  return undefined;
 };

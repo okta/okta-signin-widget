@@ -11,6 +11,7 @@
  */
 
 export * from './useAutoFocus';
+export * from './useDocumentTitle';
 export * from './useFormFieldValidation';
 export * from './useHtmlContentParser';
 export * from './useInteractionCodeFlow';

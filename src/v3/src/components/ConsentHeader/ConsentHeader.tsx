@@ -18,7 +18,7 @@ import { Fragment, FunctionComponent, h } from 'preact';
 
 import { CONSENT_HEADER_STEPS, IDX_STEP } from '../../constants';
 import { useWidgetContext } from '../../contexts';
-import { useHtmlContentParser } from '../../hooks';
+import { useDocumentTitle, useHtmlContentParser } from '../../hooks';
 import { getAppInfo, getHeadingReplacerFn, loc } from '../../util';
 
 const ConsentHeader: FunctionComponent = () => {
@@ -32,7 +32,7 @@ const ConsentHeader: FunctionComponent = () => {
     'login',
     [appName],
     {
-      $1: { element: 'h2', attributes: { class: 'okta-form-title no-translate' } },
+      $1: { element: 'h2', attributes: { class: 'no-translate' } },
       $2: { element: 'p' },
     },
   );
@@ -45,6 +45,8 @@ const ConsentHeader: FunctionComponent = () => {
     return null;
   }
   const stepName = idxTransaction.nextStep.name;
+  // Dynamically update page title
+  useDocumentTitle(appName);
 
   const getAppLogo = (altText: string, logoHref?: string) => (
     typeof logoHref !== 'undefined' && (

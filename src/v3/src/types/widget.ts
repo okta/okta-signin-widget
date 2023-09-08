@@ -22,6 +22,7 @@ import {
 import EventEmitter from 'tiny-emitter';
 
 import {
+  EventContext,
   LanguageCallback,
   LanguageCode,
   OktaSignInAPI,
@@ -97,6 +98,11 @@ export type RegistrationOptionsV3 = Modify<RegOptions, {
     onFailure: RegistrationErrorCallback
   ) => void;
 }>;
+type PageTitleCallbackParam = {
+  brandName?: string;
+  formTitle: string;
+};
+export type PageTitleCallback = (context: EventContext, param: PageTitleCallbackParam) => string;
 
 export type OktaWidgetEventType = 'ready' | 'afterError' | 'afterRender';
 export type IDPDisplayType = 'PRIMARY' | 'SECONDARY';
@@ -261,6 +267,7 @@ export type OktaWidgetFeatures = {
   restrictRedirectToForeground?: boolean;
   showPasswordRequirementsAsHtmlList?: boolean;
   disableAutocomplete?: boolean;
+  setPageTitle?: boolean | string | PageTitleCallback;
 };
 
 interface ProxyIdxResponse {

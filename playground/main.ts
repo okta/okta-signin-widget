@@ -117,12 +117,6 @@ const renderPlaygroundWidget = (options = {}) => {
   });
 
   signIn.on('afterRender', (context) => {
-    // Dynamically update the page title to ensure it accurately reflects page content
-    const brandName = signIn.options?.brandName;
-    const title = document.querySelector('.okta-form-title')?.textContent;
-    if (title) {
-      document.title = brandName ? `${brandName} - ${title}` : title;
-    }
     // handle `afterRender` event.
     // use `console.log` in particular so that those logs can be retrieved
     // in testcafe for assertion

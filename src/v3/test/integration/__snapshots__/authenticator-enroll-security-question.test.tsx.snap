@@ -152,7 +152,7 @@ exports[`authenticator-enroll-security-question custom question fails client sid
                     class="MuiBox-root emotion-20"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h4 okta-form-title o-form-head emotion-21"
+                      class="MuiTypography-root MuiTypography-h4 emotion-21"
                       data-se="o-form-head"
                       id="enroll-authenticator_Title_Set_up_security_question_security_question_aut2h3fft3N1BApga1d7_7_2"
                       tabindex="-1"
@@ -529,7 +529,7 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                     class="MuiBox-root emotion-15"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h4 okta-form-title o-form-head emotion-16"
+                      class="MuiTypography-root MuiTypography-h4 emotion-16"
                       data-se="o-form-head"
                       id="enroll-authenticator_Title_Set_up_security_question_security_question_aut2h3fft3N1BApga1d7_7_2"
                       tabindex="-1"
@@ -893,7 +893,7 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                     class="MuiBox-root emotion-15"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h4 okta-form-title o-form-head emotion-16"
+                      class="MuiTypography-root MuiTypography-h4 emotion-16"
                       data-se="o-form-head"
                       id="enroll-authenticator_Title_Set_up_security_question_security_question_aut2h3fft3N1BApga1d7_2_1"
                       tabindex="-1"
@@ -1368,7 +1368,7 @@ exports[`authenticator-enroll-security-question predefined question should rende
                     class="MuiBox-root emotion-15"
                   >
                     <h2
-                      class="MuiTypography-root MuiTypography-h4 okta-form-title o-form-head emotion-16"
+                      class="MuiTypography-root MuiTypography-h4 emotion-16"
                       data-se="o-form-head"
                       id="enroll-authenticator_Title_Set_up_security_question_security_question_aut2h3fft3N1BApga1d7_2_1"
                       tabindex="-1"
