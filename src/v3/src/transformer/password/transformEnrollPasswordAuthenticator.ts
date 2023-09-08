@@ -32,7 +32,10 @@ import {
 import { getUIElementWithName, removeUIElementWithName } from '../utils';
 import { buildPasswordRequirementListItems } from './passwordSettingsUtils';
 
-export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({ transaction, formBag }) => {
+export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
+  transaction,
+  formBag,
+}) => {
   const { nextStep: { relatesTo } = {} } = transaction;
   const passwordSettings = (relatesTo?.value?.settings || {}) as PasswordSettings;
 
