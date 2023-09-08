@@ -37,18 +37,13 @@ import {
 import { buildPasswordRequirementListItems } from '../password';
 import { getUIElementWithName } from '../utils';
 
-export const transformEnrollProfile: IdxStepTransformer = ({
-  transaction,
-  formBag,
-  widgetProps,
-}) => {
+export const transformEnrollProfile: IdxStepTransformer = ({ transaction, formBag }) => {
   const {
     availableSteps,
     nextStep: { name: stepName, inputs } = {},
     context,
     neededToProceed,
   } = transaction;
-  const { features: { disableAutocomplete } = {} } = widgetProps;
   // @ts-ignore OKTA-538692 uiDisplay missing from interface
   const { uiDisplay: { value: { label, buttonLabel } = {} } = {} } = context;
   const currentRemediation = neededToProceed.find((remediation) => remediation.name === stepName);
@@ -72,7 +67,7 @@ export const transformEnrollProfile: IdxStepTransformer = ({
       ...passwordElement.options,
       attributes: {
         ...passwordElement.options?.attributes,
-        autocomplete: disableAutocomplete ? 'off' : 'new-password',
+        autocomplete: 'new-password',
       },
     };
     // @ts-ignore TODO: OKTA-539834 - messages missing from type

@@ -32,12 +32,7 @@ import {
 import { getUIElementWithName, removeUIElementWithName } from '../utils';
 import { buildPasswordRequirementListItems } from './passwordSettingsUtils';
 
-export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
-  transaction,
-  formBag,
-  widgetProps,
-}) => {
-  const { features: { disableAutocomplete } = {} } = widgetProps;
+export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({ transaction, formBag }) => {
   const { nextStep: { relatesTo } = {} } = transaction;
   const passwordSettings = (relatesTo?.value?.settings || {}) as PasswordSettings;
 
@@ -62,7 +57,7 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
       ...passwordElement.options,
       attributes: {
         ...passwordElement.options?.attributes,
-        autocomplete: disableAutocomplete ? 'off' : 'new-password',
+        autocomplete: 'new-password',
       },
     };
   }
@@ -82,7 +77,7 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
         // @ts-ignore TODO: OKTA-539834 - messages missing from type
         messages: { value: undefined },
       },
-      attributes: { autocomplete: disableAutocomplete ? 'off' : 'new-password' },
+      attributes: { autocomplete: 'new-password' },
     },
   };
 
