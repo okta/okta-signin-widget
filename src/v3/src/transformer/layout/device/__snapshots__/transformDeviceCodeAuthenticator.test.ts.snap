@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`transformDeviceCodeAuthenticator Tests should build device code view elements 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "device.code.activate.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "device.code.activate.subtitle",
+        },
+        "type": "Description",
+      },
+      Object {
+        "hyphenate": true,
+        "options": Object {
+          "inputMeta": Object {
+            "name": "userCode",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "label": "oform.next",
+        "options": Object {
+          "step": "user-code",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

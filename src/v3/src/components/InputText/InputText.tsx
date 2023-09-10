@@ -27,9 +27,10 @@ import {
 } from '../../hooks';
 import {
   ChangeEvent,
+  KeyboardEvent,
   UISchemaElementComponent, UISchemaElementComponentWithValidationProps,
 } from '../../types';
-import { getTranslation } from '../../util';
+import { addHyphen, getTranslation } from '../../util';
 import FieldLevelMessageContainer from '../FieldLevelMessageContainer';
 import { withFormValidationState } from '../hocs';
 
@@ -48,6 +49,7 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
     focus,
     parserOptions,
     showAsterisk,
+    hyphenate,
     dir,
   } = uischema;
   const label = getTranslation(translations, 'label');
@@ -122,6 +124,9 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
         }}
         onBlur={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
           handleBlur?.(e?.currentTarget?.value);
+        }}
+        onKeyUp={(e: KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+          hyphenate && addHyphen(e);
         }}
         disabled={loading}
         fullWidth

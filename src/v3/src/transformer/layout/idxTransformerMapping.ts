@@ -49,6 +49,7 @@ import {
 import { transformWebAuthNAuthenticator } from '../webauthn';
 import { transformYubikeyOtpAuthenticator } from '../yubikey';
 import { transformAdminConsent, transformEnduserConsent, transformGranularConsent } from './consent';
+import { transformDeviceCodeAuthenticator } from './device';
 import { transformDuoAuthenticator } from './duo';
 import {
   transformEmailAuthenticatorEnroll,
@@ -492,6 +493,12 @@ const TransformerMap: {
     [AUTHENTICATOR_KEY.DEFAULT]: {
       transform: transformSafeModePoll,
       buttonConfig: { showDefaultSubmit: false },
+    },
+  },
+  [IDX_STEP.USER_CODE]: {
+    [AUTHENTICATOR_KEY.DEFAULT]: {
+      transform: transformDeviceCodeAuthenticator,
+      buttonConfig: { showDefaultSubmit: true },
     },
   },
 };

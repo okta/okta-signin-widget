@@ -172,9 +172,6 @@ export const TERMINAL_KEYS_WITHOUT_CANCEL = [
 ];
 
 export const TERMINAL_TITLE_KEY: Record<string, string> = {
-  [TERMINAL_KEY.DEVICE_ACTIVATED]: 'device.code.activated.success.title',
-  [TERMINAL_KEY.DEVICE_NOT_ACTIVATED_CONSENT_DENIED]: 'device.code.activated.error.title',
-  [TERMINAL_KEY.DEVICE_NOT_ACTIVATED_INTERNAL_ERROR]: 'device.code.activated.error.title',
   [TERMINAL_KEY.EMAIL_ACTIVATION_EMAIL_EXPIRE]: 'oie.activation.request.email.title.expire',
   [TERMINAL_KEY.EMAIL_ACTIVATION_EMAIL_INVALID]: 'oie.activation.request.email.title.invalid',
   [TERMINAL_KEY.EMAIL_ACTIVATION_EMAIL_SUBMITTED]: 'oie.activation.request.email.title.submitted',

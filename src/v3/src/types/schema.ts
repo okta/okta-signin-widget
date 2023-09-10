@@ -271,6 +271,11 @@ export interface FieldElement extends UISchemaElement {
    * This only applies for profile enrollment view.
    */
   showAsterisk?: boolean;
+  /**
+   * @description Determines if the app should add a hyphen after the field's 4th character
+   * This only applies for device code view.
+  */
+  hyphenate?: boolean;
   options: {
     // TODO: remove customLabel after updating okta-auth-js (OKTA-626602)
     inputMeta: Input & {

@@ -1,5 +1,6 @@
 import BasePageObject from './BasePageObject';
 import {Selector} from 'testcafe';
+import { userVariables } from 'testcafe';
 
 const USER_CODE_FIELD = 'userCode';
 
@@ -9,10 +10,16 @@ export default class DeviceCodeActivatePageObject extends BasePageObject {
   }
 
   getPageSubtitle() {
+    if (userVariables.v3) {
+      return this.form.getElement('[data-se="o-form-explain"]').textContent;
+    }
     return this.form.getElement('.okta-form-subtitle').textContent;
   }
 
-  clickNextButton() {
+  clickNextButton(name) {
+    if (userVariables.v3) {
+      return this.form.clickSaveButton(name);
+    }
     return this.form.clickSaveButton();
   }
 
@@ -52,15 +59,31 @@ export default class DeviceCodeActivatePageObject extends BasePageObject {
     return this.form.setTextBoxValue('credentials.passcode', value);
   }
 
+  getTerminalTitle() {
+    if (userVariables.v3) {
+      return this.form.getAlertBoxText();
+    }
+    return this.getFormTitle();
+  }
+
   getTerminalContent(){
+    if (userVariables.v3) {
+      return this.getPageSubtitle();
+    }
     return this.form.getTerminalContent();
   }
 
   isTerminalSuccessIconPresent() {
+    if (userVariables.v3) {
+      return this.form.getElement('.infobox-success').exists && this.form.getElement('.MuiAlert-icon').exists;
+    }
     return this.form.getElement('.device-code-terminal--icon.success-24-green').exists;
   }
 
   isTerminalErrorIconPresent() {
+    if (userVariables.v3) {
+      return this.form.getElement('.infobox-error').exists && this.form.getElement('.MuiAlert-icon').exists;
+    }
     return this.form.getElement('.device-code-terminal--icon.error-24-red').exists;
   }
 
@@ -69,6 +92,9 @@ export default class DeviceCodeActivatePageObject extends BasePageObject {
   }
 
   isTryAgainButtonPresent() {
+    if (userVariables.v3) {
+      return Selector('[data-se="cancel"]').exists;
+    }
     return Selector('[data-se="try-again"]').exists;
   }
 }
