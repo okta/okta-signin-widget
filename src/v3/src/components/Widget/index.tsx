@@ -55,6 +55,7 @@ import {
 import {
   areTransactionsEqual,
   buildAuthCoinProps,
+  canBootstrapWidget,
   getLanguageCode,
   getLanguageDirection,
   isAndroidOrIOS,
@@ -327,12 +328,18 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
 
   // bootstrap / resume the widget
   useEffect(() => {
+    if (!canBootstrapWidget({
+      authClient, stateHandle, setIdxTransaction, setResponseError,
+    })) {
+      return;
+    }
+
     if (authClient.idx.canProceed()) {
       resume();
     } else {
       bootstrap();
     }
-  }, [authClient, setIdxTransaction, bootstrap, resume]);
+  }, [authClient, setIdxTransaction, bootstrap, resume, stateHandle]);
 
   // Update idxTransaction when new status comes back from polling
   useEffect(() => {

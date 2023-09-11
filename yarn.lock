@@ -3787,6 +3787,29 @@
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.6.tgz#cee20bd55e68a1720bdab363ecf0c821ded4cd45"
   integrity sha512-50/17A98tWUfQ176raKiOGXuYpLyyVMkxxG6oylzL3BPOlA6ADGdK7EYunSa4I064xerltq9TGXs8HmOk5E+vw==
 
+"@prefresh/babel-plugin@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@prefresh/babel-plugin/-/babel-plugin-0.5.0.tgz#61d8ef959007390077c9eddb7e9307c46e19277c"
+  integrity sha512-joAwpkUDwo7ZqJnufXRGzUb+udk20RBgfA8oLPBh5aJH2LeStmV1luBfeJTztPdyCscC2j2SmZ/tVxFRMIxAEw==
+
+"@prefresh/core@^1.5.0":
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/@prefresh/core/-/core-1.5.1.tgz#2f51c0dd509a7b302d67ee889815653abdf4c0d1"
+  integrity sha512-e0mB0Oxtog6ZpKPDBYbzFniFJDIktuKMzOHp7sguntU+ot0yi6dbhJRE9Css1qf0u16wdSZjpL2W2ODWuU05Cw==
+
+"@prefresh/utils@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@prefresh/utils/-/utils-1.2.0.tgz#cbdfe549b207041e38bb6cc382408b30cd24fec8"
+  integrity sha512-KtC/fZw+oqtwOLUFM9UtiitB0JsVX0zLKNyRTA332sqREqSALIIQQxdUCS1P3xR/jT1e2e8/5rwH6gdcMLEmsQ==
+
+"@prefresh/webpack@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@prefresh/webpack/-/webpack-4.0.0.tgz#79493a5fb7b49291b69693a0f6a0ace565d268ee"
+  integrity sha512-Ppr8GNASfq/Zsw/dFOhHz3DYZWfAnqRhz2ryZo4b7VA4x4nQzALYLILK32w9YdSw6WYhIMQdjBkugk6PstcwFg==
+  dependencies:
+    "@prefresh/core" "^1.5.0"
+    "@prefresh/utils" "^1.2.0"
+
 "@rollup/plugin-alias@^3.1.9":
   version "3.1.9"
   resolved "https://registry.yarnpkg.com/@rollup/plugin-alias/-/plugin-alias-3.1.9.tgz#a5d267548fe48441f34be8323fb64d1d4a1b3fdf"

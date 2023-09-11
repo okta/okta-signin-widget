@@ -46,3 +46,4 @@ export * from './setUrlQueryParams';
 export * from './shouldShowCancelLink';
 export * from './toNestedObject';
 export * from './webauthnUtils';
+export * from './widgetUtils';

@@ -131,4 +131,5 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
   );
 };
 
-export default withFormValidationState(Radio);
+const WrappedRadio = withFormValidationState(Radio);
+export default WrappedRadio;

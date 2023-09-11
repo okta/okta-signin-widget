@@ -15,8 +15,9 @@ import { resolve } from 'path';
 
 import nodemon from 'nodemon';
 import webpack from 'webpack';
-import { merge } from 'webpack-merge';
+import { mergeWithRules } from 'webpack-merge';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import PreactRefreshPlugin from '@prefresh/webpack';
 
 import baseConfig from './webpack.common.config';
 
@@ -53,7 +54,15 @@ if (!fs.existsSync(WIDGET_RC_JS)) {
   fs.copyFileSync(resolve(__dirname, '../..', '.widgetrc.sample.js'), WIDGET_RC_JS);
 }
 
-const devConfig: Configuration = merge<Partial<Configuration>>(
+const devConfig: Configuration = mergeWithRules({
+  module: {
+    rules: {
+      test: 'match',
+      include: 'match',
+      options: 'merge',
+    },
+  },
+})(
   baseConfig,
   {
     mode: 'development',
@@ -89,6 +98,22 @@ const devConfig: Configuration = merge<Partial<Configuration>>(
         duo_web_sdk: resolve(__dirname, 'src/__mocks__/duo_web_sdk'),
       }
     },
+    module: {
+      rules: [
+        {
+          test: /\.[jt]sx?$/,
+          include: [
+            resolve(__dirname, '..'), // /src/
+          ],
+          loader: 'babel-loader',
+          options: {
+            plugins: [
+              '@prefresh/babel-plugin',
+            ],
+          },
+        },
+      ],
+    },
     plugins: [
       new MiniCssExtractPlugin({
         filename: 'css/okta-sign-in.css',
@@ -97,8 +122,10 @@ const devConfig: Configuration = merge<Partial<Configuration>>(
         DEBUG: true,
         OMIT_MSWJS: process.env.OMIT_MSWJS === 'true',
       }),
+      new PreactRefreshPlugin(),
     ],
     devServer: {
+      hot: true,
       host: HOST,
       watchFiles: STATIC_DIRS,
       static: STATIC_DIRS,
@@ -131,6 +158,9 @@ const devConfig: Configuration = merge<Partial<Configuration>>(
 
         return middlewares;
       },
+    },
+    optimization: {
+      runtimeChunk: 'single',
     },
   },
 );
