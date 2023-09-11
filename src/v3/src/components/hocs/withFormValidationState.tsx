@@ -28,6 +28,15 @@ export type WrappedFunctionComponent<T> = (
   Component: UISchemaElementComponent<T>
 ) => RendererComponent<T>;
 
+/**
+ * Please name your wrapped component while exporting
+ * This is needed for fast-refresh
+ * @see https://github.com/preactjs/prefresh#recognition
+ * 
+ * @example
+ *  const WrappedSelect = withFormValidationState(Select);
+ *  export default WrappedSelect;
+ */
 export const withFormValidationState: WrappedFunctionComponent<
 { uischema: FieldElement }> = (Component) => {
   const ParentComponent: RendererComponent<

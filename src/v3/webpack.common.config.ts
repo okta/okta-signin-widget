@@ -84,6 +84,8 @@ const baseConfig: Partial<Configuration> = {
         loader: 'babel-loader',
         options: babelOptions,
       },
+      // Need to separate rule for files in /src/
+      // Rule will be modified in dev config
       {
         test: /\.[jt]sx?$/,
         include: [

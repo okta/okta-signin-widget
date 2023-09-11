@@ -55,6 +55,7 @@ import {
 import {
   areTransactionsEqual,
   buildAuthCoinProps,
+  canBootstrapWidget,
   getLanguageCode,
   getLanguageDirection,
   isAndroidOrIOS,
@@ -72,8 +73,6 @@ import ConsentHeader from '../ConsentHeader';
 import Form from '../Form';
 import IdentifierContainer from '../IdentifierContainer';
 import Spinner from '../Spinner';
-
-/* global __PREFRESH__ */
 
 export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   if (!isAuthClientSet(widgetProps)) {
@@ -329,25 +328,10 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
 
   // bootstrap / resume the widget
   useEffect(() => {
-    /**
-     * Only for HMR at development:
-     *  If some file change triggers hot update of current file, all `useEffect` hooks will be triggered.
-     *  `useCallback` hooks will be re-executed, so values of `bootstrap` and `resume` will be updated.
-     *  But values of `useState` hooks will not update, so eg. `setIdxTransaction` value will remain.
-     *  To avoid unnecessary `bootstrap` call, compare old and new values in reduced dependencies list.
-     */
-    if (typeof __PREFRESH__ !== 'undefined') {
-      const deps: Record<string, unknown> = {
-        authClient, stateHandle, setIdxTransaction, setResponseError,
-      };
-      const prevDeps = __PREFRESH__.widgetBootstrapDeps as typeof deps;
-      const depsChanged = !prevDeps || Object.keys(prevDeps).some((k) => deps[k] !== prevDeps[k]);
-      __PREFRESH__.widgetBootstrapDeps = deps;
-      if (!depsChanged) {
-        // eslint-disable-next-line no-console
-        console.info('[HMR] Skip Widget bootstrap');
-        return;
-      }
+    if (!canBootstrapWidget({
+      authClient, stateHandle, setIdxTransaction, setResponseError,
+    })) {
+      return;
     }
 
     if (authClient.idx.canProceed()) {
