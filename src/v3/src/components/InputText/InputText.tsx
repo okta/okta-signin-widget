@@ -17,7 +17,6 @@ import {
   InputLabel,
   Typography,
 } from '@okta/odyssey-react-mui';
-import { h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
 import {
@@ -126,7 +125,9 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
           handleBlur?.(e?.currentTarget?.value);
         }}
         onKeyUp={(e: KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-          hyphenate && addHyphen(e);
+          if (hyphenate) {
+            addHyphen(e);
+          }
         }}
         disabled={loading}
         fullWidth

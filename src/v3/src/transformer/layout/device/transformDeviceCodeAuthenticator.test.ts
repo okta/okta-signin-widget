@@ -11,33 +11,29 @@
  */
 
 import { IdxTransaction } from '@okta/okta-auth-js';
+import { IDX_STEP } from 'src/constants';
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
-  ButtonElement, DescriptionElement, FieldElement, FormBag, TitleElement, WidgetProps,
+  DescriptionElement, FieldElement, FormBag, TitleElement, WidgetProps,
 } from 'src/types';
-import { IDX_STEP } from 'src/constants';
+
 import { transformDeviceCodeAuthenticator } from './transformDeviceCodeAuthenticator';
 
 describe('transformDeviceCodeAuthenticator Tests', () => {
-  let transaction: IdxTransaction;
-  let widgetProps: WidgetProps;
-  let formBag: FormBag;
+  const transaction: IdxTransaction = getStubTransactionWithNextStep();
+  const widgetProps: WidgetProps = {};
+  const formBag: FormBag = getStubFormBag();
 
   beforeEach(() => {
-    transaction = getStubTransactionWithNextStep();
-    widgetProps = {};
-    formBag = getStubFormBag();
     formBag.uischema.elements = [
       {
         type: 'Field',
+        hyphenate: true,
         options: { inputMeta: { name: 'userCode' } },
       } as FieldElement,
     ];
-    transaction = {
-      ...transaction,
-      nextStep: {
-        name: IDX_STEP.USER_CODE
-      },
+    transaction.nextStep = {
+      name: IDX_STEP.USER_CODE,
     };
   });
 
@@ -47,27 +43,15 @@ describe('transformDeviceCodeAuthenticator Tests', () => {
       formBag,
       widgetProps,
     });
-    expect(updatedFormBag.uischema.elements.length).toBe(4);
+    // Since this flow sets showDefaultSubmit: true for buttonConfig, ButtonElement does not 
+    // appear in uischema
+    expect(updatedFormBag.uischema.elements.length).toBe(3);
     expect(updatedFormBag).toMatchSnapshot();
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
-    .toBe('device.code.activate.title');
+      .toBe('device.code.activate.title');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
       .toBe('device.code.activate.subtitle');
     expect((updatedFormBag.uischema.elements[2] as FieldElement).options.inputMeta.name)
       .toBe('userCode');
-    expect((updatedFormBag.uischema.elements[3] as ButtonElement).label)
-      .toBe('oform.next');
-  })
-
-  it('should hyphenate user code input after the 4th character', () => {
-    const updatedFormBag = transformDeviceCodeAuthenticator({
-      transaction,
-      formBag,
-      widgetProps,
-    });
-    expect(updatedFormBag.uischema.elements.length).toBe(4);
-    expect(updatedFormBag).toMatchSnapshot();
-    
-
-  })
+  });
 });

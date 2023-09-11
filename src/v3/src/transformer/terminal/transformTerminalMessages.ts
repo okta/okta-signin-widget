@@ -14,7 +14,6 @@ import {
   OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP,
   OV_UV_ENABLE_BIOMETRICS_FASTPASS_MOBILE,
   TERMINAL_KEY,
-  TERMINAL_TITLE_KEY,
 } from '../../constants';
 import {
   DescriptionElement,
@@ -164,15 +163,16 @@ export const transformTerminalMessages: TerminalKeyTransformer = (transaction, f
       class: 'SUCCESS',
       message: loc('device.code.activated.success.title', 'login'),
       i18n: { key: 'device.code.activated.success.title' },
-    } 
+    };
     displayedMessages.unshift(deviceActivatedAsSuccessMessage);
-  } else if (containsOneOfMessageKeys([TERMINAL_KEY.DEVICE_NOT_ACTIVATED_CONSENT_DENIED, TERMINAL_KEY.DEVICE_NOT_ACTIVATED_INTERNAL_ERROR], displayedMessages)) {
+  } else if (containsOneOfMessageKeys([TERMINAL_KEY.DEVICE_NOT_ACTIVATED_CONSENT_DENIED,
+    TERMINAL_KEY.DEVICE_NOT_ACTIVATED_INTERNAL_ERROR], displayedMessages)) {
     // Displays device not activated terminal states titles as an error InfoBox instead of a title
     const deviceNotActivatedAsErrorMessage: WidgetMessage = {
       class: 'ERROR',
       message: loc('device.code.activated.error.title', 'login'),
       i18n: { key: 'device.code.activated.error.title' },
-    } 
+    };
     displayedMessages.unshift(deviceNotActivatedAsErrorMessage);
   } else if (
     containsOneOfMessageKeys(

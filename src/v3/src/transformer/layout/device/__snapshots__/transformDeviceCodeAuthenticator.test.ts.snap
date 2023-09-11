@@ -36,14 +36,6 @@ Object {
         },
         "type": "Field",
       },
-      Object {
-        "label": "oform.next",
-        "options": Object {
-          "step": "user-code",
-          "type": "submit",
-        },
-        "type": "Button",
-      },
     ],
     "type": "VerticalLayout",
   },
