@@ -498,7 +498,6 @@ const TransformerMap: {
   [IDX_STEP.USER_CODE]: {
     [AUTHENTICATOR_KEY.DEFAULT]: {
       transform: transformDeviceCodeAuthenticator,
-      buttonConfig: { showDefaultSubmit: true },
     },
   },
 };
