@@ -43,8 +43,7 @@ describe('transformDeviceCodeAuthenticator Tests', () => {
       formBag,
       widgetProps,
     });
-    // Since this flow sets showDefaultSubmit: true for buttonConfig, ButtonElement does not 
-    // appear in uischema
+    // Since this flow sets showDefaultSubmit: true for buttonConfig, ButtonElement does not appear in uischema
     expect(updatedFormBag.uischema.elements.length).toBe(3);
     expect(updatedFormBag).toMatchSnapshot();
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
