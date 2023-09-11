@@ -10,10 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { FieldElement, RendererComponent } from '../../types';
+import { FieldElement, UISchemaElementComponent } from '../../types';
 
 export const getDisplayName = (
-  WrappedComponent: RendererComponent<{ uischema: FieldElement }>,
+  WrappedComponent: UISchemaElementComponent<{ uischema: FieldElement }>,
 ): string => (
   WrappedComponent.displayName || WrappedComponent.name || 'Component'
 );

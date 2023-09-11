@@ -154,4 +154,5 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
   );
 };
 
-export default withFormValidationState(Select);
+const WrappedSelect = withFormValidationState(Select);
+export default WrappedSelect;

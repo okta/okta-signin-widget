@@ -191,4 +191,5 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
   );
 };
 
-export default withFormValidationState(InputPassword);
+const WrappedInputPassword = withFormValidationState(InputPassword);
+export default WrappedInputPassword;

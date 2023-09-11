@@ -156,4 +156,5 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
   );
 };
 
-export default withFormValidationState(InputText);
+const WrappedInputText = withFormValidationState(InputText);
+export default WrappedInputText;

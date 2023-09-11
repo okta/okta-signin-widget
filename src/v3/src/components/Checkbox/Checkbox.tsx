@@ -123,4 +123,5 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
   );
 };
 
-export default withFormValidationState(Checkbox);
+const WrappedCheckbox = withFormValidationState(Checkbox);
+export default WrappedCheckbox;
