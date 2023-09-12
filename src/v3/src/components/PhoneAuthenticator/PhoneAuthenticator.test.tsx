@@ -19,7 +19,7 @@ import {
 import userEvent from '@testing-library/user-event';
 import { UserEvent } from '@testing-library/user-event/dist/types/setup/setup';
 import { h, JSX } from 'preact';
-import { FieldElement, UISchemaElementComponentProps } from 'src/types';
+import { FieldElement, UISchemaElementComponentProps, WidgetProps } from 'src/types';
 
 import PhoneAuthenticatorControl from './PhoneAuthenticator';
 
@@ -57,13 +57,14 @@ jest.mock('../../../../v2/ion/i18nTransformer', () => ({
 let mockData: Record<string, unknown>;
 const mockDataSchemaRef = { current: { phoneNumber: { validate: jest.fn() } } };
 const mockLoading = jest.fn().mockReturnValue(false);
+let widgetProps: WidgetProps = {};
 jest.mock('../../contexts', () => ({
   useWidgetContext: jest.fn().mockImplementation(
     () => ({
       data: mockData,
       dataSchemaRef: mockDataSchemaRef,
       loading: mockLoading(),
-      widgetProps: {},
+      widgetProps,
     }),
   ),
 }));
@@ -81,6 +82,7 @@ describe('PhoneAuthenticator tests', () => {
   beforeEach(() => {
     mockHandleFunction = jest.fn();
     mockLoading.mockReturnValue(false);
+    widgetProps = {};
   });
 
   afterEach(() => {
@@ -157,14 +159,64 @@ describe('PhoneAuthenticator tests', () => {
 
   it('should render input control with custom attributes when provided in uischema', async () => {
     mockData = { 'authenticator.methodType': 'sms' };
-    props = getComponentProps({ attributes: { autocomplete: 'one-time-code' } });
+    props = getComponentProps({ attributes: { autocomplete: 'tel-national' } });
     const { findByLabelText } = render(<PhoneAuthenticatorControl {...props} />);
 
     const phoneInput = await findByLabelText(/Phone number/);
 
     const autocomplete = phoneInput?.getAttribute('autocomplete');
 
-    expect(autocomplete).toBe('one-time-code');
+    expect(autocomplete).toBe('tel-national');
+  });
+
+  it('should render voice input control with custom attributes when provided in uischema', async () => {
+    mockData = { 'authenticator.methodType': 'voice' };
+    props = getComponentProps({ attributes: { autocomplete: 'tel-national' } });
+    const { findByLabelText } = render(<PhoneAuthenticatorControl {...props} />);
+
+    const phoneInput = await findByLabelText(/Phone number/);
+    const extensionInput = await findByLabelText(/Extension/);
+    const countryInput = await findByLabelText(/Country/);
+
+    const autocomplete = phoneInput?.getAttribute('autocomplete');
+    const extensionAutocomplete = extensionInput?.getAttribute('autocomplete');
+    const countryAutocomplete = countryInput?.getAttribute('autocomplete');
+
+    expect(autocomplete).toBe('tel-national');
+    expect(extensionAutocomplete).toBe('tel-extension');
+    expect(countryAutocomplete).toBe('tel-country-code');
+  });
+
+  it('should render input control with autocomplete set to "off" when disableAutocomplete feature is true', async () => {
+    widgetProps = { features: { disableAutocomplete: true } };
+    mockData = { 'authenticator.methodType': 'sms' };
+    props = getComponentProps({ attributes: { autocomplete: 'off' } });
+    const { findByLabelText } = render(<PhoneAuthenticatorControl {...props} />);
+
+    const phoneInput = await findByLabelText(/Phone number/);
+
+    const phoneAutocomplete = phoneInput?.getAttribute('autocomplete');
+
+    expect(phoneAutocomplete).toBe('off');
+  });
+
+  it('should render voice input control with autocomplete set to "off" when disableAutocomplete feature is true', async () => {
+    widgetProps = { features: { disableAutocomplete: true } };
+    mockData = { 'authenticator.methodType': 'voice' };
+    props = getComponentProps({ attributes: { autocomplete: 'off' } });
+    const { findByLabelText } = render(<PhoneAuthenticatorControl {...props} />);
+
+    const phoneInput = await findByLabelText(/Phone number/);
+    const extensionInput = await findByLabelText(/Extension/);
+    const countryInput = await findByLabelText(/Country/);
+
+    const phoneAutocomplete = phoneInput?.getAttribute('autocomplete');
+    const extensionAutocomplete = extensionInput?.getAttribute('autocomplete');
+    const countryAutocomplete = countryInput?.getAttribute('autocomplete');
+
+    expect(phoneAutocomplete).toBe('off');
+    expect(extensionAutocomplete).toBe('off');
+    expect(countryAutocomplete).toBe('off');
   });
 
   describe('Overwritten validation function tests', () => {

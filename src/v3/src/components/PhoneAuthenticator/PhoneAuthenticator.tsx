@@ -74,6 +74,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
   const countryLabel = getTranslation(translations, 'country');
   const optionalLabel = getTranslation(translations, 'optionalLabel');
 
+  const { features: { disableAutocomplete } = {} } = widgetProps;
   const countries = CountryUtil.getCountries() as Record<string, string>;
   const [phone, setPhone] = useState<string>('');
   // Sets the default country code
@@ -147,7 +148,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
           }}
           inputProps={{
             'data-se': 'extension',
-            autocomplete: 'tel-extension',
+            autocomplete: disableAutocomplete ? 'off' : 'tel-extension',
             'aria-describedby': ariaDescribedBy,
           }}
         />
@@ -201,7 +202,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
         inputRef={focusRef}
         inputProps={{
           'data-se': 'country',
-          autocomplete: 'tel-country-code',
+          autocomplete: disableAutocomplete ? 'off' : 'tel-country-code',
           'aria-describedby': ariaDescribedBy,
         }}
       >

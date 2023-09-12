@@ -39,6 +39,9 @@ jest.mock('./updatePasswordDescribedByValue', () => ({
 jest.mock('./setLtrFields', () => ({
   setLtrFields: () => ({}),
 }));
+jest.mock('./overwriteAutocomplete', () => ({
+  overwriteAutocomplete: () => () => ({}),
+}));
 
 /* eslint-disable global-require */
 const mocked = {
@@ -50,6 +53,7 @@ const mocked = {
   applyAsterisk: require('./applyAsteriskToFieldElements'),
   updatePasswordEle: require('./updatePasswordDescribedByValue'),
   setLtrField: require('./setLtrFields'),
+  overwriteAutocomplete: require('./overwriteAutocomplete'),
 };
 /* eslint-enable global-require */
 
@@ -63,6 +67,7 @@ describe('UISchema transformer', () => {
     jest.spyOn(mocked.applyAsterisk, 'applyAsteriskToFieldElements');
     jest.spyOn(mocked.updatePasswordEle, 'updatePasswordDescribedByValue');
     jest.spyOn(mocked.setLtrField, 'setLtrFields');
+    jest.spyOn(mocked.overwriteAutocomplete, 'overwriteAutocomplete');
 
     const formBag = getStubFormBag();
     const mockOptions = {
@@ -86,5 +91,6 @@ describe('UISchema transformer', () => {
     expect(mocked.applyAsterisk.applyAsteriskToFieldElements).toHaveBeenCalled();
     expect(mocked.updatePasswordEle.updatePasswordDescribedByValue).toHaveBeenCalled();
     expect(mocked.setLtrField.setLtrFields).toHaveBeenCalled();
+    expect(mocked.overwriteAutocomplete.overwriteAutocomplete).toHaveBeenCalled();
   });
 });
