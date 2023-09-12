@@ -118,41 +118,6 @@
                 "relatesTo": "$.authenticators.value[0]"
               },
               {
-                "label": "Okta Phone",
-                "value": {
-                  "form": {
-                    "value": [
-                      {
-                        "name": "id",
-                        "value": "aid568g3mXgtID0X1SLH",
-                        "mutable": false,
-                        "required": true
-                      },
-                      {
-                        "name": "methodType",
-                        "required": false,
-                        "options": [
-                          {
-                            "label": "SMS",
-                            "value": "sms"
-                          },
-                          {
-                            "label": "VOICE",
-                            "value": "voice"
-                          }
-                        ]
-                      },
-                      {
-                        "name": "phoneNumber",
-                        "required": false,
-                        "type": "string"
-                      }
-                    ]
-                  }
-                },
-                "relatesTo": "$.authenticators.value[2]"
-              },
-              {
                 "label": "Security Key or Biometric Authenticator (FIDO2)",
                 "value": {
                   "form": {
@@ -177,21 +142,39 @@
                 "relatesTo": "$.authenticators.value[1]"
               },
               {
-                "label": "Okta Security Question",
+                "label": "Okta Verify",
                 "value": {
                   "form": {
                     "value": [
                       {
                         "name": "id",
-                        "value": "aid568g3mXgtID0X1GGG",
+                        "value": "auteq0lLiL9o1cYoN0g4",
                         "required": true,
-                        "mutable": false,
-                        "visible": false
+                        "mutable": false
+                      },
+                      {
+                        "name": "methodType",
+                        "options": [
+                          {
+                            "value": "signed_nonce",
+                            "label": "Use Okta FastPass"
+                          },
+                          {
+                            "value": "push",
+                            "label": "Get a push notification"
+                          },
+                          {
+                            "value": "totp",
+                            "label": "Enter a code"
+                          }
+                        ],
+                        "required": true,
+                        "mutable": false
                       }
                     ]
                   }
                 },
-                "relatesTo": "$.authenticators.value[3]"
+                "relatesTo": "$.authenticators.value[2]"
               }
             ]
           },

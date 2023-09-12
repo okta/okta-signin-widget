@@ -115,5 +115,13 @@
       "label":"oktaprise",
       "id":"0oa14q13b78mZ5dVy1d8"
     }
+  },
+  "authenticatorChallenge": {
+    "type": "object",
+    "value": {
+      "challengeMethod": "CUSTOM_URI",
+      "href": "com-okta-authenticator:/deviceChallenge?challengeRequest=abcd.1234.5678",
+      "downloadHref": "https://apps.apple.com/us/app/okta-verify/id490179405"
+    }
   }
 }

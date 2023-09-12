@@ -96,7 +96,7 @@
                     ]
                   }
                 },
-                "relatesTo": "$.authenticatorEnrollments.value[2]"
+                "relatesTo": "$.authenticators.value[1]"
               }
             ]
           },
@@ -144,6 +144,37 @@
         ]
       }
     }
+  },
+  "authenticators": {
+    "type": "array",
+    "value": [
+      {
+        "catalogKey": "okta_verify",
+        "authenticatorId": "aut1erh5wK1M8wA3g0g4",
+        "authenticatorName": "Okta Verify",
+        "methods": [
+          {
+            "methodType": "signed_nonce"
+          },
+          {
+            "methodType": "push"
+          },
+          {
+            "methodType": "totp"
+          }
+        ]
+      },
+      {
+        "catalogKey": "okta_password",
+        "authenticatorId": "aidtmbseAWnMPtLe20g3",
+        "authenticatorName": "Okta Password",
+        "methods": [
+          {
+            "methodType": "password"
+          }
+        ]
+      }
+    ]
   },
   "user": {
     "type": "object",
