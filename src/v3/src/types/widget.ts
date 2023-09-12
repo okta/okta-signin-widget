@@ -19,7 +19,7 @@ import {
 import {
   RawIdxResponse,
 } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
-import EventEmitter from 'tiny-emitter';
+import { TinyEmitter } from 'tiny-emitter';
 
 import {
   EventContext,
@@ -121,7 +121,7 @@ export type WidgetOptions = {
   muiThemeOverrides?: MuiThemeOptions;
 
   // events
-  eventEmitter?: EventEmitter;
+  eventEmitter?: TinyEmitter;
 
   // callbacks
   onChange?: (data: JsonObject) => void;

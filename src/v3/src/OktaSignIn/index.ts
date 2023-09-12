@@ -13,7 +13,7 @@
 import { OktaAuth, OktaAuthOptions, Tokens } from '@okta/okta-auth-js';
 import pick from 'lodash/pick';
 import { h, render } from 'preact';
-import EventEmitter from 'tiny-emitter';
+import { TinyEmitter } from 'tiny-emitter';
 
 import {
   OktaSignInAPI, RenderErrorCallback, RenderResult, RenderSuccessCallback,
@@ -58,7 +58,7 @@ export default class OktaSignIn {
   /**
    * Event emitter
    */
-  private eventEmitter: EventEmitter;
+  private eventEmitter: TinyEmitter;
 
   el: string | null;
 
@@ -66,7 +66,7 @@ export default class OktaSignIn {
     this.version = OKTA_SIW_VERSION;
     this.options = options;
     this.el = null;
-    this.eventEmitter = new EventEmitter();
+    this.eventEmitter = new TinyEmitter();
 
     // if authClient is set, authParams are disregarded
     if (options.authClient) {
