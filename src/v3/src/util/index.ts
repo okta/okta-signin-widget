@@ -16,6 +16,8 @@ export * from './buildPasswordRequirementNotMetErrorList';
 export * from './clipboard';
 export * from './cookieUtils';
 export * from './environmentUtils';
+export * from './escape';
+export * from './extractPageTitle';
 export * from './flattenInputs';
 export * from './formatError';
 export * from './formUtils';

@@ -56,10 +56,13 @@ import {
   areTransactionsEqual,
   buildAuthCoinProps,
   canBootstrapWidget,
+  escape,
+  extractPageTitle,
   getLanguageCode,
   getLanguageDirection,
   isAndroidOrIOS,
   isAuthClientSet,
+  isConsentStep,
   isOauth2Enabled,
   loadLanguage,
   SessionStorage,
@@ -394,12 +397,25 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const toggleVisibility = useCallback((hideValue: boolean) => {
     setHide(hideValue);
   }, []);
+
   useOnce(() => {
     eventEmitter?.on('hide', toggleVisibility);
   });
+
   useEffect(() => () => {
     eventEmitter?.off('hide', toggleVisibility);
   }, [eventEmitter, toggleVisibility]);
+
+  const getDocumentTitle = useCallback(() => (
+    escape(extractPageTitle(formBag.uischema, widgetProps, idxTransaction))
+  ), [idxTransaction, widgetProps, formBag.uischema]);
+
+  useEffect(() => {
+    const title = getDocumentTitle();
+    if (title !== null) {
+      document.title = title;
+    }
+  }, [getDocumentTitle]);
 
   return (
     <WidgetContextProvider value={{
@@ -447,7 +463,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
                 authCoinProps={buildAuthCoinProps(idxTransaction)}
               />
               <AuthContent>
-                <ConsentHeader />
+                {isConsentStep(idxTransaction) && <ConsentHeader />}
                 <IdentifierContainer />
                 {
                   uischema.elements.length > 0

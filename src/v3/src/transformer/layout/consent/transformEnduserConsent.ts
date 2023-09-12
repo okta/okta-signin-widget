@@ -65,6 +65,7 @@ export const transformEnduserConsent: IdxStepTransformer = ({ transaction, formB
       data[fieldName] = true;
       return {
         type: 'Field',
+        key: fieldName,
         translations: [
           {
             name: 'label',

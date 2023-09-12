@@ -24,6 +24,7 @@ import { StateUpdater } from 'preact/hooks';
 import { getMessage } from '../../../v2/ion/i18nTransformer';
 import {
   AUTHENTICATOR_KEY,
+  CONSENT_HEADER_STEPS,
   DEVICE_ENROLLMENT_TYPE,
   EMAIL_AUTHENTICATOR_TERMINAL_KEYS,
   IDX_STEP,
@@ -355,3 +356,18 @@ export const isVerifyFlow = (transaction: IdxTransaction): boolean => {
 
 // @ts-expect-error OKTA-627610 captcha missing from context type
 export const isCaptchaEnabled = (transaction: IdxTransaction): boolean => typeof transaction.context?.captcha !== 'undefined';
+
+export const isConsentStep = (transaction?: IdxTransaction): boolean => (
+  transaction?.nextStep?.name
+    ? CONSENT_HEADER_STEPS.includes(transaction.nextStep.name)
+    : false
+);
+
+export const getApplicationName = (transaction?: IdxTransaction): string | null => {
+  if (typeof transaction === 'undefined') {
+    return null;
+  }
+
+  const { label } = getAppInfo(transaction);
+  return label ?? null;
+};

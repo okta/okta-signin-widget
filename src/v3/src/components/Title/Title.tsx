@@ -49,7 +49,7 @@ const Title: UISchemaElementComponent<{
           outline: 'none',
         }}
       >
-        {options?.content}
+        {options.content}
       </Typography>
     </Box>
   );
