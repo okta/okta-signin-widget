@@ -96,7 +96,8 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       setResponseError(error as (AuthApiError | OAuthError));
       console.error(error);
       // error event
-      eventEmitter?.emit?.('afterError',
+      eventEmitter?.emit?.(
+        'afterError',
         transaction ? getEventContext(transaction) : {},
         getErrorEventContext(error as (AuthApiError | OAuthError)),
       );
@@ -214,7 +215,8 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       const onSuccess = (resolve?: (val: unknown) => void) => {
         setIdxTransaction(newTransaction);
         if (newTransaction.requestDidSucceed === false) {
-          eventEmitter?.emit?.('afterError',
+          eventEmitter?.emit?.(
+            'afterError',
             getEventContext(newTransaction),
             getErrorEventContext(newTransaction.rawIdxState),
           );
