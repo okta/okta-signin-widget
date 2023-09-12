@@ -48,7 +48,10 @@ const OdysseyCacheProvider = ({
       createCache({
         key: uniqueAlphabeticalId,
         nonce: nonce || window.cspNonce,
-        stylisPlugins: [prefixer as unknown as StylisPlugin, logical as unknown as StylisPlugin],
+        stylisPlugins: [
+          prefixer as unknown as StylisPlugin,
+          logical({ rootDirElement: '#okta-sign-in' }) as unknown as StylisPlugin,
+        ],
       }),
     [nonce, uniqueAlphabeticalId]
   );

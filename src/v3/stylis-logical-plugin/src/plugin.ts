@@ -18,6 +18,13 @@ function hasAnyLogicalDeclarations(element: RulesetElement) {
   });
 }
 
+type PluginOptions = {
+  /**
+   * The selector of the root element that contains a `dir` property. Often this is "html" or "main".
+   */
+  rootDirElement: string;
+};
+
 /**
  * This stylis plugin transforms CSS logical properties to their equivalent physical ones. In some
  * cases, this means generating a second set of rules for the RTL (right-to-left) attribute selector.
@@ -30,76 +37,81 @@ function hasAnyLogicalDeclarations(element: RulesetElement) {
  * @param children
  * @param callback
  */
-const stylisLogicalPlugin: Middleware = function(
-  element: MiddlewareParams[0],
-  index: MiddlewareParams[1],
-  children: MiddlewareParams[2],
-  callback: MiddlewareParams[3],
-): string | void {
-  // the plugin function is called once for each element in the syntax tree
-  switch (element.type) {
-    // inspect RULE type
-    // if a rule element has any chld declarations that are subject to transform
-    // from logical to physical, we create a matching RTL element and add it
-    // to the list of elements to be processed.
-    case ('rule'):
-      const ltrElement = element;
+const stylisLogicalPlugin: (opts: PluginOptions) => Middleware = function({
+  rootDirElement,
+}) {
+  return function(
+    element: MiddlewareParams[0],
+    index: MiddlewareParams[1],
+    children: MiddlewareParams[2],
+    callback: MiddlewareParams[3],
+  ): string | void {
+    // the plugin function is called once for each element in the syntax tree
+    switch (element.type) {
+      // inspect RULE type
+      // if a rule element has any chld declarations that are subject to transform
+      // from logical to physical, we create a matching RTL element and add it
+      // to the list of elements to be processed.
+      case ('rule'):
+        const ltrElement = element;
 
-      // check if this already has rtl/ltr return sentinel value,
-      // if so, skip because we created it earlier
-      if ([LTR_ATTR_SELECTOR, RTL_ATTR_SELECTOR].includes(ltrElement.return)) {
-        return;
-      }
+        // check if this already has rtl/ltr return sentinel value,
+        // if so, skip because we created it earlier
+        if ([LTR_ATTR_SELECTOR, RTL_ATTR_SELECTOR].includes(ltrElement.return)) {
+          return;
+        }
 
-      // skip if no logical declarations
-      if (!hasAnyLogicalDeclarations(ltrElement)) {
-        return;
-      }
+        // skip if no logical declarations
+        if (!hasAnyLogicalDeclarations(ltrElement)) {
+          return;
+        }
 
-      // make a copy of element, mark as [dir="rtl"], push to children
-      const rtlElement = copy(ltrElement, {
-        // need to spread this in because `copy` doesn't deeply copy the array
-        props: [...ltrElement.props],
-        // set sentinel value on `return` to be used later
-        return: RTL_ATTR_SELECTOR,
-      });
-
-      // also do deep copy of the children so we have new references
-      rtlElement.children = ltrElement.children.map(e => {
-        // point the `root` and `parent` references at the new rtl element
-        return copy(e, {
-          root: rtlElement,
-          parent: rtlElement,
+        // make a copy of element, mark as [dir="rtl"], push to children
+        const rtlElement = copy(ltrElement, {
+          // need to spread this in because `copy` doesn't deeply copy the array
+          props: [...ltrElement.props],
+          // set sentinel value on `return` to be used later
+          return: RTL_ATTR_SELECTOR,
         });
-      });
 
-      // apply [dir="rtl"] to all rules in this ruleset
-      rtlElement.props = rtlElement.props.map(prop => `${RTL_ATTR_SELECTOR} ${prop}`);
+        // also do deep copy of the children so we have new references
+        rtlElement.children = ltrElement.children.map(e => {
+          // point the `root` and `parent` references at the new rtl element
+          return copy(e, {
+            root: rtlElement,
+            parent: rtlElement,
+          });
+        });
 
-      // add to the list of elements for processing
-      append(rtlElement, children);
+        // apply [dir="rtl"] to all rules in this ruleset
+        rtlElement.props = rtlElement.props.map(prop => `${RTL_ATTR_SELECTOR} ${prop}`);
 
-      // apply [dir="ltr"] to all rules in this ruleset
-      ltrElement.props = ltrElement.props.map(prop => `${LTR_ATTR_SELECTOR} ${prop}`);
-      // e.g. marginInlineEnd 5px the rtl one and ltr ones are mutually exclusive results
-      // set sentinel value on `return` to be used later
-      ltrElement.return = LTR_ATTR_SELECTOR;
+        // add to the list of elements for processing
+        append(rtlElement, children);
 
-      break;
+        // apply ${rootDirElement}:not([dir="rtl"]) to all rules in this ruleset
+        // this works since we assume ltr is the implicit writing direction and avoids rulesets
+        // for rtl and ltr overlapping when an inner element has a writing direction override.
+        ltrElement.props = ltrElement.props.map(prop => `${rootDirElement}:not(${RTL_ATTR_SELECTOR}) ${prop}`);
+        // set sentinel value on `return` to be used later
+        ltrElement.return = LTR_ATTR_SELECTOR;
 
-    // inspect DECLARATION type
-    // if the element is a declaration, transform the declaration depending on the logical property.
-    // this can result in adding more declaration elements to the syntax tree.
-    case ('decl'):
-      const property = element.props;
+        break;
 
-      if (transforms.has(property)) {
-        // transform declaration
-        transforms.get(property)?.(element);
-      }
+      // inspect DECLARATION type
+      // if the element is a declaration, transform the declaration depending on the logical property.
+      // this can result in adding more declaration elements to the syntax tree.
+      case ('decl'):
+        const property = element.props;
 
-      break;
-  }
+        if (transforms.has(property)) {
+          // transform declaration
+          transforms.get(property)?.(element);
+        }
+
+        break;
+    }
+  };
 };
 
 Object.defineProperty(stylisLogicalPlugin, 'name', { value: 'stylisLogicalPlugin' });
