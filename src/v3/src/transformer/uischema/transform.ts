@@ -18,6 +18,7 @@ import {
 import { addIdToElements } from './addIdToElements';
 import { applyAsteriskToFieldElements } from './applyAsteriskToFieldElements';
 import { createTextElementKeys } from './createTextElementKeys';
+import { overwriteAutocomplete } from './overwriteAutocomplete';
 import { setFocusOnFirstElement } from './setFocusOnFirstElement';
 import { setLtrFields } from './setLtrFields';
 import { updateCustomFields } from './updateCustomFields';
@@ -35,4 +36,5 @@ export const transformUISchema: TransformStepFnWithOptions = (
   addIdToElements,
   updatePasswordDescribedByValue,
   setLtrFields,
+  overwriteAutocomplete(options),
 )(formbag);

@@ -12,12 +12,7 @@
 
 import { Input } from '@okta/okta-auth-js';
 
-import {
-  AutoCompleteValue,
-  InputAttributes,
-  InputModeValue,
-  WidgetProps,
-} from '../../types';
+import { AutoCompleteValue, InputAttributes, InputModeValue } from '../../types';
 import { isAndroidOrIOS } from '../../util';
 
 type Result = {
@@ -78,15 +73,11 @@ const inputModeValueTransformer = (input: Input): InputModeValue | null => {
   return key ? inputModeValueMap.get(key) ?? null : null;
 };
 
-export const transformer = (
-  input: Input,
-  widgetProps: WidgetProps,
-): Result | null => {
+export const transformer = (input: Input): Result | null => {
   const attributes: InputAttributes = {};
   const autocompleteValue = autocompleteValueTransformer(input);
   if (autocompleteValue) {
-    const { features: { disableAutocomplete } = {} } = widgetProps;
-    attributes.autocomplete = disableAutocomplete ? 'off' : autocompleteValue;
+    attributes.autocomplete = autocompleteValue;
   }
 
   // Inputmode is used to optimize the mobile virtual keyboard based on the type of content entered
