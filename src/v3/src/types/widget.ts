@@ -121,7 +121,6 @@ export type WidgetOptions = {
   muiThemeOverrides?: MuiThemeOptions;
 
   // events
-  events?: { [key in OktaWidgetEventType]: OktaWidgetEventHandler };
   eventEmitter?: EventEmitter;
 
   // callbacks

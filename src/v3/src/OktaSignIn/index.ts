@@ -56,12 +56,8 @@ export default class OktaSignIn {
   readonly authClient: OktaSignInAPI['authClient'];
 
   /**
-   * Registered event handlers
+   * Event emitter
    */
-  private events: {
-    [key in OktaWidgetEventType]: OktaWidgetEventHandler
-  };
-
   private eventEmitter: EventEmitter;
 
   el: string | null;
@@ -71,12 +67,6 @@ export default class OktaSignIn {
     this.options = options;
     this.el = null;
     this.eventEmitter = new EventEmitter();
-
-    this.events = {
-      ready: () => { },
-      afterRender: () => { },
-      afterError: () => { },
-    };
 
     // if authClient is set, authParams are disregarded
     if (options.authClient) {
@@ -161,7 +151,6 @@ export default class OktaSignIn {
         if (target) {
           // @ts-ignore OKTA-508744
           render(h(Widget, {
-            events: this.events!,
             authClient: this.authClient,
             globalSuccessFn: onSuccessWrapper,
             globalErrorFn: onErrorWrapper,
@@ -236,10 +225,12 @@ export default class OktaSignIn {
   getUser(): void { }
 
   on(eventName: OktaWidgetEventType, eventHandler: OktaWidgetEventHandler): void {
-    this.events[eventName] = eventHandler;
+    this.eventEmitter.on(eventName, eventHandler);
   }
 
-  off(): void { }
+  off(eventName: OktaWidgetEventType, eventHandler?: OktaWidgetEventHandler): void {
+    this.eventEmitter.off(eventName, eventHandler);
+  }
 
   private buildRenderOptions(
     options: WidgetProps & Record<string, string> = {},

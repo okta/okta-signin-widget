@@ -64,7 +64,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     setStepToRender,
     widgetProps,
   } = useWidgetContext();
-  const { events } = widgetProps;
+  const { eventEmitter } = widgetProps;
 
   return useCallback(async (options: OnSubmitHandlerOptions) => {
     setLoading(true);
@@ -96,7 +96,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       setResponseError(error as (AuthApiError | OAuthError));
       console.error(error);
       // error event
-      events?.afterError?.(
+      eventEmitter?.emit?.('afterError',
         transaction ? getEventContext(transaction) : {},
         getErrorEventContext(error as (AuthApiError | OAuthError)),
       );
@@ -214,7 +214,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       const onSuccess = (resolve?: (val: unknown) => void) => {
         setIdxTransaction(newTransaction);
         if (newTransaction.requestDidSucceed === false) {
-          events?.afterError?.(
+          eventEmitter?.emit?.('afterError',
             getEventContext(newTransaction),
             getErrorEventContext(newTransaction.rawIdxState),
           );
@@ -272,7 +272,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     currTransaction,
     dataSchemaRef,
     widgetProps,
-    events,
+    eventEmitter,
     setResponseError,
     setIdxTransaction,
     setIsClientTransaction,

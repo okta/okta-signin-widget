@@ -87,7 +87,6 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     brandColors,
     brandName,
     cspNonce,
-    events,
     muiThemeOverrides,
     logo,
     logoText,
@@ -196,7 +195,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       setResponseError(null);
       setIdxTransaction(transaction);
       // ready event
-      events?.ready?.({
+      eventEmitter?.emit?.('ready', {
         stepName: transaction.nextStep?.name,
       });
     } catch (error) {
@@ -205,7 +204,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         // Bootstrap will be restarted with stateToken from widgetProps
         unsetStateHandle();
       } else {
-        events?.ready?.();
+        eventEmitter?.emit?.('ready');
 
         handleError(error);
       }
@@ -318,11 +317,11 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
 
       setIdxTransaction(transaction);
 
-      events?.ready?.({
+      eventEmitter?.emit?.('ready', {
         stepName: transaction.nextStep?.name,
       });
     } catch (error) {
-      events?.ready?.();
+      eventEmitter?.emit?.('ready');
 
       handleError(error);
     }
@@ -378,14 +377,14 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     }
     if (widgetRendered && typeof idxTransaction !== 'undefined'
       && uischema.elements.length > 0) {
-      events?.afterRender?.(getEventContext(idxTransaction));
+      eventEmitter?.emit?.('afterRender', getEventContext(idxTransaction));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [widgetRendered, idxTransaction]);
 
   useEffect(() => {
     if (responseError !== null) {
-      events?.afterRender?.({
+      eventEmitter?.emit?.('afterRender', {
         controller: null,
         formName: 'terminal',
       });
