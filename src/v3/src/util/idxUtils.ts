@@ -39,7 +39,6 @@ import {
   WidgetMessage,
   WidgetProps,
 } from '../types';
-import { escape } from './escape';
 import { flattenInputs } from './flattenInputs';
 import { getAuthenticatorKey } from './getAuthenticatorKey';
 import { getCurrentAuthenticator } from './getCurrentAuthenticator';
