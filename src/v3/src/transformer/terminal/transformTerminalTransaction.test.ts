@@ -165,7 +165,7 @@ describe('Terminal Transaction Transformer Tests', () => {
     expect((formBag.uischema.elements[0] as TitleElement).options?.content).toBe('oie.safe.mode.title');
   });
 
-  it('should add title and try again link for'
+  it('should add try again link for'
     + ' idx.device.not.activated.consent.denied message key', () => {
     const mockErrorMessage = 'Set up is temporarily unavailable due to server maintenance. Try again later.';
     transaction.messages?.push(getMockMessage(
@@ -181,13 +181,10 @@ describe('Terminal Transaction Transformer Tests', () => {
     const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
     expect(formBag).toMatchSnapshot();
-    expect(formBag.uischema.elements.length).toBe(2);
-    expect(formBag.uischema.elements[0].type).toBe('Title');
-    expect((formBag.uischema.elements[0] as TitleElement).options?.content)
-      .toBe(TERMINAL_TITLE_KEY[TERMINAL_KEY.DEVICE_NOT_ACTIVATED_CONSENT_DENIED]);
-    expect(formBag.uischema.elements[1].type).toBe('Link');
-    expect((formBag.uischema.elements[1] as LinkElement).options?.label).toBe('oie.try.again');
-    expect((formBag.uischema.elements[1] as LinkElement).options?.href).toBe(mockHref);
+    expect(formBag.uischema.elements.length).toBe(1);
+    expect(formBag.uischema.elements[0].type).toBe('Link');
+    expect((formBag.uischema.elements[0] as LinkElement).options?.label).toBe('oie.try.again');
+    expect((formBag.uischema.elements[0] as LinkElement).options?.href).toBe(mockHref);
   });
 
   it('should add title element with message for'

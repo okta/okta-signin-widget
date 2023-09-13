@@ -271,6 +271,14 @@ export interface FieldElement extends UISchemaElement {
    * This only applies for profile enrollment view.
    */
   showAsterisk?: boolean;
+  /**
+   * @description Allows inputs to be formatted/masked by matching 'pattern' and modifying it to be 'replacement'
+   * This mask is applied to input values in useOnChange
+  */
+  inputMask?: {
+    pattern: RegExp | string;
+    replacement: string;
+  };
   options: {
     inputMeta: Input;
     format?: 'select' | 'radio';
