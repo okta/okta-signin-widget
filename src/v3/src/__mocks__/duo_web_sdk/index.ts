@@ -39,7 +39,7 @@ const MockDuo = {
             input.type = 'hidden';
             input.name = 'duo-signature';
             input.value = 'successDuoAuth';
-            
+
             const form = document.createElement('form');
             form.method = 'POST';
             form.action = '';
