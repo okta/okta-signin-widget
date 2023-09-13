@@ -43,10 +43,14 @@ const DuoWindow: UISchemaElementComponent<{
         sig_request: signedToken,
         iframe: 'duo_iframe',
 
-        // @ts-expect-error type mismatch on post_action
-        post_action: (signedData: string) => {
+        submit_callback: (duoForm: HTMLFormElement) => {
+          const formInput = duoForm.getElementsByTagName('input')?.[0];
+          if (!formInput) {
+            console.error('DUO callback form element does not exist.');
+            return;
+          }
           handleDuoAuthSuccess({
-            params: { 'credentials.signatureData': signedData },
+            params: { 'credentials.signatureData': formInput.value },
             step,
           });
         },
