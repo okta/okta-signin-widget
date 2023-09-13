@@ -73,6 +73,7 @@ const FORMS = {
   // 'terminal` is not ION Form name but only coined in widget
   // for rendering a page that user has nothing to remediate.
   TERMINAL: 'terminal',
+  KMSI: 'keep-me-signed-in',
 };
 // Forms added here do not show the Sign out link
 const FORMS_WITHOUT_SIGNOUT = [

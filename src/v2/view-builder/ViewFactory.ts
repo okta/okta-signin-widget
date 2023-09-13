@@ -115,6 +115,9 @@ import ChallengeCustomAppResendPushView from './views/custom-app/ChallengeCustom
 import ReEnrollCustomPasswordExpiryView from './views/custom-password/ReEnrollCustomPasswordExpiryView';
 import ReEnrollCustomPasswordExpiryWarningView from './views/custom-password/ReEnrollCustomPasswordExpiryWarningView';
 
+//kmsi
+import KMSIView from './views/KMSIView';
+
 const DEFAULT = '_';
 
 const VIEWS_MAPPING = {
@@ -270,6 +273,9 @@ const VIEWS_MAPPING = {
   },
   [RemediationForms.TERMINAL]: {
     [DEFAULT]: TerminalView,
+  },
+  [RemediationForms.KMSI]: {
+    [DEFAULT]: KMSIView,
   },
 };
 

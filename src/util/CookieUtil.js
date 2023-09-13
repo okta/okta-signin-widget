@@ -13,6 +13,7 @@
 import { internal } from '@okta/courage';
 const Cookie = internal.util.Cookie;
 const LAST_USERNAME_COOKIE_NAME = 'ln';
+const KEEP_ME_SIGNED_IN_OPTION_COOKIE_NAME = 'kmsi';
 const DAYS_SAVE_REMEMBER = 365;
 const fn = {};
 
@@ -29,6 +30,17 @@ fn.setUsernameCookie = function(username) {
 
 fn.removeUsernameCookie = function() {
   Cookie.removeCookie(LAST_USERNAME_COOKIE_NAME, { path: '/' });
+};
+
+fn.getKmsiOption = function() {
+  return Cookie.getCookie(KEEP_ME_SIGNED_IN_OPTION_COOKIE_NAME);
+};
+
+fn.setKmsiOptionCookie = function(value) {
+  Cookie.setCookie(KEEP_ME_SIGNED_IN_OPTION_COOKIE_NAME, value, {
+    expires: DAYS_SAVE_REMEMBER,
+    path: '/',
+  });
 };
 
 export default fn;

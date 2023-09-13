@@ -85,6 +85,7 @@ export const IDX_STEP: Record<string, string> = {
   TERMINAL: 'terminal',
   UNLOCK_ACCOUNT: 'unlock-account',
   USER_CODE: 'user-code',
+  KMSI: 'keep-me-signed-in',
 };
 
 export const CHALLENGE_METHOD: Record<string, string> = {

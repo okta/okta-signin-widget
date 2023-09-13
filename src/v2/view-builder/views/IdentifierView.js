@@ -72,6 +72,16 @@ const Body = BaseForm.extend({
       .finally(() => {
         BaseForm.prototype.saveForm.apply(this, arguments);
       });
+
+      /*
+      if (this.options.settings.get('features.rememberMe') && this.model.get('rememberUsername')) {
+        if (this.model.get('identifier')) {
+          CookieUtil.setUsernameCookie(values.identifier);
+        }
+      }
+      else {
+        CookieUtil.removeUsernameCookie();
+      }*/
   },
 
   render() {
@@ -155,7 +165,13 @@ const Body = BaseForm.extend({
             'explain-top': true,
           };
         }
-      }
+      }/* else if(schema.name === 'rememberUsername' && CookieUtil.getCookieUsername()) {
+        //TODO check the checkbox if username cookie existing, do not seems to work
+        newSchema = {
+          ...newSchema,
+          value: true,
+        };
+      }*/
 
       return newSchema;
     });

@@ -251,7 +251,16 @@ export default Controller.extend({
     // Run hook: transform the user name (a.k.a identifier)
     const values = this.transformIdentifier(formName, payload);
 
+  
     // widget rememberMe feature stores the entered identifier in a cookie, to pre-fill the form on subsequent visits to page
+    /*
+    if (!this.options.settings.get('features.rememberMe') || (formName == 'identify' && !model.get('rememberUsername'))) {
+      CookieUtil.removeUsernameCookie();
+    } else if (values.identifier) {
+        CookieUtil.setUsernameCookie(values.identifier);
+    }*/
+
+    
     if (this.options.settings.get('features.rememberMe')) {
       if (values.identifier) {
         CookieUtil.setUsernameCookie(values.identifier);
