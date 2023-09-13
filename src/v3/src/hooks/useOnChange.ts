@@ -26,7 +26,7 @@ export const useOnChange = (uischema: FieldElement) => {
     }
     setData((data) => ({
       ...data,
-      [name]: maskedValue ? maskedValue : value,
+      [name]: maskedValue || value,
     }));
   }, [setData, name, inputMask]);
 };
