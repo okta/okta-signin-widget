@@ -11,16 +11,13 @@ export default class DeviceCodeActivatePageObject extends BasePageObject {
 
   getPageSubtitle() {
     if (userVariables.v3) {
-      return this.form.getElement('[data-se="o-form-explain"]').textContent;
+      return this.form.getSubtitle();
     }
     return this.form.getElement('.okta-form-subtitle').textContent;
   }
 
   clickNextButton(name) {
-    if (userVariables.v3) {
-      return this.form.clickSaveButton(name);
-    }
-    return this.form.clickSaveButton();
+    return this.form.clickSaveButton(name);
   }
 
   waitForErrorBox() {
@@ -75,14 +72,14 @@ export default class DeviceCodeActivatePageObject extends BasePageObject {
 
   isTerminalSuccessIconPresent() {
     if (userVariables.v3) {
-      return this.form.getElement('.infobox-success').exists && this.form.getElement('.MuiAlert-icon').exists;
+      return this.form.elementExist('.infobox-success');
     }
     return this.form.getElement('.device-code-terminal--icon.success-24-green').exists;
   }
 
   isTerminalErrorIconPresent() {
     if (userVariables.v3) {
-      return this.form.getElement('.infobox-error').exists && this.form.getElement('.MuiAlert-icon').exists;
+      return this.form.elementExist('.infobox-error');
     }
     return this.form.getElement('.device-code-terminal--icon.error-24-red').exists;
   }

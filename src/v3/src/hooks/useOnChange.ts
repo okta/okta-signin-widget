@@ -16,13 +16,17 @@ import { useWidgetContext } from '../contexts';
 import { FieldElement } from '../types';
 
 export const useOnChange = (uischema: FieldElement) => {
-  const { name } = uischema.options.inputMeta;
+  const { inputMask, options: { inputMeta: { name } } } = uischema;
   const { setData } = useWidgetContext();
 
   return useCallback((value: string | boolean | number) => {
+    let maskedValue: string;
+    if (inputMask && typeof value === 'string') {
+      maskedValue = value.replace(inputMask.pattern, inputMask.replacement);
+    }
     setData((data) => ({
       ...data,
-      [name]: value,
+      [name]: maskedValue ? maskedValue : value,
     }));
-  }, [setData, name]);
+  }, [setData, name, inputMask]);
 };

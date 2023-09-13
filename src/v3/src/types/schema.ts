@@ -272,10 +272,13 @@ export interface FieldElement extends UISchemaElement {
    */
   showAsterisk?: boolean;
   /**
-   * @description Determines if the app should add a hyphen after the field's 4th character
-   * This only applies for device code view.
+   * @description Allows inputs to be formatted/masked by matching 'pattern' and modifying it to be 'replacement'
+   * This mask is applied to input values in useOnChange
   */
-  hyphenate?: boolean;
+  inputMask?: {
+    pattern: RegExp | string;
+    replacement: string;
+  };
   options: {
     // TODO: remove customLabel after updating okta-auth-js (OKTA-626602)
     inputMeta: Input & {

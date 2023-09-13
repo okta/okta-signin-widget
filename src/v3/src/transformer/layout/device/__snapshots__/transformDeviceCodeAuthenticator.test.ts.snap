@@ -28,7 +28,10 @@ Object {
         "type": "Description",
       },
       Object {
-        "hyphenate": true,
+        "inputMask": Object {
+          "pattern": /\\^\\(\\[A-Za-z0-9\\]\\{4\\}\\)\\(\\[A-Za-z0-9\\]\\)/,
+          "replacement": "$1-$2",
+        },
         "options": Object {
           "inputMeta": Object {
             "name": "userCode",

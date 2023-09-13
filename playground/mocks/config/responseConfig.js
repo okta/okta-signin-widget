@@ -134,6 +134,7 @@ const idx = {
     // 'error-identify-user-locked-unable-challenge',
     // 'error-unable-to-authenticate-user',
     // 'terminal-device-activated',
+    // 'terminal-device-not-activated',
     // 'terminal-device-not-activated-consent-denied',
     // 'terminal-device-not-activated-internal-error'
     // 'success-with-interaction-code',
@@ -205,6 +206,10 @@ const idx = {
   '/idp/idx/recover': [
     'error-forgot-password',
     'authenticator-reset-password'
+  ],
+  '/idp/idx/activate': [
+    'identify-with-password',
+    // 'error-invalid-device-code',
   ],
   '/idp/idx/device/activate': [
     'identify-with-password',

@@ -28,7 +28,10 @@ describe('transformDeviceCodeAuthenticator Tests', () => {
     formBag.uischema.elements = [
       {
         type: 'Field',
-        hyphenate: true,
+        inputMask: {
+          pattern: /^([A-Za-z0-9]{4})([A-Za-z0-9])/,
+          replacement: '$1-$2',
+        },
         options: { inputMeta: { name: 'userCode' } },
       } as FieldElement,
     ];

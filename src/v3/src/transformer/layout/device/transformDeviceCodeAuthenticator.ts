@@ -22,11 +22,9 @@ import {
 import { loc } from '../../../util';
 
 export const transformDeviceCodeAuthenticator: IdxStepTransformer = ({
-  transaction,
   formBag,
 }) => {
   const { uischema, data } = formBag;
-  const { nextStep: { } = {} } = transaction;
 
   const titleElement: TitleElement = {
     type: 'Title',
@@ -47,9 +45,13 @@ export const transformDeviceCodeAuthenticator: IdxStepTransformer = ({
   ) as FieldElement;
 
   if (userCodeElement) {
-    // Turns on flag to hyphenate activation code input after the 4th character
-    // NOTE: Hyphenation is triggered by a KeyboardEvent and only occurs upon typing, not pre-filling
-    userCodeElement.hyphenate = true;
+    const hyphenationMask = {
+      // Hyphenates the input value after the 4th alphanumeric character
+      pattern: /^([A-Za-z0-9]{4})([A-Za-z0-9])/,
+      replacement: '$1-$2',
+    };
+    // Adds a RegEx inputMask to the activation code input to hyphenate the value after the 4th character
+    userCodeElement.inputMask = hyphenationMask;
     // Pre-fill the activation code input with a value if it is passed one via inputMeta
     if (userCodeElement.options.inputMeta.type === 'string') {
       data.userCode = userCodeElement.options.inputMeta.value;
