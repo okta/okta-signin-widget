@@ -48,7 +48,7 @@ const renderAndAddEventListeners = ClientFunction((settings) => {
 const renderAndAddAfterReadyEventListener = ClientFunction((settings) => {
   window.renderPlaygroundWidget(settings);
 
-  // Add 'afterRender' event listeners with argument
+  // Add 'afterRender' event listener with argument
   window.getWidgetInstance().on('afterRender', (ctx) => {
     window.console.log(JSON.stringify({
       afterRender: 1,
@@ -82,6 +82,16 @@ const renderAndRemoveAllEventListeners = ClientFunction((settings) => {
   // Remove all event listeners
   window.getWidgetInstance().off();
 });
+
+const renderAndAddEventListenerWithError = ClientFunction((settings) => {
+  window.renderPlaygroundWidget(settings);
+
+  // Add 'afterRender' event listener which throws an error
+  window.getWidgetInstance().on('ready', () => {
+    throw new Error('TEST ERROR');
+  });
+});
+
 
 fixture('OktaSignIn')
   .meta('v3', true);
@@ -204,3 +214,24 @@ test.requestHooks(identifyMock)('can remove all event listeners with .off()', as
     // no events
   ], t);
 });
+
+test.requestHooks(identifyMock)('should trap error thrown by event listener', async t => {
+  const identityPage = await setup(t, {render: false});
+  await checkA11y(t);
+  await renderAndAddEventListenerWithError();
+  await t.expect(identityPage.formExists()).eql(true);
+  const { error } = await t.getBrowserConsoleMessages();
+  await t.expect(error.includes('[okta-signin-widget] "ready" event handler error: Error: TEST ERROR')).ok();
+  await checkConsoleMessages([
+    'ready',
+    'afterRender',
+    {
+      controller: 'primary-auth',
+      formName: 'identify',
+      authenticatorKey: 'okta_password',
+      methodType: 'password',
+    },
+  ], t);
+});
+
+
