@@ -30,7 +30,8 @@ test.requestHooks(userNotAssignedMock)('oauth: shows the error message', async t
     codeChallenge: 'abc', // cannot do PKCE calcs on http://localhost
     authParams: {
       pkce: true // required for interaction code flow
-    }
+    },
+    authScheme: 'oauth2',
   });
   await t.expect(terminalPage.formExists()).eql(true);
   await terminalPage.waitForErrorBox();
@@ -47,7 +48,8 @@ test.requestHooks(userNotAssignedMock)('oauth: will redirect if `redirect === "a
     authParams: {
       pkce: true // required for interaction code flow
     },
-    redirect: 'always'
+    authScheme: 'oauth2',
+    redirect: 'always',
   });
   const errorPage = new PlaygroundErrorPageObject(t);
   await t.expect(errorPage.hasTitle()).eql(true);

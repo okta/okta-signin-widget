@@ -9,6 +9,6 @@ export default class PlaygroundErrorPageObject extends BasePageObject {
   }
 
   hasTitle() {
-    return !!this.title;
+    return this.title.exists;
   }
 }
