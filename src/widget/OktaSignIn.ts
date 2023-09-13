@@ -46,6 +46,7 @@ export function createOktaSignIn
     hooks: Hooks;
     router: AbstractRouter;
     authClient: WidgetOktaAuthInterface;
+    // Map original event handler to wrapped one
     _eventCallbackMap: WeakMap<EventCallback | EventCallbackWithError, EventCallback | EventCallbackWithError>;
 
     constructor(options: WidgetOptions) {
@@ -207,7 +208,9 @@ export function createOktaSignIn
     }
 
     off(event?: EventName, callback?: EventCallback | EventCallbackWithError): void {
-      callback = this._eventCallbackMap.get(callback) || callback;
+      if (callback) {
+        callback = this._eventCallbackMap.get(callback) || callback;
+      }
       this.Router.prototype.Events.off.call(this, event, callback);
     }
 

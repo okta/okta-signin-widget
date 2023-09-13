@@ -62,6 +62,11 @@ export default class OktaSignIn {
    */
   private eventEmitter: EventEmitter;
 
+  /**
+   * Map original event handler to wrapped one
+   */
+  private _eventCallbackMap: WeakMap<OktaWidgetEventHandler, OktaWidgetEventHandler>;
+
   el: string | null;
 
   constructor(options: WidgetProps) {
@@ -69,6 +74,7 @@ export default class OktaSignIn {
     this.options = options;
     this.el = null;
     this.eventEmitter = new EventEmitter();
+    this._eventCallbackMap = new Map();
 
     // if authClient is set, authParams are disregarded
     if (options.authClient) {
@@ -227,10 +233,26 @@ export default class OktaSignIn {
   getUser(): void { }
 
   on(eventName: OktaWidgetEventType, eventHandler: OktaWidgetEventHandler): void {
+    const self = this;
+    if (EVENTS_LIST.includes(eventName)) {
+      // trap third-party callback errors
+      const origHandler = eventHandler;
+      eventHandler = function(...callbackArgs) {
+        try {
+          origHandler.apply(self, callbackArgs);
+        } catch (err) {
+          console.error(`[okta-signin-widget] "${eventName}" event handler error:`, err);
+        }
+      };
+      this._eventCallbackMap.set(origHandler, eventHandler);
+    }
     this.eventEmitter.on(eventName, eventHandler);
   }
 
   off(eventName?: OktaWidgetEventType, eventHandler?: OktaWidgetEventHandler): void {
+    if (eventHandler) {
+      eventHandler = this._eventCallbackMap.get(eventHandler) || eventHandler;
+    }
     if (eventName) {
       this.eventEmitter.off(eventName, eventHandler);
     } else {

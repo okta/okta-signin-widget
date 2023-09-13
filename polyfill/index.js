@@ -26,3 +26,4 @@ require('core-js/web/url');
 // crypto is needed for PKCE
 require('fast-text-encoding'); // TextEncoder
 require('webcrypto-shim'); // crypto.subtle
+require('weakmap-polyfill');
