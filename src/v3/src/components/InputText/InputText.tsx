@@ -17,7 +17,7 @@ import {
   InputLabel,
   Typography,
 } from '@okta/odyssey-react-mui';
-
+import { h } from 'preact';
 import { useWidgetContext } from '../../contexts';
 import {
   useAutoFocus,
