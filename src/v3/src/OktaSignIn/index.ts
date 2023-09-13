@@ -235,9 +235,7 @@ export default class OktaSignIn {
       this.eventEmitter.off(eventName, eventHandler);
     } else {
       // `tiny-emitter` does not support `.off()` without arguments
-      for (const eventName of EVENTS_LIST) {
-        this.eventEmitter.off(eventName);
-      }
+      EVENTS_LIST.forEach((evName) => this.eventEmitter.off(evName));
     }
   }
 

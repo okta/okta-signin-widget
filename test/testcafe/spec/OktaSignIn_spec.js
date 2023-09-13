@@ -18,7 +18,7 @@ const showWidget = ClientFunction(() => {
   window.getWidgetInstance().show();
 });
 
-const renderHiddenWidget = ClientFunction(({v3}) => {
+const renderHiddenWidget = ClientFunction(() => {
   // functions `renderPlaygroundWidget` and `getWidgetInstance` are defined in playground/main.js
   window.renderPlaygroundWidget();
   window.getWidgetInstance().on('ready', () => {
@@ -40,7 +40,7 @@ const renderAndAddEventListeners = ClientFunction((settings) => {
   window.getWidgetInstance().on('afterRender', () => {
     window.console.log(JSON.stringify({ afterRender: 1 }));
   });
-  window.getWidgetInstance().on('afterRender', (ctx) => {
+  window.getWidgetInstance().on('afterRender', () => {
     window.console.log(JSON.stringify({ afterRender: 2 }));
   });
 });
