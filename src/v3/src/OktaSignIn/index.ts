@@ -65,7 +65,7 @@ export default class OktaSignIn {
   /**
    * Map original event handler to wrapped one
    */
-  private _eventCallbackMap: WeakMap<OktaWidgetEventHandler, OktaWidgetEventHandler>;
+  private eventCallbackMap: WeakMap<OktaWidgetEventHandler, OktaWidgetEventHandler>;
 
   el: string | null;
 
@@ -74,7 +74,7 @@ export default class OktaSignIn {
     this.options = options;
     this.el = null;
     this.eventEmitter = new EventEmitter();
-    this._eventCallbackMap = new Map();
+    this.eventCallbackMap = new Map();
 
     // if authClient is set, authParams are disregarded
     if (options.authClient) {
@@ -233,28 +233,29 @@ export default class OktaSignIn {
   getUser(): void { }
 
   on(eventName: OktaWidgetEventType, eventHandler: OktaWidgetEventHandler): void {
-    const self = this;
+    let registeredEventHandler = eventHandler;
     if (EVENTS_LIST.includes(eventName)) {
       // trap third-party callback errors
       const origHandler = eventHandler;
-      eventHandler = function(...callbackArgs) {
+      registeredEventHandler = (...callbackArgs) => {
         try {
-          origHandler.apply(self, callbackArgs);
+          origHandler.call(this, ...callbackArgs);
         } catch (err) {
           console.error(`[okta-signin-widget] "${eventName}" event handler error:`, err);
         }
       };
-      this._eventCallbackMap.set(origHandler, eventHandler);
+      this.eventCallbackMap.set(origHandler, registeredEventHandler);
     }
-    this.eventEmitter.on(eventName, eventHandler);
+    this.eventEmitter.on(eventName, registeredEventHandler);
   }
 
   off(eventName?: OktaWidgetEventType, eventHandler?: OktaWidgetEventHandler): void {
+    let registeredEventHandler = eventHandler;
     if (eventHandler) {
-      eventHandler = this._eventCallbackMap.get(eventHandler) || eventHandler;
+      registeredEventHandler = this.eventCallbackMap.get(eventHandler) || eventHandler;
     }
     if (eventName) {
-      this.eventEmitter.off(eventName, eventHandler);
+      this.eventEmitter.off(eventName, registeredEventHandler);
     } else {
       // `tiny-emitter` does not support `.off()` without arguments
       EVENTS_LIST.forEach((evName) => this.eventEmitter.off(evName));
