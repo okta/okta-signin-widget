@@ -10,7 +10,7 @@ import stylisLogicalPlugin from '..';
 import type { Middleware } from 'stylis';
 
 export const setupSerializer = (plugins: Middleware[] = [
-  stylisLogicalPlugin,
+  stylisLogicalPlugin({ rootDirElement: 'html' }),
   stringify,
 ]) => {
   return (css: string) => {

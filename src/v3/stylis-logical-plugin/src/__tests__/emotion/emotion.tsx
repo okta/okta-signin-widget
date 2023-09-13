@@ -22,7 +22,7 @@ describe('with emotion environment', () => {
 
     const cache = createCache({
       key: 'test',
-      stylisPlugins: [logicalRtl],
+      stylisPlugins: [logicalRtl({ rootDirElement: 'html' })],
       // @ts-expect-error
       container: document.querySelector('#container'),
     });
