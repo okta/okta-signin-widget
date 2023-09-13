@@ -13,7 +13,7 @@
 import { OktaAuth, OktaAuthOptions, Tokens } from '@okta/okta-auth-js';
 import pick from 'lodash/pick';
 import { h, render } from 'preact';
-import { TinyEmitter } from 'tiny-emitter';
+import { TinyEmitter as EventEmitter } from 'tiny-emitter';
 
 import {
   OktaSignInAPI, RenderErrorCallback, RenderResult, RenderSuccessCallback,
@@ -26,6 +26,8 @@ import {
   RenderOptions,
   WidgetProps,
 } from '../types/widget';
+
+const EVENTS_LIST = ['ready', 'afterError', 'afterRender'];
 
 console.debug(`${OKTA_SIW_VERSION}-g${OKTA_SIW_COMMIT_HASH.substring(0, 7)}`);
 
@@ -58,7 +60,7 @@ export default class OktaSignIn {
   /**
    * Event emitter
    */
-  private eventEmitter: TinyEmitter;
+  private eventEmitter: EventEmitter;
 
   el: string | null;
 
@@ -66,7 +68,7 @@ export default class OktaSignIn {
     this.version = OKTA_SIW_VERSION;
     this.options = options;
     this.el = null;
-    this.eventEmitter = new TinyEmitter();
+    this.eventEmitter = new EventEmitter();
 
     // if authClient is set, authParams are disregarded
     if (options.authClient) {
@@ -228,8 +230,15 @@ export default class OktaSignIn {
     this.eventEmitter.on(eventName, eventHandler);
   }
 
-  off(eventName: OktaWidgetEventType, eventHandler?: OktaWidgetEventHandler): void {
-    this.eventEmitter.off(eventName, eventHandler);
+  off(eventName?: OktaWidgetEventType, eventHandler?: OktaWidgetEventHandler): void {
+    if (eventName) {
+      this.eventEmitter.off(eventName, eventHandler);
+    } else {
+      // `tiny-emitter` does not support `.off()` without arguments
+      for (const eventName of EVENTS_LIST) {
+        this.eventEmitter.off(eventName);
+      }
+    }
   }
 
   private buildRenderOptions(
