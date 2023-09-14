@@ -107,7 +107,7 @@ const devConfig: Configuration = mergeWithRules({
           loader: 'babel-loader',
           options: {
             plugins: [
-              ...process.env.OMIT_MSWJS === 'true' ? [] : ['@prefresh/babel-plugin'],
+              ...process.env.IE11_COMPAT_MODE === 'true' ? [] : ['@prefresh/babel-plugin'],
             ],
           },
         },
@@ -119,9 +119,9 @@ const devConfig: Configuration = mergeWithRules({
       }),
       new webpack.DefinePlugin({
         DEBUG: true,
-        OMIT_MSWJS: process.env.OMIT_MSWJS === 'true',
+        IE11_COMPAT_MODE: process.env.IE11_COMPAT_MODE === 'true',
       }),
-      ...process.env.OMIT_MSWJS === 'true' ? [] : [new PreactRefreshPlugin()],
+      ...process.env.IE11_COMPAT_MODE === 'true' ? [] : [new PreactRefreshPlugin()],
     ],
     devServer: {
       hot: true,

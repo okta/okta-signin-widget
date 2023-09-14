@@ -13,7 +13,7 @@ import {
 import { assertNoEnglishLeaks } from '../playground/LocaleUtils';
 
 declare global {
-  const OMIT_MSWJS: boolean;
+  const IE11_COMPAT_MODE: boolean;
 
   interface Window {
     // added by widget CDN bundle
@@ -172,7 +172,7 @@ let preRenderTasks = Promise.resolve();
 // code pulled in by msw and its dependencies don't play well with ie11, so conditionally
 // exclude this from the bundle entirely using an env variable. you must restart the server
 // after setting this for it to take effect.
-if (!OMIT_MSWJS) {
+if (!IE11_COMPAT_MODE) {
   // set up msw
   preRenderTasks = import('../src/v3/src/mocks/browser')
     .then(({ getWorker }) => getWorker())
