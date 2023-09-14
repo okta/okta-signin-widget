@@ -193,6 +193,10 @@ const TransformerMap: {
       transform: transformPasswordChallenge,
       buttonConfig: { showDefaultSubmit: false, showForgotPassword: true },
     },
+    [AUTHENTICATOR_KEY.ON_PREM]: {
+      transform: transformRSAAuthenticator,
+      buttonConfig: { showDefaultSubmit: false },
+    },
     [AUTHENTICATOR_KEY.OV]: {
       transform: transformTOTPChallenge,
       buttonConfig: {
@@ -308,6 +312,10 @@ const TransformerMap: {
     },
     [AUTHENTICATOR_KEY.IDP]: {
       transform: transformIdpAuthenticator,
+      buttonConfig: { showDefaultSubmit: false },
+    },
+    [AUTHENTICATOR_KEY.ON_PREM]: {
+      transform: transformRSAAuthenticator,
       buttonConfig: { showDefaultSubmit: false },
     },
     [AUTHENTICATOR_KEY.PASSWORD]: {
