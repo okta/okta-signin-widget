@@ -26,11 +26,12 @@ const mockPasscodeChange = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(xhrPasscodeChange, 403);
 
-fixture('Challenge Authenticator On Prem');
+fixture('Challenge Authenticator On Prem').meta('v3', true);
 
 async function setup(t) {
   const challengeOnPremPage = new ChallengeOnPremPageObject(t);
   await challengeOnPremPage.navigateToPage();
+  await t.expect(challengeOnPremPage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: 'mfa-verify-totp',
     formName: 'challenge-authenticator',
@@ -49,14 +50,12 @@ test.requestHooks(mockChallengeAuthenticatorOnPrem)('challenge on prem authentic
   await t.expect(pageTitle).contains('Verify with Atko Custom On-prem');
 
   // Verify links
-  await t.expect(await challengeOnPremPage.switchAuthenticatorLinkExists()).ok();
-  await t.expect(challengeOnPremPage.getSwitchAuthenticatorLinkText()).eql('Verify with something else');
-  await t.expect(await challengeOnPremPage.signoutLinkExists()).ok();
-  await t.expect(challengeOnPremPage.getSignoutLinkText()).eql('Back to sign in');
+  await t.expect(await challengeOnPremPage.verifyWithSomethingElseLinkExists()).ok();
+  await t.expect(await challengeOnPremPage.getCancelLink().exists).ok();
 
   // verify passcode
   await challengeOnPremPage.verifyFactor('credentials.passcode', 'test');
-  await challengeOnPremPage.clickNextButton();
+  await challengeOnPremPage.clickNextButton('Verify');
   const successPage = new SuccessPageObject(t);
   const pageUrl = await successPage.getPageUrl();
   await t.expect(pageUrl)
@@ -69,17 +68,17 @@ test.requestHooks(mockChallengeAuthenticatorOnPrem)('passcode is required', asyn
 
   // verify passcode
   await challengeOnPremPage.verifyFactor('credentials.passcode', '');
-  await challengeOnPremPage.clickNextButton();
+  await challengeOnPremPage.clickNextButton('Verify');
 
   await challengeOnPremPage.waitForErrorBox();
   await t.expect(challengeOnPremPage.getPasscodeError()).eql('This field cannot be left blank');
 });
 
-test.requestHooks(mockInvalidPasscode)('challege on prem authenticator with invalid passcode', async t => {
+test.requestHooks(mockInvalidPasscode)('challenge on prem authenticator with invalid passcode', async t => {
   const challengeOnPremPage = await setup(t);
   await checkA11y(t);
   await challengeOnPremPage.verifyFactor('credentials.passcode', 'test');
-  await challengeOnPremPage.clickNextButton();
+  await challengeOnPremPage.clickNextButton('Verify');
 
   await t.expect(challengeOnPremPage.getInvalidOTPError())
     .eql('Invalid code. Try again.');
@@ -89,7 +88,7 @@ test.requestHooks(mockPasscodeChange)('displays error and clears passcode when p
   const challengeOnPremPage = await setup(t);
   await checkA11y(t);
   await challengeOnPremPage.verifyFactor('credentials.passcode', 'test');
-  await challengeOnPremPage.clickNextButton();
+  await challengeOnPremPage.clickNextButton('Verify');
 
   await t.expect(challengeOnPremPage.getInvalidOTPError())
     .eql('Pin accepted, Wait for token to change, then enter new passcode.');
