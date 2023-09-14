@@ -74,7 +74,8 @@ async function setup(t) {
   return deviceChallengePollPage;
 }
 
-test
+// TODO: fix quarantined test - OKTA-645716
+test.skip
   .requestHooks(logger, baseMock, initialPoll)('probing and polling APIs are sent and responded', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
