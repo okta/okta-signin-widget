@@ -9,6 +9,8 @@ import { createSerializer } from '@emotion/jest';
 import styled from '@emotion/styled';
 import { render } from '@testing-library/preact';
 
+import { safeQuerySelector } from '../../testUtils';
+
 import logicalRtl from '../..';
 
 expect.addSnapshotSerializer(createSerializer());
@@ -23,8 +25,7 @@ describe('with emotion environment', () => {
     const cache = createCache({
       key: 'test',
       stylisPlugins: [logicalRtl({ rootDirElement: '#container' })],
-      // @ts-expect-error
-      container: document.querySelector('#container'),
+      container: safeQuerySelector(document, '#container'),
     });
 
     const Button = styled.div(() => ({
