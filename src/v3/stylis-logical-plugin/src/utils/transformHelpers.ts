@@ -51,7 +51,7 @@ export function transformLogicalProperty({
     otherProperties.forEach((property: string) => {
       append(copy(element, {
         value: `${property}:${element.children};`,
-        props: [property],
+        props: property,
       }), root.children);
     });
   };
@@ -107,7 +107,7 @@ export function transformLogicalInlinePropertyWithShorthand({
       });
       append(copy(element, {
         value: `${ltrStartProperty}:${values.baseValue};`,
-        props: [ltrStartProperty],
+        props: ltrStartProperty,
       }), root.children);
     } else if (root.return === RTL_ATTR_SELECTOR) {
       Object.assign(element, {
@@ -117,7 +117,7 @@ export function transformLogicalInlinePropertyWithShorthand({
 
       append(copy(element, {
         value: `${ltrStartProperty}:${values.endValue};`,
-        props: [ltrStartProperty],
+        props: ltrStartProperty,
       }), root.children);
     } else if (root.return === LTR_ATTR_SELECTOR) {
       Object.assign(element, {
@@ -127,7 +127,7 @@ export function transformLogicalInlinePropertyWithShorthand({
 
       append(copy(element, {
         value: `${ltrStartProperty}:${values.startValue};`,
-        props: [ltrStartProperty],
+        props: ltrStartProperty,
       }), root.children);
     }
   };
