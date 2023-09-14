@@ -10,13 +10,11 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { resolve } from 'path';
 import { execSync } from 'child_process';
-
-import webpack from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-
+import { resolve } from 'path';
 import type { Configuration } from 'webpack';
+import webpack from 'webpack';
 
 import { version } from '../../package.json';
 import FailOnBuildFailPlugin from '../../scripts/buildtools/webpack/FailOnBuildFailPlugin';
