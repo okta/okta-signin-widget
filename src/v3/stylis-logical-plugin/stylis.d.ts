@@ -48,7 +48,12 @@ declare module 'stylis' {
 
   type Element = DeclarationElement | RulesetElement | CommentElement;
 
-  type Middleware = (element: Element, index: number, children: Element[], callback: Middleware) => string | void;
+  type Middleware = (
+    element: Element,
+    index: number,
+    children: Element[],
+    callback: Middleware
+  ) => string | void;
 
   // Utility.js
 
@@ -75,8 +80,18 @@ declare module 'stylis' {
   function middleware(collection: Middleware[]): Middleware;
 
   // @type {Middleware}
-  function stringify(element: Element, index: number, children: Element[], callback: Middleware): string;
+  function stringify(
+    element: Element,
+    index: number,
+    children: Element[],
+    callback: Middleware
+  ): string;
 
   // @type {Middleware}
-  function prefixer(element: Element, index: number, children: Element[], callback: Middleware): string | void;
+  function prefixer(
+    element: Element,
+    index: number,
+    children: Element[],
+    callback: Middleware
+  ): string | void;
 }

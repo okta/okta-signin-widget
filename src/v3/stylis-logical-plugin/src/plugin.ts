@@ -1,12 +1,10 @@
 import type { Middleware, RulesetElement } from 'stylis';
 import { append, copy } from 'stylis';
 
+import { LTR_ATTR_SELECTOR, RTL_ATTR_SELECTOR } from './constants';
 import transforms from './utils/transforms';
 
 type MiddlewareParams = Parameters<Middleware>;
-
-export const LTR_ATTR_SELECTOR = '[dir="ltr"]';
-export const RTL_ATTR_SELECTOR = '[dir="rtl"]';
 
 function hasAnyLogicalDeclarations(element: RulesetElement) {
   return element.children.some((e) => {
@@ -19,14 +17,16 @@ function hasAnyLogicalDeclarations(element: RulesetElement) {
 
 type PluginOptions = {
   /**
-   * The selector of the root element that contains a `dir` property. Often this is "html" or "main".
+   * The selector of the root element that contains a `dir` property.
+   * Often this is "html" or "main".
    */
   rootDirElement: string;
 };
 
 /**
- * This stylis plugin transforms CSS logical properties to their equivalent physical ones. In some
- * cases, this means generating a second set of rules for the RTL (right-to-left) attribute selector.
+ * This stylis plugin transforms CSS logical properties to their equivalent physical ones.
+ * In some cases, this means generating a second set of rules for the RTL (right-to-left)
+ * attribute selector.
  *
  * Note that this plugin does not account for CSS properties `writing-mode`, `direction`, and
  * `text-orientation` as these are not within the scope of our use-cases currently.
@@ -34,16 +34,14 @@ type PluginOptions = {
  * @param element the current element
  * @param index traversal depth (unused)
  * @param children `element.root.children` i.e. siblings of `element`
- * @param callback (unused)
  */
-const stylisLogicalPlugin: (opts: PluginOptions) => Middleware = function ({
+const createPlugin: (opts: PluginOptions) => Middleware = function pluginFactory({
   rootDirElement,
 }) {
-  return function (
+  const plugin = function stylisLogicalPlugin(
     element: MiddlewareParams[0],
     index: MiddlewareParams[1],
     children: MiddlewareParams[2],
-    callback: MiddlewareParams[3],
   ): string | void {
     // the plugin function is called once for each element in the syntax tree
     switch (element.type) {
@@ -51,7 +49,7 @@ const stylisLogicalPlugin: (opts: PluginOptions) => Middleware = function ({
       // if a rule element has any chld declarations that are subject to transform
       // from logical to physical, we create a matching RTL element and add it
       // to the list of elements to be processed.
-      case ('rule'):
+      case ('rule'): {
         const ltrElement = element;
 
         // check if this already has rtl/ltr return sentinel value,
@@ -74,12 +72,11 @@ const stylisLogicalPlugin: (opts: PluginOptions) => Middleware = function ({
         });
 
         // also do deep copy of the children so we have new references
-        rtlElement.children = ltrElement.children.map((e) =>
+        rtlElement.children = ltrElement.children.map((e) => copy(e, {
           // point the `root` and `parent` references at the new rtl element
-          copy(e, {
-            root: rtlElement,
-            parent: rtlElement,
-          }));
+          root: rtlElement,
+          parent: rtlElement,
+        }));
 
         // apply [dir="rtl"] to all rules in this ruleset
         rtlElement.props = rtlElement.props.map((prop) => `${RTL_ATTR_SELECTOR} ${prop}`);
@@ -95,11 +92,11 @@ const stylisLogicalPlugin: (opts: PluginOptions) => Middleware = function ({
         ltrElement.return = LTR_ATTR_SELECTOR;
 
         break;
-
+      }
       // inspect DECLARATION type
-      // if the element is a declaration, transform the declaration depending on the logical property.
-      // this can result in adding more declaration elements to the syntax tree.
-      case ('decl'):
+      // if the element is a declaration, transform the declaration depending on the logical
+      // property. this can result in adding more declaration elements to the syntax tree.
+      case ('decl'): {
         const property = element.props;
 
         if (transforms.has(property)) {
@@ -108,10 +105,16 @@ const stylisLogicalPlugin: (opts: PluginOptions) => Middleware = function ({
         }
 
         break;
+      }
+      default: {
+        break;
+      }
     }
   };
+
+  Object.defineProperty(plugin, 'name', { value: 'stylisLogicalPlugin' });
+
+  return plugin;
 };
 
-Object.defineProperty(stylisLogicalPlugin, 'name', { value: 'stylisLogicalPlugin' });
-
-export default stylisLogicalPlugin;
+export default createPlugin;

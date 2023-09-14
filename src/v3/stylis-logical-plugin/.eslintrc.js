@@ -17,13 +17,10 @@ module.exports = {
   ],
   plugins: [
     '@typescript-eslint',
-    'header',
     'import',
     'simple-import-sort',
   ],
   rules: {
-    'header/header': 'off',
-
     // enforce simple-import-sort recommendations
     'simple-import-sort/imports': 'error',
     'simple-import-sort/exports': 'error',
@@ -34,15 +31,8 @@ module.exports = {
     // prefer named exports
     'import/named': 'error',
     'import/prefer-default-export': 'off',
-    'import/no-default-export': 'warn',
+    'import/no-default-export': 'off',
     'import/no-unresolved': 'error',
-
-    // prevent conflicts with ts lint rule
-    'import/extensions': ['error', {
-      ts: 'never',
-      tsx: 'never',
-      json: 'always',
-    }],
 
     // use @typescript-eslint/no-unused-vars
     'no-unused-vars': 'off',

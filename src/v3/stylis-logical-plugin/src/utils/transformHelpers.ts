@@ -1,8 +1,33 @@
 import type { DeclarationElement } from 'stylis';
 import { append, copy } from 'stylis';
 
-import { LTR_ATTR_SELECTOR, RTL_ATTR_SELECTOR } from '../plugin';
-import type { Transformer } from './transforms';
+import { LTR_ATTR_SELECTOR, RTL_ATTR_SELECTOR } from '../constants';
+
+export type Transformer = (element: DeclarationElement) => void;
+
+function getKeysFromValue(value: string): string[] {
+  return value.trim().split(/\s+/);
+}
+
+function getInlineValue(value: string): {
+  baseValue: string;
+} | {
+  startValue: string;
+  endValue: string;
+} {
+  const keys = getKeysFromValue(value);
+
+  if (keys.length === 1) {
+    return {
+      baseValue: keys[0],
+    };
+  }
+
+  return {
+    startValue: keys[0],
+    endValue: keys[1],
+  };
+}
 
 export function transformLogicalProperty({
   properties,
@@ -151,29 +176,5 @@ export function transformPropertyWithLogicalDirectionalValues({
         });
       }
     }
-  };
-}
-
-function getKeysFromValue(value: string): string[] {
-  return value.trim().split(/\s+/);
-}
-
-function getInlineValue(value: string): {
-  baseValue: string;
-} | {
-  startValue: string;
-  endValue: string;
-} {
-  const keys = getKeysFromValue(value);
-
-  if (keys.length === 1) {
-    return {
-      baseValue: keys[0],
-    };
-  }
-
-  return {
-    startValue: keys[0],
-    endValue: keys[1],
   };
 }

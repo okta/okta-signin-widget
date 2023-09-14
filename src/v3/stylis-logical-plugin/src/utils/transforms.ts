@@ -1,13 +1,10 @@
-import type { DeclarationElement } from 'stylis';
-
+import type { Transformer } from './transformHelpers';
 import {
   transformLogicalInlineProperty,
   transformLogicalInlinePropertyWithShorthand,
   transformLogicalProperty,
   transformPropertyWithLogicalDirectionalValues,
 } from './transformHelpers';
-
-export type Transformer = (element: DeclarationElement) => void;
 
 const transforms: Map<string, Transformer> = new Map<string, Transformer>(Object.entries({
   // Flow-Relative Values
