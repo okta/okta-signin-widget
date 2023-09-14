@@ -57,9 +57,9 @@ export default View.extend({
         </p>
         <ol class="deviceBootstrap-info ov-info">
           <li>
-            {{i18n code="oie.enroll.okta_verify.setup.skipAuth.openOv"
+            {{i18n code="oie.enroll.okta_verify.setup.skipAuth.openOv.suchAs"
             bundle="login"
-            arguments="deviceBootstrap.enrolledDevices"
+            arguments="enrolledDeviceName"
             $1="<span class='semi-strong'>$1</span>"}}
           </li>          
           <li>{{i18n code="oie.enroll.okta_verify.setup.skipAuth.selectAccount" bundle="login"}}</li>
@@ -76,12 +76,20 @@ export default View.extend({
     `,
   getTemplateData() {
     const contextualData = this.options.appState.get('currentAuthenticator').contextualData;
+    let enrolledDeviceName = '';
+    if (contextualData && contextualData?.devicebootstrap && contextualData?.devicebootstrap.enrolledDevices) {
+      const enrolledDevices = contextualData?.devicebootstrap.enrolledDevices;
+      enrolledDeviceName = Array.isArray(enrolledDevices) && !_.isEmpty(enrolledDevices) ?
+        enrolledDevices[0] : enrolledDevices;
+    }
+
     return {
       href: contextualData.qrcode?.href,
       email: _.escape(contextualData?.email),
       phoneNumber:  _.escape(contextualData?.phoneNumber),
       sameDevice: contextualData?.samedevice,
       deviceBootstrap: contextualData?.devicebootstrap,
+      enrolledDeviceName: enrolledDeviceName,
     };
   },
   postRender: function() {

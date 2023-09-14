@@ -9,6 +9,7 @@ import { checkConsoleMessages, oktaDashboardContent, renderWidget as rerenderWid
 import xhrAuthenticatorEnrollOktaVerifyQr from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-qr.json';
 import xhrAuthenticatorEnrollOktaVerifySameDevice from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-same-device.json';
 import xhrAuthenticatorEnrollOktaVerifyDeviceBootstrap from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-device-bootstrap.json';
+import xhrAuthenticatorEnrollOktaVerifyDeviceBootstrapMultipleDevices from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-device-bootstrap-multiple-devices.json';
 import xhrAuthenticatorEnrollOktaVerifyViaEmail from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-via-email.json';
 import xhrAuthenticatorEnrollOktaVerifyEmail from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-email.json';
 import xhrAuthenticatorEnrollOktaVerifyViaSMS from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-via-sms.json';
@@ -61,6 +62,10 @@ const enrollSameDeviceMocks = RequestMock()
 const enrollDeviceBootstrapMocks = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorEnrollOktaVerifyDeviceBootstrap);
+
+const enrollDeviceBootstrapMocksMultipleDevices = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrAuthenticatorEnrollOktaVerifyDeviceBootstrapMultipleDevices);
 
 const enrollViaEmailMocks = pollResponse => RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -250,7 +255,7 @@ const sameDeviceInstruction1 = 'If you don’t have Okta Verify installed, downl
 const sameDeviceInstruction2 = 'Open Okta Verify and follow the steps to add your account.';
 const sameDeviceInstruction3 = 'When prompted, choose Sign In, then enter the sign-in URL:';
 const deviceBootstrapSubtitle = 'To set up Okta Verify on additional devices, you can copy an existing Okta Verify account onto a new device.';
-const deviceBootstrapInstruction1 = 'Open Okta Verify on any of your other Okta Verify devices';
+const deviceBootstrapInstruction1 = 'Open Okta Verify on any of your other Okta Verify devices (Such as your testDevice1).';
 const deviceBootstrapInstruction2 = 'In the app, select your account.';
 const deviceBootstrapInstruction3 = 'Choose Add Account to Another Device.';
 const deviceBootstrapInstruction4 = 'Follow the rest of the instructions shown in Okta Verify.';
@@ -860,13 +865,38 @@ test
 
 test
   .meta('v3', false)
-  .requestHooks(logger, enrollDeviceBootstrapMocks)('should be able to see OV device bootstrap enrollment instructions without polling', async t => {
+  .requestHooks(logger, enrollDeviceBootstrapMocks)('should be able to see OV device bootstrap enrollment instructions without polling with one device', async t => {
     const enrollOktaVerifyPage = await setup(t);
     await checkA11y(t);
     await t.expect(enrollOktaVerifyPage.getFormTitle()).eql('Set up Okta Verify');
     await t.expect(enrollOktaVerifyPage.getSubHeader()).eql(deviceBootstrapSubtitle);
-    await t.expect(await enrollOktaVerifyPage.getNthInstructionBulletPoint(0)).contains(deviceBootstrapInstruction1);
-    await t.expect(await enrollOktaVerifyPage.getNthInstructionBulletPoint(0)).contains('testDevice1');
+    await t.expect(await enrollOktaVerifyPage.getNthInstructionBulletPoint(0)).eql(deviceBootstrapInstruction1);
+    await t.expect(await enrollOktaVerifyPage.getNthInstructionBulletPoint(1)).eql(deviceBootstrapInstruction2);
+    await t.expect(await enrollOktaVerifyPage.getNthInstructionBulletPoint(2)).eql(deviceBootstrapInstruction3);
+    await t.expect(await enrollOktaVerifyPage.getNthInstructionBulletPoint(3)).eql(deviceBootstrapInstruction4);
+    await t.expect(await enrollOktaVerifyPage.getClosingText()).eql(deviceBootstrapClosing);
+
+    await t.expect(enrollOktaVerifyPage.getTryDifferentWayText().exists).notOk();
+    await t.expect(await enrollOktaVerifyPage.returnToAuthenticatorListLinkExists()).ok();
+    await t.expect(await enrollOktaVerifyPage.signoutLinkExists()).ok();
+
+    // expect no polling for device bootstrap page
+    await t.expect(logger.count(
+      record => record.response.statusCode === 200 &&
+      record.request.url.match(/poll/)
+    )).eql(0);
+  });
+
+test
+  .meta('v3', false)
+  .requestHooks(logger, enrollDeviceBootstrapMocksMultipleDevices)('should be able to see OV device bootstrap enrollment instructions without polling with multiple devices', async t => {
+    const enrollOktaVerifyPage = await setup(t);
+    await checkA11y(t);
+    await t.expect(enrollOktaVerifyPage.getFormTitle()).eql('Set up Okta Verify');
+    await t.expect(enrollOktaVerifyPage.getSubHeader()).eql(deviceBootstrapSubtitle);
+    const instruction1 = await enrollOktaVerifyPage.getNthInstructionBulletPoint(0);
+    await t.expect(instruction1).eql(deviceBootstrapInstruction1);
+    await t.expect(instruction1).notContains('device2');
     await t.expect(await enrollOktaVerifyPage.getNthInstructionBulletPoint(1)).eql(deviceBootstrapInstruction2);
     await t.expect(await enrollOktaVerifyPage.getNthInstructionBulletPoint(2)).eql(deviceBootstrapInstruction3);
     await t.expect(await enrollOktaVerifyPage.getNthInstructionBulletPoint(3)).eql(deviceBootstrapInstruction4);
