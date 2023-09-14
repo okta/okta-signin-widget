@@ -107,7 +107,7 @@ const devConfig: Configuration = mergeWithRules({
           loader: 'babel-loader',
           options: {
             plugins: [
-              '@prefresh/babel-plugin',
+              ...process.env.OMIT_MSWJS === 'true' ? [] : ['@prefresh/babel-plugin'],
             ],
           },
         },
@@ -121,7 +121,7 @@ const devConfig: Configuration = mergeWithRules({
         DEBUG: true,
         OMIT_MSWJS: process.env.OMIT_MSWJS === 'true',
       }),
-      new PreactRefreshPlugin(),
+      ...process.env.OMIT_MSWJS === 'true' ? [] : [new PreactRefreshPlugin()],
     ],
     devServer: {
       hot: true,
