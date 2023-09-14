@@ -19,3 +19,15 @@ export const setupSerializer = (plugins: Middleware[] = [
     return serialize(compiled, middleware(plugins));
   }
 };
+
+export const minify = (css: string) => {
+  return serialize(compile(css), stringify);
+};
+
+export const safeQuerySelector = (element: Element | Document, selector: string) => {
+  const e = element.querySelector(selector);
+  if (e !== null) {
+    return e;
+  }
+  throw new Error(`Element matching selector "${selector}" was not found!`);
+};

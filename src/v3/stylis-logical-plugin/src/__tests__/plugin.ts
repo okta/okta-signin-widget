@@ -1,5 +1,5 @@
 import { setupSerializer } from '../testUtils';
-import { ensmallen } from '../utils';
+import { minify } from '../testUtils';
 
 describe('compile, transform, and serialize', () => {
   const processor = setupSerializer();
@@ -9,7 +9,7 @@ describe('compile, transform, and serialize', () => {
       /* comment */
     `;
 
-    expect(processor(css)).toBe(ensmallen(css));
+    expect(processor(css)).toBe(minify(css));
   });
 
   it('handles ruleset without logical declaration', () => {
@@ -22,7 +22,7 @@ describe('compile, transform, and serialize', () => {
       }
     `;
 
-    expect(processor(css)).toBe(ensmallen(css));
+    expect(processor(css)).toBe(minify(css));
   });
 
   it('handles ruleset with simple logical declaration', () => {
@@ -32,7 +32,7 @@ describe('compile, transform, and serialize', () => {
       }
     `;
 
-    expect(processor(css)).toBe(ensmallen(`
+    expect(processor(css)).toBe(minify(`
       html:not([dir="rtl"]) .a {
         margin-right: 5px;
       }
@@ -50,7 +50,7 @@ describe('compile, transform, and serialize', () => {
       }
     `;
 
-    expect(processor(css)).toBe(ensmallen(`
+    expect(processor(css)).toBe(minify(`
       html:not([dir="rtl"]) .a {
         color: red;
         margin-right: 5px;
@@ -69,7 +69,7 @@ describe('compile, transform, and serialize', () => {
       }
     `;
 
-    expect(processor(css)).toBe(ensmallen(`
+    expect(processor(css)).toBe(minify(`
       html:not([dir="rtl"]) .a, html:not([dir="rtl"]) .b {
         margin-right: 5px;
       }
@@ -88,7 +88,7 @@ describe('compile, transform, and serialize', () => {
       }
     `;
 
-    expect(processor(css)).toBe(ensmallen(`
+    expect(processor(css)).toBe(minify(`
       html:not([dir="rtl"]) .a {
         color: red;
         padding-right: 5px;
@@ -110,7 +110,7 @@ describe('compile, transform, and serialize', () => {
         }
       `;
 
-      expect(processor(css)).toBe(ensmallen(`
+      expect(processor(css)).toBe(minify(`
         html:not([dir="rtl"]) .a {
           margin-right: 5px;
           margin-left: 5px;
@@ -129,7 +129,7 @@ describe('compile, transform, and serialize', () => {
         }
       `;
 
-      expect(processor(css)).toBe(ensmallen(`
+      expect(processor(css)).toBe(minify(`
         html:not([dir="rtl"]) .a {
           margin-right: 10px;
           margin-left: 5px;
@@ -149,7 +149,7 @@ describe('compile, transform, and serialize', () => {
         }
       `;
 
-      expect(processor(css)).toBe(ensmallen(`
+      expect(processor(css)).toBe(minify(`
         html:not([dir="rtl"]) .a {
           height: 5px;
         }
@@ -167,7 +167,7 @@ describe('compile, transform, and serialize', () => {
         }
       `;
 
-      expect(processor(css)).toBe(ensmallen(`
+      expect(processor(css)).toBe(minify(`
         html:not([dir="rtl"]) .a {
           margin-top: 5px;
           top: 5px 10px;
@@ -191,7 +191,7 @@ describe('compile, transform, and serialize', () => {
         }
       `;
 
-      expect(processor(css)).toBe(ensmallen(`
+      expect(processor(css)).toBe(minify(`
         html:not([dir="rtl"]) .a {
           clear: both;
         }
@@ -208,7 +208,7 @@ describe('compile, transform, and serialize', () => {
         }
       `;
 
-      expect(processor(css)).toBe(ensmallen(`
+      expect(processor(css)).toBe(minify(`
         html:not([dir="rtl"]) .a {
           clear: left;
         }
