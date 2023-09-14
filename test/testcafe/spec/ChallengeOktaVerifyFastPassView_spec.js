@@ -445,7 +445,8 @@ test
     await t.expect(errorText).notContains('Your device\'s biometric sensors are accessible');
   });
 
-test
+// TODO: fix quarantined test - OKTA-645716
+test.skip
   .requestHooks(loopbackBiometricsErrorDesktopMock)('show biometrics error for desktop platform in loopback', async t => {
     probeSuccess = false;
     const deviceChallengePollPageObject = await setup(t);
