@@ -32,10 +32,10 @@ type PluginOptions = {
  * Note that this plugin does not account for CSS properties `writing-mode`, `direction`, and
  * `text-orientation` as these are not within the scope of our use-cases currently.
  *
- * @param element
- * @param index
- * @param children
- * @param callback
+ * @param element the current element
+ * @param index traversal depth (unused)
+ * @param children `element.root.children` i.e. siblings of `element`
+ * @param callback (unused)
  */
 const stylisLogicalPlugin: (opts: PluginOptions) => Middleware = function({
   rootDirElement,
