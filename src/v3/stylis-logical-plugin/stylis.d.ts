@@ -14,7 +14,7 @@ declare module 'stylis' {
     COMMENT = 'comm',
     RULESET = 'rule',
     DECLARATION = 'decl',
-  };
+  }
 
   interface BaseElement {
     type: ElementType;
@@ -64,7 +64,7 @@ declare module 'stylis' {
 
   // Tokenizer.js
 
-  function copy<T extends Element>(root: T, props: Record<string,any>): T;
+  function copy<T extends Element>(root: T, props: Record<string, any>): T;
 
   // Serializer.js
 

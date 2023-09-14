@@ -1,5 +1,4 @@
-import { setupSerializer } from '../testUtils';
-import { minify } from '../testUtils';
+import { minify, setupSerializer } from '../testUtils';
 
 describe('compile, transform, and serialize', () => {
   const processor = setupSerializer();
@@ -157,7 +156,7 @@ describe('compile, transform, and serialize', () => {
           height: 5px;
         }
       `));
-    })
+    });
 
     it('with property that maps to two properties', () => {
       const css = `
@@ -181,7 +180,7 @@ describe('compile, transform, and serialize', () => {
           bottom: 5px 10px;
         }
       `));
-    })
+    });
   });
   describe('handles ruleset with logical directional values', () => {
     it('with value that does not need transform', () => {
@@ -199,7 +198,7 @@ describe('compile, transform, and serialize', () => {
           clear: both;
         }
       `));
-    })
+    });
 
     it('with value that needs transform', () => {
       const css = `
@@ -216,6 +215,6 @@ describe('compile, transform, and serialize', () => {
           clear: right;
         }
       `));
-    })
+    });
   });
 });

@@ -2,22 +2,21 @@
  * @jest-environment jsdom
  */
 
-import React from 'react';
 import createCache from '@emotion/cache';
-import { CacheProvider } from '@emotion/react';
 import { createSerializer } from '@emotion/jest';
+import { CacheProvider } from '@emotion/react';
 import styled from '@emotion/styled';
 import { render } from '@testing-library/preact';
-
-import { safeQuerySelector } from '../../testUtils';
+import React from 'react';
 
 import logicalRtl from '../..';
+import { safeQuerySelector } from '../../testUtils';
 
 expect.addSnapshotSerializer(createSerializer());
 
 describe('with emotion environment', () => {
   it('generates styles for simple scenario', async () => {
-    const body = document.body;
+    const { body } = document;
     body.innerHTML = `
       <div id="container" />
     `;
@@ -37,12 +36,11 @@ describe('with emotion environment', () => {
     render(
       <CacheProvider value={cache}>
         <Button />
-      </CacheProvider>
+      </CacheProvider>,
     );
 
     expect(document.getElementsByTagName('style')).toHaveLength(2);
 
     expect(body).toMatchSnapshot();
-  })
-
+  });
 });

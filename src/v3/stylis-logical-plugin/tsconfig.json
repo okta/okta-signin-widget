@@ -1,6 +1,7 @@
 {
-  "include": ["src/**/*.ts"],
-  "files": ["stylis.d.ts"],
-  "exclude": ["src/__tests__"],
+  "include": [
+    "**/*",
+    ".eslintrc.js",
+  ],
   "extends": "../tsconfig.base.json"
 }

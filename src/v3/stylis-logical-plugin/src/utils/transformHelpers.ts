@@ -1,9 +1,7 @@
+import type { DeclarationElement } from 'stylis';
 import { append, copy } from 'stylis';
 
-import type { DeclarationElement } from 'stylis';
-
 import { LTR_ATTR_SELECTOR, RTL_ATTR_SELECTOR } from '../plugin';
-
 import type { Transformer } from './transforms';
 
 export function transformLogicalProperty({
@@ -12,7 +10,7 @@ export function transformLogicalProperty({
   properties: string[];
 }): Transformer {
   return (element: DeclarationElement) => {
-    const root = element.root;
+    const { root } = element;
 
     if (root?.type !== 'rule') {
       return;
@@ -30,7 +28,7 @@ export function transformLogicalProperty({
         value: `${property}:${element.children};`,
         props: [property],
       }), root.children);
-    })
+    });
   };
 }
 
@@ -68,7 +66,7 @@ export function transformLogicalInlinePropertyWithShorthand({
   ltrEndProperty: string;
 }): Transformer {
   return (element: DeclarationElement) => {
-    const root = element.root;
+    const { root } = element;
 
     if (root?.type !== 'rule') {
       return;
@@ -86,28 +84,26 @@ export function transformLogicalInlinePropertyWithShorthand({
         value: `${ltrStartProperty}:${values.baseValue};`,
         props: [ltrStartProperty],
       }), root.children);
-    } else {
-      if (root.return === RTL_ATTR_SELECTOR) {
-        Object.assign(element, {
-          value: `${ltrEndProperty}:${values.startValue};`,
-          props: [ltrEndProperty],
-        });
+    } else if (root.return === RTL_ATTR_SELECTOR) {
+      Object.assign(element, {
+        value: `${ltrEndProperty}:${values.startValue};`,
+        props: [ltrEndProperty],
+      });
 
-        append(copy(element, {
-          value: `${ltrStartProperty}:${values.endValue};`,
-          props: [ltrStartProperty],
-        }), root.children);
-      } else if (root.return === LTR_ATTR_SELECTOR) {
-        Object.assign(element, {
-          value: `${ltrEndProperty}:${values.endValue};`,
-          props: [ltrEndProperty],
-        });
+      append(copy(element, {
+        value: `${ltrStartProperty}:${values.endValue};`,
+        props: [ltrStartProperty],
+      }), root.children);
+    } else if (root.return === LTR_ATTR_SELECTOR) {
+      Object.assign(element, {
+        value: `${ltrEndProperty}:${values.endValue};`,
+        props: [ltrEndProperty],
+      });
 
-        append(copy(element, {
-          value: `${ltrStartProperty}:${values.startValue};`,
-          props: [ltrStartProperty],
-        }), root.children);
-      }
+      append(copy(element, {
+        value: `${ltrStartProperty}:${values.startValue};`,
+        props: [ltrStartProperty],
+      }), root.children);
     }
   };
 }
@@ -122,7 +118,7 @@ export function transformPropertyWithLogicalDirectionalValues({
   inlineEndValue: string;
 }): Transformer {
   return (element: DeclarationElement) => {
-    const root = element.root;
+    const { root } = element;
 
     if (root?.type !== 'rule') {
       return;

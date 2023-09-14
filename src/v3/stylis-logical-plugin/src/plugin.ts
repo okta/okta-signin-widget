@@ -1,8 +1,7 @@
-import { copy, append } from 'stylis';
+import type { Middleware, RulesetElement } from 'stylis';
+import { append, copy } from 'stylis';
 
 import transforms from './utils/transforms';
-
-import type { Middleware, RulesetElement } from 'stylis';
 
 type MiddlewareParams = Parameters<Middleware>;
 
@@ -10,7 +9,7 @@ export const LTR_ATTR_SELECTOR = '[dir="ltr"]';
 export const RTL_ATTR_SELECTOR = '[dir="rtl"]';
 
 function hasAnyLogicalDeclarations(element: RulesetElement) {
-  return element.children.some(e => {
+  return element.children.some((e) => {
     if (e.type === 'decl') {
       return transforms.has(e.props);
     }
@@ -28,7 +27,7 @@ type PluginOptions = {
 /**
  * This stylis plugin transforms CSS logical properties to their equivalent physical ones. In some
  * cases, this means generating a second set of rules for the RTL (right-to-left) attribute selector.
- * 
+ *
  * Note that this plugin does not account for CSS properties `writing-mode`, `direction`, and
  * `text-orientation` as these are not within the scope of our use-cases currently.
  *
@@ -37,10 +36,10 @@ type PluginOptions = {
  * @param children `element.root.children` i.e. siblings of `element`
  * @param callback (unused)
  */
-const stylisLogicalPlugin: (opts: PluginOptions) => Middleware = function({
+const stylisLogicalPlugin: (opts: PluginOptions) => Middleware = function ({
   rootDirElement,
 }) {
-  return function(
+  return function (
     element: MiddlewareParams[0],
     index: MiddlewareParams[1],
     children: MiddlewareParams[2],
@@ -75,16 +74,15 @@ const stylisLogicalPlugin: (opts: PluginOptions) => Middleware = function({
         });
 
         // also do deep copy of the children so we have new references
-        rtlElement.children = ltrElement.children.map(e => {
+        rtlElement.children = ltrElement.children.map((e) =>
           // point the `root` and `parent` references at the new rtl element
-          return copy(e, {
+          copy(e, {
             root: rtlElement,
             parent: rtlElement,
-          });
-        });
+          }));
 
         // apply [dir="rtl"] to all rules in this ruleset
-        rtlElement.props = rtlElement.props.map(prop => `${RTL_ATTR_SELECTOR} ${prop}`);
+        rtlElement.props = rtlElement.props.map((prop) => `${RTL_ATTR_SELECTOR} ${prop}`);
 
         // add to the list of elements for processing
         append(rtlElement, children);
@@ -92,7 +90,7 @@ const stylisLogicalPlugin: (opts: PluginOptions) => Middleware = function({
         // apply ${rootDirElement}:not([dir="rtl"]) to all rules in this ruleset
         // this works since we assume ltr is the implicit writing direction and avoids rulesets
         // for rtl and ltr overlapping when an inner element has a writing direction override.
-        ltrElement.props = ltrElement.props.map(prop => `${rootDirElement}:not(${RTL_ATTR_SELECTOR}) ${prop}`);
+        ltrElement.props = ltrElement.props.map((prop) => `${rootDirElement}:not(${RTL_ATTR_SELECTOR}) ${prop}`);
         // set sentinel value on `return` to be used later
         ltrElement.return = LTR_ATTR_SELECTOR;
 
