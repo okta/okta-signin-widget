@@ -47,6 +47,15 @@ const babelOptions = {
         importSource: 'preact',
       },
     ],
+    [
+      '@babel/plugin-transform-runtime',
+      {
+        // core-js polyfill handled by @babel/preset-env
+        corejs: false,
+        helpers: true,
+        regenerator: true,
+      },
+    ],
   ],
 };
 
@@ -55,6 +64,13 @@ const baseConfig: Partial<Configuration> = {
   devtool: 'source-map',
   output: {
     path: resolve(__dirname, '../..', 'target'),
+    environment: {
+      arrowFunction: false,
+      destructuring: false,
+      forOf: false,
+      optionalChaining: false,
+      templateLiteral: false,
+    },
   },
   module: {
     rules: [
