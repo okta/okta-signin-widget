@@ -15,6 +15,7 @@ import 'webpack-dev-server';
 
 import PreactRefreshPlugin from '@prefresh/webpack';
 import fs from 'fs';
+import path from 'path';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import nodemon from 'nodemon';
 import { resolve } from 'path';
@@ -34,6 +35,54 @@ const ASSETS = resolve(__dirname, '../..', 'assets');
 
 const HOST = process.env.OKTA_SIW_HOST || 'localhost';
 const STATIC_DIRS = [PLAYGROUND, TARGET, ASSETS];
+
+class ReorderBabelPluginLoaderPlugin {
+  matcher: (resource) => false;
+
+  constructor() {
+    this.matcher = webpack.ModuleFilenameHelpers.matchObject.bind(
+      undefined,
+      {
+        include: /\.([jt]sx?)$/,
+        exclude: /node_modules/,
+      },
+    );
+  }
+
+  apply(compiler) {
+    compiler.hooks.compilation.tap(
+      'ReorderBabelPluginLoaderPlugin',
+      (compilation, { normalModuleFactory }) => {
+        if (compilation.compiler !== compiler) {
+          return;
+        }
+        normalModuleFactory.hooks.afterResolve.tap(
+          'ReorderBabelPluginLoaderPlugin',
+          ({ createData: data }) => {
+            if (
+              this.matcher(data.resource) &&
+              !data.resource.includes('@prefresh') &&
+              !data.resource.includes(path.join(__dirname, './loader')) &&
+              !data.resource.includes(path.join(__dirname, './utils'))
+            ) {
+              // find and store the babel loader
+              const babelLoader = data.loaders.find((l) => l.loader.includes('babel-loader'));
+
+              if (babelLoader !== undefined) {
+                // remove the babel loader
+                data.loaders = data.loaders.filter((l) => {
+                  return !l.loader.includes('babel-loader');
+                });
+                // add it back as the top (last to run) one
+                data.loaders.unshift(babelLoader);
+              }
+            }
+          }
+        );
+      },
+    );
+  }
+}
 
 const headers = (() => {
   if (!process.env.DISABLE_CSP) {
@@ -122,6 +171,7 @@ const devConfig: Configuration = mergeWithRules({
         OMIT_MSWJS: process.env.OMIT_MSWJS === 'true',
       }),
       new PreactRefreshPlugin(),
+      new ReorderBabelPluginLoaderPlugin(),
     ],
     devServer: {
       hot: true,

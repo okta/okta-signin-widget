@@ -85,6 +85,7 @@ const baseConfig: Partial<Configuration> = {
             '/node_modules/@mui',
             '/node_modules/@okta/okta-auth-js',
             '/node_modules/p-cancelable',
+            '/node_modules/@prefresh/',
           ].some(filePathContains);
           const shallBeExcluded = [
             // /src/ will be handled in next rule
