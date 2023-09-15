@@ -49,7 +49,6 @@ describe('SymantecVip Authenticator Transformer Tests', () => {
     });
     expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(5);
-    console.log(updatedFormBag.uischema.elements);
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('oie.symantecVip.enroll.title');
   });
@@ -63,7 +62,6 @@ describe('SymantecVip Authenticator Transformer Tests', () => {
     });
     expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(5);
-    console.log(updatedFormBag.uischema.elements);
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('oie.symantecVip.challenge.title');
   });
