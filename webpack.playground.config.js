@@ -64,7 +64,7 @@ module.exports = {
   },
   plugins: [
     new DefinePlugin({
-      OMIT_MSWJS: process.env.OMIT_MSWJS === 'true',
+      IE11_COMPAT_MODE: process.env.IE11_COMPAT_MODE === 'true',
     })
   ],
   module: {

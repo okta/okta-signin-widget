@@ -10,13 +10,11 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { resolve } from 'path';
 import { execSync } from 'child_process';
-
-import webpack from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-
+import { resolve } from 'path';
 import type { Configuration } from 'webpack';
+import webpack from 'webpack';
 
 import { version } from '../../package.json';
 import FailOnBuildFailPlugin from '../../scripts/buildtools/webpack/FailOnBuildFailPlugin';
@@ -49,6 +47,15 @@ const babelOptions = {
         importSource: 'preact',
       },
     ],
+    [
+      '@babel/plugin-transform-runtime',
+      {
+        // core-js polyfill handled by @babel/preset-env
+        corejs: false,
+        helpers: true,
+        regenerator: true,
+      },
+    ],
   ],
 };
 
@@ -57,6 +64,13 @@ const baseConfig: Partial<Configuration> = {
   devtool: 'source-map',
   output: {
     path: resolve(__dirname, '../..', 'target'),
+    environment: {
+      arrowFunction: false,
+      destructuring: false,
+      forOf: false,
+      optionalChaining: false,
+      templateLiteral: false,
+    },
   },
   module: {
     rules: [

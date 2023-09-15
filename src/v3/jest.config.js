@@ -32,8 +32,7 @@ module.exports = {
     },
   },
   transform: {
-    '^.+\\.tsx?$': 'ts-jest',
-    '^.+\\.js$': 'babel-jest',
+    '^.+\\.[jt]sx?$': 'ts-jest',
   },
   verbose: true,
   testURL: 'http://localhost:8080',

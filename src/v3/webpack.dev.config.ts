@@ -10,20 +10,19 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import fs from 'fs';
-import { resolve } from 'path';
-
-import nodemon from 'nodemon';
-import webpack from 'webpack';
-import { mergeWithRules } from 'webpack-merge';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import PreactRefreshPlugin from '@prefresh/webpack';
-
-import baseConfig from './webpack.common.config';
-
-import type { Configuration } from 'webpack';
 // loads augmented Configuration type containing `devServer` type definition
 import 'webpack-dev-server';
+
+import PreactRefreshPlugin from '@prefresh/webpack';
+import fs from 'fs';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import nodemon from 'nodemon';
+import { resolve } from 'path';
+import type { Configuration } from 'webpack';
+import webpack from 'webpack';
+import { mergeWithRules } from 'webpack-merge';
+
+import baseConfig from './webpack.common.config';
 
 const DEV_SERVER_PORT = 3000;
 const MOCK_SERVER_PORT = 3030;
@@ -46,7 +45,7 @@ const headers = (() => {
       'Content-Security-Policy': `${scriptSrc}; ${styleSrc};`,
     };
   }
-  return;
+  return undefined;
 })();
 
 if (!fs.existsSync(WIDGET_RC_JS)) {
@@ -96,7 +95,7 @@ const devConfig: Configuration = mergeWithRules({
         // mock duo
         '@okta/duo': resolve(PLAYGROUND, '/mocks/spec-duo/duo-mock.js'),
         duo_web_sdk: resolve(__dirname, 'src/__mocks__/duo_web_sdk'),
-      }
+      },
     },
     module: {
       rules: [
@@ -108,7 +107,7 @@ const devConfig: Configuration = mergeWithRules({
           loader: 'babel-loader',
           options: {
             plugins: [
-              '@prefresh/babel-plugin',
+              ...process.env.IE11_COMPAT_MODE === 'true' ? [] : ['@prefresh/babel-plugin'],
             ],
           },
         },
@@ -120,9 +119,9 @@ const devConfig: Configuration = mergeWithRules({
       }),
       new webpack.DefinePlugin({
         DEBUG: true,
-        OMIT_MSWJS: process.env.OMIT_MSWJS === 'true',
+        IE11_COMPAT_MODE: process.env.IE11_COMPAT_MODE === 'true',
       }),
-      new PreactRefreshPlugin(),
+      ...process.env.IE11_COMPAT_MODE === 'true' ? [] : [new PreactRefreshPlugin()],
     ],
     devServer: {
       hot: true,
@@ -143,9 +142,9 @@ const devConfig: Configuration = mergeWithRules({
           '/app/UserHome',
           '/oauth2/v1/authorize',
           '/auth/services/',
-          '/.well-known/webfinger'
+          '/.well-known/webfinger',
         ],
-        target: `http://${HOST}:${MOCK_SERVER_PORT}`
+        target: `http://${HOST}:${MOCK_SERVER_PORT}`,
       }],
       // https://webpack.js.org/configuration/dev-server/#devserversetupmiddlewares
       setupMiddlewares(middlewares) {
@@ -153,7 +152,9 @@ const devConfig: Configuration = mergeWithRules({
         const watch = [resolve(PLAYGROUND, 'mocks')];
         const env = { MOCK_SERVER_PORT, DEV_SERVER_PORT };
 
-        nodemon({ script, watch, env, delay: 50 })
+        nodemon({
+          script, watch, env, delay: 50,
+        })
           ?.on('crash', console.error);
 
         return middlewares;

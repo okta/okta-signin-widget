@@ -10,19 +10,17 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { resolve } from 'path';
 import { readFileSync } from 'fs';
-
-import webpack from 'webpack';
-import { merge } from 'webpack-merge';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import { resolve } from 'path';
 import TerserPlugin from 'terser-webpack-plugin';
+import type { Configuration } from 'webpack';
+import webpack from 'webpack';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+import { merge } from 'webpack-merge';
 
 import terserOptions from '../../scripts/buildtools/terser/config';
 import baseConfig from './webpack.common.config';
-
-import type { Configuration } from 'webpack';
 
 const prodConfig: Configuration = merge<Partial<Configuration>>(
   baseConfig,

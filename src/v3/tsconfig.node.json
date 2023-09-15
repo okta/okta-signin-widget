@@ -7,8 +7,8 @@
   },
   "ts-node": {
     "compilerOptions": {
-      "module": "CommonJS",
-    },
+      "module": "CommonJS"
+    }
   },
   "files": [
     "webpack.common.config.ts",

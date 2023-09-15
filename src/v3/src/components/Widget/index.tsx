@@ -13,7 +13,7 @@
 import './style.module.css';
 
 import { ScopedCssBaseline } from '@mui/material';
-import { MuiThemeProvider, OdysseyCacheProvider } from '@okta/odyssey-react-mui';
+import { MuiThemeProvider } from '@okta/odyssey-react-mui';
 import {
   AuthApiError,
   AuthenticatorKey,
@@ -73,6 +73,7 @@ import AuthContainer from '../AuthContainer/AuthContainer';
 import AuthContent from '../AuthContent/AuthContent';
 import AuthHeader from '../AuthHeader/AuthHeader';
 import ConsentHeader from '../ConsentHeader';
+import CustomPluginsOdysseyCacheProvider from '../CustomPluginsOdysseyCacheProvider';
 import Form from '../Form';
 import IdentifierContainer from '../IdentifierContainer';
 import Spinner from '../Spinner';
@@ -443,7 +444,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       languageDirection,
     }}
     >
-      <OdysseyCacheProvider nonce={cspNonce}>
+      <CustomPluginsOdysseyCacheProvider nonce={cspNonce}>
         <MuiThemeProvider theme={theme}>
           {/* the style is to allow the widget to inherit the parent's bg color */}
           <ScopedCssBaseline
@@ -474,7 +475,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
             </AuthContainer>
           </ScopedCssBaseline>
         </MuiThemeProvider>
-      </OdysseyCacheProvider>
+      </CustomPluginsOdysseyCacheProvider>
     </WidgetContextProvider>
   );
 };
