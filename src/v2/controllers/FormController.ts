@@ -243,7 +243,15 @@ export default Controller.extend({
       sessionStorageHelper.removeStateHandle();
 
       const currentViewState = this.options.appState.getCurrentViewState();
-      Util.redirectWithFormGet(currentViewState.href);
+
+      // this.add('<button onclick="Util.redirectWithFormGet(currentViewState.href)">Open OV</button>');
+      this.add('<button id="sdhingraButton">Open OV</button>');
+      document.getElementById("sdhingraButton").addEventListener("click", sdhingraFunction);
+      function sdhingraFunction(){
+        console.log('redirect');
+        Util.redirectWithFormGet(currentViewState.href);
+      }
+      // Util.redirectWithFormGet(currentViewState.href);
       return;
     }
 
