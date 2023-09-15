@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import './style.css';
+
 import { ScopedCssBaseline } from '@mui/material';
 import { MuiThemeProvider } from '@okta/odyssey-react-mui';
 import {
@@ -68,7 +70,6 @@ import {
 } from '../../util';
 import { getEventContext } from '../../util/getEventContext';
 import { mapMuiThemeFromBrand } from '../../util/theme';
-import GlobalStyles from './GlobalStyles';
 import AuthContainer from '../AuthContainer/AuthContainer';
 import AuthContent from '../AuthContent/AuthContent';
 import AuthHeader from '../AuthHeader/AuthHeader';
@@ -77,8 +78,7 @@ import CustomPluginsOdysseyCacheProvider from '../CustomPluginsOdysseyCacheProvi
 import Form from '../Form';
 import IdentifierContainer from '../IdentifierContainer';
 import Spinner from '../Spinner';
-
-import './style.css';
+import GlobalStyles from './GlobalStyles';
 
 export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   if (!isAuthClientSet(widgetProps)) {

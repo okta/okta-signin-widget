@@ -31,17 +31,15 @@ import Button from '../Button';
 type IFrameProps = {
   src: string;
 };
-const IFrame: FunctionComponent<IFrameProps> = ({ src }) => {
-  return (
-    // eslint-disable-next-line jsx-a11y/iframe-has-title
-    <iframe
-      src={src}
-      style={{
-        display: 'none',
-      }}
-    />
-  );
-};
+const IFrame: FunctionComponent<IFrameProps> = ({ src }) => (
+  // eslint-disable-next-line jsx-a11y/iframe-has-title
+  <iframe
+    src={src}
+    style={{
+      display: 'none',
+    }}
+  />
+);
 
 const OpenOktaVerifyFPButton: UISchemaElementComponent<{
   uischema: OpenOktaVerifyFPButtonElement

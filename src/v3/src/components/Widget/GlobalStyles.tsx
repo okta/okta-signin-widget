@@ -10,13 +10,13 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { FunctionComponent, h } from 'preact';
 import {
   GlobalStyles as MuiGlobalStyles,
   GlobalStylesProps,
   Theme,
 } from '@mui/material';
 import { merge } from 'lodash';
+import { FunctionComponent, h } from 'preact';
 
 // TODO we could scope these to just widget container
 const svgStyles = (theme: Theme): GlobalStylesProps['styles'] => ({
@@ -202,17 +202,15 @@ const loginPageContainerStyles = (): GlobalStylesProps['styles'] => ({
   },
 });
 
-const GlobalStyles: FunctionComponent = () => {
-  return (
-    <MuiGlobalStyles
-      styles={(theme) => merge(
-        svgStyles(theme),
-        loginPageUtilityStyles(),
-        loginPageFooterStyles(),
-        loginPageContainerStyles(),
-      )}
-    />
-  )
-};
+const GlobalStyles: FunctionComponent = () => (
+  <MuiGlobalStyles
+    styles={(theme) => merge(
+      svgStyles(theme),
+      loginPageUtilityStyles(),
+      loginPageFooterStyles(),
+      loginPageContainerStyles(),
+    )}
+  />
+);
 
 export default GlobalStyles;

@@ -138,11 +138,12 @@ const AuthenticatorButton: UISchemaElementComponent<{
         </Box>
       )}
       <Box
-        className={'authenticator-description'}
+        className="authenticator-description"
         sx={{
           paddingBlock: 0,
           paddingInline: '12px 0',
-        }}>
+        }}
+      >
         <Typography
           variant="h3"
           id={`${iconName}-label`}
@@ -191,7 +192,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
           </Typography>
         )}
         <Box
-          className={'cta-button authenticator-button'}
+          className="cta-button authenticator-button"
           data-se={dataSe}
           sx={(theme) => ({
             display: 'flex',
@@ -203,7 +204,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
             '& svg': {
               marginBlock: 0,
               marginInline: '5px 0',
-            }
+            },
           })}
         >
           <Box

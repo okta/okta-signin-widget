@@ -73,7 +73,7 @@ const AuthHeader: FunctionComponent<AuthHeaderProps> = ({
           lineHeight: 0,
           marginBlock: 0,
           textAlign: 'center',
-        }
+        },
       }}
     >
       <Typography variant="h1">
