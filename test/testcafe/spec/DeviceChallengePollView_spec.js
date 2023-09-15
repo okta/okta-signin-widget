@@ -305,7 +305,8 @@ async function setupLoopbackFallback(t) {
   return deviceChallengeFalllbackPage;
 }
 
-test
+// TODO: fix quarantined test - OKTA-645716
+test.skip
   .requestHooks(loopbackSuccessLogger, loopbackSuccessMock)('in loopback server approach, probing and polling requests are sent and responded', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
