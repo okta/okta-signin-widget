@@ -3717,8 +3717,28 @@
     safe-flat "^2.0.2"
 
 "@okta/okta-signin-widget@link:dist":
-  version "0.0.0"
-  uid ""
+  version "7.10.0"
+  dependencies:
+    "@okta/okta-auth-js" "~7.0.0"
+    "@sindresorhus/to-milliseconds" "^1.0.0"
+    "@types/backbone" "^1.4.15"
+    "@types/eslint-scope" "^3.7.3"
+    "@types/jquery" "^3.5.14"
+    "@types/jqueryui" "^1.12.16"
+    "@types/q" "^1.5.5"
+    "@types/selectize" "^0.12.35"
+    "@types/underscore" "^1.11.4"
+    chokidar "^3.5.1"
+    clipboard "^1.5.16"
+    cross-fetch "^3.1.5"
+    handlebars "^4.7.7"
+    jquery "^3.6.0"
+    parse-ms "^2.0.0"
+    q "1.4.1"
+    u2f-api-polyfill "0.4.3"
+    underscore "1.13.1"
+  optionalDependencies:
+    fsevents "*"
 
 "@open-draft/until@^1.0.3":
   version "1.0.3"
