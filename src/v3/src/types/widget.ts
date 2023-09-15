@@ -157,6 +157,7 @@ export type WidgetOptions = {
 
   el?: string;
   cspNonce?: string;
+  otp?: string;
   baseUrl?: string;
   brandName?: string;
   brandColors?: BrandColors;

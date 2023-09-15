@@ -66,6 +66,7 @@ import {
   isOauth2Enabled,
   loadLanguage,
   SessionStorage,
+  triggerEmailVerifyCallback,
 } from '../../util';
 import { getEventContext } from '../../util/getEventContext';
 import { mapMuiThemeFromBrand } from '../../util/theme';
@@ -95,6 +96,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     globalErrorFn,
     proxyIdxResponse,
     eventEmitter,
+    otp,
   } = widgetProps;
 
   const [hide, setHide] = useState<boolean>(false);
@@ -179,6 +181,11 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
           // remove ts-expect-error ASAP to avoid risk of trying to access property that does not exist
           context: proxyIdxResponse,
         });
+        return;
+      }
+      // If widget is passed 'otp' config option, proceed with email verify callback
+      if (otp) {
+        setIdxTransaction(await triggerEmailVerifyCallback(widgetProps));
         return;
       }
       const transaction: IdxTransaction = await authClient.idx.start({
@@ -294,7 +301,6 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     } else {
       setData(formBag.data);
     }
-
     setUischema(formBag.uischema);
   }, [formBag, isClientTransaction]);
 
@@ -310,6 +316,11 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
           // remove ts-expect-error ASAP to avoid risk of trying to access property that does not exist
           context: proxyIdxResponse,
         });
+        return;
+      }
+      // If widget is passed 'otp' config option, proceed with email verify callback
+      if (otp) {
+        setIdxTransaction(await triggerEmailVerifyCallback(widgetProps));
         return;
       }
       const transaction = await authClient.idx.proceed({
@@ -336,7 +347,6 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     })) {
       return;
     }
-
     if (authClient.idx.canProceed()) {
       resume();
     } else {
