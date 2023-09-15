@@ -23,6 +23,7 @@ import { CONFIGURED_FLOW } from '../client/constants';
 import { ConfigError } from 'util/Errors';
 import { updateAppState } from 'v2/client';
 import CookieUtil from '../../util/CookieUtil';
+import BrowserFeatures from 'util/BrowserFeatures'
 
 export interface ContextData {
   controller: string;
@@ -244,14 +245,12 @@ export default Controller.extend({
 
       const currentViewState = this.options.appState.getCurrentViewState();
 
-      // this.add('<button onclick="Util.redirectWithFormGet(currentViewState.href)">Open OV</button>');
-      this.add('<button id="sdhingraButton">Open OV</button>');
-      document.getElementById("sdhingraButton").addEventListener("click", sdhingraFunction);
-      function sdhingraFunction(){
-        console.log('redirect');
+      if (BrowserFeatures.isAndroid()) {
+        this.add('<div class="o-form-button-bar"><button id="androidOpenOV" class="button button-primary">Open Okta Verify</button></div>');
+        document.getElementById("androidOpenOV").addEventListener("click", () => Util.redirectWithFormGet(currentViewState.href));
+      } else {
         Util.redirectWithFormGet(currentViewState.href);
       }
-      // Util.redirectWithFormGet(currentViewState.href);
       return;
     }
 
