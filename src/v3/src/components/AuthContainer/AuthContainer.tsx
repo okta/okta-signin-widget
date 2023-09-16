@@ -27,41 +27,52 @@ const AuthContainer: FunctionComponent<{ hide: boolean }> = ({ children, hide })
     <Box
       id="okta-sign-in"
       component="main"
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
       className={classes}
       data-version={OKTA_SIW_VERSION}
       data-commit={OKTA_SIW_COMMIT_HASH}
       lang={languageCode}
       dir={languageDirection}
       sx={{
-        minInlineSize: '100%',
-        marginBlockStart: '100px',
-        marginBlockEnd: '8px',
-        marginInline: 'auto',
-        '@media only screen and (max-device-width: 750px)': {
-          marginBlockStart: 0,
-        },
+        // NOTE: Do not add more styles here besides what's needed for `hide`.
+        // Most styles must be nested beneath this element with `dir` for
+        // CSS logical property transforms to work
         ...(hide ? {
           display: 'none',
         } : {}),
       }}
     >
       <Box
-        flex="auto"
-        flexDirection="column"
-        border={isMobileWidth ? 0 : 1}
-        borderRadius={1}
-        borderColor={Tokens.ColorBorderDisplay}
-        bgcolor="common.white"
-        fontFamily="fontFamily"
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
         sx={{
-          maxInlineSize: '432px',
-          minInlineSize: '320px',
+          minInlineSize: '100%',
+          marginBlockStart: '100px',
+          marginBlockEnd: '8px',
+          marginInline: 'auto',
+          '@media only screen and (max-device-width: 750px)': {
+            marginBlockStart: 0,
+          },
         }}
       >
-        {children}
+        <Box
+          flex="auto"
+          flexDirection="column"
+          bgcolor="common.white"
+          fontFamily="fontFamily"
+          sx={{
+            maxInlineSize: '432px',
+            minInlineSize: '320px',
+            border: 1,
+            borderRadius: 1,
+            borderColor: Tokens.ColorBorderDisplay,
+            '@media only screen and (max-width: 391px)': {
+              border: 0,
+            },
+          }}
+        >
+          {children}
+        </Box>
       </Box>
     </Box>
   );

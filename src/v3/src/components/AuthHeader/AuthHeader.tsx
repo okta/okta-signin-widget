@@ -68,7 +68,7 @@ const AuthHeader: FunctionComponent<AuthHeaderProps> = ({
         paddingBlockEnd: (theme) => theme.spacing(showAuthCoin ? 0 : 4),
         paddingInlineStart: (theme) => theme.spacing(5),
         paddingInlineEnd: (theme) => theme.spacing(5),
-        borderBlockEnd: (theme) => `1px solid ${Tokens.ColorBorderDisplay}`,
+        borderBlockEnd: () => `1px solid ${Tokens.ColorBorderDisplay}`,
         '& h1': {
           lineHeight: 0,
           marginBlock: 0,
@@ -78,14 +78,14 @@ const AuthHeader: FunctionComponent<AuthHeaderProps> = ({
     >
       <Typography variant="h1">
         { logo && (
-          <img
+          <Box
+            component="img"
             alt={logoText || brandName || loc('logo.default.alt.text', 'login')}
             src={logo}
             className={imageClasses}
-            style={{
-              // TODO use logical props. need to migrate img to JSS-compat tag
-              maxWidth: '200px',
-              maxHeight: '40px',
+            sx={{
+              maxInlineSize: '200px',
+              maxBlockSize: '40px',
             }}
           />
         )}
