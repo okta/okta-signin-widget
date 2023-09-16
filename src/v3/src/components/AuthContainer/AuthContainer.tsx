@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { useMediaQuery } from '@mui/material';
 import * as Tokens from '@okta/odyssey-design-tokens';
 import { Box } from '@okta/odyssey-react-mui';
 import classNames from 'classnames';
@@ -21,7 +20,6 @@ import { useWidgetContext } from '../../contexts';
 const AuthContainer: FunctionComponent<{ hide: boolean }> = ({ children, hide }) => {
   const { languageDirection, languageCode } = useWidgetContext();
   const classes = classNames('auth-container', 'main-container');
-  const isMobileWidth = useMediaQuery('screen and (max-width: 391px)');
 
   return (
     <Box
