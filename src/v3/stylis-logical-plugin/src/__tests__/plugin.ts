@@ -13,15 +13,19 @@ describe('compile, transform, and serialize', () => {
 
   it('handles ruleset without logical declaration', () => {
     const css = `
+      .a {
+        color: red;
+      }
+    `;
+
+    expect(processor(css)).toBe(minify(`
       html:not([dir="rtl"]) .a {
         color: red;
       }
       [dir="rtl"] .a {
         color: red;
       }
-    `;
-
-    expect(processor(css)).toBe(minify(css));
+    `));
   });
 
   it('handles ruleset with simple logical declaration', () => {
@@ -213,6 +217,40 @@ describe('compile, transform, and serialize', () => {
         }
         [dir="rtl"] .a {
           clear: right;
+        }
+      `));
+    });
+  });
+  describe('handles media query', () => {
+    it('with ruleset that has logical declaration', () => {
+      const css = `
+        .a {
+          color: red;
+        }
+        @media only screen and (max-width: 100px) {
+          .a {
+            color: white;
+            margin-inline-end: 5px;
+          }
+        }
+      `;
+
+      expect(processor(css)).toBe(minify(`
+        html:not([dir="rtl"]) .a {
+          color: red;
+        }
+        @media only screen and (max-width: 100px) {
+          html:not([dir="rtl"]) .a {
+            color: white;
+            margin-right: 5px;
+          }
+          [dir="rtl"] .a {
+            color: white;
+            margin-left: 5px;
+          }
+        }
+        [dir="rtl"] .a {
+          color: red;
         }
       `));
     });

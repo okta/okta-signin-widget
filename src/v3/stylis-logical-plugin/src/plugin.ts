@@ -6,15 +6,6 @@ import transforms from './utils/transforms';
 
 type MiddlewareParams = Parameters<Middleware>;
 
-function hasAnyLogicalDeclarations(element: RulesetElement) {
-  return element.children.some((e) => {
-    if (e.type === 'decl') {
-      return transforms.has(e.props);
-    }
-    return false;
-  });
-}
-
 type PluginOptions = {
   /**
    * The selector of the root element that contains a `dir` property.
@@ -55,11 +46,6 @@ const createPlugin: (opts: PluginOptions) => Middleware = function pluginFactory
         // check if this already has rtl/ltr return sentinel value,
         // if so, skip because we created it earlier
         if ([LTR_ATTR_SELECTOR, RTL_ATTR_SELECTOR].includes(ltrElement.return)) {
-          return;
-        }
-
-        // skip if no logical declarations
-        if (!hasAnyLogicalDeclarations(ltrElement)) {
           return;
         }
 

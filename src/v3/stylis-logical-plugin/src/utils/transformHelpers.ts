@@ -1,9 +1,19 @@
-import type { DeclarationElement } from 'stylis';
+import type { DeclarationElement, RulesetElement } from 'stylis';
 import { append, copy } from 'stylis';
 
+import transforms from './transforms';
 import { LTR_ATTR_SELECTOR, RTL_ATTR_SELECTOR } from '../constants';
 
 export type Transformer = (element: DeclarationElement) => void;
+
+export function hasAnyLogicalDeclarations(element: RulesetElement) {
+  return element.children.some((e) => {
+    if (e.type === 'decl') {
+      return transforms.has(e.props);
+    }
+    return false;
+  });
+}
 
 function getKeysFromValue(value: string): string[] {
   return value.trim().split(/\s+/);
