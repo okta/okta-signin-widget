@@ -13,6 +13,7 @@
 import { FunctionComponent, h } from 'preact';
 import React from 'preact/compat';
 import { useState } from 'preact/hooks';
+import { Box } from '@mui/material';
 
 import Util from '../../../../util/Util';
 import { CHALLENGE_METHOD } from '../../constants';
@@ -32,10 +33,10 @@ type IFrameProps = {
   src: string;
 };
 const IFrame: FunctionComponent<IFrameProps> = ({ src }) => (
-  // eslint-disable-next-line jsx-a11y/iframe-has-title
-  <iframe
+  <Box
+    component="iframe"
     src={src}
-    style={{
+    sx={{
       display: 'none',
     }}
   />
