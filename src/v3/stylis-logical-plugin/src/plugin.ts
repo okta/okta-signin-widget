@@ -67,13 +67,18 @@ const safelyPrefix = (value: string, prefix: 'ltr' | 'rtl'): string => {
       // from logical to physical, we create a matching RTL element and add it
       // to the list of elements to be processed.
       case ('rule'): {
-        const ltrElement = element;
+        // do not prefix or copy rules in keyframes
+        if (element.root?.type === '@keyframes') {
+          return;
+        }
 
         // check if this already has rtl/ltr return sentinel value,
         // if so, skip because we created it earlier
-        if ([LTR_ATTR_SELECTOR, RTL_ATTR_SELECTOR].includes(ltrElement.return)) {
+        if ([LTR_ATTR_SELECTOR, RTL_ATTR_SELECTOR].includes(element.return)) {
           return;
         }
+
+        const ltrElement = element;
 
         // make a copy of element, mark as [dir="rtl"]
         const rtlElement = copy(ltrElement, {

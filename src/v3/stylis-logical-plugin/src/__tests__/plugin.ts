@@ -288,4 +288,30 @@ describe('compile, transform, and serialize', () => {
     });
   });
 
+  describe('handles keyframes', () => {
+    it('does not transform rules within @keyframes', () => {
+      const css = `
+        @keyframes slidein {
+          from {
+            transform: translateX(0%);
+          }
+          to {
+            transform: translateX(100%);
+          }
+        }
+      `;
+
+      expect(processor(css)).toBe(minify(`
+        @keyframes slidein {
+          from {
+            transform: translateX(0%);
+          }
+          to {
+            transform: translateX(100%);
+          }
+        }
+      `));
+    });
+  });
+
 });
