@@ -106,7 +106,6 @@ const Body = BaseFormWithPolling.extend({
           return onPortFound()
             .done(() => {
               foundPort = true;
-              if (deviceChallenge.enhancedPollingEnabled !== false) {
                 // this way we can gurantee that
                 // 1. the polling is triggered right away (1ms interval)
                 // 2. Only one polling queue
@@ -118,11 +117,6 @@ const Body = BaseFormWithPolling.extend({
                 this.stopPolling();
                 this.startPolling(1);
                 return;
-              }
-              // once the OV challenge succeeds,
-              // triggers another polling right away without waiting for the next ongoing polling to be triggered
-              // to make the authentication flow goes faster 
-              return this.trigger('save', this.model);
             })
             .fail((xhr) => {
               countFailedPorts++;

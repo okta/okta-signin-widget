@@ -205,8 +205,8 @@ export default class AppState extends Model {
     const previousRawState = this.has('idx') ? this.get('idx').rawIdxState : null;
 
     const identicalResponse = _.isEqual(
-      _.nestedOmit(transformedResponse.idx.rawIdxState, ['expiresAt', 'refresh', 'stateHandle', 'headers']),
-      _.nestedOmit(previousRawState, ['expiresAt', 'refresh', 'stateHandle', 'headers']));
+      _.nestedOmit(transformedResponse.idx.rawIdxState, ['expiresAt', 'refresh', 'stateHandle', 'headers', 'dPoPNonce']),
+      _.nestedOmit(previousRawState, ['expiresAt', 'refresh', 'stateHandle', 'headers', 'dPoPNonce']));
 
     if (identicalResponse) {
       this.set('dynamicRefreshInterval', this.getRefreshInterval(transformedResponse));

@@ -154,7 +154,8 @@ export default Controller.extend({
     const { stateHandle } = idx.context;
     let invokeOptions: ProceedOptions = {
       exchangeCodeForTokens: false, // we handle this in interactionCodeFlow.js
-      stateHandle
+      stateHandle,
+      dPoPProof: "ejbsomedpop proof"
     };
     let error;
 
@@ -277,6 +278,7 @@ export default Controller.extend({
     const authClient = this.options.settings.getAuthClient();
     const idxOptions: ProceedOptions = {
       exchangeCodeForTokens: false, // we handle this in interactionCodeFlow.js
+      dPoPProof: "ejbsomedpop proof2",
     };
     try {
       const idx = this.options.appState.get('idx');
