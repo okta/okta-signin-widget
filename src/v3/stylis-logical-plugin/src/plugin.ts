@@ -1,5 +1,5 @@
-import type { Middleware, RulesetElement } from 'stylis';
-import { append, copy, serialize } from 'stylis';
+import type { Middleware } from 'stylis';
+import { copy, serialize } from 'stylis';
 
 import { LTR_ATTR_SELECTOR, RTL_ATTR_SELECTOR } from './constants';
 import transforms from './utils/transforms';
@@ -29,30 +29,30 @@ type PluginOptions = {
 const createPlugin: (opts: PluginOptions) => Middleware = function pluginFactory({
   rootDirElement,
 }) {
-
 /**
  * Removes existing directional prefix (if present) to the passed value and
  * adds a directional prefix.
- * @param value 
- * @param prefix 
- * @returns 
+ * @param value
+ * @param prefix
+ * @returns
  */
-const safelyPrefix = (value: string, prefix: 'ltr' | 'rtl'): string => {
-  const prefixes = {
-    'ltr': `${rootDirElement}:not(${RTL_ATTR_SELECTOR})`,
-    'rtl': RTL_ATTR_SELECTOR,
+  const safelyPrefix = (value: string, prefix: 'ltr' | 'rtl'): string => {
+    let resolvedValue = value;
+    const prefixes = {
+      ltr: `${rootDirElement}:not(${RTL_ATTR_SELECTOR})`,
+      rtl: RTL_ATTR_SELECTOR,
+    };
+
+    Object.values(prefixes).some((p) => {
+      if (resolvedValue.startsWith(p)) {
+        resolvedValue = resolvedValue.replace(p, '');
+        return true;
+      }
+      return false;
+    });
+
+    return `${prefixes[prefix]} ${resolvedValue}`;
   };
-
-  Object.values(prefixes).some((p) => {
-    if (value.startsWith(p)) {
-      value = value.replace(p, '');
-      return true;
-    }
-    return false;
-  });
-
-  return `${prefixes[prefix]} ${value}`;
-};
 
   const plugin = function stylisLogicalPlugin(
     element: MiddlewareParams[0],
@@ -69,13 +69,13 @@ const safelyPrefix = (value: string, prefix: 'ltr' | 'rtl'): string => {
       case ('rule'): {
         // do not prefix or copy rules in keyframes
         if (element.root?.type === '@keyframes') {
-          return;
+          break;
         }
 
         // check if this already has rtl/ltr return sentinel value,
         // if so, skip because we created it earlier
         if ([LTR_ATTR_SELECTOR, RTL_ATTR_SELECTOR].includes(element.return)) {
-          return;
+          break;
         }
 
         const ltrElement = element;
@@ -125,6 +125,8 @@ const safelyPrefix = (value: string, prefix: 'ltr' | 'rtl'): string => {
         break;
       }
     }
+
+    return undefined;
   };
 
   Object.defineProperty(plugin, 'name', { value: 'stylisLogicalPlugin' });

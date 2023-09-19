@@ -2,12 +2,12 @@
  * @jest-environment jsdom
  */
 
-import { h } from 'preact';
 import createCache from '@emotion/cache';
 import { createSerializer } from '@emotion/jest';
 import { CacheProvider } from '@emotion/react';
 import styled from '@emotion/styled';
 import { render } from '@testing-library/preact';
+import React from 'react';
 
 import logicalRtl from '../..';
 import { safeQuerySelector } from '../../testUtils';

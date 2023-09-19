@@ -10,10 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { Box } from '@mui/material';
 import { FunctionComponent, h } from 'preact';
 import React from 'preact/compat';
 import { useState } from 'preact/hooks';
-import { Box } from '@mui/material';
 
 import Util from '../../../../util/Util';
 import { CHALLENGE_METHOD } from '../../constants';
