@@ -49,7 +49,12 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
   describedByIds,
 }) => {
   const value = useValue(uischema);
-  const { loading } = useWidgetContext();
+  // TODO: OKTA-623544 - this FF will be deprecated for SIW v3 post-GA
+  // Sets showPasswordToggleOnSignInPage default value to true for parity with v2
+  const {
+    loading,
+    widgetProps: { features: { showPasswordToggleOnSignInPage = true } = {} },
+  } = useWidgetContext();
   const {
     translations = [],
     focus,
@@ -148,26 +153,28 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
         className={noTranslate ? 'no-translate' : undefined}
         dir={dir}
         endAdornment={(
-          <InputAdornment position="end">
-            <Tooltip title={showPassword ? getTranslation(translations, 'hide') : getTranslation(translations, 'show')}>
-              <IconButton
-                aria-label={getTranslation(translations, 'visibilityToggleLabel')}
-                aria-pressed={showPassword}
-                aria-controls={name}
-                onClick={handleClickShowPassword}
-                onMouseDown={handleMouseDownPassword}
-                edge="end"
-                sx={{
-                  '&.Mui-focusVisible': {
-                    outlineStyle: 'solid',
-                    outlineWidth: '1px',
-                  },
-                }}
-              >
-                {showPassword ? <EyeOffIcon /> : <EyeIcon />}
-              </IconButton>
-            </Tooltip>
-          </InputAdornment>
+          showPasswordToggleOnSignInPage && (
+            <InputAdornment position="end">
+              <Tooltip title={showPassword ? getTranslation(translations, 'hide') : getTranslation(translations, 'show')}>
+                <IconButton
+                  aria-label={getTranslation(translations, 'visibilityToggleLabel')}
+                  aria-pressed={showPassword}
+                  aria-controls={name}
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                  sx={{
+                    '&.Mui-focusVisible': {
+                      outlineStyle: 'solid',
+                      outlineWidth: '1px',
+                    },
+                  }}
+                >
+                  {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+                </IconButton>
+              </Tooltip>
+            </InputAdornment>
+          )
         )}
       />
       {hasErrors && (

@@ -129,8 +129,7 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should have 
   await t.expect(await identityPage.hasShowTogglePasswordIcon()).ok();
 });
 
-// OKTA-555502 - showPasswordToggleOnSignInPage feature not supported yet
-test.meta('v3', false).requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should not have password toggle if features.showPasswordToggleOnSignInPage is false', async t => {
+test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should not have password toggle if features.showPasswordToggleOnSignInPage is false', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
   await renderWidget({
@@ -139,7 +138,6 @@ test.meta('v3', false).requestHooks(identifyRequestLogger, identifyWithPasswordM
   await t.expect(await identityPage.hasShowTogglePasswordIcon()).notOk();
 });
 
-// OKTA-555502 - showPasswordToggleOnSignInPage feature not supported yet
 test.meta('v3', false).requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should not have password toggle if "features.showPasswordToggleOnSignInPage" is false', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
