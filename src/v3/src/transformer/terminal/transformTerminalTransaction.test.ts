@@ -21,6 +21,7 @@ import {
 import { TERMINAL_KEY, TERMINAL_TITLE_KEY } from '../../constants';
 import { getStubTransaction } from '../../mocks/utils/utils';
 import { removeUsernameCookie, setUsernameCookie } from '../../util';
+import { redirectTransformer } from '../redirect';
 import { transformTerminalTransaction } from '.';
 import { transformOdaEnrollment } from './odaEnrollment/transformOdaEnrollment';
 
@@ -301,5 +302,28 @@ describe('Terminal Transaction Transformer Tests', () => {
     transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
     expect(transformOdaEnrollment).toHaveBeenCalled();
+  });
+
+  it('should not invoke redirect transformer when failure href is present and Oauth2 is enabled', () => {
+    transaction.context = {
+      failure: {
+        href: 'www.failure.com',
+      },
+    } as unknown as IdxContext;
+    widgetProps = { clientId: 'abcd1234', authScheme: 'oauth2' };
+    transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
+
+    expect(redirectTransformer).not.toHaveBeenCalled();
+  });
+
+  it('should invoke redirect transformer when failure redirect href is present in transaction context', () => {
+    transaction.context = {
+      failure: {
+        href: 'www.failure.com',
+      },
+    } as unknown as IdxContext;
+    transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
+
+    expect(redirectTransformer).toHaveBeenCalled();
   });
 });
