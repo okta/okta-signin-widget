@@ -29,6 +29,31 @@ type PluginOptions = {
 const createPlugin: (opts: PluginOptions) => Middleware = function pluginFactory({
   rootDirElement,
 }) {
+
+/**
+ * Removes existing directional prefix (if present) to the passed value and
+ * adds a directional prefix.
+ * @param value 
+ * @param prefix 
+ * @returns 
+ */
+const safelyPrefix = (value: string, prefix: 'ltr' | 'rtl'): string => {
+  const prefixes = {
+    'ltr': `${rootDirElement}:not(${RTL_ATTR_SELECTOR})`,
+    'rtl': RTL_ATTR_SELECTOR,
+  };
+
+  Object.values(prefixes).some((p) => {
+    if (value.startsWith(p)) {
+      value = value.replace(p, '');
+      return true;
+    }
+    return false;
+  });
+
+  return `${prefixes[prefix]} ${value}`;
+};
+
   const plugin = function stylisLogicalPlugin(
     element: MiddlewareParams[0],
     index: MiddlewareParams[1],
@@ -65,7 +90,7 @@ const createPlugin: (opts: PluginOptions) => Middleware = function pluginFactory
         }));
 
         // apply [dir="rtl"] to all rules in this ruleset
-        rtlElement.props = rtlElement.props.map((prop) => `${RTL_ATTR_SELECTOR} ${prop}`);
+        rtlElement.props = rtlElement.props.map((prop) => safelyPrefix(prop, 'rtl'));
 
         // add to the list of elements for processing
         append(rtlElement, children);
@@ -73,7 +98,7 @@ const createPlugin: (opts: PluginOptions) => Middleware = function pluginFactory
         // apply ${rootDirElement}:not([dir="rtl"]) to all rules in this ruleset
         // this works since we assume ltr is the implicit writing direction and avoids rulesets
         // for rtl and ltr overlapping when an inner element has a writing direction override.
-        ltrElement.props = ltrElement.props.map((prop) => `${rootDirElement}:not(${RTL_ATTR_SELECTOR}) ${prop}`);
+        ltrElement.props = ltrElement.props.map((prop) => safelyPrefix(prop, 'ltr'));
         // set sentinel value on `return` to be used later
         ltrElement.return = LTR_ATTR_SELECTOR;
 

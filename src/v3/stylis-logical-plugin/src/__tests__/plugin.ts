@@ -144,6 +144,7 @@ describe('compile, transform, and serialize', () => {
       `));
     });
   });
+
   describe('handles ruleset with logical property', () => {
     it('with property that maps to one property', () => {
       const css = `
@@ -186,6 +187,7 @@ describe('compile, transform, and serialize', () => {
       `));
     });
   });
+
   describe('handles ruleset with logical directional values', () => {
     it('with value that does not need transform', () => {
       const css = `
@@ -221,6 +223,7 @@ describe('compile, transform, and serialize', () => {
       `));
     });
   });
+
   describe('handles media query', () => {
     it('with ruleset that has logical declaration', () => {
       const css = `
@@ -255,4 +258,34 @@ describe('compile, transform, and serialize', () => {
       `));
     });
   });
+
+  describe('handles nesting and & shorthand', () => {
+    it('with ::before and ::after psuedoclass', () => {
+      const css = `
+        .a {
+          color: white;
+
+          &::before, &::after {
+            color: red;
+          }
+        }
+      `;
+
+      expect(processor(css)).toBe(minify(`
+        html:not([dir="rtl"]) .a {
+          color: white;
+        }
+        html:not([dir="rtl"]) .a::before, html:not([dir="rtl"]) .a::after {
+          color: red;
+        }
+        [dir="rtl"] .a {
+          color: white;
+        }
+        [dir="rtl"] .a::before, [dir="rtl"] .a::after {
+          color: red;
+        }
+      `));
+    });
+  });
+
 });
