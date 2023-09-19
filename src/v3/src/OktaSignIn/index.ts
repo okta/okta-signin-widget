@@ -74,7 +74,7 @@ export default class OktaSignIn {
     this.options = options;
     this.el = null;
     this.eventEmitter = new EventEmitter();
-    this.eventCallbackMap = new Map();
+    this.eventCallbackMap = new WeakMap();
 
     // if authClient is set, authParams are disregarded
     if (options.authClient) {
