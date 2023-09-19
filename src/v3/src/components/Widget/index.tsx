@@ -128,7 +128,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const { stateHandle, unsetStateHandle } = useStateHandle(widgetProps);
 
   // merge themes
-  const theme = useMemo(() => mergeThemes(
+  const mergedTheme = useMemo(() => mergeThemes(
     mapMuiThemeFromBrand(brandColors, languageDirection, muiThemeOverrides),
     {
       components: {
@@ -496,7 +496,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     >
       <CustomPluginsOdysseyCacheProvider nonce={cspNonce}>
         <GlobalStyles />
-        <MuiThemeProvider theme={theme}>
+        <MuiThemeProvider theme={mergedTheme}>
           {/* the style is to allow the widget to inherit the parent's bg color */}
           <ScopedCssBaseline
             sx={{
