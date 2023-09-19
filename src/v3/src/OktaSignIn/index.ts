@@ -13,7 +13,7 @@
 import { OktaAuth, OktaAuthOptions, Tokens } from '@okta/okta-auth-js';
 import pick from 'lodash/pick';
 import { h, render } from 'preact';
-import EventEmitter from 'tiny-emitter';
+import { TinyEmitter as EventEmitter } from 'tiny-emitter';
 
 import {
   OktaSignInAPI, RenderErrorCallback, RenderResult, RenderSuccessCallback,
@@ -26,6 +26,8 @@ import {
   RenderOptions,
   WidgetProps,
 } from '../types/widget';
+
+const EVENTS_LIST = ['ready', 'afterError', 'afterRender'];
 
 console.debug(`${OKTA_SIW_VERSION}-g${OKTA_SIW_COMMIT_HASH.substring(0, 7)}`);
 
@@ -56,13 +58,14 @@ export default class OktaSignIn {
   readonly authClient: OktaSignInAPI['authClient'];
 
   /**
-   * Registered event handlers
+   * Event emitter
    */
-  private events: {
-    [key in OktaWidgetEventType]: OktaWidgetEventHandler
-  };
-
   private eventEmitter: EventEmitter;
+
+  /**
+   * Map original event handler to wrapped one
+   */
+  private eventCallbackMap: WeakMap<OktaWidgetEventHandler, OktaWidgetEventHandler>;
 
   el: string | null;
 
@@ -71,12 +74,7 @@ export default class OktaSignIn {
     this.options = options;
     this.el = null;
     this.eventEmitter = new EventEmitter();
-
-    this.events = {
-      ready: () => { },
-      afterRender: () => { },
-      afterError: () => { },
-    };
+    this.eventCallbackMap = new WeakMap();
 
     // if authClient is set, authParams are disregarded
     if (options.authClient) {
@@ -161,7 +159,6 @@ export default class OktaSignIn {
         if (target) {
           // @ts-ignore OKTA-508744
           render(h(Widget, {
-            events: this.events!,
             authClient: this.authClient,
             globalSuccessFn: onSuccessWrapper,
             globalErrorFn: onErrorWrapper,
@@ -236,10 +233,34 @@ export default class OktaSignIn {
   getUser(): void { }
 
   on(eventName: OktaWidgetEventType, eventHandler: OktaWidgetEventHandler): void {
-    this.events[eventName] = eventHandler;
+    let registeredEventHandler = eventHandler;
+    if (EVENTS_LIST.includes(eventName)) {
+      // trap third-party callback errors
+      const origHandler = eventHandler;
+      registeredEventHandler = (...callbackArgs) => {
+        try {
+          origHandler.call(this, ...callbackArgs);
+        } catch (err) {
+          console.error(`[okta-signin-widget] "${eventName}" event handler error:`, err);
+        }
+      };
+      this.eventCallbackMap.set(origHandler, registeredEventHandler);
+    }
+    this.eventEmitter.on(eventName, registeredEventHandler);
   }
 
-  off(): void { }
+  off(eventName?: OktaWidgetEventType, eventHandler?: OktaWidgetEventHandler): void {
+    let registeredEventHandler = eventHandler;
+    if (eventHandler) {
+      registeredEventHandler = this.eventCallbackMap.get(eventHandler) || eventHandler;
+    }
+    if (eventName) {
+      this.eventEmitter.off(eventName, registeredEventHandler);
+    } else {
+      // `tiny-emitter` does not support `.off()` without arguments
+      EVENTS_LIST.forEach((evName) => this.eventEmitter.off(evName));
+    }
+  }
 
   private buildRenderOptions(
     options: WidgetProps & Record<string, string> = {},

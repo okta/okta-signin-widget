@@ -46,6 +46,8 @@ export function createOktaSignIn
     hooks: Hooks;
     router: AbstractRouter;
     authClient: WidgetOktaAuthInterface;
+    // Map original event handler to wrapped one
+    _eventCallbackMap: WeakMap<EventCallback | EventCallbackWithError, EventCallback | EventCallbackWithError>;
 
     constructor(options: WidgetOptions) {
       Util.debugMessage(`
@@ -75,6 +77,8 @@ export function createOktaSignIn
       });
 
       this.Router = routerClassFactory(options);
+
+      this._eventCallbackMap = new WeakMap();
 
       // Triggers the event up the chain so it is available to the consumers of the widget.
       this.Router.prototype.Events.listenTo.call(this, this.Router.prototype, 'all', this.trigger);
@@ -198,11 +202,15 @@ export function createOktaSignIn
             Logger.error(`[okta-signin-widget] "${event}" event handler error:`, err);
           }
         };
+        this._eventCallbackMap.set(origCallback, callback);
       }
       this.Router.prototype.Events.on.call(this, event, callback);
     }
 
     off(event?: EventName, callback?: EventCallback | EventCallbackWithError): void {
+      if (callback) {
+        callback = this._eventCallbackMap.get(callback) || callback;
+      }
       this.Router.prototype.Events.off.call(this, event, callback);
     }
 
