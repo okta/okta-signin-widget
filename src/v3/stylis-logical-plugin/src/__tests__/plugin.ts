@@ -19,10 +19,10 @@ describe('compile, transform, and serialize', () => {
     `;
 
     expect(processor(css)).toBe(minify(`
-      html:not([dir="rtl"]) .a {
+      [dir="rtl"] .a {
         color: red;
       }
-      [dir="rtl"] .a {
+      html:not([dir="rtl"]) .a {
         color: red;
       }
     `));
@@ -36,11 +36,11 @@ describe('compile, transform, and serialize', () => {
     `;
 
     expect(processor(css)).toBe(minify(`
-      html:not([dir="rtl"]) .a {
-        margin-right: 5px;
-      }
       [dir="rtl"] .a {
         margin-left: 5px;
+      }
+      html:not([dir="rtl"]) .a {
+        margin-right: 5px;
       }
     `));
   });
@@ -54,13 +54,13 @@ describe('compile, transform, and serialize', () => {
     `;
 
     expect(processor(css)).toBe(minify(`
-      html:not([dir="rtl"]) .a {
-        color: red;
-        margin-right: 5px;
-      }
       [dir="rtl"] .a {
         color: red;
         margin-left: 5px;
+      }
+      html:not([dir="rtl"]) .a {
+        color: red;
+        margin-right: 5px;
       }
     `));
   });
@@ -73,11 +73,11 @@ describe('compile, transform, and serialize', () => {
     `;
 
     expect(processor(css)).toBe(minify(`
-      html:not([dir="rtl"]) .a, html:not([dir="rtl"]) .b {
-        margin-right: 5px;
-      }
       [dir="rtl"] .a, [dir="rtl"] .b {
         margin-left: 5px;
+      }
+      html:not([dir="rtl"]) .a, html:not([dir="rtl"]) .b {
+        margin-right: 5px;
       }
     `));
   });
@@ -92,14 +92,14 @@ describe('compile, transform, and serialize', () => {
     `;
 
     expect(processor(css)).toBe(minify(`
-      html:not([dir="rtl"]) .a {
-        color: red;
-        padding-right: 5px;
-        padding-bottom: 5px;
-      }
       [dir="rtl"] .a {
         color: red;
         padding-left: 5px;
+        padding-bottom: 5px;
+      }
+      html:not([dir="rtl"]) .a {
+        color: red;
+        padding-right: 5px;
         padding-bottom: 5px;
       }
     `));
@@ -114,11 +114,11 @@ describe('compile, transform, and serialize', () => {
       `;
 
       expect(processor(css)).toBe(minify(`
-        html:not([dir="rtl"]) .a {
+        [dir="rtl"] .a {
           margin-right: 5px;
           margin-left: 5px;
         }
-        [dir="rtl"] .a {
+        html:not([dir="rtl"]) .a {
           margin-right: 5px;
           margin-left: 5px;
         }
@@ -133,13 +133,13 @@ describe('compile, transform, and serialize', () => {
       `;
 
       expect(processor(css)).toBe(minify(`
-        html:not([dir="rtl"]) .a {
-          margin-right: 10px;
-          margin-left: 5px;
-        }
         [dir="rtl"] .a {
           margin-right: 5px;
           margin-left: 10px;
+        }
+        html:not([dir="rtl"]) .a {
+          margin-right: 10px;
+          margin-left: 5px;
         }
       `));
     });
@@ -154,10 +154,10 @@ describe('compile, transform, and serialize', () => {
       `;
 
       expect(processor(css)).toBe(minify(`
-        html:not([dir="rtl"]) .a {
+        [dir="rtl"] .a {
           height: 5px;
         }
-        [dir="rtl"] .a {
+        html:not([dir="rtl"]) .a {
           height: 5px;
         }
       `));
@@ -172,13 +172,13 @@ describe('compile, transform, and serialize', () => {
       `;
 
       expect(processor(css)).toBe(minify(`
-        html:not([dir="rtl"]) .a {
+        [dir="rtl"] .a {
           margin-top: 5px;
           top: 5px 10px;
           margin-bottom: 5px;
           bottom: 5px 10px;
         }
-        [dir="rtl"] .a {
+        html:not([dir="rtl"]) .a {
           margin-top: 5px;
           top: 5px 10px;
           margin-bottom: 5px;
@@ -197,10 +197,10 @@ describe('compile, transform, and serialize', () => {
       `;
 
       expect(processor(css)).toBe(minify(`
-        html:not([dir="rtl"]) .a {
+        [dir="rtl"] .a {
           clear: both;
         }
-        [dir="rtl"] .a {
+        html:not([dir="rtl"]) .a {
           clear: both;
         }
       `));
@@ -214,11 +214,11 @@ describe('compile, transform, and serialize', () => {
       `;
 
       expect(processor(css)).toBe(minify(`
-        html:not([dir="rtl"]) .a {
-          clear: left;
-        }
         [dir="rtl"] .a {
           clear: right;
+        }
+        html:not([dir="rtl"]) .a {
+          clear: left;
         }
       `));
     });
@@ -239,21 +239,21 @@ describe('compile, transform, and serialize', () => {
       `;
 
       expect(processor(css)).toBe(minify(`
+        [dir="rtl"] .a {
+          color: red;
+        }
         html:not([dir="rtl"]) .a {
           color: red;
         }
         @media only screen and (max-width: 100px) {
-          html:not([dir="rtl"]) .a {
-            color: white;
-            margin-right: 5px;
-          }
           [dir="rtl"] .a {
             color: white;
             margin-left: 5px;
           }
-        }
-        [dir="rtl"] .a {
-          color: red;
+          html:not([dir="rtl"]) .a {
+            color: white;
+            margin-right: 5px;
+          }
         }
       `));
     });
@@ -272,16 +272,16 @@ describe('compile, transform, and serialize', () => {
       `;
 
       expect(processor(css)).toBe(minify(`
-        html:not([dir="rtl"]) .a {
-          color: white;
-        }
-        html:not([dir="rtl"]) .a::before, html:not([dir="rtl"]) .a::after {
-          color: red;
-        }
         [dir="rtl"] .a {
           color: white;
         }
+        html:not([dir="rtl"]) .a {
+          color: white;
+        }
         [dir="rtl"] .a::before, [dir="rtl"] .a::after {
+          color: red;
+        }
+        html:not([dir="rtl"]) .a::before, html:not([dir="rtl"]) .a::after {
           color: red;
         }
       `));

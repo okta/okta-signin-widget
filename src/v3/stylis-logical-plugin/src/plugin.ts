@@ -1,5 +1,5 @@
 import type { Middleware, RulesetElement } from 'stylis';
-import { append, copy } from 'stylis';
+import { append, copy, serialize } from 'stylis';
 
 import { LTR_ATTR_SELECTOR, RTL_ATTR_SELECTOR } from './constants';
 import transforms from './utils/transforms';
@@ -58,6 +58,7 @@ const safelyPrefix = (value: string, prefix: 'ltr' | 'rtl'): string => {
     element: MiddlewareParams[0],
     index: MiddlewareParams[1],
     children: MiddlewareParams[2],
+    callback: MiddlewareParams[3],
   ): string | void {
     // the plugin function is called once for each element in the syntax tree
     switch (element.type) {
@@ -74,7 +75,7 @@ const safelyPrefix = (value: string, prefix: 'ltr' | 'rtl'): string => {
           return;
         }
 
-        // make a copy of element, mark as [dir="rtl"], push to children
+        // make a copy of element, mark as [dir="rtl"]
         const rtlElement = copy(ltrElement, {
           // need to spread this in because `copy` doesn't deeply copy the array
           props: [...ltrElement.props],
@@ -92,9 +93,6 @@ const safelyPrefix = (value: string, prefix: 'ltr' | 'rtl'): string => {
         // apply [dir="rtl"] to all rules in this ruleset
         rtlElement.props = rtlElement.props.map((prop) => safelyPrefix(prop, 'rtl'));
 
-        // add to the list of elements for processing
-        append(rtlElement, children);
-
         // apply ${rootDirElement}:not([dir="rtl"]) to all rules in this ruleset
         // this works since we assume ltr is the implicit writing direction and avoids rulesets
         // for rtl and ltr overlapping when an inner element has a writing direction override.
@@ -102,7 +100,8 @@ const safelyPrefix = (value: string, prefix: 'ltr' | 'rtl'): string => {
         // set sentinel value on `return` to be used later
         ltrElement.return = LTR_ATTR_SELECTOR;
 
-        break;
+        // serialize the new rtl element immediately
+        return serialize([rtlElement], callback);
       }
       // inspect DECLARATION type
       // if the element is a declaration, transform the declaration depending on the logical
