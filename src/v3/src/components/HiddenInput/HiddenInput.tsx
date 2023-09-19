@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { Box } from '@mui/material';
 import { h } from 'preact';
 
 import {
@@ -24,12 +25,13 @@ const InputText: UISchemaElementComponent<{ uischema: HiddenInputElement }> = ({
   // Can't use hidden types otherwise browser plugins (i.e. Password Managers) will ignore
 
   return (
-    <input
+    <Box
+      component="input"
       type="text"
       id={name}
       name={name}
       value={value}
-      style={{
+      sx={{
         display: 'none',
       }}
     />
