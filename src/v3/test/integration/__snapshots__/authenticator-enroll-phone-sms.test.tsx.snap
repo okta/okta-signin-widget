@@ -133,7 +133,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                       <button
                         aria-describedby="google_otp_0-description google_otp_0-ctaLabel"
                         aria-labelledby="google_otp_0-label"
-                        class="authenticator-button MuiBox-root emotion-26"
+                        class="authenticator-row MuiBox-root emotion-26"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -257,7 +257,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                       <button
                         aria-describedby="okta_verify_1-description okta_verify_1-ctaLabel"
                         aria-labelledby="okta_verify_1-label"
-                        class="authenticator-button MuiBox-root emotion-26"
+                        class="authenticator-row MuiBox-root emotion-26"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -357,7 +357,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                       <button
                         aria-describedby="phone_number_2-description phone_number_2-ctaLabel"
                         aria-labelledby="phone_number_2-label"
-                        class="authenticator-button MuiBox-root emotion-26"
+                        class="authenticator-row MuiBox-root emotion-26"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -471,7 +471,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                       <button
                         aria-describedby="webauthn_3-description webauthn_3-ctaLabel"
                         aria-labelledby="webauthn_3-label"
-                        class="authenticator-button MuiBox-root emotion-26"
+                        class="authenticator-row MuiBox-root emotion-26"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"

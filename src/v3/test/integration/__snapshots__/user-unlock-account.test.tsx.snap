@@ -97,7 +97,7 @@ exports[`user-unlock-account renders form 1`] = `
                       <button
                         aria-describedby="okta_email_0-ctaLabel"
                         aria-labelledby="okta_email_0-label"
-                        class="authenticator-button MuiBox-root emotion-20"
+                        class="authenticator-row MuiBox-root emotion-20"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -194,7 +194,7 @@ exports[`user-unlock-account renders form 1`] = `
                       <button
                         aria-describedby="phone_number_1-ctaLabel"
                         aria-labelledby="phone_number_1-label"
-                        class="authenticator-button MuiBox-root emotion-20"
+                        class="authenticator-row MuiBox-root emotion-20"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"

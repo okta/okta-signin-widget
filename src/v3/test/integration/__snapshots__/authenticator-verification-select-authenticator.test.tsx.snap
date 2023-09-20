@@ -118,7 +118,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       <button
                         aria-describedby="okta_password_0-ctaLabel"
                         aria-labelledby="okta_password_0-label"
-                        class="authenticator-button MuiBox-root emotion-23"
+                        class="authenticator-row MuiBox-root emotion-23"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -215,7 +215,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       <button
                         aria-describedby="webauthn_1-ctaLabel"
                         aria-labelledby="webauthn_1-label"
-                        class="authenticator-button MuiBox-root emotion-23"
+                        class="authenticator-row MuiBox-root emotion-23"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -332,7 +332,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       <button
                         aria-describedby="okta_email_2-ctaLabel"
                         aria-labelledby="okta_email_2-label"
-                        class="authenticator-button MuiBox-root emotion-23"
+                        class="authenticator-row MuiBox-root emotion-23"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -429,7 +429,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       <button
                         aria-describedby="phone_number_3-description phone_number_3-ctaLabel"
                         aria-labelledby="phone_number_3-label"
-                        class="authenticator-button MuiBox-root emotion-23"
+                        class="authenticator-row MuiBox-root emotion-23"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -543,7 +543,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       <button
                         aria-describedby="phone_number_4-description phone_number_4-ctaLabel"
                         aria-labelledby="phone_number_4-label"
-                        class="authenticator-button MuiBox-root emotion-23"
+                        class="authenticator-row MuiBox-root emotion-23"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -657,7 +657,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       <button
                         aria-describedby="security_question_5-ctaLabel"
                         aria-labelledby="security_question_5-label"
-                        class="authenticator-button MuiBox-root emotion-23"
+                        class="authenticator-row MuiBox-root emotion-23"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -754,7 +754,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       <button
                         aria-describedby="okta_verify_6-description okta_verify_6-ctaLabel"
                         aria-labelledby="okta_verify_6-label"
-                        class="authenticator-button MuiBox-root emotion-23"
+                        class="authenticator-row MuiBox-root emotion-23"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -854,7 +854,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       <button
                         aria-describedby="google_otp_7-ctaLabel"
                         aria-labelledby="google_otp_7-label"
-                        class="authenticator-button MuiBox-root emotion-23"
+                        class="authenticator-row MuiBox-root emotion-23"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -971,7 +971,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       <button
                         aria-describedby="onprem_mfa_8-ctaLabel"
                         aria-labelledby="onprem_mfa_8-label"
-                        class="authenticator-button MuiBox-root emotion-23"
+                        class="authenticator-row MuiBox-root emotion-23"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -1068,7 +1068,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       <button
                         aria-describedby="rsa_token_9-ctaLabel"
                         aria-labelledby="rsa_token_9-label"
-                        class="authenticator-button MuiBox-root emotion-23"
+                        class="authenticator-row MuiBox-root emotion-23"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -1199,7 +1199,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       <button
                         aria-describedby="duo_10-ctaLabel"
                         aria-labelledby="duo_10-label"
-                        class="authenticator-button MuiBox-root emotion-23"
+                        class="authenticator-row MuiBox-root emotion-23"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -1292,7 +1292,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       <button
                         aria-describedby="external_idp_11-ctaLabel"
                         aria-labelledby="external_idp_11-label"
-                        class="authenticator-button MuiBox-root emotion-23"
+                        class="authenticator-row MuiBox-root emotion-23"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -1394,7 +1394,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       <button
                         aria-describedby="custom_otp_12-ctaLabel"
                         aria-labelledby="custom_otp_12-label"
-                        class="authenticator-button MuiBox-root emotion-23"
+                        class="authenticator-row MuiBox-root emotion-23"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -1496,7 +1496,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       <button
                         aria-describedby="symantec_vip_13-ctaLabel"
                         aria-labelledby="symantec_vip_13-label"
-                        class="authenticator-button MuiBox-root emotion-23"
+                        class="authenticator-row MuiBox-root emotion-23"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -1595,7 +1595,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       <button
                         aria-describedby="yubikey_token_14-ctaLabel"
                         aria-labelledby="yubikey_token_14-label"
-                        class="authenticator-button MuiBox-root emotion-23"
+                        class="authenticator-row MuiBox-root emotion-23"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -1694,7 +1694,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       <button
                         aria-describedby="custom_app_15-description custom_app_15-ctaLabel"
                         aria-labelledby="custom_app_15-label"
-                        class="authenticator-button MuiBox-root emotion-23"
+                        class="authenticator-row MuiBox-root emotion-23"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
