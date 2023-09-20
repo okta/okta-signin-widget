@@ -92,7 +92,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
     if (!showPassword) {
       showPasswordTimeoutRef.current = window.setTimeout(() => {
         setShowPassword(false);
-      }, 30000)
+      }, 30000);
     }
   };
 
