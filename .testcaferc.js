@@ -81,7 +81,8 @@ const config = {
   }),
 
   // limit concurrency when running flaky tests
-  concurrency: OKTA_SIW_ONLY_FLAKY ? 1 : undefined,
+  // concurrency: OKTA_SIW_ONLY_FLAKY ? 1 : undefined,
+  concurrency: 1,
 
   filter: (_testName, _fixtureName, _fixturePath, testMeta, fixtureMeta) => {
     if (env.OKTA_SIW_V3) {

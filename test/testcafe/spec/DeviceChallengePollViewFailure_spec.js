@@ -35,34 +35,34 @@ const initialPoll = RequestMock()
 const noPermissionErrorPoll = RequestMock()
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
   .respond((req, res) => {
-    return new Promise((resolve) => setTimeout(function() {
+    //return new Promise((resolve) => setTimeout(function() {
       res.statusCode = '403';
       res.headers['content-type'] = 'application/json';
       res.setBody(error);
-      resolve(res);
-    }, Constants.TESTCAFE_DEFAULT_AJAX_WAIT + 2000));
+      //resolve(res);
+    //}, Constants.TESTCAFE_DEFAULT_AJAX_WAIT + 2000));
   });
 
 const nonIdxErrorPoll = RequestMock()
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
   .respond((req, res) => {
-    return new Promise((resolve) => setTimeout(function() {
+    //return new Promise((resolve) => setTimeout(function() {
       res.statusCode = '400';
       res.headers['content-type'] = 'application/json';
       res.setBody({});
-      resolve(res);
-    }, Constants.TESTCAFE_DEFAULT_AJAX_WAIT + 2000));
+      //resolve(res);
+    //}, Constants.TESTCAFE_DEFAULT_AJAX_WAIT + 2000));
   });
 
 const deviceInvalidatedErrorPoll = RequestMock()
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
   .respond((req, res) => {
-    return new Promise((resolve) => setTimeout(function() {
+    //return new Promise((resolve) => setTimeout(function() {
       res.statusCode = '400';
       res.headers['content-type'] = 'application/json';
       res.setBody(errorDeviceInvalid);
-      resolve(res);
-    }, Constants.TESTCAFE_DEFAULT_AJAX_WAIT + 2000));
+      //resolve(res);
+    //}, Constants.TESTCAFE_DEFAULT_AJAX_WAIT + 2000));
   });
 
 fixture('Device Challenge Polling View with Polling Failure').meta('v3', true);
@@ -75,7 +75,7 @@ async function setup(t) {
 }
 
 // TODO: fix quarantined test - OKTA-645716
-test.skip
+test
   .requestHooks(logger, baseMock, initialPoll)('probing and polling APIs are sent and responded', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);

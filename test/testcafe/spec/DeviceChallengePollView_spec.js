@@ -16,21 +16,11 @@ import userIsNotAssignedError from '../../../playground/mocks/data/idp/idx/error
 
 const BEACON_CLASS = 'mfa-okta-verify';
 
-let failureCount = 0, pollingError = false, appLinkLoopBackFailed = false;
+let pollingError = false, appLinkLoopBackFailed = false;
 const loopbackSuccessLogger = RequestLogger(/introspect|probe|challenge/, { logRequestBody: true, stringifyRequestBody: true });
 const loopbackSuccessMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/introspect/)
   .respond(identifyWithDeviceProbingLoopback)
-  .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
-  .respond((req, res) => {
-    res.statusCode = '200';
-    res.headers['content-type'] = 'application/json';
-    if (failureCount === 2) {
-      res.setBody(identify);
-    } else {
-      res.setBody(identifyWithDeviceProbingLoopback);
-    }
-  })
   .onRequestTo({ url: /2000\/probe/, method: 'OPTIONS' })
   .respond(null, 200, {
     'access-control-allow-origin': '*',
@@ -53,6 +43,14 @@ const loopbackSuccessMock = RequestMock()
     'access-control-allow-methods': 'POST, GET, OPTIONS'
   });
 
+const loopbackSuccessPollProbe = RequestMock()
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
+  .respond(identifyWithDeviceProbingLoopback);
+
+const loopbackSuccessPollComplete = RequestMock()
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
+  .respond(identify);
+
 const loopbackUserCancelLogger = RequestLogger(/cancel/, { logRequestBody: true, stringifyRequestBody: true });
 const loopbackUserCancelLoggerMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/introspect/)
@@ -68,12 +66,12 @@ const loopbackPollTimeoutMock = RequestMock()
   .respond(identifyWithDeviceProbingLoopback)
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
   .respond((req, res) => {
-    return new Promise((resolve) => setTimeout(function() {
+    //return new Promise((resolve) => setTimeout(function() {
       res.statusCode = '200';
       res.headers['content-type'] = 'application/json';
       res.setBody(identifyWithDeviceProbingLoopback);
-      resolve(res);
-    }, Constants.TESTCAFE_DEFAULT_AJAX_WAIT + 2_000));
+      //resolve(res);
+    //}, Constants.TESTCAFE_DEFAULT_AJAX_WAIT + 2_000));
   })
   .onRequestTo(/2000\/probe/)
   .respond(null, 200, {
@@ -305,11 +303,11 @@ async function setupLoopbackFallback(t) {
   return deviceChallengeFalllbackPage;
 }
 
-// TODO: fix quarantined test - OKTA-645716
-test.skip
-  .requestHooks(loopbackSuccessLogger, loopbackSuccessMock)('in loopback server approach, probing and polling requests are sent and responded', async t => {
+test
+  .requestHooks(loopbackSuccessLogger, loopbackSuccessMock, loopbackSuccessPollProbe)('in loopback server approach, probing and polling requests are sent and responded', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
+    // await t.debug();
     await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
     await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Verifying your identity');
     await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(true);
@@ -331,7 +329,11 @@ test.skip
         record.request.url.match(/6511\/challenge/) &&
         record.request.body.match(/challengeRequest":"eyJraWQiOiI1/)
     )).eql(1);
-    failureCount = 2;
+
+    // update mock for /idp/idx/authenticators/poll
+    await t.removeRequestHooks(loopbackSuccessPollProbe);
+    await t.addRequestHooks(loopbackSuccessPollComplete);
+
     await t.expect(loopbackSuccessLogger.contains(record => record.request.url.match(/6512|6513/))).eql(false);
 
     const identityPage = new IdentityPageObject(t);
@@ -359,7 +361,7 @@ test
     loopbackPollMockLogger.clear();
     await setup(t);
     await checkA11y(t);
-    await t.wait(10_000);
+    await t.wait(4000);
 
     await t.expect(loopbackPollMockLogger.count(
       record => {
