@@ -2,16 +2,16 @@
 
 exports[`byol loading custom language should load custom language with "language" option defined, and assets.baseUrl is set to a path containing the language assets 1`] = `
 <div>
-  <div
-    class="MuiScopedCssBaseline-root emotion-0"
+  <main
+    class="auth-container main-container MuiBox-root emotion-0"
+    data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+    data-version="0.0.0"
+    dir="ltr"
+    id="okta-sign-in"
+    lang="foo"
   >
-    <main
-      class="auth-container main-container MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="foo"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
       <div
         class="MuiBox-root emotion-2"
@@ -264,7 +264,7 @@ exports[`byol loading custom language should load custom language with "language
                     class="MuiBox-root emotion-15"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiBox-root emotion-0"
                     >
                       <div
                         class="MuiBox-root emotion-15"
@@ -1592,23 +1592,23 @@ exports[`byol loading custom language should load custom language with "language
           </div>
         </div>
       </div>
-    </main>
-  </div>
+    </div>
+  </main>
 </div>
 `;
 
 exports[`byol loading custom language should load custom language with assets.baseUrl and assets.languages set and with navigator.languages containing language 1`] = `
 <div>
-  <div
-    class="MuiScopedCssBaseline-root emotion-0"
+  <main
+    class="auth-container main-container MuiBox-root emotion-0"
+    data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+    data-version="0.0.0"
+    dir="ltr"
+    id="okta-sign-in"
+    lang="foo"
   >
-    <main
-      class="auth-container main-container MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="foo"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
       <div
         class="MuiBox-root emotion-2"
@@ -1861,7 +1861,7 @@ exports[`byol loading custom language should load custom language with assets.ba
                     class="MuiBox-root emotion-15"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiBox-root emotion-0"
                     >
                       <div
                         class="MuiBox-root emotion-15"
@@ -3189,23 +3189,23 @@ exports[`byol loading custom language should load custom language with assets.ba
           </div>
         </div>
       </div>
-    </main>
-  </div>
+    </div>
+  </main>
 </div>
 `;
 
 exports[`byol loading default language should not load custom language when the language/assets.languages value is not provided while assets.baseUrl is set to a path containing the language assets and navigator.languages containing language 1`] = `
 <div>
-  <div
-    class="MuiScopedCssBaseline-root emotion-0"
+  <main
+    class="auth-container main-container MuiBox-root emotion-0"
+    data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+    data-version="0.0.0"
+    dir="ltr"
+    id="okta-sign-in"
+    lang="en"
   >
-    <main
-      class="auth-container main-container MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
       <div
         class="MuiBox-root emotion-2"
@@ -3458,7 +3458,7 @@ exports[`byol loading default language should not load custom language when the 
                     class="MuiBox-root emotion-15"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiBox-root emotion-0"
                     >
                       <div
                         class="MuiBox-root emotion-15"
@@ -4786,23 +4786,23 @@ exports[`byol loading default language should not load custom language when the 
           </div>
         </div>
       </div>
-    </main>
-  </div>
+    </div>
+  </main>
 </div>
 `;
 
 exports[`byol loading default language should not load custom language with "language" option set when assets.baseUrl value is missing 1`] = `
 <div>
-  <div
-    class="MuiScopedCssBaseline-root emotion-0"
+  <main
+    class="auth-container main-container MuiBox-root emotion-0"
+    data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+    data-version="0.0.0"
+    dir="ltr"
+    id="okta-sign-in"
+    lang="foo"
   >
-    <main
-      class="auth-container main-container MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="foo"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
       <div
         class="MuiBox-root emotion-2"
@@ -5055,7 +5055,7 @@ exports[`byol loading default language should not load custom language with "lan
                     class="MuiBox-root emotion-15"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiBox-root emotion-0"
                     >
                       <div
                         class="MuiBox-root emotion-15"
@@ -6383,7 +6383,7 @@ exports[`byol loading default language should not load custom language with "lan
           </div>
         </div>
       </div>
-    </main>
-  </div>
+    </div>
+  </main>
 </div>
 `;

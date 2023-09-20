@@ -2,16 +2,16 @@
 
 exports[`authenticator-verification-okta-verify-push-code Polling should display reminder prompt when waiting on page for >= 30 secs 1`] = `
 <div>
-  <div
-    class="MuiScopedCssBaseline-root emotion-0"
+  <main
+    class="auth-container main-container MuiBox-root emotion-0"
+    data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+    data-version="0.0.0"
+    dir="ltr"
+    id="okta-sign-in"
+    lang="en"
   >
-    <main
-      class="auth-container main-container MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
       <div
         class="MuiBox-root emotion-2"
@@ -109,7 +109,7 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                 class="MuiBox-root emotion-14"
               >
                 <div
-                  class="MuiBox-root emotion-1"
+                  class="MuiBox-root emotion-0"
                 >
                   <div
                     class="MuiBox-root emotion-16"
@@ -141,7 +141,7 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                         class="MuiAlert-message emotion-20"
                       >
                         <div
-                          class="MuiBox-root emotion-1"
+                          class="MuiBox-root emotion-0"
                         >
                           Haven't received a push notification yet? Try opening the Okta Verify app on your device, or 
                           <a
@@ -274,7 +274,7 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                       </svg>
                     </div>
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiBox-root emotion-0"
                     >
                       <span
                         class="MuiTypography-root MuiTypography-body1 no-translate emotion-32"
@@ -312,23 +312,23 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
           </div>
         </div>
       </div>
-    </main>
-  </div>
+    </div>
+  </main>
 </div>
 `;
 
 exports[`authenticator-verification-okta-verify-push-code should render form 1`] = `
 <div>
-  <div
-    class="MuiScopedCssBaseline-root emotion-0"
+  <main
+    class="auth-container main-container MuiBox-root emotion-0"
+    data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+    data-version="0.0.0"
+    dir="ltr"
+    id="okta-sign-in"
+    lang="en"
   >
-    <main
-      class="auth-container main-container MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
       <div
         class="MuiBox-root emotion-2"
@@ -426,7 +426,7 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                 class="MuiBox-root emotion-14"
               >
                 <div
-                  class="MuiBox-root emotion-1"
+                  class="MuiBox-root emotion-0"
                 />
                 <div
                   class="MuiBox-root emotion-16"
@@ -546,7 +546,7 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                       </svg>
                     </div>
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiBox-root emotion-0"
                     >
                       <span
                         class="MuiTypography-root MuiTypography-body1 no-translate emotion-25"
@@ -584,7 +584,7 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
           </div>
         </div>
       </div>
-    </main>
-  </div>
+    </div>
+  </main>
 </div>
 `;

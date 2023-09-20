@@ -2,16 +2,16 @@
 
 exports[`okta-verify-sms-channel-enrollment should render sms channel form and send correct payload 1`] = `
 <div>
-  <div
-    class="MuiScopedCssBaseline-root emotion-0"
+  <main
+    class="auth-container main-container MuiBox-root emotion-0"
+    data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+    data-version="0.0.0"
+    dir="ltr"
+    id="okta-sign-in"
+    lang="en"
   >
-    <main
-      class="auth-container main-container MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
       <div
         class="MuiBox-root emotion-2"
@@ -128,7 +128,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                   class="MuiBox-root emotion-15"
                 >
                   <div
-                    class="MuiBox-root emotion-1"
+                    class="MuiBox-root emotion-0"
                   >
                     <div
                       class="MuiBox-root emotion-15"
@@ -1447,7 +1447,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                   class="MuiBox-root emotion-15"
                 >
                   <div
-                    class="MuiBox-root emotion-1"
+                    class="MuiBox-root emotion-0"
                   >
                     Or 
                     <a
@@ -1486,23 +1486,23 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
           </div>
         </div>
       </div>
-    </main>
-  </div>
+    </div>
+  </main>
 </div>
 `;
 
 exports[`okta-verify-sms-channel-enrollment should render sms channel form without an auto focused element when autoFocus is disabled 1`] = `
 <div>
-  <div
-    class="MuiScopedCssBaseline-root emotion-0"
+  <main
+    class="auth-container main-container MuiBox-root emotion-0"
+    data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+    data-version="0.0.0"
+    dir="ltr"
+    id="okta-sign-in"
+    lang="en"
   >
-    <main
-      class="auth-container main-container MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
       <div
         class="MuiBox-root emotion-2"
@@ -1619,7 +1619,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form witho
                   class="MuiBox-root emotion-15"
                 >
                   <div
-                    class="MuiBox-root emotion-1"
+                    class="MuiBox-root emotion-0"
                   >
                     <div
                       class="MuiBox-root emotion-15"
@@ -2938,7 +2938,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form witho
                   class="MuiBox-root emotion-15"
                 >
                   <div
-                    class="MuiBox-root emotion-1"
+                    class="MuiBox-root emotion-0"
                   >
                     Or 
                     <a
@@ -2977,7 +2977,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form witho
           </div>
         </div>
       </div>
-    </main>
-  </div>
+    </div>
+  </main>
 </div>
 `;

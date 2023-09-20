@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { ScopedCssBaseline } from '@mui/material';
 import * as Tokens from '@okta/odyssey-design-tokens';
 import { Box } from '@okta/odyssey-react-mui';
 import classNames from 'classnames';
@@ -39,39 +40,50 @@ const AuthContainer: FunctionComponent<{ hide: boolean }> = ({ children, hide })
         } : {}),
       }}
     >
-      <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
+      {/* the style is to allow the widget to inherit the parent's bg color */}
+      <ScopedCssBaseline
         sx={{
-          minInlineSize: '100%',
-          marginBlockStart: '100px',
-          marginBlockEnd: '8px',
-          marginInline: 'auto',
-          '@media only screen and (max-device-width: 750px)': {
-            marginBlockStart: 0,
+          backgroundColor: 'inherit',
+          'span.strong': {
+            fontWeight: 'bold',
+            wordBreak: 'break-all',
           },
         }}
       >
         <Box
-          flex="auto"
-          flexDirection="column"
-          bgcolor="common.white"
-          fontFamily="fontFamily"
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
           sx={{
-            maxInlineSize: '432px',
-            minInlineSize: '320px',
-            border: 1,
-            borderRadius: 1,
-            borderColor: Tokens.ColorBorderDisplay,
-            '@media only screen and (max-width: 391px)': {
-              border: 0,
+            minInlineSize: '100%',
+            marginBlockStart: '100px',
+            marginBlockEnd: '8px',
+            marginInline: 'auto',
+            '@media only screen and (max-device-width: 750px)': {
+              marginBlockStart: 0,
             },
           }}
         >
-          {children}
+          <Box
+            flex="auto"
+            flexDirection="column"
+            bgcolor="common.white"
+            fontFamily="fontFamily"
+            sx={{
+              maxInlineSize: '432px',
+              minInlineSize: '320px',
+              border: 1,
+              borderRadius: 1,
+              borderColor: Tokens.ColorBorderDisplay,
+              '@media only screen and (max-width: 391px)': {
+                border: 0,
+              },
+            }}
+          >
+            {children}
+          </Box>
         </Box>
-      </Box>
+      </ScopedCssBaseline>
     </Box>
   );
 };

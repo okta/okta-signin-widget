@@ -2,16 +2,16 @@
 
 exports[`authenticator-enroll-select-authenticator renders form 1`] = `
 <div>
-  <div
-    class="MuiScopedCssBaseline-root emotion-0"
+  <main
+    class="auth-container main-container MuiBox-root emotion-0"
+    data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+    data-version="0.0.0"
+    dir="ltr"
+    id="okta-sign-in"
+    lang="en"
   >
-    <main
-      class="auth-container main-container MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
       <div
         class="MuiBox-root emotion-2"
@@ -106,7 +106,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                   </div>
                 </div>
                 <div
-                  class="MuiBox-root emotion-1"
+                  class="MuiBox-root emotion-0"
                 >
                   <div
                     class="MuiBox-root emotion-15"
@@ -139,7 +139,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                         type="button"
                       >
                         <div
-                          class="authenticator-icon-container MuiBox-root emotion-1"
+                          class="authenticator-icon-container MuiBox-root emotion-0"
                           data-se="authenticator-icon"
                         >
                           <div
@@ -243,7 +243,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                         type="button"
                       >
                         <div
-                          class="authenticator-icon-container MuiBox-root emotion-1"
+                          class="authenticator-icon-container MuiBox-root emotion-0"
                           data-se="authenticator-icon"
                         >
                           <div
@@ -357,7 +357,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                         type="button"
                       >
                         <div
-                          class="authenticator-icon-container MuiBox-root emotion-1"
+                          class="authenticator-icon-container MuiBox-root emotion-0"
                           data-se="authenticator-icon"
                         >
                           <div
@@ -499,7 +499,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
           </div>
         </div>
       </div>
-    </main>
-  </div>
+    </div>
+  </main>
 </div>
 `;

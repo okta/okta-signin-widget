@@ -2,16 +2,16 @@
 
 exports[`authenticator-enroll-security-question-error custom question should show field level character count error message when invalid number of characters are sent and field should retain characters 1`] = `
 <div>
-  <div
-    class="MuiScopedCssBaseline-root emotion-0"
+  <main
+    class="auth-container main-container MuiBox-root emotion-0"
+    data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+    data-version="0.0.0"
+    dir="ltr"
+    id="okta-sign-in"
+    lang="en"
   >
-    <main
-      class="auth-container main-container MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
       <div
         class="MuiBox-root emotion-2"
@@ -272,7 +272,7 @@ exports[`authenticator-enroll-security-question-error custom question should sho
                     class="MuiBox-root emotion-21"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiBox-root emotion-0"
                     >
                       <label
                         class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-43"
@@ -302,7 +302,7 @@ exports[`authenticator-enroll-security-question-error custom question should sho
                     class="MuiBox-root emotion-21"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiBox-root emotion-0"
                     >
                       <label
                         class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-43"
@@ -356,7 +356,7 @@ exports[`authenticator-enroll-security-question-error custom question should sho
                         </div>
                       </div>
                       <div
-                        class="MuiBox-root emotion-1"
+                        class="MuiBox-root emotion-0"
                       >
                         <p
                           class="MuiFormHelperText-root Mui-error emotion-55"
@@ -409,23 +409,23 @@ exports[`authenticator-enroll-security-question-error custom question should sho
           </div>
         </div>
       </div>
-    </main>
-  </div>
+    </div>
+  </main>
 </div>
 `;
 
 exports[`authenticator-enroll-security-question-error predefined question should send correct payload when toggling between question types and submitted form with incorrect number of characters 1`] = `
 <div>
-  <div
-    class="MuiScopedCssBaseline-root emotion-0"
+  <main
+    class="auth-container main-container MuiBox-root emotion-0"
+    data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+    data-version="0.0.0"
+    dir="ltr"
+    id="okta-sign-in"
+    lang="en"
   >
-    <main
-      class="auth-container main-container MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
       <div
         class="MuiBox-root emotion-2"
@@ -826,7 +826,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                     class="MuiBox-root emotion-21"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiBox-root emotion-0"
                     >
                       <label
                         class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-49"
@@ -881,7 +881,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                         </div>
                       </div>
                       <div
-                        class="MuiBox-root emotion-1"
+                        class="MuiBox-root emotion-0"
                       >
                         <p
                           class="MuiFormHelperText-root Mui-error emotion-56"
@@ -934,23 +934,23 @@ exports[`authenticator-enroll-security-question-error predefined question should
           </div>
         </div>
       </div>
-    </main>
-  </div>
+    </div>
+  </main>
 </div>
 `;
 
 exports[`authenticator-enroll-security-question-error predefined question should show field level character count error message on multiple attempts to submit with invalid character count 1`] = `
 <div>
-  <div
-    class="MuiScopedCssBaseline-root emotion-0"
+  <main
+    class="auth-container main-container MuiBox-root emotion-0"
+    data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+    data-version="0.0.0"
+    dir="ltr"
+    id="okta-sign-in"
+    lang="en"
   >
-    <main
-      class="auth-container main-container MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
       <div
         class="MuiBox-root emotion-2"
@@ -1325,7 +1325,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                     class="MuiBox-root emotion-16"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiBox-root emotion-0"
                     >
                       <label
                         class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-44"
@@ -1381,7 +1381,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                         </div>
                       </div>
                       <div
-                        class="MuiBox-root emotion-1"
+                        class="MuiBox-root emotion-0"
                       >
                         <p
                           class="MuiFormHelperText-root Mui-error emotion-51"
@@ -1464,23 +1464,23 @@ exports[`authenticator-enroll-security-question-error predefined question should
           </div>
         </div>
       </div>
-    </main>
-  </div>
+    </div>
+  </main>
 </div>
 `;
 
 exports[`authenticator-enroll-security-question-error predefined question should show field level character count error message when invalid number of characters are sent and field should retain characters 1`] = `
 <div>
-  <div
-    class="MuiScopedCssBaseline-root emotion-0"
+  <main
+    class="auth-container main-container MuiBox-root emotion-0"
+    data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+    data-version="0.0.0"
+    dir="ltr"
+    id="okta-sign-in"
+    lang="en"
   >
-    <main
-      class="auth-container main-container MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
       <div
         class="MuiBox-root emotion-2"
@@ -1881,7 +1881,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                     class="MuiBox-root emotion-21"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiBox-root emotion-0"
                     >
                       <label
                         class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-49"
@@ -1936,7 +1936,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                         </div>
                       </div>
                       <div
-                        class="MuiBox-root emotion-1"
+                        class="MuiBox-root emotion-0"
                       >
                         <p
                           class="MuiFormHelperText-root Mui-error emotion-56"
@@ -1989,7 +1989,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
           </div>
         </div>
       </div>
-    </main>
-  </div>
+    </div>
+  </main>
 </div>
 `;

@@ -2,16 +2,16 @@
 
 exports[`Email authenticator verification when email magic link = undefined renders correct form renders the initial form 1`] = `
 <div>
-  <div
-    class="MuiScopedCssBaseline-root emotion-0"
+  <main
+    class="auth-container main-container MuiBox-root emotion-0"
+    data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+    data-version="0.0.0"
+    dir="ltr"
+    id="okta-sign-in"
+    lang="en"
   >
-    <main
-      class="auth-container main-container MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
       <div
         class="MuiBox-root emotion-2"
@@ -183,23 +183,23 @@ exports[`Email authenticator verification when email magic link = undefined rend
           </div>
         </div>
       </div>
-    </main>
-  </div>
+    </div>
+  </main>
 </div>
 `;
 
 exports[`Email authenticator verification when email magic link = undefined renders correct form renders the initial form with resend alert box 1`] = `
 <div>
-  <div
-    class="MuiScopedCssBaseline-root emotion-0"
+  <main
+    class="auth-container main-container MuiBox-root emotion-0"
+    data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+    data-version="0.0.0"
+    dir="ltr"
+    id="okta-sign-in"
+    lang="en"
   >
-    <main
-      class="auth-container main-container MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
       <div
         class="MuiBox-root emotion-2"
@@ -415,23 +415,23 @@ exports[`Email authenticator verification when email magic link = undefined rend
           </div>
         </div>
       </div>
-    </main>
-  </div>
+    </div>
+  </main>
 </div>
 `;
 
 exports[`Email authenticator verification when email magic link = undefined renders correct form renders the otp challenge form 1`] = `
 <div>
-  <div
-    class="MuiScopedCssBaseline-root emotion-0"
+  <main
+    class="auth-container main-container MuiBox-root emotion-0"
+    data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+    data-version="0.0.0"
+    dir="ltr"
+    id="okta-sign-in"
+    lang="en"
   >
-    <main
-      class="auth-container main-container MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
       <div
         class="MuiBox-root emotion-2"
@@ -579,7 +579,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                     class="MuiBox-root emotion-16"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiBox-root emotion-0"
                     >
                       <label
                         class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-25"
@@ -636,23 +636,23 @@ exports[`Email authenticator verification when email magic link = undefined rend
           </div>
         </div>
       </div>
-    </main>
-  </div>
+    </div>
+  </main>
 </div>
 `;
 
 exports[`Email authenticator verification when email magic link = undefined renders correct form renders the otp challenge form 2`] = `
 <div>
-  <div
-    class="MuiScopedCssBaseline-root emotion-0"
+  <main
+    class="auth-container main-container MuiBox-root emotion-0"
+    data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+    data-version="0.0.0"
+    dir="ltr"
+    id="okta-sign-in"
+    lang="en"
   >
-    <main
-      class="auth-container main-container MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
       <div
         class="MuiBox-root emotion-2"
@@ -833,7 +833,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                     class="MuiBox-root emotion-21"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiBox-root emotion-0"
                     >
                       <label
                         class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-30"
@@ -861,7 +861,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                         />
                       </div>
                       <div
-                        class="MuiBox-root emotion-1"
+                        class="MuiBox-root emotion-0"
                       >
                         <p
                           class="MuiFormHelperText-root Mui-error emotion-34"
@@ -914,23 +914,23 @@ exports[`Email authenticator verification when email magic link = undefined rend
           </div>
         </div>
       </div>
-    </main>
-  </div>
+    </div>
+  </main>
 </div>
 `;
 
 exports[`Email authenticator verification when email magic link = undefined renders correct form should display reminder prompt, then global error after invalid entry and finally display reminder again with global error 1`] = `
 <div>
-  <div
-    class="MuiScopedCssBaseline-root emotion-0"
+  <main
+    class="auth-container main-container MuiBox-root emotion-0"
+    data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+    data-version="0.0.0"
+    dir="ltr"
+    id="okta-sign-in"
+    lang="en"
   >
-    <main
-      class="auth-container main-container MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
       <div
         class="MuiBox-root emotion-2"
@@ -1155,7 +1155,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                     class="MuiBox-root emotion-21"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiBox-root emotion-0"
                     >
                       <label
                         class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-37"
@@ -1183,7 +1183,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                         />
                       </div>
                       <div
-                        class="MuiBox-root emotion-1"
+                        class="MuiBox-root emotion-0"
                       >
                         <p
                           class="MuiFormHelperText-root Mui-error emotion-41"
@@ -1236,23 +1236,23 @@ exports[`Email authenticator verification when email magic link = undefined rend
           </div>
         </div>
       </div>
-    </main>
-  </div>
+    </div>
+  </main>
 </div>
 `;
 
 exports[`Email authenticator verification when email magic link = undefined renders correct form should render session expired terminal view when polling results in expired session 1`] = `
 <div>
-  <div
-    class="MuiScopedCssBaseline-root emotion-0"
+  <main
+    class="auth-container main-container MuiBox-root emotion-0"
+    data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+    data-version="0.0.0"
+    dir="ltr"
+    id="okta-sign-in"
+    lang="en"
   >
-    <main
-      class="auth-container main-container MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
       <div
         class="MuiBox-root emotion-2"
@@ -1333,23 +1333,23 @@ exports[`Email authenticator verification when email magic link = undefined rend
           </div>
         </div>
       </div>
-    </main>
-  </div>
+    </div>
+  </main>
 </div>
 `;
 
 exports[`Email authenticator verification when email magic link = undefined should have autocomplete attribute on otp input element when in ios browser 1`] = `
 <div>
-  <div
-    class="MuiScopedCssBaseline-root emotion-0"
+  <main
+    class="auth-container main-container MuiBox-root emotion-0"
+    data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+    data-version="0.0.0"
+    dir="ltr"
+    id="okta-sign-in"
+    lang="en"
   >
-    <main
-      class="auth-container main-container MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
       <div
         class="MuiBox-root emotion-2"
@@ -1497,7 +1497,7 @@ exports[`Email authenticator verification when email magic link = undefined shou
                     class="MuiBox-root emotion-16"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiBox-root emotion-0"
                     >
                       <label
                         class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-25"
@@ -1554,7 +1554,7 @@ exports[`Email authenticator verification when email magic link = undefined shou
           </div>
         </div>
       </div>
-    </main>
-  </div>
+    </div>
+  </main>
 </div>
 `;

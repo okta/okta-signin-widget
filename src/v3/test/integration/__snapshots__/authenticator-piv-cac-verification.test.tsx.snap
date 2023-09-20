@@ -2,16 +2,16 @@
 
 exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC Button label and class 1`] = `
 <div>
-  <div
-    class="MuiScopedCssBaseline-root emotion-0"
+  <main
+    class="auth-container main-container MuiBox-root emotion-0"
+    data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+    data-version="0.0.0"
+    dir="ltr"
+    id="okta-sign-in"
+    lang="en"
   >
-    <main
-      class="auth-container main-container MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
       <div
         class="MuiBox-root emotion-2"
@@ -67,7 +67,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                       <img
                         alt="PIV Card"
                         aria-hidden="true"
-                        class="MuiBox-root emotion-1"
+                        class="MuiBox-root emotion-0"
                         src="MockSVGIcon"
                       />
                     </span>
@@ -92,7 +92,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                   class="MuiBox-root emotion-9"
                 >
                   <div
-                    class="MuiBox-root emotion-1"
+                    class="MuiBox-root emotion-0"
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-21"
@@ -123,7 +123,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                   class="MuiBox-root emotion-9"
                 >
                   <div
-                    class="MuiBox-root emotion-1"
+                    class="MuiBox-root emotion-0"
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-21"
@@ -307,23 +307,23 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
           </div>
         </div>
       </div>
-    </main>
-  </div>
+    </div>
+  </main>
 </div>
 `;
 
 exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIMARY/default 1`] = `
 <div>
-  <div
-    class="MuiScopedCssBaseline-root emotion-0"
+  <main
+    class="auth-container main-container MuiBox-root emotion-0"
+    data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+    data-version="0.0.0"
+    dir="ltr"
+    id="okta-sign-in"
+    lang="en"
   >
-    <main
-      class="auth-container main-container MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
       <div
         class="MuiBox-root emotion-2"
@@ -379,7 +379,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                       <img
                         alt="PIV Card"
                         aria-hidden="true"
-                        class="MuiBox-root emotion-1"
+                        class="MuiBox-root emotion-0"
                         src="MockSVGIcon"
                       />
                     </span>
@@ -404,7 +404,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                   class="MuiBox-root emotion-9"
                 >
                   <div
-                    class="MuiBox-root emotion-1"
+                    class="MuiBox-root emotion-0"
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-21"
@@ -435,7 +435,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                   class="MuiBox-root emotion-9"
                 >
                   <div
-                    class="MuiBox-root emotion-1"
+                    class="MuiBox-root emotion-0"
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-21"
@@ -619,23 +619,23 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
           </div>
         </div>
       </div>
-    </main>
-  </div>
+    </div>
+  </main>
 </div>
 `;
 
 exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECONDARY 1`] = `
 <div>
-  <div
-    class="MuiScopedCssBaseline-root emotion-0"
+  <main
+    class="auth-container main-container MuiBox-root emotion-0"
+    data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+    data-version="0.0.0"
+    dir="ltr"
+    id="okta-sign-in"
+    lang="en"
   >
-    <main
-      class="auth-container main-container MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
       <div
         class="MuiBox-root emotion-2"
@@ -681,7 +681,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                   class="MuiBox-root emotion-9"
                 >
                   <div
-                    class="MuiBox-root emotion-1"
+                    class="MuiBox-root emotion-0"
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-14"
@@ -712,7 +712,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                   class="MuiBox-root emotion-9"
                 >
                   <div
-                    class="MuiBox-root emotion-1"
+                    class="MuiBox-root emotion-0"
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-14"
@@ -849,7 +849,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                       <img
                         alt="PIV Card"
                         aria-hidden="true"
-                        class="MuiBox-root emotion-1"
+                        class="MuiBox-root emotion-0"
                         src="MockSVGIcon"
                       />
                     </span>
@@ -931,23 +931,23 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
           </div>
         </div>
       </div>
-    </main>
-  </div>
+    </div>
+  </main>
 </div>
 `;
 
 exports[`authenticator-piv-cac-verification should render PIV/CAC view when clicking PIV button 1`] = `
 <div>
-  <div
-    class="MuiScopedCssBaseline-root emotion-0"
+  <main
+    class="auth-container main-container MuiBox-root emotion-0"
+    data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+    data-version="0.0.0"
+    dir="ltr"
+    id="okta-sign-in"
+    lang="en"
   >
-    <main
-      class="auth-container main-container MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
       <div
         class="MuiBox-root emotion-2"
@@ -1086,21 +1086,21 @@ exports[`authenticator-piv-cac-verification should render PIV/CAC view when clic
           </div>
         </div>
       </div>
-      <form
-        action="http://localhost:3000/sso/idps/MTLS"
-        method="get"
-        style="display: none;"
-      >
-        <input
-          name="stateTokenExternalId"
-          type="hidden"
-          value="ZnNzQnZsc0RwK3RuSnVEUTJNYTZIdXc5bzl6UnI4NzBPazloT0lIMy9wd3hSVGlDMDRjRDQ2V2VqeHJuSGcyNQ"
-        />
-        <input
-          type="submit"
-        />
-      </form>
-    </main>
-  </div>
+    </div>
+    <form
+      action="http://localhost:3000/sso/idps/MTLS"
+      method="get"
+      style="display: none;"
+    >
+      <input
+        name="stateTokenExternalId"
+        type="hidden"
+        value="ZnNzQnZsc0RwK3RuSnVEUTJNYTZIdXc5bzl6UnI4NzBPazloT0lIMy9wd3hSVGlDMDRjRDQ2V2VqeHJuSGcyNQ"
+      />
+      <input
+        type="submit"
+      />
+    </form>
+  </main>
 </div>
 `;

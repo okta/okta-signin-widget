@@ -12,7 +12,6 @@
 
 import './style.css';
 
-import { ScopedCssBaseline } from '@mui/material';
 import { MuiThemeProvider } from '@okta/odyssey-react-mui';
 import {
   AuthApiError,
@@ -497,34 +496,23 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       <CustomPluginsOdysseyCacheProvider nonce={cspNonce}>
         <MuiThemeProvider theme={mergedTheme}>
           <GlobalStyles />
-          {/* the style is to allow the widget to inherit the parent's bg color */}
-          <ScopedCssBaseline
-            sx={{
-              backgroundColor: 'inherit',
-              'span.strong': {
-                fontWeight: 'bold',
-                wordBreak: 'break-all',
-              },
-            }}
-          >
-            <AuthContainer hide={hide}>
-              <AuthHeader
-                logo={logo}
-                logoText={logoText}
-                brandName={brandName}
-                authCoinProps={buildAuthCoinProps(idxTransaction)}
-              />
-              <AuthContent>
-                {isConsentStep(idxTransaction) && <ConsentHeader />}
-                <IdentifierContainer />
-                {
-                  uischema.elements.length > 0
-                    ? <Form uischema={uischema as UISchemaLayout} />
-                    : <Spinner />
-                }
-              </AuthContent>
-            </AuthContainer>
-          </ScopedCssBaseline>
+          <AuthContainer hide={hide}>
+            <AuthHeader
+              logo={logo}
+              logoText={logoText}
+              brandName={brandName}
+              authCoinProps={buildAuthCoinProps(idxTransaction)}
+            />
+            <AuthContent>
+              {isConsentStep(idxTransaction) && <ConsentHeader />}
+              <IdentifierContainer />
+              {
+                uischema.elements.length > 0
+                  ? <Form uischema={uischema as UISchemaLayout} />
+                  : <Spinner />
+              }
+            </AuthContent>
+          </AuthContainer>
         </MuiThemeProvider>
       </CustomPluginsOdysseyCacheProvider>
     </WidgetContextProvider>

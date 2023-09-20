@@ -2,16 +2,16 @@
 
 exports[`authenticator-enroll-security-question custom question fails client side validation when custom question is missing 1`] = `
 <div>
-  <div
-    class="MuiScopedCssBaseline-root emotion-0"
+  <main
+    class="auth-container main-container MuiBox-root emotion-0"
+    data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+    data-version="0.0.0"
+    dir="ltr"
+    id="okta-sign-in"
+    lang="en"
   >
-    <main
-      class="auth-container main-container MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
       <div
         class="MuiBox-root emotion-2"
@@ -272,7 +272,7 @@ exports[`authenticator-enroll-security-question custom question fails client sid
                     class="MuiBox-root emotion-21"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiBox-root emotion-0"
                     >
                       <label
                         class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-43"
@@ -298,7 +298,7 @@ exports[`authenticator-enroll-security-question custom question fails client sid
                         />
                       </div>
                       <div
-                        class="MuiBox-root emotion-1"
+                        class="MuiBox-root emotion-0"
                       >
                         <p
                           class="MuiFormHelperText-root Mui-error emotion-47"
@@ -315,7 +315,7 @@ exports[`authenticator-enroll-security-question custom question fails client sid
                     class="MuiBox-root emotion-21"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiBox-root emotion-0"
                     >
                       <label
                         class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-43"
@@ -409,23 +409,23 @@ exports[`authenticator-enroll-security-question custom question fails client sid
           </div>
         </div>
       </div>
-    </main>
-  </div>
+    </div>
+  </main>
 </div>
 `;
 
 exports[`authenticator-enroll-security-question custom question renders correct form 1`] = `
 <div>
-  <div
-    class="MuiScopedCssBaseline-root emotion-0"
+  <main
+    class="auth-container main-container MuiBox-root emotion-0"
+    data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+    data-version="0.0.0"
+    dir="ltr"
+    id="okta-sign-in"
+    lang="en"
   >
-    <main
-      class="auth-container main-container MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
       <div
         class="MuiBox-root emotion-2"
@@ -653,7 +653,7 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                     class="MuiBox-root emotion-16"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiBox-root emotion-0"
                     >
                       <label
                         class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-38"
@@ -683,7 +683,7 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                     class="MuiBox-root emotion-16"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiBox-root emotion-0"
                     >
                       <label
                         class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-38"
@@ -777,23 +777,23 @@ exports[`authenticator-enroll-security-question custom question renders correct 
           </div>
         </div>
       </div>
-    </main>
-  </div>
+    </div>
+  </main>
 </div>
 `;
 
 exports[`authenticator-enroll-security-question predefined question renders correct form 1`] = `
 <div>
-  <div
-    class="MuiScopedCssBaseline-root emotion-0"
+  <main
+    class="auth-container main-container MuiBox-root emotion-0"
+    data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+    data-version="0.0.0"
+    dir="ltr"
+    id="okta-sign-in"
+    lang="en"
   >
-    <main
-      class="auth-container main-container MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
       <div
         class="MuiBox-root emotion-2"
@@ -1161,7 +1161,7 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                     class="MuiBox-root emotion-16"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiBox-root emotion-0"
                     >
                       <label
                         class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-44"
@@ -1256,23 +1256,23 @@ exports[`authenticator-enroll-security-question predefined question renders corr
           </div>
         </div>
       </div>
-    </main>
-  </div>
+    </div>
+  </main>
 </div>
 `;
 
 exports[`authenticator-enroll-security-question predefined question should render form without an autoFocused field 1`] = `
 <div>
-  <div
-    class="MuiScopedCssBaseline-root emotion-0"
+  <main
+    class="auth-container main-container MuiBox-root emotion-0"
+    data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+    data-version="0.0.0"
+    dir="ltr"
+    id="okta-sign-in"
+    lang="en"
   >
-    <main
-      class="auth-container main-container MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
       <div
         class="MuiBox-root emotion-2"
@@ -1640,7 +1640,7 @@ exports[`authenticator-enroll-security-question predefined question should rende
                     class="MuiBox-root emotion-16"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiBox-root emotion-0"
                     >
                       <label
                         class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-44"
@@ -1735,7 +1735,7 @@ exports[`authenticator-enroll-security-question predefined question should rende
           </div>
         </div>
       </div>
-    </main>
-  </div>
+    </div>
+  </main>
 </div>
 `;

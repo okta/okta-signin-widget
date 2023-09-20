@@ -2,16 +2,16 @@
 
 exports[`enroll-profile-update fails client side validation with empty required fields 1`] = `
 <div>
-  <div
-    class="MuiScopedCssBaseline-root emotion-0"
+  <main
+    class="auth-container main-container MuiBox-root emotion-0"
+    data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+    data-version="0.0.0"
+    dir="ltr"
+    id="okta-sign-in"
+    lang="en"
   >
-    <main
-      class="auth-container main-container MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
       <div
         class="MuiBox-root emotion-2"
@@ -142,7 +142,7 @@ exports[`enroll-profile-update fails client side validation with empty required 
                   class="MuiBox-root emotion-19"
                 >
                   <div
-                    class="MuiBox-root emotion-1"
+                    class="MuiBox-root emotion-0"
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-27"
@@ -173,7 +173,7 @@ exports[`enroll-profile-update fails client side validation with empty required 
                       />
                     </div>
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiBox-root emotion-0"
                     >
                       <p
                         class="MuiFormHelperText-root Mui-error emotion-32"
@@ -190,7 +190,7 @@ exports[`enroll-profile-update fails client side validation with empty required 
                   class="MuiBox-root emotion-19"
                 >
                   <div
-                    class="MuiBox-root emotion-1"
+                    class="MuiBox-root emotion-0"
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-27"
@@ -221,7 +221,7 @@ exports[`enroll-profile-update fails client side validation with empty required 
                       />
                     </div>
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiBox-root emotion-0"
                     >
                       <p
                         class="MuiFormHelperText-root Mui-error emotion-32"
@@ -251,23 +251,23 @@ exports[`enroll-profile-update fails client side validation with empty required 
           </div>
         </div>
       </div>
-    </main>
-  </div>
+    </div>
+  </main>
 </div>
 `;
 
 exports[`enroll-profile-update should render form 1`] = `
 <div>
-  <div
-    class="MuiScopedCssBaseline-root emotion-0"
+  <main
+    class="auth-container main-container MuiBox-root emotion-0"
+    data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+    data-version="0.0.0"
+    dir="ltr"
+    id="okta-sign-in"
+    lang="en"
   >
-    <main
-      class="auth-container main-container MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
       <div
         class="MuiBox-root emotion-2"
@@ -365,7 +365,7 @@ exports[`enroll-profile-update should render form 1`] = `
                   class="MuiBox-root emotion-14"
                 >
                   <div
-                    class="MuiBox-root emotion-1"
+                    class="MuiBox-root emotion-0"
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-22"
@@ -400,7 +400,7 @@ exports[`enroll-profile-update should render form 1`] = `
                   class="MuiBox-root emotion-14"
                 >
                   <div
-                    class="MuiBox-root emotion-1"
+                    class="MuiBox-root emotion-0"
                   >
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-22"
@@ -448,7 +448,7 @@ exports[`enroll-profile-update should render form 1`] = `
           </div>
         </div>
       </div>
-    </main>
-  </div>
+    </div>
+  </main>
 </div>
 `;
