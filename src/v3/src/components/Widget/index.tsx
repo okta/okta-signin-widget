@@ -495,8 +495,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     }}
     >
       <CustomPluginsOdysseyCacheProvider nonce={cspNonce}>
-        <GlobalStyles />
         <MuiThemeProvider theme={mergedTheme}>
+          <GlobalStyles />
           {/* the style is to allow the widget to inherit the parent's bg color */}
           <ScopedCssBaseline
             sx={{
