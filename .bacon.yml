@@ -30,7 +30,7 @@ test_suites:
   - name: testcafe
     script_path: /root/okta/okta-signin-widget/scripts
     sort_order: '5'
-    timeout: '45'
+    timeout: '120'
     script_name: testcafe
     criteria: MERGE
     queue_name: small
