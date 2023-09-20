@@ -162,7 +162,12 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
         endAdornment={(
           showPasswordToggleOnSignInPage && (
             <InputAdornment position="end">
-              <Tooltip title={showPassword ? getTranslation(translations, 'hide') : getTranslation(translations, 'show')}>
+              <Tooltip
+                title={showPassword ? getTranslation(translations, 'hide') : getTranslation(translations, 'show')}
+                PopperProps={{
+                  disablePortal: true,
+                }}
+              >
                 <IconButton
                   aria-label={getTranslation(translations, 'visibilityToggleLabel')}
                   aria-pressed={showPassword}
