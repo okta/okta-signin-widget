@@ -14,10 +14,13 @@ import {
   APIError,
   FieldError,
   IdxMessage,
+  IdxMessages,
   IdxRemediation,
+  IdxStatus,
   IdxTransaction,
   Input,
   NextStep,
+  ProceedOptions,
 } from '@okta/okta-auth-js';
 import { StateUpdater } from 'preact/hooks';
 
@@ -370,4 +373,52 @@ export const getApplicationName = (transaction?: IdxTransaction): string | null 
 
   const { label } = getAppInfo(transaction);
   return label ?? null;
+};
+
+export const triggerEmailVerifyCallback = async (props: WidgetProps): Promise<IdxTransaction> => {
+  if (!isAuthClientSet(props)) {
+    throw new Error('authClient is required');
+  }
+
+  const { authClient, otp } = props;
+  const idxOptions: ProceedOptions = {
+    exchangeCodeForTokens: false,
+  };
+  const meta = await authClient.idx.getSavedTransactionMeta(); // meta can load in another tab using state if it matches
+
+  if (!meta || !meta.interactionHandle) {
+    // Flow can not continue in this tab. Create a synthetic server response and use it to display a message to the user
+    const messages: IdxMessages = {
+      type: 'array',
+      value: [
+        {
+          message: 'Enter the OTP in your original authentication location.',
+          i18n: {
+            key: 'idx.enter.otp.in.original.tab',
+          },
+          class: 'INFO',
+        },
+      ],
+    };
+
+    const syntheticTransaction: IdxTransaction = {
+      status: IdxStatus.TERMINAL,
+      messages: messages.value,
+      // @ts-expect-error
+      rawIdxState: {
+        messages,
+      },
+      // @ts-expect-error
+      context: {
+        messages,
+      },
+    };
+    return syntheticTransaction;
+  }
+
+  const transaction: IdxTransaction = await authClient.idx.proceed({
+    ...idxOptions,
+    otp,
+  });
+  return transaction;
 };

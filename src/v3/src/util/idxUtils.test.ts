@@ -14,12 +14,13 @@ import { APIError, IdxTransaction, Input } from '@okta/okta-auth-js';
 import { AUTHENTICATOR_KEY, TERMINAL_KEY } from 'src/constants';
 import { getStubTransaction } from 'src/mocks/utils/utils';
 
-import { RegistrationElementSchema } from '../types';
+import { RegistrationElementSchema, WidgetProps } from '../types';
 import {
   buildAuthCoinProps,
   convertIdxInputsToRegistrationSchema,
   convertRegistrationSchemaToIdxInputs,
   getUserInfo,
+  triggerEmailVerifyCallback,
   triggerRegistrationErrorMessages,
 } from '.';
 
@@ -345,6 +346,71 @@ describe('IdxUtils Tests', () => {
       class: 'ERROR',
       i18n: { key: '' },
       message: 'oform.errorbanner.title',
+    });
+  });
+
+  describe('triggerEmailVerifyCallback Tests', () => {
+    let widgetProps: WidgetProps;
+    let mockAuthClient: any;
+    const otp = 'fake-otp';
+
+    beforeEach(() => {
+      mockAuthClient = {
+        idx: {
+          proceed: jest.fn(),
+          getSavedTransactionMeta: jest.fn(),
+        },
+      };
+      widgetProps = {
+        authClient: mockAuthClient,
+        otp,
+      };
+    });
+
+    describe('if there is an interactionHandle in storage', () => {
+      beforeEach(() => {
+        const interactionHandle = 'fake-interactionHandle';
+        jest.spyOn(mockAuthClient.idx, 'getSavedTransactionMeta').mockResolvedValue({ interactionHandle });
+      });
+
+      it('should pass the otp from settings to idx.proceed()', async () => {
+        jest.spyOn(mockAuthClient.idx, 'proceed');
+        await triggerEmailVerifyCallback(widgetProps);
+        expect(mockAuthClient.idx.proceed).toHaveBeenCalledWith({
+          exchangeCodeForTokens: false,
+          otp,
+        });
+      });
+      it('should return an idx response from idx.proceed', async () => {
+        const idxResponse = { fake: true };
+        jest.spyOn(mockAuthClient.idx, 'proceed').mockResolvedValue(idxResponse);
+        const res = await triggerEmailVerifyCallback(widgetProps);
+        expect(mockAuthClient.idx.proceed).toHaveBeenCalledWith({
+          exchangeCodeForTokens: false,
+          otp,
+        });
+        expect(res).toBe(idxResponse);
+      });
+    });
+
+    it('should return an idx response with a terminal message if there is no interactionHandle in storage', async () => {
+      jest.spyOn(mockAuthClient.idx, 'getSavedTransactionMeta').mockResolvedValue({});
+      jest.spyOn(mockAuthClient.idx, 'proceed');
+      const { messages } = await triggerEmailVerifyCallback(widgetProps);
+      expect(mockAuthClient.idx.proceed).not.toHaveBeenCalled();
+      expect(messages).toBeInstanceOf(Array);
+      expect(messages).toHaveLength(1);
+      expect(messages![0].i18n.key).toEqual('idx.enter.otp.in.original.tab');
+    });
+
+    it('should return an idx response with a terminal message if storage is null', async () => {
+      jest.spyOn(mockAuthClient.idx, 'getSavedTransactionMeta').mockResolvedValue(null);
+      jest.spyOn(mockAuthClient.idx, 'proceed');
+      const { messages } = await triggerEmailVerifyCallback(widgetProps);
+      expect(mockAuthClient.idx.proceed).not.toHaveBeenCalled();
+      expect(messages).toBeInstanceOf(Array);
+      expect(messages).toHaveLength(1);
+      expect(messages![0].i18n.key).toEqual('idx.enter.otp.in.original.tab');
     });
   });
 });
