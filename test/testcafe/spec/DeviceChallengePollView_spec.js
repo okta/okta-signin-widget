@@ -307,10 +307,11 @@ test
   .requestHooks(loopbackSuccessLogger, loopbackSuccessMock, loopbackSuccessPollProbe)('in loopback server approach, probing and polling requests are sent and responded', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
-    // await t.debug();
     await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
     await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Verifying your identity');
     await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(true);
+
+    await t.wait(2000);
     await t.expect(loopbackSuccessLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/introspect/)
@@ -331,8 +332,8 @@ test
     )).eql(1);
 
     // update mock for /idp/idx/authenticators/poll
-    await t.removeRequestHooks(loopbackSuccessPollProbe);
     await t.addRequestHooks(loopbackSuccessPollComplete);
+    await t.removeRequestHooks(loopbackSuccessPollProbe);
 
     await t.expect(loopbackSuccessLogger.contains(record => record.request.url.match(/6512|6513/))).eql(false);
 
@@ -361,7 +362,7 @@ test
     loopbackPollMockLogger.clear();
     await setup(t);
     await checkA11y(t);
-    await t.wait(4000);
+    await t.wait(8000);
 
     await t.expect(loopbackPollMockLogger.count(
       record => {
@@ -393,6 +394,7 @@ test
     await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Verifying your identity');
     await t.expect(deviceChallengePollPageObject.getFooterLink().exists).eql(false);
     await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(true);
+    await t.wait(2000);
     await t.expect(loopbackChallengeErrorLogger.count(
       record => record.response.statusCode === 200 &&
                 record.request.url.match(/introspect/)
@@ -468,6 +470,7 @@ test
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
     await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(true);
+    await t.wait(2000);
 
     await t.expect(loopbackSuccessLogger.count(
       record => record.response.statusCode === 200 &&
@@ -496,6 +499,7 @@ test
   .requestHooks(loopbackFallbackLogger, loopbackFallbackMock)('loopback fails and falls back to custom uri', async t => {
     loopbackFallbackLogger.clear();
     const deviceChallengeFalllbackPage = await setupLoopbackFallback(t);
+    await t.wait(2000);
     await t.expect(deviceChallengeFalllbackPage.getFormTitle()).eql('Sign In');
     await t.expect(loopbackFallbackLogger.count(
       record => record.response.statusCode === 200 &&
@@ -529,6 +533,7 @@ test
     loopbackFallbackLogger.clear();
     const deviceChallengeFalllbackPage = await setupLoopbackFallback(t);
     await t.expect(deviceChallengeFalllbackPage.getFormTitle()).eql('Sign In');
+    await t.wait(2000);
     await t.expect(loopbackFallbackLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/introspect/)

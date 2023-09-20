@@ -42,6 +42,9 @@ const mocks = RequestMock()
   .onRequestTo({ url: regex`/oauth2/default/.well-known/openid-configuration` })
   .respond(require('./playground/mocks/data/oauth2/well-known-openid-configuration.json'))
 
+  .onRequestTo({ url: regex`/oauth2/default/v1/interact` })
+  .respond(require('./playground/mocks/data/oauth2/interact.json'))
+
   .onRequestTo({ url: regex`/sso/idps/facebook-123` })
   .respond('');
 
@@ -64,7 +67,16 @@ const config = {
     { module: '@testing-library/dom/dist/@testing-library/dom.umd.js' }
   ],
   src: [ 'test/testcafe/spec/*_spec.js' ],
-  hooks: { request: mocks, },
+  hooks: {
+    request: mocks,
+    test: {
+      before: async t => {
+        const reqHooks = [...t.testRun.test.requestHooks];
+        await t.removeRequestHooks(reqHooks);
+        await t.addRequestHooks(reqHooks.reverse());
+      }
+    }
+  },
   userVariables: {
     v3: !!env.OKTA_SIW_V3,
   },
