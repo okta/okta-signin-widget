@@ -67,6 +67,12 @@ export const mergeThemes = (
                   // @ts-expect-error FIXME CSSInterpolation may not be CSSObject
                   ...resolve(config.styleOverrides?.root, options),
                 }),
+                icon: (options: Record<string, unknown>) => ({
+                  // @ts-expect-error FIXME CSSInterpolation may not be CSSObject
+                  ...resolve(prev.components?.[component]?.styleOverrides?.icon, options),
+                  // @ts-expect-error FIXME CSSInterpolation may not be CSSObject
+                  ...resolve(config.styleOverrides?.icon, options),
+                }),
               },
             },
           },

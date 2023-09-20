@@ -131,6 +131,16 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     mapMuiThemeFromBrand(brandColors, languageDirection, muiThemeOverrides),
     {
       components: {
+        MuiAlert: {
+          styleOverrides: {
+            root: {
+              gap: 0,
+            },
+            icon: ({ theme }) => ({
+              paddingInlineEnd: theme.spacing(4),
+            }),
+          },
+        },
         MuiInputLabel: {
           styleOverrides: {
             root: {
