@@ -23,7 +23,7 @@ import {
   Typography,
 } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
-import { useState } from 'preact/hooks';
+import { useRef, useState } from 'preact/hooks';
 
 import { useWidgetContext } from '../../contexts';
 import {
@@ -33,7 +33,6 @@ import {
 } from '../../hooks';
 import {
   ChangeEvent,
-  ClickEvent,
   UISchemaElementComponent,
   UISchemaElementComponentWithValidationProps,
 } from '../../types';
@@ -80,13 +79,21 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
   const ariaDescribedByIds = [describedByIds, hintId, explainId].filter(Boolean).join(' ')
     || undefined;
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const showPasswordTimeoutRef = useRef<number | undefined>();
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
-  };
 
-  const handleMouseDownPassword = (e: ClickEvent) => {
-    e.preventDefault();
+    if (showPasswordTimeoutRef.current) {
+      window.clearTimeout(showPasswordTimeoutRef.current);
+    }
+    // If the new value of showPassword is being set to true, set a 30-second timeout to auto-hide the password
+    // See: https://github.com/okta/okta-signin-widget#featuresshowpasswordtoggleonsigninpage
+    if (!showPassword) {
+      showPasswordTimeoutRef.current = window.setTimeout(() => {
+        setShowPassword(false);
+      }, 30000)
+    }
   };
 
   return (
@@ -161,7 +168,6 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
                   aria-pressed={showPassword}
                   aria-controls={name}
                   onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
                   edge="end"
                   sx={{
                     '&.Mui-focusVisible': {
