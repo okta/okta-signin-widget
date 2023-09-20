@@ -118,7 +118,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       <button
                         aria-describedby="okta_password_0-ctaLabel"
                         aria-labelledby="okta_password_0-label"
-                        class="MuiBox-root emotion-23"
+                        class="authenticator-button MuiBox-root emotion-23"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -129,7 +129,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                         >
                           <div
                             aria-hidden="true"
-                            class="mfa-okta-password MuiBox-root emotion-25"
+                            class="mfa-okta-password authenticator-icon MuiBox-root emotion-25"
                             data-se="factor-beacon"
                           >
                             <svg
@@ -215,7 +215,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       <button
                         aria-describedby="webauthn_1-ctaLabel"
                         aria-labelledby="webauthn_1-label"
-                        class="MuiBox-root emotion-23"
+                        class="authenticator-button MuiBox-root emotion-23"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -226,7 +226,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                         >
                           <div
                             aria-hidden="true"
-                            class="mfa-webauthn MuiBox-root emotion-25"
+                            class="mfa-webauthn authenticator-icon MuiBox-root emotion-25"
                             data-se="factor-beacon"
                           >
                             <svg
@@ -332,7 +332,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       <button
                         aria-describedby="okta_email_2-ctaLabel"
                         aria-labelledby="okta_email_2-label"
-                        class="MuiBox-root emotion-23"
+                        class="authenticator-button MuiBox-root emotion-23"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -343,7 +343,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                         >
                           <div
                             aria-hidden="true"
-                            class="mfa-okta-email MuiBox-root emotion-25"
+                            class="mfa-okta-email authenticator-icon MuiBox-root emotion-25"
                             data-se="factor-beacon"
                           >
                             <svg
@@ -429,7 +429,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       <button
                         aria-describedby="phone_number_3-description phone_number_3-ctaLabel"
                         aria-labelledby="phone_number_3-label"
-                        class="MuiBox-root emotion-23"
+                        class="authenticator-button MuiBox-root emotion-23"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -440,7 +440,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                         >
                           <div
                             aria-hidden="true"
-                            class="mfa-okta-phone MuiBox-root emotion-25"
+                            class="mfa-okta-phone authenticator-icon MuiBox-root emotion-25"
                             data-se="factor-beacon"
                           >
                             <svg
@@ -543,7 +543,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       <button
                         aria-describedby="phone_number_4-description phone_number_4-ctaLabel"
                         aria-labelledby="phone_number_4-label"
-                        class="MuiBox-root emotion-23"
+                        class="authenticator-button MuiBox-root emotion-23"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -554,7 +554,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                         >
                           <div
                             aria-hidden="true"
-                            class="mfa-okta-phone MuiBox-root emotion-25"
+                            class="mfa-okta-phone authenticator-icon MuiBox-root emotion-25"
                             data-se="factor-beacon"
                           >
                             <svg
@@ -657,7 +657,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       <button
                         aria-describedby="security_question_5-ctaLabel"
                         aria-labelledby="security_question_5-label"
-                        class="MuiBox-root emotion-23"
+                        class="authenticator-button MuiBox-root emotion-23"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -668,7 +668,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                         >
                           <div
                             aria-hidden="true"
-                            class="mfa-okta-security-question MuiBox-root emotion-25"
+                            class="mfa-okta-security-question authenticator-icon MuiBox-root emotion-25"
                             data-se="factor-beacon"
                           >
                             <svg
@@ -754,7 +754,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       <button
                         aria-describedby="okta_verify_6-description okta_verify_6-ctaLabel"
                         aria-labelledby="okta_verify_6-label"
-                        class="MuiBox-root emotion-23"
+                        class="authenticator-button MuiBox-root emotion-23"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -765,7 +765,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                         >
                           <div
                             aria-hidden="true"
-                            class="mfa-okta-verify MuiBox-root emotion-25"
+                            class="mfa-okta-verify authenticator-icon MuiBox-root emotion-25"
                             data-se="factor-beacon"
                           >
                             <svg
@@ -854,7 +854,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       <button
                         aria-describedby="google_otp_7-ctaLabel"
                         aria-labelledby="google_otp_7-label"
-                        class="MuiBox-root emotion-23"
+                        class="authenticator-button MuiBox-root emotion-23"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -865,7 +865,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                         >
                           <div
                             aria-hidden="true"
-                            class="mfa-google-auth MuiBox-root emotion-25"
+                            class="mfa-google-auth authenticator-icon MuiBox-root emotion-25"
                             data-se="factor-beacon"
                           >
                             <svg
@@ -971,7 +971,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       <button
                         aria-describedby="onprem_mfa_8-ctaLabel"
                         aria-labelledby="onprem_mfa_8-label"
-                        class="MuiBox-root emotion-23"
+                        class="authenticator-button MuiBox-root emotion-23"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -982,7 +982,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                         >
                           <div
                             aria-hidden="true"
-                            class="mfa-onprem MuiBox-root emotion-25"
+                            class="mfa-onprem authenticator-icon MuiBox-root emotion-25"
                             data-se="factor-beacon"
                           >
                             <svg
@@ -1068,7 +1068,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       <button
                         aria-describedby="rsa_token_9-ctaLabel"
                         aria-labelledby="rsa_token_9-label"
-                        class="MuiBox-root emotion-23"
+                        class="authenticator-button MuiBox-root emotion-23"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -1079,7 +1079,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                         >
                           <div
                             aria-hidden="true"
-                            class="mfa-rsa MuiBox-root emotion-25"
+                            class="mfa-rsa authenticator-icon MuiBox-root emotion-25"
                             data-se="factor-beacon"
                           >
                             <svg
@@ -1199,7 +1199,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       <button
                         aria-describedby="duo_10-ctaLabel"
                         aria-labelledby="duo_10-label"
-                        class="MuiBox-root emotion-23"
+                        class="authenticator-button MuiBox-root emotion-23"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -1210,7 +1210,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                         >
                           <div
                             aria-hidden="true"
-                            class="mfa-duo MuiBox-root emotion-25"
+                            class="mfa-duo authenticator-icon MuiBox-root emotion-25"
                             data-se="factor-beacon"
                           >
                             <svg
@@ -1292,7 +1292,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       <button
                         aria-describedby="external_idp_11-ctaLabel"
                         aria-labelledby="external_idp_11-label"
-                        class="MuiBox-root emotion-23"
+                        class="authenticator-button MuiBox-root emotion-23"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -1303,7 +1303,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                         >
                           <div
                             aria-hidden="true"
-                            class="mfa-custom-factor MuiBox-root emotion-25"
+                            class="mfa-custom-factor authenticator-icon MuiBox-root emotion-25"
                             data-se="factor-beacon"
                           >
                             <svg
@@ -1394,7 +1394,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       <button
                         aria-describedby="custom_otp_12-ctaLabel"
                         aria-labelledby="custom_otp_12-label"
-                        class="MuiBox-root emotion-23"
+                        class="authenticator-button MuiBox-root emotion-23"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -1405,7 +1405,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                         >
                           <div
                             aria-hidden="true"
-                            class="mfa-hotp MuiBox-root emotion-25"
+                            class="mfa-hotp authenticator-icon MuiBox-root emotion-25"
                             data-se="factor-beacon"
                           >
                             <svg
@@ -1496,7 +1496,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       <button
                         aria-describedby="symantec_vip_13-ctaLabel"
                         aria-labelledby="symantec_vip_13-label"
-                        class="MuiBox-root emotion-23"
+                        class="authenticator-button MuiBox-root emotion-23"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -1507,7 +1507,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                         >
                           <div
                             aria-hidden="true"
-                            class="mfa-symantec MuiBox-root emotion-25"
+                            class="mfa-symantec authenticator-icon MuiBox-root emotion-25"
                             data-se="factor-beacon"
                           >
                             <svg
@@ -1595,7 +1595,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       <button
                         aria-describedby="yubikey_token_14-ctaLabel"
                         aria-labelledby="yubikey_token_14-label"
-                        class="MuiBox-root emotion-23"
+                        class="authenticator-button MuiBox-root emotion-23"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -1606,7 +1606,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                         >
                           <div
                             aria-hidden="true"
-                            class="mfa-yubikey MuiBox-root emotion-25"
+                            class="mfa-yubikey authenticator-icon MuiBox-root emotion-25"
                             data-se="factor-beacon"
                           >
                             <svg
@@ -1694,7 +1694,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       <button
                         aria-describedby="custom_app_15-description custom_app_15-ctaLabel"
                         aria-labelledby="custom_app_15-label"
-                        class="MuiBox-root emotion-23"
+                        class="authenticator-button MuiBox-root emotion-23"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -1705,7 +1705,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                         >
                           <div
                             aria-hidden="true"
-                            class="mfa-custom-app-logo MuiBox-root emotion-25"
+                            class="mfa-custom-app-logo authenticator-icon MuiBox-root emotion-25"
                             data-se="factor-beacon"
                           >
                             <img

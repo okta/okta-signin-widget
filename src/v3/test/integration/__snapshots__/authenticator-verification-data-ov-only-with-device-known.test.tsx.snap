@@ -152,7 +152,7 @@ exports[`authenticator-verification-data-ov-only-with-device-known should render
                       <button
                         aria-describedby="okta_verify_2-description okta_verify_2-ctaLabel"
                         aria-labelledby="okta_verify_2-label"
-                        class="MuiBox-root emotion-24"
+                        class="authenticator-button MuiBox-root emotion-24"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -163,7 +163,7 @@ exports[`authenticator-verification-data-ov-only-with-device-known should render
                         >
                           <div
                             aria-hidden="true"
-                            class="mfa-okta-verify MuiBox-root emotion-26"
+                            class="mfa-okta-verify authenticator-icon MuiBox-root emotion-26"
                             data-se="factor-beacon"
                           >
                             <svg
@@ -252,7 +252,7 @@ exports[`authenticator-verification-data-ov-only-with-device-known should render
                       <button
                         aria-describedby="okta_verify_0-description okta_verify_0-ctaLabel"
                         aria-labelledby="okta_verify_0-label"
-                        class="MuiBox-root emotion-24"
+                        class="authenticator-button MuiBox-root emotion-24"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -263,7 +263,7 @@ exports[`authenticator-verification-data-ov-only-with-device-known should render
                         >
                           <div
                             aria-hidden="true"
-                            class="mfa-okta-verify MuiBox-root emotion-26"
+                            class="mfa-okta-verify authenticator-icon MuiBox-root emotion-26"
                             data-se="factor-beacon"
                           >
                             <svg
@@ -352,7 +352,7 @@ exports[`authenticator-verification-data-ov-only-with-device-known should render
                       <button
                         aria-describedby="okta_verify_1-description okta_verify_1-ctaLabel"
                         aria-labelledby="okta_verify_1-label"
-                        class="MuiBox-root emotion-24"
+                        class="authenticator-button MuiBox-root emotion-24"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -363,7 +363,7 @@ exports[`authenticator-verification-data-ov-only-with-device-known should render
                         >
                           <div
                             aria-hidden="true"
-                            class="mfa-okta-verify MuiBox-root emotion-26"
+                            class="mfa-okta-verify authenticator-icon MuiBox-root emotion-26"
                             data-se="factor-beacon"
                           >
                             <svg

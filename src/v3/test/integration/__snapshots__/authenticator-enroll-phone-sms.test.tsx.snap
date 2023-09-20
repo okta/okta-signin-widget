@@ -133,7 +133,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                       <button
                         aria-describedby="google_otp_0-description google_otp_0-ctaLabel"
                         aria-labelledby="google_otp_0-label"
-                        class="MuiBox-root emotion-26"
+                        class="authenticator-button MuiBox-root emotion-26"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -144,7 +144,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                         >
                           <div
                             aria-hidden="true"
-                            class="mfa-google-auth MuiBox-root emotion-28"
+                            class="mfa-google-auth authenticator-icon MuiBox-root emotion-28"
                             data-se="factor-beacon"
                           >
                             <svg
@@ -257,7 +257,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                       <button
                         aria-describedby="okta_verify_1-description okta_verify_1-ctaLabel"
                         aria-labelledby="okta_verify_1-label"
-                        class="MuiBox-root emotion-26"
+                        class="authenticator-button MuiBox-root emotion-26"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -268,7 +268,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                         >
                           <div
                             aria-hidden="true"
-                            class="mfa-okta-verify MuiBox-root emotion-28"
+                            class="mfa-okta-verify authenticator-icon MuiBox-root emotion-28"
                             data-se="factor-beacon"
                           >
                             <svg
@@ -357,7 +357,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                       <button
                         aria-describedby="phone_number_2-description phone_number_2-ctaLabel"
                         aria-labelledby="phone_number_2-label"
-                        class="MuiBox-root emotion-26"
+                        class="authenticator-button MuiBox-root emotion-26"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -368,7 +368,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                         >
                           <div
                             aria-hidden="true"
-                            class="mfa-okta-phone MuiBox-root emotion-28"
+                            class="mfa-okta-phone authenticator-icon MuiBox-root emotion-28"
                             data-se="factor-beacon"
                           >
                             <svg
@@ -471,7 +471,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                       <button
                         aria-describedby="webauthn_3-description webauthn_3-ctaLabel"
                         aria-labelledby="webauthn_3-label"
-                        class="MuiBox-root emotion-26"
+                        class="authenticator-button MuiBox-root emotion-26"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -482,7 +482,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                         >
                           <div
                             aria-hidden="true"
-                            class="mfa-webauthn MuiBox-root emotion-28"
+                            class="mfa-webauthn authenticator-icon MuiBox-root emotion-28"
                             data-se="factor-beacon"
                           >
                             <svg

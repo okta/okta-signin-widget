@@ -133,7 +133,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       <button
                         aria-describedby="okta_password_0-description okta_password_0-ctaLabel"
                         aria-labelledby="okta_password_0-label"
-                        class="MuiBox-root emotion-26"
+                        class="authenticator-button MuiBox-root emotion-26"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -144,7 +144,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                         >
                           <div
                             aria-hidden="true"
-                            class="mfa-okta-password MuiBox-root emotion-28"
+                            class="mfa-okta-password authenticator-icon MuiBox-root emotion-28"
                             data-se="factor-beacon"
                           >
                             <svg
@@ -237,7 +237,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       <button
                         aria-describedby="phone_number_1-description phone_number_1-ctaLabel"
                         aria-labelledby="phone_number_1-label"
-                        class="MuiBox-root emotion-26"
+                        class="authenticator-button MuiBox-root emotion-26"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -248,7 +248,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                         >
                           <div
                             aria-hidden="true"
-                            class="mfa-okta-phone MuiBox-root emotion-28"
+                            class="mfa-okta-phone authenticator-icon MuiBox-root emotion-28"
                             data-se="factor-beacon"
                           >
                             <svg
@@ -351,7 +351,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       <button
                         aria-describedby="webauthn_2-description webauthn_2-ctaLabel"
                         aria-labelledby="webauthn_2-label"
-                        class="MuiBox-root emotion-26"
+                        class="authenticator-button MuiBox-root emotion-26"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -362,7 +362,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                         >
                           <div
                             aria-hidden="true"
-                            class="mfa-webauthn MuiBox-root emotion-28"
+                            class="mfa-webauthn authenticator-icon MuiBox-root emotion-28"
                             data-se="factor-beacon"
                           >
                             <svg

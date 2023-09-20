@@ -97,7 +97,7 @@ exports[`user-unlock-account renders form 1`] = `
                       <button
                         aria-describedby="okta_email_0-ctaLabel"
                         aria-labelledby="okta_email_0-label"
-                        class="MuiBox-root emotion-20"
+                        class="authenticator-button MuiBox-root emotion-20"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -108,7 +108,7 @@ exports[`user-unlock-account renders form 1`] = `
                         >
                           <div
                             aria-hidden="true"
-                            class="mfa-okta-email MuiBox-root emotion-22"
+                            class="mfa-okta-email authenticator-icon MuiBox-root emotion-22"
                             data-se="factor-beacon"
                           >
                             <svg
@@ -194,7 +194,7 @@ exports[`user-unlock-account renders form 1`] = `
                       <button
                         aria-describedby="phone_number_1-ctaLabel"
                         aria-labelledby="phone_number_1-label"
-                        class="MuiBox-root emotion-20"
+                        class="authenticator-button MuiBox-root emotion-20"
                         data-se="authenticator-button"
                         tabindex="0"
                         type="button"
@@ -205,7 +205,7 @@ exports[`user-unlock-account renders form 1`] = `
                         >
                           <div
                             aria-hidden="true"
-                            class="mfa-okta-phone MuiBox-root emotion-22"
+                            class="mfa-okta-phone authenticator-icon MuiBox-root emotion-22"
                             data-se="factor-beacon"
                           >
                             <svg
