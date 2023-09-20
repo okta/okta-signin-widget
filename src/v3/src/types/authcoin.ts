@@ -23,6 +23,7 @@ export type AuthCoinTheme = {
 export type AuthCoinProps = {
   authenticatorKey: string;
   url?: string;
+  customClasses?: string[],
   theme?: AuthCoinTheme;
   name?: string;
   description?: string;

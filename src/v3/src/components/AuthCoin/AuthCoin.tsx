@@ -21,6 +21,7 @@ const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
   const {
     authenticatorKey,
     url,
+    customClasses,
     name: authcoinName,
     description: authcoinDescr,
     sxOverrides,
@@ -29,7 +30,7 @@ const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
   const authCoinConfiguration = getAuthCoinConfiguration();
   const authCoinConfigByAuthKey = authCoinConfiguration[authenticatorKey];
 
-  const containerClasses = classNames(authCoinConfigByAuthKey?.iconClassName);
+  const containerClasses = classNames(authCoinConfigByAuthKey?.iconClassName, customClasses);
 
   function createAuthCoinIcon() {
     // TODO: OKTA-467022 - Add warning when attempted to customize non-customizeable authenticator

@@ -32,12 +32,8 @@ const AuthContainer: FunctionComponent<{ hide: boolean }> = ({ children, hide })
       lang={languageCode}
       dir={languageDirection}
       sx={{
-        // NOTE: Do not add more styles here besides what's needed for `hide`.
-        // Most styles must be nested beneath this element with `dir` for
-        // CSS logical property transforms to work
-        ...(hide ? {
-          display: 'none',
-        } : {}),
+        // NOTE: Do not add sx to this component. Styles must be nested beneath
+        // this element with `dir` for CSS logical property transforms to work.
       }}
     >
       {/* the style is to allow the widget to inherit the parent's bg color */}
@@ -48,6 +44,7 @@ const AuthContainer: FunctionComponent<{ hide: boolean }> = ({ children, hide })
             fontWeight: 'bold',
             wordBreak: 'break-all',
           },
+          display: hide ? 'none' : 'block',
         }}
       >
         <Box
