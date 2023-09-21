@@ -66,16 +66,17 @@ const AuthContainer: FunctionComponent<{ hide: boolean }> = ({ children, hide })
             flexDirection="column"
             bgcolor="common.white"
             fontFamily="fontFamily"
-            sx={{
+            sx={(theme) => ({
               maxInlineSize: '432px',
               minInlineSize: '320px',
-              border: 1,
-              borderRadius: 1,
+              borderWidth: theme.mixins.borderWidth,
+              borderStyle: theme.mixins.borderStyle,
+              borderRadius: theme.mixins.borderRadius,
               borderColor: Tokens.ColorBorderDisplay,
               '@media only screen and (max-width: 391px)': {
-                border: 0,
+                borderWidth: 0,
               },
-            }}
+            })}
           >
             {children}
           </Box>
