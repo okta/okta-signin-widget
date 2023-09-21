@@ -129,8 +129,7 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should have 
   await t.expect(await identityPage.hasShowTogglePasswordIcon()).ok();
 });
 
-// OKTA-555502 - showPasswordToggleOnSignInPage feature not supported yet
-test.meta('v3', false).requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should not have password toggle if features.showPasswordToggleOnSignInPage is false', async t => {
+test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should not have password toggle if features.showPasswordToggleOnSignInPage is false', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
   await renderWidget({
@@ -139,7 +138,8 @@ test.meta('v3', false).requestHooks(identifyRequestLogger, identifyWithPasswordM
   await t.expect(await identityPage.hasShowTogglePasswordIcon()).notOk();
 });
 
-// OKTA-555502 - showPasswordToggleOnSignInPage feature not supported yet
+// TODO: OKTA-649669 - Determine whether gen 3 should support dot notation FFs. Courage has built-in functionality for parsing this syntax of FFs
+// passed to the widget config, but an investigation should be done as to whether we should support this in gen 3
 test.meta('v3', false).requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should not have password toggle if "features.showPasswordToggleOnSignInPage" is false', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
@@ -147,6 +147,23 @@ test.meta('v3', false).requestHooks(identifyRequestLogger, identifyWithPasswordM
     'features.showPasswordToggleOnSignInPage': false,
   });
   await t.expect(await identityPage.hasShowTogglePasswordIcon()).notOk();
+});
+
+test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should auto-hide password after 30 seconds', async t => {
+  const identityPage = await setup(t);
+  await checkA11y(t);
+  await renderWidget({
+    features: { showPasswordToggleOnSignInPage: true },
+  });
+  await t.expect(await identityPage.hasShowTogglePasswordIcon()).ok();
+  await identityPage.fillPasswordField('password');
+  await identityPage.clickShowPasswordIcon();
+  const passwordField = identityPage.getTextField('Password');
+  await t.expect(passwordField.getAttribute('type')).eql('text');
+  // Wait 30 seconds
+  await t.wait(30000);
+  // Give short buffer timeout to execute assertion
+  await t.expect(passwordField.getAttribute('type')).eql('password', { timeout: 500 });
 });
 
 test.requestHooks(identifyWithPasswordMock)('should add sub labels for Username and Password if i18n keys are defined', async t => {
