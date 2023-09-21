@@ -149,6 +149,22 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
             },
           },
         },
+        MuiInputAdornment: {
+          styleOverrides: {
+            root: ({ ownerState, theme }) => ({
+              ...(ownerState.position === 'start' && {
+                marginRight: 0,
+                marginInlineStart: theme.spacing(2),
+                marginInlineEnd: 8,
+              }),
+              ...(ownerState.position === 'end' && {
+                marginLeft: 0,
+                marginInlineEnd: theme.spacing(2),
+                marginInlineStart: 8,
+              }),
+            }),
+          },
+        },
         // ruleset with :focus-visible pseudo-selector break entire ruleset in
         // ie11 because its not supported. re-define the :hover rule separately
         // again so the ruleset is applied in ie11
