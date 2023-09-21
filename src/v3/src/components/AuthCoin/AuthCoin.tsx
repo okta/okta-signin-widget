@@ -24,7 +24,7 @@ const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
     customClasses,
     name: authcoinName,
     description: authcoinDescr,
-    sxOverrides,
+    sx,
   } = props;
 
   const authCoinConfiguration = getAuthCoinConfiguration();
@@ -73,7 +73,7 @@ const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
         blockSize: '48px',
         paddingBlock: 0,
         paddingInline: '3px',
-        ...sxOverrides,
+        ...sx,
       }}
     >
       { createAuthCoinIcon() }

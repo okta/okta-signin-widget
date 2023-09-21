@@ -27,7 +27,7 @@ export type AuthCoinProps = {
   theme?: AuthCoinTheme;
   name?: string;
   description?: string;
-  sxOverrides?: SxProps;
+  sx?: SxProps;
 };
 
 export type IconProps = {

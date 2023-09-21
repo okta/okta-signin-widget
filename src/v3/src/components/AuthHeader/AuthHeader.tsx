@@ -52,7 +52,7 @@ const AuthHeader: FunctionComponent<AuthHeaderProps> = ({
         authenticatorKey={authCoinProps.authenticatorKey}
         url={authCoinProps.url}
         theme={authCoinProps.theme}
-        sxOverrides={{
+        sx={{
           margin: 'auto',
           insetBlockStart: '24px',
         }}
