@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+// NOTE: Do not remove this import of style.css!
+// We need to emit a CSS file, even if it's empty, to prevent a 404 on the Okta-hosted login page.
 import './style.css';
 
 import { MuiThemeProvider } from '@okta/odyssey-react-mui';
