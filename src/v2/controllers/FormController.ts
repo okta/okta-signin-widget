@@ -245,7 +245,8 @@ export default Controller.extend({
 
       const currentViewState = this.options.appState.getCurrentViewState();
 
-      if (BrowserFeatures.isAndroid()) {
+      const ovEnrollment = window.location.href.includes('redirect_uri=https%3A%2F%2Flogin.okta.com');
+      if (BrowserFeatures.isAndroid() && ovEnrollment) {
         this.add('<div class="o-form-button-bar"><button id="androidOpenOV" class="button button-primary">Open Okta Verify</button></div>');
         document.getElementById("androidOpenOV").addEventListener("click", () => Util.redirectWithFormGet(currentViewState.href));
       } else {
