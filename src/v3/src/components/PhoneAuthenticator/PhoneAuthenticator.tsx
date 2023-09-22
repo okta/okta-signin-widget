@@ -280,8 +280,10 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
                 position="start"
                 className="no-translate"
                 sx={(theme) => ({
-                  marginInlineStart: theme.spacing(2),
-                  marginInlineEnd: theme.spacing(2),
+                  // physical properties OK because parent InputBase component
+                  // is always set to "ltr"
+                  marginRight: theme.spacing(2),
+                  marginLeft: 0,
                 })}
               >
                 {phoneCode}
