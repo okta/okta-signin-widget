@@ -11,6 +11,7 @@
  */
 
 import { IdxStepTransformer } from 'src/types';
+import { isDevelopmentEnvironment, isTestEnvironment } from 'src/util';
 
 import { AUTHENTICATOR_KEY, CHALLENGE_METHOD, IDX_STEP } from '../../constants';
 import { transformIdentify } from '../identify';
@@ -49,6 +50,7 @@ import {
 import { transformWebAuthNAuthenticator } from '../webauthn';
 import { transformYubikeyOtpAuthenticator } from '../yubikey';
 import { transformAdminConsent, transformEnduserConsent, transformGranularConsent } from './consent';
+import { transformEnumerateComponents } from './development';
 import { transformDeviceCodeAuthenticator } from './device';
 import { transformDuoAuthenticator } from './duo';
 import {
@@ -509,5 +511,21 @@ const TransformerMap: {
     },
   },
 };
+
+if (isDevelopmentEnvironment() || isTestEnvironment()) {
+  // Don't add developer transforms in production bundle
+  TransformerMap.DEVELOPMENT = {
+    [AUTHENTICATOR_KEY.DEFAULT]: {
+      transform: transformEnumerateComponents,
+      buttonConfig: {
+        showDefaultSubmit: false,
+        showDefaultCancel: false,
+        showForgotPassword: false,
+        showVerifyWithOtherLink: false,
+        showReturnToAuthListLink: false,
+      },
+    },
+  };
+}
 
 export default TransformerMap;
