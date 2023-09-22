@@ -1818,7 +1818,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                   class="MuiBox-root emotion-74"
                 >
                   <div
-                    class="MuiBox-root emotion-14"
+                    class="MuiBox-root emotion-75"
                   >
                     <div
                       class="MuiBox-root emotion-15"
@@ -1833,7 +1833,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root emotion-14"
+                    class="MuiBox-root emotion-75"
                   >
                     <button
                       class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-79"
@@ -3561,7 +3561,7 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                   class="MuiBox-root emotion-57"
                 >
                   <div
-                    class="MuiBox-root emotion-9"
+                    class="MuiBox-root emotion-58"
                   >
                     <div
                       class="MuiBox-root emotion-10"
@@ -3576,7 +3576,7 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root emotion-9"
+                    class="MuiBox-root emotion-58"
                   >
                     <button
                       class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-62"

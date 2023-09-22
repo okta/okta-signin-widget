@@ -235,7 +235,7 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                   class="MuiBox-root emotion-43"
                 >
                   <div
-                    class="MuiBox-root emotion-9"
+                    class="MuiBox-root emotion-44"
                   >
                     <div
                       class="MuiBox-root emotion-10"
@@ -250,7 +250,7 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root emotion-9"
+                    class="MuiBox-root emotion-44"
                   >
                     <button
                       class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-48"
@@ -517,7 +517,7 @@ exports[`enroll-profile-with-password should show custom error message and preve
                   class="MuiBox-root emotion-44"
                 >
                   <div
-                    class="MuiBox-root emotion-14"
+                    class="MuiBox-root emotion-45"
                   >
                     <div
                       class="MuiBox-root emotion-15"
@@ -532,7 +532,7 @@ exports[`enroll-profile-with-password should show custom error message and preve
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root emotion-14"
+                    class="MuiBox-root emotion-45"
                   >
                     <button
                       class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-49"
@@ -799,7 +799,7 @@ exports[`enroll-profile-with-password should show custom field level error messa
                   class="MuiBox-root emotion-44"
                 >
                   <div
-                    class="MuiBox-root emotion-14"
+                    class="MuiBox-root emotion-45"
                   >
                     <div
                       class="MuiBox-root emotion-15"
@@ -814,7 +814,7 @@ exports[`enroll-profile-with-password should show custom field level error messa
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root emotion-14"
+                    class="MuiBox-root emotion-45"
                   >
                     <button
                       class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-49"
@@ -1068,7 +1068,7 @@ exports[`enroll-profile-with-password should show generic error message and prev
                   class="MuiBox-root emotion-42"
                 >
                   <div
-                    class="MuiBox-root emotion-14"
+                    class="MuiBox-root emotion-43"
                   >
                     <div
                       class="MuiBox-root emotion-15"
@@ -1083,7 +1083,7 @@ exports[`enroll-profile-with-password should show generic error message and prev
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root emotion-14"
+                    class="MuiBox-root emotion-43"
                   >
                     <button
                       class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-47"
@@ -1424,7 +1424,7 @@ exports[`enroll-profile-with-password should show validation error messages on a
                   class="MuiBox-root emotion-56"
                 >
                   <div
-                    class="MuiBox-root emotion-14"
+                    class="MuiBox-root emotion-57"
                   >
                     <div
                       class="MuiBox-root emotion-15"
@@ -1439,7 +1439,7 @@ exports[`enroll-profile-with-password should show validation error messages on a
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root emotion-14"
+                    class="MuiBox-root emotion-57"
                   >
                     <button
                       class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-61"
