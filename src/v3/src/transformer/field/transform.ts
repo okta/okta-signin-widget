@@ -10,19 +10,26 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxMessage, Input, NextStep } from '@okta/okta-auth-js';
+import { Input, NextStep } from '@okta/okta-auth-js';
 
 import { IDX_STEP } from '../../constants';
 import {
   FieldElement,
   FormBag,
   TransformStepFnWithOptions,
+  WidgetMessage,
   WidgetProps,
 } from '../../types';
 import { flattenInputs, loc } from '../../util';
 import { isCustomizedI18nKey } from '../i18n';
 import { transformer as attributesTransformer } from './attributes';
 import { transformer as typeTransformer } from './type';
+
+type ValidationErrorTransformer = (input: Input, data: Record<string, unknown>, widgetProps: WidgetProps, step?: NextStep) => WidgetMessage[] | undefined;
+type ValidationErrorTester = {
+  tester: (value?: unknown) => boolean,
+  message: () => WidgetMessage,
+};
 
 const mapUiElement = (input: Input): FieldElement => {
   const { label, name } = input;
@@ -41,28 +48,67 @@ const mapUiElement = (input: Input): FieldElement => {
   };
 };
 
-const getValidationMessages = (
-  fieldName: string,
+const getValidationMessages: ValidationErrorTransformer = (
+  input: Input,
+  data: Record<string, unknown>,
   widgetProps: WidgetProps,
   step?: NextStep,
-): IdxMessage[] => {
+): WidgetMessage[] | undefined => {
+  const { name: fieldName, type, maxLength } = input;
   const { name } = step || {};
-  const errorMessage: IdxMessage = {
-    class: 'ERROR',
-    message: loc('model.validation.field.blank', 'login'),
-    i18n: { key: 'model.validation.field.blank' },
-  };
+  const value = data[fieldName];
+  // Customized i18n key support for fields
   const customizedErrorConfig = [
     { field: 'identifier', key: 'error.username.required' },
     { field: 'credentials.passcode', key: 'error.password.required' },
   ].find((obj) => obj.field === fieldName);
-  if (customizedErrorConfig
-    && name === IDX_STEP.IDENTIFY
-    && isCustomizedI18nKey(customizedErrorConfig.key, widgetProps)) {
-    errorMessage.message = loc(customizedErrorConfig.key, 'login');
-    errorMessage.i18n.key = customizedErrorConfig.key;
+
+  const populatedFieldErrorChecks: ValidationErrorTester[] = [
+    {
+      tester: (value: unknown) => !!maxLength && type === 'string' && !!value && (value as string).length > maxLength,
+      message: () => {
+        return {
+          class: 'ERROR',
+          message: loc('model.validation.field.string.maxLength', 'login'),
+          i18n: { key: 'model.validation.field.string.maxLength' },
+        };
+      },
+    },
+  ];
+  const blankFieldErrorChecks: ValidationErrorTester[] = [
+    {
+      tester: () => {
+        return !!customizedErrorConfig && name === IDX_STEP.IDENTIFY && isCustomizedI18nKey(customizedErrorConfig.key, widgetProps);
+      },
+      message: () => {
+        return {
+          class: 'ERROR',
+          // As long as message() is only ever called after tester(), we can be sure that customizedErrorConfig is defined
+          message: loc(customizedErrorConfig!.key, 'login'),
+          i18n: { key: customizedErrorConfig!.key },
+        };
+      },
+    },
+    {
+      // Default blank field error message should be rendered as long as no customizedErrorConfig exists
+      tester: () => !customizedErrorConfig,
+      message: () => {
+        return {
+          class: 'ERROR',
+          message: loc('model.validation.field.blank', 'login'),
+          i18n: { key: 'model.validation.field.blank' },
+        };
+      },
+    },
+  ];
+
+  let messages: WidgetMessage[] | undefined;
+  if (!!value) {
+    messages = populatedFieldErrorChecks.filter(({ tester }) => (tester(value)))?.map((error) => error.message());
+  } else {
+    messages = blankFieldErrorChecks.filter(({ tester }) => (tester(value)))?.map((error) => error.message());
   }
-  return [errorMessage];
+  return messages;
 };
 
 export const transformStepInputs = (
@@ -103,10 +149,10 @@ export const transformStepInputs = (
           validate(data) {
             // in the case of a required boolean input, just return true
             // if the backend requires the checbox val to be true, error will be displayed
-            if (typeof data[name] === 'boolean' || !!data[name]) {
+            if (typeof data[name] === 'boolean') {
               return undefined;
             }
-            return getValidationMessages(name, widgetProps, step);
+            return getValidationMessages(input, data, widgetProps, step);
           },
         };
         acc.dataSchema.fieldsToValidate.push(name);
