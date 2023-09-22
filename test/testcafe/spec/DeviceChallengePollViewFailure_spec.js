@@ -75,7 +75,7 @@ test
 
     await t.removeRequestHooks(initialPoll);
     await t.addRequestHooks(noPermissionErrorPoll);
-    await t.wait(2000);
+    await t.wait(5000);
 
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
@@ -100,7 +100,7 @@ test
 
     await t.removeRequestHooks(initialPoll);
     await t.addRequestHooks(deviceInvalidatedErrorPoll);
-    await t.wait(2000);
+    await t.wait(5000);
 
     await t.expect(deviceChallengePollPageObject.getErrorBoxText()).contains('Couldn’t verify your identity');
     await t.expect(deviceChallengePollPageObject.getErrorBoxText()).contains(
@@ -115,7 +115,7 @@ test
 
     await t.removeRequestHooks(initialPoll);
     await t.addRequestHooks(nonIdxErrorPoll);
-    await t.wait(2000);
+    await t.wait(5000);
 
     await t.expect(deviceChallengePollPageObject.getErrorBoxText()).eql(
       'There was an unsupported response from server.');

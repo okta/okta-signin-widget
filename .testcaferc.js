@@ -74,7 +74,14 @@ const config = {
       before: async t => {
         const reqHooks = [...t.testRun.test.requestHooks];
         await t.removeRequestHooks(reqHooks);
-        await t.addRequestHooks(reqHooks.reverse());
+        const newOrder = reqHooks.reverse().sort((a, b) => {
+          if (a._className !== b._className) {
+            return a._className === 'RequestLogger' ? -1 : 0;
+          }
+          return 0;
+        });
+        await t.addRequestHooks(newOrder);
+        // console.log(t.testRun.test.requestHooks)
       }
     }
   },
