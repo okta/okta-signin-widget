@@ -94,7 +94,7 @@ test.requestHooks(requestLogger, consentGranularMock)('should display correct co
 });
 
 // TODO: TEST FAILED
-test.only.requestHooks(requestLogger, consentGranularMock)('should send correct payload to /consent on "Allow Access" click', async t => {
+test.requestHooks(requestLogger, consentGranularMock)('should send correct payload to /consent on "Allow Access" click', async t => {
   const consentPage  = await setup(t);
   await checkA11y(t);
   // await t.debug();
@@ -120,7 +120,7 @@ test.only.requestHooks(requestLogger, consentGranularMock)('should send correct 
 });
 
 // TODO: TEST FAILED
-test.only.requestHooks(requestLogger, consentGranularMock)('should send correct payload to /consent on "Cancel" click', async t => {
+test.requestHooks(requestLogger, consentGranularMock)('should send correct payload to /consent on "Cancel" click', async t => {
   const consentPage  = await setup(t);
   await checkA11y(t);
   // await t.debug();
