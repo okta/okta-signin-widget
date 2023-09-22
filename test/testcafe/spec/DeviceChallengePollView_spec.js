@@ -387,7 +387,7 @@ test
   });
 
 // TODO: TEST FAILED
-test.only
+test
   .requestHooks(loopbackChallengeErrorLogger, loopbackChallengeErrorMock)('in loopback server approach, will cancel polling when challenge errors out', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
