@@ -279,6 +279,10 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
                 component="span"
                 position="start"
                 className="no-translate"
+                sx={(theme) => ({
+                  marginInlineStart: theme.spacing(2),
+                  marginInlineEnd: theme.spacing(2),
+                })}
               >
                 {phoneCode}
               </InputAdornment>
