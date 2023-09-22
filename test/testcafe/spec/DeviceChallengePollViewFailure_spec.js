@@ -65,6 +65,7 @@ async function setup(t) {
   return deviceChallengePollPage;
 }
 
+// TODO: TEST FAILED
 test
   .requestHooks(logger, baseMock, initialPoll)('probing and polling APIs are sent and responded', async t => {
     const deviceChallengePollPageObject = await setup(t);

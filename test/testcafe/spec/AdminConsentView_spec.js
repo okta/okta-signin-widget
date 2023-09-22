@@ -13,8 +13,8 @@ const consentAdminMock = RequestMock()
   .respond(xhrConsentAdmin)
   .onRequestTo('http://localhost:3000/idp/idx/consent')
   .respond(xhrSuccess)
-  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
-  .respond(oktaDashboardContent);
+  // .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+  // .respond(oktaDashboardContent);
 
 const requestLogger = RequestLogger(/consent/,
   {
@@ -53,6 +53,7 @@ test.requestHooks(requestLogger, consentAdminMock)('should render scopes', async
   }
 });
 
+// TODO: TEST FAILED
 test.requestHooks(requestLogger, consentAdminMock)('should call /consent and send {consent: true} on "Allow Access" click', async t => {
   const consentPage  = await setup(t);
   await checkA11y(t);
@@ -68,6 +69,7 @@ test.requestHooks(requestLogger, consentAdminMock)('should call /consent and sen
   await testRedirect(t);
 });
 
+// TODO: TEST FAILED
 test.requestHooks(requestLogger, consentAdminMock)('should call /consent and send {consent: false} on "Don\'t Allow" click', async t => {
   const consentPage  = await setup(t);
   await checkA11y(t);

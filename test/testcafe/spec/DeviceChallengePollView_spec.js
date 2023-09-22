@@ -386,6 +386,7 @@ test
     )).eql(2);
   });
 
+// TODO: TEST FAILED
 test
   .requestHooks(loopbackChallengeErrorLogger, loopbackChallengeErrorMock)('in loopback server approach, will cancel polling when challenge errors out', async t => {
     const deviceChallengePollPageObject = await setup(t);
@@ -425,6 +426,7 @@ test
     await t.expect(loopbackSuccessLogger.contains(record => record.request.url.match(/6512|6513/))).eql(false);
   });
 
+// TODO: TEST FAILED
 test
   .requestHooks(loopbackChallengeWrongProfileLogger, loopbackChallengeWrongProfileMock)('in loopback server approach, will cancel polling when challenge errors out with non-503 status', async t => {
     const deviceChallengePollPageObject = await setup(t);
@@ -465,6 +467,7 @@ test
     )).eql(1);
   });
 
+// TODO: TEST FAILED
 test
   .requestHooks(loopbackSuccessLogger, loopbackSuccessButNotAssignedAppMock)('loopback succeeds but user is not assigned to app, then clicks cancel link', async t => {
     const deviceChallengePollPageObject = await setup(t);
@@ -495,6 +498,7 @@ test
     await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().exists).eql(true);
   });
 
+// TODO: TEST FAILED
 test
   .requestHooks(loopbackFallbackLogger, loopbackFallbackMock)('loopback fails and falls back to custom uri', async t => {
     loopbackFallbackLogger.clear();
@@ -527,6 +531,7 @@ test
     await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().exists).eql(true);
   });
 
+// TODO: TEST FAILED
 const getPageUrl = ClientFunction(() => window.location.href);
 test
   .requestHooks(loopbackFallbackLogger, appLinkWithoutLaunchMock)('loopback fails and falls back to app link', async t => {

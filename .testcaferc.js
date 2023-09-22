@@ -1,4 +1,5 @@
 const { readFileSync } = require('fs');
+const path = require('path');
 const { RequestMock } = require('testcafe');
 
 /**
@@ -37,7 +38,7 @@ const regex = (strings, ...values) => {
 // common/shared mocks
 const mocks = RequestMock()
   .onRequestTo({ url: regex`/app/UserHome` })
-  .respond(readFileSync('./playground/mocks/app/UserHome.html', 'utf8'), 200, { 'content-type': 'text/html; charset=utf-8' })
+  .respond(readFileSync(path.join(__dirname, 'playground/mocks/app/UserHome.html'), 'utf8'), 200, { 'content-type': 'text/html; charset=utf-8' })
 
   .onRequestTo({ url: regex`/oauth2/default/.well-known/openid-configuration` })
   .respond(require('./playground/mocks/data/oauth2/well-known-openid-configuration.json'))

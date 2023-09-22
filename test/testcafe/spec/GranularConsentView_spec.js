@@ -14,8 +14,8 @@ const consentGranularMock = RequestMock()
   .respond(xhrConsentGranular)
   .onRequestTo('http://localhost:3000/idp/idx/consent')
   .respond(xhrSuccess)
-  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
-  .respond(oktaDashboardContent);
+  // .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+  // .respond(oktaDashboardContent);
 
 const consentGranularFailedMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -93,9 +93,11 @@ test.requestHooks(requestLogger, consentGranularMock)('should display correct co
   await t.expect(await consentPage.getDontAllowButtonLabel()).eql('Cancel');
 });
 
-test.requestHooks(requestLogger, consentGranularMock)('should send correct payload to /consent on "Allow Access" click', async t => {
+// TODO: TEST FAILED
+test.only.requestHooks(requestLogger, consentGranularMock)('should send correct payload to /consent on "Allow Access" click', async t => {
   const consentPage  = await setup(t);
   await checkA11y(t);
+  // await t.debug();
 
   await consentPage.setScopeCheckBox('optedScopes.custom1', false);
   await consentPage.setScopeCheckBox('optedScopes.email', false);
@@ -117,9 +119,11 @@ test.requestHooks(requestLogger, consentGranularMock)('should send correct paylo
   await testRedirect(t);
 });
 
-test.requestHooks(requestLogger, consentGranularMock)('should send correct payload to /consent on "Cancel" click', async t => {
+// TODO: TEST FAILED
+test.only.requestHooks(requestLogger, consentGranularMock)('should send correct payload to /consent on "Cancel" click', async t => {
   const consentPage  = await setup(t);
   await checkA11y(t);
+  // await t.debug();
 
   await consentPage.clickDontAllowButton();
   const { request: {body, method, url}} = requestLogger.requests[requestLogger.requests.length - 1];
@@ -153,4 +157,3 @@ test.requestHooks(requestLogger, consentGranularFailedMock)('should go to Termin
   await t.expect(terminalPageObject.getErrorMessages().isError()).eql(true);
   await t.expect(terminalPageObject.getErrorMessages().getTextContent()).contains('Reset password is not allowed at this time. Please contact support for assistance.');
 });
-

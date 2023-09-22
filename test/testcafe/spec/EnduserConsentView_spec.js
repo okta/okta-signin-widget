@@ -15,8 +15,8 @@ const consentEnduserMock = RequestMock()
   .respond(xhrConsentEnduser)
   .onRequestTo('http://localhost:3000/idp/idx/consent')
   .respond(xhrSuccess)
-  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
-  .respond(oktaDashboardContent);
+  // .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+  // .respond(oktaDashboardContent);
 
 const consentEnduserCustomScopesMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -78,6 +78,7 @@ test.requestHooks(requestLogger, consentEnduserCustomScopesMock)('should display
   await t.expect(await consentPage.getHeaderTitleText()).eql('would like to:');
 });
 
+// TODO: TEST FAILED
 test.requestHooks(requestLogger, consentEnduserMock)('should call /consent and send {consent: true} on "Allow Access" click', async t => {
   const consentPage  = await setup(t);
   await checkA11y(t);
@@ -93,6 +94,7 @@ test.requestHooks(requestLogger, consentEnduserMock)('should call /consent and s
   await testRedirect(t);
 });
 
+// TODO: TEST FAILED
 test.requestHooks(requestLogger, consentEnduserMock)('should call /consent and send {consent: false} on "Don\'t Allow" click', async t => {
   const consentPage  = await setup(t);
   await checkA11y(t);
