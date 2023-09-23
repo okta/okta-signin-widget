@@ -161,15 +161,35 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
         dir={dir}
         endAdornment={(
           showPasswordToggleOnSignInPage && (
-            <InputAdornment position="end">
-              <Tooltip title={showPassword ? getTranslation(translations, 'hide') : getTranslation(translations, 'show')}>
+            <InputAdornment
+              position="end"
+              // switching on the passed `dir` attribute is needed because plugin does not yet
+              // handle nested [dir="ltr"] inside [dir="rtl"] well so explicitly set physical
+              // properties when 'ltr' is passed onto this element, else can use logical
+              sx={(theme) => (dir === 'ltr' ? {
+                marginLeft: '8px',
+                marginRight: theme.spacing(2),
+              } : {
+                marginInlineEnd: theme.spacing(2),
+                marginInlineStart: '8px',
+              })}
+            >
+              <Tooltip
+                title={showPassword ? getTranslation(translations, 'hide') : getTranslation(translations, 'show')}
+                PopperProps={{
+                  // keep the added tooltip element inside the SIW container
+                  disablePortal: true,
+                }}
+              >
                 <IconButton
                   aria-label={getTranslation(translations, 'visibilityToggleLabel')}
                   aria-pressed={showPassword}
                   aria-controls={name}
                   onClick={handleClickShowPassword}
-                  edge="end"
                   sx={{
+                    // instead of using IconButton `edge="end"` we use this sx prop
+                    // because `edge="end"` does not use logical properties
+                    ...(dir === 'ltr' ? { marginRight: '-12px' } : { marginInlineEnd: '-12px' }),
                     '&.Mui-focusVisible': {
                       outlineStyle: 'solid',
                       outlineWidth: '1px',

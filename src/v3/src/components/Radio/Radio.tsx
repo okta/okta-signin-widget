@@ -107,13 +107,22 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
         {
           (customOptions ?? options)?.map((item: IdxOption, index: number) => (
             <FormControlLabel
-              control={<RadioMui />}
+              control={(
+                <RadioMui
+                  sx={(theme) => ({
+                    marginInlineEnd: theme.spacing(2),
+                  })}
+                />
+              )}
               key={item.value}
               value={item.value}
               label={item.label}
               disabled={loading}
               onBlur={(e: ChangeEvent<HTMLInputElement>) => {
                 handleBlur?.(e?.currentTarget?.value);
+              }}
+              sx={{
+                gap: 0,
               }}
               // eslint-disable-next-line react/jsx-props-no-spreading
               {...(index === 0 && { inputRef: focusRef })}

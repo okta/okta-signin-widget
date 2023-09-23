@@ -13,6 +13,7 @@
 import { Box } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
 
+import { LayoutContext } from '../../contexts';
 import {
   AccordionLayout,
   StepperLayout,
@@ -27,59 +28,60 @@ import Stepper from './Stepper';
 
 const Layout: FunctionComponent<{ uischema: UISchemaLayout }> = ({ uischema }) => {
   const { type, elements } = uischema;
+  const layoutDirection = type === UISchemaLayoutType.HORIZONTAL
+    ? UISchemaLayoutType.HORIZONTAL
+    : UISchemaLayoutType.VERTICAL;
 
-  const isHorizontalLayout = type === UISchemaLayoutType.HORIZONTAL;
-  const flexDirection = isHorizontalLayout ? 'row' : 'column';
   return (
-    <Box
-      display="flex"
-      flexDirection={flexDirection}
-      // eslint-disable-next-line react/jsx-props-no-spreading
-      {...(isHorizontalLayout && { gap: 1 })}
-    >
-      {
-        elements.map((element, index) => {
-          // for the layout element types attach the explicitly set key if
-          // one was added to the uischema in the transformer
-          if (element.type === UISchemaLayoutType.STEPPER) {
+    <LayoutContext.Provider value={{ layoutDirection }}>
+      <Box
+        display="flex"
+        flexDirection={layoutDirection === UISchemaLayoutType.HORIZONTAL ? 'row' : 'column'}
+      >
+        {
+          elements.map((element, index) => {
+            // for the layout element types attach the explicitly set key if
+            // one was added to the uischema in the transformer
+            if (element.type === UISchemaLayoutType.STEPPER) {
+              return (
+                <Stepper
+                  key={(element as StepperLayout).key}
+                  uischema={element as StepperLayout}
+                />
+              );
+            }
+
+            if (element.type === UISchemaLayoutType.ACCORDION) {
+              return (
+                <Accordion
+                  key={(element as AccordionLayout).key}
+                  uischema={element as AccordionLayout}
+                />
+              );
+            }
+
+            if ([UISchemaLayoutType.HORIZONTAL, UISchemaLayoutType.VERTICAL]
+              .includes((element as UISchemaLayout).type)) {
+              return (
+                <Layout
+                  key={(element as UISchemaLayout).key}
+                  uischema={element as UISchemaLayout}
+                />
+              );
+            }
+
+            const elementKey = getElementKey(element, index);
+
             return (
-              <Stepper
-                key={(element as StepperLayout).key}
-                uischema={element as StepperLayout}
+              <ElementContainer
+                key={elementKey}
+                element={element as UISchemaElement}
               />
             );
-          }
-
-          if (element.type === UISchemaLayoutType.ACCORDION) {
-            return (
-              <Accordion
-                key={(element as AccordionLayout).key}
-                uischema={element as AccordionLayout}
-              />
-            );
-          }
-
-          if ([UISchemaLayoutType.HORIZONTAL, UISchemaLayoutType.VERTICAL]
-            .includes((element as UISchemaLayout).type)) {
-            return (
-              <Layout
-                key={(element as UISchemaLayout).key}
-                uischema={element as UISchemaLayout}
-              />
-            );
-          }
-
-          const elementKey = getElementKey(element, index);
-
-          return (
-            <ElementContainer
-              key={elementKey}
-              element={element as UISchemaElement}
-            />
-          );
-        })
-      }
-    </Box>
+          })
+        }
+      </Box>
+    </LayoutContext.Provider>
   );
 };
 

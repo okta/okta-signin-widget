@@ -4,7 +4,7 @@ exports[`AuthCoin tests should display Branded AuthCoin and disallow style custo
 <div>
   <div
     aria-hidden="true"
-    class="iconContainer mfa-duo MuiBox-root emotion-0"
+    class="mfa-duo MuiBox-root emotion-0"
     data-se="factor-beacon"
   >
     <svg
@@ -43,7 +43,7 @@ exports[`AuthCoin tests should display Non-Branded AuthCoin with style customiza
 <div>
   <div
     aria-hidden="true"
-    class="iconContainer mfa-hotp MuiBox-root emotion-0"
+    class="mfa-hotp MuiBox-root emotion-0"
     data-se="factor-beacon"
   >
     <svg
@@ -91,7 +91,7 @@ exports[`AuthCoin tests should display branded AuthCoin when image URL is provid
 <div>
   <div
     aria-hidden="true"
-    class="iconContainer mfa-duo MuiBox-root emotion-0"
+    class="mfa-duo MuiBox-root emotion-0"
     data-se="factor-beacon"
   >
     <svg
@@ -130,7 +130,7 @@ exports[`AuthCoin tests should display custom image in place of standard Non-Bra
 <div>
   <div
     aria-hidden="true"
-    class="iconContainer mfa-hotp MuiBox-root emotion-0"
+    class="mfa-hotp MuiBox-root emotion-0"
     data-se="factor-beacon"
   >
     <img
@@ -146,7 +146,7 @@ exports[`AuthCoin tests should display standard theme Non-Branded AuthCoin witho
 <div>
   <div
     aria-hidden="true"
-    class="iconContainer mfa-hotp MuiBox-root emotion-0"
+    class="mfa-hotp MuiBox-root emotion-0"
     data-se="factor-beacon"
   >
     <svg

@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { Box } from '@mui/material';
 import classNames from 'classnames';
 import { FunctionComponent, h } from 'preact';
 import { useCallback, useEffect } from 'preact/hooks';
@@ -23,12 +24,11 @@ import {
 import { getValidationMessages, isCaptchaEnabled } from '../../util';
 import InfoSection from '../InfoSection/InfoSection';
 import Layout from './Layout';
-import style from './style.module.css';
 
 const Form: FunctionComponent<{
   uischema: UISchemaLayout;
 }> = ({ uischema }) => {
-  const classes = classNames('o-form', style.siwForm);
+  const classes = classNames('o-form');
   const {
     data,
     idxTransaction: currTransaction,
@@ -103,15 +103,20 @@ const Form: FunctionComponent<{
   ]);
 
   return (
-    <form
+    <Box
+      component="form"
       noValidate
       onSubmit={handleSubmit}
       className={classes} // TODO: FIXME OKTA-578584 - update page objects using .o-form selectors
       data-se="o-form"
+      sx={{
+        maxInlineSize: '100%',
+        wordBreak: 'break-word',
+      }}
     >
       <InfoSection message={message} />
       <Layout uischema={uischema} />
-    </form>
+    </Box>
   );
 };
 

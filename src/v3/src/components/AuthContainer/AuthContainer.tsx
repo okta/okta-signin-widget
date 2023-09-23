@@ -10,45 +10,78 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { useMediaQuery } from '@mui/material';
+import { ScopedCssBaseline } from '@mui/material';
 import * as Tokens from '@okta/odyssey-design-tokens';
 import { Box } from '@okta/odyssey-react-mui';
 import classNames from 'classnames';
 import { FunctionComponent, h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
-import style from './style.module.css';
 
 const AuthContainer: FunctionComponent<{ hide: boolean }> = ({ children, hide }) => {
   const { languageDirection, languageCode } = useWidgetContext();
-  const classes = classNames('auth-container', 'main-container', style.mainViewContainer, hide && style.hide);
-  const isMobileWidth = useMediaQuery('screen and (max-width: 391px)');
+  const classes = classNames('auth-container', 'main-container');
 
   return (
     <Box
       id="okta-sign-in"
       component="main"
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
       className={classes}
       data-version={OKTA_SIW_VERSION}
       data-commit={OKTA_SIW_COMMIT_HASH}
       lang={languageCode}
       dir={languageDirection}
+      sx={{
+        // NOTE: Do not add sx to this component. Styles must be nested beneath
+        // this element with `dir` for CSS logical property transforms to work.
+      }}
     >
-      <Box
-        flex="auto"
-        flexDirection="column"
-        border={isMobileWidth ? 0 : 1}
-        borderRadius={1}
-        borderColor={Tokens.ColorBorderDisplay}
-        bgcolor="common.white"
-        fontFamily="fontFamily"
-        className={style.siwContainer}
+      {/* the style is to allow the widget to inherit the parent's bg color */}
+      <ScopedCssBaseline
+        sx={{
+          backgroundColor: 'inherit',
+          'span.strong': {
+            fontWeight: 'bold',
+            wordBreak: 'break-all',
+          },
+          display: hide ? 'none' : 'block',
+        }}
       >
-        {children}
-      </Box>
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          sx={{
+            minInlineSize: '100%',
+            marginBlockStart: '100px',
+            marginBlockEnd: '8px',
+            marginInline: 'auto',
+            '@media only screen and (max-device-width: 750px)': {
+              marginBlockStart: 0,
+            },
+          }}
+        >
+          <Box
+            flex="auto"
+            flexDirection="column"
+            bgcolor="common.white"
+            fontFamily="fontFamily"
+            sx={(theme) => ({
+              maxInlineSize: '432px',
+              minInlineSize: '320px',
+              borderWidth: theme.mixins.borderWidth,
+              borderStyle: theme.mixins.borderStyle,
+              borderRadius: theme.mixins.borderRadius,
+              borderColor: Tokens.ColorBorderDisplay,
+              '@media only screen and (max-width: 391px)': {
+                borderWidth: 0,
+              },
+            })}
+          >
+            {children}
+          </Box>
+        </Box>
+      </ScopedCssBaseline>
     </Box>
   );
 };

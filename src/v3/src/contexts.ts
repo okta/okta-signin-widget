@@ -13,7 +13,9 @@
 import { createContext } from 'preact';
 import { useContext } from 'preact/hooks';
 
-import { IStepperContext, IWidgetContext } from './types';
+import {
+  ILayoutContext, IStepperContext, IWidgetContext, UISchemaLayoutType,
+} from './types';
 
 const createWidgetContext = <T extends unknown>() => {
   // Create a context with a generic parameter or undefined
@@ -41,3 +43,9 @@ export const StepperContext = createContext<IStepperContext>({
 });
 
 export const useStepperContext = () => useContext(StepperContext);
+
+export const LayoutContext = createContext<ILayoutContext>({
+  layoutDirection: UISchemaLayoutType.VERTICAL,
+});
+
+export const useLayoutContext = () => useContext(LayoutContext);

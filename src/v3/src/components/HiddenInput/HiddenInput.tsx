@@ -10,29 +10,30 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import classNames from 'classnames';
+import { Box } from '@mui/material';
 import { h } from 'preact';
 
 import {
   HiddenInputElement,
   UISchemaElementComponent,
 } from '../../types';
-import style from './style.module.css';
 
 const InputText: UISchemaElementComponent<{ uischema: HiddenInputElement }> = ({
   uischema,
 }) => {
   const { name, value } = uischema.options;
   // Can't use hidden types otherwise browser plugins (i.e. Password Managers) will ignore
-  const classes = classNames(style.hidden);
 
   return (
-    <input
+    <Box
+      component="input"
       type="text"
-      className={classes}
       id={name}
       name={name}
       value={value}
+      sx={{
+        display: 'none',
+      }}
     />
   );
 };

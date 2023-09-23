@@ -2,115 +2,119 @@
 
 exports[`device-code-activate should render form 1`] = `
 <div>
-  <div
-    class="MuiScopedCssBaseline-root emotion-0"
+  <main
+    class="auth-container main-container MuiBox-root emotion-0"
+    data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+    data-version="0.0.0"
+    dir="ltr"
+    id="okta-sign-in"
+    lang="en"
   >
-    <main
-      class="auth-container main-container mainViewContainer MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
       <div
-        class="siwContainer MuiBox-root emotion-2"
+        class="MuiBox-root emotion-2"
       >
         <div
-          class="okta-sign-in-header auth-header siwHeader MuiBox-root emotion-3"
+          class="MuiBox-root emotion-3"
         >
-          <h1
-            class="MuiTypography-root MuiTypography-h1 emotion-4"
-          />
-        </div>
-        <div
-          class="MuiBox-root emotion-5"
-        >
-          <form
-            class="o-form siwForm"
-            data-se="o-form"
-            novalidate=""
+          <div
+            class="okta-sign-in-header auth-header MuiBox-root emotion-4"
           >
-            <div
-              class="MuiBox-root emotion-6"
+            <h1
+              class="MuiTypography-root MuiTypography-h1 emotion-5"
+            />
+          </div>
+          <div
+            class="MuiBox-root emotion-6"
+          >
+            <form
+              class="o-form MuiBox-root emotion-7"
+              data-se="o-form"
+              novalidate=""
             >
               <div
-                class="MuiBox-root emotion-7"
+                class="MuiBox-root emotion-8"
               >
                 <div
-                  class="MuiBox-root emotion-8"
+                  class="MuiBox-root emotion-9"
                 >
-                  <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-9"
-                    data-se="o-form-head"
-                    id="user-code_Title_Activate_your_device_1"
-                    tabindex="-1"
-                  >
-                    Activate your device
-                  </h2>
-                </div>
-              </div>
-              <div
-                class="MuiBox-root emotion-7"
-              >
-                <div
-                  class="MuiBox-root emotion-8"
-                >
-                  <p
-                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-12"
-                    data-se="o-form-explain"
-                    id="user-code_Description_Follow_the_instructions_on_your_device_to_get_an_activation_code_2"
-                  >
-                    Follow the instructions on your device to get an activation code
-                  </p>
-                </div>
-              </div>
-              <div
-                class="MuiBox-root emotion-7"
-              >
-                <div
-                  class="MuiBox-root emotion-14"
-                >
-                  <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-15"
-                    data-shrink="false"
-                    for="userCode"
-                  >
-                    Activation Code
-                  </label>
                   <div
-                    class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-16"
-                    required="true"
+                    class="MuiBox-root emotion-10"
                   >
-                    <input
-                      aria-invalid="false"
-                      class="MuiInputBase-input emotion-17"
-                      data-se="userCode"
-                      id="userCode"
-                      name="userCode"
-                      required=""
-                      type="text"
-                    />
+                    <h2
+                      class="MuiTypography-root MuiTypography-h4 emotion-11"
+                      data-se="o-form-head"
+                      id="user-code_Title_Activate_your_device_1"
+                      tabindex="-1"
+                    >
+                      Activate your device
+                    </h2>
                   </div>
                 </div>
-              </div>
-              <div
-                class="MuiBox-root emotion-7"
-              >
-                <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-19"
-                  data-type="save"
-                  tabindex="0"
-                  type="submit"
+                <div
+                  class="MuiBox-root emotion-9"
                 >
-                  Next
-                </button>
+                  <div
+                    class="MuiBox-root emotion-10"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-14"
+                      data-se="o-form-explain"
+                      id="user-code_Description_Follow_the_instructions_on_your_device_to_get_an_activation_code_2"
+                    >
+                      Follow the instructions on your device to get an activation code
+                    </p>
+                  </div>
+                </div>
+                <div
+                  class="MuiBox-root emotion-9"
+                >
+                  <div
+                    class="MuiBox-root emotion-0"
+                  >
+                    <label
+                      class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-17"
+                      data-shrink="false"
+                      for="userCode"
+                    >
+                      Activation Code
+                    </label>
+                    <div
+                      class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-18"
+                      required="true"
+                    >
+                      <input
+                        aria-invalid="false"
+                        class="MuiInputBase-input emotion-19"
+                        data-se="userCode"
+                        id="userCode"
+                        name="userCode"
+                        required=""
+                        type="text"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="MuiBox-root emotion-9"
+                >
+                  <button
+                    class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-21"
+                    data-type="save"
+                    tabindex="0"
+                    type="submit"
+                  >
+                    Next
+                  </button>
+                </div>
               </div>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
       </div>
-    </main>
-  </div>
+    </div>
+  </main>
 </div>
 `;

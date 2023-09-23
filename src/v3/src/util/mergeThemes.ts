@@ -45,7 +45,7 @@ const resolve = (override: StyleOverride, arg: Props): CSSInterpolation => {
  */
 export const mergeThemes = (
   first: Theme,
-  ...rest: Array<ThemeOptions | Partial<Theme>>
+  ...rest: Array<Partial<Theme>>
 ): ThemeOptions => (
   rest.reduce((prev, theme) => (
     !theme.components
@@ -66,6 +66,12 @@ export const mergeThemes = (
                   ...resolve(prev.components?.[component]?.styleOverrides?.root, options),
                   // @ts-expect-error FIXME CSSInterpolation may not be CSSObject
                   ...resolve(config.styleOverrides?.root, options),
+                }),
+                icon: (options: Record<string, unknown>) => ({
+                  // @ts-expect-error FIXME CSSInterpolation may not be CSSObject
+                  ...resolve(prev.components?.[component]?.styleOverrides?.icon, options),
+                  // @ts-expect-error FIXME CSSInterpolation may not be CSSObject
+                  ...resolve(config.styleOverrides?.icon, options),
                 }),
               },
             },

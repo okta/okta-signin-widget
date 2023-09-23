@@ -13,15 +13,19 @@ describe('compile, transform, and serialize', () => {
 
   it('handles ruleset without logical declaration', () => {
     const css = `
-      html:not([dir="rtl"]) .a {
-        color: red;
-      }
-      [dir="rtl"] .a {
+      .a {
         color: red;
       }
     `;
 
-    expect(processor(css)).toBe(minify(css));
+    expect(processor(css)).toBe(minify(`
+      [dir="rtl"] .a {
+        color: red;
+      }
+      html:not([dir="rtl"]) .a {
+        color: red;
+      }
+    `));
   });
 
   it('handles ruleset with simple logical declaration', () => {
@@ -32,11 +36,11 @@ describe('compile, transform, and serialize', () => {
     `;
 
     expect(processor(css)).toBe(minify(`
-      html:not([dir="rtl"]) .a {
-        margin-right: 5px;
-      }
       [dir="rtl"] .a {
         margin-left: 5px;
+      }
+      html:not([dir="rtl"]) .a {
+        margin-right: 5px;
       }
     `));
   });
@@ -50,13 +54,13 @@ describe('compile, transform, and serialize', () => {
     `;
 
     expect(processor(css)).toBe(minify(`
-      html:not([dir="rtl"]) .a {
-        color: red;
-        margin-right: 5px;
-      }
       [dir="rtl"] .a {
         color: red;
         margin-left: 5px;
+      }
+      html:not([dir="rtl"]) .a {
+        color: red;
+        margin-right: 5px;
       }
     `));
   });
@@ -69,11 +73,11 @@ describe('compile, transform, and serialize', () => {
     `;
 
     expect(processor(css)).toBe(minify(`
-      html:not([dir="rtl"]) .a, html:not([dir="rtl"]) .b {
-        margin-right: 5px;
-      }
       [dir="rtl"] .a, [dir="rtl"] .b {
         margin-left: 5px;
+      }
+      html:not([dir="rtl"]) .a, html:not([dir="rtl"]) .b {
+        margin-right: 5px;
       }
     `));
   });
@@ -88,14 +92,14 @@ describe('compile, transform, and serialize', () => {
     `;
 
     expect(processor(css)).toBe(minify(`
-      html:not([dir="rtl"]) .a {
-        color: red;
-        padding-right: 5px;
-        padding-bottom: 5px;
-      }
       [dir="rtl"] .a {
         color: red;
         padding-left: 5px;
+        padding-bottom: 5px;
+      }
+      html:not([dir="rtl"]) .a {
+        color: red;
+        padding-right: 5px;
         padding-bottom: 5px;
       }
     `));
@@ -110,11 +114,11 @@ describe('compile, transform, and serialize', () => {
       `;
 
       expect(processor(css)).toBe(minify(`
-        html:not([dir="rtl"]) .a {
+        [dir="rtl"] .a {
           margin-right: 5px;
           margin-left: 5px;
         }
-        [dir="rtl"] .a {
+        html:not([dir="rtl"]) .a {
           margin-right: 5px;
           margin-left: 5px;
         }
@@ -129,17 +133,18 @@ describe('compile, transform, and serialize', () => {
       `;
 
       expect(processor(css)).toBe(minify(`
-        html:not([dir="rtl"]) .a {
-          margin-right: 10px;
-          margin-left: 5px;
-        }
         [dir="rtl"] .a {
           margin-right: 5px;
           margin-left: 10px;
         }
+        html:not([dir="rtl"]) .a {
+          margin-right: 10px;
+          margin-left: 5px;
+        }
       `));
     });
   });
+
   describe('handles ruleset with logical property', () => {
     it('with property that maps to one property', () => {
       const css = `
@@ -149,10 +154,10 @@ describe('compile, transform, and serialize', () => {
       `;
 
       expect(processor(css)).toBe(minify(`
-        html:not([dir="rtl"]) .a {
+        [dir="rtl"] .a {
           height: 5px;
         }
-        [dir="rtl"] .a {
+        html:not([dir="rtl"]) .a {
           height: 5px;
         }
       `));
@@ -167,13 +172,13 @@ describe('compile, transform, and serialize', () => {
       `;
 
       expect(processor(css)).toBe(minify(`
-        html:not([dir="rtl"]) .a {
+        [dir="rtl"] .a {
           margin-top: 5px;
           top: 5px 10px;
           margin-bottom: 5px;
           bottom: 5px 10px;
         }
-        [dir="rtl"] .a {
+        html:not([dir="rtl"]) .a {
           margin-top: 5px;
           top: 5px 10px;
           margin-bottom: 5px;
@@ -182,6 +187,7 @@ describe('compile, transform, and serialize', () => {
       `));
     });
   });
+
   describe('handles ruleset with logical directional values', () => {
     it('with value that does not need transform', () => {
       const css = `
@@ -191,10 +197,10 @@ describe('compile, transform, and serialize', () => {
       `;
 
       expect(processor(css)).toBe(minify(`
-        html:not([dir="rtl"]) .a {
+        [dir="rtl"] .a {
           clear: both;
         }
-        [dir="rtl"] .a {
+        html:not([dir="rtl"]) .a {
           clear: both;
         }
       `));
@@ -208,11 +214,101 @@ describe('compile, transform, and serialize', () => {
       `;
 
       expect(processor(css)).toBe(minify(`
+        [dir="rtl"] .a {
+          clear: right;
+        }
         html:not([dir="rtl"]) .a {
           clear: left;
         }
+      `));
+    });
+  });
+
+  describe('handles media query', () => {
+    it('with ruleset that has logical declaration', () => {
+      const css = `
+        .a {
+          color: red;
+        }
+        @media only screen and (max-width: 100px) {
+          .a {
+            color: white;
+            margin-inline-end: 5px;
+          }
+        }
+      `;
+
+      expect(processor(css)).toBe(minify(`
         [dir="rtl"] .a {
-          clear: right;
+          color: red;
+        }
+        html:not([dir="rtl"]) .a {
+          color: red;
+        }
+        @media only screen and (max-width: 100px) {
+          [dir="rtl"] .a {
+            color: white;
+            margin-left: 5px;
+          }
+          html:not([dir="rtl"]) .a {
+            color: white;
+            margin-right: 5px;
+          }
+        }
+      `));
+    });
+  });
+
+  describe('handles nesting and & shorthand', () => {
+    it('with ::before and ::after psuedoclass', () => {
+      const css = `
+        .a {
+          color: white;
+
+          &::before, &::after {
+            color: red;
+          }
+        }
+      `;
+
+      expect(processor(css)).toBe(minify(`
+        [dir="rtl"] .a {
+          color: white;
+        }
+        html:not([dir="rtl"]) .a {
+          color: white;
+        }
+        [dir="rtl"] .a::before, [dir="rtl"] .a::after {
+          color: red;
+        }
+        html:not([dir="rtl"]) .a::before, html:not([dir="rtl"]) .a::after {
+          color: red;
+        }
+      `));
+    });
+  });
+
+  describe('handles keyframes', () => {
+    it('does not transform rules within @keyframes', () => {
+      const css = `
+        @keyframes slidein {
+          from {
+            transform: translateX(0%);
+          }
+          to {
+            transform: translateX(100%);
+          }
+        }
+      `;
+
+      expect(processor(css)).toBe(minify(`
+        @keyframes slidein {
+          from {
+            transform: translateX(0%);
+          }
+          to {
+            transform: translateX(100%);
+          }
         }
       `));
     });

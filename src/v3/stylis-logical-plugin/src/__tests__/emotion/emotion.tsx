@@ -43,4 +43,37 @@ describe('with emotion environment', () => {
 
     expect(body).toMatchSnapshot();
   });
+
+  it('generates styles for scenario with nested pseudoclass', async () => {
+    const { body } = document;
+    body.innerHTML = `
+      <div id="container" />
+    `;
+
+    const cache = createCache({
+      key: 'test',
+      stylisPlugins: [logicalRtl({ rootDirElement: '#container' })],
+      container: safeQuerySelector(document, '#container'),
+    });
+
+    const Button = styled.div(() => ({
+      color: 'red',
+      paddingInlineEnd: '10px',
+      paddingBlockEnd: '10px',
+      '&::before, &::after': {
+        content: '""',
+        color: 'black',
+      },
+    }));
+
+    render(
+      <CacheProvider value={cache}>
+        <Button />
+      </CacheProvider>,
+    );
+
+    expect(document.getElementsByTagName('style')).toHaveLength(4);
+
+    expect(body).toMatchSnapshot();
+  });
 });

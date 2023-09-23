@@ -2,300 +2,304 @@
 
 exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should poll for Magic link email consent and advance to webauthn challenge once consent is provided 1`] = `
 <div>
-  <div
-    class="MuiScopedCssBaseline-root emotion-0"
+  <main
+    class="auth-container main-container MuiBox-root emotion-0"
+    data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+    data-version="0.0.0"
+    dir="ltr"
+    id="okta-sign-in"
+    lang="en"
   >
-    <main
-      class="auth-container main-container mainViewContainer MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
       <div
-        class="siwContainer MuiBox-root emotion-2"
+        class="MuiBox-root emotion-2"
       >
         <div
-          class="okta-sign-in-header auth-header siwHeader authCoinSpacing MuiBox-root emotion-3"
-        >
-          <h1
-            class="MuiTypography-root MuiTypography-h1 emotion-4"
-          />
-          <div
-            aria-hidden="true"
-            class="iconContainer mfa-webauthn authCoinOverlay MuiBox-root emotion-5"
-            data-se="factor-beacon"
-          >
-            <svg
-              aria-labelledby="mfa-webauthn"
-              fill="none"
-              height="48"
-              role="img"
-              viewBox="0 0 48 48"
-              width="48"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <title
-                id="mfa-webauthn"
-              >
-                Security Key or Biometric Authenticator
-              </title>
-              <path
-                class="siwFillBg"
-                clip-rule="evenodd"
-                d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
-                fill="#F5F5F6"
-                fill-rule="evenodd"
-              />
-              <path
-                class="siwFillPrimaryDark"
-                d="M24 17V9h-9v8h-3v15.5a2.5 2.5 0 0 0 2.5 2.5h6.34a8.58 8.58 0 0 1-.38-1H14.5a1.5 1.5 0 0 1-1.5-1.5V18h13v3.84a8.58 8.58 0 0 1 1-.38V17h-3Zm-8 0v-7h7v7h-7Z"
-                fill="#00297A"
-              />
-              <path
-                class="siwFillPrimaryDark"
-                d="M19.5 25a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5Zm0-4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Z"
-                fill="#00297A"
-              />
-              <path
-                class="siwFillSecondary"
-                d="M30 40a9 9 0 1 1 9-9 9.01 9.01 0 0 1-9 9Zm0-17a8 8 0 1 0 8 8 8.009 8.009 0 0 0-8-8Z"
-                fill="#A7B5EC"
-              />
-              <path
-                class="siwFillSecondary"
-                d="M32.084 36.019a.472.472 0 0 1-.319-.112.501.501 0 0 1-.159-.532c.43-1.389 1.274-4.787-.119-6.352a1.962 1.962 0 0 0-1.946-.6 1.93 1.93 0 0 0-1.387 2.354c.007.024.666 2.823-.966 4.55a.5.5 0 1 1-.727-.685c1.24-1.314.728-3.6.723-3.622a2.933 2.933 0 0 1 2.106-3.566 2.977 2.977 0 0 1 2.944.906c1.67 1.875.922 5.386.328 7.312a.5.5 0 0 1-.478.347Z"
-                fill="#A7B5EC"
-              />
-              <path
-                class="siwFillSecondary"
-                d="M28.63 37.25a.5.5 0 0 1-.359-.849c2.235-2.3 1.345-5.782 1.336-5.817a.5.5 0 0 1 .966-.259c.045.165 1.052 4.067-1.586 6.774a.5.5 0 0 1-.358.151Z"
-                fill="#A7B5EC"
-              />
-              <path
-                class="siwFillSecondary"
-                d="M34.88 35.2a.5.5 0 0 1-.488-.612c.493-2.2.716-5.235-1.03-7.2a4.508 4.508 0 0 0-4.455-1.357 4.416 4.416 0 0 0-2.72 2.069 4.2 4.2 0 0 0-.468 3.2 3.1 3.1 0 0 1-.355 2.347.5.5 0 1 1-.728-.685 2.37 2.37 0 0 0 .11-1.434 5.174 5.174 0 0 1 .577-3.939 5.42 5.42 0 0 1 3.333-2.518 5.524 5.524 0 0 1 5.453 1.66c1.628 1.832 2.051 4.551 1.257 8.082a.5.5 0 0 1-.487.387Z"
-                fill="#A7B5EC"
-              />
-            </svg>
-          </div>
-        </div>
-        <div
-          class="MuiBox-root emotion-6"
+          class="MuiBox-root emotion-3"
         >
           <div
-            class="identifier-container MuiBox-root emotion-7"
+            class="okta-sign-in-header auth-header authCoinSpacing MuiBox-root emotion-4"
           >
+            <h1
+              class="MuiTypography-root MuiTypography-h1 emotion-5"
+            />
             <div
-              class="identifierContainer MuiBox-root emotion-8"
+              aria-hidden="true"
+              class="mfa-webauthn MuiBox-root emotion-6"
+              data-se="factor-beacon"
             >
-              <span
-                class="userIconContainer MuiBox-root emotion-9"
+              <svg
+                aria-labelledby="mfa-webauthn"
+                fill="none"
+                height="48"
+                role="img"
+                viewBox="0 0 48 48"
+                width="48"
+                xmlns="http://www.w3.org/2000/svg"
               >
-                <svg
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-10"
-                  fill="none"
-                  focusable="false"
-                  role="img"
-                  viewBox="0 0 16 16"
-                  xmlns="http://www.w3.org/2000/svg"
+                <title
+                  id="mfa-webauthn"
                 >
-                  <path
-                    clip-rule="evenodd"
-                    d="M10 3V5C10 6.10457 9.10457 7 8 7C6.89543 7 6 6.10457 6 5V3C6 1.89543 6.89543 1 8 1C9.10457 1 10 1.89543 10 3ZM5 3C5 1.34315 6.34315 0 8 0C9.65685 0 11 1.34315 11 3V5C11 6.65685 9.65685 8 8 8C6.34315 8 5 6.65685 5 5V3ZM4.1305 10.0742C4.26803 10.0181 4.459 10 5.41376 10H10.5862C11.541 10 11.732 10.0181 11.8695 10.0742C12.0299 10.1398 12.1706 10.2459 12.2777 10.3821C12.3695 10.4989 12.4393 10.6776 12.7016 11.5956L13.6743 15H2.32573L3.29841 11.5956C3.5607 10.6776 3.63054 10.4989 3.72233 10.3821C3.82941 10.2459 3.97006 10.1398 4.1305 10.0742ZM13.6631 11.3209L14.7143 15L15 16H13.96H2.04002H1L1.28571 15L2.33689 11.3209C2.57458 10.489 2.69343 10.073 2.93606 9.76423C3.15022 9.49171 3.43152 9.27953 3.75239 9.14848C4.11592 9 4.54854 9 5.41376 9H10.5862C11.4515 9 11.8841 9 12.2476 9.14848C12.5685 9.27953 12.8498 9.49171 13.0639 9.76423C13.3066 10.073 13.4254 10.489 13.6631 11.3209Z"
-                    fill="currentColor"
-                    fill-rule="evenodd"
-                  />
-                  <title>
-                    User
-                  </title>
-                </svg>
-              </span>
-              <span
-                class="identifier no-translate identifierSpan MuiBox-root emotion-9"
-                data-se="identifier"
-                title="tester@okta1.com"
-              >
-                tester@okta1.com
-              </span>
+                  Security Key or Biometric Authenticator
+                </title>
+                <path
+                  class="siwFillBg"
+                  clip-rule="evenodd"
+                  d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
+                  fill="#F5F5F6"
+                  fill-rule="evenodd"
+                />
+                <path
+                  class="siwFillPrimaryDark"
+                  d="M24 17V9h-9v8h-3v15.5a2.5 2.5 0 0 0 2.5 2.5h6.34a8.58 8.58 0 0 1-.38-1H14.5a1.5 1.5 0 0 1-1.5-1.5V18h13v3.84a8.58 8.58 0 0 1 1-.38V17h-3Zm-8 0v-7h7v7h-7Z"
+                  fill="#00297A"
+                />
+                <path
+                  class="siwFillPrimaryDark"
+                  d="M19.5 25a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5Zm0-4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Z"
+                  fill="#00297A"
+                />
+                <path
+                  class="siwFillSecondary"
+                  d="M30 40a9 9 0 1 1 9-9 9.01 9.01 0 0 1-9 9Zm0-17a8 8 0 1 0 8 8 8.009 8.009 0 0 0-8-8Z"
+                  fill="#A7B5EC"
+                />
+                <path
+                  class="siwFillSecondary"
+                  d="M32.084 36.019a.472.472 0 0 1-.319-.112.501.501 0 0 1-.159-.532c.43-1.389 1.274-4.787-.119-6.352a1.962 1.962 0 0 0-1.946-.6 1.93 1.93 0 0 0-1.387 2.354c.007.024.666 2.823-.966 4.55a.5.5 0 1 1-.727-.685c1.24-1.314.728-3.6.723-3.622a2.933 2.933 0 0 1 2.106-3.566 2.977 2.977 0 0 1 2.944.906c1.67 1.875.922 5.386.328 7.312a.5.5 0 0 1-.478.347Z"
+                  fill="#A7B5EC"
+                />
+                <path
+                  class="siwFillSecondary"
+                  d="M28.63 37.25a.5.5 0 0 1-.359-.849c2.235-2.3 1.345-5.782 1.336-5.817a.5.5 0 0 1 .966-.259c.045.165 1.052 4.067-1.586 6.774a.5.5 0 0 1-.358.151Z"
+                  fill="#A7B5EC"
+                />
+                <path
+                  class="siwFillSecondary"
+                  d="M34.88 35.2a.5.5 0 0 1-.488-.612c.493-2.2.716-5.235-1.03-7.2a4.508 4.508 0 0 0-4.455-1.357 4.416 4.416 0 0 0-2.72 2.069 4.2 4.2 0 0 0-.468 3.2 3.1 3.1 0 0 1-.355 2.347.5.5 0 1 1-.728-.685 2.37 2.37 0 0 0 .11-1.434 5.174 5.174 0 0 1 .577-3.939 5.42 5.42 0 0 1 3.333-2.518 5.524 5.524 0 0 1 5.453 1.66c1.628 1.832 2.051 4.551 1.257 8.082a.5.5 0 0 1-.487.387Z"
+                  fill="#A7B5EC"
+                />
+              </svg>
             </div>
           </div>
-          <form
-            class="o-form siwForm"
-            data-se="o-form"
-            novalidate=""
+          <div
+            class="MuiBox-root emotion-7"
           >
             <div
-              class="MuiBox-root emotion-12"
+              class="identifier-container MuiBox-root emotion-8"
             >
-              <div
-                class="MuiBox-root emotion-13"
-              >
-                <div
-                  class="MuiBox-root emotion-14"
-                >
-                  <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-15"
-                    data-se="o-form-head"
-                    id="challenge-authenticator_Title_Verify_with_Security_Key_or_Biometric_Authenticator_webauthn_aut2h3f9ovE2RV96P1d7_1"
-                    tabindex="-1"
-                  >
-                    Verify with Security Key or Biometric Authenticator
-                  </h2>
-                </div>
-              </div>
-              <div
-                class="MuiBox-root emotion-13"
-              >
-                <div
-                  class="MuiBox-root emotion-17"
-                  data-se="message"
-                >
-                  <div
-                    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxError MuiAlert-infobox infobox-error emotion-18"
-                    data-se="callout"
-                    role="alert"
-                  >
-                    <div
-                      class="MuiAlert-icon emotion-19"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-20"
-                        fill="none"
-                        focusable="false"
-                        viewBox="0 0 16 16"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          clip-rule="evenodd"
-                          d="M13.983 14.6471C13.4706 15 12.6329 15 10.9575 15H5.04248C3.36707 15 2.52937 15 2.01699 14.6471C1.56939 14.3387 1.26655 13.8615 1.17816 13.3252C1.07698 12.7114 1.43367 11.9534 2.14706 10.4374L5.10455 4.15277C6.02878 2.18879 6.49089 1.2068 7.12576 0.898255C7.6777 0.630012 8.32225 0.630012 8.87419 0.898255C9.50906 1.2068 9.97117 2.18879 10.8954 4.15277L13.8529 10.4374C14.5663 11.9534 14.923 12.7114 14.8218 13.3252C14.7334 13.8615 14.4306 14.3387 13.983 14.6471ZM7.99998 10C7.72383 10 7.49998 9.77614 7.49998 9.5L7.49998 5H8.49998L8.49998 9.5C8.49998 9.77614 8.27612 10 7.99998 10ZM7.99998 13C8.14831 13 8.29332 12.956 8.41665 12.8736C8.53999 12.7912 8.63612 12.6741 8.69288 12.537C8.74965 12.4 8.7645 12.2492 8.73556 12.1037C8.70662 11.9582 8.6352 11.8246 8.53031 11.7197C8.42542 11.6148 8.29178 11.5434 8.14629 11.5144C8.00081 11.4855 7.85001 11.5003 7.71296 11.5571C7.57592 11.6139 7.45878 11.71 7.37637 11.8333C7.29396 11.9567 7.24998 12.1017 7.24998 12.25C7.24998 12.4489 7.32899 12.6397 7.46964 12.7803C7.6103 12.921 7.80106 13 7.99998 13Z"
-                          fill="currentColor"
-                          fill-rule="evenodd"
-                        />
-                      </svg>
-                    </div>
-                    <div
-                      class="MuiAlert-message emotion-21"
-                    >
-                      Security key or biometric authenticator is not supported on this browser. Contact your admin for assistance.
-                    </div>
-                  </div>
-                </div>
-              </div>
               <div
                 class="MuiBox-root emotion-9"
               >
+                <span
+                  class="MuiBox-root emotion-10"
+                >
+                  <svg
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-11"
+                    fill="none"
+                    focusable="false"
+                    role="img"
+                    viewBox="0 0 16 16"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      clip-rule="evenodd"
+                      d="M10 3V5C10 6.10457 9.10457 7 8 7C6.89543 7 6 6.10457 6 5V3C6 1.89543 6.89543 1 8 1C9.10457 1 10 1.89543 10 3ZM5 3C5 1.34315 6.34315 0 8 0C9.65685 0 11 1.34315 11 3V5C11 6.65685 9.65685 8 8 8C6.34315 8 5 6.65685 5 5V3ZM4.1305 10.0742C4.26803 10.0181 4.459 10 5.41376 10H10.5862C11.541 10 11.732 10.0181 11.8695 10.0742C12.0299 10.1398 12.1706 10.2459 12.2777 10.3821C12.3695 10.4989 12.4393 10.6776 12.7016 11.5956L13.6743 15H2.32573L3.29841 11.5956C3.5607 10.6776 3.63054 10.4989 3.72233 10.3821C3.82941 10.2459 3.97006 10.1398 4.1305 10.0742ZM13.6631 11.3209L14.7143 15L15 16H13.96H2.04002H1L1.28571 15L2.33689 11.3209C2.57458 10.489 2.69343 10.073 2.93606 9.76423C3.15022 9.49171 3.43152 9.27953 3.75239 9.14848C4.11592 9 4.54854 9 5.41376 9H10.5862C11.4515 9 11.8841 9 12.2476 9.14848C12.5685 9.27953 12.8498 9.49171 13.0639 9.76423C13.3066 10.073 13.4254 10.489 13.6631 11.3209Z"
+                      fill="currentColor"
+                      fill-rule="evenodd"
+                    />
+                    <title>
+                      User
+                    </title>
+                  </svg>
+                </span>
+                <span
+                  class="identifier no-translate MuiBox-root emotion-12"
+                  data-se="identifier"
+                  title="tester@okta1.com"
+                >
+                  tester@okta1.com
+                </span>
+              </div>
+            </div>
+            <form
+              class="o-form MuiBox-root emotion-13"
+              data-se="o-form"
+              novalidate=""
+            >
+              <div
+                class="MuiBox-root emotion-14"
+              >
                 <div
-                  class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAccordion-root MuiAccordion-rounded emotion-23"
+                  class="MuiBox-root emotion-15"
                 >
                   <div
-                    aria-controls="cant-verify-content"
-                    aria-expanded="false"
-                    class="MuiButtonBase-root MuiAccordionSummary-root emotion-24"
-                    id="cant-verify-header"
-                    role="button"
-                    tabindex="0"
+                    class="MuiBox-root emotion-16"
                   >
-                    <div
-                      class="MuiAccordionSummary-content emotion-25"
+                    <h2
+                      class="MuiTypography-root MuiTypography-h4 emotion-17"
+                      data-se="o-form-head"
+                      id="challenge-authenticator_Title_Verify_with_Security_Key_or_Biometric_Authenticator_webauthn_aut2h3f9ovE2RV96P1d7_1"
+                      tabindex="-1"
                     >
-                      <p
-                        class="MuiTypography-root MuiTypography-body1 emotion-26"
-                      >
-                        Can't verify?
-                      </p>
-                    </div>
+                      Verify with Security Key or Biometric Authenticator
+                    </h2>
                   </div>
+                </div>
+                <div
+                  class="MuiBox-root emotion-15"
+                >
                   <div
-                    class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-27"
-                    style="min-height: 0px;"
+                    class="MuiBox-root emotion-19"
+                    data-se="message"
                   >
                     <div
-                      class="MuiCollapse-wrapper MuiCollapse-vertical emotion-28"
+                      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxError MuiAlert-infobox infobox-error emotion-20"
+                      data-se="callout"
+                      role="alert"
                     >
                       <div
-                        class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-29"
+                        class="MuiAlert-icon emotion-21"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-22"
+                          fill="none"
+                          focusable="false"
+                          viewBox="0 0 16 16"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            clip-rule="evenodd"
+                            d="M13.983 14.6471C13.4706 15 12.6329 15 10.9575 15H5.04248C3.36707 15 2.52937 15 2.01699 14.6471C1.56939 14.3387 1.26655 13.8615 1.17816 13.3252C1.07698 12.7114 1.43367 11.9534 2.14706 10.4374L5.10455 4.15277C6.02878 2.18879 6.49089 1.2068 7.12576 0.898255C7.6777 0.630012 8.32225 0.630012 8.87419 0.898255C9.50906 1.2068 9.97117 2.18879 10.8954 4.15277L13.8529 10.4374C14.5663 11.9534 14.923 12.7114 14.8218 13.3252C14.7334 13.8615 14.4306 14.3387 13.983 14.6471ZM7.99998 10C7.72383 10 7.49998 9.77614 7.49998 9.5L7.49998 5H8.49998L8.49998 9.5C8.49998 9.77614 8.27612 10 7.99998 10ZM7.99998 13C8.14831 13 8.29332 12.956 8.41665 12.8736C8.53999 12.7912 8.63612 12.6741 8.69288 12.537C8.74965 12.4 8.7645 12.2492 8.73556 12.1037C8.70662 11.9582 8.6352 11.8246 8.53031 11.7197C8.42542 11.6148 8.29178 11.5434 8.14629 11.5144C8.00081 11.4855 7.85001 11.5003 7.71296 11.5571C7.57592 11.6139 7.45878 11.71 7.37637 11.8333C7.29396 11.9567 7.24998 12.1017 7.24998 12.25C7.24998 12.4489 7.32899 12.6397 7.46964 12.7803C7.6103 12.921 7.80106 13 7.99998 13Z"
+                            fill="currentColor"
+                            fill-rule="evenodd"
+                          />
+                        </svg>
+                      </div>
+                      <div
+                        class="MuiAlert-message emotion-23"
+                      >
+                        Security key or biometric authenticator is not supported on this browser. Contact your admin for assistance.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="MuiBox-root emotion-0"
+                >
+                  <div
+                    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAccordion-root MuiAccordion-rounded emotion-25"
+                  >
+                    <div
+                      aria-controls="cant-verify-content"
+                      aria-expanded="false"
+                      class="MuiButtonBase-root MuiAccordionSummary-root emotion-26"
+                      id="cant-verify-header"
+                      role="button"
+                      tabindex="0"
+                    >
+                      <div
+                        class="MuiAccordionSummary-content emotion-27"
+                      >
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 emotion-28"
+                        >
+                          Can't verify?
+                        </p>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-29"
+                      style="min-height: 0px;"
+                    >
+                      <div
+                        class="MuiCollapse-wrapper MuiCollapse-vertical emotion-30"
                       >
                         <div
-                          aria-labelledby="cant-verify-header"
-                          class="MuiAccordion-region"
-                          id="cant-verify-content"
-                          role="region"
+                          class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-31"
                         >
                           <div
-                            class="MuiAccordionDetails-root emotion-30"
+                            aria-labelledby="cant-verify-header"
+                            class="MuiAccordion-region"
+                            id="cant-verify-content"
+                            role="region"
                           >
                             <div
-                              class="MuiBox-root emotion-12"
+                              class="MuiAccordionDetails-root emotion-32"
                             >
                               <div
-                                class="MuiBox-root emotion-9"
+                                class="MuiBox-root emotion-14"
                               >
                                 <div
-                                  class="MuiBox-root emotion-14"
+                                  class="MuiBox-root emotion-0"
                                 >
-                                  <h3
-                                    class="MuiTypography-root MuiTypography-h6 emotion-34"
+                                  <div
+                                    class="MuiBox-root emotion-16"
                                   >
-                                    Are you trying to use a biometric authenticator?
-                                  </h3>
+                                    <h3
+                                      class="MuiTypography-root MuiTypography-h6 emotion-36"
+                                    >
+                                      Are you trying to use a biometric authenticator?
+                                    </h3>
+                                  </div>
                                 </div>
-                              </div>
-                              <div
-                                class="MuiBox-root emotion-9"
-                              >
                                 <div
-                                  class="MuiBox-root emotion-14"
+                                  class="MuiBox-root emotion-0"
                                 >
-                                  <p
-                                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-37"
-                                    data-se="o-form-explain"
+                                  <div
+                                    class="MuiBox-root emotion-16"
                                   >
-                                    Biometric authenticators (fingerprint, face recognition, PIN) will only work on the same device on which they were set up.
-                                  </p>
+                                    <p
+                                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-39"
+                                      data-se="o-form-explain"
+                                    >
+                                      Biometric authenticators (fingerprint, face recognition, PIN) will only work on the same device on which they were set up.
+                                    </p>
+                                  </div>
                                 </div>
-                              </div>
-                              <div
-                                class="MuiBox-root emotion-13"
-                              >
                                 <div
-                                  class="MuiBox-root emotion-14"
+                                  class="MuiBox-root emotion-15"
                                 >
-                                  <p
-                                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-37"
-                                    data-se="o-form-explain"
+                                  <div
+                                    class="MuiBox-root emotion-16"
                                   >
-                                    If available, set up another security method on the device you used to set up your biometric authenticator.
-                                  </p>
+                                    <p
+                                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-39"
+                                      data-se="o-form-explain"
+                                    >
+                                      If available, set up another security method on the device you used to set up your biometric authenticator.
+                                    </p>
+                                  </div>
                                 </div>
-                              </div>
-                              <div
-                                class="MuiBox-root emotion-9"
-                              >
                                 <div
-                                  class="MuiBox-root emotion-14"
+                                  class="MuiBox-root emotion-0"
                                 >
-                                  <h3
-                                    class="MuiTypography-root MuiTypography-h6 emotion-34"
+                                  <div
+                                    class="MuiBox-root emotion-16"
                                   >
-                                    Are you trying to use a security key?
-                                  </h3>
+                                    <h3
+                                      class="MuiTypography-root MuiTypography-h6 emotion-36"
+                                    >
+                                      Are you trying to use a security key?
+                                    </h3>
+                                  </div>
                                 </div>
-                              </div>
-                              <div
-                                class="MuiBox-root emotion-13"
-                              >
                                 <div
-                                  class="MuiBox-root emotion-14"
+                                  class="MuiBox-root emotion-15"
                                 >
-                                  <p
-                                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-37"
-                                    data-se="o-form-explain"
+                                  <div
+                                    class="MuiBox-root emotion-16"
                                   >
-                                    If you have set up a security key, insert it in a USB port when prompted by the browser and tap on the button or gold disk. Security keys can work on multiple devices.
-                                  </p>
+                                    <p
+                                      class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-39"
+                                      data-se="o-form-explain"
+                                    >
+                                      If you have set up a security key, insert it in a USB port when prompted by the browser and tap on the button or gold disk. Security keys can work on multiple devices.
+                                    </p>
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -305,34 +309,34 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
                     </div>
                   </div>
                 </div>
-              </div>
-              <div
-                class="MuiBox-root emotion-13"
-              >
-                <button
-                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button Mui-focusVisible emotion-48"
-                  data-se="switchAuthenticator"
-                  role="link"
+                <div
+                  class="MuiBox-root emotion-15"
                 >
-                  Verify with something else
-                </button>
-              </div>
-              <div
-                class="MuiBox-root emotion-13"
-              >
-                <button
-                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-48"
-                  data-se="cancel"
-                  role="link"
+                  <button
+                    class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button Mui-focusVisible emotion-50"
+                    data-se="switchAuthenticator"
+                    role="link"
+                  >
+                    Verify with something else
+                  </button>
+                </div>
+                <div
+                  class="MuiBox-root emotion-15"
                 >
-                  Back to sign in
-                </button>
+                  <button
+                    class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-50"
+                    data-se="cancel"
+                    role="link"
+                  >
+                    Back to sign in
+                  </button>
+                </div>
               </div>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
       </div>
-    </main>
-  </div>
+    </div>
+  </main>
 </div>
 `;

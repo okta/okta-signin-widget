@@ -14,6 +14,7 @@ declare module 'stylis' {
     COMMENT = 'comm',
     RULESET = 'rule',
     DECLARATION = 'decl',
+    KEYFRAMES = '@keyframes',
   }
 
   interface BaseElement {
@@ -46,7 +47,11 @@ declare module 'stylis' {
     type: ElementType.COMMENT;
   }
 
-  type Element = DeclarationElement | RulesetElement | CommentElement;
+  interface KeyframesElement extends BaseElement {
+    type: ElementType.KEYFRAMES;
+  }
+
+  type Element = DeclarationElement | RulesetElement | CommentElement | KeyframesElement;
 
   type Middleware = (
     element: Element,

@@ -16,7 +16,6 @@ import { FunctionComponent, h } from 'preact';
 
 import { AuthCoinProps } from '../../types';
 import { getAuthCoinConfiguration } from './authCoinConfigUtil';
-import style from './style.module.css';
 
 const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
   const {
@@ -25,16 +24,13 @@ const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
     customClasses,
     name: authcoinName,
     description: authcoinDescr,
+    sx,
   } = props;
 
   const authCoinConfiguration = getAuthCoinConfiguration();
   const authCoinConfigByAuthKey = authCoinConfiguration[authenticatorKey];
 
-  const containerClasses = classNames(
-    style.iconContainer,
-    authCoinConfigByAuthKey?.iconClassName,
-    customClasses,
-  );
+  const containerClasses = classNames(authCoinConfigByAuthKey?.iconClassName, customClasses);
 
   function createAuthCoinIcon() {
     // TODO: OKTA-467022 - Add warning when attempted to customize non-customizeable authenticator
@@ -70,12 +66,15 @@ const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
       className={containerClasses}
       data-se="factor-beacon"
       aria-hidden
-      sx={(theme) => ({
-        '--PrimaryFill': theme.palette.primary.main,
-        '--PrimaryDarkFill': theme.palette.primary.dark,
-        '--SecondaryFill': theme.palette.primary.light,
-        '--BackgroundFill': theme.palette.grey[50],
-      })}
+      sx={{
+        position: 'relative',
+        background: 'white',
+        inlineSize: '54px',
+        blockSize: '48px',
+        paddingBlock: 0,
+        paddingInline: '3px',
+        ...sx,
+      }}
     >
       { createAuthCoinIcon() }
     </Box>

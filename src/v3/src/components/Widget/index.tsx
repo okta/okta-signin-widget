@@ -10,9 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import './style.module.css';
+// NOTE: Do not remove this import of style.css!
+// We need to emit a CSS file, even if it's empty, to prevent a 404 on the Okta-hosted login page.
+import './style.css';
 
-import { ScopedCssBaseline } from '@mui/material';
 import { MuiThemeProvider } from '@okta/odyssey-react-mui';
 import {
   AuthApiError,
@@ -78,6 +79,7 @@ import CustomPluginsOdysseyCacheProvider from '../CustomPluginsOdysseyCacheProvi
 import Form from '../Form';
 import IdentifierContainer from '../IdentifierContainer';
 import Spinner from '../Spinner';
+import GlobalStyles from './GlobalStyles';
 
 export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   if (!isAuthClientSet(widgetProps)) {
@@ -127,16 +129,66 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const { stateHandle, unsetStateHandle } = useStateHandle(widgetProps);
 
   // merge themes
-  const theme = useMemo(() => mergeThemes(
+  const mergedTheme = useMemo(() => mergeThemes(
     mapMuiThemeFromBrand(brandColors, languageDirection, muiThemeOverrides),
     {
       components: {
+        MuiAlert: {
+          styleOverrides: {
+            root: {
+              gap: 0,
+            },
+            icon: ({ theme }) => ({
+              paddingInlineEnd: theme.spacing(4),
+            }),
+          },
+        },
         MuiInputLabel: {
           styleOverrides: {
             root: {
               wordBreak: 'break-word',
               whiteSpace: 'normal',
             },
+          },
+        },
+        // ruleset with :focus-visible pseudo-selector break entire ruleset in
+        // ie11 because its not supported. re-define the :hover rule separately
+        // again so the ruleset is applied in ie11
+        MuiButton: {
+          styleOverrides: {
+            root: ({ ownerState, theme }) => ({
+              ...(ownerState.variant === 'primary' && {
+                '&:hover': {
+                  backgroundColor: theme.palette.primary.dark,
+                },
+              }),
+              ...(ownerState.variant === 'secondary' && {
+                '&:hover': {
+                  backgroundColor: theme.palette.primary.lighter,
+                  borderColor: theme.palette.primary.light,
+                  color: theme.palette.primary.main,
+                },
+              }),
+              ...(ownerState.variant === 'floating' && {
+                '&:hover': {
+                  backgroundColor: 'rgba(29, 29, 33, 0.1)',
+                  borderColor: 'transparent',
+                },
+              }),
+            }),
+          },
+        },
+        // ruleset with :focus-visible pseudo-selector break entire ruleset in
+        // ie11 because its not supported. re-define the :hover rule separately
+        // again so the ruleset is applied in ie11
+        MuiIconButton: {
+          styleOverrides: {
+            root: () => ({
+              '&:hover': {
+                backgroundColor: 'rgba(29, 29, 33, 0.1)',
+                borderColor: 'transparent',
+              },
+            }),
           },
         },
       },
@@ -454,35 +506,25 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     }}
     >
       <CustomPluginsOdysseyCacheProvider nonce={cspNonce}>
-        <MuiThemeProvider theme={theme}>
-          {/* the style is to allow the widget to inherit the parent's bg color */}
-          <ScopedCssBaseline
-            sx={{
-              backgroundColor: 'inherit',
-              'span.strong': {
-                fontWeight: 'bold',
-                wordBreak: 'break-all',
-              },
-            }}
-          >
-            <AuthContainer hide={hide}>
-              <AuthHeader
-                logo={logo}
-                logoText={logoText}
-                brandName={brandName}
-                authCoinProps={buildAuthCoinProps(idxTransaction)}
-              />
-              <AuthContent>
-                {isConsentStep(idxTransaction) && <ConsentHeader />}
-                <IdentifierContainer />
-                {
-                  uischema.elements.length > 0
-                    ? <Form uischema={uischema as UISchemaLayout} />
-                    : <Spinner />
-                }
-              </AuthContent>
-            </AuthContainer>
-          </ScopedCssBaseline>
+        <MuiThemeProvider theme={mergedTheme}>
+          <GlobalStyles />
+          <AuthContainer hide={hide}>
+            <AuthHeader
+              logo={logo}
+              logoText={logoText}
+              brandName={brandName}
+              authCoinProps={buildAuthCoinProps(idxTransaction)}
+            />
+            <AuthContent>
+              {isConsentStep(idxTransaction) && <ConsentHeader />}
+              <IdentifierContainer />
+              {
+                uischema.elements.length > 0
+                  ? <Form uischema={uischema as UISchemaLayout} />
+                  : <Spinner />
+              }
+            </AuthContent>
+          </AuthContainer>
         </MuiThemeProvider>
       </CustomPluginsOdysseyCacheProvider>
     </WidgetContextProvider>

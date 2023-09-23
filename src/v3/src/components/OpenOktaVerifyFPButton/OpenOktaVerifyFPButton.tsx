@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import classNames from 'classnames';
+import { Box } from '@mui/material';
 import { FunctionComponent, h } from 'preact';
 import React from 'preact/compat';
 import { useState } from 'preact/hooks';
@@ -28,21 +28,19 @@ import {
   getBaseUrl, getTranslation, isAndroid, setUrlQueryParams,
 } from '../../util';
 import Button from '../Button';
-import style from './style.module.css';
 
 type IFrameProps = {
   src: string;
 };
-const IFrame: FunctionComponent<IFrameProps> = ({ src }) => {
-  const classes = classNames(style.hidden);
-  return (
-    // eslint-disable-next-line jsx-a11y/iframe-has-title
-    <iframe
-      src={src}
-      className={classes}
-    />
-  );
-};
+const IFrame: FunctionComponent<IFrameProps> = ({ src }) => (
+  <Box
+    component="iframe"
+    src={src}
+    sx={{
+      display: 'none',
+    }}
+  />
+);
 
 const OpenOktaVerifyFPButton: UISchemaElementComponent<{
   uischema: OpenOktaVerifyFPButtonElement
