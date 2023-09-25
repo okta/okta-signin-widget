@@ -1,4 +1,159 @@
-/**
-  NOTE: Do not remove this file!
-  We need to emit a CSS file, even if it's empty, to prevent a 404 on the Okta-hosted login page.
-*/
+.clearfix {
+  display: block;
+}
+.clearfix:after,
+.clearfix:before {
+  display: block;
+  block-size: 0;
+  clear: both;
+  content: ".";
+  visibility: hidden;
+}
+.hide {
+  display: none;
+}
+.auth .content {
+  min-block-size: 100%;
+  min-inline-size: 300px;
+  display: inline-block;
+  inline-size: 100%;
+}
+.auth .content:after {
+  content: "";
+  display: block;
+  block-size: 30px;
+}
+.auth .footer {
+  background-color: #fff;
+  min-inline-size: 300px;
+  position: absolute;
+  font-size: 12px;
+  inset-inline: 0;
+  inset-block-end: 0;
+  block-size: 34px;
+  overflow: hidden;
+}
+.auth .footer .footer-container {
+  padding-block: 9px;
+  padding-inline: 80px;
+  margin-block: 0;
+  margin-inline: auto;
+  box-sizing: border-box;
+}
+@media only screen and (max-width: 560px) {
+  .auth .footer .footer-container {
+    inline-size: 400px;
+    padding-inline: 20px;
+  }
+}
+@media only screen and (max-width: 400px) {
+  .auth .footer .footer-container {
+    inline-size: 100%;
+  }
+}
+.auth .footer a {
+  color: #6e6e78;
+}
+.auth .footer a:active,
+.auth .footer a:link,
+.auth .footer a:visited {
+  text-decoration: none;
+  color: #6e6e78;
+}
+.auth .footer a:focus,
+.auth .footer a:hover {
+  text-decoration: underline;
+  color: #6e6e78;
+}
+.auth .footer .copyright {
+  /* stylelint-disable-next-line liberty/use-logical-spec */
+  float: left;
+  /* TODO: OKTA-586564 replace hardcoded value */
+  color: #6e6e78;
+}
+.auth .footer .copyright a {
+  /* TODO: OKTA-586564 replace hardcoded value */
+  color: #6e6e78;
+}
+.auth .footer .privacy-policy {
+  /* stylelint-disable-next-line liberty/use-logical-spec */
+  float: right;
+}
+.login-bg-image {
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-size: cover;
+  position: fixed;
+  inset: 0;
+  z-index: -5;
+}
+.okta-container .applogin-banner {
+  position: relative;
+  margin-block-end: 10px;
+  min-inline-size: 300px;
+}
+.okta-container .applogin-banner .applogin-background {
+  background-color: #fff;
+  opacity: 0.9;
+  position: absolute;
+  inset: 0;
+  box-shadow: 0 0 2px 1px hsla(0, 0%, 68.6%, 0.3);
+}
+.okta-container .applogin-banner .applogin-container {
+  position: relative;
+  inline-size: 400px;
+  min-inline-size: 300px;
+  margin-block: 0;
+  margin-inline: auto;
+  padding-block: 20px;
+  padding-inline: 0;
+  box-sizing: border-box;
+  text-align: center;
+}
+.okta-container .applogin-banner .applogin-container p {
+  /* TODO: OKTA-586564 replace hardcoded value */
+  color: #6e6e78;
+}
+@media only screen and (max-width: 400px) {
+  .okta-container .applogin-banner .applogin-container {
+    inline-size: 100%;
+  }
+}
+@media only screen and (max-height: 750px) {
+  .okta-container .applogin-banner .applogin-container {
+    padding-block: 10px;
+    padding-inline: 0;
+  }
+}
+@media only screen and (max-height: 660px) {
+  .okta-container .applogin-banner .applogin-container {
+    padding-block: 5px;
+    padding-inline: 0;
+  }
+}
+.okta-container .applogin-banner .applogin-container h1 {
+  font-size: 24px;
+  font-weight: lighter;
+  line-height: 26px;
+}
+@media only screen and (max-height: 660px) {
+  .okta-container .applogin-banner .applogin-container p {
+    display: none;
+  }
+}
+.okta-container .applogin-banner .applogin-app-logo {
+  display: inline-block;
+  vertical-align: middle;
+  margin-inline-start: 5px;
+}
+.okta-container .applogin-banner .applogin-app-logo img {
+  max-block-size: 26px;
+}
+@media only screen and (max-width: 600px) {
+  .login-bg-image {
+    background-image: none !important;
+    background-color: #fff !important;
+    -webkit-filter: unset !important;
+    filter: unset !important;
+  }
+}
