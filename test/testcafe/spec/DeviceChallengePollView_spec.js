@@ -370,21 +370,21 @@ test
       })).eql(1);
   });
 
-test
-  .requestHooks(loopbackPollMockLogger, loopbackPollTimeoutMock).skip('new poll does not starts until last one is ended', async t => {
-    loopbackPollMockLogger.clear();
-    await setup(t);
-    await checkA11y(t);
-    // This test verify if new /poll calls are made only if the previous one was finished instead of polling with fixed interval.
-    // Updating /poll response to take 5 sec to response.
-    // Then counting the number of calls that should be done in time interval. Default Timeout for /poll is 2 sec.
-    // Expecting to get only 2 calls(first at 2nd sec, second at 9th(5 sec response + 2 sec timeout) second).
-    await t.wait(10_000);
+// test
+//   .requestHooks(loopbackPollMockLogger, loopbackPollTimeoutMock).skip('new poll does not starts until last one is ended', async t => {
+//     loopbackPollMockLogger.clear();
+//     await setup(t);
+//     await checkA11y(t);
+//     // This test verify if new /poll calls are made only if the previous one was finished instead of polling with fixed interval.
+//     // Updating /poll response to take 5 sec to response.
+//     // Then counting the number of calls that should be done in time interval. Default Timeout for /poll is 2 sec.
+//     // Expecting to get only 2 calls(first at 2nd sec, second at 9th(5 sec response + 2 sec timeout) second).
+//     await t.wait(10_000);
 
-    await t.expect(loopbackPollMockLogger.count(
-      record => record.request.url.match(/\/idp\/idx\/authenticators\/poll/)
-    )).eql(2);
-  });
+//     await t.expect(loopbackPollMockLogger.count(
+//       record => record.request.url.match(/\/idp\/idx\/authenticators\/poll/)
+//     )).eql(2);
+//   });
 
 // TODO: TEST FAILED
 test

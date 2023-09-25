@@ -512,7 +512,7 @@ test.meta('v3', false)
   });
 
 // TODO: TEST FAILED
-test.only
+test
   .requestHooks(logger, dynamicRefreshShortIntervalMock)('continue polling on form error with dynamic polling', async t => {
     const challengeEmailPageObject = await setup(t);
     await checkA11y(t);
