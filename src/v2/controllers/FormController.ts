@@ -243,16 +243,8 @@ export default Controller.extend({
       // Because SIW sort of finished its current /transaction/
       sessionStorageHelper.removeStateHandle();
 
-      const currentViewState = this.options.appState.getCurrentViewState();
+      Util.enrollmentRedirect(this);
 
-      // OKTA-635926: add user gesture for android ov enrollment
-      const ovEnrollment = window.location.href.includes('redirect_uri=https%3A%2F%2Flogin.okta.com');
-      if (BrowserFeatures.isAndroid() && ovEnrollment) {
-        this.add('<div class="o-form-button-bar"><button id="androidOpenOV" class="button button-primary">Open Okta Verify</button></div>');
-        document.getElementById("androidOpenOV").addEventListener("click", () => Util.redirectWithFormGet(currentViewState.href));
-      } else {
-        Util.redirectWithFormGet(currentViewState.href);
-      }
       return;
     }
 

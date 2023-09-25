@@ -12,7 +12,7 @@
  */
 
 /* eslint complexity: [2, 13], max-depth: [2, 3] */
-import { _, loc } from '@okta/courage';
+import {_, createButton, loc} from '@okta/courage';
 import Enums from './Enums';
 import Logger from './Logger';
 import BrowserFeatures from './BrowserFeatures';
@@ -88,7 +88,7 @@ Util.transformErrorXHR = function(xhr) {
       }
     } else if (typeof xhr.responseText === 'object') {
       xhr.responseJSON = xhr.responseText;
-    } 
+    }
   }
   // Temporary solution to display field errors
   // Assuming there is only one field error in a response
@@ -184,6 +184,24 @@ Util.redirect = function(url, win = window, isAppLink = false) {
     Util.redirectWithFormGet(url);
   } else {
     win.location.href = url;
+  }
+};
+
+Util.enrollmentRedirect = function(view) {
+  const currentViewState = view.options.appState.getCurrentViewState();
+  const ovEnrollment = window.location.href.includes('redirect_uri=https%3A%2F%2Flogin.okta.com');
+
+  if (BrowserFeatures.isAndroid() && ovEnrollment) {
+    view.add(createButton({
+      className: 'ul-button button button-wide button-primary',
+      title: loc('oktaVerify.open.button', 'login'),
+      id: 'launch-ov',
+      click: () => {
+        Util.redirectWithFormGet(currentViewState.href);
+      }
+    }));
+  } else {
+    Util.redirectWithFormGet(currentViewState.href);
   }
 };
 
