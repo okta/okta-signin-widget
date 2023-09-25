@@ -144,6 +144,15 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
             }),
           },
         },
+        MuiInputBase: {
+          styleOverrides: {
+            input: {
+              '::-ms-reveal': {
+                display: 'none',
+              },
+            },
+          },
+        },
         MuiInputLabel: {
           styleOverrides: {
             root: {
