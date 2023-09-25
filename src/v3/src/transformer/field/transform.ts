@@ -25,7 +25,8 @@ import { isCustomizedI18nKey } from '../i18n';
 import { transformer as attributesTransformer } from './attributes';
 import { transformer as typeTransformer } from './type';
 
-type ValidationErrorTransformer = (input: Input, data: Record<string, unknown>, widgetProps: WidgetProps, step?: NextStep) => WidgetMessage[] | undefined;
+type ValidationErrorTransformer = (input: Input, data: Record<string, unknown>,
+  widgetProps: WidgetProps, step?: NextStep) => WidgetMessage[] | undefined;
 type ValidationErrorTester = {
   tester: (value?: unknown) => boolean,
   message: () => WidgetMessage,
@@ -56,57 +57,62 @@ const getValidationMessages: ValidationErrorTransformer = (
 ): WidgetMessage[] | undefined => {
   const { name: fieldName, type, maxLength } = input;
   const { name } = step || {};
-  const value = data[fieldName];
+  const fieldValue = data[fieldName];
+
   // Customized i18n key support for fields
   const customizedErrorConfig = [
     { field: 'identifier', key: 'error.username.required' },
     { field: 'credentials.passcode', key: 'error.password.required' },
   ].find((obj) => obj.field === fieldName);
+  const useCustomizedBlankErrorMessage = !!customizedErrorConfig && name === IDX_STEP.IDENTIFY
+                                    && isCustomizedI18nKey(customizedErrorConfig.key, widgetProps);
 
   const populatedFieldErrorChecks: ValidationErrorTester[] = [
     {
-      tester: (value: unknown) => !!maxLength && type === 'string' && !!value && (value as string).length > maxLength,
-      message: () => {
-        return {
+      // Validate maxLength for string inputs that have the property set
+      tester: (value?: unknown) => !!maxLength && type === 'string' && !!value && (value as string).length > maxLength,
+      message: () => (
+        {
           class: 'ERROR',
           message: loc('model.validation.field.string.maxLength', 'login'),
           i18n: { key: 'model.validation.field.string.maxLength' },
-        };
-      },
+        }
+      ),
     },
   ];
   const blankFieldErrorChecks: ValidationErrorTester[] = [
     {
-      tester: () => {
-        return !!customizedErrorConfig && name === IDX_STEP.IDENTIFY && isCustomizedI18nKey(customizedErrorConfig.key, widgetProps);
-      },
-      message: () => {
-        return {
+      tester: () => useCustomizedBlankErrorMessage,
+      message: () => (
+        {
           class: 'ERROR',
           // As long as message() is only ever called after tester(), we can be sure that customizedErrorConfig is defined
           message: loc(customizedErrorConfig!.key, 'login'),
           i18n: { key: customizedErrorConfig!.key },
-        };
-      },
+        }
+      ),
     },
     {
-      // Default blank field error message should be rendered as long as no customizedErrorConfig exists
-      tester: () => !customizedErrorConfig,
-      message: () => {
-        return {
+      // Default blank field error message should be rendered as long as no custom i18n keys are set in widget config
+      tester: () => !useCustomizedBlankErrorMessage,
+      message: () => (
+        {
           class: 'ERROR',
           message: loc('model.validation.field.blank', 'login'),
           i18n: { key: 'model.validation.field.blank' },
-        };
-      },
+        }
+      ),
     },
   ];
 
   let messages: WidgetMessage[] | undefined;
-  if (!!value) {
-    messages = populatedFieldErrorChecks.filter(({ tester }) => (tester(value)))?.map((error) => error.message());
+  // Validation errors can be divided into populated and blank field checks
+  if (fieldValue) {
+    messages = populatedFieldErrorChecks
+      .filter(({ tester }) => (tester(fieldValue)))?.map((error) => error.message());
   } else {
-    messages = blankFieldErrorChecks.filter(({ tester }) => (tester(value)))?.map((error) => error.message());
+    messages = blankFieldErrorChecks
+      .filter(({ tester }) => (tester(fieldValue)))?.map((error) => error.message());
   }
   return messages;
 };

@@ -67,12 +67,20 @@ export default class RegistrationPageObject extends BasePageObject {
     return this.form.hasTextBoxErrorMessage(FIRSTNAME_FIELD);
   }
 
+  getFirstNameErrorMessage() {
+    return this.form.getTextBoxErrorMessage(FIRSTNAME_FIELD);
+  }
+
   hasLastNameError() {
     return this.form.hasTextBoxErrorMessage(LASTNAME_FIELD);
   }
 
   hasLastNameErrorMessage() {
     return this.form.hasTextBoxErrorMessage(LASTNAME_FIELD);
+  }
+
+  getLastNameErrorMessage() {
+    return this.form.getTextBoxErrorMessage(LASTNAME_FIELD);
   }
 
   hasEmailError(index = undefined) {
