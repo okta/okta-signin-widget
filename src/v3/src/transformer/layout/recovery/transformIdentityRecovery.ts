@@ -27,7 +27,11 @@ const getContentTitleAndParams = (brandName?: string): TitleElement['options'] =
   return { content: loc('password.reset.title.generic', 'login') };
 };
 
-export const transformIdentityRecovery: IdxStepTransformer = ({ formBag, widgetProps, transaction }) => {
+export const transformIdentityRecovery: IdxStepTransformer = ({
+  formBag,
+  widgetProps,
+  transaction,
+}) => {
   const { brandName } = widgetProps;
   const { uischema } = formBag;
 

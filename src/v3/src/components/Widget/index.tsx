@@ -230,15 +230,15 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     return null;
   };
 
-  const shouldRedirectToEnrollFlow = (transaction: IdxTransaction, widgetProps: WidgetProps) : boolean => {
-    const { flow } = widgetProps;
+  const shouldRedirectToEnrollFlow = (transaction: IdxTransaction) : boolean => {
     const { nextStep, neededToProceed } = transaction;
     if (flow !== CONFIGURED_FLOW.REGISTRATION || nextStep?.name !== IDX_STEP.IDENTIFY) {
       return false;
     }
-    const isRegistrationEnabled = neededToProceed.find(remediation => remediation.name === 'select-enroll-profile') !== undefined
+    const isRegistrationEnabled = neededToProceed
+      .find((remediation) => remediation.name === 'select-enroll-profile') !== undefined;
     return isRegistrationEnabled;
-  }
+  };
 
   const bootstrap = useCallback(async () => {
     const usingStateHandleFromSession = stateHandle
@@ -275,9 +275,9 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
 
       // TODO
       // OKTA-651781
-      if(shouldRedirectToEnrollFlow(transaction, widgetProps)) {
+      if (shouldRedirectToEnrollFlow(transaction)) {
         transaction = await authClient.idx.proceed({
-          step: 'select-enroll-profile'
+          step: 'select-enroll-profile',
         });
       }
 
@@ -411,9 +411,9 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       // TODO
       // OKTA-651781
       // bootstrap into enroll flow when flow param is set to signup
-      if(shouldRedirectToEnrollFlow(transaction, widgetProps)) {
+      if (shouldRedirectToEnrollFlow(transaction)) {
         transaction = await authClient.idx.proceed({
-          step: 'select-enroll-profile'
+          step: 'select-enroll-profile',
         });
       }
 

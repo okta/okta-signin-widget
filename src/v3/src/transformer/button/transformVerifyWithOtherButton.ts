@@ -27,7 +27,7 @@ import TransformerMap from '../layout/idxTransformerMapping';
 export const transformVerifyWithOtherButton: TransformStepFnWithOptions = ({
   transaction,
   step,
-  widgetProps
+  widgetProps,
 }) => (
   formbag,
 ) => {
@@ -49,7 +49,7 @@ export const transformVerifyWithOtherButton: TransformStepFnWithOptions = ({
   // OKTA-651781
   // when flow param is set to resetPassword and there is an api error (eg. not allowed to reset),
   // the error will show on the Verify with password challenge page and stop the flow.  So we need to hide this link
-  if(widgetProps.flow === CONFIGURED_FLOW.RESET_PASSWORD) {
+  if (widgetProps.flow === CONFIGURED_FLOW.RESET_PASSWORD) {
     return formbag;
   }
 

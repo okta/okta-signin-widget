@@ -47,7 +47,7 @@ export const transformForgotPasswordButton: TransformStepFnWithOptions = ({
   // OKTA-651781
   // when flow param is set to resetPassword, the identify page is redressed as identify-recovery page
   // so this link needs to be hidden
-  if(widgetProps.flow === CONFIGURED_FLOW.RESET_PASSWORD) {
+  if (widgetProps.flow === CONFIGURED_FLOW.RESET_PASSWORD) {
     return formbag;
   }
 

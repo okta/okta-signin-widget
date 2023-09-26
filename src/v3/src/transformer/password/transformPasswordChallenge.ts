@@ -21,14 +21,18 @@ import {
 import { getUserInfo, loc } from '../../util';
 import { removeUIElementWithName } from '../utils';
 
-export const transformPasswordChallenge: IdxStepTransformer = ({ formBag, transaction, widgetProps }) => {
+export const transformPasswordChallenge: IdxStepTransformer = ({
+  formBag,
+  transaction,
+  widgetProps,
+}) => {
   const { uischema } = formBag;
 
   // TODO
   // OKTA-651781
   // when flow param is set to resetPassword and there is an api error (eg. not allowed to reset),
   // the error will show on the Verify with password challenge page and stop the flow.  So we need to hide this input
-  if(widgetProps.flow === CONFIGURED_FLOW.RESET_PASSWORD) {
+  if (widgetProps.flow === CONFIGURED_FLOW.RESET_PASSWORD) {
     uischema.elements = removeUIElementWithName('credentials.passcode', uischema.elements);
     return formBag;
   }

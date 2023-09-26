@@ -37,8 +37,8 @@ export const transformIdentify: IdxStepTransformer = ({
   // where password recovery flow has extra steps in identifier-first flow
   // this is to keep the user experience consistent with identify-recovery flow
   // this is in parity with the gen 2 fix: PR#2382
-  if(widgetProps.flow === CONFIGURED_FLOW.RESET_PASSWORD) {
-    return transformIdentityRecovery({formBag, widgetProps, transaction});
+  if (widgetProps.flow === CONFIGURED_FLOW.RESET_PASSWORD) {
+    return transformIdentityRecovery({ formBag, widgetProps, transaction });
   }
 
   const identifierElement = getUIElementWithName(

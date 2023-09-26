@@ -90,13 +90,13 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
 
     const getFormPasswordAuthenticatorId = (transaction: IdxTransaction) => (
       transaction?.neededToProceed
-          ?.find(step => step.name === 'select-authenticator-authenticate')
-          ?.value?.find(val => val.name === 'authenticator')
-          ?.options?.find(option => option.label === 'Password')
-          // @ts-expect-error auth-js type errors
-          ?.value?.form?.value?.find(formVal => formVal.name === 'id')
-          ?.value
-    )
+        ?.find((remediation) => remediation.name === 'select-authenticator-authenticate')
+        ?.value?.find((val) => val.name === 'authenticator')
+        ?.options?.find((option) => option.label === 'Password')
+      // @ts-expect-error auth-js type errors
+        ?.value?.form?.value?.find((formVal) => formVal.name === 'id')
+        ?.value
+    );
 
     // TODO: Revisit and refactor this function as it is a dupe of handleError fn in Widget/index.tsx
     const handleError = (transaction: IdxTransaction | undefined, error: unknown) => {
@@ -217,12 +217,12 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
         // when in identifier first flow, there are a couple steps before we can get to recovery page
         // thats why we need to run proceed twice
         newTransaction = await authClient.idx.proceed({
-          authenticator: {id: getFormPasswordAuthenticatorId(newTransaction)},
-          step: 'select-authenticator-authenticate',        
+          authenticator: { id: getFormPasswordAuthenticatorId(newTransaction) },
+          step: 'select-authenticator-authenticate',
         });
 
         newTransaction = await authClient.idx.proceed({
-          stateHandle: newTransaction.context.stateHandle,       
+          stateHandle: newTransaction.context.stateHandle,
         });
       }
 
