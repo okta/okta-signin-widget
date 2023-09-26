@@ -88,6 +88,7 @@ const config = {
 
   filter: (_testName, _fixtureName, _fixturePath, testMeta, fixtureMeta) => {
     if (env.OKTA_SIW_V3) {
+      /*
       // log tests _without_ fixtureMeta when running the parity suite then return false anyway to make this go fast.
       if (fixtureMeta.v3 === 'undefined' || fixtureMeta.v3 === '' || fixtureMeta.v3 === null || fixtureMeta.v3 === false) {
         if (!fixtures.has(_fixturePath)) {
@@ -96,14 +97,15 @@ const config = {
         }
         return false;
       }
+      */
 
       /*
       if (testMeta.v3 === 'undefined' || testMeta.v3 === '' || testMeta.v3 === null || testMeta.v3 === false) {
         tests.add(_testName);
         return false;
       }
-      */
       return false;
+      */
 
       // run fixture on gen3
       // fixture('my tests').meta('v3', true)
