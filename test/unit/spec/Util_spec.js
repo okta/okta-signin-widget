@@ -309,10 +309,10 @@ describe('util/Util', () => {
       jest.spyOn(utilSpy, 'redirectWithFormGet').mockReturnValue(() => {});
       jest.spyOn(enrollmentView.options.appState, 'getCurrentViewState').mockReturnValue({
         href:'https://org.okta.com/login/token/redirect?stateToken=mockedStateToken123'});
+      delete window.location;
     });
 
     afterEach(() => {
-      delete window.location;
       expectedAddArgs.length = 0;
     });
 
@@ -334,7 +334,7 @@ describe('util/Util', () => {
         id: 'launch-enrollment-ov'
       });
 
-      // initate flow
+      // initiate flow
       Util.enrollmentRedirect(enrollmentView);
 
       // assertions
