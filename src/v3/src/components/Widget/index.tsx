@@ -230,6 +230,16 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     return null;
   };
 
+  const shouldRedirectToEnrollFlow = (transaction: IdxTransaction, widgetProps: WidgetProps) : boolean => {
+    const { flow } = widgetProps;
+    const { nextStep, neededToProceed } = transaction;
+    if (flow !== CONFIGURED_FLOW.REGISTRATION || nextStep?.name !== IDX_STEP.IDENTIFY) {
+      return false;
+    }
+    const isRegistrationEnabled = neededToProceed.find(remediation => remediation.name === 'select-enroll-profile') !== undefined
+    return isRegistrationEnabled;
+  }
+
   const bootstrap = useCallback(async () => {
     const usingStateHandleFromSession = stateHandle
       && stateHandle === SessionStorage.getStateHandle();
@@ -264,17 +274,11 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       }
 
       // TODO
-      // OKTA-462165 PR#2382
-
-      if (flow === CONFIGURED_FLOW.REGISTRATION && transaction.nextStep?.name === IDX_STEP.IDENTIFY) {
-        const isRegistrationEnabled = transaction.neededToProceed
-          .find(remediation => remediation.name === 'select-enroll-profile') !== undefined
-
-        if(isRegistrationEnabled) {
-          transaction = await authClient.idx.proceed({
-            step: 'select-enroll-profile'
-          });
-        }
+      // OKTA-651781
+      if(shouldRedirectToEnrollFlow(transaction, widgetProps)) {
+        transaction = await authClient.idx.proceed({
+          step: 'select-enroll-profile'
+        });
       }
 
       setResponseError(null);
@@ -404,15 +408,13 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         stateHandle: idxTransaction?.context.stateHandle,
       });
 
-      if (flow === CONFIGURED_FLOW.REGISTRATION && transaction?.nextStep.name === IDX_STEP.IDENTIFY) {
-        const isRegistrationEnabled = transaction.neededToProceed
-          .find(remediation => remediation.name === 'select-enroll-profile') !== undefined
-
-        if(isRegistrationEnabled) {
-          transaction = await authClient.idx.proceed({
-            step: 'select-enroll-profile'
-          });
-        }
+      // TODO
+      // OKTA-651781
+      // bootstrap into enroll flow when flow param is set to signup
+      if(shouldRedirectToEnrollFlow(transaction, widgetProps)) {
+        transaction = await authClient.idx.proceed({
+          step: 'select-enroll-profile'
+        });
       }
 
       setIdxTransaction(transaction);
