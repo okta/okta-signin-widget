@@ -99,13 +99,12 @@ const config = {
       }
       */
 
-      /*
       if (testMeta.v3 === 'undefined' || testMeta.v3 === '' || testMeta.v3 === null || testMeta.v3 === false) {
         tests.add(_testName);
+        console.warn(`[filter]: ${_testName}, ${_fixtureName}`);
         return false;
       }
       return false;
-      */
 
       // skip fixture on gen3
       // fixture('my tests').meta('v3', false)
