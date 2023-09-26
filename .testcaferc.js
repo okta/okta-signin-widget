@@ -45,16 +45,18 @@ const mocks = RequestMock()
   .onRequestTo({ url: regex`/sso/idps/facebook-123` })
   .respond('');
 
+// NOTE: process.env always returns type 'string'
 const {
   OKTA_SIW_ONLY_FLAKY,
   OKTA_SIW_SKIP_FLAKY,
   OKTA_SIW_GEN3,
 } = process.env;
 
+// Normalize process.env to type 'boolean'
 const env = {
-  OKTA_SIW_ONLY_FLAKY: !!OKTA_SIW_ONLY_FLAKY,
-  OKTA_SIW_SKIP_FLAKY: !!OKTA_SIW_SKIP_FLAKY,
-  OKTA_SIW_GEN3: !!OKTA_SIW_GEN3,
+  OKTA_SIW_ONLY_FLAKY: OKTA_SIW_ONLY_FLAKY === 'true',
+  OKTA_SIW_SKIP_FLAKY: OKTA_SIW_SKIP_FLAKY === 'true',
+  OKTA_SIW_GEN3: OKTA_SIW_GEN3 === 'true',
 };
 
 const config = {
