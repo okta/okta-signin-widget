@@ -328,18 +328,18 @@ describe('util/Util', () => {
         writeable: true,
         configurable: true
       });
-
-      // assertions
-      Util.enrollmentRedirect(enrollmentView);
-      expect(enrollmentView.add).toHaveBeenCalledTimes(1);
-      expect(expectedAddArgs.length).toBe(1);
-
       let expectedCreateButton = createButton({
         className: 'ul-button button button-wide button-primary',
         title: loc('oktaVerify.open.button', 'login'),
         id: 'launch-enrollment-ov'
       });
 
+      // initate flow
+      Util.enrollmentRedirect(enrollmentView);
+
+      // assertions
+      expect(enrollmentView.add).toHaveBeenCalledTimes(1);
+      expect(expectedAddArgs.length).toBe(1);
       let actualCreateButton = expectedAddArgs[0].prototype;
       expect(actualCreateButton.className).toBe(expectedCreateButton.prototype.className);
       expect(actualCreateButton.title).toBe(expectedCreateButton.prototype.title);
