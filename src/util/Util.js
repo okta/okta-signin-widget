@@ -18,6 +18,7 @@ import Logger from './Logger';
 import BrowserFeatures from './BrowserFeatures';
 
 const Util = {};
+const ovDeepLink = 'redirect_uri=https://login.okta.com/oauth/callback';
 
 const buildInputForParameter = function(name, value) {
   const input = document.createElement('input');
@@ -189,7 +190,7 @@ Util.redirect = function(url, win = window, isAppLink = false) {
 
 Util.enrollmentRedirect = function(view) {
   const currentViewState = view.options.appState.getCurrentViewState();
-  const ovEnrollment = window.location.href.includes('redirect_uri=https%3A%2F%2Flogin.okta.com%2Foauth%2Fcallback');
+  const ovEnrollment = decodeURIComponent(window.location.href).includes(ovDeepLink);
 
   // OKTA-635926: add user gesture for ov enrollment on android
   if (BrowserFeatures.isAndroid() && ovEnrollment) {
