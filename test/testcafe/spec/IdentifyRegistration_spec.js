@@ -157,6 +157,43 @@ test.requestHooks(mock)('should show max length field validation errors', async 
   await t.expect(registrationPage.hasEmailErrorMessage()).eql(true);
   await t.expect(registrationPage.getEmailErrorMessage()).contains('This field cannot exceed the maximum allowed characters');
 
+  // Populate fields (minLenght = 2) with 2 characters
+  await registrationPage.fillFirstNameField('ab');
+  await registrationPage.fillLastNameField('ab');
+  await registrationPage.fillEmailField('ab');
+  await registrationPage.focusRegisterButton();
+
+  // All three enroll fields should not show min length validation error
+  await t.expect(registrationPage.hasLastNameError()).eql(false);
+  await t.expect(registrationPage.hasLastNameErrorMessage()).eql(false);
+  await t.expect(registrationPage.hasFirstNameError()).eql(false);
+  await t.expect(registrationPage.hasFirstNameErrorMessage()).eql(false);
+  await t.expect(registrationPage.hasEmailError()).eql(false);
+  await t.expect(registrationPage.hasEmailErrorMessage()).eql(false);
+});
+
+test.requestHooks(mock)('should show min length field validation errors', async t => {
+  const registrationPage = await setup(t);
+  await checkA11y(t);
+  await verifyRegistrationPageEvent();
+  // Populate fields (minLength = 2) with 1 character
+  await registrationPage.fillFirstNameField('a');
+  await registrationPage.fillLastNameField('a');
+  await registrationPage.fillEmailField('a');
+  await registrationPage.focusRegisterButton();
+
+  await registrationPage.waitForLastNameError();
+
+  // All three enroll fields should show min length validation error
+  await t.expect(registrationPage.hasLastNameError()).eql(true);
+  await t.expect(registrationPage.hasLastNameErrorMessage()).eql(true);
+  await t.expect(registrationPage.getLastNameErrorMessage()).contains('This field cannot be less than the minimum required characters');
+  await t.expect(registrationPage.hasFirstNameError()).eql(true);
+  await t.expect(registrationPage.getFirstNameErrorMessage()).contains('This field cannot be less than the minimum required characters');
+  await t.expect(registrationPage.hasEmailError()).eql(true);
+  await t.expect(registrationPage.hasEmailErrorMessage()).eql(true);
+  await t.expect(registrationPage.getEmailErrorMessage()).contains('This field cannot be less than the minimum required characters');
+
   // Populate first name and last name fields (maxLength = 50) with 50 characters
   await registrationPage.fillFirstNameField('abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwx');
   await registrationPage.fillLastNameField('abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwx');

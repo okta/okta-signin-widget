@@ -55,7 +55,12 @@ const getValidationMessages: ValidationErrorTransformer = (
   widgetProps: WidgetProps,
   step?: NextStep,
 ): WidgetMessage[] | undefined => {
-  const { name: fieldName, type, maxLength } = input;
+  const {
+    name: fieldName,
+    type,
+    maxLength,
+    minLength,
+  } = input;
   const { name } = step || {};
   const fieldValue = data[fieldName];
 
@@ -67,7 +72,7 @@ const getValidationMessages: ValidationErrorTransformer = (
   const useCustomizedBlankErrorMessage = !!customizedErrorConfig && name === IDX_STEP.IDENTIFY
                                     && isCustomizedI18nKey(customizedErrorConfig.key, widgetProps);
 
-  const populatedFieldErrorChecks: ValidationErrorTester[] = [
+  const validationErrorChecks: ValidationErrorTester[] = [
     {
       // Validate maxLength for string inputs that have the property set
       tester: (value?: unknown) => !!maxLength && type === 'string' && !!value && (value as string).length > maxLength,
@@ -79,10 +84,19 @@ const getValidationMessages: ValidationErrorTransformer = (
         }
       ),
     },
-  ];
-  const blankFieldErrorChecks: ValidationErrorTester[] = [
     {
-      tester: () => useCustomizedBlankErrorMessage,
+      // Validate minlength for string inputs that have the property set
+      tester: (value?: unknown) => !!minLength && type === 'string' && !!value && (value as string).length < minLength,
+      message: () => (
+        {
+          class: 'ERROR',
+          message: loc('model.validation.field.string.minLength', 'login'),
+          i18n: { key: 'model.validation.field.string.minLength' },
+        }
+      ),
+    },
+    {
+      tester: (value?: unknown) => !value && useCustomizedBlankErrorMessage,
       message: () => (
         {
           class: 'ERROR',
@@ -94,7 +108,7 @@ const getValidationMessages: ValidationErrorTransformer = (
     },
     {
       // Default blank field error message should be rendered as long as no custom i18n keys are set in widget config
-      tester: () => !useCustomizedBlankErrorMessage,
+      tester: (value?: unknown) => !value && !useCustomizedBlankErrorMessage,
       message: () => (
         {
           class: 'ERROR',
@@ -105,15 +119,9 @@ const getValidationMessages: ValidationErrorTransformer = (
     },
   ];
 
-  let messages: WidgetMessage[] | undefined;
-  // Validation errors can be divided into populated and blank field checks
-  if (fieldValue) {
-    messages = populatedFieldErrorChecks
-      .filter(({ tester }) => (tester(fieldValue)))?.map((error) => error.message());
-  } else {
-    messages = blankFieldErrorChecks
-      .filter(({ tester }) => (tester(fieldValue)))?.map((error) => error.message());
-  }
+  const messages: WidgetMessage[] | undefined = validationErrorChecks
+    .filter(({ tester }) => (tester(fieldValue)))?.map((error) => error.message());
+
   return messages;
 };
 
