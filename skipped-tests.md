@@ -3,7 +3,7 @@
 ## Skipped fixtures (fixture name)
 * Device Challenge Polling View for Chrome DTC
 
-Fixtures skipped: 1
+Fixtures skipped: 1 (4 tests)
 
 ## Skipped tests (test name, fixture name)
 * no polling if session has expired, Challenge Email Authenticator Form
@@ -43,3 +43,5 @@ Fixtures skipped: 1
 * should hide user's identifier if feature is disabled, Custom widget attributes
 
 Tests skipped: 35
+
+Total tests skipped: 39
