@@ -41,7 +41,7 @@ const mock = pollResponse => RequestMock()
   .respond(pollResponse)
   .onRequestTo('http://localhost:3000/idp/idx/credential/enroll')
   .respond(xhrAuthenticatorEnrollOktaVerifyEmail);
-const mock1 = mock(!userVariables.v3 ? xhrSuccess : xhrAuthenticatorEnrollOktaVerifyQr);
+const mock1 = mock(!userVariables.gen3 ? xhrSuccess : xhrAuthenticatorEnrollOktaVerifyQr);
 
 const enrollViaQRcodeMocks = pollResponse => RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -50,7 +50,7 @@ const enrollViaQRcodeMocks = pollResponse => RequestMock()
   .respond(pollResponse)
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
   .respond(oktaDashboardContent);
-const enrollViaQRcodeMocks1 = enrollViaQRcodeMocks(!userVariables.v3 ? xhrSuccess : xhrAuthenticatorEnrollOktaVerifyQr);
+const enrollViaQRcodeMocks1 = enrollViaQRcodeMocks(!userVariables.gen3 ? xhrSuccess : xhrAuthenticatorEnrollOktaVerifyQr);
 const enrollViaQRcodeMocks2 = enrollViaQRcodeMocks(xhrSuccess);
 
 // this mock doesn't need poll to return successful response
@@ -78,7 +78,7 @@ const enrollViaEmailMocks = pollResponse => RequestMock()
   .respond(pollResponse)
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
   .respond(oktaDashboardContent);
-const enrollViaEmailMocks1 = enrollViaEmailMocks(!userVariables.v3 ? xhrSuccess : xhrAuthenticatorEnrollOktaVerifyQr);
+const enrollViaEmailMocks1 = enrollViaEmailMocks(!userVariables.gen3 ? xhrSuccess : xhrAuthenticatorEnrollOktaVerifyQr);
 const enrollViaEmailMocks2 = enrollViaEmailMocks(xhrSuccess);
 
 const resendEmailMocks = RequestMock()
@@ -102,7 +102,7 @@ const enrollViaSmsMocks = pollResponse => RequestMock()
   .respond(pollResponse)
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
   .respond(oktaDashboardContent);
-const enrollViaSmsMocks1 = enrollViaSmsMocks(!userVariables.v3 ? xhrSuccess : xhrAuthenticatorEnrollOktaVerifyQr);
+const enrollViaSmsMocks1 = enrollViaSmsMocks(!userVariables.gen3 ? xhrSuccess : xhrAuthenticatorEnrollOktaVerifyQr);
 const enrollViaSmsMocks2 = enrollViaSmsMocks(xhrSuccess);
 
 const resendSmsMocks = RequestMock()
@@ -126,7 +126,7 @@ const enrollViaSmsVersionUpgradeMocks = pollResponse => RequestMock()
   .respond(pollResponse)
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
   .respond(oktaDashboardContent);
-const enrollViaSmsVersionUpgradeMocks1 = enrollViaSmsVersionUpgradeMocks(!userVariables.v3 ? xhrSuccess : xhrAuthenticatorEnrollOktaVerifyQr);
+const enrollViaSmsVersionUpgradeMocks1 = enrollViaSmsVersionUpgradeMocks(!userVariables.gen3 ? xhrSuccess : xhrAuthenticatorEnrollOktaVerifyQr);
 const enrollViaSmsVersionUpgradeMocks2 = enrollViaSmsVersionUpgradeMocks(xhrSuccess);
 
 const enrollViaSmsVersionUpgradeMocksGoBack = pollResponse => RequestMock()
@@ -140,7 +140,7 @@ const enrollViaSmsVersionUpgradeMocksGoBack = pollResponse => RequestMock()
   .respond(pollResponse)
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
   .respond(oktaDashboardContent);
-const enrollViaSmsVersionUpgradeMocksGoBack1 = enrollViaSmsVersionUpgradeMocksGoBack(!userVariables.v3 ? xhrAuthenticatorEnrollOktaVerifyViaSMSVersionUpgrade : xhrAuthenticatorEnrollOktaVerifyQr);
+const enrollViaSmsVersionUpgradeMocksGoBack1 = enrollViaSmsVersionUpgradeMocksGoBack(!userVariables.gen3 ? xhrAuthenticatorEnrollOktaVerifyViaSMSVersionUpgrade : xhrAuthenticatorEnrollOktaVerifyQr);
 const enrollViaSmsVersionUpgradeMocksGoBack2 = enrollViaSmsVersionUpgradeMocksGoBack(xhrAuthenticatorEnrollOktaVerifyViaSMSVersionUpgrade);
 
 const enrollViaSmsVersionUpgradeMocksNonIos = pollResponse => RequestMock()
@@ -154,7 +154,7 @@ const enrollViaSmsVersionUpgradeMocksNonIos = pollResponse => RequestMock()
   .respond(pollResponse)
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
   .respond(oktaDashboardContent);
-const enrollViaSmsVersionUpgradeMocksNonIos1 = enrollViaSmsVersionUpgradeMocksNonIos(!userVariables.v3 ? xhrSuccess : xhrAuthenticatorEnrollOktaVerifyQr);
+const enrollViaSmsVersionUpgradeMocksNonIos1 = enrollViaSmsVersionUpgradeMocksNonIos(!userVariables.gen3 ? xhrSuccess : xhrAuthenticatorEnrollOktaVerifyQr);
 const enrollViaSmsVersionUpgradeMocksNonIos2 = enrollViaSmsVersionUpgradeMocksNonIos(xhrSuccess);
 
 const enrollViaEmailVersionUpgradeMocks = pollResponse => RequestMock()
@@ -168,7 +168,7 @@ const enrollViaEmailVersionUpgradeMocks = pollResponse => RequestMock()
   .respond(pollResponse)
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
   .respond(oktaDashboardContent);
-const enrollViaEmailVersionUpgradeMocks1 = enrollViaEmailVersionUpgradeMocks(!userVariables.v3 ? xhrSuccess : xhrAuthenticatorEnrollOktaVerifyQr);
+const enrollViaEmailVersionUpgradeMocks1 = enrollViaEmailVersionUpgradeMocks(!userVariables.gen3 ? xhrSuccess : xhrAuthenticatorEnrollOktaVerifyQr);
 const enrollViaEmailVersionUpgradeMocks2 = enrollViaEmailVersionUpgradeMocks(xhrSuccess);
 
 const enrollViaEmailVersionUpgradeMocksNonIos = pollResponse => RequestMock()
@@ -182,7 +182,7 @@ const enrollViaEmailVersionUpgradeMocksNonIos = pollResponse => RequestMock()
   .respond(pollResponse)
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
   .respond(oktaDashboardContent);
-const enrollViaEmailVersionUpgradeMocksNonIos1 = enrollViaEmailVersionUpgradeMocksNonIos(!userVariables.v3 ? xhrSuccess : xhrAuthenticatorEnrollOktaVerifyQr);
+const enrollViaEmailVersionUpgradeMocksNonIos1 = enrollViaEmailVersionUpgradeMocksNonIos(!userVariables.gen3 ? xhrSuccess : xhrAuthenticatorEnrollOktaVerifyQr);
 const enrollViaEmailVersionUpgradeMocksNonIos2 = enrollViaEmailVersionUpgradeMocksNonIos(xhrSuccess);
 
 const enrollViaQRcodeVersionUpgradeMocks = pollResponse => RequestMock()
@@ -192,7 +192,7 @@ const enrollViaQRcodeVersionUpgradeMocks = pollResponse => RequestMock()
   .respond(pollResponse)
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
   .respond(oktaDashboardContent);
-const enrollViaQRcodeVersionUpgradeMocks1 = enrollViaQRcodeVersionUpgradeMocks(!userVariables.v3 ? xhrSuccess : xhrAuthenticatorEnrollOktaVerifyViaQRVersionUpgrade);
+const enrollViaQRcodeVersionUpgradeMocks1 = enrollViaQRcodeVersionUpgradeMocks(!userVariables.gen3 ? xhrSuccess : xhrAuthenticatorEnrollOktaVerifyViaQRVersionUpgrade);
 const enrollViaQRcodeVersionUpgradeMocks2 = enrollViaQRcodeVersionUpgradeMocks(xhrSuccess);
 
 const enrollViaQRcodeVersionUpgradeMocksNonIos = pollResponse => RequestMock()
@@ -202,7 +202,7 @@ const enrollViaQRcodeVersionUpgradeMocksNonIos = pollResponse => RequestMock()
   .respond(pollResponse)
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
   .respond(oktaDashboardContent);
-const enrollViaQRcodeVersionUpgradeMocksNonIos1 = enrollViaQRcodeVersionUpgradeMocksNonIos(!userVariables.v3 ? xhrSuccess : xhrAuthenticatorEnrollOktaVerifyViaQRVersionUpgradeNonIos);
+const enrollViaQRcodeVersionUpgradeMocksNonIos1 = enrollViaQRcodeVersionUpgradeMocksNonIos(!userVariables.gen3 ? xhrSuccess : xhrAuthenticatorEnrollOktaVerifyViaQRVersionUpgradeNonIos);
 const enrollViaQRcodeVersionUpgradeMocksNonIos2 = enrollViaQRcodeVersionUpgradeMocksNonIos(xhrSuccess);
 
 const enrollViaQRcodeEnableBiometricsMocks = pollResponse => RequestMock()
@@ -212,7 +212,7 @@ const enrollViaQRcodeEnableBiometricsMocks = pollResponse => RequestMock()
   .respond(pollResponse)
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
   .respond(oktaDashboardContent);
-const enrollViaQRcodeEnableBiometricsMocks1 = enrollViaQRcodeEnableBiometricsMocks(!userVariables.v3 ? xhrSuccess : xhrAuthenticatorEnrollEnableBiometricsQr);
+const enrollViaQRcodeEnableBiometricsMocks1 = enrollViaQRcodeEnableBiometricsMocks(!userVariables.gen3 ? xhrSuccess : xhrAuthenticatorEnrollEnableBiometricsQr);
 const enrollViaQRcodeEnableBiometricsMocks2 = enrollViaQRcodeEnableBiometricsMocks(xhrSuccess);
 
 const enrollViaEmailEnableBiometricsMocks = pollResponse => RequestMock()
@@ -226,7 +226,7 @@ const enrollViaEmailEnableBiometricsMocks = pollResponse => RequestMock()
   .respond(pollResponse)
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
   .respond(oktaDashboardContent);
-const enrollViaEmailEnableBiometricsMocks1 = enrollViaEmailEnableBiometricsMocks(!userVariables.v3 ? xhrSuccess : xhrAuthenticatorEnrollOktaVerifyQr);
+const enrollViaEmailEnableBiometricsMocks1 = enrollViaEmailEnableBiometricsMocks(!userVariables.gen3 ? xhrSuccess : xhrAuthenticatorEnrollOktaVerifyQr);
 const enrollViaEmailEnableBiometricsMocks2 = enrollViaEmailEnableBiometricsMocks(xhrSuccess);
 
 const enrollViaSMSEnableBiometricsMocks = pollResponse => RequestMock()
@@ -240,7 +240,7 @@ const enrollViaSMSEnableBiometricsMocks = pollResponse => RequestMock()
   .respond(pollResponse)
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
   .respond(oktaDashboardContent);
-const enrollViaSMSEnableBiometricsMocks1 = enrollViaSMSEnableBiometricsMocks(!userVariables.v3 ? xhrSuccess : xhrAuthenticatorEnrollOktaVerifyQr);
+const enrollViaSMSEnableBiometricsMocks1 = enrollViaSMSEnableBiometricsMocks(!userVariables.gen3 ? xhrSuccess : xhrAuthenticatorEnrollOktaVerifyQr);
 const enrollViaSMSEnableBiometricsMocks2 = enrollViaSMSEnableBiometricsMocks(xhrSuccess);
 
 const smsInstruction1 = 'We sent an SMS to +18008885555 with an Okta Verify setup link. To continue, open the link on your mobile device.';
@@ -305,13 +305,13 @@ test.requestHooks(logger, enrollViaQRcodeMocks1)('should be able to enroll via q
   await t.expect(await enrollOktaVerifyPage.returnToAuthenticatorListLinkExists()).ok();
   await t.expect(await enrollOktaVerifyPage.signoutLinkExists()).ok();
 
-  if (userVariables.v3) {
+  if (userVariables.gen3) {
     await t.removeRequestHooks(enrollViaQRcodeMocks1);
     await t.addRequestHooks(enrollViaQRcodeMocks2);
   }
   await t.wait(4000);
   // V3 - higher poll requests ~ 7
-  if (!userVariables.v3) {
+  if (!userVariables.gen3) {
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
       record.request.url.match(/poll/)
@@ -399,7 +399,7 @@ test.requestHooks(enrollViaEmailMocks1)('should be able enroll via email', async
   await t.expect(enrollOktaVerifyPage.getEmailInstruction()).contains(emailInstruction1);
   await t.expect(enrollOktaVerifyPage.getEmailInstruction()).contains(emailInstruction2);
 
-  if (userVariables.v3) {
+  if (userVariables.gen3) {
     await t.removeRequestHooks(enrollViaEmailMocks1);
     await t.addRequestHooks(enrollViaEmailMocks2);
   }
@@ -442,7 +442,7 @@ test.requestHooks(logger, enrollViaSmsMocks1)('should be able enroll via sms', a
   await enrollViaSMSPageObject.fillPhoneField('8887227871');
   await enrollViaSMSPageObject.clickSendSetupLink();
   // logger.count ~ 10 in v3, and not consistent
-  if (!userVariables.v3) {
+  if (!userVariables.gen3) {
     await t.expect(logger.count(() => true)).eql(3);
     const { request: { body: answerRequestBodyString }} = logger.requests[2];
     const answerRequestBody = JSON.parse(answerRequestBodyString);
@@ -454,7 +454,7 @@ test.requestHooks(logger, enrollViaSmsMocks1)('should be able enroll via sms', a
   await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction1);
   await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction2);
 
-  if (userVariables.v3) {
+  if (userVariables.gen3) {
     await t.removeRequestHooks(enrollViaSmsMocks1);
     await t.addRequestHooks(enrollViaSmsMocks2);
   }
@@ -525,7 +525,7 @@ const testSmsMsg = async (t, isIos) => {
   await enrollViaSMSPageObject.clickSendSetupLink();
 
   // logger.count ~ 10 in v3, and not consistent
-  if (!userVariables.v3) {
+  if (!userVariables.gen3) {
     await t.expect(logger.count(() => true)).eql(3);
     const { request: { body: answerRequestBodyString }} = logger.requests[2];
     const answerRequestBody = JSON.parse(answerRequestBodyString);
@@ -542,11 +542,11 @@ const testSmsMsg = async (t, isIos) => {
   const errorTitle = enrollOktaVerifyPage.getErrorTitle();
   await t.expect(errorTitle.innerText).contains(fipsUpgradeTitle);
 
-  if (isIos && userVariables.v3) {
+  if (isIos && userVariables.gen3) {
     await t.removeRequestHooks(enrollViaSmsVersionUpgradeMocks1);
     await t.addRequestHooks(enrollViaSmsVersionUpgradeMocks2);
   }
-  if (!isIos && userVariables.v3) {
+  if (!isIos && userVariables.gen3) {
     await t.removeRequestHooks(enrollViaSmsVersionUpgradeMocksNonIos1);
     await t.addRequestHooks(enrollViaSmsVersionUpgradeMocksNonIos2);
   }
@@ -594,11 +594,11 @@ const testEmailMsg = async (t, isIos) => {
   await t.expect(errorBox.innerText).contains(message);
   const errorTitle = enrollOktaVerifyPage.getErrorTitle();
   await t.expect(errorTitle.innerText).contains(fipsUpgradeTitle);
-  if (isIos && userVariables.v3) {
+  if (isIos && userVariables.gen3) {
     await t.removeRequestHooks(enrollViaEmailVersionUpgradeMocks1);
     await t.addRequestHooks(enrollViaEmailVersionUpgradeMocks2);
   }
-  if (!isIos && userVariables.v3) {
+  if (!isIos && userVariables.gen3) {
     await t.removeRequestHooks(enrollViaEmailVersionUpgradeMocksNonIos1);
     await t.addRequestHooks(enrollViaEmailVersionUpgradeMocksNonIos2);
   }
@@ -638,7 +638,7 @@ const testQRcodeMsg = async (t, isIos) => {
   await t.expect(errorTitle.innerText).contains(fipsUpgradeTitle);
 
   // v3 - logger.count = 0
-  if (!userVariables.v3) {
+  if (!userVariables.gen3) {
     await t.wait(4000);
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
@@ -646,11 +646,11 @@ const testQRcodeMsg = async (t, isIos) => {
     )).eql(1);
   }
 
-  if (isIos && userVariables.v3) {
+  if (isIos && userVariables.gen3) {
     await t.removeRequestHooks(enrollViaQRcodeVersionUpgradeMocks1);
     await t.addRequestHooks(enrollViaQRcodeVersionUpgradeMocks2);
   }
-  if (!isIos && userVariables.v3) {
+  if (!isIos && userVariables.gen3) {
     await t.removeRequestHooks(enrollViaQRcodeVersionUpgradeMocksNonIos1);
     await t.addRequestHooks(enrollViaQRcodeVersionUpgradeMocksNonIos2);
   }
@@ -685,14 +685,14 @@ test.requestHooks(logger, enrollViaSmsVersionUpgradeMocksGoBack1)('should not sh
   await enrollViaSMSPageObject.fillPhoneField('8887227871');
   await enrollViaSMSPageObject.clickSendSetupLink();
   // logger.count ~ 10 in v3, and not consistent
-  if (!userVariables.v3) {
+  if (!userVariables.gen3) {
     await t.expect(logger.count(() => true)).eql(3);
     const { request: { body: answerRequestBodyString }} = logger.requests[2];
     const answerRequestBody = JSON.parse(answerRequestBodyString);
     await t.expect(answerRequestBody.phoneNumber).eql('+18887227871');
   }
 
-  if (userVariables.v3) {
+  if (userVariables.gen3) {
     await t.removeRequestHooks(enrollViaSmsVersionUpgradeMocksGoBack1);
     await t.addRequestHooks(enrollViaSmsVersionUpgradeMocksGoBack2);
   }
@@ -730,7 +730,7 @@ test.requestHooks(logger, enrollViaQRcodeEnableBiometricsMocks1)('should see ov 
   await t.expect(errorBox.innerText).contains(enableBiometricsMessage);
   const errorTitle = enrollOktaVerifyPage.getErrorTitle();
   await t.expect(errorTitle.innerText).contains(enableBiometricsMessageTitle);
-  if (!userVariables.v3) {
+  if (!userVariables.gen3) {
     await t.wait(4000);
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
@@ -738,7 +738,7 @@ test.requestHooks(logger, enrollViaQRcodeEnableBiometricsMocks1)('should see ov 
     )).eql(1);
   }
 
-  if (userVariables.v3) {
+  if (userVariables.gen3) {
     await t.removeRequestHooks(enrollViaQRcodeEnableBiometricsMocks1);
     await t.addRequestHooks(enrollViaQRcodeEnableBiometricsMocks2);
   }
@@ -775,7 +775,7 @@ test.requestHooks(enrollViaEmailEnableBiometricsMocks1)('should see ov enable bi
   await t.expect(errorBox.innerText).contains(enableBiometricsMessage);
   const errorTitle = enrollOktaVerifyPage.getErrorTitle();
   await t.expect(errorTitle.innerText).contains(enableBiometricsMessageTitle);
-  if (userVariables.v3) {
+  if (userVariables.gen3) {
     await t.removeRequestHooks(enrollViaEmailEnableBiometricsMocks1);
     await t.addRequestHooks(enrollViaEmailEnableBiometricsMocks2);
   }
@@ -804,7 +804,7 @@ test
     await enrollViaSMSPageObject.clickSendSetupLink();
 
     // logger.count ~ 10 in v3, and not consistent
-    if (!userVariables.v3) {
+    if (!userVariables.gen3) {
       await t.expect(logger.count(() => true)).eql(3);
       const { request: { body: answerRequestBodyString }} = logger.requests[2];
       const answerRequestBody = JSON.parse(answerRequestBodyString);
@@ -823,7 +823,7 @@ test
     const errorTitle = enrollOktaVerifyPage.getErrorTitle();
     await t.expect(errorTitle.innerText).contains(enableBiometricsMessageTitle);
 
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       await t.removeRequestHooks(enrollViaSMSEnableBiometricsMocks1);
       await t.addRequestHooks(enrollViaSMSEnableBiometricsMocks2);
     }

@@ -53,7 +53,7 @@ test
     // fields are required
     await enrollOnPremPage.fillUserName('');
     // this is to prevent a miss click due to the onBlur validation errors shifting the button down in gen 3
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       await t.pressKey('tab');
       await t.pressKey('tab');
     }

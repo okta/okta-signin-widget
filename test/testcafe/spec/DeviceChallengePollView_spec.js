@@ -554,7 +554,7 @@ test
 
     await t.expect(deviceChallengePollPageObject.hasAppLinkContent()).eql(true);
     await t.expect(deviceChallengePollPageObject.getPrimaryButtonText()).eql('Open Okta Verify');
-    if(!userVariables.v3) {
+    if(!userVariables.gen3) {
       await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
     }
     await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Back to sign in');
@@ -610,7 +610,7 @@ test
     await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Sign in with Okta FastPass');
     await t.expect(await deviceChallengePollPageObject.hasSpinner()).eql(true);
     await t.expect(deviceChallengePollPageObject.getPrimaryButtonText()).eql('Open Okta Verify');
-    if(!userVariables.v3) {
+    if(!userVariables.gen3) {
       await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
     }
     deviceChallengePollPageObject.clickLaunchOktaVerifyButton();

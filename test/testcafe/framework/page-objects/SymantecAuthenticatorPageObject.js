@@ -11,14 +11,14 @@ export default class SymantecAuthenticatorPageObject extends BasePageObject {
   }
 
   getPageSubtitle() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.getFormSubtitle();
     }
     return this.form.getElement('.okta-form-subtitle').textContent;
   }
 
   submit(buttonName) {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.clickButton(buttonName);
     }
     return this.form.clickSaveButton();

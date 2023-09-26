@@ -25,7 +25,7 @@ const pushSuccessMock = pollResponse => RequestMock()
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
   .respond(oktaDashboardContent);
 
-const pushSuccessMock1 = pushSuccessMock(!userVariables.v3 ? success : pushPoll);
+const pushSuccessMock1 = pushSuccessMock(!userVariables.gen3 ? success : pushPoll);
 const pushSuccessMock2 = pushSuccessMock(success);
 
 const pushRejectMock = RequestMock()
@@ -85,7 +85,7 @@ test.requestHooks(mockCustomAppSendPush)(
     const challengeCustomAppPushPageObject = await setup(t);
     await checkA11y(t);
     // Custom app form class not present in gen 3
-    if (!userVariables.v3) {
+    if (!userVariables.gen3) {
       await t.expect(await challengeCustomAppPushPageObject.isCustomAppSendPushForm()).ok();
     }
     await t.expect(challengeCustomAppPushPageObject.getFormTitle()).eql('Get a push notification');
@@ -122,7 +122,7 @@ test
     const a11ySpan = challengeCustomAppPushPageObject.getA11ySpan();
     await t.expect(pushBtn.textContent).contains('Push notification sent');
     // no a11y span in gen 3
-    if (!userVariables.v3) {
+    if (!userVariables.gen3) {
       await t.expect(a11ySpan.textContent).contains('Push notification sent');
     }
     await t.expect(challengeCustomAppPushPageObject.isPushButtonDisabled()).eql(true);
@@ -154,13 +154,13 @@ test
     const logoBgImage = challengeCustomAppPushPageObject.getBeaconBgImage();
     await t.expect(pushBtn.textContent).contains('Push notification sent');
     // no a11y span in gen 3
-    if (!userVariables.v3) {
+    if (!userVariables.gen3) {
       await t.expect(a11ySpan.textContent).contains('Push notification sent');
     }
     await t.expect(challengeCustomAppPushPageObject.isPushButtonDisabled()).eql(true);
     await t.expect(logoClass).contains('custom-app-logo');
     // gen 3 uses img element with src attribute while gen 2 uses background-image style prop
-    if(userVariables.v3) {
+    if(userVariables.gen3) {
       await t.expect(logoBgImage).match(/.*\/img\/icons\/mfa\/customPushLogo\.svg$/);
     } else {
       await t.expect(logoBgImage).match(/^url\(".*\/img\/icons\/mfa\/customPushLogo\.svg"\)$/);
@@ -197,13 +197,13 @@ test
     const logoBgImage = challengeCustomAppPushPageObject.getBeaconBgImage();
     await t.expect(pushBtn.textContent).contains('Push notification sent');
     // no a11y span in gen 3
-    if (!userVariables.v3) {
+    if (!userVariables.gen3) {
       await t.expect(a11ySpan.textContent).contains('Push notification sent');
     }
     await t.expect(challengeCustomAppPushPageObject.isPushButtonDisabled()).eql(true);
     await t.expect(logoClass).contains('custom-app-logo');
     // gen 3 uses img element with src attribute while gen 2 uses background-image style prop
-    if(userVariables.v3) {
+    if(userVariables.gen3) {
       await t.expect(logoBgImage).match(/.*\/img\/icons\/mfa\/customPushLogo\.svg$/);
     } else {
       await t.expect(logoBgImage).match(/^url\(".*\/img\/icons\/mfa\/customPushLogo\.svg"\)$/);
@@ -238,13 +238,13 @@ test
     const logoBgImage = challengeCustomAppPushPageObject.getBeaconBgImage();
     await t.expect(pushBtn.textContent).contains('Push notification sent');
     // no a11y span in gen 3
-    if (!userVariables.v3) {
+    if (!userVariables.gen3) {
       await t.expect(a11ySpan.textContent).contains('Push notification sent');
     }
     await t.expect(challengeCustomAppPushPageObject.isPushButtonDisabled()).eql(true );
     await t.expect(logoClass).contains('custom-app-logo');
     // gen 3 uses img element with src attribute while gen 2 uses background-image style prop
-    if(userVariables.v3) {
+    if(userVariables.gen3) {
       await t.expect(logoBgImage).match(/.*\/img\/icons\/mfa\/customPushLogo\.svg$/);
     } else {
       await t.expect(logoBgImage).match(/^url\(".*\/img\/icons\/mfa\/customPushLogo\.svg"\)$/);
@@ -273,7 +273,7 @@ test
     const logoClass = challengeCustomAppPushPageObject.getBeaconClass();
     await t.expect(pushBtn.textContent).contains('Push notification sent');
     // no a11y span in gen 3
-    if (!userVariables.v3) {
+    if (!userVariables.gen3) {
       await t.expect(a11ySpan.textContent).contains('Push notification sent');
     }
     await t.expect(challengeCustomAppPushPageObject.isPushButtonDisabled()).eql(true);
@@ -294,7 +294,7 @@ test
   .requestHooks(logger, pushSuccessMock1)('challenge Custom App push request', async t => {
     await setup(t);
     await checkA11y(t);
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       // switch to success mock response
       await t.removeRequestHooks(pushSuccessMock1);
       await t.addRequestHooks(pushSuccessMock2);
@@ -307,7 +307,7 @@ test
       .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
     // polling issue in v3 - https://oktainc.atlassian.net/browse/OKTA-587189
     // logger.count not consistent in v3
-    if (!userVariables.v3) {
+    if (!userVariables.gen3) {
       await t.expect(logger.count(() => true)).eql(1);
     }
 
@@ -333,7 +333,7 @@ test
     // polling API should be called
     // polling issue in v3 - https://oktainc.atlassian.net/browse/OKTA-587189
     // logger.count not consistent in v3
-    if (!userVariables.v3) {
+    if (!userVariables.gen3) {
       await t.expect(logger.count(() => true)).eql(1);
     }
 
@@ -352,14 +352,14 @@ test
 
     await t.wait(3000); // 7 sec total elapsed
     // polling issue in v3 - https://oktainc.atlassian.net/browse/OKTA-587189
-    if (!userVariables.v3) {
+    if (!userVariables.gen3) {
       await t.expect(logger.count(() => true)).eql(1);
     }
 
     await t.wait(1000); // 8 sec total elapsed
     // polling issue in v3 - https://oktainc.atlassian.net/browse/OKTA-587189
     // logger.count not consistent in v3
-    if (!userVariables.v3) {
+    if (!userVariables.gen3) {
       await t.expect(logger.count(() => true)).eql(2);
     }
 
@@ -385,12 +385,12 @@ test
     // polling API should be called
     // polling issue in v3 - https://oktainc.atlassian.net/browse/OKTA-587189
     // logger.count not consistent in v3
-    if (!userVariables.v3) {
+    if (!userVariables.gen3) {
       await t.expect(logger.count(() => true)).eql(1);
     }
 
     // logger request order not consistent in v3
-    const autoChallengeLoggerRequest = userVariables.v3
+    const autoChallengeLoggerRequest = userVariables.gen3
       ? logger.requests.find(({ request }) => JSON.parse(request.body).autoChallenge === true)
       : logger.requests[0];
 
@@ -411,14 +411,14 @@ test
     await t.wait(3000); // 7 sec total elapsed
     // polling issue in v3 - https://oktainc.atlassian.net/browse/OKTA-587189
     // logger.count not consistent in v3
-    if (!userVariables.v3) {
+    if (!userVariables.gen3) {
       await t.expect(logger.count(() => true)).eql(1);
     }
 
     await t.wait(1000); // 8 sec total elapsed
     // polling issue in v3 - https://oktainc.atlassian.net/browse/OKTA-587189
     // logger.count not consistent in v3
-    if (!userVariables.v3) {
+    if (!userVariables.gen3) {
       await t.expect(logger.count(() => true)).eql(2);
     }
 
@@ -447,7 +447,7 @@ test
       .eql('Resend push notification');
     // polling issue in v3 - https://oktainc.atlassian.net/browse/OKTA-587189
     // logger.count not consistent in v3
-    if (!userVariables.v3) {
+    if (!userVariables.gen3) {
       await t.expect(logger.count(() => true)).eql(1);
     }
     // To make sure polling stops after reject
@@ -455,14 +455,14 @@ test
 
     // polling issue in v3 - https://oktainc.atlassian.net/browse/OKTA-587189
     // logger.count not consistent in v3
-    if (!userVariables.v3) {
+    if (!userVariables.gen3) {
       await t.expect(logger.count(() => true)).eql(1);
     }
 
     await challengeCustomAppPushPageObject.clickResendPushButton();
     // polling issue in v3 - https://oktainc.atlassian.net/browse/OKTA-587189
     // logger.count not consistent in v3
-    if (!userVariables.v3) {
+    if (!userVariables.gen3) {
       await t.expect(logger.count(() => true)).eql(2);
     }
 

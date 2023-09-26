@@ -10,7 +10,7 @@ const CUSTOM_HELP_LINKS_SELECTOR = '.auth-footer .js-custom';
 const CUSTOM_BUTTON = '.custom-buttons .okta-custom-buttons-container .default-custom-button';
 const SUB_LABEL_SELECTOR = '.o-form-explain';
 const IDPS_CONTAINER = '.okta-idps-container';
-const FOOTER_INFO_SELECTOR = userVariables.v3 ? '[data-se="signup-info"]' : '.footer-info';
+const FOOTER_INFO_SELECTOR = userVariables.gen3 ? '[data-se="signup-info"]' : '.footer-info';
 
 export default class IdentityPageObject extends BasePageObject {
   constructor(t) {
@@ -18,7 +18,7 @@ export default class IdentityPageObject extends BasePageObject {
   }
 
   getOktaVerifyButtonText() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.getButton(/Sign in with Okta FastPass/).textContent;
     }
     return this.form.getElement('.sign-in-with-device-option .okta-verify-container .link-button').textContent;
@@ -49,7 +49,7 @@ export default class IdentityPageObject extends BasePageObject {
   }
 
   async clickOktaVerifyButton() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       await this.form.clickButton(/Sign in with Okta FastPass/);
     } else {
       await this.t.click(Selector('.sign-in-with-device-option .okta-verify-container .link-button'));
@@ -57,7 +57,7 @@ export default class IdentityPageObject extends BasePageObject {
   }
 
   async clickPivButton() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       await this.form.clickButton('Sign in with PIV / CAC card');
     } else {
       await this.t.click(this.form.getLink('Sign in with PIV / CAC card'));
@@ -65,7 +65,7 @@ export default class IdentityPageObject extends BasePageObject {
   }
 
   getSeparationLineText() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.getElement('[role="separator"]').textContent;  
     }
     return this.form.getElement('.sign-in-with-device-option .separation-line').textContent;
@@ -84,7 +84,7 @@ export default class IdentityPageObject extends BasePageObject {
   }
 
   async hasShowTogglePasswordIcon() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return await this.form.queryButton('Show password').exists;
     }
     return await Selector('.password-toggle').count;
@@ -159,7 +159,7 @@ export default class IdentityPageObject extends BasePageObject {
   }
 
   hasUnknownUserErrorCallout() {
-    if(userVariables.v3) {
+    if(userVariables.gen3) {
       return this.form.hasAlertBox();
     }
     return this.form.getCallout(CALLOUT_SELECTOR).hasClass('infobox-error');
@@ -170,7 +170,7 @@ export default class IdentityPageObject extends BasePageObject {
   }
 
   getIdpButton(name) {
-    if(userVariables.v3) {
+    if(userVariables.gen3) {
       return this.form.getButton(name);
     }
     
@@ -178,7 +178,7 @@ export default class IdentityPageObject extends BasePageObject {
   }
 
   clickIdpButton(name) {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.clickButton(name);
     }
     return this.t.click(this.form.getLink(name));
@@ -197,7 +197,7 @@ export default class IdentityPageObject extends BasePageObject {
   }
 
   getCustomForgotPasswordLink() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.getLink('Forgot password?');
     }
     return Selector(FORGOT_PASSWORD_SELECTOR);
@@ -212,7 +212,7 @@ export default class IdentityPageObject extends BasePageObject {
   }
 
   getCustomHelpLink(index, name) {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.getLink(name);
     }
     return Selector(CUSTOM_HELP_LINKS_SELECTOR).nth(index);
@@ -235,7 +235,7 @@ export default class IdentityPageObject extends BasePageObject {
   }
 
   getCustomButton(index) {
-    if(userVariables.v3) {
+    if(userVariables.gen3) {
       return Selector('.default-custom-button').nth(index);
     }
     return Selector(CUSTOM_BUTTON).nth(index);
@@ -286,14 +286,14 @@ export default class IdentityPageObject extends BasePageObject {
   }
 
   getIdpButtonCount() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return within(this.form.el).getAllByRole('button', { name: /Sign in with/}).count;
     }
     return this.getIdpsContainer().childElementCount;
   }
 
   async clickShowPasswordIcon() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       const pwToggleBtn = within(this.form.el).getAllByRole('button', { name: 'Show password' }).nth(0);
       await this.t.click(pwToggleBtn);
       return;

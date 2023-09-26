@@ -139,7 +139,7 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithAdditionalFieldsMock)('s
 
   requestLogger.clear();
   await t.expect(await enrollProfilePage.dropDownExistsByLabel('Country')).eql(true);
-  const defaultOptionLabel = userVariables.v3 ? 'Select an option' : 'Select an Option';
+  const defaultOptionLabel = userVariables.gen3 ? 'Select an option' : 'Select an Option';
   await t.expect(await enrollProfilePage.form.getValueFromDropdown('userProfile.country')).eql(defaultOptionLabel);
   await enrollProfilePage.selectValueFromDropdown('userProfile.country', 1);
 
@@ -268,7 +268,7 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithPasswordMock)('should sh
   // Prefixed with "Password requirements were not met"
   const passwordErrorMessage = await enrollProfilePage.form.getTextBoxErrorMessage('credentials.passcode');
   await t.expect(passwordErrorMessage).contains('Password requirements were not met');
-  if (userVariables.v3) {
+  if (userVariables.gen3) {
     await t.expect(passwordErrorMessage).contains('A number');
     await t.expect(passwordErrorMessage).contains('At least 8 characters');
     await t.expect(passwordErrorMessage).contains('An uppercase letter'); 
@@ -298,7 +298,7 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithPasswordMultipleErrorsMo
   // Prefixed with "Password requirements were not met"
   const passwordErrorMessage = await enrollProfilePage.form.getTextBoxErrorMessage('credentials.passcode');
   await t.expect(passwordErrorMessage).contains('Password requirements were not met');
-  if (userVariables.v3) {
+  if (userVariables.gen3) {
     await t.expect(passwordErrorMessage).contains('A number');
     await t.expect(passwordErrorMessage).contains('At least 8 characters');
     await t.expect(passwordErrorMessage).contains('An uppercase letter');

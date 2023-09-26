@@ -108,7 +108,7 @@ export default class RegistrationPageObject extends BasePageObject {
   }
 
   alreadyHaveAccountExists() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.getByText('Already have an account?').exists;
     }
     return Selector(BACK).exists;

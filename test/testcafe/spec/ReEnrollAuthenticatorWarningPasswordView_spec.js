@@ -93,7 +93,7 @@ async function setup(t) {
       // In V3, UX made a conscious decision to not include server side requirements in the UI
       // to not confuse users. They are considering additional UI changes OKTA-533383 for server side requirements
       // but for now, it does not display in v3
-      if (!userVariables.v3) {
+      if (!userVariables.gen3) {
         const historyCountMessage = isHistoryCountOne ? 
           'Password can\'t be the same as your last password'
           : 'Password can\'t be the same as your last 4 passwords';
@@ -127,7 +127,7 @@ test
 
     // In v3, we display the incomplete/complete checkmark next to the 'Passwords must match'
     // list item label below the confirm password field in addition to the field level error message
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       await t.expect(passwordExpiryWarningPage.hasPasswordMatchRequirementStatus(false)).eql(true);
       await t.expect(passwordExpiryWarningPage.getConfirmPasswordError()).eql('Passwords must match');
     } else {

@@ -21,7 +21,7 @@ export default class EnrollAuthenticatorPhonePageObject extends BasePageObject {
   }
 
   async extensionIsHidden() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       const exists = await this.form.fieldByLabelExists('Extension');
       return !exists;
     }
@@ -33,14 +33,14 @@ export default class EnrollAuthenticatorPhonePageObject extends BasePageObject {
   }
 
   hasPhoneNumberError() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.hasTextBoxErrorMessage(PHONE_FIELD_NAME);    
     }
     return this.form.hasTextBoxErrorMessage(PHONE_CODE_FIELD_NAME);
   }
 
   clickSaveButton(name) {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.clickSaveButton(name);
     }
     return this.form.clickSaveButton();
@@ -51,7 +51,7 @@ export default class EnrollAuthenticatorPhonePageObject extends BasePageObject {
   }
 
   getCountryCodeValue() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return within(this.form.el).findByLabelText('Phone number').parent('div').innerText;
     }
     return this.form.getElement(PHONE_NUMBER_COUNTRY_CODE).innerText;
@@ -62,7 +62,7 @@ export default class EnrollAuthenticatorPhonePageObject extends BasePageObject {
   }
 
   phoneNumberFieldIsSmall() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.elementExist('[inputmode="tel"]');
     }
     return this.form.getElement(PHONE_NUMBER_SELECTOR)
@@ -90,7 +90,7 @@ export default class EnrollAuthenticatorPhonePageObject extends BasePageObject {
   }
   
   resendCodeText(index) {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       if (index === undefined) {
         index = 0;
       }
@@ -100,7 +100,7 @@ export default class EnrollAuthenticatorPhonePageObject extends BasePageObject {
   }
 
   async resendCodeExists(index) {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       if (index === undefined) {
         index = 0;
       }

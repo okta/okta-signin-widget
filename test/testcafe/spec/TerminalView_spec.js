@@ -92,7 +92,7 @@ const endUserRemediationNoOptionsMock = RequestMock()
 fixture('Terminal view');
 
 async function setup(t) {
-  const terminalPageObject = userVariables.v3 ? new TerminalPageObjectV3(t) : new TerminalPageObject(t);
+  const terminalPageObject = userVariables.gen3 ? new TerminalPageObjectV3(t) : new TerminalPageObject(t);
   await terminalPageObject.navigateToPage();
   // ensure form has loaded
   await t.expect(terminalPageObject.formExists()).eql(true);
@@ -175,7 +175,7 @@ async function setup(t) {
     .requestHooks(mock)(testTitle, async t => {
       const terminalViewPage = await setup(t);
       await checkA11y(t);
-      if(!userVariables.v3) {
+      if(!userVariables.gen3) {
         await t.expect(await terminalViewPage.goBackLinkExists()).notOk();
       }
       await t.expect(await terminalViewPage.signoutLinkExists()).ok();
@@ -194,7 +194,7 @@ test.requestHooks(terminalMultipleErrorsMock)('should render each error message 
 test.requestHooks(terminalCustomAccessDeniedErrorMessageMock)('should render custom access denied error message', async t => {
   const terminalViewPage = await setup(t);
   await checkA11y(t);
-  const errorBox = userVariables.v3 ? terminalViewPage.form.getErrorBox() : terminalViewPage.form.getErrorBoxCallout();
+  const errorBox = userVariables.gen3 ? terminalViewPage.form.getErrorBox() : terminalViewPage.form.getErrorBoxCallout();
   await t.expect(errorBox.innerText).contains('You do not have permission to perform the requested action.');
 
   const errorLink1 = within(errorBox).getByRole('link', {name: 'Help link 1'});

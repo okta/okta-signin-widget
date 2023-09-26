@@ -155,7 +155,7 @@ test.requestHooks(sessionExpiresDuringPassword)('challege password authenticator
   await challengePasswordPage.clickGoBackLink();
   await challengePasswordPage.switchAuthenticatorExists();
   // OKTA-551654 - Doesn't work in v3 since user id isn't present on session expired screen
-  if (!userVariables.v3) {
+  if (!userVariables.gen3) {
     await t.expect(challengePasswordPage.getIdentifier()).eql('testUser@okta.com');
   }
 });

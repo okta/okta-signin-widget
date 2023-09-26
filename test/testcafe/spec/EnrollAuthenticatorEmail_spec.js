@@ -319,7 +319,7 @@ test
     await t.expect(enrollEmailPageObject.resendEmailText()).contains('Haven\'t received an email?');
 
     // Asserts the display order of elements in v2
-    if (!userVariables.v3) {
+    if (!userVariables.gen3) {
       await t.expect(enrollEmailPageObject.form.el.innerText).match(new RegExp([
         // title
         'Verify with your email',
@@ -360,7 +360,7 @@ test
     await t.expect(enrollEmailPageObject.resendEmailText()).contains('Haven\'t received an email?');
 
     // Asserts the display order of elements in v2
-    if (!userVariables.v3) {
+    if (!userVariables.gen3) {
       await t.expect(enrollEmailPageObject.form.el.innerText).match(new RegExp([
         // title
         'Verify with your email',
@@ -401,7 +401,7 @@ test
     await t.expect(enrollEmailPageObject.resendEmailText()).contains('Haven\'t received an email?');
     
     // Assert element order in v2
-    if (!userVariables.v3) {
+    if (!userVariables.gen3) {
       await t.expect(enrollEmailPageObject.form.el.innerText).match(new RegExp([
         // title
         'Verify with your email',
@@ -446,7 +446,7 @@ test
     await t.expect(enrollEmailPageObject.resendEmailText()).contains('Haven\'t received an email?');
 
     // Assert element order in v2
-    if (!userVariables.v3) {
+    if (!userVariables.gen3) {
       await t.expect(enrollEmailPageObject.form.el.innerText).match(new RegExp([
         // title
         'Verify with your email',
@@ -471,7 +471,7 @@ test
     await t.expect(enrollEmailPageObject.resendEmailText()).contains('Haven\'t received an email?');
 
     // Assert element order in v2
-    if (!userVariables.v3) {
+    if (!userVariables.gen3) {
       await t.expect(enrollEmailPageObject.form.el.innerText).match(new RegExp([
         // title
         'Verify with your email',
@@ -496,7 +496,7 @@ test
     await t.expect(enrollEmailPageObject.resendEmailText()).contains('Haven\'t received an email?');
 
     // Assert element order in v2
-    if (!userVariables.v3) {
+    if (!userVariables.gen3) {
       await t.expect(enrollEmailPageObject.form.el.innerText).match(new RegExp([
         // title
         'Verify with your email',

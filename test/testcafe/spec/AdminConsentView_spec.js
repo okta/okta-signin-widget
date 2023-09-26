@@ -47,7 +47,7 @@ test.requestHooks(requestLogger, consentAdminMock)('should render scopes', async
   await t.expect(consentPage.hasScopeText('okta.authenticators.manage')).eql(true);
   await t.expect(consentPage.hasScopeText('okta.clients.manage')).eql(true);
   // In Gen 3 it also includes the description on the page for each scope
-  if (userVariables.v3) {
+  if (userVariables.gen3) {
     await t.expect(consentPage.hasScopeText('Allows the app to manage clients in your Okta organization.')).eql(true);
     await t.expect(consentPage.hasScopeText('Allows the app to manage all security methods (e.g. enrollments, reset).')).eql(true);
   }

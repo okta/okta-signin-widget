@@ -165,7 +165,7 @@ test
     await ssoExtensionPage.navigateToPage();
     await ssoExtensionPage.formExists();
     await ssoExtensionPage.form.waitForErrorBox();
-    if(!userVariables.v3) {
+    if(!userVariables.gen3) {
       await t.expect(ssoExtensionPage.getSpinnerStyle()).eql('none');
     }
   });

@@ -2,7 +2,7 @@ import { Selector, userVariables } from 'testcafe';
 import { within } from '@testing-library/testcafe';
 import BasePageObject from './BasePageObject';
 
-const factorListRowSelector = userVariables.v3 ? '.authenticator-row' : '.authenticator-list .authenticator-row';
+const factorListRowSelector = userVariables.gen3 ? '.authenticator-row' : '.authenticator-list .authenticator-row';
 const factorLabelSelector = `${factorListRowSelector} .authenticator-label`;
 const factorDescriptionSelector = `${factorListRowSelector} .authenticator-description .authenticator-description--text`;
 const factorNicknameSelector = `${factorListRowSelector} .authenticator-description .authenticator-enrollment-nickname`;
@@ -12,7 +12,7 @@ const factorSelectButtonDiv = `${factorListRowSelector} .authenticator-button`;
 const factorSelectButtonSelector = `${factorListRowSelector} .authenticator-button .button`;
 const factorUsageTextSelector = `${factorListRowSelector} .authenticator-usage-text`;
 const skipOptionalEnrollmentSelector = '.authenticator-list .skip-all';
-const CUSTOM_SIGN_OUT_LINK_SELECTOR = userVariables.v3 ? '[data-se="cancel"]' : '.auth-footer .js-cancel';
+const CUSTOM_SIGN_OUT_LINK_SELECTOR = userVariables.gen3 ? '[data-se="cancel"]' : '.auth-footer .js-cancel';
 const CUSTOM_OTP_BUTTON_SELECTOR = '.authenticator-list .authenticator-row:nth-child(12) .authenticator-button a';
 const IDENTIFIER_FIELD = 'identifier';
 const CUSTOM_LOGO_SELECTOR = '.custom-logo';
@@ -23,7 +23,7 @@ export default class SelectFactorPageObject extends BasePageObject {
   }
 
   getFactorButtons() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.getAllButtons().withAttribute('data-se', 'authenticator-button');
     }
     return this.form.getElement(factorListRowSelector);
@@ -34,7 +34,7 @@ export default class SelectFactorPageObject extends BasePageObject {
   }
 
   getFactorLabelByIndex(index) {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       const factorButton = this.getFactorButtons().nth(index);
       return within(factorButton).findByRole('heading', { level: 3 }).textContent;
     }
@@ -77,7 +77,7 @@ export default class SelectFactorPageObject extends BasePageObject {
   }
 
   getFactorIconBgImageByIndex(index) {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return within(this.form.getElement(factorIconSelector).nth(index)).queryByRole('img', { hidden: true }).getAttribute('src');
     }
     return this.form.getElement(factorIconSelector).nth(index).getStyleProperty('background-image');
@@ -105,7 +105,7 @@ export default class SelectFactorPageObject extends BasePageObject {
   }
 
   async clickSetUpLaterButton() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       const button = this.form.getButton('Set up later');
       await this.t.click(button);
       return;
@@ -118,7 +118,7 @@ export default class SelectFactorPageObject extends BasePageObject {
   }
 
   async clickCustomOTP() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       const button = this.form.getButton('Atko Custom OTP Authenticator');
       await this.t.click(button);
     } else {

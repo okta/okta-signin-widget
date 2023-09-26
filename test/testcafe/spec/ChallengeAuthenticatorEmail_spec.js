@@ -544,7 +544,7 @@ test
     await t.expect(challengeEmailPageObject.getInvalidOTPError()).contains('We found some errors.');
     await t.wait(5000);
     // In v3 there is an extra poll request compared to v2
-    const expectedPollCount = userVariables.v3 ? 5 : 4;
+    const expectedPollCount = userVariables.gen3 ? 5 : 4;
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/poll/)
@@ -564,7 +564,7 @@ test
     await t.expect(resendEmailViewText).contains('Haven\'t received an email?');
 
     // Asserts the order of elements in v2
-    if (!userVariables.v3) {
+    if (!userVariables.gen3) {
       await t.expect(challengeEmailPageObject.form.el.innerText).match(new RegExp([
         // title
         'Verify with your email',
@@ -630,7 +630,7 @@ test.meta('gen3', false)
     await t.expect(resendEmailViewText).contains('Haven\'t received an email?');
 
     // Asserts the order of elements in v2
-    if (!userVariables.v3) {
+    if (!userVariables.gen3) {
       await t.expect(challengeEmailPageObject.form.el.innerText).match(new RegExp([
         // title
         'Verify with your email',
@@ -656,7 +656,7 @@ test
     await t.expect(resendEmailViewText).contains('Haven\'t received an email?');
 
     // Asserts the order of elements in v2
-    if (!userVariables.v3) {
+    if (!userVariables.gen3) {
       await t.expect(challengeEmailPageObject.form.el.innerText).match(new RegExp([
         // title
         'Verify with your email',
@@ -680,7 +680,7 @@ test
     await t.expect(resendEmailViewText).contains('Haven\'t received an email?');
 
     // Asserts the order of elements in v2
-    if (!userVariables.v3) {
+    if (!userVariables.gen3) {
       await t.expect(challengeEmailPageObject.form.el.innerText).match(new RegExp([
         // title
         'Verify with your email',

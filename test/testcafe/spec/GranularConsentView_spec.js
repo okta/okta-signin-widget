@@ -146,7 +146,7 @@ test.requestHooks(requestLogger, consentGranularFailedMock)('should go to Termin
 
   const terminalPageObject = new TerminalPageObject(t);
   // in v3 Go back and Signout links are the same (in v2 they vary based on class name)
-  if (!userVariables.v3) {
+  if (!userVariables.gen3) {
     await t.expect(await terminalPageObject.goBackLinkExists()).notOk();
   }
   await t.expect(await terminalPageObject.signoutLinkExists()).ok();

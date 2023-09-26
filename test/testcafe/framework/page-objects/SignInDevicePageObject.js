@@ -19,7 +19,7 @@ export default class SignInDeviceViewPageObject extends BasePageObject {
   }
 
   getOVButtonIcon() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return within(
         this.form.getButton('Okta Verify Sign in with Okta FastPass')
       ).queryByRole('img', { name: 'Okta Verify' });
@@ -28,7 +28,7 @@ export default class SignInDeviceViewPageObject extends BasePageObject {
   }
 
   getOVButtonLabel() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.getButton('Okta Verify Sign in with Okta FastPass').innerText;
     }
     return this.getTextContent('.okta-verify-container [data-se="button"]');
@@ -59,7 +59,7 @@ export default class SignInDeviceViewPageObject extends BasePageObject {
   }
 
   async clickLaunchOktaVerifyButton() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       await this.form.clickButton('Okta Verify Sign in with Okta FastPass');
     } else {
       await this.t.click(this.body.find('.okta-verify-container [data-se="button"]'));

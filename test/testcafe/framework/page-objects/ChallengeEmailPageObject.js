@@ -9,14 +9,14 @@ export default class ChallengeEmailPageObject extends ChallengeFactorPageObject 
   }
 
   resendEmailViewText() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.getErrorBoxText();
     }
     return this.form.getElement(RESEND_EMAIL_VIEW_SELECTOR).innerText;
   }
 
   async resendEmailExists() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.hasAlertBox();
     }
 
@@ -29,7 +29,7 @@ export default class ChallengeEmailPageObject extends ChallengeFactorPageObject 
   }
 
   async clickSendAgainLink() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       const resendEmail = this.form.getLink('Send again');
       await this.t.click(resendEmail);
     } else {

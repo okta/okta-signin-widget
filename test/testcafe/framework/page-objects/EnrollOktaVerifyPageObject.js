@@ -19,7 +19,7 @@ export default class EnrollOktaVerifyPageObject extends BasePageObject {
   }
 
   async hasEnrollViaQRInstruction() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       if (await this.form.elementExist('.qrImg')) {
         const qrInstruction = await this.getNthInstructionBulletPoint(0);
         return qrInstruction.includes('Okta Verify');
@@ -31,14 +31,14 @@ export default class EnrollOktaVerifyPageObject extends BasePageObject {
   }
 
   hasQRcode() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.elementExist('.qrImg');
     }
     return this.form.elementExist('.qrcode');
   }
 
   async hasEnrollViaEmailInstruction() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       if (await this.form.elementExist(FORM_SELECTOR)) {
         const instruction = await this.form.getElement(FORM_SELECTOR).innerText;
         return instruction.includes('email');
@@ -50,7 +50,7 @@ export default class EnrollOktaVerifyPageObject extends BasePageObject {
   }
 
   async hasEnrollViaSmsInstruction() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       if (await this.form.elementExist(FORM_SELECTOR)) {
         const instruction = await this.form.getElement(FORM_SELECTOR).innerText;
         return instruction.includes('SMS');
@@ -62,7 +62,7 @@ export default class EnrollOktaVerifyPageObject extends BasePageObject {
   }
 
   getQRInstruction(index) {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.getNthInstructionBulletPoint(index);
     }
     return this.getTextContent('.qrcode-info');
@@ -74,28 +74,28 @@ export default class EnrollOktaVerifyPageObject extends BasePageObject {
   }
 
   getEmailInstruction() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.getTextContent('[data-se="o-form"]'); 
     }
     return this.getTextContent('.email-info');
   }
 
   getSmsInstruction() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.getTextContent('[data-se="o-form"]'); 
     }
     return this.getTextContent('.sms-info');
   }
 
   getSwitchChannelText() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.getButton(CANT_SCAN_BUTTON_TEXT).textContent;
     }
     return this.getTextContent('.switch-channel-link');
   }
 
   async clickSwitchChannel() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       await this.form.clickButton(CANT_SCAN_BUTTON_TEXT);
     } else {
       await this.form.clickElement('.switch-channel-link');
@@ -111,21 +111,21 @@ export default class EnrollOktaVerifyPageObject extends BasePageObject {
   }
 
   resendView() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.getAlertBox();
     }
     return this.form.getElement('.resend-ov-link-view');
   }
 
   resendViewExists() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.hasAlertBox();
     }
     return this.form.getElement('.resend-ov-link-view').visible;
   }
 
   async clickSendAgainLink() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       const resendEmail = this.form.getLink('send again');
       await this.t.click(resendEmail);
     } else {
@@ -134,7 +134,7 @@ export default class EnrollOktaVerifyPageObject extends BasePageObject {
   } 
 
   async clickSendSMSAgainLink() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       const resendEmail = this.form.getLink('Send again');
       await this.t.click(resendEmail);
     } else {
@@ -147,7 +147,7 @@ export default class EnrollOktaVerifyPageObject extends BasePageObject {
   }
 
   getErrorTitle() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.getElement(FORM_INFOBOX_ERROR_TITLE_V3);
     }
     return this.form.getElement(FORM_INFOBOX_ERROR_TITLE);
@@ -158,7 +158,7 @@ export default class EnrollOktaVerifyPageObject extends BasePageObject {
   }
 
   getFormTitle(index) {
-    if (userVariables.v3 && index !== undefined) {
+    if (userVariables.gen3 && index !== undefined) {
       return this.form.getNthTitle(index);
     }
     return this.form.getTitle();

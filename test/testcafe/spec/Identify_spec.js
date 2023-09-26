@@ -222,7 +222,7 @@ test.requestHooks(identifyMock)('should have correct display text', async t => {
 
   const signupLinkText = identityPage.getSignupLinkText();
   await t.expect(signupLinkText).eql('Sign up');
-  if (userVariables.v3) {
+  if (userVariables.gen3) {
     await t.expect(identityPage.getFooterInfo()).eql('Don\'t have an account?');
   } else {
     await t.expect(identityPage.getFooterInfo()).eql('Don\'t have an account?Sign up');
