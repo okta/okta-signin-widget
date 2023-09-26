@@ -211,7 +211,11 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     try {
       let newTransaction = await fn(payload);
 
+      // TODO
+      // OKTA-651781
       if (widgetProps.flow === CONFIGURED_FLOW.RESET_PASSWORD && step === IDX_STEP.IDENTIFY) {
+        // when in identifier first flow, there are a couple steps before we can get to recovery page
+        // thats why we need to run proceed twice
         newTransaction = await authClient.idx.proceed({
           authenticator: {id: getFormPasswordAuthenticatorId(newTransaction)},
           step: 'select-authenticator-authenticate',        
