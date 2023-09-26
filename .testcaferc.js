@@ -77,6 +77,8 @@ const config = {
   concurrency: OKTA_SIW_ONLY_FLAKY ? 1 : undefined,
 
   filter: (_testName, _fixtureName, _fixturePath, testMeta, fixtureMeta) => {
+    // only check one of {gen3 | gen2} conditionals. without this guard, a
+    // fixture or test will always get skipped in both testcafe runs
     if (env.OKTA_SIW_GEN3) {
       // skip fixture on gen3
       // fixture('my tests').meta('gen3', false)
@@ -87,6 +89,18 @@ const config = {
       // skip test on gen3
       // test.meta('gen3', false)('my test', (t) => {})
       if (testMeta.gen3 === false) {
+        return false;
+      }
+    } else {
+      // skip fixture on gen2
+      // fixture('my tests').meta('gen2', false)
+      if (fixtureMeta.gen2 === false) {
+        return false;
+      }
+
+      // skip test on gen2
+      // test.meta('gen2', false)('my test', (t) => {})
+      if (testMeta.gen2 === false) {
         return false;
       }
     }
