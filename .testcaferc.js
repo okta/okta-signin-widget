@@ -48,13 +48,13 @@ const mocks = RequestMock()
 const {
   OKTA_SIW_ONLY_FLAKY,
   OKTA_SIW_SKIP_FLAKY,
-  OKTA_SIW_V3,
+  OKTA_SIW_GEN3,
 } = process.env;
 
 const env = {
   OKTA_SIW_ONLY_FLAKY,
   OKTA_SIW_SKIP_FLAKY,
-  OKTA_SIW_V3,
+  OKTA_SIW_GEN3,
 };
 
 const config = {
@@ -66,7 +66,7 @@ const config = {
   src: [ 'test/testcafe/spec/*_spec.js' ],
   hooks: { request: mocks, },
   userVariables: {
-    v3: !!env.OKTA_SIW_V3,
+    v3: !!env.OKTA_SIW_GEN3,
   },
 
   /*
@@ -74,7 +74,7 @@ const config = {
    * by adding fixture metadata {"v3": true}. See example in
    * test/testcafe/spec/Smoke_spec.js
    */
-  ...(env.OKTA_SIW_V3 && {
+  ...(env.OKTA_SIW_GEN3 && {
       userVariables: { v3: true },
       // OKTA-575629 Remove this when v3 parity test flakiness is resolved
       assertionTimeout: 20000,
@@ -84,7 +84,7 @@ const config = {
   concurrency: OKTA_SIW_ONLY_FLAKY ? 1 : undefined,
 
   filter: (_testName, _fixtureName, _fixturePath, testMeta, fixtureMeta) => {
-    if (env.OKTA_SIW_V3) {
+    if (env.OKTA_SIW_GEN3) {
       // skip fixture on gen3
       // fixture('my tests').meta('v3', false)
       if (fixtureMeta.v3 === false) {

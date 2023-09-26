@@ -27,8 +27,8 @@ exports.handler = async (argv) => {
   }
   const mock = argv.mock ? `--env.${argv.mock}` : '';
 
-  // use v3 workspace if --v3 flag is set or OKTA_SIW_V3 env var is truthy
-  if (argv.v3 || process.env.OKTA_SIW_V3) {
+  // use v3 workspace if --v3 flag is set or OKTA_SIW_GEN3 env var is truthy
+  if (argv.v3 || process.env.OKTA_SIW_GEN3) {
     startDevServer = 'yarn workspace v3 dev';
   }
 
