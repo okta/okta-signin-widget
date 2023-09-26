@@ -89,10 +89,10 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
 
   const {
     authClient,
-    brandColors,
+    brand,
     brandName,
     cspNonce,
-    muiThemeOverrides,
+    designTokens,
     logo,
     logoText,
     globalSuccessFn,
@@ -129,7 +129,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const widgetRenderedOnce = useRef<boolean>(false);
   const [loginHint, setloginHint] = useState<string | null>(null);
   const languageCode = getLanguageCode(widgetProps);
-  const languageDirection = getLanguageDirection(languageCode);
+  const direction = getLanguageDirection(languageCode);
   const { stateHandle, unsetStateHandle } = useStateHandle(widgetProps);
 
   // merge themes
@@ -556,29 +556,42 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       loginHint,
       setloginHint,
       languageCode,
-      languageDirection,
+      languageDirection: direction,
     }}
     >
       <CustomPluginsOdysseyCacheProvider nonce={cspNonce}>
-        <MuiThemeProvider theme={mergedTheme}>
-          <GlobalStyles />
-          <AuthContainer hide={hide}>
-            <AuthHeader
-              logo={logo}
-              logoText={logoText}
-              brandName={brandName}
-              authCoinProps={buildAuthCoinProps(idxTransaction)}
-            />
-            <AuthContent>
-              {isConsentStep(idxTransaction) && <ConsentHeader />}
-              <IdentifierContainer />
-              {
-                uischema.elements.length > 0
-                  ? <Form uischema={uischema as UISchemaLayout} />
-                  : <Spinner />
+        <MuiThemeProvider theme={theme}>
+          {/* the style is to allow the widget to inherit the parent's bg color */}
+          <ScopedCssBaseline
+            sx={{
+              backgroundColor: 'inherit',
+              'span.strong': {
+                fontWeight: 'bold',
+                wordBreak: 'break-all',
+              },
+              '.no-translate': {
+                whiteSpace: 'nowrap',
               }
-            </AuthContent>
-          </AuthContainer>
+            }}
+          >
+            <AuthContainer hide={hide}>
+              <AuthHeader
+                logo={logo}
+                logoText={logoText}
+                brandName={brandName}
+                authCoinProps={buildAuthCoinProps(idxTransaction)}
+              />
+              <AuthContent>
+                {isConsentStep(idxTransaction) && <ConsentHeader />}
+                <IdentifierContainer />
+                {
+                  uischema.elements.length > 0
+                    ? <Form uischema={uischema as UISchemaLayout} />
+                    : <Spinner />
+                }
+              </AuthContent>
+            </AuthContainer>
+          </ScopedCssBaseline>
         </MuiThemeProvider>
       </CustomPluginsOdysseyCacheProvider>
     </WidgetContextProvider>

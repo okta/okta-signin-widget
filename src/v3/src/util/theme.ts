@@ -10,116 +10,221 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { ThemeOptions } from '@mui/material';
-import { Theme } from '@mui/material/styles/createTheme';
 import { odysseyTheme } from '@okta/odyssey-react-mui';
 import chroma from 'chroma-js';
-import { cloneDeep, merge } from 'lodash';
+import { cloneDeep } from 'lodash';
 
-import { BrandColors, LanguageDirection } from '../types';
+import { Brand } from '../types';
+import { DESIGN_TOKENS, DesignTokensType } from './designTokens';
+import { mergeThemes } from './mergeThemes';
 
-type DerivedTheme = {
-  primaryColor: string;
-  primaryColorLight: string;
-  primaryColorLightest: string;
-  primaryColorDark: string;
-  textColor: string;
-  inverseTextColor: string;
+type Palette = {
+  main: string;
+  light: string;
+  lighter: string;
+  dark: string;
+  contrastText: string;
 };
 
-const getInverseTextColor = (primaryColor: string): string => {
-  const contrastRatio = chroma.contrast(primaryColor, '#ffffff');
+type Theme = typeof odysseyTheme;
 
-  if (contrastRatio > 4.5) {
-    return '#ffffff';
-  }
-  return '#1d1d21';
-};
+const WHITE = '#ffffff';
+const BLACK = '#1d1d21';
 
-export const deriveThemeFromBrand = (brand: BrandColors): DerivedTheme | null => {
-  try {
-    const isLightPrimaryColor = chroma(brand.primaryColor).get('hsl.l') > 0.24;
+const getInverseTextColor = (primaryColor: string): string => (
+  chroma.contrast(primaryColor, WHITE) > 4.5 ? WHITE : BLACK
+);
 
-    if (isLightPrimaryColor) {
-      let primaryColorLight = chroma(brand.primaryColor)
-        .set('hsl.h', '+11')
-        .set('hsl.s', '-0.18')
-        .set('hsl.l', '+0.31');
-      // lightness of primaryColorLight should be clamped at max of 0.9
-      if (primaryColorLight.get('hsl.l') > 0.9) {
-        primaryColorLight = primaryColorLight.set('hsl.l', 0.9);
-      }
-
-      return {
-        primaryColor: brand.primaryColor,
-        textColor: '#1d1d21',
-        primaryColorLight: primaryColorLight.hex(),
-        primaryColorLightest: chroma(brand.primaryColor)
-          .set('hsl.h', '+9')
-          .set('hsl.s', '+0.18')
-          .set('hsl.l', 0.97)
-          .hex(),
-        primaryColorDark: chroma(brand.primaryColor)
-          .set('hsl.h', '+3')
-          .set('hsl.s', '+0.18')
-          .set('hsl.l', '-0.24')
-          .hex(),
-        inverseTextColor: getInverseTextColor(brand.primaryColor),
-      };
-    }
-
+export const createPalette = (main: string): Palette => {
+  const lightness = chroma(main).get('hsl.l')
+  const isBright = lightness > 0.24;
+  if (isBright) {
     return {
-      primaryColor: brand.primaryColor,
-      textColor: '#1d1d21',
-      primaryColorLight: chroma(brand.primaryColor)
-        .set('hsl.l', '+0.62')
-        .hex(),
-      primaryColorLightest: chroma(brand.primaryColor)
+      main: main,
+      lighter: chroma(main)
         .set('hsl.h', '+9')
         .set('hsl.s', '+0.18')
         .set('hsl.l', 0.97)
         .hex(),
-      primaryColorDark: chroma(brand.primaryColor)
-        .set('hsl.l', '+0.31')
+      light: chroma(main)
+        .set('hsl.h', '+11')
+        .set('hsl.s', '-0.18')
+        .set('hsl.l', lightness < 0.59 ? '+0.31' : 0.9) // clamp lightness
         .hex(),
-      inverseTextColor: getInverseTextColor(brand.primaryColor),
+      dark: chroma(main)
+        .set('hsl.h', '+3')
+        .set('hsl.s', '+0.18')
+        .set('hsl.l', '-0.24')
+        .hex(),
+      contrastText: getInverseTextColor(main),
     };
-  } catch (e) {
-    // eslint-disable-next-line no-console
-    console.warn('Invalid theme color in configuration', brand);
-
-    return null;
   }
+
+  return {
+    main: main,
+    lighter: chroma(main)
+      .set('hsl.h', '+9')
+      .set('hsl.s', '+0.18')
+      .set('hsl.l', 0.97)
+      .hex(),
+    light: chroma(main)
+      .set('hsl.l', '+0.62')
+      .hex(),
+    dark: chroma(main)
+      .set('hsl.l', '+0.31')
+      .hex(),
+    contrastText: getInverseTextColor(main),
+  };
 };
 
 export const mapMuiThemeFromBrand = (
-  brand: BrandColors | undefined,
-  languageDirection: LanguageDirection,
-  muiThemeOverrides?: ThemeOptions,
+  brand?: Brand,
+  customTokens?: Partial<DesignTokensType>,
 ): Theme => {
-  // TODO: OKTA-517723 temporary override until odyssey-react-mui theme borderRadius value is fixed
+  const odysseyTokens = DESIGN_TOKENS;
+  const tokens: DesignTokensType = { ...odysseyTokens, ...customTokens };
+
+  // TODO: OKTA-517723 temporary override until odyssey-react-mui theme
+  // borderRadius value is fixed
   odysseyTheme.shape.borderRadius = 4;
 
-  odysseyTheme.direction = languageDirection;
+  // Do not modify `odysseyTheme` after this line, it will have no effect on the
+  // resulting theme
+  const theme = cloneDeep(odysseyTheme);
 
-  // Do not modify `odysseyTheme` after this line, it will have no effect on the resulting theme
-  const odysseyThemeCopy = cloneDeep(odysseyTheme);
+  theme.palette.text.primary = BLACK;
 
-  if (brand) {
-    const derivedTheme = deriveThemeFromBrand(brand);
+  // apply brand customizations
+  if (brand?.primaryColor) {
+    theme.palette.primary = createPalette(brand.primaryColor);
+  }
 
-    if (derivedTheme) {
-      odysseyThemeCopy.palette.primary = {
-        main: derivedTheme.primaryColor,
-        light: derivedTheme.primaryColorLight,
-        lighter: derivedTheme.primaryColorLightest,
-        dark: derivedTheme.primaryColorDark,
-        contrastText: derivedTheme.inverseTextColor,
-      };
+  // apply custom design tokens
+  if (customTokens) {
+    // theme.palette
+    if (customTokens.PalettePrimaryMain) {
+      const p = createPalette(customTokens.PalettePrimaryMain);
+      theme.palette.primary.lighter = customTokens.PalettePrimaryLighter ?? p.lighter;
+      theme.palette.primary.light = customTokens.PalettePrimaryLight ?? p.light;
+      theme.palette.primary.main = customTokens.PalettePrimaryMain;
+      theme.palette.primary.dark = customTokens.PalettePrimaryDark ?? p.dark;
+    }
 
-      odysseyThemeCopy.palette.text.primary = derivedTheme.textColor;
+    if (customTokens.PaletteDangerMain) {
+      const p = createPalette(customTokens.PaletteDangerMain);
+      theme.palette.error.lighter = customTokens.PaletteDangerLighter ?? p.lighter;
+      theme.palette.error.light = customTokens.PaletteDangerLight ?? p.light;
+      theme.palette.error.main = customTokens.PaletteDangerMain;
+      theme.palette.error.dark = customTokens.PaletteDangerDark ?? p.dark;
+    }
+    if (customTokens.PaletteWarningMain) {
+      const p = createPalette(customTokens.PaletteWarningMain);
+      theme.palette.warning.lighter = customTokens.PaletteWarningLighter ?? p.lighter;
+      theme.palette.warning.light = customTokens.PaletteWarningLight ?? p.light;
+      theme.palette.warning.main = customTokens.PaletteWarningMain;
+      theme.palette.warning.dark = customTokens.PaletteWarningDark ?? p.dark;
+    }
+    if (customTokens.PaletteSuccessMain) {
+      const p = createPalette(customTokens.PaletteSuccessMain);
+      theme.palette.success.lighter = customTokens.PaletteSuccessLighter ?? p.lighter;
+      theme.palette.success.light = customTokens.PaletteSuccessLight ?? p.light;
+      theme.palette.success.main = customTokens.PaletteSuccessMain;
+      theme.palette.success.dark = customTokens.PaletteSuccessDark ?? p.dark;
+    }
+    // theme.mixins.border*
+    if (customTokens.BorderRadiusMain) {
+      theme.mixins.borderRadius = customTokens.BorderRadiusMain;
+    }
+    if (customTokens.BorderStyleMain) {
+      theme.mixins.borderStyle = customTokens.BorderStyleMain;
+    }
+    if (customTokens.BorderWidthMain) {
+      theme.mixins.borderWidth = customTokens.BorderWidthMain;
+    }
+
+    // theme.shadows
+    if (customTokens.ShadowScale0) {
+      theme.shadows[1] = customTokens.ShadowScale0;
+    }
+    if (customTokens.ShadowScale1) {
+      theme.shadows[2] = customTokens.ShadowScale1;
+    }
+
+    // theme.palette.text
+    if (customTokens.TypographyColorBody) {
+      theme.palette.text.primary = customTokens.TypographyColorBody;
+    }
+    if (customTokens.TypographyColorDisabled) {
+      theme.palette.text.disabled = customTokens.TypographyColorDisabled;
+    }
+
+    // theme.text
+    if (customTokens.TypographySizeHeading1) {
+      theme.typography.h1.fontSize = customTokens.TypographySizeHeading1;
+    }
+    if (customTokens.TypographySizeHeading2) {
+      theme.typography.h2.fontSize = customTokens.TypographySizeHeading2;
+    }
+    if (customTokens.TypographySizeHeading3) {
+      theme.typography.h3.fontSize = customTokens.TypographySizeHeading3;
+    }
+    if (customTokens.TypographySizeHeading4) {
+      theme.typography.h4.fontSize = customTokens.TypographySizeHeading4;
+    }
+    if (customTokens.TypographySizeHeading5) {
+      theme.typography.h5.fontSize = customTokens.TypographySizeHeading5;
+    }
+    if (customTokens.TypographySizeHeading6) {
+      theme.typography.h6.fontSize = customTokens.TypographySizeHeading6;
+    }
+    if (customTokens.TypographySizeBody) {
+      theme.typography.body1.fontSize = customTokens.TypographySizeBody;
+    }
+    if (customTokens.TypographyLineHeightHeading1) {
+      theme.typography.h1.lineHeight = customTokens.TypographyLineHeightHeading1;
+    }
+    if (customTokens.TypographyLineHeightHeading2) {
+      theme.typography.h2.lineHeight = customTokens.TypographyLineHeightHeading2;
+    }
+    if (customTokens.TypographyLineHeightHeading3) {
+      theme.typography.h3.lineHeight = customTokens.TypographyLineHeightHeading3;
+    }
+    if (customTokens.TypographyLineHeightHeading4) {
+      theme.typography.h4.lineHeight = customTokens.TypographyLineHeightHeading4;
+    }
+    if (customTokens.TypographyLineHeightHeading5) {
+      theme.typography.h5.lineHeight = customTokens.TypographyLineHeightHeading5;
+    }
+    if (customTokens.TypographyLineHeightHeading6) {
+      theme.typography.h6.lineHeight = customTokens.TypographyLineHeightHeading6;
+    }
+
+    theme.spacing = (n) => {
+      return [
+        customTokens.Spacing0 ?? odysseyTokens.Spacing0,
+        customTokens.Spacing1 ?? odysseyTokens.Spacing1,
+        customTokens.Spacing2 ?? odysseyTokens.Spacing2,
+        customTokens.Spacing3 ?? odysseyTokens.Spacing3,
+        customTokens.Spacing4 ?? odysseyTokens.Spacing4,
+        customTokens.Spacing5 ?? odysseyTokens.Spacing5,
+        customTokens.Spacing6 ?? odysseyTokens.Spacing6,
+        customTokens.Spacing7 ?? odysseyTokens.Spacing7,
+        customTokens.Spacing8 ?? odysseyTokens.Spacing8,
+        customTokens.Spacing9 ?? odysseyTokens.Spacing9,
+      ][n];
     }
   }
 
-  return merge(odysseyThemeCopy, muiThemeOverrides);
+  return mergeThemes(theme, {
+    components: {
+      MuiInputLabel: {
+        styleOverrides: {
+          root: {
+            wordBreak: 'break-word',
+            whiteSpace: 'normal',
+          },
+        },
+      }
+    }
+  }) as Theme;
 };

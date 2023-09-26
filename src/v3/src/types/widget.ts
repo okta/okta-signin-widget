@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import type { ThemeOptions as MuiThemeOptions } from '@mui/material';
 import {
   FlowIdentifier,
   IdxActionParams,
@@ -40,6 +39,7 @@ import { OktaSignInAPI } from './api';
 import { JsonObject } from './json';
 import { Modify } from './jsonforms';
 import { FormBag, RegistrationElementSchema } from './schema';
+import { DesignTokensType } from 'src/util/designTokens';
 
 // TODO: Once SIW is merged into okta-signin-widget repo, remove this. Ticket#: OKTA-508189
 export interface EventErrorContext {
@@ -115,15 +115,14 @@ export type WidgetProps = Partial<WidgetOptions> & {
 };
 
 export type WidgetOptions = {
-  // // ui customizations
-  // renderers?: JsonFormsRendererRegistryEntry[];
-  // cells?: JsonFormsCellRendererRegistryEntry[];
-  // components?: Record<string, Component>;
+  // brand
+  brand?: Brand;
 
-  // theming
-  theme?: ThemeOptions;
-  // Override MUI Theming
-  muiThemeOverrides?: MuiThemeOptions;
+  // design tokens
+  designTokens: DesignTokensType;
+
+  // theme
+  // theme: ThemeOptions;
 
   // hooks
   hooks?: HooksOptions; // object in options
@@ -165,7 +164,6 @@ export type WidgetOptions = {
   otp?: string;
   baseUrl?: string;
   brandName?: string;
-  brandColors?: BrandColors;
   logo?: string;
   logoText?: string;
   stateToken?: string;
@@ -227,7 +225,7 @@ export type IdxMethod =
   | 'proceed'
   | 'unlock-account';
 
-export type BrandColors = {
+export type Brand = {
   primaryColor: string;
 };
 
