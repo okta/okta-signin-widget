@@ -65,7 +65,7 @@ const mockChromeProbingThenCancel = RequestMock()
   });
 
 // TODO: OKTA-616189 - implement this view in Gen3
-fixture('Device Challenge Polling View for Chrome DTC').meta('v3', false);
+fixture('Device Challenge Polling View for Chrome DTC').meta('gen3', false);
 
 async function setup(t) {
   const deviceChallengePollPage = new DeviceChallengePollPageObject(t);

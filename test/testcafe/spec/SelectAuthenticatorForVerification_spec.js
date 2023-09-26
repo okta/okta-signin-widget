@@ -258,7 +258,7 @@ test.requestHooks(mockChallengePassword)('should load select authenticator list'
 });
 
 // OKTA-642786 - awaiting Gen3 implementation
-test.meta('v3', false).requestHooks(mockChallengeWithNickname)('should load select authenticator list with nicknames if available', async t => {
+test.meta('gen3', false).requestHooks(mockChallengeWithNickname)('should load select authenticator list with nicknames if available', async t => {
   const selectFactorPage = await setup(t);
   await checkA11y(t);
   await t.expect(selectFactorPage.getIdentifier()).eql('testUser@okta.com');
@@ -658,7 +658,7 @@ test.requestHooks(requestLogger, mockChallengeOVPush)('should navigate to okta v
   });
 });
 
-test.meta('v3', false).requestHooks(requestLogger, mockChallengeOVFastPass)('should navigate to okta verify fast pass page', async t => {
+test.meta('gen3', false).requestHooks(requestLogger, mockChallengeOVFastPass)('should navigate to okta verify fast pass page', async t => {
   const selectFactorPage = await setup(t);
   await checkA11y(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with a security method');
@@ -685,7 +685,7 @@ test.meta('v3', false).requestHooks(requestLogger, mockChallengeOVFastPass)('sho
   });
 });
 
-test.meta('v3', false).requestHooks(mockChallengeOnPremMFA)('should navigate to on prem mfa challenge page', async t => {
+test.meta('gen3', false).requestHooks(mockChallengeOnPremMFA)('should navigate to on prem mfa challenge page', async t => {
   const selectFactorPage = await setup(t);
   await checkA11y(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with a security method');
@@ -695,7 +695,7 @@ test.meta('v3', false).requestHooks(mockChallengeOnPremMFA)('should navigate to 
   await t.expect(challengeFactorPage.getFormTitle()).eql('Verify with Atko Custom On-prem');
 });
 
-test.meta('v3', false).requestHooks(mockChallengeRsa)('should navigate to RSA challenge page', async t => {
+test.meta('gen3', false).requestHooks(mockChallengeRsa)('should navigate to RSA challenge page', async t => {
   const selectFactorPage = await setup(t);
   await checkA11y(t);
   await t.expect(selectFactorPage.getIdentifier()).eql('testUser@okta.com');
@@ -706,7 +706,7 @@ test.meta('v3', false).requestHooks(mockChallengeRsa)('should navigate to RSA ch
   await t.expect(challengeFactorPage.getFormTitle()).eql('Verify with RSA SecurID');
 });
 
-test.meta('v3', false).requestHooks(mockChallengeDuo)('should navigate to Duo challenge page', async t => {
+test.meta('gen3', false).requestHooks(mockChallengeDuo)('should navigate to Duo challenge page', async t => {
   const selectFactorPage = await setup(t);
   await checkA11y(t);
   await t.expect(selectFactorPage.getIdentifier()).eql('testUser@okta.com');
@@ -717,7 +717,7 @@ test.meta('v3', false).requestHooks(mockChallengeDuo)('should navigate to Duo ch
   await t.expect(challengeFactorPage.getFormTitle()).eql('Verify with Duo Security');
 });
 
-test.meta('v3', false).requestHooks(mockChallengeCustomOTP)('should navigate to Custom OTP challenge page', async t => {
+test.meta('gen3', false).requestHooks(mockChallengeCustomOTP)('should navigate to Custom OTP challenge page', async t => {
   const selectFactorPage = await setup(t);
   await checkA11y(t);
   await t.expect(selectFactorPage.getIdentifier()).eql('testUser@okta.com');
@@ -761,7 +761,7 @@ test.requestHooks(mockSelectAuthenticatorForRecovery)('should not show custom fa
   await t.expect(await pageObject.factorPageHelpLinksExists()).notOk();
 });
 
-test.meta('v3', false).requestHooks(mockChallengeCustomApp)('should navigate to Custom App challenge page', async t => {
+test.meta('gen3', false).requestHooks(mockChallengeCustomApp)('should navigate to Custom App challenge page', async t => {
   const selectFactorPage = await setup(t);
   await checkA11y(t);
   await t.expect(selectFactorPage.getIdentifier()).eql('testUser@okta.com');

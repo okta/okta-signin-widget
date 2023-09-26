@@ -66,17 +66,10 @@ const config = {
   src: [ 'test/testcafe/spec/*_spec.js' ],
   hooks: { request: mocks, },
   userVariables: {
-    v3: !!env.OKTA_SIW_GEN3,
+    gen3: !!env.OKTA_SIW_GEN3,
   },
-
-  /*
-   * NOTE: add a testcafe fixture to the list of specs to run for parity testing
-   * by adding fixture metadata {"v3": true}. See example in
-   * test/testcafe/spec/Smoke_spec.js
-   */
+  // OKTA-575629 Remove this when gen3 parity test flakiness is resolved
   ...(env.OKTA_SIW_GEN3 && {
-      userVariables: { v3: true },
-      // OKTA-575629 Remove this when v3 parity test flakiness is resolved
       assertionTimeout: 20000,
   }),
 
@@ -86,14 +79,14 @@ const config = {
   filter: (_testName, _fixtureName, _fixturePath, testMeta, fixtureMeta) => {
     if (env.OKTA_SIW_GEN3) {
       // skip fixture on gen3
-      // fixture('my tests').meta('v3', false)
-      if (fixtureMeta.v3 === false) {
+      // fixture('my tests').meta('gen3', false)
+      if (fixtureMeta.gen3 === false) {
         return false;
       }
 
       // skip test on gen3
-      // test.meta('v3', false)('my test', (t) => {})
-      if (testMeta.v3 === false) {
+      // test.meta('gen3', false)('my test', (t) => {})
+      if (testMeta.gen3 === false) {
         return false;
       }
     }

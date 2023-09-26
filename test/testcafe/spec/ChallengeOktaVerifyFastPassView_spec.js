@@ -306,7 +306,7 @@ async function setupLoopbackFallback(t) {
 
 // TODO: OKTA-623228 - fix for Gen 3 SIW
 test
-  .meta('v3', false)
+  .meta('gen3', false)
   .requestHooks(loopbackPollingLogger, loopbackRedundantPollingMock)('in loopback server, redundant polling exists if server returns enhancedPollingEnabled as false', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
@@ -332,7 +332,7 @@ test
 
 // TODO: OKTA-623228 - fix for Gen 3 SIW
 test
-  .meta('v3', false)
+  .meta('gen3', false)
   .requestHooks(loopbackPollingLogger, loopbackEnhancedPollingMock)('in loopback server, no redundant polling if server returns enhancedPollingEnabled as true', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);

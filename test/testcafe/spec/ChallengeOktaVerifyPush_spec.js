@@ -97,7 +97,7 @@ test
   });
 
 // Disabled in v3 - https://oktainc.atlassian.net/browse/OKTA-594821
-test.meta('v3', false)
+test.meta('gen3', false)
   .requestHooks(pushAutoChallengeMock)('challenge ov push screen has right labels and a checkbox', async t => {
     const challengeOktaVerifyPushPageObject = await setup(t);
     await checkA11y(t);

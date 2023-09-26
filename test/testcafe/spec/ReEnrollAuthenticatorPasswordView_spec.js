@@ -75,7 +75,7 @@ async function setup(t) {
   [ mock, false],
   [ updatedHistoryCountMock, true ]
 ].forEach(([ localMock, isHistoryCountOne ]) => {
-  test.meta('v3', false)
+  test.meta('gen3', false)
     .requestHooks(logger, localMock)('Should have the correct labels', async t => {
       const expiredPasswordPage = await setup(t);
       await checkA11y(t);

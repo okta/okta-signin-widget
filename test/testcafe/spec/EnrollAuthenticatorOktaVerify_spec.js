@@ -835,7 +835,7 @@ test
 
 
 test
-  .meta('v3', false)
+  .meta('gen3', false)
   .requestHooks(logger, enrollSameDeviceMocks)('should be able to see OV same device enrollment instructions without polling', async t => {
     const enrollOktaVerifyPage = await setup(t);
     await checkA11y(t);
@@ -863,7 +863,7 @@ test
   });
 
 test
-  .meta('v3', false)
+  .meta('gen3', false)
   .requestHooks(logger, enrollDeviceBootstrapMocks)('should be able to see OV device bootstrap enrollment instructions without polling with one device', async t => {
     const enrollOktaVerifyPage = await setup(t);
     await checkA11y(t);
@@ -887,7 +887,7 @@ test
   });
 
 test
-  .meta('v3', false)
+  .meta('gen3', false)
   .requestHooks(logger, enrollDeviceBootstrapMocksMultipleDevices)('should be able to see OV device bootstrap enrollment instructions without polling with multiple devices', async t => {
     const enrollOktaVerifyPage = await setup(t);
     await checkA11y(t);

@@ -492,7 +492,7 @@ test
   });
 
 // Disabled in v3 - OKTA-566356
-test.meta('v3', false)
+test.meta('gen3', false)
   .requestHooks(logger, stopPollMock)('no polling if session has expired', async t => {
     const challengeEmailPageObject = await setup(t);
     await checkA11y(t);
@@ -614,7 +614,7 @@ test
 
 // Test fails in v3. After re-render we still have to wait for 30 seconds
 // Enable after fixing - OKTA-561098  
-test.meta('v3', false)
+test.meta('gen3', false)
   .requestHooks(logger, validOTPmock)('resend after at most 30 seconds even after re-render', async t => {
     const challengeEmailPageObject = await setup(t);
     await checkA11y(t);

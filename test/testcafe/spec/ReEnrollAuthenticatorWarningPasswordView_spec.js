@@ -162,7 +162,7 @@ test
     });
   });
 
-test.meta('v3', false) // TODO: OKTA-544016 - determine if we should match this functionality in v3
+test.meta('gen3', false) // TODO: OKTA-544016 - determine if we should match this functionality in v3
   .requestHooks(logger, mockChangePasswordNotAllowed)('can choose "skip" if password change is not allowed', async t => {
     const passwordExpiryWarningPage = await setup(t);
     await checkA11y(t);
