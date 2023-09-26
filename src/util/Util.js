@@ -189,7 +189,7 @@ Util.redirect = function(url, win = window, isAppLink = false) {
 
 Util.enrollmentRedirect = function(view) {
   const currentViewState = view.options.appState.getCurrentViewState();
-  const ovEnrollment = window.location.href.includes('redirect_uri=https%3A%2F%2Flogin.okta.com');
+  const ovEnrollment = window.location.href.includes('redirect_uri=https%3A%2F%2Flogin.okta.com%2Foauth%2Fcallback');
 
   // OKTA-635926: add user gesture for ov enrollment on android
   if (BrowserFeatures.isAndroid() && ovEnrollment) {

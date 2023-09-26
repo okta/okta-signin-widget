@@ -303,27 +303,29 @@ describe('util/Util', () => {
     }
 
     const enrollmentView = new EnrollmentView();
+    const expectedAddArgs = [];
 
     beforeEach(() => {
       jest.spyOn(utilSpy, 'redirectWithFormGet').mockReturnValue(() => {});
       jest.spyOn(enrollmentView.options.appState, 'getCurrentViewState').mockReturnValue({
         href:'https://org.okta.com/login/token/redirect?stateToken=mockedStateToken123'});
-
+      spyOn(enrollmentView, 'add').and.callFake((addArg) => {expectedAddArgs.push(addArg);});
     });
 
     afterEach(() => {
       delete window.location;
+      expectedAddArgs.length = 0;
     });
 
-    it('add Open OV button', () => {
+    it('adds Open OV button if the browser is on Android', () => {
       // create mocks
-      let expectedAddArgs = [];
       jest.spyOn(BrowserFeatures, 'isAndroid').mockReturnValue(true);
-      spyOn(enrollmentView, 'add').and.callFake((addArg) => {expectedAddArgs.push(addArg);});
 
       Object.defineProperty(window, 'location', {
         value: {
-          href: 'https://garbage%redirect_uri=https%3A%2F%2Flogin.okta.com%garbage',
+          href: 'https://org.com/oauth2/v1/authorize?response_type=code&state=state' +
+            '&code_challenge_method=S256&redirect_uri=https%3A%2F%2Flogin.okta.com%2Foauth%2Fcallback&nonce=nonce' +
+            '&code_challenge=challenge&client_id=id',
         },
         writeable: true,
         configurable: true
@@ -350,40 +352,54 @@ describe('util/Util', () => {
 
     });
 
-    it('Browser is not Android', () => {
+    it('does not add OV button if the browser is not on Android', () => {
       // create mocks
-      jest.spyOn(enrollmentView, 'add').mockReturnValue(() => {});
       jest.spyOn(BrowserFeatures, 'isAndroid').mockReturnValue(false);
+
       Object.defineProperty(window, 'location', {
         value: {
-          href: 'https://garbage%redirect_uri=https%3A%2F%2Flogin.okta.com%garbage',
+          href: 'https://org.com/oauth2/v1/authorize?response_type=code&state=state' +
+            '&code_challenge_method=S256&redirect_uri=https%3A%2F%2Flogin.okta.com%2Foauth%2Fcallback&nonce=nonce' +
+            '&code_challenge=challenge&client_id=id',
         },
         writeable: true,
         configurable: true
       });
 
-      // assertions
+      // initiate flow
       Util.enrollmentRedirect(enrollmentView);
+
+      // assert button is not added
       expect(enrollmentView.add).toHaveBeenCalledTimes(0);
+      expect(expectedAddArgs.length).toBe(0);
+
+      // assert redirect called
       expect(utilSpy.redirectWithFormGet).toHaveBeenCalledTimes(1);
 
     });
 
     it('Not OV enrollment', () => {
       // create mocks
-      jest.spyOn(enrollmentView, 'add').mockReturnValue(() => {});
       jest.spyOn(BrowserFeatures, 'isAndroid').mockReturnValue(true);
+
       Object.defineProperty(window, 'location', {
         value: {
-          href: 'https://garbage%org.okta.com%garbage',
+          href: 'https://org.com/oauth2/v1/authorize?response_type=code&state=state' +
+            '&code_challenge_method=S256&redirect_uri=https%3A%2F%2Forg.com%2Fenduser%2Fcallback&nonce=nonce' +
+            '&code_challenge=challenge&client_id=id',
         },
         writeable: true,
         configurable: true
       });
 
-      // assertions
+      // initiate flow
       Util.enrollmentRedirect(enrollmentView);
+
+      // assert button is not added
       expect(enrollmentView.add).toHaveBeenCalledTimes(0);
+      expect(expectedAddArgs.length).toBe(0);
+
+      // assert redirect called
       expect(utilSpy.redirectWithFormGet).toHaveBeenCalledTimes(1);
 
     });
