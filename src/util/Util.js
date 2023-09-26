@@ -196,7 +196,7 @@ Util.enrollmentRedirect = function(view) {
     view.add(createButton({
       className: 'ul-button button button-wide button-primary',
       title: loc('oktaVerify.open.button', 'login'),
-      id: 'launch-ov',
+      id: 'launch-enrollment-ov',
       click: () => {
         Util.redirectWithFormGet(currentViewState.href);
       }

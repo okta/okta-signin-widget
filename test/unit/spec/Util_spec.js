@@ -301,15 +301,14 @@ describe('util/Util', () => {
       add() {}
       options = { appState: { getCurrentViewState() {} }}
     }
-
     const enrollmentView = new EnrollmentView();
     const expectedAddArgs = [];
 
     beforeEach(() => {
+      spyOn(enrollmentView, 'add').and.callFake((addArg) => {expectedAddArgs.push(addArg);});
       jest.spyOn(utilSpy, 'redirectWithFormGet').mockReturnValue(() => {});
       jest.spyOn(enrollmentView.options.appState, 'getCurrentViewState').mockReturnValue({
         href:'https://org.okta.com/login/token/redirect?stateToken=mockedStateToken123'});
-      spyOn(enrollmentView, 'add').and.callFake((addArg) => {expectedAddArgs.push(addArg);});
     });
 
     afterEach(() => {
@@ -320,7 +319,6 @@ describe('util/Util', () => {
     it('adds Open OV button if the browser is on Android', () => {
       // create mocks
       jest.spyOn(BrowserFeatures, 'isAndroid').mockReturnValue(true);
-
       Object.defineProperty(window, 'location', {
         value: {
           href: 'https://org.com/oauth2/v1/authorize?response_type=code&state=state' +
@@ -339,7 +337,7 @@ describe('util/Util', () => {
       let expectedCreateButton = createButton({
         className: 'ul-button button button-wide button-primary',
         title: loc('oktaVerify.open.button', 'login'),
-        id: 'launch-ov'
+        id: 'launch-enrollment-ov'
       });
 
       let actualCreateButton = expectedAddArgs[0].prototype;
@@ -349,13 +347,11 @@ describe('util/Util', () => {
       expect(utilSpy.redirectWithFormGet).toHaveBeenCalledTimes(0);
       actualCreateButton.click();
       expect(utilSpy.redirectWithFormGet).toHaveBeenCalledTimes(1);
-
     });
 
     it('does not add OV button if the browser is not on Android', () => {
       // create mocks
       jest.spyOn(BrowserFeatures, 'isAndroid').mockReturnValue(false);
-
       Object.defineProperty(window, 'location', {
         value: {
           href: 'https://org.com/oauth2/v1/authorize?response_type=code&state=state' +
@@ -375,13 +371,11 @@ describe('util/Util', () => {
 
       // assert redirect called
       expect(utilSpy.redirectWithFormGet).toHaveBeenCalledTimes(1);
-
     });
 
     it('Not OV enrollment', () => {
       // create mocks
       jest.spyOn(BrowserFeatures, 'isAndroid').mockReturnValue(true);
-
       Object.defineProperty(window, 'location', {
         value: {
           href: 'https://org.com/oauth2/v1/authorize?response_type=code&state=state' +
@@ -401,7 +395,6 @@ describe('util/Util', () => {
 
       // assert redirect called
       expect(utilSpy.redirectWithFormGet).toHaveBeenCalledTimes(1);
-
     });
   });
 });
