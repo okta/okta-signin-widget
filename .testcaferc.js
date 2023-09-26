@@ -52,9 +52,9 @@ const {
 } = process.env;
 
 const env = {
-  OKTA_SIW_ONLY_FLAKY,
-  OKTA_SIW_SKIP_FLAKY,
-  OKTA_SIW_GEN3,
+  OKTA_SIW_ONLY_FLAKY: !!OKTA_SIW_ONLY_FLAKY,
+  OKTA_SIW_SKIP_FLAKY: !!OKTA_SIW_SKIP_FLAKY,
+  OKTA_SIW_GEN3: !!OKTA_SIW_GEN3,
 };
 
 const config = {
@@ -66,7 +66,7 @@ const config = {
   src: [ 'test/testcafe/spec/*_spec.js' ],
   hooks: { request: mocks, },
   userVariables: {
-    gen3: !!env.OKTA_SIW_GEN3,
+    gen3: env.OKTA_SIW_GEN3,
   },
   // OKTA-575629 Remove this when gen3 parity test flakiness is resolved
   ...(env.OKTA_SIW_GEN3 && {
@@ -98,7 +98,7 @@ const config = {
     // test.meta('flaky', true)('my test', (t) => {})
     if (fixtureMeta.flaky || testMeta.flaky) {
       // OKTA_SIW_ONLY_FLAKY supercedes OKTA_SIW_SKIP_FLAKY
-      return !!env.OKTA_SIW_ONLY_FLAKY || !env.OKTA_SIW_SKIP_FLAKY;
+      return env.OKTA_SIW_ONLY_FLAKY || !env.OKTA_SIW_SKIP_FLAKY;
     }
 
     return true;
