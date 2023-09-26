@@ -1,8 +1,11 @@
 /* eslint max-len: [2, 140] */
-import { $ } from '@okta/courage';
+import {$, createButton, loc} from '@okta/courage';
 import $sandbox from 'sandbox';
 import Logger from 'util/Logger';
 import Util from 'util/Util';
+import BrowserFeatures from '../../../src/util/BrowserFeatures';
+import utilSpy from '../../../src/util/Util';
+
 
 describe('util/Util', () => {
   describe('transformErrorXHR', () => {
@@ -25,7 +28,7 @@ describe('util/Util', () => {
       Util.transformErrorXHR(xhr);
       expect(xhr.responseJSON.errorSummary).toEqual('There was an unsupported response from server.');
     });
-  
+
     it('errorSummary shows unsupported response from server when there are no responseJSON and responseText is not valid JSON', () => {
       const xhr = {
         status: 400,
@@ -218,8 +221,8 @@ describe('util/Util', () => {
 
       expect($('#okta-sign-in form :submit')[0].click).toHaveBeenCalledTimes(1);
       expect($('#okta-sign-in').html()).toBe(
-        '<form method="get" style="display: none;" action="http://example.com/idp/123">' + 
-          '<input type="submit">' + 
+        '<form method="get" style="display: none;" action="http://example.com/idp/123">' +
+          '<input type="submit">' +
           '</form>'
       );
     });
@@ -232,7 +235,7 @@ describe('util/Util', () => {
         '<form method="get" style="display: none;" action="http://example.com/idp/123">' +
           '<input name="foo" type="hidden" value="aaa">' +
           '<input name="bar" type="hidden" value="bbb">' +
-          '<input type="submit">' + 
+          '<input type="submit">' +
           '</form>'
       );
     });
@@ -244,7 +247,7 @@ describe('util/Util', () => {
       expect($('#okta-sign-in').html()).toBe(
         '<form method="get" style="display: none;" action="http://example.com/idp/123#hello=okta">' +
           '<input name="redirectURI" type="hidden" value="https://foo.com">' +
-          '<input type="submit">' + 
+          '<input type="submit">' +
           '</form>'
       );
     });
@@ -258,7 +261,7 @@ describe('util/Util', () => {
       expect($('#okta-sign-in').html()).toBe(
         '<form method="get" style="display: none;" action="http://example.com/idp/123">' +
           '<input name="foo" type="hidden" value="a&quot;/><img error=&quot;alert(11)&quot; src=&quot;xx&quot;/>">' +
-          '<input type="submit">' + 
+          '<input type="submit">' +
           '</form>'
       );
     });
@@ -270,7 +273,7 @@ describe('util/Util', () => {
       expect($('#okta-sign-in').html()).toBe(
         '<form method="get" style="display: none;" action="http://example.com/idp/123">' +
           '<input name="foo" type="hidden" value="&quot;/><img error">' +
-          '<input type="submit">' + 
+          '<input type="submit">' +
           '</form>'
       );
     });
@@ -288,6 +291,101 @@ describe('util/Util', () => {
       expect($('#okta-sign-in form').length).toBe(0);
       expect(Logger.error).toHaveBeenCalledTimes(1);
       expect(Logger.error).toHaveBeenCalledWith('Cannot redirect to empty URL: ()');
+    });
+
+  });
+
+  describe('enrollmentRedirect', () => {
+
+    class EnrollmentView {
+      add() {}
+      options = { appState: { getCurrentViewState() {} }}
+    }
+
+    const enrollmentView = new EnrollmentView();
+
+    beforeEach(() => {
+      jest.spyOn(utilSpy, 'redirectWithFormGet').mockReturnValue(() => {});
+      jest.spyOn(enrollmentView.options.appState, 'getCurrentViewState').mockReturnValue({
+        href:'https://org.okta.com/login/token/redirect?stateToken=mockedStateToken123'});
+
+    });
+
+    afterEach(() => {
+      delete window.location;
+    });
+
+    it('add Open OV button', () => {
+      // create mocks
+      let expectedAddArgs = [];
+      jest.spyOn(BrowserFeatures, 'isAndroid').mockReturnValue(true);
+      spyOn(enrollmentView, 'add').and.callFake((addArg) => {expectedAddArgs.push(addArg);});
+
+      Object.defineProperty(window, 'location', {
+        value: {
+          href: 'https://garbage%redirect_uri=https%3A%2F%2Flogin.okta.com%garbage',
+        },
+        writeable: true,
+        configurable: true
+      });
+
+      // assertions
+      Util.enrollmentRedirect(enrollmentView);
+      expect(enrollmentView.add).toHaveBeenCalledTimes(1);
+      expect(expectedAddArgs.length).toBe(1);
+
+      let expectedCreateButton = createButton({
+        className: 'ul-button button button-wide button-primary',
+        title: loc('oktaVerify.open.button', 'login'),
+        id: 'launch-ov'
+      });
+
+      let actualCreateButton = expectedAddArgs[0].prototype;
+      expect(actualCreateButton.className).toBe(expectedCreateButton.prototype.className);
+      expect(actualCreateButton.title).toBe(expectedCreateButton.prototype.title);
+      expect(actualCreateButton.id).toBe(expectedCreateButton.prototype.id);
+      expect(utilSpy.redirectWithFormGet).toHaveBeenCalledTimes(0);
+      actualCreateButton.click();
+      expect(utilSpy.redirectWithFormGet).toHaveBeenCalledTimes(1);
+
+    });
+
+    it('Browser is not Android', () => {
+      // create mocks
+      jest.spyOn(enrollmentView, 'add').mockReturnValue(() => {});
+      jest.spyOn(BrowserFeatures, 'isAndroid').mockReturnValue(false);
+      Object.defineProperty(window, 'location', {
+        value: {
+          href: 'https://garbage%redirect_uri=https%3A%2F%2Flogin.okta.com%garbage',
+        },
+        writeable: true,
+        configurable: true
+      });
+
+      // assertions
+      Util.enrollmentRedirect(enrollmentView);
+      expect(enrollmentView.add).toHaveBeenCalledTimes(0);
+      expect(utilSpy.redirectWithFormGet).toHaveBeenCalledTimes(1);
+
+    });
+
+    it('Not OV enrollment', () => {
+      // create mocks
+      jest.spyOn(enrollmentView, 'add').mockReturnValue(() => {});
+      jest.spyOn(BrowserFeatures, 'isAndroid').mockReturnValue(true);
+      Object.defineProperty(window, 'location', {
+        value: {
+          href: 'https://garbage%org.okta.com%garbage',
+        },
+        writeable: true,
+        configurable: true
+      });
+
+      // assertions
+      Util.enrollmentRedirect(enrollmentView);
+      expect(enrollmentView.add).toHaveBeenCalledTimes(0);
+      expect(utilSpy.redirectWithFormGet).toHaveBeenCalledTimes(1);
+
     });
   });
 });
