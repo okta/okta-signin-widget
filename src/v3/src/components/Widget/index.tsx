@@ -34,7 +34,7 @@ import {
 import { mergeThemes } from 'src/util/mergeThemes';
 
 import Bundles from '../../../../util/Bundles';
-import { IDX_STEP } from '../../constants';
+import { CONFIGURED_FLOW, IDX_STEP } from '../../constants';
 import { WidgetContextProvider } from '../../contexts';
 import {
   useInteractionCodeFlow, useOnce,
@@ -99,6 +99,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     proxyIdxResponse,
     eventEmitter,
     otp,
+    flow,
   } = widgetProps;
 
   const [hide, setHide] = useState<boolean>(false);
@@ -250,7 +251,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         setIdxTransaction(await triggerEmailVerifyCallback(widgetProps));
         return;
       }
-      const transaction: IdxTransaction = await authClient.idx.start({
+      let transaction: IdxTransaction = await authClient.idx.start({
         stateHandle,
         // Required to prevent auth-js from clearing sessionStorage and breaking interaction code flow
         exchangeCodeForTokens: false,
@@ -260,6 +261,20 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       );
       if (hasError && usingStateHandleFromSession) {
         throw new Error('saved stateToken is invalid'); // will be caught in this function
+      }
+
+      // TODO
+      // OKTA-462165 PR#2382
+
+      if (flow === CONFIGURED_FLOW.REGISTRATION && transaction.nextStep?.name === IDX_STEP.IDENTIFY) {
+        const isRegistrationEnabled = transaction.neededToProceed
+          .find(remediation => remediation.name === 'select-enroll-profile') !== undefined
+
+        if(isRegistrationEnabled) {
+          transaction = await authClient.idx.proceed({
+            step: 'select-enroll-profile'
+          });
+        }
       }
 
       setResponseError(null);
@@ -385,9 +400,20 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         setIdxTransaction(await triggerEmailVerifyCallback(widgetProps));
         return;
       }
-      const transaction = await authClient.idx.proceed({
+      let transaction = await authClient.idx.proceed({
         stateHandle: idxTransaction?.context.stateHandle,
       });
+
+      if (flow === CONFIGURED_FLOW.REGISTRATION && transaction?.nextStep.name === IDX_STEP.IDENTIFY) {
+        const isRegistrationEnabled = transaction.neededToProceed
+          .find(remediation => remediation.name === 'select-enroll-profile') !== undefined
+
+        if(isRegistrationEnabled) {
+          transaction = await authClient.idx.proceed({
+            step: 'select-enroll-profile'
+          });
+        }
+      }
 
       setIdxTransaction(transaction);
 

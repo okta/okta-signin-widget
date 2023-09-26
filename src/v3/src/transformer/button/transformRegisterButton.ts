@@ -12,7 +12,7 @@
 
 import { IdxFeature } from '@okta/okta-auth-js';
 
-import { IDX_STEP } from '../../constants';
+import { CONFIGURED_FLOW, IDX_STEP } from '../../constants';
 import {
   DescriptionElement,
   LinkElement,
@@ -36,6 +36,11 @@ export const transformRegisterButton: TransformStepFnWithOptions = ({
   const registerStep = availableSteps?.find(
     ({ name }) => name === IDX_STEP.SELECT_ENROLL_PROFILE,
   );
+
+  if(widgetProps.flow === CONFIGURED_FLOW.RESET_PASSWORD) {
+    return formbag;
+  }
+
   if (!shouldAddDefaultButton || typeof registerStep === 'undefined') {
     return formbag;
   }

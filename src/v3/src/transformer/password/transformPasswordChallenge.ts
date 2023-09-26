@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { CONFIGURED_FLOW } from '../../constants';
 import {
   ButtonElement,
   ButtonType,
@@ -18,9 +19,15 @@ import {
   TitleElement,
 } from '../../types';
 import { getUserInfo, loc } from '../../util';
+import { removeUIElementWithName } from '../utils';
 
-export const transformPasswordChallenge: IdxStepTransformer = ({ formBag, transaction }) => {
+export const transformPasswordChallenge: IdxStepTransformer = ({ formBag, transaction, widgetProps }) => {
   const { uischema } = formBag;
+
+  if(widgetProps.flow === CONFIGURED_FLOW.RESET_PASSWORD) {
+    uischema.elements = removeUIElementWithName('credentials.passcode', uischema.elements);
+    return formBag;
+  }
 
   const titleElement: TitleElement = {
     type: 'Title',

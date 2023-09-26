@@ -22,7 +22,7 @@ import {
 import { cloneDeep, merge, omit } from 'lodash';
 import { useCallback } from 'preact/hooks';
 
-import { IDX_STEP, ON_PREM_TOKEN_CHANGE_ERROR_KEY } from '../constants';
+import { CONFIGURED_FLOW, IDX_STEP, ON_PREM_TOKEN_CHANGE_ERROR_KEY } from '../constants';
 import { useWidgetContext } from '../contexts';
 import { ErrorXHR, EventErrorContext, MessageType } from '../types';
 import {
@@ -87,6 +87,16 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
         errorSummary: error.responseJSON && error.responseJSON.errorSummary,
       };
     };
+
+    const getFormPasswordAuthenticatorId = (transaction: IdxTransaction) => (
+      transaction?.neededToProceed
+          ?.find(step => step.name === 'select-authenticator-authenticate')
+          ?.value?.find(val => val.name === 'authenticator')
+          ?.options?.find(option => option.label === 'Password')
+          // @ts-expect-error auth-js type errors
+          ?.value?.form?.value?.find(formVal => formVal.name === 'id')
+          ?.value
+    )
 
     // TODO: Revisit and refactor this function as it is a dupe of handleError fn in Widget/index.tsx
     const handleError = (transaction: IdxTransaction | undefined, error: unknown) => {
@@ -199,7 +209,19 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     }
     setMessage(undefined);
     try {
-      const newTransaction = await fn(payload);
+      let newTransaction = await fn(payload);
+
+      if (widgetProps.flow === CONFIGURED_FLOW.RESET_PASSWORD && step === IDX_STEP.IDENTIFY) {
+        newTransaction = await authClient.idx.proceed({
+          authenticator: {id: getFormPasswordAuthenticatorId(newTransaction)},
+          step: 'select-authenticator-authenticate',        
+        });
+
+        newTransaction = await authClient.idx.proceed({
+          stateHandle: newTransaction.context.stateHandle,       
+        });
+      }
+
       // TODO: OKTA-538791 this is a temp work around until the auth-js fix
       if (!newTransaction.nextStep && newTransaction.availableSteps?.length) {
         [newTransaction.nextStep] = newTransaction.availableSteps;

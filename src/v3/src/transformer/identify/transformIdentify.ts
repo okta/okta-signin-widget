@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { CONFIGURED_FLOW } from '../../constants';
 import {
   ButtonElement,
   ButtonType,
@@ -19,6 +20,7 @@ import {
   UISchemaElement,
 } from '../../types';
 import { getUsernameCookie, loc } from '../../util';
+import { transformIdentityRecovery } from '../layout/recovery';
 import { getUIElementWithName, removeUIElementWithName } from '../utils';
 
 export const transformIdentify: IdxStepTransformer = ({
@@ -28,6 +30,10 @@ export const transformIdentify: IdxStepTransformer = ({
 }) => {
   const { features, username } = widgetProps;
   const { uischema, data } = formBag;
+
+  if(widgetProps.flow === CONFIGURED_FLOW.RESET_PASSWORD) {
+    return transformIdentityRecovery({formBag, widgetProps, transaction});
+  }
 
   const identifierElement = getUIElementWithName(
     'identifier',

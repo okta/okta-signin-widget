@@ -12,7 +12,7 @@
 
 import { IdxTransaction, NextStep } from '@okta/okta-auth-js';
 
-import { AUTHENTICATOR_KEY } from '../../constants';
+import { AUTHENTICATOR_KEY, CONFIGURED_FLOW } from '../../constants';
 import {
   LinkElement,
   TransformStepFnWithOptions,
@@ -40,6 +40,10 @@ export const transformForgotPasswordButton: TransformStepFnWithOptions = ({
   const forgotPasswordStep = getStepByName(forgotPasswordAuthenticatorStepName, transaction)
     ?? getStepByName(forgotPasswordAuthenticatorEnrollmentStep, transaction);
   if (!shouldAddDefaultButton || typeof forgotPasswordStep === 'undefined') {
+    return formbag;
+  }
+
+  if(widgetProps.flow === CONFIGURED_FLOW.RESET_PASSWORD) {
     return formbag;
   }
 

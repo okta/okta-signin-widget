@@ -12,7 +12,7 @@
 
 import { IdxFeature } from '@okta/okta-auth-js';
 
-import { STEPS_REQUIRING_UNLOCK_ACCOUNT_LINK } from '../../constants';
+import { CONFIGURED_FLOW, STEPS_REQUIRING_UNLOCK_ACCOUNT_LINK } from '../../constants';
 import {
   LinkElement,
   TransformStepFnWithOptions,
@@ -31,6 +31,11 @@ export const transformUnlockAccountButton: TransformStepFnWithOptions = ({
   const unlockStep = availableSteps?.find(
     ({ name }) => name === 'unlock-account',
   );
+
+  if(widgetProps.flow === CONFIGURED_FLOW.RESET_PASSWORD) {
+    return formbag;
+  }
+
   if (!shouldAddDefaultButton || typeof unlockStep === 'undefined') {
     return formbag;
   }

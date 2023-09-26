@@ -11,6 +11,8 @@
  */
 
 import {
+  ButtonElement,
+  ButtonType,
   FieldElement,
   IdxStepTransformer,
   TitleElement,
@@ -25,7 +27,7 @@ const getContentTitleAndParams = (brandName?: string): TitleElement['options'] =
   return { content: loc('password.reset.title.generic', 'login') };
 };
 
-export const transformIdentityRecovery: IdxStepTransformer = ({ formBag, widgetProps }) => {
+export const transformIdentityRecovery: IdxStepTransformer = ({ formBag, widgetProps, transaction }) => {
   const { brandName } = widgetProps;
   const { uischema } = formBag;
 
@@ -38,9 +40,19 @@ export const transformIdentityRecovery: IdxStepTransformer = ({ formBag, widgetP
     uischema.elements,
   ) as FieldElement;
 
+  const submitBtnElement: ButtonElement = {
+    type: 'Button',
+    label: loc('oform.next', 'login'),
+    options: {
+      type: ButtonType.SUBMIT,
+      step: transaction.nextStep!.name,
+    },
+  };
+
   uischema.elements = [
     titleElement,
     identifierElement,
+    submitBtnElement,
   ];
 
   return formBag;

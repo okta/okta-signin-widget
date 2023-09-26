@@ -395,6 +395,9 @@ const TransformerMap: {
   [IDX_STEP.IDENTIFY_RECOVERY]: {
     [AUTHENTICATOR_KEY.DEFAULT]: {
       transform: transformIdentityRecovery,
+      buttonConfig: {
+        showDefaultSubmit: false,
+      }
     },
   },
   [IDX_STEP.LAUNCH_AUTHENTICATOR]: {

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { AUTHENTICATOR_KEY, IDX_STEP } from '../../constants';
+import { AUTHENTICATOR_KEY, CONFIGURED_FLOW, IDX_STEP } from '../../constants';
 import {
   IWidgetContext,
   LinkElement,
@@ -27,6 +27,7 @@ import TransformerMap from '../layout/idxTransformerMapping';
 export const transformVerifyWithOtherButton: TransformStepFnWithOptions = ({
   transaction,
   step,
+  widgetProps
 }) => (
   formbag,
 ) => {
@@ -41,6 +42,10 @@ export const transformVerifyWithOtherButton: TransformStepFnWithOptions = ({
   const selectVerifyStep = transaction.availableSteps
     ?.find(({ name }) => name === IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE);
   if (!shouldAddButton || !shouldAddDefaultLink || typeof selectVerifyStep === 'undefined') {
+    return formbag;
+  }
+
+  if(widgetProps.flow === CONFIGURED_FLOW.RESET_PASSWORD) {
     return formbag;
   }
 
