@@ -55,8 +55,7 @@ const pushWaitAutoChallengeMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/authenticators/poll')
   .respond(pushPollAutoChallenge);
 
-fixture('Challenge Okta Verify Push')
-  .meta('v3', true);
+fixture('Challenge Okta Verify Push');
 
 async function setup(t) {
   const challengeOktaVerifyPushPageObject = new ChallengeOktaVerifyPushPageObject(t);

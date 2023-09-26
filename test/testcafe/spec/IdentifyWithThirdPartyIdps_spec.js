@@ -66,7 +66,7 @@ const renderWidget = ClientFunction((settings) => {
   window.renderPlaygroundWidget(settings);
 });
 
-fixture('Identify + IDPs').meta('v3', true);
+fixture('Identify + IDPs');
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);

@@ -34,7 +34,7 @@ const serverErrorMock = RequestMock()
   .respond(serverError);
 
 
-fixture('Number Challenge Okta Verify Push').meta('v3', true);
+fixture('Number Challenge Okta Verify Push');
 
 async function setup(t) {
   const challengeOktaVerifyPushPageObject = new ChallengeOktaVerifyPushPageObject(t);

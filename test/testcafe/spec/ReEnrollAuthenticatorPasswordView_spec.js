@@ -55,7 +55,7 @@ const errorPostPasswordUpdateMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/cancel')
   .respond(xhrIdentify);
 
-fixture('Authenticator Expired Password').meta('v3', true);
+fixture('Authenticator Expired Password');
 
 async function setup(t) {
   const expiredPasswordPage = new FactorEnrollPasswordPageObject(t);

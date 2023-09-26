@@ -107,9 +107,9 @@ const config = {
       return false;
       */
 
-      // run fixture on gen3
-      // fixture('my tests').meta('v3', true)
-      if (fixtureMeta.v3 !== true || testMeta.v3 === false) {
+      // skip fixture on gen3
+      // fixture('my tests').meta('v3', false)
+      if (fixtureMeta.v3 === false) {
         return false;
       }
 

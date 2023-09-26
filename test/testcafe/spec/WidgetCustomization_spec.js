@@ -39,8 +39,7 @@ const rerenderWidget = ClientFunction((settings) => {
   window.renderPlaygroundWidget(settings);
 });
 
-fixture('Custom widget attributes')
-  .meta('v3', true);
+fixture('Custom widget attributes');
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);

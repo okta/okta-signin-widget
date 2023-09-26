@@ -61,7 +61,7 @@ async function setup(t, isVerify) {
   return pageObject;
 }
 
-fixture('Enroll IdP Authenticator').meta('v3', true);
+fixture('Enroll IdP Authenticator');
 test
   .requestHooks(logger, enrollMock)('enroll with IdP authenticator', async t => {
     const pageObject = await setup(t);
@@ -86,7 +86,7 @@ test
     await t.expect(pageObject.getErrorFromErrorBox()).eql('Unable to enroll authenticator. Try again.');
   });
 
-fixture('Verify IdP Authenticator').meta('v3', true);
+fixture('Verify IdP Authenticator');
 test
   .requestHooks(logger, verifyMock)('verify with IdP authenticator', async t => {
     const pageObject = await setup(t, true);

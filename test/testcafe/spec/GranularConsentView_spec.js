@@ -42,7 +42,7 @@ async function testRedirect(t) {
     .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
 }
 
-fixture('GranularConsent').meta('v3', true);
+fixture('GranularConsent');
 
 test.requestHooks(requestLogger, consentGranularMock)('should show scopes list', async t => {
   const consentPage  = await setup(t);

@@ -51,8 +51,7 @@ const mockChallengeOVOnlyMethodsWithDeviceKnown = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrOktaVerifyOnlyMethodsWithDeviceKnown);
 
-fixture('Select Method screen for Okta verify')
-  .meta('v3', true);
+fixture('Select Method screen for Okta verify');
 
 async function verifyFactorByIndex(t, selectAuthenticatorPage, index, expectedLabel) {
   await t.expect(selectAuthenticatorPage.getFactorLabelByIndex(index)).eql(expectedLabel);

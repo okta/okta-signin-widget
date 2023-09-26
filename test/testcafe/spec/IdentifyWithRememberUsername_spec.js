@@ -52,8 +52,7 @@ const baseConfig = {
   }
 };
 
-fixture('Identify With Remember Username')
-  .meta('v3', true);
+fixture('Identify With Remember Username');
 
 async function setup(t, options) {
   const identityPage = new IdentityPageObject(t);

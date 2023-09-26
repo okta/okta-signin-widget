@@ -121,8 +121,7 @@ const mockChallengeRsa = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge')
   .respond(xhrAuthenticatorRequiredRsa);
 
-fixture('Select Authenticator for verification Form')
-  .meta('v3', true);
+fixture('Select Authenticator for verification Form');
 
 async function setup(t) {
   const selectFactorPageObject = new SelectFactorPageObject(t);

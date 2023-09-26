@@ -36,8 +36,7 @@ const totpEnableBiometricsMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(errorEnableBiometricsOktaVerifyTotp, 400);
 
-fixture('Challenge Okta Verify Totp Form')
-  .meta('v3', true);
+fixture('Challenge Okta Verify Totp Form');
 
 async function setup(t) {
   const challengeOktaVerifyTOTPPageObject = new ChallengeOktaVerifyTotpPageObject(t);

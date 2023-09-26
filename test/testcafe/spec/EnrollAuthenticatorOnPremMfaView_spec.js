@@ -19,7 +19,7 @@ const passcodeChangeMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(xhrPasscodeChange, 403);
 
-fixture('Authenticator On Prem').meta('v3', true);
+fixture('Authenticator On Prem');
 
 async function setup(t) {
   const enrollOnPremPage = new EnrollOnPremPageObject(t);

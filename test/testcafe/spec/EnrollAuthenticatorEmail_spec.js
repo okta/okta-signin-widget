@@ -90,8 +90,7 @@ const invalidOTPMockWithEmailMagicLink = RequestMock()
   .respond(invalidOTP, 403);
 
 
-fixture('Enroll Email Authenticator')
-  .meta('v3', true);
+fixture('Enroll Email Authenticator');
 
 async function setup(t) {
   const enrollEmailPageObject = new EnrollEmailPageObject(t);

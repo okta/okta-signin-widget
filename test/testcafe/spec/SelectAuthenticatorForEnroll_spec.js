@@ -81,8 +81,7 @@ const requestLogger = RequestLogger(
   }
 );
 
-fixture('Select Authenticator for enrollment Form')
-  .meta('v3', true);
+fixture('Select Authenticator for enrollment Form');
 
 async function setup(t) {
   const selectFactorPageObject = new SelectFactorPageObject(t);

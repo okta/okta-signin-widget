@@ -29,7 +29,7 @@ const updatedHistoryCountMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorResetPasswordUpdatedHistoryCount);
 
-fixture('Authenticator Reset Password').meta('v3', true);
+fixture('Authenticator Reset Password');
 
 async function setup(t) {
   const resetPasswordPage = new FactorEnrollPasswordPageObject(t);

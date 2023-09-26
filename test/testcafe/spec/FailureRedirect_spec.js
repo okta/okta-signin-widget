@@ -11,8 +11,7 @@ const userNotAssignedMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrErrorWithFailureRedirect);
 
-fixture('Failure with redirect')
-  .meta('v3', true);
+fixture('Failure with redirect');
 
 test.requestHooks(userNotAssignedMock)('generic case: redirects', async t => {
   const terminalPage = new TerminalPageObject(t);

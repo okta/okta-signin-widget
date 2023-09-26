@@ -23,7 +23,7 @@ const requestLogger = RequestLogger(/consent/,
   }
 );
 
-fixture('AdminConsent').meta('v3', true);
+fixture('AdminConsent');
 
 async function setup(t) {
   const consentPage = new ConsentPageObject(t);

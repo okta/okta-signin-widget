@@ -89,7 +89,7 @@ const endUserRemediationNoOptionsMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(endUserRemediationNoOptions);  
 
-fixture('Terminal view').meta('v3', true);
+fixture('Terminal view');
 
 async function setup(t) {
   const terminalPageObject = userVariables.v3 ? new TerminalPageObjectV3(t) : new TerminalPageObject(t);

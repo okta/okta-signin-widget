@@ -36,8 +36,7 @@ const errorMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(xhrAuthenticatorEnrollPasswordError, 403);
 
-fixture('Authenticator Enroll Password')
-  .meta('v3', true);
+fixture('Authenticator Enroll Password');
 
 async function setup(t) {
   const enrollPasswordPage = new FactorEnrollPasswordPageObject(t);

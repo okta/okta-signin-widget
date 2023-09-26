@@ -12,7 +12,7 @@ const noMessagesErrorMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(noMessageResponse, 403);
 
-fixture('GenericErrors').meta('v3', true);
+fixture('GenericErrors');
 
 async function setup(t) {
   const terminalPage = new TerminalPageObject(t);

@@ -204,8 +204,7 @@ const getResendTimestamp = ClientFunction(() => {
   return window.sessionStorage.getItem('osw-oie-resend-timestamp');
 });
 
-fixture('Challenge Email Authenticator Form')
-  .meta('v3', true);
+fixture('Challenge Email Authenticator Form');
 
 async function setup(t) {
   const challengeEmailPageObject = new ChallengeEmailPageObject(t);

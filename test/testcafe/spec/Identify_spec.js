@@ -102,8 +102,7 @@ const identifyRequestLogger = RequestLogger(
   }
 );
 
-fixture('Identify')
-  .meta('v3', true);
+fixture('Identify');
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);

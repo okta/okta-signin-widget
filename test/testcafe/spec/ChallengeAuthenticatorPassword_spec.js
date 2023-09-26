@@ -51,8 +51,7 @@ const recoveryRequestLogger = RequestLogger(
   }
 );
 
-fixture('Challenge Authenticator Password')
-  .meta('v3', true);
+fixture('Challenge Authenticator Password');
 
 async function setup(t) {
   const challengePasswordPage = new ChallengePasswordPageObject(t);

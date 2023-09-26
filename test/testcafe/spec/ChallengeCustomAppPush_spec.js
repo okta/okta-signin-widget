@@ -70,7 +70,7 @@ const mockCustomAppSendPush = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrSelectAuthenticatorCustomPushWithMethodSendPush);
 
-fixture('Challenge Custom App Push').meta('v3', true);
+fixture('Challenge Custom App Push');
 
 async function setup(t) {
   const challengeCustomAppPushPageObject = new ChallengeCustomAppPushPageObject(t);

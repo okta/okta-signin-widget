@@ -22,8 +22,7 @@ const requestLogger = RequestLogger(
   }
 );
 
-fixture('Enroll Profile')
-  .meta('v3', true);
+fixture('Enroll Profile');
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);

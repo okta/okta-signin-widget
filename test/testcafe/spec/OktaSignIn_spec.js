@@ -93,8 +93,7 @@ const renderAndAddEventListenerWithError = ClientFunction((settings) => {
 });
 
 
-fixture('OktaSignIn')
-  .meta('v3', true);
+fixture('OktaSignIn');
 
 async function setup(t, options) {
   const identityPage = new IdentityPageObject(t);

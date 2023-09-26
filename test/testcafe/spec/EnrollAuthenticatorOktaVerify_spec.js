@@ -271,8 +271,7 @@ const enableBiometricsMessageTitle = 'Enable biometrics to add an account in Okt
 const urlCopiedToClipboardMessage = 'Copy sign-in URL to clipboard';
 const oktaVerifyAppStoreDownloadUrl = 'https://apps.apple.com/us/app/okta-verify/id490179405';
 
-fixture('Enroll Okta Verify Authenticator')
-  .meta('v3', true);
+fixture('Enroll Okta Verify Authenticator');
 
 async function setup(t) {
   const enrollOktaVerifyPage = new EnrollOktaVerifyPageObject(t);

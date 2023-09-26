@@ -56,8 +56,7 @@ const mockChangePasswordNotAllowed = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/skip')
   .respond(xhrSuccess);
 
-fixture('Password Authenticator Expiry Warning')
-  .meta('v3', true);
+fixture('Password Authenticator Expiry Warning');
 
 async function setup(t) {
   const passwordExpiryWarningPage = new FactorEnrollPasswordPageObject(t);

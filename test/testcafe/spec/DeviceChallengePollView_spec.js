@@ -290,7 +290,7 @@ const LoginHintAppLinkMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
   .respond(identifyWithLaunchAppLink);
 
-fixture('Device Challenge Polling View with the Loopback Server, Custom URI, App Link, and Universal Link approaches').meta('v3', true);
+fixture('Device Challenge Polling View with the Loopback Server, Custom URI, App Link, and Universal Link approaches');
 
 async function setup(t) {
   const deviceChallengePollPage = new DeviceChallengePollPageObject(t);

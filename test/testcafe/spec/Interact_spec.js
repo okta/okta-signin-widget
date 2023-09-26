@@ -84,8 +84,7 @@ const requestLogger = RequestLogger(
   }
 );
 
-fixture('Interact')
-  .meta('v3', true);
+fixture('Interact');
 
 function decodeUrlEncodedRequestBody(body) {
   const params = {};

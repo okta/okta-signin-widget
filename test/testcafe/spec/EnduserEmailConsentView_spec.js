@@ -23,8 +23,7 @@ const enduserEmailConsentFailure = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/consent')
   .respond(enduserEmailConsentChallengeDenied);
 
-fixture('Enduser Email Consent')
-  .meta('v3', true);
+fixture('Enduser Email Consent');
 
 async function setup(t) {
   const consentPageObject = new EnduserConsentPageObject(t);

@@ -53,7 +53,7 @@ async function testRedirect(t) {
     .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
 }
 
-fixture('EnduserConsent').meta('v3', true);
+fixture('EnduserConsent');
 
 test.requestHooks(requestLogger, consentEnduserMock)('should render scopes', async t => {
   const consentPage  = await setup(t);

@@ -70,7 +70,7 @@ const rerenderWidget = ClientFunction((settings) => {
   window.renderPlaygroundWidget(settings);
 });
 
-fixture('Unlock Account').meta('v3', true);
+fixture('Unlock Account');
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);

@@ -34,7 +34,7 @@ const reCaptchaRequestLogger = RequestLogger(
   }
 );
 
-fixture('Identify + Password With Captcha').meta('v3', true);
+fixture('Identify + Password With Captcha');
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);

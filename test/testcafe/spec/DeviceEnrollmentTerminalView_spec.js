@@ -18,7 +18,7 @@ const mdmMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(MdmEnrollment);
 
-fixture('Device enrollment terminal view for ODA and MDM').meta('v3', true);
+fixture('Device enrollment terminal view for ODA and MDM');
 
 async function setup(t) {
   const deviceEnrollmentTerminalPageObject = new DeviceEnrollmentTerminalPageObject(t);

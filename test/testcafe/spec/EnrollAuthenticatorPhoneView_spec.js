@@ -41,8 +41,7 @@ const logger = RequestLogger(/challenge|challenge\/resend|challenge\/answer/,
   }
 );
 
-fixture('Authenticator Enroll Phone')
-  .meta('v3', true);
+fixture('Authenticator Enroll Phone');
 
 async function setup(t) {
   const enrollPhonePage = new EnrollPhonePageObject(t);

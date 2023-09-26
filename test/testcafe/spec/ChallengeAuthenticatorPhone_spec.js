@@ -145,8 +145,7 @@ const voiceSecondaryMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(success);
 
-fixture('Challenge Phone Form')
-  .meta('v3', true);
+fixture('Challenge Phone Form');
 
 async function setup(t) {
   const challengePhonePageObject = new ChallengePhonePageObject(t);

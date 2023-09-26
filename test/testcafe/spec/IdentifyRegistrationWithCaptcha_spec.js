@@ -27,7 +27,7 @@ const reCaptchaRequestLogger = RequestLogger(
   }
 );
 
-fixture('Registration With Captcha').meta('v3', true);
+fixture('Registration With Captcha');
 
 async function setup(t) {
   // mock is configured to show registration page immediately

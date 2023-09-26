@@ -288,8 +288,7 @@ const userVerificationAppLinkBiometricsError = RequestMock()
     res.setBody(identifyWithUserVerificationBiometricsErrorMobile);
   });
 
-fixture('Device Challenge Polling View for user verification and MFA with the Loopback Server, Custom URI and Universal Link approaches')
-  .meta('v3', true);
+fixture('Device Challenge Polling View for user verification and MFA with the Loopback Server, Custom URI and Universal Link approaches');
 
 async function setup(t) {
   const deviceChallengePollPage = new DeviceChallengePollPageObject(t);
