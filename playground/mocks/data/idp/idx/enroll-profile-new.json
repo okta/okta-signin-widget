@@ -40,7 +40,7 @@
                   "label": "Email",
                   "required": true,
                   "maxLength": 100,
-                  "minLength": 2
+                  "minLength": 10
                 }
               ]
             }
