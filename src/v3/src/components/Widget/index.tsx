@@ -140,7 +140,17 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
             },
             icon: ({ theme }) => ({
               paddingInlineEnd: theme.spacing(4),
+              flexShrink: 0,
             }),
+          },
+        },
+        MuiInputBase: {
+          styleOverrides: {
+            input: {
+              '::-ms-reveal': {
+                display: 'none',
+              },
+            },
           },
         },
         MuiInputLabel: {
