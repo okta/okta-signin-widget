@@ -14,15 +14,15 @@ const CheckYourEmailTitle = View.extend({
               code="oie.email.verify.alternate.magicLinkToEmailAddress.with.secondary.email"
               bundle="login"
               arguments="email;secondaryEmail"
-              $1="<span class='strong'>$1</span>"
-              $2="<span class='strong'>$2</span>"
+              $1="<span class='strong no-translate'>$1</span>"
+              $2="<span class='strong no-translate'>$2</span>"
           }}
         {{else}}
           {{i18n
               code="oie.email.verify.alternate.magicLinkToEmailAddress"
               bundle="login"
               arguments="email"
-              $1="<span class='strong'>$1</span>"
+              $1="<span class='strong no-translate'>$1</span>"
           }}
         {{/if}}
       {{else}}
