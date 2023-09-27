@@ -30,23 +30,35 @@ import {
 import { hasMinAuthenticatorOptions, loc, updateTransactionWithNextStep } from '../../../util';
 
 const getTitleText = (challengeMethod: string) => {
-  if (challengeMethod === CHALLENGE_METHOD.APP_LINK) {
-    return loc('appLink.title', 'login');
+  switch (challengeMethod) {
+    case CHALLENGE_METHOD.APP_LINK:
+      return loc('appLink.title', 'login');
+
+    case CHALLENGE_METHOD.CHROME_DTC:
+      return loc('chrome_dtc.title', 'login');
+
+    case CHALLENGE_METHOD.UNIVERSAL_LINK:
+      return loc('universalLink.title', 'login');
+
+    default:
+      return loc('customUri.title', 'login');
   }
-  if (challengeMethod === CHALLENGE_METHOD.UNIVERSAL_LINK) {
-    return loc('universalLink.title', 'login');
-  }
-  return loc('customUri.title', 'login');
 };
 
 const getDescriptionText = (challengeMethod: string) => {
-  if (challengeMethod === CHALLENGE_METHOD.APP_LINK) {
-    return loc('appLink.content', 'login');
+  switch (challengeMethod) {
+    case CHALLENGE_METHOD.APP_LINK:
+      return loc('appLink.content', 'login');
+
+    case CHALLENGE_METHOD.UNIVERSAL_LINK:
+      return loc('universalLink.content', 'login');
+
+    case CHALLENGE_METHOD.CHROME_DTC:
+      return '';
+
+    default:
+      return loc('customUri.required.content.prompt', 'login');
   }
-  if (challengeMethod === CHALLENGE_METHOD.UNIVERSAL_LINK) {
-    return loc('universalLink.content', 'login');
-  }
-  return loc('customUri.required.content.prompt', 'login');
 };
 
 export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
@@ -180,12 +192,14 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
     return formBag;
   }
 
-  if (challengeMethod === CHALLENGE_METHOD.APP_LINK
-    || challengeMethod === CHALLENGE_METHOD.UNIVERSAL_LINK) {
+  if (challengeMethod !== CHALLENGE_METHOD.CUSTOM_URI) {
     uischema.elements.push(spinnerElement);
   }
-  uischema.elements.push(descriptionElement);
-  uischema.elements.push(openOktaVerifyButton);
+
+  if (challengeMethod !== CHALLENGE_METHOD.CHROME_DTC) {
+    uischema.elements.push(descriptionElement);
+    uischema.elements.push(openOktaVerifyButton);
+  }
 
   if (challengeMethod === CHALLENGE_METHOD.CUSTOM_URI) {
     uischema.elements.push({

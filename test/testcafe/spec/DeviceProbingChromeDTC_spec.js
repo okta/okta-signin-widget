@@ -1,4 +1,4 @@
-import { RequestMock } from 'testcafe';
+import { RequestMock, userVariables } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 import DeviceChallengePollPageObject from '../framework/page-objects/DeviceChallengePollPageObject';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
@@ -8,13 +8,13 @@ import identifyWithDeviceProbingLoopback from '../../../playground/mocks/data/id
 
 const mockChromeProbingView = RequestMock()
   .onRequestTo(/\/idp\/idx\/introspect/)
-  .respond((req, res) => {
+  .respond((_, res) => {
     res.statusCode = '200';
     res.headers['content-type'] = 'application/json';
     res.setBody(deviceProbingChromeDTC);
   })
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
-  .respond((req, res) => {
+  .respond((_, res) => {
     res.statusCode = '200';
     res.headers['content-type'] = 'application/json';
     res.setBody(deviceProbingChromeDTC);
@@ -24,7 +24,7 @@ const mockChromeProbingViewAfterOVProbing = RequestMock()
   .onRequestTo(/\/idp\/idx\/introspect/)
   .respond(identifyWithDeviceProbingLoopback)
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
-  .respond((req, res) => {
+  .respond((_, res) => {
     res.statusCode = '200';
     res.headers['content-type'] = 'application/json';
     res.setBody(deviceProbingChromeDTC);
@@ -32,13 +32,13 @@ const mockChromeProbingViewAfterOVProbing = RequestMock()
 
 const mockChromeProbingThenIdentify = RequestMock()
   .onRequestTo(/\/idp\/idx\/introspect/)
-  .respond((req, res) => {
+  .respond((_, res) => {
     res.statusCode = '200';
     res.headers['content-type'] = 'application/json';
     res.setBody(deviceProbingChromeDTC);
   })
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
-  .respond((req, res) => {
+  .respond((_, res) => {
     res.statusCode = '200';
     res.headers['content-type'] = 'application/json';
     res.setBody(identify);
@@ -46,25 +46,24 @@ const mockChromeProbingThenIdentify = RequestMock()
 
 const mockChromeProbingThenCancel = RequestMock()
   .onRequestTo(/\/idp\/idx\/introspect/)
-  .respond((req, res) => {
+  .respond((_, res) => {
     res.statusCode = '200';
     res.headers['content-type'] = 'application/json';
     res.setBody(deviceProbingChromeDTC);
   })
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
-  .respond((req, res) => {
+  .respond((_, res) => {
     res.statusCode = '200';
     res.headers['content-type'] = 'application/json';
     res.setBody(identify);
   })
   .onRequestTo(/\/idp\/idx\/authenticators\/poll\/cancel/)
-  .respond((req, res) => {
+  .respond((_, res) => {
     res.statusCode = '200';
     res.headers['content-type'] = 'application/json';
     res.setBody(identify);
   });
 
-// TODO: OKTA-616189 - implement this view in Gen3
 fixture('Device Challenge Polling View for Chrome DTC').meta('v3', false);
 
 async function setup(t) {
@@ -80,30 +79,33 @@ async function setupIdentify(t) {
 }
 
 test.requestHooks(mockChromeProbingView)('start Chrome DTC probing and show the view after introspect', async t => {
-  assertChromeDTCView(t);
+  await assertChromeDTCView(t);
 });
 
 test.requestHooks(mockChromeProbingViewAfterOVProbing)('start Chrome DTC probing and show the view after OV probing', async t => {
-  assertChromeDTCView(t);
+  await assertChromeDTCView(t);
 });
 
 test.requestHooks(mockChromeProbingThenIdentify)('start Chrome DTC probing and show the view after introspect, then authenticators/poll finishes probing and shows identify form', async t => {
-  assertIdentifyChromeDTCProbing(t);
+  await assertIdentifyChromeDTCProbing(t);
 });
 
 test.requestHooks(mockChromeProbingThenCancel)('start Chrome DTC probing and show the view after introspect, then authenticators/poll/cancel cancels probing and shows identify form', async t => {
-  assertIdentifyChromeDTCProbing(t);
+  await assertIdentifyChromeDTCProbing(t);
 });
 
 
 async function assertChromeDTCView(t) {
   const deviceChallengePollPageObject = await setup(t);
   await checkA11y(t);
-  await t.expect(deviceChallengePollPageObject.getHeader()).eql('Collecting device signals');
-  await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().innerText).eql('Cancel and take me to sign in');
-  await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().length).eql(0);
-  await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().length).eql(0);
-  await t.expect(deviceChallengePollPageObject.getSpinner().getStyleProperty('display')).eql('block');
+  await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Collecting device signals');
+  await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(true);
+  await t.expect(deviceChallengePollPageObject.getFooterSwitchAuthenticatorLink().exists).eql(false);
+  // In v3 all cancel buttons are the same so skip this assertion
+  if (userVariables.v3) {
+    await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().exists).eql(false);
+  }
+  await t.expect(await deviceChallengePollPageObject.hasSpinner()).eql(true);
   let iframe = await deviceChallengePollPageObject.getIframe();
   let attributes = await deviceChallengePollPageObject.getChromeDTCIframeAttributes();
   await t.expect(attributes.src).eql('http://localhost:3000/idp/device/dinkm9q0dV4tsEdkz0g4/challenge?transactionHandle=dit2ChhQiZ7xRpQfED8H9hXnw1NrKcE8VCq');
@@ -113,7 +115,7 @@ async function assertChromeDTCView(t) {
 async function assertIdentifyChromeDTCProbing(t) {
   const identityPageObject = await setupIdentify(t);
   await checkA11y(t);
-  await t.expect(identityPageObject.getPageTitle()).eql('Sign In');
+  await t.expect(identityPageObject.getFormTitle()).eql('Sign In');
   await t.expect(identityPageObject.getRememberMeValue()).eql(false);
 }
 
