@@ -275,8 +275,10 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
 
       // TODO
       // OKTA-651781
+      // bootstrap into enroll flow when flow param is set to signup
       if (shouldRedirectToEnrollFlow(transaction)) {
         transaction = await authClient.idx.proceed({
+          stateHandle: transaction?.context.stateHandle,
           step: 'select-enroll-profile',
         });
       }
@@ -410,9 +412,9 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
 
       // TODO
       // OKTA-651781
-      // bootstrap into enroll flow when flow param is set to signup
       if (shouldRedirectToEnrollFlow(transaction)) {
         transaction = await authClient.idx.proceed({
+          stateHandle: transaction?.context.stateHandle,
           step: 'select-enroll-profile',
         });
       }

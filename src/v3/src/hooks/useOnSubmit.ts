@@ -217,12 +217,13 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
         // when in identifier first flow, there are a couple steps before we can get to recovery page
         // thats why we need to run proceed twice
         newTransaction = await authClient.idx.proceed({
+          stateHandle: newTransaction?.context.stateHandle,
           authenticator: { id: getFormPasswordAuthenticatorId(newTransaction) },
           step: 'select-authenticator-authenticate',
         });
 
         newTransaction = await authClient.idx.proceed({
-          stateHandle: newTransaction.context.stateHandle,
+          stateHandle: newTransaction?.context.stateHandle,
         });
       }
 
