@@ -188,24 +188,10 @@ Util.redirect = function(url, win = window, isAppLink = false) {
   }
 };
 
-Util.enrollmentRedirect = function(view) {
-  const currentViewState = view.options.appState.getCurrentViewState();
+Util.isAndroidOVEnrollment = function(view) {
   const ovEnrollment = decodeURIComponent(window.location.href).includes(ovDeepLink);
-
-  // OKTA-635926: add user gesture for ov enrollment on android
-  if (BrowserFeatures.isAndroid() && ovEnrollment) {
-    view.add(createButton({
-      className: 'ul-button button button-wide button-primary',
-      title: loc('oktaVerify.open.button', 'login'),
-      id: 'launch-enrollment-ov',
-      click: () => {
-        Util.redirectWithFormGet(currentViewState.href);
-      }
-    }));
-  } else {
-    Util.redirectWithFormGet(currentViewState.href);
-  }
-};
+  return BrowserFeatures.isAndroid() && ovEnrollment;
+}
 
 /**
  * Why redirect via Form get rather using `window.location.href`?

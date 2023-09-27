@@ -23,6 +23,7 @@ import { CONFIGURED_FLOW } from '../client/constants';
 import { ConfigError } from 'util/Errors';
 import { updateAppState } from 'v2/client';
 import CookieUtil from '../../util/CookieUtil';
+import BrowserFeatures from "util/BrowserFeatures";
 
 export interface ContextData {
   controller: string;
@@ -240,9 +241,12 @@ export default Controller.extend({
     if (model.get('useRedirect')) {
       // Clear when navigates away from SIW page, e.g. success, IdP Authenticator.
       // Because SIW sort of finished its current /transaction/
-      sessionStorageHelper.removeStateHandle();
 
-      Util.enrollmentRedirect(this);
+      // OKTA-635926: do not redirect without user gesture for ov enrollment on android
+      if (!Util.isAndroidOVEnrollment(this)) {
+        const currentViewState = this.options.appState.getCurrentViewState();
+        Util.redirectWithFormGet(currentViewState.href);
+      }
 
       return;
     }
