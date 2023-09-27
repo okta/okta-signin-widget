@@ -253,7 +253,7 @@ test
     await checkA11y(t);
     await checkConsoleMessages({
       controller: null,
-      formName: 'authenticator-verification-data-with-secondary-email',
+      formName: 'authenticator-verification-data',
       authenticatorKey: 'okta_email',
       methodType: 'email',
     });
@@ -263,8 +263,8 @@ test
     await t.expect(pageTitle).eql('Get a verification email');
     await t.expect(saveBtnText).eql('Send me an email');
 
-    const emailAddress = emailVerificationSendEmailData.currentAuthenticatorEnrollment.value.profile.email;
-    const secondaryEmailAddress = emailVerificationSendEmailData.currentAuthenticatorEnrollment.value.profile.secondaryEmail;
+    const emailAddress = emailVerificationSendEmailDataWithSecondaryEmail.currentAuthenticatorEnrollment.value.profile.email;
+    const secondaryEmailAddress = emailVerificationSendEmailDataWithSecondaryEmail.currentAuthenticatorEnrollment.value.profile.secondaryEmail;
     await t.expect(challengeEmailPageObject.getFormSubtitle())
       .eql(`Send a verification email to ${emailAddress} and ${secondaryEmailAddress} by clicking on "Send me an email".`);
 
@@ -342,8 +342,8 @@ test
     const pageTitle = challengeEmailPageObject.getFormTitle();
     await t.expect(pageTitle).eql('Verify with your email');
 
-    const emailAddress = emailVerification.currentAuthenticatorEnrollment.value.profile.email;
-    const secondaryEmailAddress = emailVerification.currentAuthenticatorEnrollment.value.profile.secondaryEmail;
+    const emailAddress = emailVerificationWithSecondaryEmail.currentAuthenticatorEnrollment.value.profile.email;
+    const secondaryEmailAddress = emailVerificationWithSecondaryEmail.currentAuthenticatorEnrollment.value.profile.secondaryEmail;
     await t.expect(challengeEmailPageObject.getFormSubtitle())
       .eql(`We sent an email to ${emailAddress} and ${secondaryEmailAddress}. Click the verification link in your email to continue or enter the code below.`);
     await t.expect(challengeEmailPageObject.getEnterCodeInsteadButton().exists).eql(true);
