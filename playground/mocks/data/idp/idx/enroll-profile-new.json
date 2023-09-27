@@ -20,18 +20,27 @@
               "value": [
                 {
                   "name": "lastName",
+                  "type": "string",
                   "label": "Last name",
-                  "required": true
+                  "required": true,
+                  "maxLength": 50,
+                  "minLength": 2
                 },
                 {
                   "name": "firstName",
+                  "type": "string",
                   "label": "First name",
-                  "required": true
+                  "required": true,
+                  "maxLength": 50,
+                  "minLength": 2
                 },
                 {
                   "name": "email",
+                  "type": "string",
                   "label": "Email",
-                  "required": true
+                  "required": true,
+                  "maxLength": 100,
+                  "minLength": 10
                 }
               ]
             }
