@@ -101,10 +101,6 @@ async function assertChromeDTCView(t) {
   await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Collecting device signals');
   await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(true);
   await t.expect(deviceChallengePollPageObject.getFooterSwitchAuthenticatorLink().exists).eql(false);
-  // In v3 all cancel buttons are the same so skip this assertion
-  if (userVariables.v3) {
-    await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().exists).eql(false);
-  }
   await t.expect(await deviceChallengePollPageObject.hasSpinner()).eql(true);
   let iframe = await deviceChallengePollPageObject.getIframe();
   let attributes = await deviceChallengePollPageObject.getChromeDTCIframeAttributes();
