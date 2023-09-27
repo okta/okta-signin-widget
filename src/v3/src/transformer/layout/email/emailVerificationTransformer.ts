@@ -41,18 +41,37 @@ export const transformEmailVerification: IdxStepTransformer = ({ transaction, fo
   };
 
   const redactedEmailAddress = relatesTo?.value?.profile?.email as string;
+  const redactedSecondaryEmailAddress = relatesTo?.value?.profile?.secondaryEmail as string;
+  const getSubtitle = (): string => {
+    if (redactedEmailAddress && redactedSecondaryEmailAddress) {
+      return loc(
+        'oie.email.verify.subtitle.text.with.email.and.secondary.email',
+        'login',
+        [redactedEmailAddress, redactedSecondaryEmailAddress],
+        {
+          $1: { element: 'span', attributes: { class: 'strong no-translate' } },
+          $2: { element: 'span', attributes: { class: 'strong no-translate' } },
+        },
+      );
+    }
+
+    if (redactedEmailAddress) {
+      return loc(
+        'oie.email.verify.subtitle.text.with.email',
+        'login',
+        [redactedEmailAddress],
+        { $1: { element: 'span', attributes: { class: 'strong no-translate' } } },
+      );
+    }
+
+    return loc('oie.email.verify.subtitle.text.without.email', 'login');
+  };
+
   const informationalText: DescriptionElement = {
     type: 'Description',
     contentType: 'subtitle',
     options: {
-      content: redactedEmailAddress
-        ? loc(
-          'oie.email.verify.subtitle.text.with.email',
-          'login',
-          [redactedEmailAddress],
-          { $1: { element: 'span', attributes: { class: 'strong no-translate' } } },
-        )
-        : loc('oie.email.verify.subtitle.text.without.email', 'login'),
+      content: getSubtitle(),
     },
   };
 
