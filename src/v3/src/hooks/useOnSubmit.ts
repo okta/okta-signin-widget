@@ -88,9 +88,9 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       };
     };
 
-    const getFormPasswordAuthenticatorId = (transaction: IdxTransaction) => (
+    const getFormPasswordAuthenticatorId = (transaction: IdxTransaction) : string | undefined => (
       transaction?.neededToProceed
-        ?.find((remediation) => remediation.name === 'select-authenticator-authenticate')
+        ?.find((remediation) => remediation.name === IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE)
         ?.value?.find((val) => val.name === 'authenticator')
         ?.options?.find((option) => option.label === 'Password')
       // @ts-expect-error auth-js type errors
@@ -219,7 +219,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
         newTransaction = await authClient.idx.proceed({
           stateHandle: newTransaction?.context.stateHandle,
           authenticator: { id: getFormPasswordAuthenticatorId(newTransaction) },
-          step: 'select-authenticator-authenticate',
+          step: IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE,
         });
 
         newTransaction = await authClient.idx.proceed({

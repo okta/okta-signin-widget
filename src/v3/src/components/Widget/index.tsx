@@ -279,7 +279,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       if (shouldRedirectToEnrollFlow(transaction)) {
         transaction = await authClient.idx.proceed({
           stateHandle: transaction?.context.stateHandle,
-          step: 'select-enroll-profile',
+          step: IDX_STEP.SELECT_ENROLL_PROFILE,
         });
       }
 
@@ -415,7 +415,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       if (shouldRedirectToEnrollFlow(transaction)) {
         transaction = await authClient.idx.proceed({
           stateHandle: transaction?.context.stateHandle,
-          step: 'select-enroll-profile',
+          step: IDX_STEP.SELECT_ENROLL_PROFILE,
         });
       }
 
