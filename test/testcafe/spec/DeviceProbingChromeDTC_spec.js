@@ -64,7 +64,7 @@ const mockChromeProbingThenCancel = RequestMock()
     res.setBody(identify);
   });
 
-fixture('Device Challenge Polling View for Chrome DTC').meta('v3', false);
+fixture('Device Challenge Polling View for Chrome DTC').meta('v3', true);
 
 async function setup(t) {
   const deviceChallengePollPage = new DeviceChallengePollPageObject(t);
