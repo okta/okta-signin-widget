@@ -12,12 +12,12 @@
 
 import { IdxFeature } from '@okta/okta-auth-js';
 
-import { CONFIGURED_FLOW, STEPS_REQUIRING_UNLOCK_ACCOUNT_LINK } from '../../constants';
+import { STEPS_REQUIRING_UNLOCK_ACCOUNT_LINK } from '../../constants';
 import {
   LinkElement,
   TransformStepFnWithOptions,
 } from '../../types';
-import { getUnlockAccountUri, loc } from '../../util';
+import { getUnlockAccountUri, isConfigRecoverFlow, loc } from '../../util';
 
 export const transformUnlockAccountButton: TransformStepFnWithOptions = ({
   transaction,
@@ -36,7 +36,7 @@ export const transformUnlockAccountButton: TransformStepFnWithOptions = ({
   // OKTA-651781
   // when flow param is set to resetPassword, the identify page is redressed as identify-recovery page
   // so this link needs to be hidden
-  if (widgetProps.flow === CONFIGURED_FLOW.RESET_PASSWORD) {
+  if (isConfigRecoverFlow(widgetProps.flow)) {
     return formbag;
   }
 

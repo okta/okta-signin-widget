@@ -12,12 +12,14 @@
 
 import { IdxTransaction, NextStep } from '@okta/okta-auth-js';
 
-import { AUTHENTICATOR_KEY, CONFIGURED_FLOW } from '../../constants';
+import { AUTHENTICATOR_KEY } from '../../constants';
 import {
   LinkElement,
   TransformStepFnWithOptions,
 } from '../../types';
-import { getAuthenticatorKey, getForgotPasswordUri, loc } from '../../util';
+import {
+  getAuthenticatorKey, getForgotPasswordUri, isConfigRecoverFlow, loc,
+} from '../../util';
 import TransformerMap from '../layout/idxTransformerMapping';
 
 const getStepByName = (
@@ -47,7 +49,7 @@ export const transformForgotPasswordButton: TransformStepFnWithOptions = ({
   // OKTA-651781
   // when flow param is set to resetPassword, the identify page is redressed as identify-recovery page
   // so this link needs to be hidden
-  if (widgetProps.flow === CONFIGURED_FLOW.RESET_PASSWORD) {
+  if (isConfigRecoverFlow(widgetProps.flow)) {
     return formbag;
   }
 

@@ -22,7 +22,7 @@ import {
 import { cloneDeep, merge, omit } from 'lodash';
 import { useCallback } from 'preact/hooks';
 
-import { CONFIGURED_FLOW, IDX_STEP, ON_PREM_TOKEN_CHANGE_ERROR_KEY } from '../constants';
+import { IDX_STEP, ON_PREM_TOKEN_CHANGE_ERROR_KEY } from '../constants';
 import { useWidgetContext } from '../contexts';
 import { ErrorXHR, EventErrorContext, MessageType } from '../types';
 import {
@@ -30,6 +30,7 @@ import {
   containsMessageKey,
   formatError,
   getImmutableData,
+  isConfigRecoverFlow,
   isOauth2Enabled,
   loc,
   postRegistrationSubmit,
@@ -213,7 +214,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
 
       // TODO
       // OKTA-651781
-      if (widgetProps.flow === CONFIGURED_FLOW.RESET_PASSWORD && step === IDX_STEP.IDENTIFY) {
+      if (isConfigRecoverFlow(widgetProps.flow) && step === IDX_STEP.IDENTIFY) {
         // when in identifier first flow, there are a couple steps before we can get to recovery page
         // thats why we need to run proceed twice
         newTransaction = await authClient.idx.proceed({

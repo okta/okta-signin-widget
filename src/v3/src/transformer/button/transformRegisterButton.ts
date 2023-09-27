@@ -12,14 +12,14 @@
 
 import { IdxFeature } from '@okta/okta-auth-js';
 
-import { CONFIGURED_FLOW, IDX_STEP } from '../../constants';
+import { IDX_STEP } from '../../constants';
 import {
   DescriptionElement,
   LinkElement,
   TransformStepFnWithOptions,
   UISchemaLayoutType,
 } from '../../types';
-import { loc } from '../../util';
+import { isConfigRecoverFlow, loc } from '../../util';
 
 export const transformRegisterButton: TransformStepFnWithOptions = ({
   transaction,
@@ -41,7 +41,7 @@ export const transformRegisterButton: TransformStepFnWithOptions = ({
   // OKTA-651781
   // when flow param is set to resetPassword, the identify page is redressed as identify-recovery page
   // so this link needs to be hidden
-  if (widgetProps.flow === CONFIGURED_FLOW.RESET_PASSWORD) {
+  if (isConfigRecoverFlow(widgetProps.flow)) {
     return formbag;
   }
 

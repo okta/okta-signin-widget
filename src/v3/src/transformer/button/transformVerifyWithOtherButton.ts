@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { AUTHENTICATOR_KEY, CONFIGURED_FLOW, IDX_STEP } from '../../constants';
+import { AUTHENTICATOR_KEY, IDX_STEP } from '../../constants';
 import {
   IWidgetContext,
   LinkElement,
@@ -19,6 +19,7 @@ import {
 import {
   getAuthenticatorKey,
   hasMinAuthenticatorOptions,
+  isConfigRecoverFlow,
   loc,
   updateTransactionWithNextStep,
 } from '../../util';
@@ -49,7 +50,7 @@ export const transformVerifyWithOtherButton: TransformStepFnWithOptions = ({
   // OKTA-651781
   // when flow param is set to resetPassword and there is an api error (eg. not allowed to reset),
   // the error will show on the Verify with password challenge page and stop the flow.  So we need to hide this link
-  if (widgetProps.flow === CONFIGURED_FLOW.RESET_PASSWORD) {
+  if (isConfigRecoverFlow(widgetProps.flow)) {
     return formbag;
   }
 

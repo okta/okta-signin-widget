@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { CONFIGURED_FLOW } from '../../constants';
 import {
   ButtonElement,
   ButtonType,
@@ -19,7 +18,7 @@ import {
   TitleElement,
   UISchemaElement,
 } from '../../types';
-import { getUsernameCookie, loc } from '../../util';
+import { getUsernameCookie, isConfigRecoverFlow, loc } from '../../util';
 import { transformIdentityRecovery } from '../layout/recovery';
 import { getUIElementWithName, removeUIElementWithName } from '../utils';
 
@@ -37,7 +36,7 @@ export const transformIdentify: IdxStepTransformer = ({
   // where password recovery flow has extra steps in identifier-first flow
   // this is to keep the user experience consistent with identify-recovery flow
   // this is in parity with the gen 2 fix: PR#2382
-  if (widgetProps.flow === CONFIGURED_FLOW.RESET_PASSWORD) {
+  if (isConfigRecoverFlow(widgetProps.flow)) {
     return transformIdentityRecovery({ formBag, widgetProps, transaction });
   }
 

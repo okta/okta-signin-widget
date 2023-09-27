@@ -293,12 +293,3 @@ export const SCOPE_GROUP_CONFIG: Record<string, ConsentScopeGroup> = {
   sessions: 'system',
   trustedOrigins: 'system',
 };
-
-export const CONFIGURED_FLOW = {
-  DEFAULT: 'default',
-  PROCEED: 'proceed',
-  LOGIN: 'login',
-  REGISTRATION: 'signup',
-  RESET_PASSWORD: 'resetPassword',
-  UNLOCK_ACCOUNT: 'unlockAccount',
-};

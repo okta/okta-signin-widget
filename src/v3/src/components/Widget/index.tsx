@@ -34,7 +34,7 @@ import {
 import { mergeThemes } from 'src/util/mergeThemes';
 
 import Bundles from '../../../../util/Bundles';
-import { CONFIGURED_FLOW, IDX_STEP } from '../../constants';
+import { IDX_STEP } from '../../constants';
 import { WidgetContextProvider } from '../../contexts';
 import {
   useInteractionCodeFlow, useOnce,
@@ -63,6 +63,7 @@ import {
   getLanguageDirection,
   isAndroidOrIOS,
   isAuthClientSet,
+  isConfigRegisterFlow,
   isConsentStep,
   isOauth2Enabled,
   loadLanguage,
@@ -232,14 +233,14 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
 
   const shouldRedirectToEnrollFlow = (transaction: IdxTransaction) : boolean => {
     const { nextStep, neededToProceed } = transaction;
-    if (flow !== CONFIGURED_FLOW.REGISTRATION || nextStep?.name !== IDX_STEP.IDENTIFY) {
+    if (!isConfigRegisterFlow(flow) || nextStep?.name !== IDX_STEP.IDENTIFY) {
       return false;
     }
     const isRegistrationEnabled = neededToProceed
       .find((remediation) => remediation.name === IDX_STEP.SELECT_ENROLL_PROFILE) !== undefined;
-    
+
     if (!isRegistrationEnabled) {
-      throw new Error('flow param error: No remediation can match current flow, check policy settings in your org.')
+      throw new Error('flow param error: No remediation can match current flow, check policy settings in your org.');
     }
     return true;
   };
