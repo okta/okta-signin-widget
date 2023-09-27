@@ -13,6 +13,7 @@ const mock = RequestMock()
   .respond(launchWebAuthnOption);
 
 fixture('Sign in with Okta Verify is required')
+  .meta('gen3', false)
   .requestHooks(logger, mock);
 
 async function setup(t) {
