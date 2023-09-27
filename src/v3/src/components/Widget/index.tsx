@@ -236,8 +236,12 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       return false;
     }
     const isRegistrationEnabled = neededToProceed
-      .find((remediation) => remediation.name === 'select-enroll-profile') !== undefined;
-    return isRegistrationEnabled;
+      .find((remediation) => remediation.name === IDX_STEP.SELECT_ENROLL_PROFILE) !== undefined;
+    
+    if (!isRegistrationEnabled) {
+      throw new Error('flow param error: No remediation can match current flow, check policy settings in your org.')
+    }
+    return true;
   };
 
   const bootstrap = useCallback(async () => {
