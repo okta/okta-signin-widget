@@ -165,22 +165,37 @@ export default class EnrollOktaVerifyPageObject extends BasePageObject {
   }
 
   getSubHeader() {
+    if (userVariables.v3) {
+      return this.form.getSubtitle(0);
+    }
     return this.getTextContent(SUB_HEADER);
   }
   
   getCopyOrgLinkButtonLabel() {
+    if (userVariables.v3) {
+      return this.form.getButton('Copy sign-in URL to clipboard').innerText;
+    }
     return this.getTextContent(COPY_ORG_LINK_BUTTON_CLASS);
   }
 
   getCopiedOrgLinkValue() {
+    if (userVariables.v3) {
+      return this.form.getElement('[data-se=o-form-explain] > .no-translate').innerText;
+    }
     return this.body.find(COPY_ORG_LINK_BUTTON_CLASS).getAttribute(CLIPBOARD_TEXT);
   }
 
   getDownloadAppHref() {
+    if (userVariables.v3) {
+      return this.form.el.find(DOWNLOAD_OV_LINK_CLASS).getAttribute('href');
+    }
     return this.body.find(DOWNLOAD_OV_LINK_CLASS).getAttribute('href');
   }
 
   getClosingText() {
+    if (userVariables.v3) {
+      return this.form.getSubtitle(-1);
+    }
     return this.getTextContent(CLOSING_CLASS);
   }
 }
