@@ -59,8 +59,8 @@ const enrollSameDeviceMocks = RequestMock()
   .respond(xhrAuthenticatorEnrollOktaVerifySameDevice);
 if (userVariables.v3) {
   enrollSameDeviceMocks
-  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
-  .respond(xhrAuthenticatorEnrollOktaVerifySameDevice);
+    .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
+    .respond(xhrAuthenticatorEnrollOktaVerifySameDevice);
 }
 
 // this mock doesn't need poll to return successful response
@@ -69,8 +69,8 @@ const enrollDeviceBootstrapMocks = RequestMock()
   .respond(xhrAuthenticatorEnrollOktaVerifyDeviceBootstrap);
 if (userVariables.v3) {
   enrollDeviceBootstrapMocks
-  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
-  .respond(xhrAuthenticatorEnrollOktaVerifyDeviceBootstrap);
+    .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
+    .respond(xhrAuthenticatorEnrollOktaVerifyDeviceBootstrap);
 }
 
 const enrollDeviceBootstrapMocksMultipleDevices = RequestMock()
@@ -78,8 +78,8 @@ const enrollDeviceBootstrapMocksMultipleDevices = RequestMock()
   .respond(xhrAuthenticatorEnrollOktaVerifyDeviceBootstrapMultipleDevices);
 if (userVariables.v3) {
   enrollDeviceBootstrapMocksMultipleDevices
-  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
-  .respond(xhrAuthenticatorEnrollOktaVerifyDeviceBootstrapMultipleDevices);
+    .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
+    .respond(xhrAuthenticatorEnrollOktaVerifyDeviceBootstrapMultipleDevices);
 }
 
 const enrollViaEmailMocks = pollResponse => RequestMock()
