@@ -310,6 +310,50 @@ Object {
 }
 `;
 
+exports[`Transform Okta Verify Device Challenge Poll Tests where remediation is device-challenge-poll should transform elements when challengeMethod is CHROME_DTC 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "chrome_dtc.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "type": "Spinner",
+      },
+      Object {
+        "options": Object {
+          "href": "okta-verify.html",
+        },
+        "type": "ChromeDtcContainer",
+      },
+      Object {
+        "contentType": "footer",
+        "options": Object {
+          "isActionStep": true,
+          "label": "goback",
+          "step": "cancel",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
 exports[`Transform Okta Verify Device Challenge Poll Tests where remediation is device-challenge-poll should transform elements when challengeMethod is CUSTOM_URI 1`] = `
 Object {
   "data": Object {},

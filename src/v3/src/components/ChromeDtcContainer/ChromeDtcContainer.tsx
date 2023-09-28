@@ -28,7 +28,7 @@ const ChromeDtcContainer: UISchemaElementComponent<{
     },
   } = uischema;
   const { widgetProps } = useWidgetContext();
-  const deviceChallengeUrl = new URL(href as string, getBaseUrl(widgetProps)).toString();
+  const deviceChallengeUrl = new URL(href, getBaseUrl(widgetProps)).toString();
 
   return (
     <HiddenIFrame
