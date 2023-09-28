@@ -1,8 +1,16 @@
+const postcssLogical = require('postcss-logical');
 const { default: postcssOdyssey } = require("@okta/odyssey-postcss-preset");
 
 module.exports = (ctx) => {
   if (!ctx.odyssey) {
-    return {};
+    return {
+      plugins: [
+        postcssLogical({
+          // https://github.com/csstools/postcss-logical#options
+          preserve: true,
+        }),
+      ],
+    };
   }
 
   const options = Object.assign(
