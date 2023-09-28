@@ -6,8 +6,8 @@ module.exports = (ctx) => {
     return {
       plugins: [
         postcssLogical({
-          blockDirection: 'top-to-bottom',
-          inlineDirection: 'left-to-right',
+          // https://github.com/csstools/postcss-logical#options
+          preserve: true,
         }),
       ],
     };

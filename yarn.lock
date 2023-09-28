@@ -16342,13 +16342,6 @@ postcss-logical@^6.2.0:
   dependencies:
     postcss-value-parser "^4.2.0"
 
-postcss-logical@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/postcss-logical/-/postcss-logical-7.0.0.tgz#9a83426e716e3c8f957dda3fd874edbcf22c754e"
-  integrity sha512-zYf3vHkoW82f5UZTEXChTJvH49Yl9X37axTZsJGxrCG2kOUwtaAoz9E7tqYg0lsIoJLybaL8fk/2mOi81zVIUw==
-  dependencies:
-    postcss-value-parser "^4.2.0"
-
 postcss-media-query-parser@^0.2.3:
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/postcss-media-query-parser/-/postcss-media-query-parser-0.2.3.tgz#27b39c6f4d94f81b1a73b8f76351c609e5cef244"
