@@ -13,6 +13,7 @@
 import { IDX_STEP } from 'src/constants';
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
+  ChromeDtcContainerElement,
   DescriptionElement,
   LinkElement,
   OpenOktaVerifyFPButtonElement,
@@ -144,6 +145,30 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
       expect((updatedFormBag.uischema.elements[5] as LinkElement).type)
         .toBe('Link');
       expect((updatedFormBag.uischema.elements[5] as LinkElement).options.step)
+        .toBe('cancel');
+    });
+
+    it('should transform elements when challengeMethod is CHROME_DTC', () => {
+      // @ts-expect-error Property 'challengeMethod' does not exist on type 'IdxAuthenticator'.
+      transaction.nextStep?.relatesTo.value.challengeMethod = 'CHROME_DTC';
+      transaction.availableSteps = undefined;
+      const updatedFormBag = transformOktaVerifyDeviceChallengePoll({
+        transaction,
+        formBag,
+        widgetProps,
+      });
+
+      expect(updatedFormBag).toMatchSnapshot();
+      expect(updatedFormBag.uischema.elements.length).toBe(4);
+      expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+        .toBe('chrome_dtc.title');
+      expect((updatedFormBag.uischema.elements[1] as SpinnerElement).type)
+        .toBe('Spinner');
+      expect((updatedFormBag.uischema.elements[2] as ChromeDtcContainerElement).options.href)
+        .toBe('okta-verify.html');
+      expect((updatedFormBag.uischema.elements[3] as LinkElement).type)
+        .toBe('Link');
+      expect((updatedFormBag.uischema.elements[3] as LinkElement).options.step)
         .toBe('cancel');
     });
   });

@@ -89,6 +89,7 @@ export const IDX_STEP: Record<string, string> = {
 
 export const CHALLENGE_METHOD: Record<string, string> = {
   APP_LINK: 'APP_LINK',
+  CHROME_DTC: 'CHROME_DTC',
   CUSTOM_URI: 'CUSTOM_URI',
   LOOPBACK: 'LOOPBACK',
   UNIVERSAL_LINK: 'UNIVERSAL_LINK',

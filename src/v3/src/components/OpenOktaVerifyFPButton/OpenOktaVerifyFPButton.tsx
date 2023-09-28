@@ -10,8 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box } from '@mui/material';
-import { FunctionComponent, h } from 'preact';
+import { h } from 'preact';
 import React from 'preact/compat';
 import { useState } from 'preact/hooks';
 
@@ -28,19 +27,7 @@ import {
   getBaseUrl, getTranslation, isAndroid, setUrlQueryParams,
 } from '../../util';
 import Button from '../Button';
-
-type IFrameProps = {
-  src: string;
-};
-const IFrame: FunctionComponent<IFrameProps> = ({ src }) => (
-  <Box
-    component="iframe"
-    src={src}
-    sx={{
-      display: 'none',
-    }}
-  />
-);
+import HiddenIFrame from '../HiddenIFrame';
 
 const OpenOktaVerifyFPButton: UISchemaElementComponent<{
   uischema: OpenOktaVerifyFPButtonElement
@@ -96,8 +83,9 @@ const OpenOktaVerifyFPButton: UISchemaElementComponent<{
     <React.Fragment>
       <Button uischema={buttonUiSchema} />
       {(href && challengeMethod === CHALLENGE_METHOD.CUSTOM_URI) && (
-        <IFrame
+        <HiddenIFrame
           key={key}
+          id="custom-uri-container"
           src={deviceChallengeUrl}
         />
       )}

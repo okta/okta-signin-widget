@@ -385,6 +385,13 @@ export interface LoopbackProbeElement extends UISchemaElement {
   };
 }
 
+export interface ChromeDtcContainerElement extends UISchemaElement {
+  type: 'ChromeDtcContainer';
+  options: {
+    href: string;
+  };
+}
+
 export interface TitleElement extends UISchemaElement {
   type: 'Title';
   options: {
