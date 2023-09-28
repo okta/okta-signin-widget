@@ -75,7 +75,7 @@ exports[`v2/view-builder/views/AutoRedirectView Android OV Enrollment Add User G
 </div>
 `;
 
-exports[`v2/view-builder/views/AutoRedirectView Android OV Enrollment Do not add User Gesture if not OV enrollment on Android: should show user gesture 1`] = `
+exports[`v2/view-builder/views/AutoRedirectView Android OV Enrollment Do not add User Gesture if not OV enrollment on Android: should not show user gesture 1`] = `
 <div
   class="siw-main-view "
 >

@@ -1,8 +1,8 @@
-import {getHeader} from '../../../../../../src/v2/view-builder/utils/AutoRedirectUtil';
+import { getHeader } from '../../../../../../src/v2/view-builder/utils/AutoRedirectUtil';
 import Util from '../../../../../../src/util/Util';
-import {BaseHeader} from '../../../../../../src/v2/view-builder/internals';
-import {BaseAuthenticatorBeacon} from '../../../../../../src/v2/view-builder/components/BaseAuthenticatorView';
-import {AUTHENTICATOR_KEY} from '../../../../../../src/v2/ion/RemediationConstants';
+import { BaseHeader } from '../../../../../../src/v2/view-builder/internals';
+import { BaseAuthenticatorBeacon } from '../../../../../../src/v2/view-builder/components/BaseAuthenticatorView';
+import { AUTHENTICATOR_KEY } from '../../../../../../src/v2/ion/RemediationConstants';
 describe('v2/view-builder/utils/AutoRedirectUtil', () => {
 
   it('Android OV Enrollment', ()=> {

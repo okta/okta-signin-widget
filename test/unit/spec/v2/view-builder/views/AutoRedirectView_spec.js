@@ -132,7 +132,7 @@ describe('v2/view-builder/views/AutoRedirectView', function() {
     it('Do not add User Gesture if not OV enrollment on Android', () => {
       jest.spyOn(utilSpy, 'isAndroidOVEnrollment').mockReturnValue(false);
       testContext.init();
-      expect(testContext.view.el).toMatchSnapshot('should show user gesture');
+      expect(testContext.view.el).toMatchSnapshot('should not show user gesture');
     });
 
   });

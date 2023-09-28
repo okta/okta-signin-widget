@@ -1,6 +1,6 @@
-import {_, loc, createCallout, createButton} from '@okta/courage';
-import {BaseForm, BaseView} from '../internals';
-import {INTERSTITIAL_REDIRECT_VIEW} from '../../ion/RemediationConstants';
+import { _, loc, createCallout, createButton } from '@okta/courage';
+import { BaseForm, BaseView } from '../internals';
+import { INTERSTITIAL_REDIRECT_VIEW } from '../../ion/RemediationConstants';
 import CustomAccessDeniedErrorMessage from '../views/shared/CustomAccessDeniedErrorMessage';
 import Util from 'util/Util';
 import { getHeader } from '../utils/AutoRedirectUtil';
