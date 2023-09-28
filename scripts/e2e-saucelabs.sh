@@ -10,7 +10,7 @@ export RUN_SAUCE_TESTS=true
 export SAUCE_USERNAME=OktaSignInWidget
 get_vault_secret_key devex/sauce-labs accessKey SAUCE_ACCESS_KEY
 export TEST_SUITE_TYPE="junit"
-export TEST_RESULT_FILE_DIR="${REPO}/build2/reports/junit"
+export TEST_RESULT_FILE_DIR="${REPO}/build2"
 
 # We use the below OIE enabled org and clients for OIE tests
 export WIDGET_TEST_SERVER=https://oie-signin-widget.okta.com
