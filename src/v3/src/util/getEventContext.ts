@@ -19,7 +19,10 @@ import { getAuthenticatorKey } from './getAuthenticatorKey';
 import { getAuthenticatorMethod } from './getAuthenticatorMethod';
 import { isPasswordRecovery } from './isPasswordRecovery';
 
-export const getFormNameForTransaction = (transaction: IdxTransaction): string | undefined => {
+export const getFormNameForTransaction = (transaction?: IdxTransaction): string | undefined => {
+  if (!transaction) {
+    return 'terminal';
+  }
   const {
     nextStep: { name: formName } = {},
     neededToProceed,
@@ -46,7 +49,14 @@ export const getFormNameForTransaction = (transaction: IdxTransaction): string |
   return formName;
 };
 
-export const getEventContext = (transaction: IdxTransaction): EventContext => {
+export const getEventContext = (transaction?: IdxTransaction): EventContext => {
+  if (!transaction) {
+    return {
+      controller: null,
+      formName: 'terminal',
+    };
+  }
+
   const { context } = transaction;
   const authenticatorKey = context.currentAuthenticator?.value?.key
     || getAuthenticatorKey(transaction);

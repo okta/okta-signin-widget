@@ -23,6 +23,7 @@ import { TinyEmitter as EventEmitter } from 'tiny-emitter';
 
 import {
   EventContext,
+  HooksOptions,
   LanguageCallback,
   LanguageCode,
   OktaSignInAPI,
@@ -33,6 +34,7 @@ import {
   UserOperation,
 } from '../../../types';
 import { InterstitialRedirectView } from '../constants';
+import { WidgetHooks } from '../util/widgetHooks';
 import { JsonObject } from './json';
 import { Modify } from './jsonforms';
 import { FormBag, RegistrationElementSchema } from './schema';
@@ -59,7 +61,7 @@ export interface ErrorXHR {
 }
 
 export type RenderOptions = {
-  el: string;
+  el?: string;
   clientId?: string;
   redirectUri?: string;
   redirect?: 'always' | 'never';
@@ -69,7 +71,8 @@ export type RenderOptions = {
 export type AuthenticationMode = 'remediation' | 'relying-party';
 
 export type OktaWidgetEventHandler = {
-  (...args: unknown[]): void;
+  (context: EventContext, error?: EventErrorContext): void;
+  (context: EventContext, error: EventErrorContext): void;
 };
 
 export type WidgetProceedArgs = {
@@ -107,7 +110,10 @@ export type PageTitleCallback = (context: EventContext, param: PageTitleCallback
 export type OktaWidgetEventType = 'ready' | 'afterError' | 'afterRender';
 export type IDPDisplayType = 'PRIMARY' | 'SECONDARY';
 
-export type WidgetProps = Partial<WidgetOptions>;
+export type WidgetProps = Partial<WidgetOptions> & {
+  eventEmitter: EventEmitter;
+  widgetHooks: WidgetHooks; // instance of class WidgetHooks
+};
 
 export type WidgetOptions = {
   // // ui customizations
@@ -120,8 +126,8 @@ export type WidgetOptions = {
   // Override MUI Theming
   muiThemeOverrides?: MuiThemeOptions;
 
-  // events
-  eventEmitter?: EventEmitter;
+  // hooks
+  hooks?: HooksOptions; // object in options
 
   // callbacks
   onChange?: (data: JsonObject) => void;

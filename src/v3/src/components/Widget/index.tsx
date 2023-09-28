@@ -101,6 +101,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     eventEmitter,
     otp,
     flow,
+    widgetHooks,
   } = widgetProps;
 
   const [hide, setHide] = useState<boolean>(false);
@@ -125,6 +126,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const dataSchemaRef = useRef<FormBag['dataSchema']>();
   const [loading, setLoading] = useState<boolean>(false);
   const [widgetRendered, setWidgetRendered] = useState<boolean>(false);
+  const widgetRenderedOnce = useRef<boolean>(false);
   const [loginHint, setloginHint] = useState<string | null>(null);
   const languageCode = getLanguageCode(widgetProps);
   const languageDirection = getLanguageDirection(languageCode);
@@ -222,7 +224,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleError = (error: unknown) => {
+  const handleError = async (error: unknown) => {
+    await widgetHooks.callHooks('before', undefined);
     // TODO: handle error based on types
     // AuthApiError is one of the potential error that can be thrown here
     // We will want to expose development stage errors from auth-js and file jiras against it
@@ -288,21 +291,17 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         });
       }
 
+      await widgetHooks.callHooks('before', transaction);
+
       setResponseError(null);
       setIdxTransaction(transaction);
-      // ready event
-      eventEmitter?.emit?.('ready', {
-        stepName: transaction.nextStep?.name,
-      });
     } catch (error) {
       if (usingStateHandleFromSession) {
         // Saved stateHandle is invalid. Remove it from session
         // Bootstrap will be restarted with stateToken from widgetProps
         unsetStateHandle();
       } else {
-        eventEmitter?.emit?.('ready');
-
-        handleError(error);
+        await handleError(error);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -424,15 +423,11 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         });
       }
 
+      await widgetHooks.callHooks('before', transaction);
+
       setIdxTransaction(transaction);
-
-      eventEmitter?.emit?.('ready', {
-        stepName: transaction.nextStep?.name,
-      });
     } catch (error) {
-      eventEmitter?.emit?.('ready');
-
-      handleError(error);
+      await handleError(error);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authClient, setIdxTransaction, setResponseError, initLanguage]);
@@ -483,22 +478,31 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     if (isClientTransaction) {
       return;
     }
-    if (widgetRendered && typeof idxTransaction !== 'undefined'
-      && uischema.elements.length > 0) {
-      eventEmitter?.emit?.('afterRender', getEventContext(idxTransaction));
+    if (widgetRendered) {
+      (async () => {
+        const executeAfterHooks = () => widgetHooks.callHooks('after', responseError ? undefined : idxTransaction);
+        const emitAfterRender = () => {
+          if (idxTransaction?.status !== IdxStatus.SUCCESS) {
+            // Don't emit events in the end of authentication flow (OKTA-604105)
+            eventEmitter.emit('afterRender', getEventContext(idxTransaction));
+          }
+        };
+        const emitReady = () => eventEmitter.emit('ready', getEventContext(idxTransaction));
+
+        // Keep the order of events and hooks as in Gen2
+        if (!widgetRenderedOnce.current) {
+          await executeAfterHooks();
+          emitReady();
+          emitAfterRender();
+          widgetRenderedOnce.current = true;
+        } else {
+          emitAfterRender();
+          await executeAfterHooks();
+        }
+      })();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [widgetRendered, idxTransaction]);
-
-  useEffect(() => {
-    if (responseError !== null) {
-      eventEmitter?.emit?.('afterRender', {
-        controller: null,
-        formName: 'terminal',
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [responseError]);
 
   // listen to 'hide' event
   const toggleVisibility = useCallback((hideValue: boolean) => {
@@ -506,11 +510,10 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   }, []);
 
   useOnce(() => {
-    eventEmitter?.on('hide', toggleVisibility);
+    eventEmitter.on('hide', toggleVisibility);
   });
-
   useEffect(() => () => {
-    eventEmitter?.off('hide', toggleVisibility);
+    eventEmitter.off('hide', toggleVisibility);
   }, [eventEmitter, toggleVisibility]);
 
   const getDocumentTitle = useCallback(() => (

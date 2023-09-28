@@ -2,12 +2,59 @@ import { ClientFunction, RequestMock, userVariables } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 import { checkConsoleMessages } from '../framework/shared';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
+import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import xhrIdentifyWithPassword from '../../../playground/mocks/data/idp/idx/identify-with-password';
+import xhrIdentify from '../../../playground/mocks/data/idp/idx/identify';
+import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
+import xhrInternalServerError from '../../../playground/mocks/data/idp/idx/error-internal-server-error';
+import xhrOAuthError from '../../../playground/mocks/data/idp/idx/error-feature-not-enabled';
+import xhrTerminalRegistration from '../../../playground/mocks/data/idp/idx/terminal-registration';
+import { oktaDashboardContent } from '../framework/shared';
 
 const identifyMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrIdentifyWithPassword);
 
+const identifySuccessMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrIdentify)
+  .onRequestTo('http://localhost:3000/idp/idx/identify')
+  .respond(xhrSuccess)
+  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+  .respond(oktaDashboardContent);
+
+const introspectErrorMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrInternalServerError, 403);
+
+const introspectOAuthErrorMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrOAuthError, 400);
+
+const introspectTerminal = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrTerminalRegistration);
+
+const identifyErrorMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrIdentify)
+  .onRequestTo('http://localhost:3000/idp/idx/identify')
+  .respond(xhrInternalServerError, 403);
+
+const identifyTerminal = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrIdentify)
+  .onRequestTo('http://localhost:3000/idp/idx/identify')
+  .respond(xhrTerminalRegistration);
+
+const identifyErrorUnsupportedResponse = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrIdentify)
+  .onRequestTo('http://localhost:3000/idp/idx/identify')
+  .respond('error-unsupported-idx-response', 403);
+
+
+// Client functions
 const hideWidget = ClientFunction(() => {
   // function `getWidgetInstance` is defined in playground/main.js
   window.getWidgetInstance().hide();
@@ -92,6 +139,73 @@ const renderAndAddEventListenerWithError = ClientFunction((settings) => {
   });
 });
 
+const renderAndAddBeforeHook = ClientFunction((settings) => {
+  window.renderPlaygroundWidget(settings);
+  window.getWidgetInstance().before('identify', () => {
+    window.console.log(JSON.stringify({ before: 'identify' }));
+  });
+});
+
+const renderAndAddBeforeAndAfterHooksForTerminal = ClientFunction((settings) => {
+  window.renderPlaygroundWidget(settings);
+  window.getWidgetInstance().before('terminal', () => {
+    window.console.log(JSON.stringify({ before: 'terminal' }));
+  });
+  window.getWidgetInstance().after('terminal', () => {
+    window.console.log(JSON.stringify({ after: 'terminal' }));
+  });
+  window.getWidgetInstance().before('identify', () => {
+    window.console.log(JSON.stringify({ before: 'identify' }));
+  });
+  window.getWidgetInstance().after('identify', () => {
+    window.console.log(JSON.stringify({ after: 'identify' }));
+  });
+});
+
+const renderAndAddBeforeAndAfterHooksFor2Pages = ClientFunction((settings) => {
+  window.renderPlaygroundWidget(settings);
+  window.getWidgetInstance().before('identify', () => {
+    window.console.log(JSON.stringify({ before: 'identify' }));
+  });
+  window.getWidgetInstance().after('identify', () => {
+    window.console.log(JSON.stringify({ after: 'identify' }));
+  });
+  window.getWidgetInstance().before('success-redirect', () => {
+    window.console.log(JSON.stringify({ before: 'success-redirect' }));
+  });
+  window.getWidgetInstance().after('success-redirect', () => {
+    window.console.log(JSON.stringify({ after: 'success-redirect' }));
+  });
+});
+
+const renderAndAddAsyncBeforeHooks = ClientFunction((settings) => {
+  window.renderPlaygroundWidget(settings);
+
+  function createAsyncHook(callbackBeforeTimeout, callbackAfterTimeout, waitTimeMs = 10) {
+    return () => {
+      callbackBeforeTimeout?.();
+      return new Promise(resolve => {
+        setTimeout(() => {
+          callbackAfterTimeout?.();
+          resolve(true);
+        }, waitTimeMs);
+      });
+    };
+  }
+
+  window.getWidgetInstance().before('identify', createAsyncHook(() => {
+    window.console.log(JSON.stringify({ before: 'identify', timer: 'before', no: 1 }));
+  }, () => {
+    window.console.log(JSON.stringify({ before: 'identify', timer: 'after', no: 1 }));
+  }));
+
+  window.getWidgetInstance().before('identify', createAsyncHook(() => {
+    window.console.log(JSON.stringify({ before: 'identify', timer: 'before', no: 2 }));
+  }, () => {
+    window.console.log(JSON.stringify({ before: 'identify', timer: 'after', no: 2 }));
+  }));
+});
+
 
 fixture('OktaSignIn');
 
@@ -101,6 +215,7 @@ async function setup(t, options) {
   return identityPage;
 }
 
+// hide, show
 test.requestHooks(identifyMock)('should hide and show with corresponding methods', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
@@ -120,6 +235,7 @@ test.requestHooks(identifyMock)('can render initially hidden widget', async t =>
   await t.expect(identityPage.isVisible()).eql(true);
 });
 
+// on, off
 test.requestHooks(identifyMock)('can add 2+ event listeners with .on(), should be executed in the subscribe order', async t => {
   const identityPage = await setup(t, {render: false});
   await checkA11y(t);
@@ -233,4 +349,341 @@ test.requestHooks(identifyMock)('should trap error thrown by event listener', as
   ], t);
 });
 
+// before, after hooks
+test.requestHooks(identifyMock)('should execute "before" hook before "afterRender" event', async t => {
+  const identityPage = await setup(t, {render: false});
+  await checkA11y(t);
+  await renderAndAddBeforeHook();
+  await t.expect(identityPage.formExists()).eql(true);
+  await checkConsoleMessages([
+    {
+      before: 'identify',
+    },
+    'ready',
+    'afterRender',
+    {
+      controller: 'primary-auth',
+      formName: 'identify',
+      authenticatorKey: 'okta_password',
+      methodType: 'password',
+    },
+  ], t);
+});
 
+test.requestHooks(identifyMock)('should execute async "before" hooks sequentially before "afterRender" event', async t => {
+  const identityPage = await setup(t, {render: false});
+  await checkA11y(t);
+  await renderAndAddAsyncBeforeHooks();
+  await t.expect(identityPage.formExists()).eql(true);
+  await checkConsoleMessages([
+    {
+      before: 'identify',
+      timer: 'before',
+      no: 1,
+    },
+    {
+      before: 'identify',
+      timer: 'after',
+      no: 1,
+    },
+    {
+      before: 'identify',
+      timer: 'before',
+      no: 2,
+    },
+    {
+      before: 'identify',
+      timer: 'after',
+      no: 2,
+    },
+    'ready',
+    'afterRender',
+    {
+      controller: 'primary-auth',
+      formName: 'identify',
+      authenticatorKey: 'okta_password',
+      methodType: 'password',
+    },
+  ], t);
+});
+
+test.requestHooks(identifySuccessMock)('should execute "before" and "after" hooks on form change', async t => {
+  const identityPage = await setup(t, {render: false});
+  await checkA11y(t);
+  await renderAndAddBeforeAndAfterHooksFor2Pages();
+  await t.expect(identityPage.formExists()).eql(true);
+  await checkConsoleMessages([
+    {
+      before: 'identify',
+    },
+    {
+      after: 'identify',
+    },
+    'ready',
+    'afterRender',
+    {
+      controller: 'primary-auth',
+      formName: 'identify',
+    },
+  ], t);
+
+  await identityPage.fillIdentifierField('Test Identifier');
+  await identityPage.clickNextButton();
+  const successPage = new SuccessPageObject(t);
+  const pageUrl = await successPage.getPageUrl();
+  await t.expect(pageUrl)
+    .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
+  await checkConsoleMessages([
+    {
+      before: 'identify',
+    },
+    {
+      after: 'identify',
+    },
+    'ready',
+    'afterRender',
+    {
+      controller: 'primary-auth',
+      formName: 'identify',
+    },
+    {
+      before: 'success-redirect',
+    },
+    'afterRender',
+    {
+      controller: null,
+      formName: 'success-redirect',
+    },
+    {
+      after: 'success-redirect',
+    },
+  ].filter(Boolean), t);
+});
+
+test.requestHooks(introspectTerminal)('should execute hooks for "terminal" form', async t => {
+  const identityPage = await setup(t, {render: false});
+  await checkA11y(t);
+  await renderAndAddBeforeAndAfterHooksForTerminal();
+  await t.expect(identityPage.formExists()).eql(true);
+  await checkConsoleMessages([
+    {
+      before: 'terminal',
+    },
+    {
+      after: 'terminal',
+    },
+    'ready',
+    'afterRender',
+    {
+      controller: null,
+      formName: 'terminal',
+    },
+  ], t);
+});
+
+test.requestHooks(introspectErrorMock)('should execute hooks for "terminal" form (and not send "afterError" event) on initial error', async t => {
+  const identityPage = await setup(t, {render: false});
+  await checkA11y(t);
+  await renderAndAddBeforeAndAfterHooksForTerminal();
+  await t.expect(identityPage.formExists()).eql(true);
+  await identityPage.waitForErrorBox();
+  await checkConsoleMessages([
+    {
+      before: 'terminal',
+    },
+    {
+      after: 'terminal',
+    },
+    'ready',
+    'afterRender',
+    {
+      controller: null,
+      formName: 'terminal',
+    },
+  ], t);
+});
+
+test.requestHooks(introspectOAuthErrorMock)('should execute hooks for "terminal" form (and not send "afterError" event) on initial OAuth error', async t => {
+  const identityPage = await setup(t, {render: false});
+  await checkA11y(t);
+  await renderAndAddBeforeAndAfterHooksForTerminal();
+  await t.expect(identityPage.formExists()).eql(true);
+  await identityPage.waitForErrorBox();
+  await checkConsoleMessages([
+    {
+      before: 'terminal',
+    },
+    {
+      after: 'terminal',
+    },
+    'ready',
+    'afterRender',
+    {
+      controller: null,
+      formName: 'terminal',
+    },
+  ].filter(Boolean), t);
+});
+
+test.requestHooks(identifyErrorMock)('should send "afterError" event (and not execute hooks for "terminal" form) if submit results with error', async t => {
+  const { gen3 } = userVariables;
+  const identityPage = await setup(t, {render: false});
+  await checkA11y(t);
+  await renderAndAddBeforeAndAfterHooksForTerminal();
+  await t.expect(identityPage.formExists()).eql(true);
+  await checkConsoleMessages([
+    {
+      before: 'identify',
+    },
+    {
+      after: 'identify',
+    },
+    'ready',
+    'afterRender',
+    {
+      controller: 'primary-auth',
+      formName: 'identify',
+    },
+  ], t);
+
+  await identityPage.fillIdentifierField('Test Identifier');
+  await identityPage.clickNextButton();
+  await identityPage.waitForErrorBox();
+  await t.expect(identityPage.getErrorBoxText()).eql('Internal Server Error');
+  await checkConsoleMessages([
+    {
+      before: 'identify',
+    },
+    {
+      after: 'identify',
+    },
+    'ready',
+    'afterRender',
+    {
+      controller: 'primary-auth',
+      formName: 'identify',
+    },
+    'afterError',
+    // gen2 and gen3 have different contexts
+    gen3 ? {
+      controller: null,
+      formName: 'terminal',
+    } : {
+      controller: 'primary-auth',
+      formName: 'identify',
+    },
+    {
+      errorSummary: 'Internal Server Error',
+      xhr: {
+        responseJSON: {
+          errorCauses: [],
+          errorIntent: 'LOGIN',
+          errorSummary: 'Internal Server Error',
+          errorSummaryKeys: ['E0000009'],
+        }
+      }
+    }
+  ].filter(Boolean), t);
+});
+
+test.requestHooks(identifyErrorUnsupportedResponse)('should send "afterError" event (and not execute hooks for "terminal" form) if submit results with unsupported response', async t => {
+  const identityPage = await setup(t, {render: false});
+  await checkA11y(t);
+  await renderAndAddBeforeAndAfterHooksForTerminal();
+  await t.expect(identityPage.formExists()).eql(true);
+  await checkConsoleMessages([
+    {
+      before: 'identify',
+    },
+    {
+      after: 'identify',
+    },
+    'ready',
+    'afterRender',
+    {
+      controller: 'primary-auth',
+      formName: 'identify',
+    },
+  ], t);
+
+  await identityPage.fillIdentifierField('Test Identifier');
+  await identityPage.clickNextButton();
+  await identityPage.waitForErrorBox();
+  await checkConsoleMessages([
+    {
+      before: 'identify',
+    },
+    {
+      after: 'identify',
+    },
+    'ready',
+    'afterRender',
+    {
+      controller: 'primary-auth',
+      formName: 'identify',
+    },
+    'afterError',
+    {
+      controller: 'primary-auth',
+      formName: 'identify',
+    },
+    {
+      errorSummary: 'There was an unsupported response from server.',
+      xhr: {
+        responseJSON: {
+          errorSummary: 'There was an unsupported response from server.',
+        }
+      }
+    }
+  ].filter(Boolean), t);
+});
+
+test.requestHooks(identifyTerminal)('should execute hooks for "terminal" form after submit', async t => {
+  const identityPage = await setup(t, {render: false});
+  await checkA11y(t);
+  await renderAndAddBeforeAndAfterHooksForTerminal();
+  await t.expect(identityPage.formExists()).eql(true);
+  await checkConsoleMessages([
+    {
+      before: 'identify',
+    },
+    {
+      after: 'identify',
+    },
+    'ready',
+    'afterRender',
+    {
+      controller: 'primary-auth',
+      formName: 'identify',
+    },
+  ], t);
+
+  await identityPage.fillIdentifierField('Test Identifier');
+  await identityPage.clickNextButton();
+  await t.expect(identityPage.getIdentifier()).contains('testUser@okta.com');
+  await checkConsoleMessages([
+    {
+      before: 'identify',
+    },
+    {
+      after: 'identify',
+    },
+    'ready',
+    'afterRender',
+    {
+      controller: 'primary-auth',
+      formName: 'identify',
+    },
+    {
+      before: 'terminal',
+    },
+    'afterRender',
+    {
+      controller: null,
+      formName: 'terminal',
+    },
+    {
+      after: 'terminal',
+    },
+  ].filter(Boolean), t);
+});
