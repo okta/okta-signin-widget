@@ -1,10 +1,9 @@
 /* eslint max-len: [2, 140] */
-import {$, createButton, loc} from '@okta/courage';
+import {$} from '@okta/courage';
 import $sandbox from 'sandbox';
 import Logger from 'util/Logger';
 import Util from 'util/Util';
 import BrowserFeatures from '../../../src/util/BrowserFeatures';
-import utilSpy from '../../../src/util/Util';
 
 describe('util/Util', () => {
   describe('transformErrorXHR', () => {
@@ -358,5 +357,5 @@ describe('util/Util', () => {
 
       expect(Util.isAndroidOVEnrollment()).toBe(false);
     });
-  })
+  });
 });

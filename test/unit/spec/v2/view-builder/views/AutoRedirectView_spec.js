@@ -1,14 +1,10 @@
-import { loc, Model, createButton } from '@okta/courage';
+import { Model } from '@okta/courage';
 import AutoRedirectView from 'v2/view-builder/views/AutoRedirectView';
 import AppState from 'v2/models/AppState';
 import Settings from 'models/Settings';
 import SuccessWithAppUser from '../../../../../../playground/mocks/data/idp/idx/success-with-app-user.json';
 import { INTERSTITIAL_REDIRECT_VIEW } from 'v2/ion/RemediationConstants';
-import BrowserFeatures from '../../../../../../src/util/BrowserFeatures';
 import utilSpy from '../../../../../../src/util/Util';
-import {BaseHeader} from "../../../../../../src/v2/view-builder/internals";
-import {BaseAuthenticatorBeacon} from "../../../../../../src/v2/view-builder/components/BaseAuthenticatorView";
-import {AUTHENTICATOR_KEY} from "../../../../../../src/v2/ion/RemediationConstants";
 
 describe('v2/view-builder/views/AutoRedirectView', function() {
   let testContext;

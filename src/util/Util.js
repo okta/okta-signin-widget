@@ -191,7 +191,7 @@ Util.redirect = function(url, win = window, isAppLink = false) {
 Util.isAndroidOVEnrollment = function() {
   const ovEnrollment = decodeURIComponent(window.location.href).includes(ovDeepLink);
   return BrowserFeatures.isAndroid() && ovEnrollment;
-}
+};
 
 /**
  * Why redirect via Form get rather using `window.location.href`?

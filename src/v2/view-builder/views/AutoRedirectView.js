@@ -1,14 +1,14 @@
 import {_, loc, createCallout, createButton} from '@okta/courage';
-import {BaseForm, BaseHeader, BaseView} from '../internals';
-import {AUTHENTICATOR_KEY, INTERSTITIAL_REDIRECT_VIEW} from '../../ion/RemediationConstants';
+import {BaseForm, BaseView} from '../internals';
+import {INTERSTITIAL_REDIRECT_VIEW} from '../../ion/RemediationConstants';
 import CustomAccessDeniedErrorMessage from '../views/shared/CustomAccessDeniedErrorMessage';
-import Util from "util/Util";
-import {BaseAuthenticatorBeacon} from "v2/view-builder/components/BaseAuthenticatorView";
+import Util from 'util/Util';
 import { getHeader } from '../utils/AutoRedirectUtil';
 const CUSTOM_ACCESS_DENIED_KEY = 'security.access_denied_custom_message';
 const UNLOCK_USER_SUCCESS_MESSAGE = 'oie.selfservice.unlock_user.landing.to.app.success.message';
 
 const Body = BaseForm.extend({
+  // eslint-disable-next-line complexity
   title() {
     let titleString = loc('oie.success.text.signingIn', 'login');
     // For more info on the API response available in appState, see IdxResponseBuilder.java
