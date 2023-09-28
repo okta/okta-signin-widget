@@ -115,6 +115,7 @@
     "nodemon": "^3.0.1",
     "postcss": "^8.4.13",
     "postcss-loader": "^7.3.3",
+    "postcss-logical": "^7.0.0",
     "postcss-preset-env": "^8.4.1",
     "properties": "^1.2.1",
     "rimraf": "^4.3.0",

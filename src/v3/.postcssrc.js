@@ -1,8 +1,16 @@
+const postcssLogical = require('postcss-logical');
 const { default: postcssOdyssey } = require("@okta/odyssey-postcss-preset");
 
 module.exports = (ctx) => {
   if (!ctx.odyssey) {
-    return {};
+    return {
+      plugins: [
+        postcssLogical({
+          blockDirection: 'top-to-bottom',
+          inlineDirection: 'left-to-right',
+        }),
+      ],
+    };
   }
 
   const options = Object.assign(
