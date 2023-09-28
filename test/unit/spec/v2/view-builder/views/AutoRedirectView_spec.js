@@ -1,17 +1,23 @@
-import { Model } from '@okta/courage';
+import { loc, Model, createButton } from '@okta/courage';
 import AutoRedirectView from 'v2/view-builder/views/AutoRedirectView';
 import AppState from 'v2/models/AppState';
 import Settings from 'models/Settings';
 import SuccessWithAppUser from '../../../../../../playground/mocks/data/idp/idx/success-with-app-user.json';
 import { INTERSTITIAL_REDIRECT_VIEW } from 'v2/ion/RemediationConstants';
-
+import BrowserFeatures from '../../../../../../src/util/BrowserFeatures';
+import utilSpy from '../../../../../../src/util/Util';
+import {BaseHeader} from "../../../../../../src/v2/view-builder/internals";
+import {BaseAuthenticatorBeacon} from "../../../../../../src/v2/view-builder/components/BaseAuthenticatorView";
+import {AUTHENTICATOR_KEY} from "../../../../../../src/v2/ion/RemediationConstants";
 
 describe('v2/view-builder/views/AutoRedirectView', function() {
   let testContext;
-  let settings = new Settings({ 
-    baseUrl: 'http://localhost:3000'
-  });  
-  beforeEach(function() { 
+  let settings = new Settings({
+    baseUrl: 'http://localhost:3000',
+    'interstitialBeforeLoginRedirect': null
+  });
+  beforeEach(function() {
+    jest.spyOn(utilSpy, 'isAndroidOVEnrollment').mockReturnValue(false);
     testContext = {};
     testContext.init = (user = SuccessWithAppUser.user.value, app = SuccessWithAppUser.app.value) => {
       const appState = new AppState({}, {});
@@ -37,18 +43,17 @@ describe('v2/view-builder/views/AutoRedirectView', function() {
   });
 
   it('view renders correctly according to interstitialBeforeLoginRedirect', function() {
-    settings = new Settings({ 
+    settings = new Settings({
       baseUrl: 'http://localhost:3000',
       'interstitialBeforeLoginRedirect': INTERSTITIAL_REDIRECT_VIEW.NONE
-    });    
+    });
     testContext.init();
     expect(testContext.view.el).toMatchSnapshot('should NOT render spinner');
-    
 
-    settings = new Settings({ 
+    settings = new Settings({
       baseUrl: 'http://localhost:3000',
       'interstitialBeforeLoginRedirect': INTERSTITIAL_REDIRECT_VIEW.DEFAULT
-    });    
+    });
     testContext.init();
     expect(testContext.view.el).toMatchSnapshot('should have spinner, app name, and user identifier');
   });
@@ -94,5 +99,45 @@ describe('v2/view-builder/views/AutoRedirectView', function() {
     testContext.view.render();
 
     expect(testContext.view.$el.html()).toMatchSnapshot();
+  });
+
+  describe('Android OV Enrollment', () => {
+
+    beforeEach(() => {
+      settings = new Settings({
+        baseUrl: 'http://localhost:3000',
+        'interstitialBeforeLoginRedirect': INTERSTITIAL_REDIRECT_VIEW.DEFAULT,
+      });
+
+      Object.defineProperty(window, 'location', {
+        value: {
+          href: 'https://somelink.com',
+        }
+      });
+
+      jest.spyOn(utilSpy, 'redirectWithFormGet').mockReturnValue(() => {});
+      jest.spyOn(AppState.prototype, 'getCurrentViewState').mockReturnValue({href:'https://org.okta.com/login/token/redirect?stateToken=mockedStateToken123'});
+
+      const appState = new AppState({}, {});
+      testContext.view = new AutoRedirectView({
+        appState,
+        settings,
+        currentViewState: {},
+        model: new Model(),
+      });
+    });
+
+    it('Add User Gesture if OV enrollment on Android', () => {
+      jest.spyOn(utilSpy, 'isAndroidOVEnrollment').mockReturnValue(true);
+      testContext.init();
+      expect(testContext.view.el).toMatchSnapshot('should show user gesture');
+    });
+
+    it('Do not add User Gesture if not OV enrollment on Android', () => {
+      jest.spyOn(utilSpy, 'isAndroidOVEnrollment').mockReturnValue(false);
+      testContext.init();
+      expect(testContext.view.el).toMatchSnapshot('should show user gesture');
+    });
+
   });
 });

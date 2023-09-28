@@ -4,7 +4,7 @@ import {AUTHENTICATOR_KEY, INTERSTITIAL_REDIRECT_VIEW} from '../../ion/Remediati
 import CustomAccessDeniedErrorMessage from '../views/shared/CustomAccessDeniedErrorMessage';
 import Util from "util/Util";
 import {BaseAuthenticatorBeacon} from "v2/view-builder/components/BaseAuthenticatorView";
-
+import { getHeader } from '../utils/AutoRedirectUtil';
 const CUSTOM_ACCESS_DENIED_KEY = 'security.access_denied_custom_message';
 const UNLOCK_USER_SUCCESS_MESSAGE = 'oie.selfservice.unlock_user.landing.to.app.success.message';
 
@@ -32,11 +32,8 @@ const Body = BaseForm.extend({
 
     const appName = appInstanceName ? appInstanceName : appDisplayName;
 
-    const ovDeepLink = 'redirect_uri=https://login.okta.com/oauth/callback';
-    const ovEnrollment = decodeURIComponent(window.location.href).includes(ovDeepLink);
-
     // OKTA-635926: add user gesture for ov enrollment on android
-    if (Util.isAndroidOVEnrollment(this)) {
+    if (Util.isAndroidOVEnrollment()) {
       titleString = loc('oie.success.text.signingIn.with.appName.android.ov.enrollment', 'login');
     } else if (appName && userEmail && !this.settings.get('features.showIdentifier')) {
       titleString = loc('oie.success.text.signingIn.with.appName.and.identifier', 'login', [appName, userEmail]);
@@ -79,7 +76,7 @@ const Body = BaseForm.extend({
     if (this.redirectView === INTERSTITIAL_REDIRECT_VIEW.DEFAULT) {
 
       // OKTA-635926: add user gesture for ov enrollment on android
-      if (Util.isAndroidOVEnrollment(this)) {
+      if (Util.isAndroidOVEnrollment()) {
         const currentViewState = this.options.appState.getCurrentViewState();
         this.add(createButton({
           className: 'ul-button button button-wide button-primary hide-underline',
@@ -96,19 +93,7 @@ const Body = BaseForm.extend({
   }
 });
 
-function getRedirectViewHeader() {
-  if (Util.isAndroidOVEnrollment()) {
-    return BaseHeader.extend({
-      HeaderBeacon: BaseAuthenticatorBeacon.extend({
-        authenticatorKey: AUTHENTICATOR_KEY.OV,
-      })
-    })
-  } else {
-    return BaseHeader;
-  }
-}
-
 export default BaseView.extend({
-  Header: getRedirectViewHeader(),
+  Header: getHeader(),
   Body: Body
 });

@@ -243,7 +243,7 @@ export default Controller.extend({
       // Because SIW sort of finished its current /transaction/
 
       // OKTA-635926: do not redirect without user gesture for ov enrollment on android
-      if (!Util.isAndroidOVEnrollment(this)) {
+      if (!Util.isAndroidOVEnrollment()) {
         const currentViewState = this.options.appState.getCurrentViewState();
         Util.redirectWithFormGet(currentViewState.href);
       }

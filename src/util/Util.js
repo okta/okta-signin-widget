@@ -12,7 +12,7 @@
  */
 
 /* eslint complexity: [2, 13], max-depth: [2, 3] */
-import {_, createButton, loc} from '@okta/courage';
+import {_, loc} from '@okta/courage';
 import Enums from './Enums';
 import Logger from './Logger';
 import BrowserFeatures from './BrowserFeatures';
@@ -188,7 +188,7 @@ Util.redirect = function(url, win = window, isAppLink = false) {
   }
 };
 
-Util.isAndroidOVEnrollment = function(view) {
+Util.isAndroidOVEnrollment = function() {
   const ovEnrollment = decodeURIComponent(window.location.href).includes(ovDeepLink);
   return BrowserFeatures.isAndroid() && ovEnrollment;
 }
