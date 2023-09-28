@@ -141,6 +141,9 @@ const AuthenticatorButton: UISchemaElementComponent<{
       <Box
         className="authenticator-description"
         sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          flexGrow: 1,
           paddingBlock: 0,
           paddingInline: '12px 0',
         }}
