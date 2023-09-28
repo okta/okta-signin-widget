@@ -415,7 +415,7 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
 
     expect(updatedFormBag).toMatchSnapshot();
     const [stepperLayout] = updatedFormBag.uischema.elements;
-    const layoutFive = (stepperLayout as StepperLayout).elements[3];
+    const layoutFive = (stepperLayout as StepperLayout).elements[4];
 
     expect(layoutFive.elements.length).toBe(4);
     expect((layoutFive.elements[0] as TitleElement).options.content)
