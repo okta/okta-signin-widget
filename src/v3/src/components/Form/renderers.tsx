@@ -25,6 +25,7 @@ import AutoSubmit from '../AutoSubmit';
 import Button from '../Button';
 import CaptchaContainer from '../CaptchaContainer';
 import Checkbox from '../Checkbox';
+import ChromeDtcContainer from '../ChromeDtcContainer';
 import Divider from '../Divider';
 import DuoWindow from '../DuoWindow';
 import Heading from '../Heading';
@@ -124,6 +125,10 @@ export default [
   {
     tester: ({ type }) => type === 'OpenOktaVerifyFPButton',
     renderer: OpenOktaVerifyFPButton,
+  },
+  {
+    tester: ({ type }) => type === 'ChromeDtcContainer',
+    renderer: ChromeDtcContainer,
   },
   {
     tester: ({ type }) => type === 'WebAuthNSubmitButton',

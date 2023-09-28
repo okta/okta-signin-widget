@@ -1,4 +1,4 @@
-import { RequestMock, userVariables } from 'testcafe';
+import { RequestMock } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 import DeviceChallengePollPageObject from '../framework/page-objects/DeviceChallengePollPageObject';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
@@ -64,12 +64,7 @@ const mockChromeProbingThenCancel = RequestMock()
     res.setBody(identify);
   });
 
-<<<<<<< HEAD
-fixture('Device Challenge Polling View for Chrome DTC').meta('v3', true);
-=======
-// TODO: OKTA-616189 - implement this view in Gen3
-fixture('Device Challenge Polling View for Chrome DTC').meta('gen3', false);
->>>>>>> master
+fixture('Device Challenge Polling View for Chrome DTC');
 
 async function setup(t) {
   const deviceChallengePollPage = new DeviceChallengePollPageObject(t);
@@ -108,6 +103,7 @@ async function assertChromeDTCView(t) {
   await t.expect(deviceChallengePollPageObject.getFooterSwitchAuthenticatorLink().exists).eql(false);
   await t.expect(await deviceChallengePollPageObject.hasSpinner()).eql(true);
   let iframe = await deviceChallengePollPageObject.getIframe();
+  await t.expect(iframe.exists).ok({ timeout: 100 });
   let attributes = await deviceChallengePollPageObject.getChromeDTCIframeAttributes();
   await t.expect(attributes.src).eql('http://localhost:3000/idp/device/dinkm9q0dV4tsEdkz0g4/challenge?transactionHandle=dit2ChhQiZ7xRpQfED8H9hXnw1NrKcE8VCq');
   await t.expect(iframe.visible).eql(false);

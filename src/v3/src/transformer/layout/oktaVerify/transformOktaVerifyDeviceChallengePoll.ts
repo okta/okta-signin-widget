@@ -14,6 +14,7 @@ import { NextStep } from '@okta/okta-auth-js';
 
 import { CHALLENGE_METHOD, IDX_STEP } from '../../../constants';
 import {
+  ChromeDtcContainerElement,
   DescriptionElement,
   IdxStepTransformer,
   IStepperContext,
@@ -37,11 +38,14 @@ const getTitleText = (challengeMethod: string) => {
     case CHALLENGE_METHOD.CHROME_DTC:
       return loc('chrome_dtc.title', 'login');
 
+    case CHALLENGE_METHOD.CUSTOM_URI:
+      return loc('customUri.title', 'login');
+
     case CHALLENGE_METHOD.UNIVERSAL_LINK:
       return loc('universalLink.title', 'login');
 
     default:
-      return loc('customUri.title', 'login');
+      return '';
   }
 };
 
@@ -50,14 +54,14 @@ const getDescriptionText = (challengeMethod: string) => {
     case CHALLENGE_METHOD.APP_LINK:
       return loc('appLink.content', 'login');
 
+    case CHALLENGE_METHOD.CUSTOM_URI:
+      return loc('customUri.required.content.prompt', 'login');
+
     case CHALLENGE_METHOD.UNIVERSAL_LINK:
       return loc('universalLink.content', 'login');
 
-    case CHALLENGE_METHOD.CHROME_DTC:
-      return '';
-
     default:
-      return loc('customUri.required.content.prompt', 'login');
+      return '';
   }
 };
 
@@ -73,7 +77,7 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
     ? transaction.nextStep?.relatesTo?.value
     // @ts-expect-error challenge is not defined on contextualData
     : transaction.nextStep?.relatesTo?.value?.contextualData?.challenge?.value;
-  const { challengeMethod } = deviceChallengePayload;
+  const { challengeMethod, href, downloadHref } = deviceChallengePayload;
 
   const titleElement: TitleElement = {
     type: 'Title',
@@ -98,8 +102,15 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
     type: 'OpenOktaVerifyFPButton',
     options: {
       step: nextStep.name,
-      href: deviceChallengePayload.href,
+      href,
       challengeMethod,
+    },
+  };
+
+  const chromeDtcContainer: ChromeDtcContainerElement = {
+    type: 'ChromeDtcContainer',
+    options: {
+      href,
     },
   };
 
@@ -192,13 +203,25 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
     return formBag;
   }
 
-  if (challengeMethod !== CHALLENGE_METHOD.CUSTOM_URI) {
+  if ([
+    CHALLENGE_METHOD.APP_LINK,
+    CHALLENGE_METHOD.CHROME_DTC,
+    CHALLENGE_METHOD.UNIVERSAL_LINK,
+  ].includes(challengeMethod)) {
     uischema.elements.push(spinnerElement);
   }
 
-  if (challengeMethod !== CHALLENGE_METHOD.CHROME_DTC) {
+  if ([
+    CHALLENGE_METHOD.APP_LINK,
+    CHALLENGE_METHOD.CUSTOM_URI,
+    CHALLENGE_METHOD.UNIVERSAL_LINK,
+  ].includes(challengeMethod)) {
     uischema.elements.push(descriptionElement);
     uischema.elements.push(openOktaVerifyButton);
+  }
+
+  if (challengeMethod === CHALLENGE_METHOD.CHROME_DTC) {
+    uischema.elements.push(chromeDtcContainer);
   }
 
   if (challengeMethod === CHALLENGE_METHOD.CUSTOM_URI) {
@@ -212,7 +235,7 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
       type: 'Link',
       options: {
         label: loc('customUri.required.content.download.linkText', 'login'),
-        href: deviceChallengePayload.downloadHref,
+        href: downloadHref,
       },
     } as LinkElement);
   }
