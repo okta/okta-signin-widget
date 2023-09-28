@@ -232,6 +232,7 @@ describe('Select Authenticator Utility Tests', () => {
 
     it('should return formatted authenticator options when raw options are provided', () => {
       const mockPhoneNumber = '2XXXXXX123';
+      const mockEmail = 't***r@okta.com';
       const options: IdxOption[] = Object.entries(AUTHENTICATOR_KEY)
         .filter(([, value]) => value !== AUTHENTICATOR_KEY.OV
           && value !== AUTHENTICATOR_KEY.DEFAULT)
@@ -250,6 +251,8 @@ describe('Select Authenticator Utility Tests', () => {
           };
           if (AUTHENTICATOR_KEY[key] === AUTHENTICATOR_KEY.PHONE) {
             option.relatesTo.profile = { phoneNumber: mockPhoneNumber };
+          } else if (AUTHENTICATOR_KEY[key] === AUTHENTICATOR_KEY.EMAIL) {
+            option.relatesTo.profile = { email: mockEmail };
           }
           return option;
         });
@@ -263,8 +266,13 @@ describe('Select Authenticator Utility Tests', () => {
         expect(currentOption?.label).toBe(option.label);
         expect(currentOption?.options.ctaLabel)
           .toBe('oie.verify.authenticator.button.text');
-        expect(currentOption?.options.description)
-          .toBe(option.relatesTo?.key === AUTHENTICATOR_KEY.PHONE ? mockPhoneNumber : undefined);
+        let expeectedDescription;
+        if (option.relatesTo?.key === AUTHENTICATOR_KEY.PHONE) {
+          expeectedDescription = mockPhoneNumber;
+        } else if (option.relatesTo?.key === AUTHENTICATOR_KEY.EMAIL) {
+          expeectedDescription = mockEmail;
+        }
+        expect(currentOption?.options.description).toBe(expeectedDescription);
       });
     });
 

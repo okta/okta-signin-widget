@@ -169,6 +169,10 @@ const getAuthenticatorDescription = (
     return option.relatesTo?.profile?.phoneNumber as string || undefined;
   }
 
+  if (authenticatorKey === AUTHENTICATOR_KEY.EMAIL) {
+    return option.relatesTo?.profile?.email as string || undefined;
+  }
+
   if (authenticatorKey === AUTHENTICATOR_KEY.CUSTOM_APP) {
     return option.relatesTo?.displayName as string || undefined;
   }
