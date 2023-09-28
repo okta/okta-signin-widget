@@ -57,7 +57,7 @@ const enrollViaQRcodeMocks2 = enrollViaQRcodeMocks(xhrSuccess);
 const enrollSameDeviceMocks = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorEnrollOktaVerifySameDevice);
-if (userVariables.v3) {
+if (userVariables.gen3) {
   enrollSameDeviceMocks
     .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
     .respond(xhrAuthenticatorEnrollOktaVerifySameDevice);
@@ -67,7 +67,7 @@ if (userVariables.v3) {
 const enrollDeviceBootstrapMocks = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorEnrollOktaVerifyDeviceBootstrap);
-if (userVariables.v3) {
+if (userVariables.gen3) {
   enrollDeviceBootstrapMocks
     .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
     .respond(xhrAuthenticatorEnrollOktaVerifyDeviceBootstrap);
@@ -76,7 +76,7 @@ if (userVariables.v3) {
 const enrollDeviceBootstrapMocksMultipleDevices = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorEnrollOktaVerifyDeviceBootstrapMultipleDevices);
-if (userVariables.v3) {
+if (userVariables.gen3) {
   enrollDeviceBootstrapMocksMultipleDevices
     .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
     .respond(xhrAuthenticatorEnrollOktaVerifyDeviceBootstrapMultipleDevices);
@@ -863,14 +863,16 @@ test
 
     await t.expect(enrollOktaVerifyPage.getDownloadAppHref()).eql(oktaVerifyAppStoreDownloadUrl);
     await t.expect(enrollOktaVerifyPage.getCopyOrgLinkButtonLabel()).eql(urlCopiedToClipboardMessage);
-    await t.expect(enrollOktaVerifyPage.getCopiedOrgLinkValue()).eql('okta.okta.com');
+    if (!userVariables.gen3) {
+      await t.expect(enrollOktaVerifyPage.getCopiedOrgLinkValue()).eql('okta.okta.com');
+    }
 
     await t.expect(enrollOktaVerifyPage.getTryDifferentWayText().exists).notOk();
     await t.expect(await enrollOktaVerifyPage.returnToAuthenticatorListLinkExists()).ok();
     await t.expect(await enrollOktaVerifyPage.signoutLinkExists()).ok();
 
     // expect no polling for same device page
-    if (!userVariables.v3) {
+    if (!userVariables.gen3) {
       await t.expect(logger.count(
         record => record.response.statusCode === 200 &&
         record.request.url.match(/poll/)
@@ -895,7 +897,7 @@ test
     await t.expect(await enrollOktaVerifyPage.signoutLinkExists()).ok();
 
     // expect no polling for device bootstrap page
-    if (!userVariables.v3) {
+    if (!userVariables.gen3) {
       await t.expect(logger.count(
         record => record.response.statusCode === 200 &&
         record.request.url.match(/poll/)
@@ -922,7 +924,7 @@ test
     await t.expect(await enrollOktaVerifyPage.signoutLinkExists()).ok();
 
     // expect no polling for device bootstrap page
-    if (!userVariables.v3) {
+    if (!userVariables.gen3) {
       await t.expect(logger.count(
         record => record.response.statusCode === 200 &&
         record.request.url.match(/poll/)
