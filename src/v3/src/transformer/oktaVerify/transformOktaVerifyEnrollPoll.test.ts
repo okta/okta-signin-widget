@@ -344,6 +344,7 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
       .toBe('select-enrollment-channel');
   });
 
+  /* eslint max-len: [2, 120] */
   it('should add Stepper elements when selectedChannel is samedevice', () => {
     transaction.context = {
       // TODO: OKTA-503490 temporary sln access missing relatesTo obj
@@ -353,7 +354,7 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
             samedevice: {
               orgUrl: 'okta.okta.com',
               downloadHref: 'https://apps.apple.com/us/app/okta-verify/id490179405',
-              platform: 'ios'
+              platform: 'ios',
             },
             selectedChannel: 'samedevice',
           },
@@ -365,7 +366,7 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
 
     expect(updatedFormBag).toMatchSnapshot();
     const [stepperLayout] = updatedFormBag.uischema.elements;
-    const [_layoutOne, _layoutTwo, _layoutThree, layoutFour] = (stepperLayout as StepperLayout).elements;
+    const layoutFour = (stepperLayout as StepperLayout).elements[3];
 
     expect(layoutFour.elements.length).toBe(4);
     expect((layoutFour.elements[0] as TitleElement).options.content)
@@ -393,6 +394,7 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
       .toBe('oie.enroll.okta_verify.setup.skipAuth.canBeClosed');
   });
 
+  /* eslint max-len: [2, 120] */
   it('should add Stepper elements when selectedChannel is devicebootstrap', () => {
     transaction.context = {
       // TODO: OKTA-503490 temporary sln access missing relatesTo obj
@@ -401,7 +403,7 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
           contextualData: {
             devicebootstrap: {
               platform: 'ios',
-              enrolledDevices: ['testDevice1', 'device2']
+              enrolledDevices: ['testDevice1', 'device2'],
             },
             selectedChannel: 'devicebootstrap',
           },
@@ -413,7 +415,7 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
 
     expect(updatedFormBag).toMatchSnapshot();
     const [stepperLayout] = updatedFormBag.uischema.elements;
-    const [_layoutOne, _layoutTwo, _layoutThree, _layoutFour, layoutFive] = (stepperLayout as StepperLayout).elements;
+    const layoutFive = (stepperLayout as StepperLayout).elements[3];
 
     expect(layoutFive.elements.length).toBe(4);
     expect((layoutFive.elements[0] as TitleElement).options.content)
