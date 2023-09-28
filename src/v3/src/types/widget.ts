@@ -26,13 +26,13 @@ import {
   HooksOptions,
   LanguageCallback,
   LanguageCode,
-  OktaSignInAPI,
   RegistrationErrorCallback,
   RegistrationOptions as RegOptions,
   RenderError,
   RenderResult,
   UserOperation,
 } from '../../../types';
+import { OktaSignInAPI } from './api';
 import { InterstitialRedirectView } from '../constants';
 import { WidgetHooks } from '../util/widgetHooks';
 import { JsonObject } from './json';

@@ -16,19 +16,23 @@ import { h, render } from 'preact';
 import { TinyEmitter as EventEmitter } from 'tiny-emitter';
 
 import {
-  EventContext, EventErrorContext,
+  EventContext,
+  EventErrorContext,
   HookFunction,
-  OktaSignInAPI, RenderErrorCallback, RenderResult, RenderSuccessCallback,
+  RenderErrorCallback,
+  RenderResult,
+  RenderSuccessCallback,
 } from '../../../types';
-import { Widget } from '../components/Widget';
-import { JsonObject } from '../types';
 import {
+  JsonObject,
   OktaWidgetEventHandler,
   OktaWidgetEventType,
+  OktaSignInAPI,
   RenderOptions,
   WidgetOptions,
   WidgetProps,
-} from '../types/widget';
+} from '../types';
+import { Widget } from '../components/Widget';
 import { WidgetHooks } from '../util/widgetHooks';
 
 const EVENTS_LIST = ['ready', 'afterError', 'afterRender'];
@@ -148,8 +152,7 @@ export default class OktaSignIn implements OktaSignInAPI {
     onSuccess?: RenderSuccessCallback,
     onError?: RenderErrorCallback,
   ): Promise<RenderResult> {
-    const { el } = options;
-    this.el = el!;
+    this.el = options.el ?? null;
 
     return new Promise<RenderResult>((resolve, reject) => {
       const onSuccessWrapper = (res: RenderResult): void => {
@@ -176,7 +179,7 @@ export default class OktaSignIn implements OktaSignInAPI {
             widgetHooks: this.widgetHooks,
           }), target);
         } else {
-          throw new Error(`could not find element ${el}`);
+          throw new Error(`could not find element ${this.el}`);
         }
       } catch (error) {
         if (typeof onError === 'function') {
