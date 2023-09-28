@@ -29,12 +29,12 @@ export default class ConsentPageObject extends BasePageObject {
   }
 
   getScopeGroupName() {
-    const selector = userVariables.v3 ? '[data-se="scope-group--header"]' : '.scope-group--header';
+    const selector = userVariables.gen3 ? '[data-se="scope-group--header"]' : '.scope-group--header';
     return this.form.getElement(selector).innerText;
   }
 
   async getHeaderTitleText() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return Selector('span.title-text > p').innerText;
     }
     const parent = Selector('.consent-title .title-text');
@@ -47,14 +47,14 @@ export default class ConsentPageObject extends BasePageObject {
   }
 
   getConsentAgreementText() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.getElement('[data-se="consent-description"]').innerText;
     }
     return this.getTextContent('.consent-description');
   }
 
   getGranularHeaderClientName() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.getFormTitle();
     }
     return this.getTextContent('.title-text > b');
@@ -69,7 +69,7 @@ export default class ConsentPageObject extends BasePageObject {
   }
 
   getDisabledCheckBoxLabels() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.getInnerTexts('[aria-disabled="true"] ~ span');
     }
     return this.form.getInnerTexts(':disabled ~ label');

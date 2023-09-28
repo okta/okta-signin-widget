@@ -11,7 +11,7 @@ export default class EnrollCustomPasswordPageObject extends BasePageObject {
   }
 
   getRedirectButton() {
-    if(userVariables.v3) {
+    if(userVariables.gen3) {
       return this.form.getButton('Go to Password reset website name');
     }
 

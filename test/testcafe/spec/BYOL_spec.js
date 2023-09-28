@@ -24,8 +24,7 @@ const mock = RequestMock()
   .onRequestTo('http://labels/json/country_foo.json')
   .respond(null, 404);
 
-fixture('BYOL (Bring Your Own Language)')
-  .meta('v3', true);
+fixture('BYOL (Bring Your Own Language)');
 
 // NOTE: not rendering by default to override navigation.languages
 const renderWidget = ClientFunction((settings) => {

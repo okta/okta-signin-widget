@@ -82,7 +82,7 @@ const stepUpMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/authenticators/sso_extension/transactions/456/verify/cancel')
   .respond(identify);
 
-fixture('App SSO Extension View').meta('v3', true);
+fixture('App SSO Extension View');
 
 const getPageUrl = ClientFunction(() => window.location.href);
 test
@@ -165,7 +165,7 @@ test
     await ssoExtensionPage.navigateToPage();
     await ssoExtensionPage.formExists();
     await ssoExtensionPage.form.waitForErrorBox();
-    if(!userVariables.v3) {
+    if(!userVariables.gen3) {
       await t.expect(ssoExtensionPage.getSpinnerStyle()).eql('none');
     }
   });

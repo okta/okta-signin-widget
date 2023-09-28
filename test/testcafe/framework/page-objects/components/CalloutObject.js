@@ -19,7 +19,7 @@ export default class CalloutObject {
 
   isError() {
     const hasInfoBoxErrorClass = this.el.hasClass('infobox-error');
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return hasInfoBoxErrorClass;
     }
     return hasInfoBoxErrorClass &&
@@ -27,7 +27,7 @@ export default class CalloutObject {
   }
 
   getTextContent() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.el.textContent;
     }
     return this.el.child('[data-se="callout"]').child('div').textContent;

@@ -39,8 +39,7 @@ const answerRequestLogger = RequestLogger(
   }
 );
 
-fixture('Enroll Security Question Form')
-  .meta('v3', true);
+fixture('Enroll Security Question Form');
 
 async function setup(t) {
   const enrollSecurityQuestionPage = new EnrollSecurityQuestionPageObject(t);

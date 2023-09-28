@@ -65,7 +65,7 @@ const deviceInvalidatedErrorPoll = RequestMock()
     }, Constants.TESTCAFE_DEFAULT_AJAX_WAIT + 2000));
   });
 
-fixture('Device Challenge Polling View with Polling Failure').meta('v3', true);
+fixture('Device Challenge Polling View with Polling Failure');
 
 async function setup(t) {
   const deviceChallengePollPage = new DeviceChallengePollPageObject(t);

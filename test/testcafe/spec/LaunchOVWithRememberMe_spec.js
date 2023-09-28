@@ -12,7 +12,6 @@ const mock = RequestMock()
   .respond('');
 
 fixture('Launch OV with rememberMe')
-  .meta('v3', true)
   .requestHooks(logger, mock);
 
 

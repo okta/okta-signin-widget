@@ -39,8 +39,7 @@ const rerenderWidget = ClientFunction((settings) => {
   window.renderPlaygroundWidget(settings);
 });
 
-fixture('Custom widget attributes')
-  .meta('v3', true);
+fixture('Custom widget attributes');
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
@@ -187,7 +186,7 @@ test.requestHooks(mockAuthenticatorPasswordExpiryWarning)('should show user\'s i
 
 // TODO: OKTA-649669 - Determine whether gen 3 should support dot notation FFs. This test was originally passing in gen 3 not because the FF is
 // parsed correctly but because it evaluates to undefined and hits the same logical path as 'false' in IdentifierContainer's shouldHideIdentifier()
-test.meta('v3', false).requestHooks(mockAuthenticatorPasswordExpiryWarning)('should hide user\'s identifier if feature is disabled', async t => {
+test.meta('gen3', false).requestHooks(mockAuthenticatorPasswordExpiryWarning)('should hide user\'s identifier if feature is disabled', async t => {
   const passwordExpiryWarningPage = await setupPasswordExpired(t);
   await rerenderWidget({
     'features.showIdentifier': false,

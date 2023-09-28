@@ -151,7 +151,7 @@ export default class BaseFormObject {
    * @param {(string|RegExp)} name the text of the button to return
    */
   getButton(name) {
-    const options = userVariables.v3 ? { name } : { value: name };
+    const options = userVariables.gen3 ? { name } : { value: name };
     return within(this.el).getByRole('button', options);
   }
 
@@ -159,7 +159,7 @@ export default class BaseFormObject {
    * @param {string} name the text of the button to return
    */
   queryButton(name) {
-    const options = userVariables.v3 ? { name } : { value: name };
+    const options = userVariables.gen3 ? { name } : { value: name };
     return within(this.el).queryByRole('button', options);
   }
 
@@ -200,7 +200,7 @@ export default class BaseFormObject {
 
   getSaveButtonLabel() {
     // in v3 buttons dont have a value prop
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.el.find(SAVE_BUTTON_SELECTOR).textContent;
     }
     return this.el.find(SAVE_BUTTON_SELECTOR).value;
@@ -216,7 +216,7 @@ export default class BaseFormObject {
 
   getCancelButtonLabel() {
     // in v3 buttons dont have a value prop
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.el.find(CANCEL_BUTTON_SELECTOR).textContent;
     }
     return this.el.find(CANCEL_BUTTON_SELECTOR).value;
@@ -246,7 +246,7 @@ export default class BaseFormObject {
   }
 
   getErrorBoxCount() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.getAllAlertBoxes().count;
     }
 
@@ -254,7 +254,7 @@ export default class BaseFormObject {
   }
 
   getErrorBox() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.getAlertBox();
     }
 
@@ -274,7 +274,7 @@ export default class BaseFormObject {
   }
 
   getAlertBoxText() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.getAlertBox().innerText;
     } else {
       // Not implemented/required in v2
@@ -294,7 +294,7 @@ export default class BaseFormObject {
   }
 
   async getErrorBoxTextByIndex(index) {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return await within(this.el).findAllByRole('alert').nth(index).innerText;
     }
     const errors = await this.getAllErrorBoxTexts();
@@ -315,7 +315,7 @@ export default class BaseFormObject {
   }
 
   hasTextBoxErrorMessage(fieldName, index = undefined) {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.el.find(`[id="${fieldName}-error${index !== undefined ? '-' + index : ''}"]`).exists;
     }
 
@@ -326,7 +326,7 @@ export default class BaseFormObject {
   }
 
   getTextBoxErrorMessage(fieldName, index = undefined) {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.el.find(`[id="${fieldName}-error${index !== undefined ? '-' + index : ''}"]`).innerText;
     }
 
@@ -336,7 +336,7 @@ export default class BaseFormObject {
   }
 
   getNthErrorMessage(fieldName, value) {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.el.find(`#${fieldName}-error-${value}`).innerText;
     }
     const selectContainer = this.findFormFieldInput(fieldName).sibling('.o-form-input-error').nth(value);
@@ -347,7 +347,7 @@ export default class BaseFormObject {
   // =====================================
 
   getValueFromDropdown(fieldName, index = 0) {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       const selectEle = this.el.find(`[data-se="${fieldName}"]`);
       const option = selectEle.child().nth(index);
   
@@ -358,7 +358,7 @@ export default class BaseFormObject {
   }
 
   async selectValueChozenDropdown(fieldName, index) {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       const selectEle = await this.el.find(`[data-se="${fieldName}"]`);
 
       await this.t.click(selectEle);
@@ -382,7 +382,7 @@ export default class BaseFormObject {
   // =====================================
 
   async selectRadioButtonOption(fieldName, index) {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       const radioEle = await this.el.find(`[data-se="${fieldName}"]`);
 
       const radioOpt = await radioEle.child().nth(index);
@@ -402,7 +402,7 @@ export default class BaseFormObject {
   }
 
   async selectRadioButtonOptionByValue(fieldName, value) {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       const radioOption = await this.el.find(`input[type="radio"][value="${value}"]`);
       await this.t.click(radioOption); 
 
@@ -430,7 +430,7 @@ export default class BaseFormObject {
   // =====================================
 
   findFormFieldInput(fieldName) {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.el
         .find(`[data-se="${fieldName}"]`);     
     }
@@ -439,7 +439,7 @@ export default class BaseFormObject {
   }
 
   findFormFieldInputLabel(fieldName) {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.el
         .find(`label[for="${fieldName}"]`)
         // get first text node

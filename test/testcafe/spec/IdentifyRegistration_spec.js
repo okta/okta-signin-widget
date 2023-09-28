@@ -47,8 +47,7 @@ const logger = RequestLogger(
   }
 );
 
-fixture('Registration')
-  .meta('v3', true);
+fixture('Registration');
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
@@ -114,9 +113,7 @@ test.requestHooks(mock)('should show errors if required fields are empty', async
   await t.expect(registrationPage.hasEmailErrorMessage()).eql(true);
 });
 
-// In v3 UX made a conscious decision to remove the onBlur field validation trigger because it causes unnecessary noise
-// in the application, so we are leaving this disabled for v3.
-test.meta('v3', false).requestHooks(mock)('should show errors after empty required fields are focused out', async t => {
+test.requestHooks(mock)('should show errors after empty required fields are focused out', async t => {
   const registrationPage = await setup(t);
   await checkA11y(t);
   await verifyRegistrationPageEvent();
@@ -134,6 +131,84 @@ test.meta('v3', false).requestHooks(mock)('should show errors after empty requir
   await t.expect(registrationPage.hasFirstNameErrorMessage()).eql(true);
   await t.expect(registrationPage.hasEmailError()).eql(true);
   await t.expect(registrationPage.hasEmailErrorMessage()).eql(true);
+});
+
+test.requestHooks(mock)('should show max length field validation errors', async t => {
+  const registrationPage = await setup(t);
+  await checkA11y(t);
+  await verifyRegistrationPageEvent();
+  // Populate first name and last name fields (maxLength = 50) with 52 characters
+  await registrationPage.fillFirstNameField('abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz');
+  await registrationPage.fillLastNameField('abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz');
+  // Populate email field (maxLength = 100) with 102 characters
+  await registrationPage.fillEmailField('abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopq@rs.com');
+  await registrationPage.focusRegisterButton();
+
+  await registrationPage.waitForLastNameError();
+
+  // All three enroll fields should show max length validation error
+  await t.expect(registrationPage.hasLastNameError()).eql(true);
+  await t.expect(registrationPage.hasLastNameErrorMessage()).eql(true);
+  await t.expect(registrationPage.getLastNameErrorMessage()).contains('This field cannot exceed the maximum allowed characters');
+  await t.expect(registrationPage.hasFirstNameError()).eql(true);
+  await t.expect(registrationPage.getFirstNameErrorMessage()).contains('This field cannot exceed the maximum allowed characters');
+  await t.expect(registrationPage.hasEmailError()).eql(true);
+  await t.expect(registrationPage.hasEmailErrorMessage()).eql(true);
+  await t.expect(registrationPage.getEmailErrorMessage()).contains('This field cannot exceed the maximum allowed characters');
+
+  // Populate first name and last name fields (maxLength = 50) with 50 characters
+  await registrationPage.fillFirstNameField('abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwx');
+  await registrationPage.fillLastNameField('abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwx');
+  // Populate email field (maxLength = 100) with 100 characters
+  await registrationPage.fillEmailField('abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmno@pq.com');
+  await registrationPage.focusRegisterButton();
+
+  // All three enroll fields should not show max length validation error
+  await t.expect(registrationPage.hasLastNameError()).eql(false);
+  await t.expect(registrationPage.hasLastNameErrorMessage()).eql(false);
+  await t.expect(registrationPage.hasFirstNameError()).eql(false);
+  await t.expect(registrationPage.hasFirstNameErrorMessage()).eql(false);
+  await t.expect(registrationPage.hasEmailError()).eql(false);
+  await t.expect(registrationPage.hasEmailErrorMessage()).eql(false);
+});
+
+test.requestHooks(mock)('should show min length field validation errors', async t => {
+  const registrationPage = await setup(t);
+  await checkA11y(t);
+  await verifyRegistrationPageEvent();
+  // Populate first and last name fields (minLength = 2) with 1 character
+  await registrationPage.fillFirstNameField('a');
+  await registrationPage.fillLastNameField('a');
+  // Populate email field (minLength = 10) with 9 characters
+  await registrationPage.fillEmailField('ab@cd.com');
+  await registrationPage.focusRegisterButton();
+
+  await registrationPage.waitForLastNameError();
+
+  // All three enroll fields should show min length validation error
+  await t.expect(registrationPage.hasLastNameError()).eql(true);
+  await t.expect(registrationPage.hasLastNameErrorMessage()).eql(true);
+  await t.expect(registrationPage.getLastNameErrorMessage()).contains('This field cannot be less than the minimum required characters');
+  await t.expect(registrationPage.hasFirstNameError()).eql(true);
+  await t.expect(registrationPage.getFirstNameErrorMessage()).contains('This field cannot be less than the minimum required characters');
+  await t.expect(registrationPage.hasEmailError()).eql(true);
+  await t.expect(registrationPage.hasEmailErrorMessage()).eql(true);
+  await t.expect(registrationPage.getEmailErrorMessage()).contains('This field cannot be less than the minimum required characters');
+
+  // Populate first and last name fields (minLength = 2) with 2 characters
+  await registrationPage.fillFirstNameField('ab');
+  await registrationPage.fillLastNameField('ab');
+  // Populate email field (minLength = 10) with 10 characters
+  await registrationPage.fillEmailField('abc@de.com');
+  await registrationPage.focusRegisterButton();
+
+  // All three enroll fields should not show min length validation error
+  await t.expect(registrationPage.hasLastNameError()).eql(false);
+  await t.expect(registrationPage.hasLastNameErrorMessage()).eql(false);
+  await t.expect(registrationPage.hasFirstNameError()).eql(false);
+  await t.expect(registrationPage.hasFirstNameErrorMessage()).eql(false);
+  await t.expect(registrationPage.hasEmailError()).eql(false);
+  await t.expect(registrationPage.hasEmailErrorMessage()).eql(false);
 });
 
 test.requestHooks(enrollProfileErrorMock)('should show email field validation errors', async t => {

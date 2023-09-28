@@ -53,7 +53,7 @@ async function testRedirect(t) {
     .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
 }
 
-fixture('EnduserConsent').meta('v3', true);
+fixture('EnduserConsent');
 
 test.requestHooks(requestLogger, consentEnduserMock)('should render scopes', async t => {
   const consentPage  = await setup(t);
@@ -122,7 +122,7 @@ test.requestHooks(requestLogger, consentEnduserFailedMock)('should go to Termina
 
   const terminalPageObject = new TerminalPageObject(t);
   // in v3 Go back and Signout links are the same (in v2 they vary based on class name)
-  if (!userVariables.v3) {
+  if (!userVariables.gen3) {
     await t.expect(await terminalPageObject.goBackLinkExists()).notOk();
   }
   await t.expect(await terminalPageObject.signoutLinkExists()).ok();

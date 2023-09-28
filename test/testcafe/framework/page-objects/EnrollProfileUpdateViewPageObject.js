@@ -15,7 +15,7 @@ export default class EnrollProfileUpdateViewPageObject extends BasePageObject {
   }
 
   getFormFieldSubLabel(fieldName) {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.getElement(`label[for="${fieldName}"] > p`).innerText;
     }
     return this.form.getFormFieldSubLabel(fieldName);

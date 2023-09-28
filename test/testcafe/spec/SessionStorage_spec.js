@@ -68,7 +68,6 @@ const credentialSSONotExistMock = RequestMock()
 const credentialSSONotExistLogger = RequestLogger(/introspect|verify\/cancel/);
 
 fixture('Session Storage - manage state in client side')
-  .meta('v3', true)
   .afterEach(() => {
     ClientFunction(() => { window.sessionStorage.clear(); });
   });
@@ -165,7 +164,7 @@ test.requestHooks(identifyChallengeMockWithError)('shall save state handle durin
   await t.expect(terminalPageObject.form.getTitle()).eql('Verify with your email');
   await t.expect(terminalPageObject.getErrorMessages().isError()).eql(true);
   await t.expect(terminalPageObject.getErrorMessages().getTextContent()).eql('This email link has expired. To resend it, return to the screen where you requested it.');
-  if (userVariables.v3) {
+  if (userVariables.gen3) {
     await t.expect(getStateHandleFromSessionStorage()).eql(xhrInvalidOTP.stateHandle);
   } else {
     // TODO: OKTA-392835 shall not clear state handle at terminal page

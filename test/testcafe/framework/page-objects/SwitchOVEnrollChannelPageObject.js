@@ -11,14 +11,14 @@ export default class SwitchOVEnrollPageObject extends BasePageObject {
   }
 
   getOptionCount() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.getElement(optionLabelSelectorV3).count;
     }
     return this.form.getElement(optionLabelSelector).count;
   }
 
   getOptionLabel(index) {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.getElement(optionLabelSelectorV3).nth(index)
         .parent('span')
         .parent('label')

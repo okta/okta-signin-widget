@@ -10,7 +10,7 @@ const FORM_SELECTOR = '.custom-app-send-push-form';
 export default class ChallengeCustomAppPushPageObject extends ChallengeFactorPageObject {
   constructor(t) {
     super(t);
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       this.beacon = new Selector('[data-se="factor-beacon"]');
     } else {
       this.beacon = new Selector('.beacon-container');
@@ -18,7 +18,7 @@ export default class ChallengeCustomAppPushPageObject extends ChallengeFactorPag
   }
 
   getPushButton() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.getButton('Push notification sent');
     }
     return this.form.getLink('Push notification sent');
@@ -27,7 +27,7 @@ export default class ChallengeCustomAppPushPageObject extends ChallengeFactorPag
   isPushButtonDisabled() {
     const pushBtn = this.getPushButton();
     // v3 button uses disabled prop and v2 uses disabled class
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return pushBtn.hasAttribute('disabled');
     }
     return pushBtn.hasClass('link-button-disabled');
@@ -36,7 +36,7 @@ export default class ChallengeCustomAppPushPageObject extends ChallengeFactorPag
   isResendPushButtonDisabled() {
     const pushBtn = this.getResendPushButton();
     // v3 button uses disabled prop and v2 uses disabled class
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return pushBtn.hasAttribute('disabled');
     }
     return pushBtn.hasClass('link-button-disabled');
@@ -52,14 +52,14 @@ export default class ChallengeCustomAppPushPageObject extends ChallengeFactorPag
   }
 
   getResendPushButton() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.getButton('Resend push notification');
     }
     return this.form.getElement('.button-primary');
   }
 
   getResendPushButtonText() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.getResendPushButton().textContent;
     }
     return this.getResendPushButton().value;
@@ -78,7 +78,7 @@ export default class ChallengeCustomAppPushPageObject extends ChallengeFactorPag
   }
 
   getErrorTitle() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.getErrorBox();
     }
     return this.form.getElement(FORM_INFOBOX_ERROR_TITLE);
@@ -109,14 +109,14 @@ export default class ChallengeCustomAppPushPageObject extends ChallengeFactorPag
   }
 
   getBeaconClass() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.beacon.getAttribute('class');
     }
     return this.beacon.find(FACTOR_BEACON).getAttribute('class');
   }
 
   getBeaconBgImage() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return within(this.beacon).getByRole('img', {
         name: 'Redirect to a third party MFA provider to sign in.',
         hidden: true

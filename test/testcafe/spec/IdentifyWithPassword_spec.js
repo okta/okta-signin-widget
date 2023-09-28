@@ -30,8 +30,7 @@ const identifyRequestLogger = RequestLogger(
   }
 );
 
-fixture('Identify + Password')
-  .meta('v3', true);
+fixture('Identify + Password');
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
@@ -140,7 +139,7 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should not h
 
 // TODO: OKTA-649669 - Determine whether gen 3 should support dot notation FFs. Courage has built-in functionality for parsing this syntax of FFs
 // passed to the widget config, but an investigation should be done as to whether we should support this in gen 3
-test.meta('v3', false).requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should not have password toggle if "features.showPasswordToggleOnSignInPage" is false', async t => {
+test.meta('gen3', false).requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should not have password toggle if "features.showPasswordToggleOnSignInPage" is false', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
   await renderWidget({

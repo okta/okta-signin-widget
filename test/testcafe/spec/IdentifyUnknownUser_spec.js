@@ -21,7 +21,7 @@ const unassignedApplinkMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/identify')
   .respond(notAssignedApp);
 
-fixture('Identify Unknown User').meta('v3', true);
+fixture('Identify Unknown User');
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);

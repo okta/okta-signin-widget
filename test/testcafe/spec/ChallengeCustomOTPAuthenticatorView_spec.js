@@ -19,7 +19,7 @@ const mockInvalidPasscode = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(xhrInvalidOTP, 403);
 
-fixture('Challenge Authenticator Custom OTP').meta('v3', true);
+fixture('Challenge Authenticator Custom OTP');
 
 async function setup(t) {
   const challengeCustomOTPPage = new ChallengeCustomOTPPageObject(t);

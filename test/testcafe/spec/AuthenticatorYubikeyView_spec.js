@@ -36,7 +36,7 @@ async function setup(t) {
   return pageObject;
 }
 
-fixture('Enroll YubiKey Authenticator').meta('v3', true);
+fixture('Enroll YubiKey Authenticator');
 
 test
   .requestHooks(logger, enrollMock)('enroll with YubiKey authenticator', async t => {
@@ -78,7 +78,7 @@ test
     await t.expect(pageObject.form.getErrorBoxText()).eql('We found some errors. Please review the form and make corrections.');
   });
 
-fixture('Verify YubiKey Authenticator').meta('v3', true);
+fixture('Verify YubiKey Authenticator');
 test
   .requestHooks(logger, verifyMock)('verify with YubiKey authenticator', async t => {
     const pageObject = await setup(t);

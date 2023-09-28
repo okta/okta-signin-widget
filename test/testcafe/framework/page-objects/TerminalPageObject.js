@@ -27,7 +27,7 @@ export default class TerminalPageObject extends BasePageObject {
   }
 
   getMessages(index) {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.getSubtitle(index);
     }
     return this.form.getTerminalContent();
@@ -43,7 +43,7 @@ export default class TerminalPageObject extends BasePageObject {
 
   // Check for go back link unique to V2
   async goBackLinkExistsV2() {
-    if(!userVariables.v3) {
+    if(!userVariables.gen3) {
       return this.goBackLinkExists();
     }
     return false;

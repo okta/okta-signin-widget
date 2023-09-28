@@ -64,7 +64,7 @@ const identifyRequestLogger = RequestLogger(
   }
 );
 
-fixture('Device Code Activation Flow').meta('v3', true);
+fixture('Device Code Activation Flow');
 
 async function setup(t) {
   const deviceCodeActivatePage = new DeviceCodeActivatePageObject(t);

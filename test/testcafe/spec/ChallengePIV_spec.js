@@ -42,8 +42,7 @@ async function setup(t) {
   return identityPage;
 }
 
-fixture('Verify PIV IdP')
-  .meta('v3', true);
+fixture('Verify PIV IdP');
 
 test
   .requestHooks(logger, verifyWithSelectPIVIdpMock)('verify with PIV IdP from identify form', async t => {

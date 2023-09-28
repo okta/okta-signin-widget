@@ -20,7 +20,7 @@ export default class EnrollOVViaEmailPageObject extends BasePageObject {
   }
 
   getCountryLabel() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.getElement('#phoneNumber').parent('div').textContent;
     }
     return this.form.getElement(COUNTRY_CODE_LABEL).innerText;
@@ -31,7 +31,7 @@ export default class EnrollOVViaEmailPageObject extends BasePageObject {
   }
 
   clickSendSetupLink() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.clickButton('Send me the setup link');
     }
     return this.form.clickSaveButton();

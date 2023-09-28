@@ -36,7 +36,7 @@ const mockExpireSoon = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorExpiryWarningCustomPasswordExpireSoon);
 
-fixture('Custom Authenticator Password Expiry Warning').meta('v3', true);
+fixture('Custom Authenticator Password Expiry Warning');
 
 async function setup(t) {
   const expiringCustomPasswordPage = new EnrollCustomPasswordPageObject(t);

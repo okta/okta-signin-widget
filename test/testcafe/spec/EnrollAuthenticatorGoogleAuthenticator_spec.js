@@ -34,8 +34,7 @@ const invalidOTPMock = RequestMock()
   .respond(xhrInvalidOTP, 403);
 
 
-fixture('Enroll Google Authenticator')
-  .meta('v3', true);
+fixture('Enroll Google Authenticator');
 
 async function setup(t) {
   const enrollGoogleAuthenticatorPageObject = new EnrollGoogleAuthenticatorPageObject(t);
