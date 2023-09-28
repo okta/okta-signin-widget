@@ -8,7 +8,7 @@ const CUSTOM_ACCESS_DENIED_KEY = 'security.access_denied_custom_message';
 const UNLOCK_USER_SUCCESS_MESSAGE = 'oie.selfservice.unlock_user.landing.to.app.success.message';
 
 const Body = BaseForm.extend({
-  // eslint-disable-next-line complexity
+  /* eslint complexity: [2, 16] */
   title() {
     let titleString = loc('oie.success.text.signingIn', 'login');
     // For more info on the API response available in appState, see IdxResponseBuilder.java

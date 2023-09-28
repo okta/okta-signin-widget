@@ -241,8 +241,10 @@ export default Controller.extend({
     if (model.get('useRedirect')) {
       // Clear when navigates away from SIW page, e.g. success, IdP Authenticator.
       // Because SIW sort of finished its current /transaction/
+      sessionStorageHelper.removeStateHandle();
 
       // OKTA-635926: do not redirect without user gesture for ov enrollment on android
+      // if Util.isAndroidOVEnrollment() returns true we use a user gesture to complete the redirect in AutoRedirectView
       if (!Util.isAndroidOVEnrollment()) {
         const currentViewState = this.options.appState.getCurrentViewState();
         Util.redirectWithFormGet(currentViewState.href);
