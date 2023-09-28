@@ -70,7 +70,7 @@ const rerenderWidget = ClientFunction((settings) => {
   window.renderPlaygroundWidget(settings);
 });
 
-fixture('Unlock Account').meta('v3', true);
+fixture('Unlock Account');
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
@@ -194,7 +194,7 @@ test.requestHooks(identifyLockedUserLandOnAppMock)('should show unlock account a
 });
 
 // OKTA-586475 better unlock account behavior when hitting 'enter'
-test.meta('v3', false).requestHooks(identifyLockedUserMockWithOneAuthenticator)('should show the correct error message when the unlock account form is submitted via keyboard with no authenticator selected (1 authenticator available)', async t => {
+test.meta('gen3', false).requestHooks(identifyLockedUserMockWithOneAuthenticator)('should show the correct error message when the unlock account form is submitted via keyboard with no authenticator selected (1 authenticator available)', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
   await identityPage.clickUnlockAccountLink();
@@ -207,7 +207,7 @@ test.meta('v3', false).requestHooks(identifyLockedUserMockWithOneAuthenticator)(
 });
 
 // OKTA-586475 better unlock account behavior when hitting 'enter'
-test.meta('v3', false).requestHooks(identifyLockedUserMock)('should show the correct error message when the unlock account form is submitted via keyboard with no authenticator selected (multiple authenticator available)', async t => {
+test.meta('gen3', false).requestHooks(identifyLockedUserMock)('should show the correct error message when the unlock account form is submitted via keyboard with no authenticator selected (multiple authenticator available)', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
   await identityPage.clickUnlockAccountLink();

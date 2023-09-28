@@ -10,7 +10,7 @@ export default class DeviceCodeActivatePageObject extends BasePageObject {
   }
 
   getPageSubtitle() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.getSubtitle();
     }
     return this.form.getElement('.okta-form-subtitle').textContent;
@@ -57,28 +57,28 @@ export default class DeviceCodeActivatePageObject extends BasePageObject {
   }
 
   getTerminalTitle() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.getAlertBoxText();
     }
     return this.getFormTitle();
   }
 
   getTerminalContent(){
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.getPageSubtitle();
     }
     return this.form.getTerminalContent();
   }
 
   isTerminalSuccessIconPresent() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.elementExist('.infobox-success');
     }
     return this.form.getElement('.device-code-terminal--icon.success-24-green').exists;
   }
 
   isTerminalErrorIconPresent() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.elementExist('.infobox-error');
     }
     return this.form.getElement('.device-code-terminal--icon.error-24-red').exists;
@@ -89,7 +89,7 @@ export default class DeviceCodeActivatePageObject extends BasePageObject {
   }
 
   isTryAgainButtonPresent() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return Selector('[data-se="cancel"]').exists;
     }
     return Selector('[data-se="try-again"]').exists;

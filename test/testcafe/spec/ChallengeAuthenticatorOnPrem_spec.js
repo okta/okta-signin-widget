@@ -26,7 +26,7 @@ const mockPasscodeChange = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(xhrPasscodeChange, 403);
 
-fixture('Challenge Authenticator On Prem').meta('v3', true);
+fixture('Challenge Authenticator On Prem');
 
 async function setup(t) {
   const challengeOnPremPage = new ChallengeOnPremPageObject(t);

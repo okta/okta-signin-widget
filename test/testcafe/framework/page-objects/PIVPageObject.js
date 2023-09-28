@@ -15,14 +15,14 @@ export default class PIVPageObject extends BasePageObject {
   }
 
   getPageSubtitle() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.getFormSubtitle();
     }
     return this.form.getElement('.piv-verify-text').textContent;
   }
 
   getErrorFromErrorBox() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.getErrorBoxText();
     }
     return this.form.getElement('.o-form-error-container').textContent;

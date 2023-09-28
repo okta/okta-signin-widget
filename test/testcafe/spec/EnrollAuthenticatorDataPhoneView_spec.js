@@ -23,8 +23,7 @@ const voiceOnlyOptionMock = RequestMock()
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
   .respond(oktaDashboardContent);
 
-fixture('Authenticator Enroll Data Phone')
-  .meta('v3', true);
+fixture('Authenticator Enroll Data Phone');
 
 async function setup(t) {
   const enrollPhonePage = new EnrollPhonePageObject(t);

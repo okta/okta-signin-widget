@@ -42,7 +42,7 @@ async function testRedirect(t) {
     .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
 }
 
-fixture('GranularConsent').meta('v3', true);
+fixture('GranularConsent');
 
 test.requestHooks(requestLogger, consentGranularMock)('should show scopes list', async t => {
   const consentPage  = await setup(t);
@@ -146,7 +146,7 @@ test.requestHooks(requestLogger, consentGranularFailedMock)('should go to Termin
 
   const terminalPageObject = new TerminalPageObject(t);
   // in v3 Go back and Signout links are the same (in v2 they vary based on class name)
-  if (!userVariables.v3) {
+  if (!userVariables.gen3) {
     await t.expect(await terminalPageObject.goBackLinkExists()).notOk();
   }
   await t.expect(await terminalPageObject.signoutLinkExists()).ok();

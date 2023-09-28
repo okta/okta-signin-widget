@@ -37,8 +37,7 @@ const usedPasscodeMock = RequestMock()
   .respond(usedPasscode, 403);
 
 
-fixture('Challenge Google Authenticator Form')
-  .meta('v3', true);
+fixture('Challenge Google Authenticator Form');
 
 async function setup(t) {
   const challengeGoogleAuthenticatorPageObject = new ChallengeGoogleAuthenticatorPageObject(t);

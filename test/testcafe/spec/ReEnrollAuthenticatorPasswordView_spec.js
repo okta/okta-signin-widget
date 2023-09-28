@@ -55,7 +55,7 @@ const errorPostPasswordUpdateMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/cancel')
   .respond(xhrIdentify);
 
-fixture('Authenticator Expired Password').meta('v3', true);
+fixture('Authenticator Expired Password');
 
 async function setup(t) {
   const expiredPasswordPage = new FactorEnrollPasswordPageObject(t);
@@ -75,7 +75,7 @@ async function setup(t) {
   [ mock, false],
   [ updatedHistoryCountMock, true ]
 ].forEach(([ localMock, isHistoryCountOne ]) => {
-  test.meta('v3', false)
+  test.meta('gen3', false)
     .requestHooks(logger, localMock)('Should have the correct labels', async t => {
       const expiredPasswordPage = await setup(t);
       await checkA11y(t);
@@ -142,7 +142,7 @@ test
 
     // In v3, we display the incomplete/complete checkmark next to the 'Passwords must match'
     // list item label below the confirm password field in addition to the field level error message
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       await t.expect(expiredPasswordPage.hasPasswordMatchRequirementStatus(false)).eql(true);
       await t.expect(expiredPasswordPage.getConfirmPasswordError()).eql('Passwords must match');
     } else {

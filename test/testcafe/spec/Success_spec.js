@@ -15,8 +15,7 @@ const mock = RequestMock()
   .respond(oktaDashboardContent);
 
 fixture('Success Form')
-  .requestHooks(mock)
-  .meta('v3', true);
+  .requestHooks(mock);
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);

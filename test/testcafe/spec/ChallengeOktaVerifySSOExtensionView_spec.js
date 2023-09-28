@@ -53,7 +53,7 @@ const credentialSSOExtensionBiometricsErrorMobileMock = RequestMock()
   });
 
 
-fixture('App SSO Extension View from MFA list').meta('v3', true);
+fixture('App SSO Extension View from MFA list');
 
 test
   .requestHooks(logger, credentialSSOExtensionMock)('with credential SSO Extension approach, opens the verify URL', async t => {

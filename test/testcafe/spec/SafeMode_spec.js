@@ -29,8 +29,7 @@ const skipRequestLogger = RequestLogger(
   }
 );
 
-fixture('Safe Mode during enrollment')
-  .meta('v3', true);
+fixture('Safe Mode during enrollment');
 
 async function setup(t) {
   const terminalPage = new TerminalPageObject(t);

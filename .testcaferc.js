@@ -45,16 +45,18 @@ const mocks = RequestMock()
   .onRequestTo({ url: regex`/sso/idps/facebook-123` })
   .respond('');
 
+// NOTE: process.env always returns type 'string'
 const {
   OKTA_SIW_ONLY_FLAKY,
   OKTA_SIW_SKIP_FLAKY,
-  OKTA_SIW_V3,
+  OKTA_SIW_GEN3,
 } = process.env;
 
+// Normalize process.env to type 'boolean'
 const env = {
-  OKTA_SIW_ONLY_FLAKY,
-  OKTA_SIW_SKIP_FLAKY,
-  OKTA_SIW_V3,
+  OKTA_SIW_ONLY_FLAKY: OKTA_SIW_ONLY_FLAKY === 'true',
+  OKTA_SIW_SKIP_FLAKY: OKTA_SIW_SKIP_FLAKY === 'true',
+  OKTA_SIW_GEN3: OKTA_SIW_GEN3 === 'true',
 };
 
 const config = {
@@ -66,17 +68,10 @@ const config = {
   src: [ 'test/testcafe/spec/*_spec.js' ],
   hooks: { request: mocks, },
   userVariables: {
-    v3: !!env.OKTA_SIW_V3,
+    gen3: env.OKTA_SIW_GEN3,
   },
-
-  /*
-   * NOTE: add a testcafe fixture to the list of specs to run for parity testing
-   * by adding fixture metadata {"v3": true}. See example in
-   * test/testcafe/spec/Smoke_spec.js
-   */
-  ...(env.OKTA_SIW_V3 && {
-      userVariables: { v3: true },
-      // OKTA-575629 Remove this when v3 parity test flakiness is resolved
+  // OKTA-575629 Remove this when gen3 parity test flakiness is resolved
+  ...(env.OKTA_SIW_GEN3 && {
       assertionTimeout: 20000,
   }),
 
@@ -84,16 +79,30 @@ const config = {
   concurrency: OKTA_SIW_ONLY_FLAKY ? 1 : undefined,
 
   filter: (_testName, _fixtureName, _fixturePath, testMeta, fixtureMeta) => {
-    if (env.OKTA_SIW_V3) {
-      // run fixture on gen3
-      // fixture('my tests').meta('v3', true)
-      if (fixtureMeta.v3 !== true || testMeta.v3 === false) {
+    // only check one of {gen3 | gen2} conditionals. without this guard, a
+    // fixture or test will always get skipped in both testcafe runs
+    if (env.OKTA_SIW_GEN3) {
+      // skip fixture on gen3
+      // fixture('my tests').meta('gen3', false)
+      if (fixtureMeta.gen3 === false) {
         return false;
       }
 
       // skip test on gen3
-      // test.meta('v3', false)('my test', (t) => {})
-      if (testMeta.v3 === false) {
+      // test.meta('gen3', false)('my test', (t) => {})
+      if (testMeta.gen3 === false) {
+        return false;
+      }
+    } else {
+      // skip fixture on gen2
+      // fixture('my tests').meta('gen2', false)
+      if (fixtureMeta.gen2 === false) {
+        return false;
+      }
+
+      // skip test on gen2
+      // test.meta('gen2', false)('my test', (t) => {})
+      if (testMeta.gen2 === false) {
         return false;
       }
     }
@@ -105,7 +114,7 @@ const config = {
     // test.meta('flaky', true)('my test', (t) => {})
     if (fixtureMeta.flaky || testMeta.flaky) {
       // OKTA_SIW_ONLY_FLAKY supercedes OKTA_SIW_SKIP_FLAKY
-      return !!env.OKTA_SIW_ONLY_FLAKY || !env.OKTA_SIW_SKIP_FLAKY;
+      return env.OKTA_SIW_ONLY_FLAKY || !env.OKTA_SIW_SKIP_FLAKY;
     }
 
     return true;

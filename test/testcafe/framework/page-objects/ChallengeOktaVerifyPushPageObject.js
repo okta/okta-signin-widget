@@ -14,7 +14,7 @@ const RESEND_PUSH_NOTIFICATION_TEXT = 'Resend push notification';
 export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPageObject {
   constructor(t) {
     super(t);
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       this.beacon = new Selector('[data-se="factor-beacon"]');
     } else {
       this.beacon = new Selector('.beacon-container');
@@ -22,7 +22,7 @@ export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPa
   }
 
   getPushButton() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.getButton('Push notification sent');
     }
     return this.form.getElement('.send-push');
@@ -38,14 +38,14 @@ export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPa
   }
 
   getResendPushButton() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.getButton(RESEND_PUSH_NOTIFICATION_TEXT);
     }
     return this.form.getElement('.button-primary');
   }
 
   clickResendPushButton() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.clickSaveButton(RESEND_PUSH_NOTIFICATION_TEXT);
     }
     return this.form.clickSaveButton();
@@ -64,19 +64,19 @@ export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPa
   }
 
   getErrorTitle() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.getNthTitle(0);
     }
     return this.form.getElement(FORM_INFOBOX_ERROR_TITLE).innerText;
   }
 
   getFormTitleWithError() {
-    const titlePosition = userVariables.v3 ? 1 : 0;
+    const titlePosition = userVariables.gen3 ? 1 : 0;
     return this.form.getNthTitle(titlePosition);
   }
 
   getWarningBox() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.getAlertBox();
     }
 
@@ -93,7 +93,7 @@ export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPa
 
   getAutoChallengeCheckboxLabelText() {
     let label = '';
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       label = this.form.el
         .find('input[type="checkbox"]')
         .parent('span')
@@ -116,7 +116,7 @@ export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPa
 
   async  isOktaVerifySendPushForm() {
     let formCount;
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       formCount = await Selector(FORM_SELECTOR_V3).count;   
     } else {
       formCount = await Selector(FORM_SELECTOR).count;
@@ -125,14 +125,14 @@ export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPa
   }
 
   async clickSendPushButton() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return await this.form.clickSaveButton('Send push');
     }
     await this.form.clickSaveButton();
   }
 
   getBeaconClass() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.beacon.getAttribute('class');
     }
     return this.beacon.find(FACTOR_BEACON).getAttribute('class');
@@ -147,7 +147,7 @@ export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPa
   }
 
   getNthErrorBulletPoint(index) {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       const alertBox = this.form.getAlertBox();
       const listItems = within(alertBox).getAllByRole('listitem');
       return listItems.nth(index).innerText;

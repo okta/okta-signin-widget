@@ -8,7 +8,7 @@ export default class BYOLPageObject extends BasePageObject {
   }
 
   async countryDropdownHasSelectedText(text) {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.hasText(text);
     }
     const selectOption = await this.form.findFormFieldInput('country')

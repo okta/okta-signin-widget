@@ -25,8 +25,7 @@ const answerRequestLogger = RequestLogger(
   }
 );
 
-fixture('Challenge Security Question Form')
-  .meta('v3', true);  
+fixture('Challenge Security Question Form');
 
 async function setup(t) {
   const challengeFactorPage = new ChallengeSecurityQuestionPageObject(t);

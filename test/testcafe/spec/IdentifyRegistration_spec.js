@@ -47,8 +47,7 @@ const logger = RequestLogger(
   }
 );
 
-fixture('Registration')
-  .meta('v3', true);
+fixture('Registration');
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);

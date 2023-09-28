@@ -22,7 +22,7 @@ export default class EnrollAuthenticatorPhonePageObject extends BasePageObject {
   }
 
   async enterCodeFromEmailLinkExists() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.queryButton(ENTER_CODE_FROM_EMAIL_TEXT).exists;
     } 
     return Selector(ENTER_CODE_FROM_EMAIL_CLASS).exists;
@@ -33,7 +33,7 @@ export default class EnrollAuthenticatorPhonePageObject extends BasePageObject {
   }
 
   async clickEnterCodeInstead() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       await this.form.clickButton(ENTER_CODE_FROM_EMAIL_TEXT);
     } else {
       await this.form.clickElement(ENTER_CODE_FROM_EMAIL_CLASS);
@@ -41,7 +41,7 @@ export default class EnrollAuthenticatorPhonePageObject extends BasePageObject {
   }
 
   async resendEmailExists() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.hasErrorBox();
     }
 
@@ -50,14 +50,14 @@ export default class EnrollAuthenticatorPhonePageObject extends BasePageObject {
   }
 
   resendEmailText() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.el.find('[role="alert"]').textContent;
     }
     return this.form.el.find(RESEND_EMAIL).textContent;
   }
 
   async clickResendEmail() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       const resendEmail = this.form.getLink('Send again');
       await this.t.click(resendEmail);
     }

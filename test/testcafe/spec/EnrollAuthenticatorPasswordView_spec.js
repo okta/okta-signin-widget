@@ -36,8 +36,7 @@ const errorMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(xhrAuthenticatorEnrollPasswordError, 403);
 
-fixture('Authenticator Enroll Password')
-  .meta('v3', true);
+fixture('Authenticator Enroll Password');
 
 async function setup(t) {
   const enrollPasswordPage = new FactorEnrollPasswordPageObject(t);
@@ -82,7 +81,7 @@ test.requestHooks(successMock)('should have both password and confirmPassword fi
 
   // In v3, we display the incomplete/complete checkmark next to the 'Passwords must match'
   // list item label below the confirm password field in addition to the field level error message
-  if (userVariables.v3) {
+  if (userVariables.gen3) {
     await t.expect(enrollPasswordPage.hasPasswordMatchRequirementStatus(false)).eql(true);
     await t.expect(enrollPasswordPage.getConfirmPasswordError()).eql('Passwords must match');
   } else {
@@ -148,7 +147,7 @@ test.requestHooks(errorMock)('should show a callout when server-side field error
     // In V3, UX made a conscious decision to not include server side requirements in the UI
     // to not confuse users. They are considering additional UI changes OKTA-533383 for server side requirements
     // but for now, it does not display in v3
-    if (!userVariables.v3) {
+    if (!userVariables.gen3) {
       await t.expect(enrollPasswordPage.getRequirements()).contains('At least 2 hour(s) must have elapsed since you last changed your password');
 
       const historyCountMessage = isHistoryCountOne ? 

@@ -15,8 +15,7 @@ const logger = RequestLogger(/idx\/identify/, {
   stringifyRequestBody: true,
 });
 
-fixture('Smoke Test')
-  .meta('v3', true); // NOTE: tells parity-v3 script to run this fixture
+fixture('Smoke Test');
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);

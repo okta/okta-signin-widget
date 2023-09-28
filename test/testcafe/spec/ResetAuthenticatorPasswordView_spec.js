@@ -29,7 +29,7 @@ const updatedHistoryCountMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorResetPasswordUpdatedHistoryCount);
 
-fixture('Authenticator Reset Password').meta('v3', true);
+fixture('Authenticator Reset Password');
 
 async function setup(t) {
   const resetPasswordPage = new FactorEnrollPasswordPageObject(t);
@@ -63,7 +63,7 @@ async function setup(t) {
       await t.expect(resetPasswordPage.getRequirements()).contains('No parts of your username');
       await t.expect(resetPasswordPage.getRequirements()).contains('A lowercase letter');
       // V3 does not display server side requirements
-      if (!userVariables.v3) {
+      if (!userVariables.gen3) {
         const historyCountMessage = isHistoryCountOne ? 
           'Password can\'t be the same as your last password'
           : 'Password can\'t be the same as your last 4 passwords';
@@ -95,7 +95,7 @@ test
 
     // In v3, we display the incomplete/complete checkmark next to the 'Passwords must match'
     // list item label below the confirm password field in addition to the field level error message
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       await t.expect(resetPasswordPage.hasPasswordMatchRequirementStatus(false)).eql(true);
       await t.expect(resetPasswordPage.getConfirmPasswordError()).eql('Passwords must match');
     } else {
@@ -132,7 +132,7 @@ test
     };
 
     // In v3 if the idx response includes a boolean field, we will automatically include it in the payload if untoucbed
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       expectedPayload.credentials.revokeSessions = false;
     }
 

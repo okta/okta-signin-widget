@@ -52,8 +52,7 @@ const baseConfig = {
   }
 };
 
-fixture('Identify With Remember Username')
-  .meta('v3', true);
+fixture('Identify With Remember Username');
 
 async function setup(t, options) {
   const identityPage = new IdentityPageObject(t);
@@ -218,7 +217,7 @@ test.requestHooks(identifyRequestLogger, identifyMock)('should pre-fill identifi
 
 
 // OKTA-585939 Cookie is not updated in gen 3 widget
-test.meta('v3', false).requestHooks(identifyRequestLogger, identifyMock)('should store identifier in ln cookie when updated', async t => {
+test.meta('gen3', false).requestHooks(identifyRequestLogger, identifyMock)('should store identifier in ln cookie when updated', async t => {
   const identityPage = await setup(t);
 
   await t.setCookies({name: 'ln', value: 'PREFILL VALUE', httpOnly: false});

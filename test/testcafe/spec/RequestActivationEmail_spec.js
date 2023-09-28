@@ -31,7 +31,7 @@ const activationEmailUserSuspendedMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrUserSuspended);
 
-fixture('Activation Email').meta('v3', true);
+fixture('Activation Email');
 
 async function setup(t) {
   const requestActivaitonEmailPage = new RequestActivationEmailPageObject(t);

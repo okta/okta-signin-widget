@@ -97,7 +97,7 @@ export default class BasePageObject {
   }
 
   getIonMessages() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.getFormSubtitle(); 
     }
     return this.form.getElement(ionMessagesSelector).innerText;
@@ -109,7 +109,7 @@ export default class BasePageObject {
   }
 
   getHelpLink() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.getLink('Help');
     }
     return Selector(HELP_LINK_SELECTOR);
@@ -126,7 +126,7 @@ export default class BasePageObject {
   // in v2 the Cancel Link covers multiple links like 'Go Back' and 'Sign out'
   // in v3 all Cancel links use the same wording
   async signoutLinkExists() {
-    if(userVariables.v3){
+    if(userVariables.gen3){
       return this.getCancelLink().exists;
     }
     const elCount = await Selector(SIGNOUT_LINK).count;
@@ -156,7 +156,7 @@ export default class BasePageObject {
   // in v2 the Cancel Link covers multiple links like 'Go Back' and 'Sign out'
   // in v3 all Cancel links use the same wording
   async goBackLinkExists() {
-    if(userVariables.v3) {
+    if(userVariables.gen3) {
       return this.getCancelLink().exists;
     }
     const elCount = await Selector(GO_BACK_LINK).count;
@@ -271,7 +271,7 @@ export default class BasePageObject {
   }
 
   spinnerExists() {
-    if(userVariables.v3) {
+    if(userVariables.gen3) {
       return this.form.getSpinner().exists;
     }
 

@@ -45,7 +45,7 @@ async function setup(t) {
   return pageObject;
 }
 
-fixture('Enroll Symantec VIP Authenticator').meta('v3', true);
+fixture('Enroll Symantec VIP Authenticator');
 test
   .requestHooks(logger, enrollMock)('enroll with Symantec VIP authenticator', async t => {
     const pageObject = await setup(t);
@@ -86,7 +86,7 @@ test
     await t.expect(pageObject.form.getErrorBoxText()).eql('We found some errors. Please review the form and make corrections.');
   });
 
-fixture('Verify Symantec VIP Authenticator').meta('v3', true);
+fixture('Verify Symantec VIP Authenticator');
 test
   .requestHooks(logger, verifyMock)('verify with Symantec VIP authenticator', async t => {
     const pageObject = await setup(t);

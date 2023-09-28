@@ -41,7 +41,7 @@ const answerRequestLogger = RequestLogger(
   }
 );
 
-fixture('Challenge Duo').meta('v3', true);
+fixture('Challenge Duo');
 
 async function setup(t) {
   const challengeDuoPage = new DuoPageObject(t);

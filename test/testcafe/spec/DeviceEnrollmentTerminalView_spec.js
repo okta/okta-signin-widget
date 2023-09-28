@@ -18,7 +18,7 @@ const mdmMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(MdmEnrollment);
 
-fixture('Device enrollment terminal view for ODA and MDM').meta('v3', true);
+fixture('Device enrollment terminal view for ODA and MDM');
 
 async function setup(t) {
   const deviceEnrollmentTerminalPageObject = new DeviceEnrollmentTerminalPageObject(t);
@@ -37,7 +37,7 @@ test
     await t.expect(content).contains('Okta Verify on this device.');
     await t.expect(content).contains('Tap the Copy Link button below.');
     await t.expect(deviceEnrollmentTerminalPage.getCopyButtonLabel()).eql('Copy link to clipboard');
-    if (!userVariables.v3) {
+    if (!userVariables.gen3) {
       await t.expect(deviceEnrollmentTerminalPage.getCopiedValue()).eql('https://apps.apple.com/us/app/okta-verify/id490179405');
     }
     await t.expect(content).contains('On this device, open your browser, then paste the copied link into the address bar.');
@@ -78,7 +78,7 @@ test
     await t.expect(content).contains('Follow the instructions in your browser to set up Airwatch.');
     await t.expect(content).contains('Logout and re-login and then try accessing the app again.');
     await t.expect(deviceEnrollmentTerminalPage.getCopyButtonLabel()).eql('Copy link to clipboard');
-    if (!userVariables.v3) {
+    if (!userVariables.gen3) {
       await t.expect(deviceEnrollmentTerminalPage.getCopiedValue()).eql('https://sampleEnrollmentlink.com');
     }
   });
@@ -113,7 +113,7 @@ test
     await t.expect(content).contains('Okta Verify on this device.');
     await t.expect(content).contains('Tap the Copy Link button below.');
     await t.expect(deviceEnrollmentTerminalPage.getCopyButtonLabel()).eql('Copy link to clipboard');
-    if(!userVariables.v3) {
+    if(!userVariables.gen3) {
       await t.expect(deviceEnrollmentTerminalPage.getCopiedValue()).eql('https://apps.apple.com/us/app/okta-verify/id490179405');
     }
     await t.expect(content).contains('On this device, open your browser, then paste the copied link into the address bar.');
@@ -152,7 +152,7 @@ test
     await t.expect(content).contains('Follow the instructions in your browser to set up MobileIron.');
     await t.expect(content).contains('Logout and re-login and then try accessing the app again.');
     await t.expect(deviceEnrollmentTerminalPage.getCopyButtonLabel()).eql('Copy link to clipboard');
-    if (!userVariables.v3) {
+    if (!userVariables.gen3) {
       await t.expect(deviceEnrollmentTerminalPage.getCopiedValue()).eql('https://anotherSampleEnrollmentlink.com');
     }
   });
@@ -300,7 +300,7 @@ test
     await t.expect(content).contains('Follow the instructions in your browser to set up MobileIron.');
     await t.expect(content).contains('Logout and re-login and then try accessing the app again.');
     await t.expect(deviceEnrollmentTerminalPage.getCopyButtonLabel()).eql('Copy link to clipboard');
-    if (!userVariables.v3) {
+    if (!userVariables.gen3) {
       await t.expect(deviceEnrollmentTerminalPage.getCopiedValue()).eql('https://anotherSampleEnrollmentlink.com');
     }
   });

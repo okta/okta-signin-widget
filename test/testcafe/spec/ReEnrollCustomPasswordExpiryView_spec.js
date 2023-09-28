@@ -15,7 +15,7 @@ const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorExpiredCustomPassword);
 
-fixture('Custom Authenticator Expired Password').meta('v3', true);
+fixture('Custom Authenticator Expired Password');
 
 async function setup(t) {
   const expiredCustomPasswordPage = new EnrollCustomPasswordPageObject(t);

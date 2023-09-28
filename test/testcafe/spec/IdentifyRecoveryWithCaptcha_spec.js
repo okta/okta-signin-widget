@@ -34,7 +34,7 @@ const reCaptchaRequestLogger = RequestLogger(
   }
 );
 
-fixture('Identify Recovery - reset flow with Captcha').meta('v3', true);
+fixture('Identify Recovery - reset flow with Captcha');
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);

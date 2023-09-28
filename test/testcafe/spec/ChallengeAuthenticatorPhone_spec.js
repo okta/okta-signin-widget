@@ -145,8 +145,7 @@ const voiceSecondaryMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(success);
 
-fixture('Challenge Phone Form')
-  .meta('v3', true);
+fixture('Challenge Phone Form');
 
 async function setup(t) {
   const challengePhonePageObject = new ChallengePhonePageObject(t);
@@ -199,7 +198,7 @@ test
   });
 
 // OKTA-642786 - awaiting Gen3 implementation
-test.meta('v3', false)
+test.meta('gen3', false)
   .requestHooks(smsPrimaryNicknameMock)('SMS primary mode - shows nickname when present in API response', async t => {
     const challengePhonePageObject = await setup(t);
     await checkA11y(t);

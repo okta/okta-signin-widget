@@ -17,8 +17,7 @@ const introspectRequestLogger = RequestLogger(
   }
 );
 
-fixture('Introspect')
-  .meta('v3', true);
+fixture('Introspect');
 
 async function setup(t) {
   const terminalPageObject = new TerminalPageObject(t);

@@ -288,8 +288,7 @@ const userVerificationAppLinkBiometricsError = RequestMock()
     res.setBody(identifyWithUserVerificationBiometricsErrorMobile);
   });
 
-fixture('Device Challenge Polling View for user verification and MFA with the Loopback Server, Custom URI and Universal Link approaches')
-  .meta('v3', true);
+fixture('Device Challenge Polling View for user verification and MFA with the Loopback Server, Custom URI and Universal Link approaches');
 
 async function setup(t) {
   const deviceChallengePollPage = new DeviceChallengePollPageObject(t);
@@ -307,7 +306,7 @@ async function setupLoopbackFallback(t) {
 
 // TODO: OKTA-623228 - fix for Gen 3 SIW
 test
-  .meta('v3', false)
+  .meta('gen3', false)
   .requestHooks(loopbackPollingLogger, loopbackRedundantPollingMock)('in loopback server, redundant polling exists if server returns enhancedPollingEnabled as false', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
@@ -333,7 +332,7 @@ test
 
 // TODO: OKTA-623228 - fix for Gen 3 SIW
 test
-  .meta('v3', false)
+  .meta('gen3', false)
   .requestHooks(loopbackPollingLogger, loopbackEnhancedPollingMock)('in loopback server, no redundant polling if server returns enhancedPollingEnabled as true', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
@@ -368,7 +367,7 @@ test
     await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
     await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Verifying your identity');
     // in v3 all cancel buttons are the same so skip this assertion
-    if (!userVariables.v3) {
+    if (!userVariables.gen3) {
       await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
     }
     await t.expect(deviceChallengePollPageObject.getFooterSwitchAuthenticatorLink().innerText).eql('Verify with something else');
@@ -428,7 +427,7 @@ test
     await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
     await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Verifying your identity');
     // in v3 all cancel buttons are the same so skip this assertion
-    if (!userVariables.v3) {
+    if (!userVariables.gen3) {
       await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
     }
     await t.expect(deviceChallengePollPageObject.getFooterSwitchAuthenticatorLink().innerText).eql('Verify with something else');
@@ -453,7 +452,7 @@ test
     await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
     await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Verifying your identity');
     // in v3 all cancel buttons are the same so skip this assertion
-    if (!userVariables.v3) {
+    if (!userVariables.gen3) {
       await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
     }
     await t.expect(deviceChallengePollPageObject.getFooterSwitchAuthenticatorLink().innerText).eql('Verify with something else');
@@ -493,7 +492,7 @@ test
     await t.expect(deviceChallengePollPageObject.getFooterSwitchAuthenticatorLink().innerText).eql('Verify with something else');
     await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Back to sign in');
     // Need to properly handle 'Verify with something else' link (OKTA-528630)
-    if (!userVariables.v3) {
+    if (!userVariables.gen3) {
       await deviceChallengePollPageObject.clickVerifyWithSomethingElseLink();
       const secondSelectAuthenticatorPageObject = new SelectAuthenticatorPageObject(t);
       await t.expect(secondSelectAuthenticatorPageObject.getFormTitle()).eql('Verify it\'s you with a security method');
@@ -546,7 +545,7 @@ test
     await t.expect(deviceChallengePollPageObject.getPrimaryButtonText()).eql('Open Okta Verify');
     await t.expect(deviceChallengePollPageObject.getFooterLink().exists).eql(false);
     // in v3 all cancel buttons are the same so skip this assertion
-    if (!userVariables.v3) {
+    if (!userVariables.gen3) {
       await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
     }
     await t.expect(deviceChallengePollPageObject.getFooterSwitchAuthenticatorLink().innerText).eql('Verify with something else');

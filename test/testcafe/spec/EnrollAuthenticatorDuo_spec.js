@@ -15,7 +15,7 @@ const mock = RequestMock()
   .onRequestTo('http://localhost:3000/mocks/spec-duo/duo-iframe.html')
   .respond(mockDuoIframeHtml);
 
-fixture('Authenticator Enroll Duo').meta('v3', true)
+fixture('Authenticator Enroll Duo')
   .requestHooks(mock);
 
 async function setup(t) {

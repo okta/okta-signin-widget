@@ -15,8 +15,7 @@ const mock = RequestMock()
   .respond(oktaDashboardContent);
 
 fixture('Enroll Webauthn Authenticator')
-  .requestHooks(mock)
-  .meta('v3', true);
+  .requestHooks(mock);
 
 async function setup(t) {
   const enrollWebauthnPage = new EnrollWebauthnPageObject(t);

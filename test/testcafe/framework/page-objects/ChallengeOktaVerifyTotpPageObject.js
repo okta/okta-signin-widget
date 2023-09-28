@@ -10,7 +10,7 @@ export default class ChallengeOktaVerifyTotpPageObject extends ChallengeFactorPa
   }
 
   getFormTitleWithError() {
-    const titlePosition = userVariables.v3 ? 1 : 0;
+    const titlePosition = userVariables.gen3 ? 1 : 0;
     return this.form.getNthTitle(titlePosition);
   }
 
@@ -23,7 +23,7 @@ export default class ChallengeOktaVerifyTotpPageObject extends ChallengeFactorPa
   }
 
   getErrorTitle() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.getNthTitle(0);
     }
     return screen.findByRole('heading', {

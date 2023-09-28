@@ -32,8 +32,7 @@ const pushEnableBiometricsMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
   .respond(pushEnableBiometricsOktaVerify);
 
-fixture('Challenge Okta Verify Push Resend')
-  .meta('v3', true);
+fixture('Challenge Okta Verify Push Resend');
 
 async function setup(t) {
   const challengeOktaVerifyPushPageObject = new ChallengeOktaVerifyPushPageObject(t);
