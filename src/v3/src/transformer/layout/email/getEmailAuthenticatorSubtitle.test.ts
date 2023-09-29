@@ -14,28 +14,42 @@ import { getEmailAuthenticatorSubtitle } from './getEmailAuthenticatorSubtitle';
 
 describe('getEmailAuthenticatorSubtitle Tests', () => {
   it('should get subtitle when email address available and use email magic link = false', () => {
-    const subtitle = getEmailAuthenticatorSubtitle('someuser@okta1.com', false);
+    const subtitle = getEmailAuthenticatorSubtitle('someuser@okta1.com', undefined, false);
 
     expect(subtitle)
       .toBe('oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.verificationCode.instructions');
   });
 
   it('should get subtitle when email address available and use email magic link = true', () => {
-    const subtitle = getEmailAuthenticatorSubtitle('someuser@okta1.com', true);
+    const subtitle = getEmailAuthenticatorSubtitle('someuser@okta1.com', undefined, true);
 
     expect(subtitle)
       .toBe('oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions');
   });
 
+  it('should get subtitle when secondary email address available and use email magic link = false', () => {
+    const subtitle = getEmailAuthenticatorSubtitle('someuser@okta1.com', 'secondary@okta1.com', false);
+
+    expect(subtitle)
+      .toBe('oie.email.verify.alternate.magicLinkToEmailAddress.with.secondary.emailoie.email.verify.alternate.verificationCode.instructions');
+  });
+
+  it('should get subtitle when secondary email address available and use email magic link = true', () => {
+    const subtitle = getEmailAuthenticatorSubtitle('someuser@okta1.com', 'secondary@okta1.com', true);
+
+    expect(subtitle)
+      .toBe('oie.email.verify.alternate.magicLinkToEmailAddress.with.secondary.emailoie.email.verify.alternate.instructions');
+  });
+
   it('should get subtitle when email address = undefined and use email magic link = false', () => {
-    const subtitle = getEmailAuthenticatorSubtitle(undefined, false);
+    const subtitle = getEmailAuthenticatorSubtitle(undefined, undefined, false);
 
     expect(subtitle)
       .toBe('oie.email.verify.alternate.magicLinkToYourEmailoie.email.verify.alternate.verificationCode.instructions');
   });
 
   it('should get subtitle when email address = undefined and use email magic link = true', () => {
-    const subtitle = getEmailAuthenticatorSubtitle(undefined, true);
+    const subtitle = getEmailAuthenticatorSubtitle(undefined, undefined, true);
 
     expect(subtitle)
       .toBe('oie.email.verify.alternate.magicLinkToYourEmailoie.email.verify.alternate.instructions');
