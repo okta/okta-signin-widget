@@ -260,7 +260,7 @@ export default class OktaSignIn implements OktaSignInAPI {
         } catch (err) {
           console.error(`[okta-signin-widget] "${eventName}" event handler error:`, err);
         }
-      }) as OktaWidgetEventHandler;
+      });
       this.eventCallbackMap.set(origHandler, registeredEventHandler);
     }
     this.eventEmitter.on(eventName, registeredEventHandler);

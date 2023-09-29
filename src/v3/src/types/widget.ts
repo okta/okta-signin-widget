@@ -23,6 +23,8 @@ import { TinyEmitter as EventEmitter } from 'tiny-emitter';
 
 import {
   EventContext,
+  EventCallback,
+  EventCallbackWithError,
   HooksOptions,
   LanguageCallback,
   LanguageCode,
@@ -70,10 +72,7 @@ export type RenderOptions = {
 
 export type AuthenticationMode = 'remediation' | 'relying-party';
 
-export type OktaWidgetEventHandler = {
-  (context: EventContext, error?: EventErrorContext): void;
-  (context: EventContext, error: EventErrorContext): void;
-};
+export type OktaWidgetEventHandler = EventCallback | EventCallbackWithError;
 
 export type WidgetProceedArgs = {
   idxMethod?: IdxMethod,
