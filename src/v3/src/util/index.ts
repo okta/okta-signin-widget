@@ -14,6 +14,7 @@ export * from './browserUtils';
 export * from './buildErrorMessageIds';
 export * from './buildPasswordRequirementNotMetErrorList';
 export * from './clipboard';
+export * from './configuredFlowUtils';
 export * from './cookieUtils';
 export * from './environmentUtils';
 export * from './escape';

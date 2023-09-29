@@ -30,6 +30,7 @@ import {
   containsMessageKey,
   formatError,
   getImmutableData,
+  isConfigRecoverFlow,
   isOauth2Enabled,
   loc,
   postRegistrationSubmit,
@@ -87,6 +88,16 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
         errorSummary: error.responseJSON && error.responseJSON.errorSummary,
       };
     };
+
+    const getFormPasswordAuthenticatorId = (transaction: IdxTransaction) : string | undefined => (
+      transaction?.neededToProceed
+        ?.find((remediation) => remediation.name === IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE)
+        ?.value?.find((val) => val.name === 'authenticator')
+        ?.options?.find((option) => option.label === 'Password')
+      // @ts-expect-error auth-js type errors
+        ?.value?.form?.value?.find((formVal) => formVal.name === 'id')
+        ?.value
+    );
 
     // TODO: Revisit and refactor this function as it is a dupe of handleError fn in Widget/index.tsx
     const handleError = (transaction: IdxTransaction | undefined, error: unknown) => {
@@ -199,7 +210,24 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     }
     setMessage(undefined);
     try {
-      const newTransaction = await fn(payload);
+      let newTransaction = await fn(payload);
+
+      // TODO
+      // OKTA-651781
+      if (isConfigRecoverFlow(widgetProps.flow) && step === IDX_STEP.IDENTIFY) {
+        // when in identifier first flow, there are a couple steps before we can get to recovery page
+        // thats why we need to run proceed twice
+        newTransaction = await authClient.idx.proceed({
+          stateHandle: newTransaction?.context.stateHandle,
+          authenticator: { id: getFormPasswordAuthenticatorId(newTransaction) },
+          step: IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE,
+        });
+
+        newTransaction = await authClient.idx.proceed({
+          stateHandle: newTransaction?.context.stateHandle,
+        });
+      }
+
       // TODO: OKTA-538791 this is a temp work around until the auth-js fix
       if (!newTransaction.nextStep && newTransaction.availableSteps?.length) {
         [newTransaction.nextStep] = newTransaction.availableSteps;

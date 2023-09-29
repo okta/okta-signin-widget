@@ -18,7 +18,8 @@ import {
   TitleElement,
   UISchemaElement,
 } from '../../types';
-import { getUsernameCookie, loc } from '../../util';
+import { getUsernameCookie, isConfigRecoverFlow, loc } from '../../util';
+import { transformIdentityRecovery } from '../layout/recovery';
 import { getUIElementWithName, removeUIElementWithName } from '../utils';
 
 export const transformIdentify: IdxStepTransformer = ({
@@ -28,6 +29,16 @@ export const transformIdentify: IdxStepTransformer = ({
 }) => {
   const { features, username } = widgetProps;
   const { uischema, data } = formBag;
+
+  // TODO
+  // OKTA-651781
+  // there is a bug with the flow param resetPassword with identifier first flow
+  // where password recovery flow has extra steps in identifier-first flow
+  // this is to keep the user experience consistent with identify-recovery flow
+  // this is in parity with the gen 2 fix: PR#2382
+  if (isConfigRecoverFlow(widgetProps.flow)) {
+    return transformIdentityRecovery({ formBag, widgetProps, transaction });
+  }
 
   const identifierElement = getUIElementWithName(
     'identifier',

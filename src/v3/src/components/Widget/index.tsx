@@ -63,6 +63,7 @@ import {
   getLanguageDirection,
   isAndroidOrIOS,
   isAuthClientSet,
+  isConfigRegisterFlow,
   isConsentStep,
   isOauth2Enabled,
   loadLanguage,
@@ -99,6 +100,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     proxyIdxResponse,
     eventEmitter,
     otp,
+    flow,
   } = widgetProps;
 
   const [hide, setHide] = useState<boolean>(false);
@@ -229,6 +231,20 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     return null;
   };
 
+  const shouldRedirectToEnrollFlow = (transaction: IdxTransaction) : boolean => {
+    const { nextStep, neededToProceed } = transaction;
+    if (!isConfigRegisterFlow(flow) || nextStep?.name !== IDX_STEP.IDENTIFY) {
+      return false;
+    }
+    const isRegistrationEnabled = neededToProceed
+      .find((remediation) => remediation.name === IDX_STEP.SELECT_ENROLL_PROFILE) !== undefined;
+
+    if (!isRegistrationEnabled) {
+      throw new Error('flow param error: No remediation can match current flow, check policy settings in your org.');
+    }
+    return true;
+  };
+
   const bootstrap = useCallback(async () => {
     const usingStateHandleFromSession = stateHandle
       && stateHandle === SessionStorage.getStateHandle();
@@ -250,7 +266,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         setIdxTransaction(await triggerEmailVerifyCallback(widgetProps));
         return;
       }
-      const transaction: IdxTransaction = await authClient.idx.start({
+      let transaction: IdxTransaction = await authClient.idx.start({
         stateHandle,
         // Required to prevent auth-js from clearing sessionStorage and breaking interaction code flow
         exchangeCodeForTokens: false,
@@ -260,6 +276,16 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       );
       if (hasError && usingStateHandleFromSession) {
         throw new Error('saved stateToken is invalid'); // will be caught in this function
+      }
+
+      // TODO
+      // OKTA-651781
+      // bootstrap into enroll flow when flow param is set to signup
+      if (shouldRedirectToEnrollFlow(transaction)) {
+        transaction = await authClient.idx.proceed({
+          stateHandle: transaction?.context.stateHandle,
+          step: IDX_STEP.SELECT_ENROLL_PROFILE,
+        });
       }
 
       setResponseError(null);
@@ -385,9 +411,18 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         setIdxTransaction(await triggerEmailVerifyCallback(widgetProps));
         return;
       }
-      const transaction = await authClient.idx.proceed({
+      let transaction = await authClient.idx.proceed({
         stateHandle: idxTransaction?.context.stateHandle,
       });
+
+      // TODO
+      // OKTA-651781
+      if (shouldRedirectToEnrollFlow(transaction)) {
+        transaction = await authClient.idx.proceed({
+          stateHandle: transaction?.context.stateHandle,
+          step: IDX_STEP.SELECT_ENROLL_PROFILE,
+        });
+      }
 
       setIdxTransaction(transaction);
 

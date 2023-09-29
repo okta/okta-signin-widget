@@ -17,7 +17,7 @@ import {
   LinkElement,
   TransformStepFnWithOptions,
 } from '../../types';
-import { getUnlockAccountUri, loc } from '../../util';
+import { getUnlockAccountUri, isConfigRecoverFlow, loc } from '../../util';
 
 export const transformUnlockAccountButton: TransformStepFnWithOptions = ({
   transaction,
@@ -31,6 +31,15 @@ export const transformUnlockAccountButton: TransformStepFnWithOptions = ({
   const unlockStep = availableSteps?.find(
     ({ name }) => name === 'unlock-account',
   );
+
+  // TODO
+  // OKTA-651781
+  // when flow param is set to resetPassword, the identify page is redressed as identify-recovery page
+  // so this link needs to be hidden
+  if (isConfigRecoverFlow(widgetProps.flow)) {
+    return formbag;
+  }
+
   if (!shouldAddDefaultButton || typeof unlockStep === 'undefined') {
     return formbag;
   }
