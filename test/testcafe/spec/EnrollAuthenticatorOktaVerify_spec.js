@@ -1,6 +1,7 @@
 import { RequestMock, RequestLogger, userVariables } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 import EnrollOktaVerifyPageObject from '../framework/page-objects/EnrollOktaVerifyPageObject';
+import SelectFactorPageObject from '../framework/page-objects/SelectAuthenticatorPageObject';
 import SwitchOVEnrollChannelPageObject from '../framework/page-objects/SwitchOVEnrollChannelPageObject';
 import EnrollOVViaEmailPageObject from '../framework/page-objects/EnrollOVViaEmailPageObject';
 import EnrollOVViaSMSPageObject from '../framework/page-objects/EnrollOVViaSMSPageObject';
@@ -878,6 +879,14 @@ test
         record.request.url.match(/poll/)
       )).eql(0);
     }
+    await enrollOktaVerifyPage.clickReturnToAuthenticatorListLink();
+    const selectFactorPageObject = new SelectFactorPageObject(t);
+
+    await t.expect(selectFactorPageObject.getFormTitle()).eql('Set up security methods');
+    await t.expect(selectFactorPageObject.getFormSubtitle()).eql(
+      'Security methods help protect your account by ensuring only you have access.');
+    await t.expect(await selectFactorPageObject.getCancelLink().exists).ok();
+
   });
 
 test
