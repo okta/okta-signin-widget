@@ -475,11 +475,11 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   }, [interactionCodeFlowFormBag]);
 
   useEffect(() => {
-    if (isClientTransaction) {
-      return;
-    }
-    if (widgetRendered) {
-      (async () => {
+    const asyncEffect = async () => {
+      if (isClientTransaction) {
+        return;
+      }
+      if (widgetRendered) {
         const executeAfterHooks = () => {
           if (uischema.elements.length > 0) {
             // Don't execute hooks in the end of authentication flow
@@ -504,8 +504,9 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
           emitAfterRender();
           await executeAfterHooks();
         }
-      })();
-    }
+      }
+    };
+    asyncEffect();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [widgetRendered, idxTransaction]);
 
