@@ -74,6 +74,7 @@ export const transformEmailAuthenticatorEnroll: IdxStepTransformer = ({ transact
       : undefined;
     subTitleElement.options.content = getEmailAuthenticatorSubtitle(
       emailAddress,
+      undefined,
       useEmailMagicLink,
       tokenReplacement,
     );

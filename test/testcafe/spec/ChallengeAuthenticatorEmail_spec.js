@@ -7,6 +7,7 @@ import { checkConsoleMessages, renderWidget } from '../framework/shared';
 import { oktaDashboardContent } from '../framework/shared';
 
 import emailVerification from '../../../playground/mocks/data/idp/idx/authenticator-verification-email';
+import emailVerificationWithSecondaryEmail from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-with-secondary-email';
 import emailVerificationWithoutEmailMagicLink from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-without-emailmagiclink';
 import emailVerificationWithoutResend from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-without-resend';
 import emailVerificationPolling from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-polling';
@@ -26,6 +27,7 @@ import sessionExpired from '../../../playground/mocks/data/idp/idx/error-401-ses
 import tooManyRequest from '../../../playground/mocks/data/idp/idx/error-429-authenticator-verification-email-polling';
 import apiLimitExeeeded from '../../../playground/mocks/data/idp/idx/error-429-api-limit-exceeded';
 import emailVerificationSendEmailData from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-email';
+import emailVerificationSendEmailDataWithSecondaryEmail from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-email-with-secondary-email';
 import emailVerificationSendEmailDataNoProfile from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-email-no-profile';
 import terminalConsentDenied from '../../../playground/mocks/data/idp/idx/terminal-enduser-email-consent-denied';
 
@@ -49,6 +51,12 @@ const sendEmailMock = RequestMock()
   .respond(emailVerificationSendEmailData)
   .onRequestTo('http://localhost:3000/idp/idx/challenge')
   .respond(emailVerification);
+
+const sendEmailMockWithSecondaryEmail = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(emailVerificationSendEmailDataWithSecondaryEmail)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge')
+  .respond(emailVerificationWithSecondaryEmail);
 
 const sendEmailMockWithoutEmailMagicLink = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -240,6 +248,32 @@ test
   });
 
 test
+  .requestHooks(sendEmailMockWithSecondaryEmail)('send email screen should have both primary and secondary emails', async t => {
+    const challengeEmailPageObject = await setup(t);
+    await checkA11y(t);
+    await checkConsoleMessages({
+      controller: null,
+      formName: 'authenticator-verification-data',
+      authenticatorKey: 'okta_email',
+      methodType: 'email',
+    });
+
+    const pageTitle = challengeEmailPageObject.getFormTitle();
+    const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
+    await t.expect(pageTitle).eql('Get a verification email');
+    await t.expect(saveBtnText).eql('Send me an email');
+
+    const emailAddress = emailVerificationSendEmailDataWithSecondaryEmail.currentAuthenticatorEnrollment.value.profile.email;
+    const secondaryEmailAddress = emailVerificationSendEmailDataWithSecondaryEmail.currentAuthenticatorEnrollment.value.profile.secondaryEmail;
+    await t.expect(challengeEmailPageObject.getFormSubtitle())
+      .eql(`Send a verification email to ${emailAddress} and ${secondaryEmailAddress} by clicking on "Send me an email".`);
+
+    // Verify links (switch authenticator link not present since there are no other authenticators available)
+    await t.expect(await challengeEmailPageObject.verifyWithSomethingElseLinkExists()).notOk();
+    await t.expect(await challengeEmailPageObject.signoutLinkExists()).ok();
+    await t.expect(challengeEmailPageObject.getSignoutLinkText()).eql('Back to sign in');
+  });
+test
   .requestHooks(sendEmailMock)('should not show send again warning after 30 seconds', async t => {
     const challengeEmailPageObject = await setup(t);
     await checkA11y(t);
@@ -292,6 +326,26 @@ test
     const emailAddress = emailVerification.currentAuthenticatorEnrollment.value.profile.email;
     await t.expect(challengeEmailPageObject.getFormSubtitle())
       .eql(`We sent an email to ${emailAddress}. Click the verification link in your email to continue or enter the code below.`);
+    await t.expect(challengeEmailPageObject.getEnterCodeInsteadButton().exists).eql(true);
+
+    // Verify links (switch authenticator link not present since there are no other authenticators available)
+    await t.expect(await challengeEmailPageObject.verifyWithSomethingElseLinkExists()).notOk();
+    await t.expect(await challengeEmailPageObject.signoutLinkExists()).ok();
+    await t.expect(challengeEmailPageObject.getSignoutLinkText()).eql('Back to sign in');
+  });
+
+test
+  .requestHooks(sendEmailMockWithSecondaryEmail)('send me an email button should take to challenge email authenticator screen with both primary and secondary email', async t => {
+    const challengeEmailPageObject = await setup(t);
+    await checkA11y(t);
+    await challengeEmailPageObject.clickNextButton('Send me an email');
+    const pageTitle = challengeEmailPageObject.getFormTitle();
+    await t.expect(pageTitle).eql('Verify with your email');
+
+    const emailAddress = emailVerificationWithSecondaryEmail.currentAuthenticatorEnrollment.value.profile.email;
+    const secondaryEmailAddress = emailVerificationWithSecondaryEmail.currentAuthenticatorEnrollment.value.profile.secondaryEmail;
+    await t.expect(challengeEmailPageObject.getFormSubtitle())
+      .eql(`We sent an email to ${emailAddress} and ${secondaryEmailAddress}. Click the verification link in your email to continue or enter the code below.`);
     await t.expect(challengeEmailPageObject.getEnterCodeInsteadButton().exists).eql(true);
 
     // Verify links (switch authenticator link not present since there are no other authenticators available)
@@ -500,7 +554,7 @@ test.meta('gen3', false)
     await t.expect(await challengeEmailPageObject.resendEmailExists()).eql(false);
     await t.wait(5000);
     await t.expect(challengeEmailPageObject.getErrorFromErrorBox()).eql('You have been logged out due to inactivity. Refresh or return to the sign in screen.');
-    
+
     // TODO: verify OTP UI is as expected OTP OKTA-480518
 
     // Check no poll requests were made further. There seems to be no way to interrupt a poll with mock response.
@@ -613,7 +667,7 @@ test
   });
 
 // Test fails in v3. After re-render we still have to wait for 30 seconds
-// Enable after fixing - OKTA-561098  
+// Enable after fixing - OKTA-561098
 test.meta('gen3', false)
   .requestHooks(logger, validOTPmock)('resend after at most 30 seconds even after re-render', async t => {
     const challengeEmailPageObject = await setup(t);

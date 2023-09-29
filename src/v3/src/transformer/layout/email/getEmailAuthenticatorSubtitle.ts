@@ -16,16 +16,25 @@ import { loc } from '../../../util';
 
 export const getEmailAuthenticatorSubtitle = (
   emailAddress: unknown | undefined,
+  secondaryEmailAddress: unknown | undefined,
   useEmailMagicLink: boolean,
   tokenReplacement?: TokenReplacement,
 ): string => {
-  const instructionPrefixText = typeof emailAddress !== 'undefined'
-    ? loc('oie.email.verify.alternate.magicLinkToEmailAddress', 'login', [emailAddress], tokenReplacement)
-    : loc('oie.email.verify.alternate.magicLinkToYourEmail', 'login');
+  const getPrefixText = () => {
+    if (typeof secondaryEmailAddress !== 'undefined' && typeof emailAddress !== 'undefined') {
+      return loc('oie.email.verify.alternate.magicLinkToEmailAddress.with.secondary.email', 'login', [emailAddress, secondaryEmailAddress], tokenReplacement);
+    }
+
+    if (typeof emailAddress !== 'undefined') {
+      return loc('oie.email.verify.alternate.magicLinkToEmailAddress', 'login', [emailAddress], tokenReplacement);
+    }
+
+    return loc('oie.email.verify.alternate.magicLinkToYourEmail', 'login');
+  };
 
   const instructionPostfixText = useEmailMagicLink
     ? loc('oie.email.verify.alternate.instructions', 'login')
     : loc('oie.email.verify.alternate.verificationCode.instructions', 'login');
 
-  return `${instructionPrefixText}${instructionPostfixText}`;
+  return `${getPrefixText()}${instructionPostfixText}`;
 };
