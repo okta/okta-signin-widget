@@ -37,8 +37,10 @@ import Bundles from '../../../../util/Bundles';
 import { IDX_STEP } from '../../constants';
 import { WidgetContextProvider } from '../../contexts';
 import {
-  useInteractionCodeFlow, useOnce,
-  usePolling, useStateHandle,
+  useInteractionCodeFlow,
+  useOnce,
+  usePolling,
+  useStateHandle,
 } from '../../hooks';
 import { transformIdxTransaction } from '../../transformer';
 import {
@@ -71,16 +73,16 @@ import {
   triggerEmailVerifyCallback,
 } from '../../util';
 import { getEventContext } from '../../util/getEventContext';
-import { mapMuiThemeFromBrand } from '../../util/theme';
+import { createTheme } from '../../util/theme';
 import AuthContainer from '../AuthContainer/AuthContainer';
 import AuthContent from '../AuthContent/AuthContent';
 import AuthHeader from '../AuthHeader/AuthHeader';
-import ConsentHeader from '../ConsentHeader';
 import CustomPluginsOdysseyCacheProvider from '../CustomPluginsOdysseyCacheProvider';
 import Form from '../Form';
 import IdentifierContainer from '../IdentifierContainer';
 import Spinner from '../Spinner';
 import GlobalStyles from './GlobalStyles';
+import Button from '../Button';
 
 export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   if (!isAuthClientSet(widgetProps)) {

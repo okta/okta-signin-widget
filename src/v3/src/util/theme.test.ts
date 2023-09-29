@@ -13,7 +13,7 @@
 import { odysseyTheme } from '@okta/odyssey-react-mui';
 import chroma from 'chroma-js';
 
-import { deriveThemeFromBrand, mapMuiThemeFromBrand } from './theme';
+import { deriveThemeFromBrand, createTheme } from './theme';
 
 describe('theme utilities', () => {
   describe('deriveTheme generates', () => {
@@ -67,7 +67,7 @@ describe('theme utilities', () => {
 
     it('returns null for invalid colors', () => {
       // suppress warnings from when chroma-js throws
-      jest.spyOn(console, 'warn').mockImplementation(() => {});
+      jest.spyOn(console, 'warn').mockImplementation(() => { });
 
       expect(deriveThemeFromBrand({ primaryColor: '#12345' })).toBeNull();
       expect(deriveThemeFromBrand({ primaryColor: '#ff00gg' })).toBeNull();
@@ -78,7 +78,7 @@ describe('theme utilities', () => {
   });
   describe('mapMuiThemeFromBrand', () => {
     it('overrides odyssey theme palette', () => {
-      const mappedTheme = mapMuiThemeFromBrand({ primaryColor: '#ff0000' }, 'ltr');
+      const mappedTheme = createTheme({ primaryColor: '#ff0000' }, 'ltr');
 
       expect(mappedTheme.palette.primary).not.toEqual(odysseyTheme.palette.primary);
       // the text color remains the same as original
@@ -86,7 +86,7 @@ describe('theme utilities', () => {
     });
 
     it('handles undefined brand', () => {
-      expect(mapMuiThemeFromBrand(undefined, 'ltr')).toEqual(odysseyTheme);
+      expect(createTheme(undefined, 'ltr')).toEqual(odysseyTheme);
     });
   });
 });
