@@ -6,6 +6,8 @@ import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import xhrIdentifyWithPassword from '../../../playground/mocks/data/idp/idx/identify-with-password';
 import xhrIdentify from '../../../playground/mocks/data/idp/idx/identify';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
+import xhrSuccessTokens from '../../../playground/mocks/data/oauth2/success-tokens';
+import xhrSuccessWithInteractionCode from '../../../playground/mocks/data/idp/idx/success-with-interaction-code';
 import xhrInternalServerError from '../../../playground/mocks/data/idp/idx/error-internal-server-error';
 import xhrOAuthError from '../../../playground/mocks/data/idp/idx/error-feature-not-enabled';
 import xhrTerminalRegistration from '../../../playground/mocks/data/idp/idx/terminal-registration';
@@ -22,6 +24,14 @@ const identifySuccessMock = RequestMock()
   .respond(xhrSuccess)
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
   .respond(oktaDashboardContent);
+
+const identifySuccessWithInteractionCodeMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrIdentify)
+  .onRequestTo('http://localhost:3000/idp/idx/identify')
+  .respond(xhrSuccessWithInteractionCode)
+  .onRequestTo('http://localhost:3000/oauth2/default/v1/token')
+  .respond(xhrSuccessTokens);
 
 const introspectErrorMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -162,7 +172,7 @@ const renderAndAddBeforeAndAfterHooksForTerminal = ClientFunction((settings) => 
   });
 });
 
-const renderAndAddBeforeAndAfterHooksFor2Pages = ClientFunction((settings) => {
+const renderAndAddBeforeAndAfterHooksForSuccess = ClientFunction((settings) => {
   window.renderPlaygroundWidget(settings);
   window.getWidgetInstance().before('identify', () => {
     window.console.log(JSON.stringify({ before: 'identify' }));
@@ -175,6 +185,12 @@ const renderAndAddBeforeAndAfterHooksFor2Pages = ClientFunction((settings) => {
   });
   window.getWidgetInstance().after('success-redirect', () => {
     window.console.log(JSON.stringify({ after: 'success-redirect' }));
+  });
+  window.getWidgetInstance().before('cancel', () => {
+    window.console.log(JSON.stringify({ before: 'cancel' }));
+  });
+  window.getWidgetInstance().after('cancel', () => {
+    window.console.log(JSON.stringify({ after: 'cancel' }));
   });
 });
 
@@ -410,7 +426,7 @@ test.requestHooks(identifyMock)('should execute async "before" hooks sequentiall
 test.requestHooks(identifySuccessMock)('should execute "before" and "after" hooks on form change', async t => {
   const identityPage = await setup(t, {render: false});
   await checkA11y(t);
-  await renderAndAddBeforeAndAfterHooksFor2Pages();
+  await renderAndAddBeforeAndAfterHooksForSuccess();
   await t.expect(identityPage.formExists()).eql(true);
   await checkConsoleMessages([
     {
@@ -685,5 +701,59 @@ test.requestHooks(identifyTerminal)('should execute hooks for "terminal" form af
     {
       after: 'terminal',
     },
+  ].filter(Boolean), t);
+});
+
+test.requestHooks(identifySuccessWithInteractionCodeMock)('should not execute "before" and "after" hooks in the end of interaction code flow', async t => {
+  const optionsForInteractionCodeFlow = {
+    clientId: 'fake',
+    authParams: {
+      ignoreSignature: true,
+      pkce: true,
+    },
+    stateToken: undefined,
+    authScheme: 'oauth2'
+  };
+  const identityPage = await setup(t, {render: false});
+  await identityPage.mockCrypto();
+  await t.setNativeDialogHandler(() => true);
+  await checkA11y(t);
+  await renderAndAddBeforeAndAfterHooksForSuccess(optionsForInteractionCodeFlow);
+  await t.expect(identityPage.formExists()).eql(true);
+  await checkConsoleMessages([
+    {
+      before: 'identify',
+    },
+    {
+      after: 'identify',
+    },
+    'ready',
+    'afterRender',
+    {
+      controller: 'primary-auth',
+      formName: 'identify',
+    },
+  ], t);
+
+  await identityPage.fillIdentifierField('Test Identifier');
+  await identityPage.clickNextButton();
+  await checkConsoleMessages([
+    {
+      before: 'identify',
+    },
+    {
+      after: 'identify',
+    },
+    'ready',
+    'afterRender',
+    {
+      controller: 'primary-auth',
+      formName: 'identify',
+    },
+    {
+      status: 'SUCCESS',
+      accessToken: xhrSuccessTokens.access_token,
+      idToken: xhrSuccessTokens.id_token
+    }
   ].filter(Boolean), t);
 });

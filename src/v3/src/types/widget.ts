@@ -32,9 +32,9 @@ import {
   RenderResult,
   UserOperation,
 } from '../../../types';
-import { OktaSignInAPI } from './api';
 import { InterstitialRedirectView } from '../constants';
 import { WidgetHooks } from '../util/widgetHooks';
+import { OktaSignInAPI } from './api';
 import { JsonObject } from './json';
 import { Modify } from './jsonforms';
 import { FormBag, RegistrationElementSchema } from './schema';

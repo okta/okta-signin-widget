@@ -480,10 +480,15 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     }
     if (widgetRendered) {
       (async () => {
-        const executeAfterHooks = () => widgetHooks.callHooks('after', responseError ? undefined : idxTransaction);
+        const executeAfterHooks = () => {
+          if (uischema.elements.length > 0) {
+            // Don't execute hooks in the end of authentication flow
+            widgetHooks.callHooks('after', responseError ? undefined : idxTransaction);
+          }
+        };
         const emitAfterRender = () => {
-          if (idxTransaction?.status !== IdxStatus.SUCCESS) {
-            // Don't emit events in the end of authentication flow (OKTA-604105)
+          if (uischema.elements.length > 0) {
+            // Don't emit events in the end of authentication flow
             eventEmitter.emit('afterRender', getEventContext(idxTransaction));
           }
         };

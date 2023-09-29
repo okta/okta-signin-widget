@@ -23,16 +23,16 @@ import {
   RenderResult,
   RenderSuccessCallback,
 } from '../../../types';
+import { Widget } from '../components/Widget';
 import {
   JsonObject,
+  OktaSignInAPI,
   OktaWidgetEventHandler,
   OktaWidgetEventType,
-  OktaSignInAPI,
   RenderOptions,
   WidgetOptions,
   WidgetProps,
 } from '../types';
-import { Widget } from '../components/Widget';
 import { WidgetHooks } from '../util/widgetHooks';
 
 const EVENTS_LIST = ['ready', 'afterError', 'afterRender'];
