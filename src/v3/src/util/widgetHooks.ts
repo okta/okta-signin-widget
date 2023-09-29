@@ -48,10 +48,8 @@ export class WidgetHooks {
     const formName = getFormNameForTransaction(idxTransaction);
     if (formName) {
       const hooksToExecute = this.hooks.get(formName)?.get(hookType) || [];
-      if (hooksToExecute.length) {
-        for (const hook of hooksToExecute) {
-          await hook();
-        }
+      for (const hook of hooksToExecute) {
+        await hook();
       }
     }
   }

@@ -22,9 +22,9 @@ import {
 import { TinyEmitter as EventEmitter } from 'tiny-emitter';
 
 import {
-  EventContext,
   EventCallback,
   EventCallbackWithError,
+  EventContext,
   HooksOptions,
   LanguageCallback,
   LanguageCode,
