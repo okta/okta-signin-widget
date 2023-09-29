@@ -65,6 +65,8 @@ const Link: UISchemaElementComponent<{
     typeof href === 'undefined' ? (
       <LinkMui
         component="button"
+        // Fixes OKTA-653788 (see comments) - Currently we treat all links as buttons
+        type="button"
         variant="body1"
         role="link"
         onClick={onClick}
