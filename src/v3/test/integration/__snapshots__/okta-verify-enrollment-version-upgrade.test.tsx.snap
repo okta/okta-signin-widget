@@ -172,7 +172,7 @@ exports[`okta-verify-enrollment-version-upgrade should render form 1`] = `
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root emotion-15"
+                    class="MuiBox-root emotion-0"
                   >
                     <div
                       class="MuiBox-root emotion-27"

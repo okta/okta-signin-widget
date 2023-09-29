@@ -165,10 +165,16 @@ export default class EnrollOktaVerifyPageObject extends BasePageObject {
   }
 
   getSubHeader() {
+    if (userVariables.gen3) {
+      return this.form.getSubtitle(0);
+    }
     return this.getTextContent(SUB_HEADER);
   }
   
   getCopyOrgLinkButtonLabel() {
+    if (userVariables.gen3) {
+      return this.form.getButton('Copy sign-in URL to clipboard').innerText;
+    }
     return this.getTextContent(COPY_ORG_LINK_BUTTON_CLASS);
   }
 
@@ -177,10 +183,13 @@ export default class EnrollOktaVerifyPageObject extends BasePageObject {
   }
 
   getDownloadAppHref() {
-    return this.body.find(DOWNLOAD_OV_LINK_CLASS).getAttribute('href');
+    return this.form.el.find(DOWNLOAD_OV_LINK_CLASS).getAttribute('href');
   }
 
   getClosingText() {
+    if (userVariables.gen3) {
+      return this.form.getSubtitle(5);
+    }
     return this.getTextContent(CLOSING_CLASS);
   }
 }

@@ -57,15 +57,30 @@ const enrollViaQRcodeMocks2 = enrollViaQRcodeMocks(xhrSuccess);
 const enrollSameDeviceMocks = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorEnrollOktaVerifySameDevice);
+if (userVariables.gen3) {
+  enrollSameDeviceMocks
+    .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
+    .respond(xhrAuthenticatorEnrollOktaVerifySameDevice);
+}
 
 // this mock doesn't need poll to return successful response
 const enrollDeviceBootstrapMocks = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorEnrollOktaVerifyDeviceBootstrap);
+if (userVariables.gen3) {
+  enrollDeviceBootstrapMocks
+    .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
+    .respond(xhrAuthenticatorEnrollOktaVerifyDeviceBootstrap);
+}
 
 const enrollDeviceBootstrapMocksMultipleDevices = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorEnrollOktaVerifyDeviceBootstrapMultipleDevices);
+if (userVariables.gen3) {
+  enrollDeviceBootstrapMocksMultipleDevices
+    .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
+    .respond(xhrAuthenticatorEnrollOktaVerifyDeviceBootstrapMultipleDevices);
+}
 
 const enrollViaEmailMocks = pollResponse => RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -835,7 +850,6 @@ test
 
 
 test
-  .meta('gen3', false)
   .requestHooks(logger, enrollSameDeviceMocks)('should be able to see OV same device enrollment instructions without polling', async t => {
     const enrollOktaVerifyPage = await setup(t);
     await checkA11y(t);
@@ -849,21 +863,24 @@ test
 
     await t.expect(enrollOktaVerifyPage.getDownloadAppHref()).eql(oktaVerifyAppStoreDownloadUrl);
     await t.expect(enrollOktaVerifyPage.getCopyOrgLinkButtonLabel()).eql(urlCopiedToClipboardMessage);
-    await t.expect(enrollOktaVerifyPage.getCopiedOrgLinkValue()).eql('okta.okta.com');
+    if (!userVariables.gen3) {
+      await t.expect(enrollOktaVerifyPage.getCopiedOrgLinkValue()).eql('okta.okta.com');
+    }
 
     await t.expect(enrollOktaVerifyPage.getTryDifferentWayText().exists).notOk();
     await t.expect(await enrollOktaVerifyPage.returnToAuthenticatorListLinkExists()).ok();
     await t.expect(await enrollOktaVerifyPage.signoutLinkExists()).ok();
 
     // expect no polling for same device page
-    await t.expect(logger.count(
-      record => record.response.statusCode === 200 &&
-      record.request.url.match(/poll/)
-    )).eql(0);
+    if (!userVariables.gen3) {
+      await t.expect(logger.count(
+        record => record.response.statusCode === 200 &&
+        record.request.url.match(/poll/)
+      )).eql(0);
+    }
   });
 
 test
-  .meta('gen3', false)
   .requestHooks(logger, enrollDeviceBootstrapMocks)('should be able to see OV device bootstrap enrollment instructions without polling with one device', async t => {
     const enrollOktaVerifyPage = await setup(t);
     await checkA11y(t);
@@ -880,14 +897,15 @@ test
     await t.expect(await enrollOktaVerifyPage.signoutLinkExists()).ok();
 
     // expect no polling for device bootstrap page
-    await t.expect(logger.count(
-      record => record.response.statusCode === 200 &&
-      record.request.url.match(/poll/)
-    )).eql(0);
+    if (!userVariables.gen3) {
+      await t.expect(logger.count(
+        record => record.response.statusCode === 200 &&
+        record.request.url.match(/poll/)
+      )).eql(0);
+    }
   });
 
 test
-  .meta('gen3', false)
   .requestHooks(logger, enrollDeviceBootstrapMocksMultipleDevices)('should be able to see OV device bootstrap enrollment instructions without polling with multiple devices', async t => {
     const enrollOktaVerifyPage = await setup(t);
     await checkA11y(t);
@@ -906,8 +924,10 @@ test
     await t.expect(await enrollOktaVerifyPage.signoutLinkExists()).ok();
 
     // expect no polling for device bootstrap page
-    await t.expect(logger.count(
-      record => record.response.statusCode === 200 &&
-      record.request.url.match(/poll/)
-    )).eql(0);
+    if (!userVariables.gen3) {
+      await t.expect(logger.count(
+        record => record.response.statusCode === 200 &&
+        record.request.url.match(/poll/)
+      )).eql(0);
+    }
   });

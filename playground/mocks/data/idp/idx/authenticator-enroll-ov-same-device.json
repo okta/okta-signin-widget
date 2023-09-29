@@ -176,7 +176,7 @@
                     ]
                   }
                 },
-                "relatesTo": "$.authenticators.value[3]"
+                "relatesTo": "$.authenticators.value[2]"
               }
             ]
           },
