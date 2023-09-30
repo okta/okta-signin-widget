@@ -13,12 +13,14 @@
 import userEvent from '@testing-library/user-event';
 import { render, RenderResult } from '@testing-library/preact';
 import { h } from 'preact';
+import { TinyEmitter as EventEmitter } from 'tiny-emitter';
 import { UserEvent } from '@testing-library/user-event/dist/types/setup/setup';
 import { OktaAuth } from '@okta/okta-auth-js';
 import { WidgetOptions } from 'src/types';
 import { createAuthClient, CreateAuthClientOptions } from './createAuthClient';
 
 import { Widget } from '../../../src/components/Widget';
+import { WidgetHooks } from '../../../src/util/widgetHooks';
 
 type Options = CreateAuthClientOptions & {
   widgetOptions?: Partial<WidgetOptions>;
@@ -39,12 +41,16 @@ export async function setup(options: Options): Promise<RenderResult & {
 }> {
   const { widgetOptions = {}, ...rest } = options;
   const authClient = createAuthClient(rest);
+  const eventEmitter = new EventEmitter();
+  const widgetHooks = new WidgetHooks(widgetOptions.hooks);
   const renderResult = await render(
     <Widget
       authScheme="Oauth2"
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...widgetOptions}
       authClient={authClient}
+      eventEmitter={eventEmitter}
+      widgetHooks={widgetHooks}
     />,
   );
 

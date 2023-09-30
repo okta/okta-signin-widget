@@ -12,23 +12,22 @@
 
 import {
   AuthApiError,
-  HttpResponse,
   IdxActionParams,
   IdxMessage,
+  IdxStatus,
   IdxTransaction,
   OAuthError,
-  RawIdxResponse,
 } from '@okta/okta-auth-js';
 import { cloneDeep, merge, omit } from 'lodash';
 import { useCallback } from 'preact/hooks';
 
 import { IDX_STEP, ON_PREM_TOKEN_CHANGE_ERROR_KEY } from '../constants';
 import { useWidgetContext } from '../contexts';
-import { ErrorXHR, EventErrorContext, MessageType } from '../types';
+import { MessageType } from '../types';
 import {
   areTransactionsEqual,
   containsMessageKey,
-  formatError,
+  getErrorEventContext,
   getImmutableData,
   isConfigRecoverFlow,
   isOauth2Enabled,
@@ -65,7 +64,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     setStepToRender,
     widgetProps,
   } = useWidgetContext();
-  const { eventEmitter } = widgetProps;
+  const { eventEmitter, widgetHooks } = widgetProps;
 
   return useCallback(async (options: OnSubmitHandlerOptions) => {
     setLoading(true);
@@ -78,16 +77,6 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       isActionStep,
       stepToRender,
     } = options;
-
-    const getErrorEventContext = (
-      resp: RawIdxResponse | HttpResponse['responseJSON'],
-    ): EventErrorContext => {
-      const error = formatError(resp);
-      return {
-        xhr: error as unknown as ErrorXHR,
-        errorSummary: error.responseJSON && error.responseJSON.errorSummary,
-      };
-    };
 
     const getFormPasswordAuthenticatorId = (transaction: IdxTransaction) : string | undefined => (
       transaction?.neededToProceed
@@ -107,9 +96,9 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       setResponseError(error as (AuthApiError | OAuthError));
       console.error(error);
       // error event
-      eventEmitter?.emit?.(
+      eventEmitter.emit(
         'afterError',
-        transaction ? getEventContext(transaction) : {},
+        getEventContext(transaction),
         getErrorEventContext(error as (AuthApiError | OAuthError)),
       );
       return null;
@@ -243,7 +232,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       const onSuccess = (resolve?: (val: unknown) => void) => {
         setIdxTransaction(newTransaction);
         if (newTransaction.requestDidSucceed === false) {
-          eventEmitter?.emit?.(
+          eventEmitter.emit(
             'afterError',
             getEventContext(newTransaction),
             getErrorEventContext(newTransaction.rawIdxState),
@@ -290,6 +279,12 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
         // No need to continue since onSuccess is called in registration hook callback
         return;
       }
+
+      // Don't execute hooks in the end of authentication flow and if request did not succeed
+      if (!isClientTransaction && newTransaction?.status !== IdxStatus.SUCCESS) {
+        await widgetHooks.callHooks('before', newTransaction);
+      }
+
       onSuccess();
     } catch (error) {
       handleError(currTransaction, error);
@@ -303,6 +298,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     dataSchemaRef,
     widgetProps,
     eventEmitter,
+    widgetHooks,
     setResponseError,
     setIdxTransaction,
     setIsClientTransaction,

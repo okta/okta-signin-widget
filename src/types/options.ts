@@ -238,6 +238,7 @@ export interface HookDefinition {
   before?: HookFunction[];
   after?: HookFunction[];
 }
+export type HookType = keyof HookDefinition;
 export interface HooksOptions {
   [name: string]: HookDefinition;
 }

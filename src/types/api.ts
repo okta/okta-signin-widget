@@ -20,7 +20,6 @@ export interface RouterEventsAPI {
 export type RenderSuccessCallback = (res: RenderResult) => void;
 export type RenderErrorCallback = (err: RenderError) => void;
 export interface OktaSignInAPI extends HooksAPI, RouterEventsAPI {
-  readonly options: Pick<WidgetOptions, 'brandName'>;
   authClient: OktaAuthOAuthInterface;
   show(): void;
   hide(): void;
