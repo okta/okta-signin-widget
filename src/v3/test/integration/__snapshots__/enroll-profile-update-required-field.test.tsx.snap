@@ -287,6 +287,7 @@ exports[`enroll-profile-update-required-field fails client side validation with 
                     class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-49"
                     data-se="cancel"
                     role="link"
+                    type="button"
                   >
                     Back to sign in
                   </button>
@@ -542,6 +543,7 @@ exports[`enroll-profile-update-required-field should render form with one requir
                     class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-42"
                     data-se="cancel"
                     role="link"
+                    type="button"
                   >
                     Back to sign in
                   </button>

@@ -389,6 +389,7 @@ exports[`authenticator-enroll-security-question-error custom question should sho
                     class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-59"
                     data-se="switchAuthenticator"
                     role="link"
+                    type="button"
                   >
                     Return to authenticator list
                   </button>
@@ -400,6 +401,7 @@ exports[`authenticator-enroll-security-question-error custom question should sho
                     class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-59"
                     data-se="cancel"
                     role="link"
+                    type="button"
                   >
                     Back to sign in
                   </button>
@@ -914,6 +916,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                     class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-60"
                     data-se="switchAuthenticator"
                     role="link"
+                    type="button"
                   >
                     Return to authenticator list
                   </button>
@@ -925,6 +928,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                     class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-60"
                     data-se="cancel"
                     role="link"
+                    type="button"
                   >
                     Back to sign in
                   </button>
@@ -1444,6 +1448,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                     class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-60"
                     data-se="switchAuthenticator"
                     role="link"
+                    type="button"
                   >
                     Return to authenticator list
                   </button>
@@ -1455,6 +1460,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                     class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-60"
                     data-se="cancel"
                     role="link"
+                    type="button"
                   >
                     Back to sign in
                   </button>
@@ -1969,6 +1975,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                     class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-60"
                     data-se="switchAuthenticator"
                     role="link"
+                    type="button"
                   >
                     Return to authenticator list
                   </button>
@@ -1980,6 +1987,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                     class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-60"
                     data-se="cancel"
                     role="link"
+                    type="button"
                   >
                     Back to sign in
                   </button>

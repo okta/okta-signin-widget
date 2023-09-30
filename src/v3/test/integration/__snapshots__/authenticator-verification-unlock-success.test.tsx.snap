@@ -256,6 +256,7 @@ exports[`authenticator-verification-unlock-success should render form 1`] = `
                     class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-37"
                     data-se="forgot-password"
                     role="link"
+                    type="button"
                   >
                     Forgot password?
                   </button>
@@ -267,6 +268,7 @@ exports[`authenticator-verification-unlock-success should render form 1`] = `
                     class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-37"
                     data-se="cancel"
                     role="link"
+                    type="button"
                   >
                     Back to sign in
                   </button>

@@ -292,6 +292,7 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                     class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-42"
                     data-se="switchAuthenticator"
                     role="link"
+                    type="button"
                   >
                     Verify with something else
                   </button>
@@ -303,6 +304,7 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                     class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-42"
                     data-se="cancel"
                     role="link"
+                    type="button"
                   >
                     Back to sign in
                   </button>
@@ -564,6 +566,7 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                     class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-35"
                     data-se="switchAuthenticator"
                     role="link"
+                    type="button"
                   >
                     Verify with something else
                   </button>
@@ -575,6 +578,7 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                     class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-35"
                     data-se="cancel"
                     role="link"
+                    type="button"
                   >
                     Back to sign in
                   </button>
