@@ -119,7 +119,7 @@ export type WidgetOptions = {
   brand?: Brand;
 
   // design tokens
-  designTokens: DesignTokensType;
+  designTokens?: DesignTokensType;
 
   // theme
   // theme: ThemeOptions;
