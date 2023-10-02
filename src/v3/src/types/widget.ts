@@ -120,11 +120,11 @@ export type WidgetOptions = {
    */
   brand?: Brand;
 
-  // design tokens
-  designTokens?: DesignTokensType;
+  // // design tokens
+  // designTokens?: DesignTokensType;
 
   // theme
-  // theme: ThemeOptions;
+  theme?: { designTokens: DesignTokensType }; // & ThemeOptions;
 
   // hooks
   hooks?: HooksOptions; // object in options
