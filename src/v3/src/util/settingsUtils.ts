@@ -11,7 +11,7 @@
  */
 
 import { APIError, IdxActionParams, IdxTransaction } from '@okta/okta-auth-js';
-import { union } from 'lodash';
+import union from 'lodash/union';
 
 import config from '../../../config/config.json';
 import {

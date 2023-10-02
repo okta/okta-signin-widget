@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { groupBy } from 'lodash';
+import groupBy from 'lodash/groupBy';
 
 import { doesI18NKeyExist } from '../../../../../v2/ion/i18nTransformer';
 import { ConsentScopeGroup, SCOPE_GROUP_CONFIG } from '../../../constants';

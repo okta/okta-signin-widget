@@ -14,7 +14,8 @@ import { ThemeOptions } from '@mui/material';
 import { Theme } from '@mui/material/styles/createTheme';
 import { odysseyTheme } from '@okta/odyssey-react-mui';
 import chroma from 'chroma-js';
-import { cloneDeep, merge } from 'lodash';
+import merge from 'lodash/merge';
+import cloneDeep from 'lodash/cloneDeep';
 
 import { BrandColors, LanguageDirection } from '../types';
 
