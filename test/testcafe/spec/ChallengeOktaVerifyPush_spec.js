@@ -96,7 +96,7 @@ test
     await t.expect(challengeOktaVerifyPushPageObject.getSignoutLinkText()).eql('Back to sign in');
   });
 
-// Disabled in v3 - https://oktainc.atlassian.net/browse/OKTA-594821
+// Re-enable in OKTA-594821
 test.meta('gen3', false)
   .requestHooks(pushAutoChallengeMock)('challenge ov push screen has right labels and a checkbox', async t => {
     const challengeOktaVerifyPushPageObject = await setup(t);

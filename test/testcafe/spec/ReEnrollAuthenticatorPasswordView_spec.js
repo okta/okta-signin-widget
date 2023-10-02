@@ -75,7 +75,7 @@ async function setup(t) {
   [ mock, false],
   [ updatedHistoryCountMock, true ]
 ].forEach(([ localMock, isHistoryCountOne ]) => {
-  test.meta('gen3', false)
+  test.meta('gen3', false) // Re-enable in OKTA-654484
     .requestHooks(logger, localMock)('Should have the correct labels', async t => {
       const expiredPasswordPage = await setup(t);
       await checkA11y(t);

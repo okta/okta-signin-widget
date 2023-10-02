@@ -658,6 +658,7 @@ test.requestHooks(requestLogger, mockChallengeOVPush)('should navigate to okta v
   });
 });
 
+// Re-enable in OKTA-654488
 test.meta('gen3', false).requestHooks(requestLogger, mockChallengeOVFastPass)('should navigate to okta verify fast pass page', async t => {
   const selectFactorPage = await setup(t);
   await checkA11y(t);
@@ -685,6 +686,7 @@ test.meta('gen3', false).requestHooks(requestLogger, mockChallengeOVFastPass)('s
   });
 });
 
+// Re-enable in OKTA-654488
 test.meta('gen3', false).requestHooks(mockChallengeOnPremMFA)('should navigate to on prem mfa challenge page', async t => {
   const selectFactorPage = await setup(t);
   await checkA11y(t);
@@ -695,6 +697,7 @@ test.meta('gen3', false).requestHooks(mockChallengeOnPremMFA)('should navigate t
   await t.expect(challengeFactorPage.getFormTitle()).eql('Verify with Atko Custom On-prem');
 });
 
+// Re-enable in OKTA-654488
 test.meta('gen3', false).requestHooks(mockChallengeRsa)('should navigate to RSA challenge page', async t => {
   const selectFactorPage = await setup(t);
   await checkA11y(t);
@@ -706,6 +709,7 @@ test.meta('gen3', false).requestHooks(mockChallengeRsa)('should navigate to RSA 
   await t.expect(challengeFactorPage.getFormTitle()).eql('Verify with RSA SecurID');
 });
 
+// Re-enable in OKTA-654488
 test.meta('gen3', false).requestHooks(mockChallengeDuo)('should navigate to Duo challenge page', async t => {
   const selectFactorPage = await setup(t);
   await checkA11y(t);
@@ -717,6 +721,7 @@ test.meta('gen3', false).requestHooks(mockChallengeDuo)('should navigate to Duo 
   await t.expect(challengeFactorPage.getFormTitle()).eql('Verify with Duo Security');
 });
 
+// Re-enable in OKTA-654488
 test.meta('gen3', false).requestHooks(mockChallengeCustomOTP)('should navigate to Custom OTP challenge page', async t => {
   const selectFactorPage = await setup(t);
   await checkA11y(t);
@@ -761,6 +766,7 @@ test.requestHooks(mockSelectAuthenticatorForRecovery)('should not show custom fa
   await t.expect(await pageObject.factorPageHelpLinksExists()).notOk();
 });
 
+// Re-enable in OKTA-654488
 test.meta('gen3', false).requestHooks(mockChallengeCustomApp)('should navigate to Custom App challenge page', async t => {
   const selectFactorPage = await setup(t);
   await checkA11y(t);

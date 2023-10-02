@@ -545,7 +545,7 @@ test
     await t.expect(answerRequestUrl).eql('http://localhost:3000/idp/idx/challenge/answer');
   });
 
-// Disabled in v3 - OKTA-566356
+// Re-enable in OKTA-654445
 test.meta('gen3', false)
   .requestHooks(logger, stopPollMock)('no polling if session has expired', async t => {
     const challengeEmailPageObject = await setup(t);
@@ -667,7 +667,7 @@ test
   });
 
 // Test fails in v3. After re-render we still have to wait for 30 seconds
-// Enable after fixing - OKTA-561098
+// Re-enable in OKTA-654446
 test.meta('gen3', false)
   .requestHooks(logger, validOTPmock)('resend after at most 30 seconds even after re-render', async t => {
     const challengeEmailPageObject = await setup(t);
