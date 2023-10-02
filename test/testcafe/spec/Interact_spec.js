@@ -235,6 +235,7 @@ test.requestHooks(requestLogger, interactMock)('passes recovery_token to interac
 // TODO this is calling /cancel but not also /interact in v3. Might be good but
 // not sure if it _should_ call interact actually when there is
 // a recovery token
+// OKTA-654463
 test.meta('gen3', false).requestHooks(requestLogger, cancelResetPasswordMock)('clears recovery_token and does not pass it to interact after clicking "back to signin"', async t => {
   const recoveryToken = 'abcdef';
   const pageObject = await setup(t, {

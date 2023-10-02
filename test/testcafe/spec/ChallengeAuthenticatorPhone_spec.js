@@ -197,7 +197,7 @@ test
     await t.expect(challengePhonePageObject.getSignoutLinkText()).eql('Back to sign in');
   });
 
-// OKTA-642786 - awaiting Gen3 implementation
+// Re-enable in OKTA-642786 - awaiting Gen3 implementation
 test.meta('gen3', false)
   .requestHooks(smsPrimaryNicknameMock)('SMS primary mode - shows nickname when present in API response', async t => {
     const challengePhonePageObject = await setup(t);

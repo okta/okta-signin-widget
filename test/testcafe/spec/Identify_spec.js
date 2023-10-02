@@ -116,6 +116,7 @@ async function setup(t) {
   return identityPage;
 }
 
+// Re-enable in OKTA-654448
 test.meta('gen3', false).requestHooks(identifyRequestLogger, identifyMock)('should be able to submit identifier with rememberMe', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
@@ -163,6 +164,7 @@ test.requestHooks(identifyMock)('should show errors if required fields are empty
   await t.expect(identityPage.getIdentifierErrorMessage()).eql('This field cannot be left blank');
 });
 
+// Re-enable in OKTA-654453
 test.meta('gen3', false).requestHooks(identifyMockWithUnsupportedResponseError)('should show error if server response is unsupported', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
@@ -235,6 +237,7 @@ test.requestHooks(identifyMock)('should have correct display text', async t => {
   await t.expect(await identityPage.hasForgotPasswordLinkText()).notOk();
 });
 
+// Re-enable in OKTA-654453
 test.meta('gen3', false).requestHooks(identifyLockedUserMock)('should show global error for invalid user', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
@@ -277,6 +280,7 @@ test.requestHooks(identifyThenSelectAuthenticatorMock)('navigate to other screen
   ]);
 });
 
+// Re-enable in OKTA-654455
 test.meta('gen3', false).requestHooks(identifyRequestLogger, identifyMock)('should transform identifier using settings.transformUsername', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
@@ -333,6 +337,7 @@ test.requestHooks(identifyMock)('should not render custom forgot password link',
   await t.expect(await identityPage.hasForgotPasswordLinkText()).notOk();
 });
 
+// Re-enable in OKTA-654456
 test.meta('gen3', false).requestHooks(identifyRequestLogger, identifyMockWithFingerprint)('should compute device fingerprint and add to header', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
@@ -363,6 +368,7 @@ test.meta('gen3', false).requestHooks(identifyRequestLogger, identifyMockWithFin
   await t.expect(factorReqHeaders['x-device-fingerprint']).eql('mock-device-fingerprint');
 });
 
+// Re-enable in OKTA-654456
 test.meta('gen3', false).requestHooks(identifyRequestLogger, identifyMockWithFingerprintError)('should continue to compute device fingerprint and add to header when there are API errors', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
@@ -451,6 +457,7 @@ test.requestHooks(identifyRequestLogger, errorsIdentifyMock)('should render each
   await t.expect(await identityPage.form.getErrorBoxTextByIndex(2)).eql('Your session has expired. Please try to sign in again.');
 });
 
+// Re-enable in OKTA-654458
 test.meta('gen3', false).requestHooks(identifyRequestLogger, baseIdentifyMock)('should "autoFocus" form with config or by default', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
