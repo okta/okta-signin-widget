@@ -3,6 +3,7 @@ import { $ } from '@okta/courage';
 import $sandbox from 'sandbox';
 import Logger from 'util/Logger';
 import Util from 'util/Util';
+import BrowserFeatures from '../../../src/util/BrowserFeatures';
 
 describe('util/Util', () => {
   describe('transformErrorXHR', () => {
@@ -25,7 +26,7 @@ describe('util/Util', () => {
       Util.transformErrorXHR(xhr);
       expect(xhr.responseJSON.errorSummary).toEqual('There was an unsupported response from server.');
     });
-  
+
     it('errorSummary shows unsupported response from server when there are no responseJSON and responseText is not valid JSON', () => {
       const xhr = {
         status: 400,
@@ -218,8 +219,8 @@ describe('util/Util', () => {
 
       expect($('#okta-sign-in form :submit')[0].click).toHaveBeenCalledTimes(1);
       expect($('#okta-sign-in').html()).toBe(
-        '<form method="get" style="display: none;" action="http://example.com/idp/123">' + 
-          '<input type="submit">' + 
+        '<form method="get" style="display: none;" action="http://example.com/idp/123">' +
+          '<input type="submit">' +
           '</form>'
       );
     });
@@ -232,7 +233,7 @@ describe('util/Util', () => {
         '<form method="get" style="display: none;" action="http://example.com/idp/123">' +
           '<input name="foo" type="hidden" value="aaa">' +
           '<input name="bar" type="hidden" value="bbb">' +
-          '<input type="submit">' + 
+          '<input type="submit">' +
           '</form>'
       );
     });
@@ -244,7 +245,7 @@ describe('util/Util', () => {
       expect($('#okta-sign-in').html()).toBe(
         '<form method="get" style="display: none;" action="http://example.com/idp/123#hello=okta">' +
           '<input name="redirectURI" type="hidden" value="https://foo.com">' +
-          '<input type="submit">' + 
+          '<input type="submit">' +
           '</form>'
       );
     });
@@ -258,7 +259,7 @@ describe('util/Util', () => {
       expect($('#okta-sign-in').html()).toBe(
         '<form method="get" style="display: none;" action="http://example.com/idp/123">' +
           '<input name="foo" type="hidden" value="a&quot;/><img error=&quot;alert(11)&quot; src=&quot;xx&quot;/>">' +
-          '<input type="submit">' + 
+          '<input type="submit">' +
           '</form>'
       );
     });
@@ -270,7 +271,7 @@ describe('util/Util', () => {
       expect($('#okta-sign-in').html()).toBe(
         '<form method="get" style="display: none;" action="http://example.com/idp/123">' +
           '<input name="foo" type="hidden" value="&quot;/><img error">' +
-          '<input type="submit">' + 
+          '<input type="submit">' +
           '</form>'
       );
     });
@@ -288,6 +289,73 @@ describe('util/Util', () => {
       expect($('#okta-sign-in form').length).toBe(0);
       expect(Logger.error).toHaveBeenCalledTimes(1);
       expect(Logger.error).toHaveBeenCalledWith('Cannot redirect to empty URL: ()');
+    });
+  });
+
+  describe('Test isAndroidOVEnrollment', () => {
+
+    beforeEach(() => {
+      delete window.location;
+    });
+
+    it('Test is Android and OV Enrollment', () => {
+      jest.spyOn(BrowserFeatures, 'isAndroid').mockReturnValue(true);
+      Object.defineProperty(window, 'location', {
+        value: {
+          href: 'https://org.com/oauth2/v1/authorize?response_type=code&state=state' +
+            '&code_challenge_method=S256&redirect_uri=https%3A%2F%2Flogin.okta.com%2Foauth%2Fcallback&nonce=nonce' +
+            '&code_challenge=challenge&client_id=id',
+        },
+        writeable: true,
+        configurable: true
+      });
+
+      expect(Util.isAndroidOVEnrollment()).toBe(true);
+    });
+
+    it('Test is Android and not OV Enrollment', () => {
+      jest.spyOn(BrowserFeatures, 'isAndroid').mockReturnValue(true);
+      Object.defineProperty(window, 'location', {
+        value: {
+          href: 'https://org.com/oauth2/v1/authorize?response_type=code&state=state' +
+            '&code_challenge_method=S256&redirect_uri=https%3A%2F%2Forg.com%2Fenduser%2Fcallback&nonce=nonce' +
+            '&code_challenge=challenge&client_id=id',
+        },
+        writeable: true,
+        configurable: true
+      });
+
+      expect(Util.isAndroidOVEnrollment()).toBe(false);
+    });
+
+    it('Test is not Android and is OV Enrollment', () => {
+      jest.spyOn(BrowserFeatures, 'isAndroid').mockReturnValue(false);
+      Object.defineProperty(window, 'location', {
+        value: {
+          href: 'https://org.com/oauth2/v1/authorize?response_type=code&state=state' +
+            '&code_challenge_method=S256&redirect_uri=https%3A%2F%2Flogin.okta.com%2Foauth%2Fcallback&nonce=nonce' +
+            '&code_challenge=challenge&client_id=id',
+        },
+        writeable: true,
+        configurable: true
+      });
+
+      expect(Util.isAndroidOVEnrollment()).toBe(false);
+    });
+
+    it('Test is not Android and not OV Enrollment', () => {
+      jest.spyOn(BrowserFeatures, 'isAndroid').mockReturnValue(false);
+      Object.defineProperty(window, 'location', {
+        value: {
+          href: 'https://org.com/oauth2/v1/authorize?response_type=code&state=state' +
+            '&code_challenge_method=S256&redirect_uri=https%3A%2F%2Forg.com%2Fenduser%2Fcallback&nonce=nonce' +
+            '&code_challenge=challenge&client_id=id',
+        },
+        writeable: true,
+        configurable: true
+      });
+
+      expect(Util.isAndroidOVEnrollment()).toBe(false);
     });
   });
 });

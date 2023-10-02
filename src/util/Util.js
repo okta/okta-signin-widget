@@ -18,6 +18,7 @@ import Logger from './Logger';
 import BrowserFeatures from './BrowserFeatures';
 
 const Util = {};
+const ovDeepLink = 'redirect_uri=https://login.okta.com/oauth/callback';
 
 const buildInputForParameter = function(name, value) {
   const input = document.createElement('input');
@@ -88,7 +89,7 @@ Util.transformErrorXHR = function(xhr) {
       }
     } else if (typeof xhr.responseText === 'object') {
       xhr.responseJSON = xhr.responseText;
-    } 
+    }
   }
   // Temporary solution to display field errors
   // Assuming there is only one field error in a response
@@ -185,6 +186,11 @@ Util.redirect = function(url, win = window, isAppLink = false) {
   } else {
     win.location.href = url;
   }
+};
+
+Util.isAndroidOVEnrollment = function() {
+  const ovEnrollment = decodeURIComponent(window.location.href).includes(ovDeepLink);
+  return BrowserFeatures.isAndroid() && ovEnrollment;
 };
 
 /**
