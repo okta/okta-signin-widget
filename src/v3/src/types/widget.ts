@@ -39,7 +39,7 @@ import { OktaSignInAPI } from './api';
 import { JsonObject } from './json';
 import { Modify } from './jsonforms';
 import { FormBag, RegistrationElementSchema } from './schema';
-import { DesignTokensType } from 'src/util/designTokens';
+import { DesignTokensType } from '../util/designTokens';
 
 // TODO: Once SIW is merged into okta-signin-widget repo, remove this. Ticket#: OKTA-508189
 export interface EventErrorContext {

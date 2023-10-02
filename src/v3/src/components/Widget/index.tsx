@@ -14,6 +14,7 @@
 // We need to emit a CSS file, even if it's empty, to prevent a 404 on the Okta-hosted login page.
 import './style.css';
 
+import { ScopedCssBaseline } from '@mui/material';
 import { MuiThemeProvider } from '@okta/odyssey-react-mui';
 import {
   AuthApiError,
@@ -77,14 +78,12 @@ import { createTheme } from '../../util/theme';
 import AuthContainer from '../AuthContainer/AuthContainer';
 import AuthContent from '../AuthContent/AuthContent';
 import AuthHeader from '../AuthHeader/AuthHeader';
+import ConsentHeader from '../ConsentHeader';
 import CustomPluginsOdysseyCacheProvider from '../CustomPluginsOdysseyCacheProvider';
 import Form from '../Form';
 import IdentifierContainer from '../IdentifierContainer';
 import Spinner from '../Spinner';
 import GlobalStyles from './GlobalStyles';
-import Button from '../Button';
-import { ScopedCssBaseline } from '@mui/material';
-import ConsentHeader from '../ConsentHeader';
 
 export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   if (!isAuthClientSet(widgetProps)) {
@@ -133,11 +132,14 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const widgetRenderedOnce = useRef<boolean>(false);
   const [loginHint, setloginHint] = useState<string | null>(null);
   const languageCode = getLanguageCode(widgetProps);
-  const direction = getLanguageDirection(languageCode);
+  const languageDirection = getLanguageDirection(languageCode);
   const { stateHandle, unsetStateHandle } = useStateHandle(widgetProps);
 
   // merge themes
-  const theme = useMemo(() => mergeThemes(createTheme(brand, designTokens), { direction }), [brand, direction]);
+  const theme = useMemo(() => mergeThemes(
+    createTheme(brand, designTokens),
+    { direction: languageDirection },
+  ), [brand, designTokens, languageDirection]);
 
   // on unmount, remove the language
   useEffect(() => () => {
@@ -486,11 +488,12 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       loginHint,
       setloginHint,
       languageCode,
-      languageDirection: direction,
+      languageDirection,
     }}
     >
       <CustomPluginsOdysseyCacheProvider nonce={cspNonce}>
         <MuiThemeProvider theme={theme}>
+          <GlobalStyles />
           {/* the style is to allow the widget to inherit the parent's bg color */}
           <ScopedCssBaseline
             sx={{

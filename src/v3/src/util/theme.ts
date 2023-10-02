@@ -10,10 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { ThemeOptions } from '@mui/material';
 import { odysseyTheme } from '@okta/odyssey-react-mui';
 import chroma from 'chroma-js';
-import { set as _set, isUndefined } from 'lodash';
-import { buttonClasses } from "@mui/material/Button";
+import { set as _set } from 'lodash';
 
 import { Brand } from '../types';
 import { DESIGN_TOKENS, DesignTokensType } from './designTokens';
@@ -27,11 +27,8 @@ type Palette = {
   contrastText: string;
 };
 
-type Theme = typeof odysseyTheme;
-
-
-const WHITE = '#ffffff';
-const BLACK = '#1d1d21';
+const WHITE_HEX = '#ffffff';
+const BLACK_HEX = '#1d1d21';
 
 /**
  * Determine whether to use BLACK (#1d1d21) or WHITE (#ffffff) based on a color.
@@ -41,7 +38,7 @@ const BLACK = '#1d1d21';
  * @param color color to compare against black/white
  */
 const getInverseTextColor = (color: string): string => (
-  chroma.contrast(color, WHITE) > 4.5 ? WHITE : BLACK
+  chroma.contrast(color, WHITE_HEX) > 4.5 ? WHITE_HEX : BLACK_HEX
 );
 
 /**
@@ -53,8 +50,9 @@ const getInverseTextColor = (color: string): string => (
  * @param path {string} target path
  * @param val the value to set, if defined.
  */
+// eslint-disable-next-line @typescript-eslint/ban-types
 function set<T extends object, V>(obj: T, path: string | string[], val: V) {
-  return isUndefined(val) ? null : _set(obj, path, val);
+  return val === undefined ? null : _set(obj, path, val);
 }
 
 /**
@@ -73,7 +71,7 @@ export const generatePalette = (main: string): Palette => {
   const lightness = chroma(main).get('hsl.l');
   return lightness > 0.24
     ? {
-      main: main,
+      main,
       lighter: chroma(main)
         .set('hsl.h', '+9')
         .set('hsl.s', '+0.18')
@@ -91,7 +89,7 @@ export const generatePalette = (main: string): Palette => {
         .hex(),
       contrastText: getInverseTextColor(main),
     } : {
-      main: main,
+      main,
       lighter: chroma(main)
         .set('hsl.h', '+9')
         .set('hsl.s', '+0.18')
@@ -104,20 +102,22 @@ export const generatePalette = (main: string): Palette => {
         .set('hsl.l', '+0.31')
         .hex(),
       contrastText: getInverseTextColor(main),
-    }
+    };
 };
 
 export const createTheme = (
   brand?: Brand,
   customTokens?: Partial<DesignTokensType>,
-): Theme => {
+): ThemeOptions => {
   const defaultTokens = DESIGN_TOKENS;
   const mergedTokens: DesignTokensType = { ...defaultTokens, ...customTokens };
   const theme = odysseyTheme;
-  theme.palette.text.primary = BLACK;
+  theme.palette.text.primary = BLACK_HEX;
   if (brand?.primaryColor) {
     const palettePrimary = generatePalette(brand.primaryColor);
-    const { lighter, light, main, dark } = palettePrimary;
+    const {
+      lighter, light, main, dark,
+    } = palettePrimary;
     set(theme, 'palette.primary.lighter', lighter);
     set(theme, 'palette.primary.light', light);
     set(theme, 'palette.primary.main', main);
@@ -125,7 +125,9 @@ export const createTheme = (
   }
   if (customTokens) {
     if (customTokens.PalettePrimaryMain) {
-      const { lighter, light, main, dark } = generatePalette(customTokens.PalettePrimaryMain);
+      const {
+        lighter, light, main, dark,
+      } = generatePalette(customTokens.PalettePrimaryMain);
       set(theme, 'palette.primary.lighter', customTokens.PalettePrimaryLighter ?? lighter);
       set(theme, 'palette.primary.light', customTokens.PalettePrimaryLight ?? light);
       set(theme, 'palette.primary.main', customTokens.PalettePrimaryMain ?? main);
@@ -136,7 +138,9 @@ export const createTheme = (
       mergedTokens.PalettePrimaryDark = dark;
     }
     if (customTokens.PaletteDangerMain) {
-      const { lighter, light, main, dark } = generatePalette(customTokens.PaletteDangerMain);
+      const {
+        lighter, light, main, dark,
+      } = generatePalette(customTokens.PaletteDangerMain);
       set(theme, 'palette.error.lighter', customTokens.PaletteDangerLighter ?? lighter);
       set(theme, 'palette.error.light', customTokens.PaletteDangerLight ?? light);
       set(theme, 'palette.error.main', customTokens.PaletteDangerMain ?? main);
@@ -147,7 +151,9 @@ export const createTheme = (
       mergedTokens.PaletteDangerDark = dark;
     }
     if (customTokens.PaletteWarningMain) {
-      const { lighter, light, main, dark } = generatePalette(customTokens.PaletteWarningMain);
+      const {
+        lighter, light, main, dark,
+      } = generatePalette(customTokens.PaletteWarningMain);
       set(theme, 'palette.warning.lighter', customTokens.PaletteWarningLighter ?? lighter);
       set(theme, 'palette.warning.light', customTokens.PaletteWarningLight ?? light);
       set(theme, 'palette.warning.main', customTokens.PaletteWarningMain ?? main);
@@ -158,7 +164,9 @@ export const createTheme = (
       mergedTokens.PaletteWarningDark = dark;
     }
     if (customTokens.PaletteSuccessMain) {
-      const { lighter, light, main, dark } = generatePalette(customTokens.PaletteSuccessMain);
+      const {
+        lighter, light, main, dark,
+      } = generatePalette(customTokens.PaletteSuccessMain);
       set(theme, 'palette.success.lighter', customTokens.PaletteSuccessLighter ?? lighter);
       set(theme, 'palette.success.light', customTokens.PaletteSuccessLight ?? light);
       set(theme, 'palette.success.main', customTokens.PaletteSuccessMain ?? main);
@@ -225,6 +233,26 @@ export const createTheme = (
   }
   return mergeThemes(theme, {
     components: {
+      MuiAlert: {
+        styleOverrides: {
+          root: {
+            gap: 0,
+          },
+          icon: ({ theme: t }) => ({
+            paddingInlineEnd: t.spacing(4),
+            flexShrink: 0,
+          }),
+        },
+      },
+      MuiInputBase: {
+        styleOverrides: {
+          input: {
+            '::-ms-reveal': {
+              display: 'none',
+            },
+          },
+        },
+      },
       MuiInputLabel: {
         styleOverrides: {
           root: {
@@ -237,222 +265,27 @@ export const createTheme = (
       // ie11 because its not supported. re-define the :hover rule separately
       // again so the ruleset is applied in ie11
       MuiButton: {
-        defaultProps: {
-          variant: "primary",
-          disableElevation: true,
-        },
         styleOverrides: {
-          root: ({ ownerState, theme }) => ({
-            minWidth: "unset",
-            paddingBlock: mergedTokens.Spacing3,
-            paddingInline: mergedTokens.Spacing4,
-            display: "inline-flex",
-            position: "relative",
-            marginBlock: "0",
-            marginInline: "0",
-            transitionProperty: "color, background-color, border-color, box-shadow",
-            transitionDuration: "100ms",
-            transitionTimingFunction: "linear",
-            borderWidth: mergedTokens.BorderWidthMain,
-            borderStyle: mergedTokens.BorderStyleMain,
-            borderRadius: mergedTokens.BorderRadiusMain,
-            borderColor: "transparent",
-            fontSize: mergedTokens.TypographySizeBody,
-            fontWeight: mergedTokens.TypographyWeightBodyBold,
-            fontFamily: mergedTokens.TypographyFamilyButton,
-            lineHeight: mergedTokens.TypographyLineHeightUi,
-            whiteSpace: "nowrap",
-
-            [`.${buttonClasses.root} + &`]: {
-              marginInlineStart: mergedTokens.Spacing2,
-            },
-
-            "&:focus-visible": {
-              boxShadow: `0 0 0 2px ${mergedTokens.HueNeutralWhite}, 0 0 0 4px ${mergedTokens.PalettePrimaryMain}`,
-              outline: "2px solid transparent",
-              outlineOffset: "1px",
-            },
-
-            "&:disabled": {
-              pointerEvents: "none",
-            },
-
-            [`.${buttonClasses.startIcon}, .${buttonClasses.endIcon}`]: {
-              "& > *:nth-of-type(1)": {
-                fontSize: `${mergedTokens.TypographyLineHeightUi}em`,
-              },
-            },
-
-            ...(ownerState.variant === "primary" && {
-              color: mergedTokens.HueNeutralWhite,
-              backgroundColor: mergedTokens.PalettePrimaryMain,
-
-              "&:hover": {
-                backgroundColor: mergedTokens.PalettePrimaryDark,
-              },
-
-              "&:active": {
-                backgroundColor: mergedTokens.PalettePrimaryDarker,
-              },
-
-              "&:disabled": {
-                color: mergedTokens.PalettePrimaryLight,
-                backgroundColor: mergedTokens.HueBlue100,
-              },
-            }),
-
-            ...(ownerState.variant === "secondary" && {
-              backgroundColor: mergedTokens.HueBlue100,
-              color: mergedTokens.PalettePrimaryDark,
-
+          root: ({ ownerState, theme: t }) => ({
+            ...(ownerState.variant === 'primary' && {
               '&:hover': {
-                backgroundColor: theme.palette.primary.lighter,
-                borderColor: theme.palette.primary.light,
-                color: theme.palette.primary.main,
-              },
-
-              "&:active": {
-                backgroundColor: mergedTokens.PalettePrimaryLight,
-                color: mergedTokens.HueBlue800,
-              },
-
-              "&:disabled": {
-                backgroundColor: mergedTokens.HueNeutral100,
-                color: mergedTokens.TypographyColorDisabled,
+                backgroundColor: t.palette.primary.dark,
               },
             }),
-
-            ...(ownerState.variant === "tertiary" && {
-              backgroundColor: mergedTokens.HueNeutral100,
-              color: mergedTokens.HueNeutral700,
-
-              "&:hover": {
-                backgroundColor: mergedTokens.HueNeutral200,
-                color: mergedTokens.HueNeutral800,
-              },
-
-              "&:active": {
-                backgroundColor: mergedTokens.HueNeutral300,
-                color: mergedTokens.HueNeutral800,
-              },
-
-              "&:disabled": {
-                backgroundColor: mergedTokens.HueNeutral100,
-                color: mergedTokens.TypographyColorDisabled,
+            ...(ownerState.variant === 'secondary' && {
+              '&:hover': {
+                backgroundColor: t.palette.primary.lighter,
+                borderColor: t.palette.primary.light,
+                color: t.palette.primary.main,
               },
             }),
-
-            ...(ownerState.variant === "danger" && {
-              backgroundColor: mergedTokens.PaletteDangerMain,
-              color: mergedTokens.HueNeutralWhite,
-
-              "&:hover": {
-                backgroundColor: mergedTokens.PaletteDangerDark,
-              },
-
-              "&:focus-visible": {
-                boxShadow: `0 0 0 2px ${mergedTokens.HueNeutralWhite}, 0 0 0 4px ${mergedTokens.PaletteDangerMain}`,
-              },
-
-              "&:active": {
-                backgroundColor: mergedTokens.PaletteDangerDarker,
-              },
-
-              "&:disabled": {
-                color: mergedTokens.PaletteDangerLight,
-                backgroundColor: mergedTokens.HueRed100,
-              },
-            }),
-            ...(ownerState.variant === "floating" && {
-              backgroundColor: "transparent",
-              color: mergedTokens.TypographyColorBody,
-
-              "&:hover": {
-                backgroundColor: mergedTokens.HueNeutral100,
+            ...(ownerState.variant === 'floating' && {
+              '&:hover': {
+                backgroundColor: 'rgba(29, 29, 33, 0.1)',
                 borderColor: 'transparent',
               },
-
-              "&:active": {
-                backgroundColor: mergedTokens.HueNeutral200,
-              },
-
-              "&:disabled": {
-                backgroundColor: "transparent",
-                color: mergedTokens.TypographyColorDisabled,
-              },
-            }),
-            ...(ownerState.size === "small" && {
-              paddingBlock: mergedTokens.Spacing2,
-              paddingInline: mergedTokens.Spacing3,
-              fontSize: mergedTokens.TypographySizeBody,
-            }),
-            ...(ownerState.size === "large" && {
-              paddingBlock: mergedTokens.Spacing4,
-              paddingInline: mergedTokens.Spacing4,
-            }),
-            ...(ownerState.fullWidth === true && {
-              display: "block",
-              width: "100%",
-              marginBlock: "0",
-              marginInline: "0",
-
-              "&:not(:last-child)": {
-                marginBlockEnd: mergedTokens.Spacing4,
-              },
-            }),
-            ...(ownerState.children === "" && {
-              minWidth: "auto",
-              padding: mergedTokens.Spacing3,
-
-              [`.${buttonClasses.endIcon}, .${buttonClasses.startIcon}`]: {
-                margin: "0",
-              },
-
-              ...(ownerState.size === "small" && {
-                padding: mergedTokens.Spacing2,
-              }),
             }),
           }),
-
-          endIcon: ({ ownerState }) => ({
-            display: "inline-flex",
-            margin: 0,
-            marginInlineStart: mergedTokens.Spacing2,
-
-            ...(ownerState.children === undefined && {
-              marginInlineStart: 0,
-            }),
-          }),
-
-          startIcon: ({ ownerState }) => ({
-            display: "inline-flex",
-            margin: 0,
-            marginInlineEnd: mergedTokens.Spacing2,
-
-            ...(ownerState.children === undefined && {
-              marginInlineEnd: 0,
-            }),
-          }),
-        },
-      },
-      MuiAlert: {
-        styleOverrides: {
-          root: {
-            gap: 0,
-          },
-          icon: ({ theme }) => ({
-            paddingInlineEnd: theme.spacing(4),
-            flexShrink: 0,
-          }),
-        },
-      },
-      MuiInputBase: {
-        styleOverrides: {
-          input: {
-            '::-ms-reveal': {
-              display: 'none',
-            },
-          },
         },
       },
       // ruleset with :focus-visible pseudo-selector break entire ruleset in
@@ -468,6 +301,6 @@ export const createTheme = (
           }),
         },
       },
-    }
-  }) as Theme;
+    },
+  });
 };
