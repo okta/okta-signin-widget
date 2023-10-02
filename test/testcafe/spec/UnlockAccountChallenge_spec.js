@@ -219,6 +219,19 @@ test.meta('gen3', false).requestHooks(identifyLockedUserMock)('should show the c
   await t.expect(selectFactorPage.getErrorBoxText()).contains('To unlock your account, select one of the following authenticators.');
 });
 
+test.requestHooks(identifyLockedUserMock)('should keep the user on the unlock account view when the unlock account form is submitted via keyboard', async t => {
+  const identityPage = await setup(t);
+  await checkA11y(t);
+  await identityPage.clickUnlockAccountLink();
+
+  const selectFactorPage = new SelectFactorPageObject(t);
+  await selectFactorPage.fillIdentifierField('username');
+  await t.pressKey('enter');
+
+  await t.expect(selectFactorPage.getFormTitle()).eql('Unlock account?');
+  await t.expect(selectFactorPage.getFactorsCount()).eql(2);
+});
+
 test.requestHooks(signInDeviceMock)('should render custom unlock account link on sign-in device page', async t => {
   const signInDevicePage = await setupSignInDevice(t);
   await checkA11y(t);

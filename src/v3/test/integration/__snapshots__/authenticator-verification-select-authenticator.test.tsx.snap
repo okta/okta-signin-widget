@@ -1774,6 +1774,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                     class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-172"
                     data-se="cancel"
                     role="link"
+                    type="button"
                   >
                     Back to sign in
                   </button>

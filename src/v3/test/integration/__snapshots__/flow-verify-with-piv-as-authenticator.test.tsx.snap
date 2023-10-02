@@ -170,6 +170,7 @@ exports[`flow-verify-with-piv-as-authenticator should render select authenticato
                     class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-25"
                     data-se="switchAuthenticator"
                     role="link"
+                    type="button"
                   >
                     Verify with something else
                   </button>
@@ -181,6 +182,7 @@ exports[`flow-verify-with-piv-as-authenticator should render select authenticato
                     class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-25"
                     data-se="cancel"
                     role="link"
+                    type="button"
                   >
                     Back to sign in
                   </button>

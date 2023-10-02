@@ -239,6 +239,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                     class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-42"
                     data-se="forgot-password"
                     role="link"
+                    type="button"
                   >
                     Forgot password?
                   </button>
@@ -250,6 +251,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                     class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-42"
                     data-se="unlock"
                     role="link"
+                    type="button"
                   >
                     Unlock account?
                   </button>
@@ -297,6 +299,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                       class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-42"
                       data-se="enroll"
                       role="link"
+                      type="button"
                     >
                       Sign up
                     </button>
@@ -551,6 +554,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                     class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-42"
                     data-se="forgot-password"
                     role="link"
+                    type="button"
                   >
                     Forgot password?
                   </button>
@@ -562,6 +566,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                     class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-42"
                     data-se="unlock"
                     role="link"
+                    type="button"
                   >
                     Unlock account?
                   </button>
@@ -609,6 +614,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                       class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-42"
                       data-se="enroll"
                       role="link"
+                      type="button"
                     >
                       Sign up
                     </button>
@@ -863,6 +869,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                     class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-42"
                     data-se="forgot-password"
                     role="link"
+                    type="button"
                   >
                     Forgot password?
                   </button>
@@ -874,6 +881,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                     class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-42"
                     data-se="unlock"
                     role="link"
+                    type="button"
                   >
                     Unlock account?
                   </button>
@@ -921,6 +929,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                       class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-42"
                       data-se="enroll"
                       role="link"
+                      type="button"
                     >
                       Sign up
                     </button>
