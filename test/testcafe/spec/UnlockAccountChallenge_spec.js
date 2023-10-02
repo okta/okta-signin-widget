@@ -219,7 +219,6 @@ test.meta('gen3', false).requestHooks(identifyLockedUserMock)('should show the c
   await t.expect(selectFactorPage.getErrorBoxText()).contains('To unlock your account, select one of the following authenticators.');
 });
 
-
 test.requestHooks(identifyLockedUserMock)('should keep the user on the unlock account view when the unlock account form is submitted via keyboard', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
