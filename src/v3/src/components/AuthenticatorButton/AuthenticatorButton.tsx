@@ -146,6 +146,8 @@ const AuthenticatorButton: UISchemaElementComponent<{
           flexGrow: 1,
           paddingBlock: 0,
           paddingInline: '12px 0',
+          // needed to solve ie11 'flexbug' where nested flex element overflows container
+          minInlineSize: '0%',
         }}
       >
         <Typography
