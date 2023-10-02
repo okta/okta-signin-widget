@@ -12,13 +12,12 @@
 
 import { odysseyTheme } from '@okta/odyssey-react-mui';
 import chroma from 'chroma-js';
-import { cloneDeep, set as _set, isUndefined, omit } from 'lodash';
+import { set as _set, isUndefined } from 'lodash';
 import { buttonClasses } from "@mui/material/Button";
 
 import { Brand } from '../types';
 import { DESIGN_TOKENS, DesignTokensType } from './designTokens';
 import { mergeThemes } from './mergeThemes';
-import { ThemeOptions } from '@mui/material';
 
 type Palette = {
   main: string;
@@ -131,6 +130,10 @@ export const createTheme = (
       set(theme, 'palette.primary.light', customTokens.PalettePrimaryLight ?? light);
       set(theme, 'palette.primary.main', customTokens.PalettePrimaryMain ?? main);
       set(theme, 'palette.primary.dark', customTokens.PalettePrimaryDark ?? dark);
+      mergedTokens.PalettePrimaryLighter = lighter;
+      mergedTokens.PalettePrimaryLight = light;
+      mergedTokens.PalettePrimaryMain = main;
+      mergedTokens.PalettePrimaryDark = dark;
     }
     if (customTokens.PaletteDangerMain) {
       const { lighter, light, main, dark } = generatePalette(customTokens.PaletteDangerMain);
@@ -138,6 +141,10 @@ export const createTheme = (
       set(theme, 'palette.error.light', customTokens.PaletteDangerLight ?? light);
       set(theme, 'palette.error.main', customTokens.PaletteDangerMain ?? main);
       set(theme, 'palette.error.dark', customTokens.PaletteDangerDark ?? dark);
+      mergedTokens.PaletteDangerLighter = lighter;
+      mergedTokens.PaletteDangerLight = light;
+      mergedTokens.PaletteDangerMain = main;
+      mergedTokens.PaletteDangerDark = dark;
     }
     if (customTokens.PaletteWarningMain) {
       const { lighter, light, main, dark } = generatePalette(customTokens.PaletteWarningMain);
@@ -145,6 +152,10 @@ export const createTheme = (
       set(theme, 'palette.warning.light', customTokens.PaletteWarningLight ?? light);
       set(theme, 'palette.warning.main', customTokens.PaletteWarningMain ?? main);
       set(theme, 'palette.warning.dark', customTokens.PaletteWarningDark ?? dark);
+      mergedTokens.PaletteWarningLighter = lighter;
+      mergedTokens.PaletteWarningLight = light;
+      mergedTokens.PaletteWarningMain = main;
+      mergedTokens.PaletteWarningDark = dark;
     }
     if (customTokens.PaletteSuccessMain) {
       const { lighter, light, main, dark } = generatePalette(customTokens.PaletteSuccessMain);
@@ -152,6 +163,10 @@ export const createTheme = (
       set(theme, 'palette.success.light', customTokens.PaletteSuccessLight ?? light);
       set(theme, 'palette.success.main', customTokens.PaletteSuccessMain ?? main);
       set(theme, 'palette.success.dark', customTokens.PaletteSuccessDark ?? dark);
+      mergedTokens.PaletteSuccessLighter = lighter;
+      mergedTokens.PaletteSuccessLight = light;
+      mergedTokens.PaletteSuccessMain = main;
+      mergedTokens.PaletteSuccessDark = dark;
     }
     set(theme, 'mixins.borderRadius', mergedTokens.BorderRadiusMain);
     set(theme, 'mixins.borderStyle', mergedTokens.BorderStyleMain);
@@ -218,187 +233,186 @@ export const createTheme = (
           },
         },
       },
+      // ruleset with :focus-visible pseudo-selector break entire ruleset in
+      // ie11 because its not supported. re-define the :hover rule separately
+      // again so the ruleset is applied in ie11
       MuiButton: {
         defaultProps: {
           variant: "primary",
           disableElevation: true,
         },
         styleOverrides: {
-          root: ({ ownerState }) => {
-            console.log(ownerState.variant);
-            const rv = {
-              minWidth: "unset",
-              paddingBlock: mergedTokens.Spacing3,
-              paddingInline: mergedTokens.Spacing4,
-              display: "inline-flex",
-              position: "relative",
-              marginBlock: "0",
-              marginInline: "0",
-              transitionProperty:
-                "color, background-color, border-color, box-shadow",
-              transitionDuration: "100ms",
-              transitionTimingFunction: "linear",
-              borderWidth: mergedTokens.BorderWidthMain,
-              borderStyle: mergedTokens.BorderStyleMain,
-              borderRadius: mergedTokens.BorderRadiusMain,
-              borderColor: "transparent",
-              fontSize: mergedTokens.TypographySizeBody,
-              fontWeight: mergedTokens.TypographyWeightBodyBold,
-              fontFamily: mergedTokens.TypographyFamilyButton,
-              lineHeight: mergedTokens.TypographyLineHeightUi,
-              whiteSpace: "nowrap",
+          root: ({ ownerState, theme }) => ({
+            minWidth: "unset",
+            paddingBlock: mergedTokens.Spacing3,
+            paddingInline: mergedTokens.Spacing4,
+            display: "inline-flex",
+            position: "relative",
+            marginBlock: "0",
+            marginInline: "0",
+            transitionProperty: "color, background-color, border-color, box-shadow",
+            transitionDuration: "100ms",
+            transitionTimingFunction: "linear",
+            borderWidth: mergedTokens.BorderWidthMain,
+            borderStyle: mergedTokens.BorderStyleMain,
+            borderRadius: mergedTokens.BorderRadiusMain,
+            borderColor: "transparent",
+            fontSize: mergedTokens.TypographySizeBody,
+            fontWeight: mergedTokens.TypographyWeightBodyBold,
+            fontFamily: mergedTokens.TypographyFamilyButton,
+            lineHeight: mergedTokens.TypographyLineHeightUi,
+            whiteSpace: "nowrap",
 
-              [`.${buttonClasses.root} + &`]: {
-                marginInlineStart: mergedTokens.Spacing2,
+            [`.${buttonClasses.root} + &`]: {
+              marginInlineStart: mergedTokens.Spacing2,
+            },
+
+            "&:focus-visible": {
+              boxShadow: `0 0 0 2px ${mergedTokens.HueNeutralWhite}, 0 0 0 4px ${mergedTokens.PalettePrimaryMain}`,
+              outline: "2px solid transparent",
+              outlineOffset: "1px",
+            },
+
+            "&:disabled": {
+              pointerEvents: "none",
+            },
+
+            [`.${buttonClasses.startIcon}, .${buttonClasses.endIcon}`]: {
+              "& > *:nth-of-type(1)": {
+                fontSize: `${mergedTokens.TypographyLineHeightUi}em`,
+              },
+            },
+
+            ...(ownerState.variant === "primary" && {
+              color: mergedTokens.HueNeutralWhite,
+              backgroundColor: mergedTokens.PalettePrimaryMain,
+
+              "&:hover": {
+                backgroundColor: mergedTokens.PalettePrimaryDark,
               },
 
-              "&:focus-visible": {
-                boxShadow: `0 0 0 2px ${mergedTokens.HueNeutralWhite}, 0 0 0 4px ${mergedTokens.PalettePrimaryMain}`,
-                outline: "2px solid transparent",
-                outlineOffset: "1px",
+              "&:active": {
+                backgroundColor: mergedTokens.PalettePrimaryDarker,
               },
 
               "&:disabled": {
-                pointerEvents: "none",
-              },
-
-              [`.${buttonClasses.startIcon}, .${buttonClasses.endIcon}`]: {
-                "& > *:nth-of-type(1)": {
-                  fontSize: `${mergedTokens.TypographyLineHeightUi}em`,
-                },
-              },
-
-              ...(ownerState.variant === "primary" && {
-                color: mergedTokens.HueNeutralWhite,
-                backgroundColor: mergedTokens.PalettePrimaryMain,
-
-                "&:hover": {
-                  backgroundColor: mergedTokens.PalettePrimaryDark,
-                },
-
-                "&:active": {
-                  backgroundColor: mergedTokens.PalettePrimaryDarker,
-                },
-
-                "&:disabled": {
-                  color: mergedTokens.PalettePrimaryLight,
-                  backgroundColor: mergedTokens.HueBlue100,
-                },
-              }),
-
-              ...(ownerState.variant === "secondary" && {
+                color: mergedTokens.PalettePrimaryLight,
                 backgroundColor: mergedTokens.HueBlue100,
-                color: mergedTokens.PalettePrimaryDark,
+              },
+            }),
 
-                "&:hover": {
-                  backgroundColor: mergedTokens.HueBlue200,
-                  color: mergedTokens.HueBlue800,
-                },
+            ...(ownerState.variant === "secondary" && {
+              backgroundColor: mergedTokens.HueBlue100,
+              color: mergedTokens.PalettePrimaryDark,
 
-                "&:active": {
-                  backgroundColor: mergedTokens.PalettePrimaryLight,
-                  color: mergedTokens.HueBlue800,
-                },
+              '&:hover': {
+                backgroundColor: theme.palette.primary.lighter,
+                borderColor: theme.palette.primary.light,
+                color: theme.palette.primary.main,
+              },
 
-                "&:disabled": {
-                  backgroundColor: mergedTokens.HueNeutral100,
-                  color: mergedTokens.TypographyColorDisabled,
-                },
-              }),
+              "&:active": {
+                backgroundColor: mergedTokens.PalettePrimaryLight,
+                color: mergedTokens.HueBlue800,
+              },
 
-              ...(ownerState.variant === "tertiary" && {
+              "&:disabled": {
                 backgroundColor: mergedTokens.HueNeutral100,
-                color: mergedTokens.HueNeutral700,
+                color: mergedTokens.TypographyColorDisabled,
+              },
+            }),
 
-                "&:hover": {
-                  backgroundColor: mergedTokens.HueNeutral200,
-                  color: mergedTokens.HueNeutral800,
-                },
+            ...(ownerState.variant === "tertiary" && {
+              backgroundColor: mergedTokens.HueNeutral100,
+              color: mergedTokens.HueNeutral700,
 
-                "&:active": {
-                  backgroundColor: mergedTokens.HueNeutral300,
-                  color: mergedTokens.HueNeutral800,
-                },
+              "&:hover": {
+                backgroundColor: mergedTokens.HueNeutral200,
+                color: mergedTokens.HueNeutral800,
+              },
 
-                "&:disabled": {
-                  backgroundColor: mergedTokens.HueNeutral100,
-                  color: mergedTokens.TypographyColorDisabled,
-                },
-              }),
+              "&:active": {
+                backgroundColor: mergedTokens.HueNeutral300,
+                color: mergedTokens.HueNeutral800,
+              },
 
-              ...(ownerState.variant === "danger" && {
-                backgroundColor: mergedTokens.PaletteDangerMain,
-                color: mergedTokens.HueNeutralWhite,
+              "&:disabled": {
+                backgroundColor: mergedTokens.HueNeutral100,
+                color: mergedTokens.TypographyColorDisabled,
+              },
+            }),
 
-                "&:hover": {
-                  backgroundColor: mergedTokens.PaletteDangerDark,
-                },
+            ...(ownerState.variant === "danger" && {
+              backgroundColor: mergedTokens.PaletteDangerMain,
+              color: mergedTokens.HueNeutralWhite,
 
-                "&:focus-visible": {
-                  boxShadow: `0 0 0 2px ${mergedTokens.HueNeutralWhite}, 0 0 0 4px ${mergedTokens.PaletteDangerMain}`,
-                },
+              "&:hover": {
+                backgroundColor: mergedTokens.PaletteDangerDark,
+              },
 
-                "&:active": {
-                  backgroundColor: mergedTokens.PaletteDangerDarker,
-                },
+              "&:focus-visible": {
+                boxShadow: `0 0 0 2px ${mergedTokens.HueNeutralWhite}, 0 0 0 4px ${mergedTokens.PaletteDangerMain}`,
+              },
 
-                "&:disabled": {
-                  color: mergedTokens.PaletteDangerLight,
-                  backgroundColor: mergedTokens.HueRed100,
-                },
-              }),
-              ...(ownerState.variant === "floating" && {
+              "&:active": {
+                backgroundColor: mergedTokens.PaletteDangerDarker,
+              },
+
+              "&:disabled": {
+                color: mergedTokens.PaletteDangerLight,
+                backgroundColor: mergedTokens.HueRed100,
+              },
+            }),
+            ...(ownerState.variant === "floating" && {
+              backgroundColor: "transparent",
+              color: mergedTokens.TypographyColorBody,
+
+              "&:hover": {
+                backgroundColor: mergedTokens.HueNeutral100,
+                borderColor: 'transparent',
+              },
+
+              "&:active": {
+                backgroundColor: mergedTokens.HueNeutral200,
+              },
+
+              "&:disabled": {
                 backgroundColor: "transparent",
-                color: mergedTokens.TypographyColorBody,
+                color: mergedTokens.TypographyColorDisabled,
+              },
+            }),
+            ...(ownerState.size === "small" && {
+              paddingBlock: mergedTokens.Spacing2,
+              paddingInline: mergedTokens.Spacing3,
+              fontSize: mergedTokens.TypographySizeBody,
+            }),
+            ...(ownerState.size === "large" && {
+              paddingBlock: mergedTokens.Spacing4,
+              paddingInline: mergedTokens.Spacing4,
+            }),
+            ...(ownerState.fullWidth === true && {
+              display: "block",
+              width: "100%",
+              marginBlock: "0",
+              marginInline: "0",
 
-                "&:hover": {
-                  backgroundColor: mergedTokens.HueNeutral100,
-                },
+              "&:not(:last-child)": {
+                marginBlockEnd: mergedTokens.Spacing4,
+              },
+            }),
+            ...(ownerState.children === "" && {
+              minWidth: "auto",
+              padding: mergedTokens.Spacing3,
 
-                "&:active": {
-                  backgroundColor: mergedTokens.HueNeutral200,
-                },
+              [`.${buttonClasses.endIcon}, .${buttonClasses.startIcon}`]: {
+                margin: "0",
+              },
 
-                "&:disabled": {
-                  backgroundColor: "transparent",
-                  color: mergedTokens.TypographyColorDisabled,
-                },
-              }),
               ...(ownerState.size === "small" && {
-                paddingBlock: mergedTokens.Spacing2,
-                paddingInline: mergedTokens.Spacing3,
-                fontSize: mergedTokens.TypographySizeBody,
+                padding: mergedTokens.Spacing2,
               }),
-              ...(ownerState.size === "large" && {
-                paddingBlock: mergedTokens.Spacing4,
-                paddingInline: mergedTokens.Spacing4,
-              }),
-              ...(ownerState.fullWidth === true && {
-                display: "block",
-                width: "100%",
-                marginBlock: "0",
-                marginInline: "0",
-
-                "&:not(:last-child)": {
-                  marginBlockEnd: mergedTokens.Spacing4,
-                },
-              }),
-              ...(ownerState.children === "" && {
-                minWidth: "auto",
-                padding: mergedTokens.Spacing3,
-
-                [`.${buttonClasses.endIcon}, .${buttonClasses.startIcon}`]: {
-                  margin: "0",
-                },
-
-                ...(ownerState.size === "small" && {
-                  padding: mergedTokens.Spacing2,
-                }),
-              }),
-            }
-            console.log(rv['&:hover']);
-            return rv;
-          },
+            }),
+          }),
 
           endIcon: ({ ownerState }) => ({
             display: "inline-flex",
@@ -418,6 +432,39 @@ export const createTheme = (
             ...(ownerState.children === undefined && {
               marginInlineEnd: 0,
             }),
+          }),
+        },
+      },
+      MuiAlert: {
+        styleOverrides: {
+          root: {
+            gap: 0,
+          },
+          icon: ({ theme }) => ({
+            paddingInlineEnd: theme.spacing(4),
+            flexShrink: 0,
+          }),
+        },
+      },
+      MuiInputBase: {
+        styleOverrides: {
+          input: {
+            '::-ms-reveal': {
+              display: 'none',
+            },
+          },
+        },
+      },
+      // ruleset with :focus-visible pseudo-selector break entire ruleset in
+      // ie11 because its not supported. re-define the :hover rule separately
+      // again so the ruleset is applied in ie11
+      MuiIconButton: {
+        styleOverrides: {
+          root: () => ({
+            '&:hover': {
+              backgroundColor: 'rgba(29, 29, 33, 0.1)',
+              borderColor: 'transparent',
+            },
           }),
         },
       },

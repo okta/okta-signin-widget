@@ -83,6 +83,8 @@ import IdentifierContainer from '../IdentifierContainer';
 import Spinner from '../Spinner';
 import GlobalStyles from './GlobalStyles';
 import Button from '../Button';
+import { ScopedCssBaseline } from '@mui/material';
+import ConsentHeader from '../ConsentHeader';
 
 export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   if (!isAuthClientSet(widgetProps)) {
@@ -135,81 +137,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const { stateHandle, unsetStateHandle } = useStateHandle(widgetProps);
 
   // merge themes
-  const mergedTheme = useMemo(() => mergeThemes(
-    mapMuiThemeFromBrand(brandColors, languageDirection, muiThemeOverrides),
-    {
-      components: {
-        MuiAlert: {
-          styleOverrides: {
-            root: {
-              gap: 0,
-            },
-            icon: ({ theme }) => ({
-              paddingInlineEnd: theme.spacing(4),
-              flexShrink: 0,
-            }),
-          },
-        },
-        MuiInputBase: {
-          styleOverrides: {
-            input: {
-              '::-ms-reveal': {
-                display: 'none',
-              },
-            },
-          },
-        },
-        MuiInputLabel: {
-          styleOverrides: {
-            root: {
-              wordBreak: 'break-word',
-              whiteSpace: 'normal',
-            },
-          },
-        },
-        // ruleset with :focus-visible pseudo-selector break entire ruleset in
-        // ie11 because its not supported. re-define the :hover rule separately
-        // again so the ruleset is applied in ie11
-        MuiButton: {
-          styleOverrides: {
-            root: ({ ownerState, theme }) => ({
-              ...(ownerState.variant === 'primary' && {
-                '&:hover': {
-                  backgroundColor: theme.palette.primary.dark,
-                },
-              }),
-              ...(ownerState.variant === 'secondary' && {
-                '&:hover': {
-                  backgroundColor: theme.palette.primary.lighter,
-                  borderColor: theme.palette.primary.light,
-                  color: theme.palette.primary.main,
-                },
-              }),
-              ...(ownerState.variant === 'floating' && {
-                '&:hover': {
-                  backgroundColor: 'rgba(29, 29, 33, 0.1)',
-                  borderColor: 'transparent',
-                },
-              }),
-            }),
-          },
-        },
-        // ruleset with :focus-visible pseudo-selector break entire ruleset in
-        // ie11 because its not supported. re-define the :hover rule separately
-        // again so the ruleset is applied in ie11
-        MuiIconButton: {
-          styleOverrides: {
-            root: () => ({
-              '&:hover': {
-                backgroundColor: 'rgba(29, 29, 33, 0.1)',
-                borderColor: 'transparent',
-              },
-            }),
-          },
-        },
-      },
-    },
-  ), [brandColors, languageDirection, muiThemeOverrides]);
+  const theme = useMemo(() => mergeThemes(createTheme(brand, designTokens), { direction }), [brand, direction]);
 
   // on unmount, remove the language
   useEffect(() => () => {
@@ -236,7 +164,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     return null;
   };
 
-  const shouldRedirectToEnrollFlow = (transaction: IdxTransaction) : boolean => {
+  const shouldRedirectToEnrollFlow = (transaction: IdxTransaction): boolean => {
     const { nextStep, neededToProceed } = transaction;
     if (!isConfigRegisterFlow(flow) || nextStep?.name !== IDX_STEP.IDENTIFY) {
       return false;
