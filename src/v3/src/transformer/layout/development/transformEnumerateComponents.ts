@@ -287,7 +287,7 @@ export const transformEnumerateComponents: IdxStepTransformer = ({
       buttons: [
         {
           type: 'AuthenticatorButton',
-          label: 'Authenticator Button 1',
+          label: 'Authenticator Button 1 with long description text',
           options: {
             step: '',
             type: ButtonType.BUTTON,
@@ -304,7 +304,7 @@ export const transformEnumerateComponents: IdxStepTransformer = ({
             type: ButtonType.BUTTON,
             key: AUTHENTICATOR_KEY.OV,
             ctaLabel: 'Call-to-action',
-            description: 'Description',
+            description: 'Description with long description text, long enough to go to a second line',
             usageDescription: 'Usage description text',
           },
         },
