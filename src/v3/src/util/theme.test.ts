@@ -13,7 +13,7 @@
 import { odysseyTheme } from '@okta/odyssey-react-mui';
 import chroma from 'chroma-js';
 
-import { deriveThemeFromBrand, createTheme } from './theme';
+import { createTheme, deriveThemeFromBrand } from './theme';
 
 describe('theme utilities', () => {
   describe('deriveTheme generates', () => {
