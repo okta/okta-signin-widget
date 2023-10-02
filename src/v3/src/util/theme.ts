@@ -27,6 +27,8 @@ type Palette = {
   contrastText: string;
 };
 
+export type SpacingArgument = number | string;
+
 const WHITE_HEX = '#ffffff';
 const BLACK_HEX = '#1d1d21';
 
@@ -230,6 +232,28 @@ export const createTheme = (
     set(theme, 'typography.overline.lineHeight', mergedTokens.TypographyLineHeightOverline);
     set(theme, 'typography.subtitle1.fontFamily', mergedTokens.TypographyFamilyBody);
     set(theme, 'typography.subtitle2.fontFamily', mergedTokens.TypographyFamilyBody);
+
+    theme.spacing = (...args: Array<SpacingArgument>): string => {
+      if (args.length === 0) {
+        return mergedTokens.Spacing2;
+      }
+      const spaces: string[] = [
+        mergedTokens.Spacing0,
+        mergedTokens.Spacing1,
+        mergedTokens.Spacing2,
+        mergedTokens.Spacing3,
+        mergedTokens.Spacing4,
+        mergedTokens.Spacing5,
+        mergedTokens.Spacing6,
+        mergedTokens.Spacing7,
+        mergedTokens.Spacing8,
+        mergedTokens.Spacing9,
+      ];
+      return args
+        .slice(0, 4) // limit to 4 args
+        .map((n) => ( typeof n === 'number' ? spaces[n] : n )) // lookup
+        .join(' '); // concat into space-separated string
+    };
   }
   return mergeThemes(theme, {
     components: {

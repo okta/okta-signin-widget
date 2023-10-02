@@ -12,14 +12,14 @@
 
 export const DESIGN_TOKENS = {
   // BorderColor
-  BorderColorControl: '#8d8d8d', // FIXME
-  BorderColorDisplay: '#e1e1e1', // FIXME
-  BorderColorDisabled: '#e1e1e1', // FIXME
-  BorderColorDangerLight: '#fe8f7a', // FIXME
-  BorderColorDangerControl: '#e72500', // FIXME
-  BorderColorDangerDark: '#951800', // FIXME
-  BorderColorPrimaryControl: '#546be7', // FIXME
-  BorderColorPrimaryDark: '#2e40a5', // FIXME
+  BorderColorControl: '#8d8d8d',
+  BorderColorDisplay: '#e1e1e1',
+  BorderColorDisabled: '#e1e1e1',
+  BorderColorDangerLight: '#fe8f7a',
+  BorderColorDangerControl: '#e72500',
+  BorderColorDangerDark: '#951800',
+  BorderColorPrimaryControl: '#546be7',
+  BorderColorPrimaryDark: '#2e40a5',
 
   // BorderRadius
   BorderRadiusTight: '4px',
@@ -163,16 +163,16 @@ export const DESIGN_TOKENS = {
   ShadowScale1: '0px 1px 4px rgba(29, 29, 33, 0.08), 0px 4px 10px rgba(29, 29, 33, 0.08), 0px 8px 30px rgba(29, 29, 33, 0.1)', // theme.shadows[2]
 
   // Spacing
-  Spacing0: '0',
-  Spacing1: '0.28571429rem',
-  Spacing2: '0.57142857rem',
-  Spacing3: '0.85714286rem',
-  Spacing4: '1.14285714rem',
-  Spacing5: '1.71428571rem',
-  Spacing6: '2.28571429rem',
-  Spacing7: '2.85714286rem',
-  Spacing8: '3.42857143rem',
-  Spacing9: '4rem',
+  Spacing0: '0', // theme.spacing(0)
+  Spacing1: '0.28571429rem', // theme.spacing(1)
+  Spacing2: '0.57142857rem', // theme.spacing(2)
+  Spacing3: '0.85714286rem', // theme.spacing(3)
+  Spacing4: '1.14285714rem', // theme.spacing(4)
+  Spacing5: '1.71428571rem', // theme.spacing(5)
+  Spacing6: '2.28571429rem', // theme.spacing(6)
+  Spacing7: '2.85714286rem', // theme.spacing(7)
+  Spacing8: '3.42857143rem', // theme.spacing(8)
+  Spacing9: '4rem', // theme.spacing(9)
 
   // Transition
   TransitionDurationMain: '100ms',
