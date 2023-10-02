@@ -165,3 +165,12 @@
     filter: unset !important;
   }
 }
+
+span.strong {
+  font-weight: 600;
+  word-break: break-all;
+}
+
+.no-translate {
+  white-space: nowrap;
+}

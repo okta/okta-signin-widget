@@ -34,12 +34,12 @@ import {
   UserOperation,
 } from '../../../types';
 import { InterstitialRedirectView } from '../constants';
+import { DesignTokensType } from '../util/designTokens';
 import { WidgetHooks } from '../util/widgetHooks';
 import { OktaSignInAPI } from './api';
 import { JsonObject } from './json';
 import { Modify } from './jsonforms';
 import { FormBag, RegistrationElementSchema } from './schema';
-import { DesignTokensType } from '../util/designTokens';
 
 // TODO: Once SIW is merged into okta-signin-widget repo, remove this. Ticket#: OKTA-508189
 export interface EventErrorContext {
@@ -115,7 +115,9 @@ export type WidgetProps = Partial<WidgetOptions> & {
 };
 
 export type WidgetOptions = {
-  // brand
+  /**
+   * @deprecated map to designTokens
+   */
   brand?: Brand;
 
   // design tokens
