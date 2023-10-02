@@ -12,7 +12,7 @@
 
 import groupBy from 'lodash/groupBy';
 
-import { doesI18NKeyExist } from '../../../../../v2/ion/i18nTransformer';
+import { doesI18NKeyExist } from '../../../../../v2/ion/i18nUtils';
 import { ConsentScopeGroup, SCOPE_GROUP_CONFIG } from '../../../constants';
 import {
   ButtonElement,
