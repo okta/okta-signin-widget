@@ -36,7 +36,11 @@ declare global {
  * @param  {Array} [params] A list of parameters to apply as tokens to the i18n value
  * @return {String} The localized value
  */
-export const loc = function (key: string, bundleName: BundleName = 'login', params: string[] = []) {
+export const loc = function (
+  key: string,
+  bundleName: BundleName = 'login',
+  params: Array<string | number | boolean | unknown> = []
+) {
   const bundle = getBundle(bundleName);
   /* eslint complexity: [2, 6] */
 
@@ -146,7 +150,7 @@ const createCustomEvent = function (event: string, params: CustomEventInit) {
  * @param  {Array} [params] A list of parameters to apply as tokens to the template string, eg. ["SMS"]
  * @return {String} Formatted string value, eg. "Reset via SMS"
  */
-function sprintf(value: string, params: string[]) {
+function sprintf(value: string, params: Array<string | number | boolean | unknown>) {
   /* eslint max-statements: [2, 15] */
 
   function triggerError() {
@@ -155,7 +159,7 @@ function sprintf(value: string, params: string[]) {
 
   let oldValue = value, newValue = value;
   for (let i = 0, l = params.length; i < l; i++) {
-    const entity = params[i];
+    const entity = String(params[i]);
     const regex = new RegExp('\\{' + i + '\\}', 'g');
     newValue = newValue.replace(regex, entity);
 

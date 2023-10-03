@@ -133,7 +133,6 @@ const baseConfig: Partial<Configuration> = {
     extensions: ['.ts', '.js', '.tsx', '.jsx'],
     alias: {
       '@okta/okta-auth-js': resolve(__dirname, 'node_modules/@okta/okta-auth-js/esm/browser/exports/exports/idx.js'),
-      '@okta/courage': resolve(__dirname, '../../packages/@okta/courage-dist'),
       '@okta/mocks': resolve(__dirname, '../../playground/mocks'),
       '@okta/okta-i18n-bundles': resolve(__dirname, '../util/Bundles.ts'),
       // needed because we use courage in src/util/locUtil.ts
@@ -142,7 +141,6 @@ const baseConfig: Partial<Configuration> = {
 
       config: resolve(__dirname, '../config'),
       nls: resolve(__dirname, '../../packages/@okta/i18n/src/json'),
-      okta: resolve(__dirname, '../../packages/@okta/courage-dist'),
       src: resolve(__dirname, './src'), // FIXME OKTA-637372 use relative imports
       'util/BrowserFeatures': resolve(__dirname, '../util/BrowserFeatures'),
       'util/Bundles': resolve(__dirname, '../util/Bundles'),
