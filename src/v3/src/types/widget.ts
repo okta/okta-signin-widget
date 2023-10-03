@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import type { ThemeOptions as MuiThemeOptions } from '@mui/material';
 import {
   FlowIdentifier,
   IdxActionParams,
@@ -35,6 +34,7 @@ import {
   UserOperation,
 } from '../../../types';
 import { InterstitialRedirectView } from '../constants';
+import { DesignTokensType } from '../util/designTokens';
 import { WidgetHooks } from '../util/widgetHooks';
 import { OktaSignInAPI } from './api';
 import { JsonObject } from './json';
@@ -115,15 +115,11 @@ export type WidgetProps = Partial<WidgetOptions> & {
 };
 
 export type WidgetOptions = {
-  // // ui customizations
-  // renderers?: JsonFormsRendererRegistryEntry[];
-  // cells?: JsonFormsCellRendererRegistryEntry[];
-  // components?: Record<string, Component>;
+  // brand colors
+  brandColors?: BrandColors;
 
-  // theming
-  theme?: ThemeOptions;
-  // Override MUI Theming
-  muiThemeOverrides?: MuiThemeOptions;
+  // theme
+  theme?: { tokens: DesignTokensType }; // & ThemeOptions;
 
   // hooks
   hooks?: HooksOptions; // object in options
@@ -165,7 +161,6 @@ export type WidgetOptions = {
   otp?: string;
   baseUrl?: string;
   brandName?: string;
-  brandColors?: BrandColors;
   logo?: string;
   logoText?: string;
   stateToken?: string;

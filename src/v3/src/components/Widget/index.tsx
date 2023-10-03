@@ -14,6 +14,7 @@
 // We need to emit a CSS file, even if it's empty, to prevent a 404 on the Okta-hosted login page.
 import './style.css';
 
+import { ScopedCssBaseline } from '@mui/material';
 import { MuiThemeProvider } from '@okta/odyssey-react-mui';
 import {
   AuthApiError,
@@ -37,8 +38,10 @@ import Bundles from '../../../../util/Bundles';
 import { IDX_STEP } from '../../constants';
 import { WidgetContextProvider } from '../../contexts';
 import {
-  useInteractionCodeFlow, useOnce,
-  usePolling, useStateHandle,
+  useInteractionCodeFlow,
+  useOnce,
+  usePolling,
+  useStateHandle,
 } from '../../hooks';
 import { transformIdxTransaction } from '../../transformer';
 import {
@@ -71,7 +74,7 @@ import {
   triggerEmailVerifyCallback,
 } from '../../util';
 import { getEventContext } from '../../util/getEventContext';
-import { mapMuiThemeFromBrand } from '../../util/theme';
+import { createTheme } from '../../util/theme';
 import AuthContainer from '../AuthContainer/AuthContainer';
 import AuthContent from '../AuthContent/AuthContent';
 import AuthHeader from '../AuthHeader/AuthHeader';
@@ -92,7 +95,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     brandColors,
     brandName,
     cspNonce,
-    muiThemeOverrides,
+    theme: customTheme,
     logo,
     logoText,
     globalSuccessFn,
@@ -133,81 +136,10 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const { stateHandle, unsetStateHandle } = useStateHandle(widgetProps);
 
   // merge themes
-  const mergedTheme = useMemo(() => mergeThemes(
-    mapMuiThemeFromBrand(brandColors, languageDirection, muiThemeOverrides),
-    {
-      components: {
-        MuiAlert: {
-          styleOverrides: {
-            root: {
-              gap: 0,
-            },
-            icon: ({ theme }) => ({
-              paddingInlineEnd: theme.spacing(4),
-              flexShrink: 0,
-            }),
-          },
-        },
-        MuiInputBase: {
-          styleOverrides: {
-            input: {
-              '::-ms-reveal': {
-                display: 'none',
-              },
-            },
-          },
-        },
-        MuiInputLabel: {
-          styleOverrides: {
-            root: {
-              wordBreak: 'break-word',
-              whiteSpace: 'normal',
-            },
-          },
-        },
-        // ruleset with :focus-visible pseudo-selector break entire ruleset in
-        // ie11 because its not supported. re-define the :hover rule separately
-        // again so the ruleset is applied in ie11
-        MuiButton: {
-          styleOverrides: {
-            root: ({ ownerState, theme }) => ({
-              ...(ownerState.variant === 'primary' && {
-                '&:hover': {
-                  backgroundColor: theme.palette.primary.dark,
-                },
-              }),
-              ...(ownerState.variant === 'secondary' && {
-                '&:hover': {
-                  backgroundColor: theme.palette.primary.lighter,
-                  borderColor: theme.palette.primary.light,
-                  color: theme.palette.primary.main,
-                },
-              }),
-              ...(ownerState.variant === 'floating' && {
-                '&:hover': {
-                  backgroundColor: 'rgba(29, 29, 33, 0.1)',
-                  borderColor: 'transparent',
-                },
-              }),
-            }),
-          },
-        },
-        // ruleset with :focus-visible pseudo-selector break entire ruleset in
-        // ie11 because its not supported. re-define the :hover rule separately
-        // again so the ruleset is applied in ie11
-        MuiIconButton: {
-          styleOverrides: {
-            root: () => ({
-              '&:hover': {
-                backgroundColor: 'rgba(29, 29, 33, 0.1)',
-                borderColor: 'transparent',
-              },
-            }),
-          },
-        },
-      },
-    },
-  ), [brandColors, languageDirection, muiThemeOverrides]);
+  const theme = useMemo(() => mergeThemes(
+    createTheme(brandColors, customTheme?.tokens ?? {}),
+    { direction: languageDirection },
+  ), [brandColors, customTheme, languageDirection]);
 
   // on unmount, remove the language
   useEffect(() => () => {
@@ -234,7 +166,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     return null;
   };
 
-  const shouldRedirectToEnrollFlow = (transaction: IdxTransaction) : boolean => {
+  const shouldRedirectToEnrollFlow = (transaction: IdxTransaction): boolean => {
     const { nextStep, neededToProceed } = transaction;
     if (!isConfigRegisterFlow(flow) || nextStep?.name !== IDX_STEP.IDENTIFY) {
       return false;
@@ -560,25 +492,28 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     }}
     >
       <CustomPluginsOdysseyCacheProvider nonce={cspNonce}>
-        <MuiThemeProvider theme={mergedTheme}>
+        <MuiThemeProvider theme={theme}>
           <GlobalStyles />
-          <AuthContainer hide={hide}>
-            <AuthHeader
-              logo={logo}
-              logoText={logoText}
-              brandName={brandName}
-              authCoinProps={buildAuthCoinProps(idxTransaction)}
-            />
-            <AuthContent>
-              {isConsentStep(idxTransaction) && <ConsentHeader />}
-              <IdentifierContainer />
-              {
-                uischema.elements.length > 0
-                  ? <Form uischema={uischema as UISchemaLayout} />
-                  : <Spinner />
-              }
-            </AuthContent>
-          </AuthContainer>
+          {/* the style is to allow the widget to inherit the parent's bg color */}
+          <ScopedCssBaseline sx={{ backgroundColor: 'inherit' }}>
+            <AuthContainer hide={hide}>
+              <AuthHeader
+                logo={logo}
+                logoText={logoText}
+                brandName={brandName}
+                authCoinProps={buildAuthCoinProps(idxTransaction)}
+              />
+              <AuthContent>
+                {isConsentStep(idxTransaction) && <ConsentHeader />}
+                <IdentifierContainer />
+                {
+                  uischema.elements.length > 0
+                    ? <Form uischema={uischema as UISchemaLayout} />
+                    : <Spinner />
+                }
+              </AuthContent>
+            </AuthContainer>
+          </ScopedCssBaseline>
         </MuiThemeProvider>
       </CustomPluginsOdysseyCacheProvider>
     </WidgetContextProvider>
