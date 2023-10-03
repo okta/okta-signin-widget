@@ -115,16 +115,11 @@ export type WidgetProps = Partial<WidgetOptions> & {
 };
 
 export type WidgetOptions = {
-  /**
-   * @deprecated map to designTokens
-   */
-  brand?: Brand;
-
-  // // design tokens
-  // designTokens?: DesignTokensType;
+  // brand colors
+  brandColors?: BrandColors;
 
   // theme
-  theme?: { designTokens: DesignTokensType }; // & ThemeOptions;
+  theme?: { tokens: DesignTokensType }; // & ThemeOptions;
 
   // hooks
   hooks?: HooksOptions; // object in options
@@ -227,7 +222,7 @@ export type IdxMethod =
   | 'proceed'
   | 'unlock-account';
 
-export type Brand = {
+export type BrandColors = {
   primaryColor: string;
 };
 

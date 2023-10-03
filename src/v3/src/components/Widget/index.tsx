@@ -92,7 +92,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
 
   const {
     authClient,
-    brand,
+    brandColors,
     brandName,
     cspNonce,
     theme: customTheme,
@@ -137,9 +137,9 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
 
   // merge themes
   const theme = useMemo(() => mergeThemes(
-    createTheme(brand, customTheme?.designTokens ?? {}),
+    createTheme(brandColors, customTheme?.tokens ?? {}),
     { direction: languageDirection },
-  ), [brand, customTheme, languageDirection]);
+  ), [brandColors, customTheme, languageDirection]);
 
   // on unmount, remove the language
   useEffect(() => () => {

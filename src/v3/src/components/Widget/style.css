@@ -166,11 +166,16 @@
   }
 }
 
+/*
+ * NOTE: widget styles below, login page styles above. Take care when moving CSS
+ * from SIW to loginpage (okta-ui) in OKTA-602545
+ *
+ * TODO: OKTA-654405
+ */
 span.strong {
   font-weight: 600;
   word-break: break-all;
 }
-
 .no-translate {
   white-space: nowrap;
 }

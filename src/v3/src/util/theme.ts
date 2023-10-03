@@ -15,17 +15,17 @@ import { odysseyTheme } from '@okta/odyssey-react-mui';
 import chroma from 'chroma-js';
 import { set as _set } from 'lodash';
 
-import { Brand } from '../types';
+import { BrandColors } from '../types';
 import { DESIGN_TOKENS, DesignTokensType } from './designTokens';
 import { mergeThemes } from './mergeThemes';
 
-type Palette = {
+export type Palette = Partial<{
   main: string;
   light: string;
   lighter: string;
   dark: string;
   contrastText: string;
-};
+}>;
 
 export type SpacingArgument = number | string;
 
@@ -40,7 +40,7 @@ const BLACK_HEX = '#1d1d21';
  * @param color color to compare against black/white
  */
 const getInverseTextColor = (color: string): string => (
-  chroma.contrast(color, WHITE_HEX) > 4.5 ? WHITE_HEX : BLACK_HEX
+  chroma.contrast(color, WHITE_HEX) >= 4.5 ? WHITE_HEX : BLACK_HEX
 );
 
 /**
@@ -70,113 +70,97 @@ function set<T extends object, V>(obj: T, path: string | string[], val: V) {
  * @param main Main color (Hue 500)
  */
 export const generatePalette = (main: string): Palette => {
-  const lightness = chroma(main).get('hsl.l');
-  return lightness > 0.24
-    ? {
-      main,
-      lighter: chroma(main)
-        .set('hsl.h', '+9')
-        .set('hsl.s', '+0.18')
-        .set('hsl.l', 0.97)
-        .hex(),
-      light: chroma(main)
-        .set('hsl.h', '+11')
-        .set('hsl.s', '-0.18')
-        .set('hsl.l', lightness < 0.59 ? '+0.31' : 0.9) // clamp lightness
-        .hex(),
-      dark: chroma(main)
-        .set('hsl.h', '+3')
-        .set('hsl.s', '+0.18')
-        .set('hsl.l', '-0.24')
-        .hex(),
-      contrastText: getInverseTextColor(main),
-    } : {
-      main,
-      lighter: chroma(main)
-        .set('hsl.h', '+9')
-        .set('hsl.s', '+0.18')
-        .set('hsl.l', 0.97)
-        .hex(),
-      light: chroma(main)
-        .set('hsl.l', '+0.62')
-        .hex(),
-      dark: chroma(main)
-        .set('hsl.l', '+0.31')
-        .hex(),
-      contrastText: getInverseTextColor(main),
-    };
+  try {
+    const lightness = chroma(main).get('hsl.l');
+    return lightness > 0.24
+      ? {
+        main,
+        lighter: chroma(main)
+          .set('hsl.h', '+9')
+          .set('hsl.s', '+0.18')
+          .set('hsl.l', 0.97)
+          .hex(),
+        light: chroma(main)
+          .set('hsl.h', '+11')
+          .set('hsl.s', '-0.18')
+          .set('hsl.l', lightness < 0.59 ? '+0.31' : 0.9) // clamp lightness
+          .hex(),
+        dark: chroma(main)
+          .set('hsl.h', '+3')
+          .set('hsl.s', '+0.18')
+          .set('hsl.l', '-0.24')
+          .hex(),
+        contrastText: getInverseTextColor(main),
+      } : {
+        main,
+        lighter: chroma(main)
+          .set('hsl.h', '+9')
+          .set('hsl.s', '+0.18')
+          .set('hsl.l', 0.97)
+          .hex(),
+        light: chroma(main)
+          .set('hsl.l', '+0.62')
+          .hex(),
+        dark: chroma(main)
+          .set('hsl.l', '+0.31')
+          .hex(),
+        contrastText: getInverseTextColor(main),
+      };
+  } catch (err) {
+    console.warn(err);
+    return {};
+  }
 };
 
 export const createTheme = (
-  brand?: Brand,
+  brandColors?: BrandColors,
   customTokens?: Partial<DesignTokensType>,
 ): ThemeOptions => {
   const defaultTokens = DESIGN_TOKENS;
   const mergedTokens: DesignTokensType = { ...defaultTokens, ...customTokens };
   const theme = odysseyTheme;
+
   theme.palette.text.primary = BLACK_HEX;
-  if (brand?.primaryColor) {
-    const palettePrimary = generatePalette(brand.primaryColor);
-    const {
-      lighter, light, main, dark,
-    } = palettePrimary;
-    set(theme, 'palette.primary.lighter', lighter);
-    set(theme, 'palette.primary.light', light);
-    set(theme, 'palette.primary.main', main);
-    set(theme, 'palette.primary.dark', dark);
+  if (brandColors?.primaryColor) {
+    const p = generatePalette(brandColors.primaryColor);
+    set(theme, 'palette.primary.lighter', p.lighter);
+    set(theme, 'palette.primary.light', p.light);
+    set(theme, 'palette.primary.main', p.main);
+    set(theme, 'palette.primary.dark', p.dark);
+    set(theme, 'palette.primary.contrastText', p.contrastText);
   }
   if (customTokens) {
     if (customTokens.PalettePrimaryMain) {
-      const {
-        lighter, light, main, dark,
-      } = generatePalette(customTokens.PalettePrimaryMain);
-      set(theme, 'palette.primary.lighter', customTokens.PalettePrimaryLighter ?? lighter);
-      set(theme, 'palette.primary.light', customTokens.PalettePrimaryLight ?? light);
-      set(theme, 'palette.primary.main', customTokens.PalettePrimaryMain ?? main);
-      set(theme, 'palette.primary.dark', customTokens.PalettePrimaryDark ?? dark);
-      mergedTokens.PalettePrimaryLighter = lighter;
-      mergedTokens.PalettePrimaryLight = light;
-      mergedTokens.PalettePrimaryMain = main;
-      mergedTokens.PalettePrimaryDark = dark;
+      const p = generatePalette(customTokens.PalettePrimaryMain);
+      set(theme, 'palette.primary.lighter', customTokens.PalettePrimaryLighter ?? p.lighter);
+      set(theme, 'palette.primary.light', customTokens.PalettePrimaryLight ?? p.light);
+      set(theme, 'palette.primary.main', customTokens.PalettePrimaryMain ?? p.main);
+      set(theme, 'palette.primary.dark', customTokens.PalettePrimaryDark ?? p.dark);
+      set(theme, 'palette.primary.contrastText', p.contrastText);
     }
     if (customTokens.PaletteDangerMain) {
-      const {
-        lighter, light, main, dark,
-      } = generatePalette(customTokens.PaletteDangerMain);
-      set(theme, 'palette.error.lighter', customTokens.PaletteDangerLighter ?? lighter);
-      set(theme, 'palette.error.light', customTokens.PaletteDangerLight ?? light);
-      set(theme, 'palette.error.main', customTokens.PaletteDangerMain ?? main);
-      set(theme, 'palette.error.dark', customTokens.PaletteDangerDark ?? dark);
-      mergedTokens.PaletteDangerLighter = lighter;
-      mergedTokens.PaletteDangerLight = light;
-      mergedTokens.PaletteDangerMain = main;
-      mergedTokens.PaletteDangerDark = dark;
+      const p = generatePalette(customTokens.PaletteDangerMain);
+      set(theme, 'palette.error.lighter', customTokens.PaletteDangerLighter ?? p.lighter);
+      set(theme, 'palette.error.light', customTokens.PaletteDangerLight ?? p.light);
+      set(theme, 'palette.error.main', customTokens.PaletteDangerMain ?? p.main);
+      set(theme, 'palette.error.dark', customTokens.PaletteDangerDark ?? p.dark);
+      set(theme, 'palette.error.contrastText', p.contrastText);
     }
     if (customTokens.PaletteWarningMain) {
-      const {
-        lighter, light, main, dark,
-      } = generatePalette(customTokens.PaletteWarningMain);
-      set(theme, 'palette.warning.lighter', customTokens.PaletteWarningLighter ?? lighter);
-      set(theme, 'palette.warning.light', customTokens.PaletteWarningLight ?? light);
-      set(theme, 'palette.warning.main', customTokens.PaletteWarningMain ?? main);
-      set(theme, 'palette.warning.dark', customTokens.PaletteWarningDark ?? dark);
-      mergedTokens.PaletteWarningLighter = lighter;
-      mergedTokens.PaletteWarningLight = light;
-      mergedTokens.PaletteWarningMain = main;
-      mergedTokens.PaletteWarningDark = dark;
+      const p = generatePalette(customTokens.PaletteWarningMain);
+      set(theme, 'palette.warning.lighter', customTokens.PaletteWarningLighter ?? p.lighter);
+      set(theme, 'palette.warning.light', customTokens.PaletteWarningLight ?? p.light);
+      set(theme, 'palette.warning.main', customTokens.PaletteWarningMain ?? p.main);
+      set(theme, 'palette.warning.dark', customTokens.PaletteWarningDark ?? p.dark);
+      set(theme, 'palette.warning.contrastText', p.contrastText);
     }
     if (customTokens.PaletteSuccessMain) {
-      const {
-        lighter, light, main, dark,
-      } = generatePalette(customTokens.PaletteSuccessMain);
-      set(theme, 'palette.success.lighter', customTokens.PaletteSuccessLighter ?? lighter);
-      set(theme, 'palette.success.light', customTokens.PaletteSuccessLight ?? light);
-      set(theme, 'palette.success.main', customTokens.PaletteSuccessMain ?? main);
-      set(theme, 'palette.success.dark', customTokens.PaletteSuccessDark ?? dark);
-      mergedTokens.PaletteSuccessLighter = lighter;
-      mergedTokens.PaletteSuccessLight = light;
-      mergedTokens.PaletteSuccessMain = main;
-      mergedTokens.PaletteSuccessDark = dark;
+      const p = generatePalette(customTokens.PaletteSuccessMain);
+      set(theme, 'palette.success.lighter', customTokens.PaletteSuccessLighter ?? p.lighter);
+      set(theme, 'palette.success.light', customTokens.PaletteSuccessLight ?? p.light);
+      set(theme, 'palette.success.main', customTokens.PaletteSuccessMain ?? p.main);
+      set(theme, 'palette.success.dark', customTokens.PaletteSuccessDark ?? p.dark);
+      set(theme, 'palette.success.contrastText', p.contrastText);
     }
     set(theme, 'mixins.borderRadius', mergedTokens.BorderRadiusMain);
     set(theme, 'mixins.borderStyle', mergedTokens.BorderStyleMain);
@@ -187,13 +171,11 @@ export const createTheme = (
     set(theme, 'shadows[2]', mergedTokens.ShadowScale1);
     set(theme, 'typography.body1.fontFamily', mergedTokens.TypographyFamilyBody);
     set(theme, 'typography.body1.fontSize', mergedTokens.TypographySizeBody);
+    set(theme, 'typography.body1.fontStyle', mergedTokens.TypographyStyleNormal);
     set(theme, 'typography.body1.lineHeight', mergedTokens.TypographyLineHeightBody);
-    set(theme, 'typography.body2.fontFamily', mergedTokens.TypographyFamilyBody);
-    set(theme, 'typography.body2.fontSize', mergedTokens.TypographySizeBody);
-    set(theme, 'typography.body2.lineHeight', mergedTokens.TypographyLineHeightBody);
     set(theme, 'typography.button.fontFamily', mergedTokens.TypographyFamilyButton);
     set(theme, 'typography.caption.color', mergedTokens.TypographyColorSubordinate);
-    set(theme, 'typography.caption.fontFamily', mergedTokens.TypographySizeSubordinate);
+    set(theme, 'typography.caption.fontFamily', mergedTokens.TypographyFamilyBody);
     set(theme, 'typography.caption.fontSize', mergedTokens.TypographySizeSubordinate);
     set(theme, 'typography.fontFamily', mergedTokens.TypographyFamilyBody);
     set(theme, 'typography.fontWeightBold', mergedTokens.TypographyWeightBodyBold);
@@ -228,7 +210,6 @@ export const createTheme = (
     set(theme, 'typography.h6.fontSize', mergedTokens.TypographySizeHeading6);
     set(theme, 'typography.h6.fontWeight', mergedTokens.TypographyWeightHeading);
     set(theme, 'typography.h6.lineHeight', mergedTokens.TypographyLineHeightHeading6);
-    set(theme, 'typography.kbd.fontFamily', mergedTokens.TypographyFamilyMono);
     set(theme, 'typography.overline.lineHeight', mergedTokens.TypographyLineHeightOverline);
     set(theme, 'typography.subtitle1.fontFamily', mergedTokens.TypographyFamilyBody);
     set(theme, 'typography.subtitle2.fontFamily', mergedTokens.TypographyFamilyBody);
@@ -256,6 +237,7 @@ export const createTheme = (
     };
   }
   return mergeThemes(theme, {
+    ...odysseyTheme,
     components: {
       MuiAlert: {
         styleOverrides: {
@@ -270,6 +252,9 @@ export const createTheme = (
       },
       MuiInputBase: {
         styleOverrides: {
+          root: {
+            width: '100%',
+          },
           input: {
             '::-ms-reveal': {
               display: 'none',
@@ -317,10 +302,23 @@ export const createTheme = (
       // again so the ruleset is applied in ie11
       MuiIconButton: {
         styleOverrides: {
-          root: () => ({
+          root: {
             '&:hover': {
               backgroundColor: 'rgba(29, 29, 33, 0.1)',
               borderColor: 'transparent',
+            },
+          },
+        },
+      },
+
+      MuiLink: {
+        styleOverrides: {
+          root: ({ ownerState, theme: t }) => ({
+            color: t.palette.primary.main,
+            textDecoration: ownerState?.component === 'a' ? 'underline' : 'inherit',
+
+            '&:hover': {
+              color: t.palette.primary.dark,
             },
           }),
         },
