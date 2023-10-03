@@ -12,7 +12,6 @@
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { loc as localize } from '../../../util/loc';
-
 import { TokenReplacement } from '../types';
 
 /**

@@ -120,7 +120,7 @@ const updateLabelForUiSchema = (remediation, uiSchema) => {
 
 };
 
-export default uiSchemaLabelTransformer = (transformedResp) => {
+export default (transformedResp) => {
   // Try to override label using i18n value
   if (Array.isArray(transformedResp.remediations)) {
     transformedResp.remediations

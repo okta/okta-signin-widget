@@ -11,18 +11,29 @@
  */
 
 import _ from 'underscore';
-import Bundles from './Bundles';
+import Bundles from '@okta/okta-i18n-bundles';
 
-const bundleNames = ['login', 'country'];
+const bundleNames = ['login', 'country', 'courage'];
 type BundleName = typeof bundleNames[number];
+type Bundle = {
+  [key: string]: string
+};
 type Bundles = {
-  [key in BundleName]: {
-    [key: string]: string
-  };
+  [key in BundleName]: Bundle;
 };
 const bundles: Bundles = Object.fromEntries(
-  bundleNames.map(bundleName => [bundleName, Bundles[bundleName]])
+  Object.keys(Bundles).filter(k => typeof k === 'object').map(
+    bundleName => [ bundleName, Bundles[bundleName] ]
+  )
 );
+
+declare global {
+  interface Window {
+    okta?: {
+      locale?: string
+    }
+  }
+}
 
 /**
  * Translate a key to the localized value
@@ -32,7 +43,7 @@ const bundles: Bundles = Object.fromEntries(
  * @return {String} The localized value
  */
 export const loc = function (key: string, bundleName: BundleName = 'login', params: string[] = []) {
-  const bundle = bundles[bundleName];
+  const bundle = getBundle(bundleName);
   /* eslint complexity: [2, 6] */
 
   if (!bundle) {
@@ -59,24 +70,43 @@ export const loc = function (key: string, bundleName: BundleName = 'login', para
 };
 
 /**
- *
- * CustomEvent polyfill for IE
- * https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent#polyfill
- */
-const createCustomEvent = function (event: string, params: CustomEventInit) {
-  if (window.CustomEvent) {
-    return new CustomEvent(event, params);
-  } else {
-    params = params || {
-      bubbles: false,
-      cancelable: false,
-      detail: null
-    };
-    const evt = document.createEvent('CustomEvent');
-    evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
-    return evt;
+* Converts the locale code identifier from "${languageCode}-${countryCode}" to "${languageCode}_${countryCode}"
+* Follows the ISO-639-1 language code and 2-letter ISO-3166-1-alpha-2 country code structure.
+* @param {String} locale code identifier
+* @return {String} converted locale code identifier
+*/
+const parseLocale = (locale: string) => {
+  if (/-/.test(locale)) {
+    const parts = locale.split('-');
+    parts[1] = parts[1].toUpperCase();
+    return parts.join('_');
   }
+
+  return locale;
 };
+
+/**
+ * Returns the language bundle based on the current locale.
+ * - If a locale is not provided, default to English ('en')
+ * - Legacy Support: If the named language bundle does not exist, fall back to the default named bundle.
+ *
+ * @param {*} bundleName
+ */
+function getBundle(bundleName: BundleName): Bundle {
+  if (!bundleName) {
+    return bundles[_.keys(Bundles)[0]];
+  }
+
+  const locale = parseLocale(getRawLocale());
+  return bundles[`${bundleName}_${locale}`] || bundles[bundleName];
+}
+
+/**
+ * Returns the user's locale as defined by window.okta.locale
+ */
+function getRawLocale() {
+  return window?.okta?.locale || 'en';
+}
 
 /**
  * Dispatch custom 'okta-i18n-error' event
@@ -96,17 +126,41 @@ function emitL10nError(key: string, bundleName: string, reason: string) {
   document.dispatchEvent(event);
 }
 
+const createCustomEvent = function (event: string, params: CustomEventInit) {
+  if (window.CustomEvent) {
+    return new CustomEvent(event, params);
+  } else {
+    /**
+     * CustomEvent polyfill for IE
+     * https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent#polyfill
+     */
+    params = params || {
+      bubbles: false,
+      cancelable: false,
+      detail: null
+    };
+    const evt = document.createEvent('CustomEvent');
+    evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
+    return evt;
+  }
+};
 
-function sprintf(value: string, args: string[]) {
+/**
+ * Format tempalte string with parameters
+ * @param {String} value Template string, eg. "Reset via {0}"
+ * @param  {Array} [params] A list of parameters to apply as tokens to the template string, eg. ["SMS"]
+ * @return {String} Formatted string value, eg. "Reset via SMS"
+ */
+function sprintf(value: string, params: string[]) {
   /* eslint max-statements: [2, 15] */
 
   function triggerError() {
-    throw new Error('Mismatch number of variables: ' + value + ', ' + JSON.stringify(args));
+    throw new Error('Mismatch number of variables: ' + value + ', ' + JSON.stringify(params));
   }
 
   let oldValue = value, newValue = value;
-  for (var i = 0, l = args.length; i < l; i++) {
-    const entity = args[i];
+  for (let i = 0, l = params.length; i < l; i++) {
+    const entity = params[i];
     const regex = new RegExp('\\{' + i + '\\}', 'g');
     newValue = newValue.replace(regex, entity);
 
@@ -122,4 +176,4 @@ function sprintf(value: string, args: string[]) {
   }
 
   return newValue;
-};
+}

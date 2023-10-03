@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import _ from 'underscore';
 import Bundles from 'util/Bundles';
 import Logger from 'util/Logger';
 import { loc } from '../../util/loc';
