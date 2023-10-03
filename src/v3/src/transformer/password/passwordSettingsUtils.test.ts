@@ -14,7 +14,7 @@ import { PASSWORD_REQUIREMENTS_KEYS } from '../../constants';
 import { ComplexityRequirements } from '../../types';
 import { getComplexityItems } from './passwordSettingsUtils';
 
-jest.mock('@okta/courage', () => ({
+jest.mock('util/loc', () => ({
   loc: jest.fn().mockImplementation(
     (key) => key,
   ),

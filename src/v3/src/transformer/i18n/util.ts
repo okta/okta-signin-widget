@@ -15,7 +15,7 @@ import { IdxTransaction } from '@okta/okta-auth-js';
 import {
   getI18nKey,
   getI18NParams,
-} from '../../../../v2/ion/i18nTransformer';
+} from '../../../../v2/ion/i18nUtils';
 import {
   FieldElement, TokenReplacement, UISchemaElement,
 } from '../../types';

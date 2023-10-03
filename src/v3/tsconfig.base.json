@@ -16,9 +16,6 @@
     "moduleResolution": "node",
     "noEmit": true,
     "paths": {
-      "@okta/courage": [
-        "../../packages/@okta/courage-dist"
-      ],
       "@okta/mocks/*": [
         "../../playground/mocks/*"
       ],
