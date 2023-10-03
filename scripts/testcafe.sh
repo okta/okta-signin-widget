@@ -14,4 +14,7 @@ if ! yarn test:testcafe-ci; then
   exit ${PUBLISH_TYPE_AND_RESULT_DIR_BUT_ALWAYS_FAIL}
 fi
 
-exit ${PUBLISH_TYPE_AND_RESULT_DIR};
+log_custom_message "Run Status" "Passed!"
+exit 1    # always fail for testing
+
+# exit ${PUBLISH_TYPE_AND_RESULT_DIR};
