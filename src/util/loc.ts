@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import _ from 'underscore';
 import Bundles from '@okta/okta-i18n-bundles';
 
 const bundleNames = ['login', 'country', 'courage'];
@@ -21,11 +20,6 @@ type Bundle = {
 type Bundles = {
   [key in BundleName]: Bundle;
 };
-const bundles: Bundles = Object.fromEntries(
-  Object.keys(Bundles).filter(k => typeof k === 'object').map(
-    bundleName => [ bundleName, Bundles[bundleName] ]
-  )
-);
 
 declare global {
   interface Window {
@@ -94,11 +88,12 @@ const parseLocale = (locale: string) => {
  */
 function getBundle(bundleName: BundleName): Bundle {
   if (!bundleName) {
-    return bundles[_.keys(Bundles)[0]];
+    const key = Object.keys(Bundles).filter(k => typeof k === 'object')[0];
+    return Bundles[key];
   }
 
   const locale = parseLocale(getRawLocale());
-  return bundles[`${bundleName}_${locale}`] || bundles[bundleName];
+  return Bundles[`${bundleName}_${locale}`] || Bundles[bundleName];
 }
 
 /**
