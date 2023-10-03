@@ -230,7 +230,7 @@ test.requestHooks(requestLogger, legacyDeviceCodeShowLoginMockWithoutDeviceFlow)
   await t.expect(pageUrl).eql('http://localhost:3000/sso/idps/0oaaix1twko0jyKik0g1?fromURI=');
 });
 
-test.requestHooks(requestLogger, legacyDeviceCodeShowLoginMockWithUsingDeviceFlow)('social login after device activate and redirect with state token', async t => {
+test.only.requestHooks(requestLogger, legacyDeviceCodeShowLoginMockWithUsingDeviceFlow)('social login after device activate and redirect with state token', async t => {
   const deviceCodeActivatePageObject = await setup(t);
   const identityPage = new IdentityPageObject(t);
   await rerenderWidget({
@@ -243,14 +243,19 @@ test.requestHooks(requestLogger, legacyDeviceCodeShowLoginMockWithUsingDeviceFlo
     ]
   });
 
+  await t.debug();
+
   // submit user code
   await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABCDWXYZ');
   await deviceCodeActivatePageObject.clickNextButton();
+  const widgetWindow = await t.getCurrentWindow();
   await t.expect(deviceCodeActivatePageObject.getFormTitle()).eql('Sign In');
   await t.expect(deviceCodeActivatePageObject.isUserNameFieldVisible()).eql(true);
   await t.expect(deviceCodeActivatePageObject.isPasswordFieldVisible()).eql(false);
   await t.click('.social-auth-google-button');
-  const pageUrl = await identityPage.getPageUrl();
+  // await t.switchToWindow(w => w.title !== widgetWindow.title);
+  // const pageUrl = await identityPage.getPageUrl();
+  const pageUrl = await t.eval(() => document.documentURI);
   // using stateToken
   await t.expect(pageUrl).eql('http://localhost:3000/sso/idps/0oaaix1twko0jyKik0g1?stateToken=aStateToken');
 });

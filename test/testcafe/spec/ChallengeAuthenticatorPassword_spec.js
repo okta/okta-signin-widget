@@ -161,6 +161,7 @@ test.requestHooks(sessionExpiresDuringPassword)('challege password authenticator
   }
 });
 
+// TODO: TEST FAILED
 test.requestHooks(resetPasswordSuccess)('password changed successfully', async t => {
   const challengePasswordPage = await setup(t);
   await checkA11y(t);

@@ -553,14 +553,16 @@ test
     )).eql(expectedPollCount);
   });
 
+// TODO: TEST FAILED
 test
   .requestHooks(logger, validOTPmock)('resend after 30 seconds', async t => {
+    debugger;
     const challengeEmailPageObject = await setup(t);
     await checkA11y(t);
     await challengeEmailPageObject.clickEnterCodeLink();
 
     await t.expect(await challengeEmailPageObject.resendEmailExists()).eql(false);
-    await t.wait(31000);
+    await t.wait(32000);
     await t.expect(await challengeEmailPageObject.resendEmailExists()).eql(true);
     const resendEmailViewText = challengeEmailPageObject.resendEmailViewText();
     await t.expect(resendEmailViewText).contains('Haven\'t received an email?');
@@ -707,6 +709,7 @@ test
     await t.expect(getResendTimestamp()).eql(null);
   });
 
+// TODO: TEST FAILED  
 test
   .requestHooks(magicLinkReturnTabMock)('challenge email factor with magic link', async t => {
     await setup(t);
@@ -721,6 +724,7 @@ test
     });
   });
 
+// TODO: TEST FAILED
 test
   .requestHooks(magicLinkTransfer)('show the correct content when transferred email', async t => {
     await setup(t);

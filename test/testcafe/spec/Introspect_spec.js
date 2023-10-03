@@ -32,6 +32,7 @@ async function setup(t) {
   return terminalPageObject;
 }
 
+// TODO: TEST FAILED
 test.requestHooks(introspectRequestLogger, introspectMock)('shall display error in terminal page', async t => {
   const terminalPageObject = await setup(t);
   await checkA11y(t);

@@ -1,5 +1,6 @@
 import { RequestMock, RequestLogger } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
+import { renderWidget as rerenderWidget } from '../framework/shared';
 import DeviceCodeActivatePageObject from '../framework/page-objects/DeviceCodeActivatePageObject';
 import deviceCodeActivateResponse from '../../../playground/mocks/data/idp/idx/device-code-activate.json';
 import deviceCodeActivateErrorResponse from '../../../playground/mocks/data/idp/idx/error-device-code-activate.json';
@@ -9,6 +10,17 @@ import idxActivateErrorResponse from '../../../playground/mocks/data/idp/idx/err
 import idxDeviceActivatedTerminalResponse from '../../../playground/mocks/data/idp/idx/terminal-device-activated.json';
 import idxDeviceNotActivatedConsentDeniedResponse from '../../../playground/mocks/data/idp/idx/terminal-device-not-activated-consent-denied.json';
 import idxDeviceNotActivatedInternalErrorResponse from '../../../playground/mocks/data/idp/idx/terminal-device-not-activated-internal-error.json';
+
+// const terminalResponse = RequestMock()
+//   .onRequestTo('http://localhost:3000/idp/idx/introspect')
+//   .respond((req, res) => {
+//     return new Promise((resolve) => setTimeout(function() {
+//       res.statusCode = '403';
+//       res.headers['content-type'] = 'application/json';
+//       res.setBody(idxDeviceActivatedTerminalResponse);
+//       resolve(res);
+//     }, 5000));
+//   });
 
 const deviceCodeSuccessMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -64,7 +76,7 @@ const identifyRequestLogger = RequestLogger(
   }
 );
 
-fixture('Device Code Activation Flow').meta('v3', true);
+fixture('Device Code Activation Flow').meta('v3', true).disablePageCaching;
 
 async function setup(t) {
   const deviceCodeActivatePage = new DeviceCodeActivatePageObject(t);
@@ -72,15 +84,33 @@ async function setup(t) {
   return deviceCodeActivatePage;
 }
 
+// console.log('terminal', terminalResponse.id);
+// console.log('deviceCode', deviceCodeSuccessMock.id);
+
+// TODO: REMOVE
+// test.skip.requestHooks(terminalResponse)('should render terminal view', async t => {
+//   debugger;
+//   const deviceCodeActivatePageObject = await setup(t);
+//   // await t.debug();
+// });
+
+// TODO: TEST FAILED
 test.requestHooks(identifyRequestLogger, deviceCodeSuccessMock)('should be able to complete device code activation flow', async t => {
+  // await t.debug();
   identifyRequestLogger.clear();
   const deviceCodeActivatePageObject = await setup(t);
   await checkA11y(t);
+
+  // console.log(t.testRun.test.requestHooks);
+  // await t.debug();
+  // console.log(identifyRequestLogger.requests)
 
   await t.expect(deviceCodeActivatePageObject.getFormTitle()).eql('Activate your device');
   await t.expect(deviceCodeActivatePageObject.getPageSubtitle()).eql('Follow the instructions on your device to get an activation code');
   await t.expect(await deviceCodeActivatePageObject.getActivationCodeTextBoxLabel()).eql('Activation Code');
   await t.expect(deviceCodeActivatePageObject.isActivateCodeTextBoxVisible()).eql(true);
+
+  // await t.debug();
 
   // submit user code
   await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABCDWXYZ');
@@ -116,6 +146,8 @@ test.requestHooks(identifyRequestLogger, deviceCodeSuccessMock)('should be able 
   await t.expect(reqIdentify.method).eql('post');
   await t.expect(reqIdentify.url).eql('http://localhost:3000/idp/idx/identify');
 
+  // await rerenderWidget();
+
   // expect device activated screen
   await t.expect(deviceCodeActivatePageObject.getTerminalTitle()).eql('Device activated');
   await t.expect(deviceCodeActivatePageObject.getTerminalContent()).eql('Follow the instructions on your device for next steps');
@@ -124,7 +156,10 @@ test.requestHooks(identifyRequestLogger, deviceCodeSuccessMock)('should be able 
   await t.expect(deviceCodeActivatePageObject.isTryAgainButtonPresent()).eql(false);
 });
 
-test.requestHooks(deviceCodeConsentDeniedMock)('should be able to get device not activated screen when consent is denied', async t => {
+// TODO: TEST FAILED
+test
+// .only
+.requestHooks(deviceCodeConsentDeniedMock)('should be able to get device not activated screen when consent is denied', async t => {
   const deviceCodeActivatePageObject = await setup(t);
   await checkA11y(t);
 
@@ -145,7 +180,10 @@ test.requestHooks(deviceCodeConsentDeniedMock)('should be able to get device not
   await t.expect(deviceCodeActivatePageObject.isTryAgainButtonPresent()).eql(true);
 });
 
-test.requestHooks(deviceCodeInternalErrorMock)('should be able to get device not activated screen when there is an internal error', async t => {
+// TODO: TEST FAILED
+test
+  // .only
+  .requestHooks(deviceCodeInternalErrorMock)('should be able to get device not activated screen when there is an internal error', async t => {
   const deviceCodeActivatePageObject = await setup(t);
   await checkA11y(t);
 
@@ -207,7 +245,10 @@ test.requestHooks(identifyRequestLogger, deviceCodeSuccessMock)('should be able 
   await t.expect(deviceCodeActivatePageObject.getActivateCodeTextBoxValue()).eql('ABCD-E');
 });
 
-test.requestHooks(identifyRequestLogger, deviceCodeSuccessWithUserCodeMock)('should be able to complete device code activation flow with user code prefilled', async t => {
+// TODO: TEST FAILED
+test
+  // .only
+  .requestHooks(identifyRequestLogger, deviceCodeSuccessWithUserCodeMock)('should be able to complete device code activation flow with user code prefilled', async t => {
   identifyRequestLogger.clear();
   const deviceCodeActivatePageObject = await setup(t);
   await checkA11y(t);

@@ -2,6 +2,7 @@ import hbs from '@okta/handlebars-inline-precompile';
 
 import { _, Form, loc, internal, createCallout, View } from '@okta/courage';
 import * as FormInputFactory from './FormInputFactory';
+import { create } from 'underscore';
 
 const { FormUtil } = internal.views.forms.helpers;
 const INFO_MESSAGE_CLASS = 'INFO';
@@ -31,16 +32,19 @@ export default Form.extend({
     const uiSchemas = this.getUISchema();
     const inputOptions = uiSchemas.map(FormInputFactory.create);
 
+    // TODO: UNCOMMENT, REPLACE postRender showMessages()
     //should be used before adding any other input components
-    this.showMessages();
+    // if (uiSchemas.length > 0) {
+      // this.showMessages();
+
+      inputOptions.forEach(input => {
+        this.addInputOrView(input);
+      });
+    //}
 
     // Render CAPTCHA if one of the form fields requires us to.
     this.listenTo(this.options.appState, 'onCaptchaLoaded', (captchaObject) => {
       this.captchaObject = captchaObject;
-    });
-
-    inputOptions.forEach(input => {
-      this.addInputOrView(input);
     });
 
     this.listenTo(this, 'save', this.saveForm);
@@ -76,8 +80,28 @@ export default Form.extend({
       this.options.appState.trigger('saveForm', model);
     }
   },
+  
+  // TODO: REMOVE BEFORE MERGE
+  preRender() {
+    // const uiSchemas = this.getUISchema();
+    // const inputOptions = uiSchemas.map(FormInputFactory.create);
+
+    // this.showMessages();
+
+    // inputOptions.forEach(input => {
+    //   this.addInputOrView(input);
+    // });
+  },
 
   postRender() {
+    // TODO: REMOVE BEFORE MERGE
+    this.showMessages();
+    // const uiSchemas = this.getUISchema();
+    // if (uiSchemas.length === 0) {
+    //   this.showMessages();
+    // }
+    // TODO: REMOVE ABOVE
+
     /**
      * Widget would use infoContainer to display interactive messages that should be persisted during
      * invalid form submissions. For eg resend-warning callout should not be cleared upon invalid form submit.
@@ -164,11 +188,25 @@ export default Form.extend({
     const messages = this.options.appState.get('messages') || {};
     const errContainer = '.o-form-error-container';
     if (Array.isArray(messages.value) && !(options instanceof View)) {
-      this.add('<div class="ion-messages-container"></div>', errContainer);
+      const msgContainer = this.add('<div class="ion-messages-container"></div>', errContainer);
       messages.value.forEach(obj => {
         if(!obj?.class || obj.class === INFO_MESSAGE_CLASS) {
           // add message as plain text
           this.add(`<p>${obj.message}</p>`, '.ion-messages-container');
+          // setTimeout(() => {
+          //   this.add(`<p>${obj.message}</p>`, '.ion-messages-container');
+          // }, 500);
+          // const msgCallout = createCallout({
+          //   content: obj.message,
+          //   type: 'info',
+          //   title: ''
+          // });
+          // this.add(msgCallout);
+          // console.log('added')
+          // msgCallout.remove();
+          // console.log('remove')
+          // this.add(`<p>${obj.message}</p>`, '.ion-messages-container');
+          // console.log('end')
         } else {
           const errorObj = {
             class: obj?.class ?? '',

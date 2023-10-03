@@ -31,6 +31,7 @@ async function setup(t) {
   return enrollWebauthnPage;
 }
 
+// TODO: TEST FAILED
 // This is the only test we can perform in testcafe as webauthn api is not available in the version of chrome/chromeheadless
 // that testcafe loads.
 test('should have webauthn not supported error if browser doesnt support', async t => {

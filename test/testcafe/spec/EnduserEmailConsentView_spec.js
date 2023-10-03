@@ -49,6 +49,7 @@ test
     await t.expect(consentPage.getBeaconClass()).contains('mfa-okta-email');
   });
 
+// TODO: TEST FAILED
 test
   .requestHooks(requestLogger, enduserEmailConsentSuccess)('consent granted flow', async t => {
     const consentPage  = await setup(t);

@@ -58,6 +58,7 @@ test
     await t.expect(pageTitle).contains('Push notification sent');
   });
 
+// TODO: TEST FAILED
 test
   .meta('v3', false) // OKTA-587189 - disabled in v3 due to immediate polling issue
   .requestHooks(logger, numberChallengeWaitMock)('Calls resend when we click the resend link from within the warning modal', async t => {

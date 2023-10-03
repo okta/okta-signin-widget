@@ -198,6 +198,7 @@ test.requestHooks(enrollProfileErrorMock)('should show email field validation er
   await t.expect(registrationPage.getNthEmailErrorMessage(1)).eql('Provided value for property \'Email\' does not match required pattern');
 });
 
+// TODO: TEST FAILED
 test.requestHooks(mock)('should show terminal screen after registration', async t => {
   const registrationPage = await setup(t);
   await checkA11y(t);
@@ -232,6 +233,7 @@ test.requestHooks(mock)('should show terminal screen after registration', async 
   ]);
 });
 
+// TODO: TEST FAILED
 test.requestHooks(mock)('should be able to create account', async t => {
   const registrationPage = await setup(t);
   await checkA11y(t);

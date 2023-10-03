@@ -41,13 +41,13 @@ export default class BaseFormObject {
   }
 
   getTitle() {
-    return screen.findByRole('heading', {
+    return within(this.el).findByRole('heading', {
       level: 2,
     }).innerText;
   }
 
   getNthTitle(index) {
-    return screen.findAllByRole('heading', {
+    return within(this.el).findAllByRole('heading', {
       level: 2,
     }).nth(index).innerText;
   }

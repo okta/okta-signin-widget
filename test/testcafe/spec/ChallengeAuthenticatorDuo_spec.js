@@ -94,6 +94,7 @@ test
     await t.expect(await challengeDuoPage.signoutLinkExists()).notOk();
   });
 
+// TODO: TEST FAILED
 test.requestHooks(answerRequestLogger, mock)('verifies successfully', async t => {
   const challengeDuoPage = await setup(t);
   await checkA11y(t);
@@ -118,6 +119,7 @@ test.requestHooks(answerRequestLogger, mock)('verifies successfully', async t =>
   await t.expect(req.url).eql('http://localhost:3000/idp/idx/challenge/answer');
 });
 
+// TODO: TEST FAILED
 test.requestHooks(answerRequestLogger, verificationTimeoutMock)('verification timeout', async t => {
   const challengeDuoPage = await setup(t);
   await checkA11y(t);
@@ -129,6 +131,7 @@ test.requestHooks(answerRequestLogger, verificationTimeoutMock)('verification ti
   await t.expect(duoPageObject.form.getErrorBoxText()).eql('We were unable to verify with Duo. Try again.');
 });
 
+// TODO: TEST FAILED
 test.requestHooks(answerRequestLogger, verificationFailedMock)('verification failed', async t => {
   const challengeDuoPage = await setup(t);
   await checkA11y(t);

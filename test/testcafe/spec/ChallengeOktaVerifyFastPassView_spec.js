@@ -306,6 +306,7 @@ async function setupLoopbackFallback(t) {
 }
 
 // TODO: OKTA-623228 - fix for Gen 3 SIW
+// TODO: TEST FAILED
 test
   .meta('v3', false)
   .requestHooks(loopbackPollingLogger, loopbackRedundantPollingMock)('in loopback server, redundant polling exists if server returns enhancedPollingEnabled as false', async t => {
@@ -361,6 +362,7 @@ test
     await t.expect(identityPage.getIdentifierValue()).eql('Test Identifier');
   });
 
+// TODO: TEST FAILED
 test
   .requestHooks(loopbackSuccessLogger, loopbackSuccesskMock)('in loopback server approach, probing and polling requests are sent and responded', async t => {
     const deviceChallengePollPageObject = await setup(t);

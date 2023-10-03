@@ -176,8 +176,9 @@ test
     });
   });
 
+// TODO: TEST FAILED
 test
-  .requestHooks(logger, errorPostPasswordUpdateMock)('Shows an error if password cannot be udpated; user can cancel', async t => {
+  .requestHooks(logger, errorPostPasswordUpdateMock)('Shows an error if password cannot be updated; user can cancel', async t => {
     const expiredPasswordPage = await setup(t);
     await checkA11y(t);
     const terminalPageObject = new TerminalPageObject(t);

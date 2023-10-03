@@ -59,6 +59,7 @@ test('should render an iframe for duo without sign-out link', async t => {
   await t.expect(await enrollDuoPage.signoutLinkExists()).notOk();
 });
 
+// TODO: TEST FAILED
 test('enrolls successfully', async t => {
   const enrollDuoPage = await setup(t);
   await checkA11y(t);

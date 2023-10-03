@@ -68,18 +68,21 @@ const config = {
     { module: '@testing-library/dom/dist/@testing-library/dom.umd.js' }
   ],
   src: [ 'test/testcafe/spec/*_spec.js' ],
+  cache: false,
+  disableNativeAutomation: true,
   hooks: {
     request: mocks,
     test: {
       before: async t => {
         const reqHooks = [...t.testRun.test.requestHooks];
         await t.removeRequestHooks(reqHooks);
-        const newOrder = reqHooks.reverse().sort((a, b) => {
-          if (a._className !== b._className) {
-            return a._className === 'RequestLogger' ? -1 : 0;
-          }
-          return 0;
-        });
+        // const newOrder = reqHooks.reverse().sort((a, b) => {
+        //   if (a._className !== b._className) {
+        //     return a._className === 'RequestLogger' ? -1 : 0;
+        //   }
+        //   return 0;
+        // });
+        const newOrder = reqHooks.reverse();
         await t.addRequestHooks(newOrder);
         // console.log(t.testRun.test.requestHooks)
       }
@@ -103,7 +106,7 @@ const config = {
   // limit concurrency when running flaky tests
   // concurrency: OKTA_SIW_ONLY_FLAKY ? 1 : undefined,
   // concurrency: 1,
-  concurrency: 5,
+  // concurrency: 2,
 
   filter: (_testName, _fixtureName, _fixturePath, testMeta, fixtureMeta) => {
     if (env.OKTA_SIW_V3) {

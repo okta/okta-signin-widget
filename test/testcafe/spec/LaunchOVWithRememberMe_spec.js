@@ -23,6 +23,7 @@ async function setup(t) {
 }
 
 //same for CU, AL and UL
+// TODO: TEST FAILED
 test('check rememberMe value', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
@@ -31,6 +32,7 @@ test('check rememberMe value', async t => {
   await t.expect(logger.requests[0].request.body.toString().includes('"rememberMe":true')).eql(true);
 });
 
+// TODO: TEST FAILED
 test('check no rememberMe value', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);

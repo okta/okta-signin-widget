@@ -139,6 +139,7 @@ test.requestHooks(mockWithoutIdentify)('should only render idp buttons with iden
   await t.expect(identityPage.getIdpButton('Sign in with Microsoft').exists).eql(true);
 });
 
+// TODO: TEST FAILED
 test.requestHooks(logger, mockOnlyOneIdp)('should auto redirect to 3rd party IdP login page with basic Signing in message', async t => {
   const identityPage = await setup(t);
   await t.expect(identityPage.formExists()).eql(true);
@@ -172,6 +173,7 @@ test.requestHooks(logger, mockOnlyOneIdp)('Direct auth: does not auto redirect t
   await t.expect(identityPage.getIdpButtonCount()).eql(1); // only one IDP button
 });
 
+// TODO: TEST FAILED
 test.requestHooks(logger, mockOnlyOneIdpAppUser)('should auto redirect to 3rd party IdP login page with Signing in longer message', async t => {
   const identityPage = await setup(t);
   await t.expect(identityPage.formExists()).eql(true);

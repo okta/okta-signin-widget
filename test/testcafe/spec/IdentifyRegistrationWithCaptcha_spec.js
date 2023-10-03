@@ -46,6 +46,7 @@ async function setup(t) {
   return registrationPage;
 }
 
+// TODO: TEST FAILED
 test.requestHooks(reCaptchaRequestLogger, mockWithReCaptcha)('should be able to create account with reCaptcha enabled', async t => {
   const registrationPage = await setup(t);
   
@@ -65,6 +66,7 @@ test.requestHooks(reCaptchaRequestLogger, mockWithReCaptcha)('should be able to 
   await t.expect(req.url).contains('6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI');
 });
 
+// TODO: TEST FAILED
 // TODO: enable this test OKTA-504996
 test.requestHooks(mockWithHCaptcha)('should be able to create account with hCaptcha enabled', async t => {
   const registrationPage = await setup(t);

@@ -334,6 +334,7 @@ test.requestHooks(identifyMock)('should not render custom forgot password link',
   await t.expect(await identityPage.hasForgotPasswordLinkText()).notOk();
 });
 
+// TODO: TEST FAILED
 test.meta('v3', false).requestHooks(identifyRequestLogger, identifyMockWithFingerprint)('should compute device fingerprint and add to header', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
