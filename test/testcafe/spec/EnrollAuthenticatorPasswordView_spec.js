@@ -1,4 +1,4 @@
-import { RequestMock, RequestLogger, Selector, userVariables } from 'testcafe';
+import { RequestMock, RequestLogger, userVariables } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 import { oktaDashboardContent } from '../framework/shared';
 import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
@@ -41,7 +41,7 @@ fixture('Authenticator Enroll Password');
 async function setup(t) {
   const enrollPasswordPage = new FactorEnrollPasswordPageObject(t);
   await enrollPasswordPage.navigateToPage();
-  await t.expect(Selector('form').exists).eql(true);
+  await t.expect(enrollPasswordPage.formExists()).ok();
   await checkConsoleMessages({
     controller: 'enroll-password',
     formName: 'enroll-authenticator',

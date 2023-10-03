@@ -61,6 +61,7 @@ async function setupInteractionCodeFlow(t) {
       state: 'mock-state'
     }
   });
+  await t.expect(identityPage.formExists()).ok();
   return identityPage;
 }
 

@@ -1,6 +1,6 @@
 import {RequestLogger, RequestMock, userVariables} from 'testcafe';
 import { checkA11y } from '../framework/a11y';
-import { renderWidget as rerenderWidget } from '../framework/shared';
+import { renderWidget } from '../framework/shared';
 import DeviceEnrollmentTerminalPageObject from '../framework/page-objects/DeviceEnrollmentTerminalPageObject';
 import IOSOdaEnrollment from '../../../playground/mocks/data/idp/idx/oda-enrollment-ios';
 import AndroidOdaEnrollmentLoopback from '../../../playground/mocks/data/idp/idx/oda-enrollment-android';
@@ -20,9 +20,14 @@ const mdmMock = RequestMock()
 
 fixture('Device enrollment terminal view for ODA and MDM');
 
-async function setup(t) {
+async function setup(t, widgetOptions) {
+  const options = widgetOptions ? { render: false } : {};
   const deviceEnrollmentTerminalPageObject = new DeviceEnrollmentTerminalPageObject(t);
-  await deviceEnrollmentTerminalPageObject.navigateToPage();
+  await deviceEnrollmentTerminalPageObject.navigateToPage(options);
+  if (widgetOptions) {
+    await renderWidget(widgetOptions);
+  }
+  await t.expect(deviceEnrollmentTerminalPageObject.formExists()).ok();
   return deviceEnrollmentTerminalPageObject;
 }
 
@@ -90,8 +95,7 @@ test
 // The mocks and device enrollment values are intentionally set differently from above tests to make sure the we properly consume SIW config
 test
   .requestHooks()('shows the correct content in iOS ODA terminal view when Okta Verify is not installed in Universal Link flow', async t => {
-    const deviceEnrollmentTerminalPage = await setup(t);
-    await rerenderWidget({
+    const deviceEnrollmentTerminalPage = await setup(t, {
       'proxyIdxResponse': {
         'deviceEnrollment': {
           'type': 'object',
@@ -127,8 +131,7 @@ test
 
 test
   .requestHooks()('shows the correct content in iOS MDM terminal view when Okta Verify is not set up in Universal Link flow', async t => {
-    const deviceEnrollmentTerminalPage = await setup(t);
-    await rerenderWidget({
+    const deviceEnrollmentTerminalPage = await setup(t, {
       'proxyIdxResponse': {
         'deviceEnrollment': {
           'type': 'object',
@@ -159,8 +162,7 @@ test
 
 test
   .requestHooks()('shows the correct content in Android ODA terminal view', async t => {
-    const deviceEnrollmentTerminalPage = await setup(t);
-    await rerenderWidget({
+    const deviceEnrollmentTerminalPage = await setup(t, {
       'proxyIdxResponse': {
         'deviceEnrollment': {
           'type': 'object',
@@ -204,8 +206,7 @@ test
 
 test
   .requestHooks()('shows the correct content in Android ODA terminal view when Okta Verify is not installed in App Link flow', async t => {
-    const deviceEnrollmentTerminalPage = await setup(t);
-    await rerenderWidget({
+    const deviceEnrollmentTerminalPage = await setup(t, {
       'proxyIdxResponse': {
         'deviceEnrollment': {
           'type': 'object',
@@ -240,8 +241,7 @@ test
 
 test
   .requestHooks()('shows the correct content in Android ODA terminal view when Okta Verify is installed in App Link flow', async t => {
-    const deviceEnrollmentTerminalPage = await setup(t);
-    await rerenderWidget({
+    const deviceEnrollmentTerminalPage = await setup(t, {
       'proxyIdxResponse': {
         'deviceEnrollment': {
           'type': 'object',
@@ -274,8 +274,7 @@ test
 
 test
   .requestHooks()('shows the correct content in ANDROID MDM terminal view when Okta Verify is not installed in App Link flow', async t => {
-    const deviceEnrollmentTerminalPage = await setup(t);
-    await rerenderWidget({
+    const deviceEnrollmentTerminalPage = await setup(t, {
       'proxyIdxResponse': {
         'deviceEnrollment': {
           'type': 'object',

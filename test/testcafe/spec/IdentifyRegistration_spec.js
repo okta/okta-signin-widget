@@ -52,6 +52,7 @@ fixture('Registration');
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
   await identityPage.navigateToPage();
+  await t.expect(identityPage.formExists()).ok();
   await identityPage.clickSignUpLink();
   return new RegistrationPageObject(t);
 }
@@ -393,15 +394,15 @@ test.requestHooks(logger, enrollProfileNewMock)('should be able to create a new 
 
 test.requestHooks(mock)('should call settings.registration.click on "Sign Up" click, instead of moving to registration page', async t => {
   const identityPage = new IdentityPageObject(t);
-  await identityPage.navigateToPage();
-
-  await t.expect(identityPage.getFormTitle()).eql('Sign In');
+  await identityPage.navigateToPage({ render: false });
   await rerenderWidget({
     registration: {
       // eslint-disable-next-line
       click: () => console.log('registration click handler fired')
     }
   });
+  await t.expect(identityPage.formExists()).ok();
+  await t.expect(identityPage.getFormTitle()).eql('Sign In');
 
   await identityPage.clickSignUpLink();
   const { log } = await t.getBrowserConsoleMessages();

@@ -11,12 +11,10 @@
  */
 
 import { CSSInterpolation, ThemeOptions } from '@mui/material';
-import { odysseyTheme } from '@okta/odyssey-react-mui';
 import { merge } from 'lodash';
 
 import { cssInterpolate } from './cssInterpolate';
 
-type Theme = typeof odysseyTheme;
 type Props = Record<string, unknown>;
 type StyleOverrideFunction = (override: Props) => CSSInterpolation;
 type StyleOverride = string | CSSInterpolation | StyleOverrideFunction;
@@ -44,8 +42,8 @@ const resolve = (override: StyleOverride, arg: Props): CSSInterpolation => {
  * Merge themes
  */
 export const mergeThemes = (
-  first: Theme,
-  ...rest: Array<Partial<Theme>>
+  first: ThemeOptions,
+  ...rest: Array<ThemeOptions>
 ): ThemeOptions => (
   rest.reduce((prev, theme) => (
     !theme.components

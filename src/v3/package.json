@@ -1,6 +1,6 @@
 {
   "name": "v3",
-  "version": "7.8.0",
+  "version": "7.11.2",
   "private": true,
   "description": "Okta Sign In Widget Next",
   "homepage": "https://github.com/okta/okta-signin-widget",
@@ -46,7 +46,7 @@
     "@mui/material": "^5.8.5",
     "@okta/odyssey-design-tokens": "^0.17.1",
     "@okta/odyssey-react-mui": "^0.17.0",
-    "@okta/okta-auth-js": "^7.4.2",
+    "@okta/okta-auth-js": "^7.4.3",
     "chroma-js": "^2.4.2",
     "classnames": "^2.3.1",
     "cross-fetch": "^3.1.5",

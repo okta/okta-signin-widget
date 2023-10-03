@@ -1,4 +1,4 @@
-import { RequestMock, RequestLogger, userVariables } from 'testcafe';
+import { RequestMock, userVariables } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import EnrollProfileViewPageObject from '../framework/page-objects/EnrollProfileViewPageObject';
@@ -51,7 +51,13 @@ const EnrollProfileSignUpAllBaseAttributesMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/enroll')
   .respond(EnrollProfileSignUpAllBaseAttributes);
 
-const EnrollProfileSignUpWithPasswordMock = RequestMock()
+const EnrollProfileSignUpWithPasswordPromptMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(Identify)
+  .onRequestTo('http://localhost:3000/idp/idx/enroll')
+  .respond(EnrollProfileSignUpWithPassword);
+
+const EnrollProfileSignUpWithPasswordErrorMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(Identify)
   .onRequestTo('http://localhost:3000/idp/idx/enroll')
@@ -73,14 +79,6 @@ const EnrollProfileSignUpWIthIdpsMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/enroll')
   .respond(EnrollProfileSignUpWithIdps);
 
-const requestLogger = RequestLogger(
-  /idx\/*/,
-  {
-    logRequestBody: true,
-    stringifyRequestBody: true,
-  }
-);
-
 fixture('Enroll Profile');
 
 async function setup(t) {
@@ -89,13 +87,12 @@ async function setup(t) {
   return identityPage;
 }
 
-test.requestHooks(requestLogger, EnrollProfileSignUpMock)('should show sign up button when creating a new user', async t => {
+test.requestHooks(EnrollProfileSignUpMock)('should show sign up button when creating a new user', async t => {
   const enrollProfilePage = new EnrollProfileViewPageObject(t);
   const identityPage = await setup(t);
   await checkA11y(t);
   await identityPage.clickSignUpLink();
 
-  requestLogger.clear();
   await t.expect(enrollProfilePage.getFormTitle()).eql('Sign up');
   await t.expect(await enrollProfilePage.formFieldExistsByLabel('First name')).eql(true);
   await t.expect(await enrollProfilePage.formFieldExistsByLabel('Last name')).eql(true);
@@ -103,7 +100,7 @@ test.requestHooks(requestLogger, EnrollProfileSignUpMock)('should show sign up b
   await t.expect(await enrollProfilePage.signUpButtonExists()).eql(true);
 });
 
-test.requestHooks(requestLogger, EnrollProfileSubmitMock)('should show submit button when updating info for an existing user', async t => {
+test.requestHooks(EnrollProfileSubmitMock)('should show submit button when updating info for an existing user', async t => {
   const enrollProfilePage = new EnrollProfileViewPageObject(t);
   const identityPage = await setup(t);
   await checkA11y(t);
@@ -111,18 +108,16 @@ test.requestHooks(requestLogger, EnrollProfileSubmitMock)('should show submit bu
   await identityPage.fillPasswordField('test 123');
   await identityPage.clickSignInButton();
 
-  requestLogger.clear();
   await t.expect(enrollProfilePage.getFormTitle()).eql('Sign in');
   await t.expect(await enrollProfilePage.submitButtonExists()).eql(true);
 });
 
-test.requestHooks(requestLogger, EnrollProfileSignUpWithCustomLabelsMock)('should show custom label when provided in response', async t => {
+test.requestHooks(EnrollProfileSignUpWithCustomLabelsMock)('should show custom label when provided in response', async t => {
   const enrollProfilePage = new EnrollProfileViewPageObject(t);
   const identityPage = await setup(t);
   await checkA11y(t);
   await identityPage.clickSignUpLink();
 
-  requestLogger.clear();
   await t.expect(enrollProfilePage.getFormTitle()).eql('Sign up');
   await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.firstName')).eql('Please enter your first name');
   await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.lastName')).eql('Please enter your last name');
@@ -131,13 +126,12 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithCustomLabelsMock)('shoul
 });
 
 
-test.requestHooks(requestLogger, EnrollProfileSignUpWithAdditionalFieldsMock)('should show dropdown values for base properties (country code and timezone) on registration form', async t => {
+test.requestHooks(EnrollProfileSignUpWithAdditionalFieldsMock)('should show dropdown values for base properties (country code and timezone) on registration form', async t => {
   const enrollProfilePage = new EnrollProfileViewPageObject(t);
   const identityPage = await setup(t);
   await checkA11y(t);
   await identityPage.clickSignUpLink();
 
-  requestLogger.clear();
   await t.expect(await enrollProfilePage.dropDownExistsByLabel('Country')).eql(true);
   const defaultOptionLabel = userVariables.gen3 ? 'Select an option' : 'Select an Option';
   await t.expect(await enrollProfilePage.form.getValueFromDropdown('userProfile.country')).eql(defaultOptionLabel);
@@ -151,13 +145,11 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithAdditionalFieldsMock)('s
   await enrollProfilePage.selectValueFromDropdown('userProfile.timezone', 1);
 });
 
-test.requestHooks(requestLogger, EnrollProfileSignUpWithBooleanFieldsMock)('should show radio and checkbox display for boolean data type fields', async t => {
+test.requestHooks(EnrollProfileSignUpWithBooleanFieldsMock)('should show radio and checkbox display for boolean data type fields', async t => {
   const enrollProfilePage = new EnrollProfileViewPageObject(t);
   const identityPage = await setup(t);
   await checkA11y(t);
   await identityPage.clickSignUpLink();
-
-  requestLogger.clear();
 
   await t.expect(await enrollProfilePage.clickRadioButton('userProfile.pet', 0)).eql('Yes');
 
@@ -167,13 +159,11 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithBooleanFieldsMock)('shou
   await enrollProfilePage.setCheckbox('userProfile.optional');
 });
 
-test.requestHooks(requestLogger, EnrollProfileSignUpAllBaseAttributesMock)('All Base Attributes are rendered based on their i18n translation, not the label in the json file', async t => {
+test.requestHooks(EnrollProfileSignUpAllBaseAttributesMock)('All Base Attributes are rendered based on their i18n translation, not the label in the json file', async t => {
   const enrollProfilePage = new EnrollProfileViewPageObject(t);
   const identityPage = await setup(t);
   await checkA11y(t);
   await identityPage.clickSignUpLink();
-
-  requestLogger.clear();
 
   const formFieldToLabel = {
     firstName: 'First name',
@@ -204,23 +194,22 @@ test.requestHooks(requestLogger, EnrollProfileSignUpAllBaseAttributesMock)('All 
     division: 'Division',
     department: 'Department',
     managerId: 'Manager ID',
-    manager: 'Manager',
+    manager: 'Manager(?! ID)',
   };
 
-  Object.keys(formFieldToLabel).forEach(async (formField) => {
+  for (const formFieldLabel of Object.values(formFieldToLabel)) {
     // verify all base attributes map to correct translation
     // all 'label' fields for base attributes in json are appended with a '1'
-    await t.expect(await enrollProfilePage.form.fieldByLabelExists(formFieldToLabel[formField])).eql(true);
-  });
+    await t.expect(enrollProfilePage.form.fieldByLabelExists(formFieldLabel)).eql(true, `No label ${formFieldLabel}`);
+  }
 });
 
-test.requestHooks(requestLogger, EnrollProfileSignUpWithPasswordMock)('should show prompt for password and password requirements', async t => {
+test.requestHooks(EnrollProfileSignUpWithPasswordPromptMock)('should show prompt for password and password requirements', async t => {
   const enrollProfilePage = new EnrollProfileViewPageObject(t);
   const identityPage = await setup(t);
   await checkA11y(t);
   await identityPage.clickSignUpLink();
 
-  requestLogger.clear();
   await t.expect(enrollProfilePage.getFormTitle()).eql('Sign up');
   await t.expect(await enrollProfilePage.formFieldExistsByLabel('First name')).eql(true);
   await t.expect(await enrollProfilePage.formFieldExistsByLabel('Last name')).eql(true);
@@ -246,13 +235,11 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithPasswordMock)('should sh
   await identityPage.fillPasswordField('secretPassword');
 });
 
-test.requestHooks(requestLogger, EnrollProfileSignUpWithPasswordMock)('should show error for invalid password above form and on password field', async t => {
+test.requestHooks(EnrollProfileSignUpWithPasswordErrorMock)('should show error for invalid password above form and on password field', async t => {
   const enrollProfilePage = new EnrollProfileViewPageObject(t);
   const identityPage = await setup(t);
   await checkA11y(t);
   await identityPage.clickSignUpLink();
-
-  requestLogger.clear();
 
   // Fill in attribute fields
   await enrollProfilePage.setTextBoxValue('userProfile.firstName', 'First');
@@ -275,13 +262,11 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithPasswordMock)('should sh
   }
 });
 
-test.requestHooks(requestLogger, EnrollProfileSignUpWithPasswordMultipleErrorsMock)('should show multiple errors when multiple fields are invalid, including invalid password', async t => {
+test.requestHooks(EnrollProfileSignUpWithPasswordMultipleErrorsMock)('should show multiple errors when multiple fields are invalid, including invalid password', async t => {
   const enrollProfilePage = new EnrollProfileViewPageObject(t);
   const identityPage = await setup(t);
   await checkA11y(t);
   await identityPage.clickSignUpLink();
-
-  requestLogger.clear();
 
   // Fill in attribute fields
   await enrollProfilePage.setTextBoxValue('userProfile.firstName', 'First');
@@ -314,13 +299,11 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithPasswordMultipleErrorsMo
   await t.expect(await enrollProfilePage.form.hasTextBoxErrorMessage('userProfile.email', 0)).eql(true);
 });
 
-test.requestHooks(requestLogger, EnrollProfileSignUpWIthIdpsMock)('Should render social IDP buttons when returned via remediation', async t => {
+test.requestHooks(EnrollProfileSignUpWIthIdpsMock)('Should render social IDP buttons when returned via remediation', async t => {
   
   const enrollProfilePage = await setup(t);
   await checkA11y(t);
   await enrollProfilePage.clickSignUpLink();
-
-  requestLogger.clear();
 
   await t.expect(enrollProfilePage.getIdpButton('Sign in with Facebook').exists).eql(true);
   await t.expect(enrollProfilePage.getIdpButton('Sign in with Google').exists).eql(true);
@@ -328,13 +311,11 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWIthIdpsMock)('Should render
   await t.expect(enrollProfilePage.getIdpButton('Sign in with Microsoft').exists).eql(true);
 });
 
-test.requestHooks(requestLogger, EnrollProfileSignUpWIthIdpsMock)('Clicking IDP buttons does redirect', async t => {
+test.requestHooks(EnrollProfileSignUpWIthIdpsMock)('Clicking IDP buttons does redirect', async t => {
   
   const enrollProfilePage = await setup(t);
   await checkA11y(t);
   await enrollProfilePage.clickSignUpLink();
-
-  requestLogger.clear();
 
   await t.expect(enrollProfilePage.getIdpButton('Sign in with Facebook').exists).eql(true);
   await t.expect(enrollProfilePage.getIdpButton('Sign in with Google').exists).eql(true);
@@ -348,12 +329,10 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWIthIdpsMock)('Clicking IDP 
     .eql('http://localhost:3000/sso/idps/facebook-123?stateToken=eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25rZXkiLCJ2ZXIiOiIxIiwib2lkIjoiMDBvczI0VHZiWHlqOVFLSm4wZzMiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0..aDi6JnIZwCRzk7RN.xQ1R9jj43bV5S17F1juzgTZGd9Gq7VvuE4Hc1V_tMVcTWiVQ1Ntim1tQPZtmnpfOifu-N_quGGDSdgiidb_2xU1m9SbDMJhV-Yp6E07tABwjaRd_ekuRzDFw7Jxknz33LtSwQOTQ-WiH2o6JikLiEz2BQbgoizIc2izbtdod7HJg0HVnMZ9ZlBqyBG1-EISI_xPypq8uzP8n79hP_Zz41RI7VJA35yfTuNLOX_k6B-mfeVKf4HyFsKm62XWQgcPIxhjxBMqmyZow2toNclV3sIqgw7I5tKCLQSmSnKbFxxuT4-G31BdaVOALAe9Z89zlluTYaKAPOr86RMsqaGKnQFaplc_0PiPbreKhVgvSeeJgqX2RwnLgckLLiRo7TRDs2kLhGY2ope0AeA9TSsTVdJzsScftZWKgh9iHpXjS-kGcbRx0etu4iTtbHOu3rDIfIcvvt55mfvA66wzy1CCxHt4WYNnBKHX0fIOW_fa_-RYGYug9YRV5G6nQ6V-CfHoxmEsMhsoFJu0hei34_SJv15w2l3vxxBytrWSWi5qUfm5zGjNlx8e9n1Sf_eAqXCfLhBLK4_14jwtjNbWOZCdg5dwzxQiQWDItBjijEjdQrK0i6tw2Rp-IMJD1-4_ZfFZDmAXgZZtBYc3kdmumgYpKeYUJJgw0ZJWoG-Xr0bbzGGMx46yHzMpDbSTpiWhKGytQPbNja8sf_eeOKx_AAosamDUub9yuZJb0-Nj0xvXZ89J0m_09wa2Z3G-zY01sv9ONkXMFzRVwAb2bHmGle082bq33-7Klk7_ZzzkBROJhgDHQcw5QibGWaqYqscgKv2NQV8ebGJO_BHU46p1T3MQzStxRZ2EZua9qQwsmL8P5yboNDt2YmYnUvaOcGfeAqwgovqNDQ0H4u-D5psFmiU1STLOlN5pSAauKe4VxlLxphiirrmiNOOOW0XTwaQ1vtPz8gFlXsmGB-0zcsySG6A6HJ49eOeEI0J2REy2dlFRxzdKthANM2xFc_AIgas9mcNhSWtmVEtMxv7N0xqGAJbxaJC6U4kDDXdImZVaovz4lgRFkIh3aUXgUMX558u9MBeF6Q7z3piIpT6A4I1ww_eDNM02Vew.inRUXNhsc6Evt7GAb8DPAA');
 });
 
-test.requestHooks(requestLogger, EnrollProfileSignUpWIthIdpsMock)('custom idps should show correct label', async t => {
+test.requestHooks(EnrollProfileSignUpWIthIdpsMock)('custom idps should show correct label', async t => {
   const enrollProfilePage = await setup(t);
   await checkA11y(t);
   await enrollProfilePage.clickSignUpLink();
-
-  requestLogger.clear();
   
   await t.expect(enrollProfilePage.getIdpButtonCount()).eql(8);
   await t.expect(enrollProfilePage.getIdpButton('Sign in with My SAML IDP').exists).eql(true);

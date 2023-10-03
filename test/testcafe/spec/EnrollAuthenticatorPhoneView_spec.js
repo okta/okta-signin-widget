@@ -78,7 +78,6 @@ test
   .requestHooks(voiceMock)('Voice mode - has the right labels', async t => {
     const enrollPhonePageObject = await setup(t);
     await checkA11y(t);
-    await t.expect(enrollPhonePageObject.formExists()).eql(true);
 
     await checkConsoleMessages({
       controller: 'enroll-call',
@@ -189,9 +188,7 @@ test
     await t.expect(resendCodeText).contains('Call again');
   });
 
-// Test fails in v3. After re-render we still have to wait for 30 seconds
-// Re-enable in OKTA-654446
-test.meta('gen3', false)
+test
   .requestHooks(smsMock)('Callout appears after 30 seconds at most even after re-render', async t => {
     const enrollPhonePageObject = await setup(t);
     await checkA11y(t);

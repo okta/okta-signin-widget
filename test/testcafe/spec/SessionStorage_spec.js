@@ -85,6 +85,7 @@ test.requestHooks(identifyChallengeMockWithError)('shall save state handle durin
 
   // Identify page
   await identityPage.navigateToPage();
+  await t.expect(identityPage.formExists()).ok();
   await t.expect(getStateHandleFromSessionStorage()).eql(null);
   await identityPage.fillIdentifierField('foo@test.com');
   await identityPage.clickNextButton();
@@ -133,6 +134,7 @@ test.requestHooks(identifyChallengeMockWithError)('shall save state handle durin
 
   // Identify page
   await identityPage.navigateToPage();
+  await t.expect(identityPage.formExists()).ok();
   await t.expect(getStateHandleFromSessionStorage()).eql(null);
   await identityPage.fillIdentifierField('foo@test.com');
   await identityPage.clickNextButton();
@@ -178,6 +180,7 @@ test.requestHooks(identifyChallengeMockWithError)('shall clear session.stateHand
 
   // Identify page
   await identityPage.navigateToPage();
+  await t.expect(identityPage.formExists()).ok();
   await t.expect(getStateHandleFromSessionStorage()).eql(null);
   await identityPage.fillIdentifierField('foo@test.com');
   await identityPage.clickNextButton();
@@ -199,6 +202,7 @@ test.requestHooks(identifyChallengeMockWithSessionExpired)('shall clear session.
 
   // Identify page
   await identityPage.navigateToPage();
+  await t.expect(identityPage.formExists()).ok();
   await t.expect(getStateHandleFromSessionStorage()).eql(null);
   await identityPage.fillIdentifierField('foo@test.com');
   await identityPage.clickNextButton();
@@ -297,6 +301,7 @@ test.requestHooks(introspectRequestLogger, identifyChallengeMockWithError)('shal
 
   // Identify page
   await identityPage.navigateToPage();
+  await t.expect(identityPage.formExists()).ok();
   await t.expect(getStateHandleFromSessionStorage()).eql(null);
   await identityPage.fillIdentifierField('foo@test.com');
   await identityPage.clickNextButton();
@@ -323,7 +328,7 @@ test.requestHooks(introspectRequestLogger, identifyChallengeMockWithError)('shal
 test.requestHooks(credentialSSONotExistLogger, credentialSSONotExistMock)('shall clear session.stateHandle when SSO extension fails', async t => {
   const ssoExtensionPage = new BasePageObject(t);
   await ssoExtensionPage.navigateToPage();
-  await ssoExtensionPage.formExists();
+  await t.expect(ssoExtensionPage.formExists()).ok();
   await t.expect(credentialSSONotExistLogger.count(
     record => record.response.statusCode === 200 &&
       record.request.url.match(/introspect/)

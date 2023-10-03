@@ -165,18 +165,18 @@ const getAuthenticatorDescription = (
     return loc(AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP[authenticatorKey], 'login', descrParams);
   }
 
-  if (authenticatorKey === AUTHENTICATOR_KEY.PHONE) {
-    return option.relatesTo?.profile?.phoneNumber as string || undefined;
+  switch (authenticatorKey) {
+    case AUTHENTICATOR_KEY.PHONE:
+      return option.relatesTo?.profile?.phoneNumber as string || undefined;
+    case AUTHENTICATOR_KEY.EMAIL:
+      return option.relatesTo?.profile?.email as string || undefined;
+    case AUTHENTICATOR_KEY.CUSTOM_APP:
+      return option.relatesTo?.displayName as string || undefined;
+    case AUTHENTICATOR_KEY.OV:
+      return loc('oie.okta_verify.label', 'login');
+    default:
+      return undefined;
   }
-
-  if (authenticatorKey === AUTHENTICATOR_KEY.CUSTOM_APP) {
-    return option.relatesTo?.displayName as string || undefined;
-  }
-
-  if (authenticatorKey === AUTHENTICATOR_KEY.OV) {
-    return loc('oie.okta_verify.label', 'login');
-  }
-  return undefined;
 };
 
 const getUsageDescription = (option: IdxOption): string | undefined => {

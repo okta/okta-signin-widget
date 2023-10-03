@@ -69,12 +69,14 @@ fixture('Device Challenge Polling View for Chrome DTC');
 async function setup(t) {
   const deviceChallengePollPage = new DeviceChallengePollPageObject(t);
   await deviceChallengePollPage.navigateToPage();
+  await t.expect(deviceChallengePollPage.formExists()).ok();
   return deviceChallengePollPage;
 }
 
 async function setupIdentify(t) {
   const identityPage = new IdentityPageObject(t);
   await identityPage.navigateToPage();
+  await t.expect(identityPage.formExists()).ok();
   return identityPage;
 }
 

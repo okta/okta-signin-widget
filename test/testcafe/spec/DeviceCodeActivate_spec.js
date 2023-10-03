@@ -69,6 +69,7 @@ fixture('Device Code Activation Flow');
 async function setup(t) {
   const deviceCodeActivatePage = new DeviceCodeActivatePageObject(t);
   await deviceCodeActivatePage.navigateToPage();
+  await t.expect(deviceCodeActivatePage.formExists()).ok();
   return deviceCodeActivatePage;
 }
 

@@ -228,6 +228,9 @@ fixture('OktaSignIn');
 async function setup(t, options) {
   const identityPage = new IdentityPageObject(t);
   await identityPage.navigateToPage(options);
+  if (options?.render !== false) {
+    await t.expect(identityPage.formExists()).ok();
+  }
   return identityPage;
 }
 
@@ -239,15 +242,17 @@ test.requestHooks(identifyMock)('should hide and show with corresponding methods
   await hideWidget();
   await t.expect(identityPage.isVisible()).eql(false);
   await showWidget();
+  await t.expect(identityPage.formExists()).ok();
   await t.expect(identityPage.isVisible()).eql(true);
 });
 
 test.requestHooks(identifyMock)('can render initially hidden widget', async t => {
-  const identityPage = await setup(t);
-  await checkA11y(t);
+  const identityPage = await setup(t, { render: false });
   await renderHiddenWidget(userVariables);
   await t.expect(identityPage.isVisible()).eql(false);
   await showWidget();
+  await t.expect(identityPage.formExists()).ok();
+  await checkA11y(t);
   await t.expect(identityPage.isVisible()).eql(true);
 });
 

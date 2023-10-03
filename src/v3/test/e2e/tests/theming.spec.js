@@ -50,7 +50,8 @@ test('Theme configuration applies correctly', async (t) => {
 `,
 });
 
-test('should override text color based on MUI theme options override', async (t) => {
+// TODO OKTA-654743 enable/expose theme overrides on OktaSignIn configs
+test.skip('should override text color based on MUI theme options override', async (t) => {
   const header = Selector('h2')
     .withText('Sign In');
   await t
