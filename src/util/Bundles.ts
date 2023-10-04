@@ -18,7 +18,7 @@ import fetch from 'cross-fetch';
 import country from 'nls/country.json';
 import login from 'nls/login.json';
 import Q from 'q';
-import _ from 'underscore';
+import { each, keys, mapValues, isObject, extend } from 'lodash';
 import BrowserFeatures from 'util/BrowserFeatures';
 import Logger from 'util/Logger';
 const STORAGE_KEY = 'osw.languages';
@@ -67,17 +67,17 @@ function parseOverrides(i18n) {
 
   const i18nWithLowerCaseKeys = {};
 
-  _.each(_.keys(i18n), function(key) {
+  each(keys(i18n), function(key) {
     i18nWithLowerCaseKeys[key.toLowerCase()] = i18n[key];
   });
 
-  return _.mapObject(i18nWithLowerCaseKeys, function(props) {
+  return mapValues(i18nWithLowerCaseKeys, function(props) {
     const mapped = { login: {}, country: {} };
 
-    if (!_.isObject(props)) {
+    if (!isObject(props)) {
       throw new Error('Invalid format for "i18n"');
     }
-    _.each(props, function(val, key) {
+    each(props, function(val, key) {
       const split = key.split(/^country\./);
 
       if (split.length > 1) {
@@ -171,7 +171,7 @@ function getBundles(language, assets, supportedLanguages) {
   // 1. Default language is already bundled with the widget
   // 2. If the language is not in our config file, it means that they've
   //    probably defined it on their own.
-  if (language === config.defaultLanguage || !_.contains(supportedLanguages, language)) {
+  if (language === config.defaultLanguage || !supportedLanguages.includes(language)) {
     return Q({});
   }
 
@@ -226,13 +226,13 @@ export default {
     return getBundles(language, assets, supportedLanguages).then(bundles => {
       // Always extend from the built in defaults in the event that some
       // properties are not translated
-      this.login = _.extend({}, login, bundles.login);
-      this.country = _.extend({}, country, bundles.country);
-      this.courage = _.extend({}, login, bundles.login);
+      this.login = extend({}, login, bundles.login);
+      this.country = extend({}, country, bundles.country);
+      this.courage = extend({}, login, bundles.login);
       if (parsedOverrides[lowerCaseLanguage]) {
-        _.extend(this.login, parsedOverrides[lowerCaseLanguage]['login']);
-        _.extend(this.country, parsedOverrides[lowerCaseLanguage]['country']);
-        _.extend(this.courage, parsedOverrides[lowerCaseLanguage]['login']);
+        extend(this.login, parsedOverrides[lowerCaseLanguage]['login']);
+        extend(this.country, parsedOverrides[lowerCaseLanguage]['country']);
+        extend(this.courage, parsedOverrides[lowerCaseLanguage]['login']);
       }
       this.currentLanguage = language;
     });
