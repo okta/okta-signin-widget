@@ -82,6 +82,7 @@ const baseConfig: Partial<Configuration> = {
             '/node_modules/parse-ms',
             '/node_modules/@sindresorhus/to-milliseconds',
             '/node_modules/@okta/odyssey-react-mui',
+            '/node_modules/@okta/odyssey-react-mui-legacy',
             '/node_modules/@mui',
             '/node_modules/@okta/okta-auth-js',
             '/node_modules/p-cancelable',

@@ -11,7 +11,7 @@
  */
 
 import * as Tokens from '@okta/odyssey-design-tokens';
-import { Box, Typography } from '@okta/odyssey-react-mui';
+import { Box, Typography } from '@okta/odyssey-react-mui-legacy';
 import classNames from 'classnames';
 import { FunctionComponent, h } from 'preact';
 import { AuthCoinProps } from 'src/types';

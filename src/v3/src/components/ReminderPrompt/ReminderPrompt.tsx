@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Alert, Box, Link } from '@okta/odyssey-react-mui';
+import { Alert, Box, Link } from '@okta/odyssey-react-mui-legacy';
 import { HTMLReactParserOptions } from 'html-react-parser';
 import { h } from 'preact';
 import { useEffect, useRef, useState } from 'preact/hooks';

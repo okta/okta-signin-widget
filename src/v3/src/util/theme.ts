@@ -11,7 +11,7 @@
  */
 
 import { ThemeOptions } from '@mui/material';
-import { odysseyTheme } from '@okta/odyssey-react-mui';
+import { odysseyTheme } from '@okta/odyssey-react-mui-legacy';
 import chroma from 'chroma-js';
 import { set as _set } from 'lodash';
 

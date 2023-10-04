@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Button } from '@okta/odyssey-react-mui';
+import { Button } from '@okta/odyssey-react-mui-legacy';
 import { h } from 'preact';
 
 import { useStepperContext, useWidgetContext } from '../../contexts';
