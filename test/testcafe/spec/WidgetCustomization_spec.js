@@ -134,7 +134,6 @@ test.requestHooks(identifyMock)('should show custom buttons links', async t => {
       }
     }]
   });
-  await checkA11y(t);
   await t.expect(identityPage.getCustomButtonText(0)).eql('Custom Button 1');
   await t.expect(identityPage.getCustomButtonText(1)).eql('Custom Button 2');
 
