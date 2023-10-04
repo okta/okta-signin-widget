@@ -21,6 +21,7 @@ describe('locUtil Tests', () => {
   };
 
   beforeEach(() => {
+    // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
     const mockedLoc = require('util/loc');
     mockedLoc.loc = jest.fn().mockImplementation(
       // eslint-disable-next-line no-unused-vars
