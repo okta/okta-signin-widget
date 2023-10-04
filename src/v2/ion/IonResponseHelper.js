@@ -10,11 +10,11 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { chain, isFunction, flatten, each, isEqual } from 'lodash';
+import _ from 'underscore';
 import { getMessage, getMessageKey } from './i18nUtils';
 
 const convertErrorMessageToErrorSummary = (formName, remediationValues = []) => {
-  return chain(remediationValues)
+  return _.chain(remediationValues)
     .filter(field => {
       return Array.isArray(field.messages?.value) && field.messages.value.length;
     })
@@ -37,7 +37,7 @@ const uniqWith = (array, comparator) => {
   if (!Array.isArray(array)) {
     return [];
   }
-  if (!isFunction(comparator) || array.length === 1) {
+  if (!_.isFunction(comparator) || array.length === 1) {
     return array;
   }
 
@@ -83,7 +83,7 @@ const getRemediationErrors = (res) => {
   // error at field
   errors.push(convertErrorMessageToErrorSummary(null, remediationFormFields));
 
-  each(remediationFormFields, (remediationForm) => {
+  _.each(remediationFormFields, (remediationForm) => {
     const formName = remediationForm.name;
 
     // error at form.value
@@ -93,7 +93,7 @@ const getRemediationErrors = (res) => {
 
     // error at option.value.form.value
     if (Array.isArray(remediationForm.options)) {
-      each(remediationForm.options, (option) => {
+      _.each(remediationForm.options, (option) => {
         if (Array.isArray(option.value?.form?.value)) {
           errors.push(convertErrorMessageToErrorSummary(formName, option.value.form.value));
         }
@@ -104,7 +104,7 @@ const getRemediationErrors = (res) => {
   // API may return identical error on same field
   // thus run through `uniqWith`.
   // Check unit test for details.
-  return uniqWith(flatten(errors), isEqual);
+  return uniqWith(_.flatten(errors), _.isEqual);
 };
 
 /**

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { extend, pick } from 'lodash';
+import _ from 'underscore';
 import { loc } from './loc';
 import Enums from './Enums';
 import { getTypedOAuthError, NonRecoverableError } from './OAuthErrors';
@@ -72,10 +72,10 @@ util.getTokens = function(settings, params, controller) {
   const options = settings.toJSON({ verbose: true });
   const getTokenOptions = {};
 
-  extend(
+  _.extend(
     getTokenOptions,
-    pick(options, 'clientId', 'redirectUri'),
-    pick(options.authParams, AUTH_PARAMS),
+    _.pick(options, 'clientId', 'redirectUri'),
+    _.pick(options.authParams, AUTH_PARAMS),
     params
   );
 
