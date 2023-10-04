@@ -72,15 +72,15 @@ const rerenderWidget = ClientFunction((settings) => {
 
 fixture('Unlock Account');
 
-async function setup(t) {
+async function setup(t, options) {
   const identityPage = new IdentityPageObject(t);
-  await identityPage.navigateToPage();
+  await identityPage.navigateToPage(options);
   return identityPage;
 }
 
-async function setupSignInDevice(t) {
+async function setupSignInDevice(t, options) {
   const signInDevicePageObject = new SignInDevicePageObject(t);
-  await signInDevicePageObject.navigateToPage();
+  await signInDevicePageObject.navigateToPage(options);
   return signInDevicePageObject;
 }
 
@@ -93,8 +93,7 @@ test.requestHooks(identifyLockedUserMock)('should show unlock account link', asy
 
 
 test.requestHooks(identifyLockedUserMock)('should render custom Unlock account link', async t => {
-  const identityPage = await setup(t);
-  await checkA11y(t);
+  const identityPage = await setup(t, { render: false });
   const customUnlockLinkText = 'HELP I\'M LOCKED OUT';
 
   await rerenderWidget({
@@ -107,6 +106,7 @@ test.requestHooks(identifyLockedUserMock)('should render custom Unlock account l
       }
     }
   });
+  await checkA11y(t);
 
   await t.expect(identityPage.unlockAccountLinkExists(customUnlockLinkText)).eql(true);
   await t.expect(identityPage.getCustomUnlockAccountLinkUrl(customUnlockLinkText)).eql('http://unlockaccount');
@@ -220,13 +220,13 @@ test.meta('gen3', false).requestHooks(identifyLockedUserMock)('should show the c
 });
 
 test.requestHooks(signInDeviceMock)('should render custom unlock account link on sign-in device page', async t => {
-  const signInDevicePage = await setupSignInDevice(t);
-  await checkA11y(t);
+  const signInDevicePage = await setupSignInDevice(t, { render: false });
   await rerenderWidget({
     'helpLinks': {
       'unlock': 'https://okta.okta.com/unlock',
     }
   });
+  await checkA11y(t);
   await t.expect(signInDevicePage.unlockAccountLinkExists()).eql(true);
   await t.expect(signInDevicePage.getCustomUnlockAccountLinkUrl()).eql('https://okta.okta.com/unlock');
 });

@@ -22,18 +22,16 @@ const logger = RequestLogger(
 
 fixture('Registration Hooks');
 
-async function setup(t) {
+async function setup(t, options) {
   const registrationPage = new RegistrationPageObject(t);
-  await registrationPage.navigateToPage();
+  await registrationPage.navigateToPage(options);
   return registrationPage;
 }
 
 
 test.requestHooks(logger, mock)('should call settings.registration hooks onSuccess handlers', async t => {
   logger.clear();
-  const registrationPage = await setup(t);
-  await checkA11y(t);
-
+  const registrationPage = await setup(t, { render: false });
   await renderWidget({
     registration: {
       parseSchema: function(resp, onSuccess) {
@@ -51,6 +49,8 @@ test.requestHooks(logger, mock)('should call settings.registration hooks onSucce
       },
     },
   });
+  await checkA11y(t);
+
   await registrationPage.fillLastNameField('bar');
   await registrationPage.fillEmailField('email@email.com');
   await registrationPage.clickRegisterButton();
@@ -75,9 +75,7 @@ test.requestHooks(logger, mock)('should call settings.registration hooks onSucce
 
 test.requestHooks(logger, mock)('should call settings.registration.preSubmit hook\'s onFailure handlers', async t => {
   logger.clear();
-  const registrationPage = await setup(t);
-  await checkA11y(t);
-
+  const registrationPage = await setup(t, { render: false });
   await renderWidget({
     registration: {
       parseSchema: function(resp, onSuccess, onFailure) {
@@ -100,6 +98,7 @@ test.requestHooks(logger, mock)('should call settings.registration.preSubmit hoo
       },
     },
   });
+  await checkA11y(t);
   await t.expect(registrationPage.getErrorBoxText()).eql('My parseSchema message');
 
   await registrationPage.fillFirstNameField('xyz');
@@ -115,9 +114,7 @@ test.requestHooks(logger, mock)('should call settings.registration.preSubmit hoo
 
 test.requestHooks(logger, mock)('settings.registration.preSubmit hook can call onFailure handlers with errorCauses to put error on specific field', async t => {
   logger.clear();
-  const registrationPage = await setup(t);
-  await checkA11y(t);
-
+  const registrationPage = await setup(t, { render: false });
   await renderWidget({
     registration: {
       preSubmit: function(postData, onSuccess, onFailure) {
@@ -131,6 +128,7 @@ test.requestHooks(logger, mock)('settings.registration.preSubmit hook can call o
       },
     },
   });
+  await checkA11y(t);
   await registrationPage.fillFirstNameField('xyz');
   await registrationPage.fillLastNameField('xyz');
   await registrationPage.fillEmailField('email@email.com');
@@ -145,9 +143,7 @@ test.requestHooks(logger, mock)('settings.registration.preSubmit hook can call o
 
 test.requestHooks(logger, mock)('should call settings.registration.postSubmit hook\'s onFailure handler', async t => {
   logger.clear();
-  const registrationPage = await setup(t);
-  await checkA11y(t);
-
+  const registrationPage = await setup(t, { render: false });
   await renderWidget({
     registration: {
       postSubmit: function(postData, onSuccess, onFailure) {
@@ -158,6 +154,7 @@ test.requestHooks(logger, mock)('should call settings.registration.postSubmit ho
       },
     },
   });
+  await checkA11y(t);
 
   await registrationPage.fillFirstNameField('xyz');
   await registrationPage.fillLastNameField('xyz');

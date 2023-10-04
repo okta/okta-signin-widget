@@ -267,7 +267,7 @@ export default class BasePageObject {
   }
 
   formExists() {
-    return Selector('form').exists;
+    return Selector('form').visible;
   }
 
   spinnerExists() {

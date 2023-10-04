@@ -20,9 +20,9 @@ const mdmMock = RequestMock()
 
 fixture('Device enrollment terminal view for ODA and MDM');
 
-async function setup(t) {
+async function setup(t, options) {
   const deviceEnrollmentTerminalPageObject = new DeviceEnrollmentTerminalPageObject(t);
-  await deviceEnrollmentTerminalPageObject.navigateToPage();
+  await deviceEnrollmentTerminalPageObject.navigateToPage(options);
   return deviceEnrollmentTerminalPageObject;
 }
 
@@ -90,7 +90,7 @@ test
 // The mocks and device enrollment values are intentionally set differently from above tests to make sure the we properly consume SIW config
 test
   .requestHooks()('shows the correct content in iOS ODA terminal view when Okta Verify is not installed in Universal Link flow', async t => {
-    const deviceEnrollmentTerminalPage = await setup(t);
+    const deviceEnrollmentTerminalPage = await setup(t, { render: false });
     await rerenderWidget({
       'proxyIdxResponse': {
         'deviceEnrollment': {
@@ -127,7 +127,7 @@ test
 
 test
   .requestHooks()('shows the correct content in iOS MDM terminal view when Okta Verify is not set up in Universal Link flow', async t => {
-    const deviceEnrollmentTerminalPage = await setup(t);
+    const deviceEnrollmentTerminalPage = await setup(t, { render: false });
     await rerenderWidget({
       'proxyIdxResponse': {
         'deviceEnrollment': {
@@ -159,7 +159,7 @@ test
 
 test
   .requestHooks()('shows the correct content in Android ODA terminal view', async t => {
-    const deviceEnrollmentTerminalPage = await setup(t);
+    const deviceEnrollmentTerminalPage = await setup(t, { render: false });
     await rerenderWidget({
       'proxyIdxResponse': {
         'deviceEnrollment': {
@@ -204,7 +204,7 @@ test
 
 test
   .requestHooks()('shows the correct content in Android ODA terminal view when Okta Verify is not installed in App Link flow', async t => {
-    const deviceEnrollmentTerminalPage = await setup(t);
+    const deviceEnrollmentTerminalPage = await setup(t, { render: false });
     await rerenderWidget({
       'proxyIdxResponse': {
         'deviceEnrollment': {
@@ -240,7 +240,7 @@ test
 
 test
   .requestHooks()('shows the correct content in Android ODA terminal view when Okta Verify is installed in App Link flow', async t => {
-    const deviceEnrollmentTerminalPage = await setup(t);
+    const deviceEnrollmentTerminalPage = await setup(t, { render: false });
     await rerenderWidget({
       'proxyIdxResponse': {
         'deviceEnrollment': {
@@ -274,7 +274,7 @@ test
 
 test
   .requestHooks()('shows the correct content in ANDROID MDM terminal view when Okta Verify is not installed in App Link flow', async t => {
-    const deviceEnrollmentTerminalPage = await setup(t);
+    const deviceEnrollmentTerminalPage = await setup(t, { render: false });
     await rerenderWidget({
       'proxyIdxResponse': {
         'deviceEnrollment': {

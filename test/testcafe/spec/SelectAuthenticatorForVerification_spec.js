@@ -123,9 +123,9 @@ const mockChallengeRsa = RequestMock()
 
 fixture('Select Authenticator for verification Form');
 
-async function setup(t) {
+async function setup(t, options) {
   const selectFactorPageObject = new SelectFactorPageObject(t);
-  await selectFactorPageObject.navigateToPage();
+  await selectFactorPageObject.navigateToPage(options);
   return selectFactorPageObject;
 }
 
@@ -390,11 +390,11 @@ test.meta('gen3', false).requestHooks(mockChallengeWithNickname)('should load se
 });
 
 test.requestHooks(mockChallengePassword)('should load select authenticator list with no sign-out link', async t => {
-  const selectFactorPage = await setup(t);
-  await checkA11y(t);
+  const selectFactorPage = await setup(t, { render: false });
   await renderWidget({
     features: { hideSignOutLinkInMFA: true },
   });
+  await checkA11y(t);
   await t.expect(selectFactorPage.getIdentifier()).eql('testUser@okta.com');
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with a security method');
   // signout link is not visible
@@ -729,9 +729,7 @@ test.meta('gen3', false).requestHooks(mockChallengeCustomOTP)('should navigate t
 });
 
 test.requestHooks(mockChallengePassword)('should show custom factor page link', async t => {
-  const pageObject = await setup(t);
-  await checkA11y(t);
-
+  const pageObject = await setup(t, { render: false });
   await renderWidget({
     helpLinks: {
       factorPage: {
@@ -740,15 +738,14 @@ test.requestHooks(mockChallengePassword)('should show custom factor page link', 
       }
     }
   });
+  await checkA11y(t);
 
   await t.expect(pageObject.getFactorPageHelpLinksLabel()).eql('custom factor page link');
   await t.expect(pageObject.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');
 });
 
 test.requestHooks(mockSelectAuthenticatorForRecovery)('should not show custom factor page link', async t => {
-  const pageObject = await setup(t);
-  await checkA11y(t);
-
+  const pageObject = await setup(t, { render: false });
   await renderWidget({
     helpLinks: {
       factorPage: {
@@ -757,6 +754,7 @@ test.requestHooks(mockSelectAuthenticatorForRecovery)('should not show custom fa
       }
     }
   });
+  await checkA11y(t);
 
   await t.expect(await pageObject.factorPageHelpLinksExists()).notOk();
 });

@@ -38,9 +38,9 @@ const verifyWithInvalidPasscodeMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(xhrInvalidPasscode, 403);
 
-async function setup(t) {
+async function setup(t, options) {
   const pageObject = new SymantecAuthenticatorPageObject(t);
-  await pageObject.navigateToPage();
+  await pageObject.navigateToPage(options);
 
   return pageObject;
 }
@@ -50,6 +50,7 @@ test
   .requestHooks(logger, enrollMock)('enroll with Symantec VIP authenticator', async t => {
     const pageObject = await setup(t);
     await checkA11y(t);
+    await pageObject.formExists();
 
     await checkConsoleMessages({
       controller: 'enroll-symantec',
@@ -91,6 +92,7 @@ test
   .requestHooks(logger, verifyMock)('verify with Symantec VIP authenticator', async t => {
     const pageObject = await setup(t);
     await checkA11y(t);
+    await pageObject.formExists();
 
     await checkConsoleMessages({
       controller: 'mfa-verify',
@@ -140,9 +142,7 @@ test
   });
 
 test.requestHooks(verifyMock)('should show custom factor page link', async t => {
-  const pageObject = await setup(t);
-  await checkA11y(t);
-
+  const pageObject = await setup(t, { render: false });
   await renderWidget({
     helpLinks: {
       factorPage: {
@@ -151,6 +151,7 @@ test.requestHooks(verifyMock)('should show custom factor page link', async t => 
       }
     }
   });
+  await checkA11y(t);
 
   await t.expect(pageObject.getFactorPageHelpLinksLabel()).eql('custom factor page link');
   await t.expect(pageObject.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');

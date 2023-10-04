@@ -243,11 +243,11 @@ test.requestHooks(identifyMock)('should hide and show with corresponding methods
 });
 
 test.requestHooks(identifyMock)('can render initially hidden widget', async t => {
-  const identityPage = await setup(t);
-  await checkA11y(t);
+  const identityPage = await setup(t, { render: false });
   await renderHiddenWidget(userVariables);
   await t.expect(identityPage.isVisible()).eql(false);
   await showWidget();
+  await checkA11y(t);
   await t.expect(identityPage.isVisible()).eql(true);
 });
 

@@ -29,9 +29,9 @@ const verifyMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(xhrSuccess);
 
-async function setup(t) {
+async function setup(t, options) {
   const pageObject = new YubiKeyAuthenticatorPageObject(t);
-  await pageObject.navigateToPage();
+  await pageObject.navigateToPage(options);
 
   return pageObject;
 }
@@ -119,9 +119,7 @@ test
   });
 
 test.requestHooks(verifyMock)('should show custom factor page link', async t => {
-  const pageObject = await setup(t);
-  await checkA11y(t);
-
+  const pageObject = await setup(t, { render: false });
   await renderWidget({
     helpLinks: {
       factorPage: {
@@ -130,6 +128,7 @@ test.requestHooks(verifyMock)('should show custom factor page link', async t => 
       }
     }
   });
+  await checkA11y(t);
 
   await t.expect(pageObject.getFactorPageHelpLinksLabel()).eql('custom factor page link');
   await t.expect(pageObject.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');

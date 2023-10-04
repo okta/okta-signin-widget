@@ -28,6 +28,7 @@ test
   .requestHooks(sendEmailMock)('send email screen should have right labels', async t => {
     const challengeEmailPageObject = await setup(t);
     await checkA11y(t);
+    await challengeEmailPageObject.formExists();
     await checkConsoleMessages({
       controller: null,
       formName: 'authenticator-enrollment-data',
