@@ -22,9 +22,6 @@
       "@okta/okta-i18n-bundles": [
         "../util/Bundles.ts"
       ],
-      "@okta/qtip": [
-        "../../packages/@okta/qtip2/dist/jquery.qtip.js"
-      ],
       "config/config.json": [
         "../config/config.json"
       ],

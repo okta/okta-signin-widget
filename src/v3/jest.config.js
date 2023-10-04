@@ -50,7 +50,6 @@ module.exports = {
     '^.+\\.svg$': '<rootDir>/svgMockTransformer.js',
     '\\.(css|less|scss)$': 'identity-obj-proxy',
     '^@okta/okta-i18n-bundles$': `${PROJECT_ROOT}/src/util/Bundles`,
-    '^@okta/qtip$': `${PACKAGES}/@okta/qtip2/dist/jquery.qtip.js`,
     '^@okta/mocks/(.*)': `${PROJECT_ROOT}/playground/mocks/$1`,
     'util/Logger': `${PROJECT_ROOT}/src/util/Logger`,
     'util/Bundles': `${PROJECT_ROOT}/src/util/Bundles`,
