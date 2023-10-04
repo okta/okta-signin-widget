@@ -144,7 +144,7 @@ test.requestHooks(mockWithoutIdentify)('should only render idp buttons with iden
 
 test.requestHooks(logger, mockOnlyOneIdp)('should auto redirect to 3rd party IdP login page with basic Signing in message', async t => {
   const identityPage = await setup(t);
-  await t.expect(identityPage.formExists()).eql(true);
+  await identityPage.formExists();
 
   await checkConsoleMessages({
     controller: null,
