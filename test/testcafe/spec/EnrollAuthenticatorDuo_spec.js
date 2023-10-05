@@ -18,18 +18,16 @@ const mock = RequestMock()
 fixture('Authenticator Enroll Duo')
   .requestHooks(mock);
 
-async function setup(t, options) {
+async function setup(t) {
   const enrollDuoPage = new DuoPageObject(t);
-  await enrollDuoPage.navigateToPage(options);
-  if (options?.render !== false) {
-    await enrollDuoPage.formExists();
-    await checkConsoleMessages({
-      controller: 'enroll-duo',
-      formName: 'enroll-authenticator',
-      authenticatorKey: 'duo',
-      methodType: 'idp',
-    });
-  }
+  await enrollDuoPage.navigateToPage();
+  await t.expect(enrollDuoPage.formExists()).eql(true);
+  await checkConsoleMessages({
+    controller: 'enroll-duo',
+    formName: 'enroll-authenticator',
+    authenticatorKey: 'duo',
+    methodType: 'idp',
+  });
 
   return enrollDuoPage;
 }
@@ -48,12 +46,11 @@ test('should render an iframe for duo', async t => {
 });
 
 test('should render an iframe for duo without sign-out link', async t => {
-  const enrollDuoPage = await setup(t, { render: false });
+  const enrollDuoPage = await setup(t);
+  await checkA11y(t);
   await renderWidget({
     features: { hideSignOutLinkInMFA: true },
   });
-  await enrollDuoPage.formExists();
-  await checkA11y(t);
 
   // Check title
   await t.expect(enrollDuoPage.getFormTitle()).eql('Set up Duo Security');

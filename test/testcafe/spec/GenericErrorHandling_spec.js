@@ -17,7 +17,6 @@ fixture('GenericErrors');
 async function setup(t) {
   const terminalPage = new TerminalPageObject(t);
   await terminalPage.navigateToPage();
-  await terminalPage.formExists();
   await terminalPage.waitForTerminalView();
   return terminalPage;
 }
@@ -25,6 +24,7 @@ async function setup(t) {
 test.requestHooks(noMessagesErrorMock)('should be able generic error when request does not have messages', async t => {
   const terminalPage = await setup(t);
   await checkA11y(t);
+  await terminalPage.formExists();
   await terminalPage.waitForErrorBox();
   await t.expect(terminalPage.getErrorBoxText()).eql('There was an unexpected internal error. Please try again.');
 });
@@ -32,6 +32,7 @@ test.requestHooks(noMessagesErrorMock)('should be able generic error when reques
 test.requestHooks(securityAccessDeniedMock)('should be able display error when request failed ith 403 with no stateToken', async t => {
   const terminalPage = await setup(t);
   await checkA11y(t);
+  await terminalPage.formExists();
   await terminalPage.waitForErrorBox();
   await t.expect(terminalPage.getErrorBoxText()).contains('You do not have permission to perform the requested action');
 });

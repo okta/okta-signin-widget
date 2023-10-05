@@ -71,7 +71,6 @@ fixture('Identify + IDPs');
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
   await identityPage.navigateToPage();
-  await identityPage.formExists();
   return identityPage;
 }
 
@@ -94,6 +93,7 @@ async function setupDirectAuth(t) {
 test.requestHooks(mockWithIdentify) ('should render idp buttons with identifier form ', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
+  await identityPage.formExists();
 
   await checkConsoleMessages({
     controller: 'primary-auth',
@@ -111,6 +111,7 @@ test
   .requestHooks(mockWithIdentify)('clicking on idp button does redirect ', async t => {
     const identityPage = await setup(t);
     await checkA11y(t);
+    await identityPage.formExists();
     await t.expect(identityPage.identifierFieldExistsForIdpView()).eql(true);
     await t.expect(identityPage.getIdpButton('Sign in with Facebook').exists).eql(true);
     await t.expect(identityPage.getIdpButton('Sign in with Google').exists).eql(true);
@@ -127,6 +128,7 @@ test
 test.requestHooks(mockWithoutIdentify)('should only render idp buttons with identifier form ', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
+  await identityPage.formExists();
 
   await checkConsoleMessages({
     controller: null,
@@ -142,6 +144,7 @@ test.requestHooks(mockWithoutIdentify)('should only render idp buttons with iden
 
 test.requestHooks(logger, mockOnlyOneIdp)('should auto redirect to 3rd party IdP login page with basic Signing in message', async t => {
   const identityPage = await setup(t);
+  await identityPage.formExists();
 
   await checkConsoleMessages({
     controller: null,
@@ -174,6 +177,7 @@ test.requestHooks(logger, mockOnlyOneIdp)('Direct auth: does not auto redirect t
 
 test.requestHooks(logger, mockOnlyOneIdpAppUser)('should auto redirect to 3rd party IdP login page with Signing in longer message', async t => {
   const identityPage = await setup(t);
+  await identityPage.formExists();
 
   await checkConsoleMessages({
     controller: null,
@@ -191,6 +195,7 @@ test.requestHooks(logger, mockOnlyOneIdpAppUser)('should auto redirect to 3rd pa
 test.requestHooks(logger, mockIdpDiscoveryWithOneIdp)('IDP discovery will auto redirect to 3rd party IDP after identify with name', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
+  await identityPage.formExists();
 
   await checkConsoleMessages({
     controller: 'primary-auth',
@@ -210,7 +215,7 @@ test.requestHooks(logger, mockIdpDiscoveryWithOneIdp)('IDP discovery will auto r
 
 test.requestHooks(logger, mockIdpDiscoveryWithOneIdp)('Direct auth: IDP discovery will auto redirect to 3rd party IDP after identify with name', async t => {
   const identityPage = await setupDirectAuth(t);
-  await identityPage.formExists();
+  await t.expect(identityPage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: 'primary-auth',
     formName: 'identify',
@@ -230,6 +235,7 @@ test.requestHooks(logger, mockIdpDiscoveryWithOneIdp)('Direct auth: IDP discover
 test.requestHooks(logger, mockWithoutIdentify)('custom idps should show correct label', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
+  await identityPage.formExists();
   await t.expect(identityPage.getIdpButtonCount()).eql(6);
   await t.expect(identityPage.getIdpButton('Sign in with My SAML IDP').exists).eql(true);
   await t.expect(identityPage.getIdpButton('Sign in with SAML IDP').exists).eql(true);
@@ -238,6 +244,7 @@ test.requestHooks(logger, mockWithoutIdentify)('custom idps should show correct 
 test.requestHooks(logger, mockWithoutIdentify)('view with only idp buttons should render "Back to Sign In" link', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
+  await identityPage.formExists();
   await t.expect(identityPage.getIdpButtonCount()).eql(6);
   await t.expect(await identityPage.signoutLinkExists()).ok();
 });

@@ -38,14 +38,10 @@ const mockExpireSoon = RequestMock()
 
 fixture('Custom Authenticator Password Expiry Warning');
 
-async function setup(t, widgetOptions) {
-  const options = widgetOptions ? { render: false } : {};
+async function setup(t) {
   const expiringCustomPasswordPage = new EnrollCustomPasswordPageObject(t);
-  await expiringCustomPasswordPage.navigateToPage(options);
-  if (widgetOptions) {
-    await rerenderWidget(widgetOptions);
-  }
-  await expiringCustomPasswordPage.formExists();
+  await expiringCustomPasswordPage.navigateToPage();
+  await t.expect(expiringCustomPasswordPage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: 'custom-password-expiry-warning',
     formName: 'reenroll-custom-password-expiry-warning',
@@ -87,8 +83,7 @@ test
 
 test
   .requestHooks(logger, mockExpireInDays)('should have a different subtitle when brandName is defined', async t => {
-    const expiringCustomPasswordPage = await setup(t, {
-      brandName: 'Brand'
-    });
+    const expiringCustomPasswordPage = await setup(t);
+    await rerenderWidget({ brandName: 'Brand' });
     await t.expect(expiringCustomPasswordPage.getFormSubtitle()).eql('When password expires you will be locked out of your Brand account. This password is set on another website. Click the button below to go there and set a new password.');
   });

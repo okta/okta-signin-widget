@@ -32,14 +32,10 @@ const identifyRequestLogger = RequestLogger(
 
 fixture('Identify + Password');
 
-async function setup(t, widgetOptions) {
-  const options = widgetOptions ? { render: false } : {};
+async function setup(t) {
   const identityPage = new IdentityPageObject(t);
-  await identityPage.navigateToPage(options);
-  if (widgetOptions) {
-    await renderWidget(widgetOptions);
-  }
-  await identityPage.formExists();
+  await identityPage.navigateToPage();
+  await t.expect(identityPage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: 'primary-auth',
     formName: 'identify',
@@ -69,7 +65,9 @@ test.requestHooks(identifyWithPasswordMock)('should show errors if required fiel
 });
 
 test.requestHooks(identifyWithPasswordMock)('should show customized error if required field password is empty', async t => {
-  const identityPage = await setup(t, {
+  const identityPage = await setup(t);
+  await checkA11y(t);
+  await renderWidget({
     i18n: {
       en: {
         'error.username.required': 'Username is required!',
@@ -77,7 +75,6 @@ test.requestHooks(identifyWithPasswordMock)('should show customized error if req
       }
     }
   });
-  await checkA11y(t);
 
   await identityPage.clickSignInButton();
   await identityPage.waitForErrorBox();
@@ -123,36 +120,40 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should have 
 });
 
 test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should have password toggle if features.showPasswordToggleOnSignInPage is true', async t => {
-  const identityPage = await setup(t, {
+  const identityPage = await setup(t);
+  await checkA11y(t);
+  await renderWidget({
     features: { showPasswordToggleOnSignInPage: true },
   });
-  await checkA11y(t);
   await t.expect(await identityPage.hasShowTogglePasswordIcon()).ok();
 });
 
 test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should not have password toggle if features.showPasswordToggleOnSignInPage is false', async t => {
-  const identityPage = await setup(t, {
+  const identityPage = await setup(t);
+  await checkA11y(t);
+  await renderWidget({
     features: { showPasswordToggleOnSignInPage: false },
   });
-  await checkA11y(t);
   await t.expect(await identityPage.hasShowTogglePasswordIcon()).notOk();
 });
 
 // TODO: OKTA-649669 - Determine whether gen 3 should support dot notation FFs. Courage has built-in functionality for parsing this syntax of FFs
 // passed to the widget config, but an investigation should be done as to whether we should support this in gen 3
 test.meta('gen3', false).requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should not have password toggle if "features.showPasswordToggleOnSignInPage" is false', async t => {
-  const identityPage = await setup(t, {
+  const identityPage = await setup(t);
+  await checkA11y(t);
+  await renderWidget({
     'features.showPasswordToggleOnSignInPage': false,
   });
-  await checkA11y(t);
   await t.expect(await identityPage.hasShowTogglePasswordIcon()).notOk();
 });
 
 test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should auto-hide password after 30 seconds', async t => {
-  const identityPage = await setup(t, {
+  const identityPage = await setup(t);
+  await checkA11y(t);
+  await renderWidget({
     features: { showPasswordToggleOnSignInPage: true },
   });
-  await checkA11y(t);
   await t.expect(await identityPage.hasShowTogglePasswordIcon()).ok();
   await identityPage.fillPasswordField('password');
   await identityPage.clickShowPasswordIcon();
@@ -165,7 +166,9 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should auto-
 });
 
 test.requestHooks(identifyWithPasswordMock)('should add sub labels for Username and Password if i18n keys are defined', async t => {
-  const identityPage = await setup(t, {
+  const identityPage = await setup(t);
+  await checkA11y(t);
+  await renderWidget({
     i18n: {
       en: {
         'primaryauth.username.tooltip': 'Your username goes here',
@@ -173,7 +176,6 @@ test.requestHooks(identifyWithPasswordMock)('should add sub labels for Username 
       }
     }
   });
-  await checkA11y(t);
   await t.expect(identityPage.getIdentifierSubLabelValue()).eql('Your username goes here');
   await t.expect(identityPage.getPasswordSubLabelValue()).eql('Your password goes here');
 });
@@ -222,12 +224,13 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should not t
 });
 
 test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should set autocomplete to off on username and password fields when features.disableAutocomplete is true', async t => {
-  const identityPage = await setup(t, {
+  const identityPage = await setup(t);
+  await checkA11y(t);
+  await renderWidget({
     features: {
       disableAutocomplete: true,
     },
   });
-  await checkA11y(t);
 
   await t.expect(identityPage.getFormTitle()).eql('Sign In');
   const userNameField = identityPage.getTextField('Username');

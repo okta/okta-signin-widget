@@ -21,12 +21,10 @@ const mockInvalidPasscode = RequestMock()
 
 fixture('Challenge Authenticator Custom OTP');
 
-async function setup(t, options) {
+async function setup(t) {
   const challengeCustomOTPPage = new ChallengeCustomOTPPageObject(t);
-  await challengeCustomOTPPage.navigateToPage(options);
-  if (options?.render !== false) {
-    await challengeCustomOTPPage.formExists();
-  }
+  await challengeCustomOTPPage.navigateToPage();
+  await t.expect(challengeCustomOTPPage.formExists()).eql(true);
   return challengeCustomOTPPage;
 }
 
@@ -76,7 +74,8 @@ test.requestHooks(mockInvalidPasscode)('challege custom otp authenticator with i
 });
 
 test.requestHooks(mockChallengeAuthenticatorCustomOTP)('should show custom factor page link', async t => {
-  const challengeOnPremPage = await setup(t, { render: false });
+  const challengeOnPremPage = await setup(t);
+  await checkA11y(t);
 
   await renderWidget({
     helpLinks: {
@@ -86,8 +85,6 @@ test.requestHooks(mockChallengeAuthenticatorCustomOTP)('should show custom facto
       }
     }
   });
-  await challengeOnPremPage.formExists();
-  await checkA11y(t);
 
   await t.expect(challengeOnPremPage.getFactorPageHelpLinksLabel()).eql('custom factor page link');
   await t.expect(challengeOnPremPage.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');

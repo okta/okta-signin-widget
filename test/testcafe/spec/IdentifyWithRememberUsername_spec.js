@@ -62,8 +62,8 @@ async function setup(t, options) {
 
 test.requestHooks(identifyRequestLogger, identifyMock)('identifer first flow - should remember username after successful authentication', async t => {
   const identityPage = await setup(t, { render: false });
-  await rerenderWidget(baseConfig);
   await checkA11y(t);
+  await rerenderWidget(baseConfig);
 
   await identityPage.fillIdentifierField('testUser@okta.com');
   await identityPage.clickNextButton();
@@ -87,8 +87,8 @@ test.requestHooks(identifyRequestLogger, identifyMock)('identifer first flow - s
 
 test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('identifer with password - should remember username after successful authentication', async t => {
   const identityPage = await setup(t, { render: false });
-  await rerenderWidget(baseConfig);
   await checkA11y(t);
+  await rerenderWidget(baseConfig);
 
   await identityPage.fillIdentifierField('testUser@okta.com');
   await identityPage.fillPasswordField('testPassword');
@@ -120,10 +120,10 @@ test.requestHooks(identifyRequestLogger, identifyWithEmailAuthenticator)('identi
   };
 
   const identityPage = await setup(t, { render: false });
+  await checkA11y(t);
   await identityPage.mockCrypto();
   await t.setNativeDialogHandler(() => true);
   await rerenderWidget(options);
-  await checkA11y(t);
 
   await identityPage.fillIdentifierField('testUser@okta.com');
   await identityPage.clickNextButton();
@@ -150,8 +150,8 @@ test.requestHooks(identifyRequestLogger, identifyWithEmailAuthenticator)('identi
 test
   .requestHooks(identifyRequestLogger, identifyMock)('should pre-fill identifier field with config.username passed in and feature.rememberMe enabled', async t => {
     const identityPage = await setup(t, { render: false });
-    await rerenderWidget(baseConfig);
     await checkA11y(t);
+    await rerenderWidget(baseConfig);
 
     // Go through authentication process to save cookie
     await identityPage.fillIdentifierField('testUser@okta.com');
@@ -182,8 +182,8 @@ test
 
 test.requestHooks(identifyRequestLogger, identifyMock)('should pre-fill identifier field with remediation identifier value over saved cookie', async t => {
   const identityPage = await setup(t, { render: false });
-  await rerenderWidget(baseConfig);
   await checkA11y(t);
+  await rerenderWidget(baseConfig);
 
   // Go through authentication process to save cookie
   await identityPage.fillIdentifierField('cookieUser@okta.com');
