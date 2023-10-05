@@ -43,16 +43,18 @@ const answerRequestLogger = RequestLogger(
 
 fixture('Challenge Duo');
 
-async function setup(t) {
+async function setup(t, options) {
   const challengeDuoPage = new DuoPageObject(t);
-  await challengeDuoPage.navigateToPage();
-  await t.expect(challengeDuoPage.formExists()).eql(true);
-  await checkConsoleMessages({
-    controller: 'mfa-verify-duo',
-    formName: 'challenge-authenticator',
-    authenticatorKey: 'duo',
-    methodType: 'duo'
-  });
+  await challengeDuoPage.navigateToPage(options);
+  if (options?.render !== false) {
+    await challengeDuoPage.formExists();
+    await checkConsoleMessages({
+      controller: 'mfa-verify-duo',
+      formName: 'challenge-authenticator',
+      authenticatorKey: 'duo',
+      methodType: 'duo'
+    });
+  }
 
   return challengeDuoPage;
 }
@@ -142,9 +144,7 @@ test.requestHooks(answerRequestLogger, verificationFailedMock)('verification fai
 
 test
   .requestHooks(mock)('should show custom factor page link', async t => {
-    const challengeDuoPage = await setup(t);
-    await checkA11y(t);
-
+    const challengeDuoPage = await setup(t, { render: false });
     await renderWidget({
       helpLinks: {
         factorPage: {
@@ -153,6 +153,8 @@ test
         }
       }
     });
+    await challengeDuoPage.formExists();
+    await checkA11y(t);
 
     await t.expect(challengeDuoPage.getFactorPageHelpLinksLabel()).eql('custom factor page link');
     await t.expect(challengeDuoPage.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');

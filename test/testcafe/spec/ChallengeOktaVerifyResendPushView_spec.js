@@ -37,6 +37,7 @@ fixture('Challenge Okta Verify Push Resend');
 async function setup(t) {
   const challengeOktaVerifyPushPageObject = new ChallengeOktaVerifyPushPageObject(t);
   await challengeOktaVerifyPushPageObject.navigateToPage();
+  await challengeOktaVerifyPushPageObject.formExists();
   return challengeOktaVerifyPushPageObject;
 }
 
@@ -44,7 +45,6 @@ test
   .requestHooks(pushRejectMock)('challenge okta verify with rejected push', async t => {
     const challengeOktaVerifyPushPageObject = await setup(t);
     await checkA11y(t);
-    await challengeOktaVerifyPushPageObject.formExists();
     await challengeOktaVerifyPushPageObject.waitForErrorBox();
     const pageTitle = challengeOktaVerifyPushPageObject.getFormTitle();
     await t.expect(pageTitle).contains('Get a push notification');
@@ -64,7 +64,6 @@ test
   .requestHooks(logger, pushRejectMock)('challenge okta verify resend push request', async t => {
     const challengeOktaVerifyPushPageObject = await setup(t);
     await checkA11y(t);
-    await challengeOktaVerifyPushPageObject.formExists();
     await challengeOktaVerifyPushPageObject.waitForErrorBox();
     await challengeOktaVerifyPushPageObject.clickResendPushButton();
 
@@ -91,7 +90,6 @@ test
   .requestHooks(logger, pushOktaVerifyUpgradeMock)('challenge okta verify resend push with version upgrade message', async t => {
     const challengeOktaVerifyPushPageObject = await setup(t);
     await checkA11y(t);
-    await challengeOktaVerifyPushPageObject.formExists();
     await challengeOktaVerifyPushPageObject.waitForErrorBox();
     const pageTitle = challengeOktaVerifyPushPageObject.getFormTitleWithError();
     await t.expect(pageTitle).contains('Get a push notification');
@@ -107,7 +105,6 @@ test
   .requestHooks(logger, pushEnableBiometricsMock)('challenge okta verify resend push with uv enable biometrics message', async t => {
     const challengeOktaVerifyPushPageObject = await setup(t);
     await checkA11y(t);
-    await challengeOktaVerifyPushPageObject.formExists();
     await challengeOktaVerifyPushPageObject.waitForErrorBox();
     const pageTitle = challengeOktaVerifyPushPageObject.getFormTitleWithError();
     await t.expect(pageTitle).contains('Get a push notification');

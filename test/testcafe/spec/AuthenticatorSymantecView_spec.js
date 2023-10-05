@@ -49,8 +49,8 @@ fixture('Enroll Symantec VIP Authenticator');
 test
   .requestHooks(logger, enrollMock)('enroll with Symantec VIP authenticator', async t => {
     const pageObject = await setup(t);
-    await checkA11y(t);
     await pageObject.formExists();
+    await checkA11y(t);
 
     await checkConsoleMessages({
       controller: 'enroll-symantec',
@@ -75,6 +75,7 @@ test
 test
   .requestHooks(logger, enrollMock)('enroll with Symantec VIP authenticator outputs form errors', async t => {
     const pageObject = await setup(t);
+    await pageObject.formExists();
     await checkA11y(t);
 
     await t.expect(pageObject.getFormTitle()).eql('Set up Symantec VIP');
@@ -91,8 +92,8 @@ fixture('Verify Symantec VIP Authenticator');
 test
   .requestHooks(logger, verifyMock)('verify with Symantec VIP authenticator', async t => {
     const pageObject = await setup(t);
-    await checkA11y(t);
     await pageObject.formExists();
+    await checkA11y(t);
 
     await checkConsoleMessages({
       controller: 'mfa-verify',
@@ -115,6 +116,7 @@ test
 test
   .requestHooks(logger, verifyMock)('verify with Symantec VIP authenticator outputs form errors', async t => {
     const pageObject = await setup(t);
+    await pageObject.formExists();
     await checkA11y(t);
 
     await t.expect(pageObject.getFormTitle()).eql('Verify with Symantec VIP');
@@ -128,6 +130,7 @@ test
 test
   .requestHooks(logger, verifyWithInvalidPasscodeMock)('verify with Symantec VIP authenticator using invalid passcode', async t => {
     const pageObject = await setup(t);
+    await pageObject.formExists();
     await checkA11y(t);
 
     await t.expect(pageObject.getFormTitle()).eql('Verify with Symantec VIP');
@@ -151,6 +154,7 @@ test.requestHooks(verifyMock)('should show custom factor page link', async t => 
       }
     }
   });
+  await pageObject.formExists();
   await checkA11y(t);
 
   await t.expect(pageObject.getFactorPageHelpLinksLabel()).eql('custom factor page link');

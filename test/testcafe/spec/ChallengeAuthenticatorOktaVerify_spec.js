@@ -71,14 +71,14 @@ async function verifySelectAuthenticator(t, selectAuthenticatorPage, expectedRes
   await t.expect(JSON.parse(requestLog.body)).eql(expectedResponse);
 }
 
-async function setup(t, factorsCount = 3) {
+async function setup(t, factorsCount = 3, options) {
   const selectAuthenticatorPageObject = new SelectAuthenticatorPageObject(t);
-  await selectAuthenticatorPageObject.navigateToPage();
-
-  await t.expect(selectAuthenticatorPageObject.getFormTitle()).eql(FORM_TITLE);
-  await t.expect(selectAuthenticatorPageObject.getFormSubtitle()).eql(FORM_SUBTITLE);
-  await t.expect(selectAuthenticatorPageObject.getFactorsCount()).eql(factorsCount);
-
+  await selectAuthenticatorPageObject.navigateToPage(options);
+  if (options?.render !== false) {
+    await t.expect(selectAuthenticatorPageObject.getFormTitle()).eql(FORM_TITLE);
+    await t.expect(selectAuthenticatorPageObject.getFormSubtitle()).eql(FORM_SUBTITLE);
+    await t.expect(selectAuthenticatorPageObject.getFactorsCount()).eql(factorsCount);
+  }
   return selectAuthenticatorPageObject;
 }
 
@@ -107,13 +107,14 @@ test.requestHooks(mockChallengeOVPushOnlySelectMethod)('authenticator list shoul
 });
 
 test.requestHooks(mockChallengeOVSelectMethod)('should load select method list with okta verify and no sign-out link', async t => {
-  const selectAuthenticatorPage = await setup(t);
-  await checkA11y(t);
+  const selectAuthenticatorPage = await setup(t, 3, { render: false });
   await renderWidget({
     features: {
       hideSignOutLinkInMFA: true
     },
   });
+  await selectAuthenticatorPage.formExists();
+  await checkA11y(t);
 
   // signout link is not visible
   await t.expect(await selectAuthenticatorPage.signoutLinkExists()).notOk();
@@ -203,9 +204,7 @@ test.requestHooks(requestLogger, mockChallengeOVTotpMethod)('should show switch 
 });
 
 test.requestHooks(mockChallengeOVTotpMethod)('should show custom factor page link', async t => {
-  const selectAuthenticatorPage = await setup(t);
-  await checkA11y(t);
-
+  const selectAuthenticatorPage = await setup(t, 3, { render: false });
   await renderWidget({
     helpLinks: {
       factorPage: {
@@ -214,6 +213,8 @@ test.requestHooks(mockChallengeOVTotpMethod)('should show custom factor page lin
       }
     }
   });
+  await selectAuthenticatorPage.formExists();
+  await checkA11y(t);
 
   await selectAuthenticatorPage.selectFactorByIndex(2);
 

@@ -147,17 +147,17 @@ const voiceSecondaryMock = RequestMock()
 
 fixture('Challenge Phone Form');
 
-async function setup(t) {
+async function setup(t, options) {
   const challengePhonePageObject = new ChallengePhonePageObject(t);
-  await challengePhonePageObject.navigateToPage();
-  await t.expect(challengePhonePageObject.formExists()).eql(true);
+  await challengePhonePageObject.navigateToPage(options);
+  if (options?.render !== false) {
+    await challengePhonePageObject.formExists();
+  }
   return challengePhonePageObject;
 }
 
 async function setupInteractionCodeFlow(t) {
-  const challengePhonePageObject = await setup(t);
-  await checkA11y(t);
-  await challengePhonePageObject.navigateToPage({ render: false });
+  const challengePhonePageObject = await setup(t, { render: false });
 
   await challengePhonePageObject.mockCrypto();
   // Render the widget for interaction code flow
@@ -169,6 +169,8 @@ async function setupInteractionCodeFlow(t) {
       state: 'mock-state'
     }
   });
+  await challengePhonePageObject.formExists();
+  await checkA11y(t);
   return challengePhonePageObject;
 }
 
@@ -215,11 +217,12 @@ test.meta('gen3', false)
 
 test
   .requestHooks(smsPrimaryMock)('SMS primary mode - can render with no sign-out link', async t => {
-    const challengePhonePageObject = await setup(t);
-    await checkA11y(t);
+    const challengePhonePageObject = await setup(t, { render: false });
     await renderWidget({
       features: { hideSignOutLinkInMFA: true },
     });
+    await challengePhonePageObject.formExists();
+    await checkA11y(t);
 
     await t.expect(challengePhonePageObject.getFormTitle()).contains('Verify with your phone');
     // signout link is not visible
@@ -634,8 +637,7 @@ test
   });
 
 test.requestHooks(smsPrimaryMockEmptyProfile)('should show custom factor page link', async t => {
-  const challengePhonePageObject = await setup(t);
-  await checkA11y(t);
+  const challengePhonePageObject = await setup(t, { render: false });
 
   await renderWidget({
     helpLinks: {
@@ -645,6 +647,8 @@ test.requestHooks(smsPrimaryMockEmptyProfile)('should show custom factor page li
       }
     }
   });
+  await challengePhonePageObject.formExists();
+  await checkA11y(t);
 
   await t.expect(challengePhonePageObject.getFactorPageHelpLinksLabel()).eql('custom factor page link');
   await t.expect(challengePhonePageObject.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');

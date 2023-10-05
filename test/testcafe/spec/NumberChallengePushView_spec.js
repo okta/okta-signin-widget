@@ -47,7 +47,6 @@ test
   .requestHooks(numberChallengeSuccessMock)('number challenge screen has right labels', async t => {
     const challengeOktaVerifyPushPageObject = await setup(t);
     await checkA11y(t);
-    await challengeOktaVerifyPushPageObject.formExists();
 
     await checkConsoleMessages({
       controller: 'mfa-verify',

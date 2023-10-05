@@ -28,16 +28,18 @@ const mockPasscodeChange = RequestMock()
 
 fixture('Challenge Authenticator On Prem');
 
-async function setup(t) {
+async function setup(t, options) {
   const challengeOnPremPage = new ChallengeOnPremPageObject(t);
-  await challengeOnPremPage.navigateToPage();
-  await t.expect(challengeOnPremPage.formExists()).eql(true);
-  await checkConsoleMessages({
-    controller: 'mfa-verify-totp',
-    formName: 'challenge-authenticator',
-    authenticatorKey: 'onprem_mfa',
-    methodType: 'otp'
-  });
+  await challengeOnPremPage.navigateToPage(options);
+  if (options?.render !== false) {
+    await challengeOnPremPage.formExists();
+    await checkConsoleMessages({
+      controller: 'mfa-verify-totp',
+      formName: 'challenge-authenticator',
+      authenticatorKey: 'onprem_mfa',
+      methodType: 'otp'
+    });
+  }
   return challengeOnPremPage;
 }
 
@@ -97,9 +99,7 @@ test.requestHooks(mockPasscodeChange)('displays error and clears passcode when p
 });
 
 test.requestHooks(mockChallengeAuthenticatorOnPrem)('should show custom factor page link', async t => {
-  const challengeOnPremPage = await setup(t);
-  await checkA11y(t);
-
+  const challengeOnPremPage = await setup(t, { render: false });
   await renderWidget({
     helpLinks: {
       factorPage: {
@@ -108,6 +108,8 @@ test.requestHooks(mockChallengeAuthenticatorOnPrem)('should show custom factor p
       }
     }
   });
+  await challengeOnPremPage.formExists();
+  await checkA11y(t);
 
   await t.expect(challengeOnPremPage.getFactorPageHelpLinksLabel()).eql('custom factor page link');
   await t.expect(challengeOnPremPage.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');

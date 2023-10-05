@@ -297,10 +297,12 @@ async function setup(t) {
   return deviceChallengePollPage;
 }
 
-async function setupLoopbackFallback(t) {
+async function setupLoopbackFallback(t, options) {
   const deviceChallengeFalllbackPage = new IdentityPageObject(t);
-  await deviceChallengeFalllbackPage.navigateToPage();
-  await t.expect(deviceChallengeFalllbackPage.formExists()).eql(true);
+  await deviceChallengeFalllbackPage.navigateToPage(options);
+  if (options?.render !== false) {
+    await deviceChallengeFalllbackPage.formExists();
+  }
   return deviceChallengeFalllbackPage;
 }
 
@@ -603,10 +605,11 @@ test
 
 test
   .requestHooks(loginHintAppLinkMock)('expect login_hint in AppLink', async t => {
-    const identityPage = await setupLoopbackFallback(t);
+    const identityPage = await setupLoopbackFallback(t, { render: false });
     await renderWidget({
       features: { },
     });
+    await identityPage.formExists();
 
     const username = 'john.smith@okta.com';
     await identityPage.fillIdentifierField(username);

@@ -53,15 +53,17 @@ const recoveryRequestLogger = RequestLogger(
 
 fixture('Challenge Authenticator Password');
 
-async function setup(t) {
+async function setup(t, options) {
   const challengePasswordPage = new ChallengePasswordPageObject(t);
-  await challengePasswordPage.navigateToPage();
-  await t.expect(challengePasswordPage.formExists()).eql(true);
-  await checkConsoleMessages({
-    controller: 'mfa-verify-password',
-    formName: 'challenge-authenticator',
-    authenticatorKey: 'okta_password',
-  });
+  await challengePasswordPage.navigateToPage(options);
+  if (options?.render !== false) {
+    await challengePasswordPage.formExists();
+    await checkConsoleMessages({
+      controller: 'mfa-verify-password',
+      formName: 'challenge-authenticator',
+      authenticatorKey: 'okta_password',
+    });
+  }
 
   return challengePasswordPage;
 }
@@ -90,11 +92,12 @@ test.requestHooks(mockChallengeAuthenticatorPassword)('challenge password authen
 });
 
 test.requestHooks(mockChallengeAuthenticatorPassword)('challenge password authenticator with no sign-out link', async t => {
-  const challengePasswordPage = await setup(t);
-  await checkA11y(t);
+  const challengePasswordPage = await setup(t, { render: false });
   await renderWidget({
     features: { hideSignOutLinkInMFA: true },
   });
+  await challengePasswordPage.formExists();
+  await checkA11y(t);
 
   // assert switch authenticator link
   await challengePasswordPage.switchAuthenticatorExists();
@@ -206,8 +209,7 @@ test.requestHooks(recoveryRequestLogger, mockCannotForgotPassword)('can not reco
 });
 
 test.requestHooks(mockChallengeAuthenticatorPassword)('should add sub labels for Password if i18n keys are defined', async t => {
-  const challengePasswordPage = await setup(t);
-  await checkA11y(t);
+  const challengePasswordPage = await setup(t, { render: false });
   await renderWidget({
     i18n: {
       en: {
@@ -215,15 +217,15 @@ test.requestHooks(mockChallengeAuthenticatorPassword)('should add sub labels for
       }
     }
   });
+  await challengePasswordPage.formExists();
+  await checkA11y(t);
   
   await t.expect(challengePasswordPage.getPasswordSubLabelValue()).eql('Your password goes here');
   await t.expect(challengePasswordPage.getIdentifier()).eql('testUser@okta.com');
 });
 
 test.requestHooks(mockChallengeAuthenticatorPassword)('should show custom factor page link', async t => {
-  const challengePasswordPage = await setup(t);
-  await checkA11y(t);
-
+  const challengePasswordPage = await setup(t, { render: false });
   await renderWidget({
     helpLinks: {
       factorPage: { 
@@ -232,6 +234,8 @@ test.requestHooks(mockChallengeAuthenticatorPassword)('should show custom factor
       }
     }
   });
+  await challengePasswordPage.formExists();
+  await checkA11y(t);
 
   await t.expect(challengePasswordPage.getFactorPageHelpLinksLabel()).eql('custom factor page link');
   await t.expect(challengePasswordPage.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');

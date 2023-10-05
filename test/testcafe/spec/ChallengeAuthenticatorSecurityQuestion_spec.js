@@ -27,16 +27,17 @@ const answerRequestLogger = RequestLogger(
 
 fixture('Challenge Security Question Form');
 
-async function setup(t) {
+async function setup(t, options) {
   const challengeFactorPage = new ChallengeSecurityQuestionPageObject(t);
-  await challengeFactorPage.navigateToPage();
-  await t.expect(challengeFactorPage.formExists()).eql(true);
-
-  await checkConsoleMessages({
-    controller: 'mfa-verify-question',
-    formName: 'challenge-authenticator',
-    authenticatorKey: 'security_question',
-  });
+  await challengeFactorPage.navigateToPage(options);
+  if (options?.render !== false) {
+    await challengeFactorPage.formExists();
+    await checkConsoleMessages({
+      controller: 'mfa-verify-question',
+      formName: 'challenge-authenticator',
+      authenticatorKey: 'security_question',
+    });
+  }
 
   return challengeFactorPage;
 }
@@ -75,8 +76,7 @@ test.requestHooks(answerRequestLogger, authenticatorRequiredSecurityQuestionMock
 });
 
 test.requestHooks(authenticatorRequiredSecurityQuestionMock)('should show custom factor page link', async t => {
-  const challengeSecurityQuestionPageObject = await setup(t);
-  await checkA11y(t);
+  const challengeSecurityQuestionPageObject = await setup(t, { render: false });
 
   await renderWidget({
     helpLinks: {
@@ -86,6 +86,8 @@ test.requestHooks(authenticatorRequiredSecurityQuestionMock)('should show custom
       }
     }
   });
+  await challengeSecurityQuestionPageObject.formExists();
+  await checkA11y(t);
 
   await t.expect(challengeSecurityQuestionPageObject.getFactorPageHelpLinksLabel()).eql('custom factor page link');
   await t.expect(challengeSecurityQuestionPageObject.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');

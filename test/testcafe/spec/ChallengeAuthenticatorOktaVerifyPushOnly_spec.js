@@ -30,6 +30,7 @@ fixture('Challenge Authenticator Okta Verify Push Only With Auto Challenge Form'
 async function setup(t) {
   const challengeOktaVerifyPushPageObject = new ChallengeOktaVerifyPushPageObject(t);
   await challengeOktaVerifyPushPageObject.navigateToPage();
+  await challengeOktaVerifyPushPageObject.formExists();
   return challengeOktaVerifyPushPageObject;
 }
 
@@ -38,7 +39,6 @@ test.requestHooks(mockOktaVerifySendPushOnly)(
   async t => {
     const challengeOktaVerifyPushPageObject = await setup(t);
     await checkA11y(t);
-    await challengeOktaVerifyPushPageObject.formExists();
     await t.expect(await challengeOktaVerifyPushPageObject.isOktaVerifySendPushForm()).ok();
     await t.expect(challengeOktaVerifyPushPageObject.getFormTitle()).eql('Get a push notification');
     await t.expect(challengeOktaVerifyPushPageObject.subtitleExists()).notOk();
