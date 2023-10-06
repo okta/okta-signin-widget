@@ -10,7 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Link, Typography } from '@okta/odyssey-react-mui';
+import { Link } from '@okta/odyssey-react-mui/dist/Link';
+import { Typography } from '@mui/material';
 import {
   attributesToProps,
   DOMNode,

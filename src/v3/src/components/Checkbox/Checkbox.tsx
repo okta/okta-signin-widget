@@ -16,7 +16,7 @@ import {
   FormControl,
   FormControlLabel,
   FormHelperText,
-} from '@okta/odyssey-react-mui';
+} from '@mui/material';
 import { Fragment, h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';

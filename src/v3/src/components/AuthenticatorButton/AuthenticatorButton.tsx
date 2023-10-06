@@ -11,12 +11,12 @@
  */
 
 import * as Tokens from '@okta/odyssey-design-tokens';
+import { ArrowLeftIcon } from '@okta/odyssey-react-mui/dist/iconDictionary/ArrowLeft';
+import { ArrowRightIcon } from '@okta/odyssey-react-mui/dist/iconDictionary/ArrowRight';
 import {
-  ArrowLeftIcon,
-  ArrowRightIcon,
   Box,
   Typography,
-} from '@okta/odyssey-react-mui';
+} from '@mui/material';
 import classNames from 'classnames';
 import { h } from 'preact';
 

@@ -11,7 +11,7 @@
  */
 
 import * as Tokens from '@okta/odyssey-design-tokens';
-import { Box } from '@okta/odyssey-react-mui';
+import { Box } from '@mui/material';
 import { h } from 'preact';
 
 import { QRCodeElement, UISchemaElementComponent } from '../../types';

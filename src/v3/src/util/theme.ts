@@ -12,7 +12,7 @@
 
 import { ThemeOptions } from '@mui/material';
 import { Theme } from '@mui/material/styles/createTheme';
-import { odysseyTheme } from '@okta/odyssey-react-mui';
+import { theme as odysseyTheme } from '@okta/odyssey-react-mui/dist/theme/theme';
 import chroma from 'chroma-js';
 import cloneDeep from 'lodash/cloneDeep';
 import merge from 'lodash/merge';

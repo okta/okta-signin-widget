@@ -16,7 +16,7 @@ import {
   FormLabel,
   Radio,
   RadioGroup,
-} from '@okta/odyssey-react-mui';
+} from '@mui/material';
 import { IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
 import { h } from 'preact';
 import { useState } from 'preact/hooks';

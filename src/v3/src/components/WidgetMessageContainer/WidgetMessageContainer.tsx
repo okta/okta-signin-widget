@@ -11,7 +11,8 @@
  */
 
 import { List, ListItem } from '@mui/material';
-import { Box, Link, Typography } from '@okta/odyssey-react-mui';
+import { Link } from '@okta/odyssey-react-mui/dist/Link';
+import { Box, Typography } from '@mui/material';
 import { HTMLReactParserOptions } from 'html-react-parser';
 import { FunctionComponent, h } from 'preact';
 import React from 'preact/compat';

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { odysseyTheme } from '@okta/odyssey-react-mui';
+import { theme as odysseyTheme } from '@okta/odyssey-react-mui/dist/theme/theme';
 import chroma from 'chroma-js';
 
 import { deriveThemeFromBrand, mapMuiThemeFromBrand } from './theme';

@@ -12,7 +12,7 @@
 
 import { Link } from '@mui/material';
 import * as Tokens from '@okta/odyssey-design-tokens';
-import { Box, Typography } from '@okta/odyssey-react-mui';
+import { Box, Typography } from '@mui/material';
 import escape from 'lodash/escape';
 import { Fragment, FunctionComponent, h } from 'preact';
 

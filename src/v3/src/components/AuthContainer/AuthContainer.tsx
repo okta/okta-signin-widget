@@ -12,7 +12,7 @@
 
 import { ScopedCssBaseline } from '@mui/material';
 import * as Tokens from '@okta/odyssey-design-tokens';
-import { Box } from '@okta/odyssey-react-mui';
+import { Box } from '@mui/material';
 import classNames from 'classnames';
 import { FunctionComponent, h } from 'preact';
 
