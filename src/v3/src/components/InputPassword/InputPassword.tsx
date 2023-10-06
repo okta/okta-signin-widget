@@ -10,10 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { EyeIcon } from '@okta/odyssey-react-mui/dist/iconDictionary/Eye';
-import { EyeOffIcon } from '@okta/odyssey-react-mui/dist/iconDictionary/EyeOff';
 import {
   Box,
+  EyeIcon,
+  EyeOffIcon,
   FormHelperText,
   IconButton,
   InputAdornment,
@@ -21,7 +21,7 @@ import {
   InputLabel,
   Tooltip,
   Typography,
-} from '@mui/material';
+} from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 import { useRef, useState } from 'preact/hooks';
 

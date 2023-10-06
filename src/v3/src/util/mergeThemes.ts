@@ -11,7 +11,7 @@
  */
 
 import { CSSInterpolation, ThemeOptions } from '@mui/material';
-import { theme as odysseyTheme } from '@okta/odyssey-react-mui/dist/theme/theme';
+import { odysseyTheme } from '@okta/odyssey-react-mui';
 import merge from 'lodash/merge';
 
 import { cssInterpolate } from './cssInterpolate';

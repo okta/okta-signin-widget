@@ -18,7 +18,7 @@ import {
   InputLabel,
   Select,
   Typography,
-} from '@mui/material';
+} from '@okta/odyssey-react-mui';
 import { IdxMessage } from '@okta/okta-auth-js';
 import { h } from 'preact';
 import {

@@ -11,7 +11,7 @@
  */
 
 import { CSSObject, TextField, ThemeProvider } from '@mui/material';
-import { theme as odysseyTheme } from '@okta/odyssey-react-mui/dist/theme/theme';
+import { odysseyTheme } from '@okta/odyssey-react-mui';
 import { render } from '@testing-library/preact';
 
 import { mergeThemes } from './mergeThemes';

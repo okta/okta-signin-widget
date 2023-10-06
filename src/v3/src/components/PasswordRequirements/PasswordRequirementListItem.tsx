@@ -11,7 +11,7 @@
  */
 
 import * as Tokens from '@okta/odyssey-design-tokens';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
 
 import { PasswordRequirementProps } from '../../types';

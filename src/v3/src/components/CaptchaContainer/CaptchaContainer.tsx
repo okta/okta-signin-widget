@@ -11,7 +11,7 @@
  */
 
 import HCaptcha from '@hcaptcha/react-hcaptcha';
-import { Box } from '@mui/material';
+import { Box } from '@okta/odyssey-react-mui';
 import { useEffect, useRef } from 'preact/hooks';
 import ReCAPTCHA from 'react-google-recaptcha';
 

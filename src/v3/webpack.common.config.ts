@@ -194,8 +194,6 @@ const baseConfig: Partial<Configuration> = {
       '@mui/styled-engine': '@mui/styled-engine/legacy',
       '@mui/system': '@mui/system/legacy',
       '@mui/utils': '@mui/utils/legacy',
-
-      '@okta/odyssey-react-mui': resolve(__dirname, '../../node_modules/@okta/odyssey-react-mui/'),
     },
   },
   plugins: [
