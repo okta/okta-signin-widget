@@ -22,6 +22,7 @@ export const ConfigForm = `
       <label for="bundle">Bundle</label>
       <select id="f_bundle" name="bundle">
         <option value="default">default</option>
+        <option value="next.no-polyfill">next</option>
         <option value="classic">classic</option>
         <option value="oie">oie</option>
         <option value="no-polyfill">no-polyfill</option>
