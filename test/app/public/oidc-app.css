@@ -46,7 +46,7 @@
   min-width: 500px;
 }
 
-label,
+/* label,
 input,
 select {
   font-size: larger;
@@ -54,12 +54,12 @@ select {
 
 label {
   color: #333;
-}
+} */
 .pure-menu-link {
   color: #000;
   width: 100%;
 }
-a, .link {
+/* a, .link {
   padding: 4px;
   display: inline-block;
   background-color: #eeeeee;
@@ -71,7 +71,7 @@ a, .link {
 a:active, a.clicked, .pure-menu-link:hover {
   background-color: green;
   color: white;
-}
+} */
 
 .selected {
   font-weight: bold;
