@@ -12,7 +12,7 @@
 
 import { CSSInterpolation, ThemeOptions } from '@mui/material';
 import { odysseyTheme } from '@okta/odyssey-react-mui';
-import merge from 'lodash/merge';
+import { merge } from 'lodash';
 
 import { cssInterpolate } from './cssInterpolate';
 

@@ -13,7 +13,7 @@
 import { Link } from '@mui/material';
 import * as Tokens from '@okta/odyssey-design-tokens';
 import { Box, Typography } from '@okta/odyssey-react-mui';
-import escape from 'lodash/escape';
+import { escape } from 'lodash';
 import { Fragment, FunctionComponent, h } from 'preact';
 
 import { IDX_STEP } from '../../constants';
