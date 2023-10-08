@@ -17,7 +17,7 @@ const styleSrcElem = `style-src-elem http://localhost:${DEV_SERVER_PORT} https:/
 const csp = `${scriptSrc}; ${styleSrc}; ${styleSrcElem}`;
 
 const webpackConfig = {
-  mode: 'development',
+  mode: 'production',
   entry: [
     path.resolve(__dirname, 'src/index.ts')
   ],
@@ -30,9 +30,9 @@ const webpackConfig = {
   resolve: {
     extensions: ['.js', '.ts'],
     alias: {
-      './getOktaSignIn': './getOktaSignInFromCDN'
+      //'./getOktaSignIn': './getOktaSignInFromCDN'
     },
-    fallback: { 'events': require.resolve('events/') },
+   // fallback: { 'events': require.resolve('events/') },
     // needed to load ESM version of SIW for DIST_ESM=1
     ...(DIST_ESM && { conditionNames: ['browser', 'import', 'default'] }),
   },
@@ -74,7 +74,7 @@ const webpackConfig = {
     // },
   },
   plugins: [
-    new MiniCssExtractPlugin(),
+   // new MiniCssExtractPlugin(),
     new HtmlWebpackPlugin({
       template: `!!handlebars-loader!${path.resolve(__dirname, 'index.hbs')}`,
       templateParameters: {
