@@ -27,7 +27,7 @@ async function setup(t, widgetOptions) {
   const registrationPage = new RegistrationPageObject(t);
   await registrationPage.navigateToPage(options);
   if (widgetOptions) {
-    await rerenderWidget(widgetOptions);
+    await renderWidget(widgetOptions);
   }
   await registrationPage.formExists();
   return registrationPage;
