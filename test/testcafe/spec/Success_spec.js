@@ -20,6 +20,7 @@ fixture('Success Form')
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
   await identityPage.navigateToPage();
+  await identityPage.formExists();
   return identityPage;
 }
 

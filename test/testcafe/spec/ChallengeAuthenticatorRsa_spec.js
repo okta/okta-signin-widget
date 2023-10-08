@@ -30,10 +30,14 @@ const mockPasscodeChange = RequestMock()
 
 fixture('Challenge Authenticator RSA');
 
-async function setup(t) {
+async function setup(t, widgetOptions) {
+  const options = widgetOptions ? { render: false } : {};
   const challengeRsaPage = new ChallengeRsaPageObject(t);
-  await challengeRsaPage.navigateToPage();
-  await t.expect(challengeRsaPage.formExists()).eql(true);
+  await challengeRsaPage.navigateToPage(options);
+  if (widgetOptions) {
+    await renderWidget(widgetOptions);
+  }
+  await challengeRsaPage.formExists();
   return challengeRsaPage;
 }
 
@@ -104,10 +108,7 @@ test.requestHooks(mockPasscodeChange)('displays error and clears passcode when p
 });
 
 test.requestHooks(mockPasscodeChange)('should show custom factor page link', async t => {
-  const challengeRsaPage = await setup(t);
-  await checkA11y(t);
-
-  await renderWidget({
+  const challengeRsaPage = await setup(t, {
     helpLinks: {
       factorPage: {
         text: 'custom factor page link',
@@ -115,6 +116,7 @@ test.requestHooks(mockPasscodeChange)('should show custom factor page link', asy
       }
     }
   });
+  await checkA11y(t);
 
   await t.expect(challengeRsaPage.getFactorPageHelpLinksLabel()).eql('custom factor page link');
   await t.expect(challengeRsaPage.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');

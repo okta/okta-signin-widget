@@ -19,6 +19,7 @@ fixture('Sign in with Okta Verify is required')
 async function setup(t) {
   const signInWebAuthnPageObject = new SignInWebAuthnPageObject(t);
   await signInWebAuthnPageObject.navigateToPage();
+  await signInWebAuthnPageObject.formExists();
   return signInWebAuthnPageObject;
 }
 

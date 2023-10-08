@@ -22,7 +22,7 @@ fixture('Introspect');
 async function setup(t) {
   const terminalPageObject = new TerminalPageObject(t);
   await terminalPageObject.navigateToPage();
-  await t.expect(terminalPageObject.formExists()).eql(true);
+  await terminalPageObject.formExists();
   await checkConsoleMessages({
     controller: null,
     formName: 'terminal',

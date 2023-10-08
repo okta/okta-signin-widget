@@ -39,10 +39,14 @@ const usedPasscodeMock = RequestMock()
 
 fixture('Challenge Google Authenticator Form');
 
-async function setup(t) {
+async function setup(t, widgetOptions) {
+  const options = widgetOptions ? { render: false } : {};
   const challengeGoogleAuthenticatorPageObject = new ChallengeGoogleAuthenticatorPageObject(t);
-  await challengeGoogleAuthenticatorPageObject.navigateToPage();
-  await t.expect(challengeGoogleAuthenticatorPageObject.formExists()).eql(true);
+  await challengeGoogleAuthenticatorPageObject.navigateToPage(options);
+  if (widgetOptions) {
+    await renderWidget(widgetOptions);
+  }
+  await challengeGoogleAuthenticatorPageObject.formExists();
   return challengeGoogleAuthenticatorPageObject;
 }
 
@@ -114,10 +118,7 @@ test
   });
 
 test.requestHooks(validOTPmock)('should show custom factor page link', async t => {
-  const challengeGoogleAuthenticatorPageObject = await setup(t);
-  await checkA11y(t);
-
-  await renderWidget({
+  const challengeGoogleAuthenticatorPageObject = await setup(t, {
     helpLinks: {
       factorPage: {
         text: 'custom factor page link',
@@ -125,6 +126,7 @@ test.requestHooks(validOTPmock)('should show custom factor page link', async t =
       }
     }
   });
+  await checkA11y(t);
 
   await t.expect(challengeGoogleAuthenticatorPageObject.getFactorPageHelpLinksLabel()).eql('custom factor page link');
   await t.expect(challengeGoogleAuthenticatorPageObject.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');

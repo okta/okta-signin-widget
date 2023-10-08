@@ -20,7 +20,7 @@ fixture('Enroll Webauthn Authenticator')
 async function setup(t) {
   const enrollWebauthnPage = new EnrollWebauthnPageObject(t);
   await enrollWebauthnPage.navigateToPage();
-  await t.expect(enrollWebauthnPage.formExists()).eql(true);
+  await enrollWebauthnPage.formExists();
   await checkConsoleMessages({
     controller: 'enroll-webauthn',
     formName: 'enroll-authenticator',

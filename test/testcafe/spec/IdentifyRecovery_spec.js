@@ -31,7 +31,7 @@ fixture('Identify Recovery - reset flow');
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
   await identityPage.navigateToPage();
-  await t.expect(identityPage.formExists()).eql(true);
+  await identityPage.formExists();
   await checkConsoleMessages({
     controller: 'forgot-password',
     formName: 'identify-recovery',

@@ -71,6 +71,7 @@ fixture('Identify + IDPs');
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
   await identityPage.navigateToPage();
+  await identityPage.formExists();
   return identityPage;
 }
 
@@ -86,7 +87,7 @@ async function setupDirectAuth(t) {
     },
     authScheme: 'oauth2',
   });
-  await identityPage.form.el.exists;
+  await identityPage.formExists();
   return identityPage;
 }
 
@@ -141,7 +142,6 @@ test.requestHooks(mockWithoutIdentify)('should only render idp buttons with iden
 
 test.requestHooks(logger, mockOnlyOneIdp)('should auto redirect to 3rd party IdP login page with basic Signing in message', async t => {
   const identityPage = await setup(t);
-  await t.expect(identityPage.formExists()).eql(true);
 
   await checkConsoleMessages({
     controller: null,
@@ -174,7 +174,6 @@ test.requestHooks(logger, mockOnlyOneIdp)('Direct auth: does not auto redirect t
 
 test.requestHooks(logger, mockOnlyOneIdpAppUser)('should auto redirect to 3rd party IdP login page with Signing in longer message', async t => {
   const identityPage = await setup(t);
-  await t.expect(identityPage.formExists()).eql(true);
 
   await checkConsoleMessages({
     controller: null,
@@ -211,7 +210,7 @@ test.requestHooks(logger, mockIdpDiscoveryWithOneIdp)('IDP discovery will auto r
 
 test.requestHooks(logger, mockIdpDiscoveryWithOneIdp)('Direct auth: IDP discovery will auto redirect to 3rd party IDP after identify with name', async t => {
   const identityPage = await setupDirectAuth(t);
-  await t.expect(identityPage.formExists()).eql(true);
+  await identityPage.formExists();
   await checkConsoleMessages({
     controller: 'primary-auth',
     formName: 'identify',

@@ -70,7 +70,7 @@ fixture('Device Challenge Polling View with Polling Failure');
 async function setup(t) {
   const deviceChallengePollPage = new DeviceChallengePollPageObject(t);
   await deviceChallengePollPage.navigateToPage();
-  await t.expect(deviceChallengePollPage.formExists()).eql(true);
+  await deviceChallengePollPage.formExists();
   return deviceChallengePollPage;
 }
 

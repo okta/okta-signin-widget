@@ -228,6 +228,9 @@ fixture('OktaSignIn');
 async function setup(t, options) {
   const identityPage = new IdentityPageObject(t);
   await identityPage.navigateToPage(options);
+  if (options?.render !== false) {
+    await identityPage.formExists();
+  }
   return identityPage;
 }
 
@@ -239,15 +242,17 @@ test.requestHooks(identifyMock)('should hide and show with corresponding methods
   await hideWidget();
   await t.expect(identityPage.isVisible()).eql(false);
   await showWidget();
+  await identityPage.formExists();
   await t.expect(identityPage.isVisible()).eql(true);
 });
 
 test.requestHooks(identifyMock)('can render initially hidden widget', async t => {
-  const identityPage = await setup(t);
-  await checkA11y(t);
+  const identityPage = await setup(t, { render: false });
   await renderHiddenWidget(userVariables);
   await t.expect(identityPage.isVisible()).eql(false);
   await showWidget();
+  await identityPage.formExists();
+  await checkA11y(t);
   await t.expect(identityPage.isVisible()).eql(true);
 });
 
@@ -256,7 +261,7 @@ test.requestHooks(identifyMock)('can add 2+ event listeners with .on(), should b
   const identityPage = await setup(t, {render: false});
   await checkA11y(t);
   await renderAndAddEventListeners();
-  await t.expect(identityPage.formExists()).eql(true);
+  await identityPage.formExists();
   await checkConsoleMessages([
     'ready',
     // order should be preserved
@@ -278,7 +283,7 @@ test.requestHooks(identifyMock)('event listeners should receive arguments', asyn
   const identityPage = await setup(t, {render: false});
   await checkA11y(t);
   await renderAndAddAfterReadyEventListener();
-  await t.expect(identityPage.formExists()).eql(true);
+  await identityPage.formExists();
   await checkConsoleMessages([
     'ready',
     'afterRender',
@@ -305,7 +310,7 @@ test.requestHooks(identifyMock)('can remove event listeners by event name and ha
   const identityPage = await setup(t, {render: false});
   await checkA11y(t);
   await renderAndRemoveAfterRenderEventListener();
-  await t.expect(identityPage.formExists()).eql(true);
+  await identityPage.formExists();
   await checkConsoleMessages([
     'ready',
     // no other 'ready' events
@@ -323,7 +328,7 @@ test.requestHooks(identifyMock)('can remove event listeners by event name with .
   const identityPage = await setup(t, {render: false});
   await checkA11y(t);
   await renderAndRemoveReadyEventListeners();
-  await t.expect(identityPage.formExists()).eql(true);
+  await identityPage.formExists();
   await checkConsoleMessages([
     // no 'ready' events
     'afterRender',
@@ -340,7 +345,7 @@ test.requestHooks(identifyMock)('can remove all event listeners with .off()', as
   const identityPage = await setup(t, {render: false});
   await checkA11y(t);
   await renderAndRemoveAllEventListeners();
-  await t.expect(identityPage.formExists()).eql(true);
+  await identityPage.formExists();
   await checkConsoleMessages([
     // no events
   ], t);
@@ -350,7 +355,7 @@ test.requestHooks(identifyMock)('should trap error thrown by event listener', as
   const identityPage = await setup(t, {render: false});
   await checkA11y(t);
   await renderAndAddEventListenerWithError();
-  await t.expect(identityPage.formExists()).eql(true);
+  await identityPage.formExists();
   const { error } = await t.getBrowserConsoleMessages();
   await t.expect(error.includes('[okta-signin-widget] "ready" event handler error: Error: TEST ERROR')).ok();
   await checkConsoleMessages([
@@ -370,7 +375,7 @@ test.requestHooks(identifyMock)('should execute "before" hook before "afterRende
   const identityPage = await setup(t, {render: false});
   await checkA11y(t);
   await renderAndAddBeforeHook();
-  await t.expect(identityPage.formExists()).eql(true);
+  await identityPage.formExists();
   await checkConsoleMessages([
     {
       before: 'identify',
@@ -390,7 +395,7 @@ test.requestHooks(identifyMock)('should execute async "before" hooks sequentiall
   const identityPage = await setup(t, {render: false});
   await checkA11y(t);
   await renderAndAddAsyncBeforeHooks();
-  await t.expect(identityPage.formExists()).eql(true);
+  await identityPage.formExists();
   await checkConsoleMessages([
     {
       before: 'identify',
@@ -427,7 +432,7 @@ test.requestHooks(identifySuccessMock)('should execute "before" and "after" hook
   const identityPage = await setup(t, {render: false});
   await checkA11y(t);
   await renderAndAddBeforeAndAfterHooksForSuccess();
-  await t.expect(identityPage.formExists()).eql(true);
+  await identityPage.formExists();
   await checkConsoleMessages([
     {
       before: 'identify',
@@ -480,7 +485,7 @@ test.requestHooks(introspectTerminal)('should execute hooks for "terminal" form'
   const identityPage = await setup(t, {render: false});
   await checkA11y(t);
   await renderAndAddBeforeAndAfterHooksForTerminal();
-  await t.expect(identityPage.formExists()).eql(true);
+  await identityPage.formExists();
   await checkConsoleMessages([
     {
       before: 'terminal',
@@ -501,7 +506,7 @@ test.requestHooks(introspectErrorMock)('should execute hooks for "terminal" form
   const identityPage = await setup(t, {render: false});
   await checkA11y(t);
   await renderAndAddBeforeAndAfterHooksForTerminal();
-  await t.expect(identityPage.formExists()).eql(true);
+  await identityPage.formExists();
   await identityPage.waitForErrorBox();
   await checkConsoleMessages([
     {
@@ -523,7 +528,7 @@ test.requestHooks(introspectOAuthErrorMock)('should execute hooks for "terminal"
   const identityPage = await setup(t, {render: false});
   await checkA11y(t);
   await renderAndAddBeforeAndAfterHooksForTerminal();
-  await t.expect(identityPage.formExists()).eql(true);
+  await identityPage.formExists();
   await identityPage.waitForErrorBox();
   await checkConsoleMessages([
     {
@@ -546,7 +551,7 @@ test.requestHooks(identifyErrorMock)('should send "afterError" event (and not ex
   const identityPage = await setup(t, {render: false});
   await checkA11y(t);
   await renderAndAddBeforeAndAfterHooksForTerminal();
-  await t.expect(identityPage.formExists()).eql(true);
+  await identityPage.formExists();
   await checkConsoleMessages([
     {
       before: 'identify',
@@ -606,7 +611,7 @@ test.requestHooks(identifyErrorUnsupportedResponse)('should send "afterError" ev
   const identityPage = await setup(t, {render: false});
   await checkA11y(t);
   await renderAndAddBeforeAndAfterHooksForTerminal();
-  await t.expect(identityPage.formExists()).eql(true);
+  await identityPage.formExists();
   await checkConsoleMessages([
     {
       before: 'identify',
@@ -658,7 +663,7 @@ test.requestHooks(identifyTerminal)('should execute hooks for "terminal" form af
   const identityPage = await setup(t, {render: false});
   await checkA11y(t);
   await renderAndAddBeforeAndAfterHooksForTerminal();
-  await t.expect(identityPage.formExists()).eql(true);
+  await identityPage.formExists();
   await checkConsoleMessages([
     {
       before: 'identify',
@@ -719,7 +724,7 @@ test.requestHooks(identifySuccessWithInteractionCodeMock)('should not execute "b
   await t.setNativeDialogHandler(() => true);
   await checkA11y(t);
   await renderAndAddBeforeAndAfterHooksForSuccess(optionsForInteractionCodeFlow);
-  await t.expect(identityPage.formExists()).eql(true);
+  await identityPage.formExists();
   await checkConsoleMessages([
     {
       before: 'identify',

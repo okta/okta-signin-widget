@@ -39,7 +39,7 @@ fixture('Identify + Password With Captcha');
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
   await identityPage.navigateToPage();
-  await t.expect(await identityPage.formExists()).eql(true);
+  await identityPage.formExists();
   await checkConsoleMessages({
     controller: 'primary-auth',
     formName: 'identify',

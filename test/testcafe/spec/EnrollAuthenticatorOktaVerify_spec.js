@@ -292,7 +292,7 @@ fixture('Enroll Okta Verify Authenticator');
 async function setup(t) {
   const enrollOktaVerifyPage = new EnrollOktaVerifyPageObject(t);
   await enrollOktaVerifyPage.navigateToPage();
-  await t.expect(enrollOktaVerifyPage.formExists()).eql(true);
+  await enrollOktaVerifyPage.formExists();
   await checkConsoleMessages({
     controller: null,
     formName: 'enroll-poll',

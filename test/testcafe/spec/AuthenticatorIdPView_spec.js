@@ -50,7 +50,7 @@ const verifyErrorMock = RequestMock()
 async function setup(t, isVerify) {
   const pageObject = new IdPAuthenticatorPageObject(t);
   await pageObject.navigateToPage();
-  await t.expect(pageObject.formExists()).eql(true);
+  await pageObject.formExists();
 
   await checkConsoleMessages({
     controller: null,

@@ -295,13 +295,18 @@ fixture('Device Challenge Polling View with the Loopback Server, Custom URI, App
 async function setup(t) {
   const deviceChallengePollPage = new DeviceChallengePollPageObject(t);
   await deviceChallengePollPage.navigateToPage();
-  await t.expect(deviceChallengePollPage.formExists()).eql(true);
+  await deviceChallengePollPage.formExists();
   return deviceChallengePollPage;
 }
 
-async function setupLoopbackFallback(t) {
+async function setupLoopbackFallback(t, widgetOptions) {
+  const options = widgetOptions ? { render: false } : {};
   const deviceChallengeFalllbackPage = new IdentityPageObject(t);
-  await deviceChallengeFalllbackPage.navigateToPage();
+  await deviceChallengeFalllbackPage.navigateToPage(options);
+  if (widgetOptions) {
+    await renderWidget(widgetOptions);
+  }
+  await deviceChallengeFalllbackPage.formExists();
   return deviceChallengeFalllbackPage;
 }
 
@@ -632,8 +637,7 @@ test
 
 test
   .requestHooks(LoginHintCustomURIMock)('expect login_hint in CustomURI', async t => {
-    const identityPage = await setupLoopbackFallback(t);
-    await renderWidget({
+    const identityPage = await setupLoopbackFallback(t, {
       features: { },
     });
 
@@ -651,8 +655,7 @@ test
 
 test
   .requestHooks(LoginHintUniversalLinkMock)('expect login_hint in UniversalLink', async t => {
-    const identityPage = await setupLoopbackFallback(t);
-    await renderWidget({
+    const identityPage = await setupLoopbackFallback(t, {
       features: { },
     });
 
@@ -669,8 +672,7 @@ test
 
 test
   .requestHooks(LoginHintAppLinkMock)('expect login_hint in AppLink', async t => {
-    const identityPage = await setupLoopbackFallback(t);
-    await renderWidget({
+    const identityPage = await setupLoopbackFallback(t, {
       features: { },
     });
 

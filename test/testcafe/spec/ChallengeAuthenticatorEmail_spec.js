@@ -214,10 +214,14 @@ const getResendTimestamp = ClientFunction(() => {
 
 fixture('Challenge Email Authenticator Form');
 
-async function setup(t) {
+async function setup(t, widgetOptions) {
+  const options = widgetOptions ? { render: false } : {};
   const challengeEmailPageObject = new ChallengeEmailPageObject(t);
-  await challengeEmailPageObject.navigateToPage();
-  await t.expect(challengeEmailPageObject.formExists()).eql(true);
+  await challengeEmailPageObject.navigateToPage(options);
+  if (widgetOptions) {
+    await renderWidget(widgetOptions);
+  }
+  await challengeEmailPageObject.formExists();
   return challengeEmailPageObject;
 }
 
@@ -880,10 +884,7 @@ test
 
 test
   .requestHooks(sendEmailMock)('should show custom factor page link', async t => {
-    const challengeEmailPageObject = await setup(t);
-    await checkA11y(t);
-
-    await renderWidget({
+    const challengeEmailPageObject = await setup(t, {
       helpLinks: {
         factorPage: {
           text: 'custom factor page link',
@@ -891,6 +892,7 @@ test
         }
       }
     });
+    await checkA11y(t);
 
     await t.expect(challengeEmailPageObject.getFactorPageHelpLinksLabel()).eql('custom factor page link');
     await t.expect(challengeEmailPageObject.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');

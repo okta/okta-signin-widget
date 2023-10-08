@@ -16,6 +16,7 @@ fixture('Failure with redirect');
 test.requestHooks(userNotAssignedMock)('generic case: redirects', async t => {
   const terminalPage = new TerminalPageObject(t);
   await terminalPage.navigateToPage();
+  await terminalPage.formExists();
   const errorPage = new PlaygroundErrorPageObject(t);
   await t.expect(errorPage.hasTitle()).eql(true);
 });
@@ -32,7 +33,7 @@ test.requestHooks(userNotAssignedMock)('oauth: shows the error message', async t
     },
     authScheme: 'oauth2',
   });
-  await t.expect(terminalPage.formExists()).eql(true);
+  await terminalPage.formExists();
   await terminalPage.waitForErrorBox();
   await t.expect(terminalPage.getErrorBoxText()).eql('You are not allowed to access this app. To request access, contact an admin.');
 });
@@ -50,6 +51,7 @@ test.requestHooks(userNotAssignedMock)('oauth: will redirect if `redirect === "a
     authScheme: 'oauth2',
     redirect: 'always',
   });
+  await terminalPage.formExists();
   const errorPage = new PlaygroundErrorPageObject(t);
   await t.expect(errorPage.hasTitle()).eql(true);
 });

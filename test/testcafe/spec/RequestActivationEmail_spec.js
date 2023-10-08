@@ -36,13 +36,14 @@ fixture('Activation Email');
 async function setup(t) {
   const requestActivaitonEmailPage = new RequestActivationEmailPageObject(t);
   await requestActivaitonEmailPage.navigateToPage();
+  await requestActivaitonEmailPage.formExists();
   return requestActivaitonEmailPage;
 }
 
 async function setupTerminal(t) {
   const terminalPageObject = new TerminalPageObject(t);
   await terminalPageObject.navigateToPage();
-  await t.expect(terminalPageObject.formExists()).eql(true);
+  await terminalPageObject.formExists();
   await checkConsoleMessages({
     controller: null,
     formName: 'terminal',

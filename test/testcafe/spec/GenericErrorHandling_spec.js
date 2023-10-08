@@ -17,6 +17,7 @@ fixture('GenericErrors');
 async function setup(t) {
   const terminalPage = new TerminalPageObject(t);
   await terminalPage.navigateToPage();
+  await terminalPage.formExists();
   await terminalPage.waitForTerminalView();
   return terminalPage;
 }

@@ -33,7 +33,7 @@ async function setup(t) {
   // mock is configured to show registration page immediately
   const registrationPage = new RegistrationPageObject(t);
   await registrationPage.navigateToPage();
-  await t.expect(await registrationPage.formExists()).eql(true);
+  await registrationPage.formExists();
   await checkConsoleMessages([
     'ready',
     'afterRender',
