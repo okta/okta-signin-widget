@@ -69,9 +69,9 @@ const webpackConfig = {
     ],
     port: DEV_SERVER_PORT,
     historyApiFallback: true,
-    // headers: {
-    //   'Content-Security-Policy': csp
-    // },
+    headers: {
+      'Content-Security-Policy': csp
+    },
   },
   plugins: [
     new MiniCssExtractPlugin(),
