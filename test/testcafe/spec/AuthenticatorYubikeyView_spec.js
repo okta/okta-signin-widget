@@ -36,6 +36,7 @@ async function setup(t, widgetOptions) {
   if (widgetOptions) {
     await renderWidget(widgetOptions);
   }
+  await pageObject.formExists();
   return pageObject;
 }
 
