@@ -424,12 +424,8 @@ test.requestHooks(mockAuthenticatorListWithEmail)('should display email in descr
   await checkA11y(t);
   await t.expect(selectFactorPage.getIdentifier()).eql('testUser@okta.com');
   await t.expect(selectFactorPage.getFactorLabelByIndex(2)).eql('Email');
-  if (userVariables.gen3) {
-    await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(2)).eql(true);
-    await t.expect(selectFactorPage.getFactorDescriptionByIndex(2)).eql('t***r@okta.com');
-  } else {
-    await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(2)).eql(false);
-  }
+  await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(2)).eql(true);
+  await t.expect(selectFactorPage.getFactorDescriptionByIndex(2)).eql('t***r@okta.com');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(2)).eql('Select');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(2)).eql('okta_email');
 });

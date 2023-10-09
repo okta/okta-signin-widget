@@ -34,7 +34,7 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
   case AUTHENTICATOR_KEY.EMAIL:
     Object.assign(authenticatorData, {
       description: isVerifyAuthenticator
-        ? ''
+        ? authenticator.relatesTo?.profile?.email
         : loc('oie.email.authenticator.description', 'login'),
       iconClassName: 'mfa-okta-email',
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
