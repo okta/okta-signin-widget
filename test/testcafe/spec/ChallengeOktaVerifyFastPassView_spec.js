@@ -27,20 +27,17 @@ let probeSuccess = false;
 let loopbackRedundantPollingMockPollCount = userVariables.gen3 ? -1 : 0;
 let loopbackEnhancedPollingMockPollCount = userVariables.gen3 ? -1 : 0;
 let loopbackFallbackMockPollCount = userVariables.gen3 ? -1 : 0;
+
 const loopbackSuccessLogger = RequestLogger(/introspect|probe|challenge/, { logRequestBody: true, stringifyRequestBody: true });
+const loopbackSuccessInitialPollMock = RequestMock()
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
+  .respond(identifyWithUserVerificationLoopback);
+const loopbackSuccessAfterProbePollMock = RequestMock()
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
+  .respond(identify);
 const loopbackSuccessMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/introspect/)
   .respond(identifyWithUserVerificationLoopback)
-  .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
-  .respond((req, res) => {
-    res.statusCode = '200';
-    res.headers['content-type'] = 'application/json';
-    if (probeSuccess) {
-      res.setBody(identify);
-    } else {
-      res.setBody(identifyWithUserVerificationLoopback);
-    }
-  })
   .onRequestTo({ url: /2000|6511\/probe/, method: 'OPTIONS' })
   .respond(null, 200, {
     'access-control-allow-origin': '*',
@@ -155,20 +152,18 @@ const loopbackEnhancedPollingMock = RequestMock()
     'access-control-allow-methods': 'POST, OPTIONS'
   });
 
+const loopbackBiometricsErrorMobileInitialPollMock = RequestMock()
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
+  .respond(identifyWithUserVerificationLoopback);
+const loopbackBiometricsErrorMobileAfterProbePollMock = RequestMock()
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
+  .respond((req, res) => {
+    res.statusCode = '400';
+    res.setBody(identifyWithUserVerificationBiometricsErrorMobile);
+  });
 const loopbackBiometricsErrorMobileMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/introspect/)
   .respond(identifyWithUserVerificationLoopback)
-  .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
-  .respond((req, res) => {
-    res.headers['content-type'] = 'application/json';
-    if (probeSuccess) {
-      res.statusCode = '400';
-      res.setBody(identifyWithUserVerificationBiometricsErrorMobile);
-    } else {
-      res.statusCode = '200';
-      res.setBody(identifyWithUserVerificationLoopback);
-    }
-  })
   .onRequestTo(/2000|6511|6512|6513\/probe/)
   .respond(null, 500, {
     'access-control-allow-origin': '*',
@@ -388,7 +383,7 @@ test
   });
 
 test
-  .requestHooks(loopbackSuccessLogger, loopbackSuccessMock)('in loopback server approach, probing and polling requests are sent and responded', async t => {
+  .requestHooks(loopbackSuccessLogger, loopbackSuccessMock, loopbackSuccessInitialPollMock)('in loopback server approach, probing and polling requests are sent and responded', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
     await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
@@ -411,11 +406,14 @@ test
     )).eql(1);
     // Check if pre-flight HTTP requests were sent
     await t.expect(loopbackSuccessLogger.count(
-      record => record.response.statusCode === 500 &&
+      record => record.response.statusCode === 200 &&
       record.request.method === 'options' &&
         record.request.url.match(/2000|6511/)
     )).eql(2);
-    probeSuccess = true;
+
+    await t.removeRequestHooks(loopbackSuccessInitialPollMock);
+    await t.addRequestHooks(loopbackSuccessAfterProbePollMock);
+
     await t.expect(loopbackSuccessLogger.contains(record => record.request.url.match(/6513/))).eql(false);
     const identityPage = new IdentityPageObject(t);
     await identityPage.fillIdentifierField('Test Identifier');
@@ -447,7 +445,7 @@ test
   });
 
 test
-  .requestHooks(loopbackBiometricsErrorMobileMock)('show biometrics error for mobile platform in loopback', async t => {
+  .requestHooks(loopbackBiometricsErrorMobileMock, loopbackBiometricsErrorMobileInitialPollMock)('show biometrics error for mobile platform in loopback', async t => {
     probeSuccess = false;
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
@@ -460,7 +458,9 @@ test
     await t.expect(deviceChallengePollPageObject.getFooterSwitchAuthenticatorLink().innerText).eql('Verify with something else');
     await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Back to sign in');
 
-    probeSuccess = true;
+    await t.removeRequestHooks(loopbackBiometricsErrorMobileInitialPollMock);
+    await t.addRequestHooks(loopbackBiometricsErrorMobileAfterProbePollMock);
+
     const errorText = deviceChallengePollPageObject.getErrorBoxText();
     await t.expect(errorText).contains('Biometrics needed for Okta Verify');
     await t.expect(errorText).contains('Your response was received, but your organization requires biometrics.');
