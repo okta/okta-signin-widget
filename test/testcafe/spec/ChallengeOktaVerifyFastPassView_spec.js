@@ -22,7 +22,6 @@ import { renderWidget } from '../framework/shared';
 
 const BEACON_CLASS = 'mfa-okta-verify';
 
-let probeSuccess = false;
 // In gen3 there is an extra immediate poll request compared to gen2 so start the count at -1
 let loopbackRedundantPollingMockPollCount = userVariables.gen3 ? -1 : 0;
 let loopbackEnhancedPollingMockPollCount = userVariables.gen3 ? -1 : 0;
@@ -152,9 +151,10 @@ const loopbackEnhancedPollingMock = RequestMock()
     'access-control-allow-methods': 'POST, OPTIONS'
   });
 
-const loopbackBiometricsErrorMobileInitialPollMock = RequestMock()
+const loopbackBiometricsErrorInitialPollMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
   .respond(identifyWithUserVerificationLoopback);
+
 const loopbackBiometricsErrorMobileAfterProbePollMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
   .respond((req, res) => {
@@ -172,20 +172,15 @@ const loopbackBiometricsErrorMobileMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/authenticators\/poll\/cancel/)
   .respond(identifyWithUserVerificationLoopback);
 
+const loopbackBiometricsErrorDesktopAfterProbePollMock = RequestMock()
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
+  .respond((req, res) => {
+    res.statusCode = '400';
+    res.setBody(identifyWithUserVerificationBiometricsErrorDesktop);
+  });
 const loopbackBiometricsErrorDesktopMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/introspect/)
   .respond(identifyWithUserVerificationLoopback)
-  .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
-  .respond((req, res) => {
-    res.headers['content-type'] = 'application/json';
-    if (probeSuccess) {
-      res.statusCode = '400';
-      res.setBody(identifyWithUserVerificationBiometricsErrorDesktop);
-    } else {
-      res.statusCode = '200';
-      res.setBody(identifyWithUserVerificationLoopback);
-    }
-  })
   .onRequestTo(/2000|6511|6512|6513\/probe/)
   .respond(null, 500, {
     'access-control-allow-origin': '*',
@@ -445,8 +440,7 @@ test
   });
 
 test
-  .requestHooks(loopbackBiometricsErrorMobileMock, loopbackBiometricsErrorMobileInitialPollMock)('show biometrics error for mobile platform in loopback', async t => {
-    probeSuccess = false;
+  .requestHooks(loopbackBiometricsErrorMobileMock, loopbackBiometricsErrorInitialPollMock)('show biometrics error for mobile platform in loopback', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
     await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
@@ -458,7 +452,7 @@ test
     await t.expect(deviceChallengePollPageObject.getFooterSwitchAuthenticatorLink().innerText).eql('Verify with something else');
     await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Back to sign in');
 
-    await t.removeRequestHooks(loopbackBiometricsErrorMobileInitialPollMock);
+    await t.removeRequestHooks(loopbackBiometricsErrorInitialPollMock);
     await t.addRequestHooks(loopbackBiometricsErrorMobileAfterProbePollMock);
 
     const errorText = deviceChallengePollPageObject.getErrorBoxText();
@@ -472,8 +466,7 @@ test
   });
 
 test
-  .requestHooks(loopbackBiometricsErrorDesktopMock)('show biometrics error for desktop platform in loopback', async t => {
-    probeSuccess = false;
+  .requestHooks(loopbackBiometricsErrorDesktopMock, loopbackBiometricsErrorInitialPollMock)('show biometrics error for desktop platform in loopback', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
     await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
@@ -485,7 +478,9 @@ test
     await t.expect(deviceChallengePollPageObject.getFooterSwitchAuthenticatorLink().innerText).eql('Verify with something else');
     await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Back to sign in');
 
-    probeSuccess = true;
+    await t.removeRequestHooks(loopbackBiometricsErrorInitialPollMock);
+    await t.addRequestHooks(loopbackBiometricsErrorDesktopAfterProbePollMock);
+
     const errorText = deviceChallengePollPageObject.getErrorBoxText();
     await t.expect(errorText).contains('Biometrics needed for Okta Verify');
     await t.expect(errorText).contains('Your response was received, but your organization requires biometrics.');
