@@ -266,13 +266,11 @@ describe('Select Authenticator Utility Tests', () => {
         expect(currentOption?.label).toBe(option.label);
         expect(currentOption?.options.ctaLabel)
           .toBe('oie.verify.authenticator.button.text');
-        let expeectedDescription;
         if (option.relatesTo?.key === AUTHENTICATOR_KEY.PHONE) {
-          expeectedDescription = mockPhoneNumber;
+          expect(currentOption?.options.description).toBe(mockPhoneNumber);
         } else if (option.relatesTo?.key === AUTHENTICATOR_KEY.EMAIL) {
-          expeectedDescription = mockEmail;
+          expect(currentOption?.options.description).toBe(mockEmail);
         }
-        expect(currentOption?.options.description).toBe(expeectedDescription);
       });
     });
 
