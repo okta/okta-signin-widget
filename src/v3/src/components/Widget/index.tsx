@@ -15,7 +15,7 @@
 import './style.css';
 
 import { ScopedCssBaseline } from '@mui/material';
-import { ThemeProvider } from '@okta/odyssey-react-mui';
+import { OdysseyProvider, ThemeOptions } from '@okta/odyssey-react-mui';
 import { MuiThemeProvider } from '@okta/odyssey-react-mui-legacy';
 import {
   AuthApiError,
@@ -493,8 +493,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     }}
     >
       <CustomPluginsOdysseyCacheProvider nonce={cspNonce}>
-        <ThemeProvider theme={theme}>
-          <MuiThemeProvider theme={theme}>
+        <MuiThemeProvider theme={theme}>
+          <OdysseyProvider themeOverride={(theme as ThemeOptions)}>
             <GlobalStyles />
             {/* the style is to allow the widget to inherit the parent's bg color */}
             <ScopedCssBaseline sx={{ backgroundColor: 'inherit' }}>
@@ -516,8 +516,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
                 </AuthContent>
               </AuthContainer>
             </ScopedCssBaseline>
-          </MuiThemeProvider>
-        </ThemeProvider>
+          </OdysseyProvider>
+        </MuiThemeProvider>
       </CustomPluginsOdysseyCacheProvider>
     </WidgetContextProvider>
   );

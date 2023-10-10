@@ -294,6 +294,7 @@ export const createTheme = (
                 borderColor: 'transparent',
               },
             }),
+            textTransform: 'none',
           }),
         },
       },
