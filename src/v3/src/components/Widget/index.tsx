@@ -17,6 +17,7 @@ import './style.css';
 import { ScopedCssBaseline } from '@mui/material';
 import { OdysseyProvider, ThemeOptions } from '@okta/odyssey-react-mui';
 import { MuiThemeProvider } from '@okta/odyssey-react-mui-legacy';
+
 import {
   AuthApiError,
   AuthenticatorKey,
