@@ -44,7 +44,7 @@ fixture('Enroll Security Question Form');
 async function setup(t) {
   const enrollSecurityQuestionPage = new EnrollSecurityQuestionPageObject(t);
   await enrollSecurityQuestionPage.navigateToPage();
-  await enrollSecurityQuestionPage.formExists();
+  await t.expect(enrollSecurityQuestionPage.formExists()).eql(true);
 
   await checkConsoleMessages({
     controller: 'enroll-question',

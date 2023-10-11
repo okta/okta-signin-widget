@@ -50,7 +50,7 @@ async function setup(t, widgetOptions) {
   if (widgetOptions) {
     await renderWidget(widgetOptions);
   }
-  await challengeDuoPage.formExists();
+  await t.expect(challengeDuoPage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: 'mfa-verify-duo',
     formName: 'challenge-authenticator',

@@ -68,10 +68,10 @@ const renderWidget = ClientFunction((settings) => {
 
 fixture('Identify + IDPs');
 
-async function setup(t) {
+async function setup(t, formShouldExist = true) {
   const identityPage = new IdentityPageObject(t);
   await identityPage.navigateToPage();
-  await identityPage.formExists();
+  await t.expect(identityPage.formExists()).eql(formShouldExist);
   return identityPage;
 }
 
@@ -87,7 +87,7 @@ async function setupDirectAuth(t) {
     },
     authScheme: 'oauth2',
   });
-  await identityPage.formExists();
+  await t.expect(identityPage.formExists()).ok();
   return identityPage;
 }
 
@@ -141,20 +141,18 @@ test.requestHooks(mockWithoutIdentify)('should only render idp buttons with iden
 });
 
 test.requestHooks(logger, mockOnlyOneIdp)('should auto redirect to 3rd party IdP login page with basic Signing in message', async t => {
-  await setup(t);
-
-  await checkConsoleMessages({
-    controller: null,
-    formName: 'success-redirect',
-  });
+  await setup(t, false);
 
   // assert redirect to IdP login page eventually
   await t.expect(Selector('h1').innerText).eql('An external IdP login page for testcafe testing');
   const pageUrl = await ClientFunction(() => window.location.href)();
   await t.expect(pageUrl).eql('http://localhost:3000/sso/idps/facebook-idp-id-123?stateToken=inRUXNhsc6Evt7GAb8DPAA');
 
+  await checkConsoleMessages({
+    controller: null,
+    formName: 'success-redirect',
+  });
   await t.expect(logger.contains(record => record.response.statusCode === 200)).ok();
-
 });
 
 test.requestHooks(logger, mockOnlyOneIdp)('Direct auth: does not auto redirect to 3rd party IDP on initial load', async t => {
@@ -173,18 +171,17 @@ test.requestHooks(logger, mockOnlyOneIdp)('Direct auth: does not auto redirect t
 });
 
 test.requestHooks(logger, mockOnlyOneIdpAppUser)('should auto redirect to 3rd party IdP login page with Signing in longer message', async t => {
-  await setup(t);
-
-  await checkConsoleMessages({
-    controller: null,
-    formName: 'success-redirect',
-  });
+  await setup(t, false);
 
   // assert redirect to IdP login page eventually
   await t.expect(Selector('h1').innerText).eql('An external IdP login page for testcafe testing');
   const pageUrl = await ClientFunction(() => window.location.href)();
   await t.expect(pageUrl).eql('http://localhost:3000/sso/idps/facebook-idp-id-123?stateToken=inRUXNhsc6Evt7GAb8DPAA');
 
+  await checkConsoleMessages({
+    controller: null,
+    formName: 'success-redirect',
+  });
   await t.expect(logger.contains(record => record.response.statusCode === 200)).ok();
 });
 
@@ -210,7 +207,7 @@ test.requestHooks(logger, mockIdpDiscoveryWithOneIdp)('IDP discovery will auto r
 
 test.requestHooks(logger, mockIdpDiscoveryWithOneIdp)('Direct auth: IDP discovery will auto redirect to 3rd party IDP after identify with name', async t => {
   const identityPage = await setupDirectAuth(t);
-  await identityPage.formExists();
+  await t.expect(identityPage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: 'primary-auth',
     formName: 'identify',

@@ -26,7 +26,7 @@ fixture('Authenticator RSA');
 async function setup(t) {
   const enrollRsaPage = new EnrollRsaPageObject(t);
   await enrollRsaPage.navigateToPage();
-  await enrollRsaPage.formExists();
+  await t.expect(enrollRsaPage.formExists()).eql(true);
 
   await checkConsoleMessages({
     controller: 'enroll-rsa',

@@ -39,7 +39,7 @@ async function setup(t, widgetOptions) {
   if (widgetOptions) {
     await renderWidget(widgetOptions);
   }
-  await identityPage.formExists();
+  await t.expect(identityPage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: 'primary-auth',
     formName: 'identify',

@@ -29,7 +29,7 @@ async function setup(t, widgetOptions) {
   if (widgetOptions) {
     await renderWidget(widgetOptions);
   }
-  await registrationPage.formExists();
+  await t.expect(registrationPage.formExists()).ok();
   return registrationPage;
 }
 

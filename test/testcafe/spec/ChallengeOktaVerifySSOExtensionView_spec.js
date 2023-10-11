@@ -59,7 +59,7 @@ test
   .requestHooks(logger, credentialSSOExtensionMock)('with credential SSO Extension approach, opens the verify URL', async t => {
     const ssoExtensionPage = new BasePageObject(t);
     await ssoExtensionPage.navigateToPage();
-    await ssoExtensionPage.formExists();
+    await t.expect(ssoExtensionPage.formExists()).ok();
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/introspect/)
@@ -88,7 +88,7 @@ test
   .requestHooks(credentialSSONotExistLogger, credentialSSONotExistMock)('cancels transaction when the authenticator does not exist', async t => {
     const ssoExtensionPage = new BasePageObject(t);
     await ssoExtensionPage.navigateToPage();
-    await ssoExtensionPage.formExists();
+    await t.expect(ssoExtensionPage.formExists()).ok();
     await t.expect(credentialSSONotExistLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/introspect/)
@@ -107,7 +107,7 @@ test
   .requestHooks(credentialSSOExtensionBiometricsErrorMobileMock)('show biometrics error for mobile platform in credential SSO Extension', async t => {
     const ssoExtensionPage = new BasePageObject(t);
     await ssoExtensionPage.navigateToPage();
-    await ssoExtensionPage.formExists();
+    await t.expect(ssoExtensionPage.formExists()).ok();
 
     const errorText = ssoExtensionPage.getErrorBoxText();
     await t.expect(errorText).contains('Biometrics needed for Okta Verify');
@@ -123,7 +123,7 @@ test
   .requestHooks(credentialSSOExtensionBiometricsErrorDesktopMock)('show biometrics error for desktop platform in credential SSO Extension', async t => {
     const ssoExtensionPage = new BasePageObject(t);
     await ssoExtensionPage.navigateToPage();
-    await ssoExtensionPage.formExists();
+    await t.expect(ssoExtensionPage.formExists()).ok();
 
     const errorText = ssoExtensionPage.getErrorBoxText();
     await t.expect(errorText).contains('Biometrics needed for Okta Verify');

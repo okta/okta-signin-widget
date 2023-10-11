@@ -34,7 +34,7 @@ const verifyErrorMock = RequestMock()
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
   await identityPage.navigateToPage();
-  await identityPage.formExists();
+  await t.expect(identityPage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: 'primary-auth',
     formName: 'identify'
@@ -74,7 +74,7 @@ test
   .requestHooks(logger, verifyErrorMock)('verify with PIV IdP surfaces error messages', async t => {
     const pivPageObject = new PIVPageObject(t);
     await pivPageObject.navigateToPage();
-    await pivPageObject.formExists();
+    await t.expect(pivPageObject.formExists()).eql(true);
 
     await t.expect(pivPageObject.getFormTitle()).eql('PIV / CAC card');
     const subtitle = await pivPageObject.getPageSubtitle();

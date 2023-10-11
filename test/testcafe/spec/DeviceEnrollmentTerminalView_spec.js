@@ -27,7 +27,7 @@ async function setup(t, widgetOptions) {
   if (widgetOptions) {
     await renderWidget(widgetOptions);
   }
-  await deviceEnrollmentTerminalPageObject.formExists();
+  await t.expect(deviceEnrollmentTerminalPageObject.formExists()).ok();
   return deviceEnrollmentTerminalPageObject;
 }
 

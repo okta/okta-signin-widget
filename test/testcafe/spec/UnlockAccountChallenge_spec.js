@@ -79,7 +79,7 @@ async function setup(t, widgetOptions) {
   if (widgetOptions) {
     await rerenderWidget(widgetOptions);
   }
-  await identityPage.formExists();
+  await t.expect(identityPage.formExists()).ok();
   return identityPage;
 }
 
@@ -90,7 +90,7 @@ async function setupSignInDevice(t, widgetOptions) {
   if (widgetOptions) {
     await rerenderWidget(widgetOptions);
   }
-  await signInDevicePageObject.formExists();
+  await t.expect(signInDevicePageObject.formExists()).ok();
   return signInDevicePageObject;
 }
 

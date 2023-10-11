@@ -78,7 +78,7 @@ async function setup(t, factorsCount = 3, widgetOptions) {
   if (widgetOptions) {
     await renderWidget(widgetOptions);
   }
-  await selectAuthenticatorPageObject.formExists();
+  await t.expect(selectAuthenticatorPageObject.formExists()).ok();
   await t.expect(selectAuthenticatorPageObject.getFormTitle()).eql(FORM_TITLE);
   await t.expect(selectAuthenticatorPageObject.getFormSubtitle()).eql(FORM_SUBTITLE);
   await t.expect(selectAuthenticatorPageObject.getFactorsCount()).eql(factorsCount);

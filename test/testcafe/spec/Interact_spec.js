@@ -119,7 +119,7 @@ async function setup(t, options = {}) {
       state: 'mock-state'
     }
   });
-  await pageObject.formExists();
+  await t.expect(pageObject.formExists()).eql(true);
   return pageObject;
 }
 

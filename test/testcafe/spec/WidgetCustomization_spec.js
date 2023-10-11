@@ -48,7 +48,7 @@ async function setup(t, widgetOptions) {
   if (widgetOptions) {
     await rerenderWidget(widgetOptions);
   }
-  await identityPage.formExists();
+  await t.expect(identityPage.formExists()).ok();
   return identityPage;
 }
 
@@ -59,7 +59,7 @@ async function setupSelectAuthenticator(t, widgetOptions) {
   if (widgetOptions) {
     await rerenderWidget(widgetOptions);
   }
-  await selectAuthenticatorPageObject.formExists();
+  await t.expect(selectAuthenticatorPageObject.formExists()).ok();
   return selectAuthenticatorPageObject;
 }
 
@@ -70,7 +70,7 @@ async function setupResetPassword(t, widgetOptions) {
   if (widgetOptions) {
     await rerenderWidget(widgetOptions);
   }
-  await resetPasswordPage.formExists();
+  await t.expect(resetPasswordPage.formExists()).ok();
   return resetPasswordPage;
 }
 
@@ -81,7 +81,7 @@ async function setupPasswordExpired(t, widgetOptions) {
   if (widgetOptions) {
     await rerenderWidget(widgetOptions);
   }
-  await expiredPasswordPage.formExists();
+  await t.expect(expiredPasswordPage.formExists()).ok();
   return expiredPasswordPage;
 }
 

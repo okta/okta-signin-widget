@@ -41,7 +41,7 @@ fixture('Authenticator Enroll Password');
 async function setup(t) {
   const enrollPasswordPage = new FactorEnrollPasswordPageObject(t);
   await enrollPasswordPage.navigateToPage();
-  await enrollPasswordPage.formExists();
+  await t.expect(enrollPasswordPage.formExists()).ok();
   await checkConsoleMessages({
     controller: 'enroll-password',
     formName: 'enroll-authenticator',

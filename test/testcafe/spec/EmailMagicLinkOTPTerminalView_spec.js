@@ -46,7 +46,7 @@ fixture('Email Magic Link OTP Terminal view');
 async function setupOtpOnly(t) {
   const terminalOtpOnlyPageObject = new TerminalOtpOnlyPageObject(t);
   await terminalOtpOnlyPageObject.navigateToPage();
-  await terminalOtpOnlyPageObject.formExists();
+  await t.expect(terminalOtpOnlyPageObject.formExists()).eql(true);
   return terminalOtpOnlyPageObject;
 }
 

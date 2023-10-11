@@ -135,7 +135,7 @@ async function setup(t, widgetOptions) {
   if (widgetOptions) {
     await renderWidget(widgetOptions);
   }
-  await selectFactorPageObject.formExists();
+  await t.expect(selectFactorPageObject.formExists()).ok();
   return selectFactorPageObject;
 }
 

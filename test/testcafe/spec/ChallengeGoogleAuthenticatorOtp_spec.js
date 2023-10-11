@@ -46,7 +46,7 @@ async function setup(t, widgetOptions) {
   if (widgetOptions) {
     await renderWidget(widgetOptions);
   }
-  await challengeGoogleAuthenticatorPageObject.formExists();
+  await t.expect(challengeGoogleAuthenticatorPageObject.formExists()).eql(true);
   return challengeGoogleAuthenticatorPageObject;
 }
 

@@ -25,7 +25,7 @@ async function setup(t, widgetOptions) {
   if (widgetOptions) {
     await renderWidget(widgetOptions);
   }
-  await enrollDuoPage.formExists();
+  await t.expect(enrollDuoPage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: 'enroll-duo',
     formName: 'enroll-authenticator',

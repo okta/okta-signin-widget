@@ -154,7 +154,7 @@ async function setup(t, widgetOptions) {
   if (widgetOptions) {
     await renderWidget(widgetOptions);
   }
-  await challengePhonePageObject.formExists();
+  await t.expect(challengePhonePageObject.formExists()).eql(true);
   return challengePhonePageObject;
 }
 
@@ -171,7 +171,7 @@ async function setupInteractionCodeFlow(t) {
       state: 'mock-state'
     }
   });
-  await challengePhonePageObject.formExists();
+  await t.expect(challengePhonePageObject.formExists()).ok();
   await checkA11y(t);
   return challengePhonePageObject;
 }

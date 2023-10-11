@@ -63,7 +63,7 @@ async function setup(t, options) {
 test.requestHooks(identifyRequestLogger, identifyMock)('identifer first flow - should remember username after successful authentication', async t => {
   const identityPage = await setup(t, { render: false });
   await rerenderWidget(baseConfig);
-  await identityPage.formExists();
+  await t.expect(identityPage.formExists()).ok();
   await checkA11y(t);
 
   await identityPage.fillIdentifierField('testUser@okta.com');
@@ -82,7 +82,7 @@ test.requestHooks(identifyRequestLogger, identifyMock)('identifer first flow - s
   // Ensure identifier field is pre-filled with saved username cookie
   await identityPage.navigateToPage({ render: false });
   await rerenderWidget(baseConfig);
-  await identityPage.formExists();
+  await t.expect(identityPage.formExists()).ok();
   const identifier = identityPage.getIdentifierValue();
   await t.expect(identifier).eql('testUser@okta.com');
 });
@@ -90,7 +90,7 @@ test.requestHooks(identifyRequestLogger, identifyMock)('identifer first flow - s
 test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('identifer with password - should remember username after successful authentication', async t => {
   const identityPage = await setup(t, { render: false });
   await rerenderWidget(baseConfig);
-  await identityPage.formExists();
+  await t.expect(identityPage.formExists()).ok();
   await checkA11y(t);
 
   await identityPage.fillIdentifierField('testUser@okta.com');
@@ -111,7 +111,7 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('identifer wi
   // Ensure identifier field is pre-filled with saved username cookie
   await identityPage.navigateToPage({ render: false });
   await rerenderWidget(baseConfig);
-  await identityPage.formExists();
+  await t.expect(identityPage.formExists()).ok();
   const identifier = identityPage.getIdentifierValue();
   await t.expect(identifier).eql('testUser@okta.com');
 });
@@ -127,7 +127,7 @@ test.requestHooks(identifyRequestLogger, identifyWithEmailAuthenticator)('identi
   await identityPage.mockCrypto();
   await t.setNativeDialogHandler(() => true);
   await rerenderWidget(options);
-  await identityPage.formExists();
+  await t.expect(identityPage.formExists()).ok();
   await checkA11y(t);
 
   await identityPage.fillIdentifierField('testUser@okta.com');
@@ -148,7 +148,7 @@ test.requestHooks(identifyRequestLogger, identifyWithEmailAuthenticator)('identi
   // Ensure identifier field is pre-filled with saved username cookie
   await identityPage.navigateToPage({ render: false });
   await rerenderWidget(baseConfig);
-  await identityPage.formExists();
+  await t.expect(identityPage.formExists()).ok();
   const identifier = identityPage.getIdentifierValue();
   await t.expect(identifier).eql('testUser@okta.com');
 });
@@ -157,7 +157,7 @@ test
   .requestHooks(identifyRequestLogger, identifyMock)('should pre-fill identifier field with config.username passed in and feature.rememberMe enabled', async t => {
     const identityPage = await setup(t, { render: false });
     await rerenderWidget(baseConfig);
-    await identityPage.formExists();
+    await t.expect(identityPage.formExists()).ok();
     await checkA11y(t);
 
     // Go through authentication process to save cookie
@@ -182,7 +182,7 @@ test
         rememberMe: true
       }
     });
-    await identityPage.formExists();
+    await t.expect(identityPage.formExists()).ok();
 
     const identifier = identityPage.getIdentifierValue();
     await t.expect(identifier).eql('configUsername@okta.com');
@@ -191,7 +191,7 @@ test
 test.requestHooks(identifyRequestLogger, identifyMock)('should pre-fill identifier field with remediation identifier value over saved cookie', async t => {
   const identityPage = await setup(t, { render: false });
   await rerenderWidget(baseConfig);
-  await identityPage.formExists();
+  await t.expect(identityPage.formExists()).ok();
   await checkA11y(t);
 
   // Go through authentication process to save cookie
@@ -218,7 +218,7 @@ test.requestHooks(identifyRequestLogger, identifyMock)('should pre-fill identifi
       rememberMe: true
     }
   });
-  await identityPage.formExists();
+  await t.expect(identityPage.formExists()).ok();
 
   // Ensure identifier field is pre-filled with identifier returned in remediation
   const identifier = identityPage.getIdentifierValue();
@@ -237,7 +237,7 @@ test.meta('gen3', false).requestHooks(identifyRequestLogger, identifyMock)('shou
       rememberMe: true
     }
   });
-  await identityPage.formExists();
+  await t.expect(identityPage.formExists()).ok();
 
   await t.expect(identityPage.getIdentifierValue()).eql('PREFILL VALUE');
 

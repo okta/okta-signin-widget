@@ -310,7 +310,7 @@ fixture('Device Challenge Polling View for user verification and MFA with the Lo
 async function setup(t) {
   const deviceChallengePollPage = new DeviceChallengePollPageObject(t);
   await deviceChallengePollPage.navigateToPage();
-  await deviceChallengePollPage.formExists();
+  await t.expect(deviceChallengePollPage.formExists()).eql(true);
   return deviceChallengePollPage;
 }
 
@@ -321,7 +321,7 @@ async function setupLoopbackFallback(t, widgetOptions) {
   if (widgetOptions) {
     await renderWidget(widgetOptions);
   }
-  await deviceChallengeFalllbackPage.formExists();
+  await t.expect(deviceChallengeFalllbackPage.formExists()).eql(true);
   return deviceChallengeFalllbackPage;
 }
 
@@ -473,6 +473,7 @@ test
   .requestHooks(loopbackBiometricsErrorDesktopMock, loopbackBiometricsErrorInitialPollMock)('show biometrics error for desktop platform in loopback', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
+    await t.expect(deviceChallengePollPageObject.beaconExists()).ok();
     await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
     await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Verifying your identity');
     // in v3 all cancel buttons are the same so skip this assertion

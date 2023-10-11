@@ -37,7 +37,7 @@ async function setup(t, widgetOptions) {
   if (widgetOptions) {
     await renderWidget(widgetOptions);
   }
-  await challengeRsaPage.formExists();
+  await t.expect(challengeRsaPage.formExists()).eql(true);
   return challengeRsaPage;
 }
 

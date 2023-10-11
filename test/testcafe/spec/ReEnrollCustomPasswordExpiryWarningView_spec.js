@@ -45,7 +45,7 @@ async function setup(t, widgetOptions) {
   if (widgetOptions) {
     await rerenderWidget(widgetOptions);
   }
-  await expiringCustomPasswordPage.formExists();
+  await t.expect(expiringCustomPasswordPage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: 'custom-password-expiry-warning',
     formName: 'reenroll-custom-password-expiry-warning',

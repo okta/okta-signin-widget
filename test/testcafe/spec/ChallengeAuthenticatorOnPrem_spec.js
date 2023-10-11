@@ -35,7 +35,7 @@ async function setup(t, widgetOptions) {
   if (widgetOptions) {
     await renderWidget(widgetOptions);
   }
-  await challengeOnPremPage.formExists();
+  await t.expect(challengeOnPremPage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: 'mfa-verify-totp',
     formName: 'challenge-authenticator',

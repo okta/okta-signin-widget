@@ -79,7 +79,7 @@ async function setup(t, widgetOptions) {
   if (widgetOptions) {
     await renderWidget(widgetOptions);
   }
-  await challengeCustomAppPushPageObject.formExists();
+  await t.expect(challengeCustomAppPushPageObject.formExists()).ok();
   return challengeCustomAppPushPageObject;
 }
 

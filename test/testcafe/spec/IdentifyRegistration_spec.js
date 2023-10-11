@@ -52,7 +52,7 @@ fixture('Registration');
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
   await identityPage.navigateToPage();
-  await identityPage.formExists();
+  await t.expect(identityPage.formExists()).ok();
   await identityPage.clickSignUpLink();
   return new RegistrationPageObject(t);
 }
@@ -401,7 +401,7 @@ test.requestHooks(mock)('should call settings.registration.click on "Sign Up" cl
       click: () => console.log('registration click handler fired')
     }
   });
-  await identityPage.formExists();
+  await t.expect(identityPage.formExists()).ok();
   await t.expect(identityPage.getFormTitle()).eql('Sign In');
 
   await identityPage.clickSignUpLink();

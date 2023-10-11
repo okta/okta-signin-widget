@@ -60,7 +60,7 @@ async function setup(t, widgetOptions) {
   if (widgetOptions) {
     await renderWidget(widgetOptions);
   }
-  await challengePasswordPage.formExists();
+  await t.expect(challengePasswordPage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: 'mfa-verify-password',
     formName: 'challenge-authenticator',

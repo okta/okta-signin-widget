@@ -86,7 +86,7 @@ fixture('Select Authenticator for enrollment Form');
 async function setup(t) {
   const selectFactorPageObject = new SelectFactorPageObject(t);
   await selectFactorPageObject.navigateToPage();
-  await selectFactorPageObject.formExists();
+  await t.expect(selectFactorPageObject.formExists()).ok();
   return selectFactorPageObject;
 }
 

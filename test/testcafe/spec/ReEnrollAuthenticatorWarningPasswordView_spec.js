@@ -61,7 +61,7 @@ fixture('Password Authenticator Expiry Warning');
 async function setup(t) {
   const passwordExpiryWarningPage = new FactorEnrollPasswordPageObject(t);
   await passwordExpiryWarningPage.navigateToPage();
-  await passwordExpiryWarningPage.formExists();
+  await t.expect(passwordExpiryWarningPage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: null,
     formName: 'reenroll-authenticator-warning',

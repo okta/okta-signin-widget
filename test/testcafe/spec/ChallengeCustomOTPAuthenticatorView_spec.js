@@ -28,7 +28,7 @@ async function setup(t, widgetOptions) {
   if (widgetOptions) {
     await renderWidget(widgetOptions);
   }
-  await challengeCustomOTPPage.formExists();
+  await t.expect(challengeCustomOTPPage.formExists()).eql(true);
   return challengeCustomOTPPage;
 }
 

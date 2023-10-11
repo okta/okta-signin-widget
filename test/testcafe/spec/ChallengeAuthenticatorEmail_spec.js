@@ -221,7 +221,7 @@ async function setup(t, widgetOptions) {
   if (widgetOptions) {
     await renderWidget(widgetOptions);
   }
-  await challengeEmailPageObject.formExists();
+  await t.expect(challengeEmailPageObject.formExists()).eql(true);
   return challengeEmailPageObject;
 }
 

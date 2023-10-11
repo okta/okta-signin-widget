@@ -53,7 +53,7 @@ async function setup(t, options = {}) {
     stateToken: 'abc',
     ...options
   });
-  await pageObject.formExists();
+  await t.expect(pageObject.formExists()).eql(true);
 
   return pageObject;
 }

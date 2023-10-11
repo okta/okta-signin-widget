@@ -85,7 +85,7 @@ test.requestHooks(identifyChallengeMockWithError)('shall save state handle durin
 
   // Identify page
   await identityPage.navigateToPage();
-  await identityPage.formExists();
+  await t.expect(identityPage.formExists()).ok();
   await t.expect(getStateHandleFromSessionStorage()).eql(null);
   await identityPage.fillIdentifierField('foo@test.com');
   await identityPage.clickNextButton();
@@ -134,7 +134,7 @@ test.requestHooks(identifyChallengeMockWithError)('shall save state handle durin
 
   // Identify page
   await identityPage.navigateToPage();
-  await identityPage.formExists();
+  await t.expect(identityPage.formExists()).ok();
   await t.expect(getStateHandleFromSessionStorage()).eql(null);
   await identityPage.fillIdentifierField('foo@test.com');
   await identityPage.clickNextButton();
@@ -180,7 +180,7 @@ test.requestHooks(identifyChallengeMockWithError)('shall clear session.stateHand
 
   // Identify page
   await identityPage.navigateToPage();
-  await identityPage.formExists();
+  await t.expect(identityPage.formExists()).ok();
   await t.expect(getStateHandleFromSessionStorage()).eql(null);
   await identityPage.fillIdentifierField('foo@test.com');
   await identityPage.clickNextButton();
@@ -202,7 +202,7 @@ test.requestHooks(identifyChallengeMockWithSessionExpired)('shall clear session.
 
   // Identify page
   await identityPage.navigateToPage();
-  await identityPage.formExists();
+  await t.expect(identityPage.formExists()).ok();
   await t.expect(getStateHandleFromSessionStorage()).eql(null);
   await identityPage.fillIdentifierField('foo@test.com');
   await identityPage.clickNextButton();
@@ -249,7 +249,7 @@ test.requestHooks(identifyChallengeMockWithError)('shall clear when session.stat
 
   // Identify page
   await identityPage.navigateToPage();
-  await identityPage.formExists();
+  await t.expect(identityPage.formExists()).eql(true);
   await t.expect(getStateHandleFromSessionStorage()).eql(null);
   await identityPage.fillIdentifierField('foo@test.com');
   await identityPage.clickNextButton();
@@ -267,7 +267,7 @@ test.requestHooks(identifyChallengeMockWithError)('shall clear when session.stat
 
   // Refresh
   await challengeEmailPageObject.refresh();
-  await challengeEmailPageObject.formExists();
+  await t.expect(challengeEmailPageObject.formExists()).eql(true);
 
   // Verify introspect requests
   // introspect with session.stateHandle
@@ -301,7 +301,7 @@ test.requestHooks(introspectRequestLogger, identifyChallengeMockWithError)('shal
 
   // Identify page
   await identityPage.navigateToPage();
-  await identityPage.formExists();
+  await t.expect(identityPage.formExists()).ok();
   await t.expect(getStateHandleFromSessionStorage()).eql(null);
   await identityPage.fillIdentifierField('foo@test.com');
   await identityPage.clickNextButton();
@@ -314,7 +314,7 @@ test.requestHooks(introspectRequestLogger, identifyChallengeMockWithError)('shal
   // Change apps
   await identityPage.navigateToPage({path: '/app/phpsaml/123/sso/saml'});
   const pageObject = new BasePageObject(t);
-  await pageObject.formExists();
+  await t.expect(pageObject.formExists()).eql(true);
 
   // Verify introspect requests, one for each app visit
   await t.expect(introspectRequestLogger.count(() => true)).eql(2);
@@ -328,7 +328,7 @@ test.requestHooks(introspectRequestLogger, identifyChallengeMockWithError)('shal
 test.requestHooks(credentialSSONotExistLogger, credentialSSONotExistMock)('shall clear session.stateHandle when SSO extension fails', async t => {
   const ssoExtensionPage = new BasePageObject(t);
   await ssoExtensionPage.navigateToPage();
-  await ssoExtensionPage.formExists();
+  await t.expect(ssoExtensionPage.formExists()).ok();
   await t.expect(credentialSSONotExistLogger.count(
     record => record.response.statusCode === 200 &&
       record.request.url.match(/introspect/)
@@ -373,7 +373,7 @@ test.requestHooks(identifyChallengeMock)('shall back to sign-in and authenticate
   await renderWidget(optionsForInteractionCodeFlow);
 
   // Identify page
-  await identityPage.formExists();
+  await t.expect(identityPage.formExists()).eql(true);
   await identityPage.fillIdentifierField('foo@test.com');
   await identityPage.clickNextButton();
 

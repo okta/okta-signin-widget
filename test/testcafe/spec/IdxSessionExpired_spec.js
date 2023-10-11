@@ -38,7 +38,7 @@ fixture('IDX Session Expired');
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
   await identityPage.navigateToPage();
-  await identityPage.formExists();
+  await t.expect(identityPage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: 'primary-auth',
     formName: 'identify',
@@ -61,7 +61,7 @@ async function setupInteractionCodeFlow(t) {
       state: 'mock-state'
     }
   });
-  await identityPage.formExists();
+  await t.expect(identityPage.formExists()).ok();
   return identityPage;
 }
 

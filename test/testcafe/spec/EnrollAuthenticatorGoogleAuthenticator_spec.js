@@ -39,7 +39,7 @@ fixture('Enroll Google Authenticator');
 async function setup(t) {
   const enrollGoogleAuthenticatorPageObject = new EnrollGoogleAuthenticatorPageObject(t);
   await enrollGoogleAuthenticatorPageObject.navigateToPage();
-  await enrollGoogleAuthenticatorPageObject.formExists();
+  await t.expect(enrollGoogleAuthenticatorPageObject.formExists()).eql(true);
   await checkConsoleMessages({
     controller:null,
     formName:'enroll-authenticator',

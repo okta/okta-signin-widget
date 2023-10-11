@@ -30,7 +30,7 @@ fixture('Challenge Authenticator Okta Verify Push Only With Auto Challenge Form'
 async function setup(t) {
   const challengeOktaVerifyPushPageObject = new ChallengeOktaVerifyPushPageObject(t);
   await challengeOktaVerifyPushPageObject.navigateToPage();
-  await challengeOktaVerifyPushPageObject.formExists();
+  await t.expect(challengeOktaVerifyPushPageObject.formExists()).ok();
   return challengeOktaVerifyPushPageObject;
 }
 
