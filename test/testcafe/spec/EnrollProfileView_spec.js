@@ -197,10 +197,10 @@ test.requestHooks(EnrollProfileSignUpAllBaseAttributesMock)('All Base Attributes
     //manager: 'Manager', //TODO: Found multiple elements with the text of: /Manager/
   };
 
-  for (let formField in formFieldToLabel) {
+  for (const formFieldLabel of Object.values(formFieldToLabel)) {
     // verify all base attributes map to correct translation
     // all 'label' fields for base attributes in json are appended with a '1'
-    await t.expect(await enrollProfilePage.form.fieldByLabelExists(formFieldToLabel[formField])).eql(true);
+    await t.expect(enrollProfilePage.form.fieldByLabelExists(formFieldLabel)).eql(true);
   }
 });
 
