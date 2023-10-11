@@ -268,14 +268,14 @@ describe('Select Authenticator Utility Tests', () => {
           .toBe('oie.verify.authenticator.button.text');
       });
       options.filter((option) =>
-        option.relatesTo?.key === AUTHENTICATOR_KEY.PHONE
+        option.relatesTo?.key === AUTHENTICATOR_KEY.PHONE,
       ).forEach((option) => {
         const currentOption = authenticatorOptionValues
           .find(({ options: { key: authKey } }) => authKey === option.relatesTo?.key);
         expect(currentOption?.options.description).toBe(mockPhoneNumber);
       });
       options.filter((option) =>
-        option.relatesTo?.key === AUTHENTICATOR_KEY.EMAIL
+        option.relatesTo?.key === AUTHENTICATOR_KEY.EMAIL,
       ).forEach((option) => {
         const currentOption = authenticatorOptionValues
           .find(({ options: { key: authKey } }) => authKey === option.relatesTo?.key);
