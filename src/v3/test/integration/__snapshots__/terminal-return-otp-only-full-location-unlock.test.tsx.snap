@@ -5,115 +5,115 @@ exports[`terminal-return-otp-only-full-location-unlock renders form 1`] = `
   <div
     class="MuiScopedCssBaseline-root emotion-0"
   >
-    <main
-      class="auth-container main-container MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
-      <div
-        class="MuiScopedCssBaseline-root emotion-2"
+      <main
+        class="auth-container main-container MuiBox-root emotion-2"
+        data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+        data-version="0.0.0"
+        dir="ltr"
+        id="okta-sign-in"
+        lang="en"
       >
         <div
-          class="MuiBox-root emotion-3"
+          class="MuiScopedCssBaseline-root emotion-3"
         >
           <div
             class="MuiBox-root emotion-4"
           >
             <div
-              class="okta-sign-in-header auth-header authCoinSpacing MuiBox-root emotion-5"
+              class="MuiBox-root emotion-5"
             >
-              <h1
-                class="MuiTypography-root MuiTypography-h1 emotion-6"
-              />
               <div
-                aria-hidden="true"
-                class="mfa-okta-email MuiBox-root emotion-7"
-                data-se="factor-beacon"
+                class="okta-sign-in-header auth-header authCoinSpacing MuiBox-root emotion-6"
               >
-                <svg
-                  aria-labelledby="mfa-okta-email"
-                  fill="none"
-                  height="48"
-                  role="img"
-                  viewBox="0 0 48 48"
-                  width="48"
-                  xmlns="http://www.w3.org/2000/svg"
+                <h1
+                  class="MuiTypography-root MuiTypography-h1 emotion-7"
+                />
+                <div
+                  aria-hidden="true"
+                  class="mfa-okta-email MuiBox-root emotion-8"
+                  data-se="factor-beacon"
                 >
-                  <title
-                    id="mfa-okta-email"
+                  <svg
+                    aria-labelledby="mfa-okta-email"
+                    fill="none"
+                    height="48"
+                    role="img"
+                    viewBox="0 0 48 48"
+                    width="48"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    Email Authentication
-                  </title>
-                  <circle
-                    class="siwFillBg"
-                    cx="24"
-                    cy="24"
-                    fill="#F5F5F6"
-                    r="24"
-                  />
-                  <path
-                    class="siwFillSecondary"
-                    d="M32 18v1h5.3L32 24.29v1.42l6-6.01v12.8a1.5 1.5 0 0 1-1.5 1.5h-17a1.5 1.5 0 0 1-1.5-1.5V31h-1v1.5a2.5 2.5 0 0 0 2.5 2.5h17a2.5 2.5 0 0 0 2.5-2.5V18h-7Z"
-                    fill="#A7B5EC"
-                  />
-                  <path
-                    class="siwFillPrimaryDark"
-                    d="M9 13v14.5a2.5 2.5 0 0 0 2.5 2.5h17a2.5 2.5 0 0 0 2.5-2.5V13H9Zm20.293 1-8.81 8.81L10.794 14h18.499ZM28.5 29h-17a1.5 1.5 0 0 1-1.5-1.5V14.63l10.517 9.56L30 14.707V27.5a1.5 1.5 0 0 1-1.5 1.5Z"
-                    fill="#00297A"
-                  />
-                </svg>
+                    <title
+                      id="mfa-okta-email"
+                    >
+                      Email Authentication
+                    </title>
+                    <circle
+                      class="siwFillBg"
+                      cx="24"
+                      cy="24"
+                      fill="#F5F5F6"
+                      r="24"
+                    />
+                    <path
+                      class="siwFillSecondary"
+                      d="M32 18v1h5.3L32 24.29v1.42l6-6.01v12.8a1.5 1.5 0 0 1-1.5 1.5h-17a1.5 1.5 0 0 1-1.5-1.5V31h-1v1.5a2.5 2.5 0 0 0 2.5 2.5h17a2.5 2.5 0 0 0 2.5-2.5V18h-7Z"
+                      fill="#A7B5EC"
+                    />
+                    <path
+                      class="siwFillPrimaryDark"
+                      d="M9 13v14.5a2.5 2.5 0 0 0 2.5 2.5h17a2.5 2.5 0 0 0 2.5-2.5V13H9Zm20.293 1-8.81 8.81L10.794 14h18.499ZM28.5 29h-17a1.5 1.5 0 0 1-1.5-1.5V14.63l10.517 9.56L30 14.707V27.5a1.5 1.5 0 0 1-1.5 1.5Z"
+                      fill="#00297A"
+                    />
+                  </svg>
+                </div>
               </div>
-            </div>
-            <div
-              class="MuiBox-root emotion-8"
-            >
               <div
-                class="identifier-container MuiBox-root emotion-9"
+                class="MuiBox-root emotion-9"
               >
                 <div
-                  class="MuiBox-root emotion-10"
+                  class="identifier-container MuiBox-root emotion-10"
                 >
-                  <span
+                  <div
                     class="MuiBox-root emotion-11"
                   >
-                    <svg
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-12"
-                      fill="none"
-                      focusable="false"
-                      role="img"
-                      viewBox="0 0 16 16"
-                      xmlns="http://www.w3.org/2000/svg"
+                    <span
+                      class="MuiBox-root emotion-12"
                     >
-                      <path
-                        clip-rule="evenodd"
-                        d="M10 3V5C10 6.10457 9.10457 7 8 7C6.89543 7 6 6.10457 6 5V3C6 1.89543 6.89543 1 8 1C9.10457 1 10 1.89543 10 3ZM5 3C5 1.34315 6.34315 0 8 0C9.65685 0 11 1.34315 11 3V5C11 6.65685 9.65685 8 8 8C6.34315 8 5 6.65685 5 5V3ZM4.1305 10.0742C4.26803 10.0181 4.459 10 5.41376 10H10.5862C11.541 10 11.732 10.0181 11.8695 10.0742C12.0299 10.1398 12.1706 10.2459 12.2777 10.3821C12.3695 10.4989 12.4393 10.6776 12.7016 11.5956L13.6743 15H2.32573L3.29841 11.5956C3.5607 10.6776 3.63054 10.4989 3.72233 10.3821C3.82941 10.2459 3.97006 10.1398 4.1305 10.0742ZM13.6631 11.3209L14.7143 15L15 16H13.96H2.04002H1L1.28571 15L2.33689 11.3209C2.57458 10.489 2.69343 10.073 2.93606 9.76423C3.15022 9.49171 3.43152 9.27953 3.75239 9.14848C4.11592 9 4.54854 9 5.41376 9H10.5862C11.4515 9 11.8841 9 12.2476 9.14848C12.5685 9.27953 12.8498 9.49171 13.0639 9.76423C13.3066 10.073 13.4254 10.489 13.6631 11.3209Z"
-                        fill="currentColor"
-                        fill-rule="evenodd"
-                      />
-                      <title>
-                        User
-                      </title>
-                    </svg>
-                  </span>
-                  <span
-                    class="identifier no-translate MuiBox-root emotion-13"
-                    data-se="identifier"
-                    title="test@okta.com"
-                  >
-                    test@okta.com
-                  </span>
+                      <svg
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-13"
+                        fill="none"
+                        focusable="false"
+                        role="img"
+                        viewBox="0 0 16 16"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          clip-rule="evenodd"
+                          d="M10 3V5C10 6.10457 9.10457 7 8 7C6.89543 7 6 6.10457 6 5V3C6 1.89543 6.89543 1 8 1C9.10457 1 10 1.89543 10 3ZM5 3C5 1.34315 6.34315 0 8 0C9.65685 0 11 1.34315 11 3V5C11 6.65685 9.65685 8 8 8C6.34315 8 5 6.65685 5 5V3ZM4.1305 10.0742C4.26803 10.0181 4.459 10 5.41376 10H10.5862C11.541 10 11.732 10.0181 11.8695 10.0742C12.0299 10.1398 12.1706 10.2459 12.2777 10.3821C12.3695 10.4989 12.4393 10.6776 12.7016 11.5956L13.6743 15H2.32573L3.29841 11.5956C3.5607 10.6776 3.63054 10.4989 3.72233 10.3821C3.82941 10.2459 3.97006 10.1398 4.1305 10.0742ZM13.6631 11.3209L14.7143 15L15 16H13.96H2.04002H1L1.28571 15L2.33689 11.3209C2.57458 10.489 2.69343 10.073 2.93606 9.76423C3.15022 9.49171 3.43152 9.27953 3.75239 9.14848C4.11592 9 4.54854 9 5.41376 9H10.5862C11.4515 9 11.8841 9 12.2476 9.14848C12.5685 9.27953 12.8498 9.49171 13.0639 9.76423C13.3066 10.073 13.4254 10.489 13.6631 11.3209Z"
+                          fill="currentColor"
+                          fill-rule="evenodd"
+                        />
+                        <title>
+                          User
+                        </title>
+                      </svg>
+                    </span>
+                    <span
+                      class="identifier no-translate MuiBox-root emotion-14"
+                      data-se="identifier"
+                      title="test@okta.com"
+                    >
+                      test@okta.com
+                    </span>
+                  </div>
                 </div>
-              </div>
-              <form
-                class="o-form MuiBox-root emotion-14"
-                data-se="o-form"
-                novalidate=""
-              >
-                <div
-                  class="MuiBox-root emotion-15"
+                <form
+                  class="o-form MuiBox-root emotion-15"
+                  data-se="o-form"
+                  novalidate=""
                 >
                   <div
                     class="MuiBox-root emotion-16"
@@ -121,240 +121,244 @@ exports[`terminal-return-otp-only-full-location-unlock renders form 1`] = `
                     <div
                       class="MuiBox-root emotion-17"
                     >
-                      <h2
-                        class="MuiTypography-root MuiTypography-h4 emotion-18"
-                        data-se="o-form-head"
-                        tabindex="-1"
+                      <div
+                        class="MuiBox-root emotion-18"
                       >
-                        Your verification code
-                      </h2>
+                        <h2
+                          class="MuiTypography-root MuiTypography-h4 emotion-19"
+                          data-se="o-form-head"
+                          tabindex="-1"
+                        >
+                          Your verification code
+                        </h2>
+                      </div>
                     </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-16"
-                  >
                     <div
                       class="MuiBox-root emotion-17"
                     >
-                      <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-21"
-                        data-se="enter-code-instr"
+                      <div
+                        class="MuiBox-root emotion-18"
                       >
-                        Enter this code on the account unlock page.
-                      </p>
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-22"
+                          data-se="enter-code-instr"
+                        >
+                          Enter this code on the account unlock page.
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-16"
-                  >
-                    <div
-                      class="MuiBox-root emotion-23"
-                    >
-                      <h3
-                        class="MuiTypography-root MuiTypography-h3 no-translate emotion-24"
-                        data-se="otp-value"
-                      >
-                        123456
-                      </h3>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-1"
-                  >
                     <div
                       class="MuiBox-root emotion-17"
                     >
-                      <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-21"
-                        data-se="otp-only-request-info"
+                      <div
+                        class="MuiBox-root emotion-24"
                       >
-                        Request from:
-                      </p>
+                        <h3
+                          class="MuiTypography-root MuiTypography-h3 no-translate emotion-25"
+                          data-se="otp-value"
+                        >
+                          123456
+                        </h3>
+                      </div>
                     </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-16"
-                  >
                     <div
-                      class="MuiBox-root emotion-29"
-                      id="browser"
+                      class="MuiBox-root emotion-2"
                     >
                       <div
-                        class="MuiBox-root emotion-30"
-                        data-se="icon-browser"
+                        class="MuiBox-root emotion-18"
                       >
-                        <svg
-                          aria-hidden="true"
-                          fill="none"
-                          height="16"
-                          role="img"
-                          viewBox="0 0 16 16"
-                          width="16"
-                          xmlns="http://www.w3.org/2000/svg"
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-22"
+                          data-se="otp-only-request-info"
                         >
-                          <title>
-                            Mobile browser
-                          </title>
-                          <path
-                            class="siwIconFillPrimary"
-                            clip-rule="evenodd"
-                            d="M11.5 1H5.5C4.94772 1 4.5 1.44772 4.5 2V14C4.5 14.5523 4.94772 15 5.5 15H11.5C12.0523 15 12.5 14.5523 12.5 14V2C12.5 1.44772 12.0523 1 11.5 1ZM5.5 0C4.39543 0 3.5 0.895431 3.5 2V14C3.5 15.1046 4.39543 16 5.5 16H11.5C12.6046 16 13.5 15.1046 13.5 14V2C13.5 0.895431 12.6046 0 11.5 0H5.5ZM10 13V14H7V13H10ZM8.5 3C8.77614 3 9 2.77614 9 2.5C9 2.22386 8.77614 2 8.5 2C8.22386 2 8 2.22386 8 2.5C8 2.77614 8.22386 3 8.5 3Z"
-                            fill="#1662DD"
-                            fill-rule="evenodd"
-                          />
-                        </svg>
-                      </div>
-                      <div
-                        class="MuiBox-root emotion-1"
-                      >
-                        <span
-                          class="MuiTypography-root MuiTypography-body1 emotion-32"
-                          data-se="text-browser"
-                        >
-                          FIREFOX on iOS
-                        </span>
+                          Request from:
+                        </p>
                       </div>
                     </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-16"
-                  >
-                    <div
-                      class="MuiBox-root emotion-29"
-                      id="app"
-                    >
-                      <div
-                        class="MuiBox-root emotion-30"
-                        data-se="icon-app"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          fill="none"
-                          height="16"
-                          role="img"
-                          viewBox="0 0 16 16"
-                          width="16"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <title>
-                            Application
-                          </title>
-                          <rect
-                            class="siwIconStrokePrimary"
-                            height="5"
-                            stroke="#1662DD"
-                            width="5"
-                            x="1.5"
-                            y="1.5"
-                          />
-                          <rect
-                            class="siwIconStrokePrimary"
-                            height="5"
-                            stroke="#1662DD"
-                            width="5"
-                            x="1.5"
-                            y="9.5"
-                          />
-                          <rect
-                            class="siwIconStrokePrimary"
-                            height="5"
-                            stroke="#1662DD"
-                            width="5"
-                            x="9.5"
-                            y="9.5"
-                          />
-                          <rect
-                            class="siwIconStrokePrimary"
-                            height="5"
-                            stroke="#1662DD"
-                            width="5"
-                            x="9.5"
-                            y="1.5"
-                          />
-                        </svg>
-                      </div>
-                      <div
-                        class="MuiBox-root emotion-1"
-                      >
-                        <span
-                          class="MuiTypography-root MuiTypography-body1 emotion-32"
-                          data-se="text-app"
-                        >
-                          my 3rd magic link spa
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-16"
-                  >
-                    <div
-                      class="MuiBox-root emotion-29"
-                      id="location"
-                    >
-                      <div
-                        class="MuiBox-root emotion-30"
-                        data-se="icon-location"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          fill="none"
-                          height="16"
-                          role="img"
-                          viewBox="0 0 16 16"
-                          width="16"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <title>
-                            Location
-                          </title>
-                          <path
-                            class="siwIconStrokePrimary"
-                            d="M2.5 6C2.5 2.88969 4.95673 0.5 8 0.5C11.0433 0.5 13.5 2.88969 13.5 6C13.5 8.17828 12.3122 10.408 10.9484 12.2145C9.81608 13.7144 8.61136 14.859 8.0028 15.3649C7.39633 14.8508 6.1897 13.6812 5.05432 12.1652C3.68717 10.3398 2.5 8.11236 2.5 6Z"
-                            stroke="#1662DD"
-                          />
-                          <circle
-                            class="siwIconStrokePrimary"
-                            cx="8"
-                            cy="6"
-                            r="2.5"
-                            stroke="#1662DD"
-                          />
-                        </svg>
-                      </div>
-                      <div
-                        class="MuiBox-root emotion-1"
-                      >
-                        <span
-                          class="MuiTypography-root MuiTypography-body1 emotion-32"
-                          data-se="text-location"
-                        >
-                          Toronto, Ontario, Canada
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-16"
-                  >
                     <div
                       class="MuiBox-root emotion-17"
                     >
-                      <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-21"
-                        data-se="otp-warning"
+                      <div
+                        class="MuiBox-root emotion-30"
+                        id="browser"
                       >
-                        If you didn’t request this code, you can ignore this message. Your account is safe and can only be accessed with this code.
-                      </p>
+                        <div
+                          class="MuiBox-root emotion-31"
+                          data-se="icon-browser"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            fill="none"
+                            height="16"
+                            role="img"
+                            viewBox="0 0 16 16"
+                            width="16"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <title>
+                              Mobile browser
+                            </title>
+                            <path
+                              class="siwIconFillPrimary"
+                              clip-rule="evenodd"
+                              d="M11.5 1H5.5C4.94772 1 4.5 1.44772 4.5 2V14C4.5 14.5523 4.94772 15 5.5 15H11.5C12.0523 15 12.5 14.5523 12.5 14V2C12.5 1.44772 12.0523 1 11.5 1ZM5.5 0C4.39543 0 3.5 0.895431 3.5 2V14C3.5 15.1046 4.39543 16 5.5 16H11.5C12.6046 16 13.5 15.1046 13.5 14V2C13.5 0.895431 12.6046 0 11.5 0H5.5ZM10 13V14H7V13H10ZM8.5 3C8.77614 3 9 2.77614 9 2.5C9 2.22386 8.77614 2 8.5 2C8.22386 2 8 2.22386 8 2.5C8 2.77614 8.22386 3 8.5 3Z"
+                              fill="#1662DD"
+                              fill-rule="evenodd"
+                            />
+                          </svg>
+                        </div>
+                        <div
+                          class="MuiBox-root emotion-2"
+                        >
+                          <span
+                            class="MuiTypography-root MuiTypography-body1 emotion-33"
+                            data-se="text-browser"
+                          >
+                            FIREFOX on iOS
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-17"
+                    >
+                      <div
+                        class="MuiBox-root emotion-30"
+                        id="app"
+                      >
+                        <div
+                          class="MuiBox-root emotion-31"
+                          data-se="icon-app"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            fill="none"
+                            height="16"
+                            role="img"
+                            viewBox="0 0 16 16"
+                            width="16"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <title>
+                              Application
+                            </title>
+                            <rect
+                              class="siwIconStrokePrimary"
+                              height="5"
+                              stroke="#1662DD"
+                              width="5"
+                              x="1.5"
+                              y="1.5"
+                            />
+                            <rect
+                              class="siwIconStrokePrimary"
+                              height="5"
+                              stroke="#1662DD"
+                              width="5"
+                              x="1.5"
+                              y="9.5"
+                            />
+                            <rect
+                              class="siwIconStrokePrimary"
+                              height="5"
+                              stroke="#1662DD"
+                              width="5"
+                              x="9.5"
+                              y="9.5"
+                            />
+                            <rect
+                              class="siwIconStrokePrimary"
+                              height="5"
+                              stroke="#1662DD"
+                              width="5"
+                              x="9.5"
+                              y="1.5"
+                            />
+                          </svg>
+                        </div>
+                        <div
+                          class="MuiBox-root emotion-2"
+                        >
+                          <span
+                            class="MuiTypography-root MuiTypography-body1 emotion-33"
+                            data-se="text-app"
+                          >
+                            my 3rd magic link spa
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-17"
+                    >
+                      <div
+                        class="MuiBox-root emotion-30"
+                        id="location"
+                      >
+                        <div
+                          class="MuiBox-root emotion-31"
+                          data-se="icon-location"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            fill="none"
+                            height="16"
+                            role="img"
+                            viewBox="0 0 16 16"
+                            width="16"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <title>
+                              Location
+                            </title>
+                            <path
+                              class="siwIconStrokePrimary"
+                              d="M2.5 6C2.5 2.88969 4.95673 0.5 8 0.5C11.0433 0.5 13.5 2.88969 13.5 6C13.5 8.17828 12.3122 10.408 10.9484 12.2145C9.81608 13.7144 8.61136 14.859 8.0028 15.3649C7.39633 14.8508 6.1897 13.6812 5.05432 12.1652C3.68717 10.3398 2.5 8.11236 2.5 6Z"
+                              stroke="#1662DD"
+                            />
+                            <circle
+                              class="siwIconStrokePrimary"
+                              cx="8"
+                              cy="6"
+                              r="2.5"
+                              stroke="#1662DD"
+                            />
+                          </svg>
+                        </div>
+                        <div
+                          class="MuiBox-root emotion-2"
+                        >
+                          <span
+                            class="MuiTypography-root MuiTypography-body1 emotion-33"
+                            data-se="text-location"
+                          >
+                            Toronto, Ontario, Canada
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-17"
+                    >
+                      <div
+                        class="MuiBox-root emotion-18"
+                      >
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-22"
+                          data-se="otp-warning"
+                        >
+                          If you didn’t request this code, you can ignore this message. Your account is safe and can only be accessed with this code.
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </form>
+                </form>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
   </div>
 </div>
 `;

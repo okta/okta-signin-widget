@@ -5,111 +5,111 @@ exports[`authenticator-verification-data-ov-only-with-device-known should render
   <div
     class="MuiScopedCssBaseline-root emotion-0"
   >
-    <main
-      class="auth-container main-container MuiBox-root emotion-1"
-      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-      data-version="0.0.0"
-      dir="ltr"
-      id="okta-sign-in"
-      lang="en"
+    <div
+      class="MuiScopedCssBaseline-root emotion-1"
     >
-      <div
-        class="MuiScopedCssBaseline-root emotion-2"
+      <main
+        class="auth-container main-container MuiBox-root emotion-2"
+        data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+        data-version="0.0.0"
+        dir="ltr"
+        id="okta-sign-in"
+        lang="en"
       >
         <div
-          class="MuiBox-root emotion-3"
+          class="MuiScopedCssBaseline-root emotion-3"
         >
           <div
             class="MuiBox-root emotion-4"
           >
             <div
-              class="okta-sign-in-header auth-header authCoinSpacing MuiBox-root emotion-5"
+              class="MuiBox-root emotion-5"
             >
-              <h1
-                class="MuiTypography-root MuiTypography-h1 emotion-6"
-              />
               <div
-                aria-hidden="true"
-                class="mfa-okta-verify MuiBox-root emotion-7"
-                data-se="factor-beacon"
+                class="okta-sign-in-header auth-header authCoinSpacing MuiBox-root emotion-6"
               >
-                <svg
-                  aria-labelledby="mfa-okta-verify"
-                  fill="none"
-                  height="48"
-                  role="img"
-                  viewBox="0 0 48 48"
-                  width="48"
-                  xmlns="http://www.w3.org/2000/svg"
+                <h1
+                  class="MuiTypography-root MuiTypography-h1 emotion-7"
+                />
+                <div
+                  aria-hidden="true"
+                  class="mfa-okta-verify MuiBox-root emotion-8"
+                  data-se="factor-beacon"
                 >
-                  <title
-                    id="mfa-okta-verify"
+                  <svg
+                    aria-labelledby="mfa-okta-verify"
+                    fill="none"
+                    height="48"
+                    role="img"
+                    viewBox="0 0 48 48"
+                    width="48"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    Okta Verify
-                  </title>
-                  <circle
-                    class="siwFillBg"
-                    cx="24"
-                    cy="24"
-                    fill="#F5F5F6"
-                    r="24"
-                  />
-                  <path
-                    clip-rule="evenodd"
-                    d="M32.872 22.853a8.947 8.947 0 1 1-2.288-4.91L24 24.498l-3.205-3.19c-.482-.48-1.322-.48-1.804 0a1.26 1.26 0 0 0-.374.898c0 .34.133.659.374.898l4.107 4.09c.24.239.561.371.902.371.336 0 .664-.136.902-.372L38.636 13.52a18.089 18.089 0 0 0-1.634-1.967A17.947 17.947 0 0 0 24 6C14.059 6 6 14.059 6 24s8.059 18 18 18 18-8.059 18-18c0-2.972-.722-5.775-1.998-8.245l-7.13 7.098Z"
-                    fill="#00297A"
-                    fill-rule="evenodd"
-                  />
-                </svg>
+                    <title
+                      id="mfa-okta-verify"
+                    >
+                      Okta Verify
+                    </title>
+                    <circle
+                      class="siwFillBg"
+                      cx="24"
+                      cy="24"
+                      fill="#F5F5F6"
+                      r="24"
+                    />
+                    <path
+                      clip-rule="evenodd"
+                      d="M32.872 22.853a8.947 8.947 0 1 1-2.288-4.91L24 24.498l-3.205-3.19c-.482-.48-1.322-.48-1.804 0a1.26 1.26 0 0 0-.374.898c0 .34.133.659.374.898l4.107 4.09c.24.239.561.371.902.371.336 0 .664-.136.902-.372L38.636 13.52a18.089 18.089 0 0 0-1.634-1.967A17.947 17.947 0 0 0 24 6C14.059 6 6 14.059 6 24s8.059 18 18 18 18-8.059 18-18c0-2.972-.722-5.775-1.998-8.245l-7.13 7.098Z"
+                      fill="#00297A"
+                      fill-rule="evenodd"
+                    />
+                  </svg>
+                </div>
               </div>
-            </div>
-            <div
-              class="MuiBox-root emotion-8"
-            >
               <div
-                class="identifier-container MuiBox-root emotion-9"
+                class="MuiBox-root emotion-9"
               >
                 <div
-                  class="MuiBox-root emotion-10"
+                  class="identifier-container MuiBox-root emotion-10"
                 >
-                  <span
+                  <div
                     class="MuiBox-root emotion-11"
                   >
-                    <svg
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-12"
-                      fill="none"
-                      focusable="false"
-                      role="img"
-                      viewBox="0 0 16 16"
-                      xmlns="http://www.w3.org/2000/svg"
+                    <span
+                      class="MuiBox-root emotion-12"
                     >
-                      <path
-                        clip-rule="evenodd"
-                        d="M10 3V5C10 6.10457 9.10457 7 8 7C6.89543 7 6 6.10457 6 5V3C6 1.89543 6.89543 1 8 1C9.10457 1 10 1.89543 10 3ZM5 3C5 1.34315 6.34315 0 8 0C9.65685 0 11 1.34315 11 3V5C11 6.65685 9.65685 8 8 8C6.34315 8 5 6.65685 5 5V3ZM4.1305 10.0742C4.26803 10.0181 4.459 10 5.41376 10H10.5862C11.541 10 11.732 10.0181 11.8695 10.0742C12.0299 10.1398 12.1706 10.2459 12.2777 10.3821C12.3695 10.4989 12.4393 10.6776 12.7016 11.5956L13.6743 15H2.32573L3.29841 11.5956C3.5607 10.6776 3.63054 10.4989 3.72233 10.3821C3.82941 10.2459 3.97006 10.1398 4.1305 10.0742ZM13.6631 11.3209L14.7143 15L15 16H13.96H2.04002H1L1.28571 15L2.33689 11.3209C2.57458 10.489 2.69343 10.073 2.93606 9.76423C3.15022 9.49171 3.43152 9.27953 3.75239 9.14848C4.11592 9 4.54854 9 5.41376 9H10.5862C11.4515 9 11.8841 9 12.2476 9.14848C12.5685 9.27953 12.8498 9.49171 13.0639 9.76423C13.3066 10.073 13.4254 10.489 13.6631 11.3209Z"
-                        fill="currentColor"
-                        fill-rule="evenodd"
-                      />
-                      <title>
-                        User
-                      </title>
-                    </svg>
-                  </span>
-                  <span
-                    class="identifier no-translate MuiBox-root emotion-13"
-                    data-se="identifier"
-                    title="testUser@okta.com"
-                  >
-                    testUser@okta.com
-                  </span>
+                      <svg
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-13"
+                        fill="none"
+                        focusable="false"
+                        role="img"
+                        viewBox="0 0 16 16"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          clip-rule="evenodd"
+                          d="M10 3V5C10 6.10457 9.10457 7 8 7C6.89543 7 6 6.10457 6 5V3C6 1.89543 6.89543 1 8 1C9.10457 1 10 1.89543 10 3ZM5 3C5 1.34315 6.34315 0 8 0C9.65685 0 11 1.34315 11 3V5C11 6.65685 9.65685 8 8 8C6.34315 8 5 6.65685 5 5V3ZM4.1305 10.0742C4.26803 10.0181 4.459 10 5.41376 10H10.5862C11.541 10 11.732 10.0181 11.8695 10.0742C12.0299 10.1398 12.1706 10.2459 12.2777 10.3821C12.3695 10.4989 12.4393 10.6776 12.7016 11.5956L13.6743 15H2.32573L3.29841 11.5956C3.5607 10.6776 3.63054 10.4989 3.72233 10.3821C3.82941 10.2459 3.97006 10.1398 4.1305 10.0742ZM13.6631 11.3209L14.7143 15L15 16H13.96H2.04002H1L1.28571 15L2.33689 11.3209C2.57458 10.489 2.69343 10.073 2.93606 9.76423C3.15022 9.49171 3.43152 9.27953 3.75239 9.14848C4.11592 9 4.54854 9 5.41376 9H10.5862C11.4515 9 11.8841 9 12.2476 9.14848C12.5685 9.27953 12.8498 9.49171 13.0639 9.76423C13.3066 10.073 13.4254 10.489 13.6631 11.3209Z"
+                          fill="currentColor"
+                          fill-rule="evenodd"
+                        />
+                        <title>
+                          User
+                        </title>
+                      </svg>
+                    </span>
+                    <span
+                      class="identifier no-translate MuiBox-root emotion-14"
+                      data-se="identifier"
+                      title="testUser@okta.com"
+                    >
+                      testUser@okta.com
+                    </span>
+                  </div>
                 </div>
-              </div>
-              <form
-                class="o-form MuiBox-root emotion-14"
-                data-se="o-form"
-                novalidate=""
-              >
-                <div
-                  class="MuiBox-root emotion-15"
+                <form
+                  class="o-form MuiBox-root emotion-15"
+                  data-se="o-form"
+                  novalidate=""
                 >
                   <div
                     class="MuiBox-root emotion-16"
@@ -117,359 +117,363 @@ exports[`authenticator-verification-data-ov-only-with-device-known should render
                     <div
                       class="MuiBox-root emotion-17"
                     >
-                      <h2
-                        class="MuiTypography-root MuiTypography-h4 emotion-18"
-                        data-se="o-form-head"
-                        id="authenticator-verification-data_Title_Verify_its_you_with_a_security_method_okta_verify_aut13qrZReYpIib7R0g4_1"
-                        tabindex="-1"
+                      <div
+                        class="MuiBox-root emotion-18"
                       >
-                        Verify it's you with a security method
-                      </h2>
+                        <h2
+                          class="MuiTypography-root MuiTypography-h4 emotion-19"
+                          data-se="o-form-head"
+                          id="authenticator-verification-data_Title_Verify_its_you_with_a_security_method_okta_verify_aut13qrZReYpIib7R0g4_1"
+                          tabindex="-1"
+                        >
+                          Verify it's you with a security method
+                        </h2>
+                      </div>
                     </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-1"
-                  >
+                    <div
+                      class="MuiBox-root emotion-2"
+                    >
+                      <div
+                        class="MuiBox-root emotion-18"
+                      >
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-22"
+                          data-se="o-form-explain"
+                          id="authenticator-verification-data_Description_Select_from_the_following_options_okta_verify_aut13qrZReYpIib7R0g4_2"
+                        >
+                          Select from the following options
+                        </p>
+                      </div>
+                    </div>
                     <div
                       class="MuiBox-root emotion-17"
                     >
-                      <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-21"
-                        data-se="o-form-explain"
-                        id="authenticator-verification-data_Description_Select_from_the_following_options_okta_verify_aut13qrZReYpIib7R0g4_2"
+                      <ul
+                        class="MuiBox-root emotion-24"
+                        data-se="authenticator-verify-list"
                       >
-                        Select from the following options
-                      </p>
+                        <li
+                          class="MuiBox-root emotion-17"
+                        >
+                          <button
+                            aria-describedby="okta_verify_2-description okta_verify_2-ctaLabel"
+                            aria-labelledby="okta_verify_2-label"
+                            class="authenticator-row MuiBox-root emotion-26"
+                            data-se="authenticator-button"
+                            tabindex="0"
+                            type="button"
+                          >
+                            <div
+                              class="authenticator-icon-container MuiBox-root emotion-2"
+                              data-se="authenticator-icon"
+                            >
+                              <div
+                                aria-hidden="true"
+                                class="mfa-okta-verify authenticator-icon MuiBox-root emotion-28"
+                                data-se="factor-beacon"
+                              >
+                                <svg
+                                  aria-labelledby="okta_verify_2"
+                                  fill="none"
+                                  height="48"
+                                  role="img"
+                                  viewBox="0 0 48 48"
+                                  width="48"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <title
+                                    id="okta_verify_2"
+                                  >
+                                    Okta Verify
+                                  </title>
+                                  <circle
+                                    class="siwFillBg"
+                                    cx="24"
+                                    cy="24"
+                                    fill="#F5F5F6"
+                                    r="24"
+                                  />
+                                  <path
+                                    clip-rule="evenodd"
+                                    d="M32.872 22.853a8.947 8.947 0 1 1-2.288-4.91L24 24.498l-3.205-3.19c-.482-.48-1.322-.48-1.804 0a1.26 1.26 0 0 0-.374.898c0 .34.133.659.374.898l4.107 4.09c.24.239.561.371.902.371.336 0 .664-.136.902-.372L38.636 13.52a18.089 18.089 0 0 0-1.634-1.967A17.947 17.947 0 0 0 24 6C14.059 6 6 14.059 6 24s8.059 18 18 18 18-8.059 18-18c0-2.972-.722-5.775-1.998-8.245l-7.13 7.098Z"
+                                    fill="#00297A"
+                                    fill-rule="evenodd"
+                                  />
+                                </svg>
+                              </div>
+                            </div>
+                            <div
+                              class="authenticator-description MuiBox-root emotion-29"
+                            >
+                              <h3
+                                class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-30"
+                                data-se="authenticator-button-label"
+                                id="okta_verify_2-label"
+                              >
+                                Use Okta FastPass
+                              </h3>
+                              <p
+                                class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-31"
+                                data-se="authenticator-button-description"
+                                id="okta_verify_2-description"
+                              >
+                                Okta Verify
+                              </p>
+                              <div
+                                class="cta-button authenticator-button MuiBox-root emotion-32"
+                                data-se="okta_verify-signed_nonce"
+                              >
+                                <span
+                                  class="button select-factor link-button MuiBox-root emotion-33"
+                                  data-se="cta-button-label"
+                                  id="okta_verify_2-ctaLabel"
+                                >
+                                  Select
+                                </span>
+                                <svg
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-34"
+                                  fill="none"
+                                  focusable="false"
+                                  role="img"
+                                  viewBox="0 0 16 16"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    clip-rule="evenodd"
+                                    d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
+                                    fill="currentColor"
+                                    fill-rule="evenodd"
+                                  />
+                                  <title>
+                                    Select
+                                  </title>
+                                </svg>
+                              </div>
+                            </div>
+                          </button>
+                        </li>
+                        <li
+                          class="MuiBox-root emotion-17"
+                        >
+                          <button
+                            aria-describedby="okta_verify_0-description okta_verify_0-ctaLabel"
+                            aria-labelledby="okta_verify_0-label"
+                            class="authenticator-row MuiBox-root emotion-26"
+                            data-se="authenticator-button"
+                            tabindex="0"
+                            type="button"
+                          >
+                            <div
+                              class="authenticator-icon-container MuiBox-root emotion-2"
+                              data-se="authenticator-icon"
+                            >
+                              <div
+                                aria-hidden="true"
+                                class="mfa-okta-verify authenticator-icon MuiBox-root emotion-28"
+                                data-se="factor-beacon"
+                              >
+                                <svg
+                                  aria-labelledby="okta_verify_0"
+                                  fill="none"
+                                  height="48"
+                                  role="img"
+                                  viewBox="0 0 48 48"
+                                  width="48"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <title
+                                    id="okta_verify_0"
+                                  >
+                                    Okta Verify
+                                  </title>
+                                  <circle
+                                    class="siwFillBg"
+                                    cx="24"
+                                    cy="24"
+                                    fill="#F5F5F6"
+                                    r="24"
+                                  />
+                                  <path
+                                    clip-rule="evenodd"
+                                    d="M32.872 22.853a8.947 8.947 0 1 1-2.288-4.91L24 24.498l-3.205-3.19c-.482-.48-1.322-.48-1.804 0a1.26 1.26 0 0 0-.374.898c0 .34.133.659.374.898l4.107 4.09c.24.239.561.371.902.371.336 0 .664-.136.902-.372L38.636 13.52a18.089 18.089 0 0 0-1.634-1.967A17.947 17.947 0 0 0 24 6C14.059 6 6 14.059 6 24s8.059 18 18 18 18-8.059 18-18c0-2.972-.722-5.775-1.998-8.245l-7.13 7.098Z"
+                                    fill="#00297A"
+                                    fill-rule="evenodd"
+                                  />
+                                </svg>
+                              </div>
+                            </div>
+                            <div
+                              class="authenticator-description MuiBox-root emotion-29"
+                            >
+                              <h3
+                                class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-30"
+                                data-se="authenticator-button-label"
+                                id="okta_verify_0-label"
+                              >
+                                Get a push notification
+                              </h3>
+                              <p
+                                class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-31"
+                                data-se="authenticator-button-description"
+                                id="okta_verify_0-description"
+                              >
+                                Okta Verify
+                              </p>
+                              <div
+                                class="cta-button authenticator-button MuiBox-root emotion-32"
+                                data-se="okta_verify-push"
+                              >
+                                <span
+                                  class="button select-factor link-button MuiBox-root emotion-33"
+                                  data-se="cta-button-label"
+                                  id="okta_verify_0-ctaLabel"
+                                >
+                                  Select
+                                </span>
+                                <svg
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-34"
+                                  fill="none"
+                                  focusable="false"
+                                  role="img"
+                                  viewBox="0 0 16 16"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    clip-rule="evenodd"
+                                    d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
+                                    fill="currentColor"
+                                    fill-rule="evenodd"
+                                  />
+                                  <title>
+                                    Select
+                                  </title>
+                                </svg>
+                              </div>
+                            </div>
+                          </button>
+                        </li>
+                        <li
+                          class="MuiBox-root emotion-17"
+                        >
+                          <button
+                            aria-describedby="okta_verify_1-description okta_verify_1-ctaLabel"
+                            aria-labelledby="okta_verify_1-label"
+                            class="authenticator-row MuiBox-root emotion-26"
+                            data-se="authenticator-button"
+                            tabindex="0"
+                            type="button"
+                          >
+                            <div
+                              class="authenticator-icon-container MuiBox-root emotion-2"
+                              data-se="authenticator-icon"
+                            >
+                              <div
+                                aria-hidden="true"
+                                class="mfa-okta-verify authenticator-icon MuiBox-root emotion-28"
+                                data-se="factor-beacon"
+                              >
+                                <svg
+                                  aria-labelledby="okta_verify_1"
+                                  fill="none"
+                                  height="48"
+                                  role="img"
+                                  viewBox="0 0 48 48"
+                                  width="48"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <title
+                                    id="okta_verify_1"
+                                  >
+                                    Okta Verify
+                                  </title>
+                                  <circle
+                                    class="siwFillBg"
+                                    cx="24"
+                                    cy="24"
+                                    fill="#F5F5F6"
+                                    r="24"
+                                  />
+                                  <path
+                                    clip-rule="evenodd"
+                                    d="M32.872 22.853a8.947 8.947 0 1 1-2.288-4.91L24 24.498l-3.205-3.19c-.482-.48-1.322-.48-1.804 0a1.26 1.26 0 0 0-.374.898c0 .34.133.659.374.898l4.107 4.09c.24.239.561.371.902.371.336 0 .664-.136.902-.372L38.636 13.52a18.089 18.089 0 0 0-1.634-1.967A17.947 17.947 0 0 0 24 6C14.059 6 6 14.059 6 24s8.059 18 18 18 18-8.059 18-18c0-2.972-.722-5.775-1.998-8.245l-7.13 7.098Z"
+                                    fill="#00297A"
+                                    fill-rule="evenodd"
+                                  />
+                                </svg>
+                              </div>
+                            </div>
+                            <div
+                              class="authenticator-description MuiBox-root emotion-29"
+                            >
+                              <h3
+                                class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-30"
+                                data-se="authenticator-button-label"
+                                id="okta_verify_1-label"
+                              >
+                                Enter a code
+                              </h3>
+                              <p
+                                class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-31"
+                                data-se="authenticator-button-description"
+                                id="okta_verify_1-description"
+                              >
+                                Okta Verify
+                              </p>
+                              <div
+                                class="cta-button authenticator-button MuiBox-root emotion-32"
+                                data-se="okta_verify-totp"
+                              >
+                                <span
+                                  class="button select-factor link-button MuiBox-root emotion-33"
+                                  data-se="cta-button-label"
+                                  id="okta_verify_1-ctaLabel"
+                                >
+                                  Select
+                                </span>
+                                <svg
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-34"
+                                  fill="none"
+                                  focusable="false"
+                                  role="img"
+                                  viewBox="0 0 16 16"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    clip-rule="evenodd"
+                                    d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
+                                    fill="currentColor"
+                                    fill-rule="evenodd"
+                                  />
+                                  <title>
+                                    Select
+                                  </title>
+                                </svg>
+                              </div>
+                            </div>
+                          </button>
+                        </li>
+                      </ul>
+                    </div>
+                    <div
+                      class="MuiBox-root emotion-17"
+                    >
+                      <button
+                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-56"
+                        data-se="cancel"
+                        role="link"
+                        type="button"
+                      >
+                        Back to sign in
+                      </button>
                     </div>
                   </div>
-                  <div
-                    class="MuiBox-root emotion-16"
-                  >
-                    <ul
-                      class="MuiBox-root emotion-23"
-                      data-se="authenticator-verify-list"
-                    >
-                      <li
-                        class="MuiBox-root emotion-16"
-                      >
-                        <button
-                          aria-describedby="okta_verify_2-description okta_verify_2-ctaLabel"
-                          aria-labelledby="okta_verify_2-label"
-                          class="authenticator-row MuiBox-root emotion-25"
-                          data-se="authenticator-button"
-                          tabindex="0"
-                          type="button"
-                        >
-                          <div
-                            class="authenticator-icon-container MuiBox-root emotion-1"
-                            data-se="authenticator-icon"
-                          >
-                            <div
-                              aria-hidden="true"
-                              class="mfa-okta-verify authenticator-icon MuiBox-root emotion-27"
-                              data-se="factor-beacon"
-                            >
-                              <svg
-                                aria-labelledby="okta_verify_2"
-                                fill="none"
-                                height="48"
-                                role="img"
-                                viewBox="0 0 48 48"
-                                width="48"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <title
-                                  id="okta_verify_2"
-                                >
-                                  Okta Verify
-                                </title>
-                                <circle
-                                  class="siwFillBg"
-                                  cx="24"
-                                  cy="24"
-                                  fill="#F5F5F6"
-                                  r="24"
-                                />
-                                <path
-                                  clip-rule="evenodd"
-                                  d="M32.872 22.853a8.947 8.947 0 1 1-2.288-4.91L24 24.498l-3.205-3.19c-.482-.48-1.322-.48-1.804 0a1.26 1.26 0 0 0-.374.898c0 .34.133.659.374.898l4.107 4.09c.24.239.561.371.902.371.336 0 .664-.136.902-.372L38.636 13.52a18.089 18.089 0 0 0-1.634-1.967A17.947 17.947 0 0 0 24 6C14.059 6 6 14.059 6 24s8.059 18 18 18 18-8.059 18-18c0-2.972-.722-5.775-1.998-8.245l-7.13 7.098Z"
-                                  fill="#00297A"
-                                  fill-rule="evenodd"
-                                />
-                              </svg>
-                            </div>
-                          </div>
-                          <div
-                            class="authenticator-description MuiBox-root emotion-28"
-                          >
-                            <h3
-                              class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-29"
-                              data-se="authenticator-button-label"
-                              id="okta_verify_2-label"
-                            >
-                              Use Okta FastPass
-                            </h3>
-                            <p
-                              class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-30"
-                              data-se="authenticator-button-description"
-                              id="okta_verify_2-description"
-                            >
-                              Okta Verify
-                            </p>
-                            <div
-                              class="cta-button authenticator-button MuiBox-root emotion-31"
-                              data-se="okta_verify-signed_nonce"
-                            >
-                              <span
-                                class="button select-factor link-button MuiBox-root emotion-32"
-                                data-se="cta-button-label"
-                                id="okta_verify_2-ctaLabel"
-                              >
-                                Select
-                              </span>
-                              <svg
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-33"
-                                fill="none"
-                                focusable="false"
-                                role="img"
-                                viewBox="0 0 16 16"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  clip-rule="evenodd"
-                                  d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
-                                  fill="currentColor"
-                                  fill-rule="evenodd"
-                                />
-                                <title>
-                                  Select
-                                </title>
-                              </svg>
-                            </div>
-                          </div>
-                        </button>
-                      </li>
-                      <li
-                        class="MuiBox-root emotion-16"
-                      >
-                        <button
-                          aria-describedby="okta_verify_0-description okta_verify_0-ctaLabel"
-                          aria-labelledby="okta_verify_0-label"
-                          class="authenticator-row MuiBox-root emotion-25"
-                          data-se="authenticator-button"
-                          tabindex="0"
-                          type="button"
-                        >
-                          <div
-                            class="authenticator-icon-container MuiBox-root emotion-1"
-                            data-se="authenticator-icon"
-                          >
-                            <div
-                              aria-hidden="true"
-                              class="mfa-okta-verify authenticator-icon MuiBox-root emotion-27"
-                              data-se="factor-beacon"
-                            >
-                              <svg
-                                aria-labelledby="okta_verify_0"
-                                fill="none"
-                                height="48"
-                                role="img"
-                                viewBox="0 0 48 48"
-                                width="48"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <title
-                                  id="okta_verify_0"
-                                >
-                                  Okta Verify
-                                </title>
-                                <circle
-                                  class="siwFillBg"
-                                  cx="24"
-                                  cy="24"
-                                  fill="#F5F5F6"
-                                  r="24"
-                                />
-                                <path
-                                  clip-rule="evenodd"
-                                  d="M32.872 22.853a8.947 8.947 0 1 1-2.288-4.91L24 24.498l-3.205-3.19c-.482-.48-1.322-.48-1.804 0a1.26 1.26 0 0 0-.374.898c0 .34.133.659.374.898l4.107 4.09c.24.239.561.371.902.371.336 0 .664-.136.902-.372L38.636 13.52a18.089 18.089 0 0 0-1.634-1.967A17.947 17.947 0 0 0 24 6C14.059 6 6 14.059 6 24s8.059 18 18 18 18-8.059 18-18c0-2.972-.722-5.775-1.998-8.245l-7.13 7.098Z"
-                                  fill="#00297A"
-                                  fill-rule="evenodd"
-                                />
-                              </svg>
-                            </div>
-                          </div>
-                          <div
-                            class="authenticator-description MuiBox-root emotion-28"
-                          >
-                            <h3
-                              class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-29"
-                              data-se="authenticator-button-label"
-                              id="okta_verify_0-label"
-                            >
-                              Get a push notification
-                            </h3>
-                            <p
-                              class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-30"
-                              data-se="authenticator-button-description"
-                              id="okta_verify_0-description"
-                            >
-                              Okta Verify
-                            </p>
-                            <div
-                              class="cta-button authenticator-button MuiBox-root emotion-31"
-                              data-se="okta_verify-push"
-                            >
-                              <span
-                                class="button select-factor link-button MuiBox-root emotion-32"
-                                data-se="cta-button-label"
-                                id="okta_verify_0-ctaLabel"
-                              >
-                                Select
-                              </span>
-                              <svg
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-33"
-                                fill="none"
-                                focusable="false"
-                                role="img"
-                                viewBox="0 0 16 16"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  clip-rule="evenodd"
-                                  d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
-                                  fill="currentColor"
-                                  fill-rule="evenodd"
-                                />
-                                <title>
-                                  Select
-                                </title>
-                              </svg>
-                            </div>
-                          </div>
-                        </button>
-                      </li>
-                      <li
-                        class="MuiBox-root emotion-16"
-                      >
-                        <button
-                          aria-describedby="okta_verify_1-description okta_verify_1-ctaLabel"
-                          aria-labelledby="okta_verify_1-label"
-                          class="authenticator-row MuiBox-root emotion-25"
-                          data-se="authenticator-button"
-                          tabindex="0"
-                          type="button"
-                        >
-                          <div
-                            class="authenticator-icon-container MuiBox-root emotion-1"
-                            data-se="authenticator-icon"
-                          >
-                            <div
-                              aria-hidden="true"
-                              class="mfa-okta-verify authenticator-icon MuiBox-root emotion-27"
-                              data-se="factor-beacon"
-                            >
-                              <svg
-                                aria-labelledby="okta_verify_1"
-                                fill="none"
-                                height="48"
-                                role="img"
-                                viewBox="0 0 48 48"
-                                width="48"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <title
-                                  id="okta_verify_1"
-                                >
-                                  Okta Verify
-                                </title>
-                                <circle
-                                  class="siwFillBg"
-                                  cx="24"
-                                  cy="24"
-                                  fill="#F5F5F6"
-                                  r="24"
-                                />
-                                <path
-                                  clip-rule="evenodd"
-                                  d="M32.872 22.853a8.947 8.947 0 1 1-2.288-4.91L24 24.498l-3.205-3.19c-.482-.48-1.322-.48-1.804 0a1.26 1.26 0 0 0-.374.898c0 .34.133.659.374.898l4.107 4.09c.24.239.561.371.902.371.336 0 .664-.136.902-.372L38.636 13.52a18.089 18.089 0 0 0-1.634-1.967A17.947 17.947 0 0 0 24 6C14.059 6 6 14.059 6 24s8.059 18 18 18 18-8.059 18-18c0-2.972-.722-5.775-1.998-8.245l-7.13 7.098Z"
-                                  fill="#00297A"
-                                  fill-rule="evenodd"
-                                />
-                              </svg>
-                            </div>
-                          </div>
-                          <div
-                            class="authenticator-description MuiBox-root emotion-28"
-                          >
-                            <h3
-                              class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-29"
-                              data-se="authenticator-button-label"
-                              id="okta_verify_1-label"
-                            >
-                              Enter a code
-                            </h3>
-                            <p
-                              class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-30"
-                              data-se="authenticator-button-description"
-                              id="okta_verify_1-description"
-                            >
-                              Okta Verify
-                            </p>
-                            <div
-                              class="cta-button authenticator-button MuiBox-root emotion-31"
-                              data-se="okta_verify-totp"
-                            >
-                              <span
-                                class="button select-factor link-button MuiBox-root emotion-32"
-                                data-se="cta-button-label"
-                                id="okta_verify_1-ctaLabel"
-                              >
-                                Select
-                              </span>
-                              <svg
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-33"
-                                fill="none"
-                                focusable="false"
-                                role="img"
-                                viewBox="0 0 16 16"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  clip-rule="evenodd"
-                                  d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
-                                  fill="currentColor"
-                                  fill-rule="evenodd"
-                                />
-                                <title>
-                                  Select
-                                </title>
-                              </svg>
-                            </div>
-                          </div>
-                        </button>
-                      </li>
-                    </ul>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-16"
-                  >
-                    <button
-                      class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-55"
-                      data-se="cancel"
-                      role="link"
-                      type="button"
-                    >
-                      Back to sign in
-                    </button>
-                  </div>
-                </div>
-              </form>
+                </form>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
   </div>
 </div>
 `;
