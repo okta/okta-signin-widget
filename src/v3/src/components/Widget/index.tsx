@@ -493,8 +493,9 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     }}
     >
       <CustomPluginsOdysseyCacheProvider nonce={cspNonce}>
+        {/* remove this provider when all odyssey legacy imports are removed */}
         <MuiThemeProvider theme={theme}>
-          <OdysseyProvider themeOverride={(theme as ThemeOptions)}>
+          <OdysseyProvider themeOverride={theme as ThemeOptions}>
             <GlobalStyles />
             {/* the style is to allow the widget to inherit the parent's bg color */}
             <ScopedCssBaseline sx={{ backgroundColor: 'inherit' }}>
