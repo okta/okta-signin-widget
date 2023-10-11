@@ -42,7 +42,7 @@ fixture('Challenge Okta Verify Totp Form')
 async function setup(t) {
   const challengeOktaVerifyTOTPPageObject = new ChallengeOktaVerifyTotpPageObject(t);
   await challengeOktaVerifyTOTPPageObject.navigateToPage();
-  await t.expect(challengeOktaVerifyTOTPPageObject.formExists()).eql(true);
+  await t.expect(challengeOktaVerifyTOTPPageObject.formExists()).ok();
   return challengeOktaVerifyTOTPPageObject;
 }
 

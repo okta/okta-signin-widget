@@ -60,7 +60,7 @@ fixture('Authenticator Expired Password').meta('v3', true);
 async function setup(t) {
   const expiredPasswordPage = new FactorEnrollPasswordPageObject(t);
   await expiredPasswordPage.navigateToPage();
-  await t.expect(expiredPasswordPage.formExists()).eql(true);
+  await t.expect(expiredPasswordPage.formExists()).ok();
   await checkConsoleMessages({
     controller: 'password-expired',
     formName: 'reenroll-authenticator',

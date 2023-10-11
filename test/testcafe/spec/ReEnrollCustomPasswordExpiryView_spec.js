@@ -20,7 +20,7 @@ fixture('Custom Authenticator Expired Password').meta('v3', true);
 async function setup(t) {
   const expiredCustomPasswordPage = new EnrollCustomPasswordPageObject(t);
   await expiredCustomPasswordPage.navigateToPage();
-  await t.expect(expiredCustomPasswordPage.formExists()).eql(true);
+  await t.expect(expiredCustomPasswordPage.formExists()).ok();
   await checkConsoleMessages({
     controller: 'custom-password-expired',
     formName: 'reenroll-custom-password-expiry',

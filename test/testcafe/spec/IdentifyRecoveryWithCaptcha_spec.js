@@ -39,7 +39,7 @@ fixture('Identify Recovery - reset flow with Captcha').meta('v3', true);
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
   await identityPage.navigateToPage();
-  await t.expect(await identityPage.formExists()).eql(true);
+  await t.expect(await identityPage.formExists()).ok();
   await checkConsoleMessages({
     controller: 'forgot-password',
     formName: 'identify-recovery',

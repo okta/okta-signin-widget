@@ -46,7 +46,7 @@ fixture('Challenge Duo').meta('v3', true);
 async function setup(t) {
   const challengeDuoPage = new DuoPageObject(t);
   await challengeDuoPage.navigateToPage();
-  await t.expect(challengeDuoPage.formExists()).eql(true);
+  await t.expect(challengeDuoPage.formExists()).ok();
   await checkConsoleMessages({
     controller: 'mfa-verify-duo',
     formName: 'challenge-authenticator',

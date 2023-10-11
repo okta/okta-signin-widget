@@ -61,7 +61,7 @@ fixture('Challenge Okta Verify Push')
 async function setup(t) {
   const challengeOktaVerifyPushPageObject = new ChallengeOktaVerifyPushPageObject(t);
   await challengeOktaVerifyPushPageObject.navigateToPage();
-  await t.expect(challengeOktaVerifyPushPageObject.formExists()).eql(true);
+  await t.expect(challengeOktaVerifyPushPageObject.formExists()).ok();
   return challengeOktaVerifyPushPageObject;
 }
 

@@ -57,7 +57,7 @@ fixture('Challenge Authenticator Password')
 async function setup(t) {
   const challengePasswordPage = new ChallengePasswordPageObject(t);
   await challengePasswordPage.navigateToPage();
-  await t.expect(challengePasswordPage.formExists()).eql(true);
+  await t.expect(challengePasswordPage.formExists()).ok();
   await checkConsoleMessages({
     controller: 'mfa-verify-password',
     formName: 'challenge-authenticator',

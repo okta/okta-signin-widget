@@ -29,7 +29,7 @@ fixture('Authenticator Enroll Data Phone')
 async function setup(t) {
   const enrollPhonePage = new EnrollPhonePageObject(t);
   await enrollPhonePage.navigateToPage();
-  await t.expect(enrollPhonePage.formExists()).eql(true);
+  await t.expect(enrollPhonePage.formExists()).ok();
   await checkConsoleMessages({
     controller: null,
     formName: 'authenticator-enrollment-data',

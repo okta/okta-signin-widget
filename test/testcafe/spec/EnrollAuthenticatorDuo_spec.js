@@ -21,7 +21,7 @@ fixture('Authenticator Enroll Duo').meta('v3', true)
 async function setup(t) {
   const enrollDuoPage = new DuoPageObject(t);
   await enrollDuoPage.navigateToPage();
-  await t.expect(enrollDuoPage.formExists()).eql(true);
+  await t.expect(enrollDuoPage.formExists()).ok();
   await checkConsoleMessages({
     controller: 'enroll-duo',
     formName: 'enroll-authenticator',

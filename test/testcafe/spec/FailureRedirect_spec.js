@@ -32,7 +32,7 @@ test.requestHooks(userNotAssignedMock)('oauth: shows the error message', async t
       pkce: true // required for interaction code flow
     }
   });
-  await t.expect(terminalPage.formExists()).eql(true);
+  await t.expect(terminalPage.formExists()).ok();
   await terminalPage.waitForErrorBox();
   await t.expect(terminalPage.getErrorBoxText()).eql('You are not allowed to access this app. To request access, contact an admin.');
 });

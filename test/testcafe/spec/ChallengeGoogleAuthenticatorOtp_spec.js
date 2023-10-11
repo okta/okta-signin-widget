@@ -43,7 +43,7 @@ fixture('Challenge Google Authenticator Form')
 async function setup(t) {
   const challengeGoogleAuthenticatorPageObject = new ChallengeGoogleAuthenticatorPageObject(t);
   await challengeGoogleAuthenticatorPageObject.navigateToPage();
-  await t.expect(challengeGoogleAuthenticatorPageObject.formExists()).eql(true);
+  await t.expect(challengeGoogleAuthenticatorPageObject.formExists()).ok();
   return challengeGoogleAuthenticatorPageObject;
 }
 

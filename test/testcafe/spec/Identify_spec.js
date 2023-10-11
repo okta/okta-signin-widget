@@ -108,7 +108,7 @@ fixture('Identify')
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
   await identityPage.navigateToPage();
-  await t.expect(identityPage.formExists()).eql(true);
+  await t.expect(identityPage.formExists()).ok();
   await checkConsoleMessages({
     controller: 'primary-auth',
     formName: 'identify',

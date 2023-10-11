@@ -31,7 +31,7 @@ const requestLogger = RequestLogger(/consent/, {
 async function setup(t) {
   const consentPage = new ConsentPageObject(t);
   await consentPage.navigateToPage();
-  await t.expect(consentPage.formExists()).eql(true);
+  await t.expect(consentPage.formExists()).ok();
   return consentPage;
 }
 

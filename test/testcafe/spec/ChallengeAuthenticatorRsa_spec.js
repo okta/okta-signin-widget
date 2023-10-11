@@ -33,7 +33,7 @@ fixture('Challenge Authenticator RSA').meta('v3', true);
 async function setup(t) {
   const challengeRsaPage = new ChallengeRsaPageObject(t);
   await challengeRsaPage.navigateToPage();
-  await t.expect(challengeRsaPage.formExists()).eql(true);
+  await t.expect(challengeRsaPage.formExists()).ok();
   return challengeRsaPage;
 }
 

@@ -95,7 +95,7 @@ async function setup(t) {
   const terminalPageObject = userVariables.v3 ? new TerminalPageObjectV3(t) : new TerminalPageObject(t);
   await terminalPageObject.navigateToPage();
   // ensure form has loaded
-  await t.expect(terminalPageObject.formExists()).eql(true);
+  await t.expect(terminalPageObject.formExists()).ok();
   return terminalPageObject;
 }
 

@@ -24,7 +24,7 @@ fixture('Challenge Authenticator Custom OTP').meta('v3', true);
 async function setup(t) {
   const challengeCustomOTPPage = new ChallengeCustomOTPPageObject(t);
   await challengeCustomOTPPage.navigateToPage();
-  await t.expect(challengeCustomOTPPage.formExists()).eql(true);
+  await t.expect(challengeCustomOTPPage.formExists()).ok();
   return challengeCustomOTPPage;
 }
 

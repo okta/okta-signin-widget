@@ -246,7 +246,7 @@ test.requestHooks(identifyChallengeMockWithError)('shall clear when session.stat
 
   // Identify page
   await identityPage.navigateToPage();
-  await t.expect(identityPage.formExists()).eql(true);
+  await t.expect(identityPage.formExists()).ok();
   await t.expect(getStateHandleFromSessionStorage()).eql(null);
   await identityPage.fillIdentifierField('foo@test.com');
   await identityPage.clickNextButton();
@@ -264,7 +264,7 @@ test.requestHooks(identifyChallengeMockWithError)('shall clear when session.stat
 
   // Refresh
   await challengeEmailPageObject.refresh();
-  await t.expect(challengeEmailPageObject.formExists()).eql(true);
+  await t.expect(challengeEmailPageObject.formExists()).ok();
 
   // Verify introspect requests
   // introspect with session.stateHandle
@@ -310,7 +310,7 @@ test.requestHooks(introspectRequestLogger, identifyChallengeMockWithError)('shal
   // Change apps
   await identityPage.navigateToPage({path: '/app/phpsaml/123/sso/saml'});
   const pageObject = new BasePageObject(t);
-  await t.expect(pageObject.formExists()).eql(true);
+  await t.expect(pageObject.formExists()).ok();
 
   // Verify introspect requests, one for each app visit
   await t.expect(introspectRequestLogger.count(() => true)).eql(2);
@@ -372,7 +372,7 @@ test
   await renderWidget(optionsForInteractionCodeFlow);
 
   // Identify page
-  await t.expect(identityPage.formExists()).eql(true);
+  await t.expect(identityPage.formExists()).ok();
   await identityPage.fillIdentifierField('foo@test.com');
   await identityPage.clickNextButton();
 

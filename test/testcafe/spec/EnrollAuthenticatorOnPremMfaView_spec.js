@@ -24,7 +24,7 @@ fixture('Authenticator On Prem').meta('v3', true);
 async function setup(t) {
   const enrollOnPremPage = new EnrollOnPremPageObject(t);
   await enrollOnPremPage.navigateToPage();
-  await t.expect(enrollOnPremPage.formExists()).eql(true);
+  await t.expect(enrollOnPremPage.formExists()).ok();
   await checkConsoleMessages({
     controller: 'enroll-onprem',
     formName: 'enroll-authenticator',

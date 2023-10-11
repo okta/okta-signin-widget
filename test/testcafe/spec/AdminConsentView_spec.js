@@ -28,7 +28,7 @@ fixture('AdminConsent').meta('v3', true)
 async function setup(t) {
   const consentPage = new ConsentPageObject(t);
   await consentPage.navigateToPage();
-  await t.expect(consentPage.formExists()).eql(true);
+  await t.expect(consentPage.formExists()).ok();
   return consentPage;
 }
 

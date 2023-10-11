@@ -34,7 +34,7 @@ fixture('Authenticator Reset Password').meta('v3', true);
 async function setup(t) {
   const resetPasswordPage = new FactorEnrollPasswordPageObject(t);
   await resetPasswordPage.navigateToPage();
-  await t.expect(resetPasswordPage.formExists()).eql(true);
+  await t.expect(resetPasswordPage.formExists()).ok();
   await checkConsoleMessages({
     controller: 'forgot-password',
     formName: 'reset-authenticator',

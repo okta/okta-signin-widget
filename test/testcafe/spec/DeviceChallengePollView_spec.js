@@ -296,7 +296,7 @@ fixture('Device Challenge Polling View with the Loopback Server, Custom URI, App
 async function setup(t) {
   const deviceChallengePollPage = new DeviceChallengePollPageObject(t);
   await deviceChallengePollPage.navigateToPage();
-  await t.expect(deviceChallengePollPage.formExists()).eql(true);
+  await t.expect(deviceChallengePollPage.formExists()).ok();
   return deviceChallengePollPage;
 }
 

@@ -210,7 +210,7 @@ fixture('Challenge Email Authenticator Form')
 async function setup(t) {
   const challengeEmailPageObject = new ChallengeEmailPageObject(t);
   await challengeEmailPageObject.navigateToPage();
-  await t.expect(challengeEmailPageObject.formExists()).eql(true);
+  await t.expect(challengeEmailPageObject.formExists()).ok();
   return challengeEmailPageObject;
 }
 

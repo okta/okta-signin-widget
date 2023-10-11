@@ -31,7 +31,7 @@ fixture('Challenge Authenticator On Prem').meta('v3', true);
 async function setup(t) {
   const challengeOnPremPage = new ChallengeOnPremPageObject(t);
   await challengeOnPremPage.navigateToPage();
-  await t.expect(challengeOnPremPage.formExists()).eql(true);
+  await t.expect(challengeOnPremPage.formExists()).ok();
   await checkConsoleMessages({
     controller: 'mfa-verify-totp',
     formName: 'challenge-authenticator',

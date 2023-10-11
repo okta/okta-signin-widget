@@ -20,7 +20,7 @@ fixture('Identify + Okta Verify')
 async function setup(t) {
   const deviceChallengePollPage = new IdentityPageObject(t);
   await deviceChallengePollPage.navigateToPage();
-  await t.expect(deviceChallengePollPage.formExists()).eql(true);
+  await t.expect(deviceChallengePollPage.formExists()).ok();
   await checkConsoleMessages({
     controller: 'primary-auth',
     formName: 'identify',

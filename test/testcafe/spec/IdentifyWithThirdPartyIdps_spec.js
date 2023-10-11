@@ -143,7 +143,7 @@ test.requestHooks(mockWithoutIdentify)('should only render idp buttons with iden
 // TODO: TEST FAILED
 test.requestHooks(logger, mockOnlyOneIdp)('should auto redirect to 3rd party IdP login page with basic Signing in message', async t => {
   const identityPage = await setup(t);
-  await t.expect(identityPage.formExists()).eql(true);
+  await t.expect(identityPage.formExists()).ok();
 
   // await checkConsoleMessages({
   //   controller: null,
@@ -179,7 +179,7 @@ test.requestHooks(logger, mockOnlyOneIdp)('Direct auth: does not auto redirect t
 // TODO: TEST FAILED
 test.requestHooks(logger, mockOnlyOneIdpAppUser)('should auto redirect to 3rd party IdP login page with Signing in longer message', async t => {
   const identityPage = await setup(t);
-  await t.expect(identityPage.formExists()).eql(true);
+  await t.expect(identityPage.formExists()).ok();
 
   await t.debug();
 
@@ -219,7 +219,7 @@ test.requestHooks(logger, mockIdpDiscoveryWithOneIdp)('IDP discovery will auto r
 
 test.requestHooks(logger, mockIdpDiscoveryWithOneIdp)('Direct auth: IDP discovery will auto redirect to 3rd party IDP after identify with name', async t => {
   const identityPage = await setupDirectAuth(t);
-  await t.expect(identityPage.formExists()).eql(true);
+  await t.expect(identityPage.formExists()).ok();
   await checkConsoleMessages({
     controller: 'primary-auth',
     formName: 'identify',

@@ -96,7 +96,7 @@ fixture('Enroll Email Authenticator')
 async function setup(t) {
   const enrollEmailPageObject = new EnrollEmailPageObject(t);
   await enrollEmailPageObject.navigateToPage();
-  await t.expect(enrollEmailPageObject.formExists()).eql(true);
+  await t.expect(enrollEmailPageObject.formExists()).ok();
 
   await checkConsoleMessages({
     controller: 'enroll-email',

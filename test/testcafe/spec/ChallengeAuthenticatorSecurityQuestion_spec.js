@@ -31,7 +31,7 @@ fixture('Challenge Security Question Form')
 async function setup(t) {
   const challengeFactorPage = new ChallengeSecurityQuestionPageObject(t);
   await challengeFactorPage.navigateToPage();
-  await t.expect(challengeFactorPage.formExists()).eql(true);
+  await t.expect(challengeFactorPage.formExists()).ok();
 
   await checkConsoleMessages({
     controller: 'mfa-verify-question',

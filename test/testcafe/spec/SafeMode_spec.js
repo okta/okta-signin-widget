@@ -35,7 +35,7 @@ fixture('Safe Mode during enrollment')
 async function setup(t) {
   const terminalPage = new TerminalPageObject(t);
   await terminalPage.navigateToPage();
-  await t.expect(terminalPage.formExists()).eql(true);
+  await t.expect(terminalPage.formExists()).ok();
   await checkConsoleMessages({
     controller: null,
     formName: 'terminal',

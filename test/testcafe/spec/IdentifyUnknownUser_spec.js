@@ -26,7 +26,7 @@ fixture('Identify Unknown User').meta('v3', true);
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
   await identityPage.navigateToPage();
-  await t.expect(identityPage.formExists()).eql(true);
+  await t.expect(identityPage.formExists()).ok();
 
   await checkConsoleMessages({
     controller: 'primary-auth',

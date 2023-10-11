@@ -294,14 +294,14 @@ fixture('Device Challenge Polling View for user verification and MFA with the Lo
 async function setup(t) {
   const deviceChallengePollPage = new DeviceChallengePollPageObject(t);
   await deviceChallengePollPage.navigateToPage();
-  await t.expect(deviceChallengePollPage.formExists()).eql(true);
+  await t.expect(deviceChallengePollPage.formExists()).ok();
   return deviceChallengePollPage;
 }
 
 async function setupLoopbackFallback(t) {
   const deviceChallengeFalllbackPage = new IdentityPageObject(t);
   await deviceChallengeFalllbackPage.navigateToPage();
-  await t.expect(deviceChallengeFalllbackPage.formExists()).eql(true);
+  await t.expect(deviceChallengeFalllbackPage.formExists()).ok();
   return deviceChallengeFalllbackPage;
 }
 

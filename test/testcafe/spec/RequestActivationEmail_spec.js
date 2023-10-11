@@ -42,7 +42,7 @@ async function setup(t) {
 async function setupTerminal(t) {
   const terminalPageObject = new TerminalPageObject(t);
   await terminalPageObject.navigateToPage();
-  await t.expect(terminalPageObject.formExists()).eql(true);
+  await t.expect(terminalPageObject.formExists()).ok();
   await checkConsoleMessages({
     controller: null,
     formName: 'terminal',

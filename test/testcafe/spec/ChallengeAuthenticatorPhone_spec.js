@@ -151,7 +151,7 @@ fixture('Challenge Phone Form')
 async function setup(t) {
   const challengePhonePageObject = new ChallengePhonePageObject(t);
   await challengePhonePageObject.navigateToPage();
-  await t.expect(challengePhonePageObject.formExists()).eql(true);
+  await t.expect(challengePhonePageObject.formExists()).ok();
   return challengePhonePageObject;
 }
 
