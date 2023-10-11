@@ -149,9 +149,7 @@ const injectIdPConfigButtonToRemediation = (settings, idxResp) => {
  * The idea now is to reuse `success-redirect` thus converts `redirect-idp` to `success-redirect` form.
  */
 const convertRedirectIdPToSuccessRedirectIffOneIdp = (settings, result, lastResult) => {
-  // console.log('here');
   if (Array.isArray(result.remediations)) {
-    console.log(result.remediations);
     const redirectIdpRemediations = result.remediations.filter(idp => idp.name === RemediationForms.REDIRECT_IDP);
     if (redirectIdpRemediations.length !== 1 || result.remediations.length !== 1) {
       return;
@@ -160,7 +158,6 @@ const convertRedirectIdPToSuccessRedirectIffOneIdp = (settings, result, lastResu
     // Direct auth clients should not redirect on the initial response
     const isDirectAuth = settings.get('oauth2Enabled');
     if (isDirectAuth && !lastResult) {
-      console.log('return early')
       return;
     }
 
@@ -170,7 +167,6 @@ const convertRedirectIdPToSuccessRedirectIffOneIdp = (settings, result, lastResu
       value: [],
     };
     result.remediations = [successRedirect];
-    console.log('result: ', result);
   }
 };
 
