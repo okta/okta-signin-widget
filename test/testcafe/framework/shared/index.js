@@ -32,7 +32,7 @@ export const renderWidget = ClientFunction((settings) => {
 });
 
 export async function checkFormName (formName) {
-  const current = ClientFunction(() => window.getWidgetInstance().router.appState.get('currentFormName'));
+  const current = ClientFunction(() => window.getWidgetInstance().router.appState.get('currentFormName'))();
   await t.expect(current).eql(formName);
 }
 
