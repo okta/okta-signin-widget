@@ -267,16 +267,20 @@ describe('Select Authenticator Utility Tests', () => {
         expect(currentOption?.options.ctaLabel)
           .toBe('oie.verify.authenticator.button.text');
       });
+
       options.filter((option) =>
         option.relatesTo?.key === AUTHENTICATOR_KEY.PHONE,
-      ).forEach((option) => {
+      )
+      .forEach((option) => {
         const currentOption = authenticatorOptionValues
           .find(({ options: { key: authKey } }) => authKey === option.relatesTo?.key);
         expect(currentOption?.options.description).toBe(mockPhoneNumber);
       });
+
       options.filter((option) =>
         option.relatesTo?.key === AUTHENTICATOR_KEY.EMAIL,
-      ).forEach((option) => {
+      )
+      .forEach((option) => {
         const currentOption = authenticatorOptionValues
           .find(({ options: { key: authKey } }) => authKey === option.relatesTo?.key);
         expect(currentOption?.options.description).toBe(mockEmail);
