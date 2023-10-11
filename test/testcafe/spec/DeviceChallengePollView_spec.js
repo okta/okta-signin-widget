@@ -62,7 +62,7 @@ const loopbackUserCancelLoggerMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/authenticators\/poll\/cancel/)
   .respond(loopbackChallengeNotReceived);
 
-const loopbackPollMockLogger = RequestLogger(/poll/, { logRequestBody: true, stringifyRequestBody: true });
+const loopbackPollTimeoutLogger = RequestLogger(/poll/, { logRequestBody: true, stringifyRequestBody: true });
 const loopbackPollTimeoutMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/introspect/)
   .respond(identifyWithDeviceProbingLoopback)
@@ -106,6 +106,7 @@ const loopbackPollTimeoutMock = RequestMock()
     'access-control-allow-methods': 'POST, OPTIONS'
   });
 
+const loopbackPollFailedLogger = RequestLogger(/poll/, { logRequestBody: true, stringifyRequestBody: true });
 const loopbackPollFailedMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/introspect/)
   .respond(identifyWithDeviceProbingLoopback)
@@ -115,6 +116,8 @@ const loopbackPollFailedMock = RequestMock()
     res.headers['content-type'] = 'application/json';
     res.setBody(userIsNotAssignedError);
   });
+
+const loopbackSuccessButNotAssignedLogger = RequestLogger(/introspect|probe|challenge/, { logRequestBody: true, stringifyRequestBody: true });
 
 const loopbackSuccessButNotAssignedAppMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/introspect/)
@@ -233,6 +236,7 @@ const customURIMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
   .respond(identifyWithLaunchAuthenticator);
 
+const universalLinkWithoutLaunchLogger = RequestLogger(/introspect|probe|cancel|launch|poll/, { logRequestBody: true, stringifyRequestBody: true });
 const universalLinkWithoutLaunchMock = RequestMock()
   .onRequestTo(/idp\/idx\/introspect/)
   .respond(identifyWithSSOExtensionFallbackWithoutLink)
@@ -241,10 +245,12 @@ const universalLinkWithoutLaunchMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
   .respond(identifyWithLaunchUniversalLink);
 
+const universalLinkLogger = RequestLogger(/introspect|probe|cancel|launch|poll/, { logRequestBody: true, stringifyRequestBody: true });
 const universalLinkMock = RequestMock()
   .onRequestTo(/idp\/idx\/introspect/)
   .respond(identifyWithSSOExtensionFallback);
 
+const appLinkWithoutLaunchLogger = RequestLogger(/introspect|probe|cancel|launch|poll/, { logRequestBody: true, stringifyRequestBody: true });
 const appLinkWithoutLaunchMock = RequestMock()
   .onRequestTo(/idp\/idx\/introspect/)
   .respond(identifyWithDeviceProbingLoopback)
@@ -346,7 +352,6 @@ test.skip
 
 test
   .requestHooks(loopbackUserCancelLogger, loopbackUserCancelLoggerMock)('request body has reason value of true when user clicks cancel and go back link', async t => {
-    loopbackPollMockLogger.clear();
     const deviceChallengePollingPage = await setup(t);
     await checkA11y(t);
 
@@ -360,21 +365,19 @@ test
   });
 
 test
-  .requestHooks(loopbackPollMockLogger, loopbackPollFailedMock)('next poll should not start if previous is failed', async t => {
-    loopbackPollMockLogger.clear();
+  .requestHooks(loopbackPollFailedLogger, loopbackPollFailedMock)('next poll should not start if previous is failed', async t => {
     await setup(t);
     await checkA11y(t);
     await t.wait(10_000);
 
-    await t.expect(loopbackPollMockLogger.count(
+    await t.expect(loopbackPollFailedLogger.count(
       record => {
         return record.request.url.match(/\/idp\/idx\/authenticators\/poll/);
       })).eql(1);
   });
 
 test
-  .requestHooks(loopbackPollMockLogger, loopbackPollTimeoutMock).skip('new poll does not starts until last one is ended', async t => {
-    loopbackPollMockLogger.clear();
+  .requestHooks(loopbackPollTimeoutLogger, loopbackPollTimeoutMock).skip('new poll does not starts until last one is ended', async t => {
     await setup(t);
     await checkA11y(t);
     // This test verify if new /poll calls are made only if the previous one was finished instead of polling with fixed interval.
@@ -383,7 +386,7 @@ test
     // Expecting to get only 2 calls(first at 2nd sec, second at 9th(5 sec response + 2 sec timeout) second).
     await t.wait(10_000);
 
-    await t.expect(loopbackPollMockLogger.count(
+    await t.expect(loopbackPollTimeoutLogger.count(
       record => record.request.url.match(/\/idp\/idx\/authenticators\/poll/)
     )).eql(2);
   });
@@ -400,6 +403,7 @@ test
       record => record.response.statusCode === 200 &&
                 record.request.url.match(/introspect/)
     )).eql(1);
+    await t.wait(1000); // wait a moment for all probes to fail
     await t.expect(loopbackChallengeErrorLogger.count(
       record => record.response.statusCode === 500 &&
                 record.request.url.match(/2000/)
@@ -423,7 +427,7 @@ test
         record.request.url.match(/authenticators\/poll\/cancel/) &&
         JSON.parse(record.request.body).reason === 'OV_RETURNED_ERROR'
     )).eql(1);
-    await t.expect(loopbackSuccessLogger.contains(record => record.request.url.match(/6512|6513/))).eql(false);
+    await t.expect(loopbackChallengeErrorLogger.contains(record => record.request.url.match(/6512|6513/))).eql(false);
   });
 
 test
@@ -434,11 +438,11 @@ test
     await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Verifying your identity');
     await t.expect(deviceChallengePollPageObject.getFooterLink().exists).eql(false);
     await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(true);
-    await t.wait(5000); // wait a moment for all probes to fail
     await t.expect(loopbackChallengeWrongProfileLogger.count(
       record => record.response.statusCode === 200 &&
                 record.request.url.match(/introspect/)
     )).eql(1);
+    await t.wait(5000); // wait a moment for all probes to fail
     await t.expect(loopbackChallengeWrongProfileLogger.count(
       record => record.response.statusCode === 500 &&
                 record.request.url.match(/(2000|6512)\/probe/)
@@ -467,43 +471,43 @@ test
   });
 
 test
-  .requestHooks(loopbackSuccessLogger, loopbackSuccessButNotAssignedAppMock)('loopback succeeds but user is not assigned to app, then clicks cancel link', async t => {
+  .requestHooks(loopbackSuccessButNotAssignedLogger, loopbackSuccessButNotAssignedAppMock)('loopback succeeds but user is not assigned to app, then clicks cancel link', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
-    await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(true);
-
-    await t.expect(loopbackSuccessLogger.count(
+    await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().visible).eql(true);
+    await t.expect(loopbackSuccessButNotAssignedLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/introspect/)
     )).eql(1);
-    await t.expect(loopbackSuccessLogger.count(
+    await t.wait(1000);
+    await t.expect(loopbackSuccessButNotAssignedLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.method === 'get' &&
         record.request.url.match(/2000\/probe/)
     )).eql(1);
-    await t.expect(loopbackSuccessLogger.count(
+    await t.expect(loopbackSuccessButNotAssignedLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/2000\/challenge/) &&
         record.request.body.match(/challengeRequest":"eyJraWQiOiI1/)
     )).eql(1);
 
-    await t.expect(loopbackSuccessLogger.contains(record => record.request.url.match(/6511/))).eql(false);
-    await t.expect(loopbackSuccessLogger.contains(record => record.request.url.match(/6512/))).eql(false);
-    await t.expect(loopbackSuccessLogger.contains(record => record.request.url.match(/6513/))).eql(false);
+    await t.expect(loopbackSuccessButNotAssignedLogger.contains(record => record.request.url.match(/6511/))).eql(false);
+    await t.expect(loopbackSuccessButNotAssignedLogger.contains(record => record.request.url.match(/6512/))).eql(false);
+    await t.expect(loopbackSuccessButNotAssignedLogger.contains(record => record.request.url.match(/6513/))).eql(false);
 
     pollingError = true;
-    await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().exists).eql(true);
+    await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().visible).eql(true);
   });
 
 test
   .requestHooks(loopbackFallbackLogger, loopbackFallbackMock)('loopback fails and falls back to custom uri', async t => {
-    loopbackFallbackLogger.clear();
     const deviceChallengeFalllbackPage = await setupLoopbackFallback(t);
     await t.expect(deviceChallengeFalllbackPage.getFormTitle()).eql('Sign In');
     await t.expect(loopbackFallbackLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/introspect/)
     )).eql(1);
+    await t.wait(1000);
     await t.expect(loopbackFallbackLogger.count(
       record => record.response.statusCode === 500 &&
         record.request.url.match(/2000|6511|6512|6513/)
@@ -528,23 +532,23 @@ test
 
 const getPageUrl = ClientFunction(() => window.location.href);
 test
-  .requestHooks(loopbackFallbackLogger, appLinkWithoutLaunchMock)('loopback fails and falls back to app link', async t => {
-    loopbackFallbackLogger.clear();
+  .requestHooks(appLinkWithoutLaunchLogger, appLinkWithoutLaunchMock)('loopback fails and falls back to app link', async t => {
+    appLinkLoopBackFailed = true;
     const deviceChallengeFalllbackPage = await setupLoopbackFallback(t);
     await t.expect(deviceChallengeFalllbackPage.getFormTitle()).eql('Sign In');
-    await t.expect(loopbackFallbackLogger.count(
+    await t.expect(appLinkWithoutLaunchLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/introspect/)
     )).eql(1);
-    await t.expect(loopbackFallbackLogger.count(
+    await t.wait(1000);
+    await t.expect(appLinkWithoutLaunchLogger.count(
       record => record.response.statusCode === 500 &&
         record.request.url.match(/2000|6511|6512|6513/)
     )).eql(4);
-    await t.expect(loopbackFallbackLogger.count(
+    await t.expect(appLinkWithoutLaunchLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/authenticators\/poll\/cancel/)
     )).eql(1);
-    appLinkLoopBackFailed = true;
     deviceChallengeFalllbackPage.clickOktaVerifyButton();
     const deviceChallengePollPageObject = new DeviceChallengePollPageObject(t);
     await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
@@ -583,7 +587,7 @@ test
   });
 
 test
-  .requestHooks(customURILogger, customURIMock)('in custom URI approach, Okta Verify iframe should be single and hidden', async t => {
+  .requestHooks(customURIMock)('in custom URI approach, Okta Verify iframe should be single and hidden', async t => {
     const deviceChallengePollPageObject = await setup(t);
     let iframe = deviceChallengePollPageObject.getIframe();
     await t.expect(iframe.exists).ok({ timeout: 100 });
@@ -601,11 +605,10 @@ test
   });
 
 test
-  .requestHooks(loopbackFallbackLogger, universalLinkWithoutLaunchMock)('SSO Extension fails and falls back to universal link', async t => {
-    loopbackFallbackLogger.clear();
+  .requestHooks(universalLinkWithoutLaunchLogger, universalLinkWithoutLaunchMock)('SSO Extension fails and falls back to universal link', async t => {
     const deviceChallengeFalllbackPage = await setupLoopbackFallback(t);
     await t.expect(deviceChallengeFalllbackPage.getFormTitle()).eql('Sign In');
-    await t.expect(loopbackFallbackLogger.count(
+    await t.expect(universalLinkWithoutLaunchLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/introspect/)
     )).eql(1);
@@ -623,11 +626,10 @@ test
   });
 
 test
-  .requestHooks(loopbackFallbackLogger, universalLinkMock)('clicking the launch Okta Verify button opens the universal link', async t => {
-    loopbackFallbackLogger.clear();
+  .requestHooks(universalLinkLogger, universalLinkMock)('clicking the launch Okta Verify button opens the universal link', async t => {
     const deviceChallengeFalllbackPage = await setupLoopbackFallback(t);
     await t.expect(deviceChallengeFalllbackPage.getFormTitle()).eql('Sign In');
-    await t.expect(loopbackFallbackLogger.count(
+    await t.expect(universalLinkLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/introspect/)
     )).eql(1);

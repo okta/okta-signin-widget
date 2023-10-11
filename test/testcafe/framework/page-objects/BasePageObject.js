@@ -236,10 +236,6 @@ export default class BasePageObject {
     return elCount === 1;
   }
 
-  beaconExists() {
-    return Selector('[data-se="factor-beacon"]').exists;
-  }
-
   getBeaconClass() {
     return Selector('[data-se="factor-beacon"]').getAttribute('class');
   }
