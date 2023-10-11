@@ -85,6 +85,8 @@ const config = {
         const newOrder = reqHooks.reverse();
         await t.addRequestHooks(newOrder);
         // console.log(t.testRun.test.requestHooks)
+
+        // TODO: reset formName array
       }
     }
   },

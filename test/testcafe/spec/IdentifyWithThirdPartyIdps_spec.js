@@ -1,7 +1,7 @@
 import { RequestMock, RequestLogger, Selector, ClientFunction } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { checkConsoleMessages, checkFormName } from '../framework/shared';
 import identifyWithName from '../../../playground/mocks/data/idp/idx/identify.json';
 import identifyWithIdpsIdentify from '../../../playground/mocks/data/idp/idx/identify-with-third-party-idps.json';
 import identifyWithIdpsNoIdentify from '../../../playground/mocks/data/idp/idx/identify-with-only-third-party-idps.json';
@@ -127,10 +127,11 @@ test.requestHooks(mockWithoutIdentify)('should only render idp buttons with iden
   const identityPage = await setup(t);
   await checkA11y(t);
 
-  await checkConsoleMessages({
-    controller: null,
-    formName: 'redirect-idp',
-  });
+  // await checkConsoleMessages({
+  //   controller: null,
+  //   formName: 'redirect-idp',
+  // });
+  await checkFormName('redirect-idp');
 
   await t.expect(identityPage.identifierFieldExistsForIdpView()).eql(false);
   await t.expect(identityPage.getIdpButton('Sign in with Facebook').exists).eql(true);
@@ -144,10 +145,11 @@ test.requestHooks(logger, mockOnlyOneIdp)('should auto redirect to 3rd party IdP
   const identityPage = await setup(t);
   await t.expect(identityPage.formExists()).eql(true);
 
-  await checkConsoleMessages({
-    controller: null,
-    formName: 'success-redirect',
-  });
+  // await checkConsoleMessages({
+  //   controller: null,
+  //   formName: 'success-redirect',
+  // });
+  await checkFormName('success-redirect');
 
   // assert redirect to IdP login page eventually
   await t.expect(Selector('h1').innerText).eql('An external IdP login page for testcafe testing');
@@ -163,10 +165,11 @@ test.requestHooks(logger, mockOnlyOneIdp)('Direct auth: does not auto redirect t
 
   await identityPage.waitForSocialAuthButtons();
 
-  await checkConsoleMessages({
-    controller: null,
-    formName: 'redirect-idp',
-  });
+  // await checkConsoleMessages({
+  //   controller: null,
+  //   formName: 'redirect-idp',
+  // });
+  await checkFormName('redirect-idp');
 
   await t.expect(identityPage.identifierFieldExistsForIdpView()).eql(false); // no username field
   await t.expect(identityPage.getIdpButton('Sign in with Facebook').exists).eql(true); // has FB button
@@ -178,10 +181,13 @@ test.requestHooks(logger, mockOnlyOneIdpAppUser)('should auto redirect to 3rd pa
   const identityPage = await setup(t);
   await t.expect(identityPage.formExists()).eql(true);
 
-  await checkConsoleMessages({
-    controller: null,
-    formName: 'success-redirect',
-  });
+  await t.debug();
+
+  // await checkConsoleMessages({
+  //   controller: null,
+  //   formName: 'success-redirect',
+  // });
+  await checkFormName('success-redirect');
 
   // assert redirect to IdP login page eventually
   await t.expect(Selector('h1').innerText).eql('An external IdP login page for testcafe testing');

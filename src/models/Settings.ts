@@ -29,6 +29,8 @@ import { OktaAuth } from '@okta/okta-auth-js';
 const SharedUtil = internal.util.Util;
 const assetBaseUrlTpl = hbs('https://global.oktacdn.com/okta-signin-widget/{{version}}');
 
+// NOTE: properties below follow pattern : [type, isRequired, defaultValue]
+
 const local: Record<string, ModelProperty> = {
   authClient: ['object', false, undefined],
   baseUrl: ['string', true],

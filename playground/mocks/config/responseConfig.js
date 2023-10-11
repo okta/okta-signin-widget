@@ -208,8 +208,9 @@ const idx = {
     'authenticator-reset-password'
   ],
   '/idp/idx/activate': [
-    'identify-with-password',
+    // 'identify-with-password',
     // 'error-invalid-device-code',
+    'terminal-device-activated'
   ],
   '/idp/idx/device/activate': [
     'identify-with-password',
@@ -1088,6 +1089,32 @@ const smartCardEnrollOrVerify = {
   ],
 };
 
+// TODO: REMOVE BEFORE MERGE
+const jpTest = {
+  '/oauth2/default/.well-known/openid-configuration': [
+    'well-known-openid-configuration'
+  ],
+  '/oauth2/default/v1/interact': [
+    'interact'
+    // 'error-feature-not-enabled'
+    // 'error-recovery-token-invalid'
+  ],
+  '/oauth2/default/v1/token': [
+    'error-token-invalid-grant-pkce'
+  ],
+  '/idp/idx/introspect': [
+    // 'device-code-activate',
+    // 'terminal-device-activated'
+  ],
+  '/idp/idx/device/activate': [
+    'identify-with-password',
+  ],
+  '/idp/idx/identify': [
+    'terminal-device-activated'
+  ],
+}
+
 module.exports = {
   mocks: idx
+  // mocks: jpTest
 };

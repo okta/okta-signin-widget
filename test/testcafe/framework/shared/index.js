@@ -31,6 +31,11 @@ export const renderWidget = ClientFunction((settings) => {
   window.renderPlaygroundWidget(settings);
 });
 
+export async function checkFormName (formName) {
+  const current = ClientFunction(() => window.getWidgetInstance().router.appState.get('currentFormName'));
+  await t.expect(current).eql(formName);
+}
+
 // Centralized console log assertion for verifying:
 // 1. Widget is ready to accept user input for the first time (ready)
 // 2. Widget transitions to a new page and animations have finished (afterRender)

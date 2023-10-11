@@ -336,7 +336,10 @@ test.requestHooks(credentialSSONotExistLogger, credentialSSONotExistMock)('shall
   await t.expect(getStateHandleFromSessionStorage()).eql(null);
 });
 
-test.requestHooks(identifyChallengeMock)('shall back to sign-in and authenticate successfully', async t => {
+// TODO: TEST FAILED
+// test.only
+test
+.requestHooks(identifyChallengeMock)('shall back to sign-in and authenticate successfully', async t => {
   const identityPage = new IdentityPageObject(t);
   const challengeEmailPageObject = new ChallengeEmailPageObject(t);
   let pageTitle;

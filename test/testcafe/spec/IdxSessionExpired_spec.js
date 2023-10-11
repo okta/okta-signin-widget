@@ -105,7 +105,10 @@ test.requestHooks(sessionExpiresBackToSignIn)('back to sign loads identify after
   await t.expect(identityPage.getTotalGlobalErrors()).eql(0);
 });
 
-test.requestHooks(interactionCodeFlowBaseMock)('Int. Code Flow: reloads into fresh state after after session expires when challenging password', async t => {
+// TODO: TEST FAILED
+// test.only
+test
+  .requestHooks(interactionCodeFlowBaseMock)('Int. Code Flow: reloads into fresh state after after session expires when challenging password', async t => {
   let identityPage = await setupInteractionCodeFlow(t);
 
   await identityPage.fillIdentifierField('Test Identifier');
