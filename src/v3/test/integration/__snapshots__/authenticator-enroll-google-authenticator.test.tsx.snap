@@ -406,6 +406,50 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                           </span>
                         </div>
                       </div>
+                      <div
+                        class="MuiBox-root emotion-17"
+                      >
+                        <div
+                          class="MuiBox-root emotion-2"
+                        >
+                          <label
+                            class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-26"
+                            data-shrink="false"
+                            for="credentials.passcode"
+                          >
+                            Enter code
+                          </label>
+                          <div
+                            class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-27"
+                            dir="ltr"
+                            required="true"
+                          >
+                            <input
+                              aria-invalid="false"
+                              autocomplete="off"
+                              class="MuiInputBase-input emotion-28"
+                              data-se="credentials.passcode"
+                              id="credentials.passcode"
+                              inputmode="numeric"
+                              name="credentials.passcode"
+                              required=""
+                              type="text"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="MuiBox-root emotion-17"
+                      >
+                        <button
+                          class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-30"
+                          data-type="save"
+                          tabindex="0"
+                          type="submit"
+                        >
+                          Verify
+                        </button>
+                      </div>
                     </div>
                     <div
                       class="MuiBox-root emotion-12"
@@ -918,6 +962,50 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                             tester19@test.com
                           </span>
                         </div>
+                      </div>
+                      <div
+                        class="MuiBox-root emotion-17"
+                      >
+                        <div
+                          class="MuiBox-root emotion-2"
+                        >
+                          <label
+                            class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-26"
+                            data-shrink="false"
+                            for="credentials.passcode"
+                          >
+                            Enter code
+                          </label>
+                          <div
+                            class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-27"
+                            dir="ltr"
+                            required="true"
+                          >
+                            <input
+                              aria-invalid="false"
+                              autocomplete="off"
+                              class="MuiInputBase-input emotion-28"
+                              data-se="credentials.passcode"
+                              id="credentials.passcode"
+                              inputmode="numeric"
+                              name="credentials.passcode"
+                              required=""
+                              type="text"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="MuiBox-root emotion-17"
+                      >
+                        <button
+                          class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-30"
+                          data-type="save"
+                          tabindex="0"
+                          type="submit"
+                        >
+                          Verify
+                        </button>
                       </div>
                     </div>
                     <div

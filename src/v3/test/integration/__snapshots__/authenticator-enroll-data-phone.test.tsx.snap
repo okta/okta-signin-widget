@@ -3356,6 +3356,18 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                           </span>
                         </div>
                       </div>
+                      <div
+                        class="MuiBox-root emotion-17"
+                      >
+                        <button
+                          class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-60"
+                          data-type="save"
+                          tabindex="0"
+                          type="submit"
+                        >
+                          Receive a code via voice call
+                        </button>
+                      </div>
                     </div>
                     <div
                       class="MuiBox-root emotion-12"

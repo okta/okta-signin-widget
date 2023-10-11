@@ -59,6 +59,9 @@ exports[`enduser-consent-without-lgoo should render form 1`] = `
                 <div
                   class="MuiBox-root emotion-14"
                 >
+                  <div
+                    class="MuiBox-root emotion-10"
+                  />
                   <span
                     aria-label="Processing..."
                     aria-valuetext="Processing..."
