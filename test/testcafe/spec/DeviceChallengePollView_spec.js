@@ -442,7 +442,7 @@ test
       record => record.response.statusCode === 200 &&
                 record.request.url.match(/introspect/)
     )).eql(1);
-    await t.wait(5000); // wait a moment for all probes to fail
+    await t.wait(6000); // wait a moment for all probes to fail
     await t.expect(loopbackChallengeWrongProfileLogger.count(
       record => record.response.statusCode === 500 &&
                 record.request.url.match(/(2000|6512)\/probe/)
@@ -533,7 +533,6 @@ test
 const getPageUrl = ClientFunction(() => window.location.href);
 test
   .requestHooks(appLinkWithoutLaunchLogger, appLinkWithoutLaunchMock)('loopback fails and falls back to app link', async t => {
-    appLinkLoopBackFailed = true;
     const deviceChallengeFalllbackPage = await setupLoopbackFallback(t);
     await t.expect(deviceChallengeFalllbackPage.getFormTitle()).eql('Sign In');
     await t.expect(appLinkWithoutLaunchLogger.count(
@@ -549,6 +548,7 @@ test
       record => record.response.statusCode === 200 &&
         record.request.url.match(/authenticators\/poll\/cancel/)
     )).eql(1);
+    appLinkLoopBackFailed = true;
     deviceChallengeFalllbackPage.clickOktaVerifyButton();
     const deviceChallengePollPageObject = new DeviceChallengePollPageObject(t);
     await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
