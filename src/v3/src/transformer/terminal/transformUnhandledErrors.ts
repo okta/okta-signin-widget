@@ -42,7 +42,7 @@ const getWidgetMessage = (
 
         // TODO: re-visit, handle side effects in hooks
         // If the session expired, this clears session to allow new transaction bootstrap
-        if (widgetProps && message.i18n.key === 'idx.session.expired') {
+        if (widgetProps && message?.i18n?.key === 'idx.session.expired') {
           const { authClient } = widgetProps;
           authClient?.transactionManager.clear();
           SessionStorage.removeStateHandle();

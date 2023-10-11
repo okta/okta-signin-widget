@@ -7,6 +7,7 @@ import ChallengeFactorPageObject from '../framework/page-objects/ChallengeFactor
 
 import xhrSelectAuthenticators from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator';
 import xhrSelectAuthenticatorsWithNickname from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator-with-nickname';
+import xhrSelectAuthenticatorsWithEmail from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator-with-email';
 import xhrSelectAuthenticatorsNoNumber from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator-no-number';
 import xhrSelectAuthenticatorsOktaVerify from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator-ov-m2';
 import xhrSelectAuthenticatorsRecovery from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator-for-recovery';
@@ -46,6 +47,10 @@ const mockChallengeWithNickname = RequestMock()
 const mockAuthenticatorListNoNumber = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrSelectAuthenticatorsNoNumber);
+
+const mockAuthenticatorListWithEmail = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrSelectAuthenticatorsWithEmail);
 
 const mockChallengeEmail = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -412,6 +417,17 @@ test.requestHooks(mockAuthenticatorListNoNumber)('should not display phone numbe
   await t.expect(selectFactorPage.getFactorLabelByIndex(4)).eql('Phone');
   await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(4)).eql(false);
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(4)).eql('Select');
+});
+
+test.requestHooks(mockAuthenticatorListWithEmail)('should display email in description if available', async t => {
+  const selectFactorPage = await setup(t);
+  await checkA11y(t);
+  await t.expect(selectFactorPage.getIdentifier()).eql('testUser@okta.com');
+  await t.expect(selectFactorPage.getFactorLabelByIndex(2)).eql('Email');
+  await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(2)).eql(true);
+  await t.expect(selectFactorPage.getFactorDescriptionByIndex(2)).eql('t***r@okta.com');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(2)).eql('Select');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(2)).eql('okta_email');
 });
 
 test.requestHooks(mockSelectAuthenticatorForRecovery)('should load select authenticator list for recovery password', async t => {
