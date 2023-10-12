@@ -16,4 +16,8 @@ export default class PrimaryAuthPageObject extends BasePageObject {
   async clickNextButton() {
     await this.form.clickSaveButton();
   }
+
+  async clickLinkElement(name) {
+    await this.t.click(this.form.getLink(name));
+  }
 }

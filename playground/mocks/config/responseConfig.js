@@ -258,9 +258,10 @@ const authn = {
     'mfa-enroll-sms'
   ],
   '/api/v1/authn': [
-    'error-authentication-failed',
+    // 'error-authentication-failed',
     // 'unauthenticated',
     // 'success-001'
+    'mfa-enroll-sms',
     // 'consent-required',
     // 'device-code-activate',
   ],
@@ -1089,5 +1090,6 @@ const smartCardEnrollOrVerify = {
 };
 
 module.exports = {
-  mocks: idx
+  // mocks: idx
+  mocks: authn
 };
