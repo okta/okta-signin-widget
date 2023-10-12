@@ -104,9 +104,13 @@ const identifyRequestLogger = RequestLogger(
 
 fixture('Identify');
 
-async function setup(t) {
+async function setup(t, widgetOptions) {
+  const options = widgetOptions ? { render: false } : {};
   const identityPage = new IdentityPageObject(t);
-  await identityPage.navigateToPage();
+  await identityPage.navigateToPage(options);
+  if (widgetOptions) {
+    await rerenderWidget(widgetOptions);
+  }
   await t.expect(identityPage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: 'primary-auth',
@@ -175,15 +179,14 @@ test.meta('gen3', false).requestHooks(identifyMockWithUnsupportedResponseError)(
 });
 
 test.requestHooks(identifyMock)('should show customized error if required field identifier is empty', async t => {
-  const identityPage = await setup(t);
-  await checkA11y(t);
-  await rerenderWidget({
+  const identityPage = await setup(t, {
     i18n: {
       en: {
         'error.username.required': 'Username is required!',
       }
     }
   });
+  await checkA11y(t);
 
   await identityPage.clickNextButton();
   await identityPage.waitForErrorBox();
@@ -192,9 +195,7 @@ test.requestHooks(identifyMock)('should show customized error if required field 
 });
 
 test.requestHooks(identifyRequestLogger, identifyMock)('should not show custom error if password doesn\'t exist in remediation', async t => {
-  const identityPage = await setup(t);
-  await checkA11y(t);
-  await rerenderWidget({
+  const identityPage = await setup(t, {
     i18n: {
       en: {
         'error.username.required': 'Username is required!',
@@ -202,6 +203,7 @@ test.requestHooks(identifyRequestLogger, identifyMock)('should not show custom e
       }
     }
   });
+  await checkA11y(t);
 
   await identityPage.fillIdentifierField('test');
   await identityPage.clickNextButton();
@@ -282,16 +284,14 @@ test.requestHooks(identifyThenSelectAuthenticatorMock)('navigate to other screen
 
 // Re-enable in OKTA-654455
 test.meta('gen3', false).requestHooks(identifyRequestLogger, identifyMock)('should transform identifier using settings.transformUsername', async t => {
-  const identityPage = await setup(t);
-  await checkA11y(t);
-
-  await rerenderWidget({
+  const identityPage = await setup(t, {
     transformUsername: function(username, operation) {
       if (operation === 'PRIMARY_AUTH') {
         return `${username}@okta.com`;
       }
     }
   });
+  await checkA11y(t);
 
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.clickNextButton();
@@ -306,11 +306,8 @@ test.meta('gen3', false).requestHooks(identifyRequestLogger, identifyMock)('shou
 });
 
 test.requestHooks(identifyWithUnlockMock)('should render custom Unlock account link', async t => {
-  const identityPage = await setup(t);
-  await checkA11y(t);
   const customUnlockLinkText = 'HELP I\'M LOCKED OUT';
-
-  await rerenderWidget({
+  const identityPage = await setup(t, {
     helpLinks: {
       unlock: 'http://unlockaccount',
     },
@@ -320,33 +317,31 @@ test.requestHooks(identifyWithUnlockMock)('should render custom Unlock account l
       }
     }
   });
+  await checkA11y(t);
 
   await t.expect(identityPage.unlockAccountLinkExists(customUnlockLinkText)).eql(true);
   await t.expect(identityPage.getCustomUnlockAccountLinkUrl(customUnlockLinkText)).eql('http://unlockaccount');
 });
 
 test.requestHooks(identifyMock)('should not render custom forgot password link', async t => {
-  const identityPage = await setup(t);
-  await checkA11y(t);
-  await rerenderWidget({
+  const identityPage = await setup(t, {
     helpLinks: {
       forgotPassword: '/forgotpassword'
     }
   });
+  await checkA11y(t);
 
   await t.expect(await identityPage.hasForgotPasswordLinkText()).notOk();
 });
 
 // Re-enable in OKTA-654456
 test.meta('gen3', false).requestHooks(identifyRequestLogger, identifyMockWithFingerprint)('should compute device fingerprint and add to header', async t => {
-  const identityPage = await setup(t);
-  await checkA11y(t);
-
-  await rerenderWidget({
+  const identityPage = await setup(t, {
     features: {
       deviceFingerprinting: true,
     }
   });
+  await checkA11y(t);
 
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.clickNextButton();
@@ -370,14 +365,12 @@ test.meta('gen3', false).requestHooks(identifyRequestLogger, identifyMockWithFin
 
 // Re-enable in OKTA-654456
 test.meta('gen3', false).requestHooks(identifyRequestLogger, identifyMockWithFingerprintError)('should continue to compute device fingerprint and add to header when there are API errors', async t => {
-  const identityPage = await setup(t);
-  await checkA11y(t);
-
-  await rerenderWidget({
+  const identityPage = await setup(t, {
     features: {
       deviceFingerprinting: true,
     }
   });
+  await checkA11y(t);
 
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.clickNextButton();
@@ -395,11 +388,10 @@ test.meta('gen3', false).requestHooks(identifyRequestLogger, identifyMockWithFin
 });
 
 test.requestHooks(identifyRequestLogger, baseIdentifyMock)('should pre-populate identifier field with username config', async t => {
-  const identityPage = await setup(t);
-  await checkA11y(t);
-  await rerenderWidget({
+  const identityPage = await setup(t, {
     username: 'myTestUsername@okta.com'
   });
+  await checkA11y(t);
 
   // Ensure identifier field is pre-filled
   const identifier = identityPage.getIdentifierValue();
@@ -407,11 +399,10 @@ test.requestHooks(identifyRequestLogger, baseIdentifyMock)('should pre-populate 
 });
 
 test.requestHooks(identifyRequestLogger, baseIdentifyMock)('should hide "Keep me signed in" checkbox with config', async t => {
-  const identityPage = await setup(t);
-  await checkA11y(t);
-  await rerenderWidget({
+  const identityPage = await setup(t, {
     features: { showKeepMeSignedIn: false }
   });
+  await checkA11y(t);
 
   // Ensure checkbox is hidden
   const rememberMeCheckbox = identityPage.getRememberMeCheckbox();
@@ -419,16 +410,14 @@ test.requestHooks(identifyRequestLogger, baseIdentifyMock)('should hide "Keep me
 });
 
 test.requestHooks(identifyRequestLogger, baseIdentifyMock)('should show "Keep me signed in" checkbox with config or by default', async t => {
-  const identityPage = await setup(t);
-  await checkA11y(t);
-  await rerenderWidget({
+  const identityPage = await setup(t, {
     features: {}
   });
+  await checkA11y(t);
 
   // Ensure checkbox is shown
   let rememberMeCheckbox = identityPage.getRememberMeCheckbox();
   await t.expect(rememberMeCheckbox.exists).eql(true);
-
 
   await rerenderWidget({
     features: { showKeepMeSignedIn: true }
@@ -459,11 +448,10 @@ test.requestHooks(identifyRequestLogger, errorsIdentifyMock)('should render each
 
 // Re-enable in OKTA-654458
 test.meta('gen3', false).requestHooks(identifyRequestLogger, baseIdentifyMock)('should "autoFocus" form with config or by default', async t => {
-  const identityPage = await setup(t);
-  await checkA11y(t);
-  await rerenderWidget({
+  const identityPage = await setup(t, {
     features: {}
   });
+  await checkA11y(t);
 
   let doesFormHaveFocus = identityPage.form.getElement('[data-se="o-form-input-identifier"] input').focused;
   await t.expect(doesFormHaveFocus).eql(true);
@@ -486,13 +474,12 @@ test.meta('gen3', false).requestHooks(identifyRequestLogger, baseIdentifyMock)('
 });
 
 test.requestHooks(identifyRequestLogger, baseIdentifyMock)('should set autocomplete to off on username field when features.disableAutocomplete is true', async t => {
-  const identityPage = await setup(t);
-  await checkA11y(t);
-  await rerenderWidget({
+  const identityPage = await setup(t, {
     features: {
       disableAutocomplete: true,
     },
   });
+  await checkA11y(t);
 
   await t.expect(identityPage.getFormTitle()).eql('Sign In');
   const userNameField = identityPage.getTextField('Username');

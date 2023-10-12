@@ -36,6 +36,7 @@ fixture('Activation Email');
 async function setup(t) {
   const requestActivaitonEmailPage = new RequestActivationEmailPageObject(t);
   await requestActivaitonEmailPage.navigateToPage();
+  await t.expect(requestActivaitonEmailPage.formExists()).ok();
   return requestActivaitonEmailPage;
 }
 

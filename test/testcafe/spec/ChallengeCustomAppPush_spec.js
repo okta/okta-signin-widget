@@ -72,10 +72,14 @@ const mockCustomAppSendPush = RequestMock()
 
 fixture('Challenge Custom App Push');
 
-async function setup(t) {
+async function setup(t, widgetOptions) {
+  const options = widgetOptions ? { render: false } : {};
   const challengeCustomAppPushPageObject = new ChallengeCustomAppPushPageObject(t);
-  await challengeCustomAppPushPageObject.navigateToPage();
-  await challengeCustomAppPushPageObject.formExists();
+  await challengeCustomAppPushPageObject.navigateToPage(options);
+  if (widgetOptions) {
+    await renderWidget(widgetOptions);
+  }
+  await t.expect(challengeCustomAppPushPageObject.formExists()).ok();
   return challengeCustomAppPushPageObject;
 }
 
@@ -497,10 +501,7 @@ test
   });
 
 test.requestHooks(pushSuccessMock1)('should show custom factor page link', async t => {
-  const challengeCustomAppPushPageObject = await setup(t);
-  await checkA11y(t);
-
-  await renderWidget({
+  const challengeCustomAppPushPageObject = await setup(t, {
     helpLinks: {
       factorPage: {
         text: 'custom factor page link',
@@ -508,6 +509,7 @@ test.requestHooks(pushSuccessMock1)('should show custom factor page link', async
       }
     }
   });
+  await checkA11y(t);
 
   await t.expect(challengeCustomAppPushPageObject.getFactorPageHelpLinksLabel()).eql('custom factor page link');
   await t.expect(challengeCustomAppPushPageObject.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');

@@ -28,6 +28,7 @@ fixture('Enduser Email Consent');
 async function setup(t) {
   const consentPageObject = new EnduserConsentPageObject(t);
   await consentPageObject.navigateToPage();
+  await t.expect(consentPageObject.formExists()).ok();
   return consentPageObject;
 }
 
