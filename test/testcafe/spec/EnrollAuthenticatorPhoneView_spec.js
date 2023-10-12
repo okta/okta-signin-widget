@@ -78,7 +78,6 @@ test
   .requestHooks(voiceMock)('Voice mode - has the right labels', async t => {
     const enrollPhonePageObject = await setup(t);
     await checkA11y(t);
-    await t.expect(enrollPhonePageObject.formExists()).eql(true);
 
     await checkConsoleMessages({
       controller: 'enroll-call',

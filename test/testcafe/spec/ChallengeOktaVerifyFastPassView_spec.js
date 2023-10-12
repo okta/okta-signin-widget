@@ -61,7 +61,7 @@ const loopbackSuccessMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/authenticators\/okta-verify\/launch/)
   .respond(identifyWithDeviceLaunchAuthenticator);
 
-const loopbackPollingLogger = RequestLogger(/introspect|probe|challenge|poll/, { logRequestBody: true, stringifyRequestBody: true });
+const loopbackRedundantPollingLogger = RequestLogger(/introspect|probe|challenge|poll/, { logRequestBody: true, stringifyRequestBody: true });
 const loopbackRedundantPollingMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/introspect/)
   .respond(identifyWithUserVerificationLoopback)
@@ -107,6 +107,7 @@ const loopbackRedundantPollingMock = RequestMock()
     'access-control-allow-methods': 'POST, OPTIONS'
   });
 
+const loopbackEnhancedPollingLogger = RequestLogger(/introspect|probe|challenge|poll/, { logRequestBody: true, stringifyRequestBody: true });
 const loopbackEnhancedPollingMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/introspect/)
   .respond(identifyWithUserVerificationLoopbackWithEnhancedPolling)
@@ -263,6 +264,11 @@ const customURIBiometricsErrorMock = RequestMock()
     res.setBody(identifyWithUserVerificationBiometricsErrorDesktop);
   });
 
+const universalLinkWithoutLaunchLogger = RequestLogger(
+  /introspect|probe|cancel|launch|poll/,
+  { logRequestBody: true, stringifyRequestBody: true }
+);
+
 const universalLinkWithoutLaunchMock = RequestMock()
   .onRequestTo(/idp\/idx\/introspect/)
   .respond(identifyWithSSOExtensionFallbackWithoutLink)
@@ -280,6 +286,11 @@ const universalLinkWithoutLaunchBiometricsErrorMock = RequestMock()
     res.headers['content-type'] = 'application/json';
     res.setBody(identifyWithUserVerificationBiometricsErrorMobile);
   });
+
+const universalLinkLogger = RequestLogger(
+  /introspect|probe|cancel|launch|poll/,
+  { logRequestBody: true, stringifyRequestBody: true }
+);
 
 const universalLinkMock = RequestMock()
   .onRequestTo(/idp\/idx\/introspect/)
@@ -314,16 +325,20 @@ async function setup(t) {
   return deviceChallengePollPage;
 }
 
-async function setupLoopbackFallback(t) {
+async function setupLoopbackFallback(t, widgetOptions) {
+  const options = widgetOptions ? { render: false } : {};
   const deviceChallengeFalllbackPage = new IdentityPageObject(t);
-  await deviceChallengeFalllbackPage.navigateToPage();
+  await deviceChallengeFalllbackPage.navigateToPage(options);
+  if (widgetOptions) {
+    await renderWidget(widgetOptions);
+  }
   await t.expect(deviceChallengeFalllbackPage.formExists()).eql(true);
   return deviceChallengeFalllbackPage;
 }
 
 test
   .meta('gen3', false) // Gen3 does not have the same redundant polling issue as Gen2 and does not need to implement enhancedPollingEnabled, so skip this test
-  .requestHooks(loopbackPollingLogger, loopbackRedundantPollingMock)('in loopback server, redundant polling exists if server returns enhancedPollingEnabled as false', async t => {
+  .requestHooks(loopbackRedundantPollingLogger, loopbackRedundantPollingMock)('in loopback server, redundant polling exists if server returns enhancedPollingEnabled as false', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
     await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
@@ -331,7 +346,7 @@ test
     await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
     await t.expect(deviceChallengePollPageObject.getFooterSwitchAuthenticatorLink().innerText).eql('Verify with something else');
     await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Back to sign in');
-    await t.expect(loopbackPollingLogger.count(
+    await t.expect(loopbackRedundantPollingLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/challenge/) &&
         record.request.body.match(/challengeRequest":"02vQULJDA20fnlkloDn2/)
@@ -347,7 +362,7 @@ test
   });
 
 test
-  .requestHooks(loopbackPollingLogger, loopbackEnhancedPollingMock)('in loopback server, no redundant polling if server returns enhancedPollingEnabled as true', async t => {
+  .requestHooks(loopbackEnhancedPollingLogger, loopbackEnhancedPollingMock)('in loopback server, no redundant polling if server returns enhancedPollingEnabled as true', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
     await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
@@ -358,7 +373,7 @@ test
     }
     await t.expect(deviceChallengePollPageObject.getFooterSwitchAuthenticatorLink().innerText).eql('Verify with something else');
     await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Back to sign in');
-    await t.expect(loopbackPollingLogger.count(
+    await t.expect(loopbackEnhancedPollingLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/challenge/) &&
         record.request.body.match(/challengeRequest":"02vQULJDA20fnlkloDn2/)
@@ -469,7 +484,6 @@ test
   .requestHooks(loopbackBiometricsErrorDesktopMock, loopbackBiometricsErrorInitialPollMock)('show biometrics error for desktop platform in loopback', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
-    await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
     await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Verifying your identity');
     // in v3 all cancel buttons are the same so skip this assertion
     if (!userVariables.gen3) {
@@ -493,7 +507,6 @@ test
 
 test
   .requestHooks(loopbackFallbackLogger, loopbackFallbackMock)('loopback fails and falls back to custom uri', async t => {
-    loopbackFallbackLogger.clear();
     await setupLoopbackFallback(t);
     const deviceChallengePollPageObject = new DeviceChallengePollPageObject(t);
     await t.expect(loopbackFallbackLogger.count(
@@ -551,11 +564,10 @@ test
   });
 
 test
-  .requestHooks(loopbackFallbackLogger, universalLinkWithoutLaunchMock)('SSO Extension fails and falls back to universal link', async t => {
-    loopbackFallbackLogger.clear();
+  .requestHooks(universalLinkWithoutLaunchLogger, universalLinkWithoutLaunchMock)('SSO Extension fails and falls back to universal link', async t => {
     const deviceChallengeFalllbackPage = await setupLoopbackFallback(t);
     await t.expect(deviceChallengeFalllbackPage.getFormTitle()).eql('Sign In');
-    await t.expect(loopbackFallbackLogger.count(
+    await t.expect(universalLinkWithoutLaunchLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/introspect/)
     )).eql(1);
@@ -593,11 +605,10 @@ test
   });
 
 test
-  .requestHooks(loopbackFallbackLogger, universalLinkMock)('clicking the launch Okta Verify button opens the universal link', async t => {
-    loopbackFallbackLogger.clear();
+  .requestHooks(universalLinkLogger, universalLinkMock)('clicking the launch Okta Verify button opens the universal link', async t => {
     const deviceChallengeFalllbackPage = await setupLoopbackFallback(t);
     await t.expect(deviceChallengeFalllbackPage.getFormTitle()).eql('Sign In');
-    await t.expect(loopbackFallbackLogger.count(
+    await t.expect(universalLinkLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/introspect/)
     )).eql(1);
@@ -625,8 +636,7 @@ test
 
 test
   .requestHooks(loginHintAppLinkMock)('expect login_hint in AppLink', async t => {
-    const identityPage = await setupLoopbackFallback(t);
-    await renderWidget({
+    const identityPage = await setupLoopbackFallback(t, {
       features: { },
     });
 

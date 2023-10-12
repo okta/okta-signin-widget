@@ -53,9 +53,13 @@ const recoveryRequestLogger = RequestLogger(
 
 fixture('Challenge Authenticator Password');
 
-async function setup(t) {
+async function setup(t, widgetOptions) {
+  const options = widgetOptions ? { render: false } : {};
   const challengePasswordPage = new ChallengePasswordPageObject(t);
-  await challengePasswordPage.navigateToPage();
+  await challengePasswordPage.navigateToPage(options);
+  if (widgetOptions) {
+    await renderWidget(widgetOptions);
+  }
   await t.expect(challengePasswordPage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: 'mfa-verify-password',
@@ -90,11 +94,10 @@ test.requestHooks(mockChallengeAuthenticatorPassword)('challenge password authen
 });
 
 test.requestHooks(mockChallengeAuthenticatorPassword)('challenge password authenticator with no sign-out link', async t => {
-  const challengePasswordPage = await setup(t);
-  await checkA11y(t);
-  await renderWidget({
+  const challengePasswordPage = await setup(t, {
     features: { hideSignOutLinkInMFA: true },
   });
+  await checkA11y(t);
 
   // assert switch authenticator link
   await challengePasswordPage.switchAuthenticatorExists();
@@ -206,9 +209,7 @@ test.requestHooks(recoveryRequestLogger, mockCannotForgotPassword)('can not reco
 });
 
 test.requestHooks(mockChallengeAuthenticatorPassword)('should add sub labels for Password if i18n keys are defined', async t => {
-  const challengePasswordPage = await setup(t);
-  await checkA11y(t);
-  await renderWidget({
+  const challengePasswordPage = await setup(t, {
     i18n: {
       en: {
         'primaryauth.password.tooltip': 'Your password goes here',
@@ -221,10 +222,7 @@ test.requestHooks(mockChallengeAuthenticatorPassword)('should add sub labels for
 });
 
 test.requestHooks(mockChallengeAuthenticatorPassword)('should show custom factor page link', async t => {
-  const challengePasswordPage = await setup(t);
-  await checkA11y(t);
-
-  await renderWidget({
+  const challengePasswordPage = await setup(t, {
     helpLinks: {
       factorPage: { 
         text: 'custom factor page link',
@@ -232,6 +230,7 @@ test.requestHooks(mockChallengeAuthenticatorPassword)('should show custom factor
       }
     }
   });
+  await checkA11y(t);
 
   await t.expect(challengePasswordPage.getFactorPageHelpLinksLabel()).eql('custom factor page link');
   await t.expect(challengePasswordPage.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');

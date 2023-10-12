@@ -12,7 +12,7 @@ fixture('Pre-Enroll Email Authenticator Form');
 async function setup(t) {
   const challengeEmailPageObject = new ChallengeEmailPageObject(t);
   await challengeEmailPageObject.navigateToPage();
-  await challengeEmailPageObject.formExists();
+  await t.expect(challengeEmailPageObject.formExists()).eql(true);
   return challengeEmailPageObject;
 }
 
