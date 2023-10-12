@@ -12,10 +12,11 @@
 
 import { Box, Icon } from '@okta/odyssey-react-mui';
 import classNames from 'classnames';
-import { FunctionComponent, h } from 'preact';
+import { h } from 'preact';
 
 import { IDX_STEP } from '../../constants';
 import { useWidgetContext } from '../../contexts';
+import { IdentifierContainerElement, UISchemaElementComponent } from 'src/types';
 
 const shouldHideIdentifier = (
   showIdentifier?: boolean,
@@ -40,10 +41,11 @@ const shouldHideIdentifier = (
   return false;
 };
 
-const IdentifierContainer: FunctionComponent = () => {
+const IdentifierContainer: UISchemaElementComponent<{
+  uischema: IdentifierContainerElement
+}> = ({ uischema }) => {
+  const { options: { identifier } } = uischema;
   const { widgetProps: { features }, idxTransaction } = useWidgetContext();
-  const identifier: string | undefined = idxTransaction
-    ?.context?.user?.value?.identifier as string;
 
   if (shouldHideIdentifier(features?.showIdentifier, identifier, idxTransaction?.nextStep?.name)) {
     return null;
@@ -92,7 +94,7 @@ const IdentifierContainer: FunctionComponent = () => {
           component="span"
           className={identifierSpanClasses}
           data-se="identifier"
-          title={identifier}
+          title={"identifier"}
           sx={{
             marginInlineStart: '10px',
           }}

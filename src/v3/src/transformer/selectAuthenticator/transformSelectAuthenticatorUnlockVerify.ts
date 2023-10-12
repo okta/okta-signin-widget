@@ -10,24 +10,35 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { NextStep } from '@okta/okta-auth-js';
+import { IdxMessage, NextStep } from '@okta/okta-auth-js';
 
 import {
   AuthenticatorButtonListElement,
+  AutoSubmitElement,
+  ButtonType,
+  DescriptionElement,
   FieldElement,
+  IdentifierContainerElement,
   IdxStepTransformer,
+  StepperButtonElement,
+  StepperLayout,
   TitleElement,
+  UISchemaElement,
+  UISchemaLayout,
+  UISchemaLayoutType,
 } from '../../types';
-import { loc } from '../../util';
+import { getUsernameCookie, loc } from '../../util';
 import { getUIElementWithName } from '../utils';
 import { getAuthenticatorVerifyButtonElements } from './utils';
 
 export const transformSelectAuthenticatorUnlockVerify: IdxStepTransformer = ({
   transaction,
   formBag,
+  widgetProps,
 }) => {
   const { nextStep: { inputs, name: stepName } = {} as NextStep } = transaction;
-  const { uischema } = formBag;
+  const { uischema, data } = formBag;
+  const { features, username } = widgetProps;
 
   const authenticator = inputs?.find(({ name }) => name === 'authenticator');
   if (!authenticator?.options?.length) {
@@ -38,25 +49,129 @@ export const transformSelectAuthenticatorUnlockVerify: IdxStepTransformer = ({
     stepName,
   );
 
-  const title: TitleElement = {
+  const unlockAccountTitle: TitleElement = {
     type: 'Title',
     options: {
       content: loc('unlockaccount', 'login'),
     },
   };
 
+  const verifyTitle: TitleElement = {
+    type: 'Title',
+    options: {
+      content: loc('oie.select.authenticators.verify.title', 'login'),
+    },
+  };
+
+  const verifySubtitle: DescriptionElement = {
+    type: 'Description',
+    contentType: 'subtitle',
+    options: {
+      content: loc('oie.select.authenticators.verify.subtitle', 'login')
+    },
+  };
+
   const identifier = getUIElementWithName('identifier', uischema.elements) as FieldElement;
 
-  const authenticatorListElement: AuthenticatorButtonListElement = {
+  if (identifier) {
+    // add username/identifier from config if provided
+    if (username) {
+      data.identifier = username;
+    } else if (typeof identifier.options.inputMeta.value === 'string') {
+      data.identifier = identifier.options.inputMeta.value;
+    // TODO: OKTA-508744 - to use rememberMe in features once Default values are added widgetProps.
+    // (i.e. rememberMe is default = true in v2)
+    } else if (typeof features?.rememberMe === 'undefined' || features?.rememberMe === true) {
+      const usernameCookie = getUsernameCookie();
+      data.identifier = usernameCookie;
+    }
+  }
+
+  const identifierContainer: IdentifierContainerElement = {
+    type: 'IdentifierContainer',
+    options: {
+      identifier: '',
+    }
+  };
+
+  const authenticatorList: AuthenticatorButtonListElement = {
     type: 'AuthenticatorButtonList',
     options: { buttons: authenticatorButtons, dataSe: 'authenticator-verify-list' },
   };
 
-  uischema.elements = [
-    title,
+  const identifyWithUsernameLayout: UISchemaLayout = {
+    type: UISchemaLayoutType.VERTICAL,
+    elements: [],
+  }
+
+  const authenticatorListLayout: UISchemaLayout = {
+    type: UISchemaLayoutType.VERTICAL,
+    elements: [
+      identifierContainer,
+      verifyTitle,
+      verifySubtitle,
+      authenticatorList,
+    ].map((ele: UISchemaElement) => ({ ...ele, viewIndex: 1 })),
+  }
+
+  const unlockAccountStepper: StepperLayout = {
+    type: UISchemaLayoutType.STEPPER,
+    elements: [
+      identifyWithUsernameLayout,
+      authenticatorListLayout,
+    ],
+  };
+
+  const nextButton: StepperButtonElement = {
+    type: 'StepperButton',
+    label: loc('oform.next', 'login'),
+    options: {
+      type: ButtonType.SUBMIT,
+      variant: 'primary',
+      nextStepIndex: (widgetContext) => {
+        const { setMessage, data } = widgetContext;
+
+        if (data.identifier && typeof data.identifier === 'string') {
+          // Set the identifier for the IdentifierContainer element if the user has submitted one
+          identifierContainer.options.identifier = (data.identifier as string);
+
+          // If the user only has one authenticator that they can use to verify, add the AutoSubmit
+          // element to skip rendering the authenticator list and proceed with a challenge request
+          if (authenticatorButtons.length === 1) {
+            const autoSubmit: AutoSubmitElement = {
+              type: 'AutoSubmit',
+              options: {
+                step: stepName,
+                actionParams: authenticatorButtons[0].options.actionParams,
+                includeData: authenticatorButtons[0].options.includeData,
+                includeImmutableData: authenticatorButtons[0].options.includeImmutableData,
+              },
+            };
+            identifyWithUsernameLayout.elements.push(autoSubmit);
+            // Keep users on first layout because AutoSubmit will trigger view change
+            return 0;
+          }
+
+          return 1;
+        } 
+        // If username field was left blank, replicate onSubmitValidation error UX and block next step
+        setMessage({
+          message: loc('oform.errorbanner.title', 'login'),
+          class: 'ERROR',
+          i18n: { key: 'oform.errorbanner.title' },
+        } as IdxMessage);
+        return 0;
+      },
+    },
+  };
+
+  identifyWithUsernameLayout.elements = [
+    unlockAccountTitle,
     identifier,
-    authenticatorListElement,
-  ];
+    nextButton,
+  ].map((ele: UISchemaElement) => ({ ...ele, viewIndex: 0 }));
+
+  uischema.elements = [unlockAccountStepper];
 
   return formBag;
 };

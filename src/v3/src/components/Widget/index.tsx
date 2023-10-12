@@ -505,7 +505,6 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
               />
               <AuthContent>
                 {isConsentStep(idxTransaction) && <ConsentHeader />}
-                <IdentifierContainer />
                 {
                   uischema.elements.length > 0
                     ? <Form uischema={uischema as UISchemaLayout} />

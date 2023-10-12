@@ -24,6 +24,7 @@ import { setLtrFields } from './setLtrFields';
 import { updateCustomFields } from './updateCustomFields';
 import { updateElementKeys } from './updateElementKeys';
 import { updatePasswordDescribedByValue } from './updatePasswordDescribedByValue';
+import { createIdentifierContainers } from './createIdentifierContainers';
 
 export const transformUISchema: TransformStepFnWithOptions = (
   options,
@@ -37,4 +38,5 @@ export const transformUISchema: TransformStepFnWithOptions = (
   updatePasswordDescribedByValue,
   setLtrFields,
   overwriteAutocomplete(options),
+  createIdentifierContainers(options),
 )(formbag);
