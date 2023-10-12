@@ -173,7 +173,6 @@ test.requestHooks(identifyWithPasswordMock)('should add sub labels for Username 
       }
     }
   });
-  // await checkA11y(t); // TODO
   await t.expect(identityPage.getIdentifierSubLabelValue()).eql('Your username goes here');
   await t.expect(identityPage.getPasswordSubLabelValue()).eql('Your password goes here');
 });

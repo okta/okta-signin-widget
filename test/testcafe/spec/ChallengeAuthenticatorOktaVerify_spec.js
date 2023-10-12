@@ -71,8 +71,9 @@ async function verifySelectAuthenticator(t, selectAuthenticatorPage, expectedRes
   await t.expect(JSON.parse(requestLog.body)).eql(expectedResponse);
 }
 
-async function setup(t, factorsCount = 3, widgetOptions) {
-  const options = widgetOptions ? { render: false } : {};
+async function setup(t, opts = {}) {
+  const { factorsCount, ...widgetOptions } = opts;
+  const options = Object.keys(widgetOptions).length ? { render: false } : {};
   const selectAuthenticatorPageObject = new SelectAuthenticatorPageObject(t);
   await selectAuthenticatorPageObject.navigateToPage(options);
   if (widgetOptions) {
@@ -81,7 +82,7 @@ async function setup(t, factorsCount = 3, widgetOptions) {
   await t.expect(selectAuthenticatorPageObject.formExists()).ok();
   await t.expect(selectAuthenticatorPageObject.getFormTitle()).eql(FORM_TITLE);
   await t.expect(selectAuthenticatorPageObject.getFormSubtitle()).eql(FORM_SUBTITLE);
-  await t.expect(selectAuthenticatorPageObject.getFactorsCount()).eql(factorsCount);
+  await t.expect(selectAuthenticatorPageObject.getFactorsCount()).eql(factorsCount ?? 3);
   return selectAuthenticatorPageObject;
 }
 
@@ -99,7 +100,7 @@ test.requestHooks(mockChallengeOVSelectMethod)('preserve the order of authentica
 });
 
 test.requestHooks(mockChallengeOVPushOnlySelectMethod)('authenticator list should have just the push notification', async t => {
-  const selectAuthenticatorPage = await setup(t, 1);
+  const selectAuthenticatorPage = await setup(t, { factorsCount: 1 });
   await checkA11y(t);
 
   await verifyFactorByIndex(t, selectAuthenticatorPage, 0, PUSH_NOTIFICATION_TEXT);
@@ -110,7 +111,7 @@ test.requestHooks(mockChallengeOVPushOnlySelectMethod)('authenticator list shoul
 });
 
 test.requestHooks(mockChallengeOVSelectMethod)('should load select method list with okta verify and no sign-out link', async t => {
-  const selectAuthenticatorPage = await setup(t, 3, {
+  const selectAuthenticatorPage = await setup(t, {
     features: {
       hideSignOutLinkInMFA: true
     },
@@ -205,7 +206,7 @@ test.requestHooks(requestLogger, mockChallengeOVTotpMethod)('should show switch 
 });
 
 test.requestHooks(mockChallengeOVTotpMethod)('should show custom factor page link', async t => {
-  const selectAuthenticatorPage = await setup(t, 3, {
+  const selectAuthenticatorPage = await setup(t, {
     helpLinks: {
       factorPage: {
         text: 'custom factor page link',

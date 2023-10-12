@@ -216,7 +216,6 @@ test.requestHooks(mockChallengeAuthenticatorPassword)('should add sub labels for
       }
     }
   });
-  // await checkA11y(t); // TODO
   
   await t.expect(challengePasswordPage.getPasswordSubLabelValue()).eql('Your password goes here');
   await t.expect(challengePasswordPage.getIdentifier()).eql('testUser@okta.com');
