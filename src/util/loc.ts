@@ -10,6 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+// Source code was copied from @okta/courage
+//  (src/courage/util/StringUtil.js)
+//  and should be kept in sync with @okta/courage
+
 import Bundles from '@okta/okta-i18n-bundles';
 
 const bundleNames = ['login', 'country', 'courage'];
