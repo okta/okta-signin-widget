@@ -221,7 +221,7 @@ export default {
     this.currentLanguage = null;
   },
 
-  loadLanguage: async function(language: string, overrides: i18nOptions, assets: Assets, supportedLanguages: string[]) {
+  loadLanguage: async function(language: string, overrides: i18nOptions, assets: Assets, supportedLanguages: string[]): Promise<void> {
     const parsedOverrides = parseOverrides(overrides);
     const lowerCaseLanguage = language.toLowerCase();
     const bundles = await getBundles(language, assets, supportedLanguages);
