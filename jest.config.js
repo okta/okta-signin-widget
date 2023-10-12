@@ -6,7 +6,6 @@ const COVERAGE_DIR = '<rootDir>/build2/reports/coverage/jest';
 const REPORT_DIR = '<rootDir>/build2/reports/unit';
 /* eslint-disable-next-line @okta/okta/no-unlocalized-text-in-templates */
 const OktaSignin = '<rootDir>/src/exports/default';
-const LEGACY_TESTS = require('./test/unit/legacy-tests');
 
 /** @type {import('@jest/types').Config.InitialOptions} */
 
@@ -57,7 +56,6 @@ module.exports = {
   testMatch: [
     '**/test/unit/spec/**/*.{js,ts}'
   ],
-  testPathIgnorePatterns: LEGACY_TESTS,
   roots: [
     'src',
     'test/unit/spec'
