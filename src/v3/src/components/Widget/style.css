@@ -176,6 +176,6 @@ span.strong {
   font-weight: 600;
   word-break: break-all;
 }
-.no-translate {
+span.no-translate {
   white-space: nowrap;
 }
