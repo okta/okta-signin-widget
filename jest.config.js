@@ -9,6 +9,9 @@ const OktaSignin = '<rootDir>/src/exports/default';
 const LEGACY_TESTS = require('./test/unit/legacy-tests');
 
 /** @type {import('@jest/types').Config.InitialOptions} */
+
+const TEST_TIMEOUT = 20 * 1000;
+
 module.exports = {
   coverageDirectory: COVERAGE_DIR,
   collectCoverage: false,
@@ -40,6 +43,7 @@ module.exports = {
 
     // General remapping
     '^nls/(.*)': '@okta/i18n/src/json/$1',
+    '^@okta/i18n/src/json/(.*)': `${LOCAL_PACKAGES}/@okta/i18n/src/json/$1`,
     '^@okta/courage$': `${LOCAL_PACKAGES}/@okta/courage-dist/esm/src/index.js`,
     '^@okta/okta-i18n-bundles$': `${ROOT}/src/util/Bundles`,
     '^@okta/qtip$': '@okta/qtip2/dist/jquery.qtip.js',
@@ -65,4 +69,5 @@ module.exports = {
       outputName: 'okta-sign-in-widget-jest-junit-result.xml',
     }]
   ],
+  testTimeout: process.env.MODE === 'DEBUG' ? TEST_TIMEOUT * 10000 : TEST_TIMEOUT,
 };

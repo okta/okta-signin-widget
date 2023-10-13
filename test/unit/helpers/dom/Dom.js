@@ -21,7 +21,7 @@ const Dom = Class.extend({
 });
 
 Dom.isVisible = function($el) {
-  if (global.useJest) {
+  if (global.useJsdom) {
     // non-jquery method
     if ($el.is('body')) {
       return true;
