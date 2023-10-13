@@ -1,8 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Unlock Verification Authenticator Selector Tests should add UI elements for unlock verification authenticator selector 1`] = `
+exports[`Unlock Verification Authenticator Selector Tests should add UI elements for unlock account flow 1`] = `
 Object {
-  "data": Object {},
+  "data": Object {
+    "identifier": undefined,
+  },
   "dataSchema": Object {
     "fieldsToExclude": [Function],
     "fieldsToTrim": Array [],
@@ -15,39 +17,90 @@ Object {
   "uischema": Object {
     "elements": Array [
       Object {
-        "options": Object {
-          "content": "unlockaccount",
-        },
-        "type": "Title",
-      },
-      Object {
-        "options": Object {
-          "inputMeta": Object {
-            "name": "identifier",
-          },
-        },
-        "type": "Field",
-      },
-      Object {
-        "options": Object {
-          "buttons": Array [
-            Object {
-              "label": "Email",
-              "options": Object {
-                "actionParams": Object {
-                  "authenticator.id": "123abc",
+        "elements": Array [
+          Object {
+            "elements": Array [
+              Object {
+                "options": Object {
+                  "content": "unlockaccount",
                 },
-                "ctaLabel": "Select",
-                "key": "okta_email",
-                "step": "select-authenticator-unlock-account",
-                "type": "button",
+                "type": "Title",
+                "viewIndex": 0,
               },
-              "type": "AuthenticatorButton",
-            },
-          ],
-          "dataSe": "authenticator-verify-list",
-        },
-        "type": "AuthenticatorButtonList",
+              Object {
+                "options": Object {
+                  "inputMeta": Object {
+                    "name": "identifier",
+                  },
+                },
+                "type": "Field",
+                "viewIndex": 0,
+              },
+              Object {
+                "label": "oform.next",
+                "options": Object {
+                  "nextStepIndex": [Function],
+                  "type": "submit",
+                  "variant": "primary",
+                },
+                "type": "StepperButton",
+                "viewIndex": 0,
+              },
+            ],
+            "type": "VerticalLayout",
+          },
+          Object {
+            "elements": Array [
+              Object {
+                "options": Object {
+                  "identifier": "",
+                },
+                "type": "IdentifierContainer",
+                "viewIndex": 1,
+              },
+              Object {
+                "options": Object {
+                  "content": "oie.select.authenticators.verify.title",
+                },
+                "type": "Title",
+                "viewIndex": 1,
+              },
+              Object {
+                "contentType": "subtitle",
+                "options": Object {
+                  "content": "oie.select.authenticators.verify.subtitle",
+                },
+                "type": "Description",
+                "viewIndex": 1,
+              },
+              Object {
+                "options": Object {
+                  "buttons": Array [
+                    Object {
+                      "label": "Email",
+                      "options": Object {
+                        "actionParams": Object {
+                          "authenticator.id": "123abc",
+                        },
+                        "ctaLabel": "Select",
+                        "key": "okta_email",
+                        "step": "select-authenticator-unlock-account",
+                        "type": "button",
+                      },
+                      "type": "AuthenticatorButton",
+                    },
+                  ],
+                  "dataSe": "authenticator-verify-list",
+                },
+                "type": "AuthenticatorButtonList",
+                "viewIndex": 1,
+              },
+            ],
+            "type": "VerticalLayout",
+          },
+        ],
+        "key": "unlockAccountStepper",
+        "type": "Stepper",
       },
     ],
     "type": "VerticalLayout",

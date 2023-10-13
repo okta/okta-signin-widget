@@ -29,7 +29,7 @@ const StepperButton: UISchemaElementComponent<{
     options: {
       nextStepIndex,
       variant,
-      type
+      type,
     },
   } = uischema;
 

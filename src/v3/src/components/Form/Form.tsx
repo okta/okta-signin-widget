@@ -46,13 +46,13 @@ const Form: FunctionComponent<{
 
   const handleSubmit = useCallback(async (e: SubmitEvent) => {
     e.preventDefault();
+    setWidgetRendered(false);
 
     // TODO: Can remove after OKTA-657627 is resolved
     if (!dataSchemaRef?.current?.submit) {
       return;
     }
 
-    setWidgetRendered(false);
     setMessage(undefined);
 
     const {

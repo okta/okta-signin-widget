@@ -17,7 +17,11 @@ import {
   AuthenticatorButtonElement,
   AuthenticatorButtonListElement,
   ButtonType,
+  DescriptionElement,
   FieldElement,
+  IdentifierContainerElement,
+  StepperButtonElement,
+  StepperLayout,
   TitleElement,
   WidgetProps,
 } from 'src/types';
@@ -89,7 +93,7 @@ describe('Unlock Verification Authenticator Selector Tests', () => {
       .toEqual(formBag);
   });
 
-  it('should add UI elements for unlock verification authenticator selector', () => {
+  it('should add UI elements for unlock account flow', () => {
     const updatedFormBag = transformSelectAuthenticatorUnlockVerify({
       transaction,
       formBag,
@@ -97,24 +101,41 @@ describe('Unlock Verification Authenticator Selector Tests', () => {
     });
 
     expect(updatedFormBag).toMatchSnapshot();
-    expect(updatedFormBag.uischema.elements.length).toBe(3);
-    expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
-    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
+    expect(updatedFormBag.uischema.elements.length).toBe(1);
+    expect(updatedFormBag.uischema.elements[0].type).toBe('Stepper');
+
+    const stepperLayout = updatedFormBag.uischema.elements[0] as StepperLayout;
+    const [identifyWithUsernameLayout, authenticatorListLayout] = stepperLayout.elements;
+    expect(identifyWithUsernameLayout.elements.length).toBe(3);
+    expect((identifyWithUsernameLayout.elements[0] as TitleElement).options.content)
       .toBe('unlockaccount');
-    expect((updatedFormBag.uischema.elements[1] as FieldElement).options?.inputMeta.name)
+    expect((identifyWithUsernameLayout.elements[1] as FieldElement).options?.inputMeta.name)
       .toBe('identifier');
-    expect(updatedFormBag.uischema.elements[2].type).toBe('AuthenticatorButtonList');
-    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonListElement)
+    expect((identifyWithUsernameLayout.elements[2] as StepperButtonElement).label)
+      .toBe('oform.next');
+    // StepperButton component was changed to support submit type for this transformer
+    expect((identifyWithUsernameLayout.elements[2] as StepperButtonElement).options.type)
+      .toBe(ButtonType.SUBMIT);
+
+    // Identifier gets set when stepping between views
+    expect((authenticatorListLayout.elements[0] as IdentifierContainerElement).options.identifier)
+      .toBe('');
+    expect((authenticatorListLayout.elements[1] as TitleElement).options.content)
+      .toBe('oie.select.authenticators.verify.title');
+    expect((authenticatorListLayout.elements[2] as DescriptionElement).options.content)
+      .toBe('oie.select.authenticators.verify.subtitle');
+    expect(authenticatorListLayout.elements[3].type).toBe('AuthenticatorButtonList');
+    expect(((authenticatorListLayout.elements[3] as AuthenticatorButtonListElement)
       .options.dataSe)).toBe('authenticator-verify-list');
-    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonListElement)
+    expect(((authenticatorListLayout.elements[3] as AuthenticatorButtonListElement)
       .options.buttons.length)).toBe(1);
-    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonListElement)
+    expect(((authenticatorListLayout.elements[3] as AuthenticatorButtonListElement)
       .options.buttons[0] as AuthenticatorButtonElement)
       .options.actionParams?.['authenticator.id']).toBe('123abc');
-    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonListElement)
+    expect(((authenticatorListLayout.elements[3] as AuthenticatorButtonListElement)
       .options.buttons[0] as AuthenticatorButtonElement)
       .options.step).toBe('select-authenticator-unlock-account');
-    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonListElement)
+    expect(((authenticatorListLayout.elements[3] as AuthenticatorButtonListElement)
       .options.buttons[0] as AuthenticatorButtonElement)
       .options.type).toBe(ButtonType.BUTTON);
   });

@@ -13,10 +13,10 @@
 import { Box, Icon } from '@okta/odyssey-react-mui';
 import classNames from 'classnames';
 import { h } from 'preact';
+import { IdentifierContainerElement, UISchemaElementComponent } from 'src/types';
 
 import { IDX_STEP } from '../../constants';
 import { useWidgetContext } from '../../contexts';
-import { IdentifierContainerElement, UISchemaElementComponent } from 'src/types';
 
 const shouldHideIdentifier = (
   showIdentifier?: boolean,
@@ -94,7 +94,7 @@ const IdentifierContainer: UISchemaElementComponent<{
           component="span"
           className={identifierSpanClasses}
           data-se="identifier"
-          title={"identifier"}
+          title="identifier"
           sx={{
             marginInlineStart: '10px',
           }}

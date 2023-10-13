@@ -12,30 +12,31 @@
 
 import { IdentifierContainerElement, TransformStepFnWithOptions } from '../../types';
 import { traverseLayout } from '../util';
-  
-export const createIdentifierContainers: TransformStepFnWithOptions = ({ transaction }) => (formbag) => {
-    const transactionIdentifier: string | undefined = transaction
-        ?.context?.user?.value?.identifier as string;
-    let hasIdentifierContainer: boolean = false;
-    // Traverse existing layout and check for existing IdentifierContainers
-    traverseLayout({
-        layout: formbag.uischema,
-        predicate: (el) => (el.type === 'IdentifierContainer'),
-        callback: (_) => {
-            hasIdentifierContainer = true;
-        },
-    });
-    // If we don't find an IdentifierContainer that has been added by a custom transformer, add an
-    // IdentifierContainer at the top of the layout if there is an identifier in the transaction
-    if (!hasIdentifierContainer && transactionIdentifier) {
-        const identifierContainer: IdentifierContainerElement = {
-            type: 'IdentifierContainer',
-            options: {
-              identifier: transactionIdentifier
-            }
-        };
-        formbag.uischema.elements.unshift(identifierContainer);
-    }
-    return formbag;
+
+export const createIdentifierContainers: TransformStepFnWithOptions = ({
+  transaction,
+}) => (formbag) => {
+  const transactionIdentifier: string | undefined = transaction
+    ?.context?.user?.value?.identifier as string;
+  let hasIdentifierContainer = false;
+  // Traverse existing layout and check for existing IdentifierContainers
+  traverseLayout({
+    layout: formbag.uischema,
+    predicate: (el) => (el.type === 'IdentifierContainer'),
+    callback: (_) => {
+      hasIdentifierContainer = true;
+    },
+  });
+  // If we don't find an IdentifierContainer that has been added by a custom transformer, add an
+  // IdentifierContainer at the top of the layout if there is an identifier in the transaction
+  if (!hasIdentifierContainer && transactionIdentifier) {
+    const identifierContainer: IdentifierContainerElement = {
+      type: 'IdentifierContainer',
+      options: {
+        identifier: transactionIdentifier,
+      },
+    };
+    formbag.uischema.elements.unshift(identifierContainer);
+  }
+  return formbag;
 };
-  
