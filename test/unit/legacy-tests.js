@@ -3,41 +3,13 @@
 // - events are missing properties such as "origin" that are bound to the source window
 // - ???
 module.exports = [
-  'Animations_spec.js',
-  'AdminConsentRequired_spec.js',
-  'DeviceCodeActivate_spec.js',
-  'DeviceCodeActivateTerminal_spec.js',
-  'EnrollActivateClaimsFactor_spec.js',
-  'EnrollCall_spec.js',
-  'EnrollChoices_spec.js',
-  'EnrollCustomFactor_spec.js',
-  'EnrollDuo_spec.js',
-  'EnrollHotpController_spec.js',
-  'EnrollOnPrem_spec.js',
-  'EnrollPassword_spec.js',
-  'EnrollQuestions_spec.js',
-  'EnrollSms_spec.js',
-  'EnrollSymantecVip_spec.js',
-  'EnrollTotpController_spec.js',
-  'EnrollSymantecVip_spec.js',
-  'EnrollU2F_spec.js',
-  'EnrollWebauthn_spec.js',
-  'EnrollWindowsHello_spec.js',
-  'EnrollYubikey_spec.js',
-  'ForgotPassword_spec.js',
-  'IDPDiscovery_spec',
-  'LoginRouter_spec.js',
-  'MfaVerify_spec.js',
-  'MfaVerifyEmail_spec.js',
-  'PasswordQuestion_spec.js',
-  'PasswordReset_spec.js',
-  'PasswordExpired_spec.js',
-  'PollController_spec.js',
-  'PrimaryAuth_spec.js',
-  'RecoveryChallenge_spec.js',
-  'RecoveryQuestion_spec.js',
-  'RefreshAuthState_spec.js',
-  'UnlockAccount_spec.js',
-  'VerifyPIV_spec.js',
-  'VerifyWebauthn_spec.js'
+  'Animations_spec.js', // 1 test should be migrated to TestCafe
+  // 'EnrollCall_spec.js', // migration is complete
+  // 'EnrollSms_spec.js', // migration is complete
+  // 'IDPDiscovery_spec.js', // 4 tests should be migrated to TestCafe
+  'LoginRouter_spec.js', // 34 failed, login bundle + pkce + clock
+  // 'MfaVerify_spec.js', // 4 tests should be migrated to TestCafe
+  // 'PrimaryAuth_spec.js', // 7 tests should be migrated to TestCafe
+  // 'EnrollTotpController_spec.js', // migration is complete
+  // 'PollController_spec.js' // migration is complete
 ];

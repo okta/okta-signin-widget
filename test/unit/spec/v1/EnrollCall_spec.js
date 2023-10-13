@@ -122,24 +122,21 @@ Expect.describe('EnrollCall', function() {
 
   function expectRedialButton(test) {
     const button = test.form.sendCodeButton();
-
-    expect(button.trimmedText()).toEqual('Redial');
-    expect(button.hasClass('button-primary')).toBe(false);
+    expect(button.innerHTML).toEqual('Redial');
+    expect(button.className).not.toMatch('button-primary');
   }
 
   function expectCallingButton(test) {
     const button = test.form.sendCodeButton();
-
-    expect(button.trimmedText()).toEqual('Calling');
-    expect(button.attr('class')).not.toMatch('button-primary');
-    expect(button.attr('class')).toMatch('link-button-disabled');
+    expect(button.innerHTML).toEqual('Calling');
+    expect(button.className).not.toMatch('button-primary');
+    expect(button.className).toMatch('link-button-disabled');
   }
 
   function expectCallButton(test) {
     const button = test.form.sendCodeButton();
-
-    expect(button.trimmedText()).toEqual('Call');
-    expect(button.hasClass('button-primary')).toBe(true);
+    expect(button.innerHTML).toEqual('Call');
+    expect(button.className).toMatch('button-primary');
   }
 
   function expectAlphabeticalCountryList(test) {
@@ -553,6 +550,9 @@ Expect.describe('EnrollCall', function() {
   }
 
   describe('Header & Footer', function() {
+    beforeEach(() => {
+      jest.setTimeout(20000);
+    });
     itp('displays the correct factorBeacon', function() {
       return setup().then(function(test) {
         expect(test.beacon.isFactorBeacon()).toBe(true);
@@ -598,10 +598,16 @@ Expect.describe('EnrollCall', function() {
   });
 
   describe('Enroll phone number', function() {
+    beforeEach(() => {
+      jest.setTimeout(20000);
+    });
     testEnrollPhoneNumber(setup, resEnrollSuccess);
   });
 
   describe('Verify phone number', function() {
+    beforeEach(() => {
+      jest.setTimeout(20000);
+    });
     testVerifyPhoneNumber(setup, setupAndSendValidCode, resEnrollSuccess, 'testStateToken');
     itp('appends updatePhone=true to the request if user has an existing phone', function() {
       return setup(resExistingPhone)

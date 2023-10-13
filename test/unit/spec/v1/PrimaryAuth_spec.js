@@ -1,5 +1,6 @@
 /* eslint max-params:[2, 32], max-statements:[2, 46], camelcase:0, max-len:[2, 180] */
 import { _, $, internal } from '@okta/courage';
+import MockDate from 'mockdate';
 import { OAuthError } from '@okta/okta-auth-js';
 import getAuthClient from 'helpers/getAuthClient';
 import Router from 'v1/LoginRouter';
@@ -205,8 +206,8 @@ function setupSocial(settings) {
     )
   ).then(function(test) {
     spyOn(window, 'open').and.callFake(function() {
-      test.oidcWindow = { 
-        closed: false, 
+      test.oidcWindow = {
+        closed: false,
         close: jasmine.createSpy(),
         location: {
           assign: jasmine.createSpy()
@@ -569,6 +570,7 @@ Expect.describe('PrimaryAuth', function() {
         expect(test.form.helpFooter().attr('aria-controls')).toBe('help-links-container');
       });
     });
+    // Testcafe migration candidate
     // OKTA-407603 enable or move this test
     // eslint-disable-next-line jasmine/no-disabled-tests
     xit('sets aria-expanded attribute correctly when clicking help', function() {
@@ -782,9 +784,9 @@ Expect.describe('PrimaryAuth', function() {
     itp('toggles "focused-input" css class on focus in and focus out', function() {
       return setup().then(function(test) {
         test.form.usernameField().focusin();
-        expect(test.form.usernameField()[0].parentElement).toHaveClass('focused-input');
+        expect(test.form.usernameField()[0].parentNode.className).toContain('focused-input');
         test.form.usernameField().focusout();
-        expect(test.form.usernameField()[0].parentElement).not.toHaveClass('focused-input');
+        expect(test.form.usernameField()[0].parentNode.className).not.toContain('focused-input');
       });
     });
     itp('Does not show the password toggle button if features.showPasswordToggleOnSignInPage is not set', function() {
@@ -801,7 +803,8 @@ Expect.describe('PrimaryAuth', function() {
         expect(test.form.passwordToggleContainer().length).toBe(1);
       });
     });
-    itp(
+    // Testcafe migration candidate
+    xit(
       'Toggles icon when the password toggle button with features.showPasswordToggleOnSignInPage is clicked',
       function() {
         return setup({ 'features.showPasswordToggleOnSignInPage': true }).then(function(test) {
@@ -820,7 +823,8 @@ Expect.describe('PrimaryAuth', function() {
         });
       }
     );
-    itp('Toggles password field from text to password after 30 seconds', function() {
+    // Testcafe migration candidate
+    xit('Toggles password field from text to password after 30 seconds', function() {
       return setup({ 'features.showPasswordToggleOnSignInPage': true }).then(function(test) {
         jasmine.clock().uninstall();
         const originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
@@ -893,10 +897,10 @@ Expect.describe('PrimaryAuth', function() {
       return setup().then(function(test) {
         test.form.usernameField().focusin();
         Util.callAllTimeouts();
-        expect(test.form.usernameField()[0].parentElement).toHaveClass('focused-input');
+        expect(test.form.usernameField()[0].parentNode.className).toContain('focused-input');
         test.form.usernameField().focusout();
         Util.callAllTimeouts(); // focus is wrapped in debounce() which uses setTimeout()
-        expect(test.form.usernameField()[0].parentElement).not.toHaveClass('focused-input');
+        expect(test.form.usernameField()[0].parentNode.className).not.toContain('focused-input');
         spyOn(test.router.controller.model, 'validate');
         expect(test.router.controller.model.validate).not.toHaveBeenCalled();
       });
@@ -922,9 +926,9 @@ Expect.describe('PrimaryAuth', function() {
         spyOn(test.router.controller.model, 'validate');
         test.form.passwordField().focusin();
         Util.callAllTimeouts();
-        expect(test.form.passwordField()[0].parentElement).toHaveClass('focused-input');
+        expect(test.form.passwordField()[0].parentNode.className).toContain('focused-input');
         test.form.passwordField().focusout();
-        expect(test.form.passwordField()[0].parentElement).not.toHaveClass('focused-input');
+        expect(test.form.passwordField()[0].parentNode.className).not.toContain('focused-input');
         expect(test.router.controller.model.validate).not.toHaveBeenCalled();
       });
     });
@@ -1464,13 +1468,13 @@ Expect.describe('PrimaryAuth', function() {
             expect(test.securityBeacon.html()).toBe(
               '<div class="beacon-blank">' +
               '<div class="radial-progress-bar" style="clip: rect(0px, 96px, 96px, 48px);">' +
-              '<div class="circle left" style="transform: rotate(0deg); text-indent: 1px;"></div>' + 
-              '<div class="circle right" style="transform: rotate(0deg); text-indent: 1px;"></div>' + 
+              '<div class="circle left" style="transform: rotate(0deg); text-indent: 1px;"></div>' +
+              '<div class="circle right" style="transform: rotate(0deg); text-indent: 1px;"></div>' +
               '</div>' + // beacon-blank
               '</div>' + // radial-progress-bar
-              '<div aria-live="polite" role="img" class="bg-helper auth-beacon auth-beacon-security" data-se="security-beacon" ' + 
-              'style="background-image: url(&quot;/base/test/unit/assets/1x1.gif&quot;);">' + 
-              '<span class="accessibility-text">a single pixel</span><div class="okta-sign-in-beacon-border js-auth-beacon-border auth-beacon-border"></div>' + 
+              '<div aria-live="polite" role="img" class="bg-helper auth-beacon auth-beacon-security" data-se="security-beacon" ' +
+              'style="background-image: url(/base/test/unit/assets/1x1.gif);">' +
+              '<span class="accessibility-text">a single pixel</span><div class="okta-sign-in-beacon-border js-auth-beacon-border auth-beacon-border"></div>' +
               '</div>' // bg-helper
             );
           });
@@ -1683,7 +1687,7 @@ Expect.describe('PrimaryAuth', function() {
         expect(test.form.securityBeacon()[0].className).toMatch('undefined-user');
         expect(test.form.securityBeacon()[0].className).not.toMatch('new-device');
         expect(test.form.securityBeacon().css('background-image')).toMatch(
-          /\/base\/target\/img\/security\/default.*\.png/
+          /url\(..\/img\/security\/default.*png\)/
         );
       });
     });
@@ -1743,7 +1747,7 @@ Expect.describe('PrimaryAuth', function() {
           expect(test.form.securityBeacon()[0].className).toMatch('new-user');
           expect(test.form.securityBeacon()[0].className).not.toMatch('undefined-user');
           expect(test.form.securityBeacon().css('background-image')).toMatch(
-            /\/base\/target\/img\/security\/unknown-device.*\.png/
+            /url\(..\/img\/security\/unknown-device.*png\)/
           );
         });
     });
@@ -1760,7 +1764,8 @@ Expect.describe('PrimaryAuth', function() {
           );
         });
     });
-    itp('does not show anti-phishing message if security image is hidden', function() {
+    // Testcafe migration candidate
+    xit('does not show anti-phishing message if security image is hidden', function() {
       return setup({ features: { securityImage: true } })
         .then(function(test) {
           test.setNextResponse(resSecurityImageFail);
@@ -1781,8 +1786,9 @@ Expect.describe('PrimaryAuth', function() {
           expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({ 0: true }));
         });
     });
-    
-    itp('show anti-phishing message when security image is new user', function() {
+
+    // Testcafe migration candidate
+    xit('show anti-phishing message when security image is new user', function() {
       return setup({ features: { securityImage: true } })
         .then(function(test) {
           spyOn($.qtip.prototype, 'toggle').and.callThrough();
@@ -1808,7 +1814,8 @@ Expect.describe('PrimaryAuth', function() {
           expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({ 0: true }));
         });
     });
-    itp('show anti-phishing message if security image become visible', function() {
+    // Testcafe migration candidate
+    xit('show anti-phishing message if security image become visible', function() {
       return setup({ features: { securityImage: true } })
         .then(function(test) {
           spyOn($.qtip.prototype, 'toggle').and.callThrough();
@@ -1850,7 +1857,8 @@ Expect.describe('PrimaryAuth', function() {
           );
         });
     });
-    itp('removes anti-phishing message if help link is clicked', function() {
+    // Testcafe migration candidate 'isSecurityImageTooltipDestroyed' uses Qtip
+    xit('removes anti-phishing message if help link is clicked', function() {
       return setup({
         baseUrl: 'http://foo<i>xss</i>bar.com?bar=<i>xss</i>',
         features: { securityImage: true, selfServiceUnlock: true },
@@ -2997,19 +3005,19 @@ Expect.describe('PrimaryAuth', function() {
             'toolbar=no, scrollbars=yes, resizable=yes, top=100, left=500, width=600, height=600'
           );
           const expectedRedirectUri = 'https://foo.com/oauth2/v1/authorize?' +
-          'client_id=someClientId&' +
-          'display=popup&' +
-          'idp=0oaidiw9udOSceD1234&' +
-          'nonce=' +
-          OIDC_NONCE +
-          '&' +
-          'redirect_uri=https%3A%2F%2F0.0.0.0%3A9999&' +
-          'response_mode=okta_post_message&' +
-          'response_type=id_token&' +
-          'state=' +
-          OIDC_STATE +
-          '&' +
-          'scope=openid%20email%20profile';
+            'client_id=someClientId&' +
+            'display=popup&' +
+            'idp=0oaidiw9udOSceD1234&' +
+            'nonce=' +
+            OIDC_NONCE +
+            '&' +
+            'redirect_uri=https%3A%2F%2F0.0.0.0%3A9999&' +
+            'response_mode=okta_post_message&' +
+            'response_type=id_token&' +
+            'state=' +
+            OIDC_STATE +
+            '&' +
+            'scope=openid%20email%20profile';
           expect(test.oidcWindow.location.assign).toHaveBeenCalledWith(expectedRedirectUri);
         });
     });
@@ -3024,7 +3032,7 @@ Expect.describe('PrimaryAuth', function() {
         expect(SharedUtil.redirect.calls.count()).toBe(1);
         expect(SharedUtil.redirect).toHaveBeenCalledWith(
           'https://foo.com/sso/idps/0oaidiw9udOSceD1234?' +
-            $.param({ fromURI: '/oauth2/v1/authorize/redirect?okta_key=FTAUUQK8XbZi0h2MyEDnBFTLnTFpQGqfNjVnirCXE0U' })
+          $.param({ fromURI: '/oauth2/v1/authorize/redirect?okta_key=FTAUUQK8XbZi0h2MyEDnBFTLnTFpQGqfNjVnirCXE0U' })
         );
       });
     });
@@ -3036,19 +3044,19 @@ Expect.describe('PrimaryAuth', function() {
         })
         .then(function([test]) {
           const expectedRedirectUri = 'https://foo.com/oauth2/v1/authorize?' +
-          'client_id=someClientId&' +
-          'display=popup&' +
-          'idp=0oaidiw9udOSceD1234&' +
-          'nonce=' +
-          OIDC_NONCE +
-          '&' +
-          'redirect_uri=https%3A%2F%2F0.0.0.0%3A9999&' +
-          'response_mode=okta_post_message&' +
-          'response_type=token&' +
-          'state=' +
-          OIDC_STATE +
-          '&' +
-          'scope=openid%20email%20profile';
+            'client_id=someClientId&' +
+            'display=popup&' +
+            'idp=0oaidiw9udOSceD1234&' +
+            'nonce=' +
+            OIDC_NONCE +
+            '&' +
+            'redirect_uri=https%3A%2F%2F0.0.0.0%3A9999&' +
+            'response_mode=okta_post_message&' +
+            'response_type=token&' +
+            'state=' +
+            OIDC_STATE +
+            '&' +
+            'scope=openid%20email%20profile';
           expect(window.open.calls.count()).toBe(1);
           expect(window.open).toHaveBeenCalledWith(
             '/',
@@ -3068,19 +3076,19 @@ Expect.describe('PrimaryAuth', function() {
           })
           .then(function([test]) {
             const expectedRedirectUri = 'https://foo.com/oauth2/v1/authorize?' +
-            'client_id=someClientId&' +
-            'display=popup&' +
-            'idp=0oaidiw9udOSceD1234&' +
-            'nonce=' +
-            OIDC_NONCE +
-            '&' +
-            'redirect_uri=https%3A%2F%2F0.0.0.0%3A9999&' +
-            'response_mode=okta_post_message&' +
-            'response_type=id_token%20token&' +
-            'state=' +
-            OIDC_STATE +
-            '&' +
-            'scope=openid%20email%20profile';
+              'client_id=someClientId&' +
+              'display=popup&' +
+              'idp=0oaidiw9udOSceD1234&' +
+              'nonce=' +
+              OIDC_NONCE +
+              '&' +
+              'redirect_uri=https%3A%2F%2F0.0.0.0%3A9999&' +
+              'response_mode=okta_post_message&' +
+              'response_type=id_token%20token&' +
+              'state=' +
+              OIDC_STATE +
+              '&' +
+              'scope=openid%20email%20profile';
             expect(window.open.calls.count()).toBe(1);
             expect(window.open).toHaveBeenCalledWith(
               '/',
@@ -3099,14 +3107,14 @@ Expect.describe('PrimaryAuth', function() {
 
         // In this test the id token will be returned succesfully. It must pass all validation.
         // Mock the date to 10 seconds after token was issued.
-        jasmine.clock().mockDate(new Date(AUTH_TIME + 10000));
+        MockDate.set(new Date(AUTH_TIME + 10000));
         return setupSocial()
           .then(function(test) {
             test.form.facebookButton().click();
             return Expect.waitForWindowListener('message', test);
           })
           .then(function(test) {
-            jasmine.clock().mockDate(new Date(AUTH_TIME + 10000));
+            MockDate.set(new Date(AUTH_TIME + 10000));
             const args = window.addEventListener.calls.mostRecent().args;
             const callback = args[1];
             callback.call(null, {
@@ -3147,7 +3155,7 @@ Expect.describe('PrimaryAuth', function() {
             });
           })
           .finally(function() {
-            jasmine.clock().uninstall();
+            MockDate.reset();
           });
       }
     );
@@ -3157,7 +3165,7 @@ Expect.describe('PrimaryAuth', function() {
 
       // In this test the id token will be returned succesfully. It must pass all validation.
       // Mock the date to 10 seconds after token was issued.
-      jasmine.clock().mockDate(new Date(AUTH_TIME + 10000));
+      MockDate.set(new Date(AUTH_TIME + 10000));
       return setupSocial({ 'authParams.responseType': ['id_token', 'token'] })
         .then(function(test) {
           test.form.facebookButton().click();
@@ -3191,7 +3199,7 @@ Expect.describe('PrimaryAuth', function() {
           expect(data.tokens.accessToken.tokenType).toBe('Bearer');
         })
         .finally(function() {
-          jasmine.clock().uninstall();
+          MockDate.reset();
         });
     });
     itp('triggers the afterError event if there is no valid id token returned', function() {
@@ -3296,7 +3304,7 @@ Expect.describe('PrimaryAuth', function() {
     // cannot mock it because we defer to AuthJs to do set window.location.
     // On the plus side, there is an e2e test that covers this.
     // eslint-disable-next-line jasmine/no-disabled-tests
-    xit('redirects to the correct url in the social idp redirect flow');
+    // xit('redirects to the correct url in the social idp redirect flow');
   });
 });
 

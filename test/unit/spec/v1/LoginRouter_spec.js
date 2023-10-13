@@ -1,6 +1,7 @@
 /* eslint-disable no-prototype-builtins */
 /* eslint max-params: [2, 34], max-statements: 0, max-len: [2, 210], camelcase:0 */
 import { _, $, Backbone, Router, internal } from '@okta/courage';
+import MockDate from 'mockdate';
 import getAuthClient from 'helpers/getAuthClient';
 import LoginRouter from 'v1/LoginRouter';
 import PrimaryAuthController from 'v1/controllers/PrimaryAuthController';
@@ -1454,8 +1455,8 @@ Expect.describe('v1/LoginRouter', function() {
       // In this test the id token will be returned succesfully. It must pass all validation.
       // Mock the date to 10 seconds after token was issued.
       const AUTH_TIME = (1451606400) * 1000; // The time the "VALID_ID_TOKEN" was issued
-      jasmine.clock().mockDate(new Date(AUTH_TIME + 10000));
-
+      // jasmine.clock().mockDate(new Date(AUTH_TIME + 10000));
+      MockDate.set(new Date(AUTH_TIME + 10000));
       return setupOAuth2({ globalSuccessFn: successSpy }, { mockWellKnown: true })
         .then(function(test) {
           return Expect.waitForWindowListener('message', test);
