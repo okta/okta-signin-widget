@@ -9,7 +9,7 @@ module.exports = [
   // 'IDPDiscovery_spec.js', // 4 tests should be migrated to TestCafe
   // 'LoginRouter_spec.js', // 34 failed, login bundle + pkce + clock
   // 'MfaVerify_spec.js', // 4 tests should be migrated to TestCafe
-  'PrimaryAuth_spec.js', // 7 tests should be migrated to TestCafe
+  // 'PrimaryAuth_spec.js', // 2 skipped (xit) need a way to assert change with securityBeaconContainer.hide
   // 'EnrollTotpController_spec.js', // migration is complete
   // 'PollController_spec.js' // migration is complete
   'VerifyWebauthn_spec.js',

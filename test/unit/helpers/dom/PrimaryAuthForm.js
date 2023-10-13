@@ -1,6 +1,5 @@
 import { _, $ } from '@okta/courage';
 import Form from './Form';
-import Dom from './Dom';
 const USERNAME_FIELD = 'username';
 const USERNAME_LABEL = 'label[for="okta-signin-username"]';
 const PASSWORD_FIELD = 'password';
@@ -162,7 +161,7 @@ export default Form.extend({
   },
 
   forgotPasswordLinkVisible: function() {
-    return Dom.isVisible(this.forgotPasswordLink());
+    return this.forgotPasswordLink().is(':visible');
   },
 
   unlockLink: function() {
@@ -174,7 +173,7 @@ export default Form.extend({
   },
 
   unlockLinkVisible: function() {
-    return Dom.isVisible(this.unlockLink());
+    return this.unlockLink().is(':visible');
   },
 
   customLinks: function() {
@@ -275,10 +274,6 @@ export default Form.extend({
 
   passwordToggleContainer: function() {
     return this.$('.password-toggle');
-  },
-
-  passwordToggleShowContainerIsVisible: function() {
-    return Dom.isVisible(this.passwordToggleShowContainer());
   },
 
   passwordToggleShowContainer: function() {
