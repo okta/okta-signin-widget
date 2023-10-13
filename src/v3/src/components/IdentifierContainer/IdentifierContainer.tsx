@@ -94,7 +94,7 @@ const IdentifierContainer: UISchemaElementComponent<{
           component="span"
           className={identifierSpanClasses}
           data-se="identifier"
-          title="identifier"
+          title={identifier}
           sx={{
             marginInlineStart: '10px',
           }}
