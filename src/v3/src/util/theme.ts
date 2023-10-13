@@ -294,6 +294,7 @@ export const createTheme = (
                 borderColor: 'transparent',
               },
             }),
+            // OKTA-657762 - remove this when odyssey fix is done
             textTransform: 'none',
           }),
         },
