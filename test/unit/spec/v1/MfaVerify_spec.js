@@ -4,9 +4,9 @@ import { _, $, internal } from '@okta/courage';
 import getAuthClient from 'helpers/getAuthClient';
 import Router from 'v1/LoginRouter';
 import Duo from '@okta/duo';
-import Dom from '../../helpers/dom/Dom';
 import Beacon from 'helpers/dom/Beacon';
 import MfaVerifyForm from 'helpers/dom/MfaVerifyForm';
+import Dom from 'helpers/dom/Dom';
 import Util from 'helpers/mocks/Util';
 import Expect from 'helpers/util/Expect';
 import resCancel from 'helpers/xhr/CANCEL';
@@ -50,6 +50,7 @@ import BrowserFeatures from 'util/BrowserFeatures';
 import RouterUtil from 'v1/util/RouterUtil';
 import LoginUtil from 'util/Util';
 import webauthn from 'util/webauthn';
+import waitForExpect from 'wait-for-expect';
 const SharedUtil = internal.util.Util;
 const itp = Expect.itp;
 const tick = Expect.tick;
@@ -212,7 +213,7 @@ Expect.describe('MFA Verify', function() {
       successSpy: successSpy,
       afterErrorHandler: afterErrorHandler,
     };
-
+    
   }
 
   async function setupNoProvider(res, selectedFactorProps, settings) {
@@ -857,26 +858,26 @@ Expect.describe('MFA Verify', function() {
     );
     itp('opens dropDown options when dropDown link is clicked', function() {
       return setup(allFactorsRes).then(function(test) {
-        expect(Dom.isVisible(test.beacon.getOptionsList())).toBeFalsy();
+        expect(Dom.isVisible(test.beacon.getOptionsList())).toBe(false);
         test.beacon.dropDownButton().click();
-        expect(Dom.isVisible(test.beacon.getOptionsList())).toBeTruthy();
+        expect(Dom.isVisible(test.beacon.getOptionsList())).toBe(true);
       });
     });
-    xit('sets aria-expanded when dropDown link is clicked', function() {
+    itp('sets aria-expanded when dropDown link is clicked', function() {
       return setup(allFactorsRes).then(function(test) {
         expect(test.beacon.dropDownButton().attr('aria-expanded')).toBe('false');
         test.beacon.dropDownButton().click();
         expect(test.beacon.dropDownButton().attr('aria-expanded')).toBe('true');
       });
     });
-    xit('sets aria-expanded when beacon is clicked', function() {
+    itp('sets aria-expanded when beacon is clicked', function() {
       return setup(allFactorsRes).then(function(test) {
         expect(test.beacon.dropDownButton().attr('aria-expanded')).toBe('false');
         test.beacon.factorBeacon().click();
         expect(test.beacon.dropDownButton().attr('aria-expanded')).toBe('true');
       });
     });
-    xit('sets aria-expanded to false when anywhere outside of the dropdown is clicked', function() {
+    itp('sets aria-expanded to false when anywhere outside of the dropdown is clicked', function() {
       return setup(allFactorsRes).then(function(test) {
         expect(test.beacon.dropDownButton().attr('aria-expanded')).toBe('false');
         test.beacon.factorBeacon().click();
@@ -1073,26 +1074,23 @@ Expect.describe('MFA Verify', function() {
       'an answer field type is "password" initially and can be switched between "text" and "password" \
           by clicking on "show"/"hide" buttons',
       function() {
-        return setupFn().then(function(test) {
+        return setupFn().then(async function(test) {
           const answer = test.form.answerField();
 
           expect(answer.attr('type')).toEqual('password');
 
           test.form.showAnswerButton().click();
-          expect(test.form.answerField().attr('type')).toEqual('text');
-
-          // assert the container is not displayed
-          expect(test.form.passwordToggleShowContainer()[0].style['display']).toBe('none');
-          // assert the container is displayed
-          expect(test.form.passwordToggleHideContainer()[0].style.length).toBe(0);
+          await waitForExpect(() => {
+            expect(test.form.answerField().attr('type')).toEqual('text');
+            expect(test.form.passwordToggleShowContainer().is(':visible')).toBe(false);
+            expect(test.form.passwordToggleHideContainer().is(':visible')).toBe(true);
+          });
+          
 
           test.form.hideAnswerButton().click();
           expect(test.form.answerField().attr('type')).toEqual('password');
-
-          // assert the container is displayed
-          expect(test.form.passwordToggleShowContainer()[0].style.length).toBe(0);
-          // assert the container is not displayed
-          expect(test.form.passwordToggleHideContainer()[0].style['display']).toBe('none');
+          expect(test.form.passwordToggleShowContainer().is(':visible')).toBe(true);
+          expect(test.form.passwordToggleHideContainer().is(':visible')).toBe(false);
         });
       }
     );
@@ -4519,104 +4517,61 @@ Expect.describe('MFA Verify', function() {
       });
 
       Expect.describe('in MFA_CHALLENGE state when idp returns', function() {
-        beforeEach(function() {
-          this.options = {
-            setFactorResult: true,
-            factorResult: 'FAILED',
-            factorResultMessage: 'Verify failed.',
-          };
-        });
+        const options = {
+          setFactorResult: true,
+          factorResult: 'FAILED',
+          factorResultMessage: 'Verify failed.',
+        };
         itp('renders claims provider factor if factorResult FAILED', function() {
-          this.options = {
-            setFactorResult: true,
-            factorResult: 'FAILED',
-            factorResultMessage: 'Verify failed.',
-          };
-          return setupMfaChallengeClaimsFactor(this.options).then(function(test) {
+          return setupMfaChallengeClaimsFactor({ ...options }).then(function(test) {
             expect(test.form.isCustomFactor()).toBe(true);
           });
         });
         itp('shows the right beacon if factorResult FAILED', function() {
-          this.options = {
-            setFactorResult: true,
-            factorResult: 'FAILED',
-            factorResultMessage: 'Verify failed.',
-          };
-          return setupMfaChallengeClaimsFactor(this.options).then(function(test) {
+          return setupMfaChallengeClaimsFactor({ ...options }).then(function(test) {
             expectHasRightBeaconImage(test, 'mfa-custom-factor');
           });
         });
         itp('shows the right title if factorResult FAILED', function() {
-          this.options = {
-            setFactorResult: true,
-            factorResult: 'FAILED',
-            factorResultMessage: 'Verify failed.',
-          };
-          return setupMfaChallengeClaimsFactor(this.options).then(function(test) {
+          return setupMfaChallengeClaimsFactor({ ...options }).then(function(test) {
             expectTitleToBe(test, 'IDP factor');
           });
         });
         itp('shows the right subtitle if factorResult FAILED', function() {
-          this.options = {
-            setFactorResult: true,
-            factorResult: 'FAILED',
-            factorResultMessage: 'Verify failed.',
-          };
-          return setupMfaChallengeClaimsFactor(this.options).then(function(test) {
+          return setupMfaChallengeClaimsFactor({ ...options }).then(function(test) {
             expectSubtitleToBe(test, 'Clicking below will redirect to verification with IDP factor');
           });
         });
         itp('has remember device checkbox if factorResult FAILED', function() {
-          this.options = {
-            setFactorResult: true,
-            factorResult: 'FAILED',
-            factorResultMessage: 'Verify failed.',
-          };
-          return setupMfaChallengeClaimsFactor(this.options).then(function(test) {
+          return setupMfaChallengeClaimsFactor({ ...options }).then(function(test) {
             Expect.isVisible(test.form.rememberDeviceCheckbox());
           });
         });
         itp('has a sign out link if factorResult FAILED', function() {
-          this.options = {
-            setFactorResult: true,
-            factorResult: 'FAILED',
-            factorResultMessage: 'Verify failed.',
-          };
-          return setupMfaChallengeClaimsFactor(this.options).then(function(test) {
+          return setupMfaChallengeClaimsFactor({ ...options }).then(function(test) {
             Expect.isVisible(test.form.signoutLink($sandbox));
             expect(test.form.signoutLink($sandbox).text()).toBe('Back to sign in');
           });
         });
         itp('does not have sign out link if features.hideSignOutLinkInMFA is true', function() {
-          this.options = {
-            setFactorResult: true,
-            factorResult: 'FAILED',
-            factorResultMessage: 'Verify failed.',
-          };
-          this.options.settings = { 'features.hideSignOutLinkInMFA': true };
-          return setupMfaChallengeClaimsFactor(this.options).then(function(test) {
+          return setupMfaChallengeClaimsFactor({
+            ...options,
+            settings: { 'features.hideSignOutLinkInMFA': true },
+          }).then(function(test) {
             expect(test.form.signoutLink($sandbox).length).toBe(0);
           });
         });
         itp('does not have sign out link if features.mfaOnlyFlow is true', function() {
-          this.options = {
-            setFactorResult: true,
-            factorResult: 'FAILED',
-            factorResultMessage: 'Verify failed.',
-          };
-          this.options.settings = { 'features.mfaOnlyFlow': true };
-          return setupMfaChallengeClaimsFactor(this.options).then(function(test) {
+          return setupMfaChallengeClaimsFactor({
+            ...options,
+            settings: { 'features.mfaOnlyFlow': true }
+          }).then(function(test) {
             expect(test.form.signoutLink($sandbox).length).toBe(0);
           });
         });
         itp('redirects to third party when Verify button is clicked', function() {
-          this.options = {
-            setFactorResult: true,
-            factorResult: 'FAILED',
-            factorResultMessage: 'Verify failed.',
-          };
           spyOn(SharedUtil, 'redirect');
-          return setupMfaChallengeClaimsFactor(this.options)
+          return setupMfaChallengeClaimsFactor({ ...options })
             .then(function(test) {
               test.setNextResponse([resChallengeClaimsProvider, resSuccess]);
               test.form.submit();
@@ -4629,12 +4584,7 @@ Expect.describe('MFA Verify', function() {
             });
         });
         itp('displays error when error response received', function() {
-          this.options = {
-            setFactorResult: true,
-            factorResult: 'FAILED',
-            factorResultMessage: 'Verify failed.',
-          };
-          return setupMfaChallengeClaimsFactor(this.options)
+          return setupMfaChallengeClaimsFactor({ ...options })
             .then(function(test) {
               test.setNextResponse(resNoPermissionError);
               test.form.submit();
@@ -4663,12 +4613,7 @@ Expect.describe('MFA Verify', function() {
             });
         });
         itp('calls authClient verifyFactor with rememberDevice URL param', function() {
-          this.options = {
-            setFactorResult: true,
-            factorResult: 'FAILED',
-            factorResultMessage: 'Verify failed.',
-          };
-          return setupMfaChallengeClaimsFactor(this.options)
+          return setupMfaChallengeClaimsFactor({ ...options })
             .then(function(test) {
               Util.resetAjaxRequests();
               test.setNextResponse(resSuccess);
@@ -4693,43 +4638,35 @@ Expect.describe('MFA Verify', function() {
           });
         });
         itp('displays error when factorResult is FAILED', function() {
-          this.options = {
-            setFactorResult: true,
-            factorResult: 'FAILED',
-            factorResultMessage: 'Verify failed.',
-          };
-          return setupMfaChallengeClaimsFactor(this.options).then(function(test) {
+          return setupMfaChallengeClaimsFactor({ ...options }).then(function(test) {
             expect(test.form.el('o-form-error-html').length).toEqual(1);
             expect(test.form.el('o-form-error-html').find('strong').html()).toEqual('Verify failed.');
           });
         });
         itp('does not display error when factorResult is WAITING', function() {
-          this.options = {
+          return setupMfaChallengeClaimsFactor({
             setFactorResult: true,
             factorResult: 'WAITING',
             factorResultMessage: 'Verify failed.',
-          };
-          return setupMfaChallengeClaimsFactor(this.options).then(function(test) {
+          }).then(function(test) {
             expect(test.form.isSecurityQuestion()).toBe(true);
             expect(test.form.el('o-form-error-html').length).toEqual(0);
           });
         });
         itp('does not display error when factorResult is undefined', function() {
-          this.options = {
+          return setupMfaChallengeClaimsFactor({
             setFactorResult: true,
             factorResultMessage: 'Verify failed.',
-          };
-          return setupMfaChallengeClaimsFactor(this.options).then(function(test) {
+          }).then(function(test) {
             expect(test.form.isSecurityQuestion()).toBe(true);
             expect(test.form.el('o-form-error-html').length).toEqual(0);
           });
         });
         itp('displays default error when factorResultMessage is undefined', function() {
-          this.options = {
+          return setupMfaChallengeClaimsFactor({
             setFactorResult: true,
             factorResult: 'FAILED',
-          };
-          return setupMfaChallengeClaimsFactor(this.options).then(function(test) {
+          }).then(function(test) {
             expect(test.form.el('o-form-error-html').length).toEqual(1);
             expect(test.form.el('o-form-error-html').find('strong').html()).toEqual(
               'There was an unexpected internal error. Please try again.'
@@ -4737,12 +4674,7 @@ Expect.describe('MFA Verify', function() {
           });
         });
         itp('can switch to Security Question and verify successfully', function() {
-          this.options = {
-            setFactorResult: true,
-            factorResult: 'FAILED',
-            factorResultMessage: 'Verify failed.',
-          };
-          return setupMfaChallengeClaimsFactor(this.options)
+          return setupMfaChallengeClaimsFactor({ ...options })
             .then(function(test) {
               test.setNextResponse(resAllFactors);
               test.beacon.dropDownButton().click();
@@ -4771,13 +4703,8 @@ Expect.describe('MFA Verify', function() {
         itp(
           'does not show error and can verify when switching to Security Question and back to idp factor',
           function() {
-            this.options = {
-              setFactorResult: true,
-              factorResult: 'FAILED',
-              factorResultMessage: 'Verify failed.',
-            };
             spyOn(SharedUtil, 'redirect');
-            return setupMfaChallengeClaimsFactor(this.options)
+            return setupMfaChallengeClaimsFactor({ ...options })
               .then(function(test) {
                 test.setNextResponse(resAllFactors);
                 test.beacon.dropDownButton().click();
