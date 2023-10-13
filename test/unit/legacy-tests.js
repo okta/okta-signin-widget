@@ -6,11 +6,10 @@ module.exports = [
   // 'Animations_spec.js', // migrated to TestCafe
   // 'EnrollCall_spec.js', // migration is complete
   // 'EnrollSms_spec.js', // migration is complete
-  // 'IDPDiscovery_spec.js', // 4 tests should be migrated to TestCafe
-  // 'LoginRouter_spec.js', // 34 failed, login bundle + pkce + clock
   // 'MfaVerify_spec.js', // migration is complete
-  // 'PrimaryAuth_spec.js', // 2 skipped (xit) need a way to assert change with securityBeaconContainer.hide
   // 'EnrollTotpController_spec.js', // migration is complete
+  // 'LoginRouter_spec.js', // migration is complete
   // 'PollController_spec.js' // migration is complete
-  'VerifyWebauthn_spec.js',
+  // 'IDPDiscovery_spec.js', // 2 skipped tests (xit) - need a way to assert change with securityBeaconContainer.hide
+  // 'PrimaryAuth_spec.js', // 2 skipped (xit) need a way to assert change with securityBeaconContainer.hide
 ];

@@ -467,8 +467,7 @@ Expect.describe('IDPDiscovery', function() {
         expect(test.form.helpFooter().attr('aria-controls')).toBe('help-links-container');
       });
     });
-    // Testcafe migration candidate
-    xit('sets aria-expanded attribute correctly when clicking help', function() {
+    itp('sets aria-expanded attribute correctly when clicking help', function() {
       return setup().then(function(test) {
         expect(test.form.helpFooter().attr('aria-expanded')).toBe('false');
         test.form.helpFooter().click();
@@ -654,9 +653,9 @@ Expect.describe('IDPDiscovery', function() {
     itp('toggles "focused-input" css class on focus in and focus out', function() {
       return setup().then(function(test) {
         test.form.usernameField().focusin();
-        expect(test.form.usernameField()[0].parentNode.className).toContain('focused-input');
+        expect(test.form.usernameField()[0].parentElement.classList).toContain('focused-input');
         test.form.usernameField().focusout();
-        expect(test.form.usernameField()[0].parentNode.className).not.toContain('focused-input');
+        expect(test.form.usernameField()[0].parentElement.classList).not.toContain('focused-input');
       });
     });
   });
@@ -1042,9 +1041,7 @@ Expect.describe('IDPDiscovery', function() {
       return setup({ features: { securityImage: true } }).then(waitForDefaultBeaconLoaded).then(function(test) {
         expect(test.form.securityBeacon()[0].className).toMatch('undefined-user');
         expect(test.form.securityBeacon()[0].className).not.toMatch('new-device');
-        expect(test.form.securityBeacon().css('background-image')).toMatch(
-          /url\(..\/img\/security\/default.*png\)/
-        );
+        expect(test.form.securityBeacon().css('background-image')).toEqual('url(../img/security/default.png)');
       });
     });
     itp('updates security beacon when user enters correct username', function() {
@@ -1110,9 +1107,7 @@ Expect.describe('IDPDiscovery', function() {
         .then(function(test) {
           expect(test.form.securityBeacon()[0].className).toMatch('new-user');
           expect(test.form.securityBeacon()[0].className).not.toMatch('undefined-user');
-          expect(test.form.securityBeacon().css('background-image')).toMatch(
-            /url\(..\/img\/security\/unknown-device.*png\)/
-          );
+          expect(test.form.securityBeacon().css('background-image')).toEqual('url(../img/security/unknown-device.png)');
         });
     });
     itp('shows an unknown user message when user enters unfamiliar username', function() {
@@ -1128,7 +1123,6 @@ Expect.describe('IDPDiscovery', function() {
           );
         });
     });
-    // Testcafe migration candidate
     xit('does not show anti-phishing message if security image is hidden', function() {
       return setup({ features: { securityImage: true } })
         .then(function(test) {
@@ -1152,7 +1146,6 @@ Expect.describe('IDPDiscovery', function() {
           expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({ 0: true }));
         });
     });
-    // Testcafe migration candidate
     xit('show anti-phishing message if security image become visible', function() {
       return setup({ features: { securityImage: true } })
         .then(function(test) {
@@ -1195,8 +1188,7 @@ Expect.describe('IDPDiscovery', function() {
           );
         });
     });
-    // Testcafe migration candidate
-    xit('removes anti-phishing message if help link is clicked', function() {
+    itp('removes anti-phishing message if help link is clicked', function() {
       return setup({
         baseUrl: 'http://foo<i>xss</i>bar.com?bar=<i>xss</i>',
         features: { securityImage: true, selfServiceUnlock: true },
