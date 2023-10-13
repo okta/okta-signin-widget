@@ -8,7 +8,7 @@ const renderWidget = ClientFunction((settings) => {
 });
 
 const authNSuccessMock = RequestMock()
-  .onRequestTo('http://localhost:3000//api/v1/authn')
+  .onRequestTo('http://localhost:3000/api/v1/authn')
   .respond(authnSuccessResponse);
 
 fixture('Primary Auth Form');
@@ -34,12 +34,12 @@ const defaultConfig = {
 };
 
 async function setup(t, config = defaultConfig) {
-  const resetPasswordPage = new PrimaryAuthPageObject(t);
-  await resetPasswordPage.navigateToPage({ render: false });
+  const primaryAuthPage = new PrimaryAuthPageObject(t);
+  await primaryAuthPage.navigateToPage({ render: false });
   
-  await resetPasswordPage.mockCrypto();
   await renderWidget(config);
-  return resetPasswordPage;
+  await t.expect(primaryAuthPage.formExists()).eql(true);
+  return primaryAuthPage;
 }
 
 test.requestHooks(logger, authNSuccessMock)('should set autocomplete to off on Primary Auth Form for username and password fields when features.disableAutocomplete is set to true', async (t) => {
