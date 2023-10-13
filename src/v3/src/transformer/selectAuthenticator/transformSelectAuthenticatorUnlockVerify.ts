@@ -49,6 +49,13 @@ export const transformSelectAuthenticatorUnlockVerify: IdxStepTransformer = ({
     stepName,
   );
 
+  const identifierContainer: IdentifierContainerElement = {
+    type: 'IdentifierContainer',
+    options: {
+      identifier: '',
+    }
+  };
+
   const unlockAccountTitle: TitleElement = {
     type: 'Title',
     options: {
@@ -87,22 +94,74 @@ export const transformSelectAuthenticatorUnlockVerify: IdxStepTransformer = ({
     }
   }
 
-  const identifierContainer: IdentifierContainerElement = {
-    type: 'IdentifierContainer',
-    options: {
-      identifier: '',
-    }
-  };
-
   const authenticatorList: AuthenticatorButtonListElement = {
     type: 'AuthenticatorButtonList',
     options: { buttons: authenticatorButtons, dataSe: 'authenticator-verify-list' },
   };
 
+  // Instantiate this layout before nextButton because nextButton needs access to elements array
   const identifyWithUsernameLayout: UISchemaLayout = {
     type: UISchemaLayoutType.VERTICAL,
     elements: [],
   }
+
+  // TODO: Refactor transformer once we have backend support for this Stepper flow - OKTA-657627
+  const nextButton: StepperButtonElement = {
+    type: 'StepperButton',
+    label: loc('oform.next', 'login'),
+    options: {
+      type: ButtonType.SUBMIT,
+      variant: 'primary',
+      // 
+      nextStepIndex: (widgetContext) => {
+        const { setMessage, data } = widgetContext;
+
+        // Only step attempt to go to next step if user has populated username field
+        if (data.identifier && typeof data.identifier === 'string') {
+          // Clear any existing blank field InfoBox error messages
+          setMessage(undefined);
+          // Manually set IdentifierContainer element since moving to next step view
+          // does not create new transaction
+          identifierContainer.options.identifier = (data.identifier as string);
+
+          // If the user only has one authenticator that they can use to verify, add the AutoSubmit
+          // element to skip rendering the authenticator list and proceed with a challenge request
+          if (authenticatorButtons.length === 1) {
+            const authenticatorOptions = authenticatorButtons[0].options;
+            // Submit request matches the submit handler in AuthenticatorButton component
+            const autoSubmit: AutoSubmitElement = {
+              type: 'AutoSubmit',
+              options: {
+                step: stepName,
+                actionParams: authenticatorOptions.actionParams,
+                includeData: authenticatorOptions.includeData,
+                includeImmutableData: authenticatorOptions.includeImmutableData,
+              },
+            };
+            identifyWithUsernameLayout.elements.push(autoSubmit);
+            // Keep users on first layout because AutoSubmit will trigger view change
+            return 0;
+          }
+
+          return 1;
+        }
+        
+        // If username field is blank, replicate onSubmitValidation error UX and block next step
+        setMessage({
+          message: loc('oform.errorbanner.title', 'login'),
+          class: 'ERROR',
+          i18n: { key: 'oform.errorbanner.title' },
+        } as IdxMessage);
+        return 0;
+      },
+    },
+  };
+
+  identifyWithUsernameLayout.elements = [
+    unlockAccountTitle,
+    identifier,
+    nextButton,
+  ].map((ele: UISchemaElement) => ({ ...ele, viewIndex: 0 }));
 
   const authenticatorListLayout: UISchemaLayout = {
     type: UISchemaLayoutType.VERTICAL,
@@ -121,55 +180,6 @@ export const transformSelectAuthenticatorUnlockVerify: IdxStepTransformer = ({
       authenticatorListLayout,
     ],
   };
-
-  const nextButton: StepperButtonElement = {
-    type: 'StepperButton',
-    label: loc('oform.next', 'login'),
-    options: {
-      type: ButtonType.SUBMIT,
-      variant: 'primary',
-      nextStepIndex: (widgetContext) => {
-        const { setMessage, data } = widgetContext;
-
-        if (data.identifier && typeof data.identifier === 'string') {
-          // Set the identifier for the IdentifierContainer element if the user has submitted one
-          identifierContainer.options.identifier = (data.identifier as string);
-
-          // If the user only has one authenticator that they can use to verify, add the AutoSubmit
-          // element to skip rendering the authenticator list and proceed with a challenge request
-          if (authenticatorButtons.length === 1) {
-            const autoSubmit: AutoSubmitElement = {
-              type: 'AutoSubmit',
-              options: {
-                step: stepName,
-                actionParams: authenticatorButtons[0].options.actionParams,
-                includeData: authenticatorButtons[0].options.includeData,
-                includeImmutableData: authenticatorButtons[0].options.includeImmutableData,
-              },
-            };
-            identifyWithUsernameLayout.elements.push(autoSubmit);
-            // Keep users on first layout because AutoSubmit will trigger view change
-            return 0;
-          }
-
-          return 1;
-        } 
-        // If username field was left blank, replicate onSubmitValidation error UX and block next step
-        setMessage({
-          message: loc('oform.errorbanner.title', 'login'),
-          class: 'ERROR',
-          i18n: { key: 'oform.errorbanner.title' },
-        } as IdxMessage);
-        return 0;
-      },
-    },
-  };
-
-  identifyWithUsernameLayout.elements = [
-    unlockAccountTitle,
-    identifier,
-    nextButton,
-  ].map((ele: UISchemaElement) => ({ ...ele, viewIndex: 0 }));
 
   uischema.elements = [unlockAccountStepper];
 

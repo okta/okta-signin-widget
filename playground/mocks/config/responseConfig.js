@@ -18,7 +18,7 @@ const idx = {
   ],
 
   '/idp/idx/introspect': [
-    'identify',
+    // 'identify',
     // 'error-identify-multiple-errors',
     // 'authenticator-enroll-ov-qr-enable-biometrics',
     // 'authenticator-verification-okta-verify-push',
@@ -108,7 +108,8 @@ const idx = {
     // 'mdm-enrollment',
     // 'authenticator-verification-custom-app-push',
     // 'authenticator-enroll-custom-app-push',
-    // 'request-activation-email'    
+    // 'request-activation-email',
+    'identify-with-unlock-account-link',    
   ],
   '/idp/idx/enroll': [
     'enroll-profile-new',
@@ -214,7 +215,10 @@ const idx = {
   '/idp/idx/device/activate': [
     'identify-with-password',
     // 'error-invalid-device-code',
-  ]
+  ],
+  '/idp/idx/unlock-account': [
+    'user-unlock-account',
+  ],
 };
 
 const emailActivation = {
