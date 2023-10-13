@@ -12,4 +12,5 @@ module.exports = [
   // 'PrimaryAuth_spec.js', // 7 tests should be migrated to TestCafe
   // 'EnrollTotpController_spec.js', // migration is complete
   // 'PollController_spec.js' // migration is complete
+  'VerifyWebauthn_spec.js',
 ];
