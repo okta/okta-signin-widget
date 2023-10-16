@@ -48,4 +48,3 @@ test.requestHooks(successRedirectRemediationMock)('should navigate to redirect l
   await t.expect(pageUrl)
     .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
 });
-
