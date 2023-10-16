@@ -91,9 +91,12 @@ exports[`admin-consent should render form with logo 1`] = `
                 >
                   <div
                     class="MuiBox-root emotion-20"
+                  />
+                  <div
+                    class="MuiBox-root emotion-20"
                   >
                     <div
-                      class="MuiBox-root emotion-21"
+                      class="MuiBox-root emotion-22"
                     >
                       <p
                         class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-15"
@@ -108,7 +111,7 @@ exports[`admin-consent should render form with logo 1`] = `
                     class="MuiBox-root emotion-1"
                   >
                     <div
-                      class="MuiBox-root emotion-21"
+                      class="MuiBox-root emotion-22"
                     >
                       <h3
                         class="MuiTypography-root MuiTypography-h6 emotion-14"
@@ -123,18 +126,18 @@ exports[`admin-consent should render form with logo 1`] = `
                     class="MuiBox-root emotion-20"
                   >
                     <fieldset
-                      class="MuiFormControl-root MuiFormControl-marginNormal emotion-27"
+                      class="MuiFormControl-root MuiFormControl-marginNormal emotion-28"
                     >
                       <label
-                        class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-28"
+                        class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-29"
                       >
                         <span
                           aria-disabled="true"
-                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-checked Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary emotion-29"
+                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-checked Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary emotion-30"
                           tabindex="-1"
                         >
                           <input
-                            class="PrivateSwitchBase-input emotion-30"
+                            class="PrivateSwitchBase-input emotion-31"
                             data-indeterminate="false"
                             data-se="consent.scopes.okta.clients.manage"
                             data-se-for-name="consent.scopes.okta.clients.manage"
@@ -145,7 +148,7 @@ exports[`admin-consent should render form with logo 1`] = `
                           />
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-31"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-32"
                             data-testid="CheckBoxIcon"
                             focusable="false"
                             viewBox="0 0 24 24"
@@ -156,7 +159,7 @@ exports[`admin-consent should render form with logo 1`] = `
                           </svg>
                         </span>
                         <span
-                          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-32"
+                          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-33"
                         >
                           <span
                             class="no-translate MuiBox-root emotion-1"
@@ -164,7 +167,7 @@ exports[`admin-consent should render form with logo 1`] = `
                             okta.clients.manage
                           </span>
                           <p
-                            class="MuiFormHelperText-root MuiFormHelperText-sizeMedium emotion-34"
+                            class="MuiFormHelperText-root MuiFormHelperText-sizeMedium emotion-35"
                           >
                             Allows the app to manage clients in your Okta organization.
                           </p>
@@ -176,18 +179,18 @@ exports[`admin-consent should render form with logo 1`] = `
                     class="MuiBox-root emotion-20"
                   >
                     <fieldset
-                      class="MuiFormControl-root MuiFormControl-marginNormal emotion-27"
+                      class="MuiFormControl-root MuiFormControl-marginNormal emotion-28"
                     >
                       <label
-                        class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-28"
+                        class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-29"
                       >
                         <span
                           aria-disabled="true"
-                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-checked Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary emotion-29"
+                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-checked Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary emotion-30"
                           tabindex="-1"
                         >
                           <input
-                            class="PrivateSwitchBase-input emotion-30"
+                            class="PrivateSwitchBase-input emotion-31"
                             data-indeterminate="false"
                             data-se="consent.scopes.okta.authenticators.manage"
                             data-se-for-name="consent.scopes.okta.authenticators.manage"
@@ -198,7 +201,7 @@ exports[`admin-consent should render form with logo 1`] = `
                           />
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-31"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-32"
                             data-testid="CheckBoxIcon"
                             focusable="false"
                             viewBox="0 0 24 24"
@@ -209,7 +212,7 @@ exports[`admin-consent should render form with logo 1`] = `
                           </svg>
                         </span>
                         <span
-                          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-32"
+                          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-33"
                         >
                           <span
                             class="no-translate MuiBox-root emotion-1"
@@ -217,7 +220,7 @@ exports[`admin-consent should render form with logo 1`] = `
                             okta.authenticators.manage
                           </span>
                           <p
-                            class="MuiFormHelperText-root MuiFormHelperText-sizeMedium emotion-34"
+                            class="MuiFormHelperText-root MuiFormHelperText-sizeMedium emotion-35"
                           >
                             Allows the app to manage all security methods (e.g. enrollments, reset).
                           </p>
@@ -229,7 +232,7 @@ exports[`admin-consent should render form with logo 1`] = `
                     class="MuiBox-root emotion-20"
                   >
                     <button
-                      class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-45"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-46"
                       data-type="save"
                       tabindex="0"
                       type="button"
@@ -241,7 +244,7 @@ exports[`admin-consent should render form with logo 1`] = `
                     class="MuiBox-root emotion-20"
                   >
                     <button
-                      class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-45"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-46"
                       data-type="cancel"
                       tabindex="0"
                       type="button"

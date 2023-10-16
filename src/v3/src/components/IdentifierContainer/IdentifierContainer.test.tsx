@@ -11,84 +11,92 @@
  */
 
 import { IdxTransaction } from '@okta/okta-auth-js';
-import { cleanup, render } from '@testing-library/preact';
-import { h } from 'preact';
+import { cleanup, render, RenderResult } from '@testing-library/preact';
+import userEvent from '@testing-library/user-event';
+import { UserEvent } from '@testing-library/user-event/dist/types/setup/setup';
+import { h, JSX } from 'preact';
 import { IDX_STEP } from 'src/constants';
 import { getStubTransaction } from 'src/mocks/utils/utils';
-import { WidgetProps } from 'src/types';
+import { IdentifierContainerElement, UISchemaElementComponentProps, WidgetProps } from 'src/types';
 
 import IdentifierContainer from './IdentifierContainer';
 
+const mockUserId = 'testUser@okta.com';
 let transaction: IdxTransaction | null;
-let mockProps: WidgetProps = {};
+let mockWidgetProps: WidgetProps = {};
+
+function setup(jsx: JSX.Element): RenderResult & { user: UserEvent } {
+  return {
+    user: userEvent.setup(),
+    ...render(jsx),
+  };
+}
+
+const getComponentProps = (
+  options?: Record<string, unknown>,
+): UISchemaElementComponentProps & { uischema: IdentifierContainerElement; } => ({
+  uischema: {
+    type: 'IdentifierContainer',
+    options: {
+      identifier: mockUserId,
+      ...options,
+    },
+  },
+});
 
 jest.mock('../../contexts', () => ({
   useWidgetContext: jest.fn().mockImplementation(
-    () => ({ widgetProps: mockProps, idxTransaction: transaction }),
+    () => ({ widgetProps: mockWidgetProps, idxTransaction: transaction }),
   ),
 }));
 
 describe('IdentifierContainer Tests', () => {
+  let props: UISchemaElementComponentProps & { uischema: IdentifierContainerElement; };
+
   beforeEach(() => {
     transaction = getStubTransaction();
-    mockProps = {};
+    mockWidgetProps = {};
   });
 
   afterEach(() => {
     cleanup();
   });
 
-  it('should not display identifier container if transaction is null', async () => {
-    transaction = null;
-    const { container } = render(<IdentifierContainer />);
+  it('should not display identifier container if identifier is empty string', async () => {
+    props = getComponentProps();
+    props.uischema.options.identifier = '';
+    const { container } = setup(<IdentifierContainer {...props} />);
 
     expect(container.firstChild).toBeNull();
   });
 
   it('should not display identifier container if transaction NextStep is "identify"', async () => {
     (transaction as IdxTransaction).nextStep = { name: IDX_STEP.IDENTIFY };
-    const { container } = render(<IdentifierContainer />);
+    props = getComponentProps();
+    const { container } = setup(<IdentifierContainer {...props} />);
 
     expect(container.firstChild).toBeNull();
   });
 
-  it('should not display identifier container if user does not exist in transaction context', async () => {
-    const { container } = render(<IdentifierContainer />);
+  it('should not display identifier when features.showIdentifier = false', async () => {
+    mockWidgetProps = { features: { showIdentifier: false } };
+    props = getComponentProps();
+    const { container } = setup(<IdentifierContainer {...props} />);
 
     expect(container.firstChild).toBeNull();
   });
 
-  it('should not display identifier when user exists in transaction context but features.showIdentifier = false', async () => {
-    mockProps = { features: { showIdentifier: false } };
-    const mockUserId = 'testUser@okta.com';
-    (transaction as IdxTransaction).context.user = {
-      type: 'object',
-      value: { identifier: mockUserId, profile: { firstName: 'test', lastName: 'user' } },
-    };
-    const { container } = render(<IdentifierContainer />);
-
-    expect(container.firstChild).toBeNull();
-  });
-
-  it('should display identifier when user exists in transaction context and features.showIdentifier prop is not provided', async () => {
-    const mockUserId = 'testUser@okta.com';
-    (transaction as IdxTransaction).context.user = {
-      type: 'object',
-      value: { identifier: mockUserId, profile: { firstName: 'test', lastName: 'user' } },
-    };
-    const { findByText } = render(<IdentifierContainer />);
+  it('should display identifier when features.showIdentifier prop is not provided', async () => {
+    props = getComponentProps();
+    const { findByText } = setup(<IdentifierContainer {...props} />);
 
     expect(await findByText(mockUserId, { selector: 'span' })).toBeDefined();
   });
 
-  it('should display identifier when user exists in transaction context and features.showIdentifier = true', async () => {
-    mockProps = { features: { showIdentifier: true } };
-    const mockUserId = 'testUser@okta.com';
-    (transaction as IdxTransaction).context.user = {
-      type: 'object',
-      value: { identifier: mockUserId, profile: { firstName: 'test', lastName: 'user' } },
-    };
-    const { findByText } = render(<IdentifierContainer />);
+  it('should display identifier when features.showIdentifier = true', async () => {
+    mockWidgetProps = { features: { showIdentifier: true } };
+    props = getComponentProps();
+    const { findByText } = setup(<IdentifierContainer {...props} />);
 
     expect(await findByText(mockUserId, { selector: 'span' })).toBeDefined();
   });

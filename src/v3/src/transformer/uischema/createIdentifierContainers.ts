@@ -19,6 +19,7 @@ export const createIdentifierContainers: TransformStepFnWithOptions = ({
   const transactionIdentifier: string | undefined = transaction
     ?.context?.user?.value?.identifier as string;
   let hasIdentifierContainer = false;
+
   // Traverse existing layout and check for existing IdentifierContainers
   traverseLayout({
     layout: formbag.uischema,
@@ -27,6 +28,7 @@ export const createIdentifierContainers: TransformStepFnWithOptions = ({
       hasIdentifierContainer = true;
     },
   });
+
   // If we don't find an IdentifierContainer that has been added by a custom transformer, add an
   // IdentifierContainer at the top of the layout if there is an identifier in the transaction
   if (!hasIdentifierContainer && transactionIdentifier) {
@@ -38,5 +40,6 @@ export const createIdentifierContainers: TransformStepFnWithOptions = ({
     };
     formbag.uischema.elements.unshift(identifierContainer);
   }
+
   return formbag;
 };
