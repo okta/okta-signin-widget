@@ -278,9 +278,10 @@ function setupRegistrationButton(featuresRegistration, registrationObj) {
   return setup(settings);
 }
 
-function waitForBeaconChange(test) {
+function setUsernameAndWaitForBeaconChange(test, username) {
   const cur = test.beacon.getBeaconImage();
 
+  test.form.setUsername(username);
   return Expect.wait(function() {
     return test.beacon.getBeaconImage() !== cur;
   }, test);
@@ -974,8 +975,7 @@ Expect.describe('PrimaryAuth', function() {
         .then(function(test) {
           spyOn(test.router.settings, 'transformUsername');
           test.setNextResponse(resSecurityImage);
-          test.form.setUsername('testuser');
-          return waitForBeaconChange(test);
+          return setUsernameAndWaitForBeaconChange(test, 'testuser');
         })
         .then(function(test) {
           expect(test.router.settings.transformUsername.calls.count()).toBe(0);
@@ -1191,8 +1191,7 @@ Expect.describe('PrimaryAuth', function() {
         return setup({ features: { securityImage: true, deviceFingerprinting: true } })
           .then(function(test) {
             test.setNextResponse(resSecurityImage);
-            test.form.setUsername('testuser');
-            return waitForBeaconChange(test);
+            return setUsernameAndWaitForBeaconChange(test, 'testuser');
           })
           .then(function() {
             expect(Util.numAjaxRequests()).toBe(1);
@@ -1222,8 +1221,7 @@ Expect.describe('PrimaryAuth', function() {
         })
           .then(function(test) {
             test.setNextResponse(resSecurityImage);
-            test.form.setUsername('testuser');
-            return waitForBeaconChange(test);
+            return setUsernameAndWaitForBeaconChange(test, 'testuser');
           })
           .then(function() {
             expect(Util.numAjaxRequests()).toBe(1);
@@ -1248,8 +1246,7 @@ Expect.describe('PrimaryAuth', function() {
         })
           .then(function(test) {
             test.setNextResponse(resSecurityImage);
-            test.form.setUsername('testuser');
-            return waitForBeaconChange(test);
+            return setUsernameAndWaitForBeaconChange(test, 'testuser');
           })
           .then(function() {
             expect(Util.numAjaxRequests()).toBe(1);
@@ -1268,8 +1265,7 @@ Expect.describe('PrimaryAuth', function() {
         return setup({ features: { securityImage: true, useDeviceFingerprintForSecurityImage: true } })
           .then(function(test) {
             test.setNextResponse(resSecurityImage);
-            test.form.setUsername('testuser');
-            return waitForBeaconChange(test);
+            return setUsernameAndWaitForBeaconChange(test, 'testuser');
           })
           .then(function() {
             expect(Util.numAjaxRequests()).toBe(1);
@@ -1419,8 +1415,7 @@ Expect.describe('PrimaryAuth', function() {
         .then(function(test) {
           test.securityBeacon = test.router.header.currentBeacon.$el;
           test.setNextResponse(resSecurityImage);
-          test.form.setUsername('testuser');
-          return waitForBeaconChange(test);
+          return setUsernameAndWaitForBeaconChange(test, 'testuser');
         })
         .then(function(test) {
           test.form.setPassword('pass');
@@ -1448,8 +1443,7 @@ Expect.describe('PrimaryAuth', function() {
           .then(function(test) {
             test.securityBeacon = test.router.header.currentBeacon.$el;
             test.setNextResponse(resSecurityImage);
-            test.form.setUsername('testuser');
-            return waitForBeaconChange(test);
+            return setUsernameAndWaitForBeaconChange(test, 'testuser');
           })
           .then(function(test) {
             spyOn(test.securityBeacon, 'toggleClass');
@@ -1486,8 +1480,7 @@ Expect.describe('PrimaryAuth', function() {
           .then(function(test) {
             test.securityBeacon = test.router.header.currentBeacon.$el;
             test.setNextResponse(resSecurityImage);
-            test.form.setUsername('testuser');
-            return waitForBeaconChange(test);
+            return setUsernameAndWaitForBeaconChange(test, 'testuser');
           })
           .then(function(test) {
             spyOn(test.securityBeacon, 'toggleClass');
@@ -1513,8 +1506,7 @@ Expect.describe('PrimaryAuth', function() {
           .then(function(test) {
             test.securityBeacon = test.router.header.currentBeacon.$el;
             test.setNextResponse(resSecurityImage);
-            test.form.setUsername('testuser');
-            return waitForBeaconChange(test);
+            return setUsernameAndWaitForBeaconChange(test, 'testuser');
           })
           .then(function(test) {
             Q.stopUnhandledRejectionTracking();
@@ -1536,8 +1528,7 @@ Expect.describe('PrimaryAuth', function() {
           .then(function(test) {
             test.securityBeacon = test.router.header.currentBeacon.$el;
             test.setNextResponse(resSecurityImage);
-            test.form.setUsername('testuser');
-            return waitForBeaconChange(test);
+            return setUsernameAndWaitForBeaconChange(test, 'testuser');
           })
           .then(function(test) {
             Q.stopUnhandledRejectionTracking();
@@ -1558,8 +1549,7 @@ Expect.describe('PrimaryAuth', function() {
           .then(function(test) {
             test.securityBeacon = test.router.header.currentBeacon.$el;
             test.setNextResponse(resSecurityImage);
-            test.form.setUsername('testuser');
-            return waitForBeaconChange(test);
+            return setUsernameAndWaitForBeaconChange(test, 'testuser');
           })
           .then(function(test) {
             Q.stopUnhandledRejectionTracking();
@@ -1697,8 +1687,7 @@ Expect.describe('PrimaryAuth', function() {
           test.securityBeacon = test.router.header.currentBeacon.$el;
           spyOn(test.securityBeacon, 'toggleClass');
           test.setNextResponse(resSecurityImage);
-          test.form.setUsername('testuser');
-          return waitForBeaconChange(test);
+          return setUsernameAndWaitForBeaconChange(test, 'testuser');
         })
         .then(function(test) {
           const spyCalls = test.securityBeacon.toggleClass.calls;
@@ -1712,8 +1701,7 @@ Expect.describe('PrimaryAuth', function() {
       return setup({ features: { securityImage: true } })
         .then(function(test) {
           test.setNextResponse(resSecurityImage);
-          test.form.setUsername('test+user');
-          return waitForBeaconChange(test);
+          return setUsernameAndWaitForBeaconChange(test, 'test+user');
         })
         .then(function(test) {
           expect(Util.numAjaxRequests()).toBe(1);
@@ -1729,8 +1717,7 @@ Expect.describe('PrimaryAuth', function() {
           test.setNextResponse(resSecurityImage);
           test.form.editingUsername('te');
           test.form.editingUsername('testu');
-          test.form.setUsername('testuser');
-          return waitForBeaconChange(test);
+          return setUsernameAndWaitForBeaconChange(test, 'testuser');
         })
         .then(function() {
           expect(Util.numAjaxRequests()).toBe(1);
@@ -1740,8 +1727,7 @@ Expect.describe('PrimaryAuth', function() {
       return setup({ features: { securityImage: true } })
         .then(function(test) {
           test.setNextResponse(resSecurityImageFail);
-          test.form.setUsername('testuser');
-          return waitForBeaconChange(test);
+          return setUsernameAndWaitForBeaconChange(test, 'testuser');
         })
         .then(function(test) {
           expect(test.form.securityBeacon()[0].className).toMatch('new-user');
@@ -1755,8 +1741,7 @@ Expect.describe('PrimaryAuth', function() {
       return setup({ features: { securityImage: true } })
         .then(function(test) {
           test.setNextResponse(resSecurityImageFail);
-          test.form.setUsername('testuser');
-          return waitForBeaconChange(test);
+          return setUsernameAndWaitForBeaconChange(test, 'testuser');
         })
         .then(function(test) {
           expect(test.form.securityImageTooltipText()).toEqual(
@@ -1848,8 +1833,7 @@ Expect.describe('PrimaryAuth', function() {
       })
         .then(function(test) {
           test.setNextResponse(resSecurityImageFail);
-          test.form.setUsername('testuser');
-          return waitForBeaconChange(test);
+          return setUsernameAndWaitForBeaconChange(test, 'testuser');
         })
         .then(function(test) {
           expect(test.form.securityImageTooltipText()).toEqual(
@@ -1865,8 +1849,7 @@ Expect.describe('PrimaryAuth', function() {
       })
         .then(function(test) {
           test.setNextResponse(resSecurityImageFail);
-          test.form.setUsername('testuser');
-          return waitForBeaconChange(test);
+          return setUsernameAndWaitForBeaconChange(test, 'testuser');
         })
         .then(function(test) {
           // Tooltip exists
