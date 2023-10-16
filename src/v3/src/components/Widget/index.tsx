@@ -249,6 +249,11 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       return createForm();
     }
 
+    // clear the resend reminder time stamp in session storage if current transaction does not have resend option
+    if (SessionStorage.getResendTimestamp() && !idxTransaction.nextStep?.canResend) {
+      SessionStorage.removeResendTimestamp();
+    }
+
     // clear the loginHint value when returning to the identify flow
     if (idxTransaction?.nextStep?.name === IDX_STEP.IDENTIFY) {
       setloginHint(null);
