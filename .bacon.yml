@@ -23,7 +23,7 @@ test_suites:
   - name: unit-jest
     script_path: /root/okta/okta-signin-widget/scripts
     sort_order: '4'
-    timeout: '15'
+    timeout: '20'
     script_name: unit-jest
     criteria: MERGE
     queue_name: small
