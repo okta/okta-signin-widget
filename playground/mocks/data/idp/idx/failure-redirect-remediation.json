@@ -1,0 +1,63 @@
+{
+  "version": "1.0.0",
+  "stateHandle": "02.id.H-AFRAeLKsKv9zE5wpyMQviMh1pN8Wl2H-UUrwad~drd",
+  "expiresAt": "2023-09-28T10:39:54.000Z",
+  "intent": "LOGIN",
+  "remediation": {
+      "type": "array",
+      "value": [
+          {
+              "name": "failure-redirect",
+              "href": "http://localhost:3000/app/UserHome?stateToken=mockedStateToken123",
+              "method": "GET"
+          }
+      ]
+  },
+  "user": {
+      "type": "object",
+      "value": {
+          "id": "00u8nvxf8gxuIqW7F5d7",
+          "identifier": "test@test.com",
+          "profile": {
+              "firstName": "MF",
+              "lastName": "Test",
+              "timeZone": "America/Los_Angeles",
+              "locale": "en_US"
+          }
+      }
+  },
+  "cancel": {
+      "rel": [
+          "create-form"
+      ],
+      "name": "cancel",
+      "href": "https://test.test.com/idp/idx/cancel",
+      "method": "POST",
+      "produces": "application/ion+json; okta-version=1.0.0",
+      "value": [
+          {
+              "name": "stateHandle",
+              "required": true,
+              "value": "02.id.H-AFRAeLKsKv9zE5wpyMQviMh1pN8Wl2H-UUrwad~drd",
+              "visible": false,
+              "mutable": false
+          }
+      ],
+      "accepts": "application/json; okta-version=1.0.0"
+  },
+  "app": {
+      "type": "object",
+      "value": {
+          "name": "testApp",
+          "label": "Help Desk",
+          "id": "0oaadb734Og45jJEU5d6"
+      }
+  },
+  "authentication": {
+      "type": "object",
+      "value": {
+          "protocol": "SAML2.0",
+          "request": {}
+      }
+  }
+}

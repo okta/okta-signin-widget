@@ -10,5 +10,12 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-export * from './redirectTransformer';
-export * from './transformAutoRedirect';
+import {
+  IdxStepTransformer,
+} from '../../types';
+import { redirectTransformer } from './redirectTransformer';
+
+export const transformAutoRedirect: IdxStepTransformer = ({ transaction, widgetProps }) => {
+  const { nextStep } = transaction;
+  return redirectTransformer(transaction, nextStep!.href!, widgetProps);
+};
