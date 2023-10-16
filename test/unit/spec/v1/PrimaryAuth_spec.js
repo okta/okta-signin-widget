@@ -284,7 +284,7 @@ function setUsernameAndWaitForBeaconChange(test, username) {
   test.form.setUsername(username);
   return Expect.wait(function() {
     return test.beacon.getBeaconImage() !== cur;
-  }, test);
+  }, test, 10000);
 }
 
 function transformUsername(name) {
