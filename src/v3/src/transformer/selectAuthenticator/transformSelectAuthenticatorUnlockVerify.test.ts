@@ -119,7 +119,7 @@ describe('Unlock Verification Authenticator Selector Tests', () => {
 
     // Identifier gets set when stepping between views
     expect((authenticatorListLayout.elements[0] as IdentifierContainerElement).options.identifier)
-      .toBe('');
+      .toBe(undefined);
     expect((authenticatorListLayout.elements[1] as TitleElement).options.content)
       .toBe('oie.select.authenticators.verify.title');
     expect((authenticatorListLayout.elements[2] as DescriptionElement).options.content)

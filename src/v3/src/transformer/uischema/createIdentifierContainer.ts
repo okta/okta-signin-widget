@@ -10,15 +10,42 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { IDX_STEP } from 'src/constants';
+
 import { IdentifierContainerElement, TransformStepFnWithOptions } from '../../types';
 import { traverseLayout } from '../util';
 
-export const createIdentifierContainers: TransformStepFnWithOptions = ({
+export const createIdentifierContainer: TransformStepFnWithOptions = ({
   transaction,
+  widgetProps,
 }) => (formbag) => {
   const transactionIdentifier: string | undefined = transaction
     ?.context?.user?.value?.identifier as string;
+  const { features } = widgetProps;
   let hasIdentifierContainer = false;
+
+  const shouldHideIdentifier = (
+    showIdentifier?: boolean,
+    identifier?: string,
+    stepName?: string,
+  ): boolean => {
+    const excludedSteps = [IDX_STEP.IDENTIFY, IDX_STEP.CONSENT_ADMIN];
+    // Should not display identifier here because if invalid identifier
+    // is used, introspect includes the invalid name in user context
+    if (typeof stepName !== 'undefined' && excludedSteps.includes(stepName)) {
+      return true;
+    }
+
+    if (showIdentifier === false) {
+      return true;
+    }
+
+    if (!identifier) {
+      return true;
+    }
+
+    return false;
+  };
 
   // Traverse existing layout and check for existing IdentifierContainers
   traverseLayout({
@@ -31,7 +58,11 @@ export const createIdentifierContainers: TransformStepFnWithOptions = ({
 
   // If we don't find an IdentifierContainer that has been added by a custom transformer, add an
   // IdentifierContainer at the top of the layout if there is an identifier in the transaction
-  if (!hasIdentifierContainer && transactionIdentifier) {
+  if (!hasIdentifierContainer && !shouldHideIdentifier(
+    features?.showIdentifier,
+    transactionIdentifier,
+    transaction.nextStep?.name,
+  )) {
     const identifierContainer: IdentifierContainerElement = {
       type: 'IdentifierContainer',
       options: {

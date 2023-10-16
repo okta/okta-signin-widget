@@ -53,7 +53,7 @@ Object {
             "elements": Array [
               Object {
                 "options": Object {
-                  "identifier": "",
+                  "identifier": undefined,
                 },
                 "type": "IdentifierContainer",
                 "viewIndex": 1,

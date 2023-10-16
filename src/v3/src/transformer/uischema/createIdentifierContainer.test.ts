@@ -11,6 +11,7 @@
  */
 
 import { IdxTransaction } from '@okta/okta-auth-js';
+import { IDX_STEP } from 'src/constants';
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
   FormBag,
@@ -19,9 +20,9 @@ import {
   WidgetProps,
 } from 'src/types';
 
-import { createIdentifierContainers } from './createIdentifierContainers';
+import { createIdentifierContainer } from './createIdentifierContainer';
 
-describe('createIdentifierContainers Tests', () => {
+describe('createIdentifierContainer Tests', () => {
   const mockUserId = 'testUser@okta.com';
   const transactionMockUserId = 'transactionUser@okta.com';
   let transaction: IdxTransaction;
@@ -41,7 +42,7 @@ describe('createIdentifierContainers Tests', () => {
       type: 'object',
       value: { identifier: transactionMockUserId, profile: { firstName: 'test', lastName: 'user' } },
     };
-    const updatedFormBag = createIdentifierContainers({
+    const updatedFormBag = createIdentifierContainer({
       transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
     })(formBag);
     const { elements } = <{ elements: UISchemaElement[] }>updatedFormBag.uischema;
@@ -63,7 +64,7 @@ describe('createIdentifierContainers Tests', () => {
         },
       } as IdentifierContainerElement,
     ];
-    const updatedFormBag = createIdentifierContainers({
+    const updatedFormBag = createIdentifierContainer({
       transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
     })(formBag);
     const { elements } = <{ elements: UISchemaElement[] }>updatedFormBag.uischema;
@@ -89,7 +90,7 @@ describe('createIdentifierContainers Tests', () => {
         },
       } as IdentifierContainerElement,
     ];
-    const updatedFormBag = createIdentifierContainers({
+    const updatedFormBag = createIdentifierContainer({
       transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
     })(formBag);
     const { elements } = <{ elements: UISchemaElement[] }>updatedFormBag.uischema;
@@ -102,21 +103,62 @@ describe('createIdentifierContainers Tests', () => {
       .toBe(mockUserId);
   });
 
-  it('should hide IdentifierContainer element when user exists in transaction context', async () => {
+  it('should hide IdentifierContainer element when user exists in transaction context but features.showIdentifier = false', async () => {
     transaction.context.user = {
       type: 'object',
       value: { identifier: transactionMockUserId, profile: { firstName: 'test', lastName: 'user' } },
     };
-    const updatedFormBag = createIdentifierContainers({
+    widgetProps = { features: { showIdentifier: false } };
+    const updatedFormBag = createIdentifierContainer({
       transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
     })(formBag);
     const { elements } = <{ elements: UISchemaElement[] }>updatedFormBag.uischema;
 
     expect(updatedFormBag).toMatchSnapshot();
-    expect(elements.length).toEqual(1);
-    expect(elements[0].type)
-      .toBe('IdentifierContainer');
-    expect((elements[0] as IdentifierContainerElement).options.identifier)
-      .toBe(transactionMockUserId);
+    expect(elements.length).toEqual(0);
+  });
+
+  it('should hide IdentifierContainer element when user exists in transaction context but identifier is empty', async () => {
+    transaction.context.user = {
+      type: 'object',
+      value: { identifier: '', profile: { firstName: 'test', lastName: 'user' } },
+    };
+    const updatedFormBag = createIdentifierContainer({
+      transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
+    })(formBag);
+    const { elements } = <{ elements: UISchemaElement[] }>updatedFormBag.uischema;
+
+    expect(updatedFormBag).toMatchSnapshot();
+    expect(elements.length).toEqual(0);
+  });
+
+  it('should hide IdentifierContainer element when user exists in transaction context but NextStep is "identify"', async () => {
+    transaction.context.user = {
+      type: 'object',
+      value: { identifier: '', profile: { firstName: 'test', lastName: 'user' } },
+    };
+    transaction.nextStep = { name: IDX_STEP.IDENTIFY };
+    const updatedFormBag = createIdentifierContainer({
+      transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
+    })(formBag);
+    const { elements } = <{ elements: UISchemaElement[] }>updatedFormBag.uischema;
+
+    expect(updatedFormBag).toMatchSnapshot();
+    expect(elements.length).toEqual(0);
+  });
+
+  it('should hide IdentifierContainer element when user exists in transaction context but NextStep is "admin-consent"', async () => {
+    transaction.context.user = {
+      type: 'object',
+      value: { identifier: '', profile: { firstName: 'test', lastName: 'user' } },
+    };
+    transaction.nextStep = { name: IDX_STEP.CONSENT_ADMIN };
+    const updatedFormBag = createIdentifierContainer({
+      transaction, widgetProps, step: '', isClientTransaction: false, setMessage: () => {},
+    })(formBag);
+    const { elements } = <{ elements: UISchemaElement[] }>updatedFormBag.uischema;
+
+    expect(updatedFormBag).toMatchSnapshot();
+    expect(elements.length).toEqual(0);
   });
 });

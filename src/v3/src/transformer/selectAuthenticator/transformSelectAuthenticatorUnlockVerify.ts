@@ -52,7 +52,7 @@ export const transformSelectAuthenticatorUnlockVerify: IdxStepTransformer = ({
   const identifierContainer: IdentifierContainerElement = {
     type: 'IdentifierContainer',
     options: {
-      identifier: '',
+      identifier: data.identifier as string,
     },
   };
 
@@ -113,9 +113,9 @@ export const transformSelectAuthenticatorUnlockVerify: IdxStepTransformer = ({
       variant: 'primary',
       nextStepIndex: (widgetContext) => {
         const { setMessage, data: updatedData } = widgetContext;
+        setMessage(undefined);
 
         if (updatedData.identifier && typeof updatedData.identifier === 'string') {
-          setMessage(undefined);
           identifierContainer.options.identifier = (updatedData.identifier as string);
 
           // If the user only has one authenticator that they can use to verify, add the AutoSubmit

@@ -78,6 +78,14 @@ describe('IdentifierContainer Tests', () => {
     expect(container.firstChild).toBeNull();
   });
 
+  it('should not display identifier container if transaction NextStep is "admin-consent"', async () => {
+    (transaction as IdxTransaction).nextStep = { name: IDX_STEP.CONSENT_ADMIN };
+    props = getComponentProps();
+    const { container } = setup(<IdentifierContainer {...props} />);
+
+    expect(container.firstChild).toBeNull();
+  });
+
   it('should not display identifier when features.showIdentifier = false', async () => {
     mockWidgetProps = { features: { showIdentifier: false } };
     props = getComponentProps();

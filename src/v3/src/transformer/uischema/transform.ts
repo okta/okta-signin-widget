@@ -17,7 +17,7 @@ import {
 } from '../../types';
 import { addIdToElements } from './addIdToElements';
 import { applyAsteriskToFieldElements } from './applyAsteriskToFieldElements';
-import { createIdentifierContainers } from './createIdentifierContainers';
+import { createIdentifierContainer } from './createIdentifierContainer';
 import { createTextElementKeys } from './createTextElementKeys';
 import { overwriteAutocomplete } from './overwriteAutocomplete';
 import { setFocusOnFirstElement } from './setFocusOnFirstElement';
@@ -38,5 +38,5 @@ export const transformUISchema: TransformStepFnWithOptions = (
   updatePasswordDescribedByValue,
   setLtrFields,
   overwriteAutocomplete(options),
-  createIdentifierContainers(options),
+  createIdentifierContainer(options),
 )(formbag);
