@@ -70,6 +70,8 @@ const rerenderWidget = ClientFunction((settings) => {
   window.renderPlaygroundWidget(settings);
 });
 
+// See UnlockAccountChallenge_gen3_spec.js is the gen3-specific spec since the unlock account flow
+// diverges significantly between gen2 and gen3
 fixture('Unlock Account').meta('gen3', false);
 
 async function setup(t) {
