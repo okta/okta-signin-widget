@@ -41,6 +41,7 @@ import {
 } from '../phone';
 import { transformEnrollProfile } from '../profile';
 import { transformEnrollProfileUpdate } from '../profile/transformEnrollProfileUpdate';
+import { transformAutoRedirect } from '../redirect';
 import {
   transformSelectAuthenticatorEnroll,
   transformSelectAuthenticatorUnlockVerify,
@@ -381,6 +382,15 @@ const TransformerMap: {
       buttonConfig: { showDefaultSubmit: false },
     },
   },
+  [IDX_STEP.FAILURE_REDIRECT]: {
+    [AUTHENTICATOR_KEY.DEFAULT]: {
+      transform: transformAutoRedirect,
+      buttonConfig: {
+        showDefaultSubmit: false,
+        showDefaultCancel: false,
+      },
+    },
+  },
   [IDX_STEP.IDENTIFY]: {
     [AUTHENTICATOR_KEY.DEFAULT]: {
       transform: transformIdentify,
@@ -507,6 +517,15 @@ const TransformerMap: {
     [AUTHENTICATOR_KEY.OV]: {
       transform: transformOktaVerifyChannelSelection,
       buttonConfig: { showDefaultSubmit: false },
+    },
+  },
+  [IDX_STEP.SUCCESS_REDIRECT]: {
+    [AUTHENTICATOR_KEY.DEFAULT]: {
+      transform: transformAutoRedirect,
+      buttonConfig: {
+        showDefaultSubmit: false,
+        showDefaultCancel: false,
+      },
     },
   },
   [IDX_STEP.POLL]: {

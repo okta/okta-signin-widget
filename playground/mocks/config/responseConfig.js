@@ -90,6 +90,8 @@ const idx = {
     // 'identify-with-universal-link',
     // 'identify-with-app-link',
     // 'success',
+    // 'success-redirect-remediation',
+    // 'failure-redirect-remediation',
     // 'success-with-app-user',
     // 'success-with-interaction-code'
     // 'terminal-return-email',
