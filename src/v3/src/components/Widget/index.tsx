@@ -307,6 +307,10 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   // track previous idxTransaction
   useEffect(() => {
     prevIdxTransactionRef.current = idxTransaction;
+    // clear the resend reminder time stamp in session storage if current transaction does not have resend option
+    if (idxTransaction && !idxTransaction.nextStep?.canResend) {
+      SessionStorage.removeResendTimestamp();
+    }
   }, [idxTransaction]);
 
   // update dataSchemaRef in context
