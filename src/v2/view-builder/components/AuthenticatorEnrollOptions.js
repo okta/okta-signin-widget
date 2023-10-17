@@ -28,13 +28,10 @@ const AuthenticatorRow = View.extend({
       {{/if}}
     </div>
     <div class="authenticator-description">
-      <h3 class="authenticator-label no-translate">{{label}}</h3>
-      {{#if description}}
-        <p class="authenticator-description--text">{{description}}</p>
-      {{/if}}
-      {{#if authenticatorUsageText}}
-        <p class="authenticator-usage-text">{{authenticatorUsageText}}</p>
-      {{/if}}
+      <h3 class="authenticator-label no-translate">FastPass</h3>
+        <p class="authenticator-description--text">Enrollment time : 3 minutes agao</p>
+        <p class="authenticator-usage-text">Enrollment location : San Franscisco, CA</p>
+        <p class="authenticator-usage-text">Enrollment IP : San Franscisco, CA</p>
       <div class="authenticator-button" {{#if buttonDataSeAttr}}data-se="{{buttonDataSeAttr}}"{{/if}}></div>
     </div>
   `,
@@ -48,7 +45,15 @@ const AuthenticatorRow = View.extend({
     return [[createButton({
       className: 'button select-factor',
       title: function() {
-        return loc('oie.enroll.authenticator.button.text', 'login');
+        return "Approve";
+      },
+      click: function() {
+        this.model.trigger('selectAuthenticator', this.model.get('value'));
+      }
+    }), '.authenticator-button'], [createButton({
+      className: 'button select-factor',
+      title: function() {
+        return "Reject";
       },
       click: function() {
         this.model.trigger('selectAuthenticator', this.model.get('value'));
@@ -106,7 +111,7 @@ export default ListView.extend({
 
   getTemplateData() {
     // presence of the skip remediation form tells us that the authenticators are all optional
-    const title = this.hasOptionalFactors? loc('oie.setup.optional', 'login'):loc('oie.setup.required', 'login');
+    const title = "FastPass enrollment details:";
 
     return {
       title

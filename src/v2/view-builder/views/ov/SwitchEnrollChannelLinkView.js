@@ -6,8 +6,7 @@ export default View.extend({
   className: 'switch-channel-text',
   template: hbs `
     {{#if isQRcodeChannel}}
-      <a href="#" class="switch-channel-link" aria-label="{{i18n code="enroll.totp.aria.cannotScan" bundle="login" }}">
-        {{i18n code="enroll.totp.cannotScan" bundle="login"}}</a>
+
     {{else if isSameDeviceChannel}}
     {{else if isDeviceBootstrapChannel}}
     {{else}}

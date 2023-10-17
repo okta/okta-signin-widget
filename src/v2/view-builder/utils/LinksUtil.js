@@ -17,12 +17,6 @@ const getSwitchAuthenticatorLink = (appState) => {
 
   if (appState.getRemediationAuthenticationOptions(RemediationForms.SELECT_AUTHENTICATOR_ENROLL).length >= 1) {
     return [
-      {
-        'type': 'link',
-        'label': loc('oie.enroll.switch.authenticator', 'login'),
-        'name': 'switchAuthenticator',
-        'formName': RemediationForms.SELECT_AUTHENTICATOR_ENROLL,
-      }
     ];
   }
 

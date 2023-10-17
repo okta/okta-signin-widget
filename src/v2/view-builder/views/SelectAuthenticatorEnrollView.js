@@ -3,12 +3,10 @@ import { loc } from '@okta/courage';
 
 const Body = BaseForm.extend({
   title: function() {
-    return loc('oie.select.authenticators.enroll.title', 'login');
+    return "Please Approve or Reject Your Enrollment";
   },
   subtitle: function() {
-    const subtitle = this.options.settings.get('brandName') ?
-      loc('oie.select.authenticators.enroll.subtitle.custom', 'login', [this.options.settings.get('brandName')]):
-      loc('oie.select.authenticators.enroll.subtitle', 'login');
+    const subtitle = "";
     return subtitle;
   },
   noButtonBar: true,
