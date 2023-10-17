@@ -72,7 +72,7 @@ test.requestHooks(logger, authNPrimaryAuthToSmsEnrollMock)('load primary authent
   await t.expect(animationTriggered()).eql(undefined);
   await t.expect(primaryAuthForm.getFormTitle()).eql('Sign In');
   await primaryAuthForm.form.setTextBoxValue('username', 'administrator@okta1.com');
-  await primaryAuthForm.form.setTextBoxValue('password', 'administrator@okta1.com');
+  await primaryAuthForm.form.setTextBoxValue('password', 'pass@word123');
   
   await observeAnimation();
 

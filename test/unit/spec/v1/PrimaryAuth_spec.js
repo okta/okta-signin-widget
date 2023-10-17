@@ -24,7 +24,6 @@ import resUnauthenticated from 'helpers/xhr/UNAUTHENTICATED';
 import resUnauthorized from 'helpers/xhr/UNAUTHORIZED_ERROR';
 import resSecurityImage from 'helpers/xhr/security_image';
 import resSecurityImageFail from 'helpers/xhr/security_image_fail';
-import resSecurityImageNewUser from 'helpers/xhr/security_image_new_user';
 import PrimaryAuth from 'v1/models/PrimaryAuth';
 import Q from 'q';
 import $sandbox from 'sandbox';
@@ -571,10 +570,7 @@ Expect.describe('PrimaryAuth', function() {
         expect(test.form.helpFooter().attr('aria-controls')).toBe('help-links-container');
       });
     });
-    // Testcafe migration candidate
-    // OKTA-407603 enable or move this test
-    // eslint-disable-next-line jasmine/no-disabled-tests
-    xit('sets aria-expanded attribute correctly when clicking help', function() {
+    itp('sets aria-expanded attribute correctly when clicking help', function() {
       return setup().then(function(test) {
         expect(test.form.helpFooter().attr('aria-expanded')).toBe('false');
         test.form.helpFooter().click();
@@ -804,8 +800,7 @@ Expect.describe('PrimaryAuth', function() {
         expect(test.form.passwordToggleContainer().length).toBe(1);
       });
     });
-    // Testcafe migration candidate
-    xit(
+    itp(
       'Toggles icon when the password toggle button with features.showPasswordToggleOnSignInPage is clicked',
       function() {
         return setup({ 'features.showPasswordToggleOnSignInPage': true }).then(function(test) {
@@ -824,34 +819,30 @@ Expect.describe('PrimaryAuth', function() {
         });
       }
     );
-    // Testcafe migration candidate
-    xit('Toggles password field from text to password after 30 seconds', function() {
-      return setup({ 'features.showPasswordToggleOnSignInPage': true }).then(function(test) {
-        jasmine.clock().uninstall();
-        const originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
-
-        jasmine.DEFAULT_TIMEOUT_INTERVAL = 35000;
-        jasmine.clock().install();
+    itp('Toggles password field from text to password after 30 seconds', function() {
+      return setup({ 'features.showPasswordToggleOnSignInPage': true }).then(async function(test) {
+        jest.useFakeTimers();
         test.form.setPassword('testpass');
         test.form.setUsername('testuser');
         expect(test.form.passwordToggleContainer().length).toBe(1);
         expect(test.form.$('#okta-signin-password').attr('type')).toBe('password');
         test.form.passwordToggleShowContainer().click();
+
         expect(test.form.$('#okta-signin-password').attr('type')).toBe('text');
         expect(test.form.passwordToggleShowContainer().is(':visible')).toBe(false);
         expect(test.form.passwordToggleHideContainer().is(':visible')).toBe(true);
+        
         // t25
-        jasmine.clock().tick(25 * 1000);
+        jest.advanceTimersByTime(25 * 1000);
         expect(test.form.$('#okta-signin-password').attr('type')).toBe('text');
         expect(test.form.passwordToggleShowContainer().is(':visible')).toBe(false);
         expect(test.form.passwordToggleHideContainer().is(':visible')).toBe(true);
         // t35
-        jasmine.clock().tick(35 * 1000);
+        jest.advanceTimersByTime(25 * 1000);
         expect(test.form.$('#okta-signin-password').attr('type')).toBe('password');
         expect(test.form.passwordToggleShowContainer().is(':visible')).toBe(true);
         expect(test.form.passwordToggleHideContainer().is(':visible')).toBe(false);
-        jasmine.clock().uninstall();
-        jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
+        jest.useRealTimers();
       });
     });
     itp('sets username input aria-invalid="false" on init and clears on blur', function() {
@@ -1749,8 +1740,7 @@ Expect.describe('PrimaryAuth', function() {
           );
         });
     });
-    // Testcafe migration candidate
-    xit('does not show anti-phishing message if security image is hidden', function() {
+    itp('does not show anti-phishing message if security image is hidden', function() {
       return setup({ features: { securityImage: true } })
         .then(function(test) {
           test.setNextResponse(resSecurityImageFail);
@@ -1766,61 +1756,6 @@ Expect.describe('PrimaryAuth', function() {
           test.form.securityBeaconContainer().show();
           $(window).trigger('resize');
           return Expect.waitForSpyCall($.qtip.prototype.toggle, test);
-        })
-        .then(function() {
-          expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({ 0: true }));
-        });
-    });
-
-    // Testcafe migration candidate
-    xit('show anti-phishing message when security image is new user', function() {
-      return setup({ features: { securityImage: true } })
-        .then(function(test) {
-          spyOn($.qtip.prototype, 'toggle').and.callThrough();
-          test.setNextResponse(resSecurityImageNewUser);
-          test.form.setUsername('testuser');
-          return Expect.waitForSecurityImageTooltip(true, test);
-        })
-        .then(function(test) {
-          expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({ 0: true }));
-          $.qtip.prototype.toggle.calls.reset();
-          test.form.securityBeaconContainer().hide();
-          $(window).trigger('resize');
-          return Expect.waitForSecurityImageTooltip(false, test);
-        })
-        .then(function(test) {
-          expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({ 0: false }));
-          $.qtip.prototype.toggle.calls.reset();
-          test.form.securityBeaconContainer().show();
-          $(window).trigger('resize');
-          return Expect.waitForSecurityImageTooltip(true, test);
-        })
-        .then(function() {
-          expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({ 0: true }));
-        });
-    });
-    // Testcafe migration candidate
-    xit('show anti-phishing message if security image become visible', function() {
-      return setup({ features: { securityImage: true } })
-        .then(function(test) {
-          spyOn($.qtip.prototype, 'toggle').and.callThrough();
-          test.setNextResponse(resSecurityImageFail);
-          test.form.setUsername('testuser');
-          return Expect.waitForSecurityImageTooltip(true, test);
-        })
-        .then(function(test) {
-          expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({ 0: true }));
-          $.qtip.prototype.toggle.calls.reset();
-          test.form.securityBeaconContainer().hide();
-          $(window).trigger('resize');
-          return Expect.waitForSecurityImageTooltip(false, test);
-        })
-        .then(function(test) {
-          expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({ 0: false }));
-          $.qtip.prototype.toggle.calls.reset();
-          test.form.securityBeaconContainer().show();
-          $(window).trigger('resize');
-          return Expect.waitForSecurityImageTooltip(true, test);
         })
         .then(function() {
           expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({ 0: true }));
@@ -1841,8 +1776,7 @@ Expect.describe('PrimaryAuth', function() {
           );
         });
     });
-    // Testcafe migration candidate 'isSecurityImageTooltipDestroyed' uses Qtip
-    xit('removes anti-phishing message if help link is clicked', function() {
+    itp('removes anti-phishing message if help link is clicked', function() {
       return setup({
         baseUrl: 'http://foo<i>xss</i>bar.com?bar=<i>xss</i>',
         features: { securityImage: true, selfServiceUnlock: true },

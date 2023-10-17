@@ -1,3 +1,4 @@
+import { Selector } from 'testcafe';
 import BasePageObject from '../page-objects/BasePageObject';
 
 export default class PrimaryAuthPageObject extends BasePageObject {
@@ -13,11 +14,31 @@ export default class PrimaryAuthPageObject extends BasePageObject {
     return this.form.setTextBoxValue('username', username);
   }
 
+  getLinkElement(name) {
+    return this.form.getLink(name);
+  }
+
+  getShowPasswordVisibilityToggle() {
+    return this.form.getElement('span.eyeicon.button-show');
+  }
+
+  getHidePasswordVisibilityToggle() {
+    return this.form.getElement('span.eyeicon.button-hide');
+  }
+
+  getBeaconContainer() {
+    return Selector('.beacon-container');
+  }
+
+  getSecurityImageTooltip() {
+    return Selector('.okta-security-image-tooltip');
+  }
+
   async clickNextButton() {
     await this.form.clickSaveButton();
   }
 
   async clickLinkElement(name) {
-    await this.t.click(this.form.getLink(name));
+    await this.t.click(this.getLinkElement(name));
   }
 }

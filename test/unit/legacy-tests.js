@@ -8,8 +8,8 @@ module.exports = [
   // 'EnrollSms_spec.js', // migration is complete
   // 'PollController_spec.js' // migration is complete
   // 'EnrollTotpController_spec.js', // migration is complete
+  // 'PrimaryAuth_spec.js', // migration is complete
+  // 'LoginRouter_spec.js', // 6 skipped tests (need to understand why failing)
   // 'IDPDiscovery_spec.js', // 4 tests should be migrated to TestCafe
-  'LoginRouter_spec.js', // 34 failed, login bundle + pkce + clock
   // 'MfaVerify_spec.js', // 4 tests should be migrated to TestCafe
-  // 'PrimaryAuth_spec.js', // 7 tests should be migrated to TestCafe
 ];

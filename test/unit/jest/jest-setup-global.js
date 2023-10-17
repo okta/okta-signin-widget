@@ -25,6 +25,25 @@ navigator.credentials = {
   }
 };
 
+// patch jquery 3 visible pseudos selector issue in jsdom
+// https://github.com/jsdom/jsdom/issues/1048#issuecomment-401599392
+// https://github.com/jsdom/jsdom/issues/1048#issuecomment-595961496
+window.Element.prototype.getClientRects = function() {
+  let node = this;
+  while(node) {
+    if(node === document) {
+      break;
+    }
+    if (!node.style || node.style.display === 'none' || node.style.visibility === 'hidden') {
+      return [];
+    }
+    node = node.parentNode;
+  }
+
+  // any random number should be fine, any we only care about element visibility in tests
+  return [{ width: 1111, height: 1111 }];
+};
+
 const css = fs.readFileSync(path.resolve(__dirname, '../../..' ,'target/css/okta-sign-in.css'), 'utf8');
 $('head').append(`<style>${css}</style>`);
 

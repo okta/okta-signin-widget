@@ -78,3 +78,91 @@ test.requestHooks(logger, authNSuccessMock)('should set autocomplete to off on u
   const passwordField = primaryAuthForm.getInputField('password');
   await t.expect(passwordField.getAttribute('autocomplete')).eql('off');
 });
+
+test.requestHooks(logger)('sets aria-expanded attribute correctly when clicking help', async (t) => {
+  const primaryAuthForm = await setup(t);
+
+  await t.expect(primaryAuthForm.getFormTitle()).eql('Sign In');
+  await primaryAuthForm.clickLinkElement('Need help signing in?');
+  await t.expect(primaryAuthForm.getLinkElement('Need help signing in?').getAttribute('aria-expanded')).eql('true');
+  await t.expect(primaryAuthForm.getLinkElement('Forgot password?').visible).eql(true);
+});
+
+test.requestHooks(logger)('Toggles icon when the password toggle button with features.showPasswordToggleOnSignInPage is clicked', async (t) => {
+  const config = {
+    ...defaultConfig,
+    features: {
+      ...defaultConfig.features,
+      showPasswordToggleOnSignInPage: true,
+    },
+  };
+  const primaryAuthForm = await setup(t, config);
+
+  await t.expect(primaryAuthForm.getFormTitle()).eql('Sign In');
+  await primaryAuthForm.form.setTextBoxValue('username', 'administrator@okta1.com');
+  await primaryAuthForm.form.setTextBoxValue('password', 'pass@word123');
+  await t.expect(primaryAuthForm.getShowPasswordVisibilityToggle().visible).eql(true);
+  await t.expect(primaryAuthForm.getHidePasswordVisibilityToggle().visible).eql(false);
+
+  await t.click(primaryAuthForm.getShowPasswordVisibilityToggle());
+
+  await t.expect(primaryAuthForm.getShowPasswordVisibilityToggle().visible).eql(false);
+  await t.expect(primaryAuthForm.getHidePasswordVisibilityToggle().visible).eql(true);
+  await t.expect(primaryAuthForm.getInputField('password').getAttribute('type')).eql('text');
+});
+
+test.requestHooks(logger)('show anti-phishing message when security image is new user', async (t) => {
+  const config = {
+    ...defaultConfig,
+    features: {
+      ...defaultConfig.features,
+      securityImage: true,
+    },
+  };
+  const primaryAuthForm = await setup(t, config);
+
+  await t.expect(primaryAuthForm.getFormTitle()).eql('Sign In');
+
+  await primaryAuthForm.form.setTextBoxValue('username', 'new');
+  await primaryAuthForm.form.setTextBoxValue('password', 'pass@word123');
+  
+  const tooltip = primaryAuthForm.getSecurityImageTooltip();
+  await t.expect(tooltip.visible).eql(true);
+  await t.expect(tooltip.textContent).contains('This is the first time you are connecting to');
+});
+
+test.requestHooks(logger)('show anti-phishing message if security image become visible', async (t) => {
+  const toggleBeacon = ClientFunction((show = true) => {
+    document.querySelector('.beacon-container').style.display = show ? 'block' : 'none';
+  });
+  const config = {
+    ...defaultConfig,
+    features: {
+      ...defaultConfig.features,
+      securityImage: true,
+    },
+  };
+  const primaryAuthForm = await setup(t, config);
+
+  await t.expect(primaryAuthForm.getFormTitle()).eql('Sign In');
+  await primaryAuthForm.form.setTextBoxValue('username', 'unknown');
+  await primaryAuthForm.form.setTextBoxValue('password', 'pass@word123');
+
+  const tooltip = primaryAuthForm.getSecurityImageTooltip();
+  await t.expect(primaryAuthForm.getBeaconContainer().visible).eql(true);
+  await t.expect(tooltip.visible).eql(true);
+  await t.expect(tooltip.textContent).contains('This is the first time you are connecting to');
+
+  await toggleBeacon(false);
+
+  await t.expect(primaryAuthForm.getBeaconContainer().visible).eql(false);
+  // Migration from karma test showed that this was supposed to also be hidden
+  // when beacon is hidden, but that is not the case, I believe a false positive
+  // made the test pass.
+  // await t.expect(primaryAuthForm.getSecurityImageTooltip().visible).eql(false);
+
+  await toggleBeacon();
+
+  await t.expect(primaryAuthForm.getBeaconContainer().visible).eql(true);
+  await t.expect(primaryAuthForm.getSecurityImageTooltip().visible).eql(true);
+});

@@ -281,6 +281,10 @@ export default Form.extend({
     return Dom.isVisible(this.passwordToggleShowContainer());
   },
 
+  passwordToggleHideContainerIsVisible: function() {
+    return Dom.isVisible(this.passwordToggleHideContainer());
+  },
+
   passwordToggleShowContainer: function() {
     return this.$('.password-toggle span.button-show');
   },
