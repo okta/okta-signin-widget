@@ -15,6 +15,8 @@ import config from '../../../src/config/config.json';
 
 const baseIdentifyMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrIdentify)
+  .onRequestTo('http://localhost:3000/idp/idx/identify')
   .respond(xhrIdentify);
 
 const identifyMockWithUnsupportedResponseError = RequestMock()
@@ -120,8 +122,7 @@ async function setup(t, widgetOptions) {
   return identityPage;
 }
 
-// Re-enable in OKTA-654448
-test.meta('gen3', false).requestHooks(identifyRequestLogger, identifyMock)('should be able to submit identifier with rememberMe', async t => {
+test.requestHooks(identifyRequestLogger, baseIdentifyMock)('should be able to submit identifier with rememberMe', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
 
@@ -140,7 +141,7 @@ test.meta('gen3', false).requestHooks(identifyRequestLogger, identifyMock)('shou
   await t.expect(req.method).eql('post');
   await t.expect(req.url).eql('http://localhost:3000/idp/idx/identify');
   await t.expect(reqHeaders['x-device-fingerprint']).notOk(); // only enabled if `features.deviceFingerprinting` is true
-  await t.expect(reqHeaders['x-okta-user-agent-extended']).contains(` okta-signin-widget-${config.version}`);
+  await t.expect(reqHeaders['x-okta-user-agent-extended']).contains(` okta-signin-widget-g3-${config.version}`);
 
   identifyRequestLogger.clear();
   await identityPage.fillIdentifierField('another foobar');
