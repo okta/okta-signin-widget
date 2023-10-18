@@ -15,8 +15,6 @@ import config from '../../../src/config/config.json';
 
 const baseIdentifyMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(xhrIdentify)
-  .onRequestTo('http://localhost:3000/idp/idx/identify')
   .respond(xhrIdentify);
 
 const identifyMockWithUnsupportedResponseError = RequestMock()
@@ -29,7 +27,16 @@ const identifyMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrIdentify)
   .onRequestTo('http://localhost:3000/idp/idx/identify')
-  .respond(xhrErrorIdentify, 403);
+  .respond((req, res) => {
+    res.headers['content-type'] = 'application/json';
+    if (userVariables.gen3) {
+      res.statusCode = '200';
+      res.setBody(xhrIdentify);
+    } else {
+      res.statusCode = '403';
+      res.setBody(xhrErrorIdentify);
+    }
+  });
 
 const identifyWithUnlockMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -122,7 +129,7 @@ async function setup(t, widgetOptions) {
   return identityPage;
 }
 
-test.requestHooks(identifyRequestLogger, baseIdentifyMock)('should be able to submit identifier with rememberMe', async t => {
+test.requestHooks(identifyRequestLogger, identifyMock)('should be able to submit identifier with rememberMe', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
 
@@ -141,7 +148,7 @@ test.requestHooks(identifyRequestLogger, baseIdentifyMock)('should be able to su
   await t.expect(req.method).eql('post');
   await t.expect(req.url).eql('http://localhost:3000/idp/idx/identify');
   await t.expect(reqHeaders['x-device-fingerprint']).notOk(); // only enabled if `features.deviceFingerprinting` is true
-  await t.expect(reqHeaders['x-okta-user-agent-extended']).contains(` okta-signin-widget-g3-${config.version}`);
+  await t.expect(reqHeaders['x-okta-user-agent-extended']).contains(` okta-signin-widget-${userVariables.gen3 ? 'g3-' : ''}${config.version}`);
 
   identifyRequestLogger.clear();
   await identityPage.fillIdentifierField('another foobar');
