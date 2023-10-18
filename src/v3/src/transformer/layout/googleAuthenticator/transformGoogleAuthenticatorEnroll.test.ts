@@ -73,6 +73,40 @@ describe('Google Authenticator Enroll Transformer Tests', () => {
     const updatedFormBag = transformGoogleAuthenticatorEnroll({
       transaction, formBag, widgetProps,
     });
+
+    validateForm(updatedFormBag);
+  });
+
+  it('should add Stepper layout to UI Schema elements '
+    + 'when GA Reset params exists in Idx response', () => {
+    transaction.nextStep = {
+      name: IDX_STEP.RESET_AUTHENTICATOR,
+      relatesTo: {
+        value: {
+          displayName: 'google auth',
+          id: '',
+          key: 'google_otp',
+          methods: [],
+          type: '',
+          contextualData: {
+            sharedSecret: 'ABC123DEF456',
+            qrcode: {
+              href: '#mockhref',
+              method: 'mockmethod',
+              type: 'mocktype',
+            },
+          },
+        },
+      },
+    };
+    const updatedFormBag = transformGoogleAuthenticatorEnroll({
+      transaction, formBag, widgetProps,
+    });
+
+    validateForm(updatedFormBag);
+  });
+
+  function validateForm(updatedFormBag) {
     expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(2);
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
@@ -118,5 +152,5 @@ describe('Google Authenticator Enroll Transformer Tests', () => {
       .toBe('oform.verify');
     expect((layoutThree.elements[2] as ButtonElement).options.type)
       .toBe(ButtonType.SUBMIT);
-  });
+  }
 });
