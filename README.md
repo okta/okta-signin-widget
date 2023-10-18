@@ -1490,8 +1490,6 @@ We use Yarn as our node package manager. To install Yarn, check out their [insta
 | `yarn start --watch`              | Build the widget, start the server, and open a browser window with the widget loaded and watch on widget js and sass changes                           |
 | `yarn build:dev`                  | Build an unminified version of the widget                                                                                                              |
 | `yarn build:release`              | Build a minified, uglified version of the widget (`okta-sign-in.min.js`) and a non-minified **development** version of the widget (`okta-sign-in.js`). |
-| `yarn test -t karma`              | Run unit tests using Karma                                                                                                                             |
-| `yarn test -t karma --suiteHelp`  | Display optional test suite options                                                                                                                    |
 | `yarn test -t jest`               | Run unit tests using Jest                                                                                                                              |
 | `yarn test -t jest --suiteHelp`   | Display optional test suite options                                                                                                                    |
 | `yarn test -t testcafe <browser>` | Run testcafe tests on selected browser (example: `yarn test -t testcafe chrome`)                                                                       |
