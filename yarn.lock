@@ -3634,10 +3634,10 @@
     "@mui/utils" "^5.10.9"
     "@okta/odyssey-design-tokens" "^0.17.0"
 
-"@okta/okta-auth-js@^7.4.2":
-  version "7.4.2"
-  resolved "https://registry.yarnpkg.com/@okta/okta-auth-js/-/okta-auth-js-7.4.2.tgz#f3b110779293c30b072c67ea1ab78c3188ce9443"
-  integrity sha512-7FV40urxesNv7pn5O0/7JeQKoXpbePqbj3qQTDn/2trKd+M2cDjXpOLebbTYs07iSK/YbsUkQXsvnJI5F5Pyqg==
+"@okta/okta-auth-js@7.4.2-g9ecd400":
+  version "7.4.2-g9ecd400"
+  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-all/@okta/okta-auth-js/-/@okta/okta-auth-js-7.4.2-g9ecd400.tgz#10a75618bb7e70bafaaefb76bdaff752e98aac0e"
+  integrity sha512-zN6Sc232vnCrtKdjy/Yvmj97jpQWjUVo3pNAhZLi8wSrX9O15mjWswe94N9m16KGaK5SWwcl5icJ1aatH5gdgA==
   dependencies:
     "@babel/runtime" "^7.12.5"
     "@peculiar/webcrypto" "^1.4.0"
