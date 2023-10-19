@@ -76,6 +76,7 @@ test.requestHooks(logger, authNSuccessMock)('should set autocomplete to off on u
   await t.expect(userNameField.getAttribute('autocomplete')).eql('off');
   await primaryAuthForm.setUsername('tester1@okta1.com');
   await primaryAuthForm.clickNextButton();
+  await t.wait(1000);
   await t.expect(primaryAuthForm.form.fieldByLabelExists('Password')).ok();
   await t.expect(primaryAuthForm.getInputField('password').getAttribute('autocomplete')).eql('off');
 });
