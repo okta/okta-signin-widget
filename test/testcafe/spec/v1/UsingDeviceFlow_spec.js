@@ -82,7 +82,14 @@ async function setup(t) {
 test.requestHooks(requestLogger, legacyDeviceCodeIdpCheckWithRedirectionMock)('force idp discovery after device activate and redirect to idp', async t => {
   const deviceCodeActivatePageObject = await setup(t);
   await rerenderWidget({
-    stateToken: null, // render legacy sign in widget
+    stateToken: null, // setting stateToken to null to trigger the V1 flow
+    features: {
+      router: true,
+    },
+    authParams: {
+      responseType: 'code',
+    },
+    useClassicEngine: true,
   });
 
   // login
@@ -104,10 +111,15 @@ test.requestHooks(requestLogger, legacyDeviceCodeIdpCheckWithRedirectionMock)('f
 test.requestHooks(requestLogger, legacyDeviceCodeIdpCheckWithRedirectionMock)('force idp discovery after device activate w/idp discovery feature and redirect to idp', async t => {
   const deviceCodeActivatePageObject = await setup(t);
   await rerenderWidget({
-    stateToken: null, // render legacy sign in widget
+    stateToken: null, // setting stateToken to null to trigger the V1 flow
     features: {
-      idpDiscovery: true
-    }
+      router: true,
+      idpDiscovery: true,
+    },
+    authParams: {
+      responseType: 'code',
+    },
+    useClassicEngine: true,
   });
 
   // login
@@ -130,7 +142,14 @@ test.requestHooks(requestLogger, legacyDeviceCodeIdpCheckWithRedirectionMock)('f
 test.requestHooks(requestLogger, legacyDeviceCodeForceIdpCheckWithoutRedirectionAndErrorMock)('force idp discovery after device activate and error route to default route', async t => {
   const deviceCodeActivatePageObject = await setup(t);
   await rerenderWidget({
-    stateToken: null, // render legacy sign in widget
+    stateToken: null, // setting stateToken to null to trigger the V1 flow
+    features: {
+      router: true,
+    },
+    authParams: {
+      responseType: 'code',
+    },
+    useClassicEngine: true,
   });
 
   // login
@@ -152,10 +171,15 @@ test.requestHooks(requestLogger, legacyDeviceCodeForceIdpCheckWithoutRedirection
 test.requestHooks(requestLogger, legacyDeviceCodeForceIdpCheckWithoutRedirectionAndErrorMock)('force idp discovery after device activate w/idp discovery and error route to default route', async t => {
   const deviceCodeActivatePageObject = await setup(t);
   await rerenderWidget({
-    stateToken: null, // render legacy sign in widget
+    stateToken: null, // setting stateToken to null to trigger the V1 flow
     features: {
-      idpDiscovery: true
-    }
+      router: true,
+      idpDiscovery: true,
+    },
+    authParams: {
+      responseType: 'code',
+    },
+    useClassicEngine: true,
   });
 
   // login
@@ -178,7 +202,14 @@ test.requestHooks(requestLogger, legacyDeviceCodeForceIdpCheckWithoutRedirection
 test.requestHooks(requestLogger, legacyDeviceCodeForceIdpCheckWithoutRedirectionMock)('force idp discovery after device activate and show username and password', async t => {
   const deviceCodeActivatePageObject = await setup(t);
   await rerenderWidget({
-    stateToken: null, // render legacy sign in widget
+    stateToken: null, // setting stateToken to null to trigger the V1 flow
+    features: {
+      router: true,
+    },
+    authParams: {
+      responseType: 'code',
+    },
+    useClassicEngine: true,
   });
 
   // login
@@ -200,10 +231,15 @@ test.requestHooks(requestLogger, legacyDeviceCodeForceIdpCheckWithoutRedirection
 test.requestHooks(requestLogger, legacyDeviceCodeForceIdpCheckWithoutRedirectionMock)('force idp discovery after device activate w/idp discovery feature and show username', async t => {
   const deviceCodeActivatePageObject = await setup(t);
   await rerenderWidget({
-    stateToken: null, // render legacy sign in widget
+    stateToken: null, // setting stateToken to null to trigger the V1 flow
     features: {
-      idpDiscovery: true
-    }
+      router: true,
+      idpDiscovery: true,
+    },
+    authParams: {
+      responseType: 'code',
+    },
+    useClassicEngine: true,
   });
 
   // login
@@ -226,7 +262,14 @@ test.requestHooks(requestLogger, legacyDeviceCodeForceIdpCheckWithoutRedirection
 test.requestHooks(requestLogger, legacyDeviceCodeShowLoginMock)('no idp discovery after device activate and show username and password', async t => {
   const deviceCodeActivatePageObject = await setup(t);
   await rerenderWidget({
-    stateToken: null, //start with 00 to render legacy sign in widget
+    stateToken: null, // setting stateToken to null to trigger the V1 flow
+    features: {
+      router: true,
+    },
+    authParams: {
+      responseType: 'code',
+    },
+    useClassicEngine: true,
   });
 
   // login
@@ -248,10 +291,15 @@ test.requestHooks(requestLogger, legacyDeviceCodeShowLoginMock)('no idp discover
 test.requestHooks(requestLogger, legacyDeviceCodeShowLoginMock)('idp discovery after device activate and show username only', async t => {
   const deviceCodeActivatePageObject = await setup(t);
   await rerenderWidget({
-    stateToken: null, // render legacy sign in widget
+    stateToken: null, // setting stateToken to null to trigger the V1 flow
     features: {
-      idpDiscovery: true
-    }
+      router: true,
+      idpDiscovery: true,
+    },
+    authParams: {
+      responseType: 'code',
+    },
+    useClassicEngine: true,
   });
 
   // login
@@ -275,10 +323,16 @@ test.requestHooks(requestLogger, legacyDeviceCodeShowLoginMockWithoutDeviceFlow)
   const deviceCodeActivatePageObject = await setup(t);
   const identityPage = new IdentityPageObject(t);
   await rerenderWidget({
-    stateToken: null, // render legacy sign in widget
+    stateToken: null, // setting stateToken to null to trigger the V1 flow
     features: {
-      idpDiscovery: true
+      router: true,
+      idpDiscovery: true,
     },
+    authParams: {
+      responseType: 'code',
+      codeChallenge: 'dummy-code-challenge',
+    },
+    useClassicEngine: true,
     idps: [
       {type: 'GOOGLE', id: '0oaaix1twko0jyKik0g1'}
     ]
@@ -311,10 +365,16 @@ test.requestHooks(requestLogger, legacyDeviceCodeShowLoginMockWithUsingDeviceFlo
   const deviceCodeActivatePageObject = await setup(t);
   const identityPage = new IdentityPageObject(t);
   await rerenderWidget({
-    stateToken: null, // render legacy sign in widget
+    stateToken: null, // setting stateToken to null to trigger the V1 flow
     features: {
-      idpDiscovery: true
+      router: true,
+      idpDiscovery: true,
     },
+    authParams: {
+      responseType: 'code',
+      codeChallenge: 'dummy-code-challenge',
+    },
+    useClassicEngine: true,
     idps: [
       {type: 'GOOGLE', id: '0oaaix1twko0jyKik0g1'}
     ]
