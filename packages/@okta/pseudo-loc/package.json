@@ -5,7 +5,11 @@
   "scripts": {
     "pseudo-loc": "node pseudo-loc.js"
   },
+  "type":"module",
   "devDependencies": {
     "@okta/tools.i18n.pseudo-loc": "0.1.0-34-g8b1e866"
+  },
+  "dependencies": {
+    "openai": "^4.12.3"
   }
 }
