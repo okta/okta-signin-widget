@@ -76,9 +76,8 @@ test.requestHooks(logger, authNSuccessMock)('should set autocomplete to off on u
   await t.expect(userNameField.getAttribute('autocomplete')).eql('off');
   await primaryAuthForm.setUsername('tester1@okta1.com');
   await primaryAuthForm.clickNextButton();
-  const passwordField = primaryAuthForm.getInputField('password');
-  await t.expect(passwordField.exists).ok();
-  await t.expect(passwordField.getAttribute('autocomplete')).eql('off');
+  await t.expect(primaryAuthForm.form.fieldByLabelExists('Password')).ok();
+  await t.expect(primaryAuthForm.getInputField('password').getAttribute('autocomplete')).eql('off');
 });
 
 test.requestHooks(logger)('sets aria-expanded attribute correctly when clicking help', async (t) => {
