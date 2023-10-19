@@ -492,7 +492,7 @@ const TransformerMap: {
       buttonConfig: { showDefaultSubmit: false },
     },
     [AUTHENTICATOR_KEY.GOOGLE_OTP]: {
-      transform: transformGoogleAuthenticatorVerify,
+      transform: transformGoogleAuthenticatorEnroll,
       buttonConfig: { showDefaultSubmit: false },
     },
   },

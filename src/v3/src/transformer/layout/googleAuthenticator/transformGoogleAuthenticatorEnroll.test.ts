@@ -32,6 +32,54 @@ describe('Google Authenticator Enroll Transformer Tests', () => {
   const widgetProps: WidgetProps = {};
   const formBag = getStubFormBag();
 
+  function validateForm(updatedFormBag) {
+    expect(updatedFormBag).toMatchSnapshot();
+    expect(updatedFormBag.uischema.elements.length).toBe(2);
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+      .toBe('oie.enroll.google_authenticator.setup.title');
+
+    const stepperLayout = updatedFormBag.uischema.elements[1] as StepperLayout;
+    const [layoutOne, layoutTwo, layoutThree] = stepperLayout.elements;
+
+    expect(layoutOne.elements.length).toBe(5);
+    expect((layoutOne.elements[0] as HeadingElement).options.content)
+      .toBe('oie.enroll.google_authenticator.scanBarcode.title');
+    expect((layoutOne.elements[1] as DescriptionElement).options.content)
+      .toBe('oie.enroll.google_authenticator.scanBarcode.description');
+    expect((layoutOne.elements[2] as QRCodeElement).options.data)
+      .toBe('#mockhref');
+    expect((layoutOne.elements[3] as StepperButtonElement).label)
+      .toBe('oie.enroll.google_authenticator.scanBarcode.cannotScan');
+    expect((layoutOne.elements[3] as StepperButtonElement).options.nextStepIndex)
+      .toBe(1);
+    expect((layoutOne.elements[4] as StepperButtonElement).label)
+      .toBe('oform.next');
+    expect((layoutOne.elements[4] as StepperButtonElement).options.nextStepIndex)
+      .toBe(2);
+
+    expect(layoutTwo.elements.length).toBe(4);
+    expect((layoutTwo.elements[0] as HeadingElement).options.content)
+      .toBe('oie.enroll.google_authenticator.cannotScanBarcode.title');
+    expect((layoutTwo.elements[1] as DescriptionElement).options.content)
+      .toBe('oie.enroll.google_authenticator.manualSetupInstructions');
+    expect((layoutTwo.elements[2] as DescriptionElement).options.content)
+      .toBe('A B C 1 2 3 D E F 4 5 6');
+    expect((layoutTwo.elements[3] as StepperButtonElement).label)
+      .toBe('oform.next');
+    expect((layoutTwo.elements[3] as StepperButtonElement).options.nextStepIndex)
+      .toBe(2);
+
+    expect(layoutThree.elements.length).toBe(3);
+    expect((layoutThree.elements[0] as DescriptionElement).options.content)
+      .toBe('oie.enroll.google_authenticator.enterCode.title');
+    expect((layoutThree.elements[1] as FieldElement).options.inputMeta.name)
+      .toBe('credentials.passcode');
+    expect((layoutThree.elements[2] as ButtonElement).label)
+      .toBe('oform.verify');
+    expect((layoutThree.elements[2] as ButtonElement).options.type)
+      .toBe(ButtonType.SUBMIT);
+  }
+
   beforeEach(() => {
     formBag.uischema.elements = [
       {
@@ -105,52 +153,4 @@ describe('Google Authenticator Enroll Transformer Tests', () => {
 
     validateForm(updatedFormBag);
   });
-
-  function validateForm(updatedFormBag) {
-    expect(updatedFormBag).toMatchSnapshot();
-    expect(updatedFormBag.uischema.elements.length).toBe(2);
-    expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
-      .toBe('oie.enroll.google_authenticator.setup.title');
-
-    const stepperLayout = updatedFormBag.uischema.elements[1] as StepperLayout;
-    const [layoutOne, layoutTwo, layoutThree] = stepperLayout.elements;
-
-    expect(layoutOne.elements.length).toBe(5);
-    expect((layoutOne.elements[0] as HeadingElement).options.content)
-      .toBe('oie.enroll.google_authenticator.scanBarcode.title');
-    expect((layoutOne.elements[1] as DescriptionElement).options.content)
-      .toBe('oie.enroll.google_authenticator.scanBarcode.description');
-    expect((layoutOne.elements[2] as QRCodeElement).options.data)
-      .toBe('#mockhref');
-    expect((layoutOne.elements[3] as StepperButtonElement).label)
-      .toBe('oie.enroll.google_authenticator.scanBarcode.cannotScan');
-    expect((layoutOne.elements[3] as StepperButtonElement).options.nextStepIndex)
-      .toBe(1);
-    expect((layoutOne.elements[4] as StepperButtonElement).label)
-      .toBe('oform.next');
-    expect((layoutOne.elements[4] as StepperButtonElement).options.nextStepIndex)
-      .toBe(2);
-
-    expect(layoutTwo.elements.length).toBe(4);
-    expect((layoutTwo.elements[0] as HeadingElement).options.content)
-      .toBe('oie.enroll.google_authenticator.cannotScanBarcode.title');
-    expect((layoutTwo.elements[1] as DescriptionElement).options.content)
-      .toBe('oie.enroll.google_authenticator.manualSetupInstructions');
-    expect((layoutTwo.elements[2] as DescriptionElement).options.content)
-      .toBe('A B C 1 2 3 D E F 4 5 6');
-    expect((layoutTwo.elements[3] as StepperButtonElement).label)
-      .toBe('oform.next');
-    expect((layoutTwo.elements[3] as StepperButtonElement).options.nextStepIndex)
-      .toBe(2);
-
-    expect(layoutThree.elements.length).toBe(3);
-    expect((layoutThree.elements[0] as DescriptionElement).options.content)
-      .toBe('oie.enroll.google_authenticator.enterCode.title');
-    expect((layoutThree.elements[1] as FieldElement).options.inputMeta.name)
-      .toBe('credentials.passcode');
-    expect((layoutThree.elements[2] as ButtonElement).label)
-      .toBe('oform.verify');
-    expect((layoutThree.elements[2] as ButtonElement).options.type)
-      .toBe(ButtonType.SUBMIT);
-  }
 });
