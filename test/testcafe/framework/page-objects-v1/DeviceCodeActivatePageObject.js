@@ -12,6 +12,14 @@ export default class DeviceCodeActivatePageObject extends BasePageObject {
     return this.form.getElement('.okta-form-subtitle').textContent;
   }
 
+  activationCodeFieldExists() {
+    return this.form.fieldByLabelExists('Activation Code');
+  }
+
+  signInFormUsernameFieldExists() {
+    return this.form.fieldByLabelExists('Username');
+  }
+
   clickNextButton() {
     return this.form.clickSaveButton();
   }

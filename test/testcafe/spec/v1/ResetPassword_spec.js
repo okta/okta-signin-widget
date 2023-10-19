@@ -24,7 +24,7 @@ const resetPasswordMock = RequestMock()
   .onRequestTo('http://localhost:3000/api/v1/authn/credentials/reset_password')
   .respond(null);
 
-fixture('Reset Password');
+fixture('Reset Password Auth Form').meta('gen1', true);
 
 const logger = RequestLogger(/token|cancel|reset_password/, {
   logRequestBody: true,

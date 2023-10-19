@@ -12,7 +12,7 @@ const authNSuccessMock = RequestMock()
   .onRequestTo('http://localhost:3000/api/v1/authn')
   .respond(authnSuccessResponse);
 
-fixture('Primary Auth Form');
+fixture('Primary Auth Form').meta('gen1', true);
 
 const logger = RequestLogger(
   /api\/v1/,
@@ -77,6 +77,7 @@ test.requestHooks(logger, authNSuccessMock)('should set autocomplete to off on u
   await primaryAuthForm.setUsername('tester1@okta1.com');
   await primaryAuthForm.clickNextButton();
   const passwordField = primaryAuthForm.getInputField('password');
+  await t.expect(passwordField.exists).ok();
   await t.expect(passwordField.getAttribute('autocomplete')).eql('off');
 });
 

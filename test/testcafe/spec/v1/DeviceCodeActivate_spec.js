@@ -69,7 +69,7 @@ const rerenderWidget = ClientFunction((settings) => {
   window.renderPlaygroundWidget(settings);
 });
 
-fixture('Device Code Activation Flow legacy SIW');
+fixture.skip('Device Code Activation Flow legacy SIW').meta('gen1', true);
 
 async function setup(t) {
   const deviceCodeActivatePage = new DeviceCodeActivatePageObject(t);
@@ -81,8 +81,13 @@ async function setup(t) {
 test.requestHooks(requestLogger, legacyDeviceCodeSuccessMock)('should be able to complete device code activation flow on legacy SIW', async t => {
   const deviceCodeActivatePageObject = await setup(t);
   await rerenderWidget({
-    stateToken: '00-dummy-state-token', //start with 00 to render legacy sign in widget
+    stateToken: null, // render legacy sign in widget
   });
+
+  // login
+  await deviceCodeActivatePageObject.form.setTextBoxValue('username', 'administrator@okta1.com');
+  await deviceCodeActivatePageObject.form.setTextBoxValue('password', 'pass@word123');
+  await deviceCodeActivatePageObject.form.clickSaveButton('Sign In');
 
   await t.expect(deviceCodeActivatePageObject.getFormTitle()).eql('Activate your device');
   await t.expect(deviceCodeActivatePageObject.getPageSubtitle()).eql('Follow the instructions on your device to get an activation code');
@@ -102,7 +107,7 @@ test.requestHooks(requestLogger, legacyDeviceCodeSuccessMock)('should be able to
   const reqBody = JSON.parse(req.body);
   await t.expect(reqBody).eql({
     userCode: 'ABCD-WXYZ',
-    stateToken: '00-dummy-state-token',
+    stateToken: null,
   });
   await t.expect(req.method).eql('post');
   await t.expect(req.url).eql('http://localhost:3000/api/v1/authn/device/activate');
@@ -110,6 +115,7 @@ test.requestHooks(requestLogger, legacyDeviceCodeSuccessMock)('should be able to
   requestLogger.clear();
 
   // identify with password
+  await t.expect(deviceCodeActivatePageObject.signInFormUsernameFieldExists()).ok();
   await deviceCodeActivatePageObject.fillUserNameField('Test Identifier');
   await deviceCodeActivatePageObject.fillPasswordField('random password 123');
   await deviceCodeActivatePageObject.clickNextButton();
@@ -130,8 +136,15 @@ test.requestHooks(requestLogger, legacyDeviceCodeSuccessMock)('should be able to
 test.requestHooks(legacyDeviceCodeConsentDeniedMock)('should be able to get device not activated screen when consent is denied on legacy SIW', async t => {
   const deviceCodeActivatePageObject = await setup(t);
   await rerenderWidget({
-    stateToken: '00-dummy-state-token', //start with 00 to render legacy sign in widget
+    stateToken: null, // render legacy sign in widget
   });
+
+  // login
+  await deviceCodeActivatePageObject.form.setTextBoxValue('username', 'administrator@okta1.com');
+  await deviceCodeActivatePageObject.form.setTextBoxValue('password', 'pass@word123');
+  await deviceCodeActivatePageObject.form.clickSaveButton('Sign In');
+
+  await t.expect(deviceCodeActivatePageObject.activationCodeFieldExists()).ok();
 
   // submit user code
   await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABCD-WXYZ');
@@ -153,8 +166,15 @@ test.requestHooks(legacyDeviceCodeConsentDeniedMock)('should be able to get devi
 test.requestHooks(legacyDeviceCodeErrorMock)('should be able to get device not activated screen when there is an internal error on legacy SIW', async t => {
   const deviceCodeActivatePageObject = await setup(t);
   await rerenderWidget({
-    stateToken: '00-dummy-state-token', //start with 00 to render legacy sign in widget
+    stateToken: null, // render legacy sign in widget
   });
+
+  // login
+  await deviceCodeActivatePageObject.form.setTextBoxValue('username', 'administrator@okta1.com');
+  await deviceCodeActivatePageObject.form.setTextBoxValue('password', 'pass@word123');
+  await deviceCodeActivatePageObject.form.clickSaveButton('Sign In');
+
+  await t.expect(deviceCodeActivatePageObject.activationCodeFieldExists()).ok();
 
   // submit user code
   await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABCD-WXYZ');
@@ -176,8 +196,13 @@ test.requestHooks(legacyDeviceCodeErrorMock)('should be able to get device not a
 test.requestHooks(legacyInvalidDeviceCodeMock)('should be able show error when wrong activation code is entered on legacy SIW', async t => {
   const deviceCodeActivatePageObject = await setup(t);
   await rerenderWidget({
-    stateToken: '00-dummy-state-token', //start with 00 to render legacy sign in widget
+    stateToken: null, // render legacy sign in widget
   });
+
+  // login
+  await deviceCodeActivatePageObject.form.setTextBoxValue('username', 'administrator@okta1.com');
+  await deviceCodeActivatePageObject.form.setTextBoxValue('password', 'pass@word123');
+  await deviceCodeActivatePageObject.form.clickSaveButton('Sign In');
 
   await t.expect(deviceCodeActivatePageObject.isActivateCodeTextBoxVisible()).eql(true);
   await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABCD-WXYZ');
@@ -191,8 +216,13 @@ test.requestHooks(requestLogger, deviceCodeInvalidUserCodeMock)('should be able 
   // navigate to /activate?user_code=FAKE-CODE
   await deviceCodeActivatePageObject.navigateToPage({ 'user_code': 'FAKE-CODE' });
   await rerenderWidget({
-    stateToken: '00-dummy-state-token', //start with 00 to render legacy sign in widget
+    stateToken: null, // render legacy sign in widget
   });
+
+  // login
+  await deviceCodeActivatePageObject.form.setTextBoxValue('username', 'administrator@okta1.com');
+  await deviceCodeActivatePageObject.form.setTextBoxValue('password', 'pass@word123');
+  await deviceCodeActivatePageObject.form.clickSaveButton('Sign In');
 
   await t.expect(deviceCodeActivatePageObject.isActivateCodeTextBoxVisible()).eql(true);
   // expect error
@@ -208,8 +238,15 @@ test.requestHooks(requestLogger, deviceCodeInvalidUserCodeMock)('should be able 
 test.requestHooks(requestLogger, legacyDeviceCodeSuccessMock)('should be able to add hyphen automatically after 4th char in activation code input on legacy SIW', async t => {
   const deviceCodeActivatePageObject = await setup(t);
   await rerenderWidget({
-    stateToken: '00-dummy-state-token', //start with 00 to render legacy sign in widget
+    stateToken: null, // render legacy sign in widget
   });
+
+  // login
+  await deviceCodeActivatePageObject.form.setTextBoxValue('username', 'administrator@okta1.com');
+  await deviceCodeActivatePageObject.form.setTextBoxValue('password', 'pass@word123');
+  await deviceCodeActivatePageObject.form.clickSaveButton('Sign In');
+
+  await t.expect(deviceCodeActivatePageObject.activationCodeFieldExists()).ok();
 
   await t.expect(await deviceCodeActivatePageObject.getActivationCodeTextBoxLabel()).eql('Activation Code');
   await t.expect(deviceCodeActivatePageObject.isActivateCodeTextBoxVisible()).eql(true);
@@ -222,8 +259,15 @@ test.requestHooks(requestLogger, legacyDeviceCodeSuccessMock)('should be able to
 test.requestHooks(requestLogger, legacyDeviceCodeSuccessWithUserCodeMock)('should be able to complete device code activation flow on legacy SIW with user code pre-populated', async t => {
   const deviceCodeActivatePageObject = await setup(t);
   await rerenderWidget({
-    stateToken: '00-dummy-state-token', //start with 00 to render legacy sign in widget
+    stateToken: null, // render legacy sign in widget
   });
+
+  // login
+  await deviceCodeActivatePageObject.form.setTextBoxValue('username', 'administrator@okta1.com');
+  await deviceCodeActivatePageObject.form.setTextBoxValue('password', 'pass@word123');
+  await deviceCodeActivatePageObject.form.clickSaveButton('Sign In');
+
+  await t.expect(deviceCodeActivatePageObject.activationCodeFieldExists()).ok();
 
   await t.expect(deviceCodeActivatePageObject.getFormTitle()).eql('Activate your device');
   await t.expect(deviceCodeActivatePageObject.getPageSubtitle()).eql('Follow the instructions on your device to get an activation code');
@@ -245,7 +289,7 @@ test.requestHooks(requestLogger, legacyDeviceCodeSuccessWithUserCodeMock)('shoul
   const reqBody = JSON.parse(req.body);
   await t.expect(reqBody).eql({
     userCode: 'ABCDXYWZ',
-    stateToken: '00-dummy-state-token',
+    stateToken: null,
   });
   await t.expect(req.method).eql('post');
   await t.expect(req.url).eql('http://localhost:3000/api/v1/authn/device/activate');

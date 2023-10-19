@@ -78,12 +78,12 @@ const config = {
   // limit concurrency when running flaky tests
   concurrency: OKTA_SIW_ONLY_FLAKY ? 1 : undefined,
 
-  filter: (_testName, _fixtureName, fixturePath, testMeta, fixtureMeta) => {
+  filter: (_testName, _fixtureName, _fixturePath, testMeta, fixtureMeta) => {
     // only check one of {gen3 | gen2} conditionals. without this guard, a
     // fixture or test will always get skipped in both testcafe runs
     if (env.OKTA_SIW_GEN3) {
       // Do not execute Gen 1 tests in parity suite
-      if (fixturePath.endsWith('v1')) {
+      if (fixtureMeta.gen1 === true) {
         return false;
       }
       // skip fixture on gen3

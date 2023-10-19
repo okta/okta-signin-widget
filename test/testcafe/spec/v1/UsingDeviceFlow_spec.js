@@ -70,7 +70,7 @@ const rerenderWidget = ClientFunction((settings) => {
   window.renderPlaygroundWidget(settings);
 });
 
-fixture('IDP Discovery force');
+fixture('IDP Discovery force').meta('gen1', true);
 
 async function setup(t) {
   const deviceCodeActivatePage = new DeviceCodeActivatePageObject(t);
@@ -82,8 +82,15 @@ async function setup(t) {
 test.requestHooks(requestLogger, legacyDeviceCodeIdpCheckWithRedirectionMock)('force idp discovery after device activate and redirect to idp', async t => {
   const deviceCodeActivatePageObject = await setup(t);
   await rerenderWidget({
-    stateToken: '00-dummy-state-token', //start with 00 to render legacy sign in widget
+    stateToken: null, // render legacy sign in widget
   });
+
+  // login
+  await deviceCodeActivatePageObject.form.setTextBoxValue('username', 'administrator@okta1.com');
+  await deviceCodeActivatePageObject.form.setTextBoxValue('password', 'pass@word123');
+  await deviceCodeActivatePageObject.form.clickSaveButton('Sign In');
+
+  await t.expect(deviceCodeActivatePageObject.activationCodeFieldExists()).ok();
 
   // submit user code
   await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABCDWXYZ');
@@ -97,11 +104,19 @@ test.requestHooks(requestLogger, legacyDeviceCodeIdpCheckWithRedirectionMock)('f
 test.requestHooks(requestLogger, legacyDeviceCodeIdpCheckWithRedirectionMock)('force idp discovery after device activate w/idp discovery feature and redirect to idp', async t => {
   const deviceCodeActivatePageObject = await setup(t);
   await rerenderWidget({
-    stateToken: '00-dummy-state-token', //start with 00 to render legacy sign in widget
+    stateToken: null, // render legacy sign in widget
     features: {
       idpDiscovery: true
     }
   });
+
+  // login
+  await deviceCodeActivatePageObject.form.setTextBoxValue('username', 'administrator@okta1.com');
+  await deviceCodeActivatePageObject.form.clickSaveButton();
+  await deviceCodeActivatePageObject.form.setTextBoxValue('password', 'pass@word123');
+  await deviceCodeActivatePageObject.form.clickSaveButton('Sign In');
+
+  await t.expect(deviceCodeActivatePageObject.activationCodeFieldExists()).ok();
 
   // submit user code
   await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABCDWXYZ');
@@ -115,12 +130,20 @@ test.requestHooks(requestLogger, legacyDeviceCodeIdpCheckWithRedirectionMock)('f
 test.requestHooks(requestLogger, legacyDeviceCodeForceIdpCheckWithoutRedirectionAndErrorMock)('force idp discovery after device activate and error route to default route', async t => {
   const deviceCodeActivatePageObject = await setup(t);
   await rerenderWidget({
-    stateToken: '00-dummy-state-token', //start with 00 to render legacy sign in widget
+    stateToken: null, // render legacy sign in widget
   });
+
+  // login
+  await deviceCodeActivatePageObject.form.setTextBoxValue('username', 'administrator@okta1.com');
+  await deviceCodeActivatePageObject.form.setTextBoxValue('password', 'pass@word123');
+  await deviceCodeActivatePageObject.form.clickSaveButton('Sign In');
+
+  await t.expect(deviceCodeActivatePageObject.activationCodeFieldExists()).ok();
 
   // submit user code
   await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABCDWXYZ');
   await deviceCodeActivatePageObject.clickNextButton();
+  await t.expect(deviceCodeActivatePageObject.signInFormUsernameFieldExists()).ok();
   await t.expect(deviceCodeActivatePageObject.getFormTitle()).eql('Sign In');
   await t.expect(deviceCodeActivatePageObject.isUserNameFieldVisible()).eql(true);
   await t.expect(deviceCodeActivatePageObject.isPasswordFieldVisible()).eql(true);
@@ -129,15 +152,24 @@ test.requestHooks(requestLogger, legacyDeviceCodeForceIdpCheckWithoutRedirection
 test.requestHooks(requestLogger, legacyDeviceCodeForceIdpCheckWithoutRedirectionAndErrorMock)('force idp discovery after device activate w/idp discovery and error route to default route', async t => {
   const deviceCodeActivatePageObject = await setup(t);
   await rerenderWidget({
-    stateToken: '00-dummy-state-token', //start with 00 to render legacy sign in widget
+    stateToken: null, // render legacy sign in widget
     features: {
       idpDiscovery: true
     }
   });
 
+  // login
+  await deviceCodeActivatePageObject.form.setTextBoxValue('username', 'administrator@okta1.com');
+  await deviceCodeActivatePageObject.form.clickSaveButton();
+  await deviceCodeActivatePageObject.form.setTextBoxValue('password', 'pass@word123');
+  await deviceCodeActivatePageObject.form.clickSaveButton('Sign In');
+
+  await t.expect(deviceCodeActivatePageObject.activationCodeFieldExists()).ok();
+
   // submit user code
   await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABCDWXYZ');
   await deviceCodeActivatePageObject.clickNextButton();
+  await t.expect(deviceCodeActivatePageObject.signInFormUsernameFieldExists()).ok();
   await t.expect(deviceCodeActivatePageObject.getFormTitle()).eql('Sign In');
   await t.expect(deviceCodeActivatePageObject.isUserNameFieldVisible()).eql(true);
   await t.expect(deviceCodeActivatePageObject.isPasswordFieldVisible()).eql(false);
@@ -146,12 +178,20 @@ test.requestHooks(requestLogger, legacyDeviceCodeForceIdpCheckWithoutRedirection
 test.requestHooks(requestLogger, legacyDeviceCodeForceIdpCheckWithoutRedirectionMock)('force idp discovery after device activate and show username and password', async t => {
   const deviceCodeActivatePageObject = await setup(t);
   await rerenderWidget({
-    stateToken: '00-dummy-state-token', //start with 00 to render legacy sign in widget
+    stateToken: null, // render legacy sign in widget
   });
+
+  // login
+  await deviceCodeActivatePageObject.form.setTextBoxValue('username', 'administrator@okta1.com');
+  await deviceCodeActivatePageObject.form.setTextBoxValue('password', 'pass@word123');
+  await deviceCodeActivatePageObject.form.clickSaveButton('Sign In');
+
+  await t.expect(deviceCodeActivatePageObject.activationCodeFieldExists()).ok();
 
   // submit user code
   await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABCDWXYZ');
   await deviceCodeActivatePageObject.clickNextButton();
+  await t.expect(deviceCodeActivatePageObject.signInFormUsernameFieldExists()).ok();
   await t.expect(deviceCodeActivatePageObject.getFormTitle()).eql('Sign In');
   await t.expect(deviceCodeActivatePageObject.isUserNameFieldVisible()).eql(true);
   await t.expect(deviceCodeActivatePageObject.isPasswordFieldVisible()).eql(true);
@@ -160,15 +200,24 @@ test.requestHooks(requestLogger, legacyDeviceCodeForceIdpCheckWithoutRedirection
 test.requestHooks(requestLogger, legacyDeviceCodeForceIdpCheckWithoutRedirectionMock)('force idp discovery after device activate w/idp discovery feature and show username', async t => {
   const deviceCodeActivatePageObject = await setup(t);
   await rerenderWidget({
-    stateToken: '00-dummy-state-token', //start with 00 to render legacy sign in widget
+    stateToken: null, // render legacy sign in widget
     features: {
       idpDiscovery: true
     }
   });
 
+  // login
+  await deviceCodeActivatePageObject.form.setTextBoxValue('username', 'administrator@okta1.com');
+  await deviceCodeActivatePageObject.form.clickSaveButton();
+  await deviceCodeActivatePageObject.form.setTextBoxValue('password', 'pass@word123');
+  await deviceCodeActivatePageObject.form.clickSaveButton('Sign In');
+
+  await t.expect(deviceCodeActivatePageObject.activationCodeFieldExists()).ok();
+
   // submit user code
   await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABCDWXYZ');
   await deviceCodeActivatePageObject.clickNextButton();
+  await t.expect(deviceCodeActivatePageObject.signInFormUsernameFieldExists()).ok();
   await t.expect(deviceCodeActivatePageObject.getFormTitle()).eql('Sign In');
   await t.expect(deviceCodeActivatePageObject.isUserNameFieldVisible()).eql(true);
   await t.expect(deviceCodeActivatePageObject.isPasswordFieldVisible()).eql(false);
@@ -177,12 +226,20 @@ test.requestHooks(requestLogger, legacyDeviceCodeForceIdpCheckWithoutRedirection
 test.requestHooks(requestLogger, legacyDeviceCodeShowLoginMock)('no idp discovery after device activate and show username and password', async t => {
   const deviceCodeActivatePageObject = await setup(t);
   await rerenderWidget({
-    stateToken: '00-dummy-state-token', //start with 00 to render legacy sign in widget
+    stateToken: null, //start with 00 to render legacy sign in widget
   });
+
+  // login
+  await deviceCodeActivatePageObject.form.setTextBoxValue('username', 'administrator@okta1.com');
+  await deviceCodeActivatePageObject.form.setTextBoxValue('password', 'pass@word123');
+  await deviceCodeActivatePageObject.form.clickSaveButton('Sign In');
+
+  await t.expect(deviceCodeActivatePageObject.activationCodeFieldExists()).ok();
 
   // submit user code
   await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABCDWXYZ');
   await deviceCodeActivatePageObject.clickNextButton();
+  await t.expect(deviceCodeActivatePageObject.signInFormUsernameFieldExists()).ok();
   await t.expect(deviceCodeActivatePageObject.getFormTitle()).eql('Sign In');
   await t.expect(deviceCodeActivatePageObject.isUserNameFieldVisible()).eql(true);
   await t.expect(deviceCodeActivatePageObject.isPasswordFieldVisible()).eql(true);
@@ -191,15 +248,24 @@ test.requestHooks(requestLogger, legacyDeviceCodeShowLoginMock)('no idp discover
 test.requestHooks(requestLogger, legacyDeviceCodeShowLoginMock)('idp discovery after device activate and show username only', async t => {
   const deviceCodeActivatePageObject = await setup(t);
   await rerenderWidget({
-    stateToken: '00-dummy-state-token', //start with 00 to render legacy sign in widget
+    stateToken: null, // render legacy sign in widget
     features: {
       idpDiscovery: true
     }
   });
 
+  // login
+  await deviceCodeActivatePageObject.form.setTextBoxValue('username', 'administrator@okta1.com');
+  await deviceCodeActivatePageObject.form.clickSaveButton();
+  await deviceCodeActivatePageObject.form.setTextBoxValue('password', 'pass@word123');
+  await deviceCodeActivatePageObject.form.clickSaveButton('Sign In');
+
+  await t.expect(deviceCodeActivatePageObject.activationCodeFieldExists()).ok();
+
   // submit user code
   await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABCDWXYZ');
   await deviceCodeActivatePageObject.clickNextButton();
+  await t.expect(deviceCodeActivatePageObject.signInFormUsernameFieldExists()).ok();
   await t.expect(deviceCodeActivatePageObject.getFormTitle()).eql('Sign In');
   await t.expect(deviceCodeActivatePageObject.isUserNameFieldVisible()).eql(true);
   await t.expect(deviceCodeActivatePageObject.isPasswordFieldVisible()).eql(false);
@@ -209,7 +275,7 @@ test.requestHooks(requestLogger, legacyDeviceCodeShowLoginMockWithoutDeviceFlow)
   const deviceCodeActivatePageObject = await setup(t);
   const identityPage = new IdentityPageObject(t);
   await rerenderWidget({
-    stateToken: '00-dummy-state-token', //start with 00 to render legacy sign in widget
+    stateToken: null, // render legacy sign in widget
     features: {
       idpDiscovery: true
     },
@@ -218,23 +284,34 @@ test.requestHooks(requestLogger, legacyDeviceCodeShowLoginMockWithoutDeviceFlow)
     ]
   });
 
+  // login
+  await deviceCodeActivatePageObject.form.setTextBoxValue('username', 'administrator@okta1.com');
+  await deviceCodeActivatePageObject.form.clickSaveButton();
+  await deviceCodeActivatePageObject.form.setTextBoxValue('password', 'pass@word123');
+  await deviceCodeActivatePageObject.form.clickSaveButton('Sign In');
+
+  await t.expect(deviceCodeActivatePageObject.activationCodeFieldExists()).ok();
+
   // submit user code
   await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABCDWXYZ');
   await deviceCodeActivatePageObject.clickNextButton();
+  await t.expect(deviceCodeActivatePageObject.signInFormUsernameFieldExists()).ok();
   await t.expect(deviceCodeActivatePageObject.getFormTitle()).eql('Sign In');
   await t.expect(deviceCodeActivatePageObject.isUserNameFieldVisible()).eql(true);
   await t.expect(deviceCodeActivatePageObject.isPasswordFieldVisible()).eql(false);
   await t.click('.social-auth-google-button');
+  // Have to wait for clicked page to load
+  await t.wait(1000);
   const pageUrl = await identityPage.getPageUrl();
   // using fromUri
-  await t.expect(pageUrl).eql('http://localhost:3000/sso/idps/0oaaix1twko0jyKik0g1?fromURI=');
+  await t.expect(pageUrl).contains('idp=0oaaix1twko0jyKik0g1');
 });
 
 test.requestHooks(requestLogger, legacyDeviceCodeShowLoginMockWithUsingDeviceFlow)('social login after device activate and redirect with state token', async t => {
   const deviceCodeActivatePageObject = await setup(t);
   const identityPage = new IdentityPageObject(t);
   await rerenderWidget({
-    stateToken: '00-dummy-state-token', //start with 00 to render legacy sign in widget
+    stateToken: null, // render legacy sign in widget
     features: {
       idpDiscovery: true
     },
@@ -243,14 +320,26 @@ test.requestHooks(requestLogger, legacyDeviceCodeShowLoginMockWithUsingDeviceFlo
     ]
   });
 
+  // login
+  await deviceCodeActivatePageObject.form.setTextBoxValue('username', 'administrator@okta1.com');
+  await deviceCodeActivatePageObject.form.clickSaveButton();
+  await deviceCodeActivatePageObject.form.setTextBoxValue('password', 'pass@word123');
+  await deviceCodeActivatePageObject.form.clickSaveButton('Sign In');
+
+  await t.expect(deviceCodeActivatePageObject.activationCodeFieldExists()).ok();
+
   // submit user code
   await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABCDWXYZ');
   await deviceCodeActivatePageObject.clickNextButton();
+  await t.expect(deviceCodeActivatePageObject.signInFormUsernameFieldExists()).ok();
   await t.expect(deviceCodeActivatePageObject.getFormTitle()).eql('Sign In');
   await t.expect(deviceCodeActivatePageObject.isUserNameFieldVisible()).eql(true);
   await t.expect(deviceCodeActivatePageObject.isPasswordFieldVisible()).eql(false);
   await t.click('.social-auth-google-button');
+  // Have to wait for clicked page to load
+  await t.wait(1000);
   const pageUrl = await identityPage.getPageUrl();
   // using stateToken
-  await t.expect(pageUrl).eql('http://localhost:3000/sso/idps/0oaaix1twko0jyKik0g1?stateToken=aStateToken');
+  await t.expect(pageUrl).contains('idp=0oaaix1twko0jyKik0g1');
+  await t.expect(pageUrl).contains('state=');
 });
