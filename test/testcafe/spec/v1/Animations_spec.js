@@ -80,9 +80,8 @@ test.requestHooks(logger, authNPrimaryAuthToSmsEnrollMock)('load primary authent
 
   await t.expect(animationTriggered()).eql(true);
   
-  // Wait 1sec to allow animation to complete and new elements to render
-  await t.wait(1000);
   const smsEnrollPageObject = new SmsEnrollPageObject(t);
+  await t.expect(smsEnrollPageObject.hasMFAFactorsList()).ok();
   await t.expect(smsEnrollPageObject.getFormTitle()).eql('Set up multifactor authentication');
 });
 
@@ -99,9 +98,8 @@ test.requestHooks(logger)('load forgot password form with page swap animation', 
 
   await t.expect(animationTriggered()).eql(true);
 
-  // Wait 1sec to allow animation to complete and new elements to render
-  await t.wait(1000);
   const forgotPasswordPageObject = new ForgotPasswordPageObject(t);
+  await t.expect(forgotPasswordPageObject.hasEmailField()).ok();
   await t.expect(forgotPasswordPageObject.getFormTitle()).eql('Reset Password');
 });
 
@@ -113,9 +111,8 @@ test.requestHooks(logger)('load forgot password form and navigate back to sign i
   await primaryAuthForm.clickLinkElement('Need help signing in?');
   await primaryAuthForm.clickLinkElement('Forgot password?');
 
-  // Wait 1sec to allow animation to complete and new elements to render
-  await t.wait(1000);
   const forgotPasswordPageObject = new ForgotPasswordPageObject(t);
+  await t.expect(forgotPasswordPageObject.hasEmailField()).ok();
   await t.expect(forgotPasswordPageObject.getFormTitle()).eql('Reset Password');
 
   // Observe transition happens from left to right
@@ -125,7 +122,7 @@ test.requestHooks(logger)('load forgot password form and navigate back to sign i
 
   await t.expect(animationTriggered()).eql(true);
 
-  await t.wait(1000);
   const primaryAuthPage = new PrimaryAuthPageObject(t);
+  await t.expect(primaryAuthForm.hasUsernameField()).ok();
   await t.expect(primaryAuthPage.getFormTitle()).eql('Sign In');
 });

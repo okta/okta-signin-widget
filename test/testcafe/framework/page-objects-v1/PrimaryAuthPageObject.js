@@ -6,6 +6,10 @@ export default class PrimaryAuthPageObject extends BasePageObject {
     super(t);
   }
 
+  hasUsernameField() {
+    return this.form.fieldByLabelExists('Username');
+  }
+
   getInputField(fieldName) {
     return this.form.findFormFieldInput(fieldName).child('input');
   }
@@ -34,8 +38,8 @@ export default class PrimaryAuthPageObject extends BasePageObject {
     return Selector('.okta-security-image-tooltip');
   }
 
-  async clickNextButton() {
-    await this.form.clickSaveButton();
+  async clickNextButton(name = 'Next') {
+    await this.form.clickSaveButton(name);
   }
 
   async clickLinkElement(name) {

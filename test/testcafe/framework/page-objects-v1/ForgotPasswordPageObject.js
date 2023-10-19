@@ -5,6 +5,10 @@ export default class ForgotPasswordPageObject extends BasePageObject {
     super(t);
   }
 
+  hasEmailField() {
+    return this.form.fieldByLabelExists('Email or Username');
+  }
+
   async clickLinkElement(name) {
     await this.t.click(this.form.getLink(name));
   }

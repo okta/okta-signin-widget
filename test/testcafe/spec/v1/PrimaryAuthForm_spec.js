@@ -1,5 +1,6 @@
 import { RequestMock, RequestLogger, ClientFunction } from 'testcafe';
 import PrimaryAuthPageObject from '../../framework/page-objects-v1/PrimaryAuthPageObject';
+import UnlockAccountPageObject from '../../framework/page-objects-v1/UnlockAccountPageObject';
 import authnSuccessResponse from '../../../../playground/mocks/data/api/v1/authn/success-001';
 
 const renderWidget = ClientFunction((settings) => {
@@ -83,6 +84,7 @@ test.requestHooks(logger)('sets aria-expanded attribute correctly when clicking 
   const primaryAuthForm = await setup(t);
 
   await t.expect(primaryAuthForm.getFormTitle()).eql('Sign In');
+  await t.expect(primaryAuthForm.getLinkElement('Need help signing in?').getAttribute('aria-expanded')).eql('false');
   await primaryAuthForm.clickLinkElement('Need help signing in?');
   await t.expect(primaryAuthForm.getLinkElement('Need help signing in?').getAttribute('aria-expanded')).eql('true');
   await t.expect(primaryAuthForm.getLinkElement('Forgot password?').visible).eql(true);
@@ -156,13 +158,65 @@ test.requestHooks(logger)('show anti-phishing message if security image become v
   await toggleBeacon(false);
 
   await t.expect(primaryAuthForm.getBeaconContainer().visible).eql(false);
-  // Migration from karma test showed that this was supposed to also be hidden
-  // when beacon is hidden, but that is not the case, I believe a false positive
-  // made the test pass.
-  // await t.expect(primaryAuthForm.getSecurityImageTooltip().visible).eql(false);
 
   await toggleBeacon();
 
   await t.expect(primaryAuthForm.getBeaconContainer().visible).eql(true);
   await t.expect(primaryAuthForm.getSecurityImageTooltip().visible).eql(true);
+});
+
+test.requestHooks(logger)('does not show anti-phishing message if security image is hidden', async (t) => {
+  const toggleBeacon = ClientFunction((show = true) => {
+    document.querySelector('.beacon-container').style.display = show ? 'block' : 'none';
+  });
+  const config = {
+    ...defaultConfig,
+    features: {
+      ...defaultConfig.features,
+      securityImage: true,
+    },
+  };
+  const primaryAuthForm = await setup(t, config);
+  await t.expect(primaryAuthForm.getFormTitle()).eql('Sign In');
+  // Confirm beacon is visible
+  await t.expect(primaryAuthForm.getBeaconContainer().visible).eql(true);
+  // Hide the beacon
+  await toggleBeacon(false);
+  await t.expect(primaryAuthForm.getBeaconContainer().visible).eql(false);
+
+  await primaryAuthForm.form.setTextBoxValue('username', 'unknown');
+  await primaryAuthForm.form.setTextBoxValue('password', 'pass@word123');
+
+  await t.expect(primaryAuthForm.getBeaconContainer().visible).eql(false);
+  await t.expect(primaryAuthForm.getSecurityImageTooltip().visible).eql(false);
+});
+
+test.requestHooks(logger)('removes anti-phishing message if help link is clicked', async (t) => {
+  const config = {
+    ...defaultConfig,
+    features: {
+      ...defaultConfig.features,
+      securityImage: true,
+      selfServiceUnlock: true,
+    },
+  };
+  const primaryAuthForm = await setup(t, config);
+
+  await t.expect(primaryAuthForm.getFormTitle()).eql('Sign In');
+  await primaryAuthForm.form.setTextBoxValue('username', 'unknown');
+  await primaryAuthForm.form.setTextBoxValue('password', 'pass@word123');
+
+  const tooltip = primaryAuthForm.getSecurityImageTooltip();
+  await t.expect(primaryAuthForm.getBeaconContainer().visible).eql(true);
+  await t.expect(tooltip.visible).eql(true);
+  await t.expect(tooltip.textContent).contains('This is the first time you are connecting to');
+
+  await primaryAuthForm.clickLinkElement('Need help signing in?');
+  await t.expect(primaryAuthForm.getLinkElement('Need help signing in?').getAttribute('aria-expanded')).eql('true');
+  await primaryAuthForm.clickLinkElement('Unlock account?');
+
+  const unlockAccountForm = new UnlockAccountPageObject(t);
+  await t.expect(unlockAccountForm.hasEmailOrUsernameField()).eql(true);
+  await t.expect(unlockAccountForm.isBeaconVisible()).eql(false);
+  await t.expect(unlockAccountForm.isSecurityImageTooltipVisible()).eql(false);
 });

@@ -862,29 +862,6 @@ Expect.describe('MFA Verify', function() {
         expect(Dom.isVisible(test.beacon.getOptionsList())).toBeTruthy();
       });
     });
-    xit('sets aria-expanded when dropDown link is clicked', function() {
-      return setup(allFactorsRes).then(function(test) {
-        expect(test.beacon.dropDownButton().attr('aria-expanded')).toBe('false');
-        test.beacon.dropDownButton().click();
-        expect(test.beacon.dropDownButton().attr('aria-expanded')).toBe('true');
-      });
-    });
-    xit('sets aria-expanded when beacon is clicked', function() {
-      return setup(allFactorsRes).then(function(test) {
-        expect(test.beacon.dropDownButton().attr('aria-expanded')).toBe('false');
-        test.beacon.factorBeacon().click();
-        expect(test.beacon.dropDownButton().attr('aria-expanded')).toBe('true');
-      });
-    });
-    xit('sets aria-expanded to false when anywhere outside of the dropdown is clicked', function() {
-      return setup(allFactorsRes).then(function(test) {
-        expect(test.beacon.dropDownButton().attr('aria-expanded')).toBe('false');
-        test.beacon.factorBeacon().click();
-        expect(test.beacon.dropDownButton().attr('aria-expanded')).toBe('true');
-        $(document).click();
-        expect(test.beacon.dropDownButton().attr('aria-expanded')).toBe('false');
-      });
-    });
     itp('updates beacon image when different factor is selected', function() {
       return setup(allFactorsRes)
         .then(function(test) {
