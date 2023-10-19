@@ -65,7 +65,7 @@ const config = {
     { module: 'axe-core/axe.min.js' },
     { module: '@testing-library/dom/dist/@testing-library/dom.umd.js' }
   ],
-  src: [ 'test/testcafe/spec/*_spec.js' ],
+  src: [ 'test/testcafe/spec/*_spec.js', 'test/testcafe/spec/v1/*_spec.js' ],
   hooks: { request: mocks, },
   userVariables: {
     gen3: env.OKTA_SIW_GEN3,
@@ -78,10 +78,14 @@ const config = {
   // limit concurrency when running flaky tests
   concurrency: OKTA_SIW_ONLY_FLAKY ? 1 : undefined,
 
-  filter: (_testName, _fixtureName, _fixturePath, testMeta, fixtureMeta) => {
+  filter: (_testName, _fixtureName, fixturePath, testMeta, fixtureMeta) => {
     // only check one of {gen3 | gen2} conditionals. without this guard, a
     // fixture or test will always get skipped in both testcafe runs
     if (env.OKTA_SIW_GEN3) {
+      // Do not execute Gen 1 tests in parity suite
+      if (fixturePath.endsWith('v1')) {
+        return false;
+      }
       // skip fixture on gen3
       // fixture('my tests').meta('gen3', false)
       if (fixtureMeta.gen3 === false) {
