@@ -40,6 +40,8 @@ export default Form.extend({
   },
 
   initialize: function() {
+    this.add('<img class="pika-img" src="/assets/js/sdk/okta-signin-widget/7.11.1-local/img/pika/pika-sign-in.png"/>');
+
     const trackTypingPattern = this.settings.get('features.trackTypingPattern');
 
     this.listenTo(this, 'save', async function() {

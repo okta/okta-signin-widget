@@ -40,6 +40,7 @@ export default FormController.extend({
           View: View.extend({
             template: hbs(
               '\
+              <img class="pika-img" src="/assets/js/sdk/okta-signin-widget/7.11.1-local/img/pika/pika-email-sent.png"/>\
               <span class="accessibility-text" role="status">{{alert}}</span>\
               '
             ),

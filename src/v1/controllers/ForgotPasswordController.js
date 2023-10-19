@@ -174,6 +174,8 @@ export default FormController.extend({
           this.setDefaultFactorType(Enums.RECOVERY_FACTOR_TYPE_CALL);
         }
         if (emailEnabled) {
+          formChildren.push('<img class="pika-img" src="/assets/js/sdk/okta-signin-widget/7.11.1-local/img/pika/pika-reset-password.png"/>');
+
           this.$el.addClass('forgot-password-email-enabled');
           formChildren.push(
             this.createRecoveryFactorButton(

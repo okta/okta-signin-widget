@@ -15,6 +15,7 @@ import hbs from '@okta/handlebars-inline-precompile';
 export default View.extend({
 
   template: hbs`
+    <img class="pika-img" src="/assets/js/sdk/okta-signin-widget/7.11.1-local/img/pika/pika-stuffed-animal.png"/>
     <div data-type="beacon-container" class="beacon-container">
       <div class="beacon-blank auth-beacon">
         <div class="beacon-blank js-blank-beacon-border auth-beacon-border"></div>

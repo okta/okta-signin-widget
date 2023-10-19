@@ -106,6 +106,8 @@ export default FormController.extend({
     },
 
     preRender: function() {
+      this.add('<img class="pika-img" src="/assets/js/sdk/okta-signin-widget/7.11.1-local/img/pika/pika-stuffed-animal-2.png"/>');
+
       // form subtitle does not support unescaped strings, and we need some html elements
       // in the subtitle for this form. So instead of a regular subtitle, we add a <span>
       // with the text we need

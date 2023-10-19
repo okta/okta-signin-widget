@@ -246,6 +246,8 @@ const Body = BaseForm.extend({
 });
 
 export default BaseView.extend({
+  Header: '<img class="pika-img" src="/assets/js/sdk/okta-signin-widget/7.11.1-local/img/pika/pika-stuffed-animal-2.png"/>',
+
   Body,
 
   createModelClass() {

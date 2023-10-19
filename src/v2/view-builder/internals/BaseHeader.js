@@ -6,6 +6,7 @@ export default View.extend({
   HeaderBeacon: null,
 
   initialize() {
+    this.add('<img class="pika-img" src="/assets/js/sdk/okta-signin-widget/7.11.1-local/img/pika/pika-stuffed-animal.png"/>');
     if (this.HeaderBeacon) {
       this.add(this.HeaderBeacon);
     }

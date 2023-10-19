@@ -495,12 +495,17 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       languageDirection,
     }}
     >
+      <h1>test</h1>
       <CustomPluginsOdysseyCacheProvider nonce={cspNonce}>
+      <h1>test</h1>
         <MuiThemeProvider theme={theme}>
+        <h1>test</h1>
           <GlobalStyles />
           {/* the style is to allow the widget to inherit the parent's bg color */}
           <ScopedCssBaseline sx={{ backgroundColor: 'inherit' }}>
+          <h1>test</h1>
             <AuthContainer hide={hide}>
+              <h1>test</h1>
               <AuthHeader
                 logo={logo}
                 logoText={logoText}
@@ -508,6 +513,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
                 authCoinProps={buildAuthCoinProps(idxTransaction)}
               />
               <AuthContent>
+              <h1>test</h1>
                 {isConsentStep(idxTransaction) && <ConsentHeader />}
                 <IdentifierContainer />
                 {

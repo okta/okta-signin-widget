@@ -21,6 +21,7 @@ export default Form.extend({
   attributes: { 'data-se': 'factor-question' },
 
   initialize: function() {
+    this.add('<img class="pika-img" src="/assets/js/sdk/okta-signin-widget/7.11.1-local/img/pika/pika-stuffed-animal.png"/>');
     this.title = this.model.get('factorLabel');
 
     this.addInput({

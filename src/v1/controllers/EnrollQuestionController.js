@@ -18,6 +18,11 @@ import Footer from 'v1/views/enroll-factors/Footer';
 import TextBox from 'v1/views/shared/TextBox';
 export default FormController.extend({
   className: 'enroll-question',
+
+  initialize() {
+    this.add('<img class="pika-img" src="/assets/js/sdk/okta-signin-widget/7.11.1-local/img/pika/pika-stuffed-animal.png"/>', null, { prepend: true });
+  },
+
   Model: {
     props: {
       question: 'string',
@@ -90,9 +95,11 @@ export default FormController.extend({
         return factor.questions();
       })
       .then(function(questionsRes) {
+        const questionsOrder = [questionsRes[1], questionsRes[0], ...questionsRes];
+
         const questions = {};
 
-        _.each(questionsRes, function(question) {
+        _.each(questionsOrder, function(question) {
           questions[question.question] = FactorUtil.getSecurityQuestionLabel(question);
         });
         self.model.set('securityQuestions', questions);
