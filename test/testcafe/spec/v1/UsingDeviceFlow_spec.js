@@ -74,7 +74,7 @@ fixture('IDP Discovery force').meta('gen1', true);
 
 async function setup(t) {
   const deviceCodeActivatePage = new DeviceCodeActivatePageObject(t);
-  await deviceCodeActivatePage.navigateToPage();
+  await deviceCodeActivatePage.navigateToPage({ render: false });
   requestLogger.clear();
   return deviceCodeActivatePage;
 }
