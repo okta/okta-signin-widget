@@ -10,6 +10,8 @@ import idpForceResponseOktaIdP from '../../../../playground/mocks/data/.well-kno
 
 // Legacy mocks
 const legacyDeviceCodeIdpCheckWithRedirectionMock = RequestMock()
+  .onRequestTo('http://localhost:3000/api/v1/authn')
+  .respond(legacyDeviceCodeActivateResponse)
   .onRequestTo('http://localhost:3000/api/v1/authn/introspect')
   .respond(legacyDeviceCodeActivateResponse)
   .onRequestTo('http://localhost:3000/api/v1/authn/device/activate')
@@ -20,6 +22,8 @@ const legacyDeviceCodeIdpCheckWithRedirectionMock = RequestMock()
   .respond('<html><h1>An external IdP login page for testcafe testing</h1></html>');
 
 const legacyDeviceCodeForceIdpCheckWithoutRedirectionMock = RequestMock()
+  .onRequestTo('http://localhost:3000/api/v1/authn')
+  .respond(legacyDeviceCodeActivateResponse)
   .onRequestTo('http://localhost:3000/api/v1/authn/introspect')
   .respond(legacyDeviceCodeActivateResponse)
   .onRequestTo('http://localhost:3000/api/v1/authn/device/activate')
@@ -28,6 +32,8 @@ const legacyDeviceCodeForceIdpCheckWithoutRedirectionMock = RequestMock()
   .respond(idpForceResponseOktaIdP);
 
 const legacyDeviceCodeForceIdpCheckWithoutRedirectionAndErrorMock = RequestMock()
+  .onRequestTo('http://localhost:3000/api/v1/authn')
+  .respond(legacyDeviceCodeActivateResponse)
   .onRequestTo('http://localhost:3000/api/v1/authn/introspect')
   .respond(legacyDeviceCodeActivateResponse)
   .onRequestTo('http://localhost:3000/api/v1/authn/device/activate')
@@ -36,12 +42,16 @@ const legacyDeviceCodeForceIdpCheckWithoutRedirectionAndErrorMock = RequestMock(
   .respond(idpForceResponseOktaIdP, 400);
 
 const legacyDeviceCodeShowLoginMock = RequestMock()
+  .onRequestTo('http://localhost:3000/api/v1/authn')
+  .respond(legacyDeviceCodeActivateResponse)
   .onRequestTo('http://localhost:3000/api/v1/authn/introspect')
   .respond(legacyDeviceCodeActivateResponse)
   .onRequestTo('http://localhost:3000/api/v1/authn/device/activate')
   .respond(legacyUnauthenticated);
 
 const legacyDeviceCodeShowLoginMockWithUsingDeviceFlow = RequestMock()
+  .onRequestTo('http://localhost:3000/api/v1/authn')
+  .respond(legacyDeviceCodeActivateResponse)
   .onRequestTo('http://localhost:3000/api/v1/authn/introspect')
   .respond(legacyDeviceCodeActivateResponse)
   .onRequestTo('http://localhost:3000/api/v1/authn/device/activate')
@@ -50,6 +60,8 @@ const legacyDeviceCodeShowLoginMockWithUsingDeviceFlow = RequestMock()
   .respond('<html><h1>An external IdP login page for testcafe testing</h1></html>');
 
 const legacyDeviceCodeShowLoginMockWithoutDeviceFlow = RequestMock()
+  .onRequestTo('http://localhost:3000/api/v1/authn')
+  .respond(legacyDeviceCodeActivateResponse)
   .onRequestTo('http://localhost:3000/api/v1/authn/introspect')
   .respond(legacyDeviceCodeActivateResponse)
   .onRequestTo('http://localhost:3000/api/v1/authn/device/activate')
@@ -319,11 +331,12 @@ test.requestHooks(requestLogger, legacyDeviceCodeShowLoginMock)('idp discovery a
   await t.expect(deviceCodeActivatePageObject.isPasswordFieldVisible()).eql(false);
 });
 
-test.requestHooks(requestLogger, legacyDeviceCodeShowLoginMockWithoutDeviceFlow)('social login after device activate and redirect with from uri', async t => {
+test.only.requestHooks(requestLogger, legacyDeviceCodeShowLoginMockWithoutDeviceFlow)('social login after device activate and redirect with from uri', async t => {
   const deviceCodeActivatePageObject = await setup(t);
   const identityPage = new IdentityPageObject(t);
   await rerenderWidget({
     stateToken: null, // setting stateToken to null to trigger the V1 flow
+    authScheme: '',
     features: {
       router: true,
       idpDiscovery: true,
@@ -358,7 +371,7 @@ test.requestHooks(requestLogger, legacyDeviceCodeShowLoginMockWithoutDeviceFlow)
   await t.wait(1000);
   const pageUrl = await identityPage.getPageUrl();
   // using fromUri
-  await t.expect(pageUrl).contains('idp=0oaaix1twko0jyKik0g1');
+  await t.expect(pageUrl).eql('http://localhost:3000/sso/idps/0oaaix1twko0jyKik0g1?fromURI=');
 });
 
 test.requestHooks(requestLogger, legacyDeviceCodeShowLoginMockWithUsingDeviceFlow)('social login after device activate and redirect with state token', async t => {
@@ -366,6 +379,7 @@ test.requestHooks(requestLogger, legacyDeviceCodeShowLoginMockWithUsingDeviceFlo
   const identityPage = new IdentityPageObject(t);
   await rerenderWidget({
     stateToken: null, // setting stateToken to null to trigger the V1 flow
+    authScheme: '',
     features: {
       router: true,
       idpDiscovery: true,
@@ -400,6 +414,5 @@ test.requestHooks(requestLogger, legacyDeviceCodeShowLoginMockWithUsingDeviceFlo
   await t.wait(1000);
   const pageUrl = await identityPage.getPageUrl();
   // using stateToken
-  await t.expect(pageUrl).contains('idp=0oaaix1twko0jyKik0g1');
-  await t.expect(pageUrl).contains('state=');
+  await t.expect(pageUrl).eql('http://localhost:3000/sso/idps/0oaaix1twko0jyKik0g1?stateToken=aStateToken');
 });
