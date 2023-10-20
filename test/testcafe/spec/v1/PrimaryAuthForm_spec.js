@@ -25,9 +25,7 @@ const logger = RequestLogger(
 
 const defaultConfig = {
   stateToken: null, // setting stateToken to null to trigger the V1 flow
-  features: {
-    router: true,
-  },
+  features: {},
   authParams: {
     responseType: 'code',
   },
