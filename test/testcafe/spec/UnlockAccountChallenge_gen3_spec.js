@@ -74,7 +74,7 @@ const rerenderWidget = ClientFunction((settings) => {
   window.renderPlaygroundWidget(settings);
 });
 
-fixture('Unlock Account').meta('gen2', false);
+fixture('Unlock Account - Gen 3').meta('gen2', false);
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
