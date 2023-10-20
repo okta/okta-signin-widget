@@ -81,7 +81,6 @@ import AuthHeader from '../AuthHeader/AuthHeader';
 import ConsentHeader from '../ConsentHeader';
 import CustomPluginsOdysseyCacheProvider from '../CustomPluginsOdysseyCacheProvider';
 import Form from '../Form';
-import IdentifierContainer from '../IdentifierContainer';
 import Spinner from '../Spinner';
 import GlobalStyles from './GlobalStyles';
 
@@ -509,7 +508,6 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
               />
               <AuthContent>
                 {isConsentStep(idxTransaction) && <ConsentHeader />}
-                <IdentifierContainer />
                 {
                   uischema.elements.length > 0
                     ? <Form uischema={uischema as UISchemaLayout} />

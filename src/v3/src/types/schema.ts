@@ -619,3 +619,10 @@ export interface CaptchaContainerElement extends UISchemaElement {
     type: 'HCAPTCHA' | 'RECAPTCHA_V2';
   };
 }
+
+export interface IdentifierContainerElement extends UISchemaElement {
+  type: 'IdentifierContainer';
+  options: {
+    identifier: string;
+  };
+}
