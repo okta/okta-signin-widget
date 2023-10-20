@@ -15,6 +15,7 @@
 
 import _cloneDeep from 'clone-deep';
 import deepMerge from 'deepmerge';
+import deepEqual from 'fast-deep-equal';
 
 export function cloneDeep<T>(v: T): T {
   return _cloneDeep(v);
@@ -127,57 +128,5 @@ export function union(...arrs) {
 }
 
 export function isEqual(a: unknown, b: unknown) {
-  if (a === b) {
-    return true;
-  } else if (Array.isArray(a) && Array.isArray(b)) {
-    return areArraysEqual(a, b);
-  } else if (typeof a === 'object') {
-    return areObjectsEqual(a, b);
-  } else {
-    return false;
-  }
-}
-
-function areArraysEqual(arrA: unknown[], arrB: unknown[]) {
-  if (arrA === arrB) {
-    return true;
-  }
-  if (!arrA || !arrB) {
-    return false;
-  }
-  if (arrA.length !== arrB.length) {
-    return false;
-  }
-
-  for (let i = 0; i < arrA.length; i++) {
-    if (!isEqual(arrA[i], arrB[i])) {
-      return false;
-    }
-  }
-
-  return true;
-}
-
-function areObjectsEqual(objA, objB) {
-  if (objA === objB) {
-    return true;
-  }
-  if (!objA || !objB) {
-    return false;
-  }
-
-  const aKeys = Object.keys(objA);
-  const bKeys = Object.keys(objB);
-  if (aKeys.length !== bKeys.length) {
-    return false;
-  }
-
-  for (let i = 0; i < aKeys.length; i++) {
-    const key = aKeys[i];
-    if (!isEqual(objA[key], objB[key])) {
-      return false;
-    }
-  }
-
-  return true;
+  return deepEqual(a, b);
 }
