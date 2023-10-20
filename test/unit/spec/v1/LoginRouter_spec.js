@@ -1306,18 +1306,6 @@ Expect.describe('v1/LoginRouter', function() {
       };
     }
 
-    xit('uses PKCE by default', function() {
-      return setupOAuth2({}, { mockWellKnown: true }).then(test => {
-        expectAuthorizeUrl(test.iframeElem.src, {
-          responseType: 'code',
-          code_challenge_method: 'S256',
-          responseMode: 'okta_post_message',
-          prompt: 'none',
-        });
-        Expect.isNotVisible($(test.iframeElem));
-      });
-    });
-
     itp('can use implicit flow', function() {
       return setupOAuth2({
         'authParams.pkce': false
@@ -1329,30 +1317,6 @@ Expect.describe('v1/LoginRouter', function() {
         });
         Expect.isNotVisible($(test.iframeElem));
       });
-    });
-
-    xit('can redirect with PKCE flow', function() {
-      return setupOAuth2({
-        'redirect': 'always'
-      }, { mockWellKnown: true, expectRedirect: true }).then(
-        expectCodeRedirect({
-          responseType: 'code',
-          code_challenge_method: 'S256',
-        })
-      );
-    });
-
-    xit('can redirect with PKCE flow and responseMode "fragment"', function() {
-      return setupOAuth2({
-        'redirect': 'always',
-        'authParams.responseMode': 'fragment',
-      }, { mockWellKnown: true, expectRedirect: true }).then(
-        expectCodeRedirect({
-          responseType: 'code',
-          responseMode: 'fragment',
-          code_challenge_method: 'S256',
-        })
-      );
     });
 
     itp('can redirect with implicit flow', function() {
