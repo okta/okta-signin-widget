@@ -18,7 +18,6 @@ import {
   IdxTransaction,
   OAuthError,
 } from '@okta/okta-auth-js';
-import { cloneDeep, merge, omit } from 'lodash';
 import { useCallback } from 'preact/hooks';
 import { generateDeviceFingerprint } from 'src/util/deviceFingerprintingUtils';
 
@@ -44,6 +43,7 @@ import {
   triggerRegistrationErrorMessages,
 } from '../util';
 import { getEventContext } from '../util/getEventContext';
+import { omit, cloneDeep, merge } from '../../../util/utils';
 
 type OnSubmitHandlerOptions = {
   includeData?: boolean;

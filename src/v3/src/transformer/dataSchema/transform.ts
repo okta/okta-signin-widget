@@ -10,14 +10,13 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { flow } from 'lodash';
-
 import {
   ButtonElement,
   ButtonType,
   TransformStepFn,
 } from '../../types';
 import { traverseLayout } from '../util';
+import { flow } from '../../../../util/utils';
 
 const addSubmission: TransformStepFn = (formbag) => {
   const { uischema, dataSchema } = formbag;

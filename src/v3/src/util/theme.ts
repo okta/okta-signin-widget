@@ -13,11 +13,11 @@
 import { ThemeOptions } from '@mui/material';
 import { odysseyTheme } from '@okta/odyssey-react-mui';
 import chroma from 'chroma-js';
-import { set as _set } from 'lodash';
 
 import { BrandColors } from '../types';
 import { DESIGN_TOKENS, DesignTokensType } from './designTokens';
 import { mergeThemes } from './mergeThemes';
+import { set as _set } from '../../../util/utils';
 
 export type Palette = Partial<{
   main: string;

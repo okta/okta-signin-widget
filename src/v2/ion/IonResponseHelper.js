@@ -10,11 +10,11 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import _ from 'underscore';
 import { getMessage, getMessageKey } from './i18nUtils';
+import { isEqual } from '../../util/utils';
 
 const convertErrorMessageToErrorSummary = (formName, remediationValues = []) => {
-  return _.chain(remediationValues)
+  return remediationValues
     .filter(field => {
       return Array.isArray(field.messages?.value) && field.messages.value.length;
     })
@@ -24,8 +24,7 @@ const convertErrorMessageToErrorSummary = (formName, remediationValues = []) => 
         errorSummary: field.messages.value.map(getMessage),
         errorKey: field.messages.value.map(getMessageKey),
       };
-    })
-    .value();
+    });
 };
 
 /**
@@ -37,7 +36,7 @@ const uniqWith = (array, comparator) => {
   if (!Array.isArray(array)) {
     return [];
   }
-  if (!_.isFunction(comparator) || array.length === 1) {
+  if (typeof comparator !== 'function' || array.length === 1) {
     return array;
   }
 
@@ -83,7 +82,7 @@ const getRemediationErrors = (res) => {
   // error at field
   errors.push(convertErrorMessageToErrorSummary(null, remediationFormFields));
 
-  _.each(remediationFormFields, (remediationForm) => {
+  remediationFormFields.forEach((remediationForm) => {
     const formName = remediationForm.name;
 
     // error at form.value
@@ -93,7 +92,7 @@ const getRemediationErrors = (res) => {
 
     // error at option.value.form.value
     if (Array.isArray(remediationForm.options)) {
-      _.each(remediationForm.options, (option) => {
+      remediationForm.options.forEach((option) => {
         if (Array.isArray(option.value?.form?.value)) {
           errors.push(convertErrorMessageToErrorSummary(formName, option.value.form.value));
         }
@@ -104,7 +103,7 @@ const getRemediationErrors = (res) => {
   // API may return identical error on same field
   // thus run through `uniqWith`.
   // Check unit test for details.
-  return uniqWith(_.flatten(errors), _.isEqual);
+  return uniqWith(errors.flat(Infinity), isEqual);
 };
 
 /**

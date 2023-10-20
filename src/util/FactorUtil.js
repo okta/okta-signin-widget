@@ -11,8 +11,8 @@
  */
 
 /* eslint complexity: [2, 38], max-statements: [2, 38] */
-import _ from 'underscore';
 import { loc } from './loc';
+import { omit, union } from './utils';
 import TimeUtil from 'util/TimeUtil';
 const fn = {};
 const factorData = {
@@ -172,9 +172,9 @@ const getPasswordComplexityRequirementsAsArray = function(policy, i18nKeys) {
   const setExcludeAttributes = function(policyComplexity) {
     const excludeAttributes = policyComplexity.excludeAttributes;
 
-    policyComplexity.excludeFirstName = _.contains(excludeAttributes, 'firstName');
-    policyComplexity.excludeLastName = _.contains(excludeAttributes, 'lastName');
-    return _.omit(policyComplexity, 'excludeAttributes');
+    policyComplexity.excludeFirstName = excludeAttributes?.includes('firstName') ?? false;
+    policyComplexity.excludeLastName = excludeAttributes?.includes('lastName') ?? false;
+    return omit(policyComplexity, ['excludeAttributes']);
   };
 
   if (policy.complexity) {
@@ -191,7 +191,7 @@ const getPasswordComplexityRequirementsAsArray = function(policy, i18nKeys) {
       filteredPolicyComplexity = _.pick(policyComplexity, allowed);
     }
 
-    const requirements = _.map(filteredPolicyComplexity, function(complexityValue, complexityType) {
+    const requirements = Object.entries(filteredPolicyComplexity).map(([complexityType, complexityValue]) => {
       if (complexityValue <= 0) {
         // to skip 0 and -1
         return;
@@ -202,7 +202,7 @@ const getPasswordComplexityRequirementsAsArray = function(policy, i18nKeys) {
       return params.args ? loc(params.i18n, 'login', [complexityValue]) : loc(params.i18n, 'login');
     });
 
-    return _.compact(requirements);
+    return requirements.filter((r) => r !== undefined);
   }
   return [];
 };
@@ -354,7 +354,7 @@ fn.getFactorLabel = function(provider, factorType) {
 fn.getFactorDescription = function(provider, factorType) {
   const descriptionKey = factorData[fn.getFactorName.apply(this, [provider, factorType])].description;
 
-  if (_.isFunction(descriptionKey)) {
+  if (typeof descriptionKey === 'function') {
     const brandName = this.settings.get('brandName');
     const key = descriptionKey(brandName);
 
@@ -388,7 +388,7 @@ fn.removeRequirementsFromError = function(responseJSON, policy) {
   if (
     responseJSON.errorCauses &&
     responseJSON.errorCauses.length > 0 &&
-    _.isString(responseJSON.errorCauses[0].errorSummary)
+    typeof responseJSON.errorCauses[0].errorSummary === 'string'
   ) {
     responseJSON.errorCauses[0].errorSummary = responseJSON.errorCauses[0].errorSummary
       .replace(passwordRequirementsAsString, '')
@@ -422,7 +422,7 @@ fn.getPasswordComplexityDescriptionForHtmlList = function(policy) {
   };
   const passwordRequirements = getPasswordRequirements(policy, passwordRequirementHtmlI18nKeys, true);
 
-  return _.union(passwordRequirements.complexity, passwordRequirements.history, passwordRequirements.age);
+  return union(passwordRequirements.complexity, passwordRequirements.history, passwordRequirements.age);
 };
 
 fn.getPasswordComplexityDescription = function(policy) {
@@ -451,7 +451,7 @@ fn.getPasswordComplexityDescription = function(policy) {
 
   // Generate and add complexity string to result
   if (requirements.length > 0) {
-    requirements = _.reduce(requirements, function(result, requirement) {
+    requirements = requirements.reduce(function(result, requirement) {
       return result ? result + loc('password.complexity.list.element', 'login', [requirement]) : requirement;
     });
 
@@ -462,7 +462,7 @@ fn.getPasswordComplexityDescription = function(policy) {
   result.push(passwordRequirements.history[0]);
   result.push(passwordRequirements.age[0]);
 
-  return _.compact(result).join(' ');
+  return result.filter((r) => !!r).join(' ');
 };
 
 fn.getCardinalityText = function(enrolled, required, cardinality) {

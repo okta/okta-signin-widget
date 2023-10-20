@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import flow from 'lodash/flow';
 
 import {
   CUSTOM_APP_UV_ENABLE_BIOMETRIC_SERVER_KEY,
@@ -32,6 +31,7 @@ import {
   getDisplayName,
   loc,
 } from '../../util';
+import { flow } from '../../../../util/utils';
 import { transactionMessageTransformer } from '../i18n';
 
 export const OV_OVERRIDE_MESSAGE_KEY: Record<string, string> = {

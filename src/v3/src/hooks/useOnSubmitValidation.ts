@@ -10,8 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxMessage } from '@okta/okta-auth-js';
-import clone from 'lodash/clone';
+import { IdxMessage, IdxTransaction } from '@okta/okta-auth-js';
 import { useCallback } from 'preact/hooks';
 
 import { useWidgetContext } from '../contexts';
@@ -28,8 +27,8 @@ messages: Record<string, WidgetMessage[]>) => Promise<void> => {
   } = useWidgetContext();
 
   return useCallback(async (messages: Record<string, WidgetMessage[]>) => {
-    const newTransaction = clone(currentTransaction);
-    resetMessagesToInputs(newTransaction!.nextStep!.inputs!, messages);
+    const newTransaction = {...currentTransaction} as IdxTransaction;
+    resetMessagesToInputs(newTransaction.nextStep!.inputs!, messages);
     setMessage({
       message: loc('oform.errorbanner.title', 'login'),
       class: 'ERROR',

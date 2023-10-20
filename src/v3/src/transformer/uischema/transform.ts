@@ -10,8 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { flow } from 'lodash';
-
 import {
   TransformStepFnWithOptions,
 } from '../../types';
@@ -25,6 +23,7 @@ import { setLtrFields } from './setLtrFields';
 import { updateCustomFields } from './updateCustomFields';
 import { updateElementKeys } from './updateElementKeys';
 import { updatePasswordDescribedByValue } from './updatePasswordDescribedByValue';
+import { flow } from '../../../../util/utils';
 
 export const transformUISchema: TransformStepFnWithOptions = (
   options,

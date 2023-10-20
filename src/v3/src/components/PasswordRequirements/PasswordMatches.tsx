@@ -11,7 +11,6 @@
  */
 
 import { Box } from '@okta/odyssey-react-mui';
-import debounce from 'lodash/debounce';
 import { h } from 'preact';
 import {
   useCallback,
@@ -25,6 +24,7 @@ import {
   UISchemaElementComponent,
 } from '../../types';
 import { getTranslation } from '../../util';
+import { debounce } from '../../../../util/utils';
 import PasswordRequirementListItem from './PasswordRequirementListItem';
 
 const PasswordMatches: UISchemaElementComponent<{

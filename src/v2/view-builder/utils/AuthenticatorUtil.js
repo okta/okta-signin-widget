@@ -9,7 +9,6 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-import _ from 'underscore';
 import { loc } from '../../../util/loc';
 import FactorUtil from 'util/FactorUtil';
 import { AUTHENTICATOR_KEY } from '../../ion/RemediationConstants';
@@ -28,7 +27,7 @@ const getButtonDataSeAttr = function(authenticator) {
 /* eslint complexity: [0, 0], max-statements: [2, 25] */
 const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
   const authenticatorKey = authenticator.authenticatorKey;
-  const key = _.isString(authenticatorKey) ? authenticatorKey.toLowerCase() : '';
+  const key = typeof authenticatorKey === 'string' ? authenticatorKey.toLowerCase() : '';
   let authenticatorData = {};
   let nicknameText = isVerifyAuthenticator ? authenticator.relatesTo?.nickname : undefined;
   switch (key) {

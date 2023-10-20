@@ -11,7 +11,7 @@
  */
 
 import { IdxActionParams } from '@okta/okta-auth-js';
-import merge from 'lodash/merge';
+import { merge } from '../../../util/utils';
 
 const nestEntry = (parts: string[], value: unknown): IdxActionParams => {
   const res: IdxActionParams = {};
