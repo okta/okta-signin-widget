@@ -71,6 +71,7 @@ describe('identify-with-password-error-flow', () => {
           status: 200,
         },
       },
+      widgetOptions: { features: { rememberMe: false } },
     });
 
     const titleElement = await findByText('Sign In', { selector: 'h2' });
