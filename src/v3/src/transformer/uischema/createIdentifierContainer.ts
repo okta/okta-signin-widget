@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IDX_STEP } from 'src/constants';
+import { shouldHideIdentifier } from 'src/util';
 
 import { IdentifierContainerElement, TransformStepFnWithOptions } from '../../types';
 import { traverseLayout } from '../util';
@@ -23,29 +23,6 @@ export const createIdentifierContainer: TransformStepFnWithOptions = ({
     ?.context?.user?.value?.identifier as string;
   const { features } = widgetProps;
   let hasIdentifierContainer = false;
-
-  const shouldHideIdentifier = (
-    showIdentifier?: boolean,
-    identifier?: string,
-    stepName?: string,
-  ): boolean => {
-    const excludedSteps = [IDX_STEP.IDENTIFY, IDX_STEP.CONSENT_ADMIN];
-    // Should not display identifier here because if invalid identifier
-    // is used, introspect includes the invalid name in user context
-    if (typeof stepName !== 'undefined' && excludedSteps.includes(stepName)) {
-      return true;
-    }
-
-    if (showIdentifier === false) {
-      return true;
-    }
-
-    if (!identifier) {
-      return true;
-    }
-
-    return false;
-  };
 
   // Traverse existing layout and check for existing IdentifierContainers
   traverseLayout({

@@ -27,7 +27,7 @@ import {
   UISchemaLayout,
   UISchemaLayoutType,
 } from '../../types';
-import { getUsernameCookie, loc } from '../../util';
+import { getUsernameCookie, loc, shouldHideIdentifier } from '../../util';
 import { getUIElementWithName } from '../utils';
 import { getAuthenticatorVerifyButtonElements } from './utils';
 
@@ -117,7 +117,6 @@ export const transformSelectAuthenticatorUnlockVerify: IdxStepTransformer = ({
 
         if (updatedData.identifier && typeof updatedData.identifier === 'string') {
           identifierContainer.options.identifier = (updatedData.identifier as string);
-
           // If the user only has one authenticator that they can use to verify, add the AutoSubmit
           // element to skip rendering the authenticator list and proceed with a challenge request
           if (authenticatorButtons.length === 1) {
@@ -159,7 +158,6 @@ export const transformSelectAuthenticatorUnlockVerify: IdxStepTransformer = ({
   const authenticatorListLayout: UISchemaLayout = {
     type: UISchemaLayoutType.VERTICAL,
     elements: [
-      identifierContainer,
       verifyTitle,
       verifySubtitle,
       authenticatorList,
@@ -174,6 +172,14 @@ export const transformSelectAuthenticatorUnlockVerify: IdxStepTransformer = ({
       authenticatorListLayout,
     ],
   };
+
+  if (!shouldHideIdentifier(
+    features?.showIdentifier,
+    data.identifier as string,
+    transaction.nextStep?.name,
+  )) {
+    authenticatorListLayout.elements.unshift(identifierContainer);
+  }
 
   uischema.elements = [unlockAccountStepper];
 

@@ -209,6 +209,10 @@ export const transformTerminalTransaction = (
 
   transformTerminalMessages(transaction, formBag);
 
+  appendViewLinks(transaction, formBag.uischema, widgetProps, bootstrapFn);
+
+  setFocusOnFirstElement(formBag);
+
   createIdentifierContainer({
     transaction,
     widgetProps,
@@ -216,10 +220,6 @@ export const transformTerminalTransaction = (
     setMessage: () => {},
     isClientTransaction: false,
   })(formBag);
-
-  appendViewLinks(transaction, formBag.uischema, widgetProps, bootstrapFn);
-
-  setFocusOnFirstElement(formBag);
 
   return formBag;
 };
