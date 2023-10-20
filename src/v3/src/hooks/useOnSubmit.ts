@@ -310,6 +310,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     widgetProps,
     eventEmitter,
     widgetHooks,
+    features,
     setResponseError,
     setIdxTransaction,
     setIsClientTransaction,
