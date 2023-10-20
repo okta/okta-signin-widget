@@ -122,6 +122,7 @@ test.requestHooks(requestLogger, legacyDeviceCodeIdpCheckWithRedirectionMock)('f
   await rerenderWidget({
     stateToken: null, // setting stateToken to null to trigger the V1 flow
     features: {
+      router: false,
       idpDiscovery: true,
     },
     authParams: {
@@ -179,6 +180,7 @@ test.requestHooks(requestLogger, legacyDeviceCodeForceIdpCheckWithoutRedirection
   await rerenderWidget({
     stateToken: null, // setting stateToken to null to trigger the V1 flow
     features: {
+      router: false,
       idpDiscovery: true,
     },
     authParams: {
@@ -236,6 +238,7 @@ test.requestHooks(requestLogger, legacyDeviceCodeForceIdpCheckWithoutRedirection
   await rerenderWidget({
     stateToken: null, // setting stateToken to null to trigger the V1 flow
     features: {
+      router: false,
       idpDiscovery: true,
     },
     authParams: {
@@ -293,6 +296,7 @@ test.requestHooks(requestLogger, legacyDeviceCodeShowLoginMock)('idp discovery a
   await rerenderWidget({
     stateToken: null, // setting stateToken to null to trigger the V1 flow
     features: {
+      router: false,
       idpDiscovery: true,
     },
     authParams: {
@@ -326,6 +330,7 @@ test.requestHooks(requestLogger, legacyDeviceCodeShowLoginMockWithoutDeviceFlow)
     stateToken: null, // setting stateToken to null to trigger the V1 flow
     authScheme: '',
     features: {
+      router: false,
       idpDiscovery: true,
     },
     authParams: {
@@ -369,6 +374,7 @@ test.requestHooks(requestLogger, legacyDeviceCodeShowLoginMockWithUsingDeviceFlo
     stateToken: null, // setting stateToken to null to trigger the V1 flow
     authScheme: '',
     features: {
+      router: false,
       idpDiscovery: true,
     },
     authParams: {

@@ -63,6 +63,7 @@ test.requestHooks(logger, authNSuccessMock)('should set autocomplete to off on u
     ...defaultConfig,
     features: {
       ...defaultConfig.features,
+      router: false,
       disableAutocomplete: true,
       idpDiscovery: true,
     },
