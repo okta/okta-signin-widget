@@ -55,9 +55,7 @@ const deviceCodeInvalidUserCodeMock = RequestMock()
   .onRequestTo('http://localhost:3000/api/v1/authn/introspect')
   .respond(legacyDeviceCodeActivateErrorResponse)
   .onRequestTo('http://localhost:3000/api/v1/authn/device/activate')
-  .respond(legacyActivateResponse)
-  .onRequestTo('http://localhost:3000/api/v1/authn')
-  .respond(legacyDeviceActivatedTerminalResponse);
+  .respond(legacyActivateResponse);
 
 const legacyDeviceCodeSuccessWithUserCodeMock = authNResponse => RequestMock()
   .onRequestTo('http://localhost:3000/api/v1/authn')

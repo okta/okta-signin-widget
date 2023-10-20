@@ -66,7 +66,7 @@ const legacyDeviceCodeShowLoginMockWithoutDeviceFlow = RequestMock()
   .respond(legacyDeviceCodeActivateResponse)
   .onRequestTo('http://localhost:3000/api/v1/authn/device/activate')
   .respond(legacyUnauthenticated)
-  .onRequestTo('http://localhost:3000/sso/idps/0oaaix1twko0jyKik0g1?stateToken=aStateToken')
+  .onRequestTo('http://localhost:3000/sso/idps/0oaaix1twko0jyKik0g1?fromURI=')
   .respond('<html><h1>An external IdP login page for testcafe testing</h1></html>');
 
 
