@@ -331,7 +331,7 @@ test.requestHooks(requestLogger, legacyDeviceCodeShowLoginMock)('idp discovery a
   await t.expect(deviceCodeActivatePageObject.isPasswordFieldVisible()).eql(false);
 });
 
-test.only.requestHooks(requestLogger, legacyDeviceCodeShowLoginMockWithoutDeviceFlow)('social login after device activate and redirect with from uri', async t => {
+test.requestHooks(requestLogger, legacyDeviceCodeShowLoginMockWithoutDeviceFlow)('social login after device activate and redirect with from uri', async t => {
   const deviceCodeActivatePageObject = await setup(t);
   const identityPage = new IdentityPageObject(t);
   await rerenderWidget({
