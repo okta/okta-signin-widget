@@ -11,37 +11,47 @@ import legacyActivateResponse from '../../../../playground/mocks/data/api/v1/aut
 import legacyDeviceCodeActivateWithUserCodeResponse from '../../../../playground/mocks/data/api/v1/authn/device-code-activate-userCode.json';
 
 // Legacy mocks
-const legacyDeviceCodeSuccessMock = RequestMock()
+const legacyDeviceCodeSuccessMock = authNResponse => RequestMock()
+  .onRequestTo('http://localhost:3000/api/v1/authn')
+  .respond(authNResponse)
   .onRequestTo('http://localhost:3000/api/v1/authn/introspect')
   .respond(legacyDeviceCodeActivateResponse)
   .onRequestTo('http://localhost:3000/api/v1/authn/device/activate')
-  .respond(legacyActivateResponse)
-  .onRequestTo('http://localhost:3000/api/v1/authn')
-  .respond(legacyDeviceActivatedTerminalResponse);
+  .respond(legacyActivateResponse);
+const legacyDeviceCodeSuccessMockCodeActivate = legacyDeviceCodeSuccessMock(legacyDeviceCodeActivateResponse);
+const legacyDeviceCodeSuccessMockTerminal = legacyDeviceCodeSuccessMock(legacyDeviceActivatedTerminalResponse);
 
-const legacyDeviceCodeConsentDeniedMock = RequestMock()
+const legacyDeviceCodeConsentDeniedMock = authNResponse => RequestMock()
+  .onRequestTo('http://localhost:3000/api/v1/authn')
+  .respond(authNResponse)
   .onRequestTo('http://localhost:3000/api/v1/authn/introspect')
   .respond(legacyDeviceCodeActivateResponse)
   .onRequestTo('http://localhost:3000/api/v1/authn/device/activate')
-  .respond(legacyActivateResponse)
-  .onRequestTo('http://localhost:3000/api/v1/authn')
-  .respond(legacyDeviceNotActivatedConsentDeniedTerminalResponse);
+  .respond(legacyActivateResponse);
+const legacyDeviceCodeConsentDeniedMockCodeActivate = legacyDeviceCodeConsentDeniedMock(legacyDeviceCodeActivateResponse);
+const legacyDeviceCodeConsentDeniedMockTerminal = legacyDeviceCodeConsentDeniedMock(legacyDeviceNotActivatedConsentDeniedTerminalResponse);
 
-const legacyDeviceCodeErrorMock = RequestMock()
+const legacyDeviceCodeErrorMock = authNResponse => RequestMock()
+  .onRequestTo('http://localhost:3000/api/v1/authn')
+  .respond(authNResponse)
   .onRequestTo('http://localhost:3000/api/v1/authn/introspect')
   .respond(legacyDeviceCodeActivateResponse)
   .onRequestTo('http://localhost:3000/api/v1/authn/device/activate')
-  .respond(legacyActivateResponse)
-  .onRequestTo('http://localhost:3000/api/v1/authn')
-  .respond(legacyDeviceNotActivatedInternalErrorTerminalResponse);
+  .respond(legacyActivateResponse);
+const legacyDeviceCodeErrorMockCodeActivate = legacyDeviceCodeErrorMock(legacyDeviceCodeActivateResponse);
+const legacyDeviceCodeErrorMockTerminal = legacyDeviceCodeErrorMock(legacyDeviceNotActivatedInternalErrorTerminalResponse);
 
 const legacyInvalidDeviceCodeMock = RequestMock()
+  .onRequestTo('http://localhost:3000/api/v1/authn')
+  .respond(legacyDeviceCodeActivateResponse)
   .onRequestTo('http://localhost:3000/api/v1/authn/introspect')
   .respond(legacyDeviceCodeActivateResponse)
   .onRequestTo('http://localhost:3000/api/v1/authn/device/activate')
   .respond(legacyInvalidDeviceCodeResponse, 403);
 
 const deviceCodeInvalidUserCodeMock = RequestMock()
+  .onRequestTo('http://localhost:3000/api/v1/authn')
+  .respond(legacyDeviceCodeActivateErrorResponse)
   .onRequestTo('http://localhost:3000/api/v1/authn/introspect')
   .respond(legacyDeviceCodeActivateErrorResponse)
   .onRequestTo('http://localhost:3000/api/v1/authn/device/activate')
@@ -49,13 +59,15 @@ const deviceCodeInvalidUserCodeMock = RequestMock()
   .onRequestTo('http://localhost:3000/api/v1/authn')
   .respond(legacyDeviceActivatedTerminalResponse);
 
-const legacyDeviceCodeSuccessWithUserCodeMock = RequestMock()
+const legacyDeviceCodeSuccessWithUserCodeMock = authNResponse => RequestMock()
+  .onRequestTo('http://localhost:3000/api/v1/authn')
+  .respond(authNResponse)
   .onRequestTo('http://localhost:3000/api/v1/authn/introspect')
   .respond(legacyDeviceCodeActivateWithUserCodeResponse)
   .onRequestTo('http://localhost:3000/api/v1/authn/device/activate')
-  .respond(legacyActivateResponse)
-  .onRequestTo('http://localhost:3000/api/v1/authn')
-  .respond(legacyDeviceActivatedTerminalResponse);
+  .respond(legacyActivateResponse);
+const legacyDeviceCodeSuccessWithUserCodeMockActivateCode = legacyDeviceCodeSuccessWithUserCodeMock(legacyDeviceCodeActivateWithUserCodeResponse);
+const legacyDeviceCodeSuccessWithUserCodeMockTerminal = legacyDeviceCodeSuccessWithUserCodeMock(legacyDeviceActivatedTerminalResponse);
 
 const requestLogger = RequestLogger(
   /api\/v1/,
@@ -69,7 +81,7 @@ const rerenderWidget = ClientFunction((settings) => {
   window.renderPlaygroundWidget(settings);
 });
 
-fixture.skip('Device Code Activation Flow legacy SIW').meta('gen1', true);
+fixture('Device Code Activation Flow legacy SIW').meta('gen1', true);
 
 async function setup(t) {
   const deviceCodeActivatePage = new DeviceCodeActivatePageObject(t);
@@ -78,10 +90,14 @@ async function setup(t) {
   return deviceCodeActivatePage;
 }
 
-test.requestHooks(requestLogger, legacyDeviceCodeSuccessMock)('should be able to complete device code activation flow on legacy SIW', async t => {
+test.requestHooks(requestLogger, legacyDeviceCodeSuccessMockCodeActivate)('should be able to complete device code activation flow on legacy SIW', async t => {
   const deviceCodeActivatePageObject = await setup(t);
   await rerenderWidget({
     stateToken: null, // render legacy sign in widget
+    authParams: {
+      responseType: 'code',
+    },
+    useClassicEngine: true,
   });
 
   // login
@@ -89,12 +105,12 @@ test.requestHooks(requestLogger, legacyDeviceCodeSuccessMock)('should be able to
   await deviceCodeActivatePageObject.form.setTextBoxValue('password', 'pass@word123');
   await deviceCodeActivatePageObject.form.clickSaveButton('Sign In');
 
+  await t.expect(deviceCodeActivatePageObject.isActivateCodeTextBoxVisible()).eql(true);
   await t.expect(deviceCodeActivatePageObject.getFormTitle()).eql('Activate your device');
   await t.expect(deviceCodeActivatePageObject.getPageSubtitle()).eql('Follow the instructions on your device to get an activation code');
   await t.expect(await deviceCodeActivatePageObject.getActivationCodeTextBoxLabel()).eql('Activation Code');
-  await t.expect(deviceCodeActivatePageObject.isActivateCodeTextBoxVisible()).eql(true);
 
-  await t.expect(requestLogger.contains(record => record.request.url.match(/api\/v1\/authn\/introspect/))).eql(true);
+  await t.expect(requestLogger.contains(record => record.request.url.match(/api\/v1\/authn/))).eql(true);
 
   requestLogger.clear();
 
@@ -107,12 +123,15 @@ test.requestHooks(requestLogger, legacyDeviceCodeSuccessMock)('should be able to
   const reqBody = JSON.parse(req.body);
   await t.expect(reqBody).eql({
     userCode: 'ABCD-WXYZ',
-    stateToken: null,
+    stateToken: '00-dummy-state-token',
   });
   await t.expect(req.method).eql('post');
   await t.expect(req.url).eql('http://localhost:3000/api/v1/authn/device/activate');
 
   requestLogger.clear();
+
+  await t.removeRequestHooks(legacyDeviceCodeSuccessMockCodeActivate);
+  await t.addRequestHooks(legacyDeviceCodeSuccessMockTerminal);
 
   // identify with password
   await t.expect(deviceCodeActivatePageObject.signInFormUsernameFieldExists()).ok();
@@ -126,17 +145,21 @@ test.requestHooks(requestLogger, legacyDeviceCodeSuccessMock)('should be able to
   await t.expect(reqIdentify.url).eql('http://localhost:3000/api/v1/authn');
 
   // expect device activated screen
-  await t.expect(deviceCodeActivatePageObject.getFormTitle()).eql('Device activated');
-  await t.expect(deviceCodeActivatePageObject.getPageSubtitle()).eql('Follow the instructions on your device for next steps');
   await t.expect(deviceCodeActivatePageObject.isTerminalSuccessIconPresent()).eql(true);
   await t.expect(deviceCodeActivatePageObject.isBeaconTerminalPresent()).eql(false);
   await t.expect(deviceCodeActivatePageObject.isTryAgainButtonPresent()).eql(false);
+  await t.expect(deviceCodeActivatePageObject.getFormTitle()).eql('Device activated');
+  await t.expect(deviceCodeActivatePageObject.getPageSubtitle()).eql('Follow the instructions on your device for next steps');
 });
 
-test.requestHooks(legacyDeviceCodeConsentDeniedMock)('should be able to get device not activated screen when consent is denied on legacy SIW', async t => {
+test.requestHooks(legacyDeviceCodeConsentDeniedMockCodeActivate)('should be able to get device not activated screen when consent is denied on legacy SIW', async t => {
   const deviceCodeActivatePageObject = await setup(t);
   await rerenderWidget({
     stateToken: null, // render legacy sign in widget
+    authParams: {
+      responseType: 'code',
+    },
+    useClassicEngine: true,
   });
 
   // login
@@ -150,23 +173,31 @@ test.requestHooks(legacyDeviceCodeConsentDeniedMock)('should be able to get devi
   await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABCD-WXYZ');
   await deviceCodeActivatePageObject.clickNextButton();
 
+  await t.removeRequestHooks(legacyDeviceCodeConsentDeniedMockCodeActivate);
+  await t.addRequestHooks(legacyDeviceCodeConsentDeniedMockTerminal);
+
   // identify with password
+  await t.expect(deviceCodeActivatePageObject.signInFormUsernameFieldExists()).ok();
   await deviceCodeActivatePageObject.fillUserNameField('Test Identifier');
   await deviceCodeActivatePageObject.fillPasswordField('random password 123');
   await deviceCodeActivatePageObject.clickNextButton();
 
   // expect device not activated screen
+  await t.expect(deviceCodeActivatePageObject.isTerminalErrorIconPresent()).eql(true);
+  await t.expect(deviceCodeActivatePageObject.isBeaconTerminalPresent()).eql(false);
+  await t.expect(deviceCodeActivatePageObject.isTryAgainButtonPresent()).eql(true);
   await t.expect(deviceCodeActivatePageObject.getFormTitle()).eql('Device not activated');
   await t.expect(deviceCodeActivatePageObject.getPageSubtitle()).contains('Your device cannot be activated because you did not allow access');
-  await t.expect(deviceCodeActivatePageObject.isTerminalErrorIconPresent()).eql(true);
-  await t.expect(deviceCodeActivatePageObject.isBeaconTerminalPresent()).eql(false);
-  await t.expect(deviceCodeActivatePageObject.isTryAgainButtonPresent()).eql(true);
 });
 
-test.requestHooks(legacyDeviceCodeErrorMock)('should be able to get device not activated screen when there is an internal error on legacy SIW', async t => {
+test.requestHooks(legacyDeviceCodeErrorMockCodeActivate)('should be able to get device not activated screen when there is an internal error on legacy SIW', async t => {
   const deviceCodeActivatePageObject = await setup(t);
   await rerenderWidget({
     stateToken: null, // render legacy sign in widget
+    authParams: {
+      responseType: 'code',
+    },
+    useClassicEngine: true,
   });
 
   // login
@@ -180,23 +211,31 @@ test.requestHooks(legacyDeviceCodeErrorMock)('should be able to get device not a
   await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABCD-WXYZ');
   await deviceCodeActivatePageObject.clickNextButton();
 
+  await t.removeRequestHooks(legacyDeviceCodeErrorMockCodeActivate);
+  await t.addRequestHooks(legacyDeviceCodeErrorMockTerminal);
+
   // identify with password
+  await t.expect(deviceCodeActivatePageObject.signInFormUsernameFieldExists()).ok();
   await deviceCodeActivatePageObject.fillUserNameField('Test Identifier');
   await deviceCodeActivatePageObject.fillPasswordField('random password 123');
   await deviceCodeActivatePageObject.clickNextButton();
 
   // expect device not activated screen
-  await t.expect(deviceCodeActivatePageObject.getFormTitle()).eql('Device not activated');
-  await t.expect(deviceCodeActivatePageObject.getPageSubtitle()).contains('Your device cannot be activated because of an internal error');
   await t.expect(deviceCodeActivatePageObject.isTerminalErrorIconPresent()).eql(true);
   await t.expect(deviceCodeActivatePageObject.isBeaconTerminalPresent()).eql(false);
   await t.expect(deviceCodeActivatePageObject.isTryAgainButtonPresent()).eql(true);
+  await t.expect(deviceCodeActivatePageObject.getFormTitle()).eql('Device not activated');
+  await t.expect(deviceCodeActivatePageObject.getPageSubtitle()).contains('Your device cannot be activated because of an internal error');
 });
 
 test.requestHooks(legacyInvalidDeviceCodeMock)('should be able show error when wrong activation code is entered on legacy SIW', async t => {
   const deviceCodeActivatePageObject = await setup(t);
   await rerenderWidget({
     stateToken: null, // render legacy sign in widget
+    authParams: {
+      responseType: 'code',
+    },
+    useClassicEngine: true,
   });
 
   // login
@@ -207,6 +246,7 @@ test.requestHooks(legacyInvalidDeviceCodeMock)('should be able show error when w
   await t.expect(deviceCodeActivatePageObject.isActivateCodeTextBoxVisible()).eql(true);
   await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABCD-WXYZ');
   await deviceCodeActivatePageObject.clickNextButton();
+  await t.expect(deviceCodeActivatePageObject.form.hasErrorBox()).ok();
   await t.expect(deviceCodeActivatePageObject.getErrorBoxText()).contains('Invalid code. Try again.');
 });
 
@@ -217,6 +257,10 @@ test.requestHooks(requestLogger, deviceCodeInvalidUserCodeMock)('should be able 
   await deviceCodeActivatePageObject.navigateToPage({ 'user_code': 'FAKE-CODE' });
   await rerenderWidget({
     stateToken: null, // render legacy sign in widget
+    authParams: {
+      responseType: 'code',
+    },
+    useClassicEngine: true,
   });
 
   // login
@@ -226,6 +270,7 @@ test.requestHooks(requestLogger, deviceCodeInvalidUserCodeMock)('should be able 
 
   await t.expect(deviceCodeActivatePageObject.isActivateCodeTextBoxVisible()).eql(true);
   // expect error
+  await t.expect(deviceCodeActivatePageObject.form.hasErrorBox()).ok();
   await t.expect(deviceCodeActivatePageObject.getErrorBoxText()).contains('Invalid code. Try again.');
 
   // enter correct code now
@@ -235,10 +280,14 @@ test.requestHooks(requestLogger, deviceCodeInvalidUserCodeMock)('should be able 
   await t.expect(deviceCodeActivatePageObject.isUserNameFieldVisible()).eql(true);
 });
 
-test.requestHooks(requestLogger, legacyDeviceCodeSuccessMock)('should be able to add hyphen automatically after 4th char in activation code input on legacy SIW', async t => {
+test.requestHooks(requestLogger, legacyDeviceCodeSuccessMockCodeActivate)('should be able to add hyphen automatically after 4th char in activation code input on legacy SIW', async t => {
   const deviceCodeActivatePageObject = await setup(t);
   await rerenderWidget({
     stateToken: null, // render legacy sign in widget
+    authParams: {
+      responseType: 'code',
+    },
+    useClassicEngine: true,
   });
 
   // login
@@ -247,7 +296,6 @@ test.requestHooks(requestLogger, legacyDeviceCodeSuccessMock)('should be able to
   await deviceCodeActivatePageObject.form.clickSaveButton('Sign In');
 
   await t.expect(deviceCodeActivatePageObject.activationCodeFieldExists()).ok();
-
   await t.expect(await deviceCodeActivatePageObject.getActivationCodeTextBoxLabel()).eql('Activation Code');
   await t.expect(deviceCodeActivatePageObject.isActivateCodeTextBoxVisible()).eql(true);
 
@@ -256,10 +304,14 @@ test.requestHooks(requestLogger, legacyDeviceCodeSuccessMock)('should be able to
   await t.expect(deviceCodeActivatePageObject.getActivateCodeTextBoxValue()).eql('ABCD-E');
 });
 
-test.requestHooks(requestLogger, legacyDeviceCodeSuccessWithUserCodeMock)('should be able to complete device code activation flow on legacy SIW with user code pre-populated', async t => {
+test.requestHooks(requestLogger, legacyDeviceCodeSuccessWithUserCodeMockActivateCode)('should be able to complete device code activation flow on legacy SIW with user code pre-populated', async t => {
   const deviceCodeActivatePageObject = await setup(t);
   await rerenderWidget({
     stateToken: null, // render legacy sign in widget
+    authParams: {
+      responseType: 'code',
+    },
+    useClassicEngine: true,
   });
 
   // login
@@ -267,14 +319,13 @@ test.requestHooks(requestLogger, legacyDeviceCodeSuccessWithUserCodeMock)('shoul
   await deviceCodeActivatePageObject.form.setTextBoxValue('password', 'pass@word123');
   await deviceCodeActivatePageObject.form.clickSaveButton('Sign In');
 
-  await t.expect(deviceCodeActivatePageObject.activationCodeFieldExists()).ok();
-
+  await t.expect(deviceCodeActivatePageObject.isActivateCodeTextBoxVisible()).eql(true);
   await t.expect(deviceCodeActivatePageObject.getFormTitle()).eql('Activate your device');
   await t.expect(deviceCodeActivatePageObject.getPageSubtitle()).eql('Follow the instructions on your device to get an activation code');
   await t.expect(await deviceCodeActivatePageObject.getActivationCodeTextBoxLabel()).eql('Activation Code');
-  await t.expect(deviceCodeActivatePageObject.isActivateCodeTextBoxVisible()).eql(true);
+  
 
-  await t.expect(requestLogger.contains(record => record.request.url.match(/api\/v1\/authn\/introspect/))).eql(true);
+  await t.expect(requestLogger.contains(record => record.request.url.match(/api\/v1\/authn/))).eql(true);
 
   requestLogger.clear();
 
@@ -289,14 +340,18 @@ test.requestHooks(requestLogger, legacyDeviceCodeSuccessWithUserCodeMock)('shoul
   const reqBody = JSON.parse(req.body);
   await t.expect(reqBody).eql({
     userCode: 'ABCDXYWZ',
-    stateToken: null,
+    stateToken: '00-dummy-state-token',
   });
   await t.expect(req.method).eql('post');
   await t.expect(req.url).eql('http://localhost:3000/api/v1/authn/device/activate');
 
   requestLogger.clear();
 
+  await t.removeRequestHooks(legacyDeviceCodeSuccessWithUserCodeMockActivateCode);
+  await t.addRequestHooks(legacyDeviceCodeSuccessWithUserCodeMockTerminal);
+
   // identify with password
+  await t.expect(deviceCodeActivatePageObject.signInFormUsernameFieldExists()).ok();
   await deviceCodeActivatePageObject.fillUserNameField('Test Identifier');
   await deviceCodeActivatePageObject.fillPasswordField('random password 123');
   await deviceCodeActivatePageObject.clickNextButton();
@@ -307,9 +362,9 @@ test.requestHooks(requestLogger, legacyDeviceCodeSuccessWithUserCodeMock)('shoul
   await t.expect(reqIdentify.url).eql('http://localhost:3000/api/v1/authn');
 
   // expect device activated screen
-  await t.expect(deviceCodeActivatePageObject.getFormTitle()).eql('Device activated');
-  await t.expect(deviceCodeActivatePageObject.getPageSubtitle()).eql('Follow the instructions on your device for next steps');
   await t.expect(deviceCodeActivatePageObject.isTerminalSuccessIconPresent()).eql(true);
   await t.expect(deviceCodeActivatePageObject.isBeaconTerminalPresent()).eql(false);
   await t.expect(deviceCodeActivatePageObject.isTryAgainButtonPresent()).eql(false);
+  await t.expect(deviceCodeActivatePageObject.getFormTitle()).eql('Device activated');
+  await t.expect(deviceCodeActivatePageObject.getPageSubtitle()).eql('Follow the instructions on your device for next steps');
 });
