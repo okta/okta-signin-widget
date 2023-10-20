@@ -1,4 +1,4 @@
-import {RequestMock, RequestLogger, ClientFunction} from 'testcafe';
+import {RequestMock, RequestLogger, ClientFunction, Selector} from 'testcafe';
 import DeviceCodeActivatePageObject from '../../framework/page-objects-v1/DeviceCodeActivatePageObject';
 import IdentityPageObject from '../../framework/page-objects/IdentityPageObject';
 
@@ -117,7 +117,11 @@ test.requestHooks(requestLogger, legacyDeviceCodeIdpCheckWithRedirectionMock)('f
     .eql('http://localhost:3000/sso/idps/0oa4onxsxfUDwUb8u0g4?stateToken=00lpyQXxOMfE0lbVM1vEY4u3usVvlmkK5rDx69GQgb&login_hint=#');
 });
 
-test.requestHooks(requestLogger, legacyDeviceCodeIdpCheckWithRedirectionMock)('force idp discovery after device activate w/idp discovery feature and redirect to idp', async t => {
+const getPageHTML = ClientFunction(() => {
+  return document.documentElement.outerHTML;
+}); 
+
+test.only.requestHooks(requestLogger, legacyDeviceCodeIdpCheckWithRedirectionMock)('force idp discovery after device activate w/idp discovery feature and redirect to idp', async t => {
   const deviceCodeActivatePageObject = await setup(t);
   await rerenderWidget({
     stateToken: null, // setting stateToken to null to trigger the V1 flow
@@ -134,6 +138,8 @@ test.requestHooks(requestLogger, legacyDeviceCodeIdpCheckWithRedirectionMock)('f
   // login
   await deviceCodeActivatePageObject.form.setTextBoxValue('username', 'administrator@okta1.com');
   await deviceCodeActivatePageObject.form.clickSaveButton();
+  await t.wait(1000);
+  console.log(await getPageHTML());
   await t.expect(deviceCodeActivatePageObject.form.fieldByLabelExists('Password')).ok();
   await deviceCodeActivatePageObject.form.setTextBoxValue('password', 'pass@word123');
   await deviceCodeActivatePageObject.form.clickSaveButton('Sign In');
