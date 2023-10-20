@@ -95,9 +95,6 @@ test.requestHooks(requestLogger, legacyDeviceCodeIdpCheckWithRedirectionMock)('f
   const deviceCodeActivatePageObject = await setup(t);
   await rerenderWidget({
     stateToken: null, // setting stateToken to null to trigger the V1 flow
-    features: {
-      router: true,
-    },
     authParams: {
       responseType: 'code',
     },
@@ -125,7 +122,6 @@ test.requestHooks(requestLogger, legacyDeviceCodeIdpCheckWithRedirectionMock)('f
   await rerenderWidget({
     stateToken: null, // setting stateToken to null to trigger the V1 flow
     features: {
-      router: true,
       idpDiscovery: true,
     },
     authParams: {
@@ -137,6 +133,7 @@ test.requestHooks(requestLogger, legacyDeviceCodeIdpCheckWithRedirectionMock)('f
   // login
   await deviceCodeActivatePageObject.form.setTextBoxValue('username', 'administrator@okta1.com');
   await deviceCodeActivatePageObject.form.clickSaveButton();
+  await t.expect(deviceCodeActivatePageObject.form.fieldByLabelExists('Password')).ok();
   await deviceCodeActivatePageObject.form.setTextBoxValue('password', 'pass@word123');
   await deviceCodeActivatePageObject.form.clickSaveButton('Sign In');
 
@@ -155,9 +152,6 @@ test.requestHooks(requestLogger, legacyDeviceCodeForceIdpCheckWithoutRedirection
   const deviceCodeActivatePageObject = await setup(t);
   await rerenderWidget({
     stateToken: null, // setting stateToken to null to trigger the V1 flow
-    features: {
-      router: true,
-    },
     authParams: {
       responseType: 'code',
     },
@@ -185,7 +179,6 @@ test.requestHooks(requestLogger, legacyDeviceCodeForceIdpCheckWithoutRedirection
   await rerenderWidget({
     stateToken: null, // setting stateToken to null to trigger the V1 flow
     features: {
-      router: true,
       idpDiscovery: true,
     },
     authParams: {
@@ -197,6 +190,7 @@ test.requestHooks(requestLogger, legacyDeviceCodeForceIdpCheckWithoutRedirection
   // login
   await deviceCodeActivatePageObject.form.setTextBoxValue('username', 'administrator@okta1.com');
   await deviceCodeActivatePageObject.form.clickSaveButton();
+  await t.expect(deviceCodeActivatePageObject.form.fieldByLabelExists('Password')).ok();
   await deviceCodeActivatePageObject.form.setTextBoxValue('password', 'pass@word123');
   await deviceCodeActivatePageObject.form.clickSaveButton('Sign In');
 
@@ -215,9 +209,6 @@ test.requestHooks(requestLogger, legacyDeviceCodeForceIdpCheckWithoutRedirection
   const deviceCodeActivatePageObject = await setup(t);
   await rerenderWidget({
     stateToken: null, // setting stateToken to null to trigger the V1 flow
-    features: {
-      router: true,
-    },
     authParams: {
       responseType: 'code',
     },
@@ -245,7 +236,6 @@ test.requestHooks(requestLogger, legacyDeviceCodeForceIdpCheckWithoutRedirection
   await rerenderWidget({
     stateToken: null, // setting stateToken to null to trigger the V1 flow
     features: {
-      router: true,
       idpDiscovery: true,
     },
     authParams: {
@@ -257,6 +247,7 @@ test.requestHooks(requestLogger, legacyDeviceCodeForceIdpCheckWithoutRedirection
   // login
   await deviceCodeActivatePageObject.form.setTextBoxValue('username', 'administrator@okta1.com');
   await deviceCodeActivatePageObject.form.clickSaveButton();
+  await t.expect(deviceCodeActivatePageObject.form.fieldByLabelExists('Password')).ok();
   await deviceCodeActivatePageObject.form.setTextBoxValue('password', 'pass@word123');
   await deviceCodeActivatePageObject.form.clickSaveButton('Sign In');
 
@@ -275,9 +266,6 @@ test.requestHooks(requestLogger, legacyDeviceCodeShowLoginMock)('no idp discover
   const deviceCodeActivatePageObject = await setup(t);
   await rerenderWidget({
     stateToken: null, // setting stateToken to null to trigger the V1 flow
-    features: {
-      router: true,
-    },
     authParams: {
       responseType: 'code',
     },
@@ -305,7 +293,6 @@ test.requestHooks(requestLogger, legacyDeviceCodeShowLoginMock)('idp discovery a
   await rerenderWidget({
     stateToken: null, // setting stateToken to null to trigger the V1 flow
     features: {
-      router: true,
       idpDiscovery: true,
     },
     authParams: {
@@ -317,6 +304,7 @@ test.requestHooks(requestLogger, legacyDeviceCodeShowLoginMock)('idp discovery a
   // login
   await deviceCodeActivatePageObject.form.setTextBoxValue('username', 'administrator@okta1.com');
   await deviceCodeActivatePageObject.form.clickSaveButton();
+  await t.expect(deviceCodeActivatePageObject.form.fieldByLabelExists('Password')).ok();
   await deviceCodeActivatePageObject.form.setTextBoxValue('password', 'pass@word123');
   await deviceCodeActivatePageObject.form.clickSaveButton('Sign In');
 
@@ -338,7 +326,6 @@ test.requestHooks(requestLogger, legacyDeviceCodeShowLoginMockWithoutDeviceFlow)
     stateToken: null, // setting stateToken to null to trigger the V1 flow
     authScheme: '',
     features: {
-      router: true,
       idpDiscovery: true,
     },
     authParams: {
@@ -354,6 +341,7 @@ test.requestHooks(requestLogger, legacyDeviceCodeShowLoginMockWithoutDeviceFlow)
   // login
   await deviceCodeActivatePageObject.form.setTextBoxValue('username', 'administrator@okta1.com');
   await deviceCodeActivatePageObject.form.clickSaveButton();
+  await t.expect(deviceCodeActivatePageObject.form.fieldByLabelExists('Password')).ok();
   await deviceCodeActivatePageObject.form.setTextBoxValue('password', 'pass@word123');
   await deviceCodeActivatePageObject.form.clickSaveButton('Sign In');
 
@@ -381,7 +369,6 @@ test.requestHooks(requestLogger, legacyDeviceCodeShowLoginMockWithUsingDeviceFlo
     stateToken: null, // setting stateToken to null to trigger the V1 flow
     authScheme: '',
     features: {
-      router: true,
       idpDiscovery: true,
     },
     authParams: {
@@ -397,6 +384,7 @@ test.requestHooks(requestLogger, legacyDeviceCodeShowLoginMockWithUsingDeviceFlo
   // login
   await deviceCodeActivatePageObject.form.setTextBoxValue('username', 'administrator@okta1.com');
   await deviceCodeActivatePageObject.form.clickSaveButton();
+  await t.expect(deviceCodeActivatePageObject.form.fieldByLabelExists('Password')).ok();
   await deviceCodeActivatePageObject.form.setTextBoxValue('password', 'pass@word123');
   await deviceCodeActivatePageObject.form.clickSaveButton('Sign In');
 
