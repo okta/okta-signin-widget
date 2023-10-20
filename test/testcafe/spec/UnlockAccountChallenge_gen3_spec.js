@@ -51,13 +51,17 @@ const identifyLockedUserLandOnAppMock = RequestMock()
   .respond(xhrUserUnlockSuccessLandOnApp);
 
 const xhrUserUnlockAuthSelectorWithOneAuthenticator = JSON.parse(JSON.stringify(xhrUserUnlockAuthSelector));
-xhrUserUnlockAuthSelectorWithOneAuthenticator.remediation.value[0].value[1].options.splice(0, 1);
+xhrUserUnlockAuthSelectorWithOneAuthenticator.remediation.value[0].value[1].options.splice(-1, 1);
 
 const identifyLockedUserMockWithOneAuthenticator = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrIdentifyWithUnlock)
   .onRequestTo('http://localhost:3000/idp/idx/unlock-account')
-  .respond(xhrUserUnlockAuthSelectorWithOneAuthenticator);
+  .respond(xhrUserUnlockAuthSelectorWithOneAuthenticator)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge')
+  .respond(xhrUserUnlockEmailChallenge)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
+  .respond(xhrUserUnlockSuccess);
 
 const signInDeviceMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -70,29 +74,17 @@ const rerenderWidget = ClientFunction((settings) => {
   window.renderPlaygroundWidget(settings);
 });
 
-// See UnlockAccountChallenge_gen3_spec.js is the gen3-specific spec since the unlock account flow
-// diverges significantly between gen2 and gen3
-fixture('Unlock Account - Gen 2').meta('gen3', false);
+fixture('Unlock Account - Gen 3').meta('gen2', false);
 
-async function setup(t, widgetOptions) {
-  const options = widgetOptions ? { render: false } : {};
+async function setup(t) {
   const identityPage = new IdentityPageObject(t);
-  await identityPage.navigateToPage(options);
-  if (widgetOptions) {
-    await rerenderWidget(widgetOptions);
-  }
-  await t.expect(identityPage.formExists()).ok();
+  await identityPage.navigateToPage();
   return identityPage;
 }
 
-async function setupSignInDevice(t, widgetOptions) {
-  const options = widgetOptions ? { render: false } : {};
+async function setupSignInDevice(t) {
   const signInDevicePageObject = new SignInDevicePageObject(t);
-  await signInDevicePageObject.navigateToPage(options);
-  if (widgetOptions) {
-    await rerenderWidget(widgetOptions);
-  }
-  await t.expect(signInDevicePageObject.formExists()).ok();
+  await signInDevicePageObject.navigateToPage();
   return signInDevicePageObject;
 }
 
@@ -105,8 +97,11 @@ test.requestHooks(identifyLockedUserMock)('should show unlock account link', asy
 
 
 test.requestHooks(identifyLockedUserMock)('should render custom Unlock account link', async t => {
+  const identityPage = await setup(t);
+  await checkA11y(t);
   const customUnlockLinkText = 'HELP I\'M LOCKED OUT';
-  const identityPage = await setup(t, {
+
+  await rerenderWidget({
     helpLinks: {
       unlock: 'http://unlockaccount',
     },
@@ -116,21 +111,24 @@ test.requestHooks(identifyLockedUserMock)('should render custom Unlock account l
       }
     }
   });
-  await checkA11y(t);
 
   await t.expect(identityPage.unlockAccountLinkExists(customUnlockLinkText)).eql(true);
   await t.expect(identityPage.getCustomUnlockAccountLinkUrl(customUnlockLinkText)).eql('http://unlockaccount');
 });
 
-test.requestHooks(identifyLockedUserMock)('should show unlock account authenticator selection list', async t => {
+test.requestHooks(identifyLockedUserMock)('should show unlock account authenticator selection list when user has more than one authenticator', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
   await identityPage.clickUnlockAccountLink();
 
   const selectFactorPage = new SelectFactorPageObject(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Unlock account?');
-  await t.expect(selectFactorPage.getFactorsCount()).eql(2);
   await selectFactorPage.fillIdentifierField('username');
+
+  await t.expect(selectFactorPage.getNextButton().exists).eql(true);
+  await selectFactorPage.goToNextPage();
+
+  await t.expect(selectFactorPage.getFactorsCount()).eql(2);
   await selectFactorPage.selectFactorByIndex(0);
 
   const challengeEmailPageObject = new ChallengeEmailPageObject(t);
@@ -148,14 +146,55 @@ test.requestHooks(identifyLockedUserMock)('should show unlock account authentica
   await t.expect(signoutLinkExists).eql(true);
 });
 
-test.requestHooks(errorUnlockAccount)('should show error if identifier is blank', async t => {
+test.requestHooks(identifyLockedUserMockWithOneAuthenticator)('should proceed directly to challenge authenticator view when user only has one authenticator', async t => {
+  const identityPage = await setup(t);
+  await checkA11y(t);
+  await identityPage.clickUnlockAccountLink();
+
+  const selectFactorPage = new SelectFactorPageObject(t);
+  await selectFactorPage.fillIdentifierField('username');
+  await t.expect(selectFactorPage.getNextButton().exists).eql(true);
+  await selectFactorPage.goToNextPage();
+
+  const challengeEmailPageObject = new ChallengeEmailPageObject(t);
+  await t.expect(challengeEmailPageObject.getFormTitle()).eql('Verify with your email');
+  await challengeEmailPageObject.clickEnterCodeLink();
+  await challengeEmailPageObject.verifyFactor('credentials.passcode', '12345');
+  await challengeEmailPageObject.clickVerifyButton();
+
+  const successPage = new TerminalPageObject(t);
+  await t.expect(successPage.getFormTitle()).eql('Account successfully unlocked!');
+  await t.expect(successPage.doesTextExist('You can log in using your existing username and password.')).eql(true);
+  const gobackLinkExists = await successPage.goBackLinkExistsV2();
+  await t.expect(gobackLinkExists).eql(false);
+  const signoutLinkExists = await successPage.signoutLinkExists();
+  await t.expect(signoutLinkExists).eql(true);
+});
+
+test.requestHooks(identifyLockedUserMock)('should proceed to authenticator list view when the form is submitted via keyboard', async t => {
+  const identityPage = await setup(t);
+  await checkA11y(t);
+  await identityPage.clickUnlockAccountLink();
+
+  const selectFactorPage = new SelectFactorPageObject(t);
+  await selectFactorPage.fillIdentifierField('username');
+  await t.pressKey('enter');
+
+  await t.expect(selectFactorPage.getFactorsCount()).eql(2);
+});
+
+test.requestHooks(errorUnlockAccount)('should show error box if form is submitted with blank identifier', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
   await identityPage.clickUnlockAccountLink();
   const selectFactorPage = new SelectFactorPageObject(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Unlock account?');
-  await selectFactorPage.selectFactorByIndex(0);
-  await t.expect(selectFactorPage.getIdentifierError()).eql('This field cannot be left blank');
+
+  await t.expect(selectFactorPage.getNextButton().exists).eql(true);
+  await selectFactorPage.goToNextPage();
+  await selectFactorPage.waitForErrorBox();
+
+  await t.expect(selectFactorPage.getErrorBoxText()).eql('We found some errors. Please review the form and make corrections.');
 });
 
 test.requestHooks(errorUnlockAccount)('should show error when unlock account fails', async t => {
@@ -164,6 +203,8 @@ test.requestHooks(errorUnlockAccount)('should show error when unlock account fai
   await identityPage.clickUnlockAccountLink();
   const selectFactorPage = new SelectFactorPageObject(t);
   await selectFactorPage.fillIdentifierField('username');
+  await t.expect(selectFactorPage.getNextButton().exists).eql(true);
+  await selectFactorPage.goToNextPage();  
   await selectFactorPage.selectFactorByIndex(0);
 
   const challengeEmailPageObject = new ChallengeEmailPageObject(t);
@@ -184,8 +225,10 @@ test.requestHooks(identifyLockedUserLandOnAppMock)('should show unlock account a
 
   const selectFactorPage = new SelectFactorPageObject(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Unlock account?');
-  await t.expect(selectFactorPage.getFactorsCount()).eql(2);
   await selectFactorPage.fillIdentifierField('username');
+  await t.expect(selectFactorPage.getNextButton().exists).eql(true);
+  await selectFactorPage.goToNextPage();  
+  await t.expect(selectFactorPage.getFactorsCount()).eql(2);
   await selectFactorPage.selectFactorByIndex(0);
 
   const challengeEmailPageObject = new ChallengeEmailPageObject(t);
@@ -203,52 +246,14 @@ test.requestHooks(identifyLockedUserLandOnAppMock)('should show unlock account a
   await t.expect(signoutLinkExists).eql(true);
 });
 
-// OKTA-586475 better unlock account behavior when hitting 'enter'
-test.meta('gen3', false).requestHooks(identifyLockedUserMockWithOneAuthenticator)('should show the correct error message when the unlock account form is submitted via keyboard with no authenticator selected (1 authenticator available)', async t => {
-  const identityPage = await setup(t);
-  await checkA11y(t);
-  await identityPage.clickUnlockAccountLink();
-
-  const selectFactorPage = new SelectFactorPageObject(t);
-  await selectFactorPage.fillIdentifierField('username');
-  await t.pressKey('enter');
-
-  await t.expect(selectFactorPage.getErrorBoxText()).contains('To unlock you account, select the following authenticator.');
-});
-
-// OKTA-586475 better unlock account behavior when hitting 'enter'
-test.meta('gen3', false).requestHooks(identifyLockedUserMock)('should show the correct error message when the unlock account form is submitted via keyboard with no authenticator selected (multiple authenticator available)', async t => {
-  const identityPage = await setup(t);
-  await checkA11y(t);
-  await identityPage.clickUnlockAccountLink();
-
-  const selectFactorPage = new SelectFactorPageObject(t);
-  await selectFactorPage.fillIdentifierField('username');
-  await t.pressKey('enter');
-
-  await t.expect(selectFactorPage.getErrorBoxText()).contains('To unlock your account, select one of the following authenticators.');
-});
-
-test.requestHooks(identifyLockedUserMock)('should keep the user on the unlock account view when the unlock account form is submitted via keyboard', async t => {
-  const identityPage = await setup(t);
-  await checkA11y(t);
-  await identityPage.clickUnlockAccountLink();
-
-  const selectFactorPage = new SelectFactorPageObject(t);
-  await selectFactorPage.fillIdentifierField('username');
-  await t.pressKey('enter');
-
-  await t.expect(selectFactorPage.getFormTitle()).eql('Unlock account?');
-  await t.expect(selectFactorPage.getFactorsCount()).eql(2);
-});
-
 test.requestHooks(signInDeviceMock)('should render custom unlock account link on sign-in device page', async t => {
-  const signInDevicePage = await setupSignInDevice(t, {
+  const signInDevicePage = await setupSignInDevice(t);
+  await checkA11y(t);
+  await rerenderWidget({
     'helpLinks': {
       'unlock': 'https://okta.okta.com/unlock',
     }
   });
-  await checkA11y(t);
   await t.expect(signInDevicePage.unlockAccountLinkExists()).eql(true);
   await t.expect(signInDevicePage.getCustomUnlockAccountLinkUrl()).eql('https://okta.okta.com/unlock');
 });
