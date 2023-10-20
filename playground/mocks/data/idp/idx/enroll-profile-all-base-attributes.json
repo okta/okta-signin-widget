@@ -167,6 +167,11 @@
                   "name": "manager",
                   "label": "Manager1",
                   "required": true
+                },
+                {
+                  "name": "login",
+                  "label": "Username",
+                  "required": true
                 }
               ]
             }

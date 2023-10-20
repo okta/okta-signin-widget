@@ -82,6 +82,7 @@ describe('enroll-profile-with-password', () => {
     const firstNameEle = await findByLabelText(/First name/) as HTMLInputElement;
     const lastNameEle = await findByLabelText(/Last name/) as HTMLInputElement;
     const emailEle = await findByLabelText(/Email/) as HTMLInputElement;
+    const usernameEle = await findByLabelText(/Username/) as HTMLInputElement;
     const addressEle = await findByLabelText(/Street Address/) as HTMLInputElement;
 
     await waitFor(() => expect(heading).toHaveFocus());
@@ -92,15 +93,18 @@ describe('enroll-profile-with-password', () => {
     const lastName = 'McTesterson';
     const email = 'tester@okta1.com';
     const address = '123 Main St';
+    const username = 'myusername';
     await user.type(firstNameEle, firstName);
     await user.type(lastNameEle, lastName);
     await user.type(emailEle, email);
     await user.type(addressEle, address);
+    await user.type(usernameEle, username);
 
     expect(firstNameEle.value).toEqual(firstName);
     expect(lastNameEle.value).toEqual(lastName);
     expect(emailEle.value).toEqual(email);
     expect(addressEle.value).toEqual(address);
+    expect(usernameEle.value).toEqual(username);
 
     await user.click(submitButton);
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
@@ -110,6 +114,7 @@ describe('enroll-profile-with-password', () => {
           firstName,
           lastName,
           email,
+          login: username,
         },
       }, 'application/vnd.okta.v1+json'),
     );
@@ -201,17 +206,21 @@ describe('enroll-profile-with-password', () => {
     const firstNameEle = await findByLabelText(/First name/) as HTMLInputElement;
     const lastNameEle = await findByLabelText(/Last name/) as HTMLInputElement;
     const emailEle = await findByLabelText(/Email/) as HTMLInputElement;
+    const usernameEle = await findByLabelText(/Username/) as HTMLInputElement;
 
     const firstName = 'tester';
     const lastName = 'McTesterson';
     const email = 'tester@okta1.com';
+    const username = 'tester.mctesterson';
     await user.type(firstNameEle, firstName);
     await user.type(lastNameEle, lastName);
     await user.type(emailEle, email);
+    await user.type(usernameEle, username);
 
     expect(firstNameEle.value).toEqual(firstName);
     expect(lastNameEle.value).toEqual(lastName);
     expect(emailEle.value).toEqual(email);
+    expect(usernameEle.value).toEqual(username);
 
     await user.click(submitButton);
     expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
@@ -256,13 +265,16 @@ describe('enroll-profile-with-password', () => {
     const firstNameEle = await findByLabelText(/First name/) as HTMLInputElement;
     const lastNameEle = await findByLabelText(/Last name/) as HTMLInputElement;
     const emailEle = await findByLabelText(/Email/) as HTMLInputElement;
+    const usernameEle = await findByLabelText(/Username/) as HTMLInputElement;
 
     const firstName = 'tester';
     const lastName = 'McTesterson';
     const email = 'tester@okta1.com';
+    const username = 'tester.mctesterson';
     await user.type(firstNameEle, firstName);
     await user.type(lastNameEle, lastName);
     await user.type(emailEle, email);
+    await user.type(usernameEle, username);
 
     expect(firstNameEle.value).toEqual(firstName);
     expect(lastNameEle.value).toEqual(lastName);
@@ -276,6 +288,7 @@ describe('enroll-profile-with-password', () => {
           firstName,
           lastName,
           email,
+          login: username,
         },
       }, 'application/vnd.okta.v1+json'),
     );
