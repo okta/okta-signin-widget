@@ -1,4 +1,4 @@
-import {RequestMock, RequestLogger, ClientFunction, Selector} from 'testcafe';
+import {RequestMock, RequestLogger, ClientFunction} from 'testcafe';
 import DeviceCodeActivatePageObject from '../../framework/page-objects-v1/DeviceCodeActivatePageObject';
 import IdentityPageObject from '../../framework/page-objects/IdentityPageObject';
 
@@ -9,17 +9,19 @@ import idpForceResponseLinkedInIdP from '../../../../playground/mocks/data/.well
 import idpForceResponseOktaIdP from '../../../../playground/mocks/data/.well-known/webfinger/forced-idp-discovery-okta-idp.json';
 
 // Legacy mocks
-const legacyDeviceCodeIdpCheckWithRedirectionMock = RequestMock()
+const legacyDeviceCodeIdpCheckWithRedirectionMock = wellKnownResponse => RequestMock()
   .onRequestTo('http://localhost:3000/api/v1/authn')
   .respond(legacyDeviceCodeActivateResponse)
   .onRequestTo('http://localhost:3000/api/v1/authn/introspect')
   .respond(legacyDeviceCodeActivateResponse)
   .onRequestTo('http://localhost:3000/api/v1/authn/device/activate')
   .respond(legacyUnauthenticatedWithUsingDeviceFlow)
-  .onRequestTo('http://localhost:3000/.well-known/webfinger?resource=okta%3Aacct%3A&requestContext=aStateToken')
-  .respond(idpForceResponseLinkedInIdP)
+  .onRequestTo(/^http:\/\/localhost:3000\/.well-known\/webfinger.*/)
+  .respond(wellKnownResponse)
   .onRequestTo('http://localhost:3000/sso/idps/0oa4onxsxfUDwUb8u0g4?stateToken=00lpyQXxOMfE0lbVM1vEY4u3usVvlmkK5rDx69GQgb&login_hint=#')
   .respond('<html><h1>An external IdP login page for testcafe testing</h1></html>');
+const legacyDeviceCodeIdpCheckWithRedirectionLinkedInIDPMock = legacyDeviceCodeIdpCheckWithRedirectionMock(idpForceResponseLinkedInIdP);
+const legacyDeviceCodeIdpCheckWithRedirectionOktaIDPMock = legacyDeviceCodeIdpCheckWithRedirectionMock(idpForceResponseOktaIdP);
 
 const legacyDeviceCodeForceIdpCheckWithoutRedirectionMock = RequestMock()
   .onRequestTo('http://localhost:3000/api/v1/authn')
@@ -28,18 +30,20 @@ const legacyDeviceCodeForceIdpCheckWithoutRedirectionMock = RequestMock()
   .respond(legacyDeviceCodeActivateResponse)
   .onRequestTo('http://localhost:3000/api/v1/authn/device/activate')
   .respond(legacyUnauthenticatedWithUsingDeviceFlow)
-  .onRequestTo('http://localhost:3000/.well-known/webfinger?resource=okta%3Aacct%3A&requestContext=aStateToken')
+  .onRequestTo(/^http:\/\/localhost:3000\/.well-known\/webfinger.*/)
   .respond(idpForceResponseOktaIdP);
 
-const legacyDeviceCodeForceIdpCheckWithoutRedirectionAndErrorMock = RequestMock()
+const legacyDeviceCodeForceIdpCheckWithoutRedirectionAndErrorMock = (wellKnownResponse, status) => RequestMock()
   .onRequestTo('http://localhost:3000/api/v1/authn')
   .respond(legacyDeviceCodeActivateResponse)
   .onRequestTo('http://localhost:3000/api/v1/authn/introspect')
   .respond(legacyDeviceCodeActivateResponse)
   .onRequestTo('http://localhost:3000/api/v1/authn/device/activate')
   .respond(legacyUnauthenticatedWithUsingDeviceFlow)
-  .onRequestTo('http://localhost:3000/.well-known/webfinger?resource=okta%3Aacct%3A&requestContext=aStateToken')
-  .respond(idpForceResponseOktaIdP, 400);
+  .onRequestTo(/^http:\/\/localhost:3000\/.well-known\/webfinger.*/)
+  .respond(wellKnownResponse, status);
+const wellKnownSuccessMock = legacyDeviceCodeForceIdpCheckWithoutRedirectionAndErrorMock(idpForceResponseOktaIdP, 200);
+const wellKnownErrorMock = legacyDeviceCodeForceIdpCheckWithoutRedirectionAndErrorMock(idpForceResponseOktaIdP, 400);
 
 const legacyDeviceCodeShowLoginMock = RequestMock()
   .onRequestTo('http://localhost:3000/api/v1/authn')
@@ -47,13 +51,17 @@ const legacyDeviceCodeShowLoginMock = RequestMock()
   .onRequestTo('http://localhost:3000/api/v1/authn/introspect')
   .respond(legacyDeviceCodeActivateResponse)
   .onRequestTo('http://localhost:3000/api/v1/authn/device/activate')
-  .respond(legacyUnauthenticated);
+  .respond(legacyUnauthenticated)
+  .onRequestTo(/^http:\/\/localhost:3000\/.well-known\/webfinger.*/)
+  .respond(idpForceResponseOktaIdP);
 
 const legacyDeviceCodeShowLoginMockWithUsingDeviceFlow = RequestMock()
   .onRequestTo('http://localhost:3000/api/v1/authn')
   .respond(legacyDeviceCodeActivateResponse)
   .onRequestTo('http://localhost:3000/api/v1/authn/introspect')
   .respond(legacyDeviceCodeActivateResponse)
+  .onRequestTo(/^http:\/\/localhost:3000\/.well-known\/webfinger.*/)
+  .respond(idpForceResponseOktaIdP)
   .onRequestTo('http://localhost:3000/api/v1/authn/device/activate')
   .respond(legacyUnauthenticatedWithUsingDeviceFlow)
   .onRequestTo('http://localhost:3000/sso/idps/0oaaix1twko0jyKik0g1?stateToken=aStateToken')
@@ -64,6 +72,8 @@ const legacyDeviceCodeShowLoginMockWithoutDeviceFlow = RequestMock()
   .respond(legacyDeviceCodeActivateResponse)
   .onRequestTo('http://localhost:3000/api/v1/authn/introspect')
   .respond(legacyDeviceCodeActivateResponse)
+  .onRequestTo(/^http:\/\/localhost:3000\/.well-known\/webfinger.*/)
+  .respond(idpForceResponseOktaIdP)
   .onRequestTo('http://localhost:3000/api/v1/authn/device/activate')
   .respond(legacyUnauthenticated)
   .onRequestTo('http://localhost:3000/sso/idps/0oaaix1twko0jyKik0g1?fromURI=')
@@ -91,10 +101,13 @@ async function setup(t) {
   return deviceCodeActivatePage;
 }
 
-test.requestHooks(requestLogger, legacyDeviceCodeIdpCheckWithRedirectionMock)('force idp discovery after device activate and redirect to idp', async t => {
+test.requestHooks(requestLogger, legacyDeviceCodeIdpCheckWithRedirectionOktaIDPMock)('force idp discovery after device activate and redirect to idp', async t => {
   const deviceCodeActivatePageObject = await setup(t);
   await rerenderWidget({
     stateToken: null, // setting stateToken to null to trigger the V1 flow
+    features: {
+      idpDiscovery: false,
+    },
     authParams: {
       responseType: 'code',
     },
@@ -108,6 +121,9 @@ test.requestHooks(requestLogger, legacyDeviceCodeIdpCheckWithRedirectionMock)('f
 
   await t.expect(deviceCodeActivatePageObject.activationCodeFieldExists()).ok();
 
+  await t.removeRequestHooks(legacyDeviceCodeIdpCheckWithRedirectionOktaIDPMock);
+  await t.addRequestHooks(legacyDeviceCodeIdpCheckWithRedirectionLinkedInIDPMock);
+
   // submit user code
   await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABCDWXYZ');
   await deviceCodeActivatePageObject.clickNextButton();
@@ -117,11 +133,7 @@ test.requestHooks(requestLogger, legacyDeviceCodeIdpCheckWithRedirectionMock)('f
     .eql('http://localhost:3000/sso/idps/0oa4onxsxfUDwUb8u0g4?stateToken=00lpyQXxOMfE0lbVM1vEY4u3usVvlmkK5rDx69GQgb&login_hint=#');
 });
 
-const getPageHTML = ClientFunction(() => {
-  return document.documentElement.outerHTML;
-}); 
-
-test.only.requestHooks(requestLogger, legacyDeviceCodeIdpCheckWithRedirectionMock)('force idp discovery after device activate w/idp discovery feature and redirect to idp', async t => {
+test.requestHooks(requestLogger, legacyDeviceCodeIdpCheckWithRedirectionOktaIDPMock)('force idp discovery after device activate w/idp discovery feature and redirect to idp', async t => {
   const deviceCodeActivatePageObject = await setup(t);
   await rerenderWidget({
     stateToken: null, // setting stateToken to null to trigger the V1 flow
@@ -138,13 +150,14 @@ test.only.requestHooks(requestLogger, legacyDeviceCodeIdpCheckWithRedirectionMoc
   // login
   await deviceCodeActivatePageObject.form.setTextBoxValue('username', 'administrator@okta1.com');
   await deviceCodeActivatePageObject.form.clickSaveButton();
-  await t.wait(1000);
-  console.log(await getPageHTML());
   await t.expect(deviceCodeActivatePageObject.form.fieldByLabelExists('Password')).ok();
   await deviceCodeActivatePageObject.form.setTextBoxValue('password', 'pass@word123');
   await deviceCodeActivatePageObject.form.clickSaveButton('Sign In');
 
   await t.expect(deviceCodeActivatePageObject.activationCodeFieldExists()).ok();
+
+  await t.removeRequestHooks(legacyDeviceCodeIdpCheckWithRedirectionOktaIDPMock);
+  await t.addRequestHooks(legacyDeviceCodeIdpCheckWithRedirectionLinkedInIDPMock);
 
   // submit user code
   await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABCDWXYZ');
@@ -155,10 +168,13 @@ test.only.requestHooks(requestLogger, legacyDeviceCodeIdpCheckWithRedirectionMoc
     .eql('http://localhost:3000/sso/idps/0oa4onxsxfUDwUb8u0g4?stateToken=00lpyQXxOMfE0lbVM1vEY4u3usVvlmkK5rDx69GQgb&login_hint=#');
 });
 
-test.requestHooks(requestLogger, legacyDeviceCodeForceIdpCheckWithoutRedirectionAndErrorMock)('force idp discovery after device activate and error route to default route', async t => {
+test.requestHooks(requestLogger, wellKnownSuccessMock)('force idp discovery after device activate and error route to default route', async t => {
   const deviceCodeActivatePageObject = await setup(t);
   await rerenderWidget({
     stateToken: null, // setting stateToken to null to trigger the V1 flow
+    features: {
+      idpDiscovery: false,
+    },
     authParams: {
       responseType: 'code',
     },
@@ -171,6 +187,9 @@ test.requestHooks(requestLogger, legacyDeviceCodeForceIdpCheckWithoutRedirection
   await deviceCodeActivatePageObject.form.clickSaveButton('Sign In');
 
   await t.expect(deviceCodeActivatePageObject.activationCodeFieldExists()).ok();
+
+  await t.removeRequestHooks(wellKnownSuccessMock);
+  await t.addRequestHooks(wellKnownErrorMock);
 
   // submit user code
   await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABCDWXYZ');
@@ -181,7 +200,7 @@ test.requestHooks(requestLogger, legacyDeviceCodeForceIdpCheckWithoutRedirection
   await t.expect(deviceCodeActivatePageObject.isPasswordFieldVisible()).eql(true);
 });
 
-test.requestHooks(requestLogger, legacyDeviceCodeForceIdpCheckWithoutRedirectionAndErrorMock)('force idp discovery after device activate w/idp discovery and error route to default route', async t => {
+test.requestHooks(requestLogger, wellKnownSuccessMock)('force idp discovery after device activate w/idp discovery and error route to default route', async t => {
   const deviceCodeActivatePageObject = await setup(t);
   await rerenderWidget({
     stateToken: null, // setting stateToken to null to trigger the V1 flow
@@ -203,6 +222,9 @@ test.requestHooks(requestLogger, legacyDeviceCodeForceIdpCheckWithoutRedirection
   await deviceCodeActivatePageObject.form.clickSaveButton('Sign In');
 
   await t.expect(deviceCodeActivatePageObject.activationCodeFieldExists()).ok();
+
+  await t.removeRequestHooks(wellKnownSuccessMock);
+  await t.addRequestHooks(wellKnownErrorMock);
 
   // submit user code
   await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABCDWXYZ');
@@ -217,6 +239,9 @@ test.requestHooks(requestLogger, legacyDeviceCodeForceIdpCheckWithoutRedirection
   const deviceCodeActivatePageObject = await setup(t);
   await rerenderWidget({
     stateToken: null, // setting stateToken to null to trigger the V1 flow
+    features: {
+      idpDiscovery: false,
+    },
     authParams: {
       responseType: 'code',
     },
@@ -275,6 +300,9 @@ test.requestHooks(requestLogger, legacyDeviceCodeShowLoginMock)('no idp discover
   const deviceCodeActivatePageObject = await setup(t);
   await rerenderWidget({
     stateToken: null, // setting stateToken to null to trigger the V1 flow
+    features: {
+      idpDiscovery: false,
+    },
     authParams: {
       responseType: 'code',
     },

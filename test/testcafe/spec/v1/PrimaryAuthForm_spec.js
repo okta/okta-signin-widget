@@ -2,6 +2,7 @@ import { RequestMock, RequestLogger, ClientFunction } from 'testcafe';
 import PrimaryAuthPageObject from '../../framework/page-objects-v1/PrimaryAuthPageObject';
 import UnlockAccountPageObject from '../../framework/page-objects-v1/UnlockAccountPageObject';
 import authnSuccessResponse from '../../../../playground/mocks/data/api/v1/authn/success-001';
+import idpForceResponseOktaIdP from '../../../../playground/mocks/data/.well-known/webfinger/forced-idp-discovery-okta-idp.json';
 
 const renderWidget = ClientFunction((settings) => {
   // function `renderPlaygroundWidget` is defined in playground/main.js
@@ -10,7 +11,9 @@ const renderWidget = ClientFunction((settings) => {
 
 const authNSuccessMock = RequestMock()
   .onRequestTo('http://localhost:3000/api/v1/authn')
-  .respond(authnSuccessResponse);
+  .respond(authnSuccessResponse)
+  .onRequestTo(/^http:\/\/localhost:3000\/.well-known\/webfinger.*/)
+  .respond(idpForceResponseOktaIdP);
 
 fixture('Primary Auth Form').meta('gen1', true);
 
@@ -25,7 +28,9 @@ const logger = RequestLogger(
 
 const defaultConfig = {
   stateToken: null, // setting stateToken to null to trigger the V1 flow
-  features: {},
+  features: {
+    idpDiscovery: false,
+  },
   authParams: {
     responseType: 'code',
   },
@@ -75,7 +80,6 @@ test.requestHooks(logger, authNSuccessMock)('should set autocomplete to off on u
   await t.expect(userNameField.getAttribute('autocomplete')).eql('off');
   await primaryAuthForm.setUsername('tester1@okta1.com');
   await primaryAuthForm.clickNextButton();
-  await t.wait(1000);
   await t.expect(primaryAuthForm.form.fieldByLabelExists('Password')).ok();
   await t.expect(primaryAuthForm.getInputField('password').getAttribute('autocomplete')).eql('off');
 });

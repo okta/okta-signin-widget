@@ -65,8 +65,7 @@ const config = {
     { module: 'axe-core/axe.min.js' },
     { module: '@testing-library/dom/dist/@testing-library/dom.umd.js' }
   ],
-  // src: [ 'test/testcafe/spec/*_spec.js', 'test/testcafe/spec/v1/*_spec.js' ],
-  src: [ 'test/testcafe/spec/v1/UsingDeviceFlow_spec.js' ],
+  src: [ 'test/testcafe/spec/*_spec.js', 'test/testcafe/spec/v1/*_spec.js' ],
   hooks: { request: mocks, },
   userVariables: {
     gen3: env.OKTA_SIW_GEN3,
