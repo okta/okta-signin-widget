@@ -2,6 +2,7 @@ import { RequestMock, RequestLogger, ClientFunction } from 'testcafe';
 import PrimaryAuthPageObject from '../../framework/page-objects-v1/PrimaryAuthPageObject';
 import authnMfaOVRequiredResponse from '../../../../playground/mocks/data/api/v1/authn/mfa-required-oktaverify';
 import wellKnownMockResponse from '../../../../playground/mocks/data/oauth2/well-known-openid-configuration';
+import SuccessResponse from '../../../../playground/mocks/data/api/v1/authn/success-001';
 import MFAOktaVerifyPageObject from '../../framework/page-objects-v1/MFAOktaVerifyPageObject';
 
 const renderWidget = ClientFunction((settings) => {
@@ -12,6 +13,8 @@ const renderWidget = ClientFunction((settings) => {
 const authNMfaOktaVerifyMock = RequestMock()
   .onRequestTo('http://localhost:3000/api/v1/authn')
   .respond(authnMfaOVRequiredResponse)
+  .onRequestTo(/^http:\/\/localhost:3000\/api\/v1\/authn\/factors\/(.*)\/verify.*/)
+  .respond(SuccessResponse)
   .onRequestTo(/^http:\/\/localhost:3000\/.well-known\/openid-configuration.*/)
   .respond(wellKnownMockResponse);
 
