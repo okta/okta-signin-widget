@@ -22,7 +22,7 @@ import {
 
 import WebAuthNSubmitButton from './WebAuthNSubmitButton';
 
-jest.mock('../../../../v2/ion/i18nTransformer', () => ({
+jest.mock('../../../../v2/ion/i18nUtils', () => ({
   getMessageFromBrowserError: (error: Error) => (error.name === 'NotAllowedError' ? 'Operation not allowed' : error.message),
 }));
 

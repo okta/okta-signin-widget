@@ -27,13 +27,13 @@ type Options = CreateAuthClientOptions & {
 };
 
 /*
- * See manual mock for okta package in src/v3/jest.setup.js
- * This globally overwrites the okta package's loc function
+ * See manual mock for loc util in src/v3/jest.setup.js
+ * This globally overwrites loc function
  * For integration tests we want the translated string to render
  * According to jest documentation, must use the unmock function below
  * https://jestjs.io/docs/manual-mocks#examples
 */
-jest.unmock('@okta/courage');
+jest.unmock('util/loc');
 
 export async function setup(options: Options): Promise<RenderResult & {
   authClient: OktaAuth;
