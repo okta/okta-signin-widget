@@ -48,7 +48,7 @@ const getComponentProps = (
   },
 });
 
-jest.mock('../../../../v2/ion/i18nTransformer', () => ({
+jest.mock('../../../../v2/ion/i18nUtils', () => ({
   getMessage: jest.fn().mockImplementation(
     (message) => jest.fn().mockReturnValue(message?.message),
   ),
