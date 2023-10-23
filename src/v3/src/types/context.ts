@@ -15,7 +15,7 @@ import {
   IdxMessage,
   IdxTransaction,
   OAuthError,
-  OktaAuthIdxInterface,
+  OktaAuthBaseIdxInterface,
 } from '@okta/okta-auth-js';
 import { MutableRef, StateUpdater } from 'preact/hooks';
 
@@ -23,7 +23,7 @@ import { FormBag, LanguageDirection, UISchemaLayoutType } from './schema';
 import { WidgetProps } from './widget';
 
 export type IWidgetContext = {
-  authClient: OktaAuthIdxInterface;
+  authClient: OktaAuthBaseIdxInterface;
   widgetProps: WidgetProps;
   message: IdxMessage | undefined;
   setMessage: StateUpdater<IdxMessage | undefined>;

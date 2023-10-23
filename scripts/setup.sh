@@ -4,7 +4,7 @@ set -eo pipefail
 # Can be used to run a canary build against a beta AuthJS version that has been published to artifactory.
 # This is available from the "downstream artifact" menu on any okta-auth-js build in Bacon.
 # DO NOT MERGE ANY CHANGES TO THIS LINE!!
-export AUTHJS_VERSION=""
+export AUTHJS_VERSION="7.5.0-g5ab8355"
 export INTERNAL_REGISTRY="${ARTIFACTORY_URL}/api/npm/npm-okta-release"
 export PUBLIC_REGISTRY="https://registry.yarnpkg.com"
 
@@ -54,10 +54,20 @@ if [ ! -z "$AUTHJS_VERSION" ]; then
 
   yarn global add @okta/siw-platform-scripts@0.7.0
 
+  rm -rf ./node_modules/@okta/okta-auth-js
+  rm -rf ./src/v3/node_modules/@okta/okta-auth-js
+
+  json=$(cat ./package.json | jq 'del(.dependencies["@okta/okta-auth-js"])')
+  printf '%s\n' "${json}" > ./package.json
+
   if ! siw-platform install-artifact -n @okta/okta-auth-js -v ${AUTHJS_VERSION} ; then
     echo "AUTHJS_VERSION could not be installed: ${AUTHJS_VERSION}"
     exit ${FAILED_SETUP}
   fi
+
+  json_v3=$(cat ./src/v3/package.json | jq --arg ver $AUTHJS_VERSION '.dependencies["@okta/okta-auth-js"] = $ver')
+  printf '%s\n' "${json_v3}" > ./src/v3/package.json
+  cp -r ./node_modules/@okta/okta-auth-js ./src/v3/node_modules/@okta
 
   # Remove any changes to package.json
   git checkout .

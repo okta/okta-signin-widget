@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { OktaAuthIdxInterface, Tokens } from '@okta/okta-auth-js';
+import { OktaAuthBaseIdxInterface, Tokens } from '@okta/okta-auth-js';
 
 import {
   HooksAPI,
@@ -28,7 +28,7 @@ export interface OktaSignInAPI extends HooksAPI, RouterEventsAPI {
   readonly options: Pick<WidgetOptions, 'brandName'>;
 
   // Gen3 supports only IDX
-  authClient: OktaAuthIdxInterface;
+  authClient: OktaAuthBaseIdxInterface;
   show(): void;
   hide(): void;
   remove(): void;

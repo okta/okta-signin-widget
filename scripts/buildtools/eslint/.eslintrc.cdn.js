@@ -11,6 +11,7 @@ module.exports = {
       'AbortController',
       // API availability is checked at runtime by 'broadcast-channel', this polyfill should be removed in v7
       'BroadcastChannel',
+      'navigator.locks',
       // No polyfill exist in CDN bundle for this API
       // Use [text-encoding](https://github.com/inexorabletash/text-encoding) as the polyfill when needed
       'TextEncoder',

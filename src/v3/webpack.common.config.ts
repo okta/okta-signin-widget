@@ -82,6 +82,17 @@ const baseConfig: Partial<Configuration> = {
   },
   module: {
     rules: [
+      // Need to separate rule for modules without side effects
+      // for proper tree-shaking
+      {
+        test: /\.[jt]sx?$/,
+        include: [
+          /node_modules\/@okta\/okta-auth-js/,
+        ],
+        sideEffects: false,
+        loader: 'babel-loader',
+        options: babelOptions,
+      },
       {
         test: /\.[jt]sx?$/,
         exclude(filePath) {
@@ -91,7 +102,6 @@ const baseConfig: Partial<Configuration> = {
             '/node_modules/@sindresorhus/to-milliseconds',
             '/node_modules/@okta/odyssey-react-mui',
             '/node_modules/@mui',
-            '/node_modules/@okta/okta-auth-js',
             '/node_modules/p-cancelable',
           ].some(filePathContains);
           const shallBeExcluded = [

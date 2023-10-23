@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { OktaAuth, OktaAuthOptions, Tokens } from '@okta/okta-auth-js';
+import type { OktaAuthOptions, Tokens } from '@okta/okta-auth-js';
 import pick from 'lodash/pick';
 import { h, render } from 'preact';
 import { TinyEmitter as EventEmitter } from 'tiny-emitter';
@@ -34,6 +34,7 @@ import {
   WidgetProps,
 } from '../types';
 import { WidgetHooks } from '../util/widgetHooks';
+import { OktaAuthClient } from './authClient';
 
 const EVENTS_LIST = ['ready', 'afterError', 'afterRender'];
 
@@ -92,11 +93,6 @@ export default class OktaSignIn implements OktaSignInAPI {
 
     // if authClient is set, authParams are disregarded
     if (options.authClient) {
-      // safety check
-      if (!(options.authClient instanceof OktaAuth)) {
-        throw new Error('expected "authClient" to be an instance of OktaAuth');
-      }
-
       // instance of OktaAuth client
       this.authClient = options.authClient;
       // HACK: options should not be touched once instance is initialized
@@ -128,7 +124,7 @@ export default class OktaSignIn implements OktaSignInAPI {
       }
 
       // instance of OktaAuth client
-      this.authClient = new OktaAuth(authParams);
+      this.authClient = new OktaAuthClient(authParams);
 
       // add widget version to extended user agent header
       // eslint-disable-next-line no-underscore-dangle

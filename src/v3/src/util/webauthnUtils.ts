@@ -10,9 +10,9 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { OktaAuth } from '@okta/okta-auth-js';
 import omit from 'lodash/omit';
 
+import { OktaAuthClient } from '../OktaSignIn/authClient';
 import { WebAuthNAuthenticationHandler, WebAuthNEnrollmentHandler } from '../types';
 
 export const binToStr = (bin: ArrayBuffer): string => btoa(
@@ -43,7 +43,7 @@ export const webAuthNEnrollmentHandler: WebAuthNEnrollmentHandler = async (trans
   // generate a PublicKeyCredential instance for use by IDX to enroll the user/device
   const options = (
     activationData && authenticatorEnrollments?.value
-  ) && OktaAuth.webauthn.buildCredentialCreationOptions(
+  ) && OktaAuthClient.webauthn.buildCredentialCreationOptions(
     activationData,
     authenticatorEnrollments.value,
   );
@@ -83,7 +83,7 @@ export const webAuthNAuthenticationHandler: WebAuthNAuthenticationHandler = asyn
   // generate a PublicKeyCredential instance for use by IDX verify the user
   const options = (
     challengeData && authenticatorEnrollments?.value
-  ) && OktaAuth.webauthn.buildCredentialRequestOptions(
+  ) && OktaAuthClient.webauthn.buildCredentialRequestOptions(
     challengeData,
     authenticatorEnrollments.value,
   );
@@ -94,5 +94,5 @@ export const webAuthNAuthenticationHandler: WebAuthNAuthenticationHandler = asyn
 
   // Extracts the key properties from the credentials object and returns.
   // for some reason generic remediator does not allow/expect id field and fails when passed
-  return { credentials: omit(OktaAuth.webauthn.getAssertion(credentials), ['id']) };
+  return { credentials: omit(OktaAuthClient.webauthn.getAssertion(credentials), ['id']) };
 };
