@@ -41,6 +41,13 @@ const terminalReturnOtpUnexpectedResponseyMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(terminalReturnOtpUnexpectedResponse);
 
+const terminalReturnOtpOnlyNoAppLabel = JSON.parse(JSON.stringify(terminalReturnOtpOnlyFullLocation));
+terminalReturnOtpOnlyNoAppLabel.app.value.label = null;
+
+const terminalReturnOtpOnlyNoAppLabelMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(terminalReturnOtpOnlyNoAppLabel);
+
 fixture('Email Magic Link OTP Terminal view');
 
 async function setupOtpOnly(t) {
@@ -132,4 +139,15 @@ test.requestHooks(terminalReturnOtpUnexpectedResponseyMock)('should gracefully h
   const terminalOtpOnlyPage = await setupOtpOnly(t);
   await t.expect(await terminalOtpOnlyPage.doesEnterCodeOnPageExist()).ok();
   await t.expect(terminalOtpOnlyPage.getEnterCodeOnPageElement().innerText).notContains('L10N_ERROR');
+});
+
+test.requestHooks(terminalReturnOtpOnlyFullLocationMock)('should display the application label if it is present in the app state', async t => {
+  const terminalOtpOnlyPage = await setupOtpOnly(t);
+  await t.expect(terminalOtpOnlyPage.doesAppNameElementExist()).eql(true);
+  await t.expect(terminalOtpOnlyPage.getAppNameElement().textContent).eql('my 3rd magic link spa');
+});
+
+test.requestHooks(terminalReturnOtpOnlyNoAppLabelMock)('should not display the application label if it is not present in the app state', async t => {
+  const terminalOtpOnlyPage = await setupOtpOnly(t);
+  await t.expect(terminalOtpOnlyPage.doesAppNameElementExist()).eql(false);
 });
