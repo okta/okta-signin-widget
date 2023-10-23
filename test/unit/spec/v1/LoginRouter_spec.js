@@ -1413,7 +1413,7 @@ Expect.describe('v1/LoginRouter', function() {
         })
       );
     });
-    xit('removes the iframe when it returns with the redirect data', function() {
+    itp('removes the iframe when it returns with the redirect data', function() {
       return setupOAuth2({}, { mockWellKnown: true }).then(function() {
         return Expect.waitForWindowListener('message');
       }).then(function() {
