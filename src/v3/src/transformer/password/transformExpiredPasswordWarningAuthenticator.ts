@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { getMessage } from '../../../../v2/ion/i18nTransformer';
+import { getMessage } from '../../../../v2/ion/i18nUtils';
 import {
   ButtonElement,
   ButtonType,
