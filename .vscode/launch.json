@@ -56,7 +56,9 @@
           "--page-load-timeout",
           "1000000",
           "--config-file",
-          ".testcaferc.js"
+          ".testcaferc.js",
+          "./tests/vrt-screenshots",
+          "./tests/*.visual.test.js"
       ],
       "console": "integratedTerminal",
       "cwd": "${workspaceRoot}"
