@@ -18,7 +18,7 @@ const authNMfaOktaVerifyMock = RequestMock()
   .onRequestTo(/^http:\/\/localhost:3000\/.well-known\/openid-configuration.*/)
   .respond(wellKnownMockResponse);
 
-fixture('MFA Okta Verify Form').meta('gen1', true);
+fixture('MFA Okta Verify Form');
 
 const logger = RequestLogger(
   /api\/v1/,

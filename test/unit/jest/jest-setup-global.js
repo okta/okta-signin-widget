@@ -3,7 +3,12 @@ import $ from 'jquery';
 import jasmine from 'jasmine';
 import fs from 'fs';
 import path from 'path';
+import { Crypto } from '@peculiar/webcrypto';
+import { TextEncoder, TextDecoder } from 'util';
 
+global.TextEncoder = TextEncoder;
+global.TextDecoder = TextDecoder;
+global.crypto = new Crypto();
 global.$ = global.jQuery = $;
 global.DEBUG = false;
 global.getJasmineRequireObj = function jestSetupGlobalJasmine() {

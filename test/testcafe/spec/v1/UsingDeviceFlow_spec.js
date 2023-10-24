@@ -92,7 +92,7 @@ const rerenderWidget = ClientFunction((settings) => {
   window.renderPlaygroundWidget(settings);
 });
 
-fixture('IDP Discovery force').meta('gen1', true);
+fixture('IDP Discovery force');
 
 async function setup(t) {
   const deviceCodeActivatePage = new DeviceCodeActivatePageObject(t);
@@ -394,8 +394,7 @@ test.requestHooks(requestLogger, legacyDeviceCodeShowLoginMockWithoutDeviceFlow)
   await t.expect(deviceCodeActivatePageObject.isUserNameFieldVisible()).eql(true);
   await t.expect(deviceCodeActivatePageObject.isPasswordFieldVisible()).eql(false);
   await t.click('.social-auth-google-button');
-  // Have to wait for clicked page to load
-  await t.wait(1000);
+  await t.expect(deviceCodeActivatePageObject.hasIDPRedirectPageHeader()).ok();
   const pageUrl = await identityPage.getPageUrl();
   // using fromUri
   await t.expect(pageUrl).eql('http://localhost:3000/sso/idps/0oaaix1twko0jyKik0g1?fromURI=');
@@ -438,8 +437,7 @@ test.requestHooks(requestLogger, legacyDeviceCodeShowLoginMockWithUsingDeviceFlo
   await t.expect(deviceCodeActivatePageObject.isUserNameFieldVisible()).eql(true);
   await t.expect(deviceCodeActivatePageObject.isPasswordFieldVisible()).eql(false);
   await t.click('.social-auth-google-button');
-  // Have to wait for clicked page to load
-  await t.wait(1000);
+  await t.expect(deviceCodeActivatePageObject.hasIDPRedirectPageHeader()).ok();
   const pageUrl = await identityPage.getPageUrl();
   // using stateToken
   await t.expect(pageUrl).eql('http://localhost:3000/sso/idps/0oaaix1twko0jyKik0g1?stateToken=aStateToken');

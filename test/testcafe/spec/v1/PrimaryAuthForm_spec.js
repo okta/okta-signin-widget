@@ -15,7 +15,7 @@ const authNSuccessMock = RequestMock()
   .onRequestTo(/^http:\/\/localhost:3000\/.well-known\/webfinger.*/)
   .respond(idpForceResponseOktaIdP);
 
-fixture('Primary Auth Form').meta('gen1', true);
+fixture('Primary Auth Form');
 
 const logger = RequestLogger(
   /api\/v1/,

@@ -13,7 +13,7 @@ const authNPrimaryAuthToSmsEnrollMock = RequestMock()
   .onRequestTo('http://localhost:3000/api/v1/authn')
   .respond(authNMfaSmsEnrollResponse);
 
-fixture('Form Animations').meta('gen1', true);
+fixture('Form Animations');
 
 const logger = RequestLogger(
   /api\/v1/,

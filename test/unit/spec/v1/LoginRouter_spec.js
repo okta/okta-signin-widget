@@ -1413,7 +1413,7 @@ Expect.describe('v1/LoginRouter', function() {
         })
       );
     });
-    xit('removes the iframe when it returns with the redirect data', function() {
+    itp('removes the iframe when it returns with the redirect data', function() {
       return setupOAuth2({}, { mockWellKnown: true }).then(function() {
         return Expect.waitForWindowListener('message');
       }).then(function() {
@@ -1433,7 +1433,7 @@ Expect.describe('v1/LoginRouter', function() {
         });
       });
     });
-    xit('invokes the success function with idToken and user data when the iframe returns with data', function() {
+    itp('invokes the success function with idToken and user data when the iframe returns with data', function() {
       Util.loadWellKnownAndKeysCache();
       const successSpy = jasmine.createSpy('successSpy');
 
@@ -1488,7 +1488,7 @@ Expect.describe('v1/LoginRouter', function() {
           });
         });
     });
-    xit('triggers the afterError event if an idToken is not returned', function() {
+    itp('triggers the afterError event if an idToken is not returned', function() {
       return setupOAuth2({}, { mockWellKnown: true })
         .then(function(test) {
           return Expect.waitForWindowListener('message', test);

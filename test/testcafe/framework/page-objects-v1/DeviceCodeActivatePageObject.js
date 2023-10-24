@@ -88,4 +88,8 @@ export default class DeviceCodeActivatePageObject extends BasePageObject {
   getErrorBoxText() {
     return Selector('.okta-form-infobox-error p').innerText;
   }
+
+  hasIDPRedirectPageHeader() {
+    return Selector('h1').withText('An external IdP login page for testcafe testing').exists;
+  }
 }

@@ -79,7 +79,7 @@ const rerenderWidget = ClientFunction((settings) => {
   window.renderPlaygroundWidget(settings);
 });
 
-fixture('Device Code Activation Flow legacy SIW').meta('gen1', true);
+fixture('Device Code Activation Flow legacy SIW');
 
 async function setup(t) {
   const deviceCodeActivatePage = new DeviceCodeActivatePageObject(t);

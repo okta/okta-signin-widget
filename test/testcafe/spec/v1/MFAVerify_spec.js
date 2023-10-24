@@ -12,7 +12,7 @@ const authNMfaAllFactorsMock = RequestMock()
   .onRequestTo('http://localhost:3000/api/v1/authn')
   .respond(authnMfaAllFactorsResponse);
 
-fixture('MFA Verify Form').meta('gen1', true);
+fixture('MFA Verify Form');
 
 const logger = RequestLogger(
   /api\/v1/,
