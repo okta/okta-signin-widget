@@ -70,6 +70,7 @@ import {
   isOauth2Enabled,
   loadLanguage,
   SessionStorage,
+  setCookieUserAuthenticated,
   triggerEmailVerifyCallback,
 } from '../../util';
 import { getEventContext } from '../../util/getEventContext';
@@ -255,6 +256,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     if ([IdxStatus.TERMINAL, IdxStatus.SUCCESS].includes(idxTransaction.status)
       || idxTransaction.nextStep?.name === IDX_STEP.SKIP // force safe mode to be terminal
       || !idxTransaction.nextStep) {
+      setCookieUserAuthenticated();
       return transformTerminalTransaction(idxTransaction, widgetProps, bootstrap);
     }
 

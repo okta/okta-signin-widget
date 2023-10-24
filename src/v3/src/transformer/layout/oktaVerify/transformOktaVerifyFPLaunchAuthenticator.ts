@@ -15,9 +15,11 @@ import {
   DescriptionElement,
   IdxStepTransformer,
   LaunchAuthenticatorButtonElement,
+  LinkElement,
   TitleElement,
 } from '../../../types';
 import { loc } from '../../../util';
+import { getCookieUserAuthenticated } from '../../../util/cookieUtils';
 
 export const transformOktaVerifyFPLaunchAuthenticator: IdxStepTransformer = ({
   formBag,
@@ -61,6 +63,25 @@ export const transformOktaVerifyFPLaunchAuthenticator: IdxStepTransformer = ({
     descriptionElement,
     launchAuthenticatorButton,
   ];
+
+  if (!getCookieUserAuthenticated()) {
+    const existingBackLink: LinkElement = uischema.elements.find(
+      (e) => e.type === 'Link' && (e as LinkElement).options.step === 'cancel',
+    ) as LinkElement;
+
+    if (!existingBackLink) {
+      const backLink: LinkElement = {
+        type: 'Link',
+        contentType: 'footer',
+        options: {
+          label: loc('goback', 'login'),
+          isActionStep: true,
+          step: 'cancel',
+        },
+      };
+      uischema.elements.push(backLink);
+    }
+  }
 
   return formBag;
 };

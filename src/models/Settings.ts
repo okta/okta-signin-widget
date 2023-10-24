@@ -24,6 +24,7 @@ import {
 import IDP from 'util/IDP';
 import Logger from 'util/Logger';
 import Util from 'util/Util';
+import CookieUtil from 'util/CookieUtil';
 import CountryUtil from 'util/CountryUtil';
 import { OktaAuth } from '@okta/okta-auth-js';
 const SharedUtil = internal.util.Util;
@@ -465,6 +466,7 @@ export default class Settings extends Model {
   // terminal part of the code (i.e. authStatus SUCCESS or after sending
   // a recovery email)
   callGlobalSuccess(status, data) {
+    CookieUtil.setCookieUserAuthenticated();
     const res = _.extend(data, { status: status });
     // Defer this to ensure that our functions have rendered completely
     // before invoking their function

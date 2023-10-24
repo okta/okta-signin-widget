@@ -37,6 +37,7 @@ import {
   getBaseUrl,
   isOauth2Enabled,
   loc,
+  removeUserAuthenticatedCookie,
   SessionStorage,
   shouldShowCancelLink,
 } from '../../util';
@@ -145,6 +146,7 @@ export const transformTerminalTransaction = (
 
   if (transaction.context?.success?.href) {
     SessionStorage.removeStateHandle();
+    removeUserAuthenticatedCookie();
     return redirectTransformer(
       transaction,
       transaction.context.success.href,
@@ -158,6 +160,7 @@ export const transformTerminalTransaction = (
     const shouldRedirect = isOauth2Enabled(widgetProps) === false || widgetProps.redirect === 'always';
     if (shouldRedirect) {
       SessionStorage.removeStateHandle();
+      removeUserAuthenticatedCookie();
       return redirectTransformer(
         transaction,
         transaction.context.failure.href,
@@ -171,6 +174,7 @@ export const transformTerminalTransaction = (
   if (containsMessageKey(TERMINAL_KEY.SESSION_EXPIRED, messages)) {
     authClient?.transactionManager.clear();
     SessionStorage.removeStateHandle();
+    removeUserAuthenticatedCookie();
   }
 
   const formBag: FormBag = createForm();

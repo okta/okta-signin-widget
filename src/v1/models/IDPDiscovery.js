@@ -79,7 +79,7 @@ export default PrimaryAuthModel.extend({
         // Specific event handled by the Header for the case where the security image is not
         // enabled and we want to show a spinner. (Triggered only here and handled only by Header).
         this.appState.trigger('removeLoading');
-        CookieUtil.removeUsernameCookie();
+        CookieUtil.removeUserCookies();
       })
       .finally(() => {
         this.appState.trigger('loading', false);
