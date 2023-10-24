@@ -154,12 +154,14 @@ test.meta('gen3', false).requestHooks(identifyRequestLogger, identifyMock)('shou
   await t.expect(req.url).eql('http://localhost:3000/idp/idx/identify');
 });
 
-test.requestHooks(identifyMock)('should show errors if required fields are empty', async t => {
+test.only.requestHooks(identifyMock)('should show errors if required fields are empty', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
+  await t.customActions.vrt('one');
 
   await identityPage.clickNextButton();
   await identityPage.waitForErrorBox();
+  await t.customActions.vrt('two');
 
   await t.expect(identityPage.getIdentifierErrorMessage()).eql('This field cannot be left blank');
 });
@@ -184,7 +186,6 @@ test.requestHooks(identifyMock)('should show customized error if required field 
       }
     }
   });
-
   await identityPage.clickNextButton();
   await identityPage.waitForErrorBox();
 
