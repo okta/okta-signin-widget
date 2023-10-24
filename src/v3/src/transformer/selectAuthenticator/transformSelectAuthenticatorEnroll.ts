@@ -17,6 +17,7 @@ import {
   ButtonElement,
   ButtonType,
   DescriptionElement,
+  HeadingElement,
   IdxStepTransformer,
   TitleElement,
 } from '../../types';
@@ -62,12 +63,12 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
     contentType: 'subtitle',
     options: getContentDescrAndParams(brandName),
   };
-  const description: DescriptionElement = {
-    type: 'Description',
-    contentType: 'subtitle',
-    noMargin: true,
+  const description: HeadingElement = {
+    type: 'Heading',
     options: {
       content: skipStep ? loc('oie.setup.optional', 'login') : loc('oie.setup.required', 'login'),
+      level: 6,
+      visualLevel: 3,
     },
   };
   const authenticatorListElement: AuthenticatorButtonListElement = {
