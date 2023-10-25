@@ -180,7 +180,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
                         class="MuiBox-root emotion-18"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-26"
+                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph no-translate emotion-26"
                           data-se="google-authenticator-setup-info"
                           id="enroll-authenticator_Description_Launch_Google_Authenticator,_tap_the__icon,_then_select_Scan_barcode_google_otp_aut2m5drzzUlo4Bn81d7_4_1"
                         >

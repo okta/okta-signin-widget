@@ -56,6 +56,7 @@ export const transformGoogleAuthenticatorEnroll: IdxStepTransformer = ({
   const manualKeyElement: DescriptionElement = {
     type: 'Description',
     contentType: 'subtitle',
+    noTranslate: true,
     options: {
       // spacing out the code so Screen reader can speak each letter individually
       content: relatesTo.value.contextualData.sharedSecret?.split('').join(' ') || '',
