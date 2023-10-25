@@ -20,26 +20,29 @@ import {
   ReminderElement,
   TitleElement,
 } from '../../types';
-import { loc } from '../../util';
+import { buildPhoneVerificationSubtitleElement, loc } from '../../util';
 
 export const transformPhoneChallenge: IdxStepTransformer = ({ transaction, formBag }) => {
   const { nextStep = {} as NextStep, availableSteps } = transaction;
   const { uischema } = formBag;
 
-  const { methods, profile } = nextStep.relatesTo?.value || {};
-  const { phoneNumber } = profile || {};
+  const { methods } = nextStep.relatesTo?.value || {};
   const methodType = methods?.[0]?.type;
   let reminderElement: ReminderElement | undefined;
 
   const resendStep = availableSteps?.find(({ name }) => name?.endsWith('resend'));
-  const smsMethodType = methodType === 'sms';
+  const isSmsMethodType = methodType === 'sms';
   if (resendStep) {
     const { name } = resendStep;
     reminderElement = {
       type: 'Reminder',
       options: {
-        content: smsMethodType ? loc('oie.phone.verify.sms.resendText', 'login') : loc('oie.phone.verify.call.resendText', 'login'),
-        buttonText: smsMethodType ? loc('oie.phone.verify.sms.resendLinkText', 'login') : loc('oie.phone.verify.call.resendLinkText', 'login'),
+        content: isSmsMethodType
+          ? loc('oie.phone.verify.sms.resendText', 'login')
+          : loc('oie.phone.verify.call.resendText', 'login'),
+        buttonText: isSmsMethodType
+          ? loc('oie.phone.verify.sms.resendLinkText', 'login')
+          : loc('oie.phone.verify.call.resendLinkText', 'login'),
         step: name,
         isActionStep: true,
         actionParams: { resend: true },
@@ -47,21 +50,10 @@ export const transformPhoneChallenge: IdxStepTransformer = ({ transaction, formB
     };
   }
 
-  const sendInfoText = smsMethodType
-    ? loc('oie.phone.verify.sms.codeSentText', 'login')
-    : loc('mfa.calling', 'login');
-  // using the &lrm; unicode mark to keep the phone number in ltr format, while maintaining rtl punctuation (period)
-  // https://www.w3.org/TR/WCAG20-TECHS/H34.html
-  const phoneNumberSpan = phoneNumber ? `<span class="strong no-translate">&lrm;${phoneNumber}.</span>` : null;
-  const phoneInfoText = phoneNumberSpan || `${loc('oie.phone.alternate.title', 'login')}.`;
-  const enterCodeInfoText = loc('oie.phone.verify.enterCodeText', 'login');
-  const informationalText: DescriptionElement = {
-    type: 'Description',
-    contentType: 'subtitle',
-    options: {
-      content: `${sendInfoText} ${phoneInfoText} ${enterCodeInfoText}`,
-    },
-  };
+  const subtitleElement = buildPhoneVerificationSubtitleElement(
+    nextStep.name,
+    methodType as string, nextStep.relatesTo?.value,
+  );
 
   const carrierChargeDisclaimerText: DescriptionElement = {
     type: 'Description',
@@ -89,7 +81,7 @@ export const transformPhoneChallenge: IdxStepTransformer = ({ transaction, formB
 
   uischema.elements.push(submitButtonControl);
   uischema.elements.unshift(carrierChargeDisclaimerText);
-  uischema.elements.unshift(informationalText);
+  uischema.elements.unshift(subtitleElement);
   uischema.elements.unshift(titleElement);
   if (reminderElement) {
     uischema.elements.unshift(reminderElement);

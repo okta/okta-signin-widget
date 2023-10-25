@@ -43,6 +43,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
       key: authenticationKey,
       actionParams,
       description,
+      nickname,
       usageDescription,
       logoUri,
       ctaLabel,
@@ -64,6 +65,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
   const describedByIds = [
     ariaDescribedBy,
     description && `${iconName}-description`,
+    nickname && `${iconName}-nickname`,
     usageDescription && `${iconName}-usageDescription`,
     `${iconName}-ctaLabel`,
   ].filter(Boolean).join(' ');
@@ -178,6 +180,25 @@ const AuthenticatorButton: UISchemaElementComponent<{
             className={classNames('authenticator-description--text', { 'no-translate': noTranslate })}
           >
             {description}
+          </Typography>
+        )}
+        {nickname && (
+          <Typography
+            paragraph
+            id={`${iconName}-nickname`}
+            sx={{
+              fontSize: '.875rem',
+              margin: 0,
+              marginBlockEnd: '6px',
+              textAlign: 'start',
+              overflow: 'hidden',
+              whiteSpace: 'nowrap',
+              textOverflow: 'ellipsis',
+            }}
+            data-se="authenticator-button-nickname"
+            className={classNames('authenticator-enrollment-nickname', 'no-translate')}
+          >
+            {nickname}
           </Typography>
         )}
         {usageDescription && (
