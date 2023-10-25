@@ -1,6 +1,6 @@
-const resemble = require('resemblejs');
 const path = require('path');
-const fs = require('fs-extra');
+const fs = require('fs');
+const ImageDiff = require('./ImageDiff');
 
 const VISUAL_REGRESSION_THRESHOLD = 0.1;
 
@@ -40,52 +40,43 @@ const doVisualRegression = async (testObject, extension) => {
   // console.log(baseScreenshotAbsolutePath);
 
   if (isActualScreenshotTaken && isBaseScreenshotTaken) {
-    await resemble(baseScreenshotAbsolutePath)
-      .compareTo(actualScreenshotAbsolutePath)
-      .scaleToSameSize()
-      .ignoreAntialiasing()
-      .outputSettings({
-        errorColor: {
-          red: 255,
-          green: 0,
-          blue: 255
-        },
-        errorType: 'movement',
-        transparency: 0.3,
-        largeImageThreshold: 1200,
-        useCrossOrigin: false,
-        outputDiff: true,
-        // ignoreAreasColoredWith: {
-        //   r: 255,
-        //   g: 0,
-        //   b: 0,
-        //   a: 255
-        // }
-      })
-      .onComplete(async data => {
-        console.log(`Difference: ${data.rawMisMatchPercentage}`);
-        if (data.rawMisMatchPercentage > VISUAL_REGRESSION_THRESHOLD) {
-          console.log(data);
-          // write a diff image
-          fs.writeFileSync(
-            path.join(
-              path.dirname(actualScreenshotAbsolutePath),
-              `${path.basename(
-                actualScreenshotAbsolutePath,
-                path.extname(actualScreenshotAbsolutePath)
-              )}-diff.png`
-            ),
-            data.getBuffer()
-          );
+    const diff = new ImageDiff({
+      imageOutputPath: path.join(
+        path.dirname(actualScreenshotAbsolutePath),
+        `${path.basename(
+          actualScreenshotAbsolutePath,
+          path.extname(actualScreenshotAbsolutePath)
+        )}-diff.png`
+      ),
+      imageAPath: actualScreenshotAbsolutePath,
+      imageBPath: baseScreenshotAbsolutePath,
+      threshold: 0.01,
+    });
 
-          // fail test
-          throw new Error(
-            `Visual mismatch detected in test: ${testFixtureName}/${screenShotName}. Please investigate.`
-          );
-        }
+    diff.run(() => {
+      console.log(`Difference: ${diff.getDifference()}`);
+      if (!diff.hasPassed()) {
+        console.log(diff);
+        // write a diff image
+        // fs.writeFileSync(
+        //   path.join(
+        //     path.dirname(actualScreenshotAbsolutePath),
+        //     `${path.basename(
+        //       actualScreenshotAbsolutePath,
+        //       path.extname(actualScreenshotAbsolutePath)
+        //     )}-diff.png`
+        //   ),
+        //   data.getBuffer()
+        // );
 
-        return true;
-      });
+        // fail test
+        throw new Error(
+          `Visual mismatch detected in test: ${testFixtureName}/${screenShotName}. Please investigate.`
+        );
+      }
+
+      return true;
+    });
   }
 
   if (!isBaseScreenshotTaken) {

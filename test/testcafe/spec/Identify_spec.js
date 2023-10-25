@@ -169,11 +169,10 @@ test.requestHooks(identifyRequestLogger, identifyMock)('should be able to submit
 test.only.requestHooks(identifyMock)('should show errors if required fields are empty', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
-  await t.customActions.vrt('one');
-
+  await t.customActions.vrt();
   await identityPage.clickNextButton();
   await identityPage.waitForErrorBox();
-  await t.customActions.vrt('two');
+  await t.customActions.vrt('identify error');
 
   await t.expect(identityPage.getIdentifierErrorMessage()).eql('This field cannot be left blank');
 });

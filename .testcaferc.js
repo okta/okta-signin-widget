@@ -1,6 +1,6 @@
 const { readFileSync } = require('fs');
 const { RequestMock } = require('testcafe');
-const doVisualRegression = require('./vrtUtil.js');
+const doVisualRegression = require('./vrtUtil/vrtUtil.js');
 
 /**
  * Escapes special regex chars in string so it can be used as the pattern for
@@ -125,8 +125,8 @@ const config = {
     return true;
   },
   customActions: {
-    async vrt(extension) {
-      await doVisualRegression(this, extension);
+    async vrt(name) {
+      await doVisualRegression(this, name);
     },
   },
 }
