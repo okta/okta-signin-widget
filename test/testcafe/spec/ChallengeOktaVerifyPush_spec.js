@@ -94,8 +94,7 @@ test
     await t.expect(challengeOktaVerifyPushPageObject.getSignoutLinkText()).eql('Back to sign in');
   });
 
-// eslint-disable-next-line testcafe-extended/no-only-statements, no-only-tests/no-only-tests
-test.only
+test
   .requestHooks(pushAutoChallengeMock)('challenge ov push screen has right labels and a checkbox', async t => {
     const challengeOktaVerifyPushPageObject = await setup(t);
     await checkA11y(t);
