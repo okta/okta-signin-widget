@@ -229,7 +229,6 @@ const VIEWS_MAPPING = {
   [RemediationForms.RESET_AUTHENTICATOR]: {
     // Admin driven password reset..
     [AUTHENTICATOR_KEY.PASSWORD]: ResetAuthenticatorPasswordView,
-    [AUTHENTICATOR_KEY.GOOGLE_OTP]: EnrollAuthenticatorGoogleAuthenticatorView,
   },
   [RemediationForms.SELECT_AUTHENTICATOR_AUTHENTICATE]: {
     [DEFAULT]: SelectAuthenticatorVerifyView,

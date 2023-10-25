@@ -491,10 +491,6 @@ const TransformerMap: {
       transform: transformResetPasswordAuthenticator,
       buttonConfig: { showDefaultSubmit: false },
     },
-    [AUTHENTICATOR_KEY.GOOGLE_OTP]: {
-      transform: transformGoogleAuthenticatorEnroll,
-      buttonConfig: { showDefaultSubmit: false },
-    },
   },
   [IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE]: {
     [AUTHENTICATOR_KEY.DEFAULT]: {
