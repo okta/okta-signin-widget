@@ -4,6 +4,7 @@ import { Selector, userVariables } from 'testcafe';
 const FIRSTNAME_FIELD = 'userProfile\\.firstName';
 const LASTNAME_FIELD = 'userProfile\\.lastName';
 const EMAIL_FIELD = 'userProfile\\.email';
+const USERNAME_FIELD = 'userProfile\\.login';
 
 const BACK = 'a[data-se="back"]';
 export default class RegistrationPageObject extends BasePageObject {
@@ -23,6 +24,10 @@ export default class RegistrationPageObject extends BasePageObject {
     return this.form.setTextBoxValue(EMAIL_FIELD, value);
   }
 
+  fillUsernameField(value) {
+    return this.form.setTextBoxValue(USERNAME_FIELD, value);
+  }
+
   setRememberMeField(value) {
     return this.form.setCheckbox('remember', value);
   }
@@ -37,6 +42,10 @@ export default class RegistrationPageObject extends BasePageObject {
 
   getEmail() {
     return this.form.getTextBoxValue(EMAIL_FIELD);
+  }
+
+  getUsername() {
+    return this.form.getTextBoxValue(USERNAME_FIELD);
   }
 
   getRememberMeValue() {
@@ -91,6 +100,14 @@ export default class RegistrationPageObject extends BasePageObject {
     return this.form.hasTextBoxErrorMessage(EMAIL_FIELD, index);
   }
 
+  hasUsernameError(index = undefined) {
+    return this.form.hasTextBoxErrorMessage(USERNAME_FIELD, index);
+  }
+
+  hasUsernameErrorMessage(index = undefined) {
+    return this.form.hasTextBoxErrorMessage(USERNAME_FIELD, index);
+  }
+
   waitForLastNameError() {
     return this.form.waitForTextBoxError(LASTNAME_FIELD);
   }
@@ -99,12 +116,24 @@ export default class RegistrationPageObject extends BasePageObject {
     return this.form.waitForTextBoxError(EMAIL_FIELD);
   }
 
+  waitForUsernameError() {
+    return this.form.waitForTextBoxError(USERNAME_FIELD);
+  }
+
   getEmailErrorMessage(index = undefined) {
     return this.form.getTextBoxErrorMessage(EMAIL_FIELD, index);
   }
 
   getNthEmailErrorMessage(value) {
     return this.form.getNthErrorMessage(EMAIL_FIELD, value);
+  }
+
+  getUsernameErrorMessage(index = undefined) {
+    return this.form.getTextBoxErrorMessage(USERNAME_FIELD, index);
+  }
+
+  getNthUsernameErrorMessage(value) {
+    return this.form.getNthErrorMessage(USERNAME_FIELD, value);
   }
 
   alreadyHaveAccountExists() {
