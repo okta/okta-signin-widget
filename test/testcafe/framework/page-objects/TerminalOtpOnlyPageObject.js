@@ -64,6 +64,11 @@ export default class TerminalOtpOnlyPageObject extends TerminalPageObject {
     return this.form.elementExist(APP_ICON_SELECTOR);
   }
 
+  doesAppNameElementExist() {
+    const appNameSelector = userVariables.gen3 ? APP_TEXT_SELECTOR_V3 : APP_TEXT_SELECTOR;
+    return Selector(appNameSelector).exists;
+  }
+
   getAppNameElement() {
     if (userVariables.gen3) {
       return this.form.getElement(APP_TEXT_SELECTOR_V3); 
