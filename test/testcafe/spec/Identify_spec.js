@@ -166,7 +166,7 @@ test.requestHooks(identifyRequestLogger, identifyMock)('should be able to submit
   await t.expect(req.url).eql('http://localhost:3000/idp/idx/identify');
 });
 
-test.only.requestHooks(identifyMock)('should show errors if required fields are empty', async t => {
+test.requestHooks(identifyMock)('should show errors if required fields are empty', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
   await t.customActions.vrt();
