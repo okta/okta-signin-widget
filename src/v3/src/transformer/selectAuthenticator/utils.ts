@@ -187,7 +187,7 @@ const getNickname = (
   if (!authenticatorKey || isEnroll) {
     return undefined;
   }
-  
+
   if (authenticatorKey === AUTHENTICATOR_KEY.PHONE) {
     // @ts-expect-error OKTA-661650 nickname missing from IdxAuthenticator
     return option.relatesTo?.nickname;
