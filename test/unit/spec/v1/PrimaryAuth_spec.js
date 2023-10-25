@@ -1,6 +1,5 @@
 /* eslint max-params:[2, 32], max-statements:[2, 46], camelcase:0, max-len:[2, 180] */
 import { _, $, internal } from '@okta/courage';
-import MockDate from 'mockdate';
 import { OAuthError } from '@okta/okta-auth-js';
 import getAuthClient from 'helpers/getAuthClient';
 import Router from 'v1/LoginRouter';
@@ -38,7 +37,6 @@ const itp = Expect.itp;
 const BEACON_LOADING_CLS = 'beacon-loading';
 const OIDC_STATE = 'gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg';
 const OIDC_NONCE = 'gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg';
-const AUTH_TIME = (1451606400) * 1000; // The time the "VALID_ID_TOKEN" was issued
 const VALID_ID_TOKEN =
   'eyJhbGciOiJSUzI1NiIsImtpZCI6IlU1UjhjSGJHdzQ0NVFicTh6' +
   'Vk8xUGNDcFhMOHlHNkljb3ZWYTNsYUNveE0iLCJ0eXAiOiJKV1Qi' +
@@ -79,6 +77,28 @@ const VALID_ACCESS_TOKEN =
 const typingPattern =
   '0,2.15,0,0,6,3210950388,1,95,-1,0,-1,-1,\
           0,-1,-1,9,86,44,0,-1,-1|4403,86|143,143|240,62|15,127|176,39|712,87';
+
+const mockClaims = {
+  amr: ['pwd'],
+  aud: 'someClientId',
+  auth_time: 1451606400,
+  email: 'samljackson@gack.me',
+  email_verified: true,
+  exp: 1609459200,
+  family_name: 'Jackson',
+  given_name: 'Saml',
+  iat: 1451606400,
+  idp: '0oaidiw9udOSceDqw0g3',
+  nonce: OIDC_NONCE,
+  idp_type: 'FACEBOOK',
+  iss: 'https://foo.com',
+  login: 'samljackson@gack.me',
+  name: 'Saml Jackson',
+  profile: 'https://www.facebook.com/app_scoped_user_id/122819658076357/',
+  sub: '00uiltNQK2Wszs2RV0g3',
+  updated_at: 1451606400,
+  ver: 1,
+};
 
 async function setup(settings, requests, refreshState, username) {
   settings || (settings = {});
@@ -179,7 +199,7 @@ function setupWithUsername(username, settings) {
   return setup(settings, undefined, false, username);
 }
 
-function setupSocial(settings) {
+function setupSocial(settings, options = {}) {
   Util.mockOIDCStateGenerator();
   Util.loadWellKnownAndKeysCache();
   return setup(
@@ -204,6 +224,16 @@ function setupSocial(settings) {
       settings
     )
   ).then(function(test) {
+    if (options.mockPopup) {
+      spyOn(test.ac.token, 'getWithPopup').and.callFake(function() {
+        return Promise.resolve({
+          tokens: {
+            idToken: { idToken: VALID_ID_TOKEN, claims: mockClaims },
+            accessToken: { accessToken: VALID_ACCESS_TOKEN, scopes: ['openid', 'email', 'profile'], tokenType: 'Bearer' },
+          },
+        });
+      });
+    }
     spyOn(window, 'open').and.callFake(function() {
       test.oidcWindow = {
         closed: false,
@@ -3023,24 +3053,12 @@ Expect.describe('PrimaryAuth', function() {
         spyOn(window, 'addEventListener');
 
         // In this test the id token will be returned succesfully. It must pass all validation.
-        // Mock the date to 10 seconds after token was issued.
-        MockDate.set(new Date(AUTH_TIME + 10000));
-        return setupSocial()
+        return setupSocial({}, { mockPopup: true })
           .then(function(test) {
             test.form.facebookButton().click();
-            return Expect.waitForWindowListener('message', test);
+            return test;
           })
           .then(function(test) {
-            MockDate.set(new Date(AUTH_TIME + 10000));
-            const args = window.addEventListener.calls.mostRecent().args;
-            const callback = args[1];
-            callback.call(null, {
-              origin: 'https://foo.com',
-              data: {
-                id_token: VALID_ID_TOKEN,
-                state: OIDC_STATE,
-              },
-            });
             return Expect.waitForSpyCall(test.successSpy, test);
           })
           .then(function(test) {
@@ -3049,30 +3067,7 @@ Expect.describe('PrimaryAuth', function() {
 
             expect(data.status).toBe('SUCCESS');
             expect(data.tokens.idToken.idToken).toBe(VALID_ID_TOKEN);
-            expect(data.tokens.idToken.claims).toEqual({
-              amr: ['pwd'],
-              aud: 'someClientId',
-              auth_time: 1451606400,
-              email: 'samljackson@gack.me',
-              email_verified: true,
-              exp: 1609459200,
-              family_name: 'Jackson',
-              given_name: 'Saml',
-              iat: 1451606400,
-              idp: '0oaidiw9udOSceDqw0g3',
-              nonce: OIDC_NONCE,
-              idp_type: 'FACEBOOK',
-              iss: 'https://foo.com',
-              login: 'samljackson@gack.me',
-              name: 'Saml Jackson',
-              profile: 'https://www.facebook.com/app_scoped_user_id/122819658076357/',
-              sub: '00uiltNQK2Wszs2RV0g3',
-              updated_at: 1451606400,
-              ver: 1,
-            });
-          })
-          .finally(function() {
-            MockDate.reset();
+            expect(data.tokens.idToken.claims).toEqual(mockClaims);
           });
       }
     );
@@ -3081,27 +3076,12 @@ Expect.describe('PrimaryAuth', function() {
       spyOn(window, 'addEventListener');
 
       // In this test the id token will be returned succesfully. It must pass all validation.
-      // Mock the date to 10 seconds after token was issued.
-      MockDate.set(new Date(AUTH_TIME + 10000));
-      return setupSocial({ 'authParams.responseType': ['id_token', 'token'] })
+      return setupSocial({ 'authParams.responseType': ['id_token', 'token'] }, { mockPopup: true })
         .then(function(test) {
           test.form.facebookButton().click();
-          return Expect.waitForWindowListener('message', test);
+          return test;
         })
         .then(function(test) {
-          const args = window.addEventListener.calls.mostRecent().args;
-          const callback = args[1];
-          callback.call(null, {
-            origin: 'https://foo.com',
-            data: {
-              id_token: VALID_ID_TOKEN,
-              state: OIDC_STATE,
-              access_token: VALID_ACCESS_TOKEN,
-              expires_in: 3600,
-              scope: 'openid email profile',
-              token_type: 'Bearer',
-            },
-          });
           return Expect.waitForSpyCall(test.successSpy, test);
         })
         .then(function(test) {
@@ -3114,9 +3094,6 @@ Expect.describe('PrimaryAuth', function() {
           expect(data.tokens.accessToken.accessToken).toBe(VALID_ACCESS_TOKEN);
           expect(data.tokens.accessToken.scopes).toEqual(['openid', 'email', 'profile']);
           expect(data.tokens.accessToken.tokenType).toBe('Bearer');
-        })
-        .finally(function() {
-          MockDate.reset();
         });
     });
     itp('triggers the afterError event if there is no valid id token returned', function() {
