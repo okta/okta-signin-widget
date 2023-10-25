@@ -45,8 +45,6 @@ const pushWaitMock = RequestMock()
 
 const pushAutoChallengeMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(pushPollAutoChallenge)
-  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
   .respond(pushPollAutoChallenge);
 
 const pushWaitAutoChallengeMock = RequestMock()
@@ -96,8 +94,8 @@ test
     await t.expect(challengeOktaVerifyPushPageObject.getSignoutLinkText()).eql('Back to sign in');
   });
 
-// Re-enable in OKTA-594821
-test.meta('gen3', false)
+// eslint-disable-next-line testcafe-extended/no-only-statements, no-only-tests/no-only-tests
+test.only
   .requestHooks(pushAutoChallengeMock)('challenge ov push screen has right labels and a checkbox', async t => {
     const challengeOktaVerifyPushPageObject = await setup(t);
     await checkA11y(t);
