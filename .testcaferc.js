@@ -128,7 +128,9 @@ const config = {
   },
   customActions: {
     async vrt(name) {
-      await doVisualRegression(this, name, env.UPDATE_SCREENSHOTS);
+      if (env.OKTA_SIW_GEN3) {
+        await doVisualRegression(this, name, env.UPDATE_SCREENSHOTS);
+      }
     },
   },
 }
