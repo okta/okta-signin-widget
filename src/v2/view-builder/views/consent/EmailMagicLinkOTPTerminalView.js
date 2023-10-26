@@ -29,7 +29,7 @@ const getTerminalOtpEmailMagicLinkContext = (settings, appState) => {
     ? loc(challengeIntentContentKey, 'login')
     : loc('idx.enter.otp.in.original.tab', 'login');
   let appName, browserOnOsString, isMobileDevice, geolocation;
-  if (app) {
+  if (app?.label) {
     appName = loc('idx.return.link.otponly.app', 'login', [app.label]);
   }
   if (client) {
