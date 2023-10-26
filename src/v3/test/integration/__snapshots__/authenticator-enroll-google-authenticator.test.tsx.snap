@@ -707,7 +707,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                         class="MuiBox-root emotion-18"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-26"
+                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph no-translate emotion-26"
                           data-se="o-form-explain"
                           id="enroll-authenticator_Description_K_A_G_W_B_I_X_A_K_O_L_P_E_F_M_Y_google_otp_aut2m5drzzUlo4Bn81d7_10_2"
                         >
