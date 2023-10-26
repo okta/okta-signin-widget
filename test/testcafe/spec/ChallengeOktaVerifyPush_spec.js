@@ -45,10 +45,6 @@ const pushWaitMock = RequestMock()
 
 const pushAutoChallengeMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(pushPollAutoChallenge);
-
-const pushWaitAutoChallengeMock = RequestMock()
-  .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(pushPollAutoChallenge)
   .onRequestTo('http://localhost:3000/idp/idx/authenticators/poll')
   .respond(pushPollAutoChallenge);
@@ -133,7 +129,7 @@ test
 
 // V3 - Polling fails with AssertionError: expected 8 to deeply equal 1
 test
-  .requestHooks(logger, pushWaitAutoChallengeMock)('should call polling API and checkbox should be clickable after polling started', async t => {
+  .requestHooks(logger, pushAutoChallengeMock)('should call polling API and checkbox should be clickable after polling started', async t => {
     const challengeOktaVerifyPushPageObject = await setup(t);
     await checkA11y(t);
     const checkbox = challengeOktaVerifyPushPageObject.getAutoChallengeCheckbox();
