@@ -47,7 +47,7 @@ class ImageDiff {
     const aCanvas = await fixPngImage(aImage, dstImage.width, dstImage.height);
     const bCanvas = await fixPngImage(bImage, dstImage.width, dstImage.height);
 
-    const options = { threshold: 0.1, diffMask: true };
+    const options = { threshold: 0.1 };
     const result = pixelmatch(aCanvas.data, bCanvas.data, dstImage.data, dstImage.width, dstImage.height, options);
 
     dstImage.pack().pipe(fs.createWriteStream(this.getImageOutput()));

@@ -169,10 +169,9 @@ test.requestHooks(identifyRequestLogger, identifyMock)('should be able to submit
 test.requestHooks(identifyMock)('should show errors if required fields are empty', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
-  await t.customActions.vrt();
   await identityPage.clickNextButton();
   await identityPage.waitForErrorBox();
-  await t.customActions.vrt('identify error');
+  await t.customActions.vrt();
 
   await t.expect(identityPage.getIdentifierErrorMessage()).eql('This field cannot be left blank');
 });
@@ -222,6 +221,7 @@ test.requestHooks(identifyMock)('should have correct display text', async t => {
   // i18n values can be tested here.
   const identityPage = await setup(t);
   await checkA11y(t);
+  await t.customActions.vrt();
 
   const identityPageTitle = identityPage.getFormTitle();
   await t.expect(identityPageTitle).eql('Sign In');
