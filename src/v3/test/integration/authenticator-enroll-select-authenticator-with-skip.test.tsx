@@ -39,14 +39,14 @@ describe('authenticator-enroll-select-authenticator', () => {
       );
     });
 
-    it('skips the step when clicking setup later', async () => {
+    it('skips the step when clicking continue', async () => {
       const {
         authClient,
         user,
         findByText,
       } = await setup({ mockResponse });
 
-      const skipBtn = await findByText('Set up later', { selector: 'button' });
+      const skipBtn = await findByText('Continue', { selector: 'button' });
       await user.click(skipBtn);
       expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
         ...createAuthJsPayloadArgs('POST', 'idp/idx/skip'),

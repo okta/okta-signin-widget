@@ -32,8 +32,8 @@ Object {
         "options": Object {
           "content": "admin.consent.group.resource.policy",
           "dataSe": "scope-group--header",
-          "level": 6,
-          "visualLevel": 3,
+          "level": 3,
+          "visualLevel": 6,
         },
         "type": "Heading",
       },
@@ -92,8 +92,8 @@ Object {
         "options": Object {
           "content": "admin.consent.group.system",
           "dataSe": "scope-group--header",
-          "level": 6,
-          "visualLevel": 3,
+          "level": 3,
+          "visualLevel": 6,
         },
         "type": "Heading",
       },
@@ -211,8 +211,8 @@ Object {
         "options": Object {
           "content": "admin.consent.group.resource.policy",
           "dataSe": "scope-group--header",
-          "level": 6,
-          "visualLevel": 3,
+          "level": 3,
+          "visualLevel": 6,
         },
         "type": "Heading",
       },
