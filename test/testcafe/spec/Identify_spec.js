@@ -176,8 +176,7 @@ test.requestHooks(identifyMock)('should show errors if required fields are empty
   await t.expect(identityPage.getIdentifierErrorMessage()).eql('This field cannot be left blank');
 });
 
-// Re-enable in OKTA-654453
-test.meta('gen3', false).requestHooks(identifyMockWithUnsupportedResponseError)('should show error if server response is unsupported', async t => {
+test.requestHooks(identifyMockWithUnsupportedResponseError)('should show error if server response is unsupported', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
   await identityPage.fillIdentifierField('test');
@@ -290,8 +289,7 @@ test.requestHooks(identifyThenSelectAuthenticatorMock)('navigate to other screen
   ]);
 });
 
-// Re-enable in OKTA-654455
-test.meta('gen3', false).requestHooks(identifyRequestLogger, identifyMock)('should transform identifier using settings.transformUsername', async t => {
+test.requestHooks(identifyRequestLogger, identifyMock)('should transform identifier using settings.transformUsername', async t => {
   const identityPage = await setup(t, {
     transformUsername: function(username, operation) {
       if (operation === 'PRIMARY_AUTH') {

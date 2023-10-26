@@ -224,10 +224,13 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       const transactionHasWarning = (newTransaction.messages || []).some(
         (message) => message.class === MessageType.WARNING.toString(),
       );
-      const isClientTransaction = (!newTransaction.requestDidSucceed
-          // do not preserve field data on token change errors
-          && !containsMessageKey(ON_PREM_TOKEN_CHANGE_ERROR_KEY, newTransaction.messages))
-        || (areTransactionsEqual(currTransaction, newTransaction) && transactionHasWarning);
+      const isClientTransaction = (
+        !newTransaction.requestDidSucceed
+        // Not a client transaction if remediations do not exist
+        && newTransaction.neededToProceed.length > 0
+        // do not preserve field data on token change errors
+        && !containsMessageKey(ON_PREM_TOKEN_CHANGE_ERROR_KEY, newTransaction.messages)
+      ) || (areTransactionsEqual(currTransaction, newTransaction) && transactionHasWarning);
 
       const onSuccess = (resolve?: (val: unknown) => void) => {
         setIdxTransaction(newTransaction);
