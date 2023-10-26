@@ -8,13 +8,13 @@ yarn global add @okta/ci-pkginfo
 
 export PATH="${PATH}:$(yarn global bin)"
 export TEST_SUITE_TYPE="build"
+export PUBLISH_REGISTRY="${ARTIFACTORY_URL}/api/npm/npm-topic"
 
 # Append a SHA to the version in package.json 
 if ! ci-append-sha; then
   echo "ci-append-sha failed! Exiting..."
   exit $FAILED_SETUP
 fi
-
 
 # Build
 if ! yarn build:release; then
@@ -26,7 +26,7 @@ pushd ./dist
 ### Not able to use 'yarn publish' which failed at
 ### publish alpha version.
 ### Didn't figure out root cause but keep using npm.
-npm config set @okta:registry ${REGISTRY}
+npm config set @okta:registry ${PUBLISH_REGISTRY}
 if ! npm publish --unsafe-perm; then
   echo "npm publish failed! Exiting..."
   exit $PUBLISH_ARTIFACTORY_FAILURE

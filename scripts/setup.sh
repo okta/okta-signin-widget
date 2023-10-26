@@ -5,10 +5,18 @@ set -eo pipefail
 # This is available from the "downstream artifact" menu on any okta-auth-js build in Bacon.
 # DO NOT MERGE ANY CHANGES TO THIS LINE!!
 export AUTHJS_VERSION=""
+export INTERNAL_REGISTRY="${ARTIFACTORY_URL}/api/npm/npm-okta-release"
+export PUBLIC_REGISTRY="https://registry.yarnpkg.com"
 
-# Install required node version
-export REGISTRY_REPO="npm-topic"
-export REGISTRY="${ARTIFACTORY_URL}/api/npm/${REGISTRY_REPO}"
+function yarn_sync() {
+  echo "Checking to see if the yarn.lock file is in sync with given dependencies"
+  if test "$( git status --short -- '*yarn.lock' | wc -l )" -ne 0
+  then
+    return 1
+  fi
+  echo "yarn sync OK"
+  return 0
+}
 
 if ! setup_service node v16.19.1 &> /dev/null; then
   echo "Failed to install node"
@@ -20,10 +28,20 @@ if ! setup_service yarn 1.22.19 &> /dev/null; then
   exit ${FAILED_SETUP}
 fi
 
-cd ${OKTA_HOME}/${REPO}
+cd "${OKTA_HOME}"/"${REPO}" || exit
+
+npm config set @okta:registry ${PUBLIC_REGISTRY}
+npm config set registry ${PUBLIC_REGISTRY}
 
 if ! yarn install ; then
   echo "yarn install failed! Exiting..."
+  exit ${FAILED_SETUP}
+fi
+
+npm config set @okta:registry ${INTERNAL_REGISTRY}
+
+if ! yarn_sync; then
+  echo "yarn.lock file is not in sync. Please make sure this file is up-to-date by running 'yarn install' at the repo root and checking in yarn.lock changes"
   exit ${FAILED_SETUP}
 fi
 
