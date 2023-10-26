@@ -18,8 +18,6 @@ function yarn_sync() {
   return 0
 }
 
-npm config set @okta:registry ${PUBLIC_REGISTRY}
-
 if ! setup_service node v16.19.1 &> /dev/null; then
   echo "Failed to install node"
   exit ${FAILED_SETUP}
@@ -32,7 +30,8 @@ fi
 
 cd "${OKTA_HOME}"/"${REPO}" || exit
 
-# npm config set registry ${PUBLIC_REGISTRY}
+npm config set @okta:registry ${PUBLIC_REGISTRY}
+npm config set registry ${PUBLIC_REGISTRY}
 
 if ! yarn install ; then
   echo "yarn install failed! Exiting..."
