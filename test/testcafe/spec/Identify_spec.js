@@ -258,7 +258,6 @@ test.requestHooks(identifyLockedUserMock)('should show global error for invalid 
   if (userVariables.gen3) {
     // Gen3 follows the IDX response, this response is terminal and does not have remediations
     // hence why it will not display a button or fields, only the error message
-    // See thread: https://okta.slack.com/archives/CCA77QVL2/p1698345162710659?thread_ts=1698344174.752619&cid=CCA77QVL2
     await t.expect(identityPage.form.queryButton('Next').exists).eql(false);
   } else {
     await t.expect(identityPage.getNextButton().exists).eql(true);

@@ -224,13 +224,10 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       const transactionHasWarning = (newTransaction.messages || []).some(
         (message) => message.class === MessageType.WARNING.toString(),
       );
-      const isClientTransaction = (
-        !newTransaction.requestDidSucceed
-        // Not a client transaction if remediations do not exist
-        && newTransaction.neededToProceed.length > 0
+      const isClientTransaction = (!newTransaction.requestDidSucceed
         // do not preserve field data on token change errors
-        && !containsMessageKey(ON_PREM_TOKEN_CHANGE_ERROR_KEY, newTransaction.messages)
-      ) || (areTransactionsEqual(currTransaction, newTransaction) && transactionHasWarning);
+        && !containsMessageKey(ON_PREM_TOKEN_CHANGE_ERROR_KEY, newTransaction.messages))
+      || (areTransactionsEqual(currTransaction, newTransaction) && transactionHasWarning);
 
       const onSuccess = (resolve?: (val: unknown) => void) => {
         setIdxTransaction(newTransaction);
@@ -242,7 +239,10 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
           );
         }
         setIsClientTransaction(isClientTransaction);
-        if (isClientTransaction && !newTransaction.messages?.length) {
+        if (isClientTransaction
+            && !newTransaction.messages?.length
+            // Only display client side validate message when there are remediations
+            && newTransaction.neededToProceed.length > 0) {
           setMessage({
             message: loc('oform.errorbanner.title', 'login'),
             class: 'ERROR',
@@ -284,11 +284,8 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       }
 
       // Don't execute hooks in the end of authentication flow and if request did not succeed
-      if (!isClientTransaction
-        && newTransaction?.status !== IdxStatus.SUCCESS
-        // when remediations are missing, this indicates the end of auth flow
-        && newTransaction.neededToProceed.length > 0) {
-          await widgetHooks.callHooks('before', newTransaction);
+      if (!isClientTransaction && newTransaction?.status !== IdxStatus.SUCCESS) {
+        await widgetHooks.callHooks('before', newTransaction);
       }
 
       onSuccess();
