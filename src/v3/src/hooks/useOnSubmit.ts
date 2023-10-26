@@ -225,9 +225,9 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
         (message) => message.class === MessageType.WARNING.toString(),
       );
       const isClientTransaction = (!newTransaction.requestDidSucceed
-        // do not preserve field data on token change errors
-        && !containsMessageKey(ON_PREM_TOKEN_CHANGE_ERROR_KEY, newTransaction.messages))
-      || (areTransactionsEqual(currTransaction, newTransaction) && transactionHasWarning);
+          // do not preserve field data on token change errors
+          && !containsMessageKey(ON_PREM_TOKEN_CHANGE_ERROR_KEY, newTransaction.messages))
+        || (areTransactionsEqual(currTransaction, newTransaction) && transactionHasWarning);
 
       const onSuccess = (resolve?: (val: unknown) => void) => {
         setIdxTransaction(newTransaction);
