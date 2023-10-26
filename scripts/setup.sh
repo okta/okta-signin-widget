@@ -28,7 +28,7 @@ if ! setup_service yarn 1.22.19 &> /dev/null; then
   exit ${FAILED_SETUP}
 fi
 
-cd "${OKTA_HOME}"/"${REPO}" || exit
+cd ${OKTA_HOME}/${REPO}
 
 npm config set @okta:registry ${PUBLIC_REGISTRY}
 npm config set registry ${PUBLIC_REGISTRY}

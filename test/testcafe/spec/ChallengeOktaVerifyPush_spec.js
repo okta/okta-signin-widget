@@ -97,7 +97,7 @@ test
   });
 
 // Re-enable in OKTA-594821
-test.meta('gen3', false)
+test
   .requestHooks(pushAutoChallengeMock)('challenge ov push screen has right labels and a checkbox', async t => {
     const challengeOktaVerifyPushPageObject = await setup(t);
     await checkA11y(t);
