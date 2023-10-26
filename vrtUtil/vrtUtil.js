@@ -63,7 +63,7 @@ const doVisualRegression = async (testObject, name, updateScreenshot) => {
       threshold: VISUAL_REGRESSION_THRESHOLD,
     });
 
-    imageDiff.run(() => {
+    await imageDiff.run(() => {
       if (!imageDiff.hasPassed()) {
         // fail test
         throw new Error(
