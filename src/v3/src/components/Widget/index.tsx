@@ -411,7 +411,9 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
 
   useEffect(() => {
     const asyncEffect = async () => {
-      if (isClientTransaction) {
+      const isEndOfAuthentication = idxTransaction?.status === IdxStatus.TERMINAL
+          && idxTransaction.neededToProceed.length === 0;
+      if (isClientTransaction || isEndOfAuthentication) {
         return;
       }
       if (widgetRendered) {

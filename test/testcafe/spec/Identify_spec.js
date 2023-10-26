@@ -246,8 +246,7 @@ test.requestHooks(identifyMock)('should have correct display text', async t => {
   await t.expect(await identityPage.hasForgotPasswordLinkText()).notOk();
 });
 
-// Re-enable in OKTA-654453
-test.meta('gen3', false).requestHooks(identifyLockedUserMock)('should show global error for invalid user', async t => {
+test.requestHooks(identifyLockedUserMock)('should show global error for invalid user', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
 
@@ -256,8 +255,14 @@ test.meta('gen3', false).requestHooks(identifyLockedUserMock)('should show globa
   await identityPage.clickNextButton();
 
   await identityPage.waitForErrorBox();
-
-  await t.expect(identityPage.getNextButton().exists).eql(true);
+  if (userVariables.gen3) {
+    // Gen3 follows the IDX response, this response is terminal and does not have remediations
+    // hence why it will not display a button or fields, only the error message
+    // See thread: https://okta.slack.com/archives/CCA77QVL2/p1698345162710659?thread_ts=1698344174.752619&cid=CCA77QVL2
+    await t.expect(identityPage.form.queryButton('Next').exists).eql(false);
+  } else {
+    await t.expect(identityPage.getNextButton().exists).eql(true);
+  }
 
   await t.expect(identityPage.getGlobalErrors()).contains('You do not have permission to perform the requested action');
 });

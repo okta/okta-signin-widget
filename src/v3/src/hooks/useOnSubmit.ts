@@ -284,8 +284,11 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       }
 
       // Don't execute hooks in the end of authentication flow and if request did not succeed
-      if (!isClientTransaction && newTransaction?.status !== IdxStatus.SUCCESS) {
-        await widgetHooks.callHooks('before', newTransaction);
+      if (!isClientTransaction
+        && newTransaction?.status !== IdxStatus.SUCCESS
+        // when remediations are missing, this indicates the end of auth flow
+        && newTransaction.neededToProceed.length > 0) {
+          await widgetHooks.callHooks('before', newTransaction);
       }
 
       onSuccess();
