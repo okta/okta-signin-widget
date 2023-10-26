@@ -2,7 +2,7 @@
 
 # NOTE: MUST BE RAN *AFTER* THE PUBLISH SUITE
 
-export PUBLISHED_REGISTRY="${ARTIFACTORY_URL}/npm-topic"
+export PUBLISH_REGISTRY="${ARTIFACTORY_URL}/npm-topic"
 
 cd ${OKTA_HOME}/${REPO}
 
@@ -25,7 +25,7 @@ fi
 
 # NOTE: hyphen rather than '@'
 artifact_version="$(ci-pkginfo -t pkgname)-$(ci-pkginfo -t pkgsemver)"
-published_tarball=${PUBLISHED_REGISTRY}/@okta/okta-signin-widget/-/${artifact_version}.tgz
+published_tarball=${PUBLISH_REGISTRY}/@okta/okta-signin-widget/-/${artifact_version}.tgz
 
 # clone angular sample, using angular sample because angular toolchain is *very* opinionated about modules
 git clone --depth 1 https://github.com/okta/samples-js-angular.git test/package/angular-sample
