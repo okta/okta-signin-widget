@@ -47,7 +47,30 @@
       "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v14.18.3/bin/node",
       "env": {
         "OKTA_SIW_GEN3": "true"
-        // "UPDATE_SCREENSHOTS": "true",
+      },
+      "args": [
+          "\"chrome --force-device-scale-factor=1\"",
+          "${relativeFile}",
+          "--browser-init-timeout",
+          "1000000",
+          "--page-load-timeout",
+          "1000000",
+          "--config-file",
+          ".testcaferc.js",
+      ],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceRoot}"
+    },
+    {
+      "type": "node",
+      "protocol": "inspector",
+      "request": "launch",
+      "name": "Update screenshots for Debug v3 Parity with TestCafe",
+      "program": "${workspaceRoot}/node_modules/testcafe/bin/testcafe.js",
+      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v14.18.3/bin/node",
+      "env": {
+        "OKTA_SIW_GEN3": "true",
+        "UPDATE_SCREENSHOTS": "true",
       },
       "args": [
           "\"chrome --force-device-scale-factor=1\"",
