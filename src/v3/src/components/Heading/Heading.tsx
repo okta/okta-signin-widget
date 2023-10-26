@@ -37,8 +37,8 @@ const Heading: UISchemaElementComponent<{
     >
       <Typography
         id={uischema.id}
-        variant={`h${level ?? 2}`}
-        component={`h${visualLevel ?? 3}`}
+        variant={`h${visualLevel ?? 2}`}
+        component={`h${level ?? 3}`}
         className={noTranslate ? 'no-translate' : undefined}
         data-se={dataSe}
       >

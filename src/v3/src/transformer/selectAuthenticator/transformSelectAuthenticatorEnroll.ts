@@ -67,8 +67,8 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
     type: 'Heading',
     options: {
       content: skipStep ? loc('oie.setup.optional', 'login') : loc('oie.setup.required', 'login'),
-      level: 6,
-      visualLevel: 3,
+      level: 3,
+      visualLevel: 6,
     },
   };
   const authenticatorListElement: AuthenticatorButtonListElement = {
