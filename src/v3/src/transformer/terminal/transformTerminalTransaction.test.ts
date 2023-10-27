@@ -20,7 +20,6 @@ import {
 
 import { TERMINAL_KEY, TERMINAL_TITLE_KEY } from '../../constants';
 import { getStubTransaction } from '../../mocks/utils/utils';
-import { removeUsernameCookie, setUsernameCookie } from '../../util';
 import { redirectTransformer } from '../redirect';
 import { transformTerminalTransaction } from '.';
 import { transformOdaEnrollment } from './odaEnrollment/transformOdaEnrollment';
