@@ -3193,12 +3193,6 @@ Expect.describe('PrimaryAuth', function() {
           expect(test.oidcWindow.close).toHaveBeenCalled();
         });
     });
-
-    // Reminder: Think about how to mock this out in the future - currently
-    // cannot mock it because we defer to AuthJs to do set window.location.
-    // On the plus side, there is an e2e test that covers this.
-    // eslint-disable-next-line jasmine/no-disabled-tests
-    // xit('redirects to the correct url in the social idp redirect flow');
   });
 });
 

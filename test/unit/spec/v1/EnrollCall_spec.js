@@ -550,9 +550,6 @@ Expect.describe('EnrollCall', function() {
   }
 
   describe('Header & Footer', function() {
-    beforeEach(() => {
-      jest.setTimeout(20000);
-    });
     itp('displays the correct factorBeacon', function() {
       return setup().then(function(test) {
         expect(test.beacon.isFactorBeacon()).toBe(true);
