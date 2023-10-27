@@ -17,6 +17,7 @@ import {
   ButtonType,
   DescriptionElement,
   FieldElement,
+  FormBag,
   HeadingElement,
   QRCodeElement,
   StepperButtonElement,
@@ -24,15 +25,20 @@ import {
   TitleElement,
   WidgetProps,
 } from 'src/types';
+import { WidgetHooks } from 'src/util';
+import { TinyEmitter } from 'tiny-emitter';
 
 import { transformGoogleAuthenticatorEnroll } from '.';
 
 describe('Google Authenticator Enroll Transformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
-  const widgetProps: WidgetProps = {};
-  const formBag = getStubFormBag();
+  const widgetProps: WidgetProps = {
+    eventEmitter: null as unknown as TinyEmitter,
+    widgetHooks: null as unknown as WidgetHooks,
+  };
+  const formBag: FormBag = getStubFormBag();
 
-  function validateForm(updatedFormBag) {
+  function validateForm(updatedFormBag: FormBag) {
     expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(2);
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
@@ -98,6 +104,8 @@ describe('Google Authenticator Enroll Transformer Tests', () => {
 
   it('should add Stepper layout to UI Schema elements '
     + 'when GA Enroll params exists in Idx response', () => {
+    expect.hasAssertions();
+
     transaction.nextStep = {
       name: IDX_STEP.ENROLL_AUTHENTICATOR,
       relatesTo: {
@@ -127,6 +135,8 @@ describe('Google Authenticator Enroll Transformer Tests', () => {
 
   it('should add Stepper layout to UI Schema elements '
     + 'when GA Reset params exists in Idx response', () => {
+    expect.hasAssertions();
+
     transaction.nextStep = {
       name: IDX_STEP.RESET_AUTHENTICATOR,
       relatesTo: {
