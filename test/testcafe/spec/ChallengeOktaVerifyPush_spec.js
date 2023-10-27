@@ -46,12 +46,6 @@ const pushWaitMock = RequestMock()
 const pushAutoChallengeMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(pushPollAutoChallenge)
-  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
-  .respond(pushPollAutoChallenge);
-
-const pushWaitAutoChallengeMock = RequestMock()
-  .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(pushPollAutoChallenge)
   .onRequestTo('http://localhost:3000/idp/idx/authenticators/poll')
   .respond(pushPollAutoChallenge);
 
@@ -96,8 +90,7 @@ test
     await t.expect(challengeOktaVerifyPushPageObject.getSignoutLinkText()).eql('Back to sign in');
   });
 
-// Re-enable in OKTA-594821
-test.meta('gen3', false)
+test
   .requestHooks(pushAutoChallengeMock)('challenge ov push screen has right labels and a checkbox', async t => {
     const challengeOktaVerifyPushPageObject = await setup(t);
     await checkA11y(t);
@@ -134,9 +127,8 @@ test.meta('gen3', false)
     await t.expect(challengeOktaVerifyPushPageObject.getSignoutLinkText()).eql('Back to sign in');
   });
 
-// V3 - Polling fails with AssertionError: expected 8 to deeply equal 1
 test
-  .requestHooks(logger, pushWaitAutoChallengeMock)('should call polling API and checkbox should be clickable after polling started', async t => {
+  .requestHooks(logger, pushAutoChallengeMock)('should call polling API and checkbox should be clickable after polling started', async t => {
     const challengeOktaVerifyPushPageObject = await setup(t);
     await checkA11y(t);
     const checkbox = challengeOktaVerifyPushPageObject.getAutoChallengeCheckbox();
