@@ -225,7 +225,7 @@ function setupSocial(settings, options = {}) {
     )
   ).then(function(test) {
     if (options.mockPopup) {
-      spyOn(test.ac.token, 'getWithPopup').and.callFake(function() {
+      jest.spyOn(test.ac.token, 'getWithPopup').mockImplementation(function() {
         return Promise.resolve({
           tokens: {
             idToken: { idToken: VALID_ID_TOKEN, claims: mockClaims },
