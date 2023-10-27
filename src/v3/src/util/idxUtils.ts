@@ -22,6 +22,7 @@ import {
   NextStep,
   ProceedOptions,
 } from '@okta/okta-auth-js';
+import { IdxForm } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
 import { StateUpdater } from 'preact/hooks';
 
 import { getMessage } from '../../../v2/ion/i18nUtils';
@@ -422,3 +423,9 @@ export const triggerEmailVerifyCallback = async (props: WidgetProps): Promise<Id
   });
   return transaction;
 };
+
+export const isValidPhoneMethodType = (
+  methodType?: string | { form: IdxForm; } | Input[],
+): methodType is 'sms' | 'voice' => (
+  typeof methodType !== 'undefined' && (methodType === 'sms' || methodType === 'voice')
+);

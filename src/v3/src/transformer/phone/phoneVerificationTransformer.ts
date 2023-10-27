@@ -22,7 +22,7 @@ import {
   TitleElement,
   UISchemaElement,
 } from '../../types';
-import { buildPhoneVerificationSubtitleElement, loc } from '../../util';
+import { buildPhoneVerificationSubtitleElement, isValidPhoneMethodType, loc } from '../../util';
 import { getUIElementWithName, removeUIElementWithName } from '../utils';
 
 const TARGET_FIELD_NAME = 'authenticator.methodType';
@@ -58,14 +58,17 @@ export const transformPhoneVerification: IdxStepTransformer = ({ transaction, fo
   // (Display order) 3rd element in the elements array
   uischema.elements.unshift(carrierInfoText);
 
-  const subtitleElement = buildPhoneVerificationSubtitleElement(
-    nextStep.name,
-    primaryMethod as string,
-    nextStep.relatesTo?.value,
-  );
+  const subtitleElement = isValidPhoneMethodType(primaryMethod)
+    ? buildPhoneVerificationSubtitleElement(
+      nextStep.name,
+      primaryMethod,
+      nextStep.relatesTo?.value,
+    ) : undefined;
   // (Display order) 2nd element in the elements array
   // Append appropriate descr text to elements based on first methodType
-  uischema.elements.unshift(subtitleElement);
+  if (typeof subtitleElement !== 'undefined') {
+    uischema.elements.unshift(subtitleElement);
+  }
 
   const titleElement: TitleElement = {
     type: 'Title',

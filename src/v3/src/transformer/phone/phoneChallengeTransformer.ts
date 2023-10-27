@@ -20,7 +20,7 @@ import {
   ReminderElement,
   TitleElement,
 } from '../../types';
-import { buildPhoneVerificationSubtitleElement, loc } from '../../util';
+import { buildPhoneVerificationSubtitleElement, isValidPhoneMethodType, loc } from '../../util';
 
 export const transformPhoneChallenge: IdxStepTransformer = ({ transaction, formBag }) => {
   const { nextStep = {} as NextStep, availableSteps } = transaction;
@@ -50,10 +50,12 @@ export const transformPhoneChallenge: IdxStepTransformer = ({ transaction, formB
     };
   }
 
-  const subtitleElement = buildPhoneVerificationSubtitleElement(
-    nextStep.name,
-    methodType as string, nextStep.relatesTo?.value,
-  );
+  const subtitleElement = isValidPhoneMethodType(methodType)
+    ? buildPhoneVerificationSubtitleElement(
+      nextStep.name,
+      methodType,
+      nextStep.relatesTo?.value,
+    ) : undefined;
 
   const carrierChargeDisclaimerText: DescriptionElement = {
     type: 'Description',
@@ -81,7 +83,9 @@ export const transformPhoneChallenge: IdxStepTransformer = ({ transaction, formB
 
   uischema.elements.push(submitButtonControl);
   uischema.elements.unshift(carrierChargeDisclaimerText);
-  uischema.elements.unshift(subtitleElement);
+  if (typeof subtitleElement !== 'undefined') {
+    uischema.elements.unshift(subtitleElement);
+  }
   uischema.elements.unshift(titleElement);
   if (reminderElement) {
     uischema.elements.unshift(reminderElement);

@@ -36,6 +36,10 @@ import {
 import { idpIconMap } from './idpIconMap';
 import { loc } from './locUtil';
 
+export type PhoneVerificationStep = typeof IDX_STEP.CHALLENGE_AUTHENTICATOR
+| typeof IDX_STEP.AUTHENTICATOR_VERIFICATION_DATA;
+export type PhoneVerificationMethodType = 'sms' | 'voice';
+
 export const handleFormFieldChange = (
   path: string,
   // eslint-disable-next-line
@@ -394,8 +398,8 @@ export const shouldHideIdentifier = (
 };
 
 const getPhoneVerificationSubtitleTextContent = (
-  step: string,
-  primaryMethod: string,
+  step: PhoneVerificationStep,
+  primaryMethod: PhoneVerificationMethodType,
   phoneNumber?: string,
   nickname?: string,
 ): string => {
@@ -407,7 +411,14 @@ const getPhoneVerificationSubtitleTextContent = (
     // If step or method is invalid, return.
     return '';
   }
-  const i18nMap: Record<string, Record<string, Record<string, string>>> = {
+  type PhoneVerificationI18nCondition = 'withPhoneWithNickName'
+  | 'withPhoneWithoutNickName'
+  | 'withoutPhone';
+  type I18nMapType = Record<
+  PhoneVerificationStep,
+  Record<PhoneVerificationMethodType, Record<PhoneVerificationI18nCondition, string>>
+  >;
+  const i18nMap: I18nMapType = {
     [IDX_STEP.CHALLENGE_AUTHENTICATOR]: {
       sms: {
         withPhoneWithNickName: 'oie.phone.verify.sms.codeSentText.with.phone.with.nickname',
@@ -461,13 +472,18 @@ const getPhoneVerificationSubtitleTextContent = (
 };
 
 export const buildPhoneVerificationSubtitleElement = (
-  step: string,
-  primaryMethod: string,
+  step: PhoneVerificationStep,
+  primaryMethod: PhoneVerificationMethodType,
   idxAuthenticator?: IdxAuthenticator,
 ): DescriptionElement => {
-  const phoneNumber = idxAuthenticator?.profile?.phoneNumber as string;
+  const phoneNumber = typeof idxAuthenticator?.profile?.phoneNumber !== 'undefined'
+    ? idxAuthenticator?.profile?.phoneNumber as string
+    : undefined;
   // @ts-expect-error OKTA-661650 nickname missing from IdxAuthenticator type
-  const nickname = idxAuthenticator?.nickname as string;
+  const nickname = typeof idxAuthenticator?.nickname !== 'undefined'
+    // @ts-expect-error OKTA-661650 nickname missing from IdxAuthenticator type
+    ? idxAuthenticator?.nickname as string
+    : undefined;
   const subtitleElement: DescriptionElement = {
     type: 'Description',
     contentType: 'subtitle',
