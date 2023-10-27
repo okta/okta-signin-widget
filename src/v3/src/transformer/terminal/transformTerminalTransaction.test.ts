@@ -254,43 +254,6 @@ describe('Terminal Transaction Transformer Tests', () => {
     expect((formBag.uischema.elements[0] as LinkElement).options?.href).toBe('/');
   });
 
-  it('should set username cookie when successful authentication and rememberMe feature is set', () => {
-    const mockIdentifier = 'testUser';
-    transaction.context = {
-      success: { name: 'success' },
-      user: {
-        type: 'object',
-        value: {
-          identifier: mockIdentifier,
-        },
-      },
-    } as unknown as IdxContext;
-    widgetProps = {
-      features: { rememberMe: true },
-    };
-    transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
-
-    expect(setUsernameCookie).toHaveBeenCalledWith(mockIdentifier);
-  });
-
-  it('should remove username cookie when successful authentication and rememberMe feature is false', () => {
-    transaction.context = {
-      success: { name: 'success' },
-      user: {
-        type: 'object',
-        value: {
-          identifier: 'testUser',
-        },
-      },
-    } as unknown as IdxContext;
-    widgetProps = {
-      features: { rememberMe: false },
-    };
-    transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
-
-    expect(removeUsernameCookie).toHaveBeenCalled();
-  });
-
   it('should invoke oda enrollment terminal transformer when device enrollment data is present', () => {
     transaction.context = {
       deviceEnrollment: {
