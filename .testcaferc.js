@@ -127,7 +127,7 @@ const config = {
     thumbnails: false,
   },
   customActions: {
-    async vrt(name) {
+    async compareScreenshot(name) {
       if (env.OKTA_SIW_GEN3) {
         await doVisualRegression(this, name, env.UPDATE_SCREENSHOTS);
       }
