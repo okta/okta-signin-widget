@@ -35,12 +35,9 @@ import {
   containsOneOfMessageKeys,
   getBackToSignInUri,
   getBaseUrl,
-  getUserInfo,
   isOauth2Enabled,
   loc,
-  removeUsernameCookie,
   SessionStorage,
-  setUsernameCookie,
   shouldShowCancelLink,
 } from '../../util';
 import { redirectTransformer } from '../redirect';
@@ -130,11 +127,6 @@ const appendViewLinks = (
     uischema.elements.push(cancelLink);
   }
 };
-
-const isSuccessfulAuthentication = (
-  transction: IdxTransaction,
-): boolean => !!(transction.context.success
-  || transction.rawIdxState.successWithInteractionCode);
 
 export const transformTerminalTransaction = (
   transaction: IdxTransaction,
