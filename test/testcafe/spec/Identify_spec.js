@@ -176,8 +176,7 @@ test.requestHooks(identifyMock)('should show errors if required fields are empty
   await t.expect(identityPage.getIdentifierErrorMessage()).eql('This field cannot be left blank');
 });
 
-// Re-enable in OKTA-654453
-test.meta('gen3', false).requestHooks(identifyMockWithUnsupportedResponseError)('should show error if server response is unsupported', async t => {
+test.requestHooks(identifyMockWithUnsupportedResponseError)('should show error if server response is unsupported', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
   await identityPage.fillIdentifierField('test');
@@ -247,8 +246,7 @@ test.requestHooks(identifyMock)('should have correct display text', async t => {
   await t.expect(await identityPage.hasForgotPasswordLinkText()).notOk();
 });
 
-// Re-enable in OKTA-654453
-test.meta('gen3', false).requestHooks(identifyLockedUserMock)('should show global error for invalid user', async t => {
+test.requestHooks(identifyLockedUserMock)('should show global error for invalid user', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
 
@@ -257,8 +255,13 @@ test.meta('gen3', false).requestHooks(identifyLockedUserMock)('should show globa
   await identityPage.clickNextButton();
 
   await identityPage.waitForErrorBox();
-
-  await t.expect(identityPage.getNextButton().exists).eql(true);
+  if (userVariables.gen3) {
+    // Gen3 follows the IDX response, this response is terminal and does not have remediations
+    // hence why it will not display a button or fields, only the error message
+    await t.expect(identityPage.form.queryButton('Next').exists).eql(false);
+  } else {
+    await t.expect(identityPage.getNextButton().exists).eql(true);
+  }
 
   await t.expect(identityPage.getGlobalErrors()).contains('You do not have permission to perform the requested action');
 });
@@ -290,8 +293,7 @@ test.requestHooks(identifyThenSelectAuthenticatorMock)('navigate to other screen
   ]);
 });
 
-// Re-enable in OKTA-654455
-test.meta('gen3', false).requestHooks(identifyRequestLogger, identifyMock)('should transform identifier using settings.transformUsername', async t => {
+test.requestHooks(identifyRequestLogger, identifyMock)('should transform identifier using settings.transformUsername', async t => {
   const identityPage = await setup(t, {
     transformUsername: function(username, operation) {
       if (operation === 'PRIMARY_AUTH') {

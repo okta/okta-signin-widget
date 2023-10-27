@@ -239,7 +239,10 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
           );
         }
         setIsClientTransaction(isClientTransaction);
-        if (isClientTransaction && !newTransaction.messages?.length) {
+        if (isClientTransaction
+            && !newTransaction.messages?.length
+            // Only display client side validate message when there are remediations
+            && newTransaction.neededToProceed.length > 0) {
           setMessage({
             message: loc('oform.errorbanner.title', 'login'),
             class: 'ERROR',
