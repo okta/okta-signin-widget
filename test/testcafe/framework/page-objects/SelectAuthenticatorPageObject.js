@@ -106,7 +106,8 @@ export default class SelectFactorPageObject extends BasePageObject {
 
   async clickSetUpLaterButton() {
     if (userVariables.gen3) {
-      const button = this.form.getButton('Set up later');
+      // 'Set up later' button was renamed to improve UX in OKTA-549620
+      const button = this.form.getButton('Continue');
       await this.t.click(button);
       return;
     }
