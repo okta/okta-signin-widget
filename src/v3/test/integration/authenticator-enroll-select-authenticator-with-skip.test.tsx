@@ -17,8 +17,8 @@ import mockResponse from '../../src/mocks/response/idp/idx/authenticator-enroll-
 describe('authenticator-enroll-select-authenticator', () => {
   it('renders form', async () => {
     const { container, findByText } = await setup({ mockResponse });
-    await findByText(/Set up security methods/);
-    await findByText(/Set up optional/);
+    expect(await findByText(/Set up security methods/)).toBeInTheDocument();
+    expect(await findByText(/Set up optional/)).toBeInTheDocument();
     expect(container).toMatchSnapshot();
   });
 

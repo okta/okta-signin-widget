@@ -288,12 +288,14 @@ module.exports = {
       },
       plugins: [
         '@typescript-eslint',
+        'testing-library',
       ],
       extends: [
         'plugin:@typescript-eslint/eslint-recommended',
         'plugin:@typescript-eslint/recommended',
         'plugin:react/recommended',
         'plugin:jsx-a11y/recommended',
+        'plugin:testing-library/react',
         'airbnb-typescript',
         'airbnb/hooks',
         'preact',
@@ -307,7 +309,18 @@ module.exports = {
             toBeFalsy: 'Avoid `toBeFalsy`',
           },
         ],
-
+        'testing-library/no-wait-for-multiple-assertions': 'warn',
+        'testing-library/no-node-access': 'warn',
+        'testing-library/no-container': 'warn',
+        'testing-library/prefer-screen-queries': 'off',
+        'testing-library/render-result-naming-convention': 'off',
+        'testing-library/prefer-explicit-assert': [
+          'warn',
+          {
+            assertion: 'toBeInTheDocument',
+            includeFindQueries: true,
+          },
+        ],
       },
     },
     // integration test files in test
@@ -326,18 +339,32 @@ module.exports = {
       },
       plugins: [
         '@typescript-eslint',
+        'testing-library',
       ],
       extends: [
         'plugin:@typescript-eslint/eslint-recommended',
         'plugin:@typescript-eslint/recommended',
         'plugin:react/recommended',
         'plugin:jsx-a11y/recommended',
+        'plugin:testing-library/react',
         'airbnb-typescript',
         'airbnb/hooks',
         'preact',
       ],
       rules: {
         'import/prefer-default-export': 'off',
+        'testing-library/no-wait-for-multiple-assertions': 'warn',
+        'testing-library/no-node-access': 'warn',
+        'testing-library/no-container': 'warn',
+        'testing-library/prefer-screen-queries': 'off',
+        'testing-library/render-result-naming-convention': 'off',
+        'testing-library/prefer-explicit-assert': [
+          'warn',
+          {
+            assertion: 'toBeInTheDocument',
+            includeFindQueries: true,
+          },
+        ],
       },
     },
     // all typescript files in test/e2e

@@ -11,7 +11,6 @@
  */
 
 import {
-  cleanup,
   render,
   RenderResult,
   waitFor,
@@ -83,10 +82,6 @@ describe('PhoneAuthenticator tests', () => {
     mockHandleFunction = jest.fn();
     mockLoading.mockReturnValue(false);
     widgetProps = {};
-  });
-
-  afterEach(() => {
-    cleanup();
   });
 
   it('should format phoneNumber correctly when field is changed for SMS methodType', async () => {

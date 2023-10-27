@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { cleanup, render } from '@testing-library/preact';
+import { render } from '@testing-library/preact';
 import { h } from 'preact';
 
 import AuthHeader, { AuthHeaderProps } from './AuthHeader';
@@ -24,10 +24,6 @@ describe('AuthHeader tests', () => {
       logoText: 'Mock Logo',
       brandName: 'Mock Company',
     };
-  });
-
-  afterEach(() => {
-    cleanup();
   });
 
   it('should display brand logo only', async () => {

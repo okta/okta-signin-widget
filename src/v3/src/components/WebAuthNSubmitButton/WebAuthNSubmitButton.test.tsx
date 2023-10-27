@@ -11,7 +11,7 @@
  */
 
 import {
-  cleanup, fireEvent, render, waitFor,
+  fireEvent, render, waitFor,
 } from '@testing-library/preact';
 import { h } from 'preact';
 import {
@@ -58,10 +58,6 @@ describe('WebAuthNControlSubmitControl Tests', () => {
         },
       } as WebAuthNButtonElement,
     };
-  });
-
-  afterEach(() => {
-    cleanup();
   });
 
   it('should render webauthn verify button and handle click', async () => {
