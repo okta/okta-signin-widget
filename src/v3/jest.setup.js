@@ -11,10 +11,18 @@
  */
 
 import 'jest-canvas-mock';
-import { toHaveBeenCalledBefore } from 'jest-extended';
+import {
+  toBeFalse,
+  toBeTrue,
+  toHaveBeenCalledBefore,
+} from 'jest-extended';
 import mockBundles from '../util/Bundles.ts';
 
-expect.extend({ toHaveBeenCalledBefore });
+expect.extend({
+  toBeFalse,
+  toBeTrue,
+  toHaveBeenCalledBefore,
+});
 
 require('@testing-library/jest-dom');
 require('whatwg-fetch');

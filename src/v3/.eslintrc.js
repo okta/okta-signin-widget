@@ -271,6 +271,7 @@ module.exports = {
       },
     },
     // unit test files in src
+    // integration test files in test
     {
       env: { browser: true, jest: true, node: true },
       files: [
@@ -278,6 +279,8 @@ module.exports = {
         'src/**/*.spec.ts',
         'src/**/*.test.tsx',
         'src/**/*.spec.tsx',
+        'test/integration/**/*.ts',
+        'test/integration/**/*.tsx',
       ],
       parser: '@typescript-eslint/parser',
       parserOptions: {
@@ -301,6 +304,7 @@ module.exports = {
         'preact',
       ],
       rules: {
+        'import/prefer-default-export': 'off',
         'react/jsx-props-no-spreading': 'off',
         'jest/no-restricted-matchers': [
           'error',
@@ -336,35 +340,6 @@ module.exports = {
         ecmaFeatures: { jsx: true },
         ecmaVersion: 2020,
         sourceType: 'module',
-      },
-      plugins: [
-        '@typescript-eslint',
-        'testing-library',
-      ],
-      extends: [
-        'plugin:@typescript-eslint/eslint-recommended',
-        'plugin:@typescript-eslint/recommended',
-        'plugin:react/recommended',
-        'plugin:jsx-a11y/recommended',
-        'plugin:testing-library/react',
-        'airbnb-typescript',
-        'airbnb/hooks',
-        'preact',
-      ],
-      rules: {
-        'import/prefer-default-export': 'off',
-        'testing-library/no-wait-for-multiple-assertions': 'warn',
-        'testing-library/no-node-access': 'warn',
-        'testing-library/no-container': 'warn',
-        'testing-library/prefer-screen-queries': 'off',
-        'testing-library/render-result-naming-convention': 'off',
-        'testing-library/prefer-explicit-assert': [
-          'warn',
-          {
-            assertion: 'toBeInTheDocument',
-            includeFindQueries: true,
-          },
-        ],
       },
     },
     // all typescript files in test/e2e
