@@ -22,18 +22,18 @@ test
     // freeze the spinner element so screenshots are consistent
     await pageObject.stopSpinnerAnimation();
 
-    await t.customActions.vrt('one');
+    await t.customActions.compareScreenshot('one');
     await pageObject.scrollToNextPage();
 
     // possible bug in testcafe where the animated progress bar at the bottom is displaying after scrolling
     // causing inconsistent screenshots
     await pageObject.hideProgressBar();
 
-    await t.customActions.vrt('two');
+    await t.customActions.compareScreenshot('two');
     await pageObject.scrollToNextPage();
 
-    await t.customActions.vrt('three');
+    await t.customActions.compareScreenshot('three');
     await pageObject.scrollToNextPage();
 
-    await t.customActions.vrt('four');
+    await t.customActions.compareScreenshot('four');
   });
