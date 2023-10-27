@@ -55,6 +55,7 @@ describe('identify-with-password-error-flow', () => {
   });
 
   it('should display warning message when invalid identifier is entered and should allow user to resubmit same information without showing client-side errors', async () => {
+    jest.spyOn(cookieUtils, 'getUsernameCookie').mockReturnValue('');
     const {
       authClient,
       user,
