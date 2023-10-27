@@ -127,7 +127,6 @@ test
     await t.expect(challengeOktaVerifyPushPageObject.getSignoutLinkText()).eql('Back to sign in');
   });
 
-// V3 - Polling fails with AssertionError: expected 8 to deeply equal 1
 test
   .requestHooks(logger, pushAutoChallengeMock)('should call polling API and checkbox should be clickable after polling started', async t => {
     const challengeOktaVerifyPushPageObject = await setup(t);
