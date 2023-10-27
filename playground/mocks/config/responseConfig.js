@@ -110,7 +110,7 @@ const idx = {
     // 'mdm-enrollment',
     // 'authenticator-verification-custom-app-push',
     // 'authenticator-enroll-custom-app-push',
-    // 'request-activation-email',
+    // 'request-activation-email'
   ],
   '/idp/idx/enroll': [
     'enroll-profile-new',
