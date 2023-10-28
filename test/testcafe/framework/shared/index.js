@@ -70,6 +70,40 @@ export async function checkConsoleMessages(context = {}) {
   }
 }
 
+export function checkFormWasRendered (formName, options = { timeout: 2000 }) {
+  let result = false;
+
+  const currentFormName = ClientFunction(() => {
+    window.getWidgetInstance().router.appState.get('currentFormName')
+  })();
+
+  // if the expected form is currently rendered, resolve true
+  if (currentFormName === formName) {
+    result = true;
+  }
+  else {
+    // otherwise bind listener for expected form to track presence
+    ClientFunction(() => {
+      window.getWidgetInstance().before(formName, () => {
+        result = true;
+        return Promise.resolve();   // do not block widget render flow via before hook
+      });
+    })();
+  }
+
+  // returns "was formName rendered function"
+  return () => {
+    if (result) {
+      // if result is true, return instantly
+      return Promise.resolve(result);
+    }
+    // otherwise allow grace period for widget flow to render
+    return new Promise(resolve => {
+      setTimeout(() => resolve(result), options.timeout);
+    });
+  };
+}
+
 export const Constants = {
   // https://devexpress.github.io/testcafe/documentation/guides/concepts/built-in-wait-mechanisms.html#wait-mechanism-for-xhr-and-fetch-requests
   TESTCAFE_DEFAULT_AJAX_WAIT: 3000, // 3seconds

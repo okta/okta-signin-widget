@@ -1,4 +1,5 @@
 const { readFileSync } = require('fs');
+const path = require('path');
 const { RequestMock } = require('testcafe');
 
 /**
@@ -37,10 +38,10 @@ const regex = (strings, ...values) => {
 // common/shared mocks
 const mocks = RequestMock()
   .onRequestTo({ url: regex`/app/UserHome` })
-  .respond(readFileSync('./playground/mocks/app/UserHome.html', 'utf8'), 200, { 'content-type': 'text/html; charset=utf-8' })
+  .respond(readFileSync(path.join(__dirname, 'playground/mocks/app/UserHome.html'), 'utf8'), 200, { 'content-type': 'text/html; charset=utf-8' })
 
-  .onRequestTo({ url: regex`/oauth2/default/.well-known/openid-configuration` })
-  .respond(require('./playground/mocks/data/oauth2/well-known-openid-configuration.json'))
+  .onRequestTo({ url: regex`/oauth2/default/v1/interact` })
+  .respond(require('./playground/mocks/data/oauth2/interact.json'))
 
   .onRequestTo({ url: regex`/sso/idps/facebook-123` })
   .respond('');
@@ -66,7 +67,21 @@ const config = {
     { module: '@testing-library/dom/dist/@testing-library/dom.umd.js' }
   ],
   src: [ 'test/testcafe/spec/*_spec.js' ],
-  hooks: { request: mocks, },
+  hooks: {
+    request: mocks,
+    before: async t => {
+      const reqHooks = [...t.testRun.test.requestHooks];
+      await t.removeRequestHooks(reqHooks);
+      // const newOrder = reqHooks.reverse().sort((a, b) => {
+      //   if (a._className !== b._className) {
+      //     return a._className === 'RequestLogger' ? -1 : 0;
+      //   }
+      //   return 0;
+      // });
+      const newOrder = reqHooks.reverse();
+      await t.addRequestHooks(newOrder);
+    }
+  },
   userVariables: {
     gen3: env.OKTA_SIW_GEN3,
   },
