@@ -312,6 +312,7 @@ export interface TitleElement extends UISchemaElement {
   type: 'Title';
   options: {
     content: string;
+    setPageTitle?: boolean;
   };
 }
 

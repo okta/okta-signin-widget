@@ -43,6 +43,7 @@ import {
 import { createForm } from '../../transformer/utils';
 import {
   FormBag,
+  TitleElement,
   UISchemaLayout,
   UISchemaLayoutType,
   WidgetProps,
