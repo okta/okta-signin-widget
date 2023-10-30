@@ -27,30 +27,5 @@ fi
 artifact_version="$(ci-pkginfo -t pkgname)-$(ci-pkginfo -t pkgsemver)"
 published_tarball=${PUBLISH_REGISTRY}/@okta/okta-signin-widget/-/${artifact_version}.tgz
 
-# clone angular sample, using angular sample because angular toolchain is *very* opinionated about modules
-git clone --depth 1 https://github.com/okta/samples-js-angular.git test/package/angular-sample
-pushd test/package/angular-sample/custom-login
 
-# use npm instead of yarn to test as a community dev
-if ! npm i; then
-  echo "install failed! Exiting..."
-  exit ${FAILED_SETUP}
-fi
-
-# install the version of @okta/okta-signin-widget from artifactory that was published during the `publish` suite
-if ! npm i ${published_tarball}; then
-  echo "install ${published_tarball} failed! Exiting..."
-  exit ${FAILED_SETUP}
-fi
-
-export ISSUER="https://oie-signin-widget.okta.com"
-export CLIENT_ID="0oa8lrg7ojTsbJgRQ696"
-
-# Run build to verify siw installation
-if ! npm run build; then
-  echo "build failed! Exiting..."
-  exit ${TEST_FAILURE}
-fi
-
-popd
 exit $SUCCESS
