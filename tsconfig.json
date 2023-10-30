@@ -25,7 +25,6 @@
       "@okta/handlebars-inline-precompile": ["./scripts/buildtools/tsc/handlebars-inline-precompile"],
       "@okta/duo": ["./packages/vendor/duo_web_sdk/index.js"],
       "@okta/qtip": ["./packages/@okta/qtip2/dist/jquery.qtip.js"],
-      "@okta/typingdna": ["./packages/vendor/TypingDnaRecorder-JavaScript/typingdna"],
       "util/*": ["./src/util/*"],
       "widget/*": ["./src/widget/*"],
       "models/*": ["./src/models/*"],

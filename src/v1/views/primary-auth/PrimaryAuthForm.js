@@ -12,7 +12,6 @@
 
 import { Form, loc } from '@okta/courage';
 import DeviceFingerprint from 'v1/util/DeviceFingerprint';
-import TypingUtil from 'v1/util/TypingUtil';
 import Util from 'util/Util';
 import TextBox from 'v1/views/shared/TextBox';
 export default Form.extend({
@@ -40,14 +39,8 @@ export default Form.extend({
   },
 
   initialize: function() {
-    const trackTypingPattern = this.settings.get('features.trackTypingPattern');
-
     this.listenTo(this, 'save', async function() {
       const { appState } = this.options;
-      if (trackTypingPattern) {
-        const typingPattern = TypingUtil.getTypingPattern();
-        appState.set('typingPattern', typingPattern);
-      }
       const creds = {
         username: this.model.get('username'),
       };
@@ -246,9 +239,6 @@ export default Form.extend({
       this.getInputs().first().focus();
     } else if (!this.settings.get('features.passwordlessAuth')) {
       this.getInputs().toArray()[1].focus();
-    }
-    if (this.settings.get('features.trackTypingPattern')) {
-      TypingUtil.track('okta-signin-username');
     }
   },
 });

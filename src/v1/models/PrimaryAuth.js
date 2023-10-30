@@ -168,15 +168,11 @@ export default BaseLoginModel.extend({
 
   doPrimaryAuth: function(authClient, signInArgs, func) {
     const deviceFingerprintEnabled = this.settings.get('features.deviceFingerprinting');
-    const typingPatternEnabled = this.settings.get('features.trackTypingPattern');
 
-    // Add the custom header for fingerprint, typing pattern if needed, and then remove it afterwards
+    // Add the custom header for fingerprint if needed, and then remove it afterwards
     // Since we only need to send it for primary auth
     if (deviceFingerprintEnabled && this.appState.get('deviceFingerprint')) {
       authClient.http.setRequestHeader('X-Device-Fingerprint', this.appState.get('deviceFingerprint'));
-    }
-    if (typingPatternEnabled && this.appState.get('typingPattern')) {
-      authClient.http.setRequestHeader('X-Typing-Pattern', this.appState.get('typingPattern'));
     }
 
     const self = this;
@@ -185,10 +181,6 @@ export default BaseLoginModel.extend({
       if (deviceFingerprintEnabled) {
         authClient.http.setRequestHeader('X-Device-Fingerprint', undefined);
         self.appState.unset('deviceFingerprint'); //Fingerprint can only be used once
-      }
-      if (typingPatternEnabled) {
-        authClient.http.setRequestHeader('X-Typing-Pattern', undefined);
-        self.appState.unset('typingPattern');
       }
     });
   },
