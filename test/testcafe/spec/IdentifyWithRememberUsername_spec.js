@@ -225,9 +225,7 @@ test.requestHooks(identifyRequestLogger, identifyMock)('should pre-fill identifi
   await t.expect(identifier).eql('testUsername@okta.com');
 });
 
-
-// OKTA-585939 Cookie is not updated in gen 3 widget
-test.meta('gen3', false).requestHooks(identifyRequestLogger, identifyMock)('should store identifier in ln cookie when updated', async t => {
+test.requestHooks(identifyRequestLogger, identifyMock)('should store identifier in ln cookie when updated', async t => {
   const identityPage = await setup(t, { render: false });
 
   await t.setCookies({name: 'ln', value: 'PREFILL VALUE', httpOnly: false});

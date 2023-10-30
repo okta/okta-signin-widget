@@ -34,7 +34,9 @@ import {
   loc,
   postRegistrationSubmit,
   preRegistrationSubmit,
+  removeUsernameCookie,
   SessionStorage,
+  setUsernameCookie,
   toNestedObject,
   transformIdentifier,
   triggerRegistrationErrorMessages,
@@ -64,7 +66,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     setStepToRender,
     widgetProps,
   } = useWidgetContext();
-  const { eventEmitter, widgetHooks } = widgetProps;
+  const { eventEmitter, widgetHooks, features } = widgetProps;
 
   return useCallback(async (options: OnSubmitHandlerOptions) => {
     setLoading(true);
@@ -139,6 +141,13 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     // Allow username transformation if applicable
     if ('identifier' in payload) {
       payload.identifier = transformIdentifier(widgetProps, step, payload.identifier as string);
+
+      // Widget rememberMe feature stores the entered identifier in a cookie, to pre-fill the form on subsequent visits to page
+      if (features?.rememberMe) {
+        setUsernameCookie(payload.identifier as string);
+      } else {
+        removeUsernameCookie();
+      }
     }
 
     // For Granular Consent remediation, scopes within the `optedScopes`
@@ -302,6 +311,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     widgetProps,
     eventEmitter,
     widgetHooks,
+    features,
     setResponseError,
     setIdxTransaction,
     setIsClientTransaction,

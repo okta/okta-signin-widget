@@ -35,12 +35,9 @@ import {
   containsOneOfMessageKeys,
   getBackToSignInUri,
   getBaseUrl,
-  getUserInfo,
   isOauth2Enabled,
   loc,
-  removeUsernameCookie,
   SessionStorage,
-  setUsernameCookie,
   shouldShowCancelLink,
 } from '../../util';
 import { redirectTransformer } from '../redirect';
@@ -131,32 +128,12 @@ const appendViewLinks = (
   }
 };
 
-const isSuccessfulAuthentication = (
-  transction: IdxTransaction,
-): boolean => !!(transction.context.success
-  || transction.rawIdxState.successWithInteractionCode);
-
-const updateIdentifierCookie = (transaction: IdxTransaction, rememberMe?: boolean): void => {
-  if (rememberMe) {
-    const userInfo = getUserInfo(transaction);
-    if (userInfo.identifier) {
-      setUsernameCookie(userInfo.identifier);
-    }
-  } else {
-    removeUsernameCookie();
-  }
-};
-
 export const transformTerminalTransaction = (
   transaction: IdxTransaction,
   widgetProps: WidgetProps,
   bootstrapFn: () => Promise<void>,
 ): FormBag => {
-  const { authClient, features } = widgetProps;
-  if (isSuccessfulAuthentication(transaction)) {
-    // TODO: OKTA-506358 This identifier cookie can be removed once implemented in auth-js
-    updateIdentifierCookie(transaction, features?.rememberMe);
-  }
+  const { authClient } = widgetProps;
 
   if (isOauth2Enabled(widgetProps) && transaction.interactionCode) {
     // Interaction code flow handled by useInteractionCodeFlow hook

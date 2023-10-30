@@ -20,7 +20,6 @@ import {
 
 import { TERMINAL_KEY, TERMINAL_TITLE_KEY } from '../../constants';
 import { getStubTransaction } from '../../mocks/utils/utils';
-import { removeUsernameCookie, setUsernameCookie } from '../../util';
 import { redirectTransformer } from '../redirect';
 import { transformTerminalTransaction } from '.';
 import { transformOdaEnrollment } from './odaEnrollment/transformOdaEnrollment';
@@ -252,43 +251,6 @@ describe('Terminal Transaction Transformer Tests', () => {
     expect(formBag.uischema.elements[0].type).toBe('Link');
     expect((formBag.uischema.elements[0] as LinkElement).options?.label).toBe('goback');
     expect((formBag.uischema.elements[0] as LinkElement).options?.href).toBe('/');
-  });
-
-  it('should set username cookie when successful authentication and rememberMe feature is set', () => {
-    const mockIdentifier = 'testUser';
-    transaction.context = {
-      success: { name: 'success' },
-      user: {
-        type: 'object',
-        value: {
-          identifier: mockIdentifier,
-        },
-      },
-    } as unknown as IdxContext;
-    widgetProps = {
-      features: { rememberMe: true },
-    };
-    transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
-
-    expect(setUsernameCookie).toHaveBeenCalledWith(mockIdentifier);
-  });
-
-  it('should remove username cookie when successful authentication and rememberMe feature is false', () => {
-    transaction.context = {
-      success: { name: 'success' },
-      user: {
-        type: 'object',
-        value: {
-          identifier: 'testUser',
-        },
-      },
-    } as unknown as IdxContext;
-    widgetProps = {
-      features: { rememberMe: false },
-    };
-    transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
-
-    expect(removeUsernameCookie).toHaveBeenCalled();
   });
 
   it('should invoke oda enrollment terminal transformer when device enrollment data is present', () => {
