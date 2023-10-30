@@ -29,6 +29,7 @@ import {
   InfoboxElement,
   IWidgetContext,
   LaunchAuthenticatorButtonElement,
+  PhoneVerificationMethodType,
   WidgetMessage,
   WidgetMessageLink,
   WidgetProps,
@@ -38,7 +39,6 @@ import { loc } from './locUtil';
 
 export type PhoneVerificationStep = typeof IDX_STEP.CHALLENGE_AUTHENTICATOR
 | typeof IDX_STEP.AUTHENTICATOR_VERIFICATION_DATA;
-export type PhoneVerificationMethodType = 'sms' | 'voice';
 
 export const handleFormFieldChange = (
   path: string,

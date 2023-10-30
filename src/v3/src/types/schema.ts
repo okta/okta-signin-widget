@@ -86,6 +86,8 @@ export type InputModeValue = 'numeric'
 | 'url'
 | 'search';
 
+export type PhoneVerificationMethodType = 'sms' | 'voice';
+
 export type InputAttributes = {
   autocomplete?: AutoCompleteValue;
   inputmode?: InputModeValue;

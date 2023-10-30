@@ -58,16 +58,16 @@ export const transformPhoneVerification: IdxStepTransformer = ({ transaction, fo
   // (Display order) 3rd element in the elements array
   uischema.elements.unshift(carrierInfoText);
 
-  const subtitleElement = isValidPhoneMethodType(primaryMethod)
-    ? buildPhoneVerificationSubtitleElement(
-      nextStep.name,
-      primaryMethod,
-      nextStep.relatesTo?.value,
-    ) : undefined;
   // (Display order) 2nd element in the elements array
   // Append appropriate descr text to elements based on first methodType
-  if (typeof subtitleElement !== 'undefined') {
-    uischema.elements.unshift(subtitleElement);
+  if (isValidPhoneMethodType(primaryMethod)) {
+    uischema.elements.unshift(
+      buildPhoneVerificationSubtitleElement(
+        nextStep.name,
+        primaryMethod,
+        nextStep.relatesTo?.value,
+      ),
+    );
   }
 
   const titleElement: TitleElement = {

@@ -50,13 +50,6 @@ export const transformPhoneChallenge: IdxStepTransformer = ({ transaction, formB
     };
   }
 
-  const subtitleElement = isValidPhoneMethodType(methodType)
-    ? buildPhoneVerificationSubtitleElement(
-      nextStep.name,
-      methodType,
-      nextStep.relatesTo?.value,
-    ) : undefined;
-
   const carrierChargeDisclaimerText: DescriptionElement = {
     type: 'Description',
     contentType: 'subtitle',
@@ -83,8 +76,14 @@ export const transformPhoneChallenge: IdxStepTransformer = ({ transaction, formB
 
   uischema.elements.push(submitButtonControl);
   uischema.elements.unshift(carrierChargeDisclaimerText);
-  if (typeof subtitleElement !== 'undefined') {
-    uischema.elements.unshift(subtitleElement);
+  if (isValidPhoneMethodType(methodType)) {
+    uischema.elements.unshift(
+      buildPhoneVerificationSubtitleElement(
+        nextStep.name,
+        methodType,
+        nextStep.relatesTo?.value,
+      ),
+    );
   }
   uischema.elements.unshift(titleElement);
   if (reminderElement) {

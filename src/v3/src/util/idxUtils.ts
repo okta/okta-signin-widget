@@ -37,6 +37,7 @@ import {
   AppInfo,
   AuthCoinProps,
   IWidgetContext,
+  PhoneVerificationMethodType,
   RegistrationElementSchema,
   RequiredKeys,
   UserInfo,
@@ -426,6 +427,6 @@ export const triggerEmailVerifyCallback = async (props: WidgetProps): Promise<Id
 
 export const isValidPhoneMethodType = (
   methodType?: string | { form: IdxForm; } | Input[],
-): methodType is 'sms' | 'voice' => (
+): methodType is PhoneVerificationMethodType => (
   typeof methodType !== 'undefined' && (methodType === 'sms' || methodType === 'voice')
 );
