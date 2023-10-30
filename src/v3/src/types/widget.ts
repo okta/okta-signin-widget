@@ -253,7 +253,6 @@ export type OktaWidgetFeatures = {
   mfaOnlyFlow?: boolean;
   hideBackToSignInForReset?: boolean;
   rememberMyUsernameOnOIE?: boolean;
-  engFastpassMultipleAccounts?: boolean;
   customExpiredPassword?: boolean;
   idpDiscovery?: boolean;
   passwordlessAuth?: boolean;
