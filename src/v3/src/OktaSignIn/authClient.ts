@@ -11,18 +11,9 @@
  */
 
 import {
-  createIdxOptionsConstructor,
-  createIdxStorageManager,
-  createIdxTransactionManager,
-  createOktaAuthBaseIdx,
+  OktaAuth,
 } from '@okta/okta-auth-js';
 
-const OptionsConstructor = createIdxOptionsConstructor();
-const StorageManager = createIdxStorageManager();
-const TransactionManager = createIdxTransactionManager();
-
-const OktaAuthClient = createOktaAuthBaseIdx(
-  StorageManager, OptionsConstructor, TransactionManager,
-);
+const OktaAuthClient = OktaAuth;
 
 export { OktaAuthClient };
