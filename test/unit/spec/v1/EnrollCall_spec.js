@@ -595,16 +595,10 @@ Expect.describe('EnrollCall', function() {
   });
 
   describe('Enroll phone number', function() {
-    beforeEach(() => {
-      jest.setTimeout(20000);
-    });
     testEnrollPhoneNumber(setup, resEnrollSuccess);
   });
 
   describe('Verify phone number', function() {
-    beforeEach(() => {
-      jest.setTimeout(20000);
-    });
     testVerifyPhoneNumber(setup, setupAndSendValidCode, resEnrollSuccess, 'testStateToken');
     itp('appends updatePhone=true to the request if user has an existing phone', function() {
       return setup(resExistingPhone)
