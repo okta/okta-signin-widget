@@ -23,6 +23,7 @@ test
     await pageObject.stopSpinnerAnimation();
 
     await t.customActions.compareScreenshot('one');
+    // this method scrolls down the height of the window to capture screenshots further down the page
     await pageObject.scrollToNextPage();
 
     // possible bug in testcafe where the animated progress bar at the bottom is displaying after scrolling
