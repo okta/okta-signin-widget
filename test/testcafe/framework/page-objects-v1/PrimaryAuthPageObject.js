@@ -1,8 +1,13 @@
+import { Selector } from 'testcafe';
 import BasePageObject from '../page-objects/BasePageObject';
 
 export default class PrimaryAuthPageObject extends BasePageObject {
   constructor(t) {
     super(t);
+  }
+
+  hasUsernameField() {
+    return this.form.fieldByLabelExists('Username');
   }
 
   getInputField(fieldName) {
@@ -13,7 +18,31 @@ export default class PrimaryAuthPageObject extends BasePageObject {
     return this.form.setTextBoxValue('username', username);
   }
 
-  async clickNextButton() {
-    await this.form.clickSaveButton();
+  getLinkElement(name) {
+    return this.form.getLink(name);
+  }
+
+  getShowPasswordVisibilityToggle() {
+    return this.form.getElement('span.eyeicon.button-show');
+  }
+
+  getHidePasswordVisibilityToggle() {
+    return this.form.getElement('span.eyeicon.button-hide');
+  }
+
+  getBeaconContainer() {
+    return Selector('.beacon-container');
+  }
+
+  getSecurityImageTooltip() {
+    return Selector('.okta-security-image-tooltip');
+  }
+
+  async clickNextButton(name = 'Next') {
+    await this.form.clickSaveButton(name);
+  }
+
+  async clickLinkElement(name) {
+    await this.t.click(this.getLinkElement(name));
   }
 }

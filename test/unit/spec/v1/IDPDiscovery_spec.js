@@ -467,13 +467,6 @@ Expect.describe('IDPDiscovery', function() {
         expect(test.form.helpFooter().attr('aria-controls')).toBe('help-links-container');
       });
     });
-    itp('sets aria-expanded attribute correctly when clicking help', function() {
-      return setup().then(function(test) {
-        expect(test.form.helpFooter().attr('aria-expanded')).toBe('false');
-        test.form.helpFooter().click();
-        expect(test.form.helpFooter().attr('aria-expanded')).toBe('true');
-      });
-    });
     itp('has a forgot password link', function() {
       return setup().then(function(test) {
         expect(test.form.forgotPasswordLabel().trim()).toBe('Forgot password?');
@@ -653,9 +646,9 @@ Expect.describe('IDPDiscovery', function() {
     itp('toggles "focused-input" css class on focus in and focus out', function() {
       return setup().then(function(test) {
         test.form.usernameField().focusin();
-        expect(test.form.usernameField()[0].parentElement).toHaveClass('focused-input');
+        expect(test.form.usernameField()[0].parentNode.className).toContain('focused-input');
         test.form.usernameField().focusout();
-        expect(test.form.usernameField()[0].parentElement).not.toHaveClass('focused-input');
+        expect(test.form.usernameField()[0].parentNode.className).not.toContain('focused-input');
       });
     });
   });
@@ -1042,7 +1035,7 @@ Expect.describe('IDPDiscovery', function() {
         expect(test.form.securityBeacon()[0].className).toMatch('undefined-user');
         expect(test.form.securityBeacon()[0].className).not.toMatch('new-device');
         expect(test.form.securityBeacon().css('background-image')).toMatch(
-          /\/base\/target\/img\/security\/default.*.png/
+          /url\(..\/img\/security\/default.*png\)/
         );
       });
     });
@@ -1110,7 +1103,7 @@ Expect.describe('IDPDiscovery', function() {
           expect(test.form.securityBeacon()[0].className).toMatch('new-user');
           expect(test.form.securityBeacon()[0].className).not.toMatch('undefined-user');
           expect(test.form.securityBeacon().css('background-image')).toMatch(
-            /\/base\/target\/img\/security\/unknown-device.*\.png/
+            /url\(..\/img\/security\/unknown-device.*png\)/
           );
         });
     });
@@ -1127,55 +1120,6 @@ Expect.describe('IDPDiscovery', function() {
           );
         });
     });
-    itp('does not show anti-phishing message if security image is hidden', function() {
-      return setup({ features: { securityImage: true } })
-        .then(function(test) {
-          test.setNextResponse(resSecurityImageFail);
-          test.form.securityBeaconContainer().hide();
-          spyOn($.qtip.prototype, 'toggle').and.callThrough();
-          test.form.setUsername('testuser@clouditude.net');
-          $(window).trigger('resize');
-          return waitForBeaconChange(test);
-        })
-        .then(function(test) {
-          expect($.qtip.prototype.toggle.calls.count()).toBe(1);
-          expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({ 0: false }));
-          $.qtip.prototype.toggle.calls.reset();
-          test.form.securityBeaconContainer().show();
-          $(window).trigger('resize');
-          return Expect.waitForSpyCall($.qtip.prototype.toggle);
-        })
-        .then(function() {
-          expect($.qtip.prototype.toggle.calls.count()).toBe(1);
-          expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({ 0: true }));
-        });
-    });
-    itp('show anti-phishing message if security image become visible', function() {
-      return setup({ features: { securityImage: true } })
-        .then(function(test) {
-          spyOn($.qtip.prototype, 'toggle').and.callThrough();
-          test.setNextResponse(resSecurityImageFail);
-          test.form.setUsername('testuser@clouditude.net');
-          return waitForBeaconChange(test);
-        })
-        .then(function(test) {
-          expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({ 0: true }));
-          $.qtip.prototype.toggle.calls.reset();
-          test.form.securityBeaconContainer().hide();
-          $(window).trigger('resize');
-          return Expect.waitForSpyCall($.qtip.prototype.toggle, test);
-        })
-        .then(function(test) {
-          expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({ 0: false }));
-          $.qtip.prototype.toggle.calls.reset();
-          test.form.securityBeaconContainer().show();
-          $(window).trigger('resize');
-          return Expect.waitForSpyCall($.qtip.prototype.toggle, test);
-        })
-        .then(function() {
-          expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({ 0: true }));
-        });
-    });
     itp('guards against XSS when showing the anti-phishing message', function() {
       return setup({
         baseUrl: 'http://foo<i>xss</i>bar.com?bar=<i>xss</i>',
@@ -1190,27 +1134,6 @@ Expect.describe('IDPDiscovery', function() {
           expect(test.form.securityImageTooltipText()).toEqual(
             'This is the first time you are connecting to foo<i>xss< from this browser×'
           );
-        });
-    });
-    itp('removes anti-phishing message if help link is clicked', function() {
-      return setup({
-        baseUrl: 'http://foo<i>xss</i>bar.com?bar=<i>xss</i>',
-        features: { securityImage: true, selfServiceUnlock: true },
-      })
-        .then(function(test) {
-          test.setNextResponse(resSecurityImageFail);
-          test.form.setUsername('testuser@clouditude.net');
-          return waitForBeaconChange(test);
-        })
-        .then(function(test) {
-          // Tooltip exists
-          expect(test.form.isSecurityImageTooltipDestroyed()).toBe(false);
-          spyOn(test.router, 'navigate');
-          test.form.helpFooter().click();
-          test.form.unlockLink().click();
-          expect(test.router.navigate).toHaveBeenCalledWith('signin/unlock', { trigger: true });
-          // Verify tooltip is gone
-          expect(test.form.isSecurityImageTooltipDestroyed()).toBe(true);
         });
     });
     itp('updates security beacon immediately if rememberMe is available', function() {

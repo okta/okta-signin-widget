@@ -1,5 +1,6 @@
 /* eslint max-params: [2, 19] */
 import { _ } from '@okta/courage';
+import MockDate from 'mockdate';
 import getAuthClient from 'helpers/getAuthClient';
 import Router from 'v1/LoginRouter';
 import Beacon from 'helpers/dom/Beacon';
@@ -608,8 +609,10 @@ Expect.describe('EnrollChoices', function() {
     describe('Grace period', function() {
       beforeEach(function() {
         const today = new Date('2019-06-25T00:00:00.000Z');
-
-        jasmine.clock().mockDate(today);
+        MockDate.set(today);
+      });
+      afterEach(function() {
+        MockDate.reset();
       });
       describe('all factors are required and none are enrolled', function() {
         itp('has default subtitle', function() {
@@ -643,8 +646,8 @@ Expect.describe('EnrollChoices', function() {
           than a day',
           function() {
             const today = new Date('2019-06-25T11:59:59.000Z');
+            MockDate.set(today);
 
-            jasmine.clock().mockDate(today);
             return setupWithRequiredSomeRequiredEnrolled('2019-06-26T00:00:00.000Z').then(function(test) {
               expect(test.form.subtitleText()).toBe(
                 'Your company recommends setting up additional factors for authentication. ' +
@@ -655,8 +658,8 @@ Expect.describe('EnrollChoices', function() {
         );
         itp('has default subtitle when todays date is past endDate', function() {
           const today = new Date('2019-06-26T11:59:59.000Z');
+          MockDate.set(today);
 
-          jasmine.clock().mockDate(today);
           return setupWithRequiredSomeRequiredEnrolled('2019-06-26T00:00:00.000Z').then(function(test) {
             expect(test.form.subtitleText()).toBe(
               'Your company requires multifactor authentication to add an additional ' +

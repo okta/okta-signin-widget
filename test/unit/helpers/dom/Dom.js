@@ -21,11 +21,13 @@ const Dom = Class.extend({
 });
 
 Dom.isVisible = function($el) {
+  // jsdom has issue with :visible selector
+  // check visibility recursively instead
   // non-jquery method
-  // return $el.css('visibility') === 'visible' && $el.css('display') !== 'none' && $el.html() !== '';
-
-  // jquery method
-  return $el.is(':visible');
+  if ($el.is('body') || $el.is(document)) {
+    return true;
+  }
+  return $el.css('visibility') === 'visible' && $el.css('display') !== 'none' && Dom.isVisible($el.parent());
 };
 
 export default Dom;

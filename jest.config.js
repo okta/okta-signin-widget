@@ -6,7 +6,8 @@ const COVERAGE_DIR = '<rootDir>/build2/reports/coverage/jest';
 const REPORT_DIR = '<rootDir>/build2/reports/unit';
 /* eslint-disable-next-line @okta/okta/no-unlocalized-text-in-templates */
 const OktaSignin = '<rootDir>/src/exports/default';
-const LEGACY_TESTS = require('./test/unit/legacy-tests');
+
+const TEST_TIMEOUT = 20 * 1000;
 
 /** @type {import('@jest/types').Config.InitialOptions} */
 module.exports = {
@@ -40,6 +41,7 @@ module.exports = {
 
     // General remapping
     '^nls/(.*)': '@okta/i18n/src/json/$1',
+    '^@okta/i18n/src/json/(.*)': `${LOCAL_PACKAGES}/@okta/i18n/src/json/$1`,
     '^@okta/courage$': `${LOCAL_PACKAGES}/@okta/courage-dist/esm/src/index.js`,
     '^@okta/okta-i18n-bundles$': `${ROOT}/src/util/Bundles`,
     '^@okta/qtip$': '@okta/qtip2/dist/jquery.qtip.js',
@@ -53,7 +55,6 @@ module.exports = {
   testMatch: [
     '**/test/unit/spec/**/*.{js,ts}'
   ],
-  testPathIgnorePatterns: LEGACY_TESTS,
   roots: [
     'src',
     'test/unit/spec'
@@ -65,4 +66,5 @@ module.exports = {
       outputName: 'okta-sign-in-widget-jest-junit-result.xml',
     }]
   ],
+  testTimeout: process.env.MODE === 'DEBUG' ? TEST_TIMEOUT * 10000 : TEST_TIMEOUT,
 };

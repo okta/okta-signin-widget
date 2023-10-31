@@ -8,7 +8,6 @@ exports.builder = {
     alias: 't',
     description: 'Type of the test runner',
     choices: [
-      'karma',
       'jest',
       'testcafe',
     ],
@@ -23,19 +22,12 @@ exports.builder = {
 };
 
 const suiteMap = {
-  karma: {
-    cmd: 'karma start',
-    config: 'karma.conf.js',
-    preReq: [
-      'grunt assets',
-      'ENTRY=css grunt exec:build-dev'
-    ],
-  },
   jest: {
     cmd: 'jest',
     config: 'jest.config.js',
     preReq: [
       'grunt assets',
+      'ENTRY=css grunt exec:build-dev'
     ],
   },
   testcafe: {

@@ -12,6 +12,14 @@ export default class DeviceCodeActivatePageObject extends BasePageObject {
     return this.form.getElement('.okta-form-subtitle').textContent;
   }
 
+  activationCodeFieldExists() {
+    return this.form.fieldByLabelExists('Activation Code');
+  }
+
+  signInFormUsernameFieldExists() {
+    return this.form.fieldByLabelExists('Username');
+  }
+
   clickNextButton() {
     return this.form.clickSaveButton();
   }
@@ -79,5 +87,9 @@ export default class DeviceCodeActivatePageObject extends BasePageObject {
 
   getErrorBoxText() {
     return Selector('.okta-form-infobox-error p').innerText;
+  }
+
+  hasIDPRedirectPageHeader() {
+    return Selector('h1').withText('An external IdP login page for testcafe testing').exists;
   }
 }
