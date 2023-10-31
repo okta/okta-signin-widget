@@ -60,6 +60,13 @@ const env = {
 };
 
 const config = {
+  hooks: {
+    fixture: {
+      before: async () => {
+         await waitOn({ resources: ['http-get://localhost:3000'] });
+      }
+    }
+  },
   browsers: [ 'chrome:headless' ],
   clientScripts: [
     { module: 'axe-core/axe.min.js' },
