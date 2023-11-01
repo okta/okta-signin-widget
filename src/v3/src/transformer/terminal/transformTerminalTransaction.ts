@@ -42,7 +42,6 @@ import {
 } from '../../util';
 import { redirectTransformer } from '../redirect';
 import { setFocusOnFirstElement } from '../uischema';
-import { createIdentifierContainer } from '../uischema/createIdentifierContainer';
 import { createForm } from '../utils';
 import { transformOdaEnrollment } from './odaEnrollment';
 import { transformMdmTerminalView } from './transformMdmTerminalView';
@@ -189,14 +188,6 @@ export const transformTerminalTransaction = (
   appendViewLinks(transaction, formBag.uischema, widgetProps, bootstrapFn);
 
   setFocusOnFirstElement(formBag);
-
-  createIdentifierContainer({
-    transaction,
-    widgetProps,
-    step: '',
-    setMessage: () => {},
-    isClientTransaction: false,
-  })(formBag);
 
   return formBag;
 };

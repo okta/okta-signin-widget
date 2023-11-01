@@ -134,7 +134,7 @@ export default class SelectFactorPageObject extends BasePageObject {
     return this.form.setTextBoxValue(IDENTIFIER_FIELD, value);
   }
 
-  getIdentifierError() {
+  getIndetifierError() {
     return this.form.getTextBoxErrorMessage(IDENTIFIER_FIELD);
   }
 
@@ -149,21 +149,5 @@ export default class SelectFactorPageObject extends BasePageObject {
   async factorUsageTextExistsByIndex(index) {
     const elCount = await this.getFactorUsageTextElementByIndex(index).count;
     return elCount === 1;
-  }
-
-  getNextButton() {
-    return this.form.getButton('Next');
-  }
-
-  async goToNextPage() {
-    return this.form.clickButton('Next');
-  }
-
-  waitForErrorBox() {
-    return this.form.waitForErrorBox();
-  }
-
-  getErrorBoxText() {
-    return this.form.getErrorBoxText();
   }
 }
