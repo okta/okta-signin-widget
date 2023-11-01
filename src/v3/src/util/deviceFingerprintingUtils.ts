@@ -10,97 +10,93 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-const getUserAgent = () => {
-  return navigator.userAgent;
-}
+const getUserAgent = (): string => navigator.userAgent;
 
-const isWindowsPhone = (userAgent: string) => {
-  return userAgent.match(/windows phone|iemobile|wpdesktop/i);
-}
+const isWindowsPhone = (userAgent: string): RegExpMatchArray | null => userAgent.match(/windows phone|iemobile|wpdesktop/i);
 
-export default {
-  isMessageFromCorrectSource: (iframe: HTMLIFrameElement, event: MessageEvent) => {
-    return event.source === iframe.contentWindow;
-  },
+export const isMessageFromCorrectSource = (iframe: HTMLIFrameElement, event: MessageEvent)
+: boolean => (
+  event.source === iframe.contentWindow
+);
 
-  // NOTE: This utility is similar to the DeviceFingerprinting.js file used for V2 authentication flows.
-  generateDeviceFingerprint(oktaDomainUrl: string): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const userAgent = getUserAgent();
-      if (!userAgent) {
-        return reject('User agent is not defined');
-      } else if (isWindowsPhone(userAgent)) {
-        return reject('Device fingerprint is not supported on Windows phones');
+// NOTE: This utility is similar to the DeviceFingerprinting.js file used for V2 authentication flows.
+export const generateDeviceFingerprint = (oktaDomainUrl: string): Promise<string> => (
+  // eslint cannot detect that setTimeout() at end of function will eventually return with Error rejection
+  // eslint-disable-next-line consistent-return
+  new Promise((resolve, reject) => {
+    const userAgent = getUserAgent();
+    if (!userAgent) {
+      return reject(new Error('User agent is not defined'));
+    } if (isWindowsPhone(userAgent)) {
+      return reject(new Error('Device fingerprint is not supported on Windows phones'));
+    }
+
+    let iframe: HTMLIFrameElement;
+    let iframeTimeout: NodeJS.Timeout;
+    let onMessageReceivedFromOkta: (event: MessageEvent) => void;
+
+    const removeIframe = () => {
+      iframe.remove();
+      window.removeEventListener('message', onMessageReceivedFromOkta);
+    };
+
+    const handleError = (reason: string) => {
+      removeIframe();
+      return reject(new Error(reason));
+    };
+
+    const sendMessageToOkta = (message: { type: string }) => {
+      const win = iframe.contentWindow;
+
+      if (win) {
+        win.postMessage(JSON.stringify(message), oktaDomainUrl);
       }
+    };
 
-      let iframe: HTMLIFrameElement;
-      let iframeTimeout: NodeJS.Timeout;
-      const self = this;
-
-      const removeIframe = () => {
-        iframe.remove();
-        window.removeEventListener('message', onMessageReceivedFromOkta, false);
+    onMessageReceivedFromOkta = (event: MessageEvent) => {
+      if (!isMessageFromCorrectSource(iframe, event)) {
+        return;
       }
-
-      const handleError = (reason: string) => {
-        removeIframe();
-        reject(reason);
+      // deviceFingerprint service is available, clear timeout
+      clearTimeout(iframeTimeout);
+      if (!event || !event.data || event.origin !== oktaDomainUrl) {
+        handleError('No data');
       }
-      
-      const onMessageReceivedFromOkta = (event: MessageEvent) => {
-        if (!self.isMessageFromCorrectSource(iframe, event)) {
-          return;
-        }
-        // deviceFingerprint service is available, clear timeout
-        clearTimeout(iframeTimeout);
-        if (!event || !event.data || event.origin !== oktaDomainUrl) {
+      try {
+        const message = JSON.parse(event.data);
+
+        if (message && message.type === 'FingerprintServiceReady') {
+          sendMessageToOkta({
+            type: 'GetFingerprint',
+          });
+        } else if (message && message.type === 'FingerprintAvailable') {
+          removeIframe();
+          resolve(message.fingerprint);
+        } else {
           handleError('No data');
-          return;
         }
-        try {
-          const message = JSON.parse(event.data);
-
-          if (message && message.type === 'FingerprintServiceReady') {
-            sendMessageToOkta({
-              type: 'GetFingerprint',
-            });
-          } else if (message && message.type === 'FingerprintAvailable') {
-            removeIframe();
-            resolve(message.fingerprint);
-          } else {
-            handleError('No data');
-          }
-        } catch (error) {
-          //Ignore any errors since we could get other messages too
-        }
+      } catch (error) {
+        // Ignore any errors since we could get other messages too
       }
+    };
 
-      const sendMessageToOkta = (message: { type: string }) => {
-        const win = iframe.contentWindow;
+    // Attach listener
+    window.addEventListener('message', onMessageReceivedFromOkta, false);
+    iframe = document.createElement('iframe');
+    iframe.id = 'device-fingerprint-container';
+    iframe.style.display = 'none';
+    // Create and load devicefingerprint page inside the iframe
+    iframe.src = `${oktaDomainUrl}/auth/services/devicefingerprint`;
 
-        if (win) {
-          win.postMessage(JSON.stringify(message), oktaDomainUrl);
-        }
-      }
+    const formElement = document.querySelector('form[data-se="o-form"]');
+    if (formElement === null) {
+      handleError('Form does not exist');
+    }
+    formElement!.appendChild(iframe);
 
-      // Attach listener
-      window.addEventListener('message', onMessageReceivedFromOkta, false);
-      iframe = document.createElement('iframe');
-      iframe.id = 'device-fingerprint-container'
-      iframe.style.display = 'none';
-      // Create and load devicefingerprint page inside the iframe
-      iframe.src = oktaDomainUrl + '/auth/services/devicefingerprint';
-
-      const formElement = document.querySelector('form[data-se="o-form"]');
-      if (formElement === null) {
-        handleError('Form does not exist');
-      }
-      formElement!.appendChild(iframe);
-
-      iframeTimeout = setTimeout(() => {
-        // If the iframe does not load or there is a slow connection, throw an error
-        handleError('Service not available');
-      }, 2000);
-    });
-  }
-}; 
+    iframeTimeout = setTimeout(() => {
+      // If the iframe does not load or there is a slow connection, throw an error
+      handleError('Service not available');
+    }, 2000);
+  })
+);

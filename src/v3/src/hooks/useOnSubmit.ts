@@ -20,6 +20,7 @@ import {
 } from '@okta/okta-auth-js';
 import { cloneDeep, merge, omit } from 'lodash';
 import { useCallback } from 'preact/hooks';
+import { generateDeviceFingerprint } from 'src/util/deviceFingerprintingUtils';
 
 import { IDX_STEP, ON_PREM_TOKEN_CHANGE_ERROR_KEY } from '../constants';
 import { useWidgetContext } from '../contexts';
@@ -41,7 +42,6 @@ import {
   triggerRegistrationErrorMessages,
 } from '../util';
 import { getEventContext } from '../util/getEventContext';
-import DeviceFingerprintingUtils from 'src/util/deviceFingerprintingUtils';
 
 type OnSubmitHandlerOptions = {
   includeData?: boolean;
@@ -194,7 +194,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       }
     }
     // Login flows that mimic step up (moving forward in login pipeline) via internal api calls,
-    // need to clear stored stateHandles. 
+    // need to clear stored stateHandles.
     // This way the flow can maintain the latest state handle. For eg. Device probe calls
     if (step === IDX_STEP.CANCEL_TRANSACTION) {
       SessionStorage.removeStateHandle();
@@ -203,7 +203,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       const baseUrl = getBaseUrl(widgetProps);
       if (baseUrl) {
         // function should catch any errors and return undefined to avoid crashing here
-        const fingerprint = await DeviceFingerprintingUtils.generateDeviceFingerprint(baseUrl);
+        const fingerprint = await generateDeviceFingerprint(baseUrl);
         if (fingerprint) {
           authClient.http.setRequestHeader('X-Device-Fingerprint', fingerprint);
         }

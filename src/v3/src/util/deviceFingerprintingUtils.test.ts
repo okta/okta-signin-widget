@@ -1,4 +1,16 @@
-import DeviceFingerprintingUtils from './deviceFingerprintingUtils';
+/*
+ * Copyright (c) 2023-present, Okta, Inc. and/or its affiliates. All rights reserved.
+ * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
+ *
+ * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *
+ * See the License for the specific language governing permissions and limitations under the License.
+ */
+
+import * as DeviceFingerprintingUtils from './deviceFingerprintingUtils';
 
 describe('DeviceFingerprintingUtils', () => {
   const oktaDomainUrl = '';
@@ -7,24 +19,24 @@ describe('DeviceFingerprintingUtils', () => {
     const mockForm = document.createElement('form');
     mockForm.setAttribute('data-se', 'o-form');
     document.body.append(mockForm);
-  })
+  });
 
-  function mockIFrameMessages(success: boolean, errorMessage?: { type: string }) {
+  const mockIFrameMessages = (success: boolean, errorMessage?: { type: string }) => {
     const message = success
       ? { type: 'FingerprintAvailable', fingerprint: 'thisIsTheFingerprint' }
       : errorMessage;
 
     // TODO (jest): event is missing `origin` property
     window.postMessage(JSON.stringify(message), '*');
-  }
+  };
 
-  function mockUserAgent(userAgent: string) {
+  const mockUserAgent = (userAgent: string) => {
     jest.spyOn(navigator, 'userAgent', 'get').mockReturnValue(userAgent);
-  }
+  };
 
-  function bypassMessageSourceCheck() {
+  const bypassMessageSourceCheck = () => {
     jest.spyOn(DeviceFingerprintingUtils, 'isMessageFromCorrectSource').mockReturnValue(true);
-  }
+  };
 
   it('creates hidden iframe during fingerprint generation', async () => {
     mockIFrameMessages(true);
@@ -47,14 +59,11 @@ describe('DeviceFingerprintingUtils', () => {
   });
 
   it('fails if the iframe does not load', async () => {
-    try {
-      await DeviceFingerprintingUtils.generateDeviceFingerprint(oktaDomainUrl);
-      fail('Fingerprint promise should have been rejected');
-    } catch (reason) {
-      expect(reason).toBe('Service not available');
-      const iframe = document.getElementById('device-fingerprint-container');
-      expect(iframe).toBeNull();
-    }
+    await expect(DeviceFingerprintingUtils.generateDeviceFingerprint(oktaDomainUrl))
+      .rejects
+      .toThrow('Service not available');
+    const iframe = document.getElementById('device-fingerprint-container');
+    expect(iframe).toBeNull();
   });
 
   it('clears iframe timeout once the iframe loads', async () => {
@@ -63,63 +72,62 @@ describe('DeviceFingerprintingUtils', () => {
 
     const clearTimeoutSpy = jest.spyOn(window, 'clearTimeout');
 
-    return DeviceFingerprintingUtils.generateDeviceFingerprint(oktaDomainUrl)
-      .then(fingerprint => {
-        expect(fingerprint).toBe('thisIsTheFingerprint');
-        expect(clearTimeoutSpy).toHaveBeenCalled();
-      });
+    await expect(DeviceFingerprintingUtils.generateDeviceFingerprint(oktaDomainUrl))
+      .resolves
+      .toBe('thisIsTheFingerprint');
+    expect(clearTimeoutSpy).toHaveBeenCalled();
   });
 
   it('fails if there is a problem with communicating with the iframe', async () => {
     mockIFrameMessages(false);
     bypassMessageSourceCheck();
-    try {
-      await DeviceFingerprintingUtils.generateDeviceFingerprint(oktaDomainUrl);
-      fail('Fingerprint promise should have been rejected');
-    } catch (reason) {
-      expect(reason).toBe('No data');
-      const iframe = document.getElementById('device-fingerprint-container');
-      expect(iframe).toBeNull();
-    }
+
+    await expect(DeviceFingerprintingUtils.generateDeviceFingerprint(oktaDomainUrl))
+      .rejects
+      .toThrow('No data');
+    const iframe = document.getElementById('device-fingerprint-container');
+    expect(iframe).toBeNull();
   });
 
   it('fails if there iframe sends and invalid message content', async () => {
     mockIFrameMessages(false, { type: 'InvalidMessageType' });
     bypassMessageSourceCheck();
 
-    try {
-      await DeviceFingerprintingUtils.generateDeviceFingerprint(oktaDomainUrl);
-      fail('Fingerprint promise should have been rejected');
-    } catch (reason) {
-      expect(reason).toBe('No data');
-      const iframe = document.getElementById('device-fingerprint-container');
-      expect(iframe).toBeNull();
-    }
+    await expect(DeviceFingerprintingUtils.generateDeviceFingerprint(oktaDomainUrl))
+      .rejects
+      .toThrow('No data');
+    const iframe = document.getElementById('device-fingerprint-container');
+    expect(iframe).toBeNull();
   });
 
   it('fails if user agent is not defined', async () => {
     mockUserAgent('');
     mockIFrameMessages(true);
-    try {
-      await DeviceFingerprintingUtils.generateDeviceFingerprint(oktaDomainUrl);
-      fail('Fingerprint promise should have been rejected');
-    } catch (reason) {
-      expect(reason).toBe('User agent is not defined');
-      const iframe = document.getElementById('device-fingerprint-container');
-      expect(iframe).toBeNull();
-    }
+
+    await expect(DeviceFingerprintingUtils.generateDeviceFingerprint(oktaDomainUrl))
+      .rejects
+      .toThrow('User agent is not defined');
+    const iframe = document.getElementById('device-fingerprint-container');
+    expect(iframe).toBeNull();
   });
 
   it('fails if it is called from a Windows phone', async () => {
     mockUserAgent('Windows Phone');
     mockIFrameMessages(true);
-    try {
-      await DeviceFingerprintingUtils.generateDeviceFingerprint(oktaDomainUrl);
-      fail('Fingerprint promise should have been rejected');
-    } catch (reason) {
-      expect(reason).toBe('Device fingerprint is not supported on Windows phones');
-      const iframe = document.getElementById('device-fingerprint-container');
-      expect(iframe).toBeNull();
-    }
+
+    await expect(DeviceFingerprintingUtils.generateDeviceFingerprint(oktaDomainUrl))
+      .rejects
+      .toThrow('Device fingerprint is not supported on Windows phones');
+    const iframe = document.getElementById('device-fingerprint-container');
+    expect(iframe).toBeNull();
+  });
+
+  it('fails if it the iframe does not load or there is a slow connection', async () => {
+    // Not sending any mock messages should trigger a timeout
+    await expect(DeviceFingerprintingUtils.generateDeviceFingerprint(oktaDomainUrl))
+      .rejects
+      .toThrow('Service not available');
+    const iframe = document.getElementById('device-fingerprint-container');
+    expect(iframe).toBeNull();
   });
 });
