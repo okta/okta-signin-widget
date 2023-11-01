@@ -17,6 +17,7 @@ import config from 'config/config.json';
 import fetch from 'cross-fetch';
 import country from 'nls/country.json';
 import login from 'nls/login.json';
+import Q from 'q';
 import _ from 'underscore';
 import BrowserFeatures from 'util/BrowserFeatures';
 import Logger from 'util/Logger';
@@ -165,13 +166,13 @@ function fetchJson(bundle, language, assets) {
     .then(txt => JSON.parse(txt));
 }
 
-async function getBundles(language, assets, supportedLanguages) {
+function getBundles(language, assets, supportedLanguages) {
   // Two special cases:
   // 1. Default language is already bundled with the widget
   // 2. If the language is not in our config file, it means that they've
   //    probably defined it on their own.
   if (language === config.defaultLanguage || !_.contains(supportedLanguages, language)) {
-    return {};
+    return Q({});
   }
 
   //local storage does not work correctly with android web views (embeded browers)
@@ -182,25 +183,23 @@ async function getBundles(language, assets, supportedLanguages) {
     const cached = getCachedLanguages();
 
     if (cached[language]) {
-      return cached[language];
+      return Q(cached[language]);
     }
   }
 
-  try {
-    const [loginJson, countryJson] = await Promise.all([
-      fetchJson('login', language, assets),
-      fetchJson('country', language, assets)
-    ]);
-    if (localStorageIsSupported) {
-      addLanguageToCache(language, loginJson, countryJson);
-    }
-    return { login: loginJson, country: countryJson };
-  } catch(_e) {
-    // If there is an error, this will default to the bundled language and
-    // we will no longer try to load the language this session.
-    Logger.warn('Unable to load language: ' + language);
-    return {};
-  }
+  return Q.all([fetchJson('login', language, assets), fetchJson('country', language, assets)])
+    .spread(function(loginJson, countryJson) {
+      if (localStorageIsSupported) {
+        addLanguageToCache(language, loginJson, countryJson);
+      }
+      return { login: loginJson, country: countryJson };
+    })
+    .catch(function() {
+      // If there is an error, this will default to the bundled language and
+      // we will no longer try to load the language this session.
+      Logger.warn('Unable to load language: ' + language);
+      return {};
+    });
 }
 
 export default {
@@ -221,20 +220,21 @@ export default {
     this.currentLanguage = null;
   },
 
-  loadLanguage: async function(language: string, overrides: i18nOptions, assets: Assets, supportedLanguages: string[]): Promise<void> {
+  loadLanguage: function(language: string, overrides: i18nOptions, assets: Assets, supportedLanguages: string[]): Q.Promise<void> {
     const parsedOverrides = parseOverrides(overrides);
     const lowerCaseLanguage = language.toLowerCase();
-    const bundles = await getBundles(language, assets, supportedLanguages);
-    // Always extend from the built in defaults in the event that some
-    // properties are not translated
-    this.login = _.extend({}, login, bundles.login);
-    this.country = _.extend({}, country, bundles.country);
-    this.courage = _.extend({}, login, bundles.login);
-    if (parsedOverrides[lowerCaseLanguage]) {
-      _.extend(this.login, parsedOverrides[lowerCaseLanguage]['login']);
-      _.extend(this.country, parsedOverrides[lowerCaseLanguage]['country']);
-      _.extend(this.courage, parsedOverrides[lowerCaseLanguage]['login']);
-    }
-    this.currentLanguage = language;
+    return getBundles(language, assets, supportedLanguages).then(bundles => {
+      // Always extend from the built in defaults in the event that some
+      // properties are not translated
+      this.login = _.extend({}, login, bundles.login);
+      this.country = _.extend({}, country, bundles.country);
+      this.courage = _.extend({}, login, bundles.login);
+      if (parsedOverrides[lowerCaseLanguage]) {
+        _.extend(this.login, parsedOverrides[lowerCaseLanguage]['login']);
+        _.extend(this.country, parsedOverrides[lowerCaseLanguage]['country']);
+        _.extend(this.courage, parsedOverrides[lowerCaseLanguage]['login']);
+      }
+      this.currentLanguage = language;
+    });
   },
 };

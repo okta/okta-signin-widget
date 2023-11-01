@@ -31,7 +31,8 @@ global.DEBUG = false;
 
 expect.addSnapshotSerializer(createSerializer({ includeStyles: false }));
 
-jest.mock('util/loc', () => ({
+jest.mock('@okta/courage', () => ({
+  ...jest.requireActual('@okta/courage'),
   loc: jest.fn().mockImplementation(
     // eslint-disable-next-line no-unused-vars
     (key, bundle, params) => (mockBundles.login[key] ? key : new Error(`Invalid i18n key: ${key}`)),

@@ -24,7 +24,7 @@ import {
 } from '@okta/okta-auth-js';
 import { StateUpdater } from 'preact/hooks';
 
-import { getMessage } from '../../../v2/ion/i18nUtils';
+import { getMessage } from '../../../v2/ion/i18nTransformer';
 import {
   AUTHENTICATOR_KEY,
   CONSENT_HEADER_STEPS,

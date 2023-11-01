@@ -9,8 +9,7 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-import _ from 'underscore';
-import { loc } from '../../../util/loc';
+import { loc, _ } from '@okta/courage';
 import FactorUtil from 'util/FactorUtil';
 import { AUTHENTICATOR_KEY } from '../../ion/RemediationConstants';
 

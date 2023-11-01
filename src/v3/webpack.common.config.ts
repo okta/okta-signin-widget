@@ -41,14 +41,6 @@ const babelOptions = {
   ],
   plugins: [
     [
-      'babel-plugin-import',
-      {
-        libraryName: 'lodash',
-        libraryDirectory: '',
-        camel2DashComponentName: false,
-      },
-    ],
-    [
       '@babel/plugin-transform-react-jsx',
       {
         runtime: 'automatic',
@@ -98,6 +90,7 @@ const baseConfig: Partial<Configuration> = {
             // /src/ will be handled in next rule
             resolve(__dirname, '..'),
             '/node_modules/',
+            'packages/@okta/qtip2',
           ].some(filePathContains);
 
           return shallBeExcluded && !npmRequiresTransform;
@@ -140,13 +133,17 @@ const baseConfig: Partial<Configuration> = {
     extensions: ['.ts', '.js', '.tsx', '.jsx'],
     alias: {
       '@okta/okta-auth-js': resolve(__dirname, 'node_modules/@okta/okta-auth-js/esm/browser/exports/exports/idx.js'),
+      '@okta/courage': resolve(__dirname, '../../packages/@okta/courage-dist'),
       '@okta/mocks': resolve(__dirname, '../../playground/mocks'),
       '@okta/okta-i18n-bundles': resolve(__dirname, '../util/Bundles.ts'),
+      // needed because we use courage in src/util/locUtil.ts
+      '@okta/qtip': resolve(__dirname, '../../packages/@okta/qtip2/dist/jquery.qtip.js'),
+      'widgets/jquery.qtip': resolve(__dirname, '../../packages/@okta/qtip2/dist/jquery.qtip.css'),
 
       config: resolve(__dirname, '../config'),
       nls: resolve(__dirname, '../../packages/@okta/i18n/src/json'),
+      okta: resolve(__dirname, '../../packages/@okta/courage-dist'),
       src: resolve(__dirname, './src'), // FIXME OKTA-637372 use relative imports
-      'util/loc': resolve(__dirname, '../util/loc'),
       'util/BrowserFeatures': resolve(__dirname, '../util/BrowserFeatures'),
       'util/Bundles': resolve(__dirname, '../util/Bundles'),
       'util/Enums': resolve(__dirname, '../util/Enums'),
