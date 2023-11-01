@@ -186,6 +186,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
           <Typography
             paragraph
             id={`${iconName}-nickname`}
+            title={nickname}
             sx={{
               fontSize: '.875rem',
               margin: 0,
