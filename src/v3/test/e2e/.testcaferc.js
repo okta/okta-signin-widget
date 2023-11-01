@@ -10,7 +10,7 @@ module.exports = {
   },
   appCommand: 'test/e2e/start-app-e2e.sh',
   browsers: 'chrome:headless',
-  concurrency: 3,
+  concurrency: 1,
   assertionTimeout: 20000,
   reporter: [
     {
