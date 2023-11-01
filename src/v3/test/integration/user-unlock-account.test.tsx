@@ -25,18 +25,21 @@ describe('user-unlock-account', () => {
 
   it('should display client-side validation errors when trying to submit the flow without a username', async () => {
     const {
-      authClient, user, findAllByRole, findByText,
+      authClient, user, findByTestId, findAllByRole,
     } = await setup({ mockResponse });
 
-    const nextButton = await findByText('Next', { selector: 'button' });
-    user.click(nextButton);
+    await findByTestId('identifier') as HTMLInputElement;
+    const emailAuthenticatorButton = await findByTestId('okta_email');
 
+    await user.click(emailAuthenticatorButton);
     expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
     const [alertBox] = await findAllByRole('alert');
     within(alertBox).findByText(/We found some errors/);
+    const identifierError = await findByTestId('identifier-error');
+    expect(identifierError.textContent).toEqual('This field cannot be left blank');
   });
 
-  describe('send correct payload', () => {
+  describe('send corrent payload', () => {
     it('when select email authenticator', async () => {
       const {
         authClient, user, findByTestId, findByText,
@@ -46,10 +49,6 @@ describe('user-unlock-account', () => {
       const usernameEl = await findByTestId('identifier') as HTMLInputElement;
       await user.type(usernameEl, 'testuser@okta.com');
       expect(usernameEl.value).toEqual('testuser@okta.com');
-
-      const nextButton = await findByText('Next', { selector: 'button' });
-      user.click(nextButton);
-
       const emailAuthenticatorButton = await findByTestId('okta_email');
       await user.click(emailAuthenticatorButton);
       expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
@@ -72,10 +71,6 @@ describe('user-unlock-account', () => {
       const usernameEl = await findByTestId('identifier') as HTMLInputElement;
       await user.type(usernameEl, 'testuser@okta.com');
       expect(usernameEl.value).toEqual('testuser@okta.com');
-
-      const nextButton = await findByText('Next', { selector: 'button' });
-      user.click(nextButton);
-
       const phoneAuthenticatorButton = await findByTestId('phone_number');
       await user.click(phoneAuthenticatorButton);
       expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(

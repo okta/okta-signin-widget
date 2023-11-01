@@ -30,7 +30,6 @@ import Divider from '../Divider';
 import DuoWindow from '../DuoWindow';
 import Heading from '../Heading';
 import HiddenInput from '../HiddenInput';
-import IdentifierContainer from '../IdentifierContainer';
 import ImageWithText from '../ImageWithText';
 import InfoBox from '../InfoBox';
 import InformationalText from '../InformationalText';
@@ -214,9 +213,5 @@ export default [
   {
     tester: ({ type }) => type === 'CaptchaContainer',
     renderer: CaptchaContainer,
-  },
-  {
-    tester: ({ type }) => type === 'IdentifierContainer',
-    renderer: IdentifierContainer,
   },
 ] as Renderer[];

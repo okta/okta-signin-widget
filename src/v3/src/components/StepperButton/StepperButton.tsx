@@ -16,7 +16,6 @@ import { h } from 'preact';
 import { useStepperContext, useWidgetContext } from '../../contexts';
 import { useAutoFocus } from '../../hooks';
 import { StepperButtonElement, UISchemaElementComponent } from '../../types';
-import Spinner from '../Spinner';
 
 const StepperButton: UISchemaElementComponent<{
   uischema: StepperButtonElement
@@ -29,13 +28,11 @@ const StepperButton: UISchemaElementComponent<{
     options: {
       nextStepIndex,
       variant,
-      type,
     },
   } = uischema;
 
   const focusRef = useAutoFocus<HTMLButtonElement>(focus);
   const widgetContext = useWidgetContext();
-  const { loading } = widgetContext;
 
   const handleClick = () => {
     if (typeof nextStepIndex === 'function') {
@@ -49,13 +46,12 @@ const StepperButton: UISchemaElementComponent<{
     <Button
       onClick={handleClick}
       variant={variant ?? 'primary'}
-      type={type ?? 'button'}
+      type="button"
       fullWidth
       ref={focusRef}
       sx={{
         whiteSpace: 'normal',
       }}
-      startIcon={loading && <Spinner color="white" />}
       aria-describedby={ariaDescribedBy}
     >
       {label}
