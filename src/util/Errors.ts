@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { loc } from './loc';
+import { loc } from '@okta/courage';
 import Enums from './Enums';
 import { ErrorXHR, ErrorContextData } from '../types/errors';
 import { FlowIdentifier } from '@okta/okta-auth-js';

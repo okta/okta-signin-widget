@@ -10,7 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { loc } from './locUtil';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import * as oktaUtils from '@okta/courage';
+
+import { loc } from '.';
 
 describe('locUtil Tests', () => {
   const MockedBundle: Record<string, string> = {
@@ -21,10 +24,7 @@ describe('locUtil Tests', () => {
   };
 
   beforeEach(() => {
-    // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
-    const mockedLoc = require('util/loc');
-    mockedLoc.loc = jest.fn().mockImplementation(
-      // eslint-disable-next-line no-unused-vars
+    jest.spyOn(oktaUtils, 'loc').mockImplementation(
       (key, _, params) => MockedBundle[key].replace('{0}', params?.[0]),
     );
   });

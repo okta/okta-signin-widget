@@ -13,7 +13,7 @@
 import {
   getI18nKey,
   getI18NParams,
-} from '../../../../v2/ion/i18nUtils';
+} from '../../../../v2/ion/i18nTransformer';
 import {
   AuthenticatorButtonElement,
   AuthenticatorButtonListElement,

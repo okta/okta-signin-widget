@@ -15,7 +15,7 @@ import { IdxActionParams } from '@okta/okta-auth-js';
 import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 
-import { getMessageFromBrowserError } from '../../../../v2/ion/i18nUtils';
+import { getMessageFromBrowserError } from '../../../../v2/ion/i18nTransformer';
 import { useWidgetContext } from '../../contexts';
 import { useOnSubmit } from '../../hooks';
 import {
