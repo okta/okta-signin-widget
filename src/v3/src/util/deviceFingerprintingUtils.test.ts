@@ -130,4 +130,15 @@ describe('DeviceFingerprintingUtils', () => {
     const iframe = document.getElementById('device-fingerprint-container');
     expect(iframe).toBeNull();
   });
+
+  it('fails if it there is no form to attach the iframe to', async () => {
+    const form = document.querySelector('form[data-se="o-form"]');
+    expect(form).not.toBeNull();
+    document.body.removeChild(form!);
+    await expect(DeviceFingerprintingUtils.generateDeviceFingerprint(oktaDomainUrl))
+      .rejects
+      .toThrow('Form does not exist');
+    const iframe = document.getElementById('device-fingerprint-container');
+    expect(iframe).toBeNull();
+  });
 });
