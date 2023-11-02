@@ -15,8 +15,9 @@ const getDiffImageName = (imagePath) => {
   );
 };
 
+// eslint-disable-next-line complexity
 const compareScreenshot = async (testObject, name) => {
-  if(!testObject.testRun.opts.userVariables.gen3 || typeof testObject === 'undefined') {
+  if (!testObject.testRun.opts.userVariables.gen3 || typeof testObject === 'undefined') {
     return;
   }
   const escapeRegex = (s) => s.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
