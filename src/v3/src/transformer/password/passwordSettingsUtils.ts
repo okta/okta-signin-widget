@@ -39,7 +39,16 @@ export const getComplexityItems = (complexity?: ComplexityRequirements): ListIte
     return items;
   }
 
-  Object.entries(complexity).forEach(([key, value]) => {
+  let filteredComplexity: ComplexityRequirements = complexity;
+
+  // If useADComplexityRequirements is true, ignore casing, number, and symbol rules since AD validator handles those requirements
+  if (complexity.useADComplexityRequirements) {
+    const allowed = ['minLength', 'useADComplexityRequirements', 'excludeUsername', 'excludeFirstName',
+      'excludeLastName', 'excludeAttributes'];
+    filteredComplexity = Object.fromEntries(allowed.map(key => [key, complexity[key]]));
+  }
+
+  Object.entries(filteredComplexity).forEach(([key, value]) => {
     if (key === 'excludeAttributes' && Array.isArray(value) && value.length > 0) {
       value
         .filter((rule) => ['username', 'firstName', 'lastName'].includes(rule))

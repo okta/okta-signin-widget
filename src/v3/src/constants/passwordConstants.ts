@@ -20,6 +20,7 @@ export const PASSWORD_REQUIREMENTS_KEYS: Record<'complexity' | 'age', { [key: st
     excludeUsername: 'password.complexity.no_username.description',
     excludeFirstName: 'password.complexity.no_first_name.description',
     excludeLastName: 'password.complexity.no_last_name.description',
+    useADComplexityRequirements: 'password.complexity.adRequirements.description',
   },
   age: {
     minAgeMinutes: 'password.complexity.minAgeMinutes.description',

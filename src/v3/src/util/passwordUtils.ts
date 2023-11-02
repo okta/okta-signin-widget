@@ -26,6 +26,7 @@ const PasswordValidatorFunctionNames: Record<string, string> = Object.freeze({
   ExcludeFirstNameValidator: 'excludeFirstNameValidator',
   ExcludeLastNameValidator: 'excludeLastNameValidator',
   ExcludeAttributesValidator: 'excludeAttributesValidator',
+  UseADComplexityRequirementsValidator: 'useADComplexityRequirementsValidator',
 });
 
 const minLengthValidator = (password: string, limit: unknown): boolean => (
@@ -136,6 +137,22 @@ const excludeLastNameValidator = (
     : excludeAttributeValidator(password, ruleVal as boolean, userInfo.profile.lastName)
 );
 
+const useADComplexityRequirementsValidator = (
+  password: string,
+  ruleVal: unknown,
+): boolean => {
+  // AD password policy requires that at least 3 of the following validators are satisfied
+  const requiredValidators: ((password: string, limit: unknown) => boolean)[] = 
+    [minLowerCaseValidator, minUpperCaseValidator, minNumberValidator, minSymbolValidator];
+  
+  let numRequirementsMet: number = 0;
+  requiredValidators.map(validator => {
+    if (validator(password, ruleVal)) { numRequirementsMet += 1; }
+  })
+
+  return numRequirementsMet >= 3;
+};
+
 const ValidatorFunctions = {
   [PasswordValidatorFunctionNames.MinLengthValidator]: minLengthValidator,
   [PasswordValidatorFunctionNames.MinLowerCaseValidator]: minLowerCaseValidator,
@@ -145,6 +162,7 @@ const ValidatorFunctions = {
   [PasswordValidatorFunctionNames.ExcludeUsernameValidator]: excludeUsernameValidator,
   [PasswordValidatorFunctionNames.ExcludeFirstNameValidator]: excludeFirstNameValidator,
   [PasswordValidatorFunctionNames.ExcludeLastNameValidator]: excludeLastNameValidator,
+  [PasswordValidatorFunctionNames.UseADComplexityRequirementsValidator]: useADComplexityRequirementsValidator,
 };
 
 const excludeAttributes = (
@@ -188,7 +206,7 @@ export const validatePassword = (
         };
         return;
       }
-
+      
       const validationFn = ValidatorFunctions[`${rule}Validator`];
       if (!validationFn) {
         return;
