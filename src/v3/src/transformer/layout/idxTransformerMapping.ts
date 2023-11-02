@@ -15,6 +15,7 @@ import { isDevelopmentEnvironment, isTestEnvironment } from 'src/util';
 
 import { AUTHENTICATOR_KEY, CHALLENGE_METHOD, IDX_STEP } from '../../constants';
 import { transformIdentify } from '../identify';
+import { transformKeepMeSignedIn } from '../layout/keepMeSignedIn';
 import {
   transformAppleSsoExtension,
   transformOktaVerifyChannelSelection,
@@ -414,6 +415,16 @@ const TransformerMap: {
       transform: transformIdentityRecovery,
       buttonConfig: {
         showDefaultSubmit: false,
+      },
+    },
+  },
+  [IDX_STEP.KEEP_ME_SIGNED_IN]: {
+    [AUTHENTICATOR_KEY.DEFAULT]: {
+      transform: transformKeepMeSignedIn,
+      buttonConfig: {
+        showDefaultSubmit: false,
+        showDefaultCancel: false,
+        showReturnToAuthListLink: false,
       },
     },
   },
