@@ -217,7 +217,7 @@
     "stylelint-checkstyle-formatter": "^0.1.2",
     "stylelint-scss": "^3.20.1",
     "terser-webpack-plugin": "^5.2.4",
-    "testcafe": "^2.0.0",
+    "testcafe": "2.6.1",
     "time-grunt": "^2.0.0",
     "ts-node": "^10.9.1",
     "tsd": "^0.20.0",
