@@ -138,6 +138,7 @@
     "babel-jest": "^26.6.3",
     "babel-loader": "^8.2.5",
     "babel-plugin-add-module-exports": "^1.0.4",
+    "babel-plugin-import": "^1.13.8",
     "babel-plugin-istanbul": "^6.0.0",
     "babel-plugin-transform-amd-to-commonjs": "^1.5.0",
     "babel-plugin-tsconfig-paths-module-resolver": "^1.0.3",

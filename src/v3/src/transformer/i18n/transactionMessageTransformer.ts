@@ -12,7 +12,7 @@
 
 import { IdxTransaction } from '@okta/okta-auth-js';
 
-import { getMessage } from '../../../../v2/ion/i18nTransformer';
+import { getMessage } from '../../../../v2/ion/i18nUtils';
 
 export const transactionMessageTransformer = (transaction: IdxTransaction): void => {
   const { messages = [] } = transaction;

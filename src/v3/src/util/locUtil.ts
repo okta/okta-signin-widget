@@ -11,8 +11,7 @@
  */
 
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { loc as localize } from '@okta/courage';
-
+import { loc as localize } from '../../../util/loc';
 import { TokenReplacement } from '../types';
 
 /**
@@ -36,14 +35,14 @@ export const loc = (
     let updatedText = localizedText;
     Object.entries(tokenReplacement).forEach(([searchValue, replaceObj]) => {
       const searchRgx = new RegExp(`(<\\${searchValue}>)(.*)(</\\${searchValue}>)`);
-      const props: string | undefined = replaceObj.attributes
+      const props: string | undefined = replaceObj?.attributes
         && Object.entries(replaceObj.attributes)
           .map(([attrKey, attrVal]) => `${attrKey}="${attrVal}"`)
           .join(' ');
-      const openTag = `<${replaceObj.element}${(
+      const openTag = `<${replaceObj?.element}${(
         typeof props !== 'undefined' ? ` ${props}` : ''
       )}>`;
-      const closeTag = `</${replaceObj.element}>`;
+      const closeTag = `</${replaceObj?.element}>`;
       updatedText = updatedText.replace(searchRgx, `${openTag}$2${closeTag}`);
     });
     return updatedText;
