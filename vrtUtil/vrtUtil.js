@@ -20,6 +20,7 @@ const compareScreenshot = async (testObject, name) => {
   if (!testObject.testRun.opts.userVariables.gen3 || typeof testObject === 'undefined') {
     return;
   }
+  await testObject.resizeWindow(800, 800);
   const escapeRegex = (s) => s.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
   const testFixtureName = escapeRegex(testObject.testRun.test.testFile.currentFixture.name);
   const testName = escapeRegex(testObject.testRun.test.name);
