@@ -12,42 +12,13 @@
 
 import { Box, Icon } from '@okta/odyssey-react-mui';
 import classNames from 'classnames';
-import { FunctionComponent, h } from 'preact';
+import { h } from 'preact';
+import { IdentifierContainerElement, UISchemaElementComponent } from 'src/types';
 
-import { IDX_STEP } from '../../constants';
-import { useWidgetContext } from '../../contexts';
-
-const shouldHideIdentifier = (
-  showIdentifier?: boolean,
-  identifier?: string,
-  stepName?: string,
-): boolean => {
-  const excludedSteps = [IDX_STEP.IDENTIFY, IDX_STEP.CONSENT_ADMIN];
-  // Should not display identifier here because if invalid identifier
-  // is used, introspect includes the invalid name in user context
-  if (typeof stepName !== 'undefined' && excludedSteps.includes(stepName)) {
-    return true;
-  }
-
-  if (showIdentifier === false) {
-    return true;
-  }
-
-  if (!identifier) {
-    return true;
-  }
-
-  return false;
-};
-
-const IdentifierContainer: FunctionComponent = () => {
-  const { widgetProps: { features }, idxTransaction } = useWidgetContext();
-  const identifier: string | undefined = idxTransaction
-    ?.context?.user?.value?.identifier as string;
-
-  if (shouldHideIdentifier(features?.showIdentifier, identifier, idxTransaction?.nextStep?.name)) {
-    return null;
-  }
+const IdentifierContainer: UISchemaElementComponent<{
+  uischema: IdentifierContainerElement
+}> = ({ uischema }) => {
+  const { options: { identifier } } = uischema;
 
   const mainContainerClasses = classNames('identifier-container');
   const identifierSpanClasses = classNames('identifier', 'no-translate');
