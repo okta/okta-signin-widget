@@ -12,6 +12,8 @@ import {
 } from '../src/types';
 import { assertNoEnglishLeaks } from '../playground/LocaleUtils';
 
+type AdditionalHooks = [event: 'ready' | 'afterRender' | 'afterError', handler: () => void];
+
 declare global {
   const IE11_COMPAT_MODE: boolean;
 
@@ -29,9 +31,9 @@ declare global {
     createWidgetInstance: (options: WidgetOptions) => OktaSignInAPI;
     renderPlaygroundWidget: (options: WidgetOptions) => void;
     additionalOptions?: Partial<WidgetOptions>;
+    additionalHooks?: AdditionalHooks[];
   }
 }
-
 
 function isSuccessNonOIDC(res: RenderResult): res is RenderResultSuccessNonOIDCSession {
   return (res as RenderResultSuccessNonOIDCSession).session !== undefined;
@@ -153,6 +155,22 @@ const renderPlaygroundWidget = (options = {}) => {
     console.log(JSON.stringify(error));
   });
 
+  (window?.additionalHooks ?? []).forEach((hook: AdditionalHooks) => {
+    const [event, handler] = hook;
+    // typescript made me do it
+    switch (event) {
+      case 'ready':
+        signIn.on('ready', handler);
+        break;
+      case 'afterRender':
+        signIn.on('afterRender', handler);
+        break;
+      case 'afterError':
+        signIn.on('afterError', handler);
+        break;
+      default: break;   // no
+    }
+  });
 };
 
 window.getWidgetInstance = getWidgetInstance;

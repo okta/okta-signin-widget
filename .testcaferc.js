@@ -43,6 +43,9 @@ const mocks = RequestMock()
   .onRequestTo({ url: regex`/oauth2/default/v1/interact` })
   .respond(require('./playground/mocks/data/oauth2/interact.json'))
 
+  .onRequestTo({ url: regex`oauth2/default/.well-known/openid-configuration` })
+  .respond(require('./playground/mocks/data/oauth2/well-known-openid-configuration.json'))
+
   .onRequestTo({ url: regex`/sso/idps/facebook-123` })
   .respond('');
 
@@ -64,7 +67,8 @@ const config = {
   browsers: [ 'chrome:headless' ],
   clientScripts: [
     { module: 'axe-core/axe.min.js' },
-    { module: '@testing-library/dom/dist/@testing-library/dom.umd.js' }
+    { module: '@testing-library/dom/dist/@testing-library/dom.umd.js' },
+    'test/testcafe/framework/clientScripts.js'
   ],
   src: [ 'test/testcafe/spec/*_spec.js' ],
   hooks: {

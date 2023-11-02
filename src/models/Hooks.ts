@@ -24,7 +24,37 @@ export default class Hooks extends Model {
 
   getHook(formName: string): HookDefinition {
     const hooks: HooksOptions = this.get('hooks') || {};
-    return hooks[formName]; // may be undefined
+    let result = undefined;   // original implementation returned undefined by default
+
+    // always include hooks bound globally
+    const globalHooks = hooks['*'];
+    if (globalHooks) {
+      result = {...globalHooks};
+      // bind the formName as the first argument of the event handler fn
+      // specific handlers get passed no argument
+      if (result.before) {
+        result.before = result.before.map(fn => fn.bind(null, formName));
+      }
+      if (result.after) {
+        result.after = result.after.map(fn => fn.bind(null, formName));
+      }
+    }
+
+    // merge formName-specific hooks with global hooks
+    if (hooks?.[formName]?.before) {
+      result = {
+        ...(result ?? {} ),
+        before: [...(result?.before ?? []), ...hooks?.[formName]?.before]
+      };
+    }
+    if (hooks?.[formName]?.after) {
+      result = {
+        ...(result ?? {} ),
+        after: [...(result?.after ?? []), ...hooks?.[formName]?.after]
+      };
+    }
+
+    return result;    // defaults to undefined
   }
   
 }
