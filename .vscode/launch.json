@@ -49,7 +49,7 @@
         "OKTA_SIW_GEN3": "true"
       },
       "args": [
-          "\"chrome --force-device-scale-factor=1\"",
+          "\"chrome --force-device-scale-factor=1 '--window-size=800,900'\"",
           "${relativeFile}",
           "--browser-init-timeout",
           "1000000",
@@ -73,7 +73,7 @@
         "UPDATE_SCREENSHOTS": "true",
       },
       "args": [
-          "\"chrome --force-device-scale-factor=1\"",
+          "\"chrome --force-device-scale-factor=1 '--window-size=800,900'\"",
           "${relativeFile}",
           "--browser-init-timeout",
           "1000000",

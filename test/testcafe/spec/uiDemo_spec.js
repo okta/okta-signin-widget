@@ -2,6 +2,8 @@ import { RequestMock } from 'testcafe';
 import UiDemoPageObject from '../framework/page-objects/UiDemoPageObject';
 import uiDemoResponse from '../../../playground/mocks/data/idp/idx/_ui-demo.json';
 
+import compareScreenshot from '../../../vrtUtil/vrtUtil';
+
 const uiDemoMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(uiDemoResponse);
@@ -22,7 +24,7 @@ test
     // freeze the spinner element so screenshots are consistent
     await pageObject.stopSpinnerAnimation();
 
-    await t.customActions.compareScreenshot('one');
+    await compareScreenshot(t, 'one');
     // this method scrolls down the height of the window to capture screenshots further down the page
     await pageObject.scrollToNextPage();
 
@@ -30,11 +32,11 @@ test
     // causing inconsistent screenshots
     await pageObject.hideProgressBar();
 
-    await t.customActions.compareScreenshot('two');
+    await compareScreenshot(t, 'two');
     await pageObject.scrollToNextPage();
 
-    await t.customActions.compareScreenshot('three');
+    await compareScreenshot(t, 'three');
     await pageObject.scrollToNextPage();
 
-    await t.customActions.compareScreenshot('four');
+    await compareScreenshot(t, 'four');
   });

@@ -100,7 +100,7 @@
     "copy:types": "grunt copy:types",
     "build:types": "yarn clean:types && yarn generate:types && yarn copy:types",
     "test:parity-setup": "mkdir -p test-reports/testcafe && yarn generate-config && yarn workspace v3 dev",
-    "test:parity-run": "OKTA_SIW_GEN3=true yarn testcafe -c 2 \"chrome:headless --force-device-scale-factor=1\" --reporter spec,xunit:build2/reports/junit/testcafe-results.xml",
+    "test:parity-run": "OKTA_SIW_GEN3=true yarn testcafe -c 2 \"chrome:headless --force-device-scale-factor=1 '--window-size=800,900'\" --reporter spec,xunit:build2/reports/junit/testcafe-results.xml",
     "test:parity-ci": "OKTA_SIW_SKIP_FLAKY=true yarn codegen && run-p -r test:parity-setup test:parity-run",
     "test:parity-ci-flaky": "OKTA_SIW_GEN3=true OKTA_SIW_ONLY_FLAKY=true yarn test:parity-ci"
   },
@@ -210,7 +210,7 @@
     "stylelint-checkstyle-formatter": "^0.1.2",
     "stylelint-scss": "^3.20.1",
     "terser-webpack-plugin": "^5.2.4",
-    "testcafe": "^3.3.0",
+    "testcafe": "^1.20.1",
     "time-grunt": "^2.0.0",
     "ts-node": "^10.9.1",
     "tsd": "^0.20.0",

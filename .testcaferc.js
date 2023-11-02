@@ -1,6 +1,5 @@
 const { readFileSync } = require('fs');
 const { RequestMock } = require('testcafe');
-const doVisualRegression = require('./vrtUtil/vrtUtil.js');
 
 /**
  * Escapes special regex chars in string so it can be used as the pattern for
@@ -72,7 +71,7 @@ const config = {
   hooks: { request: mocks, },
   userVariables: {
     gen3: env.OKTA_SIW_GEN3,
-    updateScreenshots: env.updateScreenshots,
+    updateScreenshots: env.UPDATE_SCREENSHOTS,
   },
   // OKTA-575629 Remove this when gen3 parity test flakiness is resolved
   ...(env.OKTA_SIW_GEN3 && {
@@ -129,13 +128,6 @@ const config = {
   },
   screenshots: {
     thumbnails: false,
-  },
-  customActions: {
-    async compareScreenshot(name) {
-      if (env.OKTA_SIW_GEN3) {
-        await doVisualRegression(this, name, env.UPDATE_SCREENSHOTS);
-      }
-    },
   },
 }
 
