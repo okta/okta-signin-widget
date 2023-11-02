@@ -102,7 +102,10 @@
     "test:parity-setup": "mkdir -p test-reports/testcafe && yarn generate-config && yarn workspace v3 dev",
     "test:parity-run": "OKTA_SIW_GEN3=true yarn testcafe -c 2 \"chrome:headless --force-device-scale-factor=1\" --reporter spec,xunit:build2/reports/junit/testcafe-results.xml",
     "test:parity-ci": "OKTA_SIW_SKIP_FLAKY=true yarn codegen && run-p -r test:parity-setup test:parity-run",
-    "test:parity-ci-flaky": "OKTA_SIW_GEN3=true OKTA_SIW_ONLY_FLAKY=true yarn test:parity-ci"
+    "test:parity-ci-flaky": "OKTA_SIW_GEN3=true OKTA_SIW_ONLY_FLAKY=true yarn test:parity-ci",
+    "test:parity-identify": "OKTA_SIW_GEN3=true yarn testcafe \"chrome:headless:emulation:width=900;height=900 --force-device-scale-factor=1\" --reporter spec,xunit:build2/reports/junit/testcafe-results.xml test/testcafe/spec/Identify_spec.js",
+    "test:vrt": "OKTA_SIW_GEN3=true yarn workspace vrt test",
+    "test:vrt-ci": "OKTA_SIW_SKIP_FLAKY=true yarn codegen && run-p -r test:parity-setup test:vrt"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.6",
@@ -210,7 +213,7 @@
     "stylelint-checkstyle-formatter": "^0.1.2",
     "stylelint-scss": "^3.20.1",
     "terser-webpack-plugin": "^5.2.4",
-    "testcafe": "2.6.1",
+    "testcafe": "^1.20.1",
     "time-grunt": "^2.0.0",
     "ts-node": "^10.9.1",
     "tsd": "^0.20.0",
@@ -274,7 +277,8 @@
       "playground",
       "playground/mocks",
       "packages/@okta/courage-dist",
-      "src/v3"
+      "src/v3",
+      "test/vrt"
     ],
     "nohoist": [
       "**/@wdio/**",
