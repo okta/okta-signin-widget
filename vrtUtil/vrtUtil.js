@@ -16,7 +16,7 @@ const getDiffImageName = (imagePath) => {
 };
 
 const compareScreenshot = async (testObject, name) => {
-  if(typeof testObject === 'undefined') {
+  if(!testObject.testRun.opts.userVariables.gen3 || typeof testObject === 'undefined') {
     return;
   }
   const escapeRegex = (s) => s.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
