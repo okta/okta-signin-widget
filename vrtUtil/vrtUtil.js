@@ -15,15 +15,13 @@ const getDiffImageName = (imagePath) => {
   );
 };
 
-const doVisualRegression = async (testObject, name, updateScreenshot) => {
-  // set window size so screenshots are consistent
-  await testObject.resizeWindow(800, 800);
+const compareScreenshot = async (testObject, name) => {
   if(typeof testObject === 'undefined') {
     return;
   }
   const escapeRegex = (s) => s.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
-  const testFixtureName = escapeRegex(testObject.fixture.name);
-  const testName = escapeRegex(testObject.test.name);
+  const testFixtureName = escapeRegex(testObject.testRun.test.testFile.currentFixture.name);
+  const testName = escapeRegex(testObject.testRun.test.name);
   const screenShotName = (typeof name === 'string' ? `${testName}_${name}` : testName).replace(/ /g,'_');
 
   // take actual screenshot
@@ -42,9 +40,11 @@ const doVisualRegression = async (testObject, name, updateScreenshot) => {
   const isActualScreenshotTaken = fs.existsSync(actualScreenshotAbsolutePath);
   const isBaseScreenshotTaken = fs.existsSync(baseScreenshotAbsolutePath);
 
-  const shouldUpdateScreenShot = updateScreenshot
-    || testObject.test.meta.updateScreenshots 
-    || testObject.fixture.meta.updateScreenshots;
+  // updateScreenshots flag can be from test/fixture metadata 
+  // or passed into userVariables from the UPDATE_SCREENSHOTS env var
+  const shouldUpdateScreenShot = testObject.testRun.test.meta.updateScreenshots 
+    || testObject.testRun.test.testFile.currentFixture.meta.updateScreenshots
+    || testObject.testRun.opts.userVariables.updateScreenshots;
 
   if (!isBaseScreenshotTaken || shouldUpdateScreenShot) {
     // take base screenshot
@@ -74,4 +74,4 @@ const doVisualRegression = async (testObject, name, updateScreenshot) => {
   }
 };
 
-module.exports = doVisualRegression;
+module.exports = compareScreenshot;

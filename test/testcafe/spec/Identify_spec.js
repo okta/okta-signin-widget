@@ -12,6 +12,7 @@ import xhrIdentifyWithUser from '../../../playground/mocks/data/idp/idx/identify
 import xhrErrorIdentifyMultipleErrors from '../../../playground/mocks/data/idp/idx/error-identify-multiple-errors';
 
 import config from '../../../src/config/config.json';
+import compareScreenshot from '../../../vrtUtil/vrtUtil';
 
 const baseIdentifyMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -159,7 +160,7 @@ test.requestHooks(identifyMock)('should show errors if required fields are empty
   await checkA11y(t);
   await identityPage.clickNextButton();
   await identityPage.waitForErrorBox();
-  await t.customActions.compareScreenshot();
+  await compareScreenshot(t);
 
   await t.expect(identityPage.getIdentifierErrorMessage()).eql('This field cannot be left blank');
 });
@@ -211,7 +212,7 @@ test.requestHooks(identifyMock)('should have correct display text', async t => {
   // i18n values can be tested here.
   const identityPage = await setup(t);
   await checkA11y(t);
-  await t.customActions.compareScreenshot();
+  await compareScreenshot(t);
 
   const identityPageTitle = identityPage.getFormTitle();
   await t.expect(identityPageTitle).eql('Sign In');
@@ -308,7 +309,7 @@ test.meta('gen3', false).requestHooks(identifyRequestLogger, identifyMock)('shou
 test.requestHooks(identifyWithUnlockMock)('should render custom Unlock account link', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
-  await t.customActions.compareScreenshot();
+  await compareScreenshot(t);
   const customUnlockLinkText = 'HELP I\'M LOCKED OUT';
 
   await rerenderWidget({
