@@ -2824,6 +2824,19 @@
   resolved "https://registry.npmjs.org/@devexpress/bin-v8-flags-filter/-/bin-v8-flags-filter-1.3.0.tgz#3069f2525c0c5fb940810e9ec10fc592c47552db"
   integrity sha512-LWLNfYGwVJKYpmHUDoODltnlqxdEAl5Qmw7ha1+TSpsABeF94NKSWkQTTV1TB4CM02j2pZyqn36nHgaFl8z7qw==
 
+"@devexpress/callsite-record@^4.1.6":
+  version "4.1.7"
+  resolved "https://registry.npmjs.org/@devexpress/callsite-record/-/callsite-record-4.1.7.tgz#045ece71df8c574d7adc15c75eeaac6c6ca6c97d"
+  integrity sha512-qr3VQYc0KopduFkEY6SxaOIi1Xhm0jIWQfrxxMVboI/p2rjF/Mj/iqaiUxQQP6F3ujpW/7l0mzhf17uwcFZhBA==
+  dependencies:
+    "@types/lodash" "^4.14.72"
+    callsite "^1.0.0"
+    chalk "^2.4.0"
+    error-stack-parser "^2.1.4"
+    highlight-es "^1.0.0"
+    lodash "4.6.1 || ^4.16.1"
+    pinkie-promise "^2.0.0"
+
 "@devexpress/error-stack-parser@^2.0.6":
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/@devexpress/error-stack-parser/-/error-stack-parser-2.0.6.tgz#a7c32e54583566bc6abf153c32a8b86d87d1e490"
@@ -7268,7 +7281,7 @@ chrome-remote-interface@^0.30.0:
     commander "2.11.x"
     ws "^7.2.0"
 
-chrome-remote-interface@^0.32.1:
+chrome-remote-interface@^0.32.2:
   version "0.32.2"
   resolved "https://registry.npmjs.org/chrome-remote-interface/-/chrome-remote-interface-0.32.2.tgz#4c494b9d074997b45d49137232df48a355189278"
   integrity sha512-3UbFKtEmqApehPQnqdblcggx7KveQphEMKQmdJZsOguE9ylw2N2/9Z7arO7xS55+DBJ/hyP8RrayLt4MMdJvQg==
@@ -9316,7 +9329,7 @@ error-ex@^1.2.0, error-ex@^1.3.1:
   dependencies:
     is-arrayish "^0.2.1"
 
-error-stack-parser@*:
+error-stack-parser@*, error-stack-parser@^2.1.4:
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/error-stack-parser/-/error-stack-parser-2.1.4.tgz#229cb01cdbfa84440bfa91876285b94680188286"
   integrity sha512-Sk5V6wVazPhq5MhpO+AUxJn5x7XSXGl1R93Vn7i+zS15KDVxQijejNCrz8340/2bgLBjR9GtEG8ZVKONDjcqGQ==
@@ -9991,10 +10004,10 @@ esotope-hammerhead@0.6.2:
   dependencies:
     "@types/estree" "0.0.46"
 
-esotope-hammerhead@0.6.5:
-  version "0.6.5"
-  resolved "https://registry.npmjs.org/esotope-hammerhead/-/esotope-hammerhead-0.6.5.tgz#1de536b22ab08044ee055f504053eca9335c3843"
-  integrity sha512-vjncN4nG+RvsUNFC0idHNw1Xzse8GUWn15tr8In0Q4EBscnELTdpQVfsF/cRsMlvSbJdd0gUrW6gK5U+LTmVCg==
+esotope-hammerhead@0.6.4:
+  version "0.6.4"
+  resolved "https://registry.npmjs.org/esotope-hammerhead/-/esotope-hammerhead-0.6.4.tgz#e3b8ae5fbe5954aafc5bf507b8399560500be8b0"
+  integrity sha512-QY4HXqvjLSFGoGgHvm3H1QUMNcpwnUpGRBaVVFWE5uqbPQh9HSWcA1YD7KwwL/IrgerDwZn00z5dtYT9Ot/C/A==
   dependencies:
     "@types/estree" "0.0.46"
 
@@ -14025,23 +14038,7 @@ jsonpath-plus@^6.0.1:
   resolved "https://registry.yarnpkg.com/jsonpath-plus/-/jsonpath-plus-6.0.1.tgz#9a3e16cedadfab07a3d8dc4e8cd5df4ed8f49c4d"
   integrity sha512-EvGovdvau6FyLexFH2OeXfIITlgIbgZoAZe3usiySeaIDm5QS+A10DKNpaPBBqqRSZr2HN6HVNXxtwUAr2apEw==
 
-jsonwebtoken@^8.5.1:
-  version "8.5.1"
-  resolved "https://registry.npmjs.org/jsonwebtoken/-/jsonwebtoken-8.5.1.tgz#00e71e0b8df54c2121a1f26137df2280673bcc0d"
-  integrity sha512-XjwVfRS6jTMsqYs0EsuJ4LGxXV14zQybNd4L2r0UvbVnSF9Af8x7p5MzbJ90Ioz/9TI41/hTCvznF/loiSzn8w==
-  dependencies:
-    jws "^3.2.2"
-    lodash.includes "^4.3.0"
-    lodash.isboolean "^3.0.3"
-    lodash.isinteger "^4.0.4"
-    lodash.isnumber "^3.0.3"
-    lodash.isplainobject "^4.0.6"
-    lodash.isstring "^4.0.1"
-    lodash.once "^4.0.0"
-    ms "^2.1.1"
-    semver "^5.6.0"
-
-jsonwebtoken@^9.0.0:
+jsonwebtoken@^8.5.1, jsonwebtoken@^9.0.0:
   version "9.0.0"
   resolved "https://registry.yarnpkg.com/jsonwebtoken/-/jsonwebtoken-9.0.0.tgz#d0faf9ba1cc3a56255fe49c0961a67e520c1926d"
   integrity sha512-tuGfYXxkQGDPnLJ7SibiQgVgeDgfbPq2k2ICcbgqW8WxWLBAxKQM/ZCu/IT8SOSwmaYl4dpTFCW5xZv7YbbWUw==
@@ -14561,35 +14558,15 @@ lodash.get@^4.4.2:
   resolved "https://registry.yarnpkg.com/lodash.get/-/lodash.get-4.4.2.tgz#2d177f652fa31e939b4438d5341499dfa3825e99"
   integrity sha1-LRd/ZS+jHpObRDjVNBSZ36OCXpk=
 
-lodash.includes@^4.3.0:
-  version "4.3.0"
-  resolved "https://registry.npmjs.org/lodash.includes/-/lodash.includes-4.3.0.tgz#60bb98a87cb923c68ca1e51325483314849f553f"
-  integrity sha512-W3Bx6mdkRTGtlJISOvVD/lbqjTlPPUDTMnlXZFnVwi9NKJ6tiAk6LVdlhZMm17VZisqhKcgzpO5Wz91PCt5b0w==
-
 lodash.isarray@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/lodash.isarray/-/lodash.isarray-4.0.0.tgz#2aca496b28c4ca6d726715313590c02e6ea34403"
   integrity sha512-V8ViWvoNlXpCrB6Ewaj3ScRXUpmCvqp4tJUxa3dlovuJj/8lp3SND5Kw4v5OeuHgoyw4qJN+gl36qZqp6WYQ6g==
 
-lodash.isboolean@^3.0.3:
-  version "3.0.3"
-  resolved "https://registry.npmjs.org/lodash.isboolean/-/lodash.isboolean-3.0.3.tgz#6c2e171db2a257cd96802fd43b01b20d5f5870f6"
-  integrity sha512-Bz5mupy2SVbPHURB98VAcw+aHh4vRV5IPNhILUCsOzRmsTmSQ17jIuqopAentWoehktxGd9e/hbIXq980/1QJg==
-
 lodash.isfinite@^3.3.2:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/lodash.isfinite/-/lodash.isfinite-3.3.2.tgz#fb89b65a9a80281833f0b7478b3a5104f898ebb3"
   integrity sha512-7FGG40uhC8Mm633uKW1r58aElFlBlxCrg9JfSi3P6aYiWmfiWF0PgMd86ZUsxE5GwWPdHoS2+48bwTh2VPkIQA==
-
-lodash.isinteger@^4.0.4:
-  version "4.0.4"
-  resolved "https://registry.npmjs.org/lodash.isinteger/-/lodash.isinteger-4.0.4.tgz#619c0af3d03f8b04c31f5882840b77b11cd68343"
-  integrity sha512-DBwtEWN2caHQ9/imiNeEA5ys1JoRtRfY3d7V9wkqtbycnAmTvRRmbHKDV4a0EYc678/dia0jrte4tjYwVBaZUA==
-
-lodash.isnumber@^3.0.3:
-  version "3.0.3"
-  resolved "https://registry.npmjs.org/lodash.isnumber/-/lodash.isnumber-3.0.3.tgz#3ce76810c5928d03352301ac287317f11c0b1ffc"
-  integrity sha512-QYqzpfwO3/CWf3XP+Z+tkQsfaLL/EnUlXWVkIk5FUPc4sBdTehEqZONuyRt2P67PXAk+NXmTBcc97zw9t1FQrw==
 
 lodash.isobject@^3.0.2:
   version "3.0.2"
@@ -14600,11 +14577,6 @@ lodash.isplainobject@^4.0.6:
   version "4.0.6"
   resolved "https://registry.yarnpkg.com/lodash.isplainobject/-/lodash.isplainobject-4.0.6.tgz#7c526a52d89b45c45cc690b88163be0497f550cb"
   integrity sha512-oSXzaWypCMHkPC3NvBEaPHf0KsA5mvPrOPgQWDsbg8n7orZ290M0BmC/jgRZ4vcJ6DTAhjrsSYgdsW/F+MFOBA==
-
-lodash.isstring@^4.0.1:
-  version "4.0.1"
-  resolved "https://registry.npmjs.org/lodash.isstring/-/lodash.isstring-4.0.1.tgz#d527dfb5456eca7cc9bb95d5daeaf88ba54a5451"
-  integrity sha512-0wJxfxH1wgO3GrbuP+dTTk7op+6L41QCXbGINEmD+ny/G/eCqGzxyCsh7159S+mgDDcoarnBw6PC1PS5+wUGgw==
 
 lodash.keys@^4.2.0:
   version "4.2.0"
@@ -14630,11 +14602,6 @@ lodash.mergewith@^4.6.2:
   version "4.6.2"
   resolved "https://registry.yarnpkg.com/lodash.mergewith/-/lodash.mergewith-4.6.2.tgz#617121f89ac55f59047c7aec1ccd6654c6590f55"
   integrity sha512-GK3g5RPZWTRSeLSpgP8Xhra+pnjBC56q9FZYe1d5RN3TJ35dbkGy3YqBSMbyCrlbi+CM9Z3Jk5yTL7RCsqboyQ==
-
-lodash.once@^4.0.0:
-  version "4.1.1"
-  resolved "https://registry.npmjs.org/lodash.once/-/lodash.once-4.1.1.tgz#0dd3971213c7c56df880977d504c88fb471a97ac"
-  integrity sha512-Sb487aTOCr9drQVL8pIxOzVhafOjZN9UU54hiN8PU3uAiSV7lx1yYNpbNmex2PK6dSJoNTSJUUswT651yww3Mg==
 
 lodash.pickby@^4.6.0:
   version "4.6.0"
@@ -20007,10 +19974,10 @@ testcafe-browser-tools@2.0.23:
     read-file-relative "^1.2.0"
     which-promise "^1.0.0"
 
-testcafe-browser-tools@2.0.25:
-  version "2.0.25"
-  resolved "https://registry.npmjs.org/testcafe-browser-tools/-/testcafe-browser-tools-2.0.25.tgz#9721f9ba7024a1c95ca4675554cf9477d792edd2"
-  integrity sha512-LK/ZOJUwnpjdJl131qrBN0toCv2wZj2Elb8UPTU71n9Woq7kZtGine4P5XvvvO7mE8bjBfWJOBW9jRhHxyIWzQ==
+testcafe-browser-tools@2.0.26:
+  version "2.0.26"
+  resolved "https://registry.npmjs.org/testcafe-browser-tools/-/testcafe-browser-tools-2.0.26.tgz#38b5c0c2cd438895de12ee53cae11c64bd33aab9"
+  integrity sha512-nTKSJhBzn9BmnOs0xVzXMu8dN2Gu13Ca3x3SJr/zF6ZdKjXO82JlbHu55dt5MFoWjzAQmwlqBkSxPaYicsTgUw==
   dependencies:
     array-find "^1.0.0"
     debug "^4.3.1"
@@ -20060,6 +20027,37 @@ testcafe-hammerhead@24.7.2:
     tunnel-agent "0.6.0"
     webauth "^1.1.0"
 
+testcafe-hammerhead@31.6.1:
+  version "31.6.1"
+  resolved "https://registry.npmjs.org/testcafe-hammerhead/-/testcafe-hammerhead-31.6.1.tgz#181fe81cf10bd43115087d004dc6c2cad0d02f35"
+  integrity sha512-tMdF183bTL+hMNzIdUUNpg32T2hlwaI9CEXxOJpgg6VnzCpy1RDV5+wcIJB1ywhs6cdd5ltQZuaHrm1tWbyR1A==
+  dependencies:
+    "@adobe/css-tools" "^4.3.0-rc.1"
+    "@electron/asar" "^3.2.3"
+    acorn-hammerhead "0.6.2"
+    bowser "1.6.0"
+    crypto-md5 "^1.0.0"
+    debug "4.3.1"
+    esotope-hammerhead "0.6.4"
+    http-cache-semantics "^4.1.0"
+    httpntlm "^1.8.10"
+    iconv-lite "0.5.1"
+    lodash "^4.17.20"
+    lru-cache "2.6.3"
+    match-url-wildcard "0.0.4"
+    merge-stream "^1.0.1"
+    mime "~1.4.1"
+    mustache "^2.1.1"
+    nanoid "^3.1.12"
+    os-family "^1.0.0"
+    parse5 "^7.1.2"
+    pinkie "2.0.4"
+    read-file-relative "^1.2.0"
+    semver "7.5.3"
+    tough-cookie "4.1.3"
+    tunnel-agent "0.6.0"
+    ws "^7.4.6"
+
 testcafe-hammerhead@>=19.4.0:
   version "28.2.1"
   resolved "https://registry.yarnpkg.com/testcafe-hammerhead/-/testcafe-hammerhead-28.2.1.tgz#34ea72aa0c9e5c608bd563eb59f940dd4db4dab5"
@@ -20089,37 +20087,6 @@ testcafe-hammerhead@>=19.4.0:
     tough-cookie "4.0.0"
     tunnel-agent "0.6.0"
     webauth "^1.1.0"
-
-testcafe-hammerhead@^31.4.2:
-  version "31.6.3"
-  resolved "https://registry.npmjs.org/testcafe-hammerhead/-/testcafe-hammerhead-31.6.3.tgz#a03a68b301ab63b941fd1a65bce1757537357157"
-  integrity sha512-tmImtrD+G82Rcfi9zdq1E5XirOewPoFcLhRBNnUseGEtJZ1hVXjrkfyhlVqhfdWFAszhcRoDnvTp21IwfQywsw==
-  dependencies:
-    "@adobe/css-tools" "^4.3.0-rc.1"
-    "@electron/asar" "^3.2.3"
-    acorn-hammerhead "0.6.2"
-    bowser "1.6.0"
-    crypto-md5 "^1.0.0"
-    debug "4.3.1"
-    esotope-hammerhead "0.6.5"
-    http-cache-semantics "^4.1.0"
-    httpntlm "^1.8.10"
-    iconv-lite "0.5.1"
-    lodash "^4.17.20"
-    lru-cache "2.6.3"
-    match-url-wildcard "0.0.4"
-    merge-stream "^1.0.1"
-    mime "~1.4.1"
-    mustache "^2.1.1"
-    nanoid "^3.1.12"
-    os-family "^1.0.0"
-    parse5 "^7.1.2"
-    pinkie "2.0.4"
-    read-file-relative "^1.2.0"
-    semver "7.5.3"
-    tough-cookie "4.1.3"
-    tunnel-agent "0.6.0"
-    ws "^7.4.6"
 
 testcafe-legacy-api@5.1.4:
   version "5.1.4"
@@ -20211,109 +20178,6 @@ testcafe-selector-generator@^0.1.0:
   version "0.1.0"
   resolved "https://registry.npmjs.org/testcafe-selector-generator/-/testcafe-selector-generator-0.1.0.tgz#852c86f71565e5d9320da625c2260d040cbed786"
   integrity sha512-MTw+RigHsEYmFgzUFNErDxui1nTYUk6nm2bmfacQiKPdhJ9AHW/wue4J/l44mhN8x3E8NgOUkHHOI+1TDFXiLQ==
-
-testcafe@2.6.1:
-  version "2.6.1"
-  resolved "https://registry.npmjs.org/testcafe/-/testcafe-2.6.1.tgz#324704ecd86b6a0de4081ffdde657c0ad38e80f4"
-  integrity sha512-0yqAsbxeWsCkISRtwHuGQxWAoi+APIDJL1Er7gsXF312p/txEO0eXyxP6H7KkELxWllz9Km/t8x2MxhMc0flfg==
-  dependencies:
-    "@babel/core" "^7.12.1"
-    "@babel/plugin-proposal-async-generator-functions" "^7.12.1"
-    "@babel/plugin-proposal-class-properties" "^7.12.1"
-    "@babel/plugin-proposal-decorators" "^7.12.1"
-    "@babel/plugin-proposal-object-rest-spread" "^7.12.1"
-    "@babel/plugin-proposal-private-methods" "^7.14.5"
-    "@babel/plugin-syntax-dynamic-import" "^7.8.3"
-    "@babel/plugin-syntax-import-meta" "^7.10.4"
-    "@babel/plugin-transform-async-to-generator" "^7.12.1"
-    "@babel/plugin-transform-exponentiation-operator" "^7.12.1"
-    "@babel/plugin-transform-for-of" "^7.12.1"
-    "@babel/plugin-transform-runtime" "^7.12.1"
-    "@babel/preset-env" "^7.12.1"
-    "@babel/preset-flow" "^7.12.1"
-    "@babel/preset-react" "^7.12.1"
-    "@babel/runtime" "^7.12.5"
-    "@devexpress/bin-v8-flags-filter" "^1.3.0"
-    "@miherlosev/esm" "3.2.26"
-    "@types/node" "^12.20.10"
-    async-exit-hook "^1.1.2"
-    babel-plugin-module-resolver "^5.0.0"
-    babel-plugin-syntax-trailing-function-commas "^6.22.0"
-    bowser "^2.8.1"
-    callsite "^1.0.0"
-    callsite-record "^4.0.0"
-    chai "4.3.4"
-    chalk "^2.3.0"
-    chrome-remote-interface "^0.32.1"
-    coffeescript "^2.3.1"
-    commander "^8.3.0"
-    debug "^4.3.1"
-    dedent "^0.4.0"
-    del "^3.0.0"
-    device-specs "^1.0.0"
-    diff "^4.0.2"
-    elegant-spinner "^1.0.1"
-    email-validator "^2.0.4"
-    emittery "^0.4.1"
-    endpoint-utils "^1.0.2"
-    error-stack-parser "^1.3.6"
-    execa "^4.0.3"
-    get-os-info "^1.0.2"
-    globby "^11.0.4"
-    graceful-fs "^4.1.11"
-    graphlib "^2.1.5"
-    http-status-codes "^2.2.0"
-    humanize-duration "^3.25.0"
-    import-lazy "^3.1.0"
-    indent-string "^1.2.2"
-    is-ci "^1.0.10"
-    is-docker "^2.0.0"
-    is-glob "^2.0.1"
-    is-podman "^1.0.1"
-    is-stream "^2.0.0"
-    json5 "^2.2.2"
-    lodash "^4.17.13"
-    log-update-async-hook "^2.0.7"
-    make-dir "^3.0.0"
-    mime-db "^1.41.0"
-    moment "^2.29.4"
-    moment-duration-format-commonjs "^1.0.0"
-    mustache "^2.1.2"
-    nanoid "^3.1.31"
-    os-family "^1.0.0"
-    parse5 "^1.5.0"
-    pify "^2.3.0"
-    pinkie "^2.0.4"
-    pngjs "^3.3.1"
-    pretty-hrtime "^1.0.3"
-    promisify-event "^1.0.0"
-    prompts "^2.4.2"
-    qrcode-terminal "^0.10.0"
-    read-file-relative "^1.2.0"
-    replicator "^1.0.5"
-    resolve-cwd "^1.0.0"
-    resolve-from "^4.0.0"
-    sanitize-filename "^1.6.0"
-    semver "^5.6.0"
-    set-cookie-parser "^2.5.1"
-    source-map-support "^0.5.16"
-    strip-bom "^2.0.0"
-    testcafe-browser-tools "2.0.25"
-    testcafe-hammerhead "^31.4.2"
-    testcafe-legacy-api "5.1.6"
-    testcafe-reporter-json "^2.1.0"
-    testcafe-reporter-list "^2.2.0"
-    testcafe-reporter-minimal "^2.2.0"
-    testcafe-reporter-spec "^2.2.0"
-    testcafe-reporter-xunit "^2.2.1"
-    testcafe-safe-storage "^1.1.1"
-    testcafe-selector-generator "^0.1.0"
-    time-limit-promise "^1.0.2"
-    tmp "0.0.28"
-    tree-kill "^1.2.2"
-    typescript "4.7.4"
-    unquote "^1.1.1"
-    url-to-options "^2.0.0"
 
 testcafe@^1.20.1:
   version "1.20.1"
@@ -20413,6 +20277,108 @@ testcafe@^1.20.1:
     tree-kill "^1.2.2"
     typescript "^3.3.3"
     unquote "^1.1.1"
+
+testcafe@^3.3.0:
+  version "3.3.0"
+  resolved "https://registry.npmjs.org/testcafe/-/testcafe-3.3.0.tgz#1446b1acca98b1e43c6843c49fce179c38754af4"
+  integrity sha512-fffFnuZwAlZ4y9mkjygHZUGXad/7pXuj/RHkuwvft0GjRDqRHIcfR5aWrVLGnGpFeO55l48Z2kq1SxT2I+879g==
+  dependencies:
+    "@babel/core" "^7.12.1"
+    "@babel/plugin-proposal-async-generator-functions" "^7.12.1"
+    "@babel/plugin-proposal-class-properties" "^7.12.1"
+    "@babel/plugin-proposal-decorators" "^7.12.1"
+    "@babel/plugin-proposal-object-rest-spread" "^7.12.1"
+    "@babel/plugin-proposal-private-methods" "^7.14.5"
+    "@babel/plugin-syntax-dynamic-import" "^7.8.3"
+    "@babel/plugin-syntax-import-meta" "^7.10.4"
+    "@babel/plugin-transform-async-to-generator" "^7.12.1"
+    "@babel/plugin-transform-exponentiation-operator" "^7.12.1"
+    "@babel/plugin-transform-for-of" "^7.12.1"
+    "@babel/plugin-transform-runtime" "^7.12.1"
+    "@babel/preset-env" "^7.12.1"
+    "@babel/preset-flow" "^7.12.1"
+    "@babel/preset-react" "^7.12.1"
+    "@babel/runtime" "^7.12.5"
+    "@devexpress/bin-v8-flags-filter" "^1.3.0"
+    "@devexpress/callsite-record" "^4.1.6"
+    "@types/node" "^12.20.10"
+    async-exit-hook "^1.1.2"
+    babel-plugin-module-resolver "^5.0.0"
+    babel-plugin-syntax-trailing-function-commas "^6.22.0"
+    bowser "^2.8.1"
+    callsite "^1.0.0"
+    chai "4.3.4"
+    chalk "^2.3.0"
+    chrome-remote-interface "^0.32.2"
+    coffeescript "^2.3.1"
+    commander "^8.3.0"
+    debug "^4.3.1"
+    dedent "^0.4.0"
+    del "^3.0.0"
+    device-specs "^1.0.0"
+    diff "^4.0.2"
+    elegant-spinner "^1.0.1"
+    email-validator "^2.0.4"
+    emittery "^0.4.1"
+    endpoint-utils "^1.0.2"
+    error-stack-parser "^2.1.4"
+    execa "^4.0.3"
+    get-os-info "^1.0.2"
+    globby "^11.0.4"
+    graceful-fs "^4.1.11"
+    graphlib "^2.1.5"
+    http-status-codes "^2.2.0"
+    humanize-duration "^3.25.0"
+    import-lazy "^3.1.0"
+    indent-string "^1.2.2"
+    is-ci "^1.0.10"
+    is-docker "^2.0.0"
+    is-glob "^2.0.1"
+    is-podman "^1.0.1"
+    is-stream "^2.0.0"
+    json5 "^2.2.2"
+    lodash "^4.17.13"
+    log-update-async-hook "^2.0.7"
+    make-dir "^3.0.0"
+    mime-db "^1.41.0"
+    moment "^2.29.4"
+    moment-duration-format-commonjs "^1.0.0"
+    mustache "^2.1.2"
+    nanoid "^3.1.31"
+    os-family "^1.0.0"
+    parse5 "^1.5.0"
+    pify "^2.3.0"
+    pinkie "^2.0.4"
+    pngjs "^3.3.1"
+    pretty-hrtime "^1.0.3"
+    promisify-event "^1.0.0"
+    prompts "^2.4.2"
+    qrcode-terminal "^0.10.0"
+    read-file-relative "^1.2.0"
+    replicator "^1.0.5"
+    resolve-cwd "^1.0.0"
+    resolve-from "^4.0.0"
+    sanitize-filename "^1.6.0"
+    semver "^7.5.3"
+    set-cookie-parser "^2.5.1"
+    source-map-support "^0.5.16"
+    strip-bom "^2.0.0"
+    testcafe-browser-tools "2.0.26"
+    testcafe-hammerhead "31.6.1"
+    testcafe-legacy-api "5.1.6"
+    testcafe-reporter-json "^2.1.0"
+    testcafe-reporter-list "^2.2.0"
+    testcafe-reporter-minimal "^2.2.0"
+    testcafe-reporter-spec "^2.2.0"
+    testcafe-reporter-xunit "^2.2.1"
+    testcafe-safe-storage "^1.1.1"
+    testcafe-selector-generator "^0.1.0"
+    time-limit-promise "^1.0.2"
+    tmp "0.0.28"
+    tree-kill "^1.2.2"
+    typescript "4.7.4"
+    unquote "^1.1.1"
+    url-to-options "^2.0.0"
 
 text-encoding@^0.7.0:
   version "0.7.0"
