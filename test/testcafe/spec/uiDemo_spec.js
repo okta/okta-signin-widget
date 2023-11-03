@@ -15,7 +15,7 @@ async function setup(t) {
   return pageObject;
 }
 
-fixture('UI demo');
+fixture('UI demo').meta('gen3', false).meta('gen2', false);
 
 test
   .requestHooks(uiDemoMock)('UI demo VRT', async t => {
