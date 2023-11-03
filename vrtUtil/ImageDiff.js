@@ -1,8 +1,8 @@
-const fs = require('fs');
-const { PNG } = require('pngjs');
-const pixelmatch = require('pixelmatch');
+import fs from 'fs';
+import { PNG } from 'pngjs';
+import pixelmatch from 'pixelmatch';
 
-function readPngImage(image) {
+const readPngImage = (image) => {
   return new Promise((resolve, reject) => {
     fs.createReadStream(image).pipe(new PNG())
       .on('parsed', function onParse() {
@@ -10,22 +10,22 @@ function readPngImage(image) {
       })
       .on('error', reject);
   });
-}
+};
 
-function fixPngImage(image, width, height) {
+const resizeImage = (image, width, height) => {
   if (image.width !== width || image.height !== height) {
-    const fixedImage = new PNG({
+    const resizedImage = new PNG({
       width,
       height,
       bitDepth: image.bitDepth,
       inputHasAlpha: true,
     });
 
-    PNG.bitblt(image, fixedImage, 0, 0, image.width, image.height, 0, 0);
-    return fixedImage;
+    PNG.bitblt(image, resizedImage, 0, 0, image.width, image.height, 0, 0);
+    return resizedImage;
   }
   return image;
-}
+};
 
 class ImageDiff {
   constructor(opts) {
@@ -35,7 +35,7 @@ class ImageDiff {
     this.differences = 0;
   }
 
-  async run(callback) {
+  async run() {
     const aImage = await readPngImage(this.options.imageAPath);
     const bImage = await readPngImage(this.options.imageBPath);
 
@@ -44,32 +44,33 @@ class ImageDiff {
       height: Math.max(aImage.height, bImage.height),
     });
 
-    const aCanvas = await fixPngImage(aImage, dstImage.width, dstImage.height);
-    const bCanvas = await fixPngImage(bImage, dstImage.width, dstImage.height);
+    const aCanvas = await resizeImage(aImage, dstImage.width, dstImage.height);
+    const bCanvas = await resizeImage(bImage, dstImage.width, dstImage.height);
 
-    const options = { threshold: 0.1 };
+    const options = { threshold: this.options.threshold || 0.1 };
     const result = pixelmatch(aCanvas.data, bCanvas.data, dstImage.data, dstImage.width, dstImage.height, options);
 
     dstImage.pack().pipe(fs.createWriteStream(this.getImageOutput()));
 
-    callback(Object.assign(this, {
+    return Object.assign(this, {
       width: dstImage.width,
       height: dstImage.height,
       differences: result,
-    }));
+    });
   }
 
   getImageOutput() {
     return this.options.imageOutputPath;
   }
 
-  getDifference() {
+  // this method calculates the amount of difference as a percentage (not a decimal)
+  getDifferencePercent() {
     // eslint-disable-next-line no-mixed-operators
     return Math.round(100 * 100 * this.differences / (this.width * this.height)) / 100;
   }
 
   hasPassed() {
-    const percentage = this.getDifference();
+    const percentage = this.getDifferencePercent();
     return percentage <= this.options.threshold;
   }
 }

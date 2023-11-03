@@ -24,7 +24,7 @@ test
     // freeze the spinner element so screenshots are consistent
     await pageObject.stopSpinnerAnimation();
 
-    await compareScreenshot(t, 'one');
+    await compareScreenshot(t, '1');
     // this method scrolls down the height of the window to capture screenshots further down the page
     await pageObject.scrollToNextPage();
 
@@ -32,11 +32,11 @@ test
     // causing inconsistent screenshots
     await pageObject.hideProgressBar();
 
-    await compareScreenshot(t, 'two');
+    await compareScreenshot(t, '2');
     await pageObject.scrollToNextPage();
 
-    await compareScreenshot(t, 'three');
+    await compareScreenshot(t, '3');
     await pageObject.scrollToNextPage();
 
-    await compareScreenshot(t, 'four');
+    await compareScreenshot(t, '4');
   });

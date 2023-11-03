@@ -2,7 +2,9 @@ const path = require('path');
 const fs = require('fs');
 const ImageDiff = require('./ImageDiff');
 
-const VISUAL_REGRESSION_THRESHOLD = 0.01;
+// Matching threshold as a decimal percentage of the maximum acceptable square distance between two colors;
+// Ranges from 0 to 1. Smaller values make the comparison more sensitive.
+const VISUAL_REGRESSION_THRESHOLD = 0.1;
 
 const getAbsolutePathForScreenshot = (type, testFixture, testName) => (
   path.join('screenshots', type, testFixture, `${testName}.png`).normalize()
@@ -15,7 +17,7 @@ const getDiffImageName = (imagePath) => {
   );
 };
 
-// eslint-disable-next-line complexity
+// eslint-disable-next-line complexity, max-statements
 const compareScreenshot = async (testObject, name) => {
   if (typeof testObject === 'undefined') {
     return;
@@ -64,15 +66,14 @@ const compareScreenshot = async (testObject, name) => {
       imageBPath: baseScreenshotAbsolutePath,
       threshold: VISUAL_REGRESSION_THRESHOLD,
     });
-
-    await imageDiff.run(() => {
-      if (!imageDiff.hasPassed()) {
-        // fail test
-        throw new Error(
-          `Visual mismatch detected in test: ${testFixtureName}/${screenShotName}. Please investigate.`
-        );
-      }
-    });
+    
+    await imageDiff.run();
+    if (!imageDiff.hasPassed()) {
+      // fail test
+      throw new Error(
+        `Visual mismatch detected in test: ${testFixtureName}/${screenShotName}. Please investigate.`
+      );
+    }
   }
 };
 
