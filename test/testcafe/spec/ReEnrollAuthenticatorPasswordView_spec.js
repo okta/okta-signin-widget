@@ -7,6 +7,7 @@ import IdentityPageObject from  '../framework/page-objects/IdentityPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import { checkConsoleMessages, assertRequestMatches } from '../framework/shared';
 import xhrAuthenticatorExpiredPassword from '../../../playground/mocks/data/idp/idx/authenticator-expired-password';
+import xhrAuthenticatorExpiredPasswordWithADReq from '../../../playground/mocks/data/idp/idx/authenticator-expired-password-with-ad-req';
 import xhrAuthenticatorExpiredPasswordNoComplexity from '../../../playground/mocks/data/idp/idx/authenticator-expired-password-no-complexity';
 import xhrAuthenticatorExpiredPasswordWithEnrollment from '../../../playground/mocks/data/idp/idx/authenticator-expired-password-with-enrollment-authenticator';
 import xhrAuthenticatorRecoveryPasswordFailure from '../../../playground/mocks/data/idp/idx/authenticator-recovery-password-failure';
@@ -27,6 +28,10 @@ const mock = RequestMock()
   .respond(xhrSuccess)
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
   .respond(oktaDashboardContent);
+
+const wthADReqMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrAuthenticatorExpiredPasswordWithADReq);
 
 const xhrAuthenticatorExpiredPasswordUpdatedHistoryCount = JSON.parse(JSON.stringify(xhrAuthenticatorExpiredPassword));
 xhrAuthenticatorExpiredPasswordUpdatedHistoryCount.recoveryAuthenticator.value.settings.age.historyCount = 1;
@@ -97,6 +102,17 @@ async function setup(t) {
       await t.expect(expiredPasswordPage.getRequirements()).contains('At least 10 minute(s) must have elapsed since you last changed your password');
     }
   });
+});
+
+test.requestHooks(wthADReqMock)('should have the correct requirements when enforcing useADComplexityRequirements', async t => {
+  const expiredPasswordPage = await setup(t);
+  await checkA11y(t);
+  await t.expect(expiredPasswordPage.getRequirements()).contains('Password requirements:');
+  await t.expect(expiredPasswordPage.getRequirements()).contains('At least 8 characters');
+  await t.expect(expiredPasswordPage.getRequirements()).contains('At least 3 of the following: lowercase letter, uppercase letter, number, symbol');
+  await t.expect(expiredPasswordPage.getRequirements()).contains('No parts of your username');
+  await t.expect(expiredPasswordPage.getRequirements()).contains('Does not include your first name');
+  await t.expect(expiredPasswordPage.getRequirements()).contains('Does not include your last name');
 });
 
 test

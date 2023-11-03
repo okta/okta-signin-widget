@@ -45,7 +45,7 @@ export const getComplexityItems = (complexity?: ComplexityRequirements): ListIte
   if (complexity.useADComplexityRequirements) {
     const allowed = ['minLength', 'useADComplexityRequirements', 'excludeUsername', 'excludeFirstName',
       'excludeLastName', 'excludeAttributes'];
-    filteredComplexity = Object.fromEntries(allowed.map(key => [key, complexity[key]]));
+    filteredComplexity = Object.fromEntries(allowed.map((key) => [key, complexity[key]]));
   }
 
   Object.entries(filteredComplexity).forEach(([key, value]) => {
