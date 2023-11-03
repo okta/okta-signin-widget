@@ -255,7 +255,7 @@ test.requestHooks(signInDeviceMock)('should render custom unlock account link on
     }
   });
   await t.expect(signInDevicePage.unlockAccountLinkExists()).eql(true);
-  await t.expect(signInDevicePage.getCustomUnlockAccountLinkUrl()).eql('https://okta.okta.com/unlock');
+  await t.expect(await signInDevicePage.getCustomUnlockAccountLinkUrl()).eql('https://okta.okta.com/unlock');
 });
 
 test.requestHooks(identifyMock)('should not show unlock account link if feature is not available', async t => {
