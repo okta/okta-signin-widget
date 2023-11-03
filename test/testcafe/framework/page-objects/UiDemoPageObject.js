@@ -26,8 +26,8 @@ export default class UiDemoPageObject extends BasePageObject {
     await ClientFunction(() => {
       const spinnerRoot = document.querySelector('.MuiCircularProgress-root');
       const spinnerCircle = document.querySelector('.MuiCircularProgress-circle');
-      spinnerRoot.setAttribute('style', 'animation: none;');
-      spinnerCircle.setAttribute('style', 'animation: none;');
+      spinnerRoot.setAttribute('style', 'animation: none !important;');
+      spinnerCircle.setAttribute('style', 'animation: none !important;');
     })();
   }
 }
