@@ -195,6 +195,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
               whiteSpace: 'nowrap',
               textOverflow: 'ellipsis',
             }}
+            title={nickname}
             data-se="authenticator-button-nickname"
             className={classNames('authenticator-enrollment-nickname', 'no-translate')}
           >
