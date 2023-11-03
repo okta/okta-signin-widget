@@ -96,7 +96,7 @@
     "start:test:app": "yarn workspace @okta/test.app start",
     "mock:device-authenticator": "dyson playground/mocks/spec-device-authenticator/ 6512",
     "clean:types": "grunt clean:types",
-    "generate:types": "ttsc --noEmit false --declaration --emitDeclarationOnly --declarationMap",
+    "generate:types": "tsc --noEmit false --declaration --emitDeclarationOnly --declarationMap",
     "copy:types": "grunt copy:types",
     "build:types": "yarn clean:types && yarn generate:types && yarn copy:types",
     "test:parity-setup": "mkdir -p test-reports/testcafe && yarn generate-config && yarn workspace v3 dev",
@@ -113,7 +113,7 @@
     "@babel/plugin-transform-modules-commonjs": "^7.10.1",
     "@babel/plugin-transform-runtime": "^7.10.3",
     "@babel/preset-env": "^7.15.6",
-    "@babel/preset-typescript": "^7.16.7",
+    "@babel/preset-typescript": "^7.23.2",
     "@babel/register": "^7.15.3",
     "@babel/runtime": "^7.10.3",
     "@babel/runtime-corejs3": "^7.10.3",
@@ -223,7 +223,7 @@
     "webpack-dev-server": "^4.15.1"
   },
   "dependencies": {
-    "@okta/okta-auth-js": "~7.0.0",
+    "@okta/okta-auth-js": "~7.4.3",
     "@sindresorhus/to-milliseconds": "^1.0.0",
     "@types/backbone": "^1.4.15",
     "@types/eslint-scope": "^3.7.3",
