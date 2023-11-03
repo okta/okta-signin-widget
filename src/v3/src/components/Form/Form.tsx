@@ -47,12 +47,13 @@ const Form: FunctionComponent<{
   const handleSubmit = useCallback(async (e: SubmitEvent) => {
     e.preventDefault();
     setWidgetRendered(false);
-    setMessage(undefined);
 
-    // TODO: Can remove after OKTA-586475 is resolved
+    // TODO: Can remove after OKTA-657627 is resolved
     if (!dataSchemaRef?.current?.submit) {
       return;
     }
+
+    setMessage(undefined);
 
     const {
       submit: {

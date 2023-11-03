@@ -12,7 +12,7 @@
 
 /* eslint complexity:[2, 9] */
 
-import { loc } from '@okta/courage';
+import { loc } from './loc';
 const fn = {};
 
 fn.getU2fEnrollErrorMessageKeyByCode = function(errorCode) {

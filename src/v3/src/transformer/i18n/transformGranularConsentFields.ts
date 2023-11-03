@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { doesI18NKeyExist } from '../../../../v2/ion/i18nTransformer';
+import { doesI18NKeyExist } from '../../../../v2/ion/i18nUtils';
 import { IDX_STEP } from '../../constants';
 import {
   FieldElement,
