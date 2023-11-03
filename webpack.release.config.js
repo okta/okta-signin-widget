@@ -24,8 +24,8 @@ var TARGET_DIR = path.resolve(__dirname, 'target');
 var DEFAULT_ENTRIES = {
   // 1. default (default entry, minified, with polyfill)
   'default': {
-    includePolyfill: true,
-    includeRuntime: true,
+    includePolyfill: false,
+    includeRuntime: false,
     entry: './src/exports/cdn/default.ts',
     outputFilename: 'okta-sign-in.min.js',
     analyzerFile: 'okta-sign-in.min.analyzer'
