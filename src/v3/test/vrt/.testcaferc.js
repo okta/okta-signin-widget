@@ -71,7 +71,7 @@ const config = {
     }
   },
   appCommand: 'test/vrt/start-app-vrt.sh',
-  browsers: [ 'chrome' ],
+  browsers: [ 'chrome:headless' ],
   clientScripts: [
     { module: 'axe-core/axe.min.js' },
     { module: '@testing-library/dom/dist/@testing-library/dom.umd.js' }
