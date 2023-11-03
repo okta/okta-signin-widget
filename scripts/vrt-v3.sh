@@ -1,21 +1,29 @@
 #!/bin/bash
-export CHROME_HEADLESS=true
-setup_service google-chrome-stable 83.0.4103.61-1
 
-source $OKTA_HOME/$REPO/scripts/setup.sh
-
-export TEST_SUITE_TYPE="junit"
-export TEST_RESULT_FILE_DIR="${REPO}/build2/reports/junit"
+export TEST_SUITE_TYPE="jsunit"
+export TEST_RESULT_FILE_DIR=${REPO}/src/v3/build2/reports/vrt
 echo $TEST_SUITE_TYPE > $TEST_SUITE_TYPE_FILE
 echo $TEST_RESULT_FILE_DIR > $TEST_RESULT_FILE_DIR_FILE
 
-# NOTE: add a testcafe fixture to the list of specs to run for parity testing by
-# adding fixture metadata {"v3": true}. See example in
-# test/testcafe/spec/Smoke_spec.js
-echo 'starting testcafe v2->v3 parity tests'
-if ! yarn test:parity-ci --no-color; then
-	echo "testcafe v2->v3 parity tests failed! Exiting..."
-	exit ${PUBLISH_TYPE_AND_RESULT_DIR_BUT_ALWAYS_FAIL}
+source ${OKTA_HOME}/${REPO}/scripts/setup.sh
+
+cd ${OKTA_HOME}/${REPO}
+
+setup_service google-chrome-stable 91.0.4472.77-1
+
+function run_vrt() {
+  echo "Starting vrt test suite"
+
+  yarn workspace v3 test:vrt --no-color
+}
+
+export CI=true
+
+if ! run_vrt; then
+  echo "vrt test failure!"
+  report_results FAILURE publish_type_and_result_dir_but_always_fail
+  exit 1
 fi
 
-exit ${PUBLISH_TYPE_AND_RESULT_DIR};
+echo "vrt test passed!"
+report_results SUCCESS publish_type_and_result_dir_but_succeed_if_no_results
