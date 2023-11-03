@@ -16,6 +16,9 @@ export async function emailVerifyCallback(settings) {
   const authClient = settings.getAuthClient();
   const idxOptions: ProceedOptions = {
     exchangeCodeForTokens: false, // we handle this in interactionCodeFlow.js
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    __INTERNAL_legacyTerminalSaveBehavior__: true,
   };
   const meta = await authClient.idx.getSavedTransactionMeta(); // meta can load in another tab using state if it matches
   if (!meta || !meta.interactionHandle) {

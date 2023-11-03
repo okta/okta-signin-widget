@@ -23,7 +23,6 @@ import { CONFIGURED_FLOW } from '../client/constants';
 import { ConfigError } from 'util/Errors';
 import { updateAppState } from 'v2/client';
 import CookieUtil from '../../util/CookieUtil';
-import BrowserFeatures from "util/BrowserFeatures";
 
 export interface ContextData {
   controller: string;
@@ -155,6 +154,9 @@ export default Controller.extend({
     const { stateHandle } = idx.context;
     let invokeOptions: ProceedOptions = {
       exchangeCodeForTokens: false, // we handle this in interactionCodeFlow.js
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+    __INTERNAL_legacyTerminalSaveBehavior__: true,
       stateHandle
     };
     let error;
@@ -283,6 +285,9 @@ export default Controller.extend({
     const authClient = this.options.settings.getAuthClient();
     const idxOptions: ProceedOptions = {
       exchangeCodeForTokens: false, // we handle this in interactionCodeFlow.js
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+    __INTERNAL_legacyTerminalSaveBehavior__: true,
     };
     try {
       const idx = this.options.appState.get('idx');
@@ -293,7 +298,7 @@ export default Controller.extend({
         stateHandle,
         ...values
       });
-
+      console.log('here 1')
       if (resp.status === IdxStatus.FAILURE) {
         throw resp.error; // caught and handled in this function
       }
@@ -304,6 +309,7 @@ export default Controller.extend({
         await this.handleIdxResponse(resp);
         return;
       }
+      console.log('here 2')
       // If the last request did not succeed, show errors on the current form
       // Special case: Okta server responds 401 status code with WWW-Authenticate header and new remediation
       // so that the iOS/MacOS credential SSO extension (Okta Verify) can intercept
@@ -314,6 +320,7 @@ export default Controller.extend({
         await this.showFormErrors(model, resp, this.formView.form);
         return;
       }
+      console.log('here 3')
       const onSuccess = this.handleIdxResponse.bind(this, resp);
       if (formName === FORMS.ENROLL_PROFILE) {
         // call registration (aka enroll profile) hook
@@ -325,7 +332,9 @@ export default Controller.extend({
       } else {
         await onSuccess();
       }
+      console.log('here 4')
     } catch(error) {
+      console.log('here 5')
       if (error.is?.('terminal')) {
         this.options.appState.setNonIdxError(error);
       } else {
@@ -358,6 +367,7 @@ export default Controller.extend({
    * reload or re-render, but updates the AppSate with latest remediation.
    */
   async showFormErrors(model, error, form) {
+    console.log(error, form)
     /* eslint max-statements: [2, 24] */
     let errorObj;
     let idxStateError;
@@ -384,6 +394,7 @@ export default Controller.extend({
     }
 
     if(_.isFunction(form?.showCustomFormErrorCallout)) {
+      console.log(idxStateError)
       showErrorBanner = !form.showCustomFormErrorCallout(errorObj, idxStateError.messages);
     }
 
