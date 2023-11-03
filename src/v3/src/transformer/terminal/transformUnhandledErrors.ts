@@ -12,7 +12,7 @@
 
 import { AuthApiError, OAuthError } from '@okta/okta-auth-js';
 
-import { getMessage } from '../../../../v2/ion/i18nTransformer';
+import { getMessage } from '../../../../v2/ion/i18nUtils';
 import {
   FormBag,
   InfoboxElement,

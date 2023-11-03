@@ -245,20 +245,21 @@ If your organization has upgraded to [Identity Engine][], the smaller `oie` bund
 
 | Bundle     | File Name                       | Approx. Size | Classic Engine | Identity Engine | Polyfill | Notes |
 |------------|---------------------------------|--------------|--------------------|--------------------|--------------------|-------------------------------------------|
-| standard   | okta-sign-in.min.js             | 1.6 MB       | :white_check_mark: | :white_check_mark: | :white_check_mark: | Standard bundle which includes everything |
-| no-polyfill| okta-sign-in.no-polyfill.min.js | 1.5 MB       | :white_check_mark: | :white_check_mark: |                    | Standard bundle without polyfill          |
-| oie        | okta-sign-in.oie.min.js         | 1.2 MB       |                    | :white_check_mark: |                    | Smaller bundle for OIE enabled orgs       |
+| standard   | okta-sign-in.min.js             | 1.7 MB       | :white_check_mark: | :white_check_mark: | :white_check_mark: | Standard bundle which includes everything |
+| no-polyfill| okta-sign-in.no-polyfill.min.js | 1.7 MB       | :white_check_mark: | :white_check_mark: |                    | Standard bundle without polyfill          |
+| oie        | okta-sign-in.oie.min.js         | 1.3 MB       |                    | :white_check_mark: |                    | Smaller bundle for OIE enabled orgs       |
 | classic    | okta-sign-in.classic.min.js     | 1.1 MB       | :white_check_mark: |                    |                    | Smaller bundle for Classic Engine only    |
-| polyfill   | okta-sign-in.polyfill.min.js    | 80KB         |                    |                    | :white_check_mark: | Standalone polyfill bundle. Can be used along with a widget bundle that does not include the polyfill. |
+| polyfill   | okta-sign-in.polyfill.min.js    | 108KB        |                    |                    | :white_check_mark: | Standalone polyfill bundle. Can be used along with a widget bundle that does not include the polyfill. |
+| oie        | okta-sign-in.next.min.js        | 1.5 MB       |                    | :white_check_mark: | :white_check_mark: | Smaller bundle (3rd generation) for OIE enabled orgs|
 
 
 To embed the Sign-in Widget via CDN, include links to the JS and CSS files in your HTML:
 
 ```html
 <!-- Latest CDN production Javascript and CSS -->
-<script src="https://global.oktacdn.com/okta-signin-widget/7.11.3/js/okta-sign-in.min.js" type="text/javascript"></script>
+<script src="https://global.oktacdn.com/okta-signin-widget/7.12.1/js/okta-sign-in.min.js" type="text/javascript"></script>
 
-<link href="https://global.oktacdn.com/okta-signin-widget/7.11.3/css/okta-sign-in.min.css" type="text/css" rel="stylesheet"/>
+<link href="https://global.oktacdn.com/okta-signin-widget/7.12.1/css/okta-sign-in.min.css" type="text/css" rel="stylesheet"/>
 ```
 
 **NOTE:** The CDN URLs contain a version number. This number should be the same for both the Javascript and the CSS file and match a version on the [releases page](https://github.com/okta/okta-signin-widget/releases). We recommend using the latest widget version.
@@ -268,13 +269,13 @@ When using one of the bundles without the polyfill included, you may want to con
 
 ```html
 <!-- Polyfill for older browsers -->
-<script src="https://global.oktacdn.com/okta-signin-widget/7.11.3/js/okta-sign-in.polyfill.min.js" type="text/javascript"></script>
+<script src="https://global.oktacdn.com/okta-signin-widget/7.12.1/js/okta-sign-in.polyfill.min.js" type="text/javascript"></script>
 
 <!-- Widget bundle for Okta Identity Engine -->
-<script src="https://global.oktacdn.com/okta-signin-widget/7.11.3/js/okta-sign-in.oie.min.js" type="text/javascript"></script>
+<script src="https://global.oktacdn.com/okta-signin-widget/7.12.1/js/okta-sign-in.oie.min.js" type="text/javascript"></script>
 
 <!-- CSS for widget -->
-<link href="https://global.oktacdn.com/okta-signin-widget/7.11.3/css/okta-sign-in.min.css" type="text/css" rel="stylesheet"/>
+<link href="https://global.oktacdn.com/okta-signin-widget/7.12.1/css/okta-sign-in.min.css" type="text/css" rel="stylesheet"/>
 ```
 
 
