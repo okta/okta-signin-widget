@@ -203,7 +203,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       const baseUrl = getBaseUrl(widgetProps);
       if (baseUrl) {
         // Proceeds with form submission even if device fingerprinting fails
-        const fingerprint = await generateDeviceFingerprint(baseUrl);
+        const fingerprint = await generateDeviceFingerprint(baseUrl).catch(() => undefined);
         if (fingerprint) {
           authClient.http.setRequestHeader('X-Device-Fingerprint', fingerprint);
         }

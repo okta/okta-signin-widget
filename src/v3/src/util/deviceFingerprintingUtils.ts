@@ -10,9 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-const getUserAgent = (): string => navigator.userAgent;
-
-const isWindowsPhone = (userAgent: string): RegExpMatchArray | null => userAgent.match(/windows phone|iemobile|wpdesktop/i);
+import { getUserAgent, isWindowsPhone } from './browserUtils';
 
 export const isMessageFromCorrectSource = (iframe: HTMLIFrameElement, event: MessageEvent)
 : boolean => (
@@ -20,17 +18,16 @@ export const isMessageFromCorrectSource = (iframe: HTMLIFrameElement, event: Mes
 );
 
 // NOTE: This utility is similar to the DeviceFingerprinting.js file used for V2 authentication flows.
-export const generateDeviceFingerprint = (oktaDomainUrl: string): Promise<string> => (
-  // eslint cannot detect that setTimeout() at end of function will eventually return with Error rejection
-  // eslint-disable-next-line consistent-return
-  new Promise((resolve, reject) => {
-    const userAgent = getUserAgent();
-    if (!userAgent) {
-      return reject(new Error('User agent is not defined'));
-    } if (isWindowsPhone(userAgent)) {
-      return reject(new Error('Device fingerprint is not supported on Windows phones'));
-    }
+export const generateDeviceFingerprint = (oktaDomainUrl: string): Promise<string> => {
+  const userAgent = getUserAgent();
+  if (!userAgent) {
+    return Promise.reject(new Error('User agent is not defined'));
+  }
+  if (isWindowsPhone(userAgent)) {
+    return Promise.reject(new Error('Device fingerprint is not supported on Windows phones'));
+  }
 
+  return new Promise((resolve, reject) => {
     let iframe: HTMLIFrameElement;
     let iframeTimeout: NodeJS.Timeout;
     let onMessageReceivedFromOkta: (event: MessageEvent) => void;
@@ -42,7 +39,7 @@ export const generateDeviceFingerprint = (oktaDomainUrl: string): Promise<string
 
     const handleError = (reason: string) => {
       removeIframe();
-      return reject(new Error(reason));
+      reject(new Error(reason));
     };
 
     const sendMessageToOkta = (message: { type: string }) => {
@@ -98,5 +95,5 @@ export const generateDeviceFingerprint = (oktaDomainUrl: string): Promise<string
       // If the iframe does not load or there is a slow connection, throw an error
       handleError('Service not available');
     }, 2000);
-  })
-);
+  });
+};
