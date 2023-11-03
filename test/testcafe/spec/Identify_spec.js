@@ -169,6 +169,7 @@ test.requestHooks(identifyRequestLogger, identifyMock)('should be able to submit
 test.requestHooks(identifyMock)('should show errors if required fields are empty', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
+
   await identityPage.clickNextButton();
   await identityPage.waitForErrorBox();
 
