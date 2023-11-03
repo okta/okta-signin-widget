@@ -69,6 +69,7 @@ export interface WidgetOptions
     custom?: Array<Link>;
   };
   signOutLink?: string;
+  backToSignInLink?: string;
   // Buttons
   customButtons?: Array<CustomButton>;
   // Registration
