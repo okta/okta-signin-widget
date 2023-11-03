@@ -24,10 +24,13 @@ export default class UiDemoPageObject extends BasePageObject {
 
   async stopSpinnerAnimation() {
     await ClientFunction(() => {
-      const spinnerRoot = document.querySelector('.MuiCircularProgress-root');
-      const spinnerCircle = document.querySelector('.MuiCircularProgress-circle');
-      spinnerRoot.setAttribute('style', 'animation: none !important;');
-      spinnerCircle.setAttribute('style', 'animation: none !important;');
+      const rootSpinnerStyle = document.createElement('style');
+      rootSpinnerStyle.textContent = '.MuiCircularProgress-root { animation: none !important; }';
+      document.head.appendChild(rootSpinnerStyle);
+
+      const circleSpinnerStyle = document.createElement('style');
+      circleSpinnerStyle.textContent = '.MuiCircularProgress-circle { animation: none !important; }';
+      document.head.appendChild(circleSpinnerStyle);
     })();
   }
 }
