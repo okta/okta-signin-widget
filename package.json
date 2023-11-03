@@ -102,10 +102,7 @@
     "test:parity-setup": "mkdir -p test-reports/testcafe && yarn generate-config && yarn workspace v3 dev",
     "test:parity-run": "OKTA_SIW_GEN3=true yarn testcafe -c 2 \"chrome:headless --force-device-scale-factor=1\" --reporter spec,xunit:build2/reports/junit/testcafe-results.xml",
     "test:parity-ci": "OKTA_SIW_SKIP_FLAKY=true yarn codegen && run-p -r test:parity-setup test:parity-run",
-    "test:parity-ci-flaky": "OKTA_SIW_GEN3=true OKTA_SIW_ONLY_FLAKY=true yarn test:parity-ci",
-    "test:parity-identify": "OKTA_SIW_GEN3=true yarn testcafe \"chrome:headless --force-device-scale-factor=1\" --reporter spec,xunit:build2/reports/junit/testcafe-results.xml test/testcafe/spec/Identify_spec.js",
-    "test:vrt": "OKTA_SIW_GEN3=true yarn workspace vrt test",
-    "test:vrt-ci": "OKTA_SIW_SKIP_FLAKY=true yarn codegen && run-p -r test:parity-setup test:vrt"
+    "test:parity-ci-flaky": "OKTA_SIW_GEN3=true OKTA_SIW_ONLY_FLAKY=true yarn test:parity-ci"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.6",

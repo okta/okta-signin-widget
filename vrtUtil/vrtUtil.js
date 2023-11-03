@@ -17,7 +17,7 @@ const getDiffImageName = (imagePath) => {
 
 // eslint-disable-next-line complexity
 const compareScreenshot = async (testObject, name) => {
-  if (!testObject.testRun.opts.userVariables.gen3 || typeof testObject === 'undefined') {
+  if (typeof testObject === 'undefined') {
     return;
   }
   await testObject.resizeWindow(800, 800);
