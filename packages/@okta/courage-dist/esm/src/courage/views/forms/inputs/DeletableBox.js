@@ -5,14 +5,6 @@ import StringUtil from '../../../util/StringUtil.js';
 import Time from '../../../util/Time.js';
 import BaseView from '../../BaseView.js';
 
-const isVowel = function (string) {
-  return /^[aeiou]/.test(string);
-};
-
-const getArticle = function (string) {
-  return isVowel(string) ? 'an' : 'a';
-};
-
 const template = _Handlebars2.template({
   "compiler": [8, ">= 4.3.0"],
   "main": function (container, depth0, helpers, partials, data) {
@@ -163,16 +155,50 @@ var DeletableBox = BaseView.extend({
     this.$el.removeClass(errorClass);
   },
   getPlaceholderText: function () {
-    const text = ['Enter'];
-    text.push(getArticle(this.options.itemType));
-    text.push(this.options.itemType.toLowerCase());
-    return text.join(' ');
+    let placeholderText;
+
+    switch (this.options.itemType.toLowerCase()) {
+      // TODO fix lint and add the spaces/indent
+      case 'string':
+        placeholderText = StringUtil.localize('placeholder.text.string', 'courage');
+        break;
+
+      case 'number':
+        placeholderText = StringUtil.localize('placeholder.text.number', 'courage');
+        break;
+
+      case 'integer':
+        placeholderText = StringUtil.localize('placeholder.text.integer', 'courage');
+        break;
+
+      default:
+        placeholderText = '';
+    }
+
+    return placeholderText;
   },
   getErrorExplainText: function () {
-    const text = ['Value must be'];
-    text.push(getArticle(this.options.itemType));
-    text.push(this.options.itemType.toLowerCase());
-    return text.join(' ');
+    let itemTypeMismatchMessages;
+
+    switch (this.options.itemType.toLowerCase()) {
+      // TODO fix lint and add the spaces/indent
+      case 'string':
+        itemTypeMismatchMessages = StringUtil.localize('string.item.type.error.message', 'courage');
+        break;
+
+      case 'number':
+        itemTypeMismatchMessages = StringUtil.localize('number.item.type.error.message', 'courage');
+        break;
+
+      case 'integer':
+        itemTypeMismatchMessages = StringUtil.localize('integer.item.type.error.message', 'courage');
+        break;
+
+      default:
+        itemTypeMismatchMessages = '';
+    }
+
+    return itemTypeMismatchMessages;
   },
   parseInt: function (string) {
     // native javascript parseInt is aggressive
