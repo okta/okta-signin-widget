@@ -20,6 +20,7 @@ import {
 } from '@okta/okta-auth-js';
 import { cloneDeep, merge, omit } from 'lodash';
 import { useCallback } from 'preact/hooks';
+import { generateDeviceFingerprint } from 'src/util/deviceFingerprintingUtils';
 
 import { IDX_STEP, ON_PREM_TOKEN_CHANGE_ERROR_KEY } from '../constants';
 import { useWidgetContext } from '../contexts';
@@ -27,6 +28,7 @@ import { MessageType } from '../types';
 import {
   areTransactionsEqual,
   containsMessageKey,
+  getBaseUrl,
   getErrorEventContext,
   getImmutableData,
   isConfigRecoverFlow,
@@ -205,6 +207,16 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     // This way the flow can maintain the latest state handle. For eg. Device probe calls
     if (step === IDX_STEP.CANCEL_TRANSACTION) {
       SessionStorage.removeStateHandle();
+    }
+    if (step === IDX_STEP.IDENTIFY && features?.deviceFingerprinting) {
+      const baseUrl = getBaseUrl(widgetProps);
+      if (baseUrl) {
+        // Proceeds with form submission even if device fingerprinting fails
+        const fingerprint = await generateDeviceFingerprint(baseUrl).catch(() => undefined);
+        if (fingerprint) {
+          authClient.http.setRequestHeader('X-Device-Fingerprint', fingerprint);
+        }
+      }
     }
     setMessage(undefined);
     try {
