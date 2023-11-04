@@ -70,10 +70,11 @@ const compareScreenshot = async (testObject, name) => {
     });
     
     await imageDiff.run();
+    const diff = imageDiff.getDifferencePercent();
     if (!imageDiff.hasPassed()) {
       // fail test
       throw new Error(
-        `Visual mismatch detected in test: ${testFixtureName}/${screenShotName}.  Difference %:${imageDiff.getDifferencePercent()} Please investigate.`
+        `Visual mismatch detected in test: ${testFixtureName}/${screenShotName}.  Difference %:${diff} Please investigate.`
       );
     }
   }
