@@ -14,6 +14,7 @@ const getDiffImageName = (imagePath) => {
   return path.join(
     // path.dirname(imagePath),
     'build2',
+    'reports',
     'vrt',
     'artifacts',
     `${path.basename(imagePath, path.extname(imagePath))}-diff.png`,
