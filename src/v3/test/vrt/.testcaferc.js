@@ -39,6 +39,7 @@ const config = {
   concurrency: 1,
   screenshots: {
     thumbnails: false,
+    takeOnFails: true,
   },
 }
 
