@@ -49,7 +49,7 @@ const config = {
   screenshots: {
     path: 'build2/reports/vrt/artifacts',
     thumbnails: false,
-    takeOnFails: true,
+    // takeOnFails: true,
   },
 }
 

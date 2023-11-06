@@ -295,7 +295,7 @@ export const createTheme = (
               },
             }),
             // OKTA-657762 - remove this when odyssey fix is done
-            textTransform: 'none',
+            textTransform: 'uppercase',
           }),
         },
       },
