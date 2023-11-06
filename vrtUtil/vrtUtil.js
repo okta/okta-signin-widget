@@ -57,6 +57,8 @@ const compareScreenshot = async (testObject, name) => {
     await testObject.takeScreenshot(path.join('base', testFixtureName, `${screenShotName}.png`));
     if (shouldUpdateScreenShot) {
       console.log('Screenshot updated for ' + testFixtureName + ' / ' + screenShotName);
+    } else {
+      console.log('Base screenshot created for ' + testFixtureName + ' / ' + screenShotName);
     }
   }
 
