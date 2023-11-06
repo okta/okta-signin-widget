@@ -21,6 +21,15 @@ const config = {
       }
     }
   },
+  reporter: [
+    {
+      name: 'spec',
+    },
+    {
+      name: 'xunit',
+      output: 'build2/reports/vrt/testcafe-xunit-result.xml',
+    },
+  ],
   appCommand: 'test/vrt/start-app-vrt.sh',
   browsers: [ 'chrome:headless' ],
   clientScripts: [
@@ -38,6 +47,7 @@ const config = {
   }),
   concurrency: 1,
   screenshots: {
+    path: 'build2/reports/e2e/artifacts',
     thumbnails: false,
     takeOnFails: true,
   },
