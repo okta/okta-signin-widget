@@ -457,7 +457,7 @@ test.requestHooks(identifyRequestLogger, errorsIdentifyMock)('should render each
   await t.expect(await identityPage.form.getErrorBoxTextByIndex(2)).eql('Your session has expired. Please try to sign in again.');
 });
 
-// Re-enable in OKTA-654458
+// Leave disabled, product requests that autoFocus default to off in gen3
 test.meta('gen3', false).requestHooks(identifyRequestLogger, baseIdentifyMock)('should "autoFocus" form with config or by default', async t => {
   const identityPage = await setup(t, {
     features: {}
