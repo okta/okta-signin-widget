@@ -12,7 +12,10 @@ const getAbsolutePathForScreenshot = (type, testFixture, testName) => (
 
 const getDiffImageName = (imagePath) => {
   return path.join(
-    path.dirname(imagePath),
+    // path.dirname(imagePath),
+    'build2',
+    'vrt',
+    'artifacts',
     `${path.basename(imagePath, path.extname(imagePath))}-diff.png`,
   );
 };
@@ -73,6 +76,7 @@ const compareScreenshot = async (testObject, name) => {
     
     await imageDiff.run();
     const diff = imageDiff.getDifferencePercent();
+    console.log("diff: ", diff);
     if (!imageDiff.hasPassed()) {
       // fail test
       throw new Error(
