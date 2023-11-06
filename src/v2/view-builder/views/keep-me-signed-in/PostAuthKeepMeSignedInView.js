@@ -19,12 +19,13 @@ const Body = BaseForm.extend({
 
   // Overrides the default getUISchema in order to render 2 buttons instead of a checkbox
   getUISchema() {
+    const form = this;
     const acceptButton = createButton({
       className: 'button button-secondary',
       title: loc('oie.kmsi.accept', 'login'),
       attributes: { 'data-se': 'stay-signed-in-btn' },
       click: function() {
-        this.saveForm(true);
+        form.saveForm(true);
       },
     });
     const rejectButton = createButton({
@@ -32,7 +33,7 @@ const Body = BaseForm.extend({
       title: loc('oie.kmsi.reject', 'login'),
       attributes: { 'data-se': 'do-not-stay-signed-in-btn' },
       click: function() {
-        this.saveForm(false);
+        form.saveForm(false);
       },
     });
     return [{ View: acceptButton }, { View: rejectButton }];
