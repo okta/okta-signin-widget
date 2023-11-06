@@ -5,22 +5,17 @@ const ImageDiff = require('./ImageDiff');
 // Matching threshold as a decimal percentage of the maximum acceptable square distance between two colors;
 // Ranges from 0 to 1. Smaller values make the comparison more sensitive.
 const VISUAL_REGRESSION_THRESHOLD = 0.1;
+const BACON_CI_BASE_PATH = path.join('build2', 'reports', 'vrt', 'artifacts', 'screenshots');
 
-const getAbsolutePathForScreenshot = (type, testFixture, testName) => (
-  path.join('screenshots', type, testFixture, `${testName}.png`).normalize()
+const getAbsolutePathForScreenshot = (type, testFixture, testName, useCiPath) => (
+  useCiPath
+    ? path.join(BACON_CI_BASE_PATH, type, testFixture, `${testName}.png`).normalize()
+    : path.join('screenshots', type, testFixture, `${testName}.png`).normalize()
 );
 
-const getAbsolutePathForScreenshotCi = (type, testFixture, testName) => (
-  path.join('build2', 'reports', 'vrt', 'artifacts', type, testFixture, `${testName}.png`).normalize()
-);
-
-const getDiffImageName = (imagePath) => {
+const getDiffImagePath = (imagePath) => {
   return path.join(
-    // path.dirname(imagePath),
-    'build2',
-    'reports',
-    'vrt',
-    'artifacts',
+    path.dirname(imagePath),
     `${path.basename(imagePath, path.extname(imagePath))}-diff.png`,
   );
 };
@@ -39,18 +34,21 @@ const compareScreenshot = async (testObject, name) => {
   const screenShotName = (typeof name === 'string' ? `${testName}_${name}` : testName).replace(/ /g,'_');
 
   // take actual screenshot
-  await testObject.takeScreenshot(path.join('actual', testFixtureName, `${screenShotName}.png`));
+  await testObject.takeScreenshot(
+    path.join(testObject.testRun.opts.userVariables.useVrtCiPath 
+      ? BACON_CI_BASE_PATH 
+      : 'screenshots',
+    'actual',
+    testFixtureName,
+    `${screenShotName}.png`
+    )
+  );
 
-  // const actualScreenshotAbsolutePath = getAbsolutePathForScreenshot(
-  //   'actual',
-  //   testFixtureName,
-  //   screenShotName,
-  // );
-
-  const actualScreenshotAbsolutePath = getAbsolutePathForScreenshotCi(
+  const actualScreenshotAbsolutePath = getAbsolutePathForScreenshot(
     'actual',
     testFixtureName,
     screenShotName,
+    testObject.testRun.opts.userVariables.useVrtCiPath,
   );
 
   const baseScreenshotAbsolutePath = getAbsolutePathForScreenshot(
@@ -69,7 +67,7 @@ const compareScreenshot = async (testObject, name) => {
 
   if (!isBaseScreenshotTaken || shouldUpdateScreenShot) {
     // take base screenshot
-    await testObject.takeScreenshot(path.join('base', testFixtureName, `${screenShotName}.png`));
+    await testObject.takeScreenshot(path.join('screenshots', 'base', testFixtureName, `${screenShotName}.png`));
     if (shouldUpdateScreenShot) {
       console.log('Screenshot updated for ' + testFixtureName + ' / ' + screenShotName);
     } else {
@@ -80,7 +78,7 @@ const compareScreenshot = async (testObject, name) => {
   // Do the comparison if a base and actual screenshot exist
   if (isActualScreenshotTaken && isBaseScreenshotTaken) {
     const imageDiff = new ImageDiff({
-      imageOutputPath: getDiffImageName(actualScreenshotAbsolutePath),
+      imageOutputPath: getDiffImagePath(actualScreenshotAbsolutePath),
       imageAPath: actualScreenshotAbsolutePath,
       imageBPath: baseScreenshotAbsolutePath,
       threshold: VISUAL_REGRESSION_THRESHOLD,
@@ -88,7 +86,6 @@ const compareScreenshot = async (testObject, name) => {
     
     await imageDiff.run();
     const diff = imageDiff.getDifferencePercent();
-    console.log("diff: ", diff);
     if (!imageDiff.hasPassed()) {
       // fail test
       throw new Error(
