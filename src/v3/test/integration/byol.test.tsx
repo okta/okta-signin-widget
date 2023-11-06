@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { waitFor, cleanup } from '@testing-library/preact';
+import { waitFor } from '@testing-library/preact';
 import { rest } from 'msw';
 import { SetupServer, setupServer } from 'msw/node';
 
@@ -30,10 +30,6 @@ describe('byol', () => {
       key: () => null,
       removeItem: () => jest.fn(),
     });
-  });
-
-  afterEach(() => {
-    cleanup();
   });
 
   describe('loading custom language', () => {

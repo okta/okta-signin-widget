@@ -113,18 +113,17 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root emotion-1"
+                    class="MuiBox-root emotion-10"
                   >
                     <div
-                      class="MuiBox-root emotion-17"
+                      class="MuiBox-root emotion-23"
                     >
-                      <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-21"
-                        data-se="o-form-explain"
-                        id="select-authenticator-enroll_Description_Set_up_optional_3"
+                      <h3
+                        class="MuiTypography-root MuiTypography-h6 emotion-24"
+                        id="select-authenticator-enroll_Heading_Set_up_optional_3"
                       >
                         Set up optional
-                      </p>
+                      </h3>
                     </div>
                   </div>
                   <div
@@ -487,7 +486,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       tabindex="0"
                       type="submit"
                     >
-                      Set up later
+                      Continue
                     </button>
                   </div>
                   <div

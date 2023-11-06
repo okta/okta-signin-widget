@@ -293,7 +293,7 @@ describe('enroll-profile-with-password', () => {
       }, 'application/vnd.okta.v1+json'),
     );
     const alertBox = await findByRole('alert') as HTMLDivElement;
-    within(alertBox).findByText(/We could not process your registration at this time. Please try again later./);
+    expect(await within(alertBox).findByText(/We could not process your registration at this time. Please try again later./)).toBeInTheDocument();
     expect(container).toMatchSnapshot();
   });
 

@@ -33,7 +33,7 @@ describe('user-unlock-account', () => {
 
     expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
     const [alertBox] = await findAllByRole('alert');
-    within(alertBox).findByText(/We found some errors/);
+    expect(await within(alertBox).findByText(/We found some errors/)).toBeInTheDocument();
   });
 
   describe('send correct payload', () => {
