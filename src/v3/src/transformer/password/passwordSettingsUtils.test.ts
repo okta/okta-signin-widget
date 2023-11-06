@@ -92,7 +92,7 @@ describe('getComplexityItems', () => {
       excludeUsername: true,
       excludeFirstName: true,
       excludeLastName: true,
-      useADComplexityRequirements: true
+      useADComplexityRequirements: true,
     } as unknown as ComplexityRequirements;
 
     const result = getComplexityItems(complexity);

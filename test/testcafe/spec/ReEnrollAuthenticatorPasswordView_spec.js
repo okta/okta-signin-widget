@@ -104,7 +104,8 @@ async function setup(t) {
   });
 });
 
-test.requestHooks(wthADReqMock)('should have the correct requirements when enforcing useADComplexityRequirements', async t => {
+// eslint-disable-next-line testcafe-extended/no-only-statements, no-only-tests/no-only-tests
+test.only.requestHooks(wthADReqMock)('should have the correct requirements when enforcing useADComplexityRequirements', async t => {
   const expiredPasswordPage = await setup(t);
   await checkA11y(t);
   await t.expect(expiredPasswordPage.getRequirements()).contains('Password requirements:');

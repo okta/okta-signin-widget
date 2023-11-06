@@ -305,7 +305,7 @@ describe('PasswordUtils Tests', () => {
         ?.useADComplexityRequirements)
         .toEqual(true);
     });
-    
+
     it('should ignore existing minLowerCase, minUpperCase, minNumber, and minSymbol requirements', () => {
       expect(validatePassword('aBCD1234', userInfo, { complexity: { useADComplexityRequirements: true, minLowerCase: 2 } })
         ?.useADComplexityRequirements)
@@ -333,12 +333,15 @@ describe('PasswordUtils Tests', () => {
       expect(validatePassword('User1234', userInfo, { complexity: { useADComplexityRequirements: true, excludeLastName: true } })
         ?.excludeLastName)
         .toEqual(false);
-      expect(validatePassword('Test_User_testUser', userInfo, { 
-        complexity: { 
+      expect(validatePassword('Test_User_testUser', userInfo, {
+        complexity: {
           useADComplexityRequirements: true,
-          excludeAttributes: ['username', 'firstName', 'lastName'] 
-        } 
-      })).toEqual({ firstName: false, lastName: false, username: false, useADComplexityRequirements: true });
+          excludeAttributes: ['username', 'firstName', 'lastName'],
+        },
+      }))
+        .toEqual({
+          firstName: false, lastName: false, username: false, useADComplexityRequirements: true,
+        });
     });
   });
 
