@@ -67,7 +67,6 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     setMessage,
     setStepToRender,
     widgetProps,
-    bootstrap,
   } = useWidgetContext();
   const { eventEmitter, widgetHooks, features } = widgetProps;
 
@@ -199,7 +198,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       SessionStorage.removeStateHandle();
       if (isOauth2Enabled(widgetProps)) {
         // We have to directly delete the recoveryToken since it is set once upon authClient instantiation
-        delete authClient.options['recoveryToken'];
+        delete authClient.options.recoveryToken;
         // In this case we need to restart login flow and recreate transaction meta
         fn = authClient.idx.start;
         payload = {};
