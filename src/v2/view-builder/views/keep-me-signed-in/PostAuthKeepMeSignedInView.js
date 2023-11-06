@@ -13,7 +13,7 @@ const Body = BaseForm.extend({
   },
 
   saveForm(isKeepMeSignedIn) {
-    this.model.set(isKeepMeSignedIn);
+    this.model.set('keepMeSignedIn', isKeepMeSignedIn);
     this.options.appState.trigger('saveForm', this.model);
   },
 

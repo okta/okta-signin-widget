@@ -1,0 +1,100 @@
+{
+    "version": "1.0.0",
+    "stateHandle": "dummy-state-handle",
+    "expiresAt": "2023-11-02T23:19:00.000Z",
+    "intent": "LOGIN",
+    "remediation": {
+        "type": "array",
+        "value": [
+            {
+                "rel": [
+                    "create-form"
+                ],
+                "name": "keep-me-signed-in",
+                "href": "http://localhost:3000/idp/idx/keep-me-signed-in",
+                "method": "POST",
+                "produces": "application/ion+json; okta-version=1.0.0",
+                "value": [
+                    {
+                        "name": "keepMeSignedIn",
+                        "type": "boolean",
+                        "label": "Stay signed in",
+                        "required": true,
+                        "value": false,
+                        "mutable": true
+                    },
+                    {
+                        "name": "stateHandle",
+                        "required": true,
+                        "value": "dummy-state-handle",
+                        "visible": false,
+                        "mutable": false
+                    }
+                ],
+                "accepts": "application/json; okta-version=1.0.0"
+            }
+        ]
+    },
+    "user": {
+        "type": "object",
+        "value": {
+            "id": "00u3nsxS0cqN6F3AS0g4",
+            "identifier": "john.doe@example.com",
+            "profile": {
+                "firstName": "John",
+                "lastName": "Doe",
+                "timeZone": "America/Los_Angeles",
+                "locale": "en_US"
+            }
+        }
+    },
+    "cancel": {
+        "rel": [
+            "create-form"
+        ],
+        "name": "cancel",
+        "href": "http://localhost:3000/idp/idx/cancel",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+            {
+                "name": "stateHandle",
+                "required": true,
+                "value": "dummy-state-handle",
+                "visible": false,
+                "mutable": false
+            }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+    },
+    "app": {
+        "type": "object",
+        "value": {
+            "name": "okta_enduser",
+            "label": "Okta Dashboard",
+            "id": "enduserId"
+        }
+    },
+    "authentication": {
+        "type": "object",
+        "value": {
+            "protocol": "OAUTH2.0",
+            "issuer": {
+                "name": "Localhost",
+                "uri": "http://localhost"
+            },
+            "request": {
+                "max_age": -1,
+                "scope": "openid profile email okta.users.read.self okta.users.manage.self okta.internal.enduser.read okta.internal.enduser.manage okta.enduser.dashboard.read okta.enduser.dashboard.manage",
+                "display": "page",
+                "response_type": "code",
+                "redirect_uri": "http://localhost:3000/enduser/callback",
+                "state": "state",
+                "code_challenge_method": "S256",
+                "nonce": "nonce",
+                "code_challenge": "code_challenge",
+                "response_mode": "query"
+            }
+        }
+    }
+}

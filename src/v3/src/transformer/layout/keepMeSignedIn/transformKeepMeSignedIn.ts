@@ -49,7 +49,6 @@ export const transformKeepMeSignedIn: IdxStepTransformer = ({ transaction, formB
       dataType: 'save',
       actionParams: { keepMeSignedIn: true },
       step: step!,
-      dataSe: 'stay-signed-in-btn',
     },
   };
 
@@ -62,7 +61,6 @@ export const transformKeepMeSignedIn: IdxStepTransformer = ({ transaction, formB
       actionParams: { keepMeSignedIn: false },
       dataType: 'cancel',
       step: step!,
-      dataSe: 'do-not-stay-signed-in-btn',
     },
   };
 
