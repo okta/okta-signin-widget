@@ -47,7 +47,7 @@ const config = {
   }),
   concurrency: 1,
   screenshots: {
-    // path: 'build2/reports/vrt/artifacts',
+    path: 'build2/reports/vrt/artifacts',
     thumbnails: false,
     // takeOnFails: true,
   },

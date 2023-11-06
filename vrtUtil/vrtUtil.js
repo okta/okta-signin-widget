@@ -10,6 +10,10 @@ const getAbsolutePathForScreenshot = (type, testFixture, testName) => (
   path.join('screenshots', type, testFixture, `${testName}.png`).normalize()
 );
 
+const getAbsolutePathForScreenshotCi = (type, testFixture, testName) => (
+  path.join('build2', 'reports', 'vrt', 'artifacts', type, testFixture, `${testName}.png`).normalize()
+);
+
 const getDiffImageName = (imagePath) => {
   return path.join(
     // path.dirname(imagePath),
@@ -37,11 +41,18 @@ const compareScreenshot = async (testObject, name) => {
   // take actual screenshot
   await testObject.takeScreenshot(path.join('actual', testFixtureName, `${screenShotName}.png`));
 
-  const actualScreenshotAbsolutePath = getAbsolutePathForScreenshot(
+  // const actualScreenshotAbsolutePath = getAbsolutePathForScreenshot(
+  //   'actual',
+  //   testFixtureName,
+  //   screenShotName,
+  // );
+
+  const actualScreenshotAbsolutePath = getAbsolutePathForScreenshotCi(
     'actual',
     testFixtureName,
     screenShotName,
   );
+
   const baseScreenshotAbsolutePath = getAbsolutePathForScreenshot(
     'base',
     testFixtureName,
