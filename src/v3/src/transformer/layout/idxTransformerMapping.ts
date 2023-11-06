@@ -15,7 +15,6 @@ import { isDevelopmentEnvironment, isTestEnvironment } from 'src/util';
 
 import { AUTHENTICATOR_KEY, CHALLENGE_METHOD, IDX_STEP } from '../../constants';
 import { transformIdentify } from '../identify';
-import { transformKeepMeSignedIn } from '../layout/keepMeSignedIn';
 import {
   transformAppleSsoExtension,
   transformOktaVerifyChannelSelection,
@@ -69,6 +68,7 @@ import {
   transformIdpAuthenticator,
   transformIdpRedirect,
 } from './idp';
+import { transformKeepMeSignedIn } from './keepMeSignedIn';
 import {
   transformOktaVerifyDeviceChallengePoll,
   transformOktaVerifyFPLaunchAuthenticator,
