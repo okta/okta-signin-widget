@@ -250,6 +250,7 @@ test.requestHooks(requestLogger, cancelResetPasswordMock)('clears recovery_token
   ]);
   requestLogger.clear();
   await pageObject.clickSignOutLink();
+  await t.wait(5000);
   req = requestLogger.requests[0].request; // interact
   params = decodeUrlEncodedRequestBody(req.body);
   await t.expect(req.url).eql('http://localhost:3000/oauth2/default/v1/interact');
