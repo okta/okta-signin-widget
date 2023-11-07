@@ -100,7 +100,7 @@ test.requestHooks(mockChromeProbingThenCancel)('start Chrome DTC probing and sho
 async function assertChromeDTCView(t) {
   const deviceChallengePollPageObject = await setup(t);
   await checkA11y(t);
-  await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Collecting device signals');
+  await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Verifying your identity');
   await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(true);
   await t.expect(deviceChallengePollPageObject.getFooterSwitchAuthenticatorLink().exists).eql(false);
   await t.expect(await deviceChallengePollPageObject.hasSpinner()).eql(true);
