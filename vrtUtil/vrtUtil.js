@@ -26,7 +26,7 @@ const compareScreenshot = async (testObject, name) => {
     return;
   }
   // set window size so screenshots are consistent
-  // await testObject.resizeWindow(800, 800);
+  await testObject.resizeWindow(1600, 1600);
 
   const escapeRegex = (s) => s.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
   const testFixtureName = escapeRegex(testObject.testRun.test.testFile.currentFixture.name);
