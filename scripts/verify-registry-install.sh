@@ -43,6 +43,9 @@ if ! npm i ${published_tarball}; then
   exit ${FAILED_SETUP}
 fi
 
+# TODO: remove
+npm i @okta/okta-auth-js@7.4.3
+
 export ISSUER="https://oie-signin-widget.okta.com"
 export CLIENT_ID="0oa8lrg7ojTsbJgRQ696"
 
