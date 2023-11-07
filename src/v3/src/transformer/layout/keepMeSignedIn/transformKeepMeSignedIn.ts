@@ -36,6 +36,7 @@ export const transformKeepMeSignedIn: IdxStepTransformer = ({ transaction, formB
 
   const descriptionElement: DescriptionElement = {
     type: 'Description',
+    contentType: 'subtitle',
     options: {
       content: loc('oie.kmsi.subtitle', 'login'),
     },
