@@ -93,7 +93,7 @@ describe('getComplexityItems', () => {
       excludeFirstName: true,
       excludeLastName: true,
       useADComplexityRequirements: true,
-    } as unknown as ComplexityRequirements;
+    };
 
     const result = getComplexityItems(complexity);
     expect(result).toEqual([
