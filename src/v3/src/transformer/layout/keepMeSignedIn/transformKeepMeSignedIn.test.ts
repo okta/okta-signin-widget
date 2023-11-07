@@ -41,7 +41,7 @@ describe('transformKeepMeSignedIn Tests', () => {
 
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content).toBe('oie.kmsi.title');
-    
+
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).type).toBe('Description');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content).toBe('oie.kmsi.subtitle');
 
