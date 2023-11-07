@@ -65,6 +65,5 @@ describe('v2/view-builder/views/keep-me-signed-in/PostAuthKeepMeSignedInView', f
       expect(saveFormSpy).toHaveBeenCalledWith(isAccept);
       expect(appStateTriggerSpy).toHaveBeenLastCalledWith('saveForm', testContext.view.form.model);
     });
-  });
-  
+  });  
 });
