@@ -146,3 +146,10 @@ test_suites:
     script_name: vrt-v3
     criteria: MERGE
     queue_name: small
+  - name: vrt-v3-get-screenshots
+    script_path: /root/okta/okta-signin-widget/scripts
+    sort_order: '33'
+    timeout: '40'
+    script_name: vrt-v3-get-screenshots
+    criteria: optional
+    queue_name: small
