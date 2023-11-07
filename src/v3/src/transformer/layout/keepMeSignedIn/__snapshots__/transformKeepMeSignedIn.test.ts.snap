@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`transformKeepMeSignedIn Tests should create keep me signed in elements with valid response 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.kmsi.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.kmsi.subtitle",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "oie.kmsi.accept",
+        "options": Object {
+          "actionParams": Object {
+            "keepMeSignedIn": true,
+          },
+          "dataType": "save",
+          "step": "keep-me-signed-in",
+          "type": "button",
+          "variant": "secondary",
+        },
+        "type": "Button",
+      },
+      Object {
+        "label": "oie.kmsi.reject",
+        "options": Object {
+          "actionParams": Object {
+            "keepMeSignedIn": false,
+          },
+          "dataType": "cancel",
+          "step": "keep-me-signed-in",
+          "type": "button",
+          "variant": "secondary",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
