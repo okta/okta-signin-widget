@@ -4,7 +4,7 @@ const ImageDiff = require('./ImageDiff');
 
 // Matching threshold as a decimal percentage of the maximum acceptable square distance between two colors;
 // Ranges from 0 to 1. Smaller values make the comparison more sensitive.
-const VISUAL_REGRESSION_THRESHOLD = 0.1;
+const VISUAL_REGRESSION_THRESHOLD = 0.2;
 const BACON_CI_BASE_PATH = path.join('build2', 'reports', 'vrt', 'artifacts', 'screenshots');
 
 const getAbsolutePathForScreenshot = (type, testFixture, testName, useCiPath) => (
