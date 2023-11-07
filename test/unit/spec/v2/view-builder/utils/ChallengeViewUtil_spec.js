@@ -198,7 +198,7 @@ describe('v2/utils/ChallengeViewUtil', function() {
     doChallenge(testView);
 
     expect(testView.getDeviceChallengePayload).toHaveBeenCalled();
-    expect(testView.title).toBe(loc('chrome_dtc.title', 'login'));
+    expect(testView.title).toBe(loc('deviceTrust.sso.redirectText', 'login'));
     expect(expectedAddArg.className).toBe('chrome-dtc-content');
     expect(expectedAddArg.template.call()).toBe(hbs`
             <div class="spinner"></div>

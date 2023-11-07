@@ -161,7 +161,7 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
       expect(updatedFormBag).toMatchSnapshot();
       expect(updatedFormBag.uischema.elements.length).toBe(4);
       expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
-        .toBe('chrome_dtc.title');
+        .toBe('deviceTrust.sso.redirectText');
       expect((updatedFormBag.uischema.elements[1] as SpinnerElement).type)
         .toBe('Spinner');
       expect((updatedFormBag.uischema.elements[2] as ChromeDtcContainerElement).options.href)
