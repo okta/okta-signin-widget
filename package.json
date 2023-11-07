@@ -279,8 +279,7 @@
       "**/@types/ajv-errors",
       "**/@types/ajv-errors/**",
       "**/@types/eslint-scope",
-      "**/eslint-scope",
-      "**/@okta/okta-auth-js"
+      "**/eslint-scope"
     ]
   },
   "packageManager": "yarn@1.22.19",
