@@ -457,30 +457,28 @@ test.requestHooks(identifyRequestLogger, errorsIdentifyMock)('should render each
   await t.expect(await identityPage.form.getErrorBoxTextByIndex(2)).eql('Your session has expired. Please try to sign in again.');
 });
 
-// Re-enable in OKTA-654458
-test.meta('gen3', false).requestHooks(identifyRequestLogger, baseIdentifyMock)('should "autoFocus" form with config or by default', async t => {
+test.requestHooks(identifyRequestLogger, baseIdentifyMock)('should "autoFocus" form with config or by default in gen2 but not gen3', async t => {
   const identityPage = await setup(t, {
     features: {}
   });
   await checkA11y(t);
 
-  let doesFormHaveFocus = identityPage.form.getElement('[data-se="o-form-input-identifier"] input').focused;
-  await t.expect(doesFormHaveFocus).eql(true);
-
+  let doesFormHaveFocus = identityPage.form.getTextBox('Username', true).focused;
+  // Product requests that autoFocus default to off in gen3
+  await t.expect(doesFormHaveFocus).eql(userVariables.gen3 ? false : true);
 
   await rerenderWidget({
     features: { autoFocus: true }
   });
 
-  doesFormHaveFocus = identityPage.form.getElement('[data-se="o-form-input-identifier"] input').focused;
+  doesFormHaveFocus = identityPage.form.getTextBox('Username', true).focused;
   await t.expect(doesFormHaveFocus).eql(true);
-
 
   await rerenderWidget({
     features: { autoFocus: false }
   });
 
-  doesFormHaveFocus = identityPage.form.getElement('[data-se="o-form-input-identifier"] input').focused;
+  doesFormHaveFocus = identityPage.form.getTextBox('Username', true).focused;
   await t.expect(doesFormHaveFocus).eql(false);
 });
 
