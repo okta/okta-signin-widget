@@ -194,7 +194,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     // Required to prevent auth-js from clearing sessionStorage and breaking interaction code flow
     payload.exchangeCodeForTokens = false;
     if (step === 'cancel') {
-      authClient?.transactionManager.clear({ clearIdxResponse: false });
+      authClient?.transactionManager.clear();
       SessionStorage.removeStateHandle();
       if (isOauth2Enabled(widgetProps)) {
         // We have to directly delete the recoveryToken since it is set once upon authClient instantiation
