@@ -253,6 +253,7 @@ test.requestHooks(requestLogger, cancelResetPasswordMock)('clears recovery_token
   await t.wait(5000);
   req = requestLogger.requests[0].request; // interact
   params = decodeUrlEncodedRequestBody(req.body);
+  console.log(req);
   await t.expect(req.url).eql('http://localhost:3000/oauth2/default/v1/interact');
   await t.expect(params['recovery_token']).eql(undefined);
 });
