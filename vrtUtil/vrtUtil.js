@@ -15,6 +15,10 @@ const getBaseScreenshotPath = (testFixture, testName) => (
   path.join('screenshots', 'base', testFixture, `${testName}.png`).normalize()
 );
 
+const getBaseScreenshotPathLocal = (testFixture, testName) => (
+  path.join(BACON_CI_BASE_PATH, 'base', testFixture, `${testName}.png`).normalize()
+);
+
 const getDiffImagePath = (imagePath) => {
   return path.join(
     path.dirname(imagePath),
@@ -47,7 +51,12 @@ const compareScreenshot = async (testObject, options) => {
   });
 
   const actualScreenshotAbsolutePath = getActualScreenshotPath(testFixtureName, screenShotName);
-  const baseScreenshotAbsolutePath = getBaseScreenshotPath(testFixtureName, screenShotName);
+  // if vrt is being tested locally we get the base screen shot from the reports directory
+  // that is created locally after running the update screenshots command.
+  // this is to avoid the base screenshot from bacon being overwritten
+  const baseScreenshotAbsolutePath = testObject.testRun.opts.userVariables.vrtLocal 
+    ? getBaseScreenshotPathLocal(testFixtureName, screenShotName)
+    : getBaseScreenshotPath(testFixtureName, screenShotName);
   const isActualScreenshotTaken = fs.existsSync(actualScreenshotAbsolutePath);
   const isBaseScreenshotTaken = fs.existsSync(baseScreenshotAbsolutePath);
 

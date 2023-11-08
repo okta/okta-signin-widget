@@ -5,12 +5,14 @@ const waitOn = require('wait-on');
 const {
   OKTA_SIW_GEN3,
   UPDATE_SCREENSHOTS,
+  VRT_LOCAL,
 } = process.env;
 
 // Normalize process.env to type 'boolean'
 const env = {
   OKTA_SIW_GEN3: OKTA_SIW_GEN3 === 'true',
   UPDATE_SCREENSHOTS: UPDATE_SCREENSHOTS === 'true',
+  VRT_LOCAL: VRT_LOCAL === 'true',
 };
 
 const config = {
@@ -40,6 +42,7 @@ const config = {
   userVariables: {
     gen3: env.OKTA_SIW_GEN3,
     updateScreenshots: env.UPDATE_SCREENSHOTS,
+    vrtLocal: env.VRT_LOCAL,
   },
   // OKTA-575629 Remove this when gen3 parity test flakiness is resolved
   ...(env.OKTA_SIW_GEN3 && {
