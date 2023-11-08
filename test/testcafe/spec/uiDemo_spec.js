@@ -1,6 +1,7 @@
 import { RequestMock } from 'testcafe';
 import UiDemoPageObject from '../framework/page-objects/UiDemoPageObject';
 import uiDemoResponse from '../../../playground/mocks/data/idp/idx/_ui-demo.json';
+import { renderWidget as rerenderWidget } from '../framework/shared';
 
 import compareScreenshot from '../../../vrtUtil/vrtUtil';
 
@@ -17,12 +18,23 @@ async function setup(t) {
 
 fixture('UI demo').meta('gen3', false).meta('gen2', false);
 
-test
-  .requestHooks(uiDemoMock)('UI demo VRT', async t => {
-    const pageObject = await setup(t);
+test.requestHooks(uiDemoMock)('UI demo VRT', async t => {
+  const pageObject = await setup(t);
 
-    // freeze the spinner element so screenshots are consistent
-    await pageObject.stopSpinnerAnimation();
+  // freeze the spinner element so screenshots are consistent
+  await pageObject.stopSpinnerAnimation();
 
-    await compareScreenshot(t, { fullPage: true, strictMode: true });
+  await compareScreenshot(t, { fullPage: true, strictMode: true });
+});
+
+test.requestHooks(uiDemoMock)('UI demo RTL VRT', async t => {
+  const pageObject = await setup(t);
+  await rerenderWidget({
+    language: 'ar',
   });
+
+  // freeze the spinner element so screenshots are consistent
+  await pageObject.stopSpinnerAnimation();
+
+  await compareScreenshot(t, { fullPage: true, strictMode: true });
+});
