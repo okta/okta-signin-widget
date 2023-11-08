@@ -1,7 +1,7 @@
 import { RequestMock } from 'testcafe';
 import UiDemoPageObject from '../framework/page-objects/UiDemoPageObject';
 import uiDemoResponse from '../../../playground/mocks/data/idp/idx/_ui-demo.json';
-import { renderWidget as rerenderWidget } from '../framework/shared';
+import { renderWidget } from '../framework/shared';
 
 import compareScreenshot from '../../../vrtUtil/vrtUtil';
 
@@ -12,6 +12,16 @@ const uiDemoMock = RequestMock()
 async function setup(t) {
   const pageObject = new UiDemoPageObject(t);
   await pageObject.navigateToPage();
+  await t.expect(pageObject.formExists()).eql(true);
+  return pageObject;
+}
+
+async function setupRtl(t) {
+  const pageObject = new UiDemoPageObject(t);
+  await pageObject.navigateToPage();
+  await renderWidget({
+    language: 'ar',
+  });
   await t.expect(pageObject.formExists()).eql(true);
   return pageObject;
 }
@@ -28,12 +38,7 @@ test.requestHooks(uiDemoMock)('UI demo VRT', async t => {
 });
 
 test.requestHooks(uiDemoMock)('UI demo RTL VRT', async t => {
-  const pageObject = await setup(t);
-  await rerenderWidget({
-    language: 'fr',
-  });
-  await t.expect(pageObject.formExists()).eql(true);
-
+  const pageObject = await setupRtl(t);
   // freeze the spinner element so screenshots are consistent
   await pageObject.stopSpinnerAnimation();
 
