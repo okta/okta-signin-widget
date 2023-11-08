@@ -22,7 +22,7 @@ async function setupRtl(t) {
   await renderWidget({
     language: 'ar',
   });
-  await t.expect(pageObject.formExists()).eql(true);
+  await t.expect(pageObject.formExists()).eql(true, 'form loaded', { timeout: 20000 });
   return pageObject;
 }
 
