@@ -140,7 +140,6 @@ const baseConfig: Partial<Configuration> = {
     extensions: ['.ts', '.js', '.tsx', '.jsx'],
     alias: {
       '@okta/okta-auth-js': '@okta/okta-auth-js/idx',
-      '@okta/courage': resolve(__dirname, '../../packages/@okta/courage-dist'),
       '@okta/mocks': resolve(__dirname, '../../playground/mocks'),
       '@okta/okta-i18n-bundles': resolve(__dirname, '../util/Bundles.ts'),
 
