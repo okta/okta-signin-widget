@@ -23,18 +23,18 @@ const getDiffImagePath = (imagePath) => {
 };
 
 // eslint-disable-next-line complexity, max-statements
-const compareScreenshot = async (testObject, name, options) => {
+const compareScreenshot = async (testObject, options) => {
   if (typeof testObject === 'undefined') {
     return;
   }
   // set window size so screenshots are consistent
   await testObject.resizeWindow(1600, 1600);
 
+  const { fullPage, threshold, strictMode, name } = options;
   const escapeRegex = (s) => s.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
   const testFixtureName = escapeRegex(testObject.testRun.test.testFile.currentFixture.name);
   const testName = escapeRegex(testObject.testRun.test.name);
   const screenShotName = (typeof name === 'string' ? `${testName}_${name}` : testName).replace(/ /g,'_');
-  const { fullPage, threshold, strictMode } = options;
 
   // take actual screenshot
   await testObject.takeScreenshot({
