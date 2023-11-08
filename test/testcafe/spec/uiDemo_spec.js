@@ -30,7 +30,7 @@ test.requestHooks(uiDemoMock)('UI demo VRT', async t => {
 test.requestHooks(uiDemoMock)('UI demo RTL VRT', async t => {
   const pageObject = await setup(t);
   await rerenderWidget({
-    language: 'ar',
+    language: 'fr',
   });
   await t.expect(pageObject.formExists()).eql(true);
 
