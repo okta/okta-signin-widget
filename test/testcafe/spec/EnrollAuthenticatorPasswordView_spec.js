@@ -6,6 +6,7 @@ import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import { checkConsoleMessages } from '../framework/shared';
 import xhrAuthenticatorEnrollPassword from '../../../playground/mocks/data/idp/idx/authenticator-enroll-password';
 import xhrAuthenticatorEnrollPasswordError from '../../../playground/mocks/data/idp/idx/error-authenticator-enroll-password-common';
+import xhrAuthenticatorEnrollPasswordWithADReq from '../../../playground/mocks/data/idp/idx/authenticator-enroll-password-with-ad-req';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 
 const logger = RequestLogger(/challenge\/poll|challenge\/answer|challenge\/resend/,
@@ -22,6 +23,10 @@ const successMock = RequestMock()
   .respond(xhrSuccess)
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
   .respond(oktaDashboardContent);
+
+const wthADReqMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrAuthenticatorEnrollPasswordWithADReq);
 
 const xhrAuthenticatorEnrollPasswordUpdatedHistoryCount = JSON.parse(JSON.stringify(xhrAuthenticatorEnrollPassword));
 xhrAuthenticatorEnrollPasswordUpdatedHistoryCount.currentAuthenticator.value.settings.age.historyCount = 1;
@@ -158,4 +163,15 @@ test.requestHooks(errorMock)('should show a callout when server-side field error
     await t.expect(enrollPasswordPage.getRequirements()).contains('No parts of your username');
     await t.expect(enrollPasswordPage.getRequirements()).contains('A lowercase letter');
   });
+});
+
+test.requestHooks(wthADReqMock)('should have the correct requirements when enforcing useADComplexityRequirements', async t => {
+  const enrollPasswordPage = await setup(t);
+  await checkA11y(t);
+  await t.expect(enrollPasswordPage.getRequirements()).contains('Password requirements:');
+  await t.expect(enrollPasswordPage.getRequirements()).contains('At least 8 characters');
+  await t.expect(enrollPasswordPage.getRequirements()).contains('At least 3 of the following: lowercase letter, uppercase letter, number, symbol');
+  await t.expect(enrollPasswordPage.getRequirements()).contains('No parts of your username');
+  await t.expect(enrollPasswordPage.getRequirements()).contains('Does not include your first name');
+  await t.expect(enrollPasswordPage.getRequirements()).contains('Does not include your last name');
 });

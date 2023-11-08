@@ -179,9 +179,19 @@ const getPasswordComplexityRequirementsAsArray = function(policy, i18nKeys) {
 
   if (policy.complexity) {
     const complexityFields = i18nKeys.complexity;
-    const policyComplexity = setExcludeAttributes(policy.complexity);
 
-    const requirements = _.map(policyComplexity, function(complexityValue, complexityType) {
+    const policyComplexity = setExcludeAttributes(policy.complexity);
+    let filteredPolicyComplexity = policyComplexity;
+
+    // If useADComplexityRequirements is true, ignore casing, number, and symbol rules since
+    // AD validator handles those requirements
+    if (policyComplexity.useADComplexityRequirements) {
+      const allowed = ['minLength', 'useADComplexityRequirements', 'excludeUsername', 'excludeFirstName',
+        'excludeLastName', 'excludeAttributes'];
+      filteredPolicyComplexity = _.pick(policyComplexity, allowed);
+    }
+
+    const requirements = _.map(filteredPolicyComplexity, function(complexityValue, complexityType) {
       if (complexityValue <= 0) {
         // to skip 0 and -1
         return;
@@ -398,6 +408,7 @@ fn.getPasswordComplexityDescriptionForHtmlList = function(policy) {
       excludeUsername: { i18n: 'password.complexity.no_username.description' },
       excludeFirstName: { i18n: 'password.complexity.no_first_name.description' },
       excludeLastName: { i18n: 'password.complexity.no_last_name.description' },
+      useADComplexityRequirements: { i18n: 'password.complexity.adRequirements.description' },
     },
     history: {
       one: { i18n: 'password.complexity.history.one.description' },
@@ -425,6 +436,7 @@ fn.getPasswordComplexityDescription = function(policy) {
       excludeUsername: { i18n: 'password.complexity.no_username' },
       excludeFirstName: { i18n: 'password.complexity.no_first_name' },
       excludeLastName: { i18n: 'password.complexity.no_last_name' },
+      useADComplexityRequirements: { i18n: 'password.complexity.adRequirements' },
     },
     history: { i18n: 'password.complexity.history' },
     age: {

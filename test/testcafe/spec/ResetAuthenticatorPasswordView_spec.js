@@ -5,6 +5,7 @@ import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnro
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import { checkConsoleMessages } from '../framework/shared';
 import xhrAuthenticatorResetPassword from '../../../playground/mocks/data/idp/idx/authenticator-reset-password';
+import xhrAuthenticatorEnrollPasswordWithADReq from '../../../playground/mocks/data/idp/idx/authenticator-reset-password-with-ad-req';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 
 const logger = RequestLogger(/challenge\/answer/,
@@ -21,6 +22,10 @@ const mock = RequestMock()
   .respond(xhrSuccess)
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
   .respond(oktaDashboardContent);
+
+const withADReqMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrAuthenticatorEnrollPasswordWithADReq);
 
 const xhrAuthenticatorResetPasswordUpdatedHistoryCount = JSON.parse(JSON.stringify(xhrAuthenticatorResetPassword));
 xhrAuthenticatorResetPasswordUpdatedHistoryCount.currentAuthenticator.value.settings.age.historyCount = 1;
@@ -71,6 +76,19 @@ async function setup(t) {
         await t.expect(resetPasswordPage.getRequirements()).contains('At least 10 minute(s) must have elapsed since you last changed your password');
       }
     });
+});
+
+test.requestHooks(withADReqMock)('should have the correct requirements when enforcing useADComplexityRequirements', async t => {
+  const resetPasswordPage = await setup(t);
+  await checkA11y(t);
+  await t.expect(resetPasswordPage.getFormTitle()).eql('Reset your password');
+  await t.expect(resetPasswordPage.resetPasswordButtonExists()).eql(true);
+  await t.expect(resetPasswordPage.getRequirements()).contains('Password requirements:');
+  await t.expect(resetPasswordPage.getRequirements()).contains('At least 8 characters');
+  await t.expect(resetPasswordPage.getRequirements()).contains('At least 3 of the following: lowercase letter, uppercase letter, number, symbol');
+  await t.expect(resetPasswordPage.getRequirements()).contains('No parts of your username');
+  await t.expect(resetPasswordPage.getRequirements()).contains('Does not include your first name');
+  await t.expect(resetPasswordPage.getRequirements()).contains('Does not include your last name');
 });
 
 test

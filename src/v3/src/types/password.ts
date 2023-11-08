@@ -50,6 +50,7 @@ export interface PasswordSettings {
     excludeFirstName?: boolean;
     excludeLastName?: boolean;
     excludeAttributes?: string[];
+    useADComplexityRequirements?: boolean;
   };
   age?: {
     historyCount?: number;

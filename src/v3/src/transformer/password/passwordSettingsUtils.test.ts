@@ -81,4 +81,27 @@ describe('getComplexityItems', () => {
       { ruleKey: 'minSymbol', label: PASSWORD_REQUIREMENTS_KEYS.complexity.minSymbol },
     ]);
   });
+
+  it('should return filtered items when useADComplexityRequirements is true', () => {
+    const complexity = {
+      minLength: 8,
+      minLowerCase: 1,
+      minUpperCase: 1,
+      minNumber: 1,
+      minSymbol: 1,
+      excludeUsername: true,
+      excludeFirstName: true,
+      excludeLastName: true,
+      useADComplexityRequirements: true,
+    };
+
+    const result = getComplexityItems(complexity);
+    expect(result).toEqual([
+      { ruleKey: 'minLength', label: PASSWORD_REQUIREMENTS_KEYS.complexity.minLength },
+      { ruleKey: 'useADComplexityRequirements', label: PASSWORD_REQUIREMENTS_KEYS.complexity.useADComplexityRequirements },
+      { ruleKey: 'excludeUsername', label: PASSWORD_REQUIREMENTS_KEYS.complexity.excludeUsername },
+      { ruleKey: 'excludeFirstName', label: PASSWORD_REQUIREMENTS_KEYS.complexity.excludeFirstName },
+      { ruleKey: 'excludeLastName', label: PASSWORD_REQUIREMENTS_KEYS.complexity.excludeLastName },
+    ]);
+  });
 });

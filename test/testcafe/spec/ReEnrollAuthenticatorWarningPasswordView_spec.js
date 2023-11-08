@@ -5,6 +5,7 @@ import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnro
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import { checkConsoleMessages } from '../framework/shared';
 import xhrAuthenticatorExpiryWarningPassword from '../../../playground/mocks/data/idp/idx/authenticator-expiry-warning-password';
+import xhrAuthenticatorExpiryWarningPasswordWithADReq from '../../../playground/mocks/data/idp/idx/authenticator-expiry-warning-password-with-ad-req';
 import xhrErrorChangePasswordNotAllowed from '../../../playground/mocks/data/idp/idx/error-change-password-not-allowed';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 
@@ -22,6 +23,10 @@ const mockExpireInDays = RequestMock()
   .respond(xhrSuccess)
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
   .respond(oktaDashboardContent);
+
+const wthADReqMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrAuthenticatorExpiryWarningPasswordWithADReq);
 
 const xhrAuthenticatorExpiryWarningPasswordUpdatedHistoryCount = JSON.parse(JSON.stringify(xhrAuthenticatorExpiryWarningPassword));
 xhrAuthenticatorExpiryWarningPasswordUpdatedHistoryCount.currentAuthenticator.value.settings.age.historyCount = 1;
@@ -103,6 +108,17 @@ async function setup(t) {
       await t.expect(passwordExpiryWarningPage.getSignoutLinkText()).eql('Back to sign in');
       await t.expect(passwordExpiryWarningPage.doesTextExist('When your password expires, you will have to change your password before you can login to your Localhost account.')).eql(true);
     });
+});
+
+test.requestHooks(wthADReqMock)('should have the correct requirements when enforcing useADComplexityRequirements', async t => {
+  const passwordExpiryWarningPage = await setup(t);
+  await checkA11y(t);
+  await t.expect(passwordExpiryWarningPage.getRequirements()).contains('Password requirements:');
+  await t.expect(passwordExpiryWarningPage.getRequirements()).contains('At least 8 characters');
+  await t.expect(passwordExpiryWarningPage.getRequirements()).contains('At least 3 of the following: lowercase letter, uppercase letter, number, symbol');
+  await t.expect(passwordExpiryWarningPage.getRequirements()).contains('No parts of your username');
+  await t.expect(passwordExpiryWarningPage.getRequirements()).contains('Does not include your first name');
+  await t.expect(passwordExpiryWarningPage.getRequirements()).contains('Does not include your last name');
 });
 
 test
