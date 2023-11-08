@@ -110,6 +110,7 @@ exports[`Email authenticator verification when email magic link = false Tests sh
                           </svg>
                         </span>
                         <span
+                          aria-label="firstname.lastname@example.com"
                           class="identifier no-translate MuiBox-root emotion-16"
                           data-se="identifier"
                           title="firstname.lastname@example.com"

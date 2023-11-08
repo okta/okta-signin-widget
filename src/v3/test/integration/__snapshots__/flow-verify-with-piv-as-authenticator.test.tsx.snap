@@ -114,6 +114,7 @@ exports[`flow-verify-with-piv-as-authenticator should render select authenticato
                           </svg>
                         </span>
                         <span
+                          aria-label="32011152472674@upn.example.com"
                           class="identifier no-translate MuiBox-root emotion-16"
                           data-se="identifier"
                           title="32011152472674@upn.example.com"

@@ -130,6 +130,7 @@ exports[`webauthn-enroll should render form 1`] = `
                           </svg>
                         </span>
                         <span
+                          aria-label="tester5@test.com"
                           class="identifier no-translate MuiBox-root emotion-16"
                           data-se="identifier"
                           title="tester5@test.com"
@@ -351,6 +352,7 @@ exports[`webauthn-enroll should render form when Credentials API is not availabl
                           </svg>
                         </span>
                         <span
+                          aria-label="tester5@test.com"
                           class="identifier no-translate MuiBox-root emotion-16"
                           data-se="identifier"
                           title="tester5@test.com"
@@ -580,6 +582,7 @@ exports[`webauthn-enroll should render form with user verification and edge brow
                           </svg>
                         </span>
                         <span
+                          aria-label="tester5@test.com"
                           class="identifier no-translate MuiBox-root emotion-16"
                           data-se="identifier"
                           title="tester5@test.com"

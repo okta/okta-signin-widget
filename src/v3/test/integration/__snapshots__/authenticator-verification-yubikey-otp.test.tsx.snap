@@ -112,6 +112,7 @@ exports[`authenticator-verification-yubikey-otp renders form 1`] = `
                           </svg>
                         </span>
                         <span
+                          aria-label="testUser@okta.com"
                           class="identifier no-translate MuiBox-root emotion-16"
                           data-se="identifier"
                           title="testUser@okta.com"

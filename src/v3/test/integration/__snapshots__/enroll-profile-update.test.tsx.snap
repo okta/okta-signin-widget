@@ -105,6 +105,7 @@ exports[`enroll-profile-update fails client side validation with empty required 
                           </svg>
                         </span>
                         <span
+                          aria-label="testUser@okta.com"
                           class="identifier no-translate MuiBox-root emotion-20"
                           data-se="identifier"
                           title="testUser@okta.com"
@@ -336,6 +337,7 @@ exports[`enroll-profile-update should render form 1`] = `
                           </svg>
                         </span>
                         <span
+                          aria-label="testUser@okta.com"
                           class="identifier no-translate MuiBox-root emotion-15"
                           data-se="identifier"
                           title="testUser@okta.com"

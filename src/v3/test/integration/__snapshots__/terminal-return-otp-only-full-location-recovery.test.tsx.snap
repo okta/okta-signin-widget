@@ -110,6 +110,7 @@ exports[`terminal-return-otp-only-full-location-recovery renders form 1`] = `
                           </svg>
                         </span>
                         <span
+                          aria-label="test@okta.com"
                           class="identifier no-translate MuiBox-root emotion-16"
                           data-se="identifier"
                           title="test@okta.com"

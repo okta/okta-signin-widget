@@ -120,6 +120,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                           </svg>
                         </span>
                         <span
+                          aria-label="tester13@test.com"
                           class="identifier no-translate MuiBox-root emotion-16"
                           data-se="identifier"
                           title="tester13@test.com"
@@ -1727,6 +1728,7 @@ exports[`authenticator-enroll-data-phone should render form without an autoFocus
                           </svg>
                         </span>
                         <span
+                          aria-label="tester13@test.com"
                           class="identifier no-translate MuiBox-root emotion-16"
                           data-se="identifier"
                           title="tester13@test.com"
@@ -3334,6 +3336,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                           </svg>
                         </span>
                         <span
+                          aria-label="tester13@test.com"
                           class="identifier no-translate MuiBox-root emotion-16"
                           data-se="identifier"
                           title="tester13@test.com"

@@ -106,6 +106,7 @@ exports[`authenticator-verification-data-ov-only-without-device-known should ren
                           </svg>
                         </span>
                         <span
+                          aria-label="testUser@okta.com"
                           class="identifier no-translate MuiBox-root emotion-16"
                           data-se="identifier"
                           title="testUser@okta.com"

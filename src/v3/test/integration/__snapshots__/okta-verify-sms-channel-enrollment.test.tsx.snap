@@ -106,6 +106,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                           </svg>
                         </span>
                         <span
+                          aria-label="tester2@test.com"
                           class="identifier no-translate MuiBox-root emotion-16"
                           data-se="identifier"
                           title="tester2@test.com"
@@ -1607,6 +1608,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form witho
                           </svg>
                         </span>
                         <span
+                          aria-label="tester2@test.com"
                           class="identifier no-translate MuiBox-root emotion-16"
                           data-se="identifier"
                           title="tester2@test.com"

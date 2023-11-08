@@ -120,6 +120,7 @@ exports[`authenticator-enroll-phone-voice should render form 1`] = `
                           </svg>
                         </span>
                         <span
+                          aria-label="tester3@test.com"
                           class="identifier no-translate MuiBox-root emotion-16"
                           data-se="identifier"
                           title="tester3@test.com"

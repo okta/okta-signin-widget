@@ -130,6 +130,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
                           </svg>
                         </span>
                         <span
+                          aria-label="tester19@test.com"
                           class="identifier no-translate MuiBox-root emotion-16"
                           data-se="identifier"
                           title="tester19@test.com"
@@ -389,6 +390,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                           </svg>
                         </span>
                         <span
+                          aria-label="tester19@test.com"
                           class="identifier no-translate MuiBox-root emotion-16"
                           data-se="identifier"
                           title="tester19@test.com"
@@ -642,6 +644,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                           </svg>
                         </span>
                         <span
+                          aria-label="tester19@test.com"
                           class="identifier no-translate MuiBox-root emotion-16"
                           data-se="identifier"
                           title="tester19@test.com"
@@ -892,6 +895,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                           </svg>
                         </span>
                         <span
+                          aria-label="tester19@test.com"
                           class="identifier no-translate MuiBox-root emotion-16"
                           data-se="identifier"
                           title="tester19@test.com"
