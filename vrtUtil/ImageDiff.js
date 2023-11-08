@@ -70,6 +70,10 @@ class ImageDiff {
   }
 
   hasPassed() {
+    // strict mode does not allow a single difference in pixels.  Exact 1:1 match
+    if (this.options.strictMode) {
+      return this.differences === 0;
+    }
     const percentage = this.getDifferencePercent();
     return percentage <= this.options.threshold || this.differences > 0;
   }

@@ -24,7 +24,7 @@ test
     // freeze the spinner element so screenshots are consistent
     await pageObject.stopSpinnerAnimation();
 
-    await compareScreenshot(t, '1', {fullPage: true, threshold: 0.00});
+    await compareScreenshot(t, '1', { fullPage: true, strictMode: true });
     // // this method scrolls down the height of the window to capture screenshots further down the page
     // await pageObject.scrollToNextPage();
 

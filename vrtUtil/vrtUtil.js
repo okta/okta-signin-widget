@@ -34,7 +34,7 @@ const compareScreenshot = async (testObject, name, options) => {
   const testFixtureName = escapeRegex(testObject.testRun.test.testFile.currentFixture.name);
   const testName = escapeRegex(testObject.testRun.test.name);
   const screenShotName = (typeof name === 'string' ? `${testName}_${name}` : testName).replace(/ /g,'_');
-  const { fullPage, threshold } = options;
+  const { fullPage, threshold, strictMode } = options;
 
   // take actual screenshot
   await testObject.takeScreenshot({
@@ -77,6 +77,7 @@ const compareScreenshot = async (testObject, name, options) => {
       imageAPath: actualScreenshotAbsolutePath,
       imageBPath: baseScreenshotAbsolutePath,
       threshold: typeof threshold === 'number' ? threshold : DEFAULT_VRT_THRESHOLD,
+      strictMode,
     });
     
     await imageDiff.run();
