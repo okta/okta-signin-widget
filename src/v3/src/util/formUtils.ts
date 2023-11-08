@@ -11,6 +11,7 @@
  */
 
 import {
+  IdxAuthenticator,
   IdxMessage, IdxRemediation, IdxTransaction, NextStep,
 } from '@okta/okta-auth-js';
 import classNames from 'classnames';
@@ -24,15 +25,20 @@ import SmartCardIconSvg from '../img/smartCardButtonIcon.svg';
 import {
   ButtonElement,
   ButtonType,
+  DescriptionElement,
   InfoboxElement,
   IWidgetContext,
   LaunchAuthenticatorButtonElement,
+  PhoneVerificationMethodType,
   WidgetMessage,
   WidgetMessageLink,
   WidgetProps,
 } from '../types';
 import { idpIconMap } from './idpIconMap';
 import { loc } from './locUtil';
+
+export type PhoneVerificationStep = typeof IDX_STEP.CHALLENGE_AUTHENTICATOR
+| typeof IDX_STEP.AUTHENTICATOR_VERIFICATION_DATA;
 
 export const handleFormFieldChange = (
   path: string,
@@ -389,4 +395,103 @@ export const shouldHideIdentifier = (
   }
 
   return false;
+};
+
+const getPhoneVerificationSubtitleTextContent = (
+  step: PhoneVerificationStep,
+  primaryMethod: PhoneVerificationMethodType,
+  phoneNumber?: string,
+  nickname?: string,
+): string => {
+  if (![
+    IDX_STEP.CHALLENGE_AUTHENTICATOR,
+    IDX_STEP.AUTHENTICATOR_VERIFICATION_DATA,
+  ].includes(step)
+    || !['sms', 'voice'].includes(primaryMethod)) {
+    // If step or method is invalid, return.
+    return '';
+  }
+  type PhoneVerificationI18nCondition = 'withPhoneWithNickName'
+  | 'withPhoneWithoutNickName'
+  | 'withoutPhone';
+  type I18nMapType = Record<
+  PhoneVerificationStep,
+  Record<PhoneVerificationMethodType, Record<PhoneVerificationI18nCondition, string>>
+  >;
+  const i18nMap: I18nMapType = {
+    [IDX_STEP.CHALLENGE_AUTHENTICATOR]: {
+      sms: {
+        withPhoneWithNickName: 'oie.phone.verify.sms.codeSentText.with.phone.with.nickname',
+        withPhoneWithoutNickName: 'oie.phone.verify.sms.codeSentText.with.phone.without.nickname',
+        withoutPhone: 'oie.phone.verify.sms.codeSentText.without.phone',
+      },
+      voice: {
+        withPhoneWithNickName: 'oie.phone.verify.mfa.calling.with.phone.with.nickname',
+        withPhoneWithoutNickName: 'oie.phone.verify.mfa.calling.with.phone.without.nickname',
+        withoutPhone: 'oie.phone.verify.mfa.calling.without.phone',
+      },
+    },
+    [IDX_STEP.AUTHENTICATOR_VERIFICATION_DATA]: {
+      sms: {
+        withPhoneWithNickName: 'oie.phone.verify.sms.sendText.with.phone.with.nickname',
+        withPhoneWithoutNickName: 'oie.phone.verify.sms.sendText.with.phone.without.nickname',
+        withoutPhone: 'oie.phone.verify.sms.sendText.without.phone',
+      },
+      voice: {
+        withPhoneWithNickName: 'oie.phone.verify.call.sendText.with.phone.with.nickname',
+        withPhoneWithoutNickName: 'oie.phone.verify.call.sendText.with.phone.without.nickname',
+        withoutPhone: 'oie.phone.verify.call.sendText.without.phone',
+      },
+    },
+  };
+  if (typeof phoneNumber !== 'undefined') {
+    // using the &lrm; unicode mark to keep the phone number in ltr format
+    // https://www.w3.org/TR/WCAG20-TECHS/H34.html
+    const phoneNumberWithUnicode = `&lrm;${phoneNumber}`;
+    return typeof nickname !== 'undefined'
+      ? loc(
+        i18nMap[step][primaryMethod].withPhoneWithNickName,
+        'login',
+        [phoneNumberWithUnicode, nickname],
+        {
+          $1: { element: 'span', attributes: { class: 'strong no-translate' } },
+          $2: {
+            element: 'span',
+            attributes: { class: 'strong no-translate authenticator-verify-nickname' },
+          },
+        },
+      )
+      : loc(
+        i18nMap[step][primaryMethod].withPhoneWithoutNickName,
+        'login',
+        [phoneNumberWithUnicode],
+        { $1: { element: 'span', attributes: { class: 'strong no-translate' } } },
+      );
+  }
+  return loc(i18nMap[step][primaryMethod].withoutPhone, 'login');
+};
+
+export const buildPhoneVerificationSubtitleElement = (
+  step: PhoneVerificationStep,
+  primaryMethod: PhoneVerificationMethodType,
+  idxAuthenticator?: IdxAuthenticator,
+): DescriptionElement => {
+  const phoneNumber = typeof idxAuthenticator?.profile?.phoneNumber !== 'undefined'
+    ? idxAuthenticator?.profile?.phoneNumber as string
+    : undefined;
+  // @ts-expect-error OKTA-661650 nickname missing from IdxAuthenticator type
+  const nickname = typeof idxAuthenticator?.nickname !== 'undefined'
+    // @ts-expect-error OKTA-661650 nickname missing from IdxAuthenticator type
+    ? idxAuthenticator?.nickname as string
+    : undefined;
+  const subtitleElement: DescriptionElement = {
+    type: 'Description',
+    contentType: 'subtitle',
+    noMargin: true,
+    options: {
+      content: getPhoneVerificationSubtitleTextContent(step, primaryMethod, phoneNumber, nickname),
+    },
+  };
+
+  return subtitleElement;
 };

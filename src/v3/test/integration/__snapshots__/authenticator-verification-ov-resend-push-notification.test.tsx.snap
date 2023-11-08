@@ -106,6 +106,7 @@ exports[`authenticator-verification-ov-resend-push-notification renders form 1`]
                           </svg>
                         </span>
                         <span
+                          aria-label="tester@okta1.com"
                           class="identifier no-translate MuiBox-root emotion-16"
                           data-se="identifier"
                           title="tester@okta1.com"

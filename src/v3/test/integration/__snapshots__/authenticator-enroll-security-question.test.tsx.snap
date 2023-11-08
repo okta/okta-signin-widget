@@ -143,6 +143,7 @@ exports[`authenticator-enroll-security-question custom question fails client sid
                           </svg>
                         </span>
                         <span
+                          aria-label="tester14@test.com"
                           class="identifier no-translate MuiBox-root emotion-21"
                           data-se="identifier"
                           title="tester14@test.com"
@@ -534,6 +535,7 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                           </svg>
                         </span>
                         <span
+                          aria-label="tester14@test.com"
                           class="identifier no-translate MuiBox-root emotion-16"
                           data-se="identifier"
                           title="tester14@test.com"
@@ -912,6 +914,7 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                           </svg>
                         </span>
                         <span
+                          aria-label="tester14@test.com"
                           class="identifier no-translate MuiBox-root emotion-16"
                           data-se="identifier"
                           title="tester14@test.com"
@@ -1401,6 +1404,7 @@ exports[`authenticator-enroll-security-question predefined question should rende
                           </svg>
                         </span>
                         <span
+                          aria-label="tester14@test.com"
                           class="identifier no-translate MuiBox-root emotion-16"
                           data-se="identifier"
                           title="tester14@test.com"

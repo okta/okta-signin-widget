@@ -72,6 +72,7 @@ exports[`unlock-account-success renders form 1`] = `
                           </svg>
                         </span>
                         <span
+                          aria-label="tester@okta1.com"
                           class="identifier no-translate MuiBox-root emotion-15"
                           data-se="identifier"
                           title="tester@okta1.com"

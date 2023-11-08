@@ -179,6 +179,22 @@ const getAuthenticatorDescription = (
   }
 };
 
+const getNickname = (
+  option: IdxOption,
+  authenticatorKey: string,
+  isEnroll?: boolean,
+): string | undefined => {
+  if (!authenticatorKey || isEnroll) {
+    return undefined;
+  }
+
+  if (authenticatorKey === AUTHENTICATOR_KEY.PHONE) {
+    // @ts-expect-error OKTA-661650 nickname missing from IdxAuthenticator
+    return option.relatesTo?.nickname;
+  }
+  return undefined;
+};
+
 const getUsageDescription = (option: IdxOption): string | undefined => {
   // @ts-ignore IdxAuthenticator missing allowedFor property
   const { allowedFor } = option.relatesTo;
@@ -254,6 +270,7 @@ const formatAuthenticatorOptions = (
             authenticatorKey,
             isEnroll,
           ),
+          nickname: getNickname(option, authenticatorKey, isEnroll),
           usageDescription: isEnroll && getUsageDescription(option),
           // @ts-ignore logoUri missing from interface
           logoUri: authenticator.logoUri,

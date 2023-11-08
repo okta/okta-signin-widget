@@ -130,6 +130,7 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
                           </svg>
                         </span>
                         <span
+                          aria-label="tester@okta1.com"
                           class="identifier no-translate MuiBox-root emotion-16"
                           data-se="identifier"
                           title="tester@okta1.com"

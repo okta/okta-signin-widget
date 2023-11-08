@@ -232,6 +232,7 @@ describe('Select Authenticator Utility Tests', () => {
 
     it('should return formatted authenticator options when raw options are provided', () => {
       const mockPhoneNumber = '2XXXXXX123';
+      const mockNickname = 'ph-nn';
       const mockEmail = 't***r@okta.com';
       const options: IdxOption[] = Object.entries(AUTHENTICATOR_KEY)
         .filter(([, value]) => value !== AUTHENTICATOR_KEY.OV
@@ -251,6 +252,8 @@ describe('Select Authenticator Utility Tests', () => {
           };
           if (AUTHENTICATOR_KEY[key] === AUTHENTICATOR_KEY.PHONE) {
             option.relatesTo.profile = { phoneNumber: mockPhoneNumber };
+            // @ts-expect-error OKTA-661650 nickname missing from IdxAuthenticator
+            option.relatesTo.nickname = mockNickname;
           } else if (AUTHENTICATOR_KEY[key] === AUTHENTICATOR_KEY.EMAIL) {
             option.relatesTo.profile = { email: mockEmail };
           }
@@ -273,6 +276,7 @@ describe('Select Authenticator Utility Tests', () => {
           const currentOption = authenticatorOptionValues
             .find(({ options: { key: authKey } }) => authKey === option.relatesTo?.key);
           expect(currentOption?.options.description).toBe(mockPhoneNumber);
+          expect(currentOption?.options.nickname).toBe(mockNickname);
         });
 
       options.filter((option) => option.relatesTo?.key === AUTHENTICATOR_KEY.EMAIL)

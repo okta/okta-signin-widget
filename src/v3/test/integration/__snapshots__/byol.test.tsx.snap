@@ -120,6 +120,7 @@ exports[`byol loading custom language should load custom language with "language
                           </svg>
                         </span>
                         <span
+                          aria-label="testUser@okta.com"
                           class="identifier no-translate MuiBox-root emotion-16"
                           data-se="identifier"
                           title="testUser@okta.com"
@@ -1727,6 +1728,7 @@ exports[`byol loading custom language should load custom language with assets.ba
                           </svg>
                         </span>
                         <span
+                          aria-label="testUser@okta.com"
                           class="identifier no-translate MuiBox-root emotion-16"
                           data-se="identifier"
                           title="testUser@okta.com"
@@ -3334,6 +3336,7 @@ exports[`byol loading default language should not load custom language when the 
                           </svg>
                         </span>
                         <span
+                          aria-label="testUser@okta.com"
                           class="identifier no-translate MuiBox-root emotion-16"
                           data-se="identifier"
                           title="testUser@okta.com"
@@ -4941,6 +4944,7 @@ exports[`byol loading default language should not load custom language with "lan
                           </svg>
                         </span>
                         <span
+                          aria-label="testUser@okta.com"
                           class="identifier no-translate MuiBox-root emotion-16"
                           data-se="identifier"
                           title="testUser@okta.com"

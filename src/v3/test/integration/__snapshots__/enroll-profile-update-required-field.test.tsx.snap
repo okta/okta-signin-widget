@@ -105,6 +105,7 @@ exports[`enroll-profile-update-required-field fails client side validation with 
                           </svg>
                         </span>
                         <span
+                          aria-label="testUser@okta.com"
                           class="identifier no-translate MuiBox-root emotion-20"
                           data-se="identifier"
                           title="testUser@okta.com"
@@ -382,6 +383,7 @@ exports[`enroll-profile-update-required-field should render form with one requir
                           </svg>
                         </span>
                         <span
+                          aria-label="testUser@okta.com"
                           class="identifier no-translate MuiBox-root emotion-15"
                           data-se="identifier"
                           title="testUser@okta.com"

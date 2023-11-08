@@ -110,6 +110,7 @@ exports[`authenticator-verification-unlock-success should render form 1`] = `
                           </svg>
                         </span>
                         <span
+                          aria-label="tester.test@okta.com"
                           class="identifier no-translate MuiBox-root emotion-16"
                           data-se="identifier"
                           title="tester.test@okta.com"

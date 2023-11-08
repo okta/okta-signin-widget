@@ -22,8 +22,9 @@ Object {
       },
       Object {
         "contentType": "subtitle",
+        "noMargin": true,
         "options": Object {
-          "content": "oie.phone.verify.sms.sendText oie.phone.alternate.title",
+          "content": "oie.phone.verify.sms.sendText.without.phone",
         },
         "type": "Description",
       },
@@ -40,7 +41,7 @@ Object {
           "actionParams": Object {
             "authenticator.methodType": "sms",
           },
-          "step": "",
+          "step": "authenticator-verification-data",
           "type": "submit",
         },
         "type": "Button",
@@ -51,7 +52,7 @@ Object {
           "actionParams": Object {
             "authenticator.methodType": "voice",
           },
-          "step": "",
+          "step": "authenticator-verification-data",
           "type": "button",
           "variant": "secondary",
         },
@@ -85,8 +86,9 @@ Object {
       },
       Object {
         "contentType": "subtitle",
+        "noMargin": true,
         "options": Object {
-          "content": "oie.phone.verify.call.sendText oie.phone.alternate.title",
+          "content": "oie.phone.verify.call.sendText.without.phone",
         },
         "type": "Description",
       },
@@ -103,7 +105,7 @@ Object {
           "actionParams": Object {
             "authenticator.methodType": "voice",
           },
-          "step": "",
+          "step": "authenticator-verification-data",
           "type": "submit",
         },
         "type": "Button",
@@ -114,7 +116,7 @@ Object {
           "actionParams": Object {
             "authenticator.methodType": "sms",
           },
-          "step": "",
+          "step": "authenticator-verification-data",
           "type": "button",
           "variant": "secondary",
         },
@@ -148,8 +150,9 @@ Object {
       },
       Object {
         "contentType": "subtitle",
+        "noMargin": true,
         "options": Object {
-          "content": "oie.phone.verify.sms.sendText oie.phone.alternate.title",
+          "content": "oie.phone.verify.sms.sendText.without.phone",
         },
         "type": "Description",
       },
@@ -166,7 +169,59 @@ Object {
           "actionParams": Object {
             "authenticator.methodType": "sms",
           },
-          "step": "",
+          "step": "authenticator-verification-data",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Phone verification Transformer Tests should add correct UI elements to schema when only sms methodType choice exists and redacted phoneNumber and nickname exists in Idx response  1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.phone.verify.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "contentType": "subtitle",
+        "noMargin": true,
+        "options": Object {
+          "content": "oie.phone.verify.sms.sendText.with.phone.with.nickname",
+        },
+        "type": "Description",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.phone.carrier.charges",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "oie.phone.sms.primaryButton",
+        "options": Object {
+          "actionParams": Object {
+            "authenticator.methodType": "sms",
+          },
+          "step": "authenticator-verification-data",
           "type": "submit",
         },
         "type": "Button",
@@ -199,8 +254,9 @@ Object {
       },
       Object {
         "contentType": "subtitle",
+        "noMargin": true,
         "options": Object {
-          "content": "oie.phone.verify.sms.sendText <span class=\\"strong no-translate\\">&lrm;+121xxxxx34</span>",
+          "content": "oie.phone.verify.sms.sendText.with.phone.without.nickname",
         },
         "type": "Description",
       },
@@ -217,7 +273,7 @@ Object {
           "actionParams": Object {
             "authenticator.methodType": "sms",
           },
-          "step": "mock-step",
+          "step": "authenticator-verification-data",
           "type": "submit",
         },
         "type": "Button",
@@ -250,8 +306,9 @@ Object {
       },
       Object {
         "contentType": "subtitle",
+        "noMargin": true,
         "options": Object {
-          "content": "oie.phone.verify.call.sendText oie.phone.alternate.title",
+          "content": "oie.phone.verify.call.sendText.without.phone",
         },
         "type": "Description",
       },
@@ -268,7 +325,59 @@ Object {
           "actionParams": Object {
             "authenticator.methodType": "voice",
           },
-          "step": "",
+          "step": "authenticator-verification-data",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Phone verification Transformer Tests should add correct UI elements to schema when only voice methodType choice exists and redacted phoneNumber and nickname exists in Idx response  1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.phone.verify.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "contentType": "subtitle",
+        "noMargin": true,
+        "options": Object {
+          "content": "oie.phone.verify.call.sendText.with.phone.with.nickname",
+        },
+        "type": "Description",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.phone.carrier.charges",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "oie.phone.call.primaryButton",
+        "options": Object {
+          "actionParams": Object {
+            "authenticator.methodType": "voice",
+          },
+          "step": "authenticator-verification-data",
           "type": "submit",
         },
         "type": "Button",
@@ -301,8 +410,9 @@ Object {
       },
       Object {
         "contentType": "subtitle",
+        "noMargin": true,
         "options": Object {
-          "content": "oie.phone.verify.call.sendText <span class=\\"strong no-translate\\">&lrm;+121xxxxx34</span>",
+          "content": "oie.phone.verify.call.sendText.with.phone.without.nickname",
         },
         "type": "Description",
       },
@@ -319,7 +429,7 @@ Object {
           "actionParams": Object {
             "authenticator.methodType": "voice",
           },
-          "step": "mock-step",
+          "step": "authenticator-verification-data",
           "type": "submit",
         },
         "type": "Button",

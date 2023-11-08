@@ -110,6 +110,7 @@ exports[`Email authenticator enroll when magic link = false Tests should render 
                           </svg>
                         </span>
                         <span
+                          aria-label="testUser@okta.com"
                           class="identifier no-translate MuiBox-root emotion-16"
                           data-se="identifier"
                           title="testUser@okta.com"

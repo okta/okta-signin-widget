@@ -67,6 +67,7 @@ const IdentifierContainer: UISchemaElementComponent<{
           sx={{
             marginInlineStart: '10px',
           }}
+          aria-label={identifier}
         >
           {identifier}
         </Box>

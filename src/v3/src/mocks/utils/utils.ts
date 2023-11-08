@@ -77,10 +77,10 @@ export const getStubTransaction = (status: IdxStatus = IdxStatus.PENDING): IdxTr
   },
 });
 
-export const getStubTransactionWithNextStep = (): IdxTransaction => {
+export const getStubTransactionWithNextStep = (stepName?: string): IdxTransaction => {
   const transaction = getStubTransaction();
 
-  return { ...transaction, nextStep: { name: '' } };
+  return { ...transaction, nextStep: { name: stepName ?? '' } };
 };
 
 export const getStubFormBag = (
