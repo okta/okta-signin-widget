@@ -32,7 +32,7 @@ const compareScreenshot = async (testObject, options) => {
 
   const { fullPage, threshold, strictMode, name } = options;
   const escapeRegex = (s) => s.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
-  const testFixtureName = escapeRegex(testObject.testRun.test.testFile.currentFixture.name);
+  const testFixtureName = escapeRegex(testObject.testRun.test.testFile.currentFixture.name).replace(/ /g,'_');
   const testName = escapeRegex(testObject.testRun.test.name);
   const screenShotName = (typeof name === 'string' ? `${testName}_${name}` : testName).replace(/ /g,'_');
 
