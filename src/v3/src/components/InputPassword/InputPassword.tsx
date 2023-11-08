@@ -196,6 +196,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
                     },
                   }}
                 >
+                  {showPassword ? <EyeOffIcon /> : <EyeIcon />}
                 </IconButton>
               </Tooltip>
             </InputAdornment>
