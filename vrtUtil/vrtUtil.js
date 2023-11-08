@@ -4,13 +4,15 @@ const ImageDiff = require('./ImageDiff');
 
 // Matching threshold as a decimal percentage of the maximum acceptable square distance between two colors;
 // Ranges from 0 to 1. Smaller values make the comparison more sensitive.
-const VISUAL_REGRESSION_THRESHOLD = 0.1;
+const DEFAULT_VRT_THRESHOLD = 0.1;
 const BACON_CI_BASE_PATH = path.join('build2', 'reports', 'vrt', 'artifacts', 'screenshots');
 
-const getAbsolutePathForScreenshot = (type, testFixture, testName, useCiPath) => (
-  useCiPath
-    ? path.join(BACON_CI_BASE_PATH, type, testFixture, `${testName}.png`).normalize()
-    : path.join('screenshots', type, testFixture, `${testName}.png`).normalize()
+const getActualScreenshotPath = (testFixture, testName) => (
+  path.join(BACON_CI_BASE_PATH, 'actual', testFixture, `${testName}.png`).normalize()
+);
+
+const getBaseScreenshotPath = (testFixture, testName) => (
+  path.join('screenshots', 'base', testFixture, `${testName}.png`).normalize()
 );
 
 const getDiffImagePath = (imagePath) => {
@@ -21,41 +23,31 @@ const getDiffImagePath = (imagePath) => {
 };
 
 // eslint-disable-next-line complexity, max-statements
-const compareScreenshot = async (testObject, name) => {
+const compareScreenshot = async (testObject, name, options) => {
   if (typeof testObject === 'undefined') {
     return;
   }
   // set window size so screenshots are consistent
-  await testObject.resizeWindow(800, 800);
+  await testObject.resizeWindow(1600, 1600);
 
   const escapeRegex = (s) => s.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
   const testFixtureName = escapeRegex(testObject.testRun.test.testFile.currentFixture.name);
   const testName = escapeRegex(testObject.testRun.test.name);
   const screenShotName = (typeof name === 'string' ? `${testName}_${name}` : testName).replace(/ /g,'_');
+  const { fullPage, threshold } = options;
 
   // take actual screenshot
-  await testObject.takeScreenshot(
-    path.join(testObject.testRun.opts.userVariables.useVrtCiPath 
-      ? BACON_CI_BASE_PATH 
-      : 'screenshots',
-    'actual',
-    testFixtureName,
-    `${screenShotName}.png`
-    )
-  );
+  await testObject.takeScreenshot({
+    path: path.join(
+      'actual',
+      testFixtureName,
+      `${screenShotName}.png`
+    ),
+    fullPage,
+  });
 
-  const actualScreenshotAbsolutePath = getAbsolutePathForScreenshot(
-    'actual',
-    testFixtureName,
-    screenShotName,
-    testObject.testRun.opts.userVariables.useVrtCiPath,
-  );
-
-  const baseScreenshotAbsolutePath = getAbsolutePathForScreenshot(
-    'base',
-    testFixtureName,
-    screenShotName,
-  );
+  const actualScreenshotAbsolutePath = getActualScreenshotPath(testFixtureName, screenShotName);
+  const baseScreenshotAbsolutePath = getBaseScreenshotPath(testFixtureName, screenShotName);
   const isActualScreenshotTaken = fs.existsSync(actualScreenshotAbsolutePath);
   const isBaseScreenshotTaken = fs.existsSync(baseScreenshotAbsolutePath);
 
@@ -67,7 +59,10 @@ const compareScreenshot = async (testObject, name) => {
 
   if (!isBaseScreenshotTaken || shouldUpdateScreenShot) {
     // take base screenshot
-    await testObject.takeScreenshot(path.join('screenshots', 'base', testFixtureName, `${screenShotName}.png`));
+    await testObject.takeScreenshot({
+      path: path.join('base', testFixtureName, `${screenShotName}.png`),
+      fullPage,
+    });
     if (shouldUpdateScreenShot) {
       console.log('Screenshot updated for ' + testFixtureName + ' / ' + screenShotName);
     } else {
@@ -76,16 +71,17 @@ const compareScreenshot = async (testObject, name) => {
   }
 
   // Do the comparison if a base and actual screenshot exist
-  if (isActualScreenshotTaken && isBaseScreenshotTaken) {
+  if (isActualScreenshotTaken && isBaseScreenshotTaken && !shouldUpdateScreenShot) {
     const imageDiff = new ImageDiff({
       imageOutputPath: getDiffImagePath(actualScreenshotAbsolutePath),
       imageAPath: actualScreenshotAbsolutePath,
       imageBPath: baseScreenshotAbsolutePath,
-      threshold: VISUAL_REGRESSION_THRESHOLD,
+      threshold: typeof threshold === 'number' ? threshold : DEFAULT_VRT_THRESHOLD,
     });
     
     await imageDiff.run();
     const diff = imageDiff.getDifferencePercent();
+    console.log('diff: ', imageDiff.differences);
     if (!imageDiff.hasPassed()) {
       // fail test
       throw new Error(

@@ -24,19 +24,19 @@ test
     // freeze the spinner element so screenshots are consistent
     await pageObject.stopSpinnerAnimation();
 
-    await compareScreenshot(t, '1');
-    // this method scrolls down the height of the window to capture screenshots further down the page
-    await pageObject.scrollToNextPage();
+    await compareScreenshot(t, '1', {fullPage: true, threshold: 0.00});
+    // // this method scrolls down the height of the window to capture screenshots further down the page
+    // await pageObject.scrollToNextPage();
 
-    // possible bug in testcafe where the animated progress bar at the bottom is displaying after scrolling
-    // causing inconsistent screenshots
-    await pageObject.hideProgressBar();
+    // // possible bug in testcafe where the animated progress bar at the bottom is displaying after scrolling
+    // // causing inconsistent screenshots
+    // await pageObject.hideProgressBar();
 
-    await compareScreenshot(t, '2');
-    await pageObject.scrollToNextPage();
+    // await compareScreenshot(t, '2');
+    // await pageObject.scrollToNextPage();
 
-    await compareScreenshot(t, '3');
-    await pageObject.scrollToNextPage();
+    // await compareScreenshot(t, '3');
+    // await pageObject.scrollToNextPage();
 
-    await compareScreenshot(t, '4');
+    // await compareScreenshot(t, '4');
   });

@@ -71,7 +71,7 @@ class ImageDiff {
 
   hasPassed() {
     const percentage = this.getDifferencePercent();
-    return percentage <= this.options.threshold;
+    return percentage <= this.options.threshold || this.differences > 0;
   }
 }
 

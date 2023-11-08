@@ -5,14 +5,12 @@ const waitOn = require('wait-on');
 const {
   OKTA_SIW_GEN3,
   UPDATE_SCREENSHOTS,
-  USE_VRT_CI_PATH,
 } = process.env;
 
 // Normalize process.env to type 'boolean'
 const env = {
   OKTA_SIW_GEN3: OKTA_SIW_GEN3 === 'true',
   UPDATE_SCREENSHOTS: UPDATE_SCREENSHOTS === 'true',
-  USE_VRT_CI_PATH: USE_VRT_CI_PATH === 'true',
 };
 
 const config = {
@@ -42,7 +40,6 @@ const config = {
   userVariables: {
     gen3: env.OKTA_SIW_GEN3,
     updateScreenshots: env.UPDATE_SCREENSHOTS,
-    useVrtCiPath: env.USE_VRT_CI_PATH,
   },
   // OKTA-575629 Remove this when gen3 parity test flakiness is resolved
   ...(env.OKTA_SIW_GEN3 && {
@@ -50,7 +47,7 @@ const config = {
   }),
   concurrency: 1,
   screenshots: {
-    path: './',
+    path: 'build2/reports/vrt/artifacts/screenshots',
     thumbnails: false,
   },
 }
