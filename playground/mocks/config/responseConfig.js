@@ -18,7 +18,7 @@ const idx = {
   ],
 
   '/idp/idx/introspect': [
-    // 'identify',
+    'identify',
     // 'error-identify-multiple-errors',
     // 'authenticator-enroll-ov-qr-enable-biometrics',
     // 'authenticator-verification-okta-verify-push',
@@ -33,7 +33,7 @@ const idx = {
     // 'error-identify-with-only-one-third-party-idp',
     // 'authenticator-enroll-email',
     // 'error-internal-server-error',
-    'authenticator-enroll-password-with-ad-req',
+    // 'authenticator-enroll-password',
     // 'authenticator-enroll-phone',
     // 'authenticator-enroll-phone-voice',
     // 'authenticator-enroll-data-phone',

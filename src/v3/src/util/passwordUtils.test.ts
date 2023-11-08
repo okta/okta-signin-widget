@@ -279,60 +279,71 @@ describe('PasswordUtils Tests', () => {
   });
 
   describe('Validate useADComplexityRequirements', () => {
-    it('should validate password for at least 3 of the following: lowercase letter, uppercase letter, number, symbol', () => {
-      expect(validatePassword('abcd1234', userInfo, { complexity: { useADComplexityRequirements: true } })
+    it.each`
+      pw             | isValid
+      ${'abcd1234'}  | ${false}
+      ${'aaaaaaaa'}  | ${false}
+      ${''}          | ${false}
+      ${' '}         | ${false}
+      ${'abcd1234$'}  | ${true}
+      ${'ABCD1234$'}  | ${true}
+      ${'abCD$$$$'}  | ${true}
+      ${'abCD1234'}  | ${true}
+      ${'abCD1234$'} | ${true}
+    `('should validate $pw as $isValid', ({ pw, isValid }) => {
+      expect(validatePassword(pw, userInfo, { complexity: { useADComplexityRequirements: true } })
         ?.useADComplexityRequirements)
-        .toEqual(false);
-      expect(validatePassword('aaaaaaaa', userInfo, { complexity: { useADComplexityRequirements: true } })
-        ?.useADComplexityRequirements)
-        .toEqual(false);
-      expect(validatePassword(' ', userInfo, { complexity: { useADComplexityRequirements: true } })
-        ?.useADComplexityRequirements)
-        .toEqual(false);
-      expect(validatePassword('abcd1234$', userInfo, { complexity: { useADComplexityRequirements: true } })
-        ?.useADComplexityRequirements)
-        .toEqual(true);
-      expect(validatePassword('ABCD1234$', userInfo, { complexity: { useADComplexityRequirements: true } })
-        ?.useADComplexityRequirements)
-        .toEqual(true);
-      expect(validatePassword('abCD$$$$', userInfo, { complexity: { useADComplexityRequirements: true } })
-        ?.useADComplexityRequirements)
-        .toEqual(true);
-      expect(validatePassword('abCD1234', userInfo, { complexity: { useADComplexityRequirements: true } })
-        ?.useADComplexityRequirements)
-        .toEqual(true);
-      expect(validatePassword('abCD1234$', userInfo, { complexity: { useADComplexityRequirements: true } })
+        .toEqual(isValid);
+    });
+
+    it.each`
+      pw            | minReq
+      ${'aBCD1234'} | ${{ minLowerCase: 2 }}
+      ${'abcD1234'} | ${{ minUpperCase: 2 }}
+      ${'abcdefG1'} | ${{ minNumber: 2 }}
+      ${'abcd123$'} | ${{ minSymbol: 2 }}
+    `('should ignore existing $minReq requirement and validate $pw as true', ({ pw, minReq }) => {
+      expect(validatePassword(
+        pw,
+        userInfo,
+        {
+          complexity:
+          {
+            useADComplexityRequirements: true,
+            ...minReq,
+          },
+        },
+      )
         ?.useADComplexityRequirements)
         .toEqual(true);
     });
 
-    it('should ignore existing minLowerCase, minUpperCase, minNumber, and minSymbol requirements', () => {
-      expect(validatePassword('aBCD1234', userInfo, { complexity: { useADComplexityRequirements: true, minLowerCase: 2 } })
-        ?.useADComplexityRequirements)
-        .toEqual(true);
-      expect(validatePassword('abcD1234', userInfo, { complexity: { useADComplexityRequirements: true, minUpperCase: 2 } })
-        ?.useADComplexityRequirements)
-        .toEqual(true);
-      expect(validatePassword('abcdefG1', userInfo, { complexity: { useADComplexityRequirements: true, minNumber: 2 } })
-        ?.useADComplexityRequirements)
-        .toEqual(true);
-      expect(validatePassword('abcd123$', userInfo, { complexity: { useADComplexityRequirements: true, minSymbol: 2 } })
-        ?.useADComplexityRequirements)
-        .toEqual(true);
-    });
-
-    it('should enforce excludeUsername, excludeFirstName, excludeLastName, and excludeAttributes requirements', () => {
+    it.each`
+      pw                      |  excludeReq               | validationRes
+      ${'testUser1'}          |  ${'excludeUsername'}     | ${false}   
+      ${'Test1234'}           |  ${'excludeFirstName'}    | ${false}
+      ${'User1234'}           |  ${'excludeLastName'}     | ${false}
+    `('should enforce existing $excludeReq requirement and validate $pw as $validationRes', ({ pw, excludeReq, validationRes } ) => {
       userInfo = { identifier: 'testUser', profile: { firstName: 'Test', lastName: 'User' } };
 
-      expect(validatePassword('testUser1', userInfo, { complexity: { useADComplexityRequirements: true, excludeUsername: true } })
-        ?.excludeUsername)
-        .toEqual(false);
-      expect(validatePassword('Test1234', userInfo, { complexity: { useADComplexityRequirements: true, excludeFirstName: true } })
-        ?.excludeFirstName)
-        .toEqual(false);
-      expect(validatePassword('User1234', userInfo, { complexity: { useADComplexityRequirements: true, excludeLastName: true } })
-        ?.excludeLastName)
-        .toEqual(false);
+      expect(validatePassword(
+        pw,
+        userInfo,
+        {
+          complexity:
+          {
+            useADComplexityRequirements: true,
+            [excludeReq]: true,
+          },
+        },
+      )
+        ?.[excludeReq])
+        .toEqual(validationRes);
+    });
+
+    it('should enforce existing excludeAttributes requirement', () => {
+      userInfo = { identifier: 'testUser', profile: { firstName: 'Test', lastName: 'User' } };
+
       expect(validatePassword('Test_User_testUser', userInfo, {
         complexity: {
           useADComplexityRequirements: true,
