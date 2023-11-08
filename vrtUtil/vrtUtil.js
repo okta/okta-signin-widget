@@ -64,10 +64,15 @@ const compareScreenshot = async (testObject, options) => {
       path: path.join('base', testFixtureName, `${screenShotName}.png`),
       fullPage,
     });
+    if (!isBaseScreenshotTaken) {
+      throw new Error(
+        `No base screenshot found for: ${testFixtureName}/${screenShotName}.  
+        Please find the base screenshot in the test report and add it to the repo.`
+      );
+    }
     if (shouldUpdateScreenShot) {
-      console.log('Screenshot updated for ' + testFixtureName + ' / ' + screenShotName);
-    } else {
-      console.log('Base screenshot created for ' + testFixtureName + ' / ' + screenShotName);
+      console.log('Base screenshot for ' + testFixtureName + ' / ' + screenShotName + 
+      ' has been created in the test report.  Please add this screenshot to a commit and push it to the repo.');
     }
   }
 
