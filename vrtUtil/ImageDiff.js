@@ -36,21 +36,26 @@ class ImageDiff {
   }
 
   async run() {
+    // get the images to be compared
     const aImage = await readPngImage(this.options.imageAPath);
     const bImage = await readPngImage(this.options.imageBPath);
 
+    // prepare a new difference image the same size as the larger of the two
     const dstImage = new PNG({
       width: Math.max(aImage.width, bImage.width),
       height: Math.max(aImage.height, bImage.height),
     });
 
+    // resize the images to the same dimensions to compare accurately
     const aCanvas = await resizeImage(aImage, dstImage.width, dstImage.height);
     const bCanvas = await resizeImage(bImage, dstImage.width, dstImage.height);
 
     const options = { threshold: this.options.threshold || 0.1 };
+    // execute the comparison
     const result = pixelmatch(aCanvas.data, bCanvas.data, dstImage.data, dstImage.width, dstImage.height, options);
 
-    dstImage.pack().pipe(fs.createWriteStream(this.getImageOutput()));
+    // output the difference image
+    dstImage.pack().pipe(fs.createWriteStream(this.getDiffImageOutputPath()));
 
     return Object.assign(this, {
       width: dstImage.width,
@@ -59,7 +64,7 @@ class ImageDiff {
     });
   }
 
-  getImageOutput() {
+  getDiffImageOutputPath() {
     return this.options.imageOutputPath;
   }
 

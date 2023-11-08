@@ -57,6 +57,7 @@ const compareScreenshot = async (testObject, name, options) => {
     || testObject.testRun.test.testFile.currentFixture.meta.updateScreenshots
     || testObject.testRun.opts.userVariables.updateScreenshots;
 
+  // create a new screenshot if a base screenshot does not exist or shouldUpdateScreenShot flag is true
   if (!isBaseScreenshotTaken || shouldUpdateScreenShot) {
     // take base screenshot
     await testObject.takeScreenshot({
@@ -80,13 +81,13 @@ const compareScreenshot = async (testObject, name, options) => {
       strictMode,
     });
     
+    // executes the image comparison
     await imageDiff.run();
-    const diff = imageDiff.getDifferencePercent();
-    console.log('diff: ', imageDiff.differences);
+
     if (!imageDiff.hasPassed()) {
       // fail test
       throw new Error(
-        `Visual mismatch detected in test: ${testFixtureName}/${screenShotName}.  Difference %:${diff} Please investigate.`
+        `Visual mismatch detected in test: ${testFixtureName}/${screenShotName}.  Please investigate.`
       );
     }
   }
