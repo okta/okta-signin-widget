@@ -2,13 +2,12 @@ const path = require('path');
 const fs = require('fs');
 const ImageDiff = require('./ImageDiff');
 
-// Matching threshold as a decimal percentage of the maximum acceptable square distance between two colors;
-// Ranges from 0 to 1. Smaller values make the comparison more sensitive.
-const DEFAULT_VRT_THRESHOLD = 0.1;
-const BACON_CI_BASE_PATH = path.join('build2', 'reports', 'vrt', 'artifacts', 'screenshots');
+// Max image different allowed as a percentage. ie. 0.01 = 0.01%
+const MAX_DIFF_PERCENT = 0.01;
+const BASE_PATH = path.join('build2', 'reports', 'vrt', 'artifacts', 'screenshots');
 
 const getActualScreenshotPath = (testFixture, testName) => (
-  path.join(BACON_CI_BASE_PATH, 'actual', testFixture, `${testName}.png`).normalize()
+  path.join(BASE_PATH, 'actual', testFixture, `${testName}.png`).normalize()
 );
 
 const getBaseScreenshotPath = (testFixture, testName) => (
@@ -16,7 +15,7 @@ const getBaseScreenshotPath = (testFixture, testName) => (
 );
 
 const getBaseScreenshotPathLocal = (testFixture, testName) => (
-  path.join(BACON_CI_BASE_PATH, 'base', testFixture, `${testName}.png`).normalize()
+  path.join(BASE_PATH, 'base', testFixture, `${testName}.png`).normalize()
 );
 
 const getDiffImagePath = (imagePath) => {
@@ -34,7 +33,7 @@ const compareScreenshot = async (testObject, options) => {
   // set window size so screenshots are consistent
   await testObject.resizeWindow(1600, 1600);
 
-  const { fullPage, threshold, strictMode, name } = options;
+  const { fullPage, strictMode, name } = options;
   const escapeRegex = (s) => s.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
   const testFixtureName = escapeRegex(testObject.testRun.test.testFile.currentFixture.name).replace(/ /g,'_');
   const testName = escapeRegex(testObject.testRun.test.name);
@@ -54,9 +53,9 @@ const compareScreenshot = async (testObject, options) => {
   // if vrt is being tested locally we get the base screen shot from the reports directory
   // that is created locally after running the update screenshots command.
   // this is to avoid the base screenshot from bacon being overwritten
-  const baseScreenshotAbsolutePath = testObject.testRun.opts.userVariables.vrtLocal 
-    ? getBaseScreenshotPathLocal(testFixtureName, screenShotName)
-    : getBaseScreenshotPath(testFixtureName, screenShotName);
+  const baseScreenshotAbsolutePath = testObject.testRun.opts.userVariables.vrtCi 
+    ? getBaseScreenshotPath(testFixtureName, screenShotName)
+    : getBaseScreenshotPathLocal(testFixtureName, screenShotName);
   const isActualScreenshotTaken = fs.existsSync(actualScreenshotAbsolutePath);
   const isBaseScreenshotTaken = fs.existsSync(baseScreenshotAbsolutePath);
 
@@ -73,16 +72,16 @@ const compareScreenshot = async (testObject, options) => {
       path: path.join('base', testFixtureName, `${screenShotName}.png`),
       fullPage,
     });
-    if (!isBaseScreenshotTaken) {
-      throw new Error(
-        `No base screenshot found for: ${testFixtureName}/${screenShotName}.  
-        Please find the base screenshot in the test report and add it to the repo.`
-      );
-    }
     if (shouldUpdateScreenShot) {
       console.log('Base screenshot for ' + testFixtureName + ' / ' + screenShotName + 
       ' has been created in the test report.  Please add this screenshot to a commit and push it to the repo.');
+      return;
     }
+
+    throw new Error(
+      `No base screenshot found for: ${testFixtureName}/${screenShotName}.  
+      Please find the base screenshot in the test report and add it to the repo.`
+    );
   }
 
   // Do the comparison if a base and actual screenshot exist
@@ -91,7 +90,7 @@ const compareScreenshot = async (testObject, options) => {
       imageOutputPath: getDiffImagePath(actualScreenshotAbsolutePath),
       imageAPath: actualScreenshotAbsolutePath,
       imageBPath: baseScreenshotAbsolutePath,
-      threshold: typeof threshold === 'number' ? threshold : DEFAULT_VRT_THRESHOLD,
+      maxDiff: MAX_DIFF_PERCENT,
       strictMode,
     });
     

@@ -142,14 +142,14 @@ test_suites:
   - name: vrt-v3
     script_path: /root/okta/okta-signin-widget/scripts
     sort_order: '32'
-    timeout: '40'
+    timeout: '15'
     script_name: vrt-v3
     criteria: MERGE
     queue_name: small
   - name: vrt-v3-get-screenshots
     script_path: /root/okta/okta-signin-widget/scripts
     sort_order: '33'
-    timeout: '40'
+    timeout: '15'
     script_name: vrt-v3-get-screenshots
     criteria: OPTIONAL
     queue_name: small

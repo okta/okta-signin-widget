@@ -5,14 +5,14 @@ const waitOn = require('wait-on');
 const {
   OKTA_SIW_GEN3,
   UPDATE_SCREENSHOTS,
-  VRT_LOCAL,
+  VRT_CI,
 } = process.env;
 
 // Normalize process.env to type 'boolean'
 const env = {
   OKTA_SIW_GEN3: OKTA_SIW_GEN3 === 'true',
   UPDATE_SCREENSHOTS: UPDATE_SCREENSHOTS === 'true',
-  VRT_LOCAL: VRT_LOCAL === 'true',
+  VRT_CI: VRT_CI === 'true',
 };
 
 const config = {
@@ -42,9 +42,10 @@ const config = {
   userVariables: {
     gen3: env.OKTA_SIW_GEN3,
     updateScreenshots: env.UPDATE_SCREENSHOTS,
-    vrtLocal: env.VRT_LOCAL,
+    vrtCi: env.VRT_CI,
   },
   assertionTimeout: 20000,
+  // testcafe does not like concurrency being higher than the amount of tests
   concurrency: 1,
   screenshots: {
     path: 'build2/reports/vrt/artifacts/screenshots',

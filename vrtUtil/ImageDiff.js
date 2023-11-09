@@ -2,6 +2,11 @@ import fs from 'fs';
 import { PNG } from 'pngjs';
 import pixelmatch from 'pixelmatch';
 
+// Used for the pixelmatch comparison algorithm.
+// Decimal percentage of the maximum acceptable square distance between two colors;
+// Ranges from 0 to 1. Smaller values make the comparison more sensitive.
+const MAX_COLOR_DISTANCE_THRESHOLD = 0.1;
+
 const readPngImage = (image) => {
   return new Promise((resolve, reject) => {
     fs.createReadStream(image).pipe(new PNG())
@@ -50,7 +55,7 @@ class ImageDiff {
     const aCanvas = await resizeImage(aImage, dstImage.width, dstImage.height);
     const bCanvas = await resizeImage(bImage, dstImage.width, dstImage.height);
 
-    const options = { threshold: this.options.threshold || 0.1 };
+    const options = { threshold: MAX_COLOR_DISTANCE_THRESHOLD };
     // execute the comparison
     const result = pixelmatch(aCanvas.data, bCanvas.data, dstImage.data, dstImage.width, dstImage.height, options);
 
@@ -80,7 +85,8 @@ class ImageDiff {
       return this.differences === 0;
     }
     const percentage = this.getDifferencePercent();
-    return percentage <= this.options.threshold || this.differences > 0;
+    const maxDiffPercent = this.options.maxDiff || 0.05;
+    return percentage <= maxDiffPercent;
   }
 }
 
