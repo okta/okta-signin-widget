@@ -285,4 +285,15 @@ export default class BasePageObject {
   isVisible() {
     return this.form.el.visible;
   }
+
+  async getAriaDescription(el) {
+    const ariaDescription = await el.getAttribute('aria-description');
+    const ariaDescribedByIds = await el.getAttribute('aria-describedby');
+    const ariaDescribedByTexts = ariaDescribedByIds ? await Promise.all(
+      ariaDescribedByIds?.split(' ')
+        .map(sel => Selector('#'+sel))
+        .map(async el => await el.getAttribute('aria-label') || await el.innerText)
+    ) : [];
+    return ariaDescription || ariaDescribedByTexts.join(' ');
+  }
 }
