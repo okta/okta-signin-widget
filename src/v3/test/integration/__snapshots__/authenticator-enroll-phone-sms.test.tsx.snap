@@ -319,6 +319,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                               Okta Verify
                             </h3>
                             <p
+                              aria-label="Okta Verify is an authenticator app, installed on your phone, used to prove your identity."
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-33"
                               data-se="authenticator-button-description"
                               id="okta_verify_1-description"
@@ -433,6 +434,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                               Phone
                             </h3>
                             <p
+                              aria-label="Verify with a code sent to your phone."
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-33"
                               data-se="authenticator-button-description"
                               id="phone_number_2-description"
@@ -557,6 +559,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                               Security Key or Biometric Authenticator
                             </h3>
                             <p
+                              aria-label="Use a security key or a biometric authenticator to sign in."
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-33"
                               data-se="authenticator-button-description"
                               id="webauthn_3-description"

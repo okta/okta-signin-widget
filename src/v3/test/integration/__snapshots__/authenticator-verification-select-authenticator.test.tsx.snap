@@ -506,6 +506,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                               Phone
                             </h3>
                             <p
+                              aria-label="+1 XXX-XXX-5309."
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text no-translate emotion-57"
                               data-se="authenticator-button-description"
                               id="phone_number_3-description"
@@ -620,6 +621,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                               Phone
                             </h3>
                             <p
+                              aria-label="+1 XXX-XXX-5310."
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text no-translate emotion-57"
                               data-se="authenticator-button-description"
                               id="phone_number_4-description"
@@ -817,6 +819,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                               Use Okta FastPass
                             </h3>
                             <p
+                              aria-label="Okta Verify."
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-57"
                               data-se="authenticator-button-description"
                               id="okta_verify_6-description"
@@ -1734,6 +1737,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                               Get a push notification
                             </h3>
                             <p
+                              aria-label="Custom Push App."
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text no-translate emotion-57"
                               data-se="authenticator-button-description"
                               id="custom_app_15-description"
