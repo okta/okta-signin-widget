@@ -2,7 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const ImageDiff = require('./ImageDiff');
 
-// Max image different allowed as a percentage. ie. 0.01 = 0.01%
+// Max image difference allowed as a percentage. ie. 0.01 = 0.01%
 const MAX_DIFF_PERCENT = 0.01;
 const BASE_PATH = path.join('build2', 'reports', 'vrt', 'artifacts', 'screenshots');
 
