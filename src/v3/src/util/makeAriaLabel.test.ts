@@ -87,6 +87,7 @@ describe('makeAriaLabel', () => {
   ];
 
   tests.forEach(([testName, from, to]) => {
+    // eslint-disable-next-line jest/valid-title
     test(testName, () => expect(makeAriaLabel(from)).toBe(to));
   });
 });
