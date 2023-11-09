@@ -18,7 +18,7 @@ const EXPECTED_BUNDLE_SIZES = {
   'okta-sign-in.polyfill.js': 504 * KB,
   'okta-sign-in.polyfill.min.js': 108 * KB,
   //  Revert this when odyssey 1.x migration is complete and legacy package is removed
-  'okta-sign-in.next.js': 1.9 * MB,
+  'okta-sign-in.next.js': 1.8 * MB,
   //  Revert this when odyssey 1.x migration is complete and legacy package is removed
   'okta-sign-in.next.no-polyfill.js': 1.7 * MB,
 };
