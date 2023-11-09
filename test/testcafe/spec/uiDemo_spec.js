@@ -4,6 +4,8 @@ import uiDemoResponse from '../../../playground/mocks/data/idp/idx/_ui-demo.json
 import { renderWidget } from '../framework/shared';
 
 import compareScreenshot from '../../../vrtUtil/vrtUtil';
+import loginAr from '../../../playground/mocks/labels/json/login_ar.json';
+import countryAr from '../../../playground/mocks/labels/json/country_ar.json';
 
 const uiDemoMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -12,10 +14,14 @@ const uiDemoMock = RequestMock()
   // made relative to the location.href. This issue exists in tests only, i.e.,
   // it has no equivalent in prod. NOTE: Not providing these mocks cause the
   // test to hang indefinitely and time out when assertionTimeout is exceeded.
+  // .onRequestTo('http://labels/json/login_ar.json')
+  // .respond(null, 404)
+  // .onRequestTo('http://labels/json/country_ar.json')
+  // .respond(null, 404);
   .onRequestTo('http://labels/json/login_ar.json')
-  .respond(null, 404)
+  .respond(loginAr)
   .onRequestTo('http://labels/json/country_ar.json')
-  .respond(null, 404);
+  .respond(countryAr);
 
 async function setup(t) {
   const pageObject = new UiDemoPageObject(t);
