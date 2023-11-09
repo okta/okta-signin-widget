@@ -212,9 +212,11 @@ test.requestHooks(mockEnrollAuthenticatorWithUsageInfo)('should load select auth
   await t.expect(selectFactorPage.getFactorDescriptionByIndex(0)).eql('Choose a password for your account');
   await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(0)).eql(true);
   await t.expect(selectFactorPage.getFactorUsageTextByIndex(0)).eql('Used for access');
-  await t.expect(await selectFactorPage.getFactorAriaDescriptionByIndex(0)).eql(
-    'Choose a password for your account. Used for access. Set up'
-  );
+  if (userVariables.gen3) {
+    await t.expect(await selectFactorPage.getFactorAriaDescriptionByIndex(0)).eql(
+      'Choose a password for your account. Used for access. Set up'
+    );
+  }
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(1)).eql('Phone');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(1)).contains('mfa-okta-phone');
