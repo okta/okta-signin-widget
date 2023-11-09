@@ -39,6 +39,7 @@ export * from './isPasswordRecovery';
 export * from './isPollingStep';
 export * from './languageUtils';
 export * from './locUtil';
+export * from './makeAriaLabel';
 export * from './passwordUtils';
 export * from './removeFieldLevelMessages';
 export * from './rendererUtils';

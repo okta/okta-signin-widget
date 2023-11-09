@@ -27,7 +27,7 @@ import {
   ClickHandler,
   UISchemaElementComponent,
 } from '../../types';
-import { getTranslation, getValidationMessages } from '../../util';
+import { getTranslation, getValidationMessages, makeAriaLabel } from '../../util';
 import AuthCoin from '../AuthCoin/AuthCoin';
 
 const AuthenticatorButton: UISchemaElementComponent<{
@@ -178,6 +178,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
             }}
             data-se="authenticator-button-description"
             className={classNames('authenticator-description--text', { 'no-translate': noTranslate })}
+            aria-label={makeAriaLabel(description)}
           >
             {description}
           </Typography>
@@ -215,6 +216,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
             }}
             data-se="authenticator-button-usage-text"
             className="authenticator-usage-text"
+            aria-label={makeAriaLabel(usageDescription)}
           >
             {usageDescription}
           </Typography>
