@@ -21,7 +21,7 @@ import {
   InputLabel,
   Tooltip,
   Typography,
-} from '@okta/odyssey-react-mui';
+} from '@okta/odyssey-react-mui-legacy';
 import { h } from 'preact';
 import { useRef, useState } from 'preact/hooks';
 

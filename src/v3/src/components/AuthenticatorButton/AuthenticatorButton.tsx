@@ -16,7 +16,7 @@ import {
   ArrowRightIcon,
   Box,
   Typography,
-} from '@okta/odyssey-react-mui';
+} from '@okta/odyssey-react-mui-legacy';
 import classNames from 'classnames';
 import { h } from 'preact';
 

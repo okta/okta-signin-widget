@@ -13,7 +13,7 @@
 import { SelectChangeEvent } from '@mui/material';
 import {
   Box, FormControl, InputLabel, Select as MuiSelect, Typography,
-} from '@okta/odyssey-react-mui';
+} from '@okta/odyssey-react-mui-legacy';
 import { IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
 import { h } from 'preact';
 

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { odysseyTheme } from '@okta/odyssey-react-mui';
+import { odysseyTheme } from '@okta/odyssey-react-mui-legacy';
 import chroma from 'chroma-js';
 import { get } from 'lodash';
 
