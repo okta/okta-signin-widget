@@ -4,20 +4,10 @@ import uiDemoResponse from '../../../playground/mocks/data/idp/idx/_ui-demo.json
 import { renderWidget } from '../framework/shared';
 
 import compareScreenshot from '../../../vrtUtil/vrtUtil';
-import loginAr from '../../../playground/mocks/labels/json/login_ar.json';
-import countryAr from '../../../playground/mocks/labels/json/country_ar.json';
 
 const uiDemoMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(uiDemoResponse)
-  .onRequestTo('http://localhost:3000/mocks/labels/json/login_ar.json')
-  .respond(loginAr)
-  .onRequestTo('http://localhost:3000/mocks/labels/json/country_ar.json')
-  .respond(countryAr)
-  .onRequestTo('http://localhost:3000/labels/json/login_ar.json')
-  .respond(null, 404)
-  .onRequestTo('http://localhost:3000/labels/json/country_ar.json')
-  .respond(null, 404)
   // Hostname is not set/available in node env, so requests to "/" are not
   // made relative to the location.href. This issue exists in tests only, i.e.,
   // it has no equivalent in prod. NOTE: Not providing these mocks cause the
@@ -34,6 +24,7 @@ async function setup(t) {
   return pageObject;
 }
 
+// This fixture runs in its own bacon suite and not with gen2/parity-v3 suites 
 fixture('UI demo').meta('gen3', false).meta('gen2', false);
 
 test.requestHooks(uiDemoMock)('UI demo VRT', async t => {
@@ -48,11 +39,8 @@ test.requestHooks(uiDemoMock)('UI demo VRT', async t => {
 test.requestHooks(uiDemoMock)('UI demo RTL VRT', async t => {
   const pageObject = await setup(t);
   await renderWidget({
+    // this is to tell the widget to render the components with dir=rtl. It will not actually render the arabic language
     language: 'ar',
-    assets: {
-      baseUrl: '/mocks',
-      languages: ['ar'],
-    }
   });
 
   // freeze the spinner element so screenshots are consistent
