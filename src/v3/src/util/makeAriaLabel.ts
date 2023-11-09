@@ -20,7 +20,7 @@ const endsWithPunctuation = (str: string) => {
   const matchRes = str.trim().match(/(\p{Po}|\p{Pd}|\p{Pe})$/mu);
   // Exclude some punctuation chars that are not used to separate parts of sentence
   return matchRes && !['"', '\''].includes(matchRes[0]);
-}
+};
 
 export const makeAriaLabel = (str: string) => {
   // If string has no punctuation at the end, add period. Otherwise return undefined.
@@ -29,7 +29,7 @@ export const makeAriaLabel = (str: string) => {
   // When ids of such elements are used in `aria-describedby`, punctuation
   //  is necessary to separate texts.
   if (!endsWithPunctuation(str)) {
-    return str.trim() + '.';
+    return `${str.trim()}.`;
   }
   return undefined;
 };

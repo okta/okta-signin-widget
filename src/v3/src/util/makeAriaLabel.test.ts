@@ -17,73 +17,73 @@ describe('makeAriaLabel', () => {
     [
       'adds period if string ends with a letter',
       'Activation link has expired',
-      'Activation link has expired.'
+      'Activation link has expired.',
     ],
     [
       'adds period if string ends with a digit',
       'Update to iOS 16',
-      'Update to iOS 16.'
+      'Update to iOS 16.',
     ],
     [
       'adds period if string ends with "',
       'On Okta Verify, click "Set up"',
-      'On Okta Verify, click "Set up".'
+      'On Okta Verify, click "Set up".',
     ],
     [
       'keeps string as-is if it ends with .',
       'Operation cancelled by user.',
-      undefined
+      undefined,
     ],
     [
       'keeps string as-is if it ends with !',
       'SMS sent!',
-      undefined
+      undefined,
     ],
     [
       'keeps string as-is if it ends with ?',
       'Don\’t have Okta Verify?',
-      undefined
+      undefined,
     ],
     [
       'keeps string as-is if it ends with ,',
       'Unable to sign in,',
-      undefined
+      undefined,
     ],
     [
       'keeps string as-is if it ends with )',
       'At least 4 number(s)',
-      undefined
+      undefined,
     ],
     [
       'keeps string as-is if it ends with :',
       'Password requirements were not met:',
-      undefined
+      undefined,
     ],
     [
       'keeps string as-is if it ends with ;',
       'Password requirements were not met;',
-      undefined
+      undefined,
     ],
     [
       'keeps string as-is if it ends with -',
       'Unsupported browser -',
-      undefined
+      undefined,
     ],
     [
       'adds period if string has trailing whitespaces and trimmed string ends with non-punctuation char',
       'Activation link has expired ',
-      'Activation link has expired.'
+      'Activation link has expired.',
     ],
     [
       'keeps string as-is if it has trailing whitespaces and trimmed string ends with punctuation',
       'We sent you a verification email. ',
-      undefined
+      undefined,
     ],
     [
       'supports Unicode punctuation chars',
       '请求无法完成。',
-      undefined
-    ]
+      undefined,
+    ],
   ];
 
   tests.forEach(([testName, from, to]) => {
