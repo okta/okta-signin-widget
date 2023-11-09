@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Alert, Box } from '@okta/odyssey-react-mui';
+import { Alert, Box } from '@okta/odyssey-react-mui-legacy';
 import { IdxMessage } from '@okta/okta-auth-js';
 import { FunctionComponent, h } from 'preact';
 

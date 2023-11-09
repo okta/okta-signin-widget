@@ -11,7 +11,7 @@
  */
 
 import { ThemeOptions } from '@mui/material';
-import { odysseyTheme } from '@okta/odyssey-react-mui';
+import { odysseyTheme } from '@okta/odyssey-react-mui-legacy';
 import chroma from 'chroma-js';
 import { set as _set } from 'lodash';
 
@@ -294,6 +294,8 @@ export const createTheme = (
                 borderColor: 'transparent',
               },
             }),
+            // OKTA-657762 - remove this when odyssey fix is done
+            textTransform: 'none',
           }),
         },
       },

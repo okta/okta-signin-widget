@@ -11,7 +11,7 @@
  */
 
 import { List as ListMui, ListItem } from '@mui/material';
-import { Box, Typography } from '@okta/odyssey-react-mui';
+import { Box, Typography } from '@okta/odyssey-react-mui-legacy';
 import { FunctionComponent, h } from 'preact';
 
 import Logger from '../../../../util/Logger';

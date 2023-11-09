@@ -17,7 +17,7 @@ import {
 } from '@mui/material';
 import MuiAccordion from '@mui/material/Accordion';
 import { styled } from '@mui/material/styles';
-import { Box, Typography } from '@okta/odyssey-react-mui';
+import { Box, Typography } from '@okta/odyssey-react-mui-legacy';
 import { FunctionComponent, h } from 'preact';
 
 import { AccordionLayout } from '../../types';

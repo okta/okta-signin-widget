@@ -16,7 +16,7 @@ import {
   InputBase,
   InputLabel,
   Typography,
-} from '@okta/odyssey-react-mui';
+} from '@okta/odyssey-react-mui-legacy';
 import { h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';

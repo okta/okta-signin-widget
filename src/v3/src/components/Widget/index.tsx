@@ -15,7 +15,8 @@
 import './style.css';
 
 import { ScopedCssBaseline } from '@mui/material';
-import { MuiThemeProvider } from '@okta/odyssey-react-mui';
+import { OdysseyProvider, ThemeOptions } from '@okta/odyssey-react-mui';
+import { MuiThemeProvider } from '@okta/odyssey-react-mui-legacy';
 import {
   AuthApiError,
   AuthenticatorKey,
@@ -495,27 +496,30 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     }}
     >
       <CustomPluginsOdysseyCacheProvider nonce={cspNonce}>
+        {/* remove this provider when all odyssey legacy imports are removed */}
         <MuiThemeProvider theme={theme}>
-          <GlobalStyles />
-          {/* the style is to allow the widget to inherit the parent's bg color */}
-          <ScopedCssBaseline sx={{ backgroundColor: 'inherit' }}>
-            <AuthContainer hide={hide}>
-              <AuthHeader
-                logo={logo}
-                logoText={logoText}
-                brandName={brandName}
-                authCoinProps={buildAuthCoinProps(idxTransaction)}
-              />
-              <AuthContent>
-                {isConsentStep(idxTransaction) && <ConsentHeader />}
-                {
-                  uischema.elements.length > 0
-                    ? <Form uischema={uischema as UISchemaLayout} />
-                    : <Spinner />
-                }
-              </AuthContent>
-            </AuthContainer>
-          </ScopedCssBaseline>
+          <OdysseyProvider themeOverride={theme as ThemeOptions}>
+            <GlobalStyles />
+            {/* the style is to allow the widget to inherit the parent's bg color */}
+            <ScopedCssBaseline sx={{ backgroundColor: 'inherit' }}>
+              <AuthContainer hide={hide}>
+                <AuthHeader
+                  logo={logo}
+                  logoText={logoText}
+                  brandName={brandName}
+                  authCoinProps={buildAuthCoinProps(idxTransaction)}
+                />
+                <AuthContent>
+                  {isConsentStep(idxTransaction) && <ConsentHeader />}
+                  {
+                    uischema.elements.length > 0
+                      ? <Form uischema={uischema as UISchemaLayout} />
+                      : <Spinner />
+                  }
+                </AuthContent>
+              </AuthContainer>
+            </ScopedCssBaseline>
+          </OdysseyProvider>
         </MuiThemeProvider>
       </CustomPluginsOdysseyCacheProvider>
     </WidgetContextProvider>
