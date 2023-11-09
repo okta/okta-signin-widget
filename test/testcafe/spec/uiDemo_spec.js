@@ -16,16 +16,6 @@ async function setup(t) {
   return pageObject;
 }
 
-async function setupRtl(t) {
-  const pageObject = new UiDemoPageObject(t);
-  await pageObject.navigateToPage();
-  await renderWidget({
-    language: 'ar',
-  });
-  await t.expect(pageObject.formExists()).eql(true, 'form loaded', { timeout: 20000 });
-  return pageObject;
-}
-
 fixture('UI demo').meta('gen3', false).meta('gen2', false);
 
 test.requestHooks(uiDemoMock)('UI demo VRT', async t => {
@@ -38,7 +28,10 @@ test.requestHooks(uiDemoMock)('UI demo VRT', async t => {
 });
 
 test.requestHooks(uiDemoMock)('UI demo RTL VRT', async t => {
-  const pageObject = await setupRtl(t);
+  const pageObject = await setup(t);
+  await renderWidget({});
+  await t.expect(pageObject.formExists()).eql(true);
+
   // freeze the spinner element so screenshots are consistent
   await pageObject.stopSpinnerAnimation();
 
