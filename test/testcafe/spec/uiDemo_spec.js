@@ -7,7 +7,7 @@ import compareScreenshot from '../../../vrtUtil/vrtUtil';
 
 const uiDemoMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(uiDemoResponse);
+  .respond(uiDemoResponse)
   // .onRequestTo('http://localhost:3000/mocks/labels/json/login_ar.json')
   // .respond({ 'oie.phone.enroll.title': 'Set up foo authentication' })
   // .onRequestTo('http://localhost:3000/mocks/labels/json/country_ar.json')
@@ -21,10 +21,10 @@ const uiDemoMock = RequestMock()
   // // made relative to the location.href. This issue exists in tests only, i.e.,
   // // it has no equivalent in prod. NOTE: Not providing these mocks cause the
   // // test to hang indefinitely and time out when assertionTimeout is exceeded.
-  // .onRequestTo('http://labels/json/login_ar.json')
-  // .respond(null, 404)
-  // .onRequestTo('http://labels/json/country_ar.json')
-  // .respond(null, 404);
+  .onRequestTo('http://labels/json/login_ar.json')
+  .respond(null, 404)
+  .onRequestTo('http://labels/json/country_ar.json')
+  .respond(null, 404);
 
 async function setup(t) {
   const pageObject = new UiDemoPageObject(t);
