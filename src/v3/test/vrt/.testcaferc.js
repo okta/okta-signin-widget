@@ -44,10 +44,7 @@ const config = {
     updateScreenshots: env.UPDATE_SCREENSHOTS,
     vrtLocal: env.VRT_LOCAL,
   },
-  // OKTA-575629 Remove this when gen3 parity test flakiness is resolved
-  ...(env.OKTA_SIW_GEN3 && {
-      assertionTimeout: 20000,
-  }),
+  assertionTimeout: 20000,
   concurrency: 1,
   screenshots: {
     path: 'build2/reports/vrt/artifacts/screenshots',
