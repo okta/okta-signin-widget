@@ -29,7 +29,9 @@ test.requestHooks(uiDemoMock)('UI demo VRT', async t => {
 
 test.requestHooks(uiDemoMock)('UI demo RTL VRT', async t => {
   const pageObject = await setup(t);
-  await renderWidget({});
+  await renderWidget({
+    language: 'he',
+  });
   await t.expect(pageObject.formExists()).eql(true);
 
   // freeze the spinner element so screenshots are consistent
