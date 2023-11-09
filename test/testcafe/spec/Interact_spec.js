@@ -114,6 +114,7 @@ async function setup(t, options = {}) {
     recoveryToken: options.recoveryToken,
     clientId: 'fake',
     redirectUri: 'http://doesnot-matter',
+    authScheme: 'oauth2',
     authParams: {
       pkce: true,
       state: 'mock-state'
@@ -250,10 +251,8 @@ test.requestHooks(requestLogger, cancelResetPasswordMock)('clears recovery_token
   ]);
   requestLogger.clear();
   await pageObject.clickSignOutLink();
-  await t.wait(5000);
   req = requestLogger.requests[0].request; // interact
   params = decodeUrlEncodedRequestBody(req.body);
-  console.log(req);
   await t.expect(req.url).eql('http://localhost:3000/oauth2/default/v1/interact');
   await t.expect(params['recovery_token']).eql(undefined);
 });
