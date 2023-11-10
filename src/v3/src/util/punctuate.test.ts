@@ -10,9 +10,9 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { makeAriaLabel } from './makeAriaLabel';
+import { punctuate } from './punctuate';
 
-describe('makeAriaLabel', () => {
+describe('punctuate', () => {
   const tests: [string, string, string | undefined][] = [
     [
       'adds period if string ends with a letter',
@@ -32,42 +32,42 @@ describe('makeAriaLabel', () => {
     [
       'keeps string as-is if it ends with .',
       'Operation cancelled by user.',
-      undefined,
+      'Operation cancelled by user.',
     ],
     [
       'keeps string as-is if it ends with !',
       'SMS sent!',
-      undefined,
+      'SMS sent!',
     ],
     [
       'keeps string as-is if it ends with ?',
       'Don\’t have Okta Verify?',
-      undefined,
+      'Don\’t have Okta Verify?',
     ],
     [
       'keeps string as-is if it ends with ,',
       'Unable to sign in,',
-      undefined,
+      'Unable to sign in,',
     ],
     [
       'keeps string as-is if it ends with )',
       'At least 4 number(s)',
-      undefined,
+      'At least 4 number(s)',
     ],
     [
       'keeps string as-is if it ends with :',
       'Password requirements were not met:',
-      undefined,
+      'Password requirements were not met:',
     ],
     [
       'keeps string as-is if it ends with ;',
       'Password requirements were not met;',
-      undefined,
+      'Password requirements were not met;',
     ],
     [
       'keeps string as-is if it ends with -',
       'Unsupported browser -',
-      undefined,
+      'Unsupported browser -',
     ],
     [
       'adds period if string has trailing whitespaces and trimmed string ends with non-punctuation char',
@@ -77,17 +77,22 @@ describe('makeAriaLabel', () => {
     [
       'keeps string as-is if it has trailing whitespaces and trimmed string ends with punctuation',
       'We sent you a verification email. ',
-      undefined,
+      'We sent you a verification email. ',
     ],
     [
-      'supports Unicode punctuation chars',
+      'keeps string as-is if it ends with Chinese full stop',
       '请求无法完成。',
-      undefined,
+      '请求无法完成。',
+    ],
+    [
+      'adds period to Chinese string if it ends with non-punctuation char',
+      '请求无法完成',
+      '请求无法完成.',
     ],
   ];
 
   tests.forEach(([testName, from, to]) => {
     // eslint-disable-next-line jest/valid-title
-    test(testName, () => expect(makeAriaLabel(from)).toBe(to));
+    test(testName, () => expect(punctuate(from)).toBe(to));
   });
 });

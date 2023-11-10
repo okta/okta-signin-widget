@@ -22,8 +22,8 @@ const endsWithPunctuation = (str: string) => {
   return matchRes && !['"', '\''].includes(matchRes[0]);
 };
 
-export const makeAriaLabel = (str: string) => {
-  // If string has no punctuation at the end, add period. Otherwise return undefined.
+export const punctuate = (str: string) => {
+  // If string has no punctuation at the end, add period. Otherwise return string as-is.
   // This util is useful to add `aria-label` for element with a text content
   //  that is not a valid sentence.
   // When ids of such elements are used in `aria-describedby`, punctuation
@@ -31,5 +31,5 @@ export const makeAriaLabel = (str: string) => {
   if (!endsWithPunctuation(str)) {
     return `${str.trim()}.`;
   }
-  return undefined;
+  return str;
 };
