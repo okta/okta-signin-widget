@@ -770,6 +770,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               Google Authenticator
                             </h3>
                             <p
+                              aria-label="Enter a temporary code generated from the Google Authenticator app."
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-33"
                               data-se="authenticator-button-description"
                               id="google_otp_5-description"
