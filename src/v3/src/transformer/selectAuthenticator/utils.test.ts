@@ -275,7 +275,7 @@ describe('Select Authenticator Utility Tests', () => {
         .forEach((option) => {
           const currentOption = authenticatorOptionValues
             .find(({ options: { key: authKey } }) => authKey === option.relatesTo?.key);
-          expect(currentOption?.options.description).toBe(`\u200E${mockPhoneNumber}`);
+          expect(currentOption?.options.description).toBe(mockPhoneNumber);
           expect(currentOption?.options.nickname).toBe(mockNickname);
         });
 
@@ -315,7 +315,7 @@ describe('Select Authenticator Utility Tests', () => {
         expect(currentOption?.label).toBe(option.label);
         expect(currentOption?.options.ctaLabel)
           .toBe('oie.verify.authenticator.button.text');
-        expect(currentOption?.options.description).toBe(`\u200E${option.relatesTo?.profile?.phoneNumber}`);
+        expect(currentOption?.options.description).toBe(option.relatesTo?.profile?.phoneNumber);
       });
     });
 
