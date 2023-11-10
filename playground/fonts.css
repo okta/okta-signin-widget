@@ -2,6 +2,7 @@
     font-family: Proxima Nova;
     font-style: normal;
     font-weight: 400;
+    /* OKTA-667070 - address hard-coded preview static URL's */
     src: url(https://op3static.oktacdn.com/assets/loginpage/font/assets/proximanova-reg-webfont.9d5837512674046fa816.eot);
     src: url(https://op3static.oktacdn.com/assets/loginpage/font/assets/proximanova-reg-webfont.9d5837512674046fa816.eot?#iefix) format("embedded-opentype"), url(https://op3static.oktacdn.com/assets/loginpage/font/assets/proximanova-reg-webfont.353416ed0ff540352235.woff2) format("woff2"), url(https://op3static.oktacdn.com/assets/loginpage/font/assets/proximanova-reg-webfont.51ac1a980f546ac17d67.woff) format("woff"), url(https://op3static.oktacdn.com/assets/loginpage/font/assets/proximanova-reg-webfont.f9f2259180c0e36006aa.ttf) format("truetype"), url(https://op3static.oktacdn.com/assets/loginpage/font/assets/proximanova-reg-webfont.f3b703e6dcd5c6d19922.svg#proxima_nova_rgregular) format("svg")
 }
