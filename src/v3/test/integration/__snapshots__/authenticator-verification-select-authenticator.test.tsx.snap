@@ -509,6 +509,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                               aria-label="+1 XXX-XXX-5309."
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text no-translate emotion-57"
                               data-se="authenticator-button-description"
+                              dir="ltr"
                               id="phone_number_3-description"
                             >
                               +1 XXX-XXX-5309
@@ -624,6 +625,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                               aria-label="+1 XXX-XXX-5310."
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text no-translate emotion-57"
                               data-se="authenticator-button-description"
+                              dir="ltr"
                               id="phone_number_4-description"
                             >
                               +1 XXX-XXX-5310
