@@ -287,6 +287,14 @@ export default class BasePageObject {
   }
 
   async getAriaDescription(el) {
+    // If value of `aria-describedby` is a list of ids, the resulted accessible description
+    //  is a concatenation of accessible names of corresponding elements joined with space.
+    // Value of `aria-label` overrides text content when computing accessible name.
+    //
+    // https://www.w3.org/TR/accname-1.1/#mapping_additional_nd_description
+    // https://www.w3.org/TR/html-aapi/#accessible-name-and-description-calculation
+    // https://www.w3.org/TR/WCAG20-TECHS/aria#ARIA9
+
     const ariaDescription = await el.getAttribute('aria-description');
     const ariaDescribedByIds = await el.getAttribute('aria-describedby');
     const ariaDescribedByTexts = ariaDescribedByIds ? await Promise.all(
