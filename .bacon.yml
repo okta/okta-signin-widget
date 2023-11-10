@@ -139,6 +139,8 @@ test_suites:
     script_env: {}
     criteria: MERGE
     queue_name: small
+  # This suite runs the UI components demo VRT
+  # Usage wiki: https://oktawiki.atlassian.net/wiki/spaces/eng/pages/2855600129/Odyssey+1.x+migration+testcafe+VRT+usage
   - name: vrt-v3
     script_path: /root/okta/okta-signin-widget/scripts
     sort_order: '32'
@@ -146,6 +148,7 @@ test_suites:
     script_name: vrt-v3
     criteria: MERGE
     queue_name: small
+  # This bacon script can be used to get new base screenshots without having to run the VRT
   - name: vrt-v3-get-screenshots
     script_path: /root/okta/okta-signin-widget/scripts
     sort_order: '33'

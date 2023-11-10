@@ -24,7 +24,9 @@ async function setup(t) {
   return pageObject;
 }
 
-// This fixture runs in its own bacon suite and not with gen2/parity-v3 suites 
+// This fixture is used for VRT on the UI demo mock response
+// it runs in its own bacon suite from the gen3 workspace and not with gen2/parity-v3 suites
+// usage wiki: https://oktawiki.atlassian.net/wiki/spaces/eng/pages/2855600129/Odyssey+1.x+migration+testcafe+VRT+usage
 fixture('UI demo').meta('gen3', false).meta('gen2', false);
 
 test.requestHooks(uiDemoMock)('UI demo VRT', async t => {
@@ -39,7 +41,7 @@ test.requestHooks(uiDemoMock)('UI demo VRT', async t => {
 test.requestHooks(uiDemoMock)('UI demo RTL VRT', async t => {
   const pageObject = await setup(t);
   await renderWidget({
-    // this is to tell the widget to render the components with dir=rtl. It will not actually render the arabic language
+    // this is to tell the widget to render the components with RTL format. It will not actually render the arabic language
     language: 'ar',
   });
 

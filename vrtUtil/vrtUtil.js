@@ -50,16 +50,16 @@ const compareScreenshot = async (testObject, options) => {
   });
 
   const actualScreenshotAbsolutePath = getActualScreenshotPath(testFixtureName, screenShotName);
-  // if vrt is being tested locally we get the base screen shot from the reports directory
-  // that is created locally after running the update screenshots command.
-  // this is to avoid the base screenshot from bacon being overwritten
+  // if vrt is executed locally we get base screenshots from the build2/reports directory
+  // that is generated after running the update screenshots command.
+  // this is because the bacon ci base screens were generated in a different enviroment and will fail
   const baseScreenshotAbsolutePath = testObject.testRun.opts.userVariables.vrtCi 
     ? getBaseScreenshotPath(testFixtureName, screenShotName)
     : getBaseScreenshotPathLocal(testFixtureName, screenShotName);
   const isActualScreenshotTaken = fs.existsSync(actualScreenshotAbsolutePath);
   const isBaseScreenshotTaken = fs.existsSync(baseScreenshotAbsolutePath);
 
-  // updateScreenshots flag can be from test/fixture metadata 
+  // updateScreenshots flag can come from test/fixture metadata 
   // or passed into userVariables from the UPDATE_SCREENSHOTS env var
   const shouldUpdateScreenShot = testObject.testRun.test.meta.updateScreenshots 
     || testObject.testRun.test.testFile.currentFixture.meta.updateScreenshots
