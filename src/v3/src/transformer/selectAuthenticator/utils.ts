@@ -252,7 +252,7 @@ const formatAuthenticatorOptions = (
         AUTHENTICATOR_KEY.CUSTOM_APP,
       ];
       const AUTHENTICATORS_WITH_LTR_DESCRIPTION = [
-        AUTHENTICATOR_KEY.PHONE
+        AUTHENTICATOR_KEY.PHONE,
       ];
       const authenticator = option.relatesTo;
 
