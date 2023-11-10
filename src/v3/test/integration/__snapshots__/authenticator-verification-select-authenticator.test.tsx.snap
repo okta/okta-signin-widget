@@ -506,12 +506,12 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                               Phone
                             </h3>
                             <p
-                              aria-label="+1 XXX-XXX-5309."
+                              aria-label="‎+1 XXX-XXX-5309."
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text no-translate emotion-57"
                               data-se="authenticator-button-description"
                               id="phone_number_3-description"
                             >
-                              +1 XXX-XXX-5309
+                              ‎+1 XXX-XXX-5309
                             </p>
                             <div
                               class="cta-button authenticator-button MuiBox-root emotion-30"
@@ -621,12 +621,12 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                               Phone
                             </h3>
                             <p
-                              aria-label="+1 XXX-XXX-5310."
+                              aria-label="‎+1 XXX-XXX-5310."
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text no-translate emotion-57"
                               data-se="authenticator-button-description"
                               id="phone_number_4-description"
                             >
-                              +1 XXX-XXX-5310
+                              ‎+1 XXX-XXX-5310
                             </p>
                             <div
                               class="cta-button authenticator-button MuiBox-root emotion-30"
