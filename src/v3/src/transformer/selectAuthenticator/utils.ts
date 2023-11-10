@@ -166,8 +166,10 @@ const getAuthenticatorDescription = (
   }
 
   switch (authenticatorKey) {
-    case AUTHENTICATOR_KEY.PHONE:
-      return option.relatesTo?.profile?.phoneNumber as string || undefined;
+    case AUTHENTICATOR_KEY.PHONE: {
+      const phoneNumber = option.relatesTo?.profile?.phoneNumber as string;
+      return phoneNumber ? `\u200E${phoneNumber}` : undefined;
+    }
     case AUTHENTICATOR_KEY.EMAIL:
       return option.relatesTo?.profile?.email as string || undefined;
     case AUTHENTICATOR_KEY.CUSTOM_APP:
