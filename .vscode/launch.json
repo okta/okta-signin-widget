@@ -56,7 +56,7 @@
           "--page-load-timeout",
           "1000000",
           "--config-file",
-          ".testcaferc.js"
+          ".testcaferc.js",
       ],
       "console": "integratedTerminal",
       "cwd": "${workspaceRoot}"
