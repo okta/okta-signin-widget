@@ -38,6 +38,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
     focus,
     ariaDescribedBy,
     noTranslate,
+    dir,
     options: {
       type,
       key: authenticationKey,
@@ -179,6 +180,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
             data-se="authenticator-button-description"
             className={classNames('authenticator-description--text', { 'no-translate': noTranslate })}
             aria-label={punctuate(description)}
+            dir={dir}
           >
             {description}
           </Typography>

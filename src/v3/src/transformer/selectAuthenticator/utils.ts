@@ -166,10 +166,8 @@ const getAuthenticatorDescription = (
   }
 
   switch (authenticatorKey) {
-    case AUTHENTICATOR_KEY.PHONE: {
-      const phoneNumber = option.relatesTo?.profile?.phoneNumber as string;
-      return phoneNumber ? `\u200E${phoneNumber}` : undefined;
-    }
+    case AUTHENTICATOR_KEY.PHONE:
+      return option.relatesTo?.profile?.phoneNumber as string || undefined;
     case AUTHENTICATOR_KEY.EMAIL:
       return option.relatesTo?.profile?.email as string || undefined;
     case AUTHENTICATOR_KEY.CUSTOM_APP:
@@ -253,6 +251,9 @@ const formatAuthenticatorOptions = (
         AUTHENTICATOR_KEY.PHONE,
         AUTHENTICATOR_KEY.CUSTOM_APP,
       ];
+      const AUTHENTICATORS_WITH_LTR_DESCRIPTION = [
+        AUTHENTICATOR_KEY.PHONE
+      ];
       const authenticator = option.relatesTo;
 
       return {
@@ -260,6 +261,7 @@ const formatAuthenticatorOptions = (
         label: option.label,
         id: `auth_btn_${authenticatorKey}_${enrollmentId || id}`,
         noTranslate: !isEnroll && AUTHENTICATORS_WITH_NO_TRANSLATE_CLASS.includes(authenticatorKey),
+        dir: !isEnroll && AUTHENTICATORS_WITH_LTR_DESCRIPTION.includes(authenticatorKey) ? 'ltr' : undefined,
         options: {
           type: ButtonType.BUTTON,
           key: authenticatorKey,
