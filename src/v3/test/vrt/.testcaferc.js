@@ -32,7 +32,7 @@ const config = {
       output: 'build2/reports/vrt/testcafe-xunit-result.xml',
     },
   ],
-  appCommand: 'test/vrt/start-app-vrt.sh',
+  appCommand: 'test/e2e/start-app-e2e.sh',
   browsers: [ 'chrome:headless' ],
   clientScripts: [
     { module: 'axe-core/axe.min.js' },

@@ -31,7 +31,7 @@ test.requestHooks(uiDemoMock)('UI demo VRT', async t => {
   const pageObject = await setup(t);
 
   // freeze the spinner element so screenshots are consistent
-  await pageObject.stopSpinnerAnimation();
+  await pageObject.disablePageAnimation();
 
   await compareScreenshot(t, { fullPage: true, strictMode: true });
 });
@@ -44,7 +44,7 @@ test.requestHooks(uiDemoMock)('UI demo RTL VRT', async t => {
   });
 
   // freeze the spinner element so screenshots are consistent
-  await pageObject.stopSpinnerAnimation();
+  await pageObject.disablePageAnimation();
 
   await compareScreenshot(t, { fullPage: true, strictMode: true });
 });

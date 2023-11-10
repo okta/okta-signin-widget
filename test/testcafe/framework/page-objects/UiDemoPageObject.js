@@ -24,16 +24,12 @@ export default class UiDemoPageObject extends BasePageObject {
     })();
   }
 
-  // freezes mui spinner components
-  async stopSpinnerAnimation() {
+  // disables animation on the page
+  async disablePageAnimation() {
     await ClientFunction(() => {
-      const rootSpinnerStyle = document.createElement('style');
-      rootSpinnerStyle.textContent = '.MuiCircularProgress-root { animation: none !important; }';
-      document.head.appendChild(rootSpinnerStyle);
-
-      const circleSpinnerStyle = document.createElement('style');
-      circleSpinnerStyle.textContent = '.MuiCircularProgress-circle { animation: none !important; }';
-      document.head.appendChild(circleSpinnerStyle);
+      const disableAnimationsStyle = document.createElement('style');
+      disableAnimationsStyle.textContent = '* { animation: none !important; }';
+      document.head.appendChild(disableAnimationsStyle);
     })();
   }
 }
