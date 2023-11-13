@@ -81,7 +81,7 @@ const updateRegularButtons: TransformStepFn = (formbag) => {
     },
     callback: (element) => {
       const { options } = element as ButtonElement | LinkElement;
-      if (options.step) {
+      if (options.step && map[options.step]) {
         options.dataSe = map[options.step];
       }
     },
