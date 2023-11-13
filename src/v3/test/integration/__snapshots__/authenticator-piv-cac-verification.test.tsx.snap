@@ -61,6 +61,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                   >
                     <button
                       class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-piv-class piv-button emotion-14"
+                      data-se="piv-card-button"
                       tabindex="0"
                       type="button"
                     >
@@ -380,6 +381,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                   >
                     <button
                       class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth  piv-button emotion-14"
+                      data-se="piv-card-button"
                       tabindex="0"
                       type="button"
                     >
@@ -857,6 +859,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                   >
                     <button
                       class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth  piv-button emotion-39"
+                      data-se="piv-card-button"
                       tabindex="0"
                       type="button"
                     >

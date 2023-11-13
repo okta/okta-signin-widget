@@ -33,6 +33,7 @@ Object {
           "actionParams": Object {
             "keepMeSignedIn": true,
           },
+          "dataSe": "stay-signed-in-btn",
           "dataType": "save",
           "step": "keep-me-signed-in",
           "type": "button",
@@ -46,6 +47,7 @@ Object {
           "actionParams": Object {
             "keepMeSignedIn": false,
           },
+          "dataSe": "do-not-stay-signed-in-btn",
           "dataType": "cancel",
           "step": "keep-me-signed-in",
           "type": "button",
