@@ -197,6 +197,9 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       authClient?.transactionManager.clear({ clearIdxResponse: false });
       SessionStorage.removeStateHandle();
       if (isOauth2Enabled(widgetProps)) {
+        authClient?.transactionManager.clear();
+        // We have to directly delete the recoveryToken since it is set once upon authClient instantiation
+        delete authClient.options.recoveryToken;
         // In this case we need to restart login flow and recreate transaction meta
         fn = authClient.idx.start;
         payload = {};

@@ -79,7 +79,7 @@ const appendViewLinks = (
   widgetProps: WidgetProps,
   bootstrapFn: () => Promise<void>,
 ): void => {
-  const { features } = widgetProps;
+  const { features, authClient } = widgetProps;
   const isCancelAvailable = shouldShowCancelLink(features);
   const cancelStep = transaction?.availableSteps?.find(({ name }) => name === 'cancel');
   const skipStep = transaction?.availableSteps?.find(({ name }) => name.includes('skip'));
@@ -119,6 +119,9 @@ const appendViewLinks = (
       cancelLink.options.href = backToSigninUri;
     } else if (isOauth2Enabled(widgetProps)) {
       cancelLink.options.onClick = async () => {
+        authClient?.transactionManager.clear();
+        // We have to directly delete the recoveryToken since it is set once upon authClient instantiation
+        delete authClient?.options.recoveryToken;
         await bootstrapFn();
       };
     } else {
