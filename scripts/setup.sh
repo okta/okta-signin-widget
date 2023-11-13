@@ -42,7 +42,9 @@ npm config set @okta:registry ${INTERNAL_REGISTRY}
 
 if ! yarn_sync; then
   echo "yarn.lock file is not in sync, see diff below. Please make sure this file is up-to-date by running 'yarn install' at the repo root and checking in yarn.lock changes"
+  echo "############## yarn.lock diff starts here ##############"
   git diff *yarn.lock
+  echo "############## yarn.lock diff ends here ##############"
   exit ${FAILED_SETUP}
 fi
 
