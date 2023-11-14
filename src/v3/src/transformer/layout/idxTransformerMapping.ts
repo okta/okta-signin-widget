@@ -68,6 +68,7 @@ import {
   transformIdpAuthenticator,
   transformIdpRedirect,
 } from './idp';
+import { transformKeepMeSignedIn } from './keepMeSignedIn';
 import {
   transformOktaVerifyDeviceChallengePoll,
   transformOktaVerifyFPLaunchAuthenticator,
@@ -414,6 +415,16 @@ const TransformerMap: {
       transform: transformIdentityRecovery,
       buttonConfig: {
         showDefaultSubmit: false,
+      },
+    },
+  },
+  [IDX_STEP.KEEP_ME_SIGNED_IN]: {
+    [AUTHENTICATOR_KEY.DEFAULT]: {
+      transform: transformKeepMeSignedIn,
+      buttonConfig: {
+        showDefaultSubmit: false,
+        showDefaultCancel: false,
+        showReturnToAuthListLink: false,
       },
     },
   },
