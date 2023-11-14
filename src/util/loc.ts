@@ -130,7 +130,7 @@ function emitL10nError(key: string, bundleName: string, reason: string) {
 }
 
 const createCustomEvent = function (event: string, params: CustomEventInit) {
-  if (window.CustomEvent) {
+  if (typeof window.CustomEvent === 'function') {
     return new CustomEvent(event, params);
   } else {
     /**
