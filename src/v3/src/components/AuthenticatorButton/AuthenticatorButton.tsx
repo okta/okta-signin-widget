@@ -201,6 +201,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
             title={nickname}
             data-se="authenticator-button-nickname"
             className={classNames('authenticator-enrollment-nickname', 'no-translate')}
+            aria-label={punctuate(nickname)}
           >
             {nickname}
           </Typography>
