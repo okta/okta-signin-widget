@@ -285,4 +285,23 @@ export default class BasePageObject {
   isVisible() {
     return this.form.el.visible;
   }
+
+  async getAriaDescription(el) {
+    // If value of `aria-describedby` is a list of ids, the resulted accessible description
+    //  is a concatenation of accessible names of corresponding elements joined with space.
+    // Value of `aria-label` overrides text content when computing accessible name.
+    //
+    // https://www.w3.org/TR/accname-1.1/#mapping_additional_nd_description
+    // https://www.w3.org/TR/html-aapi/#accessible-name-and-description-calculation
+    // https://www.w3.org/TR/WCAG20-TECHS/aria#ARIA9
+
+    const ariaDescription = await el.getAttribute('aria-description');
+    const ariaDescribedByIds = await el.getAttribute('aria-describedby');
+    const ariaDescribedByTexts = ariaDescribedByIds ? await Promise.all(
+      ariaDescribedByIds?.split(' ')
+        .map(sel => Selector('#'+sel))
+        .map(async el => await el.getAttribute('aria-label') || await el.innerText)
+    ) : [];
+    return ariaDescription || ariaDescribedByTexts.join(' ');
+  }
 }

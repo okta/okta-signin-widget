@@ -1,4 +1,4 @@
-import { RequestMock, RequestLogger } from 'testcafe';
+import { RequestMock, RequestLogger, userVariables } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 
 import { renderWidget } from '../framework/shared';
@@ -305,6 +305,11 @@ test.requestHooks(mockChallengeWithNickname)('should load select authenticator l
   await t.expect(await selectFactorPage.factorCustomLogoExist(3)).eql(false);
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(3)).eql('Select');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(3)).eql('phone_number');
+  if (userVariables.gen3) {
+    await t.expect(await selectFactorPage.getFactorAriaDescriptionByIndex(3)).eql(
+      '+1 XXX-XXX-5309. ph-nn. Select'
+    );
+  }
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(4)).eql('Phone');
   await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(4)).eql(true);

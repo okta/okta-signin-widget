@@ -40,6 +40,7 @@ export * from './isPollingStep';
 export * from './languageUtils';
 export * from './locUtil';
 export * from './passwordUtils';
+export * from './punctuate';
 export * from './removeFieldLevelMessages';
 export * from './rendererUtils';
 export * from './resetMessagesToInputs';

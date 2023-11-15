@@ -57,6 +57,10 @@ export default class SelectFactorPageObject extends BasePageObject {
     return this.getFactorNicknameElementByIndex(index).textContent;
   }
 
+  getFactorAriaDescriptionByIndex(index) {
+    return this.getAriaDescription(this.getFactorButtons().nth(index));
+  }
+
   async factorDescriptionExistsByIndex(index) {
     const elCount = await this.getFactorDescriptionElementByIndex(index).count;
     return elCount === 1;

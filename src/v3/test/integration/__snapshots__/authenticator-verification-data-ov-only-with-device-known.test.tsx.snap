@@ -215,6 +215,7 @@ exports[`authenticator-verification-data-ov-only-with-device-known should render
                               Use Okta FastPass
                             </h3>
                             <p
+                              aria-label="Okta Verify."
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-31"
                               data-se="authenticator-button-description"
                               id="okta_verify_2-description"
@@ -315,6 +316,7 @@ exports[`authenticator-verification-data-ov-only-with-device-known should render
                               Get a push notification
                             </h3>
                             <p
+                              aria-label="Okta Verify."
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-31"
                               data-se="authenticator-button-description"
                               id="okta_verify_0-description"
@@ -415,6 +417,7 @@ exports[`authenticator-verification-data-ov-only-with-device-known should render
                               Enter a code
                             </h3>
                             <p
+                              aria-label="Okta Verify."
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-31"
                               data-se="authenticator-button-description"
                               id="okta_verify_1-description"

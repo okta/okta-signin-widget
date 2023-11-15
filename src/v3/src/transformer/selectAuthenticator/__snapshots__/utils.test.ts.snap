@@ -3,6 +3,7 @@
 exports[`Select Authenticator Utility Tests getAuthenticatorEnrollButtonElements Tests should format on_prem authenticator option when display name exists 1`] = `
 Array [
   Object {
+    "dir": undefined,
     "id": "auth_btn_onprem_mfa_undefined",
     "label": "On Prem",
     "noTranslate": false,
@@ -133,6 +134,7 @@ Array [
     "type": "AuthenticatorButton",
   },
   Object {
+    "dir": "ltr",
     "id": "auth_btn_phone_number_undefined",
     "label": "phone_number",
     "noTranslate": true,
@@ -177,6 +179,7 @@ Array [
 exports[`Select Authenticator Utility Tests getAuthenticatorVerifyButtonElements Tests should not reorder OV option when method types are not set in IDX response 1`] = `
 Array [
   Object {
+    "dir": undefined,
     "id": "auth_btn_okta_verify_abc234",
     "label": "Okta Verify",
     "noTranslate": false,
@@ -213,6 +216,7 @@ Array [
     "type": "AuthenticatorButton",
   },
   Object {
+    "dir": "ltr",
     "id": "auth_btn_phone_number_undefined",
     "label": "phone_number",
     "noTranslate": true,
@@ -367,6 +371,7 @@ Array [
     "type": "AuthenticatorButton",
   },
   Object {
+    "dir": "ltr",
     "id": "auth_btn_phone_number_undefined",
     "label": "phone_number",
     "noTranslate": true,
@@ -453,6 +458,7 @@ Array [
     "type": "AuthenticatorButton",
   },
   Object {
+    "dir": "ltr",
     "id": "auth_btn_phone_number_undefined",
     "label": "phone_number",
     "noTranslate": true,

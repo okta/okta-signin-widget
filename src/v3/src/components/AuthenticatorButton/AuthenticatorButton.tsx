@@ -27,7 +27,7 @@ import {
   ClickHandler,
   UISchemaElementComponent,
 } from '../../types';
-import { getTranslation, getValidationMessages } from '../../util';
+import { getTranslation, getValidationMessages, punctuate } from '../../util';
 import AuthCoin from '../AuthCoin/AuthCoin';
 
 const AuthenticatorButton: UISchemaElementComponent<{
@@ -38,6 +38,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
     focus,
     ariaDescribedBy,
     noTranslate,
+    dir,
     options: {
       type,
       key: authenticationKey,
@@ -178,6 +179,8 @@ const AuthenticatorButton: UISchemaElementComponent<{
             }}
             data-se="authenticator-button-description"
             className={classNames('authenticator-description--text', { 'no-translate': noTranslate })}
+            aria-label={punctuate(description)}
+            dir={dir}
           >
             {description}
           </Typography>
@@ -198,6 +201,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
             title={nickname}
             data-se="authenticator-button-nickname"
             className={classNames('authenticator-enrollment-nickname', 'no-translate')}
+            aria-label={punctuate(nickname)}
           >
             {nickname}
           </Typography>
@@ -215,6 +219,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
             }}
             data-se="authenticator-button-usage-text"
             className="authenticator-usage-text"
+            aria-label={punctuate(usageDescription)}
           >
             {usageDescription}
           </Typography>

@@ -199,6 +199,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               Password
                             </h3>
                             <p
+                              aria-label="Choose a password for your account."
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-33"
                               data-se="authenticator-button-description"
                               id="okta_password_0-description"
@@ -313,6 +314,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               Phone
                             </h3>
                             <p
+                              aria-label="Verify with a code sent to your phone."
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-33"
                               data-se="authenticator-button-description"
                               id="phone_number_1-description"
@@ -437,6 +439,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               Security Key or Biometric Authenticator
                             </h3>
                             <p
+                              aria-label="Use a security key or a biometric authenticator to sign in."
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-33"
                               data-se="authenticator-button-description"
                               id="webauthn_2-description"
