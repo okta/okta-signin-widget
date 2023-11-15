@@ -25,6 +25,13 @@ type Bundles = {
   [key in BundleName]: Bundle;
 };
 
+interface L10nErrorDetail {
+  type: 'l10n-error';
+  key: string;
+  bundleName: string;
+  reason: string;
+}
+
 declare global {
   interface Window {
     okta?: {
@@ -126,13 +133,15 @@ function emitL10nError(key: string, bundleName: string, reason: string) {
       reason: reason
     }
   });
-  document.dispatchEvent(event);
+  if (event) {
+    document.dispatchEvent(event);
+  }
 }
 
-const createCustomEvent = function (event: string, params: CustomEventInit) {
+const createCustomEvent = function (event: string, params: CustomEventInit<L10nErrorDetail>) {
   if (typeof window.CustomEvent === 'function') {
     return new CustomEvent(event, params);
-  } else {
+  } else if (!window.CustomEvent) {
     /**
      * CustomEvent polyfill for IE
      * https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent#polyfill
