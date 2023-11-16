@@ -36,7 +36,8 @@ const getTitleText = (challengeMethod: string) => {
       return loc('appLink.title', 'login');
 
     case CHALLENGE_METHOD.CHROME_DTC:
-      return loc('chrome_dtc.title', 'login');
+      // reusing the existing message for Chrome DTC
+      return loc('deviceTrust.sso.redirectText', 'login');
 
     case CHALLENGE_METHOD.CUSTOM_URI:
       return loc('customUri.title', 'login');

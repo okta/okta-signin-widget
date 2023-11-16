@@ -326,7 +326,7 @@ Object {
     "elements": Array [
       Object {
         "options": Object {
-          "content": "chrome_dtc.title",
+          "content": "deviceTrust.sso.redirectText",
         },
         "type": "Title",
       },
