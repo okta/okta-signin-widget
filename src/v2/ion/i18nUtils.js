@@ -16,7 +16,6 @@
 import Bundles from 'util/Bundles';
 import Logger from 'util/Logger';
 import { loc } from '../../util/loc';
-import { getAuthenticatorDisplayName } from '../view-builder/utils/AuthenticatorUtil';
 import { FORMS, AUTHENTICATOR_KEY } from './RemediationConstants';
 import { I18N_BASE_ATTRIBUTE_ENROLL_PROFILE_MAPPINGS } from '../view-builder/views/enroll-profile/i18nBaseAttributeMappings';
 
@@ -381,6 +380,15 @@ const isCustomizedI18nKey = (i18nKey, settings) => {
   return !!customizedProperty;
 };
 
+/**
+ * Get authenticator display name from {@code remediation}.
+ *
+ * @param {Object} remediation
+ */
+const getAuthenticatorDisplayName = (remediation) => {
+  return remediation.relatesTo?.value?.displayName;
+};
+
 export {
   getMessage,
   getMessageKey,
@@ -389,5 +397,6 @@ export {
   getI18NValue,
   doesI18NKeyExist,
   isCustomizedI18nKey,
-  getMessageFromBrowserError
+  getMessageFromBrowserError,
+  getAuthenticatorDisplayName
 };
