@@ -140,7 +140,7 @@ See the [Usage Guide](#usage-guide) for more information on how to get started u
     - [features.rememberMe](#featuresrememberme)
     - [features.autoFocus](#featuresautofocus)
     - [features.disableAutocomplete](#featuresdisableautocomplete)
-  - [cspNonce](#cspNonce)
+  - [cspNonce](#cspnonce)
 - [Events](#events)
   - [ready](#ready)
   - [afterError](#aftererror)
@@ -171,7 +171,7 @@ These SDKs are fully compatible with the Okta Sign-in Widget and provide utiliti
 - [okta-react](https://github.com/okta/okta-react)
 - [okta-angular](https://github.com/okta/okta-angular)
 - [okta-vue](https://github.com/okta/okta-vue)
-  
+
 ### Java
 
 - [okta-auth-java](https://github.com/okta/okta-auth-java)
@@ -237,13 +237,13 @@ You can embed the Sign-In Widget in your app by either including a script tag th
 
 #### Using the Okta CDN
 
-Loading our assets directly from the CDN is a good choice if you want an easy way to get started with the Widget, don't already have an existing build process that leverages [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/) for external dependencies, or any other reason where you don't want to bundle the Sign-in Widget into your application. 
+Loading our assets directly from the CDN is a good choice if you want an easy way to get started with the Widget, don't already have an existing build process that leverages [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/) for external dependencies, or any other reason where you don't want to bundle the Sign-in Widget into your application.
 
 The standard bundle (`okta-sign-in.min.js`) includes support for both [Classic Engine][] and the [Identity Engine][]. It also includes a [polyfill][] to ensure compatibility with older browsers such as IE11. If your application doesn't need to support IE11, you can include the `no-polyfill` bundle instead to decrease the loading time for first-time users. The standalone `polyfill` bundle can be conditionally included on pages to add support for older browsers only when necessary.
 
 If your organization has upgraded to [Identity Engine][], the smaller `oie` bundle can be used.
 
-| Bundle     | File Name                       | Approx. Size | Classic Engine | Identity Engine | Polyfill | Notes |
+| Bundle     | File Name                       | Approx. Size | Classic Engine     | Identity Engine    | Polyfill           | Notes                                        |
 |------------|---------------------------------|--------------|--------------------|--------------------|--------------------|-------------------------------------------|
 | standard   | okta-sign-in.min.js             | 1.7 MB       | :white_check_mark: | :white_check_mark: | :white_check_mark: | Standard bundle which includes everything |
 | no-polyfill| okta-sign-in.no-polyfill.min.js | 1.7 MB       | :white_check_mark: | :white_check_mark: |                    | Standard bundle without polyfill          |
@@ -257,9 +257,9 @@ To embed the Sign-in Widget via CDN, include links to the JS and CSS files in yo
 
 ```html
 <!-- Latest CDN production Javascript and CSS -->
-<script src="https://global.oktacdn.com/okta-signin-widget/7.12.1/js/okta-sign-in.min.js" type="text/javascript"></script>
+<script src="https://global.oktacdn.com/okta-signin-widget/7.12.2/js/okta-sign-in.min.js" type="text/javascript"></script>
 
-<link href="https://global.oktacdn.com/okta-signin-widget/7.12.1/css/okta-sign-in.min.css" type="text/css" rel="stylesheet"/>
+<link href="https://global.oktacdn.com/okta-signin-widget/7.12.2/css/okta-sign-in.min.css" type="text/css" rel="stylesheet"/>
 ```
 
 **NOTE:** The CDN URLs contain a version number. This number should be the same for both the Javascript and the CSS file and match a version on the [releases page](https://github.com/okta/okta-signin-widget/releases). We recommend using the latest widget version.
@@ -269,13 +269,13 @@ When using one of the bundles without the polyfill included, you may want to con
 
 ```html
 <!-- Polyfill for older browsers -->
-<script src="https://global.oktacdn.com/okta-signin-widget/7.12.1/js/okta-sign-in.polyfill.min.js" type="text/javascript"></script>
+<script src="https://global.oktacdn.com/okta-signin-widget/7.12.2/js/okta-sign-in.polyfill.min.js" type="text/javascript"></script>
 
 <!-- Widget bundle for Okta Identity Engine -->
-<script src="https://global.oktacdn.com/okta-signin-widget/7.12.1/js/okta-sign-in.oie.min.js" type="text/javascript"></script>
+<script src="https://global.oktacdn.com/okta-signin-widget/7.12.2/js/okta-sign-in.oie.min.js" type="text/javascript"></script>
 
 <!-- CSS for widget -->
-<link href="https://global.oktacdn.com/okta-signin-widget/7.12.1/css/okta-sign-in.min.css" type="text/css" rel="stylesheet"/>
+<link href="https://global.oktacdn.com/okta-signin-widget/7.12.2/css/okta-sign-in.min.css" type="text/css" rel="stylesheet"/>
 ```
 
 
@@ -772,13 +772,13 @@ For embedded widgets, you should set the `issuer`, `clientId`, and `redirectUri`
 
 ### Basic config options
 
-All embedded widgets should set these basic options: `issuer`, `clientId`, and `redirectUri`. 
+All embedded widgets should set these basic options: `issuer`, `clientId`, and `redirectUri`.
 
 > **Note**: Okta-hosted widgets should not set these values.
 
 #### issuer
 
-The URL of the [Authorization Server][] which will issue [OAuth][] tokens to your application.  
+The URL of the [Authorization Server][] which will issue [OAuth][] tokens to your application.
 
 > **Note**: `https://{yourOktaDomain}` can be any Okta organization. See our [developer guide](https://developer.okta.com/docs/guides/find-your-domain/main/) for help with finding your Okta domain.
 
@@ -1355,7 +1355,7 @@ Pre-fills the identifier field with the previously used username.
 #### features.autoFocus
 
 Defaults to `true`.
-Automatically focuses the first input field of any form when displayed. 
+Automatically focuses the first input field of any form when displayed.
 
 #### features.disableAutocomplete
 
@@ -1368,7 +1368,7 @@ The widget injects secure inline script/style blocks at runtime for customizatio
 
 `cspNonce` allows set [nonce](https://content-security-policy.com/nonce/) value from `Content-Security-Policy` header to the injected blocks, so script/style from those blocks can still be executable.
 
-**Note:** [nonce](https://content-security-policy.com/nonce/) directive was added to CSP level2, you may still see CSP errors in browser console if it's used in unsupported browsers. 
+**Note:** [nonce](https://content-security-policy.com/nonce/) directive was added to CSP level2, you may still see CSP errors in browser console if it's used in unsupported browsers.
 
 ## Events
 
