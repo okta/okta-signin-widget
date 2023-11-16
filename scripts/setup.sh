@@ -4,7 +4,7 @@ set -eo pipefail
 # Can be used to run a canary build against a beta AuthJS version that has been published to artifactory.
 # This is available from the "downstream artifact" menu on any okta-auth-js build in Bacon.
 # DO NOT MERGE ANY CHANGES TO THIS LINE!!
-export AUTHJS_VERSION="7.5.0-gc6cb617"
+export AUTHJS_VERSION="7.5.0-ga22be58"
 export INTERNAL_REGISTRY="${ARTIFACTORY_URL}/api/npm/npm-okta-release"
 export PUBLIC_REGISTRY="https://registry.yarnpkg.com"
 

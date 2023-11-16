@@ -14,14 +14,14 @@ import {
   createIdxOptionsConstructor,
   createIdxStorageManager,
   createIdxTransactionManager,
-  createOktaAuthBaseIdx,
+  createMinimalOktaAuthIdx,
 } from '@okta/okta-auth-js';
 
 const OptionsConstructor = createIdxOptionsConstructor();
 const StorageManager = createIdxStorageManager();
 const TransactionManager = createIdxTransactionManager();
 
-const OktaAuthClient = createOktaAuthBaseIdx(
+const OktaAuthClient = createMinimalOktaAuthIdx(
   StorageManager, OptionsConstructor, TransactionManager,
 );
 
