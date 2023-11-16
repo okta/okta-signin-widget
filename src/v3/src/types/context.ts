@@ -14,8 +14,8 @@ import {
   AuthApiError,
   IdxMessage,
   IdxTransaction,
-  OAuthError,
   MinimalOktaAuthIdxInterface,
+  OAuthError,
 } from '@okta/okta-auth-js';
 import { MutableRef, StateUpdater } from 'preact/hooks';
 
