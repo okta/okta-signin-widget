@@ -92,6 +92,7 @@ const baseConfig: Partial<Configuration> = {
             '/node_modules/shallow-clone',
             '/node_modules/clone-deep',
             '/node_modules/@okta/odyssey-react-mui',
+            '/node_modules/@okta/odyssey-design-tokens',
             '/node_modules/@mui',
             '/node_modules/@okta/okta-auth-js',
             '/node_modules/p-cancelable',
