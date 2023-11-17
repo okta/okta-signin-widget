@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { flow } from '../../../util/utils';
 import {
   FormBag,
   TransformationOptions,
@@ -26,7 +27,6 @@ import { transformMessages } from './messages';
 import { transformTestAttribute } from './testAttribute';
 import { transformTransactionData } from './transaction';
 import { transformUISchema } from './uischema';
-import { flow } from '../../../util/utils';
 
 // use this function after each transformation step to log the formbag output
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

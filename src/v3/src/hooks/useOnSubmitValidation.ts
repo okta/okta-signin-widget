@@ -27,7 +27,7 @@ messages: Record<string, WidgetMessage[]>) => Promise<void> => {
   } = useWidgetContext();
 
   return useCallback(async (messages: Record<string, WidgetMessage[]>) => {
-    const newTransaction = {...currentTransaction} as IdxTransaction;
+    const newTransaction = { ...currentTransaction } as IdxTransaction;
     resetMessagesToInputs(newTransaction.nextStep!.inputs!, messages);
     setMessage({
       message: loc('oform.errorbanner.title', 'login'),

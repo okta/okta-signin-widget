@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { flow } from '../../../../util/utils';
 import { TransformStepFnWithOptions } from '../../types';
 import { transformCancelButton } from './transformCancelButton';
 import { transformFactorPageCustomLink } from './transformFactorPageCustomLink';
@@ -21,7 +22,6 @@ import { transformReturnToAuthenticatorListButton } from './transformReturnToAut
 import { transformSubmitButton } from './transformSubmitButton';
 import { transformUnlockAccountButton } from './transformUnlockAccountButton';
 import { transformVerifyWithOtherButton } from './transformVerifyWithOtherButton';
-import { flow } from '../../../../util/utils';
 
 export const transformButtons: TransformStepFnWithOptions = (options) => (formbag) => flow(
   transformSubmitButton(options),

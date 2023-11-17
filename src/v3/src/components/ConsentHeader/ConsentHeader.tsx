@@ -18,7 +18,9 @@ import { Fragment, FunctionComponent, h } from 'preact';
 import { IDX_STEP } from '../../constants';
 import { useWidgetContext } from '../../contexts';
 import { useHtmlContentParser } from '../../hooks';
-import { getAppInfo, getHeadingReplacerFn, loc, escape } from '../../util';
+import {
+  escape, getAppInfo, getHeadingReplacerFn, loc,
+} from '../../util';
 
 const ConsentHeader: FunctionComponent = () => {
   const { idxTransaction } = useWidgetContext();

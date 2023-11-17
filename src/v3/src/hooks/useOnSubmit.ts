@@ -21,6 +21,7 @@ import {
 import { useCallback } from 'preact/hooks';
 import { generateDeviceFingerprint } from 'src/util/deviceFingerprintingUtils';
 
+import { cloneDeep, merge, omit } from '../../../util/utils';
 import { IDX_STEP, ON_PREM_TOKEN_CHANGE_ERROR_KEY } from '../constants';
 import { useWidgetContext } from '../contexts';
 import { MessageType } from '../types';
@@ -43,7 +44,6 @@ import {
   triggerRegistrationErrorMessages,
 } from '../util';
 import { getEventContext } from '../util/getEventContext';
-import { omit, cloneDeep, merge } from '../../../util/utils';
 
 type OnSubmitHandlerOptions = {
   includeData?: boolean;

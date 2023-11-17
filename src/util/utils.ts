@@ -11,7 +11,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint complexity: [2, 13], max-depth: [2, 3] */
+/* eslint complexity: [2, 13], max-depth: [2, 4] */
 
 import _cloneDeep from 'clone-deep';
 import deepMerge from 'deepmerge';
@@ -62,7 +62,7 @@ export function set(obj, path, v) {
 }
 
 export function groupBy<T>(arr: T[], iteratee: (T) => string): Record<string, T[]> {
-  let obj = {};
+  const obj = {};
   arr.forEach((v) => {
     const group = iteratee(v);
     if (!obj[group]) {

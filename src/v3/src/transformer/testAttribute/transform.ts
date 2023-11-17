@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { flow } from '../../../../util/utils';
 import {
   ButtonElement,
   ButtonType,
@@ -18,7 +19,6 @@ import {
   TransformStepFn,
 } from '../../types';
 import { traverseLayout } from '../util';
-import { flow } from '../../../../util/utils';
 
 const updateFields: TransformStepFn = (formbag) => {
   const { uischema } = formbag;

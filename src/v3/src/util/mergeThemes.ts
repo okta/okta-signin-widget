@@ -12,8 +12,8 @@
 
 import { CSSInterpolation, ThemeOptions } from '@mui/material';
 
-import { cssInterpolate } from './cssInterpolate';
 import { merge } from '../../../util/utils';
+import { cssInterpolate } from './cssInterpolate';
 
 type Props = Record<string, unknown>;
 type StyleOverrideFunction = (override: Props) => CSSInterpolation;

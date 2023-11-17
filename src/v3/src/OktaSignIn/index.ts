@@ -13,7 +13,6 @@
 import { OktaAuth, OktaAuthOptions, Tokens } from '@okta/okta-auth-js';
 import { h, render } from 'preact';
 import { TinyEmitter as EventEmitter } from 'tiny-emitter';
-import { pick } from '../../../util/utils';
 
 import {
   EventContext,
@@ -23,6 +22,7 @@ import {
   RenderResult,
   RenderSuccessCallback,
 } from '../../../types';
+import { pick } from '../../../util/utils';
 import { Widget } from '../components/Widget';
 import {
   JsonObject,

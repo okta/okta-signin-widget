@@ -15,10 +15,10 @@ import {
   useEffect, useMemo, useRef, useState,
 } from 'preact/hooks';
 
+import { cloneDeep } from '../../../util/utils';
 import { TERMINAL_KEY } from '../constants';
 import { FormBag, WidgetOptions } from '../types';
 import { containsMessageKey, isPollingStep } from '../util';
-import { cloneDeep } from '../../../util/utils';
 
 const DEFAULT_TIMEOUT = 4000;
 

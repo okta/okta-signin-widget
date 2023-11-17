@@ -18,13 +18,13 @@ import {
   useState,
 } from 'preact/hooks';
 
+import { debounce } from '../../../../util/utils';
 import { useWidgetContext } from '../../contexts';
 import {
   PasswordMatchesElement,
   UISchemaElementComponent,
 } from '../../types';
 import { getTranslation } from '../../util';
-import { debounce } from '../../../../util/utils';
 import PasswordRequirementListItem from './PasswordRequirementListItem';
 
 const PasswordMatches: UISchemaElementComponent<{

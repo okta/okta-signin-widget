@@ -18,6 +18,7 @@ import {
   useState,
 } from 'preact/hooks';
 
+import { debounce } from '../../../../util/utils';
 import { useWidgetContext } from '../../contexts';
 import {
   PasswordRequirementsElement,
@@ -27,7 +28,6 @@ import {
 } from '../../types';
 import { validatePassword } from '../../util';
 import PasswordRequirementListItem from './PasswordRequirementListItem';
-import { debounce } from '../../../../util/utils';
 
 const PasswordRequirements: UISchemaElementComponent<{
   uischema: PasswordRequirementsElement

@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { groupBy } from '../../../../../util/utils';
 import { doesI18NKeyExist } from '../../../../../v2/ion/i18nUtils';
 import { ConsentScopeGroup, SCOPE_GROUP_CONFIG } from '../../../constants';
 import {
@@ -22,7 +23,6 @@ import {
   IdxStepTransformer,
 } from '../../../types';
 import { loc } from '../../../util';
-import { groupBy } from '../../../../../util/utils';
 import { removeUIElementWithName } from '../../utils';
 
 const GROUP_KEY_TO_I18N_KEY: Record<ConsentScopeGroup, string> = {
