@@ -37,14 +37,6 @@ global.OKTA_SIW_VERSION = '0.0.0';
 global.OKTA_SIW_COMMIT_HASH = 'b9bbc0140703c3fbf0e2e58920362e70'; // "echo jest | md5"
 global.DEBUG = false;
 
-global.structuredClone = (v) => JSON.parse(
-  JSON.stringify(
-    v,
-    (_k, v) => (v === undefined ? { '##undefined##': 999 } : v),
-  ),
-  (_k, v) => (typeof v === 'object' && v?.['##undefined##'] === 999 ? undefined : v),
-);
-
 expect.addSnapshotSerializer(createSerializer({ includeStyles: false }));
 
 jest.mock('util/loc', () => ({
