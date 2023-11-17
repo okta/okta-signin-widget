@@ -162,6 +162,15 @@ const I18N_OVERRIDE_MAPPINGS = {
   ...I18N_BASE_ATTRIBUTE_ENROLL_PROFILE_MAPPINGS, //enroll-profile strings
 };
 
+/**
+ * Get authenticator display name from {@code remediation}.
+ *
+ * @param {Object} remediation
+ */
+const getAuthenticatorDisplayName = (remediation) => {
+  return remediation.relatesTo?.value?.displayName;
+};
+
 const I18N_PARAMS_MAPPING = {
   [FORMS.ENROLL_AUTHENTICATOR]: {
     [AUTHENTICATOR_KEY.ON_PREM]: {
@@ -378,15 +387,6 @@ const isCustomizedI18nKey = (i18nKey, settings) => {
   const i18n = settings.get('i18n');
   const customizedProperty = i18n && i18n[language] && i18n[language][i18nKey];
   return !!customizedProperty;
-};
-
-/**
- * Get authenticator display name from {@code remediation}.
- *
- * @param {Object} remediation
- */
-const getAuthenticatorDisplayName = (remediation) => {
-  return remediation.relatesTo?.value?.displayName;
 };
 
 export {

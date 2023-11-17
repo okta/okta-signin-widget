@@ -12,7 +12,7 @@
 
 /* eslint complexity: [2, 38], max-statements: [2, 38] */
 import { loc } from './loc';
-import { omit, union } from './utils';
+import { omit, pick, union } from './utils';
 import TimeUtil from 'util/TimeUtil';
 const fn = {};
 const factorData = {
@@ -188,7 +188,7 @@ const getPasswordComplexityRequirementsAsArray = function(policy, i18nKeys) {
     if (policyComplexity.useADComplexityRequirements) {
       const allowed = ['minLength', 'useADComplexityRequirements', 'excludeUsername', 'excludeFirstName',
         'excludeLastName', 'excludeAttributes'];
-      filteredPolicyComplexity = _.pick(policyComplexity, allowed);
+      filteredPolicyComplexity = pick(policyComplexity, allowed);
     }
 
     const requirements = Object.entries(filteredPolicyComplexity).map(([complexityType, complexityValue]) => {
