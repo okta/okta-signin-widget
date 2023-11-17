@@ -19,7 +19,10 @@ const external = [
   'jquery',
   'parse-ms',
   'q',
-  'u2f-api-polyfill'
+  'u2f-api-polyfill',
+  'fast-deep-equal',
+  'deepmerge',
+  'clone-deep'
 ];
 
 let entries = {
