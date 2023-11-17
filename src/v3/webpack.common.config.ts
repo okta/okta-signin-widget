@@ -89,6 +89,8 @@ const baseConfig: Partial<Configuration> = {
           const npmRequiresTransform = [
             '/node_modules/parse-ms',
             '/node_modules/@sindresorhus/to-milliseconds',
+            '/node_modules/shallow-clone',
+            '/node_modules/clone-deep',
             '/node_modules/@okta/odyssey-react-mui',
             '/node_modules/@mui',
             '/node_modules/@okta/okta-auth-js',
