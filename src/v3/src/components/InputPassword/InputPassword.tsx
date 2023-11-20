@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import {
   Box,
   EyeIcon,
@@ -80,6 +81,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
     || undefined;
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const showPasswordTimeoutRef = useRef<number | undefined>();
+  const Tokens = useOdysseyDesignTokens();
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -107,9 +109,9 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
         {showAsterisk && (
           <Box
             component="span"
-            sx={(theme) => ({
-              marginInlineStart: theme.spacing(1),
-              marginInlineEnd: theme.spacing(1),
+            sx={() => ({
+              marginInlineStart: Tokens.Spacing2,
+              marginInlineEnd: Tokens.Spacing2,
             })}
             className="no-translate"
             aria-hidden
@@ -166,11 +168,11 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
               // switching on the passed `dir` attribute is needed because plugin does not yet
               // handle nested [dir="ltr"] inside [dir="rtl"] well so explicitly set physical
               // properties when 'ltr' is passed onto this element, else can use logical
-              sx={(theme) => (dir === 'ltr' ? {
+              sx={() => (dir === 'ltr' ? {
                 marginLeft: '8px',
-                marginRight: theme.spacing(2),
+                marginRight: Tokens.Spacing3,
               } : {
-                marginInlineEnd: theme.spacing(2),
+                marginInlineEnd: Tokens.Spacing3,
                 marginInlineStart: '8px',
               })}
             >

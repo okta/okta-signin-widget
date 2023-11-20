@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { Box, Icon } from '@okta/odyssey-react-mui-legacy';
 import classNames from 'classnames';
 import { h } from 'preact';
@@ -22,6 +23,7 @@ const IdentifierContainer: UISchemaElementComponent<{
 
   const mainContainerClasses = classNames('identifier-container');
   const identifierSpanClasses = classNames('identifier', 'no-translate');
+  const Tokens = useOdysseyDesignTokens();
 
   return (
     <Box
@@ -38,9 +40,9 @@ const IdentifierContainer: UISchemaElementComponent<{
         flexGrow="0"
         paddingX={4}
         paddingY={2}
-        sx={(theme) => ({
+        sx={() => ({
           borderRadius: '36px',
-          backgroundColor: theme.palette.grey[50],
+          backgroundColor: Tokens.HueNeutral50,
           textOverflow: 'ellipsis',
           whiteSpace: 'nowrap',
           overflow: 'hidden',
@@ -48,8 +50,8 @@ const IdentifierContainer: UISchemaElementComponent<{
       >
         <Box
           component="span"
-          sx={(theme) => ({
-            color: theme.palette.primary.main,
+          sx={() => ({
+            color: Tokens.PalettePrimaryMain,
             verticalAlign: 'middle',
           })}
         >

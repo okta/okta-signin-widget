@@ -10,13 +10,12 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { ThemeOptions } from '@mui/material';
-import { odysseyTheme } from '@okta/odyssey-react-mui-legacy';
+import * as Tokens from '@okta/odyssey-design-tokens';
+import { createOdysseyMuiTheme, DesignTokensOverride, ThemeOptions } from '@okta/odyssey-react-mui';
 import chroma from 'chroma-js';
 import { set as _set } from 'lodash';
 
 import { BrandColors } from '../types';
-import { DESIGN_TOKENS, DesignTokensType } from './designTokens';
 import { mergeThemes } from './mergeThemes';
 
 export type Palette = Partial<{
@@ -114,13 +113,12 @@ export const generatePalette = (main: string): Palette => {
 
 export const createTheme = (
   brandColors?: BrandColors,
-  customTokens?: Partial<DesignTokensType>,
+  customTokens?: Partial<DesignTokensOverride>,
 ): ThemeOptions => {
-  const defaultTokens = DESIGN_TOKENS;
-  const mergedTokens: DesignTokensType = { ...defaultTokens, ...customTokens };
-  const theme = odysseyTheme;
+  // Odyssey 1.x does not export their theme, but we can recreate it
+  const theme = createOdysseyMuiTheme({ odysseyTokens: { ...Tokens, ...customTokens } });
 
-  theme.palette.text.primary = BLACK_HEX;
+  // TODO: OKTA-667943 - Update palette generation for OD 1.x larger hue range
   if (brandColors?.primaryColor) {
     const p = generatePalette(brandColors.primaryColor);
     set(theme, 'palette.primary.lighter', p.lighter);
@@ -162,82 +160,10 @@ export const createTheme = (
       set(theme, 'palette.success.dark', customTokens.PaletteSuccessDark ?? p.dark);
       set(theme, 'palette.success.contrastText', p.contrastText);
     }
-    set(theme, 'mixins.borderRadius', mergedTokens.BorderRadiusMain);
-    set(theme, 'mixins.borderStyle', mergedTokens.BorderStyleMain);
-    set(theme, 'mixins.borderWidth', mergedTokens.BorderWidthMain);
-    set(theme, 'palette.text.disabled', mergedTokens.TypographyColorDisabled);
-    set(theme, 'palette.text.primary', mergedTokens.TypographyColorBody);
-    set(theme, 'shadows[1]', mergedTokens.ShadowScale0);
-    set(theme, 'shadows[2]', mergedTokens.ShadowScale1);
-    set(theme, 'typography.body1.fontFamily', mergedTokens.TypographyFamilyBody);
-    set(theme, 'typography.body1.fontSize', mergedTokens.TypographySizeBody);
-    set(theme, 'typography.body1.fontStyle', mergedTokens.TypographyStyleNormal);
-    set(theme, 'typography.body1.lineHeight', mergedTokens.TypographyLineHeightBody);
-    set(theme, 'typography.button.fontFamily', mergedTokens.TypographyFamilyButton);
-    set(theme, 'typography.caption.color', mergedTokens.TypographyColorSubordinate);
-    set(theme, 'typography.caption.fontFamily', mergedTokens.TypographyFamilyBody);
-    set(theme, 'typography.caption.fontSize', mergedTokens.TypographySizeSubordinate);
-    set(theme, 'typography.fontFamily', mergedTokens.TypographyFamilyBody);
-    set(theme, 'typography.fontWeightBold', mergedTokens.TypographyWeightBodyBold);
-    set(theme, 'typography.fontWeightRegular', mergedTokens.TypographyWeightBody);
-    set(theme, 'typography.h1.color', mergedTokens.TypographyColorHeading);
-    set(theme, 'typography.h1.fontFamily', mergedTokens.TypographyFamilyHeading);
-    set(theme, 'typography.h1.fontSize', mergedTokens.TypographySizeHeading1);
-    set(theme, 'typography.h1.fontWeight', mergedTokens.TypographyWeightHeading);
-    set(theme, 'typography.h1.lineHeight', mergedTokens.TypographyLineHeightHeading1);
-    set(theme, 'typography.h2.color', mergedTokens.TypographyColorHeading);
-    set(theme, 'typography.h2.fontFamily', mergedTokens.TypographyFamilyHeading);
-    set(theme, 'typography.h2.fontSize', mergedTokens.TypographySizeHeading2);
-    set(theme, 'typography.h2.fontWeight', mergedTokens.TypographyWeightHeading);
-    set(theme, 'typography.h2.lineHeight', mergedTokens.TypographyLineHeightHeading2);
-    set(theme, 'typography.h3.color', mergedTokens.TypographyColorHeading);
-    set(theme, 'typography.h3.fontFamily', mergedTokens.TypographyFamilyHeading);
-    set(theme, 'typography.h3.fontSize', mergedTokens.TypographySizeHeading3);
-    set(theme, 'typography.h3.fontWeight', mergedTokens.TypographyWeightHeading);
-    set(theme, 'typography.h3.lineHeight', mergedTokens.TypographyLineHeightHeading3);
-    set(theme, 'typography.h4.color', mergedTokens.TypographyColorHeading);
-    set(theme, 'typography.h4.fontFamily', mergedTokens.TypographyFamilyHeading);
-    set(theme, 'typography.h4.fontSize', mergedTokens.TypographySizeHeading4);
-    set(theme, 'typography.h4.fontWeight', mergedTokens.TypographyWeightHeading);
-    set(theme, 'typography.h4.lineHeight', mergedTokens.TypographyLineHeightHeading4);
-    set(theme, 'typography.h5.color', mergedTokens.TypographyColorHeading);
-    set(theme, 'typography.h5.fontFamily', mergedTokens.TypographyFamilyHeading);
-    set(theme, 'typography.h5.fontSize', mergedTokens.TypographySizeHeading5);
-    set(theme, 'typography.h5.fontWeight', mergedTokens.TypographyWeightHeading);
-    set(theme, 'typography.h5.lineHeight', mergedTokens.TypographyLineHeightHeading5);
-    set(theme, 'typography.h6.color', mergedTokens.TypographyColorHeading);
-    set(theme, 'typography.h6.fontFamily', mergedTokens.TypographyFamilyHeading);
-    set(theme, 'typography.h6.fontSize', mergedTokens.TypographySizeHeading6);
-    set(theme, 'typography.h6.fontWeight', mergedTokens.TypographyWeightHeading);
-    set(theme, 'typography.h6.lineHeight', mergedTokens.TypographyLineHeightHeading6);
-    set(theme, 'typography.overline.lineHeight', mergedTokens.TypographyLineHeightOverline);
-    set(theme, 'typography.subtitle1.fontFamily', mergedTokens.TypographyFamilyBody);
-    set(theme, 'typography.subtitle2.fontFamily', mergedTokens.TypographyFamilyBody);
-
-    theme.spacing = (...args: Array<SpacingArgument>): string => {
-      if (args.length === 0) {
-        return mergedTokens.Spacing2;
-      }
-      const spaces: string[] = [
-        mergedTokens.Spacing0,
-        mergedTokens.Spacing1,
-        mergedTokens.Spacing2,
-        mergedTokens.Spacing3,
-        mergedTokens.Spacing4,
-        mergedTokens.Spacing5,
-        mergedTokens.Spacing6,
-        mergedTokens.Spacing7,
-        mergedTokens.Spacing8,
-        mergedTokens.Spacing9,
-      ];
-      return args
-        .slice(0, 4) // limit to 4 args
-        .map((n) => ( typeof n === 'number' ? spaces[n] : n )) // lookup
-        .join(' '); // concat into space-separated string
-    };
   }
-  return mergeThemes(theme, {
-    ...odysseyTheme,
+
+  // Merge default Odyssey 1.x theme with component overrides
+  const themeOverride = mergeThemes(theme, {
     components: {
       MuiAlert: {
         styleOverrides: {
@@ -327,4 +253,6 @@ export const createTheme = (
       },
     },
   });
+
+  return themeOverride;
 };

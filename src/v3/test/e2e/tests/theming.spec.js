@@ -21,7 +21,7 @@ test('Theme configuration applies correctly', async (t) => {
 
   await t
     .expect(submitButton.getStyleProperty('background-color'))
-    .eql('rgb(62, 0, 70)');
+    .eql('rgb(84, 107, 231)');
 
   // enter username/pw and submit
   await t
@@ -48,6 +48,22 @@ test('Theme configuration applies correctly', async (t) => {
     }
   };
 `,
+});
+
+test('should override text color based on Odyssey design tokens override', async (t) => {
+  const header = Selector('h2')
+    .withText('Sign In');
+  await t
+    .expect(header.getStyleProperty('color'))
+    .eql('rgb(40, 214, 188)');
+}).clientScripts({
+  content: `
+    window.additionalOptions = {
+      theme: {
+        tokens: { TypographyColorHeading: '#28d6bc' },
+      }
+    };
+  `,
 });
 
 // TODO OKTA-654743 enable/expose theme overrides on OktaSignIn configs

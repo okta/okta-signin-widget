@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { Box, Icon as OdyIcon } from '@okta/odyssey-react-mui-legacy';
 import classNames from 'classnames';
 import { FunctionComponent, h } from 'preact';
@@ -31,12 +32,13 @@ const Icon: FunctionComponent<PasswordRequirementIconProps> = (
     info: { name: 'information-circle', color: 'info' },
   };
   const iconClasses = classNames('passwordRequirementIcon');
+  const Tokens = useOdysseyDesignTokens();
 
   return (
     <Box
       className={iconClasses}
-      sx={(theme) => ({
-        marginInlineEnd: theme.spacing(1),
+      sx={() => ({
+        marginInlineEnd: Tokens.Spacing2,
         // This is to force the icon align with the top of the text
         marginBlockStart: '2px',
       })}

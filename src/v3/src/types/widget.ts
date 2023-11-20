@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { DesignTokensOverride } from '@okta/odyssey-react-mui';
 import {
   FlowIdentifier,
   IdxActionParams,
@@ -34,7 +35,6 @@ import {
   UserOperation,
 } from '../../../types';
 import { InterstitialRedirectView } from '../constants';
-import { DesignTokensType } from '../util/designTokens';
 import { WidgetHooks } from '../util/widgetHooks';
 import { OktaSignInAPI } from './api';
 import { JsonObject } from './json';
@@ -119,7 +119,7 @@ export type WidgetOptions = {
   brandColors?: BrandColors;
 
   // theme
-  theme?: { tokens: DesignTokensType }; // & ThemeOptions;
+  theme?: { tokens: DesignTokensOverride }; // & ThemeOptions;
 
   // hooks
   hooks?: HooksOptions; // object in options

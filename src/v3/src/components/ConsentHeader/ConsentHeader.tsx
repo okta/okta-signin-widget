@@ -11,7 +11,7 @@
  */
 
 import { Link } from '@mui/material';
-import * as Tokens from '@okta/odyssey-design-tokens';
+import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { Box, Typography } from '@okta/odyssey-react-mui-legacy';
 import { escape } from 'lodash';
 import { Fragment, FunctionComponent, h } from 'preact';
@@ -40,6 +40,7 @@ const ConsentHeader: FunctionComponent = () => {
     granularConsentTitle,
     { replace: getHeadingReplacerFn({}, 'h2', 2, 6) },
   );
+  const Tokens = useOdysseyDesignTokens();
 
   const getAppLogo = (altText: string, logoHref?: string) => (
     typeof logoHref !== 'undefined' && (
@@ -114,10 +115,10 @@ const ConsentHeader: FunctionComponent = () => {
                 justifyContent="center"
               >
                 <Typography
-                  sx={(theme) => ({
-                    marginBlockEnd: theme.spacing(4),
-                    backgroundColor: Tokens.ColorBackgroundPrimaryLight,
-                    color: Tokens.ColorBackgroundPrimaryDark,
+                  sx={() => ({
+                    marginBlockEnd: Tokens.Spacing5,
+                    backgroundColor: Tokens.PalettePrimaryLighter,
+                    color: Tokens.PalettePrimaryDarker,
                     padding: '4px 2px',
                   })}
                   className="issuer no-translate"

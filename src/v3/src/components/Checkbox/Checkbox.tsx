@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import {
   Box,
   Checkbox as CheckboxMui,
@@ -52,6 +53,7 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
   const descriptionInfo = getTranslationInfo(translations, 'description');
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
   const hasErrors = typeof errors !== 'undefined';
+  const Tokens = useOdysseyDesignTokens();
 
   return (
     <FormControl
@@ -80,8 +82,8 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
               'data-se': name,
               'data-se-for-name': name,
             }}
-            sx={(theme) => ({
-              marginInlineEnd: theme.spacing(2),
+            sx={() => ({
+              marginInlineEnd: Tokens.Spacing3,
             })}
           />
         )}
@@ -98,9 +100,9 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
             {showAsterisk && (
               <Box
                 component="span"
-                sx={(theme) => ({
-                  marginInlineStart: theme.spacing(1),
-                  marginInlineEnd: theme.spacing(1),
+                sx={() => ({
+                  marginInlineStart: Tokens.Spacing2,
+                  marginInlineEnd: Tokens.Spacing2,
                 })}
                 className="no-translate"
                 aria-hidden

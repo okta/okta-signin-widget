@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { Box } from '@okta/odyssey-react-mui-legacy';
 import { h } from 'preact';
 
@@ -24,6 +25,7 @@ const AuthenticatorButtonList: UISchemaElementComponent<{
   uischema: AuthenticatorButtonListElement
 }> = ({ uischema }) => {
   const { buttons, dataSe } = uischema.options;
+  const Tokens = useOdysseyDesignTokens();
 
   return (
     <Box
@@ -36,7 +38,7 @@ const AuthenticatorButtonList: UISchemaElementComponent<{
           <Box
             key={button.id}
             component="li"
-            sx={{ marginBlockEnd: (theme) => theme.spacing(4) }}
+            sx={{ marginBlockEnd: () => Tokens.Spacing5 }}
           >
             <AuthenticatorButton
               uischema={{

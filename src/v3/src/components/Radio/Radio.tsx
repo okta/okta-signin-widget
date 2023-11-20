@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import {
   Box,
   FormControl,
@@ -59,6 +60,7 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
   const optionalLabel = getTranslation(translations, 'optionalLabel');
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
   const hasErrors = typeof errors !== 'undefined';
+  const Tokens = useOdysseyDesignTokens();
 
   return (
     <FormControl
@@ -74,9 +76,9 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
           {showAsterisk && (
             <Box
               component="span"
-              sx={(theme) => ({
-                marginInlineStart: theme.spacing(1),
-                marginInlineEnd: theme.spacing(1),
+              sx={() => ({
+                marginInlineStart: Tokens.Spacing2,
+                marginInlineEnd: Tokens.Spacing2,
               })}
               className="no-translate"
               aria-hidden
@@ -109,8 +111,8 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
             <FormControlLabel
               control={(
                 <RadioMui
-                  sx={(theme) => ({
-                    marginInlineEnd: theme.spacing(2),
+                  sx={() => ({
+                    marginInlineEnd: Tokens.Spacing3,
                   })}
                 />
               )}

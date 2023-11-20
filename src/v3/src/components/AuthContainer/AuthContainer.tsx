@@ -11,7 +11,7 @@
  */
 
 import { ScopedCssBaseline } from '@mui/material';
-import * as Tokens from '@okta/odyssey-design-tokens';
+import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { Box } from '@okta/odyssey-react-mui-legacy';
 import classNames from 'classnames';
 import { FunctionComponent, h } from 'preact';
@@ -21,6 +21,7 @@ import { useWidgetContext } from '../../contexts';
 const AuthContainer: FunctionComponent<{ hide: boolean }> = ({ children, hide }) => {
   const { languageDirection, languageCode } = useWidgetContext();
   const classes = classNames('auth-container', 'main-container');
+  const Tokens = useOdysseyDesignTokens();
 
   return (
     <Box
@@ -66,13 +67,13 @@ const AuthContainer: FunctionComponent<{ hide: boolean }> = ({ children, hide })
             flexDirection="column"
             bgcolor="common.white"
             fontFamily="fontFamily"
-            sx={(theme) => ({
+            sx={() => ({
               maxInlineSize: '432px',
               minInlineSize: '320px',
-              borderWidth: theme.mixins.borderWidth,
-              borderStyle: theme.mixins.borderStyle,
-              borderRadius: theme.mixins.borderRadius,
-              borderColor: Tokens.ColorBorderDisplay,
+              borderWidth: Tokens.BorderWidthMain,
+              borderStyle: Tokens.BorderStyleMain,
+              borderRadius: Tokens.BorderRadiusMain,
+              borderColor: Tokens.BorderColorDisplay,
               '@media only screen and (max-width: 391px)': {
                 borderWidth: 0,
               },

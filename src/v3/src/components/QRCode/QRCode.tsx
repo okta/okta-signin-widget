@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import * as Tokens from '@okta/odyssey-design-tokens';
+import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { Box } from '@okta/odyssey-react-mui-legacy';
 import { h } from 'preact';
 
@@ -24,14 +24,16 @@ const QRCode: UISchemaElementComponent<{
 }) => {
   const { translations = [], options: { data } } = uischema;
   const label = getTranslation(translations, 'label');
+  const Tokens = useOdysseyDesignTokens();
+
   return (
     <Box
       className="qrContainer"
-      sx={(theme) => ({
-        marginBlockStart: theme.spacing(4),
-        marginBlockEnd: theme.spacing(4),
-        marginInlineStart: theme.spacing(0),
-        marginInlineEnd: theme.spacing(0),
+      sx={() => ({
+        marginBlockStart: Tokens.Spacing5,
+        marginBlockEnd: Tokens.Spacing5,
+        marginInlineStart: Tokens.Spacing1,
+        marginInlineEnd: Tokens.Spacing1,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -43,10 +45,10 @@ const QRCode: UISchemaElementComponent<{
         sx={{
           width: '224px',
           height: '224px',
-          borderWidth: Tokens.BorderWidthBase,
-          borderStyle: Tokens.BorderStyleBase,
-          borderColor: Tokens.ColorBorderDisplay,
-          borderRadius: Tokens.BorderRadiusBase,
+          borderWidth: Tokens.BorderWidthMain,
+          borderStyle: Tokens.BorderStyleMain,
+          borderColor: Tokens.BorderColorDisplay,
+          borderRadius: Tokens.BorderRadiusMain,
         }}
         src={data}
         alt={label}
