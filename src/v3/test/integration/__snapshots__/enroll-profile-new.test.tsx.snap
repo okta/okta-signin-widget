@@ -95,7 +95,6 @@ exports[`enroll-profile-new should render form 1`] = `
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-21"
-                          required="true"
                         >
                           <input
                             aria-invalid="false"
@@ -104,7 +103,6 @@ exports[`enroll-profile-new should render form 1`] = `
                             data-se="userProfile.lastName"
                             id="userProfile.lastName"
                             name="userProfile.lastName"
-                            required=""
                             type="text"
                           />
                         </div>
@@ -131,7 +129,6 @@ exports[`enroll-profile-new should render form 1`] = `
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-21"
-                          required="true"
                         >
                           <input
                             aria-invalid="false"
@@ -140,7 +137,6 @@ exports[`enroll-profile-new should render form 1`] = `
                             data-se="userProfile.firstName"
                             id="userProfile.firstName"
                             name="userProfile.firstName"
-                            required=""
                             type="text"
                           />
                         </div>
@@ -167,7 +163,6 @@ exports[`enroll-profile-new should render form 1`] = `
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-21"
-                          required="true"
                         >
                           <input
                             aria-invalid="false"
@@ -177,7 +172,6 @@ exports[`enroll-profile-new should render form 1`] = `
                             id="userProfile.email"
                             inputmode="email"
                             name="userProfile.email"
-                            required=""
                             type="text"
                           />
                         </div>

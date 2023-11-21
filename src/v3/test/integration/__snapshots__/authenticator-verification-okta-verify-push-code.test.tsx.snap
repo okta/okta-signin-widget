@@ -137,12 +137,12 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                               class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-22"
                               fill="none"
                               focusable="false"
-                              viewBox="0 0 16 16"
+                              viewBox="0 0 24 24"
                               xmlns="http://www.w3.org/2000/svg"
                             >
                               <path
                                 clip-rule="evenodd"
-                                d="M13.983 14.6471C13.4706 15 12.6329 15 10.9575 15H5.04248C3.36707 15 2.52937 15 2.01699 14.6471C1.56939 14.3387 1.26655 13.8615 1.17816 13.3252C1.07698 12.7114 1.43367 11.9534 2.14706 10.4374L5.10455 4.15277C6.02878 2.18879 6.49089 1.2068 7.12576 0.898255C7.6777 0.630012 8.32225 0.630012 8.87419 0.898255C9.50906 1.2068 9.97117 2.18879 10.8954 4.15277L13.8529 10.4374C14.5663 11.9534 14.923 12.7114 14.8218 13.3252C14.7334 13.8615 14.4306 14.3387 13.983 14.6471ZM7.99998 10C7.72383 10 7.49998 9.77614 7.49998 9.5L7.49998 5H8.49998L8.49998 9.5C8.49998 9.77614 8.27612 10 7.99998 10ZM7.99998 13C8.14831 13 8.29332 12.956 8.41665 12.8736C8.53999 12.7912 8.63612 12.6741 8.69288 12.537C8.74965 12.4 8.7645 12.2492 8.73556 12.1037C8.70662 11.9582 8.6352 11.8246 8.53031 11.7197C8.42542 11.6148 8.29178 11.5434 8.14629 11.5144C8.00081 11.4855 7.85001 11.5003 7.71296 11.5571C7.57592 11.6139 7.45878 11.71 7.37637 11.8333C7.29396 11.9567 7.24998 12.1017 7.24998 12.25C7.24998 12.4489 7.32899 12.6397 7.46964 12.7803C7.6103 12.921 7.80106 13 7.99998 13Z"
+                                d="M9.342 2.918c1.123-2.144 4.192-2.144 5.315 0l7.695 14.69C23.398 19.605 21.95 22 19.695 22H4.305c-2.255 0-3.703-2.395-2.657-4.392l7.694-14.69ZM12 14a1 1 0 0 1-1-1V8h2v5a1 1 0 0 1-1 1Zm0 1.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z"
                                 fill="currentColor"
                                 fill-rule="evenodd"
                               />
@@ -204,20 +204,9 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                               name="autoChallenge"
                               type="checkbox"
                             />
-                            <svg
-                              aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-34"
-                              data-testid="CheckBoxOutlineBlankIcon"
-                              focusable="false"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
-                              />
-                            </svg>
                           </span>
                           <span
-                            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-35"
+                            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-34"
                           >
                             Send push automatically
                           </span>
@@ -231,7 +220,7 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                         class="MuiBox-root emotion-27"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-38"
+                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-37"
                           data-se="numberchallenge-instr-value"
                           id="challenge-poll_Description_On_your_mobile_device,_open_the_Okta_Verify_prompt,_then_tap_<span_class=strong>52</span>_in_Okta_Verify_to_continue_okta_verify_aut2h3fft4y9pDPCS1d7_4"
                         >
@@ -249,11 +238,11 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                       class="MuiBox-root emotion-12"
                     >
                       <div
-                        class="MuiBox-root emotion-40"
+                        class="MuiBox-root emotion-39"
                         id="code"
                       >
                         <div
-                          class="MuiBox-root emotion-41"
+                          class="MuiBox-root emotion-40"
                           data-se="icon-code"
                         >
                           <svg
@@ -288,7 +277,7 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                           class="MuiBox-root emotion-2"
                         >
                           <span
-                            class="MuiTypography-root MuiTypography-body1 no-translate emotion-35"
+                            class="MuiTypography-root MuiTypography-body1 no-translate emotion-34"
                             data-se="text-code"
                           >
                             52
@@ -300,7 +289,7 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                       class="MuiBox-root emotion-12"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-45"
+                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-44"
                         data-se="switchAuthenticator"
                         role="link"
                         type="button"
@@ -312,7 +301,7 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                       class="MuiBox-root emotion-12"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-45"
+                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-44"
                         data-se="cancel"
                         role="link"
                         type="button"
@@ -491,20 +480,9 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                               name="autoChallenge"
                               type="checkbox"
                             />
-                            <svg
-                              aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-27"
-                              data-testid="CheckBoxOutlineBlankIcon"
-                              focusable="false"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
-                              />
-                            </svg>
                           </span>
                           <span
-                            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-28"
+                            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-27"
                           >
                             Send push automatically
                           </span>
@@ -518,7 +496,7 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                         class="MuiBox-root emotion-20"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-31"
+                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-30"
                           data-se="numberchallenge-instr-value"
                           id="challenge-poll_Description_On_your_mobile_device,_open_the_Okta_Verify_prompt,_then_tap_<span_class=strong>52</span>_in_Okta_Verify_to_continue_okta_verify_aut2h3fft4y9pDPCS1d7_4"
                         >
@@ -536,11 +514,11 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                       class="MuiBox-root emotion-12"
                     >
                       <div
-                        class="MuiBox-root emotion-33"
+                        class="MuiBox-root emotion-32"
                         id="code"
                       >
                         <div
-                          class="MuiBox-root emotion-34"
+                          class="MuiBox-root emotion-33"
                           data-se="icon-code"
                         >
                           <svg
@@ -575,7 +553,7 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                           class="MuiBox-root emotion-2"
                         >
                           <span
-                            class="MuiTypography-root MuiTypography-body1 no-translate emotion-28"
+                            class="MuiTypography-root MuiTypography-body1 no-translate emotion-27"
                             data-se="text-code"
                           >
                             52
@@ -587,7 +565,7 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                       class="MuiBox-root emotion-12"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-38"
+                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-37"
                         data-se="switchAuthenticator"
                         role="link"
                         type="button"
@@ -599,7 +577,7 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                       class="MuiBox-root emotion-12"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-38"
+                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-37"
                         data-se="cancel"
                         role="link"
                         type="button"

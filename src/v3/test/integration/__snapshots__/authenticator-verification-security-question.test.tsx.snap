@@ -154,7 +154,6 @@ exports[`authenticator-verification-security-question renders form 1`] = `
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd no-translate emotion-24"
-                          required="true"
                         >
                           <input
                             aria-invalid="false"
@@ -163,11 +162,10 @@ exports[`authenticator-verification-security-question renders form 1`] = `
                             data-se="credentials.answer"
                             id="credentials.answer"
                             name="credentials.answer"
-                            required=""
                             type="password"
                           />
                           <div
-                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined emotion-26"
+                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd emotion-26"
                           >
                             <button
                               aria-controls="credentials.answer"

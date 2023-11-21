@@ -89,7 +89,6 @@ exports[`device-code-activate should render form 1`] = `
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-20"
-                          required="true"
                         >
                           <input
                             aria-invalid="false"
@@ -97,7 +96,6 @@ exports[`device-code-activate should render form 1`] = `
                             data-se="userCode"
                             id="userCode"
                             name="userCode"
-                            required=""
                             type="text"
                           />
                         </div>

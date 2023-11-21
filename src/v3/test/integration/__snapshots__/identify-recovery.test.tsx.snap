@@ -75,7 +75,6 @@ exports[`identify-recovery renders form 1`] = `
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-17"
                           dir="ltr"
-                          required="true"
                         >
                           <input
                             aria-invalid="false"
@@ -84,7 +83,6 @@ exports[`identify-recovery renders form 1`] = `
                             data-se="identifier"
                             id="identifier"
                             name="identifier"
-                            required=""
                             type="text"
                           />
                         </div>

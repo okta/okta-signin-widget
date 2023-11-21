@@ -179,7 +179,6 @@ exports[`Email authenticator verification when email magic link = false Tests sh
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-28"
                           dir="ltr"
-                          required="true"
                         >
                           <input
                             aria-invalid="false"
@@ -189,7 +188,6 @@ exports[`Email authenticator verification when email magic link = false Tests sh
                             id="credentials.passcode"
                             inputmode="numeric"
                             name="credentials.passcode"
-                            required=""
                             type="text"
                           />
                         </div>

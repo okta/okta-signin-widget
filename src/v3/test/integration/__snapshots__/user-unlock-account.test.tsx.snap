@@ -78,7 +78,6 @@ exports[`user-unlock-account renders form 1`] = `
                           <div
                             class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-18"
                             dir="ltr"
-                            required="true"
                           >
                             <input
                               aria-invalid="false"
@@ -87,7 +86,6 @@ exports[`user-unlock-account renders form 1`] = `
                               data-se="identifier"
                               id="identifier"
                               name="identifier"
-                              required=""
                               type="text"
                             />
                           </div>
