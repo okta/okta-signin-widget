@@ -61,6 +61,7 @@ export const IDX_STEP: Record<string, string> = {
   FAILURE_REDIRECT: 'failure-redirect',
   IDENTIFY: 'identify',
   IDENTIFY_RECOVERY: 'identify-recovery',
+  KEEP_ME_SIGNED_IN: 'keep-me-signed-in',
   LAUNCH_AUTHENTICATOR: 'launch-authenticator',
   LAUNCH_WEBAUTHN_AUTHENTICATOR: 'launch-webauthn-authenticator',
   PIV_IDP: 'piv-idp',

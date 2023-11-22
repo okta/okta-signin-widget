@@ -115,6 +115,9 @@ import ChallengeCustomAppResendPushView from './views/custom-app/ChallengeCustom
 import ReEnrollCustomPasswordExpiryView from './views/custom-password/ReEnrollCustomPasswordExpiryView';
 import ReEnrollCustomPasswordExpiryWarningView from './views/custom-password/ReEnrollCustomPasswordExpiryWarningView';
 
+// keep me signed in
+import PostAuthKeepMeSignedInView from './views/keep-me-signed-in/PostAuthKeepMeSignedInView';
+
 const DEFAULT = '_';
 
 const VIEWS_MAPPING = {
@@ -268,6 +271,9 @@ const VIEWS_MAPPING = {
   },
   [RemediationForms.USER_CODE] : {
     [DEFAULT] : DeviceCodeActivateView
+  },
+  [RemediationForms.KEEP_ME_SIGNED_IN]: {
+    [DEFAULT]: PostAuthKeepMeSignedInView,
   },
   [RemediationForms.TERMINAL]: {
     [DEFAULT]: TerminalView,

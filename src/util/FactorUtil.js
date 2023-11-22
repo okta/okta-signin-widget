@@ -360,7 +360,7 @@ fn.getFactorDescription = function(provider, factorType) {
 
     return brandName ? loc(key, 'login', [brandName]) : loc(key, 'login');
   } else {
-    return loc(descriptionKey, 'login');
+    return descriptionKey ? loc(descriptionKey, 'login') : '';
   }
 };
 
