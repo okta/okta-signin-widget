@@ -180,6 +180,64 @@ describe('flow-okta-verify-enrollment', () => {
     expect(await findByAltText('QR code')).toBeInTheDocument();
   });
 
+  it('qr polling -> channel selection -> data enrollment -> channel selection', async () => {
+    const { user, findByText, findByAltText } = await createTestContext();
+
+    // qr polling
+    expect(await findByText(/Set up Okta Verify/)).toBeInTheDocument();
+    expect(await findByText(/When prompted, tap Scan a QR code/)).toBeInTheDocument();
+    expect(await findByAltText('QR code')).toBeInTheDocument();
+    await user.click(await findByText(/Can't scan\?/));
+
+    // channel selection
+    expect(await findByText(/More options/)).toBeInTheDocument();
+    expect(await findByText(/Email me a setup link/)).toBeInTheDocument();
+    expect(await findByText(/Text me a setup link/)).toBeInTheDocument();
+    await user.click(await findByText(/Next/));
+
+    // data enrollment
+    expect(await findByText(/Set up Okta Verify via email link/)).toBeInTheDocument();
+    await user.click(await findByText(/try a different way/));
+
+    // channel selection
+    expect(await findByText(/More options/)).toBeInTheDocument();
+    expect(await findByText(/Scan a QR code/)).toBeInTheDocument();
+    expect(await findByText(/Text me a setup link/)).toBeInTheDocument();
+    await user.click(await findByText(/Next/));
+
+    // qr polling
+    expect(await findByText(/Set up Okta Verify/)).toBeInTheDocument();
+    expect(await findByText(/When prompted, tap Scan a QR code/)).toBeInTheDocument();
+    expect(await findByAltText('QR code')).toBeInTheDocument();
+  });
+
+  it('qr polling -> channel selection -> Return to authenticator list -> authenticator selection', async () => {
+    const {
+      user, findByText, findByAltText, findAllByRole, findByRole,
+    } = await createTestContext();
+
+    // qr polling
+    expect(await findByText(/Set up Okta Verify/)).toBeInTheDocument();
+    expect(await findByText(/When prompted, tap Scan a QR code/)).toBeInTheDocument();
+    expect(await findByAltText('QR code')).toBeInTheDocument();
+    await user.click(await findByText(/Can't scan\?/));
+
+    // channel selection
+    expect(await findByText(/More options/)).toBeInTheDocument();
+    expect(await findByText(/Email me a setup link/)).toBeInTheDocument();
+    expect(await findByText(/Text me a setup link/)).toBeInTheDocument();
+    await user.click(await findByText(/Next/));
+
+    // data enrollment
+    const [returnToAuthListLink] = await findAllByRole('link', { name: 'Return to authenticator list' });
+    await user.click(returnToAuthListLink);
+
+    // authenticator selection
+    expect(await findByText(/Set up security methods/)).toBeInTheDocument();
+    expect(await findByText(/Security methods help protect your account by ensuring only you have access./)).toBeInTheDocument();
+    await user.click(await findByRole('button', { name: 'Okta Verify' }));
+  });
+
   it('qr polling -> channel selection -> data enrollment (sms) -> sms polling -> try different -> channel selection -> qr polling', async () => {
     const {
       authClient,
@@ -284,63 +342,5 @@ describe('flow-okta-verify-enrollment', () => {
     expect(await findByText(/Set up Okta Verify/)).toBeInTheDocument();
     expect(await findByText(/When prompted, tap Scan a QR code/)).toBeInTheDocument();
     expect(await findByAltText('QR code')).toBeInTheDocument();
-  });
-
-  it('qr polling -> channel selection -> data enrollment -> channel selection', async () => {
-    const { user, findByText, findByAltText } = await createTestContext();
-
-    // qr polling
-    expect(await findByText(/Set up Okta Verify/)).toBeInTheDocument();
-    expect(await findByText(/When prompted, tap Scan a QR code/)).toBeInTheDocument();
-    expect(await findByAltText('QR code')).toBeInTheDocument();
-    await user.click(await findByText(/Can't scan\?/));
-
-    // channel selection
-    expect(await findByText(/More options/)).toBeInTheDocument();
-    expect(await findByText(/Email me a setup link/)).toBeInTheDocument();
-    expect(await findByText(/Text me a setup link/)).toBeInTheDocument();
-    await user.click(await findByText(/Next/));
-
-    // data enrollment
-    expect(await findByText(/Set up Okta Verify via email link/)).toBeInTheDocument();
-    await user.click(await findByText(/try a different way/));
-
-    // channel selection
-    expect(await findByText(/More options/)).toBeInTheDocument();
-    expect(await findByText(/Scan a QR code/)).toBeInTheDocument();
-    expect(await findByText(/Text me a setup link/)).toBeInTheDocument();
-    await user.click(await findByText(/Next/));
-
-    // qr polling
-    expect(await findByText(/Set up Okta Verify/)).toBeInTheDocument();
-    expect(await findByText(/When prompted, tap Scan a QR code/)).toBeInTheDocument();
-    expect(await findByAltText('QR code')).toBeInTheDocument();
-  });
-
-  it('qr polling -> channel selection -> Return to authenticator list -> authenticator selection', async () => {
-    const {
-      user, findByText, findByAltText, findAllByRole, findByRole,
-    } = await createTestContext();
-
-    // qr polling
-    expect(await findByText(/Set up Okta Verify/)).toBeInTheDocument();
-    expect(await findByText(/When prompted, tap Scan a QR code/)).toBeInTheDocument();
-    expect(await findByAltText('QR code')).toBeInTheDocument();
-    await user.click(await findByText(/Can't scan\?/));
-
-    // channel selection
-    expect(await findByText(/More options/)).toBeInTheDocument();
-    expect(await findByText(/Email me a setup link/)).toBeInTheDocument();
-    expect(await findByText(/Text me a setup link/)).toBeInTheDocument();
-    await user.click(await findByText(/Next/));
-
-    // data enrollment
-    const [returnToAuthListLink] = await findAllByRole('link', { name: 'Return to authenticator list' });
-    await user.click(returnToAuthListLink);
-
-    // authenticator selection
-    expect(await findByText(/Set up security methods/)).toBeInTheDocument();
-    expect(await findByText(/Security methods help protect your account by ensuring only you have access./)).toBeInTheDocument();
-    await user.click(await findByRole('button', { name: 'Okta Verify' }));
   });
 });
