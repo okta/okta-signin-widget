@@ -80,10 +80,10 @@ import AuthContainer from '../AuthContainer/AuthContainer';
 import AuthContent from '../AuthContent/AuthContent';
 import AuthHeader from '../AuthHeader/AuthHeader';
 import ConsentHeader from '../ConsentHeader';
+import CustomPluginsOdysseyCacheProvider from '../CustomPluginsOdysseyCacheProvider';
 import Form from '../Form';
 import Spinner from '../Spinner';
 import GlobalStyles from './GlobalStyles';
-import CustomPluginsOdysseyCacheProvider from '../CustomPluginsOdysseyCacheProvider';
 
 export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   if (!isAuthClientSet(widgetProps)) {
