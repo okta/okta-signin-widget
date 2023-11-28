@@ -108,6 +108,7 @@ const idx = {
     // 'oda-enrollment-ios',
     // 'oda-enrollment-android',
     // 'mdm-enrollment',
+    // 'ws1-device-integration-mobile-enrollment',
     // 'authenticator-verification-custom-app-push',
     // 'authenticator-enroll-custom-app-push',
     // 'request-activation-email'    

@@ -2,9 +2,10 @@ import {RequestLogger, RequestMock, userVariables} from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 import { renderWidget } from '../framework/shared';
 import DeviceEnrollmentTerminalPageObject from '../framework/page-objects/DeviceEnrollmentTerminalPageObject';
-import IOSOdaEnrollment from '../../../playground/mocks/data/idp/idx/oda-enrollment-ios';
-import AndroidOdaEnrollmentLoopback from '../../../playground/mocks/data/idp/idx/oda-enrollment-android';
-import MdmEnrollment from '../../../playground/mocks/data/idp/idx/mdm-enrollment';
+import IOSOdaEnrollment from '../../../playground/mocks/data/idp/idx/oda-enrollment-ios.json';
+import AndroidOdaEnrollmentLoopback from '../../../playground/mocks/data/idp/idx/oda-enrollment-android.json';
+import MdmEnrollment from '../../../playground/mocks/data/idp/idx/mdm-enrollment.json';
+import Ws1Enrollment from '../../../playground/mocks/data/idp/idx/ws1-device-integration-mobile-enrollment.json';
 
 const logger = RequestLogger(/introspect/);
 
@@ -17,6 +18,9 @@ const androidOdaLoopbackMock = RequestMock()
 const mdmMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(MdmEnrollment);
+const ws1Mock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(Ws1Enrollment);
 
 fixture('Device enrollment terminal view for ODA and MDM');
 
@@ -81,6 +85,24 @@ test
     await t.expect(content).contains('Tap the Copy Link button below.');
     await t.expect(content).contains('On this device, open your browser, then paste the copied link into the address bar.');
     await t.expect(content).contains('Follow the instructions in your browser to set up Airwatch.');
+    await t.expect(content).contains('Logout and re-login and then try accessing the app again.');
+    await t.expect(deviceEnrollmentTerminalPage.getCopyButtonLabel()).eql('Copy link to clipboard');
+    if (!userVariables.gen3) {
+      await t.expect(deviceEnrollmentTerminalPage.getCopiedValue()).eql('https://sampleEnrollmentlink.com');
+    }
+  });
+
+test
+  .requestHooks(logger, ws1Mock)('shows the correct content in WS1 mobile device integration terminal view', async t => {
+    const deviceEnrollmentTerminalPage = await setup(t);
+    await checkA11y(t);
+    await t.expect(deviceEnrollmentTerminalPage.getFormTitle()).eql('Additional setup required');
+    const content = deviceEnrollmentTerminalPage.getContentText();
+    await t.expect(content).contains('To access this app, your device needs to meet your organization');
+    await t.expect(content).contains('s security requirements. Follow the instructions below to continue.');
+    await t.expect(content).contains('Tap the Copy Link button below.');
+    await t.expect(content).contains('On this device, open your browser, then paste the copied link into the address bar.');
+    await t.expect(content).contains('Follow the instructions in your browser to set up VMWare Workspace ONE.');
     await t.expect(content).contains('Logout and re-login and then try accessing the app again.');
     await t.expect(deviceEnrollmentTerminalPage.getCopyButtonLabel()).eql('Copy link to clipboard');
     if (!userVariables.gen3) {

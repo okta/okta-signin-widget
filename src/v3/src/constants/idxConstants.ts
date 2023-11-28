@@ -105,6 +105,7 @@ export const AUTHENTICATOR_ALLOWED_FOR_OPTIONS: Record<string, string> = {
 export const DEVICE_ENROLLMENT_TYPE: Record<string, string> = {
   ODA: 'oda',
   MDM: 'mdm',
+  WS1: 'ws1',
 };
 
 export const TERMINAL_KEY: Record<string, string> = {
