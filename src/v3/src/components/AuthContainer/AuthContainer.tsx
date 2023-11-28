@@ -76,7 +76,7 @@ const AuthContainer: FunctionComponent<{ hide: boolean }> = ({ children, hide })
               borderColor: Tokens.BorderColorDisplay,
               '@media only screen and (max-width: 391px)': {
                 borderWidth: 0,
-              }
+              },
             }}
           >
             {children}
