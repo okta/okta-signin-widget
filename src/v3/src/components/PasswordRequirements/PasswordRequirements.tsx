@@ -105,7 +105,7 @@ const PasswordRequirements: UISchemaElementComponent<{
       <Box
         component="ul"
         id={listId}
-        sx={{ listStyle: 'none', padding: '0', marginBlockStart: () => Tokens.Spacing3 }}
+        sx={{ listStyle: 'none', padding: '0', marginBlockStart: Tokens.Spacing3 }}
       >
         {requirements.map(({ ruleKey, label }) => (
           <PasswordRequirementListItem

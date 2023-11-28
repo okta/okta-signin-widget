@@ -170,10 +170,10 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
         {showAsterisk && (
           <Box
             component="span"
-            sx={() => ({
+            sx={{
               marginInlineStart: Tokens.Spacing2,
               marginInlineEnd: Tokens.Spacing2,
-            })}
+            }}
             className="no-translate"
             aria-hidden
           >
@@ -246,10 +246,10 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
             {showAsterisk && (
               <Box
                 component="span"
-                sx={() => ({
+                sx={{
                   marginInlineStart: Tokens.Spacing2,
                   marginInlineEnd: Tokens.Spacing2,
-                })}
+                }}
                 className="no-translate"
                 aria-hidden
               >
@@ -281,12 +281,12 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
                 component="span"
                 position="start"
                 className="no-translate"
-                sx={() => ({
+                sx={{
                   // physical properties OK because parent InputBase component
                   // is always set to "ltr"
                   marginRight: Tokens.Spacing3,
                   marginLeft: 0,
-                })}
+                }}
               >
                 {phoneCode}
               </InputAdornment>

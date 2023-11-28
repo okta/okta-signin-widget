@@ -109,10 +109,10 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
         {showAsterisk && (
           <Box
             component="span"
-            sx={() => ({
+            sx={{
               marginInlineStart: Tokens.Spacing2,
               marginInlineEnd: Tokens.Spacing2,
-            })}
+            }}
             className="no-translate"
             aria-hidden
           >
@@ -168,13 +168,13 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
               // switching on the passed `dir` attribute is needed because plugin does not yet
               // handle nested [dir="ltr"] inside [dir="rtl"] well so explicitly set physical
               // properties when 'ltr' is passed onto this element, else can use logical
-              sx={() => (dir === 'ltr' ? {
+              sx={dir === 'ltr' ? {
                 marginLeft: '8px',
                 marginRight: Tokens.Spacing3,
               } : {
                 marginInlineEnd: Tokens.Spacing3,
                 marginInlineStart: '8px',
-              })}
+              }}
             >
               <Tooltip
                 title={showPassword ? getTranslation(translations, 'hide') : getTranslation(translations, 'show')}

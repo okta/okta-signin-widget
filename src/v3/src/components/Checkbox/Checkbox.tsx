@@ -82,9 +82,9 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
               'data-se': name,
               'data-se-for-name': name,
             }}
-            sx={() => ({
+            sx={{
               marginInlineEnd: Tokens.Spacing3,
-            })}
+            }}
           />
         )}
         label={(
@@ -100,10 +100,10 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
             {showAsterisk && (
               <Box
                 component="span"
-                sx={() => ({
+                sx={{
                   marginInlineStart: Tokens.Spacing2,
                   marginInlineEnd: Tokens.Spacing2,
-                })}
+                }}
                 className="no-translate"
                 aria-hidden
               >

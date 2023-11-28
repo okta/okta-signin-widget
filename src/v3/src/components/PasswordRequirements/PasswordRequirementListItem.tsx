@@ -26,7 +26,7 @@ const PasswordRequirementListItem: FunctionComponent<PasswordRequirementProps> =
   return (
     <Box
       component="li"
-      sx={{ marginBlockEnd: () => Tokens.Spacing3 }}
+      sx={{ marginBlockEnd: Tokens.Spacing3 }}
       color={status === 'complete' ? Tokens.PaletteSuccessMain : undefined}
     >
       <Box

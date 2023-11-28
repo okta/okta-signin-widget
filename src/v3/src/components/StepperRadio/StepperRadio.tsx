@@ -85,9 +85,9 @@ const StepperRadio: UISchemaElementComponent<{
             <FormControlLabel
               control={(
                 <Radio
-                  sx={() => ({
+                  sx={{
                     marginInlineEnd: Tokens.Spacing3,
-                  })}
+                  }}
                 />
               )}
               key={item.value}

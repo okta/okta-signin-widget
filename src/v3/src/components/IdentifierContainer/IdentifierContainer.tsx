@@ -40,20 +40,20 @@ const IdentifierContainer: UISchemaElementComponent<{
         flexGrow="0"
         paddingX={4}
         paddingY={2}
-        sx={() => ({
+        sx={{
           borderRadius: '36px',
           backgroundColor: Tokens.HueNeutral50,
           textOverflow: 'ellipsis',
           whiteSpace: 'nowrap',
           overflow: 'hidden',
-        })}
+        }}
       >
         <Box
           component="span"
-          sx={() => ({
+          sx={{
             color: Tokens.PalettePrimaryMain,
             verticalAlign: 'middle',
-          })}
+          }}
         >
           <Icon
             name="user"

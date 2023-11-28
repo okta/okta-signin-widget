@@ -37,11 +37,11 @@ const Icon: FunctionComponent<PasswordRequirementIconProps> = (
   return (
     <Box
       className={iconClasses}
-      sx={() => ({
+      sx={{
         marginInlineEnd: Tokens.Spacing2,
         // This is to force the icon align with the top of the text
         marginBlockStart: '2px',
-      })}
+      }}
       aria-hidden
     >
       {

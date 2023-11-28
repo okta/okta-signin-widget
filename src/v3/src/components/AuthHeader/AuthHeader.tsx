@@ -65,11 +65,11 @@ const AuthHeader: FunctionComponent<AuthHeaderProps> = ({
     <Box
       className={containerClasses}
       sx={{
-        paddingBlockStart: () => Tokens.Spacing5,
-        paddingBlockEnd: () => (showAuthCoin ? Tokens.Spacing1 : Tokens.Spacing5),
-        paddingInlineStart: () => Tokens.Spacing6,
-        paddingInlineEnd: () => Tokens.Spacing6,
-        borderBlockEnd: () => `1px solid ${Tokens.BorderColorDisplay}`,
+        paddingBlockStart: Tokens.Spacing5,
+        paddingBlockEnd: showAuthCoin ? Tokens.Spacing1 : Tokens.Spacing5,
+        paddingInlineStart: Tokens.Spacing6,
+        paddingInlineEnd: Tokens.Spacing6,
+        borderBlockEnd: `1px solid ${Tokens.BorderColorDisplay}`,
         '& h1': {
           lineHeight: 0,
           marginBlock: 0,

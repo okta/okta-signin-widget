@@ -115,12 +115,12 @@ const ConsentHeader: FunctionComponent = () => {
                 justifyContent="center"
               >
                 <Typography
-                  sx={() => ({
+                  sx={{
                     marginBlockEnd: Tokens.Spacing5,
                     backgroundColor: Tokens.PalettePrimaryLighter,
                     color: Tokens.PalettePrimaryDarker,
                     padding: '4px 2px',
-                  })}
+                  }}
                   className="issuer no-translate"
                 >
                   {issuer.uri}

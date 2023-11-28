@@ -29,7 +29,7 @@ const QRCode: UISchemaElementComponent<{
   return (
     <Box
       className="qrContainer"
-      sx={() => ({
+      sx={{
         marginBlockStart: Tokens.Spacing5,
         marginBlockEnd: Tokens.Spacing5,
         marginInlineStart: Tokens.Spacing1,
@@ -37,7 +37,7 @@ const QRCode: UISchemaElementComponent<{
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-      })}
+      }}
     >
       <Box
         as="img"

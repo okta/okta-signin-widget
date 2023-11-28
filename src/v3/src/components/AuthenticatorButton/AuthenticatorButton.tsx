@@ -95,7 +95,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
     <Box
       component="button"
       type={type}
-      sx={() => ({
+      sx={{
         '&:focus': {
           outlineColor: Tokens.PalettePrimaryMain,
           outlineOffset: Tokens.FocusOutlineOffsetMain,
@@ -113,7 +113,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
         backgroundColor: Tokens.HueNeutralWhite,
         paddingBlock: Tokens.Spacing3,
         paddingInline: Tokens.Spacing3,
-      })}
+      }}
       display="flex"
       border={1}
       borderColor="grey.200"
@@ -225,7 +225,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
         <Box
           className="cta-button authenticator-button"
           data-se={dataSe}
-          sx={() => ({
+          sx={{
             display: 'flex',
             alignItems: 'center',
             marginBlock: '5px',
@@ -236,7 +236,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
               marginBlock: 0,
               marginInline: '5px 0',
             },
-          })}
+          }}
         >
           <Box
             component="span"

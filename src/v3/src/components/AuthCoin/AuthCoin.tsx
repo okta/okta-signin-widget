@@ -46,8 +46,8 @@ const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
           alt={authCoinConfigByAuthKey.description}
           className="custom-logo"
           sx={{
-            width: () => Tokens.Spacing7,
-            height: () => Tokens.Spacing7,
+            width: Tokens.Spacing7,
+            height: Tokens.Spacing7,
           }}
         />
       );

@@ -38,7 +38,7 @@ const AuthenticatorButtonList: UISchemaElementComponent<{
           <Box
             key={button.id}
             component="li"
-            sx={{ marginBlockEnd: () => Tokens.Spacing5 }}
+            sx={{ marginBlockEnd: Tokens.Spacing5 }}
           >
             <AuthenticatorButton
               uischema={{

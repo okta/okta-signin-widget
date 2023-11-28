@@ -76,10 +76,10 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
           {showAsterisk && (
             <Box
               component="span"
-              sx={() => ({
+              sx={{
                 marginInlineStart: Tokens.Spacing2,
                 marginInlineEnd: Tokens.Spacing2,
-              })}
+              }}
               className="no-translate"
               aria-hidden
             >
@@ -111,9 +111,9 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
             <FormControlLabel
               control={(
                 <RadioMui
-                  sx={() => ({
+                  sx={{
                     marginInlineEnd: Tokens.Spacing3,
-                  })}
+                  }}
                 />
               )}
               key={item.value}

@@ -81,10 +81,10 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
         {showAsterisk && (
           <Box
             component="span"
-            sx={() => ({
+            sx={{
               marginInlineStart: Tokens.Spacing2,
               marginInlineEnd: Tokens.Spacing2,
-            })}
+            }}
             className="no-translate"
             aria-hidden
           >

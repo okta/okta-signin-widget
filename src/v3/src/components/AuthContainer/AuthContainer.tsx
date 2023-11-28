@@ -67,7 +67,7 @@ const AuthContainer: FunctionComponent<{ hide: boolean }> = ({ children, hide })
             flexDirection="column"
             bgcolor="common.white"
             fontFamily="fontFamily"
-            sx={() => ({
+            sx={{
               maxInlineSize: '432px',
               minInlineSize: '320px',
               borderWidth: Tokens.BorderWidthMain,
@@ -76,8 +76,8 @@ const AuthContainer: FunctionComponent<{ hide: boolean }> = ({ children, hide })
               borderColor: Tokens.BorderColorDisplay,
               '@media only screen and (max-width: 391px)': {
                 borderWidth: 0,
-              },
-            })}
+              }
+            }}
           >
             {children}
           </Box>
