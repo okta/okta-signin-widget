@@ -249,35 +249,9 @@ exports[`byol loading custom language should load custom language with "language
                                   type="radio"
                                   value="sms"
                                 />
-                                <span
-                                  class="emotion-31"
-                                >
-                                  <svg
-                                    aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-32"
-                                    data-testid="RadioButtonUncheckedIcon"
-                                    focusable="false"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path
-                                      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
-                                    />
-                                  </svg>
-                                  <svg
-                                    aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-33"
-                                    data-testid="RadioButtonCheckedIcon"
-                                    focusable="false"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path
-                                      d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
-                                    />
-                                  </svg>
-                                </span>
                               </span>
                               <span
-                                class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-34"
+                                class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-31"
                               >
                                 SMS
                               </span>
@@ -294,35 +268,9 @@ exports[`byol loading custom language should load custom language with "language
                                   type="radio"
                                   value="voice"
                                 />
-                                <span
-                                  class="emotion-31"
-                                >
-                                  <svg
-                                    aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-32"
-                                    data-testid="RadioButtonUncheckedIcon"
-                                    focusable="false"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path
-                                      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
-                                    />
-                                  </svg>
-                                  <svg
-                                    aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-40"
-                                    data-testid="RadioButtonCheckedIcon"
-                                    focusable="false"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path
-                                      d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
-                                    />
-                                  </svg>
-                                </span>
                               </span>
                               <span
-                                class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-34"
+                                class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-31"
                               >
                                 Voice call
                               </span>
@@ -340,7 +288,7 @@ exports[`byol loading custom language should load custom language with "language
                             class="MuiBox-root emotion-12"
                           >
                             <label
-                              class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-45"
+                              class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-39"
                               data-shrink="false"
                               for="country"
                               id="countryLabel"
@@ -348,15 +296,13 @@ exports[`byol loading custom language should load custom language with "language
                               Country
                             </label>
                             <div
-                              class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary  emotion-46"
-                              required="true"
+                              class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary  emotion-40"
                             >
                               <select
                                 autocomplete="tel-country-code"
-                                class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-47"
+                                class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-41"
                                 data-se="country"
                                 id="country"
-                                required=""
                               >
                                 <option
                                   value="AF"
@@ -1566,26 +1512,30 @@ exports[`byol loading custom language should load custom language with "language
                               </select>
                               <svg
                                 aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconStandard emotion-48"
-                                data-testid="ArrowDropDownIcon"
+                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconStandard emotion-42"
+                                fill="none"
                                 focusable="false"
                                 viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg"
                               >
                                 <path
-                                  d="M7 10l5 5 5-5z"
+                                  clip-rule="evenodd"
+                                  d="m10.94 16.354-5.647-5.647 1.414-1.414L12 14.586l5.293-5.293 1.414 1.414-5.646 5.647a1.5 1.5 0 0 1-2.122 0Z"
+                                  fill="currentColor"
+                                  fill-rule="evenodd"
                                 />
                               </svg>
                             </div>
                           </div>
                           <div
-                            class="MuiBox-root emotion-49"
+                            class="MuiBox-root emotion-43"
                             dir="ltr"
                           >
                             <div
-                              class="MuiBox-root emotion-50"
+                              class="MuiBox-root emotion-44"
                             >
                               <label
-                                class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-45"
+                                class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-39"
                                 data-shrink="false"
                                 dir="ltr"
                                 for="authenticator.phoneNumber"
@@ -1593,15 +1543,14 @@ exports[`byol loading custom language should load custom language with "language
                                 Phone number
                               </label>
                               <div
-                                class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedStart emotion-52"
+                                class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedStart emotion-46"
                                 dir="ltr"
-                                required="true"
                               >
                                 <span
-                                  class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined no-translate emotion-53"
+                                  class="MuiInputAdornment-root MuiInputAdornment-positionStart no-translate emotion-47"
                                 >
                                   <p
-                                    class="MuiTypography-root MuiTypography-body1 emotion-54"
+                                    class="MuiTypography-root MuiTypography-body1 emotion-48"
                                   >
                                     +1
                                   </p>
@@ -1609,12 +1558,11 @@ exports[`byol loading custom language should load custom language with "language
                                 <input
                                   aria-invalid="false"
                                   autocomplete="tel-national"
-                                  class="MuiInputBase-input MuiInputBase-inputAdornedStart emotion-55"
+                                  class="MuiInputBase-input MuiInputBase-inputAdornedStart emotion-49"
                                   data-se="authenticator.phoneNumber"
                                   id="authenticator.phoneNumber"
                                   inputmode="tel"
                                   name="authenticator.phoneNumber"
-                                  required=""
                                   type="tel"
                                 />
                               </div>
@@ -1626,7 +1574,7 @@ exports[`byol loading custom language should load custom language with "language
                         class="MuiBox-root emotion-12"
                       >
                         <button
-                          class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-57"
+                          class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-51"
                           data-type="save"
                           tabindex="0"
                           type="submit"
@@ -1639,7 +1587,7 @@ exports[`byol loading custom language should load custom language with "language
                       class="MuiBox-root emotion-12"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-59"
+                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-53"
                         data-se="switchAuthenticator"
                         role="link"
                         type="button"
@@ -1651,7 +1599,7 @@ exports[`byol loading custom language should load custom language with "language
                       class="MuiBox-root emotion-12"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-59"
+                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-53"
                         data-se="cancel"
                         role="link"
                         type="button"
@@ -1920,35 +1868,9 @@ exports[`byol loading custom language should load custom language with assets.ba
                                   type="radio"
                                   value="sms"
                                 />
-                                <span
-                                  class="emotion-31"
-                                >
-                                  <svg
-                                    aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-32"
-                                    data-testid="RadioButtonUncheckedIcon"
-                                    focusable="false"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path
-                                      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
-                                    />
-                                  </svg>
-                                  <svg
-                                    aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-33"
-                                    data-testid="RadioButtonCheckedIcon"
-                                    focusable="false"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path
-                                      d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
-                                    />
-                                  </svg>
-                                </span>
                               </span>
                               <span
-                                class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-34"
+                                class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-31"
                               >
                                 SMS
                               </span>
@@ -1965,35 +1887,9 @@ exports[`byol loading custom language should load custom language with assets.ba
                                   type="radio"
                                   value="voice"
                                 />
-                                <span
-                                  class="emotion-31"
-                                >
-                                  <svg
-                                    aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-32"
-                                    data-testid="RadioButtonUncheckedIcon"
-                                    focusable="false"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path
-                                      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
-                                    />
-                                  </svg>
-                                  <svg
-                                    aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-40"
-                                    data-testid="RadioButtonCheckedIcon"
-                                    focusable="false"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path
-                                      d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
-                                    />
-                                  </svg>
-                                </span>
                               </span>
                               <span
-                                class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-34"
+                                class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-31"
                               >
                                 Voice call
                               </span>
@@ -2011,7 +1907,7 @@ exports[`byol loading custom language should load custom language with assets.ba
                             class="MuiBox-root emotion-12"
                           >
                             <label
-                              class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-45"
+                              class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-39"
                               data-shrink="false"
                               for="country"
                               id="countryLabel"
@@ -2019,15 +1915,13 @@ exports[`byol loading custom language should load custom language with assets.ba
                               Country
                             </label>
                             <div
-                              class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary  emotion-46"
-                              required="true"
+                              class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary  emotion-40"
                             >
                               <select
                                 autocomplete="tel-country-code"
-                                class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-47"
+                                class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-41"
                                 data-se="country"
                                 id="country"
-                                required=""
                               >
                                 <option
                                   value="AF"
@@ -3237,26 +3131,30 @@ exports[`byol loading custom language should load custom language with assets.ba
                               </select>
                               <svg
                                 aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconStandard emotion-48"
-                                data-testid="ArrowDropDownIcon"
+                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconStandard emotion-42"
+                                fill="none"
                                 focusable="false"
                                 viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg"
                               >
                                 <path
-                                  d="M7 10l5 5 5-5z"
+                                  clip-rule="evenodd"
+                                  d="m10.94 16.354-5.647-5.647 1.414-1.414L12 14.586l5.293-5.293 1.414 1.414-5.646 5.647a1.5 1.5 0 0 1-2.122 0Z"
+                                  fill="currentColor"
+                                  fill-rule="evenodd"
                                 />
                               </svg>
                             </div>
                           </div>
                           <div
-                            class="MuiBox-root emotion-49"
+                            class="MuiBox-root emotion-43"
                             dir="ltr"
                           >
                             <div
-                              class="MuiBox-root emotion-50"
+                              class="MuiBox-root emotion-44"
                             >
                               <label
-                                class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-45"
+                                class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-39"
                                 data-shrink="false"
                                 dir="ltr"
                                 for="authenticator.phoneNumber"
@@ -3264,15 +3162,14 @@ exports[`byol loading custom language should load custom language with assets.ba
                                 Phone number
                               </label>
                               <div
-                                class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedStart emotion-52"
+                                class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedStart emotion-46"
                                 dir="ltr"
-                                required="true"
                               >
                                 <span
-                                  class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined no-translate emotion-53"
+                                  class="MuiInputAdornment-root MuiInputAdornment-positionStart no-translate emotion-47"
                                 >
                                   <p
-                                    class="MuiTypography-root MuiTypography-body1 emotion-54"
+                                    class="MuiTypography-root MuiTypography-body1 emotion-48"
                                   >
                                     +1
                                   </p>
@@ -3280,12 +3177,11 @@ exports[`byol loading custom language should load custom language with assets.ba
                                 <input
                                   aria-invalid="false"
                                   autocomplete="tel-national"
-                                  class="MuiInputBase-input MuiInputBase-inputAdornedStart emotion-55"
+                                  class="MuiInputBase-input MuiInputBase-inputAdornedStart emotion-49"
                                   data-se="authenticator.phoneNumber"
                                   id="authenticator.phoneNumber"
                                   inputmode="tel"
                                   name="authenticator.phoneNumber"
-                                  required=""
                                   type="tel"
                                 />
                               </div>
@@ -3297,7 +3193,7 @@ exports[`byol loading custom language should load custom language with assets.ba
                         class="MuiBox-root emotion-12"
                       >
                         <button
-                          class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-57"
+                          class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-51"
                           data-type="save"
                           tabindex="0"
                           type="submit"
@@ -3310,7 +3206,7 @@ exports[`byol loading custom language should load custom language with assets.ba
                       class="MuiBox-root emotion-12"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-59"
+                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-53"
                         data-se="switchAuthenticator"
                         role="link"
                         type="button"
@@ -3322,7 +3218,7 @@ exports[`byol loading custom language should load custom language with assets.ba
                       class="MuiBox-root emotion-12"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-59"
+                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-53"
                         data-se="cancel"
                         role="link"
                         type="button"
@@ -3591,35 +3487,9 @@ exports[`byol loading default language should not load custom language when the 
                                   type="radio"
                                   value="sms"
                                 />
-                                <span
-                                  class="emotion-31"
-                                >
-                                  <svg
-                                    aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-32"
-                                    data-testid="RadioButtonUncheckedIcon"
-                                    focusable="false"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path
-                                      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
-                                    />
-                                  </svg>
-                                  <svg
-                                    aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-33"
-                                    data-testid="RadioButtonCheckedIcon"
-                                    focusable="false"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path
-                                      d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
-                                    />
-                                  </svg>
-                                </span>
                               </span>
                               <span
-                                class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-34"
+                                class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-31"
                               >
                                 SMS
                               </span>
@@ -3636,35 +3506,9 @@ exports[`byol loading default language should not load custom language when the 
                                   type="radio"
                                   value="voice"
                                 />
-                                <span
-                                  class="emotion-31"
-                                >
-                                  <svg
-                                    aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-32"
-                                    data-testid="RadioButtonUncheckedIcon"
-                                    focusable="false"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path
-                                      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
-                                    />
-                                  </svg>
-                                  <svg
-                                    aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-40"
-                                    data-testid="RadioButtonCheckedIcon"
-                                    focusable="false"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path
-                                      d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
-                                    />
-                                  </svg>
-                                </span>
                               </span>
                               <span
-                                class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-34"
+                                class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-31"
                               >
                                 Voice call
                               </span>
@@ -3682,7 +3526,7 @@ exports[`byol loading default language should not load custom language when the 
                             class="MuiBox-root emotion-12"
                           >
                             <label
-                              class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-45"
+                              class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-39"
                               data-shrink="false"
                               for="country"
                               id="countryLabel"
@@ -3690,15 +3534,13 @@ exports[`byol loading default language should not load custom language when the 
                               Country
                             </label>
                             <div
-                              class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary  emotion-46"
-                              required="true"
+                              class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary  emotion-40"
                             >
                               <select
                                 autocomplete="tel-country-code"
-                                class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-47"
+                                class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-41"
                                 data-se="country"
                                 id="country"
-                                required=""
                               >
                                 <option
                                   value="AF"
@@ -4908,26 +4750,30 @@ exports[`byol loading default language should not load custom language when the 
                               </select>
                               <svg
                                 aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconStandard emotion-48"
-                                data-testid="ArrowDropDownIcon"
+                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconStandard emotion-42"
+                                fill="none"
                                 focusable="false"
                                 viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg"
                               >
                                 <path
-                                  d="M7 10l5 5 5-5z"
+                                  clip-rule="evenodd"
+                                  d="m10.94 16.354-5.647-5.647 1.414-1.414L12 14.586l5.293-5.293 1.414 1.414-5.646 5.647a1.5 1.5 0 0 1-2.122 0Z"
+                                  fill="currentColor"
+                                  fill-rule="evenodd"
                                 />
                               </svg>
                             </div>
                           </div>
                           <div
-                            class="MuiBox-root emotion-49"
+                            class="MuiBox-root emotion-43"
                             dir="ltr"
                           >
                             <div
-                              class="MuiBox-root emotion-50"
+                              class="MuiBox-root emotion-44"
                             >
                               <label
-                                class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-45"
+                                class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-39"
                                 data-shrink="false"
                                 dir="ltr"
                                 for="authenticator.phoneNumber"
@@ -4935,15 +4781,14 @@ exports[`byol loading default language should not load custom language when the 
                                 Phone number
                               </label>
                               <div
-                                class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedStart emotion-52"
+                                class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedStart emotion-46"
                                 dir="ltr"
-                                required="true"
                               >
                                 <span
-                                  class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined no-translate emotion-53"
+                                  class="MuiInputAdornment-root MuiInputAdornment-positionStart no-translate emotion-47"
                                 >
                                   <p
-                                    class="MuiTypography-root MuiTypography-body1 emotion-54"
+                                    class="MuiTypography-root MuiTypography-body1 emotion-48"
                                   >
                                     +1
                                   </p>
@@ -4951,12 +4796,11 @@ exports[`byol loading default language should not load custom language when the 
                                 <input
                                   aria-invalid="false"
                                   autocomplete="tel-national"
-                                  class="MuiInputBase-input MuiInputBase-inputAdornedStart emotion-55"
+                                  class="MuiInputBase-input MuiInputBase-inputAdornedStart emotion-49"
                                   data-se="authenticator.phoneNumber"
                                   id="authenticator.phoneNumber"
                                   inputmode="tel"
                                   name="authenticator.phoneNumber"
-                                  required=""
                                   type="tel"
                                 />
                               </div>
@@ -4968,7 +4812,7 @@ exports[`byol loading default language should not load custom language when the 
                         class="MuiBox-root emotion-12"
                       >
                         <button
-                          class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-57"
+                          class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-51"
                           data-type="save"
                           tabindex="0"
                           type="submit"
@@ -4981,7 +4825,7 @@ exports[`byol loading default language should not load custom language when the 
                       class="MuiBox-root emotion-12"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-59"
+                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-53"
                         data-se="switchAuthenticator"
                         role="link"
                         type="button"
@@ -4993,7 +4837,7 @@ exports[`byol loading default language should not load custom language when the 
                       class="MuiBox-root emotion-12"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-59"
+                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-53"
                         data-se="cancel"
                         role="link"
                         type="button"
@@ -5262,35 +5106,9 @@ exports[`byol loading default language should not load custom language with "lan
                                   type="radio"
                                   value="sms"
                                 />
-                                <span
-                                  class="emotion-31"
-                                >
-                                  <svg
-                                    aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-32"
-                                    data-testid="RadioButtonUncheckedIcon"
-                                    focusable="false"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path
-                                      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
-                                    />
-                                  </svg>
-                                  <svg
-                                    aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-33"
-                                    data-testid="RadioButtonCheckedIcon"
-                                    focusable="false"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path
-                                      d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
-                                    />
-                                  </svg>
-                                </span>
                               </span>
                               <span
-                                class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-34"
+                                class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-31"
                               >
                                 SMS
                               </span>
@@ -5307,35 +5125,9 @@ exports[`byol loading default language should not load custom language with "lan
                                   type="radio"
                                   value="voice"
                                 />
-                                <span
-                                  class="emotion-31"
-                                >
-                                  <svg
-                                    aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-32"
-                                    data-testid="RadioButtonUncheckedIcon"
-                                    focusable="false"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path
-                                      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
-                                    />
-                                  </svg>
-                                  <svg
-                                    aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-40"
-                                    data-testid="RadioButtonCheckedIcon"
-                                    focusable="false"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path
-                                      d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
-                                    />
-                                  </svg>
-                                </span>
                               </span>
                               <span
-                                class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-34"
+                                class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-31"
                               >
                                 Voice call
                               </span>
@@ -5353,7 +5145,7 @@ exports[`byol loading default language should not load custom language with "lan
                             class="MuiBox-root emotion-12"
                           >
                             <label
-                              class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-45"
+                              class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-39"
                               data-shrink="false"
                               for="country"
                               id="countryLabel"
@@ -5361,15 +5153,13 @@ exports[`byol loading default language should not load custom language with "lan
                               Country
                             </label>
                             <div
-                              class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary  emotion-46"
-                              required="true"
+                              class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary  emotion-40"
                             >
                               <select
                                 autocomplete="tel-country-code"
-                                class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-47"
+                                class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-41"
                                 data-se="country"
                                 id="country"
-                                required=""
                               >
                                 <option
                                   value="AF"
@@ -6579,26 +6369,30 @@ exports[`byol loading default language should not load custom language with "lan
                               </select>
                               <svg
                                 aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconStandard emotion-48"
-                                data-testid="ArrowDropDownIcon"
+                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconStandard emotion-42"
+                                fill="none"
                                 focusable="false"
                                 viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg"
                               >
                                 <path
-                                  d="M7 10l5 5 5-5z"
+                                  clip-rule="evenodd"
+                                  d="m10.94 16.354-5.647-5.647 1.414-1.414L12 14.586l5.293-5.293 1.414 1.414-5.646 5.647a1.5 1.5 0 0 1-2.122 0Z"
+                                  fill="currentColor"
+                                  fill-rule="evenodd"
                                 />
                               </svg>
                             </div>
                           </div>
                           <div
-                            class="MuiBox-root emotion-49"
+                            class="MuiBox-root emotion-43"
                             dir="ltr"
                           >
                             <div
-                              class="MuiBox-root emotion-50"
+                              class="MuiBox-root emotion-44"
                             >
                               <label
-                                class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-45"
+                                class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-39"
                                 data-shrink="false"
                                 dir="ltr"
                                 for="authenticator.phoneNumber"
@@ -6606,15 +6400,14 @@ exports[`byol loading default language should not load custom language with "lan
                                 Phone number
                               </label>
                               <div
-                                class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedStart emotion-52"
+                                class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedStart emotion-46"
                                 dir="ltr"
-                                required="true"
                               >
                                 <span
-                                  class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined no-translate emotion-53"
+                                  class="MuiInputAdornment-root MuiInputAdornment-positionStart no-translate emotion-47"
                                 >
                                   <p
-                                    class="MuiTypography-root MuiTypography-body1 emotion-54"
+                                    class="MuiTypography-root MuiTypography-body1 emotion-48"
                                   >
                                     +1
                                   </p>
@@ -6622,12 +6415,11 @@ exports[`byol loading default language should not load custom language with "lan
                                 <input
                                   aria-invalid="false"
                                   autocomplete="tel-national"
-                                  class="MuiInputBase-input MuiInputBase-inputAdornedStart emotion-55"
+                                  class="MuiInputBase-input MuiInputBase-inputAdornedStart emotion-49"
                                   data-se="authenticator.phoneNumber"
                                   id="authenticator.phoneNumber"
                                   inputmode="tel"
                                   name="authenticator.phoneNumber"
-                                  required=""
                                   type="tel"
                                 />
                               </div>
@@ -6639,7 +6431,7 @@ exports[`byol loading default language should not load custom language with "lan
                         class="MuiBox-root emotion-12"
                       >
                         <button
-                          class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-57"
+                          class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-51"
                           data-type="save"
                           tabindex="0"
                           type="submit"
@@ -6652,7 +6444,7 @@ exports[`byol loading default language should not load custom language with "lan
                       class="MuiBox-root emotion-12"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-59"
+                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-53"
                         data-se="switchAuthenticator"
                         role="link"
                         type="button"
@@ -6664,7 +6456,7 @@ exports[`byol loading default language should not load custom language with "lan
                       class="MuiBox-root emotion-12"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-59"
+                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-53"
                         data-se="cancel"
                         role="link"
                         type="button"

@@ -195,7 +195,6 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-24"
-                          required="true"
                         >
                           <input
                             aria-invalid="false"
@@ -205,7 +204,6 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
                             id="email"
                             inputmode="email"
                             name="email"
-                            required=""
                             type="text"
                           />
                         </div>

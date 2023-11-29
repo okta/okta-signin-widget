@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import {
   Box,
   FormHelperText,
@@ -67,6 +68,7 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
   const explainId = explain && `${name}-explain`;
   const ariaDescribedByIds = [describedByIds, hintId, explainId].filter(Boolean).join(' ')
     || undefined;
+  const Tokens = useOdysseyDesignTokens();
 
   return (
     <Box>
@@ -79,10 +81,10 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
         {showAsterisk && (
           <Box
             component="span"
-            sx={(theme) => ({
-              marginInlineStart: theme.spacing(1),
-              marginInlineEnd: theme.spacing(1),
-            })}
+            sx={{
+              marginInlineStart: Tokens.Spacing2,
+              marginInlineEnd: Tokens.Spacing2,
+            }}
             className="no-translate"
             aria-hidden
           >

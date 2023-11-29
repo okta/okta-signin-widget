@@ -151,7 +151,6 @@ exports[`enroll-profile-update-optional-fields should render form with one requi
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-27"
-                          required="true"
                         >
                           <input
                             aria-invalid="false"
@@ -159,7 +158,6 @@ exports[`enroll-profile-update-optional-fields should render form with one requi
                             data-se="userProfile.newAttribute"
                             id="userProfile.newAttribute"
                             name="userProfile.newAttribute"
-                            required=""
                             type="text"
                           />
                         </div>
@@ -185,7 +183,6 @@ exports[`enroll-profile-update-optional-fields should render form with one requi
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-27"
-                          required="true"
                         >
                           <input
                             aria-describedby="userProfile.secondEmail-explain"
@@ -194,7 +191,6 @@ exports[`enroll-profile-update-optional-fields should render form with one requi
                             data-se="userProfile.secondEmail"
                             id="userProfile.secondEmail"
                             name="userProfile.secondEmail"
-                            required=""
                             type="text"
                           />
                         </div>
@@ -233,7 +229,6 @@ exports[`enroll-profile-update-optional-fields should render form with one requi
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-27"
-                          required="true"
                         >
                           <input
                             aria-invalid="false"
@@ -241,7 +236,6 @@ exports[`enroll-profile-update-optional-fields should render form with one requi
                             data-se="userProfile.newAttribute2"
                             id="userProfile.newAttribute2"
                             name="userProfile.newAttribute2"
-                            required=""
                             type="text"
                           />
                         </div>

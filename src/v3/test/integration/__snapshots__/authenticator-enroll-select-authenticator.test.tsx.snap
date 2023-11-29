@@ -153,7 +153,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                         data-se="authenticator-enroll-list"
                       >
                         <li
-                          class="MuiBox-root emotion-11"
+                          class="MuiBox-root emotion-28"
                         >
                           <button
                             aria-describedby="okta_password_0-description okta_password_0-ctaLabel"
@@ -257,7 +257,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                           </button>
                         </li>
                         <li
-                          class="MuiBox-root emotion-11"
+                          class="MuiBox-root emotion-28"
                         >
                           <button
                             aria-describedby="phone_number_1-description phone_number_1-ctaLabel"
@@ -371,7 +371,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                           </button>
                         </li>
                         <li
-                          class="MuiBox-root emotion-11"
+                          class="MuiBox-root emotion-28"
                         >
                           <button
                             aria-describedby="webauthn_2-description webauthn_2-ctaLabel"
@@ -495,7 +495,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                           </button>
                         </li>
                         <li
-                          class="MuiBox-root emotion-11"
+                          class="MuiBox-root emotion-28"
                         >
                           <button
                             aria-describedby="security_question_3-description security_question_3-ctaLabel"
@@ -599,7 +599,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                           </button>
                         </li>
                         <li
-                          class="MuiBox-root emotion-11"
+                          class="MuiBox-root emotion-28"
                         >
                           <button
                             aria-describedby="okta_verify_4-description okta_verify_4-ctaLabel"
@@ -699,7 +699,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                           </button>
                         </li>
                         <li
-                          class="MuiBox-root emotion-11"
+                          class="MuiBox-root emotion-28"
                         >
                           <button
                             aria-describedby="google_otp_5-description google_otp_5-ctaLabel"
@@ -823,7 +823,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                           </button>
                         </li>
                         <li
-                          class="MuiBox-root emotion-11"
+                          class="MuiBox-root emotion-28"
                         >
                           <button
                             aria-describedby="onprem_mfa_6-description onprem_mfa_6-ctaLabel"
@@ -927,7 +927,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                           </button>
                         </li>
                         <li
-                          class="MuiBox-root emotion-11"
+                          class="MuiBox-root emotion-28"
                         >
                           <button
                             aria-describedby="rsa_token_7-description rsa_token_7-ctaLabel"
@@ -1065,7 +1065,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                           </button>
                         </li>
                         <li
-                          class="MuiBox-root emotion-11"
+                          class="MuiBox-root emotion-28"
                         >
                           <button
                             aria-describedby="duo_8-description duo_8-ctaLabel"
@@ -1165,7 +1165,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                           </button>
                         </li>
                         <li
-                          class="MuiBox-root emotion-11"
+                          class="MuiBox-root emotion-28"
                         >
                           <button
                             aria-describedby="external_idp_9-description external_idp_9-ctaLabel"
@@ -1274,7 +1274,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                           </button>
                         </li>
                         <li
-                          class="MuiBox-root emotion-11"
+                          class="MuiBox-root emotion-28"
                         >
                           <button
                             aria-describedby="custom_otp_10-description custom_otp_10-ctaLabel"
@@ -1383,7 +1383,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                           </button>
                         </li>
                         <li
-                          class="MuiBox-root emotion-11"
+                          class="MuiBox-root emotion-28"
                         >
                           <button
                             aria-describedby="symantec_vip_11-description symantec_vip_11-ctaLabel"
@@ -1489,7 +1489,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                           </button>
                         </li>
                         <li
-                          class="MuiBox-root emotion-11"
+                          class="MuiBox-root emotion-28"
                         >
                           <button
                             aria-describedby="yubikey_token_12-description yubikey_token_12-ctaLabel"

@@ -603,7 +603,6 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                           <div
                             class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-28"
                             dir="ltr"
-                            required="true"
                           >
                             <input
                               aria-invalid="false"
@@ -613,7 +612,6 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                               id="credentials.passcode"
                               inputmode="numeric"
                               name="credentials.passcode"
-                              required=""
                               type="text"
                             />
                           </div>
@@ -1254,7 +1252,6 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                           <div
                             class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-28"
                             dir="ltr"
-                            required="true"
                           >
                             <input
                               aria-invalid="false"
@@ -1264,7 +1261,6 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                               id="credentials.passcode"
                               inputmode="numeric"
                               name="credentials.passcode"
-                              required=""
                               type="text"
                             />
                           </div>

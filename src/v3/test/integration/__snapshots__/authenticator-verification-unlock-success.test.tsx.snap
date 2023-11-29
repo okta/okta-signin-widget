@@ -192,12 +192,12 @@ exports[`authenticator-verification-unlock-success should render form 1`] = `
                               class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-22"
                               fill="none"
                               focusable="false"
-                              viewBox="0 0 16 16"
+                              viewBox="0 0 24 24"
                               xmlns="http://www.w3.org/2000/svg"
                             >
                               <path
                                 clip-rule="evenodd"
-                                d="M16 8C16 12.4183 12.4183 16 8 16C3.58172 16 0 12.4183 0 8C0 3.58172 3.58172 0 8 0C12.4183 0 16 3.58172 16 8ZM8 5.5C8.14834 5.5 8.29334 5.45601 8.41668 5.3736C8.54001 5.29119 8.63614 5.17406 8.69291 5.03701C8.74968 4.89997 8.76453 4.74917 8.73559 4.60368C8.70665 4.4582 8.63522 4.32456 8.53033 4.21967C8.42544 4.11478 8.2918 4.04335 8.14632 4.01441C8.00083 3.98547 7.85003 4.00033 7.71299 4.05709C7.57594 4.11386 7.45881 4.20999 7.3764 4.33332C7.29399 4.45666 7.25 4.60166 7.25 4.75C7.25 4.94891 7.32902 5.13968 7.46967 5.28033C7.61032 5.42098 7.80109 5.5 8 5.5ZM8 7C8.27614 7 8.5 7.22386 8.5 7.5V12H7.5V7.5C7.5 7.22386 7.72386 7 8 7Z"
+                                d="M23 12c0 6.075-4.925 11-11 11S1 18.075 1 12 5.925 1 12 1s11 4.925 11 11ZM12 8.75a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5Zm0 1.75a1 1 0 0 1 1 1v6h-2v-6a1 1 0 0 1 1-1Z"
                                 fill="currentColor"
                                 fill-rule="evenodd"
                               />
@@ -253,7 +253,6 @@ exports[`authenticator-verification-unlock-success should render form 1`] = `
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-32"
                           dir="ltr"
-                          required="true"
                         >
                           <input
                             aria-invalid="false"
@@ -262,11 +261,10 @@ exports[`authenticator-verification-unlock-success should render form 1`] = `
                             data-se="credentials.passcode"
                             id="credentials.passcode"
                             name="credentials.passcode"
-                            required=""
                             type="password"
                           />
                           <div
-                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined emotion-34"
+                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd emotion-34"
                           >
                             <button
                               aria-controls="credentials.passcode"

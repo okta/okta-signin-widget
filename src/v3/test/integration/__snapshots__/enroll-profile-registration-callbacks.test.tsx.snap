@@ -110,7 +110,6 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-21"
-                          required="true"
                         >
                           <input
                             aria-invalid="false"
@@ -119,7 +118,6 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                             data-se="userProfile.lastName"
                             id="userProfile.lastName"
                             name="userProfile.lastName"
-                            required=""
                             type="text"
                           />
                         </div>
@@ -146,7 +144,6 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-21"
-                          required="true"
                         >
                           <input
                             aria-invalid="false"
@@ -155,7 +152,6 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                             data-se="userProfile.firstName"
                             id="userProfile.firstName"
                             name="userProfile.firstName"
-                            required=""
                             type="text"
                           />
                         </div>
@@ -182,7 +178,6 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-21"
-                          required="true"
                         >
                           <input
                             aria-invalid="false"
@@ -192,7 +187,6 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                             id="userProfile.email"
                             inputmode="email"
                             name="userProfile.email"
-                            required=""
                             type="text"
                           />
                         </div>
@@ -219,7 +213,6 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-21"
-                          required="true"
                         >
                           <input
                             aria-invalid="false"
@@ -227,7 +220,6 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                             data-se="userProfile.login"
                             id="userProfile.login"
                             name="userProfile.login"
-                            required=""
                             type="text"
                           />
                         </div>
@@ -254,7 +246,6 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-21"
-                          required="true"
                         >
                           <input
                             aria-invalid="false"
@@ -262,7 +253,6 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                             data-se="userProfile.address"
                             id="userProfile.address"
                             name="userProfile.address"
-                            required=""
                             type="text"
                           />
                         </div>
@@ -400,12 +390,12 @@ exports[`enroll-profile-with-password should show custom error message and preve
                           class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-13"
                           fill="none"
                           focusable="false"
-                          viewBox="0 0 16 16"
+                          viewBox="0 0 24 24"
                           xmlns="http://www.w3.org/2000/svg"
                         >
                           <path
                             clip-rule="evenodd"
-                            d="M13.983 14.6471C13.4706 15 12.6329 15 10.9575 15H5.04248C3.36707 15 2.52937 15 2.01699 14.6471C1.56939 14.3387 1.26655 13.8615 1.17816 13.3252C1.07698 12.7114 1.43367 11.9534 2.14706 10.4374L5.10455 4.15277C6.02878 2.18879 6.49089 1.2068 7.12576 0.898255C7.6777 0.630012 8.32225 0.630012 8.87419 0.898255C9.50906 1.2068 9.97117 2.18879 10.8954 4.15277L13.8529 10.4374C14.5663 11.9534 14.923 12.7114 14.8218 13.3252C14.7334 13.8615 14.4306 14.3387 13.983 14.6471ZM7.99998 10C7.72383 10 7.49998 9.77614 7.49998 9.5L7.49998 5H8.49998L8.49998 9.5C8.49998 9.77614 8.27612 10 7.99998 10ZM7.99998 13C8.14831 13 8.29332 12.956 8.41665 12.8736C8.53999 12.7912 8.63612 12.6741 8.69288 12.537C8.74965 12.4 8.7645 12.2492 8.73556 12.1037C8.70662 11.9582 8.6352 11.8246 8.53031 11.7197C8.42542 11.6148 8.29178 11.5434 8.14629 11.5144C8.00081 11.4855 7.85001 11.5003 7.71296 11.5571C7.57592 11.6139 7.45878 11.71 7.37637 11.8333C7.29396 11.9567 7.24998 12.1017 7.24998 12.25C7.24998 12.4489 7.32899 12.6397 7.46964 12.7803C7.6103 12.921 7.80106 13 7.99998 13Z"
+                            d="M9.879 1.707a3 3 0 0 1 4.242 0l8.172 8.172a3 3 0 0 1 0 4.242l-8.172 8.172a3 3 0 0 1-4.242 0L1.707 14.12a3 3 0 0 1 0-4.242L9.88 1.707ZM12 13a1 1 0 0 1-1-1V7h2v5a1 1 0 0 1-1 1Zm0 1.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z"
                             fill="currentColor"
                             fill-rule="evenodd"
                           />
@@ -473,7 +463,6 @@ exports[`enroll-profile-with-password should show custom error message and preve
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth emotion-26"
-                          required="true"
                         >
                           <input
                             aria-describedby=" userProfile.lastName-error  "
@@ -483,7 +472,6 @@ exports[`enroll-profile-with-password should show custom error message and preve
                             data-se="userProfile.lastName"
                             id="userProfile.lastName"
                             name="userProfile.lastName"
-                            required=""
                             type="text"
                           />
                         </div>
@@ -522,7 +510,6 @@ exports[`enroll-profile-with-password should show custom error message and preve
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-26"
-                          required="true"
                         >
                           <input
                             aria-invalid="false"
@@ -531,7 +518,6 @@ exports[`enroll-profile-with-password should show custom error message and preve
                             data-se="userProfile.firstName"
                             id="userProfile.firstName"
                             name="userProfile.firstName"
-                            required=""
                             type="text"
                           />
                         </div>
@@ -558,7 +544,6 @@ exports[`enroll-profile-with-password should show custom error message and preve
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-26"
-                          required="true"
                         >
                           <input
                             aria-invalid="false"
@@ -568,7 +553,6 @@ exports[`enroll-profile-with-password should show custom error message and preve
                             id="userProfile.email"
                             inputmode="email"
                             name="userProfile.email"
-                            required=""
                             type="text"
                           />
                         </div>
@@ -595,7 +579,6 @@ exports[`enroll-profile-with-password should show custom error message and preve
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-26"
-                          required="true"
                         >
                           <input
                             aria-invalid="false"
@@ -603,7 +586,6 @@ exports[`enroll-profile-with-password should show custom error message and preve
                             data-se="userProfile.login"
                             id="userProfile.login"
                             name="userProfile.login"
-                            required=""
                             type="text"
                           />
                         </div>
@@ -741,12 +723,12 @@ exports[`enroll-profile-with-password should show custom field level error messa
                           class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-13"
                           fill="none"
                           focusable="false"
-                          viewBox="0 0 16 16"
+                          viewBox="0 0 24 24"
                           xmlns="http://www.w3.org/2000/svg"
                         >
                           <path
                             clip-rule="evenodd"
-                            d="M13.983 14.6471C13.4706 15 12.6329 15 10.9575 15H5.04248C3.36707 15 2.52937 15 2.01699 14.6471C1.56939 14.3387 1.26655 13.8615 1.17816 13.3252C1.07698 12.7114 1.43367 11.9534 2.14706 10.4374L5.10455 4.15277C6.02878 2.18879 6.49089 1.2068 7.12576 0.898255C7.6777 0.630012 8.32225 0.630012 8.87419 0.898255C9.50906 1.2068 9.97117 2.18879 10.8954 4.15277L13.8529 10.4374C14.5663 11.9534 14.923 12.7114 14.8218 13.3252C14.7334 13.8615 14.4306 14.3387 13.983 14.6471ZM7.99998 10C7.72383 10 7.49998 9.77614 7.49998 9.5L7.49998 5H8.49998L8.49998 9.5C8.49998 9.77614 8.27612 10 7.99998 10ZM7.99998 13C8.14831 13 8.29332 12.956 8.41665 12.8736C8.53999 12.7912 8.63612 12.6741 8.69288 12.537C8.74965 12.4 8.7645 12.2492 8.73556 12.1037C8.70662 11.9582 8.6352 11.8246 8.53031 11.7197C8.42542 11.6148 8.29178 11.5434 8.14629 11.5144C8.00081 11.4855 7.85001 11.5003 7.71296 11.5571C7.57592 11.6139 7.45878 11.71 7.37637 11.8333C7.29396 11.9567 7.24998 12.1017 7.24998 12.25C7.24998 12.4489 7.32899 12.6397 7.46964 12.7803C7.6103 12.921 7.80106 13 7.99998 13Z"
+                            d="M9.879 1.707a3 3 0 0 1 4.242 0l8.172 8.172a3 3 0 0 1 0 4.242l-8.172 8.172a3 3 0 0 1-4.242 0L1.707 14.12a3 3 0 0 1 0-4.242L9.88 1.707ZM12 13a1 1 0 0 1-1-1V7h2v5a1 1 0 0 1-1 1Zm0 1.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z"
                             fill="currentColor"
                             fill-rule="evenodd"
                           />
@@ -814,7 +796,6 @@ exports[`enroll-profile-with-password should show custom field level error messa
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth emotion-26"
-                          required="true"
                         >
                           <input
                             aria-describedby=" userProfile.lastName-error  "
@@ -824,7 +805,6 @@ exports[`enroll-profile-with-password should show custom field level error messa
                             data-se="userProfile.lastName"
                             id="userProfile.lastName"
                             name="userProfile.lastName"
-                            required=""
                             type="text"
                           />
                         </div>
@@ -863,7 +843,6 @@ exports[`enroll-profile-with-password should show custom field level error messa
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-26"
-                          required="true"
                         >
                           <input
                             aria-invalid="false"
@@ -872,7 +851,6 @@ exports[`enroll-profile-with-password should show custom field level error messa
                             data-se="userProfile.firstName"
                             id="userProfile.firstName"
                             name="userProfile.firstName"
-                            required=""
                             type="text"
                           />
                         </div>
@@ -899,7 +877,6 @@ exports[`enroll-profile-with-password should show custom field level error messa
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-26"
-                          required="true"
                         >
                           <input
                             aria-invalid="false"
@@ -909,7 +886,6 @@ exports[`enroll-profile-with-password should show custom field level error messa
                             id="userProfile.email"
                             inputmode="email"
                             name="userProfile.email"
-                            required=""
                             type="text"
                           />
                         </div>
@@ -936,7 +912,6 @@ exports[`enroll-profile-with-password should show custom field level error messa
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-26"
-                          required="true"
                         >
                           <input
                             aria-invalid="false"
@@ -944,7 +919,6 @@ exports[`enroll-profile-with-password should show custom field level error messa
                             data-se="userProfile.login"
                             id="userProfile.login"
                             name="userProfile.login"
-                            required=""
                             type="text"
                           />
                         </div>
@@ -1082,12 +1056,12 @@ exports[`enroll-profile-with-password should show generic error message and prev
                           class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-13"
                           fill="none"
                           focusable="false"
-                          viewBox="0 0 16 16"
+                          viewBox="0 0 24 24"
                           xmlns="http://www.w3.org/2000/svg"
                         >
                           <path
                             clip-rule="evenodd"
-                            d="M13.983 14.6471C13.4706 15 12.6329 15 10.9575 15H5.04248C3.36707 15 2.52937 15 2.01699 14.6471C1.56939 14.3387 1.26655 13.8615 1.17816 13.3252C1.07698 12.7114 1.43367 11.9534 2.14706 10.4374L5.10455 4.15277C6.02878 2.18879 6.49089 1.2068 7.12576 0.898255C7.6777 0.630012 8.32225 0.630012 8.87419 0.898255C9.50906 1.2068 9.97117 2.18879 10.8954 4.15277L13.8529 10.4374C14.5663 11.9534 14.923 12.7114 14.8218 13.3252C14.7334 13.8615 14.4306 14.3387 13.983 14.6471ZM7.99998 10C7.72383 10 7.49998 9.77614 7.49998 9.5L7.49998 5H8.49998L8.49998 9.5C8.49998 9.77614 8.27612 10 7.99998 10ZM7.99998 13C8.14831 13 8.29332 12.956 8.41665 12.8736C8.53999 12.7912 8.63612 12.6741 8.69288 12.537C8.74965 12.4 8.7645 12.2492 8.73556 12.1037C8.70662 11.9582 8.6352 11.8246 8.53031 11.7197C8.42542 11.6148 8.29178 11.5434 8.14629 11.5144C8.00081 11.4855 7.85001 11.5003 7.71296 11.5571C7.57592 11.6139 7.45878 11.71 7.37637 11.8333C7.29396 11.9567 7.24998 12.1017 7.24998 12.25C7.24998 12.4489 7.32899 12.6397 7.46964 12.7803C7.6103 12.921 7.80106 13 7.99998 13Z"
+                            d="M9.879 1.707a3 3 0 0 1 4.242 0l8.172 8.172a3 3 0 0 1 0 4.242l-8.172 8.172a3 3 0 0 1-4.242 0L1.707 14.12a3 3 0 0 1 0-4.242L9.88 1.707ZM12 13a1 1 0 0 1-1-1V7h2v5a1 1 0 0 1-1 1Zm0 1.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z"
                             fill="currentColor"
                             fill-rule="evenodd"
                           />
@@ -1155,7 +1129,6 @@ exports[`enroll-profile-with-password should show generic error message and prev
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-26"
-                          required="true"
                         >
                           <input
                             aria-invalid="false"
@@ -1164,7 +1137,6 @@ exports[`enroll-profile-with-password should show generic error message and prev
                             data-se="userProfile.lastName"
                             id="userProfile.lastName"
                             name="userProfile.lastName"
-                            required=""
                             type="text"
                           />
                         </div>
@@ -1191,7 +1163,6 @@ exports[`enroll-profile-with-password should show generic error message and prev
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-26"
-                          required="true"
                         >
                           <input
                             aria-invalid="false"
@@ -1200,7 +1171,6 @@ exports[`enroll-profile-with-password should show generic error message and prev
                             data-se="userProfile.firstName"
                             id="userProfile.firstName"
                             name="userProfile.firstName"
-                            required=""
                             type="text"
                           />
                         </div>
@@ -1227,7 +1197,6 @@ exports[`enroll-profile-with-password should show generic error message and prev
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-26"
-                          required="true"
                         >
                           <input
                             aria-invalid="false"
@@ -1237,7 +1206,6 @@ exports[`enroll-profile-with-password should show generic error message and prev
                             id="userProfile.email"
                             inputmode="email"
                             name="userProfile.email"
-                            required=""
                             type="text"
                           />
                         </div>
@@ -1264,7 +1232,6 @@ exports[`enroll-profile-with-password should show generic error message and prev
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-26"
-                          required="true"
                         >
                           <input
                             aria-invalid="false"
@@ -1272,7 +1239,6 @@ exports[`enroll-profile-with-password should show generic error message and prev
                             data-se="userProfile.login"
                             id="userProfile.login"
                             name="userProfile.login"
-                            required=""
                             type="text"
                           />
                         </div>
@@ -1410,12 +1376,12 @@ exports[`enroll-profile-with-password should show validation error messages on a
                           class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-13"
                           fill="none"
                           focusable="false"
-                          viewBox="0 0 16 16"
+                          viewBox="0 0 24 24"
                           xmlns="http://www.w3.org/2000/svg"
                         >
                           <path
                             clip-rule="evenodd"
-                            d="M13.983 14.6471C13.4706 15 12.6329 15 10.9575 15H5.04248C3.36707 15 2.52937 15 2.01699 14.6471C1.56939 14.3387 1.26655 13.8615 1.17816 13.3252C1.07698 12.7114 1.43367 11.9534 2.14706 10.4374L5.10455 4.15277C6.02878 2.18879 6.49089 1.2068 7.12576 0.898255C7.6777 0.630012 8.32225 0.630012 8.87419 0.898255C9.50906 1.2068 9.97117 2.18879 10.8954 4.15277L13.8529 10.4374C14.5663 11.9534 14.923 12.7114 14.8218 13.3252C14.7334 13.8615 14.4306 14.3387 13.983 14.6471ZM7.99998 10C7.72383 10 7.49998 9.77614 7.49998 9.5L7.49998 5H8.49998L8.49998 9.5C8.49998 9.77614 8.27612 10 7.99998 10ZM7.99998 13C8.14831 13 8.29332 12.956 8.41665 12.8736C8.53999 12.7912 8.63612 12.6741 8.69288 12.537C8.74965 12.4 8.7645 12.2492 8.73556 12.1037C8.70662 11.9582 8.6352 11.8246 8.53031 11.7197C8.42542 11.6148 8.29178 11.5434 8.14629 11.5144C8.00081 11.4855 7.85001 11.5003 7.71296 11.5571C7.57592 11.6139 7.45878 11.71 7.37637 11.8333C7.29396 11.9567 7.24998 12.1017 7.24998 12.25C7.24998 12.4489 7.32899 12.6397 7.46964 12.7803C7.6103 12.921 7.80106 13 7.99998 13Z"
+                            d="M9.879 1.707a3 3 0 0 1 4.242 0l8.172 8.172a3 3 0 0 1 0 4.242l-8.172 8.172a3 3 0 0 1-4.242 0L1.707 14.12a3 3 0 0 1 0-4.242L9.88 1.707ZM12 13a1 1 0 0 1-1-1V7h2v5a1 1 0 0 1-1 1Zm0 1.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z"
                             fill="currentColor"
                             fill-rule="evenodd"
                           />
@@ -1483,7 +1449,6 @@ exports[`enroll-profile-with-password should show validation error messages on a
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth emotion-26"
-                          required="true"
                         >
                           <input
                             aria-describedby=" userProfile.lastName-error  "
@@ -1493,7 +1458,6 @@ exports[`enroll-profile-with-password should show validation error messages on a
                             data-se="userProfile.lastName"
                             id="userProfile.lastName"
                             name="userProfile.lastName"
-                            required=""
                             type="text"
                           />
                         </div>
@@ -1532,7 +1496,6 @@ exports[`enroll-profile-with-password should show validation error messages on a
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth emotion-26"
-                          required="true"
                         >
                           <input
                             aria-describedby=" userProfile.firstName-error  "
@@ -1542,7 +1505,6 @@ exports[`enroll-profile-with-password should show validation error messages on a
                             data-se="userProfile.firstName"
                             id="userProfile.firstName"
                             name="userProfile.firstName"
-                            required=""
                             type="text"
                           />
                         </div>
@@ -1581,7 +1543,6 @@ exports[`enroll-profile-with-password should show validation error messages on a
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth emotion-26"
-                          required="true"
                         >
                           <input
                             aria-describedby=" userProfile.email-error  "
@@ -1592,7 +1553,6 @@ exports[`enroll-profile-with-password should show validation error messages on a
                             id="userProfile.email"
                             inputmode="email"
                             name="userProfile.email"
-                            required=""
                             type="text"
                           />
                         </div>
@@ -1631,7 +1591,6 @@ exports[`enroll-profile-with-password should show validation error messages on a
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth emotion-26"
-                          required="true"
                         >
                           <input
                             aria-describedby=" userProfile.login-error  "
@@ -1640,7 +1599,6 @@ exports[`enroll-profile-with-password should show validation error messages on a
                             data-se="userProfile.login"
                             id="userProfile.login"
                             name="userProfile.login"
-                            required=""
                             type="text"
                           />
                         </div>
@@ -1679,7 +1637,6 @@ exports[`enroll-profile-with-password should show validation error messages on a
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth emotion-26"
-                          required="true"
                         >
                           <input
                             aria-describedby=" userProfile.address-error  "
@@ -1688,7 +1645,6 @@ exports[`enroll-profile-with-password should show validation error messages on a
                             data-se="userProfile.address"
                             id="userProfile.address"
                             name="userProfile.address"
-                            required=""
                             type="text"
                           />
                         </div>

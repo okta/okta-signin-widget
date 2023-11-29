@@ -257,7 +257,6 @@ exports[`authenticator-enroll-phone-voice should render form 1`] = `
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-31"
                           dir="ltr"
-                          required="true"
                         >
                           <input
                             aria-invalid="false"
@@ -267,7 +266,6 @@ exports[`authenticator-enroll-phone-voice should render form 1`] = `
                             id="credentials.passcode"
                             inputmode="numeric"
                             name="credentials.passcode"
-                            required=""
                             type="text"
                           />
                         </div>

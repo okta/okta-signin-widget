@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { Box } from '@okta/odyssey-react-mui-legacy';
 import debounce from 'lodash/debounce';
 import { h } from 'preact';
@@ -48,6 +49,7 @@ const PasswordRequirements: UISchemaElementComponent<{
     : data['credentials.passcode'];
 
   const [passwordValidations, setPasswordValidations] = useState<PasswordValidation>({});
+  const Tokens = useOdysseyDesignTokens();
 
   const getPasswordStatus = (
     ruleKey: string,
@@ -103,7 +105,7 @@ const PasswordRequirements: UISchemaElementComponent<{
       <Box
         component="ul"
         id={listId}
-        sx={{ listStyle: 'none', padding: '0', marginBlockStart: (theme) => theme.spacing(2) }}
+        sx={{ listStyle: 'none', padding: '0', marginBlockStart: Tokens.Spacing3 }}
       >
         {requirements.map(({ ruleKey, label }) => (
           <PasswordRequirementListItem

@@ -153,7 +153,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                         data-se="authenticator-enroll-list"
                       >
                         <li
-                          class="MuiBox-root emotion-11"
+                          class="MuiBox-root emotion-28"
                         >
                           <button
                             aria-describedby="google_otp_0-description google_otp_0-ctaLabel"
@@ -277,7 +277,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                           </button>
                         </li>
                         <li
-                          class="MuiBox-root emotion-11"
+                          class="MuiBox-root emotion-28"
                         >
                           <button
                             aria-describedby="okta_verify_1-description okta_verify_1-ctaLabel"
@@ -377,7 +377,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                           </button>
                         </li>
                         <li
-                          class="MuiBox-root emotion-11"
+                          class="MuiBox-root emotion-28"
                         >
                           <button
                             aria-describedby="phone_number_2-description phone_number_2-ctaLabel"
@@ -491,7 +491,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                           </button>
                         </li>
                         <li
-                          class="MuiBox-root emotion-11"
+                          class="MuiBox-root emotion-28"
                         >
                           <button
                             aria-describedby="webauthn_3-description webauthn_3-ctaLabel"
@@ -1418,7 +1418,6 @@ exports[`authenticator-enroll-phone-sms should render form 1`] = `
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-31"
                           dir="ltr"
-                          required="true"
                         >
                           <input
                             aria-invalid="false"
@@ -1428,7 +1427,6 @@ exports[`authenticator-enroll-phone-sms should render form 1`] = `
                             id="credentials.passcode"
                             inputmode="numeric"
                             name="credentials.passcode"
-                            required=""
                             type="text"
                           />
                         </div>

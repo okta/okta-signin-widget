@@ -11,6 +11,7 @@
  */
 
 import { SelectChangeEvent } from '@mui/material';
+import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import {
   Box,
   InputAdornment,
@@ -87,6 +88,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
   const onChangeHandler = useOnChange(uischema);
   const focusRef = useAutoFocus<HTMLSelectElement>(focus);
   const phoneHasErrors = typeof errors !== 'undefined';
+  const Tokens = useOdysseyDesignTokens();
 
   const formatPhone = (
     phoneNumber: string,
@@ -168,10 +170,10 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
         {showAsterisk && (
           <Box
             component="span"
-            sx={(theme) => ({
-              marginInlineStart: theme.spacing(1),
-              marginInlineEnd: theme.spacing(1),
-            })}
+            sx={{
+              marginInlineStart: Tokens.Spacing2,
+              marginInlineEnd: Tokens.Spacing2,
+            }}
             className="no-translate"
             aria-hidden
           >
@@ -241,10 +243,10 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
             {showAsterisk && (
               <Box
                 component="span"
-                sx={(theme) => ({
-                  marginInlineStart: theme.spacing(1),
-                  marginInlineEnd: theme.spacing(1),
-                })}
+                sx={{
+                  marginInlineStart: Tokens.Spacing2,
+                  marginInlineEnd: Tokens.Spacing2,
+                }}
                 className="no-translate"
                 aria-hidden
               >
@@ -276,12 +278,12 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
                 component="span"
                 position="start"
                 className="no-translate"
-                sx={(theme) => ({
+                sx={{
                   // physical properties OK because parent InputBase component
                   // is always set to "ltr"
-                  marginRight: theme.spacing(2),
+                  marginRight: Tokens.Spacing3,
                   marginLeft: 0,
-                })}
+                }}
               >
                 {phoneCode}
               </InputAdornment>

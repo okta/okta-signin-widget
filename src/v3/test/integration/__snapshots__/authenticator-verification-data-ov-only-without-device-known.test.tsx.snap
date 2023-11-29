@@ -203,7 +203,7 @@ exports[`authenticator-verification-data-ov-only-without-device-known should ren
                         data-se="authenticator-verify-list"
                       >
                         <li
-                          class="MuiBox-root emotion-12"
+                          class="MuiBox-root emotion-26"
                         >
                           <button
                             aria-describedby="okta_verify_0-description okta_verify_0-ctaLabel"
@@ -303,7 +303,7 @@ exports[`authenticator-verification-data-ov-only-without-device-known should ren
                           </button>
                         </li>
                         <li
-                          class="MuiBox-root emotion-12"
+                          class="MuiBox-root emotion-26"
                         >
                           <button
                             aria-describedby="okta_verify_1-description okta_verify_1-ctaLabel"
@@ -403,7 +403,7 @@ exports[`authenticator-verification-data-ov-only-without-device-known should ren
                           </button>
                         </li>
                         <li
-                          class="MuiBox-root emotion-12"
+                          class="MuiBox-root emotion-26"
                         >
                           <button
                             aria-describedby="okta_verify_2-description okta_verify_2-ctaLabel"

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import * as Tokens from '@okta/odyssey-design-tokens';
+import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { Box, Typography } from '@okta/odyssey-react-mui-legacy';
 import { FunctionComponent, h } from 'preact';
 
@@ -21,12 +21,13 @@ const PasswordRequirementListItem: FunctionComponent<PasswordRequirementProps> =
   props,
 ) => {
   const { status, label } = props;
+  const Tokens = useOdysseyDesignTokens();
 
   return (
     <Box
       component="li"
-      sx={{ marginBlockEnd: (theme) => theme.spacing(2) }}
-      color={status === 'complete' ? Tokens.ColorPaletteGreen600 : undefined}
+      sx={{ marginBlockEnd: Tokens.Spacing3 }}
+      color={status === 'complete' ? Tokens.PaletteSuccessMain : undefined}
     >
       <Box
         display="flex"

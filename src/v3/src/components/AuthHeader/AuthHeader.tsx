@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import * as Tokens from '@okta/odyssey-design-tokens';
+import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { Box, Typography } from '@okta/odyssey-react-mui-legacy';
 import classNames from 'classnames';
 import { FunctionComponent, h } from 'preact';
@@ -45,6 +45,7 @@ const AuthHeader: FunctionComponent<AuthHeaderProps> = ({
   const showAuthCoin = shouldRenderAuthCoin(authCoinProps);
   const containerClasses = classNames('okta-sign-in-header', 'auth-header', { authCoinSpacing: showAuthCoin });
   const imageClasses = classNames('auth-org-logo', 'siwOrgLogo');
+  const Tokens = useOdysseyDesignTokens();
 
   function renderAuthCoin() {
     return (showAuthCoin && authCoinProps) && (
@@ -64,11 +65,11 @@ const AuthHeader: FunctionComponent<AuthHeaderProps> = ({
     <Box
       className={containerClasses}
       sx={{
-        paddingBlockStart: (theme) => theme.spacing(4),
-        paddingBlockEnd: (theme) => theme.spacing(showAuthCoin ? 0 : 4),
-        paddingInlineStart: (theme) => theme.spacing(5),
-        paddingInlineEnd: (theme) => theme.spacing(5),
-        borderBlockEnd: () => `1px solid ${Tokens.ColorBorderDisplay}`,
+        paddingBlockStart: Tokens.Spacing5,
+        paddingBlockEnd: showAuthCoin ? Tokens.Spacing1 : Tokens.Spacing5,
+        paddingInlineStart: Tokens.Spacing6,
+        paddingInlineEnd: Tokens.Spacing6,
+        borderBlockEnd: `1px solid ${Tokens.BorderColorDisplay}`,
         '& h1': {
           lineHeight: 0,
           marginBlock: 0,

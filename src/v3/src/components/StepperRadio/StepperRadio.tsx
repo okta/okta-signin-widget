@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import {
   FormControl,
   FormControlLabel,
@@ -53,6 +54,7 @@ const StepperRadio: UISchemaElementComponent<{
   });
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
   const labelId = `${name}-label`;
+  const Tokens = useOdysseyDesignTokens();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const stepIdx = customOptions.findIndex((opt) => opt.value === e.currentTarget.value);
@@ -86,9 +88,9 @@ const StepperRadio: UISchemaElementComponent<{
             <FormControlLabel
               control={(
                 <Radio
-                  sx={(theme) => ({
-                    marginInlineEnd: theme.spacing(2),
-                  })}
+                  sx={{
+                    marginInlineEnd: Tokens.Spacing3,
+                  }}
                 />
               )}
               key={item.value}
