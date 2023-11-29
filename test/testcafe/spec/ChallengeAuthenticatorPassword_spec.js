@@ -43,6 +43,14 @@ const resetPasswordSuccess = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(xhrSSPRSuccess, 200);
 
+const xhrAuthenticatorRequiredPasswordXSS = JSON.parse(JSON.stringify(xhrAuthenticatorRequiredPassword));
+const identifierXSS = '<img contenteditable onbeforeinput=alert(document.domain) id>test';
+xhrAuthenticatorRequiredPasswordXSS.user.value.identifier = identifierXSS;
+
+const mockChallengeAuthenticatorPasswordXSS = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrAuthenticatorRequiredPasswordXSS);
+
 const recoveryRequestLogger = RequestLogger(
   /idp\/idx\/recover/,
   {
@@ -234,4 +242,12 @@ test.requestHooks(mockChallengeAuthenticatorPassword)('should show custom factor
 
   await t.expect(challengePasswordPage.getFactorPageHelpLinksLabel()).eql('custom factor page link');
   await t.expect(challengePasswordPage.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');
+});
+
+test.requestHooks(mockChallengeAuthenticatorPasswordXSS)('should properly escape the identifier and avoid XSS', async t => {
+  const challengePasswordPage = await setup(t);
+  await checkA11y(t);
+  await t.expect(challengePasswordPage.getIdentifier()).eql(identifierXSS);
+  await t.expect(challengePasswordPage.identifierHasContenteditable()).eql(false);
+  await t.expect(challengePasswordPage.getIdentifierTitle()).eql(identifierXSS);
 });

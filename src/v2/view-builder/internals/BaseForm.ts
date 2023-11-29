@@ -104,7 +104,7 @@ export default Form.extend({
 
     const header = this.$el.find('[data-se="o-form-head"]');
     const identifierHTMLString = hbs('<div class="identifier-container">\
-        <span class="identifier no-translate" data-se="identifier" title={{identifier}}>{{identifier}}</span>\
+        <span class="identifier no-translate" data-se="identifier" title="{{identifier}}">{{identifier}}</span>\
       </div>')({identifier});
 
     if (header.length) {

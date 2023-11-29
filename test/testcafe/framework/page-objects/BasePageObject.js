@@ -80,6 +80,14 @@ export default class BasePageObject {
     return this.getTextContent('[data-se="identifier"]');
   }
 
+  getIdentifierTitle() {
+    return Selector('[data-se="identifier"]').getAttribute('title');
+  }
+
+  identifierHasContenteditable() {
+    return Selector('[data-se="identifier"]').hasAttribute('contenteditable');
+  }
+
   getFormFieldLabel(field) {
     return this.form.getFormFieldLabel(field);
   }
