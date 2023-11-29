@@ -154,14 +154,12 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                           </label>
                           <div
                             class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary  emotion-25"
-                            required="true"
                           >
                             <select
                               autocomplete="tel-country-code"
                               class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-26"
                               data-se="country"
                               id="country"
-                              required=""
                             >
                               <option
                                 value="AF"
@@ -1372,12 +1370,16 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                             <svg
                               aria-hidden="true"
                               class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconStandard emotion-27"
-                              data-testid="ArrowDropDownIcon"
+                              fill="none"
                               focusable="false"
                               viewBox="0 0 24 24"
+                              xmlns="http://www.w3.org/2000/svg"
                             >
                               <path
-                                d="M7 10l5 5 5-5z"
+                                clip-rule="evenodd"
+                                d="m10.94 16.354-5.647-5.647 1.414-1.414L12 14.586l5.293-5.293 1.414 1.414-5.646 5.647a1.5 1.5 0 0 1-2.122 0Z"
+                                fill="currentColor"
+                                fill-rule="evenodd"
                               />
                             </svg>
                           </div>
@@ -1400,10 +1402,9 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                             <div
                               class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedStart emotion-31"
                               dir="ltr"
-                              required="true"
                             >
                               <span
-                                class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined no-translate emotion-32"
+                                class="MuiInputAdornment-root MuiInputAdornment-positionStart no-translate emotion-32"
                               >
                                 <p
                                   class="MuiTypography-root MuiTypography-body1 emotion-33"
@@ -1419,7 +1420,6 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                                 id="phoneNumber"
                                 inputmode="tel"
                                 name="phoneNumber"
-                                required=""
                                 type="tel"
                               />
                             </div>
@@ -1660,14 +1660,12 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form witho
                           </label>
                           <div
                             class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary  emotion-25"
-                            required="true"
                           >
                             <select
                               autocomplete="tel-country-code"
                               class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-26"
                               data-se="country"
                               id="country"
-                              required=""
                             >
                               <option
                                 value="AF"
@@ -2878,12 +2876,16 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form witho
                             <svg
                               aria-hidden="true"
                               class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconStandard emotion-27"
-                              data-testid="ArrowDropDownIcon"
+                              fill="none"
                               focusable="false"
                               viewBox="0 0 24 24"
+                              xmlns="http://www.w3.org/2000/svg"
                             >
                               <path
-                                d="M7 10l5 5 5-5z"
+                                clip-rule="evenodd"
+                                d="m10.94 16.354-5.647-5.647 1.414-1.414L12 14.586l5.293-5.293 1.414 1.414-5.646 5.647a1.5 1.5 0 0 1-2.122 0Z"
+                                fill="currentColor"
+                                fill-rule="evenodd"
                               />
                             </svg>
                           </div>
@@ -2906,10 +2908,9 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form witho
                             <div
                               class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedStart emotion-31"
                               dir="ltr"
-                              required="true"
                             >
                               <span
-                                class="MuiInputAdornment-root MuiInputAdornment-positionStart MuiInputAdornment-outlined no-translate emotion-32"
+                                class="MuiInputAdornment-root MuiInputAdornment-positionStart no-translate emotion-32"
                               >
                                 <p
                                   class="MuiTypography-root MuiTypography-body1 emotion-33"
@@ -2925,7 +2926,6 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form witho
                                 id="phoneNumber"
                                 inputmode="tel"
                                 name="phoneNumber"
-                                required=""
                                 type="tel"
                               />
                             </div>

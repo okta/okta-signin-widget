@@ -17,6 +17,7 @@ import {
 } from '@mui/material';
 import MuiAccordion from '@mui/material/Accordion';
 import { styled } from '@mui/material/styles';
+import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { Box, Typography } from '@okta/odyssey-react-mui-legacy';
 import { FunctionComponent, h } from 'preact';
 
@@ -30,18 +31,21 @@ type AccordionProps = {
 const StyledAccordionSummary = styled((props: AccordionSummaryProps) => (
   // eslint-disable-next-line react/jsx-props-no-spreading
   <AccordionSummary {...props} />
-))(({ theme }) => ({
-  padding: 0,
-  width: 'fit-content',
-  '& .MuiAccordionSummary-content': {
-    margin: 0,
-    color: theme.palette.primary.main,
-    '&:hover': {
-      textDecoration: 'underline',
-      textDecorationColor: theme.palette.primary.main,
+))(() => {
+  const Tokens = useOdysseyDesignTokens();
+  return ({
+    padding: 0,
+    width: 'fit-content',
+    '& .MuiAccordionSummary-content': {
+      margin: 0,
+      color: Tokens.PalettePrimaryMain,
+      '&:hover': {
+        textDecoration: 'underline',
+        textDecorationColor: Tokens.PalettePrimaryMain,
+      },
     },
-  },
-}));
+  });
+});
 
 const Accordion: FunctionComponent<AccordionProps> = ({ uischema }) => {
   const { elements } = uischema;

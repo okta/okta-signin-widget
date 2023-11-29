@@ -11,6 +11,7 @@
  */
 
 import { SelectChangeEvent } from '@mui/material';
+import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import {
   Box, FormControl, InputLabel, Select as MuiSelect, Typography,
 } from '@okta/odyssey-react-mui-legacy';
@@ -40,6 +41,7 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
   const label = getTranslation(translations, 'label');
   const emptyOptionLabel = getTranslation(translations, 'empty-option-label');
   const optionalLabel = getTranslation(translations, 'optionalLabel');
+  const Tokens = useOdysseyDesignTokens();
 
   const {
     attributes,
@@ -83,10 +85,10 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
         {showAsterisk && (
           <Box
             component="span"
-            sx={(theme) => ({
-              marginInlineStart: theme.spacing(1),
-              marginInlineEnd: theme.spacing(1),
-            })}
+            sx={{
+              marginInlineStart: Tokens.Spacing2,
+              marginInlineEnd: Tokens.Spacing2,
+            }}
             className="no-translate"
             aria-hidden
           >

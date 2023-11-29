@@ -150,7 +150,6 @@ exports[`authenticator-verification-okta-verify-totp should have autocomplete at
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-24"
-                          required="true"
                         >
                           <input
                             aria-invalid="false"
@@ -160,7 +159,6 @@ exports[`authenticator-verification-okta-verify-totp should have autocomplete at
                             id="credentials.totp"
                             inputmode="numeric"
                             name="credentials.totp"
-                            required=""
                             type="text"
                           />
                         </div>
@@ -364,7 +362,6 @@ exports[`authenticator-verification-okta-verify-totp should render form 1`] = `
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-24"
-                          required="true"
                         >
                           <input
                             aria-invalid="false"
@@ -374,7 +371,6 @@ exports[`authenticator-verification-okta-verify-totp should render form 1`] = `
                             id="credentials.totp"
                             inputmode="numeric"
                             name="credentials.totp"
-                            required=""
                             type="text"
                           />
                         </div>

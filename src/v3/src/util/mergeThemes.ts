@@ -10,7 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { CSSInterpolation, ThemeOptions } from '@mui/material';
+import { CSSInterpolation } from '@mui/material';
+import { ThemeOptions } from '@okta/odyssey-react-mui';
 import { merge } from 'lodash';
 
 import { cssInterpolate } from './cssInterpolate';

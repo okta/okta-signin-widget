@@ -10,13 +10,16 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { CSSObject, TextField, ThemeProvider } from '@mui/material';
-import { odysseyTheme } from '@okta/odyssey-react-mui-legacy';
+import { CSSObject, TextField } from '@mui/material';
+import * as Tokens from '@okta/odyssey-design-tokens';
+import { createOdysseyMuiTheme, OdysseyThemeProvider } from '@okta/odyssey-react-mui';
 import { render } from '@testing-library/preact';
 
 import { mergeThemes } from './mergeThemes';
 
 test('mergeThemes()', () => {
+  const odysseyTheme = createOdysseyMuiTheme({ odysseyTokens: Tokens });
+
   const merged = mergeThemes(
     odysseyTheme,
     {
@@ -59,13 +62,23 @@ test('mergeThemes()', () => {
 
   expect(typeof root).toBe('function');
 
-  const expected = {
+  // Odyssey 1.x default MuiInputLabel styles not present in style overrides
+  const odysseyThemeDefaultStyles = {
+    '& > .MuiTypography-root': {
+      lineHeight: 'unset',
+    },
+    overflow: 'unset',
+  };
+
+  const customStyles = {
     display: 'flex',
     justifyContent: 'revert',
     whiteSpace: 'pre-wrap',
     backgroundColor: '#abc',
     color: 'blue',
   };
+
+  const mergedStyles = { ...odysseyThemeDefaultStyles, ...customStyles };
 
   expect(typeof root).toBe('function');
 
@@ -74,13 +87,13 @@ test('mergeThemes()', () => {
     ownerState: {},
     theme: odysseyTheme,
   });
-  expect(actual).toEqual(expected);
+  expect(actual).toEqual(mergedStyles);
 
   const { getByText } = render(
-    <ThemeProvider theme={merged}>
+    <OdysseyThemeProvider themeOverride={merged}>
       <TextField label="Label" />
-    </ThemeProvider>,
+    </OdysseyThemeProvider>,
   );
   const el = getByText('Label', { selector: 'label' });
-  expect(el).toHaveStyle(expected);
+  expect(el).toHaveStyle(customStyles);
 });

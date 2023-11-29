@@ -3821,10 +3821,15 @@
   resolved "https://registry.npmjs.org/@okta/odyssey-design-tokens/-/odyssey-design-tokens-1.2.0.tgz#753d981242fd1a295e55e00c8363585b7e329f9b"
   integrity sha512-AmNnCYlfbTUDaOFnEpR+nWljgoFh8uwOfkPwRV1qxv2Zjb7xQZTS02TFQ+kjqH35VpQv8ynbUmCM+fncfXo+IQ==
 
-"@okta/odyssey-design-tokens@^0.17.0", "@okta/odyssey-design-tokens@^0.17.1":
+"@okta/odyssey-design-tokens@^0.17.0":
   version "0.17.1"
   resolved "https://registry.yarnpkg.com/@okta/odyssey-design-tokens/-/odyssey-design-tokens-0.17.1.tgz#da429c2fc84c8d8e394174b898dc69906f341fd0"
   integrity sha512-Usbru6EVCeIKz4TkZeKNOpcXEgq1Mdd13fr4bI/+xYzTCGsAC+ftUZscV1msMRqmVlHwo0a/xq25ixyTCLAK5w==
+
+"@okta/odyssey-design-tokens@^1.2.0":
+  version "1.6.18"
+  resolved "https://registry.yarnpkg.com/@okta/odyssey-design-tokens/-/odyssey-design-tokens-1.6.18.tgz#0b9ca9d01628e75f2c56820abaf822478b248036"
+  integrity sha512-qVLXwH+mNzlwV5uverUA8a5tW/LiDiD6Te03H4zwkhMqcsgFssdA3QAFbdVSNQkPWCT3XWn+2uthwgn5TKKx5g==
 
 "@okta/odyssey-postcss-preset@^0.15.3":
   version "0.15.3"

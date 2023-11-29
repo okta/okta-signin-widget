@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import * as Tokens from '@okta/odyssey-design-tokens';
+import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import {
   ArrowLeftIcon,
   ArrowRightIcon,
@@ -69,6 +69,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
     usageDescription && `${iconName}-usageDescription`,
     `${iconName}-ctaLabel`,
   ].filter(Boolean).join(' ');
+  const Tokens = useOdysseyDesignTokens();
 
   const onClick: ClickHandler = async () => {
     const dataSchema = dataSchemaRef.current!;
@@ -94,27 +95,29 @@ const AuthenticatorButton: UISchemaElementComponent<{
     <Box
       component="button"
       type={type}
-      sx={(theme) => ({
+      sx={{
         '&:focus': {
-          outlineColor: theme.palette.primary.main,
-          outlineOffset: Tokens.FocusOutlineOffsetBase,
+          outlineColor: Tokens.PalettePrimaryMain,
+          outlineOffset: Tokens.FocusOutlineOffsetMain,
           outlineStyle: Tokens.FocusOutlineStyle,
-          outlineWidth: Tokens.FocusOutlineWidthBase,
+          outlineWidth: Tokens.FocusOutlineWidthMain,
         },
         '&:hover': {
-          color: theme.palette.primary.dark,
+          color: Tokens.PalettePrimaryDark,
           cursor: 'pointer',
-          borderColor: theme.palette.primary.main,
+          borderColor: Tokens.PalettePrimaryMain,
         },
         width: 1,
-        backgroundColor: theme.palette.background.paper,
-        paddingBlock: theme.spacing(2),
-        paddingInline: theme.spacing(2),
-      })}
+        // Assuming we want to allow users to customize this color, we should try to map this to
+        // a more semantic token. We also don't want users to override white just for this
+        backgroundColor: Tokens.HueNeutralWhite,
+        paddingBlock: Tokens.Spacing3,
+        paddingInline: Tokens.Spacing3,
+      }}
       display="flex"
       border={1}
       borderColor="grey.200"
-      borderRadius={Tokens.BorderRadiusBase}
+      borderRadius={Tokens.BorderRadiusMain}
       boxShadow={Tokens.ShadowScale0}
       className="authenticator-row"
       data-se="authenticator-button"
@@ -222,18 +225,18 @@ const AuthenticatorButton: UISchemaElementComponent<{
         <Box
           className="cta-button authenticator-button"
           data-se={dataSe}
-          sx={(theme) => ({
+          sx={{
             display: 'flex',
             alignItems: 'center',
             marginBlock: '5px',
             marginInline: 0,
             fontWeight: 500,
-            color: theme.palette.primary.main,
+            color: Tokens.PalettePrimaryMain,
             '& svg': {
               marginBlock: 0,
               marginInline: '5px 0',
             },
-          })}
+          }}
         >
           <Box
             component="span"

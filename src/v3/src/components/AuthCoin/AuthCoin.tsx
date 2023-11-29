@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { Box } from '@okta/odyssey-react-mui-legacy';
 import classNames from 'classnames';
 import { FunctionComponent, h } from 'preact';
@@ -31,6 +32,7 @@ const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
   const authCoinConfigByAuthKey = authCoinConfiguration[authenticatorKey];
 
   const containerClasses = classNames(authCoinConfigByAuthKey?.iconClassName, customClasses);
+  const Tokens = useOdysseyDesignTokens();
 
   function createAuthCoinIcon() {
     // TODO: OKTA-467022 - Add warning when attempted to customize non-customizeable authenticator
@@ -44,8 +46,8 @@ const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
           alt={authCoinConfigByAuthKey.description}
           className="custom-logo"
           sx={{
-            width: (theme) => theme.spacing(6),
-            height: (theme) => theme.spacing(6),
+            width: Tokens.Spacing7,
+            height: Tokens.Spacing7,
           }}
         />
       );
