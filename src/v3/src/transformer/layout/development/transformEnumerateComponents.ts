@@ -14,7 +14,6 @@ import {
   AppIcon,
   DeviceIcon,
   LocationIcon,
-  MobileDeviceIcon,
 } from 'src/components/Images';
 import { AUTHENTICATOR_KEY } from 'src/constants';
 
@@ -463,16 +462,6 @@ export const transformEnumerateComponents: IdxStepTransformer = ({
     },
   };
   uischema.elements.push(deviceImageWithText);
-
-  const mobileDeviceImageWithText: ImageWithTextElement = {
-    type: 'ImageWithText',
-    options: {
-      id: 'image.withText',
-      SVGIcon: MobileDeviceIcon,
-      textContent: 'Mobile Device',
-    },
-  };
-  uischema.elements.push(mobileDeviceImageWithText);
 
   const locationImageWithText: ImageWithTextElement = {
     type: 'ImageWithText',
