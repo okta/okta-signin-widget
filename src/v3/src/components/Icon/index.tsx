@@ -16,7 +16,6 @@ export * from './DuoIcon';
 export * from './EmailIcon';
 export * from './GoogleOTPIcon';
 export * from './IDPIcon';
-export * from './OdysseyIcons';
 export * from './OktaVerifyIcon';
 export * from './OnPremMFAIcon';
 export * from './PasswordIcon';

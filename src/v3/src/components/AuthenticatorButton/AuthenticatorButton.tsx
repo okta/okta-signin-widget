@@ -11,6 +11,7 @@
  */
 
 import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
+import { ArrowLeftIcon, ArrowRightIcon } from '@okta/odyssey-react-mui/icons';
 import { Box, Typography } from '@okta/odyssey-react-mui-legacy';
 import classNames from 'classnames';
 import { h } from 'preact';
@@ -24,7 +25,6 @@ import {
 } from '../../types';
 import { getTranslation, getValidationMessages } from '../../util';
 import AuthCoin from '../AuthCoin/AuthCoin';
-import { ArrowLeftIcon, ArrowRightIcon } from '../Icon/OdysseyIcons';
 
 const AuthenticatorButton: UISchemaElementComponent<{
   uischema: AuthenticatorButtonElement

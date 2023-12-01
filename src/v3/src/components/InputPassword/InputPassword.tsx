@@ -11,6 +11,7 @@
  */
 
 import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
+import { HideIcon, ShowIcon } from '@okta/odyssey-react-mui/icons';
 import {
   Box,
   FormHelperText,
@@ -38,7 +39,6 @@ import {
 import { getTranslation } from '../../util';
 import FieldLevelMessageContainer from '../FieldLevelMessageContainer';
 import { withFormValidationState } from '../hocs';
-import { HideIcon, ShowIcon } from '../Icon/OdysseyIcons';
 
 const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValidationProps> = ({
   uischema,

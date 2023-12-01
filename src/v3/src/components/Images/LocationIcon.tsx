@@ -11,10 +11,10 @@
  */
 
 import { Theme } from '@mui/material';
+import { GlobeIcon } from '@okta/odyssey-react-mui/icons';
 import { FunctionComponent, h } from 'preact';
 
 import { loc } from '../../util';
-import { GlobeIcon } from '../Icon/OdysseyIcons';
 
 export const LocationIcon: FunctionComponent = () => (
   <GlobeIcon

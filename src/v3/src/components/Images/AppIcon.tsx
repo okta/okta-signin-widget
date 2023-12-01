@@ -11,10 +11,10 @@
  */
 
 import { Theme } from '@mui/material';
+import { AppsIcon } from '@okta/odyssey-react-mui/icons';
 import { FunctionComponent, h } from 'preact';
 
 import { loc } from '../../util';
-import { AppsIcon } from '../Icon/OdysseyIcons';
 
 export const AppIcon: FunctionComponent = () => (
   <AppsIcon

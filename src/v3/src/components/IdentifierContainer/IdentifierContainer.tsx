@@ -11,12 +11,11 @@
  */
 
 import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
+import { UserIcon } from '@okta/odyssey-react-mui/icons';
 import { Box } from '@okta/odyssey-react-mui-legacy';
 import classNames from 'classnames';
 import { h } from 'preact';
 import { IdentifierContainerElement, UISchemaElementComponent } from 'src/types';
-
-import { UserIcon } from '../Icon/OdysseyIcons';
 
 const IdentifierContainer: UISchemaElementComponent<{
   uischema: IdentifierContainerElement

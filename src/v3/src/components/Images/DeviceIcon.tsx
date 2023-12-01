@@ -11,10 +11,10 @@
  */
 
 import { Theme } from '@mui/material';
+import { DevicesIcon } from '@okta/odyssey-react-mui/icons';
 import { FunctionComponent, h } from 'preact';
 
 import { loc } from '../../util';
-import { DevicesIcon } from '../Icon/OdysseyIcons';
 
 export const DeviceIcon: FunctionComponent = () => (
   <DevicesIcon

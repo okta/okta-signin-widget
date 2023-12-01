@@ -11,12 +11,12 @@
  */
 
 import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
+import { CheckCircleFilledIcon, CloseIcon, InformationCircleIcon } from '@okta/odyssey-react-mui/icons';
 import { Box } from '@okta/odyssey-react-mui-legacy';
 import classNames from 'classnames';
 import { FunctionComponent, h } from 'preact';
 
 import { PasswordRequirementStatus } from '../../types';
-import { CheckCircleFilledIcon, CloseIcon, InformationCircleIcon } from '../Icon/OdysseyIcons';
 
 type PasswordRequirementIconProps = {
   status: PasswordRequirementStatus;
