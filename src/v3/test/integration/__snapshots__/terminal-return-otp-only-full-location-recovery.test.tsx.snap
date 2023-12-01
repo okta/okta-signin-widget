@@ -207,7 +207,7 @@ exports[`terminal-return-otp-only-full-location-recovery renders form 1`] = `
                               fill-rule="evenodd"
                             />
                             <title>
-                              Mobile browser
+                              Browser
                             </title>
                           </svg>
                         </div>
