@@ -82,6 +82,8 @@ const LaunchAuthenticatorButton: UISchemaElementComponent<{
       fullWidth
       onClick={handleClick}
       ref={focusRef}
+      // Fixes text overflow
+      sx={{ display: 'flex', whiteSpace: 'normal' }}
     >
       <Box
         display="flex"

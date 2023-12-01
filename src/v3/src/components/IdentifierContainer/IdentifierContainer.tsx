@@ -11,10 +11,12 @@
  */
 
 import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
-import { Box, Icon } from '@okta/odyssey-react-mui-legacy';
+import { Box } from '@okta/odyssey-react-mui-legacy';
 import classNames from 'classnames';
 import { h } from 'preact';
 import { IdentifierContainerElement, UISchemaElementComponent } from 'src/types';
+
+import { UserIcon } from '../Icon/OdysseyIcons';
 
 const IdentifierContainer: UISchemaElementComponent<{
   uischema: IdentifierContainerElement
@@ -55,8 +57,7 @@ const IdentifierContainer: UISchemaElementComponent<{
             verticalAlign: 'middle',
           }}
         >
-          <Icon
-            name="user"
+          <UserIcon
             titleAccess="User"
             sx={{ width: '16px', height: '16px' }}
           />

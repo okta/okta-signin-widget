@@ -107,7 +107,9 @@ const devConfig: Configuration = mergeWithRules({
           loader: 'babel-loader',
           options: {
             plugins: [
-              ...process.env.IE11_COMPAT_MODE === 'true' ? [] : ['@prefresh/babel-plugin'],
+              // Disabled #3 in https://github.com/okta/okta-signin-widget/pull/3356
+              //  because of issue "Maximum call stack size exceeded"
+              // ...process.env.IE11_COMPAT_MODE === 'true' ? [] : ['@prefresh/babel-plugin'],
             ],
           },
         },

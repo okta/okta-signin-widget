@@ -13,8 +13,6 @@
 import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import {
   Box,
-  EyeIcon,
-  EyeOffIcon,
   FormHelperText,
   IconButton,
   InputAdornment,
@@ -40,6 +38,7 @@ import {
 import { getTranslation } from '../../util';
 import FieldLevelMessageContainer from '../FieldLevelMessageContainer';
 import { withFormValidationState } from '../hocs';
+import { HideIcon, ShowIcon } from '../Icon/OdysseyIcons';
 
 const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValidationProps> = ({
   uischema,
@@ -198,7 +197,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
                     },
                   }}
                 >
-                  {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+                  {showPassword ? <HideIcon /> : <ShowIcon />}
                 </IconButton>
               </Tooltip>
             </InputAdornment>

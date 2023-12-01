@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022-present, Okta, Inc. and/or its affiliates. All rights reserved.
+ * Copyright (c) 2023-present, Okta, Inc. and/or its affiliates. All rights reserved.
  * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
  *
  * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
@@ -10,20 +10,16 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Theme } from '@mui/material';
-import { FunctionComponent, h } from 'preact';
-
-import { loc } from '../../util';
-import { DevicesIcon } from '../Icon/OdysseyIcons';
-
-export const DeviceIcon: FunctionComponent = () => (
-  <DevicesIcon
-    sx={(theme: Theme) => ({
-      color: theme.palette.primary.main,
-      width: '16px',
-      height: '16px',
-    })}
-    titleAccess={loc('icon.title.browser', 'login')}
-    aria-hidden
-  />
-);
+export {
+  AppsIcon,
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  CheckCircleFilledIcon,
+  CloseIcon,
+  DevicesIcon,
+  GlobeIcon,
+  HideIcon,
+  InformationCircleIcon,
+  ShowIcon,
+  UserIcon,
+} from '@okta/odyssey-react-mui/icons';
