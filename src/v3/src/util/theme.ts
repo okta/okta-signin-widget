@@ -10,37 +10,17 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+// @ts-ignore
+import { Theme, Color, BackgroundColor } from '@adobe/leonardo-contrast-colors';
 import * as Tokens from '@okta/odyssey-design-tokens';
 import { createOdysseyMuiTheme, DesignTokensOverride, ThemeOptions } from '@okta/odyssey-react-mui';
-import chroma from 'chroma-js';
 import { set as _set } from 'lodash';
 
 import { BrandColors } from '../types';
 import { mergeThemes } from './mergeThemes';
 
-export type Palette = Partial<{
-  main: string;
-  light: string;
-  lighter: string;
-  dark: string;
-  contrastText: string;
-}>;
-
-export type SpacingArgument = number | string;
-
 const WHITE_HEX = '#ffffff';
-const BLACK_HEX = '#1d1d21';
-
-/**
- * Determine whether to use BLACK (#1d1d21) or WHITE (#ffffff) based on a color.
- * If WHITE vs color has a contrast ratio <4.5:1 this will return BLACK.
- * Contrast ratios are symmetrical using the WCAG 2.x algorithm
- *
- * @param color color to compare against black/white
- */
-const getInverseTextColor = (color: string): string => (
-  chroma.contrast(color, WHITE_HEX) >= 4.5 ? WHITE_HEX : BLACK_HEX
-);
+const ODYSSEY_RATIOS = [1.1, 1.31, 1.61, 2.22, 3.32, 4.5, 4.95, 8.72, 11.73, 14.94];
 
 /**
  * Sets the design token to theme path iff the value is not undefined, i.e.,
@@ -64,106 +44,144 @@ function set<T extends object, V>(obj: T, path: string | string[], val: V) {
  * PalettePrimaryMain -> HueBlue50
  * PalettePrimaryLighter -> HueBlue300
  * PalettePrimaryLight -> HueBlue500
- * PalettePrimaryDark -> HueBlue700
+ * PalettePrimaryDark -> HueBlue900
  *
  * @param main Main color (Hue 500)
  */
-export const generatePalette = (main: string): Palette => {
-  try {
-    const lightness = chroma(main).get('hsl.l');
-    return lightness > 0.24
-      ? {
-        main,
-        lighter: chroma(main)
-          .set('hsl.h', '+9')
-          .set('hsl.s', '+0.18')
-          .set('hsl.l', 0.97)
-          .hex(),
-        light: chroma(main)
-          .set('hsl.h', '+11')
-          .set('hsl.s', '-0.18')
-          .set('hsl.l', lightness < 0.59 ? '+0.31' : 0.9) // clamp lightness
-          .hex(),
-        dark: chroma(main)
-          .set('hsl.h', '+3')
-          .set('hsl.s', '+0.18')
-          .set('hsl.l', '-0.24')
-          .hex(),
-        contrastText: getInverseTextColor(main),
-      } : {
-        main,
-        lighter: chroma(main)
-          .set('hsl.h', '+9')
-          .set('hsl.s', '+0.18')
-          .set('hsl.l', 0.97)
-          .hex(),
-        light: chroma(main)
-          .set('hsl.l', '+0.62')
-          .hex(),
-        dark: chroma(main)
-          .set('hsl.l', '+0.31')
-          .hex(),
-        contrastText: getInverseTextColor(main),
-      };
-  } catch (err) {
-    console.warn(err);
-    return {};
+export const generatePalette = (main: string): Theme => {
+  let primaryColor = new Color({
+    name: 'Custom Hue',
+    colorKeys: [main],
+    ratios: ODYSSEY_RATIOS
+  });
+  const backgroundColor = new BackgroundColor({
+    name: 'Background Color',
+    colorKeys: [WHITE_HEX],
+    ratios: []
+  });
+  const leonardoTheme = new Theme({ colors: [primaryColor], backgroundColor, lightness: 100 })._contrastColorPairs;
+  // Remap leonardo theme to use Odyssey color stops from 50-900
+  const theme = {
+    CustomHue50: leonardoTheme.CustomHue100,
+    CustomHue100: leonardoTheme.CustomHue200,
+    CustomHue200: leonardoTheme.CustomHue300,
+    CustomHue300: leonardoTheme.CustomHue400,
+    CustomHue400: leonardoTheme.CustomHue500,
+    CustomHue500: leonardoTheme.CustomHue600,
+    CustomHue600: leonardoTheme.CustomHue700,
+    CustomHue700: leonardoTheme.CustomHue800,
+    CustomHue800: leonardoTheme.CustomHue900,
+    CustomHue900: leonardoTheme.CustomHue1000,
   }
+  return theme;
 };
 
 export const createTheme = (
   brandColors?: BrandColors,
   customTokens?: Partial<DesignTokensOverride>,
 ): ThemeOptions => {
-  // Odyssey 1.x does not export their theme, but we can recreate it
-  const theme = createOdysseyMuiTheme({ odysseyTokens: { ...Tokens, ...customTokens } });
+  const tokensOverride = { ...customTokens }
+  const themePaletteOverride = {}
 
-  // TODO: OKTA-667943 - Update palette generation for OD 1.x larger hue range
   if (brandColors?.primaryColor) {
     const p = generatePalette(brandColors.primaryColor);
-    set(theme, 'palette.primary.lighter', p.lighter);
-    set(theme, 'palette.primary.light', p.light);
-    set(theme, 'palette.primary.main', p.main);
-    set(theme, 'palette.primary.dark', p.dark);
-    set(theme, 'palette.primary.contrastText', p.contrastText);
+    tokensOverride.PalettePrimaryLighter ??= p.CustomHue50;
+    tokensOverride.PalettePrimaryHighlight ??= p.CustomHue100;
+    tokensOverride.PalettePrimaryLight ??= p.CustomHue300;
+    tokensOverride.PalettePrimaryMain ??= p.CustomHue500;
+    tokensOverride.FocusOutlineColorPrimary ??= p.CustomHue500;
+    tokensOverride.BorderColorPrimaryControl ??= p.CustomHue500;
+    tokensOverride.TypographyColorAction ??= p.CustomHue600;
+    tokensOverride.PalettePrimaryText ??= p.CustomHue600;
+    tokensOverride.BorderColorPrimaryDark ??= p.CustomHue700;
+    tokensOverride.PalettePrimaryDark ??= p.CustomHue700;
+    tokensOverride.PalettePrimaryDarker ??= p.CustomHue800;
+    tokensOverride.PalettePrimaryHeading ??= p.CustomHue900;
+    set(themePaletteOverride, 'palette.primary.lighter', p.CustomHue50);
+    set(themePaletteOverride, 'palette.primary.light', p.CustomHue300);
+    set(themePaletteOverride, 'palette.primary.main', p.CustomHue500);
+    set(themePaletteOverride, 'palette.primary.dark', p.CustomHue900);
   }
   if (customTokens) {
     if (customTokens.PalettePrimaryMain) {
       const p = generatePalette(customTokens.PalettePrimaryMain);
-      set(theme, 'palette.primary.lighter', customTokens.PalettePrimaryLighter ?? p.lighter);
-      set(theme, 'palette.primary.light', customTokens.PalettePrimaryLight ?? p.light);
-      set(theme, 'palette.primary.main', customTokens.PalettePrimaryMain ?? p.main);
-      set(theme, 'palette.primary.dark', customTokens.PalettePrimaryDark ?? p.dark);
-      set(theme, 'palette.primary.contrastText', p.contrastText);
+      tokensOverride.PalettePrimaryLighter ??= p.CustomHue50;
+      tokensOverride.PalettePrimaryHighlight ??= p.CustomHue100;
+      tokensOverride.PalettePrimaryLight ??= p.CustomHue300;
+      tokensOverride.PalettePrimaryMain ??= p.CustomHue500;
+      tokensOverride.FocusOutlineColorPrimary ??= p.CustomHue500;
+      tokensOverride.BorderColorPrimaryControl ??= p.CustomHue500;
+      tokensOverride.TypographyColorAction ??= p.CustomHue600;
+      tokensOverride.PalettePrimaryText ??= p.CustomHue600;
+      tokensOverride.BorderColorPrimaryDark ??= p.CustomHue700;
+      tokensOverride.PalettePrimaryDark ??= p.CustomHue700;
+      tokensOverride.PalettePrimaryDarker ??= p.CustomHue800;
+      tokensOverride.PalettePrimaryHeading ??= p.CustomHue900;
+      set(themePaletteOverride, 'palette.primary.lighter', p.CustomHue50);
+      set(themePaletteOverride, 'palette.primary.light', p.CustomHue300);
+      set(themePaletteOverride, 'palette.primary.main', p.CustomHue500);
+      set(themePaletteOverride, 'palette.primary.dark', p.CustomHue900);
     }
     if (customTokens.PaletteDangerMain) {
       const p = generatePalette(customTokens.PaletteDangerMain);
-      set(theme, 'palette.error.lighter', customTokens.PaletteDangerLighter ?? p.lighter);
-      set(theme, 'palette.error.light', customTokens.PaletteDangerLight ?? p.light);
-      set(theme, 'palette.error.main', customTokens.PaletteDangerMain ?? p.main);
-      set(theme, 'palette.error.dark', customTokens.PaletteDangerDark ?? p.dark);
-      set(theme, 'palette.error.contrastText', p.contrastText);
+      tokensOverride.PaletteDangerLighter ??= p.CustomHue50;
+      tokensOverride.PaletteDangerHighlight ??= p.CustomHue100;
+      tokensOverride.PaletteDangerLight ??= p.CustomHue300;
+      tokensOverride.BorderColorDangerLight ??= p.CustomHue300;
+      tokensOverride.PaletteDangerMain ??= p.CustomHue500;
+      tokensOverride.FocusOutlineColorDanger ??= p.CustomHue500;
+      tokensOverride.BorderColorDangerControl ??= p.CustomHue500;
+      tokensOverride.PaletteDangerText ??= p.CustomHue600;
+      tokensOverride.TypographyColorDanger ??= p.CustomHue600;
+      tokensOverride.BorderColorDangerDark ??= p.CustomHue700;
+      tokensOverride.PaletteDangerDark ??= p.CustomHue700;
+      tokensOverride.PaletteDangerDarker ??= p.CustomHue800;
+      tokensOverride.PaletteDangerHeading ??= p.CustomHue900;
+      set(themePaletteOverride, 'palette.danger.lighter', p.CustomHue50);
+      set(themePaletteOverride, 'palette.danger.light', p.CustomHue300);
+      set(themePaletteOverride, 'palette.danger.main', p.CustomHue500);
+      set(themePaletteOverride, 'palette.danger.dark', p.CustomHue900);
     }
     if (customTokens.PaletteWarningMain) {
       const p = generatePalette(customTokens.PaletteWarningMain);
-      set(theme, 'palette.warning.lighter', customTokens.PaletteWarningLighter ?? p.lighter);
-      set(theme, 'palette.warning.light', customTokens.PaletteWarningLight ?? p.light);
-      set(theme, 'palette.warning.main', customTokens.PaletteWarningMain ?? p.main);
-      set(theme, 'palette.warning.dark', customTokens.PaletteWarningDark ?? p.dark);
-      set(theme, 'palette.warning.contrastText', p.contrastText);
+      tokensOverride.PaletteWarningLighter ??= p.CustomHue50;
+      tokensOverride.PaletteWarningHighlight ??= p.CustomHue100;
+      tokensOverride.PaletteWarningLight ??= p.CustomHue300;
+      tokensOverride.PaletteWarningMain ??= p.CustomHue500;
+      tokensOverride.PaletteWarningText ??= p.CustomHue600;
+      tokensOverride.TypographyColorWarning ??= p.CustomHue600;
+      tokensOverride.PaletteWarningDark ??= p.CustomHue700;
+      tokensOverride.PaletteWarningDarker ??= p.CustomHue800;
+      tokensOverride.PaletteWarningHeading ??= p.CustomHue900;
+      set(themePaletteOverride, 'palette.warning.lighter', p.CustomHue50);
+      set(themePaletteOverride, 'palette.warning.light', p.CustomHue300);
+      set(themePaletteOverride, 'palette.warning.main', p.CustomHue500);
+      set(themePaletteOverride, 'palette.warning.dark', p.CustomHue900);
+      set(themePaletteOverride, 'palette.warning.contrastText', WHITE_HEX);
     }
     if (customTokens.PaletteSuccessMain) {
       const p = generatePalette(customTokens.PaletteSuccessMain);
-      set(theme, 'palette.success.lighter', customTokens.PaletteSuccessLighter ?? p.lighter);
-      set(theme, 'palette.success.light', customTokens.PaletteSuccessLight ?? p.light);
-      set(theme, 'palette.success.main', customTokens.PaletteSuccessMain ?? p.main);
-      set(theme, 'palette.success.dark', customTokens.PaletteSuccessDark ?? p.dark);
-      set(theme, 'palette.success.contrastText', p.contrastText);
+      tokensOverride.PaletteSuccessLighter ??= p.CustomHue50;
+      tokensOverride.PaletteSuccessHighlight ??= p.CustomHue100;
+      tokensOverride.PaletteSuccessLight ??= p.CustomHue300;
+      tokensOverride.PaletteSuccessMain ??= p.CustomHue500;
+      tokensOverride.PaletteSuccessText ??= p.CustomHue600;
+      tokensOverride.TypographyColorSuccess ??= p.CustomHue600;
+      tokensOverride.PaletteSuccessDark ??= p.CustomHue700;
+      tokensOverride.PaletteSuccessDarker ??= p.CustomHue800;
+      tokensOverride.PaletteSuccessHeading ??= p.CustomHue900;
+      set(themePaletteOverride, 'palette.success.lighter', p.CustomHue50);
+      set(themePaletteOverride, 'palette.success.light', p.CustomHue300);
+      set(themePaletteOverride, 'palette.success.main', p.CustomHue500);
+      set(themePaletteOverride, 'palette.success.dark', p.CustomHue900);
     }
   }
 
+  // Odyssey 1.x does not export their theme, but we can recreate it
+  const baseOdysseyTheme = createOdysseyMuiTheme({ odysseyTokens: { ...Tokens, ...tokensOverride } });
+
   // Merge default Odyssey 1.x theme with component overrides
-  const themeOverride = mergeThemes(theme, {
+  const themeOverride = mergeThemes(baseOdysseyTheme, themePaletteOverride, {
     components: {
       MuiAlert: {
         styleOverrides: {
@@ -253,6 +271,8 @@ export const createTheme = (
       },
     },
   });
+
+  console.log(themeOverride);
 
   return themeOverride;
 };

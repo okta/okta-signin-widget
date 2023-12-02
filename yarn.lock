@@ -7,6 +7,16 @@
   resolved "https://registry.yarnpkg.com/@adobe/css-tools/-/css-tools-4.2.0.tgz#e1a84fca468f4b337816fcb7f0964beb620ba855"
   integrity sha512-E09FiIft46CmH5Qnjb0wsW54/YQd69LsxeKUOWawmws1XWvyFGURnAChH0mlr7YPFR1ofwvUQfcL0J3lMxXqPA==
 
+"@adobe/leonardo-contrast-colors@1.0.0-alpha.13":
+  version "1.0.0-alpha.13"
+  resolved "https://registry.yarnpkg.com/@adobe/leonardo-contrast-colors/-/leonardo-contrast-colors-1.0.0-alpha.13.tgz#f391b623e32a7b6a01cbe4019c038ec2a14ed4be"
+  integrity sha512-n+nl/UAbabHDMfkjKgaSB9qRciympqHgGszRP6dDcpCb5wPxu9C50k+NK1uLsHYsh8nYJTFeJ8dPXXPbr9e5aA==
+  dependencies:
+    chroma-js "^2.4.2"
+    ciebase "^0.1.1"
+    ciecam02 "^0.4.6"
+    hsluv "^0.1.0"
+
 "@ampproject/remapping@^2.1.0":
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/@ampproject/remapping/-/remapping-2.1.2.tgz#4edca94973ded9630d20101cd8559cedb8d8bd34"
@@ -3816,20 +3826,15 @@
     "@babel/preset-react" "^7.18.6"
     "@babel/preset-typescript" "^7.18.6"
 
-"@okta/odyssey-design-tokens@1.2.0":
-  version "1.2.0"
-  resolved "https://registry.npmjs.org/@okta/odyssey-design-tokens/-/odyssey-design-tokens-1.2.0.tgz#753d981242fd1a295e55e00c8363585b7e329f9b"
-  integrity sha512-AmNnCYlfbTUDaOFnEpR+nWljgoFh8uwOfkPwRV1qxv2Zjb7xQZTS02TFQ+kjqH35VpQv8ynbUmCM+fncfXo+IQ==
+"@okta/odyssey-design-tokens@1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@okta/odyssey-design-tokens/-/odyssey-design-tokens-1.6.0.tgz#0bae10b372751a3e348a2f23d8df42e3d931878f"
+  integrity sha512-XqotA13nyf5uJrh9H8zr+/m7aBNcsJxsB2D8WqNRPgoIBXKxoxbV1AvzEY9PLH9ZMWCWV5PZ5QiW6f5iWxlygg==
 
 "@okta/odyssey-design-tokens@^0.17.0":
   version "0.17.1"
   resolved "https://registry.yarnpkg.com/@okta/odyssey-design-tokens/-/odyssey-design-tokens-0.17.1.tgz#da429c2fc84c8d8e394174b898dc69906f341fd0"
   integrity sha512-Usbru6EVCeIKz4TkZeKNOpcXEgq1Mdd13fr4bI/+xYzTCGsAC+ftUZscV1msMRqmVlHwo0a/xq25ixyTCLAK5w==
-
-"@okta/odyssey-design-tokens@^1.2.0":
-  version "1.6.18"
-  resolved "https://registry.yarnpkg.com/@okta/odyssey-design-tokens/-/odyssey-design-tokens-1.6.18.tgz#0b9ca9d01628e75f2c56820abaf822478b248036"
-  integrity sha512-qVLXwH+mNzlwV5uverUA8a5tW/LiDiD6Te03H4zwkhMqcsgFssdA3QAFbdVSNQkPWCT3XWn+2uthwgn5TKKx5g==
 
 "@okta/odyssey-postcss-preset@^0.15.3":
   version "0.15.3"
@@ -3860,10 +3865,10 @@
     "@mui/utils" "^5.10.9"
     "@okta/odyssey-design-tokens" "^0.17.0"
 
-"@okta/odyssey-react-mui@^1.2.0":
-  version "1.2.0"
-  resolved "https://registry.npmjs.org/@okta/odyssey-react-mui/-/odyssey-react-mui-1.2.0.tgz#89c147d38456cd35e50a211e8f4fd0fb3f0a6939"
-  integrity sha512-n+s9RYhFLAuLhyoBAkaT13PUVFuVseyMV6aDpOgqIfKtbvL9b8k6UhsNfK1BtyZFc111fxG6jzsbBhDb47T0VQ==
+"@okta/odyssey-react-mui@1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@okta/odyssey-react-mui/-/odyssey-react-mui-1.6.0.tgz#643a18cee47bc485f5967218772680b4daeb39a5"
+  integrity sha512-P+s7FSji+FQ/OyzIVGZMEaZycJS1knSS79idjUpVrqTvhmMBNr6XSSG6CTcTCkX/X3KDNQv8ycaUo4erWUTNOA==
   dependencies:
     "@emotion/cache" "^11.10.5"
     "@emotion/react" "^11.11.1"
@@ -3874,7 +3879,7 @@
     "@mui/system" "^5.14.9"
     "@mui/utils" "^5.11.2"
     "@mui/x-date-pickers" "^5.0.15"
-    "@okta/odyssey-design-tokens" "1.2.0"
+    "@okta/odyssey-design-tokens" "1.6.0"
     date-fns "^2.30.0"
     i18next "^23.5.1"
     material-react-table "^1.14.0"
@@ -7336,6 +7341,21 @@ ci-info@^3.2.0:
   version "3.7.0"
   resolved "https://registry.yarnpkg.com/ci-info/-/ci-info-3.7.0.tgz#6d01b3696c59915b6ce057e4aa4adfc2fa25f5ef"
   integrity sha512-2CpRNYmImPx+RXKLq6jko/L07phmS9I02TyqkcNU20GCF/GgaWvc58hPtjxDX8lPpkdwc9sNh72V9k00S7ezog==
+
+ciebase@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/ciebase/-/ciebase-0.1.1.tgz#986648bd24d2cecebe51c5e18d6cc1fbf664e9f5"
+  integrity sha512-KEnf/WVT5E+Gn+LsfMHGJFATltSOeW0qm7dpzQYL/Qe5PEpyTM+UI5bMoBo16FE81zMpu+U6032USTP6Cz1XNA==
+  dependencies:
+    mout "^0.11.1"
+
+ciecam02@^0.4.6:
+  version "0.4.6"
+  resolved "https://registry.yarnpkg.com/ciecam02/-/ciecam02-0.4.6.tgz#371bb587f565aebb72ab747625b3a47c61d79ac7"
+  integrity sha512-nh/Kl8s5lgtyEl7lA381JFinLhgUwDhJaAVgbVx2BaiiJIzJLumQvuFXwdS76tSch7jDjWejP+MtKYCCEk/brg==
+  dependencies:
+    ciebase "^0.1.1"
+    mout "^0.11.1"
 
 cjs-module-lexer@^0.6.0:
   version "0.6.0"
@@ -11863,6 +11883,11 @@ hpack.js@^2.1.6:
     readable-stream "^2.0.1"
     wbuf "^1.1.0"
 
+hsluv@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/hsluv/-/hsluv-0.1.0.tgz#29f40d49642bd56dd0c192122abcc723bb5c2d6c"
+  integrity sha512-ERcanKLAszD2XN3Vh5r5Szkrv9q0oSTudmP0rkiKAGM/3NMc9FLmMZBB7TSqTaXJfSDBOreYTfjezCOYbRKqlw==
+
 html-dom-parser@3.1.5:
   version "3.1.5"
   resolved "https://registry.yarnpkg.com/html-dom-parser/-/html-dom-parser-3.1.5.tgz#0f403868460a6a64bfe3f5bcf3571f976d9a2671"
@@ -15060,6 +15085,11 @@ morgan@^1.10.0:
     depd "~2.0.0"
     on-finished "~2.3.0"
     on-headers "~1.0.2"
+
+mout@^0.11.1:
+  version "0.11.1"
+  resolved "https://registry.yarnpkg.com/mout/-/mout-0.11.1.tgz#ba3611df5f0e5b1ffbfd01166b8f02d1f5fa2b99"
+  integrity sha512-pK9VNiLE3QgGBrC/3ICAscwOLU7oTNeK2l32uqNAioBYtB2tQAfSsGDNChUlk7CP23126mc5lUt6+na9FlN8JA==
 
 mrmime@^1.0.0:
   version "1.0.1"
