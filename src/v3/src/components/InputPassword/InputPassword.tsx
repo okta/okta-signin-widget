@@ -11,10 +11,9 @@
  */
 
 import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
+import { HideIcon, ShowIcon } from '@okta/odyssey-react-mui/icons';
 import {
   Box,
-  EyeIcon,
-  EyeOffIcon,
   FormHelperText,
   IconButton,
   InputAdornment,
@@ -198,7 +197,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
                     },
                   }}
                 >
-                  {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+                  {showPassword ? <HideIcon /> : <ShowIcon />}
                 </IconButton>
               </Tooltip>
             </InputAdornment>

@@ -11,12 +11,8 @@
  */
 
 import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
-import {
-  ArrowLeftIcon,
-  ArrowRightIcon,
-  Box,
-  Typography,
-} from '@okta/odyssey-react-mui-legacy';
+import { ArrowLeftIcon, ArrowRightIcon } from '@okta/odyssey-react-mui/icons';
+import { Box, Typography } from '@okta/odyssey-react-mui-legacy';
 import classNames from 'classnames';
 import { h } from 'preact';
 
