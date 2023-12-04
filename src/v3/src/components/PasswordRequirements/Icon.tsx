@@ -11,12 +11,12 @@
  */
 
 import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
-import { Box, Icon as OdyIcon } from '@okta/odyssey-react-mui-legacy';
+import { CheckCircleFilledIcon, CloseIcon, InformationCircleIcon } from '@okta/odyssey-react-mui/icons';
+import { Box } from '@okta/odyssey-react-mui-legacy';
 import classNames from 'classnames';
 import { FunctionComponent, h } from 'preact';
 
 import { PasswordRequirementStatus } from '../../types';
-import { CheckCircle } from '../Icon';
 
 type PasswordRequirementIconProps = {
   status: PasswordRequirementStatus;
@@ -26,13 +26,14 @@ const Icon: FunctionComponent<PasswordRequirementIconProps> = (
   props,
 ) => {
   const { status } = props;
-  const statusToIconProps = {
-    incomplete: { name: 'close', color: 'grey.500' },
-    complete: { name: 'check-circle-filled', color: 'success' },
-    info: { name: 'information-circle', color: 'info' },
+  const Tokens = useOdysseyDesignTokens();
+  const statusToIcon = {
+    incomplete: { component: CloseIcon, color: Tokens.PaletteNeutralMain },
+    complete: { component: CheckCircleFilledIcon, color: Tokens.PaletteSuccessMain },
+    info: { component: InformationCircleIcon, color: Tokens.PalettePrimaryMain },
   };
   const iconClasses = classNames('passwordRequirementIcon', status);
-  const Tokens = useOdysseyDesignTokens();
+  const OdyIcon = statusToIcon[status].component;
 
   return (
     <Box
@@ -45,17 +46,11 @@ const Icon: FunctionComponent<PasswordRequirementIconProps> = (
       }}
       aria-hidden
     >
-      {
-        // Using a custom Icon for the Success/Check Instead of default ODY Icon
-        statusToIconProps[status].name === 'check-circle-filled' ? (
-          <CheckCircle />
-        ) : (
-          <OdyIcon
-            name={statusToIconProps[status].name}
-            color={statusToIconProps[status].color}
-          />
-        )
-      }
+      <OdyIcon
+        sx={{
+          color: statusToIcon[status].color,
+        }}
+      />
     </Box>
   );
 };

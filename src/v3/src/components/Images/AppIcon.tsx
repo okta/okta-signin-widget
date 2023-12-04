@@ -10,54 +10,20 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { Theme } from '@mui/material';
+import { AppsIcon } from '@okta/odyssey-react-mui/icons';
 import { FunctionComponent, h } from 'preact';
 
 import { loc } from '../../util';
 
 export const AppIcon: FunctionComponent = () => (
-  <svg
-    width="16"
-    height="16"
-    viewBox="0 0 16 16"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    role="img"
-    aria-hidden="true"
-  >
-    <title>
-      {loc('icon.title.application', 'login')}
-    </title>
-    <rect
-      x="1.5"
-      y="1.5"
-      width="5"
-      height="5"
-      stroke="#1662DD"
-      class="siwIconStrokePrimary"
-    />
-    <rect
-      x="1.5"
-      y="9.5"
-      width="5"
-      height="5"
-      stroke="#1662DD"
-      class="siwIconStrokePrimary"
-    />
-    <rect
-      x="9.5"
-      y="9.5"
-      width="5"
-      height="5"
-      stroke="#1662DD"
-      class="siwIconStrokePrimary"
-    />
-    <rect
-      x="9.5"
-      y="1.5"
-      width="5"
-      height="5"
-      stroke="#1662DD"
-      class="siwIconStrokePrimary"
-    />
-  </svg>
+  <AppsIcon
+    sx={(theme: Theme) => ({
+      color: theme.palette.primary.main,
+      width: '16px',
+      height: '16px',
+    })}
+    titleAccess={loc('icon.title.application', 'login')}
+    aria-hidden
+  />
 );

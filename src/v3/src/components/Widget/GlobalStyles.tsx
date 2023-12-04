@@ -31,12 +31,6 @@ const svgStyles = (theme: Theme): GlobalStylesProps['styles'] => ({
   '.siwFillBg': {
     fill: theme.palette.grey[50],
   },
-  '.siwIconFillPrimary': {
-    fill: theme.palette.primary.main,
-  },
-  '.siwIconStrokePrimary': {
-    stroke: theme.palette.primary.main,
-  },
   '.siwIconFillPrimaryDark': {
     fill: theme.palette.primary.dark,
   },

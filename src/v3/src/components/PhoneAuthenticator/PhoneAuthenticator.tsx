@@ -113,7 +113,9 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
   }, [phone, fieldName]);
 
   useEffect(() => {
-    dataSchemaRef.current![fieldName].validate = validate;
+    if (dataSchemaRef.current) {
+      dataSchemaRef.current[fieldName].validate = validate;
+    }
   }, [dataSchemaRef, fieldName, messages.value, validate]);
 
   useEffect(() => {
