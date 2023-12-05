@@ -10,11 +10,12 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-// Leonardo does not have TS support in current stable version 1.0.0-alpha.13
-import { BackgroundColor, Color, Theme, CssColor } from '@adobe/leonardo-contrast-colors';
+// Leonardo doesn't have TS support in stable version alpha.13 so types are defined in leonardo.d.ts
+import {
+  BackgroundColor, Color, CssColor, Theme,
+} from '@adobe/leonardo-contrast-colors';
 import * as Tokens from '@okta/odyssey-design-tokens';
 import { createOdysseyMuiTheme, DesignTokensOverride, ThemeOptions } from '@okta/odyssey-react-mui';
-import { set as _set } from 'lodash';
 
 import { BrandColors } from '../types';
 import { mergeThemes } from './mergeThemes';
@@ -37,20 +38,6 @@ interface OdysseyPalette {
 }
 
 /**
- * Sets the design token to theme path iff the value is not undefined, i.e.,
- * null, false, 0, etc. will be set. Only undefined will be ignored. Paths and
- * values are not checked for type safety.
- *
- * @param obj {Theme} the theme object
- * @param path {string} target path
- * @param val the value to set, if defined.
- */
-// eslint-disable-next-line @typescript-eslint/ban-types
-function set<T extends object, V>(obj: T, path: string | string[], val: V) {
-  return val === undefined ? null : _set(obj, path, val);
-}
-
-/**
  * Generates a palette using @adobe/leonardo-contrast-colors based on the "main"
  * (f.k.a. "base") value. Leonardo generates 10 different hues that adhere to Odyssey's
  * contrast ratios
@@ -64,7 +51,7 @@ function set<T extends object, V>(obj: T, path: string | string[], val: V) {
  *
  * @param main Main color used to generate a palette
  */
-export const generatePalette = (main: string): OdysseyPalette | undefined => {
+export const generatePalette = (main: string): OdysseyPalette | null => {
   try {
     const primaryColor = new Color({
       name: 'Custom Hue',
@@ -100,7 +87,7 @@ export const generatePalette = (main: string): OdysseyPalette | undefined => {
     return theme;
   } catch (err) {
     console.warn(err);
-    return;
+    return null;
   }
 };
 
@@ -109,16 +96,15 @@ export const createThemeAndTokens = (
   customTokens?: Partial<DesignTokensOverride>,
 ): { themeOverride: ThemeOptions, tokensOverride: DesignTokensOverride } => {
   const tokensOverride = { ...customTokens };
-  const themePaletteOverride = {};
 
-  // Generates a palette using Leonardo and maps the hues to the Odyssey tokens that use those hues
-  if (brandColors?.primaryColor) {
-    const p = generatePalette(brandColors.primaryColor);
+  // We want to prioritize design tokens over brand colors for primary palette
+  if (customTokens?.PalettePrimaryMain) {
+    const p = generatePalette(customTokens.PalettePrimaryMain);
     if (p) {
       tokensOverride.PalettePrimaryLighter ??= p.CustomHue50;
       tokensOverride.PalettePrimaryHighlight ??= p.CustomHue100;
       tokensOverride.PalettePrimaryLight ??= p.CustomHue300;
-      tokensOverride.PalettePrimaryMain ??= p.CustomHue500;
+      tokensOverride.PalettePrimaryMain = p.CustomHue500;
       tokensOverride.FocusOutlineColorPrimary ??= p.CustomHue500;
       tokensOverride.BorderColorPrimaryControl ??= p.CustomHue500;
       tokensOverride.TypographyColorAction ??= p.CustomHue600;
@@ -127,92 +113,68 @@ export const createThemeAndTokens = (
       tokensOverride.PalettePrimaryDark ??= p.CustomHue700;
       tokensOverride.PalettePrimaryDarker ??= p.CustomHue800;
       tokensOverride.PalettePrimaryHeading ??= p.CustomHue900;
-      set(themePaletteOverride, 'palette.primary.lighter', p.CustomHue50);
-      set(themePaletteOverride, 'palette.primary.light', p.CustomHue300);
-      set(themePaletteOverride, 'palette.primary.main', p.CustomHue500);
-      set(themePaletteOverride, 'palette.primary.dark', p.CustomHue900);
+    }
+  } else if (brandColors?.primaryColor) {
+    const p = generatePalette(brandColors.primaryColor);
+    if (p) {
+      tokensOverride.PalettePrimaryLighter ??= p.CustomHue50;
+      tokensOverride.PalettePrimaryHighlight ??= p.CustomHue100;
+      tokensOverride.PalettePrimaryLight ??= p.CustomHue300;
+      tokensOverride.PalettePrimaryMain = p.CustomHue500;
+      tokensOverride.FocusOutlineColorPrimary ??= p.CustomHue500;
+      tokensOverride.BorderColorPrimaryControl ??= p.CustomHue500;
+      tokensOverride.TypographyColorAction ??= p.CustomHue600;
+      tokensOverride.PalettePrimaryText ??= p.CustomHue600;
+      tokensOverride.BorderColorPrimaryDark ??= p.CustomHue700;
+      tokensOverride.PalettePrimaryDark ??= p.CustomHue700;
+      tokensOverride.PalettePrimaryDarker ??= p.CustomHue800;
+      tokensOverride.PalettePrimaryHeading ??= p.CustomHue900;
     }
   }
-  if (customTokens) {
-    if (customTokens.PalettePrimaryMain) {
-      const p = generatePalette(customTokens.PalettePrimaryMain);
-      if (p) {
-        tokensOverride.PalettePrimaryLighter ??= p.CustomHue50;
-        tokensOverride.PalettePrimaryHighlight ??= p.CustomHue100;
-        tokensOverride.PalettePrimaryLight ??= p.CustomHue300;
-        tokensOverride.PalettePrimaryMain ??= p.CustomHue500;
-        tokensOverride.FocusOutlineColorPrimary ??= p.CustomHue500;
-        tokensOverride.BorderColorPrimaryControl ??= p.CustomHue500;
-        tokensOverride.TypographyColorAction ??= p.CustomHue600;
-        tokensOverride.PalettePrimaryText ??= p.CustomHue600;
-        tokensOverride.BorderColorPrimaryDark ??= p.CustomHue700;
-        tokensOverride.PalettePrimaryDark ??= p.CustomHue700;
-        tokensOverride.PalettePrimaryDarker ??= p.CustomHue800;
-        tokensOverride.PalettePrimaryHeading ??= p.CustomHue900;
-        set(themePaletteOverride, 'palette.primary.lighter', p.CustomHue50);
-        set(themePaletteOverride, 'palette.primary.light', p.CustomHue300);
-        set(themePaletteOverride, 'palette.primary.main', p.CustomHue500);
-        set(themePaletteOverride, 'palette.primary.dark', p.CustomHue900);
-      }
+  if (customTokens?.PaletteDangerMain) {
+    const p = generatePalette(customTokens.PaletteDangerMain);
+    if (p) {
+      tokensOverride.PaletteDangerLighter ??= p.CustomHue50;
+      tokensOverride.PaletteDangerHighlight ??= p.CustomHue100;
+      tokensOverride.PaletteDangerLight ??= p.CustomHue300;
+      tokensOverride.BorderColorDangerLight ??= p.CustomHue300;
+      tokensOverride.PaletteDangerMain = p.CustomHue500;
+      tokensOverride.FocusOutlineColorDanger ??= p.CustomHue500;
+      tokensOverride.BorderColorDangerControl ??= p.CustomHue500;
+      tokensOverride.PaletteDangerText ??= p.CustomHue600;
+      tokensOverride.TypographyColorDanger ??= p.CustomHue600;
+      tokensOverride.BorderColorDangerDark ??= p.CustomHue700;
+      tokensOverride.PaletteDangerDark ??= p.CustomHue700;
+      tokensOverride.PaletteDangerDarker ??= p.CustomHue800;
+      tokensOverride.PaletteDangerHeading ??= p.CustomHue900;
     }
-    if (customTokens.PaletteDangerMain) {
-      const p = generatePalette(customTokens.PaletteDangerMain);
-      if (p) {
-        tokensOverride.PaletteDangerLighter ??= p.CustomHue50;
-        tokensOverride.PaletteDangerHighlight ??= p.CustomHue100;
-        tokensOverride.PaletteDangerLight ??= p.CustomHue300;
-        tokensOverride.BorderColorDangerLight ??= p.CustomHue300;
-        tokensOverride.PaletteDangerMain ??= p.CustomHue500;
-        tokensOverride.FocusOutlineColorDanger ??= p.CustomHue500;
-        tokensOverride.BorderColorDangerControl ??= p.CustomHue500;
-        tokensOverride.PaletteDangerText ??= p.CustomHue600;
-        tokensOverride.TypographyColorDanger ??= p.CustomHue600;
-        tokensOverride.BorderColorDangerDark ??= p.CustomHue700;
-        tokensOverride.PaletteDangerDark ??= p.CustomHue700;
-        tokensOverride.PaletteDangerDarker ??= p.CustomHue800;
-        tokensOverride.PaletteDangerHeading ??= p.CustomHue900;
-        set(themePaletteOverride, 'palette.danger.lighter', p.CustomHue50);
-        set(themePaletteOverride, 'palette.danger.light', p.CustomHue300);
-        set(themePaletteOverride, 'palette.danger.main', p.CustomHue500);
-        set(themePaletteOverride, 'palette.danger.dark', p.CustomHue900);
-      }
+  }
+  if (customTokens?.PaletteWarningMain) {
+    const p = generatePalette(customTokens.PaletteWarningMain);
+    if (p) {
+      tokensOverride.PaletteWarningLighter ??= p.CustomHue50;
+      tokensOverride.PaletteWarningHighlight ??= p.CustomHue100;
+      tokensOverride.PaletteWarningLight ??= p.CustomHue300;
+      tokensOverride.PaletteWarningMain = p.CustomHue500;
+      tokensOverride.PaletteWarningText ??= p.CustomHue600;
+      tokensOverride.TypographyColorWarning ??= p.CustomHue600;
+      tokensOverride.PaletteWarningDark ??= p.CustomHue700;
+      tokensOverride.PaletteWarningDarker ??= p.CustomHue800;
+      tokensOverride.PaletteWarningHeading ??= p.CustomHue900;
     }
-    if (customTokens.PaletteWarningMain) {
-      const p = generatePalette(customTokens.PaletteWarningMain);
-      if (p) {
-        tokensOverride.PaletteWarningLighter ??= p.CustomHue50;
-        tokensOverride.PaletteWarningHighlight ??= p.CustomHue100;
-        tokensOverride.PaletteWarningLight ??= p.CustomHue300;
-        tokensOverride.PaletteWarningMain ??= p.CustomHue500;
-        tokensOverride.PaletteWarningText ??= p.CustomHue600;
-        tokensOverride.TypographyColorWarning ??= p.CustomHue600;
-        tokensOverride.PaletteWarningDark ??= p.CustomHue700;
-        tokensOverride.PaletteWarningDarker ??= p.CustomHue800;
-        tokensOverride.PaletteWarningHeading ??= p.CustomHue900;
-        set(themePaletteOverride, 'palette.warning.lighter', p.CustomHue50);
-        set(themePaletteOverride, 'palette.warning.light', p.CustomHue300);
-        set(themePaletteOverride, 'palette.warning.main', p.CustomHue500);
-        set(themePaletteOverride, 'palette.warning.dark', p.CustomHue900);
-        set(themePaletteOverride, 'palette.warning.contrastText', WHITE_HEX);
-      }
-    }
-    if (customTokens.PaletteSuccessMain) {
-      const p = generatePalette(customTokens.PaletteSuccessMain);
-      if (p) {
-        tokensOverride.PaletteSuccessLighter ??= p.CustomHue50;
-        tokensOverride.PaletteSuccessHighlight ??= p.CustomHue100;
-        tokensOverride.PaletteSuccessLight ??= p.CustomHue300;
-        tokensOverride.PaletteSuccessMain ??= p.CustomHue500;
-        tokensOverride.PaletteSuccessText ??= p.CustomHue600;
-        tokensOverride.TypographyColorSuccess ??= p.CustomHue600;
-        tokensOverride.PaletteSuccessDark ??= p.CustomHue700;
-        tokensOverride.PaletteSuccessDarker ??= p.CustomHue800;
-        tokensOverride.PaletteSuccessHeading ??= p.CustomHue900;
-        set(themePaletteOverride, 'palette.success.lighter', p.CustomHue50);
-        set(themePaletteOverride, 'palette.success.light', p.CustomHue300);
-        set(themePaletteOverride, 'palette.success.main', p.CustomHue500);
-        set(themePaletteOverride, 'palette.success.dark', p.CustomHue900);
-      }
+  }
+  if (customTokens?.PaletteSuccessMain) {
+    const p = generatePalette(customTokens.PaletteSuccessMain);
+    if (p) {
+      tokensOverride.PaletteSuccessLighter ??= p.CustomHue50;
+      tokensOverride.PaletteSuccessHighlight ??= p.CustomHue100;
+      tokensOverride.PaletteSuccessLight ??= p.CustomHue300;
+      tokensOverride.PaletteSuccessMain = p.CustomHue500;
+      tokensOverride.PaletteSuccessText ??= p.CustomHue600;
+      tokensOverride.TypographyColorSuccess ??= p.CustomHue600;
+      tokensOverride.PaletteSuccessDark ??= p.CustomHue700;
+      tokensOverride.PaletteSuccessDarker ??= p.CustomHue800;
+      tokensOverride.PaletteSuccessHeading ??= p.CustomHue900;
     }
   }
 
@@ -222,17 +184,17 @@ export const createThemeAndTokens = (
   });
 
   // Merge default Odyssey 1.x theme with component overrides
-  const themeOverride = mergeThemes(baseOdysseyTheme, themePaletteOverride, {
+  const themeOverride = mergeThemes(baseOdysseyTheme, {
     components: {
       MuiAlert: {
         styleOverrides: {
           root: {
             gap: 0,
           },
-          icon: ({ theme: t }) => ({
-            paddingInlineEnd: t.spacing(4),
+          icon: {
+            paddingInlineEnd: Tokens.Spacing5,
             flexShrink: 0,
-          }),
+          },
         },
       },
       MuiInputBase: {
@@ -255,58 +217,10 @@ export const createThemeAndTokens = (
           },
         },
       },
-      // ruleset with :focus-visible pseudo-selector break entire ruleset in
-      // ie11 because its not supported. re-define the :hover rule separately
-      // again so the ruleset is applied in ie11
-      MuiButton: {
-        styleOverrides: {
-          root: ({ ownerState, theme: t }) => ({
-            ...(ownerState.variant === 'primary' && {
-              '&:hover': {
-                backgroundColor: t.palette.primary.dark,
-              },
-            }),
-            ...(ownerState.variant === 'secondary' && {
-              '&:hover': {
-                backgroundColor: t.palette.primary.lighter,
-                borderColor: t.palette.primary.light,
-                color: t.palette.primary.main,
-              },
-            }),
-            ...(ownerState.variant === 'floating' && {
-              '&:hover': {
-                backgroundColor: 'rgba(29, 29, 33, 0.1)',
-                borderColor: 'transparent',
-              },
-            }),
-            // OKTA-657762 - remove this when odyssey fix is done
-            textTransform: 'none',
-          }),
-        },
-      },
-      // ruleset with :focus-visible pseudo-selector break entire ruleset in
-      // ie11 because its not supported. re-define the :hover rule separately
-      // again so the ruleset is applied in ie11
-      MuiIconButton: {
-        styleOverrides: {
-          root: {
-            '&:hover': {
-              backgroundColor: 'rgba(29, 29, 33, 0.1)',
-              borderColor: 'transparent',
-            },
-          },
-        },
-      },
-
       MuiLink: {
         styleOverrides: {
-          root: ({ ownerState, theme: t }) => ({
-            color: t.palette.primary.main,
+          root: ({ ownerState }) => ({
             textDecoration: ownerState?.component === 'a' ? 'underline' : 'inherit',
-
-            '&:hover': {
-              color: t.palette.primary.dark,
-            },
           }),
         },
       },

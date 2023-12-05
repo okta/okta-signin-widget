@@ -10,20 +10,24 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Theme } from '@mui/material';
+import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { DevicesIcon } from '@okta/odyssey-react-mui/icons';
 import { FunctionComponent, h } from 'preact';
 
 import { loc } from '../../util';
 
-export const DeviceIcon: FunctionComponent = () => (
-  <DevicesIcon
-    sx={(theme: Theme) => ({
-      color: theme.palette.primary.main,
-      width: '16px',
-      height: '16px',
-    })}
-    titleAccess={loc('icon.title.browser', 'login')}
-    aria-hidden
-  />
-);
+export const DeviceIcon: FunctionComponent = () => {
+  const Tokens = useOdysseyDesignTokens();
+
+  return (
+    <DevicesIcon
+      sx={{
+        color: Tokens.PalettePrimaryMain,
+        width: '16px',
+        height: '16px',
+      }}
+      titleAccess={loc('icon.title.browser', 'login')}
+      aria-hidden
+    />
+  );
+};
