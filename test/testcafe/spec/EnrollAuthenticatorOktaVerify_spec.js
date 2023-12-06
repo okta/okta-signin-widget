@@ -642,6 +642,8 @@ const testQRcodeMsg = async (t, isIos) => {
   await t.expect(await enrollOktaVerifyPage.hasEnrollViaEmailInstruction()).eql(false);
   await t.expect(await enrollOktaVerifyPage.hasEnrollViaSmsInstruction()).eql(false);
   await t.expect(await enrollOktaVerifyPage.hasQRcode()).eql(true);
+  await t.expect(await enrollOktaVerifyPage.getAlt()).eql('QR code. If you can\'t scan, click on the link below to ' +
+    'select an alternative activation method');
   const qrInstructionBullet1 = await enrollOktaVerifyPage.getQRInstruction(0);
   const qrInstructionBullet2 = await enrollOktaVerifyPage.getQRInstruction(1);
   const qrInstructionBullet3 = await enrollOktaVerifyPage.getQRInstruction(2);
