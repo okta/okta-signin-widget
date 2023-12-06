@@ -3826,10 +3826,10 @@
     "@babel/preset-react" "^7.18.6"
     "@babel/preset-typescript" "^7.18.6"
 
-"@okta/odyssey-design-tokens@1.6.0":
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/@okta/odyssey-design-tokens/-/odyssey-design-tokens-1.6.0.tgz#0bae10b372751a3e348a2f23d8df42e3d931878f"
-  integrity sha512-XqotA13nyf5uJrh9H8zr+/m7aBNcsJxsB2D8WqNRPgoIBXKxoxbV1AvzEY9PLH9ZMWCWV5PZ5QiW6f5iWxlygg==
+"@okta/odyssey-design-tokens@1.9.1":
+  version "1.9.1"
+  resolved "https://registry.yarnpkg.com/@okta/odyssey-design-tokens/-/odyssey-design-tokens-1.9.1.tgz#5679f941f095558971f42065a8f2b915ce1dc58d"
+  integrity sha512-XfHIUGoMa8QytJRn4i6EvP8ny16QyC7gyFpqSZMHCILp+J8SnH0wln75J1edrvKSoE9PL+jtnnhRfpffc860rA==
 
 "@okta/odyssey-design-tokens@^0.17.0":
   version "0.17.1"
@@ -3865,10 +3865,10 @@
     "@mui/utils" "^5.10.9"
     "@okta/odyssey-design-tokens" "^0.17.0"
 
-"@okta/odyssey-react-mui@1.6.0":
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/@okta/odyssey-react-mui/-/odyssey-react-mui-1.6.0.tgz#643a18cee47bc485f5967218772680b4daeb39a5"
-  integrity sha512-P+s7FSji+FQ/OyzIVGZMEaZycJS1knSS79idjUpVrqTvhmMBNr6XSSG6CTcTCkX/X3KDNQv8ycaUo4erWUTNOA==
+"@okta/odyssey-react-mui@1.9.1":
+  version "1.9.1"
+  resolved "https://registry.yarnpkg.com/@okta/odyssey-react-mui/-/odyssey-react-mui-1.9.1.tgz#33a9262b5dec97d1e1d3869287391c413bc6b8fb"
+  integrity sha512-HF/maXEnHa/bAs0PoGTr1dGwed7bnWC4u7duO/tI2P+OHSyYpINxhMFFgN5GdA5YWvWsmhnxVLlJAoVWrrTsvw==
   dependencies:
     "@emotion/cache" "^11.10.5"
     "@emotion/react" "^11.11.1"
@@ -3879,10 +3879,10 @@
     "@mui/system" "^5.14.9"
     "@mui/utils" "^5.11.2"
     "@mui/x-date-pickers" "^5.0.15"
-    "@okta/odyssey-design-tokens" "1.6.0"
+    "@okta/odyssey-design-tokens" "1.9.1"
     date-fns "^2.30.0"
     i18next "^23.5.1"
-    material-react-table "^1.14.0"
+    material-react-table "^2.0.2"
     react-i18next "^12.2.2"
     ts-node "^10.9.1"
     word-wrap "~1.2.5"
@@ -4220,29 +4220,29 @@
   dependencies:
     remove-accents "0.4.2"
 
-"@tanstack/react-table@8.10.3":
-  version "8.10.3"
-  resolved "https://registry.npmjs.org/@tanstack/react-table/-/react-table-8.10.3.tgz#d109be13ffca4085336e92b4a856bddc1ddfebd8"
-  integrity sha512-Qya1cJ+91arAlW7IRDWksRDnYw28O446jJ/ljkRSc663EaftJoBCAU10M+VV1K6MpCBLrXq1BD5IQc1zj/ZEjA==
+"@tanstack/react-table@8.10.7":
+  version "8.10.7"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-table/-/react-table-8.10.7.tgz#733f4bee8cf5aa19582f944dd0fd3224b21e8c94"
+  integrity sha512-bXhjA7xsTcsW8JPTTYlUg/FuBpn8MNjiEPhkNhIGCUR6iRQM2+WEco4OBpvDeVcR9SE+bmWLzdfiY7bCbCSVuA==
   dependencies:
-    "@tanstack/table-core" "8.10.3"
+    "@tanstack/table-core" "8.10.7"
 
-"@tanstack/react-virtual@3.0.0-beta.60":
-  version "3.0.0-beta.60"
-  resolved "https://registry.npmjs.org/@tanstack/react-virtual/-/react-virtual-3.0.0-beta.60.tgz#2b37c0d72997a54f7927f6b159a77311429fec1e"
-  integrity sha512-F0wL9+byp7lf/tH6U5LW0ZjBqs+hrMXJrj5xcIGcklI0pggvjzMNW9DdIBcyltPNr6hmHQ0wt8FDGe1n1ZAThA==
+"@tanstack/react-virtual@3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-virtual/-/react-virtual-3.0.1.tgz#b04c492e4dd5733b72b10a974870880f83ff4698"
+  integrity sha512-IFOFuRUTaiM/yibty9qQ9BfycQnYXIDHGP2+cU+0LrFFGNhVxCXSQnaY6wkX8uJVteFEBjUondX0Hmpp7TNcag==
   dependencies:
-    "@tanstack/virtual-core" "3.0.0-beta.60"
+    "@tanstack/virtual-core" "3.0.0"
 
-"@tanstack/table-core@8.10.3":
-  version "8.10.3"
-  resolved "https://registry.npmjs.org/@tanstack/table-core/-/table-core-8.10.3.tgz#7f7a0753645e05bb15c97512785abbae7b626ee3"
-  integrity sha512-hJ55YfJlWbfzRROfcyA/kC1aZr/shsLA8XNAwN8jXylhYWGLnPmiJJISrUfj4dMMWRiFi0xBlnlC7MLH+zSrcw==
+"@tanstack/table-core@8.10.7":
+  version "8.10.7"
+  resolved "https://registry.yarnpkg.com/@tanstack/table-core/-/table-core-8.10.7.tgz#577e8a635048875de4c9d6d6a3c21d26ff9f9d08"
+  integrity sha512-KQk5OMg5OH6rmbHZxuNROvdI+hKDIUxANaHlV+dPlNN7ED3qYQ/WkpY2qlXww1SIdeMlkIhpN/2L00rof0fXFw==
 
-"@tanstack/virtual-core@3.0.0-beta.60":
-  version "3.0.0-beta.60"
-  resolved "https://registry.npmjs.org/@tanstack/virtual-core/-/virtual-core-3.0.0-beta.60.tgz#fcac07cb182d41929208899062de8c9510cf42ed"
-  integrity sha512-QlCdhsV1+JIf0c0U6ge6SQmpwsyAT0oQaOSZk50AtEeAyQl9tQrd6qCHAslxQpgphrfe945abvKG8uYvw3hIGA==
+"@tanstack/virtual-core@3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@tanstack/virtual-core/-/virtual-core-3.0.0.tgz#637bee36f0cabf96a1d436887c90f138a7e9378b"
+  integrity sha512-SYXOBTjJb05rXa2vl55TTwO40A6wKu0R5i1qQwhJYNDIqaIGF7D0HsLw+pJAyi2OvntlEIVusx3xtbbgSUi6zg==
 
 "@teppeis/multimaps@2.0.0":
   version "2.0.0"
@@ -14716,14 +14716,14 @@ match-url-wildcard@0.0.4:
   dependencies:
     escape-string-regexp "^1.0.5"
 
-material-react-table@^1.14.0:
-  version "1.15.0"
-  resolved "https://registry.npmjs.org/material-react-table/-/material-react-table-1.15.0.tgz#9fa8cd7f137b0b227624ab73dc9b9f546bdbea72"
-  integrity sha512-f59XPZ+jFErRAs3ym3cHsK6kBLCrYJGX6GoF473V1/gCpsNbkWEEdmCVMpB8ycOUNDEXtnRDMZzk3LjTMd6wpg==
+material-react-table@^2.0.2:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/material-react-table/-/material-react-table-2.0.5.tgz#ab76a0a33458e880cd03501fe4ce1050e0dd6a6b"
+  integrity sha512-axRrqa/2QQ+AO3SiJbOtSyemlHX0S03X+IXW72z344d3LT+u/jsKiAmdWMLTN8ARScYMAN5NgrArujiLEmftSQ==
   dependencies:
     "@tanstack/match-sorter-utils" "8.8.4"
-    "@tanstack/react-table" "8.10.3"
-    "@tanstack/react-virtual" "3.0.0-beta.60"
+    "@tanstack/react-table" "8.10.7"
+    "@tanstack/react-virtual" "3.0.1"
     highlight-words "1.2.2"
 
 mathml-tag-names@^2.1.3:
