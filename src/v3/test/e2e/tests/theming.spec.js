@@ -44,7 +44,7 @@ test('Theme configuration applies correctly', async (t) => {
   content: `
   window.additionalOptions = {
     brandColors: {
-      primaryColor: '#546BE7'
+      primaryColor: '#546Be7'
     }
   };
 `,

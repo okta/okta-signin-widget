@@ -97,85 +97,20 @@ export const createThemeAndTokens = (
 ): { themeOverride: ThemeOptions, tokensOverride: DesignTokensOverride } => {
   const tokensOverride = { ...customTokens };
 
-  // We want to prioritize design tokens over brand colors for primary palette
-  if (customTokens?.PalettePrimaryMain) {
-    const p = generatePalette(customTokens.PalettePrimaryMain);
-    if (p) {
-      tokensOverride.PalettePrimaryLighter ??= p.CustomHue50;
-      tokensOverride.PalettePrimaryHighlight ??= p.CustomHue100;
-      tokensOverride.PalettePrimaryLight ??= p.CustomHue300;
-      tokensOverride.PalettePrimaryMain = p.CustomHue500;
-      tokensOverride.FocusOutlineColorPrimary ??= p.CustomHue500;
-      tokensOverride.BorderColorPrimaryControl ??= p.CustomHue500;
-      tokensOverride.TypographyColorAction ??= p.CustomHue600;
-      tokensOverride.PalettePrimaryText ??= p.CustomHue600;
-      tokensOverride.BorderColorPrimaryDark ??= p.CustomHue700;
-      tokensOverride.PalettePrimaryDark ??= p.CustomHue700;
-      tokensOverride.PalettePrimaryDarker ??= p.CustomHue800;
-      tokensOverride.PalettePrimaryHeading ??= p.CustomHue900;
-    }
-  } else if (brandColors?.primaryColor) {
+  if (brandColors?.primaryColor) {
     const p = generatePalette(brandColors.primaryColor);
-    if (p) {
-      tokensOverride.PalettePrimaryLighter ??= p.CustomHue50;
-      tokensOverride.PalettePrimaryHighlight ??= p.CustomHue100;
-      tokensOverride.PalettePrimaryLight ??= p.CustomHue300;
-      tokensOverride.PalettePrimaryMain = p.CustomHue500;
-      tokensOverride.FocusOutlineColorPrimary ??= p.CustomHue500;
-      tokensOverride.BorderColorPrimaryControl ??= p.CustomHue500;
-      tokensOverride.TypographyColorAction ??= p.CustomHue600;
-      tokensOverride.PalettePrimaryText ??= p.CustomHue600;
-      tokensOverride.BorderColorPrimaryDark ??= p.CustomHue700;
-      tokensOverride.PalettePrimaryDark ??= p.CustomHue700;
-      tokensOverride.PalettePrimaryDarker ??= p.CustomHue800;
-      tokensOverride.PalettePrimaryHeading ??= p.CustomHue900;
-    }
-  }
-  if (customTokens?.PaletteDangerMain) {
-    const p = generatePalette(customTokens.PaletteDangerMain);
-    if (p) {
-      tokensOverride.PaletteDangerLighter ??= p.CustomHue50;
-      tokensOverride.PaletteDangerHighlight ??= p.CustomHue100;
-      tokensOverride.PaletteDangerLight ??= p.CustomHue300;
-      tokensOverride.BorderColorDangerLight ??= p.CustomHue300;
-      tokensOverride.PaletteDangerMain = p.CustomHue500;
-      tokensOverride.FocusOutlineColorDanger ??= p.CustomHue500;
-      tokensOverride.BorderColorDangerControl ??= p.CustomHue500;
-      tokensOverride.PaletteDangerText ??= p.CustomHue600;
-      tokensOverride.TypographyColorDanger ??= p.CustomHue600;
-      tokensOverride.BorderColorDangerDark ??= p.CustomHue700;
-      tokensOverride.PaletteDangerDark ??= p.CustomHue700;
-      tokensOverride.PaletteDangerDarker ??= p.CustomHue800;
-      tokensOverride.PaletteDangerHeading ??= p.CustomHue900;
-    }
-  }
-  if (customTokens?.PaletteWarningMain) {
-    const p = generatePalette(customTokens.PaletteWarningMain);
-    if (p) {
-      tokensOverride.PaletteWarningLighter ??= p.CustomHue50;
-      tokensOverride.PaletteWarningHighlight ??= p.CustomHue100;
-      tokensOverride.PaletteWarningLight ??= p.CustomHue300;
-      tokensOverride.PaletteWarningMain = p.CustomHue500;
-      tokensOverride.PaletteWarningText ??= p.CustomHue600;
-      tokensOverride.TypographyColorWarning ??= p.CustomHue600;
-      tokensOverride.PaletteWarningDark ??= p.CustomHue700;
-      tokensOverride.PaletteWarningDarker ??= p.CustomHue800;
-      tokensOverride.PaletteWarningHeading ??= p.CustomHue900;
-    }
-  }
-  if (customTokens?.PaletteSuccessMain) {
-    const p = generatePalette(customTokens.PaletteSuccessMain);
-    if (p) {
-      tokensOverride.PaletteSuccessLighter ??= p.CustomHue50;
-      tokensOverride.PaletteSuccessHighlight ??= p.CustomHue100;
-      tokensOverride.PaletteSuccessLight ??= p.CustomHue300;
-      tokensOverride.PaletteSuccessMain = p.CustomHue500;
-      tokensOverride.PaletteSuccessText ??= p.CustomHue600;
-      tokensOverride.TypographyColorSuccess ??= p.CustomHue600;
-      tokensOverride.PaletteSuccessDark ??= p.CustomHue700;
-      tokensOverride.PaletteSuccessDarker ??= p.CustomHue800;
-      tokensOverride.PaletteSuccessHeading ??= p.CustomHue900;
-    }
+    tokensOverride.PalettePrimaryLighter ??= p?.CustomHue50;
+    tokensOverride.PalettePrimaryHighlight ??= p?.CustomHue100;
+    tokensOverride.PalettePrimaryLight ??= p?.CustomHue300;
+    tokensOverride.PalettePrimaryMain ??= p?.CustomHue500;
+    tokensOverride.FocusOutlineColorPrimary ??= p?.CustomHue500;
+    tokensOverride.BorderColorPrimaryControl ??= p?.CustomHue500;
+    tokensOverride.TypographyColorAction ??= p?.CustomHue600;
+    tokensOverride.PalettePrimaryText ??= p?.CustomHue600;
+    tokensOverride.BorderColorPrimaryDark ??= p?.CustomHue700;
+    tokensOverride.PalettePrimaryDark ??= p?.CustomHue700;
+    tokensOverride.PalettePrimaryDarker ??= p?.CustomHue800;
+    tokensOverride.PalettePrimaryHeading ??= p?.CustomHue900;
   }
 
   // Odyssey 1.x does not export their theme, but we can recreate it
