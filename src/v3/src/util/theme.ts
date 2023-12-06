@@ -113,9 +113,11 @@ export const createThemeAndTokens = (
     tokensOverride.PalettePrimaryHeading ??= p?.CustomHue900;
   }
 
+  const mergedTokens = { ...Tokens, ...tokensOverride };
+
   // Odyssey 1.x does not export their theme, but we can recreate it
   const baseOdysseyTheme = createOdysseyMuiTheme({
-    odysseyTokens: { ...Tokens, ...tokensOverride },
+    odysseyTokens: mergedTokens,
   });
 
   // Merge default Odyssey 1.x theme with component overrides
@@ -127,7 +129,7 @@ export const createThemeAndTokens = (
             gap: 0,
           },
           icon: {
-            paddingInlineEnd: Tokens.Spacing5,
+            paddingInlineEnd: mergedTokens.Spacing5,
             flexShrink: 0,
           },
         },
