@@ -76,11 +76,12 @@ import {
 } from '../../util';
 import { getEventContext } from '../../util/getEventContext';
 import { createThemeAndTokens } from '../../util/theme';
+import { stylisPlugins } from '../../util/stylisPlugins';
+import { createTheme } from '../../util/theme';
 import AuthContainer from '../AuthContainer/AuthContainer';
 import AuthContent from '../AuthContent/AuthContent';
 import AuthHeader from '../AuthHeader/AuthHeader';
 import ConsentHeader from '../ConsentHeader';
-import { stylisPlugins } from '../../util/stylisPlugins';
 import Form from '../Form';
 import Spinner from '../Spinner';
 import GlobalStyles from './GlobalStyles';
@@ -503,7 +504,12 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     >
       {/* remove this provider when all Odyssey legacy imports are removed */}
       <MuiThemeProvider theme={theme}>
-        <OdysseyProvider themeOverride={theme} nonce={cspNonce} stylisPlugins={stylisPlugins}>
+        <OdysseyProvider
+          themeOverride={theme}
+          designTokensOverride={tokens}
+          nonce={cspNonce}
+          stylisPlugins={stylisPlugins}
+        >
           <GlobalStyles />
           {/* the style is to allow the widget to inherit the parent's bg color */}
           <ScopedCssBaseline sx={{ backgroundColor: 'inherit' }}>
