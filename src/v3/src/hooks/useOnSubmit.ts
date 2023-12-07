@@ -211,16 +211,16 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     if (step === IDX_STEP.CANCEL_TRANSACTION) {
       SessionStorage.removeStateHandle();
     }
-    if (step === IDX_STEP.IDENTIFY && features?.deviceFingerprinting) {
-      const baseUrl = getBaseUrl(widgetProps);
-      if (baseUrl) {
-        // Proceeds with form submission even if device fingerprinting fails
-        const fingerprint = await generateDeviceFingerprint(baseUrl).catch(() => undefined);
-        if (fingerprint) {
-          authClient.http.setRequestHeader('X-Device-Fingerprint', fingerprint);
-        }
-      }
-    }
+    // if (step === IDX_STEP.IDENTIFY && features?.deviceFingerprinting) {
+    //   const baseUrl = getBaseUrl(widgetProps);
+    //   if (baseUrl) {
+    //     // Proceeds with form submission even if device fingerprinting fails
+    //     const fingerprint = await generateDeviceFingerprint(baseUrl).catch(() => undefined);
+    //     if (fingerprint) {
+    //       authClient.http.setRequestHeader('X-Device-Fingerprint', fingerprint);
+    //     }
+    //   }
+    // }
     setMessage(undefined);
     try {
       let newTransaction = await fn(payload);
