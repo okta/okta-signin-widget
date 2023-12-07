@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { waitFor } from '@testing-library/preact';
 import { createAuthJsPayloadArgs, setup } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/challenge/verify-ov-push-manual.json';
@@ -17,7 +18,7 @@ import mockResponse from '../../src/mocks/response/idp/idx/challenge/verify-ov-p
 describe('authenticator-verification-okta-verify-push-code', () => {
   it('should render form', async () => {
     const { container, findByText } = await setup({ mockResponse });
-    await findByText(/Push notification sent/);
+    await waitFor(() => findByText(/Push notification sent/));
     await findByText(/Send push automatically/);
     await findByText(/On your mobile device, open the Okta Verify prompt, then tap/);
     expect(container).toMatchSnapshot();
@@ -50,7 +51,7 @@ describe('authenticator-verification-okta-verify-push-code', () => {
 
     it('should display reminder prompt when waiting on page for >= 30 secs', async () => {
       const { container, findByText } = await setup({ mockResponse });
-      await findByText(/Push notification sent/);
+      await waitFor(() => findByText(/Push notification sent/));
       await findByText(/Send push automatically/);
       await findByText(/On your mobile device, open the Okta Verify prompt, then tap/);
 
@@ -64,7 +65,7 @@ describe('authenticator-verification-okta-verify-push-code', () => {
 
     it('should make poll request after expected delay', async () => {
       const { findByText, authClient } = await setup({ mockResponse });
-      await findByText(/Push notification sent/);
+      await waitFor(() => findByText(/Push notification sent/));
       await findByText(/Send push automatically/);
       await findByText(/On your mobile device, open the Okta Verify prompt, then tap/);
 

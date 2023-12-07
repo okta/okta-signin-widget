@@ -80,7 +80,7 @@ import AuthContainer from '../AuthContainer/AuthContainer';
 import AuthContent from '../AuthContent/AuthContent';
 import AuthHeader from '../AuthHeader/AuthHeader';
 import ConsentHeader from '../ConsentHeader';
-import CustomPluginsOdysseyCacheProvider from '../CustomPluginsOdysseyCacheProvider';
+import { stylisPlugins } from '../../util/stylisPlugins';
 import Form from '../Form';
 import Spinner from '../Spinner';
 import GlobalStyles from './GlobalStyles';
@@ -501,36 +501,31 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       languageDirection,
     }}
     >
-      <CustomPluginsOdysseyCacheProvider nonce={cspNonce}>
-        {/* remove this provider when all Odyssey legacy imports are removed */}
-        <MuiThemeProvider theme={theme}>
-          <OdysseyProvider
-            themeOverride={theme}
-            designTokensOverride={tokens}
-          >
-            <GlobalStyles />
-            {/* the style is to allow the widget to inherit the parent's bg color */}
-            <ScopedCssBaseline sx={{ backgroundColor: 'inherit' }}>
-              <AuthContainer hide={hide}>
-                <AuthHeader
-                  logo={logo}
-                  logoText={logoText}
-                  brandName={brandName}
-                  authCoinProps={buildAuthCoinProps(idxTransaction)}
-                />
-                <AuthContent>
-                  {isConsentStep(idxTransaction) && <ConsentHeader />}
-                  {
-                    uischema.elements.length > 0
-                      ? <Form uischema={uischema as UISchemaLayout} />
-                      : <Spinner />
-                  }
-                </AuthContent>
-              </AuthContainer>
-            </ScopedCssBaseline>
-          </OdysseyProvider>
-        </MuiThemeProvider>
-      </CustomPluginsOdysseyCacheProvider>
+      {/* remove this provider when all Odyssey legacy imports are removed */}
+      <MuiThemeProvider theme={theme}>
+        <OdysseyProvider themeOverride={theme} nonce={cspNonce} stylisPlugins={stylisPlugins}>
+          <GlobalStyles />
+          {/* the style is to allow the widget to inherit the parent's bg color */}
+          <ScopedCssBaseline sx={{ backgroundColor: 'inherit' }}>
+            <AuthContainer hide={hide}>
+              <AuthHeader
+                logo={logo}
+                logoText={logoText}
+                brandName={brandName}
+                authCoinProps={buildAuthCoinProps(idxTransaction)}
+              />
+              <AuthContent>
+                {isConsentStep(idxTransaction) && <ConsentHeader />}
+                {
+                  uischema.elements.length > 0
+                    ? <Form uischema={uischema as UISchemaLayout} />
+                    : <Spinner />
+                }
+              </AuthContent>
+            </AuthContainer>
+          </ScopedCssBaseline>
+        </OdysseyProvider>
+      </MuiThemeProvider>
     </WidgetContextProvider>
   );
 };

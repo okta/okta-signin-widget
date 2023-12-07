@@ -238,8 +238,7 @@ describe('identify-with-password', () => {
         authClient, user, findByTestId, findByText,
       } = await setup({ mockResponse });
 
-      const titleElement = await findByText('Sign In', { selector: 'h2' });
-      await waitFor(() => expect(titleElement).toHaveFocus());
+      await waitFor(async () => expect(await findByText('Sign In', { selector: 'h2' })).toHaveFocus());
       const usernameEl = await findByTestId('identifier') as HTMLInputElement;
       const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
       const submitButton = await findByText('Sign in', { selector: 'button' });
@@ -272,8 +271,7 @@ describe('identify-with-password', () => {
         },
       });
 
-      const titleElement = await findByText('Sign In', { selector: 'h2' });
-      await waitFor(() => expect(titleElement).toHaveFocus());
+      await waitFor(async () => expect(await findByText('Sign In', { selector: 'h2' })).toHaveFocus());
       const usernameEl = await findByTestId('identifier') as HTMLInputElement;
       const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
       const submitButton = await findByText('Sign in', { selector: 'button' });
@@ -305,8 +303,7 @@ describe('identify-with-password', () => {
         },
       });
 
-      const titleElement = await findByText('Sign In', { selector: 'h2' });
-      await waitFor(() => expect(titleElement).toHaveFocus());
+      await waitFor(async () => expect(await findByText('Sign In', { selector: 'h2' })).toHaveFocus());
       const usernameEl = await findByTestId('identifier') as HTMLInputElement;
       const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
       const submitButton = await findByText('Sign in', { selector: 'button' });
@@ -331,8 +328,7 @@ describe('identify-with-password', () => {
         authClient, user, findByTestId, findByText,
       } = await setup({ mockResponse });
 
-      const titleElement = await findByText('Sign In', { selector: 'h2' });
-      await waitFor(() => expect(titleElement).toHaveFocus());
+      await waitFor(async () => expect(await findByText('Sign In', { selector: 'h2' })).toHaveFocus());
       const usernameEl = await findByTestId('identifier') as HTMLInputElement;
       const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
       const submitButton = await findByText('Sign in', { selector: 'button' });
@@ -359,8 +355,7 @@ describe('identify-with-password', () => {
         authClient, user, findByTestId, findByText,
       } = await setup({ mockResponse });
 
-      const titleElement = await findByText('Sign In', { selector: 'h2' });
-      await waitFor(() => expect(titleElement).toHaveFocus());
+      await waitFor(async () => expect(await findByText('Sign In', { selector: 'h2' })).toHaveFocus());
       const usernameEl = await findByTestId('identifier') as HTMLInputElement;
       const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
       const rememberMeEl = await findByTestId('rememberMe');
@@ -390,8 +385,7 @@ describe('identify-with-password', () => {
       authClient, user, findByTestId, findByText,
     } = await setup({ mockResponse });
 
-    const titleElement = await findByText('Sign In', { selector: 'h2' });
-    await waitFor(() => expect(titleElement).toHaveFocus());
+    await waitFor(async () => expect(await findByText('Sign In', { selector: 'h2' })).toHaveFocus());
     const usernameEl = await findByTestId('identifier') as HTMLInputElement;
     const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
     const submitButton = await findByText('Sign in', { selector: 'button' });

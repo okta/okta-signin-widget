@@ -167,7 +167,7 @@ describe('Email authenticator verification when email magic link = undefined', (
         },
         widgetOptions: { features: { autoFocus: true } },
       });
-      await findByText(/Verify with your email/);
+      await waitFor(() => findByText(/Verify with your email/));
 
       // render otp challenge form
       const nextPageBtn = await findByText(/Enter a verification code instead/);
