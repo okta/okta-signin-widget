@@ -24,7 +24,3 @@ export const isIOS = (): boolean => (
 );
 
 export const isAndroidOrIOS = (): boolean => isAndroid() || isIOS();
-
-export const getUserAgent = (): string => navigator.userAgent;
-
-export const isWindowsPhone = (userAgent: string): RegExpMatchArray | null => userAgent.match(/windows phone|iemobile|wpdesktop/i);
