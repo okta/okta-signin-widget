@@ -10,10 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import {
-  Alert,
-  Box,
-} from '@okta/odyssey-react-mui-legacy';
+import { Callout } from '@okta/odyssey-react-mui';
+import { Box } from '@okta/odyssey-react-mui-legacy';
 import { h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
@@ -47,11 +45,9 @@ const InfoBox: UISchemaElementComponent<{
       width={1}
       data-se="message"
     >
-      <Alert
+      <Callout
         severity={MessageTypeVariant[messageClass as MessageType] ?? MessageTypeVariant.INFO}
-        variant="infobox"
-        data-se={dataSe}
-        className={`infobox-${messageClass.toLowerCase()}`}
+        testId={dataSe}
       >
         {
           Array.isArray(message)
@@ -75,7 +71,7 @@ const InfoBox: UISchemaElementComponent<{
               />
             )
         }
-      </Alert>
+      </Callout>
     </Box>
   );
 };

@@ -89,7 +89,7 @@ exports[`terminal-return-email-error should render form 1`] = `
                         data-se="message"
                       >
                         <div
-                          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxError MuiAlert-infobox infobox-error emotion-14"
+                          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-calloutError MuiAlert-callout emotion-14"
                           data-se="callout"
                           role="alert"
                         >
@@ -115,7 +115,17 @@ exports[`terminal-return-email-error should render form 1`] = `
                           <div
                             class="MuiAlert-message emotion-17"
                           >
-                            Could not process this email link. Return to the screen where you requested it.
+                            <span
+                              class="MuiBox-root emotion-18"
+                            >
+                              error
+                              : 
+                            </span>
+                            <div
+                              class="MuiBox-root emotion-2"
+                            >
+                              Could not process this email link. Return to the screen where you requested it.
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -124,7 +134,7 @@ exports[`terminal-return-email-error should render form 1`] = `
                       class="MuiBox-root emotion-12"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-19"
+                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-21"
                         data-se="cancel"
                         role="link"
                         type="button"

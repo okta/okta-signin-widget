@@ -93,7 +93,7 @@ exports[`error-authenticator-enrollment-not-allowed should render form 1`] = `
                         data-se="message"
                       >
                         <div
-                          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxError MuiAlert-infobox infobox-error emotion-19"
+                          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-calloutError MuiAlert-callout emotion-19"
                           data-se="callout"
                           role="alert"
                         >
@@ -119,7 +119,17 @@ exports[`error-authenticator-enrollment-not-allowed should render form 1`] = `
                           <div
                             class="MuiAlert-message emotion-22"
                           >
-                            Authenticator enrollment is not allowed at this time. Please contact support for assistance.
+                            <span
+                              class="MuiBox-root emotion-23"
+                            >
+                              error
+                              : 
+                            </span>
+                            <div
+                              class="MuiBox-root emotion-2"
+                            >
+                              Authenticator enrollment is not allowed at this time. Please contact support for assistance.
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -128,7 +138,7 @@ exports[`error-authenticator-enrollment-not-allowed should render form 1`] = `
                       class="MuiBox-root emotion-11"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-24"
+                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-26"
                         data-se="cancel"
                         role="link"
                         type="button"

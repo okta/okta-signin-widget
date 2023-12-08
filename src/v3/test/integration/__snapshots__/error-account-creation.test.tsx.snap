@@ -51,7 +51,7 @@ exports[`error-account-creation should render form 1`] = `
                         data-se="message"
                       >
                         <div
-                          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxError MuiAlert-infobox infobox-error emotion-13"
+                          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-calloutError MuiAlert-callout emotion-13"
                           data-se="callout"
                           role="alert"
                         >
@@ -77,7 +77,17 @@ exports[`error-account-creation should render form 1`] = `
                           <div
                             class="MuiAlert-message emotion-16"
                           >
-                            There was an error creating your account. Please try registering again.
+                            <span
+                              class="MuiBox-root emotion-17"
+                            >
+                              error
+                              : 
+                            </span>
+                            <div
+                              class="MuiBox-root emotion-2"
+                            >
+                              There was an error creating your account. Please try registering again.
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -86,7 +96,7 @@ exports[`error-account-creation should render form 1`] = `
                       class="MuiBox-root emotion-11"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-18"
+                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-20"
                         data-se="cancel"
                         role="link"
                         type="button"

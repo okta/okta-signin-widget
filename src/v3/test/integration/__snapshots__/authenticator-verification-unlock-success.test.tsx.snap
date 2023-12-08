@@ -131,7 +131,7 @@ exports[`authenticator-verification-unlock-success should render form 1`] = `
                         data-se="message"
                       >
                         <div
-                          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxInfo MuiAlert-infobox infobox-info emotion-20"
+                          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-calloutInfo MuiAlert-callout emotion-20"
                           data-se="callout"
                           role="alert"
                         >
@@ -157,7 +157,17 @@ exports[`authenticator-verification-unlock-success should render form 1`] = `
                           <div
                             class="MuiAlert-message emotion-23"
                           >
-                            Account successfully unlocked! Verify your account with a security method to continue.
+                            <span
+                              class="MuiBox-root emotion-24"
+                            >
+                              info
+                              : 
+                            </span>
+                            <div
+                              class="MuiBox-root emotion-2"
+                            >
+                              Account successfully unlocked! Verify your account with a security method to continue.
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -166,10 +176,10 @@ exports[`authenticator-verification-unlock-success should render form 1`] = `
                       class="MuiBox-root emotion-12"
                     >
                       <div
-                        class="MuiBox-root emotion-25"
+                        class="MuiBox-root emotion-27"
                       >
                         <h2
-                          class="MuiTypography-root MuiTypography-h4 emotion-26"
+                          class="MuiTypography-root MuiTypography-h4 emotion-28"
                           data-se="o-form-head"
                           id="challenge-authenticator_Title_Verify_with_your_password_okta_password_laehspkckQ73kDbzn1d6_2"
                           tabindex="-1"
@@ -182,7 +192,7 @@ exports[`authenticator-verification-unlock-success should render form 1`] = `
                       class="MuiBox-root emotion-2"
                     >
                       <input
-                        class="MuiBox-root emotion-28"
+                        class="MuiBox-root emotion-30"
                         id="username"
                         name="username"
                         type="text"
@@ -195,33 +205,33 @@ exports[`authenticator-verification-unlock-success should render form 1`] = `
                         class="MuiBox-root emotion-2"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-31"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-33"
                           data-shrink="false"
                           for="credentials.passcode"
                         >
                           Password
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-32"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-34"
                           dir="ltr"
                         >
                           <input
                             aria-invalid="false"
                             autocomplete="current-password"
-                            class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-33"
+                            class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-35"
                             data-se="credentials.passcode"
                             id="credentials.passcode"
                             name="credentials.passcode"
                             type="password"
                           />
                           <div
-                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd emotion-34"
+                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd emotion-36"
                           >
                             <button
                               aria-controls="credentials.passcode"
                               aria-label="Show password"
                               aria-pressed="false"
-                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-35"
+                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-37"
                               data-mui-internal-clone-element="true"
                               tabindex="0"
                               type="button"
@@ -250,7 +260,7 @@ exports[`authenticator-verification-unlock-success should render form 1`] = `
                       class="MuiBox-root emotion-12"
                     >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-38"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-40"
                         data-type="save"
                         tabindex="0"
                         type="submit"
@@ -262,7 +272,7 @@ exports[`authenticator-verification-unlock-success should render form 1`] = `
                       class="MuiBox-root emotion-12"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-40"
+                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-42"
                         data-se="forgot-password"
                         role="link"
                         type="button"
@@ -274,7 +284,7 @@ exports[`authenticator-verification-unlock-success should render form 1`] = `
                       class="MuiBox-root emotion-12"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-40"
+                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-42"
                         data-se="cancel"
                         role="link"
                         type="button"

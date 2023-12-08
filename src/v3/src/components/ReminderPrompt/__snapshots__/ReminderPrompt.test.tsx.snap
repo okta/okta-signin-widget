@@ -8,7 +8,7 @@ exports[`ReminderPrompt should show prompt with working link after default timeo
     class="MuiBox-root emotion-0"
   >
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxWarning MuiAlert-infobox emotion-1"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-calloutWarning MuiAlert-callout emotion-1"
       role="alert"
     >
       <div
@@ -29,17 +29,27 @@ exports[`ReminderPrompt should show prompt with working link after default timeo
       <div
         class="MuiAlert-message emotion-4"
       >
-        <div
+        <span
           class="MuiBox-root emotion-5"
         >
-          Didnt receive the email?
-        </div>
-        <a
-          class="MuiTypography-root MuiTypography-monochrome MuiLink-root MuiLink-underlineAlways emotion-6"
-          href="javascript:void(0);"
+          warning
+          : 
+        </span>
+        <div
+          class="MuiBox-root emotion-6"
         >
-          Send again?
-        </a>
+          <div
+            class="MuiBox-root emotion-7"
+          >
+            Didnt receive the email?
+          </div>
+          <a
+            class="MuiTypography-root MuiTypography-monochrome MuiLink-root MuiLink-underlineAlways emotion-8"
+            href="javascript:void(0);"
+          >
+            Send again?
+          </a>
+        </div>
       </div>
     </div>
   </div>
@@ -52,7 +62,7 @@ exports[`ReminderPrompt should show prompt with working link after default timeo
     class="MuiBox-root emotion-0"
   >
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxWarning MuiAlert-infobox emotion-1"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-calloutWarning MuiAlert-callout emotion-1"
       role="alert"
     >
       <div
@@ -73,16 +83,26 @@ exports[`ReminderPrompt should show prompt with working link after default timeo
       <div
         class="MuiAlert-message emotion-4"
       >
-        <div
+        <span
           class="MuiBox-root emotion-5"
         >
-          Didn't receive the email? Click 
-          <a
-            class="MuiTypography-root MuiTypography-monochrome MuiLink-root MuiLink-underlineAlways send-again emotion-6"
-            href="#"
+          warning
+          : 
+        </span>
+        <div
+          class="MuiBox-root emotion-6"
+        >
+          <div
+            class="MuiBox-root emotion-6"
           >
-            send again
-          </a>
+            Didn't receive the email? Click 
+            <a
+              class="MuiTypography-root MuiTypography-monochrome MuiLink-root MuiLink-underlineAlways send-again emotion-8"
+              href="#"
+            >
+              send again
+            </a>
+          </div>
         </div>
       </div>
     </div>

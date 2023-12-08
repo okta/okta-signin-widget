@@ -127,7 +127,7 @@ exports[`authenticator-verification-ov-totp-biometrics-error should render form 
                         data-se="message"
                       >
                         <div
-                          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxError MuiAlert-infobox infobox-error emotion-20"
+                          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-calloutError MuiAlert-callout emotion-20"
                           data-se="callout"
                           role="alert"
                         >
@@ -153,38 +153,48 @@ exports[`authenticator-verification-ov-totp-biometrics-error should render form 
                           <div
                             class="MuiAlert-message emotion-23"
                           >
-                            <h2
-                              class="MuiTypography-root MuiTypography-h6 emotion-24"
+                            <span
+                              class="MuiBox-root emotion-24"
                             >
-                              Enable biometrics in Okta Verify
-                            </h2>
+                              error
+                              : 
+                            </span>
                             <div
-                              class="MuiBox-root emotion-25"
+                              class="MuiBox-root emotion-2"
                             >
-                              <p
-                                class="MuiTypography-root MuiTypography-body1 emotion-26"
+                              <h2
+                                class="MuiTypography-root MuiTypography-h6 emotion-26"
                               >
-                                Your response was received, but your organization requires biometrics. Make sure you meet the following requirements, then try again:
-                              </p>
-                              <ul
-                                class="MuiList-root MuiList-dense emotion-27"
+                                Enable biometrics in Okta Verify
+                              </h2>
+                              <div
+                                class="MuiBox-root emotion-27"
                               >
-                                <li
-                                  class="MuiListItem-root MuiListItem-dense MuiListItem-gutters emotion-28"
+                                <p
+                                  class="MuiTypography-root MuiTypography-body1 emotion-28"
                                 >
-                                  Your device supports biometrics
-                                </li>
-                                <li
-                                  class="MuiListItem-root MuiListItem-dense MuiListItem-gutters emotion-28"
+                                  Your response was received, but your organization requires biometrics. Make sure you meet the following requirements, then try again:
+                                </p>
+                                <ul
+                                  class="MuiList-root MuiList-dense emotion-29"
                                 >
-                                  Okta Verify is up-to-date
-                                </li>
-                                <li
-                                  class="MuiListItem-root MuiListItem-dense MuiListItem-gutters emotion-28"
-                                >
-                                  In Okta Verify, biometrics are enabled for your account
-                                </li>
-                              </ul>
+                                  <li
+                                    class="MuiListItem-root MuiListItem-dense MuiListItem-gutters emotion-30"
+                                  >
+                                    Your device supports biometrics
+                                  </li>
+                                  <li
+                                    class="MuiListItem-root MuiListItem-dense MuiListItem-gutters emotion-30"
+                                  >
+                                    Okta Verify is up-to-date
+                                  </li>
+                                  <li
+                                    class="MuiListItem-root MuiListItem-dense MuiListItem-gutters emotion-30"
+                                  >
+                                    In Okta Verify, biometrics are enabled for your account
+                                  </li>
+                                </ul>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -194,10 +204,10 @@ exports[`authenticator-verification-ov-totp-biometrics-error should render form 
                       class="MuiBox-root emotion-12"
                     >
                       <div
-                        class="MuiBox-root emotion-32"
+                        class="MuiBox-root emotion-34"
                       >
                         <h2
-                          class="MuiTypography-root MuiTypography-h4 emotion-33"
+                          class="MuiTypography-root MuiTypography-h4 emotion-35"
                           data-se="o-form-head"
                           id="challenge-authenticator_Title_Enter_a_code_okta_verify_aut1kxbY4k3KnPvvd0g4_2"
                           tabindex="-1"
@@ -213,19 +223,19 @@ exports[`authenticator-verification-ov-totp-biometrics-error should render form 
                         class="MuiBox-root emotion-2"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-36"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-38"
                           data-shrink="false"
                           for="credentials.totp"
                         >
                           Enter code from Okta Verify app
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-37"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-39"
                         >
                           <input
                             aria-invalid="false"
                             autocomplete="off"
-                            class="MuiInputBase-input emotion-38"
+                            class="MuiInputBase-input emotion-40"
                             data-se="credentials.totp"
                             id="credentials.totp"
                             inputmode="numeric"
@@ -239,7 +249,7 @@ exports[`authenticator-verification-ov-totp-biometrics-error should render form 
                       class="MuiBox-root emotion-12"
                     >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-40"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-42"
                         data-type="save"
                         tabindex="0"
                         type="submit"
@@ -251,7 +261,7 @@ exports[`authenticator-verification-ov-totp-biometrics-error should render form 
                       class="MuiBox-root emotion-12"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-42"
+                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-44"
                         data-se="switchAuthenticator"
                         role="link"
                         type="button"
@@ -263,7 +273,7 @@ exports[`authenticator-verification-ov-totp-biometrics-error should render form 
                       class="MuiBox-root emotion-12"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-42"
+                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-44"
                         data-se="cancel"
                         role="link"
                         type="button"
