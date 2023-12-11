@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { waitFor } from '@testing-library/preact';
 import { createAuthJsPayloadArgs, setup } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/challenge/verify-ov-send-push.json';
@@ -18,7 +17,7 @@ import mockResponse from '../../src/mocks/response/idp/idx/challenge/verify-ov-s
 describe('authenticator-verification-okta-verify-push', () => {
   it('should render polling form', async () => {
     const { container, findByText } = await setup({ mockResponse });
-    await waitFor(() => findByText(/Push notification sent/));
+    await findByText(/Push notification sent/);
     expect(container).toMatchSnapshot();
   });
 
@@ -33,7 +32,7 @@ describe('authenticator-verification-okta-verify-push', () => {
 
     it('should make poll request after expected delay', async () => {
       const { findByText, authClient } = await setup({ mockResponse });
-      await waitFor(() => findByText(/Push notification sent/));
+      await findByText(/Push notification sent/);
 
       jest.advanceTimersByTime(1500 /* refresh: 1000 */);
 
