@@ -45,7 +45,7 @@ const AuthHeader: FunctionComponent<AuthHeaderProps> = ({
   const showAuthCoin = shouldRenderAuthCoin(authCoinProps);
   const containerClasses = classNames('okta-sign-in-header', 'auth-header', { authCoinSpacing: showAuthCoin });
   const imageClasses = classNames('auth-org-logo', 'siwOrgLogo');
-  const Tokens = useOdysseyDesignTokens();
+  const tokens = useOdysseyDesignTokens();
 
   function renderAuthCoin() {
     return (showAuthCoin && authCoinProps) && (
@@ -65,11 +65,11 @@ const AuthHeader: FunctionComponent<AuthHeaderProps> = ({
     <Box
       className={containerClasses}
       sx={{
-        paddingBlockStart: Tokens.Spacing5,
-        paddingBlockEnd: showAuthCoin ? Tokens.Spacing1 : Tokens.Spacing5,
-        paddingInlineStart: Tokens.Spacing6,
-        paddingInlineEnd: Tokens.Spacing6,
-        borderBlockEnd: `1px solid ${Tokens.BorderColorDisplay}`,
+        paddingBlockStart: tokens.Spacing5,
+        paddingBlockEnd: showAuthCoin ? tokens.Spacing1 : tokens.Spacing5,
+        paddingInlineStart: tokens.Spacing6,
+        paddingInlineEnd: tokens.Spacing6,
+        borderBlockEnd: `1px solid ${tokens.BorderColorDisplay}`,
         '& h1': {
           lineHeight: 0,
           marginBlock: 0,

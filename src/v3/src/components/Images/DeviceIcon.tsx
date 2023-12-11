@@ -17,12 +17,12 @@ import { FunctionComponent, h } from 'preact';
 import { loc } from '../../util';
 
 export const DeviceIcon: FunctionComponent = () => {
-  const Tokens = useOdysseyDesignTokens();
+  const tokens = useOdysseyDesignTokens();
 
   return (
     <DevicesIcon
       sx={{
-        color: Tokens.PalettePrimaryMain,
+        color: tokens.PalettePrimaryMain,
         width: '16px',
         height: '16px',
       }}

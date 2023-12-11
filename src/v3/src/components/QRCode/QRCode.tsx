@@ -24,16 +24,16 @@ const QRCode: UISchemaElementComponent<{
 }) => {
   const { translations = [], options: { data } } = uischema;
   const label = getTranslation(translations, 'label');
-  const Tokens = useOdysseyDesignTokens();
+  const tokens = useOdysseyDesignTokens();
 
   return (
     <Box
       className="qrContainer"
       sx={{
-        marginBlockStart: Tokens.Spacing5,
-        marginBlockEnd: Tokens.Spacing5,
-        marginInlineStart: Tokens.Spacing1,
-        marginInlineEnd: Tokens.Spacing1,
+        marginBlockStart: tokens.Spacing5,
+        marginBlockEnd: tokens.Spacing5,
+        marginInlineStart: tokens.Spacing1,
+        marginInlineEnd: tokens.Spacing1,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -45,10 +45,10 @@ const QRCode: UISchemaElementComponent<{
         sx={{
           width: '224px',
           height: '224px',
-          borderWidth: Tokens.BorderWidthMain,
-          borderStyle: Tokens.BorderStyleMain,
-          borderColor: Tokens.BorderColorDisplay,
-          borderRadius: Tokens.BorderRadiusMain,
+          borderWidth: tokens.BorderWidthMain,
+          borderStyle: tokens.BorderStyleMain,
+          borderColor: tokens.BorderColorDisplay,
+          borderRadius: tokens.BorderRadiusMain,
         }}
         src={data}
         alt={label}

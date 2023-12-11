@@ -65,7 +65,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
     usageDescription && `${iconName}-usageDescription`,
     `${iconName}-ctaLabel`,
   ].filter(Boolean).join(' ');
-  const Tokens = useOdysseyDesignTokens();
+  const tokens = useOdysseyDesignTokens();
 
   const onClick: ClickHandler = async () => {
     const dataSchema = dataSchemaRef.current!;
@@ -93,28 +93,28 @@ const AuthenticatorButton: UISchemaElementComponent<{
       type={type}
       sx={{
         '&:focus': {
-          outlineColor: Tokens.PalettePrimaryMain,
-          outlineOffset: Tokens.FocusOutlineOffsetMain,
-          outlineStyle: Tokens.FocusOutlineStyle,
-          outlineWidth: Tokens.FocusOutlineWidthMain,
+          outlineColor: tokens.PalettePrimaryMain,
+          outlineOffset: tokens.FocusOutlineOffsetMain,
+          outlineStyle: tokens.FocusOutlineStyle,
+          outlineWidth: tokens.FocusOutlineWidthMain,
         },
         '&:hover': {
-          color: Tokens.PalettePrimaryDark,
+          color: tokens.PalettePrimaryDark,
           cursor: 'pointer',
-          borderColor: Tokens.PalettePrimaryMain,
+          borderColor: tokens.PalettePrimaryMain,
         },
         width: 1,
         // Assuming we want to allow users to customize this color, we should try to map this to
         // a more semantic token. We also don't want users to override white just for this
-        backgroundColor: Tokens.HueNeutralWhite,
-        paddingBlock: Tokens.Spacing3,
-        paddingInline: Tokens.Spacing3,
+        backgroundColor: tokens.HueNeutralWhite,
+        paddingBlock: tokens.Spacing3,
+        paddingInline: tokens.Spacing3,
       }}
       display="flex"
       border={1}
       borderColor="grey.200"
-      borderRadius={Tokens.BorderRadiusMain}
-      boxShadow={Tokens.ShadowScale0}
+      borderRadius={tokens.BorderRadiusMain}
+      boxShadow={tokens.ShadowScale0}
       className="authenticator-row"
       data-se="authenticator-button"
       tabIndex={0}
@@ -227,7 +227,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
             marginBlock: '5px',
             marginInline: 0,
             fontWeight: 500,
-            color: Tokens.PalettePrimaryMain,
+            color: tokens.PalettePrimaryMain,
             '& svg': {
               marginBlock: 0,
               marginInline: '5px 0',

@@ -53,7 +53,7 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
   const descriptionInfo = getTranslationInfo(translations, 'description');
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
   const hasErrors = typeof errors !== 'undefined';
-  const Tokens = useOdysseyDesignTokens();
+  const tokens = useOdysseyDesignTokens();
 
   return (
     <FormControl
@@ -83,7 +83,7 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
               'data-se-for-name': name,
             }}
             sx={{
-              marginInlineEnd: Tokens.Spacing3,
+              marginInlineEnd: tokens.Spacing3,
             }}
           />
         )}
@@ -101,8 +101,8 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
               <Box
                 component="span"
                 sx={{
-                  marginInlineStart: Tokens.Spacing2,
-                  marginInlineEnd: Tokens.Spacing2,
+                  marginInlineStart: tokens.Spacing2,
+                  marginInlineEnd: tokens.Spacing2,
                 }}
                 className="no-translate"
                 aria-hidden

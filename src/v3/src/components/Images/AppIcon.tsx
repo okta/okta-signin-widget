@@ -17,12 +17,12 @@ import { FunctionComponent, h } from 'preact';
 import { loc } from '../../util';
 
 export const AppIcon: FunctionComponent = () => {
-  const Tokens = useOdysseyDesignTokens();
+  const tokens = useOdysseyDesignTokens();
 
   return (
     <AppsIcon
       sx={{
-        color: Tokens.PalettePrimaryMain,
+        color: tokens.PalettePrimaryMain,
         width: '16px',
         height: '16px',
       }}

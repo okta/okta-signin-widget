@@ -88,7 +88,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
   const onChangeHandler = useOnChange(uischema);
   const focusRef = useAutoFocus<HTMLSelectElement>(focus);
   const phoneHasErrors = typeof errors !== 'undefined';
-  const Tokens = useOdysseyDesignTokens();
+  const tokens = useOdysseyDesignTokens();
 
   const formatPhone = (
     phoneNumber: string,
@@ -173,8 +173,8 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
           <Box
             component="span"
             sx={{
-              marginInlineStart: Tokens.Spacing2,
-              marginInlineEnd: Tokens.Spacing2,
+              marginInlineStart: tokens.Spacing2,
+              marginInlineEnd: tokens.Spacing2,
             }}
             className="no-translate"
             aria-hidden
@@ -249,8 +249,8 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
               <Box
                 component="span"
                 sx={{
-                  marginInlineStart: Tokens.Spacing2,
-                  marginInlineEnd: Tokens.Spacing2,
+                  marginInlineStart: tokens.Spacing2,
+                  marginInlineEnd: tokens.Spacing2,
                 }}
                 className="no-translate"
                 aria-hidden
@@ -286,7 +286,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
                 sx={{
                   // physical properties OK because parent InputBase component
                   // is always set to "ltr"
-                  marginRight: Tokens.Spacing3,
+                  marginRight: tokens.Spacing3,
                   marginLeft: 0,
                 }}
               >
