@@ -31,7 +31,7 @@ const { configure } = require('@testing-library/preact');
 
 configure({
   testIdAttribute: 'data-se',
-  asyncUtilTimeout: 5 * 1000,
+  asyncUtilTimeout: 5_000,
 });
 
 global.OKTA_SIW_VERSION = '0.0.0';
