@@ -186,6 +186,12 @@ export default class EnrollOktaVerifyPageObject extends BasePageObject {
     return this.form.el.find(DOWNLOAD_OV_LINK_CLASS).getAttribute('href');
   }
 
+  getAlt() {
+    return this.form.getElement(
+      userVariables.gen3 ? '.qrImg' : '.qrcode'
+    )?.getAttribute('alt');
+  }
+
   getClosingText() {
     if (userVariables.gen3) {
       return this.form.getSubtitle(5);
