@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /*!
  * Copyright (c) 2020, Okta, Inc. and/or its affiliates. All rights reserved.
  * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
@@ -20,7 +21,7 @@ export default View.extend({
         <div class="beacon-blank js-blank-beacon-border auth-beacon-border"></div>
       </div>
       {{#if logoUri}}
-      <div class="bg-helper auth-beacon auth-beacon-factor custom-app-logo" data-se="factor-beacon" role="img" 
+      <div class="bg-helper auth-beacon auth-beacon-factor {{className}} custom-logo" data-se="factor-beacon" role="img" 
         aria-label="{{i18n code="oie.auth.logo.aria.label" bundle="login"}}">
       {{else}}
       <div class="bg-helper auth-beacon auth-beacon-factor {{className}}" data-se="factor-beacon">
@@ -34,7 +35,7 @@ export default View.extend({
     View.prototype.postRender.apply(this, arguments);
     const data = this.getTemplateData();
     if (data.logoUri) {
-      this.el.querySelector('.custom-app-logo').style.backgroundImage = `url(${data.logoUri})`;
+      this.el.querySelector('.custom-logo').style.backgroundImage = `url(${data.logoUri})`;
     }
   },
   getTemplateData: function() {

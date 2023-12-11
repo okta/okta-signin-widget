@@ -145,6 +145,7 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
         : loc('oie.idp.authenticator.description', 'login', [idpName]),
       iconClassName: 'mfa-custom-factor',
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+      logoUri : authenticator?.relatesTo?.logoUri || ''
     });
     break;
   }

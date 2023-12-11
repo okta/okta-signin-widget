@@ -20,7 +20,7 @@ const AuthenticatorRow = View.extend({
   template: hbs`
     <div class="authenticator-icon-container">
       {{#if logoUri}}
-        <div class="factor-icon authenticator-icon custom-app-logo" role="img"
+        <div class="factor-icon authenticator-icon {{iconClassName}} custom-logo" role="img"
           aria-label="{{i18n code="oie.auth.logo.aria.label" bundle="login"}}"></div>
       {{else}}
         <div class="factor-icon authenticator-icon {{iconClassName}}" role="img" 
@@ -40,8 +40,9 @@ const AuthenticatorRow = View.extend({
   `,
   postRender: function() {
     View.prototype.postRender.apply(this, arguments);
-    if (this.model.get('logoUri')) {
-      this.el.querySelector('.custom-app-logo').style.backgroundImage = `url(${this.model.get('logoUri')})`;
+    const logoUri = this.model.get('logoUri');
+    if (logoUri) {
+      this.el.querySelector('.custom-logo').style.backgroundImage = `url(${logoUri})`;
     }
   },
   children: function() {
