@@ -444,8 +444,8 @@ test
   .requestHooks(logger, pushRejectMock)('challenge Custom App reject push and then resend', async t => {
     const challengeCustomAppPushPageObject = await setup(t);
     await checkA11y(t);
-    const errorBox = challengeCustomAppPushPageObject.getErrorBox();
-    await t.expect(errorBox.innerText)
+    const errorBoxText = challengeCustomAppPushPageObject.getErrorBoxText();
+    await t.expect(errorBoxText)
       .eql('You have chosen to reject this login.');
     await t.expect(challengeCustomAppPushPageObject.getResendPushButtonText())
       .eql('Resend push notification');
@@ -495,8 +495,8 @@ test
     await t.wait(10000);
     await t.expect(challengeCustomAppPushPageObject.getWarningBox().length).eql(0);
     await t.wait(20100); // Total > 30s
-    const warningBox = challengeCustomAppPushPageObject.getWarningBox();
-    await t.expect(warningBox.innerText)
+    const warningBoxText = challengeCustomAppPushPageObject.getWarningBoxText();
+    await t.expect(warningBoxText)
       .eql('Haven\'t received a push notification yet? Try opening Custom Push on your phone.');
   });
 
@@ -524,11 +524,11 @@ test
     const errorTitle = challengeCustomAppPushPageObject.getErrorTitle();
     await t.expect(errorTitle.innerText).contains('Enable biometrics in Custom Push Authenticator');
 
-    const errorBox = challengeCustomAppPushPageObject.getErrorBox();
-    await t.expect(errorBox.innerText).contains('Your response was received, but your organization requires biometrics—like a fingerprint or facial scan—for access. Make sure your device meets the following requirements, then try again:');
-    await t.expect(errorBox.innerText).contains('Your device supports biometrics'); // bullet #1
-    await t.expect(errorBox.innerText).contains('Custom Push Authenticator is up-to-date'); // bullet #2
-    await t.expect(errorBox.innerText).contains('In Custom Push Authenticator, biometrics are enabled for your account'); // bullet #3
+    const errorBoxText = challengeCustomAppPushPageObject.getErrorBoxText();
+    await t.expect(errorBoxText).contains('Your response was received, but your organization requires biometrics—like a fingerprint or facial scan—for access. Make sure your device meets the following requirements, then try again:');
+    await t.expect(errorBoxText).contains('Your device supports biometrics'); // bullet #1
+    await t.expect(errorBoxText).contains('Custom Push Authenticator is up-to-date'); // bullet #2
+    await t.expect(errorBoxText).contains('In Custom Push Authenticator, biometrics are enabled for your account'); // bullet #3
 
     await t.expect(challengeCustomAppPushPageObject.getResendPushButtonText()).contains('Resend push notification');
     await t.expect(challengeCustomAppPushPageObject.isResendPushButtonDisabled()).eql(false);

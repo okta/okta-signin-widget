@@ -1,6 +1,5 @@
 import BasePageObject from './BasePageObject';
-import {Selector} from 'testcafe';
-import { userVariables } from 'testcafe';
+import { Selector, userVariables } from 'testcafe';
 
 const USER_CODE_FIELD = 'userCode';
 
@@ -72,14 +71,14 @@ export default class DeviceCodeActivatePageObject extends BasePageObject {
 
   isTerminalSuccessIconPresent() {
     if (userVariables.gen3) {
-      return this.form.elementExist('.infobox-success');
+      return this.form.getAlertBox().hasClass('MuiAlert-calloutSuccess');
     }
     return this.form.getElement('.device-code-terminal--icon.success-24-green').exists;
   }
 
   isTerminalErrorIconPresent() {
     if (userVariables.gen3) {
-      return this.form.elementExist('.infobox-error');
+      return this.form.getAlertBox().hasClass('MuiAlert-calloutError');
     }
     return this.form.getElement('.device-code-terminal--icon.error-24-red').exists;
   }

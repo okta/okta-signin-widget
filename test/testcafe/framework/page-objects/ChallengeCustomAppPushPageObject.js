@@ -88,6 +88,10 @@ export default class ChallengeCustomAppPushPageObject extends ChallengeFactorPag
     return this.form.getAlertBox();
   }
 
+  getWarningBoxText() {
+    return this.form.getAlertBoxText();
+  }
+
   async autoChallengeInputExists() {
     return this.form.getCheckbox('Send push automatically').exists;
   }

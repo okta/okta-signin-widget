@@ -186,7 +186,8 @@ test.requestHooks(identifyWithPasswordErrorMock)('should show custom access deni
   await identityPage.clickSignInButton();
 
   const errorBox = identityPage.form.getErrorBox();
-  await t.expect(errorBox.innerText).contains('You do not have permission to perform the requested action.');
+  const errorBoxText = identityPage.form.getErrorBoxText();
+  await t.expect(errorBoxText).contains('You do not have permission to perform the requested action.');
 
   const errorLink1 = within(errorBox).getByRole('link', {name: 'Help link 1'});
   const errorLink2 = within(errorBox).getByRole('link', {name: 'Help link 2'});

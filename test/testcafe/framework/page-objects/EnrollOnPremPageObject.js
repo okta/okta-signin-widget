@@ -37,7 +37,7 @@ export default class EnrollOnPremPageObject extends BasePageObject {
   }
 
   getErrorBoxText() {
-    return this.form.getAlertBox().innerText;
+    return this.form.getAlertBoxText();
   }
 
   hasPasscodeError() {

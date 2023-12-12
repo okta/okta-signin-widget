@@ -2,6 +2,8 @@ import { userVariables } from 'testcafe';
 
 import { screen, within } from '@testing-library/testcafe';
 
+const CALLOUT_CONTEXT_V3 = '.MuiAlert-message > div';
+
 export default class CalloutObject {
 
   constructor(parent /* Selector */, index = 0) {
@@ -13,22 +15,24 @@ export default class CalloutObject {
   }
 
   isWarning() {
+    if (userVariables.gen3) {
+      return this.el.hasClass('MuiAlert-calloutWarning');
+    }
     return this.el.hasClass('infobox-warning') &&
       this.el.child('[data-se="icon"]').hasClass('warning-16');
   }
 
   isError() {
-    const hasInfoBoxErrorClass = this.el.hasClass('infobox-error');
     if (userVariables.gen3) {
-      return hasInfoBoxErrorClass;
+      return this.el.hasClass('MuiAlert-calloutError');
     }
-    return hasInfoBoxErrorClass &&
+    return this.el.hasClass('infobox-error') &&
       this.el.find('[data-se="icon"]').hasClass('error-16');
   }
 
   getTextContent() {
     if (userVariables.gen3) {
-      return this.el.textContent;
+      return this.el.find(CALLOUT_CONTEXT_V3).textContent;
     }
     return this.el.child('[data-se="callout"]').child('div').textContent;
   }
