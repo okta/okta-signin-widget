@@ -75,8 +75,8 @@ import {
   triggerEmailVerifyCallback,
 } from '../../util';
 import { getEventContext } from '../../util/getEventContext';
-import { createThemeAndTokens } from '../../util/theme';
 import { stylisPlugins } from '../../util/stylisPlugins';
+import { createThemeAndTokens } from '../../util/theme';
 import AuthContainer from '../AuthContainer/AuthContainer';
 import AuthContent from '../AuthContent/AuthContent';
 import AuthHeader from '../AuthHeader/AuthHeader';
