@@ -68,7 +68,7 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
   const explainId = explain && `${name}-explain`;
   const ariaDescribedByIds = [describedByIds, hintId, explainId].filter(Boolean).join(' ')
     || undefined;
-  const Tokens = useOdysseyDesignTokens();
+  const tokens = useOdysseyDesignTokens();
 
   return (
     <Box>
@@ -82,8 +82,8 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
           <Box
             component="span"
             sx={{
-              marginInlineStart: Tokens.Spacing2,
-              marginInlineEnd: Tokens.Spacing2,
+              marginInlineStart: tokens.Spacing2,
+              marginInlineEnd: tokens.Spacing2,
             }}
             className="no-translate"
             aria-hidden

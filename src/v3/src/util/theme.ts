@@ -10,170 +10,128 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+// Leonardo doesn't have TS support in stable version alpha.13 so types are defined in leonardo.d.ts
+import {
+  BackgroundColor, Color, CssColor, Theme,
+} from '@adobe/leonardo-contrast-colors';
 import * as Tokens from '@okta/odyssey-design-tokens';
 import { createOdysseyMuiTheme, DesignTokensOverride, ThemeOptions } from '@okta/odyssey-react-mui';
-import chroma from 'chroma-js';
-import { set as _set } from 'lodash';
 
 import { BrandColors } from '../types';
 import { mergeThemes } from './mergeThemes';
 
-export type Palette = Partial<{
-  main: string;
-  light: string;
-  lighter: string;
-  dark: string;
-  contrastText: string;
-}>;
-
-export type SpacingArgument = number | string;
-
 const WHITE_HEX = '#ffffff';
-const BLACK_HEX = '#1d1d21';
+// Odyssey-defined contrast ratios for their WCAG-friendly palettes
+const ODYSSEY_RATIOS = [1.1, 1.31, 1.61, 2.22, 3.32, 4.5, 4.95, 8.72, 11.73, 14.94];
 
-/**
- * Determine whether to use BLACK (#1d1d21) or WHITE (#ffffff) based on a color.
- * If WHITE vs color has a contrast ratio <4.5:1 this will return BLACK.
- * Contrast ratios are symmetrical using the WCAG 2.x algorithm
- *
- * @param color color to compare against black/white
- */
-const getInverseTextColor = (color: string): string => (
-  chroma.contrast(color, WHITE_HEX) >= 4.5 ? WHITE_HEX : BLACK_HEX
-);
-
-/**
- * Sets the design token to theme path iff the value is not undefined, i.e.,
- * null, false, 0, etc. will be set. Only undefined will be ignored. Paths and
- * values are not checked for type safety.
- *
- * @param obj {Theme} the theme object
- * @param path {string} target path
- * @param val the value to set, if defined.
- */
-// eslint-disable-next-line @typescript-eslint/ban-types
-function set<T extends object, V>(obj: T, path: string | string[], val: V) {
-  return val === undefined ? null : _set(obj, path, val);
+interface OdysseyPalette {
+  CustomHue50: string,
+  CustomHue100: string,
+  CustomHue200: string,
+  CustomHue300: string,
+  CustomHue400: string,
+  CustomHue500: string,
+  CustomHue600: string,
+  CustomHue700: string,
+  CustomHue800: string,
+  CustomHue900: string
 }
 
 /**
- * Generates a palette based on the "main" (f.k.a. "base") value. Main value
- * corresponds to 500 in the hue-based color scale.
+ * Generates a palette using @adobe/leonardo-contrast-colors based on the "main"
+ * (f.k.a. "base") value. Leonardo generates 10 different hues that adhere to Odyssey's
+ * contrast ratios
  *
  * Example:
- * PalettePrimaryMain -> HueBlue50
- * PalettePrimaryLighter -> HueBlue300
- * PalettePrimaryLight -> HueBlue500
- * PalettePrimaryDark -> HueBlue700
+ * PalettePrimaryMain -> CustomHue500
+ * PalettePrimaryLighter -> CustomHue50
+ * PalettePrimaryLight -> CustomHue300
+ * PalettePrimaryDark -> CustomHue700
+ * PalettePrimaryDarker -> CustomHue900
  *
- * @param main Main color (Hue 500)
+ * @param main Main color used to generate a palette
  */
-export const generatePalette = (main: string): Palette => {
+export const generatePalette = (main: string): OdysseyPalette | null => {
   try {
-    const lightness = chroma(main).get('hsl.l');
-    return lightness > 0.24
-      ? {
-        main,
-        lighter: chroma(main)
-          .set('hsl.h', '+9')
-          .set('hsl.s', '+0.18')
-          .set('hsl.l', 0.97)
-          .hex(),
-        light: chroma(main)
-          .set('hsl.h', '+11')
-          .set('hsl.s', '-0.18')
-          .set('hsl.l', lightness < 0.59 ? '+0.31' : 0.9) // clamp lightness
-          .hex(),
-        dark: chroma(main)
-          .set('hsl.h', '+3')
-          .set('hsl.s', '+0.18')
-          .set('hsl.l', '-0.24')
-          .hex(),
-        contrastText: getInverseTextColor(main),
-      } : {
-        main,
-        lighter: chroma(main)
-          .set('hsl.h', '+9')
-          .set('hsl.s', '+0.18')
-          .set('hsl.l', 0.97)
-          .hex(),
-        light: chroma(main)
-          .set('hsl.l', '+0.62')
-          .hex(),
-        dark: chroma(main)
-          .set('hsl.l', '+0.31')
-          .hex(),
-        contrastText: getInverseTextColor(main),
-      };
+    const primaryColor = new Color({
+      name: 'Custom Hue',
+      // Leonardo will throw "Invalid Color Key" error if string is not of type CssColor
+      colorKeys: [main as CssColor],
+      ratios: ODYSSEY_RATIOS,
+    });
+    // SIW always has a white background color
+    const backgroundColor = new BackgroundColor({
+      name: 'Background Color',
+      colorKeys: [WHITE_HEX],
+      ratios: [],
+    });
+    const leonardoTheme = new Theme({
+      colors: [primaryColor],
+      backgroundColor,
+      lightness: 100,
+    }).contrastColorPairs;
+
+    // Remap Leonardo theme to use Odyssey color stops from 50-900
+    const theme = {
+      CustomHue50: leonardoTheme.CustomHue100,
+      CustomHue100: leonardoTheme.CustomHue200,
+      CustomHue200: leonardoTheme.CustomHue300,
+      CustomHue300: leonardoTheme.CustomHue400,
+      CustomHue400: leonardoTheme.CustomHue500,
+      CustomHue500: leonardoTheme.CustomHue600,
+      CustomHue600: leonardoTheme.CustomHue700,
+      CustomHue700: leonardoTheme.CustomHue800,
+      CustomHue800: leonardoTheme.CustomHue900,
+      CustomHue900: leonardoTheme.CustomHue1000,
+    };
+    return theme;
   } catch (err) {
     console.warn(err);
-    return {};
+    return null;
   }
 };
 
-export const createTheme = (
+export const createThemeAndTokens = (
   brandColors?: BrandColors,
   customTokens?: Partial<DesignTokensOverride>,
-): ThemeOptions => {
-  // Odyssey 1.x does not export their theme, but we can recreate it
-  const theme = createOdysseyMuiTheme({ odysseyTokens: { ...Tokens, ...customTokens } });
+): { themeOverride: ThemeOptions, tokensOverride: DesignTokensOverride } => {
+  const tokensOverride = { ...customTokens };
 
-  // TODO: OKTA-667943 - Update palette generation for OD 1.x larger hue range
   if (brandColors?.primaryColor) {
     const p = generatePalette(brandColors.primaryColor);
-    set(theme, 'palette.primary.lighter', p.lighter);
-    set(theme, 'palette.primary.light', p.light);
-    set(theme, 'palette.primary.main', p.main);
-    set(theme, 'palette.primary.dark', p.dark);
-    set(theme, 'palette.primary.contrastText', p.contrastText);
-  }
-  if (customTokens) {
-    if (customTokens.PalettePrimaryMain) {
-      const p = generatePalette(customTokens.PalettePrimaryMain);
-      set(theme, 'palette.primary.lighter', customTokens.PalettePrimaryLighter ?? p.lighter);
-      set(theme, 'palette.primary.light', customTokens.PalettePrimaryLight ?? p.light);
-      set(theme, 'palette.primary.main', customTokens.PalettePrimaryMain ?? p.main);
-      set(theme, 'palette.primary.dark', customTokens.PalettePrimaryDark ?? p.dark);
-      set(theme, 'palette.primary.contrastText', p.contrastText);
-    }
-    if (customTokens.PaletteDangerMain) {
-      const p = generatePalette(customTokens.PaletteDangerMain);
-      set(theme, 'palette.error.lighter', customTokens.PaletteDangerLighter ?? p.lighter);
-      set(theme, 'palette.error.light', customTokens.PaletteDangerLight ?? p.light);
-      set(theme, 'palette.error.main', customTokens.PaletteDangerMain ?? p.main);
-      set(theme, 'palette.error.dark', customTokens.PaletteDangerDark ?? p.dark);
-      set(theme, 'palette.error.contrastText', p.contrastText);
-    }
-    if (customTokens.PaletteWarningMain) {
-      const p = generatePalette(customTokens.PaletteWarningMain);
-      set(theme, 'palette.warning.lighter', customTokens.PaletteWarningLighter ?? p.lighter);
-      set(theme, 'palette.warning.light', customTokens.PaletteWarningLight ?? p.light);
-      set(theme, 'palette.warning.main', customTokens.PaletteWarningMain ?? p.main);
-      set(theme, 'palette.warning.dark', customTokens.PaletteWarningDark ?? p.dark);
-      set(theme, 'palette.warning.contrastText', p.contrastText);
-    }
-    if (customTokens.PaletteSuccessMain) {
-      const p = generatePalette(customTokens.PaletteSuccessMain);
-      set(theme, 'palette.success.lighter', customTokens.PaletteSuccessLighter ?? p.lighter);
-      set(theme, 'palette.success.light', customTokens.PaletteSuccessLight ?? p.light);
-      set(theme, 'palette.success.main', customTokens.PaletteSuccessMain ?? p.main);
-      set(theme, 'palette.success.dark', customTokens.PaletteSuccessDark ?? p.dark);
-      set(theme, 'palette.success.contrastText', p.contrastText);
-    }
+    tokensOverride.PalettePrimaryLighter ??= p?.CustomHue50;
+    tokensOverride.PalettePrimaryHighlight ??= p?.CustomHue100;
+    tokensOverride.PalettePrimaryLight ??= p?.CustomHue300;
+    tokensOverride.PalettePrimaryMain ??= p?.CustomHue500;
+    tokensOverride.FocusOutlineColorPrimary ??= p?.CustomHue500;
+    tokensOverride.BorderColorPrimaryControl ??= p?.CustomHue500;
+    tokensOverride.TypographyColorAction ??= p?.CustomHue600;
+    tokensOverride.PalettePrimaryText ??= p?.CustomHue600;
+    tokensOverride.BorderColorPrimaryDark ??= p?.CustomHue700;
+    tokensOverride.PalettePrimaryDark ??= p?.CustomHue700;
+    tokensOverride.PalettePrimaryDarker ??= p?.CustomHue800;
+    tokensOverride.PalettePrimaryHeading ??= p?.CustomHue900;
   }
 
+  const mergedTokens = { ...Tokens, ...tokensOverride };
+
+  // Odyssey 1.x does not export their theme, but we can recreate it
+  const baseOdysseyTheme = createOdysseyMuiTheme({
+    odysseyTokens: mergedTokens,
+  });
+
   // Merge default Odyssey 1.x theme with component overrides
-  const themeOverride = mergeThemes(theme, {
+  const themeOverride = mergeThemes(baseOdysseyTheme, {
     components: {
       MuiAlert: {
         styleOverrides: {
           root: {
             gap: 0,
           },
-          icon: ({ theme: t }) => ({
-            paddingInlineEnd: t.spacing(4),
+          icon: {
+            paddingInlineEnd: mergedTokens.Spacing5,
             flexShrink: 0,
-          }),
+          },
         },
       },
       MuiInputBase: {
@@ -196,63 +154,15 @@ export const createTheme = (
           },
         },
       },
-      // ruleset with :focus-visible pseudo-selector break entire ruleset in
-      // ie11 because its not supported. re-define the :hover rule separately
-      // again so the ruleset is applied in ie11
-      MuiButton: {
-        styleOverrides: {
-          root: ({ ownerState, theme: t }) => ({
-            ...(ownerState.variant === 'primary' && {
-              '&:hover': {
-                backgroundColor: t.palette.primary.dark,
-              },
-            }),
-            ...(ownerState.variant === 'secondary' && {
-              '&:hover': {
-                backgroundColor: t.palette.primary.lighter,
-                borderColor: t.palette.primary.light,
-                color: t.palette.primary.main,
-              },
-            }),
-            ...(ownerState.variant === 'floating' && {
-              '&:hover': {
-                backgroundColor: 'rgba(29, 29, 33, 0.1)',
-                borderColor: 'transparent',
-              },
-            }),
-            // OKTA-657762 - remove this when odyssey fix is done
-            textTransform: 'none',
-          }),
-        },
-      },
-      // ruleset with :focus-visible pseudo-selector break entire ruleset in
-      // ie11 because its not supported. re-define the :hover rule separately
-      // again so the ruleset is applied in ie11
-      MuiIconButton: {
-        styleOverrides: {
-          root: {
-            '&:hover': {
-              backgroundColor: 'rgba(29, 29, 33, 0.1)',
-              borderColor: 'transparent',
-            },
-          },
-        },
-      },
-
       MuiLink: {
         styleOverrides: {
-          root: ({ ownerState, theme: t }) => ({
-            color: t.palette.primary.main,
+          root: ({ ownerState }) => ({
             textDecoration: ownerState?.component === 'a' ? 'underline' : 'inherit',
-
-            '&:hover': {
-              color: t.palette.primary.dark,
-            },
           }),
         },
       },
     },
   });
 
-  return themeOverride;
+  return { themeOverride, tokensOverride };
 };

@@ -32,16 +32,16 @@ const StyledAccordionSummary = styled((props: AccordionSummaryProps) => (
   // eslint-disable-next-line react/jsx-props-no-spreading
   <AccordionSummary {...props} />
 ))(() => {
-  const Tokens = useOdysseyDesignTokens();
+  const tokens = useOdysseyDesignTokens();
   return ({
     padding: 0,
     width: 'fit-content',
     '& .MuiAccordionSummary-content': {
       margin: 0,
-      color: Tokens.PalettePrimaryMain,
+      color: tokens.PalettePrimaryMain,
       '&:hover': {
         textDecoration: 'underline',
-        textDecorationColor: Tokens.PalettePrimaryMain,
+        textDecorationColor: tokens.PalettePrimaryMain,
       },
     },
   });

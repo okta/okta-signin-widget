@@ -74,7 +74,7 @@ import {
   triggerEmailVerifyCallback,
 } from '../../util';
 import { getEventContext } from '../../util/getEventContext';
-import { createTheme } from '../../util/theme';
+import { createThemeAndTokens } from '../../util/theme';
 import AuthContainer from '../AuthContainer/AuthContainer';
 import AuthContent from '../AuthContent/AuthContent';
 import AuthHeader from '../AuthHeader/AuthHeader';
@@ -135,10 +135,16 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const { stateHandle, unsetStateHandle } = useStateHandle(widgetProps);
 
   // merge themes
-  const theme = useMemo(() => mergeThemes(
-    createTheme(brandColors, customTheme?.tokens ?? {}),
-    { direction: languageDirection },
-  ), [brandColors, customTheme, languageDirection]);
+  const { theme, tokens } = useMemo(() => {
+    const { themeOverride, tokensOverride } = createThemeAndTokens(
+      brandColors,
+      customTheme?.tokens ?? {},
+    );
+    return {
+      theme: mergeThemes(themeOverride, { direction: languageDirection }),
+      tokens: tokensOverride,
+    };
+  }, [brandColors, customTheme, languageDirection]);
 
   // on unmount, remove the language
   useEffect(() => () => {
@@ -497,7 +503,10 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       <CustomPluginsOdysseyCacheProvider nonce={cspNonce}>
         {/* remove this provider when all Odyssey legacy imports are removed */}
         <MuiThemeProvider theme={theme}>
-          <OdysseyProvider themeOverride={theme}>
+          <OdysseyProvider
+            themeOverride={theme}
+            designTokensOverride={tokens}
+          >
             <GlobalStyles />
             {/* the style is to allow the widget to inherit the parent's bg color */}
             <ScopedCssBaseline sx={{ backgroundColor: 'inherit' }}>

@@ -21,7 +21,7 @@ test('Theme configuration applies correctly', async (t) => {
 
   await t
     .expect(submitButton.getStyleProperty('background-color'))
-    .eql('rgb(84, 107, 231)');
+    .eql('rgb(85, 107, 231)');
 
   // enter username/pw and submit
   await t
@@ -36,15 +36,15 @@ test('Theme configuration applies correctly', async (t) => {
 
   await t
     .expect(phoneAuthCoin.find('.siwFillPrimaryDark').getStyleProperty('fill'))
-    .eql('rgb(202, 0, 228)');
+    .eql('rgb(54, 68, 147)');
   await t
     .expect(phoneAuthCoin.find('.siwFillSecondary').getStyleProperty('fill'))
-    .eql('rgb(241, 131, 255)');
+    .eql('rgb(156, 170, 241)');
 }).clientScripts({
   content: `
   window.additionalOptions = {
     brandColors: {
-      primaryColor: '#3e0046'
+      primaryColor: '#546Be7'
     }
   };
 `,

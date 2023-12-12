@@ -25,7 +25,7 @@ const AuthenticatorButtonList: UISchemaElementComponent<{
   uischema: AuthenticatorButtonListElement
 }> = ({ uischema }) => {
   const { buttons, dataSe } = uischema.options;
-  const Tokens = useOdysseyDesignTokens();
+  const tokens = useOdysseyDesignTokens();
 
   return (
     <Box
@@ -38,7 +38,7 @@ const AuthenticatorButtonList: UISchemaElementComponent<{
           <Box
             key={button.id}
             component="li"
-            sx={{ marginBlockEnd: Tokens.Spacing5 }}
+            sx={{ marginBlockEnd: tokens.Spacing5 }}
           >
             <AuthenticatorButton
               uischema={{

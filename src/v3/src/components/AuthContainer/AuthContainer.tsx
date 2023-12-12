@@ -21,7 +21,7 @@ import { useWidgetContext } from '../../contexts';
 const AuthContainer: FunctionComponent<{ hide: boolean }> = ({ children, hide }) => {
   const { languageDirection, languageCode } = useWidgetContext();
   const classes = classNames('auth-container', 'main-container');
-  const Tokens = useOdysseyDesignTokens();
+  const tokens = useOdysseyDesignTokens();
 
   return (
     <Box
@@ -70,10 +70,10 @@ const AuthContainer: FunctionComponent<{ hide: boolean }> = ({ children, hide })
             sx={{
               maxInlineSize: '432px',
               minInlineSize: '320px',
-              borderWidth: Tokens.BorderWidthMain,
-              borderStyle: Tokens.BorderStyleMain,
-              borderRadius: Tokens.BorderRadiusMain,
-              borderColor: Tokens.BorderColorDisplay,
+              borderWidth: tokens.BorderWidthMain,
+              borderStyle: tokens.BorderStyleMain,
+              borderRadius: tokens.BorderRadiusMain,
+              borderColor: tokens.BorderColorDisplay,
               '@media only screen and (max-width: 391px)': {
                 borderWidth: 0,
               },

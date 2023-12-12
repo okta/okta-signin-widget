@@ -80,7 +80,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
     || undefined;
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const showPasswordTimeoutRef = useRef<number | undefined>();
-  const Tokens = useOdysseyDesignTokens();
+  const tokens = useOdysseyDesignTokens();
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -109,8 +109,8 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
           <Box
             component="span"
             sx={{
-              marginInlineStart: Tokens.Spacing2,
-              marginInlineEnd: Tokens.Spacing2,
+              marginInlineStart: tokens.Spacing2,
+              marginInlineEnd: tokens.Spacing2,
             }}
             className="no-translate"
             aria-hidden
@@ -169,9 +169,9 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
               // properties when 'ltr' is passed onto this element, else can use logical
               sx={dir === 'ltr' ? {
                 marginLeft: '8px',
-                marginRight: Tokens.Spacing3,
+                marginRight: tokens.Spacing3,
               } : {
-                marginInlineEnd: Tokens.Spacing3,
+                marginInlineEnd: tokens.Spacing3,
                 marginInlineStart: '8px',
               }}
             >

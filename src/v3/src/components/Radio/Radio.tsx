@@ -61,7 +61,7 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
   const optionalLabel = getTranslation(translations, 'optionalLabel');
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
   const hasErrors = typeof errors !== 'undefined';
-  const Tokens = useOdysseyDesignTokens();
+  const tokens = useOdysseyDesignTokens();
 
   return (
     <FormControl
@@ -79,8 +79,8 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
             <Box
               component="span"
               sx={{
-                marginInlineStart: Tokens.Spacing2,
-                marginInlineEnd: Tokens.Spacing2,
+                marginInlineStart: tokens.Spacing2,
+                marginInlineEnd: tokens.Spacing2,
               }}
               className="no-translate"
               aria-hidden
@@ -116,7 +116,7 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
               control={(
                 <RadioMui
                   sx={{
-                    marginInlineEnd: Tokens.Spacing3,
+                    marginInlineEnd: tokens.Spacing3,
                   }}
                 />
               )}

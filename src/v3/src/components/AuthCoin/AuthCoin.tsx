@@ -32,7 +32,7 @@ const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
   const authCoinConfigByAuthKey = authCoinConfiguration[authenticatorKey];
 
   const containerClasses = classNames(authCoinConfigByAuthKey?.iconClassName, customClasses);
-  const Tokens = useOdysseyDesignTokens();
+  const tokens = useOdysseyDesignTokens();
 
   function createAuthCoinIcon() {
     // TODO: OKTA-467022 - Add warning when attempted to customize non-customizeable authenticator
@@ -46,8 +46,8 @@ const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
           alt={authCoinConfigByAuthKey.description}
           className="custom-logo"
           sx={{
-            width: Tokens.Spacing7,
-            height: Tokens.Spacing7,
+            width: tokens.Spacing7,
+            height: tokens.Spacing7,
           }}
         />
       );
