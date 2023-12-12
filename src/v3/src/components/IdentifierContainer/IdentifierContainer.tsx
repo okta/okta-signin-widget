@@ -24,7 +24,7 @@ const IdentifierContainer: UISchemaElementComponent<{
 
   const mainContainerClasses = classNames('identifier-container');
   const identifierSpanClasses = classNames('identifier', 'no-translate');
-  const Tokens = useOdysseyDesignTokens();
+  const tokens = useOdysseyDesignTokens();
 
   return (
     <Box
@@ -43,7 +43,7 @@ const IdentifierContainer: UISchemaElementComponent<{
         paddingY={2}
         sx={{
           borderRadius: '36px',
-          backgroundColor: Tokens.HueNeutral50,
+          backgroundColor: tokens.HueNeutral50,
           textOverflow: 'ellipsis',
           whiteSpace: 'nowrap',
           overflow: 'hidden',
@@ -52,7 +52,7 @@ const IdentifierContainer: UISchemaElementComponent<{
         <Box
           component="span"
           sx={{
-            color: Tokens.PalettePrimaryMain,
+            color: tokens.PalettePrimaryMain,
             verticalAlign: 'middle',
           }}
         >

@@ -26,11 +26,11 @@ const Icon: FunctionComponent<PasswordRequirementIconProps> = (
   props,
 ) => {
   const { status } = props;
-  const Tokens = useOdysseyDesignTokens();
+  const tokens = useOdysseyDesignTokens();
   const statusToIcon = {
-    incomplete: { component: CloseIcon, color: Tokens.PaletteNeutralMain },
-    complete: { component: CheckCircleFilledIcon, color: Tokens.PaletteSuccessMain },
-    info: { component: InformationCircleIcon, color: Tokens.PalettePrimaryMain },
+    incomplete: { component: CloseIcon, color: tokens.PaletteNeutralMain },
+    complete: { component: CheckCircleFilledIcon, color: tokens.PaletteSuccessMain },
+    info: { component: InformationCircleIcon, color: tokens.PalettePrimaryMain },
   };
   const iconClasses = classNames('passwordRequirementIcon');
   const OdyIcon = statusToIcon[status].component;
@@ -39,7 +39,7 @@ const Icon: FunctionComponent<PasswordRequirementIconProps> = (
     <Box
       className={iconClasses}
       sx={{
-        marginInlineEnd: Tokens.Spacing2,
+        marginInlineEnd: tokens.Spacing2,
         // This is to force the icon align with the top of the text
         marginBlockStart: '2px',
       }}

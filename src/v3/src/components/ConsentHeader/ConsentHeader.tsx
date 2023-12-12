@@ -40,7 +40,7 @@ const ConsentHeader: FunctionComponent = () => {
     granularConsentTitle,
     { replace: getHeadingReplacerFn({}, 'h2', 2, 6) },
   );
-  const Tokens = useOdysseyDesignTokens();
+  const tokens = useOdysseyDesignTokens();
 
   const getAppLogo = (altText: string, logoHref?: string) => (
     typeof logoHref !== 'undefined' && (
@@ -116,9 +116,9 @@ const ConsentHeader: FunctionComponent = () => {
               >
                 <Typography
                   sx={{
-                    marginBlockEnd: Tokens.Spacing5,
-                    backgroundColor: Tokens.PalettePrimaryLighter,
-                    color: Tokens.PalettePrimaryDarker,
+                    marginBlockEnd: tokens.Spacing5,
+                    backgroundColor: tokens.PalettePrimaryLighter,
+                    color: tokens.PalettePrimaryDarker,
                     padding: '4px 2px',
                   }}
                   className="issuer no-translate"

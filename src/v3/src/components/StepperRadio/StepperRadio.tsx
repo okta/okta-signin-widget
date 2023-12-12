@@ -53,7 +53,7 @@ const StepperRadio: UISchemaElementComponent<{
     return defaultValue(widgetContext, stepIndex);
   });
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
-  const Tokens = useOdysseyDesignTokens();
+  const tokens = useOdysseyDesignTokens();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const stepIdx = customOptions.findIndex((opt) => opt.value === e.currentTarget.value);
@@ -86,7 +86,7 @@ const StepperRadio: UISchemaElementComponent<{
               control={(
                 <Radio
                   sx={{
-                    marginInlineEnd: Tokens.Spacing3,
+                    marginInlineEnd: tokens.Spacing3,
                   }}
                 />
               )}

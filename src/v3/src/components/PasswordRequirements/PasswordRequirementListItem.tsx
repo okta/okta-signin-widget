@@ -21,13 +21,13 @@ const PasswordRequirementListItem: FunctionComponent<PasswordRequirementProps> =
   props,
 ) => {
   const { status, label } = props;
-  const Tokens = useOdysseyDesignTokens();
+  const tokens = useOdysseyDesignTokens();
 
   return (
     <Box
       component="li"
-      sx={{ marginBlockEnd: Tokens.Spacing3 }}
-      color={status === 'complete' ? Tokens.PaletteSuccessMain : undefined}
+      sx={{ marginBlockEnd: tokens.Spacing3 }}
+      color={status === 'complete' ? tokens.PaletteSuccessMain : undefined}
     >
       <Box
         display="flex"
