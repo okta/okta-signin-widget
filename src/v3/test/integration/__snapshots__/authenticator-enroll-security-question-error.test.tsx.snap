@@ -493,7 +493,6 @@ exports[`authenticator-enroll-security-question-error predefined question should
                           class="MuiBox-root emotion-16"
                         >
                           error
-                          : 
                         </span>
                         <div
                           class="MuiBox-root emotion-2"
