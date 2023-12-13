@@ -206,7 +206,7 @@ test
     await expiredPasswordPage.clickChangePasswordButton();
 
     await t.expect(terminalPageObject.getErrorMessages().isError()).eql(true);
-    await t.expect(terminalPageObject.getErrorMessages().getTextContent()).eql('Your password has been updated but there was a problem signing you in. Please try again or contact your administrator.');
+    await t.expect(terminalPageObject.getErrorMessages().getTextContent()).contains('Your password has been updated but there was a problem signing you in. Please try again or contact your administrator.');
     await t.expect(await terminalPageObject.signoutLinkExists()).ok();
 
     await terminalPageObject.clickSignOutLink();

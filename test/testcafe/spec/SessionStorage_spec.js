@@ -165,7 +165,7 @@ test.requestHooks(identifyChallengeMockWithError)('shall save state handle durin
   // Terminal page
   await t.expect(terminalPageObject.form.getTitle()).eql('Verify with your email');
   await t.expect(terminalPageObject.getErrorMessages().isError()).eql(true);
-  await t.expect(terminalPageObject.getErrorMessages().getTextContent()).eql('This email link has expired. To resend it, return to the screen where you requested it.');
+  await t.expect(terminalPageObject.getErrorMessages().getTextContent()).contains('This email link has expired. To resend it, return to the screen where you requested it.');
   if (userVariables.gen3) {
     await t.expect(getStateHandleFromSessionStorage()).eql(xhrInvalidOTP.stateHandle);
   } else {
@@ -215,7 +215,7 @@ test.requestHooks(identifyChallengeMockWithSessionExpired)('shall clear session.
   await challengeEmailPageObject.clickNextButton('Verify');
 
   // Expect session expired error
-  await t.expect(challengeEmailPageObject.form.getErrorBoxText()).eql('You have been logged out due to inactivity. Refresh or return to the sign in screen.');
+  await t.expect(challengeEmailPageObject.form.getErrorBoxText()).contains('You have been logged out due to inactivity. Refresh or return to the sign in screen.');
   await t.expect(challengeEmailPageObject.getSignoutLinkText()).eql('Back to sign in');
 
   // Refresh

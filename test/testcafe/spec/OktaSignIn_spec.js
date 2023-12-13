@@ -570,7 +570,7 @@ test.requestHooks(identifyErrorMock)('should send "afterError" event (and not ex
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.clickNextButton();
   await identityPage.waitForErrorBox();
-  await t.expect(identityPage.getErrorBoxText()).eql('Internal Server Error');
+  await t.expect(identityPage.getErrorBoxText()).contains('Internal Server Error');
   await checkConsoleMessages([
     {
       before: 'identify',

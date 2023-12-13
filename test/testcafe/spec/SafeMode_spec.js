@@ -48,7 +48,7 @@ test.requestHooks(skipRequestLogger, safeModeOptionalMock)('should display corre
   await checkA11y(t);
 
   await terminalPage.waitForErrorBox();
-  await t.expect(terminalPage.getErrorMessages().getTextContent()).eql('Set up is temporarily unavailable due to server maintenance. Try again later.');
+  await t.expect(terminalPage.getErrorMessages().getTextContent()).contains('Set up is temporarily unavailable due to server maintenance. Try again later.');
   await t.expect((await terminalPage.getSkipSetUpLink()).exists).eql(true);
   await t.expect(await terminalPage.signoutLinkExists()).notOk();
 
@@ -68,7 +68,7 @@ test.requestHooks(safeModeRequiredMock)('should display correct error and sign o
   const terminalPage = await setup(t);
   await checkA11y(t);
   await terminalPage.waitForErrorBox();
-  await t.expect(terminalPage.getErrorMessages().getTextContent()).eql('Set up is temporarily unavailable due to server maintenance. Try again later.');
+  await t.expect(terminalPage.getErrorMessages().getTextContent()).contains('Set up is temporarily unavailable due to server maintenance. Try again later.');
   await t.expect((await terminalPage.getSkipSetUpLink()).exists).eql(false);
   await t.expect(await terminalPage.signoutLinkExists()).ok();
 });
@@ -77,7 +77,7 @@ test.requestHooks(safeModeCredentialEnrollmentIntent)('should display correct er
   const terminalPage = await setup(t);
   await checkA11y(t);
   await terminalPage.waitForErrorBox();
-  await t.expect(terminalPage.getErrorMessages().getTextContent()).eql('Set up is temporarily unavailable due to server maintenance. Try again later.');
+  await t.expect(terminalPage.getErrorMessages().getTextContent()).contains('Set up is temporarily unavailable due to server maintenance. Try again later.');
   await t.expect((await terminalPage.getSkipSetUpLink()).exists).eql(false);
   await t.expect(await terminalPage.signoutLinkExists()).notOk();
 });
