@@ -43,7 +43,7 @@ const InfoBox: UISchemaElementComponent<{
     <Box
       marginBlockEnd={4}
       width={1}
-      data-se="message"
+      data-se={`infobox-${messageClass.toLowerCase()}`}
     >
       <Callout
         severity={MessageTypeVariant[messageClass as MessageType] ?? MessageTypeVariant.INFO}
