@@ -21,10 +21,6 @@ export default class PollingPageObject extends BasePageObject {
     return new CalloutObject(this.form.el);
   }
 
-  waitForErrorBox() {
-    return this.form.waitForErrorBox();
-  }
-
   hasSpinner() {
     return !!this.spinner;
   }

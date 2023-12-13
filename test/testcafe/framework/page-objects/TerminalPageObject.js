@@ -4,7 +4,6 @@ import { userVariables, Selector, ClientFunction } from 'testcafe';
 import { within } from '@testing-library/testcafe';
 
 const TERMINAL_VIEW = '.siw-main-view.terminal';
-const CALLOUT_CONTEXT_V3 = '.MuiAlert-message > div';
 export default class TerminalPageObject extends BasePageObject {
 
   constructor(t) {
@@ -24,9 +23,6 @@ export default class TerminalPageObject extends BasePageObject {
   }
 
   getSuccessMessage() {
-    if (userVariables.gen3) {
-      return within(this.form.el).getByRole('alert').find(CALLOUT_CONTEXT_V3).innerText;
-    }
     return within(this.form.el).getByRole('alert').innerText;
   }
 

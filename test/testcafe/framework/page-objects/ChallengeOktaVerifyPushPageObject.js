@@ -75,13 +75,6 @@ export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPa
     return this.form.getNthTitle(titlePosition);
   }
 
-  getWarningBoxText() {
-    if (userVariables.gen3) {
-      return this.form.getAlertBoxText();
-    }
-    return this.getWarningBox().innerText;
-  }
-
   getWarningBox() {
     if (userVariables.gen3) {
       return this.form.getAlertBox();

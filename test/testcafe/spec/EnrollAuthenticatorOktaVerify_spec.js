@@ -433,8 +433,8 @@ test.requestHooks(resendEmailMocks)('after timeout should be able see and click 
   await t.expect(enrollOktaVerifyPage.resendViewExists()).notOk();
   await t.wait(30000);
   await t.expect(enrollOktaVerifyPage.resendViewExists()).ok();
-  const resendViewText = enrollOktaVerifyPage.resendViewText();
-  await t.expect(resendViewText).eql('Haven’t received an email? Check your spam folder or send again');
+  const resendView = enrollOktaVerifyPage.resendView();
+  await t.expect(resendView.innerText).eql('Haven’t received an email? Check your spam folder or send again');
   await enrollOktaVerifyPage.clickSendAgainLink();
   await t.expect(enrollOktaVerifyPage.resendViewExists()).notOk();
   await t.expect(enrollOktaVerifyPage.getEmailInstruction()).contains(emailInstruction1);
@@ -514,8 +514,8 @@ test.requestHooks(resendSmsMocks)('after timeout should be able see and click se
   await t.expect(enrollOktaVerifyPage.resendView().visible).notOk();
   await t.wait(30000);
   await t.expect(enrollOktaVerifyPage.resendViewExists()).ok();
-  const resendViewText = enrollOktaVerifyPage.resendViewText();
-  await t.expect(resendViewText).eql('Haven’t received an SMS? Send again');
+  const resendView = enrollOktaVerifyPage.resendView();
+  await t.expect(resendView.innerText).eql('Haven’t received an SMS? Send again');
   await enrollOktaVerifyPage.clickSendSMSAgainLink();
   await t.expect(enrollOktaVerifyPage.resendViewExists()).notOk();
   await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction1);
@@ -553,8 +553,8 @@ const testSmsMsg = async (t, isIos) => {
   await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction1);
   await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction2);
 
-  const errorBoxText = enrollOktaVerifyPage.getErrorBoxText();
-  await t.expect(errorBoxText).contains(message);
+  const errorBox = enrollOktaVerifyPage.getErrorBox();
+  await t.expect(errorBox.innerText).contains(message);
   const errorTitle = enrollOktaVerifyPage.getErrorTitle();
   await t.expect(errorTitle.innerText).contains(fipsUpgradeTitle);
 
@@ -606,8 +606,8 @@ const testEmailMsg = async (t, isIos) => {
   await t.expect(enrollOktaVerifyPage.getEmailInstruction()).contains(emailInstruction1);
   await t.expect(enrollOktaVerifyPage.getEmailInstruction()).contains(emailInstruction2);
 
-  const errorBoxText = enrollOktaVerifyPage.getErrorBoxText();
-  await t.expect(errorBoxText).contains(message);
+  const errorBox = enrollOktaVerifyPage.getErrorBox();
+  await t.expect(errorBox.innerText).contains(message);
   const errorTitle = enrollOktaVerifyPage.getErrorTitle();
   await t.expect(errorTitle.innerText).contains(fipsUpgradeTitle);
   if (isIos && userVariables.gen3) {
@@ -648,8 +648,8 @@ const testQRcodeMsg = async (t, isIos) => {
   await t.expect(qrInstructionBullet1).contains(qrCodeInstruction1);
   await t.expect(qrInstructionBullet2).contains(qrCodeInstruction2);
   await t.expect(qrInstructionBullet3).contains(qrCodeInstruction3);
-  const errorBoxText = enrollOktaVerifyPage.getErrorBoxText();
-  await t.expect(errorBoxText).contains(message);
+  const errorBox = enrollOktaVerifyPage.getErrorBox();
+  await t.expect(errorBox.innerText).contains(message);
   const errorTitle = enrollOktaVerifyPage.getErrorTitle();
   await t.expect(errorTitle.innerText).contains(fipsUpgradeTitle);
 
@@ -719,13 +719,12 @@ test.requestHooks(logger, enrollViaSmsVersionUpgradeMocksGoBack1)('should not sh
   await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction1);
   await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction2);
 
-  const errorBoxText = enrollOktaVerifyPage.getErrorBoxText();
-  await t.expect(errorBoxText).contains(fipsUpgradeMessage);
+  const errorBox = enrollOktaVerifyPage.getErrorBox();
+  await t.expect(errorBox.innerText).contains(fipsUpgradeMessage);
   const errorTitle = enrollOktaVerifyPage.getErrorTitle();
   await t.expect(errorTitle.innerText).contains(fipsUpgradeTitle);
   // hit go back
   await enrollOktaVerifyPage.switchAuthenticator();
-  const errorBox = enrollOktaVerifyPage.getErrorBox();
   await t.expect(errorBox.exists).notOk;
 });
 
@@ -743,8 +742,8 @@ test.requestHooks(logger, enrollViaQRcodeEnableBiometricsMocks1)('should see ov 
   await t.expect(qrInstructionBullet1).contains(qrCodeInstruction1);
   await t.expect(qrInstructionBullet2).contains(qrCodeInstruction2);
   await t.expect(qrInstructionBullet3).contains(qrCodeInstruction3);
-  const errorBoxText = enrollOktaVerifyPage.getErrorBoxText();
-  await t.expect(errorBoxText).contains(enableBiometricsMessage);
+  const errorBox = enrollOktaVerifyPage.getErrorBox();
+  await t.expect(errorBox.innerText).contains(enableBiometricsMessage);
   const errorTitle = enrollOktaVerifyPage.getErrorTitle();
   await t.expect(errorTitle.innerText).contains(enableBiometricsMessageTitle);
   if (!userVariables.gen3) {
@@ -788,8 +787,8 @@ test.requestHooks(enrollViaEmailEnableBiometricsMocks1)('should see ov enable bi
   await t.expect(enrollOktaVerifyPage.getEmailInstruction()).contains(emailInstruction1);
   await t.expect(enrollOktaVerifyPage.getEmailInstruction()).contains(emailInstruction2);
 
-  const errorBoxText = enrollOktaVerifyPage.getErrorBoxText();
-  await t.expect(errorBoxText).contains(enableBiometricsMessage);
+  const errorBox = enrollOktaVerifyPage.getErrorBox();
+  await t.expect(errorBox.innerText).contains(enableBiometricsMessage);
   const errorTitle = enrollOktaVerifyPage.getErrorTitle();
   await t.expect(errorTitle.innerText).contains(enableBiometricsMessageTitle);
   if (userVariables.gen3) {
@@ -834,8 +833,8 @@ test
     await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction1);
     await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction2);
 
-    const errorBoxText = enrollOktaVerifyPage.getErrorBoxText();
-    await t.expect(errorBoxText).contains(enableBiometricsMessage);
+    const errorBox = enrollOktaVerifyPage.getErrorBox();
+    await t.expect(errorBox.innerText).contains(enableBiometricsMessage);
 
     const errorTitle = enrollOktaVerifyPage.getErrorTitle();
     await t.expect(errorTitle.innerText).contains(enableBiometricsMessageTitle);

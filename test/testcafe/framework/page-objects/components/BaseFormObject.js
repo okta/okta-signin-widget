@@ -4,7 +4,6 @@ import { screen, within } from '@testing-library/testcafe';
 const TERMINAL_CONTENT = '.o-form-error-container .ion-messages-container';
 const FORM_INFOBOX_ERROR = '[data-se="o-form-error-container"] .infobox-error';
 const CALLOUT = '[data-se="callout"]';
-const CALLOUT_CONTEXT_V3 = '.MuiAlert-message > div';
 
 const CANCEL_BUTTON_SELECTOR = '[data-type="cancel"]';
 const SAVE_BUTTON_SELECTOR = '[data-type="save"]';
@@ -263,11 +262,7 @@ export default class BaseFormObject {
   }
 
   getErrorBoxText() {
-    if (userVariables.gen3) {
-      return this.getErrorBox().find(CALLOUT_CONTEXT_V3).innerText;
-    } else {
-      return this.getErrorBox().innerText;
-    }
+    return this.getErrorBox().innerText;
   }
 
   getErrorBoxCallout() {
@@ -280,9 +275,9 @@ export default class BaseFormObject {
 
   getAlertBoxText() {
     if (userVariables.gen3) {
-      return this.getAlertBox().find(CALLOUT_CONTEXT_V3).innerText;
-    } else {
       return this.getAlertBox().innerText;
+    } else {
+      // Not implemented/required in v2
     }
   }
 
@@ -300,7 +295,7 @@ export default class BaseFormObject {
 
   async getErrorBoxTextByIndex(index) {
     if (userVariables.gen3) {
-      return await within(this.el).findAllByRole('alert').nth(index).find(CALLOUT_CONTEXT_V3).innerText;
+      return await within(this.el).findAllByRole('alert').nth(index).innerText;
     }
     const errors = await this.getAllErrorBoxTexts();
     return errors[index];

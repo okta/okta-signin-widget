@@ -58,7 +58,6 @@ test.requestHooks(requestLogger, identifyPollErrorMock)('not poll on error', asy
   await identityPage.fillPasswordField('password');
   await identityPage.clickSignInButton();
   const pollingPageObject = new PollingPageObject();
-  await pollingPageObject.waitForErrorBox();
   await t.expect(pollingPageObject.getErrorMessages().getTextContent()).eql('Server is unable to respond at the moment.');
   await t.expect(pollingPageObject.getRetryMessage().length).eql(0);
 });
