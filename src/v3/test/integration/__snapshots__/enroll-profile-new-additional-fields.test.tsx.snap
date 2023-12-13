@@ -73,7 +73,6 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                           class="MuiBox-root emotion-15"
                         >
                           error
-                          : 
                         </span>
                         <div
                           class="MuiBox-root emotion-2"

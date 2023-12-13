@@ -86,7 +86,7 @@ exports[`terminal-return-email-error should render form 1`] = `
                     >
                       <div
                         class="MuiBox-root emotion-13"
-                        data-se="message"
+                        data-se="infobox-error"
                       >
                         <div
                           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-calloutError MuiAlert-callout emotion-14"
@@ -119,7 +119,6 @@ exports[`terminal-return-email-error should render form 1`] = `
                               class="MuiBox-root emotion-18"
                             >
                               error
-                              : 
                             </span>
                             <div
                               class="MuiBox-root emotion-2"

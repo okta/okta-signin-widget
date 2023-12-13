@@ -155,7 +155,6 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                               class="MuiBox-root emotion-24"
                             >
                               warning
-                              : 
                             </span>
                             <div
                               class="MuiBox-root emotion-2"

@@ -378,7 +378,6 @@ exports[`enroll-profile-with-password should show custom error message and preve
                           class="MuiBox-root emotion-15"
                         >
                           error
-                          : 
                         </span>
                         <div
                           class="MuiBox-root emotion-2"
@@ -706,7 +705,6 @@ exports[`enroll-profile-with-password should show custom field level error messa
                           class="MuiBox-root emotion-15"
                         >
                           error
-                          : 
                         </span>
                         <div
                           class="MuiBox-root emotion-2"
@@ -1034,7 +1032,6 @@ exports[`enroll-profile-with-password should show generic error message and prev
                           class="MuiBox-root emotion-15"
                         >
                           error
-                          : 
                         </span>
                         <div
                           class="MuiBox-root emotion-2"
@@ -1349,7 +1346,6 @@ exports[`enroll-profile-with-password should show validation error messages on a
                           class="MuiBox-root emotion-15"
                         >
                           error
-                          : 
                         </span>
                         <div
                           class="MuiBox-root emotion-2"

@@ -128,7 +128,7 @@ exports[`authenticator-verification-unlock-success should render form 1`] = `
                     >
                       <div
                         class="MuiBox-root emotion-19"
-                        data-se="message"
+                        data-se="infobox-info"
                       >
                         <div
                           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-calloutInfo MuiAlert-callout emotion-20"
@@ -161,7 +161,6 @@ exports[`authenticator-verification-unlock-success should render form 1`] = `
                               class="MuiBox-root emotion-24"
                             >
                               info
-                              : 
                             </span>
                             <div
                               class="MuiBox-root emotion-2"

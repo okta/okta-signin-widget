@@ -73,7 +73,6 @@ exports[`enroll-profile-update fails client side validation with empty required 
                           class="MuiBox-root emotion-15"
                         >
                           error
-                          : 
                         </span>
                         <div
                           class="MuiBox-root emotion-2"

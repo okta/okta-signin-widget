@@ -90,7 +90,7 @@ exports[`error-authenticator-enrollment-not-allowed should render form 1`] = `
                     >
                       <div
                         class="MuiBox-root emotion-18"
-                        data-se="message"
+                        data-se="infobox-error"
                       >
                         <div
                           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-calloutError MuiAlert-callout emotion-19"
@@ -123,7 +123,6 @@ exports[`error-authenticator-enrollment-not-allowed should render form 1`] = `
                               class="MuiBox-root emotion-23"
                             >
                               error
-                              : 
                             </span>
                             <div
                               class="MuiBox-root emotion-2"
