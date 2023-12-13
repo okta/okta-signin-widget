@@ -2,7 +2,7 @@ import { userVariables } from 'testcafe';
 
 import { screen, within } from '@testing-library/testcafe';
 
-const CALLOUT_CONTENT_V3 = '.MuiAlert-message > div';
+const CALLOUT_CONTEXT_V3 = '.MuiAlert-message > div';
 
 export default class CalloutObject {
 
@@ -32,7 +32,7 @@ export default class CalloutObject {
 
   getTextContent() {
     if (userVariables.gen3) {
-      return this.el.find(CALLOUT_CONTENT_V3).textContent;
+      return this.el.find(CALLOUT_CONTEXT_V3).textContent;
     }
     return this.el.child('[data-se="callout"]').child('div').textContent;
   }
