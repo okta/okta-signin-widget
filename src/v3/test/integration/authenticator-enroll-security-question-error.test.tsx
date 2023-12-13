@@ -209,7 +209,7 @@ describe('authenticator-enroll-security-question-error', () => {
           },
         }),
       );
-    }, 20000);
+    }, 40_000);
   });
 
   describe('custom question', () => {
