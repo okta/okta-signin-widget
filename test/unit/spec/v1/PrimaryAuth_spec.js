@@ -1495,12 +1495,6 @@ Expect.describe('PrimaryAuth', function() {
           });
       });
       itp('shows beacon-loading animation when primaryAuth is submitted (with deviceFingerprint)', function() {
-        spyOn(DeviceFingerprint, 'generateDeviceFingerprint').and.callFake(function() {
-          const deferred = Q.defer();
-  
-          deferred.resolve('thisIsTheDeviceFingerprint');
-          return deferred.promise;
-        });
         return setup({
           features: { securityImage: true, deviceFingerprinting: true, useDeviceFingerprintForSecurityImage: false },
         })
@@ -1709,12 +1703,6 @@ Expect.describe('PrimaryAuth', function() {
       });
     });
     itp('shows beacon-loading animation while loading security image (with deviceFingerprint)', function() {
-      spyOn(DeviceFingerprint, 'generateDeviceFingerprint').and.callFake(function() {
-        const deferred = Q.defer();
-
-        deferred.resolve('thisIsTheDeviceFingerprint');
-        return deferred.promise;
-      });
       return setup({ features: { securityImage: true, deviceFingerprinting: true } })
         .then(function(test) {
           test.securityBeacon = test.router.header.currentBeacon.$el;
