@@ -85,7 +85,7 @@ test.requestHooks(mockInvalidPasscode)('challenge on prem authenticator with inv
   await challengeOnPremPage.clickNextButton('Verify');
 
   await t.expect(challengeOnPremPage.getInvalidOTPError())
-    .eql('Invalid code. Try again.');
+    .contains('Invalid code. Try again.');
 });
 
 test.requestHooks(mockPasscodeChange)('displays error and clears passcode when passcode change response', async t => {
@@ -95,7 +95,7 @@ test.requestHooks(mockPasscodeChange)('displays error and clears passcode when p
   await challengeOnPremPage.clickNextButton('Verify');
 
   await t.expect(challengeOnPremPage.getInvalidOTPError())
-    .eql('Pin accepted, Wait for token to change, then enter new passcode.');
+    .contains('Pin accepted, Wait for token to change, then enter new passcode.');
   await t.expect(challengeOnPremPage.getPasscodeValue())
     .eql('');
 });

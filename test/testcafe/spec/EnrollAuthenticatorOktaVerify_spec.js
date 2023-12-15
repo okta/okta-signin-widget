@@ -434,7 +434,7 @@ test.requestHooks(resendEmailMocks)('after timeout should be able see and click 
   await t.wait(30000);
   await t.expect(enrollOktaVerifyPage.resendViewExists()).ok();
   const resendView = enrollOktaVerifyPage.resendView();
-  await t.expect(resendView.innerText).eql('Haven’t received an email? Check your spam folder or send again');
+  await t.expect(resendView.innerText).contains('Haven’t received an email? Check your spam folder or send again');
   await enrollOktaVerifyPage.clickSendAgainLink();
   await t.expect(enrollOktaVerifyPage.resendViewExists()).notOk();
   await t.expect(enrollOktaVerifyPage.getEmailInstruction()).contains(emailInstruction1);
@@ -515,7 +515,7 @@ test.requestHooks(resendSmsMocks)('after timeout should be able see and click se
   await t.wait(30000);
   await t.expect(enrollOktaVerifyPage.resendViewExists()).ok();
   const resendView = enrollOktaVerifyPage.resendView();
-  await t.expect(resendView.innerText).eql('Haven’t received an SMS? Send again');
+  await t.expect(resendView.innerText).contains('Haven’t received an SMS? Send again');
   await enrollOktaVerifyPage.clickSendSMSAgainLink();
   await t.expect(enrollOktaVerifyPage.resendViewExists()).notOk();
   await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction1);

@@ -10,7 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Alert, Box, Link } from '@okta/odyssey-react-mui-legacy';
+import { Callout } from '@okta/odyssey-react-mui';
+import { Box, Link } from '@okta/odyssey-react-mui-legacy';
 import { HTMLReactParserOptions } from 'html-react-parser';
 import { h } from 'preact';
 import { useEffect, useRef, useState } from 'preact/hooks';
@@ -131,19 +132,12 @@ const ReminderPrompt: UISchemaElementComponent<{
 
   return show ? (
     <Box marginBlockEnd={4}>
-      <Alert
+      <Callout
         severity="warning"
-        variant="infobox"
-        sx={{
-          // TODO: OKTA-534606 - switch to ODS component which has this fix
-          '& .MuiAlert-message': {
-            overflow: 'visible',
-          },
-        }}
       >
         {renderAlertContent()}
         {renderActionLink()}
-      </Alert>
+      </Callout>
     </Box>
   ) : null;
 };

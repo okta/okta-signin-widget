@@ -446,7 +446,7 @@ test
     await checkA11y(t);
     const errorBox = challengeCustomAppPushPageObject.getErrorBox();
     await t.expect(errorBox.innerText)
-      .eql('You have chosen to reject this login.');
+      .contains('You have chosen to reject this login.');
     await t.expect(challengeCustomAppPushPageObject.getResendPushButtonText())
       .eql('Resend push notification');
     // polling issue in v3 - https://oktainc.atlassian.net/browse/OKTA-587189
@@ -497,7 +497,7 @@ test
     await t.wait(20100); // Total > 30s
     const warningBox = challengeCustomAppPushPageObject.getWarningBox();
     await t.expect(warningBox.innerText)
-      .eql('Haven\'t received a push notification yet? Try opening Custom Push on your phone.');
+      .contains('Haven\'t received a push notification yet? Try opening Custom Push on your phone.');
   });
 
 test.requestHooks(pushSuccessMock1)('should show custom factor page link', async t => {

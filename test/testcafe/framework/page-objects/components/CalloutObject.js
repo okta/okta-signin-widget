@@ -13,24 +13,26 @@ export default class CalloutObject {
   }
 
   isWarning() {
+    if (userVariables.gen3) {
+      return this.el.parent().hasAttribute('data-se', 'infobox-warning');
+    }
     return this.el.hasClass('infobox-warning') &&
       this.el.child('[data-se="icon"]').hasClass('warning-16');
   }
 
   isError() {
-    const hasInfoBoxErrorClass = this.el.hasClass('infobox-error');
     if (userVariables.gen3) {
-      return hasInfoBoxErrorClass;
+      return this.el.parent().hasAttribute('data-se', 'infobox-error');
     }
-    return hasInfoBoxErrorClass &&
+    return this.el.hasClass('infobox-error') &&
       this.el.find('[data-se="icon"]').hasClass('error-16');
   }
 
   getTextContent() {
     if (userVariables.gen3) {
-      return this.el.textContent;
+      return this.el.innerText;
     }
-    return this.el.child('[data-se="callout"]').child('div').textContent;
+    return this.el.child('[data-se="callout"]').child('div').innerText;
   }
 
 }

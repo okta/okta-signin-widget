@@ -563,7 +563,7 @@ test
 
     await t.expect(await challengeEmailPageObject.resendEmailExists()).eql(false);
     await t.wait(5000);
-    await t.expect(challengeEmailPageObject.getErrorFromErrorBox()).eql('You have been logged out due to inactivity. Refresh or return to the sign in screen.');
+    await t.expect(challengeEmailPageObject.getErrorFromErrorBox()).contains('You have been logged out due to inactivity. Refresh or return to the sign in screen.');
 
     // TODO: verify OTP UI is as expected OTP OKTA-480518
 
@@ -795,7 +795,7 @@ test
     await checkA11y(t);
     const terminalPageObject = new TerminalPageObject(t);
     await t.expect(terminalPageObject.getErrorMessages().isError()).eql(true);
-    await t.expect(terminalPageObject.getErrorMessages().getTextContent()).eql('This email link has expired. To resend it, return to the screen where you requested it.');
+    await t.expect(terminalPageObject.getErrorMessages().getTextContent()).contains('This email link has expired. To resend it, return to the screen where you requested it.');
     await t.expect(await terminalPageObject.goBackLinkExists()).ok();
     await t.expect(terminalPageObject.getFormTitle()).eql('Verify with your email');
   });
@@ -910,6 +910,6 @@ test
     const terminalPageObject = new TerminalPageObject(t);
     await t.wait(2000); // wait for error page to show up
     await t.expect(terminalPageObject.getErrorMessages().isError()).eql(true);
-    await t.expect(terminalPageObject.getErrorMessages().getTextContent()).eql('Operation cancelled by user.');
+    await t.expect(terminalPageObject.getErrorMessages().getTextContent()).contains('Operation cancelled by user.');
     await t.expect(await terminalPageObject.goBackLinkExists()).ok();
   });

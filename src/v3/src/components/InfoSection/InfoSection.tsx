@@ -10,7 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Alert, Box } from '@okta/odyssey-react-mui-legacy';
+import { Callout } from '@okta/odyssey-react-mui';
+import { Box } from '@okta/odyssey-react-mui-legacy';
 import { IdxMessage } from '@okta/okta-auth-js';
 import { FunctionComponent, h } from 'preact';
 
@@ -25,13 +26,12 @@ const InfoSection: FunctionComponent<Props> = ({ message }) => (message ? (
     marginBlockEnd={4}
     width={1}
   >
-    <Alert
+    <Callout
       key={message.i18n?.key || message.message}
       severity={MessageTypeVariant[message.class as MessageType] ?? MessageTypeVariant.INFO}
-      variant="infobox"
     >
       {message.message}
-    </Alert>
+    </Callout>
   </Box>
 ) : null);
 

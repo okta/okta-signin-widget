@@ -38,7 +38,7 @@ test('should have webauthn not supported error if browser doesnt support', async
   await t.expect(enrollWebauthnPage.getFormTitle()).eql('Set up security key or biometric authenticator');
   await t.expect(enrollWebauthnPage.hasEnrollInstruction()).eql(false);
   await t.expect(enrollWebauthnPage.getWebauthnNotSupportedError())
-    .eql('Security key or biometric authenticator is not supported on this browser. Contact your admin for assistance.');
+    .contains('Security key or biometric authenticator is not supported on this browser. Contact your admin for assistance.');
 
   // signout link at enroll page
   await t.expect(await enrollWebauthnPage.signoutLinkExists()).ok();

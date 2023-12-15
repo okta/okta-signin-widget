@@ -97,6 +97,6 @@ test
     const terminalPage = new TerminalPageObject(t);
     await t.expect(terminalPage.getBeaconClass()).contains('mfa-okta-email');
     await t.expect(terminalPage.getErrorMessages().isError()).eql(true);
-    await t.expect(terminalPage.getErrorMessages().getTextContent()).eql('Access denied on other device.');
+    await t.expect(terminalPage.getErrorMessages().getTextContent()).contains('Access denied on other device.');
     await t.expect(terminalPage.getMessages()).contains('Close this window anytime.');
   });

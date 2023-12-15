@@ -104,7 +104,7 @@ test.requestHooks(logger, mock)('should call settings.registration.preSubmit hoo
     },
   });
   await checkA11y(t);
-  await t.expect(registrationPage.getErrorBoxText()).eql('My parseSchema message');
+  await t.expect(registrationPage.getErrorBoxText()).contains('My parseSchema message');
 
   await registrationPage.fillFirstNameField('xyz');
   await registrationPage.fillLastNameField('xyz');
@@ -112,7 +112,7 @@ test.requestHooks(logger, mock)('should call settings.registration.preSubmit hoo
   await registrationPage.fillUsernameField('my-username');
   await registrationPage.clickRegisterButton();
 
-  await t.expect(registrationPage.getErrorBoxText()).eql('My preSubmit message');
+  await t.expect(registrationPage.getErrorBoxText()).contains('My preSubmit message');
 
   // no request because the form fails to submit
   await t.expect(logger.requests.length).eql(0);
@@ -140,7 +140,7 @@ test.requestHooks(logger, mock)('settings.registration.preSubmit hook can call o
   await registrationPage.fillUsernameField('my-username');
   await registrationPage.clickRegisterButton();
 
-  await t.expect(registrationPage.getErrorBoxText()).eql('We found some errors. Please review the form and make corrections.');
+  await t.expect(registrationPage.getErrorBoxText()).contains('We found some errors. Please review the form and make corrections.');
   await t.expect(registrationPage.form.getTextBoxErrorMessage('userProfile.lastName')).eql('my preSubmit error summary');
 
   // no request because the form fails to submit
@@ -171,5 +171,5 @@ test.requestHooks(logger, mock)('should call settings.registration.postSubmit ho
   // there will be a POST request
   await t.expect(req.method).eql('post');
   // there will be an error box
-  await t.expect(registrationPage.getErrorBoxText()).eql('My postSubmit message');
+  await t.expect(registrationPage.getErrorBoxText()).contains('My postSubmit message');
 });

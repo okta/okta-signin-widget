@@ -134,7 +134,7 @@ test
 
     await t.expect(pageObject.getFormTitle()).eql('Set up IDP Authenticator');
     await t.expect(pageObject.getPageSubtitle()).eql('You will be redirected to enroll in IDP Authenticator');
-    await t.expect(pageObject.getErrorFromErrorBox()).eql('Unable to enroll authenticator. Try again.');
+    await t.expect(pageObject.getErrorFromErrorBox()).contains('Unable to enroll authenticator. Try again.');
     await t.expect(pageObject.getBeaconClass()).contains('mfa-custom-factor');
   });
 
@@ -146,7 +146,7 @@ test
     const logoBgImage = pageObject.getBeaconBgImage();
     await t.expect(pageObject.getFormTitle()).eql('Set up IDP Authenticator');
     await t.expect(pageObject.getPageSubtitle()).eql('You will be redirected to enroll in IDP Authenticator');
-    await t.expect(pageObject.getErrorFromErrorBox()).eql('Unable to enroll authenticator. Try again.');
+    await t.expect(pageObject.getErrorFromErrorBox()).contains('Unable to enroll authenticator. Try again.');
     await t.expect(pageObject.getBeaconClass()).contains('mfa-custom-factor');
     if(userVariables.gen3) {
       await t.expect(logoBgImage).match(/.*\/img\/logos\/default\.png$/);
@@ -214,7 +214,7 @@ test
 
     await t.expect(pageObject.getFormTitle()).eql('Verify with IDP Authenticator');
     await t.expect(pageObject.getPageSubtitle()).eql('You will be redirected to verify with IDP Authenticator');
-    await t.expect(pageObject.getErrorFromErrorBox()).eql('Unable to verify authenticator. Try again.');
+    await t.expect(pageObject.getErrorFromErrorBox()).contains('Unable to verify authenticator. Try again.');
   });
 
 test
@@ -225,7 +225,7 @@ test
     const logoBgImage = pageObject.getBeaconBgImage();
     await t.expect(pageObject.getFormTitle()).eql('Verify with IDP Authenticator');
     await t.expect(pageObject.getPageSubtitle()).eql('You will be redirected to verify with IDP Authenticator');
-    await t.expect(pageObject.getErrorFromErrorBox()).eql('Unable to verify authenticator. Try again.');
+    await t.expect(pageObject.getErrorFromErrorBox()).contains('Unable to verify authenticator. Try again.');
     await t.expect(pageObject.getBeaconClass()).contains('mfa-custom-factor');
     if(userVariables.gen3) {
       await t.expect(logoBgImage).match(/.*\/img\/logos\/default\.png$/);

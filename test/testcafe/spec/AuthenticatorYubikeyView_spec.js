@@ -79,7 +79,7 @@ test
     await pageObject.clickEnrollButton();
 
     await pageObject.form.waitForErrorBox();
-    await t.expect(pageObject.form.getErrorBoxText()).eql('We found some errors. Please review the form and make corrections.');
+    await t.expect(pageObject.form.getErrorBoxText()).contains('We found some errors. Please review the form and make corrections.');
   });
 
 fixture('Verify YubiKey Authenticator');
@@ -119,7 +119,7 @@ test
     await pageObject.clickVerifyButton();
 
     await pageObject.form.waitForErrorBox();
-    await t.expect(pageObject.form.getErrorBoxText()).eql('We found some errors. Please review the form and make corrections.');
+    await t.expect(pageObject.form.getErrorBoxText()).contains('We found some errors. Please review the form and make corrections.');
   });
 
 test.requestHooks(verifyMock)('should show custom factor page link', async t => {

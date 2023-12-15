@@ -245,6 +245,6 @@ test.requestHooks(logger, mockErrorIdentifyOnlyOneIdp)('show terminal error on i
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.clickNextButton();
   await t.expect(identityPage.getErrorBoxText())
-    .eql('There was a problem signing you into your identity provider. Please contact your administrator for help.');
+    .contains('There was a problem signing you into your identity provider. Please contact your administrator for help.');
   await t.expect(await identityPage.signoutLinkExists()).ok();
 });
