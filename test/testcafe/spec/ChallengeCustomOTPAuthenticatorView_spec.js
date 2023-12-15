@@ -74,7 +74,7 @@ test.requestHooks(mockInvalidPasscode)('challege custom otp authenticator with i
   await checkA11y(t);
   await challengeOnPremPage.verifyFactor('credentials.passcode', 'test');
   await challengeOnPremPage.clickNextButton('Verify');
-  await t.expect(challengeOnPremPage.getInvalidOTPError()).eql('Invalid code. Try again.');
+  await t.expect(challengeOnPremPage.getInvalidOTPError()).contains('Invalid code. Try again.');
 });
 
 test.requestHooks(mockChallengeAuthenticatorCustomOTP)('should show custom factor page link', async t => {

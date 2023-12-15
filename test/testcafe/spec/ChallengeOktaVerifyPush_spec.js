@@ -206,5 +206,5 @@ test
     await t.wait(30500);
     const warningBox = challengeOktaVerifyPushPageObject.getWarningBox();
     await t.expect(warningBox.innerText)
-      .eql('Haven\'t received a push notification yet? Try opening the Okta Verify App on your phone.');
+      .contains('Haven\'t received a push notification yet? Try opening the Okta Verify App on your phone.');
   });

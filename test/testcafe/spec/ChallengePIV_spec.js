@@ -80,5 +80,5 @@ test
     const subtitle = await pivPageObject.getPageSubtitle();
     const subtitleText = subtitle.trim();
     await t.expect(subtitleText).eql('Please insert your PIV / CAC card and select the user certificate.');
-    await t.expect(pivPageObject.getErrorFromErrorBox()).eql('Unable to sign in');
+    await t.expect(pivPageObject.getErrorFromErrorBox()).contains('Unable to sign in');
   });

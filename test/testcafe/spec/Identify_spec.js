@@ -182,7 +182,7 @@ test.requestHooks(identifyMockWithUnsupportedResponseError)('should show error i
   await identityPage.fillIdentifierField('test');
   await identityPage.clickNextButton();
   await identityPage.waitForErrorBox();
-  await t.expect(identityPage.getErrorBoxText()).eql('There was an unsupported response from server.');
+  await t.expect(identityPage.getErrorBoxText()).contains('There was an unsupported response from server.');
 });
 
 test.requestHooks(identifyMock)('should show customized error if required field identifier is empty', async t => {
@@ -452,9 +452,9 @@ test.requestHooks(identifyRequestLogger, errorsIdentifyMock)('should render each
   const identityPage = await setup(t);
   await checkA11y(t);
 
-  await t.expect(await identityPage.form.getErrorBoxTextByIndex(0)).eql('Please enter a username');
-  await t.expect(await identityPage.form.getErrorBoxTextByIndex(1)).eql('Please enter a password');
-  await t.expect(await identityPage.form.getErrorBoxTextByIndex(2)).eql('Your session has expired. Please try to sign in again.');
+  await t.expect(await identityPage.form.getErrorBoxTextByIndex(0)).contains('Please enter a username');
+  await t.expect(await identityPage.form.getErrorBoxTextByIndex(1)).contains('Please enter a password');
+  await t.expect(await identityPage.form.getErrorBoxTextByIndex(2)).contains('Your session has expired. Please try to sign in again.');
 });
 
 test.requestHooks(identifyRequestLogger, baseIdentifyMock)('should "autoFocus" form with config or by default in gen2 but not gen3', async t => {

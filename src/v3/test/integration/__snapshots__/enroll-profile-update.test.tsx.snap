@@ -44,7 +44,7 @@ exports[`enroll-profile-update fails client side validation with empty required 
                     class="MuiBox-root emotion-10"
                   >
                     <div
-                      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxError MuiAlert-infobox emotion-11"
+                      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-calloutError MuiAlert-callout emotion-11"
                       role="alert"
                     >
                       <div
@@ -69,27 +69,36 @@ exports[`enroll-profile-update fails client side validation with empty required 
                       <div
                         class="MuiAlert-message emotion-14"
                       >
-                        We found some errors. Please review the form and make corrections.
+                        <span
+                          class="MuiBox-root emotion-15"
+                        >
+                          error
+                        </span>
+                        <div
+                          class="MuiBox-root emotion-2"
+                        >
+                          We found some errors. Please review the form and make corrections.
+                        </div>
                       </div>
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root emotion-15"
+                    class="MuiBox-root emotion-17"
                   >
                     <div
-                      class="MuiBox-root emotion-16"
+                      class="MuiBox-root emotion-18"
                     >
                       <div
-                        class="identifier-container MuiBox-root emotion-17"
+                        class="identifier-container MuiBox-root emotion-19"
                       >
                         <div
-                          class="MuiBox-root emotion-18"
+                          class="MuiBox-root emotion-20"
                         >
                           <span
-                            class="MuiBox-root emotion-19"
+                            class="MuiBox-root emotion-21"
                           >
                             <svg
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-20"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-22"
                               fill="none"
                               focusable="false"
                               role="img"
@@ -109,7 +118,7 @@ exports[`enroll-profile-update fails client side validation with empty required 
                           </span>
                           <span
                             aria-label="testUser@okta.com"
-                            class="identifier no-translate MuiBox-root emotion-21"
+                            class="identifier no-translate MuiBox-root emotion-23"
                             data-se="identifier"
                             title="testUser@okta.com"
                           >
@@ -119,13 +128,13 @@ exports[`enroll-profile-update fails client side validation with empty required 
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-16"
+                      class="MuiBox-root emotion-18"
                     >
                       <div
-                        class="MuiBox-root emotion-23"
+                        class="MuiBox-root emotion-25"
                       >
                         <h2
-                          class="MuiTypography-root MuiTypography-h4 emotion-24"
+                          class="MuiTypography-root MuiTypography-h4 emotion-26"
                           data-se="o-form-head"
                           id="enroll-profile_Title_Sign_in_1"
                           tabindex="-1"
@@ -135,13 +144,13 @@ exports[`enroll-profile-update fails client side validation with empty required 
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-16"
+                      class="MuiBox-root emotion-18"
                     >
                       <div
-                        class="MuiBox-root emotion-23"
+                        class="MuiBox-root emotion-25"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-27"
+                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-29"
                           data-se="o-form-explain"
                           id="enroll-profile_Description_Fields_are_required_unless_marked_optional_2"
                         >
@@ -150,31 +159,31 @@ exports[`enroll-profile-update fails client side validation with empty required 
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-16"
+                      class="MuiBox-root emotion-18"
                     >
                       <div
                         class="MuiBox-root emotion-2"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-30"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-32"
                           data-shrink="false"
                           for="userProfile.favoriteSport"
                         >
                           Favorite sport
                           <span
                             aria-hidden="true"
-                            class="no-translate MuiBox-root emotion-31"
+                            class="no-translate MuiBox-root emotion-33"
                           >
                             *
                           </span>
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth Mui-focused emotion-32"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth Mui-focused emotion-34"
                         >
                           <input
                             aria-describedby=" userProfile.favoriteSport-error  "
                             aria-invalid="true"
-                            class="MuiInputBase-input emotion-33"
+                            class="MuiInputBase-input emotion-35"
                             data-se="userProfile.favoriteSport"
                             id="userProfile.favoriteSport"
                             name="userProfile.favoriteSport"
@@ -185,7 +194,7 @@ exports[`enroll-profile-update fails client side validation with empty required 
                           class="MuiBox-root emotion-2"
                         >
                           <p
-                            class="MuiFormHelperText-root Mui-error emotion-35"
+                            class="MuiFormHelperText-root Mui-error emotion-37"
                             data-se="userProfile.favoriteSport-error"
                             id="userProfile.favoriteSport-error"
                             role="alert"
@@ -196,31 +205,31 @@ exports[`enroll-profile-update fails client side validation with empty required 
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-16"
+                      class="MuiBox-root emotion-18"
                     >
                       <div
                         class="MuiBox-root emotion-2"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-30"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-32"
                           data-shrink="false"
                           for="userProfile.newAttribute"
                         >
                           Custom attribute
                           <span
                             aria-hidden="true"
-                            class="no-translate MuiBox-root emotion-31"
+                            class="no-translate MuiBox-root emotion-33"
                           >
                             *
                           </span>
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth emotion-32"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth emotion-34"
                         >
                           <input
                             aria-describedby=" userProfile.newAttribute-error  "
                             aria-invalid="true"
-                            class="MuiInputBase-input emotion-33"
+                            class="MuiInputBase-input emotion-35"
                             data-se="userProfile.newAttribute"
                             id="userProfile.newAttribute"
                             name="userProfile.newAttribute"
@@ -231,7 +240,7 @@ exports[`enroll-profile-update fails client side validation with empty required 
                           class="MuiBox-root emotion-2"
                         >
                           <p
-                            class="MuiFormHelperText-root Mui-error emotion-35"
+                            class="MuiFormHelperText-root Mui-error emotion-37"
                             data-se="userProfile.newAttribute-error"
                             id="userProfile.newAttribute-error"
                             role="alert"
@@ -242,10 +251,10 @@ exports[`enroll-profile-update fails client side validation with empty required 
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-16"
+                      class="MuiBox-root emotion-18"
                     >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-45"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-47"
                         data-type="save"
                         tabindex="0"
                         type="submit"

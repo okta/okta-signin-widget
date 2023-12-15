@@ -48,10 +48,10 @@ exports[`error-recovery-token-invalid should render form 1`] = `
                     >
                       <div
                         class="MuiBox-root emotion-12"
-                        data-se="message"
+                        data-se="infobox-error"
                       >
                         <div
-                          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxError MuiAlert-infobox infobox-error emotion-13"
+                          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-calloutError MuiAlert-callout emotion-13"
                           data-se="callout"
                           role="alert"
                         >
@@ -77,7 +77,16 @@ exports[`error-recovery-token-invalid should render form 1`] = `
                           <div
                             class="MuiAlert-message emotion-16"
                           >
-                            The recovery token is invalid.
+                            <span
+                              class="MuiBox-root emotion-17"
+                            >
+                              error
+                            </span>
+                            <div
+                              class="MuiBox-root emotion-2"
+                            >
+                              The recovery token is invalid.
+                            </div>
                           </div>
                         </div>
                       </div>

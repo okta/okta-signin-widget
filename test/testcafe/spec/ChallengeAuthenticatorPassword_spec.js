@@ -152,7 +152,7 @@ test.requestHooks(sessionExpiresDuringPassword)('challege password authenticator
   await challengePasswordPage.verifyFactor('credentials.passcode', 'test');
   await challengePasswordPage.clickVerifyButton();
 
-  await t.expect(challengePasswordPage.getErrorFromErrorBox()).eql('You have been logged out due to inactivity. Refresh or return to the sign in screen.');
+  await t.expect(challengePasswordPage.getErrorFromErrorBox()).contains('You have been logged out due to inactivity. Refresh or return to the sign in screen.');
   // confirm they can get out of terminal state (restarts the flow)
   await t.expect(challengePasswordPage.getSignoutLinkText()).eql('Back to sign in');
   await challengePasswordPage.clickGoBackLink();
@@ -186,7 +186,7 @@ test.requestHooks(recoveryRequestLogger, mockCannotForgotPassword)('can not reco
 
   await t.expect(challengePasswordPage.form.getErrorBoxCount()).eql(1);
   await t.expect(challengePasswordPage.form.getErrorBoxText())
-    .eql('Reset password is not allowed at this time. Please contact support for assistance.');
+    .contains('Reset password is not allowed at this time. Please contact support for assistance.');
 
   await t.expect(recoveryRequestLogger.count(() => true)).eql(2);
 

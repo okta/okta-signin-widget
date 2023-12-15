@@ -106,10 +106,10 @@ exports[`request-activation-email renders form 1`] = `
                     >
                       <div
                         class="MuiBox-root emotion-21"
-                        data-se="message"
+                        data-se="infobox-error"
                       >
                         <div
-                          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxError MuiAlert-infobox infobox-error emotion-22"
+                          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-calloutError MuiAlert-callout emotion-22"
                           data-se="callout"
                           role="alert"
                         >
@@ -135,7 +135,16 @@ exports[`request-activation-email renders form 1`] = `
                           <div
                             class="MuiAlert-message emotion-25"
                           >
-                            Your account activation link is no longer valid. Request a new activation email below.
+                            <span
+                              class="MuiBox-root emotion-26"
+                            >
+                              error
+                            </span>
+                            <div
+                              class="MuiBox-root emotion-2"
+                            >
+                              Your account activation link is no longer valid. Request a new activation email below.
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -144,7 +153,7 @@ exports[`request-activation-email renders form 1`] = `
                       class="MuiBox-root emotion-11"
                     >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-27"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-29"
                         data-type="save"
                         tabindex="0"
                         type="submit"

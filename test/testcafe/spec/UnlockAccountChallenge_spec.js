@@ -174,7 +174,7 @@ test.requestHooks(errorUnlockAccount)('should show error when unlock account fai
   const terminaErrorPage = new TerminalPageObject(t);
   await terminaErrorPage.waitForErrorBox();
   await t.expect(terminaErrorPage.getErrorMessages().isError()).eql(true);
-  await t.expect(terminaErrorPage.getErrorMessages().getTextContent()).eql('We are unable to unlock your account at this time, please contact your administrator');
+  await t.expect(terminaErrorPage.getErrorMessages().getTextContent()).contains('We are unable to unlock your account at this time, please contact your administrator');
 });
 
 test.requestHooks(identifyLockedUserLandOnAppMock)('should show unlock account authenticator selection list before landing on App', async t => {
@@ -196,7 +196,7 @@ test.requestHooks(identifyLockedUserLandOnAppMock)('should show unlock account a
 
   const successPage = new TerminalPageObject(t);
   await t.expect(successPage.getFormTitle()).eql('Verify with your password');
-  await t.expect(successPage.getSuccessMessage()).eql('Account successfully unlocked! Verify your account with a security method to continue.');
+  await t.expect(successPage.getSuccessMessage()).contains('Account successfully unlocked! Verify your account with a security method to continue.');
   const gobackLinkExists = await successPage.goBackLinkExistsV2();
   await t.expect(gobackLinkExists).eql(false);
   const signoutLinkExists = await successPage.signoutLinkExists();

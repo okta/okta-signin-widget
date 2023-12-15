@@ -3,7 +3,7 @@ import { userVariables, Selector } from 'testcafe';
 import { within } from '@testing-library/testcafe';
 
 const FORM_INFOBOX_ERROR_TITLE = '[data-se="o-form-error-container"] [data-se="callout"] > h3';
-const FORM_INFOBOX_ERROR_TITLE_V3 = '[data-se="callout"] > div > h2';
+const FORM_INFOBOX_ERROR_TITLE_V3 = '[data-se="callout"] h2';
 const CANT_SCAN_BUTTON_TEXT = 'Setup without scanning a QR code.';
 const FORM_SELECTOR = '[data-se="o-form-explain"]';
 const SUB_HEADER = '[data-se="subheader"]';

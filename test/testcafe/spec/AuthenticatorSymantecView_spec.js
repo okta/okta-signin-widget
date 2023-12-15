@@ -87,7 +87,7 @@ test
     await pageObject.submit('Enroll');
 
     pageObject.form.waitForErrorBox();
-    await t.expect(pageObject.form.getErrorBoxText()).eql('We found some errors. Please review the form and make corrections.');
+    await t.expect(pageObject.form.getErrorBoxText()).contains('We found some errors. Please review the form and make corrections.');
   });
 
 fixture('Verify Symantec VIP Authenticator');
@@ -124,7 +124,7 @@ test
     await pageObject.submit('Verify');
 
     pageObject.form.waitForErrorBox();
-    await t.expect(pageObject.form.getErrorBoxText()).eql('We found some errors. Please review the form and make corrections.');
+    await t.expect(pageObject.form.getErrorBoxText()).contains('We found some errors. Please review the form and make corrections.');
   });
 
 test

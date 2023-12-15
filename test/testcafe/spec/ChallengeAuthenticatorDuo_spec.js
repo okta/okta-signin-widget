@@ -130,7 +130,7 @@ test.requestHooks(answerRequestLogger, verificationTimeoutMock)('verification ti
   await challengeDuoPage.clickDuoMockLink();
 
   await duoPageObject.form.waitForErrorBox();
-  await t.expect(duoPageObject.form.getErrorBoxText()).eql('We were unable to verify with Duo. Try again.');
+  await t.expect(duoPageObject.form.getErrorBoxText()).contains('We were unable to verify with Duo. Try again.');
 });
 
 test.requestHooks(answerRequestLogger, verificationFailedMock)('verification failed', async t => {
@@ -141,7 +141,7 @@ test.requestHooks(answerRequestLogger, verificationFailedMock)('verification fai
   await challengeDuoPage.clickDuoMockLink();
 
   await duoPageObject.form.waitForErrorBox();
-  await t.expect(duoPageObject.form.getErrorBoxText()).eql('We were unable to verify with Duo. Try again.');
+  await t.expect(duoPageObject.form.getErrorBoxText()).contains('We were unable to verify with Duo. Try again.');
 });
 
 test
