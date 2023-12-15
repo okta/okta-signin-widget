@@ -541,6 +541,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
                       type: 'federated',
                       id: 'aut4mhtS1b84AR0iQ0g4',
                       key: 'external_idp',
+                      logoUri: '/img/logos/default.png',
                       displayName: 'IDP Authenticator',
                       methods: [
                         {

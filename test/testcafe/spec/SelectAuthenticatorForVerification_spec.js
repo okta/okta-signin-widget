@@ -229,7 +229,7 @@ test.requestHooks(mockChallengePassword)('should load select authenticator list'
   await t.expect(selectFactorPage.getFactorLabelByIndex(11)).eql('IDP Authenticator');
   await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(11)).eql(false);
   await t.expect(selectFactorPage.getFactorIconClassByIndex(11)).contains('mfa-custom-factor');
-  await t.expect(await selectFactorPage.factorCustomLogoExist(11)).eql(false);
+  await t.expect(await selectFactorPage.factorCustomLogoExist(11)).eql(true);
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(11)).eql('Select');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(11)).eql('external_idp');
 
@@ -365,7 +365,7 @@ test.requestHooks(mockChallengeWithNickname)('should load select authenticator l
   await t.expect(selectFactorPage.getFactorLabelByIndex(11)).eql('IDP Authenticator');
   await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(11)).eql(false);
   await t.expect(selectFactorPage.getFactorIconClassByIndex(11)).contains('mfa-custom-factor');
-  await t.expect(await selectFactorPage.factorCustomLogoExist(11)).eql(false);
+  await t.expect(await selectFactorPage.factorCustomLogoExist(11)).eql(true);
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(11)).eql('Select');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(11)).eql('external_idp');
 
