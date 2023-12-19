@@ -45,13 +45,9 @@ const Icon: FunctionComponent<PasswordRequirementIconProps> = (
       {
         // Using a custom Icon for the Success/Check Instead of default ODY Icon
         statusToIconProps[status].name === 'check-circle-filled' ? (
-          <CheckCircle
-            name="complete"
-            description="complete"
-          />
+          <CheckCircle />
         ) : (
           <OdyIcon
-            titleAccess={status}
             name={statusToIconProps[status].name}
             color={statusToIconProps[status].color}
           />

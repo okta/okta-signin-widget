@@ -14,7 +14,7 @@ import { FunctionComponent, h } from 'preact';
 
 import { IconProps } from '../../types';
 
-export const CheckCircle: FunctionComponent<IconProps> = ({ description }) => (
+export const CheckCircle: FunctionComponent = () => (
   <svg
     width="16"
     height="16"
@@ -23,7 +23,6 @@ export const CheckCircle: FunctionComponent<IconProps> = ({ description }) => (
     xmlns="http://www.w3.org/2000/svg"
     role="img"
   >
-    <title>{description}</title>
     <path
       fillRule="evenodd"
       clipRule="evenodd"
