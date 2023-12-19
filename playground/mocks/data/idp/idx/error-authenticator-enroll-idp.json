@@ -78,7 +78,6 @@
       "type": "federated",
       "id": "aut4mhtS1b84AR0iQ0g4",
       "displayName": "IDP Authenticator",
-      "logoUri":"/img/logos/default.png",
       "methods": [
         { "type": "idp" }
       ]

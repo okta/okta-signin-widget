@@ -909,17 +909,22 @@ const idpAuthenticator = {
   '/idp/idx/introspect': [
     'authenticator-enroll-select-authenticator',
     // 'authenticator-verification-select-authenticator',
+    // 'authenticator-verification-select-authenticator-custom-logo',
     'success',
     // Errors:
     //  - Unlike other authenticators, these occur during idx/introspect
     // 'error-authenticator-enroll-idp',
+    // 'error-authenticator-enroll-idp-custom-logo',
     // 'error-authenticator-verification-idp',
+    // 'error-authenticator-verification-idp-custom-logo'
   ],
   '/idp/idx/challenge': [
     'authenticator-verification-idp',
+    // 'authenticator-verification-idp-custom-logo'
   ],
   '/idp/idx/credential/enroll': [
     'authenticator-enroll-idp',
+    // 'authenticator-enroll-idp-custom-logo'
   ]
 };
 
