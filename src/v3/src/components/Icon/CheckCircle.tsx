@@ -12,8 +12,6 @@
 
 import { FunctionComponent, h } from 'preact';
 
-import { IconProps } from '../../types';
-
 export const CheckCircle: FunctionComponent = () => (
   <svg
     width="16"
