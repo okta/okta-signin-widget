@@ -15,7 +15,7 @@
 import './style.css';
 
 import { ScopedCssBaseline } from '@mui/material';
-import { OdysseyProvider, odysseyI18nResourceKeysList, TranslationOverrides } from '@okta/odyssey-react-mui';
+import { odysseyI18nResourceKeysList, OdysseyProvider, TranslationOverrides } from '@okta/odyssey-react-mui';
 import { MuiThemeProvider } from '@okta/odyssey-react-mui-legacy';
 import {
   AuthApiError,
@@ -25,6 +25,7 @@ import {
   IdxTransaction,
   OAuthError,
 } from '@okta/okta-auth-js';
+import { pick } from 'lodash';
 import { FunctionComponent, h } from 'preact';
 import {
   useCallback,
@@ -33,7 +34,6 @@ import {
   useRef,
   useState,
 } from 'preact/hooks';
-import { pick } from 'lodash';
 import { mergeThemes } from 'src/util/mergeThemes';
 
 import Bundles from '../../../../util/Bundles';
