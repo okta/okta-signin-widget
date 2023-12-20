@@ -64,10 +64,11 @@ export default class EnrollPasswordPageObject extends BasePageObject {
     return this.form.getTextBoxErrorMessage(confirmPasswordFieldName);
   }
 
-  hasPasswordMatchRequirementStatus() {
+  hasPasswordMatchRequirementStatus(expectComplete = false) {
+    const expectedIconId = expectComplete ? 'passwordRequirementIcon-complete' : 'passwordRequirementIcon-incomplete';
     const passwordMatchWrapper = this.form.getElement('[data-se="password-authenticator--matches');
     // Status SVG icon is aria-hidden and does not have a name or title identifier
-    return passwordMatchWrapper.find('.passwordRequirementIcon').exists;
+    return passwordMatchWrapper.find(`[data-se="${expectedIconId}"`).exists;
   }
 
   // This will be used by any password page that has requirements on it.
