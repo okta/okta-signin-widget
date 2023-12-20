@@ -240,7 +240,7 @@ export interface UISchemaLayout extends Layout {
 
 export interface StepperLayout extends Layout {
   type: UISchemaLayoutType.STEPPER;
-  elements: Omit<UISchemaLayout, 'StepperLayout'>[];
+  elements: Omit<UISchemaLayout['elements'], 'StepperLayout'>;
   options?: {
     defaultStepIndex: () => number;
   }

@@ -226,13 +226,10 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
       {renderCountrySelect()}
       <Box
         display="flex"
-        flexWrap="wrap"
+        justifyContent="space-between"
         dir="ltr"
       >
-        <Box
-          width={showExtension ? 0.7 : 1}
-          marginInlineEnd={showExtension ? 2 : 0}
-        >
+        <Box width={showExtension ? 0.7 : 1}>
           <InputLabel
             htmlFor={fieldName}
             // To prevent asterisk from shifting far right
