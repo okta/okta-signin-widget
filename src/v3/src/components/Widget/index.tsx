@@ -15,7 +15,7 @@
 import './style.css';
 
 import { ScopedCssBaseline } from '@mui/material';
-import { OdysseyProvider } from '@okta/odyssey-react-mui';
+import { OdysseyProvider, odysseyI18nResourceKeysList, TranslationOverrides } from '@okta/odyssey-react-mui';
 import { MuiThemeProvider } from '@okta/odyssey-react-mui-legacy';
 import {
   AuthApiError,
@@ -33,6 +33,7 @@ import {
   useRef,
   useState,
 } from 'preact/hooks';
+import { pick } from 'lodash';
 import { mergeThemes } from 'src/util/mergeThemes';
 
 import Bundles from '../../../../util/Bundles';
@@ -134,8 +135,13 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const languageCode = getLanguageCode(widgetProps);
   const languageDirection = getLanguageDirection(languageCode);
   const { stateHandle, unsetStateHandle } = useStateHandle(widgetProps);
+  // Odyssey language codes use '_' instead of '-' (e.g. zh-CN -> zh_CN)
+  const odyLanguageCode: string = languageCode.replace('-', '_');
+  // Only pick Odyssey translation keys from translation bundle
+  const odyTranslationOverrides: TranslationOverrides<string> = {
+    [odyLanguageCode]: pick(Bundles.login, odysseyI18nResourceKeysList)
+  } as TranslationOverrides<string>;
 
-  // merge themes
   const { theme, tokens } = useMemo(() => {
     const { themeOverride, tokensOverride } = createThemeAndTokens(
       brandColors,
@@ -506,6 +512,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         <OdysseyProvider
           themeOverride={theme}
           designTokensOverride={tokens}
+          languageCode={odyLanguageCode}
+          translationOverrides={odyTranslationOverrides}
           nonce={cspNonce}
           stylisPlugins={stylisPlugins}
         >
