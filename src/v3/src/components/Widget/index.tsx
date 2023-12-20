@@ -139,7 +139,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const odyLanguageCode: string = languageCode.replace('-', '_');
   // Only pick Odyssey translation keys from translation bundle
   const odyTranslationOverrides: TranslationOverrides<string> = {
-    [odyLanguageCode]: pick(Bundles.login, odysseyI18nResourceKeysList)
+    [odyLanguageCode]: pick(Bundles.login, odysseyI18nResourceKeysList),
   } as TranslationOverrides<string>;
 
   const { theme, tokens } = useMemo(() => {
