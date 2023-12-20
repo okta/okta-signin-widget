@@ -160,7 +160,7 @@ test
     // In v3, we display the incomplete/complete checkmark next to the 'Passwords must match'
     // list item label below the confirm password field in addition to the field level error message
     if (userVariables.gen3) {
-      await t.expect(expiredPasswordPage.hasPasswordMatchRequirementStatus(false)).eql(true);
+      await t.expect(expiredPasswordPage.hasPasswordMatchRequirementStatus()).eql(true);
       await t.expect(expiredPasswordPage.getConfirmPasswordError()).eql('Passwords must match');
     } else {
       await t.expect(expiredPasswordPage.hasPasswordError()).eql(false);
