@@ -184,6 +184,7 @@ describe('authenticator-expired-password', () => {
 
     expect(confirmPasswordError.innerHTML).toBe('This field cannot be left blank');
     expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
+    expect(container).toMatchSnapshot();
     const passwordMatchesWrapper = await findByTestId('password-authenticator--matches') as HTMLDivElement;
     await within(passwordMatchesWrapper).findByTestId('passwordRequirementIcon-incomplete');
   });
