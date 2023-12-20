@@ -72,6 +72,7 @@ exports[`granular-consent should render form with logo 1`] = `
                 </div>
               </div>
               <div
+                aria-live="polite"
                 class="MuiBox-root emotion-15"
               >
                 <span
