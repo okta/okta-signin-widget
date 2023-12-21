@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
+import { Tag, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { UserIcon } from '@okta/odyssey-react-mui/icons';
 import { Box } from '@okta/odyssey-react-mui-legacy';
 import classNames from 'classnames';
@@ -22,8 +22,7 @@ const IdentifierContainer: UISchemaElementComponent<{
 }> = ({ uischema }) => {
   const { options: { identifier } } = uischema;
 
-  const mainContainerClasses = classNames('identifier-container');
-  const identifierSpanClasses = classNames('identifier', 'no-translate');
+  const mainContainerClasses = classNames('identifier-container', 'no-translate');
   const tokens = useOdysseyDesignTokens();
 
   return (
@@ -34,46 +33,29 @@ const IdentifierContainer: UISchemaElementComponent<{
       marginBlockEnd={4}
       maxWidth={1}
       className={mainContainerClasses}
+      title={identifier}
     >
-      <Box
-        flex="auto"
-        flexDirection="row"
-        flexGrow="0"
-        paddingX={4}
-        paddingY={2}
-        sx={{
-          borderRadius: '36px',
-          backgroundColor: tokens.HueNeutral50,
-          textOverflow: 'ellipsis',
-          whiteSpace: 'nowrap',
-          overflow: 'hidden',
-        }}
-      >
-        <Box
-          component="span"
-          sx={{
-            color: tokens.PalettePrimaryMain,
-            verticalAlign: 'middle',
-          }}
-        >
-          <UserIcon
-            titleAccess="User"
-            sx={{ width: '16px', height: '16px' }}
-          />
-        </Box>
-        <Box
-          component="span"
-          className={identifierSpanClasses}
-          data-se="identifier"
-          title={identifier}
-          sx={{
-            marginInlineStart: '10px',
-          }}
-          aria-label={identifier}
-        >
-          {identifier}
-        </Box>
-      </Box>
+      <Tag
+        icon={(
+          <Box
+            sx={{
+              width: '16px',
+              height: '16px',
+            }}
+          >
+            <UserIcon
+              titleAccess="User"
+              sx={{
+                color: tokens.PalettePrimaryMain,
+                width: '16px',
+                height: '16px',
+              }}
+            />
+          </Box>
+        )}
+        label={identifier}
+        testId="identifier"
+      />
     </Box>
   );
 };

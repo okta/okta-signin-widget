@@ -249,6 +249,7 @@ const formatAuthenticatorOptions = (
       ];
       const AUTHENTICATORS_WITH_NO_TRANSLATE_CLASS = [
         AUTHENTICATOR_KEY.PHONE,
+        AUTHENTICATOR_KEY.EMAIL,
         AUTHENTICATOR_KEY.CUSTOM_APP,
       ];
       const authenticator = option.relatesTo;

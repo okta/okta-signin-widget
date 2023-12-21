@@ -170,7 +170,7 @@ const testEnglishLeaks = (mockIdxResponse, fileName, locale) => {
       //build array of noTranslationContent
       const noTranslateElems = await Selector('.no-translate').count;
       for (var i = 0; i < noTranslateElems; i++) {
-        const noTranslateContent = await Selector('.no-translate').nth(i).textContent;
+        const noTranslateContent = await Selector('.no-translate').nth(i).innerText;
         noTranslationContent.push(noTranslateContent);
       }
     }
