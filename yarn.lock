@@ -18468,6 +18468,13 @@ sass-loader@^13.2.2:
     klona "^2.0.6"
     neo-async "^2.6.2"
 
+sass-loader@^13.3.2:
+  version "13.3.2"
+  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/sass-loader/-/sass-loader-13.3.2.tgz#460022de27aec772480f03de17f5ba88fa7e18c6"
+  integrity sha512-CQbKl57kdEv+KDLquhC+gE3pXt74LEAzm+tzywcA0/aHZuub8wTErbjAoNI57rPUWRYRNC5WUnNl8eGJNbDdwg==
+  dependencies:
+    neo-async "^2.6.2"
+
 sass@^1.29.0:
   version "1.55.0"
   resolved "https://registry.yarnpkg.com/sass/-/sass-1.55.0.tgz#0c4d3c293cfe8f8a2e8d3b666e1cf1bff8065d1c"
@@ -18481,6 +18488,15 @@ sass@^1.38.0:
   version "1.56.1"
   resolved "https://registry.yarnpkg.com/sass/-/sass-1.56.1.tgz#94d3910cd468fd075fa87f5bb17437a0b617d8a7"
   integrity sha512-VpEyKpyBPCxE7qGDtOcdJ6fFbcpOM+Emu7uZLxVrkX8KVU/Dp5UF7WLvzqRuUhB6mqqQt1xffLoG+AndxTZrCQ==
+  dependencies:
+    chokidar ">=3.0.0 <4.0.0"
+    immutable "^4.0.0"
+    source-map-js ">=0.6.2 <2.0.0"
+
+sass@^1.69.5:
+  version "1.69.5"
+  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/sass/-/sass-1.69.5.tgz#23e18d1c757a35f2e52cc81871060b9ad653dfde"
+  integrity sha512-qg2+UCJibLr2LCVOt3OlPhr/dqVHWOa9XtZf2OjbLs/T4VPSJ00udtgJxH3neXZm+QqX8B+3cU7RaLqp1iVfcQ==
   dependencies:
     chokidar ">=3.0.0 <4.0.0"
     immutable "^4.0.0"

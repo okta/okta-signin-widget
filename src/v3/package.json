@@ -124,6 +124,8 @@
     "postcss-preset-env": "^8.4.1",
     "properties": "^1.2.1",
     "rimraf": "^4.3.0",
+    "sass": "^1.69.5",
+    "sass-loader": "^13.3.2",
     "style-loader": "^3.3.3",
     "stylelint": "^14.16.1",
     "stylelint-use-logical-spec": "^5.0.0",

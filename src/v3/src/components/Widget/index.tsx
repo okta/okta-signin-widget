@@ -10,11 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-// NOTE: Do not remove this import of style.css!
+// NOTE: Do not remove this import of style.scss!
 // We need to emit a CSS file, even if it's empty, to prevent a 404 on the Okta-hosted login page.
-import './style.css';
+import './style.scss';
 
-import { ScopedCssBaseline } from '@mui/material';
 import { OdysseyProvider, TranslationOverrides } from '@okta/odyssey-react-mui';
 import { MuiThemeProvider } from '@okta/odyssey-react-mui-legacy';
 import {
@@ -520,24 +519,22 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         >
           <GlobalStyles />
           {/* the style is to allow the widget to inherit the parent's bg color */}
-          <ScopedCssBaseline sx={{ backgroundColor: 'inherit' }}>
-            <AuthContainer hide={hide}>
-              <AuthHeader
-                logo={logo}
-                logoText={logoText}
-                brandName={brandName}
-                authCoinProps={buildAuthCoinProps(idxTransaction)}
-              />
-              <AuthContent>
-                {isConsentStep(idxTransaction) && <ConsentHeader />}
-                {
-                  uischema.elements.length > 0
-                    ? <Form uischema={uischema as UISchemaLayout} />
-                    : <Spinner />
-                }
-              </AuthContent>
-            </AuthContainer>
-          </ScopedCssBaseline>
+          <AuthContainer hide={hide}>
+            <AuthHeader
+              logo={logo}
+              logoText={logoText}
+              brandName={brandName}
+              authCoinProps={buildAuthCoinProps(idxTransaction)}
+            />
+            <AuthContent>
+              {isConsentStep(idxTransaction) && <ConsentHeader />}
+              {
+                uischema.elements.length > 0
+                  ? <Form uischema={uischema as UISchemaLayout} />
+                  : <Spinner />
+              }
+            </AuthContent>
+          </AuthContainer>
         </OdysseyProvider>
       </MuiThemeProvider>
     </WidgetContextProvider>

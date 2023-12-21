@@ -118,7 +118,7 @@ const baseConfig: Partial<Configuration> = {
         options: babelOptions,
       },
       {
-        test: /\.css$/,
+        test: /\.s[ac]ss$/i,
         use: [
           MiniCssExtractPlugin.loader,
           {
@@ -126,6 +126,17 @@ const baseConfig: Partial<Configuration> = {
             options: {
               importLoaders: 1,
             },
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              sassOptions: {
+                includePaths: [
+                  './node_modules',
+                  '../../node_modules'
+                ]
+              }
+            }
           },
           {
             loader: 'postcss-loader',
