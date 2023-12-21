@@ -15,7 +15,12 @@
 import './style.css';
 
 import { ScopedCssBaseline } from '@mui/material';
-import { odysseyI18nResourceKeysList, OdysseyProvider, TranslationOverrides } from '@okta/odyssey-react-mui';
+import {
+  OdysseyI18nResourceKeys,
+  odysseyI18nResourceKeysList,
+  OdysseyProvider,
+  TranslationOverrides,
+} from '@okta/odyssey-react-mui';
 import { MuiThemeProvider } from '@okta/odyssey-react-mui-legacy';
 import {
   AuthApiError,
@@ -25,7 +30,6 @@ import {
   IdxTransaction,
   OAuthError,
 } from '@okta/okta-auth-js';
-import { pick } from 'lodash';
 import { FunctionComponent, h } from 'preact';
 import {
   useCallback,
@@ -135,12 +139,10 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const languageCode = getLanguageCode(widgetProps);
   const languageDirection = getLanguageDirection(languageCode);
   const { stateHandle, unsetStateHandle } = useStateHandle(widgetProps);
+  const [odyTranslationOverrides, setOdyTranslationOverrides] = useState<
+  TranslationOverrides<string> | undefined>();
   // Odyssey language codes use '_' instead of '-' (e.g. zh-CN -> zh_CN)
   const odyLanguageCode: string = languageCode.replace('-', '_');
-  // Only pick Odyssey translation keys from translation bundle
-  const odyTranslationOverrides: TranslationOverrides<string> = {
-    [odyLanguageCode]: pick(Bundles.login, odysseyI18nResourceKeysList),
-  } as TranslationOverrides<string>;
 
   const { theme, tokens } = useMemo(() => {
     const { themeOverride, tokensOverride } = createThemeAndTokens(
@@ -164,6 +166,18 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const initLanguage = useCallback(async () => {
     if (!Bundles.isLoaded(languageCode)) {
       await loadLanguage(widgetProps);
+      // Only pick Odyssey translation keys from translation bundle
+      setOdyTranslationOverrides({
+        [odyLanguageCode]: odysseyI18nResourceKeysList
+          .reduce((overrides: Partial<OdysseyI18nResourceKeys>,
+            key: typeof odysseyI18nResourceKeysList[number]) => {
+            const updatedOverrides = { ...overrides };
+            if (Bundles.login && Object.prototype.hasOwnProperty.call(Bundles.login, key)) {
+              updatedOverrides[key] = (Bundles.login as Partial<OdysseyI18nResourceKeys>)[key];
+            }
+            return updatedOverrides;
+          }, {}),
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
