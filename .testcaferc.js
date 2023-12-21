@@ -81,6 +81,12 @@ const config = {
   // limit concurrency when running flaky tests
   concurrency: OKTA_SIW_ONLY_FLAKY ? 1 : undefined,
 
+  // retry failed tests
+  quarantineMode: {
+    successThreshold: 1,
+    attemptLimit: 3,
+  },
+
   filter: (_testName, _fixtureName, fixturePath, testMeta, fixtureMeta) => {
     // only check one of {gen3 | gen2} conditionals. without this guard, a
     // fixture or test will always get skipped in both testcafe runs
