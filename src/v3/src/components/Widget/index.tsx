@@ -15,12 +15,7 @@
 import './style.css';
 
 import { ScopedCssBaseline } from '@mui/material';
-import {
-  OdysseyI18nResourceKeys,
-  odysseyI18nResourceKeysList,
-  OdysseyProvider,
-  TranslationOverrides,
-} from '@okta/odyssey-react-mui';
+import { OdysseyProvider, TranslationOverrides } from '@okta/odyssey-react-mui';
 import { MuiThemeProvider } from '@okta/odyssey-react-mui-legacy';
 import {
   AuthApiError,
@@ -70,6 +65,7 @@ import {
   extractPageTitle,
   getLanguageCode,
   getLanguageDirection,
+  getOdysseyTranslationOverrides,
   isAndroidOrIOS,
   isAuthClientSet,
   isConfigRegisterFlow,
@@ -166,17 +162,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const initLanguage = useCallback(async () => {
     if (!Bundles.isLoaded(languageCode)) {
       await loadLanguage(widgetProps);
-      // Only pick Odyssey translation keys from translation bundle
       setOdyTranslationOverrides({
-        [odyLanguageCode]: odysseyI18nResourceKeysList
-          .reduce((overrides: Partial<OdysseyI18nResourceKeys>,
-            key: typeof odysseyI18nResourceKeysList[number]) => {
-            const updatedOverrides = { ...overrides };
-            if (Bundles.login && Object.prototype.hasOwnProperty.call(Bundles.login, key)) {
-              updatedOverrides[key] = (Bundles.login as Partial<OdysseyI18nResourceKeys>)[key];
-            }
-            return updatedOverrides;
-          }, {}),
+        [odyLanguageCode]: getOdysseyTranslationOverrides(),
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
