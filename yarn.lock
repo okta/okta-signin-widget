@@ -3826,10 +3826,10 @@
     "@babel/preset-react" "^7.18.6"
     "@babel/preset-typescript" "^7.18.6"
 
-"@okta/odyssey-design-tokens@1.9.2":
-  version "1.9.2"
-  resolved "https://registry.yarnpkg.com/@okta/odyssey-design-tokens/-/odyssey-design-tokens-1.9.2.tgz#7c00bc7989fae843f3ea067ae38e06bac4e1c742"
-  integrity sha512-p1rgKGLaVu4YH48HV4grUKTvudbni+SBsXTUUG9HRyqknCzzm5W6THIwewlrqdVjSkiIkqcZMcXvsjl/Ml4Yuw==
+"@okta/odyssey-design-tokens@1.9.9":
+  version "1.9.9"
+  resolved "https://registry.yarnpkg.com/@okta/odyssey-design-tokens/-/odyssey-design-tokens-1.9.9.tgz#180529b8273aaa012b8f77f98e2ae92513ce14b1"
+  integrity sha512-fcFXUho96SFDF1rF5jVyQEYYOQxgDEU/UTPawNh7PSgvjr0Am6TFRSuEt/9IBqkJzI7gEcjt7dmYLpE7GDliHw==
 
 "@okta/odyssey-design-tokens@^0.17.0":
   version "0.17.1"
@@ -3865,10 +3865,10 @@
     "@mui/utils" "^5.10.9"
     "@okta/odyssey-design-tokens" "^0.17.0"
 
-"@okta/odyssey-react-mui@1.9.2":
-  version "1.9.2"
-  resolved "https://registry.yarnpkg.com/@okta/odyssey-react-mui/-/odyssey-react-mui-1.9.2.tgz#64364dc1dbf4a70ee590db8105c0cb6967488f06"
-  integrity sha512-MMP0OQgE7lzrWrOSVaBsyBCBh0/eJCTsYxjDfYRnucZ23MoABDvTUHrcZ37cga53kduqMb3mBimUV1NjTcJFRw==
+"@okta/odyssey-react-mui@1.9.9":
+  version "1.9.9"
+  resolved "https://registry.yarnpkg.com/@okta/odyssey-react-mui/-/odyssey-react-mui-1.9.9.tgz#a2582f36b762fbd16eddead46628fa903f59b779"
+  integrity sha512-4+/KfApx2Rayn5mAwv3WF6u38XY/IACS/msHwFASsbLqyzBoNMmxHWhToRRzowhImBCe5AsV7VV3D2QWkM+8bA==
   dependencies:
     "@emotion/cache" "^11.10.5"
     "@emotion/react" "^11.11.1"
@@ -3879,7 +3879,7 @@
     "@mui/system" "^5.14.9"
     "@mui/utils" "^5.11.2"
     "@mui/x-date-pickers" "^5.0.15"
-    "@okta/odyssey-design-tokens" "1.9.2"
+    "@okta/odyssey-design-tokens" "1.9.9"
     date-fns "^2.30.0"
     i18next "^23.5.1"
     material-react-table "^2.0.2"

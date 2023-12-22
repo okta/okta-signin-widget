@@ -15,7 +15,7 @@
 import './style.css';
 
 import { ScopedCssBaseline } from '@mui/material';
-import { OdysseyProvider } from '@okta/odyssey-react-mui';
+import { OdysseyProvider, TranslationOverrides } from '@okta/odyssey-react-mui';
 import { MuiThemeProvider } from '@okta/odyssey-react-mui-legacy';
 import {
   AuthApiError,
@@ -65,6 +65,7 @@ import {
   extractPageTitle,
   getLanguageCode,
   getLanguageDirection,
+  getOdysseyTranslationOverrides,
   isAndroidOrIOS,
   isAuthClientSet,
   isConfigRegisterFlow,
@@ -134,8 +135,11 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const languageCode = getLanguageCode(widgetProps);
   const languageDirection = getLanguageDirection(languageCode);
   const { stateHandle, unsetStateHandle } = useStateHandle(widgetProps);
+  const [odyTranslationOverrides, setOdyTranslationOverrides] = useState<
+  TranslationOverrides<string> | undefined>();
+  // Odyssey language codes use '_' instead of '-' (e.g. zh-CN -> zh_CN)
+  const odyLanguageCode: string = languageCode.replace('-', '_');
 
-  // merge themes
   const { theme, tokens } = useMemo(() => {
     const { themeOverride, tokensOverride } = createThemeAndTokens(
       brandColors,
@@ -158,6 +162,9 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const initLanguage = useCallback(async () => {
     if (!Bundles.isLoaded(languageCode)) {
       await loadLanguage(widgetProps);
+      setOdyTranslationOverrides({
+        [odyLanguageCode]: getOdysseyTranslationOverrides(),
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -506,6 +513,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         <OdysseyProvider
           themeOverride={theme}
           designTokensOverride={tokens}
+          languageCode={odyLanguageCode}
+          translationOverrides={odyTranslationOverrides}
           nonce={cspNonce}
           stylisPlugins={stylisPlugins}
         >

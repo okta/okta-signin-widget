@@ -82,7 +82,7 @@ exports[`granular-consent should render form with logo 1`] = `
                     aria-valuetext="Processing..."
                     class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-17"
                     role="progressbar"
-                    style="width: 1.143rem; height: 1.143rem;"
+                    style="width: 1.71428571rem; height: 1.71428571rem;"
                   >
                     <svg
                       class="MuiCircularProgress-svg emotion-18"
@@ -93,8 +93,8 @@ exports[`granular-consent should render form with logo 1`] = `
                         cx="44"
                         cy="44"
                         fill="none"
-                        r="18"
-                        stroke-width="8"
+                        r="17"
+                        stroke-width="10"
                       />
                     </svg>
                   </span>
