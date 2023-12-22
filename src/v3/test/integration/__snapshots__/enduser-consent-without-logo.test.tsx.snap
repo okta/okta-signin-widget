@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`enduser-consent-without-lgoo should render form 1`] = `
+exports[`enduser-consent-without-logo should render form 1`] = `
 <div>
   <div
     class="MuiScopedCssBaseline-root emotion-0"
@@ -64,7 +64,7 @@ exports[`enduser-consent-without-lgoo should render form 1`] = `
                     aria-valuetext="Processing..."
                     class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-15"
                     role="progressbar"
-                    style="width: 1.143rem; height: 1.143rem;"
+                    style="width: 1.71428571rem; height: 1.71428571rem;"
                   >
                     <svg
                       class="MuiCircularProgress-svg emotion-16"
@@ -75,8 +75,8 @@ exports[`enduser-consent-without-lgoo should render form 1`] = `
                         cx="44"
                         cy="44"
                         fill="none"
-                        r="18"
-                        stroke-width="8"
+                        r="17"
+                        stroke-width="10"
                       />
                     </svg>
                   </span>
