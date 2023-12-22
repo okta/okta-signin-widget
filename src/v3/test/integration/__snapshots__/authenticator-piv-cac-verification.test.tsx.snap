@@ -1290,7 +1290,7 @@ exports[`authenticator-piv-cac-verification should render PIV/CAC view when clic
                             data-se="okta-spinner"
                             id="okta-spinner"
                             role="progressbar"
-                            style="width: 1.143rem; height: 1.143rem;"
+                            style="width: 1.71428571rem; height: 1.71428571rem;"
                           >
                             <svg
                               class="MuiCircularProgress-svg emotion-22"
@@ -1301,8 +1301,8 @@ exports[`authenticator-piv-cac-verification should render PIV/CAC view when clic
                                 cx="44"
                                 cy="44"
                                 fill="none"
-                                r="18"
-                                stroke-width="8"
+                                r="17"
+                                stroke-width="10"
                               />
                             </svg>
                           </span>

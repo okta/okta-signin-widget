@@ -1424,7 +1424,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                                 aria-valuetext="Processing..."
                                 class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-53"
                                 role="progressbar"
-                                style="width: 1.143rem; height: 1.143rem;"
+                                style="width: 1.71428571rem; height: 1.71428571rem;"
                               >
                                 <svg
                                   class="MuiCircularProgress-svg emotion-54"
@@ -1435,8 +1435,8 @@ exports[`authenticator-enroll-security-question-error predefined question should
                                     cx="44"
                                     cy="44"
                                     fill="none"
-                                    r="18"
-                                    stroke-width="8"
+                                    r="17"
+                                    stroke-width="10"
                                   />
                                 </svg>
                               </span>
