@@ -1080,6 +1080,7 @@ exports[`authenticator-piv-cac-verification should render PIV/CAC view when clic
                       class="MuiBox-root emotion-18"
                     >
                       <div
+                        aria-live="polite"
                         class="MuiBox-root emotion-19"
                       >
                         <span
