@@ -252,7 +252,7 @@ test
       await t.expect(logoBgImage).match(/.*\/img\/icons\/mfa\/customPushLogo\.svg$/);
     } else {
       await t.expect(logoBgImage).match(/^url\(".*\/img\/icons\/mfa\/customPushLogo\.svg"\)$/);
-      await t.expect(logoClass).notContains('mfa-custom-app');
+      await t.expect(logoClass).contains('mfa-custom-app');
     }
     await t.expect(pageTitle).contains('Verify with Custom Push');
     await t.expect(await challengeCustomAppPushPageObject.autoChallengeInputExists()).notOk();

@@ -13,14 +13,14 @@ import { View } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
 
 export default View.extend({
-
   template: hbs`
     <div data-type="beacon-container" class="beacon-container">
       <div class="beacon-blank auth-beacon">
         <div class="beacon-blank js-blank-beacon-border auth-beacon-border"></div>
       </div>
       {{#if logoUri}}
-      <div class="bg-helper auth-beacon auth-beacon-factor custom-app-logo" data-se="factor-beacon" role="img" 
+      <div class="bg-helper auth-beacon auth-beacon-factor {{className}} custom-app-logo" 
+      data-se="factor-beacon" role="img" 
         aria-label="{{i18n code="oie.auth.logo.aria.label" bundle="login"}}">
       {{else}}
       <div class="bg-helper auth-beacon auth-beacon-factor {{className}}" data-se="factor-beacon">
