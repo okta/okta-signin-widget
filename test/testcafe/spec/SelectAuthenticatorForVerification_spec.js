@@ -7,6 +7,7 @@ import ChallengeFactorPageObject from '../framework/page-objects/ChallengeFactor
 
 import xhrSelectAuthenticators from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator';
 import xhrSelectAuthenticatorsWithNickname from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator-with-nickname';
+import xhrSelectAuthenticatorsWithCustomLogo from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator-custom-logo.json';
 import xhrSelectAuthenticatorsWithEmail from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator-with-email';
 import xhrSelectAuthenticatorsNoNumber from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator-no-number';
 import xhrSelectAuthenticatorsOktaVerify from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator-ov-m2';
@@ -41,6 +42,12 @@ const mockChallengePassword = RequestMock()
 const mockChallengeWithNickname = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrSelectAuthenticatorsWithNickname)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge')
+  .respond(xhrAuthenticatorRequiredPassword);
+
+const mockChallengeWithCustomLogo = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrSelectAuthenticatorsWithCustomLogo)
   .onRequestTo('http://localhost:3000/idp/idx/challenge')
   .respond(xhrAuthenticatorRequiredPassword);
 
@@ -390,6 +397,34 @@ test.requestHooks(mockChallengeWithNickname)('should load select authenticator l
   await t.expect(await selectFactorPage.factorCustomLogoExist(14)).eql(false);
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(14)).eql('Select');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(14)).eql('yubikey_token');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(15)).eql('Get a push notification');
+  await t.expect(selectFactorPage.getFactorDescriptionByIndex(15)).eql('Custom Push App');
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(15)).contains('mfa-custom-app-logo');
+  await t.expect(await selectFactorPage.factorCustomLogoExist(15)).eql(true);
+  await t.expect(selectFactorPage.getFactorIconBgImageByIndex(15)).match(/.*\/img\/logos\/default\.png/);
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(15)).eql('Select');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(15)).eql('custom_app');
+
+  // signout link at enroll page
+  await t.expect(await selectFactorPage.signoutLinkExists()).eql(true);
+});
+
+test.requestHooks(mockChallengeWithCustomLogo)('should load select authenticator list with custom logos if available', async t => {
+  const selectFactorPage = await setup(t);
+  await checkA11y(t);
+  await t.expect(selectFactorPage.getIdentifier()).eql('testUser@okta.com');
+  await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with a security method');
+  await t.expect(selectFactorPage.getFormSubtitle()).eql('Select from the following options');
+  await t.expect(selectFactorPage.getFactorsCount()).eql(16);
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(11)).eql('IDP Authenticator');
+  await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(11)).eql(false);
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(11)).contains('mfa-custom-factor');
+  await t.expect(await selectFactorPage.factorCustomLogoExist(11)).eql(true);
+  await t.expect(selectFactorPage.getFactorIconBgImageByIndex(11)).match(/.*\/img\/logos\/default\.png/);
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(11)).eql('Select');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(11)).eql('external_idp');
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(15)).eql('Get a push notification');
   await t.expect(selectFactorPage.getFactorDescriptionByIndex(15)).eql('Custom Push App');
