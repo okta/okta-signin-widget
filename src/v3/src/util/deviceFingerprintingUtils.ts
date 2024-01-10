@@ -47,8 +47,8 @@ export const generateDeviceFingerprint = (oktaDomainUrl: string): Promise<string
       try {
         msg = JSON.parse(event.data);
       } catch (err) {
-        // iframe messages should all be parsable
-        // skip not parsable messages come from other sources in same origin (browser extensions)
+        // iframe messages should all be parsable, skip not parsable messages that come from other
+        // sources in the same origin (browser extensions)
         return undefined;
       }
 
@@ -57,11 +57,10 @@ export const generateDeviceFingerprint = (oktaDomainUrl: string): Promise<string
         return resolve(msg.fingerprint as string);
       }
       if (msg.type === 'FingerprintServiceReady') {
-        event.source?.postMessage(JSON.stringify({
+        const win = iframe.contentWindow;
+        win?.postMessage(JSON.stringify({
           type: 'GetFingerprint',
-        }), {
-          targetOrigin: event.origin
-        });
+        }), event.origin );
       }
       return undefined;
     };
@@ -74,7 +73,7 @@ export const generateDeviceFingerprint = (oktaDomainUrl: string): Promise<string
     formElement!.appendChild(iframe);
 
     timeout = setTimeout(() => {
-      // If the iframe does not load, receive the right message, or there is a slow connection, throw an error
+      // If the iframe does not load, receive the right message type, or there is a slow connection, throw an error
       reject(new Error('Service not available'));
     }, 2000);
   });
