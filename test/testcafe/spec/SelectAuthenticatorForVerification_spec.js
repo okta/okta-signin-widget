@@ -302,6 +302,11 @@ test.requestHooks(mockChallengeWithNickname)('should load select authenticator l
   await t.expect(await selectFactorPage.factorCustomLogoExist(2)).eql(false);
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(2)).eql('Select');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(2)).eql('okta_email');
+  if (!userVariables.gen3) {
+    await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(2)).eql(
+      'Select Email'
+    );
+  }
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(3)).eql('Phone');
   await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(3)).eql(true);
@@ -315,6 +320,10 @@ test.requestHooks(mockChallengeWithNickname)('should load select authenticator l
   if (userVariables.gen3) {
     await t.expect(await selectFactorPage.getFactorAriaDescriptionByIndex(3)).eql(
       '+1 XXX-XXX-5309. ph-nn. Select'
+    );
+  } else {
+    await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(3)).eql(
+      'Select Phone. +1 XXX-XXX-5309'
     );
   }
 
@@ -340,6 +349,11 @@ test.requestHooks(mockChallengeWithNickname)('should load select authenticator l
   await t.expect(await selectFactorPage.factorCustomLogoExist(6)).eql(false);
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(6)).eql('Select');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(6)).eql('okta_verify-signed_nonce');
+  if (!userVariables.gen3) {
+    await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(6)).eql(
+      'Select Okta Verify. Use Okta FastPass'
+    );
+  }
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(7)).eql('Google Authenticator');
   await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(7)).eql(false);
@@ -405,6 +419,11 @@ test.requestHooks(mockChallengeWithNickname)('should load select authenticator l
   await t.expect(selectFactorPage.getFactorIconBgImageByIndex(15)).match(/.*\/img\/logos\/default\.png/);
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(15)).eql('Select');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(15)).eql('custom_app');
+  if (!userVariables.gen3) {
+    await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(15)).eql(
+      'Select Custom Push App. Get a push notification'
+    );
+  }
 
   // signout link at enroll page
   await t.expect(await selectFactorPage.signoutLinkExists()).eql(true);

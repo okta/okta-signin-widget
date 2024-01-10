@@ -57,6 +57,10 @@ export default class SelectFactorPageObject extends BasePageObject {
     return this.getFactorNicknameElementByIndex(index).textContent;
   }
 
+  getFactorButtonAriaLabelByIndex(index) {
+    return this.getFactorCTAButtonByIndex(index).getAttribute('aria-label');
+  }
+
   getFactorAriaDescriptionByIndex(index) {
     return this.getAriaDescription(this.getFactorButtons().nth(index));
   }

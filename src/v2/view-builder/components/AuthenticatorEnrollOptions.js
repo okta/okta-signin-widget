@@ -14,6 +14,7 @@ import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 import skipAll from './SkipOptionalEnrollmentButton';
 import hbs from '@okta/handlebars-inline-precompile';
 import { AUTHENTICATOR_ALLOWED_FOR_OPTIONS } from '../utils/Constants';
+import { getEnrollAuthenticatorAriaLabel } from '../utils/AuthenticatorUtil';
 
 const AuthenticatorRow = View.extend({
   className: 'authenticator-row clearfix',
@@ -49,6 +50,9 @@ const AuthenticatorRow = View.extend({
       className: 'button select-factor',
       title: function() {
         return loc('oie.enroll.authenticator.button.text', 'login');
+      },
+      attributes: {
+        'aria-label': getEnrollAuthenticatorAriaLabel(this.model),
       },
       click: function() {
         this.model.trigger('selectAuthenticator', this.model.get('value'));

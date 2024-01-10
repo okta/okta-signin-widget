@@ -249,5 +249,35 @@ export function getAuthenticatorDisplayName(remediation) {
   return remediation.relatesTo?.value?.displayName;
 }
 
+export function getVerifyAuthenticatorAriaLabel(authenticatorModel) {
+  // For Custom App: label is "Get a push notification", description is the app name
+  // For Okta Verify: label is "Use Okta FastPass" / "Get a push notification" / "Enter a code",
+  //   description is "Okta Verify"
+  // ARIA label should be eg. "Select Okta Verify. Use Okta FastPass"
+  const isNameInDescription = [
+    AUTHENTICATOR_KEY.CUSTOM_APP,
+    AUTHENTICATOR_KEY.OV,
+  ].includes(authenticatorModel.get('authenticatorKey'));
+  let name = authenticatorModel.get('label');
+  let description = authenticatorModel.get('description');
+  if (description && isNameInDescription) {
+    [name, description] = [description, name];
+  }
+  return [
+    [
+      loc('oie.verify.authenticator.button.text', 'login'),
+      name,
+    ].join(' '),
+    description,
+  ].filter(v => v).join('. ');
+}
+
+export function getEnrollAuthenticatorAriaLabel(authenticatorModel) {
+  return [
+    loc('oie.enroll.authenticator.button.text', 'login'),
+    authenticatorModel.get('label'),
+  ].join(' ');
+}
+
 // Re-export function from FactorUtil
 export { getPasswordComplexityDescriptionForHtmlList };
