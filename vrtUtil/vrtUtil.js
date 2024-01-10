@@ -4,7 +4,7 @@ const ImageDiff = require('./ImageDiff');
 
 // Max image difference allowed as a percentage. ie. 0.01 = 0.01%
 const MAX_DIFF_PERCENT = 0.01;
-const BASE_PATH = path.join('build2', 'reports', 'vrt', 'artifacts', 'screenshots');
+const BASE_PATH = path.join('screenshots');
 
 const getActualScreenshotPath = (testFixture, testName) => (
   path.join(BASE_PATH, 'actual', testFixture, `${testName}.png`).normalize()
