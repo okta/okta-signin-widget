@@ -133,9 +133,9 @@ const baseConfig: Partial<Configuration> = {
               sassOptions: {
                 includePaths: [
                   './node_modules',
-                  '../../node_modules'
-                ]
-              }
+                  '../../node_modules',
+                ],
+              },
             }
           },
           {

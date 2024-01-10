@@ -5,100 +5,96 @@ exports[`error-feature-not-enabled should render form 1`] = `
   <div
     class="MuiScopedCssBaseline-root emotion-0"
   >
-    <div
-      class="MuiScopedCssBaseline-root emotion-1"
+    <main
+      class="auth-container main-container MuiBox-root emotion-1"
+      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+      data-version="0.0.0"
+      dir="ltr"
+      id="okta-sign-in"
+      lang="en"
     >
-      <main
-        class="auth-container main-container MuiBox-root emotion-2"
-        data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-        data-version="0.0.0"
-        dir="ltr"
-        id="okta-sign-in"
-        lang="en"
+      <div
+        class="MuiScopedCssBaseline-root emotion-2"
       >
         <div
-          class="MuiScopedCssBaseline-root emotion-3"
+          class="MuiBox-root emotion-3"
         >
           <div
             class="MuiBox-root emotion-4"
           >
             <div
-              class="MuiBox-root emotion-5"
+              class="okta-sign-in-header auth-header MuiBox-root emotion-5"
             >
-              <div
-                class="okta-sign-in-header auth-header MuiBox-root emotion-6"
+              <h1
+                class="MuiTypography-root MuiTypography-h1 emotion-6"
+              />
+            </div>
+            <div
+              class="MuiBox-root emotion-7"
+            >
+              <form
+                class="o-form MuiBox-root emotion-8"
+                data-se="o-form"
+                novalidate=""
               >
-                <h1
-                  class="MuiTypography-root MuiTypography-h1 emotion-7"
-                />
-              </div>
-              <div
-                class="MuiBox-root emotion-8"
-              >
-                <form
-                  class="o-form MuiBox-root emotion-9"
-                  data-se="o-form"
-                  novalidate=""
+                <div
+                  class="MuiBox-root emotion-9"
                 >
                   <div
                     class="MuiBox-root emotion-10"
                   >
                     <div
                       class="MuiBox-root emotion-11"
+                      data-se="infobox-error"
                     >
                       <div
-                        class="MuiBox-root emotion-12"
-                        data-se="infobox-error"
+                        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-calloutError MuiAlert-callout emotion-12"
+                        data-se="callout"
+                        role="alert"
                       >
                         <div
-                          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-calloutError MuiAlert-callout emotion-13"
-                          data-se="callout"
-                          role="alert"
+                          class="MuiAlert-icon emotion-13"
                         >
-                          <div
-                            class="MuiAlert-icon emotion-14"
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-14"
+                            fill="none"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
                           >
-                            <svg
-                              aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-15"
-                              fill="none"
-                              focusable="false"
-                              viewBox="0 0 24 24"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                clip-rule="evenodd"
-                                d="M9.879 1.707a3 3 0 0 1 4.242 0l8.172 8.172a3 3 0 0 1 0 4.242l-8.172 8.172a3 3 0 0 1-4.242 0L1.707 14.12a3 3 0 0 1 0-4.242L9.88 1.707ZM12 13a1 1 0 0 1-1-1V7h2v5a1 1 0 0 1-1 1Zm0 1.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z"
-                                fill="currentColor"
-                                fill-rule="evenodd"
-                              />
-                            </svg>
-                          </div>
-                          <div
-                            class="MuiAlert-message emotion-16"
+                            <path
+                              clip-rule="evenodd"
+                              d="M9.879 1.707a3 3 0 0 1 4.242 0l8.172 8.172a3 3 0 0 1 0 4.242l-8.172 8.172a3 3 0 0 1-4.242 0L1.707 14.12a3 3 0 0 1 0-4.242L9.88 1.707ZM12 13a1 1 0 0 1-1-1V7h2v5a1 1 0 0 1-1 1Zm0 1.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z"
+                              fill="currentColor"
+                              fill-rule="evenodd"
+                            />
+                          </svg>
+                        </div>
+                        <div
+                          class="MuiAlert-message emotion-15"
+                        >
+                          <span
+                            class="MuiBox-root emotion-16"
                           >
-                            <span
-                              class="MuiBox-root emotion-17"
-                            >
-                              error
-                            </span>
-                            <div
-                              class="MuiBox-root emotion-2"
-                            >
-                              The requested feature is not enabled in this environment.
-                            </div>
+                            error
+                          </span>
+                          <div
+                            class="MuiBox-root emotion-1"
+                          >
+                            The requested feature is not enabled in this environment.
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </form>
-              </div>
+                </div>
+              </form>
             </div>
           </div>
         </div>
-      </main>
-    </div>
+      </div>
+    </main>
   </div>
 </div>
 `;
