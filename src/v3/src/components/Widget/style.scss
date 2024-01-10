@@ -21,7 +21,7 @@
 
 .okta-container {
   margin: 0;
-  height: inherit;
+  block-size: inherit;
 }
 
 .auth .footer, .okta-container .applogin-banner {
@@ -55,7 +55,7 @@
 /* loginpage footer styles */
 .auth .footer {
   position: fixed;
-  bottom: 0;
+  inset-block-end: 0;
   background-color: #fff;
   min-inline-size: 300px;
   font-size: map.get($ods-tokens, 'typography', 'size', 'subordinate');
@@ -65,7 +65,7 @@
   overflow: hidden;
   margin-block-start: map.get($ods-tokens, spacing, '8');
   background-color: map.get($ods-tokens, 'hue', 'neutral', '50');
-  border-top: map.get($ods-tokens, 'border', 'width', 'main') solid map.get($ods-tokens, 'border', 'color', 'display');
+  border-block-start: map.get($ods-tokens, 'border', 'width', 'main') solid map.get($ods-tokens, 'border', 'color', 'display');
   p {
     margin-block: map.get($ods-tokens, 'spacing', '3');
   }
@@ -120,7 +120,7 @@
   color: map.get($ods-tokens, 'typography', 'color', 'subordinate');
   position: relative;
   min-inline-size: 300px;
-  border-bottom: map.get($ods-tokens, 'border', 'width', 'main') solid map.get($ods-tokens, 'border', 'color', 'display');
+  border-block-end: map.get($ods-tokens, 'border', 'width', 'main') solid map.get($ods-tokens, 'border', 'color', 'display');
 }
 .okta-container .applogin-banner .applogin-background {
   background-color: #fff;
@@ -178,8 +178,8 @@
   margin-block-end: map.get($ods-tokens, 'spacing', '2');
 }
 .okta-container .applogin-banner .applogin-app-logo img {
-  width: map.get($ods-tokens, 'spacing', '8');
-  height: map.get($ods-tokens, 'spacing', '8');
+  inline-size: map.get($ods-tokens, 'spacing', '8');
+  block-size: map.get($ods-tokens, 'spacing', '8');
 }
 
 /* loginpage container styles */
@@ -224,20 +224,21 @@
 /* back to settings button style */
 .back-to-settings {
   margin: unset !important;
-  min-height: unset !important;
-  width: unset !important;
-  min-width: unset !important;
+  min-block-size: unset !important;
+  inline-size: unset !important;
+  min-inline-size: unset !important;
   .back-to-settings-link {
     position: unset !important;
-    top: unset !important;
+    inset-block-start: unset !important;
     a {
       font-family: map.get($ods-tokens, 'typography', 'family', 'button');
       position: absolute;
-      padding: 10px 14px;
+      padding-block: 10px;
+      padding-inline: 14px;
       display: inline-block;
-      top: map.get($ods-tokens, 'spacing', '8');
-      left: map.get($ods-tokens, 'spacing', '8');
-      height: unset;
+      inset-block-start: map.get($ods-tokens, 'spacing', '8');
+      inset-inline-start: map.get($ods-tokens, 'spacing', '8');
+      block-size: unset;
       line-height: unset;
       text-decoration: none;
       color: #000;
@@ -271,8 +272,8 @@
   .back-to-settings .back-to-settings-link a {
     position: relative;
     display: inline-block;
-    top: unset;
-    left: unset;
+    inset-block-start: unset;
+    inset-inline-start: unset;
     margin-inline: map.get($ods-tokens, 'spacing', '3');
     margin-block-start: map.get($ods-tokens, 'spacing', '3');
     margin-block-end: map.get($ods-tokens, 'spacing', '1');
