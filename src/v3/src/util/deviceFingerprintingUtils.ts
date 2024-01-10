@@ -27,7 +27,7 @@ export const generateDeviceFingerprint = (oktaDomainUrl: string): Promise<string
 
   let timeout: NodeJS.Timeout;
   let iframe: HTMLIFrameElement;
-  let listener: (this: Window, ev: MessageEvent<any>) => any;
+  let listener: (this: Window, ev: MessageEvent) => void;
   let msg;
   const formElement = document.querySelector('form[data-se="o-form"]');
   const promise = new Promise((resolve, reject) => {
@@ -35,7 +35,7 @@ export const generateDeviceFingerprint = (oktaDomainUrl: string): Promise<string
     iframe.style.display = 'none';
     iframe.id = 'device-fingerprint-container';
 
-    listener = (event: MessageEvent<any>) => {
+    listener = (event: MessageEvent) => {
       if (!isMessageFromCorrectSource(iframe, event)) {
         return undefined;
       }
