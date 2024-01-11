@@ -17,6 +17,8 @@ import classNames from 'classnames';
 import { h } from 'preact';
 import { IdentifierContainerElement, UISchemaElementComponent } from 'src/types';
 
+import { loc } from '../../util';
+
 const IdentifierContainer: UISchemaElementComponent<{
   uischema: IdentifierContainerElement
 }> = ({ uischema }) => {
@@ -44,7 +46,7 @@ const IdentifierContainer: UISchemaElementComponent<{
             }}
           >
             <UserIcon
-              titleAccess="User"
+              titleAccess={loc('identifier.icon.alt.text', 'login')}
               sx={{
                 color: tokens.PalettePrimaryMain,
                 width: '16px',

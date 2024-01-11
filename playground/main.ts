@@ -137,7 +137,7 @@ const renderPlaygroundWidget = (options = {}) => {
         const noTranslateElems = document.getElementsByClassName('no-translate');
         for (let i = 0; i < noTranslateElems.length; i++) {
           //build array of noTranslationContent
-          noTranslationContent.push(noTranslateElems[i].textContent);
+          noTranslationContent.push((noTranslateElems[i] as HTMLElement).innerText);
         }
       }
       assertNoEnglishLeaks(null, viewText, noTranslationContent);
