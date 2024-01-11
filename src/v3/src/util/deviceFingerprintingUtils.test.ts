@@ -68,7 +68,7 @@ describe('DeviceFingerprintingUtils', () => {
 
     await expect(DeviceFingerprintingUtils.generateDeviceFingerprint(oktaDomainUrl))
       .rejects
-      .toThrow('Service not available');
+      .toThrow('Device fingerprinting timed out');
     const iframe = document.getElementById('device-fingerprint-container');
     expect(iframe).toBeNull();
   });
@@ -79,7 +79,7 @@ describe('DeviceFingerprintingUtils', () => {
 
     await expect(DeviceFingerprintingUtils.generateDeviceFingerprint(oktaDomainUrl))
       .rejects
-      .toThrow('Service not available');
+      .toThrow('Device fingerprinting timed out');
     const iframe = document.getElementById('device-fingerprint-container');
     expect(iframe).toBeNull();
   });
@@ -110,9 +110,9 @@ describe('DeviceFingerprintingUtils', () => {
 
   it('fails if the iframe does not receive any messages', async () => {
     // Not sending any mock messages should trigger a timeout
-    await expect(DeviceFingerprintingUtils.generateDeviceFingerprint(oktaDomainUrl))
+    await expect(DeviceFingerprintingUtils.generateDeviceFingerprint(oktaDomainUrl, 1000))
       .rejects
-      .toThrow('Service not available');
+      .toThrow('Device fingerprinting timed out');
     const iframe = document.getElementById('device-fingerprint-container');
     expect(iframe).toBeNull();
   });

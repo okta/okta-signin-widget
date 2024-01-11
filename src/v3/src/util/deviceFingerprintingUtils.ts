@@ -16,7 +16,7 @@ export const isMessageFromCorrectSource = (iframe: HTMLIFrameElement, event: Mes
 : boolean => event.source === iframe.contentWindow;
 
 // NOTE: This utility is similar to the DeviceFingerprinting.js file used for V2 authentication flows.
-export const generateDeviceFingerprint = (oktaDomainUrl: string): Promise<string> => {
+export const generateDeviceFingerprint = (oktaDomainUrl: string, timeoutDuration?: number): Promise<string> => {
   const userAgent = getUserAgent();
   if (!userAgent) {
     return Promise.reject(new Error('User agent is not defined'));
@@ -30,7 +30,7 @@ export const generateDeviceFingerprint = (oktaDomainUrl: string): Promise<string
   let listener: (this: Window, ev: MessageEvent) => void;
   let msg;
   const formElement = document.querySelector('form[data-se="o-form"]');
-  const promise = new Promise((resolve, reject) => {
+  const promise = new Promise<string>((resolve, reject) => {
     iframe = document.createElement('iframe');
     iframe.style.display = 'none';
     iframe.id = 'device-fingerprint-container';
@@ -41,7 +41,7 @@ export const generateDeviceFingerprint = (oktaDomainUrl: string): Promise<string
       }
 
       if (!event || !event.data || event.origin !== oktaDomainUrl) {
-        return undefined;
+        return reject('No data');
       }
 
       try {
@@ -55,14 +55,14 @@ export const generateDeviceFingerprint = (oktaDomainUrl: string): Promise<string
       if (!msg) { return undefined; }
       if (msg.type === 'FingerprintAvailable') {
         return resolve(msg.fingerprint as string);
-      }
-      if (msg.type === 'FingerprintServiceReady') {
+      } else if (msg.type === 'FingerprintServiceReady') {
         const win = iframe.contentWindow;
         win?.postMessage(JSON.stringify({
           type: 'GetFingerprint',
         }), event.origin );
+      } else {
+        return reject('No data')
       }
-      return undefined;
     };
     window.addEventListener('message', listener, false);
 
@@ -74,8 +74,8 @@ export const generateDeviceFingerprint = (oktaDomainUrl: string): Promise<string
 
     timeout = setTimeout(() => {
       // If the iframe does not load, receive the right message type, or there is a slow connection, throw an error
-      reject(new Error('Service not available'));
-    }, 2000);
+      reject(new Error('Device fingerprinting timed out'));
+    }, timeoutDuration || 2000);
   });
 
   return promise.finally(() => {
@@ -84,5 +84,5 @@ export const generateDeviceFingerprint = (oktaDomainUrl: string): Promise<string
     if (formElement?.contains(iframe)) {
       iframe.parentElement?.removeChild(iframe);
     }
-  }) as Promise<string>;
+  });
 };
