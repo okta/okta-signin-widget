@@ -30,7 +30,7 @@ export const generateDeviceFingerprint = (oktaDomainUrl: string, timeoutDuration
   let listener: (this: Window, ev: MessageEvent) => void;
   let msg;
   const formElement = document.querySelector('form[data-se="o-form"]');
-  const promise = new Promise<string>((resolve, reject) => {
+  return new Promise<string>((resolve, reject) => {
     iframe = document.createElement('iframe');
     iframe.style.display = 'none';
     iframe.id = 'device-fingerprint-container';
@@ -76,9 +76,7 @@ export const generateDeviceFingerprint = (oktaDomainUrl: string, timeoutDuration
       // If the iframe does not load, receive the right message type, or there is a slow connection, throw an error
       reject(new Error('Device fingerprinting timed out'));
     }, timeoutDuration || 2000);
-  });
-
-  return promise.finally(() => {
+  }).finally(() => {
     clearTimeout(timeout);
     window.removeEventListener('message', listener);
     if (formElement?.contains(iframe)) {
