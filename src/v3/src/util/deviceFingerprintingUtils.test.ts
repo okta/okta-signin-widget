@@ -68,7 +68,7 @@ describe('DeviceFingerprintingUtils', () => {
 
     await expect(DeviceFingerprintingUtils.generateDeviceFingerprint(oktaDomainUrl))
       .rejects
-      .toThrow('Device fingerprinting timed out');
+      .toThrow('No data');
     const iframe = document.getElementById('device-fingerprint-container');
     expect(iframe).toBeNull();
   });
@@ -79,7 +79,7 @@ describe('DeviceFingerprintingUtils', () => {
 
     await expect(DeviceFingerprintingUtils.generateDeviceFingerprint(oktaDomainUrl))
       .rejects
-      .toThrow('Device fingerprinting timed out');
+      .toThrow('No data');
     const iframe = document.getElementById('device-fingerprint-container');
     expect(iframe).toBeNull();
   });
