@@ -16,7 +16,10 @@ export const isMessageFromCorrectSource = (iframe: HTMLIFrameElement, event: Mes
 : boolean => event.source === iframe.contentWindow;
 
 // NOTE: This utility is similar to the DeviceFingerprinting.js file used for V2 authentication flows.
-export const generateDeviceFingerprint = (oktaDomainUrl: string, timeoutDuration?: number): Promise<string> => {
+export const generateDeviceFingerprint = (
+  oktaDomainUrl: string,
+  timeoutDuration?: number,
+): Promise<string> => {
   const userAgent = getUserAgent();
   if (!userAgent) {
     return Promise.reject(new Error('User agent is not defined'));
@@ -41,7 +44,7 @@ export const generateDeviceFingerprint = (oktaDomainUrl: string, timeoutDuration
       }
 
       if (!event || !event.data || event.origin !== oktaDomainUrl) {
-        return reject('No data');
+        return reject(new Error('No data'));
       }
 
       try {
@@ -55,14 +58,15 @@ export const generateDeviceFingerprint = (oktaDomainUrl: string, timeoutDuration
       if (!msg) { return undefined; }
       if (msg.type === 'FingerprintAvailable') {
         return resolve(msg.fingerprint as string);
-      } else if (msg.type === 'FingerprintServiceReady') {
+      } if (msg.type === 'FingerprintServiceReady') {
         const win = iframe.contentWindow;
         win?.postMessage(JSON.stringify({
           type: 'GetFingerprint',
         }), event.origin );
       } else {
-        return reject('No data')
+        return reject(new Error('No data'));
       }
+      return undefined;
     };
     window.addEventListener('message', listener, false);
 
