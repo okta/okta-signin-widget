@@ -5,27 +5,31 @@ exports[`Email authenticator enroll when email magic link = true Tests should re
   <div
     class="MuiScopedCssBaseline-root emotion-0"
   >
-    <div
-      class="MuiScopedCssBaseline-root emotion-1"
+    <main
+      class="auth-container main-container MuiBox-root emotion-1"
+      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+      data-version="0.0.0"
+      dir="ltr"
+      id="okta-sign-in"
+      lang="en"
     >
-      <main
-        class="auth-container main-container MuiBox-root emotion-2"
-        data-commit="b9bbc0140703c3fbf0e2e58920362e70"
-        data-version="0.0.0"
-        dir="ltr"
-        id="okta-sign-in"
-        lang="en"
+      <div
+        class="MuiScopedCssBaseline-root emotion-2"
       >
         <div
-          class="MuiScopedCssBaseline-root emotion-3"
+          class="MuiBox-root emotion-3"
         >
           <div
             class="MuiBox-root emotion-4"
           >
             <div
-              class="MuiBox-root emotion-5"
+              class="okta-sign-in-header auth-header authCoinSpacing MuiBox-root emotion-5"
             >
+              <h1
+                class="MuiTypography-root MuiTypography-h1 emotion-6"
+              />
               <div
+<<<<<<< HEAD
 <<<<<<< HEAD
                 aria-hidden="true"
                 class="mfa-okta-email MuiBox-root emotion-7"
@@ -76,189 +80,185 @@ exports[`Email authenticator enroll when email magic link = true Tests should re
 =======
                 class="okta-sign-in-header auth-header authCoinSpacing MuiBox-root emotion-6"
 >>>>>>> 90c119bc4 (added odyssey legacy alias package)
+=======
+                aria-hidden="true"
+                class="mfa-okta-email MuiBox-root emotion-7"
+                data-se="factor-beacon"
+>>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
               >
-                <h1
-                  class="MuiTypography-root MuiTypography-h1 emotion-7"
-                />
-                <div
-                  aria-hidden="true"
-                  class="mfa-okta-email MuiBox-root emotion-8"
-                  data-se="factor-beacon"
+                <svg
+                  aria-labelledby="mfa-okta-email"
+                  fill="none"
+                  height="48"
+                  role="img"
+                  viewBox="0 0 48 48"
+                  width="48"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  <svg
-                    aria-labelledby="mfa-okta-email"
-                    fill="none"
-                    height="48"
-                    role="img"
-                    viewBox="0 0 48 48"
-                    width="48"
-                    xmlns="http://www.w3.org/2000/svg"
+                  <title
+                    id="mfa-okta-email"
                   >
-                    <title
-                      id="mfa-okta-email"
-                    >
-                      Email Authentication
-                    </title>
-                    <circle
-                      class="siwFillBg"
-                      cx="24"
-                      cy="24"
-                      fill="#F5F5F6"
-                      r="24"
-                    />
-                    <path
-                      class="siwFillSecondary"
-                      d="M32 18v1h5.3L32 24.29v1.42l6-6.01v12.8a1.5 1.5 0 0 1-1.5 1.5h-17a1.5 1.5 0 0 1-1.5-1.5V31h-1v1.5a2.5 2.5 0 0 0 2.5 2.5h17a2.5 2.5 0 0 0 2.5-2.5V18h-7Z"
-                      fill="#A7B5EC"
-                    />
-                    <path
-                      class="siwFillPrimaryDark"
-                      d="M9 13v14.5a2.5 2.5 0 0 0 2.5 2.5h17a2.5 2.5 0 0 0 2.5-2.5V13H9Zm20.293 1-8.81 8.81L10.794 14h18.499ZM28.5 29h-17a1.5 1.5 0 0 1-1.5-1.5V14.63l10.517 9.56L30 14.707V27.5a1.5 1.5 0 0 1-1.5 1.5Z"
-                      fill="#00297A"
-                    />
-                  </svg>
-                </div>
+                    Email Authentication
+                  </title>
+                  <circle
+                    class="siwFillBg"
+                    cx="24"
+                    cy="24"
+                    fill="#F5F5F6"
+                    r="24"
+                  />
+                  <path
+                    class="siwFillSecondary"
+                    d="M32 18v1h5.3L32 24.29v1.42l6-6.01v12.8a1.5 1.5 0 0 1-1.5 1.5h-17a1.5 1.5 0 0 1-1.5-1.5V31h-1v1.5a2.5 2.5 0 0 0 2.5 2.5h17a2.5 2.5 0 0 0 2.5-2.5V18h-7Z"
+                    fill="#A7B5EC"
+                  />
+                  <path
+                    class="siwFillPrimaryDark"
+                    d="M9 13v14.5a2.5 2.5 0 0 0 2.5 2.5h17a2.5 2.5 0 0 0 2.5-2.5V13H9Zm20.293 1-8.81 8.81L10.794 14h18.499ZM28.5 29h-17a1.5 1.5 0 0 1-1.5-1.5V14.63l10.517 9.56L30 14.707V27.5a1.5 1.5 0 0 1-1.5 1.5Z"
+                    fill="#00297A"
+                  />
+                </svg>
               </div>
-              <div
-                class="MuiBox-root emotion-9"
+            </div>
+            <div
+              class="MuiBox-root emotion-8"
+            >
+              <form
+                class="o-form MuiBox-root emotion-9"
+                data-se="o-form"
+                novalidate=""
               >
-                <form
-                  class="o-form MuiBox-root emotion-10"
-                  data-se="o-form"
-                  novalidate=""
+                <div
+                  class="MuiBox-root emotion-10"
                 >
                   <div
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="MuiBox-root emotion-12"
+                      class="identifier-container MuiBox-root emotion-12"
                     >
                       <div
-                        class="identifier-container MuiBox-root emotion-13"
+                        class="MuiBox-root emotion-13"
                       >
-                        <div
+                        <span
                           class="MuiBox-root emotion-14"
                         >
-                          <span
-                            class="MuiBox-root emotion-15"
+                          <svg
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-15"
+                            fill="none"
+                            focusable="false"
+                            role="img"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
                           >
-                            <svg
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-16"
-                              fill="none"
-                              focusable="false"
-                              role="img"
-                              viewBox="0 0 24 24"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                clip-rule="evenodd"
-                                d="M15.5 6.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm2 0a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0ZM5 23c0-2.357.694-4.363 1.886-5.762C8.064 15.856 9.782 15 12 15c2.215 0 3.934.862 5.113 2.25C18.307 18.652 19 20.66 19 23h2c0-2.722-.807-5.216-2.363-7.046C17.067 14.107 14.785 13 12 13c-2.782 0-5.064 1.097-6.636 2.941C3.806 17.77 3 20.263 3 23h2Z"
-                                fill="currentColor"
-                                fill-rule="evenodd"
-                              />
-                              <title>
-                                User
-                              </title>
-                            </svg>
-                          </span>
-                          <span
-                            aria-label="testUser@okta.com"
-                            class="identifier no-translate MuiBox-root emotion-17"
-                            data-se="identifier"
-                            title="testUser@okta.com"
-                          >
-                            testUser@okta.com
-                          </span>
-                        </div>
+                            <path
+                              clip-rule="evenodd"
+                              d="M15.5 6.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm2 0a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0ZM5 23c0-2.357.694-4.363 1.886-5.762C8.064 15.856 9.782 15 12 15c2.215 0 3.934.862 5.113 2.25C18.307 18.652 19 20.66 19 23h2c0-2.722-.807-5.216-2.363-7.046C17.067 14.107 14.785 13 12 13c-2.782 0-5.064 1.097-6.636 2.941C3.806 17.77 3 20.263 3 23h2Z"
+                              fill="currentColor"
+                              fill-rule="evenodd"
+                            />
+                            <title>
+                              User
+                            </title>
+                          </svg>
+                        </span>
+                        <span
+                          aria-label="testUser@okta.com"
+                          class="identifier no-translate MuiBox-root emotion-16"
+                          data-se="identifier"
+                          title="testUser@okta.com"
+                        >
+                          testUser@okta.com
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-10"
+                  >
+                    <div
+                      class="MuiBox-root emotion-11"
+                    />
+                    <div
+                      class="MuiBox-root emotion-11"
+                    >
+                      <div
+                        class="MuiBox-root emotion-20"
+                      >
+                        <h2
+                          class="MuiTypography-root MuiTypography-h4 emotion-21"
+                          data-se="o-form-head"
+                          id="enroll-authenticator_Title_enroll-authenticator_Title_Verify_with_your_email_okta_email_aut2m2nnGGzJy8uO80g4_okta_email_aut2m2nnGGzJy8uO80g4_7"
+                          tabindex="-1"
+                        >
+                          Verify with your email
+                        </h2>
                       </div>
                     </div>
                     <div
                       class="MuiBox-root emotion-11"
                     >
                       <div
-                        class="MuiBox-root emotion-12"
-                      />
-                      <div
-                        class="MuiBox-root emotion-12"
+                        class="MuiBox-root emotion-20"
                       >
-                        <div
-                          class="MuiBox-root emotion-21"
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-24"
+                          data-se="o-form-explain"
+                          id="enroll-authenticator_Description_enroll-authenticator_Description_We_sent_an_email_to_<span_class=strong_no-translate>testUser@oktacom</span>_Click_the_verification_link_in_your_email_to_continue_or_enter_the_code_below_okta_email_aut2m2nnGGzJy8uO80g4_okta_email_aut2m2nnGGzJy8uO80g4_8"
                         >
-                          <h2
-                            class="MuiTypography-root MuiTypography-h4 emotion-22"
-                            data-se="o-form-head"
-                            id="enroll-authenticator_Title_enroll-authenticator_Title_Verify_with_your_email_okta_email_aut2m2nnGGzJy8uO80g4_okta_email_aut2m2nnGGzJy8uO80g4_7"
-                            tabindex="-1"
+                          We sent an email to 
+                          <span
+                            class="strong no-translate"
                           >
-                            Verify with your email
-                          </h2>
-                        </div>
-                      </div>
-                      <div
-                        class="MuiBox-root emotion-12"
-                      >
-                        <div
-                          class="MuiBox-root emotion-21"
-                        >
-                          <p
-                            class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
-                            data-se="o-form-explain"
-                            id="enroll-authenticator_Description_enroll-authenticator_Description_We_sent_an_email_to_<span_class=strong_no-translate>testUser@oktacom</span>_Click_the_verification_link_in_your_email_to_continue_or_enter_the_code_below_okta_email_aut2m2nnGGzJy8uO80g4_okta_email_aut2m2nnGGzJy8uO80g4_8"
-                          >
-                            We sent an email to 
-                            <span
-                              class="strong no-translate"
-                            >
-                              testUser@okta.com
-                            </span>
-                            . Click the verification link in your email to continue or enter the code below.
-                          </p>
-                        </div>
-                      </div>
-                      <div
-                        class="MuiBox-root emotion-12"
-                      >
-                        <button
-                          class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-27"
-                          tabindex="0"
-                          type="button"
-                        >
-                          Enter a verification code instead
-                        </button>
+                            testUser@okta.com
+                          </span>
+                          . Click the verification link in your email to continue or enter the code below.
+                        </p>
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-12"
+                      class="MuiBox-root emotion-11"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-29"
-                        data-se="switchAuthenticator"
-                        role="link"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-26"
+                        tabindex="0"
                         type="button"
                       >
-                        Return to authenticator list
-                      </button>
-                    </div>
-                    <div
-                      class="MuiBox-root emotion-12"
-                    >
-                      <button
-                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-29"
-                        data-se="cancel"
-                        role="link"
-                        type="button"
-                      >
-                        Back to sign in
+                        Enter a verification code instead
                       </button>
                     </div>
                   </div>
-                </form>
-              </div>
+                  <div
+                    class="MuiBox-root emotion-11"
+                  >
+                    <button
+                      class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-28"
+                      data-se="switchAuthenticator"
+                      role="link"
+                      type="button"
+                    >
+                      Return to authenticator list
+                    </button>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-11"
+                  >
+                    <button
+                      class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-28"
+                      data-se="cancel"
+                      role="link"
+                      type="button"
+                    >
+                      Back to sign in
+                    </button>
+                  </div>
+                </div>
+              </form>
             </div>
           </div>
         </div>
-      </main>
-    </div>
+      </div>
+    </main>
   </div>
 </div>
 `;

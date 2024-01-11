@@ -54,12 +54,7 @@ const AuthContainer: FunctionComponent<{ hide: boolean }> = ({ children, hide })
           alignItems="center"
           sx={{
             minInlineSize: '100%',
-            marginBlockStart: '100px',
-            marginBlockEnd: '8px',
             marginInline: 'auto',
-            '@media only screen and (max-device-width: 750px)': {
-              marginBlockStart: 0,
-            },
           }}
         >
           <Box
