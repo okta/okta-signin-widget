@@ -216,6 +216,10 @@ test.requestHooks(mockEnrollAuthenticatorWithUsageInfo)('should load select auth
     await t.expect(await selectFactorPage.getFactorAriaDescriptionByIndex(0)).eql(
       'Choose a password for your account. Used for access. Set up'
     );
+  } else {
+    await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(0)).eql(
+      'Set up Password'
+    );
   }
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(1)).eql('Phone');

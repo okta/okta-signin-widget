@@ -11,6 +11,7 @@
  */
 import { ListView, View, createButton, loc } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
+import { getVerifyAuthenticatorAriaLabel } from '../utils/AuthenticatorUtil';
 
 const AuthenticatorRow = View.extend({
   className: 'authenticator-row clearfix',
@@ -49,6 +50,9 @@ const AuthenticatorRow = View.extend({
       className: 'button select-factor',
       title: function() {
         return loc('oie.verify.authenticator.button.text', 'login');
+      },
+      attributes: {
+        'aria-label': getVerifyAuthenticatorAriaLabel(this.model, true),
       },
       click: function() {
         this.model.trigger('selectAuthenticator', this.model.get('value'));
