@@ -31,6 +31,7 @@ exports[`ReminderPrompt should show prompt with working link after default timeo
       >
         <span
           class="MuiBox-root emotion-5"
+          translate="yes"
         >
           warning
         </span>
@@ -84,6 +85,7 @@ exports[`ReminderPrompt should show prompt with working link after default timeo
       >
         <span
           class="MuiBox-root emotion-5"
+          translate="yes"
         >
           warning
         </span>

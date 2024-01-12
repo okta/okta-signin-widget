@@ -44,13 +44,16 @@ exports[`error-authenticator-enrollment-not-allowed should render form 1`] = `
                     class="MuiBox-root emotion-10"
                   >
                     <div
-                      class="identifier-container MuiBox-root emotion-11"
+                      class="identifier-container no-translate MuiBox-root emotion-11"
+                      title="tester@okta1.com"
                     >
                       <div
-                        class="MuiBox-root emotion-12"
+                        class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-12"
+                        data-se="identifier"
+                        translate="yes"
                       >
-                        <span
-                          class="MuiBox-root emotion-13"
+                        <div
+                          class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-13"
                         >
                           <svg
                             class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-14"
@@ -70,12 +73,9 @@ exports[`error-authenticator-enrollment-not-allowed should render form 1`] = `
                               User
                             </title>
                           </svg>
-                        </span>
+                        </div>
                         <span
-                          aria-label="tester@okta1.com"
-                          class="identifier no-translate MuiBox-root emotion-15"
-                          data-se="identifier"
-                          title="tester@okta1.com"
+                          class="MuiChip-label MuiChip-labelMedium emotion-15"
                         >
                           tester@okta1.com
                         </span>
@@ -118,6 +118,7 @@ exports[`error-authenticator-enrollment-not-allowed should render form 1`] = `
                         >
                           <span
                             class="MuiBox-root emotion-22"
+                            translate="yes"
                           >
                             error
                           </span>
