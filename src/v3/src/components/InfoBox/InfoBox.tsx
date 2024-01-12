@@ -48,6 +48,8 @@ const InfoBox: UISchemaElementComponent<{
       <Callout
         severity={MessageTypeVariant[messageClass as MessageType] ?? MessageTypeVariant.INFO}
         testId={dataSe}
+        // visually-hidden severity text is not translated
+        translate={"no"}
       >
         {
           Array.isArray(message)

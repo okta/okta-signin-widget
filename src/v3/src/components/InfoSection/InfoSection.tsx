@@ -29,6 +29,8 @@ const InfoSection: FunctionComponent<Props> = ({ message }) => (message ? (
     <Callout
       key={message.i18n?.key || message.message}
       severity={MessageTypeVariant[message.class as MessageType] ?? MessageTypeVariant.INFO}
+      // visually-hidden severity text is not translated
+      translate={"no"}
     >
       {message.message}
     </Callout>

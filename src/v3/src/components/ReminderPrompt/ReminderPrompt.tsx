@@ -134,6 +134,8 @@ const ReminderPrompt: UISchemaElementComponent<{
     <Box marginBlockEnd={4}>
       <Callout
         severity="warning"
+        // visually-hidden severity text is not translated
+        translate={"no"}
       >
         {renderAlertContent()}
         {renderActionLink()}

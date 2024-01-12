@@ -57,6 +57,7 @@ const IdentifierContainer: UISchemaElementComponent<{
         )}
         label={identifier}
         testId="identifier"
+        translate={"no"}
       />
     </Box>
   );
