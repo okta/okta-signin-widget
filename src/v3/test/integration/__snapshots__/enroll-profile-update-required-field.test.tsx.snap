@@ -87,7 +87,8 @@ exports[`enroll-profile-update-required-field fails client side validation with 
                     class="MuiBox-root emotion-17"
                   >
                     <div
-                      class="identifier-container no-translate MuiBox-root emotion-18"
+                      class="no-translate MuiBox-root emotion-18"
+                      data-se="identifier-container"
                       title="testUser@okta.com"
                     >
                       <div
@@ -359,7 +360,8 @@ exports[`enroll-profile-update-required-field should render form with one requir
                     class="MuiBox-root emotion-10"
                   >
                     <div
-                      class="identifier-container no-translate MuiBox-root emotion-11"
+                      class="no-translate MuiBox-root emotion-11"
+                      data-se="identifier-container"
                       title="testUser@okta.com"
                     >
                       <div

@@ -92,7 +92,8 @@ exports[`authenticator-enroll-phone-voice should render form 1`] = `
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="identifier-container no-translate MuiBox-root emotion-12"
+                      class="no-translate MuiBox-root emotion-12"
+                      data-se="identifier-container"
                       title="tester3@test.com"
                     >
                       <div

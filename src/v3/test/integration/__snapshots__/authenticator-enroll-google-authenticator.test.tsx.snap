@@ -102,7 +102,8 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="identifier-container no-translate MuiBox-root emotion-12"
+                      class="no-translate MuiBox-root emotion-12"
+                      data-se="identifier-container"
                       title="tester19@test.com"
                     >
                       <div
@@ -362,7 +363,8 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="identifier-container no-translate MuiBox-root emotion-12"
+                      class="no-translate MuiBox-root emotion-12"
+                      data-se="identifier-container"
                       title="tester19@test.com"
                     >
                       <div
@@ -614,7 +616,8 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="identifier-container no-translate MuiBox-root emotion-12"
+                      class="no-translate MuiBox-root emotion-12"
+                      data-se="identifier-container"
                       title="tester19@test.com"
                     >
                       <div
@@ -865,7 +868,8 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="identifier-container no-translate MuiBox-root emotion-12"
+                      class="no-translate MuiBox-root emotion-12"
+                      data-se="identifier-container"
                       title="tester19@test.com"
                     >
                       <div

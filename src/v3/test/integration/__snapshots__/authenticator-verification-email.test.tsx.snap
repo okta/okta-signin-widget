@@ -82,7 +82,8 @@ exports[`Email authenticator verification when email magic link = undefined rend
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="identifier-container no-translate MuiBox-root emotion-12"
+                      class="no-translate MuiBox-root emotion-12"
+                      data-se="identifier-container"
                       title="firstname.lastname@example.com"
                     >
                       <div
@@ -280,7 +281,8 @@ exports[`Email authenticator verification when email magic link = undefined rend
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="identifier-container no-translate MuiBox-root emotion-12"
+                      class="no-translate MuiBox-root emotion-12"
+                      data-se="identifier-container"
                       title="firstname.lastname@example.com"
                     >
                       <div
@@ -532,7 +534,8 @@ exports[`Email authenticator verification when email magic link = undefined rend
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="identifier-container no-translate MuiBox-root emotion-12"
+                      class="no-translate MuiBox-root emotion-12"
+                      data-se="identifier-container"
                       title="firstname.lastname@example.com"
                     >
                       <div
@@ -804,7 +807,8 @@ exports[`Email authenticator verification when email magic link = undefined rend
                     class="MuiBox-root emotion-18"
                   >
                     <div
-                      class="identifier-container no-translate MuiBox-root emotion-19"
+                      class="no-translate MuiBox-root emotion-19"
+                      data-se="identifier-container"
                       title="testUser@okta.com"
                     >
                       <div
@@ -1101,7 +1105,8 @@ exports[`Email authenticator verification when email magic link = undefined rend
                     class="MuiBox-root emotion-18"
                   >
                     <div
-                      class="identifier-container no-translate MuiBox-root emotion-19"
+                      class="no-translate MuiBox-root emotion-19"
+                      data-se="identifier-container"
                       title="testUser@okta.com"
                     >
                       <div
@@ -1521,7 +1526,8 @@ exports[`Email authenticator verification when email magic link = undefined shou
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="identifier-container no-translate MuiBox-root emotion-12"
+                      class="no-translate MuiBox-root emotion-12"
+                      data-se="identifier-container"
                       title="firstname.lastname@example.com"
                     >
                       <div

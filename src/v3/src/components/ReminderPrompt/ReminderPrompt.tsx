@@ -135,7 +135,7 @@ const ReminderPrompt: UISchemaElementComponent<{
       <Callout
         severity="warning"
         // visually-hidden severity text is not translated
-        translate={"no"}
+        translate="no"
       >
         {renderAlertContent()}
         {renderActionLink()}

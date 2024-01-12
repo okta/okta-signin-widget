@@ -92,7 +92,8 @@ exports[`byol loading custom language should load custom language with "language
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="identifier-container no-translate MuiBox-root emotion-12"
+                      class="no-translate MuiBox-root emotion-12"
+                      data-se="identifier-container"
                       title="testUser@okta.com"
                     >
                       <div
@@ -1648,7 +1649,8 @@ exports[`byol loading custom language should load custom language with assets.ba
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="identifier-container no-translate MuiBox-root emotion-12"
+                      class="no-translate MuiBox-root emotion-12"
+                      data-se="identifier-container"
                       title="testUser@okta.com"
                     >
                       <div
@@ -3204,7 +3206,8 @@ exports[`byol loading default language should not load custom language when the 
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="identifier-container no-translate MuiBox-root emotion-12"
+                      class="no-translate MuiBox-root emotion-12"
+                      data-se="identifier-container"
                       title="testUser@okta.com"
                     >
                       <div
@@ -4760,7 +4763,8 @@ exports[`byol loading default language should not load custom language with "lan
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="identifier-container no-translate MuiBox-root emotion-12"
+                      class="no-translate MuiBox-root emotion-12"
+                      data-se="identifier-container"
                       title="testUser@okta.com"
                     >
                       <div

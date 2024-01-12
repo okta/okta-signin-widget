@@ -125,7 +125,8 @@ exports[`authenticator-enroll-security-question custom question fails client sid
                     class="MuiBox-root emotion-18"
                   >
                     <div
-                      class="identifier-container no-translate MuiBox-root emotion-19"
+                      class="no-translate MuiBox-root emotion-19"
+                      data-se="identifier-container"
                       title="tester14@test.com"
                     >
                       <div
@@ -461,7 +462,8 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="identifier-container no-translate MuiBox-root emotion-12"
+                      class="no-translate MuiBox-root emotion-12"
+                      data-se="identifier-container"
                       title="tester14@test.com"
                     >
                       <div
@@ -784,7 +786,8 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="identifier-container no-translate MuiBox-root emotion-12"
+                      class="no-translate MuiBox-root emotion-12"
+                      data-se="identifier-container"
                       title="tester14@test.com"
                     >
                       <div
@@ -1222,7 +1225,8 @@ exports[`authenticator-enroll-security-question predefined question should rende
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="identifier-container no-translate MuiBox-root emotion-12"
+                      class="no-translate MuiBox-root emotion-12"
+                      data-se="identifier-container"
                       title="tester14@test.com"
                     >
                       <div

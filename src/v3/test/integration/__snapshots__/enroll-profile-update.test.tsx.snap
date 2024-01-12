@@ -87,7 +87,8 @@ exports[`enroll-profile-update fails client side validation with empty required 
                     class="MuiBox-root emotion-17"
                   >
                     <div
-                      class="identifier-container no-translate MuiBox-root emotion-18"
+                      class="no-translate MuiBox-root emotion-18"
+                      data-se="identifier-container"
                       title="testUser@okta.com"
                     >
                       <div
@@ -315,7 +316,8 @@ exports[`enroll-profile-update should render form 1`] = `
                     class="MuiBox-root emotion-10"
                   >
                     <div
-                      class="identifier-container no-translate MuiBox-root emotion-11"
+                      class="no-translate MuiBox-root emotion-11"
+                      data-se="identifier-container"
                       title="testUser@okta.com"
                     >
                       <div

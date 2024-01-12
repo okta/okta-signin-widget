@@ -82,7 +82,8 @@ exports[`authenticator-verification-security-question renders form 1`] = `
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="identifier-container no-translate MuiBox-root emotion-12"
+                      class="no-translate MuiBox-root emotion-12"
+                      data-se="identifier-container"
                       title="tester@okta1.com"
                     >
                       <div

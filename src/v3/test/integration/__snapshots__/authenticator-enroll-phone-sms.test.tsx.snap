@@ -44,7 +44,8 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                     class="MuiBox-root emotion-10"
                   >
                     <div
-                      class="identifier-container no-translate MuiBox-root emotion-11"
+                      class="no-translate MuiBox-root emotion-11"
+                      data-se="identifier-container"
                       title="tester13@test.com"
                     >
                       <div
@@ -713,7 +714,8 @@ exports[`authenticator-enroll-phone-sms should render form 1`] = `
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="identifier-container no-translate MuiBox-root emotion-12"
+                      class="no-translate MuiBox-root emotion-12"
+                      data-se="identifier-container"
                       title="tester13@test.com"
                     >
                       <div

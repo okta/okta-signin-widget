@@ -13,7 +13,6 @@
 import { Tag, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { UserIcon } from '@okta/odyssey-react-mui/icons';
 import { Box } from '@okta/odyssey-react-mui-legacy';
-import classNames from 'classnames';
 import { h } from 'preact';
 import { IdentifierContainerElement, UISchemaElementComponent } from 'src/types';
 
@@ -23,8 +22,6 @@ const IdentifierContainer: UISchemaElementComponent<{
   uischema: IdentifierContainerElement
 }> = ({ uischema }) => {
   const { options: { identifier } } = uischema;
-
-  const mainContainerClasses = classNames('identifier-container', 'no-translate');
   const tokens = useOdysseyDesignTokens();
 
   return (
@@ -34,8 +31,9 @@ const IdentifierContainer: UISchemaElementComponent<{
       alignItems="center"
       marginBlockEnd={4}
       maxWidth={1}
-      className={mainContainerClasses}
+      className="no-translate"
       title={identifier}
+      data-se="identifier-container"
     >
       <Tag
         icon={(
@@ -57,7 +55,7 @@ const IdentifierContainer: UISchemaElementComponent<{
         )}
         label={identifier}
         testId="identifier"
-        translate={"no"}
+        translate="no"
       />
     </Box>
   );
