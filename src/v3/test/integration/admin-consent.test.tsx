@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { waitFor } from '@testing-library/preact';
 import { createAuthJsPayloadArgs, setup } from './util';
 
 import adminConsentResponse from '../../../../playground/mocks/data/idp/idx/consent-admin.json';
@@ -28,6 +29,25 @@ describe('admin-consent', () => {
     expect(groupHeading.textContent).toBe('Resource and policies');
 
     expect(container).toMatchSnapshot();
+    expect(document.title).toBe('Native client');
+  });
+
+  // disable for now as document is a global state, this test cannot be run in parallel
+  xit('should render correct page title with special character', async () => {
+    const mockResponse = {
+      ...adminConsentResponse,
+      app: {
+        ...adminConsentResponse.app,
+        value: {
+          ...adminConsentResponse.app.value,
+          label: 'Mock&label'
+        }
+      }
+    }
+    const { findByRole } = await setup({ mockResponse });
+    const appNameHeading = await findByRole('heading', { level: 2 });
+    expect(appNameHeading.textContent).toBe('Mock&amp;label');
+    await waitFor(() => expect(document.title).toBe('Mock&label'));
   });
 
   it('should send correct payload when consent is given', async () => {
