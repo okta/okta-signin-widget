@@ -180,7 +180,8 @@ export const transformTerminalTransaction = (
   if (typeof deviceEnrollment !== 'undefined') {
     if (deviceEnrollment.name === DEVICE_ENROLLMENT_TYPE.ODA) {
       return transformOdaEnrollment({ transaction, formBag, widgetProps });
-    } if (deviceEnrollment.name === DEVICE_ENROLLMENT_TYPE.MDM) {
+    } if (deviceEnrollment.name === DEVICE_ENROLLMENT_TYPE.MDM
+            || deviceEnrollment.name === DEVICE_ENROLLMENT_TYPE.WS1) {
       return transformMdmTerminalView({ transaction, formBag, widgetProps });
     }
   }

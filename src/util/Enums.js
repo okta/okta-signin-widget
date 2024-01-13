@@ -30,6 +30,7 @@ export default {
 
   ODA: 'oda',
   MDM: 'mdm',
+  WS1: 'ws1',
 
   // Global success messages
   SUCCESS: 'SUCCESS',
