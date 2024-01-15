@@ -103,7 +103,7 @@
     "test:parity-run": "OKTA_SIW_GEN3=true yarn testcafe -c 4 chrome:headless --reporter spec,xunit:build2/reports/junit/testcafe-results.xml",
     "test:parity-ci": "OKTA_SIW_SKIP_FLAKY=true yarn codegen && run-p -r test:parity-setup test:parity-run",
     "test:parity-ci-flaky": "OKTA_SIW_GEN3=true OKTA_SIW_ONLY_FLAKY=true yarn test:parity-ci",
-    "postinstall": "./scripts/postinstall.sh || patch-package"
+    "postinstall": "SKIP_POSTINSTALL=$SKIP_POSTINSTALL ./scripts/postinstall.sh || patch-package"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.6",

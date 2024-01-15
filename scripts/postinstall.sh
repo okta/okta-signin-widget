@@ -1,4 +1,5 @@
-#!/usr/bin/env node
 #!/bin/bash
 
-if (!process.env.SKIP_POSTINSTALL) process.exit(1);
+if [[ $SKIP_POSTINSTALL -ne 0 ]]; then
+  exit 1
+fi
