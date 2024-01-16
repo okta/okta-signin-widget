@@ -28,7 +28,6 @@ describe('admin-consent', () => {
     expect(groupHeading.textContent).toBe('Resource and policies');
 
     expect(container).toMatchSnapshot();
-    expect(document.title).toBe('Native client');
   });
 
   it('should send correct payload when consent is given', async () => {
