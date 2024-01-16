@@ -19,5 +19,5 @@ fixture('PageTitle')
 
 test('Page title applies correctly', async (t) => {
   // title should not inlcude escaped characters
-  await t.expect(getTitle()).eql(`Verify it's you with a security method`);
+  await t.expect(getTitle()).eql('Verify it\'s you with a security method');
 });
