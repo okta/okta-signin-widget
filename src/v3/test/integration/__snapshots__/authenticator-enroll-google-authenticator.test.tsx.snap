@@ -363,7 +363,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="no-translate MuiBox-root emotion-12"
+                      class="MuiBox-root emotion-12"
                       data-se="identifier-container"
                       title="tester19@test.com"
                     >
