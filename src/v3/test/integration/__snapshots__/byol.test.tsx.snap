@@ -4667,11 +4667,12 @@ exports[`byol loading default language should not load custom language with "lan
             class="MuiBox-root emotion-4"
           >
             <div
-              class="okta-sign-in-header auth-header authCoinSpacing MuiBox-root emotion-5"
+              class="okta-sign-in-header auth-header MuiBox-root emotion-5"
             >
               <h1
                 class="MuiTypography-root MuiTypography-h1 emotion-6"
               />
+<<<<<<< HEAD
               <div
                 aria-hidden="true"
                 class="mfa-okta-phone MuiBox-root emotion-7"
@@ -4713,21 +4714,27 @@ exports[`byol loading default language should not load custom language with "lan
                   />
                 </svg>
               </div>
+=======
+>>>>>>> 45ea04652 (Update vrt and snapshot)
             </div>
             <div
-              class="MuiBox-root emotion-8"
+              class="MuiBox-root emotion-7"
             >
-              <form
-                class="o-form MuiBox-root emotion-9"
-                data-se="o-form"
-                novalidate=""
+              <div
+                class="MuiBox-root emotion-8"
               >
-                <div
-                  class="MuiBox-root emotion-10"
+                <span
+                  aria-label="Processing..."
+                  aria-valuetext="Processing..."
+                  class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-9"
+                  role="progressbar"
+                  style="width: 1.71428571rem; height: 1.71428571rem;"
                 >
-                  <div
-                    class="MuiBox-root emotion-11"
+                  <svg
+                    class="MuiCircularProgress-svg emotion-10"
+                    viewBox="22 22 44 44"
                   >
+<<<<<<< HEAD
                     <div
                       class="MuiBox-root emotion-12"
                       data-se="identifier-container"
@@ -6185,6 +6192,19 @@ exports[`byol loading default language should not load custom language with "lan
                   </div>
                 </div>
               </form>
+=======
+                    <circle
+                      class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate emotion-11"
+                      cx="44"
+                      cy="44"
+                      fill="none"
+                      r="17"
+                      stroke-width="10"
+                    />
+                  </svg>
+                </span>
+              </div>
+>>>>>>> 45ea04652 (Update vrt and snapshot)
             </div>
           </div>
         </div>
