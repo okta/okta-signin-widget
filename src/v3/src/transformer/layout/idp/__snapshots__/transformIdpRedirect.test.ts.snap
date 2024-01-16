@@ -22,9 +22,9 @@ Object {
       },
       Object {
         "label": "socialauth.google.label",
+        "noTranslate": false,
         "options": Object {
           "Icon": "MockSVGIcon",
-          "classes": "social-auth-button social-auth-google-button",
           "dataSe": "piv-card-button",
           "iconAlt": "",
           "onClick": [Function],
@@ -36,9 +36,9 @@ Object {
       },
       Object {
         "label": "socialauth.facebook.label",
+        "noTranslate": false,
         "options": Object {
           "Icon": "MockSVGIcon",
-          "classes": "social-auth-button social-auth-facebook-button",
           "dataSe": "piv-card-button",
           "iconAlt": "",
           "onClick": [Function],

@@ -120,7 +120,7 @@ exports[`authenticator-apple-sso-extension calls verify then cancels the transac
                   >
                     <button
                       class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-25"
-                      data-type="save"
+                      data-se="save"
                       tabindex="0"
                       type="submit"
                     >
@@ -306,7 +306,7 @@ exports[`authenticator-apple-sso-extension cancels the transaction when sso exte
                   >
                     <button
                       class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-25"
-                      data-type="save"
+                      data-se="save"
                       tabindex="0"
                       type="submit"
                     >
@@ -492,7 +492,7 @@ exports[`authenticator-apple-sso-extension opens the verify url with credential 
                   >
                     <button
                       class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-25"
-                      data-type="save"
+                      data-se="save"
                       tabindex="0"
                       type="submit"
                     >

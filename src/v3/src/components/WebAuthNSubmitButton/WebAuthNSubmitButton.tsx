@@ -10,7 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box, Button } from '@okta/odyssey-react-mui-legacy';
+import { Button } from '@okta/odyssey-react-mui';
+import { Box } from '@okta/odyssey-react-mui-legacy';
 import { IdxActionParams } from '@okta/okta-auth-js';
 import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
@@ -89,15 +90,14 @@ const WebAuthNSubmit: UISchemaElementComponent<{
       justifyContent={showLoading ? 'center' : undefined}
     >
       <Button
-        disabled={showLoading}
-        data-se="button"
+        isDisabled={showLoading}
+        testId="button"
         onClick={handleClick}
         variant="primary"
-        aria-describedby={ariaDescribedBy}
-        fullWidth
-      >
-        {label}
-      </Button>
+        ariaDescribedBy={ariaDescribedBy}
+        isFullWidth
+        label={label}
+      />
     </Box>
   );
 };

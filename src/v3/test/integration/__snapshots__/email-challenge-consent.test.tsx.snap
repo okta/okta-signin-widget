@@ -221,7 +221,7 @@ exports[`email-challenge-consent should render form 1`] = `
                   >
                     <button
                       class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-33"
-                      data-type="cancel"
+                      data-se="cancel"
                       tabindex="0"
                       type="button"
                     >
@@ -233,7 +233,7 @@ exports[`email-challenge-consent should render form 1`] = `
                   >
                     <button
                       class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-35"
-                      data-type="save"
+                      data-se="save"
                       tabindex="0"
                       type="button"
                     >

@@ -5,12 +5,12 @@ const TERMINAL_CONTENT = '.o-form-error-container .ion-messages-container';
 const FORM_INFOBOX_ERROR = '[data-se="o-form-error-container"] .infobox-error';
 const CALLOUT = '[data-se="callout"]';
 
-const CANCEL_BUTTON_SELECTOR = '[data-type="cancel"]';
-const SAVE_BUTTON_SELECTOR = '[data-type="save"]';
+const CANCEL_BUTTON_SELECTOR = userVariables.gen3 ? '[data-se="cancel"]' : '[data-type="cancel"]';
+const SAVE_BUTTON_SELECTOR = userVariables.gen3 ? '[data-se="save"]' : '[data-type="save"]';
 
-const focusOnSubmitButton = () => {
+const focusOnSubmitButton = (saveButtonSelector) => {
   // client function is not able to refer any variables defined outside
-  document.querySelector('[data-type="save"]').focus();
+  document.querySelector(saveButtonSelector).focus();
 };
 
 export default class BaseFormObject {
@@ -144,7 +144,7 @@ export default class BaseFormObject {
   async focusSaveButton() {
     // testcafe does not support actions for focus yet
     const focus = ClientFunction(focusOnSubmitButton);
-    await focus();
+    await focus(SAVE_BUTTON_SELECTOR);
   }
 
   /**
