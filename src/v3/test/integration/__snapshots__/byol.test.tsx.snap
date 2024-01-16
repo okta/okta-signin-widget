@@ -4667,12 +4667,15 @@ exports[`byol loading default language should not load custom language with "lan
             class="MuiBox-root emotion-4"
           >
             <div
-              class="okta-sign-in-header auth-header MuiBox-root emotion-5"
+              class="okta-sign-in-header auth-header authCoinSpacing MuiBox-root emotion-5"
             >
               <h1
                 class="MuiTypography-root MuiTypography-h1 emotion-6"
               />
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 68b45670e (Update snapshot)
               <div
                 aria-hidden="true"
                 class="mfa-okta-phone MuiBox-root emotion-7"
@@ -4681,10 +4684,17 @@ exports[`byol loading default language should not load custom language with "lan
                 <svg
                   aria-labelledby="mfa-okta-phone"
                   fill="none"
+<<<<<<< HEAD
                   height="2.85714286rem"
                   role="img"
                   viewBox="0 0 48 48"
                   width="2.85714286rem"
+=======
+                  height="48"
+                  role="img"
+                  viewBox="0 0 48 48"
+                  width="48"
+>>>>>>> 68b45670e (Update snapshot)
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <title
@@ -4692,6 +4702,16 @@ exports[`byol loading default language should not load custom language with "lan
                   >
                     Voice Call Authentication
                   </title>
+<<<<<<< HEAD
+=======
+                  <circle
+                    class="siwFillBg"
+                    cx="24"
+                    cy="24"
+                    fill="#F5F5F6"
+                    r="24"
+                  />
+>>>>>>> 68b45670e (Update snapshot)
                   <path
                     class="siwFillPrimaryDark"
                     d="M21.5 37h-9a2.6 2.6 0 0 1-2.5-2.682V14.682A2.6 2.6 0 0 1 12.5 12h9a2.6 2.6 0 0 1 2.5 2.682v19.636A2.6 2.6 0 0 1 21.5 37Zm-9-24a1.6 1.6 0 0 0-1.5 1.682v19.636A1.6 1.6 0 0 0 12.5 36h9a1.6 1.6 0 0 0 1.5-1.682V14.682A1.6 1.6 0 0 0 21.5 13h-9Z"
@@ -4714,27 +4734,30 @@ exports[`byol loading default language should not load custom language with "lan
                   />
                 </svg>
               </div>
+<<<<<<< HEAD
 =======
 >>>>>>> 45ea04652 (Update vrt and snapshot)
+=======
+>>>>>>> 68b45670e (Update snapshot)
             </div>
             <div
-              class="MuiBox-root emotion-7"
+              class="MuiBox-root emotion-8"
             >
-              <div
-                class="MuiBox-root emotion-8"
+              <form
+                class="o-form MuiBox-root emotion-9"
+                data-se="o-form"
+                novalidate=""
               >
-                <span
-                  aria-label="Processing..."
-                  aria-valuetext="Processing..."
-                  class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-9"
-                  role="progressbar"
-                  style="width: 1.71428571rem; height: 1.71428571rem;"
+                <div
+                  class="MuiBox-root emotion-10"
                 >
-                  <svg
-                    class="MuiCircularProgress-svg emotion-10"
-                    viewBox="22 22 44 44"
+                  <div
+                    class="MuiBox-root emotion-11"
                   >
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 68b45670e (Update snapshot)
                     <div
                       class="MuiBox-root emotion-12"
                       data-se="identifier-container"
@@ -4743,7 +4766,11 @@ exports[`byol loading default language should not load custom language with "lan
                       <div
                         class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-13"
                         data-se="identifier"
+<<<<<<< HEAD
                         translate="no"
+=======
+                        translate="yes"
+>>>>>>> 68b45670e (Update snapshot)
                       >
                         <div
                           class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-14"
@@ -6169,6 +6196,7 @@ exports[`byol loading default language should not load custom language with "lan
                   <div
                     class="MuiBox-root emotion-11"
                   >
+<<<<<<< HEAD
                     <button
                       class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-52"
                       data-se="switchAuthenticator"
@@ -6177,10 +6205,20 @@ exports[`byol loading default language should not load custom language with "lan
                     >
                       Return to authenticator list
                     </button>
+=======
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-52"
+                      data-se="switchAuthenticator"
+                      href=""
+                    >
+                      Return to authenticator list
+                    </a>
+>>>>>>> 68b45670e (Update snapshot)
                   </div>
                   <div
                     class="MuiBox-root emotion-11"
                   >
+<<<<<<< HEAD
                     <button
                       class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-52"
                       data-se="cancel"
@@ -6205,6 +6243,18 @@ exports[`byol loading default language should not load custom language with "lan
                 </span>
               </div>
 >>>>>>> 45ea04652 (Update vrt and snapshot)
+=======
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-52"
+                      data-se="cancel"
+                      href=""
+                    >
+                      Back to sign in
+                    </a>
+                  </div>
+                </div>
+              </form>
+>>>>>>> 68b45670e (Update snapshot)
             </div>
           </div>
         </div>
