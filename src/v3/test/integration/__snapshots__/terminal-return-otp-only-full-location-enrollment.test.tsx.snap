@@ -82,7 +82,7 @@ exports[`terminal-return-otp-only-full-location-enrollment renders form 1`] = `
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="no-translate MuiBox-root emotion-12"
+                      class="MuiBox-root emotion-12"
                       data-se="identifier-container"
                       title="test@okta.com"
                     >

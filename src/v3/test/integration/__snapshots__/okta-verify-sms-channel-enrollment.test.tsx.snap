@@ -78,7 +78,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="no-translate MuiBox-root emotion-12"
+                      class="MuiBox-root emotion-12"
                       data-se="identifier-container"
                       title="tester2@test.com"
                     >
@@ -1581,7 +1581,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form witho
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="no-translate MuiBox-root emotion-12"
+                      class="MuiBox-root emotion-12"
                       data-se="identifier-container"
                       title="tester2@test.com"
                     >

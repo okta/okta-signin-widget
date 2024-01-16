@@ -31,7 +31,6 @@ const IdentifierContainer: UISchemaElementComponent<{
       alignItems="center"
       marginBlockEnd={4}
       maxWidth={1}
-      className="no-translate"
       title={identifier}
       data-se="identifier-container"
     >

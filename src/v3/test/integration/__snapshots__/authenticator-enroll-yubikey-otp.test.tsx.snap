@@ -84,7 +84,7 @@ exports[`authenticator-enroll-yubikey-otp renders form 1`] = `
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="no-translate MuiBox-root emotion-12"
+                      class="MuiBox-root emotion-12"
                       data-se="identifier-container"
                       title="testUser@okta.com"
                     >

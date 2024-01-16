@@ -86,7 +86,7 @@ exports[`flow-verify-with-piv-as-authenticator should render select authenticato
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="no-translate MuiBox-root emotion-12"
+                      class="MuiBox-root emotion-12"
                       data-se="identifier-container"
                       title="32011152472674@upn.example.com"
                     >

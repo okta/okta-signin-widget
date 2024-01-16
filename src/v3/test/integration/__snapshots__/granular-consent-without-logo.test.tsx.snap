@@ -64,7 +64,7 @@ exports[`granular-consent-without-logo should render form 1`] = `
                     class="MuiBox-root emotion-14"
                   >
                     <div
-                      class="no-translate MuiBox-root emotion-15"
+                      class="MuiBox-root emotion-15"
                       data-se="identifier-container"
                       title="testUser@okta.com"
                     >

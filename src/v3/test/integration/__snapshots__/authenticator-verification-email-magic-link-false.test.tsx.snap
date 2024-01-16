@@ -82,7 +82,7 @@ exports[`Email authenticator verification when email magic link = false Tests sh
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="no-translate MuiBox-root emotion-12"
+                      class="MuiBox-root emotion-12"
                       data-se="identifier-container"
                       title="firstname.lastname@example.com"
                     >

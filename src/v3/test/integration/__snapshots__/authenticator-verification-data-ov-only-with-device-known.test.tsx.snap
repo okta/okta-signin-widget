@@ -78,7 +78,7 @@ exports[`authenticator-verification-data-ov-only-with-device-known should render
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="no-translate MuiBox-root emotion-12"
+                      class="MuiBox-root emotion-12"
                       data-se="identifier-container"
                       title="testUser@okta.com"
                     >

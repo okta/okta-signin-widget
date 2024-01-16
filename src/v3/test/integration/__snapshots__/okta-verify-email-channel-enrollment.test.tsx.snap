@@ -78,7 +78,7 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="no-translate MuiBox-root emotion-12"
+                      class="MuiBox-root emotion-12"
                       data-se="identifier-container"
                       title="tester2@test.com"
                     >

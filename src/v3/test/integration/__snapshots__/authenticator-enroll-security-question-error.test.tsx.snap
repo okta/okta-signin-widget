@@ -125,7 +125,7 @@ exports[`authenticator-enroll-security-question-error custom question should sho
                     class="MuiBox-root emotion-18"
                   >
                     <div
-                      class="no-translate MuiBox-root emotion-19"
+                      class="MuiBox-root emotion-19"
                       data-se="identifier-container"
                       title="tester35@test.com"
                     >
@@ -957,7 +957,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="no-translate MuiBox-root emotion-12"
+                      class="MuiBox-root emotion-12"
                       data-se="identifier-container"
                       title="tester35@test.com"
                     >
@@ -1490,7 +1490,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                     class="MuiBox-root emotion-18"
                   >
                     <div
-                      class="no-translate MuiBox-root emotion-19"
+                      class="MuiBox-root emotion-19"
                       data-se="identifier-container"
                       title="tester35@test.com"
                     >
