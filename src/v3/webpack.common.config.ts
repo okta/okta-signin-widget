@@ -136,7 +136,7 @@ const baseConfig: Partial<Configuration> = {
                   '../../node_modules',
                 ],
               },
-            },
+            }
           },
           {
             loader: 'postcss-loader',
