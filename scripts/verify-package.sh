@@ -164,7 +164,7 @@ if [ -n "${TEST_SUITE_ID}" ]; then
 fi
 
 pushd test/package/tsc
-if ! (yarn clean && SKIP_POSTINSTALL=true PWD=${PWD} yarn install && yarn test); then
+if ! (yarn clean && SKIP_POSTINSTALL=true ROOT=${$OKTA_HOME/$REPO} yarn install && yarn test); then
   echo "TSC package verification failed! Exiting..."
   exit ${TEST_FAILURE}
 fi
@@ -172,7 +172,7 @@ popd
 
 pushd test/package/cjs
 inject_fake_packages
-if ! (yarn clean && SKIP_POSTINSTALL=true PWD=${PWD} yarn install && yarn test); then
+if ! (yarn clean && SKIP_POSTINSTALL=true ROOT=${$OKTA_HOME/$REPO} yarn install && yarn test); then
   echo "CommonJS bundle verification failed! Exiting..."
   exit ${TEST_FAILURE}
 fi
@@ -182,7 +182,7 @@ popd
 
 pushd test/package/esm
 inject_fake_packages
-if ! (yarn clean && SKIP_POSTINSTALL=true PWD=${PWD} yarn install && yarn test); then
+if ! (yarn clean && SKIP_POSTINSTALL=true ROOT=${$OKTA_HOME/$REPO} yarn install && yarn test); then
   echo "ESM bundle verification failed! Exiting..."
   exit ${TEST_FAILURE}
 fi
