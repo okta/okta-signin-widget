@@ -444,7 +444,7 @@ test.requestHooks(identifyRequestLogger, identifyWithUserMock)('should never ren
   const identityPage = await setup(t);
   await checkA11y(t);
 
-  const identifierContainer = identityPage.form.getElement('.identifier-container').exists;
+  const identifierContainer = identityPage.form.getElement(userVariables.gen3 ? '[data-se="identifier-container"]' : '.identifier-container').exists;
   await t.expect(identifierContainer).eql(false);
 });
 

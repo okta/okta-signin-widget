@@ -83,6 +83,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                     >
                       <span
                         class="MuiBox-root emotion-14"
+                        translate="yes"
                       >
                         error
                       </span>

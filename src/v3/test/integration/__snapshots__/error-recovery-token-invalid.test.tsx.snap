@@ -91,6 +91,7 @@ exports[`error-recovery-token-invalid should render form 1`] = `
                         >
                           <span
                             class="MuiBox-root emotion-16"
+                            translate="yes"
                           >
                             error
                           </span>
