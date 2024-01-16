@@ -17,7 +17,7 @@ const factorCustomLogoSelector = userVariables.gen3
   ? `${factorListRowSelector} [data-se="authenticator-icon"]`
   : `${factorListRowSelector} .authenticator-icon-container`;
 const factorSelectForVerificationButtonDiv = userVariables.gen3
-  ? `${factorListRowSelector} > div:nth-child(3)`
+  ? `${factorListRowSelector} > div:last-child`
   : `${factorListRowSelector} .authenticator-button`;
 const factorSelectForEnrollButtonDiv = userVariables.gen3
   ? `${factorListRowSelector} [data-se="authenticator-button-content"] > div`
