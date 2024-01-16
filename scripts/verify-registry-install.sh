@@ -32,13 +32,13 @@ git clone --depth 1 https://github.com/okta/samples-js-angular.git test/package/
 pushd test/package/angular-sample/custom-login
 
 # use npm instead of yarn to test as a community dev
-if ! npm i; then
+if ! SKIP_POSTINSTALL=true npm i; then
   echo "install failed! Exiting..."
   exit ${FAILED_SETUP}
 fi
 
 # install the version of @okta/okta-signin-widget from artifactory that was published during the `publish` suite
-if ! npm i ${published_tarball}; then
+if ! SKIP_POSTINSTALL=true npm i ${published_tarball}; then
   echo "install ${published_tarball} failed! Exiting..."
   exit ${FAILED_SETUP}
 fi
