@@ -326,7 +326,7 @@ Object {
     "elements": Array [
       Object {
         "options": Object {
-          "content": [Error: Invalid i18n key: chrome_dtc.title],
+          "content": "chrome_dtc.title",
         },
         "type": "Title",
       },
