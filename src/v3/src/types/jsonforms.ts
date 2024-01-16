@@ -18,6 +18,7 @@ import { FunctionComponent, h } from 'preact';
 
 import { JsonObject } from './json';
 import { FormBag } from './schema';
+import { UISchemaElement } from '@jsonforms/core';
 
 export type InputType = 'hidden' | 'password';
 

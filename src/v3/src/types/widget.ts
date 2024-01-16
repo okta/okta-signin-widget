@@ -280,6 +280,7 @@ export type OktaWidgetFeatures = {
   showPasswordRequirementsAsHtmlList?: boolean;
   disableAutocomplete?: boolean;
   setPageTitle?: boolean | string | PageTitleCallback;
+  serverGeneratedUISchemaEnabled?: boolean;
 };
 
 interface ProxyIdxResponse {

@@ -483,3 +483,33 @@ export const buildPhoneVerificationSubtitleElement = (
 
   return subtitleElement;
 };
+
+export const eventToValue = (ev: any) =>
+  ev.target.value === '' ? undefined : ev.target.value;
+
+type ServerSchemaAlignment = 'top' | 'leading' | 'bottom' | 'trailing' | 'center';
+export const toFlexJustifyContent = (alignment: ServerSchemaAlignment): string => {
+  switch(alignment) {
+    case 'leading':
+      return 'flex-start';
+    case 'trailing':
+      return 'flex-end';
+    case 'center':
+      return 'center';
+    default:
+      return 'flex-start';
+  }
+};
+
+export const toFlexAlignItems = (alignment: ServerSchemaAlignment): string => {
+  switch(alignment) {
+    case 'center':
+      return 'center';
+    case 'top':
+      return 'flex-start';
+    case 'bottom':
+      return 'flex-end';
+    default:
+      return 'flex-start';
+  }
+};

@@ -19,7 +19,15 @@ const idx = {
   ],
 
   '/idp/idx/introspect': [
-    'identify',
+    'identify-with-uischema',
+    // 'authenticator-verification-idp-custom-logo',
+    // 'full-feature-identify',
+    // 'authenticator-enroll-data-phone',
+    // 'authenticator-enroll-security-question',
+    // 'authenticator-enroll-password',
+    // 'authenticator-enroll-select-authenticator-full-feature',
+    // 'authenticator-verification-select-authenticator-full-feature',
+    // 'authenticator-enroll-google-authenticator',
     // 'error-identify-multiple-errors',
     // 'authenticator-enroll-ov-qr-enable-biometrics',
     // 'authenticator-verification-okta-verify-push',
@@ -1141,5 +1149,7 @@ const redirectOnPoll = {
 };
 
 module.exports = {
-  mocks: idx
+  mocks: idx,
+  // mocks: ovEnroll,
+  // mocks: authn,
 };

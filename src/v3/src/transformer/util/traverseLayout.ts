@@ -11,6 +11,7 @@
  */
 
 import {
+  FormBag,
   StepperLayout,
   UISchemaElement,
   UISchemaLayout,
@@ -21,14 +22,14 @@ type PredicateFn = (uischema: UISchemaElement) => boolean;
 type CallbackFn = (uischema: UISchemaElement) => void;
 
 type Options = {
-  layout: UISchemaLayout;
+  layout: FormBag['uischema'];
   predicate: PredicateFn;
   callback: CallbackFn;
 };
 
 export const traverseLayout = (options: Options) => {
   const fn = (
-    layout: UISchemaLayout,
+    layout: FormBag['uischema'],
     predicateFn: PredicateFn,
     callback: CallbackFn,
   ) => {

@@ -33,6 +33,7 @@ import {
   DEVICE_ENROLLMENT_TYPE,
   EMAIL_AUTHENTICATOR_TERMINAL_KEYS,
   IDX_STEP,
+  SUPPORTED_SERVER_GENERATED_SCHEMA_REMEDIATIONS,
 } from '../constants';
 import {
   AppInfo,
@@ -457,3 +458,20 @@ export const isValidPhoneMethodType = (
 ): methodType is PhoneVerificationMethodType => (
   typeof methodType !== 'undefined' && (methodType === 'sms' || methodType === 'voice')
 );
+
+export const isServerGeneratedSchemaAvailable = (
+  widgetProps: WidgetProps,
+  idxTransaction?: IdxTransaction,
+): boolean => {
+  const { features: { serverGeneratedUISchemaEnabled } = {} } = widgetProps;
+  if (!serverGeneratedUISchemaEnabled || typeof idxTransaction === 'undefined') {
+    return false;
+  }
+
+  const { rawIdxState, neededToProceed } = idxTransaction;
+  const nextStepIsSupported = SUPPORTED_SERVER_GENERATED_SCHEMA_REMEDIATIONS.some(
+    (step) => neededToProceed[0].name === step,
+  );
+  // @ts-ignore layout is missing from RawIdxState type
+  return typeof rawIdxState.layout !== 'undefined' && nextStepIsSupported;
+};

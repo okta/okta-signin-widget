@@ -10,15 +10,19 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-export * from './useAutoFocus';
-export * from './useDebouncedChange';
-export * from './useFormFieldValidation';
-export * from './useHtmlContentParser';
-export * from './useInteractionCodeFlow';
-export * from './useOnce';
-export * from './useOnChange';
-export * from './useOnSubmit';
-export * from './useOnSubmitValidation';
-export * from './usePolling';
-export * from './useStateHandle';
-export * from './useValue';
+import { flow } from 'lodash';
+
+import { TransformStepFnWithOptions } from '../../types';
+import { generateSchema } from './generateSchema';
+import { generateUISchema } from './generateUISchema';
+import { transformSubmissionSchema } from './addSubmissionSchema';
+import { transformErrorSchema } from './transformErrorSchema';
+
+export const transformServerSchema: TransformStepFnWithOptions = (
+  options,
+) => (formbag) => flow(
+  generateSchema(options),
+  generateUISchema(options),
+  transformSubmissionSchema,
+  // transformErrorSchema,
+)(formbag);

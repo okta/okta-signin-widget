@@ -2099,10 +2099,10 @@
   dependencies:
     regenerator-runtime "^0.14.0"
 
-"@babel/runtime@^7.20.6", "@babel/runtime@^7.22.5", "@babel/runtime@^7.22.6", "@babel/runtime@^7.23.1":
-  version "7.23.1"
-  resolved "https://registry.npmjs.org/@babel/runtime/-/runtime-7.23.1.tgz#72741dc4d413338a91dcb044a86f3c0bc402646d"
-  integrity sha512-hC2v6p8ZSI/W0HUzh3V8C5g+NwSKzKPtJwSpTjwl0o297GP9+ZLQSkdvHz46CM3LqyoXxq+5G9komY+eSqSO0g==
+"@babel/runtime@^7.23.2", "@babel/runtime@^7.23.7":
+  version "7.23.8"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.23.8.tgz#8ee6fe1ac47add7122902f257b8ddf55c898f650"
+  integrity sha512-Y7KbAP984rn1VGMbGqKmBLio9V7y5Je9GvU4rQPCPinCyNfUcToxIXl06d59URp/F3LwinvODxab5N/G6qggkw==
   dependencies:
     regenerator-runtime "^0.14.0"
 
@@ -3490,6 +3490,36 @@
   dependencies:
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
+
+"@jsonforms/core@^3.1.0":
+  version "3.1.0"
+  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/@jsonforms/core/-/core-3.1.0.tgz#1eff4404584d7049103c00f7ce85d549603e124b"
+  integrity sha512-Whs6+VBNhQyMFoPjLCltS4KzcRskayBPYkj7zZaPgA/piPLQXAglAsz5jd5SK7bncYy+dGQSB/6LPzP1QhRxqw==
+  dependencies:
+    "@types/json-schema" "^7.0.3"
+    ajv "^8.6.1"
+    ajv-formats "^2.1.0"
+    lodash "^4.17.15"
+
+"@jsonforms/material-renderers@3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@jsonforms/material-renderers/-/material-renderers-3.1.0.tgz#179173ca24a70acb7beb386996aea1136a65732d"
+  integrity sha512-XtHKIb7CfgQl0RwJnUlab8+DMmtlTqyEffeZVcc7Fsu+O9ujd902GOScTdKPa6LcW77yAiSoHnxpVkchdxwGHQ==
+  dependencies:
+    "@date-io/dayjs" "1.3.13"
+    dayjs "1.10.6"
+
+"@jsonforms/react@^3.1.0":
+  version "3.1.0"
+  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/@jsonforms/react/-/react-3.1.0.tgz#a9d8dd19d5913c1fcfd73470c7b86049c71b8b18"
+  integrity sha512-amgCdopa9SEes/gl/6MjQkSPq+rUZ+aEBx+bWlTc6dWgaNR0i/efIBFl/2o+fCyJAHFpTEsLzSfjzaPjUFVIxQ==
+  dependencies:
+    lodash "^4.17.15"
+
+"@jsonforms/vanilla-renderers@3.1.0":
+  version "3.1.0"
+  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-master/@jsonforms/vanilla-renderers/-/vanilla-renderers-3.1.0.tgz#7d3a0ab0fa80bcb6ac0a74d7ef5fab553d719ac8"
+  integrity sha512-hUjHPfNdA/UQhmBrNtlXCU7nWYu+9RCKm0gTG4gt8D7sh/boXDpibdy8Y918zpduif5ZCQsO8TeEQJ5Wv/m7qQ==
 
 "@leichtgewicht/ip-codec@^2.0.1":
   version "2.0.4"
@@ -5806,7 +5836,12 @@ aggregate-error@^3.0.0:
     clean-stack "^2.0.0"
     indent-string "^4.0.0"
 
-ajv-formats@^2.1.1:
+ajv-errors@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/ajv-errors/-/ajv-errors-3.0.0.tgz#e54f299f3a3d30fe144161e5f0d8d51196c527bc"
+  integrity sha512-V3wD15YHfHz6y0KdhYFjyy9vWtEVALT9UrxfN3zqlI6dMioHnJrqOYfyPKol3oqrnCM9uwkcdCwkJ0WUcbLMTQ==
+
+ajv-formats@^2.1.0, ajv-formats@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/ajv-formats/-/ajv-formats-2.1.1.tgz#6e669400659eb74973bbf2e33327180a0996b520"
   integrity sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==
@@ -5839,6 +5874,16 @@ ajv@^8.0.0, ajv@^8.0.1, ajv@^8.8.0:
   version "8.11.2"
   resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.11.2.tgz#aecb20b50607acf2569b6382167b65a96008bb78"
   integrity sha512-E4bfmKAhGiSTvMfL1Myyycaub+cUEU2/IvpylXkUu7CHBkBj1f/ikdzbD7YQ6FKUbixDxeYvB/xY4fvyroDlQg==
+  dependencies:
+    fast-deep-equal "^3.1.1"
+    json-schema-traverse "^1.0.0"
+    require-from-string "^2.0.2"
+    uri-js "^4.2.2"
+
+ajv@^8.12.0, ajv@^8.6.1:
+  version "8.12.0"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.12.0.tgz#d1a0527323e22f53562c567c00991577dfbe19d1"
+  integrity sha512-sRu1kpcO9yLtYxBKvqfTeh9KzZEwO3STyX1HT+4CaDzC6HpTGYhIhPIzj9XuKU7KYDwnaeh5hcOwjy1QuJzBPA==
   dependencies:
     fast-deep-equal "^3.1.1"
     json-schema-traverse "^1.0.0"

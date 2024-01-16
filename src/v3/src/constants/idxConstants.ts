@@ -296,3 +296,7 @@ export const SCOPE_GROUP_CONFIG: Record<string, ConsentScopeGroup> = {
   sessions: 'system',
   trustedOrigins: 'system',
 };
+
+export const SUPPORTED_SERVER_GENERATED_SCHEMA_REMEDIATIONS: string[] = [
+  IDX_STEP.IDENTIFY,
+];

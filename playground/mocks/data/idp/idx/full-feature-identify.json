@@ -1,0 +1,258 @@
+{
+    "version": "1.0.0",
+    "stateHandle": "02.id.CFxAK358kWnZkQS54PkGQWJOIf6TJ1XVDaT0Pp7a~c.wlrjIhCoeMgkS5KtzF7hWWF7-eOeaHEP1nbjnc-74ElcY5I1xNM1lBcb25nDmkesfYRKJUVZm_O7kANaMaE311bfgZT5GnuXVN40FNxrVlTQmngziqj78_HuKX8FmjgCwAO-LtdvvLFAyObG0QNJgomyn5mq3LaGDWGI9-HdDMSWYbPbCW4yuhF1NjSH-drW2YJUVoNS0zlgt0CVnSEAWtHZwuN2hIM-6nHV8Q-tfdkX_X2tWJl98gqPdgNWBy-pexTXx1u20GvRlu0sza_mMqf_90X9MIz-wZy0p-S-VQUYf4ojX_m8v7DbRM58sCo72tPpQymA9MkLjs4oDEsMVT5TpDtkFIW5qAdOOxmKfkrOWQJTO-Fipvt2NsiwhyYIF3BB0Yu49G2GJjb-WGN0fL3bPau0qI6dBl9e-R8n-WVNzBC5yxNEEoIlsbYvTXB6uxc576vxwxeoaP8GsjS-EyjD0VWqpoPaoj2Xy7Ua8-vMtSqyABeQpUM4U1RZWq64uRj6DsuHg5rH8GGhVLYs5EsfDvHTu3SsLcdiaQWlkwzT9o0dLeHbiPXBYXmVn1NuNMX9DMc-rYjoD8okLOuzaZ5sK2W6ufm30ssRvm-1Es8DZIqzfuGf-UUlQkXlfHhs1F-ysliaUOejKfV0KsGnb-rUra3fKqntno1yrm1COqckGfFit0E0xDSkrgkyRuwORGQ1rHY0HynpEE4NGzhvbeLpLbOvEiLmn5Vb9xeqAdeP27bxm2rW5DsOxiezIubIvFHvFqai7BqUJ-lTUw6dj9sRmjL98cCmUV-LPiJCUsMGapaaVLoRd-ropvbN5YFF87rHm9vPJPfDny-KtVpoPfNRkvtv5XnL_Oui4qJ8MlUuF1kEIqhPYOB4eYgFu5kpA1OV74iDL-BEm-8BkXor46iopNE6_xQaDKpWSHycqZ-fjEprhUQgltNLgWGemfC0WFu-xw2p4hB2WQ5dOpQFF1luyNwKrZzGtoa7nyd8wckm0FDhGu8xQgVNQ0VaxqdBQY3MXgUYxH3rQayswfVKkX0QZkQxSwOAAsYsoPEVQ1oHghFgo2iSGfNjgaB235J9HX8yWYHrde1hZ4AuM6Biqw4hKfqiENvXCjW79CYeE0RE2hS8JGc4GceMBZEuWKRQhX8dGHfspLN1pfiZTnPz4Vbf4xk4mPRrSinetUkD3Rs",
+    "expiresAt": "2023-11-29T19:01:16.000Z",
+    "intent": "LOGIN",
+    "remediation": {
+        "type": "array",
+        "value": [
+            {
+                "rel": [
+                    "create-form"
+                ],
+                "name": "identify",
+                "href": "https://localhost:8080/idp/idx/identify",
+                "method": "POST",
+                "produces": "application/ion+json; okta-version=1.0.0",
+                "value": [
+                    {
+                        "name": "identifier",
+                        "label": "Username",
+                        "required": true
+                    },
+                    {
+                        "name": "credentials",
+                        "type": "object",
+                        "form": {
+                            "value": [
+                                {
+                                    "name": "passcode",
+                                    "label": "Password",
+                                    "secret": true
+                                }
+                            ]
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "rememberMe",
+                        "type": "boolean",
+                        "label": "Remember this device"
+                    },
+                    {
+                        "name": "stateHandle",
+                        "required": true,
+                        "value": "02.id.CFxAK358kWnZkQS54PkGQWJOIf6TJ1XVDaT0Pp7a~c.wlrjIhCoeMgkS5KtzF7hWWF7-eOeaHEP1nbjnc-74ElcY5I1xNM1lBcb25nDmkesfYRKJUVZm_O7kANaMaE311bfgZT5GnuXVN40FNxrVlTQmngziqj78_HuKX8FmjgCwAO-LtdvvLFAyObG0QNJgomyn5mq3LaGDWGI9-HdDMSWYbPbCW4yuhF1NjSH-drW2YJUVoNS0zlgt0CVnSEAWtHZwuN2hIM-6nHV8Q-tfdkX_X2tWJl98gqPdgNWBy-pexTXx1u20GvRlu0sza_mMqf_90X9MIz-wZy0p-S-VQUYf4ojX_m8v7DbRM58sCo72tPpQymA9MkLjs4oDEsMVT5TpDtkFIW5qAdOOxmKfkrOWQJTO-Fipvt2NsiwhyYIF3BB0Yu49G2GJjb-WGN0fL3bPau0qI6dBl9e-R8n-WVNzBC5yxNEEoIlsbYvTXB6uxc576vxwxeoaP8GsjS-EyjD0VWqpoPaoj2Xy7Ua8-vMtSqyABeQpUM4U1RZWq64uRj6DsuHg5rH8GGhVLYs5EsfDvHTu3SsLcdiaQWlkwzT9o0dLeHbiPXBYXmVn1NuNMX9DMc-rYjoD8okLOuzaZ5sK2W6ufm30ssRvm-1Es8DZIqzfuGf-UUlQkXlfHhs1F-ysliaUOejKfV0KsGnb-rUra3fKqntno1yrm1COqckGfFit0E0xDSkrgkyRuwORGQ1rHY0HynpEE4NGzhvbeLpLbOvEiLmn5Vb9xeqAdeP27bxm2rW5DsOxiezIubIvFHvFqai7BqUJ-lTUw6dj9sRmjL98cCmUV-LPiJCUsMGapaaVLoRd-ropvbN5YFF87rHm9vPJPfDny-KtVpoPfNRkvtv5XnL_Oui4qJ8MlUuF1kEIqhPYOB4eYgFu5kpA1OV74iDL-BEm-8BkXor46iopNE6_xQaDKpWSHycqZ-fjEprhUQgltNLgWGemfC0WFu-xw2p4hB2WQ5dOpQFF1luyNwKrZzGtoa7nyd8wckm0FDhGu8xQgVNQ0VaxqdBQY3MXgUYxH3rQayswfVKkX0QZkQxSwOAAsYsoPEVQ1oHghFgo2iSGfNjgaB235J9HX8yWYHrde1hZ4AuM6Biqw4hKfqiENvXCjW79CYeE0RE2hS8JGc4GceMBZEuWKRQhX8dGHfspLN1pfiZTnPz4Vbf4xk4mPRrSinetUkD3Rs",
+                        "visible": false,
+                        "mutable": false
+                    }
+                ],
+                "accepts": "application/json; okta-version=1.0.0"
+            },
+            {
+                "rel": [
+                    "create-form"
+                ],
+                "name": "launch-authenticator",
+                "relatesTo": [
+                    "authenticatorChallenge"
+                ],
+                "href": "https://localhost:8080/idp/idx/authenticators/okta-verify/launch",
+                "method": "POST",
+                "produces": "application/ion+json; okta-version=1.0.0",
+                "value": [
+                    {
+                        "name": "rememberMe",
+                        "type": "boolean",
+                        "label": "Remember this device"
+                    },
+                    {
+                        "name": "stateHandle",
+                        "required": true,
+                        "value": "02.id.CFxAK358kWnZkQS54PkGQWJOIf6TJ1XVDaT0Pp7a~c.wlrjIhCoeMgkS5KtzF7hWWF7-eOeaHEP1nbjnc-74ElcY5I1xNM1lBcb25nDmkesfYRKJUVZm_O7kANaMaE311bfgZT5GnuXVN40FNxrVlTQmngziqj78_HuKX8FmjgCwAO-LtdvvLFAyObG0QNJgomyn5mq3LaGDWGI9-HdDMSWYbPbCW4yuhF1NjSH-drW2YJUVoNS0zlgt0CVnSEAWtHZwuN2hIM-6nHV8Q-tfdkX_X2tWJl98gqPdgNWBy-pexTXx1u20GvRlu0sza_mMqf_90X9MIz-wZy0p-S-VQUYf4ojX_m8v7DbRM58sCo72tPpQymA9MkLjs4oDEsMVT5TpDtkFIW5qAdOOxmKfkrOWQJTO-Fipvt2NsiwhyYIF3BB0Yu49G2GJjb-WGN0fL3bPau0qI6dBl9e-R8n-WVNzBC5yxNEEoIlsbYvTXB6uxc576vxwxeoaP8GsjS-EyjD0VWqpoPaoj2Xy7Ua8-vMtSqyABeQpUM4U1RZWq64uRj6DsuHg5rH8GGhVLYs5EsfDvHTu3SsLcdiaQWlkwzT9o0dLeHbiPXBYXmVn1NuNMX9DMc-rYjoD8okLOuzaZ5sK2W6ufm30ssRvm-1Es8DZIqzfuGf-UUlQkXlfHhs1F-ysliaUOejKfV0KsGnb-rUra3fKqntno1yrm1COqckGfFit0E0xDSkrgkyRuwORGQ1rHY0HynpEE4NGzhvbeLpLbOvEiLmn5Vb9xeqAdeP27bxm2rW5DsOxiezIubIvFHvFqai7BqUJ-lTUw6dj9sRmjL98cCmUV-LPiJCUsMGapaaVLoRd-ropvbN5YFF87rHm9vPJPfDny-KtVpoPfNRkvtv5XnL_Oui4qJ8MlUuF1kEIqhPYOB4eYgFu5kpA1OV74iDL-BEm-8BkXor46iopNE6_xQaDKpWSHycqZ-fjEprhUQgltNLgWGemfC0WFu-xw2p4hB2WQ5dOpQFF1luyNwKrZzGtoa7nyd8wckm0FDhGu8xQgVNQ0VaxqdBQY3MXgUYxH3rQayswfVKkX0QZkQxSwOAAsYsoPEVQ1oHghFgo2iSGfNjgaB235J9HX8yWYHrde1hZ4AuM6Biqw4hKfqiENvXCjW79CYeE0RE2hS8JGc4GceMBZEuWKRQhX8dGHfspLN1pfiZTnPz4Vbf4xk4mPRrSinetUkD3Rs",
+                        "visible": false,
+                        "mutable": false
+                    }
+                ],
+                "accepts": "application/json; okta-version=1.0.0"
+            },
+            {
+                "rel": [
+                    "create-form"
+                ],
+                "name": "select-enroll-profile",
+                "href": "https://localhost:8080/idp/idx/enroll",
+                "method": "POST",
+                "produces": "application/ion+json; okta-version=1.0.0",
+                "value": [
+                    {
+                        "name": "stateHandle",
+                        "required": true,
+                        "value": "02.id.CFxAK358kWnZkQS54PkGQWJOIf6TJ1XVDaT0Pp7a~c.wlrjIhCoeMgkS5KtzF7hWWF7-eOeaHEP1nbjnc-74ElcY5I1xNM1lBcb25nDmkesfYRKJUVZm_O7kANaMaE311bfgZT5GnuXVN40FNxrVlTQmngziqj78_HuKX8FmjgCwAO-LtdvvLFAyObG0QNJgomyn5mq3LaGDWGI9-HdDMSWYbPbCW4yuhF1NjSH-drW2YJUVoNS0zlgt0CVnSEAWtHZwuN2hIM-6nHV8Q-tfdkX_X2tWJl98gqPdgNWBy-pexTXx1u20GvRlu0sza_mMqf_90X9MIz-wZy0p-S-VQUYf4ojX_m8v7DbRM58sCo72tPpQymA9MkLjs4oDEsMVT5TpDtkFIW5qAdOOxmKfkrOWQJTO-Fipvt2NsiwhyYIF3BB0Yu49G2GJjb-WGN0fL3bPau0qI6dBl9e-R8n-WVNzBC5yxNEEoIlsbYvTXB6uxc576vxwxeoaP8GsjS-EyjD0VWqpoPaoj2Xy7Ua8-vMtSqyABeQpUM4U1RZWq64uRj6DsuHg5rH8GGhVLYs5EsfDvHTu3SsLcdiaQWlkwzT9o0dLeHbiPXBYXmVn1NuNMX9DMc-rYjoD8okLOuzaZ5sK2W6ufm30ssRvm-1Es8DZIqzfuGf-UUlQkXlfHhs1F-ysliaUOejKfV0KsGnb-rUra3fKqntno1yrm1COqckGfFit0E0xDSkrgkyRuwORGQ1rHY0HynpEE4NGzhvbeLpLbOvEiLmn5Vb9xeqAdeP27bxm2rW5DsOxiezIubIvFHvFqai7BqUJ-lTUw6dj9sRmjL98cCmUV-LPiJCUsMGapaaVLoRd-ropvbN5YFF87rHm9vPJPfDny-KtVpoPfNRkvtv5XnL_Oui4qJ8MlUuF1kEIqhPYOB4eYgFu5kpA1OV74iDL-BEm-8BkXor46iopNE6_xQaDKpWSHycqZ-fjEprhUQgltNLgWGemfC0WFu-xw2p4hB2WQ5dOpQFF1luyNwKrZzGtoa7nyd8wckm0FDhGu8xQgVNQ0VaxqdBQY3MXgUYxH3rQayswfVKkX0QZkQxSwOAAsYsoPEVQ1oHghFgo2iSGfNjgaB235J9HX8yWYHrde1hZ4AuM6Biqw4hKfqiENvXCjW79CYeE0RE2hS8JGc4GceMBZEuWKRQhX8dGHfspLN1pfiZTnPz4Vbf4xk4mPRrSinetUkD3Rs",
+                        "visible": false,
+                        "mutable": false
+                    }
+                ],
+                "accepts": "application/json; okta-version=1.0.0"
+            },
+            {
+                "rel": [
+                    "create-form"
+                ],
+                "name": "unlock-account",
+                "href": "https://localhost:8080/idp/idx/unlock-account",
+                "method": "POST",
+                "produces": "application/ion+json; okta-version=1.0.0",
+                "value": [
+                    {
+                        "name": "stateHandle",
+                        "required": true,
+                        "value": "02.id.CFxAK358kWnZkQS54PkGQWJOIf6TJ1XVDaT0Pp7a~c.wlrjIhCoeMgkS5KtzF7hWWF7-eOeaHEP1nbjnc-74ElcY5I1xNM1lBcb25nDmkesfYRKJUVZm_O7kANaMaE311bfgZT5GnuXVN40FNxrVlTQmngziqj78_HuKX8FmjgCwAO-LtdvvLFAyObG0QNJgomyn5mq3LaGDWGI9-HdDMSWYbPbCW4yuhF1NjSH-drW2YJUVoNS0zlgt0CVnSEAWtHZwuN2hIM-6nHV8Q-tfdkX_X2tWJl98gqPdgNWBy-pexTXx1u20GvRlu0sza_mMqf_90X9MIz-wZy0p-S-VQUYf4ojX_m8v7DbRM58sCo72tPpQymA9MkLjs4oDEsMVT5TpDtkFIW5qAdOOxmKfkrOWQJTO-Fipvt2NsiwhyYIF3BB0Yu49G2GJjb-WGN0fL3bPau0qI6dBl9e-R8n-WVNzBC5yxNEEoIlsbYvTXB6uxc576vxwxeoaP8GsjS-EyjD0VWqpoPaoj2Xy7Ua8-vMtSqyABeQpUM4U1RZWq64uRj6DsuHg5rH8GGhVLYs5EsfDvHTu3SsLcdiaQWlkwzT9o0dLeHbiPXBYXmVn1NuNMX9DMc-rYjoD8okLOuzaZ5sK2W6ufm30ssRvm-1Es8DZIqzfuGf-UUlQkXlfHhs1F-ysliaUOejKfV0KsGnb-rUra3fKqntno1yrm1COqckGfFit0E0xDSkrgkyRuwORGQ1rHY0HynpEE4NGzhvbeLpLbOvEiLmn5Vb9xeqAdeP27bxm2rW5DsOxiezIubIvFHvFqai7BqUJ-lTUw6dj9sRmjL98cCmUV-LPiJCUsMGapaaVLoRd-ropvbN5YFF87rHm9vPJPfDny-KtVpoPfNRkvtv5XnL_Oui4qJ8MlUuF1kEIqhPYOB4eYgFu5kpA1OV74iDL-BEm-8BkXor46iopNE6_xQaDKpWSHycqZ-fjEprhUQgltNLgWGemfC0WFu-xw2p4hB2WQ5dOpQFF1luyNwKrZzGtoa7nyd8wckm0FDhGu8xQgVNQ0VaxqdBQY3MXgUYxH3rQayswfVKkX0QZkQxSwOAAsYsoPEVQ1oHghFgo2iSGfNjgaB235J9HX8yWYHrde1hZ4AuM6Biqw4hKfqiENvXCjW79CYeE0RE2hS8JGc4GceMBZEuWKRQhX8dGHfspLN1pfiZTnPz4Vbf4xk4mPRrSinetUkD3Rs",
+                        "visible": false,
+                        "mutable": false
+                    }
+                ],
+                "accepts": "application/json; okta-version=1.0.0"
+            },
+            {
+                "name": "redirect-idp",
+                "type": "GOOGLE",
+                "idp": {
+                    "id": "0oabkm6uhhfaAEPA21d7",
+                    "name": "Google IDP"
+                },
+                "href": "https://localhost:8080/sso/idps/0oabkm6uhhfaAEPA21d7?stateTokenExternalId=RWdkWlBIWnN3UWpLUGJKWFMrU3gyNGdIY09pVk41V3JEdnRGTW9QazBIUU5lT1dNN2dndENxRlNqOWJSRWFpNg",
+                "method": "GET"
+            },
+            {
+                "name": "redirect-idp",
+                "type": "X509",
+                "idp": {
+                    "id": "MTLS",
+                    "name": "Certificate based authentication"
+                },
+                "href": "https://oie-4695462.mtls.oktapreview.com/sso/idps/MTLS?stateTokenExternalId=RWdkWlBIWnN3UWpLUGJKWFMrU3gyNGdIY09pVk41V3JEdnRGTW9QazBIUU5lT1dNN2dndENxRlNqOWJSRWFpNg",
+                "method": "GET"
+            }
+        ]
+    },
+    "currentAuthenticator": {
+        "type": "object",
+        "value": {
+            "recover": {
+                "rel": [
+                    "create-form"
+                ],
+                "name": "recover",
+                "href": "https://localhost:8080/idp/idx/recover",
+                "method": "POST",
+                "produces": "application/ion+json; okta-version=1.0.0",
+                "value": [
+                    {
+                        "name": "stateHandle",
+                        "required": true,
+                        "value": "02.id.CFxAK358kWnZkQS54PkGQWJOIf6TJ1XVDaT0Pp7a~c.wlrjIhCoeMgkS5KtzF7hWWF7-eOeaHEP1nbjnc-74ElcY5I1xNM1lBcb25nDmkesfYRKJUVZm_O7kANaMaE311bfgZT5GnuXVN40FNxrVlTQmngziqj78_HuKX8FmjgCwAO-LtdvvLFAyObG0QNJgomyn5mq3LaGDWGI9-HdDMSWYbPbCW4yuhF1NjSH-drW2YJUVoNS0zlgt0CVnSEAWtHZwuN2hIM-6nHV8Q-tfdkX_X2tWJl98gqPdgNWBy-pexTXx1u20GvRlu0sza_mMqf_90X9MIz-wZy0p-S-VQUYf4ojX_m8v7DbRM58sCo72tPpQymA9MkLjs4oDEsMVT5TpDtkFIW5qAdOOxmKfkrOWQJTO-Fipvt2NsiwhyYIF3BB0Yu49G2GJjb-WGN0fL3bPau0qI6dBl9e-R8n-WVNzBC5yxNEEoIlsbYvTXB6uxc576vxwxeoaP8GsjS-EyjD0VWqpoPaoj2Xy7Ua8-vMtSqyABeQpUM4U1RZWq64uRj6DsuHg5rH8GGhVLYs5EsfDvHTu3SsLcdiaQWlkwzT9o0dLeHbiPXBYXmVn1NuNMX9DMc-rYjoD8okLOuzaZ5sK2W6ufm30ssRvm-1Es8DZIqzfuGf-UUlQkXlfHhs1F-ysliaUOejKfV0KsGnb-rUra3fKqntno1yrm1COqckGfFit0E0xDSkrgkyRuwORGQ1rHY0HynpEE4NGzhvbeLpLbOvEiLmn5Vb9xeqAdeP27bxm2rW5DsOxiezIubIvFHvFqai7BqUJ-lTUw6dj9sRmjL98cCmUV-LPiJCUsMGapaaVLoRd-ropvbN5YFF87rHm9vPJPfDny-KtVpoPfNRkvtv5XnL_Oui4qJ8MlUuF1kEIqhPYOB4eYgFu5kpA1OV74iDL-BEm-8BkXor46iopNE6_xQaDKpWSHycqZ-fjEprhUQgltNLgWGemfC0WFu-xw2p4hB2WQ5dOpQFF1luyNwKrZzGtoa7nyd8wckm0FDhGu8xQgVNQ0VaxqdBQY3MXgUYxH3rQayswfVKkX0QZkQxSwOAAsYsoPEVQ1oHghFgo2iSGfNjgaB235J9HX8yWYHrde1hZ4AuM6Biqw4hKfqiENvXCjW79CYeE0RE2hS8JGc4GceMBZEuWKRQhX8dGHfspLN1pfiZTnPz4Vbf4xk4mPRrSinetUkD3Rs",
+                        "visible": false,
+                        "mutable": false
+                    }
+                ],
+                "accepts": "application/json; okta-version=1.0.0"
+            },
+            "type": "password",
+            "key": "okta_password",
+            "id": "aut2h3ffszv3me6O31d7",
+            "displayName": "Password",
+            "methods": [
+                {
+                    "type": "password"
+                }
+            ]
+        }
+    },
+    "cancel": {
+        "rel": [
+            "create-form"
+        ],
+        "name": "cancel",
+        "href": "https://localhost:8080/idp/idx/cancel",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+            {
+                "name": "stateHandle",
+                "required": true,
+                "value": "02.id.CFxAK358kWnZkQS54PkGQWJOIf6TJ1XVDaT0Pp7a~c.wlrjIhCoeMgkS5KtzF7hWWF7-eOeaHEP1nbjnc-74ElcY5I1xNM1lBcb25nDmkesfYRKJUVZm_O7kANaMaE311bfgZT5GnuXVN40FNxrVlTQmngziqj78_HuKX8FmjgCwAO-LtdvvLFAyObG0QNJgomyn5mq3LaGDWGI9-HdDMSWYbPbCW4yuhF1NjSH-drW2YJUVoNS0zlgt0CVnSEAWtHZwuN2hIM-6nHV8Q-tfdkX_X2tWJl98gqPdgNWBy-pexTXx1u20GvRlu0sza_mMqf_90X9MIz-wZy0p-S-VQUYf4ojX_m8v7DbRM58sCo72tPpQymA9MkLjs4oDEsMVT5TpDtkFIW5qAdOOxmKfkrOWQJTO-Fipvt2NsiwhyYIF3BB0Yu49G2GJjb-WGN0fL3bPau0qI6dBl9e-R8n-WVNzBC5yxNEEoIlsbYvTXB6uxc576vxwxeoaP8GsjS-EyjD0VWqpoPaoj2Xy7Ua8-vMtSqyABeQpUM4U1RZWq64uRj6DsuHg5rH8GGhVLYs5EsfDvHTu3SsLcdiaQWlkwzT9o0dLeHbiPXBYXmVn1NuNMX9DMc-rYjoD8okLOuzaZ5sK2W6ufm30ssRvm-1Es8DZIqzfuGf-UUlQkXlfHhs1F-ysliaUOejKfV0KsGnb-rUra3fKqntno1yrm1COqckGfFit0E0xDSkrgkyRuwORGQ1rHY0HynpEE4NGzhvbeLpLbOvEiLmn5Vb9xeqAdeP27bxm2rW5DsOxiezIubIvFHvFqai7BqUJ-lTUw6dj9sRmjL98cCmUV-LPiJCUsMGapaaVLoRd-ropvbN5YFF87rHm9vPJPfDny-KtVpoPfNRkvtv5XnL_Oui4qJ8MlUuF1kEIqhPYOB4eYgFu5kpA1OV74iDL-BEm-8BkXor46iopNE6_xQaDKpWSHycqZ-fjEprhUQgltNLgWGemfC0WFu-xw2p4hB2WQ5dOpQFF1luyNwKrZzGtoa7nyd8wckm0FDhGu8xQgVNQ0VaxqdBQY3MXgUYxH3rQayswfVKkX0QZkQxSwOAAsYsoPEVQ1oHghFgo2iSGfNjgaB235J9HX8yWYHrde1hZ4AuM6Biqw4hKfqiENvXCjW79CYeE0RE2hS8JGc4GceMBZEuWKRQhX8dGHfspLN1pfiZTnPz4Vbf4xk4mPRrSinetUkD3Rs",
+                "visible": false,
+                "mutable": false
+            }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+    },
+    "app": {
+        "type": "object",
+        "value": {
+            "name": "okta_enduser",
+            "label": "Okta Dashboard",
+            "id": "0oa2h3ffrkQcybnQ21d7"
+        }
+    },
+    "authenticatorChallenge": {
+        "type": "object",
+        "value": {
+            "challengeMethod": "LOOPBACK",
+            "challengeRequest": "eyJraWQiOiJUcEVMYlZwSnVwV2hLWTN2c1ltaDhjeUZSQmV4TkF6WDNyRU5hWEctWThvIiwidHlwIjoib2t0YS1kZXZpY2ViaW5kK2p3dCIsImFsZyI6IlJTMjU2In0.eyJpc3MiOiJodHRwczovL29pZS00Njk1NDYyLm9rdGFwcmV2aWV3LmNvbSIsImF1ZCI6Im9rdGEuNjNjMDgxZGItMWYxMy01MDg0LTg4MmYtZTc5ZTFlNWUyZGE3IiwiZXhwIjoxNzAxMjc3NTc2LCJpYXQiOjE3MDEyNzcyNzYsImp0aSI6ImZ0QW5zbjV1NmVrc2YwQlFFaEg2dnlNSWdxSGtOMHZPajUiLCJub25jZSI6Ik1adUd4OUdGTEZHUzJRVHVSVEtRIiwidHJhbnNhY3Rpb25JZCI6ImZ0QW5zbjV1NmVrc2YwQlFFaEg2dnlNSWdxSGtOMHZPajUiLCJzaWduYWxzIjpbImlkIiwiZGlzcGxheU5hbWUiLCJwbGF0Zm9ybSIsIm1hbnVmYWN0dXJlciIsIm1vZGVsIiwib3NWZXJzaW9uIiwic2VyaWFsTnVtYmVyIiwidWRpZCIsInNpZCIsImltZWkiLCJtZWlkIiwidHBtUHVibGljS2V5SGFzaCIsInNlY3VyZUhhcmR3YXJlUHJlc2VudCIsImRldmljZUF0dGVzdGF0aW9uIiwiZGV2aWNlSW50ZWdyaXR5Iiwic2NyZWVuTG9ja1R5cGUiLCJkaXNrRW5jcnlwdGlvblR5cGUiLCJjbGllbnRJbnN0YW5jZUJ1bmRsZUlkIiwiY2xpZW50SW5zdGFuY2VEZXZpY2VTZGtWZXJzaW9uIiwiY2xpZW50SW5zdGFuY2VJZCIsImNsaWVudEluc3RhbmNlVmVyc2lvbiJdLCJ2ZXJpZmljYXRpb25VcmkiOiJodHRwczovL29pZS00Njk1NDYyLm9rdGFwcmV2aWV3LmNvbS9pZHAvYXV0aGVudGljYXRvcnMvYXV0MmgzZmZ0NHk5cERQQ1MxZDcvdHJhbnNhY3Rpb25zL2Z0QW5zbjV1NmVrc2YwQlFFaEg2dnlNSWdxSGtOMHZPajUvdmVyaWZ5IiwibWRtQXR0ZXN0YXRpb25Jc3N1ZXJzIjpbeyJpc3N1ZXJETiI6Ik1JR1ZNUk13RVFZS0NaSW1pWlB5TEdRQkdSWURZMjl0TVJRd0VnWUtDWkltaVpQeUxHUUJHUllFYjJ0MFlURWJNQmtHQ2dtU0pvbVQ4aXhrQVJrV0MyOXBaUzAwTmprMU5EWXlNUjB3R3dZRFZRUUxEQlF3TUc4eWFETm1abTloVkhkTFZ6QkZUVEZrTnpFc01Db0dBMVVFQXd3alQzSm5ZVzVwZW1GMGFXOXVJRWx1ZEdWeWJXVmthV0YwWlNCQmRYUm9iM0pwZEhrPSIsImFraSI6IkMwWFkvajlISFpibDVNRVVuUHNDMUpZQnNhOD0ifV0sImtleVR5cGVzIjpbInByb29mT2ZQb3NzZXNzaW9uIl0sIm9yZ0lkIjoiMDBvMmgzZmZvYVR3S1cwRU0xZDciLCJhcHBJbnN0YW5jZU5hbWUiOiJPa3RhIERhc2hib2FyZCIsIm1ldGhvZCI6InNpZ25lZF9ub25jZSIsInJlcXVlc3RSZWZlcnJlciI6Imh0dHBzOi8vb2llLTQ2OTU0NjIub2t0YXByZXZpZXcuY29tIiwidXNlck1lZGlhdGlvbiI6Ik9QVElPTkFMIiwidXNlclZlcmlmaWNhdGlvbiI6Ik5PTkUiLCJ2ZXIiOjB9.pi1mz2JTkMcxJEIHjRhlCadHTiVOMXsoxS_TgQLTIk9EsKByTFIljgDhuuZIqpKn7Fv1HsRevC8wD-1ywwEcvlu-FBTuAY1qLXAMhNyMZaK03ocf-uU0cIqLY-jUXNpmZixtBWSVCghZgyHp6n3BeSBLQ03qlcDvuakOvWa60bQGSsXKP8xdxlNRPfELfiAIfGpoOzYXpe7Md5asqBkL8k7cHw_J3Ek4g5mXnVvrRQvdPP2BkoSWwZuwQXWNlZZcVkeHWlQ7V8F4q_c8rWuzEyO4ZzRTJ1vVUJkMeWqkVe8HkkdkzBUCVA3_9WB845mJ-PMChZ181Y390u2jNzheuQ",
+            "domain": "http://127.0.0.1",
+            "ports": [
+                "8769",
+                "65111",
+                "65121",
+                "65131",
+                "65141",
+                "65151"
+            ],
+            "cancel": {
+                "rel": [
+                    "create-form"
+                ],
+                "name": "cancel-polling",
+                "href": "https://localhost:8080/idp/idx/authenticators/poll/cancel",
+                "method": "POST",
+                "produces": "application/ion+json; okta-version=1.0.0",
+                "value": [
+                    {
+                        "name": "stateHandle",
+                        "required": true,
+                        "value": "02.id.CFxAK358kWnZkQS54PkGQWJOIf6TJ1XVDaT0Pp7a~c.wlrjIhCoeMgkS5KtzF7hWWF7-eOeaHEP1nbjnc-74ElcY5I1xNM1lBcb25nDmkesfYRKJUVZm_O7kANaMaE311bfgZT5GnuXVN40FNxrVlTQmngziqj78_HuKX8FmjgCwAO-LtdvvLFAyObG0QNJgomyn5mq3LaGDWGI9-HdDMSWYbPbCW4yuhF1NjSH-drW2YJUVoNS0zlgt0CVnSEAWtHZwuN2hIM-6nHV8Q-tfdkX_X2tWJl98gqPdgNWBy-pexTXx1u20GvRlu0sza_mMqf_90X9MIz-wZy0p-S-VQUYf4ojX_m8v7DbRM58sCo72tPpQymA9MkLjs4oDEsMVT5TpDtkFIW5qAdOOxmKfkrOWQJTO-Fipvt2NsiwhyYIF3BB0Yu49G2GJjb-WGN0fL3bPau0qI6dBl9e-R8n-WVNzBC5yxNEEoIlsbYvTXB6uxc576vxwxeoaP8GsjS-EyjD0VWqpoPaoj2Xy7Ua8-vMtSqyABeQpUM4U1RZWq64uRj6DsuHg5rH8GGhVLYs5EsfDvHTu3SsLcdiaQWlkwzT9o0dLeHbiPXBYXmVn1NuNMX9DMc-rYjoD8okLOuzaZ5sK2W6ufm30ssRvm-1Es8DZIqzfuGf-UUlQkXlfHhs1F-ysliaUOejKfV0KsGnb-rUra3fKqntno1yrm1COqckGfFit0E0xDSkrgkyRuwORGQ1rHY0HynpEE4NGzhvbeLpLbOvEiLmn5Vb9xeqAdeP27bxm2rW5DsOxiezIubIvFHvFqai7BqUJ-lTUw6dj9sRmjL98cCmUV-LPiJCUsMGapaaVLoRd-ropvbN5YFF87rHm9vPJPfDny-KtVpoPfNRkvtv5XnL_Oui4qJ8MlUuF1kEIqhPYOB4eYgFu5kpA1OV74iDL-BEm-8BkXor46iopNE6_xQaDKpWSHycqZ-fjEprhUQgltNLgWGemfC0WFu-xw2p4hB2WQ5dOpQFF1luyNwKrZzGtoa7nyd8wckm0FDhGu8xQgVNQ0VaxqdBQY3MXgUYxH3rQayswfVKkX0QZkQxSwOAAsYsoPEVQ1oHghFgo2iSGfNjgaB235J9HX8yWYHrde1hZ4AuM6Biqw4hKfqiENvXCjW79CYeE0RE2hS8JGc4GceMBZEuWKRQhX8dGHfspLN1pfiZTnPz4Vbf4xk4mPRrSinetUkD3Rs",
+                        "visible": false,
+                        "mutable": false
+                    }
+                ],
+                "accepts": "application/json; okta-version=1.0.0"
+            },
+            "probeTimeoutMillis": 400,
+            "enhancedPollingEnabled": true
+        }
+    },
+    "authentication": {
+        "type": "object",
+        "value": {
+            "protocol": "OAUTH2.0",
+            "issuer": {
+                "name": "OIE Preview Org 4695462",
+                "uri": "https://localhost:8080"
+            },
+            "request": {
+                "max_age": -1,
+                "scope": "openid profile email okta.users.read.self okta.users.manage.self okta.internal.enduser.read okta.internal.enduser.manage okta.enduser.dashboard.read okta.enduser.dashboard.manage",
+                "display": "page",
+                "response_type": "code",
+                "redirect_uri": "https://localhost:8080/enduser/callback",
+                "state": "sVkGaC6FyV0e1hDxyOXCyiBUayYSOZVYkyoILIbXNjOXbuOwOFKFZkCbqgXk0tcv",
+                "code_challenge_method": "S256",
+                "nonce": "nlZ8qlfIlLAEgtIsBsrKHqlU8kXaJae2wE1UMpHYg1TnuibK72ZRyFYzUGPdS3wU",
+                "code_challenge": "aV6_upLgPdraXiWS9XSqgCMPC8oyYvLLe-EhcBxKOnA",
+                "response_mode": "query"
+            }
+        }
+    }
+}

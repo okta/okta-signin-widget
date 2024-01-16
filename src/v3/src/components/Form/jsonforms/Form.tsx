@@ -10,23 +10,39 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import Ajv, { ErrorObject } from 'ajv';
+import AjvErrors from 'ajv-errors';
+import { JsonFormsCore } from '@jsonforms/core';
+import { JsonForms } from '@jsonforms/react';
+import { vanillaCells } from '@jsonforms/vanilla-renderers';
+import { materialCells } from '@jsonforms/material-renderers';
 import { Box } from '@mui/material';
+import classNames from 'classnames';
 import { FunctionComponent, h } from 'preact';
 import { useCallback, useEffect } from 'preact/hooks';
 
-import { useWidgetContext } from '../../contexts';
-import { useOnSubmit, useOnSubmitValidation } from '../../hooks';
+import { useWidgetContext } from '../../../contexts';
+import { useOnSubmit, useOnSubmitValidation } from '../../../hooks';
 import {
+  FormBag,
   SubmitEvent,
-  UISchemaLayout,
-} from '../../types';
-import { getValidationMessages, isCaptchaEnabled } from '../../util';
-import InfoSection from '../InfoSection/InfoSection';
-import Layout from './Layout';
+} from '../../../types';
+import { isCaptchaEnabled } from '../../../util';
+import { renderers } from './renderers';
+import AuthContent from '../../../components/AuthContent/AuthContent';
+
+const ajv = new Ajv({
+  allErrors: true,
+  verbose: true,
+  $data: true,
+});
+AjvErrors(ajv, {});
 
 const Form: FunctionComponent<{
-  uischema: UISchemaLayout;
-}> = ({ uischema }) => {
+  schema: FormBag['schema'];
+  uischema: FormBag['uischema'];
+}> = ({ schema, uischema }) => {
+  const classes = classNames('o-form');
   const {
     data,
     idxTransaction: currTransaction,
@@ -34,22 +50,25 @@ const Form: FunctionComponent<{
     setMessage,
     dataSchemaRef,
     setWidgetRendered,
+    setData,
+    setFormErrors,
   } = useWidgetContext();
   const onSubmitHandler = useOnSubmit();
   const onValidationHandler = useOnSubmitValidation();
 
+  const onChange = (event: Pick<JsonFormsCore, 'data' | 'errors'>) => {
+    setFormErrors(event.errors || []);
+    setData(event.data);
+  };
+
   useEffect(() => {
+    console.log('USEEFFECT for setWidgetRendered - currTransaction dependency');
     setWidgetRendered(true);
   }, [currTransaction, setWidgetRendered]);
 
   const handleSubmit = useCallback(async (e: SubmitEvent) => {
     e.preventDefault();
     setWidgetRendered(false);
-
-    // TODO: Can remove after OKTA-657627 is resolved
-    if (!dataSchemaRef?.current?.submit) {
-      return;
-    }
 
     setMessage(undefined);
 
@@ -61,23 +80,6 @@ const Form: FunctionComponent<{
       },
       captchaRef,
     } = dataSchemaRef.current!;
-
-    // client side validation - only validate for fields in nextStep
-    const { nextStep } = currTransaction!;
-    if (!step || step === nextStep!.name) {
-      const dataSchema = dataSchemaRef.current!;
-      const messages = getValidationMessages(
-        dataSchema,
-        dataSchema.fieldsToValidate,
-        data,
-        params,
-      );
-      // update transaction with client validation messages to trigger rerender
-      if (messages) {
-        onValidationHandler(messages);
-        return;
-      }
-    }
 
     if (currTransaction && isCaptchaEnabled(currTransaction)) {
       // launch the captcha challenge
@@ -108,16 +110,27 @@ const Form: FunctionComponent<{
       component="form"
       noValidate
       onSubmit={handleSubmit}
-      className="o-form"
-      data-se="o-form" // TODO: FIXME OKTA-578584 - update page objects using .o-form selectors
+      className={classes} // TODO: FIXME OKTA-578584 - update page objects using .o-form selectors
+      data-se="o-form"
       sx={{
         maxInlineSize: '100%',
         wordBreak: 'break-word',
       }}
-      aria-live="polite"
     >
-      <InfoSection message={message} />
-      <Layout uischema={uischema} />
+      <AuthContent>
+        <JsonForms
+          schema={schema}
+          uischema={uischema}
+          data={data}
+          renderers={renderers}
+          cells={vanillaCells}
+          // disable client side validation to pass parity stage testing
+          // validationMode="NoValidation"
+          ajv={ajv}
+          // onChange={onChange}
+          onChange={onChange}
+        />
+      </AuthContent>
     </Box>
   );
 };
