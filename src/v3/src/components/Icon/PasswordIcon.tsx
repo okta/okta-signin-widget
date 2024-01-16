@@ -25,13 +25,6 @@ export const PasswordIcon: FunctionComponent<IconProps> = ({ name, description }
     viewBox="0 0 48 48"
   >
     <title id={name}>{description}</title>
-    <circle
-      cx="24"
-      cy="24"
-      r="24"
-      fill="#F5F5F6"
-      class="siwFillBg"
-    />
     <path
       fill="#A7B5EC"
       d="M11 17h-1V9h8v1h-7v7Zm28 0h-1v-7h-7V9h8v8ZM18 39h-8v-8h1v7h7v1Zm21 0h-8v-1h7v-7h1v8Z"

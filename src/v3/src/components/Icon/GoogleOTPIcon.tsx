@@ -28,13 +28,6 @@ export const GoogleOTPIcon: FunctionComponent<IconProps> = ({ name, description 
     <path
       fillRule="evenodd"
       clipRule="evenodd"
-      d="M24 48C37.2548 48 48 37.2548 48 24C48 10.7452 37.2548 0 24 0C10.7452 0 0 10.7452 0 24C0 37.2548 10.7452 48 24 48Z"
-      fill="#F5F5F6"
-      class="siwFillBg"
-    />
-    <path
-      fillRule="evenodd"
-      clipRule="evenodd"
       d="M39.5 26.9545C41.1569 26.9545 42.5 25.6113 42.5 23.9545C42.5 22.2976 41.1569 20.9545 39.5 20.9545H28.6963L34.0982 11.5981C34.9266 10.1632 34.435 8.32845 33.0001 7.50002C31.5652 6.67159 29.7304 7.16322 28.902 8.5981L18.304 26.9545H39.5Z"
       fill="#1A73E7"
     />

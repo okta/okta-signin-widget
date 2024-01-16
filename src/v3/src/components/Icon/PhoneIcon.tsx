@@ -25,13 +25,6 @@ export const PhoneIcon: FunctionComponent<IconProps> = ({ name, description }) =
     viewBox="0 0 48 48"
   >
     <title id={name}>{description}</title>
-    <circle
-      cx="24"
-      cy="24"
-      r="24"
-      fill="#F5F5F6"
-      class="siwFillBg"
-    />
     <path
       fill="#00297A"
       d="M21.5 37h-9a2.6 2.6 0 0 1-2.5-2.682V14.682A2.6 2.6 0 0 1 12.5 12h9a2.6 2.6 0 0 1 2.5 2.682v19.636A2.6 2.6 0 0 1 21.5 37Zm-9-24a1.6 1.6 0 0 0-1.5 1.682v19.636A1.6 1.6 0 0 0 12.5 36h9a1.6 1.6 0 0 0 1.5-1.682V14.682A1.6 1.6 0 0 0 21.5 13h-9Z"

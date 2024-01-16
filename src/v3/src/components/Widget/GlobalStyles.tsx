@@ -28,9 +28,6 @@ const svgStyles = (tokens: DesignTokens): GlobalStylesProps['styles'] => ({
   '.siwFillSecondary': {
     fill: tokens.PalettePrimaryLight,
   },
-  '.siwFillBg': {
-    fill: tokens.HueNeutral50,
-  },
   '.siwIconFillPrimaryDark': {
     fill: tokens.PalettePrimaryDark,
   },

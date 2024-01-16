@@ -26,13 +26,6 @@ export const IDPIcon: FunctionComponent<IconProps> = ({ name, description }) => 
   >
     <title id={name}>{description}</title>
     <path
-      fill="#F5F5F6"
-      fillRule="evenodd"
-      d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
-      class="siwFillBg"
-      clipRule="evenodd"
-    />
-    <path
       fill="#A7B5EC"
       d="M15 29.5a5 5 0 1 1 4.78-6.5h1.03a6 6 0 1 0 0 3h-1.03A5.013 5.013 0 0 1 15 29.5Z"
       class="siwFillSecondary"

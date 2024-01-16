@@ -26,13 +26,6 @@ export const CustomOTPIcon: FunctionComponent<IconProps> = ({ name, description 
   >
     <title id={name}>{description}</title>
     <path
-      fill="#F5F5F6"
-      fillRule="evenodd"
-      d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
-      class="siwFillBg"
-      clipRule="evenodd"
-    />
-    <path
       fill="#A7B5EC"
       d="M28 23h-6v-6h1v5h5v1Z"
       class="siwFillSecondary"

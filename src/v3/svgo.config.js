@@ -14,7 +14,6 @@ const addClassNamesByAttr = require('./svgo-plugins/addClassNamesByAttr');
 
 const PRIMARY = '#00297A';
 const SECONDARY = '#A7B5EC';
-const BACKGROUND = '#F5F5F6';
 
 module.exports = {
   multipass: true,
@@ -72,11 +71,6 @@ module.exports = {
             test: (el) => new RegExp(SECONDARY, 'i')
               .test(el.attributes && el.attributes.fill),
             classNames: ['siwFillSecondary'],
-          },
-          {
-            test: (el) => new RegExp(BACKGROUND, 'i')
-              .test(el.attributes && el.attributes.fill),
-            classNames: ['siwFillBg'],
           },
         ],
       },

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Input } from '@okta/okta-auth-js';
+import { IdxAuthenticator, Input } from '@okta/okta-auth-js';
 import { IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
 
 import {
@@ -27,6 +27,11 @@ export const getOptionValue = (
 ): Input | undefined => inputs?.find(
   ({ name }) => name === key,
 );
+
+const isAuthenticatorAlreadyEnrolled = (
+  authenticator: IdxAuthenticator,
+  authenticatorEnrollments?: IdxAuthenticator[],
+) => !!authenticatorEnrollments?.some(({ key }) => key === authenticator.key);
 
 const getAuthenticatorDataSeVal = (authenticatorKey: string, methodType?: string): string => {
   if (authenticatorKey) {
@@ -66,48 +71,18 @@ const reorderAuthenticatorButtons = (
   return updatedAuthenticatorBtns;
 };
 
-const buildOktaVerifyOptions = (
-  options: IdxOption[],
-  step: string,
-  isEnroll?: boolean,
-): AuthenticatorButtonElement[] => {
-  const ovRemediation = options.find((option) => option.relatesTo?.key === AUTHENTICATOR_KEY.OV);
-  const id = (ovRemediation?.value as Input[])?.find(({ name }) => name === 'id')?.value;
-  const methodType = (ovRemediation?.value as Input[])?.find(({ name }) => name === 'methodType');
-  if (!methodType?.options?.length) {
-    return [];
+const getAuthenticatorLabel = (
+  option: IdxOption,
+  authenticatorKey: string,
+): string => {
+  switch (authenticatorKey) {
+    case AUTHENTICATOR_KEY.CUSTOM_APP:
+      return option.relatesTo?.displayName ?? option.label;
+    case AUTHENTICATOR_KEY.OV:
+      return loc('oie.okta_verify.label', 'login');
+    default:
+      return option.label;
   }
-
-  return methodType.options.map((option: IdxOption, index: number) => {
-    const authenticatorButton: AuthenticatorButtonElement = {
-      type: 'AuthenticatorButton',
-      label: option.label,
-      id: `auth_btn_${AUTHENTICATOR_KEY.OV}_${option.value || id}`,
-      options: {
-        type: ButtonType.BUTTON,
-        key: AUTHENTICATOR_KEY.OV,
-        ctaLabel: isEnroll
-          ? loc('oie.enroll.authenticator.button.text', 'login')
-          : loc('oie.verify.authenticator.button.text', 'login'),
-        description: isEnroll
-          ? loc(AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP[AUTHENTICATOR_KEY.OV], 'login')
-          : loc('oie.okta_verify.label', 'login'),
-        actionParams: {
-          'authenticator.methodType': option.value,
-          'authenticator.id': id,
-        } as ActionParams,
-        step,
-        includeData: true,
-        includeImmutableData: false,
-        dataSe: getAuthenticatorDataSeVal(AUTHENTICATOR_KEY.OV, option.value as string),
-        iconName: option.value === 'totp' ? `oktaVerify_${index}` : `oktaVerifyPush_${index}`,
-        iconDescr: option.value === 'totp'
-          ? loc('factor.totpSoft.description', 'login')
-          : loc('factor.push.description', 'login'),
-      },
-    };
-    return authenticatorButton;
-  });
 };
 
 const getAuthenticatorDescriptionParams = (
@@ -170,13 +145,73 @@ const getAuthenticatorDescription = (
       return option.relatesTo?.profile?.phoneNumber as string || undefined;
     case AUTHENTICATOR_KEY.EMAIL:
       return option.relatesTo?.profile?.email as string || undefined;
-    case AUTHENTICATOR_KEY.CUSTOM_APP:
-      return option.relatesTo?.displayName as string || undefined;
     case AUTHENTICATOR_KEY.OV:
-      return loc('oie.okta_verify.label', 'login');
+      return option.label;
     default:
       return undefined;
   }
+};
+
+const getCtaLabel = (
+  isEnroll?: boolean,
+  isAdditionalEnroll?: boolean,
+) => {
+  if (isAdditionalEnroll) {
+    return loc('enroll.choices.setup.another', 'login');
+  }
+  if (isEnroll) {
+    return loc('oie.enroll.authenticator.button.text', 'login');
+  }
+  return loc('oie.verify.authenticator.button.text', 'login');
+};
+
+const buildOktaVerifyOptions = (
+  options: IdxOption[],
+  step: string,
+  isEnroll?: boolean,
+  authenticatorEnrollments?: IdxAuthenticator[],
+): AuthenticatorButtonElement[] => {
+  const ovRemediation = options.find((option) => option.relatesTo?.key === AUTHENTICATOR_KEY.OV);
+  const isAdditionalEnroll = isEnroll && ovRemediation?.relatesTo
+    && isAuthenticatorAlreadyEnrolled(ovRemediation.relatesTo, authenticatorEnrollments);
+  const id = (ovRemediation?.value as Input[])?.find(({ name }) => name === 'id')?.value;
+  const methodType = (ovRemediation?.value as Input[])?.find(({ name }) => name === 'methodType');
+  if (!methodType?.options?.length) {
+    return [];
+  }
+
+  return methodType.options.map((option: IdxOption, index: number) => {
+    const authenticatorButton: AuthenticatorButtonElement = {
+      type: 'AuthenticatorButton',
+      label: getAuthenticatorLabel(option, AUTHENTICATOR_KEY.OV),
+      id: `auth_btn_${AUTHENTICATOR_KEY.OV}_${option.value || id}`,
+      options: {
+        type: ButtonType.BUTTON,
+        key: AUTHENTICATOR_KEY.OV,
+        isEnroll,
+        isAdditionalEnroll,
+        ctaLabel: getCtaLabel(isEnroll, isAdditionalEnroll),
+        description: getAuthenticatorDescription(
+          option,
+          AUTHENTICATOR_KEY.OV,
+          isEnroll,
+        ),
+        actionParams: {
+          'authenticator.methodType': option.value,
+          'authenticator.id': id,
+        } as ActionParams,
+        step,
+        includeData: true,
+        includeImmutableData: false,
+        dataSe: getAuthenticatorDataSeVal(AUTHENTICATOR_KEY.OV, option.value as string),
+        iconName: option.value === 'totp' ? `oktaVerify_${index}` : `oktaVerifyPush_${index}`,
+        iconDescr: option.value === 'totp'
+          ? loc('factor.totpSoft.description', 'login')
+          : loc('factor.push.description', 'login'),
+      },
+    };
+    return authenticatorButton;
+  });
 };
 
 const getNickname = (
@@ -214,6 +249,7 @@ const formatAuthenticatorOptions = (
   options: IdxOption[],
   step: string,
   isEnroll?: boolean,
+  authenticatorEnrollments?: IdxAuthenticator[],
 ): AuthenticatorButtonElement[] => {
   const authenticatorOptionSet = new Set<string>();
   return options
@@ -238,10 +274,13 @@ const formatAuthenticatorOptions = (
       return !isDup;
     })
     .map((option: IdxOption, index: number) => {
-      const authenticatorKey = option.relatesTo?.key as string;
+      const authenticator = option.relatesTo;
+      const authenticatorKey = authenticator?.key as string;
       const id = getOptionValue(option.value as Input[], 'id')?.value;
       const methodType = getOptionValue(option.value as Input[], 'methodType')?.value;
       const enrollmentId = getOptionValue(option.value as Input[], 'enrollmentId')?.value;
+      const isAdditionalEnroll = isEnroll && authenticator
+        && isAuthenticatorAlreadyEnrolled(authenticator, authenticatorEnrollments);
       const AUTHENTICATORS_WITH_METHOD_TYPE = [
         AUTHENTICATOR_KEY.ON_PREM,
         AUTHENTICATOR_KEY.OV,
@@ -250,22 +289,20 @@ const formatAuthenticatorOptions = (
       const AUTHENTICATORS_WITH_NO_TRANSLATE_CLASS = [
         AUTHENTICATOR_KEY.PHONE,
         AUTHENTICATOR_KEY.EMAIL,
-        AUTHENTICATOR_KEY.CUSTOM_APP,
       ];
-      const authenticator = option.relatesTo;
 
       return {
         type: 'AuthenticatorButton',
-        label: option.label,
+        label: getAuthenticatorLabel(option, authenticatorKey),
         id: `auth_btn_${authenticatorKey}_${enrollmentId || id}`,
         noTranslate: !isEnroll && AUTHENTICATORS_WITH_NO_TRANSLATE_CLASS.includes(authenticatorKey),
         options: {
           type: ButtonType.BUTTON,
           key: authenticatorKey,
+          isEnroll,
+          isAdditionalEnroll,
           authenticator,
-          ctaLabel: isEnroll
-            ? loc('oie.enroll.authenticator.button.text', 'login')
-            : loc('oie.verify.authenticator.button.text', 'login'),
+          ctaLabel: getCtaLabel(isEnroll, isAdditionalEnroll),
           description: getAuthenticatorDescription(
             option,
             authenticatorKey,
@@ -301,13 +338,18 @@ const getAuthenticatorButtonElements = (
   options: IdxOption[],
   step: string,
   isEnroll?: boolean,
+  authenticatorEnrollments?: IdxAuthenticator[],
 ): AuthenticatorButtonElement[] => {
-  const formattedOptions = formatAuthenticatorOptions(options, step, isEnroll);
+  const formattedOptions = formatAuthenticatorOptions(
+    options, step, isEnroll, authenticatorEnrollments,
+  );
 
   // appending OV options back to its original spot
-  const ovOptions = buildOktaVerifyOptions(options, step, isEnroll);
+  const ovOptions = buildOktaVerifyOptions(options, step, isEnroll, authenticatorEnrollments);
   if (ovOptions.length && options?.length) {
-    const ovIndex = options.findIndex(({ relatesTo }) => relatesTo?.key === AUTHENTICATOR_KEY.OV);
+    const ovIndex = formattedOptions.findIndex((
+      { options: { authenticator } },
+    ) => authenticator?.key === AUTHENTICATOR_KEY.OV);
     formattedOptions.splice(ovIndex, 1, ...ovOptions);
   }
 
@@ -335,9 +377,8 @@ export const getAppAuthenticatorMethodButtonElements = (
 
   const authButtons = methodType.options.map((option, index) => ({
     type: 'AuthenticatorButton',
-    label: option.label,
+    label: getAuthenticatorLabel(option, authKey),
     id: `auth_btn_${authKey}_${option.value as string}`,
-    noTranslate: authKey === AUTHENTICATOR_KEY.CUSTOM_APP,
     options: {
       type: ButtonType.BUTTON,
       key: authKey,
@@ -387,8 +428,10 @@ export const getAuthenticatorVerifyButtonElements = (
 export const getAuthenticatorEnrollButtonElements = (
   authenticatorOptions: IdxOption[],
   step: string,
+  authenticatorEnrollments?: IdxAuthenticator[],
 ): AuthenticatorButtonElement[] => getAuthenticatorButtonElements(
   authenticatorOptions,
   step,
   true,
+  authenticatorEnrollments,
 );

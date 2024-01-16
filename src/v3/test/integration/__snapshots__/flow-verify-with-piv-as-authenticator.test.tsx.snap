@@ -47,13 +47,6 @@ exports[`flow-verify-with-piv-as-authenticator should render select authenticato
                   >
                     PIV Card
                   </title>
-                  <circle
-                    class="siwFillBg"
-                    cx="24"
-                    cy="24"
-                    fill="#F5F5F6"
-                    r="24"
-                  />
                   <path
                     class="siwFillPrimaryDark"
                     clip-rule="evenodd"

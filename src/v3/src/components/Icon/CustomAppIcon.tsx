@@ -18,28 +18,24 @@ export const CustomAppIcon: FunctionComponent<IconProps> = ({ name, description 
   <svg
     width="48"
     height="48"
-    viewBox="0 0 140 140"
+    viewBox="0 0 48 48"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     aria-labelledby={name}
     role="img"
   >
     <title id={name}>{description}</title>
-    <circle
-      cx="70"
-      cy="70"
-      r="69"
-      fill="#00297A"
-      stroke="#F5F5F6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      class="siwFillPrimaryDark"
-    />
     <path
       fillRule="evenodd"
       clipRule="evenodd"
-      d="M91.5625 105H49.0625C47.4023 105 43.75 105 43.75 99.6875V67.8125C43.75 66.1523 43.75 62.5 49.0625 62.5V51.875C49.0625 39.5898 58.0273 30.625 70.3125 30.625C82.5977 30.625 91.5625 39.5898 91.5625 51.875V62.5C96.875 62.5 96.875 66.1523 96.875 67.8125V99.6875C96.875 101.348 96.875 105 91.5625 105ZM80.9382 51.876C80.9382 45.5674 76.6218 41.251 70.3132 41.251C64.0046 41.251 59.6882 45.5674 59.6882 51.876V62.501H80.9382V51.876Z"
-      fill="white"
+      fill="#00297A"
+      d="M19.5 15A1 1 0 0128.5 15V20.7H33.5V35Q33.5 37.5 31 37.5H17Q14.5 37.5 14.5 35V20.7H19.5V15M27.2 15V20.7H20.8V15A1 1 0 0127.2 15M15.8 22V35Q15.8 36.2 17 36.2H31Q32.2 36.2 32.2 35V22H15.8Z"
+      class="siwFillPrimaryDark"
+    />
+    <path
+      fill="#A7B5EC"
+      d="M21.35 29.1A2.65 2.65 0 1026.65 29.1 2.65 2.65 0 1021.35 29.1M22.65 29.1A1.35 1.35 0 1125.35 29.1 1.35 1.35 0 1122.65 29.1Z"
+      class="siwFillSecondary"
     />
   </svg>
 );

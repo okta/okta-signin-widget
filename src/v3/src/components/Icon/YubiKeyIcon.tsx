@@ -25,13 +25,6 @@ export const YubiKeyIcon: FunctionComponent<IconProps> = ({ name, description })
     viewBox="0 0 48 48"
   >
     <title id={name}>{description}</title>
-    <path
-      fill="#F5F5F6"
-      fillRule="evenodd"
-      d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
-      class="siwFillBg"
-      clipRule="evenodd"
-    />
     <circle
       cx="24"
       cy="24"

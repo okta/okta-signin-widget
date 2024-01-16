@@ -2,15 +2,32 @@ import { Selector, userVariables } from 'testcafe';
 import { within } from '@testing-library/testcafe';
 import BasePageObject from './BasePageObject';
 
-const factorListRowSelector = userVariables.gen3 ? '.authenticator-row' : '.authenticator-list .authenticator-row';
+const factorListRowSelector = userVariables.gen3 ? '[data-se="authenticator-button"]' : '.authenticator-list .authenticator-row';
 const factorLabelSelector = `${factorListRowSelector} .authenticator-label`;
-const factorDescriptionSelector = `${factorListRowSelector} .authenticator-description .authenticator-description--text`;
-const factorNicknameSelector = `${factorListRowSelector} .authenticator-description .authenticator-enrollment-nickname`;
-const factorIconSelector = `${factorListRowSelector} .authenticator-icon-container .authenticator-icon`;
-const factorCustomLogoSelector = `${factorListRowSelector} .authenticator-icon-container`;
-const factorSelectButtonDiv = `${factorListRowSelector} .authenticator-button`;
-const factorSelectButtonSelector = `${factorListRowSelector} .authenticator-button .button`;
-const factorUsageTextSelector = `${factorListRowSelector} .authenticator-usage-text`;
+const factorDescriptionSelector = userVariables.gen3
+  ? `${factorListRowSelector} [data-se="authenticator-button-description"]`
+  : `${factorListRowSelector} .authenticator-description .authenticator-description--text`;
+const factorNicknameSelector = userVariables.gen3
+  ? `${factorListRowSelector} [data-se="authenticator-button-nickname"]`
+  : `${factorListRowSelector} .authenticator-enrollment-nickname`;
+const factorIconSelector = userVariables.gen3
+  ? `${factorListRowSelector} [data-se="authenticator-icon"] [data-se="factor-beacon"]`
+  : `${factorListRowSelector} .authenticator-icon-container .authenticator-icon`;
+const factorCustomLogoSelector = userVariables.gen3
+  ? `${factorListRowSelector} [data-se="authenticator-icon"]`
+  : `${factorListRowSelector} .authenticator-icon-container`;
+const factorSelectForVerificationButtonDiv = userVariables.gen3
+  ? `${factorListRowSelector} > div:nth-child(3)`
+  : `${factorListRowSelector} .authenticator-button`;
+const factorSelectForEnrollButtonDiv = userVariables.gen3
+  ? `${factorListRowSelector} [data-se="authenticator-button-content"] > div`
+  : `${factorListRowSelector} .authenticator-button`;
+const factorSelectButtonSelector = userVariables.gen3
+  ? `${factorListRowSelector} [data-se="cta-button-icon"]`
+  : `${factorListRowSelector} .authenticator-button .button`;
+const factorUsageTextSelector = userVariables.gen3
+  ? `${factorListRowSelector} [data-se="authenticator-button-usage-text"]`
+  : `${factorListRowSelector} .authenticator-usage-text`;
 const skipOptionalEnrollmentSelector = '.authenticator-list .skip-all';
 const CUSTOM_SIGN_OUT_LINK_SELECTOR = userVariables.gen3 ? '[data-se="cancel"]' : '.auth-footer .js-cancel';
 const CUSTOM_OTP_BUTTON_SELECTOR = '.authenticator-list .authenticator-row:nth-child(12) .authenticator-button a';
@@ -96,8 +113,10 @@ export default class SelectFactorPageObject extends BasePageObject {
     return this.getFactorCTAButtonByIndex(index).textContent;
   }
 
-  getFactorSelectButtonDataSeByIndex(index) {
-    return this.form.getElement(factorSelectButtonDiv).nth(index).getAttribute('data-se');
+  getFactorSelectButtonDataSeByIndex(index, forEnroll = false) {
+    return this.form.getElement(
+      forEnroll ? factorSelectForEnrollButtonDiv : factorSelectForVerificationButtonDiv
+    ).nth(index).getAttribute('data-se');
   }
 
   async selectFactorByIndex(index) {

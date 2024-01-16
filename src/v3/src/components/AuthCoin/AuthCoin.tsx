@@ -70,11 +70,9 @@ const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
       aria-hidden
       sx={{
         position: 'relative',
-        background: 'white',
-        inlineSize: '54px',
+        inlineSize: '48px',
         blockSize: '48px',
         paddingBlock: 0,
-        paddingInline: '3px',
         ...sx,
       }}
     >

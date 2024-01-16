@@ -47,13 +47,6 @@ exports[`authenticator-verification-yubikey-otp renders form 1`] = `
                   >
                     YubiKey
                   </title>
-                  <path
-                    class="siwFillBg"
-                    clip-rule="evenodd"
-                    d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
-                    fill="#F5F5F6"
-                    fill-rule="evenodd"
-                  />
                   <circle
                     cx="24"
                     cy="24"

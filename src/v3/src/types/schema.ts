@@ -324,6 +324,8 @@ export interface AuthenticatorButtonElement extends UISchemaElement {
   options: ButtonElement['options'] & {
     key: string;
     authenticator?: IdxAuthenticator;
+    isEnroll?: boolean;
+    isAdditionalEnroll?: boolean;
     ctaLabel: string;
     description?: string;
     nickname?: string;

@@ -25,13 +25,6 @@ export const EmailIcon: FunctionComponent<IconProps> = ({ name, description }) =
     viewBox="0 0 48 48"
   >
     <title id={name}>{description}</title>
-    <circle
-      cx="24"
-      cy="24"
-      r="24"
-      fill="#F5F5F6"
-      class="siwFillBg"
-    />
     <path
       fill="#A7B5EC"
       d="M32 18v1h5.3L32 24.29v1.42l6-6.01v12.8a1.5 1.5 0 0 1-1.5 1.5h-17a1.5 1.5 0 0 1-1.5-1.5V31h-1v1.5a2.5 2.5 0 0 0 2.5 2.5h17a2.5 2.5 0 0 0 2.5-2.5V18h-7Z"
