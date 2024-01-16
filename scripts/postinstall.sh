@@ -1,5 +1,5 @@
 #!/bin/bash
 
-if [[ $SKIP_POSTINSTALL -ne 0 ]]; then
+if ! $SKIP_POSTINSTALL || [ -z "$SKIP_POSTINSTALL" ]; then
   exit 1
 fi
