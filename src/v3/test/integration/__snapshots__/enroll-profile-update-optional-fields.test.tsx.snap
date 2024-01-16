@@ -44,13 +44,17 @@ exports[`enroll-profile-update-optional-fields should render form with one requi
                     class="MuiBox-root emotion-10"
                   >
                     <div
-                      class="identifier-container MuiBox-root emotion-11"
+                      class="MuiBox-root emotion-11"
+                      data-se="identifier-container"
+                      title="testUser@okta.com"
                     >
                       <div
-                        class="MuiBox-root emotion-12"
+                        class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-12"
+                        data-se="identifier"
+                        translate="yes"
                       >
-                        <span
-                          class="MuiBox-root emotion-13"
+                        <div
+                          class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-13"
                         >
                           <svg
                             class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-14"
@@ -70,12 +74,9 @@ exports[`enroll-profile-update-optional-fields should render form with one requi
                               User
                             </title>
                           </svg>
-                        </span>
+                        </div>
                         <span
-                          aria-label="testUser@okta.com"
-                          class="identifier no-translate MuiBox-root emotion-15"
-                          data-se="identifier"
-                          title="testUser@okta.com"
+                          class="MuiChip-label MuiChip-labelMedium emotion-15"
                         >
                           testUser@okta.com
                         </span>

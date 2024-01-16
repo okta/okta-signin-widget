@@ -102,13 +102,17 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="identifier-container MuiBox-root emotion-12"
+                      class="MuiBox-root emotion-12"
+                      data-se="identifier-container"
+                      title="tester19@test.com"
                     >
                       <div
-                        class="MuiBox-root emotion-13"
+                        class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-13"
+                        data-se="identifier"
+                        translate="yes"
                       >
-                        <span
-                          class="MuiBox-root emotion-14"
+                        <div
+                          class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-14"
                         >
                           <svg
                             class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-15"
@@ -128,12 +132,9 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
                               User
                             </title>
                           </svg>
-                        </span>
+                        </div>
                         <span
-                          aria-label="tester19@test.com"
-                          class="identifier no-translate MuiBox-root emotion-16"
-                          data-se="identifier"
-                          title="tester19@test.com"
+                          class="MuiChip-label MuiChip-labelMedium emotion-16"
                         >
                           tester19@test.com
                         </span>
@@ -362,13 +363,17 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="identifier-container MuiBox-root emotion-12"
+                      class="MuiBox-root emotion-12"
+                      data-se="identifier-container"
+                      title="tester19@test.com"
                     >
                       <div
-                        class="MuiBox-root emotion-13"
+                        class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-13"
+                        data-se="identifier"
+                        translate="yes"
                       >
-                        <span
-                          class="MuiBox-root emotion-14"
+                        <div
+                          class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-14"
                         >
                           <svg
                             class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-15"
@@ -388,12 +393,9 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                               User
                             </title>
                           </svg>
-                        </span>
+                        </div>
                         <span
-                          aria-label="tester19@test.com"
-                          class="identifier no-translate MuiBox-root emotion-16"
-                          data-se="identifier"
-                          title="tester19@test.com"
+                          class="MuiChip-label MuiChip-labelMedium emotion-16"
                         >
                           tester19@test.com
                         </span>
@@ -614,13 +616,17 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="identifier-container MuiBox-root emotion-12"
+                      class="MuiBox-root emotion-12"
+                      data-se="identifier-container"
+                      title="tester19@test.com"
                     >
                       <div
-                        class="MuiBox-root emotion-13"
+                        class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-13"
+                        data-se="identifier"
+                        translate="yes"
                       >
-                        <span
-                          class="MuiBox-root emotion-14"
+                        <div
+                          class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-14"
                         >
                           <svg
                             class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-15"
@@ -640,12 +646,9 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                               User
                             </title>
                           </svg>
-                        </span>
+                        </div>
                         <span
-                          aria-label="tester19@test.com"
-                          class="identifier no-translate MuiBox-root emotion-16"
-                          data-se="identifier"
-                          title="tester19@test.com"
+                          class="MuiChip-label MuiChip-labelMedium emotion-16"
                         >
                           tester19@test.com
                         </span>
@@ -865,13 +868,17 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="identifier-container MuiBox-root emotion-12"
+                      class="MuiBox-root emotion-12"
+                      data-se="identifier-container"
+                      title="tester19@test.com"
                     >
                       <div
-                        class="MuiBox-root emotion-13"
+                        class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-13"
+                        data-se="identifier"
+                        translate="yes"
                       >
-                        <span
-                          class="MuiBox-root emotion-14"
+                        <div
+                          class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-14"
                         >
                           <svg
                             class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-15"
@@ -891,12 +898,9 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                               User
                             </title>
                           </svg>
-                        </span>
+                        </div>
                         <span
-                          aria-label="tester19@test.com"
-                          class="identifier no-translate MuiBox-root emotion-16"
-                          data-se="identifier"
-                          title="tester19@test.com"
+                          class="MuiChip-label MuiChip-labelMedium emotion-16"
                         >
                           tester19@test.com
                         </span>

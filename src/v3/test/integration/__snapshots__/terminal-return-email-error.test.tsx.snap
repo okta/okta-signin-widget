@@ -114,6 +114,7 @@ exports[`terminal-return-email-error should render form 1`] = `
                         >
                           <span
                             class="MuiBox-root emotion-17"
+                            translate="yes"
                           >
                             error
                           </span>

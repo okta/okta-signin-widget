@@ -82,13 +82,17 @@ exports[`terminal-return-email renders form 1`] = `
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="identifier-container MuiBox-root emotion-12"
+                      class="MuiBox-root emotion-12"
+                      data-se="identifier-container"
+                      title="testUser@okta.com"
                     >
                       <div
-                        class="MuiBox-root emotion-13"
+                        class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-13"
+                        data-se="identifier"
+                        translate="yes"
                       >
-                        <span
-                          class="MuiBox-root emotion-14"
+                        <div
+                          class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-14"
                         >
                           <svg
                             class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-15"
@@ -108,12 +112,9 @@ exports[`terminal-return-email renders form 1`] = `
                               User
                             </title>
                           </svg>
-                        </span>
+                        </div>
                         <span
-                          aria-label="testUser@okta.com"
-                          class="identifier no-translate MuiBox-root emotion-16"
-                          data-se="identifier"
-                          title="testUser@okta.com"
+                          class="MuiChip-label MuiChip-labelMedium emotion-16"
                         >
                           testUser@okta.com
                         </span>

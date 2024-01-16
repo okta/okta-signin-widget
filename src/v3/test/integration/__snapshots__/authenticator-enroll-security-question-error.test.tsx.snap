@@ -106,6 +106,7 @@ exports[`authenticator-enroll-security-question-error custom question should sho
                     >
                       <span
                         class="MuiBox-root emotion-15"
+                        translate="yes"
                       >
                         error
                       </span>
@@ -124,13 +125,17 @@ exports[`authenticator-enroll-security-question-error custom question should sho
                     class="MuiBox-root emotion-18"
                   >
                     <div
-                      class="identifier-container MuiBox-root emotion-19"
+                      class="MuiBox-root emotion-19"
+                      data-se="identifier-container"
+                      title="tester35@test.com"
                     >
                       <div
-                        class="MuiBox-root emotion-20"
+                        class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-20"
+                        data-se="identifier"
+                        translate="yes"
                       >
-                        <span
-                          class="MuiBox-root emotion-21"
+                        <div
+                          class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-21"
                         >
                           <svg
                             class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-22"
@@ -150,12 +155,9 @@ exports[`authenticator-enroll-security-question-error custom question should sho
                               User
                             </title>
                           </svg>
-                        </span>
+                        </div>
                         <span
-                          aria-label="tester35@test.com"
-                          class="identifier no-translate MuiBox-root emotion-23"
-                          data-se="identifier"
-                          title="tester35@test.com"
+                          class="MuiChip-label MuiChip-labelMedium emotion-23"
                         >
                           tester35@test.com
                         </span>
@@ -484,6 +486,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                     >
                       <span
                         class="MuiBox-root emotion-15"
+                        translate="yes"
                       >
                         error
                       </span>
@@ -502,13 +505,17 @@ exports[`authenticator-enroll-security-question-error predefined question should
                     class="MuiBox-root emotion-18"
                   >
                     <div
-                      class="identifier-container MuiBox-root emotion-19"
+                      class="MuiBox-root emotion-19"
+                      data-se="identifier-container"
+                      title="tester35@test.com"
                     >
                       <div
-                        class="MuiBox-root emotion-20"
+                        class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-20"
+                        data-se="identifier"
+                        translate="yes"
                       >
-                        <span
-                          class="MuiBox-root emotion-21"
+                        <div
+                          class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-21"
                         >
                           <svg
                             class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-22"
@@ -528,12 +535,9 @@ exports[`authenticator-enroll-security-question-error predefined question should
                               User
                             </title>
                           </svg>
-                        </span>
+                        </div>
                         <span
-                          aria-label="tester35@test.com"
-                          class="identifier no-translate MuiBox-root emotion-23"
-                          data-se="identifier"
-                          title="tester35@test.com"
+                          class="MuiChip-label MuiChip-labelMedium emotion-23"
                         >
                           tester35@test.com
                         </span>
@@ -953,13 +957,17 @@ exports[`authenticator-enroll-security-question-error predefined question should
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="identifier-container MuiBox-root emotion-12"
+                      class="MuiBox-root emotion-12"
+                      data-se="identifier-container"
+                      title="tester35@test.com"
                     >
                       <div
-                        class="MuiBox-root emotion-13"
+                        class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-13"
+                        data-se="identifier"
+                        translate="yes"
                       >
-                        <span
-                          class="MuiBox-root emotion-14"
+                        <div
+                          class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-14"
                         >
                           <svg
                             class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-15"
@@ -979,12 +987,9 @@ exports[`authenticator-enroll-security-question-error predefined question should
                               User
                             </title>
                           </svg>
-                        </span>
+                        </div>
                         <span
-                          aria-label="tester35@test.com"
-                          class="identifier no-translate MuiBox-root emotion-16"
-                          data-se="identifier"
-                          title="tester35@test.com"
+                          class="MuiChip-label MuiChip-labelMedium emotion-16"
                         >
                           tester35@test.com
                         </span>
@@ -1466,6 +1471,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                     >
                       <span
                         class="MuiBox-root emotion-15"
+                        translate="yes"
                       >
                         error
                       </span>
@@ -1484,13 +1490,17 @@ exports[`authenticator-enroll-security-question-error predefined question should
                     class="MuiBox-root emotion-18"
                   >
                     <div
-                      class="identifier-container MuiBox-root emotion-19"
+                      class="MuiBox-root emotion-19"
+                      data-se="identifier-container"
+                      title="tester35@test.com"
                     >
                       <div
-                        class="MuiBox-root emotion-20"
+                        class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-20"
+                        data-se="identifier"
+                        translate="yes"
                       >
-                        <span
-                          class="MuiBox-root emotion-21"
+                        <div
+                          class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-21"
                         >
                           <svg
                             class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-22"
@@ -1510,12 +1520,9 @@ exports[`authenticator-enroll-security-question-error predefined question should
                               User
                             </title>
                           </svg>
-                        </span>
+                        </div>
                         <span
-                          aria-label="tester35@test.com"
-                          class="identifier no-translate MuiBox-root emotion-23"
-                          data-se="identifier"
-                          title="tester35@test.com"
+                          class="MuiChip-label MuiChip-labelMedium emotion-23"
                         >
                           tester35@test.com
                         </span>
