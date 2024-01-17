@@ -18,8 +18,7 @@ const idx = {
   ],
 
   '/idp/idx/introspect': [
-    'authenticator-enroll-data-phone',
-    // 'identify',
+    'identify',
     // 'error-identify-multiple-errors',
     // 'authenticator-enroll-ov-qr-enable-biometrics',
     // 'authenticator-verification-okta-verify-push',
