@@ -15,7 +15,9 @@ import { FunctionComponent, h } from 'preact';
 import { IconProps } from '../../types';
 
 export const SecurityKeyOrBiometricsIcon: FunctionComponent<IconProps> = (
-  { name, description, width, height },
+  {
+    name, description, width, height,
+  },
 ) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"

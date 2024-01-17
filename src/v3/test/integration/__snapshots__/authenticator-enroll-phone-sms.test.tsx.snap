@@ -158,10 +158,10 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                               <svg
                                 aria-labelledby="google_otp_0"
                                 fill="none"
-                                height="48"
+                                height="2.85714286rem"
                                 role="img"
                                 viewBox="0 0 48 48"
-                                width="48"
+                                width="2.85714286rem"
                                 xmlns="http://www.w3.org/2000/svg"
                               >
                                 <title
@@ -282,10 +282,10 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                               <svg
                                 aria-labelledby="okta_verify_1"
                                 fill="none"
-                                height="48"
+                                height="2.85714286rem"
                                 role="img"
                                 viewBox="0 0 48 48"
-                                width="48"
+                                width="2.85714286rem"
                                 xmlns="http://www.w3.org/2000/svg"
                               >
                                 <title
@@ -382,10 +382,10 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                               <svg
                                 aria-labelledby="phone_number_2"
                                 fill="none"
-                                height="48"
+                                height="2.85714286rem"
                                 role="img"
                                 viewBox="0 0 48 48"
-                                width="48"
+                                width="2.85714286rem"
                                 xmlns="http://www.w3.org/2000/svg"
                               >
                                 <title
@@ -496,10 +496,10 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                               <svg
                                 aria-labelledby="webauthn_3"
                                 fill="none"
-                                height="48"
+                                height="2.85714286rem"
                                 role="img"
                                 viewBox="0 0 48 48"
-                                width="48"
+                                width="2.85714286rem"
                                 xmlns="http://www.w3.org/2000/svg"
                               >
                                 <title
@@ -658,10 +658,10 @@ exports[`authenticator-enroll-phone-sms should render form 1`] = `
                 <svg
                   aria-labelledby="mfa-okta-phone"
                   fill="none"
-                  height="48"
+                  height="2.85714286rem"
                   role="img"
                   viewBox="0 0 48 48"
-                  width="48"
+                  width="2.85714286rem"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <title

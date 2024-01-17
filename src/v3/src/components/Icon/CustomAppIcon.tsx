@@ -14,7 +14,9 @@ import { FunctionComponent, h } from 'preact';
 
 import { IconProps } from '../../types';
 
-export const CustomAppIcon: FunctionComponent<IconProps> = ({ name, description, width, height }: IconProps) => (
+export const CustomAppIcon: FunctionComponent<IconProps> = ({
+  name, description, width, height,
+}: IconProps) => (
   <svg
     width={width || 48}
     height={height || 48}

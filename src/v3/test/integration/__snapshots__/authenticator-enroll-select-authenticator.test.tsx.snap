@@ -158,10 +158,10 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               <svg
                                 aria-labelledby="okta_password_0"
                                 fill="none"
-                                height="48"
+                                height="2.85714286rem"
                                 role="img"
                                 viewBox="0 0 48 48"
-                                width="48"
+                                width="2.85714286rem"
                                 xmlns="http://www.w3.org/2000/svg"
                               >
                                 <title
@@ -262,10 +262,10 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               <svg
                                 aria-labelledby="phone_number_1"
                                 fill="none"
-                                height="48"
+                                height="2.85714286rem"
                                 role="img"
                                 viewBox="0 0 48 48"
-                                width="48"
+                                width="2.85714286rem"
                                 xmlns="http://www.w3.org/2000/svg"
                               >
                                 <title
@@ -376,10 +376,10 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               <svg
                                 aria-labelledby="webauthn_2"
                                 fill="none"
-                                height="48"
+                                height="2.85714286rem"
                                 role="img"
                                 viewBox="0 0 48 48"
-                                width="48"
+                                width="2.85714286rem"
                                 xmlns="http://www.w3.org/2000/svg"
                               >
                                 <title
@@ -500,10 +500,10 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               <svg
                                 aria-labelledby="security_question_3"
                                 fill="none"
-                                height="48"
+                                height="2.85714286rem"
                                 role="img"
                                 viewBox="0 0 48 48"
-                                width="48"
+                                width="2.85714286rem"
                                 xmlns="http://www.w3.org/2000/svg"
                               >
                                 <title
@@ -604,10 +604,10 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               <svg
                                 aria-labelledby="okta_verify_4"
                                 fill="none"
-                                height="48"
+                                height="2.85714286rem"
                                 role="img"
                                 viewBox="0 0 48 48"
-                                width="48"
+                                width="2.85714286rem"
                                 xmlns="http://www.w3.org/2000/svg"
                               >
                                 <title
@@ -704,10 +704,10 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               <svg
                                 aria-labelledby="google_otp_5"
                                 fill="none"
-                                height="48"
+                                height="2.85714286rem"
                                 role="img"
                                 viewBox="0 0 48 48"
-                                width="48"
+                                width="2.85714286rem"
                                 xmlns="http://www.w3.org/2000/svg"
                               >
                                 <title
@@ -828,10 +828,10 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               <svg
                                 aria-labelledby="onprem_mfa_6"
                                 fill="none"
-                                height="48"
+                                height="2.85714286rem"
                                 role="img"
                                 viewBox="0 0 48 48"
-                                width="48"
+                                width="2.85714286rem"
                                 xmlns="http://www.w3.org/2000/svg"
                               >
                                 <title
@@ -932,10 +932,10 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               <svg
                                 aria-labelledby="rsa_token_7"
                                 fill="none"
-                                height="48"
+                                height="2.85714286rem"
                                 role="img"
                                 viewBox="0 0 48 48"
-                                width="48"
+                                width="2.85714286rem"
                                 xmlns="http://www.w3.org/2000/svg"
                               >
                                 <title
@@ -1030,10 +1030,10 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               <svg
                                 aria-labelledby="duo_8"
                                 fill="none"
-                                height="48"
+                                height="2.85714286rem"
                                 role="img"
                                 viewBox="0 0 48 48"
-                                width="48"
+                                width="2.85714286rem"
                                 xmlns="http://www.w3.org/2000/svg"
                               >
                                 <title
@@ -1130,10 +1130,10 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               <svg
                                 aria-labelledby="external_idp_9"
                                 fill="none"
-                                height="48"
+                                height="2.85714286rem"
                                 role="img"
                                 viewBox="0 0 48 48"
-                                width="48"
+                                width="2.85714286rem"
                                 xmlns="http://www.w3.org/2000/svg"
                               >
                                 <title
@@ -1239,10 +1239,10 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               <svg
                                 aria-labelledby="custom_otp_10"
                                 fill="none"
-                                height="48"
+                                height="2.85714286rem"
                                 role="img"
                                 viewBox="0 0 48 48"
-                                width="48"
+                                width="2.85714286rem"
                                 xmlns="http://www.w3.org/2000/svg"
                               >
                                 <title
@@ -1348,10 +1348,10 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               <svg
                                 aria-labelledby="symantec_vip_11"
                                 fill="none"
-                                height="48"
+                                height="2.85714286rem"
                                 role="img"
                                 viewBox="0 0 48 48"
-                                width="48"
+                                width="2.85714286rem"
                                 xmlns="http://www.w3.org/2000/svg"
                               >
                                 <title
@@ -1454,10 +1454,10 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               <svg
                                 aria-labelledby="yubikey_token_12"
                                 fill="none"
-                                height="48"
+                                height="2.85714286rem"
                                 role="img"
                                 viewBox="0 0 48 48"
-                                width="48"
+                                width="2.85714286rem"
                                 xmlns="http://www.w3.org/2000/svg"
                               >
                                 <title

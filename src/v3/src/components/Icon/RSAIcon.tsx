@@ -14,7 +14,9 @@ import { FunctionComponent, h } from 'preact';
 
 import { IconProps } from '../../types';
 
-export const RSAIcon: FunctionComponent<IconProps> = ({ name, description, width, height }) => (
+export const RSAIcon: FunctionComponent<IconProps> = ({
+  name, description, width, height,
+}) => (
   <svg
     width={width || 48}
     height={height || 48}

@@ -36,10 +36,10 @@ exports[`authenticator-enroll-security-question custom question fails client sid
                 <svg
                   aria-labelledby="mfa-okta-security-question"
                   fill="none"
-                  height="48"
+                  height="2.85714286rem"
                   role="img"
                   viewBox="0 0 48 48"
-                  width="48"
+                  width="2.85714286rem"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <title
@@ -409,10 +409,10 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                 <svg
                   aria-labelledby="mfa-okta-security-question"
                   fill="none"
-                  height="48"
+                  height="2.85714286rem"
                   role="img"
                   viewBox="0 0 48 48"
-                  width="48"
+                  width="2.85714286rem"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <title
@@ -726,10 +726,10 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                 <svg
                   aria-labelledby="mfa-okta-security-question"
                   fill="none"
-                  height="48"
+                  height="2.85714286rem"
                   role="img"
                   viewBox="0 0 48 48"
-                  width="48"
+                  width="2.85714286rem"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <title
@@ -1158,10 +1158,10 @@ exports[`authenticator-enroll-security-question predefined question should rende
                 <svg
                   aria-labelledby="mfa-okta-security-question"
                   fill="none"
-                  height="48"
+                  height="2.85714286rem"
                   role="img"
                   viewBox="0 0 48 48"
-                  width="48"
+                  width="2.85714286rem"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <title

@@ -158,10 +158,10 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               <svg
                                 aria-labelledby="okta_password_0"
                                 fill="none"
-                                height="48"
+                                height="2.85714286rem"
                                 role="img"
                                 viewBox="0 0 48 48"
-                                width="48"
+                                width="2.85714286rem"
                                 xmlns="http://www.w3.org/2000/svg"
                               >
                                 <title
@@ -262,10 +262,10 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               <svg
                                 aria-labelledby="phone_number_1"
                                 fill="none"
-                                height="48"
+                                height="2.85714286rem"
                                 role="img"
                                 viewBox="0 0 48 48"
-                                width="48"
+                                width="2.85714286rem"
                                 xmlns="http://www.w3.org/2000/svg"
                               >
                                 <title
@@ -376,10 +376,10 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               <svg
                                 aria-labelledby="webauthn_2"
                                 fill="none"
-                                height="48"
+                                height="2.85714286rem"
                                 role="img"
                                 viewBox="0 0 48 48"
-                                width="48"
+                                width="2.85714286rem"
                                 xmlns="http://www.w3.org/2000/svg"
                               >
                                 <title

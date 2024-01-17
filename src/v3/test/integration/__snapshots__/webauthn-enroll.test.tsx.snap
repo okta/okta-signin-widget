@@ -36,10 +36,10 @@ exports[`webauthn-enroll should render form 1`] = `
                 <svg
                   aria-labelledby="mfa-webauthn"
                   fill="none"
-                  height="48"
+                  height="2.85714286rem"
                   role="img"
                   viewBox="0 0 48 48"
-                  width="48"
+                  width="2.85714286rem"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <title
@@ -252,10 +252,10 @@ exports[`webauthn-enroll should render form when Credentials API is not availabl
                 <svg
                   aria-labelledby="mfa-webauthn"
                   fill="none"
-                  height="48"
+                  height="2.85714286rem"
                   role="img"
                   viewBox="0 0 48 48"
-                  width="48"
+                  width="2.85714286rem"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <title
@@ -486,10 +486,10 @@ exports[`webauthn-enroll should render form with user verification and edge brow
                 <svg
                   aria-labelledby="mfa-webauthn"
                   fill="none"
-                  height="48"
+                  height="2.85714286rem"
                   role="img"
                   viewBox="0 0 48 48"
-                  width="48"
+                  width="2.85714286rem"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <title

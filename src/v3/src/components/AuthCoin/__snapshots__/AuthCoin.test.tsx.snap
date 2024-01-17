@@ -10,10 +10,10 @@ exports[`AuthCoin tests should display Branded AuthCoin and disallow style custo
     <svg
       aria-labelledby="mfa-duo"
       fill="none"
-      height="48"
+      height="2.85714286rem"
       role="img"
       viewBox="0 0 48 48"
-      width="48"
+      width="2.85714286rem"
       xmlns="http://www.w3.org/2000/svg"
     >
       <title
@@ -42,10 +42,10 @@ exports[`AuthCoin tests should display Non-Branded AuthCoin with style customiza
     <svg
       aria-labelledby="mfa-hotp"
       fill="none"
-      height="48"
+      height="2.85714286rem"
       role="img"
       viewBox="0 0 48 48"
-      width="48"
+      width="2.85714286rem"
       xmlns="http://www.w3.org/2000/svg"
     >
       <title
@@ -83,10 +83,10 @@ exports[`AuthCoin tests should display branded AuthCoin when image URL is provid
     <svg
       aria-labelledby="mfa-duo"
       fill="none"
-      height="48"
+      height="2.85714286rem"
       role="img"
       viewBox="0 0 48 48"
-      width="48"
+      width="2.85714286rem"
       xmlns="http://www.w3.org/2000/svg"
     >
       <title
@@ -131,10 +131,10 @@ exports[`AuthCoin tests should display standard theme Non-Branded AuthCoin witho
     <svg
       aria-labelledby="mfa-hotp"
       fill="none"
-      height="48"
+      height="2.85714286rem"
       role="img"
       viewBox="0 0 48 48"
-      width="48"
+      width="2.85714286rem"
       xmlns="http://www.w3.org/2000/svg"
     >
       <title

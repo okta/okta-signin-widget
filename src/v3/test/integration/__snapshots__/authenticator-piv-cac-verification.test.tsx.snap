@@ -948,10 +948,10 @@ exports[`authenticator-piv-cac-verification should render PIV/CAC view when clic
                 <svg
                   aria-labelledby="smart-card-icon"
                   fill="none"
-                  height="48"
+                  height="2.85714286rem"
                   role="img"
                   viewBox="0 0 48 48"
-                  width="48"
+                  width="2.85714286rem"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <title
