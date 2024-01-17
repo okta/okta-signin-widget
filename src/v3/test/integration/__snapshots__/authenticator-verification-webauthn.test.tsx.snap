@@ -102,7 +102,7 @@ exports[`authenticator-verification-webauthn renders form - webauthn not support
                       <div
                         class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-13"
                         data-se="identifier"
-                        translate="yes"
+                        translate="no"
                       >
                         <div
                           class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-14"
@@ -186,7 +186,7 @@ exports[`authenticator-verification-webauthn renders form - webauthn not support
                         >
                           <span
                             class="MuiBox-root emotion-26"
-                            translate="yes"
+                            translate="no"
                           >
                             error
                           </span>
@@ -458,7 +458,7 @@ exports[`authenticator-verification-webauthn renders form - webauthn supported 1
                       <div
                         class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-13"
                         data-se="identifier"
-                        translate="yes"
+                        translate="no"
                       >
                         <div
                           class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-14"
@@ -796,7 +796,7 @@ exports[`authenticator-verification-webauthn should render form with required us
                       <div
                         class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-13"
                         data-se="identifier"
-                        translate="yes"
+                        translate="no"
                       >
                         <div
                           class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-14"

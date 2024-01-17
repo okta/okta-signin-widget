@@ -68,7 +68,7 @@ exports[`enroll-profile-update fails client side validation with empty required 
                     >
                       <span
                         class="MuiBox-root emotion-14"
-                        translate="yes"
+                        translate="no"
                       >
                         error
                       </span>
@@ -94,7 +94,7 @@ exports[`enroll-profile-update fails client side validation with empty required 
                       <div
                         class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-19"
                         data-se="identifier"
-                        translate="yes"
+                        translate="no"
                       >
                         <div
                           class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-20"
@@ -323,7 +323,7 @@ exports[`enroll-profile-update should render form 1`] = `
                       <div
                         class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-12"
                         data-se="identifier"
-                        translate="yes"
+                        translate="no"
                       >
                         <div
                           class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-13"

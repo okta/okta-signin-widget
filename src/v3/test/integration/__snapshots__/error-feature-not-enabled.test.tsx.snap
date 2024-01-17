@@ -76,7 +76,7 @@ exports[`error-feature-not-enabled should render form 1`] = `
                         >
                           <span
                             class="MuiBox-root emotion-16"
-                            translate="yes"
+                            translate="no"
                           >
                             error
                           </span>
