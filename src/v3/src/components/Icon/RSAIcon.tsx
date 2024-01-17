@@ -26,8 +26,8 @@ export const RSAIcon: FunctionComponent<IconProps> = ({ name, description }) => 
   >
     <title id={name}>{description}</title>
     <path
-      fill-rule="evenodd"
-      clip-rule="evenodd"
+      fillRule="evenodd"
+      clipRule="evenodd"
       d="M24 48C37.2548 48 48 37.2548 48 24C48 10.7452 37.2548 0 24 0C10.7452 0 0 10.7452 0 24C0 37.2548 10.7452 48 24 48Z"
       fill="#F5F5F6"
       class="siwFillBg"
