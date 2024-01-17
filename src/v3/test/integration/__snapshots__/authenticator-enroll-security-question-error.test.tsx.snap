@@ -341,26 +341,24 @@ exports[`authenticator-enroll-security-question-error custom question should sho
                   <div
                     class="MuiBox-root emotion-18"
                   >
-                    <button
-                      class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-57"
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-57"
                       data-se="switchAuthenticator"
-                      role="link"
-                      type="button"
+                      href=""
                     >
                       Return to authenticator list
-                    </button>
+                    </a>
                   </div>
                   <div
                     class="MuiBox-root emotion-18"
                   >
-                    <button
-                      class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-57"
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-57"
                       data-se="cancel"
-                      role="link"
-                      type="button"
+                      href=""
                     >
                       Back to sign in
-                    </button>
+                    </a>
                   </div>
                 </div>
               </form>
@@ -829,26 +827,24 @@ exports[`authenticator-enroll-security-question-error predefined question should
                   <div
                     class="MuiBox-root emotion-18"
                   >
-                    <button
-                      class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-58"
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-58"
                       data-se="switchAuthenticator"
-                      role="link"
-                      type="button"
+                      href=""
                     >
                       Return to authenticator list
-                    </button>
+                    </a>
                   </div>
                   <div
                     class="MuiBox-root emotion-18"
                   >
-                    <button
-                      class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-58"
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-58"
                       data-se="cancel"
-                      role="link"
-                      type="button"
+                      href=""
                     >
                       Back to sign in
-                    </button>
+                    </a>
                   </div>
                 </div>
               </form>
@@ -1312,26 +1308,24 @@ exports[`authenticator-enroll-security-question-error predefined question should
                   <div
                     class="MuiBox-root emotion-11"
                   >
-                    <button
-                      class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-56"
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-56"
                       data-se="switchAuthenticator"
-                      role="link"
-                      type="button"
+                      href=""
                     >
                       Return to authenticator list
-                    </button>
+                    </a>
                   </div>
                   <div
                     class="MuiBox-root emotion-11"
                   >
-                    <button
-                      class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-56"
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-56"
                       data-se="cancel"
-                      role="link"
-                      type="button"
+                      href=""
                     >
                       Back to sign in
-                    </button>
+                    </a>
                   </div>
                 </div>
               </form>
@@ -1800,26 +1794,24 @@ exports[`authenticator-enroll-security-question-error predefined question should
                   <div
                     class="MuiBox-root emotion-18"
                   >
-                    <button
-                      class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-58"
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-58"
                       data-se="switchAuthenticator"
-                      role="link"
-                      type="button"
+                      href=""
                     >
                       Return to authenticator list
-                    </button>
+                    </a>
                   </div>
                   <div
                     class="MuiBox-root emotion-18"
                   >
-                    <button
-                      class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-58"
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-58"
                       data-se="cancel"
-                      role="link"
-                      type="button"
+                      href=""
                     >
                       Back to sign in
-                    </button>
+                    </a>
                   </div>
                 </div>
               </form>
