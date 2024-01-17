@@ -210,7 +210,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                               class="MuiTypography-root MuiTypography-h3 emotion-32"
                               data-se="authenticator-button-label"
                               id="google_otp_0-label"
-                              translate="yes"
+                              translate="no"
                             >
                               Google Authenticator
                             </h3>
@@ -310,7 +310,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                               class="MuiTypography-root MuiTypography-h3 emotion-32"
                               data-se="authenticator-button-label"
                               id="okta_verify_1-label"
-                              translate="yes"
+                              translate="no"
                             >
                               Okta Verify
                             </h3>
@@ -424,7 +424,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                               class="MuiTypography-root MuiTypography-h3 emotion-32"
                               data-se="authenticator-button-label"
                               id="phone_number_2-label"
-                              translate="yes"
+                              translate="no"
                             >
                               Phone
                             </h3>
@@ -548,7 +548,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                               class="MuiTypography-root MuiTypography-h3 emotion-32"
                               data-se="authenticator-button-label"
                               id="webauthn_3-label"
-                              translate="yes"
+                              translate="no"
                             >
                               Security Key or Biometric Authenticator
                             </h3>
@@ -602,14 +602,13 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                   <div
                     class="MuiBox-root emotion-10"
                   >
-                    <button
-                      class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-72"
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-72"
                       data-se="cancel"
-                      role="link"
-                      type="button"
+                      href=""
                     >
                       Back to sign in
-                    </button>
+                    </a>
                   </div>
                 </div>
               </form>
@@ -840,26 +839,24 @@ exports[`authenticator-enroll-phone-sms should render form 1`] = `
                   <div
                     class="MuiBox-root emotion-11"
                   >
-                    <button
-                      class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-35"
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-35"
                       data-se="switchAuthenticator"
-                      role="link"
-                      type="button"
+                      href=""
                     >
                       Return to authenticator list
-                    </button>
+                    </a>
                   </div>
                   <div
                     class="MuiBox-root emotion-11"
                   >
-                    <button
-                      class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-35"
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-35"
                       data-se="cancel"
-                      role="link"
-                      type="button"
+                      href=""
                     >
                       Back to sign in
-                    </button>
+                    </a>
                   </div>
                 </div>
               </form>

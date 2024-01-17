@@ -446,6 +446,26 @@ exports[`granular-consent-without-logo should render form 1`] = `
                       target="_blank"
                     >
                       Terms of Service
+                      <span
+                        class="Link-indicator"
+                        role="presentation"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-76"
+                          fill="none"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            clip-rule="evenodd"
+                            d="M8.293 14.293 18.586 4H10V2h10.223c.12 0 .262 0 .387.01.145.012.353.042.571.153a1.5 1.5 0 0 1 .655.656c.112.218.142.426.154.571.01.125.01.268.01.387V14h-2V5.414L9.707 15.707l-1.414-1.414Zm7.745 5.74v-7.847l2-2.042v11.89H2.024V5.966h11.828l-2.041 2H4.024v12.068h12.014Z"
+                            fill="currentColor"
+                            fill-rule="evenodd"
+                          />
+                        </svg>
+                      </span>
                     </a>
                   </div>
                   <div
@@ -459,13 +479,33 @@ exports[`granular-consent-without-logo should render form 1`] = `
                       target="_blank"
                     >
                       Privacy Policy
+                      <span
+                        class="Link-indicator"
+                        role="presentation"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-76"
+                          fill="none"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            clip-rule="evenodd"
+                            d="M8.293 14.293 18.586 4H10V2h10.223c.12 0 .262 0 .387.01.145.012.353.042.571.153a1.5 1.5 0 0 1 .655.656c.112.218.142.426.154.571.01.125.01.268.01.387V14h-2V5.414L9.707 15.707l-1.414-1.414Zm7.745 5.74v-7.847l2-2.042v11.89H2.024V5.966h11.828l-2.041 2H4.024v12.068h12.014Z"
+                            fill="currentColor"
+                            fill-rule="evenodd"
+                          />
+                        </svg>
+                      </span>
                     </a>
                   </div>
                   <div
                     class="MuiBox-root emotion-14"
                   >
                     <button
-                      class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-79"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-81"
                       data-type="save"
                       tabindex="0"
                       type="button"
@@ -477,7 +517,7 @@ exports[`granular-consent-without-logo should render form 1`] = `
                     class="MuiBox-root emotion-14"
                   >
                     <button
-                      class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-79"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-81"
                       data-type="cancel"
                       tabindex="0"
                       type="button"
