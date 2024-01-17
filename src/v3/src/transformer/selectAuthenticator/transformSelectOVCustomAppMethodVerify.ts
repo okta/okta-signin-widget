@@ -133,7 +133,6 @@ export const transformSelectOVCustomAppMethodVerify: IdxStepTransformer = ({
     const descriptionElement: DescriptionElement = {
       type: 'Description',
       contentType: 'subtitle',
-      noMargin: true,
       options: {
         content: loc('oie.select.authenticators.verify.subtitle', 'login'),
       },

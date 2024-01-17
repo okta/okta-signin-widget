@@ -38,10 +38,10 @@ exports[`authenticator-verification-custom-otp should render form 1`] = `
                 <svg
                   aria-labelledby="mfa-hotp"
                   fill="none"
-                  height="48"
+                  height="2.85714286rem"
                   role="img"
                   viewBox="0 0 48 48"
-                  width="48"
+                  width="2.85714286rem"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <title
@@ -49,13 +49,6 @@ exports[`authenticator-verification-custom-otp should render form 1`] = `
                   >
                     Enter a single-use code from an authenticator.
                   </title>
-                  <path
-                    class="siwFillBg"
-                    clip-rule="evenodd"
-                    d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
-                    fill="#F5F5F6"
-                    fill-rule="evenodd"
-                  />
                   <path
                     class="siwFillSecondary"
                     d="M28 23h-6v-6h1v5h5v1Z"

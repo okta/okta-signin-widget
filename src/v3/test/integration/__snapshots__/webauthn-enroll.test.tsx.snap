@@ -38,10 +38,10 @@ exports[`webauthn-enroll should render form 1`] = `
                 <svg
                   aria-labelledby="mfa-webauthn"
                   fill="none"
-                  height="48"
+                  height="2.85714286rem"
                   role="img"
                   viewBox="0 0 48 48"
-                  width="48"
+                  width="2.85714286rem"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <title
@@ -49,13 +49,6 @@ exports[`webauthn-enroll should render form 1`] = `
                   >
                     Security Key or Biometric Authenticator
                   </title>
-                  <path
-                    class="siwFillBg"
-                    clip-rule="evenodd"
-                    d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
-                    fill="#F5F5F6"
-                    fill-rule="evenodd"
-                  />
                   <path
                     class="siwFillPrimaryDark"
                     d="M24 17V9h-9v8h-3v15.5a2.5 2.5 0 0 0 2.5 2.5h6.34a8.58 8.58 0 0 1-.38-1H14.5a1.5 1.5 0 0 1-1.5-1.5V18h13v3.84a8.58 8.58 0 0 1 1-.38V17h-3Zm-8 0v-7h7v7h-7Z"
@@ -334,10 +327,10 @@ exports[`webauthn-enroll should render form when Credentials API is not availabl
                 <svg
                   aria-labelledby="mfa-webauthn"
                   fill="none"
-                  height="48"
+                  height="2.85714286rem"
                   role="img"
                   viewBox="0 0 48 48"
-                  width="48"
+                  width="2.85714286rem"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <title
@@ -345,13 +338,6 @@ exports[`webauthn-enroll should render form when Credentials API is not availabl
                   >
                     Security Key or Biometric Authenticator
                   </title>
-                  <path
-                    class="siwFillBg"
-                    clip-rule="evenodd"
-                    d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
-                    fill="#F5F5F6"
-                    fill-rule="evenodd"
-                  />
                   <path
                     class="siwFillPrimaryDark"
                     d="M24 17V9h-9v8h-3v15.5a2.5 2.5 0 0 0 2.5 2.5h6.34a8.58 8.58 0 0 1-.38-1H14.5a1.5 1.5 0 0 1-1.5-1.5V18h13v3.84a8.58 8.58 0 0 1 1-.38V17h-3Zm-8 0v-7h7v7h-7Z"
@@ -648,10 +634,10 @@ exports[`webauthn-enroll should render form with user verification and edge brow
                 <svg
                   aria-labelledby="mfa-webauthn"
                   fill="none"
-                  height="48"
+                  height="2.85714286rem"
                   role="img"
                   viewBox="0 0 48 48"
-                  width="48"
+                  width="2.85714286rem"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <title
@@ -659,13 +645,6 @@ exports[`webauthn-enroll should render form with user verification and edge brow
                   >
                     Security Key or Biometric Authenticator
                   </title>
-                  <path
-                    class="siwFillBg"
-                    clip-rule="evenodd"
-                    d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
-                    fill="#F5F5F6"
-                    fill-rule="evenodd"
-                  />
                   <path
                     class="siwFillPrimaryDark"
                     d="M24 17V9h-9v8h-3v15.5a2.5 2.5 0 0 0 2.5 2.5h6.34a8.58 8.58 0 0 1-.38-1H14.5a1.5 1.5 0 0 1-1.5-1.5V18h13v3.84a8.58 8.58 0 0 1 1-.38V17h-3Zm-8 0v-7h7v7h-7Z"

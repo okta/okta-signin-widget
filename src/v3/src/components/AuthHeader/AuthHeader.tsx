@@ -56,6 +56,8 @@ const AuthHeader: FunctionComponent<AuthHeaderProps> = ({
         sx={{
           margin: 'auto',
           insetBlockStart: '24px',
+          borderRadius: '24px',
+          backgroundColor: tokens.HueNeutral50,
         }}
       />
     );

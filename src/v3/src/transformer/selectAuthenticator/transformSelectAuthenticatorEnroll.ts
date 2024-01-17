@@ -40,7 +40,12 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
 }) => {
   const { uischema } = formBag;
   const { brandName } = widgetProps;
-  const { nextStep: { inputs, name: stepName } = {} as NextStep, availableSteps } = transaction;
+  const {
+    nextStep: { inputs, name: stepName } = {} as NextStep,
+    availableSteps,
+    // @ts-ignore OKTA-499928 authenticatorEnrollments missing from rawIdxState
+    rawIdxState: { authenticatorEnrollments },
+  } = transaction;
 
   const authenticator = inputs?.find(({ name }) => name === 'authenticator');
   if (!authenticator?.options?.length) {
@@ -49,6 +54,7 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
   const authenticatorButtons = getAuthenticatorEnrollButtonElements(
     authenticator.options,
     stepName,
+    authenticatorEnrollments?.value,
   );
   const skipStep = availableSteps?.find(({ name }) => name === 'skip');
 

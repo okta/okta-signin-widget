@@ -107,13 +107,13 @@ describe('Authenticator Button transformer tests', () => {
     expect(((updatedFormBag.uischema.elements[1] as AuthenticatorButtonListElement)
       .options.buttons[0] as AuthenticatorButtonElement).translations)
       .toEqual([{
-        name: 'label', i18nKey: 'oie.okta_verify.push.title', value: 'oie.okta_verify.push.title',
+        name: 'description', i18nKey: 'oie.okta_verify.push.title', value: 'oie.okta_verify.push.title',
       } as TranslationInfo]);
   });
 
   it('should add translations for Custom Authenticator button', () => {
     transaction.nextStep = {
-      name: IDX_STEP.SELECT_AUTHENTICATOR_ENROLL,
+      name: IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE,
       relatesTo: { type: '', value: { key: AUTHENTICATOR_KEY.CUSTOM_APP } as IdxAuthenticator },
     };
     formBag.uischema.elements = [
@@ -146,7 +146,7 @@ describe('Authenticator Button transformer tests', () => {
     expect(((updatedFormBag.uischema.elements[1] as AuthenticatorButtonListElement)
       .options.buttons[0] as AuthenticatorButtonElement).translations)
       .toEqual([{
-        name: 'label', i18nKey: '', value: 'My custom authenticator app',
+        name: 'description', i18nKey: 'oie.custom.app.authenticator.title', value: 'oie.custom.app.authenticator.title',
       } as TranslationInfo]);
   });
 });

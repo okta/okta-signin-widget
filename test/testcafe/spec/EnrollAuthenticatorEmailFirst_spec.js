@@ -58,7 +58,7 @@ test
     await t.expect(selectFactorPageObject.getFactorLabelByIndex(0)).eql('Email');
     await t.expect(selectFactorPageObject.getFactorIconClassByIndex(0)).contains('okta-email');
     await t.expect(selectFactorPageObject.getFactorSelectButtonByIndex(0)).eql('Set up');
-    await t.expect(selectFactorPageObject.getFactorSelectButtonDataSeByIndex(0)).eql('okta_email');
+    await t.expect(selectFactorPageObject.getFactorSelectButtonDataSeByIndex(0, true)).eql('okta_email');
     await t.expect(selectFactorPageObject.getFactorDescriptionByIndex(0)).eql('Verify with a link or code sent to your email');
     await t.expect(await selectFactorPageObject.factorUsageTextExistsByIndex(0)).eql(true);
   });
@@ -91,7 +91,7 @@ test
     await t.expect(selectFactorPageObject.getFactorLabelByIndex(0)).eql('Email');
     await t.expect(selectFactorPageObject.getFactorIconClassByIndex(0)).contains('okta-email');
     await t.expect(selectFactorPageObject.getFactorSelectButtonByIndex(0)).eql('Set up');
-    await t.expect(selectFactorPageObject.getFactorSelectButtonDataSeByIndex(0)).eql('okta_email');
+    await t.expect(selectFactorPageObject.getFactorSelectButtonDataSeByIndex(0, true)).eql('okta_email');
     await t.expect(selectFactorPageObject.getFactorDescriptionByIndex(0)).eql('Verify with a link or code sent to your email');
     await t.expect(await selectFactorPageObject.factorUsageTextExistsByIndex(0)).eql(true);
   });
