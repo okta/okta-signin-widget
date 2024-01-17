@@ -123,16 +123,6 @@ export const createThemeAndTokens = (
   // Merge default Odyssey 1.x theme with component overrides
   const themeOverride = mergeThemes(baseOdysseyTheme, {
     components: {
-      MuiButton: {
-        styleOverrides: {
-          root: {
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            whiteSpace: 'normal',
-          },
-        },
-      },
       MuiAlert: {
         styleOverrides: {
           root: {
@@ -142,6 +132,23 @@ export const createThemeAndTokens = (
             paddingInlineEnd: mergedTokens.Spacing5,
             flexShrink: 0,
           },
+        },
+      },
+      MuiButton: {
+        styleOverrides: {
+          root: ({ ownerState }) => ({
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            whiteSpace: 'normal',
+            // Odyssey CircularProgress does not allow color change but SIW needs a white spinner
+            // when rendering it as the startIcon for primary buttons
+            ...(ownerState.variant === "primary" && {
+              '& .MuiCircularProgress-root': {
+                color: 'white'
+              },
+            }),
+          }),
         },
       },
       MuiInputBase: {
