@@ -135,7 +135,7 @@ const baseConfig: Partial<Configuration> = {
                   './node_modules',
                   '../../node_modules',
                 ],
-              },
+              }
             }
           },
           {
