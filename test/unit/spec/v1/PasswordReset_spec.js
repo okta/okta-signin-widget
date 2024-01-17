@@ -267,7 +267,7 @@ Expect.describe('PasswordReset', function() {
 
   itp('has a valid subtitle if only password age "historyCount" defined', function() {
     return setup({ policyAge: 'historyCount' }).then(function(test) {
-      expect(test.form.subtitleText()).toEqual('Your password cannot be any of your last 7 passwords.');
+      expect(test.form.subtitleText()).toEqual('Your password cannot be any of your last 7 password(s).');
     });
   });
 
@@ -300,7 +300,7 @@ Expect.describe('PasswordReset', function() {
     function() {
       return setup({ policyComplexity: 'excludeUsername', policyAge: 'historyCount' }).then(function(test) {
         expect(test.form.subtitleText()).toEqual(
-          'Password requirements: no parts of your username.' + ' Your password cannot be any of your last 7 passwords.'
+          'Password requirements: no parts of your username.' + ' Your password cannot be any of your last 7 password(s).'
         );
       });
     }
@@ -319,7 +319,7 @@ Expect.describe('PasswordReset', function() {
   itp('has a valid subtitle in minutes if password age is defined with all options', function() {
     return setup({ policyAge: 'all' }).then(function(test) {
       expect(test.form.subtitleText()).toEqual(
-        'Your password cannot be any of your last 7 passwords.' +
+        'Your password cannot be any of your last 7 password(s).' +
           ' At least 30 minute(s) must have elapsed since you last changed your password.'
       );
     });
@@ -333,7 +333,7 @@ Expect.describe('PasswordReset', function() {
           'Password requirements: at least 8 characters, a lowercase letter,' +
             ' an uppercase letter, a number, a symbol, no parts of your username,' +
             ' does not include your first name, does not include your last name.' +
-            ' Your password cannot be any of your last 7 passwords.'
+            ' Your password cannot be any of your last 7 password(s).'
         );
       });
     }
@@ -345,7 +345,7 @@ Expect.describe('PasswordReset', function() {
         'Password requirements: at least 8 characters, a lowercase letter,' +
           ' an uppercase letter, a number, a symbol, no parts of your username,' +
           ' does not include your first name, does not include your last name.' +
-          ' Your password cannot be any of your last 7 passwords.' +
+          ' Your password cannot be any of your last 7 password(s).' +
           ' At least 30 minute(s) must have elapsed since you last changed your password.'
       );
     });
