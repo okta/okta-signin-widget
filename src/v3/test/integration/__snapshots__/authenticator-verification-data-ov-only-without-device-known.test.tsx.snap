@@ -199,7 +199,7 @@ exports[`authenticator-verification-data-ov-only-without-device-known should ren
                               class="MuiTypography-root MuiTypography-h3 emotion-30"
                               data-se="authenticator-button-label"
                               id="okta_verify_0-label"
-                              translate="yes"
+                              translate="no"
                             >
                               Okta Verify
                             </h3>
@@ -292,7 +292,7 @@ exports[`authenticator-verification-data-ov-only-without-device-known should ren
                               class="MuiTypography-root MuiTypography-h3 emotion-30"
                               data-se="authenticator-button-label"
                               id="okta_verify_1-label"
-                              translate="yes"
+                              translate="no"
                             >
                               Okta Verify
                             </h3>
@@ -385,7 +385,7 @@ exports[`authenticator-verification-data-ov-only-without-device-known should ren
                               class="MuiTypography-root MuiTypography-h3 emotion-30"
                               data-se="authenticator-button-label"
                               id="okta_verify_2-label"
-                              translate="yes"
+                              translate="no"
                             >
                               Okta Verify
                             </h3>

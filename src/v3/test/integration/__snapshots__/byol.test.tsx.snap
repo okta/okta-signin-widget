@@ -4672,10 +4672,6 @@ exports[`byol loading default language should not load custom language with "lan
               <h1
                 class="MuiTypography-root MuiTypography-h1 emotion-6"
               />
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 68b45670e (Update snapshot)
               <div
                 aria-hidden="true"
                 class="mfa-okta-phone MuiBox-root emotion-7"
@@ -4684,17 +4680,10 @@ exports[`byol loading default language should not load custom language with "lan
                 <svg
                   aria-labelledby="mfa-okta-phone"
                   fill="none"
-<<<<<<< HEAD
                   height="2.85714286rem"
                   role="img"
                   viewBox="0 0 48 48"
                   width="2.85714286rem"
-=======
-                  height="48"
-                  role="img"
-                  viewBox="0 0 48 48"
-                  width="48"
->>>>>>> 68b45670e (Update snapshot)
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <title
@@ -4702,16 +4691,6 @@ exports[`byol loading default language should not load custom language with "lan
                   >
                     Voice Call Authentication
                   </title>
-<<<<<<< HEAD
-=======
-                  <circle
-                    class="siwFillBg"
-                    cx="24"
-                    cy="24"
-                    fill="#F5F5F6"
-                    r="24"
-                  />
->>>>>>> 68b45670e (Update snapshot)
                   <path
                     class="siwFillPrimaryDark"
                     d="M21.5 37h-9a2.6 2.6 0 0 1-2.5-2.682V14.682A2.6 2.6 0 0 1 12.5 12h9a2.6 2.6 0 0 1 2.5 2.682v19.636A2.6 2.6 0 0 1 21.5 37Zm-9-24a1.6 1.6 0 0 0-1.5 1.682v19.636A1.6 1.6 0 0 0 12.5 36h9a1.6 1.6 0 0 0 1.5-1.682V14.682A1.6 1.6 0 0 0 21.5 13h-9Z"
@@ -4734,11 +4713,6 @@ exports[`byol loading default language should not load custom language with "lan
                   />
                 </svg>
               </div>
-<<<<<<< HEAD
-=======
->>>>>>> 45ea04652 (Update vrt and snapshot)
-=======
->>>>>>> 68b45670e (Update snapshot)
             </div>
             <div
               class="MuiBox-root emotion-8"
@@ -4754,10 +4728,6 @@ exports[`byol loading default language should not load custom language with "lan
                   <div
                     class="MuiBox-root emotion-11"
                   >
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 68b45670e (Update snapshot)
                     <div
                       class="MuiBox-root emotion-12"
                       data-se="identifier-container"
@@ -4766,11 +4736,7 @@ exports[`byol loading default language should not load custom language with "lan
                       <div
                         class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-13"
                         data-se="identifier"
-<<<<<<< HEAD
                         translate="no"
-=======
-                        translate="yes"
->>>>>>> 68b45670e (Update snapshot)
                       >
                         <div
                           class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-14"
@@ -6196,16 +6162,6 @@ exports[`byol loading default language should not load custom language with "lan
                   <div
                     class="MuiBox-root emotion-11"
                   >
-<<<<<<< HEAD
-                    <button
-                      class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-52"
-                      data-se="switchAuthenticator"
-                      role="link"
-                      type="button"
-                    >
-                      Return to authenticator list
-                    </button>
-=======
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-52"
                       data-se="switchAuthenticator"
@@ -6213,37 +6169,10 @@ exports[`byol loading default language should not load custom language with "lan
                     >
                       Return to authenticator list
                     </a>
->>>>>>> 68b45670e (Update snapshot)
                   </div>
                   <div
                     class="MuiBox-root emotion-11"
                   >
-<<<<<<< HEAD
-                    <button
-                      class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-52"
-                      data-se="cancel"
-                      role="link"
-                      type="button"
-                    >
-                      Back to sign in
-                    </button>
-                  </div>
-                </div>
-              </form>
-=======
-                    <circle
-                      class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate emotion-11"
-                      cx="44"
-                      cy="44"
-                      fill="none"
-                      r="17"
-                      stroke-width="10"
-                    />
-                  </svg>
-                </span>
-              </div>
->>>>>>> 45ea04652 (Update vrt and snapshot)
-=======
                     <a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-52"
                       data-se="cancel"
@@ -6254,7 +6183,6 @@ exports[`byol loading default language should not load custom language with "lan
                   </div>
                 </div>
               </form>
->>>>>>> 68b45670e (Update snapshot)
             </div>
           </div>
         </div>

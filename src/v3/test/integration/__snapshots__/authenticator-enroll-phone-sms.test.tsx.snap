@@ -210,7 +210,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                               class="MuiTypography-root MuiTypography-h3 emotion-32"
                               data-se="authenticator-button-label"
                               id="google_otp_0-label"
-                              translate="yes"
+                              translate="no"
                             >
                               Google Authenticator
                             </h3>
@@ -310,7 +310,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                               class="MuiTypography-root MuiTypography-h3 emotion-32"
                               data-se="authenticator-button-label"
                               id="okta_verify_1-label"
-                              translate="yes"
+                              translate="no"
                             >
                               Okta Verify
                             </h3>
@@ -424,7 +424,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                               class="MuiTypography-root MuiTypography-h3 emotion-32"
                               data-se="authenticator-button-label"
                               id="phone_number_2-label"
-                              translate="yes"
+                              translate="no"
                             >
                               Phone
                             </h3>
@@ -548,7 +548,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                               class="MuiTypography-root MuiTypography-h3 emotion-32"
                               data-se="authenticator-button-label"
                               id="webauthn_3-label"
-                              translate="yes"
+                              translate="no"
                             >
                               Security Key or Biometric Authenticator
                             </h3>
@@ -603,7 +603,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                     class="MuiBox-root emotion-10"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-68"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-72"
                       data-se="cancel"
                       href=""
                     >
