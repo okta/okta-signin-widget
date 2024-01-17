@@ -4686,10 +4686,10 @@ exports[`byol loading default language should not load custom language with "lan
                 <svg
                   aria-labelledby="mfa-okta-phone"
                   fill="none"
-                  height="48"
+                  height="2.85714286rem"
                   role="img"
                   viewBox="0 0 48 48"
-                  width="48"
+                  width="2.85714286rem"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <title
