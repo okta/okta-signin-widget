@@ -103,6 +103,10 @@ const AuthenticatorButton: UISchemaElementComponent<{
       component="button"
       type={type}
       sx={{
+        borderStyle: tokens.BorderStyleMain,
+        borderWidth: tokens.BorderWidthMain,
+        borderColor: tokens.BorderColorDisplay,
+        borderRadius: tokens.BorderRadiusMain,
         '&:hover': {
           color: tokens.PalettePrimaryDark,
           cursor: 'pointer',
@@ -116,6 +120,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
           borderColor: tokens.BorderColorDisplay,
         },
         width: 1,
+        display: 'flex',
         // Assuming we want to allow users to customize this color, we should try to map this to
         // a more semantic token. We also don't want users to override white just for this
         backgroundColor: tokens.HueNeutralWhite,
@@ -123,10 +128,6 @@ const AuthenticatorButton: UISchemaElementComponent<{
         paddingInline: tokens.Spacing3,
         alignItems: !isEnroll ? 'center' : '',
       }}
-      display="flex"
-      border={1}
-      borderColor={tokens.BorderColorDisplay}
-      borderRadius={tokens.BorderRadiusMain}
       data-se="authenticator-button"
       tabIndex={0}
       onClick={onClick}
@@ -155,7 +156,8 @@ const AuthenticatorButton: UISchemaElementComponent<{
           flexDirection: 'column',
           flexGrow: 1,
           paddingBlock: tokens.Spacing0,
-          paddingInline: '12px 0',
+          paddingInlineStart: tokens.Spacing3,
+          paddingInlineEnd: tokens.Spacing0,
           // needed to solve ie11 'flexbug' where nested flex element overflows container
           minInlineSize: '0%',
         }}
@@ -184,7 +186,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
               fontWeight: tokens.TypographyWeightBody,
               color: tokens.TypographyColorSubordinate,
               margin: tokens.Spacing0,
-              marginBlockStart: '6px',
+              marginBlockStart: tokens.Spacing1,
               textAlign: 'start',
             }}
             data-se="authenticator-button-description"
@@ -202,7 +204,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
               fontWeight: tokens.TypographyWeightBody,
               color: tokens.TypographyColorSubordinate,
               margin: tokens.Spacing0,
-              marginBlockStart: '6px',
+              marginBlockStart: tokens.Spacing1,
               textAlign: 'start',
               overflow: 'hidden',
               whiteSpace: 'nowrap',
@@ -225,7 +227,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
               fontWeight: tokens.TypographyWeightBody,
               color: tokens.TypographyColorSubordinate,
               margin: tokens.Spacing0,
-              marginBlockStart: '6px',
+              marginBlockStart: tokens.Spacing1,
             }}
             data-se="authenticator-button-usage-text"
           >
@@ -238,13 +240,13 @@ const AuthenticatorButton: UISchemaElementComponent<{
             sx={{
               display: 'flex',
               alignItems: 'center',
-              marginBlockStart: '14px',
+              marginBlockStart: tokens.Spacing3,
               marginInline: tokens.Spacing0,
               color: tokens.TypographyColorAction,
               '& svg': {
                 marginBlock: tokens.Spacing0,
-                marginInlineStart: isAdditionalEnroll ? tokens.Spacing0 : '5px',
-                marginInlineEnd: isAdditionalEnroll ? '5px' : tokens.Spacing0,
+                marginInlineStart: isAdditionalEnroll ? tokens.Spacing0 : tokens.Spacing1,
+                marginInlineEnd: isAdditionalEnroll ? tokens.Spacing1 : tokens.Spacing0,
               },
             }}
           >

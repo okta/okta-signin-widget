@@ -15,12 +15,12 @@ import { FunctionComponent, h } from 'preact';
 import { IconProps } from '../../types';
 
 export const SecurityKeyOrBiometricsIcon: FunctionComponent<IconProps> = (
-  { name, description },
+  { name, description, width, height },
 ) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="48"
-    height="48"
+    width={width || 48}
+    height={height || 48}
     fill="none"
     aria-labelledby={name}
     role="img"
