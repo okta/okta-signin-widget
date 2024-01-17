@@ -272,7 +272,7 @@ exports[`authenticator-verification-data-ov-only-with-device-known should render
                               class="MuiTypography-root MuiTypography-h3 emotion-30"
                               data-se="authenticator-button-label"
                               id="okta_verify_2-label"
-                              translate="yes"
+                              translate="no"
                             >
                               Okta Verify
                             </h3>
@@ -401,7 +401,7 @@ exports[`authenticator-verification-data-ov-only-with-device-known should render
                               class="MuiTypography-root MuiTypography-h3 emotion-30"
                               data-se="authenticator-button-label"
                               id="okta_verify_0-label"
-                              translate="yes"
+                              translate="no"
                             >
                               Okta Verify
                             </h3>
@@ -530,7 +530,7 @@ exports[`authenticator-verification-data-ov-only-with-device-known should render
                               class="MuiTypography-root MuiTypography-h3 emotion-30"
                               data-se="authenticator-button-label"
                               id="okta_verify_1-label"
-                              translate="yes"
+                              translate="no"
                             >
                               Okta Verify
                             </h3>
@@ -593,14 +593,13 @@ exports[`authenticator-verification-data-ov-only-with-device-known should render
                   <div
                     class="MuiBox-root emotion-11"
                   >
-                    <button
-                      class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-56"
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-56"
                       data-se="cancel"
-                      role="link"
-                      type="button"
+                      href=""
                     >
                       Back to sign in
-                    </button>
+                    </a>
                   </div>
                 </div>
               </form>

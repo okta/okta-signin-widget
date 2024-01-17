@@ -225,14 +225,13 @@ exports[`Email authenticator verification when email magic link = undefined rend
                   <div
                     class="MuiBox-root emotion-11"
                   >
-                    <button
-                      class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-28"
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
                       data-se="cancel"
-                      role="link"
-                      type="button"
+                      href=""
                     >
                       Back to sign in
-                    </button>
+                    </a>
                   </div>
                 </div>
               </form>
@@ -524,14 +523,13 @@ exports[`Email authenticator verification when email magic link = undefined rend
                   <div
                     class="MuiBox-root emotion-11"
                   >
-                    <button
-                      class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-37"
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-37"
                       data-se="cancel"
-                      role="link"
-                      type="button"
+                      href=""
                     >
                       Back to sign in
-                    </button>
+                    </a>
                   </div>
                 </div>
               </form>
@@ -800,14 +798,13 @@ exports[`Email authenticator verification when email magic link = undefined rend
                   <div
                     class="MuiBox-root emotion-11"
                   >
-                    <button
-                      class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-33"
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-33"
                       data-se="cancel"
-                      role="link"
-                      type="button"
+                      href=""
                     >
                       Back to sign in
-                    </button>
+                    </a>
                   </div>
                 </div>
               </form>
@@ -1132,26 +1129,24 @@ exports[`Email authenticator verification when email magic link = undefined rend
                   <div
                     class="MuiBox-root emotion-18"
                   >
-                    <button
-                      class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-42"
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-42"
                       data-se="switchAuthenticator"
-                      role="link"
-                      type="button"
+                      href=""
                     >
                       Verify with something else
-                    </button>
+                    </a>
                   </div>
                   <div
                     class="MuiBox-root emotion-18"
                   >
-                    <button
-                      class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-42"
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-42"
                       data-se="cancel"
-                      role="link"
-                      type="button"
+                      href=""
                     >
                       Back to sign in
-                    </button>
+                    </a>
                   </div>
                 </div>
               </form>
@@ -1530,26 +1525,24 @@ exports[`Email authenticator verification when email magic link = undefined rend
                   <div
                     class="MuiBox-root emotion-18"
                   >
-                    <button
-                      class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-51"
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-51"
                       data-se="switchAuthenticator"
-                      role="link"
-                      type="button"
+                      href=""
                     >
                       Verify with something else
-                    </button>
+                    </a>
                   </div>
                   <div
                     class="MuiBox-root emotion-18"
                   >
-                    <button
-                      class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-51"
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-51"
                       data-se="cancel"
-                      role="link"
-                      type="button"
+                      href=""
                     >
                       Back to sign in
-                    </button>
+                    </a>
                   </div>
                 </div>
               </form>
@@ -1654,14 +1647,13 @@ exports[`Email authenticator verification when email magic link = undefined rend
                   <div
                     class="MuiBox-root emotion-10"
                   >
-                    <button
-                      class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-19"
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-19"
                       data-se="cancel"
-                      role="link"
-                      type="button"
+                      href=""
                     >
                       Back to sign in
-                    </button>
+                    </a>
                   </div>
                 </div>
               </form>
@@ -2043,14 +2035,13 @@ exports[`Email authenticator verification when email magic link = undefined shou
                   <div
                     class="MuiBox-root emotion-11"
                   >
-                    <button
-                      class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-33"
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-33"
                       data-se="cancel"
-                      role="link"
-                      type="button"
+                      href=""
                     >
                       Back to sign in
-                    </button>
+                    </a>
                   </div>
                 </div>
               </form>

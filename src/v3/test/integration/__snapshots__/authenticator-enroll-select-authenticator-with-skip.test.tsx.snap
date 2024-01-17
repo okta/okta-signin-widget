@@ -225,7 +225,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               class="MuiTypography-root MuiTypography-h3 emotion-32"
                               data-se="authenticator-button-label"
                               id="okta_password_0-label"
-                              translate="yes"
+                              translate="no"
                             >
                               Password
                             </h3>
@@ -392,7 +392,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               class="MuiTypography-root MuiTypography-h3 emotion-32"
                               data-se="authenticator-button-label"
                               id="phone_number_1-label"
-                              translate="yes"
+                              translate="no"
                             >
                               Phone
                             </h3>
@@ -569,7 +569,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               class="MuiTypography-root MuiTypography-h3 emotion-32"
                               data-se="authenticator-button-label"
                               id="webauthn_2-label"
-                              translate="yes"
+                              translate="no"
                             >
                               Security Key or Biometric Authenticator
                             </h3>
@@ -672,14 +672,13 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                   <div
                     class="MuiBox-root emotion-10"
                   >
-                    <button
-                      class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-63"
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-63"
                       data-se="cancel"
-                      role="link"
-                      type="button"
+                      href=""
                     >
                       Back to sign in
-                    </button>
+                    </a>
                   </div>
                 </div>
               </form>

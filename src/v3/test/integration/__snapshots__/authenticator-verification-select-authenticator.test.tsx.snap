@@ -211,7 +211,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                               class="MuiTypography-root MuiTypography-h3 emotion-29"
                               data-se="authenticator-button-label"
                               id="okta_password_0-label"
-                              translate="yes"
+                              translate="no"
                             >
                               Password
                             </h3>
@@ -345,7 +345,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                               class="MuiTypography-root MuiTypography-h3 emotion-29"
                               data-se="authenticator-button-label"
                               id="webauthn_1-label"
-                              translate="yes"
+                              translate="no"
                             >
                               Security Key or Biometric Authenticator
                             </h3>
@@ -459,7 +459,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                               class="MuiTypography-root MuiTypography-h3 emotion-29"
                               data-se="authenticator-button-label"
                               id="okta_email_2-label"
-                              translate="yes"
+                              translate="no"
                             >
                               Email
                             </h3>
@@ -583,7 +583,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                               class="MuiTypography-root MuiTypography-h3 emotion-29"
                               data-se="authenticator-button-label"
                               id="phone_number_3-label"
-                              translate="yes"
+                              translate="no"
                             >
                               Phone
                             </h3>
@@ -602,7 +602,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                               data-se="authenticator-button-description"
 >>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
                               id="phone_number_3-description"
-                              translate="yes"
+                              translate="no"
                             >
                               +1 XXX-XXX-5309
                             </p>
@@ -726,7 +726,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                               class="MuiTypography-root MuiTypography-h3 emotion-29"
                               data-se="authenticator-button-label"
                               id="phone_number_4-label"
-                              translate="yes"
+                              translate="no"
                             >
                               Phone
                             </h3>
@@ -745,7 +745,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                               data-se="authenticator-button-description"
 >>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
                               id="phone_number_4-description"
-                              translate="yes"
+                              translate="no"
                             >
                               +1 XXX-XXX-5310
                             </p>
@@ -859,7 +859,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                               class="MuiTypography-root MuiTypography-h3 emotion-29"
                               data-se="authenticator-button-label"
                               id="security_question_5-label"
-                              translate="yes"
+                              translate="no"
                             >
                               Security Question
                             </h3>
@@ -973,7 +973,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                               class="MuiTypography-root MuiTypography-h3 emotion-29"
                               data-se="authenticator-button-label"
                               id="okta_verify_6-label"
-                              translate="yes"
+                              translate="no"
                             >
                               Okta Verify
                             </h3>
@@ -1126,7 +1126,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                               class="MuiTypography-root MuiTypography-h3 emotion-29"
                               data-se="authenticator-button-label"
                               id="google_otp_7-label"
-                              translate="yes"
+                              translate="no"
                             >
                               Google Authenticator
                             </h3>
@@ -1244,7 +1244,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                               class="MuiTypography-root MuiTypography-h3 emotion-29"
                               data-se="authenticator-button-label"
                               id="onprem_mfa_8-label"
-                              translate="yes"
+                              translate="no"
                             >
                               Atko Custom On-prem
                             </h3>
@@ -1413,7 +1413,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                               class="MuiTypography-root MuiTypography-h3 emotion-29"
                               data-se="authenticator-button-label"
                               id="rsa_token_9-label"
-                              translate="yes"
+                              translate="no"
                             >
                               RSA SecurID
                             </h3>
@@ -1527,7 +1527,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                               class="MuiTypography-root MuiTypography-h3 emotion-29"
                               data-se="authenticator-button-label"
                               id="duo_10-label"
-                              translate="yes"
+                              translate="no"
                             >
                               Duo Security
                             </h3>
@@ -1650,7 +1650,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                               class="MuiTypography-root MuiTypography-h3 emotion-29"
                               data-se="authenticator-button-label"
                               id="external_idp_11-label"
-                              translate="yes"
+                              translate="no"
                             >
                               IDP Authenticator
                             </h3>
@@ -1773,7 +1773,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                               class="MuiTypography-root MuiTypography-h3 emotion-29"
                               data-se="authenticator-button-label"
                               id="custom_otp_12-label"
-                              translate="yes"
+                              translate="no"
                             >
                               Atko Custom OTP Authenticator
                             </h3>
@@ -1893,7 +1893,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                               class="MuiTypography-root MuiTypography-h3 emotion-29"
                               data-se="authenticator-button-label"
                               id="symantec_vip_13-label"
-                              translate="yes"
+                              translate="no"
                             >
                               Symantec VIP
                             </h3>
@@ -2013,7 +2013,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                               class="MuiTypography-root MuiTypography-h3 emotion-29"
                               data-se="authenticator-button-label"
                               id="yubikey_token_14-label"
-                              translate="yes"
+                              translate="no"
                             >
                               YubiKey Authenticator
                             </h3>
@@ -2111,7 +2111,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                               class="MuiTypography-root MuiTypography-h3 emotion-29"
                               data-se="authenticator-button-label"
                               id="custom_app_15-label"
-                              translate="yes"
+                              translate="no"
                             >
                               Custom Push App
                             </h3>
@@ -2174,14 +2174,13 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                   <div
                     class="MuiBox-root emotion-10"
                   >
-                    <button
-                      class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-174"
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-174"
                       data-se="cancel"
-                      role="link"
-                      type="button"
+                      href=""
                     >
                       Back to sign in
-                    </button>
+                    </a>
                   </div>
                 </div>
               </form>

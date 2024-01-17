@@ -303,32 +303,30 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                   <div
                     class="MuiBox-root emotion-10"
                   >
-                    <button
-                      class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-42"
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-42"
                       data-se="forgot-password"
-                      role="link"
-                      type="button"
+                      href=""
                     >
                       Forgot password?
-                    </button>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-10"
-                  >
-                    <button
-                      class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-42"
-                      data-se="unlock"
-                      role="link"
-                      type="button"
-                    >
-                      Unlock account?
-                    </button>
+                    </a>
                   </div>
                   <div
                     class="MuiBox-root emotion-10"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-46"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-42"
+                      data-se="unlock"
+                      href=""
+                    >
+                      Unlock account?
+                    </a>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-10"
+                  >
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-42"
                       data-se="help"
                       href="http://localhost:3000/help/login"
                     >
@@ -363,14 +361,13 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                     <div
                       class="MuiBox-root emotion-50"
                     >
-                      <button
-                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-42"
+                      <a
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-42"
                         data-se="enroll"
-                        role="link"
-                        type="button"
+                        href=""
                       >
                         Sign up
-                      </button>
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -687,32 +684,30 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                   <div
                     class="MuiBox-root emotion-10"
                   >
-                    <button
-                      class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-42"
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-42"
                       data-se="forgot-password"
-                      role="link"
-                      type="button"
+                      href=""
                     >
                       Forgot password?
-                    </button>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-10"
-                  >
-                    <button
-                      class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-42"
-                      data-se="unlock"
-                      role="link"
-                      type="button"
-                    >
-                      Unlock account?
-                    </button>
+                    </a>
                   </div>
                   <div
                     class="MuiBox-root emotion-10"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-46"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-42"
+                      data-se="unlock"
+                      href=""
+                    >
+                      Unlock account?
+                    </a>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-10"
+                  >
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-42"
                       data-se="help"
                       href="http://localhost:3000/help/login"
                     >
@@ -747,14 +742,13 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                     <div
                       class="MuiBox-root emotion-50"
                     >
-                      <button
-                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-42"
+                      <a
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-42"
                         data-se="enroll"
-                        role="link"
-                        type="button"
+                        href=""
                       >
                         Sign up
-                      </button>
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -1022,32 +1016,30 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                   <div
                     class="MuiBox-root emotion-10"
                   >
-                    <button
-                      class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-42"
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-42"
                       data-se="forgot-password"
-                      role="link"
-                      type="button"
+                      href=""
                     >
                       Forgot password?
-                    </button>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-10"
-                  >
-                    <button
-                      class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-42"
-                      data-se="unlock"
-                      role="link"
-                      type="button"
-                    >
-                      Unlock account?
-                    </button>
+                    </a>
                   </div>
                   <div
                     class="MuiBox-root emotion-10"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-46"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-42"
+                      data-se="unlock"
+                      href=""
+                    >
+                      Unlock account?
+                    </a>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-10"
+                  >
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-42"
                       data-se="help"
                       href="http://localhost:3000/help/login"
                     >
@@ -1082,14 +1074,13 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                     <div
                       class="MuiBox-root emotion-50"
                     >
-                      <button
-                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-42"
+                      <a
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-42"
                         data-se="enroll"
-                        role="link"
-                        type="button"
+                        href=""
                       >
                         Sign up
-                      </button>
+                      </a>
                     </div>
                   </div>
                 </div>

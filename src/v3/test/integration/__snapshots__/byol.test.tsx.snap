@@ -1581,26 +1581,24 @@ exports[`byol loading custom language should load custom language with "language
                   <div
                     class="MuiBox-root emotion-11"
                   >
-                    <button
-                      class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-52"
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-52"
                       data-se="switchAuthenticator"
-                      role="link"
-                      type="button"
+                      href=""
                     >
                       Return to authenticator list
-                    </button>
+                    </a>
                   </div>
                   <div
                     class="MuiBox-root emotion-11"
                   >
-                    <button
-                      class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-52"
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-52"
                       data-se="cancel"
-                      role="link"
-                      type="button"
+                      href=""
                     >
                       Back to sign in
-                    </button>
+                    </a>
                   </div>
                 </div>
               </form>
@@ -3194,26 +3192,24 @@ exports[`byol loading custom language should load custom language with assets.ba
                   <div
                     class="MuiBox-root emotion-11"
                   >
-                    <button
-                      class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-52"
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-52"
                       data-se="switchAuthenticator"
-                      role="link"
-                      type="button"
+                      href=""
                     >
                       Return to authenticator list
-                    </button>
+                    </a>
                   </div>
                   <div
                     class="MuiBox-root emotion-11"
                   >
-                    <button
-                      class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-52"
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-52"
                       data-se="cancel"
-                      role="link"
-                      type="button"
+                      href=""
                     >
                       Back to sign in
-                    </button>
+                    </a>
                   </div>
                 </div>
               </form>
@@ -4807,26 +4803,24 @@ exports[`byol loading default language should not load custom language when the 
                   <div
                     class="MuiBox-root emotion-11"
                   >
-                    <button
-                      class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-52"
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-52"
                       data-se="switchAuthenticator"
-                      role="link"
-                      type="button"
+                      href=""
                     >
                       Return to authenticator list
-                    </button>
+                    </a>
                   </div>
                   <div
                     class="MuiBox-root emotion-11"
                   >
-                    <button
-                      class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-52"
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-52"
                       data-se="cancel"
-                      role="link"
-                      type="button"
+                      href=""
                     >
                       Back to sign in
-                    </button>
+                    </a>
                   </div>
                 </div>
               </form>
@@ -6420,26 +6414,24 @@ exports[`byol loading default language should not load custom language with "lan
                   <div
                     class="MuiBox-root emotion-11"
                   >
-                    <button
-                      class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-52"
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-52"
                       data-se="switchAuthenticator"
-                      role="link"
-                      type="button"
+                      href=""
                     >
                       Return to authenticator list
-                    </button>
+                    </a>
                   </div>
                   <div
                     class="MuiBox-root emotion-11"
                   >
-                    <button
-                      class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-52"
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-52"
                       data-se="cancel"
-                      role="link"
-                      type="button"
+                      href=""
                     >
                       Back to sign in
-                    </button>
+                    </a>
                   </div>
                 </div>
               </form>
