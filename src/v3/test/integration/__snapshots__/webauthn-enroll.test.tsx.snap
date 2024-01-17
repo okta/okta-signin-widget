@@ -109,7 +109,7 @@ exports[`webauthn-enroll should render form 1`] = `
                       <div
                         class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-13"
                         data-se="identifier"
-                        translate="yes"
+                        translate="no"
                       >
                         <div
                           class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-14"
@@ -332,7 +332,7 @@ exports[`webauthn-enroll should render form when Credentials API is not availabl
                       <div
                         class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-13"
                         data-se="identifier"
-                        translate="yes"
+                        translate="no"
                       >
                         <div
                           class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-14"
@@ -416,7 +416,7 @@ exports[`webauthn-enroll should render form when Credentials API is not availabl
                         >
                           <span
                             class="MuiBox-root emotion-26"
-                            translate="yes"
+                            translate="no"
                           >
                             error
                           </span>
@@ -573,7 +573,7 @@ exports[`webauthn-enroll should render form with user verification and edge brow
                       <div
                         class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-13"
                         data-se="identifier"
-                        translate="yes"
+                        translate="no"
                       >
                         <div
                           class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-14"

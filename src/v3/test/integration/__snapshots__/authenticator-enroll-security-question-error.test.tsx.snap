@@ -106,7 +106,7 @@ exports[`authenticator-enroll-security-question-error custom question should sho
                     >
                       <span
                         class="MuiBox-root emotion-15"
-                        translate="yes"
+                        translate="no"
                       >
                         error
                       </span>
@@ -132,7 +132,7 @@ exports[`authenticator-enroll-security-question-error custom question should sho
                       <div
                         class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-20"
                         data-se="identifier"
-                        translate="yes"
+                        translate="no"
                       >
                         <div
                           class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-21"
@@ -486,7 +486,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                     >
                       <span
                         class="MuiBox-root emotion-15"
-                        translate="yes"
+                        translate="no"
                       >
                         error
                       </span>
@@ -512,7 +512,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                       <div
                         class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-20"
                         data-se="identifier"
-                        translate="yes"
+                        translate="no"
                       >
                         <div
                           class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-21"
@@ -964,7 +964,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                       <div
                         class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-13"
                         data-se="identifier"
-                        translate="yes"
+                        translate="no"
                       >
                         <div
                           class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-14"
@@ -1471,7 +1471,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                     >
                       <span
                         class="MuiBox-root emotion-15"
-                        translate="yes"
+                        translate="no"
                       >
                         error
                       </span>
@@ -1497,7 +1497,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                       <div
                         class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-20"
                         data-se="identifier"
-                        translate="yes"
+                        translate="no"
                       >
                         <div
                           class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-21"

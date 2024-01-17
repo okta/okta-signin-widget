@@ -85,7 +85,7 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                       <div
                         class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-13"
                         data-se="identifier"
-                        translate="yes"
+                        translate="no"
                       >
                         <div
                           class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-14"
@@ -151,7 +151,7 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                         >
                           <span
                             class="MuiBox-root emotion-23"
-                            translate="yes"
+                            translate="no"
                           >
                             warning
                           </span>
@@ -413,7 +413,7 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                       <div
                         class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-13"
                         data-se="identifier"
-                        translate="yes"
+                        translate="no"
                       >
                         <div
                           class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-14"

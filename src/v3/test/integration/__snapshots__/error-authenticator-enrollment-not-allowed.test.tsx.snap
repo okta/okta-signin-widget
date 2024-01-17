@@ -51,7 +51,7 @@ exports[`error-authenticator-enrollment-not-allowed should render form 1`] = `
                       <div
                         class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-12"
                         data-se="identifier"
-                        translate="yes"
+                        translate="no"
                       >
                         <div
                           class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-13"
@@ -119,7 +119,7 @@ exports[`error-authenticator-enrollment-not-allowed should render form 1`] = `
                         >
                           <span
                             class="MuiBox-root emotion-22"
-                            translate="yes"
+                            translate="no"
                           >
                             error
                           </span>
