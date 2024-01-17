@@ -135,7 +135,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       <div
                         class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-13"
                         data-se="identifier"
-                        translate="yes"
+                        translate="no"
                       >
                         <div
                           class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-14"
@@ -380,7 +380,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       <div
                         class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-13"
                         data-se="identifier"
-                        translate="yes"
+                        translate="no"
                       >
                         <div
                           class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-14"
@@ -449,7 +449,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                           >
                             <span
                               class="MuiBox-root emotion-24"
-                              translate="yes"
+                              translate="no"
                             >
                               warning
                             </span>
@@ -679,7 +679,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       <div
                         class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-13"
                         data-se="identifier"
-                        translate="yes"
+                        translate="no"
                       >
                         <div
                           class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-14"
@@ -972,7 +972,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                     >
                       <span
                         class="MuiBox-root emotion-15"
-                        translate="yes"
+                        translate="no"
                       >
                         error
                       </span>
@@ -998,7 +998,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       <div
                         class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-20"
                         data-se="identifier"
-                        translate="yes"
+                        translate="no"
                       >
                         <div
                           class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-21"
@@ -1316,7 +1316,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                     >
                       <span
                         class="MuiBox-root emotion-15"
-                        translate="yes"
+                        translate="no"
                       >
                         error
                       </span>
@@ -1342,7 +1342,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       <div
                         class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-20"
                         data-se="identifier"
-                        translate="yes"
+                        translate="no"
                       >
                         <div
                           class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-21"
@@ -1411,7 +1411,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                           >
                             <span
                               class="MuiBox-root emotion-15"
-                              translate="yes"
+                              translate="no"
                             >
                               warning
                             </span>
@@ -1638,7 +1638,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                         >
                           <span
                             class="MuiBox-root emotion-16"
-                            translate="yes"
+                            translate="no"
                           >
                             error
                           </span>
@@ -1922,7 +1922,7 @@ exports[`Email authenticator verification when email magic link = undefined shou
                       <div
                         class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-13"
                         data-se="identifier"
-                        translate="yes"
+                        translate="no"
                       >
                         <div
                           class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-14"

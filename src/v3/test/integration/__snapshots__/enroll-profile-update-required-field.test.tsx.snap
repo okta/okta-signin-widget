@@ -83,7 +83,7 @@ exports[`enroll-profile-update-required-field fails client side validation with 
                     >
                       <span
                         class="MuiBox-root emotion-14"
-                        translate="yes"
+                        translate="no"
                       >
                         error
                       </span>
@@ -109,7 +109,7 @@ exports[`enroll-profile-update-required-field fails client side validation with 
                       <div
                         class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-19"
                         data-se="identifier"
-                        translate="yes"
+                        translate="no"
                       >
                         <div
                           class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-20"
@@ -397,7 +397,7 @@ exports[`enroll-profile-update-required-field should render form with one requir
                       <div
                         class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-12"
                         data-se="identifier"
-                        translate="yes"
+                        translate="no"
                       >
                         <div
                           class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-13"
