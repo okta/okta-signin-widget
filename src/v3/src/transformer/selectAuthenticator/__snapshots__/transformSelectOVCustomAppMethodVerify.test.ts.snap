@@ -126,7 +126,6 @@ Object {
       },
       Object {
         "contentType": "subtitle",
-        "noMargin": true,
         "options": Object {
           "content": "oie.select.authenticators.verify.subtitle",
         },

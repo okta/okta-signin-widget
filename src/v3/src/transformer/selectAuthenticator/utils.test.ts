@@ -11,7 +11,7 @@
  */
 
 import { Input } from '@okta/okta-auth-js';
-import { IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
+import { IdxAuthenticator, IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
 import { AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP, AUTHENTICATOR_KEY, IDX_STEP } from 'src/constants';
 import { ButtonType } from 'src/types';
 
@@ -23,7 +23,7 @@ import {
 } from './utils';
 
 describe('Select Authenticator Utility Tests', () => {
-  const stepName = IDX_STEP.SELECT_AUTHENTICATOR_ENROLL;
+  const stepName = IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE;
   describe('getAppAuthenticatorMethodButtonElements Tests', () => {
     it('should return an empty array when an empty array of options is provided', () => {
       expect(getAppAuthenticatorMethodButtonElements({ name: 'authenticator' }, stepName)).toEqual([]);
@@ -45,42 +45,40 @@ describe('Select Authenticator Utility Tests', () => {
       expect(getAppAuthenticatorMethodButtonElements(authenticator, stepName)).toEqual([
         {
           type: 'AuthenticatorButton',
-          label: options[0].label,
+          label: 'oie.okta_verify.label',
           id: 'auth_btn_okta_verify_totp',
-          noTranslate: false,
           options: {
             key: AUTHENTICATOR_KEY.OV,
             ctaLabel: 'oie.verify.authenticator.button.text',
             includeData: true,
             includeImmutableData: false,
-            step: 'select-authenticator-enroll',
+            step: 'select-authenticator-authenticate',
             type: ButtonType.BUTTON,
             actionParams: {
               'authenticator.id': 'abcde1234',
               'authenticator.methodType': options[0].value,
             },
-            description: 'oie.okta_verify.label',
+            description: options[0].label,
             dataSe: `okta_verify-${options[0].value}`,
             iconName: 'okta_verify_0',
           },
         },
         {
           type: 'AuthenticatorButton',
-          label: options[1].label,
+          label: 'oie.okta_verify.label',
           id: 'auth_btn_okta_verify_push',
-          noTranslate: false,
           options: {
             key: AUTHENTICATOR_KEY.OV,
             ctaLabel: 'oie.verify.authenticator.button.text',
             includeData: true,
             includeImmutableData: false,
-            step: 'select-authenticator-enroll',
+            step: 'select-authenticator-authenticate',
             type: ButtonType.BUTTON,
             actionParams: {
               'authenticator.id': 'abcde1234',
               'authenticator.methodType': options[1].value,
             },
-            description: 'oie.okta_verify.label',
+            description: options[1].label,
             dataSe: `okta_verify-${options[1].value}`,
             iconName: 'okta_verify_1',
           },
@@ -110,63 +108,60 @@ describe('Select Authenticator Utility Tests', () => {
       )).toEqual([
         {
           type: 'AuthenticatorButton',
-          label: options[2].label,
+          label: 'oie.okta_verify.label',
           id: 'auth_btn_okta_verify_signed_nonce',
-          noTranslate: false,
           options: {
             key: AUTHENTICATOR_KEY.OV,
             ctaLabel: 'oie.verify.authenticator.button.text',
             includeData: true,
             includeImmutableData: false,
-            step: 'select-authenticator-enroll',
+            step: 'select-authenticator-authenticate',
             type: ButtonType.BUTTON,
             actionParams: {
               'authenticator.id': 'abcde1234',
               'authenticator.methodType': options[2].value,
             },
-            description: 'oie.okta_verify.label',
+            description: options[2].label,
             dataSe: `okta_verify-${options[2].value}`,
             iconName: 'okta_verify_2',
           },
         },
         {
           type: 'AuthenticatorButton',
-          label: options[0].label,
+          label: 'oie.okta_verify.label',
           id: 'auth_btn_okta_verify_totp',
-          noTranslate: false,
           options: {
             key: AUTHENTICATOR_KEY.OV,
             ctaLabel: 'oie.verify.authenticator.button.text',
             includeData: true,
             includeImmutableData: false,
-            step: 'select-authenticator-enroll',
+            step: 'select-authenticator-authenticate',
             type: ButtonType.BUTTON,
             actionParams: {
               'authenticator.id': 'abcde1234',
               'authenticator.methodType': options[0].value,
             },
-            description: 'oie.okta_verify.label',
+            description: options[0].label,
             dataSe: `okta_verify-${options[0].value}`,
             iconName: 'okta_verify_0',
           },
         },
         {
           type: 'AuthenticatorButton',
-          label: options[1].label,
+          label: 'oie.okta_verify.label',
           id: 'auth_btn_okta_verify_push',
-          noTranslate: false,
           options: {
             key: AUTHENTICATOR_KEY.OV,
             ctaLabel: 'oie.verify.authenticator.button.text',
             includeData: true,
             includeImmutableData: false,
-            step: 'select-authenticator-enroll',
+            step: 'select-authenticator-authenticate',
             type: ButtonType.BUTTON,
             actionParams: {
               'authenticator.id': 'abcde1234',
               'authenticator.methodType': options[1].value,
             },
-            description: 'oie.okta_verify.label',
+            description: options[1].label,
             dataSe: `okta_verify-${options[1].value}`,
             iconName: 'okta_verify_1',
           },
@@ -245,7 +240,7 @@ describe('Select Authenticator Utility Tests', () => {
               id: '',
               type: '',
               methods: [{ type: '' }],
-              displayName: '',
+              displayName: 'DisplayName',
               key: AUTHENTICATOR_KEY[key],
               profile: {},
             },
@@ -266,7 +261,15 @@ describe('Select Authenticator Utility Tests', () => {
         const currentOption = authenticatorOptionValues
           .find(({ options: { key: authKey } }) => authKey === option.relatesTo?.key);
         expect(currentOption?.options.key).toBe(option.relatesTo?.key);
-        expect(currentOption?.label).toBe(option.label);
+        let expectedLabel;
+        if (option.relatesTo?.key === AUTHENTICATOR_KEY.CUSTOM_APP) {
+          expectedLabel = 'DisplayName';
+        } else if (option.relatesTo?.key === AUTHENTICATOR_KEY.OV) {
+          expectedLabel = 'oie.okta_verify.label';
+        } else {
+          expectedLabel = option.label;
+        }
+        expect(currentOption?.label).toBe(expectedLabel);
         expect(currentOption?.options.ctaLabel)
           .toBe('oie.verify.authenticator.button.text');
       });
@@ -347,11 +350,13 @@ describe('Select Authenticator Utility Tests', () => {
       expect(authenticatorOptionValues).toMatchSnapshot();
       expect(authenticatorOptionValues.length).toBe(2);
       expect(authenticatorOptionValues[0].options.key).toBe(AUTHENTICATOR_KEY.OV);
-      expect(authenticatorOptionValues[0].label).toBe('Code');
+      expect(authenticatorOptionValues[0].label).toBe('oie.okta_verify.label');
+      expect(authenticatorOptionValues[0].options.description).toBe('Code');
       expect(authenticatorOptionValues[0].options.ctaLabel).toBe('oie.verify.authenticator.button.text');
       expect(authenticatorOptionValues[0].options.actionParams?.['authenticator.methodType']).toBe('totp');
       expect(authenticatorOptionValues[1].options.key).toBe(AUTHENTICATOR_KEY.OV);
-      expect(authenticatorOptionValues[1].label).toBe('Push');
+      expect(authenticatorOptionValues[1].label).toBe('oie.okta_verify.label');
+      expect(authenticatorOptionValues[1].options.description).toBe('Push');
       expect(authenticatorOptionValues[1].options.ctaLabel).toBe('oie.verify.authenticator.button.text');
       expect(authenticatorOptionValues[1].options.actionParams?.['authenticator.methodType']).toBe('push');
     });
@@ -429,15 +434,18 @@ describe('Select Authenticator Utility Tests', () => {
       expect(authenticatorOptionValues).toMatchSnapshot();
       expect(authenticatorOptionValues.length).toBe(4);
       expect(authenticatorOptionValues[0].options.key).toBe(AUTHENTICATOR_KEY.OV);
-      expect(authenticatorOptionValues[0].label).toBe('Fastpass');
+      expect(authenticatorOptionValues[0].label).toBe('oie.okta_verify.label');
+      expect(authenticatorOptionValues[0].options.description).toBe('Fastpass');
       expect(authenticatorOptionValues[0].options.ctaLabel).toBe('oie.verify.authenticator.button.text');
       expect(authenticatorOptionValues[0].options.actionParams?.['authenticator.methodType']).toBe('signed_nonce');
       expect(authenticatorOptionValues[1].options.key).toBe(AUTHENTICATOR_KEY.OV);
-      expect(authenticatorOptionValues[1].label).toBe('Code');
+      expect(authenticatorOptionValues[1].label).toBe('oie.okta_verify.label');
+      expect(authenticatorOptionValues[1].options.description).toBe('Code');
       expect(authenticatorOptionValues[1].options.ctaLabel).toBe('oie.verify.authenticator.button.text');
       expect(authenticatorOptionValues[1].options.actionParams?.['authenticator.methodType']).toBe('totp');
       expect(authenticatorOptionValues[2].options.key).toBe(AUTHENTICATOR_KEY.OV);
-      expect(authenticatorOptionValues[2].label).toBe('Push');
+      expect(authenticatorOptionValues[2].label).toBe('oie.okta_verify.label');
+      expect(authenticatorOptionValues[2].options.description).toBe('Push');
       expect(authenticatorOptionValues[2].options.ctaLabel).toBe('oie.verify.authenticator.button.text');
       expect(authenticatorOptionValues[2].options.actionParams?.['authenticator.methodType']).toBe('push');
 
@@ -490,11 +498,13 @@ describe('Select Authenticator Utility Tests', () => {
       expect(authenticatorOptionValues).toMatchSnapshot();
       expect(authenticatorOptionValues.length).toBe(4);
       expect(authenticatorOptionValues[0].options.key).toBe(AUTHENTICATOR_KEY.OV);
-      expect(authenticatorOptionValues[0].label).toBe('Code');
+      expect(authenticatorOptionValues[0].label).toBe('oie.okta_verify.label');
+      expect(authenticatorOptionValues[0].options.description).toBe('Code');
       expect(authenticatorOptionValues[0].options.ctaLabel).toBe('oie.verify.authenticator.button.text');
       expect(authenticatorOptionValues[0].options.actionParams?.['authenticator.methodType']).toBe('totp');
       expect(authenticatorOptionValues[1].options.key).toBe(AUTHENTICATOR_KEY.OV);
-      expect(authenticatorOptionValues[1].label).toBe('Push');
+      expect(authenticatorOptionValues[1].label).toBe('oie.okta_verify.label');
+      expect(authenticatorOptionValues[1].options.description).toBe('Push');
       expect(authenticatorOptionValues[1].options.ctaLabel).toBe('oie.verify.authenticator.button.text');
       expect(authenticatorOptionValues[1].options.actionParams?.['authenticator.methodType']).toBe('push');
 
@@ -504,7 +514,8 @@ describe('Select Authenticator Utility Tests', () => {
         .toBe('oie.verify.authenticator.button.text');
       expect(authenticatorOptionValues[2].options.description).toBe('216XXXXX43');
       expect(authenticatorOptionValues[3].options.key).toBe(AUTHENTICATOR_KEY.OV);
-      expect(authenticatorOptionValues[3].label).toBe('Fastpass');
+      expect(authenticatorOptionValues[3].label).toBe('oie.okta_verify.label');
+      expect(authenticatorOptionValues[3].options.description).toBe('Fastpass');
       expect(authenticatorOptionValues[3].options.ctaLabel).toBe('oie.verify.authenticator.button.text');
       expect(authenticatorOptionValues[3].options.actionParams?.['authenticator.methodType']).toBe('signed_nonce');
     });
@@ -544,7 +555,7 @@ describe('Select Authenticator Utility Tests', () => {
       expect(authenticatorOptionValues).toMatchSnapshot();
       expect(authenticatorOptionValues.length).toBe(2);
       expect(authenticatorOptionValues[0].options.key).toBe(AUTHENTICATOR_KEY.OV);
-      expect(authenticatorOptionValues[0].label).toBe('Okta Verify');
+      expect(authenticatorOptionValues[0].label).toBe('oie.okta_verify.label');
       expect(authenticatorOptionValues[0].options.ctaLabel).toBe('oie.verify.authenticator.button.text');
       expect(authenticatorOptionValues[0].options.actionParams?.['authenticator.methodType']).toBe('signed_nonce');
       expect(authenticatorOptionValues[1].options.key).toBe(AUTHENTICATOR_KEY.PHONE);
@@ -595,11 +606,13 @@ describe('Select Authenticator Utility Tests', () => {
       expect(authenticatorOptionValues).toMatchSnapshot();
       expect(authenticatorOptionValues.length).toBe(3);
       expect(authenticatorOptionValues[0].options.key).toBe(AUTHENTICATOR_KEY.OV);
-      expect(authenticatorOptionValues[0].label).toBe('Code');
+      expect(authenticatorOptionValues[0].label).toBe('oie.okta_verify.label');
+      expect(authenticatorOptionValues[0].options.description).toBe('Code');
       expect(authenticatorOptionValues[0].options.ctaLabel).toBe('oie.verify.authenticator.button.text');
       expect(authenticatorOptionValues[0].options.actionParams?.['authenticator.methodType']).toBe('totp');
       expect(authenticatorOptionValues[1].options.key).toBe(AUTHENTICATOR_KEY.OV);
-      expect(authenticatorOptionValues[1].label).toBe('Push');
+      expect(authenticatorOptionValues[1].label).toBe('oie.okta_verify.label');
+      expect(authenticatorOptionValues[1].options.description).toBe('Push');
       expect(authenticatorOptionValues[1].options.ctaLabel).toBe('oie.verify.authenticator.button.text');
       expect(authenticatorOptionValues[1].options.actionParams?.['authenticator.methodType']).toBe('push');
 
@@ -629,7 +642,7 @@ describe('Select Authenticator Utility Tests', () => {
               id: '',
               type: '',
               methods: [{ type: '' }],
-              displayName: '',
+              displayName: 'DisplayName',
               key: AUTHENTICATOR_KEY[key],
               profile: {},
             },
@@ -646,7 +659,15 @@ describe('Select Authenticator Utility Tests', () => {
         const currentOption = authenticatorOptionValues
           .find(({ options: { key: authKey } }) => authKey === option.relatesTo?.key);
         expect(currentOption?.options.key).toBe(option.relatesTo?.key);
-        expect(currentOption?.label).toBe(option.label);
+        let expectedLabel;
+        if (option.relatesTo?.key === AUTHENTICATOR_KEY.CUSTOM_APP) {
+          expectedLabel = 'DisplayName';
+        } else if (option.relatesTo?.key === AUTHENTICATOR_KEY.OV) {
+          expectedLabel = 'oie.okta_verify.label';
+        } else {
+          expectedLabel = option.label;
+        }
+        expect(currentOption?.label).toBe(expectedLabel);
         expect(currentOption?.options.ctaLabel)
           .toBe('oie.enroll.authenticator.button.text');
         expect(currentOption?.options.description)
@@ -707,12 +728,69 @@ describe('Select Authenticator Utility Tests', () => {
       expect(authenticatorOptionValues).toMatchSnapshot();
       expect(authenticatorOptionValues.length).toBe(2);
       expect(authenticatorOptionValues[0].options.key).toBe(AUTHENTICATOR_KEY.OV);
-      expect(authenticatorOptionValues[0].label).toBe('Code');
+      expect(authenticatorOptionValues[0].label).toBe('oie.okta_verify.label');
+      expect(authenticatorOptionValues[0].options.description).toBe('oie.okta_verify.authenticator.description');
       expect(authenticatorOptionValues[0].options.ctaLabel).toBe('oie.enroll.authenticator.button.text');
       expect(authenticatorOptionValues[0].options.actionParams!['authenticator.methodType']).toBe('totp');
-      expect(authenticatorOptionValues[1].label).toBe('Push');
+      expect(authenticatorOptionValues[1].label).toBe('oie.okta_verify.label');
+      expect(authenticatorOptionValues[1].options.description).toBe('oie.okta_verify.authenticator.description');
       expect(authenticatorOptionValues[1].options.ctaLabel).toBe('oie.enroll.authenticator.button.text');
       expect(authenticatorOptionValues[1].options.actionParams!['authenticator.methodType']).toBe('push');
+    });
+
+    it('should detect authenticator options for additional enroll', () => {
+      const authenticatorEnrollments: IdxAuthenticator[] = [
+        {
+          id: 'enrolled-email-1',
+          type: 'email',
+          key: AUTHENTICATOR_KEY.EMAIL,
+          methods: [{ type: 'email' }],
+          displayName: 'Enrolled email',
+        },
+      ];
+      const options: IdxOption[] = [
+        {
+          label: 'Password',
+          value: [
+            { name: 'methodType', value: 'password' },
+            { name: 'id', value: '1234abc' },
+          ],
+          relatesTo: {
+            id: '',
+            type: 'password',
+            methods: [{ type: 'password' }],
+            displayName: 'Okta Password',
+            key: AUTHENTICATOR_KEY.PASSWORD,
+          },
+        },
+        {
+          label: 'Email',
+          value: [
+            { name: 'methodType', value: 'email' },
+            { name: 'id', value: '1235abc' },
+          ],
+          relatesTo: {
+            id: '',
+            type: 'email',
+            methods: [{ type: 'email' }],
+            displayName: 'Okta Email',
+            key: AUTHENTICATOR_KEY.EMAIL,
+          },
+        },
+      ];
+
+      const authenticatorOptionValues = getAuthenticatorEnrollButtonElements(
+        options, stepName, authenticatorEnrollments,
+      );
+
+      expect(authenticatorOptionValues).toMatchSnapshot();
+      expect(authenticatorOptionValues.length).toBe(2);
+      expect(authenticatorOptionValues[0].options.key).toBe(AUTHENTICATOR_KEY.PASSWORD);
+      expect(authenticatorOptionValues[0].label).toBe('Password');
+      expect(authenticatorOptionValues[0].options.ctaLabel).toBe('oie.enroll.authenticator.button.text');
+      expect(authenticatorOptionValues[1].options.key).toBe(AUTHENTICATOR_KEY.EMAIL);
+      expect(authenticatorOptionValues[1].label).toBe('Email');
+      expect(authenticatorOptionValues[1].options.ctaLabel).toBe('enroll.choices.setup.another');
     });
   });
 });

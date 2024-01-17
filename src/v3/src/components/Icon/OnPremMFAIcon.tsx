@@ -14,24 +14,19 @@ import { FunctionComponent, h } from 'preact';
 
 import { IconProps } from '../../types';
 
-export const OnPremMFAIcon: FunctionComponent<IconProps> = ({ name, description }) => (
+export const OnPremMFAIcon: FunctionComponent<IconProps> = ({
+  name, description, width, height,
+}) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="48"
-    height="48"
+    width={width || 48}
+    height={height || 48}
     fill="none"
     aria-labelledby={name}
     role="img"
     viewBox="0 0 48 48"
   >
     <title id={name}>{description}</title>
-    <path
-      fill="#F5F5F6"
-      fillRule="evenodd"
-      d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
-      class="siwFillBg"
-      clipRule="evenodd"
-    />
     <path
       fill="#00297A"
       d="M39 20h-8v-3H16.5a7.5 7.5 0 0 0 0 15H31v-3h8v-9Zm-9 11H16.5a6.5 6.5 0 1 1 0-13H30v13Zm8-3h-7v-7h7v7Z"

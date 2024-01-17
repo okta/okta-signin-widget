@@ -23,14 +23,16 @@ describe('authenticator-verification-data-ov-only-without-device-known', () => {
 
   it('should send correct payload when clicking "Get a push notification"', async () => {
     const {
-      authClient, user, findByRole,
+      authClient, user, findByRole, findAllByRole,
     } = await setup({ mockResponse, widgetOptions: { features: { autoFocus: true } } });
 
     const heading = await findByRole('heading', { level: 2 });
     expect(heading.textContent).toBe('Verify it\'s you with a security method');
 
-    const authenticatorButton = await findByRole('button', { name: 'Get a push notification' });
-    await user.click(authenticatorButton);
+    const authenticatorButtons = await findAllByRole('button', { name: 'Okta Verify' });
+    const authenticatorButton = authenticatorButtons.find((btn) => btn.textContent?.includes('Get a push notification'));
+    expect(authenticatorButton).toBeDefined();
+    await user.click(authenticatorButton!);
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
       ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge', {
         authenticator: { id: 'aut13qrZReYpIib7R0g4', methodType: 'push' },

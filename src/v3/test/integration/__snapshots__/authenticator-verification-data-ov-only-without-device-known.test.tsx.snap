@@ -36,10 +36,10 @@ exports[`authenticator-verification-data-ov-only-without-device-known should ren
                 <svg
                   aria-labelledby="mfa-okta-verify"
                   fill="none"
-                  height="48"
+                  height="2.85714286rem"
                   role="img"
                   viewBox="0 0 48 48"
-                  width="48"
+                  width="2.85714286rem"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <title
@@ -47,13 +47,6 @@ exports[`authenticator-verification-data-ov-only-without-device-known should ren
                   >
                     Okta Verify
                   </title>
-                  <circle
-                    class="siwFillBg"
-                    cx="24"
-                    cy="24"
-                    fill="#F5F5F6"
-                    r="24"
-                  />
                   <path
                     clip-rule="evenodd"
                     d="M32.872 22.853a8.947 8.947 0 1 1-2.288-4.91L24 24.498l-3.205-3.19c-.482-.48-1.322-.48-1.804 0a1.26 1.26 0 0 0-.374.898c0 .34.133.659.374.898l4.107 4.09c.24.239.561.371.902.371.336 0 .664-.136.902-.372L38.636 13.52a18.089 18.089 0 0 0-1.634-1.967A17.947 17.947 0 0 0 24 6C14.059 6 6 14.059 6 24s8.059 18 18 18 18-8.059 18-18c0-2.972-.722-5.775-1.998-8.245l-7.13 7.098Z"
@@ -134,7 +127,7 @@ exports[`authenticator-verification-data-ov-only-without-device-known should ren
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root emotion-1"
+                    class="MuiBox-root emotion-11"
                   >
                     <div
                       class="MuiBox-root emotion-18"
@@ -156,32 +149,32 @@ exports[`authenticator-verification-data-ov-only-without-device-known should ren
                       data-se="authenticator-verify-list"
                     >
                       <li
-                        class="MuiBox-root emotion-25"
+                        class="MuiBox-root emotion-11"
                       >
                         <button
                           aria-describedby="okta_verify_0-description okta_verify_0-ctaLabel"
                           aria-labelledby="okta_verify_0-label"
-                          class="authenticator-row MuiBox-root emotion-26"
+                          class="MuiBox-root emotion-26"
                           data-se="authenticator-button"
                           tabindex="0"
                           type="button"
                         >
                           <div
-                            class="authenticator-icon-container MuiBox-root emotion-1"
+                            class="MuiBox-root emotion-1"
                             data-se="authenticator-icon"
                           >
                             <div
                               aria-hidden="true"
-                              class="mfa-okta-verify authenticator-icon MuiBox-root emotion-28"
+                              class="mfa-okta-verify MuiBox-root emotion-28"
                               data-se="factor-beacon"
                             >
                               <svg
                                 aria-labelledby="okta_verify_0"
                                 fill="none"
-                                height="48"
+                                height="2.85714286rem"
                                 role="img"
                                 viewBox="0 0 48 48"
-                                width="48"
+                                width="2.85714286rem"
                                 xmlns="http://www.w3.org/2000/svg"
                               >
                                 <title
@@ -189,13 +182,6 @@ exports[`authenticator-verification-data-ov-only-without-device-known should ren
                                 >
                                   Okta Verify
                                 </title>
-                                <circle
-                                  class="siwFillBg"
-                                  cx="24"
-                                  cy="24"
-                                  fill="#F5F5F6"
-                                  r="24"
-                                />
                                 <path
                                   clip-rule="evenodd"
                                   d="M32.872 22.853a8.947 8.947 0 1 1-2.288-4.91L24 24.498l-3.205-3.19c-.482-.48-1.322-.48-1.804 0a1.26 1.26 0 0 0-.374.898c0 .34.133.659.374.898l4.107 4.09c.24.239.561.371.902.371.336 0 .664-.136.902-.372L38.636 13.52a18.089 18.089 0 0 0-1.634-1.967A17.947 17.947 0 0 0 24 6C14.059 6 6 14.059 6 24s8.059 18 18 18 18-8.059 18-18c0-2.972-.722-5.775-1.998-8.245l-7.13 7.098Z"
@@ -206,33 +192,33 @@ exports[`authenticator-verification-data-ov-only-without-device-known should ren
                             </div>
                           </div>
                           <div
-                            class="authenticator-description MuiBox-root emotion-29"
+                            class="MuiBox-root emotion-29"
+                            data-se="authenticator-button-content"
                           >
                             <h3
-                              class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-30"
+                              class="MuiTypography-root MuiTypography-h3 emotion-30"
                               data-se="authenticator-button-label"
                               id="okta_verify_0-label"
+                              translate="yes"
                             >
-                              Get a push notification
+                              Okta Verify
                             </h3>
                             <p
-                              class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-31"
+                              class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-31"
                               data-se="authenticator-button-description"
                               id="okta_verify_0-description"
                             >
-                              Okta Verify
+                              Get a push notification
                             </p>
+                          </div>
+                          <div
+                            class="MuiBox-root emotion-32"
+                            data-se="okta_verify-push"
+                          >
                             <div
-                              class="cta-button authenticator-button MuiBox-root emotion-32"
-                              data-se="okta_verify-push"
+                              class="MuiBox-root emotion-33"
+                              data-se="cta-button-icon"
                             >
-                              <span
-                                class="button select-factor link-button MuiBox-root emotion-33"
-                                data-se="cta-button-label"
-                                id="okta_verify_0-ctaLabel"
-                              >
-                                Select
-                              </span>
                               <svg
                                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-34"
                                 fill="none"
@@ -256,32 +242,32 @@ exports[`authenticator-verification-data-ov-only-without-device-known should ren
                         </button>
                       </li>
                       <li
-                        class="MuiBox-root emotion-25"
+                        class="MuiBox-root emotion-11"
                       >
                         <button
                           aria-describedby="okta_verify_1-description okta_verify_1-ctaLabel"
                           aria-labelledby="okta_verify_1-label"
-                          class="authenticator-row MuiBox-root emotion-26"
+                          class="MuiBox-root emotion-26"
                           data-se="authenticator-button"
                           tabindex="0"
                           type="button"
                         >
                           <div
-                            class="authenticator-icon-container MuiBox-root emotion-1"
+                            class="MuiBox-root emotion-1"
                             data-se="authenticator-icon"
                           >
                             <div
                               aria-hidden="true"
-                              class="mfa-okta-verify authenticator-icon MuiBox-root emotion-28"
+                              class="mfa-okta-verify MuiBox-root emotion-28"
                               data-se="factor-beacon"
                             >
                               <svg
                                 aria-labelledby="okta_verify_1"
                                 fill="none"
-                                height="48"
+                                height="2.85714286rem"
                                 role="img"
                                 viewBox="0 0 48 48"
-                                width="48"
+                                width="2.85714286rem"
                                 xmlns="http://www.w3.org/2000/svg"
                               >
                                 <title
@@ -289,13 +275,6 @@ exports[`authenticator-verification-data-ov-only-without-device-known should ren
                                 >
                                   Okta Verify
                                 </title>
-                                <circle
-                                  class="siwFillBg"
-                                  cx="24"
-                                  cy="24"
-                                  fill="#F5F5F6"
-                                  r="24"
-                                />
                                 <path
                                   clip-rule="evenodd"
                                   d="M32.872 22.853a8.947 8.947 0 1 1-2.288-4.91L24 24.498l-3.205-3.19c-.482-.48-1.322-.48-1.804 0a1.26 1.26 0 0 0-.374.898c0 .34.133.659.374.898l4.107 4.09c.24.239.561.371.902.371.336 0 .664-.136.902-.372L38.636 13.52a18.089 18.089 0 0 0-1.634-1.967A17.947 17.947 0 0 0 24 6C14.059 6 6 14.059 6 24s8.059 18 18 18 18-8.059 18-18c0-2.972-.722-5.775-1.998-8.245l-7.13 7.098Z"
@@ -306,33 +285,33 @@ exports[`authenticator-verification-data-ov-only-without-device-known should ren
                             </div>
                           </div>
                           <div
-                            class="authenticator-description MuiBox-root emotion-29"
+                            class="MuiBox-root emotion-29"
+                            data-se="authenticator-button-content"
                           >
                             <h3
-                              class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-30"
+                              class="MuiTypography-root MuiTypography-h3 emotion-30"
                               data-se="authenticator-button-label"
                               id="okta_verify_1-label"
+                              translate="yes"
                             >
-                              Enter a code
+                              Okta Verify
                             </h3>
                             <p
-                              class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-31"
+                              class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-31"
                               data-se="authenticator-button-description"
                               id="okta_verify_1-description"
                             >
-                              Okta Verify
+                              Enter a code
                             </p>
+                          </div>
+                          <div
+                            class="MuiBox-root emotion-32"
+                            data-se="okta_verify-totp"
+                          >
                             <div
-                              class="cta-button authenticator-button MuiBox-root emotion-32"
-                              data-se="okta_verify-totp"
+                              class="MuiBox-root emotion-33"
+                              data-se="cta-button-icon"
                             >
-                              <span
-                                class="button select-factor link-button MuiBox-root emotion-33"
-                                data-se="cta-button-label"
-                                id="okta_verify_1-ctaLabel"
-                              >
-                                Select
-                              </span>
                               <svg
                                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-34"
                                 fill="none"
@@ -356,32 +335,32 @@ exports[`authenticator-verification-data-ov-only-without-device-known should ren
                         </button>
                       </li>
                       <li
-                        class="MuiBox-root emotion-25"
+                        class="MuiBox-root emotion-11"
                       >
                         <button
                           aria-describedby="okta_verify_2-description okta_verify_2-ctaLabel"
                           aria-labelledby="okta_verify_2-label"
-                          class="authenticator-row MuiBox-root emotion-26"
+                          class="MuiBox-root emotion-26"
                           data-se="authenticator-button"
                           tabindex="0"
                           type="button"
                         >
                           <div
-                            class="authenticator-icon-container MuiBox-root emotion-1"
+                            class="MuiBox-root emotion-1"
                             data-se="authenticator-icon"
                           >
                             <div
                               aria-hidden="true"
-                              class="mfa-okta-verify authenticator-icon MuiBox-root emotion-28"
+                              class="mfa-okta-verify MuiBox-root emotion-28"
                               data-se="factor-beacon"
                             >
                               <svg
                                 aria-labelledby="okta_verify_2"
                                 fill="none"
-                                height="48"
+                                height="2.85714286rem"
                                 role="img"
                                 viewBox="0 0 48 48"
-                                width="48"
+                                width="2.85714286rem"
                                 xmlns="http://www.w3.org/2000/svg"
                               >
                                 <title
@@ -389,13 +368,6 @@ exports[`authenticator-verification-data-ov-only-without-device-known should ren
                                 >
                                   Okta Verify
                                 </title>
-                                <circle
-                                  class="siwFillBg"
-                                  cx="24"
-                                  cy="24"
-                                  fill="#F5F5F6"
-                                  r="24"
-                                />
                                 <path
                                   clip-rule="evenodd"
                                   d="M32.872 22.853a8.947 8.947 0 1 1-2.288-4.91L24 24.498l-3.205-3.19c-.482-.48-1.322-.48-1.804 0a1.26 1.26 0 0 0-.374.898c0 .34.133.659.374.898l4.107 4.09c.24.239.561.371.902.371.336 0 .664-.136.902-.372L38.636 13.52a18.089 18.089 0 0 0-1.634-1.967A17.947 17.947 0 0 0 24 6C14.059 6 6 14.059 6 24s8.059 18 18 18 18-8.059 18-18c0-2.972-.722-5.775-1.998-8.245l-7.13 7.098Z"
@@ -406,33 +378,33 @@ exports[`authenticator-verification-data-ov-only-without-device-known should ren
                             </div>
                           </div>
                           <div
-                            class="authenticator-description MuiBox-root emotion-29"
+                            class="MuiBox-root emotion-29"
+                            data-se="authenticator-button-content"
                           >
                             <h3
-                              class="MuiTypography-root MuiTypography-h3 authenticator-label no-translate emotion-30"
+                              class="MuiTypography-root MuiTypography-h3 emotion-30"
                               data-se="authenticator-button-label"
                               id="okta_verify_2-label"
+                              translate="yes"
                             >
-                              Use Okta FastPass
+                              Okta Verify
                             </h3>
                             <p
-                              class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-31"
+                              class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-31"
                               data-se="authenticator-button-description"
                               id="okta_verify_2-description"
                             >
-                              Okta Verify
+                              Use Okta FastPass
                             </p>
+                          </div>
+                          <div
+                            class="MuiBox-root emotion-32"
+                            data-se="okta_verify-signed_nonce"
+                          >
                             <div
-                              class="cta-button authenticator-button MuiBox-root emotion-32"
-                              data-se="okta_verify-signed_nonce"
+                              class="MuiBox-root emotion-33"
+                              data-se="cta-button-icon"
                             >
-                              <span
-                                class="button select-factor link-button MuiBox-root emotion-33"
-                                data-se="cta-button-label"
-                                id="okta_verify_2-ctaLabel"
-                              >
-                                Select
-                              </span>
                               <svg
                                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-34"
                                 fill="none"

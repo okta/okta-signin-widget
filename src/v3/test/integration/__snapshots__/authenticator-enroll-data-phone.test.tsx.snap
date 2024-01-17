@@ -36,10 +36,10 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                 <svg
                   aria-labelledby="mfa-okta-phone"
                   fill="none"
-                  height="48"
+                  height="2.85714286rem"
                   role="img"
                   viewBox="0 0 48 48"
-                  width="48"
+                  width="2.85714286rem"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <title
@@ -47,13 +47,6 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                   >
                     Voice Call Authentication
                   </title>
-                  <circle
-                    class="siwFillBg"
-                    cx="24"
-                    cy="24"
-                    fill="#F5F5F6"
-                    r="24"
-                  />
                   <path
                     class="siwFillPrimaryDark"
                     d="M21.5 37h-9a2.6 2.6 0 0 1-2.5-2.682V14.682A2.6 2.6 0 0 1 12.5 12h9a2.6 2.6 0 0 1 2.5 2.682v19.636A2.6 2.6 0 0 1 21.5 37Zm-9-24a1.6 1.6 0 0 0-1.5 1.682v19.636A1.6 1.6 0 0 0 12.5 36h9a1.6 1.6 0 0 0 1.5-1.682V14.682A1.6 1.6 0 0 0 21.5 13h-9Z"
@@ -1593,10 +1586,10 @@ exports[`authenticator-enroll-data-phone should render form without an autoFocus
                 <svg
                   aria-labelledby="mfa-okta-phone"
                   fill="none"
-                  height="48"
+                  height="2.85714286rem"
                   role="img"
                   viewBox="0 0 48 48"
-                  width="48"
+                  width="2.85714286rem"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <title
@@ -1604,13 +1597,6 @@ exports[`authenticator-enroll-data-phone should render form without an autoFocus
                   >
                     Voice Call Authentication
                   </title>
-                  <circle
-                    class="siwFillBg"
-                    cx="24"
-                    cy="24"
-                    fill="#F5F5F6"
-                    r="24"
-                  />
                   <path
                     class="siwFillPrimaryDark"
                     d="M21.5 37h-9a2.6 2.6 0 0 1-2.5-2.682V14.682A2.6 2.6 0 0 1 12.5 12h9a2.6 2.6 0 0 1 2.5 2.682v19.636A2.6 2.6 0 0 1 21.5 37Zm-9-24a1.6 1.6 0 0 0-1.5 1.682v19.636A1.6 1.6 0 0 0 12.5 36h9a1.6 1.6 0 0 0 1.5-1.682V14.682A1.6 1.6 0 0 0 21.5 13h-9Z"
@@ -3150,10 +3136,10 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                 <svg
                   aria-labelledby="mfa-okta-phone"
                   fill="none"
-                  height="48"
+                  height="2.85714286rem"
                   role="img"
                   viewBox="0 0 48 48"
-                  width="48"
+                  width="2.85714286rem"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <title
@@ -3161,13 +3147,6 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                   >
                     Voice Call Authentication
                   </title>
-                  <circle
-                    class="siwFillBg"
-                    cx="24"
-                    cy="24"
-                    fill="#F5F5F6"
-                    r="24"
-                  />
                   <path
                     class="siwFillPrimaryDark"
                     d="M21.5 37h-9a2.6 2.6 0 0 1-2.5-2.682V14.682A2.6 2.6 0 0 1 12.5 12h9a2.6 2.6 0 0 1 2.5 2.682v19.636A2.6 2.6 0 0 1 21.5 37Zm-9-24a1.6 1.6 0 0 0-1.5 1.682v19.636A1.6 1.6 0 0 0 12.5 36h9a1.6 1.6 0 0 0 1.5-1.682V14.682A1.6 1.6 0 0 0 21.5 13h-9Z"

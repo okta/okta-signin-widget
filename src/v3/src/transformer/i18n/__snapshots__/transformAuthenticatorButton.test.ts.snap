@@ -31,10 +31,10 @@ Object {
               },
               "translations": Array [
                 Object {
-                  "i18nKey": "",
-                  "name": "label",
+                  "i18nKey": "oie.custom.app.authenticator.title",
+                  "name": "description",
                   "noTranslate": undefined,
-                  "value": "My custom authenticator app",
+                  "value": "oie.custom.app.authenticator.title",
                 },
               ],
               "type": "AuthenticatorButton",
@@ -145,7 +145,7 @@ Object {
               "translations": Array [
                 Object {
                   "i18nKey": "oie.okta_verify.push.title",
-                  "name": "label",
+                  "name": "description",
                   "noTranslate": undefined,
                   "value": "oie.okta_verify.push.title",
                 },

@@ -36,10 +36,10 @@ exports[`flow-verify-with-piv-as-authenticator should render select authenticato
                 <svg
                   aria-labelledby="smart-card-icon"
                   fill="none"
-                  height="48"
+                  height="2.85714286rem"
                   role="img"
                   viewBox="0 0 48 48"
-                  width="48"
+                  width="2.85714286rem"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <title
@@ -47,13 +47,6 @@ exports[`flow-verify-with-piv-as-authenticator should render select authenticato
                   >
                     PIV Card
                   </title>
-                  <circle
-                    class="siwFillBg"
-                    cx="24"
-                    cy="24"
-                    fill="#F5F5F6"
-                    r="24"
-                  />
                   <path
                     class="siwFillPrimaryDark"
                     clip-rule="evenodd"

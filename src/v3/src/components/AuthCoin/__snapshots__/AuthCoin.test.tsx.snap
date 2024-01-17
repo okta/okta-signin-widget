@@ -10,10 +10,10 @@ exports[`AuthCoin tests should display Branded AuthCoin and disallow style custo
     <svg
       aria-labelledby="mfa-duo"
       fill="none"
-      height="48"
+      height="2.85714286rem"
       role="img"
       viewBox="0 0 48 48"
-      width="48"
+      width="2.85714286rem"
       xmlns="http://www.w3.org/2000/svg"
     >
       <title
@@ -21,13 +21,6 @@ exports[`AuthCoin tests should display Branded AuthCoin and disallow style custo
       >
         factor.duo
       </title>
-      <path
-        class="siwFillBg"
-        clip-rule="evenodd"
-        d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
-        fill="#F5F5F6"
-        fill-rule="evenodd"
-      />
       <path
         clip-rule="evenodd"
         d="M10.632 17H4v6.13h13.25c-.197-3.418-3.085-6.13-6.618-6.13Zm7.242 0v6.506c0 3.466 2.766 6.3 6.25 6.494V17h-6.25Zm13.886 6.13c.2-3.418 3.087-6.13 6.62-6.13s6.42 2.712 6.62 6.13H31.76Zm-6.873 6.859h6.238v-6.114a6.32 6.32 0 0 0 .012-.375V17h-6.25v12.989Zm-14.255.01H4v-6.124h13.25C17.054 27.291 14.166 30 10.633 30ZM38.38 30c-3.533 0-6.42-2.709-6.62-6.125H45C44.801 27.291 41.913 30 38.38 30Z"
@@ -49,10 +42,10 @@ exports[`AuthCoin tests should display Non-Branded AuthCoin with style customiza
     <svg
       aria-labelledby="mfa-hotp"
       fill="none"
-      height="48"
+      height="2.85714286rem"
       role="img"
       viewBox="0 0 48 48"
-      width="48"
+      width="2.85714286rem"
       xmlns="http://www.w3.org/2000/svg"
     >
       <title
@@ -60,13 +53,6 @@ exports[`AuthCoin tests should display Non-Branded AuthCoin with style customiza
       >
         factor.hotp.description
       </title>
-      <path
-        class="siwFillBg"
-        clip-rule="evenodd"
-        d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
-        fill="#F5F5F6"
-        fill-rule="evenodd"
-      />
       <path
         class="siwFillSecondary"
         d="M28 23h-6v-6h1v5h5v1Z"
@@ -97,10 +83,10 @@ exports[`AuthCoin tests should display branded AuthCoin when image URL is provid
     <svg
       aria-labelledby="mfa-duo"
       fill="none"
-      height="48"
+      height="2.85714286rem"
       role="img"
       viewBox="0 0 48 48"
-      width="48"
+      width="2.85714286rem"
       xmlns="http://www.w3.org/2000/svg"
     >
       <title
@@ -108,13 +94,6 @@ exports[`AuthCoin tests should display branded AuthCoin when image URL is provid
       >
         factor.duo
       </title>
-      <path
-        class="siwFillBg"
-        clip-rule="evenodd"
-        d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
-        fill="#F5F5F6"
-        fill-rule="evenodd"
-      />
       <path
         clip-rule="evenodd"
         d="M10.632 17H4v6.13h13.25c-.197-3.418-3.085-6.13-6.618-6.13Zm7.242 0v6.506c0 3.466 2.766 6.3 6.25 6.494V17h-6.25Zm13.886 6.13c.2-3.418 3.087-6.13 6.62-6.13s6.42 2.712 6.62 6.13H31.76Zm-6.873 6.859h6.238v-6.114a6.32 6.32 0 0 0 .012-.375V17h-6.25v12.989Zm-14.255.01H4v-6.124h13.25C17.054 27.291 14.166 30 10.633 30ZM38.38 30c-3.533 0-6.42-2.709-6.62-6.125H45C44.801 27.291 41.913 30 38.38 30Z"
@@ -152,10 +131,10 @@ exports[`AuthCoin tests should display standard theme Non-Branded AuthCoin witho
     <svg
       aria-labelledby="mfa-hotp"
       fill="none"
-      height="48"
+      height="2.85714286rem"
       role="img"
       viewBox="0 0 48 48"
-      width="48"
+      width="2.85714286rem"
       xmlns="http://www.w3.org/2000/svg"
     >
       <title
@@ -163,13 +142,6 @@ exports[`AuthCoin tests should display standard theme Non-Branded AuthCoin witho
       >
         factor.hotp.description
       </title>
-      <path
-        class="siwFillBg"
-        clip-rule="evenodd"
-        d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
-        fill="#F5F5F6"
-        fill-rule="evenodd"
-      />
       <path
         class="siwFillSecondary"
         d="M28 23h-6v-6h1v5h5v1Z"

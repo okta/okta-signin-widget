@@ -59,6 +59,8 @@ const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
       <AuthCoinIcon
         name={name}
         description={description}
+        width={tokens.Spacing7}
+        height={tokens.Spacing7}
       />
     );
   }
@@ -70,11 +72,9 @@ const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
       aria-hidden
       sx={{
         position: 'relative',
-        background: 'white',
-        inlineSize: '54px',
-        blockSize: '48px',
-        paddingBlock: 0,
-        paddingInline: '3px',
+        inlineSize: tokens.Spacing7,
+        blockSize: tokens.Spacing7,
+        paddingBlock: tokens.Spacing0,
         ...sx,
       }}
     >

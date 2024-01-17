@@ -14,6 +14,7 @@ import {
   getI18nKey,
   getI18NParams,
 } from '../../../../v2/ion/i18nUtils';
+import { AUTHENTICATOR_KEY } from '../../constants';
 import {
   AuthenticatorButtonElement,
   AuthenticatorButtonListElement,
@@ -54,6 +55,11 @@ export const transformAuthenticatorButton: TransformStepFnWithOptions = ({
 }) => (
   formbag,
 ) => {
+  const AUTHENTICATORS_TO_TRANSLATE_DESCRIPTION = [
+    AUTHENTICATOR_KEY.CUSTOM_APP,
+    AUTHENTICATOR_KEY.OV,
+  ];
+
   traverseLayout({
     layout: formbag.uischema,
     predicate: (element) => element.type === 'AuthenticatorButtonList',
@@ -66,12 +72,22 @@ export const transformAuthenticatorButton: TransformStepFnWithOptions = ({
       buttonListElement.options.buttons.forEach(
         (authenticatorButtonElement: AuthenticatorButtonElement) => {
           const i18nKey = getAuthenticatorButtonKey(stepName, authenticatorButtonElement.options);
+          const {
+            label,
+            options: {
+              key,
+              description,
+              isEnroll,
+            },
+          } = authenticatorButtonElement;
+          const translateDescription = !isEnroll
+            && AUTHENTICATORS_TO_TRANSLATE_DESCRIPTION.includes(key);
           addTranslation({
             element: authenticatorButtonElement,
-            name: 'label',
+            name: translateDescription ? 'description' : 'label',
             i18nKey,
             params,
-            defaultValue: authenticatorButtonElement.label,
+            defaultValue: translateDescription ? description : label,
           });
         },
       );
