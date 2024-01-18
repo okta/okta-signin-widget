@@ -156,10 +156,11 @@ export default class OktaSignIn implements OktaSignInAPI {
         function formatResult(status: number, data: unknown | string, response: Response) {
           const isObject = typeof data === 'object';
           const headers2: Record<string, unknown> = {};
-          (response.headers as any).entries().map(([k, v]: [string, unknown]) => {
+          // eslint-disable-next-line
+          for (const [k, v] of (response.headers as any).entries()) {
+            // eslint-disable-next-line
             headers2[k] = v;
-            return undefined;
-          });
+          }
           const result: HttpResponse = {
             responseText: isObject ? JSON.stringify(data) : data as string,
             status,

@@ -18,7 +18,8 @@ const idx = {
   ],
 
   '/idp/idx/introspect': [
-    'identify',
+    'authenticator-enroll-select-authenticator-with-skip', // click 'Back to sign in' to trigger error
+    // 'identify',
     // 'error-identify-multiple-errors',
     // 'authenticator-enroll-ov-qr-enable-biometrics',
     // 'authenticator-verification-okta-verify-push',
