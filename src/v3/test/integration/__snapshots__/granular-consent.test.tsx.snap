@@ -76,7 +76,6 @@ exports[`granular-consent should render form with logo 1`] = `
               >
                 <span
                   aria-label="Processing..."
-                  aria-valuetext="Processing..."
                   class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-16"
                   role="progressbar"
                   style="width: 1.71428571rem; height: 1.71428571rem;"

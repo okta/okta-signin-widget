@@ -1401,7 +1401,6 @@ exports[`authenticator-enroll-security-question-error predefined question should
                           >
                             <span
                               aria-label="Processing..."
-                              aria-valuetext="Processing..."
                               class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-52"
                               role="progressbar"
                               style="width: 1.71428571rem; height: 1.71428571rem;"
