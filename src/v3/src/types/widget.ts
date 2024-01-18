@@ -285,7 +285,7 @@ interface ProxyIdxResponse {
 
 type CustomButton = {
   title: string;
-  className: string;
+  className?: string;
   i18nKey: string;
   dataAttr?: string;
   click: { (): void }

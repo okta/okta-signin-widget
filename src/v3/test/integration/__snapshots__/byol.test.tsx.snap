@@ -1507,7 +1507,7 @@ exports[`byol loading custom language should load custom language with "language
                     >
                       <button
                         class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-50"
-                        data-type="save"
+                        data-se="save"
                         tabindex="0"
                         type="submit"
                       >
@@ -3055,7 +3055,7 @@ exports[`byol loading custom language should load custom language with assets.ba
                     >
                       <button
                         class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-50"
-                        data-type="save"
+                        data-se="save"
                         tabindex="0"
                         type="submit"
                       >
@@ -4603,7 +4603,7 @@ exports[`byol loading default language should not load custom language when the 
                     >
                       <button
                         class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-50"
-                        data-type="save"
+                        data-se="save"
                         tabindex="0"
                         type="submit"
                       >
@@ -6151,7 +6151,7 @@ exports[`byol loading default language should not load custom language with "lan
                     >
                       <button
                         class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-50"
-                        data-type="save"
+                        data-se="save"
                         tabindex="0"
                         type="submit"
                       >

@@ -10,7 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box, Button } from '@okta/odyssey-react-mui-legacy';
+import { Button, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
+import { Box } from '@okta/odyssey-react-mui-legacy';
 import { IdxActionParams } from '@okta/okta-auth-js';
 import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
@@ -34,6 +35,7 @@ const WebAuthNSubmit: UISchemaElementComponent<{
   const btnLabel = getTranslation(translations, 'label');
   const btnRetryLabel = getTranslation(translations, 'retry-label');
 
+  const tokens = useOdysseyDesignTokens();
   const { setMessage, loading } = useWidgetContext();
   const onSubmitHandler = useOnSubmit();
   const [waiting, setWaiting] = useState<boolean>(false);
@@ -84,20 +86,19 @@ const WebAuthNSubmit: UISchemaElementComponent<{
 
   return (
     <Box
-      marginBlockEnd={4}
+      marginBlockEnd={tokens.Spacing1}
       display={showLoading ? 'flex' : undefined}
       justifyContent={showLoading ? 'center' : undefined}
     >
       <Button
-        disabled={showLoading}
-        data-se="button"
+        isDisabled={showLoading}
+        testId="button"
         onClick={handleClick}
         variant="primary"
-        aria-describedby={ariaDescribedBy}
-        fullWidth
-      >
-        {label}
-      </Button>
+        ariaDescribedBy={ariaDescribedBy}
+        isFullWidth
+        label={label}
+      />
     </Box>
   );
 };

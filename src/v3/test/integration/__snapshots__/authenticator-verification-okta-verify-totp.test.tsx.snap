@@ -160,7 +160,7 @@ exports[`authenticator-verification-okta-verify-totp should have autocomplete at
                   >
                     <button
                       class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-26"
-                      data-type="save"
+                      data-se="save"
                       tabindex="0"
                       type="submit"
                     >
@@ -360,7 +360,7 @@ exports[`authenticator-verification-okta-verify-totp should render form 1`] = `
                   >
                     <button
                       class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-26"
-                      data-type="save"
+                      data-se="save"
                       tabindex="0"
                       type="submit"
                     >

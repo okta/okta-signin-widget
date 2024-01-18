@@ -14,7 +14,6 @@ import {
   IdxAuthenticator,
   IdxMessage, IdxRemediation, IdxTransaction, NextStep,
 } from '@okta/okta-auth-js';
-import classNames from 'classnames';
 
 import IDP from '../../../util/IDP';
 import Util from '../../../util/Util';
@@ -77,8 +76,7 @@ export const getCustomButtonElements = (widgetProps: WidgetProps): ButtonElement
       options: {
         type: ButtonType.BUTTON,
         step: '',
-        dataSe: customButton.dataAttr,
-        classes: classNames(customButton.className, 'default-custom-button'),
+        dataSe: customButton.dataAttr ?? 'custom-button',
         variant: 'secondary',
         onClick: customButton.click,
       },
@@ -106,7 +104,6 @@ const getPIVButtonElement = (
       type: ButtonType.BUTTON,
       step: IDX_STEP.PIV_IDP,
       dataSe: 'piv-card-button',
-      classes: `${piv?.className || ''} piv-button`,
       variant: 'secondary',
       Icon: SmartCardIconSvg,
       iconAlt: loc('piv.card', 'login'),
@@ -189,10 +186,6 @@ const getConfigIdpButtonRemediations = (
           name: idpConfig.text,
         };
         const redirectUri = `${baseUrl}/sso/idps/${idpConfig.id}?stateToken=${stateHandle}`;
-        if (idpConfig.className) {
-          // @ts-expect-error OKTA-609464 - className missing from IdpConfig type
-          idp.className = idpConfig.className;
-        }
         return {
           name: IDX_STEP.REDIRECT_IDP,
           type: idpConfig.type,
@@ -249,17 +242,11 @@ export const getIdpButtonElements = (
     return {
       type: 'Button',
       label: displayName,
+      noTranslate: type === 'general-idp',
       options: {
         type: ButtonType.BUTTON,
         step: IDX_STEP.PIV_IDP,
         dataSe: 'piv-card-button',
-        classes: classNames(
-          'social-auth-button',
-          `social-auth-${type}-button`,
-          // @ts-expect-error OKTA-609464 - className missing from IdpConfig type
-          idpObject.idp?.className,
-          { 'no-translate': type === 'general-idp' },
-        ),
         variant: 'secondary',
         Icon: idpIconMap[type],
         iconAlt: '',
