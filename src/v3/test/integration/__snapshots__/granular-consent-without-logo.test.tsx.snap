@@ -525,7 +525,7 @@ exports[`granular-consent-without-logo should render form 1`] = `
                   >
                     <button
                       class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-81"
-                      data-type="save"
+                      data-se="save"
                       tabindex="0"
                       type="button"
                     >
@@ -537,7 +537,7 @@ exports[`granular-consent-without-logo should render form 1`] = `
                   >
                     <button
                       class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-81"
-                      data-type="cancel"
+                      data-se="cancel"
                       tabindex="0"
                       type="button"
                     >

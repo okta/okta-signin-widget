@@ -257,7 +257,7 @@ exports[`admin-consent should render form with logo 1`] = `
                   >
                     <button
                       class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-45"
-                      data-type="save"
+                      data-se="save"
                       tabindex="0"
                       type="button"
                     >
@@ -269,7 +269,7 @@ exports[`admin-consent should render form with logo 1`] = `
                   >
                     <button
                       class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-45"
-                      data-type="cancel"
+                      data-se="cancel"
                       tabindex="0"
                       type="button"
                     >

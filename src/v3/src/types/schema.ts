@@ -310,7 +310,6 @@ export interface ButtonElement extends UISchemaElement {
     dataSe?: string;
     stepToRender?: string;
     ariaLabel?: string;
-    classes?: string;
     disabled?: boolean;
     Icon?: FunctionComponent | string;
     iconAlt?: string;

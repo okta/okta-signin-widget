@@ -17,7 +17,7 @@ fixture('Theming')
 
 test('Theme configuration applies correctly', async (t) => {
   const submitButton = Selector('button')
-    .withAttribute('data-type', 'save');
+    .withAttribute('data-se', 'save');
 
   await t
     .expect(submitButton.getStyleProperty('background-color'))

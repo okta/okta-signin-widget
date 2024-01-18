@@ -669,7 +669,7 @@ exports[`authenticator-verification-webauthn renders form - webauthn supported 1
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="MuiBox-root emotion-11"
+                      class="MuiBox-root emotion-24"
                     >
                       <button
                         class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-25"
@@ -1078,7 +1078,7 @@ exports[`authenticator-verification-webauthn should render form with required us
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="MuiBox-root emotion-11"
+                      class="MuiBox-root emotion-24"
                     >
                       <button
                         class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-25"

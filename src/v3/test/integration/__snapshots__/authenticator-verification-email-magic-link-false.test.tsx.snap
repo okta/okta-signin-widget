@@ -242,7 +242,7 @@ exports[`Email authenticator verification when email magic link = false Tests sh
                   >
                     <button
                       class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-30"
-                      data-type="save"
+                      data-se="save"
                       tabindex="0"
                       type="submit"
                     >

@@ -107,8 +107,8 @@ test
     // Verify links (switch authenticator link is present even if there is just one authenticator available))
     await t.expect(await enrollGoogleAuthenticatorPageObject.returnToAuthenticatorListLinkExists()).ok();
     await t.expect(await enrollGoogleAuthenticatorPageObject.signoutLinkExists()).ok();
-    await t.expect(enrollGoogleAuthenticatorPageObject.getNextButton().getStyleProperty('display')).eql('block');
     await t.expect(enrollGoogleAuthenticatorPageObject.getNextButton().exists).eql(true);
+    await t.expect(enrollGoogleAuthenticatorPageObject.getNextButton().visible).eql(true);
 
     await enrollGoogleAuthenticatorPageObject.goToNextPage();
 

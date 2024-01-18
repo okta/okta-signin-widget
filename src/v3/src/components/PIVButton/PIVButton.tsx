@@ -10,7 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box, Button as OdyButton } from '@okta/odyssey-react-mui-legacy';
+import { Button as OdyButton } from '@okta/odyssey-react-mui';
+import { Box } from '@okta/odyssey-react-mui-legacy';
 import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 
@@ -70,14 +71,13 @@ const PIVButton: UISchemaElementComponent<{
           ? <Spinner dataSe="okta-spinner" />
           : (
             <OdyButton
-              data-se="button"
+              label={btnLabel || ''}
+              testId="button"
               onClick={handleClick}
               variant="primary"
-              aria-describedby={ariaDescribedBy}
-              fullWidth
-            >
-              {btnLabel}
-            </OdyButton>
+              ariaDescribedBy={ariaDescribedBy}
+              isFullWidth
+            />
           )
       }
     </Box>

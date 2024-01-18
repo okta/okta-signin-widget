@@ -244,7 +244,7 @@ exports[`enroll-profile-update-optional-fields should render form with one requi
                   >
                     <button
                       class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-42"
-                      data-type="save"
+                      data-se="save"
                       tabindex="0"
                       type="submit"
                     >

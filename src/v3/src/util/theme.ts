@@ -123,6 +123,16 @@ export const createThemeAndTokens = (
   // Merge default Odyssey 1.x theme with component overrides
   const themeOverride = mergeThemes(baseOdysseyTheme, {
     components: {
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            whiteSpace: 'normal',
+          },
+        },
+      },
       MuiAlert: {
         styleOverrides: {
           root: {

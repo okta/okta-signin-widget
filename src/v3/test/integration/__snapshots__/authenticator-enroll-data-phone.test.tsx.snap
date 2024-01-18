@@ -1570,7 +1570,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                     >
                       <button
                         class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-50"
-                        data-type="save"
+                        data-se="save"
                         tabindex="0"
                         type="submit"
                       >
@@ -3181,7 +3181,7 @@ exports[`authenticator-enroll-data-phone should render form without an autoFocus
                     >
                       <button
                         class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-50"
-                        data-type="save"
+                        data-se="save"
                         tabindex="0"
                         type="submit"
                       >
@@ -4817,7 +4817,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                     >
                       <button
                         class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-54"
-                        data-type="save"
+                        data-se="save"
                         tabindex="0"
                         type="submit"
                       >

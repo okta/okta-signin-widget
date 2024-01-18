@@ -140,7 +140,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                     class="MuiBox-root emotion-10"
                   >
                     <button
-                      class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth custom-piv-class piv-button emotion-14"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-14"
                       tabindex="0"
                       type="button"
                     >
@@ -293,7 +293,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                   >
                     <button
                       class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-40"
-                      data-type="save"
+                      data-se="save"
                       tabindex="0"
                       type="submit"
                     >
@@ -521,7 +521,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                     class="MuiBox-root emotion-10"
                   >
                     <button
-                      class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth  piv-button emotion-14"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-14"
                       tabindex="0"
                       type="button"
                     >
@@ -674,7 +674,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                   >
                     <button
                       class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-40"
-                      data-type="save"
+                      data-se="save"
                       tabindex="0"
                       type="submit"
                     >
@@ -971,7 +971,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                   >
                     <button
                       class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-33"
-                      data-type="save"
+                      data-se="save"
                       tabindex="0"
                       type="submit"
                     >
@@ -996,7 +996,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                     class="MuiBox-root emotion-10"
                   >
                     <button
-                      class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth  piv-button emotion-38"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-38"
                       tabindex="0"
                       type="button"
                     >

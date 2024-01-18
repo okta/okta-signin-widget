@@ -242,7 +242,7 @@ exports[`Email authenticator enroll when magic link = false Tests should render 
                   >
                     <button
                       class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-30"
-                      data-type="save"
+                      data-se="save"
                       tabindex="0"
                       type="submit"
                     >

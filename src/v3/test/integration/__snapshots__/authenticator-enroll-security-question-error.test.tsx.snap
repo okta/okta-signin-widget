@@ -383,7 +383,7 @@ exports[`authenticator-enroll-security-question-error custom question should sho
                     >
                       <button
                         class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-55"
-                        data-type="save"
+                        data-se="save"
                         tabindex="0"
                         type="submit"
                       >
@@ -884,7 +884,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                     >
                       <button
                         class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-56"
-                        data-type="save"
+                        data-se="save"
                         tabindex="0"
                         type="submit"
                       >
@@ -1388,7 +1388,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                     >
                       <button
                         class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth Mui-disabled MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-49"
-                        data-type="save"
+                        data-se="save"
                         disabled=""
                         tabindex="-1"
                         type="submit"
@@ -1957,7 +1957,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                     >
                       <button
                         class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-56"
-                        data-type="save"
+                        data-se="save"
                         tabindex="0"
                         type="submit"
                       >

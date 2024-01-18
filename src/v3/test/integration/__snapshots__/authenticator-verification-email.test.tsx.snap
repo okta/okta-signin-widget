@@ -787,7 +787,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                     >
                       <button
                         class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-31"
-                        data-type="save"
+                        data-se="save"
                         tabindex="0"
                         type="submit"
                       >
@@ -1118,7 +1118,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                     >
                       <button
                         class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-40"
-                        data-type="save"
+                        data-se="save"
                         tabindex="0"
                         type="submit"
                       >
@@ -1514,7 +1514,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                     >
                       <button
                         class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-49"
-                        data-type="save"
+                        data-se="save"
                         tabindex="0"
                         type="submit"
                       >
@@ -2024,7 +2024,7 @@ exports[`Email authenticator verification when email magic link = undefined shou
                     >
                       <button
                         class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-31"
-                        data-type="save"
+                        data-se="save"
                         tabindex="0"
                         type="submit"
                       >
