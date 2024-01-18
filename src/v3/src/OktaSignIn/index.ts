@@ -10,7 +10,9 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { OktaAuth, OktaAuthOptions, Tokens } from '@okta/okta-auth-js';
+import {
+  HttpResponse, OktaAuth, OktaAuthOptions, Tokens,
+} from '@okta/okta-auth-js';
 import pick from 'lodash/pick';
 import { h, render } from 'preact';
 import { TinyEmitter as EventEmitter } from 'tiny-emitter';
@@ -126,6 +128,96 @@ export default class OktaSignIn implements OktaSignInAPI {
       if (!authParams.issuer) {
         authParams.issuer = `${options.baseUrl}/oauth2/default`;
       }
+
+      authParams.httpRequestClient = async (method, url, args) => {
+        let body = args.data;
+        const headers: any = args.headers || {};
+        const contentType = (headers?.['Content-Type'] || headers?.['content-type'] || '');
+
+        // content-type = application/json OR application/ion+json
+        const appJsonContentTypeRegex = /application\/\w*\+?json/;
+
+        function readData(response: Response): Promise<unknown | string> {
+          if (
+            response.headers.get('Content-Type')
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            && response.headers.get('Content-Type')!.toLowerCase().indexOf('application/json') >= 0
+          ) {
+            return response.json()
+            // JSON parse can fail if response is not a valid object
+              .catch((e) => ({
+                error: e,
+                errorSummary: 'Could not parse server response',
+              }));
+          }
+          return response.text();
+        }
+
+        function formatResult(status: number, data: unknown | string, response: Response) {
+          const isObject = typeof data === 'object';
+          const headers2: Record<string, unknown> = {};
+          (response.headers as any).entries().map(([k, v]: [string, unknown]) => {
+            headers2[k] = v;
+            return undefined;
+          });
+          const result: HttpResponse = {
+            responseText: isObject ? JSON.stringify(data) : data as string,
+            status,
+            headers: headers2,
+          } as HttpResponse;
+          if (isObject) {
+            result.responseType = 'json';
+            result.responseJSON = data as Record<string, unknown>;
+          }
+          return result;
+        }
+
+        if (body && typeof body !== 'string') {
+          // JSON encode body (if appropriate)
+          if (appJsonContentTypeRegex.test(contentType)) {
+            body = JSON.stringify(body);
+          } else if (contentType === 'application/x-www-form-urlencoded') {
+            body = Object.entries(body)
+              .map( ([param, value]) => `${param}=${encodeURIComponent(value)}` )
+              .join('&');
+          }
+        }
+
+        let response;
+        try {
+          response = await fetch(url, {
+            method,
+            headers: args.headers,
+            body: body as string,
+            credentials: args.withCredentials ? 'include' : 'omit',
+          });
+
+          const error = !response.ok;
+          const { status } = response;
+          const data = await readData(response);
+          const result = await formatResult(status, data, response);
+
+          if (error || result.responseJSON?.error) {
+            // Throwing result object since error handling is done in http.js
+            // eslint-disable-next-line @typescript-eslint/no-throw-literal
+            throw result;
+          }
+          return result;
+        } catch (err) {
+          console.error('>>>>> errr', err);
+          if (!err?.status) {
+            // eslint-disable-next-line @typescript-eslint/no-throw-literal
+            throw {
+              responseText: JSON.stringify({
+                error: err.message,
+                error_description: err.message,
+              }),
+            };
+          }
+          // eslint-disable-next-line @typescript-eslint/no-throw-literal
+          throw err;
+        }
+      };
 
       // instance of OktaAuth client
       this.authClient = new OktaAuth(authParams);
