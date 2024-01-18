@@ -145,7 +145,7 @@ export const createThemeAndTokens = (
             // when rendering it as the startIcon for primary buttons
             ...(ownerState.variant === 'primary' && {
               '& .MuiCircularProgress-root': {
-                color: 'white',
+                color: mergedTokens.HueNeutralWhite,
               },
             }),
           }),
