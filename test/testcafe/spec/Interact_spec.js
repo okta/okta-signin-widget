@@ -63,6 +63,13 @@ const errorInvalidRecoveryTokenMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrIdentify);
 
+const errorInvalidActivationTokenMock = RequestMock()
+  .onRequestTo('http://localhost:3000/oauth2/default/.well-known/openid-configuration')
+  .respond(xhrWellKnownResponse, 200)
+  .onRequestTo('http://localhost:3000/oauth2/default/v1/interact')
+  .respond(xhrErrorInvalidActivationToken, 400)
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrIdentify);
 
 const cancelResetPasswordMock = RequestMock()
   .onRequestTo('http://localhost:3000/oauth2/default/.well-known/openid-configuration')
@@ -274,7 +281,7 @@ test.requestHooks(requestLogger, errorInvalidRecoveryTokenMock)('shows an error 
   ]);
 });
 
-test.requestHooks(requestLogger, xhrErrorInvalidActivationToken)('shows an error when activation token is invalid', async t => {
+test.requestHooks(requestLogger, errorInvalidActivationTokenMock)('shows an error when activation token is invalid', async t => {
   await setup(t);
   await checkA11y(t);
 
