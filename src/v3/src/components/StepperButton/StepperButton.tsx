@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Button, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
+import { Button } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 
 import { useStepperContext, useWidgetContext } from '../../contexts';
@@ -33,7 +33,6 @@ const StepperButton: UISchemaElementComponent<{
     },
   } = uischema;
 
-  const tokens = useOdysseyDesignTokens();
   const focusRef = useAutoFocus<HTMLButtonElement>(focus);
   const widgetContext = useWidgetContext();
   const { loading } = widgetContext;
@@ -53,11 +52,7 @@ const StepperButton: UISchemaElementComponent<{
       type={type ?? 'button'}
       isFullWidth
       buttonFocusRef={focusRef}
-      startIcon={loading && (
-        <Spinner
-          color={!variant || variant === 'primary' ? tokens.HueNeutralWhite : undefined}
-        />
-      )}
+      startIcon={loading && <Spinner />}
       ariaDescribedBy={ariaDescribedBy}
       label={label}
     />

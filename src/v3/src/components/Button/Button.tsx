@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Button as OdyButton, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
+import { Button as OdyButton } from '@okta/odyssey-react-mui';
 import { Box } from '@okta/odyssey-react-mui-legacy';
 import { h } from 'preact';
 
@@ -28,7 +28,6 @@ const Button: UISchemaElementComponent<{
 }> = ({
   uischema,
 }) => {
-  const tokens = useOdysseyDesignTokens();
   const widgetContext = useWidgetContext();
   const { loading } = widgetContext;
   const onSubmitHandler = useOnSubmit();
@@ -87,11 +86,7 @@ const Button: UISchemaElementComponent<{
       isFullWidth={wide ?? true}
       buttonFocusRef={focusRef}
       isDisabled={loading || disabled}
-      startIcon={loading ? (
-        <Spinner
-          color={!variant || variant === 'primary' ? tokens.HueNeutralWhite : undefined}
-        />
-      ) : ButtonImageIcon}
+      startIcon={loading ? <Spinner /> : ButtonImageIcon}
       ariaDescribedBy={ariaDescribedBy}
       testId={dataSe ?? dataType}
       ariaLabel={ariaLabel}
