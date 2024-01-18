@@ -5,6 +5,7 @@ import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
 import { checkConsoleMessages } from '../framework/shared';
 import xhrErrorFeatureNotEnabled from '../../../playground/mocks/data/oauth2/error-feature-not-enabled';
 import xhrErrorInvalidRecoveryToken from '../../../playground/mocks/data/oauth2/error-recovery-token-invalid';
+import xhrErrorInvalidActivationToken from '../../../playground/mocks/data/oauth2/error-activation-token-invalid';
 import xhrWellKnownResponse from '../../../playground/mocks/data/oauth2/well-known-openid-configuration.json';
 import xhrInteractResponse from '../../../playground/mocks/data/oauth2/interact.json';
 import xhrIdentify from '../../../playground/mocks/data/idp/idx/identify';
@@ -266,6 +267,24 @@ test.requestHooks(requestLogger, errorInvalidRecoveryTokenMock)('shows an error 
   await t.expect(errors.isError()).ok();
   await t.expect(errors.getTextContent()).eql('The recovery token is invalid.');
 
+  await checkConsoleMessages([
+    'ready',
+    'afterRender',
+    expectTerminalView
+  ]);
+});
+
+test.requestHooks(requestLogger, xhrErrorInvalidActivationToken)('shows an error when activation token is invalid', async t => {
+  await setup(t);
+  await checkA11y(t);
+
+  const terminalPageObject = new TerminalPageObject(t);
+  const errors = terminalPageObject.getErrorMessages();
+  await t.expect(errors.isError()).ok();
+  // error title
+  await t.expect(errors.getTextContent()).contains('Activation link no longer valid');
+  // error description
+  await t.expect(errors.getTextContent()).contains('This can happen if you have already activated your account, or if the URL you are trying to use is invalid. Contact your administrator for further assistance');
   await checkConsoleMessages([
     'ready',
     'afterRender',
