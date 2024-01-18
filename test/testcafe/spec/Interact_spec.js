@@ -1,4 +1,4 @@
-import { ClientFunction, RequestMock, RequestLogger } from 'testcafe';
+import { ClientFunction, RequestMock, RequestLogger, userVariables } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 import BasePageObject from '../framework/page-objects/BasePageObject';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
@@ -288,9 +288,11 @@ test.requestHooks(requestLogger, errorInvalidActivationTokenMock)('shows an erro
   const terminalPageObject = new TerminalPageObject(t);
   const errors = terminalPageObject.getErrorMessages();
   await t.expect(errors.isError()).ok();
-  // error title
-  await t.expect(errors.getTextContent()).contains('Activation link no longer valid');
-  // error description
+  if (userVariables.gen3) {
+    await t.expect(errors.getTextContent()).contains('Activation link no longer valid');
+  } else {
+    await t.expect(terminalPageObject.getFormTitle()).eql('Activation link no longer valid');
+  }
   await t.expect(errors.getTextContent()).contains('This can happen if you have already activated your account, or if the URL you are trying to use is invalid. Contact your administrator for further assistance');
   await checkConsoleMessages([
     'ready',
