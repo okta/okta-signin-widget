@@ -10,17 +10,18 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box, CircularProgress } from '@okta/odyssey-react-mui-legacy';
+import { Box } from '@mui/material';
+import { CircularProgress } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
 
 import { SpinnerElement } from '../../types';
 import { loc } from '../../util';
 
-type SpinnerProps = { dataSe?: string; color?: string; };
+type SpinnerProps = { dataSe?: string; };
 const Spinner: FunctionComponent<SpinnerProps | SpinnerElement> = (
   props,
 ) => {
-  const { dataSe = undefined, color = undefined } = 'type' in props
+  const { dataSe = undefined } = 'type' in props
     ? {}
     : props as SpinnerProps;
   return (
@@ -31,13 +32,10 @@ const Spinner: FunctionComponent<SpinnerProps | SpinnerElement> = (
       alignItems="center"
     >
       <CircularProgress
-        id={dataSe}
-        data-se={dataSe}
+        testId={dataSe}
         // Using loc here because this component is not only used by transformers
         // but also directly in widget component
-        aria-label={loc('processing.alt.text', 'login')}
-        aria-valuetext={loc('processing.alt.text', 'login')}
-        sx={{ color }}
+        ariaLabel={loc('processing.alt.text', 'login')}
       />
     </Box>
   );
