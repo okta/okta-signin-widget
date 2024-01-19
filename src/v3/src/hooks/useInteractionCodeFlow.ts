@@ -25,7 +25,6 @@ import {
   loc,
   removeUserAuthenticatedCookie,
   SessionStorage,
-  setCookieUserAuthenticated,
 } from '../util';
 
 export const useInteractionCodeFlow = (
@@ -101,7 +100,6 @@ export const useInteractionCodeFlow = (
         status: IdxStatus.SUCCESS,
         ...redirectParams,
       });
-      setCookieUserAuthenticated();
       setFormBag(undefined);
       return;
     }
@@ -118,7 +116,6 @@ export const useInteractionCodeFlow = (
         .then(({ tokens }) => {
           const result: RenderResult = { tokens, status: IdxStatus.SUCCESS };
           setFormBag(undefined);
-          setCookieUserAuthenticated();
           onSuccess?.(result);
         })
         .catch((error: AuthSdkError) => {

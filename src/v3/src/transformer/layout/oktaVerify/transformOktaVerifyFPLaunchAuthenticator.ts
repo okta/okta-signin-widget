@@ -64,6 +64,7 @@ export const transformOktaVerifyFPLaunchAuthenticator: IdxStepTransformer = ({
     launchAuthenticatorButton,
   ];
 
+  // if the browser already has a session, then we should not render the “Back to sign in” link (OKTA-624224)
   if (!getCookieUserAuthenticated()) {
     const existingBackLink: LinkElement = uischema.elements.find(
       (e) => e.type === 'Link' && (e as LinkElement).options.step === 'cancel',

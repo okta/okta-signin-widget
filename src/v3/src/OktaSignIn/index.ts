@@ -14,6 +14,7 @@ import { OktaAuth, OktaAuthOptions, Tokens } from '@okta/okta-auth-js';
 import pick from 'lodash/pick';
 import { h, render } from 'preact';
 import { TinyEmitter as EventEmitter } from 'tiny-emitter';
+import { setCookieUserAuthenticated } from 'src/util';
 
 import {
   EventContext,
@@ -156,6 +157,7 @@ export default class OktaSignIn implements OktaSignInAPI {
 
     return new Promise<RenderResult>((resolve, reject) => {
       const onSuccessWrapper = (res: RenderResult): void => {
+        setCookieUserAuthenticated();
         onSuccess?.(res);
         resolve(res);
       };
