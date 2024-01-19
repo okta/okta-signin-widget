@@ -271,11 +271,12 @@ const authn = {
     'mfa-enroll-sms'
   ],
   '/api/v1/authn': [
-    'error-authentication-failed',
+    // 'error-authentication-failed',
     // 'unauthenticated',
     // 'success-001'
     // 'consent-required',
     // 'device-code-activate',
+    // 'mfa-all-factors'
   ],
   '/api/v1/authn/device/activate': [
     'terminal-device-activated',
@@ -1150,6 +1151,4 @@ const redirectOnPoll = {
 
 module.exports = {
   mocks: idx,
-  // mocks: ovEnroll,
-  // mocks: authn,
 };

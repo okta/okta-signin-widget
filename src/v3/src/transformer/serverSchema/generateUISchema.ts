@@ -108,12 +108,12 @@ const ElementTesters: ElementTester[] = [
 ];
 
 const toLayout = (uischema: any): VerticalLayout | HorizontalLayout => {
-  const { style } = uischema;
+  const { options } = uischema;
   const layout: Layout = { type: UISchemaLayoutType.VERTICAL, elements: [] };
-  if (style) {
-    layout.options = style;
+  if (options) {
+    layout.options = options;
   }
-  switch (style?.direction) {
+  switch (options?.direction) {
     case 'vertical':
       return layout as VerticalLayout;
     case 'horizontal':
