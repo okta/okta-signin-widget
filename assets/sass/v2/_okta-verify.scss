@@ -31,6 +31,54 @@
     }
   }
 
+  .sameDevice-setup {
+    text-align: center;
+  }
+
+  .sameDevice-setup ol {
+    list-style: none;
+  }
+
+  .sameDevice-setup .ov-info {
+    margin-bottom: 15px;
+  }
+
+  .sameDevice-setup .setup-button {
+    margin: 15px auto;
+    width: 100%;
+    text-decoration: none;
+  }
+
+  .sameDevice-setup .orOnMobileLink {
+    color: #007cc0;
+    text-decoration: none;
+  }
+
+  .app-store-logo {
+    display: block;
+    margin: 10px auto;
+    height: 50px;
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
+
+  .android-app-store-logo {
+    background-image: url('../img/appstore/google-play-store.svg');
+  }
+
+  .ios-app-store-logo {
+    background-image: url('../img/appstore/apple-app-store.svg');
+    transform: scale(1.4);
+  }
+
+  .windows-app-store-logo {
+    background-image: url('../img/appstore/windows-app-store.svg');
+  }
+
+  .osx-app-store-logo {
+    background-image: url('../img/appstore/osx-app-store.svg');
+  }
+
   .switch-channel-link {
     color: $link-text-color;
   }

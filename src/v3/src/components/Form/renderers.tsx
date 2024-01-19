@@ -31,6 +31,7 @@ import DuoWindow from '../DuoWindow';
 import Heading from '../Heading';
 import HiddenInput from '../HiddenInput';
 import IdentifierContainer from '../IdentifierContainer';
+import ImageLink from '../ImageLink';
 import ImageWithText from '../ImageWithText';
 import InfoBox from '../InfoBox';
 import InformationalText from '../InformationalText';
@@ -66,6 +67,10 @@ import WebAuthNSubmitButton from '../WebAuthNSubmitButton';
  * Note: the tester order of this array matters, first match found will be used as the render component.
 */
 export default [
+  {
+    tester: ({ type }) => type === 'ImageLink',
+    renderer: ImageLink,
+  },
   {
     tester: ({ type }) => type === 'Reminder',
     renderer: ReminderPrompt,
