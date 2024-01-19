@@ -32,6 +32,7 @@ const CHANNEL_TO_LABEL_KEY_MAP: { [channel: string]: string } = {
 export const transformOktaVerifyChannelSelection: IdxStepTransformer = ({
   prevTransaction,
   transaction,
+  widgetProps,
   formBag,
 }) => {
   const { context } = prevTransaction || {};
@@ -84,7 +85,8 @@ export const transformOktaVerifyChannelSelection: IdxStepTransformer = ({
   };
   elements.push(submitButton);
 
-  if (!['email', 'sms'].includes(lastSelectedChannel)) {
+  const { features: { sameDeviceOVEnrollmentEnabled = false } = {} } = widgetProps;
+  if (!sameDeviceOVEnrollmentEnabled && !['email', 'sms'].includes(lastSelectedChannel)) {
     const switchChannelTextLink: TextWithActionLinkElement = {
       type: 'TextWithActionLink',
       options: {

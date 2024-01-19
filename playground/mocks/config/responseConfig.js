@@ -47,6 +47,7 @@ const idx = {
     // 'authenticator-enroll-ov-via-sms',
     // 'authenticator-enroll-ov-qr',
     // 'authenticator-enroll-ov-same-device',
+    // 'authenticator-enroll-ov-same-device-setup-url',
     // 'authenticator-enroll-ov-device-bootstrap',
     // 'authenticator-enroll-ov-qr-enable-biometrics',
     // 'error-internal-server-error',

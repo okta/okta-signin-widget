@@ -107,6 +107,7 @@ const local: Record<string, ModelProperty> = {
   'features.showKeepMeSignedIn': ['boolean', false, true],
   'features.showIdentifier': ['boolean', false, true],
   'features.autoFocus': ['boolean', false, true],
+  'features.sameDeviceOVEnrollmentEnabled': ['boolean', false, false],
   'features.showSessionRevocation': ['boolean', false, false],
   'features.disableAutocomplete': ['boolean', false, false],
 

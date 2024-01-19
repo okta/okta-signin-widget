@@ -259,6 +259,7 @@ export type OktaWidgetFeatures = {
   multiOptionalFactorEnroll?: boolean;
   deviceFingerprinting?: boolean;
   useDeviceFingerprintForSecurityImage?: boolean;
+  sameDeviceOVEnrollmentEnabled?: boolean;
   trackTypingPattern?: boolean;
   hideSignOutLinkInMFA?: boolean;
   mfaOnlyFlow?: boolean;

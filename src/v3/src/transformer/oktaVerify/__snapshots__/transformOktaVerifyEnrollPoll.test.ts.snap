@@ -320,7 +320,20 @@ Object {
             ],
             "type": "VerticalLayout",
           },
+          Object {
+            "elements": Array [
+              Object {
+                "options": Object {
+                  "content": "oie.enroll.okta_verify.setup.title",
+                },
+                "type": "Title",
+                "viewIndex": 5,
+              },
+            ],
+            "type": "VerticalLayout",
+          },
         ],
+        "key": "stepper_devicebootstrap",
         "options": Object {
           "defaultStepIndex": [Function],
         },
@@ -536,7 +549,20 @@ Object {
             ],
             "type": "VerticalLayout",
           },
+          Object {
+            "elements": Array [
+              Object {
+                "options": Object {
+                  "content": "oie.enroll.okta_verify.setup.title",
+                },
+                "type": "Title",
+                "viewIndex": 5,
+              },
+            ],
+            "type": "VerticalLayout",
+          },
         ],
+        "key": "stepper_qrcode",
         "options": Object {
           "defaultStepIndex": [Function],
         },
@@ -919,7 +945,20 @@ Object {
             ],
             "type": "VerticalLayout",
           },
+          Object {
+            "elements": Array [
+              Object {
+                "options": Object {
+                  "content": "oie.enroll.okta_verify.setup.title",
+                },
+                "type": "Title",
+                "viewIndex": 5,
+              },
+            ],
+            "type": "VerticalLayout",
+          },
         ],
+        "key": "stepper_samedevice",
         "options": Object {
           "defaultStepIndex": [Function],
         },
@@ -1205,7 +1244,20 @@ Object {
             ],
             "type": "VerticalLayout",
           },
+          Object {
+            "elements": Array [
+              Object {
+                "options": Object {
+                  "content": "oie.enroll.okta_verify.setup.email.title",
+                },
+                "type": "Title",
+                "viewIndex": 5,
+              },
+            ],
+            "type": "VerticalLayout",
+          },
         ],
+        "key": "stepper_email",
         "options": Object {
           "defaultStepIndex": [Function],
         },
@@ -1491,7 +1543,20 @@ Object {
             ],
             "type": "VerticalLayout",
           },
+          Object {
+            "elements": Array [
+              Object {
+                "options": Object {
+                  "content": "oie.enroll.okta_verify.setup.sms.title",
+                },
+                "type": "Title",
+                "viewIndex": 5,
+              },
+            ],
+            "type": "VerticalLayout",
+          },
         ],
+        "key": "stepper_sms",
         "options": Object {
           "defaultStepIndex": [Function],
         },
