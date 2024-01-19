@@ -14,7 +14,6 @@ import { OktaAuth, OktaAuthOptions, Tokens } from '@okta/okta-auth-js';
 import pick from 'lodash/pick';
 import { h, render } from 'preact';
 import { TinyEmitter as EventEmitter } from 'tiny-emitter';
-import { setCookieUserAuthenticated } from 'src/util';
 
 import {
   EventContext,
@@ -24,6 +23,7 @@ import {
   RenderResult,
   RenderSuccessCallback,
 } from '../../../types';
+import { setCookieUserAuthenticated } from '../util';
 import { Widget } from '../components/Widget';
 import {
   JsonObject,

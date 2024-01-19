@@ -18,8 +18,7 @@ import {
   LinkElement,
   TitleElement,
 } from '../../../types';
-import { loc } from '../../../util';
-import { getCookieUserAuthenticated } from '../../../util/cookieUtils';
+import { loc, getCookieUserAuthenticated } from '../../../util';
 
 export const transformOktaVerifyFPLaunchAuthenticator: IdxStepTransformer = ({
   formBag,
