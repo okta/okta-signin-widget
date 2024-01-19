@@ -19,7 +19,12 @@ import { redirectTransformer } from '../transformer/redirect';
 import { createForm } from '../transformer/utils';
 import { FormBag, InfoboxElement, WidgetProps } from '../types';
 import {
-  getAuthenticationMode, isAuthClientSet, isOauth2Enabled, loc, SessionStorage,
+  getAuthenticationMode,
+  isAuthClientSet,
+  isOauth2Enabled,
+  loc,
+  removeUserAuthenticatedCookie,
+  SessionStorage,
 } from '../util';
 
 export const useInteractionCodeFlow = (
@@ -54,6 +59,7 @@ export const useInteractionCodeFlow = (
       return;
     }
     SessionStorage.removeStateHandle();
+    removeUserAuthenticatedCookie();
 
     const {
       authClient,
