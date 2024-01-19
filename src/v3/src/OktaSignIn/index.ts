@@ -23,7 +23,6 @@ import {
   RenderResult,
   RenderSuccessCallback,
 } from '../../../types';
-import { setCookieUserAuthenticated } from '../util';
 import { Widget } from '../components/Widget';
 import {
   JsonObject,
@@ -34,6 +33,7 @@ import {
   WidgetOptions,
   WidgetProps,
 } from '../types';
+import { setCookieUserAuthenticated } from '../util';
 import { WidgetHooks } from '../util/widgetHooks';
 
 const EVENTS_LIST = ['ready', 'afterError', 'afterRender'];
