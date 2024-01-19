@@ -179,3 +179,32 @@ span.strong {
 span.no-translate {
   white-space: nowrap;
 }
+
+.app-store-logo {
+  display: block;
+  /* stylelint-disable-next-line liberty/use-logical-spec */
+  margin: 10px auto;
+  /* stylelint-disable-next-line liberty/use-logical-spec */
+  height: 50px;
+  /* stylelint-disable-next-line liberty/use-logical-spec */
+  width: 320px;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.android-app-store-logo {
+  background-image: url('../../../../../assets/img/appstore/google-play-store.svg');
+}
+
+.ios-app-store-logo {
+  background-image: url('../../../../../assets/img/appstore/apple-app-store.svg');
+  transform: scale(1.4);
+}
+
+.windows-app-store-logo {
+  background-image: url('../../../../../assets/img/appstore/windows-app-store.svg');
+}
+
+.osx-app-store-logo {
+  background-image: url('../../../../../assets/img/appstore/osx-app-store.svg');
+}
