@@ -133,7 +133,6 @@ export default class OktaSignIn implements OktaSignInAPI {
         let body = args.data;
         const headers: any = args.headers || {};
         const contentType = (headers?.['Content-Type'] || headers?.['content-type'] || '');
-
         // content-type = application/json OR application/ion+json
         const appJsonContentTypeRegex = /application\/\w*\+?json/;
 
