@@ -20,6 +20,7 @@ import { loc } from './locUtil';
 export const formatError = (
   data: RawIdxResponse | HttpResponse['responseJSON'],
 ): { responseJSON: HttpResponse['responseJSON'] } => {
+  //todo: format fetch error and don't log to console
   if (IonResponseHelper.isIonErrorResponse(data)) {
     return IonResponseHelper.convertFormErrors(data);
   } if ((data as HttpResponse['responseJSON'])?.errorSummary) {
