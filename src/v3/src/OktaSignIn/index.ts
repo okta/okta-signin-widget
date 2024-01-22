@@ -204,21 +204,14 @@ export default class OktaSignIn implements OktaSignInAPI {
           }
           return result;
         } catch (err) {
-          // eslint-disable-next-line
-          console.error('  >>>>> errr: ' + err.message + '  >>>> req: ' + JSON.stringify({
-            method,
-            url,
-            headers: args.headers,
-            credentials: args.withCredentials ? 'include' : 'omit',
-          }));
-          if (!err?.status) {
-            // eslint-disable-next-line @typescript-eslint/no-throw-literal
-            throw {
-              responseText: JSON.stringify({
-                error: err.message,
-                error_description: err.message,
-              }),
-            };
+          if (err instanceof Error) {
+            // eslint-disable-next-line
+            console.error('  >>>>> errr: ' + err.message + '  >>>> req: ' + JSON.stringify({
+              method,
+              url,
+              headers: args.headers,
+              credentials: args.withCredentials ? 'include' : 'omit',
+            }));
           }
           // eslint-disable-next-line @typescript-eslint/no-throw-literal
           throw err;
