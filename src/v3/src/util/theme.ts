@@ -157,6 +157,13 @@ export const createThemeAndTokens = (
           }),
         },
       },
+      MuiFormHelperText: {
+        styleOverrides: {
+          root: {
+            display: 'block',
+          },
+        },
+      },
       MuiInputBase: {
         styleOverrides: {
           root: {

@@ -61,27 +61,37 @@ exports[`identify-recovery renders form 1`] = `
                   >
                     <div
                       class="MuiBox-root emotion-1"
+                      dir="ltr"
                     >
-                      <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-15"
-                        data-shrink="false"
-                        for="identifier"
-                      >
-                        Email or Username
-                      </label>
                       <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-16"
-                        dir="ltr"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-15"
                       >
-                        <input
-                          aria-invalid="false"
-                          autocomplete="username"
-                          class="MuiInputBase-input emotion-17"
+                        <label
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-16"
+                          data-shrink="false"
+                          for="identifier"
+                          id="identifier-label"
+                        >
+                          <span>
+                            Email or Username
+                          </span>
+                        </label>
+                        <div
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-17"
                           data-se="identifier"
-                          id="identifier"
-                          name="identifier"
-                          type="text"
-                        />
+                          required="true"
+                        >
+                          <input
+                            aria-invalid="false"
+                            aria-labelledby="identifier-label"
+                            autocomplete="username"
+                            class="MuiInputBase-input emotion-18"
+                            id="identifier"
+                            name="identifier"
+                            required=""
+                            type="text"
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -89,7 +99,7 @@ exports[`identify-recovery renders form 1`] = `
                     class="MuiBox-root emotion-10"
                   >
                     <button
-                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-19"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-20"
                       data-se="save"
                       tabindex="0"
                       type="submit"
@@ -101,7 +111,7 @@ exports[`identify-recovery renders form 1`] = `
                     class="MuiBox-root emotion-10"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-21"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-22"
                       data-se="cancel"
                       href=""
                     >

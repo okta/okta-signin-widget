@@ -25,6 +25,7 @@ describe('identify-with-password-error-flow', () => {
     jest.spyOn(cookieUtils, 'getUsernameCookie').mockReturnValue(mockUsername);
     const {
       user,
+      findByLabelText,
       findByTestId,
       findByText,
     } = await setup({
@@ -42,7 +43,7 @@ describe('identify-with-password-error-flow', () => {
     });
 
     const submitButton = await findByText('Sign in', { selector: 'button' });
-    const usernameEl = await findByTestId('identifier') as HTMLInputElement;
+    const usernameEl = await findByLabelText('Username') as HTMLInputElement;
     const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
 
     await user.clear(usernameEl);
@@ -51,7 +52,7 @@ describe('identify-with-password-error-flow', () => {
     await user.click(submitButton);
 
     await findByText('Unable to sign in');
-    expect((await findByTestId('identifier') as HTMLInputElement).value).toBe(badUsername);
+    expect(usernameEl.value).toBe(badUsername);
   });
 
   it('should display warning message when invalid identifier is entered and should allow user to resubmit same information without showing client-side errors', async () => {
@@ -59,6 +60,7 @@ describe('identify-with-password-error-flow', () => {
     const {
       authClient,
       user,
+      findByLabelText,
       findByTestId,
       findByText,
     } = await setup({
@@ -78,7 +80,7 @@ describe('identify-with-password-error-flow', () => {
     const titleElement = await findByText('Sign In', { selector: 'h2' });
     await waitFor(() => expect(titleElement).toHaveFocus());
     const submitButton = await findByText('Sign in', { selector: 'button' });
-    const usernameEl = await findByTestId('identifier') as HTMLInputElement;
+    const usernameEl = await findByLabelText('Username') as HTMLInputElement;
     const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
 
     const username = 'testeruser@okta1.com';
@@ -89,7 +91,7 @@ describe('identify-with-password-error-flow', () => {
 
     await findByText(/There is no account with the Username/);
 
-    expect((await findByTestId('identifier') as HTMLInputElement).value).toBe(username);
+    expect(usernameEl.value).toBe(username);
     expect((await findByTestId('credentials.passcode') as HTMLInputElement).value).toBe(password);
 
     await user.click(await findByText('Sign in', { selector: 'button' }));

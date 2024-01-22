@@ -27,7 +27,7 @@ describe('authenticator-verification-phone-sms', () => {
       authClient,
       user,
       findByText,
-      findByTestId,
+      findByLabelText,
     } = await setup({ mockResponse });
 
     const titleElement = await findByText(/Verify with your phone/);
@@ -35,7 +35,7 @@ describe('authenticator-verification-phone-sms', () => {
     await findByText(/A code was sent to/);
     await findByText(/Carrier messaging charges may apply/);
 
-    const codeEle = await findByTestId('credentials.passcode') as HTMLInputElement;
+    const codeEle = await findByLabelText('Enter Code') as HTMLInputElement;
     const submitButton = await findByText('Verify', { selector: 'button' });
 
     const verificationCode = '123456';

@@ -128,7 +128,7 @@ describe('authenticator-enroll-security-question-error', () => {
 
     it('should send correct payload when toggling between question types and submitted form with incorrect number of characters', async () => {
       const {
-        user, authClient, container, findByText, findByTestId, findByLabelText,
+        user, authClient, container, findByText, findByTestId, findByLabelText, findByRole,
       } = await setup({ mockRequestClient: mockRequestClientWithError });
 
       expect(await findByText(/Set up security question/)).toBeInTheDocument();
@@ -156,7 +156,7 @@ describe('authenticator-enroll-security-question-error', () => {
       // switch to custom question form
       await user.click(await findByLabelText(/Create my own security question/));
 
-      const customQuestionEle = await findByTestId('credentials.question') as HTMLInputElement;
+      const customQuestionEle = await findByRole('textbox', { name: 'Create my own security question' }) as HTMLInputElement;
       const customQuestionAnswerEle = await findByTestId('credentials.answer') as HTMLInputElement;
       const customQuestion = 'What is life?';
       await user.type(customQuestionEle, customQuestion);
@@ -215,7 +215,7 @@ describe('authenticator-enroll-security-question-error', () => {
   describe('custom question', () => {
     it('should show field level character count error message when invalid number of characters are sent and field should retain characters', async () => {
       const {
-        user, authClient, container, findByText, findByTestId, findByLabelText,
+        user, authClient, container, findByText, findByTestId, findByLabelText, findByRole,
       } = await setup({ mockRequestClient: mockRequestClientWithError });
 
       expect(await findByText(/Set up security question/)).toBeInTheDocument();
@@ -225,7 +225,7 @@ describe('authenticator-enroll-security-question-error', () => {
 
       const submitButton = await findByText('Verify', { selector: 'button' });
       const answerEle = await findByTestId('credentials.answer') as HTMLInputElement;
-      const customQuestionEle = await findByTestId('credentials.question') as HTMLInputElement;
+      const customQuestionEle = await findByRole('textbox', { name: 'Create my own security question' }) as HTMLInputElement;
 
       const question = 'What is the meaning of life?';
       await user.type(customQuestionEle, question);

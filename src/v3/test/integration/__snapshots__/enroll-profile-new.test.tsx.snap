@@ -77,31 +77,35 @@ exports[`enroll-profile-new should render form 1`] = `
                     <div
                       class="MuiBox-root emotion-1"
                     >
-                      <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-18"
-                        data-shrink="false"
-                        for="userProfile.lastName"
-                      >
-                        Last name
-                        <span
-                          aria-hidden="true"
-                          class="no-translate MuiBox-root emotion-19"
-                        >
-                          *
-                        </span>
-                      </label>
                       <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-20"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-18"
                       >
-                        <input
-                          aria-invalid="false"
-                          autocomplete="family-name"
-                          class="MuiInputBase-input emotion-21"
+                        <label
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-19"
+                          data-shrink="false"
+                          for="userProfile.lastName"
+                          id="userProfile.lastName-label"
+                        >
+                          <span>
+                            Last name
+                          </span>
+                        </label>
+                        <div
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-20"
                           data-se="userProfile.lastName"
-                          id="userProfile.lastName"
-                          name="userProfile.lastName"
-                          type="text"
-                        />
+                          required="true"
+                        >
+                          <input
+                            aria-invalid="false"
+                            aria-labelledby="userProfile.lastName-label"
+                            autocomplete="family-name"
+                            class="MuiInputBase-input emotion-21"
+                            id="userProfile.lastName"
+                            name="userProfile.lastName"
+                            required=""
+                            type="text"
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -111,31 +115,35 @@ exports[`enroll-profile-new should render form 1`] = `
                     <div
                       class="MuiBox-root emotion-1"
                     >
-                      <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-18"
-                        data-shrink="false"
-                        for="userProfile.firstName"
-                      >
-                        First name
-                        <span
-                          aria-hidden="true"
-                          class="no-translate MuiBox-root emotion-19"
-                        >
-                          *
-                        </span>
-                      </label>
                       <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-20"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-18"
                       >
-                        <input
-                          aria-invalid="false"
-                          autocomplete="given-name"
-                          class="MuiInputBase-input emotion-21"
+                        <label
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-19"
+                          data-shrink="false"
+                          for="userProfile.firstName"
+                          id="userProfile.firstName-label"
+                        >
+                          <span>
+                            First name
+                          </span>
+                        </label>
+                        <div
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-20"
                           data-se="userProfile.firstName"
-                          id="userProfile.firstName"
-                          name="userProfile.firstName"
-                          type="text"
-                        />
+                          required="true"
+                        >
+                          <input
+                            aria-invalid="false"
+                            aria-labelledby="userProfile.firstName-label"
+                            autocomplete="given-name"
+                            class="MuiInputBase-input emotion-21"
+                            id="userProfile.firstName"
+                            name="userProfile.firstName"
+                            required=""
+                            type="text"
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -145,32 +153,36 @@ exports[`enroll-profile-new should render form 1`] = `
                     <div
                       class="MuiBox-root emotion-1"
                     >
-                      <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-18"
-                        data-shrink="false"
-                        for="userProfile.email"
-                      >
-                        Email
-                        <span
-                          aria-hidden="true"
-                          class="no-translate MuiBox-root emotion-19"
-                        >
-                          *
-                        </span>
-                      </label>
                       <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-20"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-18"
                       >
-                        <input
-                          aria-invalid="false"
-                          autocomplete="email"
-                          class="MuiInputBase-input emotion-21"
+                        <label
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-19"
+                          data-shrink="false"
+                          for="userProfile.email"
+                          id="userProfile.email-label"
+                        >
+                          <span>
+                            Email
+                          </span>
+                        </label>
+                        <div
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-20"
                           data-se="userProfile.email"
-                          id="userProfile.email"
                           inputmode="email"
-                          name="userProfile.email"
-                          type="text"
-                        />
+                          required="true"
+                        >
+                          <input
+                            aria-invalid="false"
+                            aria-labelledby="userProfile.email-label"
+                            autocomplete="email"
+                            class="MuiInputBase-input emotion-21"
+                            id="userProfile.email"
+                            name="userProfile.email"
+                            required=""
+                            type="text"
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>

@@ -120,43 +120,51 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                     <div
                       class="MuiBox-root emotion-1"
                     >
-                      <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-25"
-                        data-shrink="false"
-                        for="userProfile.firstName"
-                      >
-                        First name
-                        <span
-                          aria-hidden="true"
-                          class="no-translate MuiBox-root emotion-26"
-                        >
-                          *
-                        </span>
-                      </label>
                       <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth Mui-focused emotion-27"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-25"
                       >
-                        <input
-                          aria-describedby=" userProfile.firstName-error  "
-                          aria-invalid="true"
-                          autocomplete="given-name"
-                          class="MuiInputBase-input emotion-28"
+                        <label
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-26"
+                          data-shrink="false"
+                          for="userProfile.firstName"
+                          id="userProfile.firstName-label"
+                        >
+                          <span>
+                            First name
+                          </span>
+                        </label>
+                        <div
+                          class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error Mui-focused MuiInputBase-formControl emotion-27"
                           data-se="userProfile.firstName"
-                          id="userProfile.firstName"
-                          name="userProfile.firstName"
-                          type="text"
-                        />
-                      </div>
-                      <div
-                        class="MuiBox-root emotion-1"
-                      >
+                          required="true"
+                        >
+                          <input
+                            aria-describedby="userProfile.firstName-error"
+                            aria-errormessage="userProfile.firstName-error"
+                            aria-invalid="true"
+                            aria-labelledby="userProfile.firstName-label"
+                            autocomplete="given-name"
+                            class="MuiInputBase-input emotion-28"
+                            id="userProfile.firstName"
+                            name="userProfile.firstName"
+                            required=""
+                            type="text"
+                          />
+                        </div>
                         <p
-                          class="MuiFormHelperText-root Mui-error emotion-30"
-                          data-se="userProfile.firstName-error"
+                          class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium Mui-focused emotion-29"
                           id="userProfile.firstName-error"
-                          role="alert"
                         >
-                          This field cannot be left blank
+                          <span
+                            class="MuiBox-root emotion-14"
+                          >
+                            Error:
+                          </span>
+                          <div
+                            class="MuiBox-root emotion-1"
+                          >
+                            This field cannot be left blank
+                          </div>
                         </p>
                       </div>
                     </div>
@@ -167,43 +175,51 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                     <div
                       class="MuiBox-root emotion-1"
                     >
-                      <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-25"
-                        data-shrink="false"
-                        for="userProfile.lastName"
-                      >
-                        Last name
-                        <span
-                          aria-hidden="true"
-                          class="no-translate MuiBox-root emotion-26"
-                        >
-                          *
-                        </span>
-                      </label>
                       <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth emotion-27"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-25"
                       >
-                        <input
-                          aria-describedby=" userProfile.lastName-error  "
-                          aria-invalid="true"
-                          autocomplete="family-name"
-                          class="MuiInputBase-input emotion-28"
+                        <label
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-26"
+                          data-shrink="false"
+                          for="userProfile.lastName"
+                          id="userProfile.lastName-label"
+                        >
+                          <span>
+                            Last name
+                          </span>
+                        </label>
+                        <div
+                          class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl emotion-27"
                           data-se="userProfile.lastName"
-                          id="userProfile.lastName"
-                          name="userProfile.lastName"
-                          type="text"
-                        />
-                      </div>
-                      <div
-                        class="MuiBox-root emotion-1"
-                      >
-                        <p
-                          class="MuiFormHelperText-root Mui-error emotion-30"
-                          data-se="userProfile.lastName-error"
-                          id="userProfile.lastName-error"
-                          role="alert"
+                          required="true"
                         >
-                          This field cannot be left blank
+                          <input
+                            aria-describedby="userProfile.lastName-error"
+                            aria-errormessage="userProfile.lastName-error"
+                            aria-invalid="true"
+                            aria-labelledby="userProfile.lastName-label"
+                            autocomplete="family-name"
+                            class="MuiInputBase-input emotion-28"
+                            id="userProfile.lastName"
+                            name="userProfile.lastName"
+                            required=""
+                            type="text"
+                          />
+                        </div>
+                        <p
+                          class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium emotion-29"
+                          id="userProfile.lastName-error"
+                        >
+                          <span
+                            class="MuiBox-root emotion-14"
+                          >
+                            Error:
+                          </span>
+                          <div
+                            class="MuiBox-root emotion-1"
+                          >
+                            This field cannot be left blank
+                          </div>
                         </p>
                       </div>
                     </div>
@@ -214,44 +230,52 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                     <div
                       class="MuiBox-root emotion-1"
                     >
-                      <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-25"
-                        data-shrink="false"
-                        for="userProfile.email"
-                      >
-                        Email
-                        <span
-                          aria-hidden="true"
-                          class="no-translate MuiBox-root emotion-26"
-                        >
-                          *
-                        </span>
-                      </label>
                       <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth emotion-27"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-25"
                       >
-                        <input
-                          aria-describedby=" userProfile.email-error  "
-                          aria-invalid="true"
-                          autocomplete="email"
-                          class="MuiInputBase-input emotion-28"
+                        <label
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-26"
+                          data-shrink="false"
+                          for="userProfile.email"
+                          id="userProfile.email-label"
+                        >
+                          <span>
+                            Email
+                          </span>
+                        </label>
+                        <div
+                          class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl emotion-27"
                           data-se="userProfile.email"
-                          id="userProfile.email"
                           inputmode="email"
-                          name="userProfile.email"
-                          type="text"
-                        />
-                      </div>
-                      <div
-                        class="MuiBox-root emotion-1"
-                      >
-                        <p
-                          class="MuiFormHelperText-root Mui-error emotion-30"
-                          data-se="userProfile.email-error"
-                          id="userProfile.email-error"
-                          role="alert"
+                          required="true"
                         >
-                          This field cannot be left blank
+                          <input
+                            aria-describedby="userProfile.email-error"
+                            aria-errormessage="userProfile.email-error"
+                            aria-invalid="true"
+                            aria-labelledby="userProfile.email-label"
+                            autocomplete="email"
+                            class="MuiInputBase-input emotion-28"
+                            id="userProfile.email"
+                            name="userProfile.email"
+                            required=""
+                            type="text"
+                          />
+                        </div>
+                        <p
+                          class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium emotion-29"
+                          id="userProfile.email-error"
+                        >
+                          <span
+                            class="MuiBox-root emotion-14"
+                          >
+                            Error:
+                          </span>
+                          <div
+                            class="MuiBox-root emotion-1"
+                          >
+                            This field cannot be left blank
+                          </div>
                         </p>
                       </div>
                     </div>
@@ -260,28 +284,28 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                     class="MuiBox-root emotion-17"
                   >
                     <div
-                      class="MuiFormControl-root MuiFormControl-marginNormal emotion-48"
+                      class="MuiFormControl-root MuiFormControl-marginNormal emotion-51"
                     >
                       <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined emotion-49"
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined emotion-52"
                         data-shrink="false"
                         for="userProfile.country"
                       >
                         Country
                         <span
                           aria-hidden="true"
-                          class="no-translate MuiBox-root emotion-26"
+                          class="no-translate MuiBox-root emotion-53"
                         >
                           *
                         </span>
                       </label>
                       <div
-                        class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl  emotion-51"
+                        class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl  emotion-54"
                       >
                         <select
                           aria-describedby=" userProfile.country-error  "
                           aria-invalid="true"
-                          class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-52"
+                          class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-55"
                           data-se="userProfile.country"
                           id="userProfile.country"
                           name="userProfile.country"
@@ -1499,7 +1523,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                         </select>
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconStandard emotion-53"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconStandard emotion-56"
                           fill="none"
                           focusable="false"
                           viewBox="0 0 24 24"
@@ -1517,7 +1541,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                         class="MuiBox-root emotion-1"
                       >
                         <p
-                          class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium emotion-30"
+                          class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium emotion-58"
                           data-se="userProfile.country-error"
                           id="userProfile.country-error"
                           role="alert"
@@ -1533,42 +1557,50 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                     <div
                       class="MuiBox-root emotion-1"
                     >
-                      <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-25"
-                        data-shrink="false"
-                        for="userProfile.countryCode"
-                      >
-                        Country code
-                        <span
-                          aria-hidden="true"
-                          class="no-translate MuiBox-root emotion-26"
-                        >
-                          *
-                        </span>
-                      </label>
                       <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth emotion-27"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-25"
                       >
-                        <input
-                          aria-describedby=" userProfile.countryCode-error  "
-                          aria-invalid="true"
-                          class="MuiInputBase-input emotion-28"
+                        <label
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-26"
+                          data-shrink="false"
+                          for="userProfile.countryCode"
+                          id="userProfile.countryCode-label"
+                        >
+                          <span>
+                            Country code
+                          </span>
+                        </label>
+                        <div
+                          class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl emotion-27"
                           data-se="userProfile.countryCode"
-                          id="userProfile.countryCode"
-                          name="userProfile.countryCode"
-                          type="text"
-                        />
-                      </div>
-                      <div
-                        class="MuiBox-root emotion-1"
-                      >
-                        <p
-                          class="MuiFormHelperText-root Mui-error emotion-30"
-                          data-se="userProfile.countryCode-error"
-                          id="userProfile.countryCode-error"
-                          role="alert"
+                          required="true"
                         >
-                          This field cannot be left blank
+                          <input
+                            aria-describedby="userProfile.countryCode-error"
+                            aria-errormessage="userProfile.countryCode-error"
+                            aria-invalid="true"
+                            aria-labelledby="userProfile.countryCode-label"
+                            class="MuiInputBase-input emotion-28"
+                            id="userProfile.countryCode"
+                            name="userProfile.countryCode"
+                            required=""
+                            type="text"
+                          />
+                        </div>
+                        <p
+                          class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium emotion-29"
+                          id="userProfile.countryCode-error"
+                        >
+                          <span
+                            class="MuiBox-root emotion-14"
+                          >
+                            Error:
+                          </span>
+                          <div
+                            class="MuiBox-root emotion-1"
+                          >
+                            This field cannot be left blank
+                          </div>
                         </p>
                       </div>
                     </div>
@@ -1577,28 +1609,28 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                     class="MuiBox-root emotion-17"
                   >
                     <div
-                      class="MuiFormControl-root MuiFormControl-marginNormal emotion-48"
+                      class="MuiFormControl-root MuiFormControl-marginNormal emotion-51"
                     >
                       <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined emotion-49"
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined emotion-52"
                         data-shrink="false"
                         for="userProfile.timezone"
                       >
                         Time zone
                         <span
                           aria-hidden="true"
-                          class="no-translate MuiBox-root emotion-26"
+                          class="no-translate MuiBox-root emotion-53"
                         >
                           *
                         </span>
                       </label>
                       <div
-                        class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl  emotion-51"
+                        class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl  emotion-54"
                       >
                         <select
                           aria-describedby=" userProfile.timezone-error  "
                           aria-invalid="true"
-                          class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-52"
+                          class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-55"
                           data-se="userProfile.timezone"
                           id="userProfile.timezone"
                           name="userProfile.timezone"
@@ -1776,7 +1808,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                         </select>
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconStandard emotion-53"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconStandard emotion-56"
                           fill="none"
                           focusable="false"
                           viewBox="0 0 24 24"
@@ -1794,7 +1826,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                         class="MuiBox-root emotion-1"
                       >
                         <p
-                          class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium emotion-30"
+                          class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium emotion-58"
                           data-se="userProfile.timezone-error"
                           id="userProfile.timezone-error"
                           role="alert"
@@ -1808,7 +1840,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                     class="MuiBox-root emotion-17"
                   >
                     <button
-                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-74"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-78"
                       data-se="save"
                       tabindex="0"
                       type="submit"
@@ -1820,14 +1852,14 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                     class="MuiBox-root emotion-17"
                   >
                     <hr
-                      class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-76"
+                      class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-80"
                     />
                   </div>
                   <div
-                    class="MuiBox-root emotion-77"
+                    class="MuiBox-root emotion-81"
                   >
                     <div
-                      class="MuiBox-root emotion-78"
+                      class="MuiBox-root emotion-82"
                     >
                       <div
                         class="MuiBox-root emotion-18"
@@ -1842,10 +1874,10 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-78"
+                      class="MuiBox-root emotion-82"
                     >
                       <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-82"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-86"
                         data-se="back"
                         href=""
                       >
@@ -1941,31 +1973,35 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                     <div
                       class="MuiBox-root emotion-1"
                     >
-                      <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-18"
-                        data-shrink="false"
-                        for="userProfile.firstName"
-                      >
-                        First name
-                        <span
-                          aria-hidden="true"
-                          class="no-translate MuiBox-root emotion-19"
-                        >
-                          *
-                        </span>
-                      </label>
                       <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-20"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-18"
                       >
-                        <input
-                          aria-invalid="false"
-                          autocomplete="given-name"
-                          class="MuiInputBase-input emotion-21"
+                        <label
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-19"
+                          data-shrink="false"
+                          for="userProfile.firstName"
+                          id="userProfile.firstName-label"
+                        >
+                          <span>
+                            First name
+                          </span>
+                        </label>
+                        <div
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-20"
                           data-se="userProfile.firstName"
-                          id="userProfile.firstName"
-                          name="userProfile.firstName"
-                          type="text"
-                        />
+                          required="true"
+                        >
+                          <input
+                            aria-invalid="false"
+                            aria-labelledby="userProfile.firstName-label"
+                            autocomplete="given-name"
+                            class="MuiInputBase-input emotion-21"
+                            id="userProfile.firstName"
+                            name="userProfile.firstName"
+                            required=""
+                            type="text"
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -1975,31 +2011,35 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                     <div
                       class="MuiBox-root emotion-1"
                     >
-                      <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-18"
-                        data-shrink="false"
-                        for="userProfile.lastName"
-                      >
-                        Last name
-                        <span
-                          aria-hidden="true"
-                          class="no-translate MuiBox-root emotion-19"
-                        >
-                          *
-                        </span>
-                      </label>
                       <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-20"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-18"
                       >
-                        <input
-                          aria-invalid="false"
-                          autocomplete="family-name"
-                          class="MuiInputBase-input emotion-21"
+                        <label
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-19"
+                          data-shrink="false"
+                          for="userProfile.lastName"
+                          id="userProfile.lastName-label"
+                        >
+                          <span>
+                            Last name
+                          </span>
+                        </label>
+                        <div
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-20"
                           data-se="userProfile.lastName"
-                          id="userProfile.lastName"
-                          name="userProfile.lastName"
-                          type="text"
-                        />
+                          required="true"
+                        >
+                          <input
+                            aria-invalid="false"
+                            aria-labelledby="userProfile.lastName-label"
+                            autocomplete="family-name"
+                            class="MuiInputBase-input emotion-21"
+                            id="userProfile.lastName"
+                            name="userProfile.lastName"
+                            required=""
+                            type="text"
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -2009,32 +2049,36 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                     <div
                       class="MuiBox-root emotion-1"
                     >
-                      <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-18"
-                        data-shrink="false"
-                        for="userProfile.email"
-                      >
-                        Email
-                        <span
-                          aria-hidden="true"
-                          class="no-translate MuiBox-root emotion-19"
-                        >
-                          *
-                        </span>
-                      </label>
                       <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-20"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-18"
                       >
-                        <input
-                          aria-invalid="false"
-                          autocomplete="email"
-                          class="MuiInputBase-input emotion-21"
+                        <label
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-19"
+                          data-shrink="false"
+                          for="userProfile.email"
+                          id="userProfile.email-label"
+                        >
+                          <span>
+                            Email
+                          </span>
+                        </label>
+                        <div
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-20"
                           data-se="userProfile.email"
-                          id="userProfile.email"
                           inputmode="email"
-                          name="userProfile.email"
-                          type="text"
-                        />
+                          required="true"
+                        >
+                          <input
+                            aria-invalid="false"
+                            aria-labelledby="userProfile.email-label"
+                            autocomplete="email"
+                            class="MuiInputBase-input emotion-21"
+                            id="userProfile.email"
+                            name="userProfile.email"
+                            required=""
+                            type="text"
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -2052,7 +2096,7 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                         Country
                         <span
                           aria-hidden="true"
-                          class="no-translate MuiBox-root emotion-19"
+                          class="no-translate MuiBox-root emotion-37"
                         >
                           *
                         </span>
@@ -3302,30 +3346,34 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                     <div
                       class="MuiBox-root emotion-1"
                     >
-                      <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-18"
-                        data-shrink="false"
-                        for="userProfile.countryCode"
-                      >
-                        Country code
-                        <span
-                          aria-hidden="true"
-                          class="no-translate MuiBox-root emotion-19"
-                        >
-                          *
-                        </span>
-                      </label>
                       <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-20"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-18"
                       >
-                        <input
-                          aria-invalid="false"
-                          class="MuiInputBase-input emotion-21"
+                        <label
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-19"
+                          data-shrink="false"
+                          for="userProfile.countryCode"
+                          id="userProfile.countryCode-label"
+                        >
+                          <span>
+                            Country code
+                          </span>
+                        </label>
+                        <div
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-20"
                           data-se="userProfile.countryCode"
-                          id="userProfile.countryCode"
-                          name="userProfile.countryCode"
-                          type="text"
-                        />
+                          required="true"
+                        >
+                          <input
+                            aria-invalid="false"
+                            aria-labelledby="userProfile.countryCode-label"
+                            class="MuiInputBase-input emotion-21"
+                            id="userProfile.countryCode"
+                            name="userProfile.countryCode"
+                            required=""
+                            type="text"
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -3343,7 +3391,7 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                         Time zone
                         <span
                           aria-hidden="true"
-                          class="no-translate MuiBox-root emotion-19"
+                          class="no-translate MuiBox-root emotion-37"
                         >
                           *
                         </span>

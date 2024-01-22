@@ -178,28 +178,38 @@ exports[`authenticator-enroll-phone-voice should render form 1`] = `
                   >
                     <div
                       class="MuiBox-root emotion-1"
+                      dir="ltr"
                     >
-                      <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-29"
-                        data-shrink="false"
-                        for="credentials.passcode"
-                      >
-                        Enter Code
-                      </label>
                       <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-30"
-                        dir="ltr"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-29"
                       >
-                        <input
-                          aria-invalid="false"
-                          autocomplete="off"
-                          class="MuiInputBase-input emotion-31"
+                        <label
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-30"
+                          data-shrink="false"
+                          for="credentials.passcode"
+                          id="credentials.passcode-label"
+                        >
+                          <span>
+                            Enter Code
+                          </span>
+                        </label>
+                        <div
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-31"
                           data-se="credentials.passcode"
-                          id="credentials.passcode"
                           inputmode="numeric"
-                          name="credentials.passcode"
-                          type="text"
-                        />
+                          required="true"
+                        >
+                          <input
+                            aria-invalid="false"
+                            aria-labelledby="credentials.passcode-label"
+                            autocomplete="off"
+                            class="MuiInputBase-input emotion-32"
+                            id="credentials.passcode"
+                            name="credentials.passcode"
+                            required=""
+                            type="text"
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -207,7 +217,7 @@ exports[`authenticator-enroll-phone-voice should render form 1`] = `
                     class="MuiBox-root emotion-11"
                   >
                     <button
-                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-33"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-34"
                       data-se="save"
                       tabindex="0"
                       type="submit"
@@ -219,7 +229,7 @@ exports[`authenticator-enroll-phone-voice should render form 1`] = `
                     class="MuiBox-root emotion-11"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-35"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-36"
                       data-se="switchAuthenticator"
                       href=""
                     >
@@ -230,7 +240,7 @@ exports[`authenticator-enroll-phone-voice should render form 1`] = `
                     class="MuiBox-root emotion-11"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-35"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-36"
                       data-se="cancel"
                       href=""
                     >

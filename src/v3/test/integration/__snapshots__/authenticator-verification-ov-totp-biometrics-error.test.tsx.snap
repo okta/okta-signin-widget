@@ -213,26 +213,36 @@ exports[`authenticator-verification-ov-totp-biometrics-error should render form 
                     <div
                       class="MuiBox-root emotion-1"
                     >
-                      <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-37"
-                        data-shrink="false"
-                        for="credentials.totp"
-                      >
-                        Enter code from Okta Verify app
-                      </label>
                       <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-38"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-37"
                       >
-                        <input
-                          aria-invalid="false"
-                          autocomplete="off"
-                          class="MuiInputBase-input emotion-39"
+                        <label
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-38"
+                          data-shrink="false"
+                          for="credentials.totp"
+                          id="credentials.totp-label"
+                        >
+                          <span>
+                            Enter code from Okta Verify app
+                          </span>
+                        </label>
+                        <div
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-39"
                           data-se="credentials.totp"
-                          id="credentials.totp"
                           inputmode="numeric"
-                          name="credentials.totp"
-                          type="text"
-                        />
+                          required="true"
+                        >
+                          <input
+                            aria-invalid="false"
+                            aria-labelledby="credentials.totp-label"
+                            autocomplete="off"
+                            class="MuiInputBase-input emotion-40"
+                            id="credentials.totp"
+                            name="credentials.totp"
+                            required=""
+                            type="text"
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -240,7 +250,7 @@ exports[`authenticator-verification-ov-totp-biometrics-error should render form 
                     class="MuiBox-root emotion-11"
                   >
                     <button
-                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-41"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-42"
                       data-se="save"
                       tabindex="0"
                       type="submit"
@@ -252,7 +262,7 @@ exports[`authenticator-verification-ov-totp-biometrics-error should render form 
                     class="MuiBox-root emotion-11"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-43"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-44"
                       data-se="switchAuthenticator"
                       href=""
                     >
@@ -263,7 +273,7 @@ exports[`authenticator-verification-ov-totp-biometrics-error should render form 
                     class="MuiBox-root emotion-11"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-43"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-44"
                       data-se="cancel"
                       href=""
                     >
