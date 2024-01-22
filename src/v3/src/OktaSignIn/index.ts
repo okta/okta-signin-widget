@@ -17,7 +17,6 @@ import pick from 'lodash/pick';
 import { h, render } from 'preact';
 import { TinyEmitter as EventEmitter } from 'tiny-emitter';
 
-import Util from '../../../util/Util';
 import {
   EventContext,
   EventErrorContext,
@@ -26,6 +25,7 @@ import {
   RenderResult,
   RenderSuccessCallback,
 } from '../../../types';
+import Util from '../../../util/Util';
 import { Widget } from '../components/Widget';
 import {
   JsonObject,
