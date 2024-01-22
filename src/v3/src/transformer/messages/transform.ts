@@ -10,8 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import flow from 'lodash/flow';
-
+import { flow } from '../../../../util/utils';
 import {
   CUSTOM_APP_UV_ENABLE_BIOMETRIC_SERVER_KEY,
   IDX_STEP,

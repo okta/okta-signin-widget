@@ -11,12 +11,13 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+/* global Set */
 /* eslint complexity: [2, 13], max-depth: [2, 3] */
-import _ from 'underscore';
 import { loc } from './loc';
 import Enums from './Enums';
 import Logger from './Logger';
 import BrowserFeatures from './BrowserFeatures';
+import { pick, isEmpty } from './utils';
 
 const Util = {};
 const ovDeepLink = 'redirect_uri=https://login.okta.com/oauth/callback';
@@ -70,7 +71,7 @@ const buildDynamicForm = function(url = '', method) {
 // eslint-disable-next-line complexity
 Util.transformErrorXHR = function(xhr) {
   // Handle network connection error
-  if (xhr.status === 0 && _.isEmpty(xhr.responseJSON)) {
+  if (xhr.status === 0 && isEmpty(xhr.responseJSON)) {
     xhr.responseJSON = { errorSummary: loc('error.network.connection', 'login') };
     return xhr;
   }
@@ -98,7 +99,7 @@ Util.transformErrorXHR = function(xhr) {
     xhr.responseJSON.errorSummary = xhr.responseJSON.errorCauses[0].errorSummary;
   }
   // Replace error messages
-  if (!_.isEmpty(xhr.responseJSON)) {
+  if (!isEmpty(xhr.responseJSON)) {
     const errorMsg = loc('errors.' + xhr.responseJSON.errorCode, 'login');
 
     if (errorMsg.indexOf('L10N_ERROR[') === -1) {
@@ -115,9 +116,7 @@ Util.transformErrorXHR = function(xhr) {
 
 // Simple helper function to lowercase all strings in the given array
 Util.toLower = function(strings) {
-  return _.map(strings, function(str) {
-    return str.toLowerCase();
-  });
+  return strings.map((str) => str.toLowerCase());
 };
 
 // A languageCode can be composed of multiple parts, i.e:
@@ -143,7 +142,7 @@ function expandLanguage(language) {
 // all potential languages in the given order (where higher priority is
 // given to expanded languages over other downstream languages).
 Util.expandLanguages = function(languages) {
-  return _.chain(languages).map(expandLanguage).flatten().uniq().value();
+  return [...new Set(languages.map(expandLanguage).flat(Infinity))];
 };
 
 //helper to call setTimeout
@@ -168,9 +167,9 @@ Util.triggerAfterError = function(controller, err = {}) {
     err.statusCode = err.xhr.status;
   }
   // Some controllers return the className as a function - process it here:
-  const className = _.isFunction(controller.className) ? controller.className() : controller.className;
+  const className = typeof controller.className === 'function' ? controller.className() : controller.className;
 
-  const error = _.pick(err, 'name', 'message', 'statusCode', 'xhr');
+  const error = pick(err, ['name', 'message', 'statusCode', 'xhr']);
 
   controller.trigger('afterError', { controller: className }, error);
   // Logs to console only in dev mode
@@ -247,7 +246,7 @@ Util.createInputExplain = function(explainKey, labelKey, bundleName, explainPara
 };
 
 Util.isV1StateToken = function(token) {
-  return !!(token && _.isString(token) && token.startsWith('00'));
+  return !!(token && typeof token === 'string' && token.startsWith('00'));
 };
 
 Util.getAutocompleteValue = function(settings, defaultValue) {

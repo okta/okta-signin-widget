@@ -16,7 +16,6 @@
 import Bundles from 'util/Bundles';
 import Logger from 'util/Logger';
 import { loc } from '../../util/loc';
-import { getAuthenticatorDisplayName } from '../view-builder/utils/AuthenticatorUtil';
 import { FORMS, AUTHENTICATOR_KEY } from './RemediationConstants';
 import { I18N_BASE_ATTRIBUTE_ENROLL_PROFILE_MAPPINGS } from '../view-builder/views/enroll-profile/i18nBaseAttributeMappings';
 
@@ -161,6 +160,15 @@ const I18N_OVERRIDE_MAPPINGS = {
   
   // Existing overrides
   ...I18N_BASE_ATTRIBUTE_ENROLL_PROFILE_MAPPINGS, //enroll-profile strings
+};
+
+/**
+ * Get authenticator display name from {@code remediation}.
+ *
+ * @param {Object} remediation
+ */
+const getAuthenticatorDisplayName = (remediation) => {
+  return remediation.relatesTo?.value?.displayName;
 };
 
 const I18N_PARAMS_MAPPING = {
@@ -389,5 +397,6 @@ export {
   getI18NValue,
   doesI18NKeyExist,
   isCustomizedI18nKey,
-  getMessageFromBrowserError
+  getMessageFromBrowserError,
+  getAuthenticatorDisplayName
 };

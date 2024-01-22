@@ -11,11 +11,11 @@
  */
 
 import { IdxActionParams, IdxTransaction, NextStep } from '@okta/okta-auth-js';
-import cloneDeep from 'lodash/cloneDeep';
 import {
   useEffect, useMemo, useRef, useState,
 } from 'preact/hooks';
 
+import { cloneDeep } from '../../../util/utils';
 import { TERMINAL_KEY } from '../constants';
 import { FormBag, WidgetOptions } from '../types';
 import { containsMessageKey, isPollingStep } from '../util';

@@ -10,55 +10,49 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import _ from 'underscore';
 import { loc } from './loc';
 import bundles from './Bundles';
 import countryCallingCodes from './countryCallingCodes';
+import { compare } from './utils';
 const fn = {};
 
 // () => [{ countryCode: countryName }], sorted by countryName
 fn.getCountries = function() {
-  const countries = _.omit(bundles.country, 'HM', 'BV', 'TF');
-  // HM, BV, and TF do not have phone prefixes, so don't give the
-  // user the option to choose these countries. FYI it appears that these
-  // countries do not have calling codes because they are ~~uninhabited~~
-
-  let collection = _.map(countries, function(name, code) {
-    return { name: name, code: code };
-  });
-
-  // Sort it; figure out if there is a better way to do this (best would
-  // be to sort it in the properties file!!)
-
-  collection = _.sortBy(collection, 'name');
-  const sorted = {};
-
-  _.each(collection, function(country) {
-    sorted[country.code] = country.name;
-  });
-
-  return sorted;
+  return Object.entries(bundles.country)
+    // HM, BV, and TF do not have phone prefixes, so don't give the
+    // user the option to choose these countries. FYI it appears that these
+    // countries do not have calling codes because they are ~~uninhabited~~
+    .filter(([code]) => {
+      return !['HM', 'BV', 'TF'].includes(code);
+    })
+    // Sort it; figure out if there is a better way to do this (best would
+    // be to sort it in the properties file!!)
+    // eslint-disable-next-line no-unused-vars
+    .sort(([_code1, name1], [_code2, name2]) => compare(name1, name2))
+    .reduce((sorted, [code, name]) => {
+      return {
+        ...sorted,
+        [code]: name
+      };
+    }, {});
 };
 
-fn.getCountryCode = function(){
-
-  const countries = _.omit(bundles.country, 'HM', 'BV', 'TF');
-  // HM, BV, and TF do not have phone prefixes, so don't give the
-  // user the option to choose these countries. FYI it appears that these
-  // countries do not have calling codes because they are ~~uninhabited~~
-
-  let collection = _.map(countries, function(name, code) {
-    return { name: name, code: code };
-  });
-
-  collection = _.sortBy(collection, 'name');
-  const sorted = {};
-
-  _.each(collection, function(country) {
-    sorted[country.code] = loc('country.option.label', 'login', [country.name, country.code]);
-  });
-
-  return sorted;
+fn.getCountryCode = function() {
+  return Object.entries(bundles.country)
+    // HM, BV, and TF do not have phone prefixes, so don't give the
+    // user the option to choose these countries. FYI it appears that these
+    // countries do not have calling codes because they are ~~uninhabited~~
+    .filter(([code]) => {
+      return !['HM', 'BV', 'TF'].includes(code);
+    })
+    // eslint-disable-next-line no-unused-vars
+    .sort(([_code1, name1], [_code2, name2]) => compare(name1, name2))
+    .reduce((sorted, [code, name]) => {
+      return {
+        ...sorted,
+        [code]: loc('country.option.label', 'login', [name, code])
+      };
+    }, {});
 };
 
 fn.getCallingCodeForCountry = function(countryCode) {

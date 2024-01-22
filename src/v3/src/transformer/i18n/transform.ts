@@ -10,8 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { flow } from 'lodash';
-
+import { flow } from '../../../../util/utils';
 import { TransformStepFnWithOptions } from '../../types';
 import { transformAuthenticatorButton } from './transformAuthenticatorButton';
 import { transformDefaultSelectOptionLabel } from './transformDefaultSelectOptionLabel';

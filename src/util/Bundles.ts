@@ -17,9 +17,9 @@ import config from 'config/config.json';
 import fetch from 'cross-fetch';
 import country from 'nls/country.json';
 import login from 'nls/login.json';
-import _ from 'underscore';
 import BrowserFeatures from 'util/BrowserFeatures';
 import Logger from 'util/Logger';
+import { isObject } from './utils';
 const STORAGE_KEY = 'osw.languages';
 
 declare type i18nOptions = {
@@ -65,28 +65,27 @@ function parseOverrides(i18n) {
   }
 
   const i18nWithLowerCaseKeys = {};
+  for (const [key, value] of Object.entries(i18n)) {
+    i18nWithLowerCaseKeys[key.toLowerCase()] = value;
+  }
 
-  _.each(_.keys(i18n), function(key) {
-    i18nWithLowerCaseKeys[key.toLowerCase()] = i18n[key];
-  });
-
-  return _.mapObject(i18nWithLowerCaseKeys, function(props) {
+  return Object.keys(i18nWithLowerCaseKeys).reduce((res, lang) => {
     const mapped = { login: {}, country: {} };
-
-    if (!_.isObject(props)) {
+    const props = i18nWithLowerCaseKeys[lang];
+    if (!isObject(props)) {
       throw new Error('Invalid format for "i18n"');
     }
-    _.each(props, function(val, key) {
+    for (const [key, val] of Object.entries(props)) {
       const split = key.split(/^country\./);
-
       if (split.length > 1) {
         mapped.country[split[1]] = val;
       } else {
         mapped.login[split[0]] = val;
       }
-    });
-    return mapped;
-  });
+    }
+    res[lang] = mapped;
+    return res;
+  }, {});
 }
 
 // Caching: We only bundle English by default in the Sign-In Widget. Other
@@ -165,12 +164,12 @@ function fetchJson(bundle, language, assets) {
     .then(txt => JSON.parse(txt));
 }
 
-async function getBundles(language, assets, supportedLanguages) {
+async function getBundles(language: string, assets, supportedLanguages: string[]) {
   // Two special cases:
   // 1. Default language is already bundled with the widget
   // 2. If the language is not in our config file, it means that they've
   //    probably defined it on their own.
-  if (language === config.defaultLanguage || !_.contains(supportedLanguages, language)) {
+  if (language === config.defaultLanguage || !supportedLanguages.includes(language)) {
     return {};
   }
 
@@ -227,13 +226,13 @@ export default {
     const bundles = await getBundles(language, assets, supportedLanguages);
     // Always extend from the built in defaults in the event that some
     // properties are not translated
-    this.login = _.extend({}, login, bundles.login);
-    this.country = _.extend({}, country, bundles.country);
-    this.courage = _.extend({}, login, bundles.login);
+    this.login = {...login, ...bundles.login};
+    this.country = {...country, ...bundles.country};
+    this.courage = {...login, ...bundles.login};
     if (parsedOverrides[lowerCaseLanguage]) {
-      _.extend(this.login, parsedOverrides[lowerCaseLanguage]['login']);
-      _.extend(this.country, parsedOverrides[lowerCaseLanguage]['country']);
-      _.extend(this.courage, parsedOverrides[lowerCaseLanguage]['login']);
+      Object.assign(this.login, parsedOverrides[lowerCaseLanguage]['login']);
+      Object.assign(this.country, parsedOverrides[lowerCaseLanguage]['country']);
+      Object.assign(this.courage, parsedOverrides[lowerCaseLanguage]['login']);
     }
     this.currentLanguage = language;
   },

@@ -117,6 +117,11 @@ if ! yarn lint:cdn; then
   exit ${TEST_FAILURE}
 fi
 
+if ! yarn workspace v3 lint:cdn; then
+  echo "v3 lint failed! Exiting..."
+  exit ${TEST_FAILURE}
+fi
+
 mkdir -p "test-reports/verify-package"
 
 # Must switch the node version back to v14.18.2 due to bug in v16 see https://github.com/npm/cli/pull/5894

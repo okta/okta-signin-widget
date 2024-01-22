@@ -11,8 +11,8 @@
  */
 
 import { APIError, IdxRemediation } from '@okta/okta-auth-js';
-import { flow } from 'lodash';
 
+import { flow } from '../../../../util/utils';
 import { AUTHENTICATOR_KEY, IDX_STEP } from '../../constants';
 import { RegistrationElementSchema, TransformStepFnWithOptions } from '../../types';
 import {

@@ -11,7 +11,6 @@
  */
 
 import { Box } from '@okta/odyssey-react-mui';
-import debounce from 'lodash/debounce';
 import { h } from 'preact';
 import {
   useCallback,
@@ -19,6 +18,7 @@ import {
   useState,
 } from 'preact/hooks';
 
+import { debounce } from '../../../../util/utils';
 import { useWidgetContext } from '../../contexts';
 import {
   PasswordMatchesElement,

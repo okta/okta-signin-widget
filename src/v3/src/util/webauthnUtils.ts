@@ -11,8 +11,8 @@
  */
 
 import { OktaAuth } from '@okta/okta-auth-js';
-import omit from 'lodash/omit';
 
+import { omit } from '../../../util/utils';
 import { WebAuthNAuthenticationHandler, WebAuthNEnrollmentHandler } from '../types';
 
 export const binToStr = (bin: ArrayBuffer): string => btoa(

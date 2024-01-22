@@ -101,7 +101,9 @@ module.exports = function({
             const filePathContains = (f) => filePath.indexOf(f) > 0;
             const npmRequiresTransform = [
               '/node_modules/parse-ms',
-              '/node_modules/@sindresorhus/to-milliseconds'
+              '/node_modules/@sindresorhus/to-milliseconds',
+              '/node_modules/shallow-clone',
+              '/node_modules/clone-deep'
             ].some(filePathContains);
             const shallBeExcluded = [
               '/node_modules/',

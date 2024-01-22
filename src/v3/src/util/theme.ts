@@ -13,8 +13,8 @@
 import { ThemeOptions } from '@mui/material';
 import { odysseyTheme } from '@okta/odyssey-react-mui';
 import chroma from 'chroma-js';
-import { set as _set } from 'lodash';
 
+import { set as _set } from '../../../util/utils';
 import { BrandColors } from '../types';
 import { DESIGN_TOKENS, DesignTokensType } from './designTokens';
 import { mergeThemes } from './mergeThemes';

@@ -9,6 +9,9 @@ module.exports = {
       'navigator.credentials',
       // API availability is checked at runtime
       'AbortController',
+      'navigator.clipboard',
+      'navigator.userAgentData', // used in @popperjs/core
+      'ResizeObserver', // used in @mui's TextareaAutosize
       // API availability is checked at runtime by 'broadcast-channel', this polyfill should be removed in v7
       'BroadcastChannel',
       // No polyfill exist in CDN bundle for this API
@@ -19,6 +22,7 @@ module.exports = {
       'URL.host',
       'URL.hash',
       'URLSearchParams.get',
+      'URL.toString',
     ],
   }
 };

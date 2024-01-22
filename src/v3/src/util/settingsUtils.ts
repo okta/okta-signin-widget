@@ -11,7 +11,6 @@
  */
 
 import { APIError, IdxActionParams, IdxTransaction } from '@okta/okta-auth-js';
-import { union } from 'lodash';
 
 import config from '../../../config/config.json';
 import {
@@ -24,6 +23,7 @@ import {
 import BrowserFeatures from '../../../util/BrowserFeatures';
 import CountryUtil from '../../../util/CountryUtil';
 import Util from '../../../util/Util';
+import { union } from '../../../util/utils';
 import { FORM_NAME_TO_OPERATION_MAP } from '../constants';
 import {
   AuthenticationMode,
@@ -62,7 +62,7 @@ export const getLanguageCode = (widgetProps: WidgetProps): LanguageCode => {
   });
 
   const preferredLanguages = [...userLanguages];
-  const supportedLangsLowercase = Util.toLower(supportedLanguages);
+  const supportedLangsLowercase: string[] = Util.toLower(supportedLanguages);
 
   // Any developer defined "language" takes highest priority:
   // As a string, i.e. 'en', 'ja', 'zh-CN'
@@ -78,7 +78,7 @@ export const getLanguageCode = (widgetProps: WidgetProps): LanguageCode => {
   // Add default language, and expand to include any language
   // codes that do not include region, dialect, etc.
   preferredLanguages.push(config.defaultLanguage);
-  const expanded = Util.toLower(Util.expandLanguages(preferredLanguages));
+  const expanded: string[] = Util.toLower(Util.expandLanguages(preferredLanguages));
 
   // Perform a case insensitive search - this is necessary in the case
   // of browsers like Safari
