@@ -21,6 +21,54 @@ import {
 import { ActionParams, AuthenticatorButtonElement, ButtonType } from '../../types';
 import { loc } from '../../util';
 
+const getVerifyEmailAriaLabel = (email?: string): string => (email
+  ? loc('oie.select.authenticator.verify.email.with.email.label', 'login', [email])
+  : loc('oie.select.authenticator.verify.email.label', 'login')
+);
+
+const getVerifyPhoneAriaLabel = (phone?: string): string => (phone
+  ? loc('oie.select.authenticator.verify.phone.with.phone.label', 'login', [phone])
+  : loc('oie.select.authenticator.verify.phone.label', 'login')
+);
+
+const getAuthenticatorAriaLabel = (
+  option: IdxOption,
+  authenticatorKey: string,
+  isEnroll?: boolean,
+): string => {
+  const ovLabel = loc('oie.okta_verify.label', 'login');
+  switch (authenticatorKey) {
+    case AUTHENTICATOR_KEY.EMAIL:
+      return isEnroll
+        ? loc('oie.select.authenticator.enroll.email.label', 'login')
+        : getVerifyEmailAriaLabel(option.relatesTo?.profile?.email as string || undefined);
+    case AUTHENTICATOR_KEY.PHONE:
+      return isEnroll
+        ? loc('oie.select.authenticator.enroll.phone.label', 'login')
+        : getVerifyPhoneAriaLabel(option.relatesTo?.profile?.phoneNumber as string || undefined);
+    case AUTHENTICATOR_KEY.PASSWORD:
+      return isEnroll
+        ? loc('oie.select.authenticator.enroll.password.label', 'login')
+        : loc('oie.select.authenticator.verify.password.label', 'login');
+    case AUTHENTICATOR_KEY.SECURITY_QUESTION:
+      return isEnroll
+        ? loc('oie.select.authenticator.enroll.security.question.label', 'login')
+        : loc('oie.select.authenticator.verify.security.question.label', 'login');
+    case AUTHENTICATOR_KEY.WEBAUTHN:
+      return isEnroll
+        ? loc('oie.select.authenticator.enroll.webauthn.label', 'login')
+        : loc('oie.select.authenticator.verify.webauthn.label', 'login');
+    case AUTHENTICATOR_KEY.OV:
+      return isEnroll
+        ? loc('oie.select.authenticator.enroll.named.authentcator.label', 'login', [ovLabel])
+        : loc('oie.select.authenticator.verify.named.authentcator.label', 'login', [ovLabel])
+    default:
+      return isEnroll
+        ? loc('oie.select.authenticator.enroll.named.authentcator.label', 'login', [option.label])
+        : loc('oie.select.authenticator.verify.named.authentcator.label', 'login', [option.label]);
+  }
+};
+
 export const getOptionValue = (
   inputs: Input[],
   key: string,
@@ -92,6 +140,7 @@ const buildOktaVerifyOptions = (
         description: isEnroll
           ? loc(AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP[AUTHENTICATOR_KEY.OV], 'login')
           : loc('oie.okta_verify.label', 'login'),
+        ariaLabel: getAuthenticatorAriaLabel(option, AUTHENTICATOR_KEY.OV, isEnroll),
         actionParams: {
           'authenticator.methodType': option.value,
           'authenticator.id': id,
@@ -274,6 +323,7 @@ const formatAuthenticatorOptions = (
             authenticatorKey,
             isEnroll,
           ),
+          ariaLabel: getAuthenticatorAriaLabel(option, authenticatorKey, isEnroll),
           nickname: getNickname(option, authenticatorKey, isEnroll),
           usageDescription: isEnroll && getUsageDescription(option),
           // @ts-ignore logoUri missing from interface
@@ -354,6 +404,7 @@ export const getAppAuthenticatorMethodButtonElements = (
         authKey,
         false,
       ),
+      ariaLabel: getAuthenticatorAriaLabel(option, authKey),
       dataSe: getAuthenticatorDataSeVal(
         authKey,
         option.value as string,

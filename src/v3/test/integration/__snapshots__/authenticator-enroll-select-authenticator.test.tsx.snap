@@ -139,7 +139,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       >
                         <button
                           aria-describedby="okta_password_0-description okta_password_0-ctaLabel"
-                          aria-labelledby="okta_password_0-label"
+                          aria-label="Set up Password."
                           class="authenticator-row MuiBox-root emotion-28"
                           data-se="authenticator-button"
                           tabindex="0"
@@ -244,7 +244,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       >
                         <button
                           aria-describedby="phone_number_1-description phone_number_1-ctaLabel"
-                          aria-labelledby="phone_number_1-label"
+                          aria-label="Set up Phone."
                           class="authenticator-row MuiBox-root emotion-28"
                           data-se="authenticator-button"
                           tabindex="0"
@@ -359,7 +359,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       >
                         <button
                           aria-describedby="webauthn_2-description webauthn_2-ctaLabel"
-                          aria-labelledby="webauthn_2-label"
+                          aria-label="Set up Security Key or Biometric Authenticator."
                           class="authenticator-row MuiBox-root emotion-28"
                           data-se="authenticator-button"
                           tabindex="0"
@@ -484,7 +484,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       >
                         <button
                           aria-describedby="security_question_3-description security_question_3-ctaLabel"
-                          aria-labelledby="security_question_3-label"
+                          aria-label="Set up Security Question."
                           class="authenticator-row MuiBox-root emotion-28"
                           data-se="authenticator-button"
                           tabindex="0"
@@ -589,7 +589,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       >
                         <button
                           aria-describedby="okta_verify_4-description okta_verify_4-ctaLabel"
-                          aria-labelledby="okta_verify_4-label"
+                          aria-label="Set up Okta Verify"
                           class="authenticator-row MuiBox-root emotion-28"
                           data-se="authenticator-button"
                           tabindex="0"
@@ -690,7 +690,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       >
                         <button
                           aria-describedby="google_otp_5-description google_otp_5-ctaLabel"
-                          aria-labelledby="google_otp_5-label"
+                          aria-label="Set up Google Authenticator"
                           class="authenticator-row MuiBox-root emotion-28"
                           data-se="authenticator-button"
                           tabindex="0"
@@ -815,7 +815,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       >
                         <button
                           aria-describedby="onprem_mfa_6-description onprem_mfa_6-ctaLabel"
-                          aria-labelledby="onprem_mfa_6-label"
+                          aria-label="Set up Atko Custom On-prem"
                           class="authenticator-row MuiBox-root emotion-28"
                           data-se="authenticator-button"
                           tabindex="0"
@@ -920,7 +920,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       >
                         <button
                           aria-describedby="rsa_token_7-description rsa_token_7-ctaLabel"
-                          aria-labelledby="rsa_token_7-label"
+                          aria-label="Set up RSA SecurID"
                           class="authenticator-row MuiBox-root emotion-28"
                           data-se="authenticator-button"
                           tabindex="0"
@@ -1059,7 +1059,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       >
                         <button
                           aria-describedby="duo_8-description duo_8-ctaLabel"
-                          aria-labelledby="duo_8-label"
+                          aria-label="Set up Duo Security"
                           class="authenticator-row MuiBox-root emotion-28"
                           data-se="authenticator-button"
                           tabindex="0"
@@ -1160,7 +1160,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       >
                         <button
                           aria-describedby="external_idp_9-description external_idp_9-ctaLabel"
-                          aria-labelledby="external_idp_9-label"
+                          aria-label="Set up IDP Authenticator"
                           class="authenticator-row MuiBox-root emotion-28"
                           data-se="authenticator-button"
                           tabindex="0"
@@ -1270,7 +1270,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       >
                         <button
                           aria-describedby="custom_otp_10-description custom_otp_10-ctaLabel"
-                          aria-labelledby="custom_otp_10-label"
+                          aria-label="Set up Atko Custom OTP Authenticator"
                           class="authenticator-row MuiBox-root emotion-28"
                           data-se="authenticator-button"
                           tabindex="0"
@@ -1380,7 +1380,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       >
                         <button
                           aria-describedby="symantec_vip_11-description symantec_vip_11-ctaLabel"
-                          aria-labelledby="symantec_vip_11-label"
+                          aria-label="Set up Symantec VIP"
                           class="authenticator-row MuiBox-root emotion-28"
                           data-se="authenticator-button"
                           tabindex="0"
@@ -1487,7 +1487,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       >
                         <button
                           aria-describedby="yubikey_token_12-description yubikey_token_12-ctaLabel"
-                          aria-labelledby="yubikey_token_12-label"
+                          aria-label="Set up YubiKey Authenticator"
                           class="authenticator-row MuiBox-root emotion-28"
                           data-se="authenticator-button"
                           tabindex="0"
