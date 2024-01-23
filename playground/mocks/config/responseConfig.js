@@ -12,6 +12,7 @@ const idx = {
     'interact'
     // 'error-feature-not-enabled'
     // 'error-recovery-token-invalid'
+    // 'error-activation-token-invalid'
   ],
   '/oauth2/default/v1/token': [
     'error-token-invalid-grant-pkce'

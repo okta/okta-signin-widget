@@ -13,6 +13,7 @@
 import { AuthApiError, OAuthError } from '@okta/okta-auth-js';
 
 import { getMessage } from '../../../../v2/ion/i18nUtils';
+import { TERMINAL_KEY, TERMINAL_TITLE_KEY } from '../../constants';
 import {
   FormBag,
   InfoboxElement,
@@ -72,6 +73,15 @@ const getWidgetMessage = (
         class: 'ERROR',
         message: loc('oie.invalid.recovery.token', 'login'),
         i18n: { key: 'oie.invalid.recovery.token' },
+      }),
+    },
+    {
+      tester: (err?: OAuthError) => err?.error === 'invalid_request' && err?.error_description === 'The activation token is invalid',
+      message: () => ({
+        class: 'ERROR',
+        title: loc(TERMINAL_TITLE_KEY[TERMINAL_KEY.EMAIL_ACTIVATION_EMAIL_INVALID], 'login'),
+        message: loc(TERMINAL_KEY.EMAIL_ACTIVATION_EMAIL_INVALID, 'login'),
+        i18n: { key: TERMINAL_KEY.EMAIL_ACTIVATION_EMAIL_INVALID },
       }),
     },
     {

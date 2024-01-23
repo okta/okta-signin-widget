@@ -142,6 +142,36 @@ Object {
 }
 `;
 
+exports[`Unhandled Error Transformer Tests When OAuthError is returned should add info box when response is invalid activation token error 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToValidate": Array [],
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "class": "ERROR",
+          "dataSe": "callout",
+          "message": Object {
+            "class": "ERROR",
+            "i18n": Object {
+              "key": "idx.missing.activation.token",
+            },
+            "message": "idx.missing.activation.token",
+            "title": "oie.activation.request.email.title.invalid",
+          },
+        },
+        "type": "InfoBox",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
 exports[`Unhandled Error Transformer Tests When OAuthError is returned should add info box when response is invalid recovery token error 1`] = `
 Object {
   "data": Object {},

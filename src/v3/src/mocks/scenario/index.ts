@@ -31,6 +31,7 @@ import './error-400-unauthorized-client';
 import './error-401-invalid-otp-passcode';
 import './error-403-security-access-denied';
 import './error-account-creation';
+import './error-activation-token-invalid';
 import './error-feature-not-enabled';
 import './error-password-reset-failed';
 import './error-recovery-token-invalid';
