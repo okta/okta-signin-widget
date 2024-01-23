@@ -34,8 +34,8 @@ import {
   useAutoFocus,
   useDebouncedChange,
 } from '../../../../../hooks';
+import { ChangeEvent } from '../../../../../types';
 import { eventToValue } from '../../../../../util';
-import { ChangeEvent } from '../../../../..//types';
 
 const InputPassword: FunctionComponent<ControlProps> = ({
   // uischema,
@@ -116,7 +116,7 @@ const InputPassword: FunctionComponent<ControlProps> = ({
   };
 
   return (
-    <Box marginBottom={4}>
+    <Box marginBlockEnd={4}>
       <InputLabel
         htmlFor={path}
       >
