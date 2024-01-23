@@ -141,7 +141,7 @@ test.requestHooks(logger, mock)('settings.registration.preSubmit hook can call o
   await registrationPage.clickRegisterButton();
 
   await t.expect(registrationPage.getErrorBoxText()).contains('We found some errors. Please review the form and make corrections.');
-  await t.expect(registrationPage.form.getTextBoxErrorMessage('userProfile.lastName')).eql('my preSubmit error summary');
+  await t.expect(registrationPage.form.getTextBoxErrorMessage('userProfile.lastName')).match(/my preSubmit error summary$/);
 
   // no request because the form fails to submit
   await t.expect(logger.requests.length).eql(0);

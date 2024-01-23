@@ -272,10 +272,17 @@ export default class IdentityPageObject extends BasePageObject {
   }
 
   getIdentifierSubLabelValue() {
+    if (userVariables.gen3) {
+      return Selector('#identifier-hint').textContent;
+    }
     return Selector(SUB_LABEL_SELECTOR).nth(0).textContent;
   }
 
   getPasswordSubLabelValue() {
+    // OKTA-678800: Change after InputPassword migration
+    if (userVariables.gen3) {
+      return Selector('.o-form-explain').nth(0).textContent;
+    }
     return Selector(SUB_LABEL_SELECTOR).nth(1).textContent;
   }
 
