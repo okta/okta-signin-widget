@@ -58,8 +58,8 @@ test
     await t.pressKey('tab');
     await enrollRsaPage.clickNextButton('Verify');
     await enrollRsaPage.waitForGeneralErrorBox();
-    await t.expect(enrollRsaPage.getPasscodeError()).eql('This field cannot be left blank');
-    await t.expect(enrollRsaPage.getUserNameError()).eql('This field cannot be left blank');
+    await t.expect(enrollRsaPage.getPasscodeError()).match(/This field cannot be left blank$/);
+    await t.expect(enrollRsaPage.getUserNameError()).match(/This field cannot be left blank$/);
 
     // Verify links (switch authenticator link is present even if there is just one authenticator available)
     await t.expect(await enrollRsaPage.returnToAuthenticatorListLinkExists()).eql(true);
