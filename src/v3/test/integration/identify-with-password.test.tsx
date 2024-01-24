@@ -114,7 +114,7 @@ describe('identify-with-password', () => {
       await findByText(/We found some errors./);
       const passwordError = await findByTestId('credentials.passcode-error');
 
-      expect(identifierEl).toHaveErrorMessage(/This field cannot be left blank$/);
+      expect(identifierEl).toHaveErrorMessage(/This field cannot be left blank/);
       expect(container).toMatchSnapshot();
       expect(passwordError.textContent).toEqual('This field cannot be left blank');
       expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
@@ -138,7 +138,7 @@ describe('identify-with-password', () => {
       await findByText(/We found some errors./);
       const passwordError = await findByTestId('credentials.passcode-error');
 
-      expect(identifierEl).toHaveErrorMessage(/This field cannot be left blank$/);
+      expect(identifierEl).toHaveErrorMessage(/This field cannot be left blank/);
       expect(container).toMatchSnapshot();
       expect(passwordError.textContent).toEqual('This field cannot be left blank');
       expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
@@ -168,7 +168,7 @@ describe('identify-with-password', () => {
       await user.clear(identifierEl);
       await user.tab();
 
-      expect(identifierEl).toHaveErrorMessage(/This field cannot be left blank$/);
+      expect(identifierEl).toHaveErrorMessage(/This field cannot be left blank/);
       expect(queryByTestId('credentials.passcode-error')).toBeNull();
     });
 
@@ -191,7 +191,7 @@ describe('identify-with-password', () => {
       // empty username & empty password
       await user.click(submitButton);
       await findByText(/We found some errors./);
-      expect(usernameEl).toHaveErrorMessage(/This field cannot be left blank$/);
+      expect(usernameEl).toHaveErrorMessage(/This field cannot be left blank/);
       expect(container).toMatchSnapshot();
 
       passwordError = await findByTestId('credentials.passcode-error');

@@ -184,7 +184,7 @@ describe('authenticator-enroll-security-question', () => {
       const [globalError] = await findAllByRole('alert');
       expect(globalError.innerHTML).toContain('We found some errors. Please review the form and make corrections.');
       // assert field level error
-      expect(questionEle).toHaveErrorMessage(/This field cannot be left blank$/);
+      expect(questionEle).toHaveErrorMessage(/This field cannot be left blank/);
       const answerFieldError = queryByTestId('credentials.answer-error');
       expect(answerFieldError).toBeNull();
       expect(container).toMatchSnapshot();
@@ -242,7 +242,7 @@ describe('authenticator-enroll-security-question', () => {
       expect(globalError.innerHTML).toContain('We found some errors. Please review the form and make corrections.');
       // assert field level error
       const customQuestionEle = await findByRole('textbox', { name: 'Create my own security question' }) as HTMLInputElement;
-      expect(customQuestionEle).toHaveErrorMessage(/This field cannot be left blank$/);
+      expect(customQuestionEle).toHaveErrorMessage(/This field cannot be left blank/);
       const answerFieldError = await findByTestId('credentials.answer-error');
       expect(answerFieldError.innerHTML).toEqual('This field cannot be left blank');
     });

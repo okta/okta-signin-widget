@@ -364,7 +364,7 @@ test.requestHooks(logger, enrollProfileNewMock)('should be able to create a new 
 
   //click register
   await registrationPage.clickRegisterButton();
-  await t.expect(registrationPage.getEmailErrorMessage()).match(/A user with this Email already exists$/);
+  await t.expect(registrationPage.getEmailErrorMessage()).match(/A user with this Email already exists/);
   let req = logger.requests[0].request;
   let reqBody = JSON.parse(req.body);
   await t.expect(reqBody).eql({

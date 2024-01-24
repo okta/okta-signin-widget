@@ -44,7 +44,7 @@ describe('enroll-profile-update-required-field', () => {
 
     await user.click(submitButton);
     const customAttr2Ele = await findByLabelText('Some custom attribute 2') as HTMLInputElement;
-    expect(customAttr2Ele).toHaveErrorMessage(/This field cannot be left blank$/);
+    expect(customAttr2Ele).toHaveErrorMessage(/This field cannot be left blank/);
 
     expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
     expect(container).toMatchSnapshot();

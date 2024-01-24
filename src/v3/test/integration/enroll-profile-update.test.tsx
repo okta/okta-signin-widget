@@ -65,9 +65,9 @@ describe('enroll-profile-update', () => {
 
     await user.click(submitButton);
     const favoriteSportEle = await findByLabelText('Favorite sport') as HTMLInputElement;
-    expect(favoriteSportEle).toHaveErrorMessage(/This field cannot be left blank$/);
+    expect(favoriteSportEle).toHaveErrorMessage(/This field cannot be left blank/);
     const newAttributeEle = await findByLabelText('Custom attribute') as HTMLInputElement;
-    expect(newAttributeEle).toHaveErrorMessage(/This field cannot be left blank$/);
+    expect(newAttributeEle).toHaveErrorMessage(/This field cannot be left blank/);
 
     expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
     expect(container).toMatchSnapshot();

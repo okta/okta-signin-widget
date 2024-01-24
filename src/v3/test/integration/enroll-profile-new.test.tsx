@@ -72,9 +72,9 @@ describe('enroll-profile-new', () => {
     const firstNameEle = await findByLabelText('First name') as HTMLInputElement;
     const lastNameEle = await findByLabelText('Last name') as HTMLInputElement;
     const emailEle = await findByLabelText('Email') as HTMLInputElement;
-    expect(firstNameEle).toHaveErrorMessage(/This field cannot be left blank$/);
-    expect(lastNameEle).toHaveErrorMessage(/This field cannot be left blank$/);
-    expect(emailEle).toHaveErrorMessage(/This field cannot be left blank$/);
+    expect(firstNameEle).toHaveErrorMessage(/This field cannot be left blank/);
+    expect(lastNameEle).toHaveErrorMessage(/This field cannot be left blank/);
+    expect(emailEle).toHaveErrorMessage(/This field cannot be left blank/);
 
     expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
   });

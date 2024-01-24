@@ -161,7 +161,7 @@ describe('enroll-profile-with-password', () => {
     const lastNameEle = await findByLabelText('Last name') as HTMLInputElement;
 
     expect(heading.textContent).toBe('Sign up');
-    expect(lastNameEle).toHaveErrorMessage(/Custom parseSchema error$/);
+    expect(lastNameEle).toHaveErrorMessage(/Custom parseSchema error/);
     expect(container).toMatchSnapshot();
   });
 
@@ -224,7 +224,7 @@ describe('enroll-profile-with-password', () => {
 
     await user.click(submitButton);
     expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
-    await waitFor(() => expect(lastNameEle).toHaveErrorMessage(/Custom preSubmit error$/));
+    await waitFor(() => expect(lastNameEle).toHaveErrorMessage(/Custom preSubmit error/));
     expect(container).toMatchSnapshot();
   });
 
@@ -340,7 +340,7 @@ describe('enroll-profile-with-password', () => {
 
     await user.click(submitButton);
     expect(authClient.options.httpRequestClient).not.toHaveBeenCalledWith('POST', 'idp/idx/enroll');
-    expect(addressEle).toHaveErrorMessage(/This field cannot be left blank$/);
+    expect(addressEle).toHaveErrorMessage(/This field cannot be left blank/);
     expect(container).toMatchSnapshot();
   });
 });

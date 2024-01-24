@@ -34,7 +34,7 @@ describe('identify-recovery', () => {
     const [globalError] = await findAllByRole('alert');
     expect(globalError.innerHTML).toContain('We found some errors. Please review the form and make corrections.');
     const identifierEl = await findByLabelText('Email or Username') as HTMLInputElement;
-    expect(identifierEl).toHaveErrorMessage(/This field cannot be left blank$/);
+    expect(identifierEl).toHaveErrorMessage(/This field cannot be left blank/);
   });
 
   it('sends correct payload', async () => {

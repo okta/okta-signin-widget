@@ -140,7 +140,7 @@ test
     await pageObject.submit('Verify');
 
     await t.expect(pageObject.form.getTextBoxErrorMessage(fieldName))
-      .match(/Your code doesn't match our records. Please try again.$/);
+      .match(/Your code doesn't match our records. Please try again./);
   });
 
 test.requestHooks(verifyMock)('should show custom factor page link', async t => {

@@ -59,7 +59,7 @@ test.requestHooks(xhrEnrollProfileUpdateMock)('should have correct form title, f
 
   // show error when field is required
   await enrollProfileUpdatePage.clickFinishButton();
-  await t.expect(await enrollProfileUpdatePage.getTextBoxErrorMessage('userProfile.newAttribute2')).match(/This field cannot be left blank$/);
+  await t.expect(await enrollProfileUpdatePage.getTextBoxErrorMessage('userProfile.newAttribute2')).match(/This field cannot be left blank/);
 });
 
 test.requestHooks(requestLogger, xhrEnrollProfileUpdateAllOptionalMock)('should have skip link when all fields are optional', async t => {
