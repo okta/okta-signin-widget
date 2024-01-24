@@ -285,6 +285,7 @@ exports[`authenticator-enroll-security-question custom question fails client sid
                       <div
                         class="MuiBox-root emotion-1"
                       >
+<<<<<<< HEAD
                         <label
                           class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-49"
                           data-shrink="false"
@@ -314,23 +315,63 @@ exports[`authenticator-enroll-security-question custom question fails client sid
                               data-mui-internal-clone-element="true"
                               tabindex="0"
                               type="button"
+=======
+                        <div
+                          class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-48"
+                        >
+                          <label
+                            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-49"
+                            data-shrink="false"
+                            for="credentials.answer"
+                            id="credentials.answer-label"
+                          >
+                            <span>
+                              Answer
+                            </span>
+                          </label>
+                          <div
+                            class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd emotion-50"
+                            data-se="credentials.answer"
+                            required="true"
+                            translate="no"
+                          >
+                            <input
+                              aria-invalid="false"
+                              aria-labelledby="credentials.answer-label"
+                              class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-43"
+                              id="credentials.answer"
+                              name="credentials.answer"
+                              required=""
+                              role="textbox"
+                              type="password"
+                            />
+                            <div
+                              class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium emotion-52"
+>>>>>>> 8718c6cbb (Fix testcafe and integration tests)
                             >
-                              <svg
-                                aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-13"
-                                fill="none"
-                                focusable="false"
-                                viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg"
+                              <button
+                                aria-label="Show password"
+                                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-53"
+                                tabindex="0"
+                                type="button"
                               >
-                                <path
-                                  clip-rule="evenodd"
-                                  d="M3.43 12.813A12.814 12.814 0 0 1 3.069 12a14.153 14.153 0 0 1 1.966-3.38C6.506 6.762 8.746 5 12 5s5.494 1.761 6.966 3.62A14.152 14.152 0 0 1 20.932 12a14.151 14.151 0 0 1-1.966 3.38C17.494 17.238 15.254 19 12 19s-5.494-1.761-6.966-3.62a14.152 14.152 0 0 1-1.603-2.567Zm19.518-1.13L22 12c.949.316.949.317.948.317v.004l-.003.007-.008.024a7.012 7.012 0 0 1-.137.362 16.147 16.147 0 0 1-2.266 3.906C18.84 18.762 16.08 21 12 21c-4.08 0-6.84-2.239-8.534-4.38A16.15 16.15 0 0 1 1.2 12.715a10.039 10.039 0 0 1-.137-.362l-.008-.024-.002-.007-.001-.003c0-.001 0-.002.948-.318a91.698 91.698 0 0 1-.948-.317v-.004l.003-.007.008-.024.029-.08c.025-.067.06-.163.108-.282A16.15 16.15 0 0 1 3.466 7.38C5.16 5.24 7.92 3 12 3c4.08 0 6.84 2.239 8.534 4.38a16.147 16.147 0 0 1 2.266 3.906 10.026 10.026 0 0 1 .137.362l.008.024.002.007.001.003ZM2 12l-.949.316L.946 12l.105-.316L2 12Zm20 0 .949-.316.105.316-.105.316L22 12ZM9 12a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm3-5a5 5 0 1 0 0 10 5 5 0 0 0 0-10Z"
-                                  fill="currentColor"
-                                  fill-rule="evenodd"
-                                />
-                              </svg>
-                            </button>
+                                <svg
+                                  aria-hidden="true"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-13"
+                                  fill="none"
+                                  focusable="false"
+                                  viewBox="0 0 24 24"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    clip-rule="evenodd"
+                                    d="M3.43 12.813A12.814 12.814 0 0 1 3.069 12a14.153 14.153 0 0 1 1.966-3.38C6.506 6.762 8.746 5 12 5s5.494 1.761 6.966 3.62A14.152 14.152 0 0 1 20.932 12a14.151 14.151 0 0 1-1.966 3.38C17.494 17.238 15.254 19 12 19s-5.494-1.761-6.966-3.62a14.152 14.152 0 0 1-1.603-2.567Zm19.518-1.13L22 12c.949.316.949.317.948.317v.004l-.003.007-.008.024a7.012 7.012 0 0 1-.137.362 16.147 16.147 0 0 1-2.266 3.906C18.84 18.762 16.08 21 12 21c-4.08 0-6.84-2.239-8.534-4.38A16.15 16.15 0 0 1 1.2 12.715a10.039 10.039 0 0 1-.137-.362l-.008-.024-.002-.007-.001-.003c0-.001 0-.002.948-.318a91.698 91.698 0 0 1-.948-.317v-.004l.003-.007.008-.024.029-.08c.025-.067.06-.163.108-.282A16.15 16.15 0 0 1 3.466 7.38C5.16 5.24 7.92 3 12 3c4.08 0 6.84 2.239 8.534 4.38a16.147 16.147 0 0 1 2.266 3.906 10.026 10.026 0 0 1 .137.362l.008.024.002.007.001.003ZM2 12l-.949.316L.946 12l.105-.316L2 12Zm20 0 .949-.316.105.316-.105.316L22 12ZM9 12a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm3-5a5 5 0 1 0 0 10 5 5 0 0 0 0-10Z"
+                                    fill="currentColor"
+                                    fill-rule="evenodd"
+                                  />
+                                </svg>
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -606,6 +647,7 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                       <div
                         class="MuiBox-root emotion-1"
                       >
+<<<<<<< HEAD
                         <label
                           class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-39"
                           data-shrink="false"
@@ -615,43 +657,63 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd no-translate emotion-40"
+=======
+                        <div
+                          class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-39"
+>>>>>>> 8718c6cbb (Fix testcafe and integration tests)
                         >
-                          <input
-                            aria-invalid="false"
-                            class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-36"
-                            data-se="credentials.answer"
-                            id="credentials.answer"
-                            name="credentials.answer"
-                            type="password"
-                          />
-                          <div
-                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd emotion-42"
+                          <label
+                            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-40"
+                            data-shrink="false"
+                            for="credentials.answer"
+                            id="credentials.answer-label"
                           >
-                            <button
-                              aria-controls="credentials.answer"
-                              aria-label="Show answer"
-                              aria-pressed="false"
-                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-43"
-                              data-mui-internal-clone-element="true"
-                              tabindex="0"
-                              type="button"
+                            <span>
+                              Answer
+                            </span>
+                          </label>
+                          <div
+                            class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd emotion-41"
+                            data-se="credentials.answer"
+                            required="true"
+                            translate="no"
+                          >
+                            <input
+                              aria-invalid="false"
+                              aria-labelledby="credentials.answer-label"
+                              class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-36"
+                              id="credentials.answer"
+                              name="credentials.answer"
+                              required=""
+                              role="textbox"
+                              type="password"
+                            />
+                            <div
+                              class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium emotion-43"
                             >
-                              <svg
-                                aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-44"
-                                fill="none"
-                                focusable="false"
-                                viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg"
+                              <button
+                                aria-label="Show password"
+                                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-44"
+                                tabindex="0"
+                                type="button"
                               >
-                                <path
-                                  clip-rule="evenodd"
-                                  d="M3.43 12.813A12.814 12.814 0 0 1 3.069 12a14.153 14.153 0 0 1 1.966-3.38C6.506 6.762 8.746 5 12 5s5.494 1.761 6.966 3.62A14.152 14.152 0 0 1 20.932 12a14.151 14.151 0 0 1-1.966 3.38C17.494 17.238 15.254 19 12 19s-5.494-1.761-6.966-3.62a14.152 14.152 0 0 1-1.603-2.567Zm19.518-1.13L22 12c.949.316.949.317.948.317v.004l-.003.007-.008.024a7.012 7.012 0 0 1-.137.362 16.147 16.147 0 0 1-2.266 3.906C18.84 18.762 16.08 21 12 21c-4.08 0-6.84-2.239-8.534-4.38A16.15 16.15 0 0 1 1.2 12.715a10.039 10.039 0 0 1-.137-.362l-.008-.024-.002-.007-.001-.003c0-.001 0-.002.948-.318a91.698 91.698 0 0 1-.948-.317v-.004l.003-.007.008-.024.029-.08c.025-.067.06-.163.108-.282A16.15 16.15 0 0 1 3.466 7.38C5.16 5.24 7.92 3 12 3c4.08 0 6.84 2.239 8.534 4.38a16.147 16.147 0 0 1 2.266 3.906 10.026 10.026 0 0 1 .137.362l.008.024.002.007.001.003ZM2 12l-.949.316L.946 12l.105-.316L2 12Zm20 0 .949-.316.105.316-.105.316L22 12ZM9 12a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm3-5a5 5 0 1 0 0 10 5 5 0 0 0 0-10Z"
-                                  fill="currentColor"
-                                  fill-rule="evenodd"
-                                />
-                              </svg>
-                            </button>
+                                <svg
+                                  aria-hidden="true"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-45"
+                                  fill="none"
+                                  focusable="false"
+                                  viewBox="0 0 24 24"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    clip-rule="evenodd"
+                                    d="M3.43 12.813A12.814 12.814 0 0 1 3.069 12a14.153 14.153 0 0 1 1.966-3.38C6.506 6.762 8.746 5 12 5s5.494 1.761 6.966 3.62A14.152 14.152 0 0 1 20.932 12a14.151 14.151 0 0 1-1.966 3.38C17.494 17.238 15.254 19 12 19s-5.494-1.761-6.966-3.62a14.152 14.152 0 0 1-1.603-2.567Zm19.518-1.13L22 12c.949.316.949.317.948.317v.004l-.003.007-.008.024a7.012 7.012 0 0 1-.137.362 16.147 16.147 0 0 1-2.266 3.906C18.84 18.762 16.08 21 12 21c-4.08 0-6.84-2.239-8.534-4.38A16.15 16.15 0 0 1 1.2 12.715a10.039 10.039 0 0 1-.137-.362l-.008-.024-.002-.007-.001-.003c0-.001 0-.002.948-.318a91.698 91.698 0 0 1-.948-.317v-.004l.003-.007.008-.024.029-.08c.025-.067.06-.163.108-.282A16.15 16.15 0 0 1 3.466 7.38C5.16 5.24 7.92 3 12 3c4.08 0 6.84 2.239 8.534 4.38a16.147 16.147 0 0 1 2.266 3.906 10.026 10.026 0 0 1 .137.362l.008.024.002.007.001.003ZM2 12l-.949.316L.946 12l.105-.316L2 12Zm20 0 .949-.316.105.316-.105.316L22 12ZM9 12a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm3-5a5 5 0 1 0 0 10 5 5 0 0 0 0-10Z"
+                                    fill="currentColor"
+                                    fill-rule="evenodd"
+                                  />
+                                </svg>
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -660,7 +722,7 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                       class="MuiBox-root emotion-11"
                     >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-46"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-47"
                         data-se="save"
                         tabindex="0"
                         type="submit"
@@ -673,7 +735,7 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                     class="MuiBox-root emotion-11"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-48"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-49"
                       data-se="switchAuthenticator"
                       href=""
                     >
@@ -684,7 +746,7 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                     class="MuiBox-root emotion-11"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-48"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-49"
                       data-se="cancel"
                       href=""
                     >
@@ -1035,53 +1097,62 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                       <div
                         class="MuiBox-root emotion-1"
                       >
-                        <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-40"
-                          data-shrink="false"
-                          for="credentials.answer"
-                        >
-                          Answer
-                        </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd no-translate emotion-41"
+                          class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-40"
                         >
-                          <input
-                            aria-invalid="false"
-                            autocomplete="off"
-                            class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-42"
-                            data-se="credentials.answer"
-                            id="credentials.answer"
-                            name="credentials.answer"
-                            type="password"
-                          />
-                          <div
-                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd emotion-43"
+                          <label
+                            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-41"
+                            data-shrink="false"
+                            for="credentials.answer"
+                            id="credentials.answer-label"
                           >
-                            <button
-                              aria-controls="credentials.answer"
-                              aria-label="Show answer"
-                              aria-pressed="false"
-                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-44"
-                              data-mui-internal-clone-element="true"
-                              tabindex="0"
-                              type="button"
+                            <span>
+                              Answer
+                            </span>
+                          </label>
+                          <div
+                            class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd emotion-42"
+                            data-se="credentials.answer"
+                            required="true"
+                            translate="no"
+                          >
+                            <input
+                              aria-invalid="false"
+                              aria-labelledby="credentials.answer-label"
+                              autocomplete="off"
+                              class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-43"
+                              id="credentials.answer"
+                              name="credentials.answer"
+                              required=""
+                              role="textbox"
+                              type="password"
+                            />
+                            <div
+                              class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium emotion-44"
                             >
-                              <svg
-                                aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-45"
-                                fill="none"
-                                focusable="false"
-                                viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg"
+                              <button
+                                aria-label="Show password"
+                                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-45"
+                                tabindex="0"
+                                type="button"
                               >
-                                <path
-                                  clip-rule="evenodd"
-                                  d="M3.43 12.813A12.814 12.814 0 0 1 3.069 12a14.153 14.153 0 0 1 1.966-3.38C6.506 6.762 8.746 5 12 5s5.494 1.761 6.966 3.62A14.152 14.152 0 0 1 20.932 12a14.151 14.151 0 0 1-1.966 3.38C17.494 17.238 15.254 19 12 19s-5.494-1.761-6.966-3.62a14.152 14.152 0 0 1-1.603-2.567Zm19.518-1.13L22 12c.949.316.949.317.948.317v.004l-.003.007-.008.024a7.012 7.012 0 0 1-.137.362 16.147 16.147 0 0 1-2.266 3.906C18.84 18.762 16.08 21 12 21c-4.08 0-6.84-2.239-8.534-4.38A16.15 16.15 0 0 1 1.2 12.715a10.039 10.039 0 0 1-.137-.362l-.008-.024-.002-.007-.001-.003c0-.001 0-.002.948-.318a91.698 91.698 0 0 1-.948-.317v-.004l.003-.007.008-.024.029-.08c.025-.067.06-.163.108-.282A16.15 16.15 0 0 1 3.466 7.38C5.16 5.24 7.92 3 12 3c4.08 0 6.84 2.239 8.534 4.38a16.147 16.147 0 0 1 2.266 3.906 10.026 10.026 0 0 1 .137.362l.008.024.002.007.001.003ZM2 12l-.949.316L.946 12l.105-.316L2 12Zm20 0 .949-.316.105.316-.105.316L22 12ZM9 12a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm3-5a5 5 0 1 0 0 10 5 5 0 0 0 0-10Z"
-                                  fill="currentColor"
-                                  fill-rule="evenodd"
-                                />
-                              </svg>
-                            </button>
+                                <svg
+                                  aria-hidden="true"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-46"
+                                  fill="none"
+                                  focusable="false"
+                                  viewBox="0 0 24 24"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    clip-rule="evenodd"
+                                    d="M3.43 12.813A12.814 12.814 0 0 1 3.069 12a14.153 14.153 0 0 1 1.966-3.38C6.506 6.762 8.746 5 12 5s5.494 1.761 6.966 3.62A14.152 14.152 0 0 1 20.932 12a14.151 14.151 0 0 1-1.966 3.38C17.494 17.238 15.254 19 12 19s-5.494-1.761-6.966-3.62a14.152 14.152 0 0 1-1.603-2.567Zm19.518-1.13L22 12c.949.316.949.317.948.317v.004l-.003.007-.008.024a7.012 7.012 0 0 1-.137.362 16.147 16.147 0 0 1-2.266 3.906C18.84 18.762 16.08 21 12 21c-4.08 0-6.84-2.239-8.534-4.38A16.15 16.15 0 0 1 1.2 12.715a10.039 10.039 0 0 1-.137-.362l-.008-.024-.002-.007-.001-.003c0-.001 0-.002.948-.318a91.698 91.698 0 0 1-.948-.317v-.004l.003-.007.008-.024.029-.08c.025-.067.06-.163.108-.282A16.15 16.15 0 0 1 3.466 7.38C5.16 5.24 7.92 3 12 3c4.08 0 6.84 2.239 8.534 4.38a16.147 16.147 0 0 1 2.266 3.906 10.026 10.026 0 0 1 .137.362l.008.024.002.007.001.003ZM2 12l-.949.316L.946 12l.105-.316L2 12Zm20 0 .949-.316.105.316-.105.316L22 12ZM9 12a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm3-5a5 5 0 1 0 0 10 5 5 0 0 0 0-10Z"
+                                    fill="currentColor"
+                                    fill-rule="evenodd"
+                                  />
+                                </svg>
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -1090,7 +1161,7 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                       class="MuiBox-root emotion-11"
                     >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-47"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-48"
                         data-se="save"
                         tabindex="0"
                         type="submit"
@@ -1103,7 +1174,7 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                     class="MuiBox-root emotion-11"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-49"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-50"
                       data-se="switchAuthenticator"
                       href=""
                     >
@@ -1114,7 +1185,7 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                     class="MuiBox-root emotion-11"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-49"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-50"
                       data-se="cancel"
                       href=""
                     >
@@ -1465,53 +1536,62 @@ exports[`authenticator-enroll-security-question predefined question should rende
                       <div
                         class="MuiBox-root emotion-1"
                       >
-                        <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-40"
-                          data-shrink="false"
-                          for="credentials.answer"
-                        >
-                          Answer
-                        </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd no-translate emotion-41"
+                          class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-40"
                         >
-                          <input
-                            aria-invalid="false"
-                            autocomplete="off"
-                            class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-42"
-                            data-se="credentials.answer"
-                            id="credentials.answer"
-                            name="credentials.answer"
-                            type="password"
-                          />
-                          <div
-                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd emotion-43"
+                          <label
+                            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-41"
+                            data-shrink="false"
+                            for="credentials.answer"
+                            id="credentials.answer-label"
                           >
-                            <button
-                              aria-controls="credentials.answer"
-                              aria-label="Show answer"
-                              aria-pressed="false"
-                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-44"
-                              data-mui-internal-clone-element="true"
-                              tabindex="0"
-                              type="button"
+                            <span>
+                              Answer
+                            </span>
+                          </label>
+                          <div
+                            class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd emotion-42"
+                            data-se="credentials.answer"
+                            required="true"
+                            translate="no"
+                          >
+                            <input
+                              aria-invalid="false"
+                              aria-labelledby="credentials.answer-label"
+                              autocomplete="off"
+                              class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-43"
+                              id="credentials.answer"
+                              name="credentials.answer"
+                              required=""
+                              role="textbox"
+                              type="password"
+                            />
+                            <div
+                              class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium emotion-44"
                             >
-                              <svg
-                                aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-45"
-                                fill="none"
-                                focusable="false"
-                                viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg"
+                              <button
+                                aria-label="Show password"
+                                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-45"
+                                tabindex="0"
+                                type="button"
                               >
-                                <path
-                                  clip-rule="evenodd"
-                                  d="M3.43 12.813A12.814 12.814 0 0 1 3.069 12a14.153 14.153 0 0 1 1.966-3.38C6.506 6.762 8.746 5 12 5s5.494 1.761 6.966 3.62A14.152 14.152 0 0 1 20.932 12a14.151 14.151 0 0 1-1.966 3.38C17.494 17.238 15.254 19 12 19s-5.494-1.761-6.966-3.62a14.152 14.152 0 0 1-1.603-2.567Zm19.518-1.13L22 12c.949.316.949.317.948.317v.004l-.003.007-.008.024a7.012 7.012 0 0 1-.137.362 16.147 16.147 0 0 1-2.266 3.906C18.84 18.762 16.08 21 12 21c-4.08 0-6.84-2.239-8.534-4.38A16.15 16.15 0 0 1 1.2 12.715a10.039 10.039 0 0 1-.137-.362l-.008-.024-.002-.007-.001-.003c0-.001 0-.002.948-.318a91.698 91.698 0 0 1-.948-.317v-.004l.003-.007.008-.024.029-.08c.025-.067.06-.163.108-.282A16.15 16.15 0 0 1 3.466 7.38C5.16 5.24 7.92 3 12 3c4.08 0 6.84 2.239 8.534 4.38a16.147 16.147 0 0 1 2.266 3.906 10.026 10.026 0 0 1 .137.362l.008.024.002.007.001.003ZM2 12l-.949.316L.946 12l.105-.316L2 12Zm20 0 .949-.316.105.316-.105.316L22 12ZM9 12a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm3-5a5 5 0 1 0 0 10 5 5 0 0 0 0-10Z"
-                                  fill="currentColor"
-                                  fill-rule="evenodd"
-                                />
-                              </svg>
-                            </button>
+                                <svg
+                                  aria-hidden="true"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-46"
+                                  fill="none"
+                                  focusable="false"
+                                  viewBox="0 0 24 24"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    clip-rule="evenodd"
+                                    d="M3.43 12.813A12.814 12.814 0 0 1 3.069 12a14.153 14.153 0 0 1 1.966-3.38C6.506 6.762 8.746 5 12 5s5.494 1.761 6.966 3.62A14.152 14.152 0 0 1 20.932 12a14.151 14.151 0 0 1-1.966 3.38C17.494 17.238 15.254 19 12 19s-5.494-1.761-6.966-3.62a14.152 14.152 0 0 1-1.603-2.567Zm19.518-1.13L22 12c.949.316.949.317.948.317v.004l-.003.007-.008.024a7.012 7.012 0 0 1-.137.362 16.147 16.147 0 0 1-2.266 3.906C18.84 18.762 16.08 21 12 21c-4.08 0-6.84-2.239-8.534-4.38A16.15 16.15 0 0 1 1.2 12.715a10.039 10.039 0 0 1-.137-.362l-.008-.024-.002-.007-.001-.003c0-.001 0-.002.948-.318a91.698 91.698 0 0 1-.948-.317v-.004l.003-.007.008-.024.029-.08c.025-.067.06-.163.108-.282A16.15 16.15 0 0 1 3.466 7.38C5.16 5.24 7.92 3 12 3c4.08 0 6.84 2.239 8.534 4.38a16.147 16.147 0 0 1 2.266 3.906 10.026 10.026 0 0 1 .137.362l.008.024.002.007.001.003ZM2 12l-.949.316L.946 12l.105-.316L2 12Zm20 0 .949-.316.105.316-.105.316L22 12ZM9 12a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm3-5a5 5 0 1 0 0 10 5 5 0 0 0 0-10Z"
+                                    fill="currentColor"
+                                    fill-rule="evenodd"
+                                  />
+                                </svg>
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -1520,7 +1600,7 @@ exports[`authenticator-enroll-security-question predefined question should rende
                       class="MuiBox-root emotion-11"
                     >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-47"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-48"
                         data-se="save"
                         tabindex="0"
                         type="submit"
@@ -1533,7 +1613,7 @@ exports[`authenticator-enroll-security-question predefined question should rende
                     class="MuiBox-root emotion-11"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-49"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-50"
                       data-se="switchAuthenticator"
                       href=""
                     >
@@ -1544,7 +1624,7 @@ exports[`authenticator-enroll-security-question predefined question should rende
                     class="MuiBox-root emotion-11"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-49"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-50"
                       data-se="cancel"
                       href=""
                     >

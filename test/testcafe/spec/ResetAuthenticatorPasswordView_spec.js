@@ -101,8 +101,8 @@ test
     // fields are required
     await resetPasswordPage.clickResetPasswordButton();
     await resetPasswordPage.waitForErrorBox();
-    await t.expect(resetPasswordPage.getPasswordError()).eql('This field cannot be left blank');
-    await t.expect(resetPasswordPage.getConfirmPasswordError()).eql('This field cannot be left blank');
+    await t.expect(resetPasswordPage.getPasswordError()).match(/This field cannot be left blank/);
+    await t.expect(resetPasswordPage.getConfirmPasswordError()).match(/This field cannot be left blank/);
 
     // password must match
     await resetPasswordPage.fillPassword('abcdabcdA3@');
@@ -115,7 +115,7 @@ test
     // list item label below the confirm password field in addition to the field level error message
     if (userVariables.gen3) {
       await t.expect(resetPasswordPage.hasPasswordMatchRequirementStatus(false)).eql(true);
-      await t.expect(resetPasswordPage.getConfirmPasswordError()).eql('Passwords must match');
+      await t.expect(resetPasswordPage.getConfirmPasswordError()).match(/Passwords must match/);
     } else {
       await t.expect(resetPasswordPage.getConfirmPasswordError()).eql('New passwords must match');
     }

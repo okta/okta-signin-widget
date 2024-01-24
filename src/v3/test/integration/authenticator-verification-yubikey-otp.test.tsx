@@ -25,7 +25,7 @@ describe('authenticator-verification-yubikey-otp', () => {
   it('fails client validation when missing verification code', async () => {
     const {
       user,
-      findByTestId,
+      findByLabelText,
       findByText,
       findAllByRole,
     } = await setup({ mockResponse });
@@ -33,21 +33,21 @@ describe('authenticator-verification-yubikey-otp', () => {
     await user.click(await findByText('Verify', { selector: 'button' }));
     const [globalError] = await findAllByRole('alert');
     expect(globalError.innerHTML).toContain('We found some errors. Please review the form and make corrections.');
-    const identifierError = await findByTestId('credentials.passcode-error');
-    expect(identifierError.textContent).toEqual('This field cannot be left blank');
+    const yubikeyCodeEl = await findByLabelText('Insert then tap your YubiKey');
+    expect(yubikeyCodeEl).toHaveErrorMessage(/This field cannot be left blank/);
   });
 
   it('sends correct payload', async () => {
     const {
       authClient,
       user,
-      findByTestId,
+      findByLabelText,
       findByText,
     } = await setup({ mockResponse });
 
     const titleElement = await findByText(/Verify with YubiKey/);
     await waitFor(() => expect(titleElement).toHaveFocus());
-    const yubikeyCodeEl = await findByTestId('credentials.passcode');
+    const yubikeyCodeEl = await findByLabelText('Insert then tap your YubiKey');
     await user.type(yubikeyCodeEl, '1234');
     await user.click(await findByText('Verify', { selector: 'button' }));
 

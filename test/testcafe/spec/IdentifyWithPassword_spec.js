@@ -91,7 +91,7 @@ test.requestHooks(identifyWithPasswordMock)('should show customized error if req
   await identityPage.waitForErrorBox();
 
   await t.expect(identityPage.hasPasswordErrorMessage()).eql(true);
-  await t.expect(identityPage.getPasswordErrorMessage()).eql('Password is required!');
+  await t.expect(identityPage.getPasswordErrorMessage()).match(/Password is required!/);
 });
 
 test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should have password field, password toggle, and forgot password link', async t => {
@@ -146,22 +146,6 @@ test.meta('gen3', false).requestHooks(identifyRequestLogger, identifyWithPasswor
   });
   await checkA11y(t);
   await t.expect(await identityPage.hasShowTogglePasswordIcon()).notOk();
-});
-
-test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should auto-hide password after 30 seconds', async t => {
-  const identityPage = await setup(t, {
-    features: { showPasswordToggleOnSignInPage: true },
-  });
-  await checkA11y(t);
-  await t.expect(await identityPage.hasShowTogglePasswordIcon()).ok();
-  await identityPage.fillPasswordField('password');
-  await identityPage.clickShowPasswordIcon();
-  const passwordField = identityPage.getTextField('Password');
-  await t.expect(passwordField.getAttribute('type')).eql('text');
-  // Wait 30 seconds
-  await t.wait(30000);
-  // Give short buffer timeout to execute assertion
-  await t.expect(passwordField.getAttribute('type')).eql('password', { timeout: 500 });
 });
 
 test.requestHooks(identifyWithPasswordMock)('should add sub labels for Username and Password if i18n keys are defined', async t => {

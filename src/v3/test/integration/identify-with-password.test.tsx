@@ -28,7 +28,7 @@ describe('identify-with-password', () => {
       },
     };
     const {
-      findByLabelText, findByTestId, findByText,
+      findByLabelText, findByText,
     } = await setup({
       mockResponse,
       widgetOptions: {
@@ -38,10 +38,10 @@ describe('identify-with-password', () => {
 
     await findByText('Sign in', { selector: 'button' });
     const usernameEl = await findByLabelText(/Username/) as HTMLInputElement;
-    const passwordEl = await findByTestId('credentials.passcode-hint') as HTMLLabelElement;
+    const passwordEl = await findByLabelText('Password') as HTMLInputElement;
 
     expect(usernameEl).toHaveAccessibleDescription(usernameHint);
-    expect(passwordEl.textContent).toEqual(passwordHint);
+    expect(passwordEl).toHaveAccessibleDescription(passwordHint);
   });
 
   it('renders the loading state first', async () => {
@@ -101,9 +101,9 @@ describe('identify-with-password', () => {
         authClient,
         user,
         container,
-        findByLabelText,
         findByTestId,
         findByText,
+        findByLabelText,
       } = await setup({ mockResponse, widgetOptions: { features: { autoFocus: true } } });
 
       const identifierEl = await findByLabelText(/Username/) as HTMLInputElement;
@@ -112,11 +112,11 @@ describe('identify-with-password', () => {
 
       await user.click(submitButton);
       await findByText(/We found some errors./);
-      const passwordError = await findByTestId('credentials.passcode-error');
+      const passwordEle = await findByLabelText('Password') as HTMLInputElement;
 
       expect(identifierEl).toHaveErrorMessage(/This field cannot be left blank/);
       expect(container).toMatchSnapshot();
-      expect(passwordError.textContent).toEqual('This field cannot be left blank');
+      expect(passwordEle).toHaveErrorMessage(/This field cannot be left blank/);
       expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
     });
 
@@ -125,9 +125,9 @@ describe('identify-with-password', () => {
         authClient,
         user,
         container,
-        findByLabelText,
         findByTestId,
         findByText,
+        findByLabelText,
       } = await setup({ mockResponse, widgetOptions: { features: { autoFocus: true } } });
 
       const identifierEl = await findByLabelText(/Username/) as HTMLInputElement;
@@ -136,17 +136,17 @@ describe('identify-with-password', () => {
 
       await user.click(submitButton);
       await findByText(/We found some errors./);
-      const passwordError = await findByTestId('credentials.passcode-error');
+      const passwordEle = await findByLabelText('Password') as HTMLInputElement;
 
       expect(identifierEl).toHaveErrorMessage(/This field cannot be left blank/);
       expect(container).toMatchSnapshot();
-      expect(passwordError.textContent).toEqual('This field cannot be left blank');
+      expect(passwordEle).toHaveErrorMessage(/This field cannot be left blank/);
       expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
 
       await user.type(identifierEl, 'someuser@okta1.com');
 
       expect(identifierEl).not.toHaveErrorMessage();
-      expect((await findByTestId('credentials.passcode-error')).textContent).toBe('This field cannot be left blank');
+      expect(passwordEle).toHaveErrorMessage(/This field cannot be left blank/);
     });
 
     it('should type in field, then clear field to view field level error', async () => {
@@ -177,15 +177,12 @@ describe('identify-with-password', () => {
         authClient,
         user,
         container,
-        findByLabelText,
-        findByTestId,
         findByText,
-        queryByTestId,
+        findByLabelText,
       } = await setup({ mockResponse, widgetOptions: { features: { autoFocus: true } } });
-      let passwordError;
-
+      
       const usernameEl = await findByLabelText(/Username/) as HTMLInputElement;
-      const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
+      const passwordEl = await findByLabelText('Password') as HTMLInputElement;
       const submitButton = await findByText('Sign in', { selector: 'button' });
 
       // empty username & empty password
@@ -194,17 +191,15 @@ describe('identify-with-password', () => {
       expect(usernameEl).toHaveErrorMessage(/This field cannot be left blank/);
       expect(container).toMatchSnapshot();
 
-      passwordError = await findByTestId('credentials.passcode-error');
-      expect(passwordError.textContent).toEqual('This field cannot be left blank');
+      expect(passwordEl).toHaveErrorMessage(/This field cannot be left blank/);
       expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
 
       // add username - updates field level error
       await user.type(usernameEl, 'testuser@okta.com');
       await user.click(submitButton);
       await waitFor(async () => {
-        passwordError = await findByTestId('credentials.passcode-error');
-        expect(passwordError.textContent).toEqual('This field cannot be left blank');
         expect(usernameEl).not.toHaveErrorMessage();
+        expect(passwordEl).toHaveErrorMessage(/This field cannot be left blank/);
         expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
       });
 
@@ -221,8 +216,7 @@ describe('identify-with-password', () => {
           }),
         );
         expect(usernameEl).not.toHaveErrorMessage();
-        passwordError = queryByTestId('credentials.passcode-error');
-        expect(passwordError).toBeNull();
+        expect(passwordEl).not.toHaveErrorMessage();
       });
     });
   });
@@ -233,13 +227,12 @@ describe('identify-with-password', () => {
         authClient,
         user,
         findByLabelText,
-        findByTestId,
         findByText,
       } = await setup({ mockResponse });
 
       await waitFor(async () => expect(await findByText('Sign In', { selector: 'h2' })).toHaveFocus());
       const usernameEl = await findByLabelText(/Username/) as HTMLInputElement;
-      const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
+      const passwordEl = await findByLabelText('Password') as HTMLInputElement;
       const submitButton = await findByText('Sign in', { selector: 'button' });
 
       await user.type(usernameEl, 'testuser@okta.com');
@@ -263,7 +256,6 @@ describe('identify-with-password', () => {
         authClient,
         user,
         findByLabelText,
-        findByTestId,
         findByText,
       } = await setup({
         mockResponse,
@@ -276,7 +268,7 @@ describe('identify-with-password', () => {
 
       await waitFor(async () => expect(await findByText('Sign In', { selector: 'h2' })).toHaveFocus());
       const usernameEl = await findByLabelText(/Username/) as HTMLInputElement;
-      const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
+      const passwordEl = await findByLabelText('Password') as HTMLInputElement;
       const submitButton = await findByText('Sign in', { selector: 'button' });
       const mockUsername = 'testuser@okta1.com';
 
@@ -299,7 +291,6 @@ describe('identify-with-password', () => {
         authClient,
         user,
         findByLabelText,
-        findByTestId,
         findByText,
       } = await setup({
         mockResponse,
@@ -312,7 +303,7 @@ describe('identify-with-password', () => {
 
       await waitFor(async () => expect(await findByText('Sign In', { selector: 'h2' })).toHaveFocus());
       const usernameEl = await findByLabelText(/Username/) as HTMLInputElement;
-      const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
+      const passwordEl = await findByLabelText('Password') as HTMLInputElement;
       const submitButton = await findByText('Sign in', { selector: 'button' });
       const mockUsername = 'testuser@okta1.com';
 
@@ -335,13 +326,12 @@ describe('identify-with-password', () => {
         authClient,
         user,
         findByLabelText,
-        findByTestId,
         findByText,
       } = await setup({ mockResponse });
 
       await waitFor(async () => expect(await findByText('Sign In', { selector: 'h2' })).toHaveFocus());
       const usernameEl = await findByLabelText(/Username/) as HTMLInputElement;
-      const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
+      const passwordEl = await findByLabelText('Password') as HTMLInputElement;
       const submitButton = await findByText('Sign in', { selector: 'button' });
 
       const password = '   fake-password   ';
@@ -372,7 +362,7 @@ describe('identify-with-password', () => {
 
       await waitFor(async () => expect(await findByText('Sign In', { selector: 'h2' })).toHaveFocus());
       const usernameEl = await findByLabelText(/Username/) as HTMLInputElement;
-      const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
+      const passwordEl = await findByLabelText('Password') as HTMLInputElement;
       const rememberMeEl = await findByTestId('rememberMe');
       const submitButton = await findByText('Sign in', { selector: 'button' });
 
@@ -400,13 +390,12 @@ describe('identify-with-password', () => {
       authClient,
       user,
       findByLabelText,
-      findByTestId,
       findByText,
     } = await setup({ mockResponse });
 
     await waitFor(async () => expect(await findByText('Sign In', { selector: 'h2' })).toHaveFocus());
     const usernameEl = await findByLabelText(/Username/) as HTMLInputElement;
-    const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
+    const passwordEl = await findByLabelText('Password') as HTMLInputElement;
     const submitButton = await findByText('Sign in', { selector: 'button' });
 
     await user.type(usernameEl, 'testuser@okta.com');
@@ -434,13 +423,12 @@ describe('identify-with-password', () => {
   it('identifier and password fields should be ltr even when a rtl language is set', async () => {
     const {
       findByLabelText,
-      findByTestId,
     } = await setup({ mockResponse, widgetOptions: { language: 'ar' } });
 
     const usernameEl = await findByLabelText(/Username/) as HTMLInputElement;
-    const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
+    const passwordEl = await findByLabelText('Password') as HTMLInputElement;
 
     expect(usernameEl.parentElement).toHaveStyle('direction: ltr');
-    expect(passwordEl.parentElement?.getAttribute('dir')).toBe('ltr');
+    expect(passwordEl.parentElement).toHaveStyle('direction: ltr');
   });
 });

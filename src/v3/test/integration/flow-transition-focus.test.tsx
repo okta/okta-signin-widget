@@ -20,6 +20,7 @@ describe('Element focus in flow', () => {
   it('should focus on the first interactive element on flow proceed', async () => {
     const {
       user,
+      findByLabelText,
       findByTestId,
       findByText,
     } = await setup({
@@ -44,7 +45,7 @@ describe('Element focus in flow', () => {
 
     // form: verify with security question
     await findByText(/Verify with your Security Question/);
-    const securityQuestionEl = await findByTestId('credentials.answer') as HTMLInputElement;
+    const securityQuestionEl = await findByLabelText('What is the food you least liked as a child?') as HTMLInputElement;
     await waitFor(() => expect(securityQuestionEl).toHaveFocus());
   });
 });
