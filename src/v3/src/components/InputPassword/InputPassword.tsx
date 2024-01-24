@@ -10,20 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
-import { HideIcon, ShowIcon } from '@okta/odyssey-react-mui/icons';
-import {
-  Box,
-  FormHelperText,
-  IconButton,
-  InputAdornment,
-  InputBase,
-  InputLabel,
-  Tooltip,
-  Typography,
-} from '@okta/odyssey-react-mui-legacy';
+import { Box } from '@mui/material';
+import { PasswordField } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
-import { useRef, useState } from 'preact/hooks';
+import { buildFieldLevelErrorMessages } from 'src/util/buildFieldLevelErrorMessages';
 
 import { useWidgetContext } from '../../contexts';
 import {
@@ -32,20 +22,21 @@ import {
   useValue,
 } from '../../hooks';
 import {
+  AutoCompleteValue,
   ChangeEvent,
   UISchemaElementComponent,
   UISchemaElementComponentWithValidationProps,
 } from '../../types';
 import { getTranslation } from '../../util';
-import FieldLevelMessageContainer from '../FieldLevelMessageContainer';
 import { withFormValidationState } from '../hocs';
+
+type PasswordAutoCompleteValue = Extract<AutoCompleteValue, 'current-password' | 'new-password'> | undefined;
 
 const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValidationProps> = ({
   uischema,
   errors,
   handleChange,
   handleBlur,
-  describedByIds,
 }) => {
   const value = useValue(uischema);
   // TODO: OKTA-623544 - this FF will be deprecated for SIW v3 post-GA
@@ -59,168 +50,45 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
     focus,
     parserOptions,
     noTranslate,
-    showAsterisk,
     dir,
   } = uischema;
   const {
     attributes,
     inputMeta: { name, required },
   } = uischema.options;
+  const { autocomplete } = attributes || {};
   const label = getTranslation(translations, 'label');
   const hint = getTranslation(translations, 'hint');
   const explain = getTranslation(translations, 'bottomExplain');
-  const optionalLabel = getTranslation(translations, 'optionalLabel');
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
   const parsedExplainContent = useHtmlContentParser(explain, parserOptions);
-  const hasErrors = typeof errors !== 'undefined';
-  // TODO: OKTA-569647 - refactor logic
-  const hintId = hint && `${name}-hint`;
-  const explainId = explain && `${name}-explain`;
-  const ariaDescribedByIds = [describedByIds, hintId, explainId].filter(Boolean).join(' ')
-    || undefined;
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-  const showPasswordTimeoutRef = useRef<number | undefined>();
-  const tokens = useOdysseyDesignTokens();
-
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
-
-    if (showPasswordTimeoutRef.current) {
-      window.clearTimeout(showPasswordTimeoutRef.current);
-    }
-    // If the new value of showPassword is being set to true, set a 30-second timeout to auto-hide the password
-    // See: https://github.com/okta/okta-signin-widget#featuresshowpasswordtoggleonsigninpage
-    if (!showPassword) {
-      showPasswordTimeoutRef.current = window.setTimeout(() => {
-        setShowPassword(false);
-      }, 30000);
-    }
-  };
+  const { errorMessage, errorMessageList } = buildFieldLevelErrorMessages(errors);
 
   return (
-    <Box>
-      <InputLabel
-        htmlFor={name}
-        // To prevent asterisk from shifting far right
-        sx={{ justifyContent: showAsterisk ? 'flex-start' : undefined }}
-      >
-        {label}
-        {showAsterisk && (
-          <Box
-            component="span"
-            sx={{
-              marginInlineStart: tokens.Spacing2,
-              marginInlineEnd: tokens.Spacing2,
-            }}
-            className="no-translate"
-            aria-hidden
-          >
-            *
-          </Box>
-        )}
-        {required === false && (
-          <Typography
-            variant="subtitle1"
-            sx={{ whiteSpace: 'nowrap' }}
-          >
-            {optionalLabel}
-          </Typography>
-        )}
-      </InputLabel>
-      {hint && (
-        <FormHelperText
-          id={hintId}
-          className="o-form-explain"
-          data-se={hintId}
-          // TODO: OKTA-577905 - Temporary fix until we can upgrade to the latest version of Odyssey
-          sx={{ textAlign: 'start' }}
-        >
-          {hint}
-        </FormHelperText>
-      )}
-      <InputBase
+    <Box dir={dir}>
+      <PasswordField
+        autoCompleteType={autocomplete as PasswordAutoCompleteValue}
+        errorMessage={errorMessage}
+        errorMessageList={errorMessageList}
+        hasShowPassword={showPasswordToggleOnSignInPage}
+        hint={hint ?? parsedExplainContent as string}
         id={name}
+        inputFocusRef={focusRef}
+        isDisabled={loading}
+        isFullWidth
+        isOptional={!required}
         name={name}
-        error={hasErrors}
-        inputRef={focusRef}
+        label={label ?? ''}
         onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
           handleChange?.(e.currentTarget.value);
         }}
         onBlur={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
           handleBlur?.(e?.currentTarget?.value);
         }}
-        type={showPassword ? 'text' : 'password'}
-        value={value}
-        disabled={loading}
-        fullWidth
-        inputProps={{
-          'data-se': name,
-          'aria-describedby': ariaDescribedByIds,
-          ...attributes,
-        }}
-        className={noTranslate ? 'no-translate' : undefined}
-        dir={dir}
-        endAdornment={(
-          showPasswordToggleOnSignInPage && (
-            <InputAdornment
-              position="end"
-              // switching on the passed `dir` attribute is needed because plugin does not yet
-              // handle nested [dir="ltr"] inside [dir="rtl"] well so explicitly set physical
-              // properties when 'ltr' is passed onto this element, else can use logical
-              sx={dir === 'ltr' ? {
-                marginLeft: '8px',
-                marginRight: tokens.Spacing3,
-              } : {
-                marginInlineEnd: tokens.Spacing3,
-                marginInlineStart: '8px',
-              }}
-            >
-              <Tooltip
-                title={showPassword ? getTranslation(translations, 'hide') : getTranslation(translations, 'show')}
-                PopperProps={{
-                  // keep the added tooltip element inside the SIW container
-                  disablePortal: true,
-                }}
-              >
-                <IconButton
-                  aria-label={getTranslation(translations, 'visibilityToggleLabel')}
-                  aria-pressed={showPassword}
-                  aria-controls={name}
-                  onClick={handleClickShowPassword}
-                  sx={{
-                    // instead of using IconButton `edge="end"` we use this sx prop
-                    // because `edge="end"` does not use logical properties
-                    ...(dir === 'ltr' ? { marginRight: '-12px' } : { marginInlineEnd: '-12px' }),
-                    '&.Mui-focusVisible': {
-                      outlineStyle: 'solid',
-                      outlineWidth: '1px',
-                    },
-                  }}
-                >
-                  {showPassword ? <HideIcon /> : <ShowIcon />}
-                </IconButton>
-              </Tooltip>
-            </InputAdornment>
-          )
-        )}
+        testId={name}
+        translate={noTranslate ? 'no' : undefined}
+        value={value as string | undefined}
       />
-      {hasErrors && (
-        <FieldLevelMessageContainer
-          messages={errors}
-          fieldName={name}
-        />
-      )}
-      {explain && (
-        <FormHelperText
-          id={explainId}
-          className="o-form-explain"
-          data-se={explainId}
-          // TODO: OKTA-577905 - Temporary fix until we can upgrade to the latest version of Odyssey
-          sx={{ textAlign: 'start' }}
-        >
-          {parsedExplainContent}
-        </FormHelperText>
-      )}
     </Box>
   );
 };

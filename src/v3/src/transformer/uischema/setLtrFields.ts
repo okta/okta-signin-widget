@@ -16,6 +16,9 @@ import {
 } from '../../types';
 import { traverseLayout } from '../util';
 
+// fields with these names should stay LTR by default
+export const ltrOnlyFieldNames = ['credentials.passcode', 'identifier', 'credentials.newPassword', 'confirmPassword'];
+
 export const setLtrFields: TransformStepFn = (formbag) => {
   traverseLayout({
     layout: formbag.uischema,
@@ -24,8 +27,6 @@ export const setLtrFields: TransformStepFn = (formbag) => {
         return false;
       }
 
-      // fields with these names should stay LTR by default
-      const ltrOnlyFieldNames = ['credentials.passcode', 'identifier', 'credentials.newPassword', 'confirmPassword'];
       const fieldElement = (el as FieldElement);
       return ltrOnlyFieldNames.includes(fieldElement.options.inputMeta.name);
     },

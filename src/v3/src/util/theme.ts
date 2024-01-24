@@ -16,6 +16,7 @@ import {
 } from '@adobe/leonardo-contrast-colors';
 import * as Tokens from '@okta/odyssey-design-tokens';
 import { createOdysseyMuiTheme, DesignTokensOverride, ThemeOptions } from '@okta/odyssey-react-mui';
+import { ltrOnlyFieldNames } from 'src/transformer/uischema/setLtrFields';
 
 import { BrandColors } from '../types';
 import { isLtrField } from '.';
@@ -169,6 +170,9 @@ export const createThemeAndTokens = (
         styleOverrides: {
           root: ({ ownerState }) => ({
             width: '100%',
+            // Odyssey sets flex: "1" but that results in the following IE11 flexbug
+            // https://github.com/philipwalton/flexbugs?tab=readme-ov-file#flexbug-7
+            flex: 'auto',
             ...(ownerState.name && isLtrField(ownerState.name) && {
               direction: 'ltr',
             }),
@@ -178,14 +182,28 @@ export const createThemeAndTokens = (
               display: 'none',
             },
           },
+          adornedEnd: ({ ownerState }) => ({
+            // Explicitly switch to physical properties for password toggle icon since
+            // IE11 stylis plugin cannot handle nested logical properties
+            ...(ownerState.id && ltrOnlyFieldNames.includes(ownerState.id) && {
+              '& .MuiInputAdornment-root': {
+                marginRight: mergedTokens.Spacing2,
+              },
+            }),
+          }),
         },
       },
       MuiInputLabel: {
         styleOverrides: {
-          root: {
+          root: ({ ownerState }) => ({
             wordBreak: 'break-word',
             whiteSpace: 'normal',
-          },
+            ...(ownerState.formControl && {
+              // Odyssey sets position: "initial" which is not supported in IE11
+              // "initial" uses browser default which is "static"
+              position: 'static',
+            }),
+          }),
         },
       },
       MuiLink: {
