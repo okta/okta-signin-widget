@@ -63,6 +63,7 @@ exports[`admin-consent-without-logo should render form without logo 1`] = `
                 </span>
               </div>
               <form
+                aria-live="polite"
                 class="o-form MuiBox-root emotion-15"
                 data-se="o-form"
                 novalidate=""
