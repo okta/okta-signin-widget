@@ -29,7 +29,6 @@ const Spinner: FunctionComponent<SpinnerProps | SpinnerElement> = (
       flexDirection="column"
       justifyContent="center"
       alignItems="center"
-      aria-live="polite"
     >
       <CircularProgress
         id={dataSe}

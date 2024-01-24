@@ -81,6 +81,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
               class="MuiBox-root emotion-8"
             >
               <form
+                aria-live="polite"
                 class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""
@@ -1689,6 +1690,7 @@ exports[`authenticator-enroll-data-phone should render form without an autoFocus
               class="MuiBox-root emotion-8"
             >
               <form
+                aria-live="polite"
                 class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""
@@ -3297,6 +3299,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
               class="MuiBox-root emotion-8"
             >
               <form
+                aria-live="polite"
                 class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""

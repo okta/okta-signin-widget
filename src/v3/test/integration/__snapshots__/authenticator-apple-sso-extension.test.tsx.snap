@@ -33,6 +33,7 @@ exports[`authenticator-apple-sso-extension calls verify then cancels the transac
               class="MuiBox-root emotion-7"
             >
               <form
+                aria-live="polite"
                 class="o-form MuiBox-root emotion-8"
                 data-se="o-form"
                 novalidate=""
@@ -233,6 +234,7 @@ exports[`authenticator-apple-sso-extension cancels the transaction when sso exte
               class="MuiBox-root emotion-7"
             >
               <form
+                aria-live="polite"
                 class="o-form MuiBox-root emotion-8"
                 data-se="o-form"
                 novalidate=""
@@ -433,6 +435,7 @@ exports[`authenticator-apple-sso-extension opens the verify url with credential 
               class="MuiBox-root emotion-7"
             >
               <form
+                aria-live="polite"
                 class="o-form MuiBox-root emotion-8"
                 data-se="o-form"
                 novalidate=""

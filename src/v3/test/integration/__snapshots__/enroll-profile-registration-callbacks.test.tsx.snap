@@ -33,6 +33,7 @@ exports[`enroll-profile-with-password should add new field to view and remove it
               class="MuiBox-root emotion-7"
             >
               <form
+                aria-live="polite"
                 class="o-form MuiBox-root emotion-8"
                 data-se="o-form"
                 novalidate=""
@@ -344,6 +345,7 @@ exports[`enroll-profile-with-password should show custom error message and preve
               class="MuiBox-root emotion-7"
             >
               <form
+                aria-live="polite"
                 class="o-form MuiBox-root emotion-8"
                 data-se="o-form"
                 novalidate=""
@@ -666,6 +668,7 @@ exports[`enroll-profile-with-password should show custom field level error messa
               class="MuiBox-root emotion-7"
             >
               <form
+                aria-live="polite"
                 class="o-form MuiBox-root emotion-8"
                 data-se="o-form"
                 novalidate=""
@@ -988,6 +991,7 @@ exports[`enroll-profile-with-password should show generic error message and prev
               class="MuiBox-root emotion-7"
             >
               <form
+                aria-live="polite"
                 class="o-form MuiBox-root emotion-8"
                 data-se="o-form"
                 novalidate=""
@@ -1297,6 +1301,7 @@ exports[`enroll-profile-with-password should show validation error messages on a
               class="MuiBox-root emotion-7"
             >
               <form
+                aria-live="polite"
                 class="o-form MuiBox-root emotion-8"
                 data-se="o-form"
                 novalidate=""

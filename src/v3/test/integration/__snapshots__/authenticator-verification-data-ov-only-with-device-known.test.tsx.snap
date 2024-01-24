@@ -67,6 +67,7 @@ exports[`authenticator-verification-data-ov-only-with-device-known should render
               class="MuiBox-root emotion-8"
             >
               <form
+                aria-live="polite"
                 class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""

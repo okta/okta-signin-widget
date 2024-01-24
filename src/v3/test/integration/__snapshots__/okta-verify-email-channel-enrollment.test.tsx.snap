@@ -67,6 +67,7 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
               class="MuiBox-root emotion-8"
             >
               <form
+                aria-live="polite"
                 class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""

@@ -71,6 +71,7 @@ exports[`authenticator-enroll-security-question custom question fails client sid
               class="MuiBox-root emotion-8"
             >
               <form
+                aria-live="polite"
                 class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""
@@ -496,6 +497,7 @@ exports[`authenticator-enroll-security-question custom question renders correct 
               class="MuiBox-root emotion-8"
             >
               <form
+                aria-live="polite"
                 class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""
@@ -875,6 +877,7 @@ exports[`authenticator-enroll-security-question predefined question renders corr
               class="MuiBox-root emotion-8"
             >
               <form
+                aria-live="polite"
                 class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""
@@ -1365,6 +1368,7 @@ exports[`authenticator-enroll-security-question predefined question should rende
               class="MuiBox-root emotion-8"
             >
               <form
+                aria-live="polite"
                 class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""
