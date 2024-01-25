@@ -67,6 +67,7 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
     >
       {label && (
         <FormLabel
+          id={name}
           // To prevent asterisk from shifting far right
           sx={{ display: 'flex', justifyContent: showAsterisk ? 'flex-start' : 'space-between' }}
         >
@@ -98,6 +99,7 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
         name={name}
         id={name}
         data-se={name}
+        aria-labelledby={name}
         aria-describedby={describedByIds}
         value={value as string ?? ''}
         onChange={(e: ChangeEvent<HTMLInputElement>) => {
