@@ -8,7 +8,7 @@ require('core-js/features/object/values');
 require('core-js/features/object/from-entries');
 require('core-js/features/object/entries');
 
-if (Object.isExtensible) {
+if (Object.isExtensible(Object)) {
   require('core-js/features/object/iterate-entries');
   require('core-js/features/object/iterate-keys');
   require('core-js/features/object/iterate-values');
