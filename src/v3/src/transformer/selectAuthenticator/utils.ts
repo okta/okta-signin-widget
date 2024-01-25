@@ -31,12 +31,33 @@ const getVerifyPhoneAriaLabel = (phone?: string): string => (phone
   : loc('oie.select.authenticator.verify.phone.label', 'login')
 );
 
+const getOktaVerifyAriaLabel = (
+  isEnroll?: boolean,
+  methodType?: IdxOption['value'],
+): string => {
+  // TODO: OKTA-689219 - create dedicated keys by OV method types
+  const ovLabel = loc('oie.okta_verify.label', 'login');
+  if (isEnroll) {
+    return loc('oie.select.authenticator.enroll.named.authentcator.label', 'login', [ovLabel]);
+  }
+  const defaultLabel = loc('oie.select.authenticator.verify.named.authentcator.label', 'login', [ovLabel]);
+  if (typeof methodType === 'undefined') {
+    return defaultLabel;
+  }
+  const methodTypeLabelMap: Record<string, string> = {
+    push: loc('oie.okta_verify.push.title', 'login'),
+    totp: `${ovLabel}. ${loc('oie.okta_verify.totp.title', 'login')}`,
+    signed_nonce: loc('oie.okta_verify.signed_nonce.label', 'login'),
+  };
+  return methodTypeLabelMap[methodType as string] || defaultLabel;
+};
+
 const getAuthenticatorAriaLabel = (
   option: IdxOption,
   authenticatorKey: string,
+  methodType?: IdxOption['value'],
   isEnroll?: boolean,
 ): string => {
-  const ovLabel = loc('oie.okta_verify.label', 'login');
   switch (authenticatorKey) {
     case AUTHENTICATOR_KEY.EMAIL:
       return isEnroll
@@ -59,9 +80,7 @@ const getAuthenticatorAriaLabel = (
         ? loc('oie.select.authenticator.enroll.webauthn.label', 'login')
         : loc('oie.select.authenticator.verify.webauthn.label', 'login');
     case AUTHENTICATOR_KEY.OV:
-      return isEnroll
-        ? loc('oie.select.authenticator.enroll.named.authentcator.label', 'login', [ovLabel])
-        : loc('oie.select.authenticator.verify.named.authentcator.label', 'login', [ovLabel])
+      return getOktaVerifyAriaLabel(isEnroll, methodType);
     default:
       return isEnroll
         ? loc('oie.select.authenticator.enroll.named.authentcator.label', 'login', [option.label])
@@ -140,7 +159,7 @@ const buildOktaVerifyOptions = (
         description: isEnroll
           ? loc(AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP[AUTHENTICATOR_KEY.OV], 'login')
           : loc('oie.okta_verify.label', 'login'),
-        ariaLabel: getAuthenticatorAriaLabel(option, AUTHENTICATOR_KEY.OV, isEnroll),
+        ariaLabel: getAuthenticatorAriaLabel(option, AUTHENTICATOR_KEY.OV, option.value, isEnroll),
         actionParams: {
           'authenticator.methodType': option.value,
           'authenticator.id': id,
@@ -323,7 +342,7 @@ const formatAuthenticatorOptions = (
             authenticatorKey,
             isEnroll,
           ),
-          ariaLabel: getAuthenticatorAriaLabel(option, authenticatorKey, isEnroll),
+          ariaLabel: getAuthenticatorAriaLabel(option, authenticatorKey, methodType, isEnroll),
           nickname: getNickname(option, authenticatorKey, isEnroll),
           usageDescription: isEnroll && getUsageDescription(option),
           // @ts-ignore logoUri missing from interface
@@ -404,7 +423,7 @@ export const getAppAuthenticatorMethodButtonElements = (
         authKey,
         false,
       ),
-      ariaLabel: getAuthenticatorAriaLabel(option, authKey),
+      ariaLabel: getAuthenticatorAriaLabel(option, authKey, (option.value as string)),
       dataSe: getAuthenticatorDataSeVal(
         authKey,
         option.value as string,

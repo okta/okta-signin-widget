@@ -31,7 +31,6 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
   const key = _.isString(authenticatorKey) ? authenticatorKey.toLowerCase() : '';
   let authenticatorData = {};
   let nicknameText = isVerifyAuthenticator ? authenticator.relatesTo?.nickname : undefined;
-  const ovLabel = loc('oie.okta_verify.label', 'login');
   switch (key) {
   case AUTHENTICATOR_KEY.EMAIL:
     Object.assign(authenticatorData, {
@@ -107,9 +106,7 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
         : loc('oie.okta_verify.authenticator.description', 'login'),
       iconClassName: 'mfa-okta-verify',
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
-      ariaLabel: isVerifyAuthenticator
-        ? loc('oie.select.authenticator.verify.named.authentcator.label', 'login', [ovLabel])
-        : loc('oie.select.authenticator.enroll.named.authentcator.label', 'login', [ovLabel])
+      ariaLabel: getOktaVerifyAriaLabel(isVerifyAuthenticator, authenticator?.value?.methodType),
     });
     break;
 
@@ -273,6 +270,24 @@ export function getVerifyPhoneAriaLabel(phone) {
   return phone
     ? loc('oie.select.authenticator.verify.phone.with.phone.label', 'login', [phone])
     : loc('oie.select.authenticator.verify.phone.label', 'login');
+}
+
+export function getOktaVerifyAriaLabel(isVerify, methodType) {
+  // TODO: OKTA-689219 - create dedicated keys by OV method types
+  const ovLabel = loc('oie.okta_verify.label', 'login');
+  if (!isVerify) {
+    return loc('oie.select.authenticator.enroll.named.authentcator.label', 'login', [ovLabel]);
+  }
+  const defaultLabel = loc('oie.select.authenticator.verify.named.authentcator.label', 'login', [ovLabel]);
+  if (typeof methodType === 'undefined') {
+    return defaultLabel;
+  }
+  const methodTypeLabelMap = {
+    push: loc('oie.okta_verify.push.title', 'login'),
+    totp: `${ovLabel}. ${loc('oie.okta_verify.totp.title', 'login')}`,
+    'signed_nonce': loc('oie.okta_verify.signed_nonce.label', 'login'),
+  };
+  return methodTypeLabelMap[methodType] || defaultLabel;
 }
 
 export function getAuthenticatorDataForEnroll(authenticator) {
