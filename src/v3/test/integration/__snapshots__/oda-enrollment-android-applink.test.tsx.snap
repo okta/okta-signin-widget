@@ -101,12 +101,12 @@ exports[`oda-enrollment-android-applink should render form 1`] = `
                       >
                         <label
                           class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-17"
-                          id="hasOVAccount"
+                          id="hasOVAccount-label"
                         >
                           On this device, do you already have an Okta Verify account for Widgico?
                         </label>
                         <div
-                          aria-labelledby="hasOVAccount"
+                          aria-labelledby="hasOVAccount-label"
                           class="MuiFormGroup-root emotion-18"
                           data-se="hasOVAccount"
                           id="hasOVAccount"
