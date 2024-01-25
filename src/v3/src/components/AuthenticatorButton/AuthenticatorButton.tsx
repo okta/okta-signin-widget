@@ -54,6 +54,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
       step,
       includeData,
       includeImmutableData,
+      ariaLabel,
     },
   } = uischema;
   const label = getTranslation(translations, 'label');
@@ -124,7 +125,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
       onKeyPress={onClick}
       ref={focusRef}
       disabled={loading}
-      aria-labelledby={`${iconName}-label`}
+      aria-label={ariaLabel}
       aria-describedby={describedByIds}
     >
       { authenticationKey && (

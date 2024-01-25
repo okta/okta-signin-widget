@@ -160,7 +160,7 @@ exports[`authenticator-verification-data-ov-only-with-device-known should render
                       >
                         <button
                           aria-describedby="okta_verify_2-description okta_verify_2-ctaLabel"
-                          aria-labelledby="okta_verify_2-label"
+                          aria-label="Use Okta FastPass"
                           class="authenticator-row MuiBox-root emotion-26"
                           data-se="authenticator-button"
                           tabindex="0"
@@ -261,7 +261,7 @@ exports[`authenticator-verification-data-ov-only-with-device-known should render
                       >
                         <button
                           aria-describedby="okta_verify_0-description okta_verify_0-ctaLabel"
-                          aria-labelledby="okta_verify_0-label"
+                          aria-label="Get a push notification"
                           class="authenticator-row MuiBox-root emotion-26"
                           data-se="authenticator-button"
                           tabindex="0"
@@ -362,7 +362,7 @@ exports[`authenticator-verification-data-ov-only-with-device-known should render
                       >
                         <button
                           aria-describedby="okta_verify_1-description okta_verify_1-ctaLabel"
-                          aria-labelledby="okta_verify_1-label"
+                          aria-label="Okta Verify. Enter a code"
                           class="authenticator-row MuiBox-root emotion-26"
                           data-se="authenticator-button"
                           tabindex="0"
