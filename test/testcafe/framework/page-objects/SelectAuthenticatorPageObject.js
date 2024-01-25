@@ -57,6 +57,14 @@ export default class SelectFactorPageObject extends BasePageObject {
     return this.getFactorNicknameElementByIndex(index).textContent;
   }
 
+  getFactorButtonAriaLabelByIndex(index) {
+    if (userVariables.gen3) {
+      const factorButton = this.getFactorButtons().nth(index);
+      return factorButton.getAttribute('aria-label');
+    }
+    return this.getFactorCTAButtonByIndex(index).getAttribute('aria-label');
+  }
+
   getFactorAriaDescriptionByIndex(index) {
     return this.getAriaDescription(this.getFactorButtons().nth(index));
   }
@@ -124,7 +132,7 @@ export default class SelectFactorPageObject extends BasePageObject {
 
   async clickCustomOTP() {
     if (userVariables.gen3) {
-      const button = this.form.getButton('Atko Custom OTP Authenticator');
+      const button = this.form.getButton('Set up Atko Custom OTP Authenticator');
       await this.t.click(button);
     } else {
       await this.t.click(this.form.getElement(CUSTOM_OTP_BUTTON_SELECTOR));

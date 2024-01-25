@@ -114,6 +114,7 @@ const Form: FunctionComponent<{
         maxInlineSize: '100%',
         wordBreak: 'break-word',
       }}
+      aria-live="polite"
     >
       <InfoSection message={message} />
       <Layout uischema={uischema} />

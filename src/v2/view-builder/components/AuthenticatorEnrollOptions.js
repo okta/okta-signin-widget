@@ -50,6 +50,9 @@ const AuthenticatorRow = View.extend({
       title: function() {
         return loc('oie.enroll.authenticator.button.text', 'login');
       },
+      attributes: {
+        'aria-label': this.model.get('ariaLabel'),
+      },
       click: function() {
         this.model.trigger('selectAuthenticator', this.model.get('value'));
       }

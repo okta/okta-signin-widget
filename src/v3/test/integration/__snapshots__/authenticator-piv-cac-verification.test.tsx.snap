@@ -33,6 +33,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
               class="MuiBox-root emotion-7"
             >
               <form
+                aria-live="polite"
                 class="o-form MuiBox-root emotion-8"
                 data-se="o-form"
                 novalidate=""
@@ -353,6 +354,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
               class="MuiBox-root emotion-7"
             >
               <form
+                aria-live="polite"
                 class="o-form MuiBox-root emotion-8"
                 data-se="o-form"
                 novalidate=""
@@ -673,6 +675,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
               class="MuiBox-root emotion-7"
             >
               <form
+                aria-live="polite"
                 class="o-form MuiBox-root emotion-8"
                 data-se="o-form"
                 novalidate=""
@@ -1035,6 +1038,7 @@ exports[`authenticator-piv-cac-verification should render PIV/CAC view when clic
               class="MuiBox-root emotion-8"
             >
               <form
+                aria-live="polite"
                 class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""
@@ -1080,7 +1084,6 @@ exports[`authenticator-piv-cac-verification should render PIV/CAC view when clic
                       class="MuiBox-root emotion-18"
                     >
                       <div
-                        aria-live="polite"
                         class="MuiBox-root emotion-19"
                       >
                         <span

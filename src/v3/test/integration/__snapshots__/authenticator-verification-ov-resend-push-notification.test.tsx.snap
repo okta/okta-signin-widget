@@ -67,6 +67,7 @@ exports[`authenticator-verification-ov-resend-push-notification renders form 1`]
               class="MuiBox-root emotion-8"
             >
               <form
+                aria-live="polite"
                 class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""

@@ -82,6 +82,7 @@ exports[`admin-consent should render form with logo 1`] = `
                 </span>
               </div>
               <form
+                aria-live="polite"
                 class="o-form MuiBox-root emotion-18"
                 data-se="o-form"
                 novalidate=""

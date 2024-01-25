@@ -53,6 +53,7 @@ exports[`granular-consent-without-logo should render form 1`] = `
                 </div>
               </div>
               <form
+                aria-live="polite"
                 class="o-form MuiBox-root emotion-12"
                 data-se="o-form"
                 novalidate=""

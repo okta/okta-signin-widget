@@ -33,6 +33,7 @@ exports[`enroll-profile-new should render form 1`] = `
               class="MuiBox-root emotion-7"
             >
               <form
+                aria-live="polite"
                 class="o-form MuiBox-root emotion-8"
                 data-se="o-form"
                 novalidate=""

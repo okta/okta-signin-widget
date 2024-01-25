@@ -71,6 +71,7 @@ exports[`authenticator-enroll-security-question-error custom question should sho
               class="MuiBox-root emotion-8"
             >
               <form
+                aria-live="polite"
                 class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""
@@ -496,6 +497,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
               class="MuiBox-root emotion-8"
             >
               <form
+                aria-live="polite"
                 class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""
@@ -1032,6 +1034,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
               class="MuiBox-root emotion-8"
             >
               <form
+                aria-live="polite"
                 class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""
@@ -1438,7 +1441,6 @@ exports[`authenticator-enroll-security-question-error predefined question should
                           class="MuiButton-startIcon MuiButton-iconSizeMedium emotion-56"
                         >
                           <div
-                            aria-live="polite"
                             class="MuiBox-root emotion-57"
                           >
                             <span
@@ -1574,6 +1576,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
               class="MuiBox-root emotion-8"
             >
               <form
+                aria-live="polite"
                 class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""

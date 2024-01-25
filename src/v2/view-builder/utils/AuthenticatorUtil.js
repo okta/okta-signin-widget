@@ -39,6 +39,9 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
         : loc('oie.email.authenticator.description', 'login'),
       iconClassName: 'mfa-okta-email',
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+      ariaLabel: isVerifyAuthenticator
+        ? getVerifyEmailAriaLabel(authenticator.relatesTo?.profile?.email)
+        : loc('oie.select.authenticator.enroll.email.label', 'login')
     });
     break;
 
@@ -49,6 +52,9 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
         : loc('oie.password.authenticator.description', 'login'),
       iconClassName: 'mfa-okta-password',
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+      ariaLabel: isVerifyAuthenticator
+        ? loc('oie.select.authenticator.verify.password.label', 'login')
+        : loc('oie.select.authenticator.enroll.password.label', 'login')
     });
     break;
 
@@ -61,6 +67,9 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
       iconClassName: 'mfa-okta-phone',
       noTranslateClassName: isVerifyAuthenticator ? 'no-translate' : '',
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+      ariaLabel: isVerifyAuthenticator
+        ? getVerifyPhoneAriaLabel(authenticator.relatesTo?.profile?.phoneNumber)
+        : loc('oie.select.authenticator.enroll.phone.label', 'login')
     });
     break;
 
@@ -71,6 +80,9 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
         : loc('oie.security.question.authenticator.description', 'login'),
       iconClassName: 'mfa-okta-security-question',
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+      ariaLabel: isVerifyAuthenticator
+        ? loc('oie.select.authenticator.verify.security.question.label', 'login')
+        : loc('oie.select.authenticator.enroll.security.question.label', 'login')
     });
     break;
 
@@ -81,6 +93,9 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
         : loc('oie.webauthn.description', 'login'),
       iconClassName: 'mfa-webauthn',
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+      ariaLabel: isVerifyAuthenticator
+        ? loc('oie.select.authenticator.verify.webauthn.label', 'login')
+        : loc('oie.select.authenticator.enroll.webauthn.label', 'login')
     });
     break;
 
@@ -91,6 +106,7 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
         : loc('oie.okta_verify.authenticator.description', 'login'),
       iconClassName: 'mfa-okta-verify',
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+      ariaLabel: getOktaVerifyAriaLabel(isVerifyAuthenticator, authenticator?.value?.methodType),
     });
     break;
 
@@ -101,6 +117,9 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
         : loc('oie.google_authenticator.authenticator.description', 'login'),
       iconClassName: 'mfa-google-auth',
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+      ariaLabel: isVerifyAuthenticator
+        ? loc('oie.select.authenticator.verify.named.authentcator.label', 'login', [authenticator.label])
+        : loc('oie.select.authenticator.enroll.named.authentcator.label', 'login', [authenticator.label])
     });
     break;
 
@@ -113,6 +132,9 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
         : loc('oie.on_prem.authenticator.description', 'login', [vendorName]),
       iconClassName: 'mfa-onprem',
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+      ariaLabel: isVerifyAuthenticator
+        ? loc('oie.select.authenticator.verify.named.authentcator.label', 'login', [authenticator.label])
+        : loc('oie.select.authenticator.enroll.named.authentcator.label', 'login', [authenticator.label])
     });
     break;
   }
@@ -124,6 +146,9 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
         : loc('oie.rsa.authenticator.description', 'login'),
       iconClassName: 'mfa-rsa',
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+      ariaLabel: isVerifyAuthenticator
+        ? loc('oie.select.authenticator.verify.named.authentcator.label', 'login', [authenticator.label])
+        : loc('oie.select.authenticator.enroll.named.authentcator.label', 'login', [authenticator.label])
     });
     break;
 
@@ -134,6 +159,9 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
         : loc('oie.duo.authenticator.description', 'login'),
       iconClassName: 'mfa-duo',
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+      ariaLabel: isVerifyAuthenticator
+        ? loc('oie.select.authenticator.verify.named.authentcator.label', 'login', [authenticator.label])
+        : loc('oie.select.authenticator.enroll.named.authentcator.label', 'login', [authenticator.label])
     });
     break;
 
@@ -145,7 +173,10 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
         : loc('oie.idp.authenticator.description', 'login', [idpName]),
       iconClassName: 'mfa-custom-factor',
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
-      logoUri : authenticator?.relatesTo?.logoUri || ''
+      logoUri : authenticator?.relatesTo?.logoUri || '',
+      ariaLabel: isVerifyAuthenticator
+        ? loc('oie.select.authenticator.verify.named.authentcator.label', 'login', [authenticator.label])
+        : loc('oie.select.authenticator.enroll.named.authentcator.label', 'login', [authenticator.label])
     });
     break;
   }
@@ -156,6 +187,9 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
         : loc('oie.custom_otp.description', 'login'),
       iconClassName: 'mfa-hotp',
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+      ariaLabel: isVerifyAuthenticator
+        ? loc('oie.select.authenticator.verify.named.authentcator.label', 'login', [authenticator.label])
+        : loc('oie.select.authenticator.enroll.named.authentcator.label', 'login', [authenticator.label])
     });
     break;
   }
@@ -168,6 +202,9 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
         : loc('oie.symantecVip.authenticator.description', 'login', [appName]),
       iconClassName: 'mfa-symantec',
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+      ariaLabel: isVerifyAuthenticator
+        ? loc('oie.select.authenticator.verify.named.authentcator.label', 'login', [authenticator.label])
+        : loc('oie.select.authenticator.enroll.named.authentcator.label', 'login', [authenticator.label])
     });
     break;
   }
@@ -179,6 +216,9 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
         : loc('oie.yubikey.authenticator.description', 'login'),
       iconClassName: 'mfa-yubikey',
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+      ariaLabel: isVerifyAuthenticator
+        ? loc('oie.select.authenticator.verify.named.authentcator.label', 'login', [authenticator.label])
+        : loc('oie.select.authenticator.enroll.named.authentcator.label', 'login', [authenticator.label])
     });
     break;
   }
@@ -191,7 +231,13 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
       noTranslateClassName: isVerifyAuthenticator ? 'no-translate' : '',
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
       iconClassName: 'mfa-custom-app-logo',
-      logoUri : authenticator?.relatesTo?.logoUri || ''
+      logoUri : authenticator?.relatesTo?.logoUri || '',
+      ariaLabel: isVerifyAuthenticator
+        ? loc(
+          'oie.select.authenticator.verify.named.authentcator.label',
+          'login',
+          [authenticator?.relatesTo?.displayName])
+        : loc('oie.select.authenticator.enroll.named.authentcator.label', 'login', [authenticator.label])
     });
     break;
   }
@@ -203,6 +249,9 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
         : loc('oie.smartcard.authenticator.description', 'login'),
       iconClassName: 'mfa-smartcard',
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+      ariaLabel: isVerifyAuthenticator
+        ? loc('oie.select.authenticator.verify.named.authentcator.label', 'login', [authenticator.label])
+        : loc('oie.select.authenticator.enroll.named.authentcator.label', 'login', [authenticator.label])
     });
     break;
   }
@@ -210,6 +259,36 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
   }
   return authenticatorData;
 };
+
+export function getVerifyEmailAriaLabel(email) {
+  return email
+    ? loc('oie.select.authenticator.verify.email.with.email.label', 'login', [email])
+    : loc('oie.select.authenticator.verify.email.label', 'login');
+}
+
+export function getVerifyPhoneAriaLabel(phone) {
+  return phone
+    ? loc('oie.select.authenticator.verify.phone.with.phone.label', 'login', [phone])
+    : loc('oie.select.authenticator.verify.phone.label', 'login');
+}
+
+export function getOktaVerifyAriaLabel(isVerify, methodType) {
+  // TODO: OKTA-689219 - create dedicated keys by OV method types
+  const ovLabel = loc('oie.okta_verify.label', 'login');
+  if (!isVerify) {
+    return loc('oie.select.authenticator.enroll.named.authentcator.label', 'login', [ovLabel]);
+  }
+  const defaultLabel = loc('oie.select.authenticator.verify.named.authentcator.label', 'login', [ovLabel]);
+  if (typeof methodType === 'undefined') {
+    return defaultLabel;
+  }
+  const methodTypeLabelMap = {
+    push: loc('oie.okta_verify.push.title', 'login'),
+    totp: `${ovLabel}. ${loc('oie.okta_verify.totp.title', 'login')}`,
+    'signed_nonce': loc('oie.okta_verify.signed_nonce.label', 'login'),
+  };
+  return methodTypeLabelMap[methodType] || defaultLabel;
+}
 
 export function getAuthenticatorDataForEnroll(authenticator) {
   return getAuthenticatorData(authenticator);

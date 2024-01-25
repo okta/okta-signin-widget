@@ -54,7 +54,6 @@ exports[`enduser-consent-without-lgoo should render form 1`] = `
                 </span>
               </div>
               <div
-                aria-live="polite"
                 class="MuiBox-root emotion-13"
               >
                 <span

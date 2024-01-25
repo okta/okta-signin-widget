@@ -81,6 +81,7 @@ exports[`byol loading custom language should load custom language with "language
               class="MuiBox-root emotion-8"
             >
               <form
+                aria-live="polite"
                 class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""
@@ -1689,6 +1690,7 @@ exports[`byol loading custom language should load custom language with assets.ba
               class="MuiBox-root emotion-8"
             >
               <form
+                aria-live="polite"
                 class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""
@@ -3297,6 +3299,7 @@ exports[`byol loading default language should not load custom language when the 
               class="MuiBox-root emotion-8"
             >
               <form
+                aria-live="polite"
                 class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""
@@ -4905,6 +4908,7 @@ exports[`byol loading default language should not load custom language with "lan
               class="MuiBox-root emotion-8"
             >
               <form
+                aria-live="polite"
                 class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""

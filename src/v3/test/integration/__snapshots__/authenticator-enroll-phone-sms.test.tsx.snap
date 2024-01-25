@@ -33,6 +33,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
               class="MuiBox-root emotion-7"
             >
               <form
+                aria-live="polite"
                 class="o-form MuiBox-root emotion-8"
                 data-se="o-form"
                 novalidate=""
@@ -139,7 +140,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                       >
                         <button
                           aria-describedby="google_otp_0-description google_otp_0-ctaLabel"
-                          aria-labelledby="google_otp_0-label"
+                          aria-label="Set up Google Authenticator"
                           class="authenticator-row MuiBox-root emotion-28"
                           data-se="authenticator-button"
                           tabindex="0"
@@ -264,7 +265,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                       >
                         <button
                           aria-describedby="okta_verify_1-description okta_verify_1-ctaLabel"
-                          aria-labelledby="okta_verify_1-label"
+                          aria-label="Set up Okta Verify"
                           class="authenticator-row MuiBox-root emotion-28"
                           data-se="authenticator-button"
                           tabindex="0"
@@ -365,7 +366,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                       >
                         <button
                           aria-describedby="phone_number_2-description phone_number_2-ctaLabel"
-                          aria-labelledby="phone_number_2-label"
+                          aria-label="Set up Phone."
                           class="authenticator-row MuiBox-root emotion-28"
                           data-se="authenticator-button"
                           tabindex="0"
@@ -480,7 +481,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                       >
                         <button
                           aria-describedby="webauthn_3-description webauthn_3-ctaLabel"
-                          aria-labelledby="webauthn_3-label"
+                          aria-label="Set up Security Key or Biometric Authenticator."
                           class="authenticator-row MuiBox-root emotion-28"
                           data-se="authenticator-button"
                           tabindex="0"
@@ -706,6 +707,7 @@ exports[`authenticator-enroll-phone-sms should render form 1`] = `
               class="MuiBox-root emotion-8"
             >
               <form
+                aria-live="polite"
                 class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""
