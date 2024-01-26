@@ -213,12 +213,23 @@ export const createThemeAndTokens = (
           }),
         },
       },
+      MuiCheckbox: {
+        styleOverrides: {
+          root: {
+            // Odyssey uses gap for spacing between Checkbox and label which is not IE11-friendly
+            marginInlineEnd: mergedTokens.Spacing2,
+          },
+        },
+      },
       MuiFormControlLabel: {
         styleOverrides: {
           root: {
+            // Odyssey uses gap for spacing between Checkbox and label which is not IE11-friendly
             gap: 0,
           },
           label: {
+            // Fixes text overflow in IE11
+            width: '100%',
             // Forces Odyssey Checkbox hint text to be grey even during error state
             '& .MuiFormHelperText-root.Mui-error': {
               color: mergedTokens.TypographyColorSubordinate,
