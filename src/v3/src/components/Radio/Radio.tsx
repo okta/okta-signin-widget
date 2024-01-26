@@ -56,6 +56,7 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
     showAsterisk,
   } = uischema;
   const label = getTranslation(translations, 'label');
+  const labelId = `${name}-label`;
   const optionalLabel = getTranslation(translations, 'optionalLabel');
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
   const hasErrors = typeof errors !== 'undefined';
@@ -67,6 +68,7 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
     >
       {label && (
         <FormLabel
+          id={labelId}
           // To prevent asterisk from shifting far right
           sx={{ display: 'flex', justifyContent: showAsterisk ? 'flex-start' : 'space-between' }}
         >
@@ -98,6 +100,7 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
         name={name}
         id={name}
         data-se={name}
+        aria-labelledby={labelId}
         aria-describedby={describedByIds}
         value={value as string ?? ''}
         onChange={(e: ChangeEvent<HTMLInputElement>) => {
