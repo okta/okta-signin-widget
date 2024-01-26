@@ -158,6 +158,13 @@ export const createThemeAndTokens = (
           }),
         },
       },
+      MuiFormControlLabel: {
+        styleOverrides: {
+          root: {
+            gap: 0,
+          },
+        },
+      },
       MuiFormHelperText: {
         styleOverrides: {
           root: {
@@ -221,6 +228,7 @@ export const createThemeAndTokens = (
           }),
         },
       },
+<<<<<<< HEAD
       MuiAccordion: {
         styleOverrides: {
           root: {
@@ -268,6 +276,23 @@ export const createThemeAndTokens = (
           },
         },
       },
+=======
+      MuiRadio: {
+        styleOverrides: {
+          root: {
+            // Odyssey uses gap for spacing between Checkbox/Radio and label
+            marginInlineEnd: mergedTokens.Spacing2,
+            "&.Mui-checked": {
+              // Odyssey position: absolute breaks radio checked circle alignment
+              "&::before": {
+                position: "relative",
+                backgroundColor: mergedTokens.PalettePrimaryMain,
+              },
+            },
+          },
+        }
+      }
+>>>>>>> b3bbd727c (Fix IE11 visual regression)
     },
   });
 
