@@ -203,114 +203,135 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
                     class="MuiBox-root emotion-1"
                   >
                     <div
-                      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAccordion-root MuiAccordion-rounded emotion-29"
+                      class="MuiBox-root emotion-11"
                     >
                       <div
-                        aria-controls="cant-verify-content"
-                        aria-expanded="false"
-                        class="MuiButtonBase-root MuiAccordionSummary-root emotion-30"
-                        id="cant-verify-header"
-                        role="button"
-                        tabindex="0"
+                        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded emotion-30"
                       >
                         <div
-                          class="MuiAccordionSummary-content emotion-31"
-                        >
-                          <p
-                            class="MuiTypography-root MuiTypography-body1 emotion-32"
-                          >
-                            Can't verify?
-                          </p>
-                        </div>
-                      </div>
-                      <div
-                        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-33"
-                        style="min-height: 0px;"
-                      >
-                        <div
-                          class="MuiCollapse-wrapper MuiCollapse-vertical emotion-34"
+                          aria-expanded="false"
+                          class="MuiButtonBase-root MuiAccordionSummary-root emotion-31"
+                          role="button"
+                          tabindex="0"
                         >
                           <div
-                            class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-35"
+                            class="MuiAccordionSummary-content emotion-32"
                           >
                             <div
-                              aria-labelledby="cant-verify-header"
-                              class="MuiAccordion-region"
-                              id="cant-verify-content"
-                              role="region"
+                              class="MuiTypography-root MuiTypography-subtitle2 emotion-33"
+                              tabindex="-1"
+                              translate="no"
+                            >
+                              Can't verify?
+                            </div>
+                          </div>
+                          <div
+                            class="MuiAccordionSummary-expandIconWrapper emotion-34"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-24"
+                              fill="none"
+                              focusable="false"
+                              viewBox="0 0 24 24"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                clip-rule="evenodd"
+                                d="m10.94 16.354-5.647-5.647 1.414-1.414L12 14.586l5.293-5.293 1.414 1.414-5.646 5.647a1.5 1.5 0 0 1-2.122 0Z"
+                                fill="currentColor"
+                                fill-rule="evenodd"
+                              />
+                            </svg>
+                          </div>
+                        </div>
+                        <div
+                          class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden emotion-36"
+                          style="min-height: 0px;"
+                        >
+                          <div
+                            class="MuiCollapse-wrapper MuiCollapse-vertical emotion-37"
+                          >
+                            <div
+                              class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-38"
                             >
                               <div
-                                class="MuiAccordionDetails-root emotion-36"
+                                class="MuiAccordion-region"
+                                role="region"
                               >
                                 <div
-                                  class="MuiBox-root emotion-10"
+                                  class="MuiAccordionDetails-root emotion-39"
                                 >
                                   <div
-                                    class="MuiBox-root emotion-1"
+                                    class="MuiBox-root emotion-10"
                                   >
                                     <div
-                                      class="MuiBox-root emotion-18"
+                                      class="MuiBox-root emotion-1"
                                     >
-                                      <h3
-                                        class="MuiTypography-root MuiTypography-h6 emotion-40"
+                                      <div
+                                        class="MuiBox-root emotion-18"
                                       >
-                                        Are you trying to use a biometric authenticator?
-                                      </h3>
+                                        <h3
+                                          class="MuiTypography-root MuiTypography-h6 emotion-43"
+                                        >
+                                          Are you trying to use a biometric authenticator?
+                                        </h3>
+                                      </div>
                                     </div>
-                                  </div>
-                                  <div
-                                    class="MuiBox-root emotion-1"
-                                  >
                                     <div
-                                      class="MuiBox-root emotion-18"
+                                      class="MuiBox-root emotion-1"
                                     >
-                                      <p
-                                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-43"
-                                        data-se="o-form-explain"
+                                      <div
+                                        class="MuiBox-root emotion-18"
                                       >
-                                        Biometric authenticators (fingerprint, face recognition, PIN) will only work on the same device on which they were set up.
-                                      </p>
+                                        <p
+                                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-46"
+                                          data-se="o-form-explain"
+                                        >
+                                          Biometric authenticators (fingerprint, face recognition, PIN) will only work on the same device on which they were set up.
+                                        </p>
+                                      </div>
                                     </div>
-                                  </div>
-                                  <div
-                                    class="MuiBox-root emotion-11"
-                                  >
                                     <div
-                                      class="MuiBox-root emotion-18"
+                                      class="MuiBox-root emotion-11"
                                     >
-                                      <p
-                                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-43"
-                                        data-se="o-form-explain"
+                                      <div
+                                        class="MuiBox-root emotion-18"
                                       >
-                                        If available, set up another security method on the device you used to set up your biometric authenticator.
-                                      </p>
+                                        <p
+                                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-46"
+                                          data-se="o-form-explain"
+                                        >
+                                          If available, set up another security method on the device you used to set up your biometric authenticator.
+                                        </p>
+                                      </div>
                                     </div>
-                                  </div>
-                                  <div
-                                    class="MuiBox-root emotion-1"
-                                  >
                                     <div
-                                      class="MuiBox-root emotion-18"
+                                      class="MuiBox-root emotion-1"
                                     >
-                                      <h3
-                                        class="MuiTypography-root MuiTypography-h6 emotion-40"
+                                      <div
+                                        class="MuiBox-root emotion-18"
                                       >
-                                        Are you trying to use a security key?
-                                      </h3>
+                                        <h3
+                                          class="MuiTypography-root MuiTypography-h6 emotion-43"
+                                        >
+                                          Are you trying to use a security key?
+                                        </h3>
+                                      </div>
                                     </div>
-                                  </div>
-                                  <div
-                                    class="MuiBox-root emotion-11"
-                                  >
                                     <div
-                                      class="MuiBox-root emotion-18"
+                                      class="MuiBox-root emotion-11"
                                     >
-                                      <p
-                                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-43"
-                                        data-se="o-form-explain"
+                                      <div
+                                        class="MuiBox-root emotion-18"
                                       >
-                                        If you have set up a security key, insert it in a USB port when prompted by the browser and tap on the button or gold disk. Security keys can work on multiple devices.
-                                      </p>
+                                        <p
+                                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-46"
+                                          data-se="o-form-explain"
+                                        >
+                                          If you have set up a security key, insert it in a USB port when prompted by the browser and tap on the button or gold disk. Security keys can work on multiple devices.
+                                        </p>
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
@@ -325,7 +346,7 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
                     class="MuiBox-root emotion-11"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways Mui-focusVisible emotion-54"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways Mui-focusVisible emotion-57"
                       data-se="switchAuthenticator"
                       href=""
                     >
@@ -336,7 +357,7 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
                     class="MuiBox-root emotion-11"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-54"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-57"
                       data-se="cancel"
                       href=""
                     >

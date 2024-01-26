@@ -178,6 +178,56 @@ export const createThemeAndTokens = (
           }),
         },
       },
+      MuiAccordion: {
+        styleOverrides: {
+          root: {
+            border: 0,
+          },
+        },
+      },
+      MuiAccordionSummary: {
+        styleOverrides: {
+          root: {
+            width: 'fit-content',
+            minHeight: 0,
+            paddingInline: mergedTokens.Spacing0,
+            paddingBlock: mergedTokens.Spacing0,
+            backgroundColor: 'unset',
+            '&:hover': {
+              backgroundColor: 'unset',
+            },
+            '&:focus': {
+              backgroundColor: 'unset',
+            },
+            '& .MuiAccordionSummary-content': {
+              margin: mergedTokens.Spacing0,
+              '& .MuiTypography-root': {
+                textDecoration: 'underline',
+                fontWeight: mergedTokens.TypographyWeightBody,
+                color: mergedTokens.TypographyColorAction,
+                '&:hover': {
+                  color: mergedTokens.BorderColorPrimaryDark,
+                },
+              },
+            },
+            '& .MuiAccordionSummary-expandIconWrapper': {
+              display: 'none',
+            },
+          },
+          content: {
+
+          },
+        },
+      },
+      MuiAccordionDetails: {
+        styleOverrides: {
+          root: {
+            paddingInline: mergedTokens.Spacing0,
+            paddingBlock: mergedTokens.Spacing0,
+            paddingBlockStart: mergedTokens.Spacing4,
+          },
+        },
+      },
     },
   });
 
