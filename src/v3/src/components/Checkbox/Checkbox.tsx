@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Checkbox as CheckboxMui, CheckboxGroup } from '@okta/odyssey-react-mui';
+import { Checkbox as OdyCheckbox, CheckboxGroup } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
@@ -55,7 +55,7 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
       errorMessageList={errorMessageList}
       label=""
     >
-      <CheckboxMui
+      <OdyCheckbox
         hint={description}
         id={name}
         inputFocusRef={focusRef}
