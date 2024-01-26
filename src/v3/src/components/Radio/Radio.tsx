@@ -100,7 +100,7 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
         name={name}
         id={name}
         data-se={name}
-        aria-labelledby={labelId}
+        {...(label && { 'aria-labelledby': labelId })}
         aria-describedby={describedByIds}
         value={value as string ?? ''}
         onChange={(e: ChangeEvent<HTMLInputElement>) => {

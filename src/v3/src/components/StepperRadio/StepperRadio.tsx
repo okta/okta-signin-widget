@@ -77,7 +77,7 @@ const StepperRadio: UISchemaElementComponent<{
         name={name}
         value={value as string}
         onChange={handleChange}
-        aria-labelledby={labelId}
+        {...(label && { 'aria-labelledby': labelId })}
         aria-describedby={ariaDescribedBy}
       >
         {
