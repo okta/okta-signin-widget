@@ -124,6 +124,14 @@ export const createThemeAndTokens = (
   // Merge default Odyssey 1.x theme with component overrides
   const themeOverride = mergeThemes(baseOdysseyTheme, {
     components: {
+      MuiInputLabel: {
+        styleOverrides: {
+          root: {
+            wordBreak: 'break-word',
+            whiteSpace: 'normal',
+          },
+        },
+      },
       MuiAccordion: {
         styleOverrides: {
           root: {
@@ -209,6 +217,12 @@ export const createThemeAndTokens = (
         styleOverrides: {
           root: {
             gap: 0,
+          },
+          label: {
+            // Forces Odyssey Checkbox hint text to be grey even during error state
+            '& .MuiFormHelperText-root.Mui-error': {
+              color: mergedTokens.TypographyColorSubordinate,
+            },
           },
         },
       },
