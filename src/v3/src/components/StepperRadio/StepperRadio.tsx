@@ -77,6 +77,7 @@ const StepperRadio: UISchemaElementComponent<{
         name={name}
         value={value as string}
         onChange={handleChange}
+        // eslint-disable-next-line react/jsx-props-no-spreading
         {...(label && { 'aria-labelledby': labelId })}
         aria-describedby={ariaDescribedBy}
       >
