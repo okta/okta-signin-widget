@@ -10,18 +10,9 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
-import {
-  Box,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  Radio as RadioMui,
-  RadioGroup,
-  Typography,
-} from '@okta/odyssey-react-mui-legacy';
+import { Radio as OdyRadio, RadioGroup } from '@okta/odyssey-react-mui';
 import { IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
-import { h } from 'preact';
+import { h, JSX } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
 import { useAutoFocus, useValue } from '../../hooks';
@@ -30,8 +21,7 @@ import {
   UISchemaElementComponent,
   UISchemaElementComponentWithValidationProps,
 } from '../../types';
-import { getTranslation } from '../../util';
-import FieldLevelMessageContainer from '../FieldLevelMessageContainer';
+import { buildFieldLevelErrorMessages, getTranslation } from '../../util';
 import { withFormValidationState } from '../hocs';
 
 const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProps> = ({
@@ -39,7 +29,6 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
   errors,
   handleChange,
   handleBlur,
-  describedByIds,
 }) => {
   const value = useValue(uischema);
   const { loading } = useWidgetContext();
@@ -54,91 +43,42 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
       customOptions,
     },
     focus,
-    showAsterisk,
   } = uischema;
   const label = getTranslation(translations, 'label');
   const optionalLabel = getTranslation(translations, 'optionalLabel');
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
-  const hasErrors = typeof errors !== 'undefined';
-  const tokens = useOdysseyDesignTokens();
+  const { errorMessage, errorMessageList } = buildFieldLevelErrorMessages(errors);
 
   return (
-    <FormControl
-      component="fieldset"
-      error={hasErrors}
+    <RadioGroup
+      errorMessage={errorMessage}
+      errorMessageList={errorMessageList}
+      hint={!required ? optionalLabel : undefined}
+      id={name}
+      label={label ?? ''}
+      name={name}
+      onChange={(e: ChangeEvent<HTMLInputElement>) => {
+        handleChange?.(e.currentTarget.value);
+      }}
+      testId={name}
+      value={value as string ?? ''}
     >
-      {label && (
-        <FormLabel
-          // To prevent asterisk from shifting far right
-          sx={{ display: 'flex', justifyContent: showAsterisk ? 'flex-start' : 'space-between' }}
-        >
-          {label}
-          {showAsterisk && (
-            <Box
-              component="span"
-              sx={{
-                marginInlineStart: tokens.Spacing2,
-                marginInlineEnd: tokens.Spacing2,
-              }}
-              className="no-translate"
-              aria-hidden
-            >
-              *
-            </Box>
-          )}
-          {required === false && (
-            <Typography
-              variant="subtitle1"
-              sx={{ whiteSpace: 'nowrap' }}
-            >
-              {optionalLabel}
-            </Typography>
-          )}
-        </FormLabel>
-      )}
-      <RadioGroup
-        name={name}
-        id={name}
-        data-se={name}
-        aria-describedby={describedByIds}
-        value={value as string ?? ''}
-        onChange={(e: ChangeEvent<HTMLInputElement>) => {
-          handleChange?.(e.currentTarget.value);
-        }}
-      >
-        {
-          (customOptions ?? options)?.map((item: IdxOption, index: number) => (
-            <FormControlLabel
-              control={(
-                <RadioMui
-                  sx={{
-                    marginInlineEnd: tokens.Spacing3,
-                  }}
-                />
-              )}
-              key={item.value}
-              value={item.value}
-              label={item.label}
-              disabled={loading}
-              onBlur={(e: ChangeEvent<HTMLInputElement>) => {
-                handleBlur?.(e?.currentTarget?.value);
-              }}
-              sx={{
-                gap: 0,
-              }}
-              // eslint-disable-next-line react/jsx-props-no-spreading
-              {...(index === 0 && { inputRef: focusRef })}
-            />
-          ))
-        }
-      </RadioGroup>
-      {hasErrors && (
-        <FieldLevelMessageContainer
-          messages={errors}
-          fieldName={name}
-        />
-      )}
-    </FormControl>
+      {
+        (customOptions ?? options)?.map((item: IdxOption, index: number) => (
+          <OdyRadio
+            isDisabled={loading}
+            key={item.value}
+            label={item.label}
+            onBlur={(e: ChangeEvent<HTMLInputElement>) => {
+              handleBlur?.(e?.currentTarget?.value);
+            }}
+            value={typeof item.value === 'string' ? item.value : ''}
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...(index === 0 && { inputFocusRef: focusRef })}
+          />
+        )) as JSX.Element[]
+      }
+    </RadioGroup>
   );
 };
 
