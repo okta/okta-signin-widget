@@ -29,11 +29,11 @@ const Accordion: FunctionComponent<AccordionProps> = ({ uischema }) => {
       {
         elements.map((element) => (
           <Box
+            key={element.key}
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...(!(element).noMargin && { marginBlockEnd: 4 })}
           >
             <OdyAccordion
-              key={element.key}
               hasShadow={false}
               label={element.options.summary}
               translate="no"
