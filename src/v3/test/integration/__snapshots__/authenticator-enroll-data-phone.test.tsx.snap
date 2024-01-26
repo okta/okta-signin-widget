@@ -173,6 +173,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                       >
                         
                         <div
+                          aria-labelledby="authenticator.methodType-label"
                           class="MuiFormGroup-root emotion-26"
                           role="radiogroup"
                         >
@@ -1782,6 +1783,7 @@ exports[`authenticator-enroll-data-phone should render form without an autoFocus
                       >
                         
                         <div
+                          aria-labelledby="authenticator.methodType-label"
                           class="MuiFormGroup-root emotion-26"
                           role="radiogroup"
                         >
@@ -3391,6 +3393,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                       >
                         
                         <div
+                          aria-labelledby="authenticator.methodType-label"
                           class="MuiFormGroup-root emotion-26"
                           role="radiogroup"
                         >

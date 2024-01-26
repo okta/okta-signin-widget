@@ -1,6 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`authenticator-enroll-security-question-error custom question should show field level character count error message when invalid number of characters are sent and field should retain characters 1`] = `
+exports[`authenticator-enroll-security-question-error custom question should show field level character count error message when invalid number of characters are sent and field should retain characters 1`] = `<div />`;
+
+exports[`authenticator-enroll-security-question-error custom question should show field level character count error message when invalid number of characters are sent and field should retain characters 2`] = `
 <div>
   <div
     class="MuiScopedCssBaseline-root emotion-0"
@@ -181,6 +183,7 @@ exports[`authenticator-enroll-security-question-error custom question should sho
                       >
                         
                         <div
+                          aria-labelledby="questionType-label"
                           class="MuiFormGroup-root emotion-28"
                           role="radiogroup"
                         >
@@ -1111,6 +1114,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                       >
                         
                         <div
+                          aria-labelledby="questionType-label"
                           class="MuiFormGroup-root emotion-23"
                           role="radiogroup"
                         >
@@ -1686,6 +1690,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                       >
                         
                         <div
+                          aria-labelledby="questionType-label"
                           class="MuiFormGroup-root emotion-28"
                           role="radiogroup"
                         >
