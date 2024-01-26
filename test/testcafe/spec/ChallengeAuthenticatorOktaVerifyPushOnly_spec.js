@@ -47,7 +47,7 @@ test.requestHooks(mockOktaVerifySendPushOnly)(
     await t.expect(pushButtonLabel).eql('Send push');
 
     await t.expect(await challengeOktaVerifyPushPageObject.autoChallengeInputExists()).ok();
-    const checkboxLabel = challengeOktaVerifyPushPageObject.getAutoChallengeCheckboxLabel();
+    const checkboxLabel = challengeOktaVerifyPushPageObject.getAutoChallengeCheckbox();
     await t.expect(checkboxLabel.hasClass('checked')).notOk();
     await t.expect(await challengeOktaVerifyPushPageObject.form.fieldByLabelExists('Send push automatically')).eql(true);
 
