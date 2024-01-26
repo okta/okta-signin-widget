@@ -181,7 +181,6 @@ exports[`authenticator-enroll-security-question custom question fails client sid
                       >
                         
                         <div
-                          aria-labelledby="questionType-label"
                           class="MuiFormGroup-root emotion-28"
                           role="radiogroup"
                         >
@@ -575,7 +574,6 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                       >
                         
                         <div
-                          aria-labelledby="questionType-label"
                           class="MuiFormGroup-root emotion-23"
                           role="radiogroup"
                         >
@@ -956,7 +954,6 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                       >
                         
                         <div
-                          aria-labelledby="questionType-label"
                           class="MuiFormGroup-root emotion-23"
                           role="radiogroup"
                         >
@@ -1448,7 +1445,6 @@ exports[`authenticator-enroll-security-question predefined question should rende
                       >
                         
                         <div
-                          aria-labelledby="questionType-label"
                           class="MuiFormGroup-root emotion-23"
                           role="radiogroup"
                         >

@@ -173,7 +173,6 @@ exports[`byol loading custom language should load custom language with "language
                       >
                         
                         <div
-                          aria-labelledby="authenticator.methodType-label"
                           class="MuiFormGroup-root emotion-26"
                           role="radiogroup"
                         >
@@ -1783,7 +1782,6 @@ exports[`byol loading custom language should load custom language with assets.ba
                       >
                         
                         <div
-                          aria-labelledby="authenticator.methodType-label"
                           class="MuiFormGroup-root emotion-26"
                           role="radiogroup"
                         >
@@ -3393,7 +3391,6 @@ exports[`byol loading default language should not load custom language when the 
                       >
                         
                         <div
-                          aria-labelledby="authenticator.methodType-label"
                           class="MuiFormGroup-root emotion-26"
                           role="radiogroup"
                         >
@@ -5003,7 +5000,6 @@ exports[`byol loading default language should not load custom language with "lan
                       >
                         
                         <div
-                          aria-labelledby="authenticator.methodType-label"
                           class="MuiFormGroup-root emotion-26"
                           role="radiogroup"
                         >
