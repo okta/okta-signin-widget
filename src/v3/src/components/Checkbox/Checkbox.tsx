@@ -43,7 +43,7 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
     ? wrapInTranslateNo(labelInfo.value)
     : labelInfo?.value) as string | undefined;
   const descriptionInfo = getTranslationInfo(translations, 'description');
-  const description = useHtmlContentParser(descriptionInfo?.noTranslate 
+  const description = useHtmlContentParser(descriptionInfo?.noTranslate
     ? wrapInTranslateNo(descriptionInfo.value)
     : descriptionInfo?.value) as string | undefined;
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
