@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Link as LinkMui } from '@okta/odyssey-react-mui-legacy';
+import { Link } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 
 import { useStepperContext, useWidgetContext } from '../../contexts';
@@ -24,7 +24,6 @@ const StepperLink: UISchemaElementComponent<{
   const {
     label,
     focus,
-    ariaDescribedBy,
     options: {
       dataSe,
       nextStepIndex,
@@ -43,23 +42,14 @@ const StepperLink: UISchemaElementComponent<{
   };
 
   return (
-    <LinkMui
-      component="button"
-      variant="body1"
-      role="link"
+    <Link
+      href=""
       onClick={handleClick}
-      aria-describedby={ariaDescribedBy}
-      ref={focusRef}
-      data-se={dataSe}
-      sx={{
-        '&:hover': {
-          cursor: 'pointer',
-          verticalAlign: 'baseline',
-        },
-      }}
+      linkFocusRef={focusRef}
+      testId={dataSe}
     >
       {label}
-    </LinkMui>
+    </Link>
   );
 };
 
