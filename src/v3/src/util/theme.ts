@@ -124,6 +124,53 @@ export const createThemeAndTokens = (
   // Merge default Odyssey 1.x theme with component overrides
   const themeOverride = mergeThemes(baseOdysseyTheme, {
     components: {
+      MuiAccordion: {
+        styleOverrides: {
+          root: {
+            border: 0,
+          },
+        },
+      },
+      MuiAccordionSummary: {
+        styleOverrides: {
+          root: {
+            display: 'inline-flex',
+            minHeight: 0,
+            paddingInline: mergedTokens.Spacing0,
+            paddingBlock: mergedTokens.Spacing0,
+            backgroundColor: 'transparent',
+            '&:hover': {
+              backgroundColor: 'transparent',
+            },
+            '&:focus': {
+              backgroundColor: 'transparent',
+            },
+            '& .MuiAccordionSummary-content': {
+              margin: mergedTokens.Spacing0,
+              '& .MuiTypography-root': {
+                textDecoration: 'underline',
+                fontWeight: mergedTokens.TypographyWeightBody,
+                color: mergedTokens.TypographyColorAction,
+                '&:hover': {
+                  color: mergedTokens.BorderColorPrimaryDark,
+                },
+              },
+            },
+            '& .MuiAccordionSummary-expandIconWrapper': {
+              display: 'none',
+            },
+          },
+        },
+      },
+      MuiAccordionDetails: {
+        styleOverrides: {
+          root: {
+            paddingInline: mergedTokens.Spacing0,
+            paddingBlock: mergedTokens.Spacing0,
+            paddingBlockStart: mergedTokens.Spacing4,
+          },
+        },
+      },
       MuiAlert: {
         styleOverrides: {
           root: {
@@ -228,71 +275,21 @@ export const createThemeAndTokens = (
           }),
         },
       },
-<<<<<<< HEAD
-      MuiAccordion: {
-        styleOverrides: {
-          root: {
-            border: 0,
-          },
-        },
-      },
-      MuiAccordionSummary: {
-        styleOverrides: {
-          root: {
-            display: 'inline-flex',
-            minHeight: 0,
-            paddingInline: mergedTokens.Spacing0,
-            paddingBlock: mergedTokens.Spacing0,
-            backgroundColor: 'transparent',
-            '&:hover': {
-              backgroundColor: 'transparent',
-            },
-            '&:focus': {
-              backgroundColor: 'transparent',
-            },
-            '& .MuiAccordionSummary-content': {
-              margin: mergedTokens.Spacing0,
-              '& .MuiTypography-root': {
-                textDecoration: 'underline',
-                fontWeight: mergedTokens.TypographyWeightBody,
-                color: mergedTokens.TypographyColorAction,
-                '&:hover': {
-                  color: mergedTokens.BorderColorPrimaryDark,
-                },
-              },
-            },
-            '& .MuiAccordionSummary-expandIconWrapper': {
-              display: 'none',
-            },
-          },
-        },
-      },
-      MuiAccordionDetails: {
-        styleOverrides: {
-          root: {
-            paddingInline: mergedTokens.Spacing0,
-            paddingBlock: mergedTokens.Spacing0,
-            paddingBlockStart: mergedTokens.Spacing4,
-          },
-        },
-      },
-=======
       MuiRadio: {
         styleOverrides: {
           root: {
             // Odyssey uses gap for spacing between Checkbox/Radio and label
             marginInlineEnd: mergedTokens.Spacing2,
-            "&.Mui-checked": {
+            '&.Mui-checked': {
               // Odyssey position: absolute breaks radio checked circle alignment
-              "&::before": {
-                position: "relative",
+              '&::before': {
+                position: 'relative',
                 backgroundColor: mergedTokens.PalettePrimaryMain,
               },
             },
           },
         }
-      }
->>>>>>> b3bbd727c (Fix IE11 visual regression)
+      },
     },
   });
 

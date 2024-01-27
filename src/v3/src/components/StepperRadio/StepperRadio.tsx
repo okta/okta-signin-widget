@@ -12,7 +12,7 @@
 
 import { Radio, RadioGroup } from '@okta/odyssey-react-mui';
 import { IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
-import { h } from 'preact';
+import { h, JSX } from 'preact';
 import { useState } from 'preact/hooks';
 
 import { useStepperContext, useWidgetContext } from '../../contexts';
