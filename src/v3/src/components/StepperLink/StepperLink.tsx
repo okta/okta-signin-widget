@@ -15,7 +15,7 @@ import { h } from 'preact';
 
 import { useStepperContext, useWidgetContext } from '../../contexts';
 import { useAutoFocus } from '../../hooks';
-import { StepperLinkElement, UISchemaElementComponent } from '../../types';
+import { ClickHandler, StepperLinkElement, UISchemaElementComponent } from '../../types';
 
 const StepperLink: UISchemaElementComponent<{
   uischema: StepperLinkElement
@@ -33,12 +33,16 @@ const StepperLink: UISchemaElementComponent<{
   const focusRef = useAutoFocus<HTMLButtonElement>(focus);
   const widgetContext = useWidgetContext();
 
-  const handleClick = () => {
+  const handleClick: ClickHandler = (e) => {
+    e.preventDefault();
+
     if (typeof nextStepIndex === 'function') {
       setStepIndex(nextStepIndex(widgetContext));
     } else {
       setStepIndex(nextStepIndex);
     }
+    
+    return;
   };
 
   return (
