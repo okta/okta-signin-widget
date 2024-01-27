@@ -11,17 +11,15 @@
  */
 
 // TODO: OKTA-564568 Link exported from ODY does not have the focus() function and breaks autofocus
+import { RendererProps } from '@jsonforms/core';
+import { withJsonFormsRendererProps } from '@jsonforms/react';
 import { Box, Link as LinkMui } from '@mui/material';
 import { FunctionComponent, h } from 'preact';
 
-import { useWidgetContext } from '../../../../../contexts';
-import { useAutoFocus, useOnSubmit } from '../../../../../hooks';
-import { RendererProps } from '@jsonforms/core';
-import { withJsonFormsRendererProps } from '@jsonforms/react';
+import { useAutoFocus } from '../../../../../hooks';
+import { ActionEvent } from '../../../../../types';
 
 const LinkElement: FunctionComponent<RendererProps> = ({ uischema }) => {
-  const widgetContext = useWidgetContext();
-
   const {
     options: {
       focus,
@@ -29,19 +27,19 @@ const LinkElement: FunctionComponent<RendererProps> = ({ uischema }) => {
       label,
       target,
       event,
-    } = {}
+    } = {},
   } = uischema;
   const focusRef = useAutoFocus<HTMLAnchorElement>(focus);
 
   return (
-    <Box marginBottom={4}>
+    <Box marginBlockEnd={4}>
       <LinkMui
         href={target.value}
         ref={focusRef}
         data-se={id}
-        target={event === 'redirectBlank' && '_blank'}
+        target={event === ActionEvent.REDIRECT_BLANK && '_blank'}
         // eslint-disable-next-line react/jsx-props-no-spreading
-        {...(event === 'redirectBlank' && { rel: 'noopener noreferrer' })}
+        {...(event === ActionEvent.REDIRECT_BLANK && { rel: 'noopener noreferrer' })}
       >
         {label.content.text}
       </LinkMui>

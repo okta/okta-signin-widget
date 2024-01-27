@@ -472,6 +472,6 @@ export const isServerGeneratedSchemaAvailable = (
   const nextStepIsSupported = SUPPORTED_SERVER_GENERATED_SCHEMA_REMEDIATIONS.some(
     (step) => neededToProceed[0].name === step,
   );
-  // @ts-ignore layout is missing from RawIdxState type
-  return typeof rawIdxState.layout !== 'undefined' && nextStepIsSupported;
+  // @ts-ignore uischema is missing from RawIdxState type
+  return typeof rawIdxState.uischema !== 'undefined' && nextStepIsSupported;
 };

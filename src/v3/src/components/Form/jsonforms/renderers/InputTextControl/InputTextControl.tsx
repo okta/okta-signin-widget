@@ -27,12 +27,12 @@ import {
 } from '@okta/odyssey-react-mui';
 import { merge } from 'lodash';
 import { FunctionComponent, h } from 'preact';
+import { useState } from 'preact/hooks';
+import { ChangeEvent } from 'src/types';
 
 import { useWidgetContext } from '../../../../../contexts';
 import { useAutoFocus, useDebouncedChange } from '../../../../../hooks';
 import { eventToValue } from '../../../../../util';
-import { ChangeEvent } from 'src/types';
-import { useState } from 'preact/hooks';
 
 const InputText: FunctionComponent<ControlProps> = ({
   data,
@@ -44,11 +44,8 @@ const InputText: FunctionComponent<ControlProps> = ({
   errors,
   uischema,
 }) => {
-  console.log('INPUT TEXT control errors:', errors);
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
-  console.log('InputTextControl appliedUiSchemaOptions:', appliedUiSchemaOptions);
-  const { loading, formErrors, } = useWidgetContext();
-  console.log('FORM ERRORS FROM INPUT TEXT control:', formErrors);
+  const { loading, formErrors } = useWidgetContext();
   const focusRef = useAutoFocus<HTMLInputElement>(appliedUiSchemaOptions.focus);
   const [touched, setTouched] = useState<boolean>(false);
   const hasErrors = touched && typeof errors !== 'undefined' && !!errors;
@@ -59,10 +56,9 @@ const InputText: FunctionComponent<ControlProps> = ({
     path,
     eventToValue,
   );
-  console.log('Inside InputTextControl, label:', label);
 
   return (
-    <Box marginBottom={4}>
+    <Box marginBlockEnd={4}>
       <InputLabel htmlFor={path}>
         {label}
       </InputLabel>

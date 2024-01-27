@@ -10,9 +10,20 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { ControlElement, HorizontalLayout, LabelElement, Layout, UISchemaElement, VerticalLayout } from '@jsonforms/core';
-import { TransformStepFnWithOptions, UISchemaLayoutType } from '../../types';
+import {
+  ControlElement, HorizontalLayout, LabelElement, Layout, UISchemaElement, VerticalLayout,
+} from '@jsonforms/core';
+
 import Util from '../../../../util/Util';
+import {
+  ActionEvent,
+  ActionStyle,
+  LayoutDirection,
+  LayoutElementType,
+  TransformStepFnWithOptions,
+  UISchemaLayoutType,
+} from '../../types';
+import { loc } from '../../util';
 
 type ElementTransformer = {
   (element: any, args: {
@@ -28,60 +39,62 @@ type ElementTester = {
 const ElementTesters: ElementTester[] = [
   {
     // image type
-    tester: (element: any) => element.type === 'image',
+    tester: (element: any) => element.type === LayoutElementType.IMAGE,
     element: (element: any) => (
       {
         type: 'Image',
-        options: { ...element }
+        options: { ...element },
       }
     ),
   },
   {
     // divider type
-    tester: (element: any) => element.type === 'divider',
+    tester: (element: any) => element.type === LayoutElementType.DIVIDER,
     element: (element: any) => (
       {
         type: 'Divider',
-        options: { ...element }
+        options: { ...element },
       }
     ),
   },
   {
     // label type
-    tester: (element: any) => element.type === 'label',
+    tester: (element: any) => element.type === LayoutElementType.LABEL,
     element: (element: any) => (
       {
         type: 'Label',
         text: element.content.text,
         i18n: element.content.i18nKey,
-        options: { ...element }
+        options: { ...element },
       } as LabelElement
     ),
   },
   {
     // action type
-    tester: (element: any) => element.type === 'action',
+    tester: (element: any) => element.type === LayoutElementType.ACTION,
     element: (element: any) => {
-      const isRedirectBtn = element.event === 'redirect' && ['primaryButton', 'secondaryButton'].includes(element.style);
+      const isRedirectBtn = element.event === ActionEvent.REDIRECT
+        && [ActionStyle.PRIMARY_BUTTON, ActionStyle.SECONDARY_BUTTON].includes(element.style);
       return {
         type: 'Action',
         options: {
           ...element,
           onClick: isRedirectBtn
-            ? (() => { Util.redirectWithFormGet(element.target.value) })
+            ? (() => { Util.redirectWithFormGet(element.target.value); })
             : undefined,
           type: element.target.type,
-        }
-      }
+        },
+      };
     },
   },
   {
     // textInput type
-    tester: (element: any) => element.type === 'textInput',
+    tester: (element: any) => element.type === LayoutElementType.TEXT_INPUT,
     element: (element: any) => (
       {
         type: 'Control',
         scope: `#/properties/${element.name.replace('.', '/properties/')}`,
+        label: loc(element.label.content.i18nKey, 'login'),
         options: {
           id: element.id,
           name: element.name,
@@ -94,7 +107,7 @@ const ElementTesters: ElementTester[] = [
   },
   {
     // booleanInput type
-    tester: (element: any) => element.type === 'booleanInput',
+    tester: (element: any) => element.type === LayoutElementType.BOOLEAN_INPUT,
     element: (element: any) => (
       {
         type: 'Control',
@@ -114,9 +127,9 @@ const toLayout = (uischema: any): VerticalLayout | HorizontalLayout => {
     layout.options = options;
   }
   switch (options?.direction) {
-    case 'vertical':
+    case LayoutDirection.VERTICAL:
       return layout as VerticalLayout;
-    case 'horizontal':
+    case LayoutDirection.HORIZONTAL:
       layout.type = UISchemaLayoutType.HORIZONTAL;
       return layout as HorizontalLayout;
     default:
@@ -140,9 +153,11 @@ const mapElement: ElementTransformer = (
   const { type } = element;
 
   // When nested, must recursively traverse elements and build layout
-  if (type === 'nested') {
+  if (type === LayoutElementType.NESTED) {
     const nestedLayout = toLayout(element.layout);
-    element.layout.elements.forEach((element: any) => mapElement(element, { uischema: nestedLayout }));
+    element.layout.elements.forEach(
+      (layoutElement: any) => mapElement(layoutElement, { uischema: nestedLayout }),
+    );
     uischema.elements.push(nestedLayout);
   } else {
     mapUIElement(element, uischema);
@@ -150,18 +165,14 @@ const mapElement: ElementTransformer = (
 };
 
 export const generateUISchema: TransformStepFnWithOptions = ({
-  transaction, step: stepName, widgetProps,
+  transaction, // step: stepName, widgetProps,
 }) => (formbag) => {
   // @ts-expect-error layout is missing from type
-  const uischema = transaction.rawIdxState.layout;
+  const { uischema } = transaction.rawIdxState;
   const primaryLayout = toLayout(uischema);
 
   uischema.elements.forEach((element: any) => mapElement(element, { uischema: primaryLayout }));
-  // formbag.uischema.elements.push(...elements)
-  // formbag.uischema.elements = [{
-  //   type: 'Control',
-  //   scope: "#/properties/identifier",
-  // } as ControlElement];
+  // eslint-disable-next-line no-param-reassign
   formbag.uischema = primaryLayout;
   return formbag;
 };

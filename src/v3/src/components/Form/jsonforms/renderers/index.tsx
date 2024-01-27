@@ -14,31 +14,30 @@ import {
   and,
   isBooleanControl,
   isControl,
-  isEnumControl,
+  // isEnumControl,
   isStringControl,
   optionIs,
   or,
   rankWith,
-  scopeEndsWith,
+  // scopeEndsWith,
   uiTypeIs,
 } from '@jsonforms/core';
 import { vanillaRenderers } from '@jsonforms/vanilla-renderers';
-import { materialRenderers } from '@jsonforms/material-renderers';
 
-import InputTextControl from './InputTextControl/InputTextControl';
-import InputPasswordControl from './InputPasswordControl/InputPasswordControl';
-import ImageElement from './ImageElement/ImageElement';
-import DividerElement from './DividerElement/DividerElement';
-import TitleElement from './TitleElement/TitleElement';
-import TextElement from './TextElement/TextElement';
-import LinkElement from './LinkElement/LinkElement';
-import LinkButtonElement from './LinkButtonElement/LinkButtonElement';
+import { ActionEvent, ActionStyle, LabelStyle } from '../../../../types';
 import ButtonElement from './ButtonElement/ButtonElement';
 import CheckboxControl from './CheckboxControl/CheckboxControl';
+import DividerElement from './DividerElement/DividerElement';
+import ImageElement from './ImageElement/ImageElement';
+import InputPasswordControl from './InputPasswordControl/InputPasswordControl';
+import InputTextControl from './InputTextControl/InputTextControl';
+import LinkButtonElement from './LinkButtonElement/LinkButtonElement';
+import LinkElement from './LinkElement/LinkElement';
+import TextElement from './TextElement/TextElement';
+import TitleElement from './TitleElement/TitleElement';
 
 export const renderers = [
-  // ...vanillaRenderers,
-  ...materialRenderers,
+  ...vanillaRenderers,
   {
     tester: rankWith(20, isStringControl),
     renderer: InputTextControl,
@@ -60,23 +59,33 @@ export const renderers = [
     renderer: DividerElement,
   },
   {
-    tester: rankWith(50, and(uiTypeIs('Label'), optionIs('style', 'headline'))),
+    tester: rankWith(50, and(uiTypeIs('Label'), or(optionIs('style', LabelStyle.HEADLINE), optionIs('style', LabelStyle.TITLE_2)))),
     renderer: TitleElement,
   },
   {
-    tester: rankWith(50, and(uiTypeIs('Label'), optionIs('style', 'body'))),
+    tester: rankWith(50, and(uiTypeIs('Label'), optionIs('style', LabelStyle.BODY))),
     renderer: TextElement,
   },
   {
-    tester: rankWith(60, and(uiTypeIs('Action'), or(optionIs('style', 'primaryButton'), optionIs('style', 'secondaryButton')), or(optionIs('event', 'performStep'), optionIs('event', 'redirect')))),
+    tester: rankWith(
+      60,
+      and(
+        uiTypeIs('Action'),
+        or(
+          optionIs('style', ActionStyle.PRIMARY_BUTTON),
+          optionIs('style', ActionStyle.SECONDARY_BUTTON),
+        ),
+        or(optionIs('event', ActionEvent.PERFORM_STEP), optionIs('event', ActionEvent.REDIRECT)),
+      ),
+    ),
     renderer: ButtonElement,
   },
   {
-    tester: rankWith(60, and(uiTypeIs('Action'), optionIs('style', 'link'), or(optionIs('event', 'redirect'), optionIs('event', 'redirectBlank')))),
+    tester: rankWith(60, and(uiTypeIs('Action'), optionIs('style', ActionStyle.LINK), or(optionIs('event', ActionEvent.REDIRECT), optionIs('event', ActionEvent.REDIRECT_BLANK)))),
     renderer: LinkElement,
   },
   {
-    tester: rankWith(60, and(uiTypeIs('Action'), optionIs('style', 'linkButton'), optionIs('event', 'performStep'))),
+    tester: rankWith(60, and(uiTypeIs('Action'), optionIs('style', ActionStyle.LINK_BUTTON), optionIs('event', ActionEvent.PERFORM_STEP))),
     renderer: LinkButtonElement,
   },
   // {

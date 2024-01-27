@@ -28,6 +28,7 @@ import {
   InfoboxElement,
   IWidgetContext,
   LaunchAuthenticatorButtonElement,
+  LayoutAlignment,
   PhoneVerificationMethodType,
   WidgetMessage,
   WidgetMessageLink,
@@ -484,30 +485,30 @@ export const buildPhoneVerificationSubtitleElement = (
   return subtitleElement;
 };
 
-export const eventToValue = (ev: any) =>
-  ev.target.value === '' ? undefined : ev.target.value;
+export const eventToValue = (
+  ev: any,
+): any => (ev.target.value === '' ? undefined : ev.target.value);
 
-type ServerSchemaAlignment = 'top' | 'leading' | 'bottom' | 'trailing' | 'center';
-export const toFlexJustifyContent = (alignment: ServerSchemaAlignment): string => {
-  switch(alignment) {
-    case 'leading':
+export const toFlexJustifyContent = (alignment: LayoutAlignment): string => {
+  switch (alignment) {
+    case LayoutAlignment.LEADING:
       return 'flex-start';
-    case 'trailing':
+    case LayoutAlignment.TRAILING:
       return 'flex-end';
-    case 'center':
+    case LayoutAlignment.CENTER:
       return 'center';
     default:
       return 'flex-start';
   }
 };
 
-export const toFlexAlignItems = (alignment: ServerSchemaAlignment): string => {
-  switch(alignment) {
-    case 'center':
+export const toFlexAlignItems = (alignment: LayoutAlignment): string => {
+  switch (alignment) {
+    case LayoutAlignment.CENTER:
       return 'center';
-    case 'top':
+    case LayoutAlignment.TOP:
       return 'flex-start';
-    case 'bottom':
+    case LayoutAlignment.BOTTOM:
       return 'flex-end';
     default:
       return 'flex-start';

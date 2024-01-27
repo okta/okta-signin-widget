@@ -76,8 +76,6 @@ const InputPassword: FunctionComponent<ControlProps> = ({
   // const hint = getTranslation(translations, 'hint');
   // const explain = getTranslation(translations, 'bottomExplain');
   // const optionalLabel = getTranslation(translations, 'optionalLabel');
-  console.log('FORM ERRORS FROM Password control:', formErrors);
-  console.log('jsonForms errors property:', errors);
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
   const dir = appliedUiSchemaOptions.dir || 'ltr';
   const focusRef = useAutoFocus<HTMLInputElement>(appliedUiSchemaOptions.focus);

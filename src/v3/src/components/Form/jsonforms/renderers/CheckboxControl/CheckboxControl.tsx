@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { ControlProps } from '@jsonforms/core';
+import { withJsonFormsControlProps } from '@jsonforms/react';
 import {
   Box,
   Checkbox as CheckboxMui,
@@ -21,8 +23,6 @@ import { FunctionComponent, h } from 'preact';
 
 import { useWidgetContext } from '../../../../../contexts';
 import { useAutoFocus } from '../../../../../hooks';
-import { ControlProps } from '@jsonforms/core';
-import { withJsonFormsControlProps } from '@jsonforms/react';
 
 const CheckboxControl: FunctionComponent<ControlProps> = ({
   data,
@@ -52,7 +52,7 @@ const CheckboxControl: FunctionComponent<ControlProps> = ({
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
 
   return (
-    <Box marginBottom={4}>
+    <Box marginBlockEnd={4}>
       <FormControl
         component="fieldset"
         className={noTranslate ? 'no-translate' : undefined}

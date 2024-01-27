@@ -19,10 +19,12 @@ import { useHtmlContentParser } from '../../../../../hooks';
 import { toFlexAlignItems, toFlexJustifyContent } from '../../../../../util';
 
 const TextElement: FunctionComponent<LabelProps & { i18n?: string }> = ({
-  uischema, text, i18n,
+  uischema, text, /* i18n, */
 }) => {
   const {
-    options: { alignment, id, parserOptions = {}, noTranslate, style } = {},
+    options: {
+      alignment, id, parserOptions = {}, noTranslate, style,
+    } = {},
   } = uischema;
   const parsedContent = useHtmlContentParser(text, parserOptions);
 

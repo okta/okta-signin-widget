@@ -11,14 +11,14 @@
  */
 
 // TODO: OKTA-564568 Link exported from ODY does not have the focus() function and breaks autofocus
+import { RendererProps } from '@jsonforms/core';
+import { withJsonFormsRendererProps } from '@jsonforms/react';
 import { Box, Link as LinkMui } from '@mui/material';
 import { FunctionComponent, h } from 'preact';
 
 import { useWidgetContext } from '../../../../../contexts';
 import { useAutoFocus, useOnSubmit } from '../../../../../hooks';
 import { ClickHandler } from '../../../../../types';
-import { RendererProps } from '@jsonforms/core';
-import { withJsonFormsRendererProps } from '@jsonforms/react';
 
 const LinkButtonElement: FunctionComponent<RendererProps> = ({ uischema }) => {
   const widgetContext = useWidgetContext();
@@ -61,7 +61,7 @@ const LinkButtonElement: FunctionComponent<RendererProps> = ({ uischema }) => {
   };
 
   return (
-    <Box marginBottom={4}>
+    <Box marginBlockEnd={4}>
       <LinkMui
         component="button"
         // Fixes OKTA-653788 (see comments) - Currently we treat all links as buttons

@@ -10,17 +10,17 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { LabelProps } from '@jsonforms/core';
+import { withJsonFormsLabelProps } from '@jsonforms/react';
 import { Box, Typography } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
 import { useEffect, useRef } from 'preact/hooks';
 
 import { useWidgetContext } from '../../../../../contexts';
-import { LabelProps } from '@jsonforms/core';
-import { withJsonFormsLabelProps } from '@jsonforms/react';
 import { toFlexAlignItems, toFlexJustifyContent } from '../../../../../util';
 
 const TitleElement: FunctionComponent<LabelProps & { i18n?: string }> = (
-  { uischema, text, i18n },
+  { uischema, text /* ,  i18n */ },
 ) => {
   const {
     options: { alignment, id } = {},
@@ -41,7 +41,7 @@ const TitleElement: FunctionComponent<LabelProps & { i18n?: string }> = (
       display="flex"
       justifyContent={toFlexJustifyContent(alignment)}
       alignItems={toFlexAlignItems(alignment)}
-      marginBottom={4}
+      marginBlockEnd={4}
     >
       <Typography
         id={id}

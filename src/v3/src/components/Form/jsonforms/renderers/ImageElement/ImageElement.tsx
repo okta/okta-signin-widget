@@ -15,20 +15,26 @@ import { withJsonFormsRendererProps } from '@jsonforms/react';
 import { Box } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
 
+import { toFlexJustifyContent } from '../../../../../util';
+
 const ImageElement: FunctionComponent<RendererProps> = ({ uischema }) => {
-  const { options: { altText, id, position, renditions } = {} } = uischema;
+  const {
+    options: {
+      altText, id, position, rendition,
+    } = {},
+  } = uischema;
 
   return (
     <Box
       id={id}
       display="flex"
-      justifyContent={position}
+      justifyContent={toFlexJustifyContent(position)}
       flexWrap="wrap"
-      marginBottom={4}
+      marginBlockEnd={4}
     >
       <Box
         component="img"
-        src={renditions?.light}
+        src={rendition?.mainHref}
         alt={altText?.text}
         // marginInlineEnd={2}
         data-se={`icon-${id}`}

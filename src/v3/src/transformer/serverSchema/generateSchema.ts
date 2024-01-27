@@ -10,12 +10,12 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { set, get } from 'lodash';
-
 import { Input, NextStep } from '@okta/okta-auth-js';
+import { IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
+import { get, set } from 'lodash';
+
 import { FormBag, TransformStepFnWithOptions } from '../../types';
 import { Result, transformer as typeTransformer } from '../field/type';
-import { IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
 
 type InputTransformer = {
   (field: Input, args: {
@@ -41,7 +41,9 @@ const addMinlengthToSchemaIfNecessary = (
 
 const mapInputSchema: InputTransformer = (
   input: Input,
-  { path, schema, options, subFieldRequired },
+  {
+    path, schema, options, subFieldRequired,
+  },
 ): void => {
   const fieldType = typeTransformer(input);
   set(schema, [...path, input.name], { ...fieldType?.[input.name] });
@@ -63,12 +65,10 @@ const mapInputSchema: InputTransformer = (
         [...(path.slice(0, -1)), 'required'],
         [...get(schema, [...(path.slice(0, -1)), 'required'], []), input.name],
       );
+    } else if (Array.isArray(schema.required)) {
+      schema.required.push(input.name);
     } else {
-      if (Array.isArray(schema.required)) {
-        schema.required.push(input.name);
-      } else {
-        set(schema, ['required'], [input.name]);
-      }
+      set(schema, ['required'], [input.name]);
     }
     // const fieldName = subFieldRequired ? [...path.filter((str) => str !== 'properties'), input.name].join('.') : input.name;
     // if (Array.isArray(schema.required)) {
@@ -102,12 +102,8 @@ const mapInputSchema: InputTransformer = (
 };
 
 export const generateSchema: TransformStepFnWithOptions = ({
-  transaction, step: stepName, widgetProps,
+  transaction, step: stepName, // widgetProps,
 }) => (formbag) => {
-  // @ts-expect-error layout mising from type
-  console.log({ layout: transaction.rawIdxState.layout });
-  console.log({ nextStep: transaction.nextStep });
-
   const { availableSteps = [], nextStep = {} as NextStep } = transaction;
   const step = nextStep.name === stepName
     ? nextStep
@@ -118,7 +114,6 @@ export const generateSchema: TransformStepFnWithOptions = ({
   const { schema } = formbag;
   const { inputs = [] } = step;
   inputs.forEach((input) => mapInputSchema(input, { path: ['properties'], schema }));
-  console.log('schema:', formbag.schema);
 
   return formbag;
 };

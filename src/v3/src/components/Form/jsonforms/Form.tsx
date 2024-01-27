@@ -10,13 +10,12 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import Ajv, { ErrorObject } from 'ajv';
-import AjvErrors from 'ajv-errors';
 import { JsonFormsCore } from '@jsonforms/core';
 import { JsonForms } from '@jsonforms/react';
 import { vanillaCells } from '@jsonforms/vanilla-renderers';
-import { materialCells } from '@jsonforms/material-renderers';
 import { Box } from '@mui/material';
+import Ajv, { ErrorObject } from 'ajv';
+import AjvErrors from 'ajv-errors';
 import classNames from 'classnames';
 import { FunctionComponent, h } from 'preact';
 import { useCallback, useEffect } from 'preact/hooks';
@@ -28,8 +27,8 @@ import {
   SubmitEvent,
 } from '../../../types';
 import { isCaptchaEnabled } from '../../../util';
+import AuthContent from '../../AuthContent/AuthContent';
 import { renderers } from './renderers';
-import AuthContent from '../../../components/AuthContent/AuthContent';
 
 const ajv = new Ajv({
   allErrors: true,
@@ -54,7 +53,7 @@ const Form: FunctionComponent<{
     setFormErrors,
   } = useWidgetContext();
   const onSubmitHandler = useOnSubmit();
-  const onValidationHandler = useOnSubmitValidation();
+  // const onValidationHandler = useOnSubmitValidation();
 
   const onChange = (event: Pick<JsonFormsCore, 'data' | 'errors'>) => {
     setFormErrors(event.errors || []);
@@ -62,7 +61,6 @@ const Form: FunctionComponent<{
   };
 
   useEffect(() => {
-    console.log('USEEFFECT for setWidgetRendered - currTransaction dependency');
     setWidgetRendered(true);
   }, [currTransaction, setWidgetRendered]);
 
@@ -95,15 +93,13 @@ const Form: FunctionComponent<{
     }
   }, [
     currTransaction,
-    data,
+    // data,
     dataSchemaRef,
     onSubmitHandler,
-    onValidationHandler,
+    // onValidationHandler,
     setMessage,
     setWidgetRendered,
   ]);
-
-  console.log('UI Schema:', JSON.stringify(uischema));
 
   return (
     <Box

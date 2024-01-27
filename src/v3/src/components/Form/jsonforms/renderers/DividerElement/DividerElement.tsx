@@ -16,20 +16,20 @@ import { Box, Divider as MuiDivider } from '@mui/material';
 import { FunctionComponent, h } from 'preact';
 
 const DividerElement: FunctionComponent<RendererProps> = ({ uischema }) => {
-  const { options: { label, style } = {} } = uischema;
+  const { options: { label } = {} } = uischema;
 
   return (
     <Box
-      marginTop={4}
-      marginBottom={4}
+      marginBlockStart={4}
+      marginBlockEnd={4}
     >
-      {typeof label?.content?.text !== 'undefined'
-        ? <MuiDivider className="separation-line">{label.content.text}</MuiDivider>
-        : <MuiDivider className="separation-line" />
+      {
+        typeof label?.content?.text !== 'undefined'
+          ? <MuiDivider className="separation-line">{label.content.text}</MuiDivider>
+          : <MuiDivider className="separation-line" />
       }
     </Box>
   );
 };
 
 export default withJsonFormsRendererProps(DividerElement);
-

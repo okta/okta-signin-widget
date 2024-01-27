@@ -18,6 +18,7 @@ import {
   TransformStepFn,
   UISchemaLayoutType,
 } from '../types';
+import { isServerGeneratedSchemaAvailable } from '../util';
 import { transformButtons } from './button';
 import { transformCaptcha } from './captcha';
 import { transformDataSchema } from './dataSchema';
@@ -29,7 +30,6 @@ import { transformServerSchema } from './serverSchema';
 import { transformTestAttribute } from './testAttribute';
 import { transformTransactionData } from './transaction';
 import { transformUISchema } from './uischema';
-import { isServerGeneratedSchemaAvailable } from '../util';
 
 // use this function after each transformation step to log the formbag output
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

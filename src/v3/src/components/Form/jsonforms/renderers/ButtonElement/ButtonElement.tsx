@@ -10,15 +10,15 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { RendererProps } from '@jsonforms/core';
+import { withJsonFormsRendererProps } from '@jsonforms/react';
 import { Box, Button as OdyButton } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
 
 import { useWidgetContext } from '../../../../../contexts';
 import { useAutoFocus, useOnSubmit } from '../../../../../hooks';
-import Spinner from '../../../../Spinner';
-import { RendererProps } from '@jsonforms/core';
 import { ClickHandler } from '../../../../../types';
-import { withJsonFormsRendererProps } from '@jsonforms/react';
+import Spinner from '../../../../Spinner';
 
 const ButtonElement: FunctionComponent<RendererProps> = ({
   uischema,
@@ -54,20 +54,19 @@ const ButtonElement: FunctionComponent<RendererProps> = ({
       id,
       style,
       label,
-      event,
       target,
       image,
     } = {},
   } = uischema;
   const STYLE_TO_VARIANT: Record<string, 'primary' | 'secondary'> = {
-    primaryButton: 'primary',
-    secondaryButton: 'secondary',
+    PRIMARY_BUTTON: 'primary',
+    SECONDARY_BUTTON: 'secondary',
   };
 
   const ButtonImageIcon = typeof image !== 'undefined' && (
     <Box
       component="img"
-      src={image.renditions.light}
+      src={image.rendition.mainHref}
       alt={image.altText.text}
       aria-hidden
     />
@@ -86,11 +85,11 @@ const ButtonElement: FunctionComponent<RendererProps> = ({
   };
 
   return (
-    <Box marginBottom={4}>
+    <Box marginBlockEnd={4}>
       <OdyButton
         type={type}
         variant={STYLE_TO_VARIANT[style] ?? 'primary'}
-        fullWidth={true}
+        fullWidth
         ref={focusRef}
         disabled={loading || disabled}
         // className={classes}
