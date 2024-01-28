@@ -348,7 +348,7 @@ export default class BaseFormObject {
 
   getValueFromDropdown(fieldName, index = 0) {
     if (userVariables.gen3) {
-      const selectEle = this.el.find(`[data-se="${fieldName}"]`);
+      const selectEle = this.el.find(`[id="${fieldName}"]`);
       const option = selectEle.child().nth(index);
   
       return option.textContent;
@@ -359,8 +359,7 @@ export default class BaseFormObject {
 
   async selectValueChozenDropdown(fieldName, index) {
     if (userVariables.gen3) {
-      const selectEle = await this.el.find(`[data-se="${fieldName}"]`);
-
+      const selectEle = this.el.find(`[id="${fieldName}"]`);
       await this.t.click(selectEle);
       
       const option = selectEle.child().nth(index);

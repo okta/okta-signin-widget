@@ -275,25 +275,37 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                       class="MuiFormControl-root MuiFormControl-marginNormal emotion-48"
                     >
                       <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined emotion-49"
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-49"
                         data-shrink="false"
                         for="userProfile.country"
+                        id="userProfile.country-label"
                       >
+<<<<<<< HEAD
                         Country
                         <span
                           aria-hidden="true"
                           class="no-translate MuiBox-root emotion-50"
                         >
                           *
+=======
+                        <span>
+                          Country
+>>>>>>> eec3250e0 (Update page objects)
                         </span>
                       </label>
                       <div
-                        class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl  emotion-51"
+                        class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl  emotion-50"
+                        data-se="userProfile.country"
                       >
                         <select
+<<<<<<< HEAD
+=======
+                          aria-describedby="userProfile.country-error"
+                          aria-errormessage="userProfile.country-error"
+>>>>>>> 479c936a7 (Update page objects)
                           aria-invalid="true"
-                          class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-52"
-                          data-se="userProfile.country"
+                          aria-labelledby="userProfile.country-label"
+                          class="MuiNativeSelect-select MuiNativeSelect-standard Mui-error MuiInputBase-input MuiInput-input emotion-51"
                           id="userProfile.country"
                           name="userProfile.country"
                         >
@@ -1510,7 +1522,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                         </select>
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconStandard emotion-53"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconStandard emotion-52"
                           fill="none"
                           focusable="false"
                           viewBox="0 0 24 24"
@@ -1524,18 +1536,29 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                           />
                         </svg>
                       </div>
-                      <div
-                        class="MuiBox-root emotion-1"
+                      <p
+                        class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium emotion-53"
+                        id="userProfile.country-error"
                       >
+<<<<<<< HEAD
                         <p
                           class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium emotion-55"
                           data-se="userProfile.country-error"
                           id="userProfile.country-error"
                           role="alert"
+=======
+                        <span
+                          class="MuiBox-root emotion-14"
+                        >
+                          Error:
+                        </span>
+                        <div
+                          class="MuiBox-root emotion-1"
+>>>>>>> eec3250e0 (Update page objects)
                         >
                           This field cannot be left blank
-                        </p>
-                      </div>
+                        </div>
+                      </p>
                     </div>
                   </div>
                   <div
@@ -1595,25 +1618,37 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                       class="MuiFormControl-root MuiFormControl-marginNormal emotion-48"
                     >
                       <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined emotion-49"
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-49"
                         data-shrink="false"
                         for="userProfile.timezone"
+                        id="userProfile.timezone-label"
                       >
+<<<<<<< HEAD
                         Time zone
                         <span
                           aria-hidden="true"
                           class="no-translate MuiBox-root emotion-50"
                         >
                           *
+=======
+                        <span>
+                          Time zone
+>>>>>>> eec3250e0 (Update page objects)
                         </span>
                       </label>
                       <div
-                        class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl  emotion-51"
+                        class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl  emotion-50"
+                        data-se="userProfile.timezone"
                       >
                         <select
+<<<<<<< HEAD
+=======
+                          aria-describedby="userProfile.timezone-error"
+                          aria-errormessage="userProfile.timezone-error"
+>>>>>>> 479c936a7 (Update page objects)
                           aria-invalid="true"
-                          class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-52"
-                          data-se="userProfile.timezone"
+                          aria-labelledby="userProfile.timezone-label"
+                          class="MuiNativeSelect-select MuiNativeSelect-standard Mui-error MuiInputBase-input MuiInput-input emotion-51"
                           id="userProfile.timezone"
                           name="userProfile.timezone"
                         >
@@ -1790,7 +1825,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                         </select>
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconStandard emotion-53"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconStandard emotion-52"
                           fill="none"
                           focusable="false"
                           viewBox="0 0 24 24"
@@ -1804,18 +1839,29 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                           />
                         </svg>
                       </div>
-                      <div
-                        class="MuiBox-root emotion-1"
+                      <p
+                        class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium emotion-53"
+                        id="userProfile.timezone-error"
                       >
+<<<<<<< HEAD
                         <p
                           class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium emotion-55"
                           data-se="userProfile.timezone-error"
                           id="userProfile.timezone-error"
                           role="alert"
+=======
+                        <span
+                          class="MuiBox-root emotion-14"
+                        >
+                          Error:
+                        </span>
+                        <div
+                          class="MuiBox-root emotion-1"
+>>>>>>> eec3250e0 (Update page objects)
                         >
                           This field cannot be left blank
-                        </p>
-                      </div>
+                        </div>
+                      </p>
                     </div>
                   </div>
                   <div
@@ -2059,10 +2105,16 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                       class="MuiFormControl-root MuiFormControl-marginNormal emotion-32"
                     >
                       <label
+<<<<<<< HEAD
                         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined emotion-33"
+=======
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-36"
+>>>>>>> eec3250e0 (Update page objects)
                         data-shrink="false"
                         for="userProfile.country"
+                        id="userProfile.country-label"
                       >
+<<<<<<< HEAD
                         Country
                         <span
                           aria-hidden="true"
@@ -2078,6 +2130,20 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                           aria-invalid="false"
                           class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-36"
                           data-se="userProfile.country"
+=======
+                        <span>
+                          Country
+                        </span>
+                      </label>
+                      <div
+                        class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-formControl  emotion-37"
+                        data-se="userProfile.country"
+                      >
+                        <select
+                          aria-invalid="false"
+                          aria-labelledby="userProfile.country-label"
+                          class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-38"
+>>>>>>> eec3250e0 (Update page objects)
                           id="userProfile.country"
                           name="userProfile.country"
                         >
@@ -3294,7 +3360,11 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                         </select>
                         <svg
                           aria-hidden="true"
+<<<<<<< HEAD
                           class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconStandard emotion-37"
+=======
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconStandard emotion-39"
+>>>>>>> eec3250e0 (Update page objects)
                           fill="none"
                           focusable="false"
                           viewBox="0 0 24 24"
@@ -3350,10 +3420,16 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                       class="MuiFormControl-root MuiFormControl-marginNormal emotion-32"
                     >
                       <label
+<<<<<<< HEAD
                         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined emotion-33"
+=======
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-36"
+>>>>>>> eec3250e0 (Update page objects)
                         data-shrink="false"
                         for="userProfile.timezone"
+                        id="userProfile.timezone-label"
                       >
+<<<<<<< HEAD
                         Time zone
                         <span
                           aria-hidden="true"
@@ -3369,6 +3445,20 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                           aria-invalid="false"
                           class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-36"
                           data-se="userProfile.timezone"
+=======
+                        <span>
+                          Time zone
+                        </span>
+                      </label>
+                      <div
+                        class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-formControl  emotion-37"
+                        data-se="userProfile.timezone"
+                      >
+                        <select
+                          aria-invalid="false"
+                          aria-labelledby="userProfile.timezone-label"
+                          class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-38"
+>>>>>>> eec3250e0 (Update page objects)
                           id="userProfile.timezone"
                           name="userProfile.timezone"
                         >
@@ -3545,7 +3635,11 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                         </select>
                         <svg
                           aria-hidden="true"
+<<<<<<< HEAD
                           class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconStandard emotion-37"
+=======
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconStandard emotion-39"
+>>>>>>> eec3250e0 (Update page objects)
                           fill="none"
                           focusable="false"
                           viewBox="0 0 24 24"
@@ -3565,7 +3659,11 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                     class="MuiBox-root emotion-10"
                   >
                     <button
+<<<<<<< HEAD
                       class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-51"
+=======
+                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-53"
+>>>>>>> eec3250e0 (Update page objects)
                       data-se="save"
                       tabindex="0"
                       type="submit"
@@ -3577,6 +3675,7 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                     class="MuiBox-root emotion-10"
                   >
                     <hr
+<<<<<<< HEAD
                       class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-53"
                     />
                   </div>
@@ -3585,6 +3684,16 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                   >
                     <div
                       class="MuiBox-root emotion-55"
+=======
+                      class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-55"
+                    />
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-56"
+                  >
+                    <div
+                      class="MuiBox-root emotion-57"
+>>>>>>> eec3250e0 (Update page objects)
                     >
                       <div
                         class="MuiBox-root emotion-11"
@@ -3599,10 +3708,17 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                       </div>
                     </div>
                     <div
+<<<<<<< HEAD
                       class="MuiBox-root emotion-55"
                     >
                       <a
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-59"
+=======
+                      class="MuiBox-root emotion-57"
+                    >
+                      <a
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-61"
+>>>>>>> eec3250e0 (Update page objects)
                         data-se="back"
                         href=""
                       >

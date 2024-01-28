@@ -908,19 +908,23 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                         class="MuiFormControl-root MuiFormControl-marginNormal emotion-22"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined emotion-34"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-34"
                           data-shrink="false"
                           for="credentials.questionKey"
+                          id="credentials.questionKey-label"
                         >
-                          Choose a security question
+                          <span>
+                            Choose a security question
+                          </span>
                         </label>
                         <div
                           class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-formControl  emotion-35"
+                          data-se="credentials.questionKey"
                         >
                           <select
                             aria-invalid="false"
+                            aria-labelledby="credentials.questionKey-label"
                             class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-36"
-                            data-se="credentials.questionKey"
                             id="credentials.questionKey"
                             name="credentials.questionKey"
                           >
@@ -1345,19 +1349,23 @@ exports[`authenticator-enroll-security-question predefined question should rende
                         class="MuiFormControl-root MuiFormControl-marginNormal emotion-22"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined emotion-34"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-34"
                           data-shrink="false"
                           for="credentials.questionKey"
+                          id="credentials.questionKey-label"
                         >
-                          Choose a security question
+                          <span>
+                            Choose a security question
+                          </span>
                         </label>
                         <div
                           class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-formControl  emotion-35"
+                          data-se="credentials.questionKey"
                         >
                           <select
                             aria-invalid="false"
+                            aria-labelledby="credentials.questionKey-label"
                             class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-36"
-                            data-se="credentials.questionKey"
                             id="credentials.questionKey"
                             name="credentials.questionKey"
                           >
