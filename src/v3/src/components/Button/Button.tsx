@@ -11,7 +11,6 @@
  */
 
 import { Button as OdyButton } from '@okta/odyssey-react-mui';
-import { Box } from '@okta/odyssey-react-mui-legacy';
 import { h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
@@ -21,8 +20,8 @@ import {
   ClickHandler,
   UISchemaElementComponent,
 } from '../../types';
-import Spinner from '../Spinner';
 import Image from '../Image';
+import Spinner from '../Spinner';
 
 const Button: UISchemaElementComponent<{
   uischema: ButtonElement

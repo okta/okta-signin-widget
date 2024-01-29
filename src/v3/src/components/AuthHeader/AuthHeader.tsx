@@ -17,9 +17,9 @@ import { FunctionComponent, h } from 'preact';
 import { AuthCoinProps } from 'src/types';
 
 import { loc } from '../../util';
-import Image from '../Image';
 import AuthCoin from '../AuthCoin/AuthCoin';
 import { getAuthCoinConfiguration } from '../AuthCoin/authCoinConfigUtil';
+import Image from '../Image';
 
 // TODO: maybe extract to util class if used reused
 const shouldRenderAuthCoin = (props?: AuthCoinProps): boolean => {
@@ -85,8 +85,8 @@ const AuthHeader: FunctionComponent<AuthHeaderProps> = ({
             alt={logoText || brandName || loc('logo.default.alt.text', 'login')}
             src={logo}
             testId="auth-org-logo"
-            maxWidth={"200px"}
-            maxHeight={"40px"}
+            maxWidth="200px"
+            maxHeight="40px"
           />
         )}
       </Typography>

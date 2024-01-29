@@ -24,21 +24,19 @@ const Image: FunctionComponent<ImageProps> = ({
   maxHeight,
   testId,
   ariaHidden,
-}) => {
-  return (
-    <Box
-      as="img"
-      src={src}
-      alt={alt}
-      sx={{
-        width,
-        height,
-        maxInlineSize: maxWidth,
-        maxBlockSize: maxHeight,
-      }}
-      data-se={testId}
-      aria-hidden={ariaHidden}
-    />
-  );
-};
+}) => (
+  <Box
+    as="img"
+    src={src}
+    alt={alt}
+    sx={{
+      width,
+      height,
+      maxInlineSize: maxWidth,
+      maxBlockSize: maxHeight,
+    }}
+    data-se={testId}
+    aria-hidden={ariaHidden}
+  />
+);
 export default Image;

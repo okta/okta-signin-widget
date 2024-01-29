@@ -1576,7 +1576,8 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                             >
                               <img
                                 alt="Redirect to a third party MFA provider to sign in."
-                                class="custom-logo MuiBox-root emotion-166"
+                                class="MuiBox-root emotion-166"
+                                data-se="custom-logo"
                                 src="/img/logos/default.png"
                               />
                             </div>
