@@ -36,7 +36,6 @@ const Accordion: FunctionComponent<AccordionProps> = ({ uischema }) => {
             <OdyAccordion
               hasShadow={false}
               label={element.options.summary}
-              translate="no"
             >
               <LayoutContainer
                 uischema={element.options.content}

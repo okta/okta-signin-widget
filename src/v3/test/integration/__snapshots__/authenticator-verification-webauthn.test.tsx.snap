@@ -220,7 +220,6 @@ exports[`authenticator-verification-webauthn renders form - webauthn not support
                             <div
                               class="MuiTypography-root MuiTypography-subtitle2 emotion-33"
                               tabindex="-1"
-                              translate="no"
                             >
                               Can't verify?
                             </div>
@@ -577,7 +576,6 @@ exports[`authenticator-verification-webauthn renders form - webauthn supported 1
                             <div
                               class="MuiTypography-root MuiTypography-subtitle2 emotion-31"
                               tabindex="-1"
-                              translate="no"
                             >
                               Can't verify?
                             </div>
@@ -934,7 +932,6 @@ exports[`authenticator-verification-webauthn should render form with required us
                             <div
                               class="MuiTypography-root MuiTypography-subtitle2 emotion-31"
                               tabindex="-1"
-                              translate="no"
                             >
                               Can't verify?
                             </div>

@@ -220,7 +220,6 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
                             <div
                               class="MuiTypography-root MuiTypography-subtitle2 emotion-33"
                               tabindex="-1"
-                              translate="no"
                             >
                               Can't verify?
                             </div>
