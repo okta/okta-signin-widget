@@ -100,7 +100,8 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
         name={name}
         id={name}
         data-se={name}
-        aria-labelledby={labelId}
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        {...(label && { 'aria-labelledby': labelId })}
         aria-describedby={describedByIds}
         value={value as string ?? ''}
         onChange={(e: ChangeEvent<HTMLInputElement>) => {

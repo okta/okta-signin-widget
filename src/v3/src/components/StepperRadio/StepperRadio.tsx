@@ -52,6 +52,7 @@ const StepperRadio: UISchemaElementComponent<{
     return defaultValue(widgetContext, stepIndex);
   });
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
+  const labelId = `${name}-label`;
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const stepIdx = customOptions.findIndex((opt) => opt.value === e.currentTarget.value);
@@ -71,11 +72,13 @@ const StepperRadio: UISchemaElementComponent<{
 
   return (
     <FormControl component="fieldset">
-      {label && (<FormLabel>{label}</FormLabel>)}
+      {label && (<FormLabel id={labelId}>{label}</FormLabel>)}
       <RadioGroup
         name={name}
         value={value as string}
         onChange={handleChange}
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        {...(label && { 'aria-labelledby': labelId })}
         aria-describedby={ariaDescribedBy}
       >
         {
