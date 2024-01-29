@@ -249,10 +249,10 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                         <svg
                           aria-hidden="true"
                           fill="none"
-                          height="63"
+                          height="4rem"
                           role="img"
-                          viewBox="0 0 51 63"
-                          width="51"
+                          viewBox="0 0 64 64"
+                          width="4rem"
                           xmlns="http://www.w3.org/2000/svg"
                         >
                           <title>
@@ -513,10 +513,10 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                         <svg
                           aria-hidden="true"
                           fill="none"
-                          height="63"
+                          height="4rem"
                           role="img"
-                          viewBox="0 0 51 63"
-                          width="51"
+                          viewBox="0 0 64 64"
+                          width="4rem"
                           xmlns="http://www.w3.org/2000/svg"
                         >
                           <title>
