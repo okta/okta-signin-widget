@@ -211,38 +211,34 @@ exports[`authenticator-verification-ov-totp-biometrics-error should render form 
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-36"
                     >
-                      <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-37"
+                      <label
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-37"
+                        data-shrink="false"
+                        for="credentials.totp"
+                        id="credentials.totp-label"
                       >
-                        <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-38"
-                          data-shrink="false"
-                          for="credentials.totp"
-                          id="credentials.totp-label"
-                        >
-                          <span>
-                            Enter code from Okta Verify app
-                          </span>
-                        </label>
-                        <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-39"
-                          data-se="credentials.totp"
-                          inputmode="numeric"
-                          required="true"
-                        >
-                          <input
-                            aria-invalid="false"
-                            aria-labelledby="credentials.totp-label"
-                            autocomplete="off"
-                            class="MuiInputBase-input emotion-40"
-                            id="credentials.totp"
-                            name="credentials.totp"
-                            required=""
-                            type="text"
-                          />
-                        </div>
+                        <span>
+                          Enter code from Okta Verify app
+                        </span>
+                      </label>
+                      <div
+                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-38"
+                        data-se="credentials.totp"
+                        inputmode="numeric"
+                        required="true"
+                      >
+                        <input
+                          aria-invalid="false"
+                          aria-labelledby="credentials.totp-label"
+                          autocomplete="off"
+                          class="MuiInputBase-input emotion-39"
+                          id="credentials.totp"
+                          name="credentials.totp"
+                          required=""
+                          type="text"
+                        />
                       </div>
                     </div>
                   </div>
@@ -250,7 +246,7 @@ exports[`authenticator-verification-ov-totp-biometrics-error should render form 
                     class="MuiBox-root emotion-11"
                   >
                     <button
-                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-42"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-41"
                       data-se="save"
                       tabindex="0"
                       type="submit"
@@ -262,7 +258,7 @@ exports[`authenticator-verification-ov-totp-biometrics-error should render form 
                     class="MuiBox-root emotion-11"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-44"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-43"
                       data-se="switchAuthenticator"
                       href=""
                     >
@@ -273,7 +269,7 @@ exports[`authenticator-verification-ov-totp-biometrics-error should render form 
                     class="MuiBox-root emotion-11"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-44"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-43"
                       data-se="cancel"
                       href=""
                     >

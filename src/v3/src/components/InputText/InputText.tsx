@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box } from '@mui/material';
 import { TextField } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 import { buildFieldLevelErrorMessages } from 'src/util/buildFieldLevelErrorMessages';
@@ -40,7 +39,6 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
     translations = [],
     focus,
     parserOptions,
-    dir,
   } = uischema;
   const label = getTranslation(translations, 'label');
   const hint = getTranslation(translations, 'hint');
@@ -56,31 +54,29 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
   const { errorMessage, errorMessageList } = buildFieldLevelErrorMessages(errors);
 
   return (
-    <Box dir={dir}>
-      <TextField
-        autoCompleteType={autocomplete}
-        errorMessage={errorMessage}
-        errorMessageList={errorMessageList}
-        hint={hint ?? parsedExplainContent as string}
-        id={name}
-        inputFocusRef={focusRef}
-        inputMode={inputmode}
-        isDisabled={loading}
-        isFullWidth
-        isOptional={!required}
-        name={name}
-        label={label ?? ''}
-        onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-          handleChange?.(e.currentTarget.value);
-        }}
-        onBlur={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-          handleBlur?.(e?.currentTarget?.value);
-        }}
-        testId={dataSe}
-        type="text"
-        value={value as string | undefined}
-      />
-    </Box>
+    <TextField
+      autoCompleteType={autocomplete}
+      errorMessage={errorMessage}
+      errorMessageList={errorMessageList}
+      hint={hint ?? parsedExplainContent as string}
+      id={name}
+      inputFocusRef={focusRef}
+      inputMode={inputmode}
+      isDisabled={loading}
+      isFullWidth
+      isOptional={!required}
+      name={name}
+      label={label ?? ''}
+      onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        handleChange?.(e.currentTarget.value);
+      }}
+      onBlur={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        handleBlur?.(e?.currentTarget?.value);
+      }}
+      testId={dataSe}
+      type="text"
+      value={value as string | undefined}
+    />
   );
 };
 

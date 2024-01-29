@@ -75,40 +75,36 @@ exports[`device-code-activate should render form 1`] = `
                     class="MuiBox-root emotion-10"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-17"
                     >
-                      <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-18"
+                      <label
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-18"
+                        data-shrink="false"
+                        for="userCode"
+                        id="userCode-label"
                       >
-                        <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-19"
-                          data-shrink="false"
-                          for="userCode"
-                          id="userCode-label"
+                        <span>
+                          Activation Code
+                        </span>
+                        <p
+                          class="MuiTypography-root MuiTypography-subtitle1 emotion-19"
+                          tabindex="-1"
                         >
-                          <span>
-                            Activation Code
-                          </span>
-                          <p
-                            class="MuiTypography-root MuiTypography-subtitle1 emotion-20"
-                            tabindex="-1"
-                          >
-                            Optional
-                          </p>
-                        </label>
-                        <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-21"
-                          data-se="userCode"
-                        >
-                          <input
-                            aria-invalid="false"
-                            aria-labelledby="userCode-label"
-                            class="MuiInputBase-input emotion-22"
-                            id="userCode"
-                            name="userCode"
-                            type="text"
-                          />
-                        </div>
+                          Optional
+                        </p>
+                      </label>
+                      <div
+                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-20"
+                        data-se="userCode"
+                      >
+                        <input
+                          aria-invalid="false"
+                          aria-labelledby="userCode-label"
+                          class="MuiInputBase-input emotion-21"
+                          id="userCode"
+                          name="userCode"
+                          type="text"
+                        />
                       </div>
                     </div>
                   </div>
@@ -116,7 +112,7 @@ exports[`device-code-activate should render form 1`] = `
                     class="MuiBox-root emotion-10"
                   >
                     <button
-                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-24"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-23"
                       data-se="save"
                       tabindex="0"
                       type="submit"

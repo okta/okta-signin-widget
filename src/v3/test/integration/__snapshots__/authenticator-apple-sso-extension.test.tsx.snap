@@ -60,38 +60,33 @@ exports[`authenticator-apple-sso-extension calls verify then cancels the transac
                     class="MuiBox-root emotion-10"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
-                      dir="ltr"
+                      class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-14"
                     >
-                      <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-15"
+                      <label
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-15"
+                        data-shrink="false"
+                        for="identifier"
+                        id="identifier-label"
                       >
-                        <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-16"
-                          data-shrink="false"
-                          for="identifier"
-                          id="identifier-label"
-                        >
-                          <span>
-                            Username
-                          </span>
-                        </label>
-                        <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-17"
-                          data-se="identifier"
-                          required="true"
-                        >
-                          <input
-                            aria-invalid="false"
-                            aria-labelledby="identifier-label"
-                            autocomplete="username"
-                            class="MuiInputBase-input emotion-18"
-                            id="identifier"
-                            name="identifier"
-                            required=""
-                            type="text"
-                          />
-                        </div>
+                        <span>
+                          Username
+                        </span>
+                      </label>
+                      <div
+                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-16"
+                        data-se="identifier"
+                        required="true"
+                      >
+                        <input
+                          aria-invalid="false"
+                          aria-labelledby="identifier-label"
+                          autocomplete="username"
+                          class="MuiInputBase-input emotion-17"
+                          id="identifier"
+                          name="identifier"
+                          required=""
+                          type="text"
+                        />
                       </div>
                     </div>
                   </div>
@@ -99,16 +94,16 @@ exports[`authenticator-apple-sso-extension calls verify then cancels the transac
                     class="MuiBox-root emotion-10"
                   >
                     <fieldset
-                      class="MuiFormControl-root MuiFormControl-marginNormal emotion-20"
+                      class="MuiFormControl-root MuiFormControl-marginNormal emotion-19"
                     >
                       <label
-                        class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-21"
+                        class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-20"
                       >
                         <span
-                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary emotion-22"
+                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary emotion-21"
                         >
                           <input
-                            class="PrivateSwitchBase-input emotion-23"
+                            class="PrivateSwitchBase-input emotion-22"
                             data-indeterminate="false"
                             data-se="rememberMe"
                             data-se-for-name="rememberMe"
@@ -118,7 +113,7 @@ exports[`authenticator-apple-sso-extension calls verify then cancels the transac
                           />
                         </span>
                         <span
-                          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-24"
+                          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-23"
                         >
                           Keep me signed in
                         </span>
@@ -129,7 +124,7 @@ exports[`authenticator-apple-sso-extension calls verify then cancels the transac
                     class="MuiBox-root emotion-10"
                   >
                     <button
-                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-26"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-25"
                       data-se="save"
                       tabindex="0"
                       type="submit"
@@ -141,7 +136,7 @@ exports[`authenticator-apple-sso-extension calls verify then cancels the transac
                     class="MuiBox-root emotion-10"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-27"
                       data-se="help"
                       href="http://localhost:3000/help/login"
                     >
@@ -152,20 +147,20 @@ exports[`authenticator-apple-sso-extension calls verify then cancels the transac
                     class="MuiBox-root emotion-10"
                   >
                     <hr
-                      class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-30"
+                      class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-29"
                     />
                   </div>
                   <div
-                    class="MuiBox-root emotion-31"
+                    class="MuiBox-root emotion-30"
                   >
                     <div
-                      class="MuiBox-root emotion-32"
+                      class="MuiBox-root emotion-31"
                     >
                       <div
                         class="MuiBox-root emotion-11"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-34"
+                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-33"
                           data-se="signup-info"
                           id="identify_Description_Dont_have_an_account_8"
                         >
@@ -174,10 +169,10 @@ exports[`authenticator-apple-sso-extension calls verify then cancels the transac
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-32"
+                      class="MuiBox-root emotion-31"
                     >
                       <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-27"
                         data-se="enroll"
                         href=""
                       >
@@ -256,38 +251,33 @@ exports[`authenticator-apple-sso-extension cancels the transaction when sso exte
                     class="MuiBox-root emotion-10"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
-                      dir="ltr"
+                      class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-14"
                     >
-                      <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-15"
+                      <label
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-15"
+                        data-shrink="false"
+                        for="identifier"
+                        id="identifier-label"
                       >
-                        <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-16"
-                          data-shrink="false"
-                          for="identifier"
-                          id="identifier-label"
-                        >
-                          <span>
-                            Username
-                          </span>
-                        </label>
-                        <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-17"
-                          data-se="identifier"
-                          required="true"
-                        >
-                          <input
-                            aria-invalid="false"
-                            aria-labelledby="identifier-label"
-                            autocomplete="username"
-                            class="MuiInputBase-input emotion-18"
-                            id="identifier"
-                            name="identifier"
-                            required=""
-                            type="text"
-                          />
-                        </div>
+                        <span>
+                          Username
+                        </span>
+                      </label>
+                      <div
+                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-16"
+                        data-se="identifier"
+                        required="true"
+                      >
+                        <input
+                          aria-invalid="false"
+                          aria-labelledby="identifier-label"
+                          autocomplete="username"
+                          class="MuiInputBase-input emotion-17"
+                          id="identifier"
+                          name="identifier"
+                          required=""
+                          type="text"
+                        />
                       </div>
                     </div>
                   </div>
@@ -295,16 +285,16 @@ exports[`authenticator-apple-sso-extension cancels the transaction when sso exte
                     class="MuiBox-root emotion-10"
                   >
                     <fieldset
-                      class="MuiFormControl-root MuiFormControl-marginNormal emotion-20"
+                      class="MuiFormControl-root MuiFormControl-marginNormal emotion-19"
                     >
                       <label
-                        class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-21"
+                        class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-20"
                       >
                         <span
-                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary emotion-22"
+                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary emotion-21"
                         >
                           <input
-                            class="PrivateSwitchBase-input emotion-23"
+                            class="PrivateSwitchBase-input emotion-22"
                             data-indeterminate="false"
                             data-se="rememberMe"
                             data-se-for-name="rememberMe"
@@ -314,7 +304,7 @@ exports[`authenticator-apple-sso-extension cancels the transaction when sso exte
                           />
                         </span>
                         <span
-                          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-24"
+                          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-23"
                         >
                           Keep me signed in
                         </span>
@@ -325,7 +315,7 @@ exports[`authenticator-apple-sso-extension cancels the transaction when sso exte
                     class="MuiBox-root emotion-10"
                   >
                     <button
-                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-26"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-25"
                       data-se="save"
                       tabindex="0"
                       type="submit"
@@ -337,7 +327,7 @@ exports[`authenticator-apple-sso-extension cancels the transaction when sso exte
                     class="MuiBox-root emotion-10"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-27"
                       data-se="help"
                       href="http://localhost:3000/help/login"
                     >
@@ -348,20 +338,20 @@ exports[`authenticator-apple-sso-extension cancels the transaction when sso exte
                     class="MuiBox-root emotion-10"
                   >
                     <hr
-                      class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-30"
+                      class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-29"
                     />
                   </div>
                   <div
-                    class="MuiBox-root emotion-31"
+                    class="MuiBox-root emotion-30"
                   >
                     <div
-                      class="MuiBox-root emotion-32"
+                      class="MuiBox-root emotion-31"
                     >
                       <div
                         class="MuiBox-root emotion-11"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-34"
+                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-33"
                           data-se="signup-info"
                           id="identify_Description_Dont_have_an_account_8"
                         >
@@ -370,10 +360,10 @@ exports[`authenticator-apple-sso-extension cancels the transaction when sso exte
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-32"
+                      class="MuiBox-root emotion-31"
                     >
                       <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-27"
                         data-se="enroll"
                         href=""
                       >
@@ -452,38 +442,33 @@ exports[`authenticator-apple-sso-extension opens the verify url with credential 
                     class="MuiBox-root emotion-10"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
-                      dir="ltr"
+                      class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-14"
                     >
-                      <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-15"
+                      <label
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-15"
+                        data-shrink="false"
+                        for="identifier"
+                        id="identifier-label"
                       >
-                        <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-16"
-                          data-shrink="false"
-                          for="identifier"
-                          id="identifier-label"
-                        >
-                          <span>
-                            Username
-                          </span>
-                        </label>
-                        <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-17"
-                          data-se="identifier"
-                          required="true"
-                        >
-                          <input
-                            aria-invalid="false"
-                            aria-labelledby="identifier-label"
-                            autocomplete="username"
-                            class="MuiInputBase-input emotion-18"
-                            id="identifier"
-                            name="identifier"
-                            required=""
-                            type="text"
-                          />
-                        </div>
+                        <span>
+                          Username
+                        </span>
+                      </label>
+                      <div
+                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-16"
+                        data-se="identifier"
+                        required="true"
+                      >
+                        <input
+                          aria-invalid="false"
+                          aria-labelledby="identifier-label"
+                          autocomplete="username"
+                          class="MuiInputBase-input emotion-17"
+                          id="identifier"
+                          name="identifier"
+                          required=""
+                          type="text"
+                        />
                       </div>
                     </div>
                   </div>
@@ -491,16 +476,16 @@ exports[`authenticator-apple-sso-extension opens the verify url with credential 
                     class="MuiBox-root emotion-10"
                   >
                     <fieldset
-                      class="MuiFormControl-root MuiFormControl-marginNormal emotion-20"
+                      class="MuiFormControl-root MuiFormControl-marginNormal emotion-19"
                     >
                       <label
-                        class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-21"
+                        class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-20"
                       >
                         <span
-                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary emotion-22"
+                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary emotion-21"
                         >
                           <input
-                            class="PrivateSwitchBase-input emotion-23"
+                            class="PrivateSwitchBase-input emotion-22"
                             data-indeterminate="false"
                             data-se="rememberMe"
                             data-se-for-name="rememberMe"
@@ -510,7 +495,7 @@ exports[`authenticator-apple-sso-extension opens the verify url with credential 
                           />
                         </span>
                         <span
-                          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-24"
+                          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-23"
                         >
                           Keep me signed in
                         </span>
@@ -521,7 +506,7 @@ exports[`authenticator-apple-sso-extension opens the verify url with credential 
                     class="MuiBox-root emotion-10"
                   >
                     <button
-                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-26"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-25"
                       data-se="save"
                       tabindex="0"
                       type="submit"
@@ -533,7 +518,7 @@ exports[`authenticator-apple-sso-extension opens the verify url with credential 
                     class="MuiBox-root emotion-10"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-27"
                       data-se="help"
                       href="http://localhost:3000/help/login"
                     >
@@ -544,20 +529,20 @@ exports[`authenticator-apple-sso-extension opens the verify url with credential 
                     class="MuiBox-root emotion-10"
                   >
                     <hr
-                      class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-30"
+                      class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-29"
                     />
                   </div>
                   <div
-                    class="MuiBox-root emotion-31"
+                    class="MuiBox-root emotion-30"
                   >
                     <div
-                      class="MuiBox-root emotion-32"
+                      class="MuiBox-root emotion-31"
                     >
                       <div
                         class="MuiBox-root emotion-11"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-34"
+                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-33"
                           data-se="signup-info"
                           id="identify_Description_Dont_have_an_account_8"
                         >
@@ -566,10 +551,10 @@ exports[`authenticator-apple-sso-extension opens the verify url with credential 
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-32"
+                      class="MuiBox-root emotion-31"
                     >
                       <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-27"
                         data-se="enroll"
                         href=""
                       >

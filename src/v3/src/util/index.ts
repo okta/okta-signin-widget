@@ -36,6 +36,7 @@ export * from './htmlContentParserUtils';
 export * from './idpIconMap';
 export * from './idxUtils';
 export * from './isInteractiveElement';
+export * from './isLtrField';
 export * from './isPasswordRecovery';
 export * from './isPollingStep';
 export * from './languageUtils';

@@ -433,94 +433,36 @@ exports[`enroll-profile-update-required-field should render form with one requir
                     class="MuiBox-root emotion-10"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-23"
                     >
-                      <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-24"
+                      <label
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-24"
+                        data-shrink="false"
+                        for="userProfile.newAttribute"
+                        id="userProfile.newAttribute-label"
                       >
-                        <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-25"
-                          data-shrink="false"
-                          for="userProfile.newAttribute"
-                          id="userProfile.newAttribute-label"
-                        >
-                          <span>
-                            Some custom attribute
-                          </span>
-                          <p
-                            class="MuiTypography-root MuiTypography-subtitle1 emotion-26"
-                            tabindex="-1"
-                          >
-                            Optional
-                          </p>
-                        </label>
-                        <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-27"
-                          data-se="userProfile.newAttribute"
-                        >
-                          <input
-                            aria-invalid="false"
-                            aria-labelledby="userProfile.newAttribute-label"
-                            class="MuiInputBase-input emotion-28"
-                            id="userProfile.newAttribute"
-                            name="userProfile.newAttribute"
-                            type="text"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-10"
-                  >
-                    <div
-                      class="MuiBox-root emotion-1"
-                    >
-                      <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-24"
-                      >
-                        <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-25"
-                          data-shrink="false"
-                          for="userProfile.secondEmail"
-                          id="userProfile.secondEmail-label"
-                        >
-                          <span>
-                            Secondary email
-                          </span>
-                          <p
-                            class="MuiTypography-root MuiTypography-subtitle1 emotion-26"
-                            tabindex="-1"
-                          >
-                            Optional
-                          </p>
-                        </label>
+                        <span>
+                          Some custom attribute
+                        </span>
                         <p
-                          class="MuiFormHelperText-root MuiFormHelperText-sizeMedium emotion-34"
-                          id="userProfile.secondEmail-hint"
+                          class="MuiTypography-root MuiTypography-subtitle1 emotion-25"
+                          tabindex="-1"
                         >
-                          Use a second email to 
-                          <span
-                            class="strong"
-                          >
-                             recover your account 
-                          </span>
-                           in case you become locked out. This email must be verified after setup.
+                          Optional
                         </p>
-                        <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-27"
-                          data-se="userProfile.secondEmail"
-                        >
-                          <input
-                            aria-describedby="userProfile.secondEmail-hint"
-                            aria-invalid="false"
-                            aria-labelledby="userProfile.secondEmail-label"
-                            class="MuiInputBase-input emotion-28"
-                            id="userProfile.secondEmail"
-                            name="userProfile.secondEmail"
-                            type="text"
-                          />
-                        </div>
+                      </label>
+                      <div
+                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-26"
+                        data-se="userProfile.newAttribute"
+                      >
+                        <input
+                          aria-invalid="false"
+                          aria-labelledby="userProfile.newAttribute-label"
+                          class="MuiInputBase-input emotion-27"
+                          id="userProfile.newAttribute"
+                          name="userProfile.newAttribute"
+                          type="text"
+                        />
                       </div>
                     </div>
                   </div>
@@ -528,36 +470,82 @@ exports[`enroll-profile-update-required-field should render form with one requir
                     class="MuiBox-root emotion-10"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-23"
                     >
-                      <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-24"
+                      <label
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-24"
+                        data-shrink="false"
+                        for="userProfile.secondEmail"
+                        id="userProfile.secondEmail-label"
                       >
-                        <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-25"
-                          data-shrink="false"
-                          for="userProfile.newAttribute2"
-                          id="userProfile.newAttribute2-label"
+                        <span>
+                          Secondary email
+                        </span>
+                        <p
+                          class="MuiTypography-root MuiTypography-subtitle1 emotion-25"
+                          tabindex="-1"
                         >
-                          <span>
-                            Some custom attribute 2
-                          </span>
-                        </label>
-                        <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-27"
-                          data-se="userProfile.newAttribute2"
-                          required="true"
+                          Optional
+                        </p>
+                      </label>
+                      <p
+                        class="MuiFormHelperText-root MuiFormHelperText-sizeMedium emotion-32"
+                        id="userProfile.secondEmail-hint"
+                      >
+                        Use a second email to 
+                        <span
+                          class="strong"
                         >
-                          <input
-                            aria-invalid="false"
-                            aria-labelledby="userProfile.newAttribute2-label"
-                            class="MuiInputBase-input emotion-28"
-                            id="userProfile.newAttribute2"
-                            name="userProfile.newAttribute2"
-                            required=""
-                            type="text"
-                          />
-                        </div>
+                           recover your account 
+                        </span>
+                         in case you become locked out. This email must be verified after setup.
+                      </p>
+                      <div
+                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-26"
+                        data-se="userProfile.secondEmail"
+                      >
+                        <input
+                          aria-describedby="userProfile.secondEmail-hint"
+                          aria-invalid="false"
+                          aria-labelledby="userProfile.secondEmail-label"
+                          class="MuiInputBase-input emotion-27"
+                          id="userProfile.secondEmail"
+                          name="userProfile.secondEmail"
+                          type="text"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-10"
+                  >
+                    <div
+                      class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-23"
+                    >
+                      <label
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-24"
+                        data-shrink="false"
+                        for="userProfile.newAttribute2"
+                        id="userProfile.newAttribute2-label"
+                      >
+                        <span>
+                          Some custom attribute 2
+                        </span>
+                      </label>
+                      <div
+                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-26"
+                        data-se="userProfile.newAttribute2"
+                        required="true"
+                      >
+                        <input
+                          aria-invalid="false"
+                          aria-labelledby="userProfile.newAttribute2-label"
+                          class="MuiInputBase-input emotion-27"
+                          id="userProfile.newAttribute2"
+                          name="userProfile.newAttribute2"
+                          required=""
+                          type="text"
+                        />
                       </div>
                     </div>
                   </div>
@@ -565,7 +553,7 @@ exports[`enroll-profile-update-required-field should render form with one requir
                     class="MuiBox-root emotion-10"
                   >
                     <button
-                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-44"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-41"
                       data-se="save"
                       tabindex="0"
                       type="submit"
@@ -577,7 +565,7 @@ exports[`enroll-profile-update-required-field should render form with one requir
                     class="MuiBox-root emotion-10"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-46"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-43"
                       data-se="cancel"
                       href=""
                     >

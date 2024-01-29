@@ -440,7 +440,7 @@ describe('identify-with-password', () => {
     const usernameEl = await findByLabelText(/Username/) as HTMLInputElement;
     const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
 
-    expect(usernameEl.parentElement?.parentElement?.parentElement?.getAttribute('dir')).toBe('ltr');
+    expect(usernameEl.parentElement).toHaveStyle('direction: ltr');
     expect(passwordEl.parentElement?.getAttribute('dir')).toBe('ltr');
   });
 });

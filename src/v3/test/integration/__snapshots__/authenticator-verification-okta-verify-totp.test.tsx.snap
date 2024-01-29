@@ -130,38 +130,34 @@ exports[`authenticator-verification-okta-verify-totp should have autocomplete at
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-21"
                     >
-                      <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-22"
+                      <label
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-22"
+                        data-shrink="false"
+                        for="credentials.totp"
+                        id="credentials.totp-label"
                       >
-                        <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-23"
-                          data-shrink="false"
-                          for="credentials.totp"
-                          id="credentials.totp-label"
-                        >
-                          <span>
-                            Enter code from Okta Verify app
-                          </span>
-                        </label>
-                        <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-24"
-                          data-se="credentials.totp"
-                          inputmode="numeric"
-                          required="true"
-                        >
-                          <input
-                            aria-invalid="false"
-                            aria-labelledby="credentials.totp-label"
-                            autocomplete="one-time-code"
-                            class="MuiInputBase-input emotion-25"
-                            id="credentials.totp"
-                            name="credentials.totp"
-                            required=""
-                            type="text"
-                          />
-                        </div>
+                        <span>
+                          Enter code from Okta Verify app
+                        </span>
+                      </label>
+                      <div
+                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-23"
+                        data-se="credentials.totp"
+                        inputmode="numeric"
+                        required="true"
+                      >
+                        <input
+                          aria-invalid="false"
+                          aria-labelledby="credentials.totp-label"
+                          autocomplete="one-time-code"
+                          class="MuiInputBase-input emotion-24"
+                          id="credentials.totp"
+                          name="credentials.totp"
+                          required=""
+                          type="text"
+                        />
                       </div>
                     </div>
                   </div>
@@ -169,7 +165,7 @@ exports[`authenticator-verification-okta-verify-totp should have autocomplete at
                     class="MuiBox-root emotion-11"
                   >
                     <button
-                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-27"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-26"
                       data-se="save"
                       tabindex="0"
                       type="submit"
@@ -181,7 +177,7 @@ exports[`authenticator-verification-okta-verify-totp should have autocomplete at
                     class="MuiBox-root emotion-11"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
                       data-se="switchAuthenticator"
                       href=""
                     >
@@ -192,7 +188,7 @@ exports[`authenticator-verification-okta-verify-totp should have autocomplete at
                     class="MuiBox-root emotion-11"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
                       data-se="cancel"
                       href=""
                     >
@@ -340,38 +336,34 @@ exports[`authenticator-verification-okta-verify-totp should render form 1`] = `
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-21"
                     >
-                      <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-22"
+                      <label
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-22"
+                        data-shrink="false"
+                        for="credentials.totp"
+                        id="credentials.totp-label"
                       >
-                        <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-23"
-                          data-shrink="false"
-                          for="credentials.totp"
-                          id="credentials.totp-label"
-                        >
-                          <span>
-                            Enter code from Okta Verify app
-                          </span>
-                        </label>
-                        <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-24"
-                          data-se="credentials.totp"
-                          inputmode="numeric"
-                          required="true"
-                        >
-                          <input
-                            aria-invalid="false"
-                            aria-labelledby="credentials.totp-label"
-                            autocomplete="off"
-                            class="MuiInputBase-input emotion-25"
-                            id="credentials.totp"
-                            name="credentials.totp"
-                            required=""
-                            type="text"
-                          />
-                        </div>
+                        <span>
+                          Enter code from Okta Verify app
+                        </span>
+                      </label>
+                      <div
+                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-23"
+                        data-se="credentials.totp"
+                        inputmode="numeric"
+                        required="true"
+                      >
+                        <input
+                          aria-invalid="false"
+                          aria-labelledby="credentials.totp-label"
+                          autocomplete="off"
+                          class="MuiInputBase-input emotion-24"
+                          id="credentials.totp"
+                          name="credentials.totp"
+                          required=""
+                          type="text"
+                        />
                       </div>
                     </div>
                   </div>
@@ -379,7 +371,7 @@ exports[`authenticator-verification-okta-verify-totp should render form 1`] = `
                     class="MuiBox-root emotion-11"
                   >
                     <button
-                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-27"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-26"
                       data-se="save"
                       tabindex="0"
                       type="submit"
@@ -391,7 +383,7 @@ exports[`authenticator-verification-okta-verify-totp should render form 1`] = `
                     class="MuiBox-root emotion-11"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
                       data-se="switchAuthenticator"
                       href=""
                     >
@@ -402,7 +394,7 @@ exports[`authenticator-verification-okta-verify-totp should render form 1`] = `
                     class="MuiBox-root emotion-11"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-28"
                       data-se="cancel"
                       href=""
                     >
