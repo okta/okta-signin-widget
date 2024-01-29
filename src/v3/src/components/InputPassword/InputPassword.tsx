@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box } from '@mui/material';
 import { PasswordField } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 import { buildFieldLevelErrorMessages } from 'src/util/buildFieldLevelErrorMessages';
@@ -50,7 +49,6 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
     focus,
     parserOptions,
     noTranslate,
-    dir,
   } = uischema;
   const {
     attributes,
@@ -65,31 +63,29 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
   const { errorMessage, errorMessageList } = buildFieldLevelErrorMessages(errors);
 
   return (
-    <Box dir={dir}>
-      <PasswordField
-        autoCompleteType={autocomplete as PasswordAutoCompleteValue}
-        errorMessage={errorMessage}
-        errorMessageList={errorMessageList}
-        hasShowPassword={showPasswordToggleOnSignInPage}
-        hint={hint ?? parsedExplainContent as string}
-        id={name}
-        inputFocusRef={focusRef}
-        isDisabled={loading}
-        isFullWidth
-        isOptional={!required}
-        name={name}
-        label={label ?? ''}
-        onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-          handleChange?.(e.currentTarget.value);
-        }}
-        onBlur={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-          handleBlur?.(e?.currentTarget?.value);
-        }}
-        testId={name}
-        translate={noTranslate ? 'no' : undefined}
-        value={value as string | undefined}
-      />
-    </Box>
+    <PasswordField
+      autoCompleteType={autocomplete as PasswordAutoCompleteValue}
+      errorMessage={errorMessage}
+      errorMessageList={errorMessageList}
+      hasShowPassword={showPasswordToggleOnSignInPage}
+      hint={hint ?? parsedExplainContent as string}
+      id={name}
+      inputFocusRef={focusRef}
+      isDisabled={loading}
+      isFullWidth
+      isOptional={!required}
+      name={name}
+      label={label ?? ''}
+      onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        handleChange?.(e.currentTarget.value);
+      }}
+      onBlur={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        handleBlur?.(e?.currentTarget?.value);
+      }}
+      testId={name}
+      translate={noTranslate ? 'no' : undefined}
+      value={value as string | undefined}
+    />
   );
 };
 

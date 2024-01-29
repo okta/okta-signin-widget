@@ -16,11 +16,11 @@ import {
 } from '@adobe/leonardo-contrast-colors';
 import * as Tokens from '@okta/odyssey-design-tokens';
 import { createOdysseyMuiTheme, DesignTokensOverride, ThemeOptions } from '@okta/odyssey-react-mui';
-import { ltrOnlyFieldNames } from 'src/transformer/uischema/setLtrFields';
 
 import { BrandColors } from '../types';
 import { isLtrField } from '.';
 import { mergeThemes } from './mergeThemes';
+import { isLtrField } from '.';
 
 const WHITE_HEX = '#ffffff';
 // Odyssey-defined contrast ratios for their WCAG-friendly palettes
@@ -174,7 +174,11 @@ export const createThemeAndTokens = (
             // https://github.com/philipwalton/flexbugs?tab=readme-ov-file#flexbug-7
             flex: 'auto',
             ...(ownerState.name && isLtrField(ownerState.name) && {
+<<<<<<< HEAD
               direction: 'ltr',
+=======
+              direction: "ltr"
+>>>>>>> 75163cd01 (Changing LTR behavior)
             }),
           }),
           input: {
@@ -185,7 +189,7 @@ export const createThemeAndTokens = (
           adornedEnd: ({ ownerState }) => ({
             // Explicitly switch to physical properties for password toggle icon since
             // IE11 stylis plugin cannot handle nested logical properties
-            ...(ownerState.id && ltrOnlyFieldNames.includes(ownerState.id) && {
+            ...(ownerState.name && isLtrField(ownerState.name) && {
               '& .MuiInputAdornment-root': {
                 marginRight: mergedTokens.Spacing2,
               },
