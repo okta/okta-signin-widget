@@ -23,6 +23,7 @@ const Image: FunctionComponent<ImageProps> = ({
   maxWidth,
   maxHeight,
   testId,
+  ariaHidden,
 }) => {
   return (
     <Box
@@ -36,6 +37,7 @@ const Image: FunctionComponent<ImageProps> = ({
         maxBlockSize: maxHeight,
       }}
       data-se={testId}
+      aria-hidden={ariaHidden}
     />
   );
 };

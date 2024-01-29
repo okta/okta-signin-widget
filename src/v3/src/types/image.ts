@@ -10,8 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-// import { SxProps } from '@mui/material';
-
 export type ImageProps = {
   src?: string;
   alt?: string;
@@ -20,5 +18,5 @@ export type ImageProps = {
   maxWidth?: string | number;
   maxHeight?: string | number;
   testId?: string;
-  // sx?: SxProps;
+  ariaHidden?: boolean;
 };

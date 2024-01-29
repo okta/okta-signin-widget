@@ -22,6 +22,7 @@ import {
   UISchemaElementComponent,
 } from '../../types';
 import Spinner from '../Spinner';
+import Image from '../Image';
 
 const Button: UISchemaElementComponent<{
   uischema: ButtonElement
@@ -56,11 +57,10 @@ const Button: UISchemaElementComponent<{
   } = uischema;
 
   const ButtonImageIcon = typeof Icon === 'string' ? (
-    <Box
-      component="img"
+    <Image
       src={Icon}
       alt={iconAlt}
-      aria-hidden
+      ariaHidden
     />
   ) : Icon && (<Icon />);
 
