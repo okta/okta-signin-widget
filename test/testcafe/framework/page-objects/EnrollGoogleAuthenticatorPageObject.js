@@ -40,7 +40,7 @@ export default class EnrollGoogleAuthenticatorPageObject extends BasePageObject 
 
   hasQRcode() {
     if (userVariables.gen3) {
-      return this.form.elementExist('.qrImg');
+      return this.form.elementExist('[data-se="qrImg"]');
     }
     return this.form.elementExist('.qrcode');
   }
