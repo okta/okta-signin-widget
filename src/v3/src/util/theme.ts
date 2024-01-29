@@ -18,9 +18,13 @@ import * as Tokens from '@okta/odyssey-design-tokens';
 import { createOdysseyMuiTheme, DesignTokensOverride, ThemeOptions } from '@okta/odyssey-react-mui';
 
 import { BrandColors } from '../types';
+<<<<<<< HEAD
 import { isLtrField } from '.';
 import { mergeThemes } from './mergeThemes';
+=======
+>>>>>>> 81f82428c (Lint fixes)
 import { isLtrField } from '.';
+import { mergeThemes } from './mergeThemes';
 
 const WHITE_HEX = '#ffffff';
 // Odyssey-defined contrast ratios for their WCAG-friendly palettes
@@ -175,10 +179,14 @@ export const createThemeAndTokens = (
             flex: 'auto',
             ...(ownerState.name && isLtrField(ownerState.name) && {
 <<<<<<< HEAD
+<<<<<<< HEAD
               direction: 'ltr',
 =======
               direction: "ltr"
 >>>>>>> 75163cd01 (Changing LTR behavior)
+=======
+              direction: 'ltr',
+>>>>>>> 81f82428c (Lint fixes)
             }),
           }),
           input: {

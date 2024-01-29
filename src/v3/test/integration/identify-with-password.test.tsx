@@ -433,7 +433,11 @@ describe('identify-with-password', () => {
     expect(passwordEl.parentElement).toHaveStyle('direction: ltr');
 =======
     expect(usernameEl.parentElement?.getAttribute('dir')).toBe('ltr');
+<<<<<<< HEAD
     expect(passwordEl.parentElement).toHaveStyle('direction: ltr')
 >>>>>>> 75163cd01 (Changing LTR behavior)
+=======
+    expect(passwordEl.parentElement).toHaveStyle('direction: ltr');
+>>>>>>> 81f82428c (Lint fixes)
   });
 });

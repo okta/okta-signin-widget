@@ -41,8 +41,8 @@ describe('authenticator-reset-password', () => {
     const newPasswordEle = await findByLabelText('New password') as HTMLInputElement;
     const confirmPasswordEle = await findByLabelText(/Re-enter password/) as HTMLInputElement;
 
-    expect(newPasswordEle.parentElement).toHaveStyle('direction: ltr')
-    expect(confirmPasswordEle.parentElement).toHaveStyle('direction: ltr')
+    expect(newPasswordEle.parentElement).toHaveStyle('direction: ltr');
+    expect(confirmPasswordEle.parentElement).toHaveStyle('direction: ltr');
   });
 
   it('should send correct payload', async () => {
