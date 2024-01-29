@@ -43,6 +43,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
     dataSchemaRef,
     loading,
     widgetProps,
+    languageDirection,
   } = useWidgetContext();
   const {
     translations = [],
@@ -91,13 +92,13 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
 
   const validate = useCallback((dataBag: FormBag['data']) => {
     const fullPhoneNumber = dataBag[fieldName];
-    const errorMessage: IdxMessage = {
+    const blankFieldErrorMessage: IdxMessage = {
       class: 'ERROR',
       message: '',
       i18n: { key: 'model.validation.field.blank' },
     };
     const isValid = !!fullPhoneNumber && !!phone;
-    return isValid ? undefined : [errorMessage];
+    return isValid ? undefined : [blankFieldErrorMessage];
   }, [phone, fieldName]);
 
   useEffect(() => {
@@ -175,11 +176,13 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
       <Box
         display="flex"
         flexWrap="wrap"
-        dir="ltr"
+        flexDirection={languageDirection === 'rtl' ? 'row-reverse' : 'row'}
       >
         <Box
           width={showExtension ? 0.7 : 1}
-          marginRight={showExtension ? tokens.Spacing2 : tokens.Spacing0}
+          sx={{
+            marginRight: showExtension ? tokens.Spacing2 : tokens.Spacing0,
+          }}
         >
           <TextField
             autoCompleteType={autocomplete}
@@ -201,7 +204,14 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
               setPhone(e.currentTarget.value);
               setPhoneChanged(true);
             }}
-            startAdornment={<Box component="span" translate="no">{phoneCode}</Box>}
+            startAdornment={(
+              <Box
+                component="span"
+                translate="no"
+              >
+                {phoneCode}
+              </Box>
+)}
             testId={fieldName}
             type="tel"
           />
