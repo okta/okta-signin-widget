@@ -16,6 +16,7 @@ import { h } from 'preact';
 
 import { QRCodeElement, UISchemaElementComponent } from '../../types';
 import { getTranslation } from '../../util';
+import Image from '../Image';
 
 const QRCode: UISchemaElementComponent<{
   uischema: QRCodeElement
@@ -40,19 +41,23 @@ const QRCode: UISchemaElementComponent<{
       }}
     >
       <Box
-        as="img"
-        className="qrImg"
         sx={{
-          width: '224px',
-          height: '224px',
+          display: 'flex',
+          overflow: 'hidden',
           borderWidth: tokens.BorderWidthMain,
           borderStyle: tokens.BorderStyleMain,
           borderColor: tokens.BorderColorDisplay,
           borderRadius: tokens.BorderRadiusMain,
         }}
-        src={data}
-        alt={label}
-      />
+      >
+        <Image
+          src={data}
+          alt={label}
+          width="224px"
+          height="224px"
+          testId="qrImg"
+        />
+      </Box>
     </Box>
   );
 };

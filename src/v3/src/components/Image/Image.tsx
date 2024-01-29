@@ -10,9 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-// import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { Box } from '@okta/odyssey-react-mui-legacy';
-// import classNames from 'classnames';
 import { FunctionComponent, h } from 'preact';
 
 import { ImageProps } from '../../types';
@@ -22,10 +20,10 @@ const Image: FunctionComponent<ImageProps> = ({
   alt,
   width,
   height,
+  maxWidth,
+  maxHeight,
   testId,
 }) => {
-  // const tokens = useOdysseyDesignTokens();
-
   return (
     <Box
       as="img"
@@ -34,6 +32,8 @@ const Image: FunctionComponent<ImageProps> = ({
       sx={{
         width,
         height,
+        maxInlineSize: maxWidth,
+        maxBlockSize: maxHeight,
       }}
       data-se={testId}
     />
