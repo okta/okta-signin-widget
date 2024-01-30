@@ -202,12 +202,12 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                         
                       </legend>
                       <div
-                        aria-labelledby="pzfyy3-label"
+                        aria-labelledby="rememberMe-label"
                         class="MuiFormGroup-root emotion-36"
+                        id="rememberMe"
                       >
                         <label
                           class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-37"
-                          data-se="rememberMe"
                           id="rememberMe"
                         >
                           <span
@@ -216,6 +216,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                             <input
                               class="PrivateSwitchBase-input emotion-39"
                               data-indeterminate="false"
+                              data-se="rememberMe"
                               name="rememberMe"
                               type="checkbox"
                             />
@@ -524,12 +525,12 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                         
                       </legend>
                       <div
-                        aria-labelledby="jqcvhj-label"
+                        aria-labelledby="rememberMe-label"
                         class="MuiFormGroup-root emotion-36"
+                        id="rememberMe"
                       >
                         <label
                           class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-37"
-                          data-se="rememberMe"
                           id="rememberMe"
                         >
                           <span
@@ -538,6 +539,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                             <input
                               class="PrivateSwitchBase-input emotion-39"
                               data-indeterminate="false"
+                              data-se="rememberMe"
                               name="rememberMe"
                               type="checkbox"
                             />
@@ -811,12 +813,12 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                         
                       </legend>
                       <div
-                        aria-labelledby="q9xnzb-label"
+                        aria-labelledby="rememberMe-label"
                         class="MuiFormGroup-root emotion-29"
+                        id="rememberMe"
                       >
                         <label
                           class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-30"
-                          data-se="rememberMe"
                           id="rememberMe"
                         >
                           <span
@@ -825,6 +827,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                             <input
                               class="PrivateSwitchBase-input emotion-32"
                               data-indeterminate="false"
+                              data-se="rememberMe"
                               name="rememberMe"
                               type="checkbox"
                             />

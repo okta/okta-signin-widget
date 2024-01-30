@@ -143,12 +143,12 @@ exports[`authenticator-verification-okta-verify-push should render polling form 
                         
                       </legend>
                       <div
-                        aria-labelledby="g68lge-label"
+                        aria-labelledby="autoChallenge-label"
                         class="MuiFormGroup-root emotion-24"
+                        id="autoChallenge"
                       >
                         <label
                           class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-25"
-                          data-se="autoChallenge"
                           id="autoChallenge"
                         >
                           <span
@@ -157,6 +157,7 @@ exports[`authenticator-verification-okta-verify-push should render polling form 
                             <input
                               class="PrivateSwitchBase-input emotion-27"
                               data-indeterminate="false"
+                              data-se="autoChallenge"
                               name="autoChallenge"
                               type="checkbox"
                             />

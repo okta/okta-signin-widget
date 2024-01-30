@@ -134,12 +134,12 @@ exports[`admin-consent should render form with logo 1`] = `
                         
                       </legend>
                       <div
-                        aria-labelledby="og4he7-label"
+                        aria-labelledby="consent.scopes.okta.clients.manage-label"
                         class="MuiFormGroup-root emotion-29"
+                        id="consent.scopes.okta.clients.manage"
                       >
                         <label
                           class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-30"
-                          data-se="consent.scopes.okta.clients.manage"
                           id="consent.scopes.okta.clients.manage"
                         >
                           <span
@@ -150,6 +150,7 @@ exports[`admin-consent should render form with logo 1`] = `
                             <input
                               class="PrivateSwitchBase-input emotion-32"
                               data-indeterminate="false"
+                              data-se="consent.scopes.okta.clients.manage"
                               disabled=""
                               name="consent.scopes.okta.clients.manage"
                               type="checkbox"
@@ -202,12 +203,12 @@ exports[`admin-consent should render form with logo 1`] = `
                         
                       </legend>
                       <div
-                        aria-labelledby="ki231r-label"
+                        aria-labelledby="consent.scopes.okta.authenticators.manage-label"
                         class="MuiFormGroup-root emotion-29"
+                        id="consent.scopes.okta.authenticators.manage"
                       >
                         <label
                           class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-30"
-                          data-se="consent.scopes.okta.authenticators.manage"
                           id="consent.scopes.okta.authenticators.manage"
                         >
                           <span
@@ -218,6 +219,7 @@ exports[`admin-consent should render form with logo 1`] = `
                             <input
                               class="PrivateSwitchBase-input emotion-32"
                               data-indeterminate="false"
+                              data-se="consent.scopes.okta.authenticators.manage"
                               disabled=""
                               name="consent.scopes.okta.authenticators.manage"
                               type="checkbox"

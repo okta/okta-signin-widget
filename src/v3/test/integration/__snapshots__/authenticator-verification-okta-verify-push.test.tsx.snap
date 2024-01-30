@@ -140,12 +140,12 @@ exports[`authenticator-verification-okta-verify-push should render form 1`] = `
                         
                       </legend>
                       <div
-                        aria-labelledby="xqzj2l-label"
+                        aria-labelledby="authenticator.autoChallenge-label"
                         class="MuiFormGroup-root emotion-23"
+                        id="authenticator.autoChallenge"
                       >
                         <label
                           class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-24"
-                          data-se="authenticator.autoChallenge"
                           id="authenticator.autoChallenge"
                         >
                           <span
@@ -154,6 +154,7 @@ exports[`authenticator-verification-okta-verify-push should render form 1`] = `
                             <input
                               class="PrivateSwitchBase-input emotion-26"
                               data-indeterminate="false"
+                              data-se="authenticator.autoChallenge"
                               name="authenticator.autoChallenge"
                               type="checkbox"
                             />

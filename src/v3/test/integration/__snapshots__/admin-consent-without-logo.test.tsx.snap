@@ -114,12 +114,12 @@ exports[`admin-consent-without-logo should render form without logo 1`] = `
                         
                       </legend>
                       <div
-                        aria-labelledby="zpyod1-label"
+                        aria-labelledby="consent.scopes.okta.clients.manage-label"
                         class="MuiFormGroup-root emotion-26"
+                        id="consent.scopes.okta.clients.manage"
                       >
                         <label
                           class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-27"
-                          data-se="consent.scopes.okta.clients.manage"
                           id="consent.scopes.okta.clients.manage"
                         >
                           <span
@@ -130,6 +130,7 @@ exports[`admin-consent-without-logo should render form without logo 1`] = `
                             <input
                               class="PrivateSwitchBase-input emotion-29"
                               data-indeterminate="false"
+                              data-se="consent.scopes.okta.clients.manage"
                               disabled=""
                               name="consent.scopes.okta.clients.manage"
                               type="checkbox"
@@ -182,12 +183,12 @@ exports[`admin-consent-without-logo should render form without logo 1`] = `
                         
                       </legend>
                       <div
-                        aria-labelledby="0gh4lv-label"
+                        aria-labelledby="consent.scopes.okta.authenticators.manage-label"
                         class="MuiFormGroup-root emotion-26"
+                        id="consent.scopes.okta.authenticators.manage"
                       >
                         <label
                           class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-27"
-                          data-se="consent.scopes.okta.authenticators.manage"
                           id="consent.scopes.okta.authenticators.manage"
                         >
                           <span
@@ -198,6 +199,7 @@ exports[`admin-consent-without-logo should render form without logo 1`] = `
                             <input
                               class="PrivateSwitchBase-input emotion-29"
                               data-indeterminate="false"
+                              data-se="consent.scopes.okta.authenticators.manage"
                               disabled=""
                               name="consent.scopes.okta.authenticators.manage"
                               type="checkbox"

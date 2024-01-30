@@ -53,12 +53,13 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
     <CheckboxGroup
       errorMessage={errorMessage}
       errorMessageList={errorMessageList}
+      id={name}
       label=""
     >
       <OdyCheckbox
         hint={description}
         id={name}
-        inputFocusRef={focusRef}
+        inputRef={focusRef}
         isChecked={value === true}
         isDisabled={loading || isReadOnly}
         label={label}

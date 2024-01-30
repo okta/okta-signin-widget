@@ -198,12 +198,12 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                         
                       </legend>
                       <div
-                        aria-labelledby="zmaq4o-label"
+                        aria-labelledby="autoChallenge-label"
                         class="MuiFormGroup-root emotion-33"
+                        id="autoChallenge"
                       >
                         <label
                           class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-34"
-                          data-se="autoChallenge"
                           id="autoChallenge"
                         >
                           <span
@@ -212,6 +212,7 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                             <input
                               class="PrivateSwitchBase-input emotion-36"
                               data-indeterminate="false"
+                              data-se="autoChallenge"
                               name="autoChallenge"
                               type="checkbox"
                             />
@@ -473,12 +474,12 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                         
                       </legend>
                       <div
-                        aria-labelledby="23spw9-label"
+                        aria-labelledby="autoChallenge-label"
                         class="MuiFormGroup-root emotion-24"
+                        id="autoChallenge"
                       >
                         <label
                           class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-25"
-                          data-se="autoChallenge"
                           id="autoChallenge"
                         >
                           <span
@@ -487,6 +488,7 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                             <input
                               class="PrivateSwitchBase-input emotion-27"
                               data-indeterminate="false"
+                              data-se="autoChallenge"
                               name="autoChallenge"
                               type="checkbox"
                             />
