@@ -48,7 +48,7 @@ const StepperLink: UISchemaElementComponent<{
     <Link
       href=""
       onClick={handleClick}
-      linkFocusRef={focusRef}
+      linkRef={focusRef}
       testId={dataSe}
     >
       {label}
