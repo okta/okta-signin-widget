@@ -209,8 +209,10 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
                         class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded emotion-30"
                       >
                         <div
+                          aria-controls="cant-verify-content"
                           aria-expanded="false"
                           class="MuiButtonBase-root MuiAccordionSummary-root emotion-31"
+                          id="cant-verify-header"
                           role="button"
                           tabindex="0"
                         >
@@ -255,10 +257,13 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
                               class="MuiCollapse-wrapperInner MuiCollapse-vertical emotion-38"
                             >
                               <div
+                                aria-labelledby="cant-verify-header"
                                 class="MuiAccordion-region"
+                                id="cant-verify-content"
                                 role="region"
                               >
                                 <div
+                                  aria-labelledby="cant-verify-header"
                                   class="MuiAccordionDetails-root emotion-39"
                                 >
                                   <div

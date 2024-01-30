@@ -64,7 +64,7 @@ const Link: UISchemaElementComponent<{
       <OdyLink
         href=""
         onClick={onClick}
-        linkFocusRef={focusRef}
+        linkRef={focusRef}
         testId={dataSe}
       >
         {label}
@@ -73,7 +73,7 @@ const Link: UISchemaElementComponent<{
       : (
         <OdyLink
           href={href}
-          linkFocusRef={focusRef}
+          linkRef={focusRef}
           testId={dataSe}
           target={target}
           // eslint-disable-next-line react/jsx-props-no-spreading

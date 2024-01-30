@@ -51,7 +51,7 @@ const StepperButton: UISchemaElementComponent<{
       variant={variant ?? 'primary'}
       type={type ?? 'button'}
       isFullWidth
-      buttonFocusRef={focusRef}
+      buttonRef={focusRef}
       startIcon={loading && <Spinner />}
       ariaDescribedBy={ariaDescribedBy}
       label={label}
