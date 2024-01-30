@@ -38,6 +38,7 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
     translations = [],
   } = uischema;
   const isReadOnly = mutable === false;
+  const checkboxId = `${name}-checkbox`;
   const labelInfo = getTranslationInfo(translations, 'label');
   const label = useHtmlContentParser(labelInfo?.noTranslate
     ? wrapInTranslateNo(labelInfo.value)
@@ -58,7 +59,7 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
     >
       <OdyCheckbox
         hint={description}
-        id={name}
+        id={checkboxId}
         inputRef={focusRef}
         isChecked={value === true}
         isDisabled={loading || isReadOnly}

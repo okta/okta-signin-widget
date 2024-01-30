@@ -146,7 +146,7 @@ exports[`authenticator-verification-okta-verify-push should render form 1`] = `
                       >
                         <label
                           class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-24"
-                          id="authenticator.autoChallenge"
+                          id="authenticator.autoChallenge-checkbox"
                         >
                           <span
                             class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-25"

@@ -110,7 +110,7 @@ exports[`authenticator-apple-sso-extension calls verify then cancels the transac
                       >
                         <label
                           class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-22"
-                          id="rememberMe"
+                          id="rememberMe-checkbox"
                         >
                           <span
                             class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-23"
@@ -313,7 +313,7 @@ exports[`authenticator-apple-sso-extension cancels the transaction when sso exte
                       >
                         <label
                           class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-22"
-                          id="rememberMe"
+                          id="rememberMe-checkbox"
                         >
                           <span
                             class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-23"
@@ -516,7 +516,7 @@ exports[`authenticator-apple-sso-extension opens the verify url with credential 
                       >
                         <label
                           class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-22"
-                          id="rememberMe"
+                          id="rememberMe-checkbox"
                         >
                           <span
                             class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-23"

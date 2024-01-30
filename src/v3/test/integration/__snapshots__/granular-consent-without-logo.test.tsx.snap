@@ -138,7 +138,7 @@ exports[`granular-consent-without-logo should render form 1`] = `
                       >
                         <label
                           class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-27"
-                          id="optedScopes.custom1"
+                          id="optedScopes.custom1-checkbox"
                         >
                           <span
                             class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-checked MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-28"
@@ -208,7 +208,7 @@ exports[`granular-consent-without-logo should render form 1`] = `
                       >
                         <label
                           class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-27"
-                          id="optedScopes.custom2"
+                          id="optedScopes.custom2-checkbox"
                         >
                           <span
                             class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-checked MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-28"
@@ -269,7 +269,7 @@ exports[`granular-consent-without-logo should render form 1`] = `
                       >
                         <label
                           class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-27"
-                          id="optedScopes.custom3.custom4.custom5"
+                          id="optedScopes.custom3.custom4.custom5-checkbox"
                         >
                           <span
                             class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-checked MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-28"
@@ -339,7 +339,7 @@ exports[`granular-consent-without-logo should render form 1`] = `
                       >
                         <label
                           class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-27"
-                          id="optedScopes.email"
+                          id="optedScopes.email-checkbox"
                         >
                           <span
                             class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-checked MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-28"
@@ -401,7 +401,7 @@ exports[`granular-consent-without-logo should render form 1`] = `
                       >
                         <label
                           class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-27"
-                          id="optedScopes.openid"
+                          id="optedScopes.openid-checkbox"
                         >
                           <span
                             aria-disabled="true"
@@ -474,7 +474,7 @@ exports[`granular-consent-without-logo should render form 1`] = `
                       >
                         <label
                           class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-27"
-                          id="optedScopes.profile"
+                          id="optedScopes.profile-checkbox"
                         >
                           <span
                             aria-disabled="true"

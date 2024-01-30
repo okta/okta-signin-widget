@@ -120,7 +120,7 @@ exports[`admin-consent-without-logo should render form without logo 1`] = `
                       >
                         <label
                           class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-27"
-                          id="consent.scopes.okta.clients.manage"
+                          id="consent.scopes.okta.clients.manage-checkbox"
                         >
                           <span
                             aria-disabled="true"
@@ -189,7 +189,7 @@ exports[`admin-consent-without-logo should render form without logo 1`] = `
                       >
                         <label
                           class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-27"
-                          id="consent.scopes.okta.authenticators.manage"
+                          id="consent.scopes.okta.authenticators.manage-checkbox"
                         >
                           <span
                             aria-disabled="true"
