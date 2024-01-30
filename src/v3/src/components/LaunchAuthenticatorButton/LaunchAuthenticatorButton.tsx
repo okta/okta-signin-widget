@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Button as OdyButton } from '@okta/odyssey-react-mui';
+import { Button as OdyButton, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 
 import Util from '../../../../util/Util';
@@ -30,6 +30,7 @@ import { OktaVerifyIcon } from '../Icon';
 const LaunchAuthenticatorButton: UISchemaElementComponent<{
   uischema: LaunchAuthenticatorButtonElement
 }> = ({ uischema }) => {
+  const tokens = useOdysseyDesignTokens();
   const onSubmitHandler = useOnSubmit();
   const {
     translations = [],
@@ -87,8 +88,8 @@ const LaunchAuthenticatorButton: UISchemaElementComponent<{
         <OktaVerifyIcon
           name="mfa-okta-verify"
           description={iconDescription}
-          width={24}
-          height={24}
+          width={tokens.Spacing5}
+          height={tokens.Spacing5}
         />
       )}
     />

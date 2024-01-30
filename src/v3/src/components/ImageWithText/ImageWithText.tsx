@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { Box, Typography } from '@okta/odyssey-react-mui-legacy';
 import { h } from 'preact';
 import { ImageWithTextElement, UISchemaElementComponent } from 'src/types';
@@ -17,6 +18,7 @@ import { ImageWithTextElement, UISchemaElementComponent } from 'src/types';
 const ImageWithText: UISchemaElementComponent<{
   uischema: ImageWithTextElement
 }> = ({ uischema }) => {
+  const tokens = useOdysseyDesignTokens();
   const Icon = uischema.options.SVGIcon;
   const { noTranslate } = uischema;
   const { textContent, alignment = 'flex-start' } = uischema.options;
@@ -30,8 +32,9 @@ const ImageWithText: UISchemaElementComponent<{
       flexWrap="wrap"
     >
       <Box
-        marginInlineEnd={2}
+        marginInlineEnd={textContent ? tokens.Spacing2 : tokens.Spacing0}
         data-se={`icon-${uischema.options.id}`}
+        display="flex"
       >
         <Icon />
       </Box>

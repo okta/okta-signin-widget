@@ -185,10 +185,10 @@ exports[`authenticator-enroll-yubikey-otp renders form 1`] = `
                         <svg
                           aria-hidden="true"
                           fill="none"
-                          height="58"
+                          height="4rem"
                           role="img"
                           viewBox="0 0 43 58"
-                          width="43"
+                          width="4rem"
                           xmlns="http://www.w3.org/2000/svg"
                         >
                           <title>
