@@ -36,15 +36,6 @@ Object {
         },
         "type": "LaunchAuthenticatorButton",
       },
-      Object {
-        "contentType": "footer",
-        "options": Object {
-          "isActionStep": true,
-          "label": "goback",
-          "step": "cancel",
-        },
-        "type": "Link",
-      },
     ],
     "type": "VerticalLayout",
   },

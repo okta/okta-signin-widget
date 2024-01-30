@@ -37,7 +37,6 @@ import {
   getBaseUrl,
   isOauth2Enabled,
   loc,
-  removeUserAuthenticatedCookie,
   SessionStorage,
   shouldShowCancelLink,
 } from '../../util';
@@ -172,7 +171,6 @@ export const transformTerminalTransaction = (
   if (containsMessageKey(TERMINAL_KEY.SESSION_EXPIRED, messages)) {
     authClient?.transactionManager.clear();
     SessionStorage.removeStateHandle();
-    removeUserAuthenticatedCookie();
   }
 
   const formBag: FormBag = createForm();

@@ -15,7 +15,7 @@ import {
 } from 'preact/hooks';
 
 import { WidgetProps } from '../types';
-import { isOauth2Enabled, removeUserAuthenticatedCookie, SessionStorage } from '../util';
+import { isOauth2Enabled, SessionStorage } from '../util';
 
 export const useStateHandle = (widgetProps: WidgetProps) => {
   const { overrideExistingStateToken, stateToken } = widgetProps;
@@ -25,11 +25,9 @@ export const useStateHandle = (widgetProps: WidgetProps) => {
     // so clear stored token to use the latest token.
     if (SessionStorage.getLastInitiatedLoginUrl() !== window.location.href) {
       SessionStorage.removeStateHandle();
-      removeUserAuthenticatedCookie();
     }
     if (overrideExistingStateToken) {
       SessionStorage.removeStateHandle();
-      removeUserAuthenticatedCookie();
     }
     return SessionStorage.getStateHandle();
   };
@@ -39,7 +37,6 @@ export const useStateHandle = (widgetProps: WidgetProps) => {
   const unsetStateHandle = useCallback(() => {
     SessionStorage.removeStateHandle();
     setSessionStateHandle(null);
-    removeUserAuthenticatedCookie();
   }, [setSessionStateHandle]);
 
   useEffect(() => {

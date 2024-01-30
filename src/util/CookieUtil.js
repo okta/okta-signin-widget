@@ -13,16 +13,11 @@
 import { internal } from '@okta/courage';
 const Cookie = internal.util.Cookie;
 const LAST_USERNAME_COOKIE_NAME = 'ln';
-const USER_AUTHENTICATED_COOKIE_NAME = 'isuauth';
 const DAYS_SAVE_REMEMBER = 365;
 const fn = {};
 
 fn.getCookieUsername = function() {
   return Cookie.getCookie(LAST_USERNAME_COOKIE_NAME);
-};
-
-fn.getCookieUserAuthenticated = function() {
-  return Cookie.getCookie(USER_AUTHENTICATED_COOKIE_NAME);
 };
 
 fn.setUsernameCookie = function(username) {
@@ -32,20 +27,8 @@ fn.setUsernameCookie = function(username) {
   });
 };
 
-fn.setCookieUserAuthenticated = function() {
-  Cookie.setCookie(USER_AUTHENTICATED_COOKIE_NAME, '1', {
-    expires: 1,
-    path: '/',
-  });
-};
-
 fn.removeUsernameCookie = function() {
   Cookie.removeCookie(LAST_USERNAME_COOKIE_NAME, { path: '/' });
-};
-
-fn.removeUserCookies = function() {
-  Cookie.removeCookie(LAST_USERNAME_COOKIE_NAME, { path: '/' });
-  Cookie.removeCookie(USER_AUTHENTICATED_COOKIE_NAME, { path: '/' });
 };
 
 export default fn;
