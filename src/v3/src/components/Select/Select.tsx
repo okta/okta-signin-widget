@@ -39,6 +39,7 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
   const { errorMessage, errorMessageList } = buildFieldLevelErrorMessages(errors);
 
   const {
+    attributes,
     inputMeta: {
       name,
       options,
@@ -46,6 +47,7 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
     },
     customOptions,
   } = uischema.options;
+  const { autocomplete } = attributes || {};
   const focusRef = useAutoFocus<HTMLSelectElement>(focus);
 
   const getOptions = (): IdxOption[] | undefined => {
@@ -63,11 +65,12 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
 
   return (
     <NativeSelect
+      autoCompleteType={autocomplete}
       errorMessage={errorMessage}
       errorMessageList={errorMessageList}
       hint={!required ? optionalLabel : undefined}
       id={name}
-      inputFocusRef={focusRef}
+      inputRef={focusRef}
       isDisabled={loading}
       label={label}
       onChange={(e: SelectChangeEvent<string>) => {

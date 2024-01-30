@@ -634,12 +634,12 @@ exports[`authenticator-enroll-security-question-error predefined question should
                         </label>
                         <div
                           class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-formControl  emotion-42"
-                          data-se="credentials.questionKey"
                         >
                           <select
                             aria-invalid="false"
                             aria-labelledby="credentials.questionKey-label"
                             class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-43"
+                            data-se="credentials.questionKey"
                             id="credentials.questionKey"
                             name="credentials.questionKey"
                           >
@@ -1098,12 +1098,12 @@ exports[`authenticator-enroll-security-question-error predefined question should
                         </label>
                         <div
                           class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-formControl  emotion-35"
-                          data-se="credentials.questionKey"
                         >
                           <select
                             aria-invalid="false"
                             aria-labelledby="credentials.questionKey-label"
                             class="MuiNativeSelect-select MuiNativeSelect-standard Mui-disabled MuiInputBase-input MuiInput-input Mui-disabled emotion-36"
+                            data-se="credentials.questionKey"
                             disabled=""
                             id="credentials.questionKey"
                             name="credentials.questionKey"
@@ -1630,12 +1630,12 @@ exports[`authenticator-enroll-security-question-error predefined question should
                         </label>
                         <div
                           class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-formControl  emotion-42"
-                          data-se="credentials.questionKey"
                         >
                           <select
                             aria-invalid="false"
                             aria-labelledby="credentials.questionKey-label"
                             class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-43"
+                            data-se="credentials.questionKey"
                             id="credentials.questionKey"
                             name="credentials.questionKey"
                           >

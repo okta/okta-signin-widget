@@ -295,7 +295,6 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                       </label>
                       <div
                         class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl  emotion-50"
-                        data-se="userProfile.country"
                       >
                         <select
 <<<<<<< HEAD
@@ -306,6 +305,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                           aria-invalid="true"
                           aria-labelledby="userProfile.country-label"
                           class="MuiNativeSelect-select MuiNativeSelect-standard Mui-error MuiInputBase-input MuiInput-input emotion-51"
+                          data-se="userProfile.country"
                           id="userProfile.country"
                           name="userProfile.country"
                         >
@@ -1638,7 +1638,6 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                       </label>
                       <div
                         class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl  emotion-50"
-                        data-se="userProfile.timezone"
                       >
                         <select
 <<<<<<< HEAD
@@ -1649,6 +1648,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                           aria-invalid="true"
                           aria-labelledby="userProfile.timezone-label"
                           class="MuiNativeSelect-select MuiNativeSelect-standard Mui-error MuiInputBase-input MuiInput-input emotion-51"
+                          data-se="userProfile.timezone"
                           id="userProfile.timezone"
                           name="userProfile.timezone"
                         >
@@ -2137,13 +2137,16 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                       </label>
                       <div
                         class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-formControl  emotion-37"
-                        data-se="userProfile.country"
                       >
                         <select
                           aria-invalid="false"
                           aria-labelledby="userProfile.country-label"
                           class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-38"
+<<<<<<< HEAD
 >>>>>>> eec3250e0 (Update page objects)
+=======
+                          data-se="userProfile.country"
+>>>>>>> e79856fc0 (Bump odyssey package and snapshot updates)
                           id="userProfile.country"
                           name="userProfile.country"
                         >
@@ -3452,13 +3455,16 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                       </label>
                       <div
                         class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-formControl  emotion-37"
-                        data-se="userProfile.timezone"
                       >
                         <select
                           aria-invalid="false"
                           aria-labelledby="userProfile.timezone-label"
                           class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-38"
+<<<<<<< HEAD
 >>>>>>> eec3250e0 (Update page objects)
+=======
+                          data-se="userProfile.timezone"
+>>>>>>> e79856fc0 (Bump odyssey package and snapshot updates)
                           id="userProfile.timezone"
                           name="userProfile.timezone"
                         >

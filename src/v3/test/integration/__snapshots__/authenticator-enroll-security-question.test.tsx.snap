@@ -919,12 +919,12 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                         </label>
                         <div
                           class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-formControl  emotion-35"
-                          data-se="credentials.questionKey"
                         >
                           <select
                             aria-invalid="false"
                             aria-labelledby="credentials.questionKey-label"
                             class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-36"
+                            data-se="credentials.questionKey"
                             id="credentials.questionKey"
                             name="credentials.questionKey"
                           >
@@ -1360,12 +1360,12 @@ exports[`authenticator-enroll-security-question predefined question should rende
                         </label>
                         <div
                           class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-formControl  emotion-35"
-                          data-se="credentials.questionKey"
                         >
                           <select
                             aria-invalid="false"
                             aria-labelledby="credentials.questionKey-label"
                             class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-36"
+                            data-se="credentials.questionKey"
                             id="credentials.questionKey"
                             name="credentials.questionKey"
                           >
