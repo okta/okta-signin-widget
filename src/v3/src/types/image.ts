@@ -11,7 +11,7 @@
  */
 
 export type ImageProps = {
-  src?: string;
+  src: string;
   alt?: string;
   width?: string | number;
   height?: string | number;

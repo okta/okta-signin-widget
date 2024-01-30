@@ -26,7 +26,7 @@ const Image: FunctionComponent<ImageProps> = ({
   ariaHidden,
 }) => (
   <Box
-    as="img"
+    component="img"
     src={src}
     alt={alt}
     sx={{
