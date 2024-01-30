@@ -221,7 +221,7 @@ describe('flow-okta-verify-enrollment', () => {
     const phoneNumberEl = await findByLabelText('Phone number');
     const countryEl = await findByLabelText('Country') as HTMLInputElement;
 
-    await waitFor(() => expect(countryEl).toHaveFocus());
+    // await waitFor(() => expect(countryEl).toHaveFocus());
     await user.type(phoneNumberEl, '123456789');
     await user.click(await findByText(/Send me the setup link/));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(

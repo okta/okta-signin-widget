@@ -234,12 +234,13 @@ exports[`byol loading custom language should load custom language with "language
                             </label>
                             <div
                               class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-formControl  emotion-40"
-                              data-se="country"
                             >
                               <select
                                 aria-invalid="false"
                                 aria-labelledby="country-label"
+                                autocomplete="tel-country-code"
                                 class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-41"
+                                data-se="country"
                                 id="country"
                                 name="country"
                               >
@@ -1488,8 +1489,6 @@ exports[`byol loading custom language should load custom language with "language
                               </label>
                               <div
                                 class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedStart emotion-47"
-                                data-se="authenticator.phoneNumber"
-                                inputmode="tel"
                                 required="true"
                               >
                                 <div
@@ -1512,7 +1511,9 @@ exports[`byol loading custom language should load custom language with "language
                                   aria-labelledby="authenticator.phoneNumber-label"
                                   autocomplete="tel-national"
                                   class="MuiInputBase-input MuiInputBase-inputAdornedStart emotion-50"
+                                  data-se="authenticator.phoneNumber"
                                   id="authenticator.phoneNumber"
+                                  inputmode="tel"
                                   name="authenticator.phoneNumber"
                                   required=""
                                   type="tel"
@@ -1803,12 +1804,13 @@ exports[`byol loading custom language should load custom language with assets.ba
                             </label>
                             <div
                               class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-formControl  emotion-40"
-                              data-se="country"
                             >
                               <select
                                 aria-invalid="false"
                                 aria-labelledby="country-label"
+                                autocomplete="tel-country-code"
                                 class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-41"
+                                data-se="country"
                                 id="country"
                                 name="country"
                               >
@@ -3057,8 +3059,6 @@ exports[`byol loading custom language should load custom language with assets.ba
                               </label>
                               <div
                                 class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedStart emotion-47"
-                                data-se="authenticator.phoneNumber"
-                                inputmode="tel"
                                 required="true"
                               >
                                 <div
@@ -3081,7 +3081,9 @@ exports[`byol loading custom language should load custom language with assets.ba
                                   aria-labelledby="authenticator.phoneNumber-label"
                                   autocomplete="tel-national"
                                   class="MuiInputBase-input MuiInputBase-inputAdornedStart emotion-50"
+                                  data-se="authenticator.phoneNumber"
                                   id="authenticator.phoneNumber"
+                                  inputmode="tel"
                                   name="authenticator.phoneNumber"
                                   required=""
                                   type="tel"
@@ -3372,12 +3374,13 @@ exports[`byol loading default language should not load custom language when the 
                             </label>
                             <div
                               class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-formControl  emotion-40"
-                              data-se="country"
                             >
                               <select
                                 aria-invalid="false"
                                 aria-labelledby="country-label"
+                                autocomplete="tel-country-code"
                                 class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-41"
+                                data-se="country"
                                 id="country"
                                 name="country"
                               >
@@ -4626,8 +4629,6 @@ exports[`byol loading default language should not load custom language when the 
                               </label>
                               <div
                                 class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedStart emotion-47"
-                                data-se="authenticator.phoneNumber"
-                                inputmode="tel"
                                 required="true"
                               >
                                 <div
@@ -4650,7 +4651,9 @@ exports[`byol loading default language should not load custom language when the 
                                   aria-labelledby="authenticator.phoneNumber-label"
                                   autocomplete="tel-national"
                                   class="MuiInputBase-input MuiInputBase-inputAdornedStart emotion-50"
+                                  data-se="authenticator.phoneNumber"
                                   id="authenticator.phoneNumber"
+                                  inputmode="tel"
                                   name="authenticator.phoneNumber"
                                   required=""
                                   type="tel"
@@ -4941,12 +4944,13 @@ exports[`byol loading default language should not load custom language with "lan
                             </label>
                             <div
                               class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-formControl  emotion-40"
-                              data-se="country"
                             >
                               <select
                                 aria-invalid="false"
                                 aria-labelledby="country-label"
+                                autocomplete="tel-country-code"
                                 class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-41"
+                                data-se="country"
                                 id="country"
                                 name="country"
                               >
@@ -6195,8 +6199,6 @@ exports[`byol loading default language should not load custom language with "lan
                               </label>
                               <div
                                 class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedStart emotion-47"
-                                data-se="authenticator.phoneNumber"
-                                inputmode="tel"
                                 required="true"
                               >
                                 <div
@@ -6219,7 +6221,9 @@ exports[`byol loading default language should not load custom language with "lan
                                   aria-labelledby="authenticator.phoneNumber-label"
                                   autocomplete="tel-national"
                                   class="MuiInputBase-input MuiInputBase-inputAdornedStart emotion-50"
+                                  data-se="authenticator.phoneNumber"
                                   id="authenticator.phoneNumber"
+                                  inputmode="tel"
                                   name="authenticator.phoneNumber"
                                   required=""
                                   type="tel"

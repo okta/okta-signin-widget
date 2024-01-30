@@ -81,14 +81,14 @@ describe('authenticator-enroll-data-phone', () => {
 
   it('phone number and extension fields should be ltr even when a rtl language is set', async () => {
     const {
-      findByTestId, user, findByLabelText,
+      user, findByLabelText,
     } = await setup({ mockResponse, widgetOptions: { language: 'ar' } });
 
     const phoneNumberEle = await findByLabelText('Phone number') as HTMLInputElement;
 
     const methodType = await findByLabelText(/Voice call/);
     await user.click(methodType);
-    const extensionEle = await findByTestId('extension') as HTMLInputElement;
+    const extensionEle = await findByLabelText('Extension') as HTMLInputElement;
 
     expect(phoneNumberEle.parentElement).toHaveStyle('direction: ltr');
     expect(extensionEle.parentElement).toHaveStyle('direction: ltr');

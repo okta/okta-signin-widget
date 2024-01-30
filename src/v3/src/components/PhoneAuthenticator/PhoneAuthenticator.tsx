@@ -144,7 +144,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
         autoCompleteType={disableAutocomplete ? 'off' : 'tel-country-code'}
         hint={!required ? optionalLabel : undefined}
         id="country"
-        inputFocusRef={focusRef}
+        inputRef={focusRef}
         isDisabled={loading}
         label={countryLabel}
         onChange={(e: SelectChangeEvent<string>) => {
@@ -211,7 +211,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
               >
                 {phoneCode}
               </Box>
-)}
+            )}
             testId={fieldName}
             type="tel"
           />

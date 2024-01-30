@@ -150,12 +150,13 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                           </label>
                           <div
                             class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-formControl  emotion-25"
-                            data-se="country"
                           >
                             <select
                               aria-invalid="false"
                               aria-labelledby="country-label"
+                              autocomplete="tel-country-code"
                               class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-26"
+                              data-se="country"
                               id="country"
                               name="country"
                             >
@@ -1404,8 +1405,6 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                             </label>
                             <div
                               class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedStart emotion-32"
-                              data-se="phoneNumber"
-                              inputmode="tel"
                               required="true"
                             >
                               <div
@@ -1428,7 +1427,9 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                                 aria-labelledby="phoneNumber-label"
                                 autocomplete="tel-national"
                                 class="MuiInputBase-input MuiInputBase-inputAdornedStart emotion-35"
+                                data-se="phoneNumber"
                                 id="phoneNumber"
+                                inputmode="tel"
                                 name="phoneNumber"
                                 required=""
                                 type="tel"
@@ -1665,12 +1666,13 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form witho
                           </label>
                           <div
                             class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-formControl  emotion-25"
-                            data-se="country"
                           >
                             <select
                               aria-invalid="false"
                               aria-labelledby="country-label"
+                              autocomplete="tel-country-code"
                               class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-26"
+                              data-se="country"
                               id="country"
                               name="country"
                             >
@@ -2919,8 +2921,6 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form witho
                             </label>
                             <div
                               class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedStart emotion-32"
-                              data-se="phoneNumber"
-                              inputmode="tel"
                               required="true"
                             >
                               <div
@@ -2943,7 +2943,9 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form witho
                                 aria-labelledby="phoneNumber-label"
                                 autocomplete="tel-national"
                                 class="MuiInputBase-input MuiInputBase-inputAdornedStart emotion-35"
+                                data-se="phoneNumber"
                                 id="phoneNumber"
+                                inputmode="tel"
                                 name="phoneNumber"
                                 required=""
                                 type="tel"

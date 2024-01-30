@@ -234,12 +234,13 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                             </label>
                             <div
                               class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-formControl  emotion-40"
-                              data-se="country"
                             >
                               <select
                                 aria-invalid="false"
                                 aria-labelledby="country-label"
+                                autocomplete="tel-country-code"
                                 class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-41"
+                                data-se="country"
                                 id="country"
                                 name="country"
                               >
@@ -1488,8 +1489,6 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                               </label>
                               <div
                                 class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedStart emotion-47"
-                                data-se="authenticator.phoneNumber"
-                                inputmode="tel"
                                 required="true"
                               >
                                 <div
@@ -1512,7 +1511,9 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                                   aria-labelledby="authenticator.phoneNumber-label"
                                   autocomplete="tel-national"
                                   class="MuiInputBase-input MuiInputBase-inputAdornedStart emotion-50"
+                                  data-se="authenticator.phoneNumber"
                                   id="authenticator.phoneNumber"
+                                  inputmode="tel"
                                   name="authenticator.phoneNumber"
                                   required=""
                                   type="tel"
@@ -1803,12 +1804,13 @@ exports[`authenticator-enroll-data-phone should render form without an autoFocus
                             </label>
                             <div
                               class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-formControl  emotion-40"
-                              data-se="country"
                             >
                               <select
                                 aria-invalid="false"
                                 aria-labelledby="country-label"
+                                autocomplete="tel-country-code"
                                 class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-41"
+                                data-se="country"
                                 id="country"
                                 name="country"
                               >
@@ -3057,8 +3059,6 @@ exports[`authenticator-enroll-data-phone should render form without an autoFocus
                               </label>
                               <div
                                 class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedStart emotion-47"
-                                data-se="authenticator.phoneNumber"
-                                inputmode="tel"
                                 required="true"
                               >
                                 <div
@@ -3081,7 +3081,9 @@ exports[`authenticator-enroll-data-phone should render form without an autoFocus
                                   aria-labelledby="authenticator.phoneNumber-label"
                                   autocomplete="tel-national"
                                   class="MuiInputBase-input MuiInputBase-inputAdornedStart emotion-50"
+                                  data-se="authenticator.phoneNumber"
                                   id="authenticator.phoneNumber"
+                                  inputmode="tel"
                                   name="authenticator.phoneNumber"
                                   required=""
                                   type="tel"
@@ -3372,12 +3374,13 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                             </label>
                             <div
                               class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-formControl  emotion-40"
-                              data-se="country"
                             >
                               <select
                                 aria-invalid="false"
                                 aria-labelledby="country-label"
+                                autocomplete="tel-country-code"
                                 class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-41"
+                                data-se="country"
                                 id="country"
                                 name="country"
                               >
@@ -4626,8 +4629,6 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                               </label>
                               <div
                                 class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedStart emotion-47"
-                                data-se="authenticator.phoneNumber"
-                                inputmode="tel"
                                 required="true"
                               >
                                 <div
@@ -4650,7 +4651,9 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                                   aria-labelledby="authenticator.phoneNumber-label"
                                   autocomplete="tel-national"
                                   class="MuiInputBase-input MuiInputBase-inputAdornedStart emotion-50"
+                                  data-se="authenticator.phoneNumber"
                                   id="authenticator.phoneNumber"
+                                  inputmode="tel"
                                   name="authenticator.phoneNumber"
                                   required=""
                                   type="tel"
@@ -4676,7 +4679,6 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                               </label>
                               <div
                                 class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-54"
-                                data-se="extension"
                                 required="true"
                               >
                                 <input
@@ -4684,6 +4686,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                                   aria-labelledby="phoneExtension-label"
                                   autocomplete="tel-extension"
                                   class="MuiInputBase-input emotion-50"
+                                  data-se="extension"
                                   id="phoneExtension"
                                   name="extension"
                                   required=""
