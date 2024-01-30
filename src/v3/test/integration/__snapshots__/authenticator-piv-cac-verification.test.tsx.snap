@@ -161,7 +161,6 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd emotion-28"
-                        data-se="credentials.passcode"
                         required="true"
                       >
                         <input
@@ -169,6 +168,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                           aria-labelledby="credentials.passcode-label"
                           autocomplete="current-password"
                           class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-24"
+                          data-se="credentials.passcode"
                           id="credentials.passcode"
                           name="credentials.passcode"
                           required=""
@@ -179,7 +179,9 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                           class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium emotion-30"
                         >
                           <button
+                            aria-controls="credentials.passcode"
                             aria-label="Show password"
+                            aria-pressed="false"
                             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-31"
                             tabindex="0"
                             type="button"
@@ -488,7 +490,6 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd emotion-28"
-                        data-se="credentials.passcode"
                         required="true"
                       >
                         <input
@@ -496,6 +497,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                           aria-labelledby="credentials.passcode-label"
                           autocomplete="current-password"
                           class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-24"
+                          data-se="credentials.passcode"
                           id="credentials.passcode"
                           name="credentials.passcode"
                           required=""
@@ -506,7 +508,9 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                           class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium emotion-30"
                         >
                           <button
+                            aria-controls="credentials.passcode"
                             aria-label="Show password"
+                            aria-pressed="false"
                             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-31"
                             tabindex="0"
                             type="button"
@@ -780,7 +784,6 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd emotion-21"
-                        data-se="credentials.passcode"
                         required="true"
                       >
                         <input
@@ -788,6 +791,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                           aria-labelledby="credentials.passcode-label"
                           autocomplete="current-password"
                           class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-17"
+                          data-se="credentials.passcode"
                           id="credentials.passcode"
                           name="credentials.passcode"
                           required=""
@@ -798,7 +802,9 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                           class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium emotion-23"
                         >
                           <button
+                            aria-controls="credentials.passcode"
                             aria-label="Show password"
+                            aria-pressed="false"
                             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-24"
                             tabindex="0"
                             type="button"

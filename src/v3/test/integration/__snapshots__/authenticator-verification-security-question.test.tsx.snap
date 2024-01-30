@@ -148,7 +148,6 @@ exports[`authenticator-verification-security-question renders form 1`] = `
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd emotion-23"
-                        data-se="credentials.answer"
                         required="true"
                         translate="no"
                       >
@@ -157,6 +156,7 @@ exports[`authenticator-verification-security-question renders form 1`] = `
                           aria-labelledby="credentials.answer-label"
                           autocomplete="off"
                           class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-24"
+                          data-se="credentials.answer"
                           id="credentials.answer"
                           name="credentials.answer"
                           required=""
@@ -167,7 +167,9 @@ exports[`authenticator-verification-security-question renders form 1`] = `
                           class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium emotion-25"
                         >
                           <button
+                            aria-controls="credentials.answer"
                             aria-label="Show password"
+                            aria-pressed="false"
                             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-26"
                             tabindex="0"
                             type="button"

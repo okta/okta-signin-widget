@@ -165,7 +165,6 @@ exports[`authenticator-verification-yubikey-otp renders form 1`] = `
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd emotion-26"
-                        data-se="credentials.passcode"
                         required="true"
                       >
                         <input
@@ -173,6 +172,7 @@ exports[`authenticator-verification-yubikey-otp renders form 1`] = `
                           aria-labelledby="credentials.passcode-label"
                           autocomplete="off"
                           class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-27"
+                          data-se="credentials.passcode"
                           id="credentials.passcode"
                           name="credentials.passcode"
                           required=""
@@ -183,7 +183,9 @@ exports[`authenticator-verification-yubikey-otp renders form 1`] = `
                           class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium emotion-28"
                         >
                           <button
+                            aria-controls="credentials.passcode"
                             aria-label="Show password"
+                            aria-pressed="false"
                             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-29"
                             tabindex="0"
                             type="button"

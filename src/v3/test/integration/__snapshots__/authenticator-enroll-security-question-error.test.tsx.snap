@@ -297,7 +297,6 @@ exports[`authenticator-enroll-security-question-error custom question should sho
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl MuiInputBase-adornedEnd emotion-47"
-                          data-se="credentials.answer"
                           required="true"
                           translate="no"
                         >
@@ -307,6 +306,7 @@ exports[`authenticator-enroll-security-question-error custom question should sho
                             aria-invalid="true"
                             aria-labelledby="credentials.answer-label"
                             class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-43"
+                            data-se="credentials.answer"
                             id="credentials.answer"
                             name="credentials.answer"
                             required=""
@@ -317,7 +317,9 @@ exports[`authenticator-enroll-security-question-error custom question should sho
                             class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium emotion-49"
                           >
                             <button
+                              aria-controls="credentials.answer"
                               aria-label="Show password"
+                              aria-pressed="false"
                               class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-50"
                               tabindex="0"
                               type="button"
@@ -791,7 +793,6 @@ exports[`authenticator-enroll-security-question-error predefined question should
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl MuiInputBase-adornedEnd emotion-48"
-                          data-se="credentials.answer"
                           required="true"
                           translate="no"
                         >
@@ -802,6 +803,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                             aria-labelledby="credentials.answer-label"
                             autocomplete="off"
                             class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-49"
+                            data-se="credentials.answer"
                             id="credentials.answer"
                             name="credentials.answer"
                             required=""
@@ -812,7 +814,9 @@ exports[`authenticator-enroll-security-question-error predefined question should
                             class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium emotion-50"
                           >
                             <button
+                              aria-controls="credentials.answer"
                               aria-label="Show password"
+                              aria-pressed="false"
                               class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-51"
                               tabindex="0"
                               type="button"
@@ -1250,7 +1254,6 @@ exports[`authenticator-enroll-security-question-error predefined question should
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary Mui-disabled Mui-error MuiInputBase-formControl MuiInputBase-adornedEnd emotion-41"
-                          data-se="credentials.answer"
                           required="true"
                           translate="no"
                         >
@@ -1261,6 +1264,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                             aria-labelledby="credentials.answer-label"
                             autocomplete="off"
                             class="MuiInputBase-input Mui-disabled MuiInputBase-inputAdornedEnd emotion-42"
+                            data-se="credentials.answer"
                             disabled=""
                             id="credentials.answer"
                             name="credentials.answer"
@@ -1272,7 +1276,9 @@ exports[`authenticator-enroll-security-question-error predefined question should
                             class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium emotion-43"
                           >
                             <button
+                              aria-controls="credentials.answer"
                               aria-label="Show password"
+                              aria-pressed="false"
                               class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-44"
                               tabindex="0"
                               type="button"
@@ -1775,7 +1781,6 @@ exports[`authenticator-enroll-security-question-error predefined question should
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl MuiInputBase-adornedEnd emotion-48"
-                          data-se="credentials.answer"
                           required="true"
                           translate="no"
                         >
@@ -1786,6 +1791,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                             aria-labelledby="credentials.answer-label"
                             autocomplete="off"
                             class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-49"
+                            data-se="credentials.answer"
                             id="credentials.answer"
                             name="credentials.answer"
                             required=""
@@ -1796,7 +1802,9 @@ exports[`authenticator-enroll-security-question-error predefined question should
                             class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium emotion-50"
                           >
                             <button
+                              aria-controls="credentials.answer"
                               aria-label="Show password"
+                              aria-pressed="false"
                               class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-51"
                               tabindex="0"
                               type="button"

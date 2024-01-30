@@ -36,6 +36,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
   errors,
   handleChange,
   handleBlur,
+  describedByIds,
 }) => {
   const value = useValue(uischema);
   // TODO: OKTA-623544 - this FF will be deprecated for SIW v3 post-GA
@@ -64,13 +65,14 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
 
   return (
     <PasswordField
+      ariaDescribedBy={describedByIds}
       autoCompleteType={autocomplete as PasswordAutoCompleteValue}
       errorMessage={errorMessage}
       errorMessageList={errorMessageList}
       hasShowPassword={showPasswordToggleOnSignInPage}
       hint={hint ?? parsedExplainContent as string}
       id={name}
-      inputFocusRef={focusRef}
+      inputRef={focusRef}
       isDisabled={loading}
       isFullWidth
       isOptional={!required}
