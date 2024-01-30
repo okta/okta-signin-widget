@@ -284,7 +284,6 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
     expect(result.options.collection instanceof Collection).toBe(true);
     expect(result.options.collection.toJSON()).toEqual([
       {
-        ariaLabel: 'Select Password.',
         label: 'Okta Password',
         value: {
           id: 'aidwboITrg4b4yAYd0g3',
@@ -302,7 +301,6 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
         buttonDataSeAttr: 'okta_password',
       },
       {
-        ariaLabel: 'Select Security Key or Biometric Authenticator.',
         label: 'Security Key or Biometric Authenticator',
         value: {
           id: 'fwftheidkwh282hv8g3',
@@ -320,7 +318,6 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
         buttonDataSeAttr: 'webauthn',
       },
       {
-        ariaLabel: 'Select Email.',
         label: 'Okta Email',
         value: {
           id: 'aidtm56L8gXXHI1SD0g3',
@@ -343,7 +340,6 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
         buttonDataSeAttr: 'okta_email',
       },
       {
-        ariaLabel: 'Select Phone - +1 XXX-XXX-5309.',
         label: 'Phone',
         noTranslateClassName: 'no-translate',
         value: {
@@ -373,7 +369,6 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
         buttonDataSeAttr: 'phone_number',
       },
       {
-        ariaLabel: 'Select Phone - +1 XXX-XXX-5310.',
         label: 'Phone',
         noTranslateClassName: 'no-translate',
         value: {
@@ -403,7 +398,6 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
         buttonDataSeAttr: 'phone_number',
       },
       {
-        ariaLabel: 'Select Security Question.',
         label: 'Okta Security Question',
         value: {
           id: 'aid568g3mXgtID0HHSLH',
@@ -421,7 +415,6 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
         buttonDataSeAttr: 'security_question',
       },
       {
-        ariaLabel: 'Okta Verify. Enter a code',
         label: 'Enter a code',
         value: {
           id: 'auttheidkwh282hv8g3',
@@ -450,7 +443,6 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
         buttonDataSeAttr: 'okta_verify-totp',
       },
       {
-        ariaLabel: 'Get a push notification',
         label: 'Get a push notification',
         value: {
           id: 'auttheidkwh282hv8g3',
@@ -479,7 +471,6 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
         buttonDataSeAttr: 'okta_verify-push',
       },
       {
-        ariaLabel: 'Use Okta FastPass',
         label: 'Use Okta FastPass',
         value: {
           id: 'auttheidkwh282hv8g3',
@@ -508,7 +499,6 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
         buttonDataSeAttr: 'okta_verify-signed_nonce',
       },
       {
-        ariaLabel: 'Select Google Authenticator',
         label: 'Google Authenticator',
         value: {
           id: 'auttheidkwh482hv8g3',
@@ -531,7 +521,6 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
         buttonDataSeAttr: 'google_otp',
       },
       {
-        ariaLabel: 'Select Custom Push App',
         label: 'Get a push notification',
         value: {
           id: 'aut198w4v0f8dr8gT0g4',
@@ -559,7 +548,6 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
         noTranslateClassName: 'no-translate',
       },
       {
-        ariaLabel: 'Select Smart Card IdP',
         label: 'Smart Card IdP',
         value: {
           id: 'aut10ehrE4fRd197J0g4',
@@ -624,7 +612,6 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
     expect(result.options.collection instanceof Collection).toBe(true);
     expect(result.options.collection.toJSON()).toEqual([
       {
-        ariaLabel: 'Select Security Key or Biometric Authenticator.',
         label: 'Security Key or Biometric Authenticator',
         authenticatorKey: 'webauthn',
         value: {
@@ -635,7 +622,6 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
         buttonDataSeAttr: 'webauthn',
       },
       {
-        ariaLabel: 'Select Password.',
         label: 'Okta Password',
         authenticatorKey: 'okta_password',
         value: {
@@ -775,7 +761,6 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
             },
           ],
         },
-        ariaLabel: 'Select Atko Corp Authenticator',
         authenticatorKey: 'custom_app',
         description: 'Atko Corp Authenticator',
         buttonDataSeAttr: 'custom_app',
@@ -802,7 +787,6 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
             },
           ],
         },
-        ariaLabel: 'Select Custom Push Authenticator 1',
         authenticatorKey: 'custom_app',
         description: 'Custom Push Authenticator 1',
         buttonDataSeAttr: 'custom_app',
@@ -967,7 +951,6 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
     expect(result.options.collection instanceof Collection).toBe(true);
     expect(result.options.collection.toJSON()).toEqual([
       {
-        ariaLabel: 'Set up Password.',
         label: 'Okta Password',
         value: {
           id: 'autwa6eD9o02iBbtv0g3',
@@ -985,7 +968,6 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
         buttonDataSeAttr: 'okta_password',
       },
       {
-        ariaLabel: 'Set up Phone.',
         label: 'Okta Phone',
         noTranslateClassName: '',
         value: {
@@ -1004,7 +986,6 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
         buttonDataSeAttr: 'phone_number',
       },
       {
-        ariaLabel: 'Set up Email.',
         label: 'Okta Email',
         value: {
           id: 'aidtm56L8gXXHI1SD0g3',
@@ -1027,7 +1008,6 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
         buttonDataSeAttr: 'okta_email',
       },
       {
-        ariaLabel: 'Set up Security Key or Biometric Authenticator.',
         label: 'Security Key or Biometric Authenticator',
         value: {
           id: 'aidtheidkwh282hv8g3',
@@ -1045,7 +1025,6 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
         buttonDataSeAttr: 'webauthn',
       },
       {
-        ariaLabel: 'Set up Security Question.',
         label: 'Okta Security Question',
         value: {
           id: 'aid568g3mXgtID0X1GGG',
@@ -1063,7 +1042,6 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
         buttonDataSeAttr: 'security_question',
       },
       {
-        ariaLabel: 'Set up Okta Verify',
         label: 'Okta Verify',
         value: {
           id: 'auttheidkwh282hv8g3',
@@ -1087,7 +1065,6 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
         buttonDataSeAttr: 'okta_verify-signed_nonce',
       },
       {
-        ariaLabel: 'Set up Google Authenticator',
         label: 'Google Authenticator',
         value: {
           id: 'auttheidkwh482hv8g3',
@@ -1110,7 +1087,6 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
         buttonDataSeAttr: 'google_otp',
       },
       {
-        ariaLabel: 'Set up Smart Card IdP',
         label: 'Smart Card IdP',
         value: {
           id: 'aut10ehrE4fRd197J0g4',

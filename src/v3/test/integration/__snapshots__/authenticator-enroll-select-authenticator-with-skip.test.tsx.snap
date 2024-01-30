@@ -140,7 +140,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       >
                         <button
                           aria-describedby="okta_password_0-description okta_password_0-ctaLabel"
-                          aria-label="Set up Password."
+                          aria-labelledby="okta_password_0-label"
                           class="authenticator-row MuiBox-root emotion-28"
                           data-se="authenticator-button"
                           tabindex="0"
@@ -245,7 +245,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       >
                         <button
                           aria-describedby="phone_number_1-description phone_number_1-ctaLabel"
-                          aria-label="Set up Phone."
+                          aria-labelledby="phone_number_1-label"
                           class="authenticator-row MuiBox-root emotion-28"
                           data-se="authenticator-button"
                           tabindex="0"
@@ -360,7 +360,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       >
                         <button
                           aria-describedby="webauthn_2-description webauthn_2-ctaLabel"
-                          aria-label="Set up Security Key or Biometric Authenticator."
+                          aria-labelledby="webauthn_2-label"
                           class="authenticator-row MuiBox-root emotion-28"
                           data-se="authenticator-button"
                           tabindex="0"

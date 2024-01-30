@@ -323,7 +323,6 @@ export interface AuthenticatorButtonElement extends UISchemaElement {
   label: string;
   options: ButtonElement['options'] & {
     key: string;
-    ariaLabel: string;
     authenticator?: IdxAuthenticator;
     ctaLabel: string;
     description?: string;

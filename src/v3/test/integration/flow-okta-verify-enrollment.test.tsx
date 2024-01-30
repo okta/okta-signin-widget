@@ -341,6 +341,6 @@ describe('flow-okta-verify-enrollment', () => {
     // authenticator selection
     expect(await findByText(/Set up security methods/)).toBeInTheDocument();
     expect(await findByText(/Security methods help protect your account by ensuring only you have access./)).toBeInTheDocument();
-    await user.click(await findByRole('button', { name: 'Set up Okta Verify' }));
+    await user.click(await findByRole('button', { name: 'Okta Verify' }));
   });
 });

@@ -140,7 +140,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                       >
                         <button
                           aria-describedby="google_otp_0-description google_otp_0-ctaLabel"
-                          aria-label="Set up Google Authenticator"
+                          aria-labelledby="google_otp_0-label"
                           class="authenticator-row MuiBox-root emotion-28"
                           data-se="authenticator-button"
                           tabindex="0"
@@ -265,7 +265,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                       >
                         <button
                           aria-describedby="okta_verify_1-description okta_verify_1-ctaLabel"
-                          aria-label="Set up Okta Verify"
+                          aria-labelledby="okta_verify_1-label"
                           class="authenticator-row MuiBox-root emotion-28"
                           data-se="authenticator-button"
                           tabindex="0"
@@ -366,7 +366,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                       >
                         <button
                           aria-describedby="phone_number_2-description phone_number_2-ctaLabel"
-                          aria-label="Set up Phone."
+                          aria-labelledby="phone_number_2-label"
                           class="authenticator-row MuiBox-root emotion-28"
                           data-se="authenticator-button"
                           tabindex="0"
@@ -481,7 +481,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                       >
                         <button
                           aria-describedby="webauthn_3-description webauthn_3-ctaLabel"
-                          aria-label="Set up Security Key or Biometric Authenticator."
+                          aria-labelledby="webauthn_3-label"
                           class="authenticator-row MuiBox-root emotion-28"
                           data-se="authenticator-button"
                           tabindex="0"
