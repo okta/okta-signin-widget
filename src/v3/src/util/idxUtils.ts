@@ -470,8 +470,8 @@ export const isServerGeneratedSchemaAvailable = (
 
   const { rawIdxState, neededToProceed } = idxTransaction;
   const nextStepIsSupported = SUPPORTED_SERVER_GENERATED_SCHEMA_REMEDIATIONS.some(
-    (step) => neededToProceed[0].name === step,
+    (step) => neededToProceed?.[0]?.name === step,
   );
   // @ts-ignore uischema is missing from RawIdxState type
-  return typeof rawIdxState.uischema !== 'undefined' && nextStepIsSupported;
+  return typeof rawIdxState?.uischema !== 'undefined' && nextStepIsSupported;
 };

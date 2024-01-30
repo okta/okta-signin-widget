@@ -70,7 +70,7 @@ const InputText: FunctionComponent<ControlProps> = ({
         error={hasErrors}
         onChange={onChange}
         onBlur={(e: ChangeEvent<HTMLInputElement>) => {
-          e.preventDefault();
+          e?.preventDefault();
           setTouched(true);
         }}
         disabled={loading}

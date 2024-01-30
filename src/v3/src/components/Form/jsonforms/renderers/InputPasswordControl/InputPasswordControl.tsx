@@ -127,7 +127,7 @@ const InputPassword: FunctionComponent<ControlProps> = ({
         error={hasErrors}
         onChange={onChange}
         onBlur={(e: ChangeEvent<HTMLInputElement>) => {
-          e.preventDefault();
+          e?.preventDefault();
           setTouched(true);
         }}
         type={showPassword ? 'text' : 'password'}

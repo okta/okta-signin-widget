@@ -297,6 +297,8 @@ export const SCOPE_GROUP_CONFIG: Record<string, ConsentScopeGroup> = {
   trustedOrigins: 'system',
 };
 
+export const UI_SCHEMA_SUPPORT_HEADER_KEY = 'X-Idx-UI-Schema-Supported-Views';
+
 export const SUPPORTED_SERVER_GENERATED_SCHEMA_REMEDIATIONS: string[] = [
   IDX_STEP.IDENTIFY,
 ];
