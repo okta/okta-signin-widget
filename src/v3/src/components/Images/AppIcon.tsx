@@ -23,8 +23,8 @@ export const AppIcon: FunctionComponent = () => {
     <AppsIcon
       sx={{
         color: tokens.PalettePrimaryMain,
-        width: '16px',
-        height: '16px',
+        width: tokens.Spacing4,
+        height: tokens.Spacing4,
       }}
       titleAccess={loc('icon.title.application', 'login')}
       aria-hidden

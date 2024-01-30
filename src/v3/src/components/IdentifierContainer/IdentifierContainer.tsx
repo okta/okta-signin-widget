@@ -29,7 +29,7 @@ const IdentifierContainer: UISchemaElementComponent<{
       display="flex"
       justifyContent="center"
       alignItems="center"
-      marginBlockEnd={4}
+      marginBlockEnd={tokens.Spacing4}
       maxWidth={1}
       title={identifier}
       data-se="identifier-container"
@@ -38,16 +38,16 @@ const IdentifierContainer: UISchemaElementComponent<{
         icon={(
           <Box
             sx={{
-              width: '16px',
-              height: '16px',
+              width: tokens.Spacing4,
+              height: tokens.Spacing4,
             }}
           >
             <UserIcon
               titleAccess={loc('identifier.icon.alt.text', 'login')}
               sx={{
                 color: tokens.PalettePrimaryMain,
-                width: '16px',
-                height: '16px',
+                width: tokens.Spacing4,
+                height: tokens.Spacing4,
               }}
             />
           </Box>
