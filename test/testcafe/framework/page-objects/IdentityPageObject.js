@@ -77,7 +77,7 @@ export default class IdentityPageObject extends BasePageObject {
   }
 
   getIdentifierValue() {
-    return this.form.getTextBoxValue('Username', true);
+    return this.form.getTextBoxValue(/Username/, true);
   }
 
   fillPasswordField(value) {
