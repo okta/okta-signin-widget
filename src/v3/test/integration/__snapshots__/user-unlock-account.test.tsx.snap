@@ -77,7 +77,6 @@ exports[`user-unlock-account renders form 1`] = `
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-17"
-                          data-se="identifier"
                           required="true"
                         >
                           <input
@@ -85,6 +84,7 @@ exports[`user-unlock-account renders form 1`] = `
                             aria-labelledby="identifier-label"
                             autocomplete="username"
                             class="MuiInputBase-input emotion-18"
+                            data-se="identifier"
                             id="identifier"
                             name="identifier"
                             required=""

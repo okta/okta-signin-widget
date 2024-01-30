@@ -138,12 +138,12 @@ exports[`enroll-profile-update-optional-fields should render form with one requi
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-26"
-                        data-se="userProfile.newAttribute"
                       >
                         <input
                           aria-invalid="false"
                           aria-labelledby="userProfile.newAttribute-label"
                           class="MuiInputBase-input emotion-27"
+                          data-se="userProfile.newAttribute"
                           id="userProfile.newAttribute"
                           name="userProfile.newAttribute"
                           type="text"
@@ -187,13 +187,13 @@ exports[`enroll-profile-update-optional-fields should render form with one requi
                       </p>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-26"
-                        data-se="userProfile.secondEmail"
                       >
                         <input
                           aria-describedby="userProfile.secondEmail-hint"
                           aria-invalid="false"
                           aria-labelledby="userProfile.secondEmail-label"
                           class="MuiInputBase-input emotion-27"
+                          data-se="userProfile.secondEmail"
                           id="userProfile.secondEmail"
                           name="userProfile.secondEmail"
                           type="text"
@@ -225,12 +225,12 @@ exports[`enroll-profile-update-optional-fields should render form with one requi
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-26"
-                        data-se="userProfile.newAttribute2"
                       >
                         <input
                           aria-invalid="false"
                           aria-labelledby="userProfile.newAttribute2-label"
                           class="MuiInputBase-input emotion-27"
+                          data-se="userProfile.newAttribute2"
                           id="userProfile.newAttribute2"
                           name="userProfile.newAttribute2"
                           type="text"

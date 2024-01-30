@@ -175,7 +175,6 @@ exports[`enroll-profile-update fails client side validation with empty required 
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error Mui-focused MuiInputBase-formControl emotion-32"
-                        data-se="userProfile.favoriteSport"
                         required="true"
                       >
                         <input
@@ -184,6 +183,7 @@ exports[`enroll-profile-update fails client side validation with empty required 
                           aria-invalid="true"
                           aria-labelledby="userProfile.favoriteSport-label"
                           class="MuiInputBase-input emotion-33"
+                          data-se="userProfile.favoriteSport"
                           id="userProfile.favoriteSport"
                           name="userProfile.favoriteSport"
                           required=""
@@ -225,7 +225,6 @@ exports[`enroll-profile-update fails client side validation with empty required 
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl emotion-32"
-                        data-se="userProfile.newAttribute"
                         required="true"
                       >
                         <input
@@ -234,6 +233,7 @@ exports[`enroll-profile-update fails client side validation with empty required 
                           aria-invalid="true"
                           aria-labelledby="userProfile.newAttribute-label"
                           class="MuiInputBase-input emotion-33"
+                          data-se="userProfile.newAttribute"
                           id="userProfile.newAttribute"
                           name="userProfile.newAttribute"
                           required=""
@@ -412,13 +412,13 @@ exports[`enroll-profile-update should render form 1`] = `
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-25"
-                        data-se="userProfile.favoriteSport"
                         required="true"
                       >
                         <input
                           aria-invalid="false"
                           aria-labelledby="userProfile.favoriteSport-label"
                           class="MuiInputBase-input emotion-26"
+                          data-se="userProfile.favoriteSport"
                           id="userProfile.favoriteSport"
                           name="userProfile.favoriteSport"
                           required=""
@@ -445,13 +445,13 @@ exports[`enroll-profile-update should render form 1`] = `
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-25"
-                        data-se="userProfile.newAttribute"
                         required="true"
                       >
                         <input
                           aria-invalid="false"
                           aria-labelledby="userProfile.newAttribute-label"
                           class="MuiInputBase-input emotion-26"
+                          data-se="userProfile.newAttribute"
                           id="userProfile.newAttribute"
                           name="userProfile.newAttribute"
                           required=""

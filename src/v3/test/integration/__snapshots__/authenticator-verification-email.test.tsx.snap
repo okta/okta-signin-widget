@@ -611,8 +611,6 @@ exports[`Email authenticator verification when email magic link = undefined rend
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary Mui-focused MuiInputBase-formControl emotion-28"
-                          data-se="credentials.passcode"
-                          inputmode="numeric"
                           required="true"
                         >
                           <input
@@ -620,7 +618,9 @@ exports[`Email authenticator verification when email magic link = undefined rend
                             aria-labelledby="credentials.passcode-label"
                             autocomplete="off"
                             class="MuiInputBase-input emotion-29"
+                            data-se="credentials.passcode"
                             id="credentials.passcode"
+                            inputmode="numeric"
                             name="credentials.passcode"
                             required=""
                             type="text"
@@ -881,8 +881,6 @@ exports[`Email authenticator verification when email magic link = undefined rend
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error Mui-focused MuiInputBase-formControl emotion-35"
-                          data-se="credentials.passcode"
-                          inputmode="numeric"
                           required="true"
                         >
                           <input
@@ -892,7 +890,9 @@ exports[`Email authenticator verification when email magic link = undefined rend
                             aria-labelledby="credentials.passcode-label"
                             autocomplete="off"
                             class="MuiInputBase-input emotion-36"
+                            data-se="credentials.passcode"
                             id="credentials.passcode"
+                            inputmode="numeric"
                             name="credentials.passcode"
                             required=""
                             type="text"
@@ -1233,8 +1233,6 @@ exports[`Email authenticator verification when email magic link = undefined rend
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error Mui-focused MuiInputBase-formControl emotion-44"
-                          data-se="credentials.passcode"
-                          inputmode="numeric"
                           required="true"
                         >
                           <input
@@ -1244,7 +1242,9 @@ exports[`Email authenticator verification when email magic link = undefined rend
                             aria-labelledby="credentials.passcode-label"
                             autocomplete="off"
                             class="MuiInputBase-input emotion-45"
+                            data-se="credentials.passcode"
                             id="credentials.passcode"
+                            inputmode="numeric"
                             name="credentials.passcode"
                             required=""
                             type="text"
@@ -1599,8 +1599,6 @@ exports[`Email authenticator verification when email magic link = undefined shou
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary Mui-focused MuiInputBase-formControl emotion-28"
-                          data-se="credentials.passcode"
-                          inputmode="numeric"
                           required="true"
                         >
                           <input
@@ -1608,7 +1606,9 @@ exports[`Email authenticator verification when email magic link = undefined shou
                             aria-labelledby="credentials.passcode-label"
                             autocomplete="one-time-code"
                             class="MuiInputBase-input emotion-29"
+                            data-se="credentials.passcode"
                             id="credentials.passcode"
+                            inputmode="numeric"
                             name="credentials.passcode"
                             required=""
                             type="text"

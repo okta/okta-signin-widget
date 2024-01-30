@@ -60,7 +60,7 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
       errorMessageList={errorMessageList}
       hint={hint ?? parsedExplainContent as string}
       id={name}
-      inputFocusRef={focusRef}
+      inputRef={focusRef}
       inputMode={inputmode}
       isDisabled={loading}
       isFullWidth
@@ -75,7 +75,7 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
       }}
       testId={dataSe}
       type="text"
-      value={value as string | undefined}
+      value={value as string ?? ''}
     />
   );
 };

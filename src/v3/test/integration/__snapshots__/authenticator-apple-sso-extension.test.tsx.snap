@@ -74,7 +74,6 @@ exports[`authenticator-apple-sso-extension calls verify then cancels the transac
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-16"
-                        data-se="identifier"
                         required="true"
                       >
                         <input
@@ -82,6 +81,7 @@ exports[`authenticator-apple-sso-extension calls verify then cancels the transac
                           aria-labelledby="identifier-label"
                           autocomplete="username"
                           class="MuiInputBase-input emotion-17"
+                          data-se="identifier"
                           id="identifier"
                           name="identifier"
                           required=""
@@ -265,7 +265,6 @@ exports[`authenticator-apple-sso-extension cancels the transaction when sso exte
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-16"
-                        data-se="identifier"
                         required="true"
                       >
                         <input
@@ -273,6 +272,7 @@ exports[`authenticator-apple-sso-extension cancels the transaction when sso exte
                           aria-labelledby="identifier-label"
                           autocomplete="username"
                           class="MuiInputBase-input emotion-17"
+                          data-se="identifier"
                           id="identifier"
                           name="identifier"
                           required=""
@@ -456,7 +456,6 @@ exports[`authenticator-apple-sso-extension opens the verify url with credential 
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-16"
-                        data-se="identifier"
                         required="true"
                       >
                         <input
@@ -464,6 +463,7 @@ exports[`authenticator-apple-sso-extension opens the verify url with credential 
                           aria-labelledby="identifier-label"
                           autocomplete="username"
                           class="MuiInputBase-input emotion-17"
+                          data-se="identifier"
                           id="identifier"
                           name="identifier"
                           required=""

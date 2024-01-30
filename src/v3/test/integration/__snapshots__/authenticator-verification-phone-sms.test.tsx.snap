@@ -197,8 +197,6 @@ exports[`authenticator-verification-phone-sms should render form 1`] = `
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-30"
-                        data-se="credentials.passcode"
-                        inputmode="numeric"
                         required="true"
                       >
                         <input
@@ -206,7 +204,9 @@ exports[`authenticator-verification-phone-sms should render form 1`] = `
                           aria-labelledby="credentials.passcode-label"
                           autocomplete="off"
                           class="MuiInputBase-input emotion-31"
+                          data-se="credentials.passcode"
                           id="credentials.passcode"
+                          inputmode="numeric"
                           name="credentials.passcode"
                           required=""
                           type="text"

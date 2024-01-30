@@ -246,7 +246,6 @@ exports[`authenticator-enroll-security-question-error custom question should sho
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-42"
-                          data-se="credentials.question"
                           required="true"
                         >
                           <input
@@ -254,6 +253,7 @@ exports[`authenticator-enroll-security-question-error custom question should sho
                             aria-labelledby="credentials.question-label"
                             autocomplete="off"
                             class="MuiInputBase-input emotion-43"
+                            data-se="credentials.question"
                             id="credentials.question"
                             name="credentials.question"
                             required=""

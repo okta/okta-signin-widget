@@ -246,7 +246,6 @@ exports[`authenticator-enroll-security-question custom question fails client sid
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl emotion-42"
-                          data-se="credentials.question"
                           required="true"
                         >
                           <input
@@ -256,6 +255,7 @@ exports[`authenticator-enroll-security-question custom question fails client sid
                             aria-labelledby="credentials.question-label"
                             autocomplete="off"
                             class="MuiInputBase-input emotion-43"
+                            data-se="credentials.question"
                             id="credentials.question"
                             name="credentials.question"
                             required=""
@@ -584,7 +584,6 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                         </label>
                         <div
                           class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-35"
-                          data-se="credentials.question"
                           required="true"
                         >
                           <input
@@ -592,6 +591,7 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                             aria-labelledby="credentials.question-label"
                             autocomplete="off"
                             class="MuiInputBase-input emotion-36"
+                            data-se="credentials.question"
                             id="credentials.question"
                             name="credentials.question"
                             required=""

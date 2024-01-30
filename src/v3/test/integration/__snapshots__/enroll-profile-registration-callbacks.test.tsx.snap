@@ -89,7 +89,6 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-19"
-                        data-se="userProfile.lastName"
                         required="true"
                       >
                         <input
@@ -97,6 +96,7 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                           aria-labelledby="userProfile.lastName-label"
                           autocomplete="family-name"
                           class="MuiInputBase-input emotion-20"
+                          data-se="userProfile.lastName"
                           id="userProfile.lastName"
                           name="userProfile.lastName"
                           required=""
@@ -123,7 +123,6 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-19"
-                        data-se="userProfile.firstName"
                         required="true"
                       >
                         <input
@@ -131,6 +130,7 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                           aria-labelledby="userProfile.firstName-label"
                           autocomplete="given-name"
                           class="MuiInputBase-input emotion-20"
+                          data-se="userProfile.firstName"
                           id="userProfile.firstName"
                           name="userProfile.firstName"
                           required=""
@@ -157,8 +157,6 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-19"
-                        data-se="userProfile.email"
-                        inputmode="email"
                         required="true"
                       >
                         <input
@@ -166,7 +164,9 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                           aria-labelledby="userProfile.email-label"
                           autocomplete="email"
                           class="MuiInputBase-input emotion-20"
+                          data-se="userProfile.email"
                           id="userProfile.email"
+                          inputmode="email"
                           name="userProfile.email"
                           required=""
                           type="text"
@@ -192,13 +192,13 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-19"
-                        data-se="userProfile.login"
                         required="true"
                       >
                         <input
                           aria-invalid="false"
                           aria-labelledby="userProfile.login-label"
                           class="MuiInputBase-input emotion-20"
+                          data-se="userProfile.login"
                           id="userProfile.login"
                           name="userProfile.login"
                           required=""
@@ -225,13 +225,13 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-19"
-                        data-se="userProfile.address"
                         required="true"
                       >
                         <input
                           aria-invalid="false"
                           aria-labelledby="userProfile.address-label"
                           class="MuiInputBase-input emotion-20"
+                          data-se="userProfile.address"
                           id="userProfile.address"
                           name="userProfile.address"
                           required=""
@@ -432,7 +432,6 @@ exports[`enroll-profile-with-password should show custom error message and preve
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl emotion-26"
-                        data-se="userProfile.lastName"
                         required="true"
                       >
                         <input
@@ -442,6 +441,7 @@ exports[`enroll-profile-with-password should show custom error message and preve
                           aria-labelledby="userProfile.lastName-label"
                           autocomplete="family-name"
                           class="MuiInputBase-input emotion-27"
+                          data-se="userProfile.lastName"
                           id="userProfile.lastName"
                           name="userProfile.lastName"
                           required=""
@@ -483,7 +483,6 @@ exports[`enroll-profile-with-password should show custom error message and preve
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-26"
-                        data-se="userProfile.firstName"
                         required="true"
                       >
                         <input
@@ -491,6 +490,7 @@ exports[`enroll-profile-with-password should show custom error message and preve
                           aria-labelledby="userProfile.firstName-label"
                           autocomplete="given-name"
                           class="MuiInputBase-input emotion-27"
+                          data-se="userProfile.firstName"
                           id="userProfile.firstName"
                           name="userProfile.firstName"
                           required=""
@@ -517,8 +517,6 @@ exports[`enroll-profile-with-password should show custom error message and preve
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-26"
-                        data-se="userProfile.email"
-                        inputmode="email"
                         required="true"
                       >
                         <input
@@ -526,7 +524,9 @@ exports[`enroll-profile-with-password should show custom error message and preve
                           aria-labelledby="userProfile.email-label"
                           autocomplete="email"
                           class="MuiInputBase-input emotion-27"
+                          data-se="userProfile.email"
                           id="userProfile.email"
+                          inputmode="email"
                           name="userProfile.email"
                           required=""
                           type="text"
@@ -552,13 +552,13 @@ exports[`enroll-profile-with-password should show custom error message and preve
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-26"
-                        data-se="userProfile.login"
                         required="true"
                       >
                         <input
                           aria-invalid="false"
                           aria-labelledby="userProfile.login-label"
                           class="MuiInputBase-input emotion-27"
+                          data-se="userProfile.login"
                           id="userProfile.login"
                           name="userProfile.login"
                           required=""
@@ -759,7 +759,6 @@ exports[`enroll-profile-with-password should show custom field level error messa
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl emotion-26"
-                        data-se="userProfile.lastName"
                         required="true"
                       >
                         <input
@@ -769,6 +768,7 @@ exports[`enroll-profile-with-password should show custom field level error messa
                           aria-labelledby="userProfile.lastName-label"
                           autocomplete="family-name"
                           class="MuiInputBase-input emotion-27"
+                          data-se="userProfile.lastName"
                           id="userProfile.lastName"
                           name="userProfile.lastName"
                           required=""
@@ -810,7 +810,6 @@ exports[`enroll-profile-with-password should show custom field level error messa
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-26"
-                        data-se="userProfile.firstName"
                         required="true"
                       >
                         <input
@@ -818,6 +817,7 @@ exports[`enroll-profile-with-password should show custom field level error messa
                           aria-labelledby="userProfile.firstName-label"
                           autocomplete="given-name"
                           class="MuiInputBase-input emotion-27"
+                          data-se="userProfile.firstName"
                           id="userProfile.firstName"
                           name="userProfile.firstName"
                           required=""
@@ -844,8 +844,6 @@ exports[`enroll-profile-with-password should show custom field level error messa
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-26"
-                        data-se="userProfile.email"
-                        inputmode="email"
                         required="true"
                       >
                         <input
@@ -853,7 +851,9 @@ exports[`enroll-profile-with-password should show custom field level error messa
                           aria-labelledby="userProfile.email-label"
                           autocomplete="email"
                           class="MuiInputBase-input emotion-27"
+                          data-se="userProfile.email"
                           id="userProfile.email"
+                          inputmode="email"
                           name="userProfile.email"
                           required=""
                           type="text"
@@ -879,13 +879,13 @@ exports[`enroll-profile-with-password should show custom field level error messa
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-26"
-                        data-se="userProfile.login"
                         required="true"
                       >
                         <input
                           aria-invalid="false"
                           aria-labelledby="userProfile.login-label"
                           class="MuiInputBase-input emotion-27"
+                          data-se="userProfile.login"
                           id="userProfile.login"
                           name="userProfile.login"
                           required=""
@@ -1086,7 +1086,6 @@ exports[`enroll-profile-with-password should show generic error message and prev
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-26"
-                        data-se="userProfile.lastName"
                         required="true"
                       >
                         <input
@@ -1094,6 +1093,7 @@ exports[`enroll-profile-with-password should show generic error message and prev
                           aria-labelledby="userProfile.lastName-label"
                           autocomplete="family-name"
                           class="MuiInputBase-input emotion-27"
+                          data-se="userProfile.lastName"
                           id="userProfile.lastName"
                           name="userProfile.lastName"
                           required=""
@@ -1120,7 +1120,6 @@ exports[`enroll-profile-with-password should show generic error message and prev
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-26"
-                        data-se="userProfile.firstName"
                         required="true"
                       >
                         <input
@@ -1128,6 +1127,7 @@ exports[`enroll-profile-with-password should show generic error message and prev
                           aria-labelledby="userProfile.firstName-label"
                           autocomplete="given-name"
                           class="MuiInputBase-input emotion-27"
+                          data-se="userProfile.firstName"
                           id="userProfile.firstName"
                           name="userProfile.firstName"
                           required=""
@@ -1154,8 +1154,6 @@ exports[`enroll-profile-with-password should show generic error message and prev
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-26"
-                        data-se="userProfile.email"
-                        inputmode="email"
                         required="true"
                       >
                         <input
@@ -1163,7 +1161,9 @@ exports[`enroll-profile-with-password should show generic error message and prev
                           aria-labelledby="userProfile.email-label"
                           autocomplete="email"
                           class="MuiInputBase-input emotion-27"
+                          data-se="userProfile.email"
                           id="userProfile.email"
+                          inputmode="email"
                           name="userProfile.email"
                           required=""
                           type="text"
@@ -1189,13 +1189,13 @@ exports[`enroll-profile-with-password should show generic error message and prev
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-26"
-                        data-se="userProfile.login"
                         required="true"
                       >
                         <input
                           aria-invalid="false"
                           aria-labelledby="userProfile.login-label"
                           class="MuiInputBase-input emotion-27"
+                          data-se="userProfile.login"
                           id="userProfile.login"
                           name="userProfile.login"
                           required=""
@@ -1396,7 +1396,6 @@ exports[`enroll-profile-with-password should show validation error messages on a
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl emotion-26"
-                        data-se="userProfile.lastName"
                         required="true"
                       >
                         <input
@@ -1406,6 +1405,7 @@ exports[`enroll-profile-with-password should show validation error messages on a
                           aria-labelledby="userProfile.lastName-label"
                           autocomplete="family-name"
                           class="MuiInputBase-input emotion-27"
+                          data-se="userProfile.lastName"
                           id="userProfile.lastName"
                           name="userProfile.lastName"
                           required=""
@@ -1447,7 +1447,6 @@ exports[`enroll-profile-with-password should show validation error messages on a
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl emotion-26"
-                        data-se="userProfile.firstName"
                         required="true"
                       >
                         <input
@@ -1457,6 +1456,7 @@ exports[`enroll-profile-with-password should show validation error messages on a
                           aria-labelledby="userProfile.firstName-label"
                           autocomplete="given-name"
                           class="MuiInputBase-input emotion-27"
+                          data-se="userProfile.firstName"
                           id="userProfile.firstName"
                           name="userProfile.firstName"
                           required=""
@@ -1498,8 +1498,6 @@ exports[`enroll-profile-with-password should show validation error messages on a
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl emotion-26"
-                        data-se="userProfile.email"
-                        inputmode="email"
                         required="true"
                       >
                         <input
@@ -1509,7 +1507,9 @@ exports[`enroll-profile-with-password should show validation error messages on a
                           aria-labelledby="userProfile.email-label"
                           autocomplete="email"
                           class="MuiInputBase-input emotion-27"
+                          data-se="userProfile.email"
                           id="userProfile.email"
+                          inputmode="email"
                           name="userProfile.email"
                           required=""
                           type="text"
@@ -1550,7 +1550,6 @@ exports[`enroll-profile-with-password should show validation error messages on a
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl emotion-26"
-                        data-se="userProfile.login"
                         required="true"
                       >
                         <input
@@ -1559,6 +1558,7 @@ exports[`enroll-profile-with-password should show validation error messages on a
                           aria-invalid="true"
                           aria-labelledby="userProfile.login-label"
                           class="MuiInputBase-input emotion-27"
+                          data-se="userProfile.login"
                           id="userProfile.login"
                           name="userProfile.login"
                           required=""
@@ -1600,7 +1600,6 @@ exports[`enroll-profile-with-password should show validation error messages on a
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl emotion-26"
-                        data-se="userProfile.address"
                         required="true"
                       >
                         <input
@@ -1609,6 +1608,7 @@ exports[`enroll-profile-with-password should show validation error messages on a
                           aria-invalid="true"
                           aria-labelledby="userProfile.address-label"
                           class="MuiInputBase-input emotion-27"
+                          data-se="userProfile.address"
                           id="userProfile.address"
                           name="userProfile.address"
                           required=""

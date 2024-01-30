@@ -89,7 +89,6 @@ exports[`enroll-profile-new should render form 1`] = `
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-19"
-                        data-se="userProfile.lastName"
                         required="true"
                       >
                         <input
@@ -97,6 +96,7 @@ exports[`enroll-profile-new should render form 1`] = `
                           aria-labelledby="userProfile.lastName-label"
                           autocomplete="family-name"
                           class="MuiInputBase-input emotion-20"
+                          data-se="userProfile.lastName"
                           id="userProfile.lastName"
                           name="userProfile.lastName"
                           required=""
@@ -123,7 +123,6 @@ exports[`enroll-profile-new should render form 1`] = `
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-19"
-                        data-se="userProfile.firstName"
                         required="true"
                       >
                         <input
@@ -131,6 +130,7 @@ exports[`enroll-profile-new should render form 1`] = `
                           aria-labelledby="userProfile.firstName-label"
                           autocomplete="given-name"
                           class="MuiInputBase-input emotion-20"
+                          data-se="userProfile.firstName"
                           id="userProfile.firstName"
                           name="userProfile.firstName"
                           required=""
@@ -157,8 +157,6 @@ exports[`enroll-profile-new should render form 1`] = `
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-19"
-                        data-se="userProfile.email"
-                        inputmode="email"
                         required="true"
                       >
                         <input
@@ -166,7 +164,9 @@ exports[`enroll-profile-new should render form 1`] = `
                           aria-labelledby="userProfile.email-label"
                           autocomplete="email"
                           class="MuiInputBase-input emotion-20"
+                          data-se="userProfile.email"
                           id="userProfile.email"
+                          inputmode="email"
                           name="userProfile.email"
                           required=""
                           type="text"

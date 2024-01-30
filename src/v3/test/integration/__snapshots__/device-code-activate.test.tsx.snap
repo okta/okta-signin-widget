@@ -95,12 +95,12 @@ exports[`device-code-activate should render form 1`] = `
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-20"
-                        data-se="userCode"
                       >
                         <input
                           aria-invalid="false"
                           aria-labelledby="userCode-label"
                           class="MuiInputBase-input emotion-21"
+                          data-se="userCode"
                           id="userCode"
                           name="userCode"
                           type="text"

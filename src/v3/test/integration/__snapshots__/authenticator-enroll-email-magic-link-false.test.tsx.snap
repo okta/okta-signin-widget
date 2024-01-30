@@ -172,8 +172,6 @@ exports[`Email authenticator enroll when magic link = false Tests should render 
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-27"
-                        data-se="credentials.passcode"
-                        inputmode="numeric"
                         required="true"
                       >
                         <input
@@ -181,7 +179,9 @@ exports[`Email authenticator enroll when magic link = false Tests should render 
                           aria-labelledby="credentials.passcode-label"
                           autocomplete="off"
                           class="MuiInputBase-input emotion-28"
+                          data-se="credentials.passcode"
                           id="credentials.passcode"
+                          inputmode="numeric"
                           name="credentials.passcode"
                           required=""
                           type="text"

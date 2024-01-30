@@ -132,7 +132,6 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error Mui-focused MuiInputBase-formControl emotion-26"
-                        data-se="userProfile.firstName"
                         required="true"
                       >
                         <input
@@ -142,6 +141,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                           aria-labelledby="userProfile.firstName-label"
                           autocomplete="given-name"
                           class="MuiInputBase-input emotion-27"
+                          data-se="userProfile.firstName"
                           id="userProfile.firstName"
                           name="userProfile.firstName"
                           required=""
@@ -183,7 +183,6 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl emotion-26"
-                        data-se="userProfile.lastName"
                         required="true"
                       >
                         <input
@@ -193,6 +192,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                           aria-labelledby="userProfile.lastName-label"
                           autocomplete="family-name"
                           class="MuiInputBase-input emotion-27"
+                          data-se="userProfile.lastName"
                           id="userProfile.lastName"
                           name="userProfile.lastName"
                           required=""
@@ -234,8 +234,6 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl emotion-26"
-                        data-se="userProfile.email"
-                        inputmode="email"
                         required="true"
                       >
                         <input
@@ -245,7 +243,9 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                           aria-labelledby="userProfile.email-label"
                           autocomplete="email"
                           class="MuiInputBase-input emotion-27"
+                          data-se="userProfile.email"
                           id="userProfile.email"
+                          inputmode="email"
                           name="userProfile.email"
                           required=""
                           type="text"
@@ -1557,7 +1557,6 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl emotion-26"
-                        data-se="userProfile.countryCode"
                         required="true"
                       >
                         <input
@@ -1566,6 +1565,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                           aria-invalid="true"
                           aria-labelledby="userProfile.countryCode-label"
                           class="MuiInputBase-input emotion-27"
+                          data-se="userProfile.countryCode"
                           id="userProfile.countryCode"
                           name="userProfile.countryCode"
                           required=""
@@ -1969,7 +1969,6 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-19"
-                        data-se="userProfile.firstName"
                         required="true"
                       >
                         <input
@@ -1977,6 +1976,7 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                           aria-labelledby="userProfile.firstName-label"
                           autocomplete="given-name"
                           class="MuiInputBase-input emotion-20"
+                          data-se="userProfile.firstName"
                           id="userProfile.firstName"
                           name="userProfile.firstName"
                           required=""
@@ -2003,7 +2003,6 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-19"
-                        data-se="userProfile.lastName"
                         required="true"
                       >
                         <input
@@ -2011,6 +2010,7 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                           aria-labelledby="userProfile.lastName-label"
                           autocomplete="family-name"
                           class="MuiInputBase-input emotion-20"
+                          data-se="userProfile.lastName"
                           id="userProfile.lastName"
                           name="userProfile.lastName"
                           required=""
@@ -2037,8 +2037,6 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-19"
-                        data-se="userProfile.email"
-                        inputmode="email"
                         required="true"
                       >
                         <input
@@ -2046,7 +2044,9 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                           aria-labelledby="userProfile.email-label"
                           autocomplete="email"
                           class="MuiInputBase-input emotion-20"
+                          data-se="userProfile.email"
                           id="userProfile.email"
+                          inputmode="email"
                           name="userProfile.email"
                           required=""
                           type="text"
@@ -3330,13 +3330,13 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-19"
-                        data-se="userProfile.countryCode"
                         required="true"
                       >
                         <input
                           aria-invalid="false"
                           aria-labelledby="userProfile.countryCode-label"
                           class="MuiInputBase-input emotion-20"
+                          data-se="userProfile.countryCode"
                           id="userProfile.countryCode"
                           name="userProfile.countryCode"
                           required=""
