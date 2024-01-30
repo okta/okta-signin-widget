@@ -86,7 +86,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
       }}
       testId={name}
       translate={noTranslate ? 'no' : undefined}
-      value={value as string | undefined}
+      value={value as string ?? ''}
     />
   );
 };
