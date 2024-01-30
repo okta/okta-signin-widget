@@ -165,7 +165,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                         class="MuiFormControl-root MuiFormControl-marginNormal emotion-25"
                       >
                         <legend
-                          class="MuiFormLabel-root MuiFormLabel-colorPrimary Mui-focused emotion-26"
+                          class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-26"
                         >
                           
                            
@@ -181,7 +181,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                             class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-28"
                           >
                             <span
-                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-focusVisible PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-checked MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-29"
+                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-checked MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-29"
                             >
                               <input
                                 class="PrivateSwitchBase-input emotion-30"
