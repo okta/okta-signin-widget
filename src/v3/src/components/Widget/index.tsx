@@ -507,8 +507,6 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       languageDirection,
     }}
     >
-      {/* remove this provider when all Odyssey legacy imports are removed */}
-      <MuiThemeProvider theme={theme}>
         <OdysseyProvider
           themeOverride={theme}
           designTokensOverride={tokens}
@@ -536,7 +534,6 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
             </AuthContent>
           </AuthContainer>
         </OdysseyProvider>
-      </MuiThemeProvider>
     </WidgetContextProvider>
   );
 };

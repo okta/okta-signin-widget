@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { List as ListMui, ListItem } from '@mui/material';
-import { Box, Typography } from '@okta/odyssey-react-mui-legacy';
+import { Box, List as ListMui, ListItem } from '@mui/material';
+import { Typography, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
 
 import Logger from '../../../../util/Logger';
@@ -28,10 +28,11 @@ import Button from '../Button';
 import InformationalText from '../InformationalText';
 
 const renderElement = (item: UISchemaElement) => {
+  const tokens = useOdysseyDesignTokens();
   const Container: FunctionComponent = ({ children }) => (
     <Box
       // eslint-disable-next-line react/jsx-props-no-spreading
-      {...(!(item).noMargin && { marginBlockEnd: 4 })}
+      {...(!(item).noMargin && { marginBlockEnd: tokens.Spacing4 })}
     >
       {children}
     </Box>
@@ -75,18 +76,19 @@ const List: UISchemaElementComponent<{
   uischema: ListElement
 }> = ({ uischema }) => {
   const { options } = uischema;
+  const tokens = useOdysseyDesignTokens();
 
   return options.items?.length ? (
     <Box
       display="flex"
       flexDirection="column"
       justifyContent="flex-start"
-      marginBlockEnd={4}
+      marginBlockEnd={tokens.Spacing4}
     >
       { options.description && <Typography component="p">{options.description}</Typography> }
       <ListMui
         component={options.type}
-        sx={{ listStyleType: options.type === 'ol' ? 'decimal' : 'disc', pl: 4 }}
+        sx={{ listStyleType: options.type === 'ol' ? 'decimal' : 'disc', pl: tokens.Spacing4 }}
       >
         {
           options.items.map((item: string | UISchemaLayout, index: number) => (

@@ -10,9 +10,9 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { Box, Typography } from '@mui/material';
 import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { AddIcon, ArrowLeftIcon, ArrowRightIcon } from '@okta/odyssey-react-mui/icons';
-import { Box, Typography } from '@okta/odyssey-react-mui-legacy';
 import { h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';

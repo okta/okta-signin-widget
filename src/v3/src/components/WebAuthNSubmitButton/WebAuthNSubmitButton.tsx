@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { Box } from '@mui/material';
 import { Button, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
-import { Box } from '@okta/odyssey-react-mui-legacy';
 import { IdxActionParams } from '@okta/okta-auth-js';
 import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';

@@ -10,24 +10,22 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { ScopedCssBaseline } from '@mui/material';
+import { Box, ScopedCssBaseline } from '@mui/material';
 import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
-import { Box } from '@okta/odyssey-react-mui-legacy';
-import classNames from 'classnames';
 import { FunctionComponent, h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
 
 const AuthContainer: FunctionComponent<{ hide: boolean }> = ({ children, hide }) => {
   const { languageDirection, languageCode } = useWidgetContext();
-  const classes = classNames('auth-container', 'main-container');
+  const testIds = 'auth-container main-container';
   const tokens = useOdysseyDesignTokens();
 
   return (
     <Box
       id="okta-sign-in"
       component="main"
-      className={classes}
+      data-se={testIds}
       data-version={OKTA_SIW_VERSION}
       data-commit={OKTA_SIW_COMMIT_HASH}
       lang={languageCode}

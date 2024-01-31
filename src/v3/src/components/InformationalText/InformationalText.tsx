@@ -10,11 +10,21 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box, Typography } from '@okta/odyssey-react-mui-legacy';
+import { Box } from '@mui/material';
+import { Typography, TypographyVariantValue } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 
 import { useHtmlContentParser } from '../../hooks';
 import { DescriptionElement, UISchemaElementComponent } from '../../types';
+
+const odyTypographyVariantMapping: Record<
+  'body1' | 'subtitle1' | 'legend',
+  TypographyVariantValue
+> = {
+  "body1": "body",
+  "subtitle1": "subordinate",
+  "legend": "legend",
+}
 
 const InformationalText: UISchemaElementComponent<{
   uischema: DescriptionElement
@@ -27,18 +37,17 @@ const InformationalText: UISchemaElementComponent<{
     variant,
   } = uischema.options;
   const parsedContent = useHtmlContentParser(content, uischema.parserOptions);
-
+  
   return (
     <Box
       display="flex"
       justifyContent="flex-start"
     >
       <Typography
-        id={uischema.id}
-        paragraph
-        data-se={dataSe || 'o-form-explain'}
-        className={uischema.noTranslate ? 'no-translate' : undefined}
-        variant={variant ?? 'body1'}
+        component="p"
+        variant={variant ? odyTypographyVariantMapping["subtitle1"] : 'body'}
+        testId={dataSe || 'o-form-explain'}
+        translate={uischema.noTranslate ? 'no' : undefined}
       >
         {parsedContent}
       </Typography>

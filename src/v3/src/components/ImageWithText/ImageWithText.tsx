@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
-import { Box, Typography } from '@okta/odyssey-react-mui-legacy';
+import { Box } from '@mui/material';
+import { Typography, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 import { ImageWithTextElement, UISchemaElementComponent } from 'src/types';
 
@@ -44,8 +44,8 @@ const ImageWithText: UISchemaElementComponent<{
         <Box>
           <Typography
             component="span"
-            className={noTranslate ? 'no-translate' : undefined}
-            data-se={`text-${uischema.options.id}`}
+            translate={noTranslate ? 'no' : undefined}
+            testId={`text-${uischema.options.id}`}
           >
             {textContent}
           </Typography>

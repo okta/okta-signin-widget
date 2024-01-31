@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Link, Typography } from '@okta/odyssey-react-mui-legacy';
+import { Link, Typography } from '@okta/odyssey-react-mui';
 import {
   attributesToProps,
   DOMNode,
@@ -36,6 +36,7 @@ export const getLinkReplacerFn = (
       const props = attributesToProps(attribs);
       return (
         <Link
+          href=""
           // eslint-disable-next-line react/jsx-props-no-spreading
           {...props}
           variant={variant}

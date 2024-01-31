@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { Box } from '@mui/material';
 import { Button as OdyButton } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 

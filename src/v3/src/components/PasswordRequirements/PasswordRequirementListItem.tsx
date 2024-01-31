@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
-import { Box, Typography } from '@okta/odyssey-react-mui-legacy';
+import { Box } from '@mui/material';
+import { Typography, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
 
 import { PasswordRequirementProps } from '../../types';
@@ -39,7 +39,7 @@ const PasswordRequirementListItem: FunctionComponent<PasswordRequirementProps> =
          * of the icon. See: OKTA-586924
          * */}
         <Icon status={status} />
-        <Box><Typography variant="body1">{label}</Typography></Box>
+        <Box><Typography variant="body">{label}</Typography></Box>
       </Box>
     </Box>
   );

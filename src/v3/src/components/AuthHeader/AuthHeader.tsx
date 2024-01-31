@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
-import { Box, Typography } from '@okta/odyssey-react-mui-legacy';
-import classNames from 'classnames';
+import { Box } from '@mui/material';
+import { Typography, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
 import { AuthCoinProps } from 'src/types';
 
@@ -44,7 +43,7 @@ const AuthHeader: FunctionComponent<AuthHeaderProps> = ({
   authCoinProps,
 }) => {
   const showAuthCoin = shouldRenderAuthCoin(authCoinProps);
-  const containerClasses = classNames('okta-sign-in-header', 'auth-header', { authCoinSpacing: showAuthCoin });
+  const containerTestIds = `okta-sign-in-header auth-header ${ showAuthCoin ? 'authCoinSpacing' : '' }`;
   const tokens = useOdysseyDesignTokens();
 
   function renderAuthCoin() {
@@ -65,7 +64,7 @@ const AuthHeader: FunctionComponent<AuthHeaderProps> = ({
 
   return (
     <Box
-      className={containerClasses}
+      data-se={containerTestIds}
       sx={{
         paddingBlockStart: tokens.Spacing5,
         paddingBlockEnd: showAuthCoin ? tokens.Spacing1 : tokens.Spacing5,
