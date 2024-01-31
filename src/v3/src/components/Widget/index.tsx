@@ -15,7 +15,6 @@
 import './style.scss';
 
 import { OdysseyProvider, TranslationOverrides } from '@okta/odyssey-react-mui';
-import { MuiThemeProvider } from '@okta/odyssey-react-mui-legacy';
 import {
   AuthApiError,
   AuthenticatorKey,
@@ -507,33 +506,33 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       languageDirection,
     }}
     >
-        <OdysseyProvider
-          themeOverride={theme}
-          designTokensOverride={tokens}
-          languageCode={odyLanguageCode}
-          translationOverrides={odyTranslationOverrides}
-          nonce={cspNonce}
-          stylisPlugins={stylisPlugins}
-        >
-          <GlobalStyles />
-          {/* the style is to allow the widget to inherit the parent's bg color */}
-          <AuthContainer hide={hide}>
-            <AuthHeader
-              logo={logo}
-              logoText={logoText}
-              brandName={brandName}
-              authCoinProps={buildAuthCoinProps(idxTransaction)}
-            />
-            <AuthContent>
-              {isConsentStep(idxTransaction) && <ConsentHeader />}
-              {
-                uischema.elements.length > 0
-                  ? <Form uischema={uischema as UISchemaLayout} />
-                  : <Spinner />
-              }
-            </AuthContent>
-          </AuthContainer>
-        </OdysseyProvider>
+      <OdysseyProvider
+        themeOverride={theme}
+        designTokensOverride={tokens}
+        languageCode={odyLanguageCode}
+        translationOverrides={odyTranslationOverrides}
+        nonce={cspNonce}
+        stylisPlugins={stylisPlugins}
+      >
+        <GlobalStyles />
+        {/* the style is to allow the widget to inherit the parent's bg color */}
+        <AuthContainer hide={hide}>
+          <AuthHeader
+            logo={logo}
+            logoText={logoText}
+            brandName={brandName}
+            authCoinProps={buildAuthCoinProps(idxTransaction)}
+          />
+          <AuthContent>
+            {isConsentStep(idxTransaction) && <ConsentHeader />}
+            {
+              uischema.elements.length > 0
+                ? <Form uischema={uischema as UISchemaLayout} />
+                : <Spinner />
+            }
+          </AuthContent>
+        </AuthContainer>
+      </OdysseyProvider>
     </WidgetContextProvider>
   );
 };
