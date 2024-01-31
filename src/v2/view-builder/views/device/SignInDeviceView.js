@@ -2,7 +2,6 @@ import { loc } from '@okta/courage';
 import { BaseForm, BaseView } from '../../internals';
 import IdentifierFooter from '../../components/IdentifierFooter';
 import SignInWithDeviceOption from '../signin/SignInWithDeviceOption';
-import CookieUtil from '../../../../util/CookieUtil';
 
 const Body = BaseForm.extend({
 
@@ -25,15 +24,13 @@ const Body = BaseForm.extend({
   },
 });
 
+// override the footer to add all the supported links except the sign out link
+// no session is granted at this point
+const Footer = IdentifierFooter.extend({
+  hasBackToSignInLink: false
+});
+
 export default BaseView.extend({
   Body,
-
-  constructor: function() {
-    BaseView.apply(this, arguments);
-
-    this.Footer = IdentifierFooter.extend({
-      // if the browser already has a session, then we should not render the “Back to sign in” link (OKTA-624224)
-      hasBackToSignInLink: !CookieUtil.getCookieUserAuthenticated()
-    });
-  }
+  Footer: Footer
 });

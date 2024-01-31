@@ -350,7 +350,7 @@ const setupWithTransformUsernameOnUnlock = _.partial(setup, { transformUsername:
 Expect.describe('PrimaryAuth', function() {
   beforeEach(() => {
     // ensure a clean environment for each test
-    CookieUtil.removeUserCookies();
+    CookieUtil.removeUsernameCookie();
   });
   Expect.describe('PrimaryAuthModel', function() {
     it('returns username validation error when username is blank', function() {

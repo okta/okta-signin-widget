@@ -210,7 +210,6 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     // This way the flow can maintain the latest state handle. For eg. Device probe calls
     if (step === IDX_STEP.CANCEL_TRANSACTION) {
       SessionStorage.removeStateHandle();
-      removeUsernameCookie();
     }
     if (step === IDX_STEP.IDENTIFY && features?.deviceFingerprinting) {
       const baseUrl = getBaseUrl(widgetProps);

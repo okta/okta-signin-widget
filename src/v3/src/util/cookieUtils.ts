@@ -15,7 +15,6 @@ import Cookies from 'js-cookie';
 const DEFAULT_EXPIRY_DAYS = 365;
 const DEFAULT_COOKIE_PATH = '/';
 const LAST_USERNAME_COOKIE_NAME = 'ln';
-const USER_AUTHENTICATED_COOKIE_NAME = 'isuauth';
 
 export const setCookieString = (
   name: string,
@@ -32,10 +31,6 @@ export const setCookieString = (
 
 export const getCookieString = (name: string): string => Cookies.get(name) as string;
 
-export const getCookieUserAuthenticated = (): string => getCookieString(
-  USER_AUTHENTICATED_COOKIE_NAME,
-);
-
 export const removeCookie = (name: string): void => Cookies.remove(name);
 
 export const setUsernameCookie = (username: string): void => setCookieString(
@@ -43,18 +38,6 @@ export const setUsernameCookie = (username: string): void => setCookieString(
   username,
 );
 
-export const setCookieUserAuthenticated = (): void => {
-  Cookies.set(
-    USER_AUTHENTICATED_COOKIE_NAME,
-    '1',
-    { expires: 1, path: DEFAULT_COOKIE_PATH },
-  );
-};
-
 export const getUsernameCookie = (): string => getCookieString(LAST_USERNAME_COOKIE_NAME);
 
 export const removeUsernameCookie = (): void => removeCookie(LAST_USERNAME_COOKIE_NAME);
-
-export const removeUserAuthenticatedCookie = (): void => removeCookie(
-  USER_AUTHENTICATED_COOKIE_NAME,
-);

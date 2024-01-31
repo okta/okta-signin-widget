@@ -33,7 +33,6 @@ import {
   WidgetOptions,
   WidgetProps,
 } from '../types';
-import { setCookieUserAuthenticated } from '../util';
 import { WidgetHooks } from '../util/widgetHooks';
 
 const EVENTS_LIST = ['ready', 'afterError', 'afterRender'];
@@ -157,7 +156,6 @@ export default class OktaSignIn implements OktaSignInAPI {
 
     return new Promise<RenderResult>((resolve, reject) => {
       const onSuccessWrapper = (res: RenderResult): void => {
-        setCookieUserAuthenticated();
         onSuccess?.(res);
         resolve(res);
       };

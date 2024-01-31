@@ -13,7 +13,7 @@
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 
 import {
-  DescriptionElement, LaunchAuthenticatorButtonElement, LinkElement, TitleElement, WidgetProps,
+  DescriptionElement, LaunchAuthenticatorButtonElement, TitleElement, WidgetProps,
 } from '../../../types';
 import { transformOktaVerifyFPLaunchAuthenticator } from './transformOktaVerifyFPLaunchAuthenticator';
 
@@ -35,7 +35,7 @@ describe('Launch Authenticator page transformer Tests', () => {
     });
 
     expect(updatedFormBag).toMatchSnapshot();
-    expect(updatedFormBag.uischema.elements.length).toBe(4);
+    expect(updatedFormBag.uischema.elements.length).toBe(3);
     expect((updatedFormBag.uischema.elements[0] as TitleElement).type)
       .toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
@@ -48,8 +48,6 @@ describe('Launch Authenticator page transformer Tests', () => {
       .toBe('LaunchAuthenticatorButton');
     expect((updatedFormBag.uischema.elements[2] as LaunchAuthenticatorButtonElement).label)
       .toBe('oktaVerify.button');
-    expect((updatedFormBag.uischema.elements[3] as LinkElement).options.step)
-      .toBe('cancel');
   });
 
   it('should show correct description when app is specified', () => {
