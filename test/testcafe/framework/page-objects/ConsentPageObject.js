@@ -61,7 +61,7 @@ export default class ConsentPageObject extends BasePageObject {
   }
 
   getGranularHeaderText() {
-    return this.getTextContent('[data-se=title-text] > p');
+    return this.getTextContent('[data-se=title-text] p');
   }
 
   getScopeCheckBoxLabels() {
