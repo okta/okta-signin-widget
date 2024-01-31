@@ -6,8 +6,9 @@ exports[`authenticator-verification-data-with-email should render form 1`] = `
     class="MuiScopedCssBaseline-root emotion-0"
   >
     <main
-      class="auth-container main-container MuiBox-root emotion-1"
+      class="MuiBox-root emotion-1"
       data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+      data-se="auth-container main-container"
       data-version="0.0.0"
       dir="ltr"
       id="okta-sign-in"
@@ -23,15 +24,17 @@ exports[`authenticator-verification-data-with-email should render form 1`] = `
             class="MuiBox-root emotion-4"
           >
             <div
-              class="okta-sign-in-header auth-header authCoinSpacing MuiBox-root emotion-5"
+              class="MuiBox-root emotion-5"
+              data-se="okta-sign-in-header auth-header authCoinSpacing"
             >
               <h1
                 class="MuiTypography-root MuiTypography-h1 emotion-6"
+                tabindex="-1"
               />
               <div
                 aria-hidden="true"
-                class="mfa-okta-email MuiBox-root emotion-7"
-                data-se="factor-beacon"
+                class="MuiBox-root emotion-7"
+                data-se="factor-beacon mfa-okta-email "
               >
                 <svg
                   aria-labelledby="mfa-okta-email"
@@ -64,7 +67,7 @@ exports[`authenticator-verification-data-with-email should render form 1`] = `
               class="MuiBox-root emotion-8"
             >
               <form
-                class="o-form MuiBox-root emotion-9"
+                class="MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""
               >
@@ -123,7 +126,6 @@ exports[`authenticator-verification-data-with-email should render form 1`] = `
                       <h2
                         class="MuiTypography-root MuiTypography-h4 emotion-19"
                         data-se="o-form-head"
-                        id="authenticator-verification-data_Title_Get_a_verification_email_okta_email_1"
                         tabindex="-1"
                       >
                         Get a verification email
@@ -137,9 +139,9 @@ exports[`authenticator-verification-data-with-email should render form 1`] = `
                       class="MuiBox-root emotion-18"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-22"
+                        class="MuiTypography-root MuiTypography-body1 emotion-22"
                         data-se="o-form-explain"
-                        id="authenticator-verification-data_Description_Send_a_verification_email_to_<span_class=strong_no-translate>t****1@oktacom</span>_by_clicking_on_Send_me_an_email_okta_email_2"
+                        tabindex="-1"
                       >
                         Send a verification email to 
                         <span

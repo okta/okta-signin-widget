@@ -6,8 +6,9 @@ exports[`Email authenticator verification when email magic link = undefined rend
     class="MuiScopedCssBaseline-root emotion-0"
   >
     <main
-      class="auth-container main-container MuiBox-root emotion-1"
+      class="MuiBox-root emotion-1"
       data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+      data-se="auth-container main-container"
       data-version="0.0.0"
       dir="ltr"
       id="okta-sign-in"
@@ -23,15 +24,17 @@ exports[`Email authenticator verification when email magic link = undefined rend
             class="MuiBox-root emotion-4"
           >
             <div
-              class="okta-sign-in-header auth-header authCoinSpacing MuiBox-root emotion-5"
+              class="MuiBox-root emotion-5"
+              data-se="okta-sign-in-header auth-header authCoinSpacing"
             >
               <h1
                 class="MuiTypography-root MuiTypography-h1 emotion-6"
+                tabindex="-1"
               />
               <div
                 aria-hidden="true"
-                class="mfa-okta-email MuiBox-root emotion-7"
-                data-se="factor-beacon"
+                class="MuiBox-root emotion-7"
+                data-se="factor-beacon mfa-okta-email "
               >
                 <svg
                   aria-labelledby="mfa-okta-email"
@@ -64,7 +67,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
               class="MuiBox-root emotion-8"
             >
               <form
-                class="o-form MuiBox-root emotion-9"
+                class="MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""
               >
@@ -129,7 +132,6 @@ exports[`Email authenticator verification when email magic link = undefined rend
                         <h2
                           class="MuiTypography-root MuiTypography-h4 emotion-21"
                           data-se="o-form-head"
-                          id="challenge-authenticator_Title_Verify_with_your_email_okta_email_eae1egri5eK5zce0V1d7_3_1"
                           tabindex="-1"
                         >
                           Verify with your email
@@ -143,9 +145,9 @@ exports[`Email authenticator verification when email magic link = undefined rend
                         class="MuiBox-root emotion-20"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-24"
+                          class="MuiTypography-root MuiTypography-body1 emotion-24"
                           data-se="o-form-explain"
-                          id="challenge-authenticator_Description_We_sent_an_email_to_<span_class=strong_no-translate>f****************e@examplecom</span>_Click_the_verification_link_in_your_email_to_continue_or_enter_the_code_below_okta_email_eae1egri5eK5zce0V1d7_4_1"
+                          tabindex="-1"
                         >
                           We sent an email to 
                           <span
@@ -197,8 +199,9 @@ exports[`Email authenticator verification when email magic link = undefined rend
     class="MuiScopedCssBaseline-root emotion-0"
   >
     <main
-      class="auth-container main-container MuiBox-root emotion-1"
+      class="MuiBox-root emotion-1"
       data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+      data-se="auth-container main-container"
       data-version="0.0.0"
       dir="ltr"
       id="okta-sign-in"
@@ -214,15 +217,17 @@ exports[`Email authenticator verification when email magic link = undefined rend
             class="MuiBox-root emotion-4"
           >
             <div
-              class="okta-sign-in-header auth-header authCoinSpacing MuiBox-root emotion-5"
+              class="MuiBox-root emotion-5"
+              data-se="okta-sign-in-header auth-header authCoinSpacing"
             >
               <h1
                 class="MuiTypography-root MuiTypography-h1 emotion-6"
+                tabindex="-1"
               />
               <div
                 aria-hidden="true"
-                class="mfa-okta-email MuiBox-root emotion-7"
-                data-se="factor-beacon"
+                class="MuiBox-root emotion-7"
+                data-se="factor-beacon mfa-okta-email "
               >
                 <svg
                   aria-labelledby="mfa-okta-email"
@@ -255,7 +260,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
               class="MuiBox-root emotion-8"
             >
               <form
-                class="o-form MuiBox-root emotion-9"
+                class="MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""
               >
@@ -374,7 +379,6 @@ exports[`Email authenticator verification when email magic link = undefined rend
                         <h2
                           class="MuiTypography-root MuiTypography-h4 emotion-30"
                           data-se="o-form-head"
-                          id="challenge-authenticator_Title_Verify_with_your_email_okta_email_eae1egri5eK5zce0V1d7_3_1"
                           tabindex="-1"
                         >
                           Verify with your email
@@ -388,9 +392,9 @@ exports[`Email authenticator verification when email magic link = undefined rend
                         class="MuiBox-root emotion-29"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-33"
+                          class="MuiTypography-root MuiTypography-body1 emotion-33"
                           data-se="o-form-explain"
-                          id="challenge-authenticator_Description_We_sent_an_email_to_<span_class=strong_no-translate>f****************e@examplecom</span>_Click_the_verification_link_in_your_email_to_continue_or_enter_the_code_below_okta_email_eae1egri5eK5zce0V1d7_4_1"
+                          tabindex="-1"
                         >
                           We sent an email to 
                           <span
@@ -442,8 +446,9 @@ exports[`Email authenticator verification when email magic link = undefined rend
     class="MuiScopedCssBaseline-root emotion-0"
   >
     <main
-      class="auth-container main-container MuiBox-root emotion-1"
+      class="MuiBox-root emotion-1"
       data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+      data-se="auth-container main-container"
       data-version="0.0.0"
       dir="ltr"
       id="okta-sign-in"
@@ -459,15 +464,17 @@ exports[`Email authenticator verification when email magic link = undefined rend
             class="MuiBox-root emotion-4"
           >
             <div
-              class="okta-sign-in-header auth-header authCoinSpacing MuiBox-root emotion-5"
+              class="MuiBox-root emotion-5"
+              data-se="okta-sign-in-header auth-header authCoinSpacing"
             >
               <h1
                 class="MuiTypography-root MuiTypography-h1 emotion-6"
+                tabindex="-1"
               />
               <div
                 aria-hidden="true"
-                class="mfa-okta-email MuiBox-root emotion-7"
-                data-se="factor-beacon"
+                class="MuiBox-root emotion-7"
+                data-se="factor-beacon mfa-okta-email "
               >
                 <svg
                   aria-labelledby="mfa-okta-email"
@@ -500,7 +507,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
               class="MuiBox-root emotion-8"
             >
               <form
-                class="o-form MuiBox-root emotion-9"
+                class="MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""
               >
@@ -565,7 +572,6 @@ exports[`Email authenticator verification when email magic link = undefined rend
                         <h2
                           class="MuiTypography-root MuiTypography-h4 emotion-21"
                           data-se="o-form-head"
-                          id="challenge-authenticator_Title_Verify_with_your_email_okta_email_eae1egri5eK5zce0V1d7_7_2"
                           tabindex="-1"
                         >
                           Verify with your email
@@ -579,9 +585,9 @@ exports[`Email authenticator verification when email magic link = undefined rend
                         class="MuiBox-root emotion-20"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-24"
+                          class="MuiTypography-root MuiTypography-body1 emotion-24"
                           data-se="o-form-explain"
-                          id="challenge-authenticator_Description_We_sent_an_email_to_<span_class=strong_no-translate>f****************e@examplecom</span>_Click_the_verification_link_in_your_email_to_continue_or_enter_the_code_below_okta_email_eae1egri5eK5zce0V1d7_8_2"
+                          tabindex="-1"
                         >
                           We sent an email to 
                           <span
@@ -600,8 +606,12 @@ exports[`Email authenticator verification when email magic link = undefined rend
                         class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-26"
                       >
                         <label
+<<<<<<< HEAD
                           class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-27"
                           data-shrink="false"
+=======
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated emotion-27"
+>>>>>>> 196af4eba (Snapshot updates)
                           for="credentials.passcode"
                           id="credentials.passcode-label"
                         >
@@ -669,8 +679,9 @@ exports[`Email authenticator verification when email magic link = undefined rend
     class="MuiScopedCssBaseline-root emotion-0"
   >
     <main
-      class="auth-container main-container MuiBox-root emotion-1"
+      class="MuiBox-root emotion-1"
       data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+      data-se="auth-container main-container"
       data-version="0.0.0"
       dir="ltr"
       id="okta-sign-in"
@@ -686,15 +697,17 @@ exports[`Email authenticator verification when email magic link = undefined rend
             class="MuiBox-root emotion-4"
           >
             <div
-              class="okta-sign-in-header auth-header authCoinSpacing MuiBox-root emotion-5"
+              class="MuiBox-root emotion-5"
+              data-se="okta-sign-in-header auth-header authCoinSpacing"
             >
               <h1
                 class="MuiTypography-root MuiTypography-h1 emotion-6"
+                tabindex="-1"
               />
               <div
                 aria-hidden="true"
-                class="mfa-okta-email MuiBox-root emotion-7"
-                data-se="factor-beacon"
+                class="MuiBox-root emotion-7"
+                data-se="factor-beacon mfa-okta-email "
               >
                 <svg
                   aria-labelledby="mfa-okta-email"
@@ -727,7 +740,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
               class="MuiBox-root emotion-8"
             >
               <form
-                class="o-form MuiBox-root emotion-9"
+                class="MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""
               >
@@ -835,7 +848,6 @@ exports[`Email authenticator verification when email magic link = undefined rend
                         <h2
                           class="MuiTypography-root MuiTypography-h4 emotion-28"
                           data-se="o-form-head"
-                          id="challenge-authenticator_Title_Verify_with_your_email_okta_email_eaexdyjzXZ3iWikza0g3_7_2"
                           tabindex="-1"
                         >
                           Verify with your email
@@ -849,9 +861,9 @@ exports[`Email authenticator verification when email magic link = undefined rend
                         class="MuiBox-root emotion-27"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-31"
+                          class="MuiTypography-root MuiTypography-body1 emotion-31"
                           data-se="o-form-explain"
-                          id="challenge-authenticator_Description_We_sent_an_email_to_<span_class=strong_no-translate>t***t@idxcom</span>_Click_the_verification_link_in_your_email_to_continue_or_enter_the_code_below_okta_email_eaexdyjzXZ3iWikza0g3_8_2"
+                          tabindex="-1"
                         >
                           We sent an email to 
                           <span
@@ -870,8 +882,12 @@ exports[`Email authenticator verification when email magic link = undefined rend
                         class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-33"
                       >
                         <label
+<<<<<<< HEAD
                           class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiFormLabel-filled Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-34"
                           data-shrink="false"
+=======
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated emotion-34"
+>>>>>>> 196af4eba (Snapshot updates)
                           for="credentials.passcode"
                           id="credentials.passcode-label"
                         >
@@ -967,8 +983,9 @@ exports[`Email authenticator verification when email magic link = undefined rend
     class="MuiScopedCssBaseline-root emotion-0"
   >
     <main
-      class="auth-container main-container MuiBox-root emotion-1"
+      class="MuiBox-root emotion-1"
       data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+      data-se="auth-container main-container"
       data-version="0.0.0"
       dir="ltr"
       id="okta-sign-in"
@@ -984,15 +1001,17 @@ exports[`Email authenticator verification when email magic link = undefined rend
             class="MuiBox-root emotion-4"
           >
             <div
-              class="okta-sign-in-header auth-header authCoinSpacing MuiBox-root emotion-5"
+              class="MuiBox-root emotion-5"
+              data-se="okta-sign-in-header auth-header authCoinSpacing"
             >
               <h1
                 class="MuiTypography-root MuiTypography-h1 emotion-6"
+                tabindex="-1"
               />
               <div
                 aria-hidden="true"
-                class="mfa-okta-email MuiBox-root emotion-7"
-                data-se="factor-beacon"
+                class="MuiBox-root emotion-7"
+                data-se="factor-beacon mfa-okta-email "
               >
                 <svg
                   aria-labelledby="mfa-okta-email"
@@ -1025,7 +1044,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
               class="MuiBox-root emotion-8"
             >
               <form
-                class="o-form MuiBox-root emotion-9"
+                class="MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""
               >
@@ -1187,7 +1206,6 @@ exports[`Email authenticator verification when email magic link = undefined rend
                         <h2
                           class="MuiTypography-root MuiTypography-h4 emotion-37"
                           data-se="o-form-head"
-                          id="challenge-authenticator_Title_Verify_with_your_email_okta_email_eaexdyjzXZ3iWikza0g3_7_2"
                           tabindex="-1"
                         >
                           Verify with your email
@@ -1201,9 +1219,9 @@ exports[`Email authenticator verification when email magic link = undefined rend
                         class="MuiBox-root emotion-36"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-40"
+                          class="MuiTypography-root MuiTypography-body1 emotion-40"
                           data-se="o-form-explain"
-                          id="challenge-authenticator_Description_We_sent_an_email_to_<span_class=strong_no-translate>t***t@idxcom</span>_Click_the_verification_link_in_your_email_to_continue_or_enter_the_code_below_okta_email_eaexdyjzXZ3iWikza0g3_8_2"
+                          tabindex="-1"
                         >
                           We sent an email to 
                           <span
@@ -1222,8 +1240,12 @@ exports[`Email authenticator verification when email magic link = undefined rend
                         class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-42"
                       >
                         <label
+<<<<<<< HEAD
                           class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiFormLabel-filled Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-43"
                           data-shrink="false"
+=======
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated emotion-43"
+>>>>>>> 196af4eba (Snapshot updates)
                           for="credentials.passcode"
                           id="credentials.passcode-label"
                         >
@@ -1319,8 +1341,9 @@ exports[`Email authenticator verification when email magic link = undefined rend
     class="MuiScopedCssBaseline-root emotion-0"
   >
     <main
-      class="auth-container main-container MuiBox-root emotion-1"
+      class="MuiBox-root emotion-1"
       data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+      data-se="auth-container main-container"
       data-version="0.0.0"
       dir="ltr"
       id="okta-sign-in"
@@ -1336,17 +1359,19 @@ exports[`Email authenticator verification when email magic link = undefined rend
             class="MuiBox-root emotion-4"
           >
             <div
-              class="okta-sign-in-header auth-header MuiBox-root emotion-5"
+              class="MuiBox-root emotion-5"
+              data-se="okta-sign-in-header auth-header "
             >
               <h1
                 class="MuiTypography-root MuiTypography-h1 emotion-6"
+                tabindex="-1"
               />
             </div>
             <div
               class="MuiBox-root emotion-7"
             >
               <form
-                class="o-form MuiBox-root emotion-8"
+                class="MuiBox-root emotion-8"
                 data-se="o-form"
                 novalidate=""
               >
@@ -1430,8 +1455,9 @@ exports[`Email authenticator verification when email magic link = undefined shou
     class="MuiScopedCssBaseline-root emotion-0"
   >
     <main
-      class="auth-container main-container MuiBox-root emotion-1"
+      class="MuiBox-root emotion-1"
       data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+      data-se="auth-container main-container"
       data-version="0.0.0"
       dir="ltr"
       id="okta-sign-in"
@@ -1447,15 +1473,17 @@ exports[`Email authenticator verification when email magic link = undefined shou
             class="MuiBox-root emotion-4"
           >
             <div
-              class="okta-sign-in-header auth-header authCoinSpacing MuiBox-root emotion-5"
+              class="MuiBox-root emotion-5"
+              data-se="okta-sign-in-header auth-header authCoinSpacing"
             >
               <h1
                 class="MuiTypography-root MuiTypography-h1 emotion-6"
+                tabindex="-1"
               />
               <div
                 aria-hidden="true"
-                class="mfa-okta-email MuiBox-root emotion-7"
-                data-se="factor-beacon"
+                class="MuiBox-root emotion-7"
+                data-se="factor-beacon mfa-okta-email "
               >
                 <svg
                   aria-labelledby="mfa-okta-email"
@@ -1488,7 +1516,7 @@ exports[`Email authenticator verification when email magic link = undefined shou
               class="MuiBox-root emotion-8"
             >
               <form
-                class="o-form MuiBox-root emotion-9"
+                class="MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""
               >
@@ -1553,7 +1581,6 @@ exports[`Email authenticator verification when email magic link = undefined shou
                         <h2
                           class="MuiTypography-root MuiTypography-h4 emotion-21"
                           data-se="o-form-head"
-                          id="challenge-authenticator_Title_Verify_with_your_email_okta_email_eae1egri5eK5zce0V1d7_7_2"
                           tabindex="-1"
                         >
                           Verify with your email
@@ -1567,9 +1594,9 @@ exports[`Email authenticator verification when email magic link = undefined shou
                         class="MuiBox-root emotion-20"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-24"
+                          class="MuiTypography-root MuiTypography-body1 emotion-24"
                           data-se="o-form-explain"
-                          id="challenge-authenticator_Description_We_sent_an_email_to_<span_class=strong_no-translate>f****************e@examplecom</span>_Click_the_verification_link_in_your_email_to_continue_or_enter_the_code_below_okta_email_eae1egri5eK5zce0V1d7_8_2"
+                          tabindex="-1"
                         >
                           We sent an email to 
                           <span
@@ -1588,8 +1615,12 @@ exports[`Email authenticator verification when email magic link = undefined shou
                         class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-26"
                       >
                         <label
+<<<<<<< HEAD
                           class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-27"
                           data-shrink="false"
+=======
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated emotion-27"
+>>>>>>> 196af4eba (Snapshot updates)
                           for="credentials.passcode"
                           id="credentials.passcode-label"
                         >

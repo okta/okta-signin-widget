@@ -6,8 +6,9 @@ exports[`enroll-profile-update fails client side validation with empty required 
     class="MuiScopedCssBaseline-root emotion-0"
   >
     <main
-      class="auth-container main-container MuiBox-root emotion-1"
+      class="MuiBox-root emotion-1"
       data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+      data-se="auth-container main-container"
       data-version="0.0.0"
       dir="ltr"
       id="okta-sign-in"
@@ -23,17 +24,19 @@ exports[`enroll-profile-update fails client side validation with empty required 
             class="MuiBox-root emotion-4"
           >
             <div
-              class="okta-sign-in-header auth-header MuiBox-root emotion-5"
+              class="MuiBox-root emotion-5"
+              data-se="okta-sign-in-header auth-header "
             >
               <h1
                 class="MuiTypography-root MuiTypography-h1 emotion-6"
+                tabindex="-1"
               />
             </div>
             <div
               class="MuiBox-root emotion-7"
             >
               <form
-                class="o-form MuiBox-root emotion-8"
+                class="MuiBox-root emotion-8"
                 data-se="o-form"
                 novalidate=""
               >
@@ -135,7 +138,6 @@ exports[`enroll-profile-update fails client side validation with empty required 
                       <h2
                         class="MuiTypography-root MuiTypography-h4 emotion-25"
                         data-se="o-form-head"
-                        id="enroll-profile_Title_Sign_in_1"
                         tabindex="-1"
                       >
                         Sign in
@@ -149,9 +151,9 @@ exports[`enroll-profile-update fails client side validation with empty required 
                       class="MuiBox-root emotion-24"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-28"
+                        class="MuiTypography-root MuiTypography-body1 emotion-28"
                         data-se="o-form-explain"
-                        id="enroll-profile_Description_Fields_are_required_unless_marked_optional_2"
+                        tabindex="-1"
                       >
                         Fields are required unless marked optional.
                       </p>
@@ -164,8 +166,12 @@ exports[`enroll-profile-update fails client side validation with empty required 
                       class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-30"
                     >
                       <label
+<<<<<<< HEAD
                         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-31"
                         data-shrink="false"
+=======
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated emotion-31"
+>>>>>>> 196af4eba (Snapshot updates)
                         for="userProfile.favoriteSport"
                         id="userProfile.favoriteSport-label"
                       >
@@ -214,8 +220,12 @@ exports[`enroll-profile-update fails client side validation with empty required 
                       class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-30"
                     >
                       <label
+<<<<<<< HEAD
                         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-31"
                         data-shrink="false"
+=======
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated emotion-31"
+>>>>>>> 196af4eba (Snapshot updates)
                         for="userProfile.newAttribute"
                         id="userProfile.newAttribute-label"
                       >
@@ -286,8 +296,9 @@ exports[`enroll-profile-update should render form 1`] = `
     class="MuiScopedCssBaseline-root emotion-0"
   >
     <main
-      class="auth-container main-container MuiBox-root emotion-1"
+      class="MuiBox-root emotion-1"
       data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+      data-se="auth-container main-container"
       data-version="0.0.0"
       dir="ltr"
       id="okta-sign-in"
@@ -303,17 +314,19 @@ exports[`enroll-profile-update should render form 1`] = `
             class="MuiBox-root emotion-4"
           >
             <div
-              class="okta-sign-in-header auth-header MuiBox-root emotion-5"
+              class="MuiBox-root emotion-5"
+              data-se="okta-sign-in-header auth-header "
             >
               <h1
                 class="MuiTypography-root MuiTypography-h1 emotion-6"
+                tabindex="-1"
               />
             </div>
             <div
               class="MuiBox-root emotion-7"
             >
               <form
-                class="o-form MuiBox-root emotion-8"
+                class="MuiBox-root emotion-8"
                 data-se="o-form"
                 novalidate=""
               >
@@ -372,7 +385,6 @@ exports[`enroll-profile-update should render form 1`] = `
                       <h2
                         class="MuiTypography-root MuiTypography-h4 emotion-18"
                         data-se="o-form-head"
-                        id="enroll-profile_Title_Sign_in_1"
                         tabindex="-1"
                       >
                         Sign in
@@ -386,9 +398,9 @@ exports[`enroll-profile-update should render form 1`] = `
                       class="MuiBox-root emotion-17"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-21"
+                        class="MuiTypography-root MuiTypography-body1 emotion-21"
                         data-se="o-form-explain"
-                        id="enroll-profile_Description_Fields_are_required_unless_marked_optional_2"
+                        tabindex="-1"
                       >
                         Fields are required unless marked optional.
                       </p>
@@ -401,8 +413,12 @@ exports[`enroll-profile-update should render form 1`] = `
                       class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-23"
                     >
                       <label
+<<<<<<< HEAD
                         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-24"
                         data-shrink="false"
+=======
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated emotion-24"
+>>>>>>> 196af4eba (Snapshot updates)
                         for="userProfile.favoriteSport"
                         id="userProfile.favoriteSport-label"
                       >
@@ -434,8 +450,12 @@ exports[`enroll-profile-update should render form 1`] = `
                       class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-23"
                     >
                       <label
+<<<<<<< HEAD
                         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-24"
                         data-shrink="false"
+=======
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated emotion-24"
+>>>>>>> 196af4eba (Snapshot updates)
                         for="userProfile.newAttribute"
                         id="userProfile.newAttribute-label"
                       >

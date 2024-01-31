@@ -6,8 +6,9 @@ exports[`admin-consent-without-logo should render form without logo 1`] = `
     class="MuiScopedCssBaseline-root emotion-0"
   >
     <main
-      class="auth-container main-container MuiBox-root emotion-1"
+      class="MuiBox-root emotion-1"
       data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+      data-se="auth-container main-container"
       data-version="0.0.0"
       dir="ltr"
       id="okta-sign-in"
@@ -23,10 +24,12 @@ exports[`admin-consent-without-logo should render form without logo 1`] = `
             class="MuiBox-root emotion-4"
           >
             <div
-              class="okta-sign-in-header auth-header MuiBox-root emotion-5"
+              class="MuiBox-root emotion-5"
+              data-se="okta-sign-in-header auth-header "
             >
               <h1
                 class="MuiTypography-root MuiTypography-h1 emotion-6"
+                tabindex="-1"
               />
             </div>
             <div
@@ -69,7 +72,7 @@ exports[`admin-consent-without-logo should render form without logo 1`] = `
                 </span>
               </div>
               <form
-                class="o-form MuiBox-root emotion-15"
+                class="MuiBox-root emotion-15"
                 data-se="o-form"
                 novalidate=""
               >
@@ -83,9 +86,13 @@ exports[`admin-consent-without-logo should render form without logo 1`] = `
                       class="MuiBox-root emotion-18"
                     >
                       <p
+<<<<<<< HEAD
                         class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-19"
+=======
+                        class="MuiTypography-root MuiTypography-body1 emotion-19"
+>>>>>>> afd548d0f (Snapshot updates)
                         data-se="consent-description"
-                        id="admin-consent_Description_Allowing_access_will_share_1"
+                        tabindex="-1"
                       >
                         Allowing access will share
                       </p>
@@ -100,7 +107,7 @@ exports[`admin-consent-without-logo should render form without logo 1`] = `
                       <h3
                         class="MuiTypography-root MuiTypography-h6 emotion-11"
                         data-se="scope-group--header"
-                        id="admin-consent_Heading_Resource_and_policies_2"
+                        tabindex="-1"
                       >
                         Resource and policies
                       </h3>
@@ -110,11 +117,12 @@ exports[`admin-consent-without-logo should render form without logo 1`] = `
                     class="MuiBox-root emotion-17"
                   >
                     <fieldset
-                      class="MuiFormControl-root MuiFormControl-marginNormal emotion-24"
+                      class="MuiFormControl-root emotion-24"
                     >
                       <legend
                         class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-25"
                       >
+<<<<<<< HEAD
                         
                          
                         
@@ -127,6 +135,37 @@ exports[`admin-consent-without-logo should render form without logo 1`] = `
                         <label
                           class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-27"
                           id="consent.scopes.okta.clients.manage-checkbox"
+=======
+                        <span
+                          aria-disabled="true"
+                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-checked Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary emotion-26"
+                          tabindex="-1"
+                        >
+                          <input
+                            class="PrivateSwitchBase-input emotion-27"
+                            data-indeterminate="false"
+                            data-se="consent.scopes.okta.clients.manage"
+                            data-se-for-name="consent.scopes.okta.clients.manage"
+                            disabled=""
+                            id="consent.scopes.okta.clients.manage"
+                            name="consent.scopes.okta.clients.manage"
+                            type="checkbox"
+                          />
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-28"
+                            data-testid="CheckBoxIcon"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                            />
+                          </svg>
+                        </span>
+                        <span
+                          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-19"
+>>>>>>> 196af4eba (Snapshot updates)
                         >
                           <span
                             aria-disabled="true"
@@ -157,8 +196,17 @@ exports[`admin-consent-without-logo should render form without logo 1`] = `
                               />
                             </svg>
                           </span>
+<<<<<<< HEAD
                           <span
+<<<<<<< HEAD
                             class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-12"
+=======
+                            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-31"
+=======
+                          <p
+                            class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained emotion-31"
+>>>>>>> 196af4eba (Snapshot updates)
+>>>>>>> afd548d0f (Snapshot updates)
                           >
                             <span
                               translate="no"
@@ -179,11 +227,12 @@ exports[`admin-consent-without-logo should render form without logo 1`] = `
                     class="MuiBox-root emotion-17"
                   >
                     <fieldset
-                      class="MuiFormControl-root MuiFormControl-marginNormal emotion-24"
+                      class="MuiFormControl-root emotion-24"
                     >
                       <legend
                         class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-25"
                       >
+<<<<<<< HEAD
                         
                          
                         
@@ -196,6 +245,37 @@ exports[`admin-consent-without-logo should render form without logo 1`] = `
                         <label
                           class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-27"
                           id="consent.scopes.okta.authenticators.manage-checkbox"
+=======
+                        <span
+                          aria-disabled="true"
+                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-checked Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary emotion-26"
+                          tabindex="-1"
+                        >
+                          <input
+                            class="PrivateSwitchBase-input emotion-27"
+                            data-indeterminate="false"
+                            data-se="consent.scopes.okta.authenticators.manage"
+                            data-se-for-name="consent.scopes.okta.authenticators.manage"
+                            disabled=""
+                            id="consent.scopes.okta.authenticators.manage"
+                            name="consent.scopes.okta.authenticators.manage"
+                            type="checkbox"
+                          />
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-28"
+                            data-testid="CheckBoxIcon"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                            />
+                          </svg>
+                        </span>
+                        <span
+                          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-19"
+>>>>>>> 196af4eba (Snapshot updates)
                         >
                           <span
                             aria-disabled="true"
@@ -226,8 +306,17 @@ exports[`admin-consent-without-logo should render form without logo 1`] = `
                               />
                             </svg>
                           </span>
+<<<<<<< HEAD
                           <span
+<<<<<<< HEAD
                             class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-12"
+=======
+                            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-31"
+=======
+                          <p
+                            class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained emotion-31"
+>>>>>>> 196af4eba (Snapshot updates)
+>>>>>>> afd548d0f (Snapshot updates)
                           >
                             <span
                               translate="no"

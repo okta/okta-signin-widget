@@ -4,8 +4,8 @@ exports[`AuthCoin tests should display Branded AuthCoin and disallow style custo
 <div>
   <div
     aria-hidden="true"
-    class="mfa-duo MuiBox-root emotion-0"
-    data-se="factor-beacon"
+    class="MuiBox-root emotion-0"
+    data-se="factor-beacon mfa-duo "
   >
     <svg
       aria-labelledby="mfa-duo"
@@ -36,8 +36,8 @@ exports[`AuthCoin tests should display Non-Branded AuthCoin with style customiza
 <div>
   <div
     aria-hidden="true"
-    class="mfa-hotp MuiBox-root emotion-0"
-    data-se="factor-beacon"
+    class="MuiBox-root emotion-0"
+    data-se="factor-beacon mfa-hotp "
   >
     <svg
       aria-labelledby="mfa-hotp"
@@ -77,8 +77,8 @@ exports[`AuthCoin tests should display branded AuthCoin when image URL is provid
 <div>
   <div
     aria-hidden="true"
-    class="mfa-duo MuiBox-root emotion-0"
-    data-se="factor-beacon"
+    class="MuiBox-root emotion-0"
+    data-se="factor-beacon mfa-duo "
   >
     <svg
       aria-labelledby="mfa-duo"
@@ -109,8 +109,8 @@ exports[`AuthCoin tests should display custom image in place of standard Non-Bra
 <div>
   <div
     aria-hidden="true"
-    class="mfa-hotp MuiBox-root emotion-0"
-    data-se="factor-beacon"
+    class="MuiBox-root emotion-0"
+    data-se="factor-beacon mfa-hotp "
   >
     <img
       alt="factor.hotp.description"
@@ -126,8 +126,8 @@ exports[`AuthCoin tests should display standard theme Non-Branded AuthCoin witho
 <div>
   <div
     aria-hidden="true"
-    class="mfa-hotp MuiBox-root emotion-0"
-    data-se="factor-beacon"
+    class="MuiBox-root emotion-0"
+    data-se="factor-beacon mfa-hotp "
   >
     <svg
       aria-labelledby="mfa-hotp"
