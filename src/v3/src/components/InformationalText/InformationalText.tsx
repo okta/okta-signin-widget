@@ -18,13 +18,13 @@ import { useHtmlContentParser } from '../../hooks';
 import { DescriptionElement, UISchemaElementComponent } from '../../types';
 
 const odyTypographyVariantMapping: Record<
-  'body1' | 'subtitle1' | 'legend',
-  TypographyVariantValue
+'body1' | 'subtitle1' | 'legend',
+TypographyVariantValue
 > = {
-  "body1": "body",
-  "subtitle1": "subordinate",
-  "legend": "legend",
-}
+  body1: 'body',
+  subtitle1: 'subordinate',
+  legend: 'legend',
+};
 
 const InformationalText: UISchemaElementComponent<{
   uischema: DescriptionElement
@@ -37,7 +37,7 @@ const InformationalText: UISchemaElementComponent<{
     variant,
   } = uischema.options;
   const parsedContent = useHtmlContentParser(content, uischema.parserOptions);
-  
+
   return (
     <Box
       display="flex"
@@ -45,7 +45,7 @@ const InformationalText: UISchemaElementComponent<{
     >
       <Typography
         component="p"
-        variant={variant ? odyTypographyVariantMapping["subtitle1"] : 'body'}
+        variant={variant ? odyTypographyVariantMapping.subtitle1 : 'body'}
         testId={dataSe || 'o-form-explain'}
         translate={uischema.noTranslate ? 'no' : undefined}
       >

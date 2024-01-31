@@ -28,15 +28,17 @@ import Button from '../Button';
 import InformationalText from '../InformationalText';
 
 const renderElement = (item: UISchemaElement) => {
-  const tokens = useOdysseyDesignTokens();
-  const Container: FunctionComponent = ({ children }) => (
-    <Box
-      // eslint-disable-next-line react/jsx-props-no-spreading
-      {...(!(item).noMargin && { marginBlockEnd: tokens.Spacing4 })}
-    >
-      {children}
-    </Box>
-  );
+  const Container: FunctionComponent = ({ children }) => {
+    const tokens = useOdysseyDesignTokens();
+    return (
+      <Box
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        {...(!(item).noMargin && { marginBlockEnd: tokens.Spacing4 })}
+      >
+        {children}
+      </Box>
+    );
+  };
 
   switch (item.type) {
     case 'Button':

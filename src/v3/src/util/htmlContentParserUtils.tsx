@@ -35,6 +35,7 @@ export const getLinkReplacerFn = (
     if (node instanceof Element && type === 'tag' && name === 'a') {
       const props = attributesToProps(attribs);
       return (
+        // eslint-disable-next-line jsx-a11y/anchor-is-valid
         <Link
           href=""
           // eslint-disable-next-line react/jsx-props-no-spreading

@@ -43,7 +43,8 @@ const ElementContainer: FunctionComponent<{ element: UISchemaElement }> = ({ ele
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...(!(element).noMargin && { marginBlockEnd: tokens.Spacing4 })}
       // eslint-disable-next-line react/jsx-props-no-spreading
-      {...(layoutDirection === UISchemaLayoutType.HORIZONTAL && { marginInlineEnd: tokens.Spacing1 })}
+      {...(layoutDirection === UISchemaLayoutType.HORIZONTAL
+        && { marginInlineEnd: tokens.Spacing1 })}
     >
       <Component uischema={element} />
     </Box>

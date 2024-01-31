@@ -23,7 +23,7 @@ type Props = {
 
 const InfoSection: FunctionComponent<Props> = ({ message }) => {
   const tokens = useOdysseyDesignTokens();
-  
+
   return (message ? (
     <Box
       marginBlockEnd={tokens.Spacing4}
@@ -38,7 +38,7 @@ const InfoSection: FunctionComponent<Props> = ({ message }) => {
         {message.message}
       </Callout>
     </Box>
-  ) : null)
+  ) : null);
 };
 
 export default InfoSection;
