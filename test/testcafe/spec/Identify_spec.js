@@ -344,7 +344,8 @@ test.requestHooks(identifyMock)('should not render custom forgot password link',
   await t.expect(await identityPage.hasForgotPasswordLinkText()).notOk();
 });
 
-test.requestHooks(identifyRequestLogger, identifyMockWithFingerprint)('should compute device fingerprint and add to header', async t => {
+// Re-enable in OKTA-654456
+test.meta('gen3', false).requestHooks(identifyRequestLogger, identifyMockWithFingerprint)('should compute device fingerprint and add to header', async t => {
   const identityPage = await setup(t, {
     features: {
       deviceFingerprinting: true,
@@ -372,7 +373,8 @@ test.requestHooks(identifyRequestLogger, identifyMockWithFingerprint)('should co
   await t.expect(factorReqHeaders['x-device-fingerprint']).eql('mock-device-fingerprint');
 });
 
-test.requestHooks(identifyRequestLogger, identifyMockWithFingerprintError)('should continue to compute device fingerprint and add to header when there are API errors', async t => {
+// Re-enable in OKTA-654456
+test.meta('gen3', false).requestHooks(identifyRequestLogger, identifyMockWithFingerprintError)('should continue to compute device fingerprint and add to header when there are API errors', async t => {
   const identityPage = await setup(t, {
     features: {
       deviceFingerprinting: true,
@@ -391,10 +393,7 @@ test.requestHooks(identifyRequestLogger, identifyMockWithFingerprintError)('shou
 
   // Validate that there is an error message
   await identityPage.waitForErrorBox();
-  // Gen 3 does not merge transactions together to show error while staying on identify page
-  if (!userVariables.gen3) {
-    await t.expect(identityPage.getNextButton().exists).eql(true);
-  }
+  await t.expect(identityPage.getNextButton().exists).eql(true);
   await t.expect(identityPage.getGlobalErrors()).contains('You do not have permission to perform the requested action');
 });
 
