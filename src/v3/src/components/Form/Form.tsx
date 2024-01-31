@@ -106,7 +106,8 @@ const Form: FunctionComponent<{
       component="form"
       noValidate
       onSubmit={handleSubmit}
-      data-se="o-form"
+      className="o-form"
+      data-se="o-form" // TODO: FIXME OKTA-578584 - update page objects using .o-form selectors
       sx={{
         maxInlineSize: '100%',
         wordBreak: 'break-word',

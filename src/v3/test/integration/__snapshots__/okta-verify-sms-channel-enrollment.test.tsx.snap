@@ -2724,10 +2724,14 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                       Or 
                       <a
 <<<<<<< HEAD
+<<<<<<< HEAD
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways switch-channel-link emotion-43"
 =======
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-41"
 >>>>>>> 196af4eba (Snapshot updates)
+=======
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways switch-channel-link emotion-41"
+>>>>>>> 4ca9299c7 (Add back o-form class)
                         href="#"
                       >
                         try a different way
@@ -2740,10 +2744,14 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                   >
                     <a
 <<<<<<< HEAD
+<<<<<<< HEAD
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-45"
 =======
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-41"
 >>>>>>> 196af4eba (Snapshot updates)
+=======
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-43"
+>>>>>>> 4ca9299c7 (Add back o-form class)
                       data-se="switchAuthenticator"
                       href=""
                     >
@@ -2755,10 +2763,14 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                   >
                     <a
 <<<<<<< HEAD
+<<<<<<< HEAD
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-45"
 =======
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-41"
 >>>>>>> 196af4eba (Snapshot updates)
+=======
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-43"
+>>>>>>> 4ca9299c7 (Add back o-form class)
                       data-se="cancel"
                       href=""
                     >
@@ -5500,10 +5512,14 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form witho
                       Or 
                       <a
 <<<<<<< HEAD
+<<<<<<< HEAD
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways switch-channel-link emotion-43"
 =======
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-41"
 >>>>>>> 196af4eba (Snapshot updates)
+=======
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways switch-channel-link emotion-41"
+>>>>>>> 4ca9299c7 (Add back o-form class)
                         href="#"
                       >
                         try a different way
@@ -5516,10 +5532,14 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form witho
                   >
                     <a
 <<<<<<< HEAD
+<<<<<<< HEAD
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-45"
 =======
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-41"
 >>>>>>> 196af4eba (Snapshot updates)
+=======
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-43"
+>>>>>>> 4ca9299c7 (Add back o-form class)
                       data-se="switchAuthenticator"
                       href=""
                     >
@@ -5531,10 +5551,14 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form witho
                   >
                     <a
 <<<<<<< HEAD
+<<<<<<< HEAD
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-45"
 =======
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-41"
 >>>>>>> 196af4eba (Snapshot updates)
+=======
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-43"
+>>>>>>> 4ca9299c7 (Add back o-form class)
                       data-se="cancel"
                       href=""
                     >

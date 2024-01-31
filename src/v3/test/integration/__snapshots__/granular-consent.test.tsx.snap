@@ -87,11 +87,15 @@ exports[`granular-consent should render form with logo 1`] = `
                 >
                   <h2
 <<<<<<< HEAD
+<<<<<<< HEAD
                     class="MuiTypography-root MuiTypography-h6 no-translate emotion-15"
 =======
                     class="MuiTypography-root MuiTypography-h6 emotion-14"
                     tabindex="-1"
 >>>>>>> afd548d0f (Snapshot updates)
+=======
+                    class="MuiTypography-root MuiTypography-h6 no-translate emotion-14"
+>>>>>>> f32f79691 (Add back o-form class)
                   >
                     Native client
                   </h2>
