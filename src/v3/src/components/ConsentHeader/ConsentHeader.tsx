@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Link } from '@mui/material';
-import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
-import { Box, Typography } from '@okta/odyssey-react-mui-legacy';
+import { Box } from '@mui/material';
+import { Link, Typography, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { escape } from 'lodash';
 import { Fragment, FunctionComponent, h } from 'preact';
 
@@ -69,12 +68,11 @@ const ConsentHeader: FunctionComponent = () => {
       >
         {typeof href !== 'undefined' && typeof logoHref !== 'undefined'
           ? (
-            <Box component="div">
+            <Box>
               <Link
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={altText}
               >
                 {getAppLogo(altText, logoHref)}
               </Link>
@@ -98,33 +96,35 @@ const ConsentHeader: FunctionComponent = () => {
         <Fragment>
           <Box
             component="span"
-            className="title-text"
+            data-se="title-text"
             textAlign="center"
           >
             <Typography
               component="h2"
               variant="h6"
-              className="no-translate"
+              translate="no"
             >
               {appName}
             </Typography>
-            <Typography paragraph>{titleText}</Typography>
+            <Typography variant="body">{titleText}</Typography>
             {hasIssuer && (
               <Box
                 display="flex"
                 justifyContent="center"
               >
-                <Typography
+                <Box
                   sx={{
                     marginBlockEnd: tokens.Spacing5,
                     backgroundColor: tokens.PalettePrimaryLighter,
                     color: tokens.PalettePrimaryDarker,
-                    padding: '4px 2px',
+                    padding: `${tokens.Spacing1} ${tokens.Spacing2}`,
                   }}
-                  className="issuer no-translate"
+                  testId="issuer"
+                  translate="no"
+                  variant="body"
                 >
                   {issuer.uri}
-                </Typography>
+                </Box>
               </Box>
             )}
           </Box>
@@ -134,8 +134,7 @@ const ConsentHeader: FunctionComponent = () => {
 
     return (
       <Box
-        component="div"
-        className="title-text"
+        data-se="title-text"
         textAlign="center"
       >
         {parsedGranularConsentTitle}

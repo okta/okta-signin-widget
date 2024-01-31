@@ -42,7 +42,6 @@ exports[`admin-consent should render form with logo 1`] = `
                     class="MuiBox-root emotion-1"
                   >
                     <a
-                      aria-label="Logo for the app"
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-11"
                       href="https://client._funky-ch4rs.com"
                       rel="noopener noreferrer"
@@ -55,49 +54,76 @@ exports[`admin-consent should render form with logo 1`] = `
                         data-se="client-logo"
                         src="https://example.com/logo"
                       />
+                      <span
+                        class="Link-indicator"
+                        role="presentation"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-13"
+                          fill="none"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            clip-rule="evenodd"
+                            d="M8.293 14.293 18.586 4H10V2h10.223c.12 0 .262 0 .387.01.145.012.353.042.571.153a1.5 1.5 0 0 1 .655.656c.112.218.142.426.154.571.01.125.01.268.01.387V14h-2V5.414L9.707 15.707l-1.414-1.414Zm7.745 5.74v-7.847l2-2.042v11.89H2.024V5.966h11.828l-2.041 2H4.024v12.068h12.014Z"
+                            fill="currentColor"
+                            fill-rule="evenodd"
+                          />
+                        </svg>
+                      </span>
                     </a>
                   </div>
                 </div>
                 <span
-                  class="title-text MuiBox-root emotion-13"
+                  class="MuiBox-root emotion-14"
+                  data-se="title-text"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h6 no-translate emotion-14"
+                    class="MuiTypography-root MuiTypography-h6 emotion-15"
+                    tabindex="-1"
+                    translate="no"
                   >
                     Native client
                   </h2>
                   <p
-                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-15"
+                    class="MuiTypography-root MuiTypography-body1 emotion-16"
+                    tabindex="-1"
                   >
                     would like to access:
                   </p>
                   <div
                     class="MuiBox-root emotion-9"
                   >
-                    <p
-                      class="MuiTypography-root MuiTypography-body1 issuer no-translate emotion-17"
+                    <div
+                      class="MuiBox-root emotion-18"
+                      testid="issuer"
+                      translate="no"
+                      variant="body"
                     >
                       http://localhost:3000
-                    </p>
+                    </div>
                   </div>
                 </span>
               </div>
               <form
-                class="o-form MuiBox-root emotion-18"
+                class="o-form MuiBox-root emotion-19"
                 data-se="o-form"
                 novalidate=""
               >
                 <div
-                  class="MuiBox-root emotion-19"
+                  class="MuiBox-root emotion-20"
                 >
                   <div
-                    class="MuiBox-root emotion-20"
+                    class="MuiBox-root emotion-21"
                   >
                     <div
-                      class="MuiBox-root emotion-21"
+                      class="MuiBox-root emotion-22"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-15"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-23"
                         data-se="consent-description"
                         id="admin-consent_Description_Allowing_access_will_share_1"
                       >
@@ -109,10 +135,10 @@ exports[`admin-consent should render form with logo 1`] = `
                     class="MuiBox-root emotion-1"
                   >
                     <div
-                      class="MuiBox-root emotion-21"
+                      class="MuiBox-root emotion-22"
                     >
                       <h3
-                        class="MuiTypography-root MuiTypography-h6 emotion-14"
+                        class="MuiTypography-root MuiTypography-h6 emotion-15"
                         data-se="scope-group--header"
                         id="admin-consent_Heading_Resource_and_policies_2"
                       >
@@ -121,11 +147,12 @@ exports[`admin-consent should render form with logo 1`] = `
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root emotion-20"
+                    class="MuiBox-root emotion-21"
                   >
                     <fieldset
-                      class="MuiFormControl-root MuiFormControl-marginNormal emotion-27"
+                      class="MuiFormControl-root MuiFormControl-marginNormal emotion-28"
                     >
+<<<<<<< HEAD
                       <legend
                         class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-28"
                       >
@@ -141,6 +168,44 @@ exports[`admin-consent should render form with logo 1`] = `
                         <label
                           class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-30"
                           id="consent.scopes.okta.clients.manage-checkbox"
+=======
+                      <label
+                        class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-29"
+                      >
+                        <span
+                          aria-disabled="true"
+                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-checked Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary emotion-30"
+                          tabindex="-1"
+                        >
+                          <input
+                            class="PrivateSwitchBase-input emotion-31"
+                            data-indeterminate="false"
+                            data-se="consent.scopes.okta.clients.manage"
+                            data-se-for-name="consent.scopes.okta.clients.manage"
+                            disabled=""
+                            id="consent.scopes.okta.clients.manage"
+                            name="consent.scopes.okta.clients.manage"
+                            type="checkbox"
+                          />
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-32"
+                            fill="none"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              clip-rule="evenodd"
+                              d="m19.707 7.707-8.646 8.647a1.5 1.5 0 0 1-2.122 0l-4.646-4.647 1.414-1.414L10 14.586l8.293-8.293 1.414 1.414Z"
+                              fill="currentColor"
+                              fill-rule="evenodd"
+                            />
+                          </svg>
+                        </span>
+                        <span
+                          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-16"
+>>>>>>> e4b8332e7 (Migrate consent header, no e2e changes yet)
                         >
                           <span
                             aria-disabled="true"
@@ -171,8 +236,13 @@ exports[`admin-consent should render form with logo 1`] = `
                               />
                             </svg>
                           </span>
+<<<<<<< HEAD
                           <span
                             class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-34"
+=======
+                          <p
+                            class="MuiFormHelperText-root MuiFormHelperText-sizeMedium emotion-35"
+>>>>>>> e4b8332e7 (Migrate consent header, no e2e changes yet)
                           >
                             <span
                               translate="no"
@@ -190,11 +260,12 @@ exports[`admin-consent should render form with logo 1`] = `
                     </fieldset>
                   </div>
                   <div
-                    class="MuiBox-root emotion-20"
+                    class="MuiBox-root emotion-21"
                   >
                     <fieldset
-                      class="MuiFormControl-root MuiFormControl-marginNormal emotion-27"
+                      class="MuiFormControl-root MuiFormControl-marginNormal emotion-28"
                     >
+<<<<<<< HEAD
                       <legend
                         class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-28"
                       >
@@ -210,6 +281,44 @@ exports[`admin-consent should render form with logo 1`] = `
                         <label
                           class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-30"
                           id="consent.scopes.okta.authenticators.manage-checkbox"
+=======
+                      <label
+                        class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-29"
+                      >
+                        <span
+                          aria-disabled="true"
+                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-checked Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary emotion-30"
+                          tabindex="-1"
+                        >
+                          <input
+                            class="PrivateSwitchBase-input emotion-31"
+                            data-indeterminate="false"
+                            data-se="consent.scopes.okta.authenticators.manage"
+                            data-se-for-name="consent.scopes.okta.authenticators.manage"
+                            disabled=""
+                            id="consent.scopes.okta.authenticators.manage"
+                            name="consent.scopes.okta.authenticators.manage"
+                            type="checkbox"
+                          />
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-32"
+                            fill="none"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              clip-rule="evenodd"
+                              d="m19.707 7.707-8.646 8.647a1.5 1.5 0 0 1-2.122 0l-4.646-4.647 1.414-1.414L10 14.586l8.293-8.293 1.414 1.414Z"
+                              fill="currentColor"
+                              fill-rule="evenodd"
+                            />
+                          </svg>
+                        </span>
+                        <span
+                          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-16"
+>>>>>>> e4b8332e7 (Migrate consent header, no e2e changes yet)
                         >
                           <span
                             aria-disabled="true"
@@ -240,8 +349,13 @@ exports[`admin-consent should render form with logo 1`] = `
                               />
                             </svg>
                           </span>
+<<<<<<< HEAD
                           <span
                             class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-34"
+=======
+                          <p
+                            class="MuiFormHelperText-root MuiFormHelperText-sizeMedium emotion-35"
+>>>>>>> e4b8332e7 (Migrate consent header, no e2e changes yet)
                           >
                             <span
                               translate="no"
@@ -259,10 +373,14 @@ exports[`admin-consent should render form with logo 1`] = `
                     </fieldset>
                   </div>
                   <div
-                    class="MuiBox-root emotion-20"
+                    class="MuiBox-root emotion-21"
                   >
                     <button
+<<<<<<< HEAD
                       class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-47"
+=======
+                      class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-46"
+>>>>>>> e4b8332e7 (Migrate consent header, no e2e changes yet)
                       data-se="save"
                       tabindex="0"
                       type="button"
@@ -271,10 +389,14 @@ exports[`admin-consent should render form with logo 1`] = `
                     </button>
                   </div>
                   <div
-                    class="MuiBox-root emotion-20"
+                    class="MuiBox-root emotion-21"
                   >
                     <button
+<<<<<<< HEAD
                       class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-47"
+=======
+                      class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-46"
+>>>>>>> e4b8332e7 (Migrate consent header, no e2e changes yet)
                       data-se="cancel"
                       tabindex="0"
                       type="button"
