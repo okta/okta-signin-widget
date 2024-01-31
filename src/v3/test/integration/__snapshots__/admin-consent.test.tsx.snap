@@ -64,28 +64,25 @@ exports[`admin-consent should render form with logo 1`] = `
                 >
                   <h2
                     class="MuiTypography-root MuiTypography-h6 emotion-14"
-                    tabindex="-1"
                     translate="no"
                   >
                     Native client
                   </h2>
                   <p
                     class="MuiTypography-root MuiTypography-body1 emotion-15"
-                    tabindex="-1"
                   >
                     would like to access:
                   </p>
                   <div
                     class="MuiBox-root emotion-9"
                   >
-                    <div
-                      class="MuiBox-root emotion-17"
-                      testid="issuer"
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 emotion-17"
+                      data-se="issuer"
                       translate="no"
-                      variant="body"
                     >
                       http://localhost:3000
-                    </div>
+                    </p>
                   </div>
                 </span>
               </div>

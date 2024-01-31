@@ -44,28 +44,25 @@ exports[`admin-consent-without-logo should render form without logo 1`] = `
                 >
                   <h2
                     class="MuiTypography-root MuiTypography-h6 emotion-11"
-                    tabindex="-1"
                     translate="no"
                   >
                     Native client
                   </h2>
                   <p
                     class="MuiTypography-root MuiTypography-body1 emotion-12"
-                    tabindex="-1"
                   >
                     would like to access:
                   </p>
                   <div
                     class="MuiBox-root emotion-9"
                   >
-                    <div
-                      class="MuiBox-root emotion-14"
-                      testid="issuer"
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 emotion-14"
+                      data-se="issuer"
                       translate="no"
-                      variant="body"
                     >
                       http://localhost:3000
-                    </div>
+                    </p>
                   </div>
                 </span>
               </div>
@@ -132,7 +129,7 @@ exports[`admin-consent-without-logo should render form without logo 1`] = `
 =======
                         <span
                           aria-disabled="true"
-                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-checked Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary emotion-26"
+                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium Mui-checked Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium emotion-26"
                           tabindex="-1"
                         >
                           <input
@@ -237,7 +234,7 @@ exports[`admin-consent-without-logo should render form without logo 1`] = `
 =======
                         <span
                           aria-disabled="true"
-                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-checked Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary emotion-26"
+                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium Mui-checked Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium emotion-26"
                           tabindex="-1"
                         >
                           <input

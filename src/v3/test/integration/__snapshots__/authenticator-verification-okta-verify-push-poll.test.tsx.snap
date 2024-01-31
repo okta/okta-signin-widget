@@ -138,6 +138,7 @@ exports[`authenticator-verification-okta-verify-push should render polling form 
                       <legend
                         class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-23"
                       >
+<<<<<<< HEAD
                         
                          
                         
@@ -150,6 +151,10 @@ exports[`authenticator-verification-okta-verify-push should render polling form 
                         <label
                           class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-25"
                           id="autoChallenge-checkbox"
+=======
+                        <span
+                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium emotion-24"
+>>>>>>> 586abe1cb (Snapshot updates)
                         >
                           <span
                             class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-26"

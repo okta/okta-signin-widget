@@ -44,14 +44,12 @@ exports[`enduser-consent-without-logo should render form 1`] = `
                 >
                   <h2
                     class="MuiTypography-root MuiTypography-h6 emotion-11"
-                    tabindex="-1"
                     translate="no"
                   >
                     Native client
                   </h2>
                   <p
                     class="MuiTypography-root MuiTypography-body1 emotion-12"
-                    tabindex="-1"
                   >
                     would like to:
                   </p>

@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box, Link } from '@mui/material';
-import { Typography, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
+import { Box, Link, Typography } from '@mui/material';
+import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { escape } from 'lodash';
 import { Fragment, FunctionComponent, h } from 'preact';
 
@@ -107,25 +107,24 @@ const ConsentHeader: FunctionComponent = () => {
             >
               {appName}
             </Typography>
-            <Typography variant="body">{titleText}</Typography>
+            <Typography>{titleText}</Typography>
             {hasIssuer && (
               <Box
                 display="flex"
                 justifyContent="center"
               >
-                <Box
+                <Typography
                   sx={{
                     marginBlockEnd: tokens.Spacing5,
                     backgroundColor: tokens.PalettePrimaryLighter,
                     color: tokens.PalettePrimaryDarker,
                     padding: `${tokens.Spacing1} ${tokens.Spacing2}`,
                   }}
-                  testId="issuer"
+                  data-se="issuer"
                   translate="no"
-                  variant="body"
                 >
                   {issuer.uri}
-                </Box>
+                </Typography>
               </Box>
             )}
           </Box>

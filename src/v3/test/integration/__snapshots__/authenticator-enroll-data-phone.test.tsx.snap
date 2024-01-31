@@ -181,7 +181,11 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                             class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-28"
                           >
                             <span
+<<<<<<< HEAD
                               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-checked MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-29"
+=======
+                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-focusVisible PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-checked MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-28"
+>>>>>>> 586abe1cb (Snapshot updates)
                             >
                               <input
                                 class="PrivateSwitchBase-input emotion-30"
@@ -200,7 +204,11 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                             class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-28"
                           >
                             <span
+<<<<<<< HEAD
                               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-29"
+=======
+                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-28"
+>>>>>>> 586abe1cb (Snapshot updates)
                             >
                               <input
                                 class="PrivateSwitchBase-input emotion-30"
@@ -1759,7 +1767,11 @@ exports[`authenticator-enroll-data-phone should render form without an autoFocus
                             class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-28"
                           >
                             <span
+<<<<<<< HEAD
                               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-checked MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-29"
+=======
+                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-checked MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-28"
+>>>>>>> 586abe1cb (Snapshot updates)
                             >
                               <input
                                 class="PrivateSwitchBase-input emotion-30"
@@ -1778,7 +1790,11 @@ exports[`authenticator-enroll-data-phone should render form without an autoFocus
                             class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-28"
                           >
                             <span
+<<<<<<< HEAD
                               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-29"
+=======
+                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-28"
+>>>>>>> 586abe1cb (Snapshot updates)
                             >
                               <input
                                 class="PrivateSwitchBase-input emotion-30"
@@ -3337,7 +3353,11 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                             class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-28"
                           >
                             <span
+<<<<<<< HEAD
                               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-29"
+=======
+                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-28"
+>>>>>>> 586abe1cb (Snapshot updates)
                             >
                               <input
                                 class="PrivateSwitchBase-input emotion-30"
@@ -3356,7 +3376,11 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                             class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-28"
                           >
                             <span
+<<<<<<< HEAD
                               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-checked MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-29"
+=======
+                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-checked MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-28"
+>>>>>>> 586abe1cb (Snapshot updates)
                             >
                               <input
                                 class="PrivateSwitchBase-input emotion-30"

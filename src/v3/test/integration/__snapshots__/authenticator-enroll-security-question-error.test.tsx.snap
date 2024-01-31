@@ -199,7 +199,11 @@ exports[`authenticator-enroll-security-question-error custom question should sho
                             class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-32"
                           >
                             <span
+<<<<<<< HEAD
                               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-33"
+=======
+                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-32"
+>>>>>>> 586abe1cb (Snapshot updates)
                             >
                               <input
                                 class="PrivateSwitchBase-input emotion-34"
@@ -218,7 +222,11 @@ exports[`authenticator-enroll-security-question-error custom question should sho
                             class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-32"
                           >
                             <span
+<<<<<<< HEAD
                               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-checked MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-33"
+=======
+                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-checked MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-32"
+>>>>>>> 586abe1cb (Snapshot updates)
                             >
                               <input
                                 class="PrivateSwitchBase-input emotion-34"
@@ -595,7 +603,11 @@ exports[`authenticator-enroll-security-question-error predefined question should
                             class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-32"
                           >
                             <span
+<<<<<<< HEAD
                               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-checked MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-33"
+=======
+                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-checked MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-32"
+>>>>>>> 586abe1cb (Snapshot updates)
                             >
                               <input
                                 class="PrivateSwitchBase-input emotion-34"
@@ -614,7 +626,11 @@ exports[`authenticator-enroll-security-question-error predefined question should
                             class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-32"
                           >
                             <span
+<<<<<<< HEAD
                               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-33"
+=======
+                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-32"
+>>>>>>> 586abe1cb (Snapshot updates)
                             >
                               <input
                                 class="PrivateSwitchBase-input emotion-34"
@@ -639,7 +655,11 @@ exports[`authenticator-enroll-security-question-error predefined question should
                         class="MuiFormControl-root MuiFormControl-marginNormal emotion-29"
                       >
                         <label
+<<<<<<< HEAD
                           class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-42"
+=======
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-41"
+>>>>>>> 586abe1cb (Snapshot updates)
                           data-shrink="false"
                           for="credentials.questionKey"
                           id="credentials.questionKey-label"
@@ -1062,7 +1082,11 @@ exports[`authenticator-enroll-security-question-error predefined question should
                           >
                             <span
                               aria-disabled="true"
+<<<<<<< HEAD
                               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-disabled PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-checked Mui-disabled MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-26"
+=======
+                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-disabled PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-checked Mui-disabled MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-25"
+>>>>>>> 586abe1cb (Snapshot updates)
                               tabindex="-1"
                             >
                               <input
@@ -1084,7 +1108,11 @@ exports[`authenticator-enroll-security-question-error predefined question should
                           >
                             <span
                               aria-disabled="true"
+<<<<<<< HEAD
                               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-disabled PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-disabled MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-26"
+=======
+                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-disabled PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-disabled MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-25"
+>>>>>>> 586abe1cb (Snapshot updates)
                               tabindex="-1"
                             >
                               <input
@@ -1111,7 +1139,11 @@ exports[`authenticator-enroll-security-question-error predefined question should
                         class="MuiFormControl-root MuiFormControl-marginNormal emotion-22"
                       >
                         <label
+<<<<<<< HEAD
                           class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-disabled MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-35"
+=======
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-disabled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-34"
+>>>>>>> 586abe1cb (Snapshot updates)
                           data-shrink="false"
                           for="credentials.questionKey"
                           id="credentials.questionKey-label"
@@ -1607,7 +1639,11 @@ exports[`authenticator-enroll-security-question-error predefined question should
                             class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-32"
                           >
                             <span
+<<<<<<< HEAD
                               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-checked MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-33"
+=======
+                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-checked MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-32"
+>>>>>>> 586abe1cb (Snapshot updates)
                             >
                               <input
                                 class="PrivateSwitchBase-input emotion-34"
@@ -1626,7 +1662,11 @@ exports[`authenticator-enroll-security-question-error predefined question should
                             class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-32"
                           >
                             <span
+<<<<<<< HEAD
                               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-33"
+=======
+                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-32"
+>>>>>>> 586abe1cb (Snapshot updates)
                             >
                               <input
                                 class="PrivateSwitchBase-input emotion-34"
@@ -1651,7 +1691,11 @@ exports[`authenticator-enroll-security-question-error predefined question should
                         class="MuiFormControl-root MuiFormControl-marginNormal emotion-29"
                       >
                         <label
+<<<<<<< HEAD
                           class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-42"
+=======
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-41"
+>>>>>>> 586abe1cb (Snapshot updates)
                           data-shrink="false"
                           for="credentials.questionKey"
                           id="credentials.questionKey-label"

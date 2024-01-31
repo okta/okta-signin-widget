@@ -99,6 +99,7 @@ exports[`authenticator-apple-sso-extension calls verify then cancels the transac
                       <legend
                         class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-20"
                       >
+<<<<<<< HEAD
                         
                          
                         
@@ -111,6 +112,10 @@ exports[`authenticator-apple-sso-extension calls verify then cancels the transac
                         <label
                           class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-22"
                           id="rememberMe-checkbox"
+=======
+                        <span
+                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium emotion-21"
+>>>>>>> 586abe1cb (Snapshot updates)
                         >
                           <span
                             class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-23"
@@ -302,6 +307,7 @@ exports[`authenticator-apple-sso-extension cancels the transaction when sso exte
                       <legend
                         class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-20"
                       >
+<<<<<<< HEAD
                         
                          
                         
@@ -314,6 +320,10 @@ exports[`authenticator-apple-sso-extension cancels the transaction when sso exte
                         <label
                           class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-22"
                           id="rememberMe-checkbox"
+=======
+                        <span
+                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium emotion-21"
+>>>>>>> 586abe1cb (Snapshot updates)
                         >
                           <span
                             class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-23"
@@ -505,6 +515,7 @@ exports[`authenticator-apple-sso-extension opens the verify url with credential 
                       <legend
                         class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-20"
                       >
+<<<<<<< HEAD
                         
                          
                         
@@ -517,6 +528,10 @@ exports[`authenticator-apple-sso-extension opens the verify url with credential 
                         <label
                           class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-22"
                           id="rememberMe-checkbox"
+=======
+                        <span
+                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium emotion-21"
+>>>>>>> 586abe1cb (Snapshot updates)
                         >
                           <span
                             class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-23"

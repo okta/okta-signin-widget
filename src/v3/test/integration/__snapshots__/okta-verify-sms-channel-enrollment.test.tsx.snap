@@ -1487,7 +1487,11 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                     class="MuiBox-root emotion-11"
                   >
                     <a
+<<<<<<< HEAD
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-45"
+=======
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-41"
+>>>>>>> 586abe1cb (Snapshot updates)
                       data-se="switchAuthenticator"
                       href=""
                     >
@@ -1498,7 +1502,11 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                     class="MuiBox-root emotion-11"
                   >
                     <a
+<<<<<<< HEAD
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-45"
+=======
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-41"
+>>>>>>> 586abe1cb (Snapshot updates)
                       data-se="cancel"
                       href=""
                     >
@@ -3003,7 +3011,11 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form witho
                     class="MuiBox-root emotion-11"
                   >
                     <a
+<<<<<<< HEAD
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-45"
+=======
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-41"
+>>>>>>> 586abe1cb (Snapshot updates)
                       data-se="switchAuthenticator"
                       href=""
                     >
@@ -3014,7 +3026,11 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form witho
                     class="MuiBox-root emotion-11"
                   >
                     <a
+<<<<<<< HEAD
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-45"
+=======
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-41"
+>>>>>>> 586abe1cb (Snapshot updates)
                       data-se="cancel"
                       href=""
                     >

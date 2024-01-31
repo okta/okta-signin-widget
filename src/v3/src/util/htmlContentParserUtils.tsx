@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Link, Typography } from '@okta/odyssey-react-mui-legacy';
+import { Link, Typography } from '@mui/material';
 import {
   attributesToProps,
   DOMNode,
@@ -35,7 +35,9 @@ export const getLinkReplacerFn = (
     if (node instanceof Element && type === 'tag' && name === 'a') {
       const props = attributesToProps(attribs);
       return (
+        // eslint-disable-next-line jsx-a11y/anchor-is-valid
         <Link
+          href=""
           // eslint-disable-next-line react/jsx-props-no-spreading
           {...props}
           variant={variant}

@@ -197,6 +197,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                       <legend
                         class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-35"
                       >
+<<<<<<< HEAD
                         
                          
                         
@@ -209,6 +210,10 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                         <label
                           class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-37"
                           id="rememberMe-checkbox"
+=======
+                        <span
+                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium emotion-36"
+>>>>>>> 586abe1cb (Snapshot updates)
                         >
                           <span
                             class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-38"
@@ -520,6 +525,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                       <legend
                         class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-35"
                       >
+<<<<<<< HEAD
                         
                          
                         
@@ -532,6 +538,10 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                         <label
                           class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-37"
                           id="rememberMe-checkbox"
+=======
+                        <span
+                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium emotion-36"
+>>>>>>> 586abe1cb (Snapshot updates)
                         >
                           <span
                             class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-38"
@@ -808,6 +818,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                       <legend
                         class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-28"
                       >
+<<<<<<< HEAD
                         
                          
                         
@@ -820,6 +831,10 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                         <label
                           class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-30"
                           id="rememberMe-checkbox"
+=======
+                        <span
+                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium emotion-29"
+>>>>>>> 586abe1cb (Snapshot updates)
                         >
                           <span
                             class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-31"
