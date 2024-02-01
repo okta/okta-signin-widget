@@ -188,16 +188,16 @@ export const createThemeAndTokens = (
       MuiAccordionSummary: {
         styleOverrides: {
           root: {
-            width: 'fit-content',
+            display: 'inline-flex',
             minHeight: 0,
             paddingInline: mergedTokens.Spacing0,
             paddingBlock: mergedTokens.Spacing0,
-            backgroundColor: 'unset',
+            backgroundColor: 'transparent',
             '&:hover': {
-              backgroundColor: 'unset',
+              backgroundColor: 'transparent',
             },
             '&:focus': {
-              backgroundColor: 'unset',
+              backgroundColor: 'transparent',
             },
             '& .MuiAccordionSummary-content': {
               margin: mergedTokens.Spacing0,
@@ -213,9 +213,6 @@ export const createThemeAndTokens = (
             '& .MuiAccordionSummary-expandIconWrapper': {
               display: 'none',
             },
-          },
-          content: {
-
           },
         },
       },
