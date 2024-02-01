@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Accordion as OdyAccordion } from '@okta/odyssey-react-mui';
 import { Box } from '@mui/material';
+import { Accordion as OdyAccordion } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
 
 import { AccordionLayout } from '../../types';

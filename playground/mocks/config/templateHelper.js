@@ -78,7 +78,7 @@ const configMock = (option) => {
 
         // overwrite URLs if using mock server behind the proxy
         const json = require(mockFile);
-        const str = JSON.stringify(json).replace(/http\:\/\/localhost\:3000/g, signinWidgetOptions.baseUrl);
+        const str = JSON.stringify(json).replace(/http:\/\/localhost:3000/g, signinWidgetOptions.baseUrl);
         return JSON.parse(str);
       }
 
