@@ -1,5 +1,6 @@
 const path = require('path');
 const responseConfig = require('./responseConfig');
+const signinWidgetOptions = require('../../../.widgetrc.js');
 const supportedApi = [
   '/oauth2/',
   '/api/v1/authn',
@@ -75,7 +76,10 @@ const configMock = (option) => {
         // move cursor to next response only after mock has been generated.
         updateIndex();
 
-        return require(mockFile);
+        // overwrite URLs if using mock server behind the proxy
+        const json = require(mockFile);
+        const str = JSON.stringify(json).replace(/http\:\/\/localhost\:3000/g, signinWidgetOptions.baseUrl);
+        return JSON.parse(str);
       }
 
     }

@@ -126,7 +126,7 @@ const devConfig: Configuration = mergeWithRules({
       ...process.env.IE11_COMPAT_MODE === 'true' ? [] : [new PreactRefreshPlugin()],
     ],
     devServer: {
-      hot: true,
+      hot: process.env.IE11_COMPAT_MODE !== 'true',
       host: HOST,
       watchFiles: STATIC_DIRS,
       static: STATIC_DIRS,
@@ -163,7 +163,9 @@ const devConfig: Configuration = mergeWithRules({
       },
     },
     optimization: {
-      runtimeChunk: 'single',
+      ...(process.env.IE11_COMPAT_MODE !== 'true' && {
+        runtimeChunk: 'single'
+      }),
     },
   },
 );

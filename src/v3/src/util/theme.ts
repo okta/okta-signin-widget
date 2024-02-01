@@ -148,6 +148,12 @@ export const createThemeAndTokens = (
                 color: mergedTokens.HueNeutralWhite,
               },
             }),
+            // Fix for IE11 - don't shrink icon if the button text is multiline
+            ...(ownerState.startIcon && {
+              '& .MuiButton-startIcon': {
+                flexShrink: 0,
+              },
+            }),
           }),
         },
       },

@@ -11,7 +11,7 @@
  */
 
 import { Accordion as OdyAccordion } from '@okta/odyssey-react-mui';
-import { Box } from '@okta/odyssey-react-mui-legacy';
+import { Box } from '@mui/material';
 import { FunctionComponent, h } from 'preact';
 
 import { AccordionLayout } from '../../types';
