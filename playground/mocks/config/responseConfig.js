@@ -19,15 +19,8 @@ const idx = {
   ],
 
   '/idp/idx/introspect': [
-    'identify-with-uischema',
-    // 'authenticator-verification-idp-custom-logo',
-    // 'full-feature-identify',
-    // 'authenticator-enroll-data-phone',
-    // 'authenticator-enroll-security-question',
-    // 'authenticator-enroll-password',
-    // 'authenticator-enroll-select-authenticator-full-feature',
-    // 'authenticator-verification-select-authenticator-full-feature',
-    // 'authenticator-enroll-google-authenticator',
+    'identify',
+    // 'identify-with-uischema',
     // 'error-identify-multiple-errors',
     // 'authenticator-enroll-ov-qr-enable-biometrics',
     // 'authenticator-verification-okta-verify-push',
@@ -271,12 +264,11 @@ const authn = {
     'mfa-enroll-sms'
   ],
   '/api/v1/authn': [
-    // 'error-authentication-failed',
+    'error-authentication-failed',
     // 'unauthenticated',
     // 'success-001'
     // 'consent-required',
     // 'device-code-activate',
-    // 'mfa-all-factors'
   ],
   '/api/v1/authn/device/activate': [
     'terminal-device-activated',
@@ -1150,5 +1142,5 @@ const redirectOnPoll = {
 };
 
 module.exports = {
-  mocks: idx,
+  mocks: idx
 };

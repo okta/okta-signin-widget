@@ -16,15 +16,34 @@ import { get, set } from 'lodash';
 
 import { FormBag, TransformStepFnWithOptions } from '../../types';
 import { Result, transformer as typeTransformer } from '../field/type';
+import { loc } from '../../util';
 
 type InputTransformer = {
   (field: Input, args: {
     path: string[],
     schema: FormBag['schema'],
+    data: FormBag['data'],
     options?: IdxOption[],
     subFieldRequired?: boolean,
   }): void;
 };
+
+// const setFieldErrorMessage = (
+//   input: Input,
+//   schema: FormBag['schema'],
+//   path: string[],
+//   fieldType: Result | null,
+//   data: FormBag['data'],
+// ): void => {
+//   if (typeof schema.errorMessage === 'undefined') {
+//     schema.errorMessage = { type: 'object' };
+//   }
+//   if (fieldType?.[input.name].type === 'string') {
+//     set(schema, ['errorMessage', 'required', input.name], loc('model.validation.field.blank', 'login'));
+//     // set(schema, ['errorMessage', ...(path.filter((item) => item !== 'properties')), input.name, 'minLength'], loc('model.validation.field.blank', 'login'));
+//     // set(data, [...(path.filter((item) => item !== 'properties')), input.name], '');
+//   }
+// };
 
 const addMinlengthToSchemaIfNecessary = (
   input: Input,
@@ -42,7 +61,7 @@ const addMinlengthToSchemaIfNecessary = (
 const mapInputSchema: InputTransformer = (
   input: Input,
   {
-    path, schema, options, subFieldRequired,
+    path, schema, options, subFieldRequired, data,
   },
 ): void => {
   const fieldType = typeTransformer(input);
@@ -70,6 +89,7 @@ const mapInputSchema: InputTransformer = (
     } else {
       set(schema, ['required'], [input.name]);
     }
+    // setFieldErrorMessage(input, schema, path, fieldType, data);
     // const fieldName = subFieldRequired ? [...path.filter((str) => str !== 'properties'), input.name].join('.') : input.name;
     // if (Array.isArray(schema.required)) {
     //   schema.required.push(fieldName);
@@ -96,6 +116,7 @@ const mapInputSchema: InputTransformer = (
         path: [...path, input.name, 'properties'],
         options: subField.options,
         subFieldRequired: input.required,
+        data,
       });
     });
   }
@@ -111,9 +132,9 @@ export const generateSchema: TransformStepFnWithOptions = ({
   if (typeof step === 'undefined') {
     return formbag;
   }
-  const { schema } = formbag;
+  const { schema, data } = formbag;
   const { inputs = [] } = step;
-  inputs.forEach((input) => mapInputSchema(input, { path: ['properties'], schema }));
+  inputs.forEach((input) => mapInputSchema(input, { path: ['properties'], schema, data }));
 
   return formbag;
 };

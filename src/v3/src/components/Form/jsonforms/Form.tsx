@@ -42,6 +42,7 @@ const Form: FunctionComponent<{
   uischema: FormBag['uischema'];
 }> = ({ schema, uischema }) => {
   const classes = classNames('o-form');
+  // const validate = ajv.compile(schema);
   const {
     data,
     idxTransaction: currTransaction,
@@ -57,6 +58,8 @@ const Form: FunctionComponent<{
 
   const onChange = (event: Pick<JsonFormsCore, 'data' | 'errors'>) => {
     setFormErrors(event.errors || []);
+    // validate(event.data);
+    // setFormErrors(validate.errors || []);
     setData(event.data);
   };
 
