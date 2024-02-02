@@ -32,7 +32,7 @@ const skipOptionalEnrollmentSelector = '.authenticator-list .skip-all';
 const CUSTOM_SIGN_OUT_LINK_SELECTOR = userVariables.gen3 ? '[data-se="cancel"]' : '.auth-footer .js-cancel';
 const CUSTOM_OTP_BUTTON_SELECTOR = '.authenticator-list .authenticator-row:nth-child(12) .authenticator-button a';
 const IDENTIFIER_FIELD = 'identifier';
-const CUSTOM_LOGO_SELECTOR = '.custom-logo';
+const CUSTOM_LOGO_SELECTOR = userVariables.gen3 ? '[data-se="custom-logo"]' : '.custom-logo';
 
 export default class SelectFactorPageObject extends BasePageObject {
   constructor(t) {

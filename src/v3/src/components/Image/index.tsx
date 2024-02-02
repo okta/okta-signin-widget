@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022-present, Okta, Inc. and/or its affiliates. All rights reserved.
+ * Copyright (c) 2023-present, Okta, Inc. and/or its affiliates. All rights reserved.
  * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
  *
  * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
@@ -10,19 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-export * from './api';
-export * from './appInfo';
-export * from './authcoin';
-export * from './component';
-export * from './context';
-export * from './error';
-export * from './handlers';
-export * from './image';
-export * from './ion';
-export * from './json';
-export * from './jsonforms';
-export * from './password';
-export * from './schema';
-export * from './stepTransformer';
-export * from './userInfo';
-export * from './widget';
+import Image from './Image';
+
+export default Image;

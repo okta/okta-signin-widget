@@ -20,7 +20,7 @@ export default class EnrollOktaVerifyPageObject extends BasePageObject {
 
   async hasEnrollViaQRInstruction() {
     if (userVariables.gen3) {
-      if (await this.form.elementExist('.qrImg')) {
+      if (await this.form.elementExist('[data-se="qrImg"]')) {
         const qrInstruction = await this.getNthInstructionBulletPoint(0);
         return qrInstruction.includes('Okta Verify');
       } else {
@@ -32,7 +32,7 @@ export default class EnrollOktaVerifyPageObject extends BasePageObject {
 
   hasQRcode() {
     if (userVariables.gen3) {
-      return this.form.elementExist('.qrImg');
+      return this.form.elementExist('[data-se="qrImg"]');
     }
     return this.form.elementExist('.qrcode');
   }

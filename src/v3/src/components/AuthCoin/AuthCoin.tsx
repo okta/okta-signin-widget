@@ -16,6 +16,7 @@ import classNames from 'classnames';
 import { FunctionComponent, h } from 'preact';
 
 import { AuthCoinProps } from '../../types';
+import Image from '../Image';
 import { getAuthCoinConfiguration } from './authCoinConfigUtil';
 
 const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
@@ -40,15 +41,12 @@ const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
     // key that can be customized or custom push app
     if (url && (authCoinConfigByAuthKey?.customizable || !authCoinConfigByAuthKey?.icon)) {
       return (
-        <Box
-          as="img"
+        <Image
           src={url}
           alt={authCoinConfigByAuthKey.description}
-          className="custom-logo"
-          sx={{
-            width: tokens.Spacing7,
-            height: tokens.Spacing7,
-          }}
+          width={tokens.Spacing7}
+          height={tokens.Spacing7}
+          testId="custom-logo"
         />
       );
     }

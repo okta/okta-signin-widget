@@ -70,7 +70,8 @@ exports[`admin-consent should render form with logo 1`] = `
                       <img
                         alt="Logo for the app"
                         aria-hidden="true"
-                        class="client-logo custom-logo MuiBox-root emotion-12"
+                        class="MuiBox-root emotion-12"
+                        data-se="client-logo"
                         src="https://example.com/logo"
                       />
                     </a>
