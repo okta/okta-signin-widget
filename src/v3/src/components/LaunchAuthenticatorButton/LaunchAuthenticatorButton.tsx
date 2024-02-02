@@ -82,7 +82,7 @@ const LaunchAuthenticatorButton: UISchemaElementComponent<{
       variant="secondary"
       isFullWidth
       onClick={handleClick}
-      buttonFocusRef={focusRef}
+      buttonRef={focusRef}
       label={label || ''}
       startIcon={(
         <OktaVerifyIcon

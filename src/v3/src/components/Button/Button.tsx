@@ -84,7 +84,7 @@ const Button: UISchemaElementComponent<{
       type={type}
       variant={variant ?? 'primary'}
       isFullWidth={wide ?? true}
-      buttonFocusRef={focusRef}
+      buttonRef={focusRef}
       isDisabled={loading || disabled}
       startIcon={loading ? <Spinner /> : ButtonImageIcon}
       ariaDescribedBy={ariaDescribedBy}
