@@ -19,6 +19,7 @@ import { AuthCoinProps } from 'src/types';
 import { loc } from '../../util';
 import AuthCoin from '../AuthCoin/AuthCoin';
 import { getAuthCoinConfiguration } from '../AuthCoin/authCoinConfigUtil';
+import Image from '../Image';
 
 // TODO: maybe extract to util class if used reused
 const shouldRenderAuthCoin = (props?: AuthCoinProps): boolean => {
@@ -44,7 +45,6 @@ const AuthHeader: FunctionComponent<AuthHeaderProps> = ({
 }) => {
   const showAuthCoin = shouldRenderAuthCoin(authCoinProps);
   const containerClasses = classNames('okta-sign-in-header', 'auth-header', { authCoinSpacing: showAuthCoin });
-  const imageClasses = classNames('auth-org-logo', 'siwOrgLogo');
   const tokens = useOdysseyDesignTokens();
 
   function renderAuthCoin() {
@@ -81,15 +81,12 @@ const AuthHeader: FunctionComponent<AuthHeaderProps> = ({
     >
       <Typography variant="h1">
         { logo && (
-          <Box
-            component="img"
+          <Image
             alt={logoText || brandName || loc('logo.default.alt.text', 'login')}
             src={logo}
-            className={imageClasses}
-            sx={{
-              maxInlineSize: '200px',
-              maxBlockSize: '40px',
-            }}
+            testId="auth-org-logo"
+            maxWidth="200px"
+            maxHeight="40px"
           />
         )}
       </Typography>

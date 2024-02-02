@@ -114,7 +114,8 @@ exports[`AuthCoin tests should display custom image in place of standard Non-Bra
   >
     <img
       alt="factor.hotp.description"
-      class="custom-logo MuiBox-root emotion-1"
+      class="MuiBox-root emotion-1"
+      data-se="custom-logo"
       src="/img/socialIcons/okta.svg"
     />
   </div>

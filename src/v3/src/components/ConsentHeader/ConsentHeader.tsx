@@ -20,6 +20,7 @@ import { IDX_STEP } from '../../constants';
 import { useWidgetContext } from '../../contexts';
 import { useHtmlContentParser } from '../../hooks';
 import { getAppInfo, getHeadingReplacerFn, loc } from '../../util';
+import Image from '../Image';
 
 const ConsentHeader: FunctionComponent = () => {
   const { idxTransaction } = useWidgetContext();
@@ -44,14 +45,13 @@ const ConsentHeader: FunctionComponent = () => {
 
   const getAppLogo = (altText: string, logoHref?: string) => (
     typeof logoHref !== 'undefined' && (
-      <Box
-        component="img"
+      <Image
         src={logoHref}
         width="32px"
         height="32px"
         alt={altText}
-        className="client-logo custom-logo"
-        aria-hidden="true"
+        testId="client-logo"
+        ariaHidden
       />
     )
   );
