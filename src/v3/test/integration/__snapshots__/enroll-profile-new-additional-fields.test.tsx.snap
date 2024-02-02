@@ -276,10 +276,14 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                     >
                       <label
 <<<<<<< HEAD
+<<<<<<< HEAD
                         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-25"
 =======
                         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-49"
 >>>>>>> 586abe1cb (Snapshot updates)
+=======
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined emotion-49"
+>>>>>>> 158566c7e (Fix snapshots)
                         data-shrink="false"
                         for="userProfile.country"
                         id="userProfile.country-label"
@@ -296,11 +300,15 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                           aria-errormessage="userProfile.country-error"
                           aria-invalid="true"
 <<<<<<< HEAD
+<<<<<<< HEAD
                           aria-labelledby="userProfile.country-label"
                           class="MuiNativeSelect-select MuiNativeSelect-standard Mui-error MuiInputBase-input MuiInput-input emotion-51"
 =======
                           class="MuiNativeSelect-select MuiNativeSelect-standard Mui-error MuiInputBase-input MuiInput-input emotion-52"
 >>>>>>> 586abe1cb (Snapshot updates)
+=======
+                          class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-52"
+>>>>>>> 158566c7e (Fix snapshots)
                           data-se="userProfile.country"
                           id="userProfile.country"
                           name="userProfile.country"
@@ -1607,10 +1615,14 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                     >
                       <label
 <<<<<<< HEAD
+<<<<<<< HEAD
                         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-25"
 =======
                         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-49"
 >>>>>>> 586abe1cb (Snapshot updates)
+=======
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined emotion-49"
+>>>>>>> 158566c7e (Fix snapshots)
                         data-shrink="false"
                         for="userProfile.timezone"
                         id="userProfile.timezone-label"
@@ -1627,11 +1639,15 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                           aria-errormessage="userProfile.timezone-error"
                           aria-invalid="true"
 <<<<<<< HEAD
+<<<<<<< HEAD
                           aria-labelledby="userProfile.timezone-label"
                           class="MuiNativeSelect-select MuiNativeSelect-standard Mui-error MuiInputBase-input MuiInput-input emotion-51"
 =======
                           class="MuiNativeSelect-select MuiNativeSelect-standard Mui-error MuiInputBase-input MuiInput-input emotion-52"
 >>>>>>> 586abe1cb (Snapshot updates)
+=======
+                          class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-52"
+>>>>>>> 158566c7e (Fix snapshots)
                           data-se="userProfile.timezone"
                           id="userProfile.timezone"
                           name="userProfile.timezone"
@@ -2082,10 +2098,14 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                     >
                       <label
 <<<<<<< HEAD
+<<<<<<< HEAD
                         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-18"
 =======
                         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-36"
 >>>>>>> 586abe1cb (Snapshot updates)
+=======
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined emotion-36"
+>>>>>>> 158566c7e (Fix snapshots)
                         data-shrink="false"
                         for="userProfile.country"
                         id="userProfile.country-label"
@@ -3375,10 +3395,14 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                     >
                       <label
 <<<<<<< HEAD
+<<<<<<< HEAD
                         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-18"
 =======
                         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-36"
 >>>>>>> 586abe1cb (Snapshot updates)
+=======
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined emotion-36"
+>>>>>>> 158566c7e (Fix snapshots)
                         data-shrink="false"
                         for="userProfile.timezone"
                         id="userProfile.timezone-label"

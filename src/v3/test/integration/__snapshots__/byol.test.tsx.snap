@@ -182,10 +182,14 @@ exports[`byol loading custom language should load custom language with "language
                           >
                             <span
 <<<<<<< HEAD
+<<<<<<< HEAD
                               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-checked MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-29"
 =======
                               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-checked MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-28"
 >>>>>>> 586abe1cb (Snapshot updates)
+=======
+                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary emotion-28"
+>>>>>>> 158566c7e (Fix snapshots)
                             >
                               <input
                                 class="PrivateSwitchBase-input emotion-30"
@@ -205,10 +209,14 @@ exports[`byol loading custom language should load custom language with "language
                           >
                             <span
 <<<<<<< HEAD
+<<<<<<< HEAD
                               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-29"
 =======
                               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-28"
 >>>>>>> 586abe1cb (Snapshot updates)
+=======
+                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary emotion-28"
+>>>>>>> 158566c7e (Fix snapshots)
                             >
                               <input
                                 class="PrivateSwitchBase-input emotion-30"
@@ -1768,10 +1776,14 @@ exports[`byol loading custom language should load custom language with assets.ba
                           >
                             <span
 <<<<<<< HEAD
+<<<<<<< HEAD
                               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-checked MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-29"
 =======
                               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-checked MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-28"
 >>>>>>> 586abe1cb (Snapshot updates)
+=======
+                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary emotion-28"
+>>>>>>> 158566c7e (Fix snapshots)
                             >
                               <input
                                 class="PrivateSwitchBase-input emotion-30"
@@ -1791,10 +1803,14 @@ exports[`byol loading custom language should load custom language with assets.ba
                           >
                             <span
 <<<<<<< HEAD
+<<<<<<< HEAD
                               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-29"
 =======
                               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-28"
 >>>>>>> 586abe1cb (Snapshot updates)
+=======
+                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary emotion-28"
+>>>>>>> 158566c7e (Fix snapshots)
                             >
                               <input
                                 class="PrivateSwitchBase-input emotion-30"
@@ -3354,10 +3370,14 @@ exports[`byol loading default language should not load custom language when the 
                           >
                             <span
 <<<<<<< HEAD
+<<<<<<< HEAD
                               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-checked MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-29"
 =======
                               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-checked MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-28"
 >>>>>>> 586abe1cb (Snapshot updates)
+=======
+                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary emotion-28"
+>>>>>>> 158566c7e (Fix snapshots)
                             >
                               <input
                                 class="PrivateSwitchBase-input emotion-30"
@@ -3377,10 +3397,14 @@ exports[`byol loading default language should not load custom language when the 
                           >
                             <span
 <<<<<<< HEAD
+<<<<<<< HEAD
                               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-29"
 =======
                               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-28"
 >>>>>>> 586abe1cb (Snapshot updates)
+=======
+                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary emotion-28"
+>>>>>>> 158566c7e (Fix snapshots)
                             >
                               <input
                                 class="PrivateSwitchBase-input emotion-30"
@@ -4940,10 +4964,14 @@ exports[`byol loading default language should not load custom language with "lan
                           >
                             <span
 <<<<<<< HEAD
+<<<<<<< HEAD
                               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-checked MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-29"
 =======
                               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-checked MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-28"
 >>>>>>> 586abe1cb (Snapshot updates)
+=======
+                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary emotion-28"
+>>>>>>> 158566c7e (Fix snapshots)
                             >
                               <input
                                 class="PrivateSwitchBase-input emotion-30"
@@ -4963,10 +4991,14 @@ exports[`byol loading default language should not load custom language with "lan
                           >
                             <span
 <<<<<<< HEAD
+<<<<<<< HEAD
                               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-29"
 =======
                               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-28"
 >>>>>>> 586abe1cb (Snapshot updates)
+=======
+                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary emotion-28"
+>>>>>>> 158566c7e (Fix snapshots)
                             >
                               <input
                                 class="PrivateSwitchBase-input emotion-30"

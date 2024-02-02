@@ -1488,10 +1488,14 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                   >
                     <a
 <<<<<<< HEAD
+<<<<<<< HEAD
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-45"
 =======
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-41"
 >>>>>>> 586abe1cb (Snapshot updates)
+=======
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-43"
+>>>>>>> 158566c7e (Fix snapshots)
                       data-se="switchAuthenticator"
                       href=""
                     >
@@ -1503,10 +1507,14 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                   >
                     <a
 <<<<<<< HEAD
+<<<<<<< HEAD
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-45"
 =======
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-41"
 >>>>>>> 586abe1cb (Snapshot updates)
+=======
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-43"
+>>>>>>> 158566c7e (Fix snapshots)
                       data-se="cancel"
                       href=""
                     >
@@ -3012,10 +3020,14 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form witho
                   >
                     <a
 <<<<<<< HEAD
+<<<<<<< HEAD
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-45"
 =======
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-41"
 >>>>>>> 586abe1cb (Snapshot updates)
+=======
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-43"
+>>>>>>> 158566c7e (Fix snapshots)
                       data-se="switchAuthenticator"
                       href=""
                     >
@@ -3027,10 +3039,14 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form witho
                   >
                     <a
 <<<<<<< HEAD
+<<<<<<< HEAD
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-45"
 =======
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-41"
 >>>>>>> 586abe1cb (Snapshot updates)
+=======
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-43"
+>>>>>>> 158566c7e (Fix snapshots)
                       data-se="cancel"
                       href=""
                     >

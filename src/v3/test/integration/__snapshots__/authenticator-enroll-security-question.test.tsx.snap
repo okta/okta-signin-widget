@@ -200,10 +200,14 @@ exports[`authenticator-enroll-security-question custom question fails client sid
                           >
                             <span
 <<<<<<< HEAD
+<<<<<<< HEAD
                               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-33"
 =======
                               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-32"
 >>>>>>> 586abe1cb (Snapshot updates)
+=======
+                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary emotion-32"
+>>>>>>> 158566c7e (Fix snapshots)
                             >
                               <input
                                 class="PrivateSwitchBase-input emotion-34"
@@ -223,10 +227,14 @@ exports[`authenticator-enroll-security-question custom question fails client sid
                           >
                             <span
 <<<<<<< HEAD
+<<<<<<< HEAD
                               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-checked MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-33"
 =======
                               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-checked MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-32"
 >>>>>>> 586abe1cb (Snapshot updates)
+=======
+                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary emotion-32"
+>>>>>>> 158566c7e (Fix snapshots)
                             >
                               <input
                                 class="PrivateSwitchBase-input emotion-34"
@@ -561,10 +569,14 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                           >
                             <span
 <<<<<<< HEAD
+<<<<<<< HEAD
                               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-26"
 =======
                               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-25"
 >>>>>>> 586abe1cb (Snapshot updates)
+=======
+                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary emotion-25"
+>>>>>>> 158566c7e (Fix snapshots)
                             >
                               <input
                                 class="PrivateSwitchBase-input emotion-27"
@@ -584,10 +596,14 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                           >
                             <span
 <<<<<<< HEAD
+<<<<<<< HEAD
                               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-checked MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-26"
 =======
                               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-checked MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-25"
 >>>>>>> 586abe1cb (Snapshot updates)
+=======
+                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary emotion-25"
+>>>>>>> 158566c7e (Fix snapshots)
                             >
                               <input
                                 class="PrivateSwitchBase-input emotion-27"
@@ -905,10 +921,14 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                           >
                             <span
 <<<<<<< HEAD
+<<<<<<< HEAD
                               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-checked MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-26"
 =======
                               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-focusVisible PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-checked MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-25"
 >>>>>>> 586abe1cb (Snapshot updates)
+=======
+                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary Mui-focusVisible PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary emotion-25"
+>>>>>>> 158566c7e (Fix snapshots)
                             >
                               <input
                                 class="PrivateSwitchBase-input emotion-27"
@@ -928,10 +948,14 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                           >
                             <span
 <<<<<<< HEAD
+<<<<<<< HEAD
                               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-26"
 =======
                               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-25"
 >>>>>>> 586abe1cb (Snapshot updates)
+=======
+                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary emotion-25"
+>>>>>>> 158566c7e (Fix snapshots)
                             >
                               <input
                                 class="PrivateSwitchBase-input emotion-27"
@@ -957,10 +981,14 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                       >
                         <label
 <<<<<<< HEAD
+<<<<<<< HEAD
                           class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-35"
 =======
                           class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-34"
 >>>>>>> 586abe1cb (Snapshot updates)
+=======
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined emotion-34"
+>>>>>>> 158566c7e (Fix snapshots)
                           data-shrink="false"
                           for="credentials.questionKey"
                           id="credentials.questionKey-label"
@@ -1366,10 +1394,14 @@ exports[`authenticator-enroll-security-question predefined question should rende
                           >
                             <span
 <<<<<<< HEAD
+<<<<<<< HEAD
                               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-checked MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-26"
 =======
                               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-checked MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-25"
 >>>>>>> 586abe1cb (Snapshot updates)
+=======
+                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary emotion-25"
+>>>>>>> 158566c7e (Fix snapshots)
                             >
                               <input
                                 class="PrivateSwitchBase-input emotion-27"
@@ -1389,10 +1421,14 @@ exports[`authenticator-enroll-security-question predefined question should rende
                           >
                             <span
 <<<<<<< HEAD
+<<<<<<< HEAD
                               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-26"
 =======
                               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-25"
 >>>>>>> 586abe1cb (Snapshot updates)
+=======
+                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary emotion-25"
+>>>>>>> 158566c7e (Fix snapshots)
                             >
                               <input
                                 class="PrivateSwitchBase-input emotion-27"
@@ -1418,10 +1454,14 @@ exports[`authenticator-enroll-security-question predefined question should rende
                       >
                         <label
 <<<<<<< HEAD
+<<<<<<< HEAD
                           class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-35"
 =======
                           class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-34"
 >>>>>>> 586abe1cb (Snapshot updates)
+=======
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined emotion-34"
+>>>>>>> 158566c7e (Fix snapshots)
                           data-shrink="false"
                           for="credentials.questionKey"
                           id="credentials.questionKey-label"
