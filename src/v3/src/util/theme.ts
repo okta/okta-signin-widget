@@ -148,6 +148,12 @@ export const createThemeAndTokens = (
                 color: mergedTokens.HueNeutralWhite,
               },
             }),
+            // Fix for IE11 - don't shrink icon if the button text is multiline
+            ...(ownerState.startIcon && {
+              '& .MuiButton-startIcon': {
+                flexShrink: 0,
+              },
+            }),
           }),
         },
       },
@@ -176,6 +182,53 @@ export const createThemeAndTokens = (
           root: ({ ownerState }) => ({
             textDecoration: ownerState?.component === 'a' ? 'underline' : 'inherit',
           }),
+        },
+      },
+      MuiAccordion: {
+        styleOverrides: {
+          root: {
+            border: 0,
+          },
+        },
+      },
+      MuiAccordionSummary: {
+        styleOverrides: {
+          root: {
+            display: 'inline-flex',
+            minHeight: 0,
+            paddingInline: mergedTokens.Spacing0,
+            paddingBlock: mergedTokens.Spacing0,
+            backgroundColor: 'transparent',
+            '&:hover': {
+              backgroundColor: 'transparent',
+            },
+            '&:focus': {
+              backgroundColor: 'transparent',
+            },
+            '& .MuiAccordionSummary-content': {
+              margin: mergedTokens.Spacing0,
+              '& .MuiTypography-root': {
+                textDecoration: 'underline',
+                fontWeight: mergedTokens.TypographyWeightBody,
+                color: mergedTokens.TypographyColorAction,
+                '&:hover': {
+                  color: mergedTokens.BorderColorPrimaryDark,
+                },
+              },
+            },
+            '& .MuiAccordionSummary-expandIconWrapper': {
+              display: 'none',
+            },
+          },
+        },
+      },
+      MuiAccordionDetails: {
+        styleOverrides: {
+          root: {
+            paddingInline: mergedTokens.Spacing0,
+            paddingBlock: mergedTokens.Spacing0,
+            paddingBlockStart: mergedTokens.Spacing4,
+          },
         },
       },
     },
