@@ -58,7 +58,7 @@ const Button: UISchemaElementComponent<{
   const ButtonImageIcon = typeof Icon === 'string' ? (
     <Image
       src={Icon}
-      alt={iconAlt}
+      alt={iconAlt ?? ''}
       ariaHidden
     />
   ) : Icon && (<Icon />);

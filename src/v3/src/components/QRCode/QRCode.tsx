@@ -52,7 +52,7 @@ const QRCode: UISchemaElementComponent<{
       >
         <Image
           src={data}
-          alt={label}
+          alt={label ?? ''}
           width="224px"
           height="224px"
           testId="qrImg"
