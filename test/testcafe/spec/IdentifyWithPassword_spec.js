@@ -148,6 +148,23 @@ test.meta('gen3', false).requestHooks(identifyRequestLogger, identifyWithPasswor
   await t.expect(await identityPage.hasShowTogglePasswordIcon()).notOk();
 });
 
+// Odyssey does not support callback function for auto-hiding password, but this will be deprecated in Gen3 along with showPasswordToggleOnSignInPage
+test.meta('gen3', false).requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should auto-hide password after 30 seconds', async t => {
+  const identityPage = await setup(t, {
+    features: { showPasswordToggleOnSignInPage: true },
+  });
+  await checkA11y(t);
+  await t.expect(await identityPage.hasShowTogglePasswordIcon()).ok();
+  await identityPage.fillPasswordField('password');
+  await identityPage.clickShowPasswordIcon();
+  const passwordField = identityPage.getTextField('Password');
+  await t.expect(passwordField.getAttribute('type')).eql('text');
+  // Wait 30 seconds
+  await t.wait(30000);
+  // Give short buffer timeout to execute assertion
+  await t.expect(passwordField.getAttribute('type')).eql('password', { timeout: 500 });
+});
+
 test.requestHooks(identifyWithPasswordMock)('should add sub labels for Username and Password if i18n keys are defined', async t => {
   const identityPage = await setup(t, {
     i18n: {
