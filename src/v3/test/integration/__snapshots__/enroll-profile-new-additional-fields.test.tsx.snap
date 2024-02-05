@@ -135,11 +135,8 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                         required="true"
                       >
                         <input
-<<<<<<< HEAD
                           aria-describedby="userProfile.firstName-error"
                           aria-errormessage="userProfile.firstName-error"
-=======
->>>>>>> b02fe6e79 (Supports pw requirements aria-describedby and test updates)
                           aria-invalid="true"
                           aria-labelledby="userProfile.firstName-label"
                           autocomplete="given-name"
@@ -189,11 +186,8 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                         required="true"
                       >
                         <input
-<<<<<<< HEAD
                           aria-describedby="userProfile.lastName-error"
                           aria-errormessage="userProfile.lastName-error"
-=======
->>>>>>> b02fe6e79 (Supports pw requirements aria-describedby and test updates)
                           aria-invalid="true"
                           aria-labelledby="userProfile.lastName-label"
                           autocomplete="family-name"
@@ -243,11 +237,8 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                         required="true"
                       >
                         <input
-<<<<<<< HEAD
                           aria-describedby="userProfile.email-error"
                           aria-errormessage="userProfile.email-error"
-=======
->>>>>>> b02fe6e79 (Supports pw requirements aria-describedby and test updates)
                           aria-invalid="true"
                           aria-labelledby="userProfile.email-label"
                           autocomplete="email"
@@ -1568,11 +1559,8 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                         required="true"
                       >
                         <input
-<<<<<<< HEAD
                           aria-describedby="userProfile.countryCode-error"
                           aria-errormessage="userProfile.countryCode-error"
-=======
->>>>>>> b02fe6e79 (Supports pw requirements aria-describedby and test updates)
                           aria-invalid="true"
                           aria-labelledby="userProfile.countryCode-label"
                           class="MuiInputBase-input emotion-27"

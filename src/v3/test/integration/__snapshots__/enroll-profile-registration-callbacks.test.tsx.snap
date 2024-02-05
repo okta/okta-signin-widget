@@ -435,11 +435,8 @@ exports[`enroll-profile-with-password should show custom error message and preve
                         required="true"
                       >
                         <input
-<<<<<<< HEAD
                           aria-describedby="userProfile.lastName-error"
                           aria-errormessage="userProfile.lastName-error"
-=======
->>>>>>> b02fe6e79 (Supports pw requirements aria-describedby and test updates)
                           aria-invalid="true"
                           aria-labelledby="userProfile.lastName-label"
                           autocomplete="family-name"
@@ -765,11 +762,8 @@ exports[`enroll-profile-with-password should show custom field level error messa
                         required="true"
                       >
                         <input
-<<<<<<< HEAD
                           aria-describedby="userProfile.lastName-error"
                           aria-errormessage="userProfile.lastName-error"
-=======
->>>>>>> b02fe6e79 (Supports pw requirements aria-describedby and test updates)
                           aria-invalid="true"
                           aria-labelledby="userProfile.lastName-label"
                           autocomplete="family-name"
@@ -1405,11 +1399,8 @@ exports[`enroll-profile-with-password should show validation error messages on a
                         required="true"
                       >
                         <input
-<<<<<<< HEAD
                           aria-describedby="userProfile.lastName-error"
                           aria-errormessage="userProfile.lastName-error"
-=======
->>>>>>> b02fe6e79 (Supports pw requirements aria-describedby and test updates)
                           aria-invalid="true"
                           aria-labelledby="userProfile.lastName-label"
                           autocomplete="family-name"
@@ -1459,11 +1450,8 @@ exports[`enroll-profile-with-password should show validation error messages on a
                         required="true"
                       >
                         <input
-<<<<<<< HEAD
                           aria-describedby="userProfile.firstName-error"
                           aria-errormessage="userProfile.firstName-error"
-=======
->>>>>>> b02fe6e79 (Supports pw requirements aria-describedby and test updates)
                           aria-invalid="true"
                           aria-labelledby="userProfile.firstName-label"
                           autocomplete="given-name"
@@ -1513,11 +1501,8 @@ exports[`enroll-profile-with-password should show validation error messages on a
                         required="true"
                       >
                         <input
-<<<<<<< HEAD
                           aria-describedby="userProfile.email-error"
                           aria-errormessage="userProfile.email-error"
-=======
->>>>>>> b02fe6e79 (Supports pw requirements aria-describedby and test updates)
                           aria-invalid="true"
                           aria-labelledby="userProfile.email-label"
                           autocomplete="email"
@@ -1568,11 +1553,8 @@ exports[`enroll-profile-with-password should show validation error messages on a
                         required="true"
                       >
                         <input
-<<<<<<< HEAD
                           aria-describedby="userProfile.login-error"
                           aria-errormessage="userProfile.login-error"
-=======
->>>>>>> b02fe6e79 (Supports pw requirements aria-describedby and test updates)
                           aria-invalid="true"
                           aria-labelledby="userProfile.login-label"
                           class="MuiInputBase-input emotion-27"
@@ -1621,11 +1603,8 @@ exports[`enroll-profile-with-password should show validation error messages on a
                         required="true"
                       >
                         <input
-<<<<<<< HEAD
                           aria-describedby="userProfile.address-error"
                           aria-errormessage="userProfile.address-error"
-=======
->>>>>>> b02fe6e79 (Supports pw requirements aria-describedby and test updates)
                           aria-invalid="true"
                           aria-labelledby="userProfile.address-label"
                           class="MuiInputBase-input emotion-27"

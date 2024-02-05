@@ -178,11 +178,8 @@ exports[`enroll-profile-update fails client side validation with empty required 
                         required="true"
                       >
                         <input
-<<<<<<< HEAD
                           aria-describedby="userProfile.favoriteSport-error"
                           aria-errormessage="userProfile.favoriteSport-error"
-=======
->>>>>>> b02fe6e79 (Supports pw requirements aria-describedby and test updates)
                           aria-invalid="true"
                           aria-labelledby="userProfile.favoriteSport-label"
                           class="MuiInputBase-input emotion-33"
@@ -231,11 +228,8 @@ exports[`enroll-profile-update fails client side validation with empty required 
                         required="true"
                       >
                         <input
-<<<<<<< HEAD
                           aria-describedby="userProfile.newAttribute-error"
                           aria-errormessage="userProfile.newAttribute-error"
-=======
->>>>>>> b02fe6e79 (Supports pw requirements aria-describedby and test updates)
                           aria-invalid="true"
                           aria-labelledby="userProfile.newAttribute-label"
                           class="MuiInputBase-input emotion-33"

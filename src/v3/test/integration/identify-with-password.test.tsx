@@ -180,7 +180,7 @@ describe('identify-with-password', () => {
         findByText,
         findByLabelText,
       } = await setup({ mockResponse, widgetOptions: { features: { autoFocus: true } } });
-      
+
       const usernameEl = await findByLabelText(/Username/) as HTMLInputElement;
       const passwordEl = await findByLabelText('Password') as HTMLInputElement;
       const submitButton = await findByText('Sign in', { selector: 'button' });

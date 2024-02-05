@@ -265,11 +265,8 @@ exports[`enroll-profile-update-required-field fails client side validation with 
                         required="true"
                       >
                         <input
-<<<<<<< HEAD
                           aria-describedby="userProfile.newAttribute2-error"
                           aria-errormessage="userProfile.newAttribute2-error"
-=======
->>>>>>> b02fe6e79 (Supports pw requirements aria-describedby and test updates)
                           aria-invalid="true"
                           aria-labelledby="userProfile.newAttribute2-label"
                           class="MuiInputBase-input emotion-34"

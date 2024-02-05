@@ -884,11 +884,8 @@ exports[`Email authenticator verification when email magic link = undefined rend
                           required="true"
                         >
                           <input
-<<<<<<< HEAD
                             aria-describedby="credentials.passcode-error"
                             aria-errormessage="credentials.passcode-error"
-=======
->>>>>>> b02fe6e79 (Supports pw requirements aria-describedby and test updates)
                             aria-invalid="true"
                             aria-labelledby="credentials.passcode-label"
                             autocomplete="off"
@@ -1239,11 +1236,8 @@ exports[`Email authenticator verification when email magic link = undefined rend
                           required="true"
                         >
                           <input
-<<<<<<< HEAD
                             aria-describedby="credentials.passcode-error"
                             aria-errormessage="credentials.passcode-error"
-=======
->>>>>>> b02fe6e79 (Supports pw requirements aria-describedby and test updates)
                             aria-invalid="true"
                             aria-labelledby="credentials.passcode-label"
                             autocomplete="off"
