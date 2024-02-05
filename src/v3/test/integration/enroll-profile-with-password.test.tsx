@@ -26,7 +26,7 @@ describe('enroll-profile-with-password', () => {
 
   it('should display field level error when password field is required but is not filled', async () => {
     const {
-      authClient, container, user, findByTestId, findByText, findByLabelText,
+      authClient, container, user, findByText, findByLabelText,
     } = await setup({ mockResponse });
 
     const titleElement = await findByText(/Sign up/);

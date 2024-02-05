@@ -18,11 +18,6 @@ import * as Tokens from '@okta/odyssey-design-tokens';
 import { createOdysseyMuiTheme, DesignTokensOverride, ThemeOptions } from '@okta/odyssey-react-mui';
 
 import { BrandColors } from '../types';
-<<<<<<< HEAD
-import { isLtrField } from '.';
-import { mergeThemes } from './mergeThemes';
-=======
->>>>>>> 81f82428c (Lint fixes)
 import { isLtrField } from '.';
 import { mergeThemes } from './mergeThemes';
 
@@ -178,15 +173,7 @@ export const createThemeAndTokens = (
             // https://github.com/philipwalton/flexbugs?tab=readme-ov-file#flexbug-7
             flex: 'auto',
             ...(ownerState.name && isLtrField(ownerState.name) && {
-<<<<<<< HEAD
-<<<<<<< HEAD
               direction: 'ltr',
-=======
-              direction: "ltr"
->>>>>>> 75163cd01 (Changing LTR behavior)
-=======
-              direction: 'ltr',
->>>>>>> 81f82428c (Lint fixes)
             }),
           }),
           input: {
