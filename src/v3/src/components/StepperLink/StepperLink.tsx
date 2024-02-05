@@ -10,12 +10,12 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Link as LinkMui } from '@okta/odyssey-react-mui-legacy';
+import { Link } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 
 import { useStepperContext, useWidgetContext } from '../../contexts';
 import { useAutoFocus } from '../../hooks';
-import { StepperLinkElement, UISchemaElementComponent } from '../../types';
+import { ClickHandler, StepperLinkElement, UISchemaElementComponent } from '../../types';
 
 const StepperLink: UISchemaElementComponent<{
   uischema: StepperLinkElement
@@ -24,7 +24,6 @@ const StepperLink: UISchemaElementComponent<{
   const {
     label,
     focus,
-    ariaDescribedBy,
     options: {
       dataSe,
       nextStepIndex,
@@ -34,7 +33,9 @@ const StepperLink: UISchemaElementComponent<{
   const focusRef = useAutoFocus<HTMLButtonElement>(focus);
   const widgetContext = useWidgetContext();
 
-  const handleClick = () => {
+  const handleClick: ClickHandler = (e) => {
+    e.preventDefault();
+
     if (typeof nextStepIndex === 'function') {
       setStepIndex(nextStepIndex(widgetContext));
     } else {
@@ -43,23 +44,15 @@ const StepperLink: UISchemaElementComponent<{
   };
 
   return (
-    <LinkMui
-      component="button"
-      variant="body1"
-      role="link"
+    // eslint-disable-next-line jsx-a11y/anchor-is-valid
+    <Link
+      href=""
       onClick={handleClick}
-      aria-describedby={ariaDescribedBy}
-      ref={focusRef}
-      data-se={dataSe}
-      sx={{
-        '&:hover': {
-          cursor: 'pointer',
-          verticalAlign: 'baseline',
-        },
-      }}
+      linkRef={focusRef}
+      testId={dataSe}
     >
       {label}
-    </LinkMui>
+    </Link>
   );
 };
 
