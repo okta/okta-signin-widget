@@ -176,92 +176,100 @@ exports[`enroll-profile-update fails client side validation with empty required 
                     class="MuiBox-root emotion-17"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-30"
                     >
                       <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-31"
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-31"
                         data-shrink="false"
                         for="userProfile.favoriteSport"
+                        id="userProfile.favoriteSport-label"
                       >
-                        Favorite sport
-                        <span
-                          aria-hidden="true"
-                          class="no-translate MuiBox-root emotion-32"
-                        >
-                          *
+                        <span>
+                          Favorite sport
                         </span>
                       </label>
                       <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth Mui-focused emotion-33"
+                        class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error Mui-focused MuiInputBase-formControl emotion-32"
+                        required="true"
                       >
                         <input
-                          aria-describedby=" userProfile.favoriteSport-error  "
+                          aria-describedby="userProfile.favoriteSport-error"
+                          aria-errormessage="userProfile.favoriteSport-error"
                           aria-invalid="true"
-                          class="MuiInputBase-input emotion-34"
+                          aria-labelledby="userProfile.favoriteSport-label"
+                          class="MuiInputBase-input emotion-33"
                           data-se="userProfile.favoriteSport"
                           id="userProfile.favoriteSport"
                           name="userProfile.favoriteSport"
+                          required=""
                           type="text"
                         />
                       </div>
-                      <div
-                        class="MuiBox-root emotion-1"
+                      <p
+                        class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium Mui-focused emotion-34"
+                        id="userProfile.favoriteSport-error"
                       >
-                        <p
-                          class="MuiFormHelperText-root Mui-error emotion-36"
-                          data-se="userProfile.favoriteSport-error"
-                          id="userProfile.favoriteSport-error"
-                          role="alert"
+                        <span
+                          class="MuiBox-root emotion-14"
+                        >
+                          Error:
+                        </span>
+                        <div
+                          class="MuiBox-root emotion-1"
                         >
                           This field cannot be left blank
-                        </p>
-                      </div>
+                        </div>
+                      </p>
                     </div>
                   </div>
                   <div
                     class="MuiBox-root emotion-17"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-30"
                     >
                       <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-31"
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-31"
                         data-shrink="false"
                         for="userProfile.newAttribute"
+                        id="userProfile.newAttribute-label"
                       >
-                        Custom attribute
-                        <span
-                          aria-hidden="true"
-                          class="no-translate MuiBox-root emotion-32"
-                        >
-                          *
+                        <span>
+                          Custom attribute
                         </span>
                       </label>
                       <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth emotion-33"
+                        class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl emotion-32"
+                        required="true"
                       >
                         <input
-                          aria-describedby=" userProfile.newAttribute-error  "
+                          aria-describedby="userProfile.newAttribute-error"
+                          aria-errormessage="userProfile.newAttribute-error"
                           aria-invalid="true"
-                          class="MuiInputBase-input emotion-34"
+                          aria-labelledby="userProfile.newAttribute-label"
+                          class="MuiInputBase-input emotion-33"
                           data-se="userProfile.newAttribute"
                           id="userProfile.newAttribute"
                           name="userProfile.newAttribute"
+                          required=""
                           type="text"
                         />
                       </div>
-                      <div
-                        class="MuiBox-root emotion-1"
+                      <p
+                        class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium emotion-34"
+                        id="userProfile.newAttribute-error"
                       >
-                        <p
-                          class="MuiFormHelperText-root Mui-error emotion-36"
-                          data-se="userProfile.newAttribute-error"
-                          id="userProfile.newAttribute-error"
-                          role="alert"
+                        <span
+                          class="MuiBox-root emotion-14"
+                        >
+                          Error:
+                        </span>
+                        <div
+                          class="MuiBox-root emotion-1"
                         >
                           This field cannot be left blank
-                        </p>
-                      </div>
+                        </div>
+                      </p>
                     </div>
                   </div>
                   <div
@@ -420,30 +428,30 @@ exports[`enroll-profile-update should render form 1`] = `
                     class="MuiBox-root emotion-10"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-23"
                     >
                       <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-24"
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-24"
                         data-shrink="false"
                         for="userProfile.favoriteSport"
+                        id="userProfile.favoriteSport-label"
                       >
-                        Favorite sport
-                        <span
-                          aria-hidden="true"
-                          class="no-translate MuiBox-root emotion-25"
-                        >
-                          *
+                        <span>
+                          Favorite sport
                         </span>
                       </label>
                       <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-26"
+                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-25"
+                        required="true"
                       >
                         <input
                           aria-invalid="false"
-                          class="MuiInputBase-input emotion-27"
+                          aria-labelledby="userProfile.favoriteSport-label"
+                          class="MuiInputBase-input emotion-26"
                           data-se="userProfile.favoriteSport"
                           id="userProfile.favoriteSport"
                           name="userProfile.favoriteSport"
+                          required=""
                           type="text"
                         />
                       </div>
@@ -453,30 +461,30 @@ exports[`enroll-profile-update should render form 1`] = `
                     class="MuiBox-root emotion-10"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-23"
                     >
                       <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-24"
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-24"
                         data-shrink="false"
                         for="userProfile.newAttribute"
+                        id="userProfile.newAttribute-label"
                       >
-                        Custom attribute
-                        <span
-                          aria-hidden="true"
-                          class="no-translate MuiBox-root emotion-25"
-                        >
-                          *
+                        <span>
+                          Custom attribute
                         </span>
                       </label>
                       <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-26"
+                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-25"
+                        required="true"
                       >
                         <input
                           aria-invalid="false"
-                          class="MuiInputBase-input emotion-27"
+                          aria-labelledby="userProfile.newAttribute-label"
+                          class="MuiInputBase-input emotion-26"
                           data-se="userProfile.newAttribute"
                           id="userProfile.newAttribute"
                           name="userProfile.newAttribute"
+                          required=""
                           type="text"
                         />
                       </div>
@@ -486,7 +494,7 @@ exports[`enroll-profile-update should render form 1`] = `
                     class="MuiBox-root emotion-10"
                   >
                     <button
-                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-35"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-33"
                       data-se="save"
                       tabindex="0"
                       type="submit"

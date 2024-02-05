@@ -78,26 +78,31 @@ exports[`user-unlock-account renders form 1`] = `
                       class="MuiBox-root emotion-11"
                     >
                       <div
-                        class="MuiBox-root emotion-1"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-15"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-16"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-16"
                           data-shrink="false"
                           for="identifier"
+                          id="identifier-label"
                         >
-                          Username
+                          <span>
+                            Username
+                          </span>
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-17"
-                          dir="ltr"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-17"
+                          required="true"
                         >
                           <input
                             aria-invalid="false"
+                            aria-labelledby="identifier-label"
                             autocomplete="username"
                             class="MuiInputBase-input emotion-18"
                             data-se="identifier"
                             id="identifier"
                             name="identifier"
+                            required=""
                             type="text"
                           />
                         </div>

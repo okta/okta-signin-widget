@@ -30,7 +30,7 @@ describe('Email authenticator enroll when magic link = false Tests', () => {
       authClient,
       user,
       findByText,
-      findByTestId,
+      findByLabelText,
       findByRole,
     } = await setup({
       mockResponse,
@@ -41,7 +41,7 @@ describe('Email authenticator enroll when magic link = false Tests', () => {
     expect(headerEle.textContent).toBe('Verify with your email');
     expect(container).toMatchSnapshot();
 
-    const codeEle = await findByTestId('credentials.passcode') as HTMLInputElement;
+    const codeEle = await findByLabelText('Enter Code') as HTMLInputElement;
     const submitButton = await findByText('Verify', { selector: 'button' });
 
     const verificationCode = '123456';

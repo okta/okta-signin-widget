@@ -124,13 +124,13 @@ describe('authenticator-enroll-security-question', () => {
 
     it('should send correct payload', async () => {
       const {
-        authClient, user, findByTestId, findByText, findByLabelText,
+        authClient, user, findByTestId, findByText, findByLabelText, findByRole,
       } = await setup({ mockResponse });
 
       // switch to custom question form
       user.click(await findByLabelText(/Create my own security question/));
 
-      const customQuestionEle = await findByTestId('credentials.question') as HTMLInputElement;
+      const customQuestionEle = await findByRole('textbox', { name: 'Create my own security question' }) as HTMLInputElement;
       const answerEle = await findByTestId('credentials.answer') as HTMLInputElement;
       const submitButton = await findByText('Verify', { selector: 'button' });
 
@@ -161,6 +161,7 @@ describe('authenticator-enroll-security-question', () => {
         container,
         findByTestId,
         findByText,
+        findByRole,
         findByLabelText,
         findAllByRole,
         queryByTestId,
@@ -169,7 +170,7 @@ describe('authenticator-enroll-security-question', () => {
       // switch to custom question form
       user.click(await findByLabelText(/Create my own security question/));
 
-      const questionEle = await findByTestId('credentials.question') as HTMLInputElement;
+      const questionEle = await findByRole('textbox', { name: 'Create my own security question' }) as HTMLInputElement;
       const answerEle = await findByTestId('credentials.answer') as HTMLInputElement;
       const answer = '42';
       await user.type(answerEle, answer);
@@ -183,8 +184,7 @@ describe('authenticator-enroll-security-question', () => {
       const [globalError] = await findAllByRole('alert');
       expect(globalError.innerHTML).toContain('We found some errors. Please review the form and make corrections.');
       // assert field level error
-      const questionFieldError = await findByTestId('credentials.question-error');
-      expect(questionFieldError.innerHTML).toEqual('This field cannot be left blank');
+      expect(questionEle).toHaveErrorMessage(/This field cannot be left blank/);
       const answerFieldError = queryByTestId('credentials.answer-error');
       expect(answerFieldError).toBeNull();
       expect(container).toMatchSnapshot();
@@ -196,15 +196,15 @@ describe('authenticator-enroll-security-question', () => {
         user,
         findByTestId,
         findByText,
+        findByRole,
         findByLabelText,
         findAllByRole,
-        queryByTestId,
       } = await setup({ mockResponse });
 
       // switch to custom question form
       user.click(await findByLabelText(/Create my own security question/));
 
-      const customQuestionEle = await findByTestId('credentials.question') as HTMLInputElement;
+      const customQuestionEle = await findByRole('textbox', { name: 'Create my own security question' }) as HTMLInputElement;
       const question = 'What is the meaning of life?';
       await user.type(customQuestionEle, question);
       expect(customQuestionEle.value).toEqual(question);
@@ -218,8 +218,7 @@ describe('authenticator-enroll-security-question', () => {
       // assert field level error
       const answerFieldError = await findByTestId('credentials.answer-error');
       expect(answerFieldError.innerHTML).toEqual('This field cannot be left blank');
-      const questionFieldError = queryByTestId('credentials.question-error');
-      expect(questionFieldError).toBeNull();
+      expect(customQuestionEle).not.toHaveErrorMessage();
     });
 
     it('fails client side validation when both custom question and answer are missing', async () => {
@@ -230,6 +229,7 @@ describe('authenticator-enroll-security-question', () => {
         findByText,
         findByLabelText,
         findAllByRole,
+        findByRole,
       } = await setup({ mockResponse });
 
       // switch to custom question form
@@ -241,8 +241,8 @@ describe('authenticator-enroll-security-question', () => {
       const [globalError] = await findAllByRole('alert');
       expect(globalError.innerHTML).toContain('We found some errors. Please review the form and make corrections.');
       // assert field level error
-      const questionFieldError = await findByTestId('credentials.question-error');
-      expect(questionFieldError.innerHTML).toEqual('This field cannot be left blank');
+      const customQuestionEle = await findByRole('textbox', { name: 'Create my own security question' }) as HTMLInputElement;
+      expect(customQuestionEle).toHaveErrorMessage(/This field cannot be left blank/);
       const answerFieldError = await findByTestId('credentials.answer-error');
       expect(answerFieldError.innerHTML).toEqual('This field cannot be left blank');
     });

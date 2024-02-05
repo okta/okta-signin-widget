@@ -26,7 +26,7 @@ describe('authenticator-verification-custom-otp', () => {
 
   it('should send correct payload', async () => {
     const {
-      authClient, user, findByTestId, findByRole, findByText,
+      authClient, user, findByLabelText, findByRole, findByText,
     } = await setup({ mockResponse, widgetOptions: { features: { autoFocus: true } } });
 
     const heading = await findByRole('heading', { level: 2 });
@@ -34,7 +34,7 @@ describe('authenticator-verification-custom-otp', () => {
     expect(heading.textContent).toBe('Verify with Atko Custom OTP Authenticator');
 
     const submitButton = await findByText('Verify', { selector: 'button' });
-    const otpCodeEle = await findByTestId('credentials.passcode') as HTMLInputElement;
+    const otpCodeEle = await findByLabelText('Enter code') as HTMLInputElement;
     await waitFor(() => expect(otpCodeEle).toHaveFocus());
 
     const code = '123456';

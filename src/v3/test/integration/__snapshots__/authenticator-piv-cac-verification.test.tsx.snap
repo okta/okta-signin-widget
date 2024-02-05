@@ -175,26 +175,31 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                     class="MuiBox-root emotion-10"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-21"
                     >
                       <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-22"
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-22"
                         data-shrink="false"
                         for="identifier"
+                        id="identifier-label"
                       >
-                        Username
+                        <span>
+                          Username
+                        </span>
                       </label>
                       <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-23"
-                        dir="ltr"
+                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-23"
+                        required="true"
                       >
                         <input
                           aria-invalid="false"
+                          aria-labelledby="identifier-label"
                           autocomplete="username"
                           class="MuiInputBase-input emotion-24"
                           data-se="identifier"
                           id="identifier"
                           name="identifier"
+                          required=""
                           type="text"
                         />
                       </div>
@@ -207,14 +212,14 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                       class="MuiBox-root emotion-1"
                     >
                       <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-22"
+                        class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-27"
                         data-shrink="false"
                         for="credentials.passcode"
                       >
                         Password
                       </label>
                       <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-23"
+                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-28"
                         dir="ltr"
                       >
                         <input
@@ -556,26 +561,31 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                     class="MuiBox-root emotion-10"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-21"
                     >
                       <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-22"
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-22"
                         data-shrink="false"
                         for="identifier"
+                        id="identifier-label"
                       >
-                        Username
+                        <span>
+                          Username
+                        </span>
                       </label>
                       <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-23"
-                        dir="ltr"
+                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-23"
+                        required="true"
                       >
                         <input
                           aria-invalid="false"
+                          aria-labelledby="identifier-label"
                           autocomplete="username"
                           class="MuiInputBase-input emotion-24"
                           data-se="identifier"
                           id="identifier"
                           name="identifier"
+                          required=""
                           type="text"
                         />
                       </div>
@@ -588,14 +598,14 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                       class="MuiBox-root emotion-1"
                     >
                       <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-22"
+                        class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-27"
                         data-shrink="false"
                         for="credentials.passcode"
                       >
                         Password
                       </label>
                       <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-23"
+                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-28"
                         dir="ltr"
                       >
                         <input
@@ -837,26 +847,31 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                     class="MuiBox-root emotion-10"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-14"
                     >
                       <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-15"
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-15"
                         data-shrink="false"
                         for="identifier"
+                        id="identifier-label"
                       >
-                        Username
+                        <span>
+                          Username
+                        </span>
                       </label>
                       <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-16"
-                        dir="ltr"
+                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-16"
+                        required="true"
                       >
                         <input
                           aria-invalid="false"
+                          aria-labelledby="identifier-label"
                           autocomplete="username"
                           class="MuiInputBase-input emotion-17"
                           data-se="identifier"
                           id="identifier"
                           name="identifier"
+                          required=""
                           type="text"
                         />
                       </div>
@@ -869,14 +884,14 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                       class="MuiBox-root emotion-1"
                     >
                       <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-15"
+                        class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-20"
                         data-shrink="false"
                         for="credentials.passcode"
                       >
                         Password
                       </label>
                       <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-16"
+                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-21"
                         dir="ltr"
                       >
                         <input

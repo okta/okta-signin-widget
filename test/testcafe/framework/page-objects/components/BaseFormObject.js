@@ -337,7 +337,7 @@ export default class BaseFormObject {
 
   getNthErrorMessage(fieldName, value) {
     if (userVariables.gen3) {
-      return this.el.find(`#${fieldName}-error-${value}`).innerText;
+      return this.el.find(`#${fieldName}-error`).child('div').child('ul').child('li').nth(value).innerText;
     }
     const selectContainer = this.findFormFieldInput(fieldName).sibling('.o-form-input-error').nth(value);
     return selectContainer.innerText;

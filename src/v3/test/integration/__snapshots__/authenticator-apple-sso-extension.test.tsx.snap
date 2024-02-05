@@ -75,26 +75,31 @@ exports[`authenticator-apple-sso-extension calls verify then cancels the transac
                     class="MuiBox-root emotion-10"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-14"
                     >
                       <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-15"
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-15"
                         data-shrink="false"
                         for="identifier"
+                        id="identifier-label"
                       >
-                        Username
+                        <span>
+                          Username
+                        </span>
                       </label>
                       <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-16"
-                        dir="ltr"
+                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-16"
+                        required="true"
                       >
                         <input
                           aria-invalid="false"
+                          aria-labelledby="identifier-label"
                           autocomplete="username"
                           class="MuiInputBase-input emotion-17"
                           data-se="identifier"
                           id="identifier"
                           name="identifier"
+                          required=""
                           type="text"
                         />
                       </div>
@@ -276,26 +281,31 @@ exports[`authenticator-apple-sso-extension cancels the transaction when sso exte
                     class="MuiBox-root emotion-10"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-14"
                     >
                       <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-15"
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-15"
                         data-shrink="false"
                         for="identifier"
+                        id="identifier-label"
                       >
-                        Username
+                        <span>
+                          Username
+                        </span>
                       </label>
                       <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-16"
-                        dir="ltr"
+                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-16"
+                        required="true"
                       >
                         <input
                           aria-invalid="false"
+                          aria-labelledby="identifier-label"
                           autocomplete="username"
                           class="MuiInputBase-input emotion-17"
                           data-se="identifier"
                           id="identifier"
                           name="identifier"
+                          required=""
                           type="text"
                         />
                       </div>
@@ -477,26 +487,31 @@ exports[`authenticator-apple-sso-extension opens the verify url with credential 
                     class="MuiBox-root emotion-10"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-14"
                     >
                       <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-15"
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-15"
                         data-shrink="false"
                         for="identifier"
+                        id="identifier-label"
                       >
-                        Username
+                        <span>
+                          Username
+                        </span>
                       </label>
                       <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-16"
-                        dir="ltr"
+                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-16"
+                        required="true"
                       >
                         <input
                           aria-invalid="false"
+                          aria-labelledby="identifier-label"
                           autocomplete="username"
                           class="MuiInputBase-input emotion-17"
                           data-se="identifier"
                           id="identifier"
                           name="identifier"
+                          required=""
                           type="text"
                         />
                       </div>

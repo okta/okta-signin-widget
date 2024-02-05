@@ -75,26 +75,31 @@ exports[`identify-recovery renders form 1`] = `
                     class="MuiBox-root emotion-10"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-14"
                     >
                       <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-15"
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-15"
                         data-shrink="false"
                         for="identifier"
+                        id="identifier-label"
                       >
-                        Email or Username
+                        <span>
+                          Email or Username
+                        </span>
                       </label>
                       <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-16"
-                        dir="ltr"
+                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-16"
+                        required="true"
                       >
                         <input
                           aria-invalid="false"
+                          aria-labelledby="identifier-label"
                           autocomplete="username"
                           class="MuiInputBase-input emotion-17"
                           data-se="identifier"
                           id="identifier"
                           name="identifier"
+                          required=""
                           type="text"
                         />
                       </div>

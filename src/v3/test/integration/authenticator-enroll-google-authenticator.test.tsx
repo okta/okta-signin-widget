@@ -46,13 +46,13 @@ describe('authenticator-enroll-google-authenticator', () => {
 
   it('send correct payload', async () => {
     const {
-      authClient, user, findByText, findByTestId,
+      authClient, user, findByText, findByLabelText,
     } = await setup({ mockResponse });
     const nextButton = await findByText(/Next/);
     await user.click(nextButton);
     await findByText(/Enter code displayed from application/);
 
-    const codeEl = await findByTestId('credentials.passcode') as HTMLInputElement;
+    const codeEl = await findByLabelText('Enter code') as HTMLInputElement;
     await user.type(codeEl, '123456');
     expect(codeEl.value).toEqual('123456');
 
@@ -68,13 +68,13 @@ describe('authenticator-enroll-google-authenticator', () => {
 
   it('should send correct payload when otp is padded with white spaces', async () => {
     const {
-      authClient, user, findByText, findByTestId,
+      authClient, user, findByText, findByLabelText,
     } = await setup({ mockResponse });
     const nextButton = await findByText(/Next/);
     await user.click(nextButton);
     await findByText(/Enter code displayed from application/);
 
-    const codeEl = await findByTestId('credentials.passcode') as HTMLInputElement;
+    const codeEl = await findByLabelText('Enter code') as HTMLInputElement;
     const otp = '123456';
     const otpWithSpaces = `${otp}  `;
     await user.type(codeEl, otpWithSpaces);
@@ -92,13 +92,13 @@ describe('authenticator-enroll-google-authenticator', () => {
 
   it('should send correct payload when otp is padded with tab spaces', async () => {
     const {
-      authClient, user, findByText, findByTestId,
+      authClient, user, findByText, findByLabelText,
     } = await setup({ mockResponse });
     const nextButton = await findByText(/Next/);
     await user.click(nextButton);
     await findByText(/Enter code displayed from application/);
 
-    const codeEl = await findByTestId('credentials.passcode') as HTMLInputElement;
+    const codeEl = await findByLabelText('Enter code') as HTMLInputElement;
     const otp = '123456';
     const otpWithTabSpaces = `\t${otp}\t\t`;
     await user.type(codeEl, otpWithTabSpaces);
@@ -116,13 +116,13 @@ describe('authenticator-enroll-google-authenticator', () => {
 
   it('should send correct payload when otp is padded with return characters', async () => {
     const {
-      authClient, user, findByText, findByTestId,
+      authClient, user, findByText, findByLabelText,
     } = await setup({ mockResponse });
     const nextButton = await findByText(/Next/);
     await user.click(nextButton);
     await findByText(/Enter code displayed from application/);
 
-    const codeEl = await findByTestId('credentials.passcode') as HTMLInputElement;
+    const codeEl = await findByLabelText('Enter code') as HTMLInputElement;
     const otp = '123456';
     const otpWithReturnSpaces = `\r${otp}\r`;
     await user.type(codeEl, otpWithReturnSpaces);

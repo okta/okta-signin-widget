@@ -18,6 +18,7 @@ import * as Tokens from '@okta/odyssey-design-tokens';
 import { createOdysseyMuiTheme, DesignTokensOverride, ThemeOptions } from '@okta/odyssey-react-mui';
 
 import { BrandColors } from '../types';
+import { isLtrField } from '.';
 import { mergeThemes } from './mergeThemes';
 
 const WHITE_HEX = '#ffffff';
@@ -157,11 +158,21 @@ export const createThemeAndTokens = (
           }),
         },
       },
-      MuiInputBase: {
+      MuiFormHelperText: {
         styleOverrides: {
           root: {
-            width: '100%',
+            display: 'block',
           },
+        },
+      },
+      MuiInputBase: {
+        styleOverrides: {
+          root: ({ ownerState }) => ({
+            width: '100%',
+            ...(ownerState.name && isLtrField(ownerState.name) && {
+              direction: 'ltr',
+            }),
+          }),
           input: {
             '::-ms-reveal': {
               display: 'none',

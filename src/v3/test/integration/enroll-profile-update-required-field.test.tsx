@@ -16,19 +16,19 @@ import { setup } from './util';
 
 describe('enroll-profile-update-required-field', () => {
   it('should render form with one required field', async () => {
-    const { container, findByRole, findByTestId } = await setup(
+    const { container, findByTestId, findByRole } = await setup(
       { mockResponse: enrollProfileUpdatMockResponse },
     );
     const heading = await findByRole('heading', { level: 2 });
     expect(heading.textContent).toBe('Additional Profile information');
     expect(container).toMatchSnapshot();
     const customAttrEle = await findByTestId('userProfile.newAttribute') as HTMLInputElement;
-    await expect(customAttrEle).not.toHaveFocus();
+    expect(customAttrEle).not.toHaveFocus();
   });
 
   it('fails client side validation with empty required fields', async () => {
     const {
-      authClient, container, user, findByRole, findByTestId,
+      authClient, container, user, findByLabelText, findByRole, findByTestId,
     } = await setup({
       mockResponse: enrollProfileUpdatMockResponse,
       widgetOptions: { features: { autoFocus: true } },
@@ -43,8 +43,8 @@ describe('enroll-profile-update-required-field', () => {
     await waitFor(() => expect(customAttrEle).toHaveFocus());
 
     await user.click(submitButton);
-    const customAttrError = await findByTestId('userProfile.newAttribute2-error');
-    expect(customAttrError.textContent).toEqual('This field cannot be left blank');
+    const customAttr2Ele = await findByLabelText('Some custom attribute 2') as HTMLInputElement;
+    expect(customAttr2Ele).toHaveErrorMessage(/This field cannot be left blank/);
 
     expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
     expect(container).toMatchSnapshot();
