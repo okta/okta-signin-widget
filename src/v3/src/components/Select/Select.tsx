@@ -35,7 +35,6 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
   const { focus, translations = [] } = uischema;
   const label = getTranslation(translations, 'label');
   const emptyOptionLabel = getTranslation(translations, 'empty-option-label');
-  const optionalLabel = getTranslation(translations, 'optionalLabel');
   const { errorMessage, errorMessageList } = buildFieldLevelErrorMessages(errors);
 
   const {
@@ -68,10 +67,10 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
       autoCompleteType={autocomplete}
       errorMessage={errorMessage}
       errorMessageList={errorMessageList}
-      hint={!required ? optionalLabel : undefined}
       id={name}
       inputRef={focusRef}
       isDisabled={loading}
+      isOptional={!required}
       label={label}
       onChange={(e: SelectChangeEvent<string>) => {
         const selectTarget = (
@@ -86,7 +85,7 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
         handleBlur?.(selectTarget.value);
       }}
       testId={name}
-      value={value as string}
+      value={value as string ?? ''}
     >
       {
         [
