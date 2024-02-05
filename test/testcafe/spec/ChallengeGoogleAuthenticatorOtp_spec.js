@@ -105,7 +105,7 @@ test
     await checkA11y(t);
     await challengeGoogleAuthenticatorPageObject.verifyFactor('credentials.passcode', '123');
     await challengeGoogleAuthenticatorPageObject.clickVerifyButton();
-    await t.expect(challengeGoogleAuthenticatorPageObject.getAnswerInlineError()).eql('Your code doesn\'t match our records. Please try again.');
+    await t.expect(challengeGoogleAuthenticatorPageObject.getAnswerInlineError()).match(/Your code doesn't match our records. Please try again./);
   });
 
 test
@@ -114,7 +114,7 @@ test
     await checkA11y(t);
     await challengeGoogleAuthenticatorPageObject.verifyFactor('credentials.passcode', '123');
     await challengeGoogleAuthenticatorPageObject.clickVerifyButton();
-    await t.expect(challengeGoogleAuthenticatorPageObject.getAnswerInlineError()).eql('Each code can only be used once. Please wait for a new code and try again.');
+    await t.expect(challengeGoogleAuthenticatorPageObject.getAnswerInlineError()).match(/Each code can only be used once. Please wait for a new code and try again./);
   });
 
 test.requestHooks(validOTPmock)('should show custom factor page link', async t => {

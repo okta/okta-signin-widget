@@ -41,6 +41,7 @@ describe('Flow transitions', () => {
   it('clears field data when transition from identify-with-password to authentication-verification-ga', async () => {
     const {
       user,
+      findByLabelText,
       findByTestId,
       findByText,
     } = await setup({
@@ -59,7 +60,7 @@ describe('Flow transitions', () => {
     // form: identify-with-password
     const titleElement = await findByText('Sign In', { selector: 'h2' });
     await waitFor(() => expect(titleElement).toHaveFocus());
-    const usernameEl = await findByTestId('identifier') as HTMLInputElement;
+    const usernameEl = await findByLabelText('Username') as HTMLInputElement;
     const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
     const submitButton = await findByText('Sign in', { selector: 'button' });
 
@@ -71,7 +72,7 @@ describe('Flow transitions', () => {
 
     // form: authentication-verification-ga
     await findByText(/Verify with Google Authenticator/);
-    const newFormPasswordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
+    const newFormPasswordEl = await findByLabelText('Enter code') as HTMLInputElement;
     expect(newFormPasswordEl.value).toEqual('');
   });
 });

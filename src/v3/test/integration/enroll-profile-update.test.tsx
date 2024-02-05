@@ -16,25 +16,25 @@ import { createAuthJsPayloadArgs, setup } from './util';
 
 describe('enroll-profile-update', () => {
   it('should render form', async () => {
-    const { container, findByRole, findByTestId } = await setup({ mockResponse });
+    const { container, findByLabelText, findByRole } = await setup({ mockResponse });
     const heading = await findByRole('heading', { level: 2 });
     expect(heading.textContent).toBe('Sign in');
     expect(container).toMatchSnapshot();
-    const favoriteSportEle = await findByTestId('userProfile.favoriteSport') as HTMLInputElement;
+    const favoriteSportEle = await findByLabelText('Favorite sport') as HTMLInputElement;
     expect(favoriteSportEle).not.toHaveFocus();
   });
 
   it('should send correct payload', async () => {
     const {
-      authClient, user, findByTestId, findByRole,
+      authClient, user, findByLabelText, findByRole,
     } = await setup({ mockResponse, widgetOptions: { features: { autoFocus: true } } });
 
     const heading = await findByRole('heading', { level: 2 });
     expect(heading.textContent).toBe('Sign in');
 
     const submitButton = await findByRole('button', { name: 'Submit' });
-    const favoriteSportEle = await findByTestId('userProfile.favoriteSport') as HTMLInputElement;
-    const newAttributeEle = await findByTestId('userProfile.newAttribute') as HTMLInputElement;
+    const favoriteSportEle = await findByLabelText('Favorite sport') as HTMLInputElement;
+    const newAttributeEle = await findByLabelText('Custom attribute') as HTMLInputElement;
 
     const favoriteSport = 'Football';
     const newAttribute = 'New Attr';
@@ -58,16 +58,16 @@ describe('enroll-profile-update', () => {
 
   it('fails client side validation with empty required fields', async () => {
     const {
-      authClient, container, user, findByRole, findByTestId,
+      authClient, container, user, findByLabelText, findByRole,
     } = await setup({ mockResponse, widgetOptions: { features: { autoFocus: true } } });
 
     const submitButton = await findByRole('button', { name: 'Submit' });
 
     await user.click(submitButton);
-    const favoriteSportError = await findByTestId('userProfile.favoriteSport-error');
-    expect(favoriteSportError.textContent).toEqual('This field cannot be left blank');
-    const newAttributeError = await findByTestId('userProfile.newAttribute-error');
-    expect(newAttributeError.textContent).toEqual('This field cannot be left blank');
+    const favoriteSportEle = await findByLabelText('Favorite sport') as HTMLInputElement;
+    expect(favoriteSportEle).toHaveErrorMessage(/This field cannot be left blank/);
+    const newAttributeEle = await findByLabelText('Custom attribute') as HTMLInputElement;
+    expect(newAttributeEle).toHaveErrorMessage(/This field cannot be left blank/);
 
     expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
     expect(container).toMatchSnapshot();

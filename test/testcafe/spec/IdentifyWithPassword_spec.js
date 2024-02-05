@@ -58,14 +58,14 @@ test.requestHooks(identifyWithPasswordMock)('should show errors if required fiel
   await identityPage.waitForErrorBox();
 
   await t.expect(identityPage.hasIdentifierErrorMessage()).eql(true);
-  await t.expect(identityPage.getIdentifierErrorMessage()).eql('This field cannot be left blank');
+  await t.expect(identityPage.getIdentifierErrorMessage()).match(/This field cannot be left blank/);
 
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.clickSignInButton();
   await identityPage.waitForErrorBox();
 
   await t.expect(identityPage.hasPasswordErrorMessage()).eql(true);
-  await t.expect(identityPage.getPasswordErrorMessage()).eql('This field cannot be left blank');
+  await t.expect(identityPage.getPasswordErrorMessage()).match(/This field cannot be left blank/);
 });
 
 test.requestHooks(identifyWithPasswordMock)('should show customized error if required field password is empty', async t => {
@@ -83,7 +83,7 @@ test.requestHooks(identifyWithPasswordMock)('should show customized error if req
   await identityPage.waitForErrorBox();
 
   await t.expect(identityPage.hasIdentifierErrorMessage()).eql(true);
-  await t.expect(identityPage.getIdentifierErrorMessage()).eql('Username is required!');
+  await t.expect(identityPage.getIdentifierErrorMessage()).match(/Username is required!/);
 
 
   await identityPage.fillIdentifierField('Test Identifier');

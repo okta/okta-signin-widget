@@ -211,26 +211,32 @@ exports[`authenticator-verification-ov-totp-biometrics-error should render form 
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-36"
                     >
                       <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-37"
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-37"
                         data-shrink="false"
                         for="credentials.totp"
+                        id="credentials.totp-label"
                       >
-                        Enter code from Okta Verify app
+                        <span>
+                          Enter code from Okta Verify app
+                        </span>
                       </label>
                       <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-38"
+                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-38"
+                        required="true"
                       >
                         <input
                           aria-invalid="false"
+                          aria-labelledby="credentials.totp-label"
                           autocomplete="off"
                           class="MuiInputBase-input emotion-39"
                           data-se="credentials.totp"
                           id="credentials.totp"
                           inputmode="numeric"
                           name="credentials.totp"
+                          required=""
                           type="text"
                         />
                       </div>

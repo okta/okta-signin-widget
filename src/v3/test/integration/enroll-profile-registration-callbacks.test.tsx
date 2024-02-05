@@ -126,7 +126,7 @@ describe('enroll-profile-with-password', () => {
 
   it('should show custom field level error message and custom global message on page load', async () => {
     const {
-      container, findByRole, findByTestId,
+      container, findByLabelText, findByRole,
     } = await setup({
       mockResponses: {
         '/introspect': {
@@ -158,16 +158,16 @@ describe('enroll-profile-with-password', () => {
       },
     });
     const heading = await findByRole('heading', { level: 2 });
-    const lastNameFieldError = await findByTestId('userProfile.lastName-error');
+    const lastNameEle = await findByLabelText('Last name') as HTMLInputElement;
 
     expect(heading.textContent).toBe('Sign up');
-    expect(lastNameFieldError.textContent).toContain('Custom parseSchema error');
+    expect(lastNameEle).toHaveErrorMessage(/Custom parseSchema error/);
     expect(container).toMatchSnapshot();
   });
 
   it('should show custom error message and prevent submission when failure is triggered in preSubmit callback', async () => {
     const {
-      authClient, container, user, findByRole, findByLabelText, findByText, findByTestId,
+      authClient, container, user, findByRole, findByLabelText, findByText,
     } = await setup({
       mockResponses: {
         '/introspect': {
@@ -224,8 +224,7 @@ describe('enroll-profile-with-password', () => {
 
     await user.click(submitButton);
     expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
-    const lastNameFieldError = await findByTestId('userProfile.lastName-error');
-    expect(lastNameFieldError.textContent).toContain('Custom preSubmit error');
+    await waitFor(() => expect(lastNameEle).toHaveErrorMessage(/Custom preSubmit error/));
     expect(container).toMatchSnapshot();
   });
 
@@ -299,7 +298,7 @@ describe('enroll-profile-with-password', () => {
 
   it('should show validation error messages on all fields when submitted without completing required fields', async () => {
     const {
-      authClient, container, user, findByRole, findByText, findByTestId,
+      authClient, container, user, findByLabelText, findByRole, findByText,
     } = await setup({
       mockResponses: {
         '/introspect': {
@@ -335,13 +334,13 @@ describe('enroll-profile-with-password', () => {
     });
     const heading = await findByRole('heading', { level: 2 });
     const submitButton = await findByText('Sign Up', { selector: 'button' });
+    const addressEle = await findByLabelText(/Street Address/) as HTMLInputElement;
 
     expect(heading.textContent).toBe('Sign up');
 
     await user.click(submitButton);
     expect(authClient.options.httpRequestClient).not.toHaveBeenCalledWith('POST', 'idp/idx/enroll');
-    const addressError = await findByTestId('userProfile.address-error');
-    expect(addressError.textContent).toContain('This field cannot be left blank');
+    expect(addressEle).toHaveErrorMessage(/This field cannot be left blank/);
     expect(container).toMatchSnapshot();
   });
 });

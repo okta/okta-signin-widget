@@ -154,27 +154,32 @@ exports[`authenticator-verification-custom-otp should render form 1`] = `
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-24"
                     >
                       <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-25"
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-25"
                         data-shrink="false"
                         for="credentials.passcode"
+                        id="credentials.passcode-label"
                       >
-                        Enter code
+                        <span>
+                          Enter code
+                        </span>
                       </label>
                       <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-26"
-                        dir="ltr"
+                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-26"
+                        required="true"
                       >
                         <input
                           aria-invalid="false"
+                          aria-labelledby="credentials.passcode-label"
                           autocomplete="off"
                           class="MuiInputBase-input emotion-27"
                           data-se="credentials.passcode"
                           id="credentials.passcode"
                           inputmode="numeric"
                           name="credentials.passcode"
+                          required=""
                           type="text"
                         />
                       </div>

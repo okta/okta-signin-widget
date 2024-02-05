@@ -597,27 +597,32 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       class="MuiBox-root emotion-11"
                     >
                       <div
-                        class="MuiBox-root emotion-1"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-26"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-27"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-27"
                           data-shrink="false"
                           for="credentials.passcode"
+                          id="credentials.passcode-label"
                         >
-                          Enter Code
+                          <span>
+                            Enter Code
+                          </span>
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth Mui-focused emotion-28"
-                          dir="ltr"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary Mui-focused MuiInputBase-formControl emotion-28"
+                          required="true"
                         >
                           <input
                             aria-invalid="false"
+                            aria-labelledby="credentials.passcode-label"
                             autocomplete="off"
                             class="MuiInputBase-input emotion-29"
                             data-se="credentials.passcode"
                             id="credentials.passcode"
                             inputmode="numeric"
                             name="credentials.passcode"
+                            required=""
                             type="text"
                           />
                         </div>
@@ -862,50 +867,59 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       class="MuiBox-root emotion-18"
                     >
                       <div
-                        class="MuiBox-root emotion-1"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-33"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-34"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiFormLabel-filled Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-34"
                           data-shrink="false"
                           for="credentials.passcode"
+                          id="credentials.passcode-label"
                         >
-                          Enter Code
+                          <span>
+                            Enter Code
+                          </span>
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth Mui-focused emotion-35"
-                          dir="ltr"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error Mui-focused MuiInputBase-formControl emotion-35"
+                          required="true"
                         >
                           <input
-                            aria-describedby=" credentials.passcode-error  "
+                            aria-describedby="credentials.passcode-error"
+                            aria-errormessage="credentials.passcode-error"
                             aria-invalid="true"
+                            aria-labelledby="credentials.passcode-label"
                             autocomplete="off"
                             class="MuiInputBase-input emotion-36"
                             data-se="credentials.passcode"
                             id="credentials.passcode"
                             inputmode="numeric"
                             name="credentials.passcode"
+                            required=""
                             type="text"
                           />
                         </div>
-                        <div
-                          class="MuiBox-root emotion-1"
+                        <p
+                          class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium Mui-focused MuiFormHelperText-filled emotion-37"
+                          id="credentials.passcode-error"
                         >
-                          <p
-                            class="MuiFormHelperText-root Mui-error emotion-38"
-                            data-se="credentials.passcode-error"
-                            id="credentials.passcode-error"
-                            role="alert"
+                          <span
+                            class="MuiBox-root emotion-15"
+                          >
+                            Error:
+                          </span>
+                          <div
+                            class="MuiBox-root emotion-1"
                           >
                             Invalid code. Try again.
-                          </p>
-                        </div>
+                          </div>
+                        </p>
                       </div>
                     </div>
                     <div
                       class="MuiBox-root emotion-18"
                     >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-40"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-41"
                         data-se="save"
                         tabindex="0"
                         type="submit"
@@ -918,7 +932,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                     class="MuiBox-root emotion-18"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-42"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-43"
                       data-se="switchAuthenticator"
                       href=""
                     >
@@ -929,7 +943,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                     class="MuiBox-root emotion-18"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-42"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-43"
                       data-se="cancel"
                       href=""
                     >
@@ -1205,50 +1219,59 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       class="MuiBox-root emotion-18"
                     >
                       <div
-                        class="MuiBox-root emotion-1"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-42"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-43"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiFormLabel-filled Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-43"
                           data-shrink="false"
                           for="credentials.passcode"
+                          id="credentials.passcode-label"
                         >
-                          Enter Code
+                          <span>
+                            Enter Code
+                          </span>
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth Mui-focused emotion-44"
-                          dir="ltr"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error Mui-focused MuiInputBase-formControl emotion-44"
+                          required="true"
                         >
                           <input
-                            aria-describedby=" credentials.passcode-error  "
+                            aria-describedby="credentials.passcode-error"
+                            aria-errormessage="credentials.passcode-error"
                             aria-invalid="true"
+                            aria-labelledby="credentials.passcode-label"
                             autocomplete="off"
                             class="MuiInputBase-input emotion-45"
                             data-se="credentials.passcode"
                             id="credentials.passcode"
                             inputmode="numeric"
                             name="credentials.passcode"
+                            required=""
                             type="text"
                           />
                         </div>
-                        <div
-                          class="MuiBox-root emotion-1"
+                        <p
+                          class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium Mui-focused MuiFormHelperText-filled emotion-46"
+                          id="credentials.passcode-error"
                         >
-                          <p
-                            class="MuiFormHelperText-root Mui-error emotion-47"
-                            data-se="credentials.passcode-error"
-                            id="credentials.passcode-error"
-                            role="alert"
+                          <span
+                            class="MuiBox-root emotion-15"
+                          >
+                            Error:
+                          </span>
+                          <div
+                            class="MuiBox-root emotion-1"
                           >
                             Invalid code. Try again.
-                          </p>
-                        </div>
+                          </div>
+                        </p>
                       </div>
                     </div>
                     <div
                       class="MuiBox-root emotion-18"
                     >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-49"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-50"
                         data-se="save"
                         tabindex="0"
                         type="submit"
@@ -1261,7 +1284,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                     class="MuiBox-root emotion-18"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-51"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-52"
                       data-se="switchAuthenticator"
                       href=""
                     >
@@ -1272,7 +1295,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                     class="MuiBox-root emotion-18"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-51"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-52"
                       data-se="cancel"
                       href=""
                     >
@@ -1562,27 +1585,32 @@ exports[`Email authenticator verification when email magic link = undefined shou
                       class="MuiBox-root emotion-11"
                     >
                       <div
-                        class="MuiBox-root emotion-1"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-26"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-27"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-27"
                           data-shrink="false"
                           for="credentials.passcode"
+                          id="credentials.passcode-label"
                         >
-                          Enter Code
+                          <span>
+                            Enter Code
+                          </span>
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth Mui-focused emotion-28"
-                          dir="ltr"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary Mui-focused MuiInputBase-formControl emotion-28"
+                          required="true"
                         >
                           <input
                             aria-invalid="false"
+                            aria-labelledby="credentials.passcode-label"
                             autocomplete="one-time-code"
                             class="MuiInputBase-input emotion-29"
                             data-se="credentials.passcode"
                             id="credentials.passcode"
                             inputmode="numeric"
                             name="credentials.passcode"
+                            required=""
                             type="text"
                           />
                         </div>

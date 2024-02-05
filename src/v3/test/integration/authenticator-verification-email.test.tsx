@@ -95,7 +95,7 @@ describe('Email authenticator verification when email magic link = undefined', (
         container,
         user,
         findByText,
-        findByTestId,
+        findByLabelText,
         queryByText,
       } = await setup({
         mockResponses: {
@@ -123,7 +123,7 @@ describe('Email authenticator verification when email magic link = undefined', (
       jest.advanceTimersByTime(500);
       await findByText(/Haven't received an email?/);
 
-      const codeEle = await findByTestId('credentials.passcode') as HTMLInputElement;
+      const codeEle = await findByLabelText('Enter Code') as HTMLInputElement;
       const submitButton = await findByText('Verify', { selector: 'button' });
       const verificationCode = '123456';
       await user.type(codeEle, verificationCode);
@@ -148,7 +148,7 @@ describe('Email authenticator verification when email magic link = undefined', (
         container,
         user,
         findByText,
-        findByTestId,
+        findByLabelText,
         queryByText,
       } = await setup({
         mockResponses: {
@@ -187,14 +187,14 @@ describe('Email authenticator verification when email magic link = undefined', (
       jest.advanceTimersByTime(500);
       await findByText(/Haven't received an email?/);
       // render invalid otp message
-      const codeEle = await findByTestId('credentials.passcode') as HTMLInputElement;
+      const codeEle = await findByLabelText('Enter Code') as HTMLInputElement;
       const submitButton = await findByText('Verify', { selector: 'button' });
       const verificationCode = '123456';
       await user.type(codeEle, verificationCode);
       await user.click(submitButton);
       await findByText('Invalid code. Try again.');
       await waitFor( async () => {
-        const codeEntryEle = await findByTestId('credentials.passcode') as HTMLInputElement;
+        const codeEntryEle = await findByLabelText('Enter Code') as HTMLInputElement;
         expect((codeEntryEle)).toHaveFocus();
       });
       // After an error, verify that the Reminder prompt is removed in lieu of the global error
@@ -244,7 +244,7 @@ describe('Email authenticator verification when email magic link = undefined', (
       authClient,
       user,
       findByText,
-      findByTestId,
+      findByLabelText,
     } = await setup({
       mockResponse: authenticatorVerificationEmail,
     });
@@ -257,7 +257,7 @@ describe('Email authenticator verification when email magic link = undefined', (
     await user.click(nextPageBtn);
     await findByText(/Enter Code/);
 
-    const codeEle = await findByTestId('credentials.passcode') as HTMLInputElement;
+    const codeEle = await findByLabelText('Enter Code') as HTMLInputElement;
     const submitButton = await findByText('Verify', { selector: 'button' });
 
     const verificationCode = '123456';
@@ -277,7 +277,7 @@ describe('Email authenticator verification when email magic link = undefined', (
       authClient,
       user,
       findByText,
-      findByTestId,
+      findByLabelText,
     } = await setup({
       mockResponse: authenticatorVerificationEmail,
     });
@@ -290,7 +290,7 @@ describe('Email authenticator verification when email magic link = undefined', (
     await user.click(nextPageBtn);
     await findByText(/Enter Code/);
 
-    const codeEle = await findByTestId('credentials.passcode') as HTMLInputElement;
+    const codeEle = await findByLabelText('Enter Code') as HTMLInputElement;
     const submitButton = await findByText('Verify', { selector: 'button' });
 
     const otp = '123456';
@@ -315,7 +315,7 @@ describe('Email authenticator verification when email magic link = undefined', (
       container,
       user,
       findByText,
-      findByTestId,
+      findByLabelText,
     } = await setup({
       mockResponse: authenticatorVerificationEmail,
       widgetOptions: { features: { autoFocus: true } },
@@ -329,7 +329,7 @@ describe('Email authenticator verification when email magic link = undefined', (
     await user.click(nextPageBtn);
     await findByText(/Enter Code/);
 
-    const codeEle = await findByTestId('credentials.passcode') as HTMLInputElement;
+    const codeEle = await findByLabelText('Enter Code') as HTMLInputElement;
 
     expect(codeEle.getAttribute('autocomplete')).toBe('one-time-code');
     expect(container).toMatchSnapshot();

@@ -77,7 +77,7 @@ export default class IdentityPageObject extends BasePageObject {
   }
 
   getIdentifierValue() {
-    return this.form.getTextBoxValue('Username', true);
+    return this.form.getTextBoxValue(/Username/, true);
   }
 
   fillPasswordField(value) {
@@ -272,6 +272,9 @@ export default class IdentityPageObject extends BasePageObject {
   }
 
   getIdentifierSubLabelValue() {
+    if (userVariables.gen3) {
+      return Selector('#identifier-hint').textContent;
+    }
     return Selector(SUB_LABEL_SELECTOR).nth(0).textContent;
   }
 

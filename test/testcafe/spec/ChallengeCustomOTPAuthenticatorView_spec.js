@@ -66,7 +66,7 @@ test.requestHooks(mockChallengeAuthenticatorCustomOTP)('OTP is required', async 
   await challengeOnPremPage.clickNextButton('Verify');
 
   await challengeOnPremPage.waitForErrorBox();
-  await t.expect(challengeOnPremPage.getPasscodeError()).eql('This field cannot be left blank');
+  await t.expect(challengeOnPremPage.getPasscodeError()).match(/This field cannot be left blank/);
 });
 
 test.requestHooks(mockInvalidPasscode)('challege custom otp authenticator with invalid passcode', async t => {
