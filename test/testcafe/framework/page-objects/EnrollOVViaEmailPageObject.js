@@ -18,7 +18,7 @@ export default class EnrollOVViaEmailPageObject extends BasePageObject {
   }
 
   clickSendSetupLink() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.clickButton('Send me the setup link');
     }
     return this.form.clickSaveButton();

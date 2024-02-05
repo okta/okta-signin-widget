@@ -48,7 +48,11 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
   describedByIds,
 }) => {
   const {
-    data, dataSchemaRef, loading, widgetProps,
+    data,
+    dataSchemaRef,
+    loading,
+    widgetProps,
+    languageDirection,
   } = useWidgetContext();
   const {
     translations = [],
@@ -70,6 +74,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
   const countryLabel = getTranslation(translations, 'country');
   const optionalLabel = getTranslation(translations, 'optionalLabel');
 
+  const { features: { disableAutocomplete } = {} } = widgetProps;
   const countries = CountryUtil.getCountries() as Record<string, string>;
   const [phone, setPhone] = useState<string>('');
   // Sets the default country code
@@ -124,19 +129,26 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
   const renderExtension = () => (
     showExtension && (
       <Box width={0.25}>
-        <InputLabel htmlFor="phoneExtension">{extensionLabel}</InputLabel>
+        <InputLabel
+          htmlFor="phoneExtension"
+          // label should remain in rtl format if rtl language is set
+          dir={languageDirection}
+        >
+          {extensionLabel}
+        </InputLabel>
         <InputBase
           value={extension}
           type="text"
           name="extension"
           id="phoneExtension"
+          dir="ltr"
           disabled={loading}
           onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
             setExtension(e.currentTarget.value);
           }}
           inputProps={{
             'data-se': 'extension',
-            autocomplete: 'tel-extension',
+            autocomplete: disableAutocomplete ? 'off' : 'tel-extension',
             'aria-describedby': ariaDescribedBy,
           }}
         />
@@ -167,7 +179,12 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
           </Box>
         )}
         {required === false && (
-          <Typography variant="subtitle1">{optionalLabel}</Typography>
+          <Typography
+            variant="subtitle1"
+            sx={{ whiteSpace: 'nowrap' }}
+          >
+            {optionalLabel}
+          </Typography>
         )}
       </InputLabel>
       <Select
@@ -185,7 +202,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
         inputRef={focusRef}
         inputProps={{
           'data-se': 'country',
-          autocomplete: 'tel-country-code',
+          autocomplete: disableAutocomplete ? 'off' : 'tel-country-code',
           'aria-describedby': ariaDescribedBy,
         }}
       >
@@ -206,19 +223,19 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
 
   return (
     <Box>
-      { renderCountrySelect() }
+      {renderCountrySelect()}
       <Box
         display="flex"
-        flexWrap="wrap"
+        justifyContent="space-between"
+        dir="ltr"
       >
-        <Box
-          width={showExtension ? 0.7 : 1}
-          marginInlineEnd={showExtension ? 2 : 0}
-        >
+        <Box width={showExtension ? 0.7 : 1}>
           <InputLabel
             htmlFor={fieldName}
             // To prevent asterisk from shifting far right
             sx={{ justifyContent: showAsterisk ? 'flex-start' : undefined }}
+            // label should remain in rtl format if rtl language is set
+            dir={languageDirection}
           >
             {mainLabel}
             {showAsterisk && (
@@ -244,6 +261,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
             id={fieldName}
             error={phoneHasErrors}
             disabled={loading}
+            dir="ltr"
             onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
               // Set new phone value without phone code
               setPhone(e.currentTarget.value);
@@ -258,6 +276,12 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
                 component="span"
                 position="start"
                 className="no-translate"
+                sx={(theme) => ({
+                  // physical properties OK because parent InputBase component
+                  // is always set to "ltr"
+                  marginRight: theme.spacing(2),
+                  marginLeft: 0,
+                })}
               >
                 {phoneCode}
               </InputAdornment>
@@ -276,10 +300,11 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
             />
           )}
         </Box>
-        { renderExtension() }
+        {renderExtension()}
       </Box>
     </Box>
   );
 };
 
-export default withFormValidationState(PhoneAuthenticator);
+const WrappedPhoneAuthenticator = withFormValidationState(PhoneAuthenticator);
+export default WrappedPhoneAuthenticator;

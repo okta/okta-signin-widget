@@ -1,12 +1,14 @@
-import { _, loc, createCallout } from '@okta/courage';
+import { _, loc, createCallout, createButton } from '@okta/courage';
 import { BaseForm, BaseView } from '../internals';
 import { INTERSTITIAL_REDIRECT_VIEW } from '../../ion/RemediationConstants';
 import CustomAccessDeniedErrorMessage from '../views/shared/CustomAccessDeniedErrorMessage';
-
+import Util from 'util/Util';
+import { getHeader } from '../utils/AutoRedirectUtil';
 const CUSTOM_ACCESS_DENIED_KEY = 'security.access_denied_custom_message';
 const UNLOCK_USER_SUCCESS_MESSAGE = 'oie.selfservice.unlock_user.landing.to.app.success.message';
 
 const Body = BaseForm.extend({
+  /* eslint complexity: [2, 16] */
   title() {
     let titleString = loc('oie.success.text.signingIn', 'login');
     // For more info on the API response available in appState, see IdxResponseBuilder.java
@@ -30,7 +32,10 @@ const Body = BaseForm.extend({
 
     const appName = appInstanceName ? appInstanceName : appDisplayName;
 
-    if (appName && userEmail && !this.settings.get('features.showIdentifier')) {
+    // OKTA-635926: add user gesture for ov enrollment on android
+    if (Util.isAndroidOVEnrollment()) {
+      titleString = loc('oie.success.text.signingIn.with.appName.android.ov.enrollment', 'login');
+    } else if (appName && userEmail && !this.settings.get('features.showIdentifier')) {
       titleString = loc('oie.success.text.signingIn.with.appName.and.identifier', 'login', [appName, userEmail]);
     } else if (appName) {
       titleString = loc('oie.success.text.signingIn.with.appName', 'login', [appName]);
@@ -69,11 +74,26 @@ const Body = BaseForm.extend({
   render() {
     BaseForm.prototype.render.apply(this, arguments);
     if (this.redirectView === INTERSTITIAL_REDIRECT_VIEW.DEFAULT) {
-      this.add('<div class="okta-waiting-spinner"></div>');
+
+      // OKTA-635926: add user gesture for ov enrollment on android
+      if (Util.isAndroidOVEnrollment()) {
+        const currentViewState = this.options.appState.getCurrentViewState();
+        this.add(createButton({
+          className: 'ul-button button button-wide button-primary hide-underline',
+          title: loc('oktaVerify.open.button', 'login'),
+          id: 'launch-enrollment-ov',
+          click: () => {
+            Util.redirectWithFormGet(currentViewState.href);
+          }
+        }));
+      } else {
+        this.add('<div class="okta-waiting-spinner"></div>');
+      }
     }
   }
 });
 
 export default BaseView.extend({
-  Body
+  Header: getHeader(),
+  Body: Body
 });

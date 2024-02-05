@@ -12,29 +12,33 @@
 
 import {
   AuthApiError,
-  HttpResponse,
   IdxActionParams,
   IdxMessage,
+  IdxStatus,
   IdxTransaction,
   OAuthError,
-  RawIdxResponse,
 } from '@okta/okta-auth-js';
 import { cloneDeep, merge, omit } from 'lodash';
 import { useCallback } from 'preact/hooks';
+import { generateDeviceFingerprint } from 'src/util/deviceFingerprintingUtils';
 
 import { IDX_STEP, ON_PREM_TOKEN_CHANGE_ERROR_KEY } from '../constants';
 import { useWidgetContext } from '../contexts';
-import { ErrorXHR, EventErrorContext, MessageType } from '../types';
+import { MessageType } from '../types';
 import {
   areTransactionsEqual,
   containsMessageKey,
-  formatError,
+  getBaseUrl,
+  getErrorEventContext,
   getImmutableData,
+  isConfigRecoverFlow,
   isOauth2Enabled,
   loc,
   postRegistrationSubmit,
   preRegistrationSubmit,
+  removeUsernameCookie,
   SessionStorage,
+  setUsernameCookie,
   toNestedObject,
   transformIdentifier,
   triggerRegistrationErrorMessages,
@@ -64,7 +68,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     setStepToRender,
     widgetProps,
   } = useWidgetContext();
-  const { events } = widgetProps;
+  const { eventEmitter, widgetHooks, features } = widgetProps;
 
   return useCallback(async (options: OnSubmitHandlerOptions) => {
     setLoading(true);
@@ -78,15 +82,15 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       stepToRender,
     } = options;
 
-    const getErrorEventContext = (
-      resp: RawIdxResponse | HttpResponse['responseJSON'],
-    ): EventErrorContext => {
-      const error = formatError(resp);
-      return {
-        xhr: error as unknown as ErrorXHR,
-        errorSummary: error.responseJSON && error.responseJSON.errorSummary,
-      };
-    };
+    const getFormPasswordAuthenticatorId = (transaction: IdxTransaction) : string | undefined => (
+      transaction?.neededToProceed
+        ?.find((remediation) => remediation.name === IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE)
+        ?.value?.find((val) => val.name === 'authenticator')
+        ?.options?.find((option) => option.label === 'Password')
+      // @ts-expect-error auth-js type errors
+        ?.value?.form?.value?.find((formVal) => formVal.name === 'id')
+        ?.value
+    );
 
     // TODO: Revisit and refactor this function as it is a dupe of handleError fn in Widget/index.tsx
     const handleError = (transaction: IdxTransaction | undefined, error: unknown) => {
@@ -96,8 +100,9 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       setResponseError(error as (AuthApiError | OAuthError));
       console.error(error);
       // error event
-      events?.afterError?.(
-        transaction ? getEventContext(transaction) : {},
+      eventEmitter.emit(
+        'afterError',
+        getEventContext(transaction),
         getErrorEventContext(error as (AuthApiError | OAuthError)),
       );
       return null;
@@ -138,9 +143,23 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     // Allow username transformation if applicable
     if ('identifier' in payload) {
       payload.identifier = transformIdentifier(widgetProps, step, payload.identifier as string);
+
+      // Widget rememberMe feature stores the entered identifier in a cookie, to pre-fill the form on subsequent visits to page
+      if (features?.rememberMe) {
+        setUsernameCookie(payload.identifier as string);
+      } else {
+        removeUsernameCookie();
+      }
     }
 
-    payload = toNestedObject(payload);
+    // For Granular Consent remediation, scopes within the `optedScopes`
+    //  property can include a singular value or n values delimited by a "." eg "some.scope"
+    // When they are delimited, properties should not be nested in the final payload
+    // - Wrong:   { optedScopes: { some: { scope: true }}}
+    // - Correct: { optedScopes: { 'some.scope': true }}
+    const keysWithoutNesting = step === IDX_STEP.CONSENT_GRANULAR ? ['optedScopes'] : [];
+    payload = toNestedObject(payload, keysWithoutNesting);
+
     if (step === IDX_STEP.ENROLL_PROFILE) {
       const preRegistrationSubmitPromise = new Promise((resolve) => {
         preRegistrationSubmit(
@@ -178,6 +197,9 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       authClient?.transactionManager.clear({ clearIdxResponse: false });
       SessionStorage.removeStateHandle();
       if (isOauth2Enabled(widgetProps)) {
+        authClient?.transactionManager.clear();
+        // We have to directly delete the recoveryToken since it is set once upon authClient instantiation
+        delete authClient.options.recoveryToken;
         // In this case we need to restart login flow and recreate transaction meta
         fn = authClient.idx.start;
         payload = {};
@@ -189,9 +211,36 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     if (step === IDX_STEP.CANCEL_TRANSACTION) {
       SessionStorage.removeStateHandle();
     }
+    if (step === IDX_STEP.IDENTIFY && features?.deviceFingerprinting) {
+      const baseUrl = getBaseUrl(widgetProps);
+      if (baseUrl) {
+        // Proceeds with form submission even if device fingerprinting fails
+        const fingerprint = await generateDeviceFingerprint(baseUrl).catch(() => undefined);
+        if (fingerprint) {
+          authClient.http.setRequestHeader('X-Device-Fingerprint', fingerprint);
+        }
+      }
+    }
     setMessage(undefined);
     try {
-      const newTransaction = await fn(payload);
+      let newTransaction = await fn(payload);
+
+      // TODO
+      // OKTA-651781
+      if (isConfigRecoverFlow(widgetProps.flow) && step === IDX_STEP.IDENTIFY) {
+        // when in identifier first flow, there are a couple steps before we can get to recovery page
+        // thats why we need to run proceed twice
+        newTransaction = await authClient.idx.proceed({
+          stateHandle: newTransaction?.context.stateHandle,
+          authenticator: { id: getFormPasswordAuthenticatorId(newTransaction) },
+          step: IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE,
+        });
+
+        newTransaction = await authClient.idx.proceed({
+          stateHandle: newTransaction?.context.stateHandle,
+        });
+      }
+
       // TODO: OKTA-538791 this is a temp work around until the auth-js fix
       if (!newTransaction.nextStep && newTransaction.availableSteps?.length) {
         [newTransaction.nextStep] = newTransaction.availableSteps;
@@ -207,13 +256,17 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       const onSuccess = (resolve?: (val: unknown) => void) => {
         setIdxTransaction(newTransaction);
         if (newTransaction.requestDidSucceed === false) {
-          events?.afterError?.(
+          eventEmitter.emit(
+            'afterError',
             getEventContext(newTransaction),
             getErrorEventContext(newTransaction.rawIdxState),
           );
         }
         setIsClientTransaction(isClientTransaction);
-        if (isClientTransaction && !newTransaction.messages?.length) {
+        if (isClientTransaction
+            && !newTransaction.messages?.length
+            // Only display client side validate message when there are remediations
+            && newTransaction.neededToProceed.length > 0) {
           setMessage({
             message: loc('oform.errorbanner.title', 'login'),
             class: 'ERROR',
@@ -253,6 +306,12 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
         // No need to continue since onSuccess is called in registration hook callback
         return;
       }
+
+      // Don't execute hooks in the end of authentication flow and if request did not succeed
+      if (!isClientTransaction && newTransaction?.status !== IdxStatus.SUCCESS) {
+        await widgetHooks.callHooks('before', newTransaction);
+      }
+
       onSuccess();
     } catch (error) {
       handleError(currTransaction, error);
@@ -265,7 +324,9 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     currTransaction,
     dataSchemaRef,
     widgetProps,
-    events,
+    eventEmitter,
+    widgetHooks,
+    features,
     setResponseError,
     setIdxTransaction,
     setIsClientTransaction,

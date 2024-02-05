@@ -2,16 +2,17 @@ import { RequestMock, RequestLogger, userVariables } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import EnrollProfileViewPageObject from '../framework/page-objects/EnrollProfileViewPageObject';
-import Identify from '../../../playground/mocks/data/idp/idx/identify-with-password';
-import EnrollProfileSubmit from '../../../playground/mocks/data/idp/idx/enroll-profile-submit';
-import EnrollProfileSignUp from '../../../playground/mocks/data/idp/idx/enroll-profile-new';
-import EnrollProfileSignUpWithAdditionalFields from '../../../playground/mocks/data/idp/idx/enroll-profile-new-additional-fields';
-import EnrollProfileSignUpWithBooleanFields from '../../../playground/mocks/data/idp/idx/enroll-profile-new-boolean-fields';
-import EnrollProfileSignUpAllBaseAttributes from '../../../playground/mocks/data/idp/idx/enroll-profile-all-base-attributes';
-import EnrollProfileSignUpWithPassword from '../../../playground/mocks/data/idp/idx/enroll-profile-with-password';
-import EnrollProfileSignUpWithPasswordReturnsError from '../../../playground/mocks/data/idp/idx/enroll-profile-with-password-returns-error';
-import EnrollProfileSignUpWithPasswordReturnsMultipleErrors from '../../../playground/mocks/data/idp/idx/enroll-profile-with-password-returns-multiple-errors';
-import EnrollProfileSignUpWithIdps from '../../../playground/mocks/data/idp/idx/enroll-profile-with-idps';
+import Identify from '../../../playground/mocks/data/idp/idx/identify-with-password.json';
+import EnrollProfileSubmit from '../../../playground/mocks/data/idp/idx/enroll-profile-submit.json';
+import EnrollProfileSignUp from '../../../playground/mocks/data/idp/idx/enroll-profile-new.json';
+import EnrollProfileSignUpWithCustomLabels from '../../../playground/mocks/data/idp/idx/enroll-profile-new-custom-labels.json';
+import EnrollProfileSignUpWithAdditionalFields from '../../../playground/mocks/data/idp/idx/enroll-profile-new-additional-fields.json';
+import EnrollProfileSignUpWithBooleanFields from '../../../playground/mocks/data/idp/idx/enroll-profile-new-boolean-fields.json';
+import EnrollProfileSignUpAllBaseAttributes from '../../../playground/mocks/data/idp/idx/enroll-profile-all-base-attributes.json';
+import EnrollProfileSignUpWithPassword from '../../../playground/mocks/data/idp/idx/enroll-profile-with-password.json';
+import EnrollProfileSignUpWithPasswordReturnsError from '../../../playground/mocks/data/idp/idx/enroll-profile-with-password-returns-error.json';
+import EnrollProfileSignUpWithPasswordReturnsMultipleErrors from '../../../playground/mocks/data/idp/idx/enroll-profile-with-password-returns-multiple-errors.json';
+import EnrollProfileSignUpWithIdps from '../../../playground/mocks/data/idp/idx/enroll-profile-with-idps.json';
 
 
 const EnrollProfileSignUpMock = RequestMock()
@@ -25,6 +26,12 @@ const EnrollProfileSubmitMock = RequestMock()
   .respond(Identify)
   .onRequestTo('http://localhost:3000/idp/idx/identify')
   .respond(EnrollProfileSubmit);
+
+const EnrollProfileSignUpWithCustomLabelsMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(Identify)
+  .onRequestTo('http://localhost:3000/idp/idx/enroll')
+  .respond(EnrollProfileSignUpWithCustomLabels);
 
 const EnrollProfileSignUpWithAdditionalFieldsMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -74,8 +81,7 @@ const requestLogger = RequestLogger(
   }
 );
 
-fixture('Enroll Profile')
-  .meta('v3', true);
+fixture('Enroll Profile');
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
@@ -110,6 +116,21 @@ test.requestHooks(requestLogger, EnrollProfileSubmitMock)('should show submit bu
   await t.expect(await enrollProfilePage.submitButtonExists()).eql(true);
 });
 
+test.requestHooks(requestLogger, EnrollProfileSignUpWithCustomLabelsMock)('should show custom label when provided in response', async t => {
+  const enrollProfilePage = new EnrollProfileViewPageObject(t);
+  const identityPage = await setup(t);
+  await checkA11y(t);
+  await identityPage.clickSignUpLink();
+
+  requestLogger.clear();
+  await t.expect(enrollProfilePage.getFormTitle()).eql('Sign up');
+  await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.firstName')).eql('Please enter your first name');
+  await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.lastName')).eql('Please enter your last name');
+  await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.email')).eql('This is your awesome email address');
+  await t.expect(await enrollProfilePage.getSaveButtonLabel()).eql('Sign Up');
+});
+
+
 test.requestHooks(requestLogger, EnrollProfileSignUpWithAdditionalFieldsMock)('should show dropdown values for base properties (country code and timezone) on registration form', async t => {
   const enrollProfilePage = new EnrollProfileViewPageObject(t);
   const identityPage = await setup(t);
@@ -118,7 +139,7 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithAdditionalFieldsMock)('s
 
   requestLogger.clear();
   await t.expect(await enrollProfilePage.dropDownExistsByLabel('Country')).eql(true);
-  const defaultOptionLabel = userVariables.v3 ? 'Select an option' : 'Select an Option';
+  const defaultOptionLabel = userVariables.gen3 ? 'Select an option' : 'Select an Option';
   await t.expect(await enrollProfilePage.form.getValueFromDropdown('userProfile.country')).eql(defaultOptionLabel);
   await enrollProfilePage.selectValueFromDropdown('userProfile.country', 1);
 
@@ -184,6 +205,7 @@ test.requestHooks(requestLogger, EnrollProfileSignUpAllBaseAttributesMock)('All 
     department: 'Department',
     managerId: 'Manager ID',
     manager: 'Manager',
+    login: 'Username'
   };
 
   Object.keys(formFieldToLabel).forEach(async (formField) => {
@@ -247,10 +269,10 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithPasswordMock)('should sh
   // Prefixed with "Password requirements were not met"
   const passwordErrorMessage = await enrollProfilePage.form.getTextBoxErrorMessage('credentials.passcode');
   await t.expect(passwordErrorMessage).contains('Password requirements were not met');
-  if (userVariables.v3) {
+  if (userVariables.gen3) {
     await t.expect(passwordErrorMessage).contains('A number');
     await t.expect(passwordErrorMessage).contains('At least 8 characters');
-    await t.expect(passwordErrorMessage).contains('An uppercase letter'); 
+    await t.expect(passwordErrorMessage).contains('An uppercase letter');
   }
 });
 
@@ -277,7 +299,7 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithPasswordMultipleErrorsMo
   // Prefixed with "Password requirements were not met"
   const passwordErrorMessage = await enrollProfilePage.form.getTextBoxErrorMessage('credentials.passcode');
   await t.expect(passwordErrorMessage).contains('Password requirements were not met');
-  if (userVariables.v3) {
+  if (userVariables.gen3) {
     await t.expect(passwordErrorMessage).contains('A number');
     await t.expect(passwordErrorMessage).contains('At least 8 characters');
     await t.expect(passwordErrorMessage).contains('An uppercase letter');
@@ -294,7 +316,7 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithPasswordMultipleErrorsMo
 });
 
 test.requestHooks(requestLogger, EnrollProfileSignUpWIthIdpsMock)('Should render social IDP buttons when returned via remediation', async t => {
-  
+
   const enrollProfilePage = await setup(t);
   await checkA11y(t);
   await enrollProfilePage.clickSignUpLink();
@@ -308,7 +330,7 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWIthIdpsMock)('Should render
 });
 
 test.requestHooks(requestLogger, EnrollProfileSignUpWIthIdpsMock)('Clicking IDP buttons does redirect', async t => {
-  
+
   const enrollProfilePage = await setup(t);
   await checkA11y(t);
   await enrollProfilePage.clickSignUpLink();
@@ -333,7 +355,7 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWIthIdpsMock)('custom idps s
   await enrollProfilePage.clickSignUpLink();
 
   requestLogger.clear();
-  
+
   await t.expect(enrollProfilePage.getIdpButtonCount()).eql(8);
   await t.expect(enrollProfilePage.getIdpButton('Sign in with My SAML IDP').exists).eql(true);
   await t.expect(enrollProfilePage.getIdpButton('Sign in with SAML IDP').exists).eql(true);

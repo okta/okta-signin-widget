@@ -5,6 +5,7 @@ import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnro
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import { checkConsoleMessages } from '../framework/shared';
 import xhrAuthenticatorResetPassword from '../../../playground/mocks/data/idp/idx/authenticator-reset-password';
+import xhrAuthenticatorEnrollPasswordWithADReq from '../../../playground/mocks/data/idp/idx/authenticator-reset-password-with-ad-req';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 
 const logger = RequestLogger(/challenge\/answer/,
@@ -22,7 +23,18 @@ const mock = RequestMock()
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
   .respond(oktaDashboardContent);
 
-fixture('Authenticator Reset Password').meta('v3', true);
+const withADReqMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrAuthenticatorEnrollPasswordWithADReq);
+
+const xhrAuthenticatorResetPasswordUpdatedHistoryCount = JSON.parse(JSON.stringify(xhrAuthenticatorResetPassword));
+xhrAuthenticatorResetPasswordUpdatedHistoryCount.currentAuthenticator.value.settings.age.historyCount = 1;
+
+const updatedHistoryCountMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrAuthenticatorResetPasswordUpdatedHistoryCount);
+
+fixture('Authenticator Reset Password');
 
 async function setup(t) {
   const resetPasswordPage = new FactorEnrollPasswordPageObject(t);
@@ -38,21 +50,46 @@ async function setup(t) {
   return resetPasswordPage;
 }
 
-test.meta('v3', false)
-  .requestHooks(logger, mock)('Should have the correct labels', async t => {
-    const resetPasswordPage = await setup(t);
-    await checkA11y(t);
-    await t.expect(resetPasswordPage.getFormTitle()).eql('Reset your password');
-    await t.expect(resetPasswordPage.resetPasswordButtonExists()).eql(true);
-    await t.expect(resetPasswordPage.getRequirements()).contains('Password requirements:');
-    await t.expect(resetPasswordPage.getRequirements()).contains('At least 8 characters');
-    await t.expect(resetPasswordPage.getRequirements()).contains('An uppercase letter');
-    await t.expect(resetPasswordPage.getRequirements()).contains('A number');
-    await t.expect(resetPasswordPage.getRequirements()).contains('No parts of your username');
-    await t.expect(resetPasswordPage.getRequirements()).contains('Your password cannot be any of your last 4 passwords');
-    await t.expect(resetPasswordPage.getRequirements()).contains('A lowercase letter');
-    await t.expect(resetPasswordPage.getRequirements()).contains('At least 10 minute(s) must have elapsed since you last changed your password');
-  });
+[
+  [ mock, false],
+  [ updatedHistoryCountMock, true ]
+].forEach(([ localMock, isHistoryCountOne ]) => {
+  test
+    .requestHooks(logger, localMock)('Should have the correct labels', async t => {
+      const resetPasswordPage = await setup(t);
+      await checkA11y(t);
+      await t.expect(resetPasswordPage.getFormTitle()).eql('Reset your password');
+      await t.expect(resetPasswordPage.resetPasswordButtonExists()).eql(true);
+      await t.expect(resetPasswordPage.getRequirements()).contains('Password requirements:');
+      await t.expect(resetPasswordPage.getRequirements()).contains('At least 8 characters');
+      await t.expect(resetPasswordPage.getRequirements()).contains('An uppercase letter');
+      await t.expect(resetPasswordPage.getRequirements()).contains('A number');
+      await t.expect(resetPasswordPage.getRequirements()).contains('A symbol');
+      await t.expect(resetPasswordPage.getRequirements()).contains('No parts of your username');
+      await t.expect(resetPasswordPage.getRequirements()).contains('A lowercase letter');
+      // V3 does not display server side requirements
+      if (!userVariables.gen3) {
+        const historyCountMessage = isHistoryCountOne ? 
+          'Password can\'t be the same as your last password'
+          : 'Password can\'t be the same as your last 4 passwords';
+        await t.expect(resetPasswordPage.getRequirements()).contains(historyCountMessage);
+        await t.expect(resetPasswordPage.getRequirements()).contains('At least 10 minute(s) must have elapsed since you last changed your password');
+      }
+    });
+});
+
+test.requestHooks(withADReqMock)('should have the correct requirements when enforcing useADComplexityRequirements', async t => {
+  const resetPasswordPage = await setup(t);
+  await checkA11y(t);
+  await t.expect(resetPasswordPage.getFormTitle()).eql('Reset your password');
+  await t.expect(resetPasswordPage.resetPasswordButtonExists()).eql(true);
+  await t.expect(resetPasswordPage.getRequirements()).contains('Password requirements:');
+  await t.expect(resetPasswordPage.getRequirements()).contains('At least 8 characters');
+  await t.expect(resetPasswordPage.getRequirements()).contains('At least 3 of the following: lowercase letter, uppercase letter, number, symbol');
+  await t.expect(resetPasswordPage.getRequirements()).contains('No parts of your username');
+  await t.expect(resetPasswordPage.getRequirements()).contains('Does not include your first name');
+  await t.expect(resetPasswordPage.getRequirements()).contains('Does not include your last name');
+});
 
 test
   .requestHooks(logger, mock)('should have both password and confirmPassword fields and both are required', async t => {
@@ -76,7 +113,7 @@ test
 
     // In v3, we display the incomplete/complete checkmark next to the 'Passwords must match'
     // list item label below the confirm password field in addition to the field level error message
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       await t.expect(resetPasswordPage.hasPasswordMatchRequirementStatus(false)).eql(true);
       await t.expect(resetPasswordPage.getConfirmPasswordError()).eql('Passwords must match');
     } else {
@@ -105,10 +142,47 @@ test
     await t.expect(method).eql('post');
     const requestBody = JSON.parse(body);
 
-    await t.expect(requestBody).eql({
+    const expectedPayload = {
       'stateHandle': '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
       'credentials': {
         'passcode': 'abcdabcdA3@'
+      },
+    };
+
+    // In v3 if the idx response includes a boolean field, we will automatically include it in the payload if untoucbed
+    if (userVariables.gen3) {
+      expectedPayload.credentials.revokeSessions = false;
+    }
+
+    await t.expect(requestBody).eql(expectedPayload);
+  });
+
+test
+  .requestHooks(logger, mock)('should succeed when session revocation is checked', async t => {
+    const resetPasswordPage = await setup(t);
+    await checkA11y(t);
+
+    await resetPasswordPage.fillPassword('abcdabcdE1@');
+    await resetPasswordPage.fillConfirmPassword('abcdabcdE1@');
+    await resetPasswordPage.sessionRevocationToggleExist();
+    await resetPasswordPage.checkSessionRevocationToggle();
+    await resetPasswordPage.clickNextButton('Reset Password');
+
+    const successPage = new SuccessPageObject(t);
+    const pageUrl = await successPage.getPageUrl();
+    await t.expect(pageUrl)
+      .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
+
+    let { request: { body, method, url } } = logger.requests[0];
+    await t.expect(url).eql('http://localhost:3000/idp/idx/challenge/answer');
+    await t.expect(method).eql('post');
+    const requestBody = JSON.parse(body);
+
+    await t.expect(requestBody).eql({
+      'stateHandle': '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
+      'credentials': {
+        'passcode': 'abcdabcdE1@',
+        'revokeSessions': true
       },
     });
   });

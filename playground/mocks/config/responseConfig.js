@@ -12,6 +12,7 @@ const idx = {
     'interact'
     // 'error-feature-not-enabled'
     // 'error-recovery-token-invalid'
+    // 'error-activation-token-invalid'
   ],
   '/oauth2/default/v1/token': [
     'error-token-invalid-grant-pkce'
@@ -45,6 +46,8 @@ const idx = {
     // 'authenticator-enroll-ov-sms-enable-biometrics',
     // 'authenticator-enroll-ov-via-sms',
     // 'authenticator-enroll-ov-qr',
+    // 'authenticator-enroll-ov-same-device',
+    // 'authenticator-enroll-ov-device-bootstrap',
     // 'authenticator-enroll-ov-qr-enable-biometrics',
     // 'error-internal-server-error',
     // 'authenticator-enroll-security-question',
@@ -70,6 +73,7 @@ const idx = {
     // 'device-code-activate',
     // 'enroll-profile',
     // 'enroll-profile-new',
+    // 'enroll-profile-new-custom-labels',
     // 'identify-unknown-user',
     // 'identify-with-apple-credential-sso-extension',
     // 'identify-with-apple-redirect-sso-extension',
@@ -87,6 +91,8 @@ const idx = {
     // 'identify-with-universal-link',
     // 'identify-with-app-link',
     // 'success',
+    // 'success-redirect-remediation',
+    // 'failure-redirect-remediation',
     // 'success-with-app-user',
     // 'success-with-interaction-code'
     // 'terminal-return-email',
@@ -103,6 +109,7 @@ const idx = {
     // 'oda-enrollment-ios',
     // 'oda-enrollment-android',
     // 'mdm-enrollment',
+    // 'ws1-device-integration-mobile-enrollment',
     // 'authenticator-verification-custom-app-push',
     // 'authenticator-enroll-custom-app-push',
     // 'request-activation-email'    
@@ -132,6 +139,8 @@ const idx = {
     // 'error-unable-to-authenticate-user',
     // 'terminal-device-activated',
     // 'terminal-device-not-activated',
+    // 'terminal-device-not-activated-consent-denied',
+    // 'terminal-device-not-activated-internal-error'
     // 'success-with-interaction-code',
     // 'error-with-failure-redirect',
     // 'error-unsupported-idx-response'
@@ -203,6 +212,10 @@ const idx = {
     'authenticator-reset-password'
   ],
   '/idp/idx/activate': [
+    'identify-with-password',
+    // 'error-invalid-device-code',
+  ],
+  '/idp/idx/device/activate': [
     'identify-with-password',
     // 'error-invalid-device-code',
   ]
@@ -898,17 +911,22 @@ const idpAuthenticator = {
   '/idp/idx/introspect': [
     'authenticator-enroll-select-authenticator',
     // 'authenticator-verification-select-authenticator',
+    // 'authenticator-verification-select-authenticator-custom-logo',
     'success',
     // Errors:
     //  - Unlike other authenticators, these occur during idx/introspect
     // 'error-authenticator-enroll-idp',
+    // 'error-authenticator-enroll-idp-custom-logo',
     // 'error-authenticator-verification-idp',
+    // 'error-authenticator-verification-idp-custom-logo'
   ],
   '/idp/idx/challenge': [
     'authenticator-verification-idp',
+    // 'authenticator-verification-idp-custom-logo'
   ],
   '/idp/idx/credential/enroll': [
     'authenticator-enroll-idp',
+    // 'authenticator-enroll-idp-custom-logo'
   ]
 };
 

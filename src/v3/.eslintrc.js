@@ -231,6 +231,8 @@ module.exports = {
               { propName: 'bottom', message: 'Use "insetBlockEnd" instead.' },
               { propName: 'left', message: 'Use "insetInlineStart" instead.' },
               { propName: 'right', message: 'Use "insetInlineEnd" instead.' },
+              // do not use IE11 incompatible properties that cannot be transformed
+              { propName: 'gap', message: '"gap" is not compatible with IE11 and cannot be transformed by CSS post-processors' },
             ],
           },
         ],
@@ -269,6 +271,7 @@ module.exports = {
       },
     },
     // unit test files in src
+    // integration test files in test
     {
       env: { browser: true, jest: true, node: true },
       files: [
@@ -276,6 +279,8 @@ module.exports = {
         'src/**/*.spec.ts',
         'src/**/*.test.tsx',
         'src/**/*.spec.tsx',
+        'test/integration/**/*.ts',
+        'test/integration/**/*.tsx',
       ],
       parser: '@typescript-eslint/parser',
       parserOptions: {
@@ -286,17 +291,20 @@ module.exports = {
       },
       plugins: [
         '@typescript-eslint',
+        'testing-library',
       ],
       extends: [
         'plugin:@typescript-eslint/eslint-recommended',
         'plugin:@typescript-eslint/recommended',
         'plugin:react/recommended',
         'plugin:jsx-a11y/recommended',
+        'plugin:testing-library/react',
         'airbnb-typescript',
         'airbnb/hooks',
         'preact',
       ],
       rules: {
+        'import/prefer-default-export': 'off',
         'react/jsx-props-no-spreading': 'off',
         'jest/no-restricted-matchers': [
           'error',
@@ -305,7 +313,18 @@ module.exports = {
             toBeFalsy: 'Avoid `toBeFalsy`',
           },
         ],
-
+        'testing-library/no-wait-for-multiple-assertions': 'warn',
+        'testing-library/no-node-access': 'warn',
+        'testing-library/no-container': 'warn',
+        'testing-library/prefer-screen-queries': 'off',
+        'testing-library/render-result-naming-convention': 'off',
+        'testing-library/prefer-explicit-assert': [
+          'warn',
+          {
+            assertion: 'toBeInTheDocument',
+            includeFindQueries: true,
+          },
+        ],
       },
     },
     // integration test files in test
@@ -321,21 +340,6 @@ module.exports = {
         ecmaFeatures: { jsx: true },
         ecmaVersion: 2020,
         sourceType: 'module',
-      },
-      plugins: [
-        '@typescript-eslint',
-      ],
-      extends: [
-        'plugin:@typescript-eslint/eslint-recommended',
-        'plugin:@typescript-eslint/recommended',
-        'plugin:react/recommended',
-        'plugin:jsx-a11y/recommended',
-        'airbnb-typescript',
-        'airbnb/hooks',
-        'preact',
-      ],
-      rules: {
-        'import/prefer-default-export': 'off',
       },
     },
     // all typescript files in test/e2e

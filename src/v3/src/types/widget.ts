@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import type { ThemeOptions as MuiThemeOptions } from '@mui/material';
 import {
   FlowIdentifier,
   IdxActionParams,
@@ -19,11 +18,15 @@ import {
 import {
   RawIdxResponse,
 } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
+import { TinyEmitter as EventEmitter } from 'tiny-emitter';
 
 import {
+  EventCallback,
+  EventCallbackWithError,
+  EventContext,
+  HooksOptions,
   LanguageCallback,
   LanguageCode,
-  OktaSignInAPI,
   RegistrationErrorCallback,
   RegistrationOptions as RegOptions,
   RenderError,
@@ -31,6 +34,9 @@ import {
   UserOperation,
 } from '../../../types';
 import { InterstitialRedirectView } from '../constants';
+import { DesignTokensType } from '../util/designTokens';
+import { WidgetHooks } from '../util/widgetHooks';
+import { OktaSignInAPI } from './api';
 import { JsonObject } from './json';
 import { Modify } from './jsonforms';
 import { FormBag, RegistrationElementSchema } from './schema';
@@ -57,7 +63,7 @@ export interface ErrorXHR {
 }
 
 export type RenderOptions = {
-  el: string;
+  el?: string;
   clientId?: string;
   redirectUri?: string;
   redirect?: 'always' | 'never';
@@ -66,9 +72,7 @@ export type RenderOptions = {
 
 export type AuthenticationMode = 'remediation' | 'relying-party';
 
-export type OktaWidgetEventHandler = {
-  (...args: unknown[]): void;
-};
+export type OktaWidgetEventHandler = EventCallback | EventCallbackWithError;
 
 export type WidgetProceedArgs = {
   idxMethod?: IdxMethod,
@@ -96,25 +100,29 @@ export type RegistrationOptionsV3 = Modify<RegOptions, {
     onFailure: RegistrationErrorCallback
   ) => void;
 }>;
+type PageTitleCallbackParam = {
+  brandName?: string;
+  formTitle: string;
+};
+export type PageTitleCallback = (context: EventContext, param: PageTitleCallbackParam) => string;
 
 export type OktaWidgetEventType = 'ready' | 'afterError' | 'afterRender';
 export type IDPDisplayType = 'PRIMARY' | 'SECONDARY';
 
-export type WidgetProps = Partial<WidgetOptions>;
+export type WidgetProps = Partial<WidgetOptions> & {
+  eventEmitter: EventEmitter;
+  widgetHooks: WidgetHooks; // instance of class WidgetHooks
+};
 
 export type WidgetOptions = {
-  // // ui customizations
-  // renderers?: JsonFormsRendererRegistryEntry[];
-  // cells?: JsonFormsCellRendererRegistryEntry[];
-  // components?: Record<string, Component>;
+  // brand colors
+  brandColors?: BrandColors;
 
-  // theming
-  theme?: ThemeOptions;
-  // Override MUI Theming
-  muiThemeOverrides?: MuiThemeOptions;
+  // theme
+  theme?: { tokens: DesignTokensType }; // & ThemeOptions;
 
-  // events
-  events?: { [key in OktaWidgetEventType]: OktaWidgetEventHandler };
+  // hooks
+  hooks?: HooksOptions; // object in options
 
   // callbacks
   onChange?: (data: JsonObject) => void;
@@ -150,9 +158,9 @@ export type WidgetOptions = {
 
   el?: string;
   cspNonce?: string;
+  otp?: string;
   baseUrl?: string;
   brandName?: string;
-  brandColors?: BrandColors;
   logo?: string;
   logoText?: string;
   stateToken?: string;
@@ -258,6 +266,8 @@ export type OktaWidgetFeatures = {
   redirectByFormSubmit?: boolean;
   restrictRedirectToForeground?: boolean;
   showPasswordRequirementsAsHtmlList?: boolean;
+  disableAutocomplete?: boolean;
+  setPageTitle?: boolean | string | PageTitleCallback;
 };
 
 interface ProxyIdxResponse {
@@ -276,6 +286,8 @@ interface ProxyIdxResponse {
 type CustomButton = {
   title: string;
   className: string;
+  i18nKey: string;
+  dataAttr?: string;
   click: { (): void }
 };
 

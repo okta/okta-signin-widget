@@ -23,6 +23,7 @@ import {
   WidgetMessage,
 } from '../../types';
 import {
+  buildEndUserRemediationError,
   containsMessageKey, containsMessageKeyPrefix, containsOneOfMessageKeys, loc,
 } from '../../util';
 import { transactionMessageTransformer } from '../i18n';
@@ -140,11 +141,39 @@ export const transformTerminalMessages: TerminalKeyTransformer = (transaction, f
   } else if (containsMessageKey(TERMINAL_KEY.SESSION_EXPIRED, displayedMessages)) {
     displayedMessages[0].class = 'ERROR';
     displayedMessages[0].message = loc(TERMINAL_KEY.SESSION_EXPIRED, 'login');
-  } else if (containsMessageKeyPrefix('core.auth.factor.signedNonce.error', displayedMessages)) {
+  } else if (containsMessageKeyPrefix(TERMINAL_KEY.SIGNED_NONCE_ERROR, displayedMessages)) {
     // custom title for signed nonce errors
     displayedMessages[0].title = loc('user.fail.verifyIdentity', 'login');
+  } else if (
+    containsMessageKeyPrefix(TERMINAL_KEY.END_USER_REMEDIATION_ERROR_PREFIX, displayedMessages)
+  ) {
+    // OKTA-630044 - messages from rawIdxState are used until this issue is solved
+    const userRemediationErrorElement = buildEndUserRemediationError(
+      transaction.rawIdxState.messages?.value || [],
+    );
+    if (userRemediationErrorElement) {
+      uischema.elements.push(userRemediationErrorElement);
+    }
+    return formBag;
   } else if (containsMessageKey(TERMINAL_KEY.IDX_RETURN_LINK_OTP_ONLY, displayedMessages)) {
     return transformEmailMagicLinkOTPOnly(transaction, formBag);
+  } else if (containsMessageKey(TERMINAL_KEY.DEVICE_ACTIVATED, displayedMessages)) {
+    // Displays device activated terminal state title as a success InfoBox instead of a title
+    const deviceActivatedAsSuccessMessage: WidgetMessage = {
+      class: 'SUCCESS',
+      message: loc('device.code.activated.success.title', 'login'),
+      i18n: { key: 'device.code.activated.success.title' },
+    };
+    displayedMessages.unshift(deviceActivatedAsSuccessMessage);
+  } else if (containsOneOfMessageKeys([TERMINAL_KEY.DEVICE_NOT_ACTIVATED_CONSENT_DENIED,
+    TERMINAL_KEY.DEVICE_NOT_ACTIVATED_INTERNAL_ERROR], displayedMessages)) {
+    // Displays device not activated terminal states titles as an error InfoBox instead of a title
+    const deviceNotActivatedAsErrorMessage: WidgetMessage = {
+      class: 'ERROR',
+      message: loc('device.code.activated.error.title', 'login'),
+      i18n: { key: 'device.code.activated.error.title' },
+    };
+    displayedMessages.unshift(deviceNotActivatedAsErrorMessage);
   } else if (
     containsOneOfMessageKeys(
       [OV_UV_ENABLE_BIOMETRICS_FASTPASS_MOBILE, OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP],

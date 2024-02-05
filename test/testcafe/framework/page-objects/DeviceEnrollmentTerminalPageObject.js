@@ -37,21 +37,21 @@ export default class DeviceEnrollmentTerminalPageObject extends BasePageObject {
   }
 
   getSubHeader() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.getSubtitle();
     }
     return this.getTextContent('[data-se="subheader"]');
   }
 
   getContentText() {
-    if(userVariables.v3) {
+    if(userVariables.gen3) {
       return this.getTextContent('[data-se="o-form"]');
     }
     return this.getTextContent('[data-se="o-form-fieldset-container"]');
   }
 
   getContentByIndex(idx = 1) {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.getTextContent(`ol li:nth-of-type(${idx})`);
     }
     return this.getTextContent(`.o-form-fieldset-container ol li:nth-of-type(${idx})`);
@@ -66,7 +66,7 @@ export default class DeviceEnrollmentTerminalPageObject extends BasePageObject {
   }
 
   getCopyButtonLabel() {
-    if(userVariables.v3) {
+    if(userVariables.gen3) {
       return this.form.getButton('Copy link to clipboard').innerText;
     }
     return this.getTextContent(COPY_BUTTON_CLASS);
@@ -77,7 +77,7 @@ export default class DeviceEnrollmentTerminalPageObject extends BasePageObject {
   }
 
   getCopyOrgLinkButtonLabel() {
-    if(userVariables.v3) {
+    if(userVariables.gen3) {
       return this.form.getButton('Copy sign-in URL to clipboard').innerText;
     }
     return this.getTextContent(COPY_ORG_LINK_BUTTON_CLASS);

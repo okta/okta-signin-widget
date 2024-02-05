@@ -14,8 +14,7 @@ const mock = RequestMock()
   .respond(launchAuthenticatorOption);
 
 fixture('Identify + Okta Verify')
-  .requestHooks(logger, mock)
-  .meta('v3', true);
+  .requestHooks(logger, mock);
 
 async function setup(t) {
   const deviceChallengePollPage = new IdentityPageObject(t);

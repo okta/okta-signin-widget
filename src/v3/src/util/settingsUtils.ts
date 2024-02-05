@@ -10,11 +10,12 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { APIError, IdxActionParams } from '@okta/okta-auth-js';
+import { APIError, IdxActionParams, IdxTransaction } from '@okta/okta-auth-js';
 import { union } from 'lodash';
 
 import config from '../../../config/config.json';
 import {
+  EventContext,
   LanguageCode,
   RegistrationErrorCallback,
   RegistrationPostSubmitCallback,
@@ -32,6 +33,7 @@ import {
   RegistrationSchemaCallbackV3,
   WidgetProps,
 } from '../types';
+import { getEventContext } from './getEventContext';
 import { loc } from './locUtil';
 
 export const getSupportedLanguages = (widgetProps: WidgetProps): string[] => {
@@ -134,7 +136,7 @@ export const getCustomHelpLinks = (widgetProps: WidgetProps): CustomLink[] => {
 
 export const getFactorPageCustomLink = (widgetProps: WidgetProps): Omit<CustomLink, 'target'> | undefined => {
   const { factorPage } = widgetProps.helpLinks || {};
-  return factorPage;
+  return typeof factorPage !== 'undefined' && 'href' in factorPage ? factorPage : undefined;
 };
 
 export const getDefaultCountryCode = (widgetProps: WidgetProps): string => {
@@ -245,4 +247,41 @@ export const isOauth2Enabled = (widgetProps: WidgetProps): boolean => {
     clientId = authClient.options?.clientId;
   }
   return typeof clientId !== 'undefined' && authScheme?.toLowerCase() === 'oauth2';
+};
+
+export const getPageTitle = (
+  widgetProps: WidgetProps,
+  formTitle: string | null,
+  idxTransaction?: IdxTransaction,
+): string | null => {
+  if (formTitle === null) {
+    return null;
+  }
+
+  const { brandName, features: { setPageTitle } = {} } = widgetProps;
+  const eventContext: EventContext = typeof idxTransaction === 'undefined'
+    ? { controller: null }
+    : getEventContext(idxTransaction);
+
+  switch (typeof setPageTitle) {
+    // When setPageTitle option is 'undefined', default will be to set title based on page header
+    // When setPageTitle option is 'true', set title based on page header
+    case 'boolean':
+    case 'undefined':
+      if (setPageTitle === false) {
+        // Indicates setPageTitle config option was purposefully disabled
+        return null;
+      }
+      return brandName ? `${brandName} | ${formTitle}` : formTitle;
+    case 'string':
+      return setPageTitle;
+    case 'function':
+      return setPageTitle(eventContext, { formTitle, brandName });
+    default:
+      console.error(
+        'Invalid value passed to setPageTitle, valid types include boolean, string or function.',
+      );
+      // Indicates an invalid/unexpected value was passed into the config option
+      return null;
+  }
 };

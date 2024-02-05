@@ -70,6 +70,8 @@ const FORMS = {
 
   USER_CODE: 'user-code',
 
+  KEEP_ME_SIGNED_IN: 'keep-me-signed-in',
+
   // 'terminal` is not ION Form name but only coined in widget
   // for rendering a page that user has nothing to remediate.
   TERMINAL: 'terminal',
@@ -84,7 +86,8 @@ const FORMS_WITHOUT_SIGNOUT = [
   FORMS.CONSENT_ENDUSER,
   FORMS.CONSENT_GRANULAR,
   FORMS.CONSENT_EMAIL_CHALLENGE,
-  FORMS.USER_CODE
+  FORMS.USER_CODE,
+  FORMS.KEEP_ME_SIGNED_IN
 ];
 
 const FORMS_WITH_STATIC_BACK_LINK = [

@@ -70,17 +70,29 @@ const rerenderWidget = ClientFunction((settings) => {
   window.renderPlaygroundWidget(settings);
 });
 
-fixture('Unlock Account').meta('v3', true);
+// See UnlockAccountChallenge_gen3_spec.js is the gen3-specific spec since the unlock account flow
+// diverges significantly between gen2 and gen3
+fixture('Unlock Account - Gen 2').meta('gen3', false);
 
-async function setup(t) {
+async function setup(t, widgetOptions) {
+  const options = widgetOptions ? { render: false } : {};
   const identityPage = new IdentityPageObject(t);
-  await identityPage.navigateToPage();
+  await identityPage.navigateToPage(options);
+  if (widgetOptions) {
+    await rerenderWidget(widgetOptions);
+  }
+  await t.expect(identityPage.formExists()).ok();
   return identityPage;
 }
 
-async function setupSignInDevice(t) {
+async function setupSignInDevice(t, widgetOptions) {
+  const options = widgetOptions ? { render: false } : {};
   const signInDevicePageObject = new SignInDevicePageObject(t);
-  await signInDevicePageObject.navigateToPage();
+  await signInDevicePageObject.navigateToPage(options);
+  if (widgetOptions) {
+    await rerenderWidget(widgetOptions);
+  }
+  await t.expect(signInDevicePageObject.formExists()).ok();
   return signInDevicePageObject;
 }
 
@@ -93,11 +105,8 @@ test.requestHooks(identifyLockedUserMock)('should show unlock account link', asy
 
 
 test.requestHooks(identifyLockedUserMock)('should render custom Unlock account link', async t => {
-  const identityPage = await setup(t);
-  await checkA11y(t);
   const customUnlockLinkText = 'HELP I\'M LOCKED OUT';
-
-  await rerenderWidget({
+  const identityPage = await setup(t, {
     helpLinks: {
       unlock: 'http://unlockaccount',
     },
@@ -107,6 +116,7 @@ test.requestHooks(identifyLockedUserMock)('should render custom Unlock account l
       }
     }
   });
+  await checkA11y(t);
 
   await t.expect(identityPage.unlockAccountLinkExists(customUnlockLinkText)).eql(true);
   await t.expect(identityPage.getCustomUnlockAccountLinkUrl(customUnlockLinkText)).eql('http://unlockaccount');
@@ -123,7 +133,7 @@ test.requestHooks(identifyLockedUserMock)('should show unlock account authentica
   await selectFactorPage.fillIdentifierField('username');
   await selectFactorPage.selectFactorByIndex(0);
 
-  const challengeEmailPageObject =new ChallengeEmailPageObject(t);
+  const challengeEmailPageObject = new ChallengeEmailPageObject(t);
   await t.expect(challengeEmailPageObject.getFormTitle()).eql('Verify with your email');
   await challengeEmailPageObject.clickEnterCodeLink();
   await challengeEmailPageObject.verifyFactor('credentials.passcode', '12345');
@@ -145,7 +155,7 @@ test.requestHooks(errorUnlockAccount)('should show error if identifier is blank'
   const selectFactorPage = new SelectFactorPageObject(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Unlock account?');
   await selectFactorPage.selectFactorByIndex(0);
-  await t.expect(selectFactorPage.getIndetifierError()).eql('This field cannot be left blank');
+  await t.expect(selectFactorPage.getIdentifierError()).eql('This field cannot be left blank');
 });
 
 test.requestHooks(errorUnlockAccount)('should show error when unlock account fails', async t => {
@@ -194,7 +204,7 @@ test.requestHooks(identifyLockedUserLandOnAppMock)('should show unlock account a
 });
 
 // OKTA-586475 better unlock account behavior when hitting 'enter'
-test.meta('v3', false).requestHooks(identifyLockedUserMockWithOneAuthenticator)('should show the correct error message when the unlock account form is submitted via keyboard with no authenticator selected (1 authenticator available)', async t => {
+test.meta('gen3', false).requestHooks(identifyLockedUserMockWithOneAuthenticator)('should show the correct error message when the unlock account form is submitted via keyboard with no authenticator selected (1 authenticator available)', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
   await identityPage.clickUnlockAccountLink();
@@ -207,7 +217,7 @@ test.meta('v3', false).requestHooks(identifyLockedUserMockWithOneAuthenticator)(
 });
 
 // OKTA-586475 better unlock account behavior when hitting 'enter'
-test.meta('v3', false).requestHooks(identifyLockedUserMock)('should show the correct error message when the unlock account form is submitted via keyboard with no authenticator selected (multiple authenticator available)', async t => {
+test.meta('gen3', false).requestHooks(identifyLockedUserMock)('should show the correct error message when the unlock account form is submitted via keyboard with no authenticator selected (multiple authenticator available)', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
   await identityPage.clickUnlockAccountLink();
@@ -219,14 +229,26 @@ test.meta('v3', false).requestHooks(identifyLockedUserMock)('should show the cor
   await t.expect(selectFactorPage.getErrorBoxText()).contains('To unlock your account, select one of the following authenticators.');
 });
 
-test.requestHooks(signInDeviceMock)('should render custom unlock account link on sign-in device page', async t => {
-  const signInDevicePage = await setupSignInDevice(t);
+test.requestHooks(identifyLockedUserMock)('should keep the user on the unlock account view when the unlock account form is submitted via keyboard', async t => {
+  const identityPage = await setup(t);
   await checkA11y(t);
-  await rerenderWidget({
+  await identityPage.clickUnlockAccountLink();
+
+  const selectFactorPage = new SelectFactorPageObject(t);
+  await selectFactorPage.fillIdentifierField('username');
+  await t.pressKey('enter');
+
+  await t.expect(selectFactorPage.getFormTitle()).eql('Unlock account?');
+  await t.expect(selectFactorPage.getFactorsCount()).eql(2);
+});
+
+test.requestHooks(signInDeviceMock)('should render custom unlock account link on sign-in device page', async t => {
+  const signInDevicePage = await setupSignInDevice(t, {
     'helpLinks': {
       'unlock': 'https://okta.okta.com/unlock',
     }
   });
+  await checkA11y(t);
   await t.expect(signInDevicePage.unlockAccountLinkExists()).eql(true);
   await t.expect(signInDevicePage.getCustomUnlockAccountLinkUrl()).eql('https://okta.okta.com/unlock');
 });

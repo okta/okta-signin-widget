@@ -10,7 +10,7 @@ export RUN_SAUCE_TESTS=true
 export SAUCE_USERNAME=OktaSignInWidget
 get_vault_secret_key devex/sauce-labs accessKey SAUCE_ACCESS_KEY
 export TEST_SUITE_TYPE="junit"
-export TEST_RESULT_FILE_DIR="${REPO}/build2/reports/junit"
+export TEST_RESULT_FILE_DIR="${REPO}/build2"
 
 # We use the below OIE enabled org and clients for OIE tests
 export WIDGET_TEST_SERVER=https://oie-signin-widget.okta.com
@@ -27,6 +27,11 @@ get_vault_secret_key devex/okta-signin-widget test_org_okta_api_key OKTA_CLIENT_
 if ! yarn build:release; then
   echo "build failed! Exiting..."
   exit ${TEST_FAILURE}
+fi
+
+if ! setup_service node v14.18.2 &> /dev/null; then
+  echo "Failed to install node"
+  exit ${FAILED_SETUP}
 fi
 
 export CDN_ONLY=1

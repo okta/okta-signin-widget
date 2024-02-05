@@ -74,7 +74,10 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
       <InputLabel
         htmlFor={name}
         // To prevent asterisk from shifting far right
-        sx={{ justifyContent: showAsterisk ? 'flex-start' : undefined }}
+        sx={{
+          justifyContent: showAsterisk ? 'flex-start' : undefined,
+          position: 'static',
+        }}
       >
         {label}
         {showAsterisk && (
@@ -91,7 +94,12 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
           </Box>
         )}
         {required === false && (
-          <Typography variant="subtitle1">{optionalLabel}</Typography>
+          <Typography
+            variant="subtitle1"
+            sx={{ whiteSpace: 'nowrap' }}
+          >
+            {optionalLabel}
+          </Typography>
         )}
       </InputLabel>
       <MuiSelect
@@ -149,4 +157,5 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
   );
 };
 
-export default withFormValidationState(Select);
+const WrappedSelect = withFormValidationState(Select);
+export default WrappedSelect;

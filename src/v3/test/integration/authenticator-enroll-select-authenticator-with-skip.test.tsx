@@ -17,8 +17,8 @@ import mockResponse from '../../src/mocks/response/idp/idx/authenticator-enroll-
 describe('authenticator-enroll-select-authenticator', () => {
   it('renders form', async () => {
     const { container, findByText } = await setup({ mockResponse });
-    await findByText(/Set up security methods/);
-    await findByText(/Set up optional/);
+    expect(await findByText(/Set up security methods/)).toBeInTheDocument();
+    expect(await findByText(/Set up optional/)).toBeInTheDocument();
     expect(container).toMatchSnapshot();
   });
 
@@ -39,14 +39,14 @@ describe('authenticator-enroll-select-authenticator', () => {
       );
     });
 
-    it('skips the step when clicking setup later', async () => {
+    it('skips the step when clicking continue', async () => {
       const {
         authClient,
         user,
         findByText,
       } = await setup({ mockResponse });
 
-      const skipBtn = await findByText('Set up later', { selector: 'button' });
+      const skipBtn = await findByText('Continue', { selector: 'button' });
       await user.click(skipBtn);
       expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
         ...createAuthJsPayloadArgs('POST', 'idp/idx/skip'),

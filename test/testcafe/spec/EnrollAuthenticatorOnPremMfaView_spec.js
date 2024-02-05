@@ -1,4 +1,4 @@
-import { RequestMock } from 'testcafe';
+import { RequestMock, userVariables } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 import EnrollOnPremPageObject from '../framework/page-objects/EnrollOnPremPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
@@ -24,6 +24,7 @@ fixture('Authenticator On Prem');
 async function setup(t) {
   const enrollOnPremPage = new EnrollOnPremPageObject(t);
   await enrollOnPremPage.navigateToPage();
+  await t.expect(enrollOnPremPage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: 'enroll-onprem',
     formName: 'enroll-authenticator',
@@ -51,7 +52,12 @@ test
 
     // fields are required
     await enrollOnPremPage.fillUserName('');
-    await enrollOnPremPage.clickNextButton();
+    // this is to prevent a miss click due to the onBlur validation errors shifting the button down in gen 3
+    if (userVariables.gen3) {
+      await t.pressKey('tab');
+      await t.pressKey('tab');
+    }
+    await enrollOnPremPage.clickNextButton('Verify');
     await enrollOnPremPage.waitForGeneralErrorBox();
     await t.expect(enrollOnPremPage.getPasscodeError()).eql('This field cannot be left blank');
     await t.expect(enrollOnPremPage.getUserNameError()).eql('This field cannot be left blank');
@@ -67,7 +73,7 @@ test
 
     await enrollOnPremPage.fillUserName('abcdabcd');
     await enrollOnPremPage.fillPasscode('abcdabcd');
-    await enrollOnPremPage.clickNextButton();
+    await enrollOnPremPage.clickNextButton('Verify');
 
     const pageUrl = await successPage.getPageUrl();
     await t.expect(pageUrl)
@@ -81,7 +87,7 @@ test
 
     await enrollOnPremPage.fillUserName('abcdabcd');
     await enrollOnPremPage.fillPasscode('abcdabcd');
-    await enrollOnPremPage.clickNextButton();
+    await enrollOnPremPage.clickNextButton('Verify');
 
     await enrollOnPremPage.form.waitForAnyAlertBox();
     await t.expect(enrollOnPremPage.getErrorBoxText())

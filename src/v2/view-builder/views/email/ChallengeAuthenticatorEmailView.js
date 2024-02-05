@@ -15,7 +15,7 @@ const Body = BaseAuthenticatorEmailForm.extend(
     initialize() {
       BaseAuthenticatorEmailForm.prototype.initialize.apply(this, arguments);
 
-      const { email } =
+      const { email, secondaryEmail } =
         this.options.currentViewState.relatesTo?.value?.profile || {};
 
       const useEmailMagicLinkValue = this.isUseEmailMagicLink();
@@ -25,12 +25,12 @@ const Body = BaseAuthenticatorEmailForm.extend(
           prepend: true,
           selector: '.o-form-error-container',
         });
-      } 
+      }
 
       this.add(getCheckYourEmailTitle(), {
         prepend: true,
         selector: '.o-form-error-container',
-        options: { email, useEmailMagicLinkValue },
+        options: { email, secondaryEmail, useEmailMagicLinkValue },
       });
     },
 

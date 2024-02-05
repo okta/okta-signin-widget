@@ -12,12 +12,13 @@ const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/authenticators/okta-verify/launch')
   .respond(launchAuthenticatorOption);
 
-fixture('Sign in with Okta Verify is required').meta('v3', true)
+fixture('Sign in with Okta Verify is required')
   .requestHooks(logger, mock);
 
 async function setup(t) {
   const signInDevicePageObject = new SignInDevicePageObject(t);
   await signInDevicePageObject.navigateToPage();
+  await t.expect(signInDevicePageObject.formExists()).ok();
   return signInDevicePageObject;
 }
 

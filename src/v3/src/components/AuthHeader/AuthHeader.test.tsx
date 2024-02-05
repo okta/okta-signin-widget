@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { cleanup, render } from '@testing-library/preact';
+import { render } from '@testing-library/preact';
 import { h } from 'preact';
 
 import AuthHeader, { AuthHeaderProps } from './AuthHeader';
@@ -20,21 +20,17 @@ describe('AuthHeader tests', () => {
 
   beforeEach(() => {
     props = {
-      logo: '/img/socialButtonIcons/okta.svg',
+      logo: '/img/socialIcons/okta.svg',
       logoText: 'Mock Logo',
       brandName: 'Mock Company',
     };
-  });
-
-  afterEach(() => {
-    cleanup();
   });
 
   it('should display brand logo only', async () => {
     const { container, findByAltText } = render(<AuthHeader {...props} />);
 
     expect(await findByAltText('Mock Logo')).toBeDefined();
-    expect(container.querySelector('[src="/img/socialButtonIcons/okta.svg"]')).toBeDefined();
+    expect(container.querySelector('[src="/img/socialIcons/okta.svg"]')).toBeDefined();
   });
 
   it('should not display logo when logo & logoText are not provided', async () => {
@@ -46,23 +42,23 @@ describe('AuthHeader tests', () => {
 
   it('should display brand logo with brand name as logo alt text when logoText is not provided', async () => {
     props = {
-      logo: '/img/socialButtonIcons/okta.svg',
+      logo: '/img/socialIcons/okta.svg',
       brandName: 'Mock Company',
     };
     const { container, findByAltText } = render(<AuthHeader {...props} />);
 
     expect(await findByAltText('Mock Company')).toBeDefined();
-    expect(container.querySelector('[src="/img/socialButtonIcons/okta.svg"]')).toBeDefined();
+    expect(container.querySelector('[src="/img/socialIcons/okta.svg"]')).toBeDefined();
   });
 
   it('should display brand logo with generic name as logo alt text when neither brandName nor logoText are provided', async () => {
     props = {
-      logo: '/img/socialButtonIcons/okta.svg',
+      logo: '/img/socialIcons/okta.svg',
     };
     const { container, findByAltText } = render(<AuthHeader {...props} />);
 
     expect(await findByAltText('logo.default.alt.text')).toBeDefined();
-    expect(container.querySelector('[src="/img/socialButtonIcons/okta.svg"]')).toBeDefined();
+    expect(container.querySelector('[src="/img/socialIcons/okta.svg"]')).toBeDefined();
   });
 
   it('should display brand logo and AuthCoin when authCoin data is provided', async () => {

@@ -56,6 +56,7 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
     showAsterisk,
   } = uischema;
   const label = getTranslation(translations, 'label');
+  const labelId = `${name}-label`;
   const optionalLabel = getTranslation(translations, 'optionalLabel');
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
   const hasErrors = typeof errors !== 'undefined';
@@ -67,6 +68,7 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
     >
       {label && (
         <FormLabel
+          id={labelId}
           // To prevent asterisk from shifting far right
           sx={{ display: 'flex', justifyContent: showAsterisk ? 'flex-start' : 'space-between' }}
         >
@@ -85,7 +87,12 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
             </Box>
           )}
           {required === false && (
-            <Typography variant="subtitle1">{optionalLabel}</Typography>
+            <Typography
+              variant="subtitle1"
+              sx={{ whiteSpace: 'nowrap' }}
+            >
+              {optionalLabel}
+            </Typography>
           )}
         </FormLabel>
       )}
@@ -93,6 +100,8 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
         name={name}
         id={name}
         data-se={name}
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        {...(label && { 'aria-labelledby': labelId })}
         aria-describedby={describedByIds}
         value={value as string ?? ''}
         onChange={(e: ChangeEvent<HTMLInputElement>) => {
@@ -102,7 +111,13 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
         {
           (customOptions ?? options)?.map((item: IdxOption, index: number) => (
             <FormControlLabel
-              control={<RadioMui />}
+              control={(
+                <RadioMui
+                  sx={(theme) => ({
+                    marginInlineEnd: theme.spacing(2),
+                  })}
+                />
+              )}
               key={item.value}
               value={item.value}
               label={item.label}
@@ -110,8 +125,11 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
               onBlur={(e: ChangeEvent<HTMLInputElement>) => {
                 handleBlur?.(e?.currentTarget?.value);
               }}
+              sx={{
+                gap: 0,
+              }}
               // eslint-disable-next-line react/jsx-props-no-spreading
-              {...(index === 0 && { inputRef: focusRef } )}
+              {...(index === 0 && { inputRef: focusRef })}
             />
           ))
         }
@@ -126,4 +144,5 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
   );
 };
 
-export default withFormValidationState(Radio);
+const WrappedRadio = withFormValidationState(Radio);
+export default WrappedRadio;

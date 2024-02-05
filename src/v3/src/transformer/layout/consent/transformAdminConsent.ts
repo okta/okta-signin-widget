@@ -12,7 +12,7 @@
 
 import { groupBy } from 'lodash';
 
-import { doesI18NKeyExist } from '../../../../../v2/ion/i18nTransformer';
+import { doesI18NKeyExist } from '../../../../../v2/ion/i18nUtils';
 import { ConsentScopeGroup, SCOPE_GROUP_CONFIG } from '../../../constants';
 import {
   ButtonElement,
@@ -70,8 +70,8 @@ export const transformAdminConsent: IdxStepTransformer = ({ transaction, formBag
         type: 'Heading',
         noMargin: true,
         options: {
-          level: 5,
-          visualLevel: 3,
+          level: 3,
+          visualLevel: 6,
           content: loc(GROUP_KEY_TO_I18N_KEY[key as ConsentScopeGroup], 'login'),
           dataSe: 'scope-group--header',
         },
@@ -90,6 +90,7 @@ export const transformAdminConsent: IdxStepTransformer = ({ transaction, formBag
         data[fieldName] = true;
         return {
           type: 'Field',
+          key: fieldName,
           translations: [
             {
               name: 'label',

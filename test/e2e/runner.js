@@ -3,6 +3,10 @@ const spawn = require('cross-spawn-with-kill');
 const waitOn = require('wait-on');
 require('@okta/env').config();
 
+const IS_RELEASE_BRANCH = process.env.BRANCH &&
+  // eslint-disable-next-line @okta/okta/no-exclusive-language
+  (/master|release|\d+\.\d+\.\d+|\d+\.\d+-\w+|\d+\.\d+/).test(process.env.BRANCH);
+
 const getTask = ({ bundle }) => {
   const fn = function() {
     return new Promise(resolve => {
@@ -93,6 +97,12 @@ function runNextTask() {
   const task = tasks.shift();
   console.log(`Running next task: ${task.description}`);
   task().then((code) => {
+    if (code !== 0 && IS_RELEASE_BRANCH) {
+      console.log('###\nRELEASE BRANCH DETECTED, EXITING EARLY DUE TO FAILURE\n###');
+      // eslint-disable-next-line no-process-exit
+      process.exit(code);
+    }
+
     codes.push(code);
     runNextTask();
   });

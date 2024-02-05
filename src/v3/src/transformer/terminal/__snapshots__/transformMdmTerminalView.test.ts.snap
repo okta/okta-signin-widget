@@ -1,6 +1,106 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Terminal MDM enrollment transformer adds UI elements appropriately 1`] = `
+exports[`Terminal MDM enrollment transformer adds UI elements appropriately when name is mdm 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "enroll.title.mdm",
+        },
+        "type": "Title",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "enroll.explanation.mdm",
+        },
+        "type": "Description",
+      },
+      Object {
+        "noMargin": true,
+        "options": Object {
+          "items": Array [
+            Object {
+              "elements": Array [
+                Object {
+                  "noMargin": true,
+                  "options": Object {
+                    "content": "enroll.mdm.step.copyLink",
+                  },
+                  "type": "Description",
+                },
+                Object {
+                  "label": "enroll.mdm.copyLink",
+                  "options": Object {
+                    "onClick": [Function],
+                    "step": "",
+                    "type": "button",
+                    "variant": "secondary",
+                  },
+                  "type": "Button",
+                },
+              ],
+              "type": "VerticalLayout",
+            },
+            Object {
+              "elements": Array [
+                Object {
+                  "noMargin": true,
+                  "options": Object {
+                    "content": "enroll.mdm.step.pasteLink",
+                  },
+                  "type": "Description",
+                },
+              ],
+              "type": "VerticalLayout",
+            },
+            Object {
+              "elements": Array [
+                Object {
+                  "noMargin": true,
+                  "options": Object {
+                    "content": "enroll.mdm.step.followInstructions",
+                  },
+                  "type": "Description",
+                },
+              ],
+              "type": "VerticalLayout",
+            },
+            Object {
+              "elements": Array [
+                Object {
+                  "noMargin": true,
+                  "options": Object {
+                    "content": "enroll.mdm.step.relogin",
+                  },
+                  "type": "Description",
+                },
+              ],
+              "type": "VerticalLayout",
+            },
+          ],
+          "type": "ol",
+        },
+        "type": "List",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Terminal MDM enrollment transformer adds UI elements appropriately when name is ws1 1`] = `
 Object {
   "data": Object {},
   "dataSchema": Object {

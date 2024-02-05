@@ -30,6 +30,9 @@ const AuthenticatorRow = View.extend({
         {{#if description}}
           <p class="authenticator-description--text {{noTranslateClassName}}">{{description}}</p>
         {{/if}}
+        {{#if nickname}}
+          <p class="authenticator-enrollment-nickname {{noTranslateClassName}}">{{nickname}}</p>
+        {{/if}}
       </div>
       <div class="authenticator-button" {{#if buttonDataSeAttr}}data-se="{{buttonDataSeAttr}}"{{/if}}></div>
     </div>
@@ -46,6 +49,9 @@ const AuthenticatorRow = View.extend({
       className: 'button select-factor',
       title: function() {
         return loc('oie.verify.authenticator.button.text', 'login');
+      },
+      attributes: {
+        'aria-label': this.model.get('ariaLabel'),
       },
       click: function() {
         this.model.trigger('selectAuthenticator', this.model.get('value'));

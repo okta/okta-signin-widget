@@ -3,6 +3,14 @@
   .okta-form-subtitle {
     text-align: center;
   }
+
+  .siw-main-body {
+    span.authenticator-verify-nickname {
+      // inherits from .strong, but overrides word-break
+      @extend .strong;
+      word-break: break-word;
+    }
+  }
 }
 
 .authenticator-enroll-list {
@@ -40,6 +48,10 @@
       }
     }
   }
+}
+
+.authenticator-enrollment-nickname {
+  text-overflow: ellipsis;
 }
 
 .authenticator-verify-list {

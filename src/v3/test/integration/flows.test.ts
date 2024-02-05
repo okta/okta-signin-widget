@@ -26,7 +26,7 @@ describe('flows', () => {
       'identify-with-password',
       'authenticator-verification-security-question',
     ].forEach((test) => {
-      expect(tests.includes(test)).toBeTruthy();
+      expect(tests.includes(test)).toBeTrue();
     });
   });
 
@@ -37,7 +37,7 @@ describe('flows', () => {
       'authenticator-verification-data-phone-sms-only',
       'authenticator-verification-phone-sms',
     ].forEach((test) => {
-      expect(tests.includes(test)).toBeTruthy();
+      expect(tests.includes(test)).toBeTrue();
     });
   });
 
@@ -47,7 +47,7 @@ describe('flows', () => {
       'authenticator-verification-select-authenticator',
       'authenticator-verification-email',
     ].forEach((test) => {
-      expect(tests.includes(test)).toBeTruthy();
+      expect(tests.includes(test)).toBeTrue();
     });
   });
 
@@ -56,7 +56,7 @@ describe('flows', () => {
       'identify-with-password',
       'authenticator-verification-google-authenticator',
     ].forEach((test) => {
-      expect(tests.includes(test)).toBeTruthy();
+      expect(tests.includes(test)).toBeTrue();
     });
   });
 
@@ -65,7 +65,7 @@ describe('flows', () => {
       'email-challenge-consent',
       'terminal-return-email',
     ].forEach((test) => {
-      expect(tests.includes(test)).toBeTruthy();
+      expect(tests.includes(test)).toBeTrue();
     });
   });
 
@@ -75,7 +75,7 @@ describe('flows', () => {
       'authenticator-enroll-select-authenticator',
       'webauthn-enroll',
     ].forEach((test) => {
-      expect(tests.includes(test)).toBeTruthy();
+      expect(tests.includes(test)).toBeTrue();
     });
   });
 
@@ -84,7 +84,7 @@ describe('flows', () => {
       'enroll-profile-new',
       'authenticator-enroll-select-authenticator',
     ].forEach((test) => {
-      expect(tests.includes(test)).toBeTruthy();
+      expect(tests.includes(test)).toBeTrue();
     });
   });
 
@@ -92,7 +92,7 @@ describe('flows', () => {
     [
       'flow-okta-verify-enrollment',
     ].forEach((test) => {
-      expect(tests.includes(test)).toBeTruthy();
+      expect(tests.includes(test)).toBeTrue();
     });
   });
 
@@ -103,7 +103,7 @@ describe('flows', () => {
       'authenticator-enroll-select-authenticator',
       'okta-verify-enrollment-version-upgrade',
     ].forEach((test) => {
-      expect(tests.includes(test)).toBeTruthy();
+      expect(tests.includes(test)).toBeTrue();
     });
   });
 
@@ -113,7 +113,7 @@ describe('flows', () => {
       'authenticator-enroll-select-authenticator',
       'authenticator-enroll-security-question',
     ].forEach((test) => {
-      expect(tests.includes(test)).toBeTruthy();
+      expect(tests.includes(test)).toBeTrue();
     });
   });
 
@@ -123,7 +123,7 @@ describe('flows', () => {
       'authenticator-expired-password',
       'authenticator-verification-select-authenticator',
     ].forEach((test) => {
-      expect(tests.includes(test)).toBeTruthy();
+      expect(tests.includes(test)).toBeTrue();
     });
   });
 
@@ -133,7 +133,7 @@ describe('flows', () => {
       'authenticator-expiry-warning-password',
       'authenticator-verification-select-authenticator',
     ].forEach((test) => {
-      expect(tests.includes(test)).toBeTruthy();
+      expect(tests.includes(test)).toBeTrue();
     });
   });
 
@@ -143,7 +143,7 @@ describe('flows', () => {
       'authenticator-expired-password-with-enrollment-authenticator',
       'authenticator-verification-select-authenticator',
     ].forEach((test) => {
-      expect(tests.includes(test)).toBeTruthy();
+      expect(tests.includes(test)).toBeTrue();
     });
   });
 
@@ -153,7 +153,7 @@ describe('flows', () => {
       'authenticator-expired-password-no-complexity',
       'authenticator-verification-select-authenticator',
     ].forEach((test) => {
-      expect(tests.includes(test)).toBeTruthy();
+      expect(tests.includes(test)).toBeTrue();
     });
   });
 
@@ -165,7 +165,7 @@ describe('flows', () => {
       'authenticator-verification-security-question',
       'unlock-account-success',
     ].forEach((test) => {
-      expect(tests.includes(test)).toBeTruthy();
+      expect(tests.includes(test)).toBeTrue();
     });
   });
 
@@ -176,7 +176,7 @@ describe('flows', () => {
       'authenticator-verification-phone-sms',
       'unlock-account-success',
     ].forEach((test) => {
-      expect(tests.includes(test)).toBeTruthy();
+      expect(tests.includes(test)).toBeTrue();
     });
   });
 
@@ -188,7 +188,7 @@ describe('flows', () => {
       'authenticator-verification-google-authenticator',
       'unlock-account-success',
     ].forEach((test) => {
-      expect(tests.includes(test)).toBeTruthy();
+      expect(tests.includes(test)).toBeTrue();
     });
   });
 
@@ -200,7 +200,7 @@ describe('flows', () => {
       'authenticator-verification-webauthn',
       'unlock-account-success',
     ].forEach((test) => {
-      expect(tests.includes(test)).toBeTruthy();
+      expect(tests.includes(test)).toBeTrue();
     });
   });
 
@@ -212,7 +212,7 @@ describe('flows', () => {
       'authenticator-verification-google-authenticator',
       'unlock-account-success',
     ].forEach((test) => {
-      expect(tests.includes(test)).toBeTruthy();
+      expect(tests.includes(test)).toBeTrue();
     });
   });
 
@@ -224,7 +224,7 @@ describe('flows', () => {
       'authenticator-verification-webauthn',
       'unlock-account-success',
     ].forEach((test) => {
-      expect(tests.includes(test)).toBeTruthy();
+      expect(tests.includes(test)).toBeTrue();
     });
   });
 
@@ -234,7 +234,7 @@ describe('flows', () => {
       'authenticator-verification-select-authenticator',
       'authenticator-verification-okta-verify-totp',
     ].forEach((test) => {
-      expect(tests.includes(test)).toBeTruthy();
+      expect(tests.includes(test)).toBeTrue();
     });
   });
 
@@ -246,7 +246,7 @@ describe('flows', () => {
       'authenticator-enroll-phone-sms',
       'authenticator-verification-select-authenticator',
     ].forEach((test) => {
-      expect(tests.includes(test)).toBeTruthy();
+      expect(tests.includes(test)).toBeTrue();
     });
   });
 
@@ -257,7 +257,7 @@ describe('flows', () => {
       'authenticator-verification-okta-verify-push',
       'authenticator-verification-okta-verify-push-poll',
     ].forEach((test) => {
-      expect(tests.includes(test)).toBeTruthy();
+      expect(tests.includes(test)).toBeTrue();
     });
   });
 
@@ -268,7 +268,7 @@ describe('flows', () => {
       'authenticator-verification-okta-verify-push',
       'authenticator-verification-okta-verify-push-code',
     ].forEach((test) => {
-      expect(tests.includes(test)).toBeTruthy();
+      expect(tests.includes(test)).toBeTrue();
     });
   });
 
@@ -278,7 +278,7 @@ describe('flows', () => {
       'authenticator-enroll-select-authenticator',
       'authenticator-enroll-google-authenticator',
     ].forEach((test) => {
-      expect(tests.includes(test)).toBeTruthy();
+      expect(tests.includes(test)).toBeTrue();
     });
   });
 
@@ -290,7 +290,7 @@ describe('flows', () => {
       'authenticator-enroll-phone-voice',
       'authenticator-verification-select-authenticator',
     ].forEach((test) => {
-      expect(tests.includes(test)).toBeTruthy();
+      expect(tests.includes(test)).toBeTrue();
     });
   });
 
@@ -302,7 +302,7 @@ describe('flows', () => {
       'authenticator-verification-security-question',
       'authenticator-reset-password',
     ].forEach((test) => {
-      expect(tests.includes(test)).toBeTruthy();
+      expect(tests.includes(test)).toBeTrue();
     });
   });
 
@@ -315,7 +315,7 @@ describe('flows', () => {
       'authenticator-verification-select-authenticator',
       'authenticator-verification-google-authenticator',
     ].forEach((test) => {
-      expect(tests.includes(test)).toBeTruthy();
+      expect(tests.includes(test)).toBeTrue();
     });
   });
 });

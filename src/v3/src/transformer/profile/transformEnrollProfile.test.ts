@@ -67,7 +67,7 @@ describe('Enroll Profile Transformer Tests', () => {
       .toBe(ButtonType.SUBMIT);
   });
 
-  it('should add password requirements along with title, and submit button when passcode exists but password settings are empty', () => {
+  it('should not add password requirements but should add title, password, and button elements when passcode exists but password settings are empty', () => {
     formBag.uischema.elements.push({
       type: 'Field',
       label: 'Password',

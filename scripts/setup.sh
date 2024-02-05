@@ -1,38 +1,66 @@
 #!/bin/bash
+set -eo pipefail
 
 # Can be used to run a canary build against a beta AuthJS version that has been published to artifactory.
 # This is available from the "downstream artifact" menu on any okta-auth-js build in Bacon.
 # DO NOT MERGE ANY CHANGES TO THIS LINE!!
 export AUTHJS_VERSION=""
+export INTERNAL_REGISTRY="${ARTIFACTORY_URL}/api/npm/npm-okta-release"
+export PUBLIC_REGISTRY="https://registry.yarnpkg.com"
 
-# Install required node version
-export REGISTRY_REPO="npm-topic"
-export REGISTRY="${ARTIFACTORY_URL}/api/npm/${REGISTRY_REPO}"
-setup_service node v16.19.1
-# Use the cacert bundled with centos as okta root CA is self-signed and cause issues downloading from yarn
-setup_service yarn 1.22.19 /etc/pki/tls/certs/ca-bundle.crt
+function yarn_sync() {
+  echo "Checking to see if the yarn.lock file is in sync with given dependencies"
+  if test "$( git status --short -- '*yarn.lock' | wc -l )" -ne 0
+  then
+    return 1
+  fi
+  echo "yarn sync OK"
+  return 0
+}
+
+if ! setup_service node v16.19.1 &> /dev/null; then
+  echo "Failed to install node"
+  exit ${FAILED_SETUP}
+fi
+
+if ! setup_service yarn 1.22.19 &> /dev/null; then
+  echo "Failed to install yarn"
+  exit ${FAILED_SETUP}
+fi
 
 cd ${OKTA_HOME}/${REPO}
 
-if [ ! -z "$AUTHJS_VERSION" ]; then
-  echo "Installing AUTHJS_VERSION: ${AUTHJS_VERSION}"
-  npm config set strict-ssl false
-
-  if ! yarn add -W --force --no-lockfile https://artifacts.aue1e.internal/artifactory/npm-topic/@okta/okta-auth-js/-/@okta/okta-auth-js-${AUTHJS_VERSION}.tgz ; then
-    echo "AUTHJS_VERSION could not be installed: ${AUTHJS_VERSION}"
-    exit ${FAILED_SETUP}
-  fi
-
-  MATCH="$(yarn why @okta/okta-auth-js | grep ${AUTHJS_VERSION})"
-  echo ${MATCH}
-  if [ -z "$MATCH" ]; then
-    echo "AUTHJS_VERSION was not installed: ${AUTHJS_VERSION}"
-    exit ${FAILED_SETUP}
-  fi
-  echo "AUTHJS_VERSION installed: ${AUTHJS_VERSION}"
-fi
+npm config set @okta:registry ${PUBLIC_REGISTRY}
+npm config set registry ${PUBLIC_REGISTRY}
 
 if ! yarn install ; then
   echo "yarn install failed! Exiting..."
   exit ${FAILED_SETUP}
+fi
+
+npm config set @okta:registry ${INTERNAL_REGISTRY}
+
+if ! yarn_sync; then
+  echo "yarn.lock file is not in sync, see diff below. Please make sure this file is up-to-date by running 'yarn install' at the repo root and checking in yarn.lock changes"
+  echo "############## yarn.lock diff starts here ##############"
+  git diff *yarn.lock
+  echo "############## yarn.lock diff ends here ##############"
+  exit ${FAILED_SETUP}
+fi
+
+# Install upstream artifacts
+if [ ! -z "$AUTHJS_VERSION" ]; then
+  echo "Installing AUTHJS_VERSION: ${AUTHJS_VERSION}"
+
+  yarn global add @okta/siw-platform-scripts@0.7.0
+
+  if ! siw-platform install-artifact -n @okta/okta-auth-js -v ${AUTHJS_VERSION} ; then
+    echo "AUTHJS_VERSION could not be installed: ${AUTHJS_VERSION}"
+    exit ${FAILED_SETUP}
+  fi
+
+  # Remove any changes to package.json
+  git checkout .
+  
+  echo "AUTHJS_VERSION installed: ${AUTHJS_VERSION}"
 fi

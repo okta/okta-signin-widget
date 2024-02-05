@@ -38,11 +38,9 @@ export default FormController.extend({
     },
     subtitle: function() {
       if (this.options.appState.get('isPwdExpiringSoon')) {
-        const subtitle = this.settings.get('brandName')
-          ? loc('password.expiring.subtitle.specific', 'login', [this.settings.get('brandName')])
-          : loc('password.expiring.subtitle.generic', 'login');
-
-        return subtitle + ' ' + loc('password.expired.custom.subtitle', 'login');
+        return this.settings.get('brandName')
+          ? loc('password.expiring.soon.subtitle.specific', 'login', [this.settings.get('brandName')])
+          : loc('password.expiring.soon.subtitle.generic', 'login');
       }
 
       return loc('password.expired.custom.subtitle', 'login');

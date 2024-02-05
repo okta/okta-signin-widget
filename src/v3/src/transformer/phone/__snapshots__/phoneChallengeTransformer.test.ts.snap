@@ -1,5 +1,54 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`PhoneChallengeTransformer Tests should create SMS challenge UI elements when phone number and nickname are available 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.phone.verify.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "contentType": "subtitle",
+        "noMargin": true,
+        "options": Object {
+          "content": "oie.phone.verify.sms.codeSentText.with.phone.with.nickname",
+        },
+        "type": "Description",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.phone.carrier.charges",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "mfa.challenge.verify",
+        "options": Object {
+          "step": "challenge-authenticator",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
 exports[`PhoneChallengeTransformer Tests should create SMS challenge UI elements when phone number not available 1`] = `
 Object {
   "data": Object {},
@@ -22,8 +71,9 @@ Object {
       },
       Object {
         "contentType": "subtitle",
+        "noMargin": true,
         "options": Object {
-          "content": "mfa.calling oie.phone.alternate.title. oie.phone.verify.enterCodeText",
+          "content": "oie.phone.verify.sms.codeSentText.without.phone",
         },
         "type": "Description",
       },
@@ -37,7 +87,7 @@ Object {
       Object {
         "label": "mfa.challenge.verify",
         "options": Object {
-          "step": "",
+          "step": "challenge-authenticator",
           "type": "submit",
         },
         "type": "Button",
@@ -70,8 +120,9 @@ Object {
       },
       Object {
         "contentType": "subtitle",
+        "noMargin": true,
         "options": Object {
-          "content": "oie.phone.verify.sms.codeSentText <span class=\\"strong no-translate\\">+1 XXX-XXX-4601.</span> oie.phone.verify.enterCodeText",
+          "content": "oie.phone.verify.sms.codeSentText.with.phone.without.nickname",
         },
         "type": "Description",
       },
@@ -85,7 +136,7 @@ Object {
       Object {
         "label": "mfa.challenge.verify",
         "options": Object {
-          "step": "mock-step",
+          "step": "challenge-authenticator",
           "type": "submit",
         },
         "type": "Button",
@@ -130,8 +181,9 @@ Object {
       },
       Object {
         "contentType": "subtitle",
+        "noMargin": true,
         "options": Object {
-          "content": "oie.phone.verify.sms.codeSentText <span class=\\"strong no-translate\\">+1 XXX-XXX-4601.</span> oie.phone.verify.enterCodeText",
+          "content": "oie.phone.verify.sms.codeSentText.with.phone.without.nickname",
         },
         "type": "Description",
       },
@@ -145,7 +197,56 @@ Object {
       Object {
         "label": "mfa.challenge.verify",
         "options": Object {
-          "step": "mock-step",
+          "step": "challenge-authenticator",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`PhoneChallengeTransformer Tests should create voice challenge UI elements when phoneNumber and nickname are available 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.phone.verify.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "contentType": "subtitle",
+        "noMargin": true,
+        "options": Object {
+          "content": "oie.phone.verify.mfa.calling.with.phone.with.nickname",
+        },
+        "type": "Description",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.phone.carrier.charges",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "mfa.challenge.verify",
+        "options": Object {
+          "step": "challenge-authenticator",
           "type": "submit",
         },
         "type": "Button",
@@ -178,8 +279,9 @@ Object {
       },
       Object {
         "contentType": "subtitle",
+        "noMargin": true,
         "options": Object {
-          "content": "mfa.calling <span class=\\"strong no-translate\\">+1 XXX-XXX-4601.</span> oie.phone.verify.enterCodeText",
+          "content": "oie.phone.verify.mfa.calling.with.phone.without.nickname",
         },
         "type": "Description",
       },
@@ -193,7 +295,7 @@ Object {
       Object {
         "label": "mfa.challenge.verify",
         "options": Object {
-          "step": "mock-step",
+          "step": "challenge-authenticator",
           "type": "submit",
         },
         "type": "Button",
@@ -226,8 +328,9 @@ Object {
       },
       Object {
         "contentType": "subtitle",
+        "noMargin": true,
         "options": Object {
-          "content": "mfa.calling oie.phone.alternate.title. oie.phone.verify.enterCodeText",
+          "content": "oie.phone.verify.mfa.calling.without.phone",
         },
         "type": "Description",
       },
@@ -241,7 +344,7 @@ Object {
       Object {
         "label": "mfa.challenge.verify",
         "options": Object {
-          "step": "mock-step",
+          "step": "challenge-authenticator",
           "type": "submit",
         },
         "type": "Button",

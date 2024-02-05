@@ -7,6 +7,7 @@ import { checkConsoleMessages, renderWidget } from '../framework/shared';
 import { oktaDashboardContent } from '../framework/shared';
 
 import emailVerification from '../../../playground/mocks/data/idp/idx/authenticator-verification-email';
+import emailVerificationWithSecondaryEmail from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-with-secondary-email';
 import emailVerificationWithoutEmailMagicLink from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-without-emailmagiclink';
 import emailVerificationWithoutResend from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-without-resend';
 import emailVerificationPolling from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-polling';
@@ -26,6 +27,7 @@ import sessionExpired from '../../../playground/mocks/data/idp/idx/error-401-ses
 import tooManyRequest from '../../../playground/mocks/data/idp/idx/error-429-authenticator-verification-email-polling';
 import apiLimitExeeeded from '../../../playground/mocks/data/idp/idx/error-429-api-limit-exceeded';
 import emailVerificationSendEmailData from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-email';
+import emailVerificationSendEmailDataWithSecondaryEmail from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-email-with-secondary-email';
 import emailVerificationSendEmailDataNoProfile from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-email-no-profile';
 import terminalConsentDenied from '../../../playground/mocks/data/idp/idx/terminal-enduser-email-consent-denied';
 
@@ -37,7 +39,7 @@ const emailVerificationSendEmailDataEmptyProfile = JSON.parse(JSON.stringify(ema
 // add empty profile to test
 emailVerificationSendEmailDataEmptyProfile.currentAuthenticatorEnrollment.value.profile = {};
 
-const logger = RequestLogger(/challenge|challenge\/poll|challenge\/answer/,
+const createRequestLogger = () => RequestLogger(/challenge|challenge\/poll|challenge\/answer/,
   {
     logRequestBody: true,
     stringifyRequestBody: true,
@@ -49,6 +51,12 @@ const sendEmailMock = RequestMock()
   .respond(emailVerificationSendEmailData)
   .onRequestTo('http://localhost:3000/idp/idx/challenge')
   .respond(emailVerification);
+
+const sendEmailMockWithSecondaryEmail = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(emailVerificationSendEmailDataWithSecondaryEmail)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge')
+  .respond(emailVerificationWithSecondaryEmail);
 
 const sendEmailMockWithoutEmailMagicLink = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -64,6 +72,8 @@ const sendEmailNoProfileMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(emailVerificationSendEmailDataNoProfile);
 
+const validOTPLogger = createRequestLogger();
+const validOTPResendLogger = createRequestLogger();
 const validOTPmock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(emailVerification)
@@ -142,6 +152,7 @@ const invalidOTPMockContinuePoll = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(invalidOTP, 403);
 
+const stopPollLogger = createRequestLogger();
 const stopPollMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(emailVerificationPolling)
@@ -160,6 +171,8 @@ const magicLinkTransfer = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(terminalTransferedEmail);
 
+const dynamicContinuePollingLogger = createRequestLogger();
+const dynamicRefreshIntervalLogger = createRequestLogger();
 const dynamicRefreshShortIntervalMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(emailVerification)
@@ -170,12 +183,14 @@ const dynamicRefreshLongIntervalMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
   .respond(emailVerificationPollingLong);
 
+const tooManyRequestPollLogger = createRequestLogger();
 const tooManyRequestPollMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(emailVerificationPolling)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
   .respond(tooManyRequest, 429);
 
+const apiLimitExceededPollLogger = createRequestLogger();
 const apiLimitExceededPollMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(emailVerificationPolling)
@@ -204,12 +219,15 @@ const getResendTimestamp = ClientFunction(() => {
   return window.sessionStorage.getItem('osw-oie-resend-timestamp');
 });
 
-fixture('Challenge Email Authenticator Form')
-  .meta('v3', true);
+fixture('Challenge Email Authenticator Form');
 
-async function setup(t) {
+async function setup(t, widgetOptions) {
+  const options = widgetOptions ? { render: false } : {};
   const challengeEmailPageObject = new ChallengeEmailPageObject(t);
-  await challengeEmailPageObject.navigateToPage();
+  await challengeEmailPageObject.navigateToPage(options);
+  if (widgetOptions) {
+    await renderWidget(widgetOptions);
+  }
   await t.expect(challengeEmailPageObject.formExists()).eql(true);
   return challengeEmailPageObject;
 }
@@ -240,6 +258,32 @@ test
     await t.expect(challengeEmailPageObject.getSignoutLinkText()).eql('Back to sign in');
   });
 
+test
+  .requestHooks(sendEmailMockWithSecondaryEmail)('send email screen should have both primary and secondary emails', async t => {
+    const challengeEmailPageObject = await setup(t);
+    await checkA11y(t);
+    await checkConsoleMessages({
+      controller: null,
+      formName: 'authenticator-verification-data',
+      authenticatorKey: 'okta_email',
+      methodType: 'email',
+    });
+
+    const pageTitle = challengeEmailPageObject.getFormTitle();
+    const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
+    await t.expect(pageTitle).eql('Get a verification email');
+    await t.expect(saveBtnText).eql('Send me an email');
+
+    const emailAddress = emailVerificationSendEmailDataWithSecondaryEmail.currentAuthenticatorEnrollment.value.profile.email;
+    const secondaryEmailAddress = emailVerificationSendEmailDataWithSecondaryEmail.currentAuthenticatorEnrollment.value.profile.secondaryEmail;
+    await t.expect(challengeEmailPageObject.getFormSubtitle())
+      .eql(`Send a verification email to ${emailAddress} and ${secondaryEmailAddress} by clicking on "Send me an email".`);
+
+    // Verify links (switch authenticator link not present since there are no other authenticators available)
+    await t.expect(await challengeEmailPageObject.verifyWithSomethingElseLinkExists()).notOk();
+    await t.expect(await challengeEmailPageObject.signoutLinkExists()).ok();
+    await t.expect(challengeEmailPageObject.getSignoutLinkText()).eql('Back to sign in');
+  });
 test
   .requestHooks(sendEmailMock)('should not show send again warning after 30 seconds', async t => {
     const challengeEmailPageObject = await setup(t);
@@ -293,6 +337,26 @@ test
     const emailAddress = emailVerification.currentAuthenticatorEnrollment.value.profile.email;
     await t.expect(challengeEmailPageObject.getFormSubtitle())
       .eql(`We sent an email to ${emailAddress}. Click the verification link in your email to continue or enter the code below.`);
+    await t.expect(challengeEmailPageObject.getEnterCodeInsteadButton().exists).eql(true);
+
+    // Verify links (switch authenticator link not present since there are no other authenticators available)
+    await t.expect(await challengeEmailPageObject.verifyWithSomethingElseLinkExists()).notOk();
+    await t.expect(await challengeEmailPageObject.signoutLinkExists()).ok();
+    await t.expect(challengeEmailPageObject.getSignoutLinkText()).eql('Back to sign in');
+  });
+
+test
+  .requestHooks(sendEmailMockWithSecondaryEmail)('send me an email button should take to challenge email authenticator screen with both primary and secondary email', async t => {
+    const challengeEmailPageObject = await setup(t);
+    await checkA11y(t);
+    await challengeEmailPageObject.clickNextButton('Send me an email');
+    const pageTitle = challengeEmailPageObject.getFormTitle();
+    await t.expect(pageTitle).eql('Verify with your email');
+
+    const emailAddress = emailVerificationWithSecondaryEmail.currentAuthenticatorEnrollment.value.profile.email;
+    const secondaryEmailAddress = emailVerificationWithSecondaryEmail.currentAuthenticatorEnrollment.value.profile.secondaryEmail;
+    await t.expect(challengeEmailPageObject.getFormSubtitle())
+      .eql(`We sent an email to ${emailAddress} and ${secondaryEmailAddress}. Click the verification link in your email to continue or enter the code below.`);
     await t.expect(challengeEmailPageObject.getEnterCodeInsteadButton().exists).eql(true);
 
     // Verify links (switch authenticator link not present since there are no other authenticators available)
@@ -462,7 +526,7 @@ test
   });
 
 test
-  .requestHooks(logger, validOTPmock)('challenge email authenticator with valid OTP', async t => {
+  .requestHooks(validOTPLogger, validOTPmock)('challenge email authenticator with valid OTP', async t => {
     const challengeEmailPageObject = await setup(t);
     await checkA11y(t);
     await challengeEmailPageObject.clickEnterCodeLink();
@@ -473,14 +537,14 @@ test
     const pageUrl = await successPage.getPageUrl();
     await t.expect(pageUrl)
       .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
-    await t.expect(logger.count(() => true)).eql(1);
+    await t.expect(validOTPLogger.count(() => true)).eql(1);
 
     const { request: {
       body: answerRequestBodyString,
       method: answerRequestMethod,
       url: answerRequestUrl,
     }
-    } = logger.requests[0];
+    } = validOTPLogger.requests[0];
     const answerRequestBody = JSON.parse(answerRequestBodyString);
     await t.expect(answerRequestBody).eql({
       credentials: {
@@ -492,27 +556,26 @@ test
     await t.expect(answerRequestUrl).eql('http://localhost:3000/idp/idx/challenge/answer');
   });
 
-// Disabled in v3 - OKTA-566356
-test.meta('v3', false)
-  .requestHooks(logger, stopPollMock)('no polling if session has expired', async t => {
+test
+  .requestHooks(stopPollLogger, stopPollMock)('no polling if session has expired', async t => {
     const challengeEmailPageObject = await setup(t);
     await checkA11y(t);
 
     await t.expect(await challengeEmailPageObject.resendEmailExists()).eql(false);
     await t.wait(5000);
     await t.expect(challengeEmailPageObject.getErrorFromErrorBox()).eql('You have been logged out due to inactivity. Refresh or return to the sign in screen.');
-    
+
     // TODO: verify OTP UI is as expected OTP OKTA-480518
 
     // Check no poll requests were made further. There seems to be no way to interrupt a poll with mock response.
-    await t.expect(logger.count(
+    await t.expect(stopPollLogger.count(
       record => record.response.statusCode === 200 &&
       record.request.url.match(/poll/)
     )).eql(0);
   });
 
 test
-  .requestHooks(logger, dynamicRefreshShortIntervalMock)('continue polling on form error with dynamic polling', async t => {
+  .requestHooks(dynamicContinuePollingLogger, dynamicRefreshShortIntervalMock)('continue polling on form error with dynamic polling', async t => {
     const challengeEmailPageObject = await setup(t);
     await checkA11y(t);
     await challengeEmailPageObject.clickEnterCodeLink();
@@ -521,22 +584,22 @@ test
 
     // 2 poll requests in 2 seconds at 1 sec interval (Cumulative Request: 2)
     await t.wait(2000);
-    await t.expect(logger.count(
+    await t.expect(dynamicContinuePollingLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/poll/)
     )).eql(2);
-    logger.clear();
+    dynamicContinuePollingLogger.clear();
 
     await t.removeRequestHooks(dynamicRefreshShortIntervalMock);
     await t.addRequestHooks(invalidOTPMockContinuePoll);
 
     // 1 poll requests in 2 seconds at 2 sec interval (Cumulative Request: 3)
     await t.wait(2000);
-    await t.expect(logger.count(
+    await t.expect(dynamicContinuePollingLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/poll/)
     )).eql(3);
-    logger.clear();
+    dynamicContinuePollingLogger.clear();
 
     await challengeEmailPageObject.verifyFactor('credentials.passcode', 'xyz');
     await challengeEmailPageObject.clickNextButton('Verify');
@@ -545,15 +608,15 @@ test
     await t.expect(challengeEmailPageObject.getInvalidOTPError()).contains('We found some errors.');
     await t.wait(5000);
     // In v3 there is an extra poll request compared to v2
-    const expectedPollCount = userVariables.v3 ? 5 : 4;
-    await t.expect(logger.count(
+    const expectedPollCount = userVariables.gen3 ? 5 : 4;
+    await t.expect(dynamicContinuePollingLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/poll/)
     )).eql(expectedPollCount);
   });
 
 test
-  .requestHooks(logger, validOTPmock)('resend after 30 seconds', async t => {
+  .requestHooks(validOTPResendLogger, validOTPmock)('resend after 30 seconds', async t => {
     const challengeEmailPageObject = await setup(t);
     await checkA11y(t);
     await challengeEmailPageObject.clickEnterCodeLink();
@@ -564,15 +627,28 @@ test
     const resendEmailViewText = challengeEmailPageObject.resendEmailViewText();
     await t.expect(resendEmailViewText).contains('Haven\'t received an email?');
 
+    // Asserts the order of elements in v2
+    if (!userVariables.gen3) {
+      await t.expect(challengeEmailPageObject.form.el.innerText).match(new RegExp([
+        // title
+        'Verify with your email',
+        // resend prompt
+        'Haven\'t received an email\\? Send again',
+        // instructions and form imputs
+        'Click the verification link in your email to continue or enter the code below',
+        'Enter Code'
+      ].join('.+'), 'si'));
+    }
+
     // 8 poll requests in 32 seconds and 1 resend request after click.
-    await t.expect(logger.count(
+    await t.expect(validOTPResendLogger.count(
       record => record.response.statusCode === 200 &&
       record.request.url.match(/poll/)
     )).eql(8);
 
     await challengeEmailPageObject.clickSendAgainLink();
     await t.expect(await challengeEmailPageObject.resendEmailExists()).eql(false);
-    await t.expect(logger.count(
+    await t.expect(validOTPResendLogger.count(
       record => record.response.statusCode === 200 &&
       record.request.url.match(/resend/)
     )).eql(1);
@@ -582,13 +658,13 @@ test
       method: firstRequestMethod,
       url: firstRequestUrl,
     }
-    } = logger.requests[0];
+    } = validOTPResendLogger.requests[0];
     const { request: {
       body: lastRequestBody,
       method: lastRequestMethod,
       url: lastRequestUrl,
     }
-    } = logger.requests[logger.requests.length - 1];
+    } = validOTPResendLogger.requests[validOTPResendLogger.requests.length - 1];
     let jsonBody = JSON.parse(firstRequestBody);
     await t.expect(jsonBody).eql({'stateHandle':'02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8'});
     await t.expect(firstRequestMethod).eql('post');
@@ -600,10 +676,8 @@ test
     await t.expect(lastRequestUrl).eql('http://localhost:3000/idp/idx/challenge/resend');
   });
 
-// Test fails in v3. After re-render we still have to wait for 30 seconds
-// Enable after fixing - OKTA-561098  
-test.meta('v3', false)
-  .requestHooks(logger, validOTPmock)('resend after at most 30 seconds even after re-render', async t => {
+test
+  .requestHooks(validOTPmock)('resend after at most 30 seconds even after re-render', async t => {
     const challengeEmailPageObject = await setup(t);
     await checkA11y(t);
     await challengeEmailPageObject.clickEnterCodeLink();
@@ -616,10 +690,23 @@ test.meta('v3', false)
     await t.expect(await challengeEmailPageObject.resendEmailExists()).eql(true);
     const resendEmailViewText = challengeEmailPageObject.resendEmailViewText();
     await t.expect(resendEmailViewText).contains('Haven\'t received an email?');
+
+    // Asserts the order of elements in v2
+    if (!userVariables.gen3) {
+      await t.expect(challengeEmailPageObject.form.el.innerText).match(new RegExp([
+        // title
+        'Verify with your email',
+        // resend prompt
+        'Haven\'t received an email\\? Send again',
+        // instructions and form imputs
+        'Click the verification link in your email to continue or enter the code below',
+        'Enter Code'
+      ].join('.+'), 'si'));
+    }
   });
 
 test
-  .requestHooks(logger, validOTPmock)('resend timer resets when we navigate away from view', async t => {
+  .requestHooks(validOTPmock)('resend timer resets when we navigate away from view', async t => {
     const challengeEmailPageObject = await setup(t);
     await checkA11y(t);
     await challengeEmailPageObject.clickEnterCodeLink();
@@ -629,6 +716,19 @@ test
     await t.expect(await challengeEmailPageObject.resendEmailExists()).eql(true);
     let resendEmailViewText = challengeEmailPageObject.resendEmailViewText();
     await t.expect(resendEmailViewText).contains('Haven\'t received an email?');
+
+    // Asserts the order of elements in v2
+    if (!userVariables.gen3) {
+      await t.expect(challengeEmailPageObject.form.el.innerText).match(new RegExp([
+        // title
+        'Verify with your email',
+        // resend prompt
+        'Haven\'t received an email\\? Send again',
+        // instructions and form imputs
+        'Click the verification link in your email to continue or enter the code below',
+        'Enter Code'
+      ].join('.+'), 'si'));
+    }
 
     // Navigate away from the view
     await challengeEmailPageObject.clickSignOutLink();
@@ -640,10 +740,23 @@ test
     await t.expect(await challengeEmailPageObject.resendEmailExists()).eql(true);
     resendEmailViewText = challengeEmailPageObject.resendEmailViewText();
     await t.expect(resendEmailViewText).contains('Haven\'t received an email?');
+
+    // Asserts the order of elements in v2
+    if (!userVariables.gen3) {
+      await t.expect(challengeEmailPageObject.form.el.innerText).match(new RegExp([
+        // title
+        'Verify with your email',
+        // resend prompt
+        'Haven\'t received an email\\? Send again',
+        // instructions and form imputs
+        'Click the verification link in your email to continue or enter the code below',
+        'Enter Code'
+      ].join('.+'), 'si'));
+    }
   });
 
 test
-  .requestHooks(logger, validOTPWithoutResendMock)('resend timer resets remediation has no resend context', async t => {
+  .requestHooks(validOTPWithoutResendMock)('resend timer resets remediation has no resend context', async t => {
     const challengeEmailPageObject = await setup(t);
     await checkA11y(t);
     await t.expect(await challengeEmailPageObject.resendEmailExists()).eql(false);
@@ -688,14 +801,14 @@ test
   });
 
 test
-  .requestHooks(logger, dynamicRefreshShortIntervalMock)('dynamic polling based on refresh interval in /poll', async t => {
+  .requestHooks(dynamicRefreshIntervalLogger, dynamicRefreshShortIntervalMock)('dynamic polling based on refresh interval in /poll', async t => {
     const challengeEmailPageObject = await setup(t);
     await checkA11y(t);
     await t.expect(await challengeEmailPageObject.resendEmailExists()).eql(false);
 
     // 2 poll requests in 2 seconds at 1 sec interval
     await t.wait(2000);
-    await t.expect(logger.count(
+    await t.expect(dynamicRefreshIntervalLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/poll/)
     )).eql(2);
@@ -705,7 +818,7 @@ test
 
     // 3 poll requests in 6 seconds at 2 sec interval
     await t.wait(6000);
-    await t.expect(logger.count(
+    await t.expect(dynamicRefreshIntervalLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/poll/)
     )).eql(5);
@@ -713,14 +826,14 @@ test
 
 // TODO: avoid 60 second timeout. OKTA-460622
 test
-  .requestHooks(logger, tooManyRequestPollMock)('pause polling when encounter 429 too many request', async t => {
+  .requestHooks(tooManyRequestPollLogger, tooManyRequestPollMock)('pause polling when encounter 429 too many request', async t => {
     const challengeEmailPageObject = await setup(t);
     await checkA11y(t);
 
     await t.wait(5000); // wait for first poll
 
     // Encounter 429
-    await t.expect(logger.count(
+    await t.expect(tooManyRequestPollLogger.count(
       record => record.response.statusCode === 429 &&
         record.request.url.match(/poll/)
     )).eql(1);
@@ -736,7 +849,7 @@ test
 
     // Widget will pause for 60 sec before sending request
     await t.wait(61000);
-    await t.expect(logger.count(
+    await t.expect(tooManyRequestPollLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/poll/)
     )).eql(1);
@@ -744,14 +857,14 @@ test
 
 // TODO: avoid 60 second timeout. OKTA-460622
 test
-  .requestHooks(logger, apiLimitExceededPollMock)('pause polling when encounter 429 api limit exceeded', async t => {
+  .requestHooks(apiLimitExceededPollLogger, apiLimitExceededPollMock)('pause polling when encounter 429 api limit exceeded', async t => {
     const challengeEmailPageObject = await setup(t);
     await checkA11y(t);
 
     await t.wait(5000); // wait for first poll
 
     // Encounter 429
-    await t.expect(logger.count(
+    await t.expect(apiLimitExceededPollLogger.count(
       record => record.response.statusCode === 429 &&
         record.request.url.match(/poll/)
     )).eql(1);
@@ -767,7 +880,7 @@ test
 
     // Pause for 60 sec before sending request
     await t.wait(60000);
-    await t.expect(logger.count(
+    await t.expect(apiLimitExceededPollLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/poll/)
     )).eql(1);
@@ -775,10 +888,7 @@ test
 
 test
   .requestHooks(sendEmailMock)('should show custom factor page link', async t => {
-    const challengeEmailPageObject = await setup(t);
-    await checkA11y(t);
-
-    await renderWidget({
+    const challengeEmailPageObject = await setup(t, {
       helpLinks: {
         factorPage: {
           text: 'custom factor page link',
@@ -786,6 +896,7 @@ test
         }
       }
     });
+    await checkA11y(t);
 
     await t.expect(challengeEmailPageObject.getFactorPageHelpLinksLabel()).eql('custom factor page link');
     await t.expect(challengeEmailPageObject.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');

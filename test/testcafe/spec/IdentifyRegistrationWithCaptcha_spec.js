@@ -29,10 +29,11 @@ const reCaptchaRequestLogger = RequestLogger(
 
 fixture('Registration With Captcha');
 
-test.requestHooks(reCaptchaRequestLogger, mockWithReCaptcha)('should be able to create account with reCaptcha enabled', async t => {
+async function setup(t) {
   // mock is configured to show registration page immediately
   const registrationPage = new RegistrationPageObject(t);
   await registrationPage.navigateToPage();
+  await t.expect(registrationPage.formExists()).eql(true);
   await checkConsoleMessages([
     'ready',
     'afterRender',
@@ -41,6 +42,12 @@ test.requestHooks(reCaptchaRequestLogger, mockWithReCaptcha)('should be able to 
       formName: 'enroll-profile',
     },
   ]);
+
+  return registrationPage;
+}
+
+test.requestHooks(reCaptchaRequestLogger, mockWithReCaptcha)('should be able to create account with reCaptcha enabled', async t => {
+  const registrationPage = await setup(t);
   
   // click register button
   await registrationPage.fillFirstNameField('abc');
@@ -60,17 +67,7 @@ test.requestHooks(reCaptchaRequestLogger, mockWithReCaptcha)('should be able to 
 
 // TODO: enable this test OKTA-504996
 test.requestHooks(mockWithHCaptcha)('should be able to create account with hCaptcha enabled', async t => {
-  // mock is configured to show registration page immediately
-  const registrationPage = new RegistrationPageObject(t);
-  await registrationPage.navigateToPage();
-  await checkConsoleMessages([
-    'ready',
-    'afterRender',
-    {
-      controller: 'registration',
-      formName: 'enroll-profile',
-    },
-  ]);
+  const registrationPage = await setup(t);
 
   // click register button
   await registrationPage.fillFirstNameField('abc');

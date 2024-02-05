@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { doesI18NKeyExist } from '../../../../../v2/ion/i18nTransformer';
+import { doesI18NKeyExist } from '../../../../../v2/ion/i18nUtils';
 import {
   ButtonElement,
   ButtonType,
@@ -65,6 +65,7 @@ export const transformEnduserConsent: IdxStepTransformer = ({ transaction, formB
       data[fieldName] = true;
       return {
         type: 'Field',
+        key: fieldName,
         translations: [
           {
             name: 'label',

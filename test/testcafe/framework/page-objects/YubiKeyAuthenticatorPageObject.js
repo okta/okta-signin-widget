@@ -11,7 +11,7 @@ export default class YubiKeyAuthenticatorPageObject extends BasePageObject {
   }
 
   clickEnrollButton() {
-    if(userVariables.v3) {
+    if(userVariables.gen3) {
       return this.form.clickButton('Set up');
     }
     return this.clickVerifyButton();

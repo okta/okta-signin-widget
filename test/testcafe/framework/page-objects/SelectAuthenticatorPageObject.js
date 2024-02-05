@@ -2,16 +2,17 @@ import { Selector, userVariables } from 'testcafe';
 import { within } from '@testing-library/testcafe';
 import BasePageObject from './BasePageObject';
 
-const factorListRowSelector = userVariables.v3 ? '.authenticator-row' : '.authenticator-list .authenticator-row';
+const factorListRowSelector = userVariables.gen3 ? '.authenticator-row' : '.authenticator-list .authenticator-row';
 const factorLabelSelector = `${factorListRowSelector} .authenticator-label`;
 const factorDescriptionSelector = `${factorListRowSelector} .authenticator-description .authenticator-description--text`;
+const factorNicknameSelector = `${factorListRowSelector} .authenticator-description .authenticator-enrollment-nickname`;
 const factorIconSelector = `${factorListRowSelector} .authenticator-icon-container .authenticator-icon`;
 const factorCustomLogoSelector = `${factorListRowSelector} .authenticator-icon-container`;
 const factorSelectButtonDiv = `${factorListRowSelector} .authenticator-button`;
 const factorSelectButtonSelector = `${factorListRowSelector} .authenticator-button .button`;
 const factorUsageTextSelector = `${factorListRowSelector} .authenticator-usage-text`;
 const skipOptionalEnrollmentSelector = '.authenticator-list .skip-all';
-const CUSTOM_SIGN_OUT_LINK_SELECTOR = userVariables.v3 ? '[data-se="cancel"]' : '.auth-footer .js-cancel';
+const CUSTOM_SIGN_OUT_LINK_SELECTOR = userVariables.gen3 ? '[data-se="cancel"]' : '.auth-footer .js-cancel';
 const CUSTOM_OTP_BUTTON_SELECTOR = '.authenticator-list .authenticator-row:nth-child(12) .authenticator-button a';
 const IDENTIFIER_FIELD = 'identifier';
 const CUSTOM_LOGO_SELECTOR = '.custom-logo';
@@ -22,7 +23,7 @@ export default class SelectFactorPageObject extends BasePageObject {
   }
 
   getFactorButtons() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.getAllButtons().withAttribute('data-se', 'authenticator-button');
     }
     return this.form.getElement(factorListRowSelector);
@@ -33,7 +34,7 @@ export default class SelectFactorPageObject extends BasePageObject {
   }
 
   getFactorLabelByIndex(index) {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       const factorButton = this.getFactorButtons().nth(index);
       return within(factorButton).findByRole('heading', { level: 3 }).textContent;
     }
@@ -48,9 +49,39 @@ export default class SelectFactorPageObject extends BasePageObject {
     return this.getFactorDescriptionElementByIndex(index).textContent;
   }
 
+  getFactorNicknameElementByIndex(index) {
+    return this.getFactorButtons().nth(index).find(factorNicknameSelector);
+  }
+
+  getFactorNicknameByIndex(index) {
+    return this.getFactorNicknameElementByIndex(index).textContent;
+  }
+
+  getFactorButtonAriaLabelByIndex(index) {
+    if (userVariables.gen3) {
+      const factorButton = this.getFactorButtons().nth(index);
+      return factorButton.getAttribute('aria-label');
+    }
+    return this.getFactorCTAButtonByIndex(index).getAttribute('aria-label');
+  }
+
+  getFactorAriaDescriptionByIndex(index) {
+    return this.getAriaDescription(this.getFactorButtons().nth(index));
+  }
+
   async factorDescriptionExistsByIndex(index) {
     const elCount = await this.getFactorDescriptionElementByIndex(index).count;
     return elCount === 1;
+  }
+
+  async factorNicknameExistsByIndex(index) {
+    const elCount = await this.getFactorNicknameElementByIndex(index).count;
+    return elCount === 1;
+  }
+
+  async factorNicknameDoesNotExistByIndex(index) {
+    const elCount = await this.getFactorNicknameElementByIndex(index).count;
+    return elCount === 0;
   }
 
   getFactorIconClassByIndex(index) {
@@ -58,7 +89,7 @@ export default class SelectFactorPageObject extends BasePageObject {
   }
 
   getFactorIconBgImageByIndex(index) {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return within(this.form.getElement(factorIconSelector).nth(index)).queryByRole('img', { hidden: true }).getAttribute('src');
     }
     return this.form.getElement(factorIconSelector).nth(index).getStyleProperty('background-image');
@@ -86,8 +117,9 @@ export default class SelectFactorPageObject extends BasePageObject {
   }
 
   async clickSetUpLaterButton() {
-    if (userVariables.v3) {
-      const button = this.form.getButton('Set up later');
+    if (userVariables.gen3) {
+      // 'Set up later' button was renamed to improve UX in OKTA-549620
+      const button = this.form.getButton('Continue');
       await this.t.click(button);
       return;
     }
@@ -99,8 +131,8 @@ export default class SelectFactorPageObject extends BasePageObject {
   }
 
   async clickCustomOTP() {
-    if (userVariables.v3) {
-      const button = this.form.getButton('Atko Custom OTP Authenticator');
+    if (userVariables.gen3) {
+      const button = this.form.getButton('Set up Atko Custom OTP Authenticator');
       await this.t.click(button);
     } else {
       await this.t.click(this.form.getElement(CUSTOM_OTP_BUTTON_SELECTOR));
@@ -115,7 +147,7 @@ export default class SelectFactorPageObject extends BasePageObject {
     return this.form.setTextBoxValue(IDENTIFIER_FIELD, value);
   }
 
-  getIndetifierError() {
+  getIdentifierError() {
     return this.form.getTextBoxErrorMessage(IDENTIFIER_FIELD);
   }
 
@@ -130,5 +162,21 @@ export default class SelectFactorPageObject extends BasePageObject {
   async factorUsageTextExistsByIndex(index) {
     const elCount = await this.getFactorUsageTextElementByIndex(index).count;
     return elCount === 1;
+  }
+
+  getNextButton() {
+    return this.form.getButton('Next');
+  }
+
+  async goToNextPage() {
+    return this.form.clickButton('Next');
+  }
+
+  waitForErrorBox() {
+    return this.form.waitForErrorBox();
+  }
+
+  getErrorBoxText() {
+    return this.form.getErrorBoxText();
   }
 }

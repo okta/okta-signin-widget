@@ -21,9 +21,14 @@ const mockInvalidPasscode = RequestMock()
 
 fixture('Challenge Authenticator Custom OTP');
 
-async function setup(t) {
+async function setup(t, widgetOptions) {
+  const options = widgetOptions ? { render: false } : {};
   const challengeCustomOTPPage = new ChallengeCustomOTPPageObject(t);
-  await challengeCustomOTPPage.navigateToPage();
+  await challengeCustomOTPPage.navigateToPage(options);
+  if (widgetOptions) {
+    await renderWidget(widgetOptions);
+  }
+  await t.expect(challengeCustomOTPPage.formExists()).eql(true);
   return challengeCustomOTPPage;
 }
 
@@ -44,7 +49,7 @@ test.requestHooks(mockChallengeAuthenticatorCustomOTP)('challenge custom OTP aut
 
   // verify otp
   await challengeCustomOTPPage.verifyFactor('credentials.passcode', '1234');
-  await challengeCustomOTPPage.clickNextButton();
+  await challengeCustomOTPPage.clickNextButton('Verify');
   const successPage = new SuccessPageObject(t);
   const pageUrl = await successPage.getPageUrl();
   await t.expect(pageUrl)
@@ -57,7 +62,8 @@ test.requestHooks(mockChallengeAuthenticatorCustomOTP)('OTP is required', async 
 
   // verify otp
   await challengeOnPremPage.verifyFactor('credentials.passcode', '');
-  await challengeOnPremPage.clickNextButton();
+  await t.pressKey('tab');
+  await challengeOnPremPage.clickNextButton('Verify');
 
   await challengeOnPremPage.waitForErrorBox();
   await t.expect(challengeOnPremPage.getPasscodeError()).eql('This field cannot be left blank');
@@ -67,17 +73,12 @@ test.requestHooks(mockInvalidPasscode)('challege custom otp authenticator with i
   const challengeOnPremPage = await setup(t);
   await checkA11y(t);
   await challengeOnPremPage.verifyFactor('credentials.passcode', 'test');
-  await challengeOnPremPage.clickNextButton();
-
-  await t.expect(challengeOnPremPage.getInvalidOTPError())
-    .eql('Invalid code. Try again.');
+  await challengeOnPremPage.clickNextButton('Verify');
+  await t.expect(challengeOnPremPage.getInvalidOTPError()).eql('Invalid code. Try again.');
 });
 
 test.requestHooks(mockChallengeAuthenticatorCustomOTP)('should show custom factor page link', async t => {
-  const challengeOnPremPage = await setup(t);
-  await checkA11y(t);
-
-  await renderWidget({
+  const challengeOnPremPage = await setup(t, {
     helpLinks: {
       factorPage: {
         text: 'custom factor page link',
@@ -85,6 +86,7 @@ test.requestHooks(mockChallengeAuthenticatorCustomOTP)('should show custom facto
       }
     }
   });
+  await checkA11y(t);
 
   await t.expect(challengeOnPremPage.getFactorPageHelpLinksLabel()).eql('custom factor page link');
   await t.expect(challengeOnPremPage.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');

@@ -33,9 +33,9 @@ export async function executeHooksAfter(hook) {
 export function mergeHook(hooks, formName, hookToMerge) {
   const existingHook = hooks[formName] = hooks[formName] || { before: [], after: [] };
   if (hookToMerge.before) {
-    existingHook.before = existingHook.before.concat(hookToMerge.before);
+    existingHook.before = (existingHook.before || []).concat(hookToMerge.before);
   }
   if (hookToMerge.after) {
-    existingHook.after = existingHook.after.concat(hookToMerge.after);
+    existingHook.after = (existingHook.after || []).concat(hookToMerge.after);
   }
 }

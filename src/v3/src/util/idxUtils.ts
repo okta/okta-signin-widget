@@ -14,16 +14,21 @@ import {
   APIError,
   FieldError,
   IdxMessage,
+  IdxMessages,
   IdxRemediation,
+  IdxStatus,
   IdxTransaction,
   Input,
   NextStep,
+  ProceedOptions,
 } from '@okta/okta-auth-js';
+import { IdxForm } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
 import { StateUpdater } from 'preact/hooks';
 
-import { getMessage } from '../../../v2/ion/i18nTransformer';
+import { getMessage } from '../../../v2/ion/i18nUtils';
 import {
   AUTHENTICATOR_KEY,
+  CONSENT_HEADER_STEPS,
   DEVICE_ENROLLMENT_TYPE,
   EMAIL_AUTHENTICATOR_TERMINAL_KEYS,
   IDX_STEP,
@@ -32,6 +37,7 @@ import {
   AppInfo,
   AuthCoinProps,
   IWidgetContext,
+  PhoneVerificationMethodType,
   RegistrationElementSchema,
   RequiredKeys,
   UserInfo,
@@ -56,7 +62,8 @@ export const getUserInfo = (transaction: IdxTransaction): UserInfo => {
 };
 
 export const getAppInfo = (transaction: IdxTransaction): AppInfo => {
-  const { context: { app } } = transaction;
+  // @ts-expect-error OKTA-598868 app is missing from rawIdxState type
+  const { rawIdxState: { app } } = transaction;
 
   if (!app) {
     return {};
@@ -121,7 +128,11 @@ export const buildAuthCoinProps = (
 
   const authenticatorKey = getAuthenticatorKey(transaction);
   if (authenticatorKey) {
-    return { authenticatorKey };
+    return {
+      authenticatorKey,
+      // @ts-ignore logoUri missing from interface
+      url: nextStep?.relatesTo?.value.logoUri,
+    };
   }
 
   return undefined;
@@ -347,3 +358,75 @@ export const isVerifyFlow = (transaction: IdxTransaction): boolean => {
   const { context: { currentAuthenticatorEnrollment } } = transaction;
   return typeof currentAuthenticatorEnrollment !== 'undefined';
 };
+
+// @ts-expect-error OKTA-627610 captcha missing from context type
+export const isCaptchaEnabled = (transaction: IdxTransaction): boolean => typeof transaction.context?.captcha !== 'undefined';
+
+export const isConsentStep = (transaction?: IdxTransaction): boolean => (
+  transaction?.nextStep?.name
+    ? CONSENT_HEADER_STEPS.includes(transaction.nextStep.name)
+    : false
+);
+
+export const getApplicationName = (transaction?: IdxTransaction): string | null => {
+  if (typeof transaction === 'undefined') {
+    return null;
+  }
+
+  const { label } = getAppInfo(transaction);
+  return label ?? null;
+};
+
+export const triggerEmailVerifyCallback = async (props: WidgetProps): Promise<IdxTransaction> => {
+  if (!isAuthClientSet(props)) {
+    throw new Error('authClient is required');
+  }
+
+  const { authClient, otp } = props;
+  const idxOptions: ProceedOptions = {
+    exchangeCodeForTokens: false,
+  };
+  const meta = await authClient.idx.getSavedTransactionMeta(); // meta can load in another tab using state if it matches
+
+  if (!meta || !meta.interactionHandle) {
+    // Flow can not continue in this tab. Create a synthetic server response and use it to display a message to the user
+    const messages: IdxMessages = {
+      type: 'array',
+      value: [
+        {
+          message: 'Enter the OTP in your original authentication location.',
+          i18n: {
+            key: 'idx.enter.otp.in.original.tab',
+          },
+          class: 'INFO',
+        },
+      ],
+    };
+
+    const syntheticTransaction: IdxTransaction = {
+      status: IdxStatus.TERMINAL,
+      messages: messages.value,
+      // @ts-expect-error
+      rawIdxState: {
+        messages,
+      },
+      // @ts-expect-error
+      context: {
+        messages,
+      },
+    };
+    return syntheticTransaction;
+  }
+
+  const transaction: IdxTransaction = await authClient.idx.proceed({
+    ...idxOptions,
+    otp,
+  });
+  return transaction;
+};
+
+export const isValidPhoneMethodType = (
+  methodType?: string | { form: IdxForm; } | Input[],
+): methodType is PhoneVerificationMethodType => (
+  typeof methodType !== 'undefined' && (methodType === 'sms' || methodType === 'voice')
+);

@@ -21,8 +21,9 @@ require('core-js/features/string/includes');
 require('core-js/features/string/starts-with');
 require('core-js/features/string/ends-with');
 require('core-js/stable/set');
+require('core-js/stable/weak-map');
 require('core-js/web/url');
 
-// crypto is eeded for PKCE
+// crypto is needed for PKCE
 require('fast-text-encoding'); // TextEncoder
 require('webcrypto-shim'); // crypto.subtle

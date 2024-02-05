@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Captcha container transformer tests should add captcha container when captcha object is in transaction context 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "Sign in",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "name": "identifier",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "name": "credentials.passcode",
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "options": Object {
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+      Object {
+        "options": Object {
+          "label": "Forgot Password",
+        },
+        "type": "Link",
+      },
+      Object {
+        "options": Object {
+          "captchaId": "test_id",
+          "siteKey": "test_site_key",
+          "type": "RECAPTCHA_V2",
+        },
+        "type": "CaptchaContainer",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

@@ -43,6 +43,14 @@ const resetPasswordSuccess = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(xhrSSPRSuccess, 200);
 
+const xhrAuthenticatorRequiredPasswordXSS = JSON.parse(JSON.stringify(xhrAuthenticatorRequiredPassword));
+const identifierXSS = '<img contenteditable onbeforeinput=alert(document.domain) id>test';
+xhrAuthenticatorRequiredPasswordXSS.user.value.identifier = identifierXSS;
+
+const mockChallengeAuthenticatorPasswordXSS = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrAuthenticatorRequiredPasswordXSS);
+
 const recoveryRequestLogger = RequestLogger(
   /idp\/idx\/recover/,
   {
@@ -51,12 +59,15 @@ const recoveryRequestLogger = RequestLogger(
   }
 );
 
-fixture('Challenge Authenticator Password')
-  .meta('v3', true);  
+fixture('Challenge Authenticator Password');
 
-async function setup(t) {
+async function setup(t, widgetOptions) {
+  const options = widgetOptions ? { render: false } : {};
   const challengePasswordPage = new ChallengePasswordPageObject(t);
-  await challengePasswordPage.navigateToPage();
+  await challengePasswordPage.navigateToPage(options);
+  if (widgetOptions) {
+    await renderWidget(widgetOptions);
+  }
   await t.expect(challengePasswordPage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: 'mfa-verify-password',
@@ -91,11 +102,10 @@ test.requestHooks(mockChallengeAuthenticatorPassword)('challenge password authen
 });
 
 test.requestHooks(mockChallengeAuthenticatorPassword)('challenge password authenticator with no sign-out link', async t => {
-  const challengePasswordPage = await setup(t);
-  await checkA11y(t);
-  await renderWidget({
+  const challengePasswordPage = await setup(t, {
     features: { hideSignOutLinkInMFA: true },
   });
+  await checkA11y(t);
 
   // assert switch authenticator link
   await challengePasswordPage.switchAuthenticatorExists();
@@ -114,25 +124,32 @@ test.requestHooks(mockInvalidPassword)('challege password authenticator with inv
 
   await t.expect(challengePasswordPage.getInvalidOTPError()).contains('Password is incorrect');
 
-  const { log } = await t.getBrowserConsoleMessages();
-  await t.expect(log.length).eql(6);
-  await t.expect(log[3]).eql('===== playground widget afterError event received =====');
-  await t.expect(JSON.parse(log[4])).eql({
-    controller: 'mfa-verify-password',
-    formName: 'challenge-authenticator',
-    authenticatorKey: 'okta_password',
-  });
-  await t.expect(JSON.parse(log[5])).eql({
-    'errorSummary': 'Password is incorrect',
-    'xhr': {
-      'responseJSON': {
-        'errorCauses': [],
-        'errorSummary': 'Password is incorrect',
-        'errorSummaryKeys': ['incorrectPassword'],
-        'errorIntent': 'LOGIN',
-      }
-    }
-  });
+  await checkConsoleMessages([
+    'ready',
+    'afterRender',
+    {
+      controller: 'mfa-verify-password',
+      formName: 'challenge-authenticator',
+      authenticatorKey: 'okta_password',
+    },
+    'afterError',
+    {
+      controller: 'mfa-verify-password',
+      formName: 'challenge-authenticator',
+      authenticatorKey: 'okta_password',
+    },
+    {
+      'errorSummary': 'Password is incorrect',
+      'xhr': {
+        'responseJSON': {
+          'errorCauses': [],
+          'errorSummary': 'Password is incorrect',
+          'errorSummaryKeys': ['incorrectPassword'],
+          'errorIntent': 'LOGIN',
+        }
+      },
+    },
+  ]);
   await t.expect(challengePasswordPage.getIdentifier()).eql('testUser@okta.com');
 });
 
@@ -149,7 +166,7 @@ test.requestHooks(sessionExpiresDuringPassword)('challege password authenticator
   await challengePasswordPage.clickGoBackLink();
   await challengePasswordPage.switchAuthenticatorExists();
   // OKTA-551654 - Doesn't work in v3 since user id isn't present on session expired screen
-  if (!userVariables.v3) {
+  if (!userVariables.gen3) {
     await t.expect(challengePasswordPage.getIdentifier()).eql('testUser@okta.com');
   }
 });
@@ -200,9 +217,7 @@ test.requestHooks(recoveryRequestLogger, mockCannotForgotPassword)('can not reco
 });
 
 test.requestHooks(mockChallengeAuthenticatorPassword)('should add sub labels for Password if i18n keys are defined', async t => {
-  const challengePasswordPage = await setup(t);
-  await checkA11y(t);
-  await renderWidget({
+  const challengePasswordPage = await setup(t, {
     i18n: {
       en: {
         'primaryauth.password.tooltip': 'Your password goes here',
@@ -215,10 +230,7 @@ test.requestHooks(mockChallengeAuthenticatorPassword)('should add sub labels for
 });
 
 test.requestHooks(mockChallengeAuthenticatorPassword)('should show custom factor page link', async t => {
-  const challengePasswordPage = await setup(t);
-  await checkA11y(t);
-
-  await renderWidget({
+  const challengePasswordPage = await setup(t, {
     helpLinks: {
       factorPage: { 
         text: 'custom factor page link',
@@ -226,7 +238,16 @@ test.requestHooks(mockChallengeAuthenticatorPassword)('should show custom factor
       }
     }
   });
+  await checkA11y(t);
 
   await t.expect(challengePasswordPage.getFactorPageHelpLinksLabel()).eql('custom factor page link');
   await t.expect(challengePasswordPage.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');
+});
+
+test.requestHooks(mockChallengeAuthenticatorPasswordXSS)('should properly escape the identifier and avoid XSS', async t => {
+  const challengePasswordPage = await setup(t);
+  await checkA11y(t);
+  await t.expect(challengePasswordPage.getIdentifier()).eql(identifierXSS);
+  await t.expect(challengePasswordPage.identifierHasContenteditable()).eql(false);
+  await t.expect(challengePasswordPage.getIdentifierTitle()).eql(identifierXSS);
 });

@@ -1,0 +1,115 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`with emotion environment generates styles for scenario with nested pseudoclass 1`] = `
+[dir="rtl"] .emotion-0 {
+  color: red;
+  padding-left: 10px;
+  padding-bottom: 10px;
+}
+
+#container:not([dir="rtl"]) .emotion-0 {
+  color: red;
+  padding-right: 10px;
+  padding-bottom: 10px;
+}
+
+[dir="rtl"] .emotion-0::before,
+[dir="rtl"] .emotion-0::after {
+  content: "";
+  color: black;
+}
+
+#container:not([dir="rtl"]) .emotion-0::before,
+#container:not([dir="rtl"]) .emotion-0::after {
+  content: "";
+  color: black;
+}
+
+<body>
+  
+      
+  <div
+    id="container"
+  >
+    
+    
+    <style
+      data-emotion="test"
+      data-s=""
+    >
+      
+      [dir="rtl"] .emotion-0{color:red;padding-left:10px;padding-bottom:10px;}
+    </style>
+    <style
+      data-emotion="test"
+      data-s=""
+    >
+      
+      #container:not([dir="rtl"]) .emotion-0{color:red;padding-right:10px;padding-bottom:10px;}
+    </style>
+    <style
+      data-emotion="test"
+      data-s=""
+    >
+      
+      [dir="rtl"]  .emotion-0::before,[dir="rtl"]  .emotion-0::after{content:"";color:black;}
+    </style>
+    <style
+      data-emotion="test"
+      data-s=""
+    >
+      
+      #container:not([dir="rtl"])  .emotion-0::before,#container:not([dir="rtl"])  .emotion-0::after{content:"";color:black;}
+    </style>
+  </div>
+  <div>
+    <div
+      class="emotion-0"
+    />
+  </div>
+</body>
+`;
+
+exports[`with emotion environment generates styles for simple scenario 1`] = `
+[dir="rtl"] .emotion-0 {
+  color: red;
+  padding-left: 10px;
+  padding-bottom: 10px;
+}
+
+#container:not([dir="rtl"]) .emotion-0 {
+  color: red;
+  padding-right: 10px;
+  padding-bottom: 10px;
+}
+
+<body>
+  
+      
+  <div
+    id="container"
+  >
+    
+    
+    <style
+      data-emotion="test"
+      data-s=""
+    >
+      
+      [dir="rtl"] .emotion-0{color:red;padding-left:10px;padding-bottom:10px;}
+    </style>
+    <style
+      data-emotion="test"
+      data-s=""
+    >
+      
+      #container:not([dir="rtl"]) .emotion-0{color:red;padding-right:10px;padding-bottom:10px;}
+    </style>
+  </div>
+  <div>
+    <div
+      class="emotion-0"
+    />
+  </div>
+</body>
+`;

@@ -73,7 +73,6 @@ const ReminderPrompt: UISchemaElementComponent<{
 
     return () => {
       window.clearInterval(timerRef.current);
-      SessionStorage.removeResendTimestamp();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import enrollProfileUpdatAllOptionalMockResponse from '@okta/mocks/data/idp/idx/enroll-profile-update-all-optional-params.json';
 import { waitFor } from '@testing-library/preact';
+import enrollProfileUpdatAllOptionalMockResponse from '../../../../playground/mocks/data/idp/idx/enroll-profile-update-all-optional-params.json';
 import { createAuthJsPayloadArgs, setup } from './util';
 
 describe('enroll-profile-update-optional-fields', () => {

@@ -1,4 +1,4 @@
-import { RequestMock } from 'testcafe';
+import { RequestMock, userVariables } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 import terminalReturnEmail from '../../../playground/mocks/data/idp/idx/terminal-return-email';
 import terminalTransferEmail from '../../../playground/mocks/data/idp/idx/terminal-transfered-email';
@@ -15,8 +15,11 @@ import accessDeniedOnOtherDeivce from '../../../playground/mocks/data/idp/idx/te
 import terminalUnlockAccountFailedPermissions from '../../../playground/mocks/data/idp/idx/error-unlock-account-failed-permissions';
 import errorTerminalMultipleErrors from '../../../playground/mocks/data/idp/idx/error-terminal-multiple-errors';
 import customAccessDeniedErrorMessage from '../../../playground/mocks/data/idp/idx/error-identify-access-denied-custom-message.json';
-
-import { userVariables } from 'testcafe';
+import endUserRemediationOneOption from '../../../playground/mocks/data/idp/idx/end-user-remediation-one-option.json';
+import endUserRemediationMultipleOptions from '../../../playground/mocks/data/idp/idx/end-user-remediation-multiple-options.json';
+import endUserRemediationMultipleOptionsWithCustomHelpUrl from '../../../playground/mocks/data/idp/idx/end-user-remediation-multiple-options-with-custom-help-url.json';
+import endUserRemediationNoOptions from '../../../playground/mocks/data/idp/idx/end-user-remediation-no-options.json';
+import { within } from '@testing-library/testcafe';
 
 const terminalTransferredEmailMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -70,10 +73,26 @@ const terminalCustomAccessDeniedErrorMessageMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(customAccessDeniedErrorMessage);
 
-fixture('Terminal view').meta('v3', true);
+const endUserRemediationOneOptionMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(endUserRemediationOneOption);
+
+const endUserRemediationMultipleOptionsMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(endUserRemediationMultipleOptions);
+
+const endUserRemediationMultipleOptionsWithCustomHelpUrlMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(endUserRemediationMultipleOptionsWithCustomHelpUrl);  
+
+const endUserRemediationNoOptionsMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(endUserRemediationNoOptions);  
+
+fixture('Terminal view');
 
 async function setup(t) {
-  const terminalPageObject = userVariables.v3 ? new TerminalPageObjectV3(t) : new TerminalPageObject(t);
+  const terminalPageObject = userVariables.gen3 ? new TerminalPageObjectV3(t) : new TerminalPageObject(t);
   await terminalPageObject.navigateToPage();
   // ensure form has loaded
   await t.expect(terminalPageObject.formExists()).eql(true);
@@ -156,7 +175,7 @@ async function setup(t) {
     .requestHooks(mock)(testTitle, async t => {
       const terminalViewPage = await setup(t);
       await checkA11y(t);
-      if(!userVariables.v3) {
+      if(!userVariables.gen3) {
         await t.expect(await terminalViewPage.goBackLinkExists()).notOk();
       }
       await t.expect(await terminalViewPage.signoutLinkExists()).ok();
@@ -172,10 +191,87 @@ test.requestHooks(terminalMultipleErrorsMock)('should render each error message 
   await t.expect(await terminalViewPage.form.getErrorBoxTextByIndex(2)).eql('Your session has expired. Please try to sign in again.');
 });
 
-// OKTA-585921 - custom error message not supported in gen3 widget
-test.meta('v3', false).requestHooks(terminalCustomAccessDeniedErrorMessageMock)('should render custom access denied error message', async t => {
+test.requestHooks(terminalCustomAccessDeniedErrorMessageMock)('should render custom access denied error message', async t => {
+  const terminalViewPage = await setup(t);
+  await checkA11y(t);
+  const errorBox = userVariables.gen3 ? terminalViewPage.form.getErrorBox() : terminalViewPage.form.getErrorBoxCallout();
+  await t.expect(errorBox.innerText).contains('You do not have permission to perform the requested action.');
+
+  const errorLink1 = within(errorBox).getByRole('link', {name: 'Help link 1'});
+  const errorLink2 = within(errorBox).getByRole('link', {name: 'Help link 2'});
+
+  await t.expect(errorLink1.exists).eql(true);
+  await t.expect(errorLink1.getAttribute('href')).eql('https://www.okta.com/');
+
+  await t.expect(errorLink2.exists).eql(true);
+  await t.expect(errorLink2.getAttribute('href')).eql('https://www.okta.com/help?page=1');
+});
+
+test.requestHooks(endUserRemediationOneOptionMock)('should render end user remediation error message when there is one option', async t => {
   const terminalViewPage = await setup(t);
   await checkA11y(t);
 
-  await t.expect(terminalViewPage.form.getErrorBoxHtml()).eql('<span data-se="icon" class="icon error-16"></span><div class="custom-access-denied-error-message"><p>You do not have permission to perform the requested action.</p><ul class="custom-links"><li><a href="https://www.okta.com/" target="_blank" rel="noopener noreferrer">Help link 1</a></li><li><a href="https://www.okta.com/help?page=1" target="_blank" rel="noopener noreferrer">Help link 2</a></li></ul></div>');
+  await t.expect(terminalViewPage.form.getErrorBoxCallout().withText('Your device doesn\'t meet the security requirements').exists).eql(true);
+  await t.expect(terminalViewPage.form.getErrorBoxCallout().withText('To sign in, make the following updates. Then, access the app again.').exists).eql(true);
+
+  await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://okta.com/android-upgrade-os').withExactText('Update to Android 100').exists).eql(true);
+  await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://okta.com/android-biometric-lock').withExactText('Enable lock screen and biometrics').exists).eql(true);
+
+  await t.expect(terminalViewPage.form.getErrorBoxCallout().withText('follow the instructions on the help page').find('a[href="https://okta.com/help"]').exists).eql(true);
+  await t.expect(terminalViewPage.form.getAnchorsWithBlankTargetsWithoutRelevantAttributes().exists).eql(false);
+});
+
+test.requestHooks(endUserRemediationMultipleOptionsMock)('should render end user remediation error message when there are multiple options', async t => {
+  const terminalViewPage = await setup(t);
+  await checkA11y(t);
+
+  await t.expect(terminalViewPage.form.getErrorBoxCallout().withText('Your device doesn\'t meet the security requirements').exists).eql(true);
+  await t.expect(terminalViewPage.form.getErrorBoxCallout().withText('To sign in, pick an option and make the updates. Then, access the app again.').exists).eql(true);
+
+  await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://okta.com/android-upgrade-os').withExactText('Update to Android 100').exists).eql(true);
+  await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://okta.com/android-biometric-lock').withExactText('Enable lock screen and biometrics').exists).eql(true);
+
+  await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://okta.com/android-lock-screen').withExactText('Enable lock screen').exists).eql(true);
+  await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://okta.com/android-disk-encrypted').withExactText('Encrypt your device').exists).eql(true);
+
+  await t.expect(terminalViewPage.form.getErrorBoxCallout().withText('follow the instructions on the help page').find('a[href="https://okta.com/help"]').exists).eql(true);
+  await t.expect(terminalViewPage.form.getAnchorsWithBlankTargetsWithoutRelevantAttributes().exists).eql(false);
+});
+
+test.requestHooks(endUserRemediationMultipleOptionsWithCustomHelpUrlMock)('should render end user remediation error message when there are multiple options and a custom URL is set for the organization help page', async t => {
+  const terminalViewPage = await setup(t);
+  await checkA11y(t);
+
+  // The body of the API response is not normally returned for multiple different
+  // platforms. The test exists to ensure all of the expected keys can be
+  // localized
+  await t.expect(terminalViewPage.form.getErrorBoxCallout().withText('Your device doesn\'t meet the security requirements').exists).eql(true);
+  await t.expect(terminalViewPage.form.getErrorBoxCallout().withText('To sign in, pick an option and make the updates. Then, access the app again.').exists).eql(true);
+
+  await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://okta.com/ios-upgrade-os').withExactText('Update to iOS 12.0.1').exists).eql(true);
+  await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://okta.com/ios-lock-screen').withExactText('Set a passcode for the lock screen').exists).eql(true);
+  await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://okta.com/ios-biometric-lock').withExactText('Set a passcode for the lock screen and enable Touch ID or Face ID').exists).eql(true);
+
+  await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://okta.com/macos-upgrade-os').withExactText('Update to macOS 13.2').exists).eql(true);
+  await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://okta.com/macos-lock-screen').withExactText('Set a passcode for the lock screen').exists).eql(true);
+  await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://okta.com/macos-disk-encrypted').withExactText('Turn on FileVault').exists).eql(true);
+
+  await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://okta.com/windows-upgrade-os').withExactText('Update to Windows 10.0.25530.123').exists).eql(true);
+  await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://okta.com/windows-disk-encrypted').withExactText('Encrypt all internal disks with BitLocker').exists).eql(true);
+
+  await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://okta.com/windows-biometric-lock').withExactText('Enable Windows Hello for the lock screen').exists).eql(true);
+
+  await t.expect(terminalViewPage.form.getErrorBoxCallout().withText('follow the instructions on your organization\'s help page').find('a[href="https://okta1.com/custom-help-me"]').exists).eql(true);
+  await t.expect(terminalViewPage.form.getAnchorsWithBlankTargetsWithoutRelevantAttributes().exists).eql(false);
+});
+
+test.requestHooks(endUserRemediationNoOptionsMock)('should render end user remediation error message when there are no options', async t => {
+  const terminalViewPage = await setup(t);
+  await checkA11y(t);
+
+  await t.expect(terminalViewPage.form.getErrorBoxCallout().withText('Your device doesn\'t meet the security requirements').exists).eql(true);
+  await t.expect(terminalViewPage.form.getErrorBoxCallout().withText('To sign in, make the following updates. Then, access the app again.').exists).eql(false);
+
+  await t.expect(terminalViewPage.form.getErrorBoxCallout().withText('follow the instructions on your organization\'s help page').find('a[href="https://okta1.com/custom-help-me"]').exists).eql(true);
+  await t.expect(terminalViewPage.form.getAnchorsWithBlankTargetsWithoutRelevantAttributes().exists).eql(false);
 });

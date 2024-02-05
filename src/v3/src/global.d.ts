@@ -15,3 +15,4 @@ import JSX = preact.JSX;
 
 declare const OKTA_SIW_COMMIT_HASH: string;
 declare const OKTA_SIW_VERSION: string;
+declare const __PREFRESH__: Record<string, unknown> | undefined;

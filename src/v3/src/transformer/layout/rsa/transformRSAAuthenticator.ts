@@ -24,6 +24,7 @@ export const transformRSAAuthenticator: IdxStepTransformer = ({ transaction, for
   const userNameField = getUIElementWithName('credentials.clientData', uischema.elements);
   if (userNameField) {
     data['credentials.clientData'] = (userNameField as FieldElement).options.inputMeta.value as string;
+    userNameField.dir = 'ltr';
   }
 
   if (containsMessageKey(ON_PREM_TOKEN_CHANGE_ERROR_KEY, messages)) {

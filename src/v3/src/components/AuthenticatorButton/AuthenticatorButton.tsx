@@ -27,26 +27,24 @@ import {
   ClickHandler,
   UISchemaElementComponent,
 } from '../../types';
-import { getTranslation, getValidationMessages } from '../../util';
+import { getTranslation, getValidationMessages, punctuate } from '../../util';
 import AuthCoin from '../AuthCoin/AuthCoin';
-import style from './styles.module.css';
 
 const AuthenticatorButton: UISchemaElementComponent<{
   uischema: AuthenticatorButtonElement
 }> = ({ uischema }) => {
-  const ctaButtonClasses = classNames('cta-button', 'authenticator-button', style.actionName);
-  const buttonClasses = classNames('authenticator-row', style.authButton);
-  const buttonDescrClasses = classNames('authenticator-description', style.infoSection);
   const {
     translations = [],
     focus,
     ariaDescribedBy,
     noTranslate,
+    dir,
     options: {
       type,
       key: authenticationKey,
       actionParams,
       description,
+      nickname,
       usageDescription,
       logoUri,
       ctaLabel,
@@ -56,6 +54,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
       step,
       includeData,
       includeImmutableData,
+      ariaLabel,
     },
   } = uischema;
   const label = getTranslation(translations, 'label');
@@ -68,6 +67,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
   const describedByIds = [
     ariaDescribedBy,
     description && `${iconName}-description`,
+    nickname && `${iconName}-nickname`,
     usageDescription && `${iconName}-usageDescription`,
     `${iconName}-ctaLabel`,
   ].filter(Boolean).join(' ');
@@ -97,14 +97,19 @@ const AuthenticatorButton: UISchemaElementComponent<{
       component="button"
       type={type}
       sx={(theme) => ({
-        '--ColorHover': theme.palette.primary.dark,
-        '--ColorPrimaryBase': theme.palette.primary.main,
-        '--FocusOutlineColor': theme.palette.primary.main,
-        '--FocusOutlineOffset': Tokens.FocusOutlineOffsetBase,
-        '--FocusOutlineStyle': Tokens.FocusOutlineStyle,
-        '--FocusOutlineWidth': Tokens.FocusOutlineWidthBase,
+        '&:focus': {
+          outlineColor: theme.palette.primary.main,
+          outlineOffset: Tokens.FocusOutlineOffsetBase,
+          outlineStyle: Tokens.FocusOutlineStyle,
+          outlineWidth: Tokens.FocusOutlineWidthBase,
+        },
+        '&:hover': {
+          color: theme.palette.primary.dark,
+          cursor: 'pointer',
+          borderColor: theme.palette.primary.main,
+        },
         width: 1,
-        backgroundColor: 'inherit',
+        backgroundColor: theme.palette.background.paper,
         paddingBlock: theme.spacing(2),
         paddingInline: theme.spacing(2),
       })}
@@ -113,14 +118,14 @@ const AuthenticatorButton: UISchemaElementComponent<{
       borderColor="grey.200"
       borderRadius={Tokens.BorderRadiusBase}
       boxShadow={Tokens.ShadowScale0}
-      className={buttonClasses}
+      className="authenticator-row"
       data-se="authenticator-button"
       tabIndex={0}
       onClick={onClick}
       onKeyPress={onClick}
       ref={focusRef}
       disabled={loading}
-      aria-labelledby={`${iconName}-label`}
+      aria-label={ariaLabel}
       aria-describedby={describedByIds}
     >
       { authenticationKey && (
@@ -137,11 +142,27 @@ const AuthenticatorButton: UISchemaElementComponent<{
           />
         </Box>
       )}
-      <Box className={buttonDescrClasses}>
+      <Box
+        className="authenticator-description"
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          flexGrow: 1,
+          paddingBlock: 0,
+          paddingInline: '12px 0',
+          // needed to solve ie11 'flexbug' where nested flex element overflows container
+          minInlineSize: '0%',
+        }}
+      >
         <Typography
           variant="h3"
           id={`${iconName}-label`}
-          sx={{ fontSize: '1rem', margin: 0, textAlign: 'start' }}
+          sx={{
+            fontSize: '1rem',
+            margin: 0,
+            marginBlockEnd: '6px',
+            textAlign: 'start',
+          }}
           data-se="authenticator-button-label"
           className="authenticator-label no-translate"
         >
@@ -151,11 +172,39 @@ const AuthenticatorButton: UISchemaElementComponent<{
           <Typography
             paragraph
             id={`${iconName}-description`}
-            sx={{ fontSize: '.875rem', margin: 0, textAlign: 'start' }}
+            sx={{
+              fontSize: '.875rem',
+              margin: 0,
+              marginBlockEnd: '6px',
+              textAlign: 'start',
+            }}
             data-se="authenticator-button-description"
             className={classNames('authenticator-description--text', { 'no-translate': noTranslate })}
+            aria-label={punctuate(description)}
+            dir={dir}
           >
             {description}
+          </Typography>
+        )}
+        {nickname && (
+          <Typography
+            paragraph
+            id={`${iconName}-nickname`}
+            sx={{
+              fontSize: '.875rem',
+              margin: 0,
+              marginBlockEnd: '6px',
+              textAlign: 'start',
+              overflow: 'hidden',
+              whiteSpace: 'nowrap',
+              textOverflow: 'ellipsis',
+            }}
+            title={nickname}
+            data-se="authenticator-button-nickname"
+            className={classNames('authenticator-enrollment-nickname', 'no-translate')}
+            aria-label={punctuate(nickname)}
+          >
+            {nickname}
           </Typography>
         )}
         {usageDescription && (
@@ -163,16 +212,34 @@ const AuthenticatorButton: UISchemaElementComponent<{
             variant="caption"
             id={`${iconName}-usageDescription`}
             textAlign="start"
-            sx={{ fontSize: '.875rem', margin: 0, color: 'text.secondary' }}
+            sx={{
+              fontSize: '.875rem',
+              margin: 0,
+              marginBlockEnd: '6px',
+              color: 'text.secondary',
+            }}
             data-se="authenticator-button-usage-text"
             className="authenticator-usage-text"
+            aria-label={punctuate(usageDescription)}
           >
             {usageDescription}
           </Typography>
         )}
         <Box
-          className={ctaButtonClasses}
+          className="cta-button authenticator-button"
           data-se={dataSe}
+          sx={(theme) => ({
+            display: 'flex',
+            alignItems: 'center',
+            marginBlock: '5px',
+            marginInline: 0,
+            fontWeight: 500,
+            color: theme.palette.primary.main,
+            '& svg': {
+              marginBlock: 0,
+              marginInline: '5px 0',
+            },
+          })}
         >
           <Box
             component="span"

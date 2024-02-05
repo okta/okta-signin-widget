@@ -13,7 +13,6 @@
 import {
   Alert,
   Box,
-  Typography,
 } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 
@@ -24,6 +23,7 @@ import {
   MessageTypeVariant,
   UISchemaElementComponent,
 } from '../../types';
+import { getLinkReplacerFn } from '../../util';
 import WidgetMessageContainer from '../WidgetMessageContainer';
 
 const InfoBox: UISchemaElementComponent<{
@@ -53,15 +53,28 @@ const InfoBox: UISchemaElementComponent<{
         data-se={dataSe}
         className={`infobox-${messageClass.toLowerCase()}`}
       >
-        {message.title && (
-          <Typography
-            component="h2"
-            variant="h6"
-          >
-            {message.title}
-          </Typography>
-        )}
-        <WidgetMessageContainer message={message} />
+        {
+          Array.isArray(message)
+            ? message.map((msg) => (
+              <Box
+                marginBlockEnd={2}
+                key={msg.message}
+              >
+                <WidgetMessageContainer
+                  key={msg.message}
+                  message={msg}
+                  parserOptions={{ replace: getLinkReplacerFn({}, 'monochrome') }}
+                  linkVariant="monochrome"
+                />
+              </Box>
+            ))
+            : (
+              <WidgetMessageContainer
+                message={message}
+                linkVariant="monochrome"
+              />
+            )
+        }
       </Alert>
     </Box>
   );

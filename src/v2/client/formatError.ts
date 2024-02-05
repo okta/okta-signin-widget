@@ -33,6 +33,11 @@ export function isInvalidRecoveryTokenError(error): error is StandardApiError {
   return (error?.error === 'invalid_request' && error.error_description === 'The recovery token is invalid');
 }
 
+export function isInvalidActivationTokenError(error): error is StandardApiError {
+  // special case: error from interact when passing an (invalid) activation token
+  return (error?.error === 'invalid_request' && error.error_description === 'The activation token is invalid');
+}
+
 export function formatInvalidRecoveryTokenError(error: StandardApiError) {
   // This error comes from `oauth2/interact` so is not an IDX error.
   // simulate an IDX-JS error response
@@ -45,6 +50,28 @@ export function formatInvalidRecoveryTokenError(error: StandardApiError) {
         message: error.error_description,
         i18n: {
           key: 'oie.invalid.recovery.token'
+        },
+        class: 'ERROR'
+      }
+    ],
+  };
+  details.rawIdxState.messages = messages;
+  details.context.messages = messages;
+  return idxError;
+}
+
+export function formatInvalidActivationTokenError(error: StandardApiError) {
+  // This error comes from `oauth2/interact` so is not an IDX error.
+  // simulate an IDX-JS error response
+  const idxError = formatIDXError(error);
+  const { details } = idxError;
+  const messages: IdxMessages = {
+    type: 'array',
+    value: [
+      {
+        message: error.error_description,
+        i18n: {
+          key: 'idx.missing.activation.token'
         },
         class: 'ERROR'
       }
@@ -146,6 +173,11 @@ export function formatError(error: string | Error | LegacyIdxError | StandardApi
   // invalid reccovery token
   if (isInvalidRecoveryTokenError(error)) {
     return formatInvalidRecoveryTokenError(error);
+  }
+
+  // invalid activation token
+  if (isInvalidActivationTokenError(error)) {
+    return formatInvalidActivationTokenError(error);
   }
 
   // OIE is not enabled

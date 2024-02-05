@@ -12,24 +12,20 @@
 
 import { Link } from '@mui/material';
 import * as Tokens from '@okta/odyssey-design-tokens';
-import {
-  Box, SettingsIcon, Typography,
-} from '@okta/odyssey-react-mui';
+import { Box, Typography } from '@okta/odyssey-react-mui';
 import { escape } from 'lodash';
 import { Fragment, FunctionComponent, h } from 'preact';
 
-import { CONSENT_HEADER_STEPS, IDX_STEP } from '../../constants';
+import { IDX_STEP } from '../../constants';
 import { useWidgetContext } from '../../contexts';
 import { useHtmlContentParser } from '../../hooks';
 import { getAppInfo, getHeadingReplacerFn, loc } from '../../util';
 
 const ConsentHeader: FunctionComponent = () => {
   const { idxTransaction } = useWidgetContext();
-  const {
-    clientUri = undefined,
-    label = undefined,
-    logo = undefined,
-  } = idxTransaction ? getAppInfo(idxTransaction) : {};
+  const { clientUri, label, logo } = idxTransaction
+    ? getAppInfo(idxTransaction)
+    : { clientUri: undefined, label: undefined, logo: undefined };
   const appName = escape(label);
   const granularConsentTitle = loc(
     'oie.consent.scopes.granular.title',
@@ -42,36 +38,21 @@ const ConsentHeader: FunctionComponent = () => {
   );
   const parsedGranularConsentTitle = useHtmlContentParser(
     granularConsentTitle,
-    { replace: getHeadingReplacerFn({}, 'h2', 2, 3) },
+    { replace: getHeadingReplacerFn({}, 'h2', 2, 6) },
   );
 
-  if (!idxTransaction?.nextStep || !CONSENT_HEADER_STEPS.includes(idxTransaction.nextStep.name)) {
-    return null;
-  }
-  const stepName = idxTransaction.nextStep.name;
-
   const getAppLogo = (altText: string, logoHref?: string) => (
-    typeof logoHref !== 'undefined'
-      ? (
-        <Box
-          component="img"
-          src={logoHref}
-          width="32px"
-          height="32px"
-          alt={altText}
-          className="client-logo custom-logo"
-          aria-hidden="true"
-        />
-      )
-      : (
-        // TODO: OKTA-609775 This is a temporary icon used until UX provides one
-        <SettingsIcon
-          titleAccess={altText}
-          classes="client-logo default-logo"
-          sx={{ width: '32px !important', height: '32px !important' }}
-          aria-hidden
-        />
-      )
+    typeof logoHref !== 'undefined' && (
+      <Box
+        component="img"
+        src={logoHref}
+        width="32px"
+        height="32px"
+        alt={altText}
+        className="client-logo custom-logo"
+        aria-hidden="true"
+      />
+    )
   );
 
   const getAppIcon = () => {
@@ -85,12 +66,13 @@ const ConsentHeader: FunctionComponent = () => {
         display="flex"
         justifyContent="center"
       >
-        {typeof href !== 'undefined'
+        {typeof href !== 'undefined' && typeof logoHref !== 'undefined'
           ? (
             <Box component="div">
               <Link
                 href={href}
                 target="_blank"
+                rel="noopener noreferrer"
                 aria-label={altText}
               >
                 {getAppLogo(altText, logoHref)}
@@ -103,9 +85,10 @@ const ConsentHeader: FunctionComponent = () => {
   };
 
   const getHeaderContent = () => {
+    const stepName = idxTransaction!.nextStep!.name;
     if ([IDX_STEP.CONSENT_ADMIN, IDX_STEP.CONSENT_ENDUSER].includes(stepName)) {
       // @ts-expect-error OKTA-598777 authentication missing from IdxContext interface
-      const { context: { authentication: { value: { issuer } } = {} } } = idxTransaction;
+      const { rawIdxState: { authentication: { value: { issuer } } = {} } } = idxTransaction;
       const hasIssuer = stepName === IDX_STEP.CONSENT_ADMIN && typeof issuer?.uri !== 'undefined';
       const titleText = stepName === IDX_STEP.CONSENT_ADMIN
         ? loc('oie.consent.scopes.admin.title', 'login')
@@ -118,12 +101,11 @@ const ConsentHeader: FunctionComponent = () => {
             textAlign="center"
           >
             <Typography
-              component="h1"
-              variant="h3"
+              component="h2"
+              variant="h6"
               className="no-translate"
             >
               {appName}
-              {' '}
             </Typography>
             <Typography paragraph>{titleText}</Typography>
             {hasIssuer && (

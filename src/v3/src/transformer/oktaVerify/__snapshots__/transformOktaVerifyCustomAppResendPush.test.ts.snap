@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Transform Custom App Resend Push Notification Tests should build UI elements for Custom App resend remediation 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.verify.custom_app.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "label": "oie.custom_app.push.resend",
+        "options": Object {
+          "step": "",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Transform Okta Verify Resend Push Notification Tests should build UI elements for OV resend remediation 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.okta_verify.push.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "label": "oie.okta_verify.push.resend",
+        "options": Object {
+          "step": "",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

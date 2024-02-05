@@ -10,10 +10,12 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import './style.module.css';
+// NOTE: Do not remove this import of style.css!
+// We need to emit a CSS file, even if it's empty, to prevent a 404 on the Okta-hosted login page.
+import './style.css';
 
 import { ScopedCssBaseline } from '@mui/material';
-import { MuiThemeProvider, OdysseyCacheProvider } from '@okta/odyssey-react-mui';
+import { MuiThemeProvider } from '@okta/odyssey-react-mui';
 import {
   AuthApiError,
   AuthenticatorKey,
@@ -30,11 +32,17 @@ import {
   useRef,
   useState,
 } from 'preact/hooks';
+import { mergeThemes } from 'src/util/mergeThemes';
 
 import Bundles from '../../../../util/Bundles';
 import { IDX_STEP } from '../../constants';
 import { WidgetContextProvider } from '../../contexts';
-import { useInteractionCodeFlow, usePolling, useStateHandle } from '../../hooks';
+import {
+  useInteractionCodeFlow,
+  useOnce,
+  usePolling,
+  useStateHandle,
+} from '../../hooks';
 import { transformIdxTransaction } from '../../transformer';
 import {
   transformTerminalTransaction,
@@ -51,23 +59,29 @@ import {
 import {
   areTransactionsEqual,
   buildAuthCoinProps,
+  canBootstrapWidget,
+  extractPageTitle,
   getLanguageCode,
   getLanguageDirection,
   isAndroidOrIOS,
   isAuthClientSet,
+  isConfigRegisterFlow,
+  isConsentStep,
   isOauth2Enabled,
   loadLanguage,
   SessionStorage,
+  triggerEmailVerifyCallback,
 } from '../../util';
 import { getEventContext } from '../../util/getEventContext';
-import { mapMuiThemeFromBrand } from '../../util/theme';
+import { createTheme } from '../../util/theme';
 import AuthContainer from '../AuthContainer/AuthContainer';
 import AuthContent from '../AuthContent/AuthContent';
 import AuthHeader from '../AuthHeader/AuthHeader';
 import ConsentHeader from '../ConsentHeader';
+import CustomPluginsOdysseyCacheProvider from '../CustomPluginsOdysseyCacheProvider';
 import Form from '../Form';
-import IdentifierContainer from '../IdentifierContainer';
 import Spinner from '../Spinner';
+import GlobalStyles from './GlobalStyles';
 
 export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   if (!isAuthClientSet(widgetProps)) {
@@ -79,15 +93,19 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     brandColors,
     brandName,
     cspNonce,
-    events,
-    muiThemeOverrides,
+    theme: customTheme,
     logo,
     logoText,
     globalSuccessFn,
     globalErrorFn,
     proxyIdxResponse,
+    eventEmitter,
+    otp,
+    flow,
+    widgetHooks,
   } = widgetProps;
 
+  const [hide, setHide] = useState<boolean>(false);
   const [data, setData] = useState<FormBag['data']>({});
   const [uischema, setUischema] = useState<FormBag['uischema']>({
     type: UISchemaLayoutType.VERTICAL,
@@ -109,34 +127,55 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const dataSchemaRef = useRef<FormBag['dataSchema']>();
   const [loading, setLoading] = useState<boolean>(false);
   const [widgetRendered, setWidgetRendered] = useState<boolean>(false);
+  const widgetRenderedOnce = useRef<boolean>(false);
   const [loginHint, setloginHint] = useState<string | null>(null);
   const languageCode = getLanguageCode(widgetProps);
   const languageDirection = getLanguageDirection(languageCode);
-  const brandedTheme = mapMuiThemeFromBrand(brandColors, languageDirection, muiThemeOverrides);
   const { stateHandle, unsetStateHandle } = useStateHandle(widgetProps);
+
+  // merge themes
+  const theme = useMemo(() => mergeThemes(
+    createTheme(brandColors, customTheme?.tokens ?? {}),
+    { direction: languageDirection },
+  ), [brandColors, customTheme, languageDirection]);
 
   // on unmount, remove the language
   useEffect(() => () => {
     if (Bundles.isLoaded(languageCode)) {
       Bundles.remove();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const initLanguage = useCallback(async () => {
     if (!Bundles.isLoaded(languageCode)) {
       await loadLanguage(widgetProps);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleError = (error: unknown) => {
+  const handleError = async (error: unknown) => {
+    await widgetHooks.callHooks('before', undefined);
     // TODO: handle error based on types
     // AuthApiError is one of the potential error that can be thrown here
     // We will want to expose development stage errors from auth-js and file jiras against it
     setResponseError(error as (AuthApiError | OAuthError));
     console.error(error);
     return null;
+  };
+
+  const shouldRedirectToEnrollFlow = (transaction: IdxTransaction): boolean => {
+    const { nextStep, neededToProceed } = transaction;
+    if (!isConfigRegisterFlow(flow) || nextStep?.name !== IDX_STEP.IDENTIFY) {
+      return false;
+    }
+    const isRegistrationEnabled = neededToProceed
+      .find((remediation) => remediation.name === IDX_STEP.SELECT_ENROLL_PROFILE) !== undefined;
+
+    if (!isRegistrationEnabled) {
+      throw new Error('flow param error: No remediation can match current flow, check policy settings in your org.');
+    }
+    return true;
   };
 
   const bootstrap = useCallback(async () => {
@@ -155,7 +194,12 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         });
         return;
       }
-      const transaction = await authClient.idx.start({
+      // If widget is passed 'otp' config option, proceed with email verify callback
+      if (otp) {
+        setIdxTransaction(await triggerEmailVerifyCallback(widgetProps));
+        return;
+      }
+      let transaction: IdxTransaction = await authClient.idx.start({
         stateHandle,
         // Required to prevent auth-js from clearing sessionStorage and breaking interaction code flow
         exchangeCodeForTokens: false,
@@ -167,24 +211,30 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         throw new Error('saved stateToken is invalid'); // will be caught in this function
       }
 
+      // TODO
+      // OKTA-651781
+      // bootstrap into enroll flow when flow param is set to signup
+      if (shouldRedirectToEnrollFlow(transaction)) {
+        transaction = await authClient.idx.proceed({
+          stateHandle: transaction?.context.stateHandle,
+          step: IDX_STEP.SELECT_ENROLL_PROFILE,
+        });
+      }
+
+      await widgetHooks.callHooks('before', transaction);
+
       setResponseError(null);
       setIdxTransaction(transaction);
-      // ready event
-      events?.ready?.({
-        stepName: transaction.nextStep?.name,
-      });
     } catch (error) {
       if (usingStateHandleFromSession) {
         // Saved stateHandle is invalid. Remove it from session
         // Bootstrap will be restarted with stateToken from widgetProps
         unsetStateHandle();
       } else {
-        events?.ready?.();
-
-        handleError(error);
+        await handleError(error);
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authClient, stateHandle, setIdxTransaction, setResponseError, initLanguage]);
 
   // Derived value from idxTransaction
@@ -203,8 +253,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     }
 
     if ([IdxStatus.TERMINAL, IdxStatus.SUCCESS].includes(idxTransaction.status)
-        || idxTransaction.nextStep?.name === IDX_STEP.SKIP // force safe mode to be terminal
-        || !idxTransaction.nextStep) {
+      || idxTransaction.nextStep?.name === IDX_STEP.SKIP // force safe mode to be terminal
+      || !idxTransaction.nextStep) {
       return transformTerminalTransaction(idxTransaction, widgetProps, bootstrap);
     }
 
@@ -231,8 +281,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     // Mobile devices cannot scan QR codes while navigating through flow
     // so we force them to select either email / sms for enrollment
     if (idxTransaction.context.currentAuthenticator?.value.key === AuthenticatorKey.OKTA_VERIFY
-        && idxTransaction.nextStep.name === 'enroll-poll'
-        && isAndroidOrIOS()) {
+      && idxTransaction.nextStep.name === 'enroll-poll'
+      && isAndroidOrIOS()) {
       step = 'select-enrollment-channel';
     }
     return transformIdxTransaction({
@@ -243,7 +293,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       setMessage,
       isClientTransaction,
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     idxTransaction,
     responseError,
@@ -255,6 +305,10 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   // track previous idxTransaction
   useEffect(() => {
     prevIdxTransactionRef.current = idxTransaction;
+    // clear the resend reminder time stamp in session storage if current transaction does not have resend option
+    if (idxTransaction && !idxTransaction.nextStep?.canResend) {
+      SessionStorage.removeResendTimestamp();
+    }
   }, [idxTransaction]);
 
   // update dataSchemaRef in context
@@ -268,7 +322,6 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     } else {
       setData(formBag.data);
     }
-
     setUischema(formBag.uischema);
   }, [formBag, isClientTransaction]);
 
@@ -286,31 +339,46 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         });
         return;
       }
-      const transaction = await authClient.idx.proceed({
+      // If widget is passed 'otp' config option, proceed with email verify callback
+      if (otp) {
+        setIdxTransaction(await triggerEmailVerifyCallback(widgetProps));
+        return;
+      }
+      let transaction = await authClient.idx.proceed({
         stateHandle: idxTransaction?.context.stateHandle,
       });
 
+      // TODO
+      // OKTA-651781
+      if (shouldRedirectToEnrollFlow(transaction)) {
+        transaction = await authClient.idx.proceed({
+          stateHandle: transaction?.context.stateHandle,
+          step: IDX_STEP.SELECT_ENROLL_PROFILE,
+        });
+      }
+
+      await widgetHooks.callHooks('before', transaction);
+
       setIdxTransaction(transaction);
-
-      events?.ready?.({
-        stepName: transaction.nextStep?.name,
-      });
     } catch (error) {
-      events?.ready?.();
-
-      handleError(error);
+      await handleError(error);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authClient, setIdxTransaction, setResponseError, initLanguage]);
 
   // bootstrap / resume the widget
   useEffect(() => {
+    if (!canBootstrapWidget({
+      authClient, stateHandle, setIdxTransaction, setResponseError,
+    })) {
+      return;
+    }
     if (authClient.idx.canProceed()) {
       resume();
     } else {
       bootstrap();
     }
-  }, [authClient, setIdxTransaction, bootstrap, resume]);
+  }, [authClient, setIdxTransaction, bootstrap, resume, stateHandle]);
 
   // Update idxTransaction when new status comes back from polling
   useEffect(() => {
@@ -329,7 +397,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     if (!areTransactionsEqual(idxTransaction, pollingTransaction)) {
       setIdxTransaction(pollingTransaction);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pollingTransaction]); // only watch on pollingTransaction changes
 
   useEffect(() => {
@@ -341,24 +409,63 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   }, [interactionCodeFlowFormBag]);
 
   useEffect(() => {
-    if (isClientTransaction) {
-      return;
-    }
-    if (widgetRendered && typeof idxTransaction !== 'undefined') {
-      events?.afterRender?.(getEventContext(idxTransaction));
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    const asyncEffect = async () => {
+      if (isClientTransaction) {
+        return;
+      }
+      if (widgetRendered) {
+        const executeAfterHooks = () => {
+          if (uischema.elements.length > 0) {
+            // Don't execute hooks in the end of authentication flow
+            widgetHooks.callHooks('after', responseError ? undefined : idxTransaction);
+          }
+        };
+        const emitAfterRender = () => {
+          if (uischema.elements.length > 0) {
+            // Don't emit events in the end of authentication flow
+            eventEmitter.emit('afterRender', getEventContext(idxTransaction));
+          }
+        };
+        const emitReady = () => eventEmitter.emit('ready', getEventContext(idxTransaction));
+
+        // Keep the order of events and hooks as in Gen2
+        if (!widgetRenderedOnce.current) {
+          await executeAfterHooks();
+          emitReady();
+          emitAfterRender();
+          widgetRenderedOnce.current = true;
+        } else {
+          emitAfterRender();
+          await executeAfterHooks();
+        }
+      }
+    };
+    asyncEffect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [widgetRendered, idxTransaction]);
 
+  // listen to 'hide' event
+  const toggleVisibility = useCallback((hideValue: boolean) => {
+    setHide(hideValue);
+  }, []);
+
+  useOnce(() => {
+    eventEmitter.on('hide', toggleVisibility);
+  });
+  useEffect(() => () => {
+    eventEmitter.off('hide', toggleVisibility);
+  }, [eventEmitter, toggleVisibility]);
+
+  const getDocumentTitle = useCallback(() => (
+    extractPageTitle(formBag.uischema, widgetProps, idxTransaction)
+  ), [idxTransaction, widgetProps, formBag.uischema]);
+
   useEffect(() => {
-    if (responseError !== null) {
-      events?.afterRender?.({
-        controller: null,
-        formName: 'terminal',
-      });
+    const title = getDocumentTitle();
+    if (title !== null) {
+      document.title = title;
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [responseError]);
+  }, [getDocumentTitle]);
 
   return (
     <WidgetContextProvider value={{
@@ -386,19 +493,12 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       languageDirection,
     }}
     >
-      <OdysseyCacheProvider nonce={cspNonce}>
-        <MuiThemeProvider theme={brandedTheme}>
+      <CustomPluginsOdysseyCacheProvider nonce={cspNonce}>
+        <MuiThemeProvider theme={theme}>
+          <GlobalStyles />
           {/* the style is to allow the widget to inherit the parent's bg color */}
-          <ScopedCssBaseline
-            sx={{
-              backgroundColor: 'inherit',
-              'span.strong': {
-                fontWeight: 'bold',
-                wordBreak: 'break-all',
-              },
-            }}
-          >
-            <AuthContainer>
+          <ScopedCssBaseline sx={{ backgroundColor: 'inherit' }}>
+            <AuthContainer hide={hide}>
               <AuthHeader
                 logo={logo}
                 logoText={logoText}
@@ -406,8 +506,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
                 authCoinProps={buildAuthCoinProps(idxTransaction)}
               />
               <AuthContent>
-                <ConsentHeader />
-                <IdentifierContainer />
+                {isConsentStep(idxTransaction) && <ConsentHeader />}
                 {
                   uischema.elements.length > 0
                     ? <Form uischema={uischema as UISchemaLayout} />
@@ -417,7 +516,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
             </AuthContainer>
           </ScopedCssBaseline>
         </MuiThemeProvider>
-      </OdysseyCacheProvider>
+      </CustomPluginsOdysseyCacheProvider>
     </WidgetContextProvider>
   );
 };

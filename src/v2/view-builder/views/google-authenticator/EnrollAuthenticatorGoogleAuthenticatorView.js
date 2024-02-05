@@ -76,7 +76,7 @@ const Body = BaseForm.extend({
         }
       }, {
         label: false,
-        className: 'shared-secret',
+        className: 'shared-secret no-translate',
         type: 'text',
         placeholder: this.options.appState.get('currentAuthenticator').contextualData.sharedSecret,
         disabled: true,

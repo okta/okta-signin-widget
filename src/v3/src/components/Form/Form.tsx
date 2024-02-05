@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { Box } from '@mui/material';
 import classNames from 'classnames';
 import { FunctionComponent, h } from 'preact';
 import { useCallback, useEffect } from 'preact/hooks';
@@ -20,15 +21,14 @@ import {
   SubmitEvent,
   UISchemaLayout,
 } from '../../types';
-import { getValidationMessages } from '../../util';
+import { getValidationMessages, isCaptchaEnabled } from '../../util';
 import InfoSection from '../InfoSection/InfoSection';
 import Layout from './Layout';
-import style from './style.module.css';
 
 const Form: FunctionComponent<{
   uischema: UISchemaLayout;
 }> = ({ uischema }) => {
-  const classes = classNames('o-form', style.siwForm);
+  const classes = classNames('o-form');
   const {
     data,
     idxTransaction: currTransaction,
@@ -47,12 +47,13 @@ const Form: FunctionComponent<{
   const handleSubmit = useCallback(async (e: SubmitEvent) => {
     e.preventDefault();
     setWidgetRendered(false);
-    setMessage(undefined);
 
-    // TODO: Can remove after OKTA-586475 is resolved
+    // TODO: Can remove after OKTA-657627 is resolved
     if (!dataSchemaRef?.current?.submit) {
       return;
     }
+
+    setMessage(undefined);
 
     const {
       submit: {
@@ -60,6 +61,7 @@ const Form: FunctionComponent<{
         step,
         includeImmutableData,
       },
+      captchaRef,
     } = dataSchemaRef.current!;
 
     // client side validation - only validate for fields in nextStep
@@ -79,13 +81,18 @@ const Form: FunctionComponent<{
       }
     }
 
-    // submit request
-    onSubmitHandler({
-      includeData: true,
-      includeImmutableData,
-      params,
-      step,
-    });
+    if (currTransaction && isCaptchaEnabled(currTransaction)) {
+      // launch the captcha challenge
+      captchaRef?.current?.execute();
+    } else {
+      // submit request
+      onSubmitHandler({
+        includeData: true,
+        includeImmutableData,
+        params,
+        step,
+      });
+    }
   }, [
     currTransaction,
     data,
@@ -97,15 +104,21 @@ const Form: FunctionComponent<{
   ]);
 
   return (
-    <form
+    <Box
+      component="form"
       noValidate
       onSubmit={handleSubmit}
       className={classes} // TODO: FIXME OKTA-578584 - update page objects using .o-form selectors
       data-se="o-form"
+      sx={{
+        maxInlineSize: '100%',
+        wordBreak: 'break-word',
+      }}
+      aria-live="polite"
     >
       <InfoSection message={message} />
       <Layout uischema={uischema} />
-    </form>
+    </Box>
   );
 };
 

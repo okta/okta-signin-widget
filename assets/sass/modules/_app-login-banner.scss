@@ -41,12 +41,6 @@
       font-weight: lighter;
       line-height: 26px;
     }
-
-    p {
-      @include max-height-mq(660px) {
-        display: none;
-      }
-    }
   }
 
   .applogin-app-logo {

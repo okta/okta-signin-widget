@@ -26,7 +26,7 @@ Object {
             "desc": "This is a custom description for the custom field.",
             "label": "Custom 1 label",
             "mutable": true,
-            "name": "optedScopes.custom1",
+            "name": "optedScopes.custom.custom1",
             "required": true,
             "type": "boolean",
             "value": true,
@@ -54,7 +54,7 @@ Object {
           "inputMeta": Object {
             "label": "Custom 2 label",
             "mutable": true,
-            "name": "optedScopes.custom2",
+            "name": "optedScopes.custom.custom2",
             "required": true,
             "type": "boolean",
             "value": true,

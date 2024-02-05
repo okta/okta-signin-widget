@@ -169,6 +169,13 @@ export const getAuthCoinConfiguration = (): Record<string, AuthCoinConfig> => ({
     description: loc('factor.totpSoft.oktaVerify', 'login'),
     iconClassName: 'mfa-okta-verify',
   },
+  [CHALLENGE_METHOD.CHROME_DTC]: {
+    icon: OktaVerifyIcon,
+    name: 'mfa-okta-verify',
+    customizable: false,
+    description: loc('factor.totpSoft.oktaVerify', 'login'),
+    iconClassName: 'mfa-okta-verify',
+  },
   [CHALLENGE_METHOD.CUSTOM_URI]: {
     icon: OktaVerifyIcon,
     name: 'mfa-okta-verify',

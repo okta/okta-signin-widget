@@ -2,6 +2,7 @@ const I18N_BASE_ATTRIBUTE_ENROLL_PROFILE_MAPPINGS = {
   /**
    * Mapping fields in the enroll profile remediation form to their i18n label for localization.
    */
+  'enroll-profile.userProfile.login': 'oie.user.profile.login',
   'enroll-profile.userProfile.lastName': 'oie.user.profile.lastname',
   'enroll-profile.userProfile.firstName': 'oie.user.profile.firstname',
   'enroll-profile.userProfile.email': 'oie.user.profile.primary.email',

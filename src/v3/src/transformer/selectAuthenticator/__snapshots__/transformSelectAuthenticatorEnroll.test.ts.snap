@@ -28,12 +28,12 @@ Object {
         "type": "Description",
       },
       Object {
-        "contentType": "subtitle",
-        "noMargin": true,
         "options": Object {
           "content": "oie.setup.required",
+          "level": 3,
+          "visualLevel": 6,
         },
-        "type": "Description",
+        "type": "Heading",
       },
       Object {
         "options": Object {
@@ -91,12 +91,12 @@ Object {
         "type": "Description",
       },
       Object {
-        "contentType": "subtitle",
-        "noMargin": true,
         "options": Object {
           "content": "oie.setup.optional",
+          "level": 3,
+          "visualLevel": 6,
         },
-        "type": "Description",
+        "type": "Heading",
       },
       Object {
         "options": Object {
@@ -162,12 +162,12 @@ Object {
         "type": "Description",
       },
       Object {
-        "contentType": "subtitle",
-        "noMargin": true,
         "options": Object {
           "content": "oie.setup.optional",
+          "level": 3,
+          "visualLevel": 6,
         },
-        "type": "Description",
+        "type": "Heading",
       },
       Object {
         "options": Object {

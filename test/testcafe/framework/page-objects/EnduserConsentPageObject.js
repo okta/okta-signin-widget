@@ -15,21 +15,21 @@ export default class EnduserConsentPageObject extends ConsentPageObject {
   }
 
   getInfoItemTextBrowser() {
-    if(userVariables.v3) {
+    if(userVariables.gen3) {
       return this.form.getElement('[data-se="text-browser"]').innerText;
     }
     return this.form.getInnerTexts('.enduser-email-consent--info');
   }
 
   getInfoItemTextAppName() {
-    if(userVariables.v3) {
+    if(userVariables.gen3) {
       return this.form.getElement('[data-se="text-appName"]').innerText;
     }
     return this.form.getInnerTexts('.enduser-email-consent--info');
   }
 
   getCancelButtonLabel() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.getElement('[data-type="cancel"]').innerText; 
     }
     return this.form.getElement('input[data-type="cancel"]').value;

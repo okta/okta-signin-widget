@@ -30,25 +30,25 @@ const Icon: FunctionComponent<PasswordRequirementIconProps> = (
     complete: { name: 'check-circle-filled', color: 'success' },
     info: { name: 'information-circle', color: 'info' },
   };
-  const iconClasses = classNames('passwordRequirementIcon');
+  const iconClasses = classNames('passwordRequirementIcon', status);
 
   return (
     <Box
       className={iconClasses}
-      marginInlineEnd={1}
-      display="flex"
+      data-se={`passwordRequirementIcon-${status}`}
+      sx={(theme) => ({
+        marginInlineEnd: theme.spacing(1),
+        // This is to force the icon align with the top of the text
+        marginBlockStart: '2px',
+      })}
       aria-hidden
     >
       {
         // Using a custom Icon for the Success/Check Instead of default ODY Icon
         statusToIconProps[status].name === 'check-circle-filled' ? (
-          <CheckCircle
-            name="complete"
-            description="complete"
-          />
+          <CheckCircle />
         ) : (
           <OdyIcon
-            titleAccess={status}
             name={statusToIconProps[status].name}
             color={statusToIconProps[status].color}
           />

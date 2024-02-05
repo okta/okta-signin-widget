@@ -27,6 +27,7 @@ Object {
         "type": "Description",
       },
       Object {
+        "key": "consent.scopes.custom1",
         "options": Object {
           "inputMeta": Object {
             "mutable": false,
@@ -51,6 +52,7 @@ Object {
         "type": "Field",
       },
       Object {
+        "key": "consent.scopes.custom2",
         "options": Object {
           "inputMeta": Object {
             "mutable": false,
@@ -155,6 +157,7 @@ Object {
         "type": "Description",
       },
       Object {
+        "key": "consent.scopes.email",
         "options": Object {
           "inputMeta": Object {
             "mutable": false,
@@ -179,6 +182,7 @@ Object {
         "type": "Field",
       },
       Object {
+        "key": "consent.scopes.phone",
         "options": Object {
           "inputMeta": Object {
             "mutable": false,

@@ -6,7 +6,7 @@ exports[`authenticator-enroll-yubikey-otp renders form 1`] = `
     class="MuiScopedCssBaseline-root emotion-0"
   >
     <main
-      class="auth-container main-container mainViewContainer MuiBox-root emotion-1"
+      class="auth-container main-container MuiBox-root emotion-1"
       data-commit="b9bbc0140703c3fbf0e2e58920362e70"
       data-version="0.0.0"
       dir="ltr"
@@ -14,270 +14,287 @@ exports[`authenticator-enroll-yubikey-otp renders form 1`] = `
       lang="en"
     >
       <div
-        class="siwContainer MuiBox-root emotion-2"
+        class="MuiScopedCssBaseline-root emotion-2"
       >
         <div
-          class="okta-sign-in-header auth-header siwHeader authCoinSpacing MuiBox-root emotion-3"
-        >
-          <h1
-            class="MuiTypography-root MuiTypography-h1 emotion-4"
-          />
-          <div
-            aria-hidden="true"
-            class="iconContainer mfa-yubikey authCoinOverlay MuiBox-root emotion-5"
-            data-se="factor-beacon"
-          >
-            <svg
-              aria-labelledby="mfa-yubikey"
-              fill="none"
-              height="48"
-              role="img"
-              viewBox="0 0 48 48"
-              width="48"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <title
-                id="mfa-yubikey"
-              >
-                YubiKey
-              </title>
-              <path
-                class="siwFillBg"
-                clip-rule="evenodd"
-                d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
-                fill="#F5F5F6"
-                fill-rule="evenodd"
-              />
-              <circle
-                cx="24"
-                cy="24"
-                fill="#fff"
-                r="18.5"
-                stroke="#A3C753"
-                stroke-width="3"
-              />
-              <path
-                d="m24.406 23.977 1.416-3.996c.723-2.04 1.454-4.08 2.16-6.127.13-.382.328-.525.722-.52 1.466.014 2.933.004 4.4.006.7.001.748.064.49.701-.66 1.62-1.33 3.236-1.988 4.856-1.165 2.872-2.319 5.748-3.486 8.618-1.098 2.7-2.205 5.397-3.315 8.092-.396.961-.405.957-1.472.958-1.417.001-2.833.004-4.25 0-.605-.002-.646-.077-.407-.636.746-1.747 1.482-3.497 2.236-5.24.15-.345.16-.658.022-1.009-1.836-4.666-3.664-9.334-5.494-14.002-.23-.589-.468-1.176-.695-1.767-.164-.425-.084-.564.361-.567 1.6-.01 3.2 0 4.8-.01.38-.002.52.227.63.527.5 1.36 1.004 2.72 1.506 4.08l2.095 5.671c.045.122.101.241.151.361l.118.004Z"
-                fill="#A3C753"
-              />
-            </svg>
-          </div>
-        </div>
-        <div
-          class="MuiBox-root emotion-6"
+          class="MuiBox-root emotion-3"
         >
           <div
-            class="identifier-container MuiBox-root emotion-7"
+            class="MuiBox-root emotion-4"
           >
             <div
-              class="identifierContainer MuiBox-root emotion-8"
+              class="okta-sign-in-header auth-header authCoinSpacing MuiBox-root emotion-5"
             >
-              <span
-                class="userIconContainer MuiBox-root emotion-9"
+              <h1
+                class="MuiTypography-root MuiTypography-h1 emotion-6"
+              />
+              <div
+                aria-hidden="true"
+                class="mfa-yubikey MuiBox-root emotion-7"
+                data-se="factor-beacon"
               >
                 <svg
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-10"
+                  aria-labelledby="mfa-yubikey"
                   fill="none"
-                  focusable="false"
+                  height="48"
                   role="img"
-                  viewBox="0 0 16 16"
+                  viewBox="0 0 48 48"
+                  width="48"
                   xmlns="http://www.w3.org/2000/svg"
                 >
+                  <title
+                    id="mfa-yubikey"
+                  >
+                    YubiKey
+                  </title>
                   <path
+                    class="siwFillBg"
                     clip-rule="evenodd"
-                    d="M10 3V5C10 6.10457 9.10457 7 8 7C6.89543 7 6 6.10457 6 5V3C6 1.89543 6.89543 1 8 1C9.10457 1 10 1.89543 10 3ZM5 3C5 1.34315 6.34315 0 8 0C9.65685 0 11 1.34315 11 3V5C11 6.65685 9.65685 8 8 8C6.34315 8 5 6.65685 5 5V3ZM4.1305 10.0742C4.26803 10.0181 4.459 10 5.41376 10H10.5862C11.541 10 11.732 10.0181 11.8695 10.0742C12.0299 10.1398 12.1706 10.2459 12.2777 10.3821C12.3695 10.4989 12.4393 10.6776 12.7016 11.5956L13.6743 15H2.32573L3.29841 11.5956C3.5607 10.6776 3.63054 10.4989 3.72233 10.3821C3.82941 10.2459 3.97006 10.1398 4.1305 10.0742ZM13.6631 11.3209L14.7143 15L15 16H13.96H2.04002H1L1.28571 15L2.33689 11.3209C2.57458 10.489 2.69343 10.073 2.93606 9.76423C3.15022 9.49171 3.43152 9.27953 3.75239 9.14848C4.11592 9 4.54854 9 5.41376 9H10.5862C11.4515 9 11.8841 9 12.2476 9.14848C12.5685 9.27953 12.8498 9.49171 13.0639 9.76423C13.3066 10.073 13.4254 10.489 13.6631 11.3209Z"
-                    fill="currentColor"
+                    d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
+                    fill="#F5F5F6"
                     fill-rule="evenodd"
                   />
-                  <title>
-                    User
-                  </title>
+                  <circle
+                    cx="24"
+                    cy="24"
+                    fill="#fff"
+                    r="18.5"
+                    stroke="#A3C753"
+                    stroke-width="3"
+                  />
+                  <path
+                    d="m24.406 23.977 1.416-3.996c.723-2.04 1.454-4.08 2.16-6.127.13-.382.328-.525.722-.52 1.466.014 2.933.004 4.4.006.7.001.748.064.49.701-.66 1.62-1.33 3.236-1.988 4.856-1.165 2.872-2.319 5.748-3.486 8.618-1.098 2.7-2.205 5.397-3.315 8.092-.396.961-.405.957-1.472.958-1.417.001-2.833.004-4.25 0-.605-.002-.646-.077-.407-.636.746-1.747 1.482-3.497 2.236-5.24.15-.345.16-.658.022-1.009-1.836-4.666-3.664-9.334-5.494-14.002-.23-.589-.468-1.176-.695-1.767-.164-.425-.084-.564.361-.567 1.6-.01 3.2 0 4.8-.01.38-.002.52.227.63.527.5 1.36 1.004 2.72 1.506 4.08l2.095 5.671c.045.122.101.241.151.361l.118.004Z"
+                    fill="#A3C753"
+                  />
                 </svg>
-              </span>
-              <span
-                class="identifier no-translate identifierSpan MuiBox-root emotion-9"
-                data-se="identifier"
-                title="testUser@okta.com"
-              >
-                testUser@okta.com
-              </span>
+              </div>
             </div>
-          </div>
-          <form
-            class="o-form siwForm"
-            data-se="o-form"
-            novalidate=""
-          >
             <div
-              class="MuiBox-root emotion-12"
+              class="MuiBox-root emotion-8"
             >
-              <div
-                class="MuiBox-root emotion-13"
+              <form
+                aria-live="polite"
+                class="o-form MuiBox-root emotion-9"
+                data-se="o-form"
+                novalidate=""
               >
                 <div
-                  class="MuiBox-root emotion-14"
-                  id="yubikey"
+                  class="MuiBox-root emotion-10"
                 >
                   <div
-                    class="MuiBox-root emotion-15"
-                    data-se="icon-yubikey"
+                    class="MuiBox-root emotion-11"
                   >
-                    <svg
-                      aria-hidden="true"
-                      fill="none"
-                      height="58"
-                      role="img"
-                      viewBox="0 0 43 58"
-                      width="43"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <title>
-                        YubiKey
-                      </title>
-                      <path
-                        class="siwIconFillPrimaryDark"
-                        clip-rule="evenodd"
-                        d="M10.61 0a9 9 0 0 0-9 9v.5a8.5 8.5 0 0 0 8.5 8.5v-2a6.5 6.5 0 0 1-6.5-6.5V9a7 7 0 0 1 7-7h13v14h-5.75v2h7.75v-3h8V3h-8V0h-15Zm15 5v8h6V5h-6Z"
-                        fill="#00297A"
-                        fill-rule="evenodd"
-                      />
-                      <path
-                        class="siwIconFillSecondary"
-                        clip-rule="evenodd"
-                        d="M25.61 6.5h4v2h-4v-2Zm0 3h4v2h-4v-2Zm-15.356 2.486a2.986 2.986 0 0 1 5.973 0V32.86a1 1 0 1 0 2 0v-4.892a2 2 0 0 1 2-2h2.13a2 2 0 0 1 2 2v7.475a1 1 0 1 0 2 0v-1.047c0-1.633 1.352-2.975 3.005-2.975 1.619 0 2.944 1.315 2.944 2.914v5.764a1 1 0 1 0 2 0v-.614a3.042 3.042 0 1 1 6.084 0v4.683h2v-4.683a5.042 5.042 0 0 0-8.084-4.022v-1.128c0-2.724-2.24-4.914-4.944-4.914a5.003 5.003 0 0 0-3.006 1.002v-2.455a4 4 0 0 0-4-4h-2.13c-.728 0-1.411.195-2 .535V11.986a4.986 4.986 0 0 0-9.972 0v19.607c-1.398.5-2.847 1.495-4.072 2.492A29.391 29.391 0 0 0 .935 37.18l-.155.175-.062.226c-.146.542-.128 1.168-.044 1.783.086.633.254 1.345.478 2.1.447 1.509 1.139 3.276 1.93 5.082 1.581 3.616 3.6 7.483 4.977 9.943l.489.872 1.745-.977-.489-.873c-1.356-2.421-3.342-6.227-4.89-9.767-.776-1.772-1.431-3.453-1.845-4.849a12.468 12.468 0 0 1-.414-1.8 3.726 3.726 0 0 1-.038-.795 27.872 27.872 0 0 1 2.828-2.664c.943-.768 1.918-1.44 2.81-1.874v8.552a1 1 0 1 0 2 0V11.986Z"
-                        fill="#A7B5EC"
-                        fill-rule="evenodd"
-                      />
-                    </svg>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="MuiBox-root emotion-13"
-              >
-                <div
-                  class="MuiBox-root emotion-17"
-                >
-                  <h2
-                    class="MuiTypography-root MuiTypography-h4 emotion-18"
-                    data-se="o-form-head"
-                    id="enroll-authenticator_Title_Set_up_YubiKey_yubikey_token_aut10faWWbNaNWBaH0g4_2"
-                    tabindex="-1"
-                  >
-                    Set up YubiKey
-                  </h2>
-                </div>
-              </div>
-              <div
-                class="MuiBox-root emotion-13"
-              >
-                <div
-                  class="MuiBox-root emotion-17"
-                >
-                  <p
-                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-21"
-                    data-se="o-form-explain"
-                    id="enroll-authenticator_Description_Use_your_YubiKey_to_insert_a_verification_code_yubikey_token_aut10faWWbNaNWBaH0g4_3"
-                  >
-                    Use your YubiKey to insert a verification code.
-                  </p>
-                </div>
-              </div>
-              <div
-                class="MuiBox-root emotion-13"
-              >
-                <div
-                  class="MuiBox-root emotion-9"
-                >
-                  <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-24"
-                    data-shrink="false"
-                    for="credentials.passcode"
-                  >
-                    Insert then tap your YubiKey
-                  </label>
-                  <div
-                    class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-25"
-                    required="true"
-                  >
-                    <input
-                      aria-invalid="false"
-                      autocomplete="off"
-                      class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-26"
-                      data-se="credentials.passcode"
-                      id="credentials.passcode"
-                      name="credentials.passcode"
-                      required=""
-                      type="password"
-                    />
                     <div
-                      class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined emotion-27"
+                      class="identifier-container MuiBox-root emotion-12"
                     >
-                      <button
-                        aria-controls="credentials.passcode"
-                        aria-label="Show password"
-                        aria-pressed="false"
-                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium emotion-28"
-                        data-mui-internal-clone-element="true"
-                        tabindex="0"
-                        type="button"
+                      <div
+                        class="MuiBox-root emotion-13"
+                      >
+                        <span
+                          class="MuiBox-root emotion-14"
+                        >
+                          <svg
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-15"
+                            fill="none"
+                            focusable="false"
+                            role="img"
+                            viewBox="0 0 16 16"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              clip-rule="evenodd"
+                              d="M10 3V5C10 6.10457 9.10457 7 8 7C6.89543 7 6 6.10457 6 5V3C6 1.89543 6.89543 1 8 1C9.10457 1 10 1.89543 10 3ZM5 3C5 1.34315 6.34315 0 8 0C9.65685 0 11 1.34315 11 3V5C11 6.65685 9.65685 8 8 8C6.34315 8 5 6.65685 5 5V3ZM4.1305 10.0742C4.26803 10.0181 4.459 10 5.41376 10H10.5862C11.541 10 11.732 10.0181 11.8695 10.0742C12.0299 10.1398 12.1706 10.2459 12.2777 10.3821C12.3695 10.4989 12.4393 10.6776 12.7016 11.5956L13.6743 15H2.32573L3.29841 11.5956C3.5607 10.6776 3.63054 10.4989 3.72233 10.3821C3.82941 10.2459 3.97006 10.1398 4.1305 10.0742ZM13.6631 11.3209L14.7143 15L15 16H13.96H2.04002H1L1.28571 15L2.33689 11.3209C2.57458 10.489 2.69343 10.073 2.93606 9.76423C3.15022 9.49171 3.43152 9.27953 3.75239 9.14848C4.11592 9 4.54854 9 5.41376 9H10.5862C11.4515 9 11.8841 9 12.2476 9.14848C12.5685 9.27953 12.8498 9.49171 13.0639 9.76423C13.3066 10.073 13.4254 10.489 13.6631 11.3209Z"
+                              fill="currentColor"
+                              fill-rule="evenodd"
+                            />
+                            <title>
+                              User
+                            </title>
+                          </svg>
+                        </span>
+                        <span
+                          aria-label="testUser@okta.com"
+                          class="identifier no-translate MuiBox-root emotion-16"
+                          data-se="identifier"
+                          title="testUser@okta.com"
+                        >
+                          testUser@okta.com
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-11"
+                  >
+                    <div
+                      class="MuiBox-root emotion-18"
+                      id="yubikey"
+                    >
+                      <div
+                        class="MuiBox-root emotion-19"
+                        data-se="icon-yubikey"
                       >
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-29"
                           fill="none"
-                          focusable="false"
-                          viewBox="0 0 16 16"
+                          height="58"
+                          role="img"
+                          viewBox="0 0 43 58"
+                          width="43"
                           xmlns="http://www.w3.org/2000/svg"
                         >
+                          <title>
+                            YubiKey
+                          </title>
                           <path
+                            class="siwIconFillPrimaryDark"
                             clip-rule="evenodd"
-                            d="M3.89765 11.5506C2.89626 10.6994 2.04176 9.50056 1.15617 8C2.04176 6.49944 2.89626 5.30062 3.89765 4.44944C4.96916 3.53865 6.24031 3 8 3C9.75969 3 11.0308 3.53865 12.1024 4.44944C13.1037 5.30062 13.9582 6.49944 14.8438 8C13.9582 9.50056 13.1037 10.6994 12.1024 11.5506C11.0308 12.4613 9.75969 13 8 13C6.24031 13 4.96916 12.4613 3.89765 11.5506ZM8 14C12 14 14 11.5 16 8C14 4.5 12 2 8 2C4 2 2 4.5 0 8C2 11.5 4 14 8 14ZM11 8C11 9.65685 9.65685 11 8 11C6.34315 11 5 9.65685 5 8C5 6.34315 6.34315 5 8 5C9.65685 5 11 6.34315 11 8ZM12 8C12 10.2091 10.2091 12 8 12C5.79086 12 4 10.2091 4 8C4 5.79086 5.79086 4 8 4C10.2091 4 12 5.79086 12 8Z"
-                            fill="currentColor"
+                            d="M10.61 0a9 9 0 0 0-9 9v.5a8.5 8.5 0 0 0 8.5 8.5v-2a6.5 6.5 0 0 1-6.5-6.5V9a7 7 0 0 1 7-7h13v14h-5.75v2h7.75v-3h8V3h-8V0h-15Zm15 5v8h6V5h-6Z"
+                            fill="#00297A"
+                            fill-rule="evenodd"
+                          />
+                          <path
+                            class="siwIconFillSecondary"
+                            clip-rule="evenodd"
+                            d="M25.61 6.5h4v2h-4v-2Zm0 3h4v2h-4v-2Zm-15.356 2.486a2.986 2.986 0 0 1 5.973 0V32.86a1 1 0 1 0 2 0v-4.892a2 2 0 0 1 2-2h2.13a2 2 0 0 1 2 2v7.475a1 1 0 1 0 2 0v-1.047c0-1.633 1.352-2.975 3.005-2.975 1.619 0 2.944 1.315 2.944 2.914v5.764a1 1 0 1 0 2 0v-.614a3.042 3.042 0 1 1 6.084 0v4.683h2v-4.683a5.042 5.042 0 0 0-8.084-4.022v-1.128c0-2.724-2.24-4.914-4.944-4.914a5.003 5.003 0 0 0-3.006 1.002v-2.455a4 4 0 0 0-4-4h-2.13c-.728 0-1.411.195-2 .535V11.986a4.986 4.986 0 0 0-9.972 0v19.607c-1.398.5-2.847 1.495-4.072 2.492A29.391 29.391 0 0 0 .935 37.18l-.155.175-.062.226c-.146.542-.128 1.168-.044 1.783.086.633.254 1.345.478 2.1.447 1.509 1.139 3.276 1.93 5.082 1.581 3.616 3.6 7.483 4.977 9.943l.489.872 1.745-.977-.489-.873c-1.356-2.421-3.342-6.227-4.89-9.767-.776-1.772-1.431-3.453-1.845-4.849a12.468 12.468 0 0 1-.414-1.8 3.726 3.726 0 0 1-.038-.795 27.872 27.872 0 0 1 2.828-2.664c.943-.768 1.918-1.44 2.81-1.874v8.552a1 1 0 1 0 2 0V11.986Z"
+                            fill="#A7B5EC"
                             fill-rule="evenodd"
                           />
                         </svg>
-                      </button>
+                      </div>
                     </div>
                   </div>
+                  <div
+                    class="MuiBox-root emotion-11"
+                  >
+                    <div
+                      class="MuiBox-root emotion-21"
+                    >
+                      <h2
+                        class="MuiTypography-root MuiTypography-h4 emotion-22"
+                        data-se="o-form-head"
+                        id="enroll-authenticator_Title_Set_up_YubiKey_yubikey_token_aut10faWWbNaNWBaH0g4_2"
+                        tabindex="-1"
+                      >
+                        Set up YubiKey
+                      </h2>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-11"
+                  >
+                    <div
+                      class="MuiBox-root emotion-21"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-25"
+                        data-se="o-form-explain"
+                        id="enroll-authenticator_Description_Use_your_YubiKey_to_insert_a_verification_code_yubikey_token_aut10faWWbNaNWBaH0g4_3"
+                      >
+                        Use your YubiKey to insert a verification code.
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-11"
+                  >
+                    <div
+                      class="MuiBox-root emotion-1"
+                    >
+                      <label
+                        class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-28"
+                        data-shrink="false"
+                        for="credentials.passcode"
+                      >
+                        Insert then tap your YubiKey
+                      </label>
+                      <div
+                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-29"
+                        dir="ltr"
+                        required="true"
+                      >
+                        <input
+                          aria-invalid="false"
+                          autocomplete="off"
+                          class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-30"
+                          data-se="credentials.passcode"
+                          id="credentials.passcode"
+                          name="credentials.passcode"
+                          required=""
+                          type="password"
+                        />
+                        <div
+                          class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined emotion-31"
+                        >
+                          <button
+                            aria-controls="credentials.passcode"
+                            aria-label="Show password"
+                            aria-pressed="false"
+                            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-32"
+                            data-mui-internal-clone-element="true"
+                            tabindex="0"
+                            type="button"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-33"
+                              fill="none"
+                              focusable="false"
+                              viewBox="0 0 16 16"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                clip-rule="evenodd"
+                                d="M3.89765 11.5506C2.89626 10.6994 2.04176 9.50056 1.15617 8C2.04176 6.49944 2.89626 5.30062 3.89765 4.44944C4.96916 3.53865 6.24031 3 8 3C9.75969 3 11.0308 3.53865 12.1024 4.44944C13.1037 5.30062 13.9582 6.49944 14.8438 8C13.9582 9.50056 13.1037 10.6994 12.1024 11.5506C11.0308 12.4613 9.75969 13 8 13C6.24031 13 4.96916 12.4613 3.89765 11.5506ZM8 14C12 14 14 11.5 16 8C14 4.5 12 2 8 2C4 2 2 4.5 0 8C2 11.5 4 14 8 14ZM11 8C11 9.65685 9.65685 11 8 11C6.34315 11 5 9.65685 5 8C5 6.34315 6.34315 5 8 5C9.65685 5 11 6.34315 11 8ZM12 8C12 10.2091 10.2091 12 8 12C5.79086 12 4 10.2091 4 8C4 5.79086 5.79086 4 8 4C10.2091 4 12 5.79086 12 8Z"
+                                fill="currentColor"
+                                fill-rule="evenodd"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-11"
+                  >
+                    <button
+                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-35"
+                      data-type="save"
+                      tabindex="0"
+                      type="submit"
+                    >
+                      Set up
+                    </button>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-11"
+                  >
+                    <button
+                      class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-37"
+                      data-se="switchAuthenticator"
+                      role="link"
+                      type="button"
+                    >
+                      Return to authenticator list
+                    </button>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-11"
+                  >
+                    <button
+                      class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-37"
+                      data-se="cancel"
+                      role="link"
+                      type="button"
+                    >
+                      Back to sign in
+                    </button>
+                  </div>
                 </div>
-              </div>
-              <div
-                class="MuiBox-root emotion-13"
-              >
-                <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-31"
-                  data-type="save"
-                  tabindex="0"
-                  type="submit"
-                >
-                  Set up
-                </button>
-              </div>
-              <div
-                class="MuiBox-root emotion-13"
-              >
-                <button
-                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-33"
-                  data-se="switchAuthenticator"
-                  role="link"
-                >
-                  Return to authenticator list
-                </button>
-              </div>
-              <div
-                class="MuiBox-root emotion-13"
-              >
-                <button
-                  class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-33"
-                  data-se="cancel"
-                  role="link"
-                >
-                  Back to sign in
-                </button>
-              </div>
+              </form>
             </div>
-          </form>
+          </div>
         </div>
       </div>
     </main>

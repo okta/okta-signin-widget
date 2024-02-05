@@ -13,14 +13,14 @@ export default class ChallengePhonePageObject extends ChallengeFactorPageObject 
   }
 
   clickSecondaryLink(name) {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.clickButton(name);
     }
     return this.form.clickElement('.phone-authenticator-challenge__link');
   }
 
   resendCodeText(index) {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       if (index === undefined) {
         index = 0;
       }
@@ -30,14 +30,14 @@ export default class ChallengePhonePageObject extends ChallengeFactorPageObject 
   }
 
   getSecondaryLinkText(name) {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.getButton(name).textContent;
     }
     return this.getTextContent('.phone-authenticator-challenge__link');
   }
 
   async resendCodeExists(index) {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       if (index === undefined) {
         index = 0;
       }

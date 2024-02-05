@@ -24,13 +24,12 @@ const identifyPollErrorMock = RequestMock()
 
 const requestLogger = RequestLogger(/poll/);
 
-fixture('Safemode Polling')
-  .meta('v3', true);
+fixture('Safemode Polling');
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
-
   await identityPage.navigateToPage();
+  await t.expect(identityPage.formExists()).ok();
   return identityPage;
 }
 

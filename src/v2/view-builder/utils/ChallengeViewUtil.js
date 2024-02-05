@@ -147,6 +147,17 @@ export function doChallenge(view, fromView) {
       }
     }));
     break;
+  case Enums.CHROME_DTC:
+    // reusing the existing message for Chrome DTC
+    view.title = loc('deviceTrust.sso.redirectText', 'login');
+    view.add(View.extend({
+      className: 'chrome-dtc-content',
+      template: hbs`
+            <div class="spinner"></div>
+          `
+    }));
+    view.doChromeDTC(deviceChallenge);
+    break;
   }
 }
 

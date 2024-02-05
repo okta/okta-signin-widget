@@ -36,4 +36,18 @@ describe('toNestedObject', () => {
       b: 'foobar',
     });
   });
+
+  it('should not produce nested object for keysWithoutNesting', () => {
+    expect(toNestedObject({
+      consent: true,
+      'optedScopes.email': true,
+      'optedScopes.some.scope': true,
+    }, ['optedScopes'])).toEqual({
+      consent: true,
+      optedScopes: {
+        email: true,
+        'some.scope': true,
+      },
+    });
+  });
 });

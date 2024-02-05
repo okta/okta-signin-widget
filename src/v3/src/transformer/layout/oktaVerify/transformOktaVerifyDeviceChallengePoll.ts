@@ -14,6 +14,7 @@ import { NextStep } from '@okta/okta-auth-js';
 
 import { CHALLENGE_METHOD, IDX_STEP } from '../../../constants';
 import {
+  ChromeDtcContainerElement,
   DescriptionElement,
   IdxStepTransformer,
   IStepperContext,
@@ -30,23 +31,39 @@ import {
 import { hasMinAuthenticatorOptions, loc, updateTransactionWithNextStep } from '../../../util';
 
 const getTitleText = (challengeMethod: string) => {
-  if (challengeMethod === CHALLENGE_METHOD.APP_LINK) {
-    return loc('appLink.title', 'login');
+  switch (challengeMethod) {
+    case CHALLENGE_METHOD.APP_LINK:
+      return loc('appLink.title', 'login');
+
+    case CHALLENGE_METHOD.CHROME_DTC:
+      // reusing the existing message for Chrome DTC
+      return loc('deviceTrust.sso.redirectText', 'login');
+
+    case CHALLENGE_METHOD.CUSTOM_URI:
+      return loc('customUri.title', 'login');
+
+    case CHALLENGE_METHOD.UNIVERSAL_LINK:
+      return loc('universalLink.title', 'login');
+
+    default:
+      return '';
   }
-  if (challengeMethod === CHALLENGE_METHOD.UNIVERSAL_LINK) {
-    return loc('universalLink.title', 'login');
-  }
-  return loc('customUri.title', 'login');
 };
 
 const getDescriptionText = (challengeMethod: string) => {
-  if (challengeMethod === CHALLENGE_METHOD.APP_LINK) {
-    return loc('appLink.content', 'login');
+  switch (challengeMethod) {
+    case CHALLENGE_METHOD.APP_LINK:
+      return loc('appLink.content', 'login');
+
+    case CHALLENGE_METHOD.CUSTOM_URI:
+      return loc('customUri.required.content.prompt', 'login');
+
+    case CHALLENGE_METHOD.UNIVERSAL_LINK:
+      return loc('universalLink.content', 'login');
+
+    default:
+      return '';
   }
-  if (challengeMethod === CHALLENGE_METHOD.UNIVERSAL_LINK) {
-    return loc('universalLink.content', 'login');
-  }
-  return loc('customUri.required.content.prompt', 'login');
 };
 
 export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
@@ -61,7 +78,7 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
     ? transaction.nextStep?.relatesTo?.value
     // @ts-expect-error challenge is not defined on contextualData
     : transaction.nextStep?.relatesTo?.value?.contextualData?.challenge?.value;
-  const { challengeMethod } = deviceChallengePayload;
+  const { challengeMethod, href, downloadHref } = deviceChallengePayload;
 
   const titleElement: TitleElement = {
     type: 'Title',
@@ -86,8 +103,15 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
     type: 'OpenOktaVerifyFPButton',
     options: {
       step: nextStep.name,
-      href: deviceChallengePayload.href,
+      href,
       challengeMethod,
+    },
+  };
+
+  const chromeDtcContainer: ChromeDtcContainerElement = {
+    type: 'ChromeDtcContainer',
+    options: {
+      href,
     },
   };
 
@@ -180,12 +204,26 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
     return formBag;
   }
 
-  if (challengeMethod === CHALLENGE_METHOD.APP_LINK
-    || challengeMethod === CHALLENGE_METHOD.UNIVERSAL_LINK) {
+  if ([
+    CHALLENGE_METHOD.APP_LINK,
+    CHALLENGE_METHOD.CHROME_DTC,
+    CHALLENGE_METHOD.UNIVERSAL_LINK,
+  ].includes(challengeMethod)) {
     uischema.elements.push(spinnerElement);
   }
-  uischema.elements.push(descriptionElement);
-  uischema.elements.push(openOktaVerifyButton);
+
+  if ([
+    CHALLENGE_METHOD.APP_LINK,
+    CHALLENGE_METHOD.CUSTOM_URI,
+    CHALLENGE_METHOD.UNIVERSAL_LINK,
+  ].includes(challengeMethod)) {
+    uischema.elements.push(descriptionElement);
+    uischema.elements.push(openOktaVerifyButton);
+  }
+
+  if (challengeMethod === CHALLENGE_METHOD.CHROME_DTC) {
+    uischema.elements.push(chromeDtcContainer);
+  }
 
   if (challengeMethod === CHALLENGE_METHOD.CUSTOM_URI) {
     uischema.elements.push({
@@ -198,7 +236,7 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
       type: 'Link',
       options: {
         label: loc('customUri.required.content.download.linkText', 'login'),
-        href: deviceChallengePayload.downloadHref,
+        href: downloadHref,
       },
     } as LinkElement);
   }

@@ -66,17 +66,30 @@ export const transformEmailAuthenticatorVerify: IdxStepTransformer = ({ transact
   }
 
   const redactedEmailAddress = nextStep.relatesTo?.value?.profile?.email;
-  const tokenReplacement: TokenReplacement | undefined = typeof redactedEmailAddress !== 'undefined'
-    ? { $1: { element: 'span', attributes: { class: 'strong no-translate' } } }
-    : undefined;
+  const redactedSecondaryEmailAddress = nextStep.relatesTo?.value?.profile?.secondaryEmail;
+
+  const getTokenReplacement = (): TokenReplacement | undefined => {
+    if (typeof redactedSecondaryEmailAddress !== 'undefined' && typeof redactedEmailAddress !== 'undefined') {
+      return {
+        $1: { element: 'span', attributes: { class: 'strong no-translate' } },
+        $2: { element: 'span', attributes: { class: 'strong no-translate' } },
+      };
+    }
+    if (typeof redactedEmailAddress !== 'undefined') {
+      return { $1: { element: 'span', attributes: { class: 'strong no-translate' } } };
+    }
+    return undefined;
+  };
+
   const informationalText: DescriptionElement = {
     type: 'Description',
     contentType: 'subtitle',
     options: {
       content: getEmailAuthenticatorSubtitle(
         redactedEmailAddress,
+        redactedSecondaryEmailAddress,
         useEmailMagicLink,
-        tokenReplacement,
+        getTokenReplacement(),
       ),
     },
   };

@@ -1,6 +1,6 @@
 import BasePageObject from './BasePageObject';
 import CalloutObject from './components/CalloutObject';
-import { userVariables } from 'testcafe';
+import { userVariables, Selector, ClientFunction } from 'testcafe';
 import { within } from '@testing-library/testcafe';
 
 const TERMINAL_VIEW = '.siw-main-view.terminal';
@@ -27,7 +27,7 @@ export default class TerminalPageObject extends BasePageObject {
   }
 
   getMessages(index) {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.getSubtitle(index);
     }
     return this.form.getTerminalContent();
@@ -43,9 +43,16 @@ export default class TerminalPageObject extends BasePageObject {
 
   // Check for go back link unique to V2
   async goBackLinkExistsV2() {
-    if(!userVariables.v3) {
+    if(!userVariables.gen3) {
       return this.goBackLinkExists();
     }
     return false;
+  }
+
+  async getPageUrl() {
+    await this.t.expect(Selector('#mock-user-dashboard-title', { timeout: 10000 }).innerText).eql('Mock User Dashboard');
+
+    const pageUrl = await ClientFunction(() => window.location.href)();
+    return pageUrl;
   }
 }

@@ -11,3 +11,4 @@
  */
 
 export * from './redirectTransformer';
+export * from './transformAutoRedirect';

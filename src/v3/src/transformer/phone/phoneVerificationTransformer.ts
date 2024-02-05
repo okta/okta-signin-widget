@@ -22,7 +22,7 @@ import {
   TitleElement,
   UISchemaElement,
 } from '../../types';
-import { loc } from '../../util';
+import { buildPhoneVerificationSubtitleElement, isValidPhoneMethodType, loc } from '../../util';
 import { getUIElementWithName, removeUIElementWithName } from '../utils';
 
 const TARGET_FIELD_NAME = 'authenticator.methodType';
@@ -58,30 +58,16 @@ export const transformPhoneVerification: IdxStepTransformer = ({ transaction, fo
   // (Display order) 3rd element in the elements array
   uischema.elements.unshift(carrierInfoText);
 
-  const redactedPhoneNumber = nextStep.relatesTo?.value?.profile?.phoneNumber as string;
-  const phoneNumberSpan = redactedPhoneNumber ? `<span class="strong no-translate">${redactedPhoneNumber}</span>` : null;
-  const phoneInfoText = phoneNumberSpan || loc('oie.phone.alternate.title', 'login');
-  const smsInfoTextElement: DescriptionElement = {
-    type: 'Description',
-    contentType: 'subtitle',
-    options: {
-      content: `${loc('oie.phone.verify.sms.sendText', 'login')} ${phoneInfoText}`,
-    },
-  };
-  const voiceInfoTextElement: DescriptionElement = {
-    type: 'Description',
-    contentType: 'subtitle',
-    options: {
-      content: `${loc('oie.phone.verify.call.sendText', 'login')} ${phoneInfoText}`,
-    },
-  };
-
   // (Display order) 2nd element in the elements array
   // Append appropriate descr text to elements based on first methodType
-  if (primaryMethod === 'sms') {
-    uischema.elements.unshift(smsInfoTextElement);
-  } else {
-    uischema.elements.unshift(voiceInfoTextElement);
+  if (isValidPhoneMethodType(primaryMethod)) {
+    uischema.elements.unshift(
+      buildPhoneVerificationSubtitleElement(
+        nextStep.name,
+        primaryMethod,
+        nextStep.relatesTo?.value,
+      ),
+    );
   }
 
   const titleElement: TitleElement = {

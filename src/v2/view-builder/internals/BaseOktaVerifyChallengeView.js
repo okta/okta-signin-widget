@@ -106,6 +106,19 @@ const Body = BaseFormWithPolling.extend({
           return onPortFound()
             .done(() => {
               foundPort = true;
+              if (deviceChallenge.enhancedPollingEnabled !== false) {
+                // this way we can gurantee that
+                // 1. the polling is triggered right away (1ms interval)
+                // 2. Only one polling queue
+                // 3. follwoing polling will continue with refresh interval from previous polling response
+                // NOTE: technically, there could still be concurrency issue where when we called stopPolling,
+                // there is already a polling triggered and hasn't completed yet
+                // but the possibility would be much smaller than previous concurrency issue
+                // this is a best effort change
+                this.stopPolling();
+                this.startPolling(1);
+                return;
+              }
               // once the OV challenge succeeds,
               // triggers another polling right away without waiting for the next ongoing polling to be triggered
               // to make the authentication flow goes faster 
@@ -170,18 +183,13 @@ const Body = BaseFormWithPolling.extend({
 
   doCustomURI() {
     this.ulDom && this.ulDom.remove();
+    const IframeView = createInvisibleIFrame('custom-uri-container', this.customURI);
+    this.ulDom = this.add(IframeView).last();
+  },
 
-    const IframeView = View.extend({
-      tagName: 'iframe',
-      id: 'custom-uri-container',
-      attributes: {
-        src: this.customURI,
-      },
-      initialize() {
-        this.el.style.display = 'none';
-      }
-    });
-
+  doChromeDTC(deviceChallenge) {
+    this.ulDom && this.ulDom.remove();
+    const IframeView = createInvisibleIFrame('chrome-dtc-container', deviceChallenge.href);
     this.ulDom = this.add(IframeView).last();
   },
 
@@ -190,5 +198,19 @@ const Body = BaseFormWithPolling.extend({
     this.probingXhr && this.probingXhr.abort();
   },
 });
+
+function createInvisibleIFrame(iFrameId, iFrameSrc) {
+  const iFrameView = View.extend({
+    tagName: 'iframe',
+    id: iFrameId,
+    attributes: {
+      src: iFrameSrc,
+    },
+    initialize() {
+      this.el.style.display = 'none';
+    }
+  });
+  return iFrameView;
+}
 
 export default Body;

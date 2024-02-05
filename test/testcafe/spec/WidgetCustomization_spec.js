@@ -39,38 +39,55 @@ const rerenderWidget = ClientFunction((settings) => {
   window.renderPlaygroundWidget(settings);
 });
 
-fixture('Custom widget attributes')
-  .meta('v3', true);
+fixture('Custom widget attributes');
 
-async function setup(t) {
+async function setup(t, widgetOptions) {
+  const options = widgetOptions ? { render: false } : {};
   const identityPage = new IdentityPageObject(t);
-  await identityPage.navigateToPage();
+  await identityPage.navigateToPage(options);
+  if (widgetOptions) {
+    await rerenderWidget(widgetOptions);
+  }
+  await t.expect(identityPage.formExists()).ok();
   return identityPage;
 }
 
-async function setupSelectAuthenticator(t) {
+async function setupSelectAuthenticator(t, widgetOptions) {
+  const options = widgetOptions ? { render: false } : {};
   const selectAuthenticatorPageObject = new SelectFactorPageObject(t);
-  await selectAuthenticatorPageObject.navigateToPage();
+  await selectAuthenticatorPageObject.navigateToPage(options);
+  if (widgetOptions) {
+    await rerenderWidget(widgetOptions);
+  }
+  await t.expect(selectAuthenticatorPageObject.formExists()).ok();
   return selectAuthenticatorPageObject;
 }
 
-async function setupResetPassword(t) {
+async function setupResetPassword(t, widgetOptions) {
+  const options = widgetOptions ? { render: false } : {};
   const resetPasswordPage = new FactorEnrollPasswordPageObject(t);
-  await resetPasswordPage.navigateToPage();
+  await resetPasswordPage.navigateToPage(options);
+  if (widgetOptions) {
+    await rerenderWidget(widgetOptions);
+  }
+  await t.expect(resetPasswordPage.formExists()).ok();
   return resetPasswordPage;
 }
 
-async function setupPasswordExpired(t) {
+async function setupPasswordExpired(t, widgetOptions) {
+  const options = widgetOptions ? { render: false } : {};
   const expiredPasswordPage = new FactorEnrollPasswordPageObject(t);
-  await expiredPasswordPage.navigateToPage();
+  await expiredPasswordPage.navigateToPage(options);
+  if (widgetOptions) {
+    await rerenderWidget(widgetOptions);
+  }
+  await t.expect(expiredPasswordPage.formExists()).ok();
   return expiredPasswordPage;
 }
 
 
 test.requestHooks(identifyMock)('should show custom footer links', async t => {
-  const identityPage = await setup(t);
-  await checkA11y(t);
-  await rerenderWidget({
+  const identityPage = await setup(t, {
     'helpLinks': {
       'help': 'https://google.com',
       'forgotPassword': 'https://okta.okta.com/signin/forgot-password',
@@ -87,6 +104,7 @@ test.requestHooks(identifyMock)('should show custom footer links', async t => {
       ]
     },
   });
+  await checkA11y(t);
   await t.expect(identityPage.getCustomForgotPasswordLinkUrl()).eql('https://okta.okta.com/signin/forgot-password');
   await t.expect(identityPage.getHelpLinkUrl()).eql('https://google.com');
   await t.expect(identityPage.getCustomHelpLinkUrl(0, 'What is Okta?')).eql('https://acme.com/what-is-okta');
@@ -98,8 +116,7 @@ test.requestHooks(identifyMock)('should show custom footer links', async t => {
 
 test.requestHooks(xhrSelectAuthenticatorMock)('should show custom signout link', async t => {
   // setup selectAuthenticatorPageObject to see the signout link
-  const selectAuthenticatorPageObject = await setupSelectAuthenticator(t);
-  await rerenderWidget({
+  const selectAuthenticatorPageObject = await setupSelectAuthenticator(t, {
     'signOutLink': 'https://okta.okta.com/',
   });
   await t.expect(selectAuthenticatorPageObject.getCustomSignOutLink()).eql('https://okta.okta.com/');
@@ -109,19 +126,15 @@ test.requestHooks(xhrSelectAuthenticatorMock)('should show custom signout link',
 
 test.requestHooks(xhrSelectAuthenticatorMock)('can customize back to signin link using `backToSignInLink`', async t => {
   // setup selectAuthenticatorPageObject to see the signout link
-  const selectAuthenticatorPageObject = await setupSelectAuthenticator(t);
-  await rerenderWidget({
+  const selectAuthenticatorPageObject = await setupSelectAuthenticator(t, {
     'backToSignInLink': 'https://okta.okta.com/',
   });
   await t.expect(selectAuthenticatorPageObject.getCustomSignOutLink()).eql('https://okta.okta.com/');
   await t.expect(selectAuthenticatorPageObject.getSignoutLinkText()).eql('Back to sign in');
 });
 
-// OKTA-594754 Custom buttons are not supported in v3
-test.meta('v3', false).requestHooks(identifyMock)('should show custom buttons links', async t => {
-  const identityPage = await setup(t);
-  await checkA11y(t);
-  await rerenderWidget({
+test.requestHooks(identifyMock)('should show custom buttons links', async t => {
+  const identityPage = await setup(t, {
     'customButtons' : [{
       'title': 'Custom Button 1',
       'className': 'btn-customAuth-1',
@@ -147,8 +160,7 @@ test.meta('v3', false).requestHooks(identifyMock)('should show custom buttons li
 });
 
 test.requestHooks(mockEnrollAuthenticator)('should show custom brandName title on select authenticator enroll page', async t => {
-  const selectAuthenticatorPageObject = await setupSelectAuthenticator(t);
-  await rerenderWidget({
+  const selectAuthenticatorPageObject = await setupSelectAuthenticator(t, {
     'brandName': 'Spaghetti Inc',
   });
   await t.expect(selectAuthenticatorPageObject.getFormSubtitle()).eql(
@@ -156,17 +168,14 @@ test.requestHooks(mockEnrollAuthenticator)('should show custom brandName title o
 });
 
 test.requestHooks(mockAuthenticatorResetPassword)('should show custom brandName title on reset password page', async t => {
-  const resetPasswordPage = await setupResetPassword(t);
-
-  await rerenderWidget({
+  const resetPasswordPage = await setupResetPassword(t, {
     'brandName': 'Spaghetti Inc',
   });
   await t.expect(resetPasswordPage.getFormTitle()).eql('Reset your Spaghetti Inc password');
 });
 
 test.requestHooks(mockAuthenticatorPasswordExpired)('should show custom brandName title on password expired page', async t => {
-  const passwordExpiredPage = await setupPasswordExpired(t);
-  await rerenderWidget({
+  const passwordExpiredPage = await setupPasswordExpired(t, {
     'brandName': 'Spaghetti Inc',
   });
   await t.expect(passwordExpiredPage.getFormTitle()).eql(
@@ -174,8 +183,7 @@ test.requestHooks(mockAuthenticatorPasswordExpired)('should show custom brandNam
 });
 
 test.requestHooks(mockAuthenticatorPasswordExpiryWarning)('should show custom brandName title on password expiring soon page', async t => {
-  const passwordExpiryWarningPage = await setupPasswordExpired(t);
-  await rerenderWidget({
+  const passwordExpiryWarningPage = await setupPasswordExpired(t, {
     'brandName': 'Spaghetti Inc',
   });
   await t.expect(passwordExpiryWarningPage.getFormSubtitle()).eql('When password expires you will be locked out of your Spaghetti Inc account.');
@@ -186,9 +194,10 @@ test.requestHooks(mockAuthenticatorPasswordExpiryWarning)('should show user\'s i
   await t.expect(passwordExpiryWarningPage.getIdentifier()).eql('testUser@okta.com');
 });
 
-test.requestHooks(mockAuthenticatorPasswordExpiryWarning)('should hide user\'s identifier if feature is disabled', async t => {
-  const passwordExpiryWarningPage = await setupPasswordExpired(t);
-  await rerenderWidget({
+// TODO: OKTA-649669 - Determine whether gen 3 should support dot notation FFs. This test was originally passing in gen 3 not because the FF is
+// parsed correctly but because it evaluates to undefined and hits the same logical path as 'false' in IdentifierContainer's shouldHideIdentifier()
+test.meta('gen3', false).requestHooks(mockAuthenticatorPasswordExpiryWarning)('should hide user\'s identifier if feature is disabled', async t => {
+  const passwordExpiryWarningPage = await setupPasswordExpired(t, {
     'features.showIdentifier': false,
   });
   await t.expect(passwordExpiryWarningPage.hasIdentifier()).eql(false);

@@ -203,7 +203,7 @@ Object {
 }
 `;
 
-exports[`Enroll Profile Transformer Tests should add password requirements along with title, and submit button when passcode exists but password settings are empty 1`] = `
+exports[`Enroll Profile Transformer Tests should not add password requirements but should add title, password, and button elements when passcode exists but password settings are empty 1`] = `
 Object {
   "data": Object {},
   "dataSchema": Object {

@@ -120,6 +120,30 @@ describe('Unhandled Error Transformer Tests', () => {
       ).options?.class).toBe('ERROR');
     });
 
+    it('should add info box when response is invalid activation token error', () => {
+      const mockErrorMessage = 'The activation token is invalid';
+      apiError = {
+        ...apiError,
+        error: 'invalid_request',
+        error_description: mockErrorMessage,
+      };
+      const formBag = transformUnhandledErrors(widgetProps, apiError);
+
+      expect(formBag).toMatchSnapshot();
+      expect(formBag.uischema.elements.length).toBe(1);
+      expect(formBag.uischema.elements[0].type).toBe('InfoBox');
+      expect((formBag.uischema.elements[0] as InfoboxElement).options?.message)
+        .toEqual({
+          class: 'ERROR',
+          i18n: { key: 'idx.missing.activation.token' },
+          message: 'idx.missing.activation.token',
+          title: 'oie.activation.request.email.title.invalid',
+        });
+      expect((
+        formBag.uischema.elements[0] as InfoboxElement
+      ).options?.class).toBe('ERROR');
+    });
+
     it('should add info box when oie is not enabled error', () => {
       const mockErrorMessage = 'A mocked error message';
       apiError = {

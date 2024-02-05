@@ -2,8 +2,8 @@ import { RequestMock, RequestLogger } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 import { renderWidget } from '../framework/shared';
 import RegistrationPageObject from '../framework/page-objects/RegistrationPageObject';
-import enrollProfile from '../../../playground/mocks/data/idp/idx/enroll-profile';
-import success from '../../../playground/mocks/data/idp/idx/terminal-registration';
+import enrollProfile from '../../../playground/mocks/data/idp/idx/enroll-profile.json';
+import success from '../../../playground/mocks/data/idp/idx/terminal-registration.json';
 
 const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -20,22 +20,23 @@ const logger = RequestLogger(
 );
 
 
-fixture('Registration Hooks')
-  .meta('v3', true);
+fixture('Registration Hooks');
 
-async function setup(t) {
+async function setup(t, widgetOptions) {
+  const options = widgetOptions ? { render: false } : {};
   const registrationPage = new RegistrationPageObject(t);
-  await registrationPage.navigateToPage();
+  await registrationPage.navigateToPage(options);
+  if (widgetOptions) {
+    await renderWidget(widgetOptions);
+  }
+  await t.expect(registrationPage.formExists()).ok();
   return registrationPage;
 }
 
 
 test.requestHooks(logger, mock)('should call settings.registration hooks onSuccess handlers', async t => {
   logger.clear();
-  const registrationPage = await setup(t);
-  await checkA11y(t);
-
-  await renderWidget({
+  const registrationPage = await setup(t, {
     registration: {
       parseSchema: function(resp, onSuccess) {
         resp.find(({ name }) => name === 'userProfile.firstName').required = false;
@@ -52,8 +53,11 @@ test.requestHooks(logger, mock)('should call settings.registration hooks onSucce
       },
     },
   });
+  await checkA11y(t);
+
   await registrationPage.fillLastNameField('bar');
   await registrationPage.fillEmailField('email@email.com');
+  await registrationPage.fillUsernameField('my-username');
   await registrationPage.clickRegisterButton();
   // parseSchema removes requirement on first name field
   await t.expect(registrationPage.hasFirstNameError()).notOk();
@@ -67,6 +71,7 @@ test.requestHooks(logger, mock)('should call settings.registration hooks onSucce
       lastName: 'bar',
       email: 'email@email.com',
       extra: 'stuff',
+      login: 'my-username'
     }
   });
   // postSubmit
@@ -76,10 +81,7 @@ test.requestHooks(logger, mock)('should call settings.registration hooks onSucce
 
 test.requestHooks(logger, mock)('should call settings.registration.preSubmit hook\'s onFailure handlers', async t => {
   logger.clear();
-  const registrationPage = await setup(t);
-  await checkA11y(t);
-
-  await renderWidget({
+  const registrationPage = await setup(t, {
     registration: {
       parseSchema: function(resp, onSuccess, onFailure) {
         const error = {
@@ -101,11 +103,13 @@ test.requestHooks(logger, mock)('should call settings.registration.preSubmit hoo
       },
     },
   });
+  await checkA11y(t);
   await t.expect(registrationPage.getErrorBoxText()).eql('My parseSchema message');
 
   await registrationPage.fillFirstNameField('xyz');
   await registrationPage.fillLastNameField('xyz');
   await registrationPage.fillEmailField('email@email.com');
+  await registrationPage.fillUsernameField('my-username');
   await registrationPage.clickRegisterButton();
 
   await t.expect(registrationPage.getErrorBoxText()).eql('My preSubmit message');
@@ -116,10 +120,7 @@ test.requestHooks(logger, mock)('should call settings.registration.preSubmit hoo
 
 test.requestHooks(logger, mock)('settings.registration.preSubmit hook can call onFailure handlers with errorCauses to put error on specific field', async t => {
   logger.clear();
-  const registrationPage = await setup(t);
-  await checkA11y(t);
-
-  await renderWidget({
+  const registrationPage = await setup(t, {
     registration: {
       preSubmit: function(postData, onSuccess, onFailure) {
         const error = {
@@ -132,9 +133,11 @@ test.requestHooks(logger, mock)('settings.registration.preSubmit hook can call o
       },
     },
   });
+  await checkA11y(t);
   await registrationPage.fillFirstNameField('xyz');
   await registrationPage.fillLastNameField('xyz');
   await registrationPage.fillEmailField('email@email.com');
+  await registrationPage.fillUsernameField('my-username');
   await registrationPage.clickRegisterButton();
 
   await t.expect(registrationPage.getErrorBoxText()).eql('We found some errors. Please review the form and make corrections.');
@@ -146,10 +149,7 @@ test.requestHooks(logger, mock)('settings.registration.preSubmit hook can call o
 
 test.requestHooks(logger, mock)('should call settings.registration.postSubmit hook\'s onFailure handler', async t => {
   logger.clear();
-  const registrationPage = await setup(t);
-  await checkA11y(t);
-
-  await renderWidget({
+  const registrationPage = await setup(t, {
     registration: {
       postSubmit: function(postData, onSuccess, onFailure) {
         const error = {
@@ -159,10 +159,12 @@ test.requestHooks(logger, mock)('should call settings.registration.postSubmit ho
       },
     },
   });
+  await checkA11y(t);
 
   await registrationPage.fillFirstNameField('xyz');
   await registrationPage.fillLastNameField('xyz');
   await registrationPage.fillEmailField('email@email.com');
+  await registrationPage.fillUsernameField('my-username');
   await registrationPage.clickRegisterButton();
 
   const req = logger.requests[0].request;

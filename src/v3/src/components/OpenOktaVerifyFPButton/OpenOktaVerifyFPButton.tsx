@@ -10,8 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import classNames from 'classnames';
-import { FunctionComponent, h } from 'preact';
+import { h } from 'preact';
 import React from 'preact/compat';
 import { useState } from 'preact/hooks';
 
@@ -28,21 +27,7 @@ import {
   getBaseUrl, getTranslation, isAndroid, setUrlQueryParams,
 } from '../../util';
 import Button from '../Button';
-import style from './style.module.css';
-
-type IFrameProps = {
-  src: string;
-};
-const IFrame: FunctionComponent<IFrameProps> = ({ src }) => {
-  const classes = classNames(style.hidden);
-  return (
-    // eslint-disable-next-line jsx-a11y/iframe-has-title
-    <iframe
-      src={src}
-      className={classes}
-    />
-  );
-};
+import HiddenIFrame from '../HiddenIFrame';
 
 const OpenOktaVerifyFPButton: UISchemaElementComponent<{
   uischema: OpenOktaVerifyFPButtonElement
@@ -98,8 +83,9 @@ const OpenOktaVerifyFPButton: UISchemaElementComponent<{
     <React.Fragment>
       <Button uischema={buttonUiSchema} />
       {(href && challengeMethod === CHALLENGE_METHOD.CUSTOM_URI) && (
-        <IFrame
+        <HiddenIFrame
           key={key}
+          id="custom-uri-container"
           src={deviceChallengeUrl}
         />
       )}

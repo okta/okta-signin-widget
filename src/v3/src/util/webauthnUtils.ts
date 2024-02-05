@@ -26,7 +26,7 @@ boolean => !!(navigator && navigator.credentials && navigator.credentials.create
  * Uses the Web Authentication API to generate credentials for enrolling
  * a user into the WebAuthN flow
  *
- * Used by {@link WebauthnControl.tsx} Renderer to initiate the WebAuthN Enrollment flow.
+ * Used by {@link WebAuthNSubmitButton.tsx} Renderer to initiate the WebAuthN Enrollment flow.
  */
 export const webAuthNEnrollmentHandler: WebAuthNEnrollmentHandler = async (transaction) => {
   // @ts-ignore OKTA-499928 authenticatorEnrollments missing from rawIdxState
@@ -66,7 +66,7 @@ export const webAuthNEnrollmentHandler: WebAuthNEnrollmentHandler = async (trans
 /**
  * Uses the Web Authentication API to retrieve credentials for a client to authenticate
  *
- * Used by {@link WebauthnControl.tsx} Renderer to initiate the WebAuthN Authentication flow.
+ * Used by {@link WebAuthNSubmitButton.tsx} Renderer to initiate the WebAuthN Authentication flow.
  */
 export const webAuthNAuthenticationHandler: WebAuthNAuthenticationHandler = async (transaction) => {
   // @ts-ignore OKTA-499928 authenticatorEnrollments missing from rawIdxState

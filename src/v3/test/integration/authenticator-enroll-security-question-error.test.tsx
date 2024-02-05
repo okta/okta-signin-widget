@@ -14,8 +14,7 @@ import { HttpRequestClient } from '@okta/okta-auth-js';
 import { createAuthJsPayloadArgs, setup, updateStateHandleInMock } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/credential/enroll/securityquestion-enroll-mfa.json';
-import responseWithCharacterLimitError
-  from '../../src/mocks/response/idp/idx/challenge/answer/enroll-security-question-with-character-limit-error.json';
+import responseWithCharacterLimitError from '../../src/mocks/response/idp/idx/challenge/answer/enroll-security-question-with-character-limit-error.json';
 
 describe('authenticator-enroll-security-question-error', () => {
   let mockRequestClientWithError: HttpRequestClient;
@@ -65,7 +64,7 @@ describe('authenticator-enroll-security-question-error', () => {
         user, authClient, container, findByText, findByTestId,
       } = await setup({ mockRequestClient: mockRequestClientWithError });
 
-      await findByText(/Set up security question/);
+      expect(await findByText(/Set up security question/)).toBeInTheDocument();
       const submitButton = await findByText('Verify', { selector: 'button' });
       const answerEle = await findByTestId('credentials.answer') as HTMLInputElement;
 
@@ -94,7 +93,7 @@ describe('authenticator-enroll-security-question-error', () => {
         user, authClient, container, findByText, findByTestId,
       } = await setup({ mockRequestClient: mockRequestClientWithError });
 
-      await findByText(/Set up security question/);
+      expect(await findByText(/Set up security question/)).toBeInTheDocument();
       const submitButton = await findByText('Verify', { selector: 'button' });
       const answerEle = await findByTestId('credentials.answer') as HTMLInputElement;
 
@@ -132,7 +131,7 @@ describe('authenticator-enroll-security-question-error', () => {
         user, authClient, container, findByText, findByTestId, findByLabelText,
       } = await setup({ mockRequestClient: mockRequestClientWithError });
 
-      await findByText(/Set up security question/);
+      expect(await findByText(/Set up security question/)).toBeInTheDocument();
       const submitButton = await findByText('Verify', { selector: 'button' });
       const answerEle = await findByTestId('credentials.answer') as HTMLInputElement;
 
@@ -182,7 +181,7 @@ describe('authenticator-enroll-security-question-error', () => {
 
       // switch to predefined question form
       await user.click(await findByLabelText(/Choose a security question/));
-      await findByLabelText('Choose a security question', { selector: 'select' });
+      expect(await findByLabelText('Choose a security question', { selector: 'select' })).toBeInTheDocument();
       const restoredAnswerEle = await findByTestId('credentials.answer') as HTMLInputElement;
 
       await user.type(restoredAnswerEle, answer);
@@ -219,7 +218,7 @@ describe('authenticator-enroll-security-question-error', () => {
         user, authClient, container, findByText, findByTestId, findByLabelText,
       } = await setup({ mockRequestClient: mockRequestClientWithError });
 
-      await findByText(/Set up security question/);
+      expect(await findByText(/Set up security question/)).toBeInTheDocument();
 
       // switch to custom question form
       await user.click(await findByLabelText(/Create my own security question/));

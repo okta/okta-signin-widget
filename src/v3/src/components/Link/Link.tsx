@@ -65,6 +65,8 @@ const Link: UISchemaElementComponent<{
     typeof href === 'undefined' ? (
       <LinkMui
         component="button"
+        // Fixes OKTA-653788 (see comments) - Currently we treat all links as buttons
+        type="button"
         variant="body1"
         role="link"
         onClick={onClick}
@@ -88,6 +90,8 @@ const Link: UISchemaElementComponent<{
           aria-describedby={ariaDescribedBy}
           data-se={dataSe}
           target={target}
+          // eslint-disable-next-line react/jsx-props-no-spreading
+          {...(target === '_blank' && { rel: 'noopener noreferrer' })}
         >
           {label}
         </LinkMui>

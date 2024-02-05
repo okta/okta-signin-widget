@@ -28,14 +28,26 @@ const MockDuo = {
     })();
 
     if (iframe) {
-      iframe.src = '/duo-iframe.html';
+      iframe.src = '/mocks/spec-duo/duo-iframe.html';
       iframe.onload = () => {
         const innerDoc = iframe.contentDocument ?? iframe.contentWindow?.document;
         const duoMockLink = innerDoc?.getElementById('duoVerifyLink');
         duoMockLink?.addEventListener('click', () => {
-          if (options.post_action) {
-            // @ts-expect-error mistake in @types/duo_web_sdk
-            options.post_action('successDuoAuth');
+          if (options.submit_callback) {
+            // build input and form as the real sdk does
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'duo-signature';
+            input.value = 'successDuoAuth';
+
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '';
+
+            // add the response token input to the form
+            form.appendChild(input);
+
+            options.submit_callback(form);
           }
         }, false);
       };

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { cleanup, render } from '@testing-library/preact';
+import { render } from '@testing-library/preact';
 import { h } from 'preact';
 import { AuthCoinProps } from 'src/types';
 
@@ -23,10 +23,6 @@ describe('AuthCoin tests', () => {
     props = {
       authenticatorKey: 'custom_otp',
     };
-  });
-
-  afterEach(() => {
-    cleanup();
   });
 
   it('should display Branded AuthCoin and disallow style customization', async () => {
@@ -58,7 +54,7 @@ describe('AuthCoin tests', () => {
     + 'AuthCoin when image URL is provided', async () => {
     props = {
       ...props,
-      url: '/img/socialButtonIcons/okta.svg',
+      url: '/img/socialIcons/okta.svg',
     };
 
     const { container, findByRole } = render(<AuthCoin {...props} />);
@@ -71,7 +67,7 @@ describe('AuthCoin tests', () => {
     + 'AuthenticatorKey requires a branded Type', async () => {
     props = {
       authenticatorKey: 'duo',
-      url: '/img/socialButtonIcons/okta.svg',
+      url: '/img/socialIcons/okta.svg',
     };
 
     const { container, findByRole } = render(<AuthCoin {...props} />);
@@ -88,7 +84,7 @@ describe('AuthCoin tests', () => {
     const { queryByRole, container } = render(<AuthCoin {...props} />);
 
     expect(container.childElementCount).toBe(0);
-    expect(await queryByRole('img', { hidden: true })).not.toBeInTheDocument();
+    expect(queryByRole('img', { hidden: true })).not.toBeInTheDocument();
     expect(container).toMatchSnapshot();
   });
 });

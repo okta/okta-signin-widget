@@ -30,6 +30,7 @@ export default {
 
   ODA: 'oda',
   MDM: 'mdm',
+  WS1: 'ws1',
 
   // Global success messages
   SUCCESS: 'SUCCESS',
@@ -79,5 +80,6 @@ export default {
   CUSTOM_URI_CHALLENGE: 'CUSTOM_URI',
   UNIVERSAL_LINK_CHALLENGE: 'UNIVERSAL_LINK',
   APP_LINK_CHALLENGE: 'APP_LINK',
+  CHROME_DTC: 'CHROME_DTC',
 
 };

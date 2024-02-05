@@ -56,6 +56,7 @@ export const transformGoogleAuthenticatorEnroll: IdxStepTransformer = ({
   const manualKeyElement: DescriptionElement = {
     type: 'Description',
     contentType: 'subtitle',
+    noTranslate: true,
     options: {
       // spacing out the code so Screen reader can speak each letter individually
       content: relatesTo.value.contextualData.sharedSecret?.split('').join(' ') || '',
@@ -100,8 +101,8 @@ export const transformGoogleAuthenticatorEnroll: IdxStepTransformer = ({
             noMargin: true,
             options: {
               content: loc('oie.enroll.google_authenticator.scanBarcode.title', 'login'),
-              level: 5,
-              visualLevel: 3,
+              level: 3,
+              visualLevel: 5,
               dataSe: 'barcode-setup-title',
             },
           } as HeadingElement,
@@ -128,8 +129,8 @@ export const transformGoogleAuthenticatorEnroll: IdxStepTransformer = ({
             noMargin: true,
             options: {
               content: loc('oie.enroll.google_authenticator.cannotScanBarcode.title', 'login'),
-              level: 5,
-              visualLevel: 3,
+              level: 3,
+              visualLevel: 5,
               dataSe: 'manual-setup-title',
             },
           } as HeadingElement,

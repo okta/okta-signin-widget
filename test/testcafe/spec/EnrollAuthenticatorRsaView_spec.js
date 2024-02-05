@@ -21,7 +21,7 @@ const passcodeChangeMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(xhrPasscodeChange, 403);
 
-fixture('Authenticator RSA').meta('v3', true);
+fixture('Authenticator RSA');
 
 async function setup(t) {
   const enrollRsaPage = new EnrollRsaPageObject(t);

@@ -13,14 +13,17 @@
 import { Box } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
 
+import { useLayoutContext } from '../../contexts';
 import {
   UISchemaElement,
   UISchemaElementComponent,
+  UISchemaLayoutType,
 } from '../../types';
 import { isDevelopmentEnvironment, isTestEnvironment } from '../../util';
 import renderers from './renderers';
 
 const ElementContainer: FunctionComponent<{ element: UISchemaElement }> = ({ element }) => {
+  const { layoutDirection } = useLayoutContext();
   const renderer = renderers.find((r) => r.tester(element));
   if (!renderer) {
     // TODO: for now do not render for unmatch render object
@@ -37,6 +40,8 @@ const ElementContainer: FunctionComponent<{ element: UISchemaElement }> = ({ ele
     <Box
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...(!(element).noMargin && { marginBlockEnd: 4 })}
+      // eslint-disable-next-line react/jsx-props-no-spreading
+      {...(layoutDirection === UISchemaLayoutType.HORIZONTAL && { marginInlineEnd: 1 })}
     >
       <Component uischema={element} />
     </Box>

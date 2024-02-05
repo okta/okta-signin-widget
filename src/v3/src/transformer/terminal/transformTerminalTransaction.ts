@@ -35,16 +35,14 @@ import {
   containsOneOfMessageKeys,
   getBackToSignInUri,
   getBaseUrl,
-  getUserInfo,
   isOauth2Enabled,
   loc,
-  removeUsernameCookie,
   SessionStorage,
-  setUsernameCookie,
   shouldShowCancelLink,
 } from '../../util';
 import { redirectTransformer } from '../redirect';
 import { setFocusOnFirstElement } from '../uischema';
+import { createIdentifierContainer } from '../uischema/createIdentifierContainer';
 import { createForm } from '../utils';
 import { transformOdaEnrollment } from './odaEnrollment';
 import { transformMdmTerminalView } from './transformMdmTerminalView';
@@ -81,7 +79,7 @@ const appendViewLinks = (
   widgetProps: WidgetProps,
   bootstrapFn: () => Promise<void>,
 ): void => {
-  const { features } = widgetProps;
+  const { features, authClient } = widgetProps;
   const isCancelAvailable = shouldShowCancelLink(features);
   const cancelStep = transaction?.availableSteps?.find(({ name }) => name === 'cancel');
   const skipStep = transaction?.availableSteps?.find(({ name }) => name.includes('skip'));
@@ -121,6 +119,9 @@ const appendViewLinks = (
       cancelLink.options.href = backToSigninUri;
     } else if (isOauth2Enabled(widgetProps)) {
       cancelLink.options.onClick = async () => {
+        authClient?.transactionManager.clear();
+        // We have to directly delete the recoveryToken since it is set once upon authClient instantiation
+        delete authClient?.options.recoveryToken;
         await bootstrapFn();
       };
     } else {
@@ -130,32 +131,12 @@ const appendViewLinks = (
   }
 };
 
-const isSuccessfulAuthentication = (
-  transction: IdxTransaction,
-): boolean => !!(transction.context.success
-  || transction.rawIdxState.successWithInteractionCode);
-
-const updateIdentifierCookie = (transaction: IdxTransaction, rememberMe?: boolean): void => {
-  if (rememberMe) {
-    const userInfo = getUserInfo(transaction);
-    if (userInfo.identifier) {
-      setUsernameCookie(userInfo.identifier);
-    }
-  } else {
-    removeUsernameCookie();
-  }
-};
-
 export const transformTerminalTransaction = (
   transaction: IdxTransaction,
   widgetProps: WidgetProps,
   bootstrapFn: () => Promise<void>,
 ): FormBag => {
-  const { authClient, features } = widgetProps;
-  if (isSuccessfulAuthentication(transaction) && features?.rememberMyUsernameOnOIE) {
-    // TODO: OKTA-506358 This identifier cookie can be removed once implemented in auth-js
-    updateIdentifierCookie(transaction, features?.rememberMe);
-  }
+  const { authClient } = widgetProps;
 
   if (isOauth2Enabled(widgetProps) && transaction.interactionCode) {
     // Interaction code flow handled by useInteractionCodeFlow hook
@@ -169,6 +150,20 @@ export const transformTerminalTransaction = (
       transaction.context.success.href,
       widgetProps,
     );
+  }
+
+  if (transaction.context?.failure?.href) {
+    // Direct auth clients display the error instead of redirecting
+    // when redirect option is set to 'always' it will override the default behavior
+    const shouldRedirect = isOauth2Enabled(widgetProps) === false || widgetProps.redirect === 'always';
+    if (shouldRedirect) {
+      SessionStorage.removeStateHandle();
+      return redirectTransformer(
+        transaction,
+        transaction.context.failure.href,
+        widgetProps,
+      );
+    }
   }
 
   const { messages } = transaction;
@@ -185,7 +180,8 @@ export const transformTerminalTransaction = (
   if (typeof deviceEnrollment !== 'undefined') {
     if (deviceEnrollment.name === DEVICE_ENROLLMENT_TYPE.ODA) {
       return transformOdaEnrollment({ transaction, formBag, widgetProps });
-    } if (deviceEnrollment.name === DEVICE_ENROLLMENT_TYPE.MDM) {
+    } if (deviceEnrollment.name === DEVICE_ENROLLMENT_TYPE.MDM
+            || deviceEnrollment.name === DEVICE_ENROLLMENT_TYPE.WS1) {
       return transformMdmTerminalView({ transaction, formBag, widgetProps });
     }
   }
@@ -197,6 +193,14 @@ export const transformTerminalTransaction = (
   appendViewLinks(transaction, formBag.uischema, widgetProps, bootstrapFn);
 
   setFocusOnFirstElement(formBag);
+
+  createIdentifierContainer({
+    transaction,
+    widgetProps,
+    step: '',
+    setMessage: () => {},
+    isClientTransaction: false,
+  })(formBag);
 
   return formBag;
 };

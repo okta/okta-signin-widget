@@ -118,7 +118,7 @@ export default FormController.extend({
             name: 'username',
             input: TextBox,
             inputId: 'account-recovery-username',
-            autoComplete: 'username',
+            autoComplete: Util.getAutocompleteValue(this.settings, 'username'),
             type: 'text',
             inlineValidation: false,
           })

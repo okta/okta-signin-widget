@@ -12,12 +12,14 @@
  */
 
 /* eslint complexity: [2, 13], max-depth: [2, 3] */
-import { _, loc } from '@okta/courage';
+import _ from 'underscore';
+import { loc } from './loc';
 import Enums from './Enums';
 import Logger from './Logger';
 import BrowserFeatures from './BrowserFeatures';
 
 const Util = {};
+const ovDeepLink = 'redirect_uri=https://login.okta.com/oauth/callback';
 
 const buildInputForParameter = function(name, value) {
   const input = document.createElement('input');
@@ -88,7 +90,7 @@ Util.transformErrorXHR = function(xhr) {
       }
     } else if (typeof xhr.responseText === 'object') {
       xhr.responseJSON = xhr.responseText;
-    } 
+    }
   }
   // Temporary solution to display field errors
   // Assuming there is only one field error in a response
@@ -187,6 +189,11 @@ Util.redirect = function(url, win = window, isAppLink = false) {
   }
 };
 
+Util.isAndroidOVEnrollment = function() {
+  const ovEnrollment = decodeURIComponent(window.location.href).includes(ovDeepLink);
+  return BrowserFeatures.isAndroid() && ovEnrollment;
+};
+
 /**
  * Why redirect via Form get rather using `window.location.href`?
  * At the time of writing, Chrome (<72) in Android would block window location change
@@ -241,6 +248,14 @@ Util.createInputExplain = function(explainKey, labelKey, bundleName, explainPara
 
 Util.isV1StateToken = function(token) {
   return !!(token && _.isString(token) && token.startsWith('00'));
+};
+
+Util.getAutocompleteValue = function(settings, defaultValue) {
+  const shouldDisableAutocomplete = settings?.get('features.disableAutocomplete');
+  if (shouldDisableAutocomplete) {
+    return 'off';
+  }
+  return defaultValue;
 };
 
 export default Util;

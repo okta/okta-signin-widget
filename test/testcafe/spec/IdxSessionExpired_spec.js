@@ -33,8 +33,7 @@ const interactionCodeFlowBaseMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(xhrSessionExpired, 401);
 
-fixture('IDX Session Expired')
-  .meta('v3', true);
+fixture('IDX Session Expired');
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
@@ -62,6 +61,7 @@ async function setupInteractionCodeFlow(t) {
       state: 'mock-state'
     }
   });
+  await t.expect(identityPage.formExists()).ok();
   return identityPage;
 }
 

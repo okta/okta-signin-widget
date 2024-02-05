@@ -19,7 +19,7 @@ import {
   TransformStepFnWithOptions,
   UISchemaLayoutType,
 } from '../../types';
-import { loc } from '../../util';
+import { isConfigRecoverFlow, loc } from '../../util';
 
 export const transformRegisterButton: TransformStepFnWithOptions = ({
   transaction,
@@ -36,6 +36,15 @@ export const transformRegisterButton: TransformStepFnWithOptions = ({
   const registerStep = availableSteps?.find(
     ({ name }) => name === IDX_STEP.SELECT_ENROLL_PROFILE,
   );
+
+  // TODO
+  // OKTA-651781
+  // when flow param is set to resetPassword, the identify page is redressed as identify-recovery page
+  // so this link needs to be hidden
+  if (isConfigRecoverFlow(widgetProps.flow)) {
+    return formbag;
+  }
+
   if (!shouldAddDefaultButton || typeof registerStep === 'undefined') {
     return formbag;
   }

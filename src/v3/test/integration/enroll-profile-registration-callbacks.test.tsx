@@ -10,15 +10,16 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import enrollProfileResponse from '@okta/mocks/data/idp/idx/enroll-profile.json';
-import enrollProfileTerminalResponse from '@okta/mocks/data/idp/idx/terminal-registration.json';
+import { IdxActionParams } from '@okta/okta-auth-js';
+import { within, waitFor } from '@testing-library/preact';
 import {
   RegistrationDataCallbackV3,
   RegistrationElementSchema,
   RegistrationSchemaCallbackV3,
 } from 'src/types';
-import { IdxActionParams } from '@okta/okta-auth-js';
-import { within, waitFor } from '@testing-library/preact';
+
+import enrollProfileResponse from '../../../../playground/mocks/data/idp/idx/enroll-profile.json';
+import enrollProfileTerminalResponse from '../../../../playground/mocks/data/idp/idx/terminal-registration.json';
 import { createAuthJsPayloadArgs, setup } from './util';
 import { RegistrationErrorCallback, RegistrationPostSubmitCallback } from '../../../types';
 
@@ -81,6 +82,7 @@ describe('enroll-profile-with-password', () => {
     const firstNameEle = await findByLabelText(/First name/) as HTMLInputElement;
     const lastNameEle = await findByLabelText(/Last name/) as HTMLInputElement;
     const emailEle = await findByLabelText(/Email/) as HTMLInputElement;
+    const usernameEle = await findByLabelText(/Username/) as HTMLInputElement;
     const addressEle = await findByLabelText(/Street Address/) as HTMLInputElement;
 
     await waitFor(() => expect(heading).toHaveFocus());
@@ -91,15 +93,18 @@ describe('enroll-profile-with-password', () => {
     const lastName = 'McTesterson';
     const email = 'tester@okta1.com';
     const address = '123 Main St';
+    const username = 'myusername';
     await user.type(firstNameEle, firstName);
     await user.type(lastNameEle, lastName);
     await user.type(emailEle, email);
     await user.type(addressEle, address);
+    await user.type(usernameEle, username);
 
     expect(firstNameEle.value).toEqual(firstName);
     expect(lastNameEle.value).toEqual(lastName);
     expect(emailEle.value).toEqual(email);
     expect(addressEle.value).toEqual(address);
+    expect(usernameEle.value).toEqual(username);
 
     await user.click(submitButton);
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
@@ -109,6 +114,7 @@ describe('enroll-profile-with-password', () => {
           firstName,
           lastName,
           email,
+          login: username,
         },
       }, 'application/vnd.okta.v1+json'),
     );
@@ -200,17 +206,21 @@ describe('enroll-profile-with-password', () => {
     const firstNameEle = await findByLabelText(/First name/) as HTMLInputElement;
     const lastNameEle = await findByLabelText(/Last name/) as HTMLInputElement;
     const emailEle = await findByLabelText(/Email/) as HTMLInputElement;
+    const usernameEle = await findByLabelText(/Username/) as HTMLInputElement;
 
     const firstName = 'tester';
     const lastName = 'McTesterson';
     const email = 'tester@okta1.com';
+    const username = 'tester.mctesterson';
     await user.type(firstNameEle, firstName);
     await user.type(lastNameEle, lastName);
     await user.type(emailEle, email);
+    await user.type(usernameEle, username);
 
     expect(firstNameEle.value).toEqual(firstName);
     expect(lastNameEle.value).toEqual(lastName);
     expect(emailEle.value).toEqual(email);
+    expect(usernameEle.value).toEqual(username);
 
     await user.click(submitButton);
     expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
@@ -255,13 +265,16 @@ describe('enroll-profile-with-password', () => {
     const firstNameEle = await findByLabelText(/First name/) as HTMLInputElement;
     const lastNameEle = await findByLabelText(/Last name/) as HTMLInputElement;
     const emailEle = await findByLabelText(/Email/) as HTMLInputElement;
+    const usernameEle = await findByLabelText(/Username/) as HTMLInputElement;
 
     const firstName = 'tester';
     const lastName = 'McTesterson';
     const email = 'tester@okta1.com';
+    const username = 'tester.mctesterson';
     await user.type(firstNameEle, firstName);
     await user.type(lastNameEle, lastName);
     await user.type(emailEle, email);
+    await user.type(usernameEle, username);
 
     expect(firstNameEle.value).toEqual(firstName);
     expect(lastNameEle.value).toEqual(lastName);
@@ -275,11 +288,12 @@ describe('enroll-profile-with-password', () => {
           firstName,
           lastName,
           email,
+          login: username,
         },
       }, 'application/vnd.okta.v1+json'),
     );
     const alertBox = await findByRole('alert') as HTMLDivElement;
-    within(alertBox).findByText(/We could not process your registration at this time. Please try again later./);
+    expect(await within(alertBox).findByText(/We could not process your registration at this time. Please try again later./)).toBeInTheDocument();
     expect(container).toMatchSnapshot();
   });
 

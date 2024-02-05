@@ -2,8 +2,7 @@ import { Model } from '@okta/courage';
 import AutoRedirectView from 'v2/view-builder/views/AutoRedirectView';
 import AppState from 'v2/models/AppState';
 import Settings from 'models/Settings';
-import SuccessWithAppUserAfterUnlock
-  from '../../../../../../playground/mocks/data/idp/idx/user-account-unlock-answer-choose-auth-after-unlock.json';
+import SuccessWithAppUserAfterUnlock from '../../../../../../playground/mocks/data/idp/idx/user-account-unlock-answer-choose-auth-after-unlock.json';
 
 describe('v2/view-builder/views/AutoRedirectViewAfterUnlock', function() {
   let testContext;

@@ -15,15 +15,15 @@ import {
   IdxMessage,
   IdxTransaction,
   OAuthError,
-  OktaAuth,
+  OktaAuthIdxInterface,
 } from '@okta/okta-auth-js';
 import { MutableRef, StateUpdater } from 'preact/hooks';
 
-import { FormBag, LanguageDirection } from './schema';
+import { FormBag, LanguageDirection, UISchemaLayoutType } from './schema';
 import { WidgetProps } from './widget';
 
 export type IWidgetContext = {
-  authClient: OktaAuth;
+  authClient: OktaAuthIdxInterface;
   widgetProps: WidgetProps;
   message: IdxMessage | undefined;
   setMessage: StateUpdater<IdxMessage | undefined>;
@@ -51,4 +51,9 @@ export type IWidgetContext = {
 export type IStepperContext = {
   stepIndex: number;
   setStepIndex: StateUpdater<number | undefined>;
+};
+
+// Layout context
+export type ILayoutContext = {
+  layoutDirection: UISchemaLayoutType.VERTICAL | UISchemaLayoutType.HORIZONTAL,
 };

@@ -129,7 +129,7 @@ export default Form.extend({
       inputId: 'okta-signin-username',
       type: 'text',
       disabled: this.options.appState.get('disableUsername'),
-      autoComplete: 'username',
+      autoComplete: Util.getAutocompleteValue(this.settings, 'username'),
       // TODO: support a11y attrs in Courage - OKTA-279025
       render: function() {
         const that = this;
@@ -177,7 +177,7 @@ export default Form.extend({
       inputId: 'okta-signin-password',
       validateOnlyIfDirty: true,
       type: 'password',
-      autoComplete: 'current-password',
+      autoComplete: Util.getAutocompleteValue(this.settings, 'current-password'),
       // TODO: support a11y attrs in Courage - OKTA-279025
       render: function() {
         const that = this;

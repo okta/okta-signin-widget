@@ -1,11 +1,16 @@
-import { RequestMock, RequestLogger } from 'testcafe';
+import { RequestMock, RequestLogger, userVariables } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
+import { checkConsoleMessages } from '../framework/shared';
 import IdPAuthenticatorPageObject from '../framework/page-objects/IdPAuthenticatorPageObject';
 import xhrEnrollIdPAuthenticator from '../../../playground/mocks/data/idp/idx/authenticator-enroll-idp.json';
+import xhrEnrollIdPAuthenticatorCustomLogo from '../../../playground/mocks/data/idp/idx/authenticator-enroll-idp-custom-logo.json';
 import xhrEnrollIdPAuthenticatorError from '../../../playground/mocks/data/idp/idx/error-authenticator-enroll-idp.json';
+import xhrEnrollIdpAuthentiatorErrorCustomLogo from '../../../playground/mocks/data/idp/idx/error-authenticator-enroll-idp-custom-logo.json';
 import xhrVerifyIdPAuthenticator from '../../../playground/mocks/data/idp/idx/authenticator-verification-idp.json';
+import xhrVerifyIdPAuthenticatorCustomLogo from '../../../playground/mocks/data/idp/idx/authenticator-verification-idp-custom-logo.json';
 import xhrVerifyIdPAuthenticatorSingleRemediation from '../../../playground/mocks/data/idp/idx/authenticator-verification-idp-single-remediation.json';
 import xhrVerifyIdPAuthenticatorError from '../../../playground/mocks/data/idp/idx/error-authenticator-verification-idp.json';
+import xhrVerifyIdpAuthentiatorErrorCustomLogo from '../../../playground/mocks/data/idp/idx/error-authenticator-verification-idp-custom-logo.json';
 
 const logger = RequestLogger(/introspect/,
   {
@@ -22,9 +27,21 @@ const enrollMock = RequestMock()
   .onRequestTo('http://localhost:3000/sso/idps/0oa69chx4bZyx8O7l0g4?stateToken=02TptqPN4BOLIwMAGUVLPlZVJEnONAq7xkg19dy6Gk')
   .respond('<html><h1>An external IdP login page for testcafe testing</h1></html>');
 
+const enrollMockCustomLogo = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrEnrollIdPAuthenticatorCustomLogo)
+  .onRequestTo('http://localhost:3000/idp/idx/credential/enroll')
+  .respond(xhrEnrollIdPAuthenticatorCustomLogo)
+  .onRequestTo('http://localhost:3000/sso/idps/0oa69chx4bZyx8O7l0g4?stateToken=02TptqPN4BOLIwMAGUVLPlZVJEnONAq7xkg19dy6Gk')
+  .respond('<html><h1>An external IdP login page for testcafe testing</h1></html>');
+
 const enrollErrorMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrEnrollIdPAuthenticatorError);
+
+const enrollErrorCustomLogoMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrEnrollIdpAuthentiatorErrorCustomLogo);
 
 const verifyMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -42,20 +59,28 @@ const verifyMockWithSelect = RequestMock()
   .onRequestTo('http://localhost:3000/sso/idps/0oa69chx4bZyx8O7l0g4?stateToken=02TptqPN4BOLIwMAGUVLPlZVJEnONAq7xkg19dy6Gk')
   .respond('<html><h1>An external IdP login page for testcafe testing</h1></html>');
 
+const verifyMockCustomLogo = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrVerifyIdPAuthenticatorCustomLogo)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge')
+  .respond(xhrVerifyIdPAuthenticatorCustomLogo)
+  .onRequestTo('http://localhost:3000/sso/idps/0oa69chx4bZyx8O7l0g4?stateToken=02TptqPN4BOLIwMAGUVLPlZVJEnONAq7xkg19dy6Gk')
+  .respond('<html><h1>An external IdP login page for testcafe testing</h1></html>');
+
 const verifyErrorMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrVerifyIdPAuthenticatorError);
+
+const verifyErrorCustomLogoMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrVerifyIdpAuthentiatorErrorCustomLogo);
 
 async function setup(t, isVerify) {
   const pageObject = new IdPAuthenticatorPageObject(t);
   await pageObject.navigateToPage();
   await t.expect(pageObject.formExists()).eql(true);
 
-  const { log } = await t.getBrowserConsoleMessages();
-  await t.expect(log.length).eql(3);
-  await t.expect(log[0]).eql('===== playground widget ready event received =====');
-  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-  await t.expect(JSON.parse(log[2])).eql({
+  await checkConsoleMessages({
     controller: null,
     formName: isVerify ? 'challenge-authenticator' : 'enroll-authenticator',
     authenticatorKey: 'external_idp',
@@ -64,7 +89,7 @@ async function setup(t, isVerify) {
   return pageObject;
 }
 
-fixture('Enroll IdP Authenticator').meta('v3', true);
+fixture('Enroll IdP Authenticator');
 test
   .requestHooks(logger, enrollMock)('enroll with IdP authenticator', async t => {
     const pageObject = await setup(t);
@@ -72,6 +97,29 @@ test
 
     await t.expect(pageObject.getFormTitle()).eql('Set up IDP Authenticator');
     await t.expect(pageObject.getPageSubtitle()).eql('You will be redirected to enroll in IDP Authenticator');
+    await t.expect(pageObject.getBeaconClass()).contains('mfa-custom-factor');
+    await pageObject.submit('Enroll');
+
+    const pageUrl = await pageObject.getPageUrl();
+    await t.expect(pageUrl)
+      .eql('http://localhost:3000/sso/idps/0oa69chx4bZyx8O7l0g4?stateToken=02TptqPN4BOLIwMAGUVLPlZVJEnONAq7xkg19dy6Gk');
+  });
+
+test
+  .requestHooks(logger, enrollMockCustomLogo)('enroll with IdP authenticator with custom logo', async t => {
+    const pageObject = await setup(t);
+    await checkA11y(t);
+
+    const logoBgImage = pageObject.getBeaconBgImage();
+    await t.expect(pageObject.getFormTitle()).eql('Set up IDP Authenticator');
+    await t.expect(pageObject.getPageSubtitle()).eql('You will be redirected to enroll in IDP Authenticator');
+    await t.expect(pageObject.getBeaconClass()).contains('mfa-custom-factor');
+    if(userVariables.gen3) {
+      await t.expect(logoBgImage).match(/.*\/img\/logos\/default\.png$/);
+    } else {
+      await t.expect(logoBgImage).match(/^url\(".*\/img\/logos\/default\.png"\)$/);
+      await t.expect(pageObject.getBeaconClass()).contains('custom-app-logo');
+    }
     await pageObject.submit('Enroll');
 
     const pageUrl = await pageObject.getPageUrl();
@@ -87,9 +135,28 @@ test
     await t.expect(pageObject.getFormTitle()).eql('Set up IDP Authenticator');
     await t.expect(pageObject.getPageSubtitle()).eql('You will be redirected to enroll in IDP Authenticator');
     await t.expect(pageObject.getErrorFromErrorBox()).eql('Unable to enroll authenticator. Try again.');
+    await t.expect(pageObject.getBeaconClass()).contains('mfa-custom-factor');
   });
 
-fixture('Verify IdP Authenticator').meta('v3', true);
+test
+  .requestHooks(logger, enrollErrorCustomLogoMock)('enroll with IdP authenticator with custom logo surfaces error messages', async t => {
+    const pageObject = await setup(t);
+    await checkA11y(t);
+    
+    const logoBgImage = pageObject.getBeaconBgImage();
+    await t.expect(pageObject.getFormTitle()).eql('Set up IDP Authenticator');
+    await t.expect(pageObject.getPageSubtitle()).eql('You will be redirected to enroll in IDP Authenticator');
+    await t.expect(pageObject.getErrorFromErrorBox()).eql('Unable to enroll authenticator. Try again.');
+    await t.expect(pageObject.getBeaconClass()).contains('mfa-custom-factor');
+    if(userVariables.gen3) {
+      await t.expect(logoBgImage).match(/.*\/img\/logos\/default\.png$/);
+    } else {
+      await t.expect(logoBgImage).match(/^url\(".*\/img\/logos\/default\.png"\)$/);
+      await t.expect(pageObject.getBeaconClass()).contains('custom-app-logo');
+    }
+  });
+
+fixture('Verify IdP Authenticator');
 test
   .requestHooks(logger, verifyMock)('verify with IdP authenticator', async t => {
     const pageObject = await setup(t, true);
@@ -97,6 +164,28 @@ test
 
     await t.expect(pageObject.getFormTitle()).eql('Verify with IDP Authenticator');
     await t.expect(pageObject.getPageSubtitle()).eql('You will be redirected to verify with IDP Authenticator');
+    await pageObject.submit('Verify');
+
+    const pageUrl = await pageObject.getPageUrl();
+    await t.expect(pageUrl)
+      .eql('http://localhost:3000/sso/idps/0oa69chx4bZyx8O7l0g4?stateToken=02TptqPN4BOLIwMAGUVLPlZVJEnONAq7xkg19dy6Gk');
+  });
+
+test
+  .requestHooks(logger, verifyMockCustomLogo)('verify with IdP authenticator with custom logo', async t => {
+    const pageObject = await setup(t, true);
+    await checkA11y(t);
+
+    const logoBgImage = pageObject.getBeaconBgImage();
+    await t.expect(pageObject.getFormTitle()).eql('Verify with IDP Authenticator');
+    await t.expect(pageObject.getPageSubtitle()).eql('You will be redirected to verify with IDP Authenticator');
+    await t.expect(pageObject.getBeaconClass()).contains('mfa-custom-factor');
+    if(userVariables.gen3) {
+      await t.expect(logoBgImage).match(/.*\/img\/logos\/default\.png$/);
+    } else {
+      await t.expect(logoBgImage).match(/^url\(".*\/img\/logos\/default\.png"\)$/);
+      await t.expect(pageObject.getBeaconClass()).contains('custom-app-logo');
+    }
     await pageObject.submit('Verify');
 
     const pageUrl = await pageObject.getPageUrl();
@@ -126,4 +215,22 @@ test
     await t.expect(pageObject.getFormTitle()).eql('Verify with IDP Authenticator');
     await t.expect(pageObject.getPageSubtitle()).eql('You will be redirected to verify with IDP Authenticator');
     await t.expect(pageObject.getErrorFromErrorBox()).eql('Unable to verify authenticator. Try again.');
+  });
+
+test
+  .requestHooks(logger, verifyErrorCustomLogoMock)('verify with IdP authenticator with custom logo surfaces error messages', async t => {
+    const pageObject = await setup(t, true);
+    await checkA11y(t);
+
+    const logoBgImage = pageObject.getBeaconBgImage();
+    await t.expect(pageObject.getFormTitle()).eql('Verify with IDP Authenticator');
+    await t.expect(pageObject.getPageSubtitle()).eql('You will be redirected to verify with IDP Authenticator');
+    await t.expect(pageObject.getErrorFromErrorBox()).eql('Unable to verify authenticator. Try again.');
+    await t.expect(pageObject.getBeaconClass()).contains('mfa-custom-factor');
+    if(userVariables.gen3) {
+      await t.expect(logoBgImage).match(/.*\/img\/logos\/default\.png$/);
+    } else {
+      await t.expect(logoBgImage).match(/^url\(".*\/img\/logos\/default\.png"\)$/);
+      await t.expect(pageObject.getBeaconClass()).contains('custom-app-logo');
+    }
   });

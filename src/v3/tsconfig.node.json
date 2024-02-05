@@ -5,8 +5,15 @@
     "moduleResolution": "Node",
     "allowSyntheticDefaultImports": true
   },
+  "ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS"
+    }
+  },
   "files": [
-    "vite.config.ts",
+    "webpack.common.config.ts",
+    "webpack.dev.config.ts",
+    "webpack.release.config.ts",
     "global.d.ts"
   ]
 }

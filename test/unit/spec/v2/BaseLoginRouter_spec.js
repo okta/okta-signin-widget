@@ -7,8 +7,7 @@ import { RecoverableError } from 'util/OAuthErrors';
 import $sandbox from 'sandbox';
 import getAuthClient from 'helpers/getAuthClient';
 import XHRInteract from '../../../../playground/mocks/data/oauth2/interact.json';
-import XHRIdentifyWithPassword
-  from '../../../../playground/mocks/data/idp/idx/identify-with-password.json';
+import XHRIdentifyWithPassword from '../../../../playground/mocks/data/idp/idx/identify-with-password.json';
 import XHRIdentify from '../../../../playground/mocks/data/idp/idx/identify.json';
 import ResetPassword from '../../../../playground/mocks/data/idp/idx/authenticator-reset-password.json';
 import EnrollProfile from '../../../../playground/mocks/data/idp/idx/enroll-profile.json';
@@ -19,6 +18,8 @@ import IdxSessionExpiredError from '../../../../playground/mocks/data/idp/idx/er
 import IdxRateLimitError from '../../../../playground/mocks/data/idp/idx/error-429-too-many-request-operation-ratelimit';
 import SuccessWithInteractionCode from '../../../../playground/mocks/data/idp/idx/success-with-interaction-code.json';
 import RAW_IDX_RESPONSE from 'helpers/v2/idx/fullFlowResponse';
+import Expect from 'helpers/util/Expect';
+import Logger from 'util/Logger';
 
 const FakeController = Controller.extend({
   postRender() {
@@ -151,6 +152,45 @@ describe('v2/BaseLoginRouter', function() {
   });
 
   describe('restartLoginFlow', () => {
+    it('doesn\'t throw error if IDX flow ends after restart', async () => {
+      setupOAuth({
+        flow: 'unlockAccount'
+      });
+      const { afterErrorHandler, afterRenderHandler, router } = testContext;
+      jest.spyOn(router, 'render');
+      jest.spyOn(router.settings, 'callGlobalSuccess');
+      spyOn(Logger, 'error');
+  
+      Util.mockAjax([
+        mockXhr(XHRInteract), 
+        mockXhr(RAW_IDX_RESPONSE), // introspect
+        mockXhr(UserUnlockAccount),
+        // after login flow restart
+        mockXhr(XHRInteract), 
+        mockXhr(SuccessWithInteractionCode), 
+      ]);
+
+      // Render using real FormController
+      await router.render(FormController);
+
+      expect(afterErrorHandler).not.toHaveBeenCalled();
+      expect(afterRenderHandler).toHaveBeenCalled();
+      expect(router.appState.getCurrentViewState().name).toBe('select-authenticator-unlock-account');
+      expect(Util.numAjaxRequests()).toBe(3);
+      
+      // Clear appState cache and trigger `restartLoginFlow`
+      router.appState.trigger('invokeAction', 'cancel');
+      // Wait for render to be completed
+      await Expect.wait(() => router.hasControllerRendered);
+
+      expect(router.render).toHaveBeenCalledWith(router.controller.constructor);
+      expect(Util.numAjaxRequests()).toBe(5);
+      expect(router.settings.callGlobalSuccess).toHaveBeenCalled();
+      expect(Logger.error).not.toHaveBeenCalled();
+
+      expect(router.appState.getCurrentViewState()?.name).toBe(undefined);
+    });
+
     it('re-renders', () => {
       setup();
       const { router } = testContext;

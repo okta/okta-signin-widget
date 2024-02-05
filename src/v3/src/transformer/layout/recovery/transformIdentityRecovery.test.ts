@@ -13,7 +13,10 @@
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 
 import {
-  FieldElement, TitleElement, WidgetProps,
+  ButtonElement,
+  FieldElement,
+  TitleElement,
+  WidgetProps,
 } from '../../../types';
 import { transformIdentityRecovery } from './transformIdentityRecovery';
 
@@ -33,29 +36,33 @@ describe('Identity Recovery Transformer Tests', () => {
     widgetProps = {};
   });
 
-  it('should add generic title and update label for forgot password identifier field'
+  it('should add generic title and update label for forgot password identifier field and submit button'
     + ' when no brand name exists', () => {
     const updatedFormBag = transformIdentityRecovery({ transaction, formBag, widgetProps });
 
-    expect(updatedFormBag.uischema.elements.length).toBe(2);
+    expect(updatedFormBag.uischema.elements.length).toBe(3);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('password.reset.title.generic');
     expect((updatedFormBag.uischema.elements[1] as FieldElement).options.inputMeta.name)
       .toBe('identifier');
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).label)
+      .toBe('oform.next');
   });
 
-  it('should add branded title and update label for forgot password identifier field'
+  it('should add branded title and update label for forgot password identifier field and submit button'
     + ' when brand name exists', () => {
     const mockBrandName = 'Acme Corp';
     widgetProps = { brandName: mockBrandName };
     const updatedFormBag = transformIdentityRecovery({ transaction, formBag, widgetProps });
 
-    expect(updatedFormBag.uischema.elements.length).toBe(2);
+    expect(updatedFormBag.uischema.elements.length).toBe(3);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('password.reset.title.specific');
     expect((updatedFormBag.uischema.elements[1] as FieldElement).options.inputMeta.name)
       .toBe('identifier');
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).label)
+      .toBe('oform.next');
   });
 });

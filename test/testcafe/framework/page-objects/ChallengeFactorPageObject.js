@@ -27,7 +27,7 @@ export default class ChallengeFactorPageObject extends BasePageObject {
   }
 
   clickNextButton(name) {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.clickSaveButton(name);
     }
     

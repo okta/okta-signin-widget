@@ -61,6 +61,7 @@ export const IDX_STEP: Record<string, string> = {
   FAILURE_REDIRECT: 'failure-redirect',
   IDENTIFY: 'identify',
   IDENTIFY_RECOVERY: 'identify-recovery',
+  KEEP_ME_SIGNED_IN: 'keep-me-signed-in',
   LAUNCH_AUTHENTICATOR: 'launch-authenticator',
   LAUNCH_WEBAUTHN_AUTHENTICATOR: 'launch-webauthn-authenticator',
   PIV_IDP: 'piv-idp',
@@ -89,6 +90,7 @@ export const IDX_STEP: Record<string, string> = {
 
 export const CHALLENGE_METHOD: Record<string, string> = {
   APP_LINK: 'APP_LINK',
+  CHROME_DTC: 'CHROME_DTC',
   CUSTOM_URI: 'CUSTOM_URI',
   LOOPBACK: 'LOOPBACK',
   UNIVERSAL_LINK: 'UNIVERSAL_LINK',
@@ -103,6 +105,7 @@ export const AUTHENTICATOR_ALLOWED_FOR_OPTIONS: Record<string, string> = {
 export const DEVICE_ENROLLMENT_TYPE: Record<string, string> = {
   ODA: 'oda',
   MDM: 'mdm',
+  WS1: 'ws1',
 };
 
 export const TERMINAL_KEY: Record<string, string> = {
@@ -130,8 +133,11 @@ export const TERMINAL_KEY: Record<string, string> = {
   TOO_MANY_REQUESTS: 'tooManyRequests',
   UNLOCK_ACCOUNT_FAILED_PERMISSIONS_KEY: 'oie.selfservice.unlock_user.challenge.failed.permissions',
   UNLOCK_ACCOUNT_KEY: 'oie.selfservice.unlock_user.success.message',
+  SIGNED_NONCE_ERROR: 'core.auth.factor.signedNonce.error',
+  END_USER_REMEDIATION_ERROR_PREFIX: 'idx.error.code.access_denied.device_assurance.remediation',
 };
 
+export const CUSTOM_APP_UV_ENABLE_BIOMETRIC_SERVER_KEY = 'oie.authenticator.custom_app.method.push.verify.enable.biometrics';
 export const OV_UV_ENABLE_BIOMETRIC_SERVER_KEY = 'oie.authenticator.oktaverify.method.totp.verify.enable.biometrics';
 export const OV_UV_RESEND_ENABLE_BIOMETRIC_SERVER_KEY = 'oie.authenticator.app.method.push.verify.enable.biometrics';
 export const OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP = 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.desktop';
@@ -169,9 +175,6 @@ export const TERMINAL_KEYS_WITHOUT_CANCEL = [
 ];
 
 export const TERMINAL_TITLE_KEY: Record<string, string> = {
-  [TERMINAL_KEY.DEVICE_ACTIVATED]: 'device.code.activated.success.title',
-  [TERMINAL_KEY.DEVICE_NOT_ACTIVATED_CONSENT_DENIED]: 'device.code.activated.error.title',
-  [TERMINAL_KEY.DEVICE_NOT_ACTIVATED_INTERNAL_ERROR]: 'device.code.activated.error.title',
   [TERMINAL_KEY.EMAIL_ACTIVATION_EMAIL_EXPIRE]: 'oie.activation.request.email.title.expire',
   [TERMINAL_KEY.EMAIL_ACTIVATION_EMAIL_INVALID]: 'oie.activation.request.email.title.invalid',
   [TERMINAL_KEY.EMAIL_ACTIVATION_EMAIL_SUBMITTED]: 'oie.activation.request.email.title.submitted',
@@ -221,10 +224,10 @@ export const AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP: Record<string, string> = {
 };
 
 export const CHALLENGE_INTENT_TO_I18KEY: Record<string, string> = {
-  AUTHENTICATION: 'idx.return.link.otponly.enter.code.on.page.sign.in',
-  RECOVERY: 'idx.return.link.otponly.enter.code.on.page.password.reset',
-  UNLOCK_ACCOUNT: 'idx.return.link.otponly.enter.code.on.page.account.unlock',
-  ENROLLMENT: 'idx.return.link.otponly.enter.code.on.page.registration',
+  AUTHENTICATION: 'idx.return.link.otponly.enter.code.on.sign.in.page',
+  RECOVERY: 'idx.return.link.otponly.enter.code.on.password.reset.page',
+  UNLOCK_ACCOUNT: 'idx.return.link.otponly.enter.code.on.account.unlock.page',
+  ENROLLMENT: 'idx.return.link.otponly.enter.code.on.sign.up.page',
 };
 
 export const SOCIAL_IDP_TYPE_TO_I18KEY: Record<string, string> = {

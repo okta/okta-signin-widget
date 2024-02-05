@@ -40,7 +40,7 @@ describe('Granular Consent field transformer tests', () => {
         type: 'Field',
         options: {
           inputMeta: {
-            name: 'optedScopes.custom1',
+            name: 'optedScopes.custom.custom1',
             label: 'Custom 1 label',
             // TODO: Input type is missing desc as a property
             desc: 'This is a custom description for the custom field.',
@@ -57,7 +57,7 @@ describe('Granular Consent field transformer tests', () => {
         type: 'Field',
         options: {
           inputMeta: {
-            name: 'optedScopes.custom2',
+            name: 'optedScopes.custom.custom2',
             label: 'Custom 2 label',
             type: 'boolean',
             required: true,

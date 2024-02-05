@@ -34,12 +34,12 @@ const serverErrorMock = RequestMock()
   .respond(serverError);
 
 
-fixture('Number Challenge Okta Verify Push').meta('v3', true);
+fixture('Number Challenge Okta Verify Push');
 
 async function setup(t) {
   const challengeOktaVerifyPushPageObject = new ChallengeOktaVerifyPushPageObject(t);
   await challengeOktaVerifyPushPageObject.navigateToPage();
-  await challengeOktaVerifyPushPageObject.formExists();
+  await t.expect(challengeOktaVerifyPushPageObject.formExists()).ok();
   return challengeOktaVerifyPushPageObject;
 }
 
@@ -59,7 +59,7 @@ test
   });
 
 test
-  .meta('v3', false) // OKTA-587189 - disabled in v3 due to immediate polling issue
+  .meta('gen3', false) // OKTA-587189 - disabled in v3 due to immediate polling issue
   .requestHooks(logger, numberChallengeWaitMock)('Calls resend when we click the resend link from within the warning modal', async t => {
     const challengeOktaVerifyPushPageObject = await setup(t);
     await checkA11y(t);

@@ -11,7 +11,7 @@
  */
 
 import {
-  cleanup, fireEvent, render, waitFor,
+  fireEvent, render, waitFor,
 } from '@testing-library/preact';
 import { h } from 'preact';
 import {
@@ -22,7 +22,7 @@ import {
 
 import WebAuthNSubmitButton from './WebAuthNSubmitButton';
 
-jest.mock('../../../../v2/ion/i18nTransformer', () => ({
+jest.mock('../../../../v2/ion/i18nUtils', () => ({
   getMessageFromBrowserError: (error: Error) => (error.name === 'NotAllowedError' ? 'Operation not allowed' : error.message),
 }));
 
@@ -58,10 +58,6 @@ describe('WebAuthNControlSubmitControl Tests', () => {
         },
       } as WebAuthNButtonElement,
     };
-  });
-
-  afterEach(() => {
-    cleanup();
   });
 
   it('should render webauthn verify button and handle click', async () => {

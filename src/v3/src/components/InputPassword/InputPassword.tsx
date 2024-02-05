@@ -23,7 +23,7 @@ import {
   Typography,
 } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
-import { useState } from 'preact/hooks';
+import { useRef, useState } from 'preact/hooks';
 
 import { useWidgetContext } from '../../contexts';
 import {
@@ -33,7 +33,6 @@ import {
 } from '../../hooks';
 import {
   ChangeEvent,
-  ClickEvent,
   UISchemaElementComponent,
   UISchemaElementComponentWithValidationProps,
 } from '../../types';
@@ -49,9 +48,19 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
   describedByIds,
 }) => {
   const value = useValue(uischema);
-  const { loading } = useWidgetContext();
+  // TODO: OKTA-623544 - this FF will be deprecated for SIW v3 post-GA
+  // Sets showPasswordToggleOnSignInPage default value to true for parity with v2
   const {
-    translations = [], focus, parserOptions, noTranslate, showAsterisk,
+    loading,
+    widgetProps: { features: { showPasswordToggleOnSignInPage = true } = {} },
+  } = useWidgetContext();
+  const {
+    translations = [],
+    focus,
+    parserOptions,
+    noTranslate,
+    showAsterisk,
+    dir,
   } = uischema;
   const {
     attributes,
@@ -70,13 +79,21 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
   const ariaDescribedByIds = [describedByIds, hintId, explainId].filter(Boolean).join(' ')
     || undefined;
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const showPasswordTimeoutRef = useRef<number | undefined>();
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
-  };
 
-  const handleMouseDownPassword = (e: ClickEvent) => {
-    e.preventDefault();
+    if (showPasswordTimeoutRef.current) {
+      window.clearTimeout(showPasswordTimeoutRef.current);
+    }
+    // If the new value of showPassword is being set to true, set a 30-second timeout to auto-hide the password
+    // See: https://github.com/okta/okta-signin-widget#featuresshowpasswordtoggleonsigninpage
+    if (!showPassword) {
+      showPasswordTimeoutRef.current = window.setTimeout(() => {
+        setShowPassword(false);
+      }, 30000);
+    }
   };
 
   return (
@@ -101,7 +118,12 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
           </Box>
         )}
         {required === false && (
-          <Typography variant="subtitle1">{optionalLabel}</Typography>
+          <Typography
+            variant="subtitle1"
+            sx={{ whiteSpace: 'nowrap' }}
+          >
+            {optionalLabel}
+          </Typography>
         )}
       </InputLabel>
       {hint && (
@@ -136,27 +158,49 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
           ...attributes,
         }}
         className={noTranslate ? 'no-translate' : undefined}
+        dir={dir}
         endAdornment={(
-          <InputAdornment position="end">
-            <Tooltip title={showPassword ? getTranslation(translations, 'hide') : getTranslation(translations, 'show')}>
-              <IconButton
-                aria-label={getTranslation(translations, 'visibilityToggleLabel')}
-                aria-pressed={showPassword}
-                aria-controls={name}
-                onClick={handleClickShowPassword}
-                onMouseDown={handleMouseDownPassword}
-                edge="end"
-                sx={{
-                  '&.Mui-focusVisible': {
-                    outlineStyle: 'solid',
-                    outlineWidth: '1px',
-                  },
+          showPasswordToggleOnSignInPage && (
+            <InputAdornment
+              position="end"
+              // switching on the passed `dir` attribute is needed because plugin does not yet
+              // handle nested [dir="ltr"] inside [dir="rtl"] well so explicitly set physical
+              // properties when 'ltr' is passed onto this element, else can use logical
+              sx={(theme) => (dir === 'ltr' ? {
+                marginLeft: '8px',
+                marginRight: theme.spacing(2),
+              } : {
+                marginInlineEnd: theme.spacing(2),
+                marginInlineStart: '8px',
+              })}
+            >
+              <Tooltip
+                title={showPassword ? getTranslation(translations, 'hide') : getTranslation(translations, 'show')}
+                PopperProps={{
+                  // keep the added tooltip element inside the SIW container
+                  disablePortal: true,
                 }}
               >
-                {showPassword ? <EyeOffIcon /> : <EyeIcon />}
-              </IconButton>
-            </Tooltip>
-          </InputAdornment>
+                <IconButton
+                  aria-label={getTranslation(translations, 'visibilityToggleLabel')}
+                  aria-pressed={showPassword}
+                  aria-controls={name}
+                  onClick={handleClickShowPassword}
+                  sx={{
+                    // instead of using IconButton `edge="end"` we use this sx prop
+                    // because `edge="end"` does not use logical properties
+                    ...(dir === 'ltr' ? { marginRight: '-12px' } : { marginInlineEnd: '-12px' }),
+                    '&.Mui-focusVisible': {
+                      outlineStyle: 'solid',
+                      outlineWidth: '1px',
+                    },
+                  }}
+                >
+                  {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+                </IconButton>
+              </Tooltip>
+            </InputAdornment>
+          )
         )}
       />
       {hasErrors && (
@@ -180,4 +224,5 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
   );
 };
 
-export default withFormValidationState(InputPassword);
+const WrappedInputPassword = withFormValidationState(InputPassword);
+export default WrappedInputPassword;

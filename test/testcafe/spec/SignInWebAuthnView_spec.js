@@ -13,11 +13,13 @@ const mock = RequestMock()
   .respond(launchWebAuthnOption);
 
 fixture('Sign in with Okta Verify is required')
+  .meta('gen3', false) // Re-enable in OKTA-654489
   .requestHooks(logger, mock);
 
 async function setup(t) {
   const signInWebAuthnPageObject = new SignInWebAuthnPageObject(t);
   await signInWebAuthnPageObject.navigateToPage();
+  await t.expect(signInWebAuthnPageObject.formExists()).ok();
   return signInWebAuthnPageObject;
 }
 

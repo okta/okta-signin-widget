@@ -44,7 +44,11 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
   const value = useValue(uischema);
   const { loading } = useWidgetContext();
   const {
-    translations = [], focus, parserOptions, showAsterisk,
+    translations = [],
+    focus,
+    parserOptions,
+    showAsterisk,
+    dir,
   } = uischema;
   const label = getTranslation(translations, 'label');
   const hint = getTranslation(translations, 'hint');
@@ -86,7 +90,12 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
           </Box>
         )}
         {required === false && (
-          <Typography variant="subtitle1">{optionalLabel}</Typography>
+          <Typography
+            variant="subtitle1"
+            sx={{ whiteSpace: 'nowrap' }}
+          >
+            {optionalLabel}
+          </Typography>
         )}
       </InputLabel>
       {
@@ -122,6 +131,7 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
           ...attributes,
         }}
         inputRef={focusRef}
+        dir={dir}
       />
       {hasErrors && (
         <FieldLevelMessageContainer
@@ -146,4 +156,5 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
   );
 };
 
-export default withFormValidationState(InputText);
+const WrappedInputText = withFormValidationState(InputText);
+export default WrappedInputText;

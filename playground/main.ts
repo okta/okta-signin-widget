@@ -13,9 +13,13 @@ import {
 import { assertNoEnglishLeaks } from '../playground/LocaleUtils';
 
 declare global {
+  const IE11_COMPAT_MODE: boolean;
+
   interface Window {
     // added by widget CDN bundle
     OktaSignIn: OktaSignInConstructor;
+    // added by login page in Okta-hosted
+    cspNonce: string;
     
     // from <script src="/js/okta-plugin-a11y.js">
     OktaPluginA11y: { init: (widget: OktaSignInAPI) => void };
@@ -52,6 +56,9 @@ if (typeof window.OktaSignIn === 'undefined') {
   setTimeout(() => window.location.reload(), 2 * 1000);
 }
 const renderPlaygroundWidget = (options = {}) => {
+  // Okta-hosted widget page has this value set for CSP
+  window.cspNonce = 'playground';
+
   createWidgetInstance(options);
 
   if (window.OktaPluginA11y) {
@@ -159,4 +166,23 @@ if (typeof URL !== 'undefined') {
     render = false;
   }
 }
-render && renderPlaygroundWidget(window.additionalOptions ?? {});
+
+let preRenderTasks = Promise.resolve();
+
+// code pulled in by msw and its dependencies don't play well with ie11, so conditionally
+// exclude this from the bundle entirely using an env variable. you must restart the server
+// after setting this for it to take effect.
+if (!IE11_COMPAT_MODE) {
+  // set up msw
+  preRenderTasks = import('../src/v3/src/mocks/browser')
+    .then(({ getWorker }) => getWorker())
+    .then((worker) => {
+      worker?.start();
+    });
+}
+
+preRenderTasks.then(() => {
+  if (render) {
+    renderPlaygroundWidget(window.additionalOptions ?? {});
+  }
+});

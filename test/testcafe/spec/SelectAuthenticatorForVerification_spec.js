@@ -1,4 +1,4 @@
-import { RequestMock, RequestLogger } from 'testcafe';
+import { RequestMock, RequestLogger, userVariables } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 
 import { renderWidget } from '../framework/shared';
@@ -6,6 +6,9 @@ import SelectFactorPageObject from '../framework/page-objects/SelectAuthenticato
 import ChallengeFactorPageObject from '../framework/page-objects/ChallengeFactorPageObject';
 
 import xhrSelectAuthenticators from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator';
+import xhrSelectAuthenticatorsWithNickname from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator-with-nickname';
+import xhrSelectAuthenticatorsWithCustomLogo from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator-custom-logo.json';
+import xhrSelectAuthenticatorsWithEmail from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator-with-email';
 import xhrSelectAuthenticatorsNoNumber from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator-no-number';
 import xhrSelectAuthenticatorsOktaVerify from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator-ov-m2';
 import xhrSelectAuthenticatorsRecovery from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator-for-recovery';
@@ -36,9 +39,25 @@ const mockChallengePassword = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge')
   .respond(xhrAuthenticatorRequiredPassword);
 
+const mockChallengeWithNickname = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrSelectAuthenticatorsWithNickname)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge')
+  .respond(xhrAuthenticatorRequiredPassword);
+
+const mockChallengeWithCustomLogo = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrSelectAuthenticatorsWithCustomLogo)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge')
+  .respond(xhrAuthenticatorRequiredPassword);
+
 const mockAuthenticatorListNoNumber = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrSelectAuthenticatorsNoNumber);
+
+const mockAuthenticatorListWithEmail = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrSelectAuthenticatorsWithEmail);
 
 const mockChallengeEmail = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -114,16 +133,164 @@ const mockChallengeRsa = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge')
   .respond(xhrAuthenticatorRequiredRsa);
 
-fixture('Select Authenticator for verification Form')
-  .meta('v3', true);
+fixture('Select Authenticator for verification Form');
 
-async function setup(t) {
+async function setup(t, widgetOptions) {
+  const options = widgetOptions ? { render: false } : {};
   const selectFactorPageObject = new SelectFactorPageObject(t);
-  await selectFactorPageObject.navigateToPage();
+  await selectFactorPageObject.navigateToPage(options);
+  if (widgetOptions) {
+    await renderWidget(widgetOptions);
+  }
+  await t.expect(selectFactorPageObject.formExists()).ok();
   return selectFactorPageObject;
 }
 
 test.requestHooks(mockChallengePassword)('should load select authenticator list', async t => {
+  const selectFactorPage = await setup(t);
+  await checkA11y(t);
+  await t.expect(selectFactorPage.getIdentifier()).eql('testUser@okta.com');
+  await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with a security method');
+  await t.expect(selectFactorPage.getFormSubtitle()).eql('Select from the following options');
+  await t.expect(selectFactorPage.getFactorsCount()).eql(16);
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(0)).eql('Password');
+  await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(0)).eql('Select Password.');
+  await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(0)).eql(false);
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(0)).contains('mfa-okta-password');
+  await t.expect(await selectFactorPage.factorCustomLogoExist(0)).eql(false);
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(0)).eql('Select');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(0)).eql('okta_password');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(1)).eql('Security Key or Biometric Authenticator');
+  await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(1)).eql('Select Security Key or Biometric Authenticator.');
+  await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(1)).eql(false);
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(1)).contains('mfa-webauthn');
+  await t.expect(await selectFactorPage.factorCustomLogoExist(1)).eql(false);
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(1)).eql('Select');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(1)).eql('webauthn');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(2)).eql('Email');
+  await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(2)).eql('Select Email.');
+  await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(2)).eql(false);
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(2)).contains('mfa-okta-email');
+  await t.expect(await selectFactorPage.factorCustomLogoExist(2)).eql(false);
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(2)).eql('Select');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(2)).eql('okta_email');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(3)).eql('Phone');
+  await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(3)).eql('Select Phone - +1 XXX-XXX-5309.');
+  await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(3)).eql(true);
+  await t.expect(selectFactorPage.getFactorDescriptionByIndex(3)).eql('+1 XXX-XXX-5309');
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(3)).contains('mfa-okta-phone');
+  await t.expect(await selectFactorPage.factorCustomLogoExist(3)).eql(false);
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(3)).eql('Select');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(3)).eql('phone_number');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(4)).eql('Phone');
+  await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(4)).eql('Select Phone - +1 XXX-XXX-5310.');
+  await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(4)).eql(true);
+  await t.expect(selectFactorPage.getFactorDescriptionByIndex(4)).eql('+1 XXX-XXX-5310');
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(4)).contains('mfa-okta-phone');
+  await t.expect(await selectFactorPage.factorCustomLogoExist(4)).eql(false);
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(4)).eql('Select');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(4)).eql('phone_number');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(5)).eql('Security Question');
+  await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(5)).eql('Select Security Question.');
+  await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(5)).eql(false);
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(5)).contains('mfa-okta-security-question');
+  await t.expect(await selectFactorPage.factorCustomLogoExist(5)).eql(false);
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(5)).eql('Select');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(5)).eql('security_question');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(6)).eql('Use Okta FastPass');
+  await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(6)).eql('Use Okta FastPass');
+  await t.expect(selectFactorPage.getFactorDescriptionByIndex(6)).eql('Okta Verify');
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(6)).contains('mfa-okta-verify');
+  await t.expect(await selectFactorPage.factorCustomLogoExist(6)).eql(false);
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(6)).eql('Select');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(6)).eql('okta_verify-signed_nonce');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(7)).eql('Google Authenticator');
+  await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(7)).eql('Select Google Authenticator');
+  await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(7)).eql(false);
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(7)).contains('mfa-google-auth');
+  await t.expect(await selectFactorPage.factorCustomLogoExist(7)).eql(false);
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(7)).eql('Select');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(7)).eql('google_otp');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(8)).eql('Atko Custom On-prem');
+  await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(8)).eql('Select Atko Custom On-prem');
+  await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(8)).eql(false);
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(8)).contains('mfa-onprem');
+  await t.expect(await selectFactorPage.factorCustomLogoExist(8)).eql(false);
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(8)).eql('Select');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(8)).eql('onprem_mfa');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(9)).eql('RSA SecurID');
+  await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(9)).eql('Select RSA SecurID');
+  await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(9)).eql(false);
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(9)).contains('mfa-rsa');
+  await t.expect(await selectFactorPage.factorCustomLogoExist(9)).eql(false);
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(9)).eql('Select');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(9)).eql('rsa_token');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(10)).eql('Duo Security');
+  await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(10)).eql('Select Duo Security');
+  await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(10)).eql(false);
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(10)).contains('mfa-duo');
+  await t.expect(await selectFactorPage.factorCustomLogoExist(10)).eql(false);
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(10)).eql('Select');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(10)).eql('duo');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(11)).eql('IDP Authenticator');
+  await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(11)).eql('Select IDP Authenticator');
+  await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(11)).eql(false);
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(11)).contains('mfa-custom-factor');
+  await t.expect(await selectFactorPage.factorCustomLogoExist(11)).eql(false);
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(11)).eql('Select');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(11)).eql('external_idp');
+
+  // Authenticator index(11) used in SelectAuthenticatorPageObject for CUSTOM_OTP_BUTTON_SELECTOR
+  await t.expect(selectFactorPage.getFactorLabelByIndex(12)).eql('Atko Custom OTP Authenticator');
+  await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(12)).eql('Select Atko Custom OTP Authenticator');
+  await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(12)).eql(false);
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(12)).contains('mfa-hotp');
+  await t.expect(await selectFactorPage.factorCustomLogoExist(12)).eql(false);
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(12)).eql('Select');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(12)).eql('custom_otp');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(13)).eql('Symantec VIP');
+  await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(13)).eql('Select Symantec VIP');
+  await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(13)).eql(false);
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(13)).contains('mfa-symantec');
+  await t.expect(await selectFactorPage.factorCustomLogoExist(13)).eql(false);
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(13)).eql('Select');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(13)).eql('symantec_vip');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(14)).eql('YubiKey Authenticator');
+  await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(14)).eql('Select YubiKey Authenticator');
+  await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(14)).eql(false);
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(14)).contains('mfa-yubikey');
+  await t.expect(await selectFactorPage.factorCustomLogoExist(14)).eql(false);
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(14)).eql('Select');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(14)).eql('yubikey_token');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(15)).eql('Get a push notification');
+  await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(15)).eql('Select Custom Push App');
+  await t.expect(selectFactorPage.getFactorDescriptionByIndex(15)).eql('Custom Push App');
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(15)).contains('mfa-custom-app-logo');
+  await t.expect(await selectFactorPage.factorCustomLogoExist(15)).eql(true);
+  await t.expect(selectFactorPage.getFactorIconBgImageByIndex(15)).match(/.*\/img\/logos\/default\.png/);
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(15)).eql('Select');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(15)).eql('custom_app');
+
+  // signout link at enroll page
+  await t.expect(await selectFactorPage.signoutLinkExists()).eql(true);
+});
+
+test.requestHooks(mockChallengeWithNickname)('should load select authenticator list with nicknames if available', async t => {
   const selectFactorPage = await setup(t);
   await checkA11y(t);
   await t.expect(selectFactorPage.getIdentifier()).eql('testUser@okta.com');
@@ -151,18 +318,30 @@ test.requestHooks(mockChallengePassword)('should load select authenticator list'
   await t.expect(await selectFactorPage.factorCustomLogoExist(2)).eql(false);
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(2)).eql('Select');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(2)).eql('okta_email');
+  await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(2)).eql('Select Email.');
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(3)).eql('Phone');
   await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(3)).eql(true);
   await t.expect(selectFactorPage.getFactorDescriptionByIndex(3)).eql('+1 XXX-XXX-5309');
+  await t.expect(await selectFactorPage.factorNicknameExistsByIndex(3)).eql(true);
+  await t.expect(selectFactorPage.getFactorNicknameByIndex(3)).eql('ph-nn');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(3)).contains('mfa-okta-phone');
   await t.expect(await selectFactorPage.factorCustomLogoExist(3)).eql(false);
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(3)).eql('Select');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(3)).eql('phone_number');
+  await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(3)).eql(
+    'Select Phone - +1 XXX-XXX-5309.'
+  );
+  if (userVariables.gen3) {
+    await t.expect(await selectFactorPage.getFactorAriaDescriptionByIndex(3)).eql(
+      '+1 XXX-XXX-5309. ph-nn. Select'
+    );
+  }
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(4)).eql('Phone');
   await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(4)).eql(true);
   await t.expect(selectFactorPage.getFactorDescriptionByIndex(4)).eql('+1 XXX-XXX-5310');
+  await t.expect(await selectFactorPage.factorNicknameDoesNotExistByIndex(4)).eql(true);
   await t.expect(selectFactorPage.getFactorIconClassByIndex(4)).contains('mfa-okta-phone');
   await t.expect(await selectFactorPage.factorCustomLogoExist(4)).eql(false);
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(4)).eql('Select');
@@ -181,6 +360,9 @@ test.requestHooks(mockChallengePassword)('should load select authenticator list'
   await t.expect(await selectFactorPage.factorCustomLogoExist(6)).eql(false);
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(6)).eql('Select');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(6)).eql('okta_verify-signed_nonce');
+  await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(6)).eql(
+    'Use Okta FastPass'
+  );
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(7)).eql('Google Authenticator');
   await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(7)).eql(false);
@@ -246,17 +428,47 @@ test.requestHooks(mockChallengePassword)('should load select authenticator list'
   await t.expect(selectFactorPage.getFactorIconBgImageByIndex(15)).match(/.*\/img\/logos\/default\.png/);
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(15)).eql('Select');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(15)).eql('custom_app');
+  await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(15)).eql(
+    'Select Custom Push App'
+  );
+
+  // signout link at enroll page
+  await t.expect(await selectFactorPage.signoutLinkExists()).eql(true);
+});
+
+test.requestHooks(mockChallengeWithCustomLogo)('should load select authenticator list with custom logos if available', async t => {
+  const selectFactorPage = await setup(t);
+  await checkA11y(t);
+  await t.expect(selectFactorPage.getIdentifier()).eql('testUser@okta.com');
+  await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with a security method');
+  await t.expect(selectFactorPage.getFormSubtitle()).eql('Select from the following options');
+  await t.expect(selectFactorPage.getFactorsCount()).eql(16);
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(11)).eql('IDP Authenticator');
+  await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(11)).eql(false);
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(11)).contains('mfa-custom-factor');
+  await t.expect(await selectFactorPage.factorCustomLogoExist(11)).eql(true);
+  await t.expect(selectFactorPage.getFactorIconBgImageByIndex(11)).match(/.*\/img\/logos\/default\.png/);
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(11)).eql('Select');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(11)).eql('external_idp');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(15)).eql('Get a push notification');
+  await t.expect(selectFactorPage.getFactorDescriptionByIndex(15)).eql('Custom Push App');
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(15)).contains('mfa-custom-app-logo');
+  await t.expect(await selectFactorPage.factorCustomLogoExist(15)).eql(true);
+  await t.expect(selectFactorPage.getFactorIconBgImageByIndex(15)).match(/.*\/img\/logos\/default\.png/);
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(15)).eql('Select');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(15)).eql('custom_app');
 
   // signout link at enroll page
   await t.expect(await selectFactorPage.signoutLinkExists()).eql(true);
 });
 
 test.requestHooks(mockChallengePassword)('should load select authenticator list with no sign-out link', async t => {
-  const selectFactorPage = await setup(t);
-  await checkA11y(t);
-  await renderWidget({
+  const selectFactorPage = await setup(t, {
     features: { hideSignOutLinkInMFA: true },
   });
+  await checkA11y(t);
   await t.expect(selectFactorPage.getIdentifier()).eql('testUser@okta.com');
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with a security method');
   // signout link is not visible
@@ -274,6 +486,17 @@ test.requestHooks(mockAuthenticatorListNoNumber)('should not display phone numbe
   await t.expect(selectFactorPage.getFactorLabelByIndex(4)).eql('Phone');
   await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(4)).eql(false);
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(4)).eql('Select');
+});
+
+test.requestHooks(mockAuthenticatorListWithEmail)('should display email in description if available', async t => {
+  const selectFactorPage = await setup(t);
+  await checkA11y(t);
+  await t.expect(selectFactorPage.getIdentifier()).eql('testUser@okta.com');
+  await t.expect(selectFactorPage.getFactorLabelByIndex(2)).eql('Email');
+  await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(2)).eql(true);
+  await t.expect(selectFactorPage.getFactorDescriptionByIndex(2)).eql('t***r@okta.com');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(2)).eql('Select');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(2)).eql('okta_email');
 });
 
 test.requestHooks(mockSelectAuthenticatorForRecovery)('should load select authenticator list for recovery password', async t => {
@@ -370,12 +593,14 @@ test.requestHooks(mockChallengeOVTotp)(`should load signed_nonce at bottom when 
   await t.expect(selectFactorPage.getFactorsCount()).eql(4);
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(0)).eql('Get a push notification');
+  await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(0)).eql('Get a push notification');
   await t.expect(selectFactorPage.getFactorDescriptionByIndex(0)).eql('Okta Verify');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(0)).contains('mfa-okta-verify');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(0)).eql('Select');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(0)).eql('okta_verify-push');
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(1)).eql('Enter a code');
+  await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(1)).eql('Okta Verify. Enter a code');
   await t.expect(selectFactorPage.getFactorDescriptionByIndex(1)).eql('Okta Verify');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(1)).contains('mfa-okta-verify');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(1)).eql('Select');
@@ -388,6 +613,7 @@ test.requestHooks(mockChallengeOVTotp)(`should load signed_nonce at bottom when 
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(2)).eql('okta_password');
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(3)).eql('Use Okta FastPass');
+  await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(3)).eql('Use Okta FastPass');
   await t.expect(selectFactorPage.getFactorDescriptionByIndex(3)).eql('Okta Verify');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(3)).contains('mfa-okta-verify');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(3)).eql('Select');
@@ -520,7 +746,7 @@ test.requestHooks(requestLogger, mockChallengeOVPush)('should navigate to okta v
   });
 });
 
-test.meta('v3', false).requestHooks(requestLogger, mockChallengeOVFastPass)('should navigate to okta verify fast pass page', async t => {
+test.requestHooks(requestLogger, mockChallengeOVFastPass)('should navigate to okta verify fast pass page', async t => {
   const selectFactorPage = await setup(t);
   await checkA11y(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with a security method');
@@ -547,7 +773,7 @@ test.meta('v3', false).requestHooks(requestLogger, mockChallengeOVFastPass)('sho
   });
 });
 
-test.meta('v3', false).requestHooks(mockChallengeOnPremMFA)('should navigate to on prem mfa challenge page', async t => {
+test.requestHooks(mockChallengeOnPremMFA)('should navigate to on prem mfa challenge page', async t => {
   const selectFactorPage = await setup(t);
   await checkA11y(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with a security method');
@@ -557,7 +783,7 @@ test.meta('v3', false).requestHooks(mockChallengeOnPremMFA)('should navigate to 
   await t.expect(challengeFactorPage.getFormTitle()).eql('Verify with Atko Custom On-prem');
 });
 
-test.meta('v3', false).requestHooks(mockChallengeRsa)('should navigate to RSA challenge page', async t => {
+test.requestHooks(mockChallengeRsa)('should navigate to RSA challenge page', async t => {
   const selectFactorPage = await setup(t);
   await checkA11y(t);
   await t.expect(selectFactorPage.getIdentifier()).eql('testUser@okta.com');
@@ -568,7 +794,7 @@ test.meta('v3', false).requestHooks(mockChallengeRsa)('should navigate to RSA ch
   await t.expect(challengeFactorPage.getFormTitle()).eql('Verify with RSA SecurID');
 });
 
-test.meta('v3', false).requestHooks(mockChallengeDuo)('should navigate to Duo challenge page', async t => {
+test.requestHooks(mockChallengeDuo)('should navigate to Duo challenge page', async t => {
   const selectFactorPage = await setup(t);
   await checkA11y(t);
   await t.expect(selectFactorPage.getIdentifier()).eql('testUser@okta.com');
@@ -579,7 +805,7 @@ test.meta('v3', false).requestHooks(mockChallengeDuo)('should navigate to Duo ch
   await t.expect(challengeFactorPage.getFormTitle()).eql('Verify with Duo Security');
 });
 
-test.meta('v3', false).requestHooks(mockChallengeCustomOTP)('should navigate to Custom OTP challenge page', async t => {
+test.requestHooks(mockChallengeCustomOTP)('should navigate to Custom OTP challenge page', async t => {
   const selectFactorPage = await setup(t);
   await checkA11y(t);
   await t.expect(selectFactorPage.getIdentifier()).eql('testUser@okta.com');
@@ -591,10 +817,7 @@ test.meta('v3', false).requestHooks(mockChallengeCustomOTP)('should navigate to 
 });
 
 test.requestHooks(mockChallengePassword)('should show custom factor page link', async t => {
-  const pageObject = await setup(t);
-  await checkA11y(t);
-
-  await renderWidget({
+  const pageObject = await setup(t, {
     helpLinks: {
       factorPage: {
         text: 'custom factor page link',
@@ -602,16 +825,14 @@ test.requestHooks(mockChallengePassword)('should show custom factor page link', 
       }
     }
   });
+  await checkA11y(t);
 
   await t.expect(pageObject.getFactorPageHelpLinksLabel()).eql('custom factor page link');
   await t.expect(pageObject.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');
 });
 
 test.requestHooks(mockSelectAuthenticatorForRecovery)('should not show custom factor page link', async t => {
-  const pageObject = await setup(t);
-  await checkA11y(t);
-
-  await renderWidget({
+  const pageObject = await setup(t, {
     helpLinks: {
       factorPage: {
         text: 'custom factor page link',
@@ -619,11 +840,12 @@ test.requestHooks(mockSelectAuthenticatorForRecovery)('should not show custom fa
       }
     }
   });
+  await checkA11y(t);
 
   await t.expect(await pageObject.factorPageHelpLinksExists()).notOk();
 });
 
-test.meta('v3', false).requestHooks(mockChallengeCustomApp)('should navigate to Custom App challenge page', async t => {
+test.requestHooks(mockChallengeCustomApp)('should navigate to Custom App challenge page', async t => {
   const selectFactorPage = await setup(t);
   await checkA11y(t);
   await t.expect(selectFactorPage.getIdentifier()).eql('testUser@okta.com');

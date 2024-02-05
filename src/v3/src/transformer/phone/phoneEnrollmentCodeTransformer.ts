@@ -56,7 +56,9 @@ export const transformPhoneCodeEnrollment: IdxStepTransformer = ({ transaction, 
   const sendInfoText = smsMethodType
     ? loc('oie.phone.verify.sms.codeSentText', 'login')
     : loc('mfa.calling', 'login');
-  const phoneNumberSpan = phoneNumber ? `<span class="strong no-translate">${phoneNumber}.</span>` : null;
+  // using the &lrm; unicode mark to keep the phone number in ltr format, while maintaining rtl punctuation (period)
+  // https://www.w3.org/TR/WCAG20-TECHS/H34.html
+  const phoneNumberSpan = phoneNumber ? `<span class="strong no-translate">&lrm;${phoneNumber}.</span>` : null;
   const phoneInfoText = phoneNumberSpan || `${loc('oie.phone.alternate.title', 'login')}.`;
   const enterCodeInfoText = loc('oie.phone.verify.enterCodeText', 'login');
   const informationalTextElement: DescriptionElement = {

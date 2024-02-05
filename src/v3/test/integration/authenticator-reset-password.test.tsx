@@ -33,6 +33,18 @@ describe('authenticator-reset-password', () => {
     expect(container).toMatchSnapshot();
   });
 
+  it('password fields should be ltr even when a rtl language is set', async () => {
+    const {
+      findByTestId,
+    } = await setup({ mockResponse, widgetOptions: { language: 'ar' } });
+
+    const newPasswordEle = await findByTestId('credentials.passcode') as HTMLInputElement;
+    const confirmPasswordEle = await findByTestId('confirmPassword') as HTMLInputElement;
+
+    expect(newPasswordEle.parentElement?.getAttribute('dir')).toBe('ltr');
+    expect(confirmPasswordEle.parentElement?.getAttribute('dir')).toBe('ltr');
+  });
+
   it('should send correct payload', async () => {
     const {
       authClient, user, findByTestId, findByText,

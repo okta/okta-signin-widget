@@ -23,11 +23,14 @@ import {
 import AuthenticatorButtonList from '../AuthenticatorButton';
 import AutoSubmit from '../AutoSubmit';
 import Button from '../Button';
+import CaptchaContainer from '../CaptchaContainer';
 import Checkbox from '../Checkbox';
+import ChromeDtcContainer from '../ChromeDtcContainer';
 import Divider from '../Divider';
 import DuoWindow from '../DuoWindow';
 import Heading from '../Heading';
 import HiddenInput from '../HiddenInput';
+import IdentifierContainer from '../IdentifierContainer';
 import ImageWithText from '../ImageWithText';
 import InfoBox from '../InfoBox';
 import InformationalText from '../InformationalText';
@@ -125,6 +128,10 @@ export default [
     renderer: OpenOktaVerifyFPButton,
   },
   {
+    tester: ({ type }) => type === 'ChromeDtcContainer',
+    renderer: ChromeDtcContainer,
+  },
+  {
     tester: ({ type }) => type === 'WebAuthNSubmitButton',
     renderer: WebAuthNSubmitButton,
   },
@@ -203,5 +210,13 @@ export default [
   {
     tester: ({ type }) => type === 'DuoWindow',
     renderer: DuoWindow,
+  },
+  {
+    tester: ({ type }) => type === 'CaptchaContainer',
+    renderer: CaptchaContainer,
+  },
+  {
+    tester: ({ type }) => type === 'IdentifierContainer',
+    renderer: IdentifierContainer,
   },
 ] as Renderer[];

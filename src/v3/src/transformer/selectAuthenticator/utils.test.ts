@@ -16,17 +16,17 @@ import { AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP, AUTHENTICATOR_KEY, IDX_STEP } f
 import { ButtonType } from 'src/types';
 
 import {
+  getAppAuthenticatorMethodButtonElements,
   getAuthenticatorEnrollButtonElements,
   getAuthenticatorVerifyButtonElements,
-  getOVMethodTypeAuthenticatorButtonElements,
   isOnlyPushWithAutoChallenge,
 } from './utils';
 
 describe('Select Authenticator Utility Tests', () => {
   const stepName = IDX_STEP.SELECT_AUTHENTICATOR_ENROLL;
-  describe('getOVMethodTypeAuthenticatorButtonElements Tests', () => {
+  describe('getAppAuthenticatorMethodButtonElements Tests', () => {
     it('should return an empty array when an empty array of options is provided', () => {
-      expect(getOVMethodTypeAuthenticatorButtonElements({ name: 'authenticator' }, stepName)).toEqual([]);
+      expect(getAppAuthenticatorMethodButtonElements({ name: 'authenticator' }, stepName)).toEqual([]);
     });
 
     it('should return formatted Authenticator Option Values '
@@ -42,11 +42,12 @@ describe('Select Authenticator Utility Tests', () => {
           { name: 'methodType', options },
         ],
       };
-      expect(getOVMethodTypeAuthenticatorButtonElements(authenticator, stepName)).toEqual([
+      expect(getAppAuthenticatorMethodButtonElements(authenticator, stepName)).toEqual([
         {
           type: 'AuthenticatorButton',
           label: options[0].label,
           id: 'auth_btn_okta_verify_totp',
+          noTranslate: false,
           options: {
             key: AUTHENTICATOR_KEY.OV,
             ctaLabel: 'oie.verify.authenticator.button.text',
@@ -59,6 +60,7 @@ describe('Select Authenticator Utility Tests', () => {
               'authenticator.methodType': options[0].value,
             },
             description: 'oie.okta_verify.label',
+            ariaLabel: 'oie.okta_verify.label. oie.okta_verify.totp.title',
             dataSe: `okta_verify-${options[0].value}`,
             iconName: 'okta_verify_0',
           },
@@ -67,6 +69,7 @@ describe('Select Authenticator Utility Tests', () => {
           type: 'AuthenticatorButton',
           label: options[1].label,
           id: 'auth_btn_okta_verify_push',
+          noTranslate: false,
           options: {
             key: AUTHENTICATOR_KEY.OV,
             ctaLabel: 'oie.verify.authenticator.button.text',
@@ -79,6 +82,7 @@ describe('Select Authenticator Utility Tests', () => {
               'authenticator.methodType': options[1].value,
             },
             description: 'oie.okta_verify.label',
+            ariaLabel: 'oie.okta_verify.push.title',
             dataSe: `okta_verify-${options[1].value}`,
             iconName: 'okta_verify_1',
           },
@@ -100,11 +104,17 @@ describe('Select Authenticator Utility Tests', () => {
           { name: 'methodType', options },
         ],
       };
-      expect(getOVMethodTypeAuthenticatorButtonElements(authenticator, stepName, true)).toEqual([
+      expect(getAppAuthenticatorMethodButtonElements(
+        authenticator,
+        stepName,
+        AUTHENTICATOR_KEY.OV,
+        true,
+      )).toEqual([
         {
           type: 'AuthenticatorButton',
           label: options[2].label,
           id: 'auth_btn_okta_verify_signed_nonce',
+          noTranslate: false,
           options: {
             key: AUTHENTICATOR_KEY.OV,
             ctaLabel: 'oie.verify.authenticator.button.text',
@@ -117,6 +127,7 @@ describe('Select Authenticator Utility Tests', () => {
               'authenticator.methodType': options[2].value,
             },
             description: 'oie.okta_verify.label',
+            ariaLabel: 'oie.okta_verify.signed_nonce.label',
             dataSe: `okta_verify-${options[2].value}`,
             iconName: 'okta_verify_2',
           },
@@ -125,6 +136,7 @@ describe('Select Authenticator Utility Tests', () => {
           type: 'AuthenticatorButton',
           label: options[0].label,
           id: 'auth_btn_okta_verify_totp',
+          noTranslate: false,
           options: {
             key: AUTHENTICATOR_KEY.OV,
             ctaLabel: 'oie.verify.authenticator.button.text',
@@ -137,6 +149,7 @@ describe('Select Authenticator Utility Tests', () => {
               'authenticator.methodType': options[0].value,
             },
             description: 'oie.okta_verify.label',
+            ariaLabel: 'oie.okta_verify.label. oie.okta_verify.totp.title',
             dataSe: `okta_verify-${options[0].value}`,
             iconName: 'okta_verify_0',
           },
@@ -145,6 +158,7 @@ describe('Select Authenticator Utility Tests', () => {
           type: 'AuthenticatorButton',
           label: options[1].label,
           id: 'auth_btn_okta_verify_push',
+          noTranslate: false,
           options: {
             key: AUTHENTICATOR_KEY.OV,
             ctaLabel: 'oie.verify.authenticator.button.text',
@@ -157,6 +171,7 @@ describe('Select Authenticator Utility Tests', () => {
               'authenticator.methodType': options[1].value,
             },
             description: 'oie.okta_verify.label',
+            ariaLabel: 'oie.okta_verify.push.title',
             dataSe: `okta_verify-${options[1].value}`,
             iconName: 'okta_verify_1',
           },
@@ -222,6 +237,8 @@ describe('Select Authenticator Utility Tests', () => {
 
     it('should return formatted authenticator options when raw options are provided', () => {
       const mockPhoneNumber = '2XXXXXX123';
+      const mockNickname = 'ph-nn';
+      const mockEmail = 't***r@okta.com';
       const options: IdxOption[] = Object.entries(AUTHENTICATOR_KEY)
         .filter(([, value]) => value !== AUTHENTICATOR_KEY.OV
           && value !== AUTHENTICATOR_KEY.DEFAULT)
@@ -240,6 +257,10 @@ describe('Select Authenticator Utility Tests', () => {
           };
           if (AUTHENTICATOR_KEY[key] === AUTHENTICATOR_KEY.PHONE) {
             option.relatesTo.profile = { phoneNumber: mockPhoneNumber };
+            // @ts-expect-error OKTA-661650 nickname missing from IdxAuthenticator
+            option.relatesTo.nickname = mockNickname;
+          } else if (AUTHENTICATOR_KEY[key] === AUTHENTICATOR_KEY.EMAIL) {
+            option.relatesTo.profile = { email: mockEmail };
           }
           return option;
         });
@@ -253,9 +274,22 @@ describe('Select Authenticator Utility Tests', () => {
         expect(currentOption?.label).toBe(option.label);
         expect(currentOption?.options.ctaLabel)
           .toBe('oie.verify.authenticator.button.text');
-        expect(currentOption?.options.description)
-          .toBe(option.relatesTo?.key === AUTHENTICATOR_KEY.PHONE ? mockPhoneNumber : undefined);
       });
+
+      options.filter((option) => option.relatesTo?.key === AUTHENTICATOR_KEY.PHONE)
+        .forEach((option) => {
+          const currentOption = authenticatorOptionValues
+            .find(({ options: { key: authKey } }) => authKey === option.relatesTo?.key);
+          expect(currentOption?.options.description).toBe(mockPhoneNumber);
+          expect(currentOption?.options.nickname).toBe(mockNickname);
+        });
+
+      options.filter((option) => option.relatesTo?.key === AUTHENTICATOR_KEY.EMAIL)
+        .forEach((option) => {
+          const currentOption = authenticatorOptionValues
+            .find(({ options: { key: authKey } }) => authKey === option.relatesTo?.key);
+          expect(currentOption?.options.description).toBe(mockEmail);
+        });
     });
 
     it('should return authenticator buttons with multiple enrolled phone number security methods with correct description', () => {

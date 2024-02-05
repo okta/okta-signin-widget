@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "lint:src": "eslint .",
-    "lint:target": "eslint --no-inline-config --no-ignore `find target/esm -type f -name \"*.js\"`",
+    "lint:target": "eslint --no-inline-config --no-ignore --ext .js target/esm",
     "lint": "yarn lint:src && yarn lint:target",
     "prebuild": "yarn link:lib && yarn link:courage && yarn patch",
     "link:lib": "ln -snf ./node_modules ./lib",
@@ -22,11 +22,7 @@
     "build:esm": "rollup -c",
     "build": "yarn clean && yarn build:types && yarn build:esm && yarn lint && yarn copy",
     "build:babel": "rm -rf target/babel && yarn babel src -x .ts,.js --out-dir target/babel",
-    "patch": "yarn patch:hbs && yarn patch:hbs2 && yarn patch:qtip && yarn patch:i18n",
-    "patch:hbs": "find ./node_modules/@okta/courage/src -type f | xargs sed -i '' -e \"s/import hbs from 'handlebars-inline-precompile'/import hbs from '@okta\\/handlebars-inline-precompile'/g\"",
-    "patch:hbs2": "find ./node_modules/@okta/babel-plugin-handlebars-inline-precompile -type f | xargs sed -i '' -e \"s/'handlebars-inline-precompile'/'@okta\\/handlebars-inline-precompile'/g\"",
-    "patch:qtip": "find ./node_modules/@okta/courage/src -type f | xargs sed -i '' -e \"s/import 'qtip'/import '@okta\\/qtip'/g\"",
-    "patch:i18n": "find ./node_modules/@okta/courage/src -type f | xargs sed -i '' -e \"s/from 'okta-i18n-bundles'/from '@okta\\/okta-i18n-bundles'/g\""
+    "patch": "./scripts/patch.sh"
   },
   "engines": {
     "node": ">=12.22.0",
@@ -42,7 +38,7 @@
     "@babel/plugin-transform-shorthand-properties": "^7.16.7",
     "@babel/preset-typescript": "^7.16.7",
     "@okta/babel-plugin-handlebars-inline-precompile": "3.1.0-beta.4200.gf3d0a27",
-    "@okta/courage": "4.5.0-7508-g9ac6f5c",
+    "@okta/courage": "4.5.0-7729-gdf1c695",
     "@okta/eslint-plugin-okta-ui": "0.1.0-beta.4181.g1f38f27",
     "@rollup/plugin-alias": "^3.1.9",
     "@rollup/plugin-babel": "^5.3.1",

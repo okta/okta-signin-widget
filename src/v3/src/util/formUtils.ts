@@ -10,22 +10,35 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxRemediation, IdxTransaction, NextStep } from '@okta/okta-auth-js';
+import {
+  IdxAuthenticator,
+  IdxMessage, IdxRemediation, IdxTransaction, NextStep,
+} from '@okta/okta-auth-js';
+import classNames from 'classnames';
 
 import IDP from '../../../util/IDP';
 import Util from '../../../util/Util';
-import { IDX_STEP, SOCIAL_IDP_TYPE_TO_I18KEY } from '../constants';
-import SmartCardIconSvg from '../img/smartCardButtonIcon.svg';
-import appleIconSvg from '../img/socialButtonIcons/apple.svg';
-import facebookIconSvg from '../img/socialButtonIcons/facebook.svg';
-import googleIconSvg from '../img/socialButtonIcons/google.svg';
-import linkedinIconSvg from '../img/socialButtonIcons/linkedin.svg';
-import msIconSvg from '../img/socialButtonIcons/ms.svg';
-import oktaIconSvg from '../img/socialButtonIcons/okta.svg';
 import {
-  ButtonElement, ButtonType, IWidgetContext, LaunchAuthenticatorButtonElement, WidgetProps,
+  CUSTOM_APP_UV_ENABLE_BIOMETRIC_SERVER_KEY, IDX_STEP, SOCIAL_IDP_TYPE_TO_I18KEY, TERMINAL_KEY,
+} from '../constants';
+import SmartCardIconSvg from '../img/smartCardButtonIcon.svg';
+import {
+  ButtonElement,
+  ButtonType,
+  DescriptionElement,
+  InfoboxElement,
+  IWidgetContext,
+  LaunchAuthenticatorButtonElement,
+  PhoneVerificationMethodType,
+  WidgetMessage,
+  WidgetMessageLink,
+  WidgetProps,
 } from '../types';
+import { idpIconMap } from './idpIconMap';
 import { loc } from './locUtil';
+
+export type PhoneVerificationStep = typeof IDX_STEP.CHALLENGE_AUTHENTICATOR
+| typeof IDX_STEP.AUTHENTICATOR_VERIFICATION_DATA;
 
 export const handleFormFieldChange = (
   path: string,
@@ -53,6 +66,25 @@ export const handleFormFieldBlur = (
   setPristineFn?.(false);
   setTouchedFn?.(true);
   setUntouchedFn?.(false);
+};
+
+export const getCustomButtonElements = (widgetProps: WidgetProps): ButtonElement[] => {
+  const { customButtons = [] } = widgetProps;
+  return customButtons.map((customButton) => {
+    const customButtonElement: ButtonElement = {
+      type: 'Button',
+      label: customButton.title ?? loc(customButton.i18nKey, 'login'),
+      options: {
+        type: ButtonType.BUTTON,
+        step: '',
+        dataSe: customButton.dataAttr,
+        classes: classNames(customButton.className, 'default-custom-button'),
+        variant: 'secondary',
+        onClick: customButton.click,
+      },
+    };
+    return customButtonElement;
+  });
 };
 
 const getPIVButtonElement = (
@@ -103,14 +135,12 @@ const getPIVButtonElement = (
 export const getFastPassButtonElement = (
   transaction: IdxTransaction,
 ) : LaunchAuthenticatorButtonElement[] => {
-  const { context, nextStep, neededToProceed: remediations } = transaction;
-  const isIdentifyStep = nextStep?.name === IDX_STEP.IDENTIFY;
+  const { context, neededToProceed: remediations } = transaction;
   const containsLaunchAuthenticator = remediations.some(
     (remediation) => remediation.name === IDX_STEP.LAUNCH_AUTHENTICATOR,
   );
 
-  // only include fastpass button in identify flow
-  if (!isIdentifyStep || !containsLaunchAuthenticator) {
+  if (!containsLaunchAuthenticator) {
     return [];
   }
 
@@ -175,19 +205,6 @@ const getConfigIdpButtonRemediations = (
   return [];
 };
 
-// TO DO: OKTA-609477 - Add rest of supported social idp icons here
-const getIdpButtonIcon = (idpType: string) : string => {
-  const idpIconMapping: Record<string, string> = {
-    facebook: facebookIconSvg,
-    google: googleIconSvg,
-    linkedin: linkedinIconSvg,
-    microsoft: msIconSvg,
-    apple: appleIconSvg,
-    okta: oktaIconSvg,
-  };
-  return idpIconMapping[idpType];
-};
-
 /**
  * Example of `redirect-idp` remediation.
  * {
@@ -229,21 +246,6 @@ export const getIdpButtonElements = (
       displayName = loc(buttonI18key, 'login');
     }
 
-    const classNames = [
-      'social-auth-button',
-      `social-auth-${type}-button`,
-    ];
-
-    if (type === 'general-idp') {
-      classNames.push('no-translate');
-    }
-
-    // @ts-expect-error OKTA-609464 - className missing from IdpConfig type
-    if (idpObject.idp?.className) {
-      // @ts-expect-error OKTA-609464 - className missing from IdpConfig type
-      classNames.push(idpObject.idp.className);
-    }
-
     return {
       type: 'Button',
       label: displayName,
@@ -251,9 +253,15 @@ export const getIdpButtonElements = (
         type: ButtonType.BUTTON,
         step: IDX_STEP.PIV_IDP,
         dataSe: 'piv-card-button',
-        classes: classNames.join(' '),
+        classes: classNames(
+          'social-auth-button',
+          `social-auth-${type}-button`,
+          // @ts-expect-error OKTA-609464 - className missing from IdpConfig type
+          idpObject.idp?.className,
+          { 'no-translate': type === 'general-idp' },
+        ),
         variant: 'secondary',
-        Icon: getIdpButtonIcon(type),
+        Icon: idpIconMap[type],
         iconAlt: '',
         onClick: () => {
           Util.redirectWithFormGet(idpObject.href);
@@ -266,4 +274,224 @@ export const getIdpButtonElements = (
   const pivButtonElement = getPIVButtonElement(transaction, widgetProps);
 
   return [...pivButtonElement, ...idpButtonElements];
+};
+
+export const getBiometricsErrorMessageElement = (
+  messageKey: string | undefined,
+  displayName?: string,
+): WidgetMessage => {
+  let title;
+  let customMessage;
+  let messageBullets = [];
+
+  if (messageKey === CUSTOM_APP_UV_ENABLE_BIOMETRIC_SERVER_KEY) {
+    title = loc('oie.authenticator.custom_app.method.push.verify.enable.biometrics.title', 'login', [displayName]);
+    customMessage = loc('oie.authenticator.custom_app.method.push.verify.enable.biometrics.description', 'login');
+    messageBullets = [
+      loc('oie.authenticator.custom_app.method.push.verify.enable.biometrics.point1', 'login'),
+      loc('oie.authenticator.custom_app.method.push.verify.enable.biometrics.point2', 'login', [displayName]),
+      loc('oie.authenticator.custom_app.method.push.verify.enable.biometrics.point3', 'login', [displayName]),
+    ];
+  } else {
+    title = loc('oie.authenticator.app.method.push.verify.enable.biometrics.title', 'login');
+    customMessage = loc('oie.authenticator.app.method.push.verify.enable.biometrics.description', 'login');
+    messageBullets = [
+      loc('oie.authenticator.app.method.push.verify.enable.biometrics.point1', 'login'),
+      loc('oie.authenticator.app.method.push.verify.enable.biometrics.point2', 'login'),
+      loc('oie.authenticator.app.method.push.verify.enable.biometrics.point3', 'login'),
+    ];
+  }
+
+  return {
+    class: 'ERROR',
+    title,
+    description: customMessage,
+    message: messageBullets.map((msg: string) => ({ class: 'INFO', message: msg })) as WidgetMessage[],
+  };
+};
+
+export const buildEndUserRemediationError = (messages: IdxMessage[]) :
+InfoboxElement | undefined => {
+  if (messages.length === 0) {
+    return undefined;
+  }
+
+  const I18N_KEY_PREFIX = TERMINAL_KEY.END_USER_REMEDIATION_ERROR_PREFIX;
+  const HELP_AND_CONTACT_KEY_PREFIX = `${I18N_KEY_PREFIX}.additional_help_`;
+  const REMEDIATION_OPTION_INDEX_KEY = `${I18N_KEY_PREFIX}.option_index`;
+  const TITLE_KEY = `${I18N_KEY_PREFIX}.title`;
+  const resultMessageArray: WidgetMessage[] = [];
+
+  messages.forEach((msg) => {
+    // @ts-expect-error OKTA-630508 links is missing from IdxMessage type
+    const { i18n: { key, params }, links, message } = msg;
+
+    const widgetMsg = { listStyleType: 'disc' } as WidgetMessage;
+    if (key === TITLE_KEY) {
+      widgetMsg.title = loc(TITLE_KEY, 'login');
+    } else if (key === REMEDIATION_OPTION_INDEX_KEY) {
+      widgetMsg.title = loc(REMEDIATION_OPTION_INDEX_KEY, 'login', params);
+    } else if (key.startsWith(HELP_AND_CONTACT_KEY_PREFIX)) {
+      widgetMsg.message = loc(
+        key,
+        'login',
+        undefined,
+        {
+          $1: { element: 'a', attributes: { href: links[0].url, target: '_blank', rel: 'noopener noreferrer' } },
+        },
+      );
+    } else if (links && links[0] && links[0].url) {
+      // each link is inside an individual message
+      // We find the last message which contains the option title key and insert the link into that message
+      const lastIndex = resultMessageArray.length - 1;
+      if (lastIndex < 0) {
+        return;
+      }
+      const linkObject: WidgetMessageLink = {
+        url: links[0].url,
+        label: message,
+      };
+      if (resultMessageArray[lastIndex].links) {
+        resultMessageArray[lastIndex].links?.push(linkObject);
+      } else {
+        resultMessageArray[lastIndex].links = [linkObject];
+      }
+      return;
+    } else {
+      widgetMsg.message = loc(key, 'login');
+    }
+
+    resultMessageArray.push(widgetMsg);
+  });
+
+  return {
+    type: 'InfoBox',
+    options: {
+      message: resultMessageArray,
+      class: 'ERROR',
+      dataSe: 'callout',
+    },
+  } as InfoboxElement;
+};
+
+export const shouldHideIdentifier = (
+  showIdentifier?: boolean,
+  identifier?: string,
+  stepName?: string,
+): boolean => {
+  const excludedSteps = [IDX_STEP.IDENTIFY, IDX_STEP.CONSENT_ADMIN];
+  // Should not display identifier here because if invalid identifier
+  // is used, introspect includes the invalid name in user context
+  if (typeof stepName !== 'undefined' && excludedSteps.includes(stepName)) {
+    return true;
+  }
+
+  if (showIdentifier === false) {
+    return true;
+  }
+
+  if (!identifier) {
+    return true;
+  }
+
+  return false;
+};
+
+const getPhoneVerificationSubtitleTextContent = (
+  step: PhoneVerificationStep,
+  primaryMethod: PhoneVerificationMethodType,
+  phoneNumber?: string,
+  nickname?: string,
+): string => {
+  if (![
+    IDX_STEP.CHALLENGE_AUTHENTICATOR,
+    IDX_STEP.AUTHENTICATOR_VERIFICATION_DATA,
+  ].includes(step)
+    || !['sms', 'voice'].includes(primaryMethod)) {
+    // If step or method is invalid, return.
+    return '';
+  }
+  type PhoneVerificationI18nCondition = 'withPhoneWithNickName'
+  | 'withPhoneWithoutNickName'
+  | 'withoutPhone';
+  type I18nMapType = Record<
+  PhoneVerificationStep,
+  Record<PhoneVerificationMethodType, Record<PhoneVerificationI18nCondition, string>>
+  >;
+  const i18nMap: I18nMapType = {
+    [IDX_STEP.CHALLENGE_AUTHENTICATOR]: {
+      sms: {
+        withPhoneWithNickName: 'oie.phone.verify.sms.codeSentText.with.phone.with.nickname',
+        withPhoneWithoutNickName: 'oie.phone.verify.sms.codeSentText.with.phone.without.nickname',
+        withoutPhone: 'oie.phone.verify.sms.codeSentText.without.phone',
+      },
+      voice: {
+        withPhoneWithNickName: 'oie.phone.verify.mfa.calling.with.phone.with.nickname',
+        withPhoneWithoutNickName: 'oie.phone.verify.mfa.calling.with.phone.without.nickname',
+        withoutPhone: 'oie.phone.verify.mfa.calling.without.phone',
+      },
+    },
+    [IDX_STEP.AUTHENTICATOR_VERIFICATION_DATA]: {
+      sms: {
+        withPhoneWithNickName: 'oie.phone.verify.sms.sendText.with.phone.with.nickname',
+        withPhoneWithoutNickName: 'oie.phone.verify.sms.sendText.with.phone.without.nickname',
+        withoutPhone: 'oie.phone.verify.sms.sendText.without.phone',
+      },
+      voice: {
+        withPhoneWithNickName: 'oie.phone.verify.call.sendText.with.phone.with.nickname',
+        withPhoneWithoutNickName: 'oie.phone.verify.call.sendText.with.phone.without.nickname',
+        withoutPhone: 'oie.phone.verify.call.sendText.without.phone',
+      },
+    },
+  };
+  if (typeof phoneNumber !== 'undefined') {
+    // using the &lrm; unicode mark to keep the phone number in ltr format
+    // https://www.w3.org/TR/WCAG20-TECHS/H34.html
+    const phoneNumberWithUnicode = `&lrm;${phoneNumber}`;
+    return typeof nickname !== 'undefined'
+      ? loc(
+        i18nMap[step][primaryMethod].withPhoneWithNickName,
+        'login',
+        [phoneNumberWithUnicode, nickname],
+        {
+          $1: { element: 'span', attributes: { class: 'strong no-translate' } },
+          $2: {
+            element: 'span',
+            attributes: { class: 'strong no-translate authenticator-verify-nickname' },
+          },
+        },
+      )
+      : loc(
+        i18nMap[step][primaryMethod].withPhoneWithoutNickName,
+        'login',
+        [phoneNumberWithUnicode],
+        { $1: { element: 'span', attributes: { class: 'strong no-translate' } } },
+      );
+  }
+  return loc(i18nMap[step][primaryMethod].withoutPhone, 'login');
+};
+
+export const buildPhoneVerificationSubtitleElement = (
+  step: PhoneVerificationStep,
+  primaryMethod: PhoneVerificationMethodType,
+  idxAuthenticator?: IdxAuthenticator,
+): DescriptionElement => {
+  const phoneNumber = typeof idxAuthenticator?.profile?.phoneNumber !== 'undefined'
+    ? idxAuthenticator?.profile?.phoneNumber as string
+    : undefined;
+  // @ts-expect-error OKTA-661650 nickname missing from IdxAuthenticator type
+  const nickname = typeof idxAuthenticator?.nickname !== 'undefined'
+    // @ts-expect-error OKTA-661650 nickname missing from IdxAuthenticator type
+    ? idxAuthenticator?.nickname as string
+    : undefined;
+  const subtitleElement: DescriptionElement = {
+    type: 'Description',
+    contentType: 'subtitle',
+    noMargin: true,
+    options: {
+      content: getPhoneVerificationSubtitleTextContent(step, primaryMethod, phoneNumber, nickname),
+    },
+  };
+
+  return subtitleElement;
 };

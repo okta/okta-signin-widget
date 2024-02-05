@@ -828,7 +828,7 @@ Documentation for configuring the Okta Sign-in Widget for the [interaction code]
 
 - **processCreds:** Hook to handle the credentials before they are sent to Okta in the Primary Auth, Password Expiration, and Password Reset flows.
 
-    If processCreds takes a single argument it will be executed as a synchronous hook:
+    If `processCreds` takes a single argument it will be executed as a synchronous hook:
 
     ```javascript
     // Passed a creds object {username, password}
@@ -843,7 +843,7 @@ Documentation for configuring the Okta Sign-in Widget for the [interaction code]
     }
     ```
 
-    If processCreds takes two arguments it will be executed as an asynchronous hook:
+    If `processCreds` takes two arguments it will be executed as an asynchronous hook:
 
     ```javascript
     // Passed a creds object {username, password} and a callback for further processing
@@ -867,6 +867,8 @@ Documentation for configuring the Okta Sign-in Widget for the [interaction code]
       });
     }
     ```
+
+> **Note**: `processCreds` is not supported in Okta [Identity Engine][] orgs.
 
 ### Language and text
 
@@ -1539,6 +1541,8 @@ features: {
 
 - **features.showSessionRevocation** - If set to `true`, it will show a checkbox that allows the user to revoke all of their active sessions during a Self Service Password Reset.
 
+- **features.disableAutocomplete** - If set to `true`, it sets the autocomplete attribute on input fields to `off`.
+
 ### Hooks
 
 > **Note**: Hooks are only supported when using the [Okta Identity Engine](#okta-identity-engine)
@@ -1709,8 +1713,6 @@ We use Yarn as our node package manager. To install Yarn, check out their [insta
 | `yarn start --watch`              | Build the widget, start the server, and open a browser window with the widget loaded and watch on widget js and sass changes                           |
 | `yarn build:dev`                  | Build an unminified version of the widget                                                                                                              |
 | `yarn build:release`              | Build a minified, uglified version of the widget (`okta-sign-in.min.js`) and a non-minified **development** version of the widget (`okta-sign-in.js`). |
-| `yarn test -t karma`              | Run unit tests using Karma                                                                                                                             |
-| `yarn test -t karma --suiteHelp`  | Display optional test suite options                                                                                                                    |
 | `yarn test -t jest`               | Run unit tests using Jest                                                                                                                              |
 | `yarn test -t jest --suiteHelp`   | Display optional test suite options                                                                                                                    |
 | `yarn test -t testcafe <browser>` | Run testcafe tests on selected browser (example: `yarn test -t testcafe chrome`)                                                                       |

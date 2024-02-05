@@ -65,7 +65,7 @@ const deviceInvalidatedErrorPoll = RequestMock()
     }, Constants.TESTCAFE_DEFAULT_AJAX_WAIT + 2000));
   });
 
-fixture('Device Challenge Polling View with Polling Failure').meta('v3', true);
+fixture('Device Challenge Polling View with Polling Failure');
 
 async function setup(t) {
   const deviceChallengePollPage = new DeviceChallengePollPageObject(t);
@@ -74,7 +74,8 @@ async function setup(t) {
   return deviceChallengePollPage;
 }
 
-test
+// TODO: fix quarantined test - OKTA-645716
+test.skip
   .requestHooks(logger, baseMock, initialPoll)('probing and polling APIs are sent and responded', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);

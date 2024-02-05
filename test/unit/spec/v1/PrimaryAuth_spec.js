@@ -23,7 +23,6 @@ import resUnauthenticated from 'helpers/xhr/UNAUTHENTICATED';
 import resUnauthorized from 'helpers/xhr/UNAUTHORIZED_ERROR';
 import resSecurityImage from 'helpers/xhr/security_image';
 import resSecurityImageFail from 'helpers/xhr/security_image_fail';
-import resSecurityImageNewUser from 'helpers/xhr/security_image_new_user';
 import PrimaryAuth from 'v1/models/PrimaryAuth';
 import Q from 'q';
 import $sandbox from 'sandbox';
@@ -38,7 +37,6 @@ const itp = Expect.itp;
 const BEACON_LOADING_CLS = 'beacon-loading';
 const OIDC_STATE = 'gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg';
 const OIDC_NONCE = 'gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg';
-const AUTH_TIME = (1451606400) * 1000; // The time the "VALID_ID_TOKEN" was issued
 const VALID_ID_TOKEN =
   'eyJhbGciOiJSUzI1NiIsImtpZCI6IlU1UjhjSGJHdzQ0NVFicTh6' +
   'Vk8xUGNDcFhMOHlHNkljb3ZWYTNsYUNveE0iLCJ0eXAiOiJKV1Qi' +
@@ -79,6 +77,28 @@ const VALID_ACCESS_TOKEN =
 const typingPattern =
   '0,2.15,0,0,6,3210950388,1,95,-1,0,-1,-1,\
           0,-1,-1,9,86,44,0,-1,-1|4403,86|143,143|240,62|15,127|176,39|712,87';
+
+const mockClaims = {
+  amr: ['pwd'],
+  aud: 'someClientId',
+  auth_time: 1451606400,
+  email: 'samljackson@gack.me',
+  email_verified: true,
+  exp: 1609459200,
+  family_name: 'Jackson',
+  given_name: 'Saml',
+  iat: 1451606400,
+  idp: '0oaidiw9udOSceDqw0g3',
+  nonce: OIDC_NONCE,
+  idp_type: 'FACEBOOK',
+  iss: 'https://foo.com',
+  login: 'samljackson@gack.me',
+  name: 'Saml Jackson',
+  profile: 'https://www.facebook.com/app_scoped_user_id/122819658076357/',
+  sub: '00uiltNQK2Wszs2RV0g3',
+  updated_at: 1451606400,
+  ver: 1,
+};
 
 async function setup(settings, requests, refreshState, username) {
   settings || (settings = {});
@@ -179,7 +199,7 @@ function setupWithUsername(username, settings) {
   return setup(settings, undefined, false, username);
 }
 
-function setupSocial(settings) {
+function setupSocial(settings, options = {}) {
   Util.mockOIDCStateGenerator();
   Util.loadWellKnownAndKeysCache();
   return setup(
@@ -204,9 +224,19 @@ function setupSocial(settings) {
       settings
     )
   ).then(function(test) {
+    if (options.mockPopup) {
+      jest.spyOn(test.ac.token, 'getWithPopup').mockImplementation(function() {
+        return Promise.resolve({
+          tokens: {
+            idToken: { idToken: VALID_ID_TOKEN, claims: mockClaims },
+            accessToken: { accessToken: VALID_ACCESS_TOKEN, scopes: ['openid', 'email', 'profile'], tokenType: 'Bearer' },
+          },
+        });
+      });
+    }
     spyOn(window, 'open').and.callFake(function() {
-      test.oidcWindow = { 
-        closed: false, 
+      test.oidcWindow = {
+        closed: false,
         close: jasmine.createSpy(),
         location: {
           assign: jasmine.createSpy()
@@ -277,12 +307,13 @@ function setupRegistrationButton(featuresRegistration, registrationObj) {
   return setup(settings);
 }
 
-function waitForBeaconChange(test) {
+function setUsernameAndWaitForBeaconChange(test, username) {
   const cur = test.beacon.getBeaconImage();
 
+  test.form.setUsername(username);
   return Expect.wait(function() {
     return test.beacon.getBeaconImage() !== cur;
-  }, test);
+  }, test, 10000);
 }
 
 function transformUsername(name) {
@@ -569,9 +600,7 @@ Expect.describe('PrimaryAuth', function() {
         expect(test.form.helpFooter().attr('aria-controls')).toBe('help-links-container');
       });
     });
-    // OKTA-407603 enable or move this test
-    // eslint-disable-next-line jasmine/no-disabled-tests
-    xit('sets aria-expanded attribute correctly when clicking help', function() {
+    itp('sets aria-expanded attribute correctly when clicking help', function() {
       return setup().then(function(test) {
         expect(test.form.helpFooter().attr('aria-expanded')).toBe('false');
         test.form.helpFooter().click();
@@ -782,9 +811,9 @@ Expect.describe('PrimaryAuth', function() {
     itp('toggles "focused-input" css class on focus in and focus out', function() {
       return setup().then(function(test) {
         test.form.usernameField().focusin();
-        expect(test.form.usernameField()[0].parentElement).toHaveClass('focused-input');
+        expect(test.form.usernameField()[0].parentNode.className).toContain('focused-input');
         test.form.usernameField().focusout();
-        expect(test.form.usernameField()[0].parentElement).not.toHaveClass('focused-input');
+        expect(test.form.usernameField()[0].parentNode.className).not.toContain('focused-input');
       });
     });
     itp('Does not show the password toggle button if features.showPasswordToggleOnSignInPage is not set', function() {
@@ -821,32 +850,29 @@ Expect.describe('PrimaryAuth', function() {
       }
     );
     itp('Toggles password field from text to password after 30 seconds', function() {
-      return setup({ 'features.showPasswordToggleOnSignInPage': true }).then(function(test) {
-        jasmine.clock().uninstall();
-        const originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
-
-        jasmine.DEFAULT_TIMEOUT_INTERVAL = 35000;
-        jasmine.clock().install();
+      return setup({ 'features.showPasswordToggleOnSignInPage': true }).then(async function(test) {
+        jest.useFakeTimers();
         test.form.setPassword('testpass');
         test.form.setUsername('testuser');
         expect(test.form.passwordToggleContainer().length).toBe(1);
         expect(test.form.$('#okta-signin-password').attr('type')).toBe('password');
         test.form.passwordToggleShowContainer().click();
+
         expect(test.form.$('#okta-signin-password').attr('type')).toBe('text');
         expect(test.form.passwordToggleShowContainer().is(':visible')).toBe(false);
         expect(test.form.passwordToggleHideContainer().is(':visible')).toBe(true);
+        
         // t25
-        jasmine.clock().tick(25 * 1000);
+        jest.advanceTimersByTime(25 * 1000);
         expect(test.form.$('#okta-signin-password').attr('type')).toBe('text');
         expect(test.form.passwordToggleShowContainer().is(':visible')).toBe(false);
         expect(test.form.passwordToggleHideContainer().is(':visible')).toBe(true);
         // t35
-        jasmine.clock().tick(35 * 1000);
+        jest.advanceTimersByTime(25 * 1000);
         expect(test.form.$('#okta-signin-password').attr('type')).toBe('password');
         expect(test.form.passwordToggleShowContainer().is(':visible')).toBe(true);
         expect(test.form.passwordToggleHideContainer().is(':visible')).toBe(false);
-        jasmine.clock().uninstall();
-        jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
+        jest.useRealTimers();
       });
     });
     itp('sets username input aria-invalid="false" on init and clears on blur', function() {
@@ -893,10 +919,10 @@ Expect.describe('PrimaryAuth', function() {
       return setup().then(function(test) {
         test.form.usernameField().focusin();
         Util.callAllTimeouts();
-        expect(test.form.usernameField()[0].parentElement).toHaveClass('focused-input');
+        expect(test.form.usernameField()[0].parentNode.className).toContain('focused-input');
         test.form.usernameField().focusout();
         Util.callAllTimeouts(); // focus is wrapped in debounce() which uses setTimeout()
-        expect(test.form.usernameField()[0].parentElement).not.toHaveClass('focused-input');
+        expect(test.form.usernameField()[0].parentNode.className).not.toContain('focused-input');
         spyOn(test.router.controller.model, 'validate');
         expect(test.router.controller.model.validate).not.toHaveBeenCalled();
       });
@@ -922,9 +948,9 @@ Expect.describe('PrimaryAuth', function() {
         spyOn(test.router.controller.model, 'validate');
         test.form.passwordField().focusin();
         Util.callAllTimeouts();
-        expect(test.form.passwordField()[0].parentElement).toHaveClass('focused-input');
+        expect(test.form.passwordField()[0].parentNode.className).toContain('focused-input');
         test.form.passwordField().focusout();
-        expect(test.form.passwordField()[0].parentElement).not.toHaveClass('focused-input');
+        expect(test.form.passwordField()[0].parentNode.className).not.toContain('focused-input');
         expect(test.router.controller.model.validate).not.toHaveBeenCalled();
       });
     });
@@ -970,8 +996,7 @@ Expect.describe('PrimaryAuth', function() {
         .then(function(test) {
           spyOn(test.router.settings, 'transformUsername');
           test.setNextResponse(resSecurityImage);
-          test.form.setUsername('testuser');
-          return waitForBeaconChange(test);
+          return setUsernameAndWaitForBeaconChange(test, 'testuser');
         })
         .then(function(test) {
           expect(test.router.settings.transformUsername.calls.count()).toBe(0);
@@ -1187,8 +1212,7 @@ Expect.describe('PrimaryAuth', function() {
         return setup({ features: { securityImage: true, deviceFingerprinting: true } })
           .then(function(test) {
             test.setNextResponse(resSecurityImage);
-            test.form.setUsername('testuser');
-            return waitForBeaconChange(test);
+            return setUsernameAndWaitForBeaconChange(test, 'testuser');
           })
           .then(function() {
             expect(Util.numAjaxRequests()).toBe(1);
@@ -1218,8 +1242,7 @@ Expect.describe('PrimaryAuth', function() {
         })
           .then(function(test) {
             test.setNextResponse(resSecurityImage);
-            test.form.setUsername('testuser');
-            return waitForBeaconChange(test);
+            return setUsernameAndWaitForBeaconChange(test, 'testuser');
           })
           .then(function() {
             expect(Util.numAjaxRequests()).toBe(1);
@@ -1244,8 +1267,7 @@ Expect.describe('PrimaryAuth', function() {
         })
           .then(function(test) {
             test.setNextResponse(resSecurityImage);
-            test.form.setUsername('testuser');
-            return waitForBeaconChange(test);
+            return setUsernameAndWaitForBeaconChange(test, 'testuser');
           })
           .then(function() {
             expect(Util.numAjaxRequests()).toBe(1);
@@ -1264,8 +1286,7 @@ Expect.describe('PrimaryAuth', function() {
         return setup({ features: { securityImage: true, useDeviceFingerprintForSecurityImage: true } })
           .then(function(test) {
             test.setNextResponse(resSecurityImage);
-            test.form.setUsername('testuser');
-            return waitForBeaconChange(test);
+            return setUsernameAndWaitForBeaconChange(test, 'testuser');
           })
           .then(function() {
             expect(Util.numAjaxRequests()).toBe(1);
@@ -1415,8 +1436,7 @@ Expect.describe('PrimaryAuth', function() {
         .then(function(test) {
           test.securityBeacon = test.router.header.currentBeacon.$el;
           test.setNextResponse(resSecurityImage);
-          test.form.setUsername('testuser');
-          return waitForBeaconChange(test);
+          return setUsernameAndWaitForBeaconChange(test, 'testuser');
         })
         .then(function(test) {
           test.form.setPassword('pass');
@@ -1444,8 +1464,7 @@ Expect.describe('PrimaryAuth', function() {
           .then(function(test) {
             test.securityBeacon = test.router.header.currentBeacon.$el;
             test.setNextResponse(resSecurityImage);
-            test.form.setUsername('testuser');
-            return waitForBeaconChange(test);
+            return setUsernameAndWaitForBeaconChange(test, 'testuser');
           })
           .then(function(test) {
             spyOn(test.securityBeacon, 'toggleClass');
@@ -1464,26 +1483,31 @@ Expect.describe('PrimaryAuth', function() {
             expect(test.securityBeacon.html()).toBe(
               '<div class="beacon-blank">' +
               '<div class="radial-progress-bar" style="clip: rect(0px, 96px, 96px, 48px);">' +
-              '<div class="circle left" style="transform: rotate(0deg); text-indent: 1px;"></div>' + 
-              '<div class="circle right" style="transform: rotate(0deg); text-indent: 1px;"></div>' + 
+              '<div class="circle left" style="transform: rotate(0deg); text-indent: 1px;"></div>' +
+              '<div class="circle right" style="transform: rotate(0deg); text-indent: 1px;"></div>' +
               '</div>' + // beacon-blank
               '</div>' + // radial-progress-bar
-              '<div aria-live="polite" role="img" class="bg-helper auth-beacon auth-beacon-security" data-se="security-beacon" ' + 
-              'style="background-image: url(&quot;/base/test/unit/assets/1x1.gif&quot;);">' + 
-              '<span class="accessibility-text">a single pixel</span><div class="okta-sign-in-beacon-border js-auth-beacon-border auth-beacon-border"></div>' + 
+              '<div aria-live="polite" role="img" class="bg-helper auth-beacon auth-beacon-security" data-se="security-beacon" ' +
+              'style="background-image: url(/base/test/unit/assets/1x1.gif);">' +
+              '<span class="accessibility-text">a single pixel</span><div class="okta-sign-in-beacon-border js-auth-beacon-border auth-beacon-border"></div>' +
               '</div>' // bg-helper
             );
           });
       });
       itp('shows beacon-loading animation when primaryAuth is submitted (with deviceFingerprint)', function() {
+        spyOn(DeviceFingerprint, 'generateDeviceFingerprint').and.callFake(function() {
+          const deferred = Q.defer();
+  
+          deferred.resolve('thisIsTheDeviceFingerprint');
+          return deferred.promise;
+        });
         return setup({
           features: { securityImage: true, deviceFingerprinting: true, useDeviceFingerprintForSecurityImage: false },
         })
           .then(function(test) {
             test.securityBeacon = test.router.header.currentBeacon.$el;
             test.setNextResponse(resSecurityImage);
-            test.form.setUsername('testuser');
-            return waitForBeaconChange(test);
+            return setUsernameAndWaitForBeaconChange(test, 'testuser');
           })
           .then(function(test) {
             spyOn(test.securityBeacon, 'toggleClass');
@@ -1509,8 +1533,7 @@ Expect.describe('PrimaryAuth', function() {
           .then(function(test) {
             test.securityBeacon = test.router.header.currentBeacon.$el;
             test.setNextResponse(resSecurityImage);
-            test.form.setUsername('testuser');
-            return waitForBeaconChange(test);
+            return setUsernameAndWaitForBeaconChange(test, 'testuser');
           })
           .then(function(test) {
             Q.stopUnhandledRejectionTracking();
@@ -1532,8 +1555,7 @@ Expect.describe('PrimaryAuth', function() {
           .then(function(test) {
             test.securityBeacon = test.router.header.currentBeacon.$el;
             test.setNextResponse(resSecurityImage);
-            test.form.setUsername('testuser');
-            return waitForBeaconChange(test);
+            return setUsernameAndWaitForBeaconChange(test, 'testuser');
           })
           .then(function(test) {
             Q.stopUnhandledRejectionTracking();
@@ -1554,8 +1576,7 @@ Expect.describe('PrimaryAuth', function() {
           .then(function(test) {
             test.securityBeacon = test.router.header.currentBeacon.$el;
             test.setNextResponse(resSecurityImage);
-            test.form.setUsername('testuser');
-            return waitForBeaconChange(test);
+            return setUsernameAndWaitForBeaconChange(test, 'testuser');
           })
           .then(function(test) {
             Q.stopUnhandledRejectionTracking();
@@ -1683,18 +1704,23 @@ Expect.describe('PrimaryAuth', function() {
         expect(test.form.securityBeacon()[0].className).toMatch('undefined-user');
         expect(test.form.securityBeacon()[0].className).not.toMatch('new-device');
         expect(test.form.securityBeacon().css('background-image')).toMatch(
-          /\/base\/target\/img\/security\/default.*\.png/
+          /url\(..\/img\/security\/default.*png\)/
         );
       });
     });
     itp('shows beacon-loading animation while loading security image (with deviceFingerprint)', function() {
+      spyOn(DeviceFingerprint, 'generateDeviceFingerprint').and.callFake(function() {
+        const deferred = Q.defer();
+
+        deferred.resolve('thisIsTheDeviceFingerprint');
+        return deferred.promise;
+      });
       return setup({ features: { securityImage: true, deviceFingerprinting: true } })
         .then(function(test) {
           test.securityBeacon = test.router.header.currentBeacon.$el;
           spyOn(test.securityBeacon, 'toggleClass');
           test.setNextResponse(resSecurityImage);
-          test.form.setUsername('testuser');
-          return waitForBeaconChange(test);
+          return setUsernameAndWaitForBeaconChange(test, 'testuser');
         })
         .then(function(test) {
           const spyCalls = test.securityBeacon.toggleClass.calls;
@@ -1708,8 +1734,7 @@ Expect.describe('PrimaryAuth', function() {
       return setup({ features: { securityImage: true } })
         .then(function(test) {
           test.setNextResponse(resSecurityImage);
-          test.form.setUsername('test+user');
-          return waitForBeaconChange(test);
+          return setUsernameAndWaitForBeaconChange(test, 'test+user');
         })
         .then(function(test) {
           expect(Util.numAjaxRequests()).toBe(1);
@@ -1725,8 +1750,7 @@ Expect.describe('PrimaryAuth', function() {
           test.setNextResponse(resSecurityImage);
           test.form.editingUsername('te');
           test.form.editingUsername('testu');
-          test.form.setUsername('testuser');
-          return waitForBeaconChange(test);
+          return setUsernameAndWaitForBeaconChange(test, 'testuser');
         })
         .then(function() {
           expect(Util.numAjaxRequests()).toBe(1);
@@ -1736,14 +1760,13 @@ Expect.describe('PrimaryAuth', function() {
       return setup({ features: { securityImage: true } })
         .then(function(test) {
           test.setNextResponse(resSecurityImageFail);
-          test.form.setUsername('testuser');
-          return waitForBeaconChange(test);
+          return setUsernameAndWaitForBeaconChange(test, 'testuser');
         })
         .then(function(test) {
           expect(test.form.securityBeacon()[0].className).toMatch('new-user');
           expect(test.form.securityBeacon()[0].className).not.toMatch('undefined-user');
           expect(test.form.securityBeacon().css('background-image')).toMatch(
-            /\/base\/target\/img\/security\/unknown-device.*\.png/
+            /url\(..\/img\/security\/unknown-device.*png\)/
           );
         });
     });
@@ -1751,8 +1774,7 @@ Expect.describe('PrimaryAuth', function() {
       return setup({ features: { securityImage: true } })
         .then(function(test) {
           test.setNextResponse(resSecurityImageFail);
-          test.form.setUsername('testuser');
-          return waitForBeaconChange(test);
+          return setUsernameAndWaitForBeaconChange(test, 'testuser');
         })
         .then(function(test) {
           expect(test.form.securityImageTooltipText()).toEqual(
@@ -1781,59 +1803,6 @@ Expect.describe('PrimaryAuth', function() {
           expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({ 0: true }));
         });
     });
-    
-    itp('show anti-phishing message when security image is new user', function() {
-      return setup({ features: { securityImage: true } })
-        .then(function(test) {
-          spyOn($.qtip.prototype, 'toggle').and.callThrough();
-          test.setNextResponse(resSecurityImageNewUser);
-          test.form.setUsername('testuser');
-          return Expect.waitForSecurityImageTooltip(true, test);
-        })
-        .then(function(test) {
-          expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({ 0: true }));
-          $.qtip.prototype.toggle.calls.reset();
-          test.form.securityBeaconContainer().hide();
-          $(window).trigger('resize');
-          return Expect.waitForSecurityImageTooltip(false, test);
-        })
-        .then(function(test) {
-          expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({ 0: false }));
-          $.qtip.prototype.toggle.calls.reset();
-          test.form.securityBeaconContainer().show();
-          $(window).trigger('resize');
-          return Expect.waitForSecurityImageTooltip(true, test);
-        })
-        .then(function() {
-          expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({ 0: true }));
-        });
-    });
-    itp('show anti-phishing message if security image become visible', function() {
-      return setup({ features: { securityImage: true } })
-        .then(function(test) {
-          spyOn($.qtip.prototype, 'toggle').and.callThrough();
-          test.setNextResponse(resSecurityImageFail);
-          test.form.setUsername('testuser');
-          return Expect.waitForSecurityImageTooltip(true, test);
-        })
-        .then(function(test) {
-          expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({ 0: true }));
-          $.qtip.prototype.toggle.calls.reset();
-          test.form.securityBeaconContainer().hide();
-          $(window).trigger('resize');
-          return Expect.waitForSecurityImageTooltip(false, test);
-        })
-        .then(function(test) {
-          expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({ 0: false }));
-          $.qtip.prototype.toggle.calls.reset();
-          test.form.securityBeaconContainer().show();
-          $(window).trigger('resize');
-          return Expect.waitForSecurityImageTooltip(true, test);
-        })
-        .then(function() {
-          expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({ 0: true }));
-        });
-    });
     itp('guards against XSS when showing the anti-phishing message', function() {
       return setup({
         baseUrl: 'http://foo<i>xss</i>bar.com?bar=<i>xss</i>',
@@ -1841,8 +1810,7 @@ Expect.describe('PrimaryAuth', function() {
       })
         .then(function(test) {
           test.setNextResponse(resSecurityImageFail);
-          test.form.setUsername('testuser');
-          return waitForBeaconChange(test);
+          return setUsernameAndWaitForBeaconChange(test, 'testuser');
         })
         .then(function(test) {
           expect(test.form.securityImageTooltipText()).toEqual(
@@ -1857,8 +1825,7 @@ Expect.describe('PrimaryAuth', function() {
       })
         .then(function(test) {
           test.setNextResponse(resSecurityImageFail);
-          test.form.setUsername('testuser');
-          return waitForBeaconChange(test);
+          return setUsernameAndWaitForBeaconChange(test, 'testuser');
         })
         .then(function(test) {
           // Tooltip exists
@@ -2997,19 +2964,19 @@ Expect.describe('PrimaryAuth', function() {
             'toolbar=no, scrollbars=yes, resizable=yes, top=100, left=500, width=600, height=600'
           );
           const expectedRedirectUri = 'https://foo.com/oauth2/v1/authorize?' +
-          'client_id=someClientId&' +
-          'display=popup&' +
-          'idp=0oaidiw9udOSceD1234&' +
-          'nonce=' +
-          OIDC_NONCE +
-          '&' +
-          'redirect_uri=https%3A%2F%2F0.0.0.0%3A9999&' +
-          'response_mode=okta_post_message&' +
-          'response_type=id_token&' +
-          'state=' +
-          OIDC_STATE +
-          '&' +
-          'scope=openid%20email%20profile';
+            'client_id=someClientId&' +
+            'display=popup&' +
+            'idp=0oaidiw9udOSceD1234&' +
+            'nonce=' +
+            OIDC_NONCE +
+            '&' +
+            'redirect_uri=https%3A%2F%2F0.0.0.0%3A9999&' +
+            'response_mode=okta_post_message&' +
+            'response_type=id_token&' +
+            'state=' +
+            OIDC_STATE +
+            '&' +
+            'scope=openid%20email%20profile';
           expect(test.oidcWindow.location.assign).toHaveBeenCalledWith(expectedRedirectUri);
         });
     });
@@ -3024,7 +2991,7 @@ Expect.describe('PrimaryAuth', function() {
         expect(SharedUtil.redirect.calls.count()).toBe(1);
         expect(SharedUtil.redirect).toHaveBeenCalledWith(
           'https://foo.com/sso/idps/0oaidiw9udOSceD1234?' +
-            $.param({ fromURI: '/oauth2/v1/authorize/redirect?okta_key=FTAUUQK8XbZi0h2MyEDnBFTLnTFpQGqfNjVnirCXE0U' })
+          $.param({ fromURI: '/oauth2/v1/authorize/redirect?okta_key=FTAUUQK8XbZi0h2MyEDnBFTLnTFpQGqfNjVnirCXE0U' })
         );
       });
     });
@@ -3036,19 +3003,19 @@ Expect.describe('PrimaryAuth', function() {
         })
         .then(function([test]) {
           const expectedRedirectUri = 'https://foo.com/oauth2/v1/authorize?' +
-          'client_id=someClientId&' +
-          'display=popup&' +
-          'idp=0oaidiw9udOSceD1234&' +
-          'nonce=' +
-          OIDC_NONCE +
-          '&' +
-          'redirect_uri=https%3A%2F%2F0.0.0.0%3A9999&' +
-          'response_mode=okta_post_message&' +
-          'response_type=token&' +
-          'state=' +
-          OIDC_STATE +
-          '&' +
-          'scope=openid%20email%20profile';
+            'client_id=someClientId&' +
+            'display=popup&' +
+            'idp=0oaidiw9udOSceD1234&' +
+            'nonce=' +
+            OIDC_NONCE +
+            '&' +
+            'redirect_uri=https%3A%2F%2F0.0.0.0%3A9999&' +
+            'response_mode=okta_post_message&' +
+            'response_type=token&' +
+            'state=' +
+            OIDC_STATE +
+            '&' +
+            'scope=openid%20email%20profile';
           expect(window.open.calls.count()).toBe(1);
           expect(window.open).toHaveBeenCalledWith(
             '/',
@@ -3068,19 +3035,19 @@ Expect.describe('PrimaryAuth', function() {
           })
           .then(function([test]) {
             const expectedRedirectUri = 'https://foo.com/oauth2/v1/authorize?' +
-            'client_id=someClientId&' +
-            'display=popup&' +
-            'idp=0oaidiw9udOSceD1234&' +
-            'nonce=' +
-            OIDC_NONCE +
-            '&' +
-            'redirect_uri=https%3A%2F%2F0.0.0.0%3A9999&' +
-            'response_mode=okta_post_message&' +
-            'response_type=id_token%20token&' +
-            'state=' +
-            OIDC_STATE +
-            '&' +
-            'scope=openid%20email%20profile';
+              'client_id=someClientId&' +
+              'display=popup&' +
+              'idp=0oaidiw9udOSceD1234&' +
+              'nonce=' +
+              OIDC_NONCE +
+              '&' +
+              'redirect_uri=https%3A%2F%2F0.0.0.0%3A9999&' +
+              'response_mode=okta_post_message&' +
+              'response_type=id_token%20token&' +
+              'state=' +
+              OIDC_STATE +
+              '&' +
+              'scope=openid%20email%20profile';
             expect(window.open.calls.count()).toBe(1);
             expect(window.open).toHaveBeenCalledWith(
               '/',
@@ -3098,24 +3065,12 @@ Expect.describe('PrimaryAuth', function() {
         spyOn(window, 'addEventListener');
 
         // In this test the id token will be returned succesfully. It must pass all validation.
-        // Mock the date to 10 seconds after token was issued.
-        jasmine.clock().mockDate(new Date(AUTH_TIME + 10000));
-        return setupSocial()
+        return setupSocial({}, { mockPopup: true })
           .then(function(test) {
             test.form.facebookButton().click();
-            return Expect.waitForWindowListener('message', test);
+            return test;
           })
           .then(function(test) {
-            jasmine.clock().mockDate(new Date(AUTH_TIME + 10000));
-            const args = window.addEventListener.calls.mostRecent().args;
-            const callback = args[1];
-            callback.call(null, {
-              origin: 'https://foo.com',
-              data: {
-                id_token: VALID_ID_TOKEN,
-                state: OIDC_STATE,
-              },
-            });
             return Expect.waitForSpyCall(test.successSpy, test);
           })
           .then(function(test) {
@@ -3124,30 +3079,7 @@ Expect.describe('PrimaryAuth', function() {
 
             expect(data.status).toBe('SUCCESS');
             expect(data.tokens.idToken.idToken).toBe(VALID_ID_TOKEN);
-            expect(data.tokens.idToken.claims).toEqual({
-              amr: ['pwd'],
-              aud: 'someClientId',
-              auth_time: 1451606400,
-              email: 'samljackson@gack.me',
-              email_verified: true,
-              exp: 1609459200,
-              family_name: 'Jackson',
-              given_name: 'Saml',
-              iat: 1451606400,
-              idp: '0oaidiw9udOSceDqw0g3',
-              nonce: OIDC_NONCE,
-              idp_type: 'FACEBOOK',
-              iss: 'https://foo.com',
-              login: 'samljackson@gack.me',
-              name: 'Saml Jackson',
-              profile: 'https://www.facebook.com/app_scoped_user_id/122819658076357/',
-              sub: '00uiltNQK2Wszs2RV0g3',
-              updated_at: 1451606400,
-              ver: 1,
-            });
-          })
-          .finally(function() {
-            jasmine.clock().uninstall();
+            expect(data.tokens.idToken.claims).toEqual(mockClaims);
           });
       }
     );
@@ -3156,27 +3088,12 @@ Expect.describe('PrimaryAuth', function() {
       spyOn(window, 'addEventListener');
 
       // In this test the id token will be returned succesfully. It must pass all validation.
-      // Mock the date to 10 seconds after token was issued.
-      jasmine.clock().mockDate(new Date(AUTH_TIME + 10000));
-      return setupSocial({ 'authParams.responseType': ['id_token', 'token'] })
+      return setupSocial({ 'authParams.responseType': ['id_token', 'token'] }, { mockPopup: true })
         .then(function(test) {
           test.form.facebookButton().click();
-          return Expect.waitForWindowListener('message', test);
+          return test;
         })
         .then(function(test) {
-          const args = window.addEventListener.calls.mostRecent().args;
-          const callback = args[1];
-          callback.call(null, {
-            origin: 'https://foo.com',
-            data: {
-              id_token: VALID_ID_TOKEN,
-              state: OIDC_STATE,
-              access_token: VALID_ACCESS_TOKEN,
-              expires_in: 3600,
-              scope: 'openid email profile',
-              token_type: 'Bearer',
-            },
-          });
           return Expect.waitForSpyCall(test.successSpy, test);
         })
         .then(function(test) {
@@ -3189,9 +3106,6 @@ Expect.describe('PrimaryAuth', function() {
           expect(data.tokens.accessToken.accessToken).toBe(VALID_ACCESS_TOKEN);
           expect(data.tokens.accessToken.scopes).toEqual(['openid', 'email', 'profile']);
           expect(data.tokens.accessToken.tokenType).toBe('Bearer');
-        })
-        .finally(function() {
-          jasmine.clock().uninstall();
         });
     });
     itp('triggers the afterError event if there is no valid id token returned', function() {
@@ -3291,12 +3205,6 @@ Expect.describe('PrimaryAuth', function() {
           expect(test.oidcWindow.close).toHaveBeenCalled();
         });
     });
-
-    // Reminder: Think about how to mock this out in the future - currently
-    // cannot mock it because we defer to AuthJs to do set window.location.
-    // On the plus side, there is an e2e test that covers this.
-    // eslint-disable-next-line jasmine/no-disabled-tests
-    xit('redirects to the correct url in the social idp redirect flow');
   });
 });
 

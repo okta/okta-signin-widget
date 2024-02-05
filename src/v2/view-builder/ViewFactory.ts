@@ -77,8 +77,7 @@ import ChallengeOktaVerifyCustomAppDataView from './views/shared/ChallengeOktaVe
 import ChallengeOktaVerifySSOExtensionView from './views/ov/ChallengeOktaVerifySSOExtensionView';
 
 // app (google authenticator)
-import EnrollAuthenticatorGoogleAuthenticatorView
-  from './views/google-authenticator/EnrollAuthenticatorGoogleAuthenticatorView';
+import EnrollAuthenticatorGoogleAuthenticatorView from './views/google-authenticator/EnrollAuthenticatorGoogleAuthenticatorView';
 import ChallengeGoogleAuthenticatorView from './views/google-authenticator/ChallengeGoogleAuthenticatorView';
 
 // on-prem mfa
@@ -115,6 +114,9 @@ import ChallengeCustomAppResendPushView from './views/custom-app/ChallengeCustom
 // custom password
 import ReEnrollCustomPasswordExpiryView from './views/custom-password/ReEnrollCustomPasswordExpiryView';
 import ReEnrollCustomPasswordExpiryWarningView from './views/custom-password/ReEnrollCustomPasswordExpiryWarningView';
+
+// keep me signed in
+import PostAuthKeepMeSignedInView from './views/keep-me-signed-in/PostAuthKeepMeSignedInView';
 
 const DEFAULT = '_';
 
@@ -230,6 +232,7 @@ const VIEWS_MAPPING = {
   [RemediationForms.RESET_AUTHENTICATOR]: {
     // Admin driven password reset..
     [AUTHENTICATOR_KEY.PASSWORD]: ResetAuthenticatorPasswordView,
+    [AUTHENTICATOR_KEY.GOOGLE_OTP]: EnrollAuthenticatorGoogleAuthenticatorView,
   },
   [RemediationForms.SELECT_AUTHENTICATOR_AUTHENTICATE]: {
     [DEFAULT]: SelectAuthenticatorVerifyView,
@@ -268,6 +271,9 @@ const VIEWS_MAPPING = {
   },
   [RemediationForms.USER_CODE] : {
     [DEFAULT] : DeviceCodeActivateView
+  },
+  [RemediationForms.KEEP_ME_SIGNED_IN]: {
+    [DEFAULT]: PostAuthKeepMeSignedInView,
   },
   [RemediationForms.TERMINAL]: {
     [DEFAULT]: TerminalView,

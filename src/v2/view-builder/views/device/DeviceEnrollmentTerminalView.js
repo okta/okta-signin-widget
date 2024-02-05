@@ -113,6 +113,8 @@ export default BaseView.extend({
     case Enums.MDM:
       this.Body = MdmTerminalForm;
       break;
+    case Enums.WS1:
+      this.Body = MdmTerminalForm;
     }
   },
 

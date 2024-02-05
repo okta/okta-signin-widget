@@ -21,6 +21,7 @@ import {
   StepperLayout,
   TextWithActionLinkElement,
   TitleElement,
+  UISchemaLayout,
   WidgetProps,
 } from 'src/types';
 
@@ -341,5 +342,100 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
       .toBe('select-enrollment-channel');
     expect((layoutThree.elements[2] as TextWithActionLinkElement).options.stepToRender)
       .toBe('select-enrollment-channel');
+  });
+
+  /* eslint max-len: [2, 120] */
+  it('should add Stepper elements when selectedChannel is samedevice', () => {
+    transaction.context = {
+      // TODO: OKTA-503490 temporary sln access missing relatesTo obj
+      currentAuthenticator: {
+        value: {
+          contextualData: {
+            samedevice: {
+              orgUrl: 'okta.okta.com',
+              downloadHref: 'https://apps.apple.com/us/app/okta-verify/id490179405',
+              platform: 'ios',
+            },
+            selectedChannel: 'samedevice',
+          },
+        },
+      },
+    } as unknown as IdxContext;
+
+    const updatedFormBag = transformOktaVerifyEnrollPoll({ transaction, formBag, widgetProps });
+
+    expect(updatedFormBag).toMatchSnapshot();
+    const [stepperLayout] = updatedFormBag.uischema.elements;
+    const layoutFour = (stepperLayout as StepperLayout).elements[3];
+
+    expect(layoutFour.elements.length).toBe(4);
+    expect((layoutFour.elements[0] as TitleElement).options.content)
+      .toBe('oie.enroll.okta_verify.setup.title');
+    expect((layoutFour.elements[1] as DescriptionElement).options.content)
+      .toBe('oie.enroll.okta_verify.setup.subtitle');
+    expect(layoutFour.elements[2].type)
+      .toBe('List');
+    const listElement = layoutFour.elements[2] as ListElement;
+    expect(listElement.options.type)
+      .toBe('ol');
+    expect(((listElement.options.items[0] as UISchemaLayout).elements[0] as DescriptionElement).options.content)
+      .toBe('enroll.oda.without.account.step1');
+    expect(((listElement.options.items[1] as UISchemaLayout).elements[0] as DescriptionElement).options.content)
+      .toBe('oie.enroll.okta_verify.setup.openOv');
+    expect(((listElement.options.items[2] as UISchemaLayout).elements[0] as DescriptionElement).options.content)
+      .toBe('oie.enroll.okta_verify.setup.signInUrl');
+    expect(((listElement.options.items[2] as UISchemaLayout).elements[1] as DescriptionElement).options.content)
+      .toBe('<span class="strong no-translate">okta.okta.com</span>');
+    expect(((listElement.options.items[2] as UISchemaLayout).elements[2] as ButtonElement).label)
+      .toBe('enroll.oda.org.copyLink');
+    expect(((listElement.options.items[3] as UISchemaLayout).elements[0] as DescriptionElement).options.content)
+      .toBe('oie.enroll.okta_verify.setup.skipAuth.followInstruction');
+    expect((layoutFour.elements[3] as DescriptionElement).options.content)
+      .toBe('oie.enroll.okta_verify.setup.skipAuth.canBeClosed');
+  });
+
+  /* eslint max-len: [2, 120] */
+  it('should add Stepper elements when selectedChannel is devicebootstrap', () => {
+    transaction.context = {
+      // TODO: OKTA-503490 temporary sln access missing relatesTo obj
+      currentAuthenticator: {
+        value: {
+          contextualData: {
+            devicebootstrap: {
+              platform: 'ios',
+              enrolledDevices: ['testDevice1', 'device2'],
+            },
+            selectedChannel: 'devicebootstrap',
+          },
+        },
+      },
+    } as unknown as IdxContext;
+
+    const updatedFormBag = transformOktaVerifyEnrollPoll({ transaction, formBag, widgetProps });
+
+    expect(updatedFormBag).toMatchSnapshot();
+    const [stepperLayout] = updatedFormBag.uischema.elements;
+    const layoutFive = (stepperLayout as StepperLayout).elements[4];
+
+    expect(layoutFive.elements.length).toBe(4);
+    expect((layoutFive.elements[0] as TitleElement).options.content)
+      .toBe('oie.enroll.okta_verify.setup.title');
+    expect((layoutFive.elements[1] as DescriptionElement).options.content)
+      .toBe('oie.enroll.okta_verify.setup.skipAuth.subtitle');
+    expect(layoutFive.elements[2].type)
+      .toBe('List');
+    const listElement = layoutFive.elements[2] as ListElement;
+    expect(listElement.options.type)
+      .toBe('ol');
+    expect(((listElement.options.items[0] as UISchemaLayout).elements[0] as DescriptionElement).options.content)
+      .toBe('oie.enroll.okta_verify.setup.skipAuth.openOv.suchAs');
+    expect(((listElement.options.items[1] as UISchemaLayout).elements[0] as DescriptionElement).options.content)
+      .toBe('oie.enroll.okta_verify.setup.skipAuth.selectAccount');
+    expect(((listElement.options.items[2] as UISchemaLayout).elements[0] as DescriptionElement).options.content)
+      .toBe('oie.enroll.okta_verify.setup.skipAuth.addAccount');
+    expect(((listElement.options.items[3] as UISchemaLayout).elements[0] as DescriptionElement).options.content)
+      .toBe('oie.enroll.okta_verify.setup.skipAuth.followInstruction');
+    expect((layoutFive.elements[3] as DescriptionElement).options.content)
+      .toBe('oie.enroll.okta_verify.setup.skipAuth.canBeClosed');
   });
 });

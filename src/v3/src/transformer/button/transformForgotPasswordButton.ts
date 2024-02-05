@@ -17,7 +17,9 @@ import {
   LinkElement,
   TransformStepFnWithOptions,
 } from '../../types';
-import { getAuthenticatorKey, getForgotPasswordUri, loc } from '../../util';
+import {
+  getAuthenticatorKey, getForgotPasswordUri, isConfigRecoverFlow, loc,
+} from '../../util';
 import TransformerMap from '../layout/idxTransformerMapping';
 
 const getStepByName = (
@@ -39,7 +41,15 @@ export const transformForgotPasswordButton: TransformStepFnWithOptions = ({
   const shouldAddDefaultButton = customTransformer?.buttonConfig?.showForgotPassword ?? false;
   const forgotPasswordStep = getStepByName(forgotPasswordAuthenticatorStepName, transaction)
     ?? getStepByName(forgotPasswordAuthenticatorEnrollmentStep, transaction);
-  if (!shouldAddDefaultButton || typeof forgotPasswordStep === 'undefined') {
+  if (typeof forgotPasswordStep === 'undefined') {
+    return formbag;
+  }
+
+  // TODO
+  // OKTA-651781
+  // when flow param is set to resetPassword, the identify page is redressed as identify-recovery page
+  // so this link needs to be hidden
+  if (isConfigRecoverFlow(widgetProps.flow)) {
     return formbag;
   }
 
@@ -48,7 +58,7 @@ export const transformForgotPasswordButton: TransformStepFnWithOptions = ({
     type: 'Link',
     contentType: 'footer',
     options: {
-      label: loc('forgotpassword', 'login'),
+      label: 'Recover Authenticator LABEL',
       isActionStep: true,
       step: stepName,
     },

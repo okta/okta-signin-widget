@@ -3,8 +3,10 @@
 const path = require('path');
 const fs = require('fs');
 const nodemon = require('nodemon');
+const { DefinePlugin } = require('webpack');
 
 const TARGET = path.resolve(__dirname, 'target');
+const ASSETS = path.resolve(__dirname, 'assets');
 const PLAYGROUND = path.resolve(__dirname, 'playground');
 const DEV_SERVER_PORT = 3000;
 const MOCK_SERVER_PORT = 3030;
@@ -13,6 +15,7 @@ const WIDGET_RC = path.resolve(__dirname, '.widgetrc');
 
 // run `OKTA_SIW_HOST=0.0.0.0 yarn start --watch` to override the host
 const HOST = process.env.OKTA_SIW_HOST || 'localhost';
+const staticDirs = [PLAYGROUND, TARGET, ASSETS];
 
 if (!fs.existsSync(WIDGET_RC_JS) && fs.existsSync(WIDGET_RC)) {
   console.error('============================================');
@@ -59,6 +62,11 @@ module.exports = {
     // Add `.ts` and `.tsx` as a resolvable extension.
     extensions: ['.ts', '.tsx', '.js']
   },
+  plugins: [
+    new DefinePlugin({
+      IE11_COMPAT_MODE: process.env.IE11_COMPAT_MODE === 'true',
+    })
+  ],
   module: {
     rules: [
       // all files with a `.ts` or `.tsx` extension will be handled by `preset-typescript`
@@ -81,14 +89,9 @@ module.exports = {
   },
   devServer: {
     host: HOST,
+    watchFiles: [...staticDirs],
     static: [
-      PLAYGROUND,
-      TARGET,
-      {
-        staticOptions: {
-          watchContentBase: true
-        }
-      }
+      ...staticDirs
     ],
     historyApiFallback: true,
     headers,

@@ -27,9 +27,14 @@ const nestEntry = (parts: string[], value: unknown): IdxActionParams => {
 
 export const toNestedObject = (
   params: Record<string, unknown>,
+  keysWithoutNesting?: string[],
 ): IdxActionParams => Object.entries(params || {})
   .reduce((acc, [key, value]) => {
-    const parts = key.split('.');
+    let parts = key.split('.');
+    const [firstPart, ...otherParts] = parts;
+    if (keysWithoutNesting?.includes(firstPart)) {
+      parts = [firstPart, otherParts.join('.')];
+    }
     const nestedField = nestEntry(parts, value);
     return merge(acc, nestedField);
   }, {});

@@ -65,6 +65,11 @@ const LaunchAuthenticatorButton: UISchemaElementComponent<{
     }
     onSubmitHandler({
       step,
+      isActionStep: !!data.rememberMe,
+      // pass the rememberMe checkbox value into the request params
+      params: {
+        rememberMe: data.rememberMe,
+      },
     });
   };
 
@@ -82,17 +87,21 @@ const LaunchAuthenticatorButton: UISchemaElementComponent<{
         display="flex"
         alignItems="center"
         justifyContent="center"
-        alignContent="space-between"
-        gap="5px"
-        // keep the icon from stretching the button vertically
-        marginY="-3px"
       >
-        <OktaVerifyIcon
-          name="mfa-okta-verify"
-          description={iconDescription}
-          width={24}
-          height={24}
-        />
+        <Box
+          sx={{
+            marginInlineEnd: '5px',
+            // keep the icon from stretching the button vertically
+            marginBlockEnd: '-3px',
+          }}
+        >
+          <OktaVerifyIcon
+            name="mfa-okta-verify"
+            description={iconDescription}
+            width={24}
+            height={24}
+          />
+        </Box>
         {label}
       </Box>
     </OdyButton>

@@ -1,0 +1,476 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Transform Custom App Challenge Poll Tests should correct elements when method type is standard push only with Custom app authenticator key 1`] = `
+Object {
+  "data": Object {
+    "autoChallenge": undefined,
+  },
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.verify.custom_app.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "noMargin": true,
+        "options": Object {
+          "content": "oie.custom_app.push.warning",
+        },
+        "type": "Reminder",
+      },
+      Object {
+        "label": "oie.custom_app.push.sent",
+        "options": Object {
+          "disabled": true,
+        },
+        "type": "Button",
+      },
+      Object {
+        "contentType": "footer",
+        "options": Object {
+          "isActionStep": true,
+          "label": "goback",
+          "step": "cancel",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Transform Custom App Challenge Poll Tests should transform elements when method type is standard push only with Custom app authenticator key and include verify with other link when additional options exist in remediation 1`] = `
+Object {
+  "data": Object {
+    "autoChallenge": undefined,
+  },
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.verify.custom_app.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "noMargin": true,
+        "options": Object {
+          "content": "oie.custom_app.push.warning",
+        },
+        "type": "Reminder",
+      },
+      Object {
+        "label": "oie.custom_app.push.sent",
+        "options": Object {
+          "disabled": true,
+        },
+        "type": "Button",
+      },
+      Object {
+        "contentType": "footer",
+        "options": Object {
+          "label": "oie.verification.switch.authenticator",
+          "onClick": [Function],
+          "step": "select-authenticator-authenticate",
+        },
+        "type": "Link",
+      },
+      Object {
+        "contentType": "footer",
+        "options": Object {
+          "isActionStep": true,
+          "label": "goback",
+          "step": "cancel",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Transform Okta Verify Challenge Poll Tests should transform correct elements when method type is standard push only with Custom app authenticator key 1`] = `
+Object {
+  "data": Object {
+    "autoChallenge": undefined,
+  },
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.verify.custom_app.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "noMargin": true,
+        "options": Object {
+          "content": "oie.custom_app.push.warning",
+        },
+        "type": "Reminder",
+      },
+      Object {
+        "label": "oie.custom_app.push.sent",
+        "options": Object {
+          "disabled": true,
+        },
+        "type": "Button",
+      },
+      Object {
+        "contentType": "footer",
+        "options": Object {
+          "isActionStep": true,
+          "label": "goback",
+          "step": "cancel",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Transform Okta Verify Challenge Poll Tests should transform elements when method type is push and has enhanced security when resend is unavailable 1`] = `
+Object {
+  "data": Object {
+    "autoChallenge": undefined,
+  },
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.okta_verify.push.sent",
+        },
+        "type": "Title",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.numberchallenge.instruction",
+          "dataSe": "numberchallenge-instr-value",
+        },
+        "type": "Description",
+      },
+      Object {
+        "noTranslate": true,
+        "options": Object {
+          "SVGIcon": [Function],
+          "alignment": "center",
+          "id": "code",
+          "textContent": "42",
+        },
+        "type": "ImageWithText",
+      },
+      Object {
+        "contentType": "footer",
+        "options": Object {
+          "isActionStep": true,
+          "label": "goback",
+          "step": "cancel",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Transform Okta Verify Challenge Poll Tests should transform elements when method type is push and has enhanced security with resend avaialable 1`] = `
+Object {
+  "data": Object {
+    "autoChallenge": undefined,
+  },
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "noMargin": true,
+        "options": Object {
+          "actionParams": Object {
+            "resend": true,
+          },
+          "content": "oie.numberchallenge.warning",
+          "contentClassname": "resend-number-challenge",
+          "contentHasHtml": true,
+          "isActionStep": true,
+          "step": "resend",
+        },
+        "type": "Reminder",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.okta_verify.push.sent",
+        },
+        "type": "Title",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.numberchallenge.instruction",
+          "dataSe": "numberchallenge-instr-value",
+        },
+        "type": "Description",
+      },
+      Object {
+        "noTranslate": true,
+        "options": Object {
+          "SVGIcon": [Function],
+          "alignment": "center",
+          "id": "code",
+          "textContent": "42",
+        },
+        "type": "ImageWithText",
+      },
+      Object {
+        "contentType": "footer",
+        "options": Object {
+          "isActionStep": true,
+          "label": "goback",
+          "step": "cancel",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Transform Okta Verify Challenge Poll Tests should transform elements when method type is push and has enhanced security with resend avaialable and include verify with other link when additional options exist in remediation 1`] = `
+Object {
+  "data": Object {
+    "autoChallenge": undefined,
+  },
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "noMargin": true,
+        "options": Object {
+          "actionParams": Object {
+            "resend": true,
+          },
+          "content": "oie.numberchallenge.warning",
+          "contentClassname": "resend-number-challenge",
+          "contentHasHtml": true,
+          "isActionStep": true,
+          "step": "resend",
+        },
+        "type": "Reminder",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.okta_verify.push.sent",
+        },
+        "type": "Title",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.numberchallenge.instruction",
+          "dataSe": "numberchallenge-instr-value",
+        },
+        "type": "Description",
+      },
+      Object {
+        "noTranslate": true,
+        "options": Object {
+          "SVGIcon": [Function],
+          "alignment": "center",
+          "id": "code",
+          "textContent": "42",
+        },
+        "type": "ImageWithText",
+      },
+      Object {
+        "contentType": "footer",
+        "options": Object {
+          "label": "oie.verification.switch.authenticator",
+          "onClick": [Function],
+          "step": "select-authenticator-authenticate",
+        },
+        "type": "Link",
+      },
+      Object {
+        "contentType": "footer",
+        "options": Object {
+          "isActionStep": true,
+          "label": "goback",
+          "step": "cancel",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Transform Okta Verify Challenge Poll Tests should transform elements when method type is standard push only 1`] = `
+Object {
+  "data": Object {
+    "autoChallenge": undefined,
+  },
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.okta_verify.push.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "noMargin": true,
+        "options": Object {
+          "content": "oktaverify.warning",
+        },
+        "type": "Reminder",
+      },
+      Object {
+        "label": "oie.okta_verify.push.sent",
+        "options": Object {
+          "disabled": true,
+        },
+        "type": "Button",
+      },
+      Object {
+        "contentType": "footer",
+        "options": Object {
+          "isActionStep": true,
+          "label": "goback",
+          "step": "cancel",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Transform Okta Verify Challenge Poll Tests should transform elements when method type is standard push only and include verify with other link when additional options exist in remediation 1`] = `
+Object {
+  "data": Object {
+    "autoChallenge": undefined,
+  },
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.okta_verify.push.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "noMargin": true,
+        "options": Object {
+          "content": "oktaverify.warning",
+        },
+        "type": "Reminder",
+      },
+      Object {
+        "label": "oie.okta_verify.push.sent",
+        "options": Object {
+          "disabled": true,
+        },
+        "type": "Button",
+      },
+      Object {
+        "contentType": "footer",
+        "options": Object {
+          "label": "oie.verification.switch.authenticator",
+          "onClick": [Function],
+          "step": "select-authenticator-authenticate",
+        },
+        "type": "Link",
+      },
+      Object {
+        "contentType": "footer",
+        "options": Object {
+          "isActionStep": true,
+          "label": "goback",
+          "step": "cancel",
+        },
+        "type": "Link",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

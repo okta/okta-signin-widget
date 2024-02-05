@@ -13,6 +13,7 @@
 import flow from 'lodash/flow';
 
 import {
+  CUSTOM_APP_UV_ENABLE_BIOMETRIC_SERVER_KEY,
   IDX_STEP,
   OV_NMC_FORCE_UPGRADE_SERVER_KEY,
   OV_UV_ENABLE_BIOMETRIC_SERVER_KEY,
@@ -24,7 +25,13 @@ import {
   UISchemaElement,
   WidgetMessage,
 } from '../../types';
-import { containsMessageKey, containsOneOfMessageKeys, loc } from '../../util';
+import {
+  containsMessageKey,
+  containsOneOfMessageKeys,
+  getBiometricsErrorMessageElement,
+  getDisplayName,
+  loc,
+} from '../../util';
 import { transactionMessageTransformer } from '../i18n';
 
 export const OV_OVERRIDE_MESSAGE_KEY: Record<string, string> = {
@@ -50,6 +57,7 @@ export const CUSTOM_MESSAGE_KEYS = [
   OV_UV_ENABLE_BIOMETRIC_SERVER_KEY,
   OV_UV_RESEND_ENABLE_BIOMETRIC_SERVER_KEY,
   OV_NMC_FORCE_UPGRADE_SERVER_KEY,
+  CUSTOM_APP_UV_ENABLE_BIOMETRIC_SERVER_KEY,
 ];
 
 const EXCLUDE_MESSAGE_STEPS = [
@@ -61,6 +69,7 @@ const EXCLUDE_MESSAGE_STEPS = [
 const BIOMETRIC_SERVER_KEYS = [
   OV_UV_ENABLE_BIOMETRIC_SERVER_KEY,
   OV_UV_RESEND_ENABLE_BIOMETRIC_SERVER_KEY,
+  CUSTOM_APP_UV_ENABLE_BIOMETRIC_SERVER_KEY,
 ];
 
 const localizeTransactionMessages: TransformStepFnWithOptions = ({
@@ -132,24 +141,12 @@ const transformBiometricsErrorMessage: TransformStepFnWithOptions = ({
   const biometricsErrorMessages: WidgetMessage[] = messages
     .filter((message) => BIOMETRIC_SERVER_KEYS.includes(message.i18n?.key));
 
-  const messageBullets: WidgetMessage[] = [
-    loc('oie.authenticator.app.method.push.verify.enable.biometrics.point1', 'login'),
-    loc('oie.authenticator.app.method.push.verify.enable.biometrics.point2', 'login'),
-    loc('oie.authenticator.app.method.push.verify.enable.biometrics.point3', 'login'),
-  ].map((msg: string) => ({ class: 'INFO', message: msg }));
-  const customMessage = {
-    class: 'ERROR',
-    title: loc('oie.authenticator.app.method.push.verify.enable.biometrics.title', 'login'),
-    description: loc('oie.authenticator.app.method.push.verify.enable.biometrics.description', 'login'),
-    message: messageBullets,
-  };
-
   const messageElements: UISchemaElement[] = [];
   biometricsErrorMessages.forEach((message) => messageElements.push({
     type: 'InfoBox',
     options: {
       class: message.class ?? 'INFO',
-      message: customMessage,
+      message: getBiometricsErrorMessageElement(message.i18n?.key, getDisplayName(transaction)),
       dataSe: 'callout',
     },
   } as InfoboxElement));

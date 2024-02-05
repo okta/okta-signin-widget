@@ -20,46 +20,35 @@ import {
   ReminderElement,
   TitleElement,
 } from '../../types';
-import { loc } from '../../util';
+import { buildPhoneVerificationSubtitleElement, isValidPhoneMethodType, loc } from '../../util';
 
 export const transformPhoneChallenge: IdxStepTransformer = ({ transaction, formBag }) => {
   const { nextStep = {} as NextStep, availableSteps } = transaction;
   const { uischema } = formBag;
 
-  const { methods, profile } = nextStep.relatesTo?.value || {};
-  const { phoneNumber } = profile || {};
+  const { methods } = nextStep.relatesTo?.value || {};
   const methodType = methods?.[0]?.type;
   let reminderElement: ReminderElement | undefined;
 
   const resendStep = availableSteps?.find(({ name }) => name?.endsWith('resend'));
-  const smsMethodType = methodType === 'sms';
+  const isSmsMethodType = methodType === 'sms';
   if (resendStep) {
     const { name } = resendStep;
     reminderElement = {
       type: 'Reminder',
       options: {
-        content: smsMethodType ? loc('oie.phone.verify.sms.resendText', 'login') : loc('oie.phone.verify.call.resendText', 'login'),
-        buttonText: smsMethodType ? loc('oie.phone.verify.sms.resendLinkText', 'login') : loc('oie.phone.verify.call.resendLinkText', 'login'),
+        content: isSmsMethodType
+          ? loc('oie.phone.verify.sms.resendText', 'login')
+          : loc('oie.phone.verify.call.resendText', 'login'),
+        buttonText: isSmsMethodType
+          ? loc('oie.phone.verify.sms.resendLinkText', 'login')
+          : loc('oie.phone.verify.call.resendLinkText', 'login'),
         step: name,
         isActionStep: true,
         actionParams: { resend: true },
       },
     };
   }
-
-  const sendInfoText = smsMethodType
-    ? loc('oie.phone.verify.sms.codeSentText', 'login')
-    : loc('mfa.calling', 'login');
-  const phoneNumberSpan = phoneNumber ? `<span class="strong no-translate">${phoneNumber}.</span>` : null;
-  const phoneInfoText = phoneNumberSpan || `${loc('oie.phone.alternate.title', 'login')}.`;
-  const enterCodeInfoText = loc('oie.phone.verify.enterCodeText', 'login');
-  const informationalText: DescriptionElement = {
-    type: 'Description',
-    contentType: 'subtitle',
-    options: {
-      content: `${sendInfoText} ${phoneInfoText} ${enterCodeInfoText}`,
-    },
-  };
 
   const carrierChargeDisclaimerText: DescriptionElement = {
     type: 'Description',
@@ -87,7 +76,15 @@ export const transformPhoneChallenge: IdxStepTransformer = ({ transaction, formB
 
   uischema.elements.push(submitButtonControl);
   uischema.elements.unshift(carrierChargeDisclaimerText);
-  uischema.elements.unshift(informationalText);
+  if (isValidPhoneMethodType(methodType)) {
+    uischema.elements.unshift(
+      buildPhoneVerificationSubtitleElement(
+        nextStep.name,
+        methodType,
+        nextStep.relatesTo?.value,
+      ),
+    );
+  }
   uischema.elements.unshift(titleElement);
   if (reminderElement) {
     uischema.elements.unshift(reminderElement);

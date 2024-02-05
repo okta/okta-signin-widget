@@ -278,6 +278,84 @@ describe('PasswordUtils Tests', () => {
       .toEqual(true);
   });
 
+  describe('Validate useADComplexityRequirements', () => {
+    it.each`
+      pw             | isValid
+      ${'abcd1234'}  | ${false}
+      ${'aaaaaaaa'}  | ${false}
+      ${''}          | ${false}
+      ${' '}         | ${false}
+      ${'abcd1234$'}  | ${true}
+      ${'ABCD1234$'}  | ${true}
+      ${'abCD$$$$'}  | ${true}
+      ${'abCD1234'}  | ${true}
+      ${'abCD1234$'} | ${true}
+    `('should validate $pw as $isValid', ({ pw, isValid }) => {
+      expect(validatePassword(pw, userInfo, { complexity: { useADComplexityRequirements: true } })
+        ?.useADComplexityRequirements)
+        .toEqual(isValid);
+    });
+
+    it.each`
+      pw            | minReq
+      ${'aBCD1234'} | ${{ minLowerCase: 2 }}
+      ${'abcD1234'} | ${{ minUpperCase: 2 }}
+      ${'abcdefG1'} | ${{ minNumber: 2 }}
+      ${'abcd123$'} | ${{ minSymbol: 2 }}
+    `('should ignore existing $minReq requirement and validate $pw as true', ({ pw, minReq }) => {
+      expect(validatePassword(
+        pw,
+        userInfo,
+        {
+          complexity:
+          {
+            useADComplexityRequirements: true,
+            ...minReq,
+          },
+        },
+      )
+        ?.useADComplexityRequirements)
+        .toEqual(true);
+    });
+
+    it.each`
+      pw                      |  excludeReq               | validationRes
+      ${'testUser1'}          |  ${'excludeUsername'}     | ${false}   
+      ${'Test1234'}           |  ${'excludeFirstName'}    | ${false}
+      ${'User1234'}           |  ${'excludeLastName'}     | ${false}
+    `('should enforce existing $excludeReq requirement and validate $pw as $validationRes', ({ pw, excludeReq, validationRes } ) => {
+      userInfo = { identifier: 'testUser', profile: { firstName: 'Test', lastName: 'User' } };
+
+      expect(validatePassword(
+        pw,
+        userInfo,
+        {
+          complexity:
+          {
+            useADComplexityRequirements: true,
+            [excludeReq]: true,
+          },
+        },
+      )
+        ?.[excludeReq])
+        .toEqual(validationRes);
+    });
+
+    it('should enforce existing excludeAttributes requirement', () => {
+      userInfo = { identifier: 'testUser', profile: { firstName: 'Test', lastName: 'User' } };
+
+      expect(validatePassword('Test_User_testUser', userInfo, {
+        complexity: {
+          useADComplexityRequirements: true,
+          excludeAttributes: ['username', 'firstName', 'lastName'],
+        },
+      }))
+        .toEqual({
+          firstName: false, lastName: false, username: false, useADComplexityRequirements: true,
+        });
+    });
+  });
+
   describe('Validate combined password settings', () => {
     it('should validate password against minLength, minUpperCase & excludeLastName requirements', () => {
       userInfo = { profile: { lastName: 'Test' } };

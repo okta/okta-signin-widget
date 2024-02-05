@@ -41,11 +41,15 @@ const answerRequestLogger = RequestLogger(
   }
 );
 
-fixture('Challenge Duo').meta('v3', true);
+fixture('Challenge Duo');
 
-async function setup(t) {
+async function setup(t, widgetOptions) {
+  const options = widgetOptions ? { render: false } : {};
   const challengeDuoPage = new DuoPageObject(t);
-  await challengeDuoPage.navigateToPage();
+  await challengeDuoPage.navigateToPage(options);
+  if (widgetOptions) {
+    await renderWidget(widgetOptions);
+  }
   await t.expect(challengeDuoPage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: 'mfa-verify-duo',
@@ -142,10 +146,7 @@ test.requestHooks(answerRequestLogger, verificationFailedMock)('verification fai
 
 test
   .requestHooks(mock)('should show custom factor page link', async t => {
-    const challengeDuoPage = await setup(t);
-    await checkA11y(t);
-
-    await renderWidget({
+    const challengeDuoPage = await setup(t, {
       helpLinks: {
         factorPage: {
           text: 'custom factor page link',
@@ -153,6 +154,7 @@ test
         }
       }
     });
+    await checkA11y(t);
 
     await t.expect(challengeDuoPage.getFactorPageHelpLinksLabel()).eql('custom factor page link');
     await t.expect(challengeDuoPage.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');

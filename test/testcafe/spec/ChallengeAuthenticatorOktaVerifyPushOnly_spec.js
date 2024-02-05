@@ -25,12 +25,12 @@ const mockChallengeOVSendPush = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge')
   .respond(xhrAuthenticatorOVPushWithAutoChallenge);
 
-fixture('Challenge Authenticator Okta Verify Push Only With Auto Challenge Form')
-  .meta('v3', true);
+fixture('Challenge Authenticator Okta Verify Push Only With Auto Challenge Form');
 
 async function setup(t) {
   const challengeOktaVerifyPushPageObject = new ChallengeOktaVerifyPushPageObject(t);
   await challengeOktaVerifyPushPageObject.navigateToPage();
+  await t.expect(challengeOktaVerifyPushPageObject.formExists()).ok();
   return challengeOktaVerifyPushPageObject;
 }
 

@@ -13,25 +13,27 @@
 import userEvent from '@testing-library/user-event';
 import { render, RenderResult } from '@testing-library/preact';
 import { h } from 'preact';
+import { TinyEmitter as EventEmitter } from 'tiny-emitter';
 import { UserEvent } from '@testing-library/user-event/dist/types/setup/setup';
 import { OktaAuth } from '@okta/okta-auth-js';
 import { WidgetOptions } from 'src/types';
 import { createAuthClient, CreateAuthClientOptions } from './createAuthClient';
 
 import { Widget } from '../../../src/components/Widget';
+import { WidgetHooks } from '../../../src/util/widgetHooks';
 
 type Options = CreateAuthClientOptions & {
   widgetOptions?: Partial<WidgetOptions>;
 };
 
 /*
- * See manual mock for okta package in src/v3/__mocks__/okta.js
- * This globally overwrites the okta package's loc function
+ * See manual mock for loc util in src/v3/jest.setup.js
+ * This globally overwrites loc function
  * For integration tests we want the translated string to render
  * According to jest documentation, must use the unmock function below
  * https://jestjs.io/docs/manual-mocks#examples
 */
-jest.unmock('@okta/courage');
+jest.unmock('util/loc');
 
 export async function setup(options: Options): Promise<RenderResult & {
   authClient: OktaAuth;
@@ -39,12 +41,16 @@ export async function setup(options: Options): Promise<RenderResult & {
 }> {
   const { widgetOptions = {}, ...rest } = options;
   const authClient = createAuthClient(rest);
+  const eventEmitter = new EventEmitter();
+  const widgetHooks = new WidgetHooks(widgetOptions.hooks);
   const renderResult = await render(
     <Widget
       authScheme="Oauth2"
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...widgetOptions}
       authClient={authClient}
+      eventEmitter={eventEmitter}
+      widgetHooks={widgetHooks}
     />,
   );
 

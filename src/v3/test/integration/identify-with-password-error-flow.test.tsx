@@ -38,7 +38,7 @@ describe('identify-with-password-error-flow', () => {
           status: 401,
         },
       },
-      widgetOptions: { features: { rememberMyUsernameOnOIE: true } },
+      widgetOptions: { features: { rememberMe: true } },
     });
 
     const submitButton = await findByText('Sign in', { selector: 'button' });
@@ -55,6 +55,7 @@ describe('identify-with-password-error-flow', () => {
   });
 
   it('should display warning message when invalid identifier is entered and should allow user to resubmit same information without showing client-side errors', async () => {
+    jest.spyOn(cookieUtils, 'getUsernameCookie').mockReturnValue('');
     const {
       authClient,
       user,
@@ -71,6 +72,7 @@ describe('identify-with-password-error-flow', () => {
           status: 200,
         },
       },
+      widgetOptions: { features: { rememberMe: false } },
     });
 
     const titleElement = await findByText('Sign In', { selector: 'h2' });

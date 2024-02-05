@@ -41,8 +41,7 @@ const logger = RequestLogger(/challenge|challenge\/resend|challenge\/answer/,
   }
 );
 
-fixture('Authenticator Enroll Phone')
-  .meta('v3', true);
+fixture('Authenticator Enroll Phone');
 
 async function setup(t) {
   const enrollPhonePage = new EnrollPhonePageObject(t);
@@ -79,7 +78,6 @@ test
   .requestHooks(voiceMock)('Voice mode - has the right labels', async t => {
     const enrollPhonePageObject = await setup(t);
     await checkA11y(t);
-    await t.expect(enrollPhonePageObject.formExists()).eql(true);
 
     await checkConsoleMessages({
       controller: 'enroll-call',
@@ -190,9 +188,7 @@ test
     await t.expect(resendCodeText).contains('Call again');
   });
 
-// Test fails in v3. After re-render we still have to wait for 30 seconds
-// Enable after fixing - OKTA-561098  
-test.meta('v3', false)
+test
   .requestHooks(smsMock)('Callout appears after 30 seconds at most even after re-render', async t => {
     const enrollPhonePageObject = await setup(t);
     await checkA11y(t);

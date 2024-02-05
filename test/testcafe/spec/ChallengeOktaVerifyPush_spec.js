@@ -22,7 +22,7 @@ const pushSuccessMock = RequestMock()
   .respond((req, res) => {
     res.statusCode = '200';
     res.headers['content-type'] = 'application/json';
-    if (!userVariables.v3 || shouldProceed) {
+    if (!userVariables.gen3 || shouldProceed) {
       res.setBody(success);
     } else {
       res.setBody(pushPoll);
@@ -46,17 +46,10 @@ const pushWaitMock = RequestMock()
 const pushAutoChallengeMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(pushPollAutoChallenge)
-  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
-  .respond(pushPollAutoChallenge);
-
-const pushWaitAutoChallengeMock = RequestMock()
-  .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(pushPollAutoChallenge)
   .onRequestTo('http://localhost:3000/idp/idx/authenticators/poll')
   .respond(pushPollAutoChallenge);
 
-fixture('Challenge Okta Verify Push')
-  .meta('v3', true);
+fixture('Challenge Okta Verify Push');
 
 async function setup(t) {
   const challengeOktaVerifyPushPageObject = new ChallengeOktaVerifyPushPageObject(t);
@@ -81,7 +74,7 @@ test
     const a11ySpan = challengeOktaVerifyPushPageObject.getA11ySpan();
     const logoClass = challengeOktaVerifyPushPageObject.getBeaconClass();
     await t.expect(pushBtn.textContent).contains('Push notification sent');
-    if (!userVariables.v3) {
+    if (!userVariables.gen3) {
       await t.expect(a11ySpan.textContent).contains('Push notification sent');
     }
 
@@ -97,8 +90,7 @@ test
     await t.expect(challengeOktaVerifyPushPageObject.getSignoutLinkText()).eql('Back to sign in');
   });
 
-// Disabled in v3 - https://oktainc.atlassian.net/browse/OKTA-594821
-test.meta('v3', false)
+test
   .requestHooks(pushAutoChallengeMock)('challenge ov push screen has right labels and a checkbox', async t => {
     const challengeOktaVerifyPushPageObject = await setup(t);
     await checkA11y(t);
@@ -115,7 +107,7 @@ test.meta('v3', false)
     const checkbox = challengeOktaVerifyPushPageObject.getAutoChallengeCheckbox();
     const checkboxLabelText = challengeOktaVerifyPushPageObject.getAutoChallengeCheckboxLabelText();
     await t.expect(pushBtn.textContent).contains('Push notification sent');
-    if (!userVariables.v3) {
+    if (!userVariables.gen3) {
       await t.expect(a11ySpan.textContent).contains('Push notification sent');
     }
 
@@ -135,9 +127,8 @@ test.meta('v3', false)
     await t.expect(challengeOktaVerifyPushPageObject.getSignoutLinkText()).eql('Back to sign in');
   });
 
-// V3 - Polling fails with AssertionError: expected 8 to deeply equal 1
 test
-  .requestHooks(logger, pushWaitAutoChallengeMock)('should call polling API and checkbox should be clickable after polling started', async t => {
+  .requestHooks(logger, pushAutoChallengeMock)('should call polling API and checkbox should be clickable after polling started', async t => {
     const challengeOktaVerifyPushPageObject = await setup(t);
     await checkA11y(t);
     const checkbox = challengeOktaVerifyPushPageObject.getAutoChallengeCheckbox();
@@ -149,7 +140,7 @@ test
     await t.wait(4000);
     // polling API should be called
     // polling issue in v3 - https://oktainc.atlassian.net/browse/OKTA-587189
-    if (!userVariables.v3) {
+    if (!userVariables.gen3) {
       await t.expect(logger.count(() => true)).eql(1);
     }
     const {
@@ -163,7 +154,7 @@ test
     await t.expect(answerRequestBody).contains({
       stateHandle: '02PVkP3FJyDnqUKkkxIZhxbsx7a2S-hC1JxIE6AXzp',
     });
-    if (!userVariables.v3) {
+    if (!userVariables.gen3) {
       await t.expect(answerRequestBody).contains({
         autoChallenge: true,
       });
@@ -180,7 +171,7 @@ test
   .requestHooks(logger, pushSuccessMock)('challenge okta verify push request', async t => {
     await setup(t);
     await checkA11y(t);
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       shouldProceed = true;
       // wait for additional poll
       await t.wait(4000);
@@ -190,7 +181,7 @@ test
     await t.expect(pageUrl)
       .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
     // additional poll request happens in v3 because of OKTA-587189
-    const expectedLogCount = userVariables.v3 ? 2 : 1;
+    const expectedLogCount = userVariables.gen3 ? 2 : 1;
     await t.expect(logger.count(() => true)).eql(expectedLogCount);
 
     const { request: {

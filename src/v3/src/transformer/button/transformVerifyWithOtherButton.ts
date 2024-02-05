@@ -19,6 +19,7 @@ import {
 import {
   getAuthenticatorKey,
   hasMinAuthenticatorOptions,
+  isConfigRecoverFlow,
   loc,
   updateTransactionWithNextStep,
 } from '../../util';
@@ -27,6 +28,7 @@ import TransformerMap from '../layout/idxTransformerMapping';
 export const transformVerifyWithOtherButton: TransformStepFnWithOptions = ({
   transaction,
   step,
+  widgetProps,
 }) => (
   formbag,
 ) => {
@@ -41,6 +43,14 @@ export const transformVerifyWithOtherButton: TransformStepFnWithOptions = ({
   const selectVerifyStep = transaction.availableSteps
     ?.find(({ name }) => name === IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE);
   if (!shouldAddButton || !shouldAddDefaultLink || typeof selectVerifyStep === 'undefined') {
+    return formbag;
+  }
+
+  // TODO
+  // OKTA-651781
+  // when flow param is set to resetPassword and there is an api error (eg. not allowed to reset),
+  // the error will show on the Verify with password challenge page and stop the flow.  So we need to hide this link
+  if (isConfigRecoverFlow(widgetProps.flow)) {
     return formbag;
   }
 

@@ -44,7 +44,7 @@ describe('authenticator-expired-password', () => {
     expect(confirmPasswordEle.value).toEqual(password);
 
     const passwordMatchesWrapper = await findByTestId('password-authenticator--matches') as HTMLDivElement;
-    await within(passwordMatchesWrapper).findByTitle('complete');
+    await within(passwordMatchesWrapper).findByTestId('passwordRequirementIcon-complete');
 
     await user.click(submitButton);
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
@@ -68,7 +68,7 @@ describe('authenticator-expired-password', () => {
     await user.type(newPasswordEle, 'superSecretP@ssword12');
 
     const passwordMatchesWrapper = await findByTestId('password-authenticator--matches') as HTMLDivElement;
-    await within(passwordMatchesWrapper).findByTitle('incomplete');
+    await within(passwordMatchesWrapper).findByTestId('passwordRequirementIcon-incomplete');
 
     await user.click(submitButton);
 
@@ -103,7 +103,7 @@ describe('authenticator-expired-password', () => {
     expect(newPasswordError.innerHTML).toBe('This field cannot be left blank');
 
     const passwordMatchesWrapper = await findByTestId('password-authenticator--matches') as HTMLDivElement;
-    await within(passwordMatchesWrapper).findByTitle('incomplete');
+    await within(passwordMatchesWrapper).findByTestId('passwordRequirementIcon-incomplete');
   });
 
   it('should not make network request when fields are not matching', async () => {
@@ -125,7 +125,7 @@ describe('authenticator-expired-password', () => {
     await user.type(confirmPasswordEle, 'abc123');
 
     const passwordMatchesWrapper = await findByTestId('password-authenticator--matches') as HTMLDivElement;
-    await within(passwordMatchesWrapper).findByTitle('incomplete');
+    await within(passwordMatchesWrapper).findByTestId('passwordRequirementIcon-incomplete');
 
     await user.click(submitButton);
 
@@ -145,7 +145,7 @@ describe('authenticator-expired-password', () => {
     await findByTestId('confirmPassword') as HTMLInputElement;
 
     const passwordMatchesWrapper = await findByTestId('password-authenticator--matches') as HTMLDivElement;
-    await within(passwordMatchesWrapper).findByTitle('incomplete');
+    await within(passwordMatchesWrapper).findByTestId('passwordRequirementIcon-incomplete');
 
     await user.click(submitButton);
 
@@ -185,5 +185,7 @@ describe('authenticator-expired-password', () => {
     expect(confirmPasswordError.innerHTML).toBe('This field cannot be left blank');
     expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
     expect(container).toMatchSnapshot();
+    const passwordMatchesWrapper = await findByTestId('password-authenticator--matches') as HTMLDivElement;
+    await within(passwordMatchesWrapper).findByTestId('passwordRequirementIcon-incomplete');
   });
 });

@@ -10,10 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import identify from '@okta/mocks/data/idp/idx/identify.json';
-import withCredentialMock from '@okta/mocks/data/idp/idx/identify-with-apple-credential-sso-extension.json';
-import noCredentialMock from '@okta/mocks/data/idp/idx/identify-with-no-sso-extension.json';
-import stepUpError from '@okta/mocks/data/idp/idx/error-401-okta-verify-apple-sso-step-up.json';
+import identify from '../../../../playground/mocks/data/idp/idx/identify.json';
+import withCredentialMock from '../../../../playground/mocks/data/idp/idx/identify-with-apple-credential-sso-extension.json';
+import noCredentialMock from '../../../../playground/mocks/data/idp/idx/identify-with-no-sso-extension.json';
+import stepUpError from '../../../../playground/mocks/data/idp/idx/error-401-okta-verify-apple-sso-step-up.json';
 import { setup } from './util';
 
 const verifyUrl = 'http://localhost:3000/idp/idx/authenticators/sso_extension/transactions/123/verify?\

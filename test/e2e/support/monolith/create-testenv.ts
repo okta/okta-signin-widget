@@ -67,7 +67,7 @@ async function bootstrap() {
     ]
   };
 
-  console.error(`Bootstrap starting: ${subDomain}`);
+  console.log(`Bootstrap starting: ${subDomain}`);
 
   const config = await createTestOrg({
     subDomain,
@@ -78,20 +78,20 @@ async function bootstrap() {
     testName: subDomain
   });
 
-  console.error('Org: ', config.orgUrl);
-  console.error('Token: ', config.token);
+  console.log('Org: ', config.orgUrl);
+  console.log('Token: ', config.token);
 
   const oktaClient = getClient(config);
   const { id: orgId } = await oktaClient.getOrgSettings();
 
   await enableOIE(orgId);
-  console.error('Activating okta_email factor');
+  console.log('Activating okta_email factor');
   await activateOrgFactor(config, 'okta_email');
-  console.error('Disabling step up for password recovery');
+  console.log('Disabling step up for password recovery');
   await disableStepUpForPasswordRecovery(config);
 
   // Set Feature flags
-  console.error('Setting feature flags...')
+  console.log('Setting feature flags...')
   for (const option of options.enableFFs) {
     await enableFeatureFlag(config, orgId, option);
   }
@@ -99,11 +99,11 @@ async function bootstrap() {
     await disableFeatureFlag(config, orgId, option);
   }
 
-  console.error('Enabling embedded login');
+  console.log('Enabling embedded login');
   await enableEmbeddedLogin(config);
 
   // Enable interaction_code grant on the default authorization server
-  console.error('Enabling interaction_code grant on the default authorization server');
+  console.log('Enabling interaction_code grant on the default authorization server');
   const authServer = await getDefaultAuthorizationServer(config);
   await authServer.listPolicies().each(async (policy) => {
     if (policy.name === 'Default Policy') {
@@ -127,13 +127,13 @@ async function bootstrap() {
   // Add Trusted origins
   for (const option of options.origins) {
     await oktaClient.listOrigins().each(async (origin) => {
-      console.error('Existing origin: ', origin);
+      console.log('Existing origin: ', origin);
       if (origin.origin === option.origin) {
-        console.error(`Removing existing origin ${option.name}`);
+        console.log(`Removing existing origin ${option.name}`);
         await origin.delete();
       }
     });
-    console.error(`Adding trusted origin "${option.name}": ${option.origin}`);
+    console.log(`Adding trusted origin "${option.name}": ${option.origin}`);
     await oktaClient.createOrigin({
       name: option.name,
       origin:  option.origin,
@@ -159,7 +159,7 @@ async function bootstrap() {
   await oktaClient.listApplications().each(async (app) => {
     for (const option of options.apps) {
       if (app.label === option.label) {
-        console.error(`Deleting existing application with label ${app.label}`);
+        console.log(`Deleting existing application with label ${app.label}`);
         await app.deactivate();
         return app.delete();
       }
@@ -169,7 +169,7 @@ async function bootstrap() {
   // Create apps
   const createdApps = []
   for (const option of options.apps) {
-    console.error(`Creating app "${option.label}"`);
+    console.log(`Creating app "${option.label}"`);
     const app = await createApp(config, {
       clientUri: 'http://localhost:3000',
       redirectUris: [
@@ -194,14 +194,14 @@ async function bootstrap() {
     }
   });
   for (const app of createdApps) {
-    console.error(`Creating app sign on policy for "${app.label}"`);
+    console.log(`Creating app sign on policy for "${app.label}"`);
     const signOnPolicy = await oktaClient.createPolicy({
       name: `${app.label} Sign On Policy`,
       type: 'ACCESS_POLICY',
       status : 'ACTIVE'
     });
 
-    console.error(`Creating app profile enrollment policy for "${app.label}"`);
+    console.log(`Creating app profile enrollment policy for "${app.label}"`);
     const profileEnrollmentPolicy = await oktaClient.createPolicy({
       name: `${app.label} Profile Enrollment Policy`,
       type: 'PROFILE_ENROLLMENT',
@@ -209,7 +209,7 @@ async function bootstrap() {
     });
 
     // Modify catch-all rule to enforce password only
-    console.error(`Modifying catch-all rule to require only password for app "${app.label}"`);
+    console.log(`Modifying catch-all rule to require only password for app "${app.label}"`);
     const catchAll = await getCatchAllRule(config, signOnPolicy.id);
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     //@ts-ignore
@@ -231,7 +231,7 @@ async function bootstrap() {
     catchAll.update(signOnPolicy.id);
 
     // Require MFA if user is in MFA group
-    console.error(`Setting MFA policy for users in MFA group for app "${app.label}"`);
+    console.log(`Setting MFA policy for users in MFA group for app "${app.label}"`);
     signOnPolicy.createRule({
       name: 'MFA Required',
       type: 'ACCESS_POLICY',
@@ -273,7 +273,7 @@ async function bootstrap() {
   await oktaClient.listUsers().each(async (user) => {
     for (const option of options.users) {
       if (user.profile.login === option.email) {
-        console.error(`Found existing user: ${option.email}`);
+        console.log(`Found existing user: ${option.email}`);
         await user.deactivate();
         await user.delete();
       }
@@ -283,7 +283,7 @@ async function bootstrap() {
   // Create users
   const createdUsers = [];
   for (const option of options.users) {
-    console.error(`Creating user "${option.firstName} ${option.lastName}"`);
+    console.log(`Creating user "${option.firstName} ${option.lastName}"`);
     const user = await createUser(oktaClient, option);
     createdUsers.push(user);
   }
@@ -352,7 +352,7 @@ async function bootstrap() {
     WIDGET_BASIC_NAME_5: `${user2.profile.firstName} ${user2.profile.lastName}`,
   }
 
-  console.error(`Writing output to: ${outputFilePath}`);
+  console.log(`Writing output to: ${outputFilePath}`);
 
   // write output
   const iniOutput = Object.keys(output).reduce((str, key) => {

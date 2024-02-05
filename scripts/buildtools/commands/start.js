@@ -27,8 +27,8 @@ exports.handler = async (argv) => {
   }
   const mock = argv.mock ? `--env.${argv.mock}` : '';
 
-  // use v3 workspace if --v3 flag is set or OKTA_SIW_V3 env var is truthy
-  if (argv.v3 || process.env.OKTA_SIW_V3) {
+  // use v3 workspace if OKTA_SIW_GEN3 env var is 'true'
+  if (process.env.OKTA_SIW_GEN3 === 'true') {
     startDevServer = 'yarn workspace v3 dev';
   }
 
@@ -36,7 +36,7 @@ exports.handler = async (argv) => {
 
   if (argv.watch) {
     // Watch mode requires we run tasks concurrently
-    cmd = `concurrently "${buildDevCmd}:watch ${mock}" "grunt watch:sass" "${startDevServer}" --kill-others`;
+    cmd = `concurrently "${buildDevCmd}:watch ${mock}" "${startDevServer}" --kill-others`;
   } else {
     cmd = `${buildDevCmd} ${mock} && ${startDevServer}`;
   }

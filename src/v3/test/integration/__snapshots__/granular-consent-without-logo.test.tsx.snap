@@ -1,0 +1,473 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`granular-consent-without-logo should render form 1`] = `
+<div>
+  <div
+    class="MuiScopedCssBaseline-root emotion-0"
+  >
+    <main
+      class="auth-container main-container MuiBox-root emotion-1"
+      data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+      data-version="0.0.0"
+      dir="ltr"
+      id="okta-sign-in"
+      lang="en"
+    >
+      <div
+        class="MuiScopedCssBaseline-root emotion-2"
+      >
+        <div
+          class="MuiBox-root emotion-3"
+        >
+          <div
+            class="MuiBox-root emotion-4"
+          >
+            <div
+              class="okta-sign-in-header auth-header MuiBox-root emotion-5"
+            >
+              <h1
+                class="MuiTypography-root MuiTypography-h1 emotion-6"
+              />
+            </div>
+            <div
+              class="MuiBox-root emotion-7"
+            >
+              <div
+                class="MuiBox-root emotion-1"
+              >
+                <div
+                  class="MuiBox-root emotion-9"
+                />
+                <div
+                  class="title-text MuiBox-root emotion-10"
+                >
+                  <h2
+                    class="MuiTypography-root MuiTypography-h6 no-translate emotion-11"
+                  >
+                    Native client
+                  </h2>
+                   
+                  <p>
+                    wants to access
+                  </p>
+                </div>
+              </div>
+              <form
+                aria-live="polite"
+                class="o-form MuiBox-root emotion-12"
+                data-se="o-form"
+                novalidate=""
+              >
+                <div
+                  class="MuiBox-root emotion-13"
+                >
+                  <div
+                    class="MuiBox-root emotion-14"
+                  >
+                    <div
+                      class="identifier-container MuiBox-root emotion-15"
+                    >
+                      <div
+                        class="MuiBox-root emotion-16"
+                      >
+                        <span
+                          class="MuiBox-root emotion-17"
+                        >
+                          <svg
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-18"
+                            fill="none"
+                            focusable="false"
+                            role="img"
+                            viewBox="0 0 16 16"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              clip-rule="evenodd"
+                              d="M10 3V5C10 6.10457 9.10457 7 8 7C6.89543 7 6 6.10457 6 5V3C6 1.89543 6.89543 1 8 1C9.10457 1 10 1.89543 10 3ZM5 3C5 1.34315 6.34315 0 8 0C9.65685 0 11 1.34315 11 3V5C11 6.65685 9.65685 8 8 8C6.34315 8 5 6.65685 5 5V3ZM4.1305 10.0742C4.26803 10.0181 4.459 10 5.41376 10H10.5862C11.541 10 11.732 10.0181 11.8695 10.0742C12.0299 10.1398 12.1706 10.2459 12.2777 10.3821C12.3695 10.4989 12.4393 10.6776 12.7016 11.5956L13.6743 15H2.32573L3.29841 11.5956C3.5607 10.6776 3.63054 10.4989 3.72233 10.3821C3.82941 10.2459 3.97006 10.1398 4.1305 10.0742ZM13.6631 11.3209L14.7143 15L15 16H13.96H2.04002H1L1.28571 15L2.33689 11.3209C2.57458 10.489 2.69343 10.073 2.93606 9.76423C3.15022 9.49171 3.43152 9.27953 3.75239 9.14848C4.11592 9 4.54854 9 5.41376 9H10.5862C11.4515 9 11.8841 9 12.2476 9.14848C12.5685 9.27953 12.8498 9.49171 13.0639 9.76423C13.3066 10.073 13.4254 10.489 13.6631 11.3209Z"
+                              fill="currentColor"
+                              fill-rule="evenodd"
+                            />
+                            <title>
+                              User
+                            </title>
+                          </svg>
+                        </span>
+                        <span
+                          aria-label="testUser@okta.com"
+                          class="identifier no-translate MuiBox-root emotion-19"
+                          data-se="identifier"
+                          title="testUser@okta.com"
+                        >
+                          testUser@okta.com
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-1"
+                  >
+                    <div
+                      class="MuiBox-root emotion-21"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-22"
+                        data-se="consent-description"
+                        id="granular-consent_Description_Allowing_access_will_share_1"
+                      >
+                        Allowing access will share
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-14"
+                  >
+                    <fieldset
+                      class="MuiFormControl-root MuiFormControl-marginNormal emotion-24"
+                    >
+                      <label
+                        class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-25"
+                      >
+                        <span
+                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-checked MuiCheckbox-root MuiCheckbox-colorPrimary emotion-26"
+                        >
+                          <input
+                            class="PrivateSwitchBase-input emotion-27"
+                            data-indeterminate="false"
+                            data-se="optedScopes.custom1"
+                            data-se-for-name="optedScopes.custom1"
+                            id="optedScopes.custom1"
+                            name="optedScopes.custom1"
+                            type="checkbox"
+                          />
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-28"
+                            data-testid="CheckBoxIcon"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                            />
+                          </svg>
+                        </span>
+                        <span
+                          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-29"
+                        >
+                          <span
+                            class="no-translate MuiBox-root emotion-1"
+                          >
+                            View your mobile phone data plan.
+                          </span>
+                          <p
+                            class="MuiFormHelperText-root MuiFormHelperText-sizeMedium no-translate emotion-31"
+                          >
+                            This allows the app to view your mobile phone data plan.
+                          </p>
+                        </span>
+                      </label>
+                    </fieldset>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-14"
+                  >
+                    <fieldset
+                      class="MuiFormControl-root MuiFormControl-marginNormal emotion-24"
+                    >
+                      <label
+                        class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-25"
+                      >
+                        <span
+                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-checked MuiCheckbox-root MuiCheckbox-colorPrimary emotion-26"
+                        >
+                          <input
+                            class="PrivateSwitchBase-input emotion-27"
+                            data-indeterminate="false"
+                            data-se="optedScopes.custom2"
+                            data-se-for-name="optedScopes.custom2"
+                            id="optedScopes.custom2"
+                            name="optedScopes.custom2"
+                            type="checkbox"
+                          />
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-28"
+                            data-testid="CheckBoxIcon"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                            />
+                          </svg>
+                        </span>
+                        <span
+                          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-29"
+                        >
+                          <span
+                            class="no-translate MuiBox-root emotion-1"
+                          >
+                            View your internet search history.
+                          </span>
+                        </span>
+                      </label>
+                    </fieldset>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-14"
+                  >
+                    <fieldset
+                      class="MuiFormControl-root MuiFormControl-marginNormal emotion-24"
+                    >
+                      <label
+                        class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-25"
+                      >
+                        <span
+                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-checked MuiCheckbox-root MuiCheckbox-colorPrimary emotion-26"
+                        >
+                          <input
+                            class="PrivateSwitchBase-input emotion-27"
+                            data-indeterminate="false"
+                            data-se="optedScopes.custom3.custom4.custom5"
+                            data-se-for-name="optedScopes.custom3.custom4.custom5"
+                            id="optedScopes.custom3.custom4.custom5"
+                            name="optedScopes.custom3.custom4.custom5"
+                            type="checkbox"
+                          />
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-28"
+                            data-testid="CheckBoxIcon"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                            />
+                          </svg>
+                        </span>
+                        <span
+                          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-29"
+                        >
+                          <span
+                            class="no-translate MuiBox-root emotion-1"
+                          >
+                            View your mobile phone call history.
+                          </span>
+                          <p
+                            class="MuiFormHelperText-root MuiFormHelperText-sizeMedium no-translate emotion-31"
+                          >
+                            This allows the app to view your mobile phone call history.
+                          </p>
+                        </span>
+                      </label>
+                    </fieldset>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-14"
+                  >
+                    <fieldset
+                      class="MuiFormControl-root MuiFormControl-marginNormal emotion-24"
+                    >
+                      <label
+                        class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-25"
+                      >
+                        <span
+                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-checked MuiCheckbox-root MuiCheckbox-colorPrimary emotion-26"
+                        >
+                          <input
+                            class="PrivateSwitchBase-input emotion-27"
+                            data-indeterminate="false"
+                            data-se="optedScopes.email"
+                            data-se-for-name="optedScopes.email"
+                            id="optedScopes.email"
+                            name="optedScopes.email"
+                            type="checkbox"
+                          />
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-28"
+                            data-testid="CheckBoxIcon"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                            />
+                          </svg>
+                        </span>
+                        <span
+                          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-29"
+                        >
+                          View your email address.
+                          <p
+                            class="MuiFormHelperText-root MuiFormHelperText-sizeMedium emotion-31"
+                          >
+                            This allows the app to view your email address.
+                          </p>
+                        </span>
+                      </label>
+                    </fieldset>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-14"
+                  >
+                    <fieldset
+                      class="MuiFormControl-root MuiFormControl-marginNormal emotion-24"
+                    >
+                      <label
+                        class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-25"
+                      >
+                        <span
+                          aria-disabled="true"
+                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-checked Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary emotion-26"
+                          tabindex="-1"
+                        >
+                          <input
+                            class="PrivateSwitchBase-input emotion-27"
+                            data-indeterminate="false"
+                            data-se="optedScopes.openid"
+                            data-se-for-name="optedScopes.openid"
+                            disabled=""
+                            id="optedScopes.openid"
+                            name="optedScopes.openid"
+                            type="checkbox"
+                          />
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-28"
+                            data-testid="CheckBoxIcon"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                            />
+                          </svg>
+                        </span>
+                        <span
+                          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-29"
+                        >
+                          <span
+                            class="no-translate MuiBox-root emotion-1"
+                          >
+                            openid
+                          </span>
+                          <p
+                            class="MuiFormHelperText-root MuiFormHelperText-sizeMedium no-translate emotion-31"
+                          >
+                            Signals that a request is an OpenID request.
+                          </p>
+                        </span>
+                      </label>
+                    </fieldset>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-14"
+                  >
+                    <fieldset
+                      class="MuiFormControl-root MuiFormControl-marginNormal emotion-24"
+                    >
+                      <label
+                        class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-25"
+                      >
+                        <span
+                          aria-disabled="true"
+                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-checked Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary emotion-26"
+                          tabindex="-1"
+                        >
+                          <input
+                            class="PrivateSwitchBase-input emotion-27"
+                            data-indeterminate="false"
+                            data-se="optedScopes.profile"
+                            data-se-for-name="optedScopes.profile"
+                            disabled=""
+                            id="optedScopes.profile"
+                            name="optedScopes.profile"
+                            type="checkbox"
+                          />
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-28"
+                            data-testid="CheckBoxIcon"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                            />
+                          </svg>
+                        </span>
+                        <span
+                          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-29"
+                        >
+                          View your profile information.
+                          <p
+                            class="MuiFormHelperText-root MuiFormHelperText-sizeMedium emotion-31"
+                          >
+                            The exact data varies based on what profile information you have provided, such as: name, time zone, picture, or birthday.
+                          </p>
+                        </span>
+                      </label>
+                    </fieldset>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-14"
+                  >
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-75"
+                      data-se="terms-of-service"
+                      href="https://example.com/tos"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      Terms of Service
+                    </a>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-14"
+                  >
+                    <a
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-75"
+                      data-se="privacy-policy"
+                      href="https://example.com/privacypolicy"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      Privacy Policy
+                    </a>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-14"
+                  >
+                    <button
+                      class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-79"
+                      data-type="save"
+                      tabindex="0"
+                      type="button"
+                    >
+                      Allow Access
+                    </button>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-14"
+                  >
+                    <button
+                      class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-79"
+                      data-type="cancel"
+                      tabindex="0"
+                      type="button"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+`;

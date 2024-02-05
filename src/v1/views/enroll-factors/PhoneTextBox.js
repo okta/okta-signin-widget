@@ -12,6 +12,8 @@
 
 import { _, internal } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
+import Util from 'util/Util';
+
 let { TextBox } = internal.views.forms.inputs;
 export default TextBox.extend({
   template: hbs(
@@ -19,7 +21,7 @@ export default TextBox.extend({
       <span class="okta-form-label-inline o-form-label-inline">{{countryCallingCode}}</span>\
       <span class="okta-form-input-field input-fix o-form-control">\
         <input type="{{type}}" placeholder="{{placeholder}}" name="{{name}}" \
-          id="{{inputId}}" value="{{value}}" autocomplete="tel">\
+          id="{{inputId}}" value="{{value}}" autocomplete="{{autocomplete}}">\
       </span>\
     '
   ),
@@ -32,6 +34,7 @@ export default TextBox.extend({
 
   preRender: function() {
     this.options.countryCallingCode = this.model.get('countryCallingCode');
+    this.options.autocomplete = Util.getAutocompleteValue(this.options.model.settings, 'tel');
   },
 
   postRender: function() {

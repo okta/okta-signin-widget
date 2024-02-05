@@ -80,6 +80,14 @@ export default class BasePageObject {
     return this.getTextContent('[data-se="identifier"]');
   }
 
+  getIdentifierTitle() {
+    return Selector('[data-se="identifier"]').getAttribute('title');
+  }
+
+  identifierHasContenteditable() {
+    return Selector('[data-se="identifier"]').hasAttribute('contenteditable');
+  }
+
   getFormFieldLabel(field) {
     return this.form.getFormFieldLabel(field);
   }
@@ -97,7 +105,7 @@ export default class BasePageObject {
   }
 
   getIonMessages() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.getFormSubtitle(); 
     }
     return this.form.getElement(ionMessagesSelector).innerText;
@@ -109,7 +117,7 @@ export default class BasePageObject {
   }
 
   getHelpLink() {
-    if (userVariables.v3) {
+    if (userVariables.gen3) {
       return this.form.getLink('Help');
     }
     return Selector(HELP_LINK_SELECTOR);
@@ -126,7 +134,7 @@ export default class BasePageObject {
   // in v2 the Cancel Link covers multiple links like 'Go Back' and 'Sign out'
   // in v3 all Cancel links use the same wording
   async signoutLinkExists() {
-    if(userVariables.v3){
+    if(userVariables.gen3){
       return this.getCancelLink().exists;
     }
     const elCount = await Selector(SIGNOUT_LINK).count;
@@ -156,7 +164,7 @@ export default class BasePageObject {
   // in v2 the Cancel Link covers multiple links like 'Go Back' and 'Sign out'
   // in v3 all Cancel links use the same wording
   async goBackLinkExists() {
-    if(userVariables.v3) {
+    if(userVariables.gen3) {
       return this.getCancelLink().exists;
     }
     const elCount = await Selector(GO_BACK_LINK).count;
@@ -271,7 +279,7 @@ export default class BasePageObject {
   }
 
   spinnerExists() {
-    if(userVariables.v3) {
+    if(userVariables.gen3) {
       return this.form.getSpinner().exists;
     }
 
@@ -280,5 +288,28 @@ export default class BasePageObject {
 
   getSpinnerStyle() {
     return Selector('.spinner').getStyleProperty('display');
+  }
+
+  isVisible() {
+    return this.form.el.visible;
+  }
+
+  async getAriaDescription(el) {
+    // If value of `aria-describedby` is a list of ids, the resulted accessible description
+    //  is a concatenation of accessible names of corresponding elements joined with space.
+    // Value of `aria-label` overrides text content when computing accessible name.
+    //
+    // https://www.w3.org/TR/accname-1.1/#mapping_additional_nd_description
+    // https://www.w3.org/TR/html-aapi/#accessible-name-and-description-calculation
+    // https://www.w3.org/TR/WCAG20-TECHS/aria#ARIA9
+
+    const ariaDescription = await el.getAttribute('aria-description');
+    const ariaDescribedByIds = await el.getAttribute('aria-describedby');
+    const ariaDescribedByTexts = ariaDescribedByIds ? await Promise.all(
+      ariaDescribedByIds?.split(' ')
+        .map(sel => Selector('#'+sel))
+        .map(async el => await el.getAttribute('aria-label') || await el.innerText)
+    ) : [];
+    return ariaDescription || ariaDescribedByTexts.join(' ');
   }
 }

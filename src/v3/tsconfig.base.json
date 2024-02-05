@@ -16,17 +16,11 @@
     "moduleResolution": "node",
     "noEmit": true,
     "paths": {
-      "@okta/courage": [
-        "../../packages/@okta/courage-dist"
-      ],
       "@okta/mocks/*": [
         "../../playground/mocks/*"
       ],
       "@okta/okta-i18n-bundles": [
         "../util/Bundles.ts"
-      ],
-      "@okta/qtip": [
-        "../../packages/@okta/qtip2/dist/jquery.qtip.js"
       ],
       "config/config.json": [
         "../config/config.json"
@@ -58,6 +52,6 @@
   "extends": "../../tsconfig.json",
   "files": [
     "global.d.ts",
-    "widgetrc.ts"
+    "stylis-logical-plugin/stylis.d.ts"
   ]
 }

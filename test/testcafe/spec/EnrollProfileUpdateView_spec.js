@@ -35,12 +35,12 @@ const requestLogger = RequestLogger(
   }
 );
 
-fixture('Enroll Profile update additional information')
-  .meta('v3', true);
+fixture('Enroll Profile update additional information');
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
   await identityPage.navigateToPage();
+  await t.expect(identityPage.formExists()).ok();
   return identityPage;
 }
 

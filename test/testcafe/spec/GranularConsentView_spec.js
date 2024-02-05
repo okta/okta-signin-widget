@@ -42,7 +42,7 @@ async function testRedirect(t) {
     .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
 }
 
-fixture('GranularConsent').meta('v3', true);
+fixture('GranularConsent');
 
 test.requestHooks(requestLogger, consentGranularMock)('should show scopes list', async t => {
   const consentPage  = await setup(t);
@@ -51,6 +51,8 @@ test.requestHooks(requestLogger, consentGranularMock)('should show scopes list',
     'View your mobile phone data plan.\n\n' +
         'This allows the app to view your mobile phone data plan.',
     'View your internet search history.',
+    'View your mobile phone call history.\n\n' +
+      'This allows the app to view your mobile phone call history.',
     'View your email address.\n\n' +
         'This allows the app to view your email address.',
     'openid\n\n' +
@@ -106,6 +108,7 @@ test.requestHooks(requestLogger, consentGranularMock)('should send correct paylo
   await t.expect(jsonBody.optedScopes.openid).eql(true);
   await t.expect(jsonBody.optedScopes.custom1).eql(false);
   await t.expect(jsonBody.optedScopes.custom2).eql(true);
+  await t.expect(jsonBody.optedScopes['custom3.custom4.custom5']).eql(true);
   await t.expect(jsonBody.optedScopes.email).eql(false);
   await t.expect(jsonBody.optedScopes.profile).eql(true);
   await t.expect(method).eql('post');
@@ -143,7 +146,7 @@ test.requestHooks(requestLogger, consentGranularFailedMock)('should go to Termin
 
   const terminalPageObject = new TerminalPageObject(t);
   // in v3 Go back and Signout links are the same (in v2 they vary based on class name)
-  if (!userVariables.v3) {
+  if (!userVariables.gen3) {
     await t.expect(await terminalPageObject.goBackLinkExists()).notOk();
   }
   await t.expect(await terminalPageObject.signoutLinkExists()).ok();

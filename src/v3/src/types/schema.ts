@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import HCaptcha from '@hcaptcha/react-hcaptcha';
 import {
   IdxAuthenticator,
   IdxMessage,
@@ -20,6 +21,8 @@ import {
 import { IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
 import { HTMLReactParserOptions } from 'html-react-parser';
 import { FunctionComponent } from 'preact';
+import { Ref } from 'preact/hooks';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 import { IStepperContext, IWidgetContext } from './context';
 import { ClickHandler } from './handlers';
@@ -34,6 +37,7 @@ export type DataSchemaBag = GeneralDataSchemaBag & {
   fieldsToTrim: string[];
   fieldsToValidate: string[];
   fieldsToExclude: (data: FormBag['data']) => string[];
+  captchaRef?: Ref<ReCAPTCHA | HCaptcha>;
 };
 
 export type FormBag = {
@@ -54,7 +58,16 @@ export type WidgetMessage = Modify<IdxMessage, {
   title?: string;
   name?: string;
   description?: string;
+  links?: WidgetMessageLink[];
+  listStyleType?: ListStyleType,
 }>;
+
+export type ListStyleType = 'circle' | 'disc' | 'square' | 'decimal';
+
+export type WidgetMessageLink = {
+  label: string,
+  url: string,
+};
 
 export type AutoCompleteValue = 'username'
 | 'current-password'
@@ -72,6 +85,8 @@ export type InputModeValue = 'numeric'
 | 'email'
 | 'url'
 | 'search';
+
+export type PhoneVerificationMethodType = 'sms' | 'voice';
 
 export type InputAttributes = {
   autocomplete?: AutoCompleteValue;
@@ -142,8 +157,12 @@ export type TokenReplacementValue = {
   attributes?: {
     class?: string;
     href?: string;
+    target?: AnchorTargetType;
+    rel?: 'noopener noreferrer';
   };
 };
+
+export type AnchorTargetType = '_self' | '_blank' | '_parent' | 'top';
 
 export type TokenReplacement = Partial<Record<TokenSearchValue, TokenReplacementValue>>;
 
@@ -191,6 +210,7 @@ export interface UISchemaElement {
    * and rendered in the UI. See htmlContentParserUtils.tsx for reference.
    */
   parserOptions?: HTMLReactParserOptions;
+  dir?: 'ltr' | 'rtl'
 }
 
 /**
@@ -220,7 +240,7 @@ export interface UISchemaLayout extends Layout {
 
 export interface StepperLayout extends Layout {
   type: UISchemaLayoutType.STEPPER;
-  elements: Omit<UISchemaLayout, 'StepperLayout'>[];
+  elements: Omit<UISchemaLayout['elements'], 'StepperLayout'>;
   options?: {
     defaultStepIndex: () => number;
   }
@@ -253,6 +273,14 @@ export interface FieldElement extends UISchemaElement {
    * This only applies for profile enrollment view.
    */
   showAsterisk?: boolean;
+  /**
+   * @description Allows inputs to be formatted/masked by matching 'pattern' and modifying it to be 'replacement'
+   * This mask is applied to input values in useOnChange
+  */
+  inputMask?: {
+    pattern: RegExp | string;
+    replacement: string;
+  };
   options: {
     inputMeta: Input;
     format?: 'select' | 'radio';
@@ -295,9 +323,11 @@ export interface AuthenticatorButtonElement extends UISchemaElement {
   label: string;
   options: ButtonElement['options'] & {
     key: string;
+    ariaLabel: string;
     authenticator?: IdxAuthenticator;
     ctaLabel: string;
     description?: string;
+    nickname?: string;
     usageDescription?: string;
     logoUri?: string;
     iconName?: string;
@@ -359,6 +389,13 @@ export interface LoopbackProbeElement extends UISchemaElement {
   };
 }
 
+export interface ChromeDtcContainerElement extends UISchemaElement {
+  type: 'ChromeDtcContainer';
+  options: {
+    href: string;
+  };
+}
+
 export interface TitleElement extends UISchemaElement {
   type: 'Title';
   options: {
@@ -382,6 +419,7 @@ export interface DescriptionElement extends UISchemaElement {
   options: {
     content: string;
     dataSe?: string;
+    variant?: 'body1' | 'subtitle1' | 'legend';
   };
 }
 
@@ -453,7 +491,7 @@ export interface LinkElement extends UISchemaElement {
     label: string;
     href?: string;
     dataSe?: string;
-    target?: '_blank';
+    target?: AnchorTargetType;
     onClick?: (widgetContext?: IWidgetContext) => unknown;
   };
 }
@@ -489,8 +527,9 @@ export interface SpinnerElement extends UISchemaElement {
 }
 
 export interface InfoboxElement extends UISchemaElement {
+  type: 'InfoBox',
   options: {
-    message: WidgetMessage;
+    message: WidgetMessage | WidgetMessage[];
     class: string;
     dataSe?: string;
   }
@@ -573,5 +612,21 @@ export interface DuoWindowElement extends UISchemaElement {
     host: string;
     signedToken: string;
     step: string;
+  };
+}
+
+export interface CaptchaContainerElement extends UISchemaElement {
+  type: 'CaptchaContainer';
+  options: {
+    captchaId: string;
+    siteKey: string;
+    type: 'HCAPTCHA' | 'RECAPTCHA_V2';
+  };
+}
+
+export interface IdentifierContainerElement extends UISchemaElement {
+  type: 'IdentifierContainer';
+  options: {
+    identifier: string;
   };
 }

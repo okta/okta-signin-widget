@@ -12,6 +12,7 @@ import { isCustomizedI18nKey } from '../../ion/i18nTransformer';
 import { getForgotPasswordLink } from '../utils/LinksUtil';
 import CookieUtil from 'util/CookieUtil';
 import CustomAccessDeniedErrorMessage from './shared/CustomAccessDeniedErrorMessage';
+import Util from 'util/Util';
 
 const CUSTOM_ACCESS_DENIED_KEY = 'security.access_denied_custom_message';
 
@@ -36,7 +37,7 @@ const Body = BaseForm.extend({
 
     // Precedence for pre-filling identifier field:
     // 1. Use username/identifier from the config.
-    // 2. Use identifier value returned in remediation response (model will have this attr set if it's there) 
+    // 2. Use identifier value returned in remediation response (model will have this attr set if it's there)
     // 3. Use value from the "remember my username" cookie.
     if(this._shouldAddUsername(uiSchema)) {
       // Set username/identifier from the config (i.e. config.username)
@@ -140,12 +141,12 @@ const Body = BaseForm.extend({
         // because we want to allow the user to choose from previously used identifiers.
         newSchema = {
           ...newSchema,
-          autoComplete: 'username'
+          autoComplete: Util.getAutocompleteValue(this.options.settings, 'username')
         };
       } else if (schema.name === 'credentials.passcode') {
         newSchema = {
           ...newSchema,
-          autoComplete: 'current-password'
+          autoComplete: Util.getAutocompleteValue(this.options.settings, 'current-password')
         };
 
         if (isCustomizedI18nKey(passwordExplainLabeli18nKey, settings)) {
@@ -205,7 +206,7 @@ const Body = BaseForm.extend({
   },
 
   _addIdpView(idpButtons) {
-    // We check the 'idpDisplay' option config to determine whether to render the idp buttons 
+    // We check the 'idpDisplay' option config to determine whether to render the idp buttons
     // above or below the login fields
     const idpDisplay = this.options.settings.get('idpDisplay');
     const isPrimaryIdpDisplay = idpDisplay && idpDisplay.toUpperCase() === 'PRIMARY';
@@ -224,12 +225,11 @@ const Body = BaseForm.extend({
     // We pre-populate the identifier/username field only if we're in an identifier
     // form and if the option is passed in.
     return (uiSchema.find(schema => schema.name === 'identifier') && this.settings.get('username'));
-  }, 
-   
+  },
+
   _shouldApplyRememberMyUsername(uiSchema) {
-    return (uiSchema.find(schema => schema.name === 'identifier') 
-        && this.settings.get('features.rememberMe')
-        && this.settings.get('features.rememberMyUsernameOnOIE'));
+    return (uiSchema.find(schema => schema.name === 'identifier')
+        && this.settings.get('features.rememberMe'));
   },
 
   /**
@@ -250,7 +250,7 @@ export default BaseView.extend({
 
   createModelClass() {
     const ModelClass = BaseView.prototype.createModelClass.apply(this, arguments);
-    
+
     // customize pre-submit form validation inline error messages
     const identifierRequiredi18nKey = 'error.username.required';
     const passwordRequiredi18nKey = 'error.password.required';

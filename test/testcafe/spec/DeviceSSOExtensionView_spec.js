@@ -82,14 +82,14 @@ const stepUpMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/authenticators/sso_extension/transactions/456/verify/cancel')
   .respond(identify);
 
-fixture('App SSO Extension View').meta('v3', true);
+fixture('App SSO Extension View');
 
 const getPageUrl = ClientFunction(() => window.location.href);
 test
   .requestHooks(logger, redirectSSOExtensionMock)('with redirect SSO Extension approach, opens the verify URL', async t => {
     const ssoExtensionPage = new BasePageObject(t);
     await ssoExtensionPage.navigateToPage();
-    await ssoExtensionPage.formExists();
+    await t.expect(ssoExtensionPage.formExists()).notOk();
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/introspect/)
@@ -102,7 +102,7 @@ test
   .requestHooks(logger, credentialSSOExtensionMock)('with credential SSO Extension approach, opens the verify URL', async t => {
     const ssoExtensionPage = new BasePageObject(t);
     await ssoExtensionPage.navigateToPage();
-    await ssoExtensionPage.formExists();
+    await t.expect(ssoExtensionPage.formExists()).ok();
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/introspect/)
@@ -130,7 +130,7 @@ test
   .requestHooks(logger, uvCredentialSSOExtensionMock)('with credential SSO Extension approach during user verification, opens the verify URL', async t => {
     const ssoExtensionPage = new BasePageObject(t);
     await ssoExtensionPage.navigateToPage();
-    await ssoExtensionPage.formExists();
+    await t.expect(ssoExtensionPage.formExists()).ok();
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/introspect/)
@@ -144,7 +144,7 @@ test
   .requestHooks(credentialSSONotExistLogger, credentialSSONotExistMock)('cancels transaction when the authenticator does not exist', async t => {
     const ssoExtensionPage = new BasePageObject(t);
     await ssoExtensionPage.navigateToPage();
-    await ssoExtensionPage.formExists();
+    await t.expect(ssoExtensionPage.formExists()).ok();
     await t.expect(credentialSSONotExistLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/introspect/)
@@ -163,9 +163,9 @@ test
   .requestHooks(logger, verifyErrorMock)('hides the spinner when authenticator verification fails', async t => {
     const ssoExtensionPage = new BasePageObject(t);
     await ssoExtensionPage.navigateToPage();
-    await ssoExtensionPage.formExists();
+    await t.expect(ssoExtensionPage.formExists()).ok();
     await ssoExtensionPage.form.waitForErrorBox();
-    if(!userVariables.v3) {
+    if(!userVariables.gen3) {
       await t.expect(ssoExtensionPage.getSpinnerStyle()).eql('none');
     }
   });
@@ -174,7 +174,7 @@ test
   .requestHooks(stepUpLogger, stepUpMock)('Calls verify/cancel when it encounters a 401 (stepUp) error', async t => {
     const ssoExtensionPage = new BasePageObject(t);
     await ssoExtensionPage.navigateToPage();
-    await ssoExtensionPage.formExists();
+    await t.expect(ssoExtensionPage.formExists()).ok();
     await t.expect(stepUpLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/introspect/)

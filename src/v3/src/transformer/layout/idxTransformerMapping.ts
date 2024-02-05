@@ -11,16 +11,17 @@
  */
 
 import { IdxStepTransformer } from 'src/types';
+import { isDevelopmentEnvironment, isTestEnvironment } from 'src/util';
 
 import { AUTHENTICATOR_KEY, CHALLENGE_METHOD, IDX_STEP } from '../../constants';
 import { transformIdentify } from '../identify';
 import {
   transformAppleSsoExtension,
-  transformOktaVerifyChallengePoll,
   transformOktaVerifyChannelSelection,
+  transformOktaVerifyCustomAppChallengePoll,
+  transformOktaVerifyCustomAppResendPush,
   transformOktaVerifyEnrollChannel,
   transformOktaVerifyEnrollPoll,
-  transformOktaVerifyResendPushNotification,
   transformTOTPChallenge,
 } from '../oktaVerify';
 import {
@@ -40,15 +41,18 @@ import {
 } from '../phone';
 import { transformEnrollProfile } from '../profile';
 import { transformEnrollProfileUpdate } from '../profile/transformEnrollProfileUpdate';
+import { transformAutoRedirect } from '../redirect';
 import {
   transformSelectAuthenticatorEnroll,
   transformSelectAuthenticatorUnlockVerify,
   transformSelectAuthenticatorVerify,
-  transformSelectOVMethodVerify,
+  transformSelectOVCustomAppMethodVerify,
 } from '../selectAuthenticator';
 import { transformWebAuthNAuthenticator } from '../webauthn';
 import { transformYubikeyOtpAuthenticator } from '../yubikey';
 import { transformAdminConsent, transformEnduserConsent, transformGranularConsent } from './consent';
+import { transformEnumerateComponents } from './development';
+import { transformDeviceCodeAuthenticator } from './device';
 import { transformDuoAuthenticator } from './duo';
 import {
   transformEmailAuthenticatorEnroll,
@@ -64,11 +68,13 @@ import {
   transformIdpAuthenticator,
   transformIdpRedirect,
 } from './idp';
+import { transformKeepMeSignedIn } from './keepMeSignedIn';
 import {
   transformOktaVerifyDeviceChallengePoll,
   transformOktaVerifyFPLaunchAuthenticator,
   transformOktaVerifyFPLoopbackPoll,
 } from './oktaVerify';
+import { transformCustomOtpAuthenticator } from './otp';
 import { transformPIVAuthenticator } from './piv';
 import {
   transformIdentityRecovery,
@@ -119,12 +125,19 @@ const TransformerMap: {
     },
   },
   [IDX_STEP.AUTHENTICATOR_VERIFICATION_DATA]: {
+    [AUTHENTICATOR_KEY.CUSTOM_APP]: {
+      transform: transformSelectOVCustomAppMethodVerify,
+      buttonConfig: {
+        showDefaultSubmit: false,
+        showVerifyWithOtherLink: false,
+      },
+    },
     [AUTHENTICATOR_KEY.EMAIL]: {
       transform: transformEmailVerification,
       buttonConfig: { showDefaultSubmit: false },
     },
     [AUTHENTICATOR_KEY.OV]: {
-      transform: transformSelectOVMethodVerify,
+      transform: transformSelectOVCustomAppMethodVerify,
       buttonConfig: {
         showDefaultSubmit: false,
         showVerifyWithOtherLink: false,
@@ -160,6 +173,10 @@ const TransformerMap: {
     },
   },
   [IDX_STEP.CHALLENGE_AUTHENTICATOR]: {
+    [AUTHENTICATOR_KEY.CUSTOM_OTP]: {
+      transform: transformCustomOtpAuthenticator,
+      buttonConfig: { showDefaultSubmit: false },
+    },
     [AUTHENTICATOR_KEY.DUO]: {
       transform: transformDuoAuthenticator,
       buttonConfig: { showDefaultSubmit: false },
@@ -179,6 +196,10 @@ const TransformerMap: {
     [AUTHENTICATOR_KEY.PASSWORD]: {
       transform: transformPasswordChallenge,
       buttonConfig: { showDefaultSubmit: false, showForgotPassword: true },
+    },
+    [AUTHENTICATOR_KEY.ON_PREM]: {
+      transform: transformRSAAuthenticator,
+      buttonConfig: { showDefaultSubmit: false },
     },
     [AUTHENTICATOR_KEY.OV]: {
       transform: transformTOTPChallenge,
@@ -215,7 +236,15 @@ const TransformerMap: {
   },
   [IDX_STEP.CHALLENGE_POLL]: {
     [AUTHENTICATOR_KEY.OV]: {
-      transform: transformOktaVerifyChallengePoll,
+      transform: transformOktaVerifyCustomAppChallengePoll,
+      buttonConfig: {
+        showDefaultSubmit: false,
+        showDefaultCancel: false,
+        showVerifyWithOtherLink: false,
+      },
+    },
+    [AUTHENTICATOR_KEY.CUSTOM_APP]: {
+      transform: transformOktaVerifyCustomAppChallengePoll,
       buttonConfig: {
         showDefaultSubmit: false,
         showDefaultCancel: false,
@@ -235,6 +264,13 @@ const TransformerMap: {
   },
   [IDX_STEP.DEVICE_CHALLENGE_POLL]: {
     [CHALLENGE_METHOD.APP_LINK]: {
+      transform: transformOktaVerifyDeviceChallengePoll,
+      buttonConfig: {
+        showDefaultSubmit: false,
+        showDefaultCancel: false,
+      },
+    },
+    [CHALLENGE_METHOD.CHROME_DTC]: {
       transform: transformOktaVerifyDeviceChallengePoll,
       buttonConfig: {
         showDefaultSubmit: false,
@@ -287,6 +323,10 @@ const TransformerMap: {
     },
     [AUTHENTICATOR_KEY.IDP]: {
       transform: transformIdpAuthenticator,
+      buttonConfig: { showDefaultSubmit: false },
+    },
+    [AUTHENTICATOR_KEY.ON_PREM]: {
+      transform: transformRSAAuthenticator,
       buttonConfig: { showDefaultSubmit: false },
     },
     [AUTHENTICATOR_KEY.PASSWORD]: {
@@ -343,6 +383,15 @@ const TransformerMap: {
       buttonConfig: { showDefaultSubmit: false },
     },
   },
+  [IDX_STEP.FAILURE_REDIRECT]: {
+    [AUTHENTICATOR_KEY.DEFAULT]: {
+      transform: transformAutoRedirect,
+      buttonConfig: {
+        showDefaultSubmit: false,
+        showDefaultCancel: false,
+      },
+    },
+  },
   [IDX_STEP.IDENTIFY]: {
     [AUTHENTICATOR_KEY.DEFAULT]: {
       transform: transformIdentify,
@@ -364,6 +413,19 @@ const TransformerMap: {
   [IDX_STEP.IDENTIFY_RECOVERY]: {
     [AUTHENTICATOR_KEY.DEFAULT]: {
       transform: transformIdentityRecovery,
+      buttonConfig: {
+        showDefaultSubmit: false,
+      },
+    },
+  },
+  [IDX_STEP.KEEP_ME_SIGNED_IN]: {
+    [AUTHENTICATOR_KEY.DEFAULT]: {
+      transform: transformKeepMeSignedIn,
+      buttonConfig: {
+        showDefaultSubmit: false,
+        showDefaultCancel: false,
+        showReturnToAuthListLink: false,
+      },
     },
   },
   [IDX_STEP.LAUNCH_AUTHENTICATOR]: {
@@ -377,6 +439,10 @@ const TransformerMap: {
   },
   [IDX_STEP.PIV_IDP]: {
     [AUTHENTICATOR_KEY.DEFAULT]: {
+      transform: transformPIVAuthenticator,
+      buttonConfig: { showDefaultSubmit: false },
+    },
+    [AUTHENTICATOR_KEY.SMART_CARD_IDP]: {
       transform: transformPIVAuthenticator,
       buttonConfig: { showDefaultSubmit: false },
     },
@@ -423,13 +489,21 @@ const TransformerMap: {
   },
   [IDX_STEP.RESEND]: {
     [AUTHENTICATOR_KEY.OV]: {
-      transform: transformOktaVerifyResendPushNotification,
+      transform: transformOktaVerifyCustomAppResendPush,
+      buttonConfig: { showDefaultSubmit: false },
+    },
+    [AUTHENTICATOR_KEY.CUSTOM_APP]: {
+      transform: transformOktaVerifyCustomAppResendPush,
       buttonConfig: { showDefaultSubmit: false },
     },
   },
   [IDX_STEP.RESET_AUTHENTICATOR]: {
     [AUTHENTICATOR_KEY.PASSWORD]: {
       transform: transformResetPasswordAuthenticator,
+      buttonConfig: { showDefaultSubmit: false },
+    },
+    [AUTHENTICATOR_KEY.GOOGLE_OTP]: {
+      transform: transformGoogleAuthenticatorEnroll,
       buttonConfig: { showDefaultSubmit: false },
     },
   },
@@ -460,12 +534,42 @@ const TransformerMap: {
       buttonConfig: { showDefaultSubmit: false },
     },
   },
+  [IDX_STEP.SUCCESS_REDIRECT]: {
+    [AUTHENTICATOR_KEY.DEFAULT]: {
+      transform: transformAutoRedirect,
+      buttonConfig: {
+        showDefaultSubmit: false,
+        showDefaultCancel: false,
+      },
+    },
+  },
   [IDX_STEP.POLL]: {
     [AUTHENTICATOR_KEY.DEFAULT]: {
       transform: transformSafeModePoll,
       buttonConfig: { showDefaultSubmit: false },
     },
   },
+  [IDX_STEP.USER_CODE]: {
+    [AUTHENTICATOR_KEY.DEFAULT]: {
+      transform: transformDeviceCodeAuthenticator,
+    },
+  },
 };
+
+if (isDevelopmentEnvironment() || isTestEnvironment()) {
+  // Don't add developer transforms in production bundle
+  TransformerMap.DEVELOPMENT = {
+    [AUTHENTICATOR_KEY.DEFAULT]: {
+      transform: transformEnumerateComponents,
+      buttonConfig: {
+        showDefaultSubmit: false,
+        showDefaultCancel: false,
+        showForgotPassword: false,
+        showVerifyWithOtherLink: false,
+        showReturnToAuthListLink: false,
+      },
+    },
+  };
+}
 
 export default TransformerMap;

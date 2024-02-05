@@ -4,6 +4,7 @@ import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import ChallengePhonePageObject from '../framework/page-objects/ChallengePhonePageObject';
 import { checkConsoleMessages, renderWidget, oktaDashboardContent } from '../framework/shared';
 import phoneVerificationSMSThenVoice from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-phone-sms-then-voice';
+import phoneVerificationSMSThenVoiceWithNickname from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-phone-sms-then-voice-nickname';
 import phoneVerificationVoiceThenSMS from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-phone-voice-then-sms';
 import phoneVerificationVoiceOnly from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-phone-voice-only';
 import smsVerification from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone-sms';
@@ -11,6 +12,7 @@ import voiceVerification from '../../../playground/mocks/data/idp/idx/authentica
 import phoneVerificationSMSThenVoiceNoProfile from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-phone-sms-then-voice-no-profile';
 import phoneVerificationVoiceThenSMSNoProfile from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-phone-voice-then-sms-no-profile';
 import smsVerificationNoProfile from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone-sms-no-profile';
+import smsVerificationNickname from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone-sms-nickname';
 import voiceVerificationNoProfile from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone-voice-no-profile';
 import success from '../../../playground/mocks/data/idp/idx/success';
 import invalidCode from '../../../playground/mocks/data/idp/idx/error-authenticator-challenge-phone-invalid-otp';
@@ -43,6 +45,30 @@ const logger = RequestLogger(/challenge|challenge\/resend|challenge\/answer/,
 const smsPrimaryMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(phoneVerificationSMSThenVoice)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge')
+  .respond(smsVerification)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/resend')
+  .respond(smsVerification)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
+  .respond(success)
+  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+  .respond(oktaDashboardContent);
+
+const smsPrimaryWithNicknameMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(phoneVerificationSMSThenVoiceWithNickname)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge')
+  .respond(smsVerification)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/resend')
+  .respond(smsVerification)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
+  .respond(success)
+  .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
+  .respond(oktaDashboardContent);
+
+const smsPrimaryNicknameMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(smsVerificationNickname)
   .onRequestTo('http://localhost:3000/idp/idx/challenge')
   .respond(smsVerification)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/resend')
@@ -132,20 +158,21 @@ const voiceSecondaryMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(success);
 
-fixture('Challenge Phone Form')
-  .meta('v3', true);
+fixture('Challenge Phone Form');
 
-async function setup(t) {
+async function setup(t, widgetOptions) {
+  const options = widgetOptions ? { render: false } : {};
   const challengePhonePageObject = new ChallengePhonePageObject(t);
-  await challengePhonePageObject.navigateToPage();
+  await challengePhonePageObject.navigateToPage(options);
+  if (widgetOptions) {
+    await renderWidget(widgetOptions);
+  }
   await t.expect(challengePhonePageObject.formExists()).eql(true);
   return challengePhonePageObject;
 }
 
 async function setupInteractionCodeFlow(t) {
-  const challengePhonePageObject = await setup(t);
-  await checkA11y(t);
-  await challengePhonePageObject.navigateToPage({ render: false });
+  const challengePhonePageObject = await setup(t, { render: false });
 
   await challengePhonePageObject.mockCrypto();
   // Render the widget for interaction code flow
@@ -157,6 +184,8 @@ async function setupInteractionCodeFlow(t) {
       state: 'mock-state'
     }
   });
+  await t.expect(challengePhonePageObject.formExists()).ok();
+  await checkA11y(t);
   return challengePhonePageObject;
 }
 
@@ -186,12 +215,51 @@ test
   });
 
 test
-  .requestHooks(smsPrimaryMock)('SMS primary mode - can render with no sign-out link', async t => {
+  .requestHooks(smsPrimaryWithNicknameMock)('SMS primary mode with nickname - has the right labels', async t => {
     const challengePhonePageObject = await setup(t);
     await checkA11y(t);
-    await renderWidget({
+    await checkConsoleMessages({
+      controller: null,
+      formName: 'authenticator-verification-data',
+      authenticatorKey: 'phone_number',
+      methodType: 'sms',
+    });
+
+    const pageTitle = challengePhonePageObject.getFormTitle();
+    const pageSubtitle = challengePhonePageObject.getFormSubtitle();
+    const primaryButtonText = challengePhonePageObject.getSaveButtonLabel();
+    const secondaryButtonText = challengePhonePageObject.getSecondaryLinkText('Receive a voice call instead');
+    await t.expect(pageTitle).contains('Verify with your phone');
+    await t.expect(pageSubtitle).contains('Send a code via SMS to');
+    await t.expect(pageSubtitle).contains('+1 XXX-XXX-2342 (ph-nn).');
+    await t.expect(primaryButtonText).contains('Receive a code via SMS');
+    await t.expect(secondaryButtonText).contains('Receive a voice call instead');
+
+    await t.expect(await challengePhonePageObject.signoutLinkExists()).ok();
+    await t.expect(challengePhonePageObject.getSignoutLinkText()).eql('Back to sign in');
+  });
+
+test
+  .requestHooks(smsPrimaryNicknameMock)('SMS primary mode - shows nickname when present in API response', async t => {
+    const challengePhonePageObject = await setup(t);
+    await checkA11y(t);
+
+    const pageSubtitle = challengePhonePageObject.getFormSubtitle();
+    await t.expect(challengePhonePageObject.getSaveButtonLabel()).eql('Verify');
+    await t.expect(pageSubtitle).contains('A code was sent to');
+    await t.expect(pageSubtitle).contains('+1 XXX-XXX-2342 (ph-nn).');
+    await t.expect(pageSubtitle).contains('Enter the code below to verify.');
+
+    await t.expect(await challengePhonePageObject.signoutLinkExists()).ok();
+    await t.expect(challengePhonePageObject.getSignoutLinkText()).eql('Back to sign in');
+  });
+
+test
+  .requestHooks(smsPrimaryMock)('SMS primary mode - can render with no sign-out link', async t => {
+    const challengePhonePageObject = await setup(t, {
       features: { hideSignOutLinkInMFA: true },
     });
+    await checkA11y(t);
 
     await t.expect(challengePhonePageObject.getFormTitle()).contains('Verify with your phone');
     // signout link is not visible
@@ -306,23 +374,23 @@ test
     await checkA11y(t);
     await challengePhonePageObject.clickNextButton('Receive a code via SMS');
 
-    const { log } = await t.getBrowserConsoleMessages();
-    await t.expect(log.length).eql(5);
-    await t.expect(log[0]).eql('===== playground widget ready event received =====');
-    await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-    await t.expect(JSON.parse(log[2])).eql({
-      controller: null,
-      formName: 'authenticator-verification-data',
-      authenticatorKey: 'phone_number',
-      methodType: 'sms',
-    });
-    await t.expect(log[3]).eql('===== playground widget afterRender event received =====');
-    await t.expect(JSON.parse(log[4])).eql({
-      controller: 'mfa-verify-passcode',
-      formName: 'challenge-authenticator',
-      authenticatorKey: 'phone_number',
-      methodType: 'sms',
-    });
+    await checkConsoleMessages([
+      'ready',
+      'afterRender',
+      {
+        controller: null,
+        formName: 'authenticator-verification-data',
+        authenticatorKey: 'phone_number',
+        methodType: 'sms',
+      },
+      'afterRender',
+      {
+        controller: 'mfa-verify-passcode',
+        formName: 'challenge-authenticator',
+        authenticatorKey: 'phone_number',
+        methodType: 'sms',
+      },
+    ]);
 
     const pageSubtitle = challengePhonePageObject.getFormSubtitle();
     await t.expect(challengePhonePageObject.getSaveButtonLabel()).eql('Verify');
@@ -336,23 +404,23 @@ test
     await checkA11y(t);
     await challengePhonePageObject.clickNextButton('Receive a code via voice call');
 
-    const { log } = await t.getBrowserConsoleMessages();
-    await t.expect(log.length).eql(5);
-    await t.expect(log[0]).eql('===== playground widget ready event received =====');
-    await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-    await t.expect(JSON.parse(log[2])).eql({
-      controller: null,
-      formName: 'authenticator-verification-data',
-      authenticatorKey: 'phone_number',
-      methodType: 'voice',
-    });
-    await t.expect(log[3]).eql('===== playground widget afterRender event received =====');
-    await t.expect(JSON.parse(log[4])).eql({
-      controller: 'mfa-verify-passcode',
-      formName: 'challenge-authenticator',
-      authenticatorKey: 'phone_number',
-      methodType: 'voice',
-    });
+    await checkConsoleMessages([
+      'ready',
+      'afterRender',
+      {
+        controller: null,
+        formName: 'authenticator-verification-data',
+        authenticatorKey: 'phone_number',
+        methodType: 'voice',
+      },
+      'afterRender',
+      {
+        controller: 'mfa-verify-passcode',
+        formName: 'challenge-authenticator',
+        authenticatorKey: 'phone_number',
+        methodType: 'voice',
+      },
+    ]);
 
     const pageSubtitle = challengePhonePageObject.getFormSubtitle();
     await t.expect(challengePhonePageObject.getSaveButtonLabel()).eql('Verify');
@@ -606,10 +674,7 @@ test
   });
 
 test.requestHooks(smsPrimaryMockEmptyProfile)('should show custom factor page link', async t => {
-  const challengePhonePageObject = await setup(t);
-  await checkA11y(t);
-
-  await renderWidget({
+  const challengePhonePageObject = await setup(t, {
     helpLinks: {
       factorPage: {
         text: 'custom factor page link',
@@ -617,6 +682,7 @@ test.requestHooks(smsPrimaryMockEmptyProfile)('should show custom factor page li
       }
     }
   });
+  await checkA11y(t);
 
   await t.expect(challengePhonePageObject.getFactorPageHelpLinksLabel()).eql('custom factor page link');
   await t.expect(challengePhonePageObject.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');

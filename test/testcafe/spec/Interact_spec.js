@@ -1,10 +1,11 @@
-import { ClientFunction, RequestMock, RequestLogger } from 'testcafe';
+import { ClientFunction, RequestMock, RequestLogger, userVariables } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 import BasePageObject from '../framework/page-objects/BasePageObject';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
 import { checkConsoleMessages } from '../framework/shared';
 import xhrErrorFeatureNotEnabled from '../../../playground/mocks/data/oauth2/error-feature-not-enabled';
 import xhrErrorInvalidRecoveryToken from '../../../playground/mocks/data/oauth2/error-recovery-token-invalid';
+import xhrErrorInvalidActivationToken from '../../../playground/mocks/data/oauth2/error-activation-token-invalid';
 import xhrWellKnownResponse from '../../../playground/mocks/data/oauth2/well-known-openid-configuration.json';
 import xhrInteractResponse from '../../../playground/mocks/data/oauth2/interact.json';
 import xhrIdentify from '../../../playground/mocks/data/idp/idx/identify';
@@ -62,6 +63,13 @@ const errorInvalidRecoveryTokenMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrIdentify);
 
+const errorInvalidActivationTokenMock = RequestMock()
+  .onRequestTo('http://localhost:3000/oauth2/default/.well-known/openid-configuration')
+  .respond(xhrWellKnownResponse, 200)
+  .onRequestTo('http://localhost:3000/oauth2/default/v1/interact')
+  .respond(xhrErrorInvalidActivationToken, 400)
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrIdentify);
 
 const cancelResetPasswordMock = RequestMock()
   .onRequestTo('http://localhost:3000/oauth2/default/.well-known/openid-configuration')
@@ -84,8 +92,7 @@ const requestLogger = RequestLogger(
   }
 );
 
-fixture('Interact')
-  .meta('v3', true);
+fixture('Interact');
 
 function decodeUrlEncodedRequestBody(body) {
   const params = {};
@@ -115,6 +122,7 @@ async function setup(t, options = {}) {
     recoveryToken: options.recoveryToken,
     clientId: 'fake',
     redirectUri: 'http://doesnot-matter',
+    authScheme: 'oauth2',
     authParams: {
       pkce: true,
       state: 'mock-state'
@@ -233,10 +241,7 @@ test.requestHooks(requestLogger, interactMock)('passes recovery_token to interac
   ]);
 });
 
-// TODO this is calling /cancel but not also /interact in v3. Might be good but
-// not sure if it _should_ call interact actually when there is
-// a recovery token
-test.meta('v3', false).requestHooks(requestLogger, cancelResetPasswordMock)('clears recovery_token and does not pass it to interact after clicking "back to signin"', async t => {
+test.requestHooks(requestLogger, cancelResetPasswordMock)('clears recovery_token and does not pass it to interact after clicking "back to signin"', async t => {
   const recoveryToken = 'abcdef';
   const pageObject = await setup(t, {
     recoveryToken
@@ -269,6 +274,26 @@ test.requestHooks(requestLogger, errorInvalidRecoveryTokenMock)('shows an error 
   await t.expect(errors.isError()).ok();
   await t.expect(errors.getTextContent()).eql('The recovery token is invalid.');
 
+  await checkConsoleMessages([
+    'ready',
+    'afterRender',
+    expectTerminalView
+  ]);
+});
+
+test.requestHooks(requestLogger, errorInvalidActivationTokenMock)('shows an error when activation token is invalid', async t => {
+  await setup(t);
+  await checkA11y(t);
+
+  const terminalPageObject = new TerminalPageObject(t);
+  const errors = terminalPageObject.getErrorMessages();
+  await t.expect(errors.isError()).ok();
+  if (userVariables.gen3) {
+    await t.expect(errors.getTextContent()).contains('Activation link no longer valid');
+  } else {
+    await t.expect(terminalPageObject.getFormTitle()).eql('Activation link no longer valid');
+  }
+  await t.expect(errors.getTextContent()).contains('This can happen if you have already activated your account, or if the URL you are trying to use is invalid. Contact your administrator for further assistance');
   await checkConsoleMessages([
     'ready',
     'afterRender',
