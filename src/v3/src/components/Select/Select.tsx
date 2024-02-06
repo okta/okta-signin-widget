@@ -11,10 +11,7 @@
  */
 
 import { SelectChangeEvent } from '@mui/material';
-import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
-import {
-  Box, FormControl, InputLabel, Select as MuiSelect, Typography,
-} from '@okta/odyssey-react-mui-legacy';
+import { NativeSelect } from '@okta/odyssey-react-mui';
 import { IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
 import { h } from 'preact';
 
@@ -24,8 +21,7 @@ import {
   UISchemaElementComponent,
   UISchemaElementComponentWithValidationProps,
 } from '../../types';
-import { getTranslation } from '../../util';
-import FieldLevelMessageContainer from '../FieldLevelMessageContainer';
+import { buildFieldLevelErrorMessages, getTranslation } from '../../util';
 import { withFormValidationState } from '../hocs';
 
 const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationProps> = ({
@@ -33,15 +29,13 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
   errors,
   handleChange,
   handleBlur,
-  describedByIds,
 }) => {
   const value = useValue(uischema);
   const { loading } = useWidgetContext();
-  const { focus, translations = [], showAsterisk } = uischema;
+  const { focus, translations = [] } = uischema;
   const label = getTranslation(translations, 'label');
   const emptyOptionLabel = getTranslation(translations, 'empty-option-label');
-  const optionalLabel = getTranslation(translations, 'optionalLabel');
-  const tokens = useOdysseyDesignTokens();
+  const { errorMessage, errorMessageList } = buildFieldLevelErrorMessages(errors);
 
   const {
     attributes,
@@ -52,8 +46,8 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
     },
     customOptions,
   } = uischema.options;
+  const { autocomplete } = attributes || {};
   const focusRef = useAutoFocus<HTMLSelectElement>(focus);
-  const hasErrors = typeof errors !== 'undefined';
 
   const getOptions = (): IdxOption[] | undefined => {
     if (Array.isArray(customOptions) || Array.isArray(options)) {
@@ -69,93 +63,50 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
   };
 
   return (
-    <FormControl
-      disabled={loading}
-      error={hasErrors}
+    <NativeSelect
+      autoCompleteType={autocomplete}
+      errorMessage={errorMessage}
+      errorMessageList={errorMessageList}
+      id={name}
+      inputRef={focusRef}
+      isDisabled={loading}
+      isOptional={!required}
+      label={label}
+      onChange={(e: SelectChangeEvent<string>) => {
+        const selectTarget = (
+          e?.target as SelectChangeEvent['target'] & { value: string; name: string; }
+        );
+        handleChange?.(selectTarget.value);
+      }}
+      onBlur={(e: SelectChangeEvent<string>) => {
+        const selectTarget = (
+          e?.target as SelectChangeEvent['target'] & { value: string; name: string; }
+        );
+        handleBlur?.(selectTarget.value);
+      }}
+      testId={name}
+      value={value as string ?? ''}
     >
-      <InputLabel
-        htmlFor={name}
-        // To prevent asterisk from shifting far right
-        sx={{
-          justifyContent: showAsterisk ? 'flex-start' : undefined,
-          position: 'static',
-        }}
-      >
-        {label}
-        {showAsterisk && (
-          <Box
-            component="span"
-            sx={{
-              marginInlineStart: tokens.Spacing2,
-              marginInlineEnd: tokens.Spacing2,
-            }}
-            className="no-translate"
-            aria-hidden
+      {
+        [
+          <option
+            value=""
+            key="empty"
           >
-            *
-          </Box>
-        )}
-        {required === false && (
-          <Typography
-            variant="subtitle1"
-            sx={{ whiteSpace: 'nowrap' }}
-          >
-            {optionalLabel}
-          </Typography>
-        )}
-      </InputLabel>
-      <MuiSelect
-        native
-        variant="standard"
-        onChange={(e: SelectChangeEvent<string>) => {
-          const selectTarget = (
-            e?.target as SelectChangeEvent['target'] & { value: string; name: string; }
-          );
-          handleChange?.(selectTarget.value);
-        }}
-        onBlur={(e: SelectChangeEvent<string>) => {
-          const selectTarget = (
-            e?.target as SelectChangeEvent['target'] & { value: string; name: string; }
-          );
-          handleBlur?.(selectTarget.value);
-        }}
-        inputRef={focusRef}
-        value={value as string}
-        inputProps={{
-          'data-se': name,
-          'aria-describedby': describedByIds,
-          name,
-          id: name,
-          ...attributes,
-        }}
-      >
-        {
-          [
+            {emptyOptionLabel}
+          </option>,
+        ].concat(
+          getOptions()?.map((option: IdxOption) => (
             <option
-              value=""
-              key="empty"
+              key={option.value}
+              value={option.value as string}
             >
-              {emptyOptionLabel}
-            </option>,
-          ].concat(
-            getOptions()?.map((option: IdxOption) => (
-              <option
-                key={option.value}
-                value={option.value as string}
-              >
-                {option.label}
-              </option>
-            )) || [],
-          )
-        }
-      </MuiSelect>
-      {hasErrors && (
-        <FieldLevelMessageContainer
-          messages={errors}
-          fieldName={name}
-        />
-      )}
-    </FormControl>
+              {option.label}
+            </option>
+          )) || [],
+        )
+      }
+    </NativeSelect>
   );
 };
 
