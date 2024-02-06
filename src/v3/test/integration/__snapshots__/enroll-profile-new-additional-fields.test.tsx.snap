@@ -275,22 +275,13 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                       class="MuiFormControl-root MuiFormControl-marginNormal emotion-48"
                     >
                       <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-49"
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-25"
                         data-shrink="false"
                         for="userProfile.country"
                         id="userProfile.country-label"
                       >
-<<<<<<< HEAD
-                        Country
-                        <span
-                          aria-hidden="true"
-                          class="no-translate MuiBox-root emotion-50"
-                        >
-                          *
-=======
                         <span>
                           Country
->>>>>>> eec3250e0 (Update page objects)
                         </span>
                       </label>
                       <div
@@ -1537,16 +1528,9 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                         </svg>
                       </div>
                       <p
-                        class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium emotion-53"
+                        class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium emotion-28"
                         id="userProfile.country-error"
                       >
-<<<<<<< HEAD
-                        <p
-                          class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium emotion-55"
-                          data-se="userProfile.country-error"
-                          id="userProfile.country-error"
-                          role="alert"
-=======
                         <span
                           class="MuiBox-root emotion-14"
                         >
@@ -1554,7 +1538,6 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                         </span>
                         <div
                           class="MuiBox-root emotion-1"
->>>>>>> eec3250e0 (Update page objects)
                         >
                           This field cannot be left blank
                         </div>
@@ -1618,22 +1601,13 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                       class="MuiFormControl-root MuiFormControl-marginNormal emotion-48"
                     >
                       <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-49"
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-25"
                         data-shrink="false"
                         for="userProfile.timezone"
                         id="userProfile.timezone-label"
                       >
-<<<<<<< HEAD
-                        Time zone
-                        <span
-                          aria-hidden="true"
-                          class="no-translate MuiBox-root emotion-50"
-                        >
-                          *
-=======
                         <span>
                           Time zone
->>>>>>> eec3250e0 (Update page objects)
                         </span>
                       </label>
                       <div
@@ -1840,16 +1814,9 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                         </svg>
                       </div>
                       <p
-                        class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium emotion-53"
+                        class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium emotion-28"
                         id="userProfile.timezone-error"
                       >
-<<<<<<< HEAD
-                        <p
-                          class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium emotion-55"
-                          data-se="userProfile.timezone-error"
-                          id="userProfile.timezone-error"
-                          role="alert"
-=======
                         <span
                           class="MuiBox-root emotion-14"
                         >
@@ -1857,7 +1824,6 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                         </span>
                         <div
                           class="MuiBox-root emotion-1"
->>>>>>> eec3250e0 (Update page objects)
                         >
                           This field cannot be left blank
                         </div>
@@ -2105,48 +2071,23 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                       class="MuiFormControl-root MuiFormControl-marginNormal emotion-32"
                     >
                       <label
-<<<<<<< HEAD
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined emotion-33"
-=======
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-36"
->>>>>>> eec3250e0 (Update page objects)
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-18"
                         data-shrink="false"
                         for="userProfile.country"
                         id="userProfile.country-label"
                       >
-<<<<<<< HEAD
-                        Country
-                        <span
-                          aria-hidden="true"
-                          class="no-translate MuiBox-root emotion-34"
-                        >
-                          *
-                        </span>
-                      </label>
-                      <div
-                        class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-formControl  emotion-35"
-                      >
-                        <select
-                          aria-invalid="false"
-                          class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-36"
-                          data-se="userProfile.country"
-=======
                         <span>
                           Country
                         </span>
                       </label>
                       <div
-                        class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-formControl  emotion-37"
+                        class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-formControl  emotion-34"
                       >
                         <select
                           aria-invalid="false"
                           aria-labelledby="userProfile.country-label"
-                          class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-38"
-<<<<<<< HEAD
->>>>>>> eec3250e0 (Update page objects)
-=======
+                          class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-35"
                           data-se="userProfile.country"
->>>>>>> e79856fc0 (Bump odyssey package and snapshot updates)
                           id="userProfile.country"
                           name="userProfile.country"
                         >
@@ -3363,11 +3304,7 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                         </select>
                         <svg
                           aria-hidden="true"
-<<<<<<< HEAD
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconStandard emotion-37"
-=======
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconStandard emotion-39"
->>>>>>> eec3250e0 (Update page objects)
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconStandard emotion-36"
                           fill="none"
                           focusable="false"
                           viewBox="0 0 24 24"
@@ -3423,48 +3360,23 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                       class="MuiFormControl-root MuiFormControl-marginNormal emotion-32"
                     >
                       <label
-<<<<<<< HEAD
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined emotion-33"
-=======
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-36"
->>>>>>> eec3250e0 (Update page objects)
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-18"
                         data-shrink="false"
                         for="userProfile.timezone"
                         id="userProfile.timezone-label"
                       >
-<<<<<<< HEAD
-                        Time zone
-                        <span
-                          aria-hidden="true"
-                          class="no-translate MuiBox-root emotion-34"
-                        >
-                          *
-                        </span>
-                      </label>
-                      <div
-                        class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-formControl  emotion-35"
-                      >
-                        <select
-                          aria-invalid="false"
-                          class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-36"
-                          data-se="userProfile.timezone"
-=======
                         <span>
                           Time zone
                         </span>
                       </label>
                       <div
-                        class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-formControl  emotion-37"
+                        class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-formControl  emotion-34"
                       >
                         <select
                           aria-invalid="false"
                           aria-labelledby="userProfile.timezone-label"
-                          class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-38"
-<<<<<<< HEAD
->>>>>>> eec3250e0 (Update page objects)
-=======
+                          class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-35"
                           data-se="userProfile.timezone"
->>>>>>> e79856fc0 (Bump odyssey package and snapshot updates)
                           id="userProfile.timezone"
                           name="userProfile.timezone"
                         >
@@ -3641,11 +3553,7 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                         </select>
                         <svg
                           aria-hidden="true"
-<<<<<<< HEAD
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconStandard emotion-37"
-=======
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconStandard emotion-39"
->>>>>>> eec3250e0 (Update page objects)
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconStandard emotion-36"
                           fill="none"
                           focusable="false"
                           viewBox="0 0 24 24"
@@ -3665,11 +3573,7 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                     class="MuiBox-root emotion-10"
                   >
                     <button
-<<<<<<< HEAD
-                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-51"
-=======
-                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-53"
->>>>>>> eec3250e0 (Update page objects)
+                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-49"
                       data-se="save"
                       tabindex="0"
                       type="submit"
@@ -3681,25 +3585,14 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                     class="MuiBox-root emotion-10"
                   >
                     <hr
-<<<<<<< HEAD
-                      class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-53"
+                      class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-51"
                     />
                   </div>
                   <div
-                    class="MuiBox-root emotion-54"
+                    class="MuiBox-root emotion-52"
                   >
                     <div
-                      class="MuiBox-root emotion-55"
-=======
-                      class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-55"
-                    />
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-56"
-                  >
-                    <div
-                      class="MuiBox-root emotion-57"
->>>>>>> eec3250e0 (Update page objects)
+                      class="MuiBox-root emotion-53"
                     >
                       <div
                         class="MuiBox-root emotion-11"
@@ -3714,17 +3607,10 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                       </div>
                     </div>
                     <div
-<<<<<<< HEAD
-                      class="MuiBox-root emotion-55"
+                      class="MuiBox-root emotion-53"
                     >
                       <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-59"
-=======
-                      class="MuiBox-root emotion-57"
-                    >
-                      <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-61"
->>>>>>> eec3250e0 (Update page objects)
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-57"
                         data-se="back"
                         href=""
                       >
