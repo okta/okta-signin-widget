@@ -10,25 +10,17 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
-import {
-  Box,
-  Checkbox as CheckboxMui,
-  FormControl,
-  FormControlLabel,
-  FormHelperText,
-} from '@okta/odyssey-react-mui-legacy';
-import { Fragment, h } from 'preact';
+import { Checkbox as OdyCheckbox, CheckboxGroup } from '@okta/odyssey-react-mui';
+import { h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
-import { useAutoFocus, useValue } from '../../hooks';
+import { useAutoFocus, useHtmlContentParser, useValue } from '../../hooks';
 import {
   ChangeEvent,
   UISchemaElementComponent,
   UISchemaElementComponentWithValidationProps,
 } from '../../types';
-import { getTranslationInfo } from '../../util';
-import FieldLevelMessageContainer from '../FieldLevelMessageContainer';
+import { buildFieldLevelErrorMessages, getTranslationInfo, wrapInTranslateNo } from '../../util';
 import { withFormValidationState } from '../hocs';
 
 const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationProps> = ({
@@ -36,7 +28,6 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
   errors,
   handleChange,
   handleBlur,
-  describedByIds,
 }) => {
   const value = useValue(uischema);
   const { loading } = useWidgetContext();
@@ -44,87 +35,45 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
   const {
     options: { inputMeta: { name, mutable } },
     focus,
-    noTranslate,
     translations = [],
-    showAsterisk,
   } = uischema;
   const isReadOnly = mutable === false;
+  const checkboxId = `${name}-checkbox`;
   const labelInfo = getTranslationInfo(translations, 'label');
+  const label = useHtmlContentParser(labelInfo?.noTranslate
+    ? wrapInTranslateNo(labelInfo.value)
+    : labelInfo?.value) as string | undefined;
   const descriptionInfo = getTranslationInfo(translations, 'description');
+  const description = useHtmlContentParser(descriptionInfo?.noTranslate
+    ? wrapInTranslateNo(descriptionInfo.value)
+    : descriptionInfo?.value) as string | undefined;
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
-  const hasErrors = typeof errors !== 'undefined';
-  const tokens = useOdysseyDesignTokens();
+  const { errorMessage, errorMessageList } = buildFieldLevelErrorMessages(errors);
 
   return (
-    <FormControl
-      component="fieldset"
-      error={hasErrors}
-      aria-describedby={describedByIds}
-      className={noTranslate ? 'no-translate' : undefined}
+    <CheckboxGroup
+      errorMessage={errorMessage}
+      errorMessageList={errorMessageList}
+      id={name}
+      label=""
     >
-      <FormControlLabel
-        sx={{ alignItems: 'flex-start', gap: 0 }}
-        control={(
-          <CheckboxMui
-            size="medium"
-            checked={value === true}
-            id={name}
-            name={name}
-            inputRef={focusRef}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => {
-              handleChange?.(e.currentTarget.checked);
-            }}
-            onBlur={(e: ChangeEvent<HTMLInputElement>) => {
-              handleBlur?.(e?.currentTarget?.checked);
-            }}
-            disabled={loading || isReadOnly}
-            inputProps={{
-              'data-se': name,
-              'data-se-for-name': name,
-            }}
-            sx={{
-              marginInlineEnd: tokens.Spacing3,
-            }}
-          />
-        )}
-        label={(
-          <Fragment>
-            {labelInfo?.noTranslate ? (
-              <Box
-                component="span"
-                className="no-translate"
-              >
-                {labelInfo?.value as string}
-              </Box>
-            ) : labelInfo?.value as string}
-            {showAsterisk && (
-              <Box
-                component="span"
-                sx={{
-                  marginInlineStart: tokens.Spacing2,
-                  marginInlineEnd: tokens.Spacing2,
-                }}
-                className="no-translate"
-                aria-hidden
-              >
-                *
-              </Box>
-            )}
-            {descriptionInfo?.value && (
-              <FormHelperText className={descriptionInfo.noTranslate ? 'no-translate' : undefined}>
-                {descriptionInfo.value}
-              </FormHelperText>
-            )}
-          </Fragment>
-        )}
+      <OdyCheckbox
+        hint={description}
+        id={checkboxId}
+        inputRef={focusRef}
+        isChecked={value === true}
+        isDisabled={loading || isReadOnly}
+        label={label}
+        name={name}
+        onBlur={(e: ChangeEvent<HTMLInputElement>) => {
+          handleBlur?.(e?.currentTarget?.checked);
+        }}
+        onChange={(e: ChangeEvent<HTMLInputElement>) => {
+          handleChange?.(e.currentTarget.checked);
+        }}
+        testId={name}
       />
-      {hasErrors && (
-        <FieldLevelMessageContainer
-          messages={errors}
-          fieldName={name}
-        />
-      )}
-    </FormControl>
+    </CheckboxGroup>
   );
 };
 

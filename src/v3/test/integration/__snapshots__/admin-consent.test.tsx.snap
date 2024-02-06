@@ -145,55 +145,67 @@ exports[`admin-consent should render form with logo 1`] = `
                     <fieldset
                       class="MuiFormControl-root MuiFormControl-marginNormal emotion-27"
                     >
-                      <label
-                        class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-28"
+                      <legend
+                        class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-28"
                       >
-                        <span
-                          aria-disabled="true"
-                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-checked Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary emotion-29"
-                          tabindex="-1"
-                        >
-                          <input
-                            class="PrivateSwitchBase-input emotion-30"
-                            data-indeterminate="false"
-                            data-se="consent.scopes.okta.clients.manage"
-                            data-se-for-name="consent.scopes.okta.clients.manage"
-                            disabled=""
-                            id="consent.scopes.okta.clients.manage"
-                            name="consent.scopes.okta.clients.manage"
-                            type="checkbox"
-                          />
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-31"
-                            fill="none"
-                            focusable="false"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              clip-rule="evenodd"
-                              d="m19.707 7.707-8.646 8.647a1.5 1.5 0 0 1-2.122 0l-4.646-4.647 1.414-1.414L10 14.586l8.293-8.293 1.414 1.414Z"
-                              fill="currentColor"
-                              fill-rule="evenodd"
-                            />
-                          </svg>
-                        </span>
-                        <span
-                          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-32"
+                        
+                         
+                        
+                      </legend>
+                      <div
+                        aria-labelledby="consent.scopes.okta.clients.manage-label"
+                        class="MuiFormGroup-root emotion-29"
+                        id="consent.scopes.okta.clients.manage"
+                      >
+                        <label
+                          class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-30"
+                          id="consent.scopes.okta.clients.manage-checkbox"
                         >
                           <span
-                            class="no-translate MuiBox-root emotion-1"
+                            aria-disabled="true"
+                            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-checked Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-31"
+                            tabindex="-1"
                           >
-                            okta.clients.manage
+                            <input
+                              class="PrivateSwitchBase-input emotion-32"
+                              data-indeterminate="false"
+                              data-se="consent.scopes.okta.clients.manage"
+                              disabled=""
+                              name="consent.scopes.okta.clients.manage"
+                              type="checkbox"
+                            />
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-33"
+                              fill="none"
+                              focusable="false"
+                              viewBox="0 0 24 24"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                clip-rule="evenodd"
+                                d="m19.707 7.707-8.646 8.647a1.5 1.5 0 0 1-2.122 0l-4.646-4.647 1.414-1.414L10 14.586l8.293-8.293 1.414 1.414Z"
+                                fill="currentColor"
+                                fill-rule="evenodd"
+                              />
+                            </svg>
                           </span>
-                          <p
-                            class="MuiFormHelperText-root MuiFormHelperText-sizeMedium emotion-34"
+                          <span
+                            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-34"
                           >
-                            Allows the app to manage clients in your Okta organization.
-                          </p>
-                        </span>
-                      </label>
+                            <span
+                              translate="no"
+                            >
+                              okta.clients.manage
+                            </span>
+                            <p
+                              class="MuiFormHelperText-root MuiFormHelperText-sizeMedium emotion-35"
+                            >
+                              Allows the app to manage clients in your Okta organization.
+                            </p>
+                          </span>
+                        </label>
+                      </div>
                     </fieldset>
                   </div>
                   <div
@@ -202,62 +214,74 @@ exports[`admin-consent should render form with logo 1`] = `
                     <fieldset
                       class="MuiFormControl-root MuiFormControl-marginNormal emotion-27"
                     >
-                      <label
-                        class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-28"
+                      <legend
+                        class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-28"
                       >
-                        <span
-                          aria-disabled="true"
-                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-checked Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary emotion-29"
-                          tabindex="-1"
-                        >
-                          <input
-                            class="PrivateSwitchBase-input emotion-30"
-                            data-indeterminate="false"
-                            data-se="consent.scopes.okta.authenticators.manage"
-                            data-se-for-name="consent.scopes.okta.authenticators.manage"
-                            disabled=""
-                            id="consent.scopes.okta.authenticators.manage"
-                            name="consent.scopes.okta.authenticators.manage"
-                            type="checkbox"
-                          />
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-31"
-                            fill="none"
-                            focusable="false"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              clip-rule="evenodd"
-                              d="m19.707 7.707-8.646 8.647a1.5 1.5 0 0 1-2.122 0l-4.646-4.647 1.414-1.414L10 14.586l8.293-8.293 1.414 1.414Z"
-                              fill="currentColor"
-                              fill-rule="evenodd"
-                            />
-                          </svg>
-                        </span>
-                        <span
-                          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-32"
+                        
+                         
+                        
+                      </legend>
+                      <div
+                        aria-labelledby="consent.scopes.okta.authenticators.manage-label"
+                        class="MuiFormGroup-root emotion-29"
+                        id="consent.scopes.okta.authenticators.manage"
+                      >
+                        <label
+                          class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-30"
+                          id="consent.scopes.okta.authenticators.manage-checkbox"
                         >
                           <span
-                            class="no-translate MuiBox-root emotion-1"
+                            aria-disabled="true"
+                            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-checked Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-31"
+                            tabindex="-1"
                           >
-                            okta.authenticators.manage
+                            <input
+                              class="PrivateSwitchBase-input emotion-32"
+                              data-indeterminate="false"
+                              data-se="consent.scopes.okta.authenticators.manage"
+                              disabled=""
+                              name="consent.scopes.okta.authenticators.manage"
+                              type="checkbox"
+                            />
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-33"
+                              fill="none"
+                              focusable="false"
+                              viewBox="0 0 24 24"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                clip-rule="evenodd"
+                                d="m19.707 7.707-8.646 8.647a1.5 1.5 0 0 1-2.122 0l-4.646-4.647 1.414-1.414L10 14.586l8.293-8.293 1.414 1.414Z"
+                                fill="currentColor"
+                                fill-rule="evenodd"
+                              />
+                            </svg>
                           </span>
-                          <p
-                            class="MuiFormHelperText-root MuiFormHelperText-sizeMedium emotion-34"
+                          <span
+                            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-34"
                           >
-                            Allows the app to manage all security methods (e.g. enrollments, reset).
-                          </p>
-                        </span>
-                      </label>
+                            <span
+                              translate="no"
+                            >
+                              okta.authenticators.manage
+                            </span>
+                            <p
+                              class="MuiFormHelperText-root MuiFormHelperText-sizeMedium emotion-35"
+                            >
+                              Allows the app to manage all security methods (e.g. enrollments, reset).
+                            </p>
+                          </span>
+                        </label>
+                      </div>
                     </fieldset>
                   </div>
                   <div
                     class="MuiBox-root emotion-20"
                   >
                     <button
-                      class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-45"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-47"
                       data-se="save"
                       tabindex="0"
                       type="button"
@@ -269,7 +293,7 @@ exports[`admin-consent should render form with logo 1`] = `
                     class="MuiBox-root emotion-20"
                   >
                     <button
-                      class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-45"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-47"
                       data-se="cancel"
                       tabindex="0"
                       type="button"
