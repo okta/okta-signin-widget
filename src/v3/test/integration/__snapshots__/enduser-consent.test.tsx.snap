@@ -42,6 +42,7 @@ exports[`enduser-consent should render form with logo 1`] = `
                     class="MuiBox-root emotion-1"
                   >
                     <a
+                      aria-label="Logo for the app"
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-11"
                       href="https://client._funky-ch4rs.com"
                       rel="noopener noreferrer"
@@ -54,42 +55,22 @@ exports[`enduser-consent should render form with logo 1`] = `
                         data-se="client-logo"
                         src="https://example.com/logo"
                       />
-                      <span
-                        class="Link-indicator"
-                        role="presentation"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-13"
-                          fill="none"
-                          focusable="false"
-                          viewBox="0 0 24 24"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            clip-rule="evenodd"
-                            d="M8.293 14.293 18.586 4H10V2h10.223c.12 0 .262 0 .387.01.145.012.353.042.571.153a1.5 1.5 0 0 1 .655.656c.112.218.142.426.154.571.01.125.01.268.01.387V14h-2V5.414L9.707 15.707l-1.414-1.414Zm7.745 5.74v-7.847l2-2.042v11.89H2.024V5.966h11.828l-2.041 2H4.024v12.068h12.014Z"
-                            fill="currentColor"
-                            fill-rule="evenodd"
-                          />
-                        </svg>
-                      </span>
                     </a>
                   </div>
                 </div>
                 <span
-                  class="MuiBox-root emotion-14"
+                  class="MuiBox-root emotion-13"
                   data-se="title-text"
                 >
                   <h2
-                    class="MuiTypography-root MuiTypography-h6 emotion-15"
+                    class="MuiTypography-root MuiTypography-h6 emotion-14"
                     tabindex="-1"
                     translate="no"
                   >
                     Native client
                   </h2>
                   <p
-                    class="MuiTypography-root MuiTypography-body1 emotion-16"
+                    class="MuiTypography-root MuiTypography-body1 emotion-15"
                     tabindex="-1"
                   >
                     would like to:
@@ -97,20 +78,20 @@ exports[`enduser-consent should render form with logo 1`] = `
                 </span>
               </div>
               <div
-                class="MuiBox-root emotion-17"
+                class="MuiBox-root emotion-16"
               >
                 <span
                   aria-label="Processing..."
-                  class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-18"
+                  class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary emotion-17"
                   role="progressbar"
                   style="width: 1.71428571rem; height: 1.71428571rem;"
                 >
                   <svg
-                    class="MuiCircularProgress-svg emotion-19"
+                    class="MuiCircularProgress-svg emotion-18"
                     viewBox="22 22 44 44"
                   >
                     <circle
-                      class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate emotion-20"
+                      class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate emotion-19"
                       cx="44"
                       cy="44"
                       fill="none"
