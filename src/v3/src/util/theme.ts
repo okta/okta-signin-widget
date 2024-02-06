@@ -124,6 +124,53 @@ export const createThemeAndTokens = (
   // Merge default Odyssey 1.x theme with component overrides
   const themeOverride = mergeThemes(baseOdysseyTheme, {
     components: {
+      MuiAccordion: {
+        styleOverrides: {
+          root: {
+            border: 0,
+          },
+        },
+      },
+      MuiAccordionDetails: {
+        styleOverrides: {
+          root: {
+            paddingInline: mergedTokens.Spacing0,
+            paddingBlock: mergedTokens.Spacing0,
+            paddingBlockStart: mergedTokens.Spacing4,
+          },
+        },
+      },
+      MuiAccordionSummary: {
+        styleOverrides: {
+          root: {
+            display: 'inline-flex',
+            minHeight: 0,
+            paddingInline: mergedTokens.Spacing0,
+            paddingBlock: mergedTokens.Spacing0,
+            backgroundColor: 'transparent',
+            '&:hover': {
+              backgroundColor: 'transparent',
+            },
+            '&:focus': {
+              backgroundColor: 'transparent',
+            },
+            '& .MuiAccordionSummary-content': {
+              margin: mergedTokens.Spacing0,
+              '& .MuiTypography-root': {
+                textDecoration: 'underline',
+                fontWeight: mergedTokens.TypographyWeightBody,
+                color: mergedTokens.TypographyColorAction,
+                '&:hover': {
+                  color: mergedTokens.BorderColorPrimaryDark,
+                },
+              },
+            },
+            '& .MuiAccordionSummary-expandIconWrapper': {
+              display: 'none',
+            },
+          },
+        },
+      },
       MuiAlert: {
         styleOverrides: {
           root: {
@@ -156,6 +203,13 @@ export const createThemeAndTokens = (
               },
             }),
           }),
+        },
+      },
+      MuiFormControlLabel: {
+        styleOverrides: {
+          root: {
+            gap: 0,
+          },
         },
       },
       MuiFormHelperText: {
@@ -221,50 +275,18 @@ export const createThemeAndTokens = (
           }),
         },
       },
-      MuiAccordion: {
+      MuiRadio: {
         styleOverrides: {
           root: {
-            border: 0,
-          },
-        },
-      },
-      MuiAccordionSummary: {
-        styleOverrides: {
-          root: {
-            display: 'inline-flex',
-            minHeight: 0,
-            paddingInline: mergedTokens.Spacing0,
-            paddingBlock: mergedTokens.Spacing0,
-            backgroundColor: 'transparent',
-            '&:hover': {
-              backgroundColor: 'transparent',
-            },
-            '&:focus': {
-              backgroundColor: 'transparent',
-            },
-            '& .MuiAccordionSummary-content': {
-              margin: mergedTokens.Spacing0,
-              '& .MuiTypography-root': {
-                textDecoration: 'underline',
-                fontWeight: mergedTokens.TypographyWeightBody,
-                color: mergedTokens.TypographyColorAction,
-                '&:hover': {
-                  color: mergedTokens.BorderColorPrimaryDark,
-                },
+            // Odyssey uses gap for spacing between Checkbox/Radio and label
+            marginInlineEnd: mergedTokens.Spacing2,
+            '&.Mui-checked': {
+              // Odyssey position: absolute breaks radio checked circle alignment
+              '&::before': {
+                position: 'relative',
+                backgroundColor: mergedTokens.PalettePrimaryMain,
               },
             },
-            '& .MuiAccordionSummary-expandIconWrapper': {
-              display: 'none',
-            },
-          },
-        },
-      },
-      MuiAccordionDetails: {
-        styleOverrides: {
-          root: {
-            paddingInline: mergedTokens.Spacing0,
-            paddingBlock: mergedTokens.Spacing0,
-            paddingBlockStart: mergedTokens.Spacing4,
           },
         },
       },

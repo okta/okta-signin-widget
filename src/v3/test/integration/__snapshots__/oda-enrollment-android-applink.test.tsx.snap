@@ -91,12 +91,14 @@ exports[`oda-enrollment-android-applink should render form 1`] = `
                       <fieldset
                         class="MuiFormControl-root MuiFormControl-marginNormal emotion-16"
                       >
-                        <label
+                        <legend
                           class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-17"
                         >
                           On this device, do you already have an Okta Verify account for Widgico?
-                        </label>
+                           
+                        </legend>
                         <div
+                          aria-labelledby="hasOVAccount-label"
                           class="MuiFormGroup-root emotion-18"
                           data-se="hasOVAccount"
                           id="hasOVAccount"
@@ -106,7 +108,7 @@ exports[`oda-enrollment-android-applink should render form 1`] = `
                             class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-19"
                           >
                             <span
-                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary emotion-20"
+                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-checked MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-20"
                             >
                               <input
                                 class="PrivateSwitchBase-input emotion-21"
@@ -125,7 +127,7 @@ exports[`oda-enrollment-android-applink should render form 1`] = `
                             class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-19"
                           >
                             <span
-                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary emotion-20"
+                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-20"
                             >
                               <input
                                 class="PrivateSwitchBase-input emotion-21"
