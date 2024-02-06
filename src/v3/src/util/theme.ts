@@ -124,14 +124,6 @@ export const createThemeAndTokens = (
   // Merge default Odyssey 1.x theme with component overrides
   const themeOverride = mergeThemes(baseOdysseyTheme, {
     components: {
-      MuiInputLabel: {
-        styleOverrides: {
-          root: {
-            wordBreak: 'break-word',
-            whiteSpace: 'normal',
-          },
-        },
-      },
       MuiAccordion: {
         styleOverrides: {
           root: {
