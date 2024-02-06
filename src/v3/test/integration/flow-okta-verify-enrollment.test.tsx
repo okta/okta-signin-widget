@@ -184,7 +184,7 @@ describe('flow-okta-verify-enrollment', () => {
     const {
       authClient,
       user,
-      findByTestId,
+      findByLabelText,
       findByText,
       findByAltText,
     } = await createTestContext();
@@ -218,8 +218,8 @@ describe('flow-okta-verify-enrollment', () => {
 
     // data enrollment
     await waitFor(async () => expect(await findByText(/Set up Okta Verify via SMS/)).toBeInTheDocument());
-    const phoneNumberEl = await findByTestId('phoneNumber');
-    const countryEl = await findByTestId('country') as HTMLInputElement;
+    const phoneNumberEl = await findByLabelText('Phone number');
+    const countryEl = await findByLabelText('Country') as HTMLInputElement;
 
     await waitFor(() => expect(countryEl).toHaveFocus());
     await user.type(phoneNumberEl, '123456789');

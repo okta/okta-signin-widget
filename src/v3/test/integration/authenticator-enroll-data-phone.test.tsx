@@ -36,7 +36,7 @@ describe('authenticator-enroll-data-phone', () => {
 
   it('should display field level error when phone number is not entered', async () => {
     const {
-      authClient, user, findByTestId, findByText,
+      authClient, user, findByLabelText, findByText,
     } = await setup({ mockResponse });
 
     await findByText(/Set up phone authentication/);
@@ -44,21 +44,21 @@ describe('authenticator-enroll-data-phone', () => {
     const submitButton = await findByText('Receive a code via SMS', { selector: 'button' });
 
     await user.click(submitButton);
-    const phonenumberError = await findByTestId('authenticator.phoneNumber-error');
-    expect(phonenumberError.textContent).toEqual('This field cannot be left blank');
+    const phoneNumberEle = await findByLabelText('Phone number') as HTMLInputElement;
+    expect(phoneNumberEle).toHaveErrorMessage(/This field cannot be left blank/);
     expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
   });
 
   it('should send correct payload when selecting sms', async () => {
     const {
-      authClient, user, findByTestId, findByText,
+      authClient, user, findByLabelText, findByText,
     } = await setup({ mockResponse, widgetOptions: { features: { autoFocus: true } } });
 
     await findByText(/Set up phone authentication/);
     await findByText(/Enter your phone number to receive a verification code via SMS./);
 
     const submitButton = await findByText('Receive a code via SMS', { selector: 'button' });
-    const phoneNumberEle = await findByTestId('authenticator.phoneNumber') as HTMLInputElement;
+    const phoneNumberEle = await findByLabelText('Phone number') as HTMLInputElement;
 
     const phoneNumber = '2165551234';
     await user.tab();
@@ -81,22 +81,22 @@ describe('authenticator-enroll-data-phone', () => {
 
   it('phone number and extension fields should be ltr even when a rtl language is set', async () => {
     const {
-      findByTestId, user, findByLabelText,
+      user, findByLabelText,
     } = await setup({ mockResponse, widgetOptions: { language: 'ar' } });
 
-    const phoneNumberEle = await findByTestId('authenticator.phoneNumber') as HTMLInputElement;
+    const phoneNumberEle = await findByLabelText('Phone number') as HTMLInputElement;
 
     const methodType = await findByLabelText(/Voice call/);
     await user.click(methodType);
-    const extensionEle = await findByTestId('extension') as HTMLInputElement;
+    const extensionEle = await findByLabelText('Extension') as HTMLInputElement;
 
-    expect(phoneNumberEle.parentElement?.getAttribute('dir')).toBe('ltr');
-    expect(extensionEle.parentElement?.getAttribute('dir')).toBe('ltr');
+    expect(phoneNumberEle.parentElement).toHaveStyle('direction: ltr');
+    expect(extensionEle.parentElement).toHaveStyle('direction: ltr');
   });
 
   it('should send correct payload when selecting voice', async () => {
     const {
-      authClient, user, findByTestId, findByText, findByLabelText, container,
+      authClient, user, findByText, findByLabelText, container,
     } = await setup({ mockResponse });
 
     await findByText(/Set up phone authentication/);
@@ -106,8 +106,8 @@ describe('authenticator-enroll-data-phone', () => {
     await user.click(methodType);
 
     const submitButton = await findByText('Receive a code via voice call');
-    const phoneNumberEle = await findByTestId('authenticator.phoneNumber') as HTMLInputElement;
-    const extensionEle = await findByTestId('extension') as HTMLInputElement;
+    const phoneNumberEle = await findByLabelText('Phone number') as HTMLInputElement;
+    const extensionEle = await findByLabelText('Extension') as HTMLInputElement;
 
     expect(container).toMatchSnapshot();
 
