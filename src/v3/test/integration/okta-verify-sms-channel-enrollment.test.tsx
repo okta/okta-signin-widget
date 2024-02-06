@@ -17,14 +17,14 @@ import mockResponse from '../../src/mocks/response/idp/idx/credential/enroll/enr
 describe('okta-verify-sms-channel-enrollment', () => {
   it('should render sms channel form and send correct payload', async () => {
     const {
-      container, findByText, findByTestId, user, authClient,
+      container, findByLabelText, findByText, user, authClient,
     } = await setup({ mockResponse, widgetOptions: { features: { autoFocus: true } } });
 
     await findByText(/Set up Okta Verify via SMS/);
     await findByText(/Make sure you can access the text on your mobile device./);
-    const phoneEl = await findByTestId('phoneNumber') as HTMLInputElement;
+    const phoneEl = await findByLabelText('Phone number') as HTMLInputElement;
     const submitBtn = await findByText(/Send me the setup link/);
-    const countryEl = await findByTestId('country') as HTMLInputElement;
+    const countryEl = await findByLabelText('Country') as HTMLInputElement;
 
     expect(container).toMatchSnapshot();
 

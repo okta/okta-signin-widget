@@ -190,6 +190,15 @@ export const createThemeAndTokens = (
               },
             }),
           }),
+          adornedStart: ({ ownerState }) => ({
+            // Explicitly switch to physical properties for telephone code
+            ...(ownerState.type === 'tel' && {
+              '& .MuiInputAdornment-root': {
+                marginInlineStart: 0,
+                marginLeft: mergedTokens.Spacing2,
+              },
+            }),
+          }),
         },
       },
       MuiInputLabel: {
