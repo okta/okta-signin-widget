@@ -306,7 +306,6 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                         class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl  emotion-51"
                       >
                         <select
-                          aria-describedby=" userProfile.country-error  "
                           aria-invalid="true"
                           class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-52"
                           data-se="userProfile.country"
@@ -1627,7 +1626,6 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                         class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl  emotion-51"
                       >
                         <select
-                          aria-describedby=" userProfile.timezone-error  "
                           aria-invalid="true"
                           class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-52"
                           data-se="userProfile.timezone"

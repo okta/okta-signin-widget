@@ -26,6 +26,7 @@ export const buildFieldLevelErrorMessages = (
     if (errors.length === 1) {
       const error = errors[0];
       // Covers nested messages, e.g. password requirements not met
+      // The SIW does not have messages nested more than once
       if (Array.isArray(error.message)) {
         return {
           errorMessage: error.description,

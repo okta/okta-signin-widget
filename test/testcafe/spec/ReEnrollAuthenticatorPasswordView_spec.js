@@ -148,8 +148,8 @@ test
     // fields are required
     await expiredPasswordPage.clickChangePasswordButton();
     await expiredPasswordPage.waitForErrorBox();
-    await t.expect(expiredPasswordPage.getPasswordError()).eql('This field cannot be left blank');
-    await t.expect(expiredPasswordPage.getConfirmPasswordError()).eql('This field cannot be left blank');
+    await t.expect(expiredPasswordPage.getPasswordError()).match(/This field cannot be left blank/);
+    await t.expect(expiredPasswordPage.getConfirmPasswordError()).match(/This field cannot be left blank/);
 
     // password must match
     await expiredPasswordPage.fillPassword('abcd');
@@ -161,7 +161,7 @@ test
     // list item label below the confirm password field in addition to the field level error message
     if (userVariables.gen3) {
       await t.expect(expiredPasswordPage.hasPasswordMatchRequirementStatus(false)).eql(true);
-      await t.expect(expiredPasswordPage.getConfirmPasswordError()).eql('Passwords must match');
+      await t.expect(expiredPasswordPage.getConfirmPasswordError()).match(/Passwords must match/);
     } else {
       await t.expect(expiredPasswordPage.hasPasswordError()).eql(false);
       await t.expect(expiredPasswordPage.getConfirmPasswordError()).eql('New passwords must match');

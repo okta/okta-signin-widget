@@ -279,6 +279,9 @@ export default class IdentityPageObject extends BasePageObject {
   }
 
   getPasswordSubLabelValue() {
+    if (userVariables.gen3) {
+      return Selector('#credentials\\.passcode-hint').textContent;
+    }
     return Selector(SUB_LABEL_SELECTOR).nth(1).textContent;
   }
 

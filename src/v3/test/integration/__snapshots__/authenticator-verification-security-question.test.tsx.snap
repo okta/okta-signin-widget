@@ -187,36 +187,43 @@ exports[`authenticator-verification-security-question renders form 1`] = `
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-21"
                     >
                       <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-22"
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-22"
                         data-shrink="false"
                         for="credentials.answer"
+                        id="credentials.answer-label"
                       >
-                        What is the food you least liked as a child?
+                        <span>
+                          What is the food you least liked as a child?
+                        </span>
                       </label>
                       <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd no-translate emotion-23"
+                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd emotion-23"
+                        required="true"
+                        translate="no"
                       >
                         <input
                           aria-invalid="false"
+                          aria-labelledby="credentials.answer-label"
                           autocomplete="off"
                           class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-24"
                           data-se="credentials.answer"
                           id="credentials.answer"
                           name="credentials.answer"
+                          required=""
+                          role="textbox"
                           type="password"
                         />
                         <div
-                          class="MuiInputAdornment-root MuiInputAdornment-positionEnd emotion-25"
+                          class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium emotion-25"
                         >
                           <button
                             aria-controls="credentials.answer"
-                            aria-label="Show answer"
+                            aria-label="Show password"
                             aria-pressed="false"
                             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-26"
-                            data-mui-internal-clone-element="true"
                             tabindex="0"
                             type="button"
                           >

@@ -209,37 +209,42 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                     class="MuiBox-root emotion-10"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-21"
                     >
                       <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-27"
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-22"
                         data-shrink="false"
                         for="credentials.passcode"
+                        id="credentials.passcode-label"
                       >
-                        Password
+                        <span>
+                          Password
+                        </span>
                       </label>
                       <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-28"
-                        dir="ltr"
+                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd emotion-28"
+                        required="true"
                       >
                         <input
                           aria-invalid="false"
+                          aria-labelledby="credentials.passcode-label"
                           autocomplete="current-password"
                           class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-24"
                           data-se="credentials.passcode"
                           id="credentials.passcode"
                           name="credentials.passcode"
+                          required=""
+                          role="textbox"
                           type="password"
                         />
                         <div
-                          class="MuiInputAdornment-root MuiInputAdornment-positionEnd emotion-30"
+                          class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium emotion-30"
                         >
                           <button
                             aria-controls="credentials.passcode"
                             aria-label="Show password"
                             aria-pressed="false"
                             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-31"
-                            data-mui-internal-clone-element="true"
                             tabindex="0"
                             type="button"
                           >
@@ -595,37 +600,42 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                     class="MuiBox-root emotion-10"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-21"
                     >
                       <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-27"
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-22"
                         data-shrink="false"
                         for="credentials.passcode"
+                        id="credentials.passcode-label"
                       >
-                        Password
+                        <span>
+                          Password
+                        </span>
                       </label>
                       <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-28"
-                        dir="ltr"
+                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd emotion-28"
+                        required="true"
                       >
                         <input
                           aria-invalid="false"
+                          aria-labelledby="credentials.passcode-label"
                           autocomplete="current-password"
                           class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-24"
                           data-se="credentials.passcode"
                           id="credentials.passcode"
                           name="credentials.passcode"
+                          required=""
+                          role="textbox"
                           type="password"
                         />
                         <div
-                          class="MuiInputAdornment-root MuiInputAdornment-positionEnd emotion-30"
+                          class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium emotion-30"
                         >
                           <button
                             aria-controls="credentials.passcode"
                             aria-label="Show password"
                             aria-pressed="false"
                             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-31"
-                            data-mui-internal-clone-element="true"
                             tabindex="0"
                             type="button"
                           >
@@ -881,37 +891,42 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                     class="MuiBox-root emotion-10"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-14"
                     >
                       <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-20"
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-15"
                         data-shrink="false"
                         for="credentials.passcode"
+                        id="credentials.passcode-label"
                       >
-                        Password
+                        <span>
+                          Password
+                        </span>
                       </label>
                       <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-21"
-                        dir="ltr"
+                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd emotion-21"
+                        required="true"
                       >
                         <input
                           aria-invalid="false"
+                          aria-labelledby="credentials.passcode-label"
                           autocomplete="current-password"
                           class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-17"
                           data-se="credentials.passcode"
                           id="credentials.passcode"
                           name="credentials.passcode"
+                          required=""
+                          role="textbox"
                           type="password"
                         />
                         <div
-                          class="MuiInputAdornment-root MuiInputAdornment-positionEnd emotion-23"
+                          class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium emotion-23"
                         >
                           <button
                             aria-controls="credentials.passcode"
                             aria-label="Show password"
                             aria-pressed="false"
                             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-24"
-                            data-mui-internal-clone-element="true"
                             tabindex="0"
                             type="button"
                           >

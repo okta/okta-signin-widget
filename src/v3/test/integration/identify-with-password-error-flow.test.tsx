@@ -25,9 +25,8 @@ describe('identify-with-password-error-flow', () => {
     jest.spyOn(cookieUtils, 'getUsernameCookie').mockReturnValue(mockUsername);
     const {
       user,
-      findByLabelText,
-      findByTestId,
       findByText,
+      findByLabelText,
     } = await setup({
       mockResponses: {
         '/introspect': {
@@ -44,7 +43,7 @@ describe('identify-with-password-error-flow', () => {
 
     const submitButton = await findByText('Sign in', { selector: 'button' });
     const usernameEl = await findByLabelText('Username') as HTMLInputElement;
-    const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
+    const passwordEl = await findByLabelText('Password') as HTMLInputElement;
 
     await user.clear(usernameEl);
     await user.type(usernameEl, badUsername);
@@ -60,9 +59,8 @@ describe('identify-with-password-error-flow', () => {
     const {
       authClient,
       user,
-      findByLabelText,
-      findByTestId,
       findByText,
+      findByLabelText,
     } = await setup({
       mockResponses: {
         '/introspect': {
@@ -81,7 +79,7 @@ describe('identify-with-password-error-flow', () => {
     await waitFor(() => expect(titleElement).toHaveFocus());
     const submitButton = await findByText('Sign in', { selector: 'button' });
     const usernameEl = await findByLabelText('Username') as HTMLInputElement;
-    const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
+    const passwordEl = await findByLabelText('Password') as HTMLInputElement;
 
     const username = 'testeruser@okta1.com';
     const password = 'pass@word123';
@@ -92,7 +90,7 @@ describe('identify-with-password-error-flow', () => {
     await findByText(/There is no account with the Username/);
 
     expect(usernameEl.value).toBe(username);
-    expect((await findByTestId('credentials.passcode') as HTMLInputElement).value).toBe(password);
+    expect((await findByLabelText('Password') as HTMLInputElement).value).toBe(password);
 
     await user.click(await findByText('Sign in', { selector: 'button' }));
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(

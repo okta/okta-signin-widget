@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { within, waitFor } from '@testing-library/preact';
+import { waitFor } from '@testing-library/preact';
 import { createAuthJsPayloadArgs, setup, updateDynamicAttribute } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/identify/authenticator-expiry-warning-password.json';
@@ -25,7 +25,7 @@ describe('authenticator-expiry-warning-password', () => {
 
   it('should send correct payload', async () => {
     const {
-      authClient, user, findByTestId, findByText,
+      authClient, user, findByText, findByLabelText,
     } = await setup({ mockResponse });
 
     const titleElement = await findByText(/Your password will expire in/);
@@ -35,8 +35,8 @@ describe('authenticator-expiry-warning-password', () => {
     await findByText(/Remind me later/);
 
     const submitButton = await findByText('Change Password', { selector: 'button' });
-    const newPasswordEle = await findByTestId('credentials.passcode') as HTMLInputElement;
-    const confirmPasswordEle = await findByTestId('confirmPassword') as HTMLInputElement;
+    const newPasswordEle = await findByLabelText('New password') as HTMLInputElement;
+    const confirmPasswordEle = await findByLabelText(/Re-enter password/) as HTMLInputElement;
 
     const password = 'superSecretP@ssword12';
     await user.type(newPasswordEle, password);
@@ -55,7 +55,7 @@ describe('authenticator-expiry-warning-password', () => {
 
   it('should present field level error message of (failed) password requirements', async () => {
     const {
-      authClient, user, findByTestId, findByText, container,
+      authClient, user, findByText, container, findByLabelText,
     } = await setup({ mockResponse });
 
     const titleElement = await findByText(/Your password will expire in/);
@@ -63,22 +63,19 @@ describe('authenticator-expiry-warning-password', () => {
     await findByText(/Password requirements/);
 
     const submitButton = await findByText('Change Password', { selector: 'button' });
-    const newPasswordEle = await findByTestId('credentials.passcode') as HTMLInputElement;
+    const newPasswordEle = await findByLabelText('New password') as HTMLInputElement;
 
     await user.type(newPasswordEle, 'abc');
     // Must blur the field to see error message
     await user.tab();
 
-    const passwordRequirementsErrorWrapper = await findByTestId(
-      'credentials.passcode-error',
-    ) as HTMLDivElement;
-    await within(passwordRequirementsErrorWrapper).findByText(/Password requirements were not met/);
+    expect(newPasswordEle).toHaveErrorMessage(/Password requirements were not met/);
 
     await user.click(submitButton);
 
-    const confirmPasswordError = await findByTestId('confirmPassword-error');
+    const confirmPasswordEle = await findByLabelText(/Re-enter password/) as HTMLInputElement;
 
-    expect(confirmPasswordError.innerHTML).toBe('This field cannot be left blank');
+    expect(confirmPasswordEle).toHaveErrorMessage(/This field cannot be left blank$/);
     expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
     expect(container).toMatchSnapshot();
   });

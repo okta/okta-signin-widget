@@ -246,37 +246,42 @@ exports[`authenticator-verification-unlock-success should render form 1`] = `
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-31"
                     >
                       <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-32"
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-32"
                         data-shrink="false"
                         for="credentials.passcode"
+                        id="credentials.passcode-label"
                       >
-                        Password
+                        <span>
+                          Password
+                        </span>
                       </label>
                       <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-33"
-                        dir="ltr"
+                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd emotion-33"
+                        required="true"
                       >
                         <input
                           aria-invalid="false"
+                          aria-labelledby="credentials.passcode-label"
                           autocomplete="current-password"
                           class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-34"
                           data-se="credentials.passcode"
                           id="credentials.passcode"
                           name="credentials.passcode"
+                          required=""
+                          role="textbox"
                           type="password"
                         />
                         <div
-                          class="MuiInputAdornment-root MuiInputAdornment-positionEnd emotion-35"
+                          class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium emotion-35"
                         >
                           <button
                             aria-controls="credentials.passcode"
                             aria-label="Show password"
                             aria-pressed="false"
                             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-36"
-                            data-mui-internal-clone-element="true"
                             tabindex="0"
                             type="button"
                           >

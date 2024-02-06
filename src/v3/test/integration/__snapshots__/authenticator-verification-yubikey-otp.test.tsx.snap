@@ -206,37 +206,42 @@ exports[`authenticator-verification-yubikey-otp renders form 1`] = `
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="MuiBox-root emotion-1"
+                      class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-24"
                     >
                       <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-25"
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-25"
                         data-shrink="false"
                         for="credentials.passcode"
+                        id="credentials.passcode-label"
                       >
-                        Insert then tap your YubiKey
+                        <span>
+                          Insert then tap your YubiKey
+                        </span>
                       </label>
                       <div
-                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd emotion-26"
-                        dir="ltr"
+                        class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd emotion-26"
+                        required="true"
                       >
                         <input
                           aria-invalid="false"
+                          aria-labelledby="credentials.passcode-label"
                           autocomplete="off"
                           class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-27"
                           data-se="credentials.passcode"
                           id="credentials.passcode"
                           name="credentials.passcode"
+                          required=""
+                          role="textbox"
                           type="password"
                         />
                         <div
-                          class="MuiInputAdornment-root MuiInputAdornment-positionEnd emotion-28"
+                          class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium emotion-28"
                         >
                           <button
                             aria-controls="credentials.passcode"
                             aria-label="Show password"
                             aria-pressed="false"
                             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-29"
-                            data-mui-internal-clone-element="true"
                             tabindex="0"
                             type="button"
                           >

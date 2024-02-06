@@ -42,7 +42,6 @@ describe('Flow transitions', () => {
     const {
       user,
       findByLabelText,
-      findByTestId,
       findByText,
     } = await setup({
       mockResponses: {
@@ -61,7 +60,7 @@ describe('Flow transitions', () => {
     const titleElement = await findByText('Sign In', { selector: 'h2' });
     await waitFor(() => expect(titleElement).toHaveFocus());
     const usernameEl = await findByLabelText('Username') as HTMLInputElement;
-    const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
+    const passwordEl = await findByLabelText('Password') as HTMLInputElement;
     const submitButton = await findByText('Sign in', { selector: 'button' });
 
     await user.type(usernameEl, 'testuser@okta.com');
