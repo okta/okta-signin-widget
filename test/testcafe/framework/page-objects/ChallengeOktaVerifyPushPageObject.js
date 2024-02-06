@@ -106,6 +106,10 @@ export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPa
     return label;
   }
 
+  getAutoChallengeCheckboxLabel() {
+    return this.form.getElement(AUTO_CHALLENGE_CHECKBOX_LABEL_SELECTOR);
+  }
+
   async clickAutoChallengeCheckbox() {
     await this.t.click(this.getAutoChallengeCheckbox());
   }
