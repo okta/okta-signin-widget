@@ -291,22 +291,10 @@ exports[`authenticator-enroll-security-question custom question fails client sid
                       class="MuiBox-root emotion-18"
                     >
                       <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-40"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-41"
                       >
                         <label
-<<<<<<< HEAD
-<<<<<<< HEAD
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-41"
-=======
-<<<<<<< HEAD
-                          class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-49"
-=======
-                          class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-42"
->>>>>>> 81a27be87 (Migrate StepperRadio and update snapshots)
->>>>>>> 69f6a2541 (Migrate StepperRadio and update snapshots)
-=======
-                          class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-50"
->>>>>>> 72af8aa9f (Rebase and update snapshots)
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-42"
                           data-shrink="false"
                           for="credentials.answer"
                           id="credentials.answer-label"
@@ -316,30 +304,14 @@ exports[`authenticator-enroll-security-question custom question fails client sid
                           </span>
                         </label>
                         <div
-<<<<<<< HEAD
-<<<<<<< HEAD
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd emotion-42"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd emotion-43"
                           required="true"
                           translate="no"
                         >
                           <input
                             aria-invalid="false"
                             aria-labelledby="credentials.answer-label"
-                            class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-43"
-=======
-<<<<<<< HEAD
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd no-translate emotion-50"
-=======
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd no-translate emotion-43"
->>>>>>> 81a27be87 (Migrate StepperRadio and update snapshots)
-=======
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd no-translate emotion-51"
->>>>>>> 72af8aa9f (Rebase and update snapshots)
-                        >
-                          <input
-                            aria-invalid="false"
                             class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-44"
->>>>>>> 69f6a2541 (Migrate StepperRadio and update snapshots)
                             data-se="credentials.answer"
                             id="credentials.answer"
                             name="credentials.answer"
@@ -348,22 +320,13 @@ exports[`authenticator-enroll-security-question custom question fails client sid
                             type="password"
                           />
                           <div
-<<<<<<< HEAD
-                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium emotion-52"
-=======
-                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd emotion-53"
->>>>>>> 72af8aa9f (Rebase and update snapshots)
+                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium emotion-53"
                           >
                             <button
                               aria-controls="credentials.answer"
                               aria-label="Show password"
                               aria-pressed="false"
-<<<<<<< HEAD
-                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-53"
-=======
                               class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-54"
-                              data-mui-internal-clone-element="true"
->>>>>>> 72af8aa9f (Rebase and update snapshots)
                               tabindex="0"
                               type="button"
                             >
@@ -664,22 +627,10 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                       class="MuiBox-root emotion-11"
                     >
                       <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-33"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-34"
                       >
                         <label
-<<<<<<< HEAD
-<<<<<<< HEAD
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-34"
-=======
-<<<<<<< HEAD
-                          class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-39"
-=======
-                          class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-35"
->>>>>>> 81a27be87 (Migrate StepperRadio and update snapshots)
->>>>>>> 69f6a2541 (Migrate StepperRadio and update snapshots)
-=======
-                          class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-40"
->>>>>>> 72af8aa9f (Rebase and update snapshots)
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-35"
                           data-shrink="false"
                           for="credentials.answer"
                           id="credentials.answer-label"
@@ -689,30 +640,14 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                           </span>
                         </label>
                         <div
-<<<<<<< HEAD
-<<<<<<< HEAD
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd emotion-35"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd emotion-36"
                           required="true"
                           translate="no"
                         >
                           <input
                             aria-invalid="false"
                             aria-labelledby="credentials.answer-label"
-                            class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-36"
-=======
-<<<<<<< HEAD
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd no-translate emotion-40"
-=======
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd no-translate emotion-36"
->>>>>>> 81a27be87 (Migrate StepperRadio and update snapshots)
-=======
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd no-translate emotion-41"
->>>>>>> 72af8aa9f (Rebase and update snapshots)
-                        >
-                          <input
-                            aria-invalid="false"
                             class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-37"
->>>>>>> 69f6a2541 (Migrate StepperRadio and update snapshots)
                             data-se="credentials.answer"
                             id="credentials.answer"
                             name="credentials.answer"
@@ -721,22 +656,13 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                             type="password"
                           />
                           <div
-<<<<<<< HEAD
-                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium emotion-42"
-=======
-                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd emotion-43"
->>>>>>> 69f6a2541 (Migrate StepperRadio and update snapshots)
+                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium emotion-43"
                           >
                             <button
                               aria-controls="credentials.answer"
                               aria-label="Show password"
                               aria-pressed="false"
-<<<<<<< HEAD
-                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-43"
-=======
                               class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-44"
-                              data-mui-internal-clone-element="true"
->>>>>>> 69f6a2541 (Migrate StepperRadio and update snapshots)
                               tabindex="0"
                               type="button"
                             >
@@ -1006,11 +932,7 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                         class="MuiFormControl-root MuiFormControl-marginNormal emotion-22"
                       >
                         <label
-<<<<<<< HEAD
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-34"
-=======
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined emotion-35"
->>>>>>> 69f6a2541 (Migrate StepperRadio and update snapshots)
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-35"
                           data-shrink="false"
                           for="credentials.questionKey"
                           id="credentials.questionKey-label"
@@ -1024,12 +946,8 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                         >
                           <select
                             aria-invalid="false"
-<<<<<<< HEAD
                             aria-labelledby="credentials.questionKey-label"
-                            class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-36"
-=======
                             class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-37"
->>>>>>> 69f6a2541 (Migrate StepperRadio and update snapshots)
                             data-se="credentials.questionKey"
                             id="credentials.questionKey"
                             name="credentials.questionKey"
@@ -1157,14 +1075,10 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                       class="MuiBox-root emotion-11"
                     >
                       <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-39"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-40"
                       >
                         <label
-<<<<<<< HEAD
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-34"
-=======
-                          class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-41"
->>>>>>> 69f6a2541 (Migrate StepperRadio and update snapshots)
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-35"
                           data-shrink="false"
                           for="credentials.answer"
                           id="credentials.answer-label"
@@ -1174,13 +1088,9 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                           </span>
                         </label>
                         <div
-<<<<<<< HEAD
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd emotion-41"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd emotion-42"
                           required="true"
                           translate="no"
-=======
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd no-translate emotion-42"
->>>>>>> 69f6a2541 (Migrate StepperRadio and update snapshots)
                         >
                           <input
                             aria-invalid="false"
@@ -1195,22 +1105,13 @@ exports[`authenticator-enroll-security-question predefined question renders corr
                             type="password"
                           />
                           <div
-<<<<<<< HEAD
-                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium emotion-43"
-=======
-                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd emotion-44"
->>>>>>> 69f6a2541 (Migrate StepperRadio and update snapshots)
+                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium emotion-44"
                           >
                             <button
                               aria-controls="credentials.answer"
                               aria-label="Show password"
                               aria-pressed="false"
-<<<<<<< HEAD
-                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-44"
-=======
                               class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-45"
-                              data-mui-internal-clone-element="true"
->>>>>>> 69f6a2541 (Migrate StepperRadio and update snapshots)
                               tabindex="0"
                               type="button"
                             >
@@ -1480,11 +1381,7 @@ exports[`authenticator-enroll-security-question predefined question should rende
                         class="MuiFormControl-root MuiFormControl-marginNormal emotion-22"
                       >
                         <label
-<<<<<<< HEAD
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-34"
-=======
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-outlined emotion-35"
->>>>>>> 69f6a2541 (Migrate StepperRadio and update snapshots)
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-35"
                           data-shrink="false"
                           for="credentials.questionKey"
                           id="credentials.questionKey-label"
@@ -1498,12 +1395,8 @@ exports[`authenticator-enroll-security-question predefined question should rende
                         >
                           <select
                             aria-invalid="false"
-<<<<<<< HEAD
                             aria-labelledby="credentials.questionKey-label"
-                            class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-36"
-=======
                             class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-37"
->>>>>>> 69f6a2541 (Migrate StepperRadio and update snapshots)
                             data-se="credentials.questionKey"
                             id="credentials.questionKey"
                             name="credentials.questionKey"
@@ -1631,14 +1524,10 @@ exports[`authenticator-enroll-security-question predefined question should rende
                       class="MuiBox-root emotion-11"
                     >
                       <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-39"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-40"
                       >
                         <label
-<<<<<<< HEAD
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-34"
-=======
-                          class="MuiFormLabel-root MuiInputLabel-root MuiFormLabel-colorPrimary MuiInputLabel-root emotion-41"
->>>>>>> 69f6a2541 (Migrate StepperRadio and update snapshots)
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-35"
                           data-shrink="false"
                           for="credentials.answer"
                           id="credentials.answer-label"
@@ -1648,13 +1537,9 @@ exports[`authenticator-enroll-security-question predefined question should rende
                           </span>
                         </label>
                         <div
-<<<<<<< HEAD
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd emotion-41"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd emotion-42"
                           required="true"
                           translate="no"
-=======
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-adornedEnd no-translate emotion-42"
->>>>>>> 69f6a2541 (Migrate StepperRadio and update snapshots)
                         >
                           <input
                             aria-invalid="false"
@@ -1669,22 +1554,13 @@ exports[`authenticator-enroll-security-question predefined question should rende
                             type="password"
                           />
                           <div
-<<<<<<< HEAD
-                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium emotion-43"
-=======
-                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd emotion-44"
->>>>>>> 69f6a2541 (Migrate StepperRadio and update snapshots)
+                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium emotion-44"
                           >
                             <button
                               aria-controls="credentials.answer"
                               aria-label="Show password"
                               aria-pressed="false"
-<<<<<<< HEAD
-                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-44"
-=======
                               class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-45"
-                              data-mui-internal-clone-element="true"
->>>>>>> 69f6a2541 (Migrate StepperRadio and update snapshots)
                               tabindex="0"
                               type="button"
                             >

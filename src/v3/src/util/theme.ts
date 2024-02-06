@@ -131,6 +131,15 @@ export const createThemeAndTokens = (
           },
         },
       },
+      MuiAccordionDetails: {
+        styleOverrides: {
+          root: {
+            paddingInline: mergedTokens.Spacing0,
+            paddingBlock: mergedTokens.Spacing0,
+            paddingBlockStart: mergedTokens.Spacing4,
+          },
+        },
+      },
       MuiAccordionSummary: {
         styleOverrides: {
           root: {
@@ -159,15 +168,6 @@ export const createThemeAndTokens = (
             '& .MuiAccordionSummary-expandIconWrapper': {
               display: 'none',
             },
-          },
-        },
-      },
-      MuiAccordionDetails: {
-        styleOverrides: {
-          root: {
-            paddingInline: mergedTokens.Spacing0,
-            paddingBlock: mergedTokens.Spacing0,
-            paddingBlockStart: mergedTokens.Spacing4,
           },
         },
       },
@@ -288,7 +288,7 @@ export const createThemeAndTokens = (
               },
             },
           },
-        }
+        },
       },
     },
   });
