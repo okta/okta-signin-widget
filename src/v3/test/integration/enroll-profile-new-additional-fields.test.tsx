@@ -26,7 +26,7 @@ describe('enroll-profile-new-additional-fields', () => {
 
   it('should send correct payload', async () => {
     const {
-      authClient, user, findByLabelText, findByRole, findByTestId,
+      authClient, user, findByLabelText, findByRole,
     } = await setup({ mockResponse, widgetOptions: { features: { autoFocus: true } } });
 
     const heading = await findByRole('heading', { level: 2 });
@@ -36,9 +36,9 @@ describe('enroll-profile-new-additional-fields', () => {
     const firstNameEle = await findByLabelText('First name') as HTMLInputElement;
     const lastNameEle = await findByLabelText('Last name') as HTMLInputElement;
     const emailEle = await findByLabelText('Email') as HTMLInputElement;
-    const countryEle = await findByTestId('userProfile.country') as HTMLSelectElement;
     const countryCodeEle = await findByLabelText('Country code') as HTMLInputElement;
-    const timezoneEle = await findByTestId('userProfile.timezone') as HTMLSelectElement;
+    const countryEle = await findByLabelText('Country') as HTMLSelectElement;
+    const timezoneEle = await findByLabelText('Time zone') as HTMLSelectElement;
 
     const firstName = 'tester';
     const lastName = 'McTesterson';
