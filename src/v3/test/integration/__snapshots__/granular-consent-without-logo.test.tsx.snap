@@ -128,7 +128,6 @@ exports[`granular-consent-without-logo should render form 1`] = `
                       <legend
                         class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-25"
                       >
-<<<<<<< HEAD
                         
                          
                         
@@ -141,38 +140,6 @@ exports[`granular-consent-without-logo should render form 1`] = `
                         <label
                           class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-27"
                           id="optedScopes.custom1-checkbox"
-=======
-                        <span
-                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-checked MuiCheckbox-root MuiCheckbox-colorPrimary emotion-26"
-                        >
-                          <input
-                            class="PrivateSwitchBase-input emotion-27"
-                            data-indeterminate="false"
-                            data-se="optedScopes.custom1"
-                            data-se-for-name="optedScopes.custom1"
-                            id="optedScopes.custom1"
-                            name="optedScopes.custom1"
-                            type="checkbox"
-                          />
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-28"
-                            fill="none"
-                            focusable="false"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              clip-rule="evenodd"
-                              d="m19.707 7.707-8.646 8.647a1.5 1.5 0 0 1-2.122 0l-4.646-4.647 1.414-1.414L10 14.586l8.293-8.293 1.414 1.414Z"
-                              fill="currentColor"
-                              fill-rule="evenodd"
-                            />
-                          </svg>
-                        </span>
-                        <span
-                          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-29"
->>>>>>> 586abe1cb (Snapshot updates)
                         >
                           <span
                             class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-checked MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-28"
@@ -231,7 +198,6 @@ exports[`granular-consent-without-logo should render form 1`] = `
                       <legend
                         class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-25"
                       >
-<<<<<<< HEAD
                         
                          
                         
@@ -244,38 +210,6 @@ exports[`granular-consent-without-logo should render form 1`] = `
                         <label
                           class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-27"
                           id="optedScopes.custom2-checkbox"
-=======
-                        <span
-                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-checked MuiCheckbox-root MuiCheckbox-colorPrimary emotion-26"
-                        >
-                          <input
-                            class="PrivateSwitchBase-input emotion-27"
-                            data-indeterminate="false"
-                            data-se="optedScopes.custom2"
-                            data-se-for-name="optedScopes.custom2"
-                            id="optedScopes.custom2"
-                            name="optedScopes.custom2"
-                            type="checkbox"
-                          />
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-28"
-                            fill="none"
-                            focusable="false"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              clip-rule="evenodd"
-                              d="m19.707 7.707-8.646 8.647a1.5 1.5 0 0 1-2.122 0l-4.646-4.647 1.414-1.414L10 14.586l8.293-8.293 1.414 1.414Z"
-                              fill="currentColor"
-                              fill-rule="evenodd"
-                            />
-                          </svg>
-                        </span>
-                        <span
-                          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-29"
->>>>>>> 586abe1cb (Snapshot updates)
                         >
                           <span
                             class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-checked MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-28"
@@ -325,7 +259,6 @@ exports[`granular-consent-without-logo should render form 1`] = `
                       <legend
                         class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-25"
                       >
-<<<<<<< HEAD
                         
                          
                         
@@ -338,38 +271,6 @@ exports[`granular-consent-without-logo should render form 1`] = `
                         <label
                           class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-27"
                           id="optedScopes.custom3.custom4.custom5-checkbox"
-=======
-                        <span
-                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-checked MuiCheckbox-root MuiCheckbox-colorPrimary emotion-26"
-                        >
-                          <input
-                            class="PrivateSwitchBase-input emotion-27"
-                            data-indeterminate="false"
-                            data-se="optedScopes.custom3.custom4.custom5"
-                            data-se-for-name="optedScopes.custom3.custom4.custom5"
-                            id="optedScopes.custom3.custom4.custom5"
-                            name="optedScopes.custom3.custom4.custom5"
-                            type="checkbox"
-                          />
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-28"
-                            fill="none"
-                            focusable="false"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              clip-rule="evenodd"
-                              d="m19.707 7.707-8.646 8.647a1.5 1.5 0 0 1-2.122 0l-4.646-4.647 1.414-1.414L10 14.586l8.293-8.293 1.414 1.414Z"
-                              fill="currentColor"
-                              fill-rule="evenodd"
-                            />
-                          </svg>
-                        </span>
-                        <span
-                          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-29"
->>>>>>> 586abe1cb (Snapshot updates)
                         >
                           <span
                             class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-checked MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-28"
@@ -428,7 +329,6 @@ exports[`granular-consent-without-logo should render form 1`] = `
                       <legend
                         class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-25"
                       >
-<<<<<<< HEAD
                         
                          
                         
@@ -441,91 +341,6 @@ exports[`granular-consent-without-logo should render form 1`] = `
                         <label
                           class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-27"
                           id="optedScopes.email-checkbox"
-=======
-                        <span
-                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-checked MuiCheckbox-root MuiCheckbox-colorPrimary emotion-26"
-                        >
-                          <input
-                            class="PrivateSwitchBase-input emotion-27"
-                            data-indeterminate="false"
-                            data-se="optedScopes.email"
-                            data-se-for-name="optedScopes.email"
-                            id="optedScopes.email"
-                            name="optedScopes.email"
-                            type="checkbox"
-                          />
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-28"
-                            fill="none"
-                            focusable="false"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              clip-rule="evenodd"
-                              d="m19.707 7.707-8.646 8.647a1.5 1.5 0 0 1-2.122 0l-4.646-4.647 1.414-1.414L10 14.586l8.293-8.293 1.414 1.414Z"
-                              fill="currentColor"
-                              fill-rule="evenodd"
-                            />
-                          </svg>
-                        </span>
-                        <span
-                          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-29"
-                        >
-                          View your email address.
-                          <p
-                            class="MuiFormHelperText-root MuiFormHelperText-sizeMedium emotion-31"
-                          >
-                            This allows the app to view your email address.
-                          </p>
-                        </span>
-                      </label>
-                    </fieldset>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-14"
-                  >
-                    <fieldset
-                      class="MuiFormControl-root MuiFormControl-marginNormal emotion-24"
-                    >
-                      <label
-                        class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-25"
-                      >
-                        <span
-                          aria-disabled="true"
-                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-checked Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary emotion-26"
-                          tabindex="-1"
-                        >
-                          <input
-                            class="PrivateSwitchBase-input emotion-27"
-                            data-indeterminate="false"
-                            data-se="optedScopes.openid"
-                            data-se-for-name="optedScopes.openid"
-                            disabled=""
-                            id="optedScopes.openid"
-                            name="optedScopes.openid"
-                            type="checkbox"
-                          />
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-28"
-                            fill="none"
-                            focusable="false"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              clip-rule="evenodd"
-                              d="m19.707 7.707-8.646 8.647a1.5 1.5 0 0 1-2.122 0l-4.646-4.647 1.414-1.414L10 14.586l8.293-8.293 1.414 1.414Z"
-                              fill="currentColor"
-                              fill-rule="evenodd"
-                            />
-                          </svg>
-                        </span>
-                        <span
-                          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-29"
->>>>>>> 586abe1cb (Snapshot updates)
                         >
                           <span
                             class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-checked MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-28"
@@ -576,7 +391,6 @@ exports[`granular-consent-without-logo should render form 1`] = `
                       <legend
                         class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-25"
                       >
-<<<<<<< HEAD
                         
                          
                         
@@ -589,12 +403,6 @@ exports[`granular-consent-without-logo should render form 1`] = `
                         <label
                           class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-27"
                           id="optedScopes.openid-checkbox"
-=======
-                        <span
-                          aria-disabled="true"
-                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-checked Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary emotion-26"
-                          tabindex="-1"
->>>>>>> 586abe1cb (Snapshot updates)
                         >
                           <span
                             aria-disabled="true"

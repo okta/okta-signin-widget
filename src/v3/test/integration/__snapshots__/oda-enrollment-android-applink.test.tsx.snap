@@ -108,7 +108,7 @@ exports[`oda-enrollment-android-applink should render form 1`] = `
                             class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-19"
                           >
                             <span
-                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary emotion-20"
+                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-checked MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-20"
                             >
                               <input
                                 class="PrivateSwitchBase-input emotion-21"
@@ -127,7 +127,7 @@ exports[`oda-enrollment-android-applink should render form 1`] = `
                             class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-19"
                           >
                             <span
-                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary emotion-20"
+                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-20"
                             >
                               <input
                                 class="PrivateSwitchBase-input emotion-21"
@@ -408,15 +408,9 @@ exports[`oda-enrollment-android-applink should render view when "No, I don’t h
                     <div
                       class="MuiBox-root emotion-12"
                     >
-<<<<<<< HEAD
                       <a
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-45"
                         href=""
-=======
-                      <button
-                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-45"
-                        role="link"
->>>>>>> 586abe1cb (Snapshot updates)
                       >
                         Back
                       </a>

@@ -115,7 +115,6 @@ exports[`admin-consent-without-logo should render form without logo 1`] = `
                       <legend
                         class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-25"
                       >
-<<<<<<< HEAD
                         
                          
                         
@@ -128,41 +127,6 @@ exports[`admin-consent-without-logo should render form without logo 1`] = `
                         <label
                           class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-27"
                           id="consent.scopes.okta.clients.manage-checkbox"
-=======
-                        <span
-                          aria-disabled="true"
-                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-checked Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary emotion-26"
-                          tabindex="-1"
-                        >
-                          <input
-                            class="PrivateSwitchBase-input emotion-27"
-                            data-indeterminate="false"
-                            data-se="consent.scopes.okta.clients.manage"
-                            data-se-for-name="consent.scopes.okta.clients.manage"
-                            disabled=""
-                            id="consent.scopes.okta.clients.manage"
-                            name="consent.scopes.okta.clients.manage"
-                            type="checkbox"
-                          />
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-28"
-                            fill="none"
-                            focusable="false"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              clip-rule="evenodd"
-                              d="m19.707 7.707-8.646 8.647a1.5 1.5 0 0 1-2.122 0l-4.646-4.647 1.414-1.414L10 14.586l8.293-8.293 1.414 1.414Z"
-                              fill="currentColor"
-                              fill-rule="evenodd"
-                            />
-                          </svg>
-                        </span>
-                        <span
-                          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-12"
->>>>>>> e4b8332e7 (Migrate consent header, no e2e changes yet)
                         >
                           <span
                             aria-disabled="true"
@@ -194,7 +158,7 @@ exports[`admin-consent-without-logo should render form without logo 1`] = `
                             </svg>
                           </span>
                           <span
-                            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-31"
+                            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-12"
                           >
                             <span
                               translate="no"
@@ -220,7 +184,6 @@ exports[`admin-consent-without-logo should render form without logo 1`] = `
                       <legend
                         class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-25"
                       >
-<<<<<<< HEAD
                         
                          
                         
@@ -233,41 +196,6 @@ exports[`admin-consent-without-logo should render form without logo 1`] = `
                         <label
                           class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-27"
                           id="consent.scopes.okta.authenticators.manage-checkbox"
-=======
-                        <span
-                          aria-disabled="true"
-                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-checked Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary emotion-26"
-                          tabindex="-1"
-                        >
-                          <input
-                            class="PrivateSwitchBase-input emotion-27"
-                            data-indeterminate="false"
-                            data-se="consent.scopes.okta.authenticators.manage"
-                            data-se-for-name="consent.scopes.okta.authenticators.manage"
-                            disabled=""
-                            id="consent.scopes.okta.authenticators.manage"
-                            name="consent.scopes.okta.authenticators.manage"
-                            type="checkbox"
-                          />
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-28"
-                            fill="none"
-                            focusable="false"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              clip-rule="evenodd"
-                              d="m19.707 7.707-8.646 8.647a1.5 1.5 0 0 1-2.122 0l-4.646-4.647 1.414-1.414L10 14.586l8.293-8.293 1.414 1.414Z"
-                              fill="currentColor"
-                              fill-rule="evenodd"
-                            />
-                          </svg>
-                        </span>
-                        <span
-                          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-12"
->>>>>>> e4b8332e7 (Migrate consent header, no e2e changes yet)
                         >
                           <span
                             aria-disabled="true"
@@ -299,7 +227,7 @@ exports[`admin-consent-without-logo should render form without logo 1`] = `
                             </svg>
                           </span>
                           <span
-                            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-31"
+                            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-12"
                           >
                             <span
                               translate="no"
