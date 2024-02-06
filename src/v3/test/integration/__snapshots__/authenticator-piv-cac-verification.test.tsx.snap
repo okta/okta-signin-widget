@@ -194,35 +194,47 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                     <fieldset
                       class="MuiFormControl-root MuiFormControl-marginNormal emotion-34"
                     >
-                      <label
-                        class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-35"
+                      <legend
+                        class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-35"
                       >
-                        <span
-                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary emotion-36"
+                        
+                         
+                        
+                      </legend>
+                      <div
+                        aria-labelledby="rememberMe-label"
+                        class="MuiFormGroup-root emotion-36"
+                        id="rememberMe"
+                      >
+                        <label
+                          class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-37"
+                          id="rememberMe-checkbox"
                         >
-                          <input
-                            class="PrivateSwitchBase-input emotion-37"
-                            data-indeterminate="false"
-                            data-se="rememberMe"
-                            data-se-for-name="rememberMe"
-                            id="rememberMe"
-                            name="rememberMe"
-                            type="checkbox"
-                          />
-                        </span>
-                        <span
-                          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-38"
-                        >
-                          Keep me signed in
-                        </span>
-                      </label>
+                          <span
+                            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-38"
+                          >
+                            <input
+                              class="PrivateSwitchBase-input emotion-39"
+                              data-indeterminate="false"
+                              data-se="rememberMe"
+                              name="rememberMe"
+                              type="checkbox"
+                            />
+                          </span>
+                          <span
+                            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-40"
+                          >
+                            Keep me signed in
+                          </span>
+                        </label>
+                      </div>
                     </fieldset>
                   </div>
                   <div
                     class="MuiBox-root emotion-10"
                   >
                     <button
-                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-40"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-42"
                       data-se="save"
                       tabindex="0"
                       type="submit"
@@ -234,7 +246,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                     class="MuiBox-root emotion-10"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-42"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-44"
                       data-se="forgot-password"
                       href=""
                     >
@@ -245,7 +257,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                     class="MuiBox-root emotion-10"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-42"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-44"
                       data-se="unlock"
                       href=""
                     >
@@ -256,7 +268,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                     class="MuiBox-root emotion-10"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-42"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-44"
                       data-se="help"
                       href="http://localhost:3000/help/login"
                     >
@@ -267,20 +279,20 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                     class="MuiBox-root emotion-10"
                   >
                     <hr
-                      class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-48"
+                      class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-50"
                     />
                   </div>
                   <div
-                    class="MuiBox-root emotion-49"
+                    class="MuiBox-root emotion-51"
                   >
                     <div
-                      class="MuiBox-root emotion-50"
+                      class="MuiBox-root emotion-52"
                     >
                       <div
                         class="MuiBox-root emotion-11"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-52"
+                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-54"
                           data-se="signup-info"
                           id="identify_Description_Dont_have_an_account_aut2h3ffszv3me6O31d7_13"
                         >
@@ -289,10 +301,10 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-50"
+                      class="MuiBox-root emotion-52"
                     >
                       <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-42"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-44"
                         data-se="enroll"
                         href=""
                       >
@@ -505,35 +517,47 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                     <fieldset
                       class="MuiFormControl-root MuiFormControl-marginNormal emotion-34"
                     >
-                      <label
-                        class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-35"
+                      <legend
+                        class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-35"
                       >
-                        <span
-                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary emotion-36"
+                        
+                         
+                        
+                      </legend>
+                      <div
+                        aria-labelledby="rememberMe-label"
+                        class="MuiFormGroup-root emotion-36"
+                        id="rememberMe"
+                      >
+                        <label
+                          class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-37"
+                          id="rememberMe-checkbox"
                         >
-                          <input
-                            class="PrivateSwitchBase-input emotion-37"
-                            data-indeterminate="false"
-                            data-se="rememberMe"
-                            data-se-for-name="rememberMe"
-                            id="rememberMe"
-                            name="rememberMe"
-                            type="checkbox"
-                          />
-                        </span>
-                        <span
-                          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-38"
-                        >
-                          Keep me signed in
-                        </span>
-                      </label>
+                          <span
+                            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-38"
+                          >
+                            <input
+                              class="PrivateSwitchBase-input emotion-39"
+                              data-indeterminate="false"
+                              data-se="rememberMe"
+                              name="rememberMe"
+                              type="checkbox"
+                            />
+                          </span>
+                          <span
+                            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-40"
+                          >
+                            Keep me signed in
+                          </span>
+                        </label>
+                      </div>
                     </fieldset>
                   </div>
                   <div
                     class="MuiBox-root emotion-10"
                   >
                     <button
-                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-40"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-42"
                       data-se="save"
                       tabindex="0"
                       type="submit"
@@ -545,7 +569,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                     class="MuiBox-root emotion-10"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-42"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-44"
                       data-se="forgot-password"
                       href=""
                     >
@@ -556,7 +580,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                     class="MuiBox-root emotion-10"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-42"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-44"
                       data-se="unlock"
                       href=""
                     >
@@ -567,7 +591,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                     class="MuiBox-root emotion-10"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-42"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-44"
                       data-se="help"
                       href="http://localhost:3000/help/login"
                     >
@@ -578,20 +602,20 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                     class="MuiBox-root emotion-10"
                   >
                     <hr
-                      class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-48"
+                      class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-50"
                     />
                   </div>
                   <div
-                    class="MuiBox-root emotion-49"
+                    class="MuiBox-root emotion-51"
                   >
                     <div
-                      class="MuiBox-root emotion-50"
+                      class="MuiBox-root emotion-52"
                     >
                       <div
                         class="MuiBox-root emotion-11"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-52"
+                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-54"
                           data-se="signup-info"
                           id="identify_Description_Dont_have_an_account_aut2h3ffszv3me6O31d7_13"
                         >
@@ -600,10 +624,10 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-50"
+                      class="MuiBox-root emotion-52"
                     >
                       <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-42"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-44"
                         data-se="enroll"
                         href=""
                       >
@@ -781,35 +805,47 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                     <fieldset
                       class="MuiFormControl-root MuiFormControl-marginNormal emotion-27"
                     >
-                      <label
-                        class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-28"
+                      <legend
+                        class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-28"
                       >
-                        <span
-                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary emotion-29"
+                        
+                         
+                        
+                      </legend>
+                      <div
+                        aria-labelledby="rememberMe-label"
+                        class="MuiFormGroup-root emotion-29"
+                        id="rememberMe"
+                      >
+                        <label
+                          class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-30"
+                          id="rememberMe-checkbox"
                         >
-                          <input
-                            class="PrivateSwitchBase-input emotion-30"
-                            data-indeterminate="false"
-                            data-se="rememberMe"
-                            data-se-for-name="rememberMe"
-                            id="rememberMe"
-                            name="rememberMe"
-                            type="checkbox"
-                          />
-                        </span>
-                        <span
-                          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-31"
-                        >
-                          Keep me signed in
-                        </span>
-                      </label>
+                          <span
+                            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-31"
+                          >
+                            <input
+                              class="PrivateSwitchBase-input emotion-32"
+                              data-indeterminate="false"
+                              data-se="rememberMe"
+                              name="rememberMe"
+                              type="checkbox"
+                            />
+                          </span>
+                          <span
+                            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-33"
+                          >
+                            Keep me signed in
+                          </span>
+                        </label>
+                      </div>
                     </fieldset>
                   </div>
                   <div
                     class="MuiBox-root emotion-10"
                   >
                     <button
-                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-33"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-35"
                       data-se="save"
                       tabindex="0"
                       type="submit"
@@ -821,11 +857,11 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                     class="MuiBox-root emotion-10"
                   >
                     <div
-                      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-withChildren separation-line emotion-35"
+                      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-withChildren separation-line emotion-37"
                       role="separator"
                     >
                       <span
-                        class="MuiDivider-wrapper emotion-36"
+                        class="MuiDivider-wrapper emotion-38"
                       >
                         OR
                       </span>
@@ -835,12 +871,12 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                     class="MuiBox-root emotion-10"
                   >
                     <button
-                      class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-38"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-40"
                       tabindex="0"
                       type="button"
                     >
                       <span
-                        class="MuiButton-startIcon MuiButton-iconSizeMedium emotion-39"
+                        class="MuiButton-startIcon MuiButton-iconSizeMedium emotion-41"
                       >
                         <img
                           alt="PIV Card"
@@ -856,7 +892,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                     class="MuiBox-root emotion-10"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-42"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-44"
                       data-se="forgot-password"
                       href=""
                     >
@@ -867,7 +903,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                     class="MuiBox-root emotion-10"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-42"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-44"
                       data-se="unlock"
                       href=""
                     >
@@ -878,7 +914,7 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                     class="MuiBox-root emotion-10"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-42"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-44"
                       data-se="help"
                       href="http://localhost:3000/help/login"
                     >
@@ -889,20 +925,20 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                     class="MuiBox-root emotion-10"
                   >
                     <hr
-                      class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-48"
+                      class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-50"
                     />
                   </div>
                   <div
-                    class="MuiBox-root emotion-49"
+                    class="MuiBox-root emotion-51"
                   >
                     <div
-                      class="MuiBox-root emotion-50"
+                      class="MuiBox-root emotion-52"
                     >
                       <div
                         class="MuiBox-root emotion-11"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-52"
+                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-54"
                           data-se="signup-info"
                           id="identify_Description_Dont_have_an_account_aut2h3ffszv3me6O31d7_13"
                         >
@@ -911,10 +947,10 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-50"
+                      class="MuiBox-root emotion-52"
                     >
                       <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-42"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-44"
                         data-se="enroll"
                         href=""
                       >

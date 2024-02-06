@@ -1,4 +1,4 @@
-import { RequestMock, RequestLogger } from 'testcafe';
+import { RequestMock, RequestLogger, userVariables } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 
 import ChallengeOktaVerifyPushPageObject from '../framework/page-objects/ChallengeOktaVerifyPushPageObject';
@@ -48,7 +48,9 @@ test.requestHooks(mockOktaVerifySendPushOnly)(
 
     await t.expect(await challengeOktaVerifyPushPageObject.autoChallengeInputExists()).ok();
     const checkboxLabel = challengeOktaVerifyPushPageObject.getAutoChallengeCheckboxLabel();
-    await t.expect(checkboxLabel.hasClass('checked')).notOk();
+    if (!userVariables.gen3) {
+      await t.expect(checkboxLabel.hasClass('checked')).notOk();
+    }
     await t.expect(await challengeOktaVerifyPushPageObject.form.fieldByLabelExists('Send push automatically')).eql(true);
 
     // select checkbox on click

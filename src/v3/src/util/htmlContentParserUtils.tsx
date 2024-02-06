@@ -78,3 +78,5 @@ export const getHeadingReplacerFn = (
     return undefined;
   }
 );
+
+export const wrapInTranslateNo = (string: string): string => `<span translate="no">${string}</span>`;

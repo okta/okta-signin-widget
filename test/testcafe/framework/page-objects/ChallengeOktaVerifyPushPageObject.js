@@ -111,10 +111,10 @@ export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPa
   }
 
   async clickAutoChallengeCheckbox() {
-    await this.t.click(this.form.getElement(AUTO_CHALLENGE_CHECKBOX_LABEL_SELECTOR));
+    await this.t.click(this.getAutoChallengeCheckbox());
   }
 
-  async  isOktaVerifySendPushForm() {
+  async isOktaVerifySendPushForm() {
     let formCount;
     if (userVariables.gen3) {
       formCount = await Selector(FORM_SELECTOR_V3).count;   
