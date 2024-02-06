@@ -62,7 +62,6 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
   const mainLabel = getTranslation(translations, 'label');
   const extensionLabel = getTranslation(translations, 'extension');
   const countryLabel = getTranslation(translations, 'country');
-  const optionalLabel = getTranslation(translations, 'optionalLabel');
 
   const { features: { disableAutocomplete } = {} } = widgetProps;
   const countries = CountryUtil.getCountries() as Record<string, string>;
@@ -142,10 +141,10 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
     <Box marginBlockEnd={4}>
       <NativeSelect
         autoCompleteType={disableAutocomplete ? 'off' : 'tel-country-code'}
-        hint={!required ? optionalLabel : undefined}
         id="country"
         inputRef={focusRef}
         isDisabled={loading}
+        isOptional={!required}
         label={countryLabel}
         onChange={(e: SelectChangeEvent<string>) => {
           const selectTarget = (
