@@ -288,11 +288,8 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                         class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl  emotion-50"
                       >
                         <select
-<<<<<<< HEAD
-=======
                           aria-describedby="userProfile.country-error"
                           aria-errormessage="userProfile.country-error"
->>>>>>> 479c936a7 (Update page objects)
                           aria-invalid="true"
                           aria-labelledby="userProfile.country-label"
                           class="MuiNativeSelect-select MuiNativeSelect-standard Mui-error MuiInputBase-input MuiInput-input emotion-51"
@@ -1614,11 +1611,8 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                         class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl  emotion-50"
                       >
                         <select
-<<<<<<< HEAD
-=======
                           aria-describedby="userProfile.timezone-error"
                           aria-errormessage="userProfile.timezone-error"
->>>>>>> 479c936a7 (Update page objects)
                           aria-invalid="true"
                           aria-labelledby="userProfile.timezone-label"
                           class="MuiNativeSelect-select MuiNativeSelect-standard Mui-error MuiInputBase-input MuiInput-input emotion-51"
