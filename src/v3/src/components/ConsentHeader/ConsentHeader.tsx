@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box, Link, Typography } from '@mui/material';
-import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
+import { Box } from '@mui/material';
+import { Link, Typography, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { escape } from 'lodash';
 import { Fragment, FunctionComponent, h } from 'preact';
 
@@ -73,7 +73,6 @@ const ConsentHeader: FunctionComponent = () => {
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={altText}
               >
                 {getAppLogo(altText, logoHref)}
               </Link>
@@ -107,13 +106,13 @@ const ConsentHeader: FunctionComponent = () => {
             >
               {appName}
             </Typography>
-            <Typography>{titleText}</Typography>
+            <Typography variant="body">{titleText}</Typography>
             {hasIssuer && (
               <Box
                 display="flex"
                 justifyContent="center"
               >
-                <Typography
+                <Box
                   sx={{
                     marginBlockEnd: tokens.Spacing5,
                     backgroundColor: tokens.PalettePrimaryLighter,
@@ -124,7 +123,7 @@ const ConsentHeader: FunctionComponent = () => {
                   translate="no"
                 >
                   {issuer.uri}
-                </Typography>
+                </Box>
               </Box>
             )}
           </Box>
