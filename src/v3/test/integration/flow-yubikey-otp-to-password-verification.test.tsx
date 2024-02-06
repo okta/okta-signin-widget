@@ -21,6 +21,7 @@ describe('Flow transition from YubiKey verification to Password MFA', () => {
     const {
       authClient,
       user,
+      findByLabelText,
       findByTestId,
       findByText,
     } = await setup({
@@ -37,9 +38,9 @@ describe('Flow transition from YubiKey verification to Password MFA', () => {
       },
     });
 
-    await waitFor(async () => expect(await findByTestId('credentials.passcode')).toHaveFocus());
+    await waitFor(async () => expect(await findByLabelText('Insert then tap your YubiKey')).toHaveFocus());
     // form: Yubikey code entry
-    const yubikeyCodeEl = await findByTestId('credentials.passcode') as HTMLInputElement;
+    const yubikeyCodeEl = await findByLabelText('Insert then tap your YubiKey') as HTMLInputElement;
     await user.type(yubikeyCodeEl, '1234abcd8520');
     expect(yubikeyCodeEl.value).toEqual('1234abcd8520');
 

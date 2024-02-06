@@ -15,7 +15,7 @@ import { useEffect, useState } from 'preact/hooks';
 
 import { useFormFieldValidation, useOnChange } from '../../hooks';
 import { FieldElement, UISchemaElementComponent, WidgetMessage } from '../../types';
-import { buildErrorMessageIds, convertIdxMessageToWidgetMessage } from '../../util';
+import { convertIdxMessageToWidgetMessage } from '../../util';
 import { getDisplayName } from './getDisplayName';
 
 export type RendererComponent<T> = {
@@ -46,7 +46,6 @@ export const withFormValidationState: WrappedFunctionComponent<
       ariaDescribedBy,
       options: {
         inputMeta: {
-          name,
           // @ts-ignore TODO: OKTA-539834 - messages missing from type
           messages = {},
         },
@@ -84,9 +83,7 @@ export const withFormValidationState: WrappedFunctionComponent<
       onValidateHandler,
       handleChange,
       handleBlur,
-      describedByIds: !fieldErrors
-        ? ariaDescribedBy
-        : ` ${buildErrorMessageIds(fieldErrors, name)} ${ariaDescribedBy || ''} `,
+      describedByIds: ariaDescribedBy,
     };
     // eslint-disable-next-line react/jsx-props-no-spreading
     return <Component {...combinedProps} />;

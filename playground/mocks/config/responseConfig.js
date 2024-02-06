@@ -18,7 +18,8 @@ const idx = {
   ],
 
   '/idp/idx/introspect': [
-    'identify',
+    'enroll-security-question-with-character-limit-error'
+    // 'identify',
     // 'error-identify-multiple-errors',
     // 'authenticator-enroll-ov-qr-enable-biometrics',
     // 'authenticator-verification-okta-verify-push',

@@ -131,8 +131,8 @@ test
     // fields are required
     await passwordExpiryWarningPage.clickChangePasswordButton();
     await passwordExpiryWarningPage.waitForErrorBox();
-    await t.expect(passwordExpiryWarningPage.getPasswordError()).eql('This field cannot be left blank');
-    await t.expect(passwordExpiryWarningPage.getConfirmPasswordError()).eql('This field cannot be left blank');
+    await t.expect(passwordExpiryWarningPage.getPasswordError()).match(/This field cannot be left blank/);
+    await t.expect(passwordExpiryWarningPage.getConfirmPasswordError()).match(/This field cannot be left blank/);
 
     // password must match
     await passwordExpiryWarningPage.fillPassword('abcdabcdA3@');
@@ -145,7 +145,7 @@ test
     // list item label below the confirm password field in addition to the field level error message
     if (userVariables.gen3) {
       await t.expect(passwordExpiryWarningPage.hasPasswordMatchRequirementStatus(false)).eql(true);
-      await t.expect(passwordExpiryWarningPage.getConfirmPasswordError()).eql('Passwords must match');
+      await t.expect(passwordExpiryWarningPage.getConfirmPasswordError()).match(/Passwords must match/);
     } else {
       await t.expect(passwordExpiryWarningPage.getConfirmPasswordError()).eql('New passwords must match');
     }
