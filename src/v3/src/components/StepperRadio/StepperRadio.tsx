@@ -12,7 +12,7 @@
 
 import { Radio, RadioGroup } from '@okta/odyssey-react-mui';
 import { IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
-import { h, JSX } from 'preact';
+import { h } from 'preact';
 import { useState } from 'preact/hooks';
 
 import { useStepperContext, useWidgetContext } from '../../contexts';
@@ -81,7 +81,7 @@ const StepperRadio: UISchemaElementComponent<{
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...(index === 0 && { inputFocusRef: focusRef })}
           />
-        )) as JSX.Element[]
+        ))
       }
     </RadioGroup>
   );

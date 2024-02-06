@@ -12,7 +12,7 @@
 
 import { Radio as OdyRadio, RadioGroup } from '@okta/odyssey-react-mui';
 import { IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
-import { h, JSX } from 'preact';
+import { h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
 import { useAutoFocus, useValue } from '../../hooks';
@@ -64,7 +64,7 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
       value={value as string ?? ''}
     >
       {
-        (customOptions ?? options)?.map((item: IdxOption, index: number) => (
+        (customOptions ?? options ?? []).map((item: IdxOption, index: number) => (
           <OdyRadio
             isDisabled={loading}
             key={item.value}
@@ -76,7 +76,7 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...(index === 0 && { inputFocusRef: focusRef })}
           />
-        )) as JSX.Element[]
+        ))
       }
     </RadioGroup>
   );
