@@ -65,7 +65,7 @@ const AuthContainer: FunctionComponent<{ hide: boolean }> = ({ children, hide })
               minInlineSize: '320px',
               borderWidth: tokens.BorderWidthMain,
               borderStyle: tokens.BorderStyleMain,
-              borderRadius: tokens.BorderRadiusMain,
+              borderRadius: tokens.Spacing3,
               borderColor: tokens.BorderColorDisplay,
               '@media only screen and (max-width: 391px)': {
                 borderWidth: 0,

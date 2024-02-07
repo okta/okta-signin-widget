@@ -213,6 +213,13 @@ export const createThemeAndTokens = (
           },
         },
       },
+      MuiChip: {
+        styleOverrides: {
+          root: {
+            lineHeight: 'normal',
+          },
+        },
+      },
       MuiFormControlLabel: {
         styleOverrides: {
           root: {
