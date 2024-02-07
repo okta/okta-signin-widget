@@ -239,6 +239,7 @@ const handleFailureRedirect = (settings, result) => {
  * }
  */
 const convert = (settings, idx = {}, lastResult = null) => {
+  console.log('idx', idx)
   if (!isObject(idx.rawIdxState)) {
     return null;
   }
