@@ -63,7 +63,7 @@ exports[`oda-enrollment-android-applink should render form 1`] = `
               class="MuiBox-root emotion-8"
             >
               <form
-                class="MuiBox-root emotion-9"
+                class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""
               >
@@ -92,7 +92,7 @@ exports[`oda-enrollment-android-applink should render form 1`] = `
                       class="MuiBox-root emotion-12"
                     >
                       <fieldset
-                        class="MuiFormControl-root emotion-16"
+                        class="MuiFormControl-root MuiFormControl-marginNormal emotion-16"
                       >
                         <legend
                           class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-17"
@@ -119,35 +119,9 @@ exports[`oda-enrollment-android-applink should render form 1`] = `
                                 type="radio"
                                 value="no"
                               />
-                              <span
-                                class="emotion-22"
-                              >
-                                <svg
-                                  aria-hidden="true"
-                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-23"
-                                  data-testid="RadioButtonUncheckedIcon"
-                                  focusable="false"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path
-                                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
-                                  />
-                                </svg>
-                                <svg
-                                  aria-hidden="true"
-                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-24"
-                                  data-testid="RadioButtonCheckedIcon"
-                                  focusable="false"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path
-                                    d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
-                                  />
-                                </svg>
-                              </span>
                             </span>
                             <span
-                              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-25"
+                              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-22"
                             >
                               No, I don’t have an account
                             </span>
@@ -164,35 +138,9 @@ exports[`oda-enrollment-android-applink should render form 1`] = `
                                 type="radio"
                                 value="yes"
                               />
-                              <span
-                                class="emotion-22"
-                              >
-                                <svg
-                                  aria-hidden="true"
-                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-23"
-                                  data-testid="RadioButtonUncheckedIcon"
-                                  focusable="false"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path
-                                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
-                                  />
-                                </svg>
-                                <svg
-                                  aria-hidden="true"
-                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-31"
-                                  data-testid="RadioButtonCheckedIcon"
-                                  focusable="false"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path
-                                    d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
-                                  />
-                                </svg>
-                              </span>
                             </span>
                             <span
-                              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-25"
+                              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-22"
                             >
                               Yes, I already have an account
                             </span>
@@ -204,7 +152,7 @@ exports[`oda-enrollment-android-applink should render form 1`] = `
                       class="MuiBox-root emotion-12"
                     >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-34"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-28"
                         tabindex="0"
                         type="button"
                       >
@@ -286,7 +234,7 @@ exports[`oda-enrollment-android-applink should render view when "No, I don’t h
               class="MuiBox-root emotion-8"
             >
               <form
-                class="MuiBox-root emotion-9"
+                class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""
               >
@@ -454,20 +402,26 @@ exports[`oda-enrollment-android-applink should render view when "No, I don’t h
                       class="MuiBox-root emotion-12"
                     >
 <<<<<<< HEAD
+<<<<<<< HEAD
                       <button
                         class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-45"
                         role="link"
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> 84bd6e85d (Rebase, snapshot updates)
                       <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-45"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-44"
                         href=""
+<<<<<<< HEAD
 =======
                       <button
                         class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-44"
                         role="link"
 >>>>>>> 4ca9299c7 (Add back o-form class)
 >>>>>>> f32f79691 (Add back o-form class)
+=======
+>>>>>>> 84bd6e85d (Rebase, snapshot updates)
                       >
                         Back
                       </button>
@@ -547,7 +501,7 @@ exports[`oda-enrollment-android-applink should render view when "Yes, I already 
               class="MuiBox-root emotion-8"
             >
               <form
-                class="MuiBox-root emotion-9"
+                class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""
               >

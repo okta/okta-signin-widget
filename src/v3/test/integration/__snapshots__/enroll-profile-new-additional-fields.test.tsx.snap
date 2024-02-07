@@ -36,7 +36,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
               class="MuiBox-root emotion-7"
             >
               <form
-                class="MuiBox-root emotion-8"
+                class="o-form MuiBox-root emotion-8"
                 data-se="o-form"
                 novalidate=""
               >
@@ -123,12 +123,8 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                       class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-24"
                     >
                       <label
-<<<<<<< HEAD
                         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-25"
                         data-shrink="false"
-=======
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated emotion-25"
->>>>>>> 196af4eba (Snapshot updates)
                         for="userProfile.firstName"
                         id="userProfile.firstName-label"
                       >
@@ -178,12 +174,8 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                       class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-24"
                     >
                       <label
-<<<<<<< HEAD
                         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-25"
                         data-shrink="false"
-=======
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated emotion-25"
->>>>>>> 196af4eba (Snapshot updates)
                         for="userProfile.lastName"
                         id="userProfile.lastName-label"
                       >
@@ -233,12 +225,8 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                       class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-24"
                     >
                       <label
-<<<<<<< HEAD
                         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-25"
                         data-shrink="false"
-=======
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated emotion-25"
->>>>>>> 196af4eba (Snapshot updates)
                         for="userProfile.email"
                         id="userProfile.email-label"
                       >
@@ -286,14 +274,10 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                     class="MuiBox-root emotion-17"
                   >
                     <div
-                      class="MuiFormControl-root emotion-48"
+                      class="MuiFormControl-root MuiFormControl-marginNormal emotion-48"
                     >
                       <label
-<<<<<<< HEAD
                         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-25"
-=======
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined emotion-49"
->>>>>>> 196af4eba (Snapshot updates)
                         data-shrink="false"
                         for="userProfile.country"
                         id="userProfile.country-label"
@@ -303,11 +287,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                         </span>
                       </label>
                       <div
-<<<<<<< HEAD
                         class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl  emotion-50"
-=======
-                        class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl  emotion-51"
->>>>>>> 196af4eba (Snapshot updates)
                       >
                         <select
                           aria-describedby="userProfile.country-error"
@@ -1532,18 +1512,17 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                         </select>
                         <svg
                           aria-hidden="true"
-<<<<<<< HEAD
                           class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconStandard emotion-52"
                           fill="none"
-=======
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiNativeSelect-icon MuiNativeSelect-iconStandard emotion-53"
-                          data-testid="ArrowDropDownIcon"
->>>>>>> 196af4eba (Snapshot updates)
                           focusable="false"
                           viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
                         >
                           <path
-                            d="M7 10l5 5 5-5z"
+                            clip-rule="evenodd"
+                            d="m10.94 16.354-5.647-5.647 1.414-1.414L12 14.586l5.293-5.293 1.414 1.414-5.646 5.647a1.5 1.5 0 0 1-2.122 0Z"
+                            fill="currentColor"
+                            fill-rule="evenodd"
                           />
                         </svg>
                       </div>
@@ -1551,7 +1530,6 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                         class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium emotion-28"
                         id="userProfile.country-error"
                       >
-<<<<<<< HEAD
                         <span
                           class="MuiBox-root emotion-14"
                         >
@@ -1559,13 +1537,6 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                         </span>
                         <div
                           class="MuiBox-root emotion-1"
-=======
-                        <p
-                          class="MuiFormHelperText-root Mui-error emotion-30"
-                          data-se="userProfile.country-error"
-                          id="userProfile.country-error"
-                          role="alert"
->>>>>>> 196af4eba (Snapshot updates)
                         >
                           This field cannot be left blank
                         </div>
@@ -1579,12 +1550,8 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                       class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-24"
                     >
                       <label
-<<<<<<< HEAD
                         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-25"
                         data-shrink="false"
-=======
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated emotion-25"
->>>>>>> 196af4eba (Snapshot updates)
                         for="userProfile.countryCode"
                         id="userProfile.countryCode-label"
                       >
@@ -1630,14 +1597,10 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                     class="MuiBox-root emotion-17"
                   >
                     <div
-                      class="MuiFormControl-root emotion-48"
+                      class="MuiFormControl-root MuiFormControl-marginNormal emotion-48"
                     >
                       <label
-<<<<<<< HEAD
                         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-25"
-=======
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined emotion-49"
->>>>>>> 196af4eba (Snapshot updates)
                         data-shrink="false"
                         for="userProfile.timezone"
                         id="userProfile.timezone-label"
@@ -1647,11 +1610,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                         </span>
                       </label>
                       <div
-<<<<<<< HEAD
                         class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl  emotion-50"
-=======
-                        class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl  emotion-51"
->>>>>>> 196af4eba (Snapshot updates)
                       >
                         <select
                           aria-describedby="userProfile.timezone-error"
@@ -1836,18 +1795,17 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                         </select>
                         <svg
                           aria-hidden="true"
-<<<<<<< HEAD
                           class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconStandard emotion-52"
                           fill="none"
-=======
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiNativeSelect-icon MuiNativeSelect-iconStandard emotion-53"
-                          data-testid="ArrowDropDownIcon"
->>>>>>> 196af4eba (Snapshot updates)
                           focusable="false"
                           viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
                         >
                           <path
-                            d="M7 10l5 5 5-5z"
+                            clip-rule="evenodd"
+                            d="m10.94 16.354-5.647-5.647 1.414-1.414L12 14.586l5.293-5.293 1.414 1.414-5.646 5.647a1.5 1.5 0 0 1-2.122 0Z"
+                            fill="currentColor"
+                            fill-rule="evenodd"
                           />
                         </svg>
                       </div>
@@ -1855,7 +1813,6 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                         class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium emotion-28"
                         id="userProfile.timezone-error"
                       >
-<<<<<<< HEAD
                         <span
                           class="MuiBox-root emotion-14"
                         >
@@ -1863,13 +1820,6 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                         </span>
                         <div
                           class="MuiBox-root emotion-1"
-=======
-                        <p
-                          class="MuiFormHelperText-root Mui-error emotion-30"
-                          data-se="userProfile.timezone-error"
-                          id="userProfile.timezone-error"
-                          role="alert"
->>>>>>> 196af4eba (Snapshot updates)
                         >
                           This field cannot be left blank
                         </div>
@@ -1973,7 +1923,7 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
               class="MuiBox-root emotion-7"
             >
               <form
-                class="MuiBox-root emotion-8"
+                class="o-form MuiBox-root emotion-8"
                 data-se="o-form"
                 novalidate=""
               >
@@ -2017,12 +1967,8 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                       class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-17"
                     >
                       <label
-<<<<<<< HEAD
                         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-18"
                         data-shrink="false"
-=======
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated emotion-18"
->>>>>>> 196af4eba (Snapshot updates)
                         for="userProfile.firstName"
                         id="userProfile.firstName-label"
                       >
@@ -2055,12 +2001,8 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                       class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-17"
                     >
                       <label
-<<<<<<< HEAD
                         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-18"
                         data-shrink="false"
-=======
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated emotion-18"
->>>>>>> 196af4eba (Snapshot updates)
                         for="userProfile.lastName"
                         id="userProfile.lastName-label"
                       >
@@ -2093,12 +2035,8 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                       class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-17"
                     >
                       <label
-<<<<<<< HEAD
                         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-18"
                         data-shrink="false"
-=======
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated emotion-18"
->>>>>>> 196af4eba (Snapshot updates)
                         for="userProfile.email"
                         id="userProfile.email-label"
                       >
@@ -2129,17 +2067,10 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                     class="MuiBox-root emotion-10"
                   >
                     <div
-<<<<<<< HEAD
                       class="MuiFormControl-root MuiFormControl-marginNormal emotion-32"
                     >
                       <label
                         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-18"
-=======
-                      class="MuiFormControl-root emotion-35"
-                    >
-                      <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined emotion-36"
->>>>>>> 196af4eba (Snapshot updates)
                         data-shrink="false"
                         for="userProfile.country"
                         id="userProfile.country-label"
@@ -2149,11 +2080,7 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                         </span>
                       </label>
                       <div
-<<<<<<< HEAD
                         class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-formControl  emotion-34"
-=======
-                        class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl  emotion-38"
->>>>>>> 196af4eba (Snapshot updates)
                       >
                         <select
                           aria-invalid="false"
@@ -3376,18 +3303,17 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                         </select>
                         <svg
                           aria-hidden="true"
-<<<<<<< HEAD
                           class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconStandard emotion-36"
                           fill="none"
-=======
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiNativeSelect-icon MuiNativeSelect-iconStandard emotion-40"
-                          data-testid="ArrowDropDownIcon"
->>>>>>> 196af4eba (Snapshot updates)
                           focusable="false"
                           viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
                         >
                           <path
-                            d="M7 10l5 5 5-5z"
+                            clip-rule="evenodd"
+                            d="m10.94 16.354-5.647-5.647 1.414-1.414L12 14.586l5.293-5.293 1.414 1.414-5.646 5.647a1.5 1.5 0 0 1-2.122 0Z"
+                            fill="currentColor"
+                            fill-rule="evenodd"
                           />
                         </svg>
                       </div>
@@ -3400,12 +3326,8 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                       class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-17"
                     >
                       <label
-<<<<<<< HEAD
                         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-18"
                         data-shrink="false"
-=======
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated emotion-18"
->>>>>>> 196af4eba (Snapshot updates)
                         for="userProfile.countryCode"
                         id="userProfile.countryCode-label"
                       >
@@ -3434,17 +3356,10 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                     class="MuiBox-root emotion-10"
                   >
                     <div
-<<<<<<< HEAD
                       class="MuiFormControl-root MuiFormControl-marginNormal emotion-32"
                     >
                       <label
                         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-18"
-=======
-                      class="MuiFormControl-root emotion-35"
-                    >
-                      <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined emotion-36"
->>>>>>> 196af4eba (Snapshot updates)
                         data-shrink="false"
                         for="userProfile.timezone"
                         id="userProfile.timezone-label"
@@ -3454,11 +3369,7 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                         </span>
                       </label>
                       <div
-<<<<<<< HEAD
                         class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-formControl  emotion-34"
-=======
-                        class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl  emotion-38"
->>>>>>> 196af4eba (Snapshot updates)
                       >
                         <select
                           aria-invalid="false"
@@ -3641,18 +3552,17 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                         </select>
                         <svg
                           aria-hidden="true"
-<<<<<<< HEAD
                           class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconStandard emotion-36"
                           fill="none"
-=======
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiNativeSelect-icon MuiNativeSelect-iconStandard emotion-40"
-                          data-testid="ArrowDropDownIcon"
->>>>>>> 196af4eba (Snapshot updates)
                           focusable="false"
                           viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
                         >
                           <path
-                            d="M7 10l5 5 5-5z"
+                            clip-rule="evenodd"
+                            d="m10.94 16.354-5.647-5.647 1.414-1.414L12 14.586l5.293-5.293 1.414 1.414-5.646 5.647a1.5 1.5 0 0 1-2.122 0Z"
+                            fill="currentColor"
+                            fill-rule="evenodd"
                           />
                         </svg>
                       </div>
@@ -3674,12 +3584,8 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                     class="MuiBox-root emotion-10"
                   >
                     <hr
-<<<<<<< HEAD
-                      class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-51"
-=======
-                      class="MuiDivider-root MuiDivider-fullWidth emotion-57"
+                      class="MuiDivider-root MuiDivider-fullWidth emotion-51"
                       data-se="separation-line"
->>>>>>> 196af4eba (Snapshot updates)
                     />
                   </div>
                   <div

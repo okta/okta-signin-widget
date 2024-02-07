@@ -67,7 +67,7 @@ exports[`authenticator-verification-security-question renders form 1`] = `
               class="MuiBox-root emotion-8"
             >
               <form
-                class="MuiBox-root emotion-9"
+                class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""
               >
@@ -139,12 +139,8 @@ exports[`authenticator-verification-security-question renders form 1`] = `
                       class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-21"
                     >
                       <label
-<<<<<<< HEAD
                         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-22"
                         data-shrink="false"
-=======
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated emotion-22"
->>>>>>> 196af4eba (Snapshot updates)
                         for="credentials.answer"
                         id="credentials.answer-label"
                       >
@@ -195,9 +191,6 @@ exports[`authenticator-verification-security-question renders form 1`] = `
                                 fill-rule="evenodd"
                               />
                             </svg>
-                            <span
-                              class="MuiTouchRipple-root emotion-28"
-                            />
                           </button>
                         </div>
                       </div>
@@ -207,7 +200,7 @@ exports[`authenticator-verification-security-question renders form 1`] = `
                     class="MuiBox-root emotion-11"
                   >
                     <button
-                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-30"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-29"
                       data-se="save"
                       tabindex="0"
                       type="submit"
@@ -219,7 +212,7 @@ exports[`authenticator-verification-security-question renders form 1`] = `
                     class="MuiBox-root emotion-11"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-32"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-31"
                       data-se="cancel"
                       href=""
                     >

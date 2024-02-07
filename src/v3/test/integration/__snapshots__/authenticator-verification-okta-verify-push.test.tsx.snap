@@ -63,7 +63,7 @@ exports[`authenticator-verification-okta-verify-push should render form 1`] = `
               class="MuiBox-root emotion-8"
             >
               <form
-                class="MuiBox-root emotion-9"
+                class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""
               >
@@ -132,7 +132,7 @@ exports[`authenticator-verification-okta-verify-push should render form 1`] = `
                     class="MuiBox-root emotion-11"
                   >
                     <fieldset
-                      class="MuiFormControl-root emotion-21"
+                      class="MuiFormControl-root MuiFormControl-marginNormal emotion-21"
                     >
                       <legend
                         class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-22"
@@ -150,7 +150,6 @@ exports[`authenticator-verification-okta-verify-push should render form 1`] = `
                           class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-24"
                           id="authenticator.autoChallenge-checkbox"
                         >
-<<<<<<< HEAD
                           <span
                             class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-25"
                           >
@@ -169,46 +168,13 @@ exports[`authenticator-verification-okta-verify-push should render form 1`] = `
                           </span>
                         </label>
                       </div>
-=======
-                          <input
-                            class="PrivateSwitchBase-input emotion-24"
-                            data-indeterminate="false"
-                            data-se="authenticator.autoChallenge"
-                            data-se-for-name="authenticator.autoChallenge"
-                            id="authenticator.autoChallenge"
-                            name="authenticator.autoChallenge"
-                            type="checkbox"
-                          />
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-25"
-                            data-testid="CheckBoxOutlineBlankIcon"
-                            focusable="false"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
-                            />
-                          </svg>
-                        </span>
-                        <span
-                          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-26"
-                        >
-                          Send push automatically
-                        </span>
-                      </label>
->>>>>>> 196af4eba (Snapshot updates)
                     </fieldset>
                   </div>
                   <div
                     class="MuiBox-root emotion-11"
                   >
                     <button
-<<<<<<< HEAD
                       class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-29"
-=======
-                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-28"
->>>>>>> 196af4eba (Snapshot updates)
                       data-se="save"
                       tabindex="0"
                       type="submit"
@@ -220,11 +186,7 @@ exports[`authenticator-verification-okta-verify-push should render form 1`] = `
                     class="MuiBox-root emotion-11"
                   >
                     <a
-<<<<<<< HEAD
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-31"
-=======
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
->>>>>>> 196af4eba (Snapshot updates)
                       data-se="switchAuthenticator"
                       href=""
                     >
@@ -235,11 +197,7 @@ exports[`authenticator-verification-okta-verify-push should render form 1`] = `
                     class="MuiBox-root emotion-11"
                   >
                     <a
-<<<<<<< HEAD
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-31"
-=======
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-30"
->>>>>>> 196af4eba (Snapshot updates)
                       data-se="cancel"
                       href=""
                     >

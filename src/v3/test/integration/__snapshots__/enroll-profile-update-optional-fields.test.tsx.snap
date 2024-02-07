@@ -36,7 +36,7 @@ exports[`enroll-profile-update-optional-fields should render form with one requi
               class="MuiBox-root emotion-7"
             >
               <form
-                class="MuiBox-root emotion-8"
+                class="o-form MuiBox-root emotion-8"
                 data-se="o-form"
                 novalidate=""
               >
@@ -123,29 +123,20 @@ exports[`enroll-profile-update-optional-fields should render form with one requi
                       class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-23"
                     >
                       <label
-<<<<<<< HEAD
                         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-24"
                         data-shrink="false"
-=======
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated emotion-24"
->>>>>>> 196af4eba (Snapshot updates)
                         for="userProfile.newAttribute"
                         id="userProfile.newAttribute-label"
                       >
-<<<<<<< HEAD
                         <span>
                           Some custom attribute
                         </span>
                         <p
-=======
-                        Some custom attribute
-                        <h6
->>>>>>> 196af4eba (Snapshot updates)
                           class="MuiTypography-root MuiTypography-subtitle1 emotion-25"
                           tabindex="-1"
                         >
                           Optional
-                        </h6>
+                        </p>
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-26"
@@ -169,29 +160,20 @@ exports[`enroll-profile-update-optional-fields should render form with one requi
                       class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-23"
                     >
                       <label
-<<<<<<< HEAD
                         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-24"
                         data-shrink="false"
-=======
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated emotion-24"
->>>>>>> 196af4eba (Snapshot updates)
                         for="userProfile.secondEmail"
                         id="userProfile.secondEmail-label"
                       >
-<<<<<<< HEAD
                         <span>
                           Secondary email
                         </span>
                         <p
-=======
-                        Secondary email
-                        <h6
->>>>>>> 196af4eba (Snapshot updates)
                           class="MuiTypography-root MuiTypography-subtitle1 emotion-25"
                           tabindex="-1"
                         >
                           Optional
-                        </h6>
+                        </p>
                       </label>
                       <p
                         class="MuiFormHelperText-root MuiFormHelperText-sizeMedium emotion-32"
@@ -228,29 +210,20 @@ exports[`enroll-profile-update-optional-fields should render form with one requi
                       class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-23"
                     >
                       <label
-<<<<<<< HEAD
                         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-24"
                         data-shrink="false"
-=======
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated emotion-24"
->>>>>>> 196af4eba (Snapshot updates)
                         for="userProfile.newAttribute2"
                         id="userProfile.newAttribute2-label"
                       >
-<<<<<<< HEAD
                         <span>
                           Some custom attribute 2
                         </span>
                         <p
-=======
-                        Some custom attribute 2
-                        <h6
->>>>>>> 196af4eba (Snapshot updates)
                           class="MuiTypography-root MuiTypography-subtitle1 emotion-25"
                           tabindex="-1"
                         >
                           Optional
-                        </h6>
+                        </p>
                       </label>
                       <div
                         class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl emotion-26"

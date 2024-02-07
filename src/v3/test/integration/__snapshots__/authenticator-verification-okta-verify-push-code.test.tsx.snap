@@ -63,7 +63,7 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
               class="MuiBox-root emotion-8"
             >
               <form
-                class="MuiBox-root emotion-9"
+                class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""
               >
@@ -190,7 +190,7 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                     class="MuiBox-root emotion-11"
                   >
                     <fieldset
-                      class="MuiFormControl-root emotion-31"
+                      class="MuiFormControl-root MuiFormControl-marginNormal emotion-31"
                     >
                       <legend
                         class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-32"
@@ -208,7 +208,6 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                           class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-34"
                           id="autoChallenge-checkbox"
                         >
-<<<<<<< HEAD
                           <span
                             class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-35"
                           >
@@ -227,38 +226,6 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                           </span>
                         </label>
                       </div>
-=======
-                          <input
-                            class="PrivateSwitchBase-input emotion-34"
-                            data-indeterminate="false"
-                            data-se="autoChallenge"
-                            data-se-for-name="autoChallenge"
-                            id="autoChallenge"
-                            name="autoChallenge"
-                            type="checkbox"
-                          />
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-35"
-                            data-testid="CheckBoxOutlineBlankIcon"
-                            focusable="false"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
-                            />
-                          </svg>
-                          <span
-                            class="MuiTouchRipple-root emotion-36"
-                          />
-                        </span>
-                        <span
-                          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-37"
-                        >
-                          Send push automatically
-                        </span>
-                      </label>
->>>>>>> 196af4eba (Snapshot updates)
                     </fieldset>
                   </div>
                   <div
@@ -268,11 +235,7 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                       class="MuiBox-root emotion-28"
                     >
                       <p
-<<<<<<< HEAD
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-40"
-=======
                         class="MuiTypography-root MuiTypography-body1 emotion-37"
->>>>>>> 196af4eba (Snapshot updates)
                         data-se="numberchallenge-instr-value"
                         tabindex="-1"
                       >
@@ -329,11 +292,7 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                         class="MuiBox-root emotion-1"
                       >
                         <span
-<<<<<<< HEAD
-                          class="MuiTypography-root MuiTypography-body1 no-translate emotion-37"
-=======
                           class="MuiTypography-root MuiTypography-body1 emotion-37"
->>>>>>> 196af4eba (Snapshot updates)
                           data-se="text-code"
                           tabindex="-1"
                           translate="no"
@@ -439,7 +398,7 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
               class="MuiBox-root emotion-8"
             >
               <form
-                class="MuiBox-root emotion-9"
+                class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""
               >
@@ -511,7 +470,7 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                     class="MuiBox-root emotion-11"
                   >
                     <fieldset
-                      class="MuiFormControl-root emotion-22"
+                      class="MuiFormControl-root MuiFormControl-marginNormal emotion-22"
                     >
                       <legend
                         class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-23"
@@ -529,7 +488,6 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                           class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-25"
                           id="autoChallenge-checkbox"
                         >
-<<<<<<< HEAD
                           <span
                             class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-26"
                           >
@@ -548,35 +506,6 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                           </span>
                         </label>
                       </div>
-=======
-                          <input
-                            class="PrivateSwitchBase-input emotion-25"
-                            data-indeterminate="false"
-                            data-se="autoChallenge"
-                            data-se-for-name="autoChallenge"
-                            id="autoChallenge"
-                            name="autoChallenge"
-                            type="checkbox"
-                          />
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium emotion-26"
-                            data-testid="CheckBoxOutlineBlankIcon"
-                            focusable="false"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
-                            />
-                          </svg>
-                        </span>
-                        <span
-                          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-27"
-                        >
-                          Send push automatically
-                        </span>
-                      </label>
->>>>>>> 196af4eba (Snapshot updates)
                     </fieldset>
                   </div>
                   <div
@@ -586,11 +515,7 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                       class="MuiBox-root emotion-19"
                     >
                       <p
-<<<<<<< HEAD
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-31"
-=======
-                        class="MuiTypography-root MuiTypography-body1 emotion-27"
->>>>>>> 196af4eba (Snapshot updates)
+                        class="MuiTypography-root MuiTypography-body1 emotion-28"
                         data-se="numberchallenge-instr-value"
                         tabindex="-1"
                       >
@@ -608,19 +533,11 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                     class="MuiBox-root emotion-11"
                   >
                     <div
-<<<<<<< HEAD
                       class="MuiBox-root emotion-33"
                       id="code"
                     >
                       <div
                         class="MuiBox-root emotion-34"
-=======
-                      class="MuiBox-root emotion-32"
-                      id="code"
-                    >
-                      <div
-                        class="MuiBox-root emotion-33"
->>>>>>> 196af4eba (Snapshot updates)
                         data-se="icon-code"
                       >
                         <svg
@@ -655,11 +572,7 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                         class="MuiBox-root emotion-1"
                       >
                         <span
-<<<<<<< HEAD
-                          class="MuiTypography-root MuiTypography-body1 no-translate emotion-28"
-=======
-                          class="MuiTypography-root MuiTypography-body1 emotion-27"
->>>>>>> 196af4eba (Snapshot updates)
+                          class="MuiTypography-root MuiTypography-body1 emotion-28"
                           data-se="text-code"
                           tabindex="-1"
                           translate="no"
@@ -673,11 +586,7 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                     class="MuiBox-root emotion-11"
                   >
                     <a
-<<<<<<< HEAD
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-38"
-=======
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-37"
->>>>>>> 196af4eba (Snapshot updates)
                       data-se="switchAuthenticator"
                       href=""
                     >
@@ -688,11 +597,7 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                     class="MuiBox-root emotion-11"
                   >
                     <a
-<<<<<<< HEAD
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-38"
-=======
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-37"
->>>>>>> 196af4eba (Snapshot updates)
                       data-se="cancel"
                       href=""
                     >

@@ -63,7 +63,7 @@ exports[`authenticator-verification-okta-verify-totp should have autocomplete at
               class="MuiBox-root emotion-8"
             >
               <form
-                class="MuiBox-root emotion-9"
+                class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""
               >
@@ -135,12 +135,8 @@ exports[`authenticator-verification-okta-verify-totp should have autocomplete at
                       class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-21"
                     >
                       <label
-<<<<<<< HEAD
                         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-22"
                         data-shrink="false"
-=======
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated emotion-22"
->>>>>>> 196af4eba (Snapshot updates)
                         for="credentials.totp"
                         id="credentials.totp-label"
                       >
@@ -275,7 +271,7 @@ exports[`authenticator-verification-okta-verify-totp should render form 1`] = `
               class="MuiBox-root emotion-8"
             >
               <form
-                class="MuiBox-root emotion-9"
+                class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""
               >
@@ -347,12 +343,8 @@ exports[`authenticator-verification-okta-verify-totp should render form 1`] = `
                       class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-21"
                     >
                       <label
-<<<<<<< HEAD
                         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-22"
                         data-shrink="false"
-=======
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated emotion-22"
->>>>>>> 196af4eba (Snapshot updates)
                         for="credentials.totp"
                         id="credentials.totp-label"
                       >

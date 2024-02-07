@@ -87,7 +87,7 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
               class="MuiBox-root emotion-8"
             >
               <form
-                class="MuiBox-root emotion-9"
+                class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""
               >
@@ -274,17 +274,12 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
                                     <div
                                       class="MuiBox-root emotion-1"
                                     >
-<<<<<<< HEAD
                                       <div
                                         class="MuiBox-root emotion-18"
-=======
-                                      <h3
-                                        class="MuiTypography-root MuiTypography-h6 emotion-40"
-                                        tabindex="-1"
->>>>>>> 196af4eba (Snapshot updates)
                                       >
                                         <h3
                                           class="MuiTypography-root MuiTypography-h6 emotion-43"
+                                          tabindex="-1"
                                         >
                                           Are you trying to use a biometric authenticator?
                                         </h3>
@@ -293,19 +288,13 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
                                     <div
                                       class="MuiBox-root emotion-1"
                                     >
-<<<<<<< HEAD
                                       <div
                                         class="MuiBox-root emotion-18"
-=======
-                                      <p
-                                        class="MuiTypography-root MuiTypography-body1 emotion-32"
-                                        data-se="o-form-explain"
-                                        tabindex="-1"
->>>>>>> 196af4eba (Snapshot updates)
                                       >
                                         <p
-                                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-46"
+                                          class="MuiTypography-root MuiTypography-body1 emotion-46"
                                           data-se="o-form-explain"
+                                          tabindex="-1"
                                         >
                                           Biometric authenticators (fingerprint, face recognition, PIN) will only work on the same device on which they were set up.
                                         </p>
@@ -314,19 +303,13 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
                                     <div
                                       class="MuiBox-root emotion-11"
                                     >
-<<<<<<< HEAD
                                       <div
                                         class="MuiBox-root emotion-18"
-=======
-                                      <p
-                                        class="MuiTypography-root MuiTypography-body1 emotion-32"
-                                        data-se="o-form-explain"
-                                        tabindex="-1"
->>>>>>> 196af4eba (Snapshot updates)
                                       >
                                         <p
-                                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-46"
+                                          class="MuiTypography-root MuiTypography-body1 emotion-46"
                                           data-se="o-form-explain"
+                                          tabindex="-1"
                                         >
                                           If available, set up another security method on the device you used to set up your biometric authenticator.
                                         </p>
@@ -335,17 +318,12 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
                                     <div
                                       class="MuiBox-root emotion-1"
                                     >
-<<<<<<< HEAD
                                       <div
                                         class="MuiBox-root emotion-18"
-=======
-                                      <h3
-                                        class="MuiTypography-root MuiTypography-h6 emotion-40"
-                                        tabindex="-1"
->>>>>>> 196af4eba (Snapshot updates)
                                       >
                                         <h3
                                           class="MuiTypography-root MuiTypography-h6 emotion-43"
+                                          tabindex="-1"
                                         >
                                           Are you trying to use a security key?
                                         </h3>
@@ -354,19 +332,13 @@ exports[`flow-unlock-account-email-polling-to-mfa-challenge-authenticator should
                                     <div
                                       class="MuiBox-root emotion-11"
                                     >
-<<<<<<< HEAD
                                       <div
                                         class="MuiBox-root emotion-18"
-=======
-                                      <p
-                                        class="MuiTypography-root MuiTypography-body1 emotion-32"
-                                        data-se="o-form-explain"
-                                        tabindex="-1"
->>>>>>> 196af4eba (Snapshot updates)
                                       >
                                         <p
-                                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-46"
+                                          class="MuiTypography-root MuiTypography-body1 emotion-46"
                                           data-se="o-form-explain"
+                                          tabindex="-1"
                                         >
                                           If you have set up a security key, insert it in a USB port when prompted by the browser and tap on the button or gold disk. Security keys can work on multiple devices.
                                         </p>

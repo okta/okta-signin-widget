@@ -67,7 +67,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
               class="MuiBox-root emotion-8"
             >
               <form
-                class="MuiBox-root emotion-9"
+                class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""
               >
@@ -260,7 +260,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
               class="MuiBox-root emotion-8"
             >
               <form
-                class="MuiBox-root emotion-9"
+                class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""
               >
@@ -507,7 +507,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
               class="MuiBox-root emotion-8"
             >
               <form
-                class="MuiBox-root emotion-9"
+                class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""
               >
@@ -606,12 +606,8 @@ exports[`Email authenticator verification when email magic link = undefined rend
                         class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-26"
                       >
                         <label
-<<<<<<< HEAD
                           class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-27"
                           data-shrink="false"
-=======
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated emotion-27"
->>>>>>> 196af4eba (Snapshot updates)
                           for="credentials.passcode"
                           id="credentials.passcode-label"
                         >
@@ -740,7 +736,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
               class="MuiBox-root emotion-8"
             >
               <form
-                class="MuiBox-root emotion-9"
+                class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""
               >
@@ -882,12 +878,8 @@ exports[`Email authenticator verification when email magic link = undefined rend
                         class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-33"
                       >
                         <label
-<<<<<<< HEAD
                           class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiFormLabel-filled Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-34"
                           data-shrink="false"
-=======
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated emotion-34"
->>>>>>> 196af4eba (Snapshot updates)
                           for="credentials.passcode"
                           id="credentials.passcode-label"
                         >
@@ -1044,7 +1036,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
               class="MuiBox-root emotion-8"
             >
               <form
-                class="MuiBox-root emotion-9"
+                class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""
               >
@@ -1240,12 +1232,8 @@ exports[`Email authenticator verification when email magic link = undefined rend
                         class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-42"
                       >
                         <label
-<<<<<<< HEAD
                           class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiFormLabel-filled Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-43"
                           data-shrink="false"
-=======
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated emotion-43"
->>>>>>> 196af4eba (Snapshot updates)
                           for="credentials.passcode"
                           id="credentials.passcode-label"
                         >
@@ -1371,7 +1359,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
               class="MuiBox-root emotion-7"
             >
               <form
-                class="MuiBox-root emotion-8"
+                class="o-form MuiBox-root emotion-8"
                 data-se="o-form"
                 novalidate=""
               >
@@ -1516,7 +1504,7 @@ exports[`Email authenticator verification when email magic link = undefined shou
               class="MuiBox-root emotion-8"
             >
               <form
-                class="MuiBox-root emotion-9"
+                class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""
               >
@@ -1615,12 +1603,8 @@ exports[`Email authenticator verification when email magic link = undefined shou
                         class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-26"
                       >
                         <label
-<<<<<<< HEAD
                           class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-27"
                           data-shrink="false"
-=======
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated emotion-27"
->>>>>>> 196af4eba (Snapshot updates)
                           for="credentials.passcode"
                           id="credentials.passcode-label"
                         >

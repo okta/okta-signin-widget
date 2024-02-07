@@ -71,7 +71,7 @@ exports[`flow-verify-with-piv-as-authenticator should render select authenticato
               class="MuiBox-root emotion-8"
             >
               <form
-                class="MuiBox-root emotion-9"
+                class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""
               >

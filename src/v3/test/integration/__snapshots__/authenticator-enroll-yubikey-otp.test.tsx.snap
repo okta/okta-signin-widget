@@ -69,7 +69,7 @@ exports[`authenticator-enroll-yubikey-otp renders form 1`] = `
               class="MuiBox-root emotion-8"
             >
               <form
-                class="MuiBox-root emotion-9"
+                class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""
               >
@@ -197,12 +197,8 @@ exports[`authenticator-enroll-yubikey-otp renders form 1`] = `
                       class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-27"
                     >
                       <label
-<<<<<<< HEAD
                         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-28"
                         data-shrink="false"
-=======
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated emotion-28"
->>>>>>> 196af4eba (Snapshot updates)
                         for="credentials.passcode"
                         id="credentials.passcode-label"
                       >
@@ -252,9 +248,6 @@ exports[`authenticator-enroll-yubikey-otp renders form 1`] = `
                                 fill-rule="evenodd"
                               />
                             </svg>
-                            <span
-                              class="MuiTouchRipple-root emotion-34"
-                            />
                           </button>
                         </div>
                       </div>
@@ -264,7 +257,7 @@ exports[`authenticator-enroll-yubikey-otp renders form 1`] = `
                     class="MuiBox-root emotion-11"
                   >
                     <button
-                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-36"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-35"
                       data-se="save"
                       tabindex="0"
                       type="submit"
@@ -276,7 +269,7 @@ exports[`authenticator-enroll-yubikey-otp renders form 1`] = `
                     class="MuiBox-root emotion-11"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-38"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-37"
                       data-se="switchAuthenticator"
                       href=""
                     >
@@ -287,7 +280,7 @@ exports[`authenticator-enroll-yubikey-otp renders form 1`] = `
                     class="MuiBox-root emotion-11"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-38"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-37"
                       data-se="cancel"
                       href=""
                     >

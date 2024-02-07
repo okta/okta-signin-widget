@@ -87,7 +87,7 @@ exports[`authenticator-verification-google-authenticator should render form 1`] 
               class="MuiBox-root emotion-8"
             >
               <form
-                class="MuiBox-root emotion-9"
+                class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""
               >
@@ -174,12 +174,8 @@ exports[`authenticator-verification-google-authenticator should render form 1`] 
                       class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-24"
                     >
                       <label
-<<<<<<< HEAD
                         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-25"
                         data-shrink="false"
-=======
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated emotion-25"
->>>>>>> 196af4eba (Snapshot updates)
                         for="credentials.passcode"
                         id="credentials.passcode-label"
                       >

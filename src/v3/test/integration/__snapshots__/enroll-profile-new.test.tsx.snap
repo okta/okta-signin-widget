@@ -36,7 +36,7 @@ exports[`enroll-profile-new should render form 1`] = `
               class="MuiBox-root emotion-7"
             >
               <form
-                class="MuiBox-root emotion-8"
+                class="o-form MuiBox-root emotion-8"
                 data-se="o-form"
                 novalidate=""
               >
@@ -80,12 +80,8 @@ exports[`enroll-profile-new should render form 1`] = `
                       class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-17"
                     >
                       <label
-<<<<<<< HEAD
                         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-18"
                         data-shrink="false"
-=======
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated emotion-18"
->>>>>>> 196af4eba (Snapshot updates)
                         for="userProfile.lastName"
                         id="userProfile.lastName-label"
                       >
@@ -118,12 +114,8 @@ exports[`enroll-profile-new should render form 1`] = `
                       class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-17"
                     >
                       <label
-<<<<<<< HEAD
                         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-18"
                         data-shrink="false"
-=======
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated emotion-18"
->>>>>>> 196af4eba (Snapshot updates)
                         for="userProfile.firstName"
                         id="userProfile.firstName-label"
                       >
@@ -156,12 +148,8 @@ exports[`enroll-profile-new should render form 1`] = `
                       class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-17"
                     >
                       <label
-<<<<<<< HEAD
                         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-18"
                         data-shrink="false"
-=======
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated emotion-18"
->>>>>>> 196af4eba (Snapshot updates)
                         for="userProfile.email"
                         id="userProfile.email-label"
                       >
@@ -204,12 +192,8 @@ exports[`enroll-profile-new should render form 1`] = `
                     class="MuiBox-root emotion-10"
                   >
                     <hr
-<<<<<<< HEAD
-                      class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-34"
-=======
-                      class="MuiDivider-root MuiDivider-fullWidth emotion-37"
+                      class="MuiDivider-root MuiDivider-fullWidth emotion-34"
                       data-se="separation-line"
->>>>>>> 196af4eba (Snapshot updates)
                     />
                   </div>
                   <div

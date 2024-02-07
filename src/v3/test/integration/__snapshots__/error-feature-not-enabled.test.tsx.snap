@@ -36,7 +36,7 @@ exports[`error-feature-not-enabled should render form 1`] = `
               class="MuiBox-root emotion-7"
             >
               <form
-                class="MuiBox-root emotion-8"
+                class="o-form MuiBox-root emotion-8"
                 data-se="o-form"
                 novalidate=""
               >

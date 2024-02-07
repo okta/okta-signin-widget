@@ -67,7 +67,7 @@ exports[`Email authenticator verification when email magic link = false Tests sh
               class="MuiBox-root emotion-8"
             >
               <form
-                class="MuiBox-root emotion-9"
+                class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""
               >
@@ -163,12 +163,8 @@ exports[`Email authenticator verification when email magic link = false Tests sh
                       class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-25"
                     >
                       <label
-<<<<<<< HEAD
                         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-26"
                         data-shrink="false"
-=======
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated emotion-26"
->>>>>>> 196af4eba (Snapshot updates)
                         for="credentials.passcode"
                         id="credentials.passcode-label"
                       >

@@ -36,7 +36,7 @@ exports[`user-unlock-account renders form 1`] = `
               class="MuiBox-root emotion-7"
             >
               <form
-                class="MuiBox-root emotion-8"
+                class="o-form MuiBox-root emotion-8"
                 data-se="o-form"
                 novalidate=""
               >
@@ -68,12 +68,8 @@ exports[`user-unlock-account renders form 1`] = `
                         class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-15"
                       >
                         <label
-<<<<<<< HEAD
                           class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-16"
                           data-shrink="false"
-=======
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated emotion-16"
->>>>>>> 196af4eba (Snapshot updates)
                           for="identifier"
                           id="identifier-label"
                         >

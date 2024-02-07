@@ -43,7 +43,7 @@ const AuthHeader: FunctionComponent<AuthHeaderProps> = ({
   authCoinProps,
 }) => {
   const showAuthCoin = shouldRenderAuthCoin(authCoinProps);
-  const containerTestIds = `okta-sign-in-header auth-header ${ showAuthCoin ? 'authCoinSpacing' : '' }`;
+  const containerTestIds = `okta-sign-in-header auth-header ${showAuthCoin ? 'authCoinSpacing' : ''}`;
   const tokens = useOdysseyDesignTokens();
 
   function renderAuthCoin() {
