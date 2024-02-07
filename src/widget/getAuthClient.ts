@@ -35,6 +35,9 @@ export default function getAuthClientInstance(
       codeChallengeMethod,
       transformErrorXHR: Util.transformErrorXHR,
       recoveryToken,
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      __INTERNAL_legacyTerminalSaveBehavior__: true,
       ...authParams
     };
 
