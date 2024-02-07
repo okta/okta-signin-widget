@@ -155,6 +155,7 @@ export default Controller.extend({
     let invokeOptions: ProceedOptions = {
       exchangeCodeForTokens: false, // we handle this in interactionCodeFlow.js
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
     __INTERNAL_legacyTerminalSaveBehavior__: true,
       stateHandle
     };
@@ -285,6 +286,7 @@ export default Controller.extend({
     const idxOptions: ProceedOptions = {
       exchangeCodeForTokens: false, // we handle this in interactionCodeFlow.js
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
     __INTERNAL_legacyTerminalSaveBehavior__: true,
     };
     try {
