@@ -36,9 +36,6 @@ jest.mock('./applyAsteriskToFieldElements', () => ({
 jest.mock('./updatePasswordDescribedByValue', () => ({
   updatePasswordDescribedByValue: () => ({}),
 }));
-jest.mock('./setLtrFields', () => ({
-  setLtrFields: () => ({}),
-}));
 jest.mock('./overwriteAutocomplete', () => ({
   overwriteAutocomplete: () => () => ({}),
 }));
@@ -55,7 +52,6 @@ const mocked = {
   setFocus: require('./setFocusOnFirstElement'),
   applyAsterisk: require('./applyAsteriskToFieldElements'),
   updatePasswordEle: require('./updatePasswordDescribedByValue'),
-  setLtrField: require('./setLtrFields'),
   overwriteAutocomplete: require('./overwriteAutocomplete'),
   createIdentifierContainer: require('./createIdentifierContainer'),
 };
@@ -70,7 +66,6 @@ describe('UISchema transformer', () => {
     jest.spyOn(mocked.setFocus, 'setFocusOnFirstElement');
     jest.spyOn(mocked.applyAsterisk, 'applyAsteriskToFieldElements');
     jest.spyOn(mocked.updatePasswordEle, 'updatePasswordDescribedByValue');
-    jest.spyOn(mocked.setLtrField, 'setLtrFields');
     jest.spyOn(mocked.overwriteAutocomplete, 'overwriteAutocomplete');
     jest.spyOn(mocked.createIdentifierContainer, 'createIdentifierContainer');
 
@@ -95,7 +90,6 @@ describe('UISchema transformer', () => {
     expect(mocked.setFocus.setFocusOnFirstElement).toHaveBeenCalled();
     expect(mocked.applyAsterisk.applyAsteriskToFieldElements).toHaveBeenCalled();
     expect(mocked.updatePasswordEle.updatePasswordDescribedByValue).toHaveBeenCalled();
-    expect(mocked.setLtrField.setLtrFields).toHaveBeenCalled();
     expect(mocked.overwriteAutocomplete.overwriteAutocomplete).toHaveBeenCalled();
     expect(mocked.createIdentifierContainer.createIdentifierContainer).toHaveBeenCalled();
   });

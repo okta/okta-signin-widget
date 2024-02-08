@@ -11,7 +11,7 @@ const factorNicknameSelector = userVariables.gen3
   ? `${factorListRowSelector} [data-se="authenticator-button-nickname"]`
   : `${factorListRowSelector} .authenticator-enrollment-nickname`;
 const factorIconSelector = userVariables.gen3
-  ? `${factorListRowSelector} [data-se="authenticator-icon"] [data-se="factor-beacon"]`
+  ? `${factorListRowSelector} [data-se="authenticator-icon"] [data-se~="factor-beacon"]`
   : `${factorListRowSelector} .authenticator-icon-container .authenticator-icon`;
 const factorCustomLogoSelector = userVariables.gen3
   ? `${factorListRowSelector} [data-se="authenticator-icon"]`
@@ -89,7 +89,10 @@ export default class SelectFactorPageObject extends BasePageObject {
     return elCount === 0;
   }
 
-  getFactorIconClassByIndex(index) {
+  getFactorIconSelectorByIndex(index) {
+    if (userVariables.gen3) {
+      return this.form.getElement(factorIconSelector).nth(index).getAttribute('data-se');      
+    }
     return this.form.getElement(factorIconSelector).nth(index).getAttribute('class');
   }
 

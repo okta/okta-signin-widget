@@ -236,7 +236,10 @@ export default class BasePageObject {
     return elCount === 1;
   }
 
-  getBeaconClass() {
+  getBeaconSelector() {
+    if (userVariables.gen3) {
+      return Selector('[data-se~="factor-beacon"]').getAttribute('data-se');
+    }
     return Selector('[data-se="factor-beacon"]').getAttribute('class');
   }
 

@@ -77,7 +77,7 @@ test.requestHooks(mockWithHCaptcha)('should be able to create account with hCapt
   // Wait for the hCaptcha container to appear in the DOM and become visible.
   await t.expect(Selector('#captcha-container').find('iframe').exists).ok();
   await registrationPage.clickRegisterButton();
-  await t.expect(registrationPage.getBeaconClass()).contains(BEACON_CLASS);
+  await t.expect(registrationPage.getBeaconSelector()).contains(BEACON_CLASS);
 
   // show registration success terminal view
   await t.expect(registrationPage.terminalMessageExist('To finish signing in, check your email.')).eql(true);

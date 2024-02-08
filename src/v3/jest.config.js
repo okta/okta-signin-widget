@@ -18,7 +18,6 @@ const REPORT_DIR = '<rootDir>/build2/reports/unit';
 const esModules = [
   '@okta/odyssey-design-tokens',
   '@okta/odyssey-react-mui',
-  '@okta/odyssey-react-mui-legacy',
 ].join('|');
 
 const devMode = process.env.NODE_ENV === 'development';

@@ -6,7 +6,7 @@ const FORM_INFOBOX_WARNING = '.okta-form-infobox-warning';
 const RESEND_NUMBER_CHALLENGE_BUTTON = '.okta-form-infobox-warning .resend-number-challenge';
 const FORM_INFOBOX_ERROR_TITLE = '[data-se="o-form-error-container"] [data-se="callout"] > h3';
 const FORM_SELECTOR = '.okta-verify-send-push-form';
-const FORM_SELECTOR_V3 = '.mfa-okta-verify';
+const FORM_SELECTOR_V3 = '[data-se~="mfa-okta-verify"]';
 const AUTO_CHALLENGE_CHECKBOX_SELECTOR = '[name$="autoChallenge"]';
 const AUTO_CHALLENGE_CHECKBOX_LABEL_SELECTOR = '[data-se-for-name$="autoChallenge"]';
 const FACTOR_BEACON = '.auth-beacon.auth-beacon-factor';
@@ -15,7 +15,7 @@ export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPa
   constructor(t) {
     super(t);
     if (userVariables.gen3) {
-      this.beacon = new Selector('[data-se="factor-beacon"]');
+      this.beacon = new Selector('[data-se~="factor-beacon"]');
     } else {
       this.beacon = new Selector('.beacon-container');
     }
@@ -131,9 +131,9 @@ export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPa
     await this.form.clickSaveButton();
   }
 
-  getBeaconClass() {
+  getBeaconSelector() {
     if (userVariables.gen3) {
-      return this.beacon.getAttribute('class');
+      return this.beacon.getAttribute('data-se');
     }
     return this.beacon.find(FACTOR_BEACON).getAttribute('class');
   }

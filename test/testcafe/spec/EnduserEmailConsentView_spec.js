@@ -46,7 +46,7 @@ test
     await t.expect(title).eql('Did you just try to sign in?');
     await t.expect(saveButtonText).eql('Yes, it\'s me');
     await t.expect(cancelButtonText).eql('No, it\'s not me');
-    await t.expect(consentPage.getBeaconClass()).contains('mfa-okta-email');
+    await t.expect(consentPage.getBeaconSelector()).contains('mfa-okta-email');
   });
 
 test
@@ -69,7 +69,7 @@ test
     await t.expect(url).eql('http://localhost:3000/idp/idx/consent');
 
     const terminalPage = new TerminalPageObject(t);
-    await t.expect(terminalPage.getBeaconClass()).contains('mfa-okta-email');
+    await t.expect(terminalPage.getBeaconSelector()).contains('mfa-okta-email');
     await t.expect(terminalPage.getFormTitle()).contains('Success! Return to the original tab or window');
     await t.expect(terminalPage.getMessages(0)).contains('To continue, please return to the original browser tab or window you used to verify.');
     await t.expect(terminalPage.getMessages(1)).contains('Close this window anytime.');
@@ -95,7 +95,7 @@ test
     await t.expect(url).eql('http://localhost:3000/idp/idx/consent');
     
     const terminalPage = new TerminalPageObject(t);
-    await t.expect(terminalPage.getBeaconClass()).contains('mfa-okta-email');
+    await t.expect(terminalPage.getBeaconSelector()).contains('mfa-okta-email');
     await t.expect(terminalPage.getErrorMessages().isError()).eql(true);
     await t.expect(terminalPage.getErrorMessages().getTextContent()).contains('Access denied on other device.');
     await t.expect(terminalPage.getMessages()).contains('Close this window anytime.');

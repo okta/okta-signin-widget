@@ -115,7 +115,7 @@ async function setup(t) {
     .requestHooks(mock)(testTitle, async t => {
       const terminalViewPage = await setup(t);
       await checkA11y(t);
-      await t.expect(terminalViewPage.getBeaconClass()).contains('mfa-okta-email');
+      await t.expect(terminalViewPage.getBeaconSelector()).contains('mfa-okta-email');
     });
 });
 
