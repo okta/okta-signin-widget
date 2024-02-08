@@ -35,7 +35,7 @@ export default class ConsentPageObject extends BasePageObject {
 
   async getHeaderTitleText() {
     if (userVariables.gen3) {
-      return Selector('span.title-text > p').innerText;
+      return Selector('[data-se=title-text] > p').innerText;
     }
     const parent = Selector('.consent-title .title-text');
     // Don't want the <b> nor its content (appName)
@@ -61,6 +61,9 @@ export default class ConsentPageObject extends BasePageObject {
   }
 
   getGranularHeaderText() {
+    if (userVariables.gen3) {
+      return this.getTextContent('[data-se=title-text] > p');
+    }
     return this.getTextContent('.title-text > p');
   }
 
