@@ -112,15 +112,7 @@ exports[`admin-consent should render form with logo 1`] = `
                 </span>
               </div>
               <form
-<<<<<<< HEAD
-<<<<<<< HEAD
                 class="o-form MuiBox-root emotion-19"
-=======
-                class="MuiBox-root emotion-18"
->>>>>>> afd548d0f (Snapshot updates)
-=======
-                class="o-form MuiBox-root emotion-18"
->>>>>>> 84bd6e85d (Rebase, snapshot updates)
                 data-se="o-form"
                 novalidate=""
               >
@@ -134,11 +126,7 @@ exports[`admin-consent should render form with logo 1`] = `
                       class="MuiBox-root emotion-22"
                     >
                       <p
-<<<<<<< HEAD
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-23"
-=======
-                        class="MuiTypography-root MuiTypography-body1 emotion-22"
->>>>>>> afd548d0f (Snapshot updates)
+                        class="MuiTypography-root MuiTypography-body1 emotion-16"
                         data-se="consent-description"
                         tabindex="-1"
                       >
@@ -165,15 +153,7 @@ exports[`admin-consent should render form with logo 1`] = `
                     class="MuiBox-root emotion-21"
                   >
                     <fieldset
-<<<<<<< HEAD
-<<<<<<< HEAD
                       class="MuiFormControl-root MuiFormControl-marginNormal emotion-28"
-=======
-                      class="MuiFormControl-root emotion-27"
->>>>>>> afd548d0f (Snapshot updates)
-=======
-                      class="MuiFormControl-root MuiFormControl-marginNormal emotion-27"
->>>>>>> 84bd6e85d (Rebase, snapshot updates)
                     >
                       <legend
                         class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-29"
@@ -221,19 +201,7 @@ exports[`admin-consent should render form with logo 1`] = `
                             </svg>
                           </span>
                           <span
-<<<<<<< HEAD
-<<<<<<< HEAD
                             class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-16"
-=======
-                            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-34"
-=======
-                          <p
-                            class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained emotion-34"
->>>>>>> 196af4eba (Snapshot updates)
->>>>>>> afd548d0f (Snapshot updates)
-=======
-                            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-22"
->>>>>>> 84bd6e85d (Rebase, snapshot updates)
                           >
                             <span
                               translate="no"
@@ -254,15 +222,7 @@ exports[`admin-consent should render form with logo 1`] = `
                     class="MuiBox-root emotion-21"
                   >
                     <fieldset
-<<<<<<< HEAD
-<<<<<<< HEAD
                       class="MuiFormControl-root MuiFormControl-marginNormal emotion-28"
-=======
-                      class="MuiFormControl-root emotion-27"
->>>>>>> afd548d0f (Snapshot updates)
-=======
-                      class="MuiFormControl-root MuiFormControl-marginNormal emotion-27"
->>>>>>> 84bd6e85d (Rebase, snapshot updates)
                     >
                       <legend
                         class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-29"
@@ -310,19 +270,7 @@ exports[`admin-consent should render form with logo 1`] = `
                             </svg>
                           </span>
                           <span
-<<<<<<< HEAD
-<<<<<<< HEAD
                             class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-16"
-=======
-                            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-34"
-=======
-                          <p
-                            class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained emotion-34"
->>>>>>> 196af4eba (Snapshot updates)
->>>>>>> afd548d0f (Snapshot updates)
-=======
-                            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-22"
->>>>>>> 84bd6e85d (Rebase, snapshot updates)
                           >
                             <span
                               translate="no"
