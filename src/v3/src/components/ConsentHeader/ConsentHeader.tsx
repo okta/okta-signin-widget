@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box, Link } from '@mui/material';
-import { Typography, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
+import { Box } from '@mui/material';
+import { Link, Typography, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { escape } from 'lodash';
 import { Fragment, FunctionComponent, h } from 'preact';
 
@@ -73,7 +73,7 @@ const ConsentHeader: FunctionComponent = () => {
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={altText}
+                ariaLabel={altText}
               >
                 {getAppLogo(altText, logoHref)}
               </Link>
