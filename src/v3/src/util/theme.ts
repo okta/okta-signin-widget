@@ -314,6 +314,13 @@ export const createThemeAndTokens = (
           },
         },
       },
+      MuiScopedCssBaseline: {
+        styleOverrides: {
+          root: {
+            figure: {},
+          },
+        },
+      },
     },
   });
 

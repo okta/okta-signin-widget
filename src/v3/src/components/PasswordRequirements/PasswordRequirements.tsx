@@ -98,7 +98,7 @@ const PasswordRequirements: UISchemaElementComponent<{
     >
       <Box
         component="figcaption"
-        className="password-authenticator--heading"
+        data-se="password-authenticator--heading"
       >
         {header}
       </Box>
