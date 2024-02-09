@@ -45,7 +45,8 @@ const InformationalText: UISchemaElementComponent<{
     >
       <Typography
         component="p"
-        variant={variant ? odyTypographyVariantMapping.subtitle1 : 'body'}
+        variant={variant ? odyTypographyVariantMapping[variant]
+          : odyTypographyVariantMapping.body1}
         testId={dataSe || 'o-form-explain'}
         translate={uischema.noTranslate ? 'no' : undefined}
       >

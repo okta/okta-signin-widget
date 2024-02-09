@@ -190,6 +190,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
                     >
                       <div
                         class="MuiBox-root emotion-28"
+                        data-se="qrContainer"
                       >
                         <div
                           class="MuiBox-root emotion-29"

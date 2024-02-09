@@ -29,6 +29,7 @@ const QRCode: UISchemaElementComponent<{
 
   return (
     <Box
+      data-se="qrContainer"
       sx={{
         marginBlockStart: tokens.Spacing5,
         marginBlockEnd: tokens.Spacing5,

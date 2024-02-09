@@ -22,7 +22,7 @@ import { ListStyleType, WidgetMessage, WidgetMessageLink } from '../../types';
 const WidgetMessageContainer: FunctionComponent<{
   message?: WidgetMessage,
   parserOptions?: HTMLReactParserOptions,
-  linkVariant?: 'monochrome' | 'body1',
+  linkVariant?: 'monochrome' | 'default',
 }> = (props) => {
   const { message, parserOptions, linkVariant } = props;
   const tokens = useOdysseyDesignTokens();
@@ -41,7 +41,10 @@ const WidgetMessageContainer: FunctionComponent<{
       data-se="custom-links"
       disablePadding
       dense
-      sx={{ pl: listStyleType ? tokens.Spacing4 : 0, listStyle: listStyleType ?? 'none' }}
+      sx={{
+        pl: listStyleType ? tokens.Spacing4 : tokens.Spacing0,
+        listStyle: listStyleType ?? 'none',
+      }}
     >
       {links.map((link) => (
         <ListItem
@@ -55,7 +58,7 @@ const WidgetMessageContainer: FunctionComponent<{
             href={link.url}
             target="_blank"
             rel="noopener noreferrer"
-            variant={linkVariant === 'body1' ? 'default' : 'monochrome'}
+            variant={linkVariant}
           >
             {link.label}
           </Link>
