@@ -10,23 +10,28 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box } from '@okta/odyssey-react-mui-legacy';
+import { Box } from '@mui/material';
+import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
 
-const AuthContent: FunctionComponent = ({ children }) => (
-  <Box
-    display="flex"
-    flexDirection="column"
-    justifyContent="flex-start"
-    flexWrap="wrap"
-    paddingX={7}
-    paddingBlockStart={7}
-    paddingBlockEnd={0}
-    maxWidth={1}
-    marginBlockEnd={3}
-  >
-    { children }
-  </Box>
-);
+const AuthContent: FunctionComponent = ({ children }) => {
+  const tokens = useOdysseyDesignTokens();
+
+  return (
+    <Box
+      display="flex"
+      flexDirection="column"
+      justifyContent="flex-start"
+      flexWrap="wrap"
+      paddingX={tokens.Spacing7}
+      paddingBlockStart={tokens.Spacing7}
+      paddingBlockEnd={tokens.Spacing0}
+      maxWidth={1}
+      marginBlockEnd={tokens.Spacing3}
+    >
+      { children }
+    </Box>
+  );
+};
 
 export default AuthContent;

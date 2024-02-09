@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { List, ListItem } from '@mui/material';
-import { Box, Link, Typography } from '@okta/odyssey-react-mui-legacy';
+import { Box, List, ListItem } from '@mui/material';
+import { Link, Typography, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { HTMLReactParserOptions } from 'html-react-parser';
 import { FunctionComponent, h } from 'preact';
 import React from 'preact/compat';
@@ -22,9 +22,10 @@ import { ListStyleType, WidgetMessage, WidgetMessageLink } from '../../types';
 const WidgetMessageContainer: FunctionComponent<{
   message?: WidgetMessage,
   parserOptions?: HTMLReactParserOptions,
-  linkVariant?: 'monochrome' | 'body1',
+  linkVariant?: 'monochrome' | 'default',
 }> = (props) => {
   const { message, parserOptions, linkVariant } = props;
+  const tokens = useOdysseyDesignTokens();
 
   const renderTitle = (title?: string) => (title && (
     <Typography
@@ -37,10 +38,13 @@ const WidgetMessageContainer: FunctionComponent<{
 
   const renderLinks = (links?: WidgetMessageLink[], listStyleType?: ListStyleType) => (links && (
     <List
-      className="custom-links"
+      data-se="custom-links"
       disablePadding
       dense
-      sx={{ pl: listStyleType ? 4 : 0, listStyle: listStyleType ?? 'none' }}
+      sx={{
+        pl: listStyleType ? tokens.Spacing4 : tokens.Spacing0,
+        listStyle: listStyleType ?? 'none',
+      }}
     >
       {links.map((link) => (
         <ListItem
@@ -64,12 +68,11 @@ const WidgetMessageContainer: FunctionComponent<{
   ));
 
   const createListMessages = (widgetMsg: WidgetMessage) => (
-    <Box marginBlockStart={2}>
+    <Box marginBlockStart={tokens.Spacing2}>
       {
         widgetMsg.description && (
           <Typography
             component="p"
-            fontSize="inherit"
           >
             {widgetMsg.description}
           </Typography>
@@ -78,7 +81,7 @@ const WidgetMessageContainer: FunctionComponent<{
       <List
         dense
         disablePadding
-        sx={{ listStyle: widgetMsg.listStyleType ?? 'disc', paddingInlineStart: 4 }}
+        sx={{ listStyle: widgetMsg.listStyleType ?? 'disc', paddingInlineStart: tokens.Spacing4 }}
       >
         {
           (widgetMsg.message as WidgetMessage[])?.map((wm: WidgetMessage) => {

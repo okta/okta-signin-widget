@@ -10,9 +10,9 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { Box } from '@mui/material';
 import { Tag, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { UserIcon } from '@okta/odyssey-react-mui/icons';
-import { Box } from '@okta/odyssey-react-mui-legacy';
 import { h } from 'preact';
 import { IdentifierContainerElement, UISchemaElementComponent } from 'src/types';
 

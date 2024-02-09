@@ -6,8 +6,9 @@ exports[`enroll-profile-with-password should add new field to view and remove it
     class="MuiScopedCssBaseline-root emotion-0"
   >
     <main
-      class="auth-container main-container MuiBox-root emotion-1"
+      class="MuiBox-root emotion-1"
       data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+      data-se="auth-container main-container"
       data-version="0.0.0"
       dir="ltr"
       id="okta-sign-in"
@@ -23,7 +24,8 @@ exports[`enroll-profile-with-password should add new field to view and remove it
             class="MuiBox-root emotion-4"
           >
             <div
-              class="okta-sign-in-header auth-header MuiBox-root emotion-5"
+              class="MuiBox-root emotion-5"
+              data-se="okta-sign-in-header auth-header "
             >
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -31,6 +33,7 @@ exports[`enroll-profile-with-password should add new field to view and remove it
 >>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
               <h1
                 class="MuiTypography-root MuiTypography-h1 emotion-6"
+                tabindex="-1"
               />
             </div>
             <div
@@ -64,7 +67,6 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                       <h2
                         class="MuiTypography-root MuiTypography-h4 emotion-12"
                         data-se="o-form-head"
-                        id="enroll-profile_Title_Sign_up_1"
                         tabindex="-1"
                       >
                         Sign up
@@ -78,9 +80,9 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                       class="MuiBox-root emotion-11"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-15"
+                        class="MuiTypography-root MuiTypography-body1 emotion-15"
                         data-se="o-form-explain"
-                        id="enroll-profile_Description_Fields_are_required_unless_marked_optional_2"
+                        tabindex="-1"
                       >
                         Fields are required unless marked optional.
                       </p>
@@ -271,7 +273,8 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                     class="MuiBox-root emotion-10"
                   >
                     <hr
-                      class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-44"
+                      class="MuiDivider-root MuiDivider-fullWidth emotion-44"
+                      data-se="separation-line"
                     />
                   </div>
                   <div
@@ -284,9 +287,9 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                         class="MuiBox-root emotion-11"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-15"
+                          class="MuiTypography-root MuiTypography-body1 emotion-15"
                           data-se="haveaccount"
-                          id="enroll-profile_Description_Already_have_an_account_11"
+                          tabindex="-1"
                         >
                           Already have an account?
                         </p>
@@ -321,8 +324,9 @@ exports[`enroll-profile-with-password should show custom error message and preve
     class="MuiScopedCssBaseline-root emotion-0"
   >
     <main
-      class="auth-container main-container MuiBox-root emotion-1"
+      class="MuiBox-root emotion-1"
       data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+      data-se="auth-container main-container"
       data-version="0.0.0"
       dir="ltr"
       id="okta-sign-in"
@@ -338,7 +342,8 @@ exports[`enroll-profile-with-password should show custom error message and preve
             class="MuiBox-root emotion-4"
           >
             <div
-              class="okta-sign-in-header auth-header MuiBox-root emotion-5"
+              class="MuiBox-root emotion-5"
+              data-se="okta-sign-in-header auth-header "
             >
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -346,6 +351,7 @@ exports[`enroll-profile-with-password should show custom error message and preve
 >>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
               <h1
                 class="MuiTypography-root MuiTypography-h1 emotion-6"
+                tabindex="-1"
               />
             </div>
             <div
@@ -422,7 +428,6 @@ exports[`enroll-profile-with-password should show custom error message and preve
                       <h2
                         class="MuiTypography-root MuiTypography-h4 emotion-19"
                         data-se="o-form-head"
-                        id="enroll-profile_Title_Sign_up_1"
                         tabindex="-1"
                       >
                         Sign up
@@ -436,9 +441,9 @@ exports[`enroll-profile-with-password should show custom error message and preve
                       class="MuiBox-root emotion-18"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-22"
+                        class="MuiTypography-root MuiTypography-body1 emotion-22"
                         data-se="o-form-explain"
-                        id="enroll-profile_Description_Fields_are_required_unless_marked_optional_2"
+                        tabindex="-1"
                       >
                         Fields are required unless marked optional.
                       </p>
@@ -613,7 +618,8 @@ exports[`enroll-profile-with-password should show custom error message and preve
                     class="MuiBox-root emotion-17"
                   >
                     <hr
-                      class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-49"
+                      class="MuiDivider-root MuiDivider-fullWidth emotion-49"
+                      data-se="separation-line"
                     />
                   </div>
                   <div
@@ -626,9 +632,9 @@ exports[`enroll-profile-with-password should show custom error message and preve
                         class="MuiBox-root emotion-18"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-22"
+                          class="MuiTypography-root MuiTypography-body1 emotion-22"
                           data-se="haveaccount"
-                          id="enroll-profile_Description_Already_have_an_account_10"
+                          tabindex="-1"
                         >
                           Already have an account?
                         </p>
@@ -663,8 +669,9 @@ exports[`enroll-profile-with-password should show custom field level error messa
     class="MuiScopedCssBaseline-root emotion-0"
   >
     <main
-      class="auth-container main-container MuiBox-root emotion-1"
+      class="MuiBox-root emotion-1"
       data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+      data-se="auth-container main-container"
       data-version="0.0.0"
       dir="ltr"
       id="okta-sign-in"
@@ -680,7 +687,8 @@ exports[`enroll-profile-with-password should show custom field level error messa
             class="MuiBox-root emotion-4"
           >
             <div
-              class="okta-sign-in-header auth-header MuiBox-root emotion-5"
+              class="MuiBox-root emotion-5"
+              data-se="okta-sign-in-header auth-header "
             >
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -688,6 +696,7 @@ exports[`enroll-profile-with-password should show custom field level error messa
 >>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
               <h1
                 class="MuiTypography-root MuiTypography-h1 emotion-6"
+                tabindex="-1"
               />
             </div>
             <div
@@ -764,7 +773,6 @@ exports[`enroll-profile-with-password should show custom field level error messa
                       <h2
                         class="MuiTypography-root MuiTypography-h4 emotion-19"
                         data-se="o-form-head"
-                        id="enroll-profile_Title_Sign_up_1"
                         tabindex="-1"
                       >
                         Sign up
@@ -778,9 +786,9 @@ exports[`enroll-profile-with-password should show custom field level error messa
                       class="MuiBox-root emotion-18"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-22"
+                        class="MuiTypography-root MuiTypography-body1 emotion-22"
                         data-se="o-form-explain"
-                        id="enroll-profile_Description_Fields_are_required_unless_marked_optional_2"
+                        tabindex="-1"
                       >
                         Fields are required unless marked optional.
                       </p>
@@ -955,7 +963,8 @@ exports[`enroll-profile-with-password should show custom field level error messa
                     class="MuiBox-root emotion-17"
                   >
                     <hr
-                      class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-49"
+                      class="MuiDivider-root MuiDivider-fullWidth emotion-49"
+                      data-se="separation-line"
                     />
                   </div>
                   <div
@@ -968,9 +977,9 @@ exports[`enroll-profile-with-password should show custom field level error messa
                         class="MuiBox-root emotion-18"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-22"
+                          class="MuiTypography-root MuiTypography-body1 emotion-22"
                           data-se="haveaccount"
-                          id="enroll-profile_Description_Already_have_an_account_10"
+                          tabindex="-1"
                         >
                           Already have an account?
                         </p>
@@ -1005,8 +1014,9 @@ exports[`enroll-profile-with-password should show generic error message and prev
     class="MuiScopedCssBaseline-root emotion-0"
   >
     <main
-      class="auth-container main-container MuiBox-root emotion-1"
+      class="MuiBox-root emotion-1"
       data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+      data-se="auth-container main-container"
       data-version="0.0.0"
       dir="ltr"
       id="okta-sign-in"
@@ -1022,7 +1032,8 @@ exports[`enroll-profile-with-password should show generic error message and prev
             class="MuiBox-root emotion-4"
           >
             <div
-              class="okta-sign-in-header auth-header MuiBox-root emotion-5"
+              class="MuiBox-root emotion-5"
+              data-se="okta-sign-in-header auth-header "
             >
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -1030,6 +1041,7 @@ exports[`enroll-profile-with-password should show generic error message and prev
 >>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
               <h1
                 class="MuiTypography-root MuiTypography-h1 emotion-6"
+                tabindex="-1"
               />
             </div>
             <div
@@ -1106,7 +1118,6 @@ exports[`enroll-profile-with-password should show generic error message and prev
                       <h2
                         class="MuiTypography-root MuiTypography-h4 emotion-19"
                         data-se="o-form-head"
-                        id="enroll-profile_Title_Sign_up_1"
                         tabindex="-1"
                       >
                         Sign up
@@ -1120,9 +1131,9 @@ exports[`enroll-profile-with-password should show generic error message and prev
                       class="MuiBox-root emotion-18"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-22"
+                        class="MuiTypography-root MuiTypography-body1 emotion-22"
                         data-se="o-form-explain"
-                        id="enroll-profile_Description_Fields_are_required_unless_marked_optional_2"
+                        tabindex="-1"
                       >
                         Fields are required unless marked optional.
                       </p>
@@ -1280,7 +1291,8 @@ exports[`enroll-profile-with-password should show generic error message and prev
                     class="MuiBox-root emotion-17"
                   >
                     <hr
-                      class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-46"
+                      class="MuiDivider-root MuiDivider-fullWidth emotion-46"
+                      data-se="separation-line"
                     />
                   </div>
                   <div
@@ -1293,9 +1305,9 @@ exports[`enroll-profile-with-password should show generic error message and prev
                         class="MuiBox-root emotion-18"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-22"
+                          class="MuiTypography-root MuiTypography-body1 emotion-22"
                           data-se="haveaccount"
-                          id="enroll-profile_Description_Already_have_an_account_10"
+                          tabindex="-1"
                         >
                           Already have an account?
                         </p>
@@ -1330,8 +1342,9 @@ exports[`enroll-profile-with-password should show validation error messages on a
     class="MuiScopedCssBaseline-root emotion-0"
   >
     <main
-      class="auth-container main-container MuiBox-root emotion-1"
+      class="MuiBox-root emotion-1"
       data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+      data-se="auth-container main-container"
       data-version="0.0.0"
       dir="ltr"
       id="okta-sign-in"
@@ -1347,7 +1360,8 @@ exports[`enroll-profile-with-password should show validation error messages on a
             class="MuiBox-root emotion-4"
           >
             <div
-              class="okta-sign-in-header auth-header MuiBox-root emotion-5"
+              class="MuiBox-root emotion-5"
+              data-se="okta-sign-in-header auth-header "
             >
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -1355,6 +1369,7 @@ exports[`enroll-profile-with-password should show validation error messages on a
 >>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
               <h1
                 class="MuiTypography-root MuiTypography-h1 emotion-6"
+                tabindex="-1"
               />
             </div>
             <div
@@ -1431,7 +1446,6 @@ exports[`enroll-profile-with-password should show validation error messages on a
                       <h2
                         class="MuiTypography-root MuiTypography-h4 emotion-19"
                         data-se="o-form-head"
-                        id="enroll-profile_Title_Sign_up_1"
                         tabindex="-1"
                       >
                         Sign up
@@ -1445,9 +1459,9 @@ exports[`enroll-profile-with-password should show validation error messages on a
                       class="MuiBox-root emotion-18"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-22"
+                        class="MuiTypography-root MuiTypography-body1 emotion-22"
                         data-se="o-form-explain"
-                        id="enroll-profile_Description_Fields_are_required_unless_marked_optional_2"
+                        tabindex="-1"
                       >
                         Fields are required unless marked optional.
                       </p>
@@ -1723,7 +1737,8 @@ exports[`enroll-profile-with-password should show validation error messages on a
                     class="MuiBox-root emotion-17"
                   >
                     <hr
-                      class="MuiDivider-root MuiDivider-fullWidth separation-line emotion-66"
+                      class="MuiDivider-root MuiDivider-fullWidth emotion-66"
+                      data-se="separation-line"
                     />
                   </div>
                   <div
@@ -1736,9 +1751,9 @@ exports[`enroll-profile-with-password should show validation error messages on a
                         class="MuiBox-root emotion-18"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-22"
+                          class="MuiTypography-root MuiTypography-body1 emotion-22"
                           data-se="haveaccount"
-                          id="enroll-profile_Description_Already_have_an_account_11"
+                          tabindex="-1"
                         >
                           Already have an account?
                         </p>

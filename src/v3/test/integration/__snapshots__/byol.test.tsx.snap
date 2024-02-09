@@ -6,8 +6,9 @@ exports[`byol loading custom language should load custom language with "language
     class="MuiScopedCssBaseline-root emotion-0"
   >
     <main
-      class="auth-container main-container MuiBox-root emotion-1"
+      class="MuiBox-root emotion-1"
       data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+      data-se="auth-container main-container"
       data-version="0.0.0"
       dir="ltr"
       id="okta-sign-in"
@@ -23,17 +24,19 @@ exports[`byol loading custom language should load custom language with "language
             class="MuiBox-root emotion-4"
           >
             <div
-              class="okta-sign-in-header auth-header authCoinSpacing MuiBox-root emotion-5"
+              class="MuiBox-root emotion-5"
+              data-se="okta-sign-in-header auth-header authCoinSpacing"
             >
               <h1
                 class="MuiTypography-root MuiTypography-h1 emotion-6"
+                tabindex="-1"
               />
               <div
 <<<<<<< HEAD
 <<<<<<< HEAD
                 aria-hidden="true"
-                class="mfa-okta-phone MuiBox-root emotion-7"
-                data-se="factor-beacon"
+                class="MuiBox-root emotion-7"
+                data-se="factor-beacon mfa-okta-phone "
               >
                 <svg
                   aria-labelledby="mfa-okta-phone"
@@ -196,7 +199,6 @@ exports[`byol loading custom language should load custom language with "language
                       <h2
                         class="MuiTypography-root MuiTypography-h4 emotion-19"
                         data-se="o-form-head"
-                        id="authenticator-enrollment-data_Title_Set_up_foo_authentication_phone_number_aid568g3mXgtID0X1SLH_1"
                         tabindex="-1"
                       >
                         Set up foo authentication
@@ -213,9 +215,9 @@ exports[`byol loading custom language should load custom language with "language
                         class="MuiBox-root emotion-18"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-23"
+                          class="MuiTypography-root MuiTypography-body1 emotion-23"
                           data-se="o-form-explain"
-                          id="authenticator-enrollment-data_Description_Enter_your_phone_number_to_receive_a_verification_code_via_SMS_phone_number_aid568g3mXgtID0X1SLH_3_1"
+                          tabindex="-1"
                         >
                           Enter your phone number to receive a verification code via SMS.
                         </p>
@@ -254,7 +256,7 @@ exports[`byol loading custom language should load custom language with "language
                               />
                             </span>
                             <span
-                              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-31"
+                              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-23"
                             >
                               SMS
                             </span>
@@ -273,7 +275,7 @@ exports[`byol loading custom language should load custom language with "language
                               />
                             </span>
                             <span
-                              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-31"
+                              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-23"
                             >
                               Voice call
                             </span>
@@ -1647,8 +1649,9 @@ exports[`byol loading custom language should load custom language with assets.ba
     class="MuiScopedCssBaseline-root emotion-0"
   >
     <main
-      class="auth-container main-container MuiBox-root emotion-1"
+      class="MuiBox-root emotion-1"
       data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+      data-se="auth-container main-container"
       data-version="0.0.0"
       dir="ltr"
       id="okta-sign-in"
@@ -1664,17 +1667,19 @@ exports[`byol loading custom language should load custom language with assets.ba
             class="MuiBox-root emotion-4"
           >
             <div
-              class="okta-sign-in-header auth-header authCoinSpacing MuiBox-root emotion-5"
+              class="MuiBox-root emotion-5"
+              data-se="okta-sign-in-header auth-header authCoinSpacing"
             >
               <h1
                 class="MuiTypography-root MuiTypography-h1 emotion-6"
+                tabindex="-1"
               />
               <div
 <<<<<<< HEAD
 <<<<<<< HEAD
                 aria-hidden="true"
-                class="mfa-okta-phone MuiBox-root emotion-7"
-                data-se="factor-beacon"
+                class="MuiBox-root emotion-7"
+                data-se="factor-beacon mfa-okta-phone "
               >
                 <svg
                   aria-labelledby="mfa-okta-phone"
@@ -1837,7 +1842,6 @@ exports[`byol loading custom language should load custom language with assets.ba
                       <h2
                         class="MuiTypography-root MuiTypography-h4 emotion-19"
                         data-se="o-form-head"
-                        id="authenticator-enrollment-data_Title_Set_up_foo_authentication_phone_number_aid568g3mXgtID0X1SLH_1"
                         tabindex="-1"
                       >
                         Set up foo authentication
@@ -1854,9 +1858,9 @@ exports[`byol loading custom language should load custom language with assets.ba
                         class="MuiBox-root emotion-18"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-23"
+                          class="MuiTypography-root MuiTypography-body1 emotion-23"
                           data-se="o-form-explain"
-                          id="authenticator-enrollment-data_Description_Enter_your_phone_number_to_receive_a_verification_code_via_SMS_phone_number_aid568g3mXgtID0X1SLH_3_1"
+                          tabindex="-1"
                         >
                           Enter your phone number to receive a verification code via SMS.
                         </p>
@@ -1895,7 +1899,7 @@ exports[`byol loading custom language should load custom language with assets.ba
                               />
                             </span>
                             <span
-                              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-31"
+                              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-23"
                             >
                               SMS
                             </span>
@@ -1914,7 +1918,7 @@ exports[`byol loading custom language should load custom language with assets.ba
                               />
                             </span>
                             <span
-                              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-31"
+                              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-23"
                             >
                               Voice call
                             </span>
@@ -3288,8 +3292,9 @@ exports[`byol loading default language should not load custom language when the 
     class="MuiScopedCssBaseline-root emotion-0"
   >
     <main
-      class="auth-container main-container MuiBox-root emotion-1"
+      class="MuiBox-root emotion-1"
       data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+      data-se="auth-container main-container"
       data-version="0.0.0"
       dir="ltr"
       id="okta-sign-in"
@@ -3305,17 +3310,19 @@ exports[`byol loading default language should not load custom language when the 
             class="MuiBox-root emotion-4"
           >
             <div
-              class="okta-sign-in-header auth-header authCoinSpacing MuiBox-root emotion-5"
+              class="MuiBox-root emotion-5"
+              data-se="okta-sign-in-header auth-header authCoinSpacing"
             >
               <h1
                 class="MuiTypography-root MuiTypography-h1 emotion-6"
+                tabindex="-1"
               />
               <div
 <<<<<<< HEAD
 <<<<<<< HEAD
                 aria-hidden="true"
-                class="mfa-okta-phone MuiBox-root emotion-7"
-                data-se="factor-beacon"
+                class="MuiBox-root emotion-7"
+                data-se="factor-beacon mfa-okta-phone "
               >
                 <svg
                   aria-labelledby="mfa-okta-phone"
@@ -3478,7 +3485,6 @@ exports[`byol loading default language should not load custom language when the 
                       <h2
                         class="MuiTypography-root MuiTypography-h4 emotion-19"
                         data-se="o-form-head"
-                        id="authenticator-enrollment-data_Title_Set_up_phone_authentication_phone_number_aid568g3mXgtID0X1SLH_1"
                         tabindex="-1"
                       >
                         Set up phone authentication
@@ -3495,9 +3501,9 @@ exports[`byol loading default language should not load custom language when the 
                         class="MuiBox-root emotion-18"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-23"
+                          class="MuiTypography-root MuiTypography-body1 emotion-23"
                           data-se="o-form-explain"
-                          id="authenticator-enrollment-data_Description_Enter_your_phone_number_to_receive_a_verification_code_via_SMS_phone_number_aid568g3mXgtID0X1SLH_3_1"
+                          tabindex="-1"
                         >
                           Enter your phone number to receive a verification code via SMS.
                         </p>
@@ -3536,7 +3542,7 @@ exports[`byol loading default language should not load custom language when the 
                               />
                             </span>
                             <span
-                              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-31"
+                              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-23"
                             >
                               SMS
                             </span>
@@ -3555,7 +3561,7 @@ exports[`byol loading default language should not load custom language when the 
                               />
                             </span>
                             <span
-                              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-31"
+                              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-23"
                             >
                               Voice call
                             </span>
@@ -4929,8 +4935,9 @@ exports[`byol loading default language should not load custom language with "lan
     class="MuiScopedCssBaseline-root emotion-0"
   >
     <main
-      class="auth-container main-container MuiBox-root emotion-1"
+      class="MuiBox-root emotion-1"
       data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+      data-se="auth-container main-container"
       data-version="0.0.0"
       dir="ltr"
       id="okta-sign-in"
@@ -4946,17 +4953,19 @@ exports[`byol loading default language should not load custom language with "lan
             class="MuiBox-root emotion-4"
           >
             <div
-              class="okta-sign-in-header auth-header authCoinSpacing MuiBox-root emotion-5"
+              class="MuiBox-root emotion-5"
+              data-se="okta-sign-in-header auth-header authCoinSpacing"
             >
               <h1
                 class="MuiTypography-root MuiTypography-h1 emotion-6"
+                tabindex="-1"
               />
               <div
 <<<<<<< HEAD
 <<<<<<< HEAD
                 aria-hidden="true"
-                class="mfa-okta-phone MuiBox-root emotion-7"
-                data-se="factor-beacon"
+                class="MuiBox-root emotion-7"
+                data-se="factor-beacon mfa-okta-phone "
               >
                 <svg
                   aria-labelledby="mfa-okta-phone"
@@ -5119,7 +5128,6 @@ exports[`byol loading default language should not load custom language with "lan
                       <h2
                         class="MuiTypography-root MuiTypography-h4 emotion-19"
                         data-se="o-form-head"
-                        id="authenticator-enrollment-data_Title_Set_up_phone_authentication_phone_number_aid568g3mXgtID0X1SLH_1"
                         tabindex="-1"
                       >
                         Set up phone authentication
@@ -5136,9 +5144,9 @@ exports[`byol loading default language should not load custom language with "lan
                         class="MuiBox-root emotion-18"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-23"
+                          class="MuiTypography-root MuiTypography-body1 emotion-23"
                           data-se="o-form-explain"
-                          id="authenticator-enrollment-data_Description_Enter_your_phone_number_to_receive_a_verification_code_via_SMS_phone_number_aid568g3mXgtID0X1SLH_3_1"
+                          tabindex="-1"
                         >
                           Enter your phone number to receive a verification code via SMS.
                         </p>
@@ -5177,7 +5185,7 @@ exports[`byol loading default language should not load custom language with "lan
                               />
                             </span>
                             <span
-                              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-31"
+                              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-23"
                             >
                               SMS
                             </span>
@@ -5196,7 +5204,7 @@ exports[`byol loading default language should not load custom language with "lan
                               />
                             </span>
                             <span
-                              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-31"
+                              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-23"
                             >
                               Voice call
                             </span>

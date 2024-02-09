@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Button as OdyButton } from '@okta/odyssey-react-mui';
-import { Box } from '@okta/odyssey-react-mui-legacy';
+import { Box } from '@mui/material';
+import { Button as OdyButton, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 
@@ -38,6 +38,8 @@ const PIVButton: UISchemaElementComponent<{
 
   const showLoading = waiting || loading;
 
+  const tokens = useOdysseyDesignTokens();
+
   const initCertPrompt = () => {
     setWaiting(true);
     setMessage(undefined);
@@ -62,7 +64,7 @@ const PIVButton: UISchemaElementComponent<{
 
   return (
     <Box
-      marginBlockEnd={4}
+      marginBlockEnd={tokens.Spacing4}
       display={showLoading ? 'flex' : undefined}
       justifyContent={showLoading ? 'center' : undefined}
     >

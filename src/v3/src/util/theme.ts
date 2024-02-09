@@ -213,6 +213,13 @@ export const createThemeAndTokens = (
           },
         },
       },
+      MuiChip: {
+        styleOverrides: {
+          root: {
+            lineHeight: 'normal',
+          },
+        },
+      },
       MuiFormControlLabel: {
         styleOverrides: {
           root: {
@@ -303,6 +310,22 @@ export const createThemeAndTokens = (
                 position: 'relative',
                 backgroundColor: mergedTokens.PalettePrimaryMain,
               },
+            },
+          },
+        },
+      },
+      MuiScopedCssBaseline: {
+        styleOverrides: {
+          root: {
+            figure: {},
+          },
+        },
+      },
+      MuiTypography: {
+        styleOverrides: {
+          root: {
+            '&[data-se="o-form-head"]': {
+              outline: 'none',
             },
           },
         },

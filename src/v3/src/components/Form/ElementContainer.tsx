@@ -10,7 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box } from '@okta/odyssey-react-mui-legacy';
+import { Box } from '@mui/material';
+import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
 
 import { useLayoutContext } from '../../contexts';
@@ -24,6 +25,7 @@ import renderers from './renderers';
 
 const ElementContainer: FunctionComponent<{ element: UISchemaElement }> = ({ element }) => {
   const { layoutDirection } = useLayoutContext();
+  const tokens = useOdysseyDesignTokens();
   const renderer = renderers.find((r) => r.tester(element));
   if (!renderer) {
     // TODO: for now do not render for unmatch render object
@@ -39,9 +41,10 @@ const ElementContainer: FunctionComponent<{ element: UISchemaElement }> = ({ ele
   return (
     <Box
       // eslint-disable-next-line react/jsx-props-no-spreading
-      {...(!(element).noMargin && { marginBlockEnd: 4 })}
+      {...(!(element).noMargin && { marginBlockEnd: tokens.Spacing4 })}
       // eslint-disable-next-line react/jsx-props-no-spreading
-      {...(layoutDirection === UISchemaLayoutType.HORIZONTAL && { marginInlineEnd: 1 })}
+      {...(layoutDirection === UISchemaLayoutType.HORIZONTAL
+        && { marginInlineEnd: tokens.Spacing1 })}
     >
       <Component uischema={element} />
     </Box>

@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Callout } from '@okta/odyssey-react-mui';
-import { Box } from '@okta/odyssey-react-mui-legacy';
+import { Box } from '@mui/material';
+import { Callout, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { IdxMessage } from '@okta/okta-auth-js';
 import { FunctionComponent, h } from 'preact';
 
@@ -21,20 +21,24 @@ type Props = {
   message?: IdxMessage;
 };
 
-const InfoSection: FunctionComponent<Props> = ({ message }) => (message ? (
-  <Box
-    marginBlockEnd={4}
-    width={1}
-  >
-    <Callout
-      key={message.i18n?.key || message.message}
-      severity={MessageTypeVariant[message.class as MessageType] ?? MessageTypeVariant.INFO}
-      // visually-hidden severity text is not translated
-      translate="no"
+const InfoSection: FunctionComponent<Props> = ({ message }) => {
+  const tokens = useOdysseyDesignTokens();
+
+  return (message ? (
+    <Box
+      marginBlockEnd={tokens.Spacing4}
+      width={1}
     >
-      {message.message}
-    </Callout>
-  </Box>
-) : null);
+      <Callout
+        key={message.i18n?.key || message.message}
+        severity={MessageTypeVariant[message.class as MessageType] ?? MessageTypeVariant.INFO}
+        // visually-hidden severity text is not translated
+        translate="no"
+      >
+        {message.message}
+      </Callout>
+    </Box>
+  ) : null);
+};
 
 export default InfoSection;

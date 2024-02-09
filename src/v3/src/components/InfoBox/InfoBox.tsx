@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Callout } from '@okta/odyssey-react-mui';
-import { Box } from '@okta/odyssey-react-mui-legacy';
+import { Box } from '@mui/material';
+import { Callout, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
@@ -39,9 +39,11 @@ const InfoBox: UISchemaElementComponent<{
     },
   } = uischema;
 
+  const tokens = useOdysseyDesignTokens();
+
   return loading ? null : (
     <Box
-      marginBlockEnd={4}
+      marginBlockEnd={tokens.Spacing4}
       width={1}
       data-se={`infobox-${messageClass.toLowerCase()}`}
     >
@@ -55,7 +57,7 @@ const InfoBox: UISchemaElementComponent<{
           Array.isArray(message)
             ? message.map((msg) => (
               <Box
-                marginBlockEnd={2}
+                marginBlockEnd={tokens.Spacing2}
                 key={msg.message}
               >
                 <WidgetMessageContainer

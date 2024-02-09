@@ -11,7 +11,6 @@
  */
 
 import { Box } from '@mui/material';
-import classNames from 'classnames';
 import { FunctionComponent, h } from 'preact';
 import { useCallback, useEffect } from 'preact/hooks';
 
@@ -28,7 +27,6 @@ import Layout from './Layout';
 const Form: FunctionComponent<{
   uischema: UISchemaLayout;
 }> = ({ uischema }) => {
-  const classes = classNames('o-form');
   const {
     data,
     idxTransaction: currTransaction,
@@ -108,8 +106,8 @@ const Form: FunctionComponent<{
       component="form"
       noValidate
       onSubmit={handleSubmit}
-      className={classes} // TODO: FIXME OKTA-578584 - update page objects using .o-form selectors
-      data-se="o-form"
+      className="o-form"
+      data-se="o-form" // TODO: FIXME OKTA-578584 - update page objects using .o-form selectors
       sx={{
         maxInlineSize: '100%',
         wordBreak: 'break-word',

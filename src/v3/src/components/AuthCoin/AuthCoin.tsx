@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { Box } from '@mui/material';
 import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
-import { Box } from '@okta/odyssey-react-mui-legacy';
-import classNames from 'classnames';
 import { FunctionComponent, h } from 'preact';
 
 import { AuthCoinProps } from '../../types';
@@ -32,7 +31,7 @@ const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
   const authCoinConfiguration = getAuthCoinConfiguration();
   const authCoinConfigByAuthKey = authCoinConfiguration[authenticatorKey];
 
-  const containerClasses = classNames(authCoinConfigByAuthKey?.iconClassName, customClasses);
+  const containerTestIds = `factor-beacon ${authCoinConfigByAuthKey?.iconClassName} ${customClasses ? customClasses?.join(' ') : ''}`;
   const tokens = useOdysseyDesignTokens();
 
   function createAuthCoinIcon() {
@@ -65,8 +64,7 @@ const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
 
   return authCoinConfigByAuthKey && (
     <Box
-      className={containerClasses}
-      data-se="factor-beacon"
+      data-se={containerTestIds}
       aria-hidden
       sx={{
         position: 'relative',

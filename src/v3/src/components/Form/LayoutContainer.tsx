@@ -10,7 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box } from '@okta/odyssey-react-mui-legacy';
+import { Box } from '@mui/material';
+import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
 
 import {
@@ -30,6 +31,7 @@ import ElementContainer from './ElementContainer';
  */
 const LayoutContainer: FunctionComponent<{ uischema: UISchemaLayout }> = ({ uischema }) => {
   const { type, elements } = uischema;
+  const tokens = useOdysseyDesignTokens();
 
   const isHorizontalLayout = type === UISchemaLayoutType.HORIZONTAL;
   const flexDirection = isHorizontalLayout ? 'row' : 'column';
@@ -38,7 +40,7 @@ const LayoutContainer: FunctionComponent<{ uischema: UISchemaLayout }> = ({ uisc
       display="flex"
       flexDirection={flexDirection}
       // eslint-disable-next-line react/jsx-props-no-spreading
-      {...(isHorizontalLayout && { gap: 1 })}
+      {...(isHorizontalLayout && { gap: tokens.Spacing1 })}
     >
       {
         elements.map((element, index) => {

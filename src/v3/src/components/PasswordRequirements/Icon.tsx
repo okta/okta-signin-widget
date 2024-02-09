@@ -10,10 +10,9 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { Box } from '@mui/material';
 import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { CheckCircleFilledIcon, CloseIcon, InformationCircleIcon } from '@okta/odyssey-react-mui/icons';
-import { Box } from '@okta/odyssey-react-mui-legacy';
-import classNames from 'classnames';
 import { FunctionComponent, h } from 'preact';
 
 import { PasswordRequirementStatus } from '../../types';
@@ -32,12 +31,10 @@ const Icon: FunctionComponent<PasswordRequirementIconProps> = (
     complete: { component: CheckCircleFilledIcon, color: tokens.PaletteSuccessMain },
     info: { component: InformationCircleIcon, color: tokens.PalettePrimaryMain },
   };
-  const iconClasses = classNames('passwordRequirementIcon', status);
   const OdyIcon = statusToIcon[status].component;
 
   return (
     <Box
-      className={iconClasses}
       data-se={`passwordRequirementIcon-${status}`}
       sx={{
         marginInlineEnd: tokens.Spacing2,

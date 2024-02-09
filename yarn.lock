@@ -3561,13 +3561,6 @@
   resolved "https://registry.npmjs.org/@mui/core-downloads-tracker/-/core-downloads-tracker-5.14.12.tgz#7be13094ef0c2fc7c3854da2b90a7eae456ebefd"
   integrity sha512-WZhCkKqhrXaSVBzoC6LNcVkIawS000OOt7gmnp4g9HhyvN0PSclRXc/JrkC7EwfzUAZJh+hiK2LaVsbtOpNuOg==
 
-"@mui/icons-material@^5.10.9", "@mui/icons-material@^5.8.4":
-  version "5.11.11"
-  resolved "https://registry.yarnpkg.com/@mui/icons-material/-/icons-material-5.11.11.tgz#d4e01bd405b0dac779f5e060586277f91f3acb6e"
-  integrity sha512-Eell3ADmQVE8HOpt/LZ3zIma8JSvPh3XgnhwZLT0k5HRqZcd6F/QDHc7xsWtgz09t+UEFvOYJXjtrwKmLdwwpw==
-  dependencies:
-    "@babel/runtime" "^7.21.0"
-
 "@mui/icons-material@^5.11.0":
   version "5.14.12"
   resolved "https://registry.npmjs.org/@mui/icons-material/-/icons-material-5.14.12.tgz#6634cdc3198bc438e8d38ce591c96d63d5df99a0"
@@ -3575,19 +3568,12 @@
   dependencies:
     "@babel/runtime" "^7.23.1"
 
-"@mui/lab@^5.0.0-alpha.103":
-  version "5.0.0-alpha.123"
-  resolved "https://registry.yarnpkg.com/@mui/lab/-/lab-5.0.0-alpha.123.tgz#ab61f2700d8230868c64670299465ba446cfec89"
-  integrity sha512-E6PyNETF/FcGyGSMql25cQCZqbo+07EAEjHXM15V0R6rwQ/ZA/Dst41iQvyHk6t1QLI3vRw6YOR43OGKM3jURA==
+"@mui/icons-material@^5.8.4":
+  version "5.11.11"
+  resolved "https://registry.yarnpkg.com/@mui/icons-material/-/icons-material-5.11.11.tgz#d4e01bd405b0dac779f5e060586277f91f3acb6e"
+  integrity sha512-Eell3ADmQVE8HOpt/LZ3zIma8JSvPh3XgnhwZLT0k5HRqZcd6F/QDHc7xsWtgz09t+UEFvOYJXjtrwKmLdwwpw==
   dependencies:
     "@babel/runtime" "^7.21.0"
-    "@mui/base" "5.0.0-alpha.121"
-    "@mui/system" "^5.11.13"
-    "@mui/types" "^7.2.3"
-    "@mui/utils" "^5.11.13"
-    clsx "^1.2.1"
-    prop-types "^15.8.1"
-    react-is "^18.2.0"
 
 "@mui/lab@^5.0.0-alpha.117":
   version "5.0.0-alpha.147"
@@ -3603,24 +3589,6 @@
     clsx "^2.0.0"
     prop-types "^15.8.1"
 
-"@mui/material@^5.10.12", "@mui/material@^5.8.5":
-  version "5.11.13"
-  resolved "https://registry.yarnpkg.com/@mui/material/-/material-5.11.13.tgz#bbbdc74a78d4a0e6257a7bca3b8fa38ac8ad3915"
-  integrity sha512-2CnSj43F+159LbGmTLLQs5xbGYMiYlpTByQhP7c7cMX6opbScctBFE1PuyElpAmwW8Ag9ysfZH1d1MFAmJQkjg==
-  dependencies:
-    "@babel/runtime" "^7.21.0"
-    "@mui/base" "5.0.0-alpha.121"
-    "@mui/core-downloads-tracker" "^5.11.13"
-    "@mui/system" "^5.11.13"
-    "@mui/types" "^7.2.3"
-    "@mui/utils" "^5.11.13"
-    "@types/react-transition-group" "^4.4.5"
-    clsx "^1.2.1"
-    csstype "^3.1.1"
-    prop-types "^15.8.1"
-    react-is "^18.2.0"
-    react-transition-group "^4.4.5"
-
 "@mui/material@^5.12.3":
   version "5.14.12"
   resolved "https://registry.npmjs.org/@mui/material/-/material-5.14.12.tgz#8fa5bebd1a096796a288b548f1ba867e068601c8"
@@ -3635,6 +3603,24 @@
     "@types/react-transition-group" "^4.4.6"
     clsx "^2.0.0"
     csstype "^3.1.2"
+    prop-types "^15.8.1"
+    react-is "^18.2.0"
+    react-transition-group "^4.4.5"
+
+"@mui/material@^5.8.5":
+  version "5.11.13"
+  resolved "https://registry.yarnpkg.com/@mui/material/-/material-5.11.13.tgz#bbbdc74a78d4a0e6257a7bca3b8fa38ac8ad3915"
+  integrity sha512-2CnSj43F+159LbGmTLLQs5xbGYMiYlpTByQhP7c7cMX6opbScctBFE1PuyElpAmwW8Ag9ysfZH1d1MFAmJQkjg==
+  dependencies:
+    "@babel/runtime" "^7.21.0"
+    "@mui/base" "5.0.0-alpha.121"
+    "@mui/core-downloads-tracker" "^5.11.13"
+    "@mui/system" "^5.11.13"
+    "@mui/types" "^7.2.3"
+    "@mui/utils" "^5.11.13"
+    "@types/react-transition-group" "^4.4.5"
+    clsx "^1.2.1"
+    csstype "^3.1.1"
     prop-types "^15.8.1"
     react-is "^18.2.0"
     react-transition-group "^4.4.5"
@@ -3725,7 +3711,7 @@
     prop-types "^15.8.1"
     react-is "^18.2.0"
 
-"@mui/utils@^5.10.9", "@mui/utils@^5.11.13":
+"@mui/utils@^5.11.13":
   version "5.11.13"
   resolved "https://registry.yarnpkg.com/@mui/utils/-/utils-5.11.13.tgz#8d7317f221e8973200764820fa7f2a622dbc7150"
   integrity sha512-5ltA58MM9euOuUcnvwFJqpLdEugc9XFsRR8Gt4zZNb31XzMfSKJPR4eumulyhsOTK1rWf7K4D63NKFPfX0AxqA==
@@ -3831,11 +3817,6 @@
   resolved "https://registry.yarnpkg.com/@okta/odyssey-design-tokens/-/odyssey-design-tokens-1.13.0.tgz#2db2223df7426aec017c6fbdfd4f4bb2ac5889e2"
   integrity sha512-BV/oRsJUg1ZP9dm4THurRGRScWezXY+jP57KIoPF2OIwhejopHE6OgxGfcwPCdlTASey//tKA0uPzsDjvldKdA==
 
-"@okta/odyssey-design-tokens@^0.17.0":
-  version "0.17.1"
-  resolved "https://registry.yarnpkg.com/@okta/odyssey-design-tokens/-/odyssey-design-tokens-0.17.1.tgz#da429c2fc84c8d8e394174b898dc69906f341fd0"
-  integrity sha512-Usbru6EVCeIKz4TkZeKNOpcXEgq1Mdd13fr4bI/+xYzTCGsAC+ftUZscV1msMRqmVlHwo0a/xq25ixyTCLAK5w==
-
 "@okta/odyssey-postcss-preset@^0.15.3":
   version "0.15.3"
   resolved "https://registry.yarnpkg.com/@okta/odyssey-postcss-preset/-/odyssey-postcss-preset-0.15.3.tgz#2065ae0072ba2f71f68e6b6ccbecc6e10e45f337"
@@ -3852,18 +3833,6 @@
   version "0.15.3"
   resolved "https://registry.yarnpkg.com/@okta/odyssey-postcss-theme/-/odyssey-postcss-theme-0.15.3.tgz#d2e51ce0a1f35b2abeab5950e92b1aee53d5be02"
   integrity sha512-mOdXxVs8ke5xl+iPyVRRDjPxUEBy4XpIqTe/Z72RWywG3NOW01ZEP3jf+GfQ76mHDAlpWXoxVoQ0QIbnCZMHzg==
-
-"@okta/odyssey-react-mui-legacy@npm:@okta/odyssey-react-mui@^0.17.0":
-  version "0.17.0"
-  resolved "https://registry.npmjs.org/@okta/odyssey-react-mui/-/odyssey-react-mui-0.17.0.tgz#cc4812d2024438a8fb4db21bfac7731eeacf57e4"
-  integrity sha512-PKSneQgj1Ke9LuvU2+5yaburoo4UMUeWXjwJnl5QXmYLFUKyX1CQ5xYyXEmX1wjafIg6KWlKXwkhNM3fjtBZvA==
-  dependencies:
-    "@emotion/cache" "^11.10.5"
-    "@mui/icons-material" "^5.10.9"
-    "@mui/lab" "^5.0.0-alpha.103"
-    "@mui/material" "^5.10.12"
-    "@mui/utils" "^5.10.9"
-    "@okta/odyssey-design-tokens" "^0.17.0"
 
 "@okta/odyssey-react-mui@1.13.0":
   version "1.13.0"
@@ -7395,11 +7364,6 @@ class-utils@^0.3.5:
     define-property "^0.2.5"
     isobject "^3.0.0"
     static-extend "^0.1.1"
-
-classnames@^2.3.1:
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.3.2.tgz#351d813bf0137fcc6a76a16b88208d2560a0d924"
-  integrity sha512-CSbhY4cFEJRe6/GQzIk5qXZ4Jeg5pcsP7b5peFSDpffpe1cqjASH/n9UTjBwOp6XpMSTwQ8Za2K5V02ueA7Tmw==
 
 clean-css@^5.2.2:
   version "5.3.1"

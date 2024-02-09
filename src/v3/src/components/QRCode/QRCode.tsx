@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { Box } from '@mui/material';
 import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
-import { Box } from '@okta/odyssey-react-mui-legacy';
 import { h } from 'preact';
 
 import { QRCodeElement, UISchemaElementComponent } from '../../types';
@@ -29,7 +29,7 @@ const QRCode: UISchemaElementComponent<{
 
   return (
     <Box
-      className="qrContainer"
+      data-se="qrContainer"
       sx={{
         marginBlockStart: tokens.Spacing5,
         marginBlockEnd: tokens.Spacing5,

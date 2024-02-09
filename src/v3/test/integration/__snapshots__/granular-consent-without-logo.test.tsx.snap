@@ -6,8 +6,9 @@ exports[`granular-consent-without-logo should render form 1`] = `
     class="MuiScopedCssBaseline-root emotion-0"
   >
     <main
-      class="auth-container main-container MuiBox-root emotion-1"
+      class="MuiBox-root emotion-1"
       data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+      data-se="auth-container main-container"
       data-version="0.0.0"
       dir="ltr"
       id="okta-sign-in"
@@ -23,10 +24,12 @@ exports[`granular-consent-without-logo should render form 1`] = `
             class="MuiBox-root emotion-4"
           >
             <div
-              class="okta-sign-in-header auth-header MuiBox-root emotion-5"
+              class="MuiBox-root emotion-5"
+              data-se="okta-sign-in-header auth-header "
             >
               <h1
                 class="MuiTypography-root MuiTypography-h1 emotion-6"
+                tabindex="-1"
               />
             </div>
             <div
@@ -130,9 +133,9 @@ exports[`granular-consent-without-logo should render form 1`] = `
                       class="MuiBox-root emotion-21"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-22"
+                        class="MuiTypography-root MuiTypography-body1 emotion-22"
                         data-se="consent-description"
-                        id="granular-consent_Description_Allowing_access_will_share_1"
+                        tabindex="-1"
                       >
                         Allowing access will share
                       </p>
@@ -187,7 +190,7 @@ exports[`granular-consent-without-logo should render form 1`] = `
                             </svg>
                           </span>
                           <span
-                            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-31"
+                            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-22"
                           >
                             <span
                               translate="no"
@@ -257,7 +260,7 @@ exports[`granular-consent-without-logo should render form 1`] = `
                             </svg>
                           </span>
                           <span
-                            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-31"
+                            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-22"
                           >
                             <span
                               translate="no"
@@ -318,7 +321,7 @@ exports[`granular-consent-without-logo should render form 1`] = `
                             </svg>
                           </span>
                           <span
-                            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-31"
+                            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-22"
                           >
                             <span
                               translate="no"
@@ -388,7 +391,7 @@ exports[`granular-consent-without-logo should render form 1`] = `
                             </svg>
                           </span>
                           <span
-                            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-31"
+                            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-22"
                           >
                             View your email address.
                             <p
@@ -453,7 +456,7 @@ exports[`granular-consent-without-logo should render form 1`] = `
                             </svg>
                           </span>
                           <span
-                            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-31"
+                            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-22"
                           >
                             <span
                               translate="no"
@@ -526,7 +529,7 @@ exports[`granular-consent-without-logo should render form 1`] = `
                             </svg>
                           </span>
                           <span
-                            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-31"
+                            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-22"
                           >
                             View your profile information.
                             <p
