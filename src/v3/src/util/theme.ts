@@ -321,6 +321,15 @@ export const createThemeAndTokens = (
           },
         },
       },
+      MuiTypography: {
+        styleOverrides: {
+          root: {
+            '&[data-se="o-form-head"]': {
+              outline: 'none',
+            },
+          },
+        },
+      },
     },
   });
 
