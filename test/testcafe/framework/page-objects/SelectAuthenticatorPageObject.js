@@ -132,7 +132,7 @@ export default class SelectFactorPageObject extends BasePageObject {
 
   async clickCustomOTP() {
     if (userVariables.gen3) {
-      const button = this.form.getButton('Set up Atko Custom OTP Authenticator');
+      const button = this.form.getButton('Set up Atko Custom OTP Authenticator.');
       await this.t.click(button);
     } else {
       await this.t.click(this.form.getElement(CUSTOM_OTP_BUTTON_SELECTOR));
