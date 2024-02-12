@@ -35,19 +35,17 @@ const getOktaVerifyAriaLabel = (
   isEnroll?: boolean,
   methodType?: IdxOption['value'],
 ): string => {
-  // TODO: OKTA-689219 - create dedicated keys by OV method types
-  const ovLabel = loc('oie.okta_verify.label', 'login');
   if (isEnroll) {
-    return loc('oie.select.authenticator.enroll.named.authentcator.label', 'login', [ovLabel]);
+    return loc('oie.select.authenticator.enroll.okta_verify.authenticator.label', 'login');
   }
-  const defaultLabel = loc('oie.select.authenticator.verify.named.authentcator.label', 'login', [ovLabel]);
+  const defaultLabel = loc('oie.select.authenticator.verify.okta_verify.label', 'login');
   if (typeof methodType === 'undefined') {
     return defaultLabel;
   }
   const methodTypeLabelMap: Record<string, string> = {
-    push: loc('oie.okta_verify.push.title', 'login'),
-    totp: `${ovLabel}. ${loc('oie.okta_verify.totp.title', 'login')}`,
-    signed_nonce: loc('oie.okta_verify.signed_nonce.label', 'login'),
+    push: loc('oie.select.authenticator.okta_verify.push.label', 'login'),
+    totp: loc('oie.select.authenticator.okta_verify.totp.label', 'login'),
+    signed_nonce: loc('oie.select.authenticator.okta_verify.signed_nonce.label', 'login'),
   };
   return methodTypeLabelMap[methodType as string] || defaultLabel;
 };
@@ -83,8 +81,8 @@ const getAuthenticatorAriaLabel = (
       return getOktaVerifyAriaLabel(isEnroll, methodType);
     default:
       return isEnroll
-        ? loc('oie.select.authenticator.enroll.named.authentcator.label', 'login', [option.label])
-        : loc('oie.select.authenticator.verify.named.authentcator.label', 'login', [option.label]);
+        ? loc('oie.select.authenticator.enroll.named.authenticator.label', 'login', [option.label])
+        : loc('oie.select.authenticator.verify.named.authenticator.label', 'login', [option.label]);
   }
 };
 
