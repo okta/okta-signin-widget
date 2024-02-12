@@ -140,7 +140,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                       >
                         <button
                           aria-describedby="google_otp_0-description google_otp_0-ctaLabel"
-                          aria-label="Set up Google Authenticator"
+                          aria-label="Set up Google Authenticator."
                           class="authenticator-row MuiBox-root emotion-28"
                           data-se="authenticator-button"
                           tabindex="0"
@@ -265,7 +265,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                       >
                         <button
                           aria-describedby="okta_verify_1-description okta_verify_1-ctaLabel"
-                          aria-label="Set up Okta Verify"
+                          aria-label="Set up Okta Verify."
                           class="authenticator-row MuiBox-root emotion-28"
                           data-se="authenticator-button"
                           tabindex="0"
