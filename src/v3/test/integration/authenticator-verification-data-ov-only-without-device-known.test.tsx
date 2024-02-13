@@ -23,7 +23,7 @@ describe('authenticator-verification-data-ov-only-without-device-known', () => {
 
   it('should send correct payload when clicking "Get a push notification"', async () => {
     const {
-      authClient, user, findByRole, findAllByRole,
+      authClient, user, findByRole,
     } = await setup({ mockResponse, widgetOptions: { features: { autoFocus: true } } });
 
     const heading = await findByRole('heading', { level: 2 });

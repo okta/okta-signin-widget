@@ -153,7 +153,7 @@
 @font-face {
     font-family: Aeonik;
     font-style: normal;
-    font-weight: 600;
+    font-weight: 500;
     src: url(https://op3static.oktacdn.com/assets/loginpage/font/assets/Aeonik-Medium.a584ebd29a0626ccf36d.woff2) format("woff2"), url(https://op3static.oktacdn.com/assets/loginpage/font/assets/Aeonik-Medium.3b09f560a7da8d6f25b5.woff) format("woff")
 }
 
@@ -167,6 +167,6 @@
 @font-face {
     font-family: Aeonik;
     font-style: italic;
-    font-weight: 600;
+    font-weight: 500;
     src: url(https://op3static.oktacdn.com/assets/loginpage/font/assets/Aeonik-MediumItalic.699c767baed36aef39e0.woff2) format("woff2"), url(https://op3static.oktacdn.com/assets/loginpage/font/assets/Aeonik-MediumItalic.933fdf9a04975c8f9cc7.woff) format("woff")
 }
