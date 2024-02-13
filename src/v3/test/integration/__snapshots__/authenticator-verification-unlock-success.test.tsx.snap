@@ -32,8 +32,6 @@ exports[`authenticator-verification-unlock-success should render form 1`] = `
                 tabindex="-1"
               />
               <div
-<<<<<<< HEAD
-<<<<<<< HEAD
                 aria-hidden="true"
                 class="MuiBox-root emotion-7"
                 data-se="factor-beacon mfa-okta-password "
@@ -70,56 +68,6 @@ exports[`authenticator-verification-unlock-success should render form 1`] = `
             >
               <form
                 aria-live="polite"
-                class="o-form MuiBox-root emotion-9"
-                data-se="o-form"
-                novalidate=""
-=======
-                class="okta-sign-in-header auth-header authCoinSpacing MuiBox-root emotion-6"
->>>>>>> 90c119bc4 (added odyssey legacy alias package)
-=======
-                aria-hidden="true"
-                class="mfa-okta-password MuiBox-root emotion-7"
-                data-se="factor-beacon"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-              >
-                <svg
-                  aria-labelledby="mfa-okta-password"
-                  fill="none"
-                  height="48"
-                  role="img"
-                  viewBox="0 0 48 48"
-                  width="48"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <title
-                    id="mfa-okta-password"
-                  >
-                    Password
-                  </title>
-                  <circle
-                    class="siwFillBg"
-                    cx="24"
-                    cy="24"
-                    fill="#F5F5F6"
-                    r="24"
-                  />
-                  <path
-                    class="siwFillSecondary"
-                    d="M11 17h-1V9h8v1h-7v7Zm28 0h-1v-7h-7V9h8v8ZM18 39h-8v-8h1v7h7v1Zm21 0h-8v-1h7v-7h1v8Z"
-                    fill="#A7B5EC"
-                  />
-                  <path
-                    class="siwFillPrimaryDark"
-                    d="m14.91 22.067-1.829 1.064V21h-1v2.131l-1.83-1.064-.502.866L11.585 24l-1.836 1.067.502.866 1.83-1.064V27h1v-2.131l1.829 1.064.503-.866L13.576 24l1.837-1.067-.503-.866Zm7.946 0-1.829 1.064V21h-1v2.131l-1.829-1.064-.503.866L19.531 24l-1.836 1.067.503.866 1.83-1.064V27h1v-2.131l1.828 1.064.503-.866L21.523 24l1.836-1.067-.503-.866Zm7.946 0-1.829 1.064V21h-1v2.131l-1.829-1.064-.503.866L27.477 24l-1.836 1.067.503.866 1.83-1.064V27h1v-2.131l1.828 1.064.503-.866L29.47 24l1.836-1.067-.503-.866Zm8.448.866-.501-.866-1.83 1.064V21h-1v2.131l-1.83-1.064-.502.866L35.424 24l-1.837 1.067.503.866 1.829-1.064V27h1v-2.131l1.83 1.064.502-.866L37.415 24l1.836-1.067Z"
-                    fill="#00297A"
-                  />
-                </svg>
-              </div>
-            </div>
-            <div
-              class="MuiBox-root emotion-8"
-            >
-              <form
                 class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""

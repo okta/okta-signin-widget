@@ -5,7 +5,7 @@ import { within } from '@testing-library/testcafe';
 export default class IdPAuthenticatorPageObject extends BasePageObject {
   constructor(t) {
     super(t);
-    this.beacon = Selector('[data-se="factor-beacon"]');
+    this.beacon = Selector('[data-se~="factor-beacon"]');
   }
 
   getPageSubtitle() {

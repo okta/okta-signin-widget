@@ -27,10 +27,6 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
               class="MuiBox-root emotion-5"
               data-se="okta-sign-in-header auth-header "
             >
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
               <h1
                 class="MuiTypography-root MuiTypography-h1 emotion-6"
                 tabindex="-1"
@@ -40,20 +36,10 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
               class="MuiBox-root emotion-7"
             >
               <form
-<<<<<<< HEAD
                 aria-live="polite"
                 class="o-form MuiBox-root emotion-8"
                 data-se="o-form"
                 novalidate=""
-=======
-              <div
-                class="okta-sign-in-header auth-header MuiBox-root emotion-6"
->>>>>>> 90c119bc4 (added odyssey legacy alias package)
-=======
-                class="o-form MuiBox-root emotion-8"
-                data-se="o-form"
-                novalidate=""
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
               >
                 <div
                   class="MuiBox-root emotion-9"
@@ -101,9 +87,6 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       </div>
                     </div>
                   </div>
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
                   <div
                     class="MuiBox-root emotion-10"
                   >
@@ -119,7 +102,6 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       </h2>
                     </div>
                   </div>
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
                   <div
                     class="MuiBox-root emotion-10"
                   >
@@ -157,28 +139,12 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       data-se="authenticator-enroll-list"
                     >
                       <li
-<<<<<<< HEAD
-<<<<<<< HEAD
                         class="MuiBox-root emotion-10"
                       >
                         <button
                           aria-describedby="okta_password_0-description okta_password_0-ctaLabel"
                           aria-label="Set up Password."
-=======
-                        class="MuiBox-root emotion-27"
-=======
-                        class="MuiBox-root emotion-10"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
-                      >
-                        <button
-                          aria-describedby="okta_password_0-description okta_password_0-ctaLabel"
-                          aria-labelledby="okta_password_0-label"
-<<<<<<< HEAD
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                          class="authenticator-row MuiBox-root emotion-28"
-=======
                           class="MuiBox-root emotion-28"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                           data-se="authenticator-button"
                           tabindex="0"
                           type="button"
@@ -232,15 +198,8 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               Password
                             </h3>
                             <p
-<<<<<<< HEAD
-<<<<<<< HEAD
                               aria-label="Choose a password for your account."
-=======
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                              class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-33"
-=======
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-33"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                               data-se="authenticator-button-description"
                               id="okta_password_0-description"
                             >
@@ -257,34 +216,6 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               >
                                 Set up
                               </span>
-<<<<<<< HEAD
-                              <svg
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-36"
-                                fill="none"
-                                focusable="false"
-                                role="img"
-<<<<<<< HEAD
-                                viewBox="0 0 16 16"
-=======
-                                viewBox="0 0 24 24"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  clip-rule="evenodd"
-<<<<<<< HEAD
-                                  d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
-=======
-                                  d="m18.354 10.94-4.647-4.647-1.414 1.414L15.586 11H5v2h10.586l-3.293 3.293 1.414 1.414 4.647-4.646a1.5 1.5 0 0 0 0-2.122Z"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                                  fill="currentColor"
-                                  fill-rule="evenodd"
-                                />
-                                <title>
-                                  Set up
-                                </title>
-                              </svg>
-=======
                               <div
                                 class="MuiBox-root emotion-36"
                                 data-se="cta-button-icon"
@@ -308,34 +239,17 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                                   </title>
                                 </svg>
                               </div>
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                             </div>
                           </div>
                         </button>
                       </li>
                       <li
-<<<<<<< HEAD
-<<<<<<< HEAD
                         class="MuiBox-root emotion-10"
                       >
                         <button
                           aria-describedby="phone_number_1-description phone_number_1-ctaLabel"
                           aria-label="Set up Phone."
-=======
-                        class="MuiBox-root emotion-27"
-=======
-                        class="MuiBox-root emotion-10"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
-                      >
-                        <button
-                          aria-describedby="phone_number_1-description phone_number_1-ctaLabel"
-                          aria-labelledby="phone_number_1-label"
-<<<<<<< HEAD
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                          class="authenticator-row MuiBox-root emotion-28"
-=======
                           class="MuiBox-root emotion-28"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                           data-se="authenticator-button"
                           tabindex="0"
                           type="button"
@@ -399,15 +313,8 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               Phone
                             </h3>
                             <p
-<<<<<<< HEAD
-<<<<<<< HEAD
                               aria-label="Verify with a code sent to your phone."
-=======
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                              class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-33"
-=======
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-33"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                               data-se="authenticator-button-description"
                               id="phone_number_1-description"
                             >
@@ -424,34 +331,6 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               >
                                 Set up
                               </span>
-<<<<<<< HEAD
-                              <svg
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-36"
-                                fill="none"
-                                focusable="false"
-                                role="img"
-<<<<<<< HEAD
-                                viewBox="0 0 16 16"
-=======
-                                viewBox="0 0 24 24"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  clip-rule="evenodd"
-<<<<<<< HEAD
-                                  d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
-=======
-                                  d="m18.354 10.94-4.647-4.647-1.414 1.414L15.586 11H5v2h10.586l-3.293 3.293 1.414 1.414 4.647-4.646a1.5 1.5 0 0 0 0-2.122Z"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                                  fill="currentColor"
-                                  fill-rule="evenodd"
-                                />
-                                <title>
-                                  Set up
-                                </title>
-                              </svg>
-=======
                               <div
                                 class="MuiBox-root emotion-36"
                                 data-se="cta-button-icon"
@@ -475,34 +354,17 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                                   </title>
                                 </svg>
                               </div>
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                             </div>
                           </div>
                         </button>
                       </li>
                       <li
-<<<<<<< HEAD
-<<<<<<< HEAD
                         class="MuiBox-root emotion-10"
                       >
                         <button
                           aria-describedby="webauthn_2-description webauthn_2-ctaLabel"
                           aria-label="Set up Security Key or Biometric Authenticator."
-=======
-                        class="MuiBox-root emotion-27"
-=======
-                        class="MuiBox-root emotion-10"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
-                      >
-                        <button
-                          aria-describedby="webauthn_2-description webauthn_2-ctaLabel"
-                          aria-labelledby="webauthn_2-label"
-<<<<<<< HEAD
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                          class="authenticator-row MuiBox-root emotion-28"
-=======
                           class="MuiBox-root emotion-28"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                           data-se="authenticator-button"
                           tabindex="0"
                           type="button"
@@ -576,15 +438,8 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               Security Key or Biometric Authenticator
                             </h3>
                             <p
-<<<<<<< HEAD
-<<<<<<< HEAD
                               aria-label="Use a security key or a biometric authenticator to sign in."
-=======
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                              class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-33"
-=======
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-33"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                               data-se="authenticator-button-description"
                               id="webauthn_2-description"
                             >
@@ -601,34 +456,6 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               >
                                 Set up
                               </span>
-<<<<<<< HEAD
-                              <svg
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-36"
-                                fill="none"
-                                focusable="false"
-                                role="img"
-<<<<<<< HEAD
-                                viewBox="0 0 16 16"
-=======
-                                viewBox="0 0 24 24"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  clip-rule="evenodd"
-<<<<<<< HEAD
-                                  d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
-=======
-                                  d="m18.354 10.94-4.647-4.647-1.414 1.414L15.586 11H5v2h10.586l-3.293 3.293 1.414 1.414 4.647-4.646a1.5 1.5 0 0 0 0-2.122Z"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                                  fill="currentColor"
-                                  fill-rule="evenodd"
-                                />
-                                <title>
-                                  Set up
-                                </title>
-                              </svg>
-=======
                               <div
                                 class="MuiBox-root emotion-36"
                                 data-se="cta-button-icon"
@@ -652,34 +479,17 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                                   </title>
                                 </svg>
                               </div>
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                             </div>
                           </div>
                         </button>
                       </li>
                       <li
-<<<<<<< HEAD
-<<<<<<< HEAD
                         class="MuiBox-root emotion-10"
                       >
                         <button
                           aria-describedby="security_question_3-description security_question_3-ctaLabel"
                           aria-label="Set up Security Question."
-=======
-                        class="MuiBox-root emotion-27"
-=======
-                        class="MuiBox-root emotion-10"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
-                      >
-                        <button
-                          aria-describedby="security_question_3-description security_question_3-ctaLabel"
-                          aria-labelledby="security_question_3-label"
-<<<<<<< HEAD
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                          class="authenticator-row MuiBox-root emotion-28"
-=======
                           class="MuiBox-root emotion-28"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                           data-se="authenticator-button"
                           tabindex="0"
                           type="button"
@@ -733,15 +543,8 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               Security Question
                             </h3>
                             <p
-<<<<<<< HEAD
-<<<<<<< HEAD
                               aria-label="Choose a security question and answer that will be used for signing in."
-=======
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                              class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-33"
-=======
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-33"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                               data-se="authenticator-button-description"
                               id="security_question_3-description"
                             >
@@ -758,34 +561,6 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               >
                                 Set up
                               </span>
-<<<<<<< HEAD
-                              <svg
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-36"
-                                fill="none"
-                                focusable="false"
-                                role="img"
-<<<<<<< HEAD
-                                viewBox="0 0 16 16"
-=======
-                                viewBox="0 0 24 24"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  clip-rule="evenodd"
-<<<<<<< HEAD
-                                  d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
-=======
-                                  d="m18.354 10.94-4.647-4.647-1.414 1.414L15.586 11H5v2h10.586l-3.293 3.293 1.414 1.414 4.647-4.646a1.5 1.5 0 0 0 0-2.122Z"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                                  fill="currentColor"
-                                  fill-rule="evenodd"
-                                />
-                                <title>
-                                  Set up
-                                </title>
-                              </svg>
-=======
                               <div
                                 class="MuiBox-root emotion-36"
                                 data-se="cta-button-icon"
@@ -809,38 +584,17 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                                   </title>
                                 </svg>
                               </div>
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                             </div>
                           </div>
                         </button>
                       </li>
                       <li
-<<<<<<< HEAD
-<<<<<<< HEAD
                         class="MuiBox-root emotion-10"
                       >
                         <button
                           aria-describedby="okta_verify_4-description okta_verify_4-ctaLabel"
-<<<<<<< HEAD
                           aria-label="Set up Okta Verify."
-=======
-                          aria-label="Set up Okta Verify"
-=======
-                        class="MuiBox-root emotion-27"
-=======
-                        class="MuiBox-root emotion-10"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
-                      >
-                        <button
-                          aria-describedby="okta_verify_4-description okta_verify_4-ctaLabel"
-                          aria-labelledby="okta_verify_4-label"
-<<<<<<< HEAD
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
->>>>>>> 2f733f483 (OKTA-588627: loginpage odyssey style (#3493))
-                          class="authenticator-row MuiBox-root emotion-28"
-=======
                           class="MuiBox-root emotion-28"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                           data-se="authenticator-button"
                           tabindex="0"
                           type="button"
@@ -890,15 +644,8 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               Okta Verify
                             </h3>
                             <p
-<<<<<<< HEAD
-<<<<<<< HEAD
                               aria-label="Okta Verify is an authenticator app, installed on your phone, used to prove your identity."
-=======
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                              class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-33"
-=======
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-33"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                               data-se="authenticator-button-description"
                               id="okta_verify_4-description"
                             >
@@ -915,34 +662,6 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               >
                                 Set up
                               </span>
-<<<<<<< HEAD
-                              <svg
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-36"
-                                fill="none"
-                                focusable="false"
-                                role="img"
-<<<<<<< HEAD
-                                viewBox="0 0 16 16"
-=======
-                                viewBox="0 0 24 24"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  clip-rule="evenodd"
-<<<<<<< HEAD
-                                  d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
-=======
-                                  d="m18.354 10.94-4.647-4.647-1.414 1.414L15.586 11H5v2h10.586l-3.293 3.293 1.414 1.414 4.647-4.646a1.5 1.5 0 0 0 0-2.122Z"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                                  fill="currentColor"
-                                  fill-rule="evenodd"
-                                />
-                                <title>
-                                  Set up
-                                </title>
-                              </svg>
-=======
                               <div
                                 class="MuiBox-root emotion-36"
                                 data-se="cta-button-icon"
@@ -966,38 +685,17 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                                   </title>
                                 </svg>
                               </div>
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                             </div>
                           </div>
                         </button>
                       </li>
                       <li
-<<<<<<< HEAD
-<<<<<<< HEAD
                         class="MuiBox-root emotion-10"
                       >
                         <button
                           aria-describedby="google_otp_5-description google_otp_5-ctaLabel"
-<<<<<<< HEAD
                           aria-label="Set up Google Authenticator."
-=======
-                          aria-label="Set up Google Authenticator"
-=======
-                        class="MuiBox-root emotion-27"
-=======
-                        class="MuiBox-root emotion-10"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
-                      >
-                        <button
-                          aria-describedby="google_otp_5-description google_otp_5-ctaLabel"
-                          aria-labelledby="google_otp_5-label"
-<<<<<<< HEAD
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
->>>>>>> 2f733f483 (OKTA-588627: loginpage odyssey style (#3493))
-                          class="authenticator-row MuiBox-root emotion-28"
-=======
                           class="MuiBox-root emotion-28"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                           data-se="authenticator-button"
                           tabindex="0"
                           type="button"
@@ -1071,15 +769,8 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               Google Authenticator
                             </h3>
                             <p
-<<<<<<< HEAD
-<<<<<<< HEAD
                               aria-label="Enter a temporary code generated from the Google Authenticator app."
-=======
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                              class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-33"
-=======
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-33"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                               data-se="authenticator-button-description"
                               id="google_otp_5-description"
                             >
@@ -1096,34 +787,6 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               >
                                 Set up
                               </span>
-<<<<<<< HEAD
-                              <svg
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-36"
-                                fill="none"
-                                focusable="false"
-                                role="img"
-<<<<<<< HEAD
-                                viewBox="0 0 16 16"
-=======
-                                viewBox="0 0 24 24"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  clip-rule="evenodd"
-<<<<<<< HEAD
-                                  d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
-=======
-                                  d="m18.354 10.94-4.647-4.647-1.414 1.414L15.586 11H5v2h10.586l-3.293 3.293 1.414 1.414 4.647-4.646a1.5 1.5 0 0 0 0-2.122Z"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                                  fill="currentColor"
-                                  fill-rule="evenodd"
-                                />
-                                <title>
-                                  Set up
-                                </title>
-                              </svg>
-=======
                               <div
                                 class="MuiBox-root emotion-36"
                                 data-se="cta-button-icon"
@@ -1147,38 +810,17 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                                   </title>
                                 </svg>
                               </div>
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                             </div>
                           </div>
                         </button>
                       </li>
                       <li
-<<<<<<< HEAD
-<<<<<<< HEAD
                         class="MuiBox-root emotion-10"
                       >
                         <button
                           aria-describedby="onprem_mfa_6-description onprem_mfa_6-ctaLabel"
-<<<<<<< HEAD
                           aria-label="Set up Atko Custom On-prem."
-=======
-                          aria-label="Set up Atko Custom On-prem"
-=======
-                        class="MuiBox-root emotion-27"
-=======
-                        class="MuiBox-root emotion-10"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
-                      >
-                        <button
-                          aria-describedby="onprem_mfa_6-description onprem_mfa_6-ctaLabel"
-                          aria-labelledby="onprem_mfa_6-label"
-<<<<<<< HEAD
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
->>>>>>> 2f733f483 (OKTA-588627: loginpage odyssey style (#3493))
-                          class="authenticator-row MuiBox-root emotion-28"
-=======
                           class="MuiBox-root emotion-28"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                           data-se="authenticator-button"
                           tabindex="0"
                           type="button"
@@ -1232,15 +874,8 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               Atko Custom On-prem
                             </h3>
                             <p
-<<<<<<< HEAD
-<<<<<<< HEAD
                               aria-label="Verify by entering a code generated by Atko Custom On-prem."
-=======
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                              class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-33"
-=======
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-33"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                               data-se="authenticator-button-description"
                               id="onprem_mfa_6-description"
                             >
@@ -1257,34 +892,6 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               >
                                 Set up
                               </span>
-<<<<<<< HEAD
-                              <svg
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-36"
-                                fill="none"
-                                focusable="false"
-                                role="img"
-<<<<<<< HEAD
-                                viewBox="0 0 16 16"
-=======
-                                viewBox="0 0 24 24"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  clip-rule="evenodd"
-<<<<<<< HEAD
-                                  d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
-=======
-                                  d="m18.354 10.94-4.647-4.647-1.414 1.414L15.586 11H5v2h10.586l-3.293 3.293 1.414 1.414 4.647-4.646a1.5 1.5 0 0 0 0-2.122Z"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                                  fill="currentColor"
-                                  fill-rule="evenodd"
-                                />
-                                <title>
-                                  Set up
-                                </title>
-                              </svg>
-=======
                               <div
                                 class="MuiBox-root emotion-36"
                                 data-se="cta-button-icon"
@@ -1308,38 +915,17 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                                   </title>
                                 </svg>
                               </div>
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                             </div>
                           </div>
                         </button>
                       </li>
                       <li
-<<<<<<< HEAD
-<<<<<<< HEAD
                         class="MuiBox-root emotion-10"
                       >
                         <button
                           aria-describedby="rsa_token_7-description rsa_token_7-ctaLabel"
-<<<<<<< HEAD
                           aria-label="Set up RSA SecurID."
-=======
-                          aria-label="Set up RSA SecurID"
-=======
-                        class="MuiBox-root emotion-27"
-=======
-                        class="MuiBox-root emotion-10"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
-                      >
-                        <button
-                          aria-describedby="rsa_token_7-description rsa_token_7-ctaLabel"
-                          aria-labelledby="rsa_token_7-label"
-<<<<<<< HEAD
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
->>>>>>> 2f733f483 (OKTA-588627: loginpage odyssey style (#3493))
-                          class="authenticator-row MuiBox-root emotion-28"
-=======
                           class="MuiBox-root emotion-28"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                           data-se="authenticator-button"
                           tabindex="0"
                           type="button"
@@ -1368,65 +954,8 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                                   RSA SecurID
                                 </title>
                                 <path
-<<<<<<< HEAD
-                                  class="siwFillBg"
-                                  clip-rule="evenodd"
-                                  d="M24 48C37.2548 48 48 37.2548 48 24C48 10.7452 37.2548 0 24 0C10.7452 0 0 10.7452 0 24C0 37.2548 10.7452 48 24 48Z"
-                                  fill="#F5F5F6"
-                                  fill-rule="evenodd"
-                                />
-                                <path
-<<<<<<< HEAD
-                                  d="M42 30.3102H39.6261L35.3202 20.898L31.1912 30.3228H28.8046L34.2217 18.3024H36.4567L42 30.3102ZM15.584 21.8052C15.5461 19.6884 13.8036 18.2142 11.3413 18.2142H6.97229H6V30.2976H7.94458V19.9782H11.2276C12.3262 19.9782 13.5132 20.52 13.5258 21.8178C13.5384 22.977 12.6293 23.6952 11.0887 23.7582H11.0635L9.88916 23.7708L13.8036 30.3102H16.1017C16.1017 30.3102 14.2203 27.1476 13.0333 25.1694C14.7632 24.552 15.5966 23.1912 15.584 21.8052ZM23.2613 23.1786C21.2157 22.6368 20.4202 22.1706 20.4202 21.2382C20.4202 19.827 22.2511 19.6884 22.8951 19.6884C23.9306 19.6884 25.2311 20.016 26.0014 20.394L26.8348 18.8568C25.7867 18.3402 24.1831 18 22.8446 18C19.9909 18 18.2105 19.2348 18.2105 21.339C18.2105 23.7456 20.7233 24.426 22.6805 24.9426C24.7134 25.4844 25.4332 26.1018 25.4332 27.0468C25.4332 28.6092 23.7664 28.8486 22.731 28.8486C21.3167 28.8486 20.1424 28.4706 19.006 27.8028L18.0337 29.3652C19.4732 30.2094 20.9632 30.6 22.731 30.6C25.6731 30.6 27.6303 29.151 27.6303 26.9082C27.6429 24.4008 25.2564 23.7078 23.2613 23.1786Z"
-                                  fill="#BE3A34"
-=======
-                                  d="M26.5875 22.9472C26.2842 22.7225 26.009 22.5148 25.7788 22.2115H18.3937L18.287 22.2059C16.9953 22.1104 15.99 21.0209 15.99 19.7292C15.99 18.3589 17.1076 17.2413 18.4779 17.2413L18.9609 17.2581L18.9665 16.8594C18.989 15.7193 19.9268 14.8039 21.0557 14.8039C21.4993 14.8039 21.9205 14.9387 22.28 15.197L22.6731 15.4834L22.8697 15.0398C23.4144 13.8155 24.6331 13.0292 25.9697 13.0292C27.5928 13.0292 28.9519 14.1749 29.2888 15.7025C29.5752 15.7249 29.8504 15.7699 30.1144 15.8485C29.8336 13.8099 28.0814 12.2374 25.9697 12.2374C24.4702 12.2374 23.0943 13.0405 22.3474 14.3209C21.9486 14.1187 21.505 14.012 21.0501 14.012C19.618 14.012 18.4105 15.0791 18.1971 16.4606C16.5123 16.601 15.1869 18.0107 15.1869 19.7292C15.1869 21.3129 16.3326 22.6608 17.8545 22.9528H26.5875V22.9472Z"
-                                  fill="black"
-                                />
-                                <path
-                                  d="M31.9284 18.8306C31.8666 18.6397 31.788 18.4543 31.6981 18.2802C31.6925 18.269 31.6869 18.2578 31.6813 18.2465L28.7385 21.1725L27.2109 19.6899C27.0536 19.5382 27.0536 19.2855 27.2053 19.1283C27.3569 18.971 27.6096 18.971 27.7669 19.1226L28.7272 20.0605L31.1983 17.6063C31.1871 17.5951 31.1758 17.5838 31.1702 17.5726C31.1646 17.567 31.159 17.5614 31.1477 17.5558C30.5918 17.011 29.8336 16.674 28.9968 16.674C27.3007 16.674 25.9248 18.05 25.9248 19.746C25.9248 21.4421 27.3007 22.818 28.9968 22.818C30.1649 22.818 31.1758 22.1665 31.6981 21.2118C31.7936 21.0377 31.8722 20.8524 31.9284 20.6614C31.9901 20.4705 32.0295 20.2683 32.0519 20.0605C32.0632 19.9594 32.0688 19.8527 32.0688 19.746C32.0688 19.6393 32.0632 19.5326 32.0519 19.4315C32.0295 19.2237 31.9901 19.0216 31.9284 18.8306Z"
-                                  fill="#00B9E4"
-                                />
-                                <path
-                                  d="M7.54547 29.9486C7.62971 30.1059 7.73642 30.2351 7.8712 30.3305C8.00599 30.426 8.16324 30.499 8.34857 30.5496C8.5339 30.5945 8.71923 30.6226 8.91579 30.6226C9.05058 30.6226 9.19098 30.6113 9.34261 30.5889C9.49424 30.5664 9.63465 30.5271 9.76943 30.4597C9.90422 30.3979 10.0109 30.3081 10.1008 30.2014C10.1906 30.089 10.2356 29.9486 10.2356 29.7802C10.2356 29.5948 10.1794 29.4488 10.0615 29.3365C9.94353 29.2242 9.7919 29.1287 9.60095 29.0557C9.41 28.9827 9.19659 28.9153 8.96072 28.8591C8.71923 28.803 8.47774 28.7412 8.23063 28.6682C7.97791 28.6064 7.7308 28.5278 7.49493 28.4379C7.25344 28.3481 7.04003 28.2301 6.8547 28.0841C6.66375 27.9381 6.51212 27.7584 6.39418 27.5394C6.27624 27.3203 6.22008 27.0564 6.22008 26.7475C6.22008 26.3993 6.29309 26.1016 6.44472 25.8433C6.59636 25.585 6.78731 25.3772 7.0288 25.2031C7.27029 25.0346 7.53986 24.9054 7.84312 24.8268C8.14639 24.7426 8.44966 24.7032 8.75292 24.7032C9.10674 24.7032 9.4437 24.7426 9.76943 24.8212C10.0952 24.8998 10.3816 25.029 10.6343 25.2031C10.887 25.3772 11.0892 25.6074 11.2352 25.877C11.3812 26.1522 11.4599 26.4835 11.4599 26.8767H10.0222C10.0109 26.6745 9.96599 26.506 9.89299 26.3768C9.81998 26.242 9.7245 26.141 9.60657 26.0623C9.48863 25.9893 9.34823 25.9332 9.19659 25.8995C9.04496 25.8658 8.87648 25.8545 8.69115 25.8545C8.57321 25.8545 8.44966 25.8658 8.33172 25.8939C8.21378 25.9163 8.10146 25.9612 8.00599 26.0286C7.91052 26.0904 7.82627 26.169 7.7645 26.2645C7.70272 26.36 7.66903 26.4779 7.66903 26.6239C7.66903 26.7587 7.69149 26.8654 7.74203 26.9441C7.79258 27.0283 7.89367 27.1013 8.03969 27.1687C8.1857 27.2361 8.3935 27.3091 8.65184 27.3765C8.91579 27.4439 9.25275 27.5337 9.67957 27.6404C9.80313 27.6629 9.98284 27.7135 10.2019 27.7752C10.4265 27.8426 10.6455 27.9493 10.8702 28.0897C11.0892 28.2357 11.2802 28.4267 11.443 28.6738C11.6059 28.9153 11.6845 29.2242 11.6845 29.6061C11.6845 29.915 11.6227 30.2014 11.5048 30.4653C11.3869 30.7293 11.2071 30.9595 10.9713 31.1505C10.7354 31.3414 10.4434 31.4931 10.0895 31.5998C9.74135 31.7065 9.337 31.7626 8.87648 31.7626C8.50582 31.7626 8.14639 31.7177 7.79258 31.6278C7.44438 31.538 7.1355 31.392 6.86593 31.1954C6.59636 30.9988 6.38295 30.7517 6.2257 30.4485C6.06845 30.1452 5.98982 29.7858 6.00106 29.3702H7.43877C7.42754 29.6005 7.46685 29.7914 7.54547 29.9486Z"
-                                  fill="black"
-                                />
-                                <path
-                                  d="M13.8411 30.4372C14.0432 30.6338 14.3353 30.7293 14.7116 30.7293C14.9811 30.7293 15.217 30.6619 15.4136 30.5271C15.6101 30.3923 15.7281 30.2463 15.773 30.0947H16.9524C16.7614 30.6787 16.475 31.0999 16.0819 31.3527C15.6888 31.6054 15.217 31.7289 14.6666 31.7289C14.2847 31.7289 13.9365 31.6672 13.6277 31.5436C13.3188 31.4201 13.0548 31.246 12.8414 31.0213C12.628 30.7967 12.4595 30.5215 12.3472 30.207C12.2293 29.8925 12.1731 29.5443 12.1731 29.168C12.1731 28.803 12.2349 28.4604 12.3528 28.1459C12.4707 27.8314 12.6448 27.5562 12.8639 27.3259C13.0829 27.0957 13.3469 26.916 13.6557 26.7812C13.959 26.6464 14.3016 26.5846 14.6722 26.5846C15.0878 26.5846 15.4529 26.6632 15.7618 26.8261C16.0706 26.989 16.3234 27.2024 16.5255 27.472C16.7221 27.7415 16.8681 28.0504 16.958 28.3986C17.0478 28.7468 17.0759 29.1062 17.0535 29.4881H13.5266C13.5322 29.9262 13.6389 30.2463 13.8411 30.4372ZM15.363 27.8651C15.2002 27.691 14.9587 27.6011 14.6329 27.6011C14.4195 27.6011 14.2398 27.6348 14.0994 27.7078C13.959 27.7808 13.8467 27.8707 13.7568 27.9774C13.6726 28.0841 13.6108 28.1964 13.5771 28.32C13.5434 28.4379 13.521 28.5446 13.5153 28.6401H15.7C15.6326 28.3031 15.5203 28.0448 15.363 27.8651Z"
-                                  fill="black"
-                                />
-                                <path
-                                  d="M20.1648 27.6011C19.9514 27.6011 19.7717 27.6517 19.6257 27.7472C19.4796 27.8426 19.3617 27.9718 19.2718 28.1234C19.182 28.2807 19.1146 28.4492 19.0753 28.6345C19.036 28.8198 19.0191 29.0051 19.0191 29.1849C19.0191 29.359 19.036 29.5387 19.0753 29.724C19.1146 29.9093 19.1764 30.0722 19.2606 30.2182C19.3449 30.3642 19.4628 30.4878 19.6032 30.5833C19.7492 30.6787 19.9233 30.7237 20.1311 30.7237C20.4512 30.7237 20.6983 30.6338 20.8724 30.4541C21.0465 30.2744 21.1532 30.0329 21.1981 29.7296H22.4955C22.4056 30.3811 22.1529 30.8753 21.7373 31.2123C21.3217 31.5548 20.7882 31.7233 20.1423 31.7233C19.7773 31.7233 19.4403 31.6615 19.1371 31.538C18.8338 31.4144 18.5698 31.246 18.3564 31.0213C18.143 30.8023 17.9745 30.5383 17.8566 30.2294C17.7387 29.9262 17.6769 29.5892 17.6769 29.2242C17.6769 28.8479 17.733 28.4941 17.8397 28.1684C17.9521 27.8426 18.1149 27.5618 18.3283 27.3259C18.5418 27.0901 18.8057 26.9047 19.1146 26.7756C19.4235 26.6408 19.7773 26.579 20.176 26.579C20.4681 26.579 20.7432 26.6183 21.0128 26.6913C21.2824 26.7643 21.5183 26.8823 21.7317 27.0339C21.9451 27.1912 22.1136 27.3821 22.2484 27.6124C22.3831 27.8426 22.4561 28.1122 22.473 28.4323H21.1588C21.069 27.8819 20.7432 27.6011 20.1648 27.6011Z"
-                                  fill="black"
-                                />
-                                <path
-                                  d="M26.567 31.611V30.9315H26.5389C26.3705 31.2123 26.1458 31.4201 25.8762 31.5436C25.6067 31.6672 25.3259 31.7346 25.0451 31.7346C24.6856 31.7346 24.3936 31.6896 24.1633 31.5942C23.9331 31.4987 23.7534 31.3639 23.6186 31.1898C23.4838 31.0157 23.3939 30.8079 23.3378 30.5552C23.2816 30.3081 23.2592 30.0329 23.2592 29.7296V26.725H24.6014V29.4825C24.6014 29.8869 24.6632 30.1845 24.7923 30.3867C24.9159 30.5833 25.1405 30.6844 25.4607 30.6844C25.8257 30.6844 26.0896 30.5777 26.2525 30.3586C26.4154 30.1396 26.4996 29.7858 26.4996 29.286V26.725H27.8419V31.611H26.567Z"
-                                  fill="black"
-                                />
-                                <path
-                                  d="M30.1389 26.725V27.6348H30.1557C30.2175 27.4832 30.3017 27.3428 30.4084 27.2136C30.5151 27.0845 30.6387 26.9721 30.7791 26.8823C30.9195 26.7924 31.0655 26.7194 31.2228 26.6689C31.38 26.6183 31.5429 26.5959 31.717 26.5959C31.8068 26.5959 31.9023 26.6127 32.009 26.6408V27.8875C31.9472 27.8763 31.8686 27.8651 31.7844 27.8539C31.6945 27.8426 31.6103 27.837 31.5316 27.837C31.2845 27.837 31.0767 27.8763 30.9083 27.9606C30.7398 28.0448 30.5994 28.1571 30.4983 28.2975C30.3916 28.4379 30.3186 28.6064 30.2736 28.7917C30.2287 28.9827 30.2063 29.1849 30.2063 29.4039V31.6054H28.864V26.7194H30.1389V26.725Z"
-                                  fill="black"
-                                />
-                                <path
-                                  d="M34.1656 24.8605V31.611H32.683V24.8605H34.1656Z"
-                                  fill="black"
-                                />
-                                <path
-                                  d="M38.3832 24.8605C38.8157 24.8605 39.2256 24.9279 39.5963 25.0683C39.9726 25.2087 40.2983 25.4165 40.5679 25.6917C40.8431 25.9669 41.0565 26.3151 41.2081 26.7307C41.3598 27.1462 41.4384 27.6348 41.4384 28.1964C41.4384 28.6907 41.3766 29.1399 41.2474 29.5555C41.1239 29.9711 40.9329 30.3305 40.6746 30.6338C40.4219 30.9371 40.1018 31.173 39.7199 31.3471C39.338 31.5212 38.8887 31.6054 38.372 31.6054H35.4629V24.8605H38.3832ZM38.2765 30.3642C38.4899 30.3642 38.6977 30.3305 38.8999 30.2575C39.1021 30.1901 39.2818 30.0722 39.4391 29.915C39.5963 29.7521 39.7255 29.5443 39.8153 29.286C39.9108 29.0276 39.9557 28.7131 39.9557 28.3425C39.9557 27.9999 39.922 27.6966 39.8546 27.4214C39.7873 27.1462 39.6806 26.9104 39.5289 26.7194C39.3773 26.5229 39.1751 26.3768 38.928 26.2701C38.6809 26.1634 38.372 26.1129 38.007 26.1129H36.9455V30.3642H38.2765Z"
-                                  fill="black"
-                                />
-                                <path
-                                  d="M40.6465 25.0121V24.9335H41.2137V25.0121H40.9778V25.6411H40.8824V25.0121H40.6465Z"
-                                  fill="black"
-                                />
-                                <path
-                                  d="M41.4215 24.9335L41.6462 25.5288L41.8708 24.9335H42V25.6411H41.9101V25.0514L41.6911 25.6411H41.6125L41.3934 25.0514V25.6411H41.3036V24.9335H41.4215Z"
-                                  fill="black"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-=======
                                   d="M 42 30.01 L 39.626 30.01 L 35.32 20.598 L 31.191 30.023 L 28.804 30.023 L 34.221 18.003 L 36.456 18.003 L 42 30.01 Z M 15.584 21.505 C 15.546 19.389 13.803 17.914 11.341 17.914 L 6.972 17.914 L 6 17.914 L 6 29.998 L 7.944 29.998 L 7.944 19.678 L 11.227 19.678 C 12.326 19.678 13.513 20.22 13.525 21.518 C 13.538 22.677 12.629 23.395 11.088 23.458 L 11.063 23.458 L 9.889 23.471 L 13.803 30.01 L 16.101 30.01 C 16.101 30.01 14.22 26.848 13.033 24.87 C 14.763 24.252 15.596 22.891 15.584 21.505 Z M 23.261 22.879 C 21.215 22.337 20.42 21.871 20.42 20.938 C 20.42 19.527 22.251 19.389 22.895 19.389 C 23.93 19.389 25.231 19.716 26.001 20.094 L 26.834 18.557 C 25.786 18.04 24.183 17.7 22.844 17.7 C 19.991 17.7 18.21 18.935 18.21 21.039 C 18.21 23.446 20.723 24.126 22.68 24.643 C 24.713 25.185 25.433 25.802 25.433 26.747 C 25.433 28.309 23.766 28.549 22.731 28.549 C 21.316 28.549 20.142 28.171 19.006 27.503 L 18.033 29.065 C 19.473 29.91 20.963 30.3 22.731 30.3 C 25.673 30.3 27.63 28.851 27.63 26.608 C 27.643 24.101 25.256 23.408 23.261 22.879 Z"
                                   fill="#BE3A34"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                                 />
                               </svg>
                             </div>
@@ -1444,15 +973,8 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               RSA SecurID
                             </h3>
                             <p
-<<<<<<< HEAD
-<<<<<<< HEAD
                               aria-label="Verify by entering a code generated by RSA SecurID."
-=======
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                              class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-33"
-=======
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-33"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                               data-se="authenticator-button-description"
                               id="rsa_token_7-description"
                             >
@@ -1469,34 +991,6 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               >
                                 Set up
                               </span>
-<<<<<<< HEAD
-                              <svg
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-36"
-                                fill="none"
-                                focusable="false"
-                                role="img"
-<<<<<<< HEAD
-                                viewBox="0 0 16 16"
-=======
-                                viewBox="0 0 24 24"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  clip-rule="evenodd"
-<<<<<<< HEAD
-                                  d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
-=======
-                                  d="m18.354 10.94-4.647-4.647-1.414 1.414L15.586 11H5v2h10.586l-3.293 3.293 1.414 1.414 4.647-4.646a1.5 1.5 0 0 0 0-2.122Z"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                                  fill="currentColor"
-                                  fill-rule="evenodd"
-                                />
-                                <title>
-                                  Set up
-                                </title>
-                              </svg>
-=======
                               <div
                                 class="MuiBox-root emotion-36"
                                 data-se="cta-button-icon"
@@ -1520,38 +1014,17 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                                   </title>
                                 </svg>
                               </div>
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                             </div>
                           </div>
                         </button>
                       </li>
                       <li
-<<<<<<< HEAD
-<<<<<<< HEAD
                         class="MuiBox-root emotion-10"
                       >
                         <button
                           aria-describedby="duo_8-description duo_8-ctaLabel"
-<<<<<<< HEAD
                           aria-label="Set up Duo Security."
-=======
-                          aria-label="Set up Duo Security"
-=======
-                        class="MuiBox-root emotion-27"
-=======
-                        class="MuiBox-root emotion-10"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
-                      >
-                        <button
-                          aria-describedby="duo_8-description duo_8-ctaLabel"
-                          aria-labelledby="duo_8-label"
-<<<<<<< HEAD
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
->>>>>>> 2f733f483 (OKTA-588627: loginpage odyssey style (#3493))
-                          class="authenticator-row MuiBox-root emotion-28"
-=======
                           class="MuiBox-root emotion-28"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                           data-se="authenticator-button"
                           tabindex="0"
                           type="button"
@@ -1601,15 +1074,8 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               Duo Security
                             </h3>
                             <p
-<<<<<<< HEAD
-<<<<<<< HEAD
                               aria-label="Verify your identity using Duo Security."
-=======
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                              class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-33"
-=======
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-33"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                               data-se="authenticator-button-description"
                               id="duo_8-description"
                             >
@@ -1626,34 +1092,6 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               >
                                 Set up
                               </span>
-<<<<<<< HEAD
-                              <svg
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-36"
-                                fill="none"
-                                focusable="false"
-                                role="img"
-<<<<<<< HEAD
-                                viewBox="0 0 16 16"
-=======
-                                viewBox="0 0 24 24"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  clip-rule="evenodd"
-<<<<<<< HEAD
-                                  d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
-=======
-                                  d="m18.354 10.94-4.647-4.647-1.414 1.414L15.586 11H5v2h10.586l-3.293 3.293 1.414 1.414 4.647-4.646a1.5 1.5 0 0 0 0-2.122Z"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                                  fill="currentColor"
-                                  fill-rule="evenodd"
-                                />
-                                <title>
-                                  Set up
-                                </title>
-                              </svg>
-=======
                               <div
                                 class="MuiBox-root emotion-36"
                                 data-se="cta-button-icon"
@@ -1677,38 +1115,17 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                                   </title>
                                 </svg>
                               </div>
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                             </div>
                           </div>
                         </button>
                       </li>
                       <li
-<<<<<<< HEAD
-<<<<<<< HEAD
                         class="MuiBox-root emotion-10"
                       >
                         <button
                           aria-describedby="external_idp_9-description external_idp_9-ctaLabel"
-<<<<<<< HEAD
                           aria-label="Set up IDP Authenticator."
-=======
-                          aria-label="Set up IDP Authenticator"
-=======
-                        class="MuiBox-root emotion-27"
-=======
-                        class="MuiBox-root emotion-10"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
-                      >
-                        <button
-                          aria-describedby="external_idp_9-description external_idp_9-ctaLabel"
-                          aria-labelledby="external_idp_9-label"
-<<<<<<< HEAD
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
->>>>>>> 2f733f483 (OKTA-588627: loginpage odyssey style (#3493))
-                          class="authenticator-row MuiBox-root emotion-28"
-=======
                           class="MuiBox-root emotion-28"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                           data-se="authenticator-button"
                           tabindex="0"
                           type="button"
@@ -1767,15 +1184,8 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               IDP Authenticator
                             </h3>
                             <p
-<<<<<<< HEAD
-<<<<<<< HEAD
                               aria-label="Redirect to verify with IDP Authenticator."
-=======
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                              class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-33"
-=======
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-33"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                               data-se="authenticator-button-description"
                               id="external_idp_9-description"
                             >
@@ -1792,34 +1202,6 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               >
                                 Set up
                               </span>
-<<<<<<< HEAD
-                              <svg
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-36"
-                                fill="none"
-                                focusable="false"
-                                role="img"
-<<<<<<< HEAD
-                                viewBox="0 0 16 16"
-=======
-                                viewBox="0 0 24 24"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  clip-rule="evenodd"
-<<<<<<< HEAD
-                                  d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
-=======
-                                  d="m18.354 10.94-4.647-4.647-1.414 1.414L15.586 11H5v2h10.586l-3.293 3.293 1.414 1.414 4.647-4.646a1.5 1.5 0 0 0 0-2.122Z"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                                  fill="currentColor"
-                                  fill-rule="evenodd"
-                                />
-                                <title>
-                                  Set up
-                                </title>
-                              </svg>
-=======
                               <div
                                 class="MuiBox-root emotion-36"
                                 data-se="cta-button-icon"
@@ -1843,38 +1225,17 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                                   </title>
                                 </svg>
                               </div>
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                             </div>
                           </div>
                         </button>
                       </li>
                       <li
-<<<<<<< HEAD
-<<<<<<< HEAD
                         class="MuiBox-root emotion-10"
                       >
                         <button
                           aria-describedby="custom_otp_10-description custom_otp_10-ctaLabel"
-<<<<<<< HEAD
                           aria-label="Set up Atko Custom OTP Authenticator."
-=======
-                          aria-label="Set up Atko Custom OTP Authenticator"
-=======
-                        class="MuiBox-root emotion-27"
-=======
-                        class="MuiBox-root emotion-10"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
-                      >
-                        <button
-                          aria-describedby="custom_otp_10-description custom_otp_10-ctaLabel"
-                          aria-labelledby="custom_otp_10-label"
-<<<<<<< HEAD
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
->>>>>>> 2f733f483 (OKTA-588627: loginpage odyssey style (#3493))
-                          class="authenticator-row MuiBox-root emotion-28"
-=======
                           class="MuiBox-root emotion-28"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                           data-se="authenticator-button"
                           tabindex="0"
                           type="button"
@@ -1933,15 +1294,8 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               Atko Custom OTP Authenticator
                             </h3>
                             <p
-<<<<<<< HEAD
-<<<<<<< HEAD
                               aria-label="Enter a temporary code generated from an authenticator device."
-=======
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                              class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-33"
-=======
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-33"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                               data-se="authenticator-button-description"
                               id="custom_otp_10-description"
                             >
@@ -1958,34 +1312,6 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               >
                                 Set up
                               </span>
-<<<<<<< HEAD
-                              <svg
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-36"
-                                fill="none"
-                                focusable="false"
-                                role="img"
-<<<<<<< HEAD
-                                viewBox="0 0 16 16"
-=======
-                                viewBox="0 0 24 24"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  clip-rule="evenodd"
-<<<<<<< HEAD
-                                  d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
-=======
-                                  d="m18.354 10.94-4.647-4.647-1.414 1.414L15.586 11H5v2h10.586l-3.293 3.293 1.414 1.414 4.647-4.646a1.5 1.5 0 0 0 0-2.122Z"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                                  fill="currentColor"
-                                  fill-rule="evenodd"
-                                />
-                                <title>
-                                  Set up
-                                </title>
-                              </svg>
-=======
                               <div
                                 class="MuiBox-root emotion-36"
                                 data-se="cta-button-icon"
@@ -2009,38 +1335,17 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                                   </title>
                                 </svg>
                               </div>
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                             </div>
                           </div>
                         </button>
                       </li>
                       <li
-<<<<<<< HEAD
-<<<<<<< HEAD
                         class="MuiBox-root emotion-10"
                       >
                         <button
                           aria-describedby="symantec_vip_11-description symantec_vip_11-ctaLabel"
-<<<<<<< HEAD
                           aria-label="Set up Symantec VIP."
-=======
-                          aria-label="Set up Symantec VIP"
-=======
-                        class="MuiBox-root emotion-27"
-=======
-                        class="MuiBox-root emotion-10"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
-                      >
-                        <button
-                          aria-describedby="symantec_vip_11-description symantec_vip_11-ctaLabel"
-                          aria-labelledby="symantec_vip_11-label"
-<<<<<<< HEAD
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
->>>>>>> 2f733f483 (OKTA-588627: loginpage odyssey style (#3493))
-                          class="authenticator-row MuiBox-root emotion-28"
-=======
                           class="MuiBox-root emotion-28"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                           data-se="authenticator-button"
                           tabindex="0"
                           type="button"
@@ -2096,15 +1401,8 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               Symantec VIP
                             </h3>
                             <p
-<<<<<<< HEAD
-<<<<<<< HEAD
                               aria-label="Verify by entering a temporary code from the Symantec VIP app."
-=======
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                              class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-33"
-=======
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-33"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                               data-se="authenticator-button-description"
                               id="symantec_vip_11-description"
                             >
@@ -2121,34 +1419,6 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               >
                                 Set up
                               </span>
-<<<<<<< HEAD
-                              <svg
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-36"
-                                fill="none"
-                                focusable="false"
-                                role="img"
-<<<<<<< HEAD
-                                viewBox="0 0 16 16"
-=======
-                                viewBox="0 0 24 24"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  clip-rule="evenodd"
-<<<<<<< HEAD
-                                  d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
-=======
-                                  d="m18.354 10.94-4.647-4.647-1.414 1.414L15.586 11H5v2h10.586l-3.293 3.293 1.414 1.414 4.647-4.646a1.5 1.5 0 0 0 0-2.122Z"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                                  fill="currentColor"
-                                  fill-rule="evenodd"
-                                />
-                                <title>
-                                  Set up
-                                </title>
-                              </svg>
-=======
                               <div
                                 class="MuiBox-root emotion-36"
                                 data-se="cta-button-icon"
@@ -2172,38 +1442,17 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                                   </title>
                                 </svg>
                               </div>
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                             </div>
                           </div>
                         </button>
                       </li>
                       <li
-<<<<<<< HEAD
-<<<<<<< HEAD
                         class="MuiBox-root emotion-10"
                       >
                         <button
                           aria-describedby="yubikey_token_12-description yubikey_token_12-ctaLabel"
-<<<<<<< HEAD
                           aria-label="Set up YubiKey Authenticator."
-=======
-                          aria-label="Set up YubiKey Authenticator"
-=======
-                        class="MuiBox-root emotion-27"
-=======
-                        class="MuiBox-root emotion-10"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
-                      >
-                        <button
-                          aria-describedby="yubikey_token_12-description yubikey_token_12-ctaLabel"
-                          aria-labelledby="yubikey_token_12-label"
-<<<<<<< HEAD
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
->>>>>>> 2f733f483 (OKTA-588627: loginpage odyssey style (#3493))
-                          class="authenticator-row MuiBox-root emotion-28"
-=======
                           class="MuiBox-root emotion-28"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                           data-se="authenticator-button"
                           tabindex="0"
                           type="button"
@@ -2259,15 +1508,8 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               YubiKey Authenticator
                             </h3>
                             <p
-<<<<<<< HEAD
-<<<<<<< HEAD
                               aria-label="Verify your identity using YubiKey."
-=======
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                              class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-33"
-=======
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-33"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                               data-se="authenticator-button-description"
                               id="yubikey_token_12-description"
                             >
@@ -2284,34 +1526,6 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               >
                                 Set up
                               </span>
-<<<<<<< HEAD
-                              <svg
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-36"
-                                fill="none"
-                                focusable="false"
-                                role="img"
-<<<<<<< HEAD
-                                viewBox="0 0 16 16"
-=======
-                                viewBox="0 0 24 24"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  clip-rule="evenodd"
-<<<<<<< HEAD
-                                  d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
-=======
-                                  d="m18.354 10.94-4.647-4.647-1.414 1.414L15.586 11H5v2h10.586l-3.293 3.293 1.414 1.414 4.647-4.646a1.5 1.5 0 0 0 0-2.122Z"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                                  fill="currentColor"
-                                  fill-rule="evenodd"
-                                />
-                                <title>
-                                  Set up
-                                </title>
-                              </svg>
-=======
                               <div
                                 class="MuiBox-root emotion-36"
                                 data-se="cta-button-icon"
@@ -2335,7 +1549,6 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                                   </title>
                                 </svg>
                               </div>
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                             </div>
                           </div>
                         </button>
@@ -2355,13 +1568,6 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                   </div>
                 </div>
               </form>
-<<<<<<< HEAD
-=======
-                </form>
-              </div>
->>>>>>> 90c119bc4 (added odyssey legacy alias package)
-=======
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
             </div>
           </div>
         </div>

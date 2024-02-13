@@ -32,8 +32,6 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
                 tabindex="-1"
               />
               <div
-<<<<<<< HEAD
-<<<<<<< HEAD
                 aria-hidden="true"
                 class="MuiBox-root emotion-7"
                 data-se="factor-beacon mfa-google-auth "
@@ -90,76 +88,6 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
             >
               <form
                 aria-live="polite"
-                class="o-form MuiBox-root emotion-9"
-                data-se="o-form"
-                novalidate=""
-=======
-                class="okta-sign-in-header auth-header authCoinSpacing MuiBox-root emotion-6"
->>>>>>> 90c119bc4 (added odyssey legacy alias package)
-=======
-                aria-hidden="true"
-                class="mfa-google-auth MuiBox-root emotion-7"
-                data-se="factor-beacon"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-              >
-                <svg
-                  aria-labelledby="mfa-google-auth"
-                  fill="none"
-                  height="48"
-                  role="img"
-                  viewBox="0 0 48 48"
-                  width="48"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <title
-                    id="mfa-google-auth"
-                  >
-                    Google Authenticator
-                  </title>
-                  <path
-                    class="siwFillBg"
-                    clip-rule="evenodd"
-                    d="M24 48C37.2548 48 48 37.2548 48 24C48 10.7452 37.2548 0 24 0C10.7452 0 0 10.7452 0 24C0 37.2548 10.7452 48 24 48Z"
-                    fill="#F5F5F6"
-                    fill-rule="evenodd"
-                  />
-                  <path
-                    clip-rule="evenodd"
-                    d="M39.5 26.9545C41.1569 26.9545 42.5 25.6113 42.5 23.9545C42.5 22.2976 41.1569 20.9545 39.5 20.9545H28.6963L34.0982 11.5981C34.9266 10.1632 34.435 8.32845 33.0001 7.50002C31.5652 6.67159 29.7304 7.16322 28.902 8.5981L18.304 26.9545H39.5Z"
-                    fill="#1A73E7"
-                    fill-rule="evenodd"
-                  />
-                  <path
-                    clip-rule="evenodd"
-                    d="M18.0981 8.5981C17.2697 7.16322 15.4349 6.67159 14 7.50002C12.5651 8.32845 12.0735 10.1632 12.9019 11.5981L18.3039 20.9545H21.7681L23.5001 17.9546L18.0981 8.5981Z"
-                    fill="#FABB04"
-                    fill-rule="evenodd"
-                  />
-                  <path
-                    clip-rule="evenodd"
-                    d="M21.768 20.9545H7.5C5.84315 20.9545 4.5 22.2976 4.5 23.9545C4.5 25.6114 5.84315 26.9545 7.5 26.9545H18.3039L21.768 20.9545Z"
-                    fill="#34A753"
-                    fill-rule="evenodd"
-                  />
-                  <path
-                    clip-rule="evenodd"
-                    d="M18.304 26.9545L12.9021 36.3109C12.0736 37.7458 12.5653 39.5806 14.0001 40.409C15.435 41.2374 17.2698 40.7458 18.0982 39.3109L23.5001 29.9546L28.902 39.3109C29.7304 40.7458 31.5652 41.2374 33 40.409C34.4349 39.5805 34.9265 37.7458 34.0981 36.3109L28.6962 26.9545H18.304Z"
-                    fill="#E94335"
-                    fill-rule="evenodd"
-                  />
-                  <path
-                    clip-rule="evenodd"
-                    d="M23.5001 17.9546L28.6962 26.9545H18.304L23.5001 17.9546Z"
-                    fill="#174EA5"
-                    fill-rule="evenodd"
-                  />
-                </svg>
-              </div>
-            </div>
-            <div
-              class="MuiBox-root emotion-8"
-            >
-              <form
                 class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""
@@ -254,77 +182,8 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
                           data-se="google-authenticator-setup-info"
                           tabindex="-1"
                         >
-<<<<<<< HEAD
-                          <h3
-                            class="MuiTypography-root MuiTypography-h5 emotion-24"
-                            data-se="barcode-setup-title"
-                            id="enroll-authenticator_Heading_Scan_barcode_google_otp_aut2m5drzzUlo4Bn81d7_3_1"
-                          >
-                            Scan barcode
-                          </h3>
-                        </div>
-                      </div>
-                      <div
-                        class="MuiBox-root emotion-12"
-                      >
-<<<<<<< HEAD
-                        <img
-                          alt="QR code. If you can't scan, click on the link below to select an alternative activation method"
-                          class="qrImg MuiBox-root emotion-29"
-                          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAAE7ElEQVR42u3dwWrsMAwF0Pz/T7/uC29RYklXzrnQ1ZQh4/gEFDvK809E/pvHEIgAIgKICCAigIgAIgKICCAigIgAIiKAiAAiAogIICKAiAAiAogIIL+/6Hla/04f718/rx6v0+Ndff5umx+AAAIIIIAAAggggOwDUj2h3k64r4N9O17pFxxAAAEEEEAAAQQQQAB5O+HSiubTYKrHo3p8TwNKmR+AAAIIIIAAAggggABS9f1vJ3BaEV+9sAcIIIAAAggggAACCCCK9FmQ1UX5NAhAAAEEEEAAAQQQQADZBqQbYPUJOl20Vx9/90Jn2vwABBBAAAEEEEAAAeR+INsnmM/vugAB4nNAADHBAAEEEEDuA5KW6QeQqv8/feHzmnkECCCAAAIIIIAAAkgskO4ivPsBpemisvqBp9Pjvb0RHSCAAAIIIIAAAggg+4CcPmGpA5gygbvHa/oCBwgggAACCCCAAAIIIGnNnKebXXc3jqsez+nvnwoggAACCCCAAAIIILlA0ovW9KKwu/n29E2PLYAAAQQQQAABBBBAANkDpLvIvA3k6QtO+gRO3bwICCCAAAIIIIAAAsgeILe9VLP7ga9tmz+rjx8QQAABBBBAAAEEEEC6i/juE5S22bD6psH0wlzq8QECCCCAAAIIIIAAkgvk600SqhuzpT+QdmtTDkAAAQQQQAABBBBA9hTp3UVz2kLWdLPn6c2ctwQQQAABBBBAAAEEkL1AtoPqPv7pInZ682XKTSJAAAEEEEAAAQQQQO4FUg3u9E2GbS+EmW5SseUBKUAAAQQQQAABBBBAvrNZcfoFL9MLidXjUX3BuqVJAyCAAAIIIIAAAggge4v00z94+qH+6SK9e/Nm98Le57uaAAIIIIAAAggggAASV7RPT5i0hbPuCT1dtFfPN0AAAQQQQAABBBBA9gNJW1iaLiKnP0/7vvRm2oAAAggggAACCCCA5ANJWzibLuKnx2/6pkk1uHVFOiCAAAIIIIAAAggg5UCqP59eiEt7QOj0+GxrXg0IIIAAAggggAACCCDbiuDu39+9+TCtacPp8wMIIIAAAggggAACCCDpRf40iNMLhbc1rrt+syIggAACCCCAAAIIIOVFW9qE6v593UVv9QVu200FQAABBBBAAAEEEEC+17RhWxFbfVOhewJ3j2faBQgQQAABBBBAAAEEkPuAfL2JQvdNhfTNgt1Ar+tqAggggAACCCCAAAJIeVHYXRSnvYAm7QJw++8HxATx+wEBBBBAAAHkfiDdAzLdTHv6gpIGcAsIQAABBBBAAAEEEEDuBTLdPLl74S6tyE1r/v35hUJAAAEEEEAAAQQQQNYlrXHa9AuBTt9ESbtJAwgggAACCCCAAAIIINMvkUwruqubeXcff1rTjPULhYAAAggggAACCCCAjBdp1QuRaQCmFxqrN4cq0gEBBBBAAAEEEEAAmQYy3Ugu/QU3ad/Xvfk0BQQggAACCCCAAAIIIIB0nfBuANtfINQ9X6ZuEgECCCCAAAIIIIAAAsiWonM6aUXv9E0WQAABBBBAAAEEEEC8H2S6qEsDPv3/08eX+kIfQAABBBBAAAEEEED2ANnezDh9IS/tb2oCry3SAQEEEEAAAQQQQAAREUBEABEBRAQQEUBEABEBRAQQEUBEBBARQEQAEQFEBBARQEQAEQFE5Ob8AIHb9L3GGLlfAAAAAElFTkSuQmCC"
-                        />
-=======
-                        <div
-                          class="MuiBox-root emotion-19"
-                        >
-                          <p
-                            class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-27"
-                            data-se="google-authenticator-setup-info"
-                            id="enroll-authenticator_Description_Launch_Google_Authenticator,_tap_the__icon,_then_select_Scan_barcode_google_otp_aut2m5drzzUlo4Bn81d7_4_1"
-                          >
-                            Launch Google Authenticator, tap the "+" icon, then select "Scan barcode".
-                          </p>
-                        </div>
-                      </div>
-                      <div
-                        class="MuiBox-root emotion-12"
-                      >
-                        <div
-                          class="qrContainer MuiBox-root emotion-29"
-                        >
-                          <img
-                            alt="QR code"
-                            class="qrImg MuiBox-root emotion-30"
-                            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAAE7ElEQVR42u3dwWrsMAwF0Pz/T7/uC29RYklXzrnQ1ZQh4/gEFDvK809E/pvHEIgAIgKICCAigIgAIgKICCAigIgAIiKAiAAiAogIICKAiAAiAogIIL+/6Hla/04f718/rx6v0+Ndff5umx+AAAIIIIAAAggggOwDUj2h3k64r4N9O17pFxxAAAEEEEAAAQQQQAB5O+HSiubTYKrHo3p8TwNKmR+AAAIIIIAAAggggABS9f1vJ3BaEV+9sAcIIIAAAggggAACCCCK9FmQ1UX5NAhAAAEEEEAAAQQQQADZBqQbYPUJOl20Vx9/90Jn2vwABBBAAAEEEEAAAeR+INsnmM/vugAB4nNAADHBAAEEEEDuA5KW6QeQqv8/feHzmnkECCCAAAIIIIAAAkgskO4ivPsBpemisvqBp9Pjvb0RHSCAAAIIIIAAAggg+4CcPmGpA5gygbvHa/oCBwgggAACCCCAAAIIIGnNnKebXXc3jqsez+nvnwoggAACCCCAAAIIILlA0ovW9KKwu/n29E2PLYAAAQQQQAABBBBAANkDpLvIvA3k6QtO+gRO3bwICCCAAAIIIIAAAsgeILe9VLP7ga9tmz+rjx8QQAABBBBAAAEEEEC6i/juE5S22bD6psH0wlzq8QECCCCAAAIIIIAAkgvk600SqhuzpT+QdmtTDkAAAQQQQAABBBBA9hTp3UVz2kLWdLPn6c2ctwQQQAABBBBAAAEEkL1AtoPqPv7pInZ682XKTSJAAAEEEEAAAQQQQO4FUg3u9E2GbS+EmW5SseUBKUAAAQQQQAABBBBAvrNZcfoFL9MLidXjUX3BuqVJAyCAAAIIIIAAAggge4v00z94+qH+6SK9e/Nm98Le57uaAAIIIIAAAggggAASV7RPT5i0hbPuCT1dtFfPN0AAAQQQQAABBBBA9gNJW1iaLiKnP0/7vvRm2oAAAggggAACCCCA5ANJWzibLuKnx2/6pkk1uHVFOiCAAAIIIIAAAggg5UCqP59eiEt7QOj0+GxrXg0IIIAAAggggAACCCDbiuDu39+9+TCtacPp8wMIIIAAAggggAACCCDpRf40iNMLhbc1rrt+syIggAACCCCAAAIIIOVFW9qE6v593UVv9QVu200FQAABBBBAAAEEEEC+17RhWxFbfVOhewJ3j2faBQgQQAABBBBAAAEEkPuAfL2JQvdNhfTNgt1Ar+tqAggggAACCCCAAAJIeVHYXRSnvYAm7QJw++8HxATx+wEBBBBAAAHkfiDdAzLdTHv6gpIGcAsIQAABBBBAAAEEEEDuBTLdPLl74S6tyE1r/v35hUJAAAEEEEAAAQQQQNYlrXHa9AuBTt9ESbtJAwgggAACCCCAAAIIINMvkUwruqubeXcff1rTjPULhYAAAggggAACCCCAjBdp1QuRaQCmFxqrN4cq0gEBBBBAAAEEEEAAmQYy3Ugu/QU3ad/Xvfk0BQQggAACCCCAAAIIIIB0nfBuANtfINQ9X6ZuEgECCCCAAAIIIIAAAsiWonM6aUXv9E0WQAABBBBAAAEEEEC8H2S6qEsDPv3/08eX+kIfQAABBBBAAAEEEED2ANnezDh9IS/tb2oCry3SAQEEEEAAAQQQQAAREUBEABEBRAQQEUBEABEBRAQQEUBEBBARQEQAEQFEBBARQEQAEQFE5Ob8AIHb9L3GGLlfAAAAAElFTkSuQmCC"
-                          />
-                        </div>
-                      </div>
-                      <div
-                        class="MuiBox-root emotion-12"
-                      >
-                        <button
-                          class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-32"
-                          tabindex="0"
-                          type="button"
-                        >
-                          Can't scan?
-                        </button>
-                      </div>
-                      <div
-                        class="MuiBox-root emotion-12"
-                      >
-                        <button
-                          class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-34"
-                          tabindex="0"
-                          type="button"
-                        >
-                          Next
-                        </button>
->>>>>>> 90c119bc4 (added odyssey legacy alias package)
-=======
                           Launch Google Authenticator, tap the "+" icon, then select "Scan barcode".
                         </p>
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
                       </div>
                     </div>
                     <div
@@ -338,7 +197,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
                           class="MuiBox-root emotion-29"
                         >
                           <img
-                            alt="QR code"
+                            alt="QR code. If you can't scan, click on the link below to select an alternative activation method"
                             class="MuiBox-root emotion-30"
                             data-se="qrImg"
                             src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAAE7ElEQVR42u3dwWrsMAwF0Pz/T7/uC29RYklXzrnQ1ZQh4/gEFDvK809E/pvHEIgAIgKICCAigIgAIgKICCAigIgAIiKAiAAiAogIICKAiAAiAogIIL+/6Hla/04f718/rx6v0+Ndff5umx+AAAIIIIAAAggggOwDUj2h3k64r4N9O17pFxxAAAEEEEAAAQQQQAB5O+HSiubTYKrHo3p8TwNKmR+AAAIIIIAAAggggABS9f1vJ3BaEV+9sAcIIIAAAggggAACCCCK9FmQ1UX5NAhAAAEEEEAAAQQQQADZBqQbYPUJOl20Vx9/90Jn2vwABBBAAAEEEEAAAeR+INsnmM/vugAB4nNAADHBAAEEEEDuA5KW6QeQqv8/feHzmnkECCCAAAIIIIAAAkgskO4ivPsBpemisvqBp9Pjvb0RHSCAAAIIIIAAAggg+4CcPmGpA5gygbvHa/oCBwgggAACCCCAAAIIIGnNnKebXXc3jqsez+nvnwoggAACCCCAAAIIILlA0ovW9KKwu/n29E2PLYAAAQQQQAABBBBAANkDpLvIvA3k6QtO+gRO3bwICCCAAAIIIIAAAsgeILe9VLP7ga9tmz+rjx8QQAABBBBAAAEEEEC6i/juE5S22bD6psH0wlzq8QECCCCAAAIIIIAAkgvk600SqhuzpT+QdmtTDkAAAQQQQAABBBBA9hTp3UVz2kLWdLPn6c2ctwQQQAABBBBAAAEEkL1AtoPqPv7pInZ682XKTSJAAAEEEEAAAQQQQO4FUg3u9E2GbS+EmW5SseUBKUAAAQQQQAABBBBAvrNZcfoFL9MLidXjUX3BuqVJAyCAAAIIIIAAAggge4v00z94+qH+6SK9e/Nm98Le57uaAAIIIIAAAggggAASV7RPT5i0hbPuCT1dtFfPN0AAAQQQQAABBBBA9gNJW1iaLiKnP0/7vvRm2oAAAggggAACCCCA5ANJWzibLuKnx2/6pkk1uHVFOiCAAAIIIIAAAggg5UCqP59eiEt7QOj0+GxrXg0IIIAAAggggAACCCDbiuDu39+9+TCtacPp8wMIIIAAAggggAACCCDpRf40iNMLhbc1rrt+syIggAACCCCAAAIIIOVFW9qE6v593UVv9QVu200FQAABBBBAAAEEEEC+17RhWxFbfVOhewJ3j2faBQgQQAABBBBAAAEEkPuAfL2JQvdNhfTNgt1Ar+tqAggggAACCCCAAAJIeVHYXRSnvYAm7QJw++8HxATx+wEBBBBAAAHkfiDdAzLdTHv6gpIGcAsIQAABBBBAAAEEEEDuBTLdPLl74S6tyE1r/v35hUJAAAEEEEAAAQQQQNYlrXHa9AuBTt9ESbtJAwgggAACCCCAAAIIINMvkUwruqubeXcff1rTjPULhYAAAggggAACCCCAjBdp1QuRaQCmFxqrN4cq0gEBBBBAAAEEEEAAmQYy3Ugu/QU3ad/Xvfk0BQQggAACCCCAAAIIIIB0nfBuANtfINQ9X6ZuEgECCCCAAAIIIIAAAsiWonM6aUXv9E0WQAABBBBAAAEEEEC8H2S6qEsDPv3/08eX+kIfQAABBBBAAAEEEED2ANnezDh9IS/tb2oCry3SAQEEEEAAAQQQQAAREUBEABEBRAQQEUBEABEBRAQQEUBEBBARQEQAEQFEBBARQEQAEQFE5Ob8AIHb9L3GGLlfAAAAAElFTkSuQmCC"
@@ -434,8 +293,6 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                 tabindex="-1"
               />
               <div
-<<<<<<< HEAD
-<<<<<<< HEAD
                 aria-hidden="true"
                 class="MuiBox-root emotion-7"
                 data-se="factor-beacon mfa-google-auth "
@@ -492,76 +349,6 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
             >
               <form
                 aria-live="polite"
-                class="o-form MuiBox-root emotion-9"
-                data-se="o-form"
-                novalidate=""
-=======
-                class="okta-sign-in-header auth-header authCoinSpacing MuiBox-root emotion-6"
->>>>>>> 90c119bc4 (added odyssey legacy alias package)
-=======
-                aria-hidden="true"
-                class="mfa-google-auth MuiBox-root emotion-7"
-                data-se="factor-beacon"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-              >
-                <svg
-                  aria-labelledby="mfa-google-auth"
-                  fill="none"
-                  height="48"
-                  role="img"
-                  viewBox="0 0 48 48"
-                  width="48"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <title
-                    id="mfa-google-auth"
-                  >
-                    Google Authenticator
-                  </title>
-                  <path
-                    class="siwFillBg"
-                    clip-rule="evenodd"
-                    d="M24 48C37.2548 48 48 37.2548 48 24C48 10.7452 37.2548 0 24 0C10.7452 0 0 10.7452 0 24C0 37.2548 10.7452 48 24 48Z"
-                    fill="#F5F5F6"
-                    fill-rule="evenodd"
-                  />
-                  <path
-                    clip-rule="evenodd"
-                    d="M39.5 26.9545C41.1569 26.9545 42.5 25.6113 42.5 23.9545C42.5 22.2976 41.1569 20.9545 39.5 20.9545H28.6963L34.0982 11.5981C34.9266 10.1632 34.435 8.32845 33.0001 7.50002C31.5652 6.67159 29.7304 7.16322 28.902 8.5981L18.304 26.9545H39.5Z"
-                    fill="#1A73E7"
-                    fill-rule="evenodd"
-                  />
-                  <path
-                    clip-rule="evenodd"
-                    d="M18.0981 8.5981C17.2697 7.16322 15.4349 6.67159 14 7.50002C12.5651 8.32845 12.0735 10.1632 12.9019 11.5981L18.3039 20.9545H21.7681L23.5001 17.9546L18.0981 8.5981Z"
-                    fill="#FABB04"
-                    fill-rule="evenodd"
-                  />
-                  <path
-                    clip-rule="evenodd"
-                    d="M21.768 20.9545H7.5C5.84315 20.9545 4.5 22.2976 4.5 23.9545C4.5 25.6114 5.84315 26.9545 7.5 26.9545H18.3039L21.768 20.9545Z"
-                    fill="#34A753"
-                    fill-rule="evenodd"
-                  />
-                  <path
-                    clip-rule="evenodd"
-                    d="M18.304 26.9545L12.9021 36.3109C12.0736 37.7458 12.5653 39.5806 14.0001 40.409C15.435 41.2374 17.2698 40.7458 18.0982 39.3109L23.5001 29.9546L28.902 39.3109C29.7304 40.7458 31.5652 41.2374 33 40.409C34.4349 39.5805 34.9265 37.7458 34.0981 36.3109L28.6962 26.9545H18.304Z"
-                    fill="#E94335"
-                    fill-rule="evenodd"
-                  />
-                  <path
-                    clip-rule="evenodd"
-                    d="M23.5001 17.9546L28.6962 26.9545H18.304L23.5001 17.9546Z"
-                    fill="#174EA5"
-                    fill-rule="evenodd"
-                  />
-                </svg>
-              </div>
-            </div>
-            <div
-              class="MuiBox-root emotion-8"
-            >
-              <form
                 class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""
@@ -758,8 +545,6 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                 tabindex="-1"
               />
               <div
-<<<<<<< HEAD
-<<<<<<< HEAD
                 aria-hidden="true"
                 class="MuiBox-root emotion-7"
                 data-se="factor-beacon mfa-google-auth "
@@ -816,76 +601,6 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
             >
               <form
                 aria-live="polite"
-                class="o-form MuiBox-root emotion-9"
-                data-se="o-form"
-                novalidate=""
-=======
-                class="okta-sign-in-header auth-header authCoinSpacing MuiBox-root emotion-6"
->>>>>>> 90c119bc4 (added odyssey legacy alias package)
-=======
-                aria-hidden="true"
-                class="mfa-google-auth MuiBox-root emotion-7"
-                data-se="factor-beacon"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-              >
-                <svg
-                  aria-labelledby="mfa-google-auth"
-                  fill="none"
-                  height="48"
-                  role="img"
-                  viewBox="0 0 48 48"
-                  width="48"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <title
-                    id="mfa-google-auth"
-                  >
-                    Google Authenticator
-                  </title>
-                  <path
-                    class="siwFillBg"
-                    clip-rule="evenodd"
-                    d="M24 48C37.2548 48 48 37.2548 48 24C48 10.7452 37.2548 0 24 0C10.7452 0 0 10.7452 0 24C0 37.2548 10.7452 48 24 48Z"
-                    fill="#F5F5F6"
-                    fill-rule="evenodd"
-                  />
-                  <path
-                    clip-rule="evenodd"
-                    d="M39.5 26.9545C41.1569 26.9545 42.5 25.6113 42.5 23.9545C42.5 22.2976 41.1569 20.9545 39.5 20.9545H28.6963L34.0982 11.5981C34.9266 10.1632 34.435 8.32845 33.0001 7.50002C31.5652 6.67159 29.7304 7.16322 28.902 8.5981L18.304 26.9545H39.5Z"
-                    fill="#1A73E7"
-                    fill-rule="evenodd"
-                  />
-                  <path
-                    clip-rule="evenodd"
-                    d="M18.0981 8.5981C17.2697 7.16322 15.4349 6.67159 14 7.50002C12.5651 8.32845 12.0735 10.1632 12.9019 11.5981L18.3039 20.9545H21.7681L23.5001 17.9546L18.0981 8.5981Z"
-                    fill="#FABB04"
-                    fill-rule="evenodd"
-                  />
-                  <path
-                    clip-rule="evenodd"
-                    d="M21.768 20.9545H7.5C5.84315 20.9545 4.5 22.2976 4.5 23.9545C4.5 25.6114 5.84315 26.9545 7.5 26.9545H18.3039L21.768 20.9545Z"
-                    fill="#34A753"
-                    fill-rule="evenodd"
-                  />
-                  <path
-                    clip-rule="evenodd"
-                    d="M18.304 26.9545L12.9021 36.3109C12.0736 37.7458 12.5653 39.5806 14.0001 40.409C15.435 41.2374 17.2698 40.7458 18.0982 39.3109L23.5001 29.9546L28.902 39.3109C29.7304 40.7458 31.5652 41.2374 33 40.409C34.4349 39.5805 34.9265 37.7458 34.0981 36.3109L28.6962 26.9545H18.304Z"
-                    fill="#E94335"
-                    fill-rule="evenodd"
-                  />
-                  <path
-                    clip-rule="evenodd"
-                    d="M23.5001 17.9546L28.6962 26.9545H18.304L23.5001 17.9546Z"
-                    fill="#174EA5"
-                    fill-rule="evenodd"
-                  />
-                </svg>
-              </div>
-            </div>
-            <div
-              class="MuiBox-root emotion-8"
-            >
-              <form
                 class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""
@@ -1077,8 +792,6 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                 tabindex="-1"
               />
               <div
-<<<<<<< HEAD
-<<<<<<< HEAD
                 aria-hidden="true"
                 class="MuiBox-root emotion-7"
                 data-se="factor-beacon mfa-google-auth "
@@ -1135,76 +848,6 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
             >
               <form
                 aria-live="polite"
-                class="o-form MuiBox-root emotion-9"
-                data-se="o-form"
-                novalidate=""
-=======
-                class="okta-sign-in-header auth-header authCoinSpacing MuiBox-root emotion-6"
->>>>>>> 90c119bc4 (added odyssey legacy alias package)
-=======
-                aria-hidden="true"
-                class="mfa-google-auth MuiBox-root emotion-7"
-                data-se="factor-beacon"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-              >
-                <svg
-                  aria-labelledby="mfa-google-auth"
-                  fill="none"
-                  height="48"
-                  role="img"
-                  viewBox="0 0 48 48"
-                  width="48"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <title
-                    id="mfa-google-auth"
-                  >
-                    Google Authenticator
-                  </title>
-                  <path
-                    class="siwFillBg"
-                    clip-rule="evenodd"
-                    d="M24 48C37.2548 48 48 37.2548 48 24C48 10.7452 37.2548 0 24 0C10.7452 0 0 10.7452 0 24C0 37.2548 10.7452 48 24 48Z"
-                    fill="#F5F5F6"
-                    fill-rule="evenodd"
-                  />
-                  <path
-                    clip-rule="evenodd"
-                    d="M39.5 26.9545C41.1569 26.9545 42.5 25.6113 42.5 23.9545C42.5 22.2976 41.1569 20.9545 39.5 20.9545H28.6963L34.0982 11.5981C34.9266 10.1632 34.435 8.32845 33.0001 7.50002C31.5652 6.67159 29.7304 7.16322 28.902 8.5981L18.304 26.9545H39.5Z"
-                    fill="#1A73E7"
-                    fill-rule="evenodd"
-                  />
-                  <path
-                    clip-rule="evenodd"
-                    d="M18.0981 8.5981C17.2697 7.16322 15.4349 6.67159 14 7.50002C12.5651 8.32845 12.0735 10.1632 12.9019 11.5981L18.3039 20.9545H21.7681L23.5001 17.9546L18.0981 8.5981Z"
-                    fill="#FABB04"
-                    fill-rule="evenodd"
-                  />
-                  <path
-                    clip-rule="evenodd"
-                    d="M21.768 20.9545H7.5C5.84315 20.9545 4.5 22.2976 4.5 23.9545C4.5 25.6114 5.84315 26.9545 7.5 26.9545H18.3039L21.768 20.9545Z"
-                    fill="#34A753"
-                    fill-rule="evenodd"
-                  />
-                  <path
-                    clip-rule="evenodd"
-                    d="M18.304 26.9545L12.9021 36.3109C12.0736 37.7458 12.5653 39.5806 14.0001 40.409C15.435 41.2374 17.2698 40.7458 18.0982 39.3109L23.5001 29.9546L28.902 39.3109C29.7304 40.7458 31.5652 41.2374 33 40.409C34.4349 39.5805 34.9265 37.7458 34.0981 36.3109L28.6962 26.9545H18.304Z"
-                    fill="#E94335"
-                    fill-rule="evenodd"
-                  />
-                  <path
-                    clip-rule="evenodd"
-                    d="M23.5001 17.9546L28.6962 26.9545H18.304L23.5001 17.9546Z"
-                    fill="#174EA5"
-                    fill-rule="evenodd"
-                  />
-                </svg>
-              </div>
-            </div>
-            <div
-              class="MuiBox-root emotion-8"
-            >
-              <form
                 class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""

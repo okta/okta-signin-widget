@@ -159,7 +159,7 @@ describe('authenticator-expired-password', () => {
 
   it('should present field level error message of (failed) password requirements', async () => {
     const {
-      authClient, user, findByText, container, findByLabelText,
+      authClient, user, findByText, container, findByLabelText, findByTestId,
     } = await setup({ mockResponse });
 
     const titleElement = await findByText(/Your password has expired/);

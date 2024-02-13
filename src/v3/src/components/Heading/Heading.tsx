@@ -21,6 +21,7 @@ const Heading: UISchemaElementComponent<{
   uischema: HeadingElement
 }> = ({ uischema }) => {
   const {
+    id,
     noTranslate,
     parserOptions,
     noMargin,
@@ -41,7 +42,7 @@ const Heading: UISchemaElementComponent<{
         variant={`h${visualLevel ?? 2}`}
         component={`h${level ?? 3}`}
         translate={noTranslate ? 'no' : undefined}
-        testId={dataSe}
+        testId={dataSe ?? id}
       >
         {parsedContent}
       </Typography>

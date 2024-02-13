@@ -36,26 +36,7 @@ exports[`granular-consent-without-logo should render form 1`] = `
               class="MuiBox-root emotion-7"
             >
               <div
-<<<<<<< HEAD
-                class="okta-sign-in-header auth-header MuiBox-root emotion-6"
-              >
-                <h1
-                  class="MuiTypography-root MuiTypography-h1 emotion-7"
-                />
-              </div>
-<<<<<<< HEAD
-              <form
-                aria-live="polite"
-                class="o-form MuiBox-root emotion-12"
-                data-se="o-form"
-                novalidate=""
-=======
-              <div
-                class="MuiBox-root emotion-8"
->>>>>>> 90c119bc4 (added odyssey legacy alias package)
-=======
                 class="MuiBox-root emotion-1"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
               >
                 <div
                   class="MuiBox-root emotion-9"
@@ -76,6 +57,7 @@ exports[`granular-consent-without-logo should render form 1`] = `
                 </div>
               </div>
               <form
+                aria-live="polite"
                 class="o-form MuiBox-root emotion-12"
                 data-se="o-form"
                 novalidate=""

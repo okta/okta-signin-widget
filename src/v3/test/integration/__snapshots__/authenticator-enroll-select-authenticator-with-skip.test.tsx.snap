@@ -27,10 +27,6 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
               class="MuiBox-root emotion-5"
               data-se="okta-sign-in-header auth-header "
             >
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
               <h1
                 class="MuiTypography-root MuiTypography-h1 emotion-6"
                 tabindex="-1"
@@ -40,20 +36,10 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
               class="MuiBox-root emotion-7"
             >
               <form
-<<<<<<< HEAD
                 aria-live="polite"
                 class="o-form MuiBox-root emotion-8"
                 data-se="o-form"
                 novalidate=""
-=======
-              <div
-                class="okta-sign-in-header auth-header MuiBox-root emotion-6"
->>>>>>> 90c119bc4 (added odyssey legacy alias package)
-=======
-                class="o-form MuiBox-root emotion-8"
-                data-se="o-form"
-                novalidate=""
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
               >
                 <div
                   class="MuiBox-root emotion-9"
@@ -101,9 +87,6 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       </div>
                     </div>
                   </div>
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
                   <div
                     class="MuiBox-root emotion-10"
                   >
@@ -119,7 +102,6 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       </h2>
                     </div>
                   </div>
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
                   <div
                     class="MuiBox-root emotion-10"
                   >
@@ -157,28 +139,12 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                       data-se="authenticator-enroll-list"
                     >
                       <li
-<<<<<<< HEAD
-<<<<<<< HEAD
                         class="MuiBox-root emotion-10"
                       >
                         <button
                           aria-describedby="okta_password_0-description okta_password_0-ctaLabel"
                           aria-label="Set up Password."
-=======
-                        class="MuiBox-root emotion-27"
-=======
-                        class="MuiBox-root emotion-10"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
-                      >
-                        <button
-                          aria-describedby="okta_password_0-description okta_password_0-ctaLabel"
-                          aria-labelledby="okta_password_0-label"
-<<<<<<< HEAD
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                          class="authenticator-row MuiBox-root emotion-28"
-=======
                           class="MuiBox-root emotion-28"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                           data-se="authenticator-button"
                           tabindex="0"
                           type="button"
@@ -232,15 +198,8 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               Password
                             </h3>
                             <p
-<<<<<<< HEAD
-<<<<<<< HEAD
                               aria-label="Choose a password for your account."
-=======
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                              class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-33"
-=======
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-33"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                               data-se="authenticator-button-description"
                               id="okta_password_0-description"
                             >
@@ -257,34 +216,6 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               >
                                 Set up
                               </span>
-<<<<<<< HEAD
-                              <svg
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-36"
-                                fill="none"
-                                focusable="false"
-                                role="img"
-<<<<<<< HEAD
-                                viewBox="0 0 16 16"
-=======
-                                viewBox="0 0 24 24"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  clip-rule="evenodd"
-<<<<<<< HEAD
-                                  d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
-=======
-                                  d="m18.354 10.94-4.647-4.647-1.414 1.414L15.586 11H5v2h10.586l-3.293 3.293 1.414 1.414 4.647-4.646a1.5 1.5 0 0 0 0-2.122Z"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                                  fill="currentColor"
-                                  fill-rule="evenodd"
-                                />
-                                <title>
-                                  Set up
-                                </title>
-                              </svg>
-=======
                               <div
                                 class="MuiBox-root emotion-36"
                                 data-se="cta-button-icon"
@@ -308,34 +239,17 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                                   </title>
                                 </svg>
                               </div>
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                             </div>
                           </div>
                         </button>
                       </li>
                       <li
-<<<<<<< HEAD
-<<<<<<< HEAD
                         class="MuiBox-root emotion-10"
                       >
                         <button
                           aria-describedby="phone_number_1-description phone_number_1-ctaLabel"
                           aria-label="Set up Phone."
-=======
-                        class="MuiBox-root emotion-27"
-=======
-                        class="MuiBox-root emotion-10"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
-                      >
-                        <button
-                          aria-describedby="phone_number_1-description phone_number_1-ctaLabel"
-                          aria-labelledby="phone_number_1-label"
-<<<<<<< HEAD
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                          class="authenticator-row MuiBox-root emotion-28"
-=======
                           class="MuiBox-root emotion-28"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                           data-se="authenticator-button"
                           tabindex="0"
                           type="button"
@@ -399,15 +313,8 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               Phone
                             </h3>
                             <p
-<<<<<<< HEAD
-<<<<<<< HEAD
                               aria-label="Verify with a code sent to your phone."
-=======
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                              class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-33"
-=======
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-33"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                               data-se="authenticator-button-description"
                               id="phone_number_1-description"
                             >
@@ -424,34 +331,6 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               >
                                 Set up
                               </span>
-<<<<<<< HEAD
-                              <svg
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-36"
-                                fill="none"
-                                focusable="false"
-                                role="img"
-<<<<<<< HEAD
-                                viewBox="0 0 16 16"
-=======
-                                viewBox="0 0 24 24"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  clip-rule="evenodd"
-<<<<<<< HEAD
-                                  d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
-=======
-                                  d="m18.354 10.94-4.647-4.647-1.414 1.414L15.586 11H5v2h10.586l-3.293 3.293 1.414 1.414 4.647-4.646a1.5 1.5 0 0 0 0-2.122Z"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                                  fill="currentColor"
-                                  fill-rule="evenodd"
-                                />
-                                <title>
-                                  Set up
-                                </title>
-                              </svg>
-=======
                               <div
                                 class="MuiBox-root emotion-36"
                                 data-se="cta-button-icon"
@@ -475,34 +354,17 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                                   </title>
                                 </svg>
                               </div>
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                             </div>
                           </div>
                         </button>
                       </li>
                       <li
-<<<<<<< HEAD
-<<<<<<< HEAD
                         class="MuiBox-root emotion-10"
                       >
                         <button
                           aria-describedby="webauthn_2-description webauthn_2-ctaLabel"
                           aria-label="Set up Security Key or Biometric Authenticator."
-=======
-                        class="MuiBox-root emotion-27"
-=======
-                        class="MuiBox-root emotion-10"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
-                      >
-                        <button
-                          aria-describedby="webauthn_2-description webauthn_2-ctaLabel"
-                          aria-labelledby="webauthn_2-label"
-<<<<<<< HEAD
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                          class="authenticator-row MuiBox-root emotion-28"
-=======
                           class="MuiBox-root emotion-28"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                           data-se="authenticator-button"
                           tabindex="0"
                           type="button"
@@ -576,15 +438,8 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               Security Key or Biometric Authenticator
                             </h3>
                             <p
-<<<<<<< HEAD
-<<<<<<< HEAD
                               aria-label="Use a security key or a biometric authenticator to sign in."
-=======
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                              class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-33"
-=======
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-33"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                               data-se="authenticator-button-description"
                               id="webauthn_2-description"
                             >
@@ -601,34 +456,6 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               >
                                 Set up
                               </span>
-<<<<<<< HEAD
-                              <svg
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-36"
-                                fill="none"
-                                focusable="false"
-                                role="img"
-<<<<<<< HEAD
-                                viewBox="0 0 16 16"
-=======
-                                viewBox="0 0 24 24"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  clip-rule="evenodd"
-<<<<<<< HEAD
-                                  d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
-=======
-                                  d="m18.354 10.94-4.647-4.647-1.414 1.414L15.586 11H5v2h10.586l-3.293 3.293 1.414 1.414 4.647-4.646a1.5 1.5 0 0 0 0-2.122Z"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                                  fill="currentColor"
-                                  fill-rule="evenodd"
-                                />
-                                <title>
-                                  Set up
-                                </title>
-                              </svg>
-=======
                               <div
                                 class="MuiBox-root emotion-36"
                                 data-se="cta-button-icon"
@@ -652,7 +479,6 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                                   </title>
                                 </svg>
                               </div>
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                             </div>
                           </div>
                         </button>
@@ -684,13 +510,6 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                   </div>
                 </div>
               </form>
-<<<<<<< HEAD
-=======
-                </form>
-              </div>
->>>>>>> 90c119bc4 (added odyssey legacy alias package)
-=======
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
             </div>
           </div>
         </div>

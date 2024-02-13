@@ -32,8 +32,6 @@ exports[`authenticator-verification-yubikey-otp renders form 1`] = `
                 tabindex="-1"
               />
               <div
-<<<<<<< HEAD
-<<<<<<< HEAD
                 aria-hidden="true"
                 class="MuiBox-root emotion-7"
                 data-se="factor-beacon mfa-yubikey "
@@ -72,58 +70,6 @@ exports[`authenticator-verification-yubikey-otp renders form 1`] = `
             >
               <form
                 aria-live="polite"
-                class="o-form MuiBox-root emotion-9"
-                data-se="o-form"
-                novalidate=""
-=======
-                class="okta-sign-in-header auth-header authCoinSpacing MuiBox-root emotion-6"
->>>>>>> 90c119bc4 (added odyssey legacy alias package)
-=======
-                aria-hidden="true"
-                class="mfa-yubikey MuiBox-root emotion-7"
-                data-se="factor-beacon"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-              >
-                <svg
-                  aria-labelledby="mfa-yubikey"
-                  fill="none"
-                  height="48"
-                  role="img"
-                  viewBox="0 0 48 48"
-                  width="48"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <title
-                    id="mfa-yubikey"
-                  >
-                    YubiKey
-                  </title>
-                  <path
-                    class="siwFillBg"
-                    clip-rule="evenodd"
-                    d="M24 48c13.255 0 24-10.745 24-24S37.255 0 24 0 0 10.745 0 24s10.745 24 24 24Z"
-                    fill="#F5F5F6"
-                    fill-rule="evenodd"
-                  />
-                  <circle
-                    cx="24"
-                    cy="24"
-                    fill="#fff"
-                    r="18.5"
-                    stroke="#A3C753"
-                    stroke-width="3"
-                  />
-                  <path
-                    d="m24.406 23.977 1.416-3.996c.723-2.04 1.454-4.08 2.16-6.127.13-.382.328-.525.722-.52 1.466.014 2.933.004 4.4.006.7.001.748.064.49.701-.66 1.62-1.33 3.236-1.988 4.856-1.165 2.872-2.319 5.748-3.486 8.618-1.098 2.7-2.205 5.397-3.315 8.092-.396.961-.405.957-1.472.958-1.417.001-2.833.004-4.25 0-.605-.002-.646-.077-.407-.636.746-1.747 1.482-3.497 2.236-5.24.15-.345.16-.658.022-1.009-1.836-4.666-3.664-9.334-5.494-14.002-.23-.589-.468-1.176-.695-1.767-.164-.425-.084-.564.361-.567 1.6-.01 3.2 0 4.8-.01.38-.002.52.227.63.527.5 1.36 1.004 2.72 1.506 4.08l2.095 5.671c.045.122.101.241.151.361l.118.004Z"
-                    fill="#A3C753"
-                  />
-                </svg>
-              </div>
-            </div>
-            <div
-              class="MuiBox-root emotion-8"
-            >
-              <form
                 class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""

@@ -188,7 +188,7 @@ export default class EnrollOktaVerifyPageObject extends BasePageObject {
 
   getAlt() {
     return this.form.getElement(
-      userVariables.gen3 ? '.qrImg' : '.qrcode'
+      userVariables.gen3 ? '[data-se="qrImg"]' : '.qrcode'
     )?.getAttribute('alt');
   }
 

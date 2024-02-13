@@ -27,10 +27,6 @@ exports[`request-activation-email renders form 1`] = `
               class="MuiBox-root emotion-5"
               data-se="okta-sign-in-header auth-header "
             >
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
               <h1
                 class="MuiTypography-root MuiTypography-h1 emotion-6"
                 tabindex="-1"
@@ -40,20 +36,10 @@ exports[`request-activation-email renders form 1`] = `
               class="MuiBox-root emotion-7"
             >
               <form
-<<<<<<< HEAD
                 aria-live="polite"
                 class="o-form MuiBox-root emotion-8"
                 data-se="o-form"
                 novalidate=""
-=======
-              <div
-                class="okta-sign-in-header auth-header MuiBox-root emotion-6"
->>>>>>> 90c119bc4 (added odyssey legacy alias package)
-=======
-                class="o-form MuiBox-root emotion-8"
-                data-se="o-form"
-                novalidate=""
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
               >
                 <div
                   class="MuiBox-root emotion-9"

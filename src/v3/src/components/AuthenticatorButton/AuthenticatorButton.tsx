@@ -66,7 +66,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
     description && `${iconName}-description`,
     nickname && `${iconName}-nickname`,
     usageDescription && `${iconName}-usageDescription`,
-    `${iconName}-ctaLabel`,
+    isEnroll && `${iconName}-ctaLabel`,
   ].filter(Boolean).join(' ');
   const tokens = useOdysseyDesignTokens();
 

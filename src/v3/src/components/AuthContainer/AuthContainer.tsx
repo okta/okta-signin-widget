@@ -52,6 +52,7 @@ const AuthContainer: FunctionComponent<{ hide: boolean }> = ({ children, hide })
           alignItems="center"
           sx={{
             minInlineSize: '100%',
+            marginBlockStart: '100px',
             marginInline: 'auto',
           }}
         >
@@ -59,7 +60,6 @@ const AuthContainer: FunctionComponent<{ hide: boolean }> = ({ children, hide })
             flex="auto"
             flexDirection="column"
             bgcolor="common.white"
-            fontFamily="fontFamily"
             sx={{
               maxInlineSize: '432px',
               minInlineSize: '320px',

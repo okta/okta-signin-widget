@@ -11,7 +11,7 @@
  */
 
 import { Box } from '@mui/material';
-import { Accordion as OdyAccordion } from '@okta/odyssey-react-mui';
+import { Accordion as OdyAccordion, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
 
 import { AccordionLayout } from '../../types';
@@ -23,6 +23,7 @@ type AccordionProps = {
 
 const Accordion: FunctionComponent<AccordionProps> = ({ uischema }) => {
   const { elements } = uischema;
+  const tokens = useOdysseyDesignTokens();
 
   return (
     <Box>
@@ -31,7 +32,7 @@ const Accordion: FunctionComponent<AccordionProps> = ({ uischema }) => {
           <Box
             key={element.key}
             // eslint-disable-next-line react/jsx-props-no-spreading
-            {...(!(element).noMargin && { marginBlockEnd: 4 })}
+            {...(!(element).noMargin && { marginBlockEnd: tokens.Spacing4 })}
           >
             <OdyAccordion
               hasShadow={false}

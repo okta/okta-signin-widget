@@ -32,8 +32,6 @@ exports[`authenticator-verification-data-ov-only-with-device-known should render
                 tabindex="-1"
               />
               <div
-<<<<<<< HEAD
-<<<<<<< HEAD
                 aria-hidden="true"
                 class="MuiBox-root emotion-7"
                 data-se="factor-beacon mfa-okta-verify "
@@ -66,52 +64,6 @@ exports[`authenticator-verification-data-ov-only-with-device-known should render
             >
               <form
                 aria-live="polite"
-                class="o-form MuiBox-root emotion-9"
-                data-se="o-form"
-                novalidate=""
-=======
-                class="okta-sign-in-header auth-header authCoinSpacing MuiBox-root emotion-6"
->>>>>>> 90c119bc4 (added odyssey legacy alias package)
-=======
-                aria-hidden="true"
-                class="mfa-okta-verify MuiBox-root emotion-7"
-                data-se="factor-beacon"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-              >
-                <svg
-                  aria-labelledby="mfa-okta-verify"
-                  fill="none"
-                  height="48"
-                  role="img"
-                  viewBox="0 0 48 48"
-                  width="48"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <title
-                    id="mfa-okta-verify"
-                  >
-                    Okta Verify
-                  </title>
-                  <circle
-                    class="siwFillBg"
-                    cx="24"
-                    cy="24"
-                    fill="#F5F5F6"
-                    r="24"
-                  />
-                  <path
-                    clip-rule="evenodd"
-                    d="M32.872 22.853a8.947 8.947 0 1 1-2.288-4.91L24 24.498l-3.205-3.19c-.482-.48-1.322-.48-1.804 0a1.26 1.26 0 0 0-.374.898c0 .34.133.659.374.898l4.107 4.09c.24.239.561.371.902.371.336 0 .664-.136.902-.372L38.636 13.52a18.089 18.089 0 0 0-1.634-1.967A17.947 17.947 0 0 0 24 6C14.059 6 6 14.059 6 24s8.059 18 18 18 18-8.059 18-18c0-2.972-.722-5.775-1.998-8.245l-7.13 7.098Z"
-                    fill="#00297A"
-                    fill-rule="evenodd"
-                  />
-                </svg>
-              </div>
-            </div>
-            <div
-              class="MuiBox-root emotion-8"
-            >
-              <form
                 class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""
@@ -162,9 +114,6 @@ exports[`authenticator-verification-data-ov-only-with-device-known should render
                       </div>
                     </div>
                   </div>
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
                   <div
                     class="MuiBox-root emotion-11"
                   >
@@ -180,7 +129,6 @@ exports[`authenticator-verification-data-ov-only-with-device-known should render
                       </h2>
                     </div>
                   </div>
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
                   <div
                     class="MuiBox-root emotion-11"
                   >
@@ -204,32 +152,12 @@ exports[`authenticator-verification-data-ov-only-with-device-known should render
                       data-se="authenticator-verify-list"
                     >
                       <li
-<<<<<<< HEAD
-<<<<<<< HEAD
                         class="MuiBox-root emotion-11"
                       >
                         <button
-                          aria-describedby="okta_verify_2-description okta_verify_2-ctaLabel"
-<<<<<<< HEAD
+                          aria-describedby="okta_verify_2-description"
                           aria-label="Select Okta FastPass."
-=======
-                          aria-label="Use Okta FastPass"
-=======
-                        class="MuiBox-root emotion-25"
-=======
-                        class="MuiBox-root emotion-11"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
-                      >
-                        <button
-                          aria-describedby="okta_verify_2-description okta_verify_2-ctaLabel"
-                          aria-labelledby="okta_verify_2-label"
-<<<<<<< HEAD
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
->>>>>>> 2f733f483 (OKTA-588627: loginpage odyssey style (#3493))
-                          class="authenticator-row MuiBox-root emotion-26"
-=======
                           class="MuiBox-root emotion-26"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                           data-se="authenticator-button"
                           tabindex="0"
                           type="button"
@@ -279,15 +207,8 @@ exports[`authenticator-verification-data-ov-only-with-device-known should render
                               Okta Verify
                             </h3>
                             <p
-<<<<<<< HEAD
-<<<<<<< HEAD
-                              aria-label="Okta Verify."
-=======
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                              class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-31"
-=======
+                              aria-label="Use Okta FastPass."
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-31"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                               data-se="authenticator-button-description"
                               id="okta_verify_2-description"
                             >
@@ -307,20 +228,12 @@ exports[`authenticator-verification-data-ov-only-with-device-known should render
                                 fill="none"
                                 focusable="false"
                                 role="img"
-<<<<<<< HEAD
-                                viewBox="0 0 16 16"
-=======
                                 viewBox="0 0 24 24"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
                                 xmlns="http://www.w3.org/2000/svg"
                               >
                                 <path
                                   clip-rule="evenodd"
-<<<<<<< HEAD
-                                  d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
-=======
                                   d="m18.354 10.94-4.647-4.647-1.414 1.414L15.586 11H5v2h10.586l-3.293 3.293 1.414 1.414 4.647-4.646a1.5 1.5 0 0 0 0-2.122Z"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
                                   fill="currentColor"
                                   fill-rule="evenodd"
                                 />
@@ -333,32 +246,12 @@ exports[`authenticator-verification-data-ov-only-with-device-known should render
                         </button>
                       </li>
                       <li
-<<<<<<< HEAD
-<<<<<<< HEAD
                         class="MuiBox-root emotion-11"
                       >
                         <button
-                          aria-describedby="okta_verify_0-description okta_verify_0-ctaLabel"
-<<<<<<< HEAD
+                          aria-describedby="okta_verify_0-description"
                           aria-label="Select to get a push notification to the Okta Verify app."
-=======
-                          aria-label="Get a push notification"
-=======
-                        class="MuiBox-root emotion-25"
-=======
-                        class="MuiBox-root emotion-11"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
-                      >
-                        <button
-                          aria-describedby="okta_verify_0-description okta_verify_0-ctaLabel"
-                          aria-labelledby="okta_verify_0-label"
-<<<<<<< HEAD
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
->>>>>>> 2f733f483 (OKTA-588627: loginpage odyssey style (#3493))
-                          class="authenticator-row MuiBox-root emotion-26"
-=======
                           class="MuiBox-root emotion-26"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                           data-se="authenticator-button"
                           tabindex="0"
                           type="button"
@@ -408,15 +301,8 @@ exports[`authenticator-verification-data-ov-only-with-device-known should render
                               Okta Verify
                             </h3>
                             <p
-<<<<<<< HEAD
-<<<<<<< HEAD
-                              aria-label="Okta Verify."
-=======
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                              class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-31"
-=======
+                              aria-label="Get a push notification."
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-31"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                               data-se="authenticator-button-description"
                               id="okta_verify_0-description"
                             >
@@ -436,20 +322,12 @@ exports[`authenticator-verification-data-ov-only-with-device-known should render
                                 fill="none"
                                 focusable="false"
                                 role="img"
-<<<<<<< HEAD
-                                viewBox="0 0 16 16"
-=======
                                 viewBox="0 0 24 24"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
                                 xmlns="http://www.w3.org/2000/svg"
                               >
                                 <path
                                   clip-rule="evenodd"
-<<<<<<< HEAD
-                                  d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
-=======
                                   d="m18.354 10.94-4.647-4.647-1.414 1.414L15.586 11H5v2h10.586l-3.293 3.293 1.414 1.414 4.647-4.646a1.5 1.5 0 0 0 0-2.122Z"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
                                   fill="currentColor"
                                   fill-rule="evenodd"
                                 />
@@ -462,32 +340,12 @@ exports[`authenticator-verification-data-ov-only-with-device-known should render
                         </button>
                       </li>
                       <li
-<<<<<<< HEAD
-<<<<<<< HEAD
                         class="MuiBox-root emotion-11"
                       >
                         <button
-                          aria-describedby="okta_verify_1-description okta_verify_1-ctaLabel"
-<<<<<<< HEAD
+                          aria-describedby="okta_verify_1-description"
                           aria-label="Select to enter a code from the Okta Verify app."
-=======
-                          aria-label="Okta Verify. Enter a code"
-=======
-                        class="MuiBox-root emotion-25"
-=======
-                        class="MuiBox-root emotion-11"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
-                      >
-                        <button
-                          aria-describedby="okta_verify_1-description okta_verify_1-ctaLabel"
-                          aria-labelledby="okta_verify_1-label"
-<<<<<<< HEAD
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
->>>>>>> 2f733f483 (OKTA-588627: loginpage odyssey style (#3493))
-                          class="authenticator-row MuiBox-root emotion-26"
-=======
                           class="MuiBox-root emotion-26"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                           data-se="authenticator-button"
                           tabindex="0"
                           type="button"
@@ -537,15 +395,8 @@ exports[`authenticator-verification-data-ov-only-with-device-known should render
                               Okta Verify
                             </h3>
                             <p
-<<<<<<< HEAD
-<<<<<<< HEAD
-                              aria-label="Okta Verify."
-=======
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-                              class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph authenticator-description--text emotion-31"
-=======
+                              aria-label="Enter a code."
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-31"
->>>>>>> 330c9392a (Gen3: Update Authenticator List styles (#3499))
                               data-se="authenticator-button-description"
                               id="okta_verify_1-description"
                             >
@@ -565,20 +416,12 @@ exports[`authenticator-verification-data-ov-only-with-device-known should render
                                 fill="none"
                                 focusable="false"
                                 role="img"
-<<<<<<< HEAD
-                                viewBox="0 0 16 16"
-=======
                                 viewBox="0 0 24 24"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
                                 xmlns="http://www.w3.org/2000/svg"
                               >
                                 <path
                                   clip-rule="evenodd"
-<<<<<<< HEAD
-                                  d="M13.2929 7.5L9.14645 3.35355L9.85355 2.64645L14.8536 7.64645C15.0488 7.84171 15.0488 8.15829 14.8536 8.35355L9.85355 13.3536L9.14645 12.6464L13.2929 8.5H1V7.5H13.2929Z"
-=======
                                   d="m18.354 10.94-4.647-4.647-1.414 1.414L15.586 11H5v2h10.586l-3.293 3.293 1.414 1.414 4.647-4.646a1.5 1.5 0 0 0 0-2.122Z"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
                                   fill="currentColor"
                                   fill-rule="evenodd"
                                 />
@@ -605,13 +448,6 @@ exports[`authenticator-verification-data-ov-only-with-device-known should render
                   </div>
                 </div>
               </form>
-<<<<<<< HEAD
-=======
-                </form>
-              </div>
->>>>>>> 90c119bc4 (added odyssey legacy alias package)
-=======
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
             </div>
           </div>
         </div>

@@ -334,7 +334,7 @@ test.requestHooks(mockChallengeWithNickname)('should load select authenticator l
   );
   if (userVariables.gen3) {
     await t.expect(await selectFactorPage.getFactorAriaDescriptionByIndex(3)).eql(
-      '+1 XXX-XXX-5309. ph-nn. Select'
+      '+1 XXX-XXX-5309. ph-nn.'
     );
   }
 
@@ -359,9 +359,9 @@ test.requestHooks(mockChallengeWithNickname)('should load select authenticator l
   await t.expect(selectFactorPage.getFactorIconSelectorByIndex(6)).contains('mfa-okta-verify');
   await t.expect(await selectFactorPage.factorCustomLogoExist(6)).eql(false);
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(6)).eql('Select');
-  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(6)).eql('okta_verify-signed_nonce');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(6)).eql('okta_verify-push');
   await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(6)).eql(
-    'Select Okta FastPass.'
+    'Select to get a push notification to the Okta Verify app.'
   );
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(7)).eql('Google Authenticator');
@@ -453,15 +453,15 @@ test.requestHooks(mockChallengeWithCustomLogo)('should load select authenticator
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(11)).eql('IDP Authenticator');
   await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(11)).eql(false);
-  await t.expect(selectFactorPage.getFactorIconClassByIndex(11)).contains('mfa-custom-factor');
+  await t.expect(selectFactorPage.getFactorIconSelectorByIndex(11)).contains('mfa-custom-factor');
   await t.expect(await selectFactorPage.factorCustomLogoExist(11)).eql(true);
   await t.expect(selectFactorPage.getFactorIconBgImageByIndex(11)).match(/.*\/img\/logos\/default\.png/);
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(11)).eql('Select');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(11)).eql('external_idp');
 
-  await t.expect(selectFactorPage.getFactorLabelByIndex(15)).eql('Get a push notification');
-  await t.expect(selectFactorPage.getFactorDescriptionByIndex(15)).eql('Custom Push App');
-  await t.expect(selectFactorPage.getFactorIconClassByIndex(15)).contains('mfa-custom-app-logo');
+  await t.expect(selectFactorPage.getFactorLabelByIndex(15)).eql(userVariables.gen3 ? 'Custom Push App' : 'Get a push notification');
+  await t.expect(selectFactorPage.getFactorDescriptionByIndex(15)).eql(userVariables.gen3 ? 'Get a push notification' : 'Custom Push App');
+  await t.expect(selectFactorPage.getFactorIconSelectorByIndex(15)).contains('mfa-custom-app-logo');
   await t.expect(await selectFactorPage.factorCustomLogoExist(15)).eql(true);
   await t.expect(selectFactorPage.getFactorIconBgImageByIndex(15)).match(/.*\/img\/logos\/default\.png/);
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(15)).eql('Select');

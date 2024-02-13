@@ -86,7 +86,7 @@ const WebAuthNSubmit: UISchemaElementComponent<{
 
   return (
     <Box
-      marginBlockEnd={tokens.Spacing1}
+      marginBlockEnd={tokens.Spacing4}
       display={showLoading ? 'flex' : undefined}
       justifyContent={showLoading ? 'center' : undefined}
     >

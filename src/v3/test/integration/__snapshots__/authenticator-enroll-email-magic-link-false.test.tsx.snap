@@ -32,8 +32,6 @@ exports[`Email authenticator enroll when magic link = false Tests should render 
                 tabindex="-1"
               />
               <div
-<<<<<<< HEAD
-<<<<<<< HEAD
                 aria-hidden="true"
                 class="MuiBox-root emotion-7"
                 data-se="factor-beacon mfa-okta-email "
@@ -70,56 +68,6 @@ exports[`Email authenticator enroll when magic link = false Tests should render 
             >
               <form
                 aria-live="polite"
-                class="o-form MuiBox-root emotion-9"
-                data-se="o-form"
-                novalidate=""
-=======
-                class="okta-sign-in-header auth-header authCoinSpacing MuiBox-root emotion-6"
->>>>>>> 90c119bc4 (added odyssey legacy alias package)
-=======
-                aria-hidden="true"
-                class="mfa-okta-email MuiBox-root emotion-7"
-                data-se="factor-beacon"
->>>>>>> 2953fba96 (OKTA-588627: loginpage odyssey style (#3493))
-              >
-                <svg
-                  aria-labelledby="mfa-okta-email"
-                  fill="none"
-                  height="48"
-                  role="img"
-                  viewBox="0 0 48 48"
-                  width="48"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <title
-                    id="mfa-okta-email"
-                  >
-                    Email Authentication
-                  </title>
-                  <circle
-                    class="siwFillBg"
-                    cx="24"
-                    cy="24"
-                    fill="#F5F5F6"
-                    r="24"
-                  />
-                  <path
-                    class="siwFillSecondary"
-                    d="M32 18v1h5.3L32 24.29v1.42l6-6.01v12.8a1.5 1.5 0 0 1-1.5 1.5h-17a1.5 1.5 0 0 1-1.5-1.5V31h-1v1.5a2.5 2.5 0 0 0 2.5 2.5h17a2.5 2.5 0 0 0 2.5-2.5V18h-7Z"
-                    fill="#A7B5EC"
-                  />
-                  <path
-                    class="siwFillPrimaryDark"
-                    d="M9 13v14.5a2.5 2.5 0 0 0 2.5 2.5h17a2.5 2.5 0 0 0 2.5-2.5V13H9Zm20.293 1-8.81 8.81L10.794 14h18.499ZM28.5 29h-17a1.5 1.5 0 0 1-1.5-1.5V14.63l10.517 9.56L30 14.707V27.5a1.5 1.5 0 0 1-1.5 1.5Z"
-                    fill="#00297A"
-                  />
-                </svg>
-              </div>
-            </div>
-            <div
-              class="MuiBox-root emotion-8"
-            >
-              <form
                 class="o-form MuiBox-root emotion-9"
                 data-se="o-form"
                 novalidate=""

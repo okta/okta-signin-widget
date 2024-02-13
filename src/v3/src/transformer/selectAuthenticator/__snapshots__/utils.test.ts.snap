@@ -3,6 +3,7 @@
 exports[`Select Authenticator Utility Tests getAuthenticatorEnrollButtonElements Tests should detect authenticator options for additional enroll 1`] = `
 Array [
   Object {
+    "dir": undefined,
     "id": "auth_btn_okta_password_1234abc",
     "label": "Password",
     "noTranslate": false,
@@ -12,6 +13,7 @@ Array [
         "authenticator.id": "1234abc",
         "authenticator.methodType": undefined,
       },
+      "ariaLabel": "oie.select.authenticator.enroll.password.label",
       "authenticator": Object {
         "displayName": "Okta Password",
         "id": "",
@@ -41,6 +43,7 @@ Array [
     "type": "AuthenticatorButton",
   },
   Object {
+    "dir": undefined,
     "id": "auth_btn_okta_email_1235abc",
     "label": "Email",
     "noTranslate": false,
@@ -50,6 +53,7 @@ Array [
         "authenticator.id": "1235abc",
         "authenticator.methodType": undefined,
       },
+      "ariaLabel": "oie.select.authenticator.enroll.email.label",
       "authenticator": Object {
         "displayName": "Okta Email",
         "id": "",
