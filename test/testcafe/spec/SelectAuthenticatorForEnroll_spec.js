@@ -131,7 +131,7 @@ test.requestHooks(mockEnrollAuthenticatorPassword)('should load select authentic
   await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(3)).eql(false);
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(4)).eql('Okta Verify');
-  await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(4)).eql('Set up Okta Verify');
+  await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(4)).eql('Set up Okta Verify.');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(4)).contains('mfa-okta-verify');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(4)).eql('Set up');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(4)).eql('okta_verify');
@@ -140,7 +140,7 @@ test.requestHooks(mockEnrollAuthenticatorPassword)('should load select authentic
   await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(4)).eql(false);
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(5)).eql('Google Authenticator');
-  await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(5)).eql('Set up Google Authenticator');
+  await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(5)).eql('Set up Google Authenticator.');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(5)).contains('mfa-google-auth');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(5)).eql('Set up');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(5)).eql('google_otp');
@@ -149,7 +149,7 @@ test.requestHooks(mockEnrollAuthenticatorPassword)('should load select authentic
   await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(5)).eql(false);
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(6)).eql('Atko Custom On-prem');
-  await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(6)).eql('Set up Atko Custom On-prem');
+  await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(6)).eql('Set up Atko Custom On-prem.');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(6)).contains('mfa-onprem');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(6)).eql('Set up');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(6)).eql('onprem_mfa-otp');
@@ -158,7 +158,7 @@ test.requestHooks(mockEnrollAuthenticatorPassword)('should load select authentic
   await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(6)).eql(false);
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(7)).eql('RSA SecurID');
-  await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(7)).eql('Set up RSA SecurID');
+  await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(7)).eql('Set up RSA SecurID.');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(7)).contains('mfa-rsa');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(7)).eql('Set up');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(7)).eql('rsa_token-otp');
@@ -167,7 +167,7 @@ test.requestHooks(mockEnrollAuthenticatorPassword)('should load select authentic
   await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(7)).eql(false);
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(8)).eql('Duo Security');
-  await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(8)).eql('Set up Duo Security');
+  await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(8)).eql('Set up Duo Security.');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(8)).contains('mfa-duo');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(8)).eql('Set up');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(8)).eql('duo');
@@ -175,7 +175,7 @@ test.requestHooks(mockEnrollAuthenticatorPassword)('should load select authentic
   await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(8)).eql(false);
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(9)).eql('IDP Authenticator');
-  await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(9)).eql('Set up IDP Authenticator');
+  await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(9)).eql('Set up IDP Authenticator.');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(9)).contains('mfa-custom-factor');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(9)).eql('Set up');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(9)).eql('external_idp');
@@ -184,7 +184,7 @@ test.requestHooks(mockEnrollAuthenticatorPassword)('should load select authentic
   await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(9)).eql(false);
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(10)).eql('Atko Custom OTP Authenticator');
-  await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(10)).eql('Set up Atko Custom OTP Authenticator');
+  await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(10)).eql('Set up Atko Custom OTP Authenticator.');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(10)).contains('mfa-hotp');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(10)).eql('Set up');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(10)).eql('custom_otp');
@@ -192,7 +192,7 @@ test.requestHooks(mockEnrollAuthenticatorPassword)('should load select authentic
   await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(10)).eql(false);
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(11)).eql('Symantec VIP');
-  await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(11)).eql('Set up Symantec VIP');
+  await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(11)).eql('Set up Symantec VIP.');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(11)).contains('mfa-symantec');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(11)).eql('Set up');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(11)).eql('symantec_vip');
@@ -200,7 +200,7 @@ test.requestHooks(mockEnrollAuthenticatorPassword)('should load select authentic
   await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(11)).eql(false);
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(12)).eql('YubiKey Authenticator');
-  await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(12)).eql('Set up YubiKey Authenticator');
+  await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(12)).eql('Set up YubiKey Authenticator.');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(12)).contains('mfa-yubikey');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(12)).eql('Set up');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(12)).eql('yubikey_token');

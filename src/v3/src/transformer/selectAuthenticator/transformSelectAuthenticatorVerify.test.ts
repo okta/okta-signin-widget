@@ -36,6 +36,7 @@ const getMockAuthenticatorButtons = (): AuthenticatorButtonElement[] => {
       actionParams: {
         'authenticator.id': '123abc',
       },
+      ariaLabel: 'Select email.',
       step: IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE,
     },
   } as AuthenticatorButtonElement);
@@ -66,7 +67,7 @@ describe('Verify Authenticator Selector Transformer Tests', () => {
         ],
       }],
     };
-    widgetProps = {};
+    widgetProps = {} as unknown as WidgetProps;
   });
 
   it('should not transform elements when IDX Step does not exist in remediations', () => {
@@ -150,7 +151,7 @@ describe('Verify Authenticator Selector Transformer Tests', () => {
 
   it('should add UI elements for verification authenticator selector'
     + ' when in password recovery flow and brand name is provided', () => {
-    widgetProps = { brandName: 'Acme Corp.' };
+    widgetProps = { brandName: 'Acme Corp.' } as unknown as WidgetProps;
     transaction.rawIdxState = {
       version: '',
       stateHandle: '',

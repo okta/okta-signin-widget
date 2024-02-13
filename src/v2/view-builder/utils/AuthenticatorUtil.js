@@ -118,8 +118,8 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
       iconClassName: 'mfa-google-auth',
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
       ariaLabel: isVerifyAuthenticator
-        ? loc('oie.select.authenticator.verify.named.authentcator.label', 'login', [authenticator.label])
-        : loc('oie.select.authenticator.enroll.named.authentcator.label', 'login', [authenticator.label])
+        ? loc('oie.select.authenticator.verify.named.authenticator.label', 'login', [authenticator.label])
+        : loc('oie.select.authenticator.enroll.named.authenticator.label', 'login', [authenticator.label])
     });
     break;
 
@@ -133,8 +133,8 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
       iconClassName: 'mfa-onprem',
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
       ariaLabel: isVerifyAuthenticator
-        ? loc('oie.select.authenticator.verify.named.authentcator.label', 'login', [authenticator.label])
-        : loc('oie.select.authenticator.enroll.named.authentcator.label', 'login', [authenticator.label])
+        ? loc('oie.select.authenticator.verify.named.authenticator.label', 'login', [authenticator.label])
+        : loc('oie.select.authenticator.enroll.named.authenticator.label', 'login', [authenticator.label])
     });
     break;
   }
@@ -147,8 +147,8 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
       iconClassName: 'mfa-rsa',
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
       ariaLabel: isVerifyAuthenticator
-        ? loc('oie.select.authenticator.verify.named.authentcator.label', 'login', [authenticator.label])
-        : loc('oie.select.authenticator.enroll.named.authentcator.label', 'login', [authenticator.label])
+        ? loc('oie.select.authenticator.verify.named.authenticator.label', 'login', [authenticator.label])
+        : loc('oie.select.authenticator.enroll.named.authenticator.label', 'login', [authenticator.label])
     });
     break;
 
@@ -160,8 +160,8 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
       iconClassName: 'mfa-duo',
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
       ariaLabel: isVerifyAuthenticator
-        ? loc('oie.select.authenticator.verify.named.authentcator.label', 'login', [authenticator.label])
-        : loc('oie.select.authenticator.enroll.named.authentcator.label', 'login', [authenticator.label])
+        ? loc('oie.select.authenticator.verify.named.authenticator.label', 'login', [authenticator.label])
+        : loc('oie.select.authenticator.enroll.named.authenticator.label', 'login', [authenticator.label])
     });
     break;
 
@@ -175,8 +175,8 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
       logoUri : authenticator?.relatesTo?.logoUri || '',
       ariaLabel: isVerifyAuthenticator
-        ? loc('oie.select.authenticator.verify.named.authentcator.label', 'login', [authenticator.label])
-        : loc('oie.select.authenticator.enroll.named.authentcator.label', 'login', [authenticator.label])
+        ? loc('oie.select.authenticator.verify.named.authenticator.label', 'login', [authenticator.label])
+        : loc('oie.select.authenticator.enroll.named.authenticator.label', 'login', [authenticator.label])
     });
     break;
   }
@@ -188,8 +188,8 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
       iconClassName: 'mfa-hotp',
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
       ariaLabel: isVerifyAuthenticator
-        ? loc('oie.select.authenticator.verify.named.authentcator.label', 'login', [authenticator.label])
-        : loc('oie.select.authenticator.enroll.named.authentcator.label', 'login', [authenticator.label])
+        ? loc('oie.select.authenticator.verify.named.authenticator.label', 'login', [authenticator.label])
+        : loc('oie.select.authenticator.enroll.named.authenticator.label', 'login', [authenticator.label])
     });
     break;
   }
@@ -203,8 +203,8 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
       iconClassName: 'mfa-symantec',
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
       ariaLabel: isVerifyAuthenticator
-        ? loc('oie.select.authenticator.verify.named.authentcator.label', 'login', [authenticator.label])
-        : loc('oie.select.authenticator.enroll.named.authentcator.label', 'login', [authenticator.label])
+        ? loc('oie.select.authenticator.verify.named.authenticator.label', 'login', [authenticator.label])
+        : loc('oie.select.authenticator.enroll.named.authenticator.label', 'login', [authenticator.label])
     });
     break;
   }
@@ -217,8 +217,8 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
       iconClassName: 'mfa-yubikey',
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
       ariaLabel: isVerifyAuthenticator
-        ? loc('oie.select.authenticator.verify.named.authentcator.label', 'login', [authenticator.label])
-        : loc('oie.select.authenticator.enroll.named.authentcator.label', 'login', [authenticator.label])
+        ? loc('oie.select.authenticator.verify.named.authenticator.label', 'login', [authenticator.label])
+        : loc('oie.select.authenticator.enroll.named.authenticator.label', 'login', [authenticator.label])
     });
     break;
   }
@@ -234,10 +234,10 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
       logoUri : authenticator?.relatesTo?.logoUri || '',
       ariaLabel: isVerifyAuthenticator
         ? loc(
-          'oie.select.authenticator.verify.named.authentcator.label',
+          'oie.select.authenticator.verify.named.authenticator.label',
           'login',
           [authenticator?.relatesTo?.displayName])
-        : loc('oie.select.authenticator.enroll.named.authentcator.label', 'login', [authenticator.label])
+        : loc('oie.select.authenticator.enroll.named.authenticator.label', 'login', [authenticator.label])
     });
     break;
   }
@@ -250,8 +250,8 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
       iconClassName: 'mfa-smartcard',
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
       ariaLabel: isVerifyAuthenticator
-        ? loc('oie.select.authenticator.verify.named.authentcator.label', 'login', [authenticator.label])
-        : loc('oie.select.authenticator.enroll.named.authentcator.label', 'login', [authenticator.label])
+        ? loc('oie.select.authenticator.verify.named.authenticator.label', 'login', [authenticator.label])
+        : loc('oie.select.authenticator.enroll.named.authenticator.label', 'login', [authenticator.label])
     });
     break;
   }
@@ -273,19 +273,17 @@ export function getVerifyPhoneAriaLabel(phone) {
 }
 
 export function getOktaVerifyAriaLabel(isVerify, methodType) {
-  // TODO: OKTA-689219 - create dedicated keys by OV method types
-  const ovLabel = loc('oie.okta_verify.label', 'login');
   if (!isVerify) {
-    return loc('oie.select.authenticator.enroll.named.authentcator.label', 'login', [ovLabel]);
+    return loc('oie.select.authenticator.enroll.okta_verify.authenticator.label', 'login');
   }
-  const defaultLabel = loc('oie.select.authenticator.verify.named.authentcator.label', 'login', [ovLabel]);
+  const defaultLabel = loc('oie.select.authenticator.verify.okta_verify.label', 'login');
   if (typeof methodType === 'undefined') {
     return defaultLabel;
   }
   const methodTypeLabelMap = {
-    push: loc('oie.okta_verify.push.title', 'login'),
-    totp: `${ovLabel}. ${loc('oie.okta_verify.totp.title', 'login')}`,
-    'signed_nonce': loc('oie.okta_verify.signed_nonce.label', 'login'),
+    push: loc('oie.select.authenticator.okta_verify.push.label', 'login'),
+    totp: loc('oie.select.authenticator.okta_verify.totp.label', 'login'),
+    'signed_nonce': loc('oie.select.authenticator.okta_verify.signed_nonce.label', 'login'),
   };
   return methodTypeLabelMap[methodType] || defaultLabel;
 }

@@ -421,7 +421,7 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
         buttonDataSeAttr: 'security_question',
       },
       {
-        ariaLabel: 'Okta Verify. Enter a code',
+        ariaLabel: 'Select to enter a code from the Okta Verify app.',
         label: 'Enter a code',
         value: {
           id: 'auttheidkwh282hv8g3',
@@ -450,7 +450,7 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
         buttonDataSeAttr: 'okta_verify-totp',
       },
       {
-        ariaLabel: 'Get a push notification',
+        ariaLabel: 'Select to get a push notification to the Okta Verify app.',
         label: 'Get a push notification',
         value: {
           id: 'auttheidkwh282hv8g3',
@@ -479,7 +479,7 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
         buttonDataSeAttr: 'okta_verify-push',
       },
       {
-        ariaLabel: 'Use Okta FastPass',
+        ariaLabel: 'Select Okta FastPass.',
         label: 'Use Okta FastPass',
         value: {
           id: 'auttheidkwh282hv8g3',
@@ -508,7 +508,7 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
         buttonDataSeAttr: 'okta_verify-signed_nonce',
       },
       {
-        ariaLabel: 'Select Google Authenticator',
+        ariaLabel: 'Select Google Authenticator.',
         label: 'Google Authenticator',
         value: {
           id: 'auttheidkwh482hv8g3',
@@ -531,7 +531,7 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
         buttonDataSeAttr: 'google_otp',
       },
       {
-        ariaLabel: 'Select Custom Push App',
+        ariaLabel: 'Select Custom Push App.',
         label: 'Get a push notification',
         value: {
           id: 'aut198w4v0f8dr8gT0g4',
@@ -559,7 +559,7 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
         noTranslateClassName: 'no-translate',
       },
       {
-        ariaLabel: 'Select Smart Card IdP',
+        ariaLabel: 'Select Smart Card IdP.',
         label: 'Smart Card IdP',
         value: {
           id: 'aut10ehrE4fRd197J0g4',
@@ -775,7 +775,7 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
             },
           ],
         },
-        ariaLabel: 'Select Atko Corp Authenticator',
+        ariaLabel: 'Select Atko Corp Authenticator.',
         authenticatorKey: 'custom_app',
         description: 'Atko Corp Authenticator',
         buttonDataSeAttr: 'custom_app',
@@ -802,7 +802,7 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
             },
           ],
         },
-        ariaLabel: 'Select Custom Push Authenticator 1',
+        ariaLabel: 'Select Custom Push Authenticator 1.',
         authenticatorKey: 'custom_app',
         description: 'Custom Push Authenticator 1',
         buttonDataSeAttr: 'custom_app',
@@ -1063,7 +1063,7 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
         buttonDataSeAttr: 'security_question',
       },
       {
-        ariaLabel: 'Set up Okta Verify',
+        ariaLabel: 'Set up Okta Verify.',
         label: 'Okta Verify',
         value: {
           id: 'auttheidkwh282hv8g3',
@@ -1087,7 +1087,7 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
         buttonDataSeAttr: 'okta_verify-signed_nonce',
       },
       {
-        ariaLabel: 'Set up Google Authenticator',
+        ariaLabel: 'Set up Google Authenticator.',
         label: 'Google Authenticator',
         value: {
           id: 'auttheidkwh482hv8g3',
@@ -1110,7 +1110,7 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
         buttonDataSeAttr: 'google_otp',
       },
       {
-        ariaLabel: 'Set up Smart Card IdP',
+        ariaLabel: 'Set up Smart Card IdP.',
         label: 'Smart Card IdP',
         value: {
           id: 'aut10ehrE4fRd197J0g4',

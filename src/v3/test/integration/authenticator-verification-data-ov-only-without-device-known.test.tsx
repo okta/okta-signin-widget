@@ -29,7 +29,7 @@ describe('authenticator-verification-data-ov-only-without-device-known', () => {
     const heading = await findByRole('heading', { level: 2 });
     expect(heading.textContent).toBe('Verify it\'s you with a security method');
 
-    const authenticatorButton = await findByRole('button', { name: 'Get a push notification' });
+    const authenticatorButton = await findByRole('button', { name: 'Select to get a push notification to the Okta Verify app.' });
     await user.click(authenticatorButton);
     expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
       ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge', {
