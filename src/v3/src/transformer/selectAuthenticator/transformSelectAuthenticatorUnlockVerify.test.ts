@@ -23,6 +23,7 @@ import {
   StepperButtonElement,
   StepperLayout,
   TitleElement,
+  UISchemaLayout,
   WidgetProps,
 } from 'src/types';
 
@@ -40,6 +41,7 @@ const getMockAuthenticatorButtons = (): AuthenticatorButtonElement[] => {
       actionParams: {
         'authenticator.id': '123abc',
       },
+      ariaLabel: 'Select email.',
       step: IDX_STEP.SELECT_AUTHENTICATOR_UNLOCK,
     },
   } as AuthenticatorButtonElement);
@@ -54,7 +56,7 @@ jest.mock('./utils', () => ({
 
 describe('Unlock Verification Authenticator Selector Tests', () => {
   const transaction = getStubTransactionWithNextStep();
-  let widgetProps: WidgetProps = {};
+  let widgetProps: WidgetProps = {} as unknown as WidgetProps;
   const formBag = getStubFormBag();
   beforeEach(() => {
     formBag.uischema.elements = [{ type: 'Field', options: { inputMeta: { name: 'identifier' } } } as FieldElement];
@@ -77,7 +79,7 @@ describe('Unlock Verification Authenticator Selector Tests', () => {
         },
       ],
     };
-    widgetProps = { features: { rememberMe: false } };
+    widgetProps = { features: { rememberMe: false } } as unknown as WidgetProps;
   });
 
   it('should not transform elements when IDX Step does not exist in remediations', () => {
@@ -107,35 +109,37 @@ describe('Unlock Verification Authenticator Selector Tests', () => {
 
     const stepperLayout = updatedFormBag.uischema.elements[0] as StepperLayout;
     const [identifyWithUsernameLayout, authenticatorListLayout] = stepperLayout.elements;
+    const identifyWithUsernameElements = (identifyWithUsernameLayout as UISchemaLayout).elements;
+    const authenticatorListElements = (authenticatorListLayout as UISchemaLayout).elements;
 
-    expect(identifyWithUsernameLayout.elements.length).toBe(3);
-    expect((identifyWithUsernameLayout.elements[0] as TitleElement).options.content)
+    expect(identifyWithUsernameElements.length).toBe(3);
+    expect((identifyWithUsernameElements[0] as TitleElement).options.content)
       .toBe('unlockaccount');
-    expect((identifyWithUsernameLayout.elements[1] as FieldElement).options?.inputMeta.name)
+    expect((identifyWithUsernameElements[1] as FieldElement).options?.inputMeta.name)
       .toBe('identifier');
-    expect((identifyWithUsernameLayout.elements[2] as StepperButtonElement).label)
+    expect((identifyWithUsernameElements[2] as StepperButtonElement).label)
       .toBe('oform.next');
     // StepperButton component was changed to support submit type for this transformer
-    expect((identifyWithUsernameLayout.elements[2] as StepperButtonElement).options.type)
+    expect((identifyWithUsernameElements[2] as StepperButtonElement).options.type)
       .toBe(ButtonType.SUBMIT);
 
-    expect(authenticatorListLayout.elements.length).toBe(3);
-    expect((authenticatorListLayout.elements[0] as TitleElement).options.content)
+    expect(authenticatorListElements.length).toBe(3);
+    expect((authenticatorListElements[0] as TitleElement).options.content)
       .toBe('oie.select.authenticators.verify.title');
-    expect((authenticatorListLayout.elements[1] as DescriptionElement).options.content)
+    expect((authenticatorListElements[1] as DescriptionElement).options.content)
       .toBe('oie.select.authenticators.verify.subtitle');
-    expect(authenticatorListLayout.elements[2].type).toBe('AuthenticatorButtonList');
-    expect(((authenticatorListLayout.elements[2] as AuthenticatorButtonListElement)
+    expect(authenticatorListElements[2].type).toBe('AuthenticatorButtonList');
+    expect(((authenticatorListElements[2] as AuthenticatorButtonListElement)
       .options.dataSe)).toBe('authenticator-verify-list');
-    expect(((authenticatorListLayout.elements[2] as AuthenticatorButtonListElement)
+    expect(((authenticatorListElements[2] as AuthenticatorButtonListElement)
       .options.buttons.length)).toBe(1);
-    expect(((authenticatorListLayout.elements[2] as AuthenticatorButtonListElement)
+    expect(((authenticatorListElements[2] as AuthenticatorButtonListElement)
       .options.buttons[0] as AuthenticatorButtonElement)
       .options.actionParams?.['authenticator.id']).toBe('123abc');
-    expect(((authenticatorListLayout.elements[2] as AuthenticatorButtonListElement)
+    expect(((authenticatorListElements[2] as AuthenticatorButtonListElement)
       .options.buttons[0] as AuthenticatorButtonElement)
       .options.step).toBe('select-authenticator-unlock-account');
-    expect(((authenticatorListLayout.elements[2] as AuthenticatorButtonListElement)
+    expect(((authenticatorListElements[2] as AuthenticatorButtonListElement)
       .options.buttons[0] as AuthenticatorButtonElement)
       .options.type).toBe(ButtonType.BUTTON);
   });
@@ -154,9 +158,10 @@ describe('Unlock Verification Authenticator Selector Tests', () => {
     const stepperLayout = updatedFormBag.uischema.elements[0] as StepperLayout;
     expect(stepperLayout.elements.length).toBe(2);
     const authenticatorListLayout = stepperLayout.elements[1];
+    const authenticatorListElements = (authenticatorListLayout as UISchemaLayout).elements;
 
-    expect(authenticatorListLayout.elements.length).toBe(3);
-    expect(authenticatorListLayout.elements[0].type).not.toBe('IdentifierContainer');
+    expect(authenticatorListElements.length).toBe(3);
+    expect(authenticatorListElements[0].type).not.toBe('IdentifierContainer');
   });
 
   it('should not add identifier container if transaction NextStep is "identify"', () => {
@@ -175,9 +180,10 @@ describe('Unlock Verification Authenticator Selector Tests', () => {
     const stepperLayout = updatedFormBag.uischema.elements[0] as StepperLayout;
     expect(stepperLayout.elements.length).toBe(2);
     const authenticatorListLayout = stepperLayout.elements[1];
+    const authenticatorListElements = (authenticatorListLayout as UISchemaLayout).elements;
 
-    expect(authenticatorListLayout.elements.length).toBe(3);
-    expect(authenticatorListLayout.elements[0].type).not.toBe('IdentifierContainer');
+    expect(authenticatorListElements.length).toBe(3);
+    expect(authenticatorListElements[0].type).not.toBe('IdentifierContainer');
   });
 
   it('should not add identifier container if transaction NextStep is "admin-consent"', () => {
@@ -196,13 +202,16 @@ describe('Unlock Verification Authenticator Selector Tests', () => {
     const stepperLayout = updatedFormBag.uischema.elements[0] as StepperLayout;
     expect(stepperLayout.elements.length).toBe(2);
     const authenticatorListLayout = stepperLayout.elements[1];
+    const authenticatorListElements = (authenticatorListLayout as UISchemaLayout).elements;
 
-    expect(authenticatorListLayout.elements.length).toBe(3);
-    expect(authenticatorListLayout.elements[0].type).not.toBe('IdentifierContainer');
+    expect(authenticatorListElements.length).toBe(3);
+    expect(authenticatorListElements[0].type).not.toBe('IdentifierContainer');
   });
 
   it('should not add identifier container when features.showIdentifier = false', () => {
-    widgetProps = { features: { ...widgetProps.features, showIdentifier: false } };
+    widgetProps = {
+      features: { ...widgetProps.features, showIdentifier: false },
+    } as unknown as WidgetProps;
 
     const updatedFormBag = transformSelectAuthenticatorUnlockVerify({
       transaction,
@@ -217,13 +226,16 @@ describe('Unlock Verification Authenticator Selector Tests', () => {
     const stepperLayout = updatedFormBag.uischema.elements[0] as StepperLayout;
     expect(stepperLayout.elements.length).toBe(2);
     const authenticatorListLayout = stepperLayout.elements[1];
+    const authenticatorListElements = (authenticatorListLayout as UISchemaLayout).elements;
 
-    expect(authenticatorListLayout.elements.length).toBe(3);
-    expect(authenticatorListLayout.elements[0].type).not.toBe('IdentifierContainer');
+    expect(authenticatorListElements.length).toBe(3);
+    expect(authenticatorListElements[0].type).not.toBe('IdentifierContainer');
   });
 
   it('should not add identifier container when features.showIdentifier is undefined', () => {
-    widgetProps = { features: { ...widgetProps.features, showIdentifier: undefined } };
+    widgetProps = {
+      features: { ...widgetProps.features, showIdentifier: undefined },
+    } as unknown as WidgetProps;
 
     const updatedFormBag = transformSelectAuthenticatorUnlockVerify({
       transaction,
@@ -238,14 +250,17 @@ describe('Unlock Verification Authenticator Selector Tests', () => {
     const stepperLayout = updatedFormBag.uischema.elements[0] as StepperLayout;
     expect(stepperLayout.elements.length).toBe(2);
     const authenticatorListLayout = stepperLayout.elements[1];
+    const authenticatorListElements = (authenticatorListLayout as UISchemaLayout).elements;
 
-    expect(authenticatorListLayout.elements.length).toBe(3);
-    expect(authenticatorListLayout.elements[0].type).not.toBe('IdentifierContainer');
+    expect(authenticatorListElements.length).toBe(3);
+    expect(authenticatorListElements[0].type).not.toBe('IdentifierContainer');
   });
 
   it('should add identifier container when features.showIdentifier = true', () => {
     formBag.data = { identifier: 'testUser@okta.com' };
-    widgetProps = { features: { ...widgetProps.features, showIdentifier: true } };
+    widgetProps = {
+      features: { ...widgetProps.features, showIdentifier: true },
+    } as unknown as WidgetProps;
 
     const updatedFormBag = transformSelectAuthenticatorUnlockVerify({
       transaction,
@@ -260,9 +275,10 @@ describe('Unlock Verification Authenticator Selector Tests', () => {
     const stepperLayout = updatedFormBag.uischema.elements[0] as StepperLayout;
     expect(stepperLayout.elements.length).toBe(2);
     const authenticatorListLayout = stepperLayout.elements[1];
+    const authenticatorListElements = (authenticatorListLayout as UISchemaLayout).elements;
 
-    expect(authenticatorListLayout.elements.length).toBe(4);
-    expect(authenticatorListLayout.elements[0].type).toBe('IdentifierContainer');
-    expect((authenticatorListLayout.elements[0] as IdentifierContainerElement).options.identifier).toBe('testUser@okta.com');
+    expect(authenticatorListElements.length).toBe(4);
+    expect(authenticatorListElements[0].type).toBe('IdentifierContainer');
+    expect((authenticatorListElements[0] as IdentifierContainerElement).options.identifier).toBe('testUser@okta.com');
   });
 });

@@ -45,6 +45,7 @@ const getMockMethodTypes = (): AuthenticatorButtonElement[] => {
         'authenticator.id': 'abcde1234',
         'authenticator.methodType': 'push',
       },
+      ariaLabel: 'Select to get a push notification.',
       step: IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE,
     },
   });
@@ -59,6 +60,7 @@ const getMockMethodTypes = (): AuthenticatorButtonElement[] => {
         'authenticator.id': 'abcde1234',
         'authenticator.methodType': 'totp',
       },
+      ariaLabel: 'Select to enter a code.',
       step: IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE,
     },
   });
@@ -85,7 +87,7 @@ jest.mock('../../util', () => ({
 describe('Transform Select OV Method Verify Tests', () => {
   const transaction = getStubTransactionWithNextStep();
   const formBag = getStubFormBag();
-  const widgetProps: WidgetProps = {};
+  const widgetProps: WidgetProps = {} as unknown as WidgetProps;
 
   beforeEach(() => {
     formBag.uischema.elements = [
@@ -267,7 +269,7 @@ describe('Transform Select OV Method Verify Tests', () => {
 describe('Transform Select Custom App Method Verify Tests', () => {
   const transaction = getStubTransactionWithNextStep();
   const formBag = getStubFormBag();
-  const widgetProps: WidgetProps = {};
+  const widgetProps: WidgetProps = {} as unknown as WidgetProps;
 
   beforeEach(() => {
     formBag.uischema.elements = [

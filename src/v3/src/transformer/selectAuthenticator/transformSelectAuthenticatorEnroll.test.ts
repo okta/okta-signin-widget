@@ -38,6 +38,7 @@ const getMockAuthenticatorButtons = (): AuthenticatorButtonElement[] => {
       actionParams: {
         'authenticator.id': '123abc',
       },
+      ariaLabel: 'Select email.',
       step: IDX_STEP.SELECT_AUTHENTICATOR_ENROLL,
     },
   } as AuthenticatorButtonElement);
@@ -72,7 +73,7 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
         ],
       }],
     };
-    widgetProps = {};
+    widgetProps = {} as unknown as WidgetProps;
   });
 
   it('should not transform elements when IDX Step does not exist in remediations', () => {
@@ -154,7 +155,7 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
   });
 
   it('should transform authenticator elements when step is skippable and brandName is provided', () => {
-    widgetProps = { brandName: 'Acme Corp.' };
+    widgetProps = { brandName: 'Acme Corp.' } as unknown as WidgetProps;
     transaction.nextStep!.canSkip = isSkippable.mockReturnValue(true)();
     transaction.availableSteps = [{ name: 'skip', action: jest.fn() }];
     const updatedFormBag = transformSelectAuthenticatorEnroll({

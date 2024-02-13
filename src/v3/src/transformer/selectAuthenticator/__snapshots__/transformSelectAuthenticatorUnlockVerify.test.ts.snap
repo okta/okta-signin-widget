@@ -73,6 +73,7 @@ Object {
                         "actionParams": Object {
                           "authenticator.id": "123abc",
                         },
+                        "ariaLabel": "Select email.",
                         "ctaLabel": "Select",
                         "key": "okta_email",
                         "step": "select-authenticator-unlock-account",
@@ -180,6 +181,7 @@ Object {
                         "actionParams": Object {
                           "authenticator.id": "123abc",
                         },
+                        "ariaLabel": "Select email.",
                         "ctaLabel": "Select",
                         "key": "okta_email",
                         "step": "select-authenticator-unlock-account",
@@ -279,6 +281,7 @@ Object {
                         "actionParams": Object {
                           "authenticator.id": "123abc",
                         },
+                        "ariaLabel": "Select email.",
                         "ctaLabel": "Select",
                         "key": "okta_email",
                         "step": "select-authenticator-unlock-account",
@@ -378,6 +381,7 @@ Object {
                         "actionParams": Object {
                           "authenticator.id": "123abc",
                         },
+                        "ariaLabel": "Select email.",
                         "ctaLabel": "Select",
                         "key": "okta_email",
                         "step": "select-authenticator-unlock-account",
@@ -477,6 +481,7 @@ Object {
                         "actionParams": Object {
                           "authenticator.id": "123abc",
                         },
+                        "ariaLabel": "Select email.",
                         "ctaLabel": "Select",
                         "key": "okta_email",
                         "step": "select-authenticator-unlock-account",
@@ -576,6 +581,7 @@ Object {
                         "actionParams": Object {
                           "authenticator.id": "123abc",
                         },
+                        "ariaLabel": "Select email.",
                         "ctaLabel": "Select",
                         "key": "okta_email",
                         "step": "select-authenticator-unlock-account",
@@ -675,6 +681,7 @@ Object {
                         "actionParams": Object {
                           "authenticator.id": "123abc",
                         },
+                        "ariaLabel": "Select email.",
                         "ctaLabel": "Select",
                         "key": "okta_email",
                         "step": "select-authenticator-unlock-account",

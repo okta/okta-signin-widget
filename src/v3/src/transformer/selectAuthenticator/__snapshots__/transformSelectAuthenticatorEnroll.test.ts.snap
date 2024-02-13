@@ -44,6 +44,7 @@ Object {
                 "actionParams": Object {
                   "authenticator.id": "123abc",
                 },
+                "ariaLabel": "Select email.",
                 "ctaLabel": "Select",
                 "description": "Enroll in email authenticator",
                 "key": "okta_email",
@@ -107,6 +108,7 @@ Object {
                 "actionParams": Object {
                   "authenticator.id": "123abc",
                 },
+                "ariaLabel": "Select email.",
                 "ctaLabel": "Select",
                 "description": "Enroll in email authenticator",
                 "key": "okta_email",
@@ -178,6 +180,7 @@ Object {
                 "actionParams": Object {
                   "authenticator.id": "123abc",
                 },
+                "ariaLabel": "Select email.",
                 "ctaLabel": "Select",
                 "description": "Enroll in email authenticator",
                 "key": "okta_email",
