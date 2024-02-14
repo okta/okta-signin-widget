@@ -13,8 +13,14 @@ const Body = BaseForm.extend({
     const schemas = BaseForm.prototype.getUISchema.apply(this, arguments);
     // filter selected channel
     const channelField = _.find(schemas, (schema) => schema.name === 'authenticator.channel');
-    channelField.options = _.filter(channelField?.options, (option) =>
-      option.value !== this.options.appState.get('currentAuthenticator')?.contextualData?.selectedChannel);
+    if (BrowserFeatures.isAndroid() || BrowserFeatures.isIOS()) {
+      // Special case: always filter qr code on mobile
+      channelField.options = _.filter(channelField?.options, (option) =>
+        option.value !== 'qrcode');
+    } else {
+      channelField.options = _.filter(channelField?.options, (option) =>
+        option.value !== this.options.appState.get('currentAuthenticator')?.contextualData?.selectedChannel);
+    }
     channelField.value = channelField.options[0]?.value;
     channelField.sublabel = null;
     this.model.set('authenticator.channel', channelField.value);
