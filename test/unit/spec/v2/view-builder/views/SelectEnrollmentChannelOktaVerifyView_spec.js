@@ -3,6 +3,7 @@ import { Model } from '@okta/courage';
 import { BaseForm } from 'v2/view-builder/internals';
 import AppState from 'v2/models/AppState';
 import Settings from 'models/Settings';
+import BrowserFeatures from '../../../../../../src/util/BrowserFeatures';
 
 describe('v2/view-builder/views/ov/SelectEnrollmentChannelOktaVerifyView', function() {
   const QRCODE = 'qrcode';
@@ -73,6 +74,14 @@ describe('v2/view-builder/views/ov/SelectEnrollmentChannelOktaVerifyView', funct
     testContext.init(TEXT);
 
     expect(testContext.view.model.get('authenticator.channel')).toEqual(QRCODE);
+  });
+
+  it('Always have selected channel as email on mobile', function() {
+    jest.spyOn(BrowserFeatures, 'isAndroid').mockReturnValue(true);
+    jest.spyOn(BaseForm.prototype.getUISchema, 'apply').mockReturnValue(schema);
+    testContext.init(TEXT);
+
+    expect(testContext.view.model.get('authenticator.channel')).toEqual(EMAIL);
   });
 
 });
