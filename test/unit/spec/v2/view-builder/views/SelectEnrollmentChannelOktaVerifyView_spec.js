@@ -76,8 +76,16 @@ describe('v2/view-builder/views/ov/SelectEnrollmentChannelOktaVerifyView', funct
     expect(testContext.view.model.get('authenticator.channel')).toEqual(QRCODE);
   });
 
-  it('Always have selected channel as email on mobile', function() {
+  it('Always have selected channel as email on mobile - android', function() {
     jest.spyOn(BrowserFeatures, 'isAndroid').mockReturnValue(true);
+    jest.spyOn(BaseForm.prototype.getUISchema, 'apply').mockReturnValue(schema);
+    testContext.init(TEXT);
+
+    expect(testContext.view.model.get('authenticator.channel')).toEqual(EMAIL);
+  });
+
+  it('Always have selected channel as email on mobile - ios', function() {
+    jest.spyOn(BrowserFeatures, 'isIOS').mockReturnValue(true);
     jest.spyOn(BaseForm.prototype.getUISchema, 'apply').mockReturnValue(schema);
     testContext.init(TEXT);
 
