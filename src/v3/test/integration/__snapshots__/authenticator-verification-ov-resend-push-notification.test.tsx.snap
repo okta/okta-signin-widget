@@ -144,24 +144,24 @@ exports[`authenticator-verification-ov-resend-push-notification renders form 1`]
                   <div
                     class="MuiBox-root emotion-11"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-23"
+                    <button
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-23"
                       data-se="switchAuthenticator"
-                      href=""
+                      role="link"
                     >
                       Verify with something else
-                    </a>
+                    </button>
                   </div>
                   <div
                     class="MuiBox-root emotion-11"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-23"
+                    <button
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-23"
                       data-se="cancel"
-                      href=""
+                      role="link"
                     >
                       Back to sign in
-                    </a>
+                    </button>
                   </div>
                 </div>
               </form>

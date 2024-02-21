@@ -226,24 +226,24 @@ exports[`authenticator-enroll-phone-voice should render form 1`] = `
                   <div
                     class="MuiBox-root emotion-11"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-35"
+                    <button
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-35"
                       data-se="switchAuthenticator"
-                      href=""
+                      role="link"
                     >
                       Return to authenticator list
-                    </a>
+                    </button>
                   </div>
                   <div
                     class="MuiBox-root emotion-11"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-35"
+                    <button
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-35"
                       data-se="cancel"
-                      href=""
+                      role="link"
                     >
                       Back to sign in
-                    </a>
+                    </button>
                   </div>
                 </div>
               </form>

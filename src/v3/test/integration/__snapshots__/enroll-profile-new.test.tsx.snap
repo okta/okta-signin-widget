@@ -218,13 +218,13 @@ exports[`enroll-profile-new should render form 1`] = `
                     <div
                       class="MuiBox-root emotion-36"
                     >
-                      <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-40"
+                      <button
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-40"
                         data-se="back"
-                        href=""
+                        role="link"
                       >
                         Sign In
-                      </a>
+                      </button>
                     </div>
                   </div>
                 </div>

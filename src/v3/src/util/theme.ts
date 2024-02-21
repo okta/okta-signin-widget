@@ -297,6 +297,10 @@ export const createThemeAndTokens = (
           root: ({ ownerState }) => ({
             textDecoration: ownerState?.component === 'a' ? 'underline' : 'inherit',
           }),
+          button: {
+            verticalAlign: 'baseline',
+            textDecoration: 'underline',
+          },
         },
       },
       MuiRadio: {

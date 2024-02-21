@@ -250,30 +250,30 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                   <div
                     class="MuiBox-root emotion-10"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-44"
+                    <button
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-44"
                       data-se="forgot-password"
-                      href=""
+                      role="link"
                     >
                       Forgot password?
-                    </a>
+                    </button>
                   </div>
                   <div
                     class="MuiBox-root emotion-10"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-44"
+                    <button
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-44"
                       data-se="unlock"
-                      href=""
+                      role="link"
                     >
                       Unlock account?
-                    </a>
+                    </button>
                   </div>
                   <div
                     class="MuiBox-root emotion-10"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-44"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-48"
                       data-se="help"
                       href="http://localhost:3000/help/login"
                     >
@@ -309,13 +309,13 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                     <div
                       class="MuiBox-root emotion-52"
                     >
-                      <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-44"
+                      <button
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-44"
                         data-se="enroll"
-                        href=""
+                        role="link"
                       >
                         Sign up
-                      </a>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -579,30 +579,30 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                   <div
                     class="MuiBox-root emotion-10"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-44"
+                    <button
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-44"
                       data-se="forgot-password"
-                      href=""
+                      role="link"
                     >
                       Forgot password?
-                    </a>
+                    </button>
                   </div>
                   <div
                     class="MuiBox-root emotion-10"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-44"
+                    <button
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-44"
                       data-se="unlock"
-                      href=""
+                      role="link"
                     >
                       Unlock account?
-                    </a>
+                    </button>
                   </div>
                   <div
                     class="MuiBox-root emotion-10"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-44"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-48"
                       data-se="help"
                       href="http://localhost:3000/help/login"
                     >
@@ -638,13 +638,13 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as PRIM
                     <div
                       class="MuiBox-root emotion-52"
                     >
-                      <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-44"
+                      <button
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-44"
                         data-se="enroll"
-                        href=""
+                        role="link"
                       >
                         Sign up
-                      </a>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -908,30 +908,30 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                   <div
                     class="MuiBox-root emotion-10"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-44"
+                    <button
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-44"
                       data-se="forgot-password"
-                      href=""
+                      role="link"
                     >
                       Forgot password?
-                    </a>
+                    </button>
                   </div>
                   <div
                     class="MuiBox-root emotion-10"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-44"
+                    <button
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-44"
                       data-se="unlock"
-                      href=""
+                      role="link"
                     >
                       Unlock account?
-                    </a>
+                    </button>
                   </div>
                   <div
                     class="MuiBox-root emotion-10"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-44"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-48"
                       data-se="help"
                       href="http://localhost:3000/help/login"
                     >
@@ -967,13 +967,13 @@ exports[`authenticator-piv-cac-verification renders form with idpDisplay as SECO
                     <div
                       class="MuiBox-root emotion-52"
                     >
-                      <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-44"
+                      <button
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-44"
                         data-se="enroll"
-                        href=""
+                        role="link"
                       >
                         Sign up
-                      </a>
+                      </button>
                     </div>
                   </div>
                 </div>

@@ -187,13 +187,13 @@ exports[`authenticator-apple-sso-extension calls verify then cancels the transac
                     <div
                       class="MuiBox-root emotion-33"
                     >
-                      <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                      <button
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-37"
                         data-se="enroll"
-                        href=""
+                        role="link"
                       >
                         Sign up
-                      </a>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -394,13 +394,13 @@ exports[`authenticator-apple-sso-extension cancels the transaction when sso exte
                     <div
                       class="MuiBox-root emotion-33"
                     >
-                      <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                      <button
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-37"
                         data-se="enroll"
-                        href=""
+                        role="link"
                       >
                         Sign up
-                      </a>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -601,13 +601,13 @@ exports[`authenticator-apple-sso-extension opens the verify url with credential 
                     <div
                       class="MuiBox-root emotion-33"
                     >
-                      <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
+                      <button
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-37"
                         data-se="enroll"
-                        href=""
+                        role="link"
                       >
                         Sign up
-                      </a>
+                      </button>
                     </div>
                   </div>
                 </div>

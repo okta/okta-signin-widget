@@ -163,13 +163,13 @@ exports[`authenticator-email-verification-data should render form 1`] = `
                   <div
                     class="MuiBox-root emotion-11"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-26"
+                    <button
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-26"
                       data-se="cancel"
-                      href=""
+                      role="link"
                     >
                       Back to sign in
-                    </a>
+                    </button>
                   </div>
                 </div>
               </form>

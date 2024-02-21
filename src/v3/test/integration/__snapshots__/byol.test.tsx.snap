@@ -1551,24 +1551,24 @@ exports[`byol loading custom language should load custom language with "language
                   <div
                     class="MuiBox-root emotion-11"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-55"
+                    <button
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-55"
                       data-se="switchAuthenticator"
-                      href=""
+                      role="link"
                     >
                       Return to authenticator list
-                    </a>
+                    </button>
                   </div>
                   <div
                     class="MuiBox-root emotion-11"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-55"
+                    <button
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-55"
                       data-se="cancel"
-                      href=""
+                      role="link"
                     >
                       Back to sign in
-                    </a>
+                    </button>
                   </div>
                 </div>
               </form>
@@ -3132,24 +3132,24 @@ exports[`byol loading custom language should load custom language with assets.ba
                   <div
                     class="MuiBox-root emotion-11"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-55"
+                    <button
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-55"
                       data-se="switchAuthenticator"
-                      href=""
+                      role="link"
                     >
                       Return to authenticator list
-                    </a>
+                    </button>
                   </div>
                   <div
                     class="MuiBox-root emotion-11"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-55"
+                    <button
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-55"
                       data-se="cancel"
-                      href=""
+                      role="link"
                     >
                       Back to sign in
-                    </a>
+                    </button>
                   </div>
                 </div>
               </form>
@@ -4713,24 +4713,24 @@ exports[`byol loading default language should not load custom language when the 
                   <div
                     class="MuiBox-root emotion-11"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-55"
+                    <button
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-55"
                       data-se="switchAuthenticator"
-                      href=""
+                      role="link"
                     >
                       Return to authenticator list
-                    </a>
+                    </button>
                   </div>
                   <div
                     class="MuiBox-root emotion-11"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-55"
+                    <button
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-55"
                       data-se="cancel"
-                      href=""
+                      role="link"
                     >
                       Back to sign in
-                    </a>
+                    </button>
                   </div>
                 </div>
               </form>
@@ -6294,24 +6294,24 @@ exports[`byol loading default language should not load custom language with "lan
                   <div
                     class="MuiBox-root emotion-11"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-55"
+                    <button
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-55"
                       data-se="switchAuthenticator"
-                      href=""
+                      role="link"
                     >
                       Return to authenticator list
-                    </a>
+                    </button>
                   </div>
                   <div
                     class="MuiBox-root emotion-11"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-55"
+                    <button
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-55"
                       data-se="cancel"
-                      href=""
+                      role="link"
                     >
                       Back to sign in
-                    </a>
+                    </button>
                   </div>
                 </div>
               </form>

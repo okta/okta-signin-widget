@@ -125,6 +125,7 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                     >
                       <h3
                         class="MuiTypography-root MuiTypography-h6 emotion-24"
+                        data-se="select-authenticator-enroll_Heading_Set_up_optional_3"
                         tabindex="-1"
                       >
                         Set up optional
@@ -500,13 +501,13 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                   <div
                     class="MuiBox-root emotion-10"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-63"
+                    <button
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-63"
                       data-se="cancel"
-                      href=""
+                      role="link"
                     >
                       Back to sign in
-                    </a>
+                    </button>
                   </div>
                 </div>
               </form>

@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { Link as MuiLink } from '@mui/material';
 import { Link as OdyLink } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 
@@ -61,14 +62,15 @@ const Link: UISchemaElementComponent<{
 
   return (
     typeof href === 'undefined' ? (
-      <OdyLink
-        href=""
+      <MuiLink
+        component="button"
+        role="link"
         onClick={onClick}
-        linkRef={focusRef}
-        testId={dataSe}
+        ref={focusRef}
+        data-se={dataSe}
       >
         {label}
-      </OdyLink>
+      </MuiLink>
     )
       : (
         <OdyLink

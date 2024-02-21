@@ -369,24 +369,24 @@ exports[`authenticator-enroll-security-question-error custom question should sho
                   <div
                     class="MuiBox-root emotion-18"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-59"
+                    <button
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-59"
                       data-se="switchAuthenticator"
-                      href=""
+                      role="link"
                     >
                       Return to authenticator list
-                    </a>
+                    </button>
                   </div>
                   <div
                     class="MuiBox-root emotion-18"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-59"
+                    <button
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-59"
                       data-se="cancel"
-                      href=""
+                      role="link"
                     >
                       Back to sign in
-                    </a>
+                    </button>
                   </div>
                 </div>
               </form>
@@ -881,24 +881,24 @@ exports[`authenticator-enroll-security-question-error predefined question should
                   <div
                     class="MuiBox-root emotion-18"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-60"
+                    <button
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-60"
                       data-se="switchAuthenticator"
-                      href=""
+                      role="link"
                     >
                       Return to authenticator list
-                    </a>
+                    </button>
                   </div>
                   <div
                     class="MuiBox-root emotion-18"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-60"
+                    <button
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-60"
                       data-se="cancel"
-                      href=""
+                      role="link"
                     >
                       Back to sign in
-                    </a>
+                    </button>
                   </div>
                 </div>
               </form>
@@ -1387,24 +1387,24 @@ exports[`authenticator-enroll-security-question-error predefined question should
                   <div
                     class="MuiBox-root emotion-11"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-58"
+                    <button
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-58"
                       data-se="switchAuthenticator"
-                      href=""
+                      role="link"
                     >
                       Return to authenticator list
-                    </a>
+                    </button>
                   </div>
                   <div
                     class="MuiBox-root emotion-11"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-58"
+                    <button
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-58"
                       data-se="cancel"
-                      href=""
+                      role="link"
                     >
                       Back to sign in
-                    </a>
+                    </button>
                   </div>
                 </div>
               </form>
@@ -1899,24 +1899,24 @@ exports[`authenticator-enroll-security-question-error predefined question should
                   <div
                     class="MuiBox-root emotion-18"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-60"
+                    <button
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-60"
                       data-se="switchAuthenticator"
-                      href=""
+                      role="link"
                     >
                       Return to authenticator list
-                    </a>
+                    </button>
                   </div>
                   <div
                     class="MuiBox-root emotion-18"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-60"
+                    <button
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-60"
                       data-se="cancel"
-                      href=""
+                      role="link"
                     >
                       Back to sign in
-                    </a>
+                    </button>
                   </div>
                 </div>
               </form>

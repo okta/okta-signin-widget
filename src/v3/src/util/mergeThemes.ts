@@ -96,6 +96,12 @@ export const mergeThemes = (
                   // @ts-expect-error FIXME CSSInterpolation may not be CSSObject
                   ...resolve(config.styleOverrides?.label, options),
                 }),
+                button: (options: Record<string, unknown>) => ({
+                  // @ts-expect-error FIXME CSSInterpolation may not be CSSObject
+                  ...resolve(prev.components?.[component]?.styleOverrides?.button, options),
+                  // @ts-expect-error FIXME CSSInterpolation may not be CSSObject
+                  ...resolve(config.styleOverrides?.button, options),
+                }),
               },
             },
           },

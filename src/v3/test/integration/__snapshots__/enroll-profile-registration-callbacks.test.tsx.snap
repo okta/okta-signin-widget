@@ -284,13 +284,13 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                     <div
                       class="MuiBox-root emotion-46"
                     >
-                      <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-50"
+                      <button
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-50"
                         data-se="back"
-                        href=""
+                        role="link"
                       >
                         Sign In
-                      </a>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -615,13 +615,13 @@ exports[`enroll-profile-with-password should show custom error message and preve
                     <div
                       class="MuiBox-root emotion-51"
                     >
-                      <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-55"
+                      <button
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-55"
                         data-se="back"
-                        href=""
+                        role="link"
                       >
                         Sign In
-                      </a>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -946,13 +946,13 @@ exports[`enroll-profile-with-password should show custom field level error messa
                     <div
                       class="MuiBox-root emotion-51"
                     >
-                      <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-55"
+                      <button
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-55"
                         data-se="back"
-                        href=""
+                        role="link"
                       >
                         Sign In
-                      </a>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -1260,13 +1260,13 @@ exports[`enroll-profile-with-password should show generic error message and prev
                     <div
                       class="MuiBox-root emotion-48"
                     >
-                      <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-52"
+                      <button
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-52"
                         data-se="back"
-                        href=""
+                        role="link"
                       >
                         Sign In
-                      </a>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -1692,13 +1692,13 @@ exports[`enroll-profile-with-password should show validation error messages on a
                     <div
                       class="MuiBox-root emotion-68"
                     >
-                      <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-72"
+                      <button
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-72"
                         data-se="back"
-                        href=""
+                        role="link"
                       >
                         Sign In
-                      </a>
+                      </button>
                     </div>
                   </div>
                 </div>

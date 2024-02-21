@@ -206,7 +206,7 @@ exports[`authenticator-verification-webauthn renders form - webauthn not support
                     class="MuiBox-root emotion-1"
                   >
                     <div
-                      class="MuiBox-root emotion-29"
+                      class="MuiBox-root emotion-11"
                     >
                       <div
                         class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded emotion-30"
@@ -357,24 +357,24 @@ exports[`authenticator-verification-webauthn renders form - webauthn not support
                   <div
                     class="MuiBox-root emotion-11"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-57"
+                    <button
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-57"
                       data-se="switchAuthenticator"
-                      href=""
+                      role="link"
                     >
                       Verify with something else
-                    </a>
+                    </button>
                   </div>
                   <div
                     class="MuiBox-root emotion-11"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-57"
+                    <button
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-57"
                       data-se="cancel"
-                      href=""
+                      role="link"
                     >
                       Back to sign in
-                    </a>
+                    </button>
                   </div>
                 </div>
               </form>
@@ -559,7 +559,7 @@ exports[`authenticator-verification-webauthn renders form - webauthn supported 1
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="MuiBox-root emotion-24"
+                      class="MuiBox-root emotion-11"
                     >
                       <button
                         class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-25"
@@ -575,7 +575,7 @@ exports[`authenticator-verification-webauthn renders form - webauthn supported 1
                     class="MuiBox-root emotion-1"
                   >
                     <div
-                      class="MuiBox-root emotion-27"
+                      class="MuiBox-root emotion-11"
                     >
                       <div
                         class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded emotion-28"
@@ -726,24 +726,24 @@ exports[`authenticator-verification-webauthn renders form - webauthn supported 1
                   <div
                     class="MuiBox-root emotion-11"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-55"
+                    <button
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-55"
                       data-se="switchAuthenticator"
-                      href=""
+                      role="link"
                     >
                       Verify with something else
-                    </a>
+                    </button>
                   </div>
                   <div
                     class="MuiBox-root emotion-11"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-55"
+                    <button
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-55"
                       data-se="cancel"
-                      href=""
+                      role="link"
                     >
                       Back to sign in
-                    </a>
+                    </button>
                   </div>
                 </div>
               </form>
@@ -928,7 +928,7 @@ exports[`authenticator-verification-webauthn should render form with required us
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="MuiBox-root emotion-24"
+                      class="MuiBox-root emotion-11"
                     >
                       <button
                         class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-25"
@@ -944,7 +944,7 @@ exports[`authenticator-verification-webauthn should render form with required us
                     class="MuiBox-root emotion-1"
                   >
                     <div
-                      class="MuiBox-root emotion-27"
+                      class="MuiBox-root emotion-11"
                     >
                       <div
                         class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded emotion-28"
@@ -1095,24 +1095,24 @@ exports[`authenticator-verification-webauthn should render form with required us
                   <div
                     class="MuiBox-root emotion-11"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-55"
+                    <button
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-55"
                       data-se="switchAuthenticator"
-                      href=""
+                      role="link"
                     >
                       Verify with something else
-                    </a>
+                    </button>
                   </div>
                   <div
                     class="MuiBox-root emotion-11"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-55"
+                    <button
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-55"
                       data-se="cancel"
-                      href=""
+                      role="link"
                     >
                       Back to sign in
-                    </a>
+                    </button>
                   </div>
                 </div>
               </form>
