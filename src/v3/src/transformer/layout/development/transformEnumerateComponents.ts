@@ -14,6 +14,7 @@ import { AppIcon } from 'src/components/Images';
 import { AUTHENTICATOR_KEY } from 'src/constants';
 
 import {
+  ImageLinkElement,
   AuthenticatorButtonListElement,
   ButtonElement,
   ButtonType,
@@ -34,6 +35,7 @@ import {
   ReminderElement,
   SpinnerElement,
   TextWithActionLinkElement,
+  TextWithStepperElement,
   TitleElement,
 } from '../../../types';
 
@@ -434,6 +436,17 @@ export const transformEnumerateComponents: IdxStepTransformer = ({
     },
   };
   uischema.elements.push(imageWithText);
+
+  const appStoreDownloadImageLink: ImageLinkElement = {
+    type: 'AppStoreDownloadImageLink',
+    options: {
+      id: 'AppStoreDownloadImageLink',
+      platform: 'Platform',
+      url: 'Download url',
+      altText: 'Alt text',
+    },
+  };
+  uischema.elements.push(appStoreDownloadImageLink);
 
   return formBag;
 };

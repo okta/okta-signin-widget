@@ -17,10 +17,12 @@ import {
   ButtonType,
   DescriptionElement,
   IdxStepTransformer,
+  ImageLinkElement,
   ListElement,
   QRCodeElement,
   ReminderElement,
-  StepperLayout, StepperLinkElement,
+  StepperLayout,
+  StepperLinkElement,
   TextWithActionLinkElement,
   TokenReplacement,
   UISchemaElement,
@@ -174,11 +176,10 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({ transaction,
           type: 'Description',
           noMargin: true,
           options: {
-            contentClassname: 'desktop-instructions ov-info',
             content: loc(
               'oie.enroll.okta_verify.setup.customUri.prompt',
               'login',
-              [],
+              undefined,
               { $1: { element: 'span', attributes: { class: 'strong' } } },
             ),
           },
@@ -190,7 +191,7 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({ transaction,
             content: loc(
               'oie.enroll.okta_verify.setup.customUri.noPrompt',
               'login',
-              [],
+              undefined,
               { $1: { element: 'span', attributes: { class: 'strong' } } },
             ),
           },
@@ -209,7 +210,6 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({ transaction,
           type: 'Description',
           noMargin: true,
           options: {
-            contentClassname: 'desktop-instructions ov-info',
             content: loc(
               'oie.enroll.okta_verify.setup.customUri.makeSureHaveOVToContinue', 'login',
             ),
@@ -218,17 +218,44 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({ transaction,
       );
     }
     if (deviceMap.platformLC) {
-      sameDeviceOVElements.push(
-        {
-          type: 'Description',
-          noMargin: true,
-          options: {
-            content: `<a aria-label='download' 
-            href="${deviceMap.downloadHref}" 
-            class="app-store-logo ${deviceMap.platformLC}-app-store-logo"></a>`,
-          },
-        } as DescriptionElement,
-      );
+      let platformSupported = true;
+      let imageSrc = '/img/appstore/';
+      switch (deviceMap.platformLC) {
+        case 'android':
+          imageSrc += 'google-play-store.svg';
+          break;
+
+        case 'ios':
+          imageSrc += 'apple-app-store.svg';
+          break;
+
+        case 'windows':
+          imageSrc += 'windows-app-store.svg';
+          break;
+
+        case 'osx':
+          imageSrc += 'osx-app-store.svg';
+          break;
+
+        default:
+          platformSupported = false;
+      }
+      if (platformSupported) {
+        // todo: replace with Image component + Link within OKTA-701606
+        sameDeviceOVElements.push(
+          {
+            type: 'ImageLink',
+            options: {
+              url: deviceMap.downloadHref,
+              altText: loc('enroll.oda.step3', 'login'),
+              imageSrc,
+              linkClassName: 'app-store-link',
+              width: '320px',
+              height: '50px',
+            },
+          } as ImageLinkElement,
+        );
+      }
     }
     sameDeviceOVElements.push(
       {
@@ -238,7 +265,7 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({ transaction,
           content: loc(
             'oie.enroll.okta_verify.setup.customUri.setup',
             'login',
-            [],
+            undefined,
             { $1: { element: 'span', attributes: { class: 'strong' } } },
           ),
         },
@@ -267,19 +294,34 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({ transaction,
     }
 
     if (showAnotherDeviceLink) {
+      // todo: refactor string parsing within OKTA-701606
+      const labelParts = loc(
+        deviceMap.isDesktop ? 'oie.enroll.okta_verify.setup.customUri.orOnMobile'
+          : 'oie.enroll.okta_verify.setup.customUri.orMobile',
+        'login',
+      ).split('<$1>');
+
       sameDeviceOVElements.push(
         {
-          type: 'StepperLink',
-          contentType: 'footer',
-          label: loc(
-            deviceMap.isDesktop ? 'oie.enroll.okta_verify.setup.customUri.orOnMobile'
-              : 'oie.enroll.okta_verify.setup.customUri.orMobile',
-            'login',
-          ).replace('<$1>', '').replace('</$1>', ''),
-          options: {
-            nextStepIndex: deviceBootstrap ? STEPS.DEVICE_BOOTSTRAP : STEPS.SAME_DEVICE,
-          },
-        } as StepperLinkElement,
+          type: UISchemaLayoutType.HORIZONTAL_NOWRAP,
+          elements: [
+            {
+              type: 'Description',
+              noMargin: true,
+              options: {
+                content: `${labelParts[0].trim()}&nbsp;`,
+              },
+            } as DescriptionElement,
+            {
+              type: 'StepperLink',
+              // todo: refactor string parsing within OKTA-701606
+              label: labelParts[1].replace('</$1>', '').trim(),
+              options: {
+                nextStepIndex: deviceBootstrap ? STEPS.DEVICE_BOOTSTRAP : STEPS.SAME_DEVICE,
+              },
+            } as StepperLinkElement,
+          ],
+        } as UISchemaLayout,
       );
     }
   } else if (deviceBootstrap) {
@@ -476,7 +518,6 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({ transaction,
       {
         type: UISchemaLayoutType.VERTICAL,
         elements: [
-          ...(reminder ? [reminder] : []),
           title,
           ...sameDeviceOVElements,
         ].map((ele: UISchemaElement) => ({ ...ele, viewIndex: 5 })),

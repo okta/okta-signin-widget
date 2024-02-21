@@ -311,13 +311,13 @@ const sameDeviceInstruction1 = 'If you don’t have Okta Verify installed, downl
 const sameDeviceInstruction2 = 'Open Okta Verify and follow the steps to add your account.';
 const sameDeviceInstruction3 = 'When prompted, choose Sign In, then enter the sign-in URL:';
 const sameDeviceOVEnrollmentTitle = 'Set up Okta Verify';
-const sameDeviceOVEnrollmentAndroidDownloadLinkClass = 'android-app-store-logo';
-const sameDeviceOVEnrollmentWindowsDownloadLinkClass = 'windows-app-store-logo';
-const sameDeviceOVEnrollmentIosDownloadLinkClass = 'ios-app-store-logo';
-const sameDeviceOVEnrollmentOsxDownloadLinkClass = 'osx-app-store-logo';
+const osxDownloadImage = '/img/appstore/osx-app-store.svg';
+const windowsDownloadImage = '/img/appstore/windows-app-store.svg';
+const androidDownloadImage = '/img/appstore/google-play-store.svg';
+const iosDownloadImage = '/img/appstore/apple-app-store.svg';
 const sameDeviceOVEnrollmentSubtitle = 'To continue, make sure you have the Okta Verify app.';
 const sameDeviceOVEnrollmentInstructions1 = 'Once Okta Verify is installed, return to this page and tap Set up Okta Verify.';
-const sameDeviceOVEnrollmentInstructions3 = 'Or set up Okta Verify on another mobile device';
+const sameDeviceOVEnrollmentInstructions3 = 'set up Okta Verify on another mobile device';
 const sameDeviceOVEnrollmentDesktopInstructions1 = 'Click "Open Okta Verify" on the browser prompt to set up Okta Verify.';
 const sameDeviceOVEnrollmentDesktopInstructions2 = 'Didn\'t see the prompt?';
 const sameDeviceOVEnrollmentDesktopInstructions3 = 'Make sure you have Okta Verify installed.';
@@ -1008,15 +1008,16 @@ test
     await t.expect(enrollOktaVerifyPage.getSubHeader()).eql(sameDeviceOVEnrollmentSubtitle);
 
     await t.expect(enrollOktaVerifyPage.getAppStoreHref()).eql(sameDeviceOVEnrollmentAppleLink);
-    await t.expect(enrollOktaVerifyPage.getAppStoreClass()).contains(sameDeviceOVEnrollmentIosDownloadLinkClass);
     await t.expect(await enrollOktaVerifyPage.hasOVSetupButton()).eql(true);
 
     if (!userVariables.gen3) {
       await t.expect(enrollOktaVerifyPage.getOVSetupHref()).eql(sameDeviceOVEnrollmentSetupLink);
+    } else {
+      await t.expect(enrollOktaVerifyPage.getAppStoreImageSrc()).eql(iosDownloadImage);
     }
 
     await t.expect(await enrollOktaVerifyPage.getSameDeviceReturnAndSetupText()).eql(sameDeviceOVEnrollmentInstructions1);
-    await t.expect(await enrollOktaVerifyPage.getSameDeviceSetupOnMobileText()).eql(sameDeviceOVEnrollmentInstructions3);
+    await t.expect(await enrollOktaVerifyPage.getSameDeviceSetupOnMobileText()).contains(sameDeviceOVEnrollmentInstructions3);
 
     await enrollOktaVerifyPage.clickOrAnotherMobileDeviceLink();
 
@@ -1038,29 +1039,10 @@ test
     await t.expect(await enrollOktaVerifyPage.sameDeviceSetupOnMobileTextExist()).eql(false);
 
     await t.expect(enrollOktaVerifyPage.getAppStoreHref()).eql(sameDeviceOVEnrollmentAndroidLink);
-    await t.expect(enrollOktaVerifyPage.getAppStoreClass()).contains(sameDeviceOVEnrollmentAndroidDownloadLinkClass);
-
     if (!userVariables.gen3) {
       await t.expect(enrollOktaVerifyPage.getOVSetupHref()).eql(sameDeviceOVEnrollmentSetupLink);
-    }
-  });
-
-test
-  .requestHooks(logger, enrollSameDeviceOsxWithAnySecurity)('should be able to see OV same device enrollment instructions on ANY security level (OSX)', async t => {
-    const enrollOktaVerifyPage = await setup(t);
-
-    await checkA11y(t);
-
-    await t.expect(enrollOktaVerifyPage.getFormTitle()).eql(sameDeviceOVEnrollmentTitle);
-
-    await t.expect(await enrollOktaVerifyPage.getDesktopPromptText()).eql(sameDeviceOVEnrollmentDesktopInstructions1);
-    await t.expect(await enrollOktaVerifyPage.getDesktopNoPromptText()).eql(sameDeviceOVEnrollmentDesktopInstructions2);
-    await t.expect(await enrollOktaVerifyPage.getDesktopEnsureOVInstalledText()).eql(sameDeviceOVEnrollmentDesktopInstructions3);
-
-    await t.expect(enrollOktaVerifyPage.getAppStoreHref()).eql(sameDeviceOVEnrollmentAppleLink);
-    await t.expect(enrollOktaVerifyPage.getAppStoreClass()).contains(sameDeviceOVEnrollmentOsxDownloadLinkClass);
-    if (!userVariables.gen3) {
-      await t.expect(enrollOktaVerifyPage.getOVSetupHref()).eql(sameDeviceOVEnrollmentDesktopSetupLink);
+    } else {
+      await t.expect(enrollOktaVerifyPage.getAppStoreImageSrc()).eql(androidDownloadImage);
     }
   });
 
@@ -1078,8 +1060,29 @@ test
     await t.expect(await enrollOktaVerifyPage.sameDeviceSetupOnMobileTextExist()).eql(false);
 
     await t.expect(enrollOktaVerifyPage.getAppStoreHref()).eql(sameDeviceOVEnrollmentWindowsLink);
-    await t.expect(enrollOktaVerifyPage.getAppStoreClass()).contains(sameDeviceOVEnrollmentWindowsDownloadLinkClass);
     if (!userVariables.gen3) {
       await t.expect(enrollOktaVerifyPage.getOVSetupHref()).eql(sameDeviceOVEnrollmentDesktopSetupLink);
+    } else {
+      await t.expect(enrollOktaVerifyPage.getAppStoreImageSrc()).eql(windowsDownloadImage);
+    }
+  });
+
+test
+  .requestHooks(logger, enrollSameDeviceOsxWithAnySecurity)('should be able to see OV same device enrollment instructions on ANY security level (OSX)', async t => {
+    const enrollOktaVerifyPage = await setup(t);
+
+    await checkA11y(t);
+
+    await t.expect(enrollOktaVerifyPage.getFormTitle()).eql(sameDeviceOVEnrollmentTitle);
+
+    await t.expect(await enrollOktaVerifyPage.getDesktopPromptText()).eql(sameDeviceOVEnrollmentDesktopInstructions1);
+    await t.expect(await enrollOktaVerifyPage.getDesktopNoPromptText()).eql(sameDeviceOVEnrollmentDesktopInstructions2);
+    await t.expect(await enrollOktaVerifyPage.getDesktopEnsureOVInstalledText()).eql(sameDeviceOVEnrollmentDesktopInstructions3);
+
+    await t.expect(enrollOktaVerifyPage.getAppStoreHref()).eql(sameDeviceOVEnrollmentAppleLink);
+    if (!userVariables.gen3) {
+      await t.expect(enrollOktaVerifyPage.getOVSetupHref()).eql(sameDeviceOVEnrollmentDesktopSetupLink);
+    } else {
+      await t.expect(enrollOktaVerifyPage.getAppStoreImageSrc()).eql(osxDownloadImage);
     }
   });
