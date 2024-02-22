@@ -64,7 +64,7 @@ exports[`authenticator-piv-cac-verification renders form with custom PIV/CAC But
                   >
                     <button
                       class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-14"
-                      data-se="piv-card-button"
+                      data-se="piv-card-button custom-piv-class"
                       tabindex="0"
                       type="button"
                     >

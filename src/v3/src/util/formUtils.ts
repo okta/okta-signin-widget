@@ -103,7 +103,7 @@ const getPIVButtonElement = (
     options: {
       type: ButtonType.BUTTON,
       step: IDX_STEP.PIV_IDP,
-      dataSe: 'piv-card-button',
+      dataSe: `piv-card-button${piv?.className ? ` ${piv.className}` : ''}`,
       variant: 'secondary',
       Icon: SmartCardIconSvg,
       iconAlt: loc('piv.card', 'login'),
@@ -246,7 +246,8 @@ export const getIdpButtonElements = (
       options: {
         type: ButtonType.BUTTON,
         step: IDX_STEP.PIV_IDP,
-        dataSe: 'piv-card-button',
+        // @ts-expect-error OKTA-609464 - className missing from IdpConfig type
+        dataSe: `piv-card-button ${idpObject.idp?.className || `social-auth-${type}-button`}`,
         variant: 'secondary',
         Icon: idpIconMap[type],
         iconAlt: '',

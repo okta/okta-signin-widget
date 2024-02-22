@@ -25,7 +25,7 @@ Object {
         "noTranslate": false,
         "options": Object {
           "Icon": "MockSVGIcon",
-          "dataSe": "piv-card-button",
+          "dataSe": "piv-card-button social-auth-google-button",
           "iconAlt": "",
           "onClick": [Function],
           "step": "piv-idp",
@@ -39,7 +39,7 @@ Object {
         "noTranslate": false,
         "options": Object {
           "Icon": "MockSVGIcon",
-          "dataSe": "piv-card-button",
+          "dataSe": "piv-card-button social-auth-facebook-button",
           "iconAlt": "",
           "onClick": [Function],
           "step": "piv-idp",
