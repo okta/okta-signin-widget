@@ -70,7 +70,7 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
       id={name}
       inputRef={focusRef}
       isDisabled={loading}
-      isOptional={!required}
+      isOptional={required === false}
       label={label}
       onChange={(e: SelectChangeEvent<string>) => {
         const selectTarget = (

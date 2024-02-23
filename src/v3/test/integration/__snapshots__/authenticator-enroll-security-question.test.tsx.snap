@@ -307,7 +307,7 @@ exports[`authenticator-enroll-security-question custom question fails client sid
                           </span>
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd emotion-43"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd emotion-51"
                           required="true"
                           translate="no"
                         >
@@ -646,7 +646,7 @@ exports[`authenticator-enroll-security-question custom question renders correct 
                           </span>
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd emotion-36"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd emotion-41"
                           required="true"
                           translate="no"
                         >

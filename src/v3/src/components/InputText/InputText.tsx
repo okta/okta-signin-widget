@@ -64,7 +64,7 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
       inputMode={inputmode}
       isDisabled={loading}
       isFullWidth
-      isOptional={!required}
+      isOptional={required === false}
       name={name}
       label={label ?? ''}
       onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

@@ -54,9 +54,9 @@ const AuthHeader: FunctionComponent<AuthHeaderProps> = ({
         theme={authCoinProps.theme}
         sx={{
           margin: 'auto',
-          insetBlockStart: '24px',
+          insetBlockStart: '26px',
           borderRadius: '24px',
-          backgroundColor: tokens.HueNeutral50,
+          backgroundColor: tokens.HueNeutralWhite,
         }}
       />
     );

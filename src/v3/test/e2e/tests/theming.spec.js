@@ -21,7 +21,7 @@ test('Theme configuration applies correctly', async (t) => {
 
   await t
     .expect(submitButton.getStyleProperty('background-color'))
-    .eql('rgb(85, 107, 231)');
+    .eql('rgb(84, 107, 231)');
 
   // enter username/pw and submit
   await t

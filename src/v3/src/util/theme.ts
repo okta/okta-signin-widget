@@ -23,7 +23,7 @@ import { mergeThemes } from './mergeThemes';
 
 const WHITE_HEX = '#ffffff';
 // Odyssey-defined contrast ratios for their WCAG-friendly palettes
-const ODYSSEY_RATIOS = [1.1, 1.31, 1.61, 2.22, 3.32, 4.5, 4.95, 8.72, 11.73, 14.94];
+const ODYSSEY_RATIOS = [1.1, 1.31, 1.61, 2.22, 3.32, 4.52, 4.93, 8.72, 11.73, 14.94];
 
 interface OdysseyPalette {
   CustomHue50: string,
@@ -174,7 +174,7 @@ export const createThemeAndTokens = (
       MuiAlert: {
         styleOverrides: {
           root: {
-            gap: 0,
+            gap: mergedTokens.Spacing0,
           },
           icon: {
             paddingInlineEnd: mergedTokens.Spacing5,
@@ -192,8 +192,12 @@ export const createThemeAndTokens = (
             // Odyssey CircularProgress does not allow color change but SIW needs a white spinner
             // when rendering it as the startIcon for primary buttons
             ...(ownerState.variant === 'primary' && {
-              '& .MuiCircularProgress-root': {
-                color: mergedTokens.HueNeutralWhite,
+              '&:disabled': {
+                color: mergedTokens.PalettePrimaryLight,
+                backgroundColor: mergedTokens.PalettePrimaryHighlight,
+                '& .MuiCircularProgress-root': {
+                  color: mergedTokens.PalettePrimaryLight,
+                },
               },
             }),
             // Fix for IE11 - don't shrink icon if the button text is multiline
@@ -224,7 +228,7 @@ export const createThemeAndTokens = (
         styleOverrides: {
           root: {
             // Odyssey uses gap for spacing between Checkbox and label which is not IE11-friendly
-            gap: 0,
+            gap: mergedTokens.Spacing0,
           },
           label: {
             // Fixes text overflow in IE11
@@ -260,6 +264,13 @@ export const createThemeAndTokens = (
             },
           },
           adornedEnd: ({ ownerState }) => ({
+            // Odyssey does not support a focus indicator around toggle icon button
+            '& .MuiIconButton-root:focus-visible': {
+              borderRadius: mergedTokens.BorderRadiusMain,
+              outlineColor: mergedTokens.FocusOutlineColorPrimary,
+              outlineStyle: mergedTokens.FocusOutlineStyle,
+              outlineWidth: mergedTokens.FocusOutlineWidthTight,
+            },
             // Explicitly switch to physical properties for password toggle icon since
             // IE11 stylis plugin cannot handle nested logical properties
             ...(ownerState.name && isLtrField(ownerState.name) && {
@@ -272,7 +283,7 @@ export const createThemeAndTokens = (
             // Explicitly switch to physical properties for telephone code
             ...(ownerState.type === 'tel' && {
               '& .MuiInputAdornment-root': {
-                marginInlineStart: 0,
+                marginInlineStart: mergedTokens.Spacing0,
                 marginLeft: mergedTokens.Spacing2,
               },
             }),
@@ -294,12 +305,15 @@ export const createThemeAndTokens = (
       },
       MuiLink: {
         styleOverrides: {
-          root: ({ ownerState }) => ({
-            textDecoration: ownerState?.component === 'a' ? 'underline' : 'inherit',
-          }),
           button: {
             verticalAlign: 'baseline',
-            textDecoration: 'underline',
+          },
+        },
+      },
+      MuiNativeSelect: {
+        styleOverrides: {
+          select: {
+            paddingRight: `${mergedTokens.Spacing7} !important`,
           },
         },
       },

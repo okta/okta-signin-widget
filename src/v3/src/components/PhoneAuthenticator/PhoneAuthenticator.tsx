@@ -144,7 +144,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
         id="country"
         inputRef={focusRef}
         isDisabled={loading}
-        isOptional={!required}
+        isOptional={required === false}
         label={countryLabel}
         onChange={(e: SelectChangeEvent<string>) => {
           const selectTarget = (
@@ -192,7 +192,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
             inputMode={inputmode}
             isDisabled={loading}
             isFullWidth
-            isOptional={!required}
+            isOptional={required === false}
             label={mainLabel ?? ''}
             name={fieldName}
             onBlur={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

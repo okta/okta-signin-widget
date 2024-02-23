@@ -290,7 +290,7 @@ exports[`authenticator-enroll-security-question-error custom question should sho
                           </span>
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl MuiInputBase-adornedEnd emotion-43"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl MuiInputBase-adornedEnd emotion-48"
                           required="true"
                           translate="no"
                         >

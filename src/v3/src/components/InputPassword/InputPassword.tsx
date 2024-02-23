@@ -75,7 +75,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
       inputRef={focusRef}
       isDisabled={loading}
       isFullWidth
-      isOptional={!required}
+      isOptional={required === false}
       name={name}
       label={label ?? ''}
       onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
