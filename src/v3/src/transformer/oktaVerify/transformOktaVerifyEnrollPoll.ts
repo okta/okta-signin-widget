@@ -30,6 +30,7 @@ import {
   UISchemaLayoutType,
 } from '../../types';
 import { copyToClipboard, isAndroid, loc } from '../../util';
+import { WindowsStoreIcon, GoogleStoreIcon, AppleStoreIcon, OSXStoreIcon } from '../../components/Icon';
 
 const STEPS = {
   QR_POLLING: 0,
@@ -219,36 +220,35 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({ transaction,
     }
     if (deviceMap.platformLC) {
       let platformSupported = true;
-      let imageSrc = '/img/appstore/';
+      let svgIcon;
       switch (deviceMap.platformLC) {
         case 'android':
-          imageSrc += 'google-play-store.svg';
+          svgIcon = GoogleStoreIcon;
           break;
 
         case 'ios':
-          imageSrc += 'apple-app-store.svg';
+          svgIcon = AppleStoreIcon;
           break;
 
         case 'windows':
-          imageSrc += 'windows-app-store.svg';
+          svgIcon = WindowsStoreIcon;
           break;
 
         case 'osx':
-          imageSrc += 'osx-app-store.svg';
+          svgIcon = OSXStoreIcon;
           break;
 
         default:
           platformSupported = false;
       }
       if (platformSupported) {
-        // todo: replace with Image component + Link within OKTA-701606
         sameDeviceOVElements.push(
           {
             type: 'ImageLink',
             options: {
               url: deviceMap.downloadHref,
               altText: loc('enroll.oda.step3', 'login'),
-              imageSrc,
+              svgIcon,
               linkClassName: 'app-store-link',
               width: '320px',
               height: '50px',

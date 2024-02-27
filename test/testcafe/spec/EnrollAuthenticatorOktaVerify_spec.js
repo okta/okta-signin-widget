@@ -311,9 +311,6 @@ const sameDeviceInstruction1 = 'If you don’t have Okta Verify installed, downl
 const sameDeviceInstruction2 = 'Open Okta Verify and follow the steps to add your account.';
 const sameDeviceInstruction3 = 'When prompted, choose Sign In, then enter the sign-in URL:';
 const sameDeviceOVEnrollmentTitle = 'Set up Okta Verify';
-const osxDownloadImage = '/img/appstore/osx-app-store.svg';
-const windowsDownloadImage = '/img/appstore/windows-app-store.svg';
-const androidDownloadImage = '/img/appstore/google-play-store.svg';
 const iosDownloadImage = '/img/appstore/apple-app-store.svg';
 const sameDeviceOVEnrollmentSubtitle = 'To continue, make sure you have the Okta Verify app.';
 const sameDeviceOVEnrollmentInstructions1 = 'Once Okta Verify is installed, return to this page and tap Set up Okta Verify.';
@@ -1012,8 +1009,6 @@ test
 
     if (!userVariables.gen3) {
       await t.expect(enrollOktaVerifyPage.getOVSetupHref()).eql(sameDeviceOVEnrollmentSetupLink);
-    } else {
-      await t.expect(enrollOktaVerifyPage.getAppStoreImageSrc()).eql(iosDownloadImage);
     }
 
     await t.expect(await enrollOktaVerifyPage.getSameDeviceReturnAndSetupText()).eql(sameDeviceOVEnrollmentInstructions1);
@@ -1041,8 +1036,6 @@ test
     await t.expect(enrollOktaVerifyPage.getAppStoreHref()).eql(sameDeviceOVEnrollmentAndroidLink);
     if (!userVariables.gen3) {
       await t.expect(enrollOktaVerifyPage.getOVSetupHref()).eql(sameDeviceOVEnrollmentSetupLink);
-    } else {
-      await t.expect(enrollOktaVerifyPage.getAppStoreImageSrc()).eql(androidDownloadImage);
     }
   });
 
@@ -1062,8 +1055,6 @@ test
     await t.expect(enrollOktaVerifyPage.getAppStoreHref()).eql(sameDeviceOVEnrollmentWindowsLink);
     if (!userVariables.gen3) {
       await t.expect(enrollOktaVerifyPage.getOVSetupHref()).eql(sameDeviceOVEnrollmentDesktopSetupLink);
-    } else {
-      await t.expect(enrollOktaVerifyPage.getAppStoreImageSrc()).eql(windowsDownloadImage);
     }
   });
 
@@ -1082,7 +1073,5 @@ test
     await t.expect(enrollOktaVerifyPage.getAppStoreHref()).eql(sameDeviceOVEnrollmentAppleLink);
     if (!userVariables.gen3) {
       await t.expect(enrollOktaVerifyPage.getOVSetupHref()).eql(sameDeviceOVEnrollmentDesktopSetupLink);
-    } else {
-      await t.expect(enrollOktaVerifyPage.getAppStoreImageSrc()).eql(osxDownloadImage);
     }
   });

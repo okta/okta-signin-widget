@@ -18,21 +18,23 @@ const ImageLink: UISchemaElementComponent<{
   uischema: ImageLinkElement
 }> = ({ uischema }) => {
   const { options } = uischema;
-
+  const Icon = options.svgIcon;
   return (
     <Box>
       <Link
+        textAlign="center"
         href={options.url}
         rel="noopener noreferrer"
         ariaLabel={options.altText}
         className={options.linkClassName}
       >
         <Box
-          component="img"
-          src={options.imageSrc}
           alt={options.altText}
+          textAlign="center"
           sx={{ width: options.width, height: options.height }}
-        />
+        >
+          <Icon />
+        </Box>
       </Link>
     </Box>
   );

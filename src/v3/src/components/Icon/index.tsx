@@ -28,3 +28,7 @@ export * from './SecurityQuestionIcon';
 export * from './SmartCardIcon';
 export * from './SymantecIcon';
 export * from './YubiKeyIcon';
+export * from './WindowsStoreIcon';
+export * from './GoogleStoreIcon';
+export * from './AppleStoreIcon';
+export * from './OSXStoreIcon';

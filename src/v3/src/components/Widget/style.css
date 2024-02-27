@@ -184,4 +184,10 @@ span.no-translate {
   display: block;
   /* stylelint-disable-next-line liberty/use-logical-spec */
   margin: 10px auto;
+  vertical-align: center;
+}
+
+.app-store-link svg {
+  width: fit-content !important;
+  height: fit-content !important;
 }

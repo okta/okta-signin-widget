@@ -256,14 +256,7 @@ export default class EnrollOktaVerifyPageObject extends BasePageObject {
   }
 
   getAppStoreHref() {
-    if (userVariables.gen3) {
-      return this.form.el.find(APP_STORE_LINK_CLASS).getAttribute('href');
-    }
-    return this.form.el.find(APP_STORE_LOGO_ELEMENT).getAttribute('href');
-  }
-
-  getAppStoreImageSrc() {
-    return this.form.el.find(APP_STORE_LOGO_ELEMENT).getAttribute('src');
+    return this.form.el.find(APP_STORE_LINK_CLASS).getAttribute('href');
   }
 
   getOVSetupHref() {
