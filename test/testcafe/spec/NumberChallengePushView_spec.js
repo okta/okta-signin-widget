@@ -67,7 +67,7 @@ test
     let warningBox = challengeOktaVerifyPushPageObject.getWarningBox();
     await t.expect(warningBox.visible).ok();
     await t.expect(warningBox.innerText)
-      .eql('Haven\'t received a push notification yet? Try opening the Okta Verify app on your device, or resend the push notification.');
+      .contains('Haven\'t received a push notification yet? Try opening the Okta Verify app on your device, or resend the push notification.');
     // click resend number challenge
     challengeOktaVerifyPushPageObject.clickResendNumberChallenge();
     await t.expect(logger.count(() => true)).eql(8);

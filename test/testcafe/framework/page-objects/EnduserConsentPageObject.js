@@ -30,7 +30,7 @@ export default class EnduserConsentPageObject extends ConsentPageObject {
 
   getCancelButtonLabel() {
     if (userVariables.gen3) {
-      return this.form.getElement('[data-type="cancel"]').innerText; 
+      return this.form.getElement('[data-se="cancel"]').innerText; 
     }
     return this.form.getElement('input[data-type="cancel"]').value;
   }

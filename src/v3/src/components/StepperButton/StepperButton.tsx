@@ -50,16 +50,12 @@ const StepperButton: UISchemaElementComponent<{
       onClick={handleClick}
       variant={variant ?? 'primary'}
       type={type ?? 'button'}
-      fullWidth
-      ref={focusRef}
-      sx={{
-        whiteSpace: 'normal',
-      }}
-      startIcon={loading && <Spinner color="white" />}
-      aria-describedby={ariaDescribedBy}
-    >
-      {label}
-    </Button>
+      isFullWidth
+      buttonRef={focusRef}
+      startIcon={loading && <Spinner />}
+      ariaDescribedBy={ariaDescribedBy}
+      label={label}
+    />
   );
 };
 

@@ -6,8 +6,9 @@ exports[`error-activation-token-invalid should render form 1`] = `
     class="MuiScopedCssBaseline-root emotion-0"
   >
     <main
-      class="auth-container main-container MuiBox-root emotion-1"
+      class="MuiBox-root emotion-1"
       data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+      data-se="auth-container main-container"
       data-version="0.0.0"
       dir="ltr"
       id="okta-sign-in"
@@ -23,10 +24,12 @@ exports[`error-activation-token-invalid should render form 1`] = `
             class="MuiBox-root emotion-4"
           >
             <div
-              class="okta-sign-in-header auth-header MuiBox-root emotion-5"
+              class="MuiBox-root emotion-5"
+              data-se="okta-sign-in-header auth-header "
             >
               <h1
                 class="MuiTypography-root MuiTypography-h1 emotion-6"
+                tabindex="-1"
               />
             </div>
             <div
@@ -46,10 +49,10 @@ exports[`error-activation-token-invalid should render form 1`] = `
                   >
                     <div
                       class="MuiBox-root emotion-11"
-                      data-se="message"
+                      data-se="infobox-error"
                     >
                       <div
-                        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxError MuiAlert-infobox infobox-error emotion-12"
+                        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-calloutError MuiAlert-callout emotion-12"
                         data-se="callout"
                         role="alert"
                       >
@@ -61,12 +64,12 @@ exports[`error-activation-token-invalid should render form 1`] = `
                             class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-14"
                             fill="none"
                             focusable="false"
-                            viewBox="0 0 16 16"
+                            viewBox="0 0 24 24"
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <path
                               clip-rule="evenodd"
-                              d="M13.983 14.6471C13.4706 15 12.6329 15 10.9575 15H5.04248C3.36707 15 2.52937 15 2.01699 14.6471C1.56939 14.3387 1.26655 13.8615 1.17816 13.3252C1.07698 12.7114 1.43367 11.9534 2.14706 10.4374L5.10455 4.15277C6.02878 2.18879 6.49089 1.2068 7.12576 0.898255C7.6777 0.630012 8.32225 0.630012 8.87419 0.898255C9.50906 1.2068 9.97117 2.18879 10.8954 4.15277L13.8529 10.4374C14.5663 11.9534 14.923 12.7114 14.8218 13.3252C14.7334 13.8615 14.4306 14.3387 13.983 14.6471ZM7.99998 10C7.72383 10 7.49998 9.77614 7.49998 9.5L7.49998 5H8.49998L8.49998 9.5C8.49998 9.77614 8.27612 10 7.99998 10ZM7.99998 13C8.14831 13 8.29332 12.956 8.41665 12.8736C8.53999 12.7912 8.63612 12.6741 8.69288 12.537C8.74965 12.4 8.7645 12.2492 8.73556 12.1037C8.70662 11.9582 8.6352 11.8246 8.53031 11.7197C8.42542 11.6148 8.29178 11.5434 8.14629 11.5144C8.00081 11.4855 7.85001 11.5003 7.71296 11.5571C7.57592 11.6139 7.45878 11.71 7.37637 11.8333C7.29396 11.9567 7.24998 12.1017 7.24998 12.25C7.24998 12.4489 7.32899 12.6397 7.46964 12.7803C7.6103 12.921 7.80106 13 7.99998 13Z"
+                              d="M9.879 1.707a3 3 0 0 1 4.242 0l8.172 8.172a3 3 0 0 1 0 4.242l-8.172 8.172a3 3 0 0 1-4.242 0L1.707 14.12a3 3 0 0 1 0-4.242L9.88 1.707ZM12 13a1 1 0 0 1-1-1V7h2v5a1 1 0 0 1-1 1Zm0 1.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z"
                               fill="currentColor"
                               fill-rule="evenodd"
                             />
@@ -75,12 +78,23 @@ exports[`error-activation-token-invalid should render form 1`] = `
                         <div
                           class="MuiAlert-message emotion-15"
                         >
-                          <h2
-                            class="MuiTypography-root MuiTypography-h6 emotion-16"
+                          <span
+                            class="MuiBox-root emotion-16"
+                            translate="no"
                           >
-                            Activation link no longer valid
-                          </h2>
-                          This can happen if you have already activated your account, or if the URL you are trying to use is invalid. Contact your administrator for further assistance.
+                            error
+                          </span>
+                          <div
+                            class="MuiBox-root emotion-1"
+                          >
+                            <h2
+                              class="MuiTypography-root MuiTypography-h6 emotion-18"
+                              tabindex="-1"
+                            >
+                              Activation link no longer valid
+                            </h2>
+                            This can happen if you have already activated your account, or if the URL you are trying to use is invalid. Contact your administrator for further assistance.
+                          </div>
                         </div>
                       </div>
                     </div>

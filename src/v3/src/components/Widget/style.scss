@@ -1,0 +1,295 @@
+/* TODO: move loginpage styles out of SIW repo OKTA-602545 */
+
+@use 'sass:map';
+@import '@okta/odyssey-design-tokens/dist/index.scss';
+
+/* loginpage utility styles */
+.clearfix {
+  display: block;
+}
+.clearfix:after,
+.clearfix:before {
+  display: block;
+  block-size: 0;
+  clear: both;
+  content: ".";
+  visibility: hidden;
+}
+.hide {
+  display: none;
+}
+
+.okta-container {
+  margin: 0;
+  block-size: inherit;
+}
+
+.auth .footer, .okta-container .applogin-banner {
+  font-family: map.get($ods-tokens, 'typography', 'family', 'body');
+
+  &:lang(el) {
+    font-family: 'Noto Sans', sans-serif;
+  }
+
+  &:lang(ja) {
+    font-family: 'Noto Sans JP', sans-serif;
+  }
+
+  &:lang(ko) {
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+
+  &:lang(th) {
+    font-family: 'Noto Sans Thai', sans-serif;
+  }
+
+  &:lang(zh-CN) {
+    font-family: 'Noto Sans SC', sans-serif;
+  }
+
+  &:lang(zh-TW) {
+    font-family: 'Noto Sans TC', sans-serif;
+  }
+}
+
+/* loginpage footer styles */
+.auth .footer {
+  position: fixed;
+  inset-block-end: 0;
+  background-color: #fff;
+  min-inline-size: 300px;
+  font-size: map.get($ods-tokens, 'typography', 'size', 'subordinate');
+  color: map.get($ods-tokens, 'typography', 'color', 'subordinate');
+  inset-inline: 0;
+  inset-block-end: 0;
+  overflow: hidden;
+  margin-block-start: map.get($ods-tokens, spacing, '8');
+  background-color: map.get($ods-tokens, 'hue', 'neutral', '50');
+  border-block-start: map.get($ods-tokens, 'border', 'width', 'main') solid map.get($ods-tokens, 'border', 'color', 'display');
+  p {
+    margin-block: map.get($ods-tokens, 'spacing', '3');
+  }
+}
+.auth .footer .footer-container {
+  padding-inline: map.get($ods-tokens, spacing, '8');
+  margin-inline: auto;
+  box-sizing: border-box;
+}
+@media only screen and (max-width: 560px) {
+  .auth .footer .footer-container {
+    inline-size: 400px;
+    padding-inline: 20px;
+  }
+}
+@media only screen and (max-width: 400px) {
+  .auth .footer .footer-container {
+    inline-size: 100%;
+  }
+}
+.auth .footer a {
+  color: #6e6e78;
+}
+.auth .footer a:active,
+.auth .footer a:link,
+.auth .footer a:visited {
+  color: #6e6e78;
+}
+.auth .footer a:focus,
+.auth .footer a:hover {
+  text-decoration: underline;
+  color: #6e6e78;
+}
+.auth .footer .copyright {
+  /* stylelint-disable-next-line liberty/use-logical-spec */
+  float: left;
+  /* TODO: OKTA-586564 replace hardcoded value */
+  color: #6e6e78;
+}
+.auth .footer .copyright a {
+  /* TODO: OKTA-586564 replace hardcoded value */
+  color: #6e6e78;
+}
+.auth .footer .privacy-policy {
+  /* stylelint-disable-next-line liberty/use-logical-spec */
+  float: right;
+}
+
+/* loginpage app banner styles */
+.okta-container .applogin-banner {
+  font-size: map.get($ods-tokens, 'typography', 'size', 'body');
+  color: map.get($ods-tokens, 'typography', 'color', 'subordinate');
+  position: relative;
+  min-inline-size: 300px;
+  border-block-end: map.get($ods-tokens, 'border', 'width', 'main') solid map.get($ods-tokens, 'border', 'color', 'display');
+}
+.okta-container .applogin-banner .applogin-background {
+  background-color: #fff;
+  opacity: 0.9;
+  position: absolute;
+  inset: 0;
+  box-shadow: 0 0 2px 1px hsla(0, 0%, 68.6%, 0.3);
+}
+.okta-container .applogin-banner .applogin-container {
+  position: relative;
+  inline-size: 400px;
+  min-inline-size: 300px;
+  margin-block: 0;
+  margin-inline: auto;
+  padding-block: map.get($ods-tokens, spacing, '3') map.get($ods-tokens, spacing, '4');
+  padding-inline: 0;
+  box-sizing: border-box;
+  text-align: center;
+}
+.okta-container .applogin-banner .applogin-container p {
+  /* TODO: OKTA-586564 replace hardcoded value */
+  color: #6e6e78;
+  margin-block: 0;
+}
+
+@media only screen and (max-width: 400px) {
+  .okta-container .applogin-banner .applogin-container {
+    inline-size: 100%;
+  }
+}
+@media only screen and (max-height: 750px) {
+  .okta-container .applogin-banner .applogin-container {
+    padding-block: 10px;
+    padding-inline: 0;
+  }
+}
+@media only screen and (max-height: 660px) {
+  .okta-container .applogin-banner .applogin-container {
+    padding-block: 5px;
+    padding-inline: 0;
+  }
+  .okta-container .applogin-banner .applogin-container p {
+    display: none;
+  }
+}
+.okta-container .applogin-banner .applogin-container h1 {
+  margin-block: 0;
+}
+.okta-container .applogin-banner .applogin-app-title {
+  display: none;
+}
+.okta-container .applogin-banner .applogin-app-logo {
+  display: inline-block;
+  vertical-align: middle;
+  margin-block-end: map.get($ods-tokens, 'spacing', '2');
+}
+.okta-container .applogin-banner .applogin-app-logo img {
+  inline-size: map.get($ods-tokens, 'spacing', '8');
+  block-size: map.get($ods-tokens, 'spacing', '8');
+}
+
+/* loginpage container styles */
+.auth .content {
+  min-block-size: 100%;
+  min-inline-size: 300px;
+  display: inline-block;
+  inline-size: 100%;
+}
+.auth .content:after {
+  content: "";
+  display: block;
+  block-size: 30px;
+}
+.login-bg-image {
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-size: cover;
+  position: fixed;
+  inset: 0;
+  z-index: -5;
+}
+@media only screen and (max-width: 600px) {
+  .login-bg-image {
+    background-image: none !important;
+    background-color: #fff !important;
+    -webkit-filter: unset !important;
+    filter: unset !important;
+  }
+}
+
+/* signin container styles */
+#signin-container {
+  margin-block: map.get($ods-tokens, 'spacing', '8');
+}
+@media only screen and (max-width: 600px) {
+  #signin-container {
+    margin-block: map.get($ods-tokens, 'spacing', '2');
+  }
+}
+
+/* back to settings button style */
+.back-to-settings {
+  margin: unset !important;
+  min-block-size: unset !important;
+  inline-size: unset !important;
+  min-inline-size: unset !important;
+  .back-to-settings-link {
+    position: unset !important;
+    inset-block-start: unset !important;
+    a {
+      font-family: map.get($ods-tokens, 'typography', 'family', 'button');
+      position: absolute;
+      padding-block: 10px;
+      padding-inline: 14px;
+      display: inline-block;
+      inset-block-start: map.get($ods-tokens, 'spacing', '8');
+      inset-inline-start: map.get($ods-tokens, 'spacing', '8');
+      block-size: unset;
+      line-height: unset;
+      text-decoration: none;
+      color: #000;
+      background-color: #fff;
+      border: solid map.get($ods-tokens, 'border', 'width', 'main') map.get($ods-tokens, 'border', 'color', 'display');
+      border-radius: map.get($ods-tokens, 'border', 'radius', 'main');
+      opacity: 1;
+
+      &:hover {
+        background-color: map.get($ods-tokens, 'hue', 'blue', '100');
+        border: solid map.get($ods-tokens, 'border', 'width', 'main') map.get($ods-tokens, 'border', 'color', 'control');
+      }
+      &:active {
+        background-color: map.get($ods-tokens, 'hue', 'blue', '300');
+        border: solid map.get($ods-tokens, 'border', 'width', 'main') map.get($ods-tokens, 'border', 'color', 'primary', 'dark');
+      }
+      &:focus-visible {
+        background-color: map.get($ods-tokens, 'hue', 'blue', '300');
+        border: solid map.get($ods-tokens, 'border', 'width', 'main') map.get($ods-tokens, 'border', 'color', 'control');
+        outline: map.get($ods-tokens, 'focus', 'outline', 'width', 'main') solid map.get($ods-tokens, 'focus', 'outline', 'color', 'primary');
+        outline-offset: 2px;
+      }
+
+      img {
+        padding-inline-end: map.get($ods-tokens, 'spacing', '3');
+      }
+    }
+  }
+}
+@media only screen and (max-width: 600px) {
+  .back-to-settings .back-to-settings-link a {
+    position: relative;
+    display: inline-block;
+    inset-block-start: unset;
+    inset-inline-start: unset;
+    margin-inline: map.get($ods-tokens, 'spacing', '3');
+    margin-block-start: map.get($ods-tokens, 'spacing', '3');
+    margin-block-end: map.get($ods-tokens, 'spacing', '1');
+  }
+}
+
+/*
+ * NOTE: widget styles below, login page styles above. Take care when moving CSS
+ * from SIW to loginpage (okta-ui) in OKTA-602545
+ *
+ * TODO: OKTA-654405
+ */
+span.strong {
+  font-weight: 600;
+  word-break: break-all;
+}
+span.no-translate {
+  white-space: nowrap;
+}

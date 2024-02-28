@@ -93,6 +93,8 @@ const baseConfig: Partial<Configuration> = {
             '/node_modules/@mui',
             '/node_modules/@okta/okta-auth-js',
             '/node_modules/p-cancelable',
+            '/node_modules/i18next',
+            '/node_modules/@adobe/leonardo-contrast-colors',
           ].some(filePathContains);
           const shallBeExcluded = [
             // /src/ will be handled in next rule
@@ -116,13 +118,24 @@ const baseConfig: Partial<Configuration> = {
         options: babelOptions,
       },
       {
-        test: /\.css$/,
+        test: /\.s[ac]ss$/i,
         use: [
           MiniCssExtractPlugin.loader,
           {
             loader: 'css-loader',
             options: {
               importLoaders: 1,
+            },
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              sassOptions: {
+                includePaths: [
+                  './node_modules',
+                  '../../node_modules',
+                ],
+              },
             },
           },
           {

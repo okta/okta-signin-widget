@@ -225,9 +225,9 @@ test.requestHooks(enrollProfileErrorMock)('should show email field validation er
 
   await registrationPage.waitForEmailError();
 
-  await t.expect(registrationPage.hasEmailError(0)).eql(true);
-  await t.expect(registrationPage.hasEmailErrorMessage(0)).eql(true);
-  await t.expect(registrationPage.getEmailErrorMessage(0)).contains('\'Email\' must be in the form of an email address');
+  await t.expect(registrationPage.hasEmailError()).eql(true);
+  await t.expect(registrationPage.hasEmailErrorMessage()).eql(true);
+  await t.expect(registrationPage.getEmailErrorMessage()).contains('\'Email\' must be in the form of an email address');
 
   await checkConsoleMessages([
     'ready',
@@ -364,7 +364,7 @@ test.requestHooks(logger, enrollProfileNewMock)('should be able to create a new 
 
   //click register
   await registrationPage.clickRegisterButton();
-  await t.expect(registrationPage.getEmailErrorMessage()).eql('A user with this Email already exists');
+  await t.expect(registrationPage.getEmailErrorMessage()).match(/A user with this Email already exists/);
   let req = logger.requests[0].request;
   let reqBody = JSON.parse(req.body);
   await t.expect(reqBody).eql({

@@ -20,6 +20,7 @@ describe('Flow transition from password authentication to security question auth
   it('clears field data when transition from identify-with-password to authentication-verification-ga', async () => {
     const {
       user,
+      findByLabelText,
       findByTestId,
       findByText,
     } = await setup({
@@ -47,7 +48,7 @@ describe('Flow transition from password authentication to security question auth
 
     // form: verify with security question
     await findByText(/Verify with your Security Question/);
-    const securityQuestionEl = await findByTestId('credentials.answer') as HTMLInputElement;
+    const securityQuestionEl = await findByLabelText('What is the food you least liked as a child?') as HTMLInputElement;
     expect(securityQuestionEl.value).toEqual('');
   });
 });

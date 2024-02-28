@@ -5,12 +5,12 @@ const TERMINAL_CONTENT = '.o-form-error-container .ion-messages-container';
 const FORM_INFOBOX_ERROR = '[data-se="o-form-error-container"] .infobox-error';
 const CALLOUT = '[data-se="callout"]';
 
-const CANCEL_BUTTON_SELECTOR = '[data-type="cancel"]';
-const SAVE_BUTTON_SELECTOR = '[data-type="save"]';
+const CANCEL_BUTTON_SELECTOR = userVariables.gen3 ? '[data-se="cancel"]' : '[data-type="cancel"]';
+const SAVE_BUTTON_SELECTOR = userVariables.gen3 ? '[data-se="save"]' : '[data-type="save"]';
 
-const focusOnSubmitButton = () => {
+const focusOnSubmitButton = (saveButtonSelector) => {
   // client function is not able to refer any variables defined outside
-  document.querySelector('[data-type="save"]').focus();
+  document.querySelector(saveButtonSelector).focus();
 };
 
 export default class BaseFormObject {
@@ -144,7 +144,7 @@ export default class BaseFormObject {
   async focusSaveButton() {
     // testcafe does not support actions for focus yet
     const focus = ClientFunction(focusOnSubmitButton);
-    await focus();
+    await focus(SAVE_BUTTON_SELECTOR);
   }
 
   /**
@@ -337,7 +337,7 @@ export default class BaseFormObject {
 
   getNthErrorMessage(fieldName, value) {
     if (userVariables.gen3) {
-      return this.el.find(`#${fieldName}-error-${value}`).innerText;
+      return this.el.find(`#${fieldName}-error`).child('div').child('ul').child('li').nth(value).innerText;
     }
     const selectContainer = this.findFormFieldInput(fieldName).sibling('.o-form-input-error').nth(value);
     return selectContainer.innerText;
@@ -348,7 +348,7 @@ export default class BaseFormObject {
 
   getValueFromDropdown(fieldName, index = 0) {
     if (userVariables.gen3) {
-      const selectEle = this.el.find(`[data-se="${fieldName}"]`);
+      const selectEle = this.el.find(`[id="${fieldName}"]`);
       const option = selectEle.child().nth(index);
   
       return option.textContent;
@@ -359,8 +359,7 @@ export default class BaseFormObject {
 
   async selectValueChozenDropdown(fieldName, index) {
     if (userVariables.gen3) {
-      const selectEle = await this.el.find(`[data-se="${fieldName}"]`);
-
+      const selectEle = this.el.find(`[id="${fieldName}"]`);
       await this.t.click(selectEle);
       
       const option = selectEle.child().nth(index);

@@ -17,24 +17,24 @@ import { createAuthJsPayloadArgs, setup } from './util';
 
 describe('enroll-profile-new', () => {
   it('should render form', async () => {
-    const { container, findByText, findByTestId } = await setup({ mockResponse });
+    const { container, findByText, findByLabelText } = await setup({ mockResponse });
     await findByText(/Sign up/);
     expect(container).toMatchSnapshot();
-    const firstNameEle = await findByTestId('userProfile.firstName') as HTMLInputElement;
+    const firstNameEle = await findByLabelText('First name') as HTMLInputElement;
     expect(firstNameEle).not.toHaveFocus();
   });
 
   it('should send correct payload', async () => {
     const {
-      authClient, user, findByTestId, findByText,
+      authClient, user, findByLabelText, findByText,
     } = await setup({ mockResponse, widgetOptions: { features: { autoFocus: true } } });
 
     await findByText(/Sign up/);
 
     const submitButton = await findByText('Sign Up', { selector: 'button' });
-    const firstNameEle = await findByTestId('userProfile.firstName') as HTMLInputElement;
-    const lastNameEle = await findByTestId('userProfile.lastName') as HTMLInputElement;
-    const emailEle = await findByTestId('userProfile.email') as HTMLInputElement;
+    const firstNameEle = await findByLabelText('First name') as HTMLInputElement;
+    const lastNameEle = await findByLabelText('Last name') as HTMLInputElement;
+    const emailEle = await findByLabelText('Email') as HTMLInputElement;
 
     const firstName = 'tester';
     const lastName = 'McTesterson';
@@ -63,18 +63,18 @@ describe('enroll-profile-new', () => {
 
   it('fails client side validation with empty fields', async () => {
     const {
-      authClient, user, findByText, findByTestId,
+      authClient, user, findByLabelText, findByText,
     } = await setup({ mockResponse });
 
     const submitButton = await findByText('Sign Up', { selector: 'button' });
 
     await user.click(submitButton);
-    const firstNameError = await findByTestId('userProfile.firstName-error');
-    expect(firstNameError.textContent).toEqual('This field cannot be left blank');
-    const lastNameError = await findByTestId('userProfile.lastName-error');
-    expect(lastNameError.textContent).toEqual('This field cannot be left blank');
-    const emailError = await findByTestId('userProfile.email-error');
-    expect(emailError.textContent).toEqual('This field cannot be left blank');
+    const firstNameEle = await findByLabelText('First name') as HTMLInputElement;
+    const lastNameEle = await findByLabelText('Last name') as HTMLInputElement;
+    const emailEle = await findByLabelText('Email') as HTMLInputElement;
+    expect(firstNameEle).toHaveErrorMessage(/This field cannot be left blank/);
+    expect(lastNameEle).toHaveErrorMessage(/This field cannot be left blank/);
+    expect(emailEle).toHaveErrorMessage(/This field cannot be left blank/);
 
     expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
   });

@@ -10,7 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box, Typography } from '@okta/odyssey-react-mui';
+import { Box } from '@mui/material';
+import { Typography, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 
 import { useHtmlContentParser } from '../../hooks';
@@ -20,6 +21,7 @@ const Heading: UISchemaElementComponent<{
   uischema: HeadingElement
 }> = ({ uischema }) => {
   const {
+    id,
     noTranslate,
     parserOptions,
     noMargin,
@@ -27,20 +29,20 @@ const Heading: UISchemaElementComponent<{
       content, dataSe, level, visualLevel,
     },
   } = uischema;
+  const tokens = useOdysseyDesignTokens();
   const parsedContent = useHtmlContentParser(content, parserOptions);
 
   return (
     <Box
       display="flex"
       justifyContent="flex-start"
-      marginBlockEnd={noMargin ? undefined : 2}
+      marginBlockEnd={noMargin ? undefined : tokens.Spacing2}
     >
       <Typography
-        id={uischema.id}
         variant={`h${visualLevel ?? 2}`}
         component={`h${level ?? 3}`}
-        className={noTranslate ? 'no-translate' : undefined}
-        data-se={dataSe}
+        translate={noTranslate ? 'no' : undefined}
+        testId={dataSe ?? id}
       >
         {parsedContent}
       </Typography>

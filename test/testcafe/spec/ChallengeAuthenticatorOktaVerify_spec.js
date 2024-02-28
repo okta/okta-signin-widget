@@ -1,4 +1,4 @@
-import { RequestMock, RequestLogger } from 'testcafe';
+import { RequestMock, RequestLogger, userVariables } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 import { oktaDashboardContent } from '../framework/shared';
 import { renderWidget } from '../framework/shared';
@@ -54,9 +54,9 @@ const mockChallengeOVOnlyMethodsWithDeviceKnown = RequestMock()
 fixture('Select Method screen for Okta verify');
 
 async function verifyFactorByIndex(t, selectAuthenticatorPage, index, expectedLabel) {
-  await t.expect(selectAuthenticatorPage.getFactorLabelByIndex(index)).eql(expectedLabel);
-  await t.expect(selectAuthenticatorPage.getFactorDescriptionByIndex(index)).eql('Okta Verify');
-  await t.expect(selectAuthenticatorPage.getFactorIconClassByIndex(index)).contains('mfa-okta-verify');
+  await t.expect(selectAuthenticatorPage.getFactorLabelByIndex(index)).eql(userVariables.gen3 ? 'Okta Verify' : expectedLabel);
+  await t.expect(selectAuthenticatorPage.getFactorDescriptionByIndex(index)).eql(userVariables.gen3 ? expectedLabel : 'Okta Verify');
+  await t.expect(selectAuthenticatorPage.getFactorIconSelectorByIndex(index)).contains('mfa-okta-verify');
   await t.expect(selectAuthenticatorPage.getFactorSelectButtonByIndex(index)).eql('Select');
 }
 
@@ -168,9 +168,9 @@ test.requestHooks(mockChallengeOVOnlyMethodsWithDeviceKnown)('FastPass option is
   const selectAuthenticatorPage = await setup(t);
   await checkA11y(t);
 
-  await t.expect(selectAuthenticatorPage.getFactorLabelByIndex(0)).eql(FAST_PASS_TEXT);
-  await t.expect(selectAuthenticatorPage.getFactorLabelByIndex(1)).eql(PUSH_NOTIFICATION_TEXT);
-  await t.expect(selectAuthenticatorPage.getFactorLabelByIndex(2)).eql(ENTER_CODE_TEXT);
+  await verifyFactorByIndex(t, selectAuthenticatorPage, 0, FAST_PASS_TEXT);
+  await verifyFactorByIndex(t, selectAuthenticatorPage, 1, PUSH_NOTIFICATION_TEXT);
+  await verifyFactorByIndex(t, selectAuthenticatorPage, 2, ENTER_CODE_TEXT);
 });
 
 test.requestHooks(requestLogger, mockChallengeOVTotpMethod)('should show switch authenticator link only when needed', async t => {

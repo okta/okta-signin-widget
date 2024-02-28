@@ -10,12 +10,13 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import * as Tokens from '@okta/odyssey-design-tokens';
-import { Box } from '@okta/odyssey-react-mui';
+import { Box } from '@mui/material';
+import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 
 import { QRCodeElement, UISchemaElementComponent } from '../../types';
 import { getTranslation } from '../../util';
+import Image from '../Image';
 
 const QRCode: UISchemaElementComponent<{
   uischema: QRCodeElement
@@ -24,33 +25,39 @@ const QRCode: UISchemaElementComponent<{
 }) => {
   const { translations = [], options: { data } } = uischema;
   const label = getTranslation(translations, 'label');
+  const tokens = useOdysseyDesignTokens();
+
   return (
     <Box
-      className="qrContainer"
-      sx={(theme) => ({
-        marginBlockStart: theme.spacing(4),
-        marginBlockEnd: theme.spacing(4),
-        marginInlineStart: theme.spacing(0),
-        marginInlineEnd: theme.spacing(0),
+      data-se="qrContainer"
+      sx={{
+        marginBlockStart: tokens.Spacing5,
+        marginBlockEnd: tokens.Spacing5,
+        marginInlineStart: tokens.Spacing1,
+        marginInlineEnd: tokens.Spacing1,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-      })}
+      }}
     >
       <Box
-        as="img"
-        className="qrImg"
         sx={{
-          width: '224px',
-          height: '224px',
-          borderWidth: Tokens.BorderWidthBase,
-          borderStyle: Tokens.BorderStyleBase,
-          borderColor: Tokens.ColorBorderDisplay,
-          borderRadius: Tokens.BorderRadiusBase,
+          display: 'flex',
+          overflow: 'hidden',
+          borderWidth: tokens.BorderWidthMain,
+          borderStyle: tokens.BorderStyleMain,
+          borderColor: tokens.BorderColorDisplay,
+          borderRadius: tokens.BorderRadiusMain,
         }}
-        src={data}
-        alt={label}
-      />
+      >
+        <Image
+          src={data}
+          alt={label ?? ''}
+          width="224px"
+          height="224px"
+          testId="qrImg"
+        />
+      </Box>
     </Box>
   );
 };

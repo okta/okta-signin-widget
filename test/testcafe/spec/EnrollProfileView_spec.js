@@ -86,6 +86,7 @@ fixture('Enroll Profile');
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
   await identityPage.navigateToPage();
+  await t.expect(identityPage.formExists()).ok();
   return identityPage;
 }
 
@@ -312,7 +313,7 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithPasswordMultipleErrorsMo
     await enrollProfilePage.form.clickSaveButton('Sign Up');
   }
 
-  await t.expect(await enrollProfilePage.form.hasTextBoxErrorMessage('userProfile.email', 0)).eql(true);
+  await t.expect(await enrollProfilePage.form.hasTextBoxErrorMessage('userProfile.email')).eql(true);
 });
 
 test.requestHooks(requestLogger, EnrollProfileSignUpWIthIdpsMock)('Should render social IDP buttons when returned via remediation', async t => {

@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Link } from '@mui/material';
-import * as Tokens from '@okta/odyssey-design-tokens';
-import { Box, Typography } from '@okta/odyssey-react-mui';
+import { Box } from '@mui/material';
+import { Link, Typography, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { escape } from 'lodash';
 import { Fragment, FunctionComponent, h } from 'preact';
 
@@ -20,6 +19,7 @@ import { IDX_STEP } from '../../constants';
 import { useWidgetContext } from '../../contexts';
 import { useHtmlContentParser } from '../../hooks';
 import { getAppInfo, getHeadingReplacerFn, loc } from '../../util';
+import Image from '../Image';
 
 const ConsentHeader: FunctionComponent = () => {
   const { idxTransaction } = useWidgetContext();
@@ -40,17 +40,17 @@ const ConsentHeader: FunctionComponent = () => {
     granularConsentTitle,
     { replace: getHeadingReplacerFn({}, 'h2', 2, 6) },
   );
+  const tokens = useOdysseyDesignTokens();
 
   const getAppLogo = (altText: string, logoHref?: string) => (
     typeof logoHref !== 'undefined' && (
-      <Box
-        component="img"
+      <Image
         src={logoHref}
         width="32px"
         height="32px"
         alt={altText}
-        className="client-logo custom-logo"
-        aria-hidden="true"
+        testId="client-logo"
+        ariaHidden
       />
     )
   );
@@ -68,12 +68,12 @@ const ConsentHeader: FunctionComponent = () => {
       >
         {typeof href !== 'undefined' && typeof logoHref !== 'undefined'
           ? (
-            <Box component="div">
+            <Box>
               <Link
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={altText}
+                ariaLabel={altText}
               >
                 {getAppLogo(altText, logoHref)}
               </Link>
@@ -97,33 +97,34 @@ const ConsentHeader: FunctionComponent = () => {
         <Fragment>
           <Box
             component="span"
-            className="title-text"
+            data-se="title-text"
             textAlign="center"
           >
             <Typography
               component="h2"
               variant="h6"
-              className="no-translate"
+              translate="no"
             >
               {appName}
             </Typography>
-            <Typography paragraph>{titleText}</Typography>
+            <Typography variant="body">{titleText}</Typography>
             {hasIssuer && (
               <Box
                 display="flex"
                 justifyContent="center"
               >
-                <Typography
-                  sx={(theme) => ({
-                    marginBlockEnd: theme.spacing(4),
-                    backgroundColor: Tokens.ColorBackgroundPrimaryLight,
-                    color: Tokens.ColorBackgroundPrimaryDark,
-                    padding: '4px 2px',
-                  })}
-                  className="issuer no-translate"
+                <Box
+                  sx={{
+                    marginBlockEnd: tokens.Spacing5,
+                    backgroundColor: tokens.PalettePrimaryLighter,
+                    color: tokens.PalettePrimaryDarker,
+                    padding: `${tokens.Spacing1} ${tokens.Spacing2}`,
+                  }}
+                  data-se="issuer"
+                  translate="no"
                 >
                   {issuer.uri}
-                </Typography>
+                </Box>
               </Box>
             )}
           </Box>
@@ -133,8 +134,7 @@ const ConsentHeader: FunctionComponent = () => {
 
     return (
       <Box
-        component="div"
-        className="title-text"
+        data-se="title-text"
         textAlign="center"
       >
         {parsedGranularConsentTitle}

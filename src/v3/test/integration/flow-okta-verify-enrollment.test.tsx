@@ -108,7 +108,7 @@ describe('flow-okta-verify-enrollment', () => {
     } = await createTestContext();
 
     // qr polling
-    expect(await findByText(/Set up Okta Verify/)).toBeInTheDocument();
+    await waitFor(async () => expect(await findByText(/Set up Okta Verify/)).toBeInTheDocument());
     expect(await findByText(/When prompted, tap Scan a QR code/)).toBeInTheDocument();
     expect(await findByAltText('QR code. If you can\'t scan, click on the link below to select an alternative activation method')).toBeInTheDocument();
     await waitFor(async () => expect(await findByText(/Can't scan\?/)).toHaveFocus());
@@ -120,7 +120,7 @@ describe('flow-okta-verify-enrollment', () => {
     );
 
     // channel selection
-    expect(await findByText(/More options/)).toBeInTheDocument();
+    await waitFor(async () => expect(await findByText(/More options/)).toBeInTheDocument());
     expect(await findByText(/Email me a setup link/)).toBeInTheDocument();
     expect(await findByText(/Text me a setup link/)).toBeInTheDocument();
     await user.click(await findByText('Next', { selector: 'button' }));
@@ -134,7 +134,7 @@ describe('flow-okta-verify-enrollment', () => {
     );
 
     // data enrollment
-    expect(await findByText(/Set up Okta Verify via email link/)).toBeInTheDocument();
+    await waitFor(async () => expect(await findByText(/Set up Okta Verify via email link/)).toBeInTheDocument());
     const emailEl = await findByTestId('email');
     await user.type(emailEl, 'testuser@okta.com');
     await user.click(await findByText(/Send me the setup link/));
@@ -145,7 +145,7 @@ describe('flow-okta-verify-enrollment', () => {
     );
 
     // email polling
-    expect(await findByText(/Check your email/)).toBeInTheDocument();
+    await waitFor(async () => expect(await findByText(/Check your email/)).toBeInTheDocument());
 
     // Advance system time to show resend email reminder element
     mockSystemTime += 31_000;
@@ -161,7 +161,7 @@ describe('flow-okta-verify-enrollment', () => {
     );
 
     // channel selection
-    expect(await findByText(/More options/)).toBeInTheDocument();
+    await waitFor(async () => expect(await findByText(/More options/)).toBeInTheDocument());
     expect(await findByText(/Scan a QR code/)).toBeInTheDocument();
     expect(await findByText(/Text me a setup link/)).toBeInTheDocument();
     await user.click(await findByText(/Next/));
@@ -175,7 +175,7 @@ describe('flow-okta-verify-enrollment', () => {
     );
 
     // qr polling
-    expect(await findByText(/Set up Okta Verify/)).toBeInTheDocument();
+    await waitFor(async () => expect(await findByText(/Set up Okta Verify/)).toBeInTheDocument());
     expect(await findByText(/When prompted, tap Scan a QR code/)).toBeInTheDocument();
     expect(await findByAltText('QR code. If you can\'t scan, click on the link below to select an alternative activation method')).toBeInTheDocument();
   });
@@ -184,13 +184,13 @@ describe('flow-okta-verify-enrollment', () => {
     const {
       authClient,
       user,
-      findByTestId,
+      findByLabelText,
       findByText,
       findByAltText,
     } = await createTestContext();
 
     // qr polling
-    expect(await findByText(/Set up Okta Verify/)).toBeInTheDocument();
+    await waitFor(async () => expect(await findByText(/Set up Okta Verify/)).toBeInTheDocument());
     expect(await findByText(/When prompted, tap Scan a QR code/)).toBeInTheDocument();
     expect(await findByAltText('QR code. If you can\'t scan, click on the link below to select an alternative activation method')).toBeInTheDocument();
     await waitFor(async () => expect(await findByText(/Can't scan\?/)).toHaveFocus());
@@ -202,7 +202,7 @@ describe('flow-okta-verify-enrollment', () => {
     );
 
     // channel selection
-    expect(await findByText(/More options/)).toBeInTheDocument();
+    await waitFor(async () => expect(await findByText(/More options/)).toBeInTheDocument());
     expect(await findByText(/Email me a setup link/)).toBeInTheDocument();
     const smsOption = await findByText(/Text me a setup link/);
     await user.click(smsOption);
@@ -217,9 +217,9 @@ describe('flow-okta-verify-enrollment', () => {
     );
 
     // data enrollment
-    expect(await findByText(/Set up Okta Verify via SMS/)).toBeInTheDocument();
-    const phoneNumberEl = await findByTestId('phoneNumber');
-    const countryEl = await findByTestId('country') as HTMLInputElement;
+    await waitFor(async () => expect(await findByText(/Set up Okta Verify via SMS/)).toBeInTheDocument());
+    const phoneNumberEl = await findByLabelText('Phone number');
+    const countryEl = await findByLabelText('Country') as HTMLInputElement;
 
     await waitFor(() => expect(countryEl).toHaveFocus());
     await user.type(phoneNumberEl, '123456789');
@@ -231,7 +231,7 @@ describe('flow-okta-verify-enrollment', () => {
     );
 
     // sms polling
-    expect(await findByText(/Check your text messages/)).toBeInTheDocument();
+    await waitFor(async () => expect(await findByText(/Check your text messages/)).toBeInTheDocument());
     // Advance system time to show resend email reminder element
     mockSystemTime += 31_000;
     act(() => {
@@ -246,7 +246,7 @@ describe('flow-okta-verify-enrollment', () => {
     );
 
     // channel selection
-    expect(await findByText(/More options/)).toBeInTheDocument();
+    await waitFor(async () => expect(await findByText(/More options/)).toBeInTheDocument());
     expect(await findByText(/Scan a QR code/)).toBeInTheDocument();
     expect(await findByText(/Email me a setup link/)).toBeInTheDocument();
     await user.click(await findByText(/Next/));
@@ -260,7 +260,7 @@ describe('flow-okta-verify-enrollment', () => {
     );
 
     // qr polling
-    expect(await findByText(/Set up Okta Verify/)).toBeInTheDocument();
+    await waitFor(async () => expect(await findByText(/Set up Okta Verify/)).toBeInTheDocument());
     expect(await findByText(/When prompted, tap Scan a QR code/)).toBeInTheDocument();
     expect(await findByAltText('QR code. If you can\'t scan, click on the link below to select an alternative activation method')).toBeInTheDocument();
   });
@@ -269,19 +269,19 @@ describe('flow-okta-verify-enrollment', () => {
     const { user, findByText, findByAltText } = await createTestContext();
 
     // qr polling
-    expect(await findByText(/Set up Okta Verify/)).toBeInTheDocument();
+    await waitFor(async () => expect(await findByText(/Set up Okta Verify/)).toBeInTheDocument());
     expect(await findByText(/When prompted, tap Scan a QR code/)).toBeInTheDocument();
     expect(await findByAltText('QR code. If you can\'t scan, click on the link below to select an alternative activation method')).toBeInTheDocument();
     await user.click(await findByText(/Can't scan\?/));
 
     // channel selection
-    expect(await findByText(/More options/)).toBeInTheDocument();
+    await waitFor(async () => expect(await findByText(/More options/)).toBeInTheDocument());
     expect(await findByText(/Email me a setup link/)).toBeInTheDocument();
     expect(await findByText(/Text me a setup link/)).toBeInTheDocument();
     await user.click(await findByText(/try a different way/));
 
     // qr polling
-    expect(await findByText(/Set up Okta Verify/)).toBeInTheDocument();
+    await waitFor(async () => expect(await findByText(/Set up Okta Verify/)).toBeInTheDocument());
     expect(await findByText(/When prompted, tap Scan a QR code/)).toBeInTheDocument();
     expect(await findByAltText('QR code. If you can\'t scan, click on the link below to select an alternative activation method')).toBeInTheDocument();
   });
@@ -290,29 +290,29 @@ describe('flow-okta-verify-enrollment', () => {
     const { user, findByText, findByAltText } = await createTestContext();
 
     // qr polling
-    expect(await findByText(/Set up Okta Verify/)).toBeInTheDocument();
+    await waitFor(async () => expect(await findByText(/Set up Okta Verify/)).toBeInTheDocument());
     expect(await findByText(/When prompted, tap Scan a QR code/)).toBeInTheDocument();
     expect(await findByAltText('QR code. If you can\'t scan, click on the link below to select an alternative activation method')).toBeInTheDocument();
     await user.click(await findByText(/Can't scan\?/));
 
     // channel selection
-    expect(await findByText(/More options/)).toBeInTheDocument();
+    await waitFor(async () => expect(await findByText(/More options/)).toBeInTheDocument());
     expect(await findByText(/Email me a setup link/)).toBeInTheDocument();
     expect(await findByText(/Text me a setup link/)).toBeInTheDocument();
     await user.click(await findByText(/Next/));
 
     // data enrollment
-    expect(await findByText(/Set up Okta Verify via email link/)).toBeInTheDocument();
+    await waitFor(async () => expect(await findByText(/Set up Okta Verify via email link/)).toBeInTheDocument());
     await user.click(await findByText(/try a different way/));
 
     // channel selection
-    expect(await findByText(/More options/)).toBeInTheDocument();
+    await waitFor(async () => expect(await findByText(/More options/)).toBeInTheDocument());
     expect(await findByText(/Scan a QR code/)).toBeInTheDocument();
     expect(await findByText(/Text me a setup link/)).toBeInTheDocument();
     await user.click(await findByText(/Next/));
 
     // qr polling
-    expect(await findByText(/Set up Okta Verify/)).toBeInTheDocument();
+    await waitFor(async () => expect(await findByText(/Set up Okta Verify/)).toBeInTheDocument());
     expect(await findByText(/When prompted, tap Scan a QR code/)).toBeInTheDocument();
     expect(await findByAltText('QR code. If you can\'t scan, click on the link below to select an alternative activation method')).toBeInTheDocument();
   });
@@ -323,13 +323,13 @@ describe('flow-okta-verify-enrollment', () => {
     } = await createTestContext();
 
     // qr polling
-    expect(await findByText(/Set up Okta Verify/)).toBeInTheDocument();
+    await waitFor(async () => expect(await findByText(/Set up Okta Verify/)).toBeInTheDocument());
     expect(await findByText(/When prompted, tap Scan a QR code/)).toBeInTheDocument();
     expect(await findByAltText('QR code. If you can\'t scan, click on the link below to select an alternative activation method')).toBeInTheDocument();
     await user.click(await findByText(/Can't scan\?/));
 
     // channel selection
-    expect(await findByText(/More options/)).toBeInTheDocument();
+    await waitFor(async () => expect(await findByText(/More options/)).toBeInTheDocument());
     expect(await findByText(/Email me a setup link/)).toBeInTheDocument();
     expect(await findByText(/Text me a setup link/)).toBeInTheDocument();
     await user.click(await findByText(/Next/));
@@ -339,7 +339,7 @@ describe('flow-okta-verify-enrollment', () => {
     await user.click(returnToAuthListLink);
 
     // authenticator selection
-    expect(await findByText(/Set up security methods/)).toBeInTheDocument();
+    await waitFor(async () => expect(await findByText(/Set up security methods/)).toBeInTheDocument());
     expect(await findByText(/Security methods help protect your account by ensuring only you have access./)).toBeInTheDocument();
     await user.click(await findByRole('button', { name: 'Set up Okta Verify.' }));
   });

@@ -67,6 +67,7 @@ module.exports = {
     '^react/jsx-runtime$': 'preact/jsx-runtime',
     '^create-react-class$': 'preact/compat/lib/create-react-class',
     '^react-addons-css-transition-group$': 'preact-css-transition-group',
+    '^@okta/odyssey-react-mui/icons$': '<rootDir>/../../node_modules/@okta/odyssey-react-mui/dist/icons.generated/index.js',
   },
 
   modulePaths: [

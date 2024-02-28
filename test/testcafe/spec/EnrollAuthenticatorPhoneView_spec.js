@@ -167,9 +167,9 @@ test
     const enrollPhonePageObject = await setup(t);
     await checkA11y(t);
     await enrollPhonePageObject.clickNextButton();
-    await t.expect(await enrollPhonePageObject.resendCodeExists(2)).eql(false);
+    await t.expect(await enrollPhonePageObject.resendCodeExists(1)).eql(false);
     await t.wait(30500);
-    await t.expect(await enrollPhonePageObject.resendCodeExists(2)).eql(true);
+    await t.expect(await enrollPhonePageObject.resendCodeExists(1)).eql(true);
     const resendCodeText = await enrollPhonePageObject.resendCodeText(1);
     await t.expect(resendCodeText).contains('Haven\'t received an SMS?');
     await t.expect(resendCodeText).contains('Send again');
@@ -180,9 +180,9 @@ test
     const enrollPhonePageObject = await setup(t);
     await checkA11y(t);
     await enrollPhonePageObject.clickNextButton();
-    await t.expect(await enrollPhonePageObject.resendCodeExists(2)).eql(false);
+    await t.expect(await enrollPhonePageObject.resendCodeExists(1)).eql(false);
     await t.wait(30500);
-    await t.expect(await enrollPhonePageObject.resendCodeExists(2)).eql(true);
+    await t.expect(await enrollPhonePageObject.resendCodeExists(1)).eql(true);
     const resendCodeText = await enrollPhonePageObject.resendCodeText(1);
     await t.expect(resendCodeText).contains('Haven\'t received a call?');
     await t.expect(resendCodeText).contains('Call again');
@@ -193,12 +193,12 @@ test
     const enrollPhonePageObject = await setup(t);
     await checkA11y(t);
     await enrollPhonePageObject.clickNextButton();
-    await t.expect(await enrollPhonePageObject.resendCodeExists(2)).eql(false);
+    await t.expect(await enrollPhonePageObject.resendCodeExists(1)).eql(false);
     await t.wait(15000);
     enrollPhonePageObject.navigateToPage();
     await enrollPhonePageObject.clickNextButton();
     await t.wait(15500);
-    await t.expect(await enrollPhonePageObject.resendCodeExists(2)).eql(true);
+    await t.expect(await enrollPhonePageObject.resendCodeExists(1)).eql(true);
     const resendCodeText = await enrollPhonePageObject.resendCodeText(1);
     await t.expect(resendCodeText).contains('Haven\'t received an SMS?');
     await t.expect(resendCodeText).contains('Send again');

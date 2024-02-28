@@ -59,8 +59,8 @@ test
     }
     await enrollOnPremPage.clickNextButton('Verify');
     await enrollOnPremPage.waitForGeneralErrorBox();
-    await t.expect(enrollOnPremPage.getPasscodeError()).eql('This field cannot be left blank');
-    await t.expect(enrollOnPremPage.getUserNameError()).eql('This field cannot be left blank');
+    await t.expect(enrollOnPremPage.getPasscodeError()).match(/This field cannot be left blank/);
+    await t.expect(enrollOnPremPage.getUserNameError()).match(/This field cannot be left blank/);
 
     await t.expect(await enrollOnPremPage.signoutLinkExists()).ok();
   });

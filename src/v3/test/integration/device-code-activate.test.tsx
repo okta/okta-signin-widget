@@ -26,7 +26,7 @@ describe('device-code-activate', () => {
 
   it('should send correct payload', async () => {
     const {
-      authClient, user, findByTestId, findByRole, findByText,
+      authClient, user, findByLabelText, findByRole, findByText,
     } = await setup({ mockResponse, widgetOptions: { features: { autoFocus: true } } });
 
     const heading = await findByRole('heading', { level: 2 });
@@ -34,7 +34,7 @@ describe('device-code-activate', () => {
     expect(heading.textContent).toBe('Activate your device');
 
     const submitButton = await findByText('Next', { selector: 'button' });
-    const userCodeEle = await findByTestId('userCode') as HTMLInputElement;
+    const userCodeEle = await findByLabelText(/^Activation Code/) as HTMLInputElement;
     await waitFor(() => expect(userCodeEle).toHaveFocus());
 
     const code = '12345678';

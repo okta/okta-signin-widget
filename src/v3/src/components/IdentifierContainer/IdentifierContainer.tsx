@@ -10,68 +10,52 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box, Icon } from '@okta/odyssey-react-mui';
-import classNames from 'classnames';
+import { Box } from '@mui/material';
+import { Tag, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
+import { UserIcon } from '@okta/odyssey-react-mui/icons';
 import { h } from 'preact';
 import { IdentifierContainerElement, UISchemaElementComponent } from 'src/types';
+
+import { loc } from '../../util';
 
 const IdentifierContainer: UISchemaElementComponent<{
   uischema: IdentifierContainerElement
 }> = ({ uischema }) => {
   const { options: { identifier } } = uischema;
-
-  const mainContainerClasses = classNames('identifier-container');
-  const identifierSpanClasses = classNames('identifier', 'no-translate');
+  const tokens = useOdysseyDesignTokens();
 
   return (
     <Box
       display="flex"
       justifyContent="center"
       alignItems="center"
-      marginBlockEnd={4}
+      marginBlockEnd={tokens.Spacing4}
       maxWidth={1}
-      className={mainContainerClasses}
+      title={identifier}
+      data-se="identifier-container"
     >
-      <Box
-        flex="auto"
-        flexDirection="row"
-        flexGrow="0"
-        paddingX={4}
-        paddingY={2}
-        sx={(theme) => ({
-          borderRadius: '36px',
-          backgroundColor: theme.palette.grey[50],
-          textOverflow: 'ellipsis',
-          whiteSpace: 'nowrap',
-          overflow: 'hidden',
-        })}
-      >
-        <Box
-          component="span"
-          sx={(theme) => ({
-            color: theme.palette.primary.main,
-            verticalAlign: 'middle',
-          })}
-        >
-          <Icon
-            name="user"
-            titleAccess="User"
-            sx={{ width: '16px', height: '16px' }}
-          />
-        </Box>
-        <Box
-          component="span"
-          className={identifierSpanClasses}
-          data-se="identifier"
-          title={identifier}
-          sx={{
-            marginInlineStart: '10px',
-          }}
-          aria-label={identifier}
-        >
-          {identifier}
-        </Box>
-      </Box>
+      <Tag
+        icon={(
+          <Box
+            sx={{
+              width: tokens.Spacing4,
+              height: tokens.Spacing4,
+            }}
+          >
+            <UserIcon
+              titleAccess={loc('identifier.icon.alt.text', 'login')}
+              sx={{
+                color: tokens.PalettePrimaryMain,
+                width: tokens.Spacing4,
+                height: tokens.Spacing4,
+              }}
+            />
+          </Box>
+        )}
+        label={identifier}
+        testId="identifier"
+        translate="no"
+      />
     </Box>
   );
 };

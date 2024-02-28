@@ -341,7 +341,7 @@ test
   .requestHooks(loopbackRedundantPollingLogger, loopbackRedundantPollingMock)('in loopback server, redundant polling exists if server returns enhancedPollingEnabled as false', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
-    await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
+    await t.expect(deviceChallengePollPageObject.getBeaconSelector()).contains(BEACON_CLASS);
     await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Verifying your identity');
     await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
     await t.expect(deviceChallengePollPageObject.getFooterSwitchAuthenticatorLink().innerText).eql('Verify with something else');
@@ -365,7 +365,7 @@ test
   .requestHooks(loopbackEnhancedPollingLogger, loopbackEnhancedPollingMock)('in loopback server, no redundant polling if server returns enhancedPollingEnabled as true', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
-    await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
+    await t.expect(deviceChallengePollPageObject.getBeaconSelector()).contains(BEACON_CLASS);
     await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Verifying your identity');
     // in v3 all cancel buttons are the same so skip this assertion
     if (!userVariables.gen3) {
@@ -396,7 +396,7 @@ test
   .requestHooks(loopbackSuccessLogger, loopbackSuccessMock, loopbackSuccessInitialPollMock)('in loopback server approach, probing and polling requests are sent and responded', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
-    await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
+    await t.expect(deviceChallengePollPageObject.getBeaconSelector()).contains(BEACON_CLASS);
     await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Verifying your identity');
     // in v3 all cancel buttons are the same so skip this assertion
     if (!userVariables.gen3) {
@@ -458,7 +458,7 @@ test
   .requestHooks(loopbackBiometricsErrorMobileMock, loopbackBiometricsErrorInitialPollMock)('show biometrics error for mobile platform in loopback', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
-    await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
+    await t.expect(deviceChallengePollPageObject.getBeaconSelector()).contains(BEACON_CLASS);
     await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Verifying your identity');
     // in v3 all cancel buttons are the same so skip this assertion
     if (!userVariables.gen3) {
@@ -515,7 +515,7 @@ test
         JSON.parse(record.request.body).reason === 'OV_UNREACHABLE_BY_LOOPBACK' &&
         JSON.parse(record.request.body).statusCode === null
     )).eql(1);
-    await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
+    await t.expect(deviceChallengePollPageObject.getBeaconSelector()).contains(BEACON_CLASS);
     await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Click "Open Okta Verify" on the browser prompt');
     const content = deviceChallengePollPageObject.getContent();
     await t.expect(content).contains('Didn’t get a prompt?');
@@ -573,7 +573,7 @@ test
     )).eql(1);
     deviceChallengeFalllbackPage.clickOktaVerifyButton();
     const deviceChallengePollPageObject = new DeviceChallengePollPageObject(t);
-    await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
+    await t.expect(deviceChallengePollPageObject.getBeaconSelector()).contains(BEACON_CLASS);
     await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Sign in with Okta FastPass');
     await t.expect(await deviceChallengePollPageObject.hasSpinner()).eql(true);
     await t.expect(deviceChallengePollPageObject.getPrimaryButtonText()).eql('Open Okta Verify');

@@ -25,7 +25,7 @@ describe('identify-recovery', () => {
   it('fails client validation when missing identifier', async () => {
     const {
       user,
-      findByTestId,
+      findByLabelText,
       findByText,
       findAllByRole,
     } = await setup({ mockResponse });
@@ -33,21 +33,21 @@ describe('identify-recovery', () => {
     await user.click(await findByText('Next', { selector: 'button' }));
     const [globalError] = await findAllByRole('alert');
     expect(globalError.innerHTML).toContain('We found some errors. Please review the form and make corrections.');
-    const identifierError = await findByTestId('identifier-error');
-    expect(identifierError.textContent).toEqual('This field cannot be left blank');
+    const identifierEl = await findByLabelText('Email or Username') as HTMLInputElement;
+    expect(identifierEl).toHaveErrorMessage(/This field cannot be left blank/);
   });
 
   it('sends correct payload', async () => {
     const {
       authClient,
       user,
-      findByTestId,
+      findByLabelText,
       findByText,
     } = await setup({ mockResponse });
 
     const titleElement = await findByText('Reset your password');
     await waitFor(() => expect(titleElement).toHaveFocus());
-    const usernameEl = await findByTestId('identifier');
+    const usernameEl = await findByLabelText('Email or Username') as HTMLInputElement;
     await user.type(usernameEl, 'testuser@okta.com');
     await user.click(await findByText('Next', { selector: 'button' }));
 

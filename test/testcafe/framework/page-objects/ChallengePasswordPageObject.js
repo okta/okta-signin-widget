@@ -1,10 +1,10 @@
-import { Selector } from 'testcafe';
+import { Selector, userVariables } from 'testcafe';
 
 import ChallengeFactorPageObject from './ChallengeFactorPageObject';
 
 const FORGOT_PASSWORD_SELECTOR = '[data-se="forgot-password"]';
 const PASSWORD_FIELD = 'credentials\\.passcode';
-const SUB_LABEL_SELECTOR = '.o-form-explain';
+const SUB_LABEL_SELECTOR = userVariables.gen3 ? `#${PASSWORD_FIELD}-hint` : '.o-form-explain';
 
 export default class ChallengePasswordPageObject extends ChallengeFactorPageObject {
   constructor(t) {

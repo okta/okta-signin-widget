@@ -38,7 +38,7 @@ test.requestHooks(introspectRequestLogger, introspectMock)('shall display error 
   const errors = terminalPageObject.getErrorMessages();
 
   await t.expect(errors.isError()).ok();
-  await t.expect(errors.getTextContent()).eql('Internal Server Error');
+  await t.expect(errors.getTextContent()).contains('Internal Server Error');
 
   await t.expect(introspectRequestLogger.count(() => true)).eql(1);
   const req = introspectRequestLogger.requests[0].request;

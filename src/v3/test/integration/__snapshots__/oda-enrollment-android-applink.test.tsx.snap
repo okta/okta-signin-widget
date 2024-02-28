@@ -6,8 +6,9 @@ exports[`oda-enrollment-android-applink should render form 1`] = `
     class="MuiScopedCssBaseline-root emotion-0"
   >
     <main
-      class="auth-container main-container MuiBox-root emotion-1"
+      class="MuiBox-root emotion-1"
       data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+      data-se="auth-container main-container"
       data-version="0.0.0"
       dir="ltr"
       id="okta-sign-in"
@@ -23,23 +24,25 @@ exports[`oda-enrollment-android-applink should render form 1`] = `
             class="MuiBox-root emotion-4"
           >
             <div
-              class="okta-sign-in-header auth-header authCoinSpacing MuiBox-root emotion-5"
+              class="MuiBox-root emotion-5"
+              data-se="okta-sign-in-header auth-header authCoinSpacing"
             >
               <h1
                 class="MuiTypography-root MuiTypography-h1 emotion-6"
+                tabindex="-1"
               />
               <div
                 aria-hidden="true"
-                class="mfa-okta-verify MuiBox-root emotion-7"
-                data-se="factor-beacon"
+                class="MuiBox-root emotion-7"
+                data-se="factor-beacon mfa-okta-verify "
               >
                 <svg
                   aria-labelledby="mfa-okta-verify"
                   fill="none"
-                  height="48"
+                  height="2.85714286rem"
                   role="img"
                   viewBox="0 0 48 48"
-                  width="48"
+                  width="2.85714286rem"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <title
@@ -47,13 +50,6 @@ exports[`oda-enrollment-android-applink should render form 1`] = `
                   >
                     Okta Verify
                   </title>
-                  <circle
-                    class="siwFillBg"
-                    cx="24"
-                    cy="24"
-                    fill="#F5F5F6"
-                    r="24"
-                  />
                   <path
                     clip-rule="evenodd"
                     d="M32.872 22.853a8.947 8.947 0 1 1-2.288-4.91L24 24.498l-3.205-3.19c-.482-.48-1.322-.48-1.804 0a1.26 1.26 0 0 0-.374.898c0 .34.133.659.374.898l4.107 4.09c.24.239.561.371.902.371.336 0 .664-.136.902-.372L38.636 13.52a18.089 18.089 0 0 0-1.634-1.967A17.947 17.947 0 0 0 24 6C14.059 6 6 14.059 6 24s8.059 18 18 18 18-8.059 18-18c0-2.972-.722-5.775-1.998-8.245l-7.13 7.098Z"
@@ -99,12 +95,12 @@ exports[`oda-enrollment-android-applink should render form 1`] = `
                       <fieldset
                         class="MuiFormControl-root MuiFormControl-marginNormal emotion-16"
                       >
-                        <label
+                        <legend
                           class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-17"
-                          id="hasOVAccount-label"
                         >
                           On this device, do you already have an Okta Verify account for Widgico?
-                        </label>
+                           
+                        </legend>
                         <div
                           aria-labelledby="hasOVAccount-label"
                           class="MuiFormGroup-root emotion-18"
@@ -116,7 +112,7 @@ exports[`oda-enrollment-android-applink should render form 1`] = `
                             class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-19"
                           >
                             <span
-                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary emotion-20"
+                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-checked MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-20"
                             >
                               <input
                                 class="PrivateSwitchBase-input emotion-21"
@@ -124,35 +120,9 @@ exports[`oda-enrollment-android-applink should render form 1`] = `
                                 type="radio"
                                 value="no"
                               />
-                              <span
-                                class="emotion-22"
-                              >
-                                <svg
-                                  aria-hidden="true"
-                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-23"
-                                  data-testid="RadioButtonUncheckedIcon"
-                                  focusable="false"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path
-                                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
-                                  />
-                                </svg>
-                                <svg
-                                  aria-hidden="true"
-                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-24"
-                                  data-testid="RadioButtonCheckedIcon"
-                                  focusable="false"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path
-                                    d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
-                                  />
-                                </svg>
-                              </span>
                             </span>
                             <span
-                              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-25"
+                              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-22"
                             >
                               No, I don’t have an account
                             </span>
@@ -161,7 +131,7 @@ exports[`oda-enrollment-android-applink should render form 1`] = `
                             class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-19"
                           >
                             <span
-                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary emotion-20"
+                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-20"
                             >
                               <input
                                 class="PrivateSwitchBase-input emotion-21"
@@ -169,35 +139,9 @@ exports[`oda-enrollment-android-applink should render form 1`] = `
                                 type="radio"
                                 value="yes"
                               />
-                              <span
-                                class="emotion-22"
-                              >
-                                <svg
-                                  aria-hidden="true"
-                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-23"
-                                  data-testid="RadioButtonUncheckedIcon"
-                                  focusable="false"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path
-                                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
-                                  />
-                                </svg>
-                                <svg
-                                  aria-hidden="true"
-                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall emotion-31"
-                                  data-testid="RadioButtonCheckedIcon"
-                                  focusable="false"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path
-                                    d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
-                                  />
-                                </svg>
-                              </span>
                             </span>
                             <span
-                              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-25"
+                              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-22"
                             >
                               Yes, I already have an account
                             </span>
@@ -209,7 +153,7 @@ exports[`oda-enrollment-android-applink should render form 1`] = `
                       class="MuiBox-root emotion-12"
                     >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-34"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-28"
                         tabindex="0"
                         type="button"
                       >
@@ -234,8 +178,9 @@ exports[`oda-enrollment-android-applink should render view when "No, I don’t h
     class="MuiScopedCssBaseline-root emotion-0"
   >
     <main
-      class="auth-container main-container MuiBox-root emotion-1"
+      class="MuiBox-root emotion-1"
       data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+      data-se="auth-container main-container"
       data-version="0.0.0"
       dir="ltr"
       id="okta-sign-in"
@@ -251,23 +196,25 @@ exports[`oda-enrollment-android-applink should render view when "No, I don’t h
             class="MuiBox-root emotion-4"
           >
             <div
-              class="okta-sign-in-header auth-header authCoinSpacing MuiBox-root emotion-5"
+              class="MuiBox-root emotion-5"
+              data-se="okta-sign-in-header auth-header authCoinSpacing"
             >
               <h1
                 class="MuiTypography-root MuiTypography-h1 emotion-6"
+                tabindex="-1"
               />
               <div
                 aria-hidden="true"
-                class="mfa-okta-verify MuiBox-root emotion-7"
-                data-se="factor-beacon"
+                class="MuiBox-root emotion-7"
+                data-se="factor-beacon mfa-okta-verify "
               >
                 <svg
                   aria-labelledby="mfa-okta-verify"
                   fill="none"
-                  height="48"
+                  height="2.85714286rem"
                   role="img"
                   viewBox="0 0 48 48"
-                  width="48"
+                  width="2.85714286rem"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <title
@@ -275,13 +222,6 @@ exports[`oda-enrollment-android-applink should render view when "No, I don’t h
                   >
                     Okta Verify
                   </title>
-                  <circle
-                    class="siwFillBg"
-                    cx="24"
-                    cy="24"
-                    fill="#F5F5F6"
-                    r="24"
-                  />
                   <path
                     clip-rule="evenodd"
                     d="M32.872 22.853a8.947 8.947 0 1 1-2.288-4.91L24 24.498l-3.205-3.19c-.482-.48-1.322-.48-1.804 0a1.26 1.26 0 0 0-.374.898c0 .34.133.659.374.898l4.107 4.09c.24.239.561.371.902.371.336 0 .664-.136.902-.372L38.636 13.52a18.089 18.089 0 0 0-1.634-1.967A17.947 17.947 0 0 0 24 6C14.059 6 6 14.059 6 24s8.059 18 18 18 18-8.059 18-18c0-2.972-.722-5.775-1.998-8.245l-7.13 7.098Z"
@@ -328,8 +268,9 @@ exports[`oda-enrollment-android-applink should render view when "No, I don’t h
                         class="MuiBox-root emotion-13"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
+                          class="MuiTypography-root MuiTypography-body1 emotion-17"
                           data-se="o-form-explain"
+                          tabindex="-1"
                         >
                           To sign in with Okta FastPass, you’ll need to set up Okta Verify on this device.
                         </p>
@@ -357,8 +298,9 @@ exports[`oda-enrollment-android-applink should render view when "No, I don’t h
                                   class="MuiBox-root emotion-13"
                                 >
                                   <p
-                                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
+                                    class="MuiTypography-root MuiTypography-body1 emotion-17"
                                     data-se="o-form-explain"
+                                    tabindex="-1"
                                   >
                                     If you don’t have Okta Verify installed, 
                                     <a
@@ -368,24 +310,6 @@ exports[`oda-enrollment-android-applink should render view when "No, I don’t h
                                       target="_blank"
                                     >
                                       download the app.
-                                      <span
-                                        class="Link-indicator"
-                                        role="presentation"
-                                      >
-                                        <svg
-                                          aria-hidden="true"
-                                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-27"
-                                          focusable="false"
-                                          viewBox="0 0 16 16"
-                                        >
-                                          <path
-                                            clip-rule="evenodd"
-                                            d="M13.2929 2H7.99998V1H14.5C14.7761 1 15 1.22386 15 1.5V8H14V2.70711L6.35353 10.3536L5.64642 9.64645L13.2929 2ZM1.5 4H1V4.5V14.5V15H1.5H11.5H12V14.5V8H11V14H2V5H8V4H1.5Z"
-                                            fill="currentColor"
-                                            fill-rule="evenodd"
-                                          />
-                                        </svg>
-                                      </span>
                                     </a>
                                   </p>
                                 </div>
@@ -405,8 +329,9 @@ exports[`oda-enrollment-android-applink should render view when "No, I don’t h
                                   class="MuiBox-root emotion-13"
                                 >
                                   <p
-                                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
+                                    class="MuiTypography-root MuiTypography-body1 emotion-17"
                                     data-se="o-form-explain"
+                                    tabindex="-1"
                                   >
                                     Open Okta Verify and follow the steps to add your account.
                                   </p>
@@ -427,8 +352,9 @@ exports[`oda-enrollment-android-applink should render view when "No, I don’t h
                                   class="MuiBox-root emotion-13"
                                 >
                                   <p
-                                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
+                                    class="MuiTypography-root MuiTypography-body1 emotion-17"
                                     data-se="o-form-explain"
+                                    tabindex="-1"
                                   >
                                     When prompted, choose Sign In, then enter the sign-in URL:
                                   </p>
@@ -441,8 +367,9 @@ exports[`oda-enrollment-android-applink should render view when "No, I don’t h
                                   class="MuiBox-root emotion-13"
                                 >
                                   <p
-                                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
+                                    class="MuiTypography-root MuiTypography-body1 emotion-17"
                                     data-se="o-form-explain"
+                                    tabindex="-1"
                                   >
                                     <span
                                       class="no-translate"
@@ -456,7 +383,7 @@ exports[`oda-enrollment-android-applink should render view when "No, I don’t h
                                 class="MuiBox-root emotion-12"
                               >
                                 <button
-                                  class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-42"
+                                  class="MuiButtonBase-root MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-secondary MuiButton-secondaryPrimary MuiButton-sizeMedium MuiButton-secondarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-41"
                                   tabindex="0"
                                   type="button"
                                 >
@@ -477,7 +404,7 @@ exports[`oda-enrollment-android-applink should render view when "No, I don’t h
                       class="MuiBox-root emotion-12"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-45"
+                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-44"
                         role="link"
                       >
                         Back
@@ -501,8 +428,9 @@ exports[`oda-enrollment-android-applink should render view when "Yes, I already 
     class="MuiScopedCssBaseline-root emotion-0"
   >
     <main
-      class="auth-container main-container MuiBox-root emotion-1"
+      class="MuiBox-root emotion-1"
       data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+      data-se="auth-container main-container"
       data-version="0.0.0"
       dir="ltr"
       id="okta-sign-in"
@@ -518,23 +446,25 @@ exports[`oda-enrollment-android-applink should render view when "Yes, I already 
             class="MuiBox-root emotion-4"
           >
             <div
-              class="okta-sign-in-header auth-header authCoinSpacing MuiBox-root emotion-5"
+              class="MuiBox-root emotion-5"
+              data-se="okta-sign-in-header auth-header authCoinSpacing"
             >
               <h1
                 class="MuiTypography-root MuiTypography-h1 emotion-6"
+                tabindex="-1"
               />
               <div
                 aria-hidden="true"
-                class="mfa-okta-verify MuiBox-root emotion-7"
-                data-se="factor-beacon"
+                class="MuiBox-root emotion-7"
+                data-se="factor-beacon mfa-okta-verify "
               >
                 <svg
                   aria-labelledby="mfa-okta-verify"
                   fill="none"
-                  height="48"
+                  height="2.85714286rem"
                   role="img"
                   viewBox="0 0 48 48"
-                  width="48"
+                  width="2.85714286rem"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <title
@@ -542,13 +472,6 @@ exports[`oda-enrollment-android-applink should render view when "Yes, I already 
                   >
                     Okta Verify
                   </title>
-                  <circle
-                    class="siwFillBg"
-                    cx="24"
-                    cy="24"
-                    fill="#F5F5F6"
-                    r="24"
-                  />
                   <path
                     clip-rule="evenodd"
                     d="M32.872 22.853a8.947 8.947 0 1 1-2.288-4.91L24 24.498l-3.205-3.19c-.482-.48-1.322-.48-1.804 0a1.26 1.26 0 0 0-.374.898c0 .34.133.659.374.898l4.107 4.09c.24.239.561.371.902.371.336 0 .664-.136.902-.372L38.636 13.52a18.089 18.089 0 0 0-1.634-1.967A17.947 17.947 0 0 0 24 6C14.059 6 6 14.059 6 24s8.059 18 18 18 18-8.059 18-18c0-2.972-.722-5.775-1.998-8.245l-7.13 7.098Z"
@@ -595,8 +518,9 @@ exports[`oda-enrollment-android-applink should render view when "Yes, I already 
                         class="MuiBox-root emotion-13"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
+                          class="MuiTypography-root MuiTypography-body1 emotion-17"
                           data-se="o-form-explain"
+                          tabindex="-1"
                         >
                           Okta FastPass is a security method that can sign you in without needing your username.
                         </p>
@@ -609,7 +533,8 @@ exports[`oda-enrollment-android-applink should render view when "Yes, I already 
                         class="MuiBox-root emotion-19"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body1 emotion-20"
+                          class="MuiTypography-root MuiTypography-body1 emotion-17"
+                          tabindex="-1"
                         >
                           Already have Okta FastPass enabled for your account?
                         </p>
@@ -629,8 +554,9 @@ exports[`oda-enrollment-android-applink should render view when "Yes, I already 
                                   class="MuiBox-root emotion-13"
                                 >
                                   <p
-                                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
+                                    class="MuiTypography-root MuiTypography-body1 emotion-17"
                                     data-se="o-form-explain"
+                                    tabindex="-1"
                                   >
                                     Make sure your Okta Verify is up-to-date, then try signing in again.
                                   </p>
@@ -651,8 +577,9 @@ exports[`oda-enrollment-android-applink should render view when "Yes, I already 
                                   class="MuiBox-root emotion-13"
                                 >
                                   <p
-                                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
+                                    class="MuiTypography-root MuiTypography-body1 emotion-17"
                                     data-se="o-form-explain"
+                                    tabindex="-1"
                                   >
                                     If your device has a work profile, make sure you are signing in from the same profile that Okta Verify is installed in.
                                   </p>
@@ -673,8 +600,9 @@ exports[`oda-enrollment-android-applink should render view when "Yes, I already 
                                   class="MuiBox-root emotion-13"
                                 >
                                   <p
-                                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
+                                    class="MuiTypography-root MuiTypography-body1 emotion-17"
                                     data-se="o-form-explain"
+                                    tabindex="-1"
                                   >
                                     On certain browsers and applications, Okta FastPass is not supported.
                                   </p>
@@ -692,7 +620,8 @@ exports[`oda-enrollment-android-applink should render view when "Yes, I already 
                         class="MuiBox-root emotion-19"
                       >
                         <p
-                          class="MuiTypography-root MuiTypography-body1 emotion-20"
+                          class="MuiTypography-root MuiTypography-body1 emotion-17"
+                          tabindex="-1"
                         >
                           Need to set up Okta FastPass for your account?
                         </p>
@@ -712,8 +641,9 @@ exports[`oda-enrollment-android-applink should render view when "Yes, I already 
                                   class="MuiBox-root emotion-13"
                                 >
                                   <p
-                                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
+                                    class="MuiTypography-root MuiTypography-body1 emotion-17"
                                     data-se="o-form-explain"
+                                    tabindex="-1"
                                   >
                                     On this device, open the Okta Verify app.
                                   </p>
@@ -734,8 +664,9 @@ exports[`oda-enrollment-android-applink should render view when "Yes, I already 
                                   class="MuiBox-root emotion-13"
                                 >
                                   <p
-                                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
+                                    class="MuiTypography-root MuiTypography-body1 emotion-17"
                                     data-se="o-form-explain"
+                                    tabindex="-1"
                                   >
                                     On the list of accounts, tap your account for https://idx.okta1.com.
                                   </p>
@@ -756,8 +687,9 @@ exports[`oda-enrollment-android-applink should render view when "Yes, I already 
                                   class="MuiBox-root emotion-13"
                                 >
                                   <p
-                                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
+                                    class="MuiTypography-root MuiTypography-body1 emotion-17"
                                     data-se="o-form-explain"
+                                    tabindex="-1"
                                   >
                                     Under the “Okta FastPass” section, tap Setup, then follow the instructions.
                                   </p>
@@ -778,8 +710,9 @@ exports[`oda-enrollment-android-applink should render view when "Yes, I already 
                                   class="MuiBox-root emotion-13"
                                 >
                                   <p
-                                    class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-17"
+                                    class="MuiTypography-root MuiTypography-body1 emotion-17"
                                     data-se="o-form-explain"
+                                    tabindex="-1"
                                   >
                                     After your setup is complete, return here to try signing in again.
                                   </p>

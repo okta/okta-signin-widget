@@ -10,7 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { CSSInterpolation, ThemeOptions } from '@mui/material';
+import { CSSInterpolation } from '@mui/material';
+import { ThemeOptions } from '@okta/odyssey-react-mui';
 import { merge } from 'lodash';
 
 import { cssInterpolate } from './cssInterpolate';
@@ -76,6 +77,36 @@ export const mergeThemes = (
                   ...resolve(prev.components?.[component]?.styleOverrides?.input, options),
                   // @ts-expect-error FIXME CSSInterpolation may not be CSSObject
                   ...resolve(config.styleOverrides?.input, options),
+                }),
+                adornedEnd: (options: Record<string, unknown>) => ({
+                  // @ts-expect-error FIXME CSSInterpolation may not be CSSObject
+                  ...resolve(prev.components?.[component]?.styleOverrides?.adornedEnd, options),
+                  // @ts-expect-error FIXME CSSInterpolation may not be CSSObject
+                  ...resolve(config.styleOverrides?.adornedEnd, options),
+                }),
+                adornedStart: (options: Record<string, unknown>) => ({
+                  // @ts-expect-error FIXME CSSInterpolation may not be CSSObject
+                  ...resolve(prev.components?.[component]?.styleOverrides?.adornedStart, options),
+                  // @ts-expect-error FIXME CSSInterpolation may not be CSSObject
+                  ...resolve(config.styleOverrides?.adornedStart, options),
+                }),
+                label: (options: Record<string, unknown>) => ({
+                  // @ts-expect-error FIXME CSSInterpolation may not be CSSObject
+                  ...resolve(prev.components?.[component]?.styleOverrides?.label, options),
+                  // @ts-expect-error FIXME CSSInterpolation may not be CSSObject
+                  ...resolve(config.styleOverrides?.label, options),
+                }),
+                button: (options: Record<string, unknown>) => ({
+                  // @ts-expect-error FIXME CSSInterpolation may not be CSSObject
+                  ...resolve(prev.components?.[component]?.styleOverrides?.button, options),
+                  // @ts-expect-error FIXME CSSInterpolation may not be CSSObject
+                  ...resolve(config.styleOverrides?.button, options),
+                }),
+                select: (options: Record<string, unknown>) => ({
+                  // @ts-expect-error FIXME CSSInterpolation may not be CSSObject
+                  ...resolve(prev.components?.[component]?.styleOverrides?.select, options),
+                  // @ts-expect-error FIXME CSSInterpolation may not be CSSObject
+                  ...resolve(config.styleOverrides?.select, options),
                 }),
               },
             },

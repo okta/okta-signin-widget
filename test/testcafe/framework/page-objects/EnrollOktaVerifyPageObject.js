@@ -3,7 +3,7 @@ import { userVariables, Selector } from 'testcafe';
 import { within } from '@testing-library/testcafe';
 
 const FORM_INFOBOX_ERROR_TITLE = '[data-se="o-form-error-container"] [data-se="callout"] > h3';
-const FORM_INFOBOX_ERROR_TITLE_V3 = '[data-se="callout"] > div > h2';
+const FORM_INFOBOX_ERROR_TITLE_V3 = '[data-se="callout"] h2';
 const CANT_SCAN_BUTTON_TEXT = 'Setup without scanning a QR code.';
 const FORM_SELECTOR = '[data-se="o-form-explain"]';
 const SUB_HEADER = '[data-se="subheader"]';
@@ -20,7 +20,7 @@ export default class EnrollOktaVerifyPageObject extends BasePageObject {
 
   async hasEnrollViaQRInstruction() {
     if (userVariables.gen3) {
-      if (await this.form.elementExist('.qrImg')) {
+      if (await this.form.elementExist('[data-se="qrImg"]')) {
         const qrInstruction = await this.getNthInstructionBulletPoint(0);
         return qrInstruction.includes('Okta Verify');
       } else {
@@ -32,7 +32,7 @@ export default class EnrollOktaVerifyPageObject extends BasePageObject {
 
   hasQRcode() {
     if (userVariables.gen3) {
-      return this.form.elementExist('.qrImg');
+      return this.form.elementExist('[data-se="qrImg"]');
     }
     return this.form.elementExist('.qrcode');
   }
@@ -188,7 +188,7 @@ export default class EnrollOktaVerifyPageObject extends BasePageObject {
 
   getAlt() {
     return this.form.getElement(
-      userVariables.gen3 ? '.qrImg' : '.qrcode'
+      userVariables.gen3 ? '[data-se="qrImg"]' : '.qrcode'
     )?.getAttribute('alt');
   }
 

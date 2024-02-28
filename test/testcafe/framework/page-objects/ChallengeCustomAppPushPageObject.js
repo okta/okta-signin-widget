@@ -11,7 +11,7 @@ export default class ChallengeCustomAppPushPageObject extends ChallengeFactorPag
   constructor(t) {
     super(t);
     if (userVariables.gen3) {
-      this.beacon = new Selector('[data-se="factor-beacon"]');
+      this.beacon = new Selector('[data-se~="factor-beacon"]');
     } else {
       this.beacon = new Selector('.beacon-container');
     }
@@ -108,9 +108,9 @@ export default class ChallengeCustomAppPushPageObject extends ChallengeFactorPag
     await this.t.click(this.form.getCheckbox('Send push automatically'));
   }
 
-  getBeaconClass() {
+  getBeaconSelector() {
     if (userVariables.gen3) {
-      return this.beacon.getAttribute('class');
+      return this.beacon.getAttribute('data-se');
     }
     return this.beacon.find(FACTOR_BEACON).getAttribute('class');
   }

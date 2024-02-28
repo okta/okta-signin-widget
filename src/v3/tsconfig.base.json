@@ -41,6 +41,9 @@
       ],
       "util/*": [
         "../util/*"
+      ],
+      "@okta/odyssey-react-mui/icons": [
+        "../../node_modules/@okta/odyssey-react-mui/src/icons.generated"
       ]
     },
     "resolveJsonModule": true,

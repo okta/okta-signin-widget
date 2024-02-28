@@ -69,7 +69,7 @@ async function setupOtpOnly(t) {
   test
     .requestHooks(mock)(testTitle, async t => {
       const terminalViewPage = await setupOtpOnly(t);
-      await t.expect(terminalViewPage.getBeaconClass()).contains('mfa-okta-email');
+      await t.expect(terminalViewPage.getBeaconSelector()).contains('mfa-okta-email');
     });
 });
 

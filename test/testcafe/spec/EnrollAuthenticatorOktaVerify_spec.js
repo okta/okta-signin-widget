@@ -434,7 +434,7 @@ test.requestHooks(resendEmailMocks)('after timeout should be able see and click 
   await t.wait(30000);
   await t.expect(enrollOktaVerifyPage.resendViewExists()).ok();
   const resendView = enrollOktaVerifyPage.resendView();
-  await t.expect(resendView.innerText).eql('Haven’t received an email? Check your spam folder or send again');
+  await t.expect(resendView.innerText).contains('Haven’t received an email? Check your spam folder or send again');
   await enrollOktaVerifyPage.clickSendAgainLink();
   await t.expect(enrollOktaVerifyPage.resendViewExists()).notOk();
   await t.expect(enrollOktaVerifyPage.getEmailInstruction()).contains(emailInstruction1);
@@ -454,7 +454,7 @@ test.requestHooks(logger, enrollViaSmsMocks1)('should be able enroll via sms', a
   await t.expect(enrollViaSMSPageObject.getFormTitle()).eql('Set up Okta Verify via SMS');
   await t.expect(enrollViaSMSPageObject.hasSwitchChannelText).ok();
   await t.expect(enrollViaSMSPageObject.hasCountryField()).ok();
-  await t.expect(enrollViaSMSPageObject.getCountryLabel()).eql('+1');
+  await t.expect(enrollViaSMSPageObject.getCountryLabel()).match(/\+1/);
   await enrollViaSMSPageObject.fillPhoneField('8887227871');
   await enrollViaSMSPageObject.clickSendSetupLink();
   // logger.count ~ 10 in v3, and not consistent
@@ -492,7 +492,7 @@ test.requestHooks(logger, enrollViaSmsMocks1)('respects settings.defaultCountryC
 
   // Default country code US (+1)
   const defaultCountryCodeText = await enrollViaSMSPageObject.getCountryLabel();
-  await t.expect(defaultCountryCodeText.trim()).eql('+1');
+  await t.expect(defaultCountryCodeText).match(/\+1/);
 
   await rerenderWidget({
     defaultCountryCode: 'GB'  // United Kingdom
@@ -503,7 +503,7 @@ test.requestHooks(logger, enrollViaSmsMocks1)('respects settings.defaultCountryC
 
   // United Kingdom (+44)
   const gbCountryCodeText = await enrollViaSMSPageObject.getCountryLabel();
-  await t.expect(gbCountryCodeText.trim()).eql('+44');
+  await t.expect(gbCountryCodeText).match(/\+44/);
 });
 
 test.requestHooks(resendSmsMocks)('after timeout should be able see and click send again link when enrolling via sms', async t => {
@@ -515,7 +515,7 @@ test.requestHooks(resendSmsMocks)('after timeout should be able see and click se
   await t.wait(30000);
   await t.expect(enrollOktaVerifyPage.resendViewExists()).ok();
   const resendView = enrollOktaVerifyPage.resendView();
-  await t.expect(resendView.innerText).eql('Haven’t received an SMS? Send again');
+  await t.expect(resendView.innerText).contains('Haven’t received an SMS? Send again');
   await enrollOktaVerifyPage.clickSendSMSAgainLink();
   await t.expect(enrollOktaVerifyPage.resendViewExists()).notOk();
   await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction1);
@@ -536,7 +536,7 @@ const testSmsMsg = async (t, isIos) => {
   await t.expect(enrollViaSMSPageObject.getFormTitle()).eql('Set up Okta Verify via SMS');
   await t.expect(enrollViaSMSPageObject.hasSwitchChannelText).ok();
   await t.expect(enrollViaSMSPageObject.hasCountryField()).ok();
-  await t.expect(enrollViaSMSPageObject.getCountryLabel()).eql('+1');
+  await t.expect(enrollViaSMSPageObject.getCountryLabel()).match(/\+1/);
   await enrollViaSMSPageObject.fillPhoneField('8887227871');
   await enrollViaSMSPageObject.clickSendSetupLink();
 
@@ -699,7 +699,7 @@ test.requestHooks(logger, enrollViaSmsVersionUpgradeMocksGoBack1)('should not sh
   await t.expect(enrollViaSMSPageObject.getFormTitle()).eql('Set up Okta Verify via SMS');
   await t.expect(enrollViaSMSPageObject.hasSwitchChannelText).ok();
   await t.expect(enrollViaSMSPageObject.hasCountryField()).ok();
-  await t.expect(enrollViaSMSPageObject.getCountryLabel()).eql('+1');
+  await t.expect(enrollViaSMSPageObject.getCountryLabel()).match(/\+1/);
   await enrollViaSMSPageObject.fillPhoneField('8887227871');
   await enrollViaSMSPageObject.clickSendSetupLink();
   // logger.count ~ 10 in v3, and not consistent
@@ -817,7 +817,7 @@ test
     await t.expect(enrollViaSMSPageObject.getFormTitle()).eql('Set up Okta Verify via SMS');
     await t.expect(enrollViaSMSPageObject.hasSwitchChannelText).ok();
     await t.expect(enrollViaSMSPageObject.hasCountryField()).ok();
-    await t.expect(enrollViaSMSPageObject.getCountryLabel()).eql('+1');
+    await t.expect(enrollViaSMSPageObject.getCountryLabel()).match(/\+1/);
     await enrollViaSMSPageObject.fillPhoneField('8887227871');
     await enrollViaSMSPageObject.clickSendSetupLink();
 

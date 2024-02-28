@@ -40,7 +40,7 @@ test
     const deviceEnrollmentTerminalPage = await setup(t);
     await checkA11y(t);
     await t.expect(deviceEnrollmentTerminalPage.getFormTitle()).eql('Download Okta Verify');
-    await t.expect(deviceEnrollmentTerminalPage.getBeaconClass()).contains('mfa-okta-verify');
+    await t.expect(deviceEnrollmentTerminalPage.getBeaconSelector()).contains('mfa-okta-verify');
     const content = deviceEnrollmentTerminalPage.getContentText();
     await t.expect(content).contains('To sign in using Okta Verify, you will need to set up');
     await t.expect(content).contains('Okta Verify on this device.');
@@ -63,7 +63,7 @@ test
     const deviceEnrollmentTerminalPage = await setup(t);
     await checkA11y(t);
     await t.expect(deviceEnrollmentTerminalPage.getFormTitle()).eql('Download Okta Verify');
-    await t.expect(deviceEnrollmentTerminalPage.getBeaconClass()).contains('mfa-okta-verify');
+    await t.expect(deviceEnrollmentTerminalPage.getBeaconSelector()).contains('mfa-okta-verify');
     const content = deviceEnrollmentTerminalPage.getContentText();
     await t.expect(content).contains('To sign in using Okta Verify, you will need to set up');
     await t.expect(content).contains('On Google Play, download the Okta Verify app.');
@@ -133,7 +133,7 @@ test
     });
     await checkA11y(t);
     await t.expect(deviceEnrollmentTerminalPage.getFormTitle()).eql('Download Okta Verify');
-    await t.expect(deviceEnrollmentTerminalPage.getBeaconClass()).contains('mfa-okta-verify');
+    await t.expect(deviceEnrollmentTerminalPage.getBeaconSelector()).contains('mfa-okta-verify');
     const content = deviceEnrollmentTerminalPage.getContentText();
     await t.expect(content).contains('To sign in using Okta Verify, you will need to set up');
     await t.expect(content).contains('Okta Verify on this device.');
@@ -202,7 +202,7 @@ test
     });
     await checkA11y(t);
     await t.expect(deviceEnrollmentTerminalPage.getFormTitle()).eql('Additional setup required to use Okta FastPass');
-    await t.expect(deviceEnrollmentTerminalPage.getBeaconClass()).contains('mfa-okta-verify');
+    await t.expect(deviceEnrollmentTerminalPage.getBeaconSelector()).contains('mfa-okta-verify');
     const content = deviceEnrollmentTerminalPage.getContentText();
     await t.expect(content).contains('On this device, do you already have an Okta Verify account for testOrg?');
     await t.expect(content).contains('No, I don’t have an account');

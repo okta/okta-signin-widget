@@ -184,7 +184,7 @@ test.requestHooks(legacyDeviceCodeConsentDeniedMockCodeActivate)('should be able
   await t.expect(deviceCodeActivatePageObject.isTerminalErrorIconPresent()).eql(true);
   await t.expect(deviceCodeActivatePageObject.isBeaconTerminalPresent()).eql(false);
   await t.expect(deviceCodeActivatePageObject.isTryAgainButtonPresent()).eql(true);
-  await t.expect(deviceCodeActivatePageObject.getFormTitle()).eql('Device not activated');
+  await t.expect(deviceCodeActivatePageObject.getFormTitle()).contains('Device not activated');
   await t.expect(deviceCodeActivatePageObject.getPageSubtitle()).contains('Your device cannot be activated because you did not allow access');
 });
 
@@ -222,7 +222,7 @@ test.requestHooks(legacyDeviceCodeErrorMockCodeActivate)('should be able to get 
   await t.expect(deviceCodeActivatePageObject.isTerminalErrorIconPresent()).eql(true);
   await t.expect(deviceCodeActivatePageObject.isBeaconTerminalPresent()).eql(false);
   await t.expect(deviceCodeActivatePageObject.isTryAgainButtonPresent()).eql(true);
-  await t.expect(deviceCodeActivatePageObject.getFormTitle()).eql('Device not activated');
+  await t.expect(deviceCodeActivatePageObject.getFormTitle()).contains('Device not activated');
   await t.expect(deviceCodeActivatePageObject.getPageSubtitle()).contains('Your device cannot be activated because of an internal error');
 });
 

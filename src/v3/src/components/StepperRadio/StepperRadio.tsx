@@ -10,13 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import {
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  Radio,
-  RadioGroup,
-} from '@okta/odyssey-react-mui';
+import { Radio, RadioGroup } from '@okta/odyssey-react-mui';
 import { IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
 import { h } from 'preact';
 import { useState } from 'preact/hooks';
@@ -38,7 +32,6 @@ const StepperRadio: UISchemaElementComponent<{
   const {
     label = '',
     focus,
-    ariaDescribedBy,
     options: {
       name,
       customOptions,
@@ -52,7 +45,6 @@ const StepperRadio: UISchemaElementComponent<{
     return defaultValue(widgetContext, stepIndex);
   });
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
-  const labelId = `${name}-label`;
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const stepIdx = customOptions.findIndex((opt) => opt.value === e.currentTarget.value);
@@ -71,40 +63,27 @@ const StepperRadio: UISchemaElementComponent<{
   };
 
   return (
-    <FormControl component="fieldset">
-      {label && (<FormLabel id={labelId}>{label}</FormLabel>)}
-      <RadioGroup
-        name={name}
-        value={value as string}
-        onChange={handleChange}
-        // eslint-disable-next-line react/jsx-props-no-spreading
-        {...(label && { 'aria-labelledby': labelId })}
-        aria-describedby={ariaDescribedBy}
-      >
-        {
-          customOptions?.map((item: IdxOption, index) => (
-            <FormControlLabel
-              control={(
-                <Radio
-                  sx={(theme) => ({
-                    marginInlineEnd: theme.spacing(2),
-                  })}
-                />
-              )}
-              key={item.value}
-              value={item.value}
-              label={item.label}
-              disabled={loading}
-              sx={{
-                gap: 0,
-              }}
-              // eslint-disable-next-line react/jsx-props-no-spreading
-              {...(index === 0 && { inputRef: focusRef } )}
-            />
-          ))
-        }
-      </RadioGroup>
-    </FormControl>
+    <RadioGroup
+      id={name}
+      label={label}
+      name={name}
+      onChange={handleChange}
+      testId={name}
+      value={value as string ?? ''}
+    >
+      {
+        customOptions?.map((item: IdxOption, index: number) => (
+          <Radio
+            isDisabled={loading}
+            key={item.value}
+            label={item.label}
+            value={typeof item.value === 'string' ? item.value : ''}
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...(index === 0 && { inputFocusRef: focusRef })}
+          />
+        ))
+      }
+    </RadioGroup>
   );
 };
 

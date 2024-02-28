@@ -10,12 +10,11 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-// NOTE: Do not remove this import of style.css!
+// NOTE: Do not remove this import of style.scss!
 // We need to emit a CSS file, even if it's empty, to prevent a 404 on the Okta-hosted login page.
-import './style.css';
+import './style.scss';
 
-import { ScopedCssBaseline } from '@mui/material';
-import { MuiThemeProvider } from '@okta/odyssey-react-mui';
+import { OdysseyProvider, TranslationOverrides } from '@okta/odyssey-react-mui';
 import {
   AuthApiError,
   AuthenticatorKey,
@@ -63,6 +62,7 @@ import {
   extractPageTitle,
   getLanguageCode,
   getLanguageDirection,
+  getOdysseyTranslationOverrides,
   isAndroidOrIOS,
   isAuthClientSet,
   isConfigRegisterFlow,
@@ -73,12 +73,12 @@ import {
   triggerEmailVerifyCallback,
 } from '../../util';
 import { getEventContext } from '../../util/getEventContext';
-import { createTheme } from '../../util/theme';
+import { stylisPlugins } from '../../util/stylisPlugins';
+import { createThemeAndTokens } from '../../util/theme';
 import AuthContainer from '../AuthContainer/AuthContainer';
 import AuthContent from '../AuthContent/AuthContent';
 import AuthHeader from '../AuthHeader/AuthHeader';
 import ConsentHeader from '../ConsentHeader';
-import CustomPluginsOdysseyCacheProvider from '../CustomPluginsOdysseyCacheProvider';
 import Form from '../Form';
 import Spinner from '../Spinner';
 import GlobalStyles from './GlobalStyles';
@@ -132,12 +132,21 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const languageCode = getLanguageCode(widgetProps);
   const languageDirection = getLanguageDirection(languageCode);
   const { stateHandle, unsetStateHandle } = useStateHandle(widgetProps);
+  const [odyTranslationOverrides, setOdyTranslationOverrides] = useState<
+  TranslationOverrides<string> | undefined>();
+  // Odyssey language codes use '_' instead of '-' (e.g. zh-CN -> zh_CN)
+  const odyLanguageCode: string = languageCode.replace('-', '_');
 
-  // merge themes
-  const theme = useMemo(() => mergeThemes(
-    createTheme(brandColors, customTheme?.tokens ?? {}),
-    { direction: languageDirection },
-  ), [brandColors, customTheme, languageDirection]);
+  const { theme, tokens } = useMemo(() => {
+    const { themeOverride, tokensOverride } = createThemeAndTokens(
+      brandColors,
+      customTheme?.tokens ?? {},
+    );
+    return {
+      theme: mergeThemes(themeOverride, { direction: languageDirection }),
+      tokens: tokensOverride,
+    };
+  }, [brandColors, customTheme, languageDirection]);
 
   // on unmount, remove the language
   useEffect(() => () => {
@@ -150,6 +159,9 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const initLanguage = useCallback(async () => {
     if (!Bundles.isLoaded(languageCode)) {
       await loadLanguage(widgetProps);
+      setOdyTranslationOverrides({
+        [odyLanguageCode]: getOdysseyTranslationOverrides(),
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -493,30 +505,33 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       languageDirection,
     }}
     >
-      <CustomPluginsOdysseyCacheProvider nonce={cspNonce}>
-        <MuiThemeProvider theme={theme}>
-          <GlobalStyles />
-          {/* the style is to allow the widget to inherit the parent's bg color */}
-          <ScopedCssBaseline sx={{ backgroundColor: 'inherit' }}>
-            <AuthContainer hide={hide}>
-              <AuthHeader
-                logo={logo}
-                logoText={logoText}
-                brandName={brandName}
-                authCoinProps={buildAuthCoinProps(idxTransaction)}
-              />
-              <AuthContent>
-                {isConsentStep(idxTransaction) && <ConsentHeader />}
-                {
-                  uischema.elements.length > 0
-                    ? <Form uischema={uischema as UISchemaLayout} />
-                    : <Spinner />
-                }
-              </AuthContent>
-            </AuthContainer>
-          </ScopedCssBaseline>
-        </MuiThemeProvider>
-      </CustomPluginsOdysseyCacheProvider>
+      <OdysseyProvider
+        themeOverride={theme}
+        designTokensOverride={tokens}
+        languageCode={odyLanguageCode}
+        translationOverrides={odyTranslationOverrides}
+        nonce={cspNonce}
+        stylisPlugins={stylisPlugins}
+      >
+        <GlobalStyles />
+        {/* the style is to allow the widget to inherit the parent's bg color */}
+        <AuthContainer hide={hide}>
+          <AuthHeader
+            logo={logo}
+            logoText={logoText}
+            brandName={brandName}
+            authCoinProps={buildAuthCoinProps(idxTransaction)}
+          />
+          <AuthContent>
+            {isConsentStep(idxTransaction) && <ConsentHeader />}
+            {
+              uischema.elements.length > 0
+                ? <Form uischema={uischema as UISchemaLayout} />
+                : <Spinner />
+            }
+          </AuthContent>
+        </AuthContainer>
+      </OdysseyProvider>
     </WidgetContextProvider>
   );
 };

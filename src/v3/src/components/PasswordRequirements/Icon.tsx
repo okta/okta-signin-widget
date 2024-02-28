@@ -10,12 +10,12 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box, Icon as OdyIcon } from '@okta/odyssey-react-mui';
-import classNames from 'classnames';
+import { Box } from '@mui/material';
+import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
+import { CheckCircleFilledIcon, CloseIcon, InformationCircleIcon } from '@okta/odyssey-react-mui/icons';
 import { FunctionComponent, h } from 'preact';
 
 import { PasswordRequirementStatus } from '../../types';
-import { CheckCircle } from '../Icon';
 
 type PasswordRequirementIconProps = {
   status: PasswordRequirementStatus;
@@ -25,35 +25,29 @@ const Icon: FunctionComponent<PasswordRequirementIconProps> = (
   props,
 ) => {
   const { status } = props;
-  const statusToIconProps = {
-    incomplete: { name: 'close', color: 'grey.500' },
-    complete: { name: 'check-circle-filled', color: 'success' },
-    info: { name: 'information-circle', color: 'info' },
+  const tokens = useOdysseyDesignTokens();
+  const statusToIcon = {
+    incomplete: { component: CloseIcon, color: tokens.PaletteNeutralMain },
+    complete: { component: CheckCircleFilledIcon, color: tokens.PaletteSuccessMain },
+    info: { component: InformationCircleIcon, color: tokens.PalettePrimaryMain },
   };
-  const iconClasses = classNames('passwordRequirementIcon', status);
+  const OdyIcon = statusToIcon[status].component;
 
   return (
     <Box
-      className={iconClasses}
       data-se={`passwordRequirementIcon-${status}`}
-      sx={(theme) => ({
-        marginInlineEnd: theme.spacing(1),
+      sx={{
+        marginInlineEnd: tokens.Spacing2,
         // This is to force the icon align with the top of the text
         marginBlockStart: '2px',
-      })}
+      }}
       aria-hidden
     >
-      {
-        // Using a custom Icon for the Success/Check Instead of default ODY Icon
-        statusToIconProps[status].name === 'check-circle-filled' ? (
-          <CheckCircle />
-        ) : (
-          <OdyIcon
-            name={statusToIconProps[status].name}
-            color={statusToIconProps[status].color}
-          />
-        )
-      }
+      <OdyIcon
+        sx={{
+          color: statusToIcon[status].color,
+        }}
+      />
     </Box>
   );
 };

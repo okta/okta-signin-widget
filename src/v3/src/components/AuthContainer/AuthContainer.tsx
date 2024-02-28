@@ -10,23 +10,22 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { ScopedCssBaseline } from '@mui/material';
-import * as Tokens from '@okta/odyssey-design-tokens';
-import { Box } from '@okta/odyssey-react-mui';
-import classNames from 'classnames';
+import { Box, ScopedCssBaseline } from '@mui/material';
+import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
 
 const AuthContainer: FunctionComponent<{ hide: boolean }> = ({ children, hide }) => {
   const { languageDirection, languageCode } = useWidgetContext();
-  const classes = classNames('auth-container', 'main-container');
+  const testIds = 'auth-container main-container';
+  const tokens = useOdysseyDesignTokens();
 
   return (
     <Box
       id="okta-sign-in"
       component="main"
-      className={classes}
+      data-se={testIds}
       data-version={OKTA_SIW_VERSION}
       data-commit={OKTA_SIW_COMMIT_HASH}
       lang={languageCode}
@@ -54,29 +53,24 @@ const AuthContainer: FunctionComponent<{ hide: boolean }> = ({ children, hide })
           sx={{
             minInlineSize: '100%',
             marginBlockStart: '100px',
-            marginBlockEnd: '8px',
             marginInline: 'auto',
-            '@media only screen and (max-device-width: 750px)': {
-              marginBlockStart: 0,
-            },
           }}
         >
           <Box
             flex="auto"
             flexDirection="column"
             bgcolor="common.white"
-            fontFamily="fontFamily"
-            sx={(theme) => ({
+            sx={{
               maxInlineSize: '432px',
               minInlineSize: '320px',
-              borderWidth: theme.mixins.borderWidth,
-              borderStyle: theme.mixins.borderStyle,
-              borderRadius: theme.mixins.borderRadius,
-              borderColor: Tokens.ColorBorderDisplay,
+              borderWidth: tokens.BorderWidthMain,
+              borderStyle: tokens.BorderStyleMain,
+              borderRadius: tokens.Spacing3,
+              borderColor: tokens.BorderColorDisplay,
               '@media only screen and (max-width: 391px)': {
                 borderWidth: 0,
               },
-            })}
+            }}
           >
             {children}
           </Box>

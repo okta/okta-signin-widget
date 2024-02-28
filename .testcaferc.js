@@ -50,6 +50,7 @@ const {
   OKTA_SIW_ONLY_FLAKY,
   OKTA_SIW_SKIP_FLAKY,
   OKTA_SIW_GEN3,
+  UPDATE_SCREENSHOTS,
 } = process.env;
 
 // Normalize process.env to type 'boolean'
@@ -57,6 +58,7 @@ const env = {
   OKTA_SIW_ONLY_FLAKY: OKTA_SIW_ONLY_FLAKY === 'true',
   OKTA_SIW_SKIP_FLAKY: OKTA_SIW_SKIP_FLAKY === 'true',
   OKTA_SIW_GEN3: OKTA_SIW_GEN3 === 'true',
+  UPDATE_SCREENSHOTS: UPDATE_SCREENSHOTS === 'true',
 };
 
 const config = {
@@ -69,6 +71,7 @@ const config = {
   hooks: { request: mocks, },
   userVariables: {
     gen3: env.OKTA_SIW_GEN3,
+    updateScreenshots: env.UPDATE_SCREENSHOTS,
   },
   // OKTA-575629 Remove this when gen3 parity test flakiness is resolved
   ...(env.OKTA_SIW_GEN3 && {
@@ -128,6 +131,9 @@ const config = {
     }
 
     return true;
+  },
+  screenshots: {
+    thumbnails: false,
   },
 }
 

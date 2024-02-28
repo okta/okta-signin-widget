@@ -55,7 +55,7 @@ test.requestHooks(requestActivationEmailMock)('should render error with action b
   const requestActivationEmailPage  = await setup(t);
   await checkA11y(t);
   await t.expect(requestActivationEmailPage.getFormTitle()).eql('Activation link has expired');
-  await t.expect(requestActivationEmailPage.getErrorBoxText()).eql('Your account activation link is no longer valid. Request a new activation email below.');
+  await t.expect(requestActivationEmailPage.getErrorBoxText()).contains('Your account activation link is no longer valid. Request a new activation email below.');
   await t.expect(requestActivationEmailPage.getSaveButtonLabel()).eql('Request activation email');
 
   await requestActivationEmailPage.clickRequestActivationEmailButton();
@@ -66,17 +66,17 @@ test.requestHooks(requestActivationEmailMock)('should render error with action b
 test.requestHooks(activationEmailInvalidTokenMock)('should render error if activation is link invalid', async t => {
   const terminalPage = await setupTerminal(t);
   await t.expect(terminalPage.getFormTitle()).eql('Activation link no longer valid');
-  await t.expect(terminalPage.getErrorBoxText()).eql('This can happen if you have already activated your account, or if the URL you are trying to use is invalid. Contact your administrator for further assistance.');
+  await t.expect(terminalPage.getErrorBoxText()).contains('This can happen if you have already activated your account, or if the URL you are trying to use is invalid. Contact your administrator for further assistance.');
 });
 
 test.requestHooks(activationEmailExpiredTokenMock)('should render error if activation link has expired', async t => {
   const terminalPage = await setupTerminal(t);
   await t.expect(terminalPage.getFormTitle()).eql('Activation link has expired');
-  await t.expect(terminalPage.getErrorBoxText()).eql('Your account activation link is no longer valid. Request a new activation email below.');
+  await t.expect(terminalPage.getErrorBoxText()).contains('Your account activation link is no longer valid. Request a new activation email below.');
 });
 
 test.requestHooks(activationEmailUserSuspendedMock)('should render error if user is suspended', async t => {
   const terminalPage = await setupTerminal(t);
   await t.expect(terminalPage.getFormTitle()).eql('Account suspended');
-  await t.expect(terminalPage.getErrorBoxText()).eql('Your account has been temporarily suspended. Contact your administrator for further assistance.');
+  await t.expect(terminalPage.getErrorBoxText()).contains('Your account has been temporarily suspended. Contact your administrator for further assistance.');
 });

@@ -75,7 +75,7 @@ test.requestHooks(sessionExpiresDuringPasswordChallenge)('reloads into fresh sta
   await identityPage.fillPasswordField('credentials.passcode', 'test');
   await identityPage.clickVerifyButton();
 
-  await t.expect(identityPage.getGlobalErrors()).eql('You have been logged out due to inactivity. Refresh or return to the sign in screen.');
+  await t.expect(identityPage.getGlobalErrors()).contains('You have been logged out due to inactivity. Refresh or return to the sign in screen.');
   await t.expect(identityPage.getSignoutLinkText()).eql('Back to sign in'); // confirm they can get out of terminal state
 
   await identityPage.refresh();
@@ -95,7 +95,7 @@ test.requestHooks(sessionExpiresBackToSignIn)('back to sign loads identify after
   await identityPage.fillPasswordField('credentials.passcode', 'test');
   await identityPage.clickVerifyButton();
 
-  await t.expect(identityPage.getGlobalErrors()).eql('You have been logged out due to inactivity. Refresh or return to the sign in screen.');
+  await t.expect(identityPage.getGlobalErrors()).contains('You have been logged out due to inactivity. Refresh or return to the sign in screen.');
   await t.expect(identityPage.getSignoutLinkText()).eql('Back to sign in'); // confirm they can get out of terminal state
 
   await identityPage.clickGoBackLink();
@@ -114,7 +114,7 @@ test.requestHooks(interactionCodeFlowBaseMock)('Int. Code Flow: reloads into fre
   await identityPage.fillPasswordField('credentials.passcode', 'test');
   await identityPage.clickVerifyButton();
 
-  await t.expect(identityPage.getGlobalErrors()).eql('You have been logged out due to inactivity. Refresh or return to the sign in screen.');
+  await t.expect(identityPage.getGlobalErrors()).contains('You have been logged out due to inactivity. Refresh or return to the sign in screen.');
   await t.expect(identityPage.getSignoutLinkText()).eql('Back to sign in'); // confirm they can get out of terminal state
 
   await identityPage.refresh();
@@ -134,7 +134,7 @@ test.requestHooks(interactionCodeFlowBaseMock)('Int. Code Flow: back to sign loa
   await identityPage.fillPasswordField('credentials.passcode', 'test');
   await identityPage.clickVerifyButton();
 
-  await t.expect(identityPage.getGlobalErrors()).eql('You have been logged out due to inactivity. Refresh or return to the sign in screen.');
+  await t.expect(identityPage.getGlobalErrors()).contains('You have been logged out due to inactivity. Refresh or return to the sign in screen.');
   await t.expect(identityPage.getSignoutLinkText()).eql('Back to sign in'); // confirm they can get out of terminal state
 
   await identityPage.clickGoBackLink();

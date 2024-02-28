@@ -10,7 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box } from '@okta/odyssey-react-mui';
+import { Box } from '@mui/material';
+import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 
 import {
@@ -24,19 +25,24 @@ const AuthenticatorButtonList: UISchemaElementComponent<{
   uischema: AuthenticatorButtonListElement
 }> = ({ uischema }) => {
   const { buttons, dataSe } = uischema.options;
+  const tokens = useOdysseyDesignTokens();
 
   return (
     <Box
       component="ul"
       data-se={dataSe}
-      sx={{ listStyle: 'none', padding: '0', marginBlockStart: 0 }}
+      sx={{
+        listStyle: 'none',
+        padding: tokens.Spacing0,
+        marginBlockStart: tokens.Spacing0,
+      }}
     >
       {
         buttons.map((button: AuthenticatorButtonElement, index: number) => (
           <Box
             key={button.id}
             component="li"
-            sx={{ marginBlockEnd: (theme) => theme.spacing(4) }}
+            sx={{ marginBlockEnd: tokens.Spacing4 }}
           >
             <AuthenticatorButton
               uischema={{

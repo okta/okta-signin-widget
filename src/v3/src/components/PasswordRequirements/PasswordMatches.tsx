@@ -10,7 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box } from '@okta/odyssey-react-mui';
+import { Box } from '@mui/material';
+import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import debounce from 'lodash/debounce';
 import { h } from 'preact';
 import {
@@ -38,6 +39,7 @@ const PasswordMatches: UISchemaElementComponent<{
   const { confirmPassword } = data;
   const { translations = [] } = uischema;
   const label = getTranslation(translations, 'label');
+  const tokens = useOdysseyDesignTokens();
 
   const [isMatching, setIsMatching] = useState<boolean>(false);
 
@@ -60,7 +62,12 @@ const PasswordMatches: UISchemaElementComponent<{
       <Box
         component="ul"
         id="credentials.newPassword-list"
-        sx={{ listStyle: 'none', padding: '0', marginBlockStart: '0' }}
+        sx={{
+          listStyle: 'none',
+          padding: '0',
+          marginBlockStart: '0',
+          marginBlockEnd: `-${tokens.Spacing3}`,
+        }}
         aria-hidden
       >
         <PasswordRequirementListItem

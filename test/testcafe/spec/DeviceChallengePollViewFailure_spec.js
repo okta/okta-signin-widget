@@ -95,7 +95,7 @@ test.skip
         record.request.url.match(/challenge/) &&
         record.request.body.match(/challengeRequest":"eyJraWQiOiI1/)
     )).eql(1);
-    await t.expect(deviceChallengePollPageObject.getErrorBoxText()).eql('You do not have permission to perform the requested action');
+    await t.expect(deviceChallengePollPageObject.getErrorBoxText()).contains('You do not have permission to perform the requested action');
     await t.expect(await deviceChallengePollPageObject.hasSpinner()).eql(false);
     await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().exists).eql(true);
   });
@@ -123,6 +123,6 @@ test
     await t.removeRequestHooks(initialPoll);
     await t.addRequestHooks(nonIdxErrorPoll);
 
-    await t.expect(deviceChallengePollPageObject.getErrorBoxText()).eql(
+    await t.expect(deviceChallengePollPageObject.getErrorBoxText()).contains(
       'There was an unsupported response from server.');
   });

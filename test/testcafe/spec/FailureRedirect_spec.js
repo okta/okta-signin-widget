@@ -42,7 +42,7 @@ test.requestHooks(userNotAssignedMock)('oauth: shows the error message', async t
   });
   await t.expect(terminalPage.formExists()).eql(true);
   await terminalPage.waitForErrorBox();
-  await t.expect(terminalPage.getErrorBoxText()).eql('You are not allowed to access this app. To request access, contact an admin.');
+  await t.expect(terminalPage.getErrorBoxText()).contains('You are not allowed to access this app. To request access, contact an admin.');
 });
 
 test.requestHooks(userNotAssignedMock)('oauth: will redirect if `redirect === "always"`', async t => {

@@ -14,24 +14,19 @@ import { FunctionComponent, h } from 'preact';
 
 import { IconProps } from '../../types';
 
-export const SmartCardIcon: FunctionComponent<IconProps> = ({ name, description }) => (
+export const SmartCardIcon: FunctionComponent<IconProps> = ({
+  name, description, width, height,
+}) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="48"
-    height="48"
+    width={width || 48}
+    height={height || 48}
     fill="none"
     aria-labelledby={name}
     role="img"
     viewBox="0 0 48 48"
   >
     <title id={name}>{description}</title>
-    <circle
-      cx="24"
-      cy="24"
-      r="24"
-      fill="#F5F5F6"
-      class="siwFillBg"
-    />
     <path
       fill="#00297A"
       fillRule="evenodd"

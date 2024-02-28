@@ -10,14 +10,9 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import * as Tokens from '@okta/odyssey-design-tokens';
-import {
-  ArrowLeftIcon,
-  ArrowRightIcon,
-  Box,
-  Typography,
-} from '@okta/odyssey-react-mui';
-import classNames from 'classnames';
+import { Box, Typography } from '@mui/material';
+import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
+import { AddIcon, ArrowLeftIcon, ArrowRightIcon } from '@okta/odyssey-react-mui/icons';
 import { h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
@@ -42,8 +37,9 @@ const AuthenticatorButton: UISchemaElementComponent<{
     options: {
       type,
       key: authenticationKey,
+      isEnroll,
+      isAdditionalEnroll,
       actionParams,
-      description,
       nickname,
       usageDescription,
       logoUri,
@@ -57,7 +53,8 @@ const AuthenticatorButton: UISchemaElementComponent<{
       ariaLabel,
     },
   } = uischema;
-  const label = getTranslation(translations, 'label');
+  const label = getTranslation(translations, 'label') ?? uischema.label;
+  const description = getTranslation(translations, 'description') ?? uischema.options.description;
   const {
     dataSchemaRef, data, loading, languageDirection,
   } = useWidgetContext();
@@ -69,8 +66,9 @@ const AuthenticatorButton: UISchemaElementComponent<{
     description && `${iconName}-description`,
     nickname && `${iconName}-nickname`,
     usageDescription && `${iconName}-usageDescription`,
-    `${iconName}-ctaLabel`,
+    isEnroll && `${iconName}-ctaLabel`,
   ].filter(Boolean).join(' ');
+  const tokens = useOdysseyDesignTokens();
 
   const onClick: ClickHandler = async () => {
     const dataSchema = dataSchemaRef.current!;
@@ -92,33 +90,46 @@ const AuthenticatorButton: UISchemaElementComponent<{
     });
   };
 
+  function createCtaIcon() {
+    if (isAdditionalEnroll) {
+      return <AddIcon titleAccess={ctaLabel} />;
+    }
+    if (languageDirection === 'rtl') {
+      return <ArrowLeftIcon titleAccess={ctaLabel} />;
+    }
+    return <ArrowRightIcon titleAccess={ctaLabel} />;
+  }
+
   return (
     <Box
       component="button"
       type={type}
-      sx={(theme) => ({
-        '&:focus': {
-          outlineColor: theme.palette.primary.main,
-          outlineOffset: Tokens.FocusOutlineOffsetBase,
-          outlineStyle: Tokens.FocusOutlineStyle,
-          outlineWidth: Tokens.FocusOutlineWidthBase,
-        },
+      sx={{
+        borderStyle: tokens.BorderStyleMain,
+        borderWidth: tokens.BorderWidthMain,
+        borderColor: tokens.BorderColorDisplay,
+        borderRadius: tokens.BorderRadiusMain,
         '&:hover': {
-          color: theme.palette.primary.dark,
+          color: tokens.PalettePrimaryDark,
           cursor: 'pointer',
-          borderColor: theme.palette.primary.main,
+          borderColor: tokens.PalettePrimaryMain,
+        },
+        '&:focus': {
+          outlineColor: tokens.PalettePrimaryMain,
+          outlineOffset: tokens.FocusOutlineOffsetMain,
+          outlineStyle: tokens.FocusOutlineStyle,
+          outlineWidth: tokens.FocusOutlineWidthMain,
+          borderColor: tokens.BorderColorDisplay,
         },
         width: 1,
-        backgroundColor: theme.palette.background.paper,
-        paddingBlock: theme.spacing(2),
-        paddingInline: theme.spacing(2),
-      })}
-      display="flex"
-      border={1}
-      borderColor="grey.200"
-      borderRadius={Tokens.BorderRadiusBase}
-      boxShadow={Tokens.ShadowScale0}
-      className="authenticator-row"
+        display: 'flex',
+        // Assuming we want to allow users to customize this color, we should try to map this to
+        // a more semantic token. We also don't want users to override white just for this
+        backgroundColor: tokens.HueNeutralWhite,
+        paddingBlock: tokens.Spacing3,
+        paddingInline: tokens.Spacing3,
+        alignItems: !isEnroll ? 'center' : '',
+      }}
       data-se="authenticator-button"
       tabIndex={0}
       onClick={onClick}
@@ -130,7 +141,6 @@ const AuthenticatorButton: UISchemaElementComponent<{
     >
       { authenticationKey && (
         <Box
-          className="authenticator-icon-container"
           data-se="authenticator-icon"
         >
           <AuthCoin
@@ -138,18 +148,18 @@ const AuthenticatorButton: UISchemaElementComponent<{
             url={logoUri}
             name={iconName}
             description={iconDescr}
-            customClasses={['authenticator-icon']}
           />
         </Box>
       )}
       <Box
-        className="authenticator-description"
+        data-se="authenticator-button-content"
         sx={{
           display: 'flex',
           flexDirection: 'column',
           flexGrow: 1,
-          paddingBlock: 0,
-          paddingInline: '12px 0',
+          paddingBlock: tokens.Spacing0,
+          paddingInlineStart: tokens.Spacing3,
+          paddingInlineEnd: tokens.Spacing0,
           // needed to solve ie11 'flexbug' where nested flex element overflows container
           minInlineSize: '0%',
         }}
@@ -158,13 +168,14 @@ const AuthenticatorButton: UISchemaElementComponent<{
           variant="h3"
           id={`${iconName}-label`}
           sx={{
-            fontSize: '1rem',
-            margin: 0,
-            marginBlockEnd: '6px',
+            fontSize: tokens.TypographySizeBody,
+            fontWeight: tokens.TypographyWeightBodyBold,
+            color: tokens.TypographyColorBody,
+            margin: tokens.Spacing0,
             textAlign: 'start',
           }}
           data-se="authenticator-button-label"
-          className="authenticator-label no-translate"
+          translate="no"
         >
           {label}
         </Typography>
@@ -173,15 +184,17 @@ const AuthenticatorButton: UISchemaElementComponent<{
             paragraph
             id={`${iconName}-description`}
             sx={{
-              fontSize: '.875rem',
-              margin: 0,
-              marginBlockEnd: '6px',
+              fontSize: tokens.TypographySizeSubordinate,
+              fontWeight: tokens.TypographyWeightBody,
+              color: tokens.TypographyColorSubordinate,
+              margin: tokens.Spacing0,
+              marginBlockStart: tokens.Spacing1,
               textAlign: 'start',
             }}
             data-se="authenticator-button-description"
-            className={classNames('authenticator-description--text', { 'no-translate': noTranslate })}
             aria-label={punctuate(description)}
             dir={dir}
+            translate={noTranslate ? 'no' : undefined}
           >
             {description}
           </Typography>
@@ -191,9 +204,11 @@ const AuthenticatorButton: UISchemaElementComponent<{
             paragraph
             id={`${iconName}-nickname`}
             sx={{
-              fontSize: '.875rem',
-              margin: 0,
-              marginBlockEnd: '6px',
+              fontSize: tokens.TypographySizeSubordinate,
+              fontWeight: tokens.TypographyWeightBody,
+              color: tokens.TypographyColorSubordinate,
+              margin: tokens.Spacing0,
+              marginBlockStart: tokens.Spacing1,
               textAlign: 'start',
               overflow: 'hidden',
               whiteSpace: 'nowrap',
@@ -201,8 +216,8 @@ const AuthenticatorButton: UISchemaElementComponent<{
             }}
             title={nickname}
             data-se="authenticator-button-nickname"
-            className={classNames('authenticator-enrollment-nickname', 'no-translate')}
             aria-label={punctuate(nickname)}
+            translate="no"
           >
             {nickname}
           </Typography>
@@ -213,50 +228,74 @@ const AuthenticatorButton: UISchemaElementComponent<{
             id={`${iconName}-usageDescription`}
             textAlign="start"
             sx={{
-              fontSize: '.875rem',
-              margin: 0,
-              marginBlockEnd: '6px',
-              color: 'text.secondary',
+              fontSize: tokens.TypographySizeSubordinate,
+              fontWeight: tokens.TypographyWeightBody,
+              color: tokens.TypographyColorSubordinate,
+              margin: tokens.Spacing0,
+              marginBlockStart: tokens.Spacing1,
             }}
             data-se="authenticator-button-usage-text"
-            className="authenticator-usage-text"
             aria-label={punctuate(usageDescription)}
           >
             {usageDescription}
           </Typography>
         )}
+        {isEnroll && (
+          <Box
+            data-se={dataSe}
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              marginBlockStart: tokens.Spacing3,
+              marginInline: tokens.Spacing0,
+              color: tokens.TypographyColorAction,
+              '& svg': {
+                marginBlock: tokens.Spacing0,
+                marginInlineStart: isAdditionalEnroll ? tokens.Spacing0 : tokens.Spacing1,
+                marginInlineEnd: isAdditionalEnroll ? tokens.Spacing1 : tokens.Spacing0,
+              },
+            }}
+          >
+            <Box
+              component="span"
+              id={`${iconName}-ctaLabel`}
+              sx={{
+                fontWeight: tokens.TypographyWeightBodyBold,
+                fontSize: tokens.TypographySizeBody,
+                order: isAdditionalEnroll ? 1 : 0,
+              }}
+              data-se="cta-button-label"
+            >
+              {ctaLabel}
+            </Box>
+            <Box
+              data-se="cta-button-icon"
+              sx={{
+                display: 'flex',
+              }}
+            >
+              { createCtaIcon() }
+            </Box>
+          </Box>
+        )}
+      </Box>
+      {!isEnroll && (
         <Box
-          className="cta-button authenticator-button"
           data-se={dataSe}
-          sx={(theme) => ({
-            display: 'flex',
-            alignItems: 'center',
-            marginBlock: '5px',
-            marginInline: 0,
-            fontWeight: 500,
-            color: theme.palette.primary.main,
-            '& svg': {
-              marginBlock: 0,
-              marginInline: '5px 0',
-            },
-          })}
+          sx={{
+            color: tokens.TypographyColorAction,
+          }}
         >
           <Box
-            component="span"
-            id={`${iconName}-ctaLabel`}
-            sx={{ fontWeight: 700, fontSize: '.875rem' }}
-            data-se="cta-button-label"
-            className="button select-factor link-button"
+            data-se="cta-button-icon"
+            sx={{
+              display: 'flex',
+            }}
           >
-            {ctaLabel}
+            { createCtaIcon() }
           </Box>
-          {
-            languageDirection === 'rtl'
-              ? <ArrowLeftIcon titleAccess={ctaLabel} />
-              : <ArrowRightIcon titleAccess={ctaLabel} />
-          }
         </Box>
-      </Box>
+      )}
     </Box>
   );
 };

@@ -25,7 +25,7 @@ describe('authenticator-enroll-phone-sms', () => {
   describe('Send correct payload', () => {
     it('when submit the form', async () => {
       const {
-        authClient, user, findByTestId, findByText,
+        authClient, user, findByLabelText, findByText,
       } = await setup({ mockResponse });
 
       const titleElement = await findByText(/Set up phone authentication/);
@@ -34,7 +34,7 @@ describe('authenticator-enroll-phone-sms', () => {
       await findByText(/Carrier messaging charges may apply/);
 
       const submitButton = await findByText('Verify', { selector: 'button' });
-      const otpEle = await findByTestId('credentials.passcode') as HTMLInputElement;
+      const otpEle = await findByLabelText('Enter Code') as HTMLInputElement;
 
       const otp = '123456';
       await user.type(otpEle, otp);

@@ -10,15 +10,15 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import * as Tokens from '@okta/odyssey-design-tokens';
-import { Box, Typography } from '@okta/odyssey-react-mui';
-import classNames from 'classnames';
+import { Box } from '@mui/material';
+import { Typography, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
 import { AuthCoinProps } from 'src/types';
 
 import { loc } from '../../util';
 import AuthCoin from '../AuthCoin/AuthCoin';
 import { getAuthCoinConfiguration } from '../AuthCoin/authCoinConfigUtil';
+import Image from '../Image';
 
 // TODO: maybe extract to util class if used reused
 const shouldRenderAuthCoin = (props?: AuthCoinProps): boolean => {
@@ -43,8 +43,8 @@ const AuthHeader: FunctionComponent<AuthHeaderProps> = ({
   authCoinProps,
 }) => {
   const showAuthCoin = shouldRenderAuthCoin(authCoinProps);
-  const containerClasses = classNames('okta-sign-in-header', 'auth-header', { authCoinSpacing: showAuthCoin });
-  const imageClasses = classNames('auth-org-logo', 'siwOrgLogo');
+  const containerTestIds = `okta-sign-in-header auth-header ${showAuthCoin ? 'authCoinSpacing' : ''}`;
+  const tokens = useOdysseyDesignTokens();
 
   function renderAuthCoin() {
     return (showAuthCoin && authCoinProps) && (
@@ -54,7 +54,9 @@ const AuthHeader: FunctionComponent<AuthHeaderProps> = ({
         theme={authCoinProps.theme}
         sx={{
           margin: 'auto',
-          insetBlockStart: '24px',
+          insetBlockStart: '26px',
+          borderRadius: '24px',
+          backgroundColor: tokens.HueNeutralWhite,
         }}
       />
     );
@@ -62,13 +64,13 @@ const AuthHeader: FunctionComponent<AuthHeaderProps> = ({
 
   return (
     <Box
-      className={containerClasses}
+      data-se={containerTestIds}
       sx={{
-        paddingBlockStart: (theme) => theme.spacing(4),
-        paddingBlockEnd: (theme) => theme.spacing(showAuthCoin ? 0 : 4),
-        paddingInlineStart: (theme) => theme.spacing(5),
-        paddingInlineEnd: (theme) => theme.spacing(5),
-        borderBlockEnd: () => `1px solid ${Tokens.ColorBorderDisplay}`,
+        paddingBlockStart: tokens.Spacing5,
+        paddingBlockEnd: showAuthCoin ? tokens.Spacing1 : tokens.Spacing5,
+        paddingInlineStart: tokens.Spacing6,
+        paddingInlineEnd: tokens.Spacing6,
+        borderBlockEnd: `1px solid ${tokens.BorderColorDisplay}`,
         '& h1': {
           lineHeight: 0,
           marginBlock: 0,
@@ -78,15 +80,12 @@ const AuthHeader: FunctionComponent<AuthHeaderProps> = ({
     >
       <Typography variant="h1">
         { logo && (
-          <Box
-            component="img"
+          <Image
             alt={logoText || brandName || loc('logo.default.alt.text', 'login')}
             src={logo}
-            className={imageClasses}
-            sx={{
-              maxInlineSize: '200px',
-              maxBlockSize: '40px',
-            }}
+            testId="auth-org-logo"
+            maxWidth="200px"
+            maxHeight="40px"
           />
         )}
       </Typography>
