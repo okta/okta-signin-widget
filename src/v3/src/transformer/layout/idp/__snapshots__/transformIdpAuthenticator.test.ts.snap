@@ -43,7 +43,7 @@ Object {
 }
 `;
 
-exports[`IDP Authenticator transformer Tests IDP Authenticator Enroll tests should add title, description, spinner and redirect when skipIdpFactorVerificationBtn feature is true 1`] = `
+exports[`IDP Authenticator transformer Tests IDP Authenticator Enroll tests should add title, description, spinner and auto-redirect when skipIdpFactorVerificationBtn feature is true 1`] = `
 Object {
   "data": Object {},
   "dataSchema": Object {
@@ -171,7 +171,7 @@ Object {
 }
 `;
 
-exports[`IDP Authenticator transformer Tests IDP Authenticator verify tests should add title, description, spinner and redirect when skipIdpFactorVerificationBtn feature is true 1`] = `
+exports[`IDP Authenticator transformer Tests IDP Authenticator verify tests should add title, description, spinner and auto-redirect when skipIdpFactorVerificationBtn feature is true 1`] = `
 Object {
   "data": Object {},
   "dataSchema": Object {
