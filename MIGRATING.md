@@ -173,7 +173,7 @@ var signIn = new OktaSignIn(
 See [showSignInToGetTokens](README.md#showsignintogettokens) for updated documentation on this method.
 
 - getAccessToken is now `true` by default
-- `authorizationServerId` option has been removed from To specificy a custom authorization server, use `authParams.issuer`. The issuer should be specified as a full URI, not just the server ID.
+- `authorizationServerId` option has been removed to specify a custom authorization server, use `authParams.issuer`. The issuer should be specified as a full URI, not just the server ID.
 
 ### @okta/okta-auth-js has been upgraded to version 3.0.0
 
