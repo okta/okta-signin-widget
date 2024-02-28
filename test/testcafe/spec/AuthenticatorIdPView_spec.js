@@ -82,7 +82,9 @@ async function setup(t, {isVerify, expectAutoRedirect} = {}, widgetOptions = und
   if (widgetOptions) {
     await renderWidget(widgetOptions);
   }
-  if (!expectAutoRedirect) {
+  if (expectAutoRedirect) {
+    await t.expect(pageObject.formExists()).eql(false);
+  } else {
     await t.expect(pageObject.formExists()).eql(true);
     await checkConsoleMessages({
       controller: null,
