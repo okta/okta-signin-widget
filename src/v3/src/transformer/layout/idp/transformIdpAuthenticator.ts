@@ -17,16 +17,25 @@ import {
   ButtonType,
   DescriptionElement,
   IdxStepTransformer,
+  RedirectElement,
+  SpinnerElement,
   TitleElement,
 } from '../../../types';
 import { getDisplayName, loc } from '../../../util';
 
 // This is the page where the user launches the selected IDP authenticator
-export const transformIdpAuthenticator: IdxStepTransformer = ({ formBag, transaction }) => {
+export const transformIdpAuthenticator: IdxStepTransformer = ({
+  formBag,
+  transaction,
+  widgetProps,
+}) => {
   const { uischema } = formBag;
   const { nextStep } = transaction;
+  const { features } = widgetProps;
   const displayName = getDisplayName(transaction);
   const isEnrollStep = nextStep?.name === IDX_STEP.ENROLL_AUTHENTICATOR;
+  // In case of failure, don't auto-redirect which will result in infinite redirects.
+  const autoRedirect = features?.skipIdpFactorVerificationBtn && !transaction.messages?.length;
 
   const titleElement: TitleElement = {
     type: 'Title',
@@ -62,11 +71,28 @@ export const transformIdpAuthenticator: IdxStepTransformer = ({ formBag, transac
     },
   };
 
+  const redirectElement: RedirectElement = {
+    type: 'Redirect',
+    options: {
+      url: nextStep!.href!,
+    },
+  };
+
+  const spinner: SpinnerElement = {
+    type: 'Spinner',
+  };
+
   uischema.elements = [
     titleElement,
     descriptionElement,
-    submitButton,
   ];
+
+  if (autoRedirect) {
+    uischema.elements.push(spinner);
+    uischema.elements.push(redirectElement);
+  } else {
+    uischema.elements.push(submitButton);
+  }
 
   return formBag;
 };

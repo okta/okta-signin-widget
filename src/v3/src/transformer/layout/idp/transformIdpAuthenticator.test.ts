@@ -16,6 +16,8 @@ import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/
 import {
   ButtonElement,
   DescriptionElement,
+  RedirectElement,
+  SpinnerElement,
   TitleElement,
   WidgetProps,
 } from '../../../types';
@@ -30,11 +32,66 @@ describe('IDP Authenticator transformer Tests', () => {
     beforeEach(() => {
       transaction.nextStep = {
         name: IDX_STEP.ENROLL_AUTHENTICATOR,
+        href: 'http://localhost:3000/sso/idps/mockedIdp123?stateToken=mockedStateToken124',
       };
+      transaction.messages = [];
       widgetProps = {};
     });
 
     it('should add correct title, description, and button', () => {
+      const updatedFormBag = transformIdpAuthenticator({
+        transaction,
+        formBag,
+        widgetProps,
+      });
+      expect(updatedFormBag).toMatchSnapshot();
+      expect(updatedFormBag.uischema.elements.length).toBe(3);
+      expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
+        .toBe('oie.idp.enroll.title');
+      expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
+        .toBe('oie.idp.enroll.description');
+      expect((updatedFormBag.uischema.elements[2] as ButtonElement).label)
+        .toBe('mfa.enroll');
+    });
+
+    it('should add title, description, spinner and auto-redirect '
+      + 'when skipIdpFactorVerificationBtn feature is true', () => {
+      widgetProps = {
+        features: {
+          skipIdpFactorVerificationBtn: true,
+        },
+      };
+      const updatedFormBag = transformIdpAuthenticator({
+        transaction,
+        formBag,
+        widgetProps,
+      });
+      expect(updatedFormBag).toMatchSnapshot();
+      expect(updatedFormBag.uischema.elements.length).toBe(4);
+      expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
+        .toBe('oie.idp.enroll.title');
+      expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
+        .toBe('oie.idp.enroll.description');
+      expect((updatedFormBag.uischema.elements[2] as SpinnerElement).type)
+        .toBe('Spinner');
+      expect((updatedFormBag.uischema.elements[3] as RedirectElement).options.url)
+        .toBe('http://localhost:3000/sso/idps/mockedIdp123?stateToken=mockedStateToken124');
+    });
+
+    it('should not auto-redirect when skipIdpFactorVerificationBtn feature is true '
+      + 'but there is an error in transaction', () => {
+      widgetProps = {
+        features: {
+          skipIdpFactorVerificationBtn: true,
+        },
+      };
+      transaction.messages = [
+        {
+          message: 'This is a standard message',
+          class: 'ERROR',
+          i18n: { key: 'some.standard.key' },
+        },
+      ];
       const updatedFormBag = transformIdpAuthenticator({
         transaction,
         formBag,
@@ -55,11 +112,66 @@ describe('IDP Authenticator transformer Tests', () => {
     beforeEach(() => {
       transaction.nextStep = {
         name: IDX_STEP.CHALLENGE_AUTHENTICATOR,
+        href: 'http://localhost:3000/sso/idps/mockedIdp123?stateToken=mockedStateToken124',
       };
+      transaction.messages = [];
       widgetProps = {};
     });
 
     it('should add correct title, description, and button', () => {
+      const updatedFormBag = transformIdpAuthenticator({
+        transaction,
+        formBag,
+        widgetProps,
+      });
+      expect(updatedFormBag).toMatchSnapshot();
+      expect(updatedFormBag.uischema.elements.length).toBe(3);
+      expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
+        .toBe('oie.idp.challenge.title');
+      expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
+        .toBe('oie.idp.challenge.description');
+      expect((updatedFormBag.uischema.elements[2] as ButtonElement).label)
+        .toBe('mfa.challenge.verify');
+    });
+
+    it('should add title, description, spinner and auto-redirect '
+      + 'when skipIdpFactorVerificationBtn feature is true', () => {
+      widgetProps = {
+        features: {
+          skipIdpFactorVerificationBtn: true,
+        },
+      };
+      const updatedFormBag = transformIdpAuthenticator({
+        transaction,
+        formBag,
+        widgetProps,
+      });
+      expect(updatedFormBag).toMatchSnapshot();
+      expect(updatedFormBag.uischema.elements.length).toBe(4);
+      expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
+        .toBe('oie.idp.challenge.title');
+      expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
+        .toBe('oie.idp.challenge.description');
+      expect((updatedFormBag.uischema.elements[2] as SpinnerElement).type)
+        .toBe('Spinner');
+      expect((updatedFormBag.uischema.elements[3] as RedirectElement).options.url)
+        .toBe('http://localhost:3000/sso/idps/mockedIdp123?stateToken=mockedStateToken124');
+    });
+
+    it('should not auto-redirect when skipIdpFactorVerificationBtn feature is true '
+      + 'but there is an error in transaction', () => {
+      widgetProps = {
+        features: {
+          skipIdpFactorVerificationBtn: true,
+        },
+      };
+      transaction.messages = [
+        {
+          message: 'This is a standard message',
+          class: 'ERROR',
+          i18n: { key: 'some.standard.key' },
+        },
+      ];
       const updatedFormBag = transformIdpAuthenticator({
         transaction,
         formBag,
