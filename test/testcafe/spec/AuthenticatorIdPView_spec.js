@@ -1,6 +1,6 @@
 import { RequestMock, RequestLogger, userVariables } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
-import { checkConsoleMessages } from '../framework/shared';
+import { checkConsoleMessages, renderWidget } from '../framework/shared';
 import IdPAuthenticatorPageObject from '../framework/page-objects/IdPAuthenticatorPageObject';
 import xhrEnrollIdPAuthenticator from '../../../playground/mocks/data/idp/idx/authenticator-enroll-idp.json';
 import xhrEnrollIdPAuthenticatorCustomLogo from '../../../playground/mocks/data/idp/idx/authenticator-enroll-idp-custom-logo.json';
@@ -75,17 +75,22 @@ const verifyErrorCustomLogoMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrVerifyIdpAuthentiatorErrorCustomLogo);
 
-async function setup(t, isVerify) {
+async function setup(t, {isVerify, expectAutoRedirect} = {}, widgetOptions = undefined) {
+  const options = widgetOptions ? { render: false } : {};
   const pageObject = new IdPAuthenticatorPageObject(t);
-  await pageObject.navigateToPage();
-  await t.expect(pageObject.formExists()).eql(true);
-
-  await checkConsoleMessages({
-    controller: null,
-    formName: isVerify ? 'challenge-authenticator' : 'enroll-authenticator',
-    authenticatorKey: 'external_idp',
-    methodType: 'idp'
-  });
+  await pageObject.navigateToPage(options);
+  if (widgetOptions) {
+    await renderWidget(widgetOptions);
+  }
+  if (!expectAutoRedirect) {
+    await t.expect(pageObject.formExists()).eql(true);
+    await checkConsoleMessages({
+      controller: null,
+      formName: isVerify ? 'challenge-authenticator' : 'enroll-authenticator',
+      authenticatorKey: 'external_idp',
+      methodType: 'idp'
+    });
+  }
   return pageObject;
 }
 
@@ -100,6 +105,22 @@ test
     await t.expect(pageObject.getBeaconClass()).contains('mfa-custom-factor');
     await pageObject.submit('Enroll');
 
+    const pageUrl = await pageObject.getPageUrl();
+    await t.expect(pageUrl)
+      .eql('http://localhost:3000/sso/idps/0oa69chx4bZyx8O7l0g4?stateToken=02TptqPN4BOLIwMAGUVLPlZVJEnONAq7xkg19dy6Gk');
+  });
+
+test
+  .requestHooks(logger, enrollMock)('should auto redirect to IdP when skipIdpFactorVerificationBtn feature is true', async t => {
+    const pageObject = await setup(t, {
+      expectAutoRedirect: true
+    }, {
+      features: {
+        skipIdpFactorVerificationBtn: true
+      }
+    });
+
+    // assert redirect to IdP login page eventually
     const pageUrl = await pageObject.getPageUrl();
     await t.expect(pageUrl)
       .eql('http://localhost:3000/sso/idps/0oa69chx4bZyx8O7l0g4?stateToken=02TptqPN4BOLIwMAGUVLPlZVJEnONAq7xkg19dy6Gk');
@@ -139,6 +160,24 @@ test
   });
 
 test
+  .requestHooks(logger, enrollErrorMock)('should not auto redirect to IdP on error when skipIdpFactorVerificationBtn feature is true', async t => {
+    const pageObject = await setup(t, {
+      expectAutoRedirect: false
+    }, {
+      features: {
+        skipIdpFactorVerificationBtn: true
+      }
+    });
+
+    await checkA11y(t);
+
+    await t.expect(pageObject.getFormTitle()).eql('Set up IDP Authenticator');
+    await t.expect(pageObject.getPageSubtitle()).eql('You will be redirected to enroll in IDP Authenticator');
+    await t.expect(pageObject.getErrorFromErrorBox()).eql('Unable to enroll authenticator. Try again.');
+    await t.expect(pageObject.getBeaconClass()).contains('mfa-custom-factor');
+  });
+
+test
   .requestHooks(logger, enrollErrorCustomLogoMock)('enroll with IdP authenticator with custom logo surfaces error messages', async t => {
     const pageObject = await setup(t);
     await checkA11y(t);
@@ -159,7 +198,7 @@ test
 fixture('Verify IdP Authenticator');
 test
   .requestHooks(logger, verifyMock)('verify with IdP authenticator', async t => {
-    const pageObject = await setup(t, true);
+    const pageObject = await setup(t, {isVerify: true});
     await checkA11y(t);
 
     await t.expect(pageObject.getFormTitle()).eql('Verify with IDP Authenticator');
@@ -172,8 +211,25 @@ test
   });
 
 test
+  .requestHooks(logger, verifyMock)('should auto redirect to IdP when skipIdpFactorVerificationBtn feature is true', async t => {
+    const pageObject = await setup(t, {
+      isVerify: true,
+      expectAutoRedirect: true
+    }, {
+      features: {
+        skipIdpFactorVerificationBtn: true
+      }
+    });
+
+    // assert redirect to IdP login page eventually
+    const pageUrl = await pageObject.getPageUrl();
+    await t.expect(pageUrl)
+      .eql('http://localhost:3000/sso/idps/0oa69chx4bZyx8O7l0g4?stateToken=02TptqPN4BOLIwMAGUVLPlZVJEnONAq7xkg19dy6Gk');
+  });
+
+test
   .requestHooks(logger, verifyMockCustomLogo)('verify with IdP authenticator with custom logo', async t => {
-    const pageObject = await setup(t, true);
+    const pageObject = await setup(t, {isVerify: true});
     await checkA11y(t);
 
     const logoBgImage = pageObject.getBeaconBgImage();
@@ -195,7 +251,7 @@ test
 
 test
   .requestHooks(logger, verifyMockWithSelect)('verify with IdP authenticator and multiple remediation forms', async t => {
-    const pageObject = await setup(t, true);
+    const pageObject = await setup(t, {isVerify: true});
     await checkA11y(t);
 
     await t.expect(pageObject.getFormTitle()).eql('Verify with IDP Authenticator');
@@ -209,7 +265,25 @@ test
 
 test
   .requestHooks(logger, verifyErrorMock)('verify with IdP authenticator surfaces error messages', async t => {
-    const pageObject = await setup(t, true);
+    const pageObject = await setup(t, {isVerify: true});
+    await checkA11y(t);
+
+    await t.expect(pageObject.getFormTitle()).eql('Verify with IDP Authenticator');
+    await t.expect(pageObject.getPageSubtitle()).eql('You will be redirected to verify with IDP Authenticator');
+    await t.expect(pageObject.getErrorFromErrorBox()).eql('Unable to verify authenticator. Try again.');
+  });
+
+test
+  .requestHooks(logger, verifyErrorMock)('should not auto redirect to IdP on error when skipIdpFactorVerificationBtn feature is true', async t => {
+    const pageObject = await setup(t, {
+      isVerify: true,
+      expectAutoRedirect: false
+    }, {
+      features: {
+        skipIdpFactorVerificationBtn: true
+      }
+    });
+
     await checkA11y(t);
 
     await t.expect(pageObject.getFormTitle()).eql('Verify with IDP Authenticator');
@@ -219,7 +293,7 @@ test
 
 test
   .requestHooks(logger, verifyErrorCustomLogoMock)('verify with IdP authenticator with custom logo surfaces error messages', async t => {
-    const pageObject = await setup(t, true);
+    const pageObject = await setup(t, {isVerify: true});
     await checkA11y(t);
 
     const logoBgImage = pageObject.getBeaconBgImage();
