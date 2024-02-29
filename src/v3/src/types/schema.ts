@@ -225,7 +225,6 @@ interface Layout {
 
 export enum UISchemaLayoutType {
   HORIZONTAL = 'HorizontalLayout',
-  HORIZONTAL_NOWRAP = 'HorizontalLayoutNoWrap',
   VERTICAL = 'VerticalLayout',
   STEPPER = 'Stepper',
   ACCORDION = 'Accordion',
@@ -524,8 +523,6 @@ export interface ImageLinkElement extends UISchemaElement {
     altText: string;
     svgIcon: FunctionComponent,
     linkClassName: string;
-    width: string;
-    height: string;
   };
 }
 

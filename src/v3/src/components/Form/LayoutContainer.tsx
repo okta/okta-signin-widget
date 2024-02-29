@@ -32,24 +32,19 @@ const LayoutContainer: FunctionComponent<{ uischema: UISchemaLayout }> = ({ uisc
   const { type, elements } = uischema;
 
   const isHorizontalLayout = type === UISchemaLayoutType.HORIZONTAL;
-  const isHorizontalLayoutWithNoWrap = type === UISchemaLayoutType.HORIZONTAL_NOWRAP;
-  const flexDirection = isHorizontalLayout || isHorizontalLayoutWithNoWrap ? 'row' : 'column';
+  const flexDirection = isHorizontalLayout ? 'row' : 'column';
   return (
     <Box
       display="flex"
       flexDirection={flexDirection}
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...(isHorizontalLayout && { gap: 1 })}
-      // eslint-disable-next-line react/jsx-props-no-spreading
-      {...(isHorizontalLayoutWithNoWrap && { sx: { alignItems: 'flex-start', gap: 0, textWrap: 'nowrap' } })}
     >
       {
         elements.map((element, index) => {
           const elementKey = getElementKey(element, index);
 
-          if ([UISchemaLayoutType.HORIZONTAL,
-            UISchemaLayoutType.HORIZONTAL_NOWRAP,
-            UISchemaLayoutType.VERTICAL]
+          if ([UISchemaLayoutType.HORIZONTAL, UISchemaLayoutType.VERTICAL]
             .includes((element as UISchemaLayout).type)) {
             return (
               <LayoutContainer

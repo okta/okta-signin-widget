@@ -25,13 +25,12 @@ const ImageLink: UISchemaElementComponent<{
         textAlign="center"
         href={options.url}
         rel="noopener noreferrer"
-        ariaLabel={options.altText}
+        aria-label={options.altText}
         className={options.linkClassName}
       >
         <Box
           alt={options.altText}
           textAlign="center"
-          sx={{ width: options.width, height: options.height }}
         >
           <Icon />
         </Box>

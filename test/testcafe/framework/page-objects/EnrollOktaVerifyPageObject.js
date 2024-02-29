@@ -6,7 +6,7 @@ const FORM_INFOBOX_ERROR_TITLE = '[data-se="o-form-error-container"] [data-se="c
 const FORM_INFOBOX_ERROR_TITLE_V3 = '[data-se="callout"] > div > h2';
 const CANT_SCAN_BUTTON_TEXT = 'Setup without scanning a QR code.';
 const SETUP_OV_BUTTON_TEXT = 'Set up Okta Verify';
-const SETUP_ON_ANOTHER_MOBILE_DEVICE_TEXT = 'set up Okta Verify on another mobile device';
+const SETUP_ON_ANOTHER_MOBILE_DEVICE_TEXT = 'Or set up Okta Verify on another mobile device';
 const GO_BACK_LINK_TEXT = 'Go back';
 const FORM_SELECTOR = '[data-se="o-form-explain"]';
 const SUB_HEADER = '[data-se="subheader"]';
@@ -14,7 +14,7 @@ const COPY_ORG_LINK_BUTTON_CLASS = '.copy-org-clipboard-button';
 const CLIPBOARD_TEXT = 'data-clipboard-text';
 const DOWNLOAD_OV_LINK_CLASS = '.download-ov-link';
 const APP_STORE_LINK_CLASS = '.app-store-link';
-const APP_STORE_LOGO_ELEMENT = APP_STORE_LINK_CLASS + ' img';
+const APP_STORE_LOGO_CLASS = '.app-store-logo';
 const OV_SETUP_LINK_CLASS = '.setup-button';
 const BACK_LINK_CLASS = '.ovSetupScreen';
 const OR_ON_MOBILE_DEVICE_LINK_CLASS = '.orOnMobileLink';
@@ -256,7 +256,10 @@ export default class EnrollOktaVerifyPageObject extends BasePageObject {
   }
 
   getAppStoreHref() {
-    return this.form.el.find(APP_STORE_LINK_CLASS).getAttribute('href');
+    if (userVariables.gen3) {
+      return this.form.el.find(APP_STORE_LINK_CLASS).getAttribute('href');
+    }
+    return this.form.el.find(APP_STORE_LOGO_CLASS).getAttribute('href');
   }
 
   getOVSetupHref() {

@@ -311,7 +311,6 @@ const sameDeviceInstruction1 = 'If you don’t have Okta Verify installed, downl
 const sameDeviceInstruction2 = 'Open Okta Verify and follow the steps to add your account.';
 const sameDeviceInstruction3 = 'When prompted, choose Sign In, then enter the sign-in URL:';
 const sameDeviceOVEnrollmentTitle = 'Set up Okta Verify';
-const iosDownloadImage = '/img/appstore/apple-app-store.svg';
 const sameDeviceOVEnrollmentSubtitle = 'To continue, make sure you have the Okta Verify app.';
 const sameDeviceOVEnrollmentInstructions1 = 'Once Okta Verify is installed, return to this page and tap Set up Okta Verify.';
 const sameDeviceOVEnrollmentInstructions3 = 'set up Okta Verify on another mobile device';

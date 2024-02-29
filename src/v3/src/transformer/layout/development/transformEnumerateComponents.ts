@@ -35,7 +35,6 @@ import {
   ReminderElement,
   SpinnerElement,
   TextWithActionLinkElement,
-  TextWithStepperElement,
   TitleElement,
 } from '../../../types';
 

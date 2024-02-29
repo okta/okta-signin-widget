@@ -11,6 +11,12 @@
  */
 
 import Util from '../../../../util/Util';
+import {
+  AppleStoreIcon,
+  GoogleStoreIcon,
+  OSXStoreIcon,
+  WindowsStoreIcon,
+} from '../../components/Icon';
 import { IDX_STEP } from '../../constants';
 import {
   ButtonElement,
@@ -30,7 +36,6 @@ import {
   UISchemaLayoutType,
 } from '../../types';
 import { copyToClipboard, isAndroid, loc } from '../../util';
-import { WindowsStoreIcon, GoogleStoreIcon, AppleStoreIcon, OSXStoreIcon } from '../../components/Icon';
 
 const STEPS = {
   QR_POLLING: 0,
@@ -250,8 +255,6 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({ transaction,
               altText: loc('enroll.oda.step3', 'login'),
               svgIcon,
               linkClassName: 'app-store-link',
-              width: '320px',
-              height: '50px',
             },
           } as ImageLinkElement,
         );
@@ -294,34 +297,19 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({ transaction,
     }
 
     if (showAnotherDeviceLink) {
-      // todo: refactor string parsing within OKTA-701606
-      const labelParts = loc(
-        deviceMap.isDesktop ? 'oie.enroll.okta_verify.setup.customUri.orOnMobile'
-          : 'oie.enroll.okta_verify.setup.customUri.orMobile',
-        'login',
-      ).split('<$1>');
-
       sameDeviceOVElements.push(
         {
-          type: UISchemaLayoutType.HORIZONTAL_NOWRAP,
-          elements: [
-            {
-              type: 'Description',
-              noMargin: true,
-              options: {
-                content: `${labelParts[0].trim()}&nbsp;`,
-              },
-            } as DescriptionElement,
-            {
-              type: 'StepperLink',
-              // todo: refactor string parsing within OKTA-701606
-              label: labelParts[1].replace('</$1>', '').trim(),
-              options: {
-                nextStepIndex: deviceBootstrap ? STEPS.DEVICE_BOOTSTRAP : STEPS.SAME_DEVICE,
-              },
-            } as StepperLinkElement,
-          ],
-        } as UISchemaLayout,
+          type: 'StepperLink',
+          // todo: refactor string parsing within OKTA-701606
+          label: loc(
+            deviceMap.isDesktop ? 'oie.enroll.okta_verify.setup.customUri.orOnMobile'
+              : 'oie.enroll.okta_verify.setup.customUri.orMobile',
+            'login',
+          ).replace('</$1>', '').replace('<$1>', '').trim(),
+          options: {
+            nextStepIndex: deviceBootstrap ? STEPS.DEVICE_BOOTSTRAP : STEPS.SAME_DEVICE,
+          },
+        } as StepperLinkElement,
       );
     }
   } else if (deviceBootstrap) {
