@@ -25,8 +25,8 @@ const ImageLink: UISchemaElementComponent<{
         textAlign="center"
         href={options.url}
         rel="noopener noreferrer"
-        aria-label={options.altText}
-        className={options.linkClassName}
+        ariaLabel={options.altText}
+        data-se={options.dataSe}
         sx={{
           verticalAlign: 'middle',
         }}

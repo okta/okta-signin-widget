@@ -180,7 +180,7 @@ span.no-translate {
   white-space: nowrap;
 }
 
-.app-store-link svg {
+.fit-content {
   width: fit-content !important;
   height: fit-content !important;
 }

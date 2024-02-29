@@ -522,7 +522,7 @@ export interface ImageLinkElement extends UISchemaElement {
     url: string;
     altText: string;
     svgIcon: FunctionComponent,
-    linkClassName: string;
+    dataSe: string;
   };
 }
 

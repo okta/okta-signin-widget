@@ -14,6 +14,7 @@ import { FunctionComponent } from 'preact';
 
 export const GoogleStoreIcon: FunctionComponent = () => (
   <svg
+    className="fit-content"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="-2000 0 9435.8 1604"
     xmlSpace="preserve"

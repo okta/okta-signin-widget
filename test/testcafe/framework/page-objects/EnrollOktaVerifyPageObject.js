@@ -13,8 +13,7 @@ const SUB_HEADER = '[data-se="subheader"]';
 const COPY_ORG_LINK_BUTTON_CLASS = '.copy-org-clipboard-button';
 const CLIPBOARD_TEXT = 'data-clipboard-text';
 const DOWNLOAD_OV_LINK_CLASS = '.download-ov-link';
-const APP_STORE_LINK_CLASS = '.app-store-link';
-const APP_STORE_LOGO_CLASS = '.app-store-logo';
+const APP_STORE_LINK_CLASS = userVariables.gen3 ? '[data-se="app-store-link"]' : '.app-store-logo';
 const OV_SETUP_LINK_CLASS = '.setup-button';
 const BACK_LINK_CLASS = '.ovSetupScreen';
 const OR_ON_MOBILE_DEVICE_LINK_CLASS = '.orOnMobileLink';
@@ -256,18 +255,11 @@ export default class EnrollOktaVerifyPageObject extends BasePageObject {
   }
 
   getAppStoreHref() {
-    if (userVariables.gen3) {
-      return this.form.el.find(APP_STORE_LINK_CLASS).getAttribute('href');
-    }
-    return this.form.el.find(APP_STORE_LOGO_CLASS).getAttribute('href');
+    return this.form.el.find(APP_STORE_LINK_CLASS).getAttribute('href');
   }
 
   getOVSetupHref() {
     return this.form.el.find(OV_SETUP_LINK_CLASS).getAttribute('href');
-  }
-
-  async clickBackToSameOVDevice() {
-    await this.form.clickElement(BACK_LINK_CLASS);
   }
 
   async clickOrAnotherMobileDeviceLink() {
@@ -287,7 +279,7 @@ export default class EnrollOktaVerifyPageObject extends BasePageObject {
       return;
     }
 
-    await this.clickBackToSameOVDevice();
+    await this.form.clickElement(BACK_LINK_CLASS);
   }
 
   async nthDesktopInstructions(index) {

@@ -14,6 +14,7 @@ import { FunctionComponent } from 'preact';
 
 export const WindowsStoreIcon: FunctionComponent = () => (
   <svg
+    className="fit-content"
     width="202"
     height="48"
     viewBox="0 0 202 48"

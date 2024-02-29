@@ -11,6 +11,7 @@
  */
 
 import { AppIcon } from 'src/components/Images';
+import { WindowsStoreIcon } from 'src/components/Icon';
 import { AUTHENTICATOR_KEY } from 'src/constants';
 
 import {
@@ -436,16 +437,17 @@ export const transformEnumerateComponents: IdxStepTransformer = ({
   };
   uischema.elements.push(imageWithText);
 
-  const appStoreDownloadImageLink: ImageLinkElement = {
-    type: 'AppStoreDownloadImageLink',
+  const ImageLink: ImageLinkElement = {
+    type: 'ImageLink',
     options: {
-      id: 'AppStoreDownloadImageLink',
-      platform: 'Platform',
+      id: 'ImageLink',
+      dataSe: 'app-store-link',
       url: 'Download url',
       altText: 'Alt text',
+      svgIcon: WindowsStoreIcon,
     },
   };
-  uischema.elements.push(appStoreDownloadImageLink);
+  uischema.elements.push(ImageLink);
 
   return formBag;
 };

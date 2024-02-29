@@ -14,6 +14,7 @@ import { FunctionComponent } from 'preact';
 
 export const AppleStoreIcon: FunctionComponent = () => (
   <svg
+    className="fit-content"
     width="220"
     height="60"
     viewBox="0 0 120 40"
