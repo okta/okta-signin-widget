@@ -14,7 +14,6 @@ import { AppIcon } from 'src/components/Images';
 import { AUTHENTICATOR_KEY } from 'src/constants';
 
 import {
-  ImageLinkElement,
   AuthenticatorButtonListElement,
   ButtonElement,
   ButtonType,
@@ -23,6 +22,7 @@ import {
   FieldElement,
   HeadingElement,
   IdxStepTransformer,
+  ImageLinkElement,
   ImageWithTextElement,
   InfoboxElement,
   LaunchAuthenticatorButtonElement,

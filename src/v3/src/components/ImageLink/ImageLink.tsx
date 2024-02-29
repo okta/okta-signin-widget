@@ -27,6 +27,9 @@ const ImageLink: UISchemaElementComponent<{
         rel="noopener noreferrer"
         aria-label={options.altText}
         className={options.linkClassName}
+        sx={{
+          verticalAlign: 'middle',
+        }}
       >
         <Box
           alt={options.altText}

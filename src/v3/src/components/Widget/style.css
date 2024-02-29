@@ -180,13 +180,6 @@ span.no-translate {
   white-space: nowrap;
 }
 
-.app-store-link {
-  display: block;
-  /* stylelint-disable-next-line liberty/use-logical-spec */
-  margin: 10px auto;
-  vertical-align: middle;
-}
-
 .app-store-link svg {
   width: fit-content !important;
   height: fit-content !important;
