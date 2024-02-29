@@ -22,7 +22,6 @@ const ImageLink: UISchemaElementComponent<{
   const Icon = options.svgIcon;
   return (
     <Box
-      id={uischema.options.id}
       display="flex"
       justifyContent={options.alignment}
       alignItems="center"
@@ -32,10 +31,6 @@ const ImageLink: UISchemaElementComponent<{
         href={options.url}
         rel="noopener noreferrer"
         data-se={options.dataSe}
-        sx={{
-          verticalAlign: 'middle',
-          textAlign: 'center',
-        }}
       >
         <Icon description={options.altText} />
       </Link>
