@@ -20,6 +20,7 @@ const idx = {
 
   '/idp/idx/introspect': [
     'identify',
+    // 'identify-with-uischema',
     // 'error-identify-multiple-errors',
     // 'authenticator-enroll-ov-qr-enable-biometrics',
     // 'authenticator-verification-okta-verify-push',

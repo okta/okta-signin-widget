@@ -223,6 +223,13 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
     }
     setMessage(undefined);
     try {
+      // Indicate which remediations support Server Generated UI Schema
+      /*
+      authClient.http.setRequestHeader(
+        UI_SCHEMA_SUPPORT_HEADER_KEY,
+        SUPPORTED_SERVER_GENERATED_SCHEMA_REMEDIATIONS.toString(),
+      );
+      */
       let newTransaction = await fn(payload);
 
       // TODO

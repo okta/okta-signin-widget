@@ -15,6 +15,7 @@ import { IdxTransaction } from '@okta/okta-auth-js';
 import { traverseLayout } from '../transformer/util';
 import {
   DescriptionElement,
+  FormBag,
   InfoboxElement,
   TitleElement,
   UISchemaLayout,
@@ -43,7 +44,7 @@ export const extractFirstWidgetMessageStr = (
 };
 
 export const extractPageTitle = (
-  uischema: UISchemaLayout,
+  uischema: FormBag['uischema'],
   widgetProps: WidgetProps,
   idxTransaction?: IdxTransaction,
 ): string | null => {

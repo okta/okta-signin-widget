@@ -38,7 +38,7 @@ const STATIC_DIRS = [PLAYGROUND, TARGET, ASSETS];
 const headers = (() => {
   if (!process.env.DISABLE_CSP) {
     // Allow google domains for testing recaptcha
-    const scriptSrc = `script-src http://${HOST}:${DEV_SERVER_PORT} https://www.google.com https://www.gstatic.com`;
+    const scriptSrc = `script-src http://${HOST}:${DEV_SERVER_PORT} https://www.google.com https://www.gstatic.com 'unsafe-eval'`;
     const styleSrc = `style-src http://${HOST}:${DEV_SERVER_PORT} 'nonce-playground'`;
 
     return {

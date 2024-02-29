@@ -18,6 +18,7 @@ import {
   TransformStepFn,
   UISchemaLayoutType,
 } from '../types';
+import { isServerGeneratedSchemaAvailable } from '../util';
 import { transformButtons } from './button';
 import { transformCaptcha } from './captcha';
 import { transformDataSchema } from './dataSchema';
@@ -25,6 +26,7 @@ import { transformFields } from './field';
 import { transformI18n } from './i18n';
 import { transformLayout } from './layout';
 import { transformMessages } from './messages';
+import { transformServerSchema } from './serverSchema';
 import { transformTestAttribute } from './testAttribute';
 import { transformTransactionData } from './transaction';
 import { transformUISchema } from './uischema';
@@ -38,20 +40,7 @@ const logger: TransformStepFn = (formbag) => {
 };
 
 export const transformIdxTransaction = (options: TransformationOptions): FormBag => {
-  const transformationStepFns: TransformStepFn[] = [
-    transformTransactionData(options),
-    transformFields(options),
-    transformLayout(options),
-    transformButtons(options),
-    transformCaptcha(options),
-    transformMessages(options),
-    transformI18n(options),
-    transformUISchema(options),
-    transformDataSchema,
-    transformTestAttribute,
-  ];
-
-  return flow(transformationStepFns)({
+  const defaultFormBag = {
     schema: {
       type: 'object',
       properties: {},
@@ -67,5 +56,25 @@ export const transformIdxTransaction = (options: TransformationOptions): FormBag
       fieldsToValidate: [],
       fieldsToExclude: () => ([]),
     },
-  });
+  };
+
+  // Transformation for new server generated uischema
+  if (isServerGeneratedSchemaAvailable(options.widgetProps, options.transaction)) {
+    return flow([transformServerSchema(options)])(defaultFormBag);
+  }
+
+  const transformationStepFns: TransformStepFn[] = [
+    transformTransactionData(options),
+    transformFields(options),
+    transformLayout(options),
+    transformButtons(options),
+    transformCaptcha(options),
+    transformMessages(options),
+    transformI18n(options),
+    transformUISchema(options),
+    transformDataSchema,
+    transformTestAttribute,
+  ];
+
+  return flow(transformationStepFns)(defaultFormBag);
 };

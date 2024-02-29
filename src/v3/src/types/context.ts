@@ -21,6 +21,7 @@ import { MutableRef, StateUpdater } from 'preact/hooks';
 
 import { FormBag, LanguageDirection, UISchemaLayoutType } from './schema';
 import { WidgetProps } from './widget';
+import { ErrorObject } from 'ajv';
 
 export type IWidgetContext = {
   authClient: OktaAuthIdxInterface;
@@ -45,6 +46,8 @@ export type IWidgetContext = {
   setloginHint: StateUpdater<string | null>;
   languageCode: string;
   languageDirection: LanguageDirection;
+  setFormErrors: StateUpdater<ErrorObject[]>;
+  formErrors: ErrorObject[] | undefined;
 };
 
 // Stepper context

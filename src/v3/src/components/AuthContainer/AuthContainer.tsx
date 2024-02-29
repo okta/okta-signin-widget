@@ -69,6 +69,7 @@ const AuthContainer: FunctionComponent<{ hide: boolean }> = ({ children, hide })
             sx={(theme) => ({
               maxInlineSize: '432px',
               minInlineSize: '320px',
+              minHeight: '320px',
               borderWidth: theme.mixins.borderWidth,
               borderStyle: theme.mixins.borderStyle,
               borderRadius: theme.mixins.borderRadius,

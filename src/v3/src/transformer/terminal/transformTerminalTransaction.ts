@@ -62,7 +62,7 @@ const getTitleKey = (messages?: IdxMessage[]): string | undefined => {
   return titleKey && TERMINAL_TITLE_KEY[titleKey];
 };
 
-const appendTitleElement = (uischema: UISchemaLayout, messages?: IdxMessage[]): void => {
+const appendTitleElement = (uischema: FormBag['uischema'], messages?: IdxMessage[]): void => {
   const titleKey = getTitleKey(messages);
   if (!titleKey) {
     return;
@@ -75,7 +75,7 @@ const appendTitleElement = (uischema: UISchemaLayout, messages?: IdxMessage[]): 
 
 const appendViewLinks = (
   transaction: IdxTransaction,
-  uischema: UISchemaLayout,
+  uischema: FormBag['uischema'],
   widgetProps: WidgetProps,
   bootstrapFn: () => Promise<void>,
 ): void => {
