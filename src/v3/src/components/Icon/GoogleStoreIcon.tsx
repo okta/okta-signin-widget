@@ -10,15 +10,21 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { Box } from '@mui/material';
 import { FunctionComponent } from 'preact';
 
-export const GoogleStoreIcon: FunctionComponent = () => (
-  <svg
-    className="fit-content"
+import { IconProps } from '../../types';
+
+export const GoogleStoreIcon: FunctionComponent<IconProps> = ({ description }) => (
+  <Box
+    component="svg"
+    sx={{ width: '280px !important', height: '60px !important' }}
     xmlns="http://www.w3.org/2000/svg"
     viewBox="-2000 0 9435.8 1604"
     xmlSpace="preserve"
+    role="img"
   >
+    <title>{description}</title>
     <path
       d="M5234.4 1604h-5033C90.4 1604 0 1513.6 0 1403.5v-1203C0 90 90.4 0 201.4 0h5033c110.9 0 201.4 90 201.4 200.5v1203c0 110.1-90.5 200.5-201.4 200.5z"
       fillRule="evenodd"
@@ -191,5 +197,5 @@ export const GoogleStoreIcon: FunctionComponent = () => (
       clipRule="evenodd"
       fill="#fff"
     />
-  </svg>
+  </Box>
 );

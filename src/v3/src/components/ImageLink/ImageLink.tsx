@@ -12,7 +12,8 @@
 
 import { Box } from '@mui/material';
 import { Link } from '@okta/odyssey-react-mui';
-import { ImageLinkElement, UISchemaElementComponent } from 'src/types';
+
+import { ImageLinkElement, UISchemaElementComponent } from '../../types';
 
 const ImageLink: UISchemaElementComponent<{
   uischema: ImageLinkElement
@@ -20,23 +21,23 @@ const ImageLink: UISchemaElementComponent<{
   const { options } = uischema;
   const Icon = options.svgIcon;
   return (
-    <Box>
+    <Box
+      id={uischema.options.id}
+      display="flex"
+      justifyContent={options.alignment}
+      alignItems="center"
+      flexWrap="wrap"
+    >
       <Link
-        textAlign="center"
         href={options.url}
         rel="noopener noreferrer"
-        ariaLabel={options.altText}
         data-se={options.dataSe}
         sx={{
           verticalAlign: 'middle',
+          textAlign: 'center',
         }}
       >
-        <Box
-          alt={options.altText}
-          textAlign="center"
-        >
-          <Icon />
-        </Box>
+        <Icon description={options.altText} />
       </Link>
     </Box>
   );

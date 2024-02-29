@@ -253,6 +253,7 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({ transaction,
             options: {
               url: deviceMap.downloadHref,
               altText: loc('enroll.oda.step3', 'login'),
+              alignment: 'center',
               svgIcon,
               dataSe: 'app-store-link',
             },

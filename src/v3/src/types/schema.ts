@@ -521,7 +521,12 @@ export interface ImageLinkElement extends UISchemaElement {
     id: string;
     url: string;
     altText: string;
-    svgIcon: FunctionComponent,
+    alignment: 'start' | 'center' | 'end';
+    svgIcon: FunctionComponent<{
+      description: string;
+      width?: string | number;
+      height?: string | number;
+    }>,
     dataSe: string;
   };
 }

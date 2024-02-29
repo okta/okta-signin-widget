@@ -179,8 +179,3 @@ span.strong {
 span.no-translate {
   white-space: nowrap;
 }
-
-.fit-content {
-  width: fit-content !important;
-  height: fit-content !important;
-}

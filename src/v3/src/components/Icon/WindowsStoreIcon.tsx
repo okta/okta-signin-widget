@@ -10,17 +10,21 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { Box } from '@mui/material';
 import { FunctionComponent } from 'preact';
 
-export const WindowsStoreIcon: FunctionComponent = () => (
-  <svg
-    className="fit-content"
-    width="202"
-    height="48"
+import { IconProps } from '../../types';
+
+export const WindowsStoreIcon: FunctionComponent<IconProps> = ({ description }) => (
+  <Box
+    component="svg"
+    sx={{ width: '202px !important', height: '48px !important' }}
     viewBox="0 0 202 48"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
+    role="img"
   >
+    <title>{description}</title>
     <rect
       width="202"
       height="48"
@@ -48,5 +52,5 @@ export const WindowsStoreIcon: FunctionComponent = () => (
         />
       </clipPath>
     </defs>
-  </svg>
+  </Box>
 );
