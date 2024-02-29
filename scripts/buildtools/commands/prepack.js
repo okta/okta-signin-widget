@@ -22,9 +22,9 @@ function generateSris () {
     const filename = parts[parts.length - 1];
     const content = fs.readFileSync(path, { encoding: 'utf8' });
     // generate sri (value)
-    const hash = crypto.createHash('sha256').update(content, 'utf8');
+    const hash = crypto.createHash('sha384').update(content, 'utf8');
     const hashBase64 = hash.digest('base64');
-    const sri = 'sha256-' + hashBase64;
+    const sri = 'sha384-' + hashBase64;
     // add sri in map
     return { ...acc, [filename]: sri }
   }, {});
