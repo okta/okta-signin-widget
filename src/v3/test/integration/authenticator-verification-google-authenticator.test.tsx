@@ -26,14 +26,14 @@ describe('authenticator-verification-google-authenticator', () => {
       authClient,
       user,
       findByText,
-      findByTestId,
+      findByLabelText,
     } = await setup({ mockResponse });
 
     const titleElement = await findByText(/Verify with Google Authenticator/);
     await waitFor(() => expect(titleElement).toHaveFocus());
     await findByText(/Enter the temporary code generated in your Google Authenticator app/);
 
-    const codeEle = await findByTestId('credentials.passcode') as HTMLInputElement;
+    const codeEle = await findByLabelText('Enter code') as HTMLInputElement;
     const submitButton = await findByText('Verify', { selector: 'button' });
 
     const verificationCode = '123456';
@@ -52,14 +52,14 @@ describe('authenticator-verification-google-authenticator', () => {
       authClient,
       user,
       findByText,
-      findByTestId,
+      findByLabelText,
     } = await setup({ mockResponse });
 
     const titleElement = await findByText(/Verify with Google Authenticator/);
     await waitFor(() => expect(titleElement).toHaveFocus());
     await findByText(/Enter the temporary code generated in your Google Authenticator app/);
 
-    const codeEle = await findByTestId('credentials.passcode') as HTMLInputElement;
+    const codeEle = await findByLabelText('Enter code') as HTMLInputElement;
     const submitButton = await findByText('Verify', { selector: 'button' });
 
     const otp = '123456';

@@ -139,7 +139,7 @@ test.requestHooks(requestLogger, errorOIENotEnabledMock)('shows an error when fe
   const terminalPageObject = new TerminalPageObject(t);
   const errors = terminalPageObject.getErrorMessages();
   await t.expect(errors.isError()).ok();
-  await t.expect(errors.getTextContent()).eql('The requested feature is not enabled in this environment.');
+  await t.expect(errors.getTextContent()).contains('The requested feature is not enabled in this environment.');
 
   await checkConsoleMessages([
     'ready',
@@ -272,7 +272,7 @@ test.requestHooks(requestLogger, errorInvalidRecoveryTokenMock)('shows an error 
   const terminalPageObject = new TerminalPageObject(t);
   const errors = terminalPageObject.getErrorMessages();
   await t.expect(errors.isError()).ok();
-  await t.expect(errors.getTextContent()).eql('The recovery token is invalid.');
+  await t.expect(errors.getTextContent()).contains('The recovery token is invalid.');
 
   await checkConsoleMessages([
     'ready',

@@ -10,7 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box, Typography } from '@okta/odyssey-react-mui';
+import { Box } from '@mui/material';
+import { Typography } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 import { useEffect, useRef } from 'preact/hooks';
 
@@ -20,7 +21,7 @@ import { TitleElement, UISchemaElementComponent } from '../../types';
 const Title: UISchemaElementComponent<{
   uischema: TitleElement
 }> = (
-  { uischema: { id, options } },
+  { uischema: { options } },
 ) => {
   const titleRef = useRef<HTMLTitleElement>(null);
   const { widgetProps } = useWidgetContext();
@@ -39,15 +40,10 @@ const Title: UISchemaElementComponent<{
       justifyContent="flex-start"
     >
       <Typography
-        id={id}
         component="h2"
         variant="h4"
-        data-se="o-form-head"
-        ref={titleRef}
-        tabIndex={-1}
-        sx={{
-          outline: 'none',
-        }}
+        testId="o-form-head"
+        typographyRef={titleRef}
       >
         {options.content}
       </Typography>

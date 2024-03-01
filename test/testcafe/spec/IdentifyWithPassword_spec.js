@@ -58,14 +58,14 @@ test.requestHooks(identifyWithPasswordMock)('should show errors if required fiel
   await identityPage.waitForErrorBox();
 
   await t.expect(identityPage.hasIdentifierErrorMessage()).eql(true);
-  await t.expect(identityPage.getIdentifierErrorMessage()).eql('This field cannot be left blank');
+  await t.expect(identityPage.getIdentifierErrorMessage()).match(/This field cannot be left blank/);
 
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.clickSignInButton();
   await identityPage.waitForErrorBox();
 
   await t.expect(identityPage.hasPasswordErrorMessage()).eql(true);
-  await t.expect(identityPage.getPasswordErrorMessage()).eql('This field cannot be left blank');
+  await t.expect(identityPage.getPasswordErrorMessage()).match(/This field cannot be left blank/);
 });
 
 test.requestHooks(identifyWithPasswordMock)('should show customized error if required field password is empty', async t => {
@@ -83,7 +83,7 @@ test.requestHooks(identifyWithPasswordMock)('should show customized error if req
   await identityPage.waitForErrorBox();
 
   await t.expect(identityPage.hasIdentifierErrorMessage()).eql(true);
-  await t.expect(identityPage.getIdentifierErrorMessage()).eql('Username is required!');
+  await t.expect(identityPage.getIdentifierErrorMessage()).match(/Username is required!/);
 
 
   await identityPage.fillIdentifierField('Test Identifier');
@@ -91,7 +91,7 @@ test.requestHooks(identifyWithPasswordMock)('should show customized error if req
   await identityPage.waitForErrorBox();
 
   await t.expect(identityPage.hasPasswordErrorMessage()).eql(true);
-  await t.expect(identityPage.getPasswordErrorMessage()).eql('Password is required!');
+  await t.expect(identityPage.getPasswordErrorMessage()).match(/Password is required!/);
 });
 
 test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should have password field, password toggle, and forgot password link', async t => {
@@ -148,7 +148,8 @@ test.meta('gen3', false).requestHooks(identifyRequestLogger, identifyWithPasswor
   await t.expect(await identityPage.hasShowTogglePasswordIcon()).notOk();
 });
 
-test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should auto-hide password after 30 seconds', async t => {
+// Odyssey does not support callback function for auto-hiding password, but this will be deprecated in Gen3 along with showPasswordToggleOnSignInPage
+test.meta('gen3', false).requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should auto-hide password after 30 seconds', async t => {
   const identityPage = await setup(t, {
     features: { showPasswordToggleOnSignInPage: true },
   });

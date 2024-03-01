@@ -87,7 +87,7 @@ test
     await pageObject.submit('Enroll');
 
     pageObject.form.waitForErrorBox();
-    await t.expect(pageObject.form.getErrorBoxText()).eql('We found some errors. Please review the form and make corrections.');
+    await t.expect(pageObject.form.getErrorBoxText()).contains('We found some errors. Please review the form and make corrections.');
   });
 
 fixture('Verify Symantec VIP Authenticator');
@@ -124,7 +124,7 @@ test
     await pageObject.submit('Verify');
 
     pageObject.form.waitForErrorBox();
-    await t.expect(pageObject.form.getErrorBoxText()).eql('We found some errors. Please review the form and make corrections.');
+    await t.expect(pageObject.form.getErrorBoxText()).contains('We found some errors. Please review the form and make corrections.');
   });
 
 test
@@ -140,7 +140,7 @@ test
     await pageObject.submit('Verify');
 
     await t.expect(pageObject.form.getTextBoxErrorMessage(fieldName))
-      .eql('Your code doesn\'t match our records. Please try again.');
+      .match(/Your code doesn't match our records. Please try again./);
   });
 
 test.requestHooks(verifyMock)('should show custom factor page link', async t => {

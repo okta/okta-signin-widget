@@ -10,10 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import {
-  Alert,
-  Box,
-} from '@okta/odyssey-react-mui';
+import { Box } from '@mui/material';
+import { Callout, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
@@ -41,23 +39,25 @@ const InfoBox: UISchemaElementComponent<{
     },
   } = uischema;
 
+  const tokens = useOdysseyDesignTokens();
+
   return loading ? null : (
     <Box
-      marginBlockEnd={4}
+      marginBlockEnd={tokens.Spacing4}
       width={1}
-      data-se="message"
+      data-se={`infobox-${messageClass.toLowerCase()}`}
     >
-      <Alert
+      <Callout
         severity={MessageTypeVariant[messageClass as MessageType] ?? MessageTypeVariant.INFO}
-        variant="infobox"
-        data-se={dataSe}
-        className={`infobox-${messageClass.toLowerCase()}`}
+        testId={dataSe}
+        // visually-hidden severity text is not translated
+        translate="no"
       >
         {
           Array.isArray(message)
             ? message.map((msg) => (
               <Box
-                marginBlockEnd={2}
+                marginBlockEnd={tokens.Spacing2}
                 key={msg.message}
               >
                 <WidgetMessageContainer
@@ -75,7 +75,7 @@ const InfoBox: UISchemaElementComponent<{
               />
             )
         }
-      </Alert>
+      </Callout>
     </Box>
   );
 };

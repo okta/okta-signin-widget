@@ -10,11 +10,12 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box } from '@okta/odyssey-react-mui';
-import classNames from 'classnames';
+import { Box } from '@mui/material';
+import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
 
 import { AuthCoinProps } from '../../types';
+import Image from '../Image';
 import { getAuthCoinConfiguration } from './authCoinConfigUtil';
 
 const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
@@ -30,7 +31,8 @@ const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
   const authCoinConfiguration = getAuthCoinConfiguration();
   const authCoinConfigByAuthKey = authCoinConfiguration[authenticatorKey];
 
-  const containerClasses = classNames(authCoinConfigByAuthKey?.iconClassName, customClasses);
+  const containerTestIds = `factor-beacon ${authCoinConfigByAuthKey?.iconClassName} ${customClasses ? customClasses?.join(' ') : ''}`;
+  const tokens = useOdysseyDesignTokens();
 
   function createAuthCoinIcon() {
     // TODO: OKTA-467022 - Add warning when attempted to customize non-customizeable authenticator
@@ -38,15 +40,12 @@ const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
     // key that can be customized or custom push app
     if (url && (authCoinConfigByAuthKey?.customizable || !authCoinConfigByAuthKey?.icon)) {
       return (
-        <Box
-          as="img"
+        <Image
           src={url}
           alt={authCoinConfigByAuthKey.description}
-          className="custom-logo"
-          sx={{
-            width: (theme) => theme.spacing(6),
-            height: (theme) => theme.spacing(6),
-          }}
+          width={tokens.Spacing7}
+          height={tokens.Spacing7}
+          testId="custom-logo"
         />
       );
     }
@@ -57,22 +56,21 @@ const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
       <AuthCoinIcon
         name={name}
         description={description}
+        width={tokens.Spacing7}
+        height={tokens.Spacing7}
       />
     );
   }
 
   return authCoinConfigByAuthKey && (
     <Box
-      className={containerClasses}
-      data-se="factor-beacon"
+      data-se={containerTestIds}
       aria-hidden
       sx={{
         position: 'relative',
-        background: 'white',
-        inlineSize: '54px',
-        blockSize: '48px',
-        paddingBlock: 0,
-        paddingInline: '3px',
+        inlineSize: tokens.Spacing7,
+        blockSize: tokens.Spacing7,
+        paddingBlock: tokens.Spacing0,
         ...sx,
       }}
     >

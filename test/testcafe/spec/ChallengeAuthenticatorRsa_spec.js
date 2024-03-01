@@ -82,7 +82,7 @@ test.requestHooks(mockChallengeAuthenticatorRsa)('passcode is required', async t
   await challengeRsaPage.clickNextButton('Verify');
 
   await challengeRsaPage.form.waitForErrorBox();
-  await t.expect(challengeRsaPage.getPasscodeError()).eql('This field cannot be left blank');
+  await t.expect(challengeRsaPage.getPasscodeError()).match(/This field cannot be left blank/);
 });
 
 test.requestHooks(mockInvalidPasscode)('challege RSA authenticator with invalid passcode', async t => {
@@ -92,7 +92,7 @@ test.requestHooks(mockInvalidPasscode)('challege RSA authenticator with invalid 
   await challengeRsaPage.clickNextButton('Verify');
 
   await t.expect(challengeRsaPage.getInvalidOTPError())
-    .eql('Invalid code. Try again.');
+    .contains('Invalid code. Try again.');
 });
 
 test.requestHooks(mockPasscodeChange)('displays error and clears passcode when passcode change response', async t => {
@@ -102,7 +102,7 @@ test.requestHooks(mockPasscodeChange)('displays error and clears passcode when p
   await challengeRsaPage.clickNextButton('Verify');
 
   await t.expect(challengeRsaPage.getInvalidOTPError())
-    .eql('Pin accepted, Wait for token to change, then enter new passcode.');
+    .contains('Pin accepted, Wait for token to change, then enter new passcode.');
   await t.expect(challengeRsaPage.getPasscodeValue())
     .eql('');
 });

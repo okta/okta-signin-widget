@@ -10,7 +10,11 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { AppIcon } from 'src/components/Images';
+import {
+  AppIcon,
+  DeviceIcon,
+  LocationIcon,
+} from 'src/components/Images';
 import { AUTHENTICATOR_KEY } from 'src/constants';
 
 import {
@@ -21,6 +25,7 @@ import {
   DividerElement,
   FieldElement,
   HeadingElement,
+  IdentifierContainerElement,
   IdxStepTransformer,
   ImageWithTextElement,
   InfoboxElement,
@@ -43,7 +48,7 @@ import {
 export const transformEnumerateComponents: IdxStepTransformer = ({
   formBag,
 }) => {
-  const { uischema, dataSchema } = formBag;
+  const { uischema, dataSchema, data } = formBag;
 
   const reminderElement: ReminderElement = {
     type: 'Reminder',
@@ -183,6 +188,10 @@ export const transformEnumerateComponents: IdxStepTransformer = ({
           ruleKey: 'excludeUsername',
           label: 'Cannot contain username',
         },
+        {
+          ruleKey: '',
+          label: 'Should not match your previous password',
+        },
       ],
       validationDelayMs: 0,
     },
@@ -203,6 +212,7 @@ export const transformEnumerateComponents: IdxStepTransformer = ({
     },
   };
   uischema.elements.push(inputPasswordElement);
+  data['credentials.passcode'] = 'a';
   const confirmPassword: FieldElement = {
     type: 'Field',
     key: 'confirmPassword',
@@ -217,6 +227,7 @@ export const transformEnumerateComponents: IdxStepTransformer = ({
     },
   };
   uischema.elements.push(confirmPassword);
+  data.confirmPassword = 'a';
 
   const passwordMatches: PasswordMatchesElement = {
     type: 'PasswordMatches',
@@ -334,6 +345,29 @@ export const transformEnumerateComponents: IdxStepTransformer = ({
             Icon: '',
           },
         },
+        {
+          type: 'AuthenticatorButton',
+          label: 'Authenticator Button 5 for Enroll',
+          options: {
+            step: '',
+            type: ButtonType.BUTTON,
+            key: AUTHENTICATOR_KEY.CUSTOM_APP,
+            ctaLabel: 'Set up',
+            isEnroll: true,
+          },
+        },
+        {
+          type: 'AuthenticatorButton',
+          label: 'Authenticator Button 6 for Additional Enroll',
+          options: {
+            step: '',
+            type: ButtonType.BUTTON,
+            key: AUTHENTICATOR_KEY.WEBAUTHN,
+            ctaLabel: 'Set up another',
+            isEnroll: true,
+            isAdditionalEnroll: true,
+          },
+        },
       ],
       dataSe: 'authenticator-button-list',
     },
@@ -345,6 +379,11 @@ export const transformEnumerateComponents: IdxStepTransformer = ({
     options: {
       step: '',
     },
+    translations: [{
+      name: 'label',
+      i18nKey: '',
+      value: 'Launch Authenticator button with long name and icon',
+    }],
   };
   uischema.elements.push(launchAuthenticatorButton);
 
@@ -425,15 +464,43 @@ export const transformEnumerateComponents: IdxStepTransformer = ({
   };
   uischema.elements.push(textWithActionLink);
 
-  const imageWithText: ImageWithTextElement = {
+  uischema.elements.push(divider);
+
+  const appImageWithText: ImageWithTextElement = {
     type: 'ImageWithText',
     options: {
       id: 'image.withText',
       SVGIcon: AppIcon,
-      textContent: 'Image with text',
+      textContent: 'Application',
     },
   };
-  uischema.elements.push(imageWithText);
+  uischema.elements.push(appImageWithText);
+
+  const deviceImageWithText: ImageWithTextElement = {
+    type: 'ImageWithText',
+    options: {
+      id: 'image.withText',
+      SVGIcon: DeviceIcon,
+      textContent: 'Device',
+    },
+  };
+  uischema.elements.push(deviceImageWithText);
+
+  const locationImageWithText: ImageWithTextElement = {
+    type: 'ImageWithText',
+    options: {
+      id: 'image.withText',
+      SVGIcon: LocationIcon,
+      textContent: 'Location',
+    },
+  };
+  uischema.elements.push(locationImageWithText);
+
+  const identifierElement: IdentifierContainerElement = {
+    type: 'IdentifierContainer',
+    options: { identifier: 'User' },
+  };
+  uischema.elements.push(identifierElement);
 
   return formBag;
 };

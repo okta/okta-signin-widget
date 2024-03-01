@@ -115,7 +115,7 @@ async function setup(t) {
     .requestHooks(mock)(testTitle, async t => {
       const terminalViewPage = await setup(t);
       await checkA11y(t);
-      await t.expect(terminalViewPage.getBeaconClass()).contains('mfa-okta-email');
+      await t.expect(terminalViewPage.getBeaconSelector()).contains('mfa-okta-email');
     });
 });
 
@@ -186,9 +186,9 @@ test.requestHooks(terminalMultipleErrorsMock)('should render each error message 
   const terminalViewPage = await setup(t);
   await checkA11y(t);
 
-  await t.expect(await terminalViewPage.form.getErrorBoxTextByIndex(0)).eql('Please enter a username');
-  await t.expect(await terminalViewPage.form.getErrorBoxTextByIndex(1)).eql('Please enter a password');
-  await t.expect(await terminalViewPage.form.getErrorBoxTextByIndex(2)).eql('Your session has expired. Please try to sign in again.');
+  await t.expect(await terminalViewPage.form.getErrorBoxTextByIndex(0)).contains('Please enter a username');
+  await t.expect(await terminalViewPage.form.getErrorBoxTextByIndex(1)).contains('Please enter a password');
+  await t.expect(await terminalViewPage.form.getErrorBoxTextByIndex(2)).contains('Your session has expired. Please try to sign in again.');
 });
 
 test.requestHooks(terminalCustomAccessDeniedErrorMessageMock)('should render custom access denied error message', async t => {

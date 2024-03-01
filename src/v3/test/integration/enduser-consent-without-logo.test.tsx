@@ -14,7 +14,7 @@ import { setup } from './util';
 
 import enduserConsentResponse from '../../../../playground/mocks/data/idp/idx/consent-enduser.json';
 
-describe('enduser-consent-without-lgoo', () => {
+describe('enduser-consent-without-logo', () => {
   it('should render form', async () => {
     const enduserConsentResponseWithoutLogo = {
       ...enduserConsentResponse,

@@ -10,15 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { SelectChangeEvent } from '@mui/material';
-import {
-  Box,
-  InputAdornment,
-  InputBase,
-  InputLabel,
-  Select,
-  Typography,
-} from '@okta/odyssey-react-mui';
+import { Box, SelectChangeEvent } from '@mui/material';
+import { NativeSelect, TextField, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { IdxMessage } from '@okta/okta-auth-js';
 import { h } from 'preact';
 import {
@@ -36,8 +29,7 @@ import {
   UISchemaElementComponent,
   UISchemaElementComponentWithValidationProps,
 } from '../../types';
-import { getDefaultCountryCode, getTranslation } from '../../util';
-import FieldLevelMessageContainer from '../FieldLevelMessageContainer';
+import { buildFieldLevelErrorMessages, getDefaultCountryCode, getTranslation } from '../../util';
 import { withFormValidationState } from '../hocs';
 
 const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithValidationProps> = ({
@@ -45,7 +37,6 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
   setTouched,
   errors,
   handleBlur,
-  describedByIds,
 }) => {
   const {
     data,
@@ -57,8 +48,6 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
   const {
     translations = [],
     focus,
-    ariaDescribedBy,
-    showAsterisk,
     options: {
       inputMeta: {
         name: fieldName,
@@ -69,10 +58,10 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
       attributes,
     },
   } = uischema;
+  const { autocomplete, inputmode } = attributes || {};
   const mainLabel = getTranslation(translations, 'label');
   const extensionLabel = getTranslation(translations, 'extension');
   const countryLabel = getTranslation(translations, 'country');
-  const optionalLabel = getTranslation(translations, 'optionalLabel');
 
   const { features: { disableAutocomplete } = {} } = widgetProps;
   const countries = CountryUtil.getCountries() as Record<string, string>;
@@ -86,7 +75,8 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
   const showExtension = methodType === 'voice';
   const onChangeHandler = useOnChange(uischema);
   const focusRef = useAutoFocus<HTMLSelectElement>(focus);
-  const phoneHasErrors = typeof errors !== 'undefined';
+  const { errorMessage, errorMessageList } = buildFieldLevelErrorMessages(errors);
+  const tokens = useOdysseyDesignTokens();
 
   const formatPhone = (
     phoneNumber: string,
@@ -101,17 +91,19 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
 
   const validate = useCallback((dataBag: FormBag['data']) => {
     const fullPhoneNumber = dataBag[fieldName];
-    const errorMessage: IdxMessage = {
+    const blankFieldErrorMessage: IdxMessage = {
       class: 'ERROR',
       message: '',
       i18n: { key: 'model.validation.field.blank' },
     };
     const isValid = !!fullPhoneNumber && !!phone;
-    return isValid ? undefined : [errorMessage];
+    return isValid ? undefined : [blankFieldErrorMessage];
   }, [phone, fieldName]);
 
   useEffect(() => {
-    dataSchemaRef.current![fieldName].validate = validate;
+    if (dataSchemaRef.current) {
+      dataSchemaRef.current[fieldName].validate = validate;
+    }
   }, [dataSchemaRef, fieldName, messages.value, validate]);
 
   useEffect(() => {
@@ -129,28 +121,17 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
   const renderExtension = () => (
     showExtension && (
       <Box width={0.25}>
-        <InputLabel
-          htmlFor="phoneExtension"
-          // label should remain in rtl format if rtl language is set
-          dir={languageDirection}
-        >
-          {extensionLabel}
-        </InputLabel>
-        <InputBase
-          value={extension}
-          type="text"
-          name="extension"
+        <TextField
+          autoCompleteType={disableAutocomplete ? 'off' : 'tel-extension'}
           id="phoneExtension"
-          dir="ltr"
-          disabled={loading}
+          isDisabled={loading}
+          label={extensionLabel ?? ''}
+          name="extension"
           onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
             setExtension(e.currentTarget.value);
           }}
-          inputProps={{
-            'data-se': 'extension',
-            autocomplete: disableAutocomplete ? 'off' : 'tel-extension',
-            'aria-describedby': ariaDescribedBy,
-          }}
+          testId="extension"
+          value={extension}
         />
       </Box>
     )
@@ -158,53 +139,20 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
 
   const renderCountrySelect = () => (
     <Box marginBlockEnd={4}>
-      <InputLabel
-        id="countryLabel"
-        htmlFor="country"
-        // To prevent asterisk from shifting far right
-        sx={{ justifyContent: showAsterisk ? 'flex-start' : undefined }}
-      >
-        {countryLabel}
-        {showAsterisk && (
-          <Box
-            component="span"
-            sx={(theme) => ({
-              marginInlineStart: theme.spacing(1),
-              marginInlineEnd: theme.spacing(1),
-            })}
-            className="no-translate"
-            aria-hidden
-          >
-            *
-          </Box>
-        )}
-        {required === false && (
-          <Typography
-            variant="subtitle1"
-            sx={{ whiteSpace: 'nowrap' }}
-          >
-            {optionalLabel}
-          </Typography>
-        )}
-      </InputLabel>
-      <Select
+      <NativeSelect
+        autoCompleteType={disableAutocomplete ? 'off' : 'tel-country-code'}
         id="country"
-        labelId="countryLabel"
-        disabled={loading}
-        variant="standard"
-        native
+        inputRef={focusRef}
+        isDisabled={loading}
+        isOptional={required === false}
+        label={countryLabel}
         onChange={(e: SelectChangeEvent<string>) => {
           const selectTarget = (
             e?.target as SelectChangeEvent['target'] & { value: string; name: string; }
           );
           setPhoneCode(`+${CountryUtil.getCallingCodeForCountry(selectTarget.value)}`);
         }}
-        inputRef={focusRef}
-        inputProps={{
-          'data-se': 'country',
-          autocomplete: disableAutocomplete ? 'off' : 'tel-country-code',
-          'aria-describedby': ariaDescribedBy,
-        }}
+        testId="country"
       >
         {
           Object.entries(countries).map(([code, name]) => (
@@ -217,7 +165,7 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
             </option>
           ))
         }
-      </Select>
+      </NativeSelect>
     </Box>
   );
 
@@ -227,78 +175,46 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
       <Box
         display="flex"
         justifyContent="space-between"
-        dir="ltr"
+        flexWrap="wrap"
+        flexDirection={languageDirection === 'rtl' ? 'row-reverse' : 'row'}
       >
-        <Box width={showExtension ? 0.7 : 1}>
-          <InputLabel
-            htmlFor={fieldName}
-            // To prevent asterisk from shifting far right
-            sx={{ justifyContent: showAsterisk ? 'flex-start' : undefined }}
-            // label should remain in rtl format if rtl language is set
-            dir={languageDirection}
-          >
-            {mainLabel}
-            {showAsterisk && (
-              <Box
-                component="span"
-                sx={(theme) => ({
-                  marginInlineStart: theme.spacing(1),
-                  marginInlineEnd: theme.spacing(1),
-                })}
-                className="no-translate"
-                aria-hidden
-              >
-                *
-              </Box>
-            )}
-            {required === false && (
-              <Typography variant="subtitle1">{optionalLabel}</Typography>
-            )}
-          </InputLabel>
-          <InputBase
-            type="tel"
-            name={fieldName}
+        <Box
+          width={showExtension ? 0.7 : 1}
+          sx={{
+            marginRight: showExtension ? tokens.Spacing2 : tokens.Spacing0,
+          }}
+        >
+          <TextField
+            autoCompleteType={autocomplete}
+            errorMessage={errorMessage}
+            errorMessageList={errorMessageList}
             id={fieldName}
-            error={phoneHasErrors}
-            disabled={loading}
-            dir="ltr"
+            inputMode={inputmode}
+            isDisabled={loading}
+            isFullWidth
+            isOptional={required === false}
+            label={mainLabel ?? ''}
+            name={fieldName}
+            onBlur={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+              const formattedPhone = formatPhone(e?.currentTarget?.value, phoneCode, extension);
+              handleBlur?.(formattedPhone);
+            }}
             onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
               // Set new phone value without phone code
               setPhone(e.currentTarget.value);
               setPhoneChanged(true);
             }}
-            onBlur={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-              const formattedPhone = formatPhone(e?.currentTarget?.value, phoneCode, extension);
-              handleBlur?.(formattedPhone);
-            }}
             startAdornment={(
-              <InputAdornment
+              <Box
                 component="span"
-                position="start"
-                className="no-translate"
-                sx={(theme) => ({
-                  // physical properties OK because parent InputBase component
-                  // is always set to "ltr"
-                  marginRight: theme.spacing(2),
-                  marginLeft: 0,
-                })}
+                translate="no"
               >
                 {phoneCode}
-              </InputAdornment>
+              </Box>
             )}
-            fullWidth
-            inputProps={{
-              'data-se': fieldName,
-              'aria-describedby': describedByIds,
-              ...attributes,
-            }}
+            testId={fieldName}
+            type="tel"
           />
-          {phoneHasErrors && (
-            <FieldLevelMessageContainer
-              messages={errors}
-              fieldName={fieldName}
-            />
-          )}
         </Box>
         {renderExtension()}
       </Box>

@@ -81,10 +81,16 @@ export default class BasePageObject {
   }
 
   getIdentifierTitle() {
+    if (userVariables.gen3) {
+      return Selector('[data-se="identifier-container"]').getAttribute('title');
+    }
     return Selector('[data-se="identifier"]').getAttribute('title');
   }
 
   identifierHasContenteditable() {
+    if (userVariables.gen3) {
+      return Selector('[data-se="identifier"] > span').hasAttribute('contenteditable');
+    }
     return Selector('[data-se="identifier"]').hasAttribute('contenteditable');
   }
 
@@ -244,7 +250,10 @@ export default class BasePageObject {
     return elCount === 1;
   }
 
-  getBeaconClass() {
+  getBeaconSelector() {
+    if (userVariables.gen3) {
+      return Selector('[data-se~="factor-beacon"]').getAttribute('data-se');
+    }
     return Selector('[data-se="factor-beacon"]').getAttribute('class');
   }
 

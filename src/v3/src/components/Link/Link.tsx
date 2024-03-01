@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-// TODO: OKTA-564568 Link exported from ODY does not have the focus() function and breaks autofocus
-import { Link as LinkMui } from '@mui/material';
+import { Link as MuiLink } from '@mui/material';
+import { Link as OdyLink } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
@@ -27,7 +27,6 @@ const Link: UISchemaElementComponent<{
   } = widgetContext;
   const {
     focus,
-    ariaDescribedBy,
     options: {
       label,
       href,
@@ -63,38 +62,27 @@ const Link: UISchemaElementComponent<{
 
   return (
     typeof href === 'undefined' ? (
-      <LinkMui
+      <MuiLink
         component="button"
-        // Fixes OKTA-653788 (see comments) - Currently we treat all links as buttons
-        type="button"
-        variant="body1"
         role="link"
         onClick={onClick}
-        aria-describedby={ariaDescribedBy}
         ref={focusRef}
         data-se={dataSe}
-        sx={{
-          '&:hover': {
-            cursor: 'pointer',
-          },
-          verticalAlign: 'baseline',
-        }}
       >
         {label}
-      </LinkMui>
+      </MuiLink>
     )
       : (
-        <LinkMui
+        <OdyLink
           href={href}
-          ref={focusRef}
-          aria-describedby={ariaDescribedBy}
-          data-se={dataSe}
+          linkRef={focusRef}
+          testId={dataSe}
           target={target}
           // eslint-disable-next-line react/jsx-props-no-spreading
           {...(target === '_blank' && { rel: 'noopener noreferrer' })}
         >
           {label}
-        </LinkMui>
+        </OdyLink>
       )
   );
 };

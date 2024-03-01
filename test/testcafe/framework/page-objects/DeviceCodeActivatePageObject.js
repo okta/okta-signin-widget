@@ -72,14 +72,14 @@ export default class DeviceCodeActivatePageObject extends BasePageObject {
 
   isTerminalSuccessIconPresent() {
     if (userVariables.gen3) {
-      return this.form.elementExist('.infobox-success');
+      return this.form.elementExist('[data-se="infobox-success"]');
     }
     return this.form.getElement('.device-code-terminal--icon.success-24-green').exists;
   }
 
   isTerminalErrorIconPresent() {
     if (userVariables.gen3) {
-      return this.form.elementExist('.infobox-error');
+      return this.form.elementExist('[data-se="infobox-error"]');
     }
     return this.form.getElement('.device-code-terminal--icon.error-24-red').exists;
   }

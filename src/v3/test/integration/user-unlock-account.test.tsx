@@ -39,11 +39,11 @@ describe('user-unlock-account', () => {
   describe('send correct payload', () => {
     it('when select email authenticator', async () => {
       const {
-        authClient, user, findByTestId, findByText,
+        authClient, user, findByTestId, findByText, findByLabelText,
       } = await setup({ mockResponse });
       const titleElement = await findByText(/Unlock account\?/);
       await waitFor(() => expect(titleElement).toHaveFocus());
-      const usernameEl = await findByTestId('identifier') as HTMLInputElement;
+      const usernameEl = await findByLabelText('Username') as HTMLInputElement;
       await user.type(usernameEl, 'testuser@okta.com');
       expect(usernameEl.value).toEqual('testuser@okta.com');
 
@@ -64,12 +64,12 @@ describe('user-unlock-account', () => {
 
     it('when select phone authenticator', async () => {
       const {
-        authClient, user, findByTestId, findByText,
+        authClient, user, findByTestId, findByText, findByLabelText,
       } = await setup({ mockResponse });
 
       const titleElement = await findByText(/Unlock account\?/);
       await waitFor(() => expect(titleElement).toHaveFocus());
-      const usernameEl = await findByTestId('identifier') as HTMLInputElement;
+      const usernameEl = await findByLabelText('Username') as HTMLInputElement;
       await user.type(usernameEl, 'testuser@okta.com');
       expect(usernameEl.value).toEqual('testuser@okta.com');
 

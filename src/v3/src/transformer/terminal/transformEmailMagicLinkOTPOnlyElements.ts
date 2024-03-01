@@ -14,7 +14,6 @@ import {
   AppIcon,
   DeviceIcon,
   LocationIcon,
-  MobileDeviceIcon,
 } from '../../components/Images';
 import { CHALLENGE_INTENT_TO_I18KEY } from '../../constants';
 import {
@@ -89,12 +88,11 @@ export const transformEmailMagicLinkOTPOnly: TerminalKeyTransformer = (transacti
   const clientOs = client?.value?.os;
   const clientBrowser = client?.value?.browser;
   if (clientBrowser && clientOs) {
-    const isMobileDevice = clientOs === 'Android' || clientOs === 'iOS';
     browserImageElement = {
       type: 'ImageWithText',
       options: {
         id: 'browser',
-        SVGIcon: isMobileDevice ? MobileDeviceIcon : DeviceIcon,
+        SVGIcon: DeviceIcon,
         textContent: loc(
           'idx.return.link.otponly.browser.on.os',
           'login',

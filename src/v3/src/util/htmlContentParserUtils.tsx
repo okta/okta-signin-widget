@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Link, Typography } from '@okta/odyssey-react-mui';
+import { Link, Typography } from '@mui/material';
 import {
   attributesToProps,
   DOMNode,
@@ -78,3 +78,5 @@ export const getHeadingReplacerFn = (
     return undefined;
   }
 );
+
+export const wrapInTranslateNo = (string: string): string => `<span translate="no">${string}</span>`;

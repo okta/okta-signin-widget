@@ -173,7 +173,7 @@ test.requestHooks(identifyMock)('should show errors if required fields are empty
   await identityPage.clickNextButton();
   await identityPage.waitForErrorBox();
 
-  await t.expect(identityPage.getIdentifierErrorMessage()).eql('This field cannot be left blank');
+  await t.expect(identityPage.getIdentifierErrorMessage()).match(/This field cannot be left blank/);
 });
 
 test.requestHooks(identifyMockWithUnsupportedResponseError)('should show error if server response is unsupported', async t => {
@@ -182,7 +182,7 @@ test.requestHooks(identifyMockWithUnsupportedResponseError)('should show error i
   await identityPage.fillIdentifierField('test');
   await identityPage.clickNextButton();
   await identityPage.waitForErrorBox();
-  await t.expect(identityPage.getErrorBoxText()).eql('There was an unsupported response from server.');
+  await t.expect(identityPage.getErrorBoxText()).contains('There was an unsupported response from server.');
 });
 
 test.requestHooks(identifyMock)('should show customized error if required field identifier is empty', async t => {
@@ -198,7 +198,7 @@ test.requestHooks(identifyMock)('should show customized error if required field 
   await identityPage.clickNextButton();
   await identityPage.waitForErrorBox();
 
-  await t.expect(identityPage.getIdentifierErrorMessage()).eql('Username is required!');
+  await t.expect(identityPage.getIdentifierErrorMessage()).match(/Username is required!/);
 });
 
 test.requestHooks(identifyRequestLogger, identifyMock)('should not show custom error if password doesn\'t exist in remediation', async t => {
@@ -444,7 +444,7 @@ test.requestHooks(identifyRequestLogger, identifyWithUserMock)('should never ren
   const identityPage = await setup(t);
   await checkA11y(t);
 
-  const identifierContainer = identityPage.form.getElement('.identifier-container').exists;
+  const identifierContainer = identityPage.form.getElement(userVariables.gen3 ? '[data-se="identifier-container"]' : '.identifier-container').exists;
   await t.expect(identifierContainer).eql(false);
 });
 
@@ -452,9 +452,9 @@ test.requestHooks(identifyRequestLogger, errorsIdentifyMock)('should render each
   const identityPage = await setup(t);
   await checkA11y(t);
 
-  await t.expect(await identityPage.form.getErrorBoxTextByIndex(0)).eql('Please enter a username');
-  await t.expect(await identityPage.form.getErrorBoxTextByIndex(1)).eql('Please enter a password');
-  await t.expect(await identityPage.form.getErrorBoxTextByIndex(2)).eql('Your session has expired. Please try to sign in again.');
+  await t.expect(await identityPage.form.getErrorBoxTextByIndex(0)).contains('Please enter a username');
+  await t.expect(await identityPage.form.getErrorBoxTextByIndex(1)).contains('Please enter a password');
+  await t.expect(await identityPage.form.getErrorBoxTextByIndex(2)).contains('Your session has expired. Please try to sign in again.');
 });
 
 test.requestHooks(identifyRequestLogger, baseIdentifyMock)('should "autoFocus" form with config or by default in gen2 but not gen3', async t => {

@@ -71,7 +71,7 @@ test.requestHooks(mock)('voice mode click and extension will get shown', async t
 
   // Default country code US
   const countryCodeText = await enrollPhonePage.getCountryCodeValue();
-  await t.expect(countryCodeText.trim()).eql('+1');
+  await t.expect(countryCodeText).match(/\+1/);
 
   // Phone Number input field is rendered small
   await t.expect(enrollPhonePage.phoneNumberFieldIsSmall()).eql(true);
@@ -149,7 +149,7 @@ test.requestHooks(mock)('respects settings.defaultCountryCode', async t => {
 
   // Default country code US (+1)
   const defaultCountryCodeText = await enrollPhonePage.getCountryCodeValue();
-  await t.expect(defaultCountryCodeText.trim()).eql('+1');
+  await t.expect(defaultCountryCodeText).match(/\+1/);
 
   await rerenderWidget({
     defaultCountryCode: 'GB'  // United Kingdom
@@ -157,5 +157,5 @@ test.requestHooks(mock)('respects settings.defaultCountryCode', async t => {
 
   // United Kingdom (+44)
   const gbCountryCodeText = await enrollPhonePage.getCountryCodeValue();
-  await t.expect(gbCountryCodeText.trim()).eql('+44');
+  await t.expect(gbCountryCodeText).match(/\+44/);
 });

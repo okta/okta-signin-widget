@@ -17,25 +17,25 @@ import { createAuthJsPayloadArgs, setup } from './util';
 
 describe('enroll-profile-with-password', () => {
   it('should render form', async () => {
-    const { container, findByText, findByTestId } = await setup({ mockResponse });
+    const { container, findByText, findByLabelText } = await setup({ mockResponse });
     await findByText(/Sign up/);
     expect(container).toMatchSnapshot();
-    const firstNameEle = await findByTestId('userProfile.firstName') as HTMLInputElement;
+    const firstNameEle = await findByLabelText('First name') as HTMLInputElement;
     expect(firstNameEle).not.toHaveFocus();
   });
 
   it('should display field level error when password field is required but is not filled', async () => {
     const {
-      authClient, container, user, findByTestId, findByText,
+      authClient, container, user, findByText, findByLabelText,
     } = await setup({ mockResponse });
 
     const titleElement = await findByText(/Sign up/);
     await waitFor(() => expect(titleElement).toHaveFocus());
 
     const submitButton = await findByText('Sign Up', { selector: 'button' });
-    const firstNameEle = await findByTestId('userProfile.firstName') as HTMLInputElement;
-    const lastNameEle = await findByTestId('userProfile.lastName') as HTMLInputElement;
-    const emailEle = await findByTestId('userProfile.email') as HTMLInputElement;
+    const firstNameEle = await findByLabelText('First name') as HTMLInputElement;
+    const lastNameEle = await findByLabelText('Last name') as HTMLInputElement;
+    const emailEle = await findByLabelText('Email') as HTMLInputElement;
 
     const firstName = 'tester';
     const lastName = 'McTesterson';
@@ -50,24 +50,24 @@ describe('enroll-profile-with-password', () => {
 
     await user.click(submitButton);
     expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
-    const passwordFieldError = await findByTestId('credentials.passcode-error');
-    expect(passwordFieldError.textContent).toEqual('This field cannot be left blank');
+    const passwordEle = await findByLabelText('Password') as HTMLInputElement;
+    expect(passwordEle).toHaveErrorMessage(/This field cannot be left blank/);
     expect(container).toMatchSnapshot();
   });
 
   it('should display field level error when password does not fulfill requirements', async () => {
     const {
-      authClient, container, user, findByTestId, findByText,
+      authClient, container, user, findByText, findByLabelText,
     } = await setup({ mockResponse });
 
     const titleElement = await findByText(/Sign up/);
     await waitFor(() => expect(titleElement).toHaveFocus());
 
     const submitButton = await findByText('Sign Up', { selector: 'button' });
-    const firstNameEle = await findByTestId('userProfile.firstName') as HTMLInputElement;
-    const lastNameEle = await findByTestId('userProfile.lastName') as HTMLInputElement;
-    const emailEle = await findByTestId('userProfile.email') as HTMLInputElement;
-    const passwordEle = await findByTestId('credentials.passcode') as HTMLInputElement;
+    const firstNameEle = await findByLabelText('First name') as HTMLInputElement;
+    const lastNameEle = await findByLabelText('Last name') as HTMLInputElement;
+    const emailEle = await findByLabelText('Email') as HTMLInputElement;
+    const passwordEle = await findByLabelText('Password') as HTMLInputElement;
 
     const firstName = 'tester';
     const lastName = 'McTesterson';
@@ -85,24 +85,23 @@ describe('enroll-profile-with-password', () => {
 
     await user.click(submitButton);
     expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
-    const passwordFieldError = await findByTestId('credentials.passcode-error');
-    expect(passwordFieldError.textContent).toContain('Password requirements were not met');
+    expect(passwordEle).toHaveErrorMessage(/Password requirements were not met/);
     expect(container).toMatchSnapshot();
   });
 
   it('should send correct payload', async () => {
     const {
-      authClient, user, findByText, findByTestId,
+      authClient, user, findByText, findByLabelText,
     } = await setup({ mockResponse });
 
     const titleElement = await findByText(/Sign up/);
     await waitFor(() => expect(titleElement).toHaveFocus());
 
     const submitButton = await findByText('Sign Up', { selector: 'button' });
-    const firstNameEle = await findByTestId('userProfile.firstName') as HTMLInputElement;
-    const lastNameEle = await findByTestId('userProfile.lastName') as HTMLInputElement;
-    const emailEle = await findByTestId('userProfile.email') as HTMLInputElement;
-    const passwordEle = await findByTestId('credentials.passcode') as HTMLInputElement;
+    const firstNameEle = await findByLabelText('First name') as HTMLInputElement;
+    const lastNameEle = await findByLabelText('Last name') as HTMLInputElement;
+    const emailEle = await findByLabelText('Email') as HTMLInputElement;
+    const passwordEle = await findByLabelText('Password') as HTMLInputElement;
 
     const firstName = 'tester';
     const lastName = 'McTesterson';

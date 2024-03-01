@@ -10,54 +10,24 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
+import { AppsIcon } from '@okta/odyssey-react-mui/icons';
 import { FunctionComponent, h } from 'preact';
 
 import { loc } from '../../util';
 
-export const AppIcon: FunctionComponent = () => (
-  <svg
-    width="16"
-    height="16"
-    viewBox="0 0 16 16"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    role="img"
-    aria-hidden="true"
-  >
-    <title>
-      {loc('icon.title.application', 'login')}
-    </title>
-    <rect
-      x="1.5"
-      y="1.5"
-      width="5"
-      height="5"
-      stroke="#1662DD"
-      class="siwIconStrokePrimary"
+export const AppIcon: FunctionComponent = () => {
+  const tokens = useOdysseyDesignTokens();
+
+  return (
+    <AppsIcon
+      sx={{
+        color: tokens.PalettePrimaryMain,
+        width: tokens.Spacing4,
+        height: tokens.Spacing4,
+      }}
+      titleAccess={loc('icon.title.application', 'login')}
+      aria-hidden
     />
-    <rect
-      x="1.5"
-      y="9.5"
-      width="5"
-      height="5"
-      stroke="#1662DD"
-      class="siwIconStrokePrimary"
-    />
-    <rect
-      x="9.5"
-      y="9.5"
-      width="5"
-      height="5"
-      stroke="#1662DD"
-      class="siwIconStrokePrimary"
-    />
-    <rect
-      x="9.5"
-      y="1.5"
-      width="5"
-      height="5"
-      stroke="#1662DD"
-      class="siwIconStrokePrimary"
-    />
-  </svg>
-);
+  );
+};

@@ -310,7 +310,6 @@ export interface ButtonElement extends UISchemaElement {
     dataSe?: string;
     stepToRender?: string;
     ariaLabel?: string;
-    classes?: string;
     disabled?: boolean;
     Icon?: FunctionComponent | string;
     iconAlt?: string;
@@ -325,6 +324,8 @@ export interface AuthenticatorButtonElement extends UISchemaElement {
     key: string;
     ariaLabel: string;
     authenticator?: IdxAuthenticator;
+    isEnroll?: boolean;
+    isAdditionalEnroll?: boolean;
     ctaLabel: string;
     description?: string;
     nickname?: string;

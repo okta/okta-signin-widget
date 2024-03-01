@@ -22,10 +22,10 @@ Object {
       },
       Object {
         "label": "socialauth.google.label",
+        "noTranslate": false,
         "options": Object {
           "Icon": "MockSVGIcon",
-          "classes": "social-auth-button social-auth-google-button",
-          "dataSe": "piv-card-button",
+          "dataSe": "piv-card-button social-auth-google-button",
           "iconAlt": "",
           "onClick": [Function],
           "step": "piv-idp",
@@ -36,10 +36,10 @@ Object {
       },
       Object {
         "label": "socialauth.facebook.label",
+        "noTranslate": false,
         "options": Object {
           "Icon": "MockSVGIcon",
-          "classes": "social-auth-button social-auth-facebook-button",
-          "dataSe": "piv-card-button",
+          "dataSe": "piv-card-button social-auth-facebook-button",
           "iconAlt": "",
           "onClick": [Function],
           "step": "piv-idp",

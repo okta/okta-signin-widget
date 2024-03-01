@@ -121,7 +121,6 @@ Object {
         "label": "piv.cac.card",
         "options": Object {
           "Icon": "MockSVGIcon",
-          "classes": " piv-button",
           "dataSe": "piv-card-button",
           "iconAlt": "piv.card",
           "onClick": [Function],
@@ -167,7 +166,6 @@ Object {
         "label": "piv.cac.card",
         "options": Object {
           "Icon": "MockSVGIcon",
-          "classes": " piv-button",
           "dataSe": "piv-card-button",
           "iconAlt": "piv.card",
           "onClick": [Function],

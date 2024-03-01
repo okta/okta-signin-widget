@@ -6,8 +6,9 @@ exports[`oda-enrollment-ios should render form 1`] = `
     class="MuiScopedCssBaseline-root emotion-0"
   >
     <main
-      class="auth-container main-container MuiBox-root emotion-1"
+      class="MuiBox-root emotion-1"
       data-commit="b9bbc0140703c3fbf0e2e58920362e70"
+      data-se="auth-container main-container"
       data-version="0.0.0"
       dir="ltr"
       id="okta-sign-in"
@@ -23,23 +24,25 @@ exports[`oda-enrollment-ios should render form 1`] = `
             class="MuiBox-root emotion-4"
           >
             <div
-              class="okta-sign-in-header auth-header authCoinSpacing MuiBox-root emotion-5"
+              class="MuiBox-root emotion-5"
+              data-se="okta-sign-in-header auth-header authCoinSpacing"
             >
               <h1
                 class="MuiTypography-root MuiTypography-h1 emotion-6"
+                tabindex="-1"
               />
               <div
                 aria-hidden="true"
-                class="mfa-okta-verify MuiBox-root emotion-7"
-                data-se="factor-beacon"
+                class="MuiBox-root emotion-7"
+                data-se="factor-beacon mfa-okta-verify "
               >
                 <svg
                   aria-labelledby="mfa-okta-verify"
                   fill="none"
-                  height="48"
+                  height="2.85714286rem"
                   role="img"
                   viewBox="0 0 48 48"
-                  width="48"
+                  width="2.85714286rem"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <title
@@ -47,13 +50,6 @@ exports[`oda-enrollment-ios should render form 1`] = `
                   >
                     Okta Verify
                   </title>
-                  <circle
-                    class="siwFillBg"
-                    cx="24"
-                    cy="24"
-                    fill="#F5F5F6"
-                    r="24"
-                  />
                   <path
                     clip-rule="evenodd"
                     d="M32.872 22.853a8.947 8.947 0 1 1-2.288-4.91L24 24.498l-3.205-3.19c-.482-.48-1.322-.48-1.804 0a1.26 1.26 0 0 0-.374.898c0 .34.133.659.374.898l4.107 4.09c.24.239.561.371.902.371.336 0 .664-.136.902-.372L38.636 13.52a18.089 18.089 0 0 0-1.634-1.967A17.947 17.947 0 0 0 24 6C14.059 6 6 14.059 6 24s8.059 18 18 18 18-8.059 18-18c0-2.972-.722-5.775-1.998-8.245l-7.13 7.098Z"
@@ -97,8 +93,9 @@ exports[`oda-enrollment-ios should render form 1`] = `
                       class="MuiBox-root emotion-12"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
+                        class="MuiTypography-root MuiTypography-body1 emotion-16"
                         data-se="o-form-explain"
+                        tabindex="-1"
                       >
                         To sign in using Okta Verify, you will need to set up Okta Verify on this device.
                       </p>
@@ -126,8 +123,9 @@ exports[`oda-enrollment-ios should render form 1`] = `
                                 class="MuiBox-root emotion-12"
                               >
                                 <p
-                                  class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
+                                  class="MuiTypography-root MuiTypography-body1 emotion-16"
                                   data-se="o-form-explain"
+                                  tabindex="-1"
                                 >
                                   Tap the Copy Link button below.
                                 </p>
@@ -159,8 +157,9 @@ exports[`oda-enrollment-ios should render form 1`] = `
                                 class="MuiBox-root emotion-12"
                               >
                                 <p
-                                  class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
+                                  class="MuiTypography-root MuiTypography-body1 emotion-16"
                                   data-se="o-form-explain"
+                                  tabindex="-1"
                                 >
                                   On this device, open your browser, then paste the copied link into the address bar.
                                 </p>
@@ -181,8 +180,9 @@ exports[`oda-enrollment-ios should render form 1`] = `
                                 class="MuiBox-root emotion-12"
                               >
                                 <p
-                                  class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
+                                  class="MuiTypography-root MuiTypography-body1 emotion-16"
                                   data-se="o-form-explain"
+                                  tabindex="-1"
                                 >
                                   Download the Okta Verify app.
                                 </p>
@@ -203,8 +203,9 @@ exports[`oda-enrollment-ios should render form 1`] = `
                                 class="MuiBox-root emotion-12"
                               >
                                 <p
-                                  class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
+                                  class="MuiTypography-root MuiTypography-body1 emotion-16"
                                   data-se="o-form-explain"
+                                  tabindex="-1"
                                 >
                                   Open Okta Verify and follow the steps to add your account.
                                 </p>
@@ -225,8 +226,9 @@ exports[`oda-enrollment-ios should render form 1`] = `
                                 class="MuiBox-root emotion-12"
                               >
                                 <p
-                                  class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
+                                  class="MuiTypography-root MuiTypography-body1 emotion-16"
                                   data-se="o-form-explain"
+                                  tabindex="-1"
                                 >
                                   When prompted, choose Sign In, then enter the sign-in URL:
                                 </p>
@@ -239,8 +241,9 @@ exports[`oda-enrollment-ios should render form 1`] = `
                                 class="MuiBox-root emotion-12"
                               >
                                 <p
-                                  class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
+                                  class="MuiTypography-root MuiTypography-body1 emotion-16"
                                   data-se="o-form-explain"
+                                  tabindex="-1"
                                 >
                                   <span
                                     class="no-translate"
@@ -276,8 +279,9 @@ exports[`oda-enrollment-ios should render form 1`] = `
                                 class="MuiBox-root emotion-12"
                               >
                                 <p
-                                  class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-16"
+                                  class="MuiTypography-root MuiTypography-body1 emotion-16"
                                   data-se="o-form-explain"
+                                  tabindex="-1"
                                 >
                                   Finish setting up your account in Okta Verify, then try accessing this app again.
                                 </p>

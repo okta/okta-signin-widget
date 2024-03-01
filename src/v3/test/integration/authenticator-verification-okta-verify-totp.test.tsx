@@ -24,14 +24,14 @@ describe('authenticator-verification-okta-verify-totp', () => {
 
   it('should send correct payload', async () => {
     const {
-      authClient, user, findByTestId, findByText,
+      authClient, user, findByLabelText, findByText,
     } = await setup({ mockResponse });
 
     const titleElement = await findByText(/Enter a code/);
     await waitFor(() => expect(titleElement).toHaveFocus());
 
     const submitButton = await findByText('Verify', { selector: 'button' });
-    const otpEle = await findByTestId('credentials.totp') as HTMLInputElement;
+    const otpEle = await findByLabelText('Enter code from Okta Verify app') as HTMLInputElement;
 
     const totp = '123456';
     await user.type(otpEle, totp);
@@ -48,14 +48,14 @@ describe('authenticator-verification-okta-verify-totp', () => {
 
   it('should send correct payload when totp is padded with non-breaking spaces', async () => {
     const {
-      authClient, user, findByTestId, findByText,
+      authClient, user, findByLabelText, findByText,
     } = await setup({ mockResponse });
 
     const titleElement = await findByText(/Enter a code/);
     await waitFor(() => expect(titleElement).toHaveFocus());
 
     const submitButton = await findByText('Verify', { selector: 'button' });
-    const otpEle = await findByTestId('credentials.totp') as HTMLInputElement;
+    const otpEle = await findByLabelText('Enter code from Okta Verify app') as HTMLInputElement;
 
     const totp = '123456';
     const totpWithNonBreakingSpaces = `\u00A0${totp}\u00A0`;
@@ -77,12 +77,12 @@ describe('authenticator-verification-okta-verify-totp', () => {
       { userAgent: 'iPhone' } as unknown as Navigator,
     );
     const {
-      container, findByTestId, findByText,
+      container, findByLabelText, findByText,
     } = await setup({ mockResponse });
 
     await findByText(/Enter a code/);
 
-    const otpEle = await findByTestId('credentials.totp') as HTMLInputElement;
+    const otpEle = await findByLabelText('Enter code from Okta Verify app') as HTMLInputElement;
 
     expect(otpEle.getAttribute('autocomplete')).toBe('one-time-code');
     expect(container).toMatchSnapshot();

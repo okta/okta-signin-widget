@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box, Button as OdyButton } from '@okta/odyssey-react-mui';
+import { Button as OdyButton } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
@@ -20,6 +20,7 @@ import {
   ClickHandler,
   UISchemaElementComponent,
 } from '../../types';
+import Image from '../Image';
 import Spinner from '../Spinner';
 
 const Button: UISchemaElementComponent<{
@@ -34,6 +35,7 @@ const Button: UISchemaElementComponent<{
     label,
     focus,
     ariaDescribedBy,
+    noTranslate,
     options: {
       type,
       ariaLabel,
@@ -48,18 +50,16 @@ const Button: UISchemaElementComponent<{
       isActionStep,
       step,
       stepToRender,
-      classes,
       disabled,
       onClick,
     },
   } = uischema;
 
   const ButtonImageIcon = typeof Icon === 'string' ? (
-    <Box
-      component="img"
+    <Image
       src={Icon}
-      alt={iconAlt}
-      aria-hidden
+      alt={iconAlt ?? ''}
+      ariaHidden
     />
   ) : Icon && (<Icon />);
 
@@ -79,24 +79,20 @@ const Button: UISchemaElementComponent<{
 
   return (
     <OdyButton
+      label={label ?? ''}
       type={type}
       variant={variant ?? 'primary'}
-      fullWidth={wide ?? true}
-      ref={focusRef}
-      disabled={loading || disabled}
-      className={classes}
-      // Fixes text overflow
-      sx={{ display: 'flex', whiteSpace: 'normal' }}
-      startIcon={loading ? <Spinner color="white" /> : ButtonImageIcon}
-      aria-describedby={ariaDescribedBy}
-      data-type={dataType}
-      data-se={dataSe}
-      aria-label={ariaLabel}
+      isFullWidth={wide ?? true}
+      buttonRef={focusRef}
+      isDisabled={loading || disabled}
+      startIcon={loading ? <Spinner /> : ButtonImageIcon}
+      ariaDescribedBy={ariaDescribedBy}
+      testId={dataSe ?? dataType}
+      ariaLabel={ariaLabel}
+      translate={noTranslate ? 'no' : undefined}
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...(type !== 'submit' && { onClick: typeof onClick === 'function' ? customClickHandler : handleClick })}
-    >
-      {label}
-    </OdyButton>
+    />
   );
 };
 

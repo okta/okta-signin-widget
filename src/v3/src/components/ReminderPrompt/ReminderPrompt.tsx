@@ -10,7 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Alert, Box, Link } from '@okta/odyssey-react-mui';
+import { Box } from '@mui/material';
+import { Callout, Link, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { HTMLReactParserOptions } from 'html-react-parser';
 import { h } from 'preact';
 import { useEffect, useRef, useState } from 'preact/hooks';
@@ -41,6 +42,7 @@ const ReminderPrompt: UISchemaElementComponent<{
   } = uischema.options;
   const onSubmitHandler = useOnSubmit();
   const parsedContent = useHtmlContentParser(content, uischema.parserOptions);
+  const tokens = useOdysseyDesignTokens();
 
   const [show, setShow] = useState<boolean>(false);
   const timerRef = useRef<number | undefined>();
@@ -125,25 +127,20 @@ const ReminderPrompt: UISchemaElementComponent<{
       );
     }
     return (
-      <Box marginBlockEnd={2}>{parsedContent}</Box>
+      <Box marginBlockEnd={tokens.Spacing2}>{parsedContent}</Box>
     );
   };
 
   return show ? (
-    <Box marginBlockEnd={4}>
-      <Alert
+    <Box marginBlockEnd={tokens.Spacing4}>
+      <Callout
         severity="warning"
-        variant="infobox"
-        sx={{
-          // TODO: OKTA-534606 - switch to ODS component which has this fix
-          '& .MuiAlert-message': {
-            overflow: 'visible',
-          },
-        }}
+        // visually-hidden severity text is not translated
+        translate="no"
       >
         {renderAlertContent()}
         {renderActionLink()}
-      </Alert>
+      </Callout>
     </Box>
   ) : null;
 };

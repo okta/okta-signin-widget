@@ -17,11 +17,11 @@ fixture('Theming')
 
 test('Theme configuration applies correctly', async (t) => {
   const submitButton = Selector('button')
-    .withAttribute('data-type', 'save');
+    .withAttribute('data-se', 'save');
 
   await t
     .expect(submitButton.getStyleProperty('background-color'))
-    .eql('rgb(62, 0, 70)');
+    .eql('rgb(84, 107, 231)');
 
   // enter username/pw and submit
   await t
@@ -36,18 +36,34 @@ test('Theme configuration applies correctly', async (t) => {
 
   await t
     .expect(phoneAuthCoin.find('.siwFillPrimaryDark').getStyleProperty('fill'))
-    .eql('rgb(202, 0, 228)');
+    .eql('rgb(54, 68, 147)');
   await t
     .expect(phoneAuthCoin.find('.siwFillSecondary').getStyleProperty('fill'))
-    .eql('rgb(241, 131, 255)');
+    .eql('rgb(156, 170, 241)');
 }).clientScripts({
   content: `
   window.additionalOptions = {
     brandColors: {
-      primaryColor: '#3e0046'
+      primaryColor: '#546Be7'
     }
   };
 `,
+});
+
+test('should override text color based on Odyssey design tokens override', async (t) => {
+  const header = Selector('h2')
+    .withText('Sign In');
+  await t
+    .expect(header.getStyleProperty('color'))
+    .eql('rgb(40, 214, 188)');
+}).clientScripts({
+  content: `
+    window.additionalOptions = {
+      theme: {
+        tokens: { TypographyColorHeading: '#28d6bc' },
+      }
+    };
+  `,
 });
 
 // TODO OKTA-654743 enable/expose theme overrides on OktaSignIn configs

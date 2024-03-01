@@ -32,6 +32,7 @@ declare global {
   }
 }
 
+const NO_TRANSLATE_SELECTOR = '.no-translate, [translate="no"]';
 
 function isSuccessNonOIDC(res: RenderResult): res is RenderResultSuccessNonOIDCSession {
   return (res as RenderResultSuccessNonOIDCSession).session !== undefined;
@@ -129,15 +130,15 @@ const renderPlaygroundWidget = (options = {}) => {
       let viewText = document.getElementById('okta-sign-in').innerText;
       viewText = viewText.split('\n').join(' ');
 
-      const noTranslationContentExists = document.getElementsByClassName('no-translate').length;
+      const noTranslationContentExists = document.querySelectorAll(NO_TRANSLATE_SELECTOR).length;
 
       const noTranslationContent = [];
       /* eslint max-depth: [2, 3] */
       if (noTranslationContentExists) {
-        const noTranslateElems = document.getElementsByClassName('no-translate');
+        const noTranslateElems = document.querySelectorAll(NO_TRANSLATE_SELECTOR);
         for (let i = 0; i < noTranslateElems.length; i++) {
           //build array of noTranslationContent
-          noTranslationContent.push(noTranslateElems[i].textContent);
+          noTranslationContent.push((noTranslateElems[i] as HTMLElement).innerText);
         }
       }
       assertNoEnglishLeaks(null, viewText, noTranslationContent);

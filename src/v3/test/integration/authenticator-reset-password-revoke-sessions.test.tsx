@@ -23,7 +23,7 @@ describe('authenticator-reset-password-revoke-sessions', () => {
 
   it('should send correct payload with checked "Sign me out of all other devices" box', async () => {
     const {
-      authClient, user, findByTestId, findByText, findByLabelText, findByRole,
+      authClient, user, findByText, findByLabelText, findByRole,
     } = await setup({ mockResponse });
 
     const titleElement = await findByText(/Reset your password/);
@@ -31,8 +31,8 @@ describe('authenticator-reset-password-revoke-sessions', () => {
     await findByText(/Password requirements/);
 
     const submitButton = await findByRole('button', { name: 'Reset Password' });
-    const newPasswordEle = await findByTestId('credentials.passcode') as HTMLInputElement;
-    const confirmPasswordEle = await findByTestId('confirmPassword') as HTMLInputElement;
+    const newPasswordEle = await findByLabelText('New password') as HTMLInputElement;
+    const confirmPasswordEle = await findByLabelText(/Re-enter password/) as HTMLInputElement;
     const revokeSessionsCheckbox = await findByLabelText(/Sign me out of all other devices/);
 
     const password = 'superSecretP@ssword12';
@@ -53,7 +53,7 @@ describe('authenticator-reset-password-revoke-sessions', () => {
 
   it('should send correct payload with unchecked "Sign me out of all other devices" box', async () => {
     const {
-      authClient, user, findByTestId, findByText, findByRole,
+      authClient, user, findByLabelText, findByText, findByRole,
     } = await setup({ mockResponse });
 
     const titleElement = await findByText(/Reset your password/);
@@ -61,8 +61,8 @@ describe('authenticator-reset-password-revoke-sessions', () => {
     await findByText(/Password requirements/);
 
     const submitButton = await await findByRole('button', { name: 'Reset Password' });
-    const newPasswordEle = await findByTestId('credentials.passcode') as HTMLInputElement;
-    const confirmPasswordEle = await findByTestId('confirmPassword') as HTMLInputElement;
+    const newPasswordEle = await findByLabelText('New password') as HTMLInputElement;
+    const confirmPasswordEle = await findByLabelText(/Re-enter password/) as HTMLInputElement;
 
     const password = 'superSecretP@ssword12';
     await user.type(newPasswordEle, password);

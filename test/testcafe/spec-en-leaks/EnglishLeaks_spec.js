@@ -8,6 +8,7 @@ const path = require('path');
 const PLAYGROUND = path.resolve(__dirname, '../../../playground');
 const mocksFolder = `${PLAYGROUND}/mocks/data/idp/idx`;
 const mocksOauth2Folder = `${PLAYGROUND}/mocks/data/oauth2`;
+const NO_TRANSLATE_SELECTOR = '.no-translate, [translate="no"]';
 
 fixture('English Leaks');
 
@@ -164,13 +165,13 @@ const testEnglishLeaks = (mockIdxResponse, fileName, locale) => {
     let viewText = viewTextExists && await Selector('#okta-sign-in').innerText;
     viewText = viewText && viewText.split('\n').join(' ');
 
-    const noTranslationContentExists = await Selector('.no-translate').exists;
+    const noTranslationContentExists = await Selector(NO_TRANSLATE_SELECTOR).exists;
     let noTranslationContent = [];
     if (noTranslationContentExists) {
       //build array of noTranslationContent
-      const noTranslateElems = await Selector('.no-translate').count;
+      const noTranslateElems = await Selector(NO_TRANSLATE_SELECTOR).count;
       for (var i = 0; i < noTranslateElems; i++) {
-        const noTranslateContent = await Selector('.no-translate').nth(i).textContent;
+        const noTranslateContent = await Selector(NO_TRANSLATE_SELECTOR).nth(i).innerText;
         noTranslationContent.push(noTranslateContent);
       }
     }

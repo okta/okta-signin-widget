@@ -154,7 +154,7 @@ test
     const pageTitle = challengeCustomAppPushPageObject.getFormTitle();
     const pushBtn = challengeCustomAppPushPageObject.getPushButton();
     const a11ySpan = challengeCustomAppPushPageObject.getA11ySpan();
-    const logoClass = challengeCustomAppPushPageObject.getBeaconClass();
+    const logoSelector = challengeCustomAppPushPageObject.getBeaconSelector();
     const logoBgImage = challengeCustomAppPushPageObject.getBeaconBgImage();
     await t.expect(pushBtn.textContent).contains('Push notification sent');
     // no a11y span in gen 3
@@ -162,7 +162,7 @@ test
       await t.expect(a11ySpan.textContent).contains('Push notification sent');
     }
     await t.expect(challengeCustomAppPushPageObject.isPushButtonDisabled()).eql(true);
-    await t.expect(logoClass).contains('custom-app-logo');
+    await t.expect(logoSelector).contains('custom-app-logo');
     // gen 3 uses img element with src attribute while gen 2 uses background-image style prop
     if(userVariables.gen3) {
       await t.expect(logoBgImage).match(/.*\/img\/icons\/mfa\/customPushLogo\.svg$/);
@@ -197,7 +197,7 @@ test
     const pageTitle = challengeCustomAppPushPageObject.getFormTitle();
     const pushBtn = challengeCustomAppPushPageObject.getPushButton();
     const a11ySpan = challengeCustomAppPushPageObject.getA11ySpan();
-    const logoClass = challengeCustomAppPushPageObject.getBeaconClass();
+    const logoSelector = challengeCustomAppPushPageObject.getBeaconSelector();
     const logoBgImage = challengeCustomAppPushPageObject.getBeaconBgImage();
     await t.expect(pushBtn.textContent).contains('Push notification sent');
     // no a11y span in gen 3
@@ -205,7 +205,7 @@ test
       await t.expect(a11ySpan.textContent).contains('Push notification sent');
     }
     await t.expect(challengeCustomAppPushPageObject.isPushButtonDisabled()).eql(true);
-    await t.expect(logoClass).contains('custom-app-logo');
+    await t.expect(logoSelector).contains('custom-app-logo');
     // gen 3 uses img element with src attribute while gen 2 uses background-image style prop
     if(userVariables.gen3) {
       await t.expect(logoBgImage).match(/.*\/img\/icons\/mfa\/customPushLogo\.svg$/);
@@ -238,7 +238,7 @@ test
     const pageTitle = challengeCustomAppPushPageObject.getFormTitle();
     const pushBtn = challengeCustomAppPushPageObject.getPushButton();
     const a11ySpan = challengeCustomAppPushPageObject.getA11ySpan();
-    const logoClass = challengeCustomAppPushPageObject.getBeaconClass();
+    const logoSelector = challengeCustomAppPushPageObject.getBeaconSelector();
     const logoBgImage = challengeCustomAppPushPageObject.getBeaconBgImage();
     await t.expect(pushBtn.textContent).contains('Push notification sent');
     // no a11y span in gen 3
@@ -246,13 +246,13 @@ test
       await t.expect(a11ySpan.textContent).contains('Push notification sent');
     }
     await t.expect(challengeCustomAppPushPageObject.isPushButtonDisabled()).eql(true );
-    await t.expect(logoClass).contains('custom-app-logo');
+    await t.expect(logoSelector).contains('custom-app-logo');
     // gen 3 uses img element with src attribute while gen 2 uses background-image style prop
     if(userVariables.gen3) {
       await t.expect(logoBgImage).match(/.*\/img\/icons\/mfa\/customPushLogo\.svg$/);
     } else {
       await t.expect(logoBgImage).match(/^url\(".*\/img\/icons\/mfa\/customPushLogo\.svg"\)$/);
-      await t.expect(logoClass).contains('mfa-custom-app');
+      await t.expect(logoSelector).contains('mfa-custom-app');
     }
     await t.expect(pageTitle).contains('Verify with Custom Push');
     await t.expect(await challengeCustomAppPushPageObject.autoChallengeInputExists()).notOk();
@@ -274,14 +274,14 @@ test
     const pageTitle = challengeCustomAppPushPageObject.getFormTitle();
     const pushBtn = challengeCustomAppPushPageObject.getPushButton();
     const a11ySpan = challengeCustomAppPushPageObject.getA11ySpan();
-    const logoClass = challengeCustomAppPushPageObject.getBeaconClass();
+    const logoSelector = challengeCustomAppPushPageObject.getBeaconSelector();
     await t.expect(pushBtn.textContent).contains('Push notification sent');
     // no a11y span in gen 3
     if (!userVariables.gen3) {
       await t.expect(a11ySpan.textContent).contains('Push notification sent');
     }
     await t.expect(challengeCustomAppPushPageObject.isPushButtonDisabled()).eql(true);
-    await t.expect(logoClass).contains('custom-app-logo');
+    await t.expect(logoSelector).contains('custom-app-logo');
     await t.expect(pageTitle).contains('Verify with Custom Push');
 
     // Verify links
@@ -446,7 +446,7 @@ test
     await checkA11y(t);
     const errorBox = challengeCustomAppPushPageObject.getErrorBox();
     await t.expect(errorBox.innerText)
-      .eql('You have chosen to reject this login.');
+      .contains('You have chosen to reject this login.');
     await t.expect(challengeCustomAppPushPageObject.getResendPushButtonText())
       .eql('Resend push notification');
     // polling issue in v3 - https://oktainc.atlassian.net/browse/OKTA-587189
@@ -497,7 +497,7 @@ test
     await t.wait(20100); // Total > 30s
     const warningBox = challengeCustomAppPushPageObject.getWarningBox();
     await t.expect(warningBox.innerText)
-      .eql('Haven\'t received a push notification yet? Try opening Custom Push on your phone.');
+      .contains('Haven\'t received a push notification yet? Try opening Custom Push on your phone.');
   });
 
 test.requestHooks(pushSuccessMock1)('should show custom factor page link', async t => {

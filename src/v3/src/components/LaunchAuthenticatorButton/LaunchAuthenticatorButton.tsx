@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box, Button as OdyButton } from '@okta/odyssey-react-mui';
+import { Button as OdyButton, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 
 import Util from '../../../../util/Util';
@@ -30,6 +30,7 @@ import { OktaVerifyIcon } from '../Icon';
 const LaunchAuthenticatorButton: UISchemaElementComponent<{
   uischema: LaunchAuthenticatorButtonElement
 }> = ({ uischema }) => {
+  const tokens = useOdysseyDesignTokens();
   const onSubmitHandler = useOnSubmit();
   const {
     translations = [],
@@ -79,32 +80,19 @@ const LaunchAuthenticatorButton: UISchemaElementComponent<{
   return (
     <OdyButton
       variant="secondary"
-      fullWidth
+      isFullWidth
       onClick={handleClick}
-      ref={focusRef}
-    >
-      <Box
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-      >
-        <Box
-          sx={{
-            marginInlineEnd: '5px',
-            // keep the icon from stretching the button vertically
-            marginBlockEnd: '-3px',
-          }}
-        >
-          <OktaVerifyIcon
-            name="mfa-okta-verify"
-            description={iconDescription}
-            width={24}
-            height={24}
-          />
-        </Box>
-        {label}
-      </Box>
-    </OdyButton>
+      buttonRef={focusRef}
+      label={label || ''}
+      startIcon={(
+        <OktaVerifyIcon
+          name="mfa-okta-verify"
+          description={iconDescription}
+          width={tokens.Spacing5}
+          height={tokens.Spacing5}
+        />
+      )}
+    />
   );
 };
 

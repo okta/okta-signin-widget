@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-export * from './CheckCircle';
 export * from './CustomAppIcon';
 export * from './CustomOTPIcon';
 export * from './DuoIcon';
@@ -21,7 +20,6 @@ export * from './OktaVerifyIcon';
 export * from './OnPremMFAIcon';
 export * from './PasswordIcon';
 export * from './PhoneIcon';
-export * from './RightArrowIcon';
 export * from './RSAIcon';
 export * from './SecurityKeyOrBiometricsIcon';
 export * from './SecurityQuestionIcon';

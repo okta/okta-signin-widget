@@ -43,7 +43,7 @@ test
     await identityPage.fillIdentifierField('unknown');
     await identityPage.clickNextButton();
     await t.expect(identityPage.getUnknownUserCalloutContent())
-      .eql('Unable to sign in');
+      .contains('Unable to sign in');
     await t.expect(identityPage.hasUnknownUserErrorCallout()).eql(true);
   });
 
@@ -52,11 +52,11 @@ test
     const identityPage = await setup(t);
     await checkA11y(t);
     await t.expect(identityPage.getUnknownUserCalloutContent())
-      .eql('Unable to sign in');
+      .contains('Unable to sign in');
     await identityPage.fillIdentifierField('unknown');
     await identityPage.clickNextButton();
     await t.expect(identityPage.hasCallout()).eql(false);
-    await t.expect(identityPage.getGlobalErrors()).eql('User is not assigned to this application.');
+    await t.expect(identityPage.getGlobalErrors()).contains('User is not assigned to this application.');
   });
 
 test

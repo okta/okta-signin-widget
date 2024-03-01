@@ -132,6 +132,23 @@
       }
     ]
   },
+  "authenticatorEnrollments": {
+    "type": "array",
+    "value": [
+      {
+        "credentialId": "jh34fwJF30530XKF340593450hvs",
+        "displayName": "MacBook Touch ID",
+        "id": "webauthn-enrollment-id-122",
+        "key": "webauthn",
+        "methods": [
+          {
+            "type": "webauthn"
+          }
+        ],
+        "type": "security_key"
+      }
+    ]
+  },
   "authenticators": {
     "type": "array",
     "value": [

@@ -10,14 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import {
-  AccordionDetails,
-  AccordionSummary,
-  AccordionSummaryProps,
-} from '@mui/material';
-import MuiAccordion from '@mui/material/Accordion';
-import { styled } from '@mui/material/styles';
-import { Box, Typography } from '@okta/odyssey-react-mui';
+import { Box } from '@mui/material';
+import { Accordion as OdyAccordion, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
 
 import { AccordionLayout } from '../../types';
@@ -27,44 +21,29 @@ type AccordionProps = {
   uischema: AccordionLayout;
 };
 
-const StyledAccordionSummary = styled((props: AccordionSummaryProps) => (
-  // eslint-disable-next-line react/jsx-props-no-spreading
-  <AccordionSummary {...props} />
-))(({ theme }) => ({
-  padding: 0,
-  width: 'fit-content',
-  '& .MuiAccordionSummary-content': {
-    margin: 0,
-    color: theme.palette.primary.main,
-    '&:hover': {
-      textDecoration: 'underline',
-      textDecorationColor: theme.palette.primary.main,
-    },
-  },
-}));
-
 const Accordion: FunctionComponent<AccordionProps> = ({ uischema }) => {
   const { elements } = uischema;
+  const tokens = useOdysseyDesignTokens();
 
   return (
     <Box>
       {
         elements.map((element) => (
-          <MuiAccordion
+          <Box
             key={element.key}
-            disableGutters
-            elevation={0}
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...(!(element).noMargin && { marginBlockEnd: tokens.Spacing4 })}
           >
-            <StyledAccordionSummary
-              aria-controls={`${element.options.id}-content`}
-              id={`${element.options.id}-header`}
+            <OdyAccordion
+              hasShadow={false}
+              label={element.options.summary}
+              id={element.options.id}
             >
-              <Typography>{element.options.summary}</Typography>
-            </StyledAccordionSummary>
-            <AccordionDetails sx={{ padding: 0 }}>
-              <LayoutContainer uischema={element.options.content} />
-            </AccordionDetails>
-          </MuiAccordion>
+              <LayoutContainer
+                uischema={element.options.content}
+              />
+            </OdyAccordion>
+          </Box>
         ))
       }
     </Box>

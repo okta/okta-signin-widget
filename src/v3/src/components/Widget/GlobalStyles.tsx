@@ -13,42 +13,37 @@
 import {
   GlobalStyles as MuiGlobalStyles,
   GlobalStylesProps,
-  Theme,
 } from '@mui/material';
+import { DesignTokens, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
 
 // TODO we could scope these to just widget container
-const svgStyles = (theme: Theme): GlobalStylesProps['styles'] => ({
+const svgStyles = (tokens: DesignTokens): GlobalStylesProps['styles'] => ({
   '.siwFillPrimary': {
-    fill: theme.palette.primary.main,
+    fill: tokens.PalettePrimaryMain,
   },
   '.siwFillPrimaryDark': {
-    fill: theme.palette.primary.dark,
+    fill: tokens.PalettePrimaryDark,
   },
   '.siwFillSecondary': {
-    fill: theme.palette.primary.light,
-  },
-  '.siwFillBg': {
-    fill: theme.palette.grey[50],
-  },
-  '.siwIconFillPrimary': {
-    fill: theme.palette.primary.main,
-  },
-  '.siwIconStrokePrimary': {
-    stroke: theme.palette.primary.main,
+    fill: tokens.PalettePrimaryLight,
   },
   '.siwIconFillPrimaryDark': {
-    fill: theme.palette.primary.dark,
+    fill: tokens.PalettePrimaryDark,
   },
   '.siwIconFillSecondary': {
-    fill: theme.palette.primary.light,
+    fill: tokens.PalettePrimaryLight,
   },
 });
 
-const GlobalStyles: FunctionComponent = () => (
-  <MuiGlobalStyles
-    styles={(theme) => svgStyles(theme)}
-  />
-);
+const GlobalStyles: FunctionComponent = () => {
+  const tokens = useOdysseyDesignTokens();
+
+  return (
+    <MuiGlobalStyles
+      styles={svgStyles(tokens)}
+    />
+  );
+};
 
 export default GlobalStyles;

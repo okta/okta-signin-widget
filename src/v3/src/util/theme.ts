@@ -10,319 +10,346 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { ThemeOptions } from '@mui/material';
-import { odysseyTheme } from '@okta/odyssey-react-mui';
-import chroma from 'chroma-js';
-import { set as _set } from 'lodash';
+// Leonardo doesn't have TS support in stable version alpha.13 so types are defined in leonardo.d.ts
+import {
+  BackgroundColor, Color, CssColor, Theme,
+} from '@adobe/leonardo-contrast-colors';
+import * as Tokens from '@okta/odyssey-design-tokens';
+import { createOdysseyMuiTheme, DesignTokensOverride, ThemeOptions } from '@okta/odyssey-react-mui';
 
 import { BrandColors } from '../types';
-import { DESIGN_TOKENS, DesignTokensType } from './designTokens';
+import { isLtrField } from '.';
 import { mergeThemes } from './mergeThemes';
 
-export type Palette = Partial<{
-  main: string;
-  light: string;
-  lighter: string;
-  dark: string;
-  contrastText: string;
-}>;
-
-export type SpacingArgument = number | string;
-
 const WHITE_HEX = '#ffffff';
-const BLACK_HEX = '#1d1d21';
+// Odyssey-defined contrast ratios for their WCAG-friendly palettes
+const ODYSSEY_RATIOS = [1.1, 1.31, 1.61, 2.22, 3.32, 4.52, 4.93, 8.72, 11.73, 14.94];
 
-/**
- * Determine whether to use BLACK (#1d1d21) or WHITE (#ffffff) based on a color.
- * If WHITE vs color has a contrast ratio <4.5:1 this will return BLACK.
- * Contrast ratios are symmetrical using the WCAG 2.x algorithm
- *
- * @param color color to compare against black/white
- */
-const getInverseTextColor = (color: string): string => (
-  chroma.contrast(color, WHITE_HEX) >= 4.5 ? WHITE_HEX : BLACK_HEX
-);
-
-/**
- * Sets the design token to theme path iff the value is not undefined, i.e.,
- * null, false, 0, etc. will be set. Only undefined will be ignored. Paths and
- * values are not checked for type safety.
- *
- * @param obj {Theme} the theme object
- * @param path {string} target path
- * @param val the value to set, if defined.
- */
-// eslint-disable-next-line @typescript-eslint/ban-types
-function set<T extends object, V>(obj: T, path: string | string[], val: V) {
-  return val === undefined ? null : _set(obj, path, val);
+interface OdysseyPalette {
+  CustomHue50: string,
+  CustomHue100: string,
+  CustomHue200: string,
+  CustomHue300: string,
+  CustomHue400: string,
+  CustomHue500: string,
+  CustomHue600: string,
+  CustomHue700: string,
+  CustomHue800: string,
+  CustomHue900: string
 }
 
 /**
- * Generates a palette based on the "main" (f.k.a. "base") value. Main value
- * corresponds to 500 in the hue-based color scale.
+ * Generates a palette using @adobe/leonardo-contrast-colors based on the "main"
+ * (f.k.a. "base") value. Leonardo generates 10 different hues that adhere to Odyssey's
+ * contrast ratios
  *
  * Example:
- * PalettePrimaryMain -> HueBlue50
- * PalettePrimaryLighter -> HueBlue300
- * PalettePrimaryLight -> HueBlue500
- * PalettePrimaryDark -> HueBlue700
+ * PalettePrimaryMain -> CustomHue500
+ * PalettePrimaryLighter -> CustomHue50
+ * PalettePrimaryLight -> CustomHue300
+ * PalettePrimaryDark -> CustomHue700
+ * PalettePrimaryDarker -> CustomHue900
  *
- * @param main Main color (Hue 500)
+ * @param main Main color used to generate a palette
  */
-export const generatePalette = (main: string): Palette => {
+export const generatePalette = (main: string): OdysseyPalette | null => {
   try {
-    const lightness = chroma(main).get('hsl.l');
-    return lightness > 0.24
-      ? {
-        main,
-        lighter: chroma(main)
-          .set('hsl.h', '+9')
-          .set('hsl.s', '+0.18')
-          .set('hsl.l', 0.97)
-          .hex(),
-        light: chroma(main)
-          .set('hsl.h', '+11')
-          .set('hsl.s', '-0.18')
-          .set('hsl.l', lightness < 0.59 ? '+0.31' : 0.9) // clamp lightness
-          .hex(),
-        dark: chroma(main)
-          .set('hsl.h', '+3')
-          .set('hsl.s', '+0.18')
-          .set('hsl.l', '-0.24')
-          .hex(),
-        contrastText: getInverseTextColor(main),
-      } : {
-        main,
-        lighter: chroma(main)
-          .set('hsl.h', '+9')
-          .set('hsl.s', '+0.18')
-          .set('hsl.l', 0.97)
-          .hex(),
-        light: chroma(main)
-          .set('hsl.l', '+0.62')
-          .hex(),
-        dark: chroma(main)
-          .set('hsl.l', '+0.31')
-          .hex(),
-        contrastText: getInverseTextColor(main),
-      };
+    const primaryColor = new Color({
+      name: 'Custom Hue',
+      // Leonardo will throw "Invalid Color Key" error if string is not of type CssColor
+      colorKeys: [main as CssColor],
+      ratios: ODYSSEY_RATIOS,
+    });
+    // SIW always has a white background color
+    const backgroundColor = new BackgroundColor({
+      name: 'Background Color',
+      colorKeys: [WHITE_HEX],
+      ratios: [],
+    });
+    const leonardoTheme = new Theme({
+      colors: [primaryColor],
+      backgroundColor,
+      lightness: 100,
+    }).contrastColorPairs;
+
+    // Remap Leonardo theme to use Odyssey color stops from 50-900
+    const theme = {
+      CustomHue50: leonardoTheme.CustomHue100,
+      CustomHue100: leonardoTheme.CustomHue200,
+      CustomHue200: leonardoTheme.CustomHue300,
+      CustomHue300: leonardoTheme.CustomHue400,
+      CustomHue400: leonardoTheme.CustomHue500,
+      CustomHue500: leonardoTheme.CustomHue600,
+      CustomHue600: leonardoTheme.CustomHue700,
+      CustomHue700: leonardoTheme.CustomHue800,
+      CustomHue800: leonardoTheme.CustomHue900,
+      CustomHue900: leonardoTheme.CustomHue1000,
+    };
+    return theme;
   } catch (err) {
     console.warn(err);
-    return {};
+    return null;
   }
 };
 
-export const createTheme = (
+export const createThemeAndTokens = (
   brandColors?: BrandColors,
-  customTokens?: Partial<DesignTokensType>,
-): ThemeOptions => {
-  const defaultTokens = DESIGN_TOKENS;
-  const mergedTokens: DesignTokensType = { ...defaultTokens, ...customTokens };
-  const theme = odysseyTheme;
+  customTokens?: Partial<DesignTokensOverride>,
+): { themeOverride: ThemeOptions, tokensOverride: DesignTokensOverride } => {
+  const tokensOverride = { ...customTokens };
 
-  theme.palette.text.primary = BLACK_HEX;
   if (brandColors?.primaryColor) {
     const p = generatePalette(brandColors.primaryColor);
-    set(theme, 'palette.primary.lighter', p.lighter);
-    set(theme, 'palette.primary.light', p.light);
-    set(theme, 'palette.primary.main', p.main);
-    set(theme, 'palette.primary.dark', p.dark);
-    set(theme, 'palette.primary.contrastText', p.contrastText);
+    tokensOverride.PalettePrimaryLighter ??= p?.CustomHue50;
+    tokensOverride.PalettePrimaryHighlight ??= p?.CustomHue100;
+    tokensOverride.PalettePrimaryLight ??= p?.CustomHue300;
+    tokensOverride.PalettePrimaryMain ??= p?.CustomHue500;
+    tokensOverride.FocusOutlineColorPrimary ??= p?.CustomHue500;
+    tokensOverride.BorderColorPrimaryControl ??= p?.CustomHue500;
+    tokensOverride.TypographyColorAction ??= p?.CustomHue600;
+    tokensOverride.PalettePrimaryText ??= p?.CustomHue600;
+    tokensOverride.BorderColorPrimaryDark ??= p?.CustomHue700;
+    tokensOverride.PalettePrimaryDark ??= p?.CustomHue700;
+    tokensOverride.PalettePrimaryDarker ??= p?.CustomHue800;
+    tokensOverride.PalettePrimaryHeading ??= p?.CustomHue900;
   }
-  if (customTokens) {
-    if (customTokens.PalettePrimaryMain) {
-      const p = generatePalette(customTokens.PalettePrimaryMain);
-      set(theme, 'palette.primary.lighter', customTokens.PalettePrimaryLighter ?? p.lighter);
-      set(theme, 'palette.primary.light', customTokens.PalettePrimaryLight ?? p.light);
-      set(theme, 'palette.primary.main', customTokens.PalettePrimaryMain ?? p.main);
-      set(theme, 'palette.primary.dark', customTokens.PalettePrimaryDark ?? p.dark);
-      set(theme, 'palette.primary.contrastText', p.contrastText);
-    }
-    if (customTokens.PaletteDangerMain) {
-      const p = generatePalette(customTokens.PaletteDangerMain);
-      set(theme, 'palette.error.lighter', customTokens.PaletteDangerLighter ?? p.lighter);
-      set(theme, 'palette.error.light', customTokens.PaletteDangerLight ?? p.light);
-      set(theme, 'palette.error.main', customTokens.PaletteDangerMain ?? p.main);
-      set(theme, 'palette.error.dark', customTokens.PaletteDangerDark ?? p.dark);
-      set(theme, 'palette.error.contrastText', p.contrastText);
-    }
-    if (customTokens.PaletteWarningMain) {
-      const p = generatePalette(customTokens.PaletteWarningMain);
-      set(theme, 'palette.warning.lighter', customTokens.PaletteWarningLighter ?? p.lighter);
-      set(theme, 'palette.warning.light', customTokens.PaletteWarningLight ?? p.light);
-      set(theme, 'palette.warning.main', customTokens.PaletteWarningMain ?? p.main);
-      set(theme, 'palette.warning.dark', customTokens.PaletteWarningDark ?? p.dark);
-      set(theme, 'palette.warning.contrastText', p.contrastText);
-    }
-    if (customTokens.PaletteSuccessMain) {
-      const p = generatePalette(customTokens.PaletteSuccessMain);
-      set(theme, 'palette.success.lighter', customTokens.PaletteSuccessLighter ?? p.lighter);
-      set(theme, 'palette.success.light', customTokens.PaletteSuccessLight ?? p.light);
-      set(theme, 'palette.success.main', customTokens.PaletteSuccessMain ?? p.main);
-      set(theme, 'palette.success.dark', customTokens.PaletteSuccessDark ?? p.dark);
-      set(theme, 'palette.success.contrastText', p.contrastText);
-    }
-    set(theme, 'mixins.borderRadius', mergedTokens.BorderRadiusMain);
-    set(theme, 'mixins.borderStyle', mergedTokens.BorderStyleMain);
-    set(theme, 'mixins.borderWidth', mergedTokens.BorderWidthMain);
-    set(theme, 'palette.text.disabled', mergedTokens.TypographyColorDisabled);
-    set(theme, 'palette.text.primary', mergedTokens.TypographyColorBody);
-    set(theme, 'shadows[1]', mergedTokens.ShadowScale0);
-    set(theme, 'shadows[2]', mergedTokens.ShadowScale1);
-    set(theme, 'typography.body1.fontFamily', mergedTokens.TypographyFamilyBody);
-    set(theme, 'typography.body1.fontSize', mergedTokens.TypographySizeBody);
-    set(theme, 'typography.body1.fontStyle', mergedTokens.TypographyStyleNormal);
-    set(theme, 'typography.body1.lineHeight', mergedTokens.TypographyLineHeightBody);
-    set(theme, 'typography.button.fontFamily', mergedTokens.TypographyFamilyButton);
-    set(theme, 'typography.caption.color', mergedTokens.TypographyColorSubordinate);
-    set(theme, 'typography.caption.fontFamily', mergedTokens.TypographyFamilyBody);
-    set(theme, 'typography.caption.fontSize', mergedTokens.TypographySizeSubordinate);
-    set(theme, 'typography.fontFamily', mergedTokens.TypographyFamilyBody);
-    set(theme, 'typography.fontWeightBold', mergedTokens.TypographyWeightBodyBold);
-    set(theme, 'typography.fontWeightRegular', mergedTokens.TypographyWeightBody);
-    set(theme, 'typography.h1.color', mergedTokens.TypographyColorHeading);
-    set(theme, 'typography.h1.fontFamily', mergedTokens.TypographyFamilyHeading);
-    set(theme, 'typography.h1.fontSize', mergedTokens.TypographySizeHeading1);
-    set(theme, 'typography.h1.fontWeight', mergedTokens.TypographyWeightHeading);
-    set(theme, 'typography.h1.lineHeight', mergedTokens.TypographyLineHeightHeading1);
-    set(theme, 'typography.h2.color', mergedTokens.TypographyColorHeading);
-    set(theme, 'typography.h2.fontFamily', mergedTokens.TypographyFamilyHeading);
-    set(theme, 'typography.h2.fontSize', mergedTokens.TypographySizeHeading2);
-    set(theme, 'typography.h2.fontWeight', mergedTokens.TypographyWeightHeading);
-    set(theme, 'typography.h2.lineHeight', mergedTokens.TypographyLineHeightHeading2);
-    set(theme, 'typography.h3.color', mergedTokens.TypographyColorHeading);
-    set(theme, 'typography.h3.fontFamily', mergedTokens.TypographyFamilyHeading);
-    set(theme, 'typography.h3.fontSize', mergedTokens.TypographySizeHeading3);
-    set(theme, 'typography.h3.fontWeight', mergedTokens.TypographyWeightHeading);
-    set(theme, 'typography.h3.lineHeight', mergedTokens.TypographyLineHeightHeading3);
-    set(theme, 'typography.h4.color', mergedTokens.TypographyColorHeading);
-    set(theme, 'typography.h4.fontFamily', mergedTokens.TypographyFamilyHeading);
-    set(theme, 'typography.h4.fontSize', mergedTokens.TypographySizeHeading4);
-    set(theme, 'typography.h4.fontWeight', mergedTokens.TypographyWeightHeading);
-    set(theme, 'typography.h4.lineHeight', mergedTokens.TypographyLineHeightHeading4);
-    set(theme, 'typography.h5.color', mergedTokens.TypographyColorHeading);
-    set(theme, 'typography.h5.fontFamily', mergedTokens.TypographyFamilyHeading);
-    set(theme, 'typography.h5.fontSize', mergedTokens.TypographySizeHeading5);
-    set(theme, 'typography.h5.fontWeight', mergedTokens.TypographyWeightHeading);
-    set(theme, 'typography.h5.lineHeight', mergedTokens.TypographyLineHeightHeading5);
-    set(theme, 'typography.h6.color', mergedTokens.TypographyColorHeading);
-    set(theme, 'typography.h6.fontFamily', mergedTokens.TypographyFamilyHeading);
-    set(theme, 'typography.h6.fontSize', mergedTokens.TypographySizeHeading6);
-    set(theme, 'typography.h6.fontWeight', mergedTokens.TypographyWeightHeading);
-    set(theme, 'typography.h6.lineHeight', mergedTokens.TypographyLineHeightHeading6);
-    set(theme, 'typography.overline.lineHeight', mergedTokens.TypographyLineHeightOverline);
-    set(theme, 'typography.subtitle1.fontFamily', mergedTokens.TypographyFamilyBody);
-    set(theme, 'typography.subtitle2.fontFamily', mergedTokens.TypographyFamilyBody);
 
-    theme.spacing = (...args: Array<SpacingArgument>): string => {
-      if (args.length === 0) {
-        return mergedTokens.Spacing2;
-      }
-      const spaces: string[] = [
-        mergedTokens.Spacing0,
-        mergedTokens.Spacing1,
-        mergedTokens.Spacing2,
-        mergedTokens.Spacing3,
-        mergedTokens.Spacing4,
-        mergedTokens.Spacing5,
-        mergedTokens.Spacing6,
-        mergedTokens.Spacing7,
-        mergedTokens.Spacing8,
-        mergedTokens.Spacing9,
-      ];
-      return args
-        .slice(0, 4) // limit to 4 args
-        .map((n) => ( typeof n === 'number' ? spaces[n] : n )) // lookup
-        .join(' '); // concat into space-separated string
-    };
-  }
-  return mergeThemes(theme, {
-    ...odysseyTheme,
+  const mergedTokens = { ...Tokens, ...tokensOverride };
+
+  // Odyssey 1.x does not export their theme, but we can recreate it
+  const baseOdysseyTheme = createOdysseyMuiTheme({
+    odysseyTokens: mergedTokens,
+  });
+
+  // Merge default Odyssey 1.x theme with component overrides
+  const themeOverride = mergeThemes(baseOdysseyTheme, {
     components: {
-      MuiAlert: {
+      MuiAccordion: {
         styleOverrides: {
           root: {
-            gap: 0,
+            border: 0,
           },
-          icon: ({ theme: t }) => ({
-            paddingInlineEnd: t.spacing(4),
-            flexShrink: 0,
-          }),
         },
       },
-      MuiInputBase: {
+      MuiAccordionDetails: {
         styleOverrides: {
           root: {
-            width: '100%',
+            paddingInline: mergedTokens.Spacing0,
+            paddingBlock: mergedTokens.Spacing0,
+            paddingBlockStart: mergedTokens.Spacing4,
           },
-          input: {
-            '::-ms-reveal': {
+        },
+      },
+      MuiAccordionSummary: {
+        styleOverrides: {
+          root: {
+            display: 'inline-flex',
+            minHeight: 0,
+            paddingInline: mergedTokens.Spacing0,
+            paddingBlock: mergedTokens.Spacing0,
+            backgroundColor: 'transparent',
+            '&:hover': {
+              backgroundColor: 'transparent',
+            },
+            '&:focus': {
+              backgroundColor: 'transparent',
+            },
+            '& .MuiAccordionSummary-content': {
+              margin: mergedTokens.Spacing0,
+              '& .MuiTypography-root': {
+                textDecoration: 'underline',
+                fontWeight: mergedTokens.TypographyWeightBody,
+                color: mergedTokens.TypographyColorAction,
+                '&:hover': {
+                  color: mergedTokens.BorderColorPrimaryDark,
+                },
+              },
+            },
+            '& .MuiAccordionSummary-expandIconWrapper': {
               display: 'none',
             },
           },
         },
       },
-      MuiInputLabel: {
+      MuiAlert: {
         styleOverrides: {
           root: {
-            wordBreak: 'break-word',
-            whiteSpace: 'normal',
+            gap: mergedTokens.Spacing0,
+          },
+          icon: {
+            paddingInlineEnd: mergedTokens.Spacing5,
+            flexShrink: 0,
           },
         },
       },
-      // ruleset with :focus-visible pseudo-selector break entire ruleset in
-      // ie11 because its not supported. re-define the :hover rule separately
-      // again so the ruleset is applied in ie11
       MuiButton: {
         styleOverrides: {
-          root: ({ ownerState, theme: t }) => ({
+          root: ({ ownerState }) => ({
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            whiteSpace: 'normal',
+            // Odyssey CircularProgress does not allow color change but SIW needs a white spinner
+            // when rendering it as the startIcon for primary buttons
             ...(ownerState.variant === 'primary' && {
-              '&:hover': {
-                backgroundColor: t.palette.primary.dark,
+              '&:disabled': {
+                color: mergedTokens.PalettePrimaryLight,
+                backgroundColor: mergedTokens.PalettePrimaryHighlight,
+                '& .MuiCircularProgress-root': {
+                  color: mergedTokens.PalettePrimaryLight,
+                },
               },
             }),
-            ...(ownerState.variant === 'secondary' && {
-              '&:hover': {
-                backgroundColor: t.palette.primary.lighter,
-                borderColor: t.palette.primary.light,
-                color: t.palette.primary.main,
-              },
-            }),
-            ...(ownerState.variant === 'floating' && {
-              '&:hover': {
-                backgroundColor: 'rgba(29, 29, 33, 0.1)',
-                borderColor: 'transparent',
+            // Fix for IE11 - don't shrink icon if the button text is multiline
+            ...(ownerState.startIcon && {
+              '& .MuiButton-startIcon': {
+                flexShrink: 0,
               },
             }),
           }),
         },
       },
-      // ruleset with :focus-visible pseudo-selector break entire ruleset in
-      // ie11 because its not supported. re-define the :hover rule separately
-      // again so the ruleset is applied in ie11
-      MuiIconButton: {
+      MuiCheckbox: {
         styleOverrides: {
           root: {
-            '&:hover': {
-              backgroundColor: 'rgba(29, 29, 33, 0.1)',
-              borderColor: 'transparent',
+            // Odyssey uses gap for spacing between Checkbox and label which is not IE11-friendly
+            marginInlineEnd: mergedTokens.Spacing2,
+          },
+        },
+      },
+      MuiChip: {
+        styleOverrides: {
+          root: {
+            lineHeight: 'normal',
+          },
+        },
+      },
+      MuiFormControlLabel: {
+        styleOverrides: {
+          root: {
+            // Odyssey uses gap for spacing between Checkbox and label which is not IE11-friendly
+            gap: mergedTokens.Spacing0,
+          },
+          label: {
+            // Fixes text overflow in IE11
+            width: '100%',
+            // Forces Odyssey Checkbox hint text to be grey even during error state
+            '& .MuiFormHelperText-root.Mui-error': {
+              color: mergedTokens.TypographyColorSubordinate,
             },
           },
         },
       },
-
+      MuiFormHelperText: {
+        styleOverrides: {
+          root: {
+            display: 'block',
+          },
+        },
+      },
+      MuiInputBase: {
+        styleOverrides: {
+          root: ({ ownerState }) => ({
+            width: '100%',
+            // Odyssey sets flex: "1" but that results in the following IE11 flexbug
+            // https://github.com/philipwalton/flexbugs?tab=readme-ov-file#flexbug-7
+            flex: 'auto',
+            ...(ownerState.name && isLtrField(ownerState.name) && {
+              direction: 'ltr',
+            }),
+          }),
+          input: {
+            '::-ms-reveal': {
+              display: 'none',
+            },
+          },
+          adornedEnd: ({ ownerState }) => ({
+            // Odyssey does not support a focus indicator around toggle icon button
+            '& .MuiIconButton-root:focus-visible': {
+              borderRadius: mergedTokens.BorderRadiusMain,
+              outlineColor: mergedTokens.FocusOutlineColorPrimary,
+              outlineStyle: mergedTokens.FocusOutlineStyle,
+              outlineWidth: mergedTokens.FocusOutlineWidthTight,
+            },
+            // Explicitly switch to physical properties for password toggle icon since
+            // IE11 stylis plugin cannot handle nested logical properties
+            ...(ownerState.name && isLtrField(ownerState.name) && {
+              '& .MuiInputAdornment-root': {
+                marginRight: mergedTokens.Spacing2,
+              },
+            }),
+          }),
+          adornedStart: ({ ownerState }) => ({
+            // Explicitly switch to physical properties for telephone code
+            ...(ownerState.type === 'tel' && {
+              '& .MuiInputAdornment-root': {
+                marginInlineStart: mergedTokens.Spacing0,
+                marginLeft: mergedTokens.Spacing2,
+              },
+            }),
+          }),
+        },
+      },
+      MuiInputLabel: {
+        styleOverrides: {
+          root: ({ ownerState }) => ({
+            wordBreak: 'break-word',
+            whiteSpace: 'normal',
+            ...(ownerState.formControl && {
+              // Odyssey sets position: "initial" which is not supported in IE11
+              // "initial" uses browser default which is "static"
+              position: 'static',
+            }),
+          }),
+        },
+      },
       MuiLink: {
         styleOverrides: {
-          root: ({ ownerState, theme: t }) => ({
-            color: t.palette.primary.main,
-            textDecoration: ownerState?.component === 'a' ? 'underline' : 'inherit',
-
-            '&:hover': {
-              color: t.palette.primary.dark,
+          button: {
+            verticalAlign: 'baseline',
+          },
+        },
+      },
+      MuiNativeSelect: {
+        styleOverrides: {
+          select: {
+            paddingRight: `${mergedTokens.Spacing7} !important`,
+          },
+        },
+      },
+      MuiRadio: {
+        styleOverrides: {
+          root: {
+            // Odyssey uses gap for spacing between Checkbox/Radio and label
+            marginInlineEnd: mergedTokens.Spacing2,
+            '&.Mui-checked': {
+              // Odyssey position: absolute breaks radio checked circle alignment
+              '&::before': {
+                position: 'relative',
+                backgroundColor: mergedTokens.PalettePrimaryMain,
+              },
             },
-          }),
+          },
+        },
+      },
+      MuiScopedCssBaseline: {
+        styleOverrides: {
+          root: {
+            figure: {},
+          },
+        },
+      },
+      MuiTypography: {
+        styleOverrides: {
+          root: {
+            '&[data-se="o-form-head"]': {
+              outline: 'none',
+            },
+          },
         },
       },
     },
   });
+
+  return { themeOverride, tokensOverride };
 };

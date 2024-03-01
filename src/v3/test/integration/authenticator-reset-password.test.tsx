@@ -35,19 +35,19 @@ describe('authenticator-reset-password', () => {
 
   it('password fields should be ltr even when a rtl language is set', async () => {
     const {
-      findByTestId,
+      findByLabelText,
     } = await setup({ mockResponse, widgetOptions: { language: 'ar' } });
 
-    const newPasswordEle = await findByTestId('credentials.passcode') as HTMLInputElement;
-    const confirmPasswordEle = await findByTestId('confirmPassword') as HTMLInputElement;
+    const newPasswordEle = await findByLabelText('New password') as HTMLInputElement;
+    const confirmPasswordEle = await findByLabelText(/Re-enter password/) as HTMLInputElement;
 
-    expect(newPasswordEle.parentElement?.getAttribute('dir')).toBe('ltr');
-    expect(confirmPasswordEle.parentElement?.getAttribute('dir')).toBe('ltr');
+    expect(newPasswordEle.parentElement).toHaveStyle('direction: ltr');
+    expect(confirmPasswordEle.parentElement).toHaveStyle('direction: ltr');
   });
 
   it('should send correct payload', async () => {
     const {
-      authClient, user, findByTestId, findByText,
+      authClient, user, findByLabelText, findByText,
     } = await setup({ mockResponse });
 
     const titleElement = await findByText(/Reset your password/);
@@ -55,8 +55,8 @@ describe('authenticator-reset-password', () => {
     await findByText(/Password requirements/);
 
     const submitButton = await findByText('Reset Password', { selector: 'button' });
-    const newPasswordEle = await findByTestId('credentials.passcode') as HTMLInputElement;
-    const confirmPasswordEle = await findByTestId('confirmPassword') as HTMLInputElement;
+    const newPasswordEle = await findByLabelText('New password') as HTMLInputElement;
+    const confirmPasswordEle = await findByLabelText(/Re-enter password/) as HTMLInputElement;
 
     const password = 'superSecretP@ssword12';
     await user.type(newPasswordEle, password);

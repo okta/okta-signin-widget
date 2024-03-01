@@ -13,6 +13,5 @@
 export * from './AppIcon';
 export * from './DeviceIcon';
 export * from './LocationIcon';
-export * from './MobileDeviceIcon';
 export * from './PhoneIcon';
 export * from './YubikeyDemoImage';
