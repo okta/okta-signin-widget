@@ -298,7 +298,8 @@ export default Model.extend({
           res._embedded &&
           res._embedded.factor &&
           res._embedded.factor._embedded &&
-          res._embedded.factor._embedded.challenge
+          res._embedded.factor._embedded.challenge &&
+          res._embedded.factor._embedded.challenge.correctAnswer
         ) {
           return true;
         }

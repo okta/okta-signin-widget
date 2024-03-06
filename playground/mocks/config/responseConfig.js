@@ -334,6 +334,20 @@ const emailVerificationMocks = {
   ],
 };
 
+// OV verification
+const ovVerificationMocks = {
+  '/api/v1/authn': [
+    'mfa-required-oktaverify'
+  ],
+  '/api/v1/authn/factors/:factorid/verify/resend': [
+    'mfa-challenge-ov',
+  ],
+  '/api/v1/authn/factors/:factorid/verify': [
+    'mfa-challenge-ov',
+    'success-001'
+  ],
+};
+
 
 // ===== IDX
 const fastpassUnassignedApp = {

@@ -20,6 +20,7 @@ import resChallengePush from 'helpers/xhr/MFA_CHALLENGE_push';
 import resRejectedPush from 'helpers/xhr/MFA_CHALLENGE_push_rejected';
 import resTimeoutPush from 'helpers/xhr/MFA_CHALLENGE_push_timeout';
 import resChallengePushWithNumberChallenge from 'helpers/xhr/MFA_CHALLENGE_push_with_number_challenge';
+import resChallengePushWithoutNumberChallenge from 'helpers/xhr/MFA_CHALLENGE_push_without_number_challenge';
 import resChallengeSms from 'helpers/xhr/MFA_CHALLENGE_sms';
 import resChallengeU2F from 'helpers/xhr/MFA_CHALLENGE_u2f';
 import resChallengeWindowsHello from 'helpers/xhr/MFA_CHALLENGE_windows_hello';
@@ -5708,7 +5709,7 @@ Expect.describe('MFA Verify', function() {
         return setupOktaPush({ 'features.autoPush': true }).then(function(test) {
           spyOn(test.router.controller.model, 'setTransaction').and.callThrough();
           spyOn(test.router.settings, 'callGlobalSuccess');
-          return setupPolling(test, resSuccess)
+          return setupPolling(test, resSuccess, resChallengePushWithoutNumberChallenge)
             .then(function() {
               expect(test.form.hasWarningMessage()).toBeTruthy();
               expect(Dom.isVisible(test.router.controller.$('[data-se="o-form-input-autoPush"]'))).toBeTruthy();
