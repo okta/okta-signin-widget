@@ -334,16 +334,16 @@ const emailVerificationMocks = {
   ],
 };
 
-// OV verification
-const ovVerificationMocks = {
+// OV verification with number challenge
+const numberChallengeOv = {
   '/api/v1/authn': [
     'mfa-required-oktaverify'
   ],
   '/api/v1/authn/factors/:factorid/verify/resend': [
-    'mfa-challenge-ov',
+    'mfa-number-challenge-ov',
   ],
   '/api/v1/authn/factors/:factorid/verify': [
-    'mfa-challenge-ov',
+    'mfa-number-challenge-ov',
     'success-001'
   ],
 };

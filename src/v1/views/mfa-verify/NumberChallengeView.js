@@ -15,9 +15,11 @@ import hbs from '@okta/handlebars-inline-precompile';
 export default View.extend({
   className: 'number-challenge-view',
   template: hbs`
-      <p data-se="number-challenge-instruction">
-        {{{i18n code="oktaverify.numberchallenge.instruction" bundle="login" arguments="number"}}}
-      </p>
+      {{#if number includeZero=true}}
+        <p data-se="number-challenge-instruction">
+          {{{i18n code="oktaverify.numberchallenge.instruction" bundle="login" arguments="number"}}}
+        </p>
+      {{/if}}
       <div class="phone">
         <div class="phone--body">
           <div class="phone--screen">

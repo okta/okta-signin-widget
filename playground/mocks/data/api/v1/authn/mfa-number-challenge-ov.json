@@ -37,7 +37,7 @@
       },
       "_embedded": {
         "challenge": {
-          "timeoutSeconds": 20
+          "correctAnswer": 0
         }
       }
     }
