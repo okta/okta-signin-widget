@@ -2229,13 +2229,7 @@ Expect.describe('MFA Verify', function() {
         });
     });
     itp('shows an error if error response from authClient', function() {
-      return setupFn({
-        i18n: {
-          en: {
-            'errors.E0000068': 'Invalid Passcode or Answer'
-          }
-        }
-      })
+      return setupFn()
         .then(function(test) {
           test.setNextResponse(resInvalidPassword);
           test.form.setPassword('wrong');
@@ -2244,7 +2238,7 @@ Expect.describe('MFA Verify', function() {
         })
         .then(function(test) {
           expect(test.form.hasErrors()).toBe(true);
-          expect(test.form.errorMessage()).toBe('Invalid Passcode or Answer');
+          expect(test.form.errorMessage()).toBe('Invalid Passcode/Answer');
           expectErrorEvent(test, 403, 'Invalid Passcode/Answer', 'mfa-verify', {
             status: 403,
             headers: { 'content-type': 'application/json' },
@@ -2252,7 +2246,7 @@ Expect.describe('MFA Verify', function() {
             responseText: '{"errorCode":"E0000068","errorSummary":"Invalid Passcode/Answer","errorLink":"E0000068","errorId":"oael69itLSMTbioahsUZ-7xiQ","errorCauses":[{"errorSummary":"Password is incorrect"}]}',
             responseJSON: {
               errorCode: 'E0000068',
-              errorSummary: 'Invalid Passcode or Answer',
+              errorSummary: 'Invalid Passcode/Answer',
               errorLink: 'E0000068',
               errorId: 'oael69itLSMTbioahsUZ-7xiQ',
             },
