@@ -1117,7 +1117,13 @@ Expect.describe('MFA Verify', function() {
         });
     });
     itp('shows an error if error response from authClient', function() {
-      return setupFn()
+      return setupFn({
+        i18n: {
+          en: {
+            'errors.E0000068': 'Invalid Passcode or Answer'
+          }
+        }
+      })
         .then(function(test) {
           test.setNextResponse(resInvalid);
           test.form.setAnswer('wrong');
@@ -1126,7 +1132,7 @@ Expect.describe('MFA Verify', function() {
         })
         .then(function(test) {
           expect(test.form.hasErrors()).toBe(true);
-          expect(test.form.errorMessage()).toBe('Your answer doesn\'t match our records. Please try again.');
+          expect(test.form.errorMessage()).toBe('Invalid Passcode or Answer');
         });
     });
     itp('shows errors if verify button is clicked and answer is empty', function() {
@@ -2223,7 +2229,13 @@ Expect.describe('MFA Verify', function() {
         });
     });
     itp('shows an error if error response from authClient', function() {
-      return setupFn()
+      return setupFn({
+        i18n: {
+          en: {
+            'errors.E0000068': 'Invalid Passcode or Answer'
+          }
+        }
+      })
         .then(function(test) {
           test.setNextResponse(resInvalidPassword);
           test.form.setPassword('wrong');
@@ -2232,7 +2244,7 @@ Expect.describe('MFA Verify', function() {
         })
         .then(function(test) {
           expect(test.form.hasErrors()).toBe(true);
-          expect(test.form.errorMessage()).toBe('Password is incorrect');
+          expect(test.form.errorMessage()).toBe('Invalid Passcode or Answer');
           expectErrorEvent(test, 403, 'Invalid Passcode/Answer', 'mfa-verify', {
             status: 403,
             headers: { 'content-type': 'application/json' },
@@ -2240,14 +2252,9 @@ Expect.describe('MFA Verify', function() {
             responseText: '{"errorCode":"E0000068","errorSummary":"Invalid Passcode/Answer","errorLink":"E0000068","errorId":"oael69itLSMTbioahsUZ-7xiQ","errorCauses":[{"errorSummary":"Password is incorrect"}]}',
             responseJSON: {
               errorCode: 'E0000068',
-              errorSummary: 'Password is incorrect',
+              errorSummary: 'Invalid Passcode or Answer',
               errorLink: 'E0000068',
               errorId: 'oael69itLSMTbioahsUZ-7xiQ',
-              errorCauses: [
-                {
-                  errorSummary: 'Password is incorrect',
-                },
-              ],
             },
           });
         });

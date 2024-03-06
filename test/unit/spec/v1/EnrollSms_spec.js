@@ -31,8 +31,8 @@ Expect.describe('EnrollSms', function() {
       el: $sandbox,
       baseUrl: baseUrl,
       authClient: authClient,
-      defaultCountryCode: routerOptions.defaultCountryCode,
       'features.router': startRouter,
+      ...routerOptions,
     });
 
     router.on('afterError', afterErrorHandler);
@@ -107,8 +107,8 @@ Expect.describe('EnrollSms', function() {
     });
   }
 
-  const setupAndSendValidCode = function() {
-    return setup().then(function(test) {
+  const setupAndSendValidCode = function(routerOptions = {}) {
+    return setup(undefined, undefined, routerOptions).then(function(test) {
       sendCode(test, resEnrollSuccess, 'US', '4151234567');
       return waitForEnrollActivateSuccess(test);
     });
@@ -724,7 +724,13 @@ Expect.describe('EnrollSms', function() {
         });
     });
     itp('shows error if error response on verification', function() {
-      return sendValidCodeFn()
+      return sendValidCodeFn({
+        i18n: {
+          en: {
+            'errors.E0000068': 'Invalid Passcode or Answer'
+          }
+        }
+      })
         .then(function(test) {
           test.setNextResponse(resEnrollActivateError);
           test.form.setCode(123);
@@ -733,7 +739,7 @@ Expect.describe('EnrollSms', function() {
         })
         .then(function(test) {
           expect(test.form.hasErrors()).toBe(true);
-          expect(test.form.errorMessage()).toBe('Your token doesn\'t match our records. Please try again.');
+          expect(test.form.errorMessage()).toBe('Invalid Passcode or Answer');
           expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
           expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
             {
@@ -750,14 +756,9 @@ Expect.describe('EnrollSms', function() {
                 responseText: '{"errorCode":"E0000068","errorSummary":"Invalid Passcode/Answer","errorLink":"E0000068","errorId":"oaeW52tAk_9T0Obvns7jwww6g","errorCauses":[{"errorSummary":"Your token doesn\'t match our records. Please try again."}]}',
                 responseJSON: {
                   errorCode: 'E0000068',
-                  errorSummary: 'Your token doesn\'t match our records. Please try again.',
+                  errorSummary: 'Invalid Passcode or Answer',
                   errorLink: 'E0000068',
                   errorId: 'oaeW52tAk_9T0Obvns7jwww6g',
-                  errorCauses: [
-                    {
-                      errorSummary: 'Your token doesn\'t match our records. Please try again.',
-                    },
-                  ],
                 },
               },
             },
