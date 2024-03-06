@@ -156,7 +156,7 @@ Expect.describe('EnrollTotp', function() {
         expect(test.form.deviceTypeOptions().length).toBe(2);
         expect(test.form.deviceTypeOptionLabel('APPLE').length).toBe(1);
         expect(test.form.deviceTypeOptionLabel('ANDROID').length).toBe(1);
-        // Until provider is selected, `appStoreLinkText` should not be created and localised
+        // Until device type is selected, `appStoreLinkText` should not be created and localised
         expect(dispatchEventSpy).not.toHaveBeenCalled();
       });
     });
