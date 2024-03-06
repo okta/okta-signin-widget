@@ -292,6 +292,12 @@ const enrollQROktaVerify  = {
   ]
 };
 
+const enrollTotp = {
+  '/api/v1/authn': [
+    'mfa-enroll-totp'
+  ],
+};
+
 const enrollOVManually  = {
   '/api/v1/authn': [
     'mfa-enroll-ov-manual'
