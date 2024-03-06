@@ -22,6 +22,7 @@ import { cloneDeep, merge, omit } from 'lodash';
 import { useCallback } from 'preact/hooks';
 import { generateDeviceFingerprint } from 'src/util/deviceFingerprintingUtils';
 
+import Logger from '../../../util/Logger';
 import { IDX_STEP, ON_PREM_TOKEN_CHANGE_ERROR_KEY } from '../constants';
 import { useWidgetContext } from '../contexts';
 import { MessageType } from '../types';
@@ -98,7 +99,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       // AuthApiError is one of the potential error that can be thrown here
       // We will want to expose development stage errors from auth-js and file jiras against it
       setResponseError(error as (AuthApiError | OAuthError));
-      console.error(error);
+      Logger.error(error);
       // error event
       eventEmitter.emit(
         'afterError',

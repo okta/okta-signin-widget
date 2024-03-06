@@ -25,6 +25,8 @@ export const ConfigForm = `
         <option value="classic">classic</option>
         <option value="oie">oie</option>
         <option value="no-polyfill">no-polyfill</option>
+        <option value="next">next</option>
+        <option value="next.no-polyfill">next.no-polyfill</option>
       </select>
     </div>
     <div class="pure-control-group">
@@ -36,6 +38,11 @@ export const ConfigForm = `
       <label for="usePolyfill">Use polyfill</label>
       <input id="f_usePolyfill-on" name="usePolyfill" type="radio" value="true"/>YES
       <input id="f_usePolyfill-off" name="usePolyfill" type="radio" value="false"/>NO
+    </div>
+    <div class="pure-control-group">
+      <label for="useDebugger">Use debugger</label>
+      <input id="f_useDebugger-on" name="useDebugger" type="radio" value="true"/>YES
+      <input id="f_useDebugger-off" name="useDebugger" type="radio" value="false"/>NO
     </div>
     <div class="pure-control-group">
       <label for="issuer">Issuer</label><input id="f_issuer" name="issuer" type="text" />
@@ -69,6 +76,7 @@ export function getConfigFromForm(): Config {
   const bundle = (document.querySelector('#f_bundle') as HTMLSelectElement).value;
   const useMinBundle = (document.getElementById('f_useMinBundle-on') as HTMLInputElement).checked;
   const usePolyfill = (document.getElementById('f_usePolyfill-on') as HTMLInputElement).checked;
+  const useDebugger = (document.getElementById('f_useDebugger-on') as HTMLInputElement).checked;
 
   // Widget options
   const issuer = (document.getElementById('f_issuer') as HTMLInputElement).value;
@@ -82,7 +90,8 @@ export function getConfigFromForm(): Config {
     clientId,
     redirectUri,
     useClassicEngine,
-    flow
+    flow,
+    debug: useDebugger,
   }
 
   const config: Config = {
@@ -98,6 +107,7 @@ export function getConfigFromForm(): Config {
 export function updateFormFromConfig(config: Config): void {
   const { bundle, useBundledWidget, widgetOptions = {} } = config;
   const { useMinBundle, usePolyfill } = config;
+  const { debug } = widgetOptions;
 
   // Widget options
   const baseUrl = getBaseUrl(widgetOptions);
@@ -115,6 +125,11 @@ export function updateFormFromConfig(config: Config): void {
     (document.getElementById('f_usePolyfill-on') as HTMLInputElement).checked = true;
   } else {
     (document.getElementById('f_usePolyfill-off') as HTMLInputElement).checked = true;
+  }
+  if (debug) {
+    (document.getElementById('f_useDebugger-on') as HTMLInputElement).checked = true;
+  } else {
+    (document.getElementById('f_useDebugger-off') as HTMLInputElement).checked = true;
   }
   if (useBundledWidget) {
     (document.querySelector(`#f_bundle`) as HTMLOptionElement).disabled = true;

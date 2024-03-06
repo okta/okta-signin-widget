@@ -1,4 +1,5 @@
 /* eslint no-console:0 */
+/* eslint max-len: [2, 140] */
 
 const path = require('path');
 const fs = require('fs');
@@ -35,7 +36,7 @@ const headers = {};
 
 if (!process.env.DISABLE_CSP) {
   // Allow google domains for testing recaptcha
-  const scriptSrc = `script-src http://${HOST}:${DEV_SERVER_PORT} https://www.google.com https://www.gstatic.com`;
+  const scriptSrc = `script-src http://${HOST}:${DEV_SERVER_PORT} 'nonce-playground' https://www.google.com https://www.gstatic.com`;
   const styleSrc =  `style-src http://${HOST}:${DEV_SERVER_PORT} 'nonce-playground'`;
   const csp = `${scriptSrc}; ${styleSrc};`;
   headers['Content-Security-Policy'] = csp;

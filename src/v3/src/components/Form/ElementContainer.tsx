@@ -14,13 +14,13 @@ import { Box } from '@mui/material';
 import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
 
+import Logger from '../../../../util/Logger';
 import { useLayoutContext } from '../../contexts';
 import {
   UISchemaElement,
   UISchemaElementComponent,
   UISchemaLayoutType,
 } from '../../types';
-import { isDevelopmentEnvironment, isTestEnvironment } from '../../util';
 import renderers from './renderers';
 
 const ElementContainer: FunctionComponent<{ element: UISchemaElement }> = ({ element }) => {
@@ -31,9 +31,7 @@ const ElementContainer: FunctionComponent<{ element: UISchemaElement }> = ({ ele
     // TODO: for now do not render for unmatch render object
     // remove unnecessary uischema in future refactor and throw error
     // throw new Error(`Failed to find render component for uischema: ${JSON.stringify(element)}`);
-    if (isDevelopmentEnvironment() || isTestEnvironment()) {
-      console.warn(`Failed to find render component for uischema: ${JSON.stringify(element)}`);
-    }
+    Logger.warn(`Failed to find render component for uischema: ${JSON.stringify(element)}`);
     return null;
   }
 

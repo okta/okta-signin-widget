@@ -3,16 +3,16 @@ import { RequestMock as TestCafeRequestMock } from 'testcafe';
 import xhrInteract from '../../../../playground/mocks/data/oauth2/interact.json';
 import xhrWellknownOpenidConfiguration from '../../../../playground/mocks/data/oauth2/well-known-openid-configuration.json';
 
-const READY_MESSAGE = '===== playground widget ready event received =====';
-const AFTER_RENDER_MESSAGE = '===== playground widget afterRender event received =====';
-const AFTER_ERROR_MESSAGE = '===== playground widget afterError event received =====';
+export const READY_MESSAGE = '===== playground widget ready event received =====';
+export const AFTER_RENDER_MESSAGE = '===== playground widget afterRender event received =====';
+export const AFTER_ERROR_MESSAGE = '===== playground widget afterError event received =====';
 
 /**
  * Console messages matching these patterns are filtered out before checking
  * against context. Use this to exclude messages logged by dependencies and
  * devtools
  */
-const LOG_IGNORE_PATTERNS = [
+export const LOG_IGNORE_PATTERNS = [
   // example: console.log('[DEBUG]', {foo: 'baz'});
   /\[DEBUG\]/,
 

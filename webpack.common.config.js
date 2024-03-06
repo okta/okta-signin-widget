@@ -21,7 +21,8 @@ module.exports = function({
   engine = '',
   outputLibrary = 'OktaSignIn',
   outputLibraryTarget = 'umd',
-  cdn = true
+  cdn = true,
+  useBuiltIns = false,
 }) {
 
   // normalize entry so it is always an array
@@ -45,7 +46,13 @@ module.exports = function({
 
   if (mode === 'production') {
     // preset-env must run before preset-typescript https://github.com/babel/babel/issues/12066
-    babelOptions.presets.unshift('@babel/preset-env'); 
+    babelOptions.presets.unshift([
+      '@babel/preset-env',
+      useBuiltIns ? {
+        useBuiltIns: 'entry',
+        corejs: '3.9',
+      } : {}
+    ]);
   } else {
     // In local development, we would prefer not to include any babel transforms as they make debugging more difficult
     // However, there is an issue with testcafe which requires us to include the optional chaining transform

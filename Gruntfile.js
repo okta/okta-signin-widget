@@ -242,7 +242,9 @@ module.exports = function(grunt) {
       'run-protractor': 'yarn protractor',
       'pseudo-loc': 'node scripts/buildtools pseudo-loc',
       'prepack': 'node scripts/buildtools build:prepack',
-      'build-types': 'yarn build:types'
+      'build-types': 'yarn build:types',
+      'build-debugger': 'ENTRY=debugger yarn build:webpack-release',
+      'build-debugger-watch': 'ENTRY=debugger yarn build:webpack-release --watch',
     },
 
     connect: {
@@ -366,6 +368,8 @@ module.exports = function(grunt) {
       const devTask = mode === 'watch' ? 'exec:build-dev-watch' : 'exec:build-dev';
       buildTasks.push(devTask);
       buildTasks.push('exec:build-esm');
+      const debuggerTask = mode === 'watch' ? 'exec:build-debugger-watch' : 'exec:build-debugger';
+      buildTasks.push(debuggerTask);
     }
 
     if (prodBuild) {

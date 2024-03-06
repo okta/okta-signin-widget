@@ -14,6 +14,8 @@
 
 // 6. plugin a11y - okta-plugin-a11y.js - add-on that enhances support for accesibility
 
+// 7. debugger - okta-sign-in.debugger.min.js
+
 var path = require('path');
 var config  = require('./webpack.common.config');
 var plugins = require('./scripts/buildtools/webpack/plugins');
@@ -63,6 +65,14 @@ var DEFAULT_ENTRIES = {
     outputFilename: 'okta-plugin-a11y.js',
     outputLibrary: 'OktaPluginA11y'
   },
+  // 7. plugins: debugger
+  'debugger': {
+    entry: './src/plugins/OktaPluginDebugger/index.ts',
+    outputFilename: 'okta-sign-in.debugger.min.js',
+    analyzerFile: 'okta-sign-in.debugger.min.analyzer',
+    outputLibrary: null,
+    useBuiltIns: true,
+  },
   'css': {
     entry: `${TARGET_DIR}/sass/okta-sign-in.scss`,
     copyAssets: true,
@@ -75,8 +85,13 @@ let entries = { ...DEFAULT_ENTRIES };
 if (process.env.ENTRY) {
   entries = {
     [process.env.ENTRY]: DEFAULT_ENTRIES[process.env.ENTRY],
-    ...(process.env.ENTRY !== 'css' && { css: DEFAULT_ENTRIES.css })
   };
+  if (!['css', 'debugger'].includes(process.env.ENTRY)) {
+    entries = {
+      ...entries,
+      css: DEFAULT_ENTRIES.css
+    };
+  }
 }
 
 const configs = Object.keys(entries).map(entryName => {
@@ -90,6 +105,7 @@ const configs = Object.keys(entries).map(entryName => {
     includePolyfill, 
     includeRuntime, 
     copyAssets,
+    useBuiltIns,
   } = entryValue;
   
   const entryConfig = config({
@@ -97,7 +113,8 @@ const configs = Object.keys(entries).map(entryName => {
     entry,
     ...(entryName !== 'css' && { outputFilename }),
     outputLibrary,
-    engine
+    engine,
+    useBuiltIns,
   });
 
   entryConfig.plugins = plugins({ 
