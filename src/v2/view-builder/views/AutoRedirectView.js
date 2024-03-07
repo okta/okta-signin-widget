@@ -15,6 +15,12 @@ const Body = BaseForm.extend({
     const app = this.options.appState.get('app');
     const user = this.options.appState.get('user');
 
+    // OKTA-635926: add user gesture for ov enrollment on android
+    if (Util.isAndroidOVEnrollment()) {
+      titleString = loc('oie.success.text.signingIn.with.appName.android.ov.enrollment', 'login');
+      return titleString;
+    }
+
     // If the option is not set, we treat that as being the case where we don't render the spinner.
     // This is to account for the customer hosted scenario, because by default okta-core will pass in
     // the correct value as set by the option in the Admin UI (which by default is "DEFAULT").
@@ -32,10 +38,7 @@ const Body = BaseForm.extend({
 
     const appName = appInstanceName ? appInstanceName : appDisplayName;
 
-    // OKTA-635926: add user gesture for ov enrollment on android
-    if (Util.isAndroidOVEnrollment()) {
-      titleString = loc('oie.success.text.signingIn.with.appName.android.ov.enrollment', 'login');
-    } else if (appName && userEmail && !this.settings.get('features.showIdentifier')) {
+    if (appName && userEmail && !this.settings.get('features.showIdentifier')) {
       titleString = loc('oie.success.text.signingIn.with.appName.and.identifier', 'login', [appName, userEmail]);
     } else if (appName) {
       titleString = loc('oie.success.text.signingIn.with.appName', 'login', [appName]);
@@ -73,22 +76,18 @@ const Body = BaseForm.extend({
 
   render() {
     BaseForm.prototype.render.apply(this, arguments);
-    if (this.redirectView === INTERSTITIAL_REDIRECT_VIEW.DEFAULT) {
-
-      // OKTA-635926: add user gesture for ov enrollment on android
-      if (Util.isAndroidOVEnrollment()) {
-        const currentViewState = this.options.appState.getCurrentViewState();
-        this.add(createButton({
-          className: 'ul-button button button-wide button-primary hide-underline',
-          title: loc('oktaVerify.open.button', 'login'),
-          id: 'launch-enrollment-ov',
-          click: () => {
-            Util.redirectWithFormGet(currentViewState.href);
-          }
-        }));
-      } else {
-        this.add('<div class="okta-waiting-spinner"></div>');
-      }
+    if (Util.isAndroidOVEnrollment()) {
+      const currentViewState = this.options.appState.getCurrentViewState();
+      this.add(createButton({
+        className: 'ul-button button button-wide button-primary hide-underline',
+        title: loc('oktaVerify.open.button', 'login'),
+        id: 'launch-enrollment-ov',
+        click: () => {
+          Util.redirectWithFormGet(currentViewState.href);
+        }
+      }));
+    } else if (this.redirectView === INTERSTITIAL_REDIRECT_VIEW.DEFAULT) {
+      this.add('<div class="okta-waiting-spinner"></div>');
     }
   }
 });
