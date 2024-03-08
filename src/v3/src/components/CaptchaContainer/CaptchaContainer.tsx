@@ -15,6 +15,7 @@ import { Box } from '@mui/material';
 import { useEffect, useRef } from 'preact/hooks';
 import ReCAPTCHA from 'react-google-recaptcha';
 
+import Logger from '../../../../util/Logger';
 import { useWidgetContext } from '../../contexts';
 import { useOnSubmit } from '../../hooks';
 import {
@@ -77,7 +78,7 @@ const CaptchaContainer: UISchemaElementComponent<{
 
   const onVerifyCaptcha = (token: string | null) => {
     if (!token) {
-      console.error('captcha token expired');
+      Logger.error('captcha token expired');
       return;
     }
 

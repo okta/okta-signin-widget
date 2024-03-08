@@ -9,7 +9,7 @@ import {
   getConfigFromStorage,
   getDefaultConfig
 } from './config';
-import { loadPolyfill, loadWidgetScript } from './util';
+import { loadPolyfill, loadWidgetScript, loadDebugger } from './util';
 
 const ActionsTemplate = `
   <div id="actions-container" class="pure-menu">
@@ -201,6 +201,9 @@ export default class TestApp {
 
     this.configArea = new ConfigArea();
     const config = this.configArea.bootstrap();
+    if (config.widgetOptions?.debug) {
+      await loadDebugger();
+    }
     if (config.usePolyfill) {
       await loadPolyfill(config.useMinBundle);
     }
@@ -379,6 +382,10 @@ export default class TestApp {
     });
 
     const config = getConfigFromStorage() || getDefaultConfig();
+
+    if (config.widgetOptions?.debug) {
+      await loadDebugger();
+    }
     if (config.usePolyfill) {
       await loadPolyfill(config.useMinBundle);
     }

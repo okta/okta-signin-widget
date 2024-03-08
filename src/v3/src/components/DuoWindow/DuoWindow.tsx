@@ -13,6 +13,7 @@
 import Duo from 'duo_web_sdk';
 import { useEffect, useState } from 'preact/hooks';
 
+import Logger from '../../../../util/Logger';
 import { useWidgetContext } from '../../contexts';
 import { useOnSubmit } from '../../hooks';
 import {
@@ -46,7 +47,7 @@ const DuoWindow: UISchemaElementComponent<{
         submit_callback: (duoForm: HTMLFormElement) => {
           const formInput = duoForm.getElementsByTagName('input')?.[0];
           if (!formInput) {
-            console.error('DUO callback form element does not exist.');
+            Logger.error('DUO callback form element does not exist.');
             return;
           }
           handleDuoAuthSuccess({
@@ -62,7 +63,7 @@ const DuoWindow: UISchemaElementComponent<{
         class: 'ERROR',
         i18n: { key: 'oie.duo.iFrameError' },
       });
-      console.error(e);
+      Logger.error(e);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

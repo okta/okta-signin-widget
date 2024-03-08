@@ -31,7 +31,11 @@ var DEFAULT_ENTRIES = {
   'css': {
     entry: `${ASSETS_DIR}/sass/okta-sign-in.scss`,
     copyAssets: true,
-  }
+  },
+  'debugger': {
+    entry: './src/plugins/OktaPluginDebugger/index.ts',
+    outputLibrary: null
+  },
 };
 
 module.exports = (env = {}) => {

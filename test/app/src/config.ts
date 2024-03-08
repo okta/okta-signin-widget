@@ -70,7 +70,8 @@ export function getDefaultConfig(): Config {
       issuer,
       clientId,
       redirectUri,
-      useClassicEngine: false
+      useClassicEngine: false,
+      debug: false,
     }
   };
   return removeNils(config) as Config;

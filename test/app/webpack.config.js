@@ -10,11 +10,15 @@ const DEV_SERVER_PORT = 3000;
 const { DIST_ESM, BUNDLE, USE_MIN, USE_POLYFILL, TARGET } = process.env;
 
 // CSP settings
-const scriptSrc = `script-src http://localhost:${DEV_SERVER_PORT} https://global.oktacdn.com 'nonce-e2e'`;
-const styleSrc = `style-src http://localhost:${DEV_SERVER_PORT} https://unpkg.com 'nonce-e2e'`;
+const headers = {};
+if (!process.env.DISABLE_CSP) {
+  const scriptSrc = `script-src http://localhost:${DEV_SERVER_PORT} https://global.oktacdn.com 'nonce-e2e'`;
+  const styleSrc = `style-src http://localhost:${DEV_SERVER_PORT} https://unpkg.com 'nonce-e2e'`;
 
-const styleSrcElem = `style-src-elem http://localhost:${DEV_SERVER_PORT} https://unpkg.com 'nonce-e2e'`;
-const csp = `${scriptSrc}; ${styleSrc}; ${styleSrcElem}`;
+  const styleSrcElem = `style-src-elem http://localhost:${DEV_SERVER_PORT} https://unpkg.com 'nonce-e2e'`;
+  const csp = `${scriptSrc}; ${styleSrc}; ${styleSrcElem}`;
+  headers['Content-Security-Policy'] = csp;
+}
 
 const webpackConfig = {
   mode: 'development',
@@ -69,9 +73,7 @@ const webpackConfig = {
     ],
     port: DEV_SERVER_PORT,
     historyApiFallback: true,
-    headers: {
-      'Content-Security-Policy': csp
-    },
+    headers,
   },
   plugins: [
     new MiniCssExtractPlugin(),

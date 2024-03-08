@@ -34,6 +34,7 @@ import {
 import { mergeThemes } from 'src/util/mergeThemes';
 
 import Bundles from '../../../../util/Bundles';
+import Logger from '../../../../util/Logger';
 import { IDX_STEP } from '../../constants';
 import { WidgetContextProvider } from '../../contexts';
 import {
@@ -172,7 +173,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     // AuthApiError is one of the potential error that can be thrown here
     // We will want to expose development stage errors from auth-js and file jiras against it
     setResponseError(error as (AuthApiError | OAuthError));
-    console.error(error);
+    Logger.error(error);
     return null;
   };
 

@@ -87,7 +87,7 @@ export async function loadWidgetScript(bundle: string, minified: boolean) {
   if (bundle !== 'default') {
     url += `.${bundle}`;
   }
-  if (minified) {
+  if (minified && ['next', 'next.no-polyfill'].indexOf(bundle) === -1) {
     url += '.min';
   }
   url += '.js';
@@ -118,6 +118,29 @@ export async function loadPolyfill(minified: boolean) {
 export function removePolyfill() {
   const existingEl = document.getElementById('widget-polyfill') as HTMLScriptElement;
   if (existingEl) {
+    existingEl.parentElement.removeChild(existingEl);
+  }
+}
+
+export async function loadDebugger() {
+  const existingEl = document.getElementById('widget-debugger') as HTMLScriptElement;
+
+  const url = `${window.location.origin}/js/okta-sign-in.debugger.min.js`;
+
+  if (!existingEl || existingEl.src !== url) {
+    existingEl && existingEl.parentElement.removeChild(existingEl);
+    await loadScript('widget-debugger', url, 'widget-debugger');
+    window.OktaSignInDebug.init({
+      cspNonce: 'e2e',
+      watchNetwork: true,
+    })
+  }
+}
+
+export function removeDebugger() {
+  const existingEl = document.getElementById('widget-debugger') as HTMLScriptElement;
+  if (existingEl) {
+    window.OktaSignInDebug.destroy();
     existingEl.parentElement.removeChild(existingEl);
   }
 }

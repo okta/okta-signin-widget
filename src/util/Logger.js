@@ -11,9 +11,10 @@
  */
 
 function log(level, args) {
-  // Only log statements in development mode or if
-  // throwing an error through console.error
-  if (DEBUG || level === 'error') {
+  // Only log statements in development mode
+  //  or if throwing an error through console.error
+  //  or if debugger is enabled
+  if (DEBUG || level === 'error' || window?.OktaSignInDebug?.isEnabled?.()) {
     window.console[level].apply(window.console, args);
   }
 }

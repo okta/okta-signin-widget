@@ -16,17 +16,7 @@ const config = buildRollupConfig(baseRollupConfig => {
       debugger: true,
       functions: [
         'console.*',
-        'Logger.trace',
-        'Logger.dir',
-        'Logger.time',
-        'Logger.timeEnd',
-        'Logger.group',
-        'Logger.groupEnd',
-        'Logger.assert',
-        'Logger.log',
-        'Logger.info',
-        'Logger.warn',
-        'Logger.deprecate'
+        // don't drop 'Logger.*' statements
       ]
     })
   ];

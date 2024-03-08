@@ -1,5 +1,6 @@
 import { OktaSignInAPI } from '../types/api';
 import { EventContext } from '../types/events';
+import { WidgetOptions } from '../types/options';
 
 /**
  * This plugin improves the accessibility (a11y) of the Okta sign in widget to
@@ -9,7 +10,7 @@ import { EventContext } from '../types/events';
  * @param widget instance of OktaSignIn
  * @param options options for a11y plugin
  */
-export const init = (widget: OktaSignInAPI): void => {
+export const init = (widget: OktaSignInAPI & { options: WidgetOptions }): void => {
   const brandName = widget.options?.brandName;
 
   widget.on('afterRender', function (context: EventContext) {

@@ -17,6 +17,7 @@ import {
 import * as Tokens from '@okta/odyssey-design-tokens';
 import { createOdysseyMuiTheme, DesignTokensOverride, ThemeOptions } from '@okta/odyssey-react-mui';
 
+import Logger from '../../../util/Logger';
 import { BrandColors } from '../types';
 import { isLtrField } from '.';
 import { mergeThemes } from './mergeThemes';
@@ -87,7 +88,7 @@ export const generatePalette = (main: string): OdysseyPalette | null => {
     };
     return theme;
   } catch (err) {
-    console.warn(err);
+    Logger.warn(err);
     return null;
   }
 };

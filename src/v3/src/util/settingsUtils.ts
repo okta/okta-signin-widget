@@ -23,6 +23,7 @@ import {
 } from '../../../types';
 import BrowserFeatures from '../../../util/BrowserFeatures';
 import CountryUtil from '../../../util/CountryUtil';
+import Logger from '../../../util/Logger';
 import Util from '../../../util/Util';
 import { FORM_NAME_TO_OPERATION_MAP } from '../constants';
 import {
@@ -278,7 +279,7 @@ export const getPageTitle = (
     case 'function':
       return setPageTitle(eventContext, { formTitle, brandName });
     default:
-      console.error(
+      Logger.error(
         'Invalid value passed to setPageTitle, valid types include boolean, string or function.',
       );
       // Indicates an invalid/unexpected value was passed into the config option

@@ -19,6 +19,7 @@ const EXPECTED_BUNDLE_SIZES = {
   'okta-sign-in.polyfill.min.js': 108 * KB,
   'okta-sign-in.next.js': 1.7 * MB,
   'okta-sign-in.next.no-polyfill.js': 1.5 * MB,
+  'okta-sign-in.debugger.min.js': 170 * KB,
 };
 
 exports.command = 'verify-package';

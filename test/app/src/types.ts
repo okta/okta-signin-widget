@@ -11,6 +11,17 @@
  */
 
 import type { WidgetOptions } from '@okta/okta-signin-widget';
+import type { DebuggerOptions } from '../../../src/plugins/OktaPluginDebugger';
+
+declare global {
+  interface Window {
+    OktaSignInDebug: {
+      init: (options?: DebuggerOptions) => void;
+      destroy: () => void;
+      isEnabled: () => boolean;
+    }
+  }
+}
 
 export type UnknownFn = (args?: unknown) => unknown;
 export interface Config {
