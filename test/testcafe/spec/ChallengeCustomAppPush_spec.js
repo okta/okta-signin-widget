@@ -2,7 +2,13 @@ import { RequestMock, RequestLogger, userVariables } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import ChallengeCustomAppPushPageObject from '../framework/page-objects/ChallengeCustomAppPushPageObject';
-import { checkConsoleMessages, renderWidget, oktaDashboardContent } from '../framework/shared';
+import {
+  checkConsoleMessages,
+  renderWidget,
+  oktaDashboardContent,
+  logI18nErrorsToConsole,
+  checkI18nErrors,
+} from '../framework/shared';
 
 import pushPoll from '../../../playground/mocks/data/idp/idx/authenticator-verification-custom-app-push';
 import pushPollReject from '../../../playground/mocks/data/idp/idx/authenticator-verification-custom-app-push-reject';
@@ -498,6 +504,16 @@ test
     const warningBox = challengeCustomAppPushPageObject.getWarningBox();
     await t.expect(warningBox.innerText)
       .contains('Haven\'t received a push notification yet? Try opening Custom Push on your phone.');
+  });
+
+test.skip
+  .requestHooks(pushWaitMock)('Warning timer should be stopped on view destroy', async t => {
+    const challengeCustomAppPushPageObject = await setup(t);
+    await checkA11y(t);
+    await logI18nErrorsToConsole();
+    await challengeCustomAppPushPageObject.clickGoBackLink();
+    await t.wait(30100);
+    await checkI18nErrors([]);
   });
 
 test.requestHooks(pushSuccessMock1)('should show custom factor page link', async t => {
