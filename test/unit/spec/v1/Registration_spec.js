@@ -952,6 +952,58 @@ Expect.describe('Registration', function() {
         expectRegCallbackError(test, 'preSubmit', DEFAULT_CALLBACK_ERROR);
       });
     });
+    itp('shows form errors if an error object passed to onFailure contains errorCauses', function() {
+      // Spy on emitting of CustomEvent with type 'okta-i18n-error' in `StringUtil.localize()`
+      const dispatchEventSpy = spyOn(document, 'dispatchEvent');
+      const preSubmitSpy = jasmine.createSpy('preSubmitSpy');
+      const postSubmitSpy = jasmine.createSpy('postSubmitSpy');
+      const setting = {
+        registration: {
+          preSubmit: function(postData, onSuccess, onFailure) {
+            preSubmitSpy(postData, onSuccess, onFailure);
+            if (postData.firstName.length < 5) {
+              const error = {
+                "errorSummary": "Custom Validation Error",
+                "errorCauses": [
+                  {
+                    "errorSummary": "First name should have at least 5 characters",
+                    "property": "firstName",
+                  }
+                ]
+              };
+              onFailure(error);
+            } else {
+              onSuccess(postData);
+            }
+          },
+          postSubmit: postSubmitSpy,
+        },
+      };
+
+      return setup(setting).then(function(test) {
+        Util.resetAjaxRequests();
+        test.form.setUserName('test');
+        test.form.setPassword('Abcd1234');
+        test.form.setFirstname('AA');
+        test.form.submit();
+        const model = test.router.controller.model;
+
+        spyOn(Backbone.Model.prototype, 'save').and.returnValue($.Deferred().resolve());
+        model.save();
+        Util.callAllTimeouts();
+        expect(preSubmitSpy).toHaveBeenCalled();
+        expect(postSubmitSpy).not.toHaveBeenCalled();
+        expectRegApiError(test, 'preSubmit:Custom Validation Error');
+        expect(test.form.errorBox().text().trim()).toContain(
+          'We found some errors. Please review the form and make corrections.'
+        );
+        expect(test.form.firstnameErrorField().length).toBe(1);
+        expect(test.form.firstnameErrorField().text().trim()).toBe(
+          'First name should have at least 5 characters'
+        );
+        expect(dispatchEventSpy).not.toHaveBeenCalled();
+      });
+    });
     itp('triggers the afterError event when registration API throws an error', function() {
       const parseSchemaSpy = jasmine.createSpy('parseSchemaSpy');
       const preSubmitSpy = jasmine.createSpy('preSubmitSpy');
