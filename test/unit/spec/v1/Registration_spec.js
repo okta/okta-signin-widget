@@ -963,11 +963,11 @@ Expect.describe('Registration', function() {
             preSubmitSpy(postData, onSuccess, onFailure);
             if (postData.firstName.length < 5) {
               const error = {
-                "errorSummary": "Custom Validation Error",
-                "errorCauses": [
+                errorSummary: 'Custom Validation Error',
+                errorCauses: [
                   {
-                    "errorSummary": "First name should have at least 5 characters",
-                    "property": "firstName",
+                    errorSummary: 'First name should have at least 5 characters',
+                    property: 'firstName',
                   }
                 ]
               };
