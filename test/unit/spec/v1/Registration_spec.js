@@ -952,7 +952,7 @@ Expect.describe('Registration', function() {
         expectRegCallbackError(test, 'preSubmit', DEFAULT_CALLBACK_ERROR);
       });
     });
-    itp('shows form errors if an error object passed to onFailure contains errorCauses', function() {
+    itp('shows form field errors if an error object passed to onFailure contains errorCauses', function() {
       // Spy on emitting of CustomEvent with type 'okta-i18n-error' in `StringUtil.localize()`
       const dispatchEventSpy = spyOn(document, 'dispatchEvent');
       const preSubmitSpy = jasmine.createSpy('preSubmitSpy');
