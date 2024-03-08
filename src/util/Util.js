@@ -99,9 +99,11 @@ Util.transformErrorXHR = function(xhr) {
   }
   // Replace error messages
   if (!_.isEmpty(xhr.responseJSON)) {
-    const errorMsg = loc('errors.' + xhr.responseJSON.errorCode, 'login');
+    const errorMsg = xhr.responseJSON.errorCode
+      ? loc('errors.' + xhr.responseJSON.errorCode, 'login')
+      : undefined;
 
-    if (errorMsg.indexOf('L10N_ERROR[') === -1) {
+    if (errorMsg?.indexOf('L10N_ERROR[') === -1) {
       xhr.responseJSON.errorSummary = errorMsg;
       if (xhr.responseJSON && xhr.responseJSON.errorCauses && xhr.responseJSON.errorCauses.length) {
         // BaseForm will consume errorCauses before errorSummary if it is an array,
