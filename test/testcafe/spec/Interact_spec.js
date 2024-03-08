@@ -2,7 +2,7 @@ import { ClientFunction, RequestMock, RequestLogger, userVariables } from 'testc
 import { checkA11y } from '../framework/a11y';
 import BasePageObject from '../framework/page-objects/BasePageObject';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { checkConsoleMessages, logI18nErrorsToConsole, checkI18nErrors } from '../framework/shared';
 import xhrErrorFeatureNotEnabled from '../../../playground/mocks/data/oauth2/error-feature-not-enabled';
 import xhrErrorInvalidRecoveryToken from '../../../playground/mocks/data/oauth2/error-recovery-token-invalid';
 import xhrErrorInvalidActivationToken from '../../../playground/mocks/data/oauth2/error-activation-token-invalid';
@@ -115,6 +115,10 @@ async function setup(t, options = {}) {
     await saveTransactionMeta(options.transactionMeta);
   }
 
+  if (options.logI18nErrorsToConsole) {
+    await logI18nErrorsToConsole();
+  }
+
   // Render the widget for interaction code flow
   await pageObject.mockCrypto();
   await renderWidget({
@@ -133,7 +137,7 @@ async function setup(t, options = {}) {
 }
 
 test.requestHooks(requestLogger, errorOIENotEnabledMock)('shows an error when feature is not enabled', async t => {
-  await setup(t);
+  await setup(t, { logI18nErrorsToConsole: true });
   await checkA11y(t);
 
   const terminalPageObject = new TerminalPageObject(t);
@@ -146,6 +150,7 @@ test.requestHooks(requestLogger, errorOIENotEnabledMock)('shows an error when fe
     'afterRender',
     expectTerminalView
   ]);
+  await checkI18nErrors([]);
 });
 
 test.requestHooks(requestLogger, interactMock)('receives interaction_handle from interact endpoint', async t => {
@@ -266,7 +271,7 @@ test.requestHooks(requestLogger, cancelResetPasswordMock)('clears recovery_token
 });
 
 test.requestHooks(requestLogger, errorInvalidRecoveryTokenMock)('shows an error when recovery token is invalid', async t => {
-  await setup(t);
+  await setup(t, { logI18nErrorsToConsole: true });
   await checkA11y(t);
 
   const terminalPageObject = new TerminalPageObject(t);
@@ -279,10 +284,11 @@ test.requestHooks(requestLogger, errorInvalidRecoveryTokenMock)('shows an error 
     'afterRender',
     expectTerminalView
   ]);
+  await checkI18nErrors([]);
 });
 
 test.requestHooks(requestLogger, errorInvalidActivationTokenMock)('shows an error when activation token is invalid', async t => {
-  await setup(t);
+  await setup(t, { logI18nErrorsToConsole: true });
   await checkA11y(t);
 
   const terminalPageObject = new TerminalPageObject(t);
@@ -299,4 +305,5 @@ test.requestHooks(requestLogger, errorInvalidActivationTokenMock)('shows an erro
     'afterRender',
     expectTerminalView
   ]);
+  await checkI18nErrors([]);
 });

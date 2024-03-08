@@ -90,6 +90,8 @@ describe('v2/WidgetRouter', function() {
   });
   
   it('should be visible and render initial error', async function() {
+    // spy on emitting of CustomEvent with type 'okta-i18n-error' in `loc()` util
+    const dispatchEventSpy = jest.spyOn(document, 'dispatchEvent');
     const { authClient } = setup({
       clientId: 'abc', // use interaction code flow
       codeChallenge: 'someChallenge'
@@ -108,5 +110,6 @@ describe('v2/WidgetRouter', function() {
     expect(router.controller.$el.find('.o-form-error-container').text()).toBe(
       'The requested feature is not enabled in this environment.'
     );
+    expect(dispatchEventSpy).not.toHaveBeenCalled();
   });
 });

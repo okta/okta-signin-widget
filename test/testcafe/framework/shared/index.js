@@ -31,6 +31,27 @@ export const renderWidget = ClientFunction((settings) => {
   window.renderPlaygroundWidget(settings);
 });
 
+export const logI18nErrorsToConsole = ClientFunction(() => {
+  document.addEventListener('okta-i18n-error', (ev) => {
+    console.warn(JSON.stringify(ev.detail));
+  });
+});
+
+export async function checkI18nErrors(expectedErrors = []) {
+  const { warn } = await t.getBrowserConsoleMessages();
+  const i18nErrors = warn
+    .filter((msg) => msg.includes('l10n-error'))
+    .map((msg) => JSON.parse(msg));
+  console.assert(
+    i18nErrors.length === expectedErrors.length,
+    JSON.stringify({ i18nErrors, expectedErrors }, null, 2)
+  );
+  await t.expect(i18nErrors.length).eql(expectedErrors.length);
+  for (let i = 0; i < expectedErrors.length; i++) {
+    await t.expect(i18nErrors[i]).eql(expectedErrors[i]);
+  }
+}
+
 // Centralized console log assertion for verifying:
 // 1. Widget is ready to accept user input for the first time (ready)
 // 2. Widget transitions to a new page and animations have finished (afterRender)

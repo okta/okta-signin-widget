@@ -174,6 +174,8 @@ describe('OktaSignIn v2 bootstrap', function() {
 
     describe('shows error when IDENTITY_ENGINE feature is not enabled', () => {
       itp('shows translated error when i18n is available', async () => {
+        // spy on emitting of CustomEvent with type 'okta-i18n-error' in `loc()` util
+        const dispatchEventSpy = jest.spyOn(document, 'dispatchEvent');
         const view = new TerminalView($sandbox);
         const testStr = 'This is a test string';
         setupLoginFlow({
@@ -200,10 +202,13 @@ describe('OktaSignIn v2 bootstrap', function() {
           });
         }
         expect(didThrow).toBe(true);
+        expect(dispatchEventSpy).not.toHaveBeenCalled();
         expect($('.siw-main-view.terminal').length).toBe(1);
         expect(view.getErrorMessages()).toBe(testStr);
       });
       itp('shows untranslated error when i18n is not available', async () => {
+        // spy on emitting of CustomEvent with type 'okta-i18n-error' in `loc()` util
+        const dispatchEventSpy = jest.spyOn(document, 'dispatchEvent');
         const view = new TerminalView($sandbox);
         const testStr = 'The requested feature is not enabled in this environment.';
         setupLoginFlow({
@@ -223,6 +228,7 @@ describe('OktaSignIn v2 bootstrap', function() {
           });
         }
         expect(didThrow).toBe(true);
+        expect(dispatchEventSpy).not.toHaveBeenCalled();
         expect($('.siw-main-view.terminal').length).toBe(1);
         expect(view.getErrorMessages()).toBe(testStr);
       });
