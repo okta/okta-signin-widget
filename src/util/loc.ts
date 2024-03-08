@@ -45,15 +45,17 @@ declare global {
  * @param  {String} key The key
  * @param  {String} [bundle="login"] The name of the i18n bundle. Defaults to "login".
  * @param  {Array} [params] A list of parameters to apply as tokens to the i18n value
+ * @param  {Boolean} [ignoreIncorrectParams] If true, a custom 'okta-i18n-error' event would not be dispatched
  * @return {String} The localized value
  */
 export const loc = function (
   key: string,
   bundleName: BundleName = 'login',
-  params: Array<string | number | boolean | unknown> = []
+  params: Array<string | number | boolean | unknown> = [],
+  ignoreIncorrectParams = false
 ) {
   const bundle = getBundle(bundleName);
-  /* eslint complexity: [2, 6] */
+  /* eslint complexity: [2, 7] */
 
   if (!bundle) {
     emitL10nError(key, bundleName, 'bundle');
@@ -73,7 +75,9 @@ export const loc = function (
       return 'L10N_ERROR[' + key + ']';
     }
   } catch (e) {
-    emitL10nError(key, bundleName, 'parameters');
+    if (!ignoreIncorrectParams) {
+      emitL10nError(key, bundleName, 'parameters');
+    }
     return 'L10N_ERROR[' + key + ']';
   }
 };
