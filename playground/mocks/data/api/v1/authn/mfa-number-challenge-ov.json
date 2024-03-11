@@ -27,7 +27,7 @@
             "use": "sig",
             "kid": "default",
             "x5c": [
-              "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwd3kkRHieZUwY2wRaufKLuKWBHzy6oj8JjuXVyQJHzHJHyAjAo1jhey21v8WtxWMkb8soR1cg7iSf9kM/MjRxQJFKWNNhZDSgrMs/nc8RIO3xX1dWOVhNf51z/82S/+Wgo0ZRzrfM9iOFUwKDt5PoGe3d8rPsY3F5sJaw8lwAw9HqgI95RmRovta99S5zgh9DD3D57ckECKdCbe8HxFd+lkRLz1nl85FxEKLMaPa0vh8/AN8j14GSjoVogyLnF1468LEff7i2VL81HbUpO2PRQ7LEqTQWzmfcB0BULd499WydFIuwpV68c91VcGXWPUKHyXxZVB5SXSHgAgR45p8nQIDAQAB"
+              "testX5C"
             ]
           }
         ],
