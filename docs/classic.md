@@ -28,7 +28,7 @@
 <!-- omit in toc -->
 # Okta Sign-in Widget on the Classic Engine
 
-The `Classic Engine` (also known as authn or V1) has been superceded by the Okta [Identity Engine][] (OIE) and the [interaction code][] flow.
+The `Classic Engine` (also known as authn or V1) has been superseded by the Okta [Identity Engine][] (OIE) and the [interaction code][] flow.
 The Okta [Identity Engine][] is a platform service that allows enterprises to build more flexible access experiences that are tailored to their organizational needs. The Okta Sign-in Widget supports OIE in all [usage](#usage-guide) scenarios. We recommend that all customers upgrade to OIE to take advantage of the expanded features and enhanced security that OIE offers. Up-to-date information on using the widget with OIE can be found in [README.md](https://github.com/okta/okta-signin-widget/blob/master/README.md)
 
 Although the Okta Sign-in widget still supports Classic Engine, support will be removed from the widget in a future major version release.
@@ -918,7 +918,7 @@ Documentation for configuring the Okta Sign-in Widget for the [interaction code]
   - `zh-CN` - Chinese (PRC)
   - `zh-TW` - Chinese (Taiwan)
 
-  **Note:** If you want to use language that is not supported by widget, you need to host `login_{lang}.json` and `country_{lang}.json` files that should be accesible under path `{assets.baseUrl}/labels/json/`, where `{lang}` is your language code and `{assets.baseUrl}` is url to your assets (can be `/` to point on current domain). Example of JSON language files you can find after building widget in folder `packages/@okta/i18n/src/json`. The list of supported languages can be specified with the `assets.languages` option.
+  **Note:** If you want to use language that is not supported by widget, you need to host `login_{lang}.json` and `country_{lang}.json` files that should be accessible under path `{assets.baseUrl}/labels/json/`, where `{lang}` is your language code and `{assets.baseUrl}` is url to your assets (can be `/` to point on current domain). Example of JSON language files you can find after building widget in folder `packages/@okta/i18n/src/json`. The list of supported languages can be specified with the `assets.languages` option.
 
 - **defaultCountryCode:** Set the default countryCode of the widget. If no `defaultCountryCode` is provided, defaults to `US`. It sets the country calling code for phone number accordingly in the widget.
 
@@ -970,7 +970,7 @@ Documentation for configuring the Okta Sign-in Widget for the [interaction code]
 
     **Note:** The json files can be accessed from the `dist/labels/json` folder that is published in the [npm module](https://www.npmjs.com/package/@okta/okta-signin-widget).
 
-- **assets.languages** Specify the list of supported languages which are hosted and accesible under the path `{assets.baseUrl}/labels/json/`. This option supersedes the default list of supported languages. If an unsupported language is requested (explicitly using the `language` option or automatically by browser detection), the default language (`en`) will be used.
+- **assets.languages** Specify the list of supported languages which are hosted and accessible under the path `{assets.baseUrl}/labels/json/`. This option supersedes the default list of supported languages. If an unsupported language is requested (explicitly using the `language` option or automatically by browser detection), the default language (`en`) will be used.
 
 - **assets.rewrite:** You can use this function to rewrite the asset path and filename. Use this function if you will host the asset files on your own host, and plan to change the path or filename of the assets. This is useful, for example, if you want to cachebust the files.
 
@@ -1252,7 +1252,7 @@ var signIn = new OktaSignIn({
 });
 ```
 
-**Note:** IdP Discovery is supported for Okta-hosted Widget setup only. IdP Discovery for self-hosted Widget is not officialy supported by v1 API and requires an extra step to complete OIDC flow. This step involves calling [`session.exists`](https://github.com/okta/okta-auth-js#sessionexists) and [`token.getWithoutPrompt`](https://github.com/okta/okta-auth-js#tokengetwithoutpromptoptions) methods which rely on third party cookies to be available. The below snippet applies to a SPA app hosting Sign-In Widget:
+**Note:** IdP Discovery is supported for Okta-hosted Widget setup only. IdP Discovery for self-hosted Widget is not officially supported by v1 API and requires an extra step to complete OIDC flow. This step involves calling [`session.exists`](https://github.com/okta/okta-auth-js#sessionexists) and [`token.getWithoutPrompt`](https://github.com/okta/okta-auth-js#tokengetwithoutpromptoptions) methods which rely on third party cookies to be available. The below snippet applies to a SPA app hosting Sign-In Widget:
 
 ```javascript
 var signIn = new OktaSignIn({
