@@ -123,7 +123,15 @@ describe('v2/view-builder/views/AutoRedirectView', function() {
       });
     });
 
-    it('Add User Gesture if OV enrollment on Android', () => {
+    it.each([
+      'NONE',
+      'DEFAULT',
+      null,
+    ])('should add user gesture if OV enrollment on Android with interstitialBeforeLoginRedirect = "%s"', function(interstitialBeforeLoginRedirect) {
+      settings = new Settings({
+        baseUrl: 'http://localhost:3000',
+        'interstitialBeforeLoginRedirect': interstitialBeforeLoginRedirect,
+      });
       jest.spyOn(utilSpy, 'isAndroidOVEnrollment').mockReturnValue(true);
       testContext.init();
       expect(testContext.view.el).toMatchSnapshot('should show user gesture');
