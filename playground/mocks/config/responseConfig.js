@@ -340,6 +340,20 @@ const emailVerificationMocks = {
   ],
 };
 
+// OV verification with number challenge
+const numberChallengeOv = {
+  '/api/v1/authn': [
+    'mfa-required-oktaverify'
+  ],
+  '/api/v1/authn/factors/:factorid/verify/resend': [
+    'mfa-number-challenge-ov',
+  ],
+  '/api/v1/authn/factors/:factorid/verify': [
+    'mfa-number-challenge-ov',
+    'success-001'
+  ],
+};
+
 
 // ===== IDX
 const fastpassUnassignedApp = {

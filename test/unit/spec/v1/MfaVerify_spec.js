@@ -5681,6 +5681,8 @@ Expect.describe('MFA Verify', function() {
 
     Expect.describe('Okta Verify Push with number challenge', function() {
       itp('displays number challenge on poll', function() {
+        // spy on emitting of CustomEvent with type 'okta-i18n-error' in `loc()` util
+        const dispatchEventSpy = jest.spyOn(document, 'dispatchEvent');
         return setupOktaPush({ 'features.autoPush': true }).then(function(test) {
           spyOn(test.router.controller.model, 'setTransaction').and.callThrough();
           spyOn(test.router.settings, 'callGlobalSuccess');
@@ -5692,6 +5694,7 @@ Expect.describe('MFA Verify', function() {
             expect(Dom.isVisible(test.form.submitButton())).toBeFalsy();
             expect(Dom.isVisible(test.form.numberChallengeView())).toBeTruthy();
             expect(test.form.getChallengeNumber()).toBe('30');
+            expect(dispatchEventSpy).not.toHaveBeenCalled();
 
             expect(test.router.settings.callGlobalSuccess).toHaveBeenCalled();
             // One after first poll returns and one after polling finished.

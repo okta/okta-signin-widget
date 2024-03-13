@@ -1,0 +1,83 @@
+{
+  "stateToken": "testStateToken",
+  "expiresAt": "2015-06-10T22:42:40.224Z",
+  "status": "MFA_CHALLENGE",
+  "factorResult": "WAITING",
+  "_embedded": {
+    "user": {
+      "id": "00u492uyb0VqYtZiI0h7",
+      "profile": {
+        "login": "exampleUser@example.com",
+        "firstName": "Test",
+        "lastName": "User",
+        "locale": "en_US",
+        "timeZone": "America/Los_Angeles"
+      }
+    },
+    "factor": {
+      "id": "opfhw7v2OnxKpftO40g3",
+      "factorType": "push",
+      "provider": "OKTA",
+      "profile": {
+        "credentialId": "exampleUser@example.com",
+        "deviceType": "SmartPhone_IPhone",
+        "keys": [
+          {
+            "kty": "PKIX",
+            "use": "sig",
+            "kid": "default",
+            "x5c": [
+              "testX5C"
+            ]
+          }
+        ],
+        "name": "Example’s iPhone",
+        "platform": "IOS",
+        "version": "8.3"
+      },
+      "_embedded": {
+        "challenge": {
+          "correctAnswer": 0
+        }
+      }
+    }
+  },
+  "_links": {
+    "next": {
+      "name": "poll",
+      "href": "http://localhost:3000/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify",
+      "hints": {
+        "allow": [
+          "POST"
+        ]
+      }
+    },
+    "cancel": {
+      "href": "http://localhost:3000/api/v1/authn/cancel",
+      "hints": {
+        "allow": [
+          "POST"
+        ]
+      }
+    },
+    "prev": {
+      "href": "http://localhost:3000/api/v1/authn/previous",
+      "hints": {
+        "allow": [
+          "POST"
+        ]
+      }
+    },
+    "resend": [
+      {
+        "name": "push",
+        "href": "http://localhost:3000/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify/resend",
+        "hints": {
+          "allow": [
+            "POST"
+          ]
+        }
+      }
+    ]
+  }
+}
