@@ -55,8 +55,11 @@ const EnrollTotpControllerAppDownloadInstructionsView = View.extend({
       appStoreLink = StoreLinks.OKTA[this.model.get('__deviceType__')];
       appIcon = 'okta-verify-download-icon';
     }
+    const appStoreLinkText = appStoreName
+      ? loc('enroll.totp.downloadApp', 'login', [appStoreLink, factorName, appStoreName])
+      : null;
     return {
-      appStoreLinkText: loc('enroll.totp.downloadApp', 'login', [appStoreLink, factorName, appStoreName]),
+      appStoreLinkText: appStoreLinkText,
       appIcon: appIcon,
     };
   },

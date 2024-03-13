@@ -150,10 +150,14 @@ Expect.describe('EnrollTotp', function() {
     expectedStateToken
   ) {
     itp('has correct device type options for Okta Verify', function() {
+      // Spy on emitting of CustomEvent with type 'okta-i18n-error' in `loc()` util
+      const dispatchEventSpy = jest.spyOn(document, 'dispatchEvent');
       return setupOktaTotpFn().then(function(test) {
         expect(test.form.deviceTypeOptions().length).toBe(2);
         expect(test.form.deviceTypeOptionLabel('APPLE').length).toBe(1);
         expect(test.form.deviceTypeOptionLabel('ANDROID').length).toBe(1);
+        // Until device type is selected, `appStoreLinkText` should not be created and localised
+        expect(dispatchEventSpy).not.toHaveBeenCalled();
       });
     });
     itp('has correct device type options for Google Authenticator', function() {

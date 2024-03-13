@@ -1,0 +1,57 @@
+{
+  "stateToken": "00vr2lZLK8ciKcTVYS91pPFJ3RFS2BsgxtoNP5jWPS",
+  "expiresAt": "2022-10-03T17:31:38.000Z",
+  "status": "MFA_ENROLL",
+  "_embedded": {
+    "user": {
+      "id": "00u3sxoelNuhUf5sO9c5",
+      "passwordChanged": "2022-10-02T05:17:40.000Z",
+      "profile": {
+        "login": "test.user@test.com",
+        "firstName": "Test",
+        "lastName": "User",
+        "locale": "en_US",
+        "timeZone": "America/Los_Angeles"
+      }
+    },
+    "factors": [{
+      "id": "osthw62MEvG6YFuHe0g3",
+      "factorType": "token:software:totp",
+      "provider": "OKTA",
+      "vendorName": "OKTA",
+      "_links": {
+        "enroll": {
+          "href": "https://foo.com/api/v1/authn/factors/osthw62MEvG6YFuHe0g3/verify",
+          "hints": {
+            "allow": ["POST"]
+          }
+        }
+      },
+      "status": "NOT_SETUP",
+      "enrollment": "NOT_REQUIRED"
+    }, {
+      "id": "ufthp18Zup4EGLtrd0g3",
+      "factorType": "token:software:totp",
+      "provider": "GOOGLE",
+      "vendorName": "GOOGLE",
+      "_links": {
+        "enroll": {
+          "href": "https://foo.com/api/v1/authn/factors/ufthp18Zup4EGLtrd0g3/verify",
+          "hints": {
+            "allow": ["POST"]
+          }
+        }
+      },
+      "status": "NOT_SETUP",
+      "enrollment": "NOT_REQUIRED"
+    }]
+  },
+  "_links": {
+    "cancel": {
+      "href": "http://localhost:3000/api/v1/authn/cancel",
+      "hints": {
+        "allow": ["POST"]
+      }
+    }
+  }
+}
