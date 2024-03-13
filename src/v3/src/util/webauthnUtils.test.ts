@@ -13,12 +13,12 @@
 import {
   ChallengeData,
   IdxAuthenticator,
-  OktaAuth,
   RawIdxResponse,
   WebauthnAPI,
   WebauthnVerificationValues,
 } from '@okta/okta-auth-js';
 import { getMockCreateCredentialsResponse, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
+import { OktaAuthClient } from 'src/OktaSignIn/authClient';
 
 import { webAuthNAuthenticationHandler, webAuthNEnrollmentHandler } from '.';
 
@@ -55,7 +55,7 @@ describe('WebAuthN Util Tests', () => {
       ),
       getAttestation: jest.fn(),
     };
-    OktaAuth.webauthn = mockedWebauthn;
+    OktaAuthClient.webauthn = mockedWebauthn;
   });
 
   // afterAll(() => {
