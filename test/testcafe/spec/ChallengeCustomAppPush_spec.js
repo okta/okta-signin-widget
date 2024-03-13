@@ -506,7 +506,7 @@ test
       .contains('Haven\'t received a push notification yet? Try opening Custom Push on your phone.');
   });
 
-test.skip
+test
   .requestHooks(pushWaitMock)('Warning timer should be stopped on view destroy', async t => {
     const challengeCustomAppPushPageObject = await setup(t);
     await checkA11y(t);
