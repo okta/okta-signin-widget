@@ -2079,14 +2079,15 @@ Expect.describe('MFA Verify', function() {
           return Expect.waitForFormError(test.form, test);
         })
         .then(function(test) {
-          expectError(test, 403, 'Invalid Passcode/Answer', 'mfa-verify', {
+          expect(test.form.errorMessage()).toBe('Invalid Passcode or Answer');
+          expectErrorEvent(test, 403, 'Invalid Passcode or Answer (API error)', 'mfa-verify', {
             status: 403,
             headers: { 'content-type': 'application/json' },
             responseType: 'json',
-            responseText: '{"errorCode":"E0000068","errorSummary":"Invalid Passcode/Answer","errorLink":"E0000068","errorId":"oael69itLSMTbioahsUZ-7xiQ","errorCauses":[]}',
+            responseText: '{"errorCode":"E0000068","errorSummary":"Invalid Passcode or Answer (API error)","errorLink":"E0000068","errorId":"oael69itLSMTbioahsUZ-7xiQ","errorCauses":[]}',
             responseJSON: {
               errorCode: 'E0000068',
-              errorSummary: 'Invalid Passcode/Answer',
+              errorSummary: 'Invalid Passcode or Answer',
               errorLink: 'E0000068',
               errorId: 'oael69itLSMTbioahsUZ-7xiQ',
               errorCauses: [],
@@ -2238,15 +2239,15 @@ Expect.describe('MFA Verify', function() {
         })
         .then(function(test) {
           expect(test.form.hasErrors()).toBe(true);
-          expect(test.form.errorMessage()).toBe('Invalid Passcode/Answer');
-          expectErrorEvent(test, 403, 'Invalid Passcode/Answer', 'mfa-verify', {
+          expect(test.form.errorMessage()).toBe('Invalid Passcode or Answer');
+          expectErrorEvent(test, 403, 'Invalid Passcode or Answer (API error)', 'mfa-verify', {
             status: 403,
             headers: { 'content-type': 'application/json' },
             responseType: 'json',
-            responseText: '{"errorCode":"E0000068","errorSummary":"Invalid Passcode/Answer","errorLink":"E0000068","errorId":"oael69itLSMTbioahsUZ-7xiQ","errorCauses":[{"errorSummary":"Password is incorrect"}]}',
+            responseText: '{"errorCode":"E0000068","errorSummary":"Invalid Passcode or Answer (API error)","errorLink":"E0000068","errorId":"oael69itLSMTbioahsUZ-7xiQ","errorCauses":[{"errorSummary":"Password is incorrect"}]}',
             responseJSON: {
               errorCode: 'E0000068',
-              errorSummary: 'Invalid Passcode/Answer',
+              errorSummary: 'Invalid Passcode or Answer',
               errorLink: 'E0000068',
               errorId: 'oael69itLSMTbioahsUZ-7xiQ',
             },
@@ -3643,7 +3644,7 @@ Expect.describe('MFA Verify', function() {
             })
             .then(function(form) {
               expect(form.hasErrors()).toBe(true);
-              expect(form.errorMessage()).toBe('Invalid Passcode/Answer');
+              expect(form.errorMessage()).toBe('Invalid Passcode or Answer');
             });
         });
         itp('shows errors if verify button is clicked and answer is empty', function() {

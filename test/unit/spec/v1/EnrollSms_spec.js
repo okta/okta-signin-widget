@@ -747,13 +747,13 @@ Expect.describe('EnrollSms', function() {
             },
             {
               name: 'AuthApiError',
-              message: 'Invalid Passcode/Answer',
+              message: 'Invalid Passcode or Answer (API error)',
               statusCode: 403,
               xhr: {
                 status: 403,
                 headers: { 'content-type': 'application/json' },
                 responseType: 'json',
-                responseText: '{"errorCode":"E0000068","errorSummary":"Invalid Passcode/Answer","errorLink":"E0000068","errorId":"oaeW52tAk_9T0Obvns7jwww6g","errorCauses":[{"errorSummary":"Your token doesn\'t match our records. Please try again."}]}',
+                responseText: '{"errorCode":"E0000068","errorSummary":"Invalid Passcode or Answer (API error)","errorLink":"E0000068","errorId":"oaeW52tAk_9T0Obvns7jwww6g","errorCauses":[{"errorSummary":"Your token doesn\'t match our records. Please try again."}]}',
                 responseJSON: {
                   errorCode: 'E0000068',
                   errorSummary: 'Invalid Passcode or Answer',

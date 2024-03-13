@@ -3,7 +3,7 @@ export default {
   responseType: 'json',
   response: {
     errorCode: 'E0000068',
-    errorSummary: 'Invalid Passcode\/Answer',
+    errorSummary: 'Invalid Passcode or Answer (API error)',
     errorLink: 'E0000068',
     errorId: 'oaeW52tAk_9T0Obvns7jwww6g',
     errorCauses: [
