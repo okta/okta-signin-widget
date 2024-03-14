@@ -52,7 +52,7 @@ fi
 if [ ! -z "$AUTHJS_VERSION" ]; then
   echo "Installing AUTHJS_VERSION: ${AUTHJS_VERSION}"
 
-  yarn global add @okta/siw-platform-scripts@0.8.0-g01a5449
+  yarn global add @okta/siw-platform-scripts@0.8.0-g364e6e3
 
   # if ! siw-platform install-artifact -n @okta/okta-auth-js -v ${AUTHJS_VERSION} ; then
   #   echo "AUTHJS_VERSION could not be installed: ${AUTHJS_VERSION}"
