@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`v2/view-builder/views/AutoRedirectView Android OV Enrollment Add User Gesture if OV enrollment on Android: should show user gesture 1`] = `
+exports[`v2/view-builder/views/AutoRedirectView Android OV Enrollment Do not add User Gesture if not OV enrollment on Android: should not show user gesture 1`] = `
 <div
   class="siw-main-view "
 >
@@ -16,7 +16,77 @@ exports[`v2/view-builder/views/AutoRedirectView Android OV Enrollment Add User G
       action="/"
       class="ion-form o-form o-form-edit-mode"
       data-se="o-form"
-      id="form90"
+      id="form150"
+      method="POST"
+      slot="content"
+    >
+      <div
+        class="o-form-content o-form-theme clearfix"
+        data-se="o-form-content"
+      >
+        <h2
+          class="okta-form-title o-form-head"
+          data-se="o-form-head"
+        >
+          Signing in to Okta Administration
+        </h2>
+        <div
+          class="identifier-container"
+        >
+          <span
+            class="identifier no-translate"
+            data-se="identifier"
+            title="testUser@okta.com"
+          >
+            testUser@okta.com
+          </span>
+        </div>
+        <div
+          class="o-form-info-container"
+        />
+        <div
+          class="o-form-error-container"
+          data-se="o-form-error-container"
+          role="alert"
+        />
+        <div
+          class="o-form-fieldset-container"
+          data-se="o-form-fieldset-container"
+        >
+          <div
+            class="okta-waiting-spinner"
+          />
+        </div>
+      </div>
+    </form>
+  </div>
+  <div
+    class="siw-main-footer"
+  >
+    <div
+      class="auth-footer"
+    />
+  </div>
+</div>
+`;
+
+exports[`v2/view-builder/views/AutoRedirectView Android OV Enrollment should add user gesture if OV enrollment on Android with interstitialBeforeLoginRedirect = "DEFAULT": should show user gesture 1`] = `
+<div
+  class="siw-main-view "
+>
+  <div
+    class="siw-main-header"
+  >
+    <div />
+  </div>
+  <div
+    class="siw-main-body"
+  >
+    <form
+      action="/"
+      class="ion-form o-form o-form-edit-mode"
+      data-se="o-form"
+      id="form111"
       method="POST"
       slot="content"
     >
@@ -75,7 +145,7 @@ exports[`v2/view-builder/views/AutoRedirectView Android OV Enrollment Add User G
 </div>
 `;
 
-exports[`v2/view-builder/views/AutoRedirectView Android OV Enrollment Do not add User Gesture if not OV enrollment on Android: should not show user gesture 1`] = `
+exports[`v2/view-builder/views/AutoRedirectView Android OV Enrollment should add user gesture if OV enrollment on Android with interstitialBeforeLoginRedirect = "NONE": should show user gesture 1`] = `
 <div
   class="siw-main-view "
 >
@@ -91,7 +161,7 @@ exports[`v2/view-builder/views/AutoRedirectView Android OV Enrollment Do not add
       action="/"
       class="ion-form o-form o-form-edit-mode"
       data-se="o-form"
-      id="form109"
+      id="form91"
       method="POST"
       slot="content"
     >
@@ -103,7 +173,7 @@ exports[`v2/view-builder/views/AutoRedirectView Android OV Enrollment Do not add
           class="okta-form-title o-form-head"
           data-se="o-form-head"
         >
-          Signing in to Okta Administration
+          To continue, tap "Open Okta Verify"
         </h2>
         <div
           class="identifier-container"
@@ -128,9 +198,89 @@ exports[`v2/view-builder/views/AutoRedirectView Android OV Enrollment Do not add
           class="o-form-fieldset-container"
           data-se="o-form-fieldset-container"
         >
-          <div
-            class="okta-waiting-spinner"
-          />
+          <a
+            class="ul-button button button-wide button-primary hide-underline link-button"
+            data-se="button"
+            href="#"
+            id="launch-enrollment-ov"
+          >
+            Open Okta Verify
+          </a>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div
+    class="siw-main-footer"
+  >
+    <div
+      class="auth-footer"
+    />
+  </div>
+</div>
+`;
+
+exports[`v2/view-builder/views/AutoRedirectView Android OV Enrollment should add user gesture if OV enrollment on Android with interstitialBeforeLoginRedirect = "null": should show user gesture 1`] = `
+<div
+  class="siw-main-view "
+>
+  <div
+    class="siw-main-header"
+  >
+    <div />
+  </div>
+  <div
+    class="siw-main-body"
+  >
+    <form
+      action="/"
+      class="ion-form o-form o-form-edit-mode"
+      data-se="o-form"
+      id="form131"
+      method="POST"
+      slot="content"
+    >
+      <div
+        class="o-form-content o-form-theme clearfix"
+        data-se="o-form-content"
+      >
+        <h2
+          class="okta-form-title o-form-head"
+          data-se="o-form-head"
+        >
+          To continue, tap "Open Okta Verify"
+        </h2>
+        <div
+          class="identifier-container"
+        >
+          <span
+            class="identifier no-translate"
+            data-se="identifier"
+            title="testUser@okta.com"
+          >
+            testUser@okta.com
+          </span>
+        </div>
+        <div
+          class="o-form-info-container"
+        />
+        <div
+          class="o-form-error-container"
+          data-se="o-form-error-container"
+          role="alert"
+        />
+        <div
+          class="o-form-fieldset-container"
+          data-se="o-form-fieldset-container"
+        >
+          <a
+            class="ul-button button button-wide button-primary hide-underline link-button"
+            data-se="button"
+            href="#"
+            id="launch-enrollment-ov"
+          >
+            Open Okta Verify
+          </a>
         </div>
       </div>
     </form>
