@@ -362,7 +362,6 @@ export default Controller.extend({
    * reload or re-render, but updates the AppSate with latest remediation.
    */
   async showFormErrors(model, error, form) {
-    console.log(error, form)
     /* eslint max-statements: [2, 24] */
     let errorObj;
     let idxStateError;
@@ -389,7 +388,6 @@ export default Controller.extend({
     }
 
     if(_.isFunction(form?.showCustomFormErrorCallout)) {
-      console.log(idxStateError)
       showErrorBanner = !form.showCustomFormErrorCallout(errorObj, idxStateError.messages);
     }
 
