@@ -12,14 +12,15 @@
 
 import { View } from '@okta/courage';
 import Enums from 'util/Enums';
+import Util from 'util/Util';
 import hbs from '@okta/handlebars-inline-precompile';
 import { WIDGET_FOOTER_CLASS } from '../../utils/Constants';
 
 const OktaSignInWidgetOnCaptchaLoadedCallback = 'OktaSignInWidgetOnCaptchaLoaded';
 const OktaSignInWidgetOnCaptchaSolvedCallback = 'OktaSignInWidgetOnCaptchaSolved';
 
-const HCAPTCHA_URL = 
-  `https://hcaptcha.com/1/api.js?onload=${OktaSignInWidgetOnCaptchaLoadedCallback}&render=explicit`;
+const HCAPTCHA_BASE_URL =
+  'https://hcaptcha.com/1/api.js';
 const RECAPTCHAV2_URL = 
   `https://www.google.com/recaptcha/api.js?onload=${OktaSignInWidgetOnCaptchaLoadedCallback}&render=explicit`;
 
@@ -133,7 +134,7 @@ export default View.extend({
 
     
     if (this.captchaConfig.type === 'HCAPTCHA') {
-      this._loadCaptchaLib(this._getCaptchaUrl(HCAPTCHA_URL));
+      this._loadCaptchaLib(this._getHCaptchaUrl(HCAPTCHA_BASE_URL));
     } else if (this.captchaConfig.type === 'RECAPTCHA_V2') {
       this._loadCaptchaLib(this._getCaptchaUrl(RECAPTCHAV2_URL));
     }
@@ -173,6 +174,28 @@ export default View.extend({
   _getCaptchaOject() {
     const captchaObject = this.captchaConfig.type === 'HCAPTCHA' ? window.hcaptcha : window.grecaptcha;
     return captchaObject;
+  },
+
+  /**
+   *  Options for `@hcaptcha/loader`:
+   *   https://github.com/hCaptcha/hcaptcha-loader/blob/main/lib/src/loader.ts#L52
+   *   https://www.npmjs.com/package/@hcaptcha/loader#props
+  * */
+  _getHCaptchaUrl(defaultBaseUrl) {
+    const locale = this.options.settings.get('language');
+    const scriptSource = this.options.settings.get('hcaptcha.scriptSource');
+    const scriptParams = this.options.settings.get('hcaptcha.scriptParams');
+
+    const baseUrl = scriptSource || defaultBaseUrl;
+    const params = {
+      ...scriptParams,
+      onload: OktaSignInWidgetOnCaptchaLoadedCallback,
+      render: 'explicit',
+      hl: locale || navigator.language,
+    };
+    const query = Util.searchParamsToString(params);
+
+    return baseUrl + '?' + query;
   },
 
   _getCaptchaUrl(baseURL) {

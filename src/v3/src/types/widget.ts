@@ -212,6 +212,12 @@ export type WidgetOptions = {
   transformUsername?: (username: string, operation: UserOperation) => string;
   globalSuccessFn?: (res: RenderResult) => void;
   globalErrorFn?: (res: RenderError) => void;
+  // hCaptcha options
+  hcaptcha?: {
+    scriptSource?: string;
+    // https://github.com/hCaptcha/hcaptcha-loader/blob/main/lib/src/loader.ts#L52
+    scriptParams?: Record<string, string>;
+  };
 };
 
 export type IdxMethod =

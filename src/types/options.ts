@@ -104,6 +104,12 @@ export interface WidgetOptions
   useClassicEngine?: boolean;
   hooks?: HooksOptions;
   proxyIdxResponse?: any;
+  // hCaptcha options
+  hcaptcha?: {
+    scriptSource?: string;
+    // https://github.com/hCaptcha/hcaptcha-loader/blob/main/lib/src/loader.ts#L52
+    scriptParams?: Record<string, string>;
+  };
 
   /**
    * @deprecated since version 7.0

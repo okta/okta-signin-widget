@@ -260,4 +260,19 @@ Util.getAutocompleteValue = function(settings, defaultValue) {
   return defaultValue;
 };
 
+Util.searchParamsToString = function(params) {
+  const parts = [];
+  for (const key in params) {
+    const val = params[key];
+    const canUseParam = Object.prototype.hasOwnProperty.call(params, key)
+      && val !== undefined
+      && val !== null
+      && val !== '';
+    if (canUseParam) {
+      parts.push(encodeURIComponent(key) + '=' + encodeURIComponent(val));
+    }
+  }
+  return parts.join('&');
+}
+
 export default Util;

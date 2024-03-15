@@ -9,13 +9,18 @@ import { WIDGET_FOOTER_CLASS } from 'v2/view-builder/utils/Constants';
 describe('v2/view-builder/views/CaptchaView', function() {
   let testContext;
   let language = undefined;
+  let hcaptchaOptions = undefined;
   beforeEach(function() { 
     testContext = {};
     testContext.init = (captcha = enrollProfileWithReCaptcha.captcha.value) => {
       const appState = new AppState({
         captcha
       }, {});
-      const settings = new Settings({ baseUrl: 'http://localhost:3000', language });
+      const settings = new Settings({
+        baseUrl: 'http://localhost:3000',
+        language,
+        hcaptcha: hcaptchaOptions
+      });
       testContext.view = new CaptchaView({
         appState,
         settings,
@@ -80,6 +85,19 @@ describe('v2/view-builder/views/CaptchaView', function() {
     
     testContext.init(enrollProfileWithHCaptcha.captcha.value);
     expect(spy).toHaveBeenCalledWith('https://hcaptcha.com/1/api.js?onload=OktaSignInWidgetOnCaptchaLoaded&render=explicit&hl=fr');
+
+    // Set hCaptcha options for SIW and ensure hCaptcha gets loaded with correct custom URL
+    hcaptchaOptions = {
+      scriptSource: 'https://cn1.hcaptcha.com/1/api.js',
+      scriptParams: {
+        endpoint: 'https://cn1.hcaptcha.com',
+        assethost: 'https://assets-cn1.hcaptcha.com',
+        imghost: 'https://imgs-cn1.hcaptcha.com',
+        reportapi: 'https://reportapi-cn1.hcaptcha.com',
+      }
+    };
+    testContext.init(enrollProfileWithHCaptcha.captcha.value);
+    expect(spy).toHaveBeenCalledWith('https://cn1.hcaptcha.com/1/api.js?endpoint=https%3A%2F%2Fcn1.hcaptcha.com&assethost=https%3A%2F%2Fassets-cn1.hcaptcha.com&imghost=https%3A%2F%2Fimgs-cn1.hcaptcha.com&reportapi=https%3A%2F%2Freportapi-cn1.hcaptcha.com&onload=OktaSignInWidgetOnCaptchaLoaded&render=explicit&hl=fr');
   });
 
   it('Captcha gets removed properly', function() {

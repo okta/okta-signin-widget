@@ -34,7 +34,8 @@ const CaptchaContainer: UISchemaElementComponent<{
     },
   } = uischema;
 
-  const { dataSchemaRef } = useWidgetContext();
+  const { dataSchemaRef, widgetProps } = useWidgetContext();
+  const { hcaptcha: { scriptSource, scriptParams } = {} } = widgetProps;
   const onSubmitHandler = useOnSubmit();
   const dataSchema = dataSchemaRef.current!;
   const captchaRef = useRef<ReCAPTCHA | HCaptcha>(null);
@@ -137,6 +138,10 @@ const CaptchaContainer: UISchemaElementComponent<{
       ref={captchaRef}
       onVerify={onVerifyCaptcha}
       size="invisible"
+      scriptSource={scriptSource}
+      // params like `assethost` will be passed to hcaptcha loader
+      // https://github.com/hCaptcha/hcaptcha-loader/blob/main/lib/src/loader.ts#L52
+      {...(scriptParams || {})}
     />
   );
 };
