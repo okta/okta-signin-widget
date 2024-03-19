@@ -13,18 +13,11 @@
 import { setup } from './util';
 
 import mockResponse from '../../../../playground/mocks/data/idp/idx/terminal-okta-verify-enrollment-android-device.json';
-
-jest.mock('../../../util/Util', () => {
-  const original = jest.requireActual('../../../util/Util');
-  return {
-    __esModule: true,
-    default: original.default,
-    isAndroidOVEnrollment: jest.fn().mockReturnValue(true),
-  };
-});
+import Util from '../../../util/Util';
 
 describe('terminal-okta-verify-enrollment-android-device', () => {
   it('should render form', async () => {
+    jest.spyOn(Util, 'isAndroidOVEnrollment').mockReturnValue(true);
     const { container, findByText } = await setup({ mockResponse });
     await findByText(/To continue, tap "Open Okta Verify"/);
     await findByText('Open Okta Verify', { selector: 'button' });
