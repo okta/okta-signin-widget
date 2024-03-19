@@ -81,6 +81,21 @@ export default View.extend({
           </ol>
         </div>
       {{/if}}
+      {{#if qrMap.href}}
+        <div class="sameDevice-qr" style="display:none;">
+          <ol class="qrcode-info ov-info">
+            <li>{{i18n code="oie.enroll.okta_verify.qrcode.step1.updated" bundle="login"}}</li>
+            <li>{{i18n code="oie.enroll.okta_verify.qrcode.step2" bundle="login"}}</li>
+            <li>{{i18n code="oie.enroll.okta_verify.qrcode.step3" bundle="login"
+              $1="<span class='semi-strong'>$1</span>"}}</li>
+          </ol>
+          <div class="qrcode-container">
+            <img class="qrcode" src={{qrMap.href}} alt="{{i18n code="mfa.altQrCode" bundle="login" }}"></img>
+          </div>
+          
+          <p class="closing"><a href='#' class='ovSetupScreen'>{{i18n code="oie.go.back" bundle="login"}}</a></p>
+        </div>
+      {{/if}}
       <div class="sameDevice-bootstrap" {{#if hideSameDeviceBootstrap}}style="display:none;"{{/if}}>
         {{#if sameDevice}}
           <p class="explanation" data-se="subheader">
@@ -171,6 +186,7 @@ export default View.extend({
       phoneNumber:  _.escape(contextualData?.phoneNumber),
       sameDevice: contextualData?.samedevice,
       deviceBootstrap: contextualData?.devicebootstrap,
+      qrMap: deviceMap?.qrMap,
       enrolledDeviceName: enrolledDeviceName,
       deviceMap: deviceMap,
       showAnotherDeviceLink: showAnotherDeviceLink,
@@ -180,11 +196,11 @@ export default View.extend({
   postRender: function() {
     $(document).on('click', '.orOnMobileLink', function() {
       $('.sameDevice-setup').hide();
-      $('.sameDevice-bootstrap').show();
+      $('.sameDevice-qr').show();
     });
 
     $(document).on('click', '.ovSetupScreen', function() {
-      $('.sameDevice-bootstrap').hide();
+      $('.sameDevice-qr').hide();
       $('.sameDevice-setup').show();
     });
 

@@ -87,7 +87,7 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({ transaction,
 
   const enrolledDevices = deviceBootstrap?.enrolledDevices || [];
   const enrolledDevice = Array.isArray(enrolledDevices) ? enrolledDevices?.[0] : enrolledDevices;
-  const qrCodeHref = authenticator.contextualData?.qrcode?.href;
+  let qrCodeHref = authenticator.contextualData?.qrcode?.href;
   let channelType = selectedChannel;
   let deviceMap = [];
   let setupOVUrl = '';
@@ -308,7 +308,7 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({ transaction,
             'login',
           ).replace('</$1>', '').replace('<$1>', '').trim(),
           options: {
-            nextStepIndex: deviceBootstrap ? STEPS.DEVICE_BOOTSTRAP : STEPS.SAME_DEVICE,
+            nextStepIndex: STEPS.QR_POLLING,
           },
         } as StepperLinkElement,
       );
@@ -379,25 +379,40 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({ transaction,
     );
   }
 
-  const qrCodeElements = qrCodeHref ? [
-    {
+  let updatedQrListItems = [];
+  const qrDataForSameDeviceExists = deviceMap?.qrMap && deviceMap?.qrMap?.href;
+  if (qrDataForSameDeviceExists) {
+    updatedQrListItems.push(
+        loc('oie.enroll.okta_verify.qrcode.step1.updated', 'login'),
+        loc('oie.enroll.okta_verify.qrcode.step2', 'login'),
+        loc('oie.enroll.okta_verify.qrcode.step3', 'login'),
+    );
+    qrCodeHref = deviceMap?.qrMap?.href;
+  }
+
+  let qrCodeElements = [];
+  if (qrCodeHref) {
+    qrCodeElements.push({
       type: 'QRCode',
       options: {
         data: qrCodeHref,
       },
-    } as QRCodeElement,
-    {
-      type: 'Button',
-      label: loc('enroll.totp.cannotScan', 'login'),
-      options: {
-        type: ButtonType.BUTTON,
-        variant: 'secondary',
-        ariaLabel: loc('enroll.totp.aria.cannotScan', 'login'),
-        step: IDX_STEP.SELECT_ENROLLMENT_CHANNEL,
-        stepToRender: IDX_STEP.SELECT_ENROLLMENT_CHANNEL,
-      },
-    } as ButtonElement,
-  ] : [];
+    } as QRCodeElement);
+
+    if (!qrDataForSameDeviceExists) {
+      qrCodeElements.push({
+        type: 'Button',
+        label: loc('enroll.totp.cannotScan', 'login'),
+        options: {
+          type: ButtonType.BUTTON,
+          variant: 'secondary',
+          ariaLabel: loc('enroll.totp.aria.cannotScan', 'login'),
+          step: IDX_STEP.SELECT_ENROLLMENT_CHANNEL,
+          stepToRender: IDX_STEP.SELECT_ENROLLMENT_CHANNEL,
+        },
+      } as ButtonElement);
+    }
+  }
 
   const stepper: StepperLayout = {
     type: UISchemaLayoutType.STEPPER,
@@ -412,11 +427,12 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({ transaction,
             type: 'List',
             noMargin: true,
             options: {
-              items: listItems,
+              items: qrDataForSameDeviceExists ? updatedQrListItems : listItems,
               type: 'ol',
             },
           } as ListElement,
           ...qrCodeElements,
+          ...(qrDataForSameDeviceExists && backToSameOVEnrollmentLink ? [backToSameOVEnrollmentLink] : []),
         ].map((ele: UISchemaElement) => ({ ...ele, viewIndex: 0 })),
       } as UISchemaLayout,
       // Email
