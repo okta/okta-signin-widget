@@ -24,6 +24,11 @@ import {
   triggerRegistrationErrorMessages,
 } from '.';
 
+const mockIsAndroidOVEnrollment = jest.fn();
+jest.mock('../../../util/Util', () => ({
+  isAndroidOVEnrollment: jest.fn().mockImplementation(() => mockIsAndroidOVEnrollment()),
+}));
+
 describe('IdxUtils Tests', () => {
   const TEST_USERNAME = 'tester@test.com';
   const TEST_FIRSTNAME = 'Tester';
@@ -137,6 +142,21 @@ describe('IdxUtils Tests', () => {
       ],
     };
     expect(buildAuthCoinProps(transaction)?.authenticatorKey).toBe(AUTHENTICATOR_KEY.EMAIL);
+  });
+
+  it('should build AuthCoin data when isAndroidOVEnrollment is true and is success redirect transaction', () => {
+    transaction = {
+      ...transaction,
+      context: {
+        ...transaction.context,
+        success: {
+          name: 'success-redirect',
+          href: 'http://localhost:3000/success_redirect',
+        },
+      },
+    };
+    mockIsAndroidOVEnrollment.mockReturnValue(true);
+    expect(buildAuthCoinProps(transaction)?.authenticatorKey).toBe(AUTHENTICATOR_KEY.OV);
   });
 
   it('should not perform conversion of Idx Inputs into Registration schema elements when input array is empty', () => {
@@ -364,7 +384,7 @@ describe('IdxUtils Tests', () => {
       widgetProps = {
         authClient: mockAuthClient,
         otp,
-      };
+      } as unknown as WidgetProps;
     });
 
     describe('if there is an interactionHandle in storage', () => {
