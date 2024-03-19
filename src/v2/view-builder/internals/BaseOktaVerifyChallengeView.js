@@ -59,6 +59,8 @@ const Body = BaseFormWithPolling.extend({
 
   doLoopback(deviceChallenge) {
     let authenticatorDomainUrl = deviceChallenge.domain !== undefined ? deviceChallenge.domain : '';
+    let authenticatorDomainUrl2 = deviceChallenge.domain2 !== undefined ? deviceChallenge.domain2 : '';
+    let probeMethod = deviceChallenge.method !== undefined ? deviceChallenge.method : 'method1';
     let ports = deviceChallenge.ports !== undefined ? deviceChallenge.ports : [];
     let challengeRequest = deviceChallenge.challengeRequest !== undefined ? deviceChallenge.challengeRequest : '';
     let probeTimeoutMillis = deviceChallenge.probeTimeoutMillis !== undefined ?
@@ -68,13 +70,13 @@ const Body = BaseFormWithPolling.extend({
     let ovFailed = false;
     let countFailedPorts = 0;
 
-    const getAuthenticatorUrl = (path) => {
-      return `${authenticatorDomainUrl}:${currentPort}/${path}`;
+    const getAuthenticatorUrl = (path, domainUrl) => {
+      return `${domainUrl}:${currentPort}/${path}`;
     };
 
-    const checkPort = () => {
+    const checkPort = (url) => {
       return request({
-        url: getAuthenticatorUrl('probe'),
+        url: url,
         /*
         OKTA-278573 in loopback server, SSL handshake sometimes takes more than 100ms and thus needs additional
         timeout however, increasing timeout is a temporary solution since user will need to wait much longer in
@@ -87,9 +89,9 @@ const Body = BaseFormWithPolling.extend({
       });
     };
 
-    const onPortFound = () => {
+    const onPortFound = (url) => {
       return request({
-        url: getAuthenticatorUrl('challenge'),
+        url: url,
         method: 'POST',
         data: JSON.stringify({ challengeRequest }),
         timeout: CHALLENGE_TIMEOUT // authenticator should respond within 5 min (300000ms) for challenge request
@@ -100,10 +102,10 @@ const Body = BaseFormWithPolling.extend({
       Logger.error(`Something unexpected happened while we were checking port ${currentPort}.`);
     };
 
-    const doProbing = () => {
-      return checkPort()
+    const doProbing = (domainUrl) => {
+      return checkPort(getAuthenticatorUrl('probe', domainUrl))
         .done(() => {
-          return onPortFound()
+          return onPortFound(getAuthenticatorUrl('challenge', domainUrl))
             .done(() => {
               foundPort = true;
               if (deviceChallenge.enhancedPollingEnabled !== false) {
@@ -157,28 +159,103 @@ const Body = BaseFormWithPolling.extend({
     };
 
     let probeChain = Promise.resolve();
-    ports.forEach(port => {
-      probeChain = probeChain
-        .then(() => {
-          if (!(foundPort || ovFailed)) {
-            currentPort = port;
-            return doProbing();
-          }
-        })
-        .catch(() => {
-          countFailedPorts++;
-          Logger.error(`Authenticator is not listening on port ${currentPort}.`);
-          if (countFailedPorts === ports.length) {
-            Logger.error('No available ports. Loopback server failed and polling is cancelled.');
-            cancelPollingWithParams(
-              this.options.appState,
-              this.pollingCancelAction,
-              AUTHENTICATION_CANCEL_REASONS.LOOPBACK_FAILURE,
-              null
-            );
-          }
-        });
-    });
+
+    if (probeMethod === 'method1') {
+      ports.forEach(port => {
+        probeChain = probeChain
+          .then(() => {
+            if (!(foundPort || ovFailed)) {
+              currentPort = port;
+              return doProbing(authenticatorDomainUrl);
+            }
+          })
+          .catch(() => {
+            countFailedPorts++;
+            Logger.error(`Authenticator is not listening on port ${currentPort}.`);
+          });
+      });
+      ports.forEach(port => {
+        probeChain = probeChain
+          .then(() => {
+            if (!(foundPort || ovFailed)) {
+              currentPort = port;
+              return doProbing(authenticatorDomainUrl2);
+            }
+          })
+          .catch(() => {
+            countFailedPorts++;
+            Logger.error(`Authenticator is not listening on port ${currentPort}.`);
+            if (countFailedPorts === ports.length * 2) {
+              Logger.error('No available ports. Loopback server failed and polling is cancelled.');
+              cancelPollingWithParams(
+                this.options.appState,
+                this.pollingCancelAction,
+                AUTHENTICATION_CANCEL_REASONS.LOOPBACK_FAILURE,
+                null
+              );
+            }
+          });
+      });
+    } else if (probeMethod === 'method2') { 
+      ports.forEach(port => {
+        probeChain = probeChain
+          .then(() => {
+            if (!(foundPort || ovFailed)) {
+              currentPort = port;
+              return doProbing(authenticatorDomainUrl2);
+            }
+          })
+          .catch(() => {
+            countFailedPorts++;
+            Logger.error(`Authenticator is not listening on port ${currentPort}.`);
+          });
+      });
+      ports.forEach(port => {
+        probeChain = probeChain
+          .then(() => {
+            if (!(foundPort || ovFailed)) {
+              currentPort = port;
+              return doProbing(authenticatorDomainUrl);
+            }
+          })
+          .catch(() => {
+            countFailedPorts++;
+            Logger.error(`Authenticator is not listening on port ${currentPort}.`);
+            if (countFailedPorts === ports.length * 2) {
+              Logger.error('No available ports. Loopback server failed and polling is cancelled.');
+              cancelPollingWithParams(
+                this.options.appState,
+                this.pollingCancelAction,
+                AUTHENTICATION_CANCEL_REASONS.LOOPBACK_FAILURE,
+                null
+              );
+            }
+          });
+      });
+    } else {
+      ports.forEach(port => {
+        probeChain = probeChain
+          .then(() => {
+            if (!(foundPort || ovFailed)) {
+              currentPort = port;
+              return doProbing();
+            }
+          })
+          .catch(() => {
+            countFailedPorts++;
+            Logger.error(`Authenticator is not listening on port ${currentPort}.`);
+            if (countFailedPorts === ports.length) {
+              Logger.error('No available ports. Loopback server failed and polling is cancelled.');
+              cancelPollingWithParams(
+                this.options.appState,
+                this.pollingCancelAction,
+                AUTHENTICATION_CANCEL_REASONS.LOOPBACK_FAILURE,
+                null
+              );
+            }
+          });
+      });
+    }
   },
 
   doCustomURI() {
