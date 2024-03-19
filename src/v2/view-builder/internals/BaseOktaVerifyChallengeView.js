@@ -59,7 +59,9 @@ const Body = BaseFormWithPolling.extend({
 
   doLoopback(deviceChallenge) {
     let authenticatorDomainUrl = deviceChallenge.domain !== undefined ? deviceChallenge.domain : '';
+    let authenticatorHttpsDomainUrl = deviceChallenge.httpsDomain !== undefined ? deviceChallenge.httpsDomain : '';
     let ports = deviceChallenge.ports !== undefined ? deviceChallenge.ports : [];
+    let maxNumberOfPorts = ports.length;
     let challengeRequest = deviceChallenge.challengeRequest !== undefined ? deviceChallenge.challengeRequest : '';
     let probeTimeoutMillis = deviceChallenge.probeTimeoutMillis !== undefined ?
       deviceChallenge.probeTimeoutMillis : 100;
@@ -68,13 +70,13 @@ const Body = BaseFormWithPolling.extend({
     let ovFailed = false;
     let countFailedPorts = 0;
 
-    const getAuthenticatorUrl = (path) => {
-      return `${authenticatorDomainUrl}:${currentPort}/${path}`;
+    const getAuthenticatorUrl = (path, domainUrl) => {
+      return `${domainUrl}:${currentPort}/${path}`;
     };
 
-    const checkPort = () => {
+    const checkPort = (url) => {
       return request({
-        url: getAuthenticatorUrl('probe'),
+        url: url,
         /*
         OKTA-278573 in loopback server, SSL handshake sometimes takes more than 100ms and thus needs additional
         timeout however, increasing timeout is a temporary solution since user will need to wait much longer in
@@ -87,9 +89,9 @@ const Body = BaseFormWithPolling.extend({
       });
     };
 
-    const onPortFound = () => {
+    const onPortFound = (url) => {
       return request({
-        url: getAuthenticatorUrl('challenge'),
+        url: url,
         method: 'POST',
         data: JSON.stringify({ challengeRequest }),
         timeout: CHALLENGE_TIMEOUT // authenticator should respond within 5 min (300000ms) for challenge request
@@ -100,10 +102,10 @@ const Body = BaseFormWithPolling.extend({
       Logger.error(`Something unexpected happened while we were checking port ${currentPort}.`);
     };
 
-    const doProbing = () => {
-      return checkPort()
+    const doProbing = (domainUrl) => {
+      return checkPort(getAuthenticatorUrl('probe', domainUrl))
         .done(() => {
-          return onPortFound()
+          return onPortFound(getAuthenticatorUrl('challenge', domainUrl))
             .done(() => {
               foundPort = true;
               if (deviceChallenge.enhancedPollingEnabled !== false) {
@@ -157,18 +159,39 @@ const Body = BaseFormWithPolling.extend({
     };
 
     let probeChain = Promise.resolve();
+    // If https domain exists, do https domain probe first
+    // This only applies to MacOS for now
+    if (authenticatorHttpsDomainUrl) {
+      // if https domain are included, max number of ports to be probed should be doubled
+      maxNumberOfPorts += maxNumberOfPorts;
+      ports.forEach(port => {
+        probeChain = probeChain
+          .then(() => {
+            if (!(foundPort || ovFailed)) {
+              currentPort = port;
+              return doProbing(authenticatorHttpsDomainUrl);
+            }
+          })
+          .catch(() => {
+            countFailedPorts++;
+            Logger.error(`Authenticator is not listening on port ${currentPort}.`);
+          });
+      });
+    }
+
+    // Always do probe on regular domain
     ports.forEach(port => {
       probeChain = probeChain
         .then(() => {
           if (!(foundPort || ovFailed)) {
             currentPort = port;
-            return doProbing();
+            return doProbing(authenticatorDomainUrl);
           }
         })
         .catch(() => {
           countFailedPorts++;
           Logger.error(`Authenticator is not listening on port ${currentPort}.`);
-          if (countFailedPorts === ports.length) {
+          if (countFailedPorts === maxNumberOfPorts) {
             Logger.error('No available ports. Loopback server failed and polling is cancelled.');
             // When no port is found, cancel the polling as well
             // This is to avoid concurrency issue where /poll/cancel takes long time to complete
