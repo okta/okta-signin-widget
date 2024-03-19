@@ -1,6 +1,6 @@
 {
     "version": "1.0.0",
-    "stateHandle": "02.id.E5Z9_9ITDXufLZm6JUSRLAP_PUJWhdg4E6lMUGwo~c.sndpnpK2e0kAkId_qkfWzNjvzFq0uTj2SdIg8E1aC9KT5WGJiyh1tmNxWA38LvNcYBAVXs9dOc40edP6-fuw6EAtlep-WiYpfcW8XD7ZWQLQSKQABOz-W6Mp_7zxyLQscWP16FaQX6TbV4n_JCbp05Vgh4DrmebSdAm10qYaRiRsKJA_XahCriE20csknCQjBGKqRPzf42KIGtHpoiRJMfBaxMAuS00sSrgE4oaMNXAcKM9p0kkzhU4TKscvtkHuyc8BLpMZjXdXyBLQtDHB40O0GVSIZpb4wvQ2ai_96Xpz4YDpuXe2zoBsloH5A4DGh7A79WWyGIUF5sBlY2oD4OeKycWcgdlg4XclhqIYjDUU961AJ8EJTzObWItRh7JV6s0pbbKU5UKsdllNBWSMVKjsz6mfjMOc0Cr6-EnnKmYzPJAfHAxlukWjmZV3kAvgbfp8QSG43Kyh4e7X_FN6IFW04j7_NOm4dYIfDhEH_uAEWUSEjX1cdM4P9IXbwVZbqGpWAZc0POxhrSgBdMhGOb2zJ4ippW1oYC6OsI3Z0y0ZhEfbFPM4VElE_yVNtkX120cz-UJGyWFMCQBK66BJtzghJ9wHQ-_uHMjm5nD1eN5Pz8BEIb2GoVshBvgx3V1zPv5TeO5iWoL-fRToJZnwNYIhbZnMjScp_x3C5RTRYW3501fSU3RSUuE6rFlRqROr_2iIDmdAPiUYzP7WEqXGx2BLJhEc17HlsTNbOErb4Rf5LVtxd9euDYAeDTZOoqbZhHF_HNXzL2a9UMz_iG-cTSQ-lJU_omZwuiMLjIt3DQOwyOIX5Pw9fpd7FKOnnOHydL6KLeAm4y6Ni0g3Z3BuTzDjf1DP7dsVzVCU0rjIHe9hrEU-UkkX8-gpv2n7qVPjda3YNghSgf6sdCPT3fTHlteFhQVA0wbOVklYpT5hFSKCA0KvPj0NYmuJ3Up6JBRD3OPXPr5mPi4IMyOjgvpgsA2pX0z3FpzYp97a2TN9r8-xRUoNGqtsLuRNKNPdUHA_Lwix_B4C1qZUaKuS9bIkzA_cxDrH2-ePpgsHlKEdMEERDisq3YDQaC6Q5jD9fd2qds5eVx8zFjoDoXE4R3f6x814oRryIvYIDDFPNIlQdGUbnjFjMAPb4nMvhSPp2sY9O0c5V0gUTx8Q8IdUphZL37GAMwFQqpshf0E1vo_s18k",
+    "stateHandle": "abcd.1234.defagh",
     "expiresAt": "2024-02-16T15:27:57.000Z",
     "intent": "CREDENTIAL_ENROLLMENT",
     "user": {
@@ -32,7 +32,7 @@
             {
                 "name": "stateHandle",
                 "required": true,
-                "value": "02.id.E5Z9_9ITDXufLZm6JUSRLAP_PUJWhdg4E6lMUGwo~c.sndpnpK2e0kAkId_qkfWzNjvzFq0uTj2SdIg8E1aC9KT5WGJiyh1tmNxWA38LvNcYBAVXs9dOc40edP6-fuw6EAtlep-WiYpfcW8XD7ZWQLQSKQABOz-W6Mp_7zxyLQscWP16FaQX6TbV4n_JCbp05Vgh4DrmebSdAm10qYaRiRsKJA_XahCriE20csknCQjBGKqRPzf42KIGtHpoiRJMfBaxMAuS00sSrgE4oaMNXAcKM9p0kkzhU4TKscvtkHuyc8BLpMZjXdXyBLQtDHB40O0GVSIZpb4wvQ2ai_96Xpz4YDpuXe2zoBsloH5A4DGh7A79WWyGIUF5sBlY2oD4OeKycWcgdlg4XclhqIYjDUU961AJ8EJTzObWItRh7JV6s0pbbKU5UKsdllNBWSMVKjsz6mfjMOc0Cr6-EnnKmYzPJAfHAxlukWjmZV3kAvgbfp8QSG43Kyh4e7X_FN6IFW04j7_NOm4dYIfDhEH_uAEWUSEjX1cdM4P9IXbwVZbqGpWAZc0POxhrSgBdMhGOb2zJ4ippW1oYC6OsI3Z0y0ZhEfbFPM4VElE_yVNtkX120cz-UJGyWFMCQBK66BJtzghJ9wHQ-_uHMjm5nD1eN5Pz8BEIb2GoVshBvgx3V1zPv5TeO5iWoL-fRToJZnwNYIhbZnMjScp_x3C5RTRYW3501fSU3RSUuE6rFlRqROr_2iIDmdAPiUYzP7WEqXGx2BLJhEc17HlsTNbOErb4Rf5LVtxd9euDYAeDTZOoqbZhHF_HNXzL2a9UMz_iG-cTSQ-lJU_omZwuiMLjIt3DQOwyOIX5Pw9fpd7FKOnnOHydL6KLeAm4y6Ni0g3Z3BuTzDjf1DP7dsVzVCU0rjIHe9hrEU-UkkX8-gpv2n7qVPjda3YNghSgf6sdCPT3fTHlteFhQVA0wbOVklYpT5hFSKCA0KvPj0NYmuJ3Up6JBRD3OPXPr5mPi4IMyOjgvpgsA2pX0z3FpzYp97a2TN9r8-xRUoNGqtsLuRNKNPdUHA_Lwix_B4C1qZUaKuS9bIkzA_cxDrH2-ePpgsHlKEdMEERDisq3YDQaC6Q5jD9fd2qds5eVx8zFjoDoXE4R3f6x814oRryIvYIDDFPNIlQdGUbnjFjMAPb4nMvhSPp2sY9O0c5V0gUTx8Q8IdUphZL37GAMwFQqpshf0E1vo_s18k",
+                "value": "abcd.1234.defagh",
                 "visible": false,
                 "mutable": false
             }
@@ -44,7 +44,7 @@
         "value": {
             "name": "Okta_Authenticator",
             "label": "Okta Authenticator",
-            "id": "0oa187fpq61oHIerJ0h8"
+            "id": "BDSC3453323dsdfS"
         }
     },
     "authentication": {
@@ -63,8 +63,8 @@
                 "redirect_uri": "https://login.okta.com/oauth/callback",
                 "state": "i41VVuProw96htTUmvRP9A",
                 "code_challenge_method": "S256",
-                "nonce": "HF0lENQII5XZt-GhS8SQCw",
-                "code_challenge": "vpGSw_6gRkOhMwn9iR6mLv_-_4ItM04Enrtnufpp-dg",
+                "nonce": "ASDF4343SDFS3-GhS8SQCw",
+                "code_challenge": "abcd_8asd8asdf8as98fasdf_-_9sadif9rasd9fasdf-cc",
                 "response_mode": "query"
             }
         }
