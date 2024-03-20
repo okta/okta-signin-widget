@@ -140,6 +140,7 @@ const CaptchaContainer: UISchemaElementComponent<{
       // Supported params for hCaptcha script:
       //  https://github.com/hCaptcha/hcaptcha-loader#props
       //  (starting from 'apihost')
+      // eslint-disable-next-line react/jsx-props-no-spreading
       {...(scriptParams || {})}
       id="captcha-container"
       sitekey={siteKey}

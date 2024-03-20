@@ -1,4 +1,4 @@
-import { RequestMock, RequestLogger, Selector } from 'testcafe';
+import { ClientFunction, RequestMock, RequestLogger, Selector, userVariables } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import { checkConsoleMessages, renderWidget } from '../framework/shared';
@@ -34,15 +34,27 @@ const reCaptchaRequestLogger = RequestLogger(
   }
 );
 
+const hcaptchaRequestLogger = RequestLogger(
+  /hcaptcha\.com/,
+  {
+    logRequestBody: false,
+    stringifyRequestBody: false,
+  }
+);
+
+const setGlobalRecaptchaOptions = ClientFunction((recaptchaOptions) => {
+  window.recaptchaOptions = recaptchaOptions;
+});
+
 fixture('Identify + Password With Captcha');
 
-async function setup(t, widgetOptions) {
-  const options = widgetOptions ? { render: false } : {};
+async function setup(t, widgetOptions, recaptchaOptions) {
   const identityPage = new IdentityPageObject(t);
-  await identityPage.navigateToPage(options);
-  if (widgetOptions) {
-    await renderWidget(widgetOptions);
+  await identityPage.navigateToPage({ render: false });
+  if (recaptchaOptions) {
+    await setGlobalRecaptchaOptions(recaptchaOptions);
   }
+  await renderWidget(widgetOptions || {});
   await t.expect(identityPage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: 'primary-auth',
@@ -55,16 +67,17 @@ async function setup(t, widgetOptions) {
 }
 
 // TODO: Quarantined a11y check - OKTA-576351 - re-enable once fixed
-test.requestHooks(identifyRequestLogger, identifyMockwithHCaptcha)('should sign in with hCaptcha enabled', async t => {
+test.requestHooks(identifyRequestLogger, identifyMockwithHCaptcha, hcaptchaRequestLogger)('should sign in with hCaptcha enabled', async t => {
   const identityPage = await setup(t, {
     language: 'en'
   });
   // await checkA11y(t);
 
-  await t.expect(Selector('#okta-sign-in').child('script').getAttribute('src')).eql(
-    'https://hcaptcha.com/1/api.js?onload=OktaSignInWidgetOnCaptchaLoaded&render=explicit&hl=en'
-  );
-  
+  const expectedSrc = userVariables.gen3
+    ? 'https://js.hcaptcha.com/1/api.js?onload=hCaptchaOnLoad&render=explicit'
+    : 'https://hcaptcha.com/1/api.js?onload=OktaSignInWidgetOnCaptchaLoaded&render=explicit&hl=en';
+  await t.expect(hcaptchaRequestLogger.requests.filter(req => req.request.url === expectedSrc).length).eql(1);
+
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.fillPasswordField('random password 123');
   await t.expect(await identityPage.hasForgotPasswordLinkText()).ok();
@@ -73,6 +86,7 @@ test.requestHooks(identifyRequestLogger, identifyMockwithHCaptcha)('should sign 
 
   // Wait for the hCaptcha container to appear in the DOM and become visible.
   await t.expect(Selector('#captcha-container').find('iframe').exists).ok();
+  
   await identityPage.clickSignInButton();
   await t.expect(identifyRequestLogger.count(() => true)).eql(1);
 
@@ -85,7 +99,7 @@ test.requestHooks(identifyRequestLogger, identifyMockwithHCaptcha)('should sign 
   await t.expect(req.url).eql('http://localhost:3000/idp/idx/identify');
 });
 
-test.requestHooks(identifyRequestLogger, identifyMockwithHCaptcha)('can load hCaptcha script with custom URI', async t => {
+test.requestHooks(identifyRequestLogger, identifyMockwithHCaptcha, hcaptchaRequestLogger)('can load hCaptcha script with custom URI', async t => {
   await setup(t, {
     hcaptcha: {
       scriptSource: 'https://cn1.hcaptcha.com/1/api.js',
@@ -100,9 +114,10 @@ test.requestHooks(identifyRequestLogger, identifyMockwithHCaptcha)('can load hCa
   });
   // await checkA11y(t);
 
-  await t.expect(Selector('#okta-sign-in').child('script').getAttribute('src')).eql(
-    'https://cn1.hcaptcha.com/1/api.js?endpoint=https%3A%2F%2Fcn1.hcaptcha.com&assethost=https%3A%2F%2Fassets-cn1.hcaptcha.com&imghost=https%3A%2F%2Fimgs-cn1.hcaptcha.com&reportapi=https%3A%2F%2Freportapi-cn1.hcaptcha.com&onload=OktaSignInWidgetOnCaptchaLoaded&render=explicit&hl=en'
-  );
+  const expectedSrc = userVariables.gen3
+    ? 'https://cn1.hcaptcha.com/1/api.js?onload=hCaptchaOnLoad&render=explicit&assethost=https%3A%2F%2Fassets-cn1.hcaptcha.com&imghost=https%3A%2F%2Fimgs-cn1.hcaptcha.com&reportapi=https%3A%2F%2Freportapi-cn1.hcaptcha.com&endpoint=https%3A%2F%2Fcn1.hcaptcha.com'
+    : 'https://cn1.hcaptcha.com/1/api.js?endpoint=https%3A%2F%2Fcn1.hcaptcha.com&assethost=https%3A%2F%2Fassets-cn1.hcaptcha.com&imghost=https%3A%2F%2Fimgs-cn1.hcaptcha.com&reportapi=https%3A%2F%2Freportapi-cn1.hcaptcha.com&onload=OktaSignInWidgetOnCaptchaLoaded&render=explicit&hl=en';
+  await t.expect(hcaptchaRequestLogger.requests.filter(req => req.request.url === expectedSrc).length).eql(1);
 });
 
 test.requestHooks(identifyRequestLogger, reCaptchaRequestLogger, identifyMockWithReCaptcha)('should sign in with reCaptcha enabled', async t => {
@@ -111,9 +126,10 @@ test.requestHooks(identifyRequestLogger, reCaptchaRequestLogger, identifyMockWit
   });
   await checkA11y(t);
 
-  await t.expect(Selector('#okta-sign-in').child('script').getAttribute('src')).eql(
-    'https://www.google.com/recaptcha/api.js?onload=OktaSignInWidgetOnCaptchaLoaded&render=explicit&hl=en'
-  );
+  const expectedSrc = userVariables.gen3
+    ? 'https://www.google.com/recaptcha/api.js?onload=onloadcallback&render=explicit'
+    : 'https://www.google.com/recaptcha/api.js?onload=OktaSignInWidgetOnCaptchaLoaded&render=explicit&hl=en';
+  await t.expect(Selector(`script[src="${expectedSrc}"]`).exists).ok();
 
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.fillPasswordField('random password 123');
@@ -133,15 +149,29 @@ test.requestHooks(identifyRequestLogger, reCaptchaRequestLogger, identifyMockWit
 });
 
 test.requestHooks(identifyRequestLogger, identifyMockWithReCaptcha)('can load reCAPTCHA script with custom URI', async t => {
-  await setup(t, {
-    recaptcha: {
-      scriptSource: 'https://recaptcha.net/recaptcha/api.js',
-    },
-    language: 'en',
-  });
+  if (userVariables.gen3) {
+    // For Gen3 `recaptcha` options in SIW settings will have no effect
+    // Need to use global `recaptchaOptions` object
+    // https://github.com/dozoisch/react-google-recaptcha#advanced-usage
+    await setup(t, {
+      language: 'en',
+    }, {
+      // recaptchaOptions
+      useRecaptchaNet: true,
+    });
+  } else {
+    await setup(t, {
+      recaptcha: {
+        scriptSource: 'https://recaptcha.net/recaptcha/api.js',
+      },
+      language: 'en',
+    });
+  }
+
   await checkA11y(t);
 
-  await t.expect(Selector('#okta-sign-in').child('script').getAttribute('src')).eql(
-    'https://recaptcha.net/recaptcha/api.js?onload=OktaSignInWidgetOnCaptchaLoaded&render=explicit&hl=en'
-  );
+  const expectedSrc = userVariables.gen3
+    ? 'https://recaptcha.net/recaptcha/api.js?onload=onloadcallback&render=explicit'
+    : 'https://recaptcha.net/recaptcha/api.js?onload=OktaSignInWidgetOnCaptchaLoaded&render=explicit&hl=en';
+  await t.expect(Selector(`script[src="${expectedSrc}"]`).exists).ok();
 });
