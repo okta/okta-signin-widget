@@ -114,6 +114,9 @@ const CaptchaContainer: UISchemaElementComponent<{
   };
 
   if (captchaType === 'RECAPTCHA_V2') {
+    // Note: Unlike HCaptcha, we can't customize script URI with props.
+    // This can be done with global `recaptchaOptions` object:
+    // https://github.com/dozoisch/react-google-recaptcha#advanced-usage
     return (
       // set z-index to 1 for ReCaptcha so the badge does not get covered by the footer
       <Box
@@ -133,15 +136,17 @@ const CaptchaContainer: UISchemaElementComponent<{
   }
   return (
     <HCaptcha
+      // Params like `apihost` will be passed to hCaptcha loader.
+      // Supported params for hCaptcha script:
+      //  https://github.com/hCaptcha/hcaptcha-loader#props
+      //  (starting from 'apihost')
+      {...(scriptParams || {})}
       id="captcha-container"
       sitekey={siteKey}
       ref={captchaRef}
       onVerify={onVerifyCaptcha}
       size="invisible"
       scriptSource={scriptSource}
-      // params like `assethost` will be passed to hcaptcha loader
-      // https://github.com/hCaptcha/hcaptcha-loader/blob/main/lib/src/loader.ts#L52
-      {...(scriptParams || {})}
     />
   );
 };

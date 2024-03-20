@@ -106,9 +106,14 @@ export interface WidgetOptions
   proxyIdxResponse?: any;
   // hCaptcha options
   hcaptcha?: {
+    // script source URI
     scriptSource?: string;
-    // https://github.com/hCaptcha/hcaptcha-loader/blob/main/lib/src/loader.ts#L52
+    // query params for script source URI
     scriptParams?: Record<string, string>;
+  };
+  // reCAPTCHA options
+  recaptcha?: {
+    scriptSource?: string;
   };
 
   /**

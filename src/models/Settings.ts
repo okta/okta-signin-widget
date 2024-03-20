@@ -187,10 +187,13 @@ const local: Record<string, ModelProperty> = {
   //Support classic engine
   useClassicEngine: ['boolean', false, false],
 
-  //hCaptcha options
+  //hCaptcha script source URI
   'hcaptcha.scriptSource': ['string', false],
-  //https://github.com/hCaptcha/hcaptcha-loader/blob/main/lib/src/loader.ts#L52
+  //query params for hCaptcha script source URI
   'hcaptcha.scriptParams': ['object', false, {}],
+
+  //reCAPTCHA script source URI
+  'recaptcha.scriptSource': ['string', false],
 };
 
 const derived: Record<string, ModelProperty>  = {

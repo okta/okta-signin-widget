@@ -260,19 +260,20 @@ Util.getAutocompleteValue = function(settings, defaultValue) {
   return defaultValue;
 };
 
+/**
+ * Equivalent of `new URLSearchParams(params).toString()` with broadest browser support.
+ * Does not include params with nullish values.
+ */
 Util.searchParamsToString = function(params) {
-  const parts = [];
-  for (const key in params) {
-    const val = params[key];
-    const canUseParam = Object.prototype.hasOwnProperty.call(params, key)
-      && val !== undefined
-      && val !== null
-      && val !== '';
-    if (canUseParam) {
-      parts.push(encodeURIComponent(key) + '=' + encodeURIComponent(val));
-    }
-  }
-  return parts.join('&');
-}
+  return Object.keys(params)
+    .filter((key) => {
+      const val = params[key];
+      return val !== undefined && val !== null;
+    })
+    .map((key) => {
+      return encodeURIComponent(key) + '=' + encodeURIComponent(params[key]);
+    })
+    .join('&');
+};
 
 export default Util;

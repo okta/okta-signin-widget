@@ -19,10 +19,8 @@ import { WIDGET_FOOTER_CLASS } from '../../utils/Constants';
 const OktaSignInWidgetOnCaptchaLoadedCallback = 'OktaSignInWidgetOnCaptchaLoaded';
 const OktaSignInWidgetOnCaptchaSolvedCallback = 'OktaSignInWidgetOnCaptchaSolved';
 
-const HCAPTCHA_BASE_URL =
-  'https://hcaptcha.com/1/api.js';
-const RECAPTCHAV2_URL = 
-  `https://www.google.com/recaptcha/api.js?onload=${OktaSignInWidgetOnCaptchaLoadedCallback}&render=explicit`;
+const HCAPTCHA_URL = 'https://hcaptcha.com/1/api.js';
+const RECAPTCHAV2_URL = 'https://www.google.com/recaptcha/api.js';
 
 export default View.extend({
   className: 'captcha-view',
@@ -134,9 +132,9 @@ export default View.extend({
 
     
     if (this.captchaConfig.type === 'HCAPTCHA') {
-      this._loadCaptchaLib(this._getHCaptchaUrl(HCAPTCHA_BASE_URL));
+      this._loadCaptchaLib(this._getCaptchaUrl(HCAPTCHA_URL, 'hcaptcha'));
     } else if (this.captchaConfig.type === 'RECAPTCHA_V2') {
-      this._loadCaptchaLib(this._getCaptchaUrl(RECAPTCHAV2_URL));
+      this._loadCaptchaLib(this._getCaptchaUrl(RECAPTCHAV2_URL, 'recaptcha'));
     }
   },
   
@@ -177,14 +175,16 @@ export default View.extend({
   },
 
   /**
-   *  Options for `@hcaptcha/loader`:
-   *   https://github.com/hCaptcha/hcaptcha-loader/blob/main/lib/src/loader.ts#L52
-   *   https://www.npmjs.com/package/@hcaptcha/loader#props
+   *  Supported params for hCaptcha script:
+   *   https://github.com/hCaptcha/hcaptcha-loader#props
+   *   (starting from 'apihost')
+   *  Supported params for reCAPTCHA script:
+   *   https://developers.google.com/recaptcha/docs/display#javascript_resource_apijs_parameters
   * */
-  _getHCaptchaUrl(defaultBaseUrl) {
+  _getCaptchaUrl(defaultBaseUrl, settingsKey) {
     const locale = this.options.settings.get('language');
-    const scriptSource = this.options.settings.get('hcaptcha.scriptSource');
-    const scriptParams = this.options.settings.get('hcaptcha.scriptParams');
+    const scriptSource = this.options.settings.get(`${settingsKey}.scriptSource`);
+    const scriptParams = this.options.settings.get(`${settingsKey}.scriptParams`);
 
     const baseUrl = scriptSource || defaultBaseUrl;
     const params = {
@@ -194,12 +194,7 @@ export default View.extend({
       hl: locale || navigator.language,
     };
     const query = Util.searchParamsToString(params);
-
     return baseUrl + '?' + query;
   },
 
-  _getCaptchaUrl(baseURL) {
-    const locale = this.options.settings.get('language');
-    return `${baseURL}&hl=${locale || navigator.language}`;
-  }
 });

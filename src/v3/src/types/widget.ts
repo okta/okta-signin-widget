@@ -214,8 +214,9 @@ export type WidgetOptions = {
   globalErrorFn?: (res: RenderError) => void;
   // hCaptcha options
   hcaptcha?: {
+    // script source URI
     scriptSource?: string;
-    // https://github.com/hCaptcha/hcaptcha-loader/blob/main/lib/src/loader.ts#L52
+    // query params for script source URI
     scriptParams?: Record<string, string>;
   };
 };
