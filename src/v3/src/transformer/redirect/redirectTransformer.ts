@@ -68,7 +68,7 @@ export const redirectTransformer = (
     setFocusOnFirstElement(formBag);
     return formBag;
   }
-  
+
   uischema.elements.push({
     type: 'Redirect',
     options: { url },
