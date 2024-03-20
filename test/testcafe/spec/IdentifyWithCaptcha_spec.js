@@ -86,7 +86,6 @@ test.requestHooks(identifyRequestLogger, identifyMockwithHCaptcha, hcaptchaReque
 
   // Wait for the hCaptcha container to appear in the DOM and become visible.
   await t.expect(Selector('#captcha-container').find('iframe').exists).ok();
-  
   await identityPage.clickSignInButton();
   await t.expect(identifyRequestLogger.count(() => true)).eql(1);
 
