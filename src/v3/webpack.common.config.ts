@@ -83,7 +83,7 @@ const baseConfig: Partial<Configuration> = {
   module: {
     rules: [
       {
-        test: /\.[jt]sx?$/,
+        test: /\.m?[jt]sx?$/,
         exclude(filePath) {
           const filePathContains = (f) => filePath.indexOf(f) >= 0;
           const npmRequiresTransform = [
@@ -95,6 +95,8 @@ const baseConfig: Partial<Configuration> = {
             '/node_modules/p-cancelable',
             '/node_modules/i18next',
             '/node_modules/@adobe/leonardo-contrast-colors',
+            '/node_modules/@hcaptcha/loader',
+            '/node_modules/@hcaptcha/react-hcaptcha'
           ].some(filePathContains);
           const shallBeExcluded = [
             // /src/ will be handled in next rule
