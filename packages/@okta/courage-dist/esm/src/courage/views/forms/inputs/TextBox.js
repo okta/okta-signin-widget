@@ -283,6 +283,7 @@ var TextBox = BaseInput.extend({
    */
   readMode: function () {
     BaseInput.prototype.readMode.apply(this, arguments);
+    this.$el.addClass('no-translate');
 
     if (this.options.type === 'password') {
       this.$el.text('********');
