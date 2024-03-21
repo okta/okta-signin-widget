@@ -100,7 +100,10 @@ Util.transformErrorXHR = function(xhr) {
   // Replace error messages
   if (!_.isEmpty(xhr.responseJSON)) {
     const errorMsg = xhr.responseJSON.errorCode
-      ? loc('errors.' + xhr.responseJSON.errorCode, 'login')
+      // We don't pass parameters to the `loc()` util
+      // However some i18n keys like `errors.E0000001` require one parameter
+      // Don't dispatch custom 'okta-i18n-error' event in this case
+      ? loc('errors.' + xhr.responseJSON.errorCode, 'login', [], true)
       : undefined;
 
     if (errorMsg?.indexOf('L10N_ERROR[') === -1) {

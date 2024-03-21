@@ -161,6 +161,8 @@ Expect.describe('EnrollOnPrem', function() {
         });
       });
       itp('shows error in case of an error response', function() {
+        // spy on emitting of CustomEvent with type 'okta-i18n-error' in `loc()` util
+        const dispatchEventSpy = jest.spyOn(document, 'dispatchEvent');
         return setup()
           .then(function(test) {
             test.setNextResponse(resEnrollError);
@@ -174,6 +176,7 @@ Expect.describe('EnrollOnPrem', function() {
             // Note: This will change when we get field specific error messages
             expect(test.form.errorMessage()).toBe('Api validation failed: factorEnrollRequest');
             expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+            expect(dispatchEventSpy).not.toHaveBeenCalled();
             expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
               {
                 controller: 'enroll-rsa',
