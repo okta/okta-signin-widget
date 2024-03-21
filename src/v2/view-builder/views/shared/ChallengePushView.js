@@ -101,7 +101,7 @@ const Body = BaseFormWithPolling.extend(Object.assign(
 
     remove() {
       BaseFormWithPolling.prototype.remove.apply(this, arguments);
-      this.stopPolling();
+      this.stopPoll();
     },
 
     isOV() {
