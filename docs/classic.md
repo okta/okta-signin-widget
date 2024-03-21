@@ -1043,34 +1043,6 @@ helpLinks: {
 
 - **helpLinks.custom** - Array of custom link objects `{text, href, target}` that will be added to the *"Need help signing in?"* section. The `target` of the link is optional.
 
-#### hCaptcha options
-
-Set the following config options to customize `hCaptcha` script URI:
-
-```javascript
-// An example that uses cn1 host
-hcaptcha: {
-  scriptSource: 'https://cn1.hcaptcha.com/1/api.js',
-  scriptParams: {
-    endpoint: 'https://cn1.hcaptcha.com',
-    assethost: 'https://assets-cn1.hcaptcha.com',
-    imghost: 'https://imgs-cn1.hcaptcha.com',
-    reportapi: 'https://reportapi-cn1.hcaptcha.com',
-  }
-},
-```
-
-#### reCAPTCHA options
-
-Set the following config options to customize `reCAPTCHA` script URI:
-
-```javascript
-// An example that uses recaptcha.net
-recaptcha: {
-  scriptSource: 'https://recaptcha.net/recaptcha/api.js'
-},
-```
-
 #### Sign Out Link
 
 Set the following config option to override the sign out link URL. If not provided, the widget will navigate to Primary Auth.

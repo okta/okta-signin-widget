@@ -142,12 +142,15 @@ const CaptchaContainer: UISchemaElementComponent<{
       //  (starting from 'apihost')
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...(scriptParams || {})}
+      scriptSource={scriptSource}
       id="captcha-container"
       sitekey={siteKey}
       ref={captchaRef}
       onVerify={onVerifyCaptcha}
       size="invisible"
-      scriptSource={scriptSource}
+      // Fixes issue with IE11:
+      // If hCaptcha loader removes <script>, `onload` callback won't be executed
+      cleanup={false}
     />
   );
 };
