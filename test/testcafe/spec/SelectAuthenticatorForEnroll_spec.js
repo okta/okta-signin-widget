@@ -339,10 +339,8 @@ test.requestHooks(requestLogger, mockEnrollAuthenticatorPhoneSmsInvalidPhone)('s
   await t.expect(req3Body?.authenticator?.phoneNumber).eql('+1123');
   await t.expect(req3Body?.stateHandle).notEql(undefined);
 
-  // in gen 2 we re-introspect when clicking return to authenticator,
-  // so the second enroll call is one request later.
   // clicking phone in authenticator list
-  const req4 = userVariables.gen3 ? requestLogger.requests[3].request : requestLogger.requests[4].request;
+  const req4 = requestLogger.requests[3].request;
   await t.expect(req4.url).eql('http://localhost:3000/idp/idx/credential/enroll');
   await t.expect(req4.method).eql('post');
   const req4Body = JSON.parse(req4.body);

@@ -23,7 +23,6 @@ import { CONFIGURED_FLOW } from '../client/constants';
 import { ConfigError } from 'util/Errors';
 import { updateAppState } from 'v2/client';
 import CookieUtil from '../../util/CookieUtil';
-import BrowserFeatures from "util/BrowserFeatures";
 
 export interface ContextData {
   controller: string;
@@ -155,6 +154,9 @@ export default Controller.extend({
     const { stateHandle } = idx.context;
     let invokeOptions: ProceedOptions = {
       exchangeCodeForTokens: false, // we handle this in interactionCodeFlow.js
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+    __INTERNAL_legacyTerminalSaveBehavior__: true,
       stateHandle
     };
     let error;
@@ -283,6 +285,9 @@ export default Controller.extend({
     const authClient = this.options.settings.getAuthClient();
     const idxOptions: ProceedOptions = {
       exchangeCodeForTokens: false, // we handle this in interactionCodeFlow.js
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+    __INTERNAL_legacyTerminalSaveBehavior__: true,
     };
     try {
       const idx = this.options.appState.get('idx');
@@ -293,7 +298,6 @@ export default Controller.extend({
         stateHandle,
         ...values
       });
-
       if (resp.status === IdxStatus.FAILURE) {
         throw resp.error; // caught and handled in this function
       }
