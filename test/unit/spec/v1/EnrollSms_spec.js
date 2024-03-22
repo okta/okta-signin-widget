@@ -724,6 +724,8 @@ Expect.describe('EnrollSms', function() {
         });
     });
     itp('shows error if error response on verification', function() {
+      // spy on emitting of CustomEvent with type 'okta-i18n-error' in `loc()` util
+      const dispatchEventSpy = jest.spyOn(document, 'dispatchEvent');
       return sendValidCodeFn()
         .then(function(test) {
           test.setNextResponse(resEnrollActivateError);
@@ -762,6 +764,7 @@ Expect.describe('EnrollSms', function() {
               },
             },
           ]);
+          expect(dispatchEventSpy).not.toHaveBeenCalled();
         });
     });
   }
