@@ -99,11 +99,16 @@ Util.transformErrorXHR = function(xhr) {
   }
   // Replace error messages
   if (!_.isEmpty(xhr.responseJSON)) {
-    const errorMsg = xhr.responseJSON.errorCode
+    const { errorCode } = xhr.responseJSON;
+    const untranslatedErrorCodes = [
+      // API already provides localized and factor specific error message in errorCauses
+      'E0000068',
+    ];
+    const errorMsg = errorCode && !untranslatedErrorCodes.includes(errorCode)
       // We don't pass parameters to the `loc()` util
       // However some i18n keys like `errors.E0000001` require one parameter
       // Don't dispatch custom 'okta-i18n-error' event in this case
-      ? loc('errors.' + xhr.responseJSON.errorCode, 'login', [], true)
+      ? loc('errors.' + errorCode, 'login', [], true)
       : undefined;
 
     if (errorMsg?.indexOf('L10N_ERROR[') === -1) {
