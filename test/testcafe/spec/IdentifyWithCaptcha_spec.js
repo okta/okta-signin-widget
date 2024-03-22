@@ -1,4 +1,4 @@
-import { ClientFunction, RequestMock, RequestLogger, Selector, userVariables } from 'testcafe';
+import { RequestMock, RequestLogger, Selector, userVariables } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import { checkConsoleMessages, renderWidget } from '../framework/shared';
