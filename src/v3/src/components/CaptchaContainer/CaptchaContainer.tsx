@@ -23,6 +23,17 @@ import {
   UISchemaElementComponent,
 } from '../../types';
 
+declare global {
+  interface Window {
+    recaptchaOptions?: {
+      // https://github.com/dozoisch/react-google-recaptcha#advanced-usage
+      useRecaptchaNet?: boolean;
+      enterprise?: boolean;
+      nonce?: string;
+    }
+  }
+}
+
 const CaptchaContainer: UISchemaElementComponent<{
   uischema: CaptchaContainerElement
 }> = ({ uischema }) => {
@@ -35,13 +46,22 @@ const CaptchaContainer: UISchemaElementComponent<{
   } = uischema;
 
   const { dataSchemaRef, widgetProps } = useWidgetContext();
-  const { hcaptcha: { scriptSource, scriptParams } = {} } = widgetProps;
+  const { hcaptcha: hcaptchaOptions, recaptcha: recaptchaOptions } = widgetProps;
   const onSubmitHandler = useOnSubmit();
   const dataSchema = dataSchemaRef.current!;
   const captchaRef = useRef<ReCAPTCHA | HCaptcha>(null);
 
   const isHcaptchaInstance = (captchaObj: HCaptcha | ReCAPTCHA)
   : captchaObj is HCaptcha => captchaObj instanceof HCaptcha;
+
+  // Customizig reCAPTCHA script URI can be done with global `recaptchaOptions` object:
+  // https://github.com/dozoisch/react-google-recaptcha#advanced-usage
+  if (captchaType === 'RECAPTCHA_V2' && recaptchaOptions?.scriptSource && !window.recaptchaOptions) {
+    const useRecaptchaNet = recaptchaOptions.scriptSource?.includes('recaptcha.net');
+    window.recaptchaOptions = {
+      useRecaptchaNet,
+    };
+  }
 
   useEffect(() => {
     // set the reference in dataSchema context to this captcha instance
@@ -114,9 +134,6 @@ const CaptchaContainer: UISchemaElementComponent<{
   };
 
   if (captchaType === 'RECAPTCHA_V2') {
-    // Note: Unlike HCaptcha, we can't customize script URI with props.
-    // This can be done with global `recaptchaOptions` object:
-    // https://github.com/dozoisch/react-google-recaptcha#advanced-usage
     return (
       // set z-index to 1 for ReCaptcha so the badge does not get covered by the footer
       <Box
@@ -141,8 +158,8 @@ const CaptchaContainer: UISchemaElementComponent<{
       //  https://github.com/hCaptcha/hcaptcha-loader#props
       //  (starting from 'apihost')
       // eslint-disable-next-line react/jsx-props-no-spreading
-      {...(scriptParams || {})}
-      scriptSource={scriptSource}
+      {...(hcaptchaOptions?.scriptParams || {})}
+      scriptSource={hcaptchaOptions?.scriptSource}
       id="captcha-container"
       sitekey={siteKey}
       ref={captchaRef}

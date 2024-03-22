@@ -42,18 +42,11 @@ const hcaptchaRequestLogger = RequestLogger(
   }
 );
 
-const setGlobalRecaptchaOptions = ClientFunction((recaptchaOptions) => {
-  window.recaptchaOptions = recaptchaOptions;
-});
-
 fixture('Identify + Password With Captcha');
 
-async function setup(t, widgetOptions, recaptchaOptions) {
+async function setup(t, widgetOptions) {
   const identityPage = new IdentityPageObject(t);
   await identityPage.navigateToPage({ render: false });
-  if (recaptchaOptions) {
-    await setGlobalRecaptchaOptions(recaptchaOptions);
-  }
   await renderWidget(widgetOptions || {});
   await t.expect(identityPage.formExists()).eql(true);
   await checkConsoleMessages({
@@ -148,24 +141,12 @@ test.requestHooks(identifyRequestLogger, reCaptchaRequestLogger, identifyMockWit
 });
 
 test.requestHooks(identifyRequestLogger, identifyMockWithReCaptcha)('can load reCAPTCHA script with custom URI', async t => {
-  if (userVariables.gen3) {
-    // For Gen3 `recaptcha` options in SIW settings will have no effect
-    // Need to use global `recaptchaOptions` object
-    // https://github.com/dozoisch/react-google-recaptcha#advanced-usage
-    await setup(t, {
-      language: 'en',
-    }, {
-      // recaptchaOptions
-      useRecaptchaNet: true,
-    });
-  } else {
-    await setup(t, {
-      recaptcha: {
-        scriptSource: 'https://recaptcha.net/recaptcha/api.js',
-      },
-      language: 'en',
-    });
-  }
+  await setup(t, {
+    recaptcha: {
+      scriptSource: 'https://recaptcha.net/recaptcha/api.js',
+    },
+    language: 'en',
+  });
 
   await checkA11y(t);
 

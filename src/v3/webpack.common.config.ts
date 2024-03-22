@@ -96,7 +96,7 @@ const baseConfig: Partial<Configuration> = {
             '/node_modules/i18next',
             '/node_modules/@adobe/leonardo-contrast-colors',
             '/node_modules/@hcaptcha/loader',
-            '/node_modules/@hcaptcha/react-hcaptcha'
+            '/node_modules/@hcaptcha/react-hcaptcha',
           ].some(filePathContains);
           const shallBeExcluded = [
             // /src/ will be handled in next rule

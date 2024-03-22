@@ -164,7 +164,7 @@ const devConfig: Configuration = mergeWithRules({
     },
     optimization: {
       ...(process.env.IE11_COMPAT_MODE !== 'true' && {
-        runtimeChunk: 'single'
+        runtimeChunk: 'single',
       }),
     },
   },

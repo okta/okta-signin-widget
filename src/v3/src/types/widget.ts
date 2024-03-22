@@ -219,6 +219,10 @@ export type WidgetOptions = {
     // query params for script source URI
     scriptParams?: Record<string, string>;
   };
+  // reCAPTCHA options
+  recaptcha?: {
+    scriptSource?: string;
+  };
 };
 
 export type IdxMethod =
