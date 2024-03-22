@@ -10,23 +10,32 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import Util from '../../../../util/Util';
+import {
+  AppleStoreIcon,
+  GoogleStoreIcon,
+  OSXStoreIcon,
+  WindowsStoreIcon,
+} from '../../components/Icon';
 import { IDX_STEP } from '../../constants';
 import {
   ButtonElement,
   ButtonType,
   DescriptionElement,
   IdxStepTransformer,
+  ImageLinkElement,
   ListElement,
   QRCodeElement,
   ReminderElement,
   StepperLayout,
+  StepperLinkElement,
   TextWithActionLinkElement,
   TokenReplacement,
   UISchemaElement,
   UISchemaLayout,
   UISchemaLayoutType,
 } from '../../types';
-import { copyToClipboard, loc } from '../../util';
+import { copyToClipboard, isAndroid, loc } from '../../util';
 
 const STEPS = {
   QR_POLLING: 0,
@@ -34,6 +43,7 @@ const STEPS = {
   SMS_POLLING: 2,
   SAME_DEVICE: 3,
   DEVICE_BOOTSTRAP: 4,
+  SAME_DEVICE_OV_ENROLLMENT: 5,
 };
 
 const REMINDER_CHANNELS = ['sms', 'email'];
@@ -74,20 +84,57 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({ transaction,
     // @ts-ignore OKTA-496373 - missing props from interface
     selectedChannel, phoneNumber = '', email = '', devicebootstrap: deviceBootstrap, samedevice: sameDevice,
   } = authenticator.contextualData;
+
   const enrolledDevices = deviceBootstrap?.enrolledDevices || [];
   const enrolledDevice = Array.isArray(enrolledDevices) ? enrolledDevices?.[0] : enrolledDevices;
-  const qrCodeHref = authenticator.contextualData?.qrcode?.href;
+  let qrCodeHref = authenticator.contextualData?.qrcode?.href;
+  let channelType = selectedChannel;
+  let deviceMap = [];
+  let setupOVUrl = '';
+  let showAnotherDeviceLink = false;
+
+  if (sameDevice && sameDevice.setupOVUrl) {
+    deviceMap = sameDevice;
+  } else if (deviceBootstrap && deviceBootstrap.setupOVUrl) {
+    deviceMap = deviceBootstrap;
+  }
+
+  if (deviceMap.platform) {
+    deviceMap.platformLC = deviceMap.platform.toLowerCase();
+    deviceMap.isDesktop = !(deviceMap.platformLC === 'ios' || deviceMap.platformLC === 'android');
+    channelType = 'sameDeviceOVEnrollment';
+    setupOVUrl = deviceMap.setupOVUrl;
+  }
+
+  if (deviceMap.securityLevel && deviceMap.securityLevel === 'ANY') {
+    showAnotherDeviceLink = true;
+  }
+
+  let backToSameOVEnrollmentLink: UISchemaLayout | undefined;
+  if (showAnotherDeviceLink) {
+    backToSameOVEnrollmentLink = {
+      type: UISchemaLayoutType.VERTICAL,
+      elements: [{
+        type: 'StepperLink',
+        contentType: 'footer',
+        label: loc('oie.go.back', 'login'),
+        options: {
+          nextStepIndex: STEPS.SAME_DEVICE_OV_ENROLLMENT,
+        },
+      } as StepperLinkElement],
+    } as UISchemaLayout;
+  }
 
   let reminder: ReminderElement | undefined;
   const resendStep = availableSteps?.find(({ name }) => name?.endsWith('resend'));
   if (transaction!.nextStep!.canResend
-    && selectedChannel
-    && REMINDER_CHANNELS.includes(selectedChannel) && resendStep) {
+    && channelType
+    && REMINDER_CHANNELS.includes(channelType) && resendStep) {
     const { name } = resendStep;
     reminder = {
       type: 'Reminder',
       options: {
-        content: loc(CHANNEL_TO_CTA_KEY[selectedChannel], 'login'),
+        content: loc(CHANNEL_TO_CTA_KEY[channelType], 'login'),
         contentHasHtml: true,
         step: name,
         isActionStep: true,
@@ -100,7 +147,7 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({ transaction,
   const title = {
     type: 'Title',
     options: {
-      content: loc(getTitleKey(selectedChannel), 'login'),
+      content: loc(getTitleKey(channelType), 'login'),
     },
   };
 
@@ -115,6 +162,7 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({ transaction,
   } as DescriptionElement;
 
   const listItems: (string | UISchemaLayout)[] = [];
+  const sameDeviceOVElements = [];
   const makeTextListItem = (content: string): UISchemaLayout => ({
     type: UISchemaLayoutType.VERTICAL,
     elements: [
@@ -127,7 +175,145 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({ transaction,
       } as DescriptionElement,
     ],
   });
-  if (deviceBootstrap) {
+  if (deviceMap.setupOVUrl) {
+    if (deviceMap.isDesktop) {
+      sameDeviceOVElements.push(
+        {
+          type: 'Description',
+          noMargin: true,
+          options: {
+            content: loc(
+              'oie.enroll.okta_verify.setup.customUri.prompt',
+              'login',
+              undefined,
+              { $1: { element: 'span', attributes: { class: 'strong' } } },
+            ),
+          },
+        } as DescriptionElement,
+        {
+          type: 'Description',
+          noMargin: true,
+          options: {
+            content: loc(
+              'oie.enroll.okta_verify.setup.customUri.noPrompt',
+              'login',
+              undefined,
+              { $1: { element: 'span', attributes: { class: 'strong' } } },
+            ),
+          },
+        } as DescriptionElement,
+        {
+          type: 'Description',
+          noMargin: true,
+          options: {
+            content: loc('oie.enroll.okta_verify.setup.customUri.makeSureHaveOV', 'login'),
+          },
+        } as DescriptionElement,
+      );
+    } else {
+      sameDeviceOVElements.push(
+        {
+          type: 'Description',
+          noMargin: true,
+          options: {
+            content: loc(
+              'oie.enroll.okta_verify.setup.customUri.makeSureHaveOVToContinue', 'login',
+            ),
+          },
+        } as DescriptionElement,
+      );
+    }
+    if (deviceMap.platformLC) {
+      let platformSupported = true;
+      let svgIcon;
+      switch (deviceMap.platformLC) {
+        case 'android':
+          svgIcon = GoogleStoreIcon;
+          break;
+
+        case 'ios':
+          svgIcon = AppleStoreIcon;
+          break;
+
+        case 'windows':
+          svgIcon = WindowsStoreIcon;
+          break;
+
+        case 'osx':
+          svgIcon = OSXStoreIcon;
+          break;
+
+        default:
+          platformSupported = false;
+      }
+      if (platformSupported) {
+        sameDeviceOVElements.push(
+          {
+            type: 'ImageLink',
+            options: {
+              href: deviceMap.downloadHref,
+              altText: loc('enroll.oda.step3', 'login'),
+              alignment: 'center',
+              svgIcon,
+              dataSe: 'app-store-link',
+            },
+          } as ImageLinkElement,
+        );
+      }
+    }
+    sameDeviceOVElements.push(
+      {
+        type: 'Description',
+        noMargin: true,
+        options: {
+          content: loc(
+            'oie.enroll.okta_verify.setup.customUri.setup',
+            'login',
+            undefined,
+            { $1: { element: 'span', attributes: { class: 'strong' } } },
+          ),
+        },
+      } as DescriptionElement,
+    );
+
+    if (setupOVUrl) {
+      sameDeviceOVElements.push(
+        {
+          type: 'Button',
+          label: loc('oie.enroll.okta_verify.setup.title', 'login'),
+          options: {
+            step: '',
+            type: ButtonType.BUTTON,
+            variant: 'primary',
+            onClick: () => {
+              if (isAndroid()) {
+                Util.redirectWithFormGet(setupOVUrl);
+              } else {
+                window.location.assign(setupOVUrl);
+              }
+            },
+          },
+        } as ButtonElement,
+      );
+    }
+
+    if (showAnotherDeviceLink) {
+      sameDeviceOVElements.push(
+        {
+          type: 'StepperLink',
+          // todo: refactor string parsing within OKTA-701606
+          label: loc(
+            deviceMap.isDesktop ? 'oie.enroll.okta_verify.setup.customUri.orOnMobile'
+              : 'oie.enroll.okta_verify.setup.customUri.orMobile',
+            'login',
+          ).replace('</$1>', '').replace('<$1>', '').trim(),
+          options: {
+            nextStepIndex: STEPS.QR_POLLING,
+          },
+        } as StepperLinkElement,
+      );
+    }
+  } else if (deviceBootstrap) {
     listItems.push(
       makeTextListItem(loc(
         'oie.enroll.okta_verify.setup.skipAuth.openOv.suchAs', 'login',
@@ -193,25 +379,40 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({ transaction,
     );
   }
 
-  const qrCodeElements = qrCodeHref ? [
-    {
+  let updatedQrListItems = [];
+  const qrDataForSameDeviceExists = deviceMap?.qrMap && deviceMap?.qrMap?.href;
+  if (qrDataForSameDeviceExists) {
+    updatedQrListItems.push(
+        loc('oie.enroll.okta_verify.qrcode.step1.updated', 'login'),
+        loc('oie.enroll.okta_verify.qrcode.step2', 'login'),
+        loc('oie.enroll.okta_verify.qrcode.step3', 'login'),
+    );
+    qrCodeHref = deviceMap?.qrMap?.href;
+  }
+
+  let qrCodeElements = [];
+  if (qrCodeHref) {
+    qrCodeElements.push({
       type: 'QRCode',
       options: {
         data: qrCodeHref,
       },
-    } as QRCodeElement,
-    {
-      type: 'Button',
-      label: loc('enroll.totp.cannotScan', 'login'),
-      options: {
-        type: ButtonType.BUTTON,
-        variant: 'secondary',
-        ariaLabel: loc('enroll.totp.aria.cannotScan', 'login'),
-        step: IDX_STEP.SELECT_ENROLLMENT_CHANNEL,
-        stepToRender: IDX_STEP.SELECT_ENROLLMENT_CHANNEL,
-      },
-    } as ButtonElement,
-  ] : [];
+    } as QRCodeElement);
+
+    if (!qrDataForSameDeviceExists) {
+      qrCodeElements.push({
+        type: 'Button',
+        label: loc('enroll.totp.cannotScan', 'login'),
+        options: {
+          type: ButtonType.BUTTON,
+          variant: 'secondary',
+          ariaLabel: loc('enroll.totp.aria.cannotScan', 'login'),
+          step: IDX_STEP.SELECT_ENROLLMENT_CHANNEL,
+          stepToRender: IDX_STEP.SELECT_ENROLLMENT_CHANNEL,
+        },
+      } as ButtonElement);
+    }
+  }
 
   const stepper: StepperLayout = {
     type: UISchemaLayoutType.STEPPER,
@@ -226,11 +427,12 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({ transaction,
             type: 'List',
             noMargin: true,
             options: {
-              items: listItems,
+              items: qrDataForSameDeviceExists ? updatedQrListItems : listItems,
               type: 'ol',
             },
           } as ListElement,
           ...qrCodeElements,
+          ...(qrDataForSameDeviceExists && backToSameOVEnrollmentLink ? [backToSameOVEnrollmentLink] : []),
         ].map((ele: UISchemaElement) => ({ ...ele, viewIndex: 0 })),
       } as UISchemaLayout,
       // Email
@@ -288,6 +490,7 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({ transaction,
             },
           } as ListElement,
           canBeClosed,
+          ...(backToSameOVEnrollmentLink ? [backToSameOVEnrollmentLink] : []),
         ].map((ele: UISchemaElement) => ({ ...ele, viewIndex: 3 })),
       },
       // Device bootstrap
@@ -313,12 +516,21 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({ transaction,
             },
           } as ListElement,
           canBeClosed,
+          ...(backToSameOVEnrollmentLink ? [backToSameOVEnrollmentLink] : []),
         ].map((ele: UISchemaElement) => ({ ...ele, viewIndex: 4 })),
+      },
+      // Same device OV enrollment
+      {
+        type: UISchemaLayoutType.VERTICAL,
+        elements: [
+          title,
+          ...sameDeviceOVElements,
+        ].map((ele: UISchemaElement) => ({ ...ele, viewIndex: 5 })),
       },
     ],
     options: {
       defaultStepIndex: () => {
-        switch (selectedChannel) {
+        switch (channelType) {
           case 'email':
             return STEPS.EMAIL_POLLING;
           case 'sms':
@@ -327,6 +539,8 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({ transaction,
             return STEPS.SAME_DEVICE;
           case 'devicebootstrap':
             return STEPS.DEVICE_BOOTSTRAP;
+          case 'sameDeviceOVEnrollment':
+            return STEPS.SAME_DEVICE_OV_ENROLLMENT;
           default:
             return STEPS.QR_POLLING;
         }

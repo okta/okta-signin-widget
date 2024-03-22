@@ -10,14 +10,17 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+export * from './AppleStoreIcon';
 export * from './CustomAppIcon';
 export * from './CustomOTPIcon';
 export * from './DuoIcon';
 export * from './EmailIcon';
 export * from './GoogleOTPIcon';
+export * from './GoogleStoreIcon';
 export * from './IDPIcon';
 export * from './OktaVerifyIcon';
 export * from './OnPremMFAIcon';
+export * from './OSXStoreIcon';
 export * from './PasswordIcon';
 export * from './PhoneIcon';
 export * from './RSAIcon';
@@ -25,4 +28,5 @@ export * from './SecurityKeyOrBiometricsIcon';
 export * from './SecurityQuestionIcon';
 export * from './SmartCardIcon';
 export * from './SymantecIcon';
+export * from './WindowsStoreIcon';
 export * from './YubiKeyIcon';
