@@ -30,6 +30,7 @@ const ignoredMocks = [
   'enroll-profile-new-boolean-fields.json', // custom registration fields
   'authenticator-expired-custom-password.json', // seems to be flaky
   'enroll-profile-new-custom-labels.json', // custom message/label
+  'terminal-okta-verify-enrollment-android-device.json', // Automatic redirect, in app logic handles this view, no english leak.
 ];
 
 const optionsForInteractionCodeFlow = {

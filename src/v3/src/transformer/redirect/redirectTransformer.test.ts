@@ -12,10 +12,20 @@
 
 import { IdxTransaction } from '@okta/okta-auth-js';
 
-import { InterstitialRedirectView } from '../../constants';
+import { IDX_STEP, InterstitialRedirectView } from '../../constants';
 import { getStubTransaction } from '../../mocks/utils/utils';
-import { DescriptionElement, RedirectElement, WidgetProps } from '../../types';
+import {
+  ButtonElement,
+  DescriptionElement,
+  RedirectElement,
+  WidgetProps,
+} from '../../types';
 import { redirectTransformer } from '.';
+
+const mockIsAndroidOVEnrollment = jest.fn();
+jest.mock('../../../../util/Util', () => ({
+  isAndroidOVEnrollment: jest.fn().mockImplementation(() => mockIsAndroidOVEnrollment()),
+}));
 
 describe('Success Redirect Transform Tests', () => {
   const REDIRECT_URL = 'https://acme.okta1.com';
@@ -24,7 +34,7 @@ describe('Success Redirect Transform Tests', () => {
 
   beforeEach(() => {
     transaction = getStubTransaction();
-    widgetProps = {};
+    widgetProps = {} as unknown as WidgetProps;
   });
 
   it('should add description & redirect elements only when interstitialRedirect option is not set', () => {
@@ -39,7 +49,9 @@ describe('Success Redirect Transform Tests', () => {
   });
 
   it('should add description & redirect elements only when interstitialRedirect option is set to NONE', () => {
-    widgetProps = { interstitialBeforeLoginRedirect: InterstitialRedirectView.NONE };
+    widgetProps = {
+      interstitialBeforeLoginRedirect: InterstitialRedirectView.NONE,
+    } as unknown as WidgetProps;
     const formBag = redirectTransformer(transaction, REDIRECT_URL, widgetProps);
 
     expect(formBag.uischema.elements.length).toBe(2);
@@ -64,7 +76,7 @@ describe('Success Redirect Transform Tests', () => {
     widgetProps = {
       interstitialBeforeLoginRedirect: InterstitialRedirectView.DEFAULT,
       features: { showIdentifier: false },
-    };
+    } as unknown as WidgetProps;
     const formBag = redirectTransformer(
       transaction,
       REDIRECT_URL,
@@ -87,7 +99,7 @@ describe('Success Redirect Transform Tests', () => {
     widgetProps = {
       interstitialBeforeLoginRedirect: InterstitialRedirectView.DEFAULT,
       features: { showIdentifier: true },
-    };
+    } as unknown as WidgetProps;
     const formBag = redirectTransformer(
       transaction,
       REDIRECT_URL,
@@ -112,7 +124,9 @@ describe('Success Redirect Transform Tests', () => {
       type: 'object',
       value: appInfo,
     };
-    widgetProps = { interstitialBeforeLoginRedirect: InterstitialRedirectView.DEFAULT };
+    widgetProps = {
+      interstitialBeforeLoginRedirect: InterstitialRedirectView.DEFAULT,
+    } as unknown as WidgetProps;
     const formBag = redirectTransformer(
       transaction,
       REDIRECT_URL,
@@ -126,5 +140,35 @@ describe('Success Redirect Transform Tests', () => {
     expect(formBag.uischema.elements[1].type).toBe('Redirect');
     expect((formBag.uischema.elements[1] as RedirectElement).options?.url).toBe(REDIRECT_URL);
     expect(formBag.uischema.elements[2].type).toBe('Spinner');
+  });
+
+  it.each(['DEFAULT', 'NONE', undefined])('should add OV subtitle and button when interstitialBeforeLoginRedirect value is: %s and isAndroidOVEnrollment: true', (interstitialBeforeLoginRedirect) => {
+    transaction = {
+      ...transaction,
+      context: {
+        ...transaction.context,
+        success: {
+          name: IDX_STEP.SUCCESS_REDIRECT,
+          href: 'http://localhost:3000/success_redirect',
+        },
+      },
+    };
+    widgetProps = {
+      interstitialBeforeLoginRedirect,
+    } as unknown as WidgetProps;
+    mockIsAndroidOVEnrollment.mockReturnValue(true);
+    const formBag = redirectTransformer(
+      transaction,
+      REDIRECT_URL,
+      widgetProps,
+    );
+
+    expect(formBag.uischema.elements.length).toBe(2);
+    expect(formBag.uischema.elements[0].type).toBe('Description');
+    expect((formBag.uischema.elements[0] as DescriptionElement).options?.content)
+      .toBe('oie.success.text.signingIn.with.appName.android.ov.enrollment');
+    expect(formBag.uischema.elements[1].type).toBe('Button');
+    expect((formBag.uischema.elements[1] as ButtonElement).options?.step)
+      .toBe(IDX_STEP.SUCCESS_REDIRECT);
   });
 });

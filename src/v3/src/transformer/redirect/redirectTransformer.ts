@@ -12,8 +12,11 @@
 
 import { IdxTransaction } from '@okta/okta-auth-js';
 
+import Util from '../../../../util/Util';
 import { InterstitialRedirectView } from '../../constants';
 import {
+  ButtonElement,
+  ButtonType,
   DescriptionElement,
   FormBag,
   RedirectElement,
@@ -21,6 +24,8 @@ import {
   WidgetProps,
 } from '../../types';
 import { getAppInfo, getUserInfo, loc } from '../../util';
+import { createIdentifierContainer } from '../uischema/createIdentifierContainer';
+import { setFocusOnFirstElement } from '../uischema/setFocusOnFirstElement';
 import { createForm } from '../utils';
 
 export const redirectTransformer = (
@@ -32,6 +37,38 @@ export const redirectTransformer = (
   const formBag = createForm();
 
   const { uischema } = formBag;
+  const { context } = transaction;
+
+  // OKTA-635926: add user gesture for ov enrollment on android
+  if (Util.isAndroidOVEnrollment()) {
+    createIdentifierContainer({
+      transaction,
+      widgetProps,
+      step: '',
+      setMessage: () => {},
+      isClientTransaction: false,
+    })(formBag);
+
+    const subtitleElement: DescriptionElement = {
+      type: 'Description',
+      contentType: 'subtitle',
+      options: { content: loc('oie.success.text.signingIn.with.appName.android.ov.enrollment', 'login') },
+    };
+
+    const redirectBtn: ButtonElement = {
+      type: 'Button',
+      label: loc('oktaVerify.open.button', 'login'),
+      options: {
+        type: ButtonType.BUTTON,
+        step: context.success?.name || '',
+        onClick: () => Util.redirectWithFormGet(context.success?.href),
+      },
+    };
+    uischema.elements = uischema.elements.concat([subtitleElement, redirectBtn]);
+    setFocusOnFirstElement(formBag);
+    return formBag;
+  }
+
   uischema.elements.push({
     type: 'Redirect',
     options: { url },
