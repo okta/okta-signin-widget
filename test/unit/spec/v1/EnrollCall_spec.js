@@ -506,6 +506,8 @@ Expect.describe('EnrollCall', function() {
         });
     });
     itp('shows error if error response on verification', function() {
+      // spy on emitting of CustomEvent with type 'okta-i18n-error' in `loc()` util
+      const dispatchEventSpy = jest.spyOn(document, 'dispatchEvent');
       return setupAndSendCodeFn()
         .then(function(test) {
           Q.stopUnhandledRejectionTracking();
@@ -545,6 +547,7 @@ Expect.describe('EnrollCall', function() {
               },
             },
           ]);
+          expect(dispatchEventSpy).not.toHaveBeenCalled();
         });
     });
   }

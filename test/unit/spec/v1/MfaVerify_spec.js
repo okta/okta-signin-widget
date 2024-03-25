@@ -1117,6 +1117,8 @@ Expect.describe('MFA Verify', function() {
         });
     });
     itp('shows an error if error response from authClient', function() {
+      // spy on emitting of CustomEvent with type 'okta-i18n-error' in `loc()` util
+      const dispatchEventSpy = jest.spyOn(document, 'dispatchEvent');
       return setupFn()
         .then(function(test) {
           test.setNextResponse(resInvalid);
@@ -1127,6 +1129,7 @@ Expect.describe('MFA Verify', function() {
         .then(function(test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorMessage()).toBe('Your answer doesn\'t match our records. Please try again.');
+          expect(dispatchEventSpy).not.toHaveBeenCalled();
         });
     });
     itp('shows errors if verify button is clicked and answer is empty', function() {
@@ -2065,6 +2068,8 @@ Expect.describe('MFA Verify', function() {
         });
     });
     itp('shows an error if error response from authClient', function() {
+      // spy on emitting of CustomEvent with type 'okta-i18n-error' in `loc()` util
+      const dispatchEventSpy = jest.spyOn(document, 'dispatchEvent');
       return setupFn()
         .then(function(test) {
           test.setNextResponse(resInvalidTotp);
@@ -2086,6 +2091,7 @@ Expect.describe('MFA Verify', function() {
               errorCauses: [],
             },
           });
+          expect(dispatchEventSpy).not.toHaveBeenCalled();
         });
     });
     itp('shows errors if verify button is clicked and answer is empty', function() {
@@ -2223,6 +2229,8 @@ Expect.describe('MFA Verify', function() {
         });
     });
     itp('shows an error if error response from authClient', function() {
+      // spy on emitting of CustomEvent with type 'okta-i18n-error' in `loc()` util
+      const dispatchEventSpy = jest.spyOn(document, 'dispatchEvent');
       return setupFn()
         .then(function(test) {
           test.setNextResponse(resInvalidPassword);
@@ -2250,6 +2258,7 @@ Expect.describe('MFA Verify', function() {
               ],
             },
           });
+          expect(dispatchEventSpy).not.toHaveBeenCalled();
         });
     });
     itp('shows errors if verify button is clicked and password is empty', function() {
@@ -3627,6 +3636,8 @@ Expect.describe('MFA Verify', function() {
             });
         });
         itp('shows an error if error response from authClient', function() {
+          // spy on emitting of CustomEvent with type 'okta-i18n-error' in `loc()` util
+          const dispatchEventSpy = jest.spyOn(document, 'dispatchEvent');
           return setupOktaPushWithTOTP()
             .then(function(test) {
               const form = test.form[1];
@@ -3643,6 +3654,7 @@ Expect.describe('MFA Verify', function() {
             .then(function(form) {
               expect(form.hasErrors()).toBe(true);
               expect(form.errorMessage()).toBe('Invalid Passcode/Answer');
+              expect(dispatchEventSpy).not.toHaveBeenCalled();
             });
         });
         itp('shows errors if verify button is clicked and answer is empty', function() {
