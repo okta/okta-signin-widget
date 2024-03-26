@@ -17,6 +17,8 @@ import {
   ButtonType,
   DescriptionElement,
   IdxStepTransformer,
+  InfoboxElement,
+  IWidgetContext,
   ReminderElement,
   StepperButtonElement,
   StepperLayout,
@@ -26,7 +28,7 @@ import {
   UISchemaLayout,
   UISchemaLayoutType,
 } from '../../../types';
-import { getCurrentAuthenticator, loc } from '../../../util';
+import { getCurrentAuthenticator, loc, updateTransactionWithNextStep } from '../../../util';
 import { getUIElementWithName } from '../../utils';
 import { getEmailAuthenticatorSubtitle } from './getEmailAuthenticatorSubtitle';
 
@@ -56,6 +58,10 @@ export const transformEmailAuthenticatorVerify: IdxStepTransformer = ({ transact
       },
     };
   }
+
+  const redirectStep = availableSteps?.find((step: NextStep) => step.name.endsWith('-redirect'));
+  const hasRedirectStep = !!redirectStep;
+  const isSuccess = redirectStep?.name?.startsWith('success');
 
   const passcodeElement = getUIElementWithName(
     'credentials.passcode',
@@ -100,6 +106,59 @@ export const transformEmailAuthenticatorVerify: IdxStepTransformer = ({ transact
       content: loc('oie.email.mfa.title', 'login'),
     },
   };
+
+  if (hasRedirectStep) {
+    let verifiedMessage: InfoboxElement | undefined;
+    if (!transaction.messages?.length) {
+      verifiedMessage = isSuccess ? {
+        type: 'InfoBox',
+        options: {
+          message: {
+            class: 'SUCCESS',
+            message: loc('oie.email.verify.success.title', 'login'),
+            i18n: { key: 'oie.email.verify.success.title' },
+          },
+          class: 'SUCCESS',
+          dataSe: 'callout',
+        },
+      } : {
+        type: 'InfoBox',
+        options: {
+          message: {
+            class: 'ERROR',
+            message: loc('oie.email.verify.error.title', 'login'),
+            i18n: { key: 'oie.email.verify.error.title' },
+          },
+          class: 'ERROR',
+          dataSe: 'callout',
+        },
+      };
+    }
+
+    const redirectButtonElement: ButtonElement = {
+      type: 'Button',
+      label: loc('oie.optional.authenticator.button.title', 'login'),
+      options: {
+        type: ButtonType.BUTTON,
+        step: redirectStep.name,
+        onClick: (widgetContext?: IWidgetContext): unknown => {
+          if (typeof widgetContext === 'undefined') {
+            return;
+          }
+          updateTransactionWithNextStep(transaction, redirectStep as NextStep, widgetContext);
+        },
+      }
+    };
+  
+    const redirectDisplayElements: UISchemaElement[] = [
+      titleElement,
+      ...(verifiedMessage ? [verifiedMessage] : []),
+      redirectButtonElement,
+    ];
+
+    uischema.elements = redirectDisplayElements;
+    return formBag;
+  }
 
   const submitButtonElement: ButtonElement = {
     type: 'Button',

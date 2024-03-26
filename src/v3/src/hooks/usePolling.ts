@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxActionParams, IdxTransaction, NextStep } from '@okta/okta-auth-js';
+import { IdxActionParams, IdxStatus, IdxTransaction, NextStep } from '@okta/okta-auth-js';
 import cloneDeep from 'lodash/cloneDeep';
 import {
   useEffect, useMemo, useRef, useState,
@@ -102,6 +102,33 @@ export const usePolling = (
         stateHandle: stateToken && idxTransaction?.context?.stateHandle,
         ...payload,
       });
+
+      const redirectRemediation = newTransaction?.context?.success ?? newTransaction?.context?.failure;
+      const isRedirect = newTransaction?.nextStep?.name?.endsWith('-redirect')
+        || redirectRemediation?.name?.endsWith('-redirect');
+      const canAutoRedirect = document.visibilityState !== 'hidden'; // set to false for testing
+      if (isRedirect && !canAutoRedirect) {
+        const previousStep = cloneDeep(idxTransaction?.nextStep) as NextStep;
+        previousStep.inputs = [];
+        const redirectStep = newTransaction?.nextStep || {
+          name: redirectRemediation?.name,
+          href: redirectRemediation?.href,
+        } as NextStep;
+        const clonedTransaction = cloneDeep(newTransaction) as IdxTransaction;
+        clonedTransaction.nextStep = previousStep;
+        clonedTransaction.availableSteps = [
+          ...(idxTransaction?.availableSteps || []).filter((step: NextStep) =>
+            step.name !== 'poll' && !step.name?.endsWith('-poll') && !step.name?.endsWith('resend')
+          ),
+          ...(newTransaction?.availableSteps || []).filter((step: NextStep) =>
+            !step.name.endsWith('-redirect')
+          ),
+          redirectStep,
+        ];
+        clonedTransaction.status = idxTransaction?.status as IdxStatus;
+        setTransaction(clonedTransaction);
+        return;
+      }
 
       // error code E0000047 is from a standard API error (unhandled)
       // TERMINAL_KEY.TOO_MANY_REQUESTS is error key from IDX API error message
