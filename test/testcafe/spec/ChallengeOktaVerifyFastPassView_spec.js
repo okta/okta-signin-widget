@@ -189,13 +189,22 @@ const loopbackBiometricsErrorMobileAfterProbePollMock = RequestMock()
 const loopbackBiometricsErrorMobileMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/introspect/)
   .respond(identifyWithUserVerificationLoopback)
-  .onRequestTo(/2000|6511|6512|6513\/probe/)
+  .onRequestTo(/2000|6511\/probe/)
   .respond(null, 500, {
     'access-control-allow-origin': '*',
     'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
   })
-  .onRequestTo(/\/idp\/idx\/authenticators\/poll\/cancel/)
-  .respond(identifyWithUserVerificationLoopback);
+  .onRequestTo(/6512\/probe/)
+  .respond(null, 200, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
+  })
+  .onRequestTo(/6512\/challenge/)
+  .respond(null, 200, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'Origin, X-Requested-With, Content-Type, Accept, X-Okta-Xsrftoken',
+    'access-control-allow-methods': 'POST, OPTIONS'
+  });
 
 const loopbackBiometricsErrorDesktopAfterProbePollMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
@@ -206,13 +215,22 @@ const loopbackBiometricsErrorDesktopAfterProbePollMock = RequestMock()
 const loopbackBiometricsErrorDesktopMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/introspect/)
   .respond(identifyWithUserVerificationLoopback)
-  .onRequestTo(/2000|6511|6512|6513\/probe/)
+  .onRequestTo(/2000|6511\/probe/)
   .respond(null, 500, {
     'access-control-allow-origin': '*',
     'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
   })
-  .onRequestTo(/\/idp\/idx\/authenticators\/poll\/cancel/)
-  .respond(identifyWithUserVerificationLoopback);
+  .onRequestTo(/6512\/probe/)
+  .respond(null, 200, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
+  })
+  .onRequestTo(/6512\/challenge/)
+  .respond(null, 200, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'Origin, X-Requested-With, Content-Type, Accept, X-Okta-Xsrftoken',
+    'access-control-allow-methods': 'POST, OPTIONS'
+  });
 
 const loopbackBiometricsNoResponseErrorLogger = RequestLogger(
   /introspect|probe|cancel|challenge|poll/,
@@ -499,7 +517,7 @@ test
   });
 
 test
-  .requestHooks(loopbackBiometricsErrorMobileMock, loopbackBiometricsErrorInitialPollMock)('show biometrics error for mobile platform in loopback', async t => {
+  .requestHooks(loopbackBiometricsErrorMobileMock, loopbackBiometricsErrorInitialPollMock)('abc', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
     await t.expect(deviceChallengePollPageObject.getBeaconSelector()).contains(BEACON_CLASS);
@@ -525,7 +543,7 @@ test
   });
 
 test
-  .requestHooks(loopbackBiometricsErrorDesktopMock, loopbackBiometricsErrorInitialPollMock)('show biometrics error for desktop platform in loopback', async t => {
+  .requestHooks(loopbackBiometricsErrorDesktopMock, loopbackBiometricsErrorInitialPollMock)('bcd', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
     await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Verifying your identity');
