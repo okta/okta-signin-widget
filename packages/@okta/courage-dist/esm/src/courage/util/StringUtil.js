@@ -36,12 +36,7 @@ const parseLocale = locale => {
 
 
 function getRawLocale() {
-  if (window && window.okta && window.okta.locale) {
-    const isEnableBcp47OktaUi = window.okta.isEnableBcp47OktaUi;
-    return isEnableBcp47OktaUi ? window.okta.locale : window.okta.locale.toLowerCase();
-  }
-
-  return 'en';
+  return window && window.okta && window.okta.locale || 'en';
 }
 /**
  * Returns the language bundle based on the current locale.

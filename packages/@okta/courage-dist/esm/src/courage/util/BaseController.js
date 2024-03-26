@@ -116,8 +116,7 @@ const proto =
     this.$el.empty();
     return this;
   }
-}; // eslint-disable-next-line inclusive-language/use-inclusive-words
-
+};
 /**
  * A Controller is our application control flow component.
  *
@@ -135,7 +134,7 @@ const proto =
  *
  * See:
  * [Hello World Tutorial](https://github.com/okta/courage/wiki/Hello-World),
- * [Test Spec](https://github.com/atko-eng/okta-ui/blob/master/packages/courage/test/spec/util/BaseController_spec.js)
+ * [Test Spec](https://github.com/okta/okta-ui/blob/master/packages/courage/test/spec/util/BaseController_spec.js)
  *
  * @class module:Okta.Controller
  * @param {Object} options Options Hash
