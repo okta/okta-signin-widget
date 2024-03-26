@@ -10,7 +10,8 @@ const Body = BaseAuthenticatorEmailForm.extend(
     initialize() {
       BaseAuthenticatorEmailForm.prototype.initialize.apply(this, arguments);
 
-      const email = this.options.appState.get('user')?.identifier || {};
+      const email = this.options.appState.get('user')?.profile?.email || (this.options.appState.get('user')?.identifier || {});
+      console.log(this.options.appState.get('user')?.profile?.email);
 
       const useEmailMagicLinkValue = this.isUseEmailMagicLink();
 
