@@ -170,6 +170,10 @@ const Body = BaseFormWithPolling.extend({
           Logger.error(`Authenticator is not listening on port ${currentPort}.`);
           if (countFailedPorts === ports.length) {
             Logger.error('No available ports. Loopback server failed and polling is cancelled.');
+            // When no port is found, cancel the polling as well
+            // This is to avoid concurrency issue where /poll/cancel takes long time to complete
+            // and SIW will receive 400 error if the polling continues
+            this.stopPolling();
             cancelPollingWithParams(
               this.options.appState,
               this.pollingCancelAction,
