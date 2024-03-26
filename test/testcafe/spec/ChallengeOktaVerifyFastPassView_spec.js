@@ -385,25 +385,25 @@ test
     await t.expect(identityPage.getIdentifierValue()).eql('Test Identifier');
   });
 
-  test
-    .meta('gen3', false) // Gen3 does not have the same redundant polling issue as Gen2 and does not need to implement enhancedPollingEnabled, so skip this test
-    .requestHooks(loopbackRedundantPollingForPollCancelMock)('in loopback server, no more polling when cancel polling has been called', async t => {
-      const deviceChallengePollPageObject = await setup(t);
-      await checkA11y(t);
-      await t.expect(deviceChallengePollPageObject.getBeaconSelector()).contains(BEACON_CLASS);
-      await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Verifying your identity');
-      await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
-      await t.expect(deviceChallengePollPageObject.getFooterSwitchAuthenticatorLink().innerText).eql('Verify with something else');
-      await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Back to sign in');
+test
+  .meta('gen3', false) // Gen3 does not have the same redundant polling issue as Gen2 and does not need to implement enhancedPollingEnabled, so skip this test
+  .requestHooks(loopbackRedundantPollingForPollCancelMock)('in loopback server, no more polling when cancel polling has been called', async t => {
+    const deviceChallengePollPageObject = await setup(t);
+    await checkA11y(t);
+    await t.expect(deviceChallengePollPageObject.getBeaconSelector()).contains(BEACON_CLASS);
+    await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Verifying your identity');
+    await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
+    await t.expect(deviceChallengePollPageObject.getFooterSwitchAuthenticatorLink().innerText).eql('Verify with something else');
+    await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Back to sign in');
 
-      // this wait time makes sure we don't assert too early if /poll call happens
-      await t.wait(2000);
-      await t.expect(deviceChallengePollPageObject.hasErrorBox()).eql(false);
-  
-      const identityPage = new IdentityPageObject(t);
-      await identityPage.fillIdentifierField('Test Identifier');
-      await t.expect(identityPage.getIdentifierValue()).eql('Test Identifier');
-    });
+    // this wait time makes sure we don't assert too early if /poll call happens
+    await t.wait(2000);
+    await t.expect(deviceChallengePollPageObject.hasErrorBox()).eql(false);
+
+    const identityPage = new IdentityPageObject(t);
+    await identityPage.fillIdentifierField('Test Identifier');
+    await t.expect(identityPage.getIdentifierValue()).eql('Test Identifier');
+  });
 
 test
   .requestHooks(loopbackEnhancedPollingLogger, loopbackEnhancedPollingMock)('in loopback server, no redundant polling if server returns enhancedPollingEnabled as true', async t => {
