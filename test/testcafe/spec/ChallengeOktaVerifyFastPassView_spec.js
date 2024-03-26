@@ -517,7 +517,7 @@ test
   });
 
 test
-  .requestHooks(loopbackBiometricsErrorMobileMock, loopbackBiometricsErrorInitialPollMock)('abc', async t => {
+  .requestHooks(loopbackBiometricsErrorMobileMock, loopbackBiometricsErrorInitialPollMock)('show biometrics error for mobile platform in loopback', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
     await t.expect(deviceChallengePollPageObject.getBeaconSelector()).contains(BEACON_CLASS);
@@ -543,7 +543,7 @@ test
   });
 
 test
-  .requestHooks(loopbackBiometricsErrorDesktopMock, loopbackBiometricsErrorInitialPollMock)('bcd', async t => {
+  .requestHooks(loopbackBiometricsErrorDesktopMock, loopbackBiometricsErrorInitialPollMock)('show biometrics error for desktop platform in loopback', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
     await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Verifying your identity');
