@@ -247,7 +247,10 @@ export default Controller.extend({
       // if Util.isAndroidOVEnrollment() returns true we use a user gesture to complete the redirect in AutoRedirectView
       if (!Util.isAndroidOVEnrollment()) {
         const currentViewState = this.options.appState.getCurrentViewState();
-        Util.redirectWithFormGet(currentViewState.href);
+        // OKTA-702402: redirect only if/when the page is visible
+        Util.executeOnVisible(() => {
+          Util.redirectWithFormGet(currentViewState.href);
+        });
       }
 
       return;
