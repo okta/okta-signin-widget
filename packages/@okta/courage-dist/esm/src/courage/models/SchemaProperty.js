@@ -7,7 +7,7 @@ import SchemaUtils from '../util/SchemaUtil.js';
 import StringUtil from '../util/StringUtil.js';
 import EnumTypeHelper from '../views/forms/helpers/EnumTypeHelper.js';
 
-/* eslint-disable inclusive-language/use-inclusive-words */
+/* eslint-disable @okta/okta/no-exclusive-language */
 const loc = StringUtil.localize;
 const STRING = SchemaUtils.STRING;
 const NUMBER = SchemaUtils.NUMBER;
@@ -252,13 +252,13 @@ const SchemaPropertySchemaProperty = BaseModel.extend({
 
     if (!minVal) {
       return {
-        __minVal__: loc('schema.validation.field.enter.minimum.number', 'courage')
+        __minVal__: 'Min value is required'
       };
     }
 
     if (!maxVal) {
       return {
-        __maxVal__: loc('schema.validation.field.enter.maximum.number', 'courage')
+        __maxVal__: 'Max value is required'
       };
     }
 
@@ -276,7 +276,7 @@ const SchemaPropertySchemaProperty = BaseModel.extend({
 
     if (+minVal >= +maxVal) {
       return {
-        __maxVal__: loc('schema.validation.field.maximum.must.be.greater.than.minimum', 'courage')
+        __maxVal__: 'Max val must be greater than min val'
       };
     }
   },
@@ -287,7 +287,7 @@ const SchemaPropertySchemaProperty = BaseModel.extend({
       return;
     }
 
-    const val = this._checkIntegerConstraints('__minVal__', 'Constraint');
+    const val = this._checkIntegerConstraints('__minVal__', 'Min value');
 
     if (val) {
       return val;
@@ -300,7 +300,7 @@ const SchemaPropertySchemaProperty = BaseModel.extend({
       return;
     }
 
-    const val = this._checkIntegerConstraints('__maxVal__', 'Constraint');
+    const val = this._checkIntegerConstraints('__maxVal__', 'Max value');
 
     if (val) {
       return val;
@@ -324,26 +324,12 @@ const SchemaPropertySchemaProperty = BaseModel.extend({
     const error = {}; // eslint-disable-next-line no-restricted-globals
 
     if (isNaN(val)) {
-      if (name === 'Min value') {
-        error[field] = loc('schema.validation.field.minimum.value.must.be.number', 'courage');
-      } else if (name === 'Max value') {
-        error[field] = loc('schema.validation.field.maximum.value.must.be.number', 'courage');
-      } else if (name === 'Constraint') {
-        error[field] = loc('schema.validation.field.constraint.must.be.number', 'courage');
-      }
-
+      error[field] = name + ' must be a number';
       return error;
     }
 
     if (+val < 0) {
-      if (name === 'Min value') {
-        error[field] = loc('schema.validation.field.minimum.number.must.be.greater.than.zero', 'courage');
-      } else if (name === 'Max value') {
-        error[field] = loc('schema.validation.field.maximum.number.must.be.greater.than.zero', 'courage');
-      } else if (name === 'Constraint') {
-        error[field] = loc('schema.validation.field.number.must.be.greater.than.zero', 'courage');
-      }
-
+      error[field] = name + ' must be greater than 0';
       return error;
     }
   },

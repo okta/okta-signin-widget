@@ -19,7 +19,6 @@ declare namespace OktaCourage {
     settings?: settings;
     theme?: string;
     enableIMESupport?: boolean;
-    isEnableBcp47OktaUi?: boolean;
   }
 
 }
