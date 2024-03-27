@@ -199,6 +199,20 @@ Util.redirect = function(url, win = window, isAppLink = false) {
   }
 };
 
+Util.executeOnVisiblePage = function(cb) {
+  if (document.visibilityState === 'hidden') {
+    const visibilityChangeHandler = () => {
+      if (document.visibilityState === 'visible') {
+        document.removeEventListener('visibilitychange', visibilityChangeHandler);
+        cb();
+      }
+    };
+    document.addEventListener('visibilitychange', visibilityChangeHandler);
+  } else {
+    cb();
+  }
+};
+
 Util.isAndroidOVEnrollment = function() {
   const ovEnrollment = decodeURIComponent(window.location.href).includes(ovDeepLink);
   return BrowserFeatures.isAndroid() && ovEnrollment;

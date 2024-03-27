@@ -12,6 +12,7 @@
 
 import { useEffect } from 'preact/hooks';
 
+import Util from '../../../../util/Util';
 import { RedirectElement, UISchemaElementComponent } from '../../types';
 
 const Redirect: UISchemaElementComponent<{ uischema: RedirectElement }> = ({
@@ -19,8 +20,11 @@ const Redirect: UISchemaElementComponent<{ uischema: RedirectElement }> = ({
 }) => {
   useEffect(() => {
     // we only want this to ever happen once (on initial component mount)
+    // and when document is visible
     if (options?.url) {
-      window.location.assign(options.url);
+      Util.executeOnVisiblePage(() => {
+        window.location.assign(options.url);
+      });
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
