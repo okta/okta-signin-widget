@@ -12,8 +12,8 @@
 
 import { useEffect } from 'preact/hooks';
 
-import { RedirectElement, UISchemaElementComponent } from '../../types';
 import Util from '../../../../util/Util';
+import { RedirectElement, UISchemaElementComponent } from '../../types';
 
 const Redirect: UISchemaElementComponent<{ uischema: RedirectElement }> = ({
   uischema: { options },
@@ -22,7 +22,7 @@ const Redirect: UISchemaElementComponent<{ uischema: RedirectElement }> = ({
     // we only want this to ever happen once (on initial component mount)
     // and when document is visible
     if (options?.url) {
-      Util.executeOnVisible(() => {
+      Util.executeOnVisiblePage(() => {
         window.location.assign(options.url);
       });
     }

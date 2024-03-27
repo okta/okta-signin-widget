@@ -248,7 +248,7 @@ export default Controller.extend({
       if (!Util.isAndroidOVEnrollment()) {
         const currentViewState = this.options.appState.getCurrentViewState();
         // OKTA-702402: redirect only if/when the page is visible
-        Util.executeOnVisible(() => {
+        Util.executeOnVisiblePage(() => {
           Util.redirectWithFormGet(currentViewState.href);
         });
       }

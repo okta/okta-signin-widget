@@ -199,7 +199,7 @@ Util.redirect = function(url, win = window, isAppLink = false) {
   }
 };
 
-Util.executeOnVisible = function(cb) {
+Util.executeOnVisiblePage = function(cb) {
   if (document.visibilityState === 'hidden') {
     const visibilityChangeHandler = () => {
       if (document.visibilityState === 'visible') {
