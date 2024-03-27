@@ -1,9 +1,11 @@
-import { RequestMock, RequestLogger, ClientFunction } from 'testcafe';
+import { RequestMock, RequestLogger } from 'testcafe';
 
 import ChallengeEmailPageObject from '../framework/page-objects/ChallengeEmailPageObject';
+import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import { oktaDashboardContent } from '../framework/shared';
-import successRedirectRemediation from '../../../playground/mocks/data/idp/idx/success-redirect-remediation';
+
 import emailVerification from '../../../playground/mocks/data/idp/idx/authenticator-verification-email';
+import successRedirectRemediation from '../../../playground/mocks/data/idp/idx/success-redirect-remediation';
 
 const emailPollSuccessMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -18,6 +20,7 @@ const pollRequestLogger = RequestLogger(/poll/);
 fixture('Redirect on Polling');
 
 function getChromeClient(t) {
+  // Get internal Chrome DevTools client
   const openedBrowsers = t.testRun.browserConnection.provider.plugin.openedBrowsers;
   const openedBrowser = openedBrowsers[Object.keys(openedBrowsers)[0]];
   const clients = openedBrowser.browserClient._clients;
@@ -25,28 +28,26 @@ function getChromeClient(t) {
   return client;
 }
 
-async function openInNewTab(t, url = '') {
+async function openNewTab(t, url = '') {
+  // https://chromedevtools.github.io/devtools-protocol/tot/Target/#method-createTarget
   const client = getChromeClient(t);
   const { targetId } = await client.Target.createTarget({
     // The initial URL the page will be navigated to. An empty string indicates about:blank
     url,
-    // Whether to create a new Window or Tab (chrome-only, false by default).
+    // Whether to create a new Window or Tab (chrome-only, false by default)
     newWindow: false,
-    // Whether to create the target in background or foreground (chrome-only, false by default).
+    // Whether to create the target in background or foreground (chrome-only, false by default)
     background: false,
-    // Whether to create the target of type "tab".
+    // Whether to create the target of type "tab"
     forTab: true,
   });
   return targetId;
 }
 
 async function closeTab(t, targetId) {
+  // https://chromedevtools.github.io/devtools-protocol/tot/Target/#method-closeTarget
   const client = getChromeClient(t);
   await client.Target.closeTarget({ targetId });
-}
-
-async function getCurrentUrl() {
-  return await ClientFunction(() => window.location.href)();
 }
 
 async function setup(t) {
@@ -56,38 +57,45 @@ async function setup(t) {
   return challengeEmailPageObject;
 }
 
+async function expectNoRedirect(t) {
+  const challengeEmailPageObject = new ChallengeEmailPageObject(t);
+  const pageUrl = await challengeEmailPageObject.getPageUrl();
+  return t.expect(pageUrl)
+    .eql('http://localhost:3000/');
+}
+
+async function expectRedirect(t) {
+  const successPage = new SuccessPageObject(t);
+  const pageUrl = await successPage.getPageUrl();
+  return t.expect(pageUrl)
+    .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
+}
+
 
 test.requestHooks(pollRequestLogger, emailPollSuccessMock)('should redirect immediately on visible page', async t => {
   await setup(t);
-  const currentUrl1 = await getCurrentUrl();
-  await t.expect(currentUrl1).eql('http://localhost:3000/');
+  await expectNoRedirect(t);
 
   // wait for polling to succeed
   await t.expect(pollRequestLogger.count(() => true)).eql(1);
-  await t.wait(500);
-
   // should auto redirect
-  const currentUrl2 = await getCurrentUrl();
-  await t.expect(currentUrl2).eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
+  await expectRedirect(t);
 });
 
 test.requestHooks(pollRequestLogger, emailPollSuccessMock)('should wait for visible page before redirect', async t => {
   await setup(t);
-  await t.expect(pollRequestLogger.count(() => true)).eql(0);
+  await expectNoRedirect(t);
 
   // open new tab, original tab should become inactive
-  const tabId = await openInNewTab(t);
+  const tabId = await openNewTab(t);
   // wait for polling to succeed
   await t.expect(pollRequestLogger.count(() => true)).eql(1);
   await t.wait(500);
   // should not auto redirect
-  const currentUrl1 = await getCurrentUrl();
-  await t.expect(currentUrl1).eql('http://localhost:3000/');
+  await expectNoRedirect(t);
 
   // close tab, original tab should become active
   await closeTab(t, tabId);
-  await t.wait(500);
   // should auto redirect
-  const currentUrl2 = await getCurrentUrl();
-  await t.expect(currentUrl2).eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
+  await expectRedirect(t);
 });
