@@ -155,7 +155,7 @@ export const transformTerminalTransaction = (
   if (transaction.context?.failure?.href) {
     // Direct auth clients display the error instead of redirecting
     // when redirect option is set to 'always' it will override the default behavior
-    const shouldRedirect = (isOauth2Enabled(widgetProps) === false || widgetProps.redirect === 'always');
+    const shouldRedirect = isOauth2Enabled(widgetProps) === false || widgetProps.redirect === 'always';
     if (shouldRedirect) {
       SessionStorage.removeStateHandle();
       return redirectTransformer(
