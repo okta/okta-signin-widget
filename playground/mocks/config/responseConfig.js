@@ -1117,6 +1117,23 @@ const smartCardEnrollOrVerify = {
   ],
 };
 
+const redirect = {
+  '/oauth2/default/.well-known/openid-configuration': [
+    'well-known-openid-configuration'
+  ],
+  '/oauth2/default/v1/interact': [
+    'interact'
+  ],
+  '/idp/idx/introspect': [
+    'authenticator-verification-email',
+  ],
+  '/idp/idx/challenge/poll': [
+    'success-redirect-remediation',
+    // 'error-with-failure-redirect',
+    // 'failure-redirect-remediation',
+  ],
+};
+
 module.exports = {
-  mocks: idx
+  mocks: redirect
 };
