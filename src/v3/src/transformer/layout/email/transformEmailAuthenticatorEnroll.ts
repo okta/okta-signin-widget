@@ -68,8 +68,8 @@ export const transformEmailAuthenticatorEnroll: IdxStepTransformer = ({ transact
   if (typeof useEmailMagicLink === 'undefined') {
     subTitleElement.options.content = loc('oie.email.enroll.subtitle', 'login');
   } else {
-    const emailAddress = getUserInfo(transaction)?.profile?.email ||
-    getUserInfo(transaction).identifier;
+    const emailAddress = getUserInfo(transaction)?.profile?.email
+    || getUserInfo(transaction).identifier;
     const tokenReplacement: TokenReplacement | undefined = typeof emailAddress !== 'undefined'
       ? { $1: { element: 'span', attributes: { class: 'strong no-translate' } } }
       : undefined;
