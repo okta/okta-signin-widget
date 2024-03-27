@@ -9,13 +9,20 @@ import { WIDGET_FOOTER_CLASS } from 'v2/view-builder/utils/Constants';
 describe('v2/view-builder/views/CaptchaView', function() {
   let testContext;
   let language = undefined;
+  let hcaptchaOptions = {};
+  let recaptchaOptions = {};
   beforeEach(function() { 
     testContext = {};
     testContext.init = (captcha = enrollProfileWithReCaptcha.captcha.value) => {
       const appState = new AppState({
         captcha
       }, {});
-      const settings = new Settings({ baseUrl: 'http://localhost:3000', language });
+      const settings = new Settings({
+        baseUrl: 'http://localhost:3000',
+        language,
+        ...hcaptchaOptions,
+        ...recaptchaOptions,
+      });
       testContext.view = new CaptchaView({
         appState,
         settings,
@@ -80,6 +87,34 @@ describe('v2/view-builder/views/CaptchaView', function() {
     
     testContext.init(enrollProfileWithHCaptcha.captcha.value);
     expect(spy).toHaveBeenCalledWith('https://hcaptcha.com/1/api.js?onload=OktaSignInWidgetOnCaptchaLoaded&render=explicit&hl=fr');
+  });
+
+  it('Captcha gets loaded properly with custom script URI', function() {
+    // Mock browser locale
+    jest.spyOn(navigator, 'language', 'get').mockReturnValue('en');
+    language = undefined;
+
+    const spy = jest.spyOn(CaptchaView.prototype, '_loadCaptchaLib');
+
+    // Set hCaptcha options for SIW and ensure hCaptcha gets loaded with correct custom URL
+    hcaptchaOptions = {
+      'hcaptcha.scriptSource': 'https://cn1.hcaptcha.com/1/api.js',
+      'hcaptcha.scriptParams': {
+        endpoint: 'https://cn1.hcaptcha.com',
+        assethost: 'https://assets-cn1.hcaptcha.com',
+        imghost: 'https://imgs-cn1.hcaptcha.com',
+        reportapi: 'https://reportapi-cn1.hcaptcha.com',
+      }
+    };
+    testContext.init(enrollProfileWithHCaptcha.captcha.value);
+    expect(spy).toHaveBeenCalledWith('https://cn1.hcaptcha.com/1/api.js?endpoint=https%3A%2F%2Fcn1.hcaptcha.com&assethost=https%3A%2F%2Fassets-cn1.hcaptcha.com&imghost=https%3A%2F%2Fimgs-cn1.hcaptcha.com&reportapi=https%3A%2F%2Freportapi-cn1.hcaptcha.com&onload=OktaSignInWidgetOnCaptchaLoaded&render=explicit&hl=en');
+
+    // Set reCAPTCHA options for SIW and ensure hCaptcha gets loaded with correct custom URL
+    recaptchaOptions = {
+      'recaptcha.scriptSource': 'https://recaptcha.net/recaptcha/api.js',
+    };
+    testContext.init();
+    expect(spy).toHaveBeenCalledWith('https://recaptcha.net/recaptcha/api.js?onload=OktaSignInWidgetOnCaptchaLoaded&render=explicit&hl=en');
   });
 
   it('Captcha gets removed properly', function() {

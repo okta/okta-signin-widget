@@ -3129,12 +3129,18 @@
   dependencies:
     "@hapi/hoek" "^9.0.0"
 
-"@hcaptcha/react-hcaptcha@^1.8.1":
-  version "1.8.1"
-  resolved "https://registry.npmjs.org/@hcaptcha/react-hcaptcha/-/react-hcaptcha-1.8.1.tgz#3e6e0423100158bae089e4ef6507db0d4c62ec3f"
-  integrity sha512-33tIl77HgeahiQ6R0+JPDA8cGBBv95cIVcdOcFVwiGCJhrOxyiOQetCdEUNTDS13xrkvIP29K/PrqLXXSbKl6Q==
+"@hcaptcha/loader@^1.2.1":
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@hcaptcha/loader/-/loader-1.2.3.tgz#d2a7d0925d13009dc18b13dd4e46c399aa24e253"
+  integrity sha512-tJVkPpvWZ9kIXMAFeH/7B8iIDNN+kpFLBVgtJQgtWa1cAN0bUve2VPuc/UTVa0NUh7tsmd6oAg/C0VUplMt2UQ==
+
+"@hcaptcha/react-hcaptcha@^1.10.1":
+  version "1.10.1"
+  resolved "https://registry.yarnpkg.com/@hcaptcha/react-hcaptcha/-/react-hcaptcha-1.10.1.tgz#c9c4a913cde4fd6e9c09180f1aa6f65d9f136263"
+  integrity sha512-P0en4gEZAecah7Pt3WIaJO2gFlaLZKkI0+Tfdg8fNqsDxqT9VytZWSkH4WAkiPRULK1QcGgUZK+J56MXYmPifw==
   dependencies:
     "@babel/runtime" "^7.17.9"
+    "@hcaptcha/loader" "^1.2.1"
 
 "@humanwhocodes/config-array@^0.5.0":
   version "0.5.0"

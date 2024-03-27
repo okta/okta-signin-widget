@@ -104,6 +104,17 @@ export interface WidgetOptions
   useClassicEngine?: boolean;
   hooks?: HooksOptions;
   proxyIdxResponse?: any;
+  // hCaptcha options
+  hcaptcha?: {
+    // script source URI
+    scriptSource?: string;
+    // query params for script source URI
+    scriptParams?: Record<string, string>;
+  };
+  // reCAPTCHA options
+  recaptcha?: {
+    scriptSource?: string;
+  };
 
   /**
    * @deprecated since version 7.0

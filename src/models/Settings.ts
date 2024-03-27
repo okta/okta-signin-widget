@@ -185,7 +185,15 @@ const local: Record<string, ModelProperty> = {
   otp: 'string',
 
   //Support classic engine
-  useClassicEngine: ['boolean', false, false]
+  useClassicEngine: ['boolean', false, false],
+
+  //hCaptcha script source URI
+  'hcaptcha.scriptSource': ['string', false],
+  //query params for hCaptcha script source URI
+  'hcaptcha.scriptParams': ['object', false, {}],
+
+  //reCAPTCHA script source URI
+  'recaptcha.scriptSource': ['string', false],
 };
 
 const derived: Record<string, ModelProperty>  = {

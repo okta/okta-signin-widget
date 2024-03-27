@@ -358,4 +358,29 @@ describe('util/Util', () => {
       expect(Util.isAndroidOVEnrollment()).toBe(false);
     });
   });
+
+  describe('searchParamsToString', () => {
+    it('encodes keys and values', () => {
+      const params = {
+        a: 1,
+        'key 2': 'value/2'
+      };
+      const expected = 'a=1&key%202=value%2F2';
+      expect(Util.searchParamsToString(params)).toEqual(expected);
+    });
+
+    it('skips parameters with nullish values', () => {
+      const params = {
+        a: 1,
+        b: undefined,
+        c: null,
+        d: '',
+        e: ' ',
+        f: 0,
+        g: '0'
+      };
+      const expected = 'a=1&d=&e=%20&f=0&g=0';
+      expect(Util.searchParamsToString(params)).toEqual(expected);
+    });
+  });
 });

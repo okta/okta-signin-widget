@@ -1,7 +1,7 @@
-import { RequestMock, RequestLogger, Selector } from 'testcafe';
+import { RequestMock, RequestLogger, Selector, userVariables } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { checkConsoleMessages, renderWidget } from '../framework/shared';
 import xhrIdentifyWithPasswordWithReCaptcha from '../../../playground/mocks/data/idp/idx/identify-with-password-with-recaptcha-v2';
 import xhrIdentifyWithPasswordWithHCaptcha from '../../../playground/mocks/data/idp/idx/identify-with-password-with-hcaptcha';
 import success from '../../../playground/mocks/data/idp/idx/success';
@@ -34,11 +34,20 @@ const reCaptchaRequestLogger = RequestLogger(
   }
 );
 
+const hcaptchaRequestLogger = RequestLogger(
+  /hcaptcha\.com/,
+  {
+    logRequestBody: false,
+    stringifyRequestBody: false,
+  }
+);
+
 fixture('Identify + Password With Captcha');
 
-async function setup(t) {
+async function setup(t, widgetOptions) {
   const identityPage = new IdentityPageObject(t);
-  await identityPage.navigateToPage();
+  await identityPage.navigateToPage({ render: false });
+  await renderWidget(widgetOptions || {});
   await t.expect(identityPage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: 'primary-auth',
@@ -51,11 +60,17 @@ async function setup(t) {
 }
 
 // TODO: Quarantined a11y check - OKTA-576351 - re-enable once fixed
-test.requestHooks(identifyRequestLogger, identifyMockwithHCaptcha)('should sign in with hCaptcha enabled', async t => {
-  const identityPage = await setup(t);
+test.requestHooks(identifyRequestLogger, identifyMockwithHCaptcha, hcaptchaRequestLogger)('should sign in with hCaptcha enabled', async t => {
+  const identityPage = await setup(t, {
+    language: 'en'
+  });
   // await checkA11y(t);
 
-  
+  const expectedSrc = userVariables.gen3
+    ? 'https://js.hcaptcha.com/1/api.js?onload=hCaptchaOnLoad&render=explicit'
+    : 'https://hcaptcha.com/1/api.js?onload=OktaSignInWidgetOnCaptchaLoaded&render=explicit&hl=en';
+  await t.expect(hcaptchaRequestLogger.requests.filter(req => req.request.url === expectedSrc).length).eql(1);
+
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.fillPasswordField('random password 123');
   await t.expect(await identityPage.hasForgotPasswordLinkText()).ok();
@@ -76,9 +91,37 @@ test.requestHooks(identifyRequestLogger, identifyMockwithHCaptcha)('should sign 
   await t.expect(req.url).eql('http://localhost:3000/idp/idx/identify');
 });
 
+test.requestHooks(identifyRequestLogger, identifyMockwithHCaptcha, hcaptchaRequestLogger)('can load hCaptcha script with custom URI', async t => {
+  await setup(t, {
+    hcaptcha: {
+      scriptSource: 'https://cn1.hcaptcha.com/1/api.js',
+      scriptParams: {
+        endpoint: 'https://cn1.hcaptcha.com',
+        assethost: 'https://assets-cn1.hcaptcha.com',
+        imghost: 'https://imgs-cn1.hcaptcha.com',
+        reportapi: 'https://reportapi-cn1.hcaptcha.com',
+      }
+    },
+    language: 'en',
+  });
+  // await checkA11y(t);
+
+  const expectedSrc = userVariables.gen3
+    ? 'https://cn1.hcaptcha.com/1/api.js?onload=hCaptchaOnLoad&render=explicit&assethost=https%3A%2F%2Fassets-cn1.hcaptcha.com&imghost=https%3A%2F%2Fimgs-cn1.hcaptcha.com&reportapi=https%3A%2F%2Freportapi-cn1.hcaptcha.com&endpoint=https%3A%2F%2Fcn1.hcaptcha.com'
+    : 'https://cn1.hcaptcha.com/1/api.js?endpoint=https%3A%2F%2Fcn1.hcaptcha.com&assethost=https%3A%2F%2Fassets-cn1.hcaptcha.com&imghost=https%3A%2F%2Fimgs-cn1.hcaptcha.com&reportapi=https%3A%2F%2Freportapi-cn1.hcaptcha.com&onload=OktaSignInWidgetOnCaptchaLoaded&render=explicit&hl=en';
+  await t.expect(hcaptchaRequestLogger.requests.filter(req => req.request.url === expectedSrc).length).eql(1);
+});
+
 test.requestHooks(identifyRequestLogger, reCaptchaRequestLogger, identifyMockWithReCaptcha)('should sign in with reCaptcha enabled', async t => {
-  const identityPage = await setup(t);
+  const identityPage = await setup(t, {
+    language: 'en'
+  });
   await checkA11y(t);
+
+  const expectedSrc = userVariables.gen3
+    ? 'https://www.google.com/recaptcha/api.js?onload=onloadcallback&render=explicit'
+    : 'https://www.google.com/recaptcha/api.js?onload=OktaSignInWidgetOnCaptchaLoaded&render=explicit&hl=en';
+  await t.expect(Selector(`script[src="${expectedSrc}"]`).exists).ok();
 
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.fillPasswordField('random password 123');
@@ -95,4 +138,20 @@ test.requestHooks(identifyRequestLogger, reCaptchaRequestLogger, identifyMockWit
   await t.expect(reCaptchaRequestLogger.count(() => true)).eql(1);
   const req = reCaptchaRequestLogger.requests[0].request;
   await t.expect(req.url).contains('6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI');
+});
+
+test.requestHooks(identifyRequestLogger, identifyMockWithReCaptcha)('can load reCAPTCHA script with custom URI', async t => {
+  await setup(t, {
+    recaptcha: {
+      scriptSource: 'https://recaptcha.net/recaptcha/api.js',
+    },
+    language: 'en',
+  });
+
+  await checkA11y(t);
+
+  const expectedSrc = userVariables.gen3
+    ? 'https://recaptcha.net/recaptcha/api.js?onload=onloadcallback&render=explicit'
+    : 'https://recaptcha.net/recaptcha/api.js?onload=OktaSignInWidgetOnCaptchaLoaded&render=explicit&hl=en';
+  await t.expect(Selector(`script[src="${expectedSrc}"]`).exists).ok();
 });

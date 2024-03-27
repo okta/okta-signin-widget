@@ -1105,6 +1105,35 @@ Custom link href for the "Unlock Account" link. For this link to display, `featu
 
 Array of custom link objects `{text, href, target}` that will be added after the "Help" link. The `target` of the link is optional.
 
+#### hCaptcha options
+
+Set the following config options to customize `hCaptcha` script URI:
+
+```javascript
+// An example that uses cn1 host
+hcaptcha: {
+  scriptSource: 'https://cn1.hcaptcha.com/1/api.js',
+  scriptParams: {
+    apihost: 'https://cn1.hcaptcha.com',
+    endpoint: 'https://cn1.hcaptcha.com',
+    assethost: 'https://assets-cn1.hcaptcha.com',
+    imghost: 'https://imgs-cn1.hcaptcha.com',
+    reportapi: 'https://reportapi-cn1.hcaptcha.com',
+  }
+},
+```
+
+#### reCAPTCHA options
+
+Set the following config options to customize `reCAPTCHA` script URI:
+
+```javascript
+// An example that uses recaptcha.net
+recaptcha: {
+  scriptSource: 'https://recaptcha.net/recaptcha/api.js'
+},
+```
+
 ### Hooks
 
 Asynchronous callbacks can be invoked before or after a specific view is rendered. Hooks can be used to add custom logic such as instrumentation, logging, or additional user input. Normal execution is blocked while the hook function is executing and will resume after the Promise returned from the hook function resolves. Hooks can be added via config, as shown below, or at runtime using the [before](#before) or [after](#after) methods. The full list of views can be found in [RemediationConstants.js](https://github.com/okta/okta-signin-widget/blob/master/src/v2/ion/RemediationConstants.js#L19).

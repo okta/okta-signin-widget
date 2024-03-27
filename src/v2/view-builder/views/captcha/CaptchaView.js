@@ -12,16 +12,15 @@
 
 import { View } from '@okta/courage';
 import Enums from 'util/Enums';
+import Util from 'util/Util';
 import hbs from '@okta/handlebars-inline-precompile';
 import { WIDGET_FOOTER_CLASS } from '../../utils/Constants';
 
 const OktaSignInWidgetOnCaptchaLoadedCallback = 'OktaSignInWidgetOnCaptchaLoaded';
 const OktaSignInWidgetOnCaptchaSolvedCallback = 'OktaSignInWidgetOnCaptchaSolved';
 
-const HCAPTCHA_URL = 
-  `https://hcaptcha.com/1/api.js?onload=${OktaSignInWidgetOnCaptchaLoadedCallback}&render=explicit`;
-const RECAPTCHAV2_URL = 
-  `https://www.google.com/recaptcha/api.js?onload=${OktaSignInWidgetOnCaptchaLoadedCallback}&render=explicit`;
+const HCAPTCHA_URL = 'https://hcaptcha.com/1/api.js';
+const RECAPTCHAV2_URL = 'https://www.google.com/recaptcha/api.js';
 
 export default View.extend({
   className: 'captcha-view',
@@ -133,9 +132,9 @@ export default View.extend({
 
     
     if (this.captchaConfig.type === 'HCAPTCHA') {
-      this._loadCaptchaLib(this._getCaptchaUrl(HCAPTCHA_URL));
+      this._loadCaptchaLib(this._getCaptchaUrl(HCAPTCHA_URL, 'hcaptcha'));
     } else if (this.captchaConfig.type === 'RECAPTCHA_V2') {
-      this._loadCaptchaLib(this._getCaptchaUrl(RECAPTCHAV2_URL));
+      this._loadCaptchaLib(this._getCaptchaUrl(RECAPTCHAV2_URL, 'recaptcha'));
     }
   },
   
@@ -175,8 +174,27 @@ export default View.extend({
     return captchaObject;
   },
 
-  _getCaptchaUrl(baseURL) {
+  /**
+   *  Supported params for hCaptcha script:
+   *   https://github.com/hCaptcha/hcaptcha-loader#props
+   *   (starting from 'apihost')
+   *  Supported params for reCAPTCHA script:
+   *   https://developers.google.com/recaptcha/docs/display#javascript_resource_apijs_parameters
+  * */
+  _getCaptchaUrl(defaultBaseUrl, settingsKey) {
     const locale = this.options.settings.get('language');
-    return `${baseURL}&hl=${locale || navigator.language}`;
-  }
+    const scriptSource = this.options.settings.get(`${settingsKey}.scriptSource`);
+    const scriptParams = this.options.settings.get(`${settingsKey}.scriptParams`);
+
+    const baseUrl = scriptSource || defaultBaseUrl;
+    const params = {
+      ...scriptParams,
+      onload: OktaSignInWidgetOnCaptchaLoadedCallback,
+      render: 'explicit',
+      hl: locale || navigator.language,
+    };
+    const query = Util.searchParamsToString(params);
+    return baseUrl + '?' + query;
+  },
+
 });

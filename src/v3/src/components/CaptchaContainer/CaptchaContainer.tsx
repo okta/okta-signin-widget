@@ -23,6 +23,17 @@ import {
   UISchemaElementComponent,
 } from '../../types';
 
+declare global {
+  interface Window {
+    recaptchaOptions?: {
+      // https://github.com/dozoisch/react-google-recaptcha#advanced-usage
+      useRecaptchaNet?: boolean;
+      enterprise?: boolean;
+      nonce?: string;
+    }
+  }
+}
+
 const CaptchaContainer: UISchemaElementComponent<{
   uischema: CaptchaContainerElement
 }> = ({ uischema }) => {
@@ -34,13 +45,23 @@ const CaptchaContainer: UISchemaElementComponent<{
     },
   } = uischema;
 
-  const { dataSchemaRef } = useWidgetContext();
+  const { dataSchemaRef, widgetProps } = useWidgetContext();
+  const { hcaptcha: hcaptchaOptions, recaptcha: recaptchaOptions } = widgetProps;
   const onSubmitHandler = useOnSubmit();
   const dataSchema = dataSchemaRef.current!;
   const captchaRef = useRef<ReCAPTCHA | HCaptcha>(null);
 
   const isHcaptchaInstance = (captchaObj: HCaptcha | ReCAPTCHA)
   : captchaObj is HCaptcha => captchaObj instanceof HCaptcha;
+
+  // Customizig reCAPTCHA script URI can be done with global `recaptchaOptions` object:
+  // https://github.com/dozoisch/react-google-recaptcha#advanced-usage
+  if (captchaType === 'RECAPTCHA_V2' && recaptchaOptions?.scriptSource && !window.recaptchaOptions) {
+    const useRecaptchaNet = recaptchaOptions.scriptSource?.includes('recaptcha.net');
+    window.recaptchaOptions = {
+      useRecaptchaNet,
+    };
+  }
 
   useEffect(() => {
     // set the reference in dataSchema context to this captcha instance
@@ -132,11 +153,21 @@ const CaptchaContainer: UISchemaElementComponent<{
   }
   return (
     <HCaptcha
+      // Params like `apihost` will be passed to hCaptcha loader.
+      // Supported params for hCaptcha script:
+      //  https://github.com/hCaptcha/hcaptcha-loader#props
+      //  (starting from 'apihost')
+      // eslint-disable-next-line react/jsx-props-no-spreading
+      {...(hcaptchaOptions?.scriptParams || {})}
+      scriptSource={hcaptchaOptions?.scriptSource}
       id="captcha-container"
       sitekey={siteKey}
       ref={captchaRef}
       onVerify={onVerifyCaptcha}
       size="invisible"
+      // Fixes issue with IE11:
+      // If hCaptcha loader removes <script>, `onload` callback won't be executed
+      cleanup={false}
     />
   );
 };

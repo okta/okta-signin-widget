@@ -212,6 +212,17 @@ export type WidgetOptions = {
   transformUsername?: (username: string, operation: UserOperation) => string;
   globalSuccessFn?: (res: RenderResult) => void;
   globalErrorFn?: (res: RenderError) => void;
+  // hCaptcha options
+  hcaptcha?: {
+    // script source URI
+    scriptSource?: string;
+    // query params for script source URI
+    scriptParams?: Record<string, string>;
+  };
+  // reCAPTCHA options
+  recaptcha?: {
+    scriptSource?: string;
+  };
 };
 
 export type IdxMethod =
