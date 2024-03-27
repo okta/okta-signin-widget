@@ -4,13 +4,13 @@ import ChallengeEmailPageObject from '../framework/page-objects/ChallengeEmailPa
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import { oktaDashboardContent } from '../framework/shared';
 
-import emailVerification from '../../../playground/mocks/data/idp/idx/authenticator-verification-email';
+import emailVerificationWithPolling from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-polling-short';
 import successRedirectRemediation from '../../../playground/mocks/data/idp/idx/success-redirect-remediation';
 
 const emailPollSuccessMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(emailVerification)
-  .onRequestTo('http://localhost:3000/idp/idx/poll')
+  .respond(emailVerificationWithPolling)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
   .respond(successRedirectRemediation)
   .onRequestTo(/^http:\/\/localhost:3000\/app\/UserHome.*/)
   .respond(oktaDashboardContent);
