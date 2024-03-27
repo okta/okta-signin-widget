@@ -107,6 +107,30 @@ const loopbackRedundantPollingMock = RequestMock()
     'access-control-allow-methods': 'POST, OPTIONS'
   });
 
+const loopbackRedundantPollingForPollCancelMock = RequestMock()
+  .onRequestTo(/\/idp\/idx\/introspect/)
+  .respond(identifyWithUserVerificationLoopback)
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll\/cancel/)
+  .respond(async (req, res) => {
+    res.headers['content-type'] = 'application/json';
+    // specifically make the /poll/cancel call to take more time
+    // which simulates the JIT process in the backend
+    await new Promise((r) => setTimeout(r, 10000));
+    res.statusCode = '200';
+    res.setBody(identify);
+  })
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
+  .respond(async (req, res) => {
+    res.headers['content-type'] = 'application/json';
+    res.statusCode = '400';
+    res.setBody(badRequestError);
+  })
+  .onRequestTo(/2000|6511|6512|6513\/probe/)
+  .respond(null, 500, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
+  });
+
 const loopbackEnhancedPollingLogger = RequestLogger(/introspect|probe|challenge|poll/, { logRequestBody: true, stringifyRequestBody: true });
 const loopbackEnhancedPollingMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/introspect/)
@@ -165,13 +189,22 @@ const loopbackBiometricsErrorMobileAfterProbePollMock = RequestMock()
 const loopbackBiometricsErrorMobileMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/introspect/)
   .respond(identifyWithUserVerificationLoopback)
-  .onRequestTo(/2000|6511|6512|6513\/probe/)
+  .onRequestTo(/2000|6511\/probe/)
   .respond(null, 500, {
     'access-control-allow-origin': '*',
     'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
   })
-  .onRequestTo(/\/idp\/idx\/authenticators\/poll\/cancel/)
-  .respond(identifyWithUserVerificationLoopback);
+  .onRequestTo(/6512\/probe/)
+  .respond(null, 200, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
+  })
+  .onRequestTo(/6512\/challenge/)
+  .respond(null, 200, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'Origin, X-Requested-With, Content-Type, Accept, X-Okta-Xsrftoken',
+    'access-control-allow-methods': 'POST, OPTIONS'
+  });
 
 const loopbackBiometricsErrorDesktopAfterProbePollMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
@@ -182,13 +215,22 @@ const loopbackBiometricsErrorDesktopAfterProbePollMock = RequestMock()
 const loopbackBiometricsErrorDesktopMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/introspect/)
   .respond(identifyWithUserVerificationLoopback)
-  .onRequestTo(/2000|6511|6512|6513\/probe/)
+  .onRequestTo(/2000|6511\/probe/)
   .respond(null, 500, {
     'access-control-allow-origin': '*',
     'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
   })
-  .onRequestTo(/\/idp\/idx\/authenticators\/poll\/cancel/)
-  .respond(identifyWithUserVerificationLoopback);
+  .onRequestTo(/6512\/probe/)
+  .respond(null, 200, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
+  })
+  .onRequestTo(/6512\/challenge/)
+  .respond(null, 200, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'Origin, X-Requested-With, Content-Type, Accept, X-Okta-Xsrftoken',
+    'access-control-allow-methods': 'POST, OPTIONS'
+  });
 
 const loopbackBiometricsNoResponseErrorLogger = RequestLogger(
   /introspect|probe|cancel|challenge|poll/,
@@ -355,6 +397,26 @@ test
     // If there is redundant polling, SIW will show bad request error
     await t.expect(deviceChallengePollPageObject.form.getErrorBoxText()).contains('Bad request');
     await t.expect(deviceChallengePollPageObject.hasErrorBox()).eql(true);
+
+    const identityPage = new IdentityPageObject(t);
+    await identityPage.fillIdentifierField('Test Identifier');
+    await t.expect(identityPage.getIdentifierValue()).eql('Test Identifier');
+  });
+
+test
+  .meta('gen3', false) // Gen3 does not have the same redundant polling issue as Gen2 and does not need to implement enhancedPollingEnabled, so skip this test
+  .requestHooks(loopbackRedundantPollingForPollCancelMock)('in loopback server, no more polling when cancel polling has been called', async t => {
+    const deviceChallengePollPageObject = await setup(t);
+    await checkA11y(t);
+    await t.expect(deviceChallengePollPageObject.getBeaconSelector()).contains(BEACON_CLASS);
+    await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Verifying your identity');
+    await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
+    await t.expect(deviceChallengePollPageObject.getFooterSwitchAuthenticatorLink().innerText).eql('Verify with something else');
+    await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Back to sign in');
+
+    // this wait time makes sure we don't assert too early if /poll call happens
+    await t.wait(2000);
+    await t.expect(deviceChallengePollPageObject.hasErrorBox()).eql(false);
 
     const identityPage = new IdentityPageObject(t);
     await identityPage.fillIdentifierField('Test Identifier');
