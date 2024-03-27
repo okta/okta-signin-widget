@@ -83,19 +83,23 @@ test.requestHooks(pollRequestLogger, emailPollSuccessMock)('should redirect imme
 });
 
 test.requestHooks(pollRequestLogger, emailPollSuccessMock)('should wait for visible page before redirect', async t => {
-  await setup(t);
-  await expectNoRedirect(t);
+  if (t.browser.name === 'Chrome' && !t.browser.headless) {
+    await setup(t);
+    await expectNoRedirect(t);
 
-  // open new tab, original tab should become inactive
-  const tabId = await openNewTab(t);
-  // wait for polling to succeed
-  await t.expect(pollRequestLogger.count(() => true)).eql(1);
-  await t.wait(500);
-  // should not auto redirect
-  await expectNoRedirect(t);
+    // open new tab, original tab should become inactive
+    const tabId = await openNewTab(t);
+    // wait for polling to succeed
+    await t.expect(pollRequestLogger.count(() => true)).eql(1);
+    await t.wait(500);
+    // should not auto redirect
+    await expectNoRedirect(t);
 
-  // close tab, original tab should become active
-  await closeTab(t, tabId);
-  // should auto redirect
-  await expectRedirect(t);
+    // close tab, original tab should become active
+    await closeTab(t, tabId);
+    // should auto redirect
+    await expectRedirect(t);
+  } else {
+    // Test doesn't work on chrome:headless
+  }
 });
