@@ -202,6 +202,64 @@ describe('util/Util', () => {
     });
   });
 
+  describe('executeOnVisiblePage', () => {
+    beforeEach(() => {
+      jest.spyOn(document, 'addEventListener');
+      jest.spyOn(document, 'removeEventListener');
+    });
+
+    afterEach(() => {
+      Object.defineProperty(document, 'visibilityState', {
+        value: 'visible',
+        configurable: true,
+      });
+    });
+
+    it('shall execute callback immediately if document is visible', () => {
+      const cb = jest.fn();
+      Object.defineProperty(document, 'visibilityState', {
+        value: 'visible',
+        configurable: true,
+      });
+      Util.executeOnVisiblePage(cb);
+
+      expect(cb).toHaveBeenCalledTimes(1);
+      expect(document.addEventListener).not.toHaveBeenCalled();
+      expect(document.removeEventListener).not.toHaveBeenCalled();
+    });
+
+    it('shall execute callback only when document become visible', () => {
+      const cb = jest.fn();
+      Object.defineProperty(document, 'visibilityState', {
+        value: 'hidden',
+        configurable: true,
+      });
+      Util.executeOnVisiblePage(cb);
+
+      // should listen to visibilitychange
+      expect(cb).not.toHaveBeenCalled();
+      expect(document.addEventListener).toHaveBeenCalledTimes(1);
+      expect(document.removeEventListener).toHaveBeenCalledTimes(0);
+      const addArgs = document.addEventListener.mock.calls[0];
+      expect(addArgs[0]).toBe('visibilitychange');
+      const addedCallback = addArgs[1];
+
+      // simulate visibilitychange
+      Object.defineProperty(document, 'visibilityState', {
+        value: 'visible',
+        configurable: true,
+      });
+      addedCallback.call(null);
+
+      expect(cb).toHaveBeenCalledTimes(1);
+      expect(document.removeEventListener).toHaveBeenCalledTimes(1);
+      const removeArgs = document.removeEventListener.mock.calls[0];
+      expect(removeArgs[0]).toBe('visibilitychange');
+      const removedCallback = removeArgs[1];
+      expect(removedCallback).toEqual(addedCallback);
+    });
+  });
+
   describe('redirectWithFormGet', () => {
     beforeEach(() => {
       jest.spyOn(Logger, 'error');
