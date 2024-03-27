@@ -15,6 +15,7 @@ export type UserInfo = {
   profile?: {
     firstName?: string;
     lastName?: string;
+    email?: string;
   };
   [key: string]: unknown;
 };

@@ -151,7 +151,7 @@ exports[`Email authenticator enroll when magic link = false Tests should render 
                         <span
                           class="strong no-translate"
                         >
-                          testUser@okta.com
+                          t*****@okta.com
                         </span>
                         . Enter the verification code in the text box.
                       </p>
