@@ -265,7 +265,8 @@
     "**/loader-utils/json5": "^1.0.2",
     "**/json5": "^2.2.2",
     "**/semver": "^7.5.4",
-    "stylis": "4.3.0"
+    "stylis": "4.3.0",
+    "**/debug": "^4.3.4"
   },
   "workspaces": {
     "packages": [

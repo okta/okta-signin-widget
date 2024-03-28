@@ -10,7 +10,6 @@
     "test:spec": "wdio run wdio.conf.js"
   },
   "dependencies": {
-    "@okta/okta-sdk-nodejs": "^6.5.0",
     "@okta/okta-signin-widget": "*"
   },
   "devDependencies": {
@@ -19,6 +18,7 @@
     "@babel/preset-env": "^7.15.6",
     "@babel/runtime": "^7.10.3",
     "@okta/env": "*",
+    "@okta/okta-sdk-nodejs": "^6.5.0",
     "@wdio/cli": "^7.20.2",
     "@wdio/cucumber-framework": "^7.20.2",
     "@wdio/jasmine-framework": "^7.20.0",
