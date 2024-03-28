@@ -162,7 +162,7 @@ test
 
     await t.expect(enrollEmailPageObject.form.getTitle()).eql('Verify with your email');
 
-    const emailAddress = xhrEnrollEmailWithoutEmailMagicLink.user.value.identifier;
+    const emailAddress = xhrEnrollEmailWithoutEmailMagicLink.user.value.profile.email;
     await t.expect(await enrollEmailPageObject.verificationLinkTextExists(emailAddress)).ok();
 
     await t.expect(await enrollEmailPageObject.enterCodeFromEmailLinkExists()).notOk();

@@ -246,7 +246,10 @@
     "type": "object",
     "value": {
       "id": "00u2m55pu8UZyeMMl0g4",
-      "identifier": "testUser@okta.com"
+      "identifier": "testUser@okta.com",
+      "profile": {
+        "email": "t*****@okta.com"
+      }
     }
   },
   "cancel": {
