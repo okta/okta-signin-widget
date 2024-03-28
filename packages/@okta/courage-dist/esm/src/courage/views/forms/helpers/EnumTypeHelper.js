@@ -152,7 +152,7 @@ function enumObjectsToValues(values) {
 }
 
 function isStringConstraint(value) {
-  return oktaUnderscore.isString(value) && oktaJQueryStatic.trim(value) !== '';
+  return oktaUnderscore.isString(value);
 }
 
 function isNumberConstraint(value) {

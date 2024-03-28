@@ -33,7 +33,7 @@ declare const _default: typeof BaseControllerClass;
  *
  * See:
  * [Hello World Tutorial](https://github.com/okta/courage/wiki/Hello-World),
- * [Test Spec](https://github.com/okta/okta-ui/blob/master/packages/courage/test/spec/util/BaseController_spec.js)
+ * [Test Spec](https://github.com/atko-eng/okta-ui/blob/master/packages/courage/test/spec/util/BaseController_spec.js)
  *
  * @class module:Okta.Controller
  * @param {Object} options Options Hash
