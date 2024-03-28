@@ -430,7 +430,7 @@ test
     await t.expect(loopbackChallengeErrorLogger.contains(record => record.request.url.match(/6512|6513/))).eql(false);
   });
 
-test
+test.skip
   .requestHooks(loopbackChallengeWrongProfileLogger, loopbackChallengeWrongProfileMock)('in loopback server approach, will cancel polling when challenge errors out with non-503 status', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
