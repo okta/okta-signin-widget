@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "private": true,
-  "dependencies": {
+  "devDependencies": {
     "dotenv": "^10.0.0"
   }
 }
