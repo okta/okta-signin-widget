@@ -40,7 +40,7 @@ describe('Enroll Profile Transformer Tests', () => {
     transaction.nextStep = {
       name: '',
     };
-    widgetProps = {};
+    widgetProps = {} as unknown as WidgetProps;
   });
 
   it('should only add title and submit button when select-identify doesnt exist in available steps '
@@ -75,14 +75,6 @@ describe('Enroll Profile Transformer Tests', () => {
         inputMeta: { name: 'credentials.passcode', secret: true },
       },
     } as FieldElement);
-    const mockUserInfo = {
-      identifier: 'testuser@okta.com',
-      profile: { firstName: 'test', lastName: 'user' },
-    };
-    transaction.context.user = {
-      type: 'object',
-      value: mockUserInfo,
-    };
 
     const updatedFormBag = transformEnrollProfile({ transaction, formBag, widgetProps });
 
@@ -134,14 +126,6 @@ describe('Enroll Profile Transformer Tests', () => {
         },
       ],
     };
-    const mockUserInfo = {
-      identifier: 'testuser@okta.com',
-      profile: { firstName: 'test', lastName: 'user' },
-    };
-    transaction.context.user = {
-      type: 'object',
-      value: mockUserInfo,
-    };
 
     const updatedFormBag = transformEnrollProfile({ transaction, formBag, widgetProps });
 
@@ -152,23 +136,23 @@ describe('Enroll Profile Transformer Tests', () => {
       .toBe('oie.registration.form.title');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
       .toBe('oie.form.field.optional.description');
-    expect(updatedFormBag.uischema.elements[2].type).toBe('PasswordRequirements');
-    expect((updatedFormBag.uischema.elements[2] as PasswordRequirementsElement).options?.id)
-      .toBe('password-authenticator--list');
-    expect((updatedFormBag.uischema.elements[2] as PasswordRequirementsElement).options?.header)
-      .toBe('password.complexity.requirements.header');
-    expect((updatedFormBag.uischema.elements[2] as PasswordRequirementsElement).options?.userInfo)
-      .toEqual(mockUserInfo);
-    expect((updatedFormBag.uischema.elements[2] as PasswordRequirementsElement).options?.settings)
-      .toEqual({ complexity: { minNumber: 1, minSymbol: 1 } });
-    expect((updatedFormBag.uischema.elements[2] as PasswordRequirementsElement)
-      .options?.validationDelayMs).toBe(PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS);
-    expect((updatedFormBag.uischema.elements[3] as FieldElement).options?.inputMeta.name)
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).options?.inputMeta.name)
       .toBe('userProfile.firstName');
-    expect((updatedFormBag.uischema.elements[4] as FieldElement).options?.inputMeta.name)
+    expect((updatedFormBag.uischema.elements[3] as FieldElement).options?.inputMeta.name)
       .toBe('userProfile.lastName');
-    expect((updatedFormBag.uischema.elements[5] as FieldElement).options?.inputMeta.name)
+    expect((updatedFormBag.uischema.elements[4] as FieldElement).options?.inputMeta.name)
       .toBe('userProfile.email');
+    expect(updatedFormBag.uischema.elements[5].type).toBe('PasswordRequirements');
+    expect((updatedFormBag.uischema.elements[5] as PasswordRequirementsElement).options?.id)
+      .toBe('password-authenticator--list');
+    expect((updatedFormBag.uischema.elements[5] as PasswordRequirementsElement).options?.header)
+      .toBe('password.complexity.requirements.header');
+    expect((updatedFormBag.uischema.elements[5] as PasswordRequirementsElement).options?.userInfo)
+      .toEqual({});
+    expect((updatedFormBag.uischema.elements[5] as PasswordRequirementsElement).options?.settings)
+      .toEqual({ complexity: { minNumber: 1, minSymbol: 1 } });
+    expect((updatedFormBag.uischema.elements[5] as PasswordRequirementsElement)
+      .options?.validationDelayMs).toBe(PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS);
     expect((updatedFormBag.uischema.elements[6] as FieldElement).options?.inputMeta.name)
       .toBe('credentials.passcode');
     expect((updatedFormBag.uischema.elements[6] as FieldElement).options?.attributes?.autocomplete)

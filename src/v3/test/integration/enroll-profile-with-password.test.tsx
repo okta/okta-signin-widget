@@ -89,6 +89,40 @@ describe('enroll-profile-with-password', () => {
     expect(container).toMatchSnapshot();
   });
 
+  it('should display field level error when password includes username', async () => {
+    const {
+      authClient, container, user, findByText, findByLabelText,
+    } = await setup({ mockResponse });
+
+    const titleElement = await findByText(/Sign up/);
+    await waitFor(() => expect(titleElement).toHaveFocus());
+
+    const submitButton = await findByText('Sign Up', { selector: 'button' });
+    const firstNameEle = await findByLabelText('First name') as HTMLInputElement;
+    const lastNameEle = await findByLabelText('Last name') as HTMLInputElement;
+    const emailEle = await findByLabelText('Email') as HTMLInputElement;
+    const passwordEle = await findByLabelText('Password') as HTMLInputElement;
+
+    const firstName = 'tester';
+    const lastName = 'McTesterson';
+    const email = 'tester@okta1.com';
+    const password = 'abc123testerabcd243';
+    await user.type(firstNameEle, firstName);
+    await user.type(lastNameEle, lastName);
+    await user.type(emailEle, email);
+    await user.type(passwordEle, password);
+
+    expect(firstNameEle.value).toEqual(firstName);
+    expect(lastNameEle.value).toEqual(lastName);
+    expect(emailEle.value).toEqual(email);
+    expect(passwordEle.value).toEqual(password);
+
+    await user.click(submitButton);
+    expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
+    expect(passwordEle).toHaveErrorMessage(/No parts of your username/);
+    expect(container).toMatchSnapshot();
+  });
+
   it('should send correct payload', async () => {
     const {
       authClient, user, findByText, findByLabelText,
