@@ -19,7 +19,9 @@ const idx = {
   ],
 
   '/idp/idx/introspect': [
-    'identify',
+    //'identify-with-password-with-hcaptcha',
+    'identify-with-password-with-recaptcha-v2',
+
     // 'error-identify-multiple-errors',
     // 'authenticator-enroll-ov-qr-enable-biometrics',
     // 'authenticator-verification-okta-verify-push',

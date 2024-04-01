@@ -131,22 +131,30 @@ export default View.extend({
     window[OktaSignInWidgetOnCaptchaSolvedCallback] = onCaptchaSolved;
 
     
-    if (this.captchaConfig.type === 'HCAPTCHA') {
-      this._loadCaptchaLib(this._getCaptchaUrl(HCAPTCHA_URL, 'hcaptcha'));
-    } else if (this.captchaConfig.type === 'RECAPTCHA_V2') {
-      this._loadCaptchaLib(this._getCaptchaUrl(RECAPTCHAV2_URL, 'recaptcha'));
-    }
+    this._loadCaptchaLib();
   },
-  
+
   /**
    *  We dynamically inject <script> tag into our login container because in case the customer is hosting
    *  the SIW, we need to ensure we don't go out of scope when injecting the script.
   * */ 
-  _loadCaptchaLib(url) {
-    let scriptTag = document.createElement('script');
+  _loadCaptchaLib(attemptNo = 0) {
+    const defaulUrl = this.captchaConfig.type === 'HCAPTCHA' ? HCAPTCHA_URL : RECAPTCHAV2_URL;
+    const settingsKey = this.captchaConfig.type === 'HCAPTCHA' ? 'hcaptcha' : 'recaptcha';
+    const scriptSource = this.options.settings.get(`${settingsKey}.scriptSource`);
+    const scriptSources = this.options.settings.get(`${settingsKey}.scriptSources`);
+    const maxRetryAttempts = scriptSources?.length || scriptSource && 1 || 0;
+
+    const url = this._getCaptchaUrl(defaulUrl, settingsKey, attemptNo);
+    const scriptTag = document.createElement('script');
     scriptTag.src = url;
     scriptTag.async = true;
     scriptTag.defer = true;
+    scriptTag.onerror = () => {
+      if (attemptNo < maxRetryAttempts) {
+        this._loadCaptchaLib(attemptNo + 1);
+      }
+    };
     document.getElementById(Enums.WIDGET_CONTAINER_ID).appendChild(scriptTag);
   },
 
@@ -181,14 +189,23 @@ export default View.extend({
    *  Supported params for reCAPTCHA script:
    *   https://developers.google.com/recaptcha/docs/display#javascript_resource_apijs_parameters
   * */
-  _getCaptchaUrl(defaultBaseUrl, settingsKey) {
+  _getCaptchaUrl(defaultBaseUrl, settingsKey, attemptNo = 0) {
     const locale = this.options.settings.get('language');
+    const scriptSources = this.options.settings.get(`${settingsKey}.scriptSources`);
     const scriptSource = this.options.settings.get(`${settingsKey}.scriptSource`);
     const scriptParams = this.options.settings.get(`${settingsKey}.scriptParams`);
-
-    const baseUrl = scriptSource || defaultBaseUrl;
-    const params = {
-      ...scriptParams,
+    let baseUrl = defaultBaseUrl, params = {};
+    if (attemptNo > 0) {
+      if (scriptSources) {
+        baseUrl = scriptSources[attemptNo - 1].src;
+        params = scriptSources[attemptNo - 1].params || {};
+      } else {
+        baseUrl = scriptSource;
+        params = scriptParams || {};
+      }
+    }
+    params = {
+      ...params,
       onload: OktaSignInWidgetOnCaptchaLoadedCallback,
       render: 'explicit',
       hl: locale || navigator.language,

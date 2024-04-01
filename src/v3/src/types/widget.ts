@@ -218,10 +218,17 @@ export type WidgetOptions = {
     scriptSource?: string;
     // query params for script source URI
     scriptParams?: Record<string, string>;
+    // new
+    scriptSources?: {
+      src: string;
+      params?: Record<string, string>;
+    }[];
   };
   // reCAPTCHA options
   recaptcha?: {
     scriptSource?: string;
+    // new
+    scriptSources?: string[];
   };
 };
 
