@@ -177,9 +177,10 @@ const SchemaUtils = {
     READ_ONLY: loc('universal-directory.profiles.attribute.enduser.permission.readonly', 'courage'),
     READ_WRITE: loc('universal-directory.profiles.attribute.enduser.permission.readwrite', 'courage')
   },
+  // eslint-disable-next-line inclusive-language/use-inclusive-words
   ATTRIBUTE_LEVEL_MASTERING_OPTIONS: {
     INHERIT: loc('universal-directory.profiles.attribute.source.inherit', 'courage'),
-    // eslint-disable-next-line @okta/okta/no-exclusive-language
+    // eslint-disable-next-line inclusive-language/use-inclusive-words
     OKTA_MASTERED: loc('universal-directory.profiles.attribute.source.oktamastered', 'courage'),
     OVERRIDE: loc('universal-directory.profiles.attribute.source.override', 'courage')
   },
