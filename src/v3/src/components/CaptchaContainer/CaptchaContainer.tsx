@@ -78,6 +78,7 @@ const CaptchaContainer: UISchemaElementComponent<{
 
   const recaptchaUrl = useMemo(() => {
     if (loadAttempt === 0) {
+      // deprecated
       return recaptchaProps?.scriptSource;
     }
     return recaptchaProps?.alternativeScriptSources?.[loadAttempt - 1];
