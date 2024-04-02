@@ -1107,7 +1107,7 @@ Array of custom link objects `{text, href, target}` that will be added after the
 
 #### hCaptcha options
 
-Set the following config options to set alternative `hCaptcha` script sources that will be used if the default one (`https://js.hcaptcha.com/1/api.js`) fails to load:
+Set the following config options to configure alternative `hCaptcha` script sources that will be used if the default one (`https://js.hcaptcha.com/1/api.js`) fails to load:
 
 ```javascript
 hcaptcha: {
@@ -1152,7 +1152,7 @@ hcaptcha: {
 
 #### reCAPTCHA options
 
-Set the following config options to set alternative `reCAPTCHA` script URIs that will be used if the default one (`https://www.google.com/recaptcha/api.js`) fails to load:
+Set the following config options to configure alternative `reCAPTCHA` script URIs that will be used if the default one (`https://www.google.com/recaptcha/api.js`) fails to load:
 
 ```javascript
 recaptcha: {
@@ -1172,7 +1172,7 @@ recaptcha: {
   scriptSource: 'https://recaptcha.net/recaptcha/api.js'
 },
 ```
-<s>
+</s>
 
 ### Hooks
 
