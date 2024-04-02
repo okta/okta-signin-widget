@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-// Leonardo doesn't have TS support in stable version alpha.13 so types are defined in leonardo.d.ts
 import {
   BackgroundColor, Color, CssColor, Theme,
 } from '@adobe/leonardo-contrast-colors';

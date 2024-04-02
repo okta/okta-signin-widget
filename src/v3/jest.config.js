@@ -18,6 +18,9 @@ const REPORT_DIR = '<rootDir>/build2/reports/unit';
 const esModules = [
   '@okta/odyssey-design-tokens',
   '@okta/odyssey-react-mui',
+  '@adobe/leonardo-contrast-colors',
+  'apca-w3',
+  'colorparsley'
 ].join('|');
 
 const devMode = process.env.NODE_ENV === 'development';
