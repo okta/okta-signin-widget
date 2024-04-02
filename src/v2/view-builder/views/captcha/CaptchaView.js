@@ -141,9 +141,8 @@ export default View.extend({
   _loadCaptchaLib(attemptNo = 0) {
     const defaulUrl = this.captchaConfig.type === 'HCAPTCHA' ? HCAPTCHA_URL : RECAPTCHAV2_URL;
     const settingsKey = this.captchaConfig.type === 'HCAPTCHA' ? 'hcaptcha' : 'recaptcha';
-    const scriptSource = this.options.settings.get(`${settingsKey}.scriptSource`);
-    const scriptSources = this.options.settings.get(`${settingsKey}.scriptSources`);
-    const maxRetryAttempts = scriptSources?.length || scriptSource && 1 || 0;
+    const altScriptSources = this.options.settings.get(`${settingsKey}.alternativeScriptSources`);
+    const maxRetryAttempts = altScriptSources?.length ?? 0;
 
     const url = this._getCaptchaUrl(defaulUrl, settingsKey, attemptNo);
     const scriptTag = document.createElement('script');
@@ -191,18 +190,21 @@ export default View.extend({
   * */
   _getCaptchaUrl(defaultBaseUrl, settingsKey, attemptNo = 0) {
     const locale = this.options.settings.get('language');
-    const scriptSources = this.options.settings.get(`${settingsKey}.scriptSources`);
+    const altScriptSources = this.options.settings.get(`${settingsKey}.alternativeScriptSources`);
     const scriptSource = this.options.settings.get(`${settingsKey}.scriptSource`);
     const scriptParams = this.options.settings.get(`${settingsKey}.scriptParams`);
-    let baseUrl = defaultBaseUrl, params = {};
-    if (attemptNo > 0) {
-      if (scriptSources) {
-        baseUrl = scriptSources[attemptNo - 1].src;
-        params = scriptSources[attemptNo - 1].params || {};
-      } else {
+    let baseUrl, params;
+    if (attemptNo === 0) {
+      if (scriptSource) {
         baseUrl = scriptSource;
         params = scriptParams || {};
+      } else {
+        baseUrl = defaultBaseUrl;
+        params = {};
       }
+    } else {
+      baseUrl = altScriptSources[attemptNo - 1].src;
+      params = altScriptSources[attemptNo - 1].params || {};
     }
     params = {
       ...params,

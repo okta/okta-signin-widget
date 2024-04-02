@@ -59,34 +59,25 @@ const CaptchaContainer: UISchemaElementComponent<{
 
   // At 1st attempt try to load script with default options
   // If it failed, try to use `scriptSources`
-  const maxRetryAttempts = useMemo(() => {
-    if (captchaType === 'HCAPTCHA') {
-      return hcaptchaProps?.scriptSources?.length || hcaptchaProps?.scriptSource && 1 || 0;
-    }
-    return recaptchaProps?.scriptSources?.length || recaptchaProps?.scriptSource && 1 || 0;
-  }, [captchaType, hcaptchaProps, recaptchaProps]);
+  const maxRetryAttempts = captchaType === 'HCAPTCHA' ?
+    hcaptchaProps?.alternativeScriptSources?.length ?? 0 :
+    recaptchaProps?.alternativeScriptSources?.length ?? 0;
 
   const hcaptchaScriptSource = useMemo(() => {
     if (loadAttempt === 0) {
-      return undefined;
+      return hcaptchaProps?.scriptSource ? {
+        src: hcaptchaProps?.scriptSource,
+        params: hcaptchaProps?.scriptParams,
+      } : undefined;
     }
-    if (hcaptchaProps?.scriptSources) {
-      return hcaptchaProps.scriptSources[loadAttempt - 1];
-    }
-    return {
-      src: hcaptchaProps?.scriptSource,
-      params: hcaptchaProps?.scriptParams,
-    };
+    return hcaptchaProps?.alternativeScriptSources?.[loadAttempt - 1];
   }, [hcaptchaProps, loadAttempt]);
 
   const recaptchaUrl = useMemo(() => {
     if (loadAttempt === 0) {
-      return undefined;
+      return recaptchaProps?.scriptSource;
     }
-    if (recaptchaProps?.scriptSources) {
-      return recaptchaProps?.scriptSources[loadAttempt - 1];
-    }
-    return recaptchaProps?.scriptSource;
+    return recaptchaProps?.alternativeScriptSources?.[loadAttempt - 1];
   }, [recaptchaProps, loadAttempt]);
 
   // Customizig reCAPTCHA script URI can be done with global `recaptchaOptions` object:
