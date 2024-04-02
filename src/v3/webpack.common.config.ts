@@ -86,6 +86,8 @@ const baseConfig: Partial<Configuration> = {
         test: /\.m?[jt]sx?$/,
         exclude(filePath) {
           const filePathContains = (f) => filePath.indexOf(f) >= 0;
+          // If adding new module, check if also needs to be added to esModules array
+          // in src/v3/jest.config.js
           const npmRequiresTransform = [
             '/node_modules/parse-ms',
             '/node_modules/@sindresorhus/to-milliseconds',
