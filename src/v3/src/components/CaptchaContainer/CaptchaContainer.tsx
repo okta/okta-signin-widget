@@ -12,7 +12,9 @@
 
 import HCaptcha from '@hcaptcha/react-hcaptcha';
 import { Box } from '@mui/material';
-import { useEffect, useState, useRef, useMemo } from 'preact/hooks';
+import {
+  useEffect, useMemo, useRef, useState,
+} from 'preact/hooks';
 import ReCAPTCHA from 'react-google-recaptcha';
 
 import Logger from '../../../../util/Logger';
@@ -28,7 +30,7 @@ interface RecaptchaOptions {
   useRecaptchaNet?: boolean;
   enterprise?: boolean;
   nonce?: string;
-};
+}
 
 declare global {
   interface Window {
@@ -57,15 +59,16 @@ const CaptchaContainer: UISchemaElementComponent<{
   const isHcaptchaInstance = (captchaObj: HCaptcha | ReCAPTCHA)
   : captchaObj is HCaptcha => captchaObj instanceof HCaptcha;
 
-  // At 1st attempt try to load script with default options
-  // If it failed, try to use `scriptSources`
-  const maxRetryAttempts = captchaType === 'HCAPTCHA' ?
-    hcaptchaProps?.alternativeScriptSources?.length ?? 0 :
-    recaptchaProps?.alternativeScriptSources?.length ?? 0;
+  // At 1st attempt try to load script with default options.
+  // If it fails, try to use `alternativeScriptSources`
+  const maxLoadAttempts = 1 + (captchaType === 'HCAPTCHA'
+    ? hcaptchaProps?.alternativeScriptSources?.length ?? 0
+    : recaptchaProps?.alternativeScriptSources?.length ?? 0);
 
   const hcaptchaScriptSource = useMemo(() => {
     if (loadAttempt === 0) {
       return hcaptchaProps?.scriptSource ? {
+        // deprecated
         src: hcaptchaProps?.scriptSource,
         params: hcaptchaProps?.scriptParams,
       } : undefined;
@@ -85,7 +88,8 @@ const CaptchaContainer: UISchemaElementComponent<{
   if (captchaType === 'RECAPTCHA_V2' && recaptchaUrl) {
     window.recaptchaOptions = {
       useRecaptchaNet: recaptchaUrl?.includes('recaptcha.net'),
-    }
+      enterprise: recaptchaUrl?.includes('/enterprise.js'),
+    };
   }
 
   useEffect(() => {
@@ -123,7 +127,7 @@ const CaptchaContainer: UISchemaElementComponent<{
   };
 
   const onLoadError = () => {
-    if (loadAttempt < maxRetryAttempts) {
+    if ((loadAttempt + 1) < maxLoadAttempts) {
       setLoadAttempt(loadAttempt + 1);
     }
   };
@@ -134,7 +138,7 @@ const CaptchaContainer: UISchemaElementComponent<{
     }
   });
 
-  const onRecaptchaScriptLoad = (({errored}: {errored?: boolean} = {}) => {
+  const onRecaptchaScriptLoad = (({ errored }: { errored?: boolean } = {}) => {
     if (errored) {
       onLoadError();
     }

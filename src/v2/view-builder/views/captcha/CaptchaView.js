@@ -130,7 +130,6 @@ export default View.extend({
     // the 'data-callback' attribute which the Captcha library uses to invoke the callback.
     window[OktaSignInWidgetOnCaptchaSolvedCallback] = onCaptchaSolved;
 
-    
     this._loadCaptchaLib();
   },
 
@@ -138,20 +137,21 @@ export default View.extend({
    *  We dynamically inject <script> tag into our login container because in case the customer is hosting
    *  the SIW, we need to ensure we don't go out of scope when injecting the script.
   * */ 
-  _loadCaptchaLib(attemptNo = 0) {
+  _loadCaptchaLib(loadAttempt = 0) {
     const defaulUrl = this.captchaConfig.type === 'HCAPTCHA' ? HCAPTCHA_URL : RECAPTCHAV2_URL;
     const settingsKey = this.captchaConfig.type === 'HCAPTCHA' ? 'hcaptcha' : 'recaptcha';
     const altScriptSources = this.options.settings.get(`${settingsKey}.alternativeScriptSources`);
-    const maxRetryAttempts = altScriptSources?.length ?? 0;
+    const maxLoadAttempts = 1 + (altScriptSources?.length ?? 0);
 
-    const url = this._getCaptchaUrl(defaulUrl, settingsKey, attemptNo);
+    const url = this._getCaptchaUrl(defaulUrl, settingsKey, loadAttempt);
     const scriptTag = document.createElement('script');
     scriptTag.src = url;
     scriptTag.async = true;
     scriptTag.defer = true;
     scriptTag.onerror = () => {
-      if (attemptNo < maxRetryAttempts) {
-        this._loadCaptchaLib(attemptNo + 1);
+      if ((loadAttempt + 1) < maxLoadAttempts) {
+        scriptTag.remove();
+        this._loadCaptchaLib(loadAttempt + 1);
       }
     };
     document.getElementById(Enums.WIDGET_CONTAINER_ID).appendChild(scriptTag);
@@ -188,23 +188,24 @@ export default View.extend({
    *  Supported params for reCAPTCHA script:
    *   https://developers.google.com/recaptcha/docs/display#javascript_resource_apijs_parameters
   * */
-  _getCaptchaUrl(defaultBaseUrl, settingsKey, attemptNo = 0) {
+  _getCaptchaUrl(defaultBaseUrl, settingsKey, loadAttempt = 0) {
     const locale = this.options.settings.get('language');
     const altScriptSources = this.options.settings.get(`${settingsKey}.alternativeScriptSources`);
     const scriptSource = this.options.settings.get(`${settingsKey}.scriptSource`);
     const scriptParams = this.options.settings.get(`${settingsKey}.scriptParams`);
-    let baseUrl, params;
-    if (attemptNo === 0) {
+    let baseUrl = defaultBaseUrl, params = {};
+    if (loadAttempt === 0) {
       if (scriptSource) {
+        // deprecated
         baseUrl = scriptSource;
         params = scriptParams || {};
-      } else {
-        baseUrl = defaultBaseUrl;
-        params = {};
       }
     } else {
-      baseUrl = altScriptSources[attemptNo - 1].src;
-      params = altScriptSources[attemptNo - 1].params || {};
+      const altScriptSource = altScriptSources[loadAttempt - 1];
+      if (altScriptSource) {
+        baseUrl = altScriptSource.src ?? altScriptSource;
+        params = altScriptSource.params || {};
+      }
     }
     params = {
       ...params,

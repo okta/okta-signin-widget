@@ -1107,10 +1107,35 @@ Array of custom link objects `{text, href, target}` that will be added after the
 
 #### hCaptcha options
 
+Set the following config options to set alternative `hCaptcha` script sources that will be used if the default one (`https://js.hcaptcha.com/1/api.js`) fails to load:
+
+```javascript
+hcaptcha: {
+  alternativeScriptSources: [
+    // Example: use cn1 host
+    {
+      src: 'https://cn1.hcaptcha.com/1/api.js',
+      // Supported params:
+      //  https://github.com/hCaptcha/hcaptcha-loader#props
+      //  (starting from 'apihost')
+      params: {
+        apihost: 'https://cn1.hcaptcha.com',
+        endpoint: 'https://cn1.hcaptcha.com',
+        assethost: 'https://assets-cn1.hcaptcha.com',
+        imghost: 'https://imgs-cn1.hcaptcha.com',
+        reportapi: 'https://reportapi-cn1.hcaptcha.com',
+      }
+    }
+  ],
+},
+```
+
+<!-- @deprecated -->
+<s>
 Set the following config options to customize `hCaptcha` script URI:
 
 ```javascript
-// An example that uses cn1 host
+// An example that uses cn1 host instead of default
 hcaptcha: {
   scriptSource: 'https://cn1.hcaptcha.com/1/api.js',
   scriptParams: {
@@ -1122,17 +1147,32 @@ hcaptcha: {
   }
 },
 ```
+</s>
+
 
 #### reCAPTCHA options
 
+Set the following config options to set alternative `reCAPTCHA` script URIs that will be used if the default one (`https://www.google.com/recaptcha/api.js`) fails to load:
+
+```javascript
+recaptcha: {
+  alternativeScriptSources: [
+    'https://recaptcha.net/recaptcha/api.js'
+  ],
+},
+```
+
+<!-- @deprecated -->
+<s>
 Set the following config options to customize `reCAPTCHA` script URI:
 
 ```javascript
-// An example that uses recaptcha.net
+// An example that uses recaptcha.net instead of google.com
 recaptcha: {
   scriptSource: 'https://recaptcha.net/recaptcha/api.js'
 },
 ```
+<s>
 
 ### Hooks
 

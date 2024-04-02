@@ -214,21 +214,43 @@ export type WidgetOptions = {
   globalErrorFn?: (res: RenderError) => void;
   // hCaptcha options
   hcaptcha?: {
-    // script source URI
-    scriptSource?: string;
-    // query params for script source URI
-    scriptParams?: Record<string, string>;
-    // new
+    /**
+     * Alternative script sources that will be used
+     *  if the default one fails to load.
+     * Default script source: https://js.hcaptcha.com/1/api.js
+     */
     alternativeScriptSources?: {
       src: string;
+      /**
+       * Supported params:
+       * https://github.com/hCaptcha/hcaptcha-loader#props
+       * (starting from 'apihost')
+       */
       params?: Record<string, string>;
     }[];
+    /**
+     * @deprecated use `hcaptcha.alternativeScriptSources` instead
+     * script source URI
+     */
+    scriptSource?: string;
+    /**
+     * @deprecated use `hcaptcha.alternativeScriptSources` instead
+     * query params for script source URI
+     */
+    scriptParams?: Record<string, string>;
   };
   // reCAPTCHA options
   recaptcha?: {
-    scriptSource?: string;
-    // new
+    /**
+     * Alternative script sources that will be used
+     *  if the default one fails to load.
+     * Default script source: https://www.google.com/recaptcha/api.js
+     */
     alternativeScriptSources?: string[];
+    /**
+     * @deprecated use `recaptcha.alternativeScriptSources` instead
+     */
+    scriptSource?: string;
   };
 };
 
