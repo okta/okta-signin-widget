@@ -26,8 +26,9 @@ import {
   PasswordRequirementStatus,
   PasswordValidation,
   UISchemaElementComponent,
+  UserInfo,
 } from '../../types';
-import { validatePassword } from '../../util';
+import { getUserProvidedUserInfo, validatePassword } from '../../util';
 import PasswordRequirementListItem from './PasswordRequirementListItem';
 
 const PasswordRequirements: UISchemaElementComponent<{
@@ -47,6 +48,8 @@ const PasswordRequirements: UISchemaElementComponent<{
   const password = 'credentials.newPassword' in data
     ? data['credentials.newPassword']
     : data['credentials.passcode'];
+  // Create a reference to fields that may be used in password validation (Enroll Profile)
+  const userProvidedUserInfo = getUserProvidedUserInfo(data);
 
   const [passwordValidations, setPasswordValidations] = useState<PasswordValidation>({});
   const tokens = useOdysseyDesignTokens();
@@ -65,13 +68,13 @@ const PasswordRequirements: UISchemaElementComponent<{
     return 'info';
   };
 
-  const onValidatePassword = (pw: string): void => {
+  const onValidatePassword = (pw: string, userInfoObj: UserInfo): void => {
     if (!settings) {
       setPasswordValidations({});
       return;
     }
 
-    const validations = validatePassword(pw, userInfo, settings);
+    const validations = validatePassword(pw, userInfoObj, settings);
     if (!Object.keys(validations).length) {
       setPasswordValidations({});
       return;
@@ -85,9 +88,15 @@ const PasswordRequirements: UISchemaElementComponent<{
   );
 
   useEffect(() => {
-    passwordValidationHandler((password ?? '') as string);
+    const userInfoObj = Object.keys(userInfo).length ? userInfo : userProvidedUserInfo;
+    passwordValidationHandler((password ?? '') as string, userInfoObj);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [password]);
+  }, [
+    password,
+    userProvidedUserInfo.identifier,
+    userProvidedUserInfo.profile?.firstName,
+    userProvidedUserInfo.profile?.lastName,
+  ]);
 
   return requirements?.length > 0 ? (
     <Box

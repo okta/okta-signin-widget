@@ -34,7 +34,7 @@ export const removeUIElementWithName = (
   elements: UISchemaElement[],
 ): UISchemaElement[] => (
   elements.filter((element) => (
-    name !== (element as FieldElement).options.inputMeta.name
+    name !== (element as FieldElement).options?.inputMeta?.name
   ))
 );
 
@@ -43,6 +43,6 @@ export const getUIElementWithName = (
   elements: UISchemaElement[],
 ): UISchemaElement | undefined => (
   elements.find((element) => (
-    name === (element as FieldElement).options.inputMeta.name
+    name === (element as FieldElement).options?.inputMeta?.name
   ))
 );
