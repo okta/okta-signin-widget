@@ -12,7 +12,8 @@
 
 import { waitFor } from '@testing-library/preact';
 
-import mockResponse from '../../../../playground/mocks/data/idp/idx/enroll-profile-with-password.json';
+import mockResponse from '../../src/mocks/response/idp/idx/enroll/enroll-profile-with-password-full-requirements.json';
+// import mockResponseWithFullRequirements from '../../src/mocks/response/idp/idx/enroll/enroll-profile-with-password-full-requirements.json';
 import { createAuthJsPayloadArgs, setup } from './util';
 
 describe('enroll-profile-with-password', () => {
@@ -55,7 +56,7 @@ describe('enroll-profile-with-password', () => {
     expect(container).toMatchSnapshot();
   });
 
-  it('should display field level error when password does not fulfill requirements', async () => {
+  it('should display field level error when password does not fulfill minLength requirement', async () => {
     const {
       authClient, container, user, findByText, findByLabelText,
     } = await setup({ mockResponse });
@@ -89,7 +90,7 @@ describe('enroll-profile-with-password', () => {
     expect(container).toMatchSnapshot();
   });
 
-  it('should display field level error when password includes username', async () => {
+  it('should display field level error when password does not fulfill username requirement', async () => {
     const {
       authClient, container, user, findByText, findByLabelText,
     } = await setup({ mockResponse });
@@ -103,10 +104,10 @@ describe('enroll-profile-with-password', () => {
     const emailEle = await findByLabelText('Email') as HTMLInputElement;
     const passwordEle = await findByLabelText('Password') as HTMLInputElement;
 
-    const firstName = 'tester';
+    const firstName = 'Johnny';
     const lastName = 'McTesterson';
     const email = 'tester@okta1.com';
-    const password = 'abc123testerabcd243';
+    const password = 'abc123testerabcd243T$';
     await user.type(firstNameEle, firstName);
     await user.type(lastNameEle, lastName);
     await user.type(emailEle, email);
@@ -123,26 +124,10 @@ describe('enroll-profile-with-password', () => {
     expect(container).toMatchSnapshot();
   });
 
-  it('should display field level error when password includes first and last name', async () => {
-    const mockResponseWithRequirements = {
-      ...mockResponse,
-      currentAuthenticator: {
-        ...mockResponse.currentAuthenticator,
-        value: {
-          ...mockResponse.currentAuthenticator.value,
-          settings: {
-            ...mockResponse.currentAuthenticator.value.settings,
-            complexity: {
-              ...mockResponse.currentAuthenticator.value.settings.complexity,
-              excludeAttributes: ['firstName', 'lastName'],
-            },
-          },
-        }
-      },
-    };
+  it('should display field level error when password does not fulfill first and last name exclusion requirement', async () => {
     const {
       authClient, container, user, findByText, findByLabelText,
-    } = await setup({ mockResponse: mockResponseWithRequirements });
+    } = await setup({ mockResponse });
 
     const titleElement = await findByText(/Sign up/);
     await waitFor(() => expect(titleElement).toHaveFocus());
@@ -153,10 +138,10 @@ describe('enroll-profile-with-password', () => {
     const emailEle = await findByLabelText('Email') as HTMLInputElement;
     const passwordEle = await findByLabelText('Password') as HTMLInputElement;
 
-    const firstName = 'tester';
+    const firstName = 'Johnny';
     const lastName = 'McTesterson';
     const email = 'oktauser@okta1.com';
-    const password = 'Abc123testerabcd243mctesterson$534534sdfa';
+    const password = 'Abc123johnnyabcd243mctesterson$534534sdfa';
     await user.type(firstNameEle, firstName);
     await user.type(lastNameEle, lastName);
     await user.type(emailEle, email);
@@ -191,7 +176,7 @@ describe('enroll-profile-with-password', () => {
     const firstName = 'tester';
     const lastName = 'McTesterson';
     const email = 'tester@okta1.com';
-    const password = 'abc123DE';
+    const password = 'Abcd1234@hasdfaerterww';
     await user.type(firstNameEle, firstName);
     await user.type(lastNameEle, lastName);
     await user.type(emailEle, email);
