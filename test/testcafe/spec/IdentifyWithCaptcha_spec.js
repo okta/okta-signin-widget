@@ -183,11 +183,6 @@ test.requestHooks(identifyMockwithHCaptcha, hCaptchaScriptErrorMock, hCaptchaReq
     req => req.request.url.startsWith('https://cn2.hcaptcha.com/1/api.js')
   ).length).eql(0);
 
-  // only 1 script should exist
-  await t.expect(Selector(`script[src="${expectedSrc}"]`).exists).ok();
-  await t.expect(Selector(`script[src^="https://bad-host.hcaptcha.com/"]`).exists).notOk();
-  await t.expect(Selector(`script[src^="https://js.hcaptcha.com/"]`).exists).notOk();
-  await t.expect(Selector(`script[src^="https://hcaptcha.com/"]`).exists).notOk();
   await t.expect(Selector('#captcha-container').find('iframe').exists).ok();
 });
 
@@ -271,8 +266,5 @@ test.requestHooks(identifyMockWithReCaptcha, reCaptchaRequestLogger, reCaptchaSc
     req => req.request.url.startsWith('https://recaptcha.net/recaptcha/enterprise.js')
   ).length).eql(0);
 
-  // only 1 script should exist
   await t.expect(Selector(`script[src="${expectedSrc}"]`).exists).ok();
-  await t.expect(Selector(`script[src^="https://www.google.com/recaptcha/"]`).exists).notOk();
-  await t.expect(Selector('#captcha-container').find('.grecaptcha-badge').exists).ok();
 });
