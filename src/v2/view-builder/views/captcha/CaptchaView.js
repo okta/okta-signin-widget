@@ -140,7 +140,10 @@ export default View.extend({
   _loadCaptchaLib(loadAttempt = 0) {
     const defaulUrl = this.captchaConfig.type === 'HCAPTCHA' ? HCAPTCHA_URL : RECAPTCHAV2_URL;
     const settingsKey = this.captchaConfig.type === 'HCAPTCHA' ? 'hcaptcha' : 'recaptcha';
-    const altScriptSources = this.options.settings.get(`${settingsKey}.alternativeScriptSources`);
+    let altScriptSources = this.options.settings.get(settingsKey);
+    if (altScriptSources && !Array.isArray(altScriptSources)) {
+      altScriptSources = [altScriptSources];
+    }
     const maxLoadAttempts = 1 + (altScriptSources?.length ?? 0);
 
     const url = this._getCaptchaUrl(defaulUrl, settingsKey, loadAttempt);
@@ -190,22 +193,15 @@ export default View.extend({
   * */
   _getCaptchaUrl(defaultBaseUrl, settingsKey, loadAttempt = 0) {
     const locale = this.options.settings.get('language');
-    const altScriptSources = this.options.settings.get(`${settingsKey}.alternativeScriptSources`);
-    const scriptSource = this.options.settings.get(`${settingsKey}.scriptSource`);
-    const scriptParams = this.options.settings.get(`${settingsKey}.scriptParams`);
+    let altScriptSources = this.options.settings.get(settingsKey);
+    if (altScriptSources && !Array.isArray(altScriptSources)) {
+      altScriptSources = [altScriptSources];
+    }
     let baseUrl = defaultBaseUrl, params = {};
-    if (loadAttempt === 0) {
-      if (scriptSource) {
-        // deprecated
-        baseUrl = scriptSource;
-        params = scriptParams || {};
-      }
-    } else {
+    if (loadAttempt > 0) {
       const altScriptSource = altScriptSources[loadAttempt - 1];
-      if (altScriptSource) {
-        baseUrl = altScriptSource.src ?? altScriptSource;
-        params = altScriptSource.params || {};
-      }
+      baseUrl = altScriptSource?.scriptSource;
+      params = altScriptSource?.scriptParams || {};
     }
     params = {
       ...params,
