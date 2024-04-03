@@ -22,7 +22,7 @@ echo -E "${package_json_contents}" > $OKTA_HOME/$REPO/package.json
 printf "checking status: \n"
 git status
 printf "adding files: \n"
-git add
+git add --all
 printf "checking status again: \n"
 git status
 
