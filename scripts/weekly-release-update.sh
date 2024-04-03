@@ -1,6 +1,5 @@
 #!/bin/bash
 
-git config --list
 # temp branch for commit
 FIX_BRANCH="weekly-patch-$RELEASE_VERSION"
 
