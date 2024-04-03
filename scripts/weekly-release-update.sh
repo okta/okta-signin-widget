@@ -5,8 +5,14 @@ VERSION=$RELEASE_VERSION
 # temp branch for commit
 FIX_BRANCH="weekly-patch-$VERSION"
 
+# update files
+yarn run update-readme --ver=$VERSION
+yarn run update-patch-version $VERSION
+
 # get latest
 git fetch origin && \
+
+git stash && \
 
 # weekly release branch
 git checkout $RELEASE_BRANCH && \
@@ -14,9 +20,7 @@ git checkout $RELEASE_BRANCH && \
 # create temporary update branch
 git checkout -b $FIX_BRANCH && \
 
-# update files
-yarn run update-readme --ver=$VERSION
-yarn run update-patch-version $VERSION
+git stash pop && \
 
 # add files
 git add $OKTA_HOME/$REPO/package.json
