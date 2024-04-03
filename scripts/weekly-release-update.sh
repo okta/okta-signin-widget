@@ -19,22 +19,14 @@ git checkout -b $FIX_BRANCH
 package_json_contents="$(jq '.version = "'$RELEASE_VERSION'"' $OKTA_HOME/$REPO/package.json)" && \
 echo -E "${package_json_contents}" > $OKTA_HOME/$REPO/package.json
 
-printf "checking status: \n"
-git status
-printf "adding files: \n"
+# add files
 git add --all
-printf "checking status again: \n"
+# git add $OKTA_HOME/$REPO/README.md
+# git add $OKTA_HOME/$REPO/polyfill/README.md
 git status
 
-# git status
-# # add files
-# git add $OKTA_HOME/$REPO/package.json
-# # git add $OKTA_HOME/$REPO/README.md
-# # git add $OKTA_HOME/$REPO/polyfill/README.md
-# git status
-
-# # commit files
-# git commit -m "chore: version bump $RELEASE_VERSION"
+# commit files
+git commit -m "chore: version bump $RELEASE_VERSION"
 
 printf "Pushing to Temp branch...\n"
 # push
@@ -46,12 +38,12 @@ else
 	info
 fi
 
-# printf "Pushing to release branch...\n"
-# # push
-# if git push origin $FIX_BRANCH:$RELEASE_BRANCH ; then
-# 	printf "${GREEN}Push to $RELEASE_BRANCH was successful.\n"
-# 	info
-# else
-# 	printf "${RED}Push to $RELEASE_BRANCH failed.\n"
-# 	info
-# fi
+printf "Pushing to release branch...\n"
+# push
+if git push origin $FIX_BRANCH:$RELEASE_BRANCH ; then
+	printf "${GREEN}Push to $RELEASE_BRANCH was successful.\n"
+	info
+else
+	printf "${RED}Push to $RELEASE_BRANCH failed.\n"
+	info
+fi
