@@ -1,39 +1,49 @@
 #!/bin/bash
 
-VERSION=$RELEASE_VERSION
+printf "Printing available variables\n"
+printf "${RELEASE_BRANCH}\n"
+printf "${RELEASE_VERSION}\n"
+printf "${OKTA_HOME}\n"
+printf "${REPO}\n"
 
-# temp branch for commit
-FIX_BRANCH="weekly-patch-$VERSION"
-
-# update files
-yarn run update-readme --ver=$VERSION
-yarn run update-patch-version $VERSION
-
-# get latest
+git status
 git fetch origin && \
+git status
 
-git stash && \
+# VERSION=$RELEASE_VERSION
 
-# weekly release branch
-git checkout $RELEASE_BRANCH && \
+# # temp branch for commit
+# FIX_BRANCH="weekly-patch-$VERSION"
 
-# create temporary update branch
-git checkout -b $FIX_BRANCH && \
+# # update files
+# yarn run update-readme --ver=$VERSION
+# yarn run update-patch-version $VERSION
 
-git stash pop && \
+# # get latest
+# git fetch origin && \
 
-# add files
-git add $OKTA_HOME/$REPO/package.json
-git add $OKTA_HOME/$REPO/README.md
-git add $OKTA_HOME/$REPO/polyfill/README.md
+# git stash && \
 
-# commit files
-git commit -m "chore: version bump $VERSION"
+# # weekly release branch
+# git checkout $RELEASE_BRANCH && \
 
-# push
-if git push --set-upstream origin $FIX_BRANCH ; then
-	info
-else
-	printf "${RED}Push failed.\n"
-	info
-fi
+# # create temporary update branch
+# git checkout -b $FIX_BRANCH && \
+
+# git stash pop && \
+
+# # add files
+# git add $OKTA_HOME/$REPO/package.json
+# git add $OKTA_HOME/$REPO/README.md
+# git add $OKTA_HOME/$REPO/polyfill/README.md
+
+# # commit files
+# git commit -m "chore: version bump $VERSION"
+
+# # push
+# if git push --set-upstream origin $FIX_BRANCH ; then
+# 	info
+# else
+# 	printf "${RED}Push failed.\n"
+# 	info
+# fi
