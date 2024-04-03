@@ -18,10 +18,12 @@ git checkout -b $FIX_BRANCH
 package_json_contents="$(jq '.version = "'$RELEASE_VERSION'"' $OKTA_HOME/$REPO/package.json)" && \
 echo -E "${package_json_contents}" > $OKTA_HOME/$REPO/package.json
 
+git status
 # add files
 git add $OKTA_HOME/$REPO/package.json
-git add $OKTA_HOME/$REPO/README.md
-git add $OKTA_HOME/$REPO/polyfill/README.md
+# git add $OKTA_HOME/$REPO/README.md
+# git add $OKTA_HOME/$REPO/polyfill/README.md
+git status
 
 # commit files
 git commit -m "chore: version bump $RELEASE_VERSION"
