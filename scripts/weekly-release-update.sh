@@ -19,32 +19,39 @@ git checkout -b $FIX_BRANCH
 package_json_contents="$(jq '.version = "'$RELEASE_VERSION'"' $OKTA_HOME/$REPO/package.json)" && \
 echo -E "${package_json_contents}" > $OKTA_HOME/$REPO/package.json
 
+printf "checking status: \n"
 git status
-# add files
-git add $OKTA_HOME/$REPO/package.json
-# git add $OKTA_HOME/$REPO/README.md
-# git add $OKTA_HOME/$REPO/polyfill/README.md
+printf "adding files: \n"
+git add .
+printf "checking status again: \n"
 git status
 
-# commit files
-git commit -m "chore: version bump $RELEASE_VERSION"
+# git status
+# # add files
+# git add $OKTA_HOME/$REPO/package.json
+# # git add $OKTA_HOME/$REPO/README.md
+# # git add $OKTA_HOME/$REPO/polyfill/README.md
+# git status
 
-printf "Pushing to Temp branch...\n"
-# push
-if git push --set-upstream origin $FIX_BRANCH ; then
-	printf "${GREEN}Push to $FIX_BRANCH was successful.\n"
-	info
-else
-	printf "${RED}Push to $FIX_BRANCH failed.\n"
-	info
-fi
+# # commit files
+# git commit -m "chore: version bump $RELEASE_VERSION"
 
-printf "Pushing to release branch...\n"
-# push
-if git push origin $FIX_BRANCH:$RELEASE_BRANCH ; then
-	printf "${GREEN}Push to $RELEASE_BRANCH was successful.\n"
-	info
-else
-	printf "${RED}Push to $RELEASE_BRANCH failed.\n"
-	info
-fi
+# printf "Pushing to Temp branch...\n"
+# # push
+# if git push --set-upstream origin $FIX_BRANCH ; then
+# 	printf "${GREEN}Push to $FIX_BRANCH was successful.\n"
+# 	info
+# else
+# 	printf "${RED}Push to $FIX_BRANCH failed.\n"
+# 	info
+# fi
+
+# printf "Pushing to release branch...\n"
+# # push
+# if git push origin $FIX_BRANCH:$RELEASE_BRANCH ; then
+# 	printf "${GREEN}Push to $RELEASE_BRANCH was successful.\n"
+# 	info
+# else
+# 	printf "${RED}Push to $RELEASE_BRANCH failed.\n"
+# 	info
+# fi
