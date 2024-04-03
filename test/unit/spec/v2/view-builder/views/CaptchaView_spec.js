@@ -9,12 +9,10 @@ import { WIDGET_FOOTER_CLASS } from 'v2/view-builder/utils/Constants';
 describe('v2/view-builder/views/CaptchaView', function() {
   let testContext;
   let language = undefined;
-  let hcaptchaOptions;
-  let recaptchaOptions;
+  let captchaOptions;
   let lastScriptElement;
   beforeEach(function() {
-    hcaptchaOptions = undefined;
-    recaptchaOptions = undefined;
+    captchaOptions = undefined;
     testContext = {};
     testContext.init = (captcha = enrollProfileWithReCaptcha.captcha.value) => {
       const appState = new AppState({
@@ -23,8 +21,7 @@ describe('v2/view-builder/views/CaptchaView', function() {
       const settings = new Settings({
         baseUrl: 'http://localhost:3000',
         language,
-        ...(hcaptchaOptions && {hcaptcha: hcaptchaOptions}),
-        ...(recaptchaOptions && {recaptcha: recaptchaOptions}),
+        ...(captchaOptions || {}),
       });
       testContext.view = new CaptchaView({
         appState,
@@ -110,9 +107,9 @@ describe('v2/view-builder/views/CaptchaView', function() {
     const spyGetUrl = jest.spyOn(CaptchaView.prototype, '_getCaptchaUrl');
 
     // Set hCaptcha options for SIW and ensure hCaptcha gets loaded with correct alternative URL
-    hcaptchaOptions = {
-      scriptSource: 'https://cn1.hcaptcha.com/1/api.js',
-      scriptParams: {
+    captchaOptions = {
+      'hcaptcha.scriptSource': 'https://cn1.hcaptcha.com/1/api.js',
+      'hcaptcha.scriptParams': {
         endpoint: 'https://cn1.hcaptcha.com',
         assethost: 'https://assets-cn1.hcaptcha.com',
         imghost: 'https://imgs-cn1.hcaptcha.com',
@@ -128,8 +125,8 @@ describe('v2/view-builder/views/CaptchaView', function() {
     expect(spyGetUrl).toHaveLastReturnedWith('https://cn1.hcaptcha.com/1/api.js?endpoint=https%3A%2F%2Fcn1.hcaptcha.com&assethost=https%3A%2F%2Fassets-cn1.hcaptcha.com&imghost=https%3A%2F%2Fimgs-cn1.hcaptcha.com&reportapi=https%3A%2F%2Freportapi-cn1.hcaptcha.com&onload=OktaSignInWidgetOnCaptchaLoaded&render=explicit&hl=en');
 
     // Set reCAPTCHA options for SIW and ensure hCaptcha gets loaded with correct alternative URL
-    recaptchaOptions = {
-      scriptSource: 'https://recaptcha.net/recaptcha/api.js',
+    captchaOptions = {
+      'recaptcha.scriptSource': 'https://recaptcha.net/recaptcha/api.js',
     };
     testContext.init();
     expect(spyGetUrl).toHaveBeenLastCalledWith('https://www.google.com/recaptcha/api.js', 'recaptcha', 0);
@@ -149,17 +146,19 @@ describe('v2/view-builder/views/CaptchaView', function() {
     const spyGetUrl = jest.spyOn(CaptchaView.prototype, '_getCaptchaUrl');
 
     // Set hCaptcha options for SIW and ensure hCaptcha gets loaded with correct alternative URL
-    hcaptchaOptions = [
-      {
-        scriptSource: 'https://cn1.hcaptcha.com/1/api.js',
-        scriptParams: {
-          endpoint: 'https://cn1.hcaptcha.com',
-          assethost: 'https://assets-cn1.hcaptcha.com',
-          imghost: 'https://imgs-cn1.hcaptcha.com',
-          reportapi: 'https://reportapi-cn1.hcaptcha.com',
+    captchaOptions = {
+      hcaptcha: [
+        {
+          scriptSource: 'https://cn1.hcaptcha.com/1/api.js',
+          scriptParams: {
+            endpoint: 'https://cn1.hcaptcha.com',
+            assethost: 'https://assets-cn1.hcaptcha.com',
+            imghost: 'https://imgs-cn1.hcaptcha.com',
+            reportapi: 'https://reportapi-cn1.hcaptcha.com',
+          }
         }
-      }
-    ];
+      ]
+    };
     testContext.init(enrollProfileWithHCaptcha.captcha.value);
     expect(spyGetUrl).toHaveBeenCalledWith('https://hcaptcha.com/1/api.js', 'hcaptcha', 0);
     expect(spyGetUrl).toHaveLastReturnedWith('https://hcaptcha.com/1/api.js?onload=OktaSignInWidgetOnCaptchaLoaded&render=explicit&hl=en');
@@ -186,10 +185,12 @@ describe('v2/view-builder/views/CaptchaView', function() {
     const spyGetUrl = jest.spyOn(CaptchaView.prototype, '_getCaptchaUrl');
 
     // Set reCAPTCHA options for SIW and ensure hCaptcha gets loaded with correct alternative URL
-    recaptchaOptions = [
-      { scriptSource: 'https://recaptcha.net/recaptcha/api.js' },
-      { scriptSource: 'https://google.com/recaptcha/api.js' },
-    ];
+    captchaOptions = {
+      recaptcha: [
+        { scriptSource: 'https://recaptcha.net/recaptcha/api.js' },
+        { scriptSource: 'https://google.com/recaptcha/api.js' },
+      ]
+    };
     testContext.init();
     expect(spyGetUrl).toHaveBeenLastCalledWith('https://www.google.com/recaptcha/api.js', 'recaptcha', 0);
     expect(spyGetUrl).toHaveLastReturnedWith('https://www.google.com/recaptcha/api.js?onload=OktaSignInWidgetOnCaptchaLoaded&render=explicit&hl=en');
