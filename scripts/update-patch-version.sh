@@ -7,6 +7,5 @@ if [ -z "$1" ]
 fi
 
 NEW_VERSION=$1
-REPO=okta-signin-widget
 package_json_contents="$(jq '.version = "'$NEW_VERSION'"' $OKTA_HOME/$REPO/package.json)" && \
 echo -E "${package_json_contents}" > $OKTA_HOME/$REPO/package.json
