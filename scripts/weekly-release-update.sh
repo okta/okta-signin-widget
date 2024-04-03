@@ -27,6 +27,7 @@ git status
 
 # commit files
 git commit -m "chore: version bump $RELEASE_VERSION"
+git status
 
 printf "Pushing to Temp branch...\n"
 # push
