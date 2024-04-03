@@ -22,7 +22,7 @@ echo -E "${package_json_contents}" > $OKTA_HOME/$REPO/package.json
 printf "checking status: \n"
 git status
 printf "adding files: \n"
-git add .
+git add
 printf "checking status again: \n"
 git status
 
@@ -36,15 +36,15 @@ git status
 # # commit files
 # git commit -m "chore: version bump $RELEASE_VERSION"
 
-# printf "Pushing to Temp branch...\n"
-# # push
-# if git push --set-upstream origin $FIX_BRANCH ; then
-# 	printf "${GREEN}Push to $FIX_BRANCH was successful.\n"
-# 	info
-# else
-# 	printf "${RED}Push to $FIX_BRANCH failed.\n"
-# 	info
-# fi
+printf "Pushing to Temp branch...\n"
+# push
+if git push --set-upstream origin $FIX_BRANCH ; then
+	printf "${GREEN}Push to $FIX_BRANCH was successful.\n"
+	info
+else
+	printf "${RED}Push to $FIX_BRANCH failed.\n"
+	info
+fi
 
 # printf "Pushing to release branch...\n"
 # # push
