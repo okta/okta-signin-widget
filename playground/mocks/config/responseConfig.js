@@ -1117,6 +1117,28 @@ const smartCardEnrollOrVerify = {
   ],
 };
 
+const redirectOnPoll = {  
+  '/idp/idx/introspect': [
+    'authenticator-verification-email',
+    // 'authenticator-verification-data-okta-verify-push-autoChallenge-off',
+  ],
+  '/idp/idx/challenge': [
+    'authenticator-verification-okta-verify-push-autoChallenge-on',
+  ],
+  '/idp/idx/challenge/poll': [
+    'success-redirect-remediation',
+    // 'error-with-failure-redirect',
+    // 'failure-redirect-remediation',
+    // 'success',
+  ],
+  '/idp/idx/authenticators/poll': [
+    'success-redirect-remediation',
+    // 'error-with-failure-redirect',
+    // 'failure-redirect-remediation',
+    // 'success',
+  ],
+};
+
 module.exports = {
   mocks: idx
 };
