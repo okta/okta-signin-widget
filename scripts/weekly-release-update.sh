@@ -14,14 +14,11 @@ git checkout -b $FIX_BRANCH
 
 # update files
 yarn run update-readme --ver=$RELEASE_VERSION
-# update package.json
 package_json_contents="$(jq '.version = "'$RELEASE_VERSION'"' $OKTA_HOME/$REPO/package.json)" && \
 echo -E "${package_json_contents}" > $OKTA_HOME/$REPO/package.json
 
 # add files
 git add --all
-# git add $OKTA_HOME/$REPO/README.md
-# git add $OKTA_HOME/$REPO/polyfill/README.md
 git status
 
 # commit files
