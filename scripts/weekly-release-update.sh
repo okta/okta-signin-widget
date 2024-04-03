@@ -13,7 +13,7 @@ git checkout $RELEASE_BRANCH && \
 git checkout -b $FIX_BRANCH
 
 # update files
-yarn run update-readme --ver=$RELEASE_VERSION
+# yarn run update-readme --ver=$RELEASE_VERSION
 # update package.json
 package_json_contents="$(jq '.version = "'$RELEASE_VERSION'"' $OKTA_HOME/$REPO/package.json)" && \
 echo -E "${package_json_contents}" > $OKTA_HOME/$REPO/package.json
