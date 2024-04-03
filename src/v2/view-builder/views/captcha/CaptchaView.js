@@ -133,6 +133,22 @@ export default View.extend({
     this._loadCaptchaLib();
   },
 
+  _getScriptSources(settingsKey) {
+    const scriptSources = this.options.settings.get(settingsKey);
+    if (Array.isArray(scriptSources)) {
+      return scriptSources;
+    }
+    const scriptSource = this.options.settings.get(`${settingsKey}.scriptSource`);
+    const scriptParams = this.options.settings.get(`${settingsKey}.scriptParams`);
+    if (scriptSource) {
+      return [{
+        scriptSource,
+        scriptParams,
+      }];
+    }
+    return [];
+  },
+
   /**
    *  We dynamically inject <script> tag into our login container because in case the customer is hosting
    *  the SIW, we need to ensure we don't go out of scope when injecting the script.
@@ -140,11 +156,7 @@ export default View.extend({
   _loadCaptchaLib(loadAttempt = 0) {
     const defaulUrl = this.captchaConfig.type === 'HCAPTCHA' ? HCAPTCHA_URL : RECAPTCHAV2_URL;
     const settingsKey = this.captchaConfig.type === 'HCAPTCHA' ? 'hcaptcha' : 'recaptcha';
-    let altScriptSources = this.options.settings.get(settingsKey);
-    if (altScriptSources && !Array.isArray(altScriptSources)) {
-      altScriptSources = [altScriptSources];
-    }
-    const maxLoadAttempts = 1 + (altScriptSources?.length ?? 0);
+    const maxLoadAttempts = 1 + this._getScriptSources(settingsKey).length;
 
     const url = this._getCaptchaUrl(defaulUrl, settingsKey, loadAttempt);
     const scriptTag = document.createElement('script');
@@ -193,13 +205,10 @@ export default View.extend({
   * */
   _getCaptchaUrl(defaultBaseUrl, settingsKey, loadAttempt = 0) {
     const locale = this.options.settings.get('language');
-    let altScriptSources = this.options.settings.get(settingsKey);
-    if (altScriptSources && !Array.isArray(altScriptSources)) {
-      altScriptSources = [altScriptSources];
-    }
+    const scriptSources = this._getScriptSources(settingsKey);
     let baseUrl = defaultBaseUrl, params = {};
     if (loadAttempt > 0) {
-      const altScriptSource = altScriptSources[loadAttempt - 1];
+      const altScriptSource = scriptSources[loadAttempt - 1];
       baseUrl = altScriptSource?.scriptSource;
       params = altScriptSource?.scriptParams || {};
     }

@@ -189,11 +189,20 @@ const local: Record<string, ModelProperty> = {
 
   //hCaptcha alternative script sources
   //array of objects { scriptSource: string, scriptParams: Record<string, string> }
-  'hcaptcha': ['array', false],
+  hcaptcha: ['array', false],
+  /**
+   * @deprecated use `hcaptcha` array instead
+   */
+  'hcaptcha.scriptSource': ['string', false],
+  'hcaptcha.scriptParams': ['object', false, {}],
 
   //reCAPTCHA alternative script sources
   //array of objects { scriptSource: string }
-  'recaptcha': ['array', false],
+  recaptcha: ['array', false],
+  /**
+   * @deprecated use `recaptcha` array instead
+   */
+  'recaptcha.scriptSource': ['string', false],
 };
 
 const derived: Record<string, ModelProperty>  = {
