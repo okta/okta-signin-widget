@@ -21,6 +21,7 @@ if ! setup_service node v16.19.1 &> /dev/null; then
 fi
 
 # update files
+npm config set @okta:registry ${INTERNAL_REGISTRY}
 yarn global add @okta/siw-platform-scripts@0.11.0
 
 if ! siw-platform weekly-release-update --ver=$RELEASE_VERSION --repoPath=$REPO_PATH ; then
