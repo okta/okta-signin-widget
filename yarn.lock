@@ -18047,15 +18047,6 @@ repeating@^1.1.0:
   dependencies:
     is-finite "^1.0.0"
 
-replace-in-file@^6.2.0:
-  version "6.3.5"
-  resolved "https://registry.yarnpkg.com/replace-in-file/-/replace-in-file-6.3.5.tgz#ff956b0ab5bc96613207d603d197cd209400a654"
-  integrity sha512-arB9d3ENdKva2fxRnSjwBEXfK1npgyci7ZZuwysgAp7ORjHSyxz6oqIjTEv8R0Ydl4Ll7uOAZXL4vbkhGIizCg==
-  dependencies:
-    chalk "^4.1.2"
-    glob "^7.2.0"
-    yargs "^17.2.1"
-
 replicator@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/replicator/-/replicator-1.0.5.tgz#f1e56df7e276a62afe80c2248b8ac03896f4708f"
