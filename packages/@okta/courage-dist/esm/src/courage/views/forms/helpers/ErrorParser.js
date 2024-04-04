@@ -37,10 +37,11 @@ var ErrorParser = {
    */
   parseErrorCauseObject: function (errorCause) {
     if (errorCause.property && errorCause.errorSummary) {
-      const localizedMsg = StringUtil.localize(errorCause.reason);
+      // avoid triggering sentry log for error event with no cause reason
+      const localizedMsg = errorCause.reason ? StringUtil.localize(errorCause.reason) : undefined;
       const apiMsg = errorCause.errorSummary;
       const field = errorCause.property;
-      const errorMessage = localizedMsg.indexOf('L10N_ERROR[') === -1 ? localizedMsg : apiMsg;
+      const errorMessage = localizedMsg?.indexOf('L10N_ERROR[') === -1 ? localizedMsg : apiMsg;
       return [field, errorMessage];
     }
   },

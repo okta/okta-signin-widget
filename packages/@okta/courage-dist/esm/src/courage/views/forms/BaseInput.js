@@ -279,12 +279,7 @@ const props = {
 
     if (this.isEditMode()) {
       this.editMode();
-
-      if (oktaUnderscore.resultCtx(this.options, 'disabled', this)) {
-        this.disable();
-      } else {
-        this.enable();
-      }
+      this.applyEnabledState();
     } else {
       this.readMode();
     }
@@ -293,6 +288,13 @@ const props = {
     this.addAriaLabel();
     this.postRender();
     return this;
+  },
+  applyEnabledState: function () {
+    if (oktaUnderscore.resultCtx(this.options, 'disabled', this)) {
+      this.disable();
+    } else {
+      this.enable();
+    }
   },
 
   /**

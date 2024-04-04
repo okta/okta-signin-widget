@@ -37,6 +37,7 @@ import {
 import {
   AppInfo,
   AuthCoinProps,
+  FormBag,
   IWidgetContext,
   PhoneVerificationMethodType,
   RegistrationElementSchema,
@@ -60,6 +61,26 @@ export const getUserInfo = (transaction: IdxTransaction): UserInfo => {
     return {};
   }
   return user.value as UserInfo;
+};
+
+export const getUserProvidedUserInfo = (data: FormBag['data']): UserInfo => {
+  const identifier = ('userProfile.login' in data
+    ? data['userProfile.login']
+    : data['userProfile.email']) as string;
+  const firstName = 'userProfile.firstName' in data
+    ? data['userProfile.firstName'] as string
+    : undefined;
+  const lastName = 'userProfile.lastName' in data
+    ? data['userProfile.lastName'] as string
+    : undefined;
+
+  return {
+    identifier,
+    profile: {
+      firstName,
+      lastName,
+    },
+  };
 };
 
 export const getAppInfo = (transaction: IdxTransaction): AppInfo => {

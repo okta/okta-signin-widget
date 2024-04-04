@@ -29,7 +29,7 @@ import {
 } from '../../types';
 import {
   buildPasswordRequirementNotMetErrorList,
-  getUserInfo,
+  getUserProvidedUserInfo,
   loc,
   updatePasswordRequirementsNotMetMessage,
   validatePassword,
@@ -49,7 +49,7 @@ export const transformEnrollProfile: IdxStepTransformer = ({ transaction, formBa
   const currentRemediation = neededToProceed.find((remediation) => remediation.name === stepName);
   const isUpdateProfile = currentRemediation?.href?.endsWith('idp/idx/enroll/update');
   const { dataSchema, uischema } = formBag;
-  const userInfo = getUserInfo(transaction);
+
   const credentialsInput = inputs?.find((input) => input.name === 'credentials');
   const passwordSettings = (
     // @ts-ignore OKTA-545082 relatesTo prop missing from Input interface
@@ -79,17 +79,23 @@ export const transformEnrollProfile: IdxStepTransformer = ({ transaction, formBa
     }
     const passwordRequirementsElement: PasswordRequirementsElement = {
       type: 'PasswordRequirements',
+      noMargin: true,
       options: {
         id: 'password-authenticator--list',
         header: loc('password.complexity.requirements.header', 'login'),
-        userInfo,
+        userInfo: {},
         settings: passwordSettings,
         requirements,
         validationDelayMs: PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS,
       },
     };
     if (Object.keys(passwordSettings)?.length) {
-      uischema.elements.unshift(passwordRequirementsElement);
+      // Positions password requirements element before the password field
+      const insertIdx = uischema.elements.findIndex(
+        (element) => element.type === 'Field'
+          && (element as FieldElement).options?.inputMeta?.name === 'credentials.passcode',
+      );
+      uischema.elements.splice(insertIdx, 0, passwordRequirementsElement);
     }
 
     // Controls form submission validation
@@ -105,6 +111,7 @@ export const transformEnrollProfile: IdxStepTransformer = ({ transaction, formBa
           });
         }
         if (newPw) {
+          const userInfo = getUserProvidedUserInfo(data);
           const validations = validatePassword(newPw, userInfo, passwordSettings);
           const requirementNotMetMessages = buildPasswordRequirementNotMetErrorList(
             requirements,

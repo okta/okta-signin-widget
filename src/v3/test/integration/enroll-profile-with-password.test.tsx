@@ -12,7 +12,8 @@
 
 import { waitFor } from '@testing-library/preact';
 
-import mockResponse from '../../../../playground/mocks/data/idp/idx/enroll-profile-with-password.json';
+import mockResponse from '../../src/mocks/response/idp/idx/enroll/enroll-profile-with-password-full-requirements.json';
+// import mockResponseWithFullRequirements from '../../src/mocks/response/idp/idx/enroll/enroll-profile-with-password-full-requirements.json';
 import { createAuthJsPayloadArgs, setup } from './util';
 
 describe('enroll-profile-with-password', () => {
@@ -55,7 +56,7 @@ describe('enroll-profile-with-password', () => {
     expect(container).toMatchSnapshot();
   });
 
-  it('should display field level error when password does not fulfill requirements', async () => {
+  it('should display field level error when password does not fulfill minLength requirement', async () => {
     const {
       authClient, container, user, findByText, findByLabelText,
     } = await setup({ mockResponse });
@@ -89,6 +90,75 @@ describe('enroll-profile-with-password', () => {
     expect(container).toMatchSnapshot();
   });
 
+  it('should display field level error when password does not fulfill username requirement', async () => {
+    const {
+      authClient, container, user, findByText, findByLabelText,
+    } = await setup({ mockResponse });
+
+    const titleElement = await findByText(/Sign up/);
+    await waitFor(() => expect(titleElement).toHaveFocus());
+
+    const submitButton = await findByText('Sign Up', { selector: 'button' });
+    const firstNameEle = await findByLabelText('First name') as HTMLInputElement;
+    const lastNameEle = await findByLabelText('Last name') as HTMLInputElement;
+    const emailEle = await findByLabelText('Email') as HTMLInputElement;
+    const passwordEle = await findByLabelText('Password') as HTMLInputElement;
+
+    const firstName = 'Johnny';
+    const lastName = 'McTesterson';
+    const email = 'tester@okta1.com';
+    const password = 'abc123testerabcd243T$';
+    await user.type(firstNameEle, firstName);
+    await user.type(lastNameEle, lastName);
+    await user.type(emailEle, email);
+    await user.type(passwordEle, password);
+
+    expect(firstNameEle.value).toEqual(firstName);
+    expect(lastNameEle.value).toEqual(lastName);
+    expect(emailEle.value).toEqual(email);
+    expect(passwordEle.value).toEqual(password);
+
+    await user.click(submitButton);
+    expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
+    expect(passwordEle).toHaveErrorMessage(/No parts of your username/);
+    expect(container).toMatchSnapshot();
+  });
+
+  it('should display field level error when password does not fulfill first and last name exclusion requirement', async () => {
+    const {
+      authClient, container, user, findByText, findByLabelText,
+    } = await setup({ mockResponse });
+
+    const titleElement = await findByText(/Sign up/);
+    await waitFor(() => expect(titleElement).toHaveFocus());
+
+    const submitButton = await findByText('Sign Up', { selector: 'button' });
+    const firstNameEle = await findByLabelText('First name') as HTMLInputElement;
+    const lastNameEle = await findByLabelText('Last name') as HTMLInputElement;
+    const emailEle = await findByLabelText('Email') as HTMLInputElement;
+    const passwordEle = await findByLabelText('Password') as HTMLInputElement;
+
+    const firstName = 'Johnny';
+    const lastName = 'McTesterson';
+    const email = 'oktauser@okta1.com';
+    const password = 'Abc123johnnyabcd243mctesterson$534534sdfa';
+    await user.type(firstNameEle, firstName);
+    await user.type(lastNameEle, lastName);
+    await user.type(emailEle, email);
+    await user.type(passwordEle, password);
+
+    expect(firstNameEle.value).toEqual(firstName);
+    expect(lastNameEle.value).toEqual(lastName);
+    expect(emailEle.value).toEqual(email);
+    expect(passwordEle.value).toEqual(password);
+
+    await user.click(submitButton);
+    expect(authClient.options.httpRequestClient).not.toHaveBeenCalled();
+    expect(passwordEle).toHaveErrorMessage(/Does not include your first name/);
+    expect(passwordEle).toHaveErrorMessage(/Does not include your last name/);
+    expect(container).toMatchSnapshot();
+  });
+
   it('should send correct payload', async () => {
     const {
       authClient, user, findByText, findByLabelText,
@@ -106,7 +176,7 @@ describe('enroll-profile-with-password', () => {
     const firstName = 'tester';
     const lastName = 'McTesterson';
     const email = 'tester@okta1.com';
-    const password = 'abc123DE';
+    const password = 'Abcd1234@hasdfaerterww';
     await user.type(firstNameEle, firstName);
     await user.type(lastNameEle, lastName);
     await user.type(emailEle, email);
