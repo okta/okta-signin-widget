@@ -57,8 +57,6 @@
     "find-internal-packages": "node scripts/find-internal-packages",
     "generate-phone-codes": "node scripts/buildtools generate-phone-codes",
     "generate-config": "node scripts/buildtools generate-language-config",
-    "update-readme": "node scripts/buildtools update-readme",
-    "update-patch-version": "./scripts/update-patch-version.sh",
     "weekly-release-update": "./scripts/weekly-release-update.sh",
     "retirejs": "retire --js --jspath target/js --package",
     "lint:ci": "yarn codegen && yarn lint",
