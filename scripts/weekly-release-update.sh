@@ -14,6 +14,12 @@ git checkout $RELEASE_BRANCH && \
 # create temporary update branch
 git checkout -b $FIX_BRANCH
 
+# use appropriate node version
+if ! setup_service node v16.19.1 &> /dev/null; then
+  echo "Failed to install node"
+  exit ${FAILED_SETUP}
+fi
+
 # update files
 yarn global add @okta/siw-platform-scripts@0.11.0
 
