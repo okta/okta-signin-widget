@@ -198,7 +198,6 @@
     "postcss-loader": "^7.2.1",
     "postinstall-postinstall": "^2.1.0",
     "regenerator-runtime": "^0.13.7",
-    "replace-in-file": "^6.2.0",
     "retire": "^2.0.3",
     "rimraf": "^4.3.0",
     "rollup": "^2.70.2",
