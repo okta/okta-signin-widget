@@ -15,9 +15,14 @@ const path = require('path');
 const PROJECT_ROOT = path.resolve(__dirname, '../..');
 const PACKAGES = path.resolve(PROJECT_ROOT, 'packages');
 const REPORT_DIR = '<rootDir>/build2/reports/unit';
+// If adding new module, check if also needs to be added to npmRequiresTransform
+// array in src/v3/webpack.common.config.ts
 const esModules = [
   '@okta/odyssey-design-tokens',
   '@okta/odyssey-react-mui',
+  '@adobe/leonardo-contrast-colors',
+  'apca-w3',
+  'colorparsley'
 ].join('|');
 
 const devMode = process.env.NODE_ENV === 'development';

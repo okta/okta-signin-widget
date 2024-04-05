@@ -86,6 +86,8 @@ const baseConfig: Partial<Configuration> = {
         test: /\.m?[jt]sx?$/,
         exclude(filePath) {
           const filePathContains = (f) => filePath.indexOf(f) >= 0;
+          // If adding new module, check if also needs to be added to esModules array
+          // in src/v3/jest.config.js
           const npmRequiresTransform = [
             '/node_modules/parse-ms',
             '/node_modules/@sindresorhus/to-milliseconds',
@@ -95,6 +97,8 @@ const baseConfig: Partial<Configuration> = {
             '/node_modules/p-cancelable',
             '/node_modules/i18next',
             '/node_modules/@adobe/leonardo-contrast-colors',
+            '/node_modules/apca-w3',
+            '/node_modules/colorparsley',
             '/node_modules/@hcaptcha/loader',
             '/node_modules/@hcaptcha/react-hcaptcha',
           ].some(filePathContains);
