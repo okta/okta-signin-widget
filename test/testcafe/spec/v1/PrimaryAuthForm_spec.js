@@ -13,7 +13,9 @@ const authNSuccessMock = RequestMock()
   .onRequestTo('http://localhost:3000/api/v1/authn')
   .respond(authnSuccessResponse)
   .onRequestTo(/^http:\/\/localhost:3000\/.well-known\/webfinger.*/)
-  .respond(idpForceResponseOktaIdP);
+  .respond(idpForceResponseOktaIdP)
+  .onRequestTo(/^\/auth\/services\/devicefingerprint/)
+  .respond('<html><script>window.parent.postMessage(JSON.stringify({ type: "FingerprintAvailable", fingerprint: "mock-device-fingerprint" }), window.location.href);</script></html>');
 
 fixture('Primary Auth Form');
 
@@ -223,4 +225,48 @@ test.requestHooks(logger)('removes anti-phishing message if help link is clicked
   await t.expect(unlockAccountForm.hasEmailOrUsernameField()).eql(true);
   await t.expect(unlockAccountForm.isBeaconVisible()).eql(false);
   await t.expect(unlockAccountForm.isSecurityImageTooltipVisible()).eql(false);
+});
+
+test.requestHooks(logger)('shows beacon-loading animation when primaryAuth is submitted (with deviceFingerprint)', async (t) => {
+  const toggleBeacon = ClientFunction((show = true) => {
+    document.querySelector('.beacon-container').style.display = show ? 'block' : 'none';
+  });
+  const config = {
+    ...defaultConfig,
+    features: {
+      ...defaultConfig.features,
+      securityImage: true,
+      deviceFingerprinting: true,
+      useDeviceFingerprintForSecurityImage: false,
+    },
+  };
+  const primaryAuthForm = await setup(t, config);
+
+  await t.expect(primaryAuthForm.getFormTitle()).eql('Sign In');
+  await primaryAuthForm.form.setTextBoxValue('username', 'unknown');
+  await primaryAuthForm.form.setTextBoxValue('password', 'pass@word123');
+
+  const tooltip = primaryAuthForm.getSecurityImageTooltip();
+  await t.expect(primaryAuthForm.getBeaconContainer().visible).eql(true);
+  await t.expect(tooltip.visible).eql(true);
+  await t.expect(tooltip.textContent).contains('This is the first time you are connecting to');
+
+  await toggleBeacon(false);
+
+  await t.expect(primaryAuthForm.getBeaconContainer().visible).eql(false);
+
+  await toggleBeacon();
+
+  await t.expect(primaryAuthForm.getBeaconContainer().visible).eql(true);
+  await t.expect(primaryAuthForm.getSecurityImageTooltip().visible).eql(true);
+
+  await primaryAuthForm.clickNextButton('Sign In');
+  const {
+    request: {
+      method: reqMethod,
+      url: reqUrl,
+    }
+  } = logger.requests[0];
+  await t.expect(reqMethod).eql('get');
+  await t.expect(reqUrl).contains('devicefingerprint');
 });

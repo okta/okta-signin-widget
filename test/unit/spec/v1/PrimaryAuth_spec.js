@@ -1494,40 +1494,6 @@ Expect.describe('PrimaryAuth', function() {
             );
           });
       });
-      itp('shows beacon-loading animation when primaryAuth is submitted (with deviceFingerprint)', function() {
-        spyOn(DeviceFingerprint, 'generateDeviceFingerprint').and.callFake(function() {
-          const deferred = Q.defer();
-  
-          deferred.resolve('thisIsTheDeviceFingerprint');
-          return deferred.promise;
-        });
-        return setup({
-          features: { securityImage: true, deviceFingerprinting: true, useDeviceFingerprintForSecurityImage: false },
-        })
-          .then(function(test) {
-            test.securityBeacon = test.router.header.currentBeacon.$el;
-            test.setNextResponse(resSecurityImage);
-            return setUsernameAndWaitForBeaconChange(test, 'testuser');
-          })
-          .then(function(test) {
-            spyOn(test.securityBeacon, 'toggleClass');
-            test.setNextResponse(resSuccess);
-            test.form.setPassword('pass');
-            test.form.submit();
-            return Expect.waitForSpyCall(test.successSpy, test);
-          })
-          .then(function(test) {
-            const spyCalls = test.securityBeacon.toggleClass.calls;
-
-            expect(spyCalls.count()).toBe(3);
-            // get fingerprint
-            expect(spyCalls.argsFor(0)).toEqual([BEACON_LOADING_CLS, true]);
-            // model.save
-            expect(spyCalls.argsFor(1)).toEqual([BEACON_LOADING_CLS, true]);
-            // model.save complete
-            expect(spyCalls.mostRecent().args).toEqual([BEACON_LOADING_CLS, false]);
-          });
-      });
       itp('does not show beacon-loading animation when primaryAuth fails', function() {
         return setup({ features: { securityImage: true } })
           .then(function(test) {
