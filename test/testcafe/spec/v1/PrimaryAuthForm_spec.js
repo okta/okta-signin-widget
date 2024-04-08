@@ -227,7 +227,7 @@ test.requestHooks(logger)('removes anti-phishing message if help link is clicked
   await t.expect(unlockAccountForm.isSecurityImageTooltipVisible()).eql(false);
 });
 
-test.only.requestHooks(logger)('shows beacon-loading animation when primaryAuth is submitted (with deviceFingerprint)', async (t) => {
+test.requestHooks(logger)('shows beacon-loading animation when primaryAuth is submitted (with deviceFingerprint)', async (t) => {
   const toggleBeacon = ClientFunction((show = true) => {
     document.querySelector('.beacon-container').style.display = show ? 'block' : 'none';
   });
