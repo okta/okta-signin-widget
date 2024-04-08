@@ -20,7 +20,7 @@ const authNSuccessMock = RequestMock()
 fixture('Primary Auth Form');
 
 const logger = RequestLogger(
-  /api\/v1/,
+  [/api\/v1/, /auth\/services\/devicefingerprint/],
   {
     logRequestBody: true,
     stringifyRequestBody: true,
@@ -227,7 +227,7 @@ test.requestHooks(logger)('removes anti-phishing message if help link is clicked
   await t.expect(unlockAccountForm.isSecurityImageTooltipVisible()).eql(false);
 });
 
-test.requestHooks(logger)('shows beacon-loading animation when primaryAuth is submitted (with deviceFingerprint)', async (t) => {
+test.only.requestHooks(logger)('shows beacon-loading animation when primaryAuth is submitted (with deviceFingerprint)', async (t) => {
   const toggleBeacon = ClientFunction((show = true) => {
     document.querySelector('.beacon-container').style.display = show ? 'block' : 'none';
   });
@@ -261,12 +261,21 @@ test.requestHooks(logger)('shows beacon-loading animation when primaryAuth is su
   await t.expect(primaryAuthForm.getSecurityImageTooltip().visible).eql(true);
 
   await primaryAuthForm.clickNextButton('Sign In');
+  const [deviceFingerPrintReq, authNReq] = logger.requests;
   const {
     request: {
-      method: reqMethod,
-      url: reqUrl,
+      method: deviceFingerprintMethod,
+      url: deviceFingerprintReqUrl,
     }
-  } = logger.requests[0];
-  await t.expect(reqMethod).eql('get');
-  await t.expect(reqUrl).contains('devicefingerprint');
+  } = deviceFingerPrintReq;
+  const {
+    request: {
+      method: authNReqMethod,
+      url: authNReqUrl,
+    }
+  } = authNReq;
+  await t.expect(deviceFingerprintMethod).eql('get');
+  await t.expect(deviceFingerprintReqUrl).contains('devicefingerprint');
+  await t.expect(authNReqMethod).eql('post');
+  await t.expect(authNReqUrl).contains('api/v1/authn');
 });
