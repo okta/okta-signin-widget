@@ -1,0 +1,50 @@
+#!/bin/bash
+
+source $OKTA_HOME/$REPO/.bacon/setup.sh
+
+export TEST_SUITE_TYPE="build"
+export REGISTRY_REPO="npm-topic"
+export REGISTRY="${ARTIFACTORY_URL}/api/npm/${REGISTRY_REPO}"
+export PATH="${PATH}:$(yarn global bin)"
+
+# Install required dependencies
+yarn global add @okta/ci-append-sha
+yarn global add @okta/ci-pkginfo
+
+# Append a SHA to the version in package.json 
+if ! ci-append-sha; then
+  echo "ci-append-sha failed! Exiting..."
+  exit $FAILED_SETUP
+fi
+
+# Build
+if ! yarn workspace @okta/loginpage-render build:release; then
+  echo "build failed! Exiting..."
+  exit ${TEST_FAILURE}
+fi
+pushd ./packages/render
+
+### Not able to use 'yarn publish' which failed at
+### publish alpha version.
+### Didn't figure out root cause but keep using npm.
+npm config set @okta:registry ${REGISTRY}
+if ! npm publish --unsafe-perm; then
+  echo "npm publish failed! Exiting..."
+  exit $PUBLISH_ARTIFACTORY_FAILURE
+fi
+
+# upload artifact version to eng prod s3 to be used by downstream jobs
+artifact_version="$(ci-pkginfo -t pkgname)@$(ci-pkginfo -t pkgsemver)"
+if upload_job_data global artifact_version ${artifact_version}; then
+  echo "Upload dockolith job data artifact_version=${artifact_version} to s3!"
+else
+  # only echo the info since the upload is not crucial
+  echo "Fail to upload dockolith job data artifact_version=${artifact_version} to s3!" >&2
+fi
+
+FINAL_PUBLISHED_VERSIONS=$(echo "console.log(require('./package.json').version)" | node -)
+log_custom_message "Published Version" "${FINAL_PUBLISHED_VERSIONS}"
+
+popd
+
+exit $SUCCESS

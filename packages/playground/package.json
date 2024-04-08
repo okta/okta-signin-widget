@@ -1,0 +1,19 @@
+{
+  "name": "@okta/loginpage-playground",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "lint": "eslint --ext js,jsx,ts,tsx ./src --max-warnings=0",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@okta/loginpage-render": "*"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.4",
+    "vite": "^4.5.0"
+  }
+}

@@ -1,0 +1,31 @@
+# Metadata for all Bacon test suites. For options, see:
+# https://oktawiki.atlassian.net/wiki/spaces/ESS/pages/635280223/.Bacon.yaml
+test_suites:
+  - name: publish
+    script_path: /root/okta/loginpage/.bacon
+    script_name: publish
+    sort_order: '0'
+    timeout: '10'
+    criteria: MERGE
+    queue_name: small
+  - name: lint
+    script_path: /root/okta/loginpage/.bacon
+    script_name: lint
+    sort_order: '1'
+    timeout: '10'
+    criteria: MERGE
+    queue_name: small
+  # - name: test
+  #   script_path: /root/okta/loginpage/.bacon
+  #   script_name: test
+  #   sort_order: '2'
+  #   timeout: '10'
+  #   criteria: MERGE
+  #   queue_name: small
+  - name: semgrep
+    script_path: /root/okta/loginpage/.bacon
+    sort_order: '3'
+    timeout: '10'
+    script_name: semgrep
+    criteria: MERGE
+    queue_name: small
