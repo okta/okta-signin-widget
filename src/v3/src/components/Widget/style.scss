@@ -178,8 +178,7 @@
   margin-block-end: map.get($ods-tokens, 'spacing', '2');
 }
 .okta-container .applogin-banner .applogin-app-logo img {
-  inline-size: map.get($ods-tokens, 'spacing', '8');
-  block-size: map.get($ods-tokens, 'spacing', '8');
+  max-block-size: map.get($ods-tokens, 'spacing', '8');
 }
 
 /* loginpage container styles */
