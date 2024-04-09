@@ -43,7 +43,7 @@ exports.handler = async () => {
     packageJSON[key] = fixExportPath(packageJSON[key]);
   });
 
-  // OKTA-685931 Remove once Preact has merged fix
+  // OKTA-717741 Remove when @hcaptcha/loader patch is not needed
   delete packageJSON['scripts']['postinstall'];
 
   fs.writeFileSync(`${BUILD_DIR}/package.json`, JSON.stringify(packageJSON, null, 4));
