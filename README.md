@@ -1111,7 +1111,7 @@ Set the following config options to configure alternative `hCaptcha` script sour
 
 ```javascript
 hcaptcha: [
-  // Example: use cn1 host
+  // Example: use `cn1` and `cloudflare` subdomains
   {
     scriptSource: 'https://cn1.hcaptcha.com/1/api.js',
     // Supported params:
@@ -1124,7 +1124,16 @@ hcaptcha: [
       imghost: 'https://imgs-cn1.hcaptcha.com',
       reportapi: 'https://reportapi-cn1.hcaptcha.com',
     }
-  }
+  },
+  {
+    scriptSource: 'https://cloudflare.hcaptcha.com/1/api.js',
+    scriptParams: {
+      apihost: 'https://cloudflare.hcaptcha.com',
+      endpoint: 'https://cloudflare.hcaptcha.com',
+      assethost: 'https://cf-assets.hcaptcha.com',
+      imghost: 'https://cf-imgs.hcaptcha.com',
+    }
+  },
 ],
 ```
 
@@ -1135,9 +1144,12 @@ Set the following config options to configure alternative `reCAPTCHA` script URI
 
 ```javascript
 recaptcha: [
-  // Use recaptcha.net
+  // Example: use recaptcha.net
   {
     scriptSource: 'https://recaptcha.net/recaptcha/api.js'
+  },
+  {
+    scriptSource: 'https://www.recaptcha.net/recaptcha/api.js'
   }
 ],
 ```

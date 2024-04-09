@@ -56,7 +56,7 @@ const CaptchaContainer: UISchemaElementComponent<{
   const onSubmitHandler = useOnSubmit();
   const dataSchema = dataSchemaRef.current!;
   const captchaRef = useRef<ReCAPTCHA | HCaptcha>(null);
-  const [loadAttempt, setLoadAttempt] = useState(0);
+  const [loadAttempt, setLoadAttempt] = useState<number>(0);
 
   const isHcaptchaInstance = (captchaObj: HCaptcha | ReCAPTCHA)
   : captchaObj is HCaptcha => captchaObj instanceof HCaptcha;

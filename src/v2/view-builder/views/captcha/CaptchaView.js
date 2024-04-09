@@ -154,11 +154,11 @@ export default View.extend({
    *  the SIW, we need to ensure we don't go out of scope when injecting the script.
   * */ 
   _loadCaptchaLib(loadAttempt = 0) {
-    const defaulUrl = this.captchaConfig.type === 'HCAPTCHA' ? HCAPTCHA_URL : RECAPTCHAV2_URL;
+    const defaultUrl = this.captchaConfig.type === 'HCAPTCHA' ? HCAPTCHA_URL : RECAPTCHAV2_URL;
     const settingsKey = this.captchaConfig.type === 'HCAPTCHA' ? 'hcaptcha' : 'recaptcha';
     const maxLoadAttempts = 1 + this._getScriptSources(settingsKey).length;
 
-    const url = this._getCaptchaUrl(defaulUrl, settingsKey, loadAttempt);
+    const url = this._getCaptchaUrl(defaultUrl, settingsKey, loadAttempt);
     const scriptTag = document.createElement('script');
     scriptTag.src = url;
     scriptTag.async = true;
