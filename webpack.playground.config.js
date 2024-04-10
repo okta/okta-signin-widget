@@ -81,7 +81,16 @@ module.exports = {
           presets: [
             // preset-env is disabled for a better debugging experience.
             // It can be enabled if necessary to run playground on IE11
-            // '@babel/preset-env',
+            ...(process.env.IE11_COMPAT_MODE === 'true' ? [
+              [
+                '@babel/preset-env',
+                {
+                  targets: {
+                    ie: '11'
+                  }
+                }
+              ]
+            ] : []),
             '@babel/preset-typescript' // must run before preset-env: https://github.com/babel/babel/issues/12066
           ]
         }

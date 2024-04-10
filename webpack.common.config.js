@@ -53,6 +53,15 @@ module.exports = function({
         corejs: '3.9',
       } : {}
     ]);
+  } else if (process.env.IE11_COMPAT_MODE === 'true') {
+    babelOptions.presets.unshift([
+      '@babel/preset-env',
+      {
+        targets: {
+          ie: '11'
+        },
+      }
+    ]);
   } else {
     // In local development, we would prefer not to include any babel transforms as they make debugging more difficult
     // However, there is an issue with testcafe which requires us to include the optional chaining transform
