@@ -24,6 +24,7 @@ module.exports = function({
   cdn = true,
   useBuiltIns = false,
 }) {
+  /* eslint complexity: [2, 11] */
 
   // normalize entry so it is always an array
   entry = Array.isArray(entry) ? entry : [entry];
