@@ -104,17 +104,18 @@ export interface WidgetOptions
   useClassicEngine?: boolean;
   hooks?: HooksOptions;
   proxyIdxResponse?: any;
-  // hCaptcha options
-  hcaptcha?: {
-    // script source URI
-    scriptSource?: string;
-    // query params for script source URI
-    scriptParams?: Record<string, string>;
-  };
-  // reCAPTCHA options
-  recaptcha?: {
-    scriptSource?: string;
-  };
+  /**
+   * Alternative script sources that will be used
+   *  if the default one fails to load.
+   * Default script source: https://js.hcaptcha.com/1/api.js
+   */
+  hcaptcha?: HCaptchaScriptOptions[] | HCaptchaScriptOptions;
+  /**
+   * Alternative script sources that will be used
+   *  if the default one fails to load.
+   * Default script source: https://www.google.com/recaptcha/api.js
+   */
+  recaptcha?: ReCaptchaScriptOptions[] | ReCaptchaScriptOptions;
 
   /**
    * @deprecated since version 7.0
@@ -252,6 +253,20 @@ export interface HookDefinition {
 export type HookType = keyof HookDefinition;
 export interface HooksOptions {
   [name: string]: HookDefinition;
+}
+
+export interface HCaptchaScriptOptions {
+  scriptSource: string;
+  /**
+   * Supported params:
+   * https://github.com/hCaptcha/hcaptcha-loader#props
+   * (starting from 'apihost')
+   */
+  scriptParams?: Record<string, string>;
+}
+
+export interface ReCaptchaScriptOptions {
+  scriptSource: string;
 }
 
 type SignIn = {

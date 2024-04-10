@@ -130,24 +130,47 @@ export default View.extend({
     // the 'data-callback' attribute which the Captcha library uses to invoke the callback.
     window[OktaSignInWidgetOnCaptchaSolvedCallback] = onCaptchaSolved;
 
-    
-    if (this.captchaConfig.type === 'HCAPTCHA') {
-      this._loadCaptchaLib(this._getCaptchaUrl(HCAPTCHA_URL, 'hcaptcha'));
-    } else if (this.captchaConfig.type === 'RECAPTCHA_V2') {
-      this._loadCaptchaLib(this._getCaptchaUrl(RECAPTCHAV2_URL, 'recaptcha'));
-    }
+    this._loadCaptchaLib();
   },
-  
+
+  _getScriptSources(settingsKey) {
+    const scriptSources = this.options.settings.get(settingsKey);
+    if (Array.isArray(scriptSources)) {
+      return scriptSources;
+    }
+    const scriptSource = this.options.settings.get(`${settingsKey}.scriptSource`);
+    const scriptParams = this.options.settings.get(`${settingsKey}.scriptParams`);
+    if (scriptSource) {
+      return [{
+        scriptSource,
+        scriptParams,
+      }];
+    }
+    return [];
+  },
+
   /**
    *  We dynamically inject <script> tag into our login container because in case the customer is hosting
    *  the SIW, we need to ensure we don't go out of scope when injecting the script.
   * */ 
-  _loadCaptchaLib(url) {
-    let scriptTag = document.createElement('script');
+  _loadCaptchaLib(loadAttempt = 0) {
+    const defaultUrl = this.captchaConfig.type === 'HCAPTCHA' ? HCAPTCHA_URL : RECAPTCHAV2_URL;
+    const settingsKey = this.captchaConfig.type === 'HCAPTCHA' ? 'hcaptcha' : 'recaptcha';
+    const maxLoadAttempts = 1 + this._getScriptSources(settingsKey).length;
+
+    const url = this._getCaptchaUrl(defaultUrl, settingsKey, loadAttempt);
+    const container = document.getElementById(Enums.WIDGET_CONTAINER_ID);
+    const scriptTag = document.createElement('script');
     scriptTag.src = url;
     scriptTag.async = true;
     scriptTag.defer = true;
-    document.getElementById(Enums.WIDGET_CONTAINER_ID).appendChild(scriptTag);
+    scriptTag.onerror = () => {
+      if ((loadAttempt + 1) < maxLoadAttempts) {
+        container.removeChild(scriptTag);
+        this._loadCaptchaLib(loadAttempt + 1);
+      }
+    };
+    container.appendChild(scriptTag);
   },
 
   _addHCaptchaFooter() {
@@ -181,14 +204,17 @@ export default View.extend({
    *  Supported params for reCAPTCHA script:
    *   https://developers.google.com/recaptcha/docs/display#javascript_resource_apijs_parameters
   * */
-  _getCaptchaUrl(defaultBaseUrl, settingsKey) {
+  _getCaptchaUrl(defaultBaseUrl, settingsKey, loadAttempt = 0) {
     const locale = this.options.settings.get('language');
-    const scriptSource = this.options.settings.get(`${settingsKey}.scriptSource`);
-    const scriptParams = this.options.settings.get(`${settingsKey}.scriptParams`);
-
-    const baseUrl = scriptSource || defaultBaseUrl;
-    const params = {
-      ...scriptParams,
+    const scriptSources = this._getScriptSources(settingsKey);
+    let baseUrl = defaultBaseUrl, params = {};
+    if (loadAttempt > 0) {
+      const altScriptSource = scriptSources[loadAttempt - 1];
+      baseUrl = altScriptSource?.scriptSource;
+      params = altScriptSource?.scriptParams || {};
+    }
+    params = {
+      ...params,
       onload: OktaSignInWidgetOnCaptchaLoadedCallback,
       render: 'explicit',
       hl: locale || navigator.language,

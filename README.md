@@ -1107,32 +1107,53 @@ Array of custom link objects `{text, href, target}` that will be added after the
 
 #### hCaptcha options
 
-Set the following config options to customize `hCaptcha` script URI:
+Set the following config options to configure alternative `hCaptcha` script sources that will be used if the default one (`https://js.hcaptcha.com/1/api.js`) fails to load:
 
 ```javascript
-// An example that uses cn1 host
-hcaptcha: {
-  scriptSource: 'https://cn1.hcaptcha.com/1/api.js',
-  scriptParams: {
-    apihost: 'https://cn1.hcaptcha.com',
-    endpoint: 'https://cn1.hcaptcha.com',
-    assethost: 'https://assets-cn1.hcaptcha.com',
-    imghost: 'https://imgs-cn1.hcaptcha.com',
-    reportapi: 'https://reportapi-cn1.hcaptcha.com',
-  }
-},
+hcaptcha: [
+  // Example: use `cn1` and `cloudflare` subdomains
+  {
+    scriptSource: 'https://cn1.hcaptcha.com/1/api.js',
+    // Supported params:
+    //  https://github.com/hCaptcha/hcaptcha-loader#props
+    //  (starting from 'apihost')
+    scriptParams: {
+      apihost: 'https://cn1.hcaptcha.com',
+      endpoint: 'https://cn1.hcaptcha.com',
+      assethost: 'https://assets-cn1.hcaptcha.com',
+      imghost: 'https://imgs-cn1.hcaptcha.com',
+      reportapi: 'https://reportapi-cn1.hcaptcha.com',
+    }
+  },
+  {
+    scriptSource: 'https://cloudflare.hcaptcha.com/1/api.js',
+    scriptParams: {
+      apihost: 'https://cloudflare.hcaptcha.com',
+      endpoint: 'https://cloudflare.hcaptcha.com',
+      assethost: 'https://cf-assets.hcaptcha.com',
+      imghost: 'https://cf-imgs.hcaptcha.com',
+    }
+  },
+],
 ```
+
 
 #### reCAPTCHA options
 
-Set the following config options to customize `reCAPTCHA` script URI:
+Set the following config options to configure alternative `reCAPTCHA` script URIs that will be used if the default one (`https://www.google.com/recaptcha/api.js`) fails to load:
 
 ```javascript
-// An example that uses recaptcha.net
-recaptcha: {
-  scriptSource: 'https://recaptcha.net/recaptcha/api.js'
-},
+recaptcha: [
+  // Example: use recaptcha.net
+  {
+    scriptSource: 'https://recaptcha.net/recaptcha/api.js'
+  },
+  {
+    scriptSource: 'https://www.recaptcha.net/recaptcha/api.js'
+  }
+],
 ```
+
 
 ### Hooks
 

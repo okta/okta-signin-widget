@@ -18,6 +18,20 @@ const identifyMockWithReCaptcha = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/identify')
   .respond(success);  
 
+const hCaptchaScriptErrorMock = RequestMock()
+  .onRequestTo((req) => req.url.startsWith('https://js.hcaptcha.com/1/api.js'))
+  .respond({}, 404)
+  .onRequestTo((req) => req.url.startsWith('https://hcaptcha.com/1/api.js'))
+  .respond({}, 404)
+  .onRequestTo((req) => req.url.startsWith('https://bad-host.hcaptcha.com/1/api.js'))
+  .respond({}, 404);
+
+const reCaptchaScriptErrorMock = RequestMock()
+  .onRequestTo((req) => req.url.startsWith('https://www.google.com/recaptcha/api.js'))
+  .respond({}, 404)
+  .onRequestTo((req) => req.url.startsWith('https://www.google.com/recaptcha/enterprise.js'))
+  .respond({}, 404);
+
 const identifyRequestLogger = RequestLogger(
   /idx\/identify/,
   {
@@ -26,7 +40,7 @@ const identifyRequestLogger = RequestLogger(
   }
 );
 
-const reCaptchaRequestLogger = RequestLogger(
+const reCaptchaApiRequestLogger = RequestLogger(
   /\/recaptcha\/api2\/userverify/,
   {
     logRequestBody: true,
@@ -34,7 +48,15 @@ const reCaptchaRequestLogger = RequestLogger(
   }
 );
 
-const hcaptchaRequestLogger = RequestLogger(
+const reCaptchaRequestLogger = RequestLogger(
+  /(google\.com|recaptcha\.net)\/recaptcha\//,
+  {
+    logRequestBody: false,
+    stringifyRequestBody: false,
+  }
+);
+
+const hCaptchaRequestLogger = RequestLogger(
   /hcaptcha\.com/,
   {
     logRequestBody: false,
@@ -60,7 +82,7 @@ async function setup(t, widgetOptions) {
 }
 
 // TODO: Quarantined a11y check - OKTA-576351 - re-enable once fixed
-test.requestHooks(identifyRequestLogger, identifyMockwithHCaptcha, hcaptchaRequestLogger)('should sign in with hCaptcha enabled', async t => {
+test.requestHooks(identifyRequestLogger, identifyMockwithHCaptcha, hCaptchaRequestLogger)('should sign in with hCaptcha enabled', async t => {
   const identityPage = await setup(t, {
     language: 'en'
   });
@@ -69,7 +91,7 @@ test.requestHooks(identifyRequestLogger, identifyMockwithHCaptcha, hcaptchaReque
   const expectedSrc = userVariables.gen3
     ? 'https://js.hcaptcha.com/1/api.js?onload=hCaptchaOnLoad&render=explicit'
     : 'https://hcaptcha.com/1/api.js?onload=OktaSignInWidgetOnCaptchaLoaded&render=explicit&hl=en';
-  await t.expect(hcaptchaRequestLogger.requests.filter(req => req.request.url === expectedSrc).length).eql(1);
+  await t.expect(hCaptchaRequestLogger.requests.filter(req => req.request.url === expectedSrc).length).eql(1);
 
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.fillPasswordField('random password 123');
@@ -91,7 +113,7 @@ test.requestHooks(identifyRequestLogger, identifyMockwithHCaptcha, hcaptchaReque
   await t.expect(req.url).eql('http://localhost:3000/idp/idx/identify');
 });
 
-test.requestHooks(identifyRequestLogger, identifyMockwithHCaptcha, hcaptchaRequestLogger)('can load hCaptcha script with custom URI', async t => {
+test.requestHooks(identifyMockwithHCaptcha, hCaptchaScriptErrorMock, hCaptchaRequestLogger)('can load hCaptcha script from afternative URI', async t => {
   await setup(t, {
     hcaptcha: {
       scriptSource: 'https://cn1.hcaptcha.com/1/api.js',
@@ -106,13 +128,73 @@ test.requestHooks(identifyRequestLogger, identifyMockwithHCaptcha, hcaptchaReque
   });
   // await checkA11y(t);
 
+  // tries default script source  => 404
+  await t.expect(hCaptchaRequestLogger.requests.filter(
+    req => req.request.url.startsWith(userVariables.gen3 ?
+      'https://js.hcaptcha.com/1/api.js' :
+      'https://hcaptcha.com/1/api.js')
+  ).length).eql(1);
+
+  // tries alternative script source  => OK
+  await t.expect(hCaptchaRequestLogger.requests.filter(
+    req => req.request.url.startsWith('https://cn1.hcaptcha.com/1/api.js')
+  ).length).eql(1);
   const expectedSrc = userVariables.gen3
     ? 'https://cn1.hcaptcha.com/1/api.js?onload=hCaptchaOnLoad&render=explicit&assethost=https%3A%2F%2Fassets-cn1.hcaptcha.com&imghost=https%3A%2F%2Fimgs-cn1.hcaptcha.com&reportapi=https%3A%2F%2Freportapi-cn1.hcaptcha.com&endpoint=https%3A%2F%2Fcn1.hcaptcha.com'
     : 'https://cn1.hcaptcha.com/1/api.js?endpoint=https%3A%2F%2Fcn1.hcaptcha.com&assethost=https%3A%2F%2Fassets-cn1.hcaptcha.com&imghost=https%3A%2F%2Fimgs-cn1.hcaptcha.com&reportapi=https%3A%2F%2Freportapi-cn1.hcaptcha.com&onload=OktaSignInWidgetOnCaptchaLoaded&render=explicit&hl=en';
-  await t.expect(hcaptchaRequestLogger.requests.filter(req => req.request.url === expectedSrc).length).eql(1);
+  await t.expect(hCaptchaRequestLogger.requests.filter(req => req.request.url === expectedSrc).length).eql(1);
 });
 
-test.requestHooks(identifyRequestLogger, reCaptchaRequestLogger, identifyMockWithReCaptcha)('should sign in with reCaptcha enabled', async t => {
+test.requestHooks(identifyMockwithHCaptcha, hCaptchaScriptErrorMock, hCaptchaRequestLogger)('can load hCaptcha script from afternative URIs', async t => {
+  await setup(t, {
+    hcaptcha: [
+      {
+        scriptSource: 'https://bad-host.hcaptcha.com/1/api.js',
+      },
+      {
+        scriptSource: 'https://cn1.hcaptcha.com/1/api.js',
+        scriptParams: {
+          endpoint: 'https://cn1.hcaptcha.com',
+          assethost: 'https://assets-cn1.hcaptcha.com',
+          imghost: 'https://imgs-cn1.hcaptcha.com',
+          reportapi: 'https://reportapi-cn1.hcaptcha.com',
+        }
+      },
+      {
+        scriptSource: 'https://cn2.hcaptcha.com/1/api.js',
+      }
+    ],
+    language: 'en',
+  });
+  // await checkA11y(t);
+
+  // tries default script source  => 404
+  await t.expect(hCaptchaRequestLogger.requests.filter(
+    req => req.request.url.startsWith(userVariables.gen3 ?
+      'https://js.hcaptcha.com/1/api.js' :
+      'https://hcaptcha.com/1/api.js')
+  ).length).eql(1);
+
+  // tries alternative script source #1  => 404
+  await t.expect(hCaptchaRequestLogger.requests.filter(
+    req => req.request.url.startsWith('https://bad-host.hcaptcha.com/1/api.js')
+  ).length).eql(1);
+
+  // tries alternative script source #2  => OK
+  const expectedSrc = userVariables.gen3
+    ? 'https://cn1.hcaptcha.com/1/api.js?onload=hCaptchaOnLoad&render=explicit&assethost=https%3A%2F%2Fassets-cn1.hcaptcha.com&imghost=https%3A%2F%2Fimgs-cn1.hcaptcha.com&reportapi=https%3A%2F%2Freportapi-cn1.hcaptcha.com&endpoint=https%3A%2F%2Fcn1.hcaptcha.com'
+    : 'https://cn1.hcaptcha.com/1/api.js?endpoint=https%3A%2F%2Fcn1.hcaptcha.com&assethost=https%3A%2F%2Fassets-cn1.hcaptcha.com&imghost=https%3A%2F%2Fimgs-cn1.hcaptcha.com&reportapi=https%3A%2F%2Freportapi-cn1.hcaptcha.com&onload=OktaSignInWidgetOnCaptchaLoaded&render=explicit&hl=en';
+  await t.expect(hCaptchaRequestLogger.requests.filter(req => req.request.url === expectedSrc).length).eql(1);
+
+  // doesn't try alternative script source #3
+  await t.expect(hCaptchaRequestLogger.requests.filter(
+    req => req.request.url.startsWith('https://cn2.hcaptcha.com/1/api.js')
+  ).length).eql(0);
+
+  await t.expect(Selector('#captcha-container').find('iframe').exists).ok();
+});
+
+test.requestHooks(identifyRequestLogger, reCaptchaApiRequestLogger, identifyMockWithReCaptcha)('should sign in with reCaptcha enabled', async t => {
   const identityPage = await setup(t, {
     language: 'en'
   });
@@ -126,32 +208,76 @@ test.requestHooks(identifyRequestLogger, reCaptchaRequestLogger, identifyMockWit
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.fillPasswordField('random password 123');
   await t.expect(await identityPage.hasForgotPasswordLinkText()).ok();
-  
+
   await t.expect(await identityPage.hasShowTogglePasswordIcon()).ok();
-  
+
   // Wait for the reCaptcha container to appear in the DOM and become visible.
   await t.expect(Selector('#captcha-container').find('.grecaptcha-badge').exists).ok();
   await identityPage.clickSignInButton();
 
   // Ensure request to google's API was sent out with the correct siteKey. This is our best option to validate that this
   // flow works because otherwise in Bacon for some reason, the full reCaptcha flow does not always work - it's very flaky.
-  await t.expect(reCaptchaRequestLogger.count(() => true)).eql(1);
-  const req = reCaptchaRequestLogger.requests[0].request;
+  await t.expect(reCaptchaApiRequestLogger.count(() => true)).eql(1);
+  const req = reCaptchaApiRequestLogger.requests[0].request;
   await t.expect(req.url).contains('6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI');
 });
 
-test.requestHooks(identifyRequestLogger, identifyMockWithReCaptcha)('can load reCAPTCHA script with custom URI', async t => {
+test.requestHooks(identifyMockWithReCaptcha, reCaptchaRequestLogger, reCaptchaScriptErrorMock)('can load reCAPTCHA script from afternative URI', async t => {
   await setup(t, {
     recaptcha: {
       scriptSource: 'https://recaptcha.net/recaptcha/api.js',
     },
     language: 'en',
   });
-
   await checkA11y(t);
 
+  // tries default script source  => 404
+  await t.expect(reCaptchaRequestLogger.requests.filter(
+    req => req.request.url.startsWith('https://www.google.com/recaptcha/api.js')
+  ).length).eql(1);
+
+  // tries alternative script source  => OK
+  await t.expect(reCaptchaRequestLogger.requests.filter(
+    req => req.request.url.startsWith('https://recaptcha.net/recaptcha/api.js')
+  ).length).eql(1);
   const expectedSrc = userVariables.gen3
     ? 'https://recaptcha.net/recaptcha/api.js?onload=onloadcallback&render=explicit'
     : 'https://recaptcha.net/recaptcha/api.js?onload=OktaSignInWidgetOnCaptchaLoaded&render=explicit&hl=en';
+  await t.expect(Selector(`script[src="${expectedSrc}"]`).exists).ok();
+});
+
+test.requestHooks(identifyMockWithReCaptcha, reCaptchaRequestLogger, reCaptchaScriptErrorMock)('can load reCAPTCHA script from afternative URIs', async t => {
+  await setup(t, {
+    recaptcha: [
+      { scriptSource: 'https://www.google.com/recaptcha/enterprise.js' },
+      { scriptSource: 'https://recaptcha.net/recaptcha/api.js' },
+      { scriptSource: 'https://recaptcha.net/recaptcha/enterprise.js' },
+    ],
+    language: 'en',
+  });
+
+  await checkA11y(t);
+
+  // tries default script source  => 404
+  await t.expect(reCaptchaRequestLogger.requests.filter(
+    req => req.request.url.startsWith('https://www.google.com/recaptcha/api.js')
+  ).length).eql(1);
+
+  // tries alternative script source #1  => 404
+  await t.expect(reCaptchaRequestLogger.requests.filter(
+    req => req.request.url.startsWith('https://www.google.com/recaptcha/enterprise.js')
+  ).length).eql(1);
+
+  // tries alternative script source #2  => OK
+  const expectedSrc = userVariables.gen3
+    ? 'https://recaptcha.net/recaptcha/api.js?onload=onloadcallback&render=explicit'
+    : 'https://recaptcha.net/recaptcha/api.js?onload=OktaSignInWidgetOnCaptchaLoaded&render=explicit&hl=en';
+  await t.expect(reCaptchaRequestLogger.requests.filter(req => req.request.url === expectedSrc).length).eql(1);
+
+  // doesn't try alternative script source #3
+  await t.expect(reCaptchaRequestLogger.requests.filter(
+    req => req.request.url.startsWith('https://recaptcha.net/recaptcha/enterprise.js')
+  ).length).eql(0);
+
   await t.expect(Selector(`script[src="${expectedSrc}"]`).exists).ok();
 });
