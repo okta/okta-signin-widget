@@ -12,9 +12,7 @@
 
 import HCaptcha from '@hcaptcha/react-hcaptcha';
 import { Box } from '@mui/material';
-import {
-  useEffect, useMemo, useRef, useState,
-} from 'preact/hooks';
+import { useEffect, useRef } from 'preact/hooks';
 import ReCAPTCHA from 'react-google-recaptcha';
 
 import Logger from '../../../../util/Logger';
@@ -22,21 +20,17 @@ import { useWidgetContext } from '../../contexts';
 import { useOnSubmit } from '../../hooks';
 import {
   CaptchaContainerElement,
-  HCaptchaScriptOptions,
-  ReCaptchaScriptOptions,
   UISchemaElementComponent,
 } from '../../types';
 
-interface ReCaptchaGlobalOptions {
-  // https://github.com/dozoisch/react-google-recaptcha#advanced-usage
-  useRecaptchaNet?: boolean;
-  enterprise?: boolean;
-  nonce?: string;
-}
-
 declare global {
   interface Window {
-    recaptchaOptions?: ReCaptchaGlobalOptions;
+    recaptchaOptions?: {
+      // https://github.com/dozoisch/react-google-recaptcha#advanced-usage
+      useRecaptchaNet?: boolean;
+      enterprise?: boolean;
+      nonce?: string;
+    }
   }
 }
 
@@ -52,37 +46,20 @@ const CaptchaContainer: UISchemaElementComponent<{
   } = uischema;
 
   const { dataSchemaRef, widgetProps } = useWidgetContext();
-  const { hcaptcha: hcaptchaProps, recaptcha: recaptchaProps } = widgetProps;
+  const { hcaptcha: hcaptchaOptions, recaptcha: recaptchaOptions } = widgetProps;
   const onSubmitHandler = useOnSubmit();
   const dataSchema = dataSchemaRef.current!;
   const captchaRef = useRef<ReCAPTCHA | HCaptcha>(null);
-  const [loadAttempt, setLoadAttempt] = useState<number>(0);
 
   const isHcaptchaInstance = (captchaObj: HCaptcha | ReCAPTCHA)
   : captchaObj is HCaptcha => captchaObj instanceof HCaptcha;
 
-  // At 1st attempt try to load script with default options.
-  // If it fails, try to use alternative script sources from widget props
-  const altScripts = useMemo<(HCaptchaScriptOptions | ReCaptchaScriptOptions)[]>(() => {
-    if (captchaType === 'HCAPTCHA' && hcaptchaProps) {
-      return Array.isArray(hcaptchaProps) ? hcaptchaProps : [hcaptchaProps];
-    }
-    if (captchaType === 'RECAPTCHA_V2' && recaptchaProps) {
-      return Array.isArray(recaptchaProps) ? recaptchaProps : [recaptchaProps];
-    }
-    return [];
-  }, [captchaType, hcaptchaProps, recaptchaProps]);
-  const maxLoadAttempts = 1 + altScripts.length;
-  const currentScript = altScripts[loadAttempt - 1];
-  const currentScriptSource = currentScript?.scriptSource;
-  const currentScriptParams = (currentScript as HCaptchaScriptOptions)?.scriptParams || {};
-
   // Customizig reCAPTCHA script URI can be done with global `recaptchaOptions` object:
   // https://github.com/dozoisch/react-google-recaptcha#advanced-usage
-  if (captchaType === 'RECAPTCHA_V2' && currentScriptSource) {
+  if (captchaType === 'RECAPTCHA_V2' && recaptchaOptions?.scriptSource && !window.recaptchaOptions) {
+    const useRecaptchaNet = recaptchaOptions.scriptSource?.includes('recaptcha.net');
     window.recaptchaOptions = {
-      useRecaptchaNet: currentScriptSource?.includes('recaptcha.net'),
-      enterprise: currentScriptSource?.includes('/enterprise.js'),
+      useRecaptchaNet,
     };
   }
 
@@ -119,24 +96,6 @@ const CaptchaContainer: UISchemaElementComponent<{
       captchaRef.current.reset();
     }
   };
-
-  const onLoadError = () => {
-    if ((loadAttempt + 1) < maxLoadAttempts) {
-      setLoadAttempt(loadAttempt + 1);
-    }
-  };
-
-  const onHcaptchaError = ((e: string | Error) => {
-    if ((e as Error)?.message === 'script-error') {
-      onLoadError();
-    }
-  });
-
-  const onRecaptchaScriptLoad = (({ errored }: { errored?: boolean } = {}) => {
-    if (errored) {
-      onLoadError();
-    }
-  });
 
   const onVerifyCaptcha = (token: string | null) => {
     if (!token) {
@@ -182,9 +141,6 @@ const CaptchaContainer: UISchemaElementComponent<{
         position="relative"
       >
         <ReCAPTCHA
-          // Using different key for each load attempt to unmount previous component
-          key={`recaptcha-${loadAttempt}`}
-          asyncScriptOnLoad={onRecaptchaScriptLoad}
           id="captcha-container"
           sitekey={siteKey}
           ref={captchaRef}
@@ -197,16 +153,13 @@ const CaptchaContainer: UISchemaElementComponent<{
   }
   return (
     <HCaptcha
-      // Using different key for each load attempt to unmount previous component
-      key={`hcaptcha-${loadAttempt}`}
-      scriptSource={currentScriptSource}
       // Params like `apihost` will be passed to hCaptcha loader.
       // Supported params for hCaptcha script:
       //  https://github.com/hCaptcha/hcaptcha-loader#props
       //  (starting from 'apihost')
       // eslint-disable-next-line react/jsx-props-no-spreading
-      {...currentScriptParams}
-      onError={onHcaptchaError}
+      {...(hcaptchaOptions?.scriptParams || {})}
+      scriptSource={hcaptchaOptions?.scriptSource}
       id="captcha-container"
       sitekey={siteKey}
       ref={captchaRef}
