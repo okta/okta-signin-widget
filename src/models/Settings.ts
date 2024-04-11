@@ -187,21 +187,12 @@ const local: Record<string, ModelProperty> = {
   //Support classic engine
   useClassicEngine: ['boolean', false, false],
 
-  //hCaptcha alternative script sources
-  //array of objects { scriptSource: string, scriptParams: Record<string, string> }
-  hcaptcha: ['array', false],
-  /**
-   * @deprecated use `hcaptcha` array instead
-   */
+  //hCaptcha script source URI
   'hcaptcha.scriptSource': ['string', false],
+  //query params for hCaptcha script source URI
   'hcaptcha.scriptParams': ['object', false, {}],
 
-  //reCAPTCHA alternative script sources
-  //array of objects { scriptSource: string }
-  recaptcha: ['array', false],
-  /**
-   * @deprecated use `recaptcha` array instead
-   */
+  //reCAPTCHA script source URI
   'recaptcha.scriptSource': ['string', false],
 };
 

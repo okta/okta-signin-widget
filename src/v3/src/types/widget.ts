@@ -212,18 +212,17 @@ export type WidgetOptions = {
   transformUsername?: (username: string, operation: UserOperation) => string;
   globalSuccessFn?: (res: RenderResult) => void;
   globalErrorFn?: (res: RenderError) => void;
-  /**
-   * Alternative script sources that will be used
-   *  if the default one fails to load.
-   * Default script source: https://js.hcaptcha.com/1/api.js
-   */
-  hcaptcha?: HCaptchaScriptOptions[] | HCaptchaScriptOptions;
-  /**
-   * Alternative script sources that will be used
-   *  if the default one fails to load.
-   * Default script source: https://www.google.com/recaptcha/api.js
-   */
-  recaptcha?: ReCaptchaScriptOptions[] | ReCaptchaScriptOptions;
+  // hCaptcha options
+  hcaptcha?: {
+    // script source URI
+    scriptSource?: string;
+    // query params for script source URI
+    scriptParams?: Record<string, string>;
+  };
+  // reCAPTCHA options
+  recaptcha?: {
+    scriptSource?: string;
+  };
 };
 
 export type IdxMethod =
@@ -308,17 +307,3 @@ export type CustomLink = {
   href: string;
   target?: '_blank';
 };
-
-export interface HCaptchaScriptOptions {
-  scriptSource: string;
-  /**
-   * Supported params:
-   * https://github.com/hCaptcha/hcaptcha-loader#props
-   * (starting from 'apihost')
-   */
-  scriptParams?: Record<string, string>;
-}
-
-export interface ReCaptchaScriptOptions {
-  scriptSource: string;
-}
