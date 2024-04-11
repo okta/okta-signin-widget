@@ -42,6 +42,12 @@ if (!process.env.DISABLE_CSP) {
   headers['Content-Security-Policy'] = csp;
 }
 
+const hotReloadOptions = process.env.IE11_COMPAT_MODE === 'true' ? {
+  hot: false,
+  liveReload: false,
+  webSocketServer: false,
+} : {};
+
 module.exports = {
   mode: 'development',
   target: 'web',
@@ -98,6 +104,7 @@ module.exports = {
     ]
   },
   devServer: {
+    ...hotReloadOptions,
     host: HOST,
     watchFiles: [...staticDirs],
     static: [
