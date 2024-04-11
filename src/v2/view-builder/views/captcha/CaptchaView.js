@@ -159,18 +159,20 @@ export default View.extend({
     const maxLoadAttempts = 1 + this._getScriptSources(settingsKey).length;
 
     const url = this._getCaptchaUrl(defaultUrl, settingsKey, loadAttempt);
-    const container = document.getElementById(Enums.WIDGET_CONTAINER_ID);
+    // const container = document.getElementById(Enums.WIDGET_CONTAINER_ID);
     const scriptTag = document.createElement('script');
     scriptTag.src = url;
     scriptTag.async = true;
     scriptTag.defer = true;
     scriptTag.onerror = () => {
       if ((loadAttempt + 1) < maxLoadAttempts) {
-        container.removeChild(scriptTag);
+        scriptTag.remove();
+        // container.removeChild(scriptTag);
         this._loadCaptchaLib(loadAttempt + 1);
       }
     };
-    container.appendChild(scriptTag);
+    document.getElementById(Enums.WIDGET_CONTAINER_ID).appendChild(scriptTag);
+    // container.appendChild(scriptTag);
   },
 
   _addHCaptchaFooter() {

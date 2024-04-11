@@ -11,7 +11,7 @@ require('core-js/features/object/iterate-entries');
 require('core-js/features/object/iterate-keys');
 require('core-js/features/object/iterate-values');
 require('core-js/features/symbol/iterator');
-// require('core-js/features/symbol/for');
+require('core-js/features/symbol/for');
 require('core-js/es/promise');
 require('core-js/es/typed-array/uint8-array');
 require('core-js/features/array/from');
