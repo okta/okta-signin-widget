@@ -114,7 +114,7 @@
     "@babel/plugin-transform-modules-commonjs": "^7.10.1",
     "@babel/plugin-transform-runtime": "^7.10.3",
     "@babel/preset-env": "^7.15.6",
-    "@babel/preset-typescript": "^7.16.7",
+    "@babel/preset-typescript": "^7.23.2",
     "@babel/register": "^7.15.3",
     "@babel/runtime": "^7.10.3",
     "@babel/runtime-corejs3": "^7.10.3",
@@ -217,7 +217,7 @@
     "ts-node": "^10.9.1",
     "tsd": "^0.20.0",
     "ttypescript": "^1.5.15",
-    "typescript": "~4.4.4",
+    "typescript": "~4.5.5",
     "wait-for-expect": "^3.0.2",
     "wait-on": "^6.0.1",
     "webdriver-manager": "^12.1.8",
@@ -261,8 +261,9 @@
     "**/globule/minimatch": "^3.1.2",
     "ansi-regex": "^5.0.1",
     "testcafe/**/jsonwebtoken": "^9.0.0",
+    "json5": "^2.2.2",
     "**/loader-utils/json5": "^1.0.2",
-    "**/json5": "^2.2.2",
+    "**/babel-loader/loader-utils/json5": "^2.2.2",
     "**/semver": "^7.5.4",
     "stylis": "4.3.0",
     "**/debug": "^4.3.4",
@@ -286,8 +287,7 @@
       "**/@types/ajv-errors",
       "**/@types/ajv-errors/**",
       "**/@types/eslint-scope",
-      "**/eslint-scope",
-      "**/@okta/okta-auth-js"
+      "**/eslint-scope"
     ]
   },
   "packageManager": "yarn@1.22.19",
