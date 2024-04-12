@@ -139,6 +139,9 @@
     "webpack-merge": "^5.9.0",
     "whatwg-fetch": "^3.6.2"
   },
+  "peerDependencies": {
+    "@okta/okta-auth-js": "*"
+  },
   "engines": {
     "node": ">=16"
   }
