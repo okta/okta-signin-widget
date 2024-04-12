@@ -158,7 +158,9 @@ const baseConfig: Partial<Configuration> = {
   resolve: {
     extensions: ['.ts', '.js', '.tsx', '.jsx'],
     alias: {
-      '@okta/okta-auth-js': resolve(__dirname, 'node_modules/@okta/okta-auth-js/esm/browser/exports/exports/idx.js'),
+      // TODO: remove when confirmed the below works
+      // '@okta/okta-auth-js': resolve(__dirname, 'node_modules/@okta/okta-auth-js/esm/browser/exports/exports/idx.js'),
+      '@okta/okta-auth-js': '@okta/okta-auth-js/idx',
       '@okta/mocks': resolve(__dirname, '../../playground/mocks'),
       '@okta/okta-i18n-bundles': resolve(__dirname, '../util/Bundles.ts'),
 

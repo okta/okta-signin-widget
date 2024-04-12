@@ -85,6 +85,8 @@ Expect.describe('v1/LoginRouter', function() {
     const setNextResponse = settings.mockAjax === false ? function() {} : Util.mockAjax();
     const baseUrl = settings.hasOwnProperty('baseUrl') ? settings.baseUrl : 'https://foo.com';
     const authParams = { issuer: baseUrl, headers: {}, ignoreSignature: true };
+    const setLocationSpy = jasmine.createSpy('setLocation');
+    authParams.setLocation = setLocationSpy;
     Object.keys(settings).forEach(key => {
       const parts = key.split('.');
       if (parts[0] === 'authParams') {
@@ -124,6 +126,7 @@ Expect.describe('v1/LoginRouter', function() {
       eventSpy: eventSpy,
       afterRenderHandler: afterRenderHandler,
       afterErrorHandler: afterErrorHandler,
+      setLocationSpy: setLocationSpy,
     });
   }
 
@@ -179,7 +182,7 @@ Expect.describe('v1/LoginRouter', function() {
         form.setAnswer('wrong');
         form.submit();
 
-        const spy = options.expectRedirect ? test.ac.token.getWithRedirect._setLocation : test.ac.token.getWithoutPrompt;
+        const spy = options.expectRedirect ? test.setLocationSpy : test.ac.token.getWithoutPrompt;
 
         return Expect.waitForSpyCall(spy, test);
       });
@@ -1297,7 +1300,7 @@ Expect.describe('v1/LoginRouter', function() {
 
     function expectCodeRedirect(options) {
       return function(test) {
-        const spy = test.ac.token.getWithRedirect._setLocation;
+        const spy = test.setLocationSpy;
 
         return Expect.waitForSpyCall(spy).then(function() {
           expect(spy.calls.count()).toBe(1);
