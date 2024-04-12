@@ -115,7 +115,6 @@ Expect.describe('v1/LoginRouter', function() {
     router.on('afterError', afterErrorHandler);
     if (authClient) {
       spyOn(authClient.token, 'getWithoutPrompt').and.callThrough();
-      spyOn(authClient.token.getWithRedirect, '_setLocation');
     }
     setNextResponse(resp);
 
