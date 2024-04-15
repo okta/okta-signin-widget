@@ -4049,7 +4049,7 @@
     ts-node "^10.9.1"
     word-wrap "~1.2.5"
 
-"@okta/okta-auth-js@^7.4.3":
+"@okta/okta-auth-js@^7.5.1":
   version "7.5.1"
   resolved "https://registry.yarnpkg.com/@okta/okta-auth-js/-/okta-auth-js-7.5.1.tgz#28da7c08974725c755cb24672f3340e2c569c1b1"
   integrity sha512-AzoiKTlqNuVWzO88XqitOAmUYxQM6uFFtTa24RUktxM+TRTEd0oZhNG8bUQ2MEIgDCeTaiQd8aJerA3qPwdnRQ==
