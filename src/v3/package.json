@@ -49,6 +49,7 @@
     "@mui/material": "^5.8.5",
     "@okta/odyssey-design-tokens": "1.13.0",
     "@okta/odyssey-react-mui": "1.13.0",
+    "@okta/okta-auth-js": "^7.4.3",
     "chroma-js": "^2.4.2",
     "cross-fetch": "^3.1.5",
     "dompurify": "^3.0.0",
@@ -138,9 +139,6 @@
     "webpack-dev-server": "^4.15.1",
     "webpack-merge": "^5.9.0",
     "whatwg-fetch": "^3.6.2"
-  },
-  "peerDependencies": {
-    "@okta/okta-auth-js": "*"
   },
   "engines": {
     "node": ">=16"
