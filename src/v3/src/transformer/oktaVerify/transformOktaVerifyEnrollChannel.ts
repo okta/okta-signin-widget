@@ -40,6 +40,7 @@ const CHANNEL_TO_KEY_MAP: {
 
 export const transformOktaVerifyEnrollChannel: IdxStepTransformer = ({
   transaction,
+  widgetProps,
   formBag,
 }) => {
   const { context, nextStep: { name } = {} } = transaction;
@@ -86,16 +87,19 @@ export const transformOktaVerifyEnrollChannel: IdxStepTransformer = ({
     },
   } as ButtonElement);
 
-  const switchChannelLink: TextWithActionLinkElement = {
-    type: 'TextWithActionLink',
-    options: {
-      content: loc('oie.enroll.okta_verify.switch.channel.link.text', 'login'),
-      contentClassname: 'switch-channel-link',
-      step: IDX_STEP.SELECT_ENROLLMENT_CHANNEL,
-      stepToRender: IDX_STEP.SELECT_ENROLLMENT_CHANNEL,
-    },
-  };
-  elements.push(switchChannelLink);
+  const { features: { sameDeviceOVEnrollmentEnabled = false } = {} } = widgetProps;
+  if (!sameDeviceOVEnrollmentEnabled) {
+    const switchChannelLink: TextWithActionLinkElement = {
+      type: 'TextWithActionLink',
+      options: {
+        content: loc('oie.enroll.okta_verify.switch.channel.link.text', 'login'),
+        contentClassname: 'switch-channel-link',
+        step: IDX_STEP.SELECT_ENROLLMENT_CHANNEL,
+        stepToRender: IDX_STEP.SELECT_ENROLLMENT_CHANNEL,
+      },
+    };
+    elements.push(switchChannelLink);
+  }
 
   uischema.elements = elements;
 

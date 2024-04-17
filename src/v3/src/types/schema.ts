@@ -516,6 +516,23 @@ export interface ImageWithTextElement extends UISchemaElement {
   };
 }
 
+export interface ImageLinkElement extends UISchemaElement {
+  type: 'ImageLink';
+  options: {
+    id: string;
+    href: string;
+    altText: string;
+    marginBlockStart?: string;
+    alignment: 'start' | 'center' | 'end';
+    svgIcon: FunctionComponent<{
+      description: string;
+      width?: string | number;
+      height?: string | number;
+    }>,
+    dataSe?: string;
+  };
+}
+
 export interface QRCodeElement extends UISchemaElement {
   type: 'QRCode';
   options: {

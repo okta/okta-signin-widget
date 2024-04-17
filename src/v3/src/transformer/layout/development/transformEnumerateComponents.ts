@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { WindowsStoreIcon } from 'src/components/Icon';
 import {
   AppIcon,
   DeviceIcon,
@@ -27,6 +28,7 @@ import {
   HeadingElement,
   IdentifierContainerElement,
   IdxStepTransformer,
+  ImageLinkElement,
   ImageWithTextElement,
   InfoboxElement,
   LaunchAuthenticatorButtonElement,
@@ -501,6 +503,20 @@ export const transformEnumerateComponents: IdxStepTransformer = ({
     options: { identifier: 'User' },
   };
   uischema.elements.push(identifierElement);
+
+  const ImageLink: ImageLinkElement = {
+    type: 'ImageLink',
+    options: {
+      id: 'ImageLink',
+      dataSe: 'app-store-link',
+      href: 'Download url',
+      altText: 'Alt text',
+      alignment: 'center',
+      svgIcon: WindowsStoreIcon,
+      marginBlockStart: '20px',
+    },
+  };
+  uischema.elements.push(ImageLink);
 
   return formBag;
 };

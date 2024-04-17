@@ -122,6 +122,8 @@ export default BaseAuthenticatorView.extend({
     });
   },
   postRender() {
-    this.add(SwitchEnrollChannelLinkView, 'form');
+    if (!this.settings.get('features.sameDeviceOVEnrollmentEnabled')) {
+      this.add(SwitchEnrollChannelLinkView, 'form');
+    }
   },
 });

@@ -5,11 +5,19 @@ import { within } from '@testing-library/testcafe';
 const FORM_INFOBOX_ERROR_TITLE = '[data-se="o-form-error-container"] [data-se="callout"] > h3';
 const FORM_INFOBOX_ERROR_TITLE_V3 = '[data-se="callout"] h2';
 const CANT_SCAN_BUTTON_TEXT = 'Setup without scanning a QR code.';
+const SETUP_OV_BUTTON_TEXT = 'Set up Okta Verify';
+const SETUP_ON_ANOTHER_MOBILE_DEVICE_TEXT = 'set up Okta Verify on another mobile device';
+const GO_BACK_LINK_TEXT = 'Go back';
 const FORM_SELECTOR = '[data-se="o-form-explain"]';
 const SUB_HEADER = '[data-se="subheader"]';
 const COPY_ORG_LINK_BUTTON_CLASS = '.copy-org-clipboard-button';
 const CLIPBOARD_TEXT = 'data-clipboard-text';
 const DOWNLOAD_OV_LINK_CLASS = '.download-ov-link';
+const APP_STORE_LINK_CLASS = userVariables.gen3 ? '[data-se="app-store-link"]' : '.app-store-logo';
+const OV_SETUP_LINK_CLASS = '.setup-button';
+const BACK_LINK_CLASS = '.ovSetupScreen';
+const OR_ON_MOBILE_DEVICE_LINK_CLASS = '.orOnMobileLink';
+const DESKTOP_INSTRUCTIONS_CLASS = '.desktop-instructions';
 const CLOSING_CLASS = '.closing';
 
 export default class EnrollOktaVerifyPageObject extends BasePageObject {
@@ -61,6 +69,13 @@ export default class EnrollOktaVerifyPageObject extends BasePageObject {
     return this.form.elementExist('.sms-info');
   }
 
+  async hasOVSetupButton() {
+    if (userVariables.gen3) {
+      return this.form.getButton(SETUP_OV_BUTTON_TEXT).exists;
+    }
+    return this.form.el.find(OV_SETUP_LINK_CLASS).exists;
+  }
+
   getQRInstruction(index) {
     if (userVariables.gen3) {
       return this.getNthInstructionBulletPoint(index);
@@ -71,6 +86,11 @@ export default class EnrollOktaVerifyPageObject extends BasePageObject {
   async getNthInstructionBulletPoint(index) {
     const listItems = within(this.form.el).getAllByRole('listitem');
     return listItems.nth(index).innerText;
+  }
+
+  async nthInstructionBulletPointExists(index) {
+    const listItems = within(this.form.el).getAllByRole('listitem');
+    return listItems.nth(index).exists;
   }
 
   getEmailInstruction() {
@@ -92,6 +112,54 @@ export default class EnrollOktaVerifyPageObject extends BasePageObject {
       return this.form.getButton(CANT_SCAN_BUTTON_TEXT).textContent;
     }
     return this.getTextContent('.switch-channel-link');
+  }
+
+  async getSameDeviceReturnAndSetupText() {
+    if (userVariables.gen3) {
+      return await this.form.getSubtitle(1);
+    }
+
+    return this.getNthInstructionBulletPoint(1);
+  }
+
+  async getDesktopPromptText() {
+    if (userVariables.gen3) {
+      return await this.form.getSubtitle(0);
+    }
+
+    return this.nthDesktopInstructions(0);
+  }
+
+  async getDesktopNoPromptText() {
+    if (userVariables.gen3) {
+      return await this.form.getSubtitle(1);
+    }
+
+    return this.nthDesktopInstructions(1);
+  }
+
+  async getDesktopEnsureOVInstalledText() {
+    if (userVariables.gen3) {
+      return await this.form.getSubtitle(2);
+    }
+
+    return this.nthDesktopInstructions(2);
+  }
+
+  async getSameDeviceSetupOnMobileText() {
+    if (userVariables.gen3) {
+      return this.form.getLink(SETUP_ON_ANOTHER_MOBILE_DEVICE_TEXT).innerText;
+    }
+
+    return this.getNthInstructionBulletPoint(3);
+  }
+
+  async sameDeviceSetupOnMobileTextExist() {
+    if (userVariables.gen3) {
+      return this.form.getLink(SETUP_ON_ANOTHER_MOBILE_DEVICE_TEXT).exists;
+    }
+
+    return this.nthDesktopInstructionsExist(3);
   }
 
   async clickSwitchChannel() {
@@ -184,6 +252,40 @@ export default class EnrollOktaVerifyPageObject extends BasePageObject {
 
   getDownloadAppHref() {
     return this.form.el.find(DOWNLOAD_OV_LINK_CLASS).getAttribute('href');
+  }
+
+  getAppStoreHref() {
+    return this.form.el.find(APP_STORE_LINK_CLASS).getAttribute('href');
+  }
+
+  getOVSetupHref() {
+    return this.form.el.find(OV_SETUP_LINK_CLASS).getAttribute('href');
+  }
+
+  async orAnotherMobileDeviceLinkExists() {
+    if (userVariables.gen3) {
+      return this.form.getLink(SETUP_ON_ANOTHER_MOBILE_DEVICE_TEXT).exists;
+    }
+
+    return this.form.getElement(OR_ON_MOBILE_DEVICE_LINK_CLASS).exists;
+  }
+
+  async clickBackLink() {
+    if (userVariables.gen3) {
+      const link = this.form.getLink(GO_BACK_LINK_TEXT);
+      await this.t.click(link);
+      return;
+    }
+
+    await this.form.clickElement(BACK_LINK_CLASS);
+  }
+
+  async nthDesktopInstructions(index) {
+    return Selector(DESKTOP_INSTRUCTIONS_CLASS).nth(index).innerText;
+  }
+
+  async nthDesktopInstructionsExist(index) {
+    return Selector(DESKTOP_INSTRUCTIONS_CLASS).nth(index).exists;
   }
 
   getAlt() {

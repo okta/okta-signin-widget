@@ -240,6 +240,7 @@ export type Feature =
   'showPasswordToggleOnSignInPage' |
   'trackTypingPattern' |
   'redirectByFormSubmit' |
+  'sameDeviceOVEnrollmentEnabled' |
   'useDeviceFingerprintForSecurityImage' |
   'showPasswordRequirementsAsHtmlList' |
   'mfaOnlyFlow';
