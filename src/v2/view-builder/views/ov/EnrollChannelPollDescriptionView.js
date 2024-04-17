@@ -134,7 +134,7 @@ export default View.extend({
   getTemplateData() {
     const contextualData = this.options.appState.get('currentAuthenticator').contextualData;
     let enrolledDeviceName = '';
-    let deviceMap = [];
+    let deviceMap = {};
     let showAnotherDeviceLink = false;
     if (contextualData) {
       if (contextualData?.devicebootstrap && contextualData?.devicebootstrap.enrolledDevices) {
