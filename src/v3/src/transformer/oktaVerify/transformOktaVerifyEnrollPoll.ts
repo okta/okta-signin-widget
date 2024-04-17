@@ -299,8 +299,7 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
               if (isAndroid()) {
                 Util.redirectWithFormGet(deviceMap.setupOVUrl);
               } else {
-                // @ts-ignore
-                window.location.assign(deviceMap.setupOVUrl);
+                window.location.assign(deviceMap.setupOVUrl!);
               }
             },
           },
