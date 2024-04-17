@@ -73,6 +73,9 @@ module.exports = (env = {}) => {
       usePolyfill(webpackConfig);
     } else {
       webpackConfig.optimization.minimize = false;
+      if (process.env.IE11_COMPAT_MODE === 'true' && entryName === 'default') {
+        usePolyfill(webpackConfig);
+      }
     }
 
     if (env.mockDuo) {

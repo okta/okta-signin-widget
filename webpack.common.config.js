@@ -24,6 +24,7 @@ module.exports = function({
   cdn = true,
   useBuiltIns = false,
 }) {
+  /* eslint complexity: [2, 11] */
 
   // normalize entry so it is always an array
   entry = Array.isArray(entry) ? entry : [entry];
@@ -52,6 +53,15 @@ module.exports = function({
         useBuiltIns: 'entry',
         corejs: '3.9',
       } : {}
+    ]);
+  } else if (process.env.IE11_COMPAT_MODE === 'true') {
+    babelOptions.presets.unshift([
+      '@babel/preset-env',
+      {
+        targets: {
+          ie: '11'
+        },
+      }
     ]);
   } else {
     // In local development, we would prefer not to include any babel transforms as they make debugging more difficult
