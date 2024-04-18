@@ -163,3 +163,10 @@ test_suites:
     script_name: vrt-v3-get-screenshots
     criteria: OPTIONAL
     queue_name: small
+  - name: verify-translations
+    script_path: /root/okta/okta-signin-widget/scripts
+    sort_order: '34'
+    timeout: '15'
+    script_name: verify-translations
+    criteria: OPTIONAL
+    queue_name: small
