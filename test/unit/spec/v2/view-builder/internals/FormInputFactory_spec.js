@@ -322,6 +322,7 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
       {
         ariaLabel: 'Select Email.',
         label: 'Okta Email',
+        noTranslateClassName: 'no-translate',
         value: {
           id: 'aidtm56L8gXXHI1SD0g3',
         },
@@ -1006,6 +1007,7 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
       {
         ariaLabel: 'Set up Email.',
         label: 'Okta Email',
+        noTranslateClassName: '',
         value: {
           id: 'aidtm56L8gXXHI1SD0g3',
         },

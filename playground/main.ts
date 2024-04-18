@@ -11,6 +11,7 @@ import {
   RenderResultSuccessNonOIDCSession,
 } from '../src/types';
 import { assertNoEnglishLeaks } from '../playground/LocaleUtils';
+import Util from '../src/util/Util';
 
 declare global {
   const IE11_COMPAT_MODE: boolean;
@@ -32,7 +33,7 @@ declare global {
   }
 }
 
-const NO_TRANSLATE_SELECTOR = '.no-translate, [translate="no"]';
+const NO_TRANSLATE_SELECTOR = '.no-translate, .notranslate, [translate="no"]';
 
 function isSuccessNonOIDC(res: RenderResult): res is RenderResultSuccessNonOIDCSession {
   return (res as RenderResultSuccessNonOIDCSession).session !== undefined;
@@ -56,7 +57,7 @@ if (typeof window.OktaSignIn === 'undefined') {
   // Make sure OktaSignIn is available
   setTimeout(() => window.location.reload(), 2 * 1000);
 }
-const renderPlaygroundWidget = (options = {}) => {
+const renderPlaygroundWidget = (options: WidgetOptions & { assertNoEnglishLeaks?: boolean } = {}) => {
   // Okta-hosted widget page has this value set for CSP
   window.cspNonce = 'playground';
 
@@ -125,7 +126,7 @@ const renderPlaygroundWidget = (options = {}) => {
     console.log(JSON.stringify(context));
 
     // assert english leaks if locale set to ok-PL
-    if (signinWidgetOptions.language === 'ok-PL') {
+    if (options?.assertNoEnglishLeaks !== false && signinWidgetOptions.language === 'ok-PL') {
       //Use innerText to avoid including hidden elements
       let viewText = document.getElementById('okta-sign-in').innerText;
       viewText = viewText.split('\n').join(' ');
@@ -161,11 +162,28 @@ window.createWidgetInstance = createWidgetInstance;
 window.renderPlaygroundWidget = renderPlaygroundWidget;
 
 let render = true;
+let preventRedirect = false;
 if (typeof URL !== 'undefined') {
   const searchParams = new URL(window.location.href).searchParams;
   if (searchParams.get('render') === '0' || searchParams.get('render') === 'false') {
     render = false;
   }
+  if (searchParams.get('preventRedirect') === '1' || searchParams.get('preventRedirect') === 'true') {
+    preventRedirect = true;
+  }
+}
+
+if (preventRedirect) {
+  // Mocks that causes redirects:
+  // - error-with-failure-redirect
+  // - failure-redirect-remediation
+  // - identify-with-only-one-third-party-idp-app-user
+  // - identify-with-only-one-third-party-idp
+  // - success-redirect-remediation
+  // - success-with-app-user
+  // - success
+  Util.changeLocation = () => {};
+  Util.redirectWithFormGet = () => {};
 }
 
 let preRenderTasks = Promise.resolve();

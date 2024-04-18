@@ -8,12 +8,16 @@ const path = require('path');
 const PLAYGROUND = path.resolve(__dirname, '../../../playground');
 const mocksFolder = `${PLAYGROUND}/mocks/data/idp/idx`;
 const mocksOauth2Folder = `${PLAYGROUND}/mocks/data/oauth2`;
-const NO_TRANSLATE_SELECTOR = '.no-translate, [translate="no"]';
+
+// `notranslate` class is used internally by MUI to fix zero-width space issue
+// https://github.com/mui/material-ui/blob/73c88b6c3f71287a4a1f0b1b5d7d37ab268dca49/packages/mui-material/src/InputAdornment/InputAdornment.js#L130
+const NO_TRANSLATE_SELECTOR = '.no-translate, .notranslate, [translate="no"]';
 
 fixture('English Leaks');
 
 // These mocks have known english leaks ignoring them temporarily
 const ignoredMocks = [
+  '_ui-demo.json',
   'error-empty-response.json', // it's empty!
   'profile-enrollment-string-fields-options.json', // profile enrollment fields are coming from UD and we do not currently have a way to localize them
   'enroll-profile-new-boolean-fields.json', // english leak on security question and "Subscribe" checkbox
@@ -31,6 +35,7 @@ const ignoredMocks = [
   'authenticator-expired-custom-password.json', // seems to be flaky
   'enroll-profile-new-custom-labels.json', // custom message/label
   'terminal-okta-verify-enrollment-android-device.json', // Automatic redirect, in app logic handles this view, no english leak.
+  'error-429-api-limit-exceeded.json', // Gen3 has english leak on UI. But in real world this response can be received on polling only, no english leak in this case.
 ];
 
 const optionsForInteractionCodeFlow = {
@@ -47,6 +52,10 @@ const mocksWithInteractionCodeFlow = [
 ];
 
 const mocksWithAlert = [
+  'success-with-interaction-code.json'
+];
+
+const mocksWithoutContent = [
   'success-with-interaction-code.json'
 ];
 
@@ -74,54 +83,64 @@ const setUpResponse = (filePath) => {
   // In some cases we may need to mock more than just introspect API to load the screen (example polling)
   // For those cases add the url and responses to responseMap
 
+  let statusCode;
+  const errorStatusMatch = filePath.match(/error-(\d{3})\D+/);
+  if (errorStatusMatch) {
+    statusCode =  parseInt(errorStatusMatch[1]);
+  }
+
   // Needed for identify-with-apple-redirect-sso-extension
   const verifyUrl = 'http://localhost:3000/idp/idx/authenticators/sso_extension/transactions/123/verify?\
   challengeRequest=dummyvalue';
 
   const responseMap = [
     {
-      'url': 'http://localhost:3000/idp/idx/introspect',
-      'response': mockResponse
+      url: 'http://localhost:3000/idp/idx/introspect',
+      response: mockResponse,
+      statusCode
     },
     {
-      'url': 'http://localhost:3000/idp/idx/challenge/poll',
-      'response': mockResponse
-    },
-    // used for device probing mock
-    {
-      'url': 'http://localhost:3000/idp/idx/authenticators/poll',
-      'response': mockResponse
+      url: 'http://localhost:3000/idp/idx/challenge/poll',
+      response: mockResponse,
+      statusCode
     },
     // used for device probing mock
     {
-      'url': 'http://localhost:3000/idp/idx/authenticators/poll/cancel',
-      'response': mockResponse
+      url: 'http://localhost:3000/idp/idx/authenticators/poll',
+      response: mockResponse,
+      statusCode
+    },
+    // used for device probing mock
+    {
+      url: 'http://localhost:3000/idp/idx/authenticators/poll/cancel',
+      response: mockResponse,
+      statusCode
     },
     {
-      'url': 'http://localhost:3000/idp/idx/authenticators/sso_extension/transactions/456/verify/cancel',
-      'response': mockResponse
+      url: 'http://localhost:3000/idp/idx/authenticators/sso_extension/transactions/456/verify/cancel',
+      response: mockResponse
     },
     {
-      'url': verifyUrl,
-      'response': '<html><h1>》ok_PL《</h1></html>'
+      url: verifyUrl,
+      response: '<html><h1>》ok_PL《</h1></html>'
     },
     {
-      'url': 'http://localhost:3000/oauth2/default/v1/token',
-      'response': require(`${mocksOauth2Folder}/success-tokens.json`)
+      url: 'http://localhost:3000/oauth2/default/v1/token',
+      response: require(`${mocksOauth2Folder}/success-tokens.json`)
     },
     {
-      'url': 'http://localhost:3000/oauth2/default/v1/interact',
-      'response': require(`${mocksOauth2Folder}/interact.json`)
+      url: 'http://localhost:3000/oauth2/default/v1/interact',
+      response: require(`${mocksOauth2Folder}/interact.json`)
     }
   ];
 
   const mock = RequestMock();
   for (let i = 0; i < responseMap.length; i++) {
     const url = responseMap[i].url;
-    const response = responseMap[i].response;
+    const { response, statusCode } = responseMap[i];
     mock
       .onRequestTo(url)
-      .respond(response);
+      .respond(response, statusCode);
   }
   return mock;
 };
@@ -133,7 +152,10 @@ async function setup(t, locale, fileName) {
   const widgetView = new PageObject(t);
   
   // Navigate to the page but do not render the widget yet
-  await widgetView.navigateToPage({ render: false });
+  await widgetView.navigateToPage({
+    render: false,
+    preventRedirect: true,
+  });
 
   if (withInteractionCodeFlow) {
     await widgetView.mockCrypto();
@@ -154,17 +176,28 @@ async function setup(t, locale, fileName) {
   
   await renderWidget({
     ...options,
-    'language': locale
+    'language': locale,
+    // No need to check en leaks twice
+    // (1st time - in afterRender callback on playground, 2nd time - in test spec)
+    assertNoEnglishLeaks: false,
   });
+
+  await t.expect(Selector('#okta-sign-in').visible).eql(true);
 }
 
 const testEnglishLeaks = (mockIdxResponse, fileName, locale) => {
   test.requestHooks(mockIdxResponse)(`${fileName} should not have english leaks`, async t => {
+    const hasContent = !mocksWithoutContent.includes(fileName);
     await setup(t, locale, fileName);
-    const viewTextExists = await Selector('#okta-sign-in').exists;
+    if (!hasContent) {
+      return;
+    }
+    await t.expect(Selector('form').exists).eql(true);
     //Use innerText to avoid including hidden elements
-    let viewText = viewTextExists && await Selector('#okta-sign-in').innerText;
-    viewText = viewText && viewText.split('\n').join(' ');
+    let viewText = await Selector('#okta-sign-in').innerText;
+    // NOTE: update `mocksWithoutContent` to exclude/skip this check
+    await t.expect(viewText.length).gt(0, 'Inner text of #okta-sign-in should not be empty');
+    viewText = viewText.split('\n').join(' ');
 
     const noTranslationContentExists = await Selector(NO_TRANSLATE_SELECTOR).exists;
     let noTranslationContent = [];
