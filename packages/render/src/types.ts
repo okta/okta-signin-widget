@@ -1,0 +1,106 @@
+export type FeatureFlags = string[];
+
+export type Databag = {
+  featureFlags: FeatureFlags;
+  orgLoginPageSettings: {
+    customLinkOneText?: string;
+    customLinkOneHref?: string;
+    customLinkTwoText?: string;
+    customLinkTwoHref?: string;
+    factorPageCustomLinkText: string;
+    factorPageCustomLinkHref: string;
+    oktaHelpHref: string;
+    forgottenPasswordHref: string;
+    unlockAccountHref: string;
+    showPasswordVisibilityToggle: boolean;
+    showIdentifier: boolean;
+    usernameLabel: string;
+    usernameInlineLabel: string;
+    passwordLabel: string;
+    passwordInlineLabel: string;
+    signinLabel: string;
+    forgottenPasswordLabel: string;
+    unlockAccountLabel: string;
+    oktaHelpLabel: string;
+    footerHelpTitle: string;
+    recoveryFlowPlaceholder: string;
+  },
+  linkParams?: Record<string, string>,
+  fromUri: string;
+  backToSignInLink: string;
+  vendor?: string;
+  thirdPartyEnrollmentUrl?: string;
+  deviceEnrollment?: {
+    name: string;
+    platform: string;
+    enrollmentLink: string;
+    vendor: string;
+    signInUrl: string;
+    orgName: string;
+    challengeMethod: string;
+  },
+  usingDeviceFlow: boolean;
+  idpDiscovery?: {
+    requestContext: string;
+  },
+  consentCancelUrl?: string;
+  registrationEnabledForSignInWidget?: boolean;
+  overrideExistingStateToken?: boolean;
+  orgSyncToAccountChooserEnabled?: boolean;
+  isMfaAttestation?: boolean;
+  disableNewLoginPage?: boolean;
+  interstitialBeforeLoginRedirect?: string;
+  repost?: boolean;
+  accountChooserDiscoveryUrl: string;
+  isMobileClientLogin: boolean;
+  isMobileSSO: boolean;
+  disableiPadCheck: boolean;
+  enableiPadLoginReload: boolean;
+  hasChromeOSFeature: boolean;
+  showLinkToAppStore: boolean;
+  enrollingFactor: boolean;
+  showInactiveTabIfDocumentIsHidden: boolean;
+  avoidPageRefresh: boolean;
+  sdkBaseURL: string;
+  expiresAt: number;
+  refreshWindowMs: number;
+  baseUrl: string;
+  stateToken: string;
+  username: string;
+  rememberMe: boolean;
+  smsRecovery: boolean;
+  callRecovery: boolean;
+  emailRecovery: boolean;
+  suppliedRedirectUri: string;
+  showX509button: boolean;
+  pivCardButton: string;
+  idpBasedPivCardButton: string;
+  certAuthUrl: string;
+  isCustomDomain: boolean;
+  customDomain: string;
+  orgSupportPhoneNumber: string;
+  hideSignOutForMFA: boolean;
+  hideBackToSignInForReset: boolean;
+  signOutUrl: string;
+  hasPasswordlessPolicy: boolean;
+  securityImage: boolean;
+  selfServiceUnlock: boolean;
+  redirectByFormSubmit: boolean;
+  autoPush: boolean;
+  orgName: string;
+  orgLogo: string;
+  enableDeviceFingerprinting: boolean;
+  useFingerprintForSecImage: boolean;
+  brandName?: string;
+  brandPrimaryColor?: string;
+  brandPrimaryColorContrast?: string;
+  brandSecondaryColor?: string;
+  brandSecondaryColorContrast?: string;
+  useSiwGen3: boolean;
+  i18nTest: Record<string, string>;
+  CNCountryValue: Record<string, string>;
+  HKCountryValue: Record<string, string>;
+  MOCountryValue: Record<string, string>;
+  TWCountryValue: Record<string, string>;
+  invalidTokenErrorMsg: string;
+};

@@ -14,6 +14,7 @@
   },
   "rules": {
     "semi": "warn",
+    "quotes": ["warn", "single"],
     "@typescript-eslint/no-var-requires": "off"
   }
 }

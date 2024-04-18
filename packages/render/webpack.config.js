@@ -6,7 +6,6 @@ const babelOptions = {
     [
       '@babel/preset-env',
       {
-        // TODO: resolve issue with authjs esm bundle, then switch to "usage" to reduce polyfill size
         useBuiltIns: 'entry',
         corejs: '3.9',
       },
@@ -15,13 +14,6 @@ const babelOptions = {
     '@babel/preset-typescript',
   ],
   plugins: [
-    [
-      '@babel/plugin-transform-react-jsx',
-      {
-        runtime: 'automatic',
-        importSource: 'preact',
-      },
-    ],
     [
       '@babel/plugin-transform-runtime',
       {
@@ -75,10 +67,12 @@ module.exports = (_, argv) => {
       ],
     },
     resolve: {
-      alias:{
+      alias: {
         '@okta/loginpage': resolve(__dirname, 'node_modules/@okta/loginpage/dist/js/initLoginPage.pack.js'),
         '@okta/loginpage-legacy': resolve(__dirname, 'node_modules/@okta/loginpage/legacy/js/initLoginPage.pack.js'),
-      }
+        '@': resolve(__dirname, 'src')
+      },
+      extensions: ['.ts', '.tsx', '.js', '.jsx'],
     },
     ignoreWarnings: [/Failed to parse source map/],
   };

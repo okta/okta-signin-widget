@@ -5,3 +5,6 @@ yarn-error.log
 .env
 dist
 build
+coverage
+
+.DS_Store

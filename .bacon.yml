@@ -15,13 +15,13 @@ test_suites:
     timeout: '10'
     criteria: MERGE
     queue_name: small
-  # - name: test
-  #   script_path: /root/okta/loginpage/.bacon
-  #   script_name: test
-  #   sort_order: '2'
-  #   timeout: '10'
-  #   criteria: MERGE
-  #   queue_name: small
+  - name: test
+    script_path: /root/okta/loginpage/.bacon
+    script_name: test
+    sort_order: '2'
+    timeout: '10'
+    criteria: MERGE
+    queue_name: small
   - name: semgrep
     script_path: /root/okta/loginpage/.bacon
     sort_order: '3'

@@ -10,7 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@okta/loginpage-render": "*"
+    "@okta/loginpage-render": "*",
+    "@okta/loginpage-mock": "*"
   },
   "devDependencies": {
     "typescript": "^5.4.4",

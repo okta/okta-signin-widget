@@ -1,5 +1,10 @@
 interface Window {
   OktaLoginPage: {
-    render: (databag: Record<string, string>) => void;
+    render: (databag: Databag) => void;
   }
+  OktaPluginA11y?: {
+    init: (oktaSignin: OktaSignIn) => void;
+  }
+  cspNonce: string;
+  okta: Okta;
 }

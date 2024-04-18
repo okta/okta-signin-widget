@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
-    "allowJs": true,
+    "allowJs": false,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
+    "noEmit": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
     "lib": [
@@ -12,15 +13,17 @@
     ],
     "module": "ESNext",
     "moduleResolution": "node",
-    "noEmit": true,
+    "outDir": "./dist/",
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
     "target": "ES6",
-    "useDefineForClassFields": true
+    "useDefineForClassFields": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    },
   },
   "include": ["src"],
-  "files": [
-    "global.d.ts"
-  ]
+  "exclude": ["node_modules"],
+  "files": ["global.d.ts"]
 }

@@ -1,5 +1,13 @@
 {
   "env": {
     "browser": true
-  }
+  },
+  "overrides": [
+    {
+      "files": ["src/**/*.test.ts"],
+      "env": {
+        "jest": true
+      }
+    }
+  ]
 }
