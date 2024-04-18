@@ -56,6 +56,7 @@
     "clean:esm": "rimraf target/esm",
     "codegen": "./scripts/codegen.sh",
     "find-internal-packages": "node scripts/find-internal-packages",
+    "verify-translations": "node scripts/buildtools verify-translations",
     "generate-phone-codes": "node scripts/buildtools generate-phone-codes",
     "generate-config": "node scripts/buildtools generate-language-config",
     "weekly-release-update": "./scripts/weekly-release-update.sh",
