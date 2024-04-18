@@ -5,7 +5,7 @@ source $OKTA_HOME/$REPO/scripts/setup.sh
 setup_github_token atko-eng
 clone_repo i18n atko-eng
 pushd "${OKTA_HOME}/i18n"
-  git checkout main
+  git checkout master
 popd
 
 cd ${OKTA_HOME}/${REPO}
