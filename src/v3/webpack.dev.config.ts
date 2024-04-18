@@ -152,7 +152,7 @@ const devConfig: Configuration = mergeWithRules({
       setupMiddlewares(middlewares) {
         const script = resolve(PLAYGROUND, 'mocks/server.js');
         const watch = [resolve(PLAYGROUND, 'mocks')];
-        const env = { MOCK_SERVER_PORT, DEV_SERVER_PORT };
+        const env = { MOCK_SERVER_PORT, DEV_SERVER_PORT, BASE_URL: require(WIDGET_RC_JS).baseUrl };
 
         nodemon({
           script, watch, env, delay: 50,

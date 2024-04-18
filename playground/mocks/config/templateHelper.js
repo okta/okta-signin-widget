@@ -1,6 +1,5 @@
 const path = require('path');
 const responseConfig = require('./responseConfig');
-const signinWidgetOptions = require('../../../.widgetrc.js');
 const supportedApi = [
   '/oauth2/',
   '/api/v1/authn',
@@ -45,7 +44,7 @@ const configMock = (option) => {
     proxy: false,
     method: option.method || 'POST',
     status: (req, res, next) => {
-      if(!hasChainedMockData) {
+      if (!hasChainedMockData) {
         res.status(403);
         next();
         return;
@@ -78,7 +77,7 @@ const configMock = (option) => {
 
         // overwrite URLs if using mock server behind the proxy
         const json = require(mockFile);
-        const str = JSON.stringify(json).replace(/http:\/\/localhost:3000/g, signinWidgetOptions.baseUrl);
+        const str = JSON.stringify(json).replace(/http:\/\/localhost:3000/g, process.env.BASE_URL);
         return JSON.parse(str);
       }
 

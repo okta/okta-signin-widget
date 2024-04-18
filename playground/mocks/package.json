@@ -1,5 +1,9 @@
 {
   "name": "@okta/mocks",
   "version": "1.0.0",
-  "private": "true"
+  "private": "true",
+  "main": "server.js",
+  "dependencies": {
+    "dyson": "^4.1.0"
+  }
 }

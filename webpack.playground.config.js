@@ -37,7 +37,7 @@ const headers = {};
 if (!process.env.DISABLE_CSP) {
   // Allow google domains for testing recaptcha
   const scriptSrc = `script-src http://${HOST}:${DEV_SERVER_PORT} 'nonce-playground' https://www.google.com https://www.gstatic.com`;
-  const styleSrc =  `style-src http://${HOST}:${DEV_SERVER_PORT} 'nonce-playground'`;
+  const styleSrc = `style-src http://${HOST}:${DEV_SERVER_PORT} 'nonce-playground'`;
   const csp = `${scriptSrc}; ${styleSrc};`;
   headers['Content-Security-Policy'] = csp;
 }
@@ -140,7 +140,7 @@ module.exports = {
     setupMiddlewares(middlewares) {
       const script = path.resolve(__dirname, 'playground/mocks/server.js');
       const watch = [path.resolve(__dirname, 'playground/mocks')];
-      const env = { MOCK_SERVER_PORT, DEV_SERVER_PORT };
+      const env = { MOCK_SERVER_PORT, DEV_SERVER_PORT, BASE_URL: require(WIDGET_RC_JS).baseUrl };
       nodemon({ script, watch, env, delay: 50 })
         .on('crash', console.error);
       return middlewares;
