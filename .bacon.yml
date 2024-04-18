@@ -168,5 +168,5 @@ test_suites:
     sort_order: '34'
     timeout: '15'
     script_name: verify-translations
-    criteria: OPTIONAL
+    criteria: MERGE
     queue_name: small
