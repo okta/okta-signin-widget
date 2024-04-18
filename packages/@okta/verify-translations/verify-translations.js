@@ -141,7 +141,7 @@ const verifyTranslations = async ({ canUpdate }) => {
     });
     if (!siwProperties) {
       console.error(`Missing SIW properties file for lang ${siwLang || 'default'}`);
-      res = 1;
+      res = 2;
     }
 
     const coreLang = getCorelang(siwLang, coreLangs);
@@ -152,7 +152,7 @@ const verifyTranslations = async ({ canUpdate }) => {
     });
     if (!coreProperties) {
       console.error(`Missing core properties file for lang ${siwLang || 'default'}`);
-      res = 1;
+      res = 2;
     }
 
     if (siwProperties && coreProperties) {
@@ -184,6 +184,11 @@ const verifyTranslations = async ({ canUpdate }) => {
       }
     }
   }
+
+  if (res === 1 && !canUpdate) {
+    console.log("Please run `yarn verify-translations --write` and commit changes.");
+  }
+
   return res;
 };
 
