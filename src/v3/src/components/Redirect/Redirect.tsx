@@ -23,7 +23,7 @@ const Redirect: UISchemaElementComponent<{ uischema: RedirectElement }> = ({
     // and when document is visible
     if (options?.url) {
       Util.executeOnVisiblePage(() => {
-        window.location.assign(options.url);
+        Util.changeLocation(options.url);
       });
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps

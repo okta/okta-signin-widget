@@ -67,7 +67,15 @@ module.exports = {
   devtool: 'source-map',
   resolve: {
     // Add `.ts` and `.tsx` as a resolvable extension.
-    extensions: ['.ts', '.tsx', '.js']
+    extensions: ['.ts', '.tsx', '.js'],
+    alias: {
+      '@okta/okta-i18n-bundles': path.resolve(__dirname, 'src/util/Bundles.ts'),
+      config: path.resolve(__dirname, 'src/config'),
+      nls: path.resolve(__dirname, 'packages/@okta/i18n/src/json'),
+      'util/BrowserFeatures': path.resolve(__dirname, 'src/util/BrowserFeatures'),
+      'util/Bundles': path.resolve(__dirname, 'src/util/Bundles'),
+      'util/Logger': path.resolve(__dirname, 'src/util/Logger'),
+    }
   },
   plugins: [
     new DefinePlugin({

@@ -94,7 +94,7 @@ export default View.extend({
             <li>
                 {{i18n code="oie.enroll.okta_verify.setup.signInUrl" bundle="login"}}
                 <br><br/>
-                <span class='semi-strong'>{{sameDevice.orgUrl}}</span>
+                <span class='semi-strong no-translate'>{{sameDevice.orgUrl}}</span>
                 <a data-clipboard-text="{{sameDevice.orgUrl}}" class="button link-button copy-org-clipboard-button">
                   {{i18n code="enroll.oda.org.copyLink" bundle="login"}}
                 </a>

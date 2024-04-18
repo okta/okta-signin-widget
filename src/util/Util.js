@@ -188,15 +188,19 @@ Util.triggerAfterError = function(controller, err = {}) {
 };
 
 Util.redirect = function(url, win = window, isAppLink = false) {
+  if (BrowserFeatures.isAndroid() && !isAppLink) {
+    Util.redirectWithFormGet(url);
+  } else {
+    Util.changeLocation(url, win);
+  }
+};
+
+Util.changeLocation = function(url, win = window) {
   if (!url) {
     Logger.error(`Cannot redirect to empty URL: (${url})`);
     return;
   }
-  if (BrowserFeatures.isAndroid() && !isAppLink) {
-    Util.redirectWithFormGet(url);
-  } else {
-    win.location.href = url;
-  }
+  win.location.href = url;
 };
 
 Util.executeOnVisiblePage = function(cb) {

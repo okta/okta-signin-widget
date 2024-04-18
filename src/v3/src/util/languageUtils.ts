@@ -21,8 +21,16 @@ export const loadLanguage = async (widgetProps: WidgetProps): Promise<void> => {
   const languageCode = getLanguageCode(widgetProps);
   const supportedLanguages = getSupportedLanguages(widgetProps);
 
+  // NOTE: If assets.baseUrl equals "/", SIW will incorrectly try to load language files
+  // from URL http://labels/json/login_xx.json
+  // Remove trailing slashes to match Gen2 behavior
+  let assetsBaseUrl = baseUrl ?? '';
+  if (assetsBaseUrl[assetsBaseUrl.length - 1] === '/') {
+    assetsBaseUrl = assetsBaseUrl.substring(0, assetsBaseUrl.length - 1);
+  }
+
   return Bundles.loadLanguage(languageCode, i18n, {
-    baseUrl: baseUrl ?? '/',
+    baseUrl: assetsBaseUrl,
     rewrite: rewrite ?? ((val) => val),
   }, supportedLanguages);
 };

@@ -79,8 +79,8 @@
     "test:testcafe-ci": "OKTA_SIW_SKIP_FLAKY=true run-p -r test:testcafe-setup test:testcafe-run -- 2>/dev/null",
     "test:testcafe-ci-flaky": "OKTA_SIW_ONLY_FLAKY=true yarn test:testcafe-ci",
     "test:testcafe-en-leaks-setup": "mkdir -p test-reports/testcafe && grunt exec:pseudo-loc && yarn start --open false",
-    "test:testcafe-run-en-leaks": "yarn test -t testcafe -c 2 chrome test/testcafe/spec-en-leaks/ --reporter spec",
-    "test:testcafe-run-en-leaks-ci": "yarn test -t testcafe -c 2 chrome:headless test/testcafe/spec-en-leaks/ --reporter xunit:build2/reports/junit/testcafe-results.xml",
+    "test:testcafe-run-en-leaks": "OKTA_SIW_EN_LEAKS=true yarn test -t testcafe -c 2 chrome --reporter spec",
+    "test:testcafe-run-en-leaks-ci": "OKTA_SIW_EN_LEAKS=true yarn test -t testcafe -c 2 chrome:headless --reporter xunit:build2/reports/junit/testcafe-results.xml",
     "test:enleaks-ci": "run-p -r test:testcafe-en-leaks-setup test:testcafe-run-en-leaks-ci -- 2>/dev/null",
     "test:enleaks": "run-p -r test:testcafe-en-leaks-setup test:testcafe-run-en-leaks -- 2>/dev/null",
     "test:tsd": "yarn workspace @test/types test",
@@ -101,9 +101,12 @@
     "copy:types": "grunt copy:types",
     "build:types": "yarn clean:types && yarn generate:types && yarn copy:types",
     "test:parity-setup": "mkdir -p test-reports/testcafe && yarn generate-config && ENTRY=debugger yarn build:webpack-release && yarn workspace v3 dev",
+    "test:parity-en-leaks-setup": "mkdir -p test-reports/testcafe && grunt assets && grunt exec:pseudo-loc && yarn workspace v3 dev",
     "test:parity-run": "OKTA_SIW_GEN3=true yarn testcafe -c 4 chrome:headless --reporter spec,xunit:build2/reports/junit/testcafe-results.xml",
     "test:parity-ci": "OKTA_SIW_SKIP_FLAKY=true yarn codegen && run-p -r test:parity-setup test:parity-run",
     "test:parity-ci-flaky": "OKTA_SIW_GEN3=true OKTA_SIW_ONLY_FLAKY=true yarn test:parity-ci",
+    "test:parity-enleaks-ci": "yarn codegen && run-p -r test:parity-en-leaks-setup test:testcafe-run-en-leaks-ci -- 2>/dev/null",
+    "test:parity-enleaks": "run-p -r test:parity-en-leaks-setup test:testcafe-run-en-leaks -- 2>/dev/null",
     "postinstall": "patch-package"
   },
   "devDependencies": {

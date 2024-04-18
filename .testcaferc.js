@@ -1,5 +1,6 @@
 const { readFileSync } = require('fs');
 const { RequestMock } = require('testcafe');
+const waitOn = require('wait-on');
 
 /**
  * Escapes special regex chars in string so it can be used as the pattern for
@@ -50,6 +51,7 @@ const {
   OKTA_SIW_ONLY_FLAKY,
   OKTA_SIW_SKIP_FLAKY,
   OKTA_SIW_GEN3,
+  OKTA_SIW_EN_LEAKS,
   UPDATE_SCREENSHOTS,
 } = process.env;
 
@@ -58,17 +60,31 @@ const env = {
   OKTA_SIW_ONLY_FLAKY: OKTA_SIW_ONLY_FLAKY === 'true',
   OKTA_SIW_SKIP_FLAKY: OKTA_SIW_SKIP_FLAKY === 'true',
   OKTA_SIW_GEN3: OKTA_SIW_GEN3 === 'true',
+  OKTA_SIW_EN_LEAKS: OKTA_SIW_EN_LEAKS === 'true',
   UPDATE_SCREENSHOTS: UPDATE_SCREENSHOTS === 'true',
 };
 
 const config = {
   browsers: [ 'chrome:headless' ],
-  clientScripts: [
+  clientScripts: env.OKTA_SIW_EN_LEAKS ? [
+  ] : [
     { module: 'axe-core/axe.min.js' },
     { module: '@testing-library/dom/dist/@testing-library/dom.umd.js' }
   ],
-  src: [ 'test/testcafe/spec/*_spec.js', 'test/testcafe/spec/v1/*_spec.js' ],
-  hooks: { request: mocks, },
+  src: env.OKTA_SIW_EN_LEAKS ? [
+    'test/testcafe/spec-en-leaks/*_spec.js',
+  ] : [
+    'test/testcafe/spec/*_spec.js',
+    'test/testcafe/spec/v1/*_spec.js'
+  ],
+  hooks: {
+    fixture: {
+      before: async () => {
+        await waitOn({ resources: ['http-get://localhost:3000'] });
+      }
+    },
+    request: mocks,
+  },
   userVariables: {
     gen3: env.OKTA_SIW_GEN3,
     updateScreenshots: env.UPDATE_SCREENSHOTS,
@@ -82,7 +98,7 @@ const config = {
   concurrency: OKTA_SIW_ONLY_FLAKY ? 1 : undefined,
 
   // retry failed tests
-  quarantineMode: {
+  quarantineMode: env.OKTA_SIW_EN_LEAKS ? false : {
     successThreshold: 1,
     attemptLimit: 3,
   },

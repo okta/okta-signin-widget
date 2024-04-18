@@ -24,7 +24,7 @@ export async function assertNoEnglishLeaks(mockFile, viewText, noTranslationCont
     Handle untranslated colon at the end of Odyssey screenreader text for field-level errors (reads as 'Error:')
     TODO: Ask Odyssey why colon is not part of translation bundle
   */
-  extractedString = extractedString.replace('《:', '《');
+  extractedString = extractedString.replace(/《:/g, '《');
   extractedString = extractedString.split(' ');
   const enLeaks = extractedString.filter( item => {
     return item.trim() && item.length && !pseudoLocSymbols.includes(item.trim());

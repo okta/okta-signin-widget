@@ -38,6 +38,7 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
         ? authenticator.relatesTo?.profile?.email || ''
         : loc('oie.email.authenticator.description', 'login'),
       iconClassName: 'mfa-okta-email',
+      noTranslateClassName: isVerifyAuthenticator ? 'no-translate' : '',
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
       ariaLabel: isVerifyAuthenticator
         ? getVerifyEmailAriaLabel(authenticator.relatesTo?.profile?.email)
