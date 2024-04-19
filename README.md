@@ -1017,7 +1017,7 @@ assets: {
 
 #### assets.languages
 
-Specify the list of supported languages which are hosted and accesible under the path `{assets.baseUrl}/labels/json/`. This option supersedes the [default list of supported languages](#supported-languages). If an unsupported language is requested (explicitly using the [language option](#language) or automatically by browser detection), the default language (`en`) will be used.
+Specify the list of supported languages which are hosted and accessible under the path `{assets.baseUrl}/labels/json/`. This option supersedes the [default list of supported languages](#supported-languages). If an unsupported language is requested (explicitly using the [language option](#language) or automatically by browser detection), the default language (`en`) will be used.
 
 #### assets.rewrite
 
