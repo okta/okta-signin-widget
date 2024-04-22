@@ -544,25 +544,25 @@ Expect.describe('Registration', function() {
         expect(test.form.passwordContainsUsernameError()).toBe(true);
       });
     });
-    itp('shows error if password contains part of the username:testing_123', function() {
+    itp('shows error if password contains part of the username:testing_1234', function() {
       return setup().then(function(test) {
-        test.form.setUserName('testing_123');
+        test.form.setUserName('testing_1234');
         test.form.setPassword('testing');
         test.form.focusOutPassword();
         expect(test.form.passwordContainsUsernameError()).toBe(true);
-        test.form.setPassword('testing123');
+        test.form.setPassword('testing1234');
         test.form.focusOutPassword();
         expect(test.form.passwordContainsUsernameError()).toBe(true);
-        test.form.setPassword('123Est123');
+        test.form.setPassword('1234Est123');
         test.form.focusOutPassword();
         expect(test.form.passwordContainsUsernameError()).toBe(true);
         test.form.setPassword('test_123');
         test.form.focusOutPassword();
-        expect(test.form.passwordContainsUsernameError()).toBe(true);
+        expect(test.form.passwordContainsUsernameError()).toBe(false);
         test.form.setPassword('te_12');
         test.form.focusOutPassword();
         expect(test.form.passwordContainsUsernameError()).toBe(false);
-        test.form.setPassword('_abc_123');
+        test.form.setPassword('_abc_1234');
         test.form.focusOutPassword();
         expect(test.form.passwordContainsUsernameError()).toBe(true);
       });
