@@ -389,13 +389,14 @@ export default Controller.extend({
       showErrorBanner = !form.showCustomFormErrorCallout(errorObj, idxStateError.messages);
     }
 
+    const hasFormError = Array.isArray(idxStateError?.neededToProceed) && idxStateError?.neededToProceed.length;
     // show error before updating app state.
     model.trigger('error', model, errorObj, showErrorBanner);
-    idxStateError = Object.assign({}, idxStateError, {hasFormError: true});
+    idxStateError = Object.assign({}, idxStateError, {hasFormError});
 
     // TODO OKTA-408410: Widget should update the state on every new response. It should NOT do selective update.
     // For eg 429 rate-limit errors, we have to skip updating idx state, because error response is not an idx response.
-    if (Array.isArray(idxStateError?.neededToProceed) && idxStateError?.neededToProceed.length) {
+    if (!this.options.appState.containsMessageWithI18nKey('tooManyRequests')) {
       await this.handleIdxResponse(idxStateError);
     }
   },
