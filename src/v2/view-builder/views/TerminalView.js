@@ -182,8 +182,11 @@ const Footer = BaseFooter.extend({
       return getReloadPageButtonLink();
     }
     // If cancel object exists idx response then view would take care of rendering back to sign in link
-    if (!this.options.appState.hasActionObject('cancel') &&
-        !this.options.appState.containsMessageWithI18nKey(NO_BACKTOSIGNIN_LINK_VIEWS)) {
+    const shouldShowBackToSignInLink = !this.options.appState.hasActionObject('cancel') &&
+      !this.options.appState.containsMessageWithI18nKey(NO_BACKTOSIGNIN_LINK_VIEWS) &&
+      !this.options.settings.get('features.hideSignOutLinkInMFA') &&
+      !this.options.settings.get('features.mfaOnlyFlow');
+    if (shouldShowBackToSignInLink) {
       // TODO OKTA-432869 "back to sign in" links to org baseUrl, does not work correctly with embedded widget
       return getBackToSignInLink(this.options);
     }
