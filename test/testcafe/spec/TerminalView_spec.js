@@ -1,5 +1,6 @@
 import { RequestMock, userVariables } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
+import { renderWidget } from '../framework/shared';
 import terminalReturnEmail from '../../../playground/mocks/data/idp/idx/terminal-return-email';
 import terminalTransferEmail from '../../../playground/mocks/data/idp/idx/terminal-transfered-email';
 import terminalReturnExpiredEmail from '../../../playground/mocks/data/idp/idx/terminal-return-expired-email';
@@ -91,9 +92,13 @@ const endUserRemediationNoOptionsMock = RequestMock()
 
 fixture('Terminal view');
 
-async function setup(t) {
+async function setup(t, widgetOptions) {
+  const options = widgetOptions ? { render: false } : {};
   const terminalPageObject = userVariables.gen3 ? new TerminalPageObjectV3(t) : new TerminalPageObject(t);
-  await terminalPageObject.navigateToPage();
+  await terminalPageObject.navigateToPage(options);
+  if (widgetOptions) {
+    await renderWidget(widgetOptions);
+  }
   // ensure form has loaded
   await t.expect(terminalPageObject.formExists()).eql(true);
   return terminalPageObject;
@@ -180,6 +185,22 @@ async function setup(t) {
       }
       await t.expect(await terminalViewPage.signoutLinkExists()).ok();
     });
+});
+
+// Back to sign in link is not added if disabled with appropriate features
+[
+  ['should not have Back to sign in link if hideSignOutLinkInMFA is true', sessionExpiredMock, {
+    features: { hideSignOutLinkInMFA: true },
+  }],
+  ['should not have Back to sign in link if mfaOnlyFlow is true', sessionExpiredMock, {
+    features: { mfaOnlyFlow: true },
+  }],
+].forEach(([ testTitle, mock, widgetOptions ]) => {
+  test.requestHooks(mock)(testTitle, async t => {
+    const terminalViewPage = await setup(t, widgetOptions);
+    await checkA11y(t);
+    await t.expect(await terminalViewPage.goBackLinkExists()).notOk();
+  });
 });
 
 test.requestHooks(terminalMultipleErrorsMock)('should render each error message when there are multiple', async t => {
