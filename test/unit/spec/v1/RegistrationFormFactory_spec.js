@@ -111,28 +111,28 @@ describe('RegistrationFormFactory', function() {
     it('gives the right username parts', function() {
       let result = RegistrationFormFactory.getUsernameParts('first-last.name@okta.com');
 
-      expect(result).toEqual(['first', 'last', 'name', 'okta', 'com']);
+      expect(result).toEqual(['first', 'last', 'name', 'okta']);
 
       result = RegistrationFormFactory.getUsernameParts('first-name@okta.com');
-      expect(result).toEqual(['first', 'name', 'okta', 'com']);
+      expect(result).toEqual(['first', 'name', 'okta']);
 
       result = RegistrationFormFactory.getUsernameParts('firstname@okta.com');
-      expect(result).toEqual(['firstname', 'okta', 'com']);
+      expect(result).toEqual(['firstname', 'okta']);
 
       result = RegistrationFormFactory.getUsernameParts('first_name@okta.com');
-      expect(result).toEqual(['first', 'name', 'okta', 'com']);
+      expect(result).toEqual(['first', 'name', 'okta']);
 
       result = RegistrationFormFactory.getUsernameParts('username');
       expect(result).toEqual(['username']);
 
       result = RegistrationFormFactory.getUsernameParts('user#name@okta.com');
-      expect(result).toEqual(['user', 'name', 'okta', 'com']);
+      expect(result).toEqual(['user', 'name', 'okta']);
 
       result = RegistrationFormFactory.getUsernameParts('user#name@okta#%com');
       expect(result).toEqual(['user', 'name', 'okta', '%com']);
 
       result = RegistrationFormFactory.getUsernameParts('#-name@okta.com');
-      expect(result).toEqual(['name', 'okta', 'com']);
+      expect(result).toEqual(['name', 'okta']);
 
       result = RegistrationFormFactory.getUsernameParts('first_name-@okta#');
       expect(result).toEqual(['first', 'name', 'okta']);
@@ -149,11 +149,12 @@ describe('RegistrationFormFactory', function() {
     it('returns false if password does not contain username or no username ', function() {
       expect(RegistrationFormFactory.passwordContainsFormField('administrator1', 'Abcd1234')).toEqual(false);
       expect(RegistrationFormFactory.passwordContainsFormField(null, 'Abcd1234')).toEqual(false);
+      expect(RegistrationFormFactory.passwordContainsFormField('abcd@okta.com', 'Welcome123')).toEqual(false);
+      expect(RegistrationFormFactory.passwordContainsFormField('abc', 'abc')).toEqual(false);
     });
     it('returns true if password does contain username ', function() {
       expect(RegistrationFormFactory.passwordContainsFormField('abcd@okta.com', 'Abcd1234')).toEqual(true);
-      expect(RegistrationFormFactory.passwordContainsFormField('abc', 'abc')).toEqual(true);
-      expect(RegistrationFormFactory.passwordContainsFormField('abc', 'abc@okta.com')).toEqual(true);
+      expect(RegistrationFormFactory.passwordContainsFormField('abcd', 'abcd@okta.com')).toEqual(true);
     });
   });
 });
