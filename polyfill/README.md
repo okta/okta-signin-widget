@@ -12,7 +12,7 @@ To embed the Sign-in Widget via CDN, include links to the JS and CSS files in yo
 <script src="https://global.oktacdn.com/okta-signin-widget/7.17.2/js/okta-sign-in.polyfill.min.js" type="text/javascript" integrity="sha384-wJqq26Mh3D881mQ2Y8EyhHmQU2ovR3nf5+uV3atTdOwBtHelrBRHOmuk5OdgckqW" crossorigin="anonymous"></script>
 
 <!-- Widget bundle for Okta Identity Engine -->
-<script src="https://global.oktacdn.com/okta-signin-widget/7.17.2/js/okta-sign-in.oie.min.js" type="text/javascript" integrity="sha384-Qx25hpdEqMezj+YmiMfpjUq4YtvRDF7T2wiPNGFRT9bm26Ij1oliu9Rghf4vO2qb" crossorigin="anonymous"></script>
+<script src="https://global.oktacdn.com/okta-signin-widget/7.17.2/js/okta-sign-in.oie.min.js" type="text/javascript" integrity="sha384-E03lGO0ePwMBn+dFZw+JAS6GHAKTb3brtFjKf/dHl6YrXVq+dohDSml/dhSBYpy1" crossorigin="anonymous"></script>
 
 <!-- CSS for widget -->
 <link href="https://global.oktacdn.com/okta-signin-widget/7.17.2/css/okta-sign-in.min.css" type="text/css" rel="stylesheet" integrity="sha384-YtU89lM0fecOULmzvCevpy8Mwpfa2V1C9JG+K57ceTle0dj6yZKAQ/t6ZEmGlK7c" crossorigin="anonymous" />
