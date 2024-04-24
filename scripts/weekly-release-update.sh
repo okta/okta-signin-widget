@@ -39,7 +39,8 @@ git add --all
 git status
 
 # commit files
-git commit -m "chore: version bump $RELEASE_VERSION"
+# git commit -m "chore: version bump $RELEASE_VERSION"
+commit_sign_push "chore: version bump $RELEASE_VERSION"
 git status
 
 printf "Pushing to Temp branch...\n"
