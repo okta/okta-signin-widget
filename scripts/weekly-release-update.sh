@@ -40,18 +40,18 @@ git status
 
 # commit files
 # git commit -m "chore: version bump $RELEASE_VERSION"
-commit_sign_push "chore: version bump $RELEASE_VERSION"
-git status
+# git status
 
 printf "Pushing to Temp branch...\n"
 # push
-if git push --set-upstream origin $FIX_BRANCH ; then
-	printf "${GREEN}Push to $FIX_BRANCH was successful.\n"
-	info
-else
-	printf "${RED}Push to $FIX_BRANCH failed.\n"
-	info
-fi
+commit_sign_push "chore: version bump $RELEASE_VERSION"
+# if git push --set-upstream origin $FIX_BRANCH ; then
+# 	printf "${GREEN}Push to $FIX_BRANCH was successful.\n"
+# 	info
+# else
+# 	printf "${RED}Push to $FIX_BRANCH failed.\n"
+# 	info
+# fi
 
 printf "Pushing to release branch...\n"
 # push
