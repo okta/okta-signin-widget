@@ -14,7 +14,7 @@ if ! setup_service yarn 1.22.19 &> /dev/null; then
 fi
 
 # temp branch for commit
-FIX_BRANCH="weekly-patch-$RELEASE_VERSION"
+# FIX_BRANCH="weekly-patch-$RELEASE_VERSION"
 
 # get latest
 git fetch origin && \
@@ -23,7 +23,7 @@ git fetch origin && \
 git checkout $RELEASE_BRANCH && \
 
 # create temporary update branch
-git checkout -b $FIX_BRANCH
+# git checkout -b $FIX_BRANCH
 
 # update files
 npm config set @okta:registry ${INTERNAL_REGISTRY}
@@ -42,9 +42,9 @@ git status
 # git commit -m "chore: version bump $RELEASE_VERSION"
 # git status
 
-printf "Pushing to Temp branch...\n"
+# printf "Pushing to Temp branch...\n"
 # push
-commit_sign_push "chore: version bump $RELEASE_VERSION"
+# commit_sign_push "chore: version bump $RELEASE_VERSION"
 # if git push --set-upstream origin $FIX_BRANCH ; then
 # 	printf "${GREEN}Push to $FIX_BRANCH was successful.\n"
 # 	info
@@ -55,10 +55,11 @@ commit_sign_push "chore: version bump $RELEASE_VERSION"
 
 printf "Pushing to release branch...\n"
 # push
-if git push origin $FIX_BRANCH:$RELEASE_BRANCH ; then
-	printf "${GREEN}Push to $RELEASE_BRANCH was successful.\n"
-	info
-else
-	printf "${RED}Push to $RELEASE_BRANCH failed.\n"
-	info
-fi
+commit_sign_push "chore: version bump $RELEASE_VERSION"
+# if git push origin $FIX_BRANCH:$RELEASE_BRANCH ; then
+# 	printf "${GREEN}Push to $RELEASE_BRANCH was successful.\n"
+# 	info
+# else
+# 	printf "${RED}Push to $RELEASE_BRANCH failed.\n"
+# 	info
+# fi
