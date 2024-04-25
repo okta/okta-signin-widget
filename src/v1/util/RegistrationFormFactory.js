@@ -17,7 +17,7 @@ let { SchemaFormFactory } = internal.views.forms.helpers;
 
 const getParts = function(username) {
   const usernameArr = username.split('');
-  const minPartsLength = 3;
+  const minPartsLength = 4;
   const userNameParts = [];
   const delimiters = [',', '.', '-', '_', '#', '@'];
   let userNamePart = '';
