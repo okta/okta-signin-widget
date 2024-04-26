@@ -32,6 +32,7 @@ export * from './getLanguageDirection';
 export * from './getPasswordExpiryContentTitleAndParams';
 export * from './getTranslation';
 export * from './getValidationMessages';
+export * from './getWidgetMessage';
 export * from './htmlContentParserUtils';
 export * from './idpIconMap';
 export * from './idxUtils';

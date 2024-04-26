@@ -17,6 +17,7 @@ import {
   IdxStatus,
   IdxTransaction,
   OAuthError,
+  RawIdxResponse,
 } from '@okta/okta-auth-js';
 import { cloneDeep, merge, omit } from 'lodash';
 import { useCallback } from 'preact/hooks';
@@ -93,11 +94,69 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
         ?.value
     );
 
+    const getIsClientTransaction = (newTx: IdxTransaction) => {
+      const transactionHasWarning = (newTx.messages || []).some(
+        (message) => message.class === MessageType.WARNING.toString(),
+      );
+      return (!newTx.requestDidSucceed
+        // do not preserve field data on token change errors
+        && !containsMessageKey(ON_PREM_TOKEN_CHANGE_ERROR_KEY, newTx.messages))
+      || (areTransactionsEqual(currTransaction, newTx) && transactionHasWarning);
+    }
+
+    const onSuccess = (newTx: IdxTransaction, resolve?: (val: unknown) => void) => {
+      setIdxTransaction(newTx);
+      if (newTx.requestDidSucceed === false) {
+        eventEmitter.emit(
+          'afterError',
+          getEventContext(newTx),
+          getErrorEventContext(newTx.rawIdxState),
+        );
+      }
+      const isClientTransaction = getIsClientTransaction(newTx);
+      setIsClientTransaction(isClientTransaction);
+      if (isClientTransaction
+          && !newTx.messages?.length
+          // Only display client side validate message when there are remediations
+          && newTx.neededToProceed.length > 0) {
+        setMessage({
+          message: loc('oform.errorbanner.title', 'login'),
+          class: 'ERROR',
+          i18n: { key: 'oform.errorbanner.title' },
+        } as IdxMessage);
+      }
+      setStepToRender(stepToRender);
+      setLoading(false);
+      resolve?.(true);
+    };
+
     // TODO: Revisit and refactor this function as it is a dupe of handleError fn in Widget/index.tsx
     const handleError = (transaction: IdxTransaction | undefined, error: unknown) => {
       // TODO: handle error based on types
       // AuthApiError is one of the potential error that can be thrown here
       // We will want to expose development stage errors from auth-js and file jiras against it
+      const authApiError = error as AuthApiError;
+      let transactionErrorResponse: RawIdxResponse | undefined = undefined;
+      if (authApiError?.xhr?.responseText) {
+        if (typeof authApiError.xhr.responseText === 'string') {
+          try {
+            transactionErrorResponse = JSON.parse(authApiError.xhr.responseText);
+          } catch (e) {
+            // Malformed server response do nothing
+          }
+        }
+      }
+      // If error is thrown but responseText contains IDX response, merge with last transaction and display error
+      if (transaction && transactionErrorResponse
+          && transactionErrorResponse?.version
+          && transactionErrorResponse.remediation?.value?.[0]?.name === transaction?.neededToProceed?.[0]?.name
+          && transactionErrorResponse.messages) {
+        transaction.requestDidSucceed = false;
+        transaction.messages = [...transactionErrorResponse.messages.value];
+        const updatedTransaction = cloneDeep(transaction);
+        onSuccess(updatedTransaction)
+        return;
+      }
       setResponseError(error as (AuthApiError | OAuthError));
       Logger.error(error);
       // error event
@@ -246,38 +305,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       if (!newTransaction.nextStep && newTransaction.availableSteps?.length) {
         [newTransaction.nextStep] = newTransaction.availableSteps;
       }
-      const transactionHasWarning = (newTransaction.messages || []).some(
-        (message) => message.class === MessageType.WARNING.toString(),
-      );
-      const isClientTransaction = (!newTransaction.requestDidSucceed
-          // do not preserve field data on token change errors
-          && !containsMessageKey(ON_PREM_TOKEN_CHANGE_ERROR_KEY, newTransaction.messages))
-        || (areTransactionsEqual(currTransaction, newTransaction) && transactionHasWarning);
-
-      const onSuccess = (resolve?: (val: unknown) => void) => {
-        setIdxTransaction(newTransaction);
-        if (newTransaction.requestDidSucceed === false) {
-          eventEmitter.emit(
-            'afterError',
-            getEventContext(newTransaction),
-            getErrorEventContext(newTransaction.rawIdxState),
-          );
-        }
-        setIsClientTransaction(isClientTransaction);
-        if (isClientTransaction
-            && !newTransaction.messages?.length
-            // Only display client side validate message when there are remediations
-            && newTransaction.neededToProceed.length > 0) {
-          setMessage({
-            message: loc('oform.errorbanner.title', 'login'),
-            class: 'ERROR',
-            i18n: { key: 'oform.errorbanner.title' },
-          } as IdxMessage);
-        }
-        setStepToRender(stepToRender);
-        setLoading(false);
-        resolve?.(true);
-      };
+      const isClientTransaction = getIsClientTransaction(newTransaction);
 
       if (step === IDX_STEP.ENROLL_PROFILE && !isClientTransaction) {
         const postRegistrationSubmitPromise = new Promise((resolve) => {
@@ -285,7 +313,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
             widgetProps,
             // @ts-expect-error Type is object but TS disallows object for Record
             payload.userProfile.email,
-            (_response) => { onSuccess(resolve); },
+            (_response) => { onSuccess(newTransaction, resolve); },
             (error) => {
               triggerRegistrationErrorMessages(
                 error,
@@ -313,7 +341,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
         await widgetHooks.callHooks('before', newTransaction);
       }
 
-      onSuccess();
+      onSuccess(newTransaction);
     } catch (error) {
       handleError(currTransaction, error);
     } finally {
