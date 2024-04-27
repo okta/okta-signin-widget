@@ -149,8 +149,8 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       // If error is thrown but responseText contains IDX response, merge with last transaction and display error
       if (transaction && transactionErrorResponse
           && transactionErrorResponse?.version
-          && transactionErrorResponse.remediation?.value?.[0]?.name ===
-            transaction?.neededToProceed?.[0]?.name
+          && transactionErrorResponse.remediation?.value?.[0]?.name
+            === transaction?.neededToProceed?.[0]?.name
           && transactionErrorResponse.messages) {
         const updatedTransaction = cloneDeep(transaction);
         updatedTransaction.requestDidSucceed = false;
