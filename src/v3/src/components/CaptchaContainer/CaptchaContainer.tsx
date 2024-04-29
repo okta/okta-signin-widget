@@ -18,6 +18,7 @@ import ReCAPTCHA from 'react-google-recaptcha';
 import Logger from '../../../../util/Logger';
 import { useWidgetContext } from '../../contexts';
 import { useOnSubmit } from '../../hooks';
+import { getHCaptchaOptions } from '../../util/settingsUtils';
 import {
   CaptchaContainerElement,
   UISchemaElementComponent,
@@ -46,7 +47,8 @@ const CaptchaContainer: UISchemaElementComponent<{
   } = uischema;
 
   const { dataSchemaRef, widgetProps } = useWidgetContext();
-  const { hcaptcha: hcaptchaOptions, recaptcha: recaptchaOptions } = widgetProps;
+  const { recaptcha: recaptchaOptions } = widgetProps;
+  const hcaptchaOptions = getHCaptchaOptions(widgetProps);
   const onSubmitHandler = useOnSubmit();
   const dataSchema = dataSchemaRef.current!;
   const captchaRef = useRef<ReCAPTCHA | HCaptcha>(null);

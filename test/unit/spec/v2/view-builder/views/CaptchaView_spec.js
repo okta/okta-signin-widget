@@ -9,6 +9,7 @@ import { WIDGET_FOOTER_CLASS } from 'v2/view-builder/utils/Constants';
 describe('v2/view-builder/views/CaptchaView', function() {
   let testContext;
   let language = undefined;
+  let defaultCountryCode = undefined;
   let hcaptchaOptions = {};
   let recaptchaOptions = {};
   beforeEach(function() { 
@@ -20,6 +21,7 @@ describe('v2/view-builder/views/CaptchaView', function() {
       const settings = new Settings({
         baseUrl: 'http://localhost:3000',
         language,
+        defaultCountryCode,
         ...hcaptchaOptions,
         ...recaptchaOptions,
       });
@@ -115,6 +117,18 @@ describe('v2/view-builder/views/CaptchaView', function() {
     };
     testContext.init();
     expect(spy).toHaveBeenCalledWith('https://recaptcha.net/recaptcha/api.js?onload=OktaSignInWidgetOnCaptchaLoaded&render=explicit&hl=en');
+  });
+
+  it('hCaptcha gets loaded properly with cn1.hcaptcha.com for defaultCountryCode == "CN"', function() {
+    // Mock browser locale
+    jest.spyOn(navigator, 'language', 'get').mockReturnValue('en');
+    language = undefined;
+    defaultCountryCode = 'CN';
+
+    const spy = jest.spyOn(CaptchaView.prototype, '_loadCaptchaLib');
+
+    testContext.init(enrollProfileWithHCaptcha.captcha.value);
+    expect(spy).toHaveBeenCalledWith('https://cn1.hcaptcha.com/1/api.js?endpoint=https%3A%2F%2Fcn1.hcaptcha.com&assethost=https%3A%2F%2Fassets-cn1.hcaptcha.com&imghost=https%3A%2F%2Fimgs-cn1.hcaptcha.com&reportapi=https%3A%2F%2Freportapi-cn1.hcaptcha.com&onload=OktaSignInWidgetOnCaptchaLoaded&render=explicit&hl=en');
   });
 
   it('Captcha gets removed properly', function() {

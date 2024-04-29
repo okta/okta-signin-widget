@@ -383,7 +383,35 @@ const derived: Record<string, ModelProperty>  = {
       return !_.isEmpty(configuredSocialIdps) || !_.isEmpty(customButtons) || hasPivCard;
     },
     cache: true,
-  }
+  },
+  hcaptchaScript: {
+    deps: ['hcaptcha.scriptSource', 'hcaptcha.scriptParams', 'countryCode'],
+    fn: function(scriptSource, scriptParams, countryCode) {
+      if (countryCode?.toUpperCase() === 'CN' && !scriptSource) {
+        return {
+          scriptSource: 'https://cn1.hcaptcha.com/1/api.js',
+          scriptParams: {
+            endpoint: 'https://cn1.hcaptcha.com',
+            assethost: 'https://assets-cn1.hcaptcha.com',
+            imghost: 'https://imgs-cn1.hcaptcha.com',
+            reportapi: 'https://reportapi-cn1.hcaptcha.com',
+          }
+        };
+      }
+      return {
+        scriptSource,
+        scriptParams,
+      };
+    }
+  },
+  recaptchaScript: {
+    deps: ['recaptcha.scriptSource'],
+    fn: function(scriptSource) {
+      return {
+        scriptSource
+      };
+    },
+  },
 };
 
 type SettingsProps = typeof local & typeof derived;

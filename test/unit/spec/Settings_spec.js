@@ -208,4 +208,79 @@ describe('models/Settings', () => {
       expect(settings.get('backToSignInUri')).toBe('http://foo');
     });
   });
+
+  describe('recaptchaScript', () => {
+    it('returns { scriptSource }', () => {
+      const settings = new Settings({
+        baseUrl: 'http://base',
+        'recaptcha.scriptSource': 'https://recaptcha.net/recaptcha/api.js',
+      });
+      expect(settings.get('recaptchaScript')).toEqual({
+        scriptSource: 'https://recaptcha.net/recaptcha/api.js',
+      });
+    });
+  });
+
+  describe('hcaptchaScript', () => {
+    it('returns { scriptSource, scriptParams }', () => {
+      const settings = new Settings({
+        baseUrl: 'http://base',
+        'hcaptcha.scriptSource': 'https://cn1.hcaptcha.com/1/api.js',
+        'hcaptcha.scriptParams': {
+          endpoint: 'https://cn1.hcaptcha.com',
+          assethost: 'https://assets-cn1.hcaptcha.com',
+          imghost: 'https://imgs-cn1.hcaptcha.com',
+          reportapi: 'https://reportapi-cn1.hcaptcha.com',
+        },
+      });
+      expect(settings.get('hcaptchaScript')).toEqual({
+        scriptSource: 'https://cn1.hcaptcha.com/1/api.js',
+        scriptParams: {
+          endpoint: 'https://cn1.hcaptcha.com',
+          assethost: 'https://assets-cn1.hcaptcha.com',
+          imghost: 'https://imgs-cn1.hcaptcha.com',
+          reportapi: 'https://reportapi-cn1.hcaptcha.com',
+        }
+      });
+    });
+
+    it('returns cn1.hcaptcha.com for defaultCountryCode == "CN"', () => {
+      const settings = new Settings({
+        baseUrl: 'http://base',
+        defaultCountryCode: 'CN',
+      });
+      expect(settings.get('hcaptchaScript')).toEqual({
+        scriptSource: 'https://cn1.hcaptcha.com/1/api.js',
+        scriptParams: {
+          endpoint: 'https://cn1.hcaptcha.com',
+          assethost: 'https://assets-cn1.hcaptcha.com',
+          imghost: 'https://imgs-cn1.hcaptcha.com',
+          reportapi: 'https://reportapi-cn1.hcaptcha.com',
+        },
+      });
+    });
+
+    it('should not override configured hCaptcha options if defaultCountryCode == "CN"', () => {
+      const settings = new Settings({
+        baseUrl: 'http://base',
+        defaultCountryCode: 'CN',
+        'hcaptcha.scriptSource': 'https://cloudflare.hcaptcha.com/1/api.js',
+      });
+      expect(settings.get('hcaptchaScript')).toEqual({
+        scriptSource: 'https://cloudflare.hcaptcha.com/1/api.js',
+        scriptParams: {},
+      });
+    });
+  
+    it('should not override hCaptcha options if defaultCountryCode != "CN"', () => {
+      const settings = new Settings({
+        baseUrl: 'http://base',
+        defaultCountryCode: 'US',
+      });
+      expect(settings.get('hcaptchaScript')).toEqual({
+        scriptSource: undefined,
+        scriptParams: {},
+      });
+    });
+  });
 });

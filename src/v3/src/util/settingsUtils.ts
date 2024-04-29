@@ -286,3 +286,20 @@ export const getPageTitle = (
       return null;
   }
 };
+
+export const getHCaptchaOptions = (widgetProps: WidgetProps): WidgetProps['hcaptcha'] => {
+  const { hcaptcha } = widgetProps;
+  const countryCode = getDefaultCountryCode(widgetProps);
+  if (!hcaptcha && countryCode?.toUpperCase() === 'CN') {
+    return {
+      scriptSource: 'https://cn1.hcaptcha.com/1/api.js',
+      scriptParams: {
+        endpoint: 'https://cn1.hcaptcha.com',
+        assethost: 'https://assets-cn1.hcaptcha.com',
+        imghost: 'https://imgs-cn1.hcaptcha.com',
+        reportapi: 'https://reportapi-cn1.hcaptcha.com',
+      }
+    };
+  }
+  return hcaptcha;
+};

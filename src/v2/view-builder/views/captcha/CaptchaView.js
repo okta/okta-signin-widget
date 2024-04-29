@@ -132,9 +132,9 @@ export default View.extend({
 
     
     if (this.captchaConfig.type === 'HCAPTCHA') {
-      this._loadCaptchaLib(this._getCaptchaUrl(HCAPTCHA_URL, 'hcaptcha'));
+      this._loadCaptchaLib(this._getCaptchaUrl(HCAPTCHA_URL, 'hcaptchaScript'));
     } else if (this.captchaConfig.type === 'RECAPTCHA_V2') {
-      this._loadCaptchaLib(this._getCaptchaUrl(RECAPTCHAV2_URL, 'recaptcha'));
+      this._loadCaptchaLib(this._getCaptchaUrl(RECAPTCHAV2_URL, 'recaptchaScript'));
     }
   },
   
@@ -183,9 +183,7 @@ export default View.extend({
   * */
   _getCaptchaUrl(defaultBaseUrl, settingsKey) {
     const locale = this.options.settings.get('language');
-    const scriptSource = this.options.settings.get(`${settingsKey}.scriptSource`);
-    const scriptParams = this.options.settings.get(`${settingsKey}.scriptParams`);
-
+    const { scriptSource, scriptParams } = this.options.settings.get(settingsKey);
     const baseUrl = scriptSource || defaultBaseUrl;
     const params = {
       ...scriptParams,

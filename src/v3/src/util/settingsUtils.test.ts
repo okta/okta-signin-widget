@@ -16,8 +16,8 @@ import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import { WidgetProps } from '../types';
 import {
   getBackToSignInUri, getCustomHelpLinks, getDefaultCountryCode, getFactorPageCustomLink,
-  getForgotPasswordUri, getHelpLink, getLanguageCode, getPageTitle, getUnlockAccountUri,
-  transformIdentifier,
+  getForgotPasswordUri, getHCaptchaOptions, getHelpLink, getLanguageCode, getPageTitle, 
+  getUnlockAccountUri, transformIdentifier,
 } from './settingsUtils';
 
 jest.mock('../../../util/BrowserFeatures', () => ({
@@ -228,5 +228,38 @@ describe('Settings Utils Tests', () => {
     widgetProps = { brandName, features: { setPageTitle: 123 } };
 
     expect(getPageTitle(widgetProps, formTitle)).toBeNull();
+  });
+
+  it('should return custom hCaptcha script source with cn1 host for defaultCountryCode == "CN"', () => {
+    widgetProps = { defaultCountryCode: 'CN' };
+    expect(getHCaptchaOptions(widgetProps)).toStrictEqual({
+      scriptSource: 'https://cn1.hcaptcha.com/1/api.js',
+      scriptParams: {
+        endpoint: 'https://cn1.hcaptcha.com',
+        assethost: 'https://assets-cn1.hcaptcha.com',
+        imghost: 'https://imgs-cn1.hcaptcha.com',
+        reportapi: 'https://reportapi-cn1.hcaptcha.com',
+      }
+    });
+  });
+
+  it('should not override configured hCaptcha options if defaultCountryCode == "CN"', () => {
+    widgetProps = {
+      defaultCountryCode: 'CN',
+      hcaptcha: {
+        scriptSource: 'https://cloudflare.hcaptcha.com/1/api.js',
+      }
+    };
+    expect(getHCaptchaOptions(widgetProps)).toStrictEqual({
+      scriptSource: 'https://cloudflare.hcaptcha.com/1/api.js',
+    });
+  });
+
+  it('should not override hCaptcha options if defaultCountryCode != "CN"', () => {
+    widgetProps = { defaultCountryCode: '' };
+    expect(getHCaptchaOptions(widgetProps)).toBeUndefined();
+
+    widgetProps = { defaultCountryCode: 'US' };
+    expect(getHCaptchaOptions(widgetProps)).toBeUndefined();
   });
 });
