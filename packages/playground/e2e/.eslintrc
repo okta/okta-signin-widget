@@ -1,0 +1,11 @@
+{
+  "env": {
+    "browser": true
+  },
+  "plugins": [
+    "testcafe-extended"
+  ],
+  "extends": [
+    "plugin:testcafe-extended/recommended"
+  ]
+}

@@ -2,7 +2,7 @@ import type { Databag } from '@okta/loginpage-render';
 
 export const databag: Databag = {
   // point to server
-  baseUrl: 'http://localhost:3000',
+  baseUrl: 'http://localhost:3030',
 
   featureFlags: [],
   orgLoginPageSettings: {

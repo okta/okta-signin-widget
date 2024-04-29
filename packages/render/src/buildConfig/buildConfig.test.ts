@@ -29,7 +29,7 @@ describe('buildConfig', () => {
   "linkParams": undefined,
   "mfaAttestation": false,
   "orgSyncToAccountChooserEnabled": false,
-  "redirectUri": "http://localhost:3000mock-fromUri",
+  "redirectUri": "http://localhost:3030mock-fromUri",
   "repost": false,
   "showLinkToAppStore": false,
   "signIn": {
@@ -37,7 +37,7 @@ describe('buildConfig', () => {
       "baseUrl": "mock-sdkBaseURL",
     },
     "authScheme": "OAUTH2",
-    "baseUrl": "http://localhost:3000",
+    "baseUrl": "http://localhost:3030",
     "brandColors": undefined,
     "brandName": "Okta",
     "consent": undefined,

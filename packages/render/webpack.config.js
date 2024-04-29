@@ -40,8 +40,8 @@ module.exports = (_, argv) => {
       iife: true,
       library: {
         name: 'OktaLoginPageRender',
-        type: 'umd',
-      }
+        type: 'window'
+      },
     },
     module: {
       rules: [

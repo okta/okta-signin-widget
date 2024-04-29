@@ -15,7 +15,7 @@ describe('getSignInConfig', () => {
     "baseUrl": "mock-sdkBaseURL",
   },
   "authScheme": "OAUTH2",
-  "baseUrl": "http://localhost:3000",
+  "baseUrl": "http://localhost:3030",
   "brandColors": undefined,
   "brandName": "Okta",
   "consent": undefined,

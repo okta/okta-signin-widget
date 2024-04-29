@@ -22,9 +22,16 @@ test_suites:
     timeout: '10'
     criteria: MERGE
     queue_name: small
+  - name: e2e
+    script_path: /root/okta/loginpage/.bacon
+    script_name: e2e
+    sort_order: '3'
+    timeout: '10'
+    criteria: MERGE
+    queue_name: small
   - name: semgrep
     script_path: /root/okta/loginpage/.bacon
-    sort_order: '3'
+    sort_order: '4'
     timeout: '10'
     script_name: semgrep
     criteria: MERGE
