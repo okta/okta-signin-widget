@@ -77,6 +77,7 @@ describe('buildConfig', () => {
       "useDeviceFingerprintForSecurityImage": false,
       "webauthn": true,
     },
+    "hcaptcha": undefined,
     "helpLinks": {
       "custom": [
         {

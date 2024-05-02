@@ -69,6 +69,7 @@ exports[`main renders login page uses OktaLogin bundle when has no disableNewLog
         "useDeviceFingerprintForSecurityImage": false,
         "webauthn": true,
       },
+      "hcaptcha": undefined,
       "helpLinks": {
         "custom": [
           {
@@ -197,6 +198,7 @@ exports[`main renders login page uses legacy OktaLogin bundle when has disableNe
         "useDeviceFingerprintForSecurityImage": false,
         "webauthn": true,
       },
+      "hcaptcha": undefined,
       "helpLinks": {
         "custom": [
           {

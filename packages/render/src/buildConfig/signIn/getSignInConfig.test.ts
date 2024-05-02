@@ -55,6 +55,7 @@ describe('getSignInConfig', () => {
     "useDeviceFingerprintForSecurityImage": false,
     "webauthn": true,
   },
+  "hcaptcha": undefined,
   "helpLinks": {
     "custom": [
       {

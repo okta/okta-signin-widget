@@ -103,4 +103,5 @@ export type Databag = {
   MOCountryValue: Record<string, string>;
   TWCountryValue: Record<string, string>;
   invalidTokenErrorMsg: string;
+  countryIso?: string;
 };

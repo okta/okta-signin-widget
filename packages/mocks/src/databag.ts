@@ -95,4 +95,5 @@ export const databag: Databag = {
   MOCountryValue: {},
   TWCountryValue: {},
   invalidTokenErrorMsg: 'mock-invalidTokenErrorMsg',
+  countryIso: 'US',
 };

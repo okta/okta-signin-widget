@@ -14,6 +14,7 @@ import { getRegistration } from './getRegistration';
 import { getBrandColors } from './getBrandColors';
 import { getI18n } from './getI18n';
 import { getLogoText } from './getLogoText';
+import { getHCaptcha } from './getHCaptcha';
 
 export const getSignInConfig = (databag: Databag) => {
   const {
@@ -63,6 +64,7 @@ export const getSignInConfig = (databag: Databag) => {
   const logoText = getLogoText(databag);
   const brandColors = getBrandColors(databag);
   const i18n = getI18n(databag);
+  const hcaptcha = getHCaptcha(databag);
 
   return {
     el: '#signin-container',
@@ -136,5 +138,7 @@ export const getSignInConfig = (databag: Databag) => {
     },
 
     cspNonce: window.cspNonce,
+
+    hcaptcha,
   };
 };
