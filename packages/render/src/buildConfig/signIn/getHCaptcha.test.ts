@@ -20,16 +20,16 @@ describe('getHCaptcha', () => {
       countryIso: 'CN'
     } as Databag;
     expect(getHCaptcha(databag)).toMatchInlineSnapshot(`
-{
-  "scriptParams": {
-    "apihost": "https://cn1.hcaptcha.com",
-    "assethost": "https://assets-cn1.hcaptcha.com",
-    "endpoint": "https://cn1.hcaptcha.com",
-    "imghost": "https://imgs-cn1.hcaptcha.com",
-    "reportapi": "https://reportapi-cn1.hcaptcha.com",
-  },
-  "scriptSource": "https://cn1.hcaptcha.com/1/api.js",
-}
+      {
+        "scriptParams": {
+          "apihost": "https://cn1.hcaptcha.com",
+          "assethost": "https://assets-cn1.hcaptcha.com",
+          "endpoint": "https://cn1.hcaptcha.com",
+          "imghost": "https://imgs-cn1.hcaptcha.com",
+          "reportapi": "https://reportapi-cn1.hcaptcha.com",
+        },
+        "scriptSource": "https://cn1.hcaptcha.com/1/api.js",
+      }
 `);
   });
 });

@@ -1,6 +1,6 @@
 import { Databag } from '@/types';
 
-interface HCaptchaOptions {
+type HCaptchaOptions = {
   scriptSource: string;
   scriptParams?: Record<string, string>;
 }
