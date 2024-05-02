@@ -14,6 +14,11 @@ exports.builder = {
     type: 'boolean',
     default: false,
   },
+  useI18nRepoOnly: {
+    description: 'True to compare core and SIW translations in i18n repo only, ignoring translations in SIW repo',
+    type: 'boolean',
+    default: false,
+  }
 };
 
 exports.handler = async (argv) => {
@@ -30,6 +35,9 @@ exports.handler = async (argv) => {
   let verifyCmd = 'yarn verify';
   if (argv.i18nRepoPath) {
     verifyCmd = `I18N_REPO_PATH="${argv.i18nRepoPath}" ${verifyCmd}`;
+  }
+  if (argv.useI18nRepoOnly) {
+    verifyCmd = `USE_I18N_REPO_ONLY=true ${verifyCmd}`;
   }
   if (argv.write) {
     verifyCmd = `WRITE_FIXED_I18N=true ${verifyCmd}`;

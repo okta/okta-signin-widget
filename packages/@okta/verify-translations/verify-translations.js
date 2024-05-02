@@ -2,7 +2,7 @@ const { resolve } = require('path');
 const fs = require('fs');
 const properties = require('properties');
 
-const { CI, I18N_REPO_PATH, WRITE_FIXED_I18N } = process.env;
+const { CI, I18N_REPO_PATH, WRITE_FIXED_I18N, USE_I18N_REPO_ONLY } = process.env;
 const ROOT_DIR = resolve(__dirname, '../../../');
 const OKTA_I18N_PROPERTIES = `${ROOT_DIR}/packages/@okta/i18n/src/properties`;
 const I18N_REPO = I18N_REPO_PATH ? I18N_REPO_PATH : resolve(ROOT_DIR, '../i18n');
@@ -62,6 +62,13 @@ const getCoreResourcesPath = () => {
     return `${CORE_REPO}/resources/src/main/resources`;
   }
   throw new Error(`No i18n repo found at ${I18N_REPO}`);
+};
+
+const getSiwResourcesPath = () => {
+  if (USE_I18N_REPO_ONLY === 'true') {
+    return `${I18N_REPO}/packages/login`;
+  }
+  return OKTA_I18N_PROPERTIES;
 };
 
 const getLanguges = ({ resourcePath, bundle }) => {
@@ -124,9 +131,11 @@ const buildCompexityKeysMapping = (siwTranslations, coreTranslations) => {
 const verifyTranslations = async ({ canUpdate }) => {
   let res = 0;
   const coreResourcesPath = getCoreResourcesPath();
-  console.log(`Using resource path: ${coreResourcesPath}`);
+  const siwResourcesPath = getSiwResourcesPath();
+  console.log(`Using core resource path: ${coreResourcesPath}`);
+  console.log(`Using widget resource path: ${siwResourcesPath}`);
   const siwLangs = getLanguges({
-    resourcePath: OKTA_I18N_PROPERTIES,
+    resourcePath: siwResourcesPath,
     bundle: 'login',
   });
   const coreLangs = getLanguges({
@@ -135,7 +144,7 @@ const verifyTranslations = async ({ canUpdate }) => {
   });
   for (let siwLang of siwLangs) {
     const siwProperties = await parseProperties({
-      resourcePath: OKTA_I18N_PROPERTIES,
+      resourcePath: siwResourcesPath,
       bundle: 'login',
       lang: siwLang,
     });
@@ -173,7 +182,7 @@ const verifyTranslations = async ({ canUpdate }) => {
         console.log(updates);
         if (canUpdate) {
           updateProperties({
-            resourcePath: OKTA_I18N_PROPERTIES,
+            resourcePath: siwResourcesPath,
             bundle: 'login',
             lang: siwLang,
             updates,
@@ -194,7 +203,7 @@ const verifyTranslations = async ({ canUpdate }) => {
 
 const start = async () => {
   const res = await verifyTranslations({
-    canUpdate: !CI && WRITE_FIXED_I18N === 'true'
+    canUpdate: !CI && WRITE_FIXED_I18N === 'true' && USE_I18N_REPO_ONLY !== 'true'
   });
   process.exit(res);
 };
