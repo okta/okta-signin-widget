@@ -30,13 +30,12 @@ const LinkButtonElement: FunctionComponent<RendererProps> = ({ uischema }) => {
     options: {
       /** Not currently used */
       focus,
-      actionParams,
-      isActionStep,
       onClick: onClickHandler,
       /** END */
       id,
       label,
-      target,
+      isActionStep,
+      step,
       events,
     } = {},
   } = uischema;
@@ -58,7 +57,8 @@ const LinkButtonElement: FunctionComponent<RendererProps> = ({ uischema }) => {
     onSubmitHandler({
       params: events?.[0]?.action?.actionParams,
       includeData: events?.[0]?.action?.includeFormData,
-      step: events?.[0]?.action?.step,
+      step: step,
+      isActionStep,
     });
   };
 
