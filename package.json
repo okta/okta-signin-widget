@@ -48,7 +48,7 @@
       "default": "./target/js/okta-sign-in.oie.js"
     },
     "./polyfill": "./target/js/okta-sign-in.polyfill.js",
-    "./css/": "./target/css/",
+    "./css/*": "./target/css/*",
     "./mocks": "./playground/mocks/server.js"
   },
   "scripts": {
