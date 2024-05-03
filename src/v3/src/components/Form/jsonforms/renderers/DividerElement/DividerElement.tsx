@@ -13,19 +13,20 @@
 import { RendererProps } from '@jsonforms/core';
 import { withJsonFormsRendererProps } from '@jsonforms/react';
 import { Box, Divider as MuiDivider } from '@mui/material';
+import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
 
 const DividerElement: FunctionComponent<RendererProps> = ({ uischema }) => {
+  const tokens = useOdysseyDesignTokens();
   const { options: { label } = {} } = uischema;
 
   return (
     <Box
-      marginBlockStart={4}
-      marginBlockEnd={4}
+      sx={{marginBlockStart: tokens.Spacing4, marginBlockEnd: tokens.Spacing4}}
     >
       {
-        typeof label?.content?.text !== 'undefined'
-          ? <MuiDivider className="separation-line">{label.content.text}</MuiDivider>
+        typeof label !== 'undefined'
+          ? <MuiDivider className="separation-line">{label}</MuiDivider>
           : <MuiDivider className="separation-line" />
       }
     </Box>

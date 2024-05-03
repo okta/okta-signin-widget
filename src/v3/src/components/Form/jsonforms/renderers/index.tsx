@@ -31,9 +31,11 @@ import DividerElement from './DividerElement/DividerElement';
 import ImageElement from './ImageElement/ImageElement';
 import InputPasswordControl from './InputPasswordControl/InputPasswordControl';
 import InputTextControl from './InputTextControl/InputTextControl';
+import LaunchAuthenticatorButtonElement from './LaunchAuthenticatorElement/LaunchAuthenticatorButtonElement';
 import LinkButtonElement from './LinkButtonElement/LinkButtonElement';
 import LinkElement from './LinkElement/LinkElement';
 import TextElement from './TextElement/TextElement';
+import TextWithActionLinkElement from './TextWithActionLinkElement/TextWithActionLinkElement';
 import TitleElement from './TitleElement/TitleElement';
 
 export const renderers = [
@@ -67,27 +69,47 @@ export const renderers = [
     renderer: TextElement,
   },
   {
-    tester: rankWith(
-      60,
-      and(
-        uiTypeIs('Action'),
-        or(
-          optionIs('style', ActionStyle.PRIMARY_BUTTON),
-          optionIs('style', ActionStyle.SECONDARY_BUTTON),
-        ),
-        or(optionIs('event', ActionEvent.PERFORM_STEP), optionIs('event', ActionEvent.REDIRECT)),
-      ),
-    ),
+    tester: rankWith(60, uiTypeIs('TextWithActionLink')),
+    renderer: TextWithActionLinkElement,
+  },
+  {
+    tester: rankWith(60, uiTypeIs('Button')),
     renderer: ButtonElement,
   },
   {
-    tester: rankWith(60, and(uiTypeIs('Action'), optionIs('style', ActionStyle.LINK), or(optionIs('event', ActionEvent.REDIRECT), optionIs('event', ActionEvent.REDIRECT_BLANK)))),
+    tester: rankWith(60, uiTypeIs('Link')),
     renderer: LinkElement,
   },
   {
-    tester: rankWith(60, and(uiTypeIs('Action'), optionIs('style', ActionStyle.LINK_BUTTON), optionIs('event', ActionEvent.PERFORM_STEP))),
+    tester: rankWith(60, uiTypeIs('LinkButton')),
     renderer: LinkButtonElement,
   },
+  {
+    tester: rankWith(60, uiTypeIs('LaunchAuthenticatorButton')),
+    renderer: LaunchAuthenticatorButtonElement,
+  },
+  // {
+  //   tester: rankWith(
+  //     60,
+  //     and(
+  //       uiTypeIs('Action'),
+  //       or(
+  //         optionIs('style', ActionStyle.PRIMARY_BUTTON),
+  //         optionIs('style', ActionStyle.SECONDARY_BUTTON),
+  //       ),
+  //       or(optionIs('event', ActionEvent.PERFORM_STEP), optionIs('event', ActionEvent.REDIRECT)),
+  //     ),
+  //   ),
+  //   renderer: ButtonElement,
+  // },
+  // {
+  //   tester: rankWith(60, and(uiTypeIs('Action'), optionIs('style', ActionStyle.LINK), or(optionIs('event', ActionEvent.REDIRECT), optionIs('event', ActionEvent.REDIRECT_BLANK)))),
+  //   renderer: LinkElement,
+  // },
+  // {
+  //   tester: rankWith(60, and(uiTypeIs('Action'), optionIs('style', ActionStyle.LINK_BUTTON), optionIs('event', ActionEvent.PERFORM_STEP))),
+  //   renderer: LinkButtonElement,
+  // },
   // {
   //   tester: rankWith(11, and(
   //     optionIs('format', 'button'),

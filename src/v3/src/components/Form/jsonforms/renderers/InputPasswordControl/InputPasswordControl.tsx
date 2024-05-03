@@ -14,16 +14,10 @@ import {
   ControlProps,
 } from '@jsonforms/core';
 import { withJsonFormsControlProps } from '@jsonforms/react';
+import { Box } from '@mui/material';
 import {
-  Box,
-  EyeIcon,
-  EyeOffIcon,
-  FormHelperText,
-  IconButton,
-  InputAdornment,
-  InputBase,
-  InputLabel,
-  Tooltip,
+  PasswordField,
+  useOdysseyDesignTokens,
 } from '@okta/odyssey-react-mui';
 import { merge } from 'lodash';
 import { FunctionComponent } from 'preact';
@@ -60,6 +54,7 @@ const InputPassword: FunctionComponent<ControlProps> = ({
     formErrors,
     widgetProps: { features: { showPasswordToggleOnSignInPage = true } = {} },
   } = useWidgetContext();
+  const tokens = useOdysseyDesignTokens();
   // const {
   //   translations = [],
   //   focus,
@@ -114,91 +109,30 @@ const InputPassword: FunctionComponent<ControlProps> = ({
   };
 
   return (
-    <Box marginBlockEnd={4}>
-      <InputLabel
-        htmlFor={path}
-      >
-        {label}
-      </InputLabel>
-      <InputBase
+    <Box sx={{marginBlockEnd: tokens.Spacing3}}>
+      <PasswordField
+        // ariaDescribedBy={describedByIds}
+        // autoCompleteType={autocomplete as PasswordAutoCompleteValue}
+        errorMessage={errors}
+        // errorMessageList={errorMessageList}
+        hasShowPassword={showPasswordToggleOnSignInPage}
+        // hint={hint ?? parsedExplainContent as string}
         id={path}
-        name={path}
         inputRef={focusRef}
-        error={hasErrors}
+        isDisabled={loading}
+        isFullWidth
+        // isOptional={required === false}
+        name={path}
+        label={label}
         onChange={onChange}
-        onBlur={(e: ChangeEvent<HTMLInputElement>) => {
+        onBlur={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
           e?.preventDefault();
           setTouched(true);
         }}
-        type={showPassword ? 'text' : 'password'}
+        testId={path}
+        translate={appliedUiSchemaOptions.noTranslate ? 'no' : undefined}
         value={inputText}
-        disabled={loading}
-        fullWidth
-        inputProps={{
-          'data-se': path,
-          // 'aria-describedby': ariaDescribedByIds,
-          // ...attributes,
-        }}
-        // className={noTranslate ? 'no-translate' : undefined}
-        dir={dir}
-        endAdornment={(
-          showPasswordToggleOnSignInPage && (
-            <InputAdornment
-              position="end"
-              // switching on the passed `dir` attribute is needed because plugin does not yet
-              // handle nested [dir="ltr"] inside [dir="rtl"] well so explicitly set physical
-              // properties when 'ltr' is passed onto this element, else can use logical
-              sx={(theme) => (dir === 'ltr' ? {
-                marginLeft: '8px',
-                marginRight: theme.spacing(2),
-              } : {
-                marginInlineEnd: theme.spacing(2),
-                marginInlineStart: '8px',
-              })}
-            >
-              <Tooltip
-                // title={showPassword ? getTranslation(translations, 'hide') : getTranslation(translations, 'show')}
-                title={showPassword ? 'Hide' : 'Show'}
-                PopperProps={{
-                  // keep the added tooltip element inside the SIW container
-                  disablePortal: true,
-                }}
-              >
-                <IconButton
-                  // aria-label={getTranslation(translations, 'visibilityToggleLabel')}
-                  aria-label="Show Password"
-                  aria-pressed={showPassword}
-                  aria-controls={path}
-                  onClick={handleClickShowPassword}
-                  sx={{
-                    // instead of using IconButton `edge="end"` we use this sx prop
-                    // because `edge="end"` does not use logical properties
-                    ...(dir === 'ltr' ? { marginRight: '-12px' } : { marginInlineEnd: '-12px' }),
-                    '&.Mui-focusVisible': {
-                      outlineStyle: 'solid',
-                      outlineWidth: '1px',
-                    },
-                  }}
-                >
-                  {showPassword ? <EyeOffIcon /> : <EyeIcon />}
-                </IconButton>
-              </Tooltip>
-            </InputAdornment>
-          )
-        )}
       />
-      {hasErrors && (
-        <FormHelperText
-          id={`${path}-error`}
-          role="alert"
-          data-se={`${path}-error`}
-          error
-          // TODO: OKTA-577905 - Temporary fix until we can upgrade to the latest version of Odyssey
-          sx={{ textAlign: 'start' }}
-        >
-          {errors}
-        </FormHelperText>
-      )}
     </Box>
   );
 };

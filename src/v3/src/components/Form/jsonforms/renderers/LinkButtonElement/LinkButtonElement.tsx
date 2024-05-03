@@ -10,10 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-// TODO: OKTA-564568 Link exported from ODY does not have the focus() function and breaks autofocus
 import { RendererProps } from '@jsonforms/core';
 import { withJsonFormsRendererProps } from '@jsonforms/react';
 import { Box, Link as LinkMui } from '@mui/material';
+import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
 
 import { useWidgetContext } from '../../../../../contexts';
@@ -22,6 +22,7 @@ import { ClickHandler } from '../../../../../types';
 
 const LinkButtonElement: FunctionComponent<RendererProps> = ({ uischema }) => {
   const widgetContext = useWidgetContext();
+  const tokens = useOdysseyDesignTokens();
   const {
     loading,
   } = widgetContext;
@@ -30,16 +31,17 @@ const LinkButtonElement: FunctionComponent<RendererProps> = ({ uischema }) => {
       /** Not currently used */
       focus,
       actionParams,
+      isActionStep,
       onClick: onClickHandler,
       /** END */
       id,
       label,
       target,
+      events,
     } = {},
   } = uischema;
   const onSubmitHandler = useOnSubmit();
   const focusRef = useAutoFocus<HTMLAnchorElement>(focus);
-  const ACTION_STEPS = ['currentAuthenticator-recover', 'currentAuthenticatorEnrollment-recover', 'cancel'];
 
   const onClick: ClickHandler = async (e) => {
     e.preventDefault();
@@ -54,31 +56,22 @@ const LinkButtonElement: FunctionComponent<RendererProps> = ({ uischema }) => {
     }
 
     onSubmitHandler({
-      params: actionParams,
-      isActionStep: ACTION_STEPS.includes(target.value),
-      step: target.value,
+      params: events?.[0]?.action?.actionParams,
+      includeData: events?.[0]?.action?.includeFormData,
+      step: events?.[0]?.action?.step,
     });
   };
 
   return (
-    <Box marginBlockEnd={4}>
+    <Box sx={{marginBlockEnd: tokens.Spacing3}}>
       <LinkMui
         component="button"
-        // Fixes OKTA-653788 (see comments) - Currently we treat all links as buttons
-        type="button"
-        variant="body1"
         role="link"
         onClick={onClick}
         ref={focusRef}
         data-se={id}
-        sx={{
-          '&:hover': {
-            cursor: 'pointer',
-          },
-          verticalAlign: 'baseline',
-        }}
       >
-        {label.content.text}
+        {label}
       </LinkMui>
     </Box>
   );

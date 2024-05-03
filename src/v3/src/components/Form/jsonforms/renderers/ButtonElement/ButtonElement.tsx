@@ -12,7 +12,8 @@
 
 import { RendererProps } from '@jsonforms/core';
 import { withJsonFormsRendererProps } from '@jsonforms/react';
-import { Box, Button as OdyButton } from '@okta/odyssey-react-mui';
+import { Box } from '@mui/material';
+import { Button as OdyButton, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
 
 import { useWidgetContext } from '../../../../../contexts';
@@ -26,6 +27,7 @@ const ButtonElement: FunctionComponent<RendererProps> = ({
   const widgetContext = useWidgetContext();
   const { loading } = widgetContext;
   const onSubmitHandler = useOnSubmit();
+  const tokens = useOdysseyDesignTokens();
   const {
     // label,
     // focus,
@@ -36,10 +38,8 @@ const ButtonElement: FunctionComponent<RendererProps> = ({
       type = 'submit',
       // ariaLabel,
       // variant,
-      // wide,
       // dataType,
       // dataSe,
-      actionParams,
       // Icon,
       // iconAlt,
       // includeData,
@@ -51,9 +51,11 @@ const ButtonElement: FunctionComponent<RendererProps> = ({
       onClick,
       /* END */
 
+      wide,
       id,
       style,
       label,
+      events,
       target,
       image,
     } = {},
@@ -63,14 +65,14 @@ const ButtonElement: FunctionComponent<RendererProps> = ({
     SECONDARY_BUTTON: 'secondary',
   };
 
-  const ButtonImageIcon = typeof image !== 'undefined' && (
+  const ButtonImageIcon = typeof image !== 'undefined' ? (
     <Box
       component="img"
       src={image.rendition.mainHref}
       alt={image.altText.text}
       aria-hidden
     />
-  );
+  ) : undefined;
 
   const focusRef = useAutoFocus<HTMLButtonElement>(focus);
 
@@ -78,35 +80,34 @@ const ButtonElement: FunctionComponent<RendererProps> = ({
 
   const handleClick: ClickHandler = async () => {
     onSubmitHandler({
-      params: actionParams,
-      includeData: target.includeData,
-      step: target.value,
+      params: events?.[0]?.action?.actionParams,
+      includeData: events?.[0]?.action?.includeFormData,
+      step: events?.[0]?.action?.step,
     });
   };
 
   return (
-    <Box marginBlockEnd={4}>
+    <Box sx={{marginBlockEnd: tokens.Spacing3}}>
       <OdyButton
         type={type}
+        label={label}
         variant={STYLE_TO_VARIANT[style] ?? 'primary'}
-        fullWidth
+        isFullWidth={wide ?? true}
         ref={focusRef}
-        disabled={loading || disabled}
+        isDisabled={loading || disabled}
         // className={classes}
-        // Fixes text overflow
-        sx={{ display: 'flex', whiteSpace: 'normal' }}
-        startIcon={loading ? <Spinner color="white" /> : ButtonImageIcon}
+        startIcon={loading ? <Spinner /> : ButtonImageIcon}
         // aria-describedby={ariaDescribedBy}
         // data-type={dataType}
-        data-se={id}
+        testId={id}
         // aria-label={ariaLabel}
         // eslint-disable-next-line react/jsx-props-no-spreading
         {...(type !== 'submit' && { onClick: typeof onClick === 'function' ? customClickHandler : handleClick })}
-      >
-        {label.content.text}
-      </OdyButton>
+      />
     </Box>
   );
 };
 
-export default withJsonFormsRendererProps(ButtonElement);
+
+const WrappedButtonElement = withJsonFormsRendererProps(ButtonElement);
+export default WrappedButtonElement;

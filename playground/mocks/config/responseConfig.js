@@ -19,7 +19,8 @@ const idx = {
   ],
 
   '/idp/idx/introspect': [
-    'identify',
+    'identify-with-uischema',
+    // 'identify',
     // 'identify-with-uischema',
     // 'error-identify-multiple-errors',
     // 'authenticator-enroll-ov-qr-enable-biometrics',

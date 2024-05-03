@@ -13,49 +13,32 @@
 import { flow } from 'lodash';
 
 import {
-  ButtonType,
-  TransformStepFn,
+  TransformStepFnWithOptions,
+  UIEventType,
 } from '../../types';
-import { traverseLayout } from '../util';
-import { UISchemaElement } from '@jsonforms/core';
 
-const addSubmission: TransformStepFn = (formbag) => {
-  const { uischema, dataSchema } = formbag;
+const addSubmission: TransformStepFnWithOptions = ({ transaction }) => (formbag) => {
+  // @ts-ignore rootLayout does not exist in interface
+  const { rootLayout: { events } = {} } = transaction?.rawIdxState;
+  const { dataSchema } = formbag;
 
-  let submitButtonsCount = 0;
-  // update hasStepper flag while travesing the layout
-  traverseLayout({
-    layout: uischema,
-    predicate: (element) => element.type === 'Action' && (element as UISchemaElement).options?.type === ButtonType.SUBMIT,
-    callback: () => {
-      submitButtonsCount += 1;
-    },
-  });
-
-  // track stepper submission option in custom layout step
-  if (submitButtonsCount === 1) {
-    traverseLayout({
-      layout: uischema,
-      predicate: (element) => element.type === 'Action' && (element as UISchemaElement).options?.type === ButtonType.SUBMIT && (element as UISchemaElement).options?.event === 'performStep',
-      callback: (element) => {
-        const submissionOptions = (element as UISchemaElement).options;
-        dataSchema.submit = {
-          actionParams: undefined,
-          step: submissionOptions?.target?.value,
-          includeData: submissionOptions?.target?.includeData,
-          includeImmutableData: true,
-        };
-      },
-    });
-  }
-
-  if (submitButtonsCount > 1 && !dataSchema.submit) {
-    throw new Error('dataSchema submit options should be set in custom layout');
+  const submissionEvent = events?.find((actionEvent: any) => actionEvent.type === UIEventType.ON_SUBMIT);
+  if (submissionEvent) {
+    dataSchema.submit = {
+      actionParams: undefined,
+      step: submissionEvent.action.step,
+      includeData: submissionEvent.action.includeFormData,
+      includeImmutableData: submissionEvent.action.includeImmutable,
+    };
+  } else {
+    throw new Error('dataSchema default submit options should be set rootLayout of IDX response');
   }
 
   return formbag;
 };
 
-export const transformSubmissionSchema: TransformStepFn = (formbag) => flow(
-  addSubmission,
+export const transformSubmissionSchema: TransformStepFnWithOptions = (
+  options,
+) => (formbag) => flow(
+  addSubmission(options),
 )(formbag);

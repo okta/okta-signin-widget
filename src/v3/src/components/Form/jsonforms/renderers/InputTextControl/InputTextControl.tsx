@@ -10,20 +10,12 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import {
-  CellProps,
-  ControlElement,
-  ControlProps,
-  JsonSchema7,
-  Layout,
-  UISchemaElement,
-} from '@jsonforms/core';
+import { ControlProps } from '@jsonforms/core';
 import { withJsonFormsControlProps } from '@jsonforms/react';
+import { Box } from '@mui/material';
 import {
-  Box,
-  FormHelperText,
-  InputBase,
-  InputLabel,
+  TextField,
+  useOdysseyDesignTokens,
 } from '@okta/odyssey-react-mui';
 import { merge } from 'lodash';
 import { FunctionComponent, h } from 'preact';
@@ -44,6 +36,7 @@ const InputText: FunctionComponent<ControlProps> = ({
   errors,
   uischema,
 }) => {
+  const tokens = useOdysseyDesignTokens();
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
   const { loading, formErrors } = useWidgetContext();
   const focusRef = useAutoFocus<HTMLInputElement>(appliedUiSchemaOptions.focus);
@@ -58,43 +51,29 @@ const InputText: FunctionComponent<ControlProps> = ({
   );
 
   return (
-    <Box marginBlockEnd={4}>
-      <InputLabel htmlFor={path}>
-        {label}
-      </InputLabel>
-      <InputBase
-        value={inputText}
-        type="text"
+    <Box sx={{marginBlockEnd: tokens.Spacing3}}>
+      <TextField
+        // autoCompleteType={autocomplete}
+        errorMessage={errors}
+        // errorMessageList={errorMessageList}
+        // hint={hint ?? parsedExplainContent as string}
         id={path}
+        inputRef={focusRef}
+        // inputMode={inputmode}
+        isDisabled={loading}
+        isFullWidth
+        // isOptional={required === false}
         name={path}
-        error={hasErrors}
+        label={label}
         onChange={onChange}
-        onBlur={(e: ChangeEvent<HTMLInputElement>) => {
+        onBlur={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
           e?.preventDefault();
           setTouched(true);
         }}
-        disabled={loading}
-        fullWidth
-        inputProps={{
-          'data-se': path,
-          // 'aria-describedby': ariaDescribedByIds,
-          // ...attributes,
-        }}
-        inputRef={focusRef}
-        // dir={dir}
+        testId={path}
+        type="text"
+        value={inputText}
       />
-      {hasErrors && (
-        <FormHelperText
-          id={`${path}-error`}
-          role="alert"
-          data-se={`${path}-error`}
-          error
-          // TODO: OKTA-577905 - Temporary fix until we can upgrade to the latest version of Odyssey
-          sx={{ textAlign: 'start' }}
-        >
-          {errors}
-        </FormHelperText>
-      )}
     </Box>
   );
 };

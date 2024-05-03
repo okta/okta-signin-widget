@@ -13,11 +13,11 @@
 // TODO: OKTA-564568 Link exported from ODY does not have the focus() function and breaks autofocus
 import { RendererProps } from '@jsonforms/core';
 import { withJsonFormsRendererProps } from '@jsonforms/react';
-import { Box, Link as LinkMui } from '@mui/material';
+import { Box } from '@mui/material';
+import { Link as OdyLink, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
 
 import { useAutoFocus } from '../../../../../hooks';
-import { ActionEvent } from '../../../../../types';
 
 const LinkElement: FunctionComponent<RendererProps> = ({ uischema }) => {
   const {
@@ -26,23 +26,24 @@ const LinkElement: FunctionComponent<RendererProps> = ({ uischema }) => {
       id,
       label,
       target,
-      event,
+      url,
     } = {},
   } = uischema;
   const focusRef = useAutoFocus<HTMLAnchorElement>(focus);
+  const tokens = useOdysseyDesignTokens();
 
   return (
-    <Box marginBlockEnd={4}>
-      <LinkMui
-        href={target.value}
-        ref={focusRef}
-        data-se={id}
-        target={event === ActionEvent.REDIRECT_BLANK && '_blank'}
+    <Box sx={{marginBlockEnd: tokens.Spacing3}}>
+      <OdyLink
+        href={url}
+        linkRef={focusRef}
+        testId={id}
+        target={target}
         // eslint-disable-next-line react/jsx-props-no-spreading
-        {...(event === ActionEvent.REDIRECT_BLANK && { rel: 'noopener noreferrer' })}
+        {...(target === '_blank' && { rel: 'noopener noreferrer' })}
       >
-        {label.content.text}
-      </LinkMui>
+        {label}
+      </OdyLink>
     </Box>
   );
 };

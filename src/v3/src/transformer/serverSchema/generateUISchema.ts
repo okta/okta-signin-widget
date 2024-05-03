@@ -16,11 +16,11 @@ import {
 
 import Util from '../../../../util/Util';
 import {
-  ActionEvent,
-  ActionStyle,
+  ActionType,
   LayoutDirection,
   LayoutElementType,
   TransformStepFnWithOptions,
+  UIEventType,
   UISchemaLayoutType,
 } from '../../types';
 import { loc } from '../../util';
@@ -33,14 +33,14 @@ type ElementTransformer = {
 
 type ElementTester = {
   tester: (element: any) => boolean,
-  element: (element: any) => UISchemaElement,
+  buildElement: (element: any) => UISchemaElement,
 };
 
 const ElementTesters: ElementTester[] = [
   {
     // image type
     tester: (element: any) => element.type === LayoutElementType.IMAGE,
-    element: (element: any) => (
+    buildElement: (element: any) => (
       {
         type: 'Image',
         options: { ...element },
@@ -50,39 +50,120 @@ const ElementTesters: ElementTester[] = [
   {
     // divider type
     tester: (element: any) => element.type === LayoutElementType.DIVIDER,
-    element: (element: any) => (
+    buildElement: (element: any) => (
       {
         type: 'Divider',
-        options: { ...element },
+        options: {
+          ...element,
+          label: element.label && loc(element.label.content.i18nKey, 'login', element.label.content.parameters, element.label.content.labelFormatter),
+        },
       }
     ),
   },
   {
+    // Label with action type
+    tester: (element: any) => element.type === LayoutElementType.LABEL
+      && element.content.labelFormatter
+      && Object.keys(element.content.labelFormatter).some((formatterKey) => element.content.labelFormatter?.[formatterKey]?.attributes?.events?.some((formatEvent: any) => formatEvent.type === UIEventType.ON_CLICK)),
+    buildElement: (element: any) => {
+      const linkActionKey: any = Object.keys(element.content.labelFormatter).find((formatterKey) => element.content.labelFormatter?.[formatterKey]?.attributes?.events?.some((formatEvent: any) => formatEvent.type === UIEventType.ON_CLICK));
+      element.content.labelFormatter[linkActionKey] = {
+        ...element.content.labelFormatter[linkActionKey],
+        attributes: {
+          ...element.content.labelFormatter[linkActionKey].attributes,
+          class: element.content.labelFormatter[linkActionKey].attributes.htmlClass,
+        },
+      };
+      const linkAction = element.content.labelFormatter[linkActionKey];
+      const linkActionEvent = linkAction?.attributes?.events.find((formatEvent:any) => formatEvent.type === UIEventType.ON_CLICK);
+      return {
+        type: 'TextWithActionLink',
+        text: loc(element.content.i18nKey, 'login', element.content.parameters, element.content.labelFormatter),
+        i18n: element.content.i18nKey,
+        options: {
+          ...element,
+          content: loc(element.content.i18nKey, 'login', element.content.parameters, element.content.labelFormatter),
+          // actionParams,
+          step: linkActionEvent?.action.step,
+          contentClassname: linkAction?.attributes.class,
+          isActionStep: linkActionEvent?.action.action,
+          parserOptions: {},
+        },
+      };
+    },
+  },
+  {
     // label type
     tester: (element: any) => element.type === LayoutElementType.LABEL,
-    element: (element: any) => (
+    buildElement: (element: any) => (
       {
         type: 'Label',
-        text: element.content.text,
+        text: loc(element.content.i18nKey, 'login', element.content.parameters, element.content.labelFormatter),
         i18n: element.content.i18nKey,
-        options: { ...element },
+        options: { ...element, label: loc(element.content.i18nKey, 'login', element.content.parameters, element.content.labelFormatter) },
       } as LabelElement
     ),
   },
   {
-    // action type
-    tester: (element: any) => element.type === LayoutElementType.ACTION,
-    element: (element: any) => {
-      const isRedirectBtn = element.event === ActionEvent.REDIRECT
-        && [ActionStyle.PRIMARY_BUTTON, ActionStyle.SECONDARY_BUTTON].includes(element.style);
+    // OVFP Button type
+    tester: (element: any) => element.type === LayoutElementType.BUTTON && element.events?.[0]?.action?.step === 'launch-authenticator',
+    buildElement: (element: any) => {
       return {
-        type: 'Action',
+        type: 'LaunchAuthenticatorButton',
         options: {
           ...element,
+          label: loc(element.label.content.i18nKey, 'login', element.label.content.parameters, element.label.content.labelFormatter),
+          step: element.events?.[0]?.action?.step,
+          deviceChallengeUrl: element.events?.[0]?.action?.deviceChallengeUrl,
+          challengeMethod: element.events?.[0]?.action?.challengeMethod,
+        },
+      };
+    },
+  },
+  {
+    // Button type
+    tester: (element: any) => element.type === LayoutElementType.BUTTON,
+    buildElement: (element: any) => {
+      const isRedirectBtn = element.events?.[0]?.action?.type === ActionType.OPEN_URL;
+      return {
+        type: 'Button',
+        options: {
+          ...element,
+          label: loc(element.label.content.i18nKey, 'login', element.label.content.parameters, element.label.content.labelFormatter),
           onClick: isRedirectBtn
-            ? (() => { Util.redirectWithFormGet(element.target.value); })
+            ? (() => { Util.redirectWithFormGet(element.events?.[0]?.action?.url); })
             : undefined,
-          type: element.target.type,
+          type: isRedirectBtn && 'Button',
+        },
+      };
+    },
+  },
+  {
+    // Link type
+    tester: (element: any) => element.type === LayoutElementType.LINK && element.events?.[0]?.action?.type === ActionType.OPEN_URL,
+    buildElement: (element: any) => {
+      return {
+        type: 'Link',
+        options: {
+          ...element,
+          label: loc(element.label.content.i18nKey, 'login', element.label.content.parameters, element.label.content.labelFormatter),
+          target: element.events?.[0]?.action?.newWindow && '_blank',
+          url: element.events?.[0]?.action?.url,
+        },
+      };
+    },
+  },
+  {
+    // Link Button type
+    tester: (element: any) => element.type === LayoutElementType.LINK && element.events?.[0]?.action?.type !== ActionType.OPEN_URL,
+    buildElement: (element: any) => {
+      return {
+        type: 'LinkButton',
+        options: {
+          ...element,
+          label: loc(element.label.content.i18nKey, 'login', element.label.content.parameters, element.label.content.labelFormatter),
+          isActionStep: element.events?.[0]?.action?.action,
+          step: element.events?.[0]?.action?.step,
         },
       };
     },
@@ -90,11 +171,11 @@ const ElementTesters: ElementTester[] = [
   {
     // textInput type
     tester: (element: any) => element.type === LayoutElementType.TEXT_INPUT,
-    element: (element: any) => (
+    buildElement: (element: any) => (
       {
         type: 'Control',
         scope: `#/properties/${element.name.replace('.', '/properties/')}`,
-        label: loc(element.label.content.i18nKey, 'login'),
+        label: loc(element.label.content.i18nKey, 'login', element.label.content.parameters, element.label.content.labelFormatter),
         options: {
           id: element.id,
           name: element.name,
@@ -108,12 +189,13 @@ const ElementTesters: ElementTester[] = [
   {
     // booleanInput type
     tester: (element: any) => element.type === LayoutElementType.BOOLEAN_INPUT,
-    element: (element: any) => (
+    buildElement: (element: any) => (
       {
         type: 'Control',
         scope: `#/properties/${element.name.replace('.', '/properties/')}`,
         options: {
           ...element,
+          label: loc(element.label.content.i18nKey, 'login', element.label.content.parameters, element.label.content.labelFormatter),
         },
       } as ControlElement
     ),
@@ -138,12 +220,12 @@ const toLayout = (uischema: any): VerticalLayout | HorizontalLayout => {
 };
 
 const mapUIElement = (element: any, uischema: Layout) => {
-  const uiElement = ElementTesters.find(({ tester }) => tester(element));
-  if (typeof uiElement === 'undefined') {
+  const elementTester = ElementTesters.find(({ tester }) => tester(element));
+  if (typeof elementTester === 'undefined') {
     console.error('Found element from server that is not supported in SIW', element);
     return;
   }
-  uischema.elements.push(uiElement.element(element));
+  uischema.elements.push(elementTester.buildElement(element));
 };
 
 const mapElement: ElementTransformer = (
@@ -168,10 +250,10 @@ export const generateUISchema: TransformStepFnWithOptions = ({
   transaction, // step: stepName, widgetProps,
 }) => (formbag) => {
   // @ts-expect-error layout is missing from type
-  const { uischema } = transaction.rawIdxState;
-  const primaryLayout = toLayout(uischema);
+  const { rootLayout } = transaction.rawIdxState;
+  const primaryLayout = toLayout(rootLayout);
 
-  uischema.elements.forEach((element: any) => mapElement(element, { uischema: primaryLayout }));
+  rootLayout.elements.forEach((element: any) => mapElement(element, { uischema: primaryLayout }));
   // eslint-disable-next-line no-param-reassign
   formbag.uischema = primaryLayout;
   return formbag;

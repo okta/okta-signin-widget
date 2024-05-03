@@ -16,33 +16,52 @@ import { Box } from '@mui/material';
 import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
 
-import { toFlexJustifyContent } from '../../../../../util';
+import { useWidgetContext } from '../../../../../contexts';
+import { useHtmlContentParser, useOnSubmit } from '../../../../../hooks';
 
-const ImageElement: FunctionComponent<RendererProps> = ({ uischema }) => {
+const TextWithActionLinkElement: FunctionComponent<RendererProps> = ({ uischema }) => {
+  const {
+    loading,
+  } = useWidgetContext();
   const tokens = useOdysseyDesignTokens();
   const {
     options: {
-      altText, id, position, rendition,
+        content,
+        actionParams,
+        step,
+        contentClassname,
+        isActionStep,
+        parserOptions,
     } = {},
   } = uischema;
+  const onSubmitHandler = useOnSubmit();
+  const parsedContent = useHtmlContentParser(content, parserOptions);
+
+  const handleClick = async (e: Event) => {
+    e.preventDefault();
+
+    if (loading) {
+      return;
+    }
+
+    // only submit when className matches
+    if ((e.target as HTMLElement).className.includes(contentClassname)) {
+      onSubmitHandler({
+        step,
+        params: actionParams,
+        isActionStep,
+      });
+    }
+  };
 
   return (
     <Box
-      id={id}
-      display="flex"
-      justifyContent={toFlexJustifyContent(position)}
-      flexWrap="wrap"
-      sx={{marginBlockEnd: tokens.Spacing3}}
+        onClick={handleClick}
+        sx={{marginBlockEnd: tokens.Spacing3}}
     >
-      <Box
-        component="img"
-        src={rendition?.mainHref}
-        alt={altText?.text}
-        // marginInlineEnd={2}
-        data-se={`icon-${id}`}
-      />
+      {parsedContent}
     </Box>
   );
 };
 
-export default withJsonFormsRendererProps(ImageElement);
+export default withJsonFormsRendererProps(TextWithActionLinkElement);

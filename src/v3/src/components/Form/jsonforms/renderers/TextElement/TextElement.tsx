@@ -12,11 +12,21 @@
 
 import { LabelProps } from '@jsonforms/core';
 import { withJsonFormsLabelProps } from '@jsonforms/react';
-import { Box, Typography } from '@okta/odyssey-react-mui';
+import { Box } from '@mui/material';
+import { Typography, TypographyVariantValue, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
 
 import { useHtmlContentParser } from '../../../../../hooks';
 import { toFlexAlignItems, toFlexJustifyContent } from '../../../../../util';
+
+export const odyTypographyVariantMapping: Record<
+'body1' | 'subtitle1' | 'legend',
+TypographyVariantValue
+> = {
+  body1: 'body',
+  subtitle1: 'subordinate',
+  legend: 'legend',
+};
 
 const TextElement: FunctionComponent<LabelProps & { i18n?: string }> = ({
   uischema, text, /* i18n, */
@@ -27,19 +37,23 @@ const TextElement: FunctionComponent<LabelProps & { i18n?: string }> = ({
     } = {},
   } = uischema;
   const parsedContent = useHtmlContentParser(text, parserOptions);
+  const tokens = useOdysseyDesignTokens();
 
   return (
     <Box
       display="flex"
       justifyContent={toFlexJustifyContent(alignment)}
       alignItems={toFlexAlignItems(alignment)}
+      sx={{marginBlockEnd: tokens.Spacing3}}
+      id={id}
     >
       <Typography
-        id={id}
-        paragraph
+        component="p"
+        // @ts-ignore
+        variant={odyTypographyVariantMapping[style] ? odyTypographyVariantMapping[style]
+          : odyTypographyVariantMapping.body1}
         data-se={id || 'o-form-explain'}
-        className={noTranslate ? 'no-translate' : undefined}
-        variant={style ?? 'body1'}
+        translate={noTranslate ? 'no' : undefined}
       >
         {parsedContent}
       </Typography>

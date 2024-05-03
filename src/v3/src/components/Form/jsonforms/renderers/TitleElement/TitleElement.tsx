@@ -12,7 +12,8 @@
 
 import { LabelProps } from '@jsonforms/core';
 import { withJsonFormsLabelProps } from '@jsonforms/react';
-import { Box, Typography } from '@okta/odyssey-react-mui';
+import { Box } from '@mui/material';
+import { Typography, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
 import { useEffect, useRef } from 'preact/hooks';
 
@@ -23,14 +24,15 @@ const TitleElement: FunctionComponent<LabelProps & { i18n?: string }> = (
   { uischema, text /* ,  i18n */ },
 ) => {
   const {
-    options: { alignment, id } = {},
+    options: { alignment, id, focus } = {},
   } = uischema;
   const titleRef = useRef<HTMLTitleElement>(null);
   const { widgetProps } = useWidgetContext();
+  const tokens = useOdysseyDesignTokens();
   const { features: { autoFocus = false } = {} } = widgetProps;
 
   useEffect(() => {
-    if (!autoFocus) {
+    if (!autoFocus && focus && titleRef.current) {
       titleRef.current?.focus();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -38,21 +40,17 @@ const TitleElement: FunctionComponent<LabelProps & { i18n?: string }> = (
 
   return (
     <Box
+      id={id}
       display="flex"
       justifyContent={toFlexJustifyContent(alignment)}
       alignItems={toFlexAlignItems(alignment)}
-      marginBlockEnd={4}
+      sx={{marginBlockEnd: tokens.Spacing3}}
     >
       <Typography
-        id={id}
+        testId="o-form-head"
         component="h2"
         variant="h4"
-        data-se="o-form-head"
         ref={titleRef}
-        tabIndex={-1}
-        sx={{
-          outline: 'none',
-        }}
       >
         {text}
       </Typography>

@@ -60,6 +60,8 @@ export enum LayoutDistribution {
 }
 export enum LayoutElementType {
   ACTION = 'ACTION',
+  BUTTON = 'BUTTON',
+  LINK = 'LINK',
   LABEL = 'LABEL',
   DIVIDER = 'DIVIDER',
   TEXT_INPUT = 'TEXT_INPUT',
@@ -86,11 +88,30 @@ export enum ActionStyle {
   LINK = 'LINK',
   LINK_BUTTON = 'LINK_BUTTON',
 }
+export enum ButtonStyle {
+  PRIMARY = 'PRIMARY',
+  SECONDARY = 'SECONDARY',
+  PROMINENT = 'PROMINENT',
+}
 export enum ActionEvent {
   PERFORM_STEP = 'PERFORM_STEP',
   PUBLISH = 'PUBLISH',
   REDIRECT = 'REDIRECT',
   REDIRECT_BLANK = 'REDIRECT_BLANK',
+}
+export enum ActionType {
+  OPEN_URL = 'OPEN_URL',
+  REMEDIATION = 'REMEDIATION',
+  PUBLISH_MESSAGE = 'PUBLISH_MESSAGE',
+}
+export enum UIEventType {
+  ON_CLICK = 'ON_CLICK',
+  ON_FOCUS = 'ON_FOCUS',
+  ON_SUBMIT = 'ON_SUBMIT',
+  ON_LOAD = 'ON_LOAD',
+  ON_CHANGE = 'ON_CHANGE',
+  ON_BLUR = 'ON_BLUR',
+  ON_HOVER = 'ON_HOVER',
 }
 export enum TargetType {
   BUTTON = 'BUTTON',

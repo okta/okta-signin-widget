@@ -12,17 +12,13 @@
 
 import { ControlProps } from '@jsonforms/core';
 import { withJsonFormsControlProps } from '@jsonforms/react';
-import {
-  Box,
-  Checkbox as CheckboxMui,
-  FormControl,
-  FormControlLabel,
-  FormHelperText,
-} from '@okta/odyssey-react-mui';
+import { Box } from '@mui/material';
+import { Checkbox as OdyCheckbox, CheckboxGroup, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
 
 import { useWidgetContext } from '../../../../../contexts';
 import { useAutoFocus } from '../../../../../hooks';
+import { ChangeEvent } from '../../../../../types';
 
 const CheckboxControl: FunctionComponent<ControlProps> = ({
   data,
@@ -33,6 +29,7 @@ const CheckboxControl: FunctionComponent<ControlProps> = ({
   uischema,
 }) => {
   const { loading } = useWidgetContext();
+  const tokens = useOdysseyDesignTokens();
 
   const {
     // showAsterisk,
@@ -52,35 +49,29 @@ const CheckboxControl: FunctionComponent<ControlProps> = ({
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
 
   return (
-    <Box marginBlockEnd={4}>
-      <FormControl
-        component="fieldset"
-        className={noTranslate ? 'no-translate' : undefined}
+    <Box sx={{marginBlockEnd: tokens.Spacing3}}>
+      <CheckboxGroup
+        // errorMessage={errorMessage}
+        // errorMessageList={errorMessageList}
+        label=""
       >
-        <FormControlLabel
-          sx={{ alignItems: 'flex-start', gap: 0 }}
-          control={(
-            <CheckboxMui
-              size="medium"
-              checked={!!data}
-              id={path}
-              name={path}
-              inputRef={focusRef}
-              // handleChange={handleChange}
-              onChange={(_ev, isChecked) => handleChange(path, isChecked)}
-              disabled={loading || isReadOnly}
-              inputProps={{
-                'data-se': path,
-                'data-se-for-name': path,
-              }}
-              sx={(theme) => ({
-                marginInlineEnd: theme.spacing(2),
-              })}
-            />
-          )}
-          label={label.content.text}
+        <OdyCheckbox
+          // hint={description}
+          id={`${path}-checkbox`}
+          inputRef={focusRef}
+          isChecked={value === true}
+          isDisabled={loading || isReadOnly}
+          label={label}
+          name={path}
+          // onBlur={(e: ChangeEvent<HTMLInputElement>) => {
+          //   handleBlur?.(e?.currentTarget?.checked);
+          // }}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => {
+            handleChange(path, e.currentTarget.checked)
+          }}
+          testId={path}
         />
-      </FormControl>
+      </CheckboxGroup>
     </Box>
   );
 };

@@ -23,6 +23,6 @@ export const transformServerSchema: TransformStepFnWithOptions = (
 ) => (formbag) => flow(
   generateSchema(options),
   generateUISchema(options),
-  transformSubmissionSchema,
+  transformSubmissionSchema(options),
   // transformErrorSchema,
 )(formbag);

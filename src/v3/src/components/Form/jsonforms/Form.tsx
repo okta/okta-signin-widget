@@ -16,7 +16,6 @@ import { vanillaCells } from '@jsonforms/vanilla-renderers';
 import { Box } from '@mui/material';
 import Ajv, { ErrorObject } from 'ajv';
 import AjvErrors from 'ajv-errors';
-import classNames from 'classnames';
 import { FunctionComponent, h } from 'preact';
 import { useCallback, useEffect } from 'preact/hooks';
 
@@ -41,7 +40,6 @@ const Form: FunctionComponent<{
   schema: FormBag['schema'];
   uischema: FormBag['uischema'];
 }> = ({ schema, uischema }) => {
-  const classes = classNames('o-form');
   // const validate = ajv.compile(schema);
   const {
     data,
@@ -109,7 +107,7 @@ const Form: FunctionComponent<{
       component="form"
       noValidate
       onSubmit={handleSubmit}
-      className={classes} // TODO: FIXME OKTA-578584 - update page objects using .o-form selectors
+      className={'o-form'} // TODO: FIXME OKTA-578584 - update page objects using .o-form selectors
       data-se="o-form"
       sx={{
         maxInlineSize: '100%',
@@ -126,7 +124,6 @@ const Form: FunctionComponent<{
           // disable client side validation to pass parity stage testing
           // validationMode="NoValidation"
           ajv={ajv}
-          // onChange={onChange}
           onChange={onChange}
         />
       </AuthContent>
