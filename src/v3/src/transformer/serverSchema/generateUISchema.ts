@@ -87,7 +87,6 @@ const ElementTesters: ElementTester[] = [
           step: linkActionEvent?.action.step,
           contentClassname: linkAction?.attributes.class,
           isActionStep: linkActionEvent?.action.action,
-          parserOptions: {},
         },
       };
     },
