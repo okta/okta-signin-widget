@@ -49,7 +49,7 @@ export const renderers = [
     renderer: CheckboxControl,
   },
   {
-    tester: rankWith(30, and(isControl, optionIs('isSecure', true))),
+    tester: rankWith(30, and(isControl, optionIs('secure', true))),
     renderer: InputPasswordControl,
   },
   {
