@@ -248,3 +248,34 @@ test.requestHooks(identifyRequestLogger, identifyMock)('should store identifier 
     .expect(cookie[0].name).eql('ln')
     .expect(cookie[0].value).eql('TestIdentifier');
 });
+
+test.requestHooks(identifyRequestLogger, identifyMock)('should store transformed identifier in ln cookie when updated and transformUsername is defined', async t => {
+  const identityPage = await setup(t, { render: false });
+
+  await t.setCookies({name: 'ln', value: 'PREFILL VALUE', httpOnly: false});
+
+  await rerenderWidget({
+    features: {
+      rememberMe: true
+    },
+    transformUsername: (username) => {
+      // This example will append the '@acme.com' domain if the user has
+      // not entered it
+      return username.includes('@acme.com')
+        ? username
+        : username + '@acme.com';
+    }
+  });
+  await t.expect(identityPage.formExists()).ok();
+
+  await t.expect(identityPage.getIdentifierValue()).eql('PREFILL VALUE');
+
+  await identityPage.fillIdentifierField('TestIdentifier');
+  await identityPage.clickNextButton();
+
+  const cookie = await t.getCookies('ln');
+
+  await t
+    .expect(cookie[0].name).eql('ln')
+    .expect(cookie[0].value).eql('TestIdentifier@acme.com');
+});
