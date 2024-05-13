@@ -54,7 +54,7 @@ function registerService(app, config) {
     }
     // Render
     if (config.template) {
-      const resp = typeof config.template === 'function' ? config.template(req.params) : config.template;
+      const resp = typeof config.template === 'function' ? config.template(req.params, req.query) : config.template;
       res.send(resp);
     } else if (typeof config.render === 'function') {
       config.render(req, res);
