@@ -1,6 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const express = require('express');
+const cors = require('cors');
 
 const {
   MOCK_SERVER_PORT,
@@ -20,59 +21,68 @@ function getRandomDelay([min, max]) {
   return Math.floor(Math.random() * (max - min) + min);
 }
 
-function configureMockRoutes(app, mocksPath = []) {
+function registerServices(app, mocksPath = []) {
   /* eslint max-depth: [2, 4] */
   const entries = fs.readdirSync(path.resolve(configDir, ...mocksPath), {
     withFileTypes: true,
   });
   for (const entry of entries) {
     if (entry.isDirectory()) {
-      configureMockRoutes(app, [...mocksPath, entry.name]);
+      registerServices(app, [...mocksPath, entry.name]);
     } else if (entry.isFile()) {
       const ext = entry.name.split('.').pop().toLowerCase();
       if (['js', 'ts'].includes(ext)) {
-        let mockRoutes = require(path.resolve(configDir, ...mocksPath, entry.name));
-        if (!Array.isArray(mockRoutes)) {
-          mockRoutes = [mockRoutes];
+        let configs = require(path.resolve(configDir, ...mocksPath, entry.name));
+        if (!Array.isArray(configs)) {
+          configs = [configs];
         }
-        for (const mock of mockRoutes) {
-          configureMockRoute(app, mock);
+        for (const config of configs) {
+          registerService(app, config);
         }
       }
     }
   }
 }
 
-function configureMockRoute(app, mock) {
-  console.log(`Registering ${mock.method} service at ${mock.path}`);
-  const method = mock.method.toLowerCase();
-  app[method](mock.path, async (req, res) => {
+function registerService(app, config) {
+  console.log(`Registering ${config.method} service at ${config.path}`);
+  const method = config.method.toLowerCase();
+  app[method](config.path, async (req, res) => {
     // Delay
-    if (mock.delay) {
-      await sleep(Array.isArray(mock.delay) ? getRandomDelay(mock.delay) : mock.delay);
+    if (config.delay) {
+      await sleep(Array.isArray(config.delay) ? getRandomDelay(config.delay) : config.delay);
     }
     // Render
-    if (mock.template) {
-      const resp = typeof mock.template === 'function' ? mock.template(req.params) : mock.template;
+    if (config.template) {
+      const resp = typeof config.template === 'function' ? config.template(req.params) : config.template;
       res.send(resp);
-    } else if (typeof mock.render === 'function') {
-      mock.render(req, res);
+    } else if (typeof config.render === 'function') {
+      config.render(req, res);
     }
     // Status
-    if (mock.status) {
-      if (typeof mock.template === 'function') {
-        mock.status(req, res, () => {});
+    if (config.status) {
+      if (typeof config.status === 'function') {
+        config.status(req, res, () => {});
       } else {
-        res.status(mock.status);
+        res.status(config.status);
       }
     }
     res.end();
   });
+  if (method !== 'options') {
+    app.options(config.path, cors({ origin: true, credentials: true }));
+  }
 }
 
 
 const app = express();
-configureMockRoutes(app);
+app.use(cors({ origin: true, credentials: true }));
+registerServices(app);
+app.all('*', (req, res) => {
+  console.warn(`404 NOT FOUND: ${req.url}`);
+  res.writeHead(404);
+  res.end();
+});
 
 app.listen(port, () => {
   // eslint-disable-next-line no-console
