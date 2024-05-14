@@ -213,7 +213,7 @@ test.meta('gen3', false).requestHooks(identifyLockedUserMockWithOneAuthenticator
   await selectFactorPage.fillIdentifierField('username');
   await t.pressKey('enter');
 
-  await t.expect(selectFactorPage.getErrorBoxText()).contains('To unlock you account, select the following authenticator.');
+  await t.expect(selectFactorPage.getErrorBoxText()).contains('To unlock your account, select the following authenticator.');
 });
 
 // OKTA-586475 better unlock account behavior when hitting 'enter'
