@@ -1,6 +1,6 @@
 // Lint to find missing dependencies and externals
 module.exports = {
-  parser: 'babel-eslint',
+  parser: '@babel/eslint-parser',
   plugins: [
     'import',
     'dirs'

@@ -111,7 +111,7 @@ const filterPackages = (pkg, result) => {
   return true;
 };
 
-return (async () => {
+(async () => {
   try {
     const result = {
       hidden: [],
