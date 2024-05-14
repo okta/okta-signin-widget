@@ -11,6 +11,7 @@
  */
 
 module.exports = {
+  customSyntax: 'postcss-scss',
   plugins: [
     'stylelint-use-logical-spec',
   ],
