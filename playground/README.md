@@ -23,7 +23,7 @@ playground/mocks
 └── spec-okta-api
 ```
 
-The mock server is implemented using [dyson.js](https://www.npmjs.com/package/dyson). You need to create mappings of URI(endpoints) with corresponding response. These mappings are placed in `spec-*` folders.
+The mock server is implemented using [Express](https://expressjs.com/). You need to create mappings of URI(endpoints) with corresponding response. These mappings are placed in `spec-*` folders.
 
 - `spec-okta-api` has mocks for Okta APIs, e.g. `/api/v1/*`, `/idp/idx/*`, etc
 - `spec-device-authenticator` is for mocking 3rd-party device authenticator application.

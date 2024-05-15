@@ -137,7 +137,7 @@ export const mockDuoIframeHtml = `
 
 /**
  * Provides mock responses for common endpoints. Use this export instead of
- * importing from "testcafe" directly to avoid falling back to dyson mock server
+ * importing from "testcafe" directly to avoid falling back to Express mock server
  * for these requests.
  */
 export const RequestMock = (...args) => TestCafeRequestMock(...args)

@@ -1,4 +1,5 @@
 module.exports = {
+  'customSyntax': 'postcss-scss',
   'plugins': [
     'stylelint-scss',
     './stylelint-local-rules.js'
@@ -43,7 +44,7 @@ module.exports = {
     'number-no-trailing-zeros': true,
     'property-no-unknown': null,
     'property-no-vendor-prefix': null,
-    'scss/at-import-no-partial-leading-underscore': true,
+    'scss/load-no-partial-leading-underscore': true,
     /* eslint-disable-next-line @okta/okta/no-exclusive-language */
     'scss/at-import-partial-extension-blacklist': [
       'scss'
@@ -65,7 +66,7 @@ module.exports = {
     'selector-no-vendor-prefix': null,
     'shorthand-property-no-redundant-values': true,
     /* eslint-disable-next-line @okta/okta/no-exclusive-language */
-    'unit-whitelist': [
+    'unit-allowed-list': [
       'ch',
       'em',
       'ex',
