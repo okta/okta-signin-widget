@@ -10,6 +10,14 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import {
+  CellProps,
+  ControlElement,
+  ControlProps,
+  JsonSchema,
+  Layout as JsonFormsLayout,
+  JsonSchema7,
+} from '@jsonforms/core';
 import HCaptcha from '@hcaptcha/react-hcaptcha';
 import {
   IdxAuthenticator,
@@ -41,8 +49,8 @@ export type DataSchemaBag = GeneralDataSchemaBag & {
 };
 
 export type FormBag = {
-  schema: Record<string, unknown>;
-  uischema: UISchemaLayout;
+  schema: JsonSchema7;
+  uischema: UISchemaLayout | JsonFormsLayout;
   data: Record<string, unknown>;
   // temp schema bag to handle client validation and form submission
   dataSchema: DataSchemaBag;

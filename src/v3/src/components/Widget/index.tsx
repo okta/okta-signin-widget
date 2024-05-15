@@ -23,7 +23,8 @@ import {
   IdxTransaction,
   OAuthError,
 } from '@okta/okta-auth-js';
-import { FunctionComponent, h } from 'preact';
+import { ErrorObject } from 'ajv';
+import { Fragment, FunctionComponent, h } from 'preact';
 import {
   useCallback,
   useEffect,
@@ -35,7 +36,7 @@ import { mergeThemes } from 'src/util/mergeThemes';
 
 import Bundles from '../../../../util/Bundles';
 import Logger from '../../../../util/Logger';
-import { IDX_STEP } from '../../constants';
+import { IDX_STEP, SUPPORTED_SERVER_GENERATED_SCHEMA_REMEDIATIONS, UI_SCHEMA_SUPPORT_HEADER_KEY } from '../../constants';
 import { WidgetContextProvider } from '../../contexts';
 import {
   useInteractionCodeFlow,
@@ -69,6 +70,7 @@ import {
   isConfigRegisterFlow,
   isConsentStep,
   isOauth2Enabled,
+  isServerGeneratedSchemaAvailable,
   loadLanguage,
   SessionStorage,
   triggerEmailVerifyCallback,
@@ -81,6 +83,7 @@ import AuthContent from '../AuthContent/AuthContent';
 import AuthHeader from '../AuthHeader/AuthHeader';
 import ConsentHeader from '../ConsentHeader';
 import Form from '../Form';
+import JsonForms from '../Form/jsonforms/Form';
 import Spinner from '../Spinner';
 import GlobalStyles from './GlobalStyles';
 
@@ -112,7 +115,9 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     type: UISchemaLayoutType.VERTICAL,
     elements: [],
   });
+  const [schema, setSchema] = useState<FormBag['schema'] | undefined>();
   const [message, setMessage] = useState<IdxMessage | undefined>();
+  const [formErrors, setFormErrors] = useState<ErrorObject[]>([]);
   const [idxTransaction, setIdxTransaction] = useState<IdxTransaction | undefined>();
   const [isClientTransaction, setIsClientTransaction] = useState<boolean>(false);
   const [stepToRender, setStepToRender] = useState<string | undefined>(undefined);
@@ -335,6 +340,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     } else {
       setData(formBag.data);
     }
+    setSchema(formBag.schema);
     setUischema(formBag.uischema);
   }, [formBag, isClientTransaction]);
 
@@ -386,6 +392,10 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     })) {
       return;
     }
+    authClient.http.setRequestHeader(
+      UI_SCHEMA_SUPPORT_HEADER_KEY,
+      SUPPORTED_SERVER_GENERATED_SCHEMA_REMEDIATIONS.toString(),
+    );
     if (authClient.idx.canProceed()) {
       resume();
     } else {
@@ -480,6 +490,40 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     }
   }, [getDocumentTitle]);
 
+  const renderForm = () => {
+    if (uischema.elements.length === 0 || typeof idxTransaction === 'undefined') {
+      return <Spinner />;
+    }
+    const useServerUISchema = isServerGeneratedSchemaAvailable(widgetProps, idxTransaction);
+    if (useServerUISchema) {
+      return typeof schema !== 'undefined' ? (
+        <JsonForms
+          schema={schema}
+          uischema={uischema}
+        />
+      ) : <Spinner />;
+    }
+
+    return (
+      <Fragment>
+        <AuthHeader
+          logo={logo}
+          logoText={logoText}
+          brandName={brandName}
+          authCoinProps={buildAuthCoinProps(idxTransaction)}
+        />
+        <AuthContent>
+          {isConsentStep(idxTransaction) && <ConsentHeader />}
+          {
+            uischema.elements.length > 0
+              ? <Form uischema={uischema as UISchemaLayout} />
+              : <Spinner />
+          }
+        </AuthContent>
+      </Fragment>
+    );
+  };
+
   return (
     <WidgetContextProvider value={{
       authClient,
@@ -504,6 +548,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       setloginHint,
       languageCode,
       languageDirection,
+      setFormErrors,
+      formErrors,
     }}
     >
       <OdysseyProvider
@@ -517,20 +563,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         <GlobalStyles />
         {/* the style is to allow the widget to inherit the parent's bg color */}
         <AuthContainer hide={hide}>
-          <AuthHeader
-            logo={logo}
-            logoText={logoText}
-            brandName={brandName}
-            authCoinProps={buildAuthCoinProps(idxTransaction)}
-          />
-          <AuthContent>
-            {isConsentStep(idxTransaction) && <ConsentHeader />}
-            {
-              uischema.elements.length > 0
-                ? <Form uischema={uischema as UISchemaLayout} />
-                : <Spinner />
-            }
-          </AuthContent>
+          {renderForm()}
         </AuthContainer>
       </OdysseyProvider>
     </WidgetContextProvider>

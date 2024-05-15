@@ -28,6 +28,7 @@ import {
   InfoboxElement,
   IWidgetContext,
   LaunchAuthenticatorButtonElement,
+  LayoutAlignment,
   PhoneVerificationMethodType,
   WidgetMessage,
   WidgetMessageLink,
@@ -482,4 +483,34 @@ export const buildPhoneVerificationSubtitleElement = (
   };
 
   return subtitleElement;
+};
+
+export const eventToValue = (
+  ev: any,
+): any => (ev.target.value === '' ? undefined : ev.target.value);
+
+export const toFlexJustifyContent = (alignment: LayoutAlignment): string => {
+  switch (alignment) {
+    case LayoutAlignment.LEADING:
+      return 'flex-start';
+    case LayoutAlignment.TRAILING:
+      return 'flex-end';
+    case LayoutAlignment.CENTER:
+      return 'center';
+    default:
+      return 'flex-start';
+  }
+};
+
+export const toFlexAlignItems = (alignment: LayoutAlignment): string => {
+  switch (alignment) {
+    case LayoutAlignment.CENTER:
+      return 'center';
+    case LayoutAlignment.TOP:
+      return 'flex-start';
+    case LayoutAlignment.BOTTOM:
+      return 'flex-end';
+    default:
+      return 'flex-start';
+  }
 };

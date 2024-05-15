@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+// import { UISchemaElement } from '@jsonforms/core';
 import {
   IdxTransaction,
   Input,
@@ -35,6 +36,86 @@ export enum MessageType {
   WARNING = 'WARNING',
   INFO = 'INFO',
   SUCCESS = 'SUCCESS',
+}
+export enum LayoutDirection {
+  HORIZONTAL = 'HORIZONTAL',
+  VERTICAL = 'VERTICAL',
+}
+export enum LayoutOverflow {
+  WRAP = 'WRAP',
+}
+export enum LayoutAlignment {
+  TOP = 'TOP',
+  LEADING = 'LEADING',
+  BOTTOM = 'BOTTOM',
+  TRAILING = 'TRAILING',
+  CENTER = 'CENTER',
+}
+export enum LayoutDistribution {
+  FILL = 'FILL',
+  FILL_EQUALLY = 'FILL_EQUALLY',
+  FILL_PROPORTIONALLY = 'FILL_PROPORTIONALLY',
+  EQUAL_SPACING = 'EQUAL_SPACING',
+  EQUAL_CENTERING = 'EQUAL_CENTERING',
+}
+export enum LayoutElementType {
+  ACTION = 'ACTION',
+  BUTTON = 'BUTTON',
+  LINK = 'LINK',
+  LABEL = 'LABEL',
+  DIVIDER = 'DIVIDER',
+  TEXT_INPUT = 'TEXT_INPUT',
+  BOOLEAN_INPUT = 'BOOLEAN_INPUT',
+  CHOICE_GROUP = 'CHOICE_GROUP',
+  IMAGE = 'IMAGE',
+  CONDITIONAL = 'CONDITIONAL',
+  NESTED = 'NESTED',
+}
+export enum LabelStyle {
+  BODY = 'BODY',
+  HEADLINE = 'HEADLINE',
+  TITLE_1 = 'TITLE_1',
+  TITLE_2 = 'TITLE_2',
+  TITLE_3 = 'TITLE_3',
+  DISC = 'DISC',
+  DECIMAL = 'DISC',
+}
+export enum ActionStyle {
+  PRIMARY_BUTTON = 'PRIMARY_BUTTON',
+  SECONDARY_BUTTON = 'SECONDARY_BUTTON',
+  PROMINENT_BUTTON = 'PROMINENT_BUTTON',
+  ICON_BUTTON = 'ICON_BUTTON',
+  LINK = 'LINK',
+  LINK_BUTTON = 'LINK_BUTTON',
+}
+export enum ButtonStyle {
+  PRIMARY = 'PRIMARY',
+  SECONDARY = 'SECONDARY',
+  PROMINENT = 'PROMINENT',
+}
+export enum ActionEvent {
+  PERFORM_STEP = 'PERFORM_STEP',
+  PUBLISH = 'PUBLISH',
+  REDIRECT = 'REDIRECT',
+  REDIRECT_BLANK = 'REDIRECT_BLANK',
+}
+export enum ActionType {
+  OPEN_URL = 'OPEN_URL',
+  REMEDIATION = 'REMEDIATION',
+  PUBLISH_MESSAGE = 'PUBLISH_MESSAGE',
+}
+export enum UIEventType {
+  ON_CLICK = 'ON_CLICK',
+  ON_FOCUS = 'ON_FOCUS',
+  ON_SUBMIT = 'ON_SUBMIT',
+  ON_LOAD = 'ON_LOAD',
+  ON_CHANGE = 'ON_CHANGE',
+  ON_BLUR = 'ON_BLUR',
+  ON_HOVER = 'ON_HOVER',
+}
+export enum TargetType {
+  BUTTON = 'BUTTON',
+  SUBMIT = 'SUBMIT',
 }
 export type MessageVariant = 'error' | 'warning' | 'info' | 'success';
 export const MessageTypeVariant: Record<MessageType, MessageVariant> = {
