@@ -11,6 +11,8 @@ export PATH="${PATH}:$(yarn global bin)"
 yarn global add @okta/ci-append-sha
 yarn global add @okta/ci-pkginfo
 
+pushd ./packages/render
+
 # Append a SHA to the version in package.json 
 if ! ci-append-sha; then
   echo "ci-append-sha failed! Exiting..."
@@ -18,11 +20,10 @@ if ! ci-append-sha; then
 fi
 
 # Build
-if ! yarn workspace @okta/loginpage-render build:release; then
+if ! yarn workspace @okta/loginpage-render build; then
   echo "build failed! Exiting..."
   exit ${TEST_FAILURE}
 fi
-pushd ./packages/render
 
 ### Not able to use 'yarn publish' which failed at
 ### publish alpha version.

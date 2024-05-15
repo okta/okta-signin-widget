@@ -7,7 +7,7 @@
     "dev": "NODE_ENV=development nodemon server.cjs",
     "lint": "eslint --ext js,jsx,ts,tsx ./src --max-warnings=0",
     "build": "tsc && vite build",
-    "preview": "yarn workspace @okta/loginpage-render build:release && yarn build && NODE_ENV=preview node server.cjs",
+    "preview": "yarn workspace @okta/loginpage-render build && yarn build && NODE_ENV=preview node server.cjs",
     "test:e2e": "testcafe --config-file testcaferc.cjs"
   },
   "dependencies": {

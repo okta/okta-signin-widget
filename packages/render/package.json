@@ -1,6 +1,5 @@
 {
   "name": "@okta/loginpage-render",
-  "private": true,
   "version": "0.1.0",
   "main": "./dist/okta-loginpage-render.js",
   "types": "./src/types.ts",
@@ -9,13 +8,20 @@
     "defaults",
     "ie 11"
   ],
+  "files": [
+    "dist",
+    "src",
+    "global.d.ts",
+    "package.json"
+  ],
   "scripts": {
     "dev": "concurrently \"yarn build:dev --watch\" \"yarn build:types --watch\"",
     "lint": "eslint --ext js,jsx,ts,tsx ./src --max-warnings=0",
     "test": "jest --config jest.config.js",
     "build:types": "tsc --noEmit false --declaration --emitDeclarationOnly --declarationMap",
     "build:dev": "webpack --mode development",
-    "build:release": "webpack --mode production"
+    "build:prod": "webpack --mode production",
+    "build": "yarn build:types && yarn build:prod"
   },
   "dependencies": {
     "@okta/loginpage": "0.0.1-8654-g5ecac3e"
