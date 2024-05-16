@@ -257,7 +257,7 @@ To embed the Sign-in Widget via CDN, include links to the JS and CSS files in yo
 
 ```html
 <!-- Latest CDN production Javascript and CSS -->
-<script src="https://global.oktacdn.com/okta-signin-widget/7.18.1/js/okta-sign-in.min.js" type="text/javascript" integrity="sha384-t8DjdroBv80hZ/RVApfbq1bjSzNqo+wiQv3klyj+vm9COPeAzIa+2hIkcvpS4CeZ" crossorigin="anonymous"></script>
+<script src="https://global.oktacdn.com/okta-signin-widget/7.18.1/js/okta-sign-in.min.js" type="text/javascript" integrity="sha384-oFGbqv1P6l7yLScit/IG2TTY1QFtrWMnxiMAkRRlM1Ha3cmUng0iNeu8BeSqrUVT" crossorigin="anonymous"></script>
 
 <link href="https://global.oktacdn.com/okta-signin-widget/7.18.1/css/okta-sign-in.min.css" type="text/css" rel="stylesheet" integrity="sha384-FL6VsXYuwuq1Zo5lnWVgcOMWSo1JuvDue2bQ66/TdWOTwPEU9OgvF4Ks8fNnaiHd" crossorigin="anonymous" />
 ```
@@ -272,7 +272,7 @@ When using one of the bundles without the polyfill included, you may want to con
 <script src="https://global.oktacdn.com/okta-signin-widget/7.18.1/js/okta-sign-in.polyfill.min.js" type="text/javascript" integrity="sha384-QzQIGwIndxyBdHRQOwgjmQJLod6LRMchZyYg7RUq8FUECvPvreqauQhkU2FF9EGD" crossorigin="anonymous"></script>
 
 <!-- Widget bundle for Okta Identity Engine -->
-<script src="https://global.oktacdn.com/okta-signin-widget/7.18.1/js/okta-sign-in.oie.min.js" type="text/javascript" integrity="sha384-zsITsZBY66v8cu2Gu/C2sZg4pttZzPWhVFgymT5iYtbgR7VH6wnx0IEdVJdXBFj/" crossorigin="anonymous"></script>
+<script src="https://global.oktacdn.com/okta-signin-widget/7.18.1/js/okta-sign-in.oie.min.js" type="text/javascript" integrity="sha384-NKlwRHnejn/66l/tFMZB8D5Y+Mh5CKNOnoe3/Yelhon8Ax+o1iBY5FIJhLS+GUUU" crossorigin="anonymous"></script>
 
 <!-- CSS for widget -->
 <link href="https://global.oktacdn.com/okta-signin-widget/7.18.1/css/okta-sign-in.min.css" type="text/css" rel="stylesheet" integrity="sha384-FL6VsXYuwuq1Zo5lnWVgcOMWSo1JuvDue2bQ66/TdWOTwPEU9OgvF4Ks8fNnaiHd" crossorigin="anonymous" />
