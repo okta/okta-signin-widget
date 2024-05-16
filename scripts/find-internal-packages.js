@@ -111,7 +111,18 @@ const filterPackages = (pkg, result) => {
   return true;
 };
 
-return (async () => {
+const findInternalPackages = async (path, result) => {
+  // Run npm-check that detects missing packages, unused packages and packages to be updated
+  const currentState = await npmCheck({
+    cwd: path
+  });
+  const internalPkgs = currentState.get('packages')
+    .map(mapPackages)
+    .filter(pkg => filterPackages(pkg, result));
+  return internalPkgs;
+};
+
+(async () => {
   try {
     const result = {
       hidden: [],
@@ -120,25 +131,15 @@ return (async () => {
       warning: [],
       unused: []
     };
-    
-    // Run npm-check that detects missing packages, unused packages and packages to be updated
-    const currentState = await npmCheck({
-      cwd: ROOT
-    });
-    const internalPkgsRoot = currentState.get('packages')
-      .map(mapPackages)
-      .filter(pkg => filterPackages(pkg, result));
-    
-    // Also find internal packages references inside courage-dist
-    const currentStateCourage = await npmCheck({
-      cwd: path.resolve(ROOT, 'packages/@okta/courage-dist')
-    });
-    const internalPkgsCourage = currentStateCourage.get('packages')
-      .map(mapPackages)
-      .filter(pkg => filterPackages(pkg, result));
+
+    const internalPkgsRoot = await findInternalPackages(ROOT, result);
+    const internalPkgsCourage = await findInternalPackages(path.resolve(ROOT, 'packages/@okta/courage-dist'), result);
+    const internalPkgsGen3 = await findInternalPackages(path.resolve(ROOT, 'src/v3'), result);
+
     const internalPkgs = [
       ...internalPkgsRoot,
       ...internalPkgsCourage,
+      ...internalPkgsGen3,
     ];
 
     // Output result

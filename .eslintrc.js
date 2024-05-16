@@ -3,7 +3,7 @@ module.exports = {
   'extends': [
     'plugin:@okta/okta/courage-app', // apply courage-app rules to all files including properties
   ],
-  'parser': 'babel-eslint',
+  'parser': '@babel/eslint-parser',
   'parserOptions': {
     'sourceType': 'module',
     'ecmaVersion': 2017

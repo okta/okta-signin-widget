@@ -24,7 +24,7 @@
     "@wdio/jasmine-framework": "^7.20.0",
     "@wdio/junit-reporter": "^7.20.0",
     "@wdio/local-runner": "^7.20.2",
-    "@wdio/sauce-service": "^7.20.2",
+    "@wdio/sauce-service": "^7.36.0",
     "@wdio/selenium-standalone-service": "^7.20.1",
     "@wdio/spec-reporter": "^7.20.0",
     "cross-spawn-with-kill": "^1.0.0",
@@ -34,8 +34,6 @@
     "jasmine-core": "2.99.1",
     "jasmine-reporters": "^2.3.2",
     "regenerator-runtime": "^0.13.7",
-    "wait-on": "^3.3.0",
-    "wdio-iedriver-service": "^0.1.0",
-    "webdriver-manager": "^13.0.0"
+    "wait-on": "^7.2.0"
   }
 }

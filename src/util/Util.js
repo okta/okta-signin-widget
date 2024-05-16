@@ -103,6 +103,8 @@ Util.transformErrorXHR = function(xhr) {
     const untranslatedErrorCodes = [
       // API already provides localized and factor specific error message in errorCauses
       'E0000068',
+      // API provides localized error message for password requirements in errorCauses
+      'E0000014',
     ];
     const errorMsg = errorCode && !untranslatedErrorCodes.includes(errorCode)
       // We don't pass parameters to the `loc()` util

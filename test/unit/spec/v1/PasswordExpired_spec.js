@@ -499,6 +499,8 @@ Expect.describe('PasswordExpiration', function() {
         });
     });
     itp('shows an error if the server returns a wrong old pass error', function() {
+      // spy on emitting of CustomEvent with type 'okta-i18n-error' in `loc()` util
+      const dispatchEventSpy = jest.spyOn(document, 'dispatchEvent');
       return setup()
         .then(function(test) {
           test.setNextResponse(resErrorOldPass);
@@ -536,9 +538,12 @@ Expect.describe('PasswordExpiration', function() {
               },
             },
           ]);
+          expect(dispatchEventSpy).not.toHaveBeenCalled();
         });
     });
     itp('shows an error if the server returns a complexity error', function() {
+      // spy on emitting of CustomEvent with type 'okta-i18n-error' in `loc()` util
+      const dispatchEventSpy = jest.spyOn(document, 'dispatchEvent');
       return setup()
         .then(function(test) {
           test.setNextResponse(resErrorComplexity);
@@ -580,11 +585,14 @@ Expect.describe('PasswordExpiration', function() {
               },
             },
           ]);
+          expect(dispatchEventSpy).not.toHaveBeenCalled();
         });
     });
     itp(
       'shows an simple error if showPasswordRequirementsAsHtmlList is on and if the server returns a complexity error',
       function() {
+        // spy on emitting of CustomEvent with type 'okta-i18n-error' in `loc()` util
+        const dispatchEventSpy = jest.spyOn(document, 'dispatchEvent');
         return setup({ 'features.showPasswordRequirementsAsHtmlList': true })
           .then(function(test) {
             test.setNextResponse(resErrorComplexity);
@@ -622,12 +630,15 @@ Expect.describe('PasswordExpiration', function() {
                 },
               },
             ]);
+            expect(dispatchEventSpy).not.toHaveBeenCalled();
           });
       }
     );
     itp(
       'shows an simple error if no error cause and if showPasswordRequirementsAsHtmlList is on and if the server returns a complexity error',
       function() {
+        // spy on emitting of CustomEvent with type 'okta-i18n-error' in `loc()` util
+        const dispatchEventSpy = jest.spyOn(document, 'dispatchEvent');
         return setup({ 'features.showPasswordRequirementsAsHtmlList': true })
           .then(function(test) {
             test.setNextResponse(resErrorNoCause);
@@ -660,6 +671,7 @@ Expect.describe('PasswordExpiration', function() {
                 },
               },
             ]);
+            expect(dispatchEventSpy).not.toHaveBeenCalled();
           });
       }
     );
