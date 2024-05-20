@@ -82,7 +82,7 @@ const identifyMockWithFingerprintError = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/identify')
   .respond(xhrErrorIdentify, 403);
 
-  const identifyMockWithFailedFingerprint = RequestMock()
+const identifyMockWithFailedFingerprint = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrIdentify)
   .onRequestTo('http://localhost:3000/auth/services/devicefingerprint')
@@ -400,9 +400,11 @@ test.requestHooks(identifyRequestLogger, deviceFingerprintRequestLogger, identif
 
   await identityPage.fillIdentifierField('Test Identifier');
 
-  // Click 'Next' 2 times. It shoud result in only 1 fingerprint request.
   await identityPage.clickNextButton();
-  await identityPage.clickNextButton();
+  if (!userVariables.gen3) {
+    // Click 'Next' 2 times. It shoud result in only 1 fingerprint request.
+    await identityPage.clickNextButton();
+  }
   await t.expect(deviceFingerprintRequestLogger.count(() => true)).eql(1);
 
   // The fingerprint will fail to be generated and will not be added as a request header
