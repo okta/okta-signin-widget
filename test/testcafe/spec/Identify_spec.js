@@ -82,6 +82,16 @@ const identifyMockWithFingerprintError = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/identify')
   .respond(xhrErrorIdentify, 403);
 
+  const identifyMockWithFailedFingerprint = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrIdentify)
+  .onRequestTo('http://localhost:3000/auth/services/devicefingerprint')
+  .respond('Fail', 400)
+  .onRequestTo('http://localhost:3000/idp/idx/identify')
+  .respond(xhrAuthenticatorVerifySelect)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge')
+  .respond(xhrAuthenticatorOVTotp);
+
 const identifyLockedUserMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrIdentify)
@@ -104,6 +114,14 @@ const errorsIdentifyMock = RequestMock()
 
 const identifyRequestLogger = RequestLogger(
   /idx\/identify|\/challenge/,
+  {
+    logRequestBody: true,
+    stringifyRequestBody: true,
+    logRequestHeaders: true,
+  }
+);
+const deviceFingerprintRequestLogger = RequestLogger(
+  /devicefingerprint/,
   {
     logRequestBody: true,
     stringifyRequestBody: true,
@@ -370,6 +388,38 @@ test.requestHooks(identifyRequestLogger, identifyMockWithFingerprint)('should co
   const factorReq = identifyRequestLogger.requests[1].request;
   const factorReqHeaders = factorReq.headers;
   await t.expect(factorReqHeaders['x-device-fingerprint']).eql('mock-device-fingerprint');
+});
+
+test.requestHooks(identifyRequestLogger, deviceFingerprintRequestLogger, identifyMockWithFailedFingerprint)('should proceed even if device fingerprint fails', async t => {
+  const identityPage = await setup(t, {
+    features: {
+      deviceFingerprinting: true,
+    }
+  });
+  await checkA11y(t);
+
+  await identityPage.fillIdentifierField('Test Identifier');
+
+  // Click 'Next' 2 times. It shoud result in only 1 fingerprint request.
+  await identityPage.clickNextButton();
+  await identityPage.clickNextButton();
+  await t.expect(deviceFingerprintRequestLogger.count(() => true)).eql(1);
+
+  // The fingerprint will fail to be generated and will not be added as a request header
+  await t.expect(identifyRequestLogger.count(() => true)).eql(1);
+  const req = identifyRequestLogger.requests[0].request;
+  const reqHeaders = req.headers;
+  await t.expect(reqHeaders['x-device-fingerprint']).notOk();
+
+  // Future requests will also not contain the fingerprint in request headers
+  const selectAuthenticatorPage = new SelectFactorPageObject(t);
+  await t.expect(selectAuthenticatorPage.getFormTitle()).eql('Verify it\'s you with a security method');
+  await selectAuthenticatorPage.selectFactorByIndex(0);
+
+  await t.expect(identifyRequestLogger.count(() => true)).eql(2);
+  const factorReq = identifyRequestLogger.requests[1].request;
+  const factorReqHeaders = factorReq.headers;
+  await t.expect(factorReqHeaders['x-device-fingerprint']).notOk();
 });
 
 test.requestHooks(identifyRequestLogger, identifyMockWithFingerprintError)('should continue to compute device fingerprint and add to header when there are API errors', async t => {
