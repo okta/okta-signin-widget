@@ -25,10 +25,18 @@ import {
   ButtonElement,
   ButtonType,
   DescriptionElement,
+  HeadingElement,
   InfoboxElement,
   IWidgetContext,
   LaunchAuthenticatorButtonElement,
+  LinkElement,
+  ListElement,
+  MessageType,
+  MessageTypeVariant,
   PhoneVerificationMethodType,
+  TitleElement,
+  UISchemaElement,
+  UISchemaLayoutType,
   WidgetMessage,
   WidgetMessageLink,
   WidgetProps,
@@ -299,7 +307,7 @@ export const getBiometricsErrorMessageElement = (
 };
 
 export const buildEndUserRemediationError = (messages: IdxMessage[]) :
-InfoboxElement | undefined => {
+UISchemaElement[] | undefined => {
   if (messages.length === 0) {
     return undefined;
   }
@@ -352,14 +360,141 @@ InfoboxElement | undefined => {
     resultMessageArray.push(widgetMsg);
   });
 
-  return {
+  const infoBoxMessage = {
+    message: 'To prevent account lockout, resolve the issues by 08/01/2024'
+  }
+
+  return [
+  {
+    type: 'Title',
+    options: { content: 'Device assurance reminder' },
+  } as TitleElement,
+  {
     type: 'InfoBox',
     options: {
-      message: resultMessageArray,
-      class: 'ERROR',
+      message: infoBoxMessage,
+      class: MessageType.WARNING,
       dataSe: 'callout',
     },
-  } as InfoboxElement;
+  } as InfoboxElement,
+  {
+    type: 'Description',
+    contentType: 'subtitle',
+    options: {
+      content: 'Your device does not meet security requirements. To resolve now, make the updates below. Otherwise, continue to your app.'
+    },
+  } as DescriptionElement,
+  {
+    type: 'Heading',
+    noMargin: true,
+    options: {
+      level: 2,
+      visualLevel: 6,
+      content: 'Option 1:',
+    },
+  } as HeadingElement,
+  {
+    type: 'List',
+    options: {
+      items: [
+        {
+          type: UISchemaLayoutType.VERTICAL,
+          elements: [
+            {
+              type: 'Link',
+              options: {
+                label: 'Update to Android 100',
+                target: '_blank',
+                href: 'https://okta.com/android-upgrade-os',
+              },
+            } as LinkElement,
+          ]
+        },
+        {
+          type: UISchemaLayoutType.VERTICAL,
+          elements: [
+            {
+              type: 'Link',
+              options: {
+                label: 'Enable lock screen and biometrics',
+                target: '_blank',
+                href: 'https://okta.com/android-biometric-lock',
+              },
+            } as LinkElement,
+          ]
+        },
+      ],
+      type: 'ul',
+    },
+  } as ListElement,
+  {
+    type: 'Heading',
+    noMargin: true,
+    options: {
+      level: 2,
+      visualLevel: 6,
+      content: 'Option 2:',
+    },
+  } as HeadingElement,
+  {
+    type: 'List',
+    options: {
+      items: [
+        {
+          type: UISchemaLayoutType.VERTICAL,
+          elements: [
+            {
+              type: 'Link',
+              options: {
+                label: 'Enable lock screen',
+                target: '_blank',
+                href: 'https://okta.com/android-lock-screen',
+              },
+            } as LinkElement,
+          ]
+        },
+        {
+          type: UISchemaLayoutType.VERTICAL,
+          elements: [
+            {
+              type: 'Link',
+              options: {
+                label: 'Encrypt your device',
+                target: '_blank',
+                href: 'https://okta.com/android-disk-encrypted',
+              },
+            } as LinkElement,
+          ]
+        },
+      ],
+      type: 'ul',
+    },
+  } as ListElement,
+  {
+    type: 'Description',
+    contentType: 'subtitle',
+    options: {
+      content: loc(
+        'idx.error.code.access_denied.device_assurance.remediation.additional_help_default',
+        'login',
+        undefined,
+        {
+          $1: { element: 'a', attributes: { href: 'https://okta.com/help', target: '_blank', rel: 'noopener noreferrer' } },
+        },
+      )
+    },
+  } as DescriptionElement,
+  {
+    type: 'Button',
+    label: 'Continue to app',
+    options: {
+      step: '',
+      type: ButtonType.BUTTON,
+      variant: 'primary',
+      onClick: () => alert('Continuing to app!'),
+    },
+  } as ButtonElement,
+  ];
 };
 
 export const shouldHideIdentifier = (

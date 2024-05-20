@@ -18,6 +18,7 @@ import Logger from '../../../../util/Logger';
 import {
   ButtonElement,
   DescriptionElement,
+  LinkElement,
   ListElement,
   UISchemaElement,
   UISchemaElementComponent,
@@ -26,6 +27,7 @@ import {
 import { getElementKey } from '../../util';
 import Button from '../Button';
 import InformationalText from '../InformationalText';
+import Link from '../Link';
 
 const renderElement = (item: UISchemaElement) => {
   const Container: FunctionComponent = ({ children }) => {
@@ -33,7 +35,7 @@ const renderElement = (item: UISchemaElement) => {
     return (
       <Box
         // eslint-disable-next-line react/jsx-props-no-spreading
-        {...(!(item).noMargin && { marginBlockEnd: tokens.Spacing4 })}
+        {...(!(item).noMargin && { marginBlockEnd: tokens.Spacing2 })}
       >
         {children}
       </Box>
@@ -53,6 +55,12 @@ const renderElement = (item: UISchemaElement) => {
           <InformationalText uischema={item as DescriptionElement} />
         </Container>
       );
+    case 'Link':
+      return (
+        <Container>
+          <Link uischema={item as LinkElement} />
+        </Container>
+      )
     default:
       Logger.warn('Unsupported element type in List: ', item.type);
       return null;
@@ -85,7 +93,7 @@ const List: UISchemaElementComponent<{
       display="flex"
       flexDirection="column"
       justifyContent="flex-start"
-      marginBlockEnd={tokens.Spacing4}
+      // marginBlockEnd={tokens.Spacing4}
     >
       { options.description && <Typography component="p">{options.description}</Typography> }
       <ListMui

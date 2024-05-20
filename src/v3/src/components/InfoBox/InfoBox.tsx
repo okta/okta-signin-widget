@@ -23,6 +23,7 @@ import {
 } from '../../types';
 import { getLinkReplacerFn } from '../../util';
 import WidgetMessageContainer from '../WidgetMessageContainer';
+import IdentifierContainer from '../IdentifierContainer';
 
 const InfoBox: UISchemaElementComponent<{
   uischema: InfoboxElement
@@ -43,7 +44,7 @@ const InfoBox: UISchemaElementComponent<{
 
   return loading ? null : (
     <Box
-      marginBlockEnd={tokens.Spacing4}
+      // marginBlockEnd={tokens.Spacing4}
       width={1}
       data-se={`infobox-${messageClass.toLowerCase()}`}
     >

@@ -152,7 +152,7 @@ export const transformTerminalMessages: TerminalKeyTransformer = (transaction, f
       transaction.rawIdxState.messages?.value || [],
     );
     if (userRemediationErrorElement) {
-      uischema.elements.push(userRemediationErrorElement);
+      uischema.elements.push(...userRemediationErrorElement);
     }
     return formBag;
   } else if (containsMessageKey(TERMINAL_KEY.IDX_RETURN_LINK_OTP_ONLY, displayedMessages)) {

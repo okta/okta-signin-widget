@@ -87,7 +87,7 @@ const terminalViewTitles = {
 };
 
 const Body = BaseForm.extend({
-  noButtonBar: true,
+  // noButtonBar: true,
 
   postRender() {
     BaseForm.prototype.postRender.apply(this, arguments);
@@ -107,6 +107,10 @@ const Body = BaseForm.extend({
     return this.getTerminalViewTitle();
   },
 
+  save() {
+    return 'Continue to app';
+  },
+
   getTerminalViewTitle() {
     if (this.options.appState.containsMessageStartingWithI18nKey(SAFE_MODE_KEY_PREFIX)) {
       return loc('oie.safe.mode.title', 'login');
@@ -117,6 +121,7 @@ const Body = BaseForm.extend({
     if (key) {
       return loc(terminalViewTitles[key], 'login');
     }
+    return 'Device assurance reminder';
   },
 
   prepareMessageForCustomView(messagesObjs) {
@@ -133,9 +138,11 @@ const Body = BaseForm.extend({
       hasCustomView = true;
     } else if (this.options.appState.containsMessageStartingWithI18nKey(END_USER_REMEDIATION_KEY_PREFIX)) {
       this.add(createCallout({
-        type: 'error',
-        content: new EndUserRemediationTerminalMessage({messages: messagesObjs}),
+        type: 'warning',
+        // eslint-disable-next-line @okta/okta/no-unlocalized-text
+        subtitle: 'To prevent account lockout, resolve the issues by 08/01/2024'
       }));
+      this.add(new EndUserRemediationTerminalMessage({messages: messagesObjs}));
       hasCustomView = true;
     }
 

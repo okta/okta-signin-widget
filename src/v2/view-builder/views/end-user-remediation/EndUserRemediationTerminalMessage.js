@@ -28,9 +28,6 @@ function buildRemediationOptionBlockMessage(message) {
 export default View.extend({
   className: 'end-user-remediation-terminal-view',
   template: hbs`
-    {{#if title}}
-      <div class="end-user-remediation-title">{{title}}</div>
-    {{/if}}
     {{#if explanation}}
       <div class="end-user-remediation-explanation">{{explanation}}</div>
     {{/if}}
@@ -84,6 +81,10 @@ export default View.extend({
         remediationOptions.push(buildRemediationOptionBlockMessage(message));
       }
     });
+
+    title = 'Device assurance reminder';
+    explanation = 'Your device does not meet security requirements. '
+    + 'To resolve now, make the updates below. Otherwise, continue to your app.';
 
     return {
       title,
