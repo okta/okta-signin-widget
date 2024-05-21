@@ -13,9 +13,9 @@
 import { Box, List as ListMui, ListItem } from '@mui/material';
 import { Typography, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
-import { useHtmlContentParser } from '../../hooks';
 
 import Logger from '../../../../util/Logger';
+import { useHtmlContentParser } from '../../hooks';
 import {
   ButtonElement,
   DescriptionElement,

@@ -68,13 +68,13 @@ export const transformOktaVerifyChannelSelection: IdxStepTransformer = ({
   const { options: { inputMeta: { options = [] } } } = channelSelectionElement;
   channelSelectionElement.options.customOptions = options
     .filter((opt) => {
-      if(opt.value === 'samedevice') {
+      if (opt.value === 'samedevice') {
         // filter out the samedevice channel so it is not displayed as a radio
         // and set flag to true so we know to add it as a link instead
         sameDeviceChannelAvailable = true;
         return false;
       }
-      return opt.value !== lastSelectedChannel
+      return opt.value !== lastSelectedChannel;
     })
     .map((opt) => ({
       value: opt.value as string,
@@ -100,10 +100,10 @@ export const transformOktaVerifyChannelSelection: IdxStepTransformer = ({
       options: {
         actionParams: { 'authenticator.channel': 'samedevice' },
         content: loc(
-          'oie.enroll.okta_verify.select.channel.ovOnThisDevice', 
-          'login', 
-          undefined, 
-          { $1: { element: 'a', attributes: { class: 'ov-same-device-enroll-link', href:'#' } } },
+          'oie.enroll.okta_verify.select.channel.ovOnThisDevice',
+          'login',
+          undefined,
+          { $1: { element: 'a', attributes: { class: 'ov-same-device-enroll-link', href: '#' } } },
         ),
         contentClassname: 'ov-same-device-enroll-link',
         step: IDX_STEP.SELECT_ENROLLMENT_CHANNEL,
