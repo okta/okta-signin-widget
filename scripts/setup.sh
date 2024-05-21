@@ -56,8 +56,8 @@ if [ ! -z "$AUTHJS_VERSION" ]; then
 
   yarn global add @okta/siw-platform-scripts@0.11.0
 
-  mv -f ./node_modules/@okta/okta-auth-js ./okta-auth-js-orig
-  rm -rf ./src/v3/node_modules/@okta/okta-auth-js
+  # mv -f ./node_modules/@okta/okta-auth-js ./okta-auth-js-orig
+  # rm -rf ./src/v3/node_modules/@okta/okta-auth-js
 
   authjs_semver_g2=$(cat ./package.json | jq '.dependencies["@okta/okta-auth-js"]')
   json=$(cat ./package.json | jq 'del(.dependencies["@okta/okta-auth-js"])')
@@ -70,13 +70,22 @@ if [ ! -z "$AUTHJS_VERSION" ]; then
     exit ${FAILED_SETUP}
   fi
 
+  echo ">>>g2a"
+  cat ./node_modules/@okta/okta-auth-js/package.json
+  echo ">>>g2"
+  cat ./package.json
+  echo ">>>g3a"
+  cat ./src/v3/node_modules/@okta/okta-auth-js/package.json
+  echo ">>>g3"
+  cat ./src/v3/package.json
+
   json=$(cat ./src/v3/package.json | jq --arg ver $AUTHJS_VERSION '.dependencies["@okta/okta-auth-js"] = $ver')
   printf '%s\n' "${json}" > ./src/v3/package.json
   json=$(cat ./package.json | jq --arg ver $authjs_semver_g2 '.dependencies["@okta/okta-auth-js"] = $ver')
   printf '%s\n' "${json}" > ./package.json
 
-  mv -f ./node_modules/@okta/okta-auth-js ./src/v3/node_modules/@okta/okta-auth-js
-  mv -f ./okta-auth-js-orig ./node_modules/@okta/okta-auth-js
+  # mv -f ./node_modules/@okta/okta-auth-js ./src/v3/node_modules/@okta/okta-auth-js
+  # mv -f ./okta-auth-js-orig ./node_modules/@okta/okta-auth-js
 
   authjs_ver_g2=$(cat ./node_modules/@okta/okta-auth-js/package.json | jq '.version')
   authjs_ver_g3=$(cat ./src/v3/node_modules/@okta/okta-auth-js/package.json | jq '.version')
