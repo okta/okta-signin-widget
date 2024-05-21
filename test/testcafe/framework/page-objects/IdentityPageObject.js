@@ -103,6 +103,10 @@ export default class IdentityPageObject extends BasePageObject {
     return this.form.clickSaveButton('Next');
   }
 
+  isNextButtonDisabled() {
+    return this.form.isSaveButtonDisabled('Next');
+  }
+
   clickVerifyButton() {
     return this.form.clickSaveButton('Verify');
   }

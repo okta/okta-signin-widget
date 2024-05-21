@@ -401,7 +401,9 @@ test.requestHooks(identifyRequestLogger, deviceFingerprintRequestLogger, identif
   await identityPage.fillIdentifierField('Test Identifier');
 
   await identityPage.clickNextButton();
-  if (!userVariables.gen3) {
+  if (userVariables.gen3) {
+    await t.expect(identityPage.isNextButtonDisabled()).ok();
+  } else {
     // Click 'Next' 2 times. It shoud result in only 1 fingerprint request.
     await identityPage.clickNextButton();
   }
