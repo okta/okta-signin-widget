@@ -54,7 +54,7 @@ fi
 if [ ! -z "$AUTHJS_VERSION" ]; then
   echo "Installing AUTHJS_VERSION: ${AUTHJS_VERSION}"
 
-  yarn global add @okta/siw-platform-scripts@0.12.0
+  yarn global add @okta/siw-platform-scripts@0.11.0
 
   mv -f ./node_modules/@okta/okta-auth-js ./okta-auth-js-orig
   rm -rf ./src/v3/node_modules/@okta/okta-auth-js
