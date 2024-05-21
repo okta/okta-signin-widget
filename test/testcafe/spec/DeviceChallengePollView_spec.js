@@ -442,7 +442,7 @@ test
       record => record.response.statusCode === 200 &&
                 record.request.url.match(/introspect/)
     )).eql(1);
-    await t.wait(6000); // wait a moment for all probes to fail
+    await t.wait(10000); // wait a moment for all probes to fail
     await t.expect(loopbackChallengeWrongProfileLogger.count(
       record => record.response.statusCode === 500 &&
                 record.request.url.match(/(2000|6512)\/probe/)
