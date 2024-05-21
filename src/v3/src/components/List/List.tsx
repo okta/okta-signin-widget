@@ -13,6 +13,7 @@
 import { Box, List as ListMui, ListItem } from '@mui/material';
 import { Typography, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
+import { useHtmlContentParser } from '../../hooks';
 
 import Logger from '../../../../util/Logger';
 import {
@@ -102,7 +103,7 @@ const List: UISchemaElementComponent<{
               // TODO: OKTA-577905 - (textAlign: 'start') Temporary fix until we can upgrade to the latest version of Odyssey
               sx={{ display: 'list-item', textAlign: 'start' }}
             >
-              {typeof item === 'string' ? item : renderLayout(item) }
+              {typeof item === 'string' ? useHtmlContentParser(item) : renderLayout(item) }
             </ListItem>
           ))
         }
