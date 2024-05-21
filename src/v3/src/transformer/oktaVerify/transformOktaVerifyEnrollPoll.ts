@@ -395,9 +395,9 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
       loc('oie.enroll.okta_verify.qrcode.step2', 'login'),
       loc(
         'oie.enroll.okta_verify.qrcode.step3.updated',
-        'login', 
-        undefined, 
-        { $1: { element: 'span', attributes: { class: 'strong' } } }
+        'login',
+        undefined,
+        { $1: { element: 'span', attributes: { class: 'strong' } } },
       ),
     );
   }
