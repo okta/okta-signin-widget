@@ -161,3 +161,12 @@
     }
   }
 }
+
+.ov-same-device-enroll-text {
+  margin: 0 0 20px;
+  text-align: center;
+
+  .ov-same-device-enroll-link {
+    color: $link-text-color;
+  }
+}
