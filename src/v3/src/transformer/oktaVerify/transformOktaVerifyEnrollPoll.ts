@@ -391,9 +391,14 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
     );
   } else if (qrCodeHref) {
     listItems.push(
-      loc('oie.enroll.okta_verify.qrcode.step1', 'login'),
+      loc('oie.enroll.okta_verify.qrcode.step1.updated', 'login'),
       loc('oie.enroll.okta_verify.qrcode.step2', 'login'),
-      loc('oie.enroll.okta_verify.qrcode.step3', 'login'),
+      loc(
+        'oie.enroll.okta_verify.qrcode.step3.updated',
+        'login', 
+        undefined, 
+        { $1: { element: 'span', attributes: { class: 'strong' } } }
+      ),
     );
   }
 
@@ -408,6 +413,7 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
       },
     } as QRCodeElement);
 
+    // TODO: check this behavior
     if (sameDeviceOVEnrollmentEnabled) {
       qrCodeElements.push({
         type: 'TextWithActionLink',
@@ -469,7 +475,7 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
             type: 'Description',
             contentType: 'subtitle',
             options: {
-              content: loc('oie.enroll.okta_verify.email.info', 'login', [email]),
+              content: loc('oie.enroll.okta_verify.email.info.updated', 'login', [email], tokenReplacement),
             },
           } as DescriptionElement,
           switchChannelButton('oie.enroll.okta_verify.switch.channel.link.text'),
@@ -485,7 +491,7 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
             type: 'Description',
             contentType: 'subtitle',
             options: {
-              content: loc('oie.enroll.okta_verify.sms.info', 'login', [phoneNumber]),
+              content: loc('oie.enroll.okta_verify.sms.info.updated', 'login', [phoneNumber], tokenReplacement),
             },
           } as DescriptionElement,
           switchChannelButton('oie.enroll.okta_verify.switch.channel.link.text'),
