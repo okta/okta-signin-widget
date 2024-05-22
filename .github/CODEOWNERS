@@ -1,0 +1,10 @@
+# Description:
+#  Code ownership file for the atko-eng/loginpage GitHub repository for mapping resources to teams.
+#  See [CODEOWNERS] for details.
+#
+#
+# Resources
+#  - [CODEOWNERS] https://help.github.com/articles/about-codeowners
+
+# General:
+*                             @denys-oblohin_atko @jasleen-nuno_atko @lester-choi_atko @priya-kathirvel_atko @robert-damphousse_atko @shuo-wu_atko @soham-kolhatkar_atko
