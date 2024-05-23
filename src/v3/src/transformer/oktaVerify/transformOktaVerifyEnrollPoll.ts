@@ -413,7 +413,6 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
       },
     } as QRCodeElement);
 
-    // TODO: check this behavior
     if (sameDeviceOVEnrollmentEnabled) {
       qrCodeElements.push({
         type: 'TextWithActionLink',
@@ -445,7 +444,7 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
 
   const stepper: StepperLayout = {
     type: UISchemaLayoutType.STEPPER,
-    key: `stepper_${channelType}`,
+    key: 'stepper_' + channelType,
     elements: [
       // QR code
       {
