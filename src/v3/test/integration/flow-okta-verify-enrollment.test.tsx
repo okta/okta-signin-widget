@@ -109,7 +109,7 @@ describe('flow-okta-verify-enrollment', () => {
 
     // qr polling
     await waitFor(async () => expect(await findByText(/Set up Okta Verify/)).toBeInTheDocument());
-    expect(await findByText(/When prompted, tap Scan a QR code/)).toBeInTheDocument();
+    expect(await findByText(/Scan a QR code/)).toBeInTheDocument();
     expect(await findByAltText('QR code. If you can\'t scan, click on the link below to select an alternative activation method')).toBeInTheDocument();
     await waitFor(async () => expect(await findByText(/Can't scan\?/)).toHaveFocus());
     await user.click(await findByText(/Can't scan\?/));
@@ -120,7 +120,7 @@ describe('flow-okta-verify-enrollment', () => {
     );
 
     // channel selection
-    await waitFor(async () => expect(await findByText(/More options/)).toBeInTheDocument());
+    await waitFor(async () => expect(await findByText(/How would you like to set up Okta Verify\?/)).toBeInTheDocument());
     expect(await findByText(/Email me a setup link/)).toBeInTheDocument();
     expect(await findByText(/Text me a setup link/)).toBeInTheDocument();
     await user.click(await findByText('Next', { selector: 'button' }));
@@ -161,7 +161,7 @@ describe('flow-okta-verify-enrollment', () => {
     );
 
     // channel selection
-    await waitFor(async () => expect(await findByText(/More options/)).toBeInTheDocument());
+    await waitFor(async () => expect(await findByText(/How would you like to set up Okta Verify\?/)).toBeInTheDocument());
     expect(await findByText(/Scan a QR code/)).toBeInTheDocument();
     expect(await findByText(/Text me a setup link/)).toBeInTheDocument();
     await user.click(await findByText(/Next/));
@@ -176,7 +176,7 @@ describe('flow-okta-verify-enrollment', () => {
 
     // qr polling
     await waitFor(async () => expect(await findByText(/Set up Okta Verify/)).toBeInTheDocument());
-    expect(await findByText(/When prompted, tap Scan a QR code/)).toBeInTheDocument();
+    expect(await findByText(/Scan a QR code/)).toBeInTheDocument();
     expect(await findByAltText('QR code. If you can\'t scan, click on the link below to select an alternative activation method')).toBeInTheDocument();
   });
 
@@ -191,7 +191,7 @@ describe('flow-okta-verify-enrollment', () => {
 
     // qr polling
     await waitFor(async () => expect(await findByText(/Set up Okta Verify/)).toBeInTheDocument());
-    expect(await findByText(/When prompted, tap Scan a QR code/)).toBeInTheDocument();
+    expect(await findByText(/Scan a QR code/)).toBeInTheDocument();
     expect(await findByAltText('QR code. If you can\'t scan, click on the link below to select an alternative activation method')).toBeInTheDocument();
     await waitFor(async () => expect(await findByText(/Can't scan\?/)).toHaveFocus());
     await user.click(await findByText(/Can't scan\?/));
@@ -202,7 +202,7 @@ describe('flow-okta-verify-enrollment', () => {
     );
 
     // channel selection
-    await waitFor(async () => expect(await findByText(/More options/)).toBeInTheDocument());
+    await waitFor(async () => expect(await findByText(/How would you like to set up Okta Verify\?/)).toBeInTheDocument());
     expect(await findByText(/Email me a setup link/)).toBeInTheDocument();
     const smsOption = await findByText(/Text me a setup link/);
     await user.click(smsOption);
@@ -246,7 +246,7 @@ describe('flow-okta-verify-enrollment', () => {
     );
 
     // channel selection
-    await waitFor(async () => expect(await findByText(/More options/)).toBeInTheDocument());
+    await waitFor(async () => expect(await findByText(/How would you like to set up Okta Verify\?/)).toBeInTheDocument());
     expect(await findByText(/Scan a QR code/)).toBeInTheDocument();
     expect(await findByText(/Email me a setup link/)).toBeInTheDocument();
     await user.click(await findByText(/Next/));
@@ -261,28 +261,28 @@ describe('flow-okta-verify-enrollment', () => {
 
     // qr polling
     await waitFor(async () => expect(await findByText(/Set up Okta Verify/)).toBeInTheDocument());
-    expect(await findByText(/When prompted, tap Scan a QR code/)).toBeInTheDocument();
+    expect(await findByText(/Scan a QR code/)).toBeInTheDocument();
     expect(await findByAltText('QR code. If you can\'t scan, click on the link below to select an alternative activation method')).toBeInTheDocument();
   });
 
-  it.only('qr polling -> channel selection -> qr polling', async () => {
+  it('qr polling -> channel selection -> qr polling', async () => {
     const { user, findByText, findByAltText } = await createTestContext();
 
     // qr polling
     await waitFor(async () => expect(await findByText(/Set up Okta Verify/)).toBeInTheDocument());
-    expect(await findByText(/When prompted/)).toBeInTheDocument();
+    expect(await findByText(/Scan a QR code/)).toBeInTheDocument();
     expect(await findByAltText('QR code. If you can\'t scan, click on the link below to select an alternative activation method')).toBeInTheDocument();
     await user.click(await findByText(/Can't scan\?/));
 
     // channel selection
-    await waitFor(async () => expect(await findByText(/More options/)).toBeInTheDocument());
+    await waitFor(async () => expect(await findByText(/How would you like to set up Okta Verify\?/)).toBeInTheDocument());
     expect(await findByText(/Email me a setup link/)).toBeInTheDocument();
     expect(await findByText(/Text me a setup link/)).toBeInTheDocument();
     await user.click(await findByText(/try a different way/));
 
     // qr polling
     await waitFor(async () => expect(await findByText(/Set up Okta Verify/)).toBeInTheDocument());
-    expect(await findByText(/When prompted, tap Scan a QR code/)).toBeInTheDocument();
+    expect(await findByText(/Scan a QR code/)).toBeInTheDocument();
     expect(await findByAltText('QR code. If you can\'t scan, click on the link below to select an alternative activation method')).toBeInTheDocument();
   });
 
@@ -291,12 +291,12 @@ describe('flow-okta-verify-enrollment', () => {
 
     // qr polling
     await waitFor(async () => expect(await findByText(/Set up Okta Verify/)).toBeInTheDocument());
-    expect(await findByText(/When prompted, tap Scan a QR code/)).toBeInTheDocument();
+    expect(await findByText(/Scan a QR code/)).toBeInTheDocument();
     expect(await findByAltText('QR code. If you can\'t scan, click on the link below to select an alternative activation method')).toBeInTheDocument();
     await user.click(await findByText(/Can't scan\?/));
 
     // channel selection
-    await waitFor(async () => expect(await findByText(/More options/)).toBeInTheDocument());
+    await waitFor(async () => expect(await findByText(/How would you like to set up Okta Verify\?/)).toBeInTheDocument());
     expect(await findByText(/Email me a setup link/)).toBeInTheDocument();
     expect(await findByText(/Text me a setup link/)).toBeInTheDocument();
     await user.click(await findByText(/Next/));
@@ -306,14 +306,14 @@ describe('flow-okta-verify-enrollment', () => {
     await user.click(await findByText(/try a different way/));
 
     // channel selection
-    await waitFor(async () => expect(await findByText(/More options/)).toBeInTheDocument());
+    await waitFor(async () => expect(await findByText(/How would you like to set up Okta Verify\?/)).toBeInTheDocument());
     expect(await findByText(/Scan a QR code/)).toBeInTheDocument();
     expect(await findByText(/Text me a setup link/)).toBeInTheDocument();
     await user.click(await findByText(/Next/));
 
     // qr polling
     await waitFor(async () => expect(await findByText(/Set up Okta Verify/)).toBeInTheDocument());
-    expect(await findByText(/When prompted, tap Scan a QR code/)).toBeInTheDocument();
+    expect(await findByText(/Scan a QR code/)).toBeInTheDocument();
     expect(await findByAltText('QR code. If you can\'t scan, click on the link below to select an alternative activation method')).toBeInTheDocument();
   });
 
@@ -324,12 +324,12 @@ describe('flow-okta-verify-enrollment', () => {
 
     // qr polling
     await waitFor(async () => expect(await findByText(/Set up Okta Verify/)).toBeInTheDocument());
-    expect(await findByText(/When prompted, tap Scan a QR code/)).toBeInTheDocument();
+    expect(await findByText(/Scan a QR code/)).toBeInTheDocument();
     expect(await findByAltText('QR code. If you can\'t scan, click on the link below to select an alternative activation method')).toBeInTheDocument();
     await user.click(await findByText(/Can't scan\?/));
 
     // channel selection
-    await waitFor(async () => expect(await findByText(/More options/)).toBeInTheDocument());
+    await waitFor(async () => expect(await findByText(/How would you like to set up Okta Verify\?/)).toBeInTheDocument());
     expect(await findByText(/Email me a setup link/)).toBeInTheDocument();
     expect(await findByText(/Text me a setup link/)).toBeInTheDocument();
     await user.click(await findByText(/Next/));

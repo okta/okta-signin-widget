@@ -1454,7 +1454,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                         data-se="o-form-explain"
                         tabindex="-1"
                       >
-                        Make sure you can access the text on your mobile device.
+                        Make sure you can access the text on the receiving device
                       </p>
                     </div>
                   </div>
@@ -2973,7 +2973,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form witho
                         data-se="o-form-explain"
                         tabindex="-1"
                       >
-                        Make sure you can access the text on your mobile device.
+                        Make sure you can access the text on the receiving device
                       </p>
                     </div>
                   </div>

@@ -98,7 +98,7 @@ Object {
               Object {
                 "contentType": "subtitle",
                 "options": Object {
-                  "content": "oie.enroll.okta_verify.email.info",
+                  "content": "oie.enroll.okta_verify.email.info.updated",
                 },
                 "type": "Description",
                 "viewIndex": 1,
@@ -128,7 +128,7 @@ Object {
               Object {
                 "contentType": "subtitle",
                 "options": Object {
-                  "content": "oie.enroll.okta_verify.sms.info",
+                  "content": "oie.enroll.okta_verify.sms.info.updated",
                 },
                 "type": "Description",
                 "viewIndex": 2,
@@ -374,9 +374,9 @@ Object {
                 "noMargin": true,
                 "options": Object {
                   "items": Array [
-                    "oie.enroll.okta_verify.qrcode.step1",
+                    "oie.enroll.okta_verify.qrcode.step1.updated",
                     "oie.enroll.okta_verify.qrcode.step2",
-                    "oie.enroll.okta_verify.qrcode.step3",
+                    "oie.enroll.okta_verify.qrcode.step3.updated",
                   ],
                   "type": "ol",
                 },
@@ -417,7 +417,7 @@ Object {
               Object {
                 "contentType": "subtitle",
                 "options": Object {
-                  "content": "oie.enroll.okta_verify.email.info",
+                  "content": "oie.enroll.okta_verify.email.info.updated",
                 },
                 "type": "Description",
                 "viewIndex": 1,
@@ -447,7 +447,7 @@ Object {
               Object {
                 "contentType": "subtitle",
                 "options": Object {
-                  "content": "oie.enroll.okta_verify.sms.info",
+                  "content": "oie.enroll.okta_verify.sms.info.updated",
                 },
                 "type": "Description",
                 "viewIndex": 2,
@@ -487,9 +487,9 @@ Object {
                 "noMargin": true,
                 "options": Object {
                   "items": Array [
-                    "oie.enroll.okta_verify.qrcode.step1",
+                    "oie.enroll.okta_verify.qrcode.step1.updated",
                     "oie.enroll.okta_verify.qrcode.step2",
-                    "oie.enroll.okta_verify.qrcode.step3",
+                    "oie.enroll.okta_verify.qrcode.step3.updated",
                   ],
                   "type": "ol",
                 },
@@ -529,9 +529,9 @@ Object {
                 "noMargin": true,
                 "options": Object {
                   "items": Array [
-                    "oie.enroll.okta_verify.qrcode.step1",
+                    "oie.enroll.okta_verify.qrcode.step1.updated",
                     "oie.enroll.okta_verify.qrcode.step2",
-                    "oie.enroll.okta_verify.qrcode.step3",
+                    "oie.enroll.okta_verify.qrcode.step3.updated",
                   ],
                   "type": "ol",
                 },
@@ -689,7 +689,7 @@ Object {
               Object {
                 "contentType": "subtitle",
                 "options": Object {
-                  "content": "oie.enroll.okta_verify.email.info",
+                  "content": "oie.enroll.okta_verify.email.info.updated",
                 },
                 "type": "Description",
                 "viewIndex": 1,
@@ -719,7 +719,7 @@ Object {
               Object {
                 "contentType": "subtitle",
                 "options": Object {
-                  "content": "oie.enroll.okta_verify.sms.info",
+                  "content": "oie.enroll.okta_verify.sms.info.updated",
                 },
                 "type": "Description",
                 "viewIndex": 2,
@@ -1013,9 +1013,9 @@ Object {
                 "noMargin": true,
                 "options": Object {
                   "items": Array [
-                    "oie.enroll.okta_verify.qrcode.step1",
+                    "oie.enroll.okta_verify.qrcode.step1.updated",
                     "oie.enroll.okta_verify.qrcode.step2",
-                    "oie.enroll.okta_verify.qrcode.step3",
+                    "oie.enroll.okta_verify.qrcode.step3.updated",
                   ],
                   "type": "ol",
                 },
@@ -1070,7 +1070,7 @@ Object {
               Object {
                 "contentType": "subtitle",
                 "options": Object {
-                  "content": "oie.enroll.okta_verify.email.info",
+                  "content": "oie.enroll.okta_verify.email.info.updated",
                 },
                 "type": "Description",
                 "viewIndex": 1,
@@ -1114,7 +1114,7 @@ Object {
               Object {
                 "contentType": "subtitle",
                 "options": Object {
-                  "content": "oie.enroll.okta_verify.sms.info",
+                  "content": "oie.enroll.okta_verify.sms.info.updated",
                 },
                 "type": "Description",
                 "viewIndex": 2,
@@ -1168,9 +1168,9 @@ Object {
                 "noMargin": true,
                 "options": Object {
                   "items": Array [
-                    "oie.enroll.okta_verify.qrcode.step1",
+                    "oie.enroll.okta_verify.qrcode.step1.updated",
                     "oie.enroll.okta_verify.qrcode.step2",
-                    "oie.enroll.okta_verify.qrcode.step3",
+                    "oie.enroll.okta_verify.qrcode.step3.updated",
                   ],
                   "type": "ol",
                 },
@@ -1224,9 +1224,9 @@ Object {
                 "noMargin": true,
                 "options": Object {
                   "items": Array [
-                    "oie.enroll.okta_verify.qrcode.step1",
+                    "oie.enroll.okta_verify.qrcode.step1.updated",
                     "oie.enroll.okta_verify.qrcode.step2",
-                    "oie.enroll.okta_verify.qrcode.step3",
+                    "oie.enroll.okta_verify.qrcode.step3.updated",
                   ],
                   "type": "ol",
                 },
@@ -1312,9 +1312,9 @@ Object {
                 "noMargin": true,
                 "options": Object {
                   "items": Array [
-                    "oie.enroll.okta_verify.qrcode.step1",
+                    "oie.enroll.okta_verify.qrcode.step1.updated",
                     "oie.enroll.okta_verify.qrcode.step2",
-                    "oie.enroll.okta_verify.qrcode.step3",
+                    "oie.enroll.okta_verify.qrcode.step3.updated",
                   ],
                   "type": "ol",
                 },
@@ -1369,7 +1369,7 @@ Object {
               Object {
                 "contentType": "subtitle",
                 "options": Object {
-                  "content": "oie.enroll.okta_verify.email.info",
+                  "content": "oie.enroll.okta_verify.email.info.updated",
                 },
                 "type": "Description",
                 "viewIndex": 1,
@@ -1413,7 +1413,7 @@ Object {
               Object {
                 "contentType": "subtitle",
                 "options": Object {
-                  "content": "oie.enroll.okta_verify.sms.info",
+                  "content": "oie.enroll.okta_verify.sms.info.updated",
                 },
                 "type": "Description",
                 "viewIndex": 2,
@@ -1467,9 +1467,9 @@ Object {
                 "noMargin": true,
                 "options": Object {
                   "items": Array [
-                    "oie.enroll.okta_verify.qrcode.step1",
+                    "oie.enroll.okta_verify.qrcode.step1.updated",
                     "oie.enroll.okta_verify.qrcode.step2",
-                    "oie.enroll.okta_verify.qrcode.step3",
+                    "oie.enroll.okta_verify.qrcode.step3.updated",
                   ],
                   "type": "ol",
                 },
@@ -1523,9 +1523,9 @@ Object {
                 "noMargin": true,
                 "options": Object {
                   "items": Array [
-                    "oie.enroll.okta_verify.qrcode.step1",
+                    "oie.enroll.okta_verify.qrcode.step1.updated",
                     "oie.enroll.okta_verify.qrcode.step2",
-                    "oie.enroll.okta_verify.qrcode.step3",
+                    "oie.enroll.okta_verify.qrcode.step3.updated",
                   ],
                   "type": "ol",
                 },

@@ -175,7 +175,7 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
                         data-se="o-form-explain"
                         tabindex="-1"
                       >
-                        Make sure you can access the email on your mobile device.
+                        Make sure you can access the email on the receiving device
                       </p>
                     </div>
                   </div>
