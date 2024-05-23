@@ -1,7 +1,7 @@
 const oktaLoginStub = jest.fn();
 const oktaLoginLegacyStub = jest.fn();
 
-import { databag } from '@okta/loginpage-mock';
+import { databagString, databag } from '@okta/loginpage-mock';
 import { registerListeners } from './registerListeners';
 import * as utils from './utils';
 import { render } from './main';
@@ -55,7 +55,7 @@ describe('main', () => {
     const unsupportedContainer = document.getElementById('okta-sign-in');
     const unsupportedOnedrive = document.getElementById('unsupported-onedrive');
 
-    render(databag);
+    render(databagString);
 
     expect(registerListeners).toHaveBeenCalledTimes(1);
     expect(unsupportedContainer?.hasAttribute('style')).toBe(false);
@@ -72,7 +72,7 @@ describe('main', () => {
     const unsupportedCookie = document.getElementById('unsupported-cookie');
 
     const newDatabag = { ...databag, failIfCookiesDisabled: true };
-    render(newDatabag);
+    render(JSON.stringify(newDatabag));
 
     expect(registerListeners).toHaveBeenCalledTimes(1);
     expect(unsupportedContainer?.hasAttribute('style')).toBe(false);
@@ -88,7 +88,7 @@ describe('main', () => {
 
     it('uses legacy OktaLogin bundle when has disableNewLoginPage', () => {
       const newDatabag = { ...databag, disableNewLoginPage: true };
-      render(newDatabag);
+      render(JSON.stringify(newDatabag));
 
       const unsupportedContainer = document.getElementById('okta-sign-in');
       // element is removed
@@ -100,7 +100,7 @@ describe('main', () => {
 
     it('uses OktaLogin bundle when has no disableNewLoginPage', () => {
       const newDatabag = { ...databag };
-      render(newDatabag);
+      render(JSON.stringify(newDatabag));
 
       const unsupportedContainer = document.getElementById('okta-sign-in');
       // element is removed
@@ -122,7 +122,7 @@ describe('main', () => {
         ...databag,
         featureFlags: [...databag.featureFlags, 'SIW_PLUGIN_A11Y']
       };
-      render(newDatabag);
+      render(JSON.stringify(newDatabag));
 
       expect(window.OktaPluginA11y.init).toHaveBeenCalledWith(oktaSignInMock);
     });

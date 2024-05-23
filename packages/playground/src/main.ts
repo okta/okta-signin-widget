@@ -1,6 +1,4 @@
-import type { Databag } from '@okta/loginpage-render';
-
-import { databag } from '@okta/loginpage-mock';
+import { databagString } from '@okta/loginpage-mock';
 // import global variable OktaLoginPageRender
 import '@okta/loginpage-render';
 
@@ -10,7 +8,7 @@ declare global {
       locale: string;
     }
     OktaLoginPageRender: {
-      render: (databag: Databag) => void;
+      render: (databag: string) => void;
     }
   }
 }
@@ -19,4 +17,4 @@ window.okta = {
   locale: 'en'
 };
 
-window.OktaLoginPageRender.render(databag);
+window.OktaLoginPageRender.render(databagString);

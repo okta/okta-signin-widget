@@ -9,8 +9,19 @@ import { registerListeners } from './registerListeners';
 import { buildConfig } from './buildConfig';
 import { hasFeature, isOldWebBrowserControl } from './utils';
 
-export const render = (databag: Databag) => {
-  const { featureFlags, isMfaAttestation, disableNewLoginPage } = databag;
+export const render = (databag: string) => {
+  let parsedDatabag: Databag;
+
+  try {
+    parsedDatabag = JSON.parse(databag);
+  } catch (err) {
+    // This error should never happen, otherwise loginpage won't render
+    // throw directly to catch issue as early as possible
+    console.error('Invalid databag string', err);
+    throw new Error('Invalid databag');
+  }
+
+  const { featureFlags, isMfaAttestation, disableNewLoginPage } = parsedDatabag;
 
   registerListeners();
 
@@ -28,7 +39,7 @@ export const render = (databag: Databag) => {
     unsupportedContainer?.removeAttribute('style');
   } else {
     unsupportedContainer?.remove();
-    const config = buildConfig(databag);
+    const config = buildConfig(parsedDatabag);
     const loginModule = disableNewLoginPage ? OktaLoginLegacy : OktaLogin;
     const res = loginModule.initLoginPage(config);
     if (hasFeature('SIW_PLUGIN_A11Y', featureFlags) && res.oktaSignIn && window.OktaPluginA11y) {

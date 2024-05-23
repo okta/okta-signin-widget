@@ -97,3 +97,5 @@ export const databag: Databag = {
   invalidTokenErrorMsg: 'mock-invalidTokenErrorMsg',
   countryIso: 'US',
 };
+
+export const databagString = JSON.stringify(databag);
