@@ -110,6 +110,16 @@ export const transformOktaVerifyChannelSelection: IdxStepTransformer = ({
       },
     };
     elements.push(setupOnSameDeviceLink);
+  } else if (!['email', 'sms'].includes(lastSelectedChannel)) {
+    const switchChannelTextLink: TextWithActionLinkElement = {
+      type: 'TextWithActionLink',
+      options: {
+        content: loc('oie.enroll.okta_verify.switch.channel.link.text', 'login'),
+        contentClassname: 'switch-channel-link',
+        step: IDX_STEP.SELECT_ENROLLMENT_CHANNEL,
+      },
+    };
+    elements.push(switchChannelTextLink);
   }
 
   uischema.elements = elements;

@@ -22,7 +22,7 @@ describe('okta-verify-email-channel-enrollment', () => {
 
     const headerEle = await findByText(/Set up Okta Verify via email link/);
     await waitFor(() => expect(headerEle).toHaveFocus());
-    await findByText(/Make sure you can access the email on your mobile device./);
+    await findByText(/Make sure you can access the email on the receiving device/);
     const emailEl = await findByLabelText('Email') as HTMLInputElement;
     const submitBtn = await findByText(/Send me the setup link/);
 

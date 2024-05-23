@@ -21,7 +21,7 @@ describe('okta-verify-sms-channel-enrollment', () => {
     } = await setup({ mockResponse, widgetOptions: { features: { autoFocus: true } } });
 
     await findByText(/Set up Okta Verify via SMS/);
-    await findByText(/Make sure you can access the text on your mobile device./);
+    await findByText(/Make sure you can access the text on the receiving device/);
     const phoneEl = await findByLabelText('Phone number') as HTMLInputElement;
     const submitBtn = await findByText(/Send me the setup link/);
     const countryEl = await findByLabelText('Country/region') as HTMLInputElement;
@@ -46,7 +46,7 @@ describe('okta-verify-sms-channel-enrollment', () => {
     } = await setup({ mockResponse, widgetOptions: { features: { autoFocus: false } } });
 
     await findByText(/Set up Okta Verify via SMS/);
-    await findByText(/Make sure you can access the text on your mobile device./);
+    await findByText(/Make sure you can access the text on the receiving device/);
     const countryEl = await findByTestId('country') as HTMLInputElement;
 
     expect(container).toMatchSnapshot();

@@ -74,7 +74,7 @@ describe('TransformOktaVerifyChannelSelection Tests', () => {
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
       .toBe('oie.enroll.okta_verify.setup.title');
     expect((updatedFormBag.uischema.elements[1] as FieldElement).label)
-      .toBe('oie.enroll.okta_verify.select.channel.description');
+      .toBe('oie.enroll.okta_verify.select.channel.subtitle');
     expect((updatedFormBag.uischema.elements[1] as FieldElement).options.format)
       .toBe('radio');
     expect((updatedFormBag.uischema.elements[1] as FieldElement).options.customOptions?.length)
@@ -120,7 +120,7 @@ describe('TransformOktaVerifyChannelSelection Tests', () => {
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
       .toBe('oie.enroll.okta_verify.setup.title');
     expect((updatedFormBag.uischema.elements[1] as FieldElement).label)
-      .toBe('oie.enroll.okta_verify.select.channel.description');
+      .toBe('oie.enroll.okta_verify.select.channel.subtitle');
     expect((updatedFormBag.uischema.elements[1] as FieldElement).options.format)
       .toBe('radio');
     expect((updatedFormBag.uischema.elements[1] as FieldElement).options.customOptions?.length)
@@ -160,7 +160,7 @@ describe('TransformOktaVerifyChannelSelection Tests', () => {
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
       .toBe('oie.enroll.okta_verify.setup.title');
     expect((updatedFormBag.uischema.elements[1] as FieldElement).label)
-      .toBe('oie.enroll.okta_verify.select.channel.description');
+      .toBe('oie.enroll.okta_verify.select.channel.subtitle');
     expect((updatedFormBag.uischema.elements[1] as FieldElement).options.format)
       .toBe('radio');
     expect((updatedFormBag.uischema.elements[1] as FieldElement).options.customOptions?.length)
@@ -195,9 +195,9 @@ describe('TransformOktaVerifyChannelSelection Tests', () => {
     expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(3);
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
-      .toBe('oie.enroll.okta_verify.select.channel.title');
+      .toBe('oie.enroll.okta_verify.select.channel.title.updated');
     expect((updatedFormBag.uischema.elements[1] as FieldElement).label)
-      .toBe('oie.enroll.okta_verify.select.channel.description');
+      .toBe('oie.enroll.okta_verify.select.channel.subtitle');
     expect((updatedFormBag.uischema.elements[1] as FieldElement).options.format)
       .toBe('radio');
     expect((updatedFormBag.uischema.elements[1] as FieldElement).options.customOptions?.length)
@@ -232,9 +232,9 @@ describe('TransformOktaVerifyChannelSelection Tests', () => {
     expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(3);
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
-      .toBe('oie.enroll.okta_verify.select.channel.title');
+      .toBe('oie.enroll.okta_verify.select.channel.title.updated');
     expect((updatedFormBag.uischema.elements[1] as FieldElement).label)
-      .toBe('oie.enroll.okta_verify.select.channel.description');
+      .toBe('oie.enroll.okta_verify.select.channel.subtitle');
     expect((updatedFormBag.uischema.elements[1] as FieldElement).options.format)
       .toBe('radio');
     expect((updatedFormBag.uischema.elements[1] as FieldElement).options.customOptions?.length)
@@ -269,9 +269,9 @@ describe('TransformOktaVerifyChannelSelection Tests', () => {
     expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
-      .toBe('oie.enroll.okta_verify.select.channel.title');
+      .toBe('oie.enroll.okta_verify.select.channel.title.updated');
     expect((updatedFormBag.uischema.elements[1] as FieldElement).label)
-      .toBe('oie.enroll.okta_verify.select.channel.description');
+      .toBe('oie.enroll.okta_verify.select.channel.subtitle');
     expect((updatedFormBag.uischema.elements[1] as FieldElement).options.format)
       .toBe('radio');
     expect((updatedFormBag.uischema.elements[1] as FieldElement).options.customOptions?.length)
@@ -290,6 +290,65 @@ describe('TransformOktaVerifyChannelSelection Tests', () => {
       .toBe('oie.enroll.okta_verify.switch.channel.link.text');
     expect((updatedFormBag.uischema.elements[3] as TextWithActionLinkElement)
       .options.contentClassname).toBe('switch-channel-link');
+    expect((updatedFormBag.uischema.elements[3] as TextWithActionLinkElement).options.step)
+      .toBe('select-enrollment-channel');
+  });
+
+  it('should append same device enroll link when SAMEDEVICE is included as a channel option', () => {
+    prevTransaction.context = {
+      currentAuthenticator: {
+        value: {
+          contextualData: { selectedChannel: 'qrcode' },
+        },
+      },
+    } as unknown as IdxContext;
+    mobileDeviceStub.mockReturnValue(false);
+
+    formBag.uischema.elements = [
+      {
+        type: 'Field',
+        options: {
+          inputMeta: {
+            name: 'authenticator.channel',
+            options: [
+              { value: 'qrcode', label: 'QRCode' },
+              { value: 'sms', label: 'SMS' },
+              { value: 'email', label: 'EMAIL' },
+              { value: 'samedevice', label: 'SAMEDEVICE' },
+            ],
+          },
+        },
+      } as FieldElement,
+    ];
+
+    const updatedFormBag = transformOktaVerifyChannelSelection({
+      transaction, prevTransaction, formBag, widgetProps,
+    });
+
+    expect(updatedFormBag).toMatchSnapshot();
+    expect(updatedFormBag.uischema.elements.length).toBe(4);
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+      .toBe('oie.enroll.okta_verify.select.channel.title.updated');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).label)
+      .toBe('oie.enroll.okta_verify.select.channel.subtitle');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options.format)
+      .toBe('radio');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options.customOptions?.length)
+      .toBe(2);
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options.inputMeta.name)
+      .toBe('authenticator.channel');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options.inputMeta.options?.length)
+      .toBe(4);
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).label)
+      .toBe('oform.next');
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).options.step)
+      .toBe('select-enrollment-channel');
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).options.type)
+      .toBe(ButtonType.SUBMIT);
+    expect((updatedFormBag.uischema.elements[3] as TextWithActionLinkElement).options.content)
+      .toBe('oie.enroll.okta_verify.select.channel.ovOnThisDevice');
+    expect((updatedFormBag.uischema.elements[3] as TextWithActionLinkElement)
+      .options.contentClassname).toBe('ov-same-device-enroll-link');
     expect((updatedFormBag.uischema.elements[3] as TextWithActionLinkElement).options.step)
       .toBe('select-enrollment-channel');
   });

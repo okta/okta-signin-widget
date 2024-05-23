@@ -199,7 +199,7 @@ exports[`okta-verify-enrollment-version-upgrade should render form 1`] = `
                           <li
                             class="MuiListItem-root emotion-33"
                           >
-                            On your mobile device, download the Okta Verify app from the App Store (iPhone and iPad) or Google Play (Android devices).
+                            On your other device, download the Okta Verify app from the App Store® (iPhone® and iPad®) or on Google Play (Android? devices).
                           </li>
                           <li
                             class="MuiListItem-root emotion-33"
@@ -209,7 +209,13 @@ exports[`okta-verify-enrollment-version-upgrade should render form 1`] = `
                           <li
                             class="MuiListItem-root emotion-33"
                           >
-                            When prompted, tap Scan a QR code, then scan the QR code below:
+                            When prompted, tap 
+                            <span
+                              class="strong"
+                            >
+                              Scan a QR code
+                            </span>
+                            , then scan the QR code below:
                           </li>
                         </ol>
                       </div>
