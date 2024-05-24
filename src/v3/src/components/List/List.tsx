@@ -15,7 +15,6 @@ import { Typography, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
 
 import Logger from '../../../../util/Logger';
-import { useHtmlContentParser } from '../../hooks';
 import {
   ButtonElement,
   DescriptionElement,
@@ -27,6 +26,7 @@ import {
 import { getElementKey } from '../../util';
 import Button from '../Button';
 import InformationalText from '../InformationalText';
+import ListItemText from './ListItemText';
 
 const renderElement = (item: UISchemaElement) => {
   const Container: FunctionComponent = ({ children }) => {
@@ -103,7 +103,7 @@ const List: UISchemaElementComponent<{
               // TODO: OKTA-577905 - (textAlign: 'start') Temporary fix until we can upgrade to the latest version of Odyssey
               sx={{ display: 'list-item', textAlign: 'start' }}
             >
-              {typeof item === 'string' ? useHtmlContentParser(item) : renderLayout(item) }
+              {typeof item === 'string' ? (<ListItemText text={item} />) : renderLayout(item) }
             </ListItem>
           ))
         }
