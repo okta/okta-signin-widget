@@ -31,8 +31,8 @@ const Body = BaseForm.extend({
 export default BaseAuthenticatorView.extend({
   Body,
   postRender() {
-    const authenticatorFormValues = this.options.currentViewState.value.find(val => val.name === 'authenticator').value.form.value;
-    const sameDeviceChannelAvailable = authenticatorFormValues.find(val => val.name === 'channel').options.find(channel => channel.value === 'samedevice')
+    const authenticatorFormValues = this.options.currentViewState.value?.find(val => val.name === 'authenticator').value.form.value;
+    const sameDeviceChannelAvailable = authenticatorFormValues?.find(val => val.name === 'channel').options?.find(channel => channel.value === 'samedevice')
     // only add this link if the samedevice channel is available in the remediation
     if (sameDeviceChannelAvailable) {
       this.add(new SameDeviceEnrollLink({
