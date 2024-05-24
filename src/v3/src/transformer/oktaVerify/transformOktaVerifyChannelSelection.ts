@@ -32,7 +32,6 @@ const CHANNEL_TO_LABEL_KEY_MAP: { [channel: string]: string } = {
 export const transformOktaVerifyChannelSelection: IdxStepTransformer = ({
   prevTransaction,
   transaction,
-  widgetProps,
   formBag,
 }) => {
   const { context } = prevTransaction || {};

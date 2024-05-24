@@ -40,7 +40,6 @@ const CHANNEL_TO_KEY_MAP: {
 
 export const transformOktaVerifyEnrollChannel: IdxStepTransformer = ({
   transaction,
-  widgetProps,
   formBag,
 }) => {
   const { context, nextStep: { name } = {} } = transaction;
