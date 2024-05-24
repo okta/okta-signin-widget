@@ -11,7 +11,10 @@ export default View.extend({
         <ol class="qrcode-info ov-info">
           <li>{{i18n code="oie.enroll.okta_verify.qrcode.step1.updated" bundle="login"}}</li>
           <li>{{i18n code="oie.enroll.okta_verify.qrcode.step2" bundle="login"}}</li>
-          <li>{{i18n code="oie.enroll.okta_verify.qrcode.step3.updated" bundle="login" $1="<span class='strong'>$1</span>"}}</li>
+          <li>
+            {{i18n code="oie.enroll.okta_verify.qrcode.step3.updated"
+            bundle="login" $1="<span class='strong'>$1</span>"}}
+          </li>
         </ol>
         <div class="qrcode-container">
           <img class="qrcode" src={{href}} alt="{{i18n code="mfa.altQrCode" bundle="login" }}"></img>
@@ -19,13 +22,19 @@ export default View.extend({
       {{/if}}
       {{#if email}}
         <ul class="email-info ov-info">
-          <li>{{{i18n code="oie.enroll.okta_verify.email.info.updated" bundle="login" arguments="email" $1="<span class='strong'>$1</span>"}}}</li>
+          <li>
+            {{{i18n code="oie.enroll.okta_verify.email.info.updated"
+            bundle="login" arguments="email" $1="<span class='strong'>$1</span>"}}}
+          </li>
           <li class="switch-channel-content"></li>
         </ul>
       {{/if}}
       {{#if phoneNumber}}
         <ul class="sms-info ov-info">
-          <li>{{{i18n code="oie.enroll.okta_verify.sms.info.updated" bundle="login" arguments="phoneNumber" $1="<span class='strong'>$1</span>"}}}</li>
+          <li>
+            {{{i18n code="oie.enroll.okta_verify.sms.info.updated"
+            bundle="login" arguments="phoneNumber" $1="<span class='strong'>$1</span>"}}}
+          </li>
           <li class="switch-channel-content"></li>
         </ul>
       {{/if}}

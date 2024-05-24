@@ -15,8 +15,10 @@ const Body = BaseForm.extend({
     // filter selected channel
     const channelField = _.find(schemas, (schema) => schema.name === 'authenticator.channel');
     // do not show the 'samedevice' radio option, that option is displayed as a link instead
-    channelField.options = _.filter(channelField?.options, (option) =>
-      option.value !== this.options.appState.get('currentAuthenticator')?.contextualData?.selectedChannel && option.value !== 'samedevice');
+    channelField.options = _.filter(channelField?.options, (option) => (
+      option.value !== this.options.appState.get('currentAuthenticator')?.contextualData?.selectedChannel
+      && option.value !== 'samedevice'
+    ));
     channelField.value = channelField.options[0]?.value;
     channelField.sublabel = null;
     this.model.set('authenticator.channel', channelField.value);
@@ -31,8 +33,10 @@ const Body = BaseForm.extend({
 export default BaseAuthenticatorView.extend({
   Body,
   postRender() {
-    const authenticatorFormValues = this.options.currentViewState.value?.find(val => val.name === 'authenticator').value.form.value;
-    const sameDeviceChannelAvailable = authenticatorFormValues?.find(val => val.name === 'channel').options?.find(channel => channel.value === 'samedevice')
+    const authenticatorFormValues = this.options.currentViewState.value
+      ?.find(val => val.name === 'authenticator').value.form.value;
+    const sameDeviceChannelAvailable = authenticatorFormValues
+      ?.find(val => val.name === 'channel').options?.find(channel => channel.value === 'samedevice');
     // only add this link if the samedevice channel is available in the remediation
     if (sameDeviceChannelAvailable) {
       this.add(new SameDeviceEnrollLink({
