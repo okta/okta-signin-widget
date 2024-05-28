@@ -183,6 +183,14 @@ export default class BaseFormObject {
     await this.clickButton(name);
   }
 
+  isSaveButtonDisabled(name = 'Next') {
+    const button = this.getButton(name);
+    if (userVariables.gen3) {
+      return button.hasAttribute('disabled');
+    }
+    return button.hasClass('link-button-disabled');
+  }
+
   /**
    * @deprecated
    * @see clickSaveButton
