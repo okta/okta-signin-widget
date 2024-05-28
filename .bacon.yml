@@ -70,7 +70,7 @@ test_suites:
     sort_order: '10'
     timeout: '40'
     script_name: e2e
-    criteria: OPTIONAL
+    criteria: OPTIONAL # OKTA-561398 - skipping due to SMS scenario failure
     queue_name: small
   - name: e2e-lang
     script_path: /root/okta/okta-signin-widget/scripts
