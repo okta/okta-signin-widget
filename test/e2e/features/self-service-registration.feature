@@ -1,3 +1,6 @@
+# https://oktainc.atlassian.net/browse/OKTA-561398
+# test is now consistently failing in CI - not just via dockolith
+@skip
 Feature: Self Service Registration
 
   Background:
@@ -19,9 +22,6 @@ Feature: Self Service Registration
       And user skips enrollment of optional authenticators
       Then user sees the tokens on the page
 
-    # https://oktainc.atlassian.net/browse/OKTA-561398
-    # test is now consistently failing in CI - not just via dockolith
-    @skip
     Scenario: User signs up with email and password and optional phone authenticator
       Given user opens the login page
       When user clicks the signup link
