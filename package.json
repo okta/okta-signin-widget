@@ -265,7 +265,6 @@
     "**/globule/minimatch": "^3.1.2",
     "ansi-regex": "^5.0.1",
     "testcafe/**/jsonwebtoken": "^9.0.0",
-    "json5": "^2.2.2",
     "**/loader-utils/json5": "^1.0.2",
     "**/babel-loader/loader-utils/json5": "^2.2.2",
     "**/saucelabs": "^7.5.0",
