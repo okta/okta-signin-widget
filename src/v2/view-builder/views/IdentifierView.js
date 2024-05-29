@@ -178,7 +178,7 @@ const Body = BaseForm.extend({
       return false;
     }
 
-    const message = messages.find(message => message.i18n.key === CUSTOM_ACCESS_DENIED_KEY);
+    const message = messages?.find(message => message.i18n.key === CUSTOM_ACCESS_DENIED_KEY);
     if (!message) {
       return false;
     }

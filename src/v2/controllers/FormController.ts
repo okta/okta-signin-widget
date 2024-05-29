@@ -387,7 +387,7 @@ export default Controller.extend({
     }
 
     if(_.isFunction(form?.showCustomFormErrorCallout)) {
-      showErrorBanner = !form.showCustomFormErrorCallout(errorObj, idxStateError.messages);
+      showErrorBanner = !form.showCustomFormErrorCallout(errorObj, idxStateError?.messages);
     }
 
     // show error before updating app state.

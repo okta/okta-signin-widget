@@ -10,6 +10,7 @@ import xhrAuthenticatorVerifySelect from '../../../playground/mocks/data/idp/idx
 import xhrAuthenticatorOVTotp from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-totp';
 import xhrIdentifyWithUser from '../../../playground/mocks/data/idp/idx/identify-with-user';
 import xhrErrorIdentifyMultipleErrors from '../../../playground/mocks/data/idp/idx/error-identify-multiple-errors';
+import xhrOAuthError from '../../../playground/mocks/data/idp/idx/error-feature-not-enabled';
 
 import config from '../../../src/config/config.json';
 
@@ -22,6 +23,12 @@ const identifyMockWithUnsupportedResponseError = RequestMock()
   .respond(xhrIdentify)
   .onRequestTo('http://localhost:3000/idp/idx/identify')
   .respond({}, 403);
+
+const identifyMockWithOAuthError = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrIdentify)
+  .onRequestTo('http://localhost:3000/idp/idx/identify')
+  .respond(xhrOAuthError);
 
 const identifyMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -201,6 +208,15 @@ test.requestHooks(identifyMockWithUnsupportedResponseError)('should show error i
   await identityPage.clickNextButton();
   await identityPage.waitForErrorBox();
   await t.expect(identityPage.getErrorBoxText()).contains('There was an unsupported response from server.');
+});
+
+test.requestHooks(identifyMockWithOAuthError)('should show errors if server returns OAuth error', async t => {
+  const identityPage = await setup(t);
+  await checkA11y(t);
+  await identityPage.fillIdentifierField('test');
+  await identityPage.clickNextButton();
+  await identityPage.waitForErrorBox();
+  await t.expect(identityPage.getErrorBoxText()).contains('The requested feature is not enabled in this environment.');
 });
 
 test.requestHooks(identifyMock)('should show customized error if required field identifier is empty', async t => {
