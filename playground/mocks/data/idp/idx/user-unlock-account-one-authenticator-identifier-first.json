@@ -1,0 +1,62 @@
+{
+  "version": "1.0.0",
+  "stateHandle": "02bgjl5UBobbixr5M3Qn6BI9JwRyhjD1It2rzy3zzZ",
+  "expiresAt": "2024-05-29T00:39:30.000Z",
+  "intent": "LOGIN",
+  "remediation": {
+      "type": "array",
+      "value": [
+          {
+              "rel": [
+                  "create-form"
+              ],
+              "name": "unlock-account",
+              "href": "http://localhost:3000/idp/idx/identify",
+              "method": "POST",
+              "produces": "application/ion+json; okta-version=1.0.0",
+              "value": [
+                  {
+                      "name": "identifier",
+                      "label": "Username",
+                      "required": true
+                  },
+                  {
+                      "name": "stateHandle",
+                      "required": true,
+                      "value": "02bgjl5UBobbixr5M3Qn6BI9JwRyhjD1It2rzy3zzZ",
+                      "visible": false,
+                      "mutable": false
+                  }
+              ],
+              "accepts": "application/json; okta-version=1.0.0"
+          }
+      ]
+  },
+  "cancel": {
+      "rel": [
+          "create-form"
+      ],
+      "name": "cancel",
+      "href": "http://localhost:3000/idp/idx/cancel",
+      "method": "POST",
+      "produces": "application/ion+json; okta-version=1.0.0",
+      "value": [
+          {
+              "name": "stateHandle",
+              "required": true,
+              "value": "02bgjl5UBobbixr5M3Qn6BI9JwRyhjD1It2rzy3zzZ",
+              "visible": false,
+              "mutable": false
+          }
+      ],
+      "accepts": "application/json; okta-version=1.0.0"
+  },
+  "app": {
+      "type": "object",
+      "value": {
+          "name": "okta_enduser",
+          "label": "Okta Dashboard",
+          "id": "0oarczoREsnldy3kI0g4"
+      }
+  }
+}

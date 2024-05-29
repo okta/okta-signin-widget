@@ -1,16 +1,16 @@
 import { BaseForm, BaseView } from '../../internals';
 import { loc } from '@okta/courage';
 
-const UnlockAccountView = BaseForm.extend({
+const Body = BaseForm.extend({
   noButtonBar: true,
-  title: () => {
-    return loc('unlockaccount', 'login');
-  }
+  title: function() {
+    return loc('oie.select.authenticators.verify.title', 'login');
+  },
+  subtitle: function() {
+    return loc('oie.select.authenticators.verify.subtitle', 'login');
+  },
 });
 
 export default BaseView.extend({
-  initialize() {
-    BaseView.prototype.initialize.apply(this, arguments);
-    this.Body = UnlockAccountView;
-  }
+  Body
 });

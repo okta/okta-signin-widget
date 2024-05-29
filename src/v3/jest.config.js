@@ -22,7 +22,7 @@ const esModules = [
   '@okta/odyssey-react-mui',
   '@adobe/leonardo-contrast-colors',
   'apca-w3',
-  'colorparsley'
+  'colorparsley',
 ].join('|');
 
 const devMode = process.env.NODE_ENV === 'development';
