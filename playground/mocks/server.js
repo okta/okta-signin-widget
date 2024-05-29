@@ -52,13 +52,6 @@ function registerService(app, config) {
     if (config.delay) {
       await sleep(Array.isArray(config.delay) ? getRandomDelay(config.delay) : config.delay);
     }
-    // Render
-    if (config.template) {
-      const resp = typeof config.template === 'function' ? config.template(req.params, req.query) : config.template;
-      res.send(resp);
-    } else if (typeof config.render === 'function') {
-      config.render(req, res);
-    }
     // Status
     if (config.status) {
       if (typeof config.status === 'function') {
@@ -66,6 +59,13 @@ function registerService(app, config) {
       } else {
         res.status(config.status);
       }
+    }
+    // Render
+    if (config.template) {
+      const resp = typeof config.template === 'function' ? config.template(req.params, req.query) : config.template;
+      res.send(resp);
+    } else if (typeof config.render === 'function') {
+      config.render(req, res);
     }
     res.end();
   });
