@@ -23,7 +23,6 @@ import { CONFIGURED_FLOW } from '../client/constants';
 import { ConfigError } from 'util/Errors';
 import { updateAppState } from 'v2/client';
 import CookieUtil from '../../util/CookieUtil';
-import BrowserFeatures from "util/BrowserFeatures";
 
 export interface ContextData {
   controller: string;

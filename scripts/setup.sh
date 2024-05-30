@@ -5,7 +5,7 @@ set -eo pipefail
 # This is available from the "downstream artifact" menu on any okta-auth-js build in Bacon.
 # DO NOT MERGE ANY CHANGES TO THIS LINE!!
 export AUTHJS_VERSION=""
-export INTERNAL_REGISTRY="${ARTIFACTORY_URL}/api/npm/npm-okta-release"
+export INTERNAL_REGISTRY="${ARTIFACTORY_URL}/api/npm/npm-okta-all"
 export PUBLIC_REGISTRY="https://registry.yarnpkg.com"
 
 function yarn_sync() {
@@ -52,9 +52,9 @@ fi
 if [ ! -z "$AUTHJS_VERSION" ]; then
   echo "Installing AUTHJS_VERSION: ${AUTHJS_VERSION}"
 
-  yarn global add @okta/siw-platform-scripts@0.7.0
+  yarn global add @okta/siw-platform-scripts@0.12.0
 
-  if ! siw-platform install-artifact -n @okta/okta-auth-js -v ${AUTHJS_VERSION} ; then
+  if ! siw-platform install-downstream @okta/okta-auth-js ${AUTHJS_VERSION} ; then
     echo "AUTHJS_VERSION could not be installed: ${AUTHJS_VERSION}"
     exit ${FAILED_SETUP}
   fi
