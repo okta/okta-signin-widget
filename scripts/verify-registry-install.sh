@@ -43,6 +43,13 @@ if ! npm i ${published_tarball}; then
   exit ${FAILED_SETUP}
 fi
 
+# install the specific version of auth-js the widget depends on within the sample to prevent potential type errors
+auth_js_version=$(cat node_modules/@okta/okta-signin-widget/package.json | jq -r ".dependencies[\"@okta/okta-auth-js\"]")
+if ! npm i @okta/okta-auth-js@${auth_js_version}; then
+  echo "install @okta/okta-auth-js@${auth_js_version} failed! Exiting..."
+  exit ${FAILED_SETUP}
+fi
+
 export ISSUER="https://oie-signin-widget.okta.com"
 export CLIENT_ID="0oa8lrg7ojTsbJgRQ696"
 

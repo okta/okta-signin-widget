@@ -106,7 +106,6 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
         getEventContext(transaction),
         getErrorEventContext(error as (AuthApiError | OAuthError)),
       );
-      return null;
     };
 
     const { fieldsToExclude, fieldsToTrim } = dataSchemaRef.current!;
