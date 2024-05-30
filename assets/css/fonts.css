@@ -1,45 +1,4 @@
 @font-face {
-    font-family: Proxima Nova;
-    font-style: normal;
-    font-weight: 400;
-    /* OKTA-667070 - address hard-coded preview static URL's */
-    src: url(https://op3static.oktacdn.com/assets/loginpage/font/assets/proximanova-reg-webfont.9d5837512674046fa816.eot);
-    src: url(https://op3static.oktacdn.com/assets/loginpage/font/assets/proximanova-reg-webfont.9d5837512674046fa816.eot?#iefix) format("embedded-opentype"), url(https://op3static.oktacdn.com/assets/loginpage/font/assets/proximanova-reg-webfont.353416ed0ff540352235.woff2) format("woff2"), url(https://op3static.oktacdn.com/assets/loginpage/font/assets/proximanova-reg-webfont.51ac1a980f546ac17d67.woff) format("woff"), url(https://op3static.oktacdn.com/assets/loginpage/font/assets/proximanova-reg-webfont.f9f2259180c0e36006aa.ttf) format("truetype"), url(https://op3static.oktacdn.com/assets/loginpage/font/assets/proximanova-reg-webfont.f3b703e6dcd5c6d19922.svg#proxima_nova_rgregular) format("svg")
-}
-
-@font-face {
-    font-family: Proxima Nova;
-    font-style: italic;
-    font-weight: 400;
-    src: url(https://op3static.oktacdn.com/assets/loginpage/font/assets/proximanova-regit-webfont.3f0c824b764202106b4e.eot);
-    src: url(https://op3static.oktacdn.com/assets/loginpage/font/assets/proximanova-regit-webfont.3f0c824b764202106b4e.eot?#iefix) format("embedded-opentype"), url(https://op3static.oktacdn.com/assets/loginpage/font/assets/proximanova-regit-webfont.51be743e399dfee28e6c.woff2) format("woff2"), url(https://op3static.oktacdn.com/assets/loginpage/font/assets/proximanova-regit-webfont.cda5d20fe3f8cd0ba460.woff) format("woff"), url(https://op3static.oktacdn.com/assets/loginpage/font/assets/proximanova-regit-webfont.fe55183829cda0b7085b.ttf) format("truetype"), url(https://op3static.oktacdn.com/assets/loginpage/font/assets/proximanova-regit-webfont.15e8ae07b638768b6c83.svg#proxima_novaregular_italic) format("svg")
-}
-
-@font-face {
-    font-family: Proxima Nova;
-    font-style: normal;
-    font-weight: 600;
-    src: url(https://op3static.oktacdn.com/assets/loginpage/font/assets/proximanova-sbold-webfont.ec5a60c81d1aa5db2a5b.eot);
-    src: url(https://op3static.oktacdn.com/assets/loginpage/font/assets/proximanova-sbold-webfont.ec5a60c81d1aa5db2a5b.eot?#iefix) format("embedded-opentype"), url(https://op3static.oktacdn.com/assets/loginpage/font/assets/proximanova-sbold-webfont.41acb8650115f83780fc.woff2) format("woff2"), url(https://op3static.oktacdn.com/assets/loginpage/font/assets/proximanova-sbold-webfont.78cef0e33b9c7cebcf75.woff) format("woff"), url(https://op3static.oktacdn.com/assets/loginpage/font/assets/proximanova-sbold-webfont.25ecfa3e3cee8643c95e.ttf) format("truetype"), url(https://op3static.oktacdn.com/assets/loginpage/font/assets/proximanova-sbold-webfont.d1907212b9a82c27bdbf.svg#proxima_nova_ltsemibold) format("svg")
-}
-
-@font-face {
-    font-family: Proxima Nova;
-    font-style: normal;
-    font-weight: 300;
-    src: url(https://op3static.oktacdn.com/assets/loginpage/font/assets/proximanova-light-webfont.e575665f9d85ebce5a75.eot);
-    src: url(https://op3static.oktacdn.com/assets/loginpage/font/assets/proximanova-light-webfont.e575665f9d85ebce5a75.eot?#iefix) format("embedded-opentype"), url(https://op3static.oktacdn.com/assets/loginpage/font/assets/proximanova-light-webfont.aba797dabec6686294a9.woff2) format("woff2"), url(https://op3static.oktacdn.com/assets/loginpage/font/assets/proximanova-light-webfont.2d7fad787fa83b607ab0.woff) format("woff"), url(https://op3static.oktacdn.com/assets/loginpage/font/assets/proximanova-light-webfont.bab6b55ab392cc61dace.ttf) format("truetype"), url(https://op3static.oktacdn.com/assets/loginpage/font/assets/proximanova-light-webfont.5b4b0ec11a06ec51e2f3.svg#proxima_nova_ltlight) format("svg")
-}
-
-@font-face {
-    font-family: Proxima Nova;
-    font-style: italic;
-    font-weight: 300;
-    src: url(https://op3static.oktacdn.com/assets/loginpage/font/assets/proximanova-lightitalic-webfont.e5901b2bf44424f5b952.eot);
-    src: url(https://op3static.oktacdn.com/assets/loginpage/font/assets/proximanova-lightitalic-webfont.e5901b2bf44424f5b952.eot?#iefix) format("embedded-opentype"), url(https://op3static.oktacdn.com/assets/loginpage/font/assets/proximanova-lightitalic-webfont.d131640268247c92a76a.woff2) format("woff2"), url(https://op3static.oktacdn.com/assets/loginpage/font/assets/proximanova-lightitalic-webfont.c39ab1f26be9af07bbc8.woff) format("woff"), url(https://op3static.oktacdn.com/assets/loginpage/font/assets/proximanova-lightitalic-webfont.635f41c946ef1429acf9.ttf) format("truetype"), url(https://op3static.oktacdn.com/assets/loginpage/font/assets/proximanova-lightitalic-webfont.65f213f85f874eb84782.svg#proxima_novalight_italic) format("svg")
-}
-
-@font-face {
     font-family: Public Sans;
     font-style: normal;
     font-weight: 400;
