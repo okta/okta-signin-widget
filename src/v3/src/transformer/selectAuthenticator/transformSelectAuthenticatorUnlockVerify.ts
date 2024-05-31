@@ -72,11 +72,13 @@ export const transformSelectAuthenticatorUnlockVerify: IdxStepTransformer = ({
     options: { buttons: authenticatorButtons, dataSe: 'authenticator-verify-list' },
   };
 
+  const identifier = getUIElementWithName('identifier', uischema.elements) as FieldElement;
+
   // TODO: OKTA-XXXXXX Remove this fork once AUTH_POLICY_FOR_ACCOUNT_MANAGEMENT monolith FF goes GA
   // Identifier-first unlock account flow was initially 'faked' in this transformer and released
-  // w/o backend changes. Backend changes ended up utilizing the 'unlock-account' remediation which
-  // can be used as a logical fork to support both the 'faked' and 'real' code paths
-  if (prevStepName === IDX_STEP.UNLOCK_ACCOUNT) {
+  // w/o backend changes. The backend changes ensure that this transformer is never hit with 
+  // an identifier UI schema element in the IDX response, so this can be used as a logical fork
+  if (!identifier || prevStepName === IDX_STEP.UNLOCK_ACCOUNT) {
     uischema.elements.unshift(verifyTitle, verifySubtitle, authenticatorList);
     return formBag;
   }
@@ -94,8 +96,6 @@ export const transformSelectAuthenticatorUnlockVerify: IdxStepTransformer = ({
       content: loc('unlockaccount', 'login'),
     },
   };
-
-  const identifier = getUIElementWithName('identifier', uischema.elements) as FieldElement;
 
   if (identifier) {
     // add username/identifier from config if provided
