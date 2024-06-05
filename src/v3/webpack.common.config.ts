@@ -101,6 +101,7 @@ const baseConfig: Partial<Configuration> = {
             '/node_modules/colorparsley',
             '/node_modules/@hcaptcha/loader',
             '/node_modules/@hcaptcha/react-hcaptcha',
+            '/node_modules/dompurify',
           ].some(filePathContains);
           const shallBeExcluded = [
             // /src/ will be handled in next rule
