@@ -53,6 +53,14 @@ if (!fs.existsSync(WIDGET_RC_JS)) {
   fs.copyFileSync(resolve(__dirname, '../..', '.widgetrc.sample.js'), WIDGET_RC_JS);
 }
 
+const hotReloadOptions = process.env.IE11_COMPAT_MODE === 'true' ? {
+  hot: false,
+  liveReload: false,
+  webSocketServer: false,
+} : {
+  hot: true,
+};
+
 const devConfig: Configuration = mergeWithRules({
   module: {
     rules: {
@@ -126,7 +134,7 @@ const devConfig: Configuration = mergeWithRules({
       ...process.env.IE11_COMPAT_MODE === 'true' ? [] : [new PreactRefreshPlugin()],
     ],
     devServer: {
-      hot: process.env.IE11_COMPAT_MODE !== 'true',
+      ...hotReloadOptions,
       host: HOST,
       watchFiles: STATIC_DIRS,
       static: STATIC_DIRS,
