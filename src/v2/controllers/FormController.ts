@@ -361,6 +361,7 @@ export default Controller.extend({
    */
   async showFormErrors(model, error, form) {
     /* eslint max-statements: [2, 24] */
+    const formName = model.get('formName');
     let errorObj;
     let idxStateError;
     let showErrorBanner = true;
@@ -395,7 +396,11 @@ export default Controller.extend({
 
     // TODO OKTA-408410: Widget should update the state on every new response. It should NOT do selective update.
     // For eg 429 rate-limit errors, we have to skip updating idx state, because error response is not an idx response.
-    if (Array.isArray(idxStateError?.neededToProceed) && idxStateError?.neededToProceed.length) {
+    // OKTA-725716: Reusing stateHandle of failed transaction for form 'identify-recovery' would result in a broken flow.
+    const shouldSaveFailedTransaction = Array.isArray(idxStateError?.neededToProceed)
+      && idxStateError.neededToProceed.length
+      && !['identify', 'identify-recovery'].includes(formName);
+    if (shouldSaveFailedTransaction) {
       await this.handleIdxResponse(idxStateError);
     }
   },
