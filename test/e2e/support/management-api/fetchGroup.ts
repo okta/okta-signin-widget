@@ -10,15 +10,18 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { User } from '@okta/okta-sdk-nodejs';
 import getOktaClient from './getOktaClient';
+import { Group } from '@okta/okta-sdk-nodejs';
 
-export default async function(user: User): Promise<void> {
+export default async function fetchGroup(groupName: string) {
   const oktaClient = getOktaClient();
-  await oktaClient.userApi.deactivateUser({
-    userId: user.id as string
-  });
-  await oktaClient.userApi.deleteUser({
-    userId: user.id as string
-  });
+
+  const groups: Group[] = [];
+  for await (const group of await oktaClient.groupApi.listGroups({q: groupName})) {
+    if (group) {
+      groups.push(group);
+    }
+  }
+  const foundGroup = groups.find(group => group.profile?.name === groupName);
+  return foundGroup;
 }

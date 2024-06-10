@@ -86,12 +86,13 @@ Given(
   // eslint-disable-next-line no-unused-vars
   async function (this: ActionContext, groupName?: string) {
     this.group = await createGroup(groupName);
-    assignAppToGroup(this.app.id, this.group.id);
+    assignAppToGroup(this.app.id as string, this.group.id as string);
   }
 );
 
 Given(
   /^a User named "([\w\s]+)" exists in the org$/,
+  { timeout: 30 * 1000 },
   async function (this: ActionContext, firstName: string) {
     if (process.env.LOCAL_MONOLITH) {
       this.monolithClient = new MonolithClient();
@@ -101,6 +102,13 @@ Given(
       this.credentials = await createCredentials(this.a18nClient, firstName);
     }
     this.user = await createUser(this.credentials);
+    this.users = {
+      ...this.users,
+      [firstName]: {
+        user: this.user,
+        credentials: this.credentials,
+      }
+    };
   }
 );
 
@@ -118,7 +126,8 @@ Given(
 );
 
 Given(
-  /^a User named "([^/w]+)" exists in the org and added to "([^/w]+)" group$/,
+  /^a User named "(.+)" exists in the org and added to "(.+)" group$/,
+  { timeout: 30 * 1000 },
   async function (this: ActionContext, firstName: string, groupName: string) {
     if (process.env.LOCAL_MONOLITH) {
       this.monolithClient = new MonolithClient();
@@ -128,6 +137,13 @@ Given(
       this.credentials = await createCredentials(this.a18nClient, firstName);
     }
     this.user = await createUser(this.credentials, [groupName] as never[]);
+    this.users = {
+      ...this.users,
+      [firstName]: {
+        user: this.user,
+        credentials: this.credentials,
+      }
+    };
   }
 );
 

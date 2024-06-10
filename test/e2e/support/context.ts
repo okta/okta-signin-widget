@@ -20,7 +20,13 @@ import A18nClient from './a18nClient';
 // eslint-disable-next-line no-unused-vars
 declare type SaveScreenshotFunction = (fileName?: string) => Promise<void>;
 
+interface UserContext {
+  credentials: UserCredentials;
+  user: User;
+}
+
 interface ActionContext {
+  users: Record<string, UserContext>;
   credentials: UserCredentials;
   user: User;
   app: Application;

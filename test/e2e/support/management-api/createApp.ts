@@ -1,21 +1,17 @@
 import { randomStr } from '../../util/random';
-import { getConfig } from '../../util/configUtil';
-import { Client } from '@okta/okta-sdk-nodejs';
+import getOktaClient from './getOktaClient';
+import { OpenIdConnectApplication, OpenIdConnectApplicationType } from '@okta/okta-sdk-nodejs';
 
 
 type Options = {
-  appType: string;
+  appType: OpenIdConnectApplicationType;
 }
 
 export default async function (options: Options) {
-  const config = getConfig();
-  const oktaClient = new Client({
-    orgUrl: config.orgUrl,
-    token: config.oktaAPIKey,
-  });
+  const oktaClient = getOktaClient();
 
   const { appType } = options;
-  const testApp = {
+  const testApp: OpenIdConnectApplication = {
     'name': 'oidc_client',
     'label': `Generated E2E Test Client - ${randomStr(6)}`,
     'signOnMode': 'OPENID_CONNECT',
@@ -51,6 +47,8 @@ export default async function (options: Options) {
     }
   };
 
-  const app = await oktaClient.createApplication(testApp);
+  const app = await oktaClient.applicationApi.createApplication({
+    application: testApp
+  });
   return app;
 }

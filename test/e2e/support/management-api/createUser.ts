@@ -11,19 +11,19 @@
  */
 
 
-import { Client, Group, User } from '../../../../node_modules/@okta/okta-sdk-nodejs';
-import { getConfig } from '../../util/configUtil';
+import { User, PasswordPolicy, PasswordPolicyRule } from '@okta/okta-sdk-nodejs';
 import deleteUser from './deleteUser';
 import { UserCredentials } from './createCredentials';
+import getOktaClient from './getOktaClient';
+import fetchGroup from './fetchGroup';
+import fetchPolicy from './fetchPolicy';
+import { getConfig } from '../../util/configUtil';
 
 const userGroup = 'Basic Auth Web';
 
 export default async (credentials: UserCredentials, assignToGroups = []): Promise<User> => {
   const config = getConfig();
-  const oktaClient = new Client({
-    orgUrl: config.orgUrl,
-    token: config.oktaAPIKey,
-  });
+  const oktaClient = getOktaClient();
 
   let user;
 
@@ -34,17 +34,18 @@ export default async (credentials: UserCredentials, assignToGroups = []): Promis
   };
 
   try {
-    user = await oktaClient.createUser({
-      profile: {
-        firstName: credentials.firstName,
-        lastName: credentials.lastName,
-        email: credentials.emailAddress,
-        login: credentials.emailAddress
+    user = await oktaClient.userApi.createUser({
+      body: {
+        profile: {
+          firstName: credentials.firstName,
+          lastName: credentials.lastName,
+          email: credentials.emailAddress,
+          login: credentials.emailAddress
+        },
+        credentials: {
+          password: { value: credentials.password }
+        }
       },
-      credentials: {
-        password: { value: credentials.password }
-      }
-    }, {
       activate: true
     });
 
@@ -56,32 +57,131 @@ export default async (credentials: UserCredentials, assignToGroups = []): Promis
     }
 
     // Create the group if it doesn't exist
-    let { value: testGroup } = await oktaClient.listGroups({
-      q: userGroup
-    }).next();
-
+    let testGroup = await fetchGroup(userGroup);
     if (!testGroup) {
-      testGroup = await oktaClient.createGroup(basicAuthGroup);
+      testGroup = await oktaClient.groupApi.createGroup({
+        group: basicAuthGroup
+      });
     }
-
-    await oktaClient.addUserToGroup((testGroup as Group).id, user.id);
+    await oktaClient.groupApi.assignUserToGroup({
+      userId: user.id as string,
+      groupId: testGroup.id as string,
+    });
 
     for (const groupName of assignToGroups) {
       // TODO: create test group and attach password recovery policy during test run when API supports it
-      let { value: testGroup } = await oktaClient.listGroups({
-        q: groupName
-      }).next();
-
-      if (!testGroup) {
-        const group = {
-          profile: {
-            name: groupName
+      let groupToAssign = await fetchGroup(groupName);
+      if (!groupToAssign) {
+        groupToAssign = await oktaClient.groupApi.createGroup({
+          group: {
+            profile: {
+              name: groupName
+            }
           }
-        };
-        testGroup = await oktaClient.createGroup(group);
+        });
       }
-
-      await oktaClient.addUserToGroup((testGroup as Group).id, user.id);
+      await oktaClient.groupApi.assignUserToGroup({
+        userId: user.id as string,
+        groupId: groupToAssign.id as string,
+      });
+      if (groupName === 'No Reset Password Group') {
+        // const defPasswordPolicy = await fetchPolicy({
+        //   policyType: 'PASSWORD',
+        //   policyName: 'Default Policy',
+        // });
+        // if (defPasswordPolicy) {
+        //   const policyRuleRequest: PasswordPolicyRule = {
+        //     name: 'No Reset Password Policy Rule for 1 user',
+        //     type: 'PASSWORD',
+        //     conditions: {
+        //       network: {
+        //         connection: 'ANYWHERE'
+        //       },
+        //       people: {
+        //         users: {
+        //           exclude: [
+        //             user.id as string,
+        //           ]
+        //         }
+        //       }
+        //     },
+        //     actions: {
+        //       passwordChange: {
+        //         access: 'ALLOW'
+        //       },
+        //       selfServicePasswordReset: {
+        //         access: 'ALLOW',
+        //         requirement: {
+        //           primary: {
+        //             methods: ['email']
+        //           },
+        //           stepUp: {
+        //             required: false
+        //           }
+        //         }
+        //       } as any as PasswordPolicyRuleAction,
+        //       selfServiceUnlock: {
+        //         access: 'ALLOW'
+        //       }
+        //     }
+        //   };
+        //   await oktaClient.policyApi.createPolicyRule({
+        //     policyId: defPasswordPolicy.id as string,
+        //     policyRule: policyRuleRequest,
+        //   });
+        // }
+      }
+      if (groupName === 'No Reset Password Group') {
+        let passwordPolicy = await fetchPolicy({
+          policyType: 'PASSWORD',
+          policyName: 'No Reset Password Policy',
+        });
+        if (!passwordPolicy) {
+          const passwordPolicyRequest: PasswordPolicy = {
+            name: 'No Reset Password Policy',
+            description: 'No Reset Password Policy',
+            type: 'PASSWORD',
+            status: 'ACTIVE',
+            conditions: {
+              people: {
+                groups: {
+                  include: [
+                    groupToAssign.id as string,
+                  ]
+                }
+              }
+            }
+          };
+          passwordPolicy = await oktaClient.policyApi.createPolicy({
+            policy: passwordPolicyRequest,
+            activate: true,
+          });
+          const policyRuleRequest: PasswordPolicyRule = {
+            name: 'No Reset Password Policy Rule',
+            type: 'PASSWORD',
+            conditions: {
+              network: {
+                connection: 'ANYWHERE'
+              }
+            },
+            actions: {
+              passwordChange: {
+                access: 'DENY'
+              },
+              selfServicePasswordReset: {
+                access: 'DENY'
+              },
+              selfServiceUnlock: {
+                access: 'DENY'
+              }
+            }
+          };
+          await oktaClient.policyApi.createPolicyRule({
+            policyId: passwordPolicy.id as string,
+            policyRule: policyRuleRequest,
+          });
+        }
+      }
     }
 
     return user;

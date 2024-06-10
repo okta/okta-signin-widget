@@ -1,13 +1,9 @@
-import { Client } from '@okta/okta-sdk-nodejs';
-import { getConfig } from '../../util/configUtil';
-
+import getOktaClient from './getOktaClient';
 
 export default async function (appId: string, groupId: string) {
-  const config = getConfig();
-  const oktaClient = new Client({
-    orgUrl: config.orgUrl,
-    token: config.oktaAPIKey,
+  const oktaClient = getOktaClient();
+  await oktaClient.applicationApi.assignGroupToApplication({
+    appId,
+    groupId,
   });
-
-  await oktaClient.createApplicationGroupAssignment(appId, groupId);
 }
