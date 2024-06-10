@@ -142,7 +142,7 @@ const Body = BaseFormWithPolling.extend({
                   AUTHENTICATION_CANCEL_REASONS.OV_ERROR,
                   xhr.status
                 );
-              } else if (countFailedPorts === ports.length) {
+              } else if (countFailedPorts === maxNumberOfPorts) {
                 // when challenge is responded by the wrong OS profile and
                 // all the ports are exhausted,
                 // cancel the polling like the probing has failed

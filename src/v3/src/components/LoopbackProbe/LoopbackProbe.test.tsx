@@ -53,11 +53,61 @@ describe('LoopbackProbe', () => {
   });
 
   it.each`
+    step                       | cancelStep                         | hasHttpsDomain
+    ${'device-challenge-poll'} | ${'authenticatorChallenge-cancel'} | ${false}
+    ${'challenge-poll'}        | ${'currentAuthenticator-cancel'}   | ${false}
+    ${'device-challenge-poll'} | ${'authenticatorChallenge-cancel'} | ${true}
+    ${'challenge-poll'}        | ${'currentAuthenticator-cancel'}   | ${true}
+  `('successfully probes ports and sends challenge', async ({ step, cancelStep, hasHttpsDomain }) => {
+    const domain = hasHttpsDomain ? 'https://localhost' : 'http://localhost';
+    server.use(
+      rest.get(`${domain}:2000/probe`, async (_, res, ctx) => res(ctx.status(500))),
+      rest.get(`${domain}:6511/probe`, async (_, res, ctx) => res(ctx.status(500))),
+      rest.get(`${domain}:6512/probe`, async (_, res, ctx) => res(ctx.status(200))),
+      rest.post(`${domain}:6512/challenge`, async (_, res, ctx) => res(ctx.status(200))),
+    );
+
+    const props: { uischema: LoopbackProbeElement } = {
+      uischema: {
+        type: 'LoopbackProbe',
+        options: {
+          deviceChallengePayload: {
+            ports: ['2000', '6511', '6512', '6513'],
+            domain: 'http://localhost',
+            challengeRequest: 'mockChallengeRequest',
+            probeTimeoutMillis: 100, // optional
+          },
+          cancelStep,
+          step,
+        },
+      },
+    };
+
+    if (hasHttpsDomain) {
+      props.uischema.options.deviceChallengePayload.httpsDomain = 'https://localhost';
+    }
+
+    render(<LoopbackProbe {...props} />);
+
+    // 300ms covers 3 probe requests at 100ms max each
+    await waitFor(() => expect(proceedStub).toHaveBeenCalledTimes(1), { timeout: 300 });
+
+    expect(proceedStub).toHaveBeenCalledWith({
+      step,
+      stateHandle: 'fake-state-handle',
+    });
+  });
+
+  it.each`
     step                       | cancelStep
     ${'device-challenge-poll'} | ${'authenticatorChallenge-cancel'}
     ${'challenge-poll'}        | ${'currentAuthenticator-cancel'}
-  `('successfully probes ports and sends challenge', async ({ step, cancelStep }) => {
+  `('successfully probes ports and sends challenge for http domain when https domain exists', async ({ step, cancelStep }) => {
     server.use(
+      rest.get('https://localhost:2000/probe', async (_, res, ctx) => res(ctx.status(500))),
+      rest.get('https://localhost:6511/probe', async (_, res, ctx) => res(ctx.status(500))),
+      rest.get('https://localhost:6512/probe', async (_, res, ctx) => res(ctx.status(500))),
+      rest.get('https://localhost:6513/probe', async (_, res, ctx) => res(ctx.status(500))),
       rest.get('http://localhost:2000/probe', async (_, res, ctx) => res(ctx.status(500))),
       rest.get('http://localhost:6511/probe', async (_, res, ctx) => res(ctx.status(500))),
       rest.get('http://localhost:6512/probe', async (_, res, ctx) => res(ctx.status(200))),
@@ -71,6 +121,7 @@ describe('LoopbackProbe', () => {
           deviceChallengePayload: {
             ports: ['2000', '6511', '6512', '6513'],
             domain: 'http://localhost',
+            httpsDomain: 'https://localhost',
             challengeRequest: 'mockChallengeRequest',
             probeTimeoutMillis: 100, // optional
           },
@@ -92,13 +143,19 @@ describe('LoopbackProbe', () => {
   });
 
   it.each`
-    step                       | cancelStep
-    ${'device-challenge-poll'} | ${'authenticatorChallenge-cancel'}
-    ${'challenge-poll'}        | ${'currentAuthenticator-cancel'}
-  `('found no ports', async ({ step, cancelStep }) => {
-    server.use(
+    step                       | cancelStep                         | hasHttpsDomain
+    ${'device-challenge-poll'} | ${'authenticatorChallenge-cancel'} | ${false}
+    ${'challenge-poll'}        | ${'currentAuthenticator-cancel'}   | ${false}
+    ${'device-challenge-poll'} | ${'authenticatorChallenge-cancel'} | ${true}
+    ${'challenge-poll'}        | ${'currentAuthenticator-cancel'}   | ${true}
+  `('found no ports', async ({ step, cancelStep, hasHttpsDomain }) => {
+    const handers = [
       rest.get(/http:\/\/localhost:\d{4}\/probe/, async (_, res, ctx) => res(ctx.status(500))),
-    );
+    ];
+    if (hasHttpsDomain) {
+      handers.push(rest.get(/https:\/\/localhost:\d{4}\/probe/, async (_, res, ctx) => res(ctx.status(500))));
+    }
+    server.use(...handers);
 
     const props: { uischema: LoopbackProbeElement } = {
       uischema: {
@@ -115,6 +172,10 @@ describe('LoopbackProbe', () => {
         },
       },
     };
+
+    if (hasHttpsDomain) {
+      props.uischema.options.deviceChallengePayload.httpsDomain = 'https://localhost';
+    }
 
     render(<LoopbackProbe {...props} />);
 
@@ -133,8 +194,62 @@ describe('LoopbackProbe', () => {
     });
   });
 
-  it('successfully probes ports but challenge returns non-503 error status', async () => {
+  it.each`
+    hasHttpsDomain
+    ${false}
+    ${true}
+  `('successfully probes ports but challenge returns non-503 error status', async ({ hasHttpsDomain }) => {
+    const domain = hasHttpsDomain ? 'https://localhost' : 'http://localhost';
     server.use(
+      rest.get(`${domain}:2000/probe`, async (_, res, ctx) => res(ctx.status(500))),
+      rest.get(`${domain}:6511/probe`, async (_, res, ctx) => res(ctx.status(500))),
+      rest.get(`${domain}:6512/probe`, async (_, res, ctx) => res(ctx.status(200))),
+      rest.post(`${domain}:6512/challenge`, async (_, res, ctx) => res(ctx.status(400))),
+    );
+
+    const props: { uischema: LoopbackProbeElement } = {
+      uischema: {
+        type: 'LoopbackProbe',
+        options: {
+          deviceChallengePayload: {
+            ports: ['2000', '6511', '6512', '6513'],
+            domain: 'http://localhost',
+            challengeRequest: 'mockChallengeRequest',
+            probeTimeoutMillis: 100, // optional
+          },
+          cancelStep: 'authenticatorChallenge-cancel',
+          step: 'device-challenge-poll',
+        },
+      },
+    };
+
+    if (hasHttpsDomain) {
+      props.uischema.options.deviceChallengePayload.httpsDomain = 'https://localhost';
+    }
+
+    render(<LoopbackProbe {...props} />);
+
+    // 300ms covers 3 probe requests at 100ms max each
+    await waitFor(() => expect(proceedStub).toHaveBeenCalledTimes(1), { timeout: 300 });
+
+    expect(proceedStub).toHaveBeenCalledWith({
+      actions: [{
+        name: 'authenticatorChallenge-cancel',
+        params: {
+          reason: 'OV_RETURNED_ERROR',
+          statusCode: 400,
+        },
+      }],
+      stateHandle: 'fake-state-handle',
+    });
+  });
+
+  it('successfully probes ports but challenge returns non-503 error status for http domain when https domain exists', async () => {
+    server.use(
+      rest.get('https://localhost:2000/probe', async (_, res, ctx) => res(ctx.status(500))),
+      rest.get('https://localhost:6511/probe', async (_, res, ctx) => res(ctx.status(500))),
+      rest.get('https://localhost:6512/probe', async (_, res, ctx) => res(ctx.status(500))),
+      rest.get('https://localhost:6513/probe', async (_, res, ctx) => res(ctx.status(500))),
       rest.get('http://localhost:2000/probe', async (_, res, ctx) => res(ctx.status(500))),
       rest.get('http://localhost:6511/probe', async (_, res, ctx) => res(ctx.status(500))),
       rest.get('http://localhost:6512/probe', async (_, res, ctx) => res(ctx.status(200))),
@@ -148,6 +263,7 @@ describe('LoopbackProbe', () => {
           deviceChallengePayload: {
             ports: ['2000', '6511', '6512', '6513'],
             domain: 'http://localhost',
+            httpsDomain: 'https://localhost',
             challengeRequest: 'mockChallengeRequest',
             probeTimeoutMillis: 100, // optional
           },
@@ -174,8 +290,60 @@ describe('LoopbackProbe', () => {
     });
   });
 
-  it('challenge returns 503 error status but later port succeeds', async () => {
+  it.each`
+    hasHttpsDomain
+    ${false}
+    ${true}
+  `('challenge returns 503 error status but later port succeeds', async ({ hasHttpsDomain }) => {
+    const domain = hasHttpsDomain ? 'https://localhost' : 'http://localhost';
     server.use(
+      rest.get(`${domain}:2000/probe`, async (_, res, ctx) => res(ctx.status(500))),
+      rest.get(`${domain}:6511/probe`, async (_, res, ctx) => res(ctx.status(500))),
+      rest.get(`${domain}:6512/probe`, async (_, res, ctx) => res(ctx.status(200))),
+      rest.get(`${domain}:6513/probe`, async (_, res, ctx) => res(ctx.status(200))),
+      rest.post(`${domain}:6512/challenge`, async (_, res, ctx) => res(ctx.status(503))),
+      rest.post(`${domain}:6513/challenge`, async (_, res, ctx) => res(ctx.status(200))),
+    );
+
+    const props: { uischema: LoopbackProbeElement } = {
+      uischema: {
+        type: 'LoopbackProbe',
+        options: {
+          deviceChallengePayload: {
+            ports: ['2000', '6511', '6512', '6513'],
+            domain: 'http://localhost',
+            challengeRequest: 'mockChallengeRequest',
+            probeTimeoutMillis: 100, // optional
+          },
+          cancelStep: 'authenticatorChallenge-cancel',
+          step: 'device-challenge-poll',
+        },
+      },
+    };
+
+    if (hasHttpsDomain) {
+      props.uischema.options.deviceChallengePayload.httpsDomain = 'https://localhost';
+    }
+
+    render(<LoopbackProbe {...props} />);
+
+    // 400ms covers 4 probe requests at 100ms max each
+    await waitFor(() => expect(proceedStub).toHaveBeenCalledTimes(1), { timeout: 400 });
+
+    expect(proceedStub).toHaveBeenCalledWith({
+      step: 'device-challenge-poll',
+      stateHandle: 'fake-state-handle',
+    });
+  });
+
+  it('challenge returns 503 error status but later port succeeds for http domain when https domain exists', async () => {
+    server.use(
+      rest.get('https://localhost:2000/probe', async (_, res, ctx) => res(ctx.status(500))),
+      rest.get('https://localhost:6511/probe', async (_, res, ctx) => res(ctx.status(500))),
+      rest.get('https://localhost:6512/probe', async (_, res, ctx) => res(ctx.status(200))),
+      rest.get('https://localhost:6513/probe', async (_, res, ctx) => res(ctx.status(200))),
+      rest.post('https://localhost:6512/challenge', async (_, res, ctx) => res(ctx.status(503))),
+      rest.post('https://localhost:6513/challenge', async (_, res, ctx) => res(ctx.status(503))),
       rest.get('http://localhost:2000/probe', async (_, res, ctx) => res(ctx.status(500))),
       rest.get('http://localhost:6511/probe', async (_, res, ctx) => res(ctx.status(500))),
       rest.get('http://localhost:6512/probe', async (_, res, ctx) => res(ctx.status(200))),
@@ -191,6 +359,7 @@ describe('LoopbackProbe', () => {
           deviceChallengePayload: {
             ports: ['2000', '6511', '6512', '6513'],
             domain: 'http://localhost',
+            httpsDomain: 'https://localhost',
             challengeRequest: 'mockChallengeRequest',
             probeTimeoutMillis: 100, // optional
           },
@@ -211,8 +380,12 @@ describe('LoopbackProbe', () => {
     });
   });
 
-  it('port probe request times out', async () => {
-    server.use(
+  it.each`
+    hasHttpsDomain
+    ${false}
+    ${true}
+  `('port probe request times out', async ({ hasHttpsDomain }) => {
+    const handers = [
       rest.get('http://localhost:2000/probe', async (_, res, ctx) => res(ctx.status(500))),
       rest.get('http://localhost:6511/probe', async (_, res, ctx) => res(ctx.status(500))),
       rest.get('http://localhost:6512/probe', async (_, res, ctx) => res(
@@ -222,7 +395,19 @@ describe('LoopbackProbe', () => {
         ctx.status(200),
       )),
       rest.get('http://localhost:6513/probe', async (_, res, ctx) => res(ctx.status(500))),
-    );
+    ];
+    if (hasHttpsDomain) {
+      handers.push(...[
+        rest.get('https://localhost:2000/probe', async (_, res, ctx) => res(ctx.status(500))),
+        rest.get('https://localhost:6511/probe', async (_, res, ctx) => res(ctx.status(500))),
+        rest.get('https://localhost:6512/probe', async (_, res, ctx) => res(
+          ctx.delay(200),
+          ctx.status(200),
+        )),
+        rest.get('https://localhost:6513/probe', async (_, res, ctx) => res(ctx.status(500))),
+      ]);
+    }
+    server.use(...handers);
 
     const props: { uischema: LoopbackProbeElement } = {
       uischema: {
@@ -240,10 +425,17 @@ describe('LoopbackProbe', () => {
       },
     };
 
+    if (hasHttpsDomain) {
+      props.uischema.options.deviceChallengePayload.httpsDomain = 'https://localhost';
+    }
+
     render(<LoopbackProbe {...props} />);
 
-    // 500ms covers 3 probe requests at 100ms max each plus 1 delayed request at 200ms
-    await waitFor(() => expect(proceedStub).toHaveBeenCalledTimes(1), { timeout: 500 });
+    // each probe timeout is 100ms
+    // 250ms covers 3 probe requests resolves asap plus 1 delayed request at 200ms
+    // 350ms covers 6 probe requests resolves asap plus 2 delayed requests at 200ms
+    const timeout = hasHttpsDomain ? 350 : 250;
+    await waitFor(() => expect(proceedStub).toHaveBeenCalledTimes(1), { timeout });
 
     expect(proceedStub).toHaveBeenCalledWith({
       actions: [{

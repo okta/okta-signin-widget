@@ -83,7 +83,7 @@ const loopbackSuccessWithHttpsMock = RequestMock()
     'access-control-allow-methods': 'POST, GET, OPTIONS'
   });
 
-  const loopbackSuccessWithHttpMock = RequestMock()
+const loopbackSuccessWithHttpMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/introspect/)
   .respond(identifyWithDeviceProbingHttpsLoopback)
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
@@ -417,6 +417,9 @@ test.skip
 
 test
   .requestHooks(loopbackSuccessLogger, loopbackSuccessWithHttpsMock)('in loopback server approach, https loopback succeeds', async t => {
+    failureCount = 0;
+    // after OKTA-715718 is fixed, should use ".eql(0)" for ".lte(otherProbeCount)" assertions
+    const otherProbeCount = process.env.OKTA_SIW_GEN3 === 'true' ? 0 : 1;
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
     await t.expect(deviceChallengePollPageObject.getBeaconSelector()).contains(BEACON_CLASS);
@@ -429,11 +432,11 @@ test
     await t.expect(loopbackSuccessLogger.count(
       record => record.response.statusCode === 500 &&
         record.request.url.match(/randomorgid.authenticatorlocaldev.com:6512\/probe/)
-    )).eql(1);
+    )).lte(otherProbeCount);
     await t.expect(loopbackSuccessLogger.count(
       record => record.response.statusCode === 500 &&
         record.request.url.match(/randomorgid.authenticatorlocaldev.com:6513\/probe/)
-    )).eql(1);
+    )).lte(otherProbeCount);
     await t.expect(loopbackSuccessLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.method === 'get' &&
@@ -454,6 +457,7 @@ test
 
 test
   .requestHooks(loopbackSuccessLogger, loopbackSuccessWithHttpMock)('in loopback server approach, https loopback fails then http loopback succeeds', async t => {
+    failureCount = 0;
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
     await t.expect(deviceChallengePollPageObject.getBeaconSelector()).contains(BEACON_CLASS);
