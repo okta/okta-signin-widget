@@ -3928,8 +3928,8 @@
 
 "@okta/okta-sdk-nodejs@^7.1.0":
   version "7.1.0"
-  resolved "https://artifacts.aue1e.internal:443/artifactory/api/npm/npm-okta-all/@okta/okta-sdk-nodejs/-/@okta/okta-sdk-nodejs-7.1.0.tgz#28d506351b400d840660b1400541b6b11bc39b16"
-  integrity sha1-KNUGNRtADYQGYLFABUG2sRvDmxY=
+  resolved "https://registry.yarnpkg.com/@okta/okta-sdk-nodejs/-/okta-sdk-nodejs-7.1.0.tgz#28d506351b400d840660b1400541b6b11bc39b16"
+  integrity sha512-tNQymIh6V/kC94msSUmLMyJ1mVtj65h6+JiTstjjC3hEY2Dz4BbM1WZtieErbRa75qhNJCVbHaLG2M+6RrgfYg==
   dependencies:
     "@types/node-forge" "^1.3.1"
     deep-copy "^1.4.2"
