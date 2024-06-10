@@ -14,6 +14,8 @@
 import { After, AfterStep } from '@cucumber/cucumber';
 import ActionContext from '../support/context';
 import deleteUserAndCredentials from '../support/management-api/deleteUserAndCredentials';
+import deleteApp from '../support/management-api/deleteApp';
+import deleteGroup from '../support/management-api/deleteGroup';
 import TestAppPage from '../page-objects/test-app.page';
 
 // eslint-disable-next-line no-unused-vars
@@ -32,11 +34,10 @@ After(async function(this: ActionContext) {
   }
 
   if (this.app) {
-    await this.app.deactivate();
-    await this.app.delete();
+    await deleteApp(this.app);
   }
   if (this.group) {
-    await this.group.delete();
+    await deleteGroup(this.group);
   }
 });
 
