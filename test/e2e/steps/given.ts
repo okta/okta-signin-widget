@@ -22,6 +22,7 @@ import createCredentials from '../support/management-api/createCredentials'
 import createUser from '../support/management-api/createUser'
 import createApp from '../support/management-api/createApp'
 import createGroup from '../support/management-api/createGroup';
+import fetchGroup from '../support/management-api/fetchGroup'
 import assignAppToGroup from '../support/management-api/assignAppToGroup';
 
 
@@ -85,7 +86,8 @@ Given(
   /^a group ("[\w\s]+") is assigned to this app$/,
   // eslint-disable-next-line no-unused-vars
   async function (this: ActionContext, groupName?: string) {
-    this.group = await createGroup(groupName);
+
+    this.group = await fetchGroup(groupName) ?? await createGroup(groupName);
     assignAppToGroup(this.app.id as string, this.group.id as string);
   }
 );
