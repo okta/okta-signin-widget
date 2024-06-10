@@ -90,7 +90,7 @@ export const config: WebdriverIO.Config = {
   framework: 'cucumber',
   cucumberOpts,   // no edits required
   capabilities,   // no edits required
-  //services,
+  services,
   reporters: [
     'spec',
     ['junit', {
