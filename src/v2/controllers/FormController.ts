@@ -399,7 +399,7 @@ export default Controller.extend({
     // OKTA-725716: Reusing stateHandle of failed transaction for form 'identify-recovery' would result in a broken flow.
     const shouldSaveFailedTransaction = Array.isArray(idxStateError?.neededToProceed)
       && idxStateError.neededToProceed.length
-      && !['identify-recovery'].includes(formName);
+      && !['identify', 'identify-recovery'].includes(formName);
     if (shouldSaveFailedTransaction) {
       await this.handleIdxResponse(idxStateError);
     }
