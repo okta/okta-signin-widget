@@ -14,7 +14,14 @@ const Body = BaseForm.extend({
 
   initialize() {
     BaseForm.prototype.initialize.apply(this, arguments);
-    this.model.set('identifier', this.options.appState.get('lastIdentifier'));
+    const identifier = this.options.appState.get('lastIdentifier');
+    if (identifier) {
+      this.model.set('identifier', identifier);
+      // Toggle Form saving status (e.g. disabling save button, etc)
+      this.model.trigger('request');
+      // Auto submit
+      this.trigger('save', this.model);
+    }
   },
 
   getUISchema() {

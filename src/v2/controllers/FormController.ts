@@ -166,6 +166,7 @@ export default Controller.extend({
       settings.getAuthClient().transactionManager.clear({ clearIdxResponse: false });
       sessionStorageHelper.removeStateHandle();
       appState.clearAppStateCache();
+      appState.unset('lastIdentifier');
 
       if (settings.get('oauth2Enabled')) {
         // In this case we need to restart login flow and recreate transaction meta
