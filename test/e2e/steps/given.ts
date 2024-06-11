@@ -87,7 +87,7 @@ Given(
   // eslint-disable-next-line no-unused-vars
   async function (this: ActionContext, groupName?: string) {
 
-    this.group = await fetchGroup(groupName) ?? await createGroup(groupName);
+    this.group = await fetchGroup(groupName as string) ?? await createGroup(groupName);
     assignAppToGroup(this.app.id as string, this.group.id as string);
   }
 );
