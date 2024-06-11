@@ -36,6 +36,7 @@ const UNKNOWN_USER_I8N_KEY = "idx.unknown.user";
 const local: Record<string, ModelProperty> = {
   user: 'object',        // optional
   currentFormName: 'string',
+  lastIdentifier: 'string',
   idx: 'object',
   remediations: 'array',
   dynamicRefreshInterval: 'number',
@@ -258,7 +259,7 @@ export default class AppState extends Model {
     // clear appState before setting new values
     const attrs = {};
     for (const key in this.attributes) {
-      if (key !== 'currentFormName') {
+      if (key !== 'currentFormName' && key !== 'lastIdentifier') {
         attrs[key] = void 0;
       }
     }
