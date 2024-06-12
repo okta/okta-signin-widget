@@ -67,7 +67,7 @@ describe('PhoneChallengeTransformer Tests', () => {
       subtitleKey,
       'login',
       [`&lrm;${redactedPhone}`],
-      { $1: { element: 'span', attributes: { class: 'strong no-translate' } } },
+      { $1: { element: 'span', attributes: { class: 'strong no-translate nowrap' } } },
     );
 
     expect(updatedFormBag.uischema.elements[3].type).toBe('Description');
@@ -109,7 +109,7 @@ describe('PhoneChallengeTransformer Tests', () => {
       subtitleKey,
       'login',
       [`&lrm;${redactedPhone}`],
-      { $1: { element: 'span', attributes: { class: 'strong no-translate' } } },
+      { $1: { element: 'span', attributes: { class: 'strong no-translate nowrap' } } },
     );
 
     expect(updatedFormBag.uischema.elements[2].type).toBe('Description');
@@ -153,7 +153,7 @@ describe('PhoneChallengeTransformer Tests', () => {
       'login',
       [`&lrm;${redactedPhone}`, mockNickname],
       {
-        $1: { element: 'span', attributes: { class: 'strong no-translate' } },
+        $1: { element: 'span', attributes: { class: 'strong no-translate nowrap' } },
         $2: {
           element: 'span',
           attributes: { class: 'strong no-translate authenticator-verify-nickname' },
@@ -262,7 +262,7 @@ describe('PhoneChallengeTransformer Tests', () => {
       subtitleKey,
       'login',
       [`&lrm;${redactedPhone}`],
-      { $1: { element: 'span', attributes: { class: 'strong no-translate' } } },
+      { $1: { element: 'span', attributes: { class: 'strong no-translate nowrap' } } },
     );
 
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).type).toBe('Description');
@@ -306,7 +306,7 @@ describe('PhoneChallengeTransformer Tests', () => {
       'login',
       [`&lrm;${redactedPhone}`, mockNickname],
       {
-        $1: { element: 'span', attributes: { class: 'strong no-translate' } },
+        $1: { element: 'span', attributes: { class: 'strong no-translate nowrap' } },
         $2: {
           element: 'span',
           attributes: { class: 'strong no-translate authenticator-verify-nickname' },
