@@ -151,12 +151,28 @@ export default Controller.extend({
 
   // eslint-disable-next-line max-statements
   async handleInvokeAction(actionPath = '', actionParams = {}) {
+    const { appState, settings } = this.options;
+
     if (actionPath === ORG_PASSWORD_RECOVERY_LINK) {
-      this.options.appState.trigger('restartLoginFlow', 'resetPassword');
-      return;
+      settings.getAuthClient().transactionManager.clear({ clearIdxResponse: false });
+      sessionStorageHelper.removeStateHandle();
+      if (settings.get('oauth2Enabled')) {
+        appState.trigger('restartLoginFlow', 'resetPassword');
+        return;
+      } else {
+        // cancel without rendering
+        const invokeOptions: ProceedOptions = {
+          exchangeCodeForTokens: false,
+          stateHandle: appState.get('idx').context.stateHandle,
+          actions: [{
+            name: 'cancel',
+            params: {}
+          }]
+        };
+        await this.invokeAction(invokeOptions, false);
+      }
     }
   
-    const { appState, settings } = this.options;
     const idx = appState.get('idx');
     const { stateHandle } = idx.context;
     let invokeOptions: ProceedOptions = {
@@ -213,7 +229,7 @@ export default Controller.extend({
     await this.invokeAction(invokeOptions);
   },
 
-  async invokeAction(invokeOptions) {
+  async invokeAction(invokeOptions, handleIdxResponse = true) {
     const authClient = this.options.settings.getAuthClient();
     let resp;
     let error;
@@ -233,7 +249,9 @@ export default Controller.extend({
     }
 
     // process response, may render a new form
-    await this.handleIdxResponse(resp);
+    if (handleIdxResponse) {
+      await this.handleIdxResponse(resp);
+    }
   },
 
   // eslint-disable-next-line max-statements, complexity
