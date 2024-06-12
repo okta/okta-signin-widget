@@ -14,7 +14,7 @@ import ViewFactory from '../view-builder/ViewFactory';
 import IonResponseHelper from '../ion/IonResponseHelper';
 import { getV1ClassName } from '../ion/ViewClassNamesFactory';
 import {
-  FORMS, TERMINAL_FORMS, FORM_NAME_TO_OPERATION_MAP, FORMS_WITHOUT_SAVING_FAILED_TRANSACTION
+  FORMS, TERMINAL_FORMS, FORM_NAME_TO_OPERATION_MAP, ORG_PASSWORD_RECOVERY_LINK
 } from '../ion/RemediationConstants';
 import transformPayload from '../ion/payloadTransformer';
 import Util from 'util/Util';
@@ -151,6 +151,11 @@ export default Controller.extend({
 
   // eslint-disable-next-line max-statements
   async handleInvokeAction(actionPath = '', actionParams = {}) {
+    if (actionPath === ORG_PASSWORD_RECOVERY_LINK) {
+      this.options.appState.trigger('restartLoginFlow', 'resetPassword');
+      return;
+    }
+  
     const { appState, settings } = this.options;
     const idx = appState.get('idx');
     const { stateHandle } = idx.context;

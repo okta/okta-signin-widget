@@ -246,7 +246,7 @@ class BaseLoginRouter extends Router<Settings, BaseLoginRouterOptions> {
     return idxResponse?.rawIdxState?.success || idxResponse?.rawIdxState?.successWithInteractionCode;
   }
 
-  restartLoginFlow() {
+  restartLoginFlow(flow) {
     // clear all transaction data and saved IDX response
     this.settings.getAuthClient().transactionManager.clear();
     this.appState.set('idx', undefined);
@@ -260,6 +260,8 @@ class BaseLoginRouter extends Router<Settings, BaseLoginRouterOptions> {
 
     // remove all event listeners from current controller instance. A new instance will be created in render().
     this.controller.stopListening();
+
+    authClient.idx.setFlow(flow ?? this.settings.get('flow') ?? 'default');
 
     // Re-render the widget
     this.render(this.controller.constructor);
