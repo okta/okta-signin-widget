@@ -407,6 +407,9 @@ export default Controller.extend({
     model.trigger('error', model, errorObj, showErrorBanner);
     idxStateError = Object.assign({}, idxStateError, {hasFormError: true});
 
+    // OKTA-725716: Don't save failed IDX response to state
+
+    // Save identifier to be auto filled on EnrollProfileView and IdentifyRecoveryView
     if (formName === FORMS.IDENTIFY) {
       const identifier = model.get('identifier');
       this.options.appState.set('lastIdentifier', identifier);
