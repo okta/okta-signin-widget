@@ -153,24 +153,13 @@ export default Controller.extend({
   async handleInvokeAction(actionPath = '', actionParams = {}) {
     const { appState, settings } = this.options;
 
-    if (actionPath === ORG_PASSWORD_RECOVERY_LINK) {
-      settings.getAuthClient().transactionManager.clear({ clearIdxResponse: false });
-      sessionStorageHelper.removeStateHandle();
-      if (settings.get('oauth2Enabled')) {
-        appState.trigger('restartLoginFlow', 'resetPassword');
-        return;
-      } else {
-        // cancel without rendering
-        const invokeOptions: ProceedOptions = {
-          exchangeCodeForTokens: false,
-          stateHandle: appState.get('idx').context.stateHandle,
-          actions: [{
-            name: 'cancel',
-            params: {}
-          }]
-        };
-        await this.invokeAction(invokeOptions, false);
-      }
+    // For self-hosted scenario we need to start reset flow at identify page from scratch.
+    //  (Reusing state handle of transaction after failed sign-in attempt for reset flow is error prone.)
+    // For Okta-hosted scenario we don't need to cancel/restart flow because SIW receives fresh state token
+    //  from backend on page load and doesn't save state handle to session storage after error.
+    if (actionPath === ORG_PASSWORD_RECOVERY_LINK && settings.get('oauth2Enabled')) {
+      appState.trigger('restartLoginFlow', 'resetPassword');
+      return;
     }
   
     const idx = appState.get('idx');
