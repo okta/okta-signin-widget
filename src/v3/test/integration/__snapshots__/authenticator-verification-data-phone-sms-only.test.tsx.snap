@@ -156,7 +156,7 @@ exports[`authenticator-verification-data-phone-sms-only should render form 1`] =
                       >
                         Send a code via SMS to 
                         <span
-                          class="strong no-translate"
+                          class="strong no-translate nowrap"
                         >
                           ‎+1 XXX-XXX-4601
                         </span>

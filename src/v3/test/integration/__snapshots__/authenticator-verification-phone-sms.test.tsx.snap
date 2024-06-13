@@ -159,7 +159,7 @@ exports[`authenticator-verification-phone-sms should render form 1`] = `
                       >
                         A code was sent to 
                         <span
-                          class="strong no-translate"
+                          class="strong no-translate nowrap"
                         >
                           ‎+1 XXX-XXX-4601
                         </span>
