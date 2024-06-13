@@ -207,7 +207,7 @@ test
     await t.expect(pageTitle).contains('Verify with your phone');
     await t.expect(pageSubtitle).contains('Send a code via SMS to');
     await t.expect(pageSubtitle).contains('+1 XXX-XXX-2342');
-    await t.expect(challengePhonePageObject.elementExists('.okta-form-subtitle > span.no-translate.nowrap')).ok();
+    await t.expect(challengePhonePageObject.subtitleContainsNoWrapElement()).ok();
     await t.expect(primaryButtonText).contains('Receive a code via SMS');
     await t.expect(secondaryButtonText).contains('Receive a voice call instead');
 
@@ -397,7 +397,7 @@ test
     await t.expect(challengePhonePageObject.getSaveButtonLabel()).eql('Verify');
     await t.expect(pageSubtitle).contains('A code was sent to');
     await t.expect(pageSubtitle).contains('Enter the code below to verify.');
-    await t.expect(challengePhonePageObject.elementExists('.okta-form-subtitle > span.no-translate.nowrap')).ok();
+    await t.expect(challengePhonePageObject.subtitleContainsNoWrapElement()).ok();
   });
 
 test
