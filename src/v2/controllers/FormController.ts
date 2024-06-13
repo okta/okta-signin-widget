@@ -154,7 +154,7 @@ export default Controller.extend({
     const { appState, settings } = this.options;
 
     // For self-hosted scenario we need to start reset flow at identify page from scratch.
-    //  (Reusing state handle of transaction after failed sign-in attempt for reset flow is error prone.)
+    //  (Reusing state handle of transaction after failed sign-in attempt for reset flow is error prone)
     // For Okta-hosted scenario we don't need to cancel/restart flow because SIW receives fresh state token
     //  from backend on page load and doesn't save state handle to session storage after error.
     if (actionPath === ORG_PASSWORD_RECOVERY_LINK && settings.get('oauth2Enabled')) {
@@ -218,7 +218,7 @@ export default Controller.extend({
     await this.invokeAction(invokeOptions);
   },
 
-  async invokeAction(invokeOptions, handleIdxResponse = true) {
+  async invokeAction(invokeOptions) {
     const authClient = this.options.settings.getAuthClient();
     let resp;
     let error;
@@ -238,9 +238,7 @@ export default Controller.extend({
     }
 
     // process response, may render a new form
-    if (handleIdxResponse) {
-      await this.handleIdxResponse(resp);
-    }
+    await this.handleIdxResponse(resp);
   },
 
   // eslint-disable-next-line max-statements, complexity
