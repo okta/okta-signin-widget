@@ -1,6 +1,6 @@
 #!/bin/bash
 
-INTERNAL_REGISTRY="${ARTIFACTORY_URL}/api/npm/npm-okta-release"
+INTERNAL_REGISTRY="${ARTIFACTORY_URL}/api/npm/npm-okta-all"
 REPO_PATH=$OKTA_HOME/$REPO
 
 if ! setup_service node v16.19.1 &> /dev/null; then
