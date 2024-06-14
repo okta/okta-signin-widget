@@ -37,7 +37,7 @@ const Body = BaseForm.extend(
         : loc('oie.phone.verify.call.sendText', 'login');
       const carrierChargesText = loc('oie.phone.carrier.charges', 'login');
       const isPhoneNumberAvailable = this.model.get('phoneNumber') !== loc('oie.phone.alternate.title', 'login');
-      const extraCssClasses = isPhoneNumberAvailable ? 'strong no-translate' : '';
+      const extraCssClasses = isPhoneNumberAvailable ? 'strong no-translate nowrap' : '';
       let nicknameText = isPhoneNumberAvailable ? this.model.get('nickname') : '';
       let extraNicknameCssClasses = '';
       if (nicknameText !== '') {

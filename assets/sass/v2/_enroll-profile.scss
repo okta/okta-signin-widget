@@ -9,6 +9,10 @@
       color: $dark-text-color;
       word-break: break-all;
     }
+
+    span.nowrap {
+      white-space: nowrap;
+    }
   }
 }
 

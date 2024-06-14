@@ -442,7 +442,7 @@ const getPhoneVerificationSubtitleTextContent = (
         'login',
         [phoneNumberWithUnicode, nickname],
         {
-          $1: { element: 'span', attributes: { class: 'strong no-translate' } },
+          $1: { element: 'span', attributes: { class: 'strong no-translate nowrap' } },
           $2: {
             element: 'span',
             attributes: { class: 'strong no-translate authenticator-verify-nickname' },
@@ -453,7 +453,7 @@ const getPhoneVerificationSubtitleTextContent = (
         i18nMap[step][primaryMethod].withPhoneWithoutNickName,
         'login',
         [phoneNumberWithUnicode],
-        { $1: { element: 'span', attributes: { class: 'strong no-translate' } } },
+        { $1: { element: 'span', attributes: { class: 'strong no-translate nowrap' } } },
       );
   }
   return loc(i18nMap[step][primaryMethod].withoutPhone, 'login');
