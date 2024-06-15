@@ -21,7 +21,7 @@ git checkout $RELEASE_BRANCH
 
 # update files
 npm config set @okta:registry ${INTERNAL_REGISTRY}
-yarn global add @okta/siw-platform-scripts@0.13.0-gd64419b
+yarn global add @okta/siw-platform-scripts@0.13.0-g1c53b5b
 
 if ! siw-platform weekly-release-update --ver=$RELEASE_VERSION --repoPath=$REPO_PATH ; then
 	echo "weekly-release-update script failed : repo path: $REPO_PATH : release version: $RELEASE_VERSION"
