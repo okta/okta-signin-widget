@@ -81,7 +81,7 @@ const Button: UISchemaElementComponent<{
     <OdyButton
       label={label ?? ''}
       type={type}
-      variant={variant ?? 'secondary'}
+      variant={variant ?? 'primary'}
       isFullWidth={wide ?? true}
       buttonRef={focusRef}
       isDisabled={loading || disabled}
