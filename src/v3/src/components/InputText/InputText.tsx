@@ -73,7 +73,7 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
       onBlur={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         handleBlur?.(e?.currentTarget?.value);
       }}
-      testId={dataSe}
+      testId={"test"}
       type="text"
       value={value as string ?? ''}
     />
