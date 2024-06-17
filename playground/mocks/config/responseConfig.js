@@ -417,6 +417,20 @@ const windowAuthnLoopbackFailfast = {
   ],
 };
 
+const windowAuthnHttpsLoopback = {
+  '/idp/idx/introspect': [
+    'identify-with-device-probing-https-loopback', // 1 (response order)
+  ],
+  '/idp/idx/authenticators/poll': [
+    'identify-with-device-probing-https-loopback', // 2
+    'identify-with-device-probing-https-loopback', // 3
+    'identify', // 4: as a signal of success
+  ],
+  '/idp/idx/authenticators/poll/cancel': [
+    'authenticator-verification-select-authenticator',
+  ]
+};
+
 // device probe: silent probe failed, but probing is still required
 const desktopSmartProbe = {
   '/idp/idx/introspect': [

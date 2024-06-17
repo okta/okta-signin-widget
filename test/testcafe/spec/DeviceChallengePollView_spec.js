@@ -5,6 +5,7 @@ import DeviceChallengePollPageObject from '../framework/page-objects/DeviceChall
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import identify from '../../../playground/mocks/data/idp/idx/identify';
 import identifyWithDeviceProbingLoopback from '../../../playground/mocks/data/idp/idx/identify-with-device-probing-loopback';
+import identifyWithDeviceProbingHttpsLoopback from '../../../playground/mocks/data/idp/idx/identify-with-device-probing-https-loopback';
 import loopbackChallengeNotReceived from '../../../playground/mocks/data/idp/idx/identify-with-device-probing-loopback-challenge-not-received';
 import identifyWithLoopbackFallbackAndroidWithoutLink from '../../../playground/mocks/data/idp/idx/identify-with-device-probing-loopback-challenge-not-received-android-no-link';
 import identifyWithLaunchAuthenticator from '../../../playground/mocks/data/idp/idx/identify-with-device-launch-authenticator';
@@ -51,6 +52,70 @@ const loopbackSuccessMock = RequestMock()
     'access-control-allow-origin': '*',
     'access-control-allow-headers': 'Origin, X-Requested-With, Content-Type, Accept, X-Okta-Xsrftoken',
     'access-control-allow-methods': 'POST, GET, OPTIONS'
+  });
+const loopbackSuccessWithHttpsMock = RequestMock()
+  .onRequestTo(/\/idp\/idx\/introspect/)
+  .respond(identifyWithDeviceProbingHttpsLoopback)
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
+  .respond((req, res) => {
+    res.statusCode = '200';
+    res.headers['content-type'] = 'application/json';
+    if (failureCount === 2) {
+      res.setBody(identify);
+    } else {
+      res.setBody(identifyWithDeviceProbingHttpsLoopback);
+    }
+  }) 
+  .onRequestTo(/https:\/\/randomorgid.authenticatorlocaldev.com:(2000|6512|6513)\/probe/)
+  .respond(null, 500, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
+  })
+  .onRequestTo('https://randomorgid.authenticatorlocaldev.com:6511/probe')
+  .respond(null, 200, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
+  })
+  .onRequestTo('https://randomorgid.authenticatorlocaldev.com:6511/challenge')
+  .respond(null, 200, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'Origin, X-Requested-With, Content-Type, Accept, X-Okta-Xsrftoken',
+    'access-control-allow-methods': 'POST, GET, OPTIONS'
+  });
+
+  const loopbackSuccessWithHttpMock = RequestMock()
+  .onRequestTo(/\/idp\/idx\/introspect/)
+  .respond(identifyWithDeviceProbingHttpsLoopback)
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
+  .respond((req, res) => {
+    res.statusCode = '200';
+    res.headers['content-type'] = 'application/json';
+    if (failureCount === 2) {
+      res.setBody(identify);
+    } else {
+      res.setBody(identifyWithDeviceProbingHttpsLoopback);
+    }
+  }) 
+  .onRequestTo(/http:\/\/localhost:(2000|6512|6513)\/probe/)
+  .respond(null, 500, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
+  })
+  .onRequestTo('http://localhost:6511/probe')
+  .respond(null, 200, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
+  })
+  .onRequestTo('http://localhost:6511/challenge')
+  .respond(null, 200, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'Origin, X-Requested-With, Content-Type, Accept, X-Okta-Xsrftoken',
+    'access-control-allow-methods': 'POST, GET, OPTIONS'
+  })
+  .onRequestTo(/https:\/\/randomorgid.authenticatorlocaldev.com:(2000|6511|6512|6513)\/probe/)
+  .respond(null, 500, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
   });
 
 const loopbackUserCancelLogger = RequestLogger(/cancel/, { logRequestBody: true, stringifyRequestBody: true });
@@ -344,6 +409,78 @@ test.skip
     )).eql(1);
     failureCount = 2;
     await t.expect(loopbackSuccessLogger.contains(record => record.request.url.match(/6512|6513/))).eql(false);
+
+    const identityPage = new IdentityPageObject(t);
+    await identityPage.fillIdentifierField('Test Identifier');
+    await t.expect(identityPage.getIdentifierValue()).eql('Test Identifier');
+  });
+
+test
+  .requestHooks(loopbackSuccessLogger, loopbackSuccessWithHttpsMock)('in loopback server approach, https loopback succeeds', async t => {
+    const deviceChallengePollPageObject = await setup(t);
+    await checkA11y(t);
+    await t.expect(deviceChallengePollPageObject.getBeaconSelector()).contains(BEACON_CLASS);
+    await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Verifying your identity');
+    await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(true);
+    await t.expect(loopbackSuccessLogger.count(
+      record => record.response.statusCode === 500 &&
+        record.request.url.match(/randomorgid.authenticatorlocaldev.com:2000\/probe/)
+    )).eql(1);
+    await t.expect(loopbackSuccessLogger.count(
+      record => record.response.statusCode === 500 &&
+        record.request.url.match(/randomorgid.authenticatorlocaldev.com:6512\/probe/)
+    )).eql(1);
+    await t.expect(loopbackSuccessLogger.count(
+      record => record.response.statusCode === 500 &&
+        record.request.url.match(/randomorgid.authenticatorlocaldev.com:6513\/probe/)
+    )).eql(1);
+    await t.expect(loopbackSuccessLogger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.method === 'get' &&
+        record.request.url.match(/randomorgid.authenticatorlocaldev.com:6511\/probe/)
+    )).eql(1);
+    await t.expect(loopbackSuccessLogger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.url.match(/randomorgid.authenticatorlocaldev.com:6511\/challenge/) &&
+        record.request.body.match(/challengeRequest":"eyJraWQiOiI1/)
+    )).eql(1);
+
+    failureCount = 2;
+
+    const identityPage = new IdentityPageObject(t);
+    await identityPage.fillIdentifierField('Test Identifier');
+    await t.expect(identityPage.getIdentifierValue()).eql('Test Identifier');
+  });
+
+test
+  .requestHooks(loopbackSuccessLogger, loopbackSuccessWithHttpMock)('in loopback server approach, https loopback fails then http loopback succeeds', async t => {
+    const deviceChallengePollPageObject = await setup(t);
+    await checkA11y(t);
+    await t.expect(deviceChallengePollPageObject.getBeaconSelector()).contains(BEACON_CLASS);
+    await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Verifying your identity');
+    await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(true);
+
+    // Assert all https call failed
+    // The most accurate assertions should be calling 1 probe for each port
+    // But that would be an overkill in the test
+    await t.expect(loopbackSuccessLogger.count(
+      record => record.response.statusCode === 500 &&
+        record.request.url.match(/randomorgid.authenticatorlocaldev.com:(2000|6511|6512|6513)\/probe/)
+    )).eql(4);
+
+    // Assert http call will continue
+    await t.expect(loopbackSuccessLogger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.method === 'get' &&
+        record.request.url.match(/localhost:6511\/probe/)
+    )).eql(1);
+    await t.expect(loopbackSuccessLogger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.url.match(/localhost:6511\/challenge/) &&
+        record.request.body.match(/challengeRequest":"eyJraWQiOiI1/)
+    )).eql(1);
+
+    failureCount = 2;
 
     const identityPage = new IdentityPageObject(t);
     await identityPage.fillIdentifierField('Test Identifier');
