@@ -26,7 +26,7 @@ yarn global add @okta/siw-platform-scripts@0.13.0-gd1bdc78
 cd ${REPO_PATH}
 tmp=$(mktemp)
 
-jq ".version=$RELEASE_VERSION" package.json > "$tmp" && mv "$tmp" package.json
+jq "'.version=\"$RELEASE_VERSION\"" package.json > "$tmp" && mv "$tmp" package.json
 yarn install --frozen-lockfile
 yarn build:release
 
