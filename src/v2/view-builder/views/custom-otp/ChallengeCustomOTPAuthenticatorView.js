@@ -13,10 +13,6 @@ const Body = BaseForm.extend(Object.assign(
       return loc('oie.verify.custom_otp.title', 'login', [vendorName]);
     },
 
-    subtitle() {
-      return loc('oie.verify.custom_otp.description', 'login');
-    },
-
     save() {
       return loc('mfa.challenge.verify', 'login');
     },
