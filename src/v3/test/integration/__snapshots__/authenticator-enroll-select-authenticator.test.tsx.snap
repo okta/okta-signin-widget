@@ -645,12 +645,12 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                               Okta Verify
                             </h3>
                             <p
-                              aria-label="Okta Verify is an authenticator app, installed on your phone, used to prove your identity."
+                              aria-label="Okta Verify is an authenticator app, installed on your phone or computer, used to prove your identity."
                               class="MuiTypography-root MuiTypography-body1 MuiTypography-paragraph emotion-33"
                               data-se="authenticator-button-description"
                               id="okta_verify_4-description"
                             >
-                              Okta Verify is an authenticator app, installed on your phone, used to prove your identity
+                              Okta Verify is an authenticator app, installed on your phone or computer, used to prove your identity
                             </p>
                             <div
                               class="MuiBox-root emotion-34"
