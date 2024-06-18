@@ -58,7 +58,7 @@
     "find-internal-packages": "node scripts/find-internal-packages",
     "generate-phone-codes": "node scripts/buildtools generate-phone-codes",
     "generate-config": "node scripts/buildtools generate-language-config",
-    "weekly-release-update": "./scripts/weekly-release-update.sh",
+    "release-update": "./scripts/release-update.sh",
     "retirejs": "retire --js --jspath target/js --package",
     "lint:ci": "yarn codegen && yarn lint",
     "lint:esm": "eslint --no-ignore --no-eslintrc --no-inline-config --config scripts/buildtools/eslint/.eslintrc.esm.js --ext .js target/esm",
