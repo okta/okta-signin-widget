@@ -1,6 +1,6 @@
 #!/bin/bash
 
-INTERNAL_REGISTRY="${ARTIFACTORY_URL}/api/npm/npm-okta-all"
+INTERNAL_REGISTRY="${ARTIFACTORY_URL}/api/npm/npm-okta-release"
 REPO_PATH=$OKTA_HOME/$REPO
 
 if ! setup_service node v16.19.1 &> /dev/null; then
@@ -21,7 +21,7 @@ git checkout $RELEASE_BRANCH
 
 # update files
 npm config set @okta:registry ${INTERNAL_REGISTRY}
-yarn global add @okta/siw-platform-scripts@0.13.0-gd1bdc78
+yarn global add @okta/siw-platform-scripts@0.13.0
 
 cd ${REPO_PATH}
 tmp=$(mktemp)
