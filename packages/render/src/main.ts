@@ -38,7 +38,7 @@ export const render = (databag: string) => {
     (document.getElementById('unsupported-cookie') as HTMLElement).removeAttribute('style');
     unsupportedContainer?.removeAttribute('style');
   } else {
-    unsupportedContainer?.remove();
+    unsupportedContainer?.parentNode?.removeChild(unsupportedContainer);
     const config = buildConfig(parsedDatabag);
     const loginModule = disableNewLoginPage ? OktaLoginLegacy : OktaLogin;
     const res = loginModule.initLoginPage(config);
