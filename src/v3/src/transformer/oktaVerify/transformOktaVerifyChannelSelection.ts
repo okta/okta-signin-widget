@@ -32,12 +32,12 @@ const CHANNEL_TO_LABEL_KEY_MAP: { [channel: string]: string } = {
 export const transformOktaVerifyChannelSelection: IdxStepTransformer = ({
   prevTransaction,
   transaction,
-  widgetProps,
   formBag,
 }) => {
   const { context } = prevTransaction || {};
   const { context: currentTransactionContext } = transaction;
   const { data, uischema } = formBag;
+  let sameDeviceChannelAvailable = false;
 
   const isAndroidOrIOSView = isAndroidOrIOS();
   // Checking first if it's in the prev transaction otherwise, pulling from the current
@@ -53,7 +53,7 @@ export const transformOktaVerifyChannelSelection: IdxStepTransformer = ({
     options: {
       content: isAndroidOrIOSView
         ? loc('oie.enroll.okta_verify.setup.title', 'login')
-        : loc('oie.enroll.okta_verify.select.channel.title', 'login'),
+        : loc('oie.enroll.okta_verify.select.channel.title.updated', 'login'),
     },
   };
   elements.push(titleElement);
@@ -62,11 +62,19 @@ export const transformOktaVerifyChannelSelection: IdxStepTransformer = ({
     'authenticator.channel',
     formBag.uischema.elements as UISchemaElement[],
   ) as FieldElement;
-  channelSelectionElement.label = loc('oie.enroll.okta_verify.select.channel.description', 'login');
+  channelSelectionElement.label = loc('oie.enroll.okta_verify.select.channel.subtitle', 'login');
   channelSelectionElement.options.format = 'radio';
   const { options: { inputMeta: { options = [] } } } = channelSelectionElement;
   channelSelectionElement.options.customOptions = options
-    .filter((opt) => opt.value !== lastSelectedChannel)
+    .filter((opt) => {
+      if (opt.value === 'samedevice') {
+        // filter out the samedevice channel so it is not displayed as a radio
+        // and set flag to true so we know to add it as a link instead
+        sameDeviceChannelAvailable = true;
+        return false;
+      }
+      return opt.value !== lastSelectedChannel;
+    })
     .map((opt) => ({
       value: opt.value as string,
       label: loc(CHANNEL_TO_LABEL_KEY_MAP[opt.value as string], 'login'),
@@ -85,8 +93,23 @@ export const transformOktaVerifyChannelSelection: IdxStepTransformer = ({
   };
   elements.push(submitButton);
 
-  const { features: { sameDeviceOVEnrollmentEnabled = false } = {} } = widgetProps;
-  if (!sameDeviceOVEnrollmentEnabled && !['email', 'sms'].includes(lastSelectedChannel)) {
+  if (sameDeviceChannelAvailable) {
+    const setupOnSameDeviceLink: TextWithActionLinkElement = {
+      type: 'TextWithActionLink',
+      options: {
+        actionParams: { 'authenticator.channel': 'samedevice' },
+        content: loc(
+          'oie.enroll.okta_verify.select.channel.ovOnThisDevice',
+          'login',
+          undefined,
+          { $1: { element: 'a', attributes: { class: 'ov-same-device-enroll-link', href: '#' } } },
+        ),
+        contentClassname: 'ov-same-device-enroll-link',
+        step: IDX_STEP.SELECT_ENROLLMENT_CHANNEL,
+      },
+    };
+    elements.push(setupOnSameDeviceLink);
+  } else if (!['email', 'sms'].includes(lastSelectedChannel)) {
     const switchChannelTextLink: TextWithActionLinkElement = {
       type: 'TextWithActionLink',
       options: {
