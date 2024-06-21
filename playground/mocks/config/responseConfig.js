@@ -417,7 +417,7 @@ const windowAuthnLoopbackFailfast = {
   ],
 };
 
-const windowAuthnHttpsLoopback = {
+const macOSAuthnHttpsLoopback = {
   '/idp/idx/introspect': [
     'identify-with-device-probing-https-loopback', // 1 (response order)
   ],

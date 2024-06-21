@@ -1,3 +1,4 @@
+/* eslint max-statements: [2, 21] */
 import { $, View } from '@okta/courage';
 import { BaseFormWithPolling } from '../internals';
 import Logger from 'util/Logger';
@@ -163,6 +164,7 @@ const Body = BaseFormWithPolling.extend({
     // This only applies to MacOS for now
     if (authenticatorHttpsDomainUrl) {
       // if https domain are included, max number of ports to be probed should be doubled
+      Logger.info('httpsDomain enabled, will probe and challenge https first');
       maxNumberOfPorts += maxNumberOfPorts;
       ports.forEach(port => {
         probeChain = probeChain
