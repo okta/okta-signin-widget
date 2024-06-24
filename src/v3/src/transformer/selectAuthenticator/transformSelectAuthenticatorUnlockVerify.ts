@@ -74,9 +74,9 @@ export const transformSelectAuthenticatorUnlockVerify: IdxStepTransformer = ({
 
   const identifier = getUIElementWithName('identifier', uischema.elements) as FieldElement;
 
-  // TODO: OKTA-XXXXXX Remove this fork once AUTH_POLICY_FOR_ACCOUNT_MANAGEMENT monolith FF goes GA
+  // TODO: OKTA-741832 Remove this fork once AUTH_POLICY_FOR_ACCOUNT_MANAGEMENT monolith FF goes GA
   // Identifier-first unlock account flow was initially 'faked' in this transformer and released
-  // w/o backend changes. The backend changes ensure that this transformer is never hit with 
+  // w/o backend changes. The backend changes ensure that this transformer is never hit with
   // an identifier UI schema element in the IDX response, so this can be used as a logical fork
   if (!identifier || prevStepName === IDX_STEP.UNLOCK_ACCOUNT) {
     uischema.elements.unshift(verifyTitle, verifySubtitle, authenticatorList);
