@@ -1,4 +1,4 @@
-/* eslint max-statements: [2, 21] */
+/* eslint max-statements: [2, 22] */
 import { $, View } from '@okta/courage';
 import { BaseFormWithPolling } from '../internals';
 import Logger from 'util/Logger';
@@ -160,40 +160,19 @@ const Body = BaseFormWithPolling.extend({
     };
 
     let probeChain = Promise.resolve();
-    // If https domain exists, do https domain probe first
-    // This only applies to MacOS for now
-    if (authenticatorHttpsDomainUrl) {
-      // if https domain are included, max number of ports to be probed should be doubled
-      Logger.info('httpsDomain enabled, will probe and challenge https first');
-      maxNumberOfPorts += maxNumberOfPorts;
-      ports.forEach(port => {
-        probeChain = probeChain
-          .then(() => {
-            if (!(foundPort || ovFailed)) {
-              currentPort = port;
-              return doProbing(authenticatorHttpsDomainUrl);
-            }
-          })
-          .catch(() => {
-            countFailedPorts++;
-            Logger.error(`Authenticator is not listening on port ${currentPort}.`);
-          });
-      });
-    }
 
-    // Always do probe on regular domain
-    ports.forEach(port => {
+    const handlePortProbing = (port, baseUrl, checkPortMaxFailure) => {
       probeChain = probeChain
         .then(() => {
           if (!(foundPort || ovFailed)) {
             currentPort = port;
-            return doProbing(authenticatorDomainUrl);
+            return doProbing(baseUrl);
           }
         })
         .catch(() => {
           countFailedPorts++;
           Logger.error(`Authenticator is not listening on port ${currentPort}.`);
-          if (countFailedPorts === maxNumberOfPorts) {
+          if (checkPortMaxFailure && countFailedPorts === maxNumberOfPorts) {
             Logger.error('No available ports. Loopback server failed and polling is cancelled.');
             // When no port is found, cancel the polling as well
             // This is to avoid concurrency issue where /poll/cancel takes long time to complete
@@ -207,6 +186,22 @@ const Body = BaseFormWithPolling.extend({
             );
           }
         });
+    };
+
+    // If https domain exists, do https domain probe first
+    // This only applies to MacOS for now
+    if (authenticatorHttpsDomainUrl) {
+      // if https domain are included, max number of ports to be probed should be doubled
+      Logger.info('httpsDomain enabled, will probe and challenge https first');
+      maxNumberOfPorts += maxNumberOfPorts;
+      ports.forEach(port => {
+        handlePortProbing(port, authenticatorHttpsDomainUrl, false);
+      });
+    }
+
+    // Always do probe on regular domain
+    ports.forEach(port => {
+      handlePortProbing(port, authenticatorDomainUrl, true);
     });
   },
 

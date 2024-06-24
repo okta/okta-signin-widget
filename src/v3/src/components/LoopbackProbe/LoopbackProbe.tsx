@@ -126,16 +126,16 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
     const doLoopback = async () => {
       let foundPort = false;
 
-      let urls = ports.map((port) => `${domain}:${port}`);
+      let baseUrls = ports.map((port) => `${domain}:${port}`);
       if (httpsDomain) {
         Logger.info('httpsDomain enabled, will probe and challenge https first');
-        const httpsUrls = ports.map((port) => `${httpsDomain}:${port}`);
-        urls = [...httpsUrls, ...urls];
+        const httpsBaseUrls = ports.map((port) => `${httpsDomain}:${port}`);
+        baseUrls = [...httpsBaseUrls, ...baseUrls];
       }
 
       // loop over each domain:port
       // eslint-disable-next-line no-restricted-syntax
-      for (const url of urls) {
+      for (const baseUrl of baseUrls) {
         try {
           // probe the url
           const probeResponse = await makeRequest({
@@ -149,18 +149,18 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
             customizing timeouts in the more costly Android and other (keyless) HTTPS scenarios.
             */
             timeout: isAndroid() ? 3_000 : probeTimeoutMillis,
-            url: `${url}/probe`,
+            url: `${baseUrl}/probe`,
           });
 
           if (!probeResponse.ok) {
-            Logger.error(`Authenticator is not listening on url ${url}.`);
+            Logger.error(`Authenticator is not listening on url ${baseUrl}.`);
             // there's more ports to try, continue with next port
             continue;
           }
 
           // try port with challenge request
           const challengeResponse = await makeRequest({
-            url: `${url}/challenge`,
+            url: `${baseUrl}/challenge`,
             method: 'POST',
             timeout: 300_000,
             data: JSON.stringify({ challengeRequest }),
@@ -189,7 +189,7 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
           break;
         } catch (e) {
           // only for unexpected error conditions (e.g. fetch throws an error)
-          Logger.error(`Something unexpected happened while we were checking url ${url}`);
+          Logger.error(`Something unexpected happened while we were checking url ${baseUrl}`);
         }
       }
 
