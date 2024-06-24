@@ -19,7 +19,7 @@ import {
 
 import { transformUnlockAccount } from './transformUnlockAccount';
 
-describe('transformDeviceCodeAuthenticator Tests', () => {
+describe('transformUnlockAccount Tests', () => {
   const transaction: IdxTransaction = getStubTransactionWithNextStep();
   const widgetProps: WidgetProps = {};
   const formBag: FormBag = getStubFormBag();
@@ -36,7 +36,7 @@ describe('transformDeviceCodeAuthenticator Tests', () => {
     };
   });
 
-  it('should build device code view elements', () => {
+  it('should build unlock account view elements', () => {
     const updatedFormBag = transformUnlockAccount({
       transaction,
       formBag,
