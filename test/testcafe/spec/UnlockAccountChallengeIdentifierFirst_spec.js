@@ -45,7 +45,7 @@ const identifyMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrIdentifyWithPassword);
 
-const errorUnlockAccount = RequestMock()
+const legacyErrorUnlockAccount = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrIdentifyWithUnlock)
   .onRequestTo('http://localhost:3000/idp/idx/unlock-account')
@@ -55,11 +55,35 @@ const errorUnlockAccount = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(xhrErrorUnlockAccount);
 
-const identifyLockedUserLandOnAppMock = RequestMock()
+const errorUnlockAccount = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrIdentifyWithUnlock)
+  .onRequestTo('http://localhost:3000/idp/idx/unlock-account')
+  .respond(xhrUserUnlockIdentifierFirst)
+  .onRequestTo('http://localhost:3000/idp/idx/identify')
+  .respond(xhrUserUnlockAuthSelectorIdentifierFirst)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge')
+  .respond(xhrUserUnlockEmailChallenge)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
+  .respond(xhrErrorUnlockAccount);
+
+const legacyIdentifyLockedUserLandOnAppMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrIdentifyWithUnlock)
   .onRequestTo('http://localhost:3000/idp/idx/unlock-account')
   .respond(xhrUserUnlockAuthSelector)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge')
+  .respond(xhrUserUnlockEmailChallenge)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
+  .respond(xhrUserUnlockSuccessLandOnApp);
+
+const identifyLockedUserLandOnAppMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrIdentifyWithUnlock)
+  .onRequestTo('http://localhost:3000/idp/idx/unlock-account')
+  .respond(xhrUserUnlockIdentifierFirst)
+  .onRequestTo('http://localhost:3000/idp/idx/identify')
+  .respond(xhrUserUnlockAuthSelectorIdentifierFirst)
   .onRequestTo('http://localhost:3000/idp/idx/challenge')
   .respond(xhrUserUnlockEmailChallenge)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
@@ -99,7 +123,7 @@ const rerenderWidget = ClientFunction((settings) => {
   window.renderPlaygroundWidget(settings);
 });
 
-fixture('Unlock Account - Gen 3');
+fixture('Unlock Account Identifier First');
 
 async function setup(t, widgetOptions) {
   const options = widgetOptions ? { render: false } : {};
@@ -149,70 +173,116 @@ test.requestHooks(legacyIdentifyLockedUserMock)('should render custom Unlock acc
   await t.expect(identityPage.getCustomUnlockAccountLinkUrl(customUnlockLinkText)).eql('http://unlockaccount');
 });
 
+// Legacy faked identifier-first flow only existed for gen3
+test.meta('gen2', false).requestHooks(legacyIdentifyLockedUserMock)('should show unlock account authenticator selection list when user has more than one authenticator (legacy faked flow)', async t => {
+  const identityPage = await setup(t);
+  await checkA11y(t);
+  await identityPage.clickUnlockAccountLink();
 
-[
-  ['should show unlock account authenticator selection list when user has more than one authenticator (legacy)', legacyIdentifyLockedUserMock],
-  ['should show unlock account authenticator selection list when user has more than one authenticator', identifyLockedUserMock],
-].forEach(([ testTitle, mock ]) => {
-  test.requestHooks(mock)(testTitle, async t => {
-    const identityPage = await setup(t);
-    await checkA11y(t);
-    await identityPage.clickUnlockAccountLink();
+  const selectFactorPage = new SelectFactorPageObject(t);
+  await t.expect(selectFactorPage.getFormTitle()).contains('Unlock account');
+  await selectFactorPage.fillIdentifierField('username');
 
-    const selectFactorPage = new SelectFactorPageObject(t);
-    await t.expect(selectFactorPage.getFormTitle()).contains('Unlock account');
-    await selectFactorPage.fillIdentifierField('username');
+  await t.expect(selectFactorPage.getNextButton().exists).eql(true);
+  await selectFactorPage.goToNextPage();
 
-    await t.expect(selectFactorPage.getNextButton().exists).eql(true);
-    await selectFactorPage.goToNextPage();
+  await t.expect(selectFactorPage.getFactorsCount()).eql(2);
+  await selectFactorPage.selectFactorByIndex(0);
 
-    await t.expect(selectFactorPage.getFactorsCount()).eql(2);
-    await selectFactorPage.selectFactorByIndex(0);
+  const challengeEmailPageObject = new ChallengeEmailPageObject(t);
+  await t.expect(challengeEmailPageObject.getFormTitle()).eql('Verify with your email');
+  await challengeEmailPageObject.clickEnterCodeLink();
+  await challengeEmailPageObject.verifyFactor('credentials.passcode', '12345');
+  await challengeEmailPageObject.clickVerifyButton();
 
-    const challengeEmailPageObject = new ChallengeEmailPageObject(t);
-    await t.expect(challengeEmailPageObject.getFormTitle()).eql('Verify with your email');
-    await challengeEmailPageObject.clickEnterCodeLink();
-    await challengeEmailPageObject.verifyFactor('credentials.passcode', '12345');
-    await challengeEmailPageObject.clickVerifyButton();
-
-    const successPage = new TerminalPageObject(t);
-    await t.expect(successPage.getFormTitle()).eql('Account successfully unlocked!');
-    await t.expect(successPage.doesTextExist('You can log in using your existing username and password.')).eql(true);
-    const gobackLinkExists = await successPage.goBackLinkExistsV2();
-    await t.expect(gobackLinkExists).eql(false);
-    const signoutLinkExists = await successPage.signoutLinkExists();
-    await t.expect(signoutLinkExists).eql(true);
-  });
+  const successPage = new TerminalPageObject(t);
+  await t.expect(successPage.getFormTitle()).eql('Account successfully unlocked!');
+  await t.expect(successPage.doesTextExist('You can log in using your existing username and password.')).eql(true);
+  const gobackLinkExists = await successPage.goBackLinkExistsV2();
+  await t.expect(gobackLinkExists).eql(false);
+  const signoutLinkExists = await successPage.signoutLinkExists();
+  await t.expect(signoutLinkExists).eql(true);
 });
 
-[
-  ['should proceed directly to challenge authenticator view when user only has one authenticator (legacy)', legacyIdentifyLockedUserMockWithOneAuthenticator],
-  ['should proceed directly to challenge authenticator view when user only has one authenticator', identifyLockedUserMockWithOneAuthenticator],
-].forEach(([ testTitle, mock ]) => {
-  test.requestHooks(mock)(testTitle, async t => {
-    const identityPage = await setup(t);
-    await checkA11y(t);
-    await identityPage.clickUnlockAccountLink();
 
-    const selectFactorPage = new SelectFactorPageObject(t);
-    await selectFactorPage.fillIdentifierField('username');
-    await t.expect(selectFactorPage.getNextButton().exists).eql(true);
-    await selectFactorPage.goToNextPage();
+test.requestHooks(identifyLockedUserMock)('should show unlock account authenticator selection list when user has more than one authenticator', async t => {
+  const identityPage = await setup(t);
+  await checkA11y(t);
+  await identityPage.clickUnlockAccountLink();
 
-    const challengeEmailPageObject = new ChallengeEmailPageObject(t);
-    await t.expect(challengeEmailPageObject.getFormTitle()).eql('Verify with your email');
-    await challengeEmailPageObject.clickEnterCodeLink();
-    await challengeEmailPageObject.verifyFactor('credentials.passcode', '12345');
-    await challengeEmailPageObject.clickVerifyButton();
+  const selectFactorPage = new SelectFactorPageObject(t);
+  await t.expect(selectFactorPage.getFormTitle()).contains('Unlock account');
+  await selectFactorPage.fillIdentifierField('username');
 
-    const successPage = new TerminalPageObject(t);
-    await t.expect(successPage.getFormTitle()).eql('Account successfully unlocked!');
-    await t.expect(successPage.doesTextExist('You can log in using your existing username and password.')).eql(true);
-    const gobackLinkExists = await successPage.goBackLinkExistsV2();
-    await t.expect(gobackLinkExists).eql(false);
-    const signoutLinkExists = await successPage.signoutLinkExists();
-    await t.expect(signoutLinkExists).eql(true);
-  });
+  await t.expect(selectFactorPage.getNextButton().exists).eql(true);
+  await selectFactorPage.goToNextPage();
+
+  await t.expect(selectFactorPage.getFactorsCount()).eql(2);
+  await selectFactorPage.selectFactorByIndex(0);
+
+  const challengeEmailPageObject = new ChallengeEmailPageObject(t);
+  await t.expect(challengeEmailPageObject.getFormTitle()).eql('Verify with your email');
+  await challengeEmailPageObject.clickEnterCodeLink();
+  await challengeEmailPageObject.verifyFactor('credentials.passcode', '12345');
+  await challengeEmailPageObject.clickVerifyButton();
+
+  const successPage = new TerminalPageObject(t);
+  await t.expect(successPage.getFormTitle()).eql('Account successfully unlocked!');
+  await t.expect(successPage.doesTextExist('You can log in using your existing username and password.')).eql(true);
+  const gobackLinkExists = await successPage.goBackLinkExistsV2();
+  await t.expect(gobackLinkExists).eql(false);
+  const signoutLinkExists = await successPage.signoutLinkExists();
+  await t.expect(signoutLinkExists).eql(true);
+});
+
+test.meta('gen2', false).requestHooks(legacyIdentifyLockedUserMockWithOneAuthenticator)('should proceed directly to challenge authenticator view when user only has one authenticator (legacy faked flow)', async t => {
+  const identityPage = await setup(t);
+  await checkA11y(t);
+  await identityPage.clickUnlockAccountLink();
+
+  const selectFactorPage = new SelectFactorPageObject(t);
+  await selectFactorPage.fillIdentifierField('username');
+  await t.expect(selectFactorPage.getNextButton().exists).eql(true);
+  await selectFactorPage.goToNextPage();
+
+  const challengeEmailPageObject = new ChallengeEmailPageObject(t);
+  await t.expect(challengeEmailPageObject.getFormTitle()).eql('Verify with your email');
+  await challengeEmailPageObject.clickEnterCodeLink();
+  await challengeEmailPageObject.verifyFactor('credentials.passcode', '12345');
+  await challengeEmailPageObject.clickVerifyButton();
+
+  const successPage = new TerminalPageObject(t);
+  await t.expect(successPage.getFormTitle()).eql('Account successfully unlocked!');
+  await t.expect(successPage.doesTextExist('You can log in using your existing username and password.')).eql(true);
+  const gobackLinkExists = await successPage.goBackLinkExistsV2();
+  await t.expect(gobackLinkExists).eql(false);
+  const signoutLinkExists = await successPage.signoutLinkExists();
+  await t.expect(signoutLinkExists).eql(true);
+});
+
+test.requestHooks(identifyLockedUserMockWithOneAuthenticator)('should proceed directly to challenge authenticator view when user only has one authenticator', async t => {
+  const identityPage = await setup(t);
+  await checkA11y(t);
+  await identityPage.clickUnlockAccountLink();
+
+  const selectFactorPage = new SelectFactorPageObject(t);
+  await selectFactorPage.fillIdentifierField('username');
+  await t.expect(selectFactorPage.getNextButton().exists).eql(true);
+  await selectFactorPage.goToNextPage();
+
+  const challengeEmailPageObject = new ChallengeEmailPageObject(t);
+  await t.expect(challengeEmailPageObject.getFormTitle()).eql('Verify with your email');
+  await challengeEmailPageObject.clickEnterCodeLink();
+  await challengeEmailPageObject.verifyFactor('credentials.passcode', '12345');
+  await challengeEmailPageObject.clickVerifyButton();
+
+  const successPage = new TerminalPageObject(t);
+  await t.expect(successPage.getFormTitle()).eql('Account successfully unlocked!');
+  await t.expect(successPage.doesTextExist('You can log in using your existing username and password.')).eql(true);
+  const gobackLinkExists = await successPage.goBackLinkExistsV2();
+  await t.expect(gobackLinkExists).eql(false);
+  const signoutLinkExists = await successPage.signoutLinkExists();
+  await t.expect(signoutLinkExists).eql(true);
 });
 
 [
@@ -232,12 +302,26 @@ test.requestHooks(legacyIdentifyLockedUserMock)('should render custom Unlock acc
   });
 });
 
-test.requestHooks(errorUnlockAccount)('should show error box if form is submitted with blank identifier', async t => {
+test.meta('gen2', false).requestHooks(legacyErrorUnlockAccount)('should show error box if form is submitted with blank identifier (legacy faked flow)', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
   await identityPage.clickUnlockAccountLink();
   const selectFactorPage = new SelectFactorPageObject(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Unlock account?');
+
+  await t.expect(selectFactorPage.getNextButton().exists).eql(true);
+  await selectFactorPage.goToNextPage();
+  await selectFactorPage.waitForErrorBox();
+
+  await t.expect(selectFactorPage.getErrorBoxText()).contains('We found some errors. Please review the form and make corrections.');
+});
+
+test.requestHooks(errorUnlockAccount)('should show error box if form is submitted with blank identifier', async t => {
+  const identityPage = await setup(t);
+  await checkA11y(t);
+  await identityPage.clickUnlockAccountLink();
+  const selectFactorPage = new SelectFactorPageObject(t);
+  await t.expect(selectFactorPage.getFormTitle()).contains('Unlock account');
 
   await t.expect(selectFactorPage.getNextButton().exists).eql(true);
   await selectFactorPage.goToNextPage();
@@ -267,13 +351,41 @@ test.requestHooks(errorUnlockAccount)('should show error when unlock account fai
   await t.expect(terminaErrorPage.getErrorMessages().getTextContent()).contains('We are unable to unlock your account at this time, please contact your administrator');
 });
 
-test.requestHooks(identifyLockedUserLandOnAppMock)('should show unlock account authenticator selection list before landing on App', async t => {
+test.meta('gen2', false).requestHooks(legacyIdentifyLockedUserLandOnAppMock)('should show unlock account authenticator selection list before landing on App (legacy faked flow)', async t => {
   const identityPage = await setup(t);
   await checkA11y(t);
   await identityPage.clickUnlockAccountLink();
 
   const selectFactorPage = new SelectFactorPageObject(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Unlock account?');
+  await selectFactorPage.fillIdentifierField('username');
+  await t.expect(selectFactorPage.getNextButton().exists).eql(true);
+  await selectFactorPage.goToNextPage();  
+  await t.expect(selectFactorPage.getFactorsCount()).eql(2);
+  await selectFactorPage.selectFactorByIndex(0);
+
+  const challengeEmailPageObject = new ChallengeEmailPageObject(t);
+  await t.expect(challengeEmailPageObject.getFormTitle()).eql('Verify with your email');
+  await challengeEmailPageObject.clickEnterCodeLink();
+  await challengeEmailPageObject.verifyFactor('credentials.passcode', '12345');
+  await challengeEmailPageObject.clickVerifyButton();
+
+  const successPage = new TerminalPageObject(t);
+  await t.expect(successPage.getFormTitle()).eql('Verify with your password');
+  await t.expect(successPage.getSuccessMessage()).contains('Account successfully unlocked! Verify your account with a security method to continue.');
+  const gobackLinkExists = await successPage.goBackLinkExistsV2();
+  await t.expect(gobackLinkExists).eql(false);
+  const signoutLinkExists = await successPage.signoutLinkExists();
+  await t.expect(signoutLinkExists).eql(true);
+});
+
+test.requestHooks(identifyLockedUserLandOnAppMock)('should show unlock account authenticator selection list before landing on App', async t => {
+  const identityPage = await setup(t);
+  await checkA11y(t);
+  await identityPage.clickUnlockAccountLink();
+
+  const selectFactorPage = new SelectFactorPageObject(t);
+  await t.expect(selectFactorPage.getFormTitle()).contains('Unlock account');
   await selectFactorPage.fillIdentifierField('username');
   await t.expect(selectFactorPage.getNextButton().exists).eql(true);
   await selectFactorPage.goToNextPage();  
