@@ -127,7 +127,7 @@ test.requestHooks(identifyLockedUserMock)('should show unlock account authentica
   await identityPage.clickUnlockAccountLink();
 
   const selectFactorPage = new SelectFactorPageObject(t);
-  await t.expect(selectFactorPage.getFormTitle()).eql('Unlock account?');
+  await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with a security method');
   await t.expect(selectFactorPage.getFactorsCount()).eql(2);
   await selectFactorPage.fillIdentifierField('username');
   await selectFactorPage.selectFactorByIndex(0);
@@ -152,7 +152,7 @@ test.requestHooks(errorUnlockAccount)('should show error if identifier is blank'
   await checkA11y(t);
   await identityPage.clickUnlockAccountLink();
   const selectFactorPage = new SelectFactorPageObject(t);
-  await t.expect(selectFactorPage.getFormTitle()).eql('Unlock account?');
+  await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with a security method');
   await selectFactorPage.selectFactorByIndex(0);
   await t.expect(selectFactorPage.getIdentifierError()).eql('This field cannot be left blank');
 });
@@ -182,7 +182,7 @@ test.requestHooks(identifyLockedUserLandOnAppMock)('should show unlock account a
   await identityPage.clickUnlockAccountLink();
 
   const selectFactorPage = new SelectFactorPageObject(t);
-  await t.expect(selectFactorPage.getFormTitle()).eql('Unlock account?');
+  await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with a security method');
   await t.expect(selectFactorPage.getFactorsCount()).eql(2);
   await selectFactorPage.fillIdentifierField('username');
   await selectFactorPage.selectFactorByIndex(0);
@@ -237,7 +237,7 @@ test.requestHooks(identifyLockedUserMock)('should keep the user on the unlock ac
   await selectFactorPage.fillIdentifierField('username');
   await t.pressKey('enter');
 
-  await t.expect(selectFactorPage.getFormTitle()).eql('Unlock account?');
+  await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with a security method');
   await t.expect(selectFactorPage.getFactorsCount()).eql(2);
 });
 
