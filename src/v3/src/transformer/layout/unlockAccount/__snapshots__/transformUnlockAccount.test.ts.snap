@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`transformDeviceCodeAuthenticator Tests should build device code view elements 1`] = `
+exports[`transformUnlockAccount Tests should build unlock account view elements 1`] = `
 Object {
   "data": Object {},
   "dataSchema": Object {
