@@ -89,7 +89,7 @@ describe('PhoneAuthenticator tests', () => {
     props = getComponentProps();
     const { findByLabelText, user } = setup(<PhoneAuthenticatorControl {...props} />);
 
-    await findByLabelText(/Country/);
+    await findByLabelText('Country/region');
     const phoneInput = await findByLabelText(/Phone number/);
     const autocomplete = phoneInput?.getAttribute('autocomplete');
 
@@ -109,7 +109,7 @@ describe('PhoneAuthenticator tests', () => {
     props = getComponentProps();
     const { findByLabelText } = setup(<PhoneAuthenticatorControl {...props} />);
 
-    const countrySelect = await findByLabelText(/Country/) as HTMLSelectElement;
+    const countrySelect = await findByLabelText('Country/region') as HTMLSelectElement;
     const phoneInput = await findByLabelText(/Phone number/) as HTMLInputElement;
 
     expect(phoneInput.getAttribute('disabled')).toBe('');
@@ -121,7 +121,7 @@ describe('PhoneAuthenticator tests', () => {
     props = getComponentProps();
     const { findByLabelText, user } = setup(<PhoneAuthenticatorControl {...props} />);
 
-    await findByLabelText(/Country/);
+    await findByLabelText('Country/region');
     const phoneInput = await findByLabelText(/Phone number/);
     const extInput = await findByLabelText(/Extension/);
     const autocomplete = phoneInput?.getAttribute('autocomplete');
@@ -143,7 +143,7 @@ describe('PhoneAuthenticator tests', () => {
     props = getComponentProps();
     const { findByLabelText } = setup(<PhoneAuthenticatorControl {...props} />);
 
-    const countrySelect = await findByLabelText(/Country/) as HTMLSelectElement;
+    const countrySelect = await findByLabelText('Country/region') as HTMLSelectElement;
     const phoneInput = await findByLabelText(/Phone number/) as HTMLInputElement;
     const extInput = await findByLabelText(/Extension/) as HTMLInputElement;
 
@@ -171,7 +171,7 @@ describe('PhoneAuthenticator tests', () => {
 
     const phoneInput = await findByLabelText(/Phone number/);
     const extensionInput = await findByLabelText(/Extension/);
-    const countryInput = await findByLabelText(/Country/);
+    const countryInput = await findByLabelText('Country/region');
 
     const autocomplete = phoneInput?.getAttribute('autocomplete');
     const extensionAutocomplete = extensionInput?.getAttribute('autocomplete');
@@ -203,7 +203,7 @@ describe('PhoneAuthenticator tests', () => {
 
     const phoneInput = await findByLabelText(/Phone number/);
     const extensionInput = await findByLabelText(/Extension/);
-    const countryInput = await findByLabelText(/Country/);
+    const countryInput = await findByLabelText('Country/region');
 
     const phoneAutocomplete = phoneInput?.getAttribute('autocomplete');
     const extensionAutocomplete = extensionInput?.getAttribute('autocomplete');
@@ -238,7 +238,7 @@ describe('PhoneAuthenticator tests', () => {
       props = getComponentProps();
       const { findByLabelText } = setup(<PhoneAuthenticatorControl {...props} />);
 
-      const countryEle = await findByLabelText(/Country/) as HTMLSelectElement;
+      const countryEle = await findByLabelText('Country/region') as HTMLSelectElement;
 
       expect(countryEle.value).toBe('US');
       await waitFor(() => {
@@ -257,7 +257,7 @@ describe('PhoneAuthenticator tests', () => {
         findByLabelText, findByTestId, user,
       } = setup(<PhoneAuthenticatorControl {...props} />);
 
-      const countryEle = await findByLabelText(/Country/) as HTMLSelectElement;
+      const countryEle = await findByLabelText('Country/region') as HTMLSelectElement;
       const extensionEle = await findByTestId('extension') as HTMLInputElement;
 
       expect(countryEle.value).toBe('US');
