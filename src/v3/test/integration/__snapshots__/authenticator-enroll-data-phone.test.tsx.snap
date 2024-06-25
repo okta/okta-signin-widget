@@ -240,7 +240,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                               id="country-label"
                             >
                               <span>
-                                Country
+                                Country/region
                               </span>
                             </label>
                             <div
@@ -1821,7 +1821,7 @@ exports[`authenticator-enroll-data-phone should render form without an autoFocus
                               id="country-label"
                             >
                               <span>
-                                Country
+                                Country/region
                               </span>
                             </label>
                             <div
@@ -3402,7 +3402,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                               id="country-label"
                             >
                               <span>
-                                Country
+                                Country/region
                               </span>
                             </label>
                             <div

@@ -37,7 +37,7 @@ const getComponentProps = (
     key: 'phoneNumber',
     translations: [
       { name: 'label', i18nKey: 'label', value: 'Phone number' },
-      { name: 'country', i18nKey: 'country.label', value: 'Country' },
+      { name: 'country', i18nKey: 'mfa.country', value: 'Country/region' },
       { name: 'extension', i18nKey: 'extension.label', value: 'Extension' },
     ],
     options: {

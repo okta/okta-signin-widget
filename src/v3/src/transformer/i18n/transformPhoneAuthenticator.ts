@@ -28,7 +28,7 @@ export const transformPhoneAuthenticator: TransformStepFn = (formBag: FormBag) =
       addTranslation({
         element,
         name: 'country',
-        i18nKey: 'country.label',
+        i18nKey: 'mfa.country',
       });
       addTranslation({
         element,
