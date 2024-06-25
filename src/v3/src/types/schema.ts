@@ -382,6 +382,7 @@ export interface LoopbackProbeElement extends UISchemaElement {
     deviceChallengePayload: {
       ports: string[];
       domain: string;
+      httpsDomain?: string;
       challengeRequest: string;
       probeTimeoutMillis?: number;
     };

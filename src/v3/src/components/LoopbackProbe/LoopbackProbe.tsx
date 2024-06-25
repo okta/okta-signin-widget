@@ -92,6 +92,7 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
   const ports: string[] = deviceChallengePayload.ports || [];
   const {
     domain,
+    httpsDomain,
     challengeRequest,
   } = deviceChallengePayload;
 
@@ -124,11 +125,19 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
   useEffect(() => {
     const doLoopback = async () => {
       let foundPort = false;
-      // loop over each port
+
+      let baseUrls = ports.map((port) => `${domain}:${port}`);
+      if (httpsDomain) {
+        Logger.info('httpsDomain enabled, will probe and challenge https first');
+        const httpsBaseUrls = ports.map((port) => `${httpsDomain}:${port}`);
+        baseUrls = [...httpsBaseUrls, ...baseUrls];
+      }
+
+      // loop over each domain:port
       // eslint-disable-next-line no-restricted-syntax
-      for (const port of ports) {
+      for (const baseUrl of baseUrls) {
         try {
-          // probe the port
+          // probe the url
           const probeResponse = await makeRequest({
             method: 'GET',
             /*
@@ -140,18 +149,18 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
             customizing timeouts in the more costly Android and other (keyless) HTTPS scenarios.
             */
             timeout: isAndroid() ? 3_000 : probeTimeoutMillis,
-            url: `${domain}:${port}/probe`,
+            url: `${baseUrl}/probe`,
           });
 
           if (!probeResponse.ok) {
-            Logger.error(`Authenticator is not listening on port ${port}.`);
+            Logger.error(`Authenticator is not listening on url ${baseUrl}.`);
             // there's more ports to try, continue with next port
             continue;
           }
 
           // try port with challenge request
           const challengeResponse = await makeRequest({
-            url: `${domain}:${port}/challenge`,
+            url: `${baseUrl}/challenge`,
             method: 'POST',
             timeout: 300_000,
             data: JSON.stringify({ challengeRequest }),
@@ -180,7 +189,7 @@ const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
           break;
         } catch (e) {
           // only for unexpected error conditions (e.g. fetch throws an error)
-          Logger.error(`Something unexpected happened while we were checking port ${port}`);
+          Logger.error(`Something unexpected happened while we were checking url ${baseUrl}`);
         }
       }
 
