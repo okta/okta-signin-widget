@@ -24,7 +24,7 @@ describe('okta-verify-sms-channel-enrollment', () => {
     await findByText(/Make sure you can access the text on your mobile device./);
     const phoneEl = await findByLabelText('Phone number') as HTMLInputElement;
     const submitBtn = await findByText(/Send me the setup link/);
-    const countryEl = await findByLabelText('Country') as HTMLInputElement;
+    const countryEl = await findByLabelText('Country/region') as HTMLInputElement;
 
     expect(container).toMatchSnapshot();
 

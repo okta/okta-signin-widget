@@ -60,7 +60,7 @@ const Body = BaseForm.extend({
 
     const countryUISchema = {
       'label-top': true,
-      label: loc('country.label', 'login'),
+      label: loc('mfa.country', 'login'),
       type: 'select',
       options: CountryUtil.getCountries(),
       name: 'country',

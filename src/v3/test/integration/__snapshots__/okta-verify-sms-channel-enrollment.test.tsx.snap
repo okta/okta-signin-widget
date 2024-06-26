@@ -148,7 +148,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form and s
                             id="country-label"
                           >
                             <span>
-                              Country
+                              Country/region
                             </span>
                           </label>
                           <div
@@ -1667,7 +1667,7 @@ exports[`okta-verify-sms-channel-enrollment should render sms channel form witho
                             id="country-label"
                           >
                             <span>
-                              Country
+                              Country/region
                             </span>
                           </label>
                           <div
