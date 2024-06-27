@@ -54,7 +54,7 @@ test
     await t.expect(enrollGoogleAuthenticatorPageObject.isEnterCodeSubtitleVisible()).notOk();
     await t.expect(enrollGoogleAuthenticatorPageObject.getBarcodeSubtitle()).eql('Scan QR code');
     await t.expect(enrollGoogleAuthenticatorPageObject.getSetUpDescription())
-      .eql('Launch Google Authenticator, tap the "+" icon, then select "Scan QR code".');
+      .eql('Launch Google Authenticator, tap the "+" icon, then select "Scan a QR code".');
     await t.expect(enrollGoogleAuthenticatorPageObject.hasQRcode).ok();
     await t.expect(enrollGoogleAuthenticatorPageObject.getNextButton().exists).eql(true);
     await enrollGoogleAuthenticatorPageObject.goToNextPage();
