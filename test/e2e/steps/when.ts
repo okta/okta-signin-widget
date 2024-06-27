@@ -137,6 +137,7 @@ When(
 
 When(
   /^user inputs the correct code from email$/,
+  { timeout: 30 * 1000 },
   async function() {
     await VerifyEmailAuthenticatorPage.waitForPageLoad();
     let code = '';
@@ -173,6 +174,7 @@ When (
 
 When(
   /^user clicks the email magic link$/,
+  { timeout: 30 * 1000 },
   // eslint-disable-next-line no-unused-vars
   async function(this: ActionContext) {
     let emailMagicLink;
@@ -231,14 +233,24 @@ When(
 );
 
 When(
-    /^user submits their email to unlock$/,
-    async function() {
-        return await UnlockPage.enterUserEmailToUnlock(this.credentials.emailAddress);
-    }
+  /^user is "(.+)"$/,
+  // eslint-disable-next-line no-unused-vars
+  async function(this: ActionContext, firstName: string) {
+    this.user = this.users[firstName].user;
+    this.credentials = this.users[firstName].credentials;
+  }
+);
+
+When(
+  /^user submits their email to unlock$/,
+  async function() {
+      return await UnlockPage.enterUserEmailToUnlock(this.credentials.emailAddress);
+  }
 );
 
 When(
   /^user clicks the password reset magic link$/,
+  { timeout: 30 * 1000 },
   async function() {
     let passwordResetMagicLink;
     if (process.env.LOCAL_MONOLITH) {
@@ -252,6 +264,7 @@ When(
 
 When(
     /^user clicks the unlock account magic link$/,
+    { timeout: 30 * 1000 },
     async function() {
       let unlockAccountLink;
       if (process.env.LOCAL_MONOLITH) {

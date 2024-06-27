@@ -16,17 +16,23 @@ import ActionContext from '../../support/context';
 
 // eslint-disable-next-line no-unused-vars
 export default async function(this: ActionContext): Promise<void> {
-    // remove users in live production org
-    if (this.a18nClient && this.credentials) {
-        await this.a18nClient!.deleteProfile(this.credentials.profileId!);
-    }
-
-    if (process.env.PRESERVE_CREATED_ENTITIES) {
-        console.log('Not deleting created USER:', this.user);
-        return;
-    }
-
-    if (this.user) {
-        await deleteUser(this.user);
+  // remove users in live production org
+  if (this.a18nClient) {
+    const profileIds = Array.from(new Set([
+      ...Object.values(this.users || {}).map(({credentials}) => credentials?.profileId),
+      this.credentials?.profileId,
+    ].filter((profileId) => !!profileId)));
+    for (const profileId of profileIds) {
+      await this.a18nClient!.deleteProfile(profileId!);
     }
   }
+
+  if (process.env.PRESERVE_CREATED_ENTITIES) {
+    console.log('Not deleting created USER:', this.user);
+    return;
+  }
+
+  for (const userName in this.users || {}) {
+    await deleteUser(this.users[userName].user);
+  }
+}

@@ -13,7 +13,9 @@ import { _, Controller, loc } from '@okta/courage';
 import ViewFactory from '../view-builder/ViewFactory';
 import IonResponseHelper from '../ion/IonResponseHelper';
 import { getV1ClassName } from '../ion/ViewClassNamesFactory';
-import { FORMS, TERMINAL_FORMS, FORM_NAME_TO_OPERATION_MAP } from '../ion/RemediationConstants';
+import {
+  FORMS, TERMINAL_FORMS, FORM_NAME_TO_OPERATION_MAP, ORG_PASSWORD_RECOVERY_LINK
+} from '../ion/RemediationConstants';
 import transformPayload from '../ion/payloadTransformer';
 import Util from 'util/Util';
 import sessionStorageHelper from '../client/sessionStorageHelper';
@@ -150,6 +152,16 @@ export default Controller.extend({
   // eslint-disable-next-line max-statements
   async handleInvokeAction(actionPath = '', actionParams = {}) {
     const { appState, settings } = this.options;
+
+    // For self-hosted scenario we need to start reset flow at identify page from scratch.
+    //  (Reusing state handle of transaction after failed sign-in attempt for reset flow is error prone)
+    // For Okta-hosted scenario we don't need to cancel/restart flow because SIW receives fresh state token
+    //  from backend on page load and doesn't save state handle to session storage after error.
+    if (actionPath === ORG_PASSWORD_RECOVERY_LINK && settings.get('oauth2Enabled')) {
+      appState.trigger('restartLoginFlow', 'resetPassword');
+      return;
+    }
+  
     const idx = appState.get('idx');
     const { stateHandle } = idx.context;
     let invokeOptions: ProceedOptions = {
@@ -164,6 +176,7 @@ export default Controller.extend({
       settings.getAuthClient().transactionManager.clear({ clearIdxResponse: false });
       sessionStorageHelper.removeStateHandle();
       appState.clearAppStateCache();
+      appState.unset('lastIdentifier');
 
       if (settings.get('oauth2Enabled')) {
         // In this case we need to restart login flow and recreate transaction meta
@@ -361,6 +374,7 @@ export default Controller.extend({
    */
   async showFormErrors(model, error, form) {
     /* eslint max-statements: [2, 24] */
+    const formName = model.get('formName');
     let errorObj;
     let idxStateError;
     let showErrorBanner = true;
@@ -393,10 +407,14 @@ export default Controller.extend({
     model.trigger('error', model, errorObj, showErrorBanner);
     idxStateError = Object.assign({}, idxStateError, {hasFormError: true});
 
-    // TODO OKTA-408410: Widget should update the state on every new response. It should NOT do selective update.
-    // For eg 429 rate-limit errors, we have to skip updating idx state, because error response is not an idx response.
-    if (Array.isArray(idxStateError?.neededToProceed) && idxStateError?.neededToProceed.length) {
-      await this.handleIdxResponse(idxStateError);
+    // OKTA-725716: Don't save failed IDX response to state
+
+    // Save identifier to be auto filled on EnrollProfileView and IdentifyRecoveryView
+    if (formName === FORMS.IDENTIFY) {
+      const identifier = model.get('identifier');
+      this.options.appState.set('lastIdentifier', identifier);
+    } else {
+      this.options.appState.unset('lastIdentifier');
     }
   },
 

@@ -3926,11 +3926,12 @@
     webcrypto-shim "^0.1.5"
     xhr2 "0.1.3"
 
-"@okta/okta-sdk-nodejs@^6.5.0":
-  version "6.5.0"
-  resolved "https://registry.yarnpkg.com/@okta/okta-sdk-nodejs/-/okta-sdk-nodejs-6.5.0.tgz#6f9a1cf3b27ff24eb42b9dd75639492c57603f90"
-  integrity sha512-zqhWzeUi2NY9ERAktJXT/v45Q6x8EU7tew4Fau94Y9/etsrPmHloyXgHHcCSy6i+ApgzN1cCBe+e7k51upLLng==
+"@okta/okta-sdk-nodejs@^7.1.0":
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/@okta/okta-sdk-nodejs/-/okta-sdk-nodejs-7.1.0.tgz#28d506351b400d840660b1400541b6b11bc39b16"
+  integrity sha512-tNQymIh6V/kC94msSUmLMyJ1mVtj65h6+JiTstjjC3hEY2Dz4BbM1WZtieErbRa75qhNJCVbHaLG2M+6RrgfYg==
   dependencies:
+    "@types/node-forge" "^1.3.1"
     deep-copy "^1.4.2"
     eckles "^1.4.1"
     form-data "^4.0.0"
@@ -3942,6 +3943,7 @@
     parse-link-header "^2.0.0"
     rasha "^1.2.5"
     safe-flat "^2.0.2"
+    url-parse "^1.5.10"
 
 "@open-draft/until@^1.0.3":
   version "1.0.3"
@@ -4749,6 +4751,13 @@
   version "0.7.31"
   resolved "https://registry.yarnpkg.com/@types/ms/-/ms-0.7.31.tgz#31b7ca6407128a3d2bbc27fe2d21b345397f6197"
   integrity sha512-iiUgKzV9AuaEkZqkOLDIvlQiL6ltuZd9tGcW3gwpnX8JbuiuhFlEGmmFXEXkN50Cvq7Os88IY2v0dkDqXYWVgA==
+
+"@types/node-forge@^1.3.1":
+  version "1.3.11"
+  resolved "https://registry.yarnpkg.com/@types/node-forge/-/node-forge-1.3.11.tgz#0972ea538ddb0f4d9c2fa0ec5db5724773a604da"
+  integrity sha512-FQx220y22OKNTqaByeBGqHWYz4cl94tpcxeFdvBo3wjG6XPBuZ0BNgNZRV5J5TFmmcsJ4IzsLkmGRiQbnYsBEQ==
+  dependencies:
+    "@types/node" "*"
 
 "@types/node@*", "@types/node@^18.0.0":
   version "18.11.9"
@@ -20048,7 +20057,7 @@ url-parse-lax@^3.0.0:
   dependencies:
     prepend-http "^2.0.0"
 
-url-parse@^1.5.3:
+url-parse@^1.5.10, url-parse@^1.5.3:
   version "1.5.10"
   resolved "https://registry.yarnpkg.com/url-parse/-/url-parse-1.5.10.tgz#9d3c2f736c1d75dd3bd2be507dcc111f1e2ea9c1"
   integrity sha512-WypcfiRhfeUP9vvF0j6rw0J3hrWrw6iZv3+22h6iRMJ/8z1Tj6XfLP4DsUix5MhMPnXpiHDoKyoZ/bdCkwBCiQ==
