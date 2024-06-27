@@ -135,7 +135,7 @@ test
     await enrollGoogleAuthenticatorPageObject.goTomanualSetup();
     await t.expect(enrollGoogleAuthenticatorPageObject.form.getTitle()).eql('Set up Google Authenticator');
     await t.expect(enrollGoogleAuthenticatorPageObject.isEnterCodeSubtitleVisible()).notOk();
-    await t.expect(enrollGoogleAuthenticatorPageObject.getmanualSetupSubtitle()).eql('Can\'t scan barcode?');
+    await t.expect(enrollGoogleAuthenticatorPageObject.getmanualSetupSubtitle()).eql('Can\'t scan QR code?');
     const sharedSecret = await enrollGoogleAuthenticatorPageObject.getSharedSecret();
     // Remove white spaces in string
     await t.expect(sharedSecret.toString().replace(/\s/g, '')).eql('ZR74DHZTG43NBULV');
