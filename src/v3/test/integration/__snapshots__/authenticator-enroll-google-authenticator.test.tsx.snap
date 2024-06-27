@@ -167,7 +167,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
                           data-se="barcode-setup-title"
                           tabindex="-1"
                         >
-                          Scan barcode
+                          Scan QR code
                         </h3>
                       </div>
                     </div>
@@ -182,7 +182,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
                           data-se="google-authenticator-setup-info"
                           tabindex="-1"
                         >
-                          Launch Google Authenticator, tap the "+" icon, then select "Scan barcode".
+                          Launch Google Authenticator, tap the "+" icon, then select "Scan a QR code".
                         </p>
                       </div>
                     </div>
@@ -680,7 +680,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                           data-se="manual-setup-title"
                           tabindex="-1"
                         >
-                          Can't scan barcode?
+                          Can't scan QR code?
                         </h3>
                       </div>
                     </div>
