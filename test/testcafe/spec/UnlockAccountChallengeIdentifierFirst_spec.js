@@ -9,7 +9,6 @@ import xhrIdentifyWithPassword from '../../../playground/mocks/data/idp/idx/iden
 import xhrUserUnlockAuthSelector from '../../../playground/mocks/data/idp/idx/user-unlock-account';
 import xhrUserUnlockAuthSelectorIdentifierFirst from '../../../playground/mocks/data/idp/idx/user-unlock-account-choose-auth-identifier-first.json';
 import xhrUserUnlockIdentifierFirst from '../../../playground/mocks/data/idp/idx/user-unlock-account-identifier-first.json';
-import xhrUserUnlockOneAuthIdentifierFirst from '../../../playground/mocks/data/idp/idx/user-unlock-account-one-authenticator-identifier-first.json';
 import xhrUserUnlockSuccess from '../../../playground/mocks/data/idp/idx/user-account-unlock-success';
 import xhrUserUnlockSuccessLandOnApp from '../../../playground/mocks/data/idp/idx/user-account-unlock-success-land-on-app';
 import xhrUserUnlockEmailChallenge from '../../../playground/mocks/data/idp/idx/authenticator-verification-email';
@@ -106,7 +105,7 @@ const identifyLockedUserMockWithOneAuthenticator = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrIdentifyWithUnlock)
   .onRequestTo('http://localhost:3000/idp/idx/unlock-account')
-  .respond(xhrUserUnlockOneAuthIdentifierFirst)
+  .respond(xhrUserUnlockIdentifierFirst)
   .onRequestTo('http://localhost:3000/idp/idx/challenge')
   .respond(xhrUserUnlockEmailChallenge)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
@@ -180,7 +179,7 @@ test.meta('gen2', false).requestHooks(legacyIdentifyLockedUserMock)('should show
   await identityPage.clickUnlockAccountLink();
 
   const selectFactorPage = new SelectFactorPageObject(t);
-  await t.expect(selectFactorPage.getFormTitle()).contains('Unlock account');
+  await t.expect(selectFactorPage.getFormTitle()).eql('Unlock account');
   await selectFactorPage.fillIdentifierField('username');
 
   await t.expect(selectFactorPage.getNextButton().exists).eql(true);
@@ -211,7 +210,7 @@ test.requestHooks(identifyLockedUserMock)('should show unlock account authentica
   await identityPage.clickUnlockAccountLink();
 
   const selectFactorPage = new SelectFactorPageObject(t);
-  await t.expect(selectFactorPage.getFormTitle()).contains('Unlock account');
+  await t.expect(selectFactorPage.getFormTitle()).eql('Unlock account');
   await selectFactorPage.fillIdentifierField('username');
 
   await t.expect(selectFactorPage.getNextButton().exists).eql(true);
@@ -307,7 +306,7 @@ test.meta('gen2', false).requestHooks(legacyErrorUnlockAccount)('should show err
   await checkA11y(t);
   await identityPage.clickUnlockAccountLink();
   const selectFactorPage = new SelectFactorPageObject(t);
-  await t.expect(selectFactorPage.getFormTitle()).eql('Unlock account?');
+  await t.expect(selectFactorPage.getFormTitle()).eql('Unlock account');
 
   await t.expect(selectFactorPage.getNextButton().exists).eql(true);
   await selectFactorPage.goToNextPage();
@@ -321,7 +320,7 @@ test.requestHooks(errorUnlockAccount)('should show error box if form is submitte
   await checkA11y(t);
   await identityPage.clickUnlockAccountLink();
   const selectFactorPage = new SelectFactorPageObject(t);
-  await t.expect(selectFactorPage.getFormTitle()).contains('Unlock account');
+  await t.expect(selectFactorPage.getFormTitle()).eql('Unlock account');
 
   await t.expect(selectFactorPage.getNextButton().exists).eql(true);
   await selectFactorPage.goToNextPage();
@@ -357,7 +356,7 @@ test.meta('gen2', false).requestHooks(legacyIdentifyLockedUserLandOnAppMock)('sh
   await identityPage.clickUnlockAccountLink();
 
   const selectFactorPage = new SelectFactorPageObject(t);
-  await t.expect(selectFactorPage.getFormTitle()).eql('Unlock account?');
+  await t.expect(selectFactorPage.getFormTitle()).eql('Unlock account');
   await selectFactorPage.fillIdentifierField('username');
   await t.expect(selectFactorPage.getNextButton().exists).eql(true);
   await selectFactorPage.goToNextPage();  
@@ -385,7 +384,7 @@ test.requestHooks(identifyLockedUserLandOnAppMock)('should show unlock account a
   await identityPage.clickUnlockAccountLink();
 
   const selectFactorPage = new SelectFactorPageObject(t);
-  await t.expect(selectFactorPage.getFormTitle()).contains('Unlock account');
+  await t.expect(selectFactorPage.getFormTitle()).eql('Unlock account');
   await selectFactorPage.fillIdentifierField('username');
   await t.expect(selectFactorPage.getNextButton().exists).eql(true);
   await selectFactorPage.goToNextPage();  
