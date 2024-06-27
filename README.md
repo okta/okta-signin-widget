@@ -250,7 +250,6 @@ If your organization has upgraded to [Identity Engine][], the smaller `oie` bund
 | oie        | okta-sign-in.oie.min.js         | 1.3 MB       |                    | :white_check_mark: |                    | Smaller bundle for OIE enabled orgs       |
 | classic    | okta-sign-in.classic.min.js     | 1.1 MB       | :white_check_mark: |                    |                    | Smaller bundle for Classic Engine only    |
 | polyfill   | okta-sign-in.polyfill.min.js    | 108KB        |                    |                    | :white_check_mark: | Standalone polyfill bundle. Can be used along with a widget bundle that does not include the polyfill. |
-| oie        | okta-sign-in.next.min.js        | 1.5 MB       |                    | :white_check_mark: | :white_check_mark: | Smaller bundle (3rd generation) for OIE enabled orgs|
 
 
 To embed the Sign-in Widget via CDN, include links to the JS and CSS files in your HTML:

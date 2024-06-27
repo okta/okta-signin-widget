@@ -193,7 +193,7 @@ describe('Phone verification Transformer Tests', () => {
       subtitleKey,
       'login',
       [`&lrm;${mockPhoneNumber}`],
-      { $1: { element: 'span', attributes: { class: 'strong no-translate' } } },
+      { $1: { element: 'span', attributes: { class: 'strong no-translate nowrap' } } },
     );
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)
       .toBe('oie.phone.carrier.charges');
@@ -242,7 +242,7 @@ describe('Phone verification Transformer Tests', () => {
       subtitleKey,
       'login',
       [`&lrm;${mockPhoneNumber}`],
-      { $1: { element: 'span', attributes: { class: 'strong no-translate' } } },
+      { $1: { element: 'span', attributes: { class: 'strong no-translate nowrap' } } },
     );
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)
       .toBe('oie.phone.carrier.charges');
@@ -295,7 +295,7 @@ describe('Phone verification Transformer Tests', () => {
       'login',
       [`&lrm;${mockPhoneNumber}`, mockNickname],
       {
-        $1: { element: 'span', attributes: { class: 'strong no-translate' } },
+        $1: { element: 'span', attributes: { class: 'strong no-translate nowrap' } },
         $2: {
           element: 'span',
           attributes: { class: 'strong no-translate authenticator-verify-nickname' },
@@ -352,7 +352,7 @@ describe('Phone verification Transformer Tests', () => {
       'login',
       [`&lrm;${mockPhoneNumber}`, mockNickname],
       {
-        $1: { element: 'span', attributes: { class: 'strong no-translate' } },
+        $1: { element: 'span', attributes: { class: 'strong no-translate nowrap' } },
         $2: {
           element: 'span',
           attributes: { class: 'strong no-translate authenticator-verify-nickname' },

@@ -279,6 +279,10 @@
   }
 }
 
+.nowrap {
+  white-space: nowrap;
+}
+
 /*
  * NOTE: widget styles below, login page styles above. Take care when moving CSS
  * from SIW to loginpage (okta-ui) in OKTA-602545
