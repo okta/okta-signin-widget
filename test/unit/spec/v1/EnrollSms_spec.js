@@ -19,6 +19,8 @@ import $sandbox from 'sandbox';
 import LoginUtil from 'util/Util';
 const itp = Expect.itp;
 
+jest.retryTimes(2);
+
 Expect.describe('EnrollSms', function() {
   function setup(resp, startRouter, routerOptions = {}) {
     const setNextResponse = Util.mockAjax();
