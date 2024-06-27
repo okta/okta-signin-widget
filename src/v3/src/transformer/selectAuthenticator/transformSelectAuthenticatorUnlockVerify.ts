@@ -93,7 +93,7 @@ export const transformSelectAuthenticatorUnlockVerify: IdxStepTransformer = ({
   const unlockAccountTitle: TitleElement = {
     type: 'Title',
     options: {
-      content: loc('unlockaccount', 'login'),
+      content: loc('account.unlock.title', 'login'),
     },
   };
 
