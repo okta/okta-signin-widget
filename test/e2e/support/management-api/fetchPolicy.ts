@@ -10,15 +10,24 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { User } from '@okta/okta-sdk-nodejs';
 import getOktaClient from './getOktaClient';
+import { Policy } from '@okta/okta-sdk-nodejs';
 
-export default async function(user: User): Promise<void> {
+type Options = {
+  policyName: string; 
+  policyType: string;
+}
+
+export default async function fetchPolicy(options: Options) {
   const oktaClient = getOktaClient();
-  await oktaClient.userApi.deactivateUser({
-    userId: user.id as string
-  });
-  await oktaClient.userApi.deleteUser({
-    userId: user.id as string
-  });
+  const { policyType, policyName } = options;
+
+  const policies: Policy[] = [];
+  for await (const policy of await oktaClient.policyApi.listPolicies({type: policyType})) {
+    if (policy) {
+      policies.push(policy);
+    }
+  }
+  const foundPolicy = policies.find(policy => policy.name === policyName);
+  return foundPolicy;
 }

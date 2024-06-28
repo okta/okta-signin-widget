@@ -31,6 +31,10 @@ const Body = BaseForm.extend({
     return loc('oie.registration.form.submit', 'login');
 
   },
+  initialize() {
+    BaseForm.prototype.initialize.apply(this, arguments);
+    this.model.set('userProfile.email', this.options.appState.get('lastIdentifier'));
+  },
   saveForm() {
     // SIW customization hook for registration
     this.settings.preRegistrationSubmit(this.model.toJSON(),

@@ -10,15 +10,24 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { User } from '@okta/okta-sdk-nodejs';
-import getOktaClient from './getOktaClient';
+import { Client } from '@okta/okta-sdk-nodejs';
+import { getConfig } from '../../util/configUtil';
 
-export default async function(user: User): Promise<void> {
-  const oktaClient = getOktaClient();
-  await oktaClient.userApi.deactivateUser({
-    userId: user.id as string
-  });
-  await oktaClient.userApi.deleteUser({
-    userId: user.id as string
-  });
+export type OktaClientConfig = {
+  issuer?: string;
+  orgUrl?: string;
+  oktaAPIKey?: string;
+  scopes?: string[];
+  clientId?: string;
+}
+
+export default function getOktaClient() {
+  const config = getConfig();
+  const { orgUrl, oktaAPIKey, ...rest } = config;
+  const oktaClient = new Client({
+    orgUrl,
+    token: oktaAPIKey,
+    ...rest
+  });  
+  return oktaClient;
 }

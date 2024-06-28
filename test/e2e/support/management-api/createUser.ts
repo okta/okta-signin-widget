@@ -11,21 +11,24 @@
  */
 
 
-import { Client, Group, User } from '../../../../node_modules/@okta/okta-sdk-nodejs';
-import { getConfig } from '../../util/configUtil';
+import { User, Group, PasswordPolicy } from '@okta/okta-sdk-nodejs';
 import deleteUser from './deleteUser';
 import { UserCredentials } from './createCredentials';
+import getOktaClient from './getOktaClient';
+import fetchGroup from './fetchGroup';
+import getOrCreateNoResetPasswordPolicy from './getOrCreateNoResetPasswordPolicy';
+import { getConfig } from '../../util/configUtil';
 
 const userGroup = 'Basic Auth Web';
 
 export default async (credentials: UserCredentials, assignToGroups = []): Promise<User> => {
   const config = getConfig();
-  const oktaClient = new Client({
-    orgUrl: config.orgUrl,
-    token: config.oktaAPIKey,
-  });
+  const oktaClient = getOktaClient();
 
-  let user;
+  let user: User | undefined;
+  let testGroup: Group | undefined;
+  let groupToAssign: Group | undefined;
+  let passwordPolicy: PasswordPolicy | undefined;
 
   const basicAuthGroup = {
     profile: {
@@ -34,17 +37,18 @@ export default async (credentials: UserCredentials, assignToGroups = []): Promis
   };
 
   try {
-    user = await oktaClient.createUser({
-      profile: {
-        firstName: credentials.firstName,
-        lastName: credentials.lastName,
-        email: credentials.emailAddress,
-        login: credentials.emailAddress
+    user = await oktaClient.userApi.createUser({
+      body: {
+        profile: {
+          firstName: credentials.firstName,
+          lastName: credentials.lastName,
+          email: credentials.emailAddress,
+          login: credentials.emailAddress
+        },
+        credentials: {
+          password: { value: credentials.password }
+        }
       },
-      credentials: {
-        password: { value: credentials.password }
-      }
-    }, {
       activate: true
     });
 
@@ -56,32 +60,36 @@ export default async (credentials: UserCredentials, assignToGroups = []): Promis
     }
 
     // Create the group if it doesn't exist
-    let { value: testGroup } = await oktaClient.listGroups({
-      q: userGroup
-    }).next();
-
+    testGroup = await fetchGroup(userGroup);
     if (!testGroup) {
-      testGroup = await oktaClient.createGroup(basicAuthGroup);
+      testGroup = await oktaClient.groupApi.createGroup({
+        group: basicAuthGroup
+      });
     }
-
-    await oktaClient.addUserToGroup((testGroup as Group).id, user.id);
+    await oktaClient.groupApi.assignUserToGroup({
+      userId: user.id as string,
+      groupId: testGroup.id as string,
+    });
 
     for (const groupName of assignToGroups) {
-      // TODO: create test group and attach password recovery policy during test run when API supports it
-      let { value: testGroup } = await oktaClient.listGroups({
-        q: groupName
-      }).next();
-
-      if (!testGroup) {
-        const group = {
-          profile: {
-            name: groupName
+      groupToAssign = await fetchGroup(groupName);
+      if (!groupToAssign) {
+        groupToAssign = await oktaClient.groupApi.createGroup({
+          group: {
+            profile: {
+              name: groupName
+            }
           }
-        };
-        testGroup = await oktaClient.createGroup(group);
+        });
       }
-
-      await oktaClient.addUserToGroup((testGroup as Group).id, user.id);
+      await oktaClient.groupApi.assignUserToGroup({
+        userId: user.id as string,
+        groupId: groupToAssign.id as string,
+      });
+      if (groupName === 'No Reset Password Group') {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
+        passwordPolicy = await getOrCreateNoResetPasswordPolicy(groupToAssign, 'No Reset Password Policy');
+      }
     }
 
     return user;
