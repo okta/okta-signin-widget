@@ -52,9 +52,9 @@ test
 
     await t.expect(enrollGoogleAuthenticatorPageObject.form.getTitle()).eql('Set up Google Authenticator');
     await t.expect(enrollGoogleAuthenticatorPageObject.isEnterCodeSubtitleVisible()).notOk();
-    await t.expect(enrollGoogleAuthenticatorPageObject.getBarcodeSubtitle()).eql('Scan barcode');
+    await t.expect(enrollGoogleAuthenticatorPageObject.getBarcodeSubtitle()).eql('Scan QR code');
     await t.expect(enrollGoogleAuthenticatorPageObject.getSetUpDescription())
-      .eql('Launch Google Authenticator, tap the "+" icon, then select "Scan barcode".');
+      .eql('Launch Google Authenticator, tap the "+" icon, then select "Scan a QR code".');
     await t.expect(enrollGoogleAuthenticatorPageObject.hasQRcode).ok();
     await t.expect(enrollGoogleAuthenticatorPageObject.getNextButton().exists).eql(true);
     await enrollGoogleAuthenticatorPageObject.goToNextPage();
@@ -101,7 +101,7 @@ test
 
     await t.expect(enrollGoogleAuthenticatorPageObject.form.getTitle()).eql('Set up Google Authenticator');
     await t.expect(enrollGoogleAuthenticatorPageObject.isEnterCodeSubtitleVisible()).notOk();
-    await t.expect(enrollGoogleAuthenticatorPageObject.getBarcodeSubtitle()).eql('Scan barcode');
+    await t.expect(enrollGoogleAuthenticatorPageObject.getBarcodeSubtitle()).eql('Scan QR code');
     await t.expect(enrollGoogleAuthenticatorPageObject.hasQRcode).ok();
 
     // Verify links (switch authenticator link is present even if there is just one authenticator available))
@@ -131,7 +131,7 @@ test
     await enrollGoogleAuthenticatorPageObject.goTomanualSetup();
     await t.expect(enrollGoogleAuthenticatorPageObject.form.getTitle()).eql('Set up Google Authenticator');
     await t.expect(enrollGoogleAuthenticatorPageObject.isEnterCodeSubtitleVisible()).notOk();
-    await t.expect(enrollGoogleAuthenticatorPageObject.getmanualSetupSubtitle()).eql('Can\'t scan barcode?');
+    await t.expect(enrollGoogleAuthenticatorPageObject.getmanualSetupSubtitle()).eql('Can\'t scan QR code?');
     const sharedSecret = await enrollGoogleAuthenticatorPageObject.getSharedSecret();
     // Remove white spaces in string
     await t.expect(sharedSecret.toString().replace(/\s/g, '')).eql('ZR74DHZTG43NBULV');
