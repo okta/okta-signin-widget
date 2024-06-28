@@ -118,6 +118,9 @@ import ReEnrollCustomPasswordExpiryWarningView from './views/custom-password/ReE
 // keep me signed in
 import PostAuthKeepMeSignedInView from './views/keep-me-signed-in/PostAuthKeepMeSignedInView';
 
+// unlock account
+import UnlockAccountView from './views/authenticator/UnlockAccountView'
+
 const DEFAULT = '_';
 
 const VIEWS_MAPPING = {
@@ -239,6 +242,9 @@ const VIEWS_MAPPING = {
   },
   [RemediationForms.SELECT_AUTHENTICATOR_UNLOCK]: {
     [DEFAULT]: SelectAuthenticatorUnlockAccountView,
+  },
+  [RemediationForms.UNLOCK_ACCOUNT]: {
+    [DEFAULT]: UnlockAccountView,
   },
   [RemediationForms.CHALLENGE_POLL]: {
     [AUTHENTICATOR_KEY.OV]: ChallengeOktaVerifyView,

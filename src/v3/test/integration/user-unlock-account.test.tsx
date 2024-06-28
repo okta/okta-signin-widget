@@ -18,7 +18,7 @@ import mockResponse from '../../src/mocks/response/idp/idx/unlock-account/defaul
 describe('user-unlock-account', () => {
   it('renders form', async () => {
     const { container, findByText, findByLabelText } = await setup({ mockResponse });
-    await findByText(/Unlock account\?/);
+    await findByText(/Unlock account/);
     await findByLabelText(/Username/);
     expect(container).toMatchSnapshot();
   });
@@ -41,7 +41,7 @@ describe('user-unlock-account', () => {
       const {
         authClient, user, findByTestId, findByText, findByLabelText,
       } = await setup({ mockResponse });
-      const titleElement = await findByText(/Unlock account\?/);
+      const titleElement = await findByText(/Unlock account/);
       await waitFor(() => expect(titleElement).toHaveFocus());
       const usernameEl = await findByLabelText('Username') as HTMLInputElement;
       await user.type(usernameEl, 'testuser@okta.com');
@@ -67,7 +67,7 @@ describe('user-unlock-account', () => {
         authClient, user, findByTestId, findByText, findByLabelText,
       } = await setup({ mockResponse });
 
-      const titleElement = await findByText(/Unlock account\?/);
+      const titleElement = await findByText(/Unlock account/);
       await waitFor(() => expect(titleElement).toHaveFocus());
       const usernameEl = await findByLabelText('Username') as HTMLInputElement;
       await user.type(usernameEl, 'testuser@okta.com');

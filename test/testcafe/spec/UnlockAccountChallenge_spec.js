@@ -70,9 +70,8 @@ const rerenderWidget = ClientFunction((settings) => {
   window.renderPlaygroundWidget(settings);
 });
 
-// See UnlockAccountChallenge_gen3_spec.js is the gen3-specific spec since the unlock account flow
-// diverges significantly between gen2 and gen3
-fixture('Unlock Account - Gen 2').meta('gen3', false);
+// Gen 3 only supports identifier-first unlock account flows (see UnlockAccountChallengeIdentifierFirst_spec.js)
+fixture('Unlock Account').meta('gen3', false);
 
 async function setup(t, widgetOptions) {
   const options = widgetOptions ? { render: false } : {};
@@ -128,7 +127,7 @@ test.requestHooks(identifyLockedUserMock)('should show unlock account authentica
   await identityPage.clickUnlockAccountLink();
 
   const selectFactorPage = new SelectFactorPageObject(t);
-  await t.expect(selectFactorPage.getFormTitle()).eql('Unlock account?');
+  await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with a security method');
   await t.expect(selectFactorPage.getFactorsCount()).eql(2);
   await selectFactorPage.fillIdentifierField('username');
   await selectFactorPage.selectFactorByIndex(0);
@@ -153,7 +152,7 @@ test.requestHooks(errorUnlockAccount)('should show error if identifier is blank'
   await checkA11y(t);
   await identityPage.clickUnlockAccountLink();
   const selectFactorPage = new SelectFactorPageObject(t);
-  await t.expect(selectFactorPage.getFormTitle()).eql('Unlock account?');
+  await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with a security method');
   await selectFactorPage.selectFactorByIndex(0);
   await t.expect(selectFactorPage.getIdentifierError()).eql('This field cannot be left blank');
 });
@@ -183,7 +182,7 @@ test.requestHooks(identifyLockedUserLandOnAppMock)('should show unlock account a
   await identityPage.clickUnlockAccountLink();
 
   const selectFactorPage = new SelectFactorPageObject(t);
-  await t.expect(selectFactorPage.getFormTitle()).eql('Unlock account?');
+  await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with a security method');
   await t.expect(selectFactorPage.getFactorsCount()).eql(2);
   await selectFactorPage.fillIdentifierField('username');
   await selectFactorPage.selectFactorByIndex(0);
@@ -238,7 +237,7 @@ test.requestHooks(identifyLockedUserMock)('should keep the user on the unlock ac
   await selectFactorPage.fillIdentifierField('username');
   await t.pressKey('enter');
 
-  await t.expect(selectFactorPage.getFormTitle()).eql('Unlock account?');
+  await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with a security method');
   await t.expect(selectFactorPage.getFactorsCount()).eql(2);
 });
 

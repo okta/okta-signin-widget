@@ -20,7 +20,7 @@ Object {
             "elements": Array [
               Object {
                 "options": Object {
-                  "content": "unlockaccount",
+                  "content": "account.unlock.title",
                 },
                 "type": "Title",
                 "viewIndex": 0,
@@ -122,7 +122,7 @@ Object {
             "elements": Array [
               Object {
                 "options": Object {
-                  "content": "unlockaccount",
+                  "content": "account.unlock.title",
                 },
                 "type": "Title",
                 "viewIndex": 0,
@@ -228,7 +228,7 @@ Object {
             "elements": Array [
               Object {
                 "options": Object {
-                  "content": "unlockaccount",
+                  "content": "account.unlock.title",
                 },
                 "type": "Title",
                 "viewIndex": 0,
@@ -328,7 +328,7 @@ Object {
             "elements": Array [
               Object {
                 "options": Object {
-                  "content": "unlockaccount",
+                  "content": "account.unlock.title",
                 },
                 "type": "Title",
                 "viewIndex": 0,
@@ -428,7 +428,7 @@ Object {
             "elements": Array [
               Object {
                 "options": Object {
-                  "content": "unlockaccount",
+                  "content": "account.unlock.title",
                 },
                 "type": "Title",
                 "viewIndex": 0,
@@ -528,7 +528,7 @@ Object {
             "elements": Array [
               Object {
                 "options": Object {
-                  "content": "unlockaccount",
+                  "content": "account.unlock.title",
                 },
                 "type": "Title",
                 "viewIndex": 0,
@@ -628,7 +628,7 @@ Object {
             "elements": Array [
               Object {
                 "options": Object {
-                  "content": "unlockaccount",
+                  "content": "account.unlock.title",
                 },
                 "type": "Title",
                 "viewIndex": 0,
