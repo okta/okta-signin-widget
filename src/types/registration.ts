@@ -2,7 +2,9 @@ import { APIError } from '@okta/okta-auth-js';
 import {
   SimpleCallback
 } from './results';
-
+import {
+  RegistrationElementSchema
+} from '../v3/src/types';
 
 // Registration
 
@@ -88,7 +90,7 @@ export type Field =
   FieldBoolean |
   FieldArray;
 
-export interface RegistrationSchema {
+interface RegistrationSchemaV1 {
   lastUpdate: number;
   policyId: string;
   profileSchema: {
@@ -99,6 +101,8 @@ export interface RegistrationSchema {
     fieldOrder: Array<string>;
   };
 }
+
+export type RegistrationSchema = RegistrationSchemaV1 | RegistrationElementSchema[];
 
 type FieldValue = string | boolean | number | Array<string | number> | null;
 
