@@ -13,13 +13,18 @@
 import { OktaAuthIdxInterface, Tokens } from '@okta/okta-auth-js';
 
 import {
-  HooksAPI,
+  HooksAPI as Gen2HooksAPI,
   RenderErrorCallback,
   RenderResult,
   RenderSuccessCallback,
   RouterEventsAPI,
 } from '../../../types';
+import { TransformHookFunction } from './hooks';
 import { RenderOptions, WidgetOptions } from './widget';
+
+export interface HooksAPI extends Gen2HooksAPI {
+  afterTransform?(formName: string, hookFn: TransformHookFunction): void;
+}
 
 // Keep a duplicate OktaSignInAPI interface because the version of auth-js differs between
 // Gen3 and Gen2 so there are type mismatches in their exposed type interfaces
