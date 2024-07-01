@@ -2,11 +2,9 @@ import { OktaAuthOAuthInterface, Tokens } from '@okta/okta-auth-js';
 import { RenderOptions, WidgetOptions } from './options';
 import { EventCallback, EventCallbackWithError, } from './events';
 import { RenderError, RenderResult } from './results'
-import { TransformHookFunction } from '../v3/src/types/hooks';
 export interface HooksAPI {
   before(eventName, hookFn): void;
   after(eventName, hookFn): void;
-  afterTransform?(formName: string, hookFn: TransformHookFunction): void;
 }
 
 export interface RouterEventsAPI {
