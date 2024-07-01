@@ -14,12 +14,12 @@ import { IdxTransaction } from '@okta/okta-auth-js';
 
 import { HookFunction } from '../../../types';
 import {
-  HookType, BaseHookType, HooksOptions, FormHooksMap, AllHooksMap, FormBag, TransformHookFunction, TransformHookContext
+  AllHooksMap, BaseHookType, FormBag, FormHooksMap, HooksOptions, HookType, TransformHookContext,
+  TransformHookFunction,
 } from '../types';
 import { getFormNameForTransaction } from './getEventContext';
 
 const hookTypes: HookType[] = ['before', 'after', 'afterTransform'];
-
 
 export class WidgetHooks {
   private hooks: AllHooksMap;

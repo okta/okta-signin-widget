@@ -340,6 +340,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       setData(formBag.data);
     }
     setUischema(formBag.uischema);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formBag, isClientTransaction]);
 
   const resume = useCallback(async () => {
