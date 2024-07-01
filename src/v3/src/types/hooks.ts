@@ -11,6 +11,7 @@
  */
 
 import { IdxAuthenticator } from '@okta/okta-auth-js';
+
 import { HookDefinition as BaseHookDefinition, HookFunction, HookType as BaseHookType } from '../../../types';
 import { FormBag } from './schema';
 import { UserInfo } from './userInfo';
