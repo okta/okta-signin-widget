@@ -34,6 +34,7 @@ if ! setup_service node v14.18.2 &> /dev/null; then
   exit ${FAILED_SETUP}
 fi
 
+export DISABLE_CSP=1
 export CDN_ONLY=1
 export BUNDLE="next"
 export TARGET="CROSS_BROWSER"
