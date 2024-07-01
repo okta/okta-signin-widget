@@ -1,5 +1,13 @@
 /*** enroll form ***/
 
+/* custom description */
+[data-se="o-form-explain"] {
+  width: 100%;
+}
+.my-enroll-description {
+  border: 1px dashed gray;
+}
+
 /* userProfile.custom_string */
 .MuiInputBase-root:has(#userProfile\.custom_string) {
   border-color: purple !important;
@@ -20,23 +28,15 @@
   color: orange !important;
 }
 
-/* userProfile.custom_bool */
-#userProfile\.custom_bool-error {
+/* custom_bool */
+#custom_bool-error {
   color: orange !important;
 }
-#userProfile\.custom_bool.Mui-error .MuiCheckbox-root {
+#custom_bool.Mui-error .MuiCheckbox-root {
   border-color: orange !important;
 }
-p[data-se="custom_bool-description"] {
+.custom_bool_title {
   font-weight: 600 !important;
-}
-
-/* custom description */
-[data-se="o-form-explain"] {
-  width: 100%;
-}
-.my-enroll-description {
-  border: 1px dashed gray;
 }
 
 
