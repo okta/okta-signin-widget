@@ -100,6 +100,13 @@ test_suites:
     script_name: e2e-saucelabs
     criteria: MERGE
     queue_name: small
+  - name: e2e-saucelabs-v3
+    script_path: /root/okta/okta-signin-widget/scripts
+    sort_order: '12'
+    timeout: '20'
+    script_name: e2e-saucelabs-v3
+    criteria: MERGE
+    queue_name: small
   # Optional test suite until Android is enabled
   - name: e2e-saucelabs-mobile
     script_path: /root/okta/okta-signin-widget/scripts
