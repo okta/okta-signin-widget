@@ -6,7 +6,7 @@ import {
 } from '../../src/types';
 import {
   ButtonElement, CustomLayout, DescriptionElement, DividerElement, FieldElement, LinkElement, 
-  RegistrationElementSchema, TitleElement, UISchemaElement, UISchemaLayout, UISchemaLayoutType, WidgetMessage,
+  RegistrationElementSchema, ReminderElement, StepperLayout, StepperNavigatorElement, TitleElement, UISchemaElement, UISchemaLayout, UISchemaLayoutType, WidgetMessage,
 } from '../../src/v3/src/types';
 import { IdxMessage, IdxMessages } from '@okta/okta-auth-js';
 
@@ -275,37 +275,68 @@ const addHookForIdentifyForm = (signIn: OktaSignInAPI) => {
   });
 };
 
+const addHookForEnrollAuthenticatorForm = (signIn: OktaSignInAPI) => {
+  signIn.afterTransform('enroll-authenticator', (formBag, { currentAuthenticator, userInfo }) => {
+    const stepper = formBag.uischema.elements.find(ele => ele.type === 'Stepper') as StepperLayout;
+    if (stepper) {
+      // Show 'Enter code' form imediately
+      stepper.elements.shift();
+      // Customize texts
+      const verifyLayout = stepper.elements[0] as UISchemaLayout;
+      const reminder = verifyLayout.elements.find(ele => ele.type === 'Reminder') as ReminderElement;
+      const title = verifyLayout.elements.find(ele => ele.type === 'Title') as TitleElement;
+      const description = verifyLayout.elements.find(ele => ele.type === 'Description') as DescriptionElement;
+      const input = verifyLayout.elements.find(ele => ele.type === 'Field') as FieldElement;
+      if (currentAuthenticator.type === 'email') {
+        const emailAddress = userInfo?.profile?.email || userInfo.identifier;
+        title.options.content = 'Verify your email';
+        description.options.content = `Click the verification link in the email we've sent to ${emailAddress} or enter the code below`;
+        input.translations.find(t => t.name === 'label').value = 'Enter code from email below:';
+        if (reminder) {
+          reminder.options.content = 'Haven\'t received email?';
+          reminder.options.buttonText = 'Resend';
+        }
+      }
+    }
+  });
+};
+
 const addHookForAllForms = (signIn: OktaSignInAPI) => {
-  signIn.afterTransform('*', (formBag, formName) => {
-    const allowedForms = [
+  signIn.afterTransform('*', (formBag, context) => {
+    const { formName } = context;
+    // Add Terms of Service link
+    const formsWithTermsLink = [
       'identify',
       'select-authenticator-unlock-account',
       'unlock-account',
       'identify-recovery',
       'enroll-profile',
     ];
-    if (!allowedForms.includes(formName)) {
-      return;
-    }
-    const customLink: LinkElement = {
-      type: 'Link',
-      contentType: 'footer',
-      options: {
-        href: 'https://www.okta.com/terms-of-service/',
-        target: '_blank',
-        step: '',
-        label: 'Terms of Service',
-        dataSe: 'factorPageHelpLink',
-      },
-      id: 'terms-of-service-0',
-      key: 'terms-of-service',
-    };
-
-    if (formBag.uischema.elements.length) {
+    if (formsWithTermsLink.includes(formName)) {
+      const customLink: LinkElement = {
+        type: 'Link',
+        contentType: 'footer',
+        options: {
+          href: 'https://www.okta.com/terms-of-service/',
+          target: '_blank',
+          step: '',
+          label: 'Terms of Service',
+          dataSe: 'factorPageHelpLink',
+        },
+        id: 'terms-of-service-0',
+        key: 'terms-of-service',
+      };
       formBag.uischema.elements.push(customLink);
-    } else {
-      // initial loading state
     }
+
+    // Change Back link name
+    const backLink = formBag.uischema.elements.find(ele =>
+      ele.type === 'Link' && (ele as LinkElement).options.dataSe === 'cancel') as LinkElement;
+    if (backLink) {
+      backLink.options.label = 'Back';
+    }
+
+    console.log('>>> playground afterTransform hook for', formName, formBag, ' context:', context)
   });
 };
 
@@ -313,5 +344,6 @@ export const addAfterTransformHooks = (signIn: OktaSignInAPI) => {
   addHookForEnrollProfileForm(signIn);
   addHookForIdentifyRecoveryForm(signIn);
   addHookForIdentifyForm(signIn);
+  addHookForEnrollAuthenticatorForm(signIn);
   addHookForAllForms(signIn);
 };

@@ -10,10 +10,18 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { IdxAuthenticator } from '@okta/okta-auth-js';
 import { HookDefinition as BaseHookDefinition, HookFunction, HookType as BaseHookType } from '../../../types';
 import { FormBag } from './schema';
+import { UserInfo } from './userInfo';
 
-export type TransformHookFunction = (formBag: FormBag, formName?: string) => void;
+export interface TransformHookContext {
+  formName: string;
+  currentAuthenticator?: IdxAuthenticator;
+  userInfo?: UserInfo;
+}
+
+export type TransformHookFunction = (formBag: FormBag, context: TransformHookContext) => void;
 
 export interface TransformHookDefinition {
   afterTransform?: TransformHookFunction[];
