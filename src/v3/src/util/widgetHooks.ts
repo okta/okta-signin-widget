@@ -14,7 +14,7 @@ import { IdxTransaction } from '@okta/okta-auth-js';
 
 import { HookFunction } from '../../../types';
 import {
-  HookType, BaseHookType, HooksOptions, FormHooksMap, AllHooksMap, FormBag, TransformHookFunction
+  HookType, BaseHookType, HooksOptions, FormHooksMap, AllHooksMap, FormBag, TransformHookFunction, TransformHookContext
 } from '../types';
 import { getFormNameForTransaction } from './getEventContext';
 
@@ -63,18 +63,27 @@ export class WidgetHooks {
   public transformFormBagWithHooks(
     formBag: FormBag,
     idxTransaction?: IdxTransaction,
-  ): FormBag {
-    let tranaformedFormBag = formBag;
+  ) {
+    const currentAuthenticator = idxTransaction?.context.currentAuthenticator?.value;
+    const currentAuthenticatorEnrollment = idxTransaction?.context.currentAuthenticatorEnrollment?.value;
     const formName = getFormNameForTransaction(idxTransaction);
-    if (formName) {
-      const hooksToExecute = [
-        ...(this.hooks.get(formName)?.get('afterTransform') || []),
-        ...(this.hooks.get('*')?.get('afterTransform') || []),
-      ];
-      for (const hook of hooksToExecute) {
-        tranaformedFormBag = hook(tranaformedFormBag, formName);
-      }
+    if (!formName || !formBag.uischema.elements.length) {
+      // initial loading state
+      return;
     }
-    return tranaformedFormBag;
+    const idxContext = idxTransaction?.context;
+    const userInfo = idxContext?.user?.value;
+    const context: TransformHookContext = {
+      formName,
+      userInfo,
+      currentAuthenticator: currentAuthenticator ?? currentAuthenticatorEnrollment,
+    };
+    const hooksToExecute = [
+      ...(this.hooks.get(formName)?.get('afterTransform') || []),
+      ...(this.hooks.get('*')?.get('afterTransform') || []),
+    ];
+    for (const hook of hooksToExecute) {
+      hook(formBag, context);
+    }
   }
 }
