@@ -162,8 +162,8 @@ const addHookForEnrollProfileForm = (signIn: OktaSignInAPI) => {
         noMargin: true,
         contentType: 'subtitle',
         options: {
-          dataSe: 'custom_bool-description',
-          content: 'Terms and Conditions',
+          content: '<span class=\'custom_bool_title\'>Terms and Conditions</span><br />'
+           + '<a target=\'_blank\' href=\'https://www.okta.com/terms-of-service/\'>Link</a>',
           variant: 'body1',
         },
       } as DescriptionElement;
@@ -310,7 +310,6 @@ const addHookForAllForms = (signIn: OktaSignInAPI) => {
       'select-authenticator-unlock-account',
       'unlock-account',
       'identify-recovery',
-      'enroll-profile',
     ];
     if (formsWithTermsLink.includes(formName)) {
       const customLink: LinkElement = {
