@@ -14,9 +14,10 @@ import { IdxTransaction } from '@okta/okta-auth-js';
 
 import { HookFunction } from '../../../types';
 import {
-  AllHooksMap, BaseHookType, FormBag, FormHooksMap, HooksOptions, HookType, TransformHookContext,
+  AllHooksMap, BaseHookType, FormHooksMap, HooksOptions, HookType, TransformHookContext,
   TransformHookFunction,
-} from '../types';
+} from '../types/hooks';
+import { FormBag } from '../types/schema';
 import { getFormNameForTransaction } from './getEventContext';
 
 const hookTypes: HookType[] = ['before', 'after', 'afterTransform'];
@@ -64,14 +65,14 @@ export class WidgetHooks {
     formBag: FormBag,
     idxTransaction?: IdxTransaction,
   ) {
-    const currentAuthenticator = idxTransaction?.context.currentAuthenticator?.value;
-    const currentAuthenticatorEnrollment = idxTransaction?.context.currentAuthenticatorEnrollment?.value;
+    const idxContext = idxTransaction?.context;
+    const currentAuthenticator = idxContext?.currentAuthenticator?.value;
+    const currentAuthenticatorEnrollment = idxContext?.currentAuthenticatorEnrollment?.value;
     const formName = getFormNameForTransaction(idxTransaction);
     if (!formName || !formBag.uischema.elements.length) {
       // initial loading state
       return;
     }
-    const idxContext = idxTransaction?.context;
     const userInfo = idxContext?.user?.value;
     const context: TransformHookContext = {
       formName,
