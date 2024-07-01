@@ -328,6 +328,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
 
   // update dataSchemaRef in context
   useEffect(() => {
+    widgetHooks.transformFormBagWithHooks(formBag, idxTransaction);
+
     dataSchemaRef.current = formBag.dataSchema;
     if (isClientTransaction) {
       setData((prev) => ({

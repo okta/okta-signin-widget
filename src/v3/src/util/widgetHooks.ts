@@ -12,13 +12,17 @@
 
 import { IdxTransaction } from '@okta/okta-auth-js';
 
-import { HookFunction, HooksOptions, HookType } from '../../../types';
+import { HookFunction } from '../../../types';
+import {
+  HookType, BaseHookType, HooksOptions, FormHooksMap, AllHooksMap, FormBag, TransformHookFunction
+} from '../types';
 import { getFormNameForTransaction } from './getEventContext';
 
-const hookTypes: HookType[] = ['before', 'after'];
+const hookTypes: HookType[] = ['before', 'after', 'afterTransform'];
+
 
 export class WidgetHooks {
-  private hooks: Map<string, Map<string, HookFunction[]>>;
+  private hooks: AllHooksMap;
 
   /* eslint-disable no-restricted-syntax */
   constructor(hooksOptions?: HooksOptions) {
@@ -26,7 +30,7 @@ export class WidgetHooks {
     if (hooksOptions) {
       for (const [formName, formHooks] of Object.entries(hooksOptions)) {
         for (const hookType of hookTypes) {
-          for (const hook of (formHooks[hookType] || []) as HookFunction[]) {
+          for (const hook of (formHooks[hookType] || [])) {
             this.addHook(hookType, formName, hook);
           }
         }
@@ -34,8 +38,8 @@ export class WidgetHooks {
     }
   }
 
-  public addHook(hookType: HookType, formName: string, hook: HookFunction): void {
-    const formHooks = this.hooks.get(formName) || new Map<string, HookFunction[]>();
+  public addHook(hookType: HookType, formName: string, hook: TransformHookFunction | HookFunction) {
+    const formHooks: FormHooksMap = this.hooks.get(formName) || new Map();
     const hooksByType = formHooks.get(hookType) || [];
     hooksByType.push(hook);
     formHooks.set(hookType, hooksByType);
@@ -44,7 +48,7 @@ export class WidgetHooks {
 
   /* eslint-disable no-await-in-loop */
   public async callHooks(
-    hookType: HookType,
+    hookType: BaseHookType,
     idxTransaction?: IdxTransaction,
   ): Promise<void> {
     const formName = getFormNameForTransaction(idxTransaction);
@@ -54,5 +58,23 @@ export class WidgetHooks {
         await hook();
       }
     }
+  }
+
+  public transformFormBagWithHooks(
+    formBag: FormBag,
+    idxTransaction?: IdxTransaction,
+  ): FormBag {
+    let tranaformedFormBag = formBag;
+    const formName = getFormNameForTransaction(idxTransaction);
+    if (formName) {
+      const hooksToExecute = [
+        ...(this.hooks.get(formName)?.get('afterTransform') || []),
+        ...(this.hooks.get('*')?.get('afterTransform') || []),
+      ];
+      for (const hook of hooksToExecute) {
+        tranaformedFormBag = hook(tranaformedFormBag, formName);
+      }
+    }
+    return tranaformedFormBag;
   }
 }

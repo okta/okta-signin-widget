@@ -30,6 +30,7 @@ import {
   OktaWidgetEventHandler,
   OktaWidgetEventType,
   RenderOptions,
+  TransformHookFunction,
   WidgetOptions,
   WidgetProps,
 } from '../types';
@@ -221,6 +222,10 @@ export default class OktaSignIn implements OktaSignInAPI {
 
   before(formName: string, hook: HookFunction): void {
     this.widgetHooks.addHook('before', formName, hook);
+  }
+
+  afterTransform(formName: string, transformHook: TransformHookFunction): void {
+    this.widgetHooks.addHook('afterTransform', formName, transformHook);
   }
 
   after(formName: string, hook: HookFunction): void {

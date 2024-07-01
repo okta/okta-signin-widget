@@ -1,0 +1,86 @@
+/*** enroll form ***/
+
+/* userProfile.custom_string */
+.MuiInputBase-root:has(#userProfile\.custom_string) {
+  border-color: purple !important;
+}
+.MuiInputBase-root.Mui-focused:has(#userProfile\.custom_string) {
+  box-shadow: 0 0 0 1px purple !important;
+}
+.MuiInputBase-root.Mui-error:has(#userProfile\.custom_string) {
+  border-color: orange !important;
+}
+.MuiInputBase-root.Mui-error.Mui-focused:has(#userProfile\.custom_string) {
+  box-shadow: 0 0 0 1px orange !important;
+}
+.Mui-error #userProfile\.custom_string {
+  border-color: orange !important;
+}
+#userProfile\.custom_string-error {
+  color: orange !important;
+}
+
+/* userProfile.custom_bool */
+#userProfile\.custom_bool-error {
+  color: orange !important;
+}
+#userProfile\.custom_bool.Mui-error .MuiCheckbox-root {
+  border-color: orange !important;
+}
+p[data-se="custom_bool-description"] {
+  font-weight: 600 !important;
+}
+
+/* custom description */
+[data-se="o-form-explain"] {
+  width: 100%;
+}
+.my-enroll-description {
+  border: 1px dashed gray;
+}
+
+
+/*** password reset form ***/
+
+/* custom description */
+.my-reset-description {
+  border: 1px dashed gray;
+}
+
+
+/*** identify form ***/
+
+/* title */
+.MuiBox-root:has(> [data-se="o-form-head"]) {
+  justify-content: center !important;
+}
+
+/* bottom links */
+.MuiBox-root:has(> .MuiBox-root > [data-se="help"]) {
+  border: 1px solid gray !important;
+  border-radius: 9px;
+  overflow: hidden;
+  margin-bottom: 6px;
+  justify-content: space-between;
+  font-size: 13px;
+  padding: 0;
+}
+.MuiBox-root:has(> .MuiBox-root > [data-se="help"]) > .MuiBox-root {
+  padding: 6px !important;
+  margin: 0 !important;
+}
+.MuiBox-root:has(> .MuiBox-root > [data-se="help"]) > .MuiBox-root:hover {
+  background-color: lightblue;
+}
+
+
+/*** all forms ***/
+
+/* custom terms of service link */
+a[data-se="factorPageHelpLink"] {
+  color: purple !important;
+}
+.MuiBox-root:has(> [data-se="factorPageHelpLink"]) {
+  justify-content: center !important;
+  display: flex;
+}
