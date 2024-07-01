@@ -10,8 +10,10 @@ import {
   RenderResult,
   RenderResultSuccessNonOIDCSession,
 } from '../src/types';
+import { OktaSignInAPI as OktaSignInAPIV3 } from '../src/v3/src/types';
 import { assertNoEnglishLeaks } from '../playground/LocaleUtils';
 import Util from '../src/util/Util';
+import { addAfterTransformHooks, addHookOptions } from './hooks';
 
 declare global {
   const IE11_COMPAT_MODE: boolean;
@@ -60,6 +62,8 @@ if (typeof window.OktaSignIn === 'undefined') {
 const renderPlaygroundWidget = (options: WidgetOptions & { assertNoEnglishLeaks?: boolean } = {}) => {
   // Okta-hosted widget page has this value set for CSP
   window.cspNonce = 'playground';
+
+  addHookOptions(options);
 
   createWidgetInstance(options);
 
@@ -155,6 +159,7 @@ const renderPlaygroundWidget = (options: WidgetOptions & { assertNoEnglishLeaks?
     console.log(JSON.stringify(error));
   });
 
+  addAfterTransformHooks(signIn as OktaSignInAPIV3);
 };
 
 window.getWidgetInstance = getWidgetInstance;

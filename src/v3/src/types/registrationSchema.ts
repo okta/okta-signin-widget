@@ -10,20 +10,17 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-export * from './api';
-export * from './appInfo';
-export * from './authcoin';
-export * from './component';
-export * from './context';
-export * from './error';
-export * from './handlers';
-export * from './hooks';
-export * from './image';
-export * from './ion';
-export * from './json';
-export * from './jsonforms';
-export * from './password';
-export * from './schema';
-export * from './stepTransformer';
-export * from './userInfo';
-export * from './widget';
+import { Input } from '@okta/okta-auth-js';
+import { IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
+
+// Utility to modify interfaces / types
+type Modify<T, R> = Omit<T, keyof R> & R;
+
+export type RegistrationElementSchema = Modify<Input, {
+  'label-top'?: boolean;
+  placeholder?: string;
+  'data-se'?: string;
+  options?: IdxOption[] | Record<string, string>;
+  sublabel?: string;
+  wide?: boolean;
+}>;

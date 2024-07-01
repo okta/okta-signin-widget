@@ -12,13 +12,18 @@
 
 import { IdxTransaction } from '@okta/okta-auth-js';
 
-import { HookFunction, HooksOptions, HookType } from '../../../types';
+import { HookFunction } from '../../../types';
+import {
+  AllHooksMap, BaseHookType, FormHooksMap, HooksOptions, HookType, TransformHookContext,
+  TransformHookFunction,
+} from '../types/hooks';
+import { FormBag } from '../types/schema';
 import { getFormNameForTransaction } from './getEventContext';
 
-const hookTypes: HookType[] = ['before', 'after'];
+const hookTypes: HookType[] = ['before', 'after', 'afterTransform'];
 
 export class WidgetHooks {
-  private hooks: Map<string, Map<string, HookFunction[]>>;
+  private hooks: AllHooksMap;
 
   /* eslint-disable no-restricted-syntax */
   constructor(hooksOptions?: HooksOptions) {
@@ -26,7 +31,7 @@ export class WidgetHooks {
     if (hooksOptions) {
       for (const [formName, formHooks] of Object.entries(hooksOptions)) {
         for (const hookType of hookTypes) {
-          for (const hook of (formHooks[hookType] || []) as HookFunction[]) {
+          for (const hook of (formHooks[hookType] || [])) {
             this.addHook(hookType, formName, hook);
           }
         }
@@ -34,8 +39,8 @@ export class WidgetHooks {
     }
   }
 
-  public addHook(hookType: HookType, formName: string, hook: HookFunction): void {
-    const formHooks = this.hooks.get(formName) || new Map<string, HookFunction[]>();
+  public addHook(hookType: HookType, formName: string, hook: TransformHookFunction | HookFunction) {
+    const formHooks: FormHooksMap = this.hooks.get(formName) || new Map();
     const hooksByType = formHooks.get(hookType) || [];
     hooksByType.push(hook);
     formHooks.set(hookType, hooksByType);
@@ -44,7 +49,7 @@ export class WidgetHooks {
 
   /* eslint-disable no-await-in-loop */
   public async callHooks(
-    hookType: HookType,
+    hookType: BaseHookType,
     idxTransaction?: IdxTransaction,
   ): Promise<void> {
     const formName = getFormNameForTransaction(idxTransaction);
@@ -53,6 +58,33 @@ export class WidgetHooks {
       for (const hook of hooksToExecute) {
         await hook();
       }
+    }
+  }
+
+  public transformFormBagWithHooks(
+    formBag: FormBag,
+    idxTransaction?: IdxTransaction,
+  ) {
+    const idxContext = idxTransaction?.context;
+    const currentAuthenticator = idxContext?.currentAuthenticator?.value;
+    const currentAuthenticatorEnrollment = idxContext?.currentAuthenticatorEnrollment?.value;
+    const formName = getFormNameForTransaction(idxTransaction);
+    if (!formName || !formBag.uischema.elements.length) {
+      // initial loading state
+      return;
+    }
+    const userInfo = idxContext?.user?.value;
+    const context: TransformHookContext = {
+      formName,
+      userInfo,
+      currentAuthenticator: currentAuthenticator ?? currentAuthenticatorEnrollment,
+    };
+    const hooksToExecute = [
+      ...(this.hooks.get(formName)?.get('afterTransform') || []),
+      ...(this.hooks.get('*')?.get('afterTransform') || []),
+    ];
+    for (const hook of hooksToExecute) {
+      hook(formBag, context);
     }
   }
 }

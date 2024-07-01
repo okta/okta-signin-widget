@@ -24,6 +24,7 @@ import { FunctionComponent } from 'preact';
 import { Ref } from 'preact/hooks';
 import ReCAPTCHA from 'react-google-recaptcha';
 
+import { RegistrationElementSchema } from '../../../types/registration';
 import { IStepperContext, IWidgetContext } from './context';
 import { ClickHandler } from './handlers';
 import { Modify } from './jsonforms';
@@ -31,6 +32,8 @@ import { ListItem, PasswordSettings } from './password';
 import { UserInfo } from './userInfo';
 
 type GeneralDataSchemaBag = Record<string, DataSchema>;
+
+export type { RegistrationElementSchema };
 
 export type DataSchemaBag = GeneralDataSchemaBag & {
   submit: ActionOptions;
@@ -165,15 +168,6 @@ export type TokenReplacementValue = {
 export type AnchorTargetType = '_self' | '_blank' | '_parent' | 'top';
 
 export type TokenReplacement = Partial<Record<TokenSearchValue, TokenReplacementValue>>;
-
-export type RegistrationElementSchema = Modify<Input, {
-  'label-top'?: boolean;
-  placeholder?: string;
-  'data-se'?: string;
-  options?: IdxOption[] | Record<string, string>;
-  sublabel?: string;
-  wide?: boolean;
-}>;
 
 export type ConsentScope = {
   name: string;
