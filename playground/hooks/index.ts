@@ -1,12 +1,11 @@
 /* eslint no-console: 0 */
 
+import { WidgetOptions } from '../../src/types';
 import {
-  OktaSignInAPI,
-  WidgetOptions,
-} from '../../src/types';
-import {
+  OktaSignInAPI as OktaSignInAPIV3,
   ButtonElement, CustomLayout, DescriptionElement, DividerElement, FieldElement, LinkElement, 
-  RegistrationElementSchema, ReminderElement, StepperLayout, StepperNavigatorElement, TitleElement, UISchemaElement, UISchemaLayout, UISchemaLayoutType, WidgetMessage,
+  RegistrationElementSchema, ReminderElement, StepperLayout, TitleElement, UISchemaElement, 
+  UISchemaLayout, UISchemaLayoutType, WidgetMessage,
 } from '../../src/v3/src/types';
 import { IdxMessage, IdxMessages } from '@okta/okta-auth-js';
 
@@ -36,42 +35,45 @@ import { IdxMessage, IdxMessages } from '@okta/okta-auth-js';
 
 
 export const addHookOptions = (options: WidgetOptions = {}) => {
-  options.registration = {
-    parseSchema: (schema: RegistrationElementSchema[], onSuccess) => {
-      // Note: custom fields added here would not be saved to backend
-      if (!schema.find(f => f.name.includes('custom_bool'))) {
-        schema.push({
-          label: 'Custom bool',
-          name: 'custom_bool',
-          type: 'boolean',
-          required: true,
-          options: [{
-            label: 'display',
-            value: {
-              type: 'object',
+  const gen3 = !!window.OktaSignIn['__version'];
+  if (gen3) {
+    options.registration = {
+      parseSchema: (schema: RegistrationElementSchema[], onSuccess) => {
+        // Note: custom fields added here would not be saved to backend
+        if (!schema.find(f => f.name.includes('custom_bool'))) {
+          schema.push({
+            label: 'Custom bool',
+            name: 'custom_bool',
+            type: 'boolean',
+            required: true,
+            options: [{
+              label: 'display',
               value: {
-                inputType: 'checkbox'
-              }
-            } as any
-          }]
-        });
-      }
-      if (!schema.find(f => f.name.includes('custom_string'))) {
-        schema.push({
-          label: 'Custom string',
-          name: 'custom_string',
-          type: 'string',
-          required: true,
-          minLength: 9,
-          maxLength: 9,
-        });
-      }
-      onSuccess(schema);
-    },
-  };
+                type: 'object',
+                value: {
+                  inputType: 'checkbox'
+                }
+              } as any
+            }]
+          });
+        }
+        if (!schema.find(f => f.name.includes('custom_string'))) {
+          schema.push({
+            label: 'Custom string',
+            name: 'custom_string',
+            type: 'string',
+            required: true,
+            minLength: 9,
+            maxLength: 9,
+          });
+        }
+        onSuccess(schema);
+      },
+    };
+  }
 };
 
-const addHookForEnrollProfileForm = (signIn: OktaSignInAPI) => {
+const addHookForEnrollProfileForm = (signIn: OktaSignInAPIV3) => {
   signIn.afterTransform('enroll-profile', (formBag) => {
     // Change title
     const titleIndex = formBag.uischema.elements.findIndex(ele => ele.type === 'Title');
@@ -203,7 +205,7 @@ const addHookForEnrollProfileForm = (signIn: OktaSignInAPI) => {
   });
 };
 
-const addHookForIdentifyRecoveryForm = (signIn: OktaSignInAPI) => {
+const addHookForIdentifyRecoveryForm = (signIn: OktaSignInAPIV3) => {
   signIn.afterTransform('identify-recovery', (formBag) => {
     // Change title
     const titleIndex = formBag.uischema.elements.findIndex(ele => ele.type === 'Title');
@@ -230,7 +232,7 @@ const addHookForIdentifyRecoveryForm = (signIn: OktaSignInAPI) => {
   });
 };
 
-const addHookForIdentifyForm = (signIn: OktaSignInAPI) => {
+const addHookForIdentifyForm = (signIn: OktaSignInAPIV3) => {
   signIn.afterTransform('identify', (formBag) => {
     // Change title
     const titleIndex = formBag.uischema.elements.findIndex(ele => ele.type === 'Title');
@@ -275,7 +277,7 @@ const addHookForIdentifyForm = (signIn: OktaSignInAPI) => {
   });
 };
 
-const addHookForEnrollAuthenticatorForm = (signIn: OktaSignInAPI) => {
+const addHookForEnrollAuthenticatorForm = (signIn: OktaSignInAPIV3) => {
   signIn.afterTransform('enroll-authenticator', (formBag, { currentAuthenticator, userInfo }) => {
     const stepper = formBag.uischema.elements.find(ele => ele.type === 'Stepper') as StepperLayout;
     if (stepper) {
@@ -301,7 +303,7 @@ const addHookForEnrollAuthenticatorForm = (signIn: OktaSignInAPI) => {
   });
 };
 
-const addHookForAllForms = (signIn: OktaSignInAPI) => {
+const addHookForAllForms = (signIn: OktaSignInAPIV3) => {
   signIn.afterTransform('*', (formBag, context) => {
     const { formName } = context;
     // Add Terms of Service link
@@ -339,10 +341,13 @@ const addHookForAllForms = (signIn: OktaSignInAPI) => {
   });
 };
 
-export const addAfterTransformHooks = (signIn: OktaSignInAPI) => {
-  addHookForEnrollProfileForm(signIn);
-  addHookForIdentifyRecoveryForm(signIn);
-  addHookForIdentifyForm(signIn);
-  addHookForEnrollAuthenticatorForm(signIn);
-  addHookForAllForms(signIn);
+export const addAfterTransformHooks = (signIn: OktaSignInAPIV3) => {
+  const gen3 = typeof signIn.afterTransform === 'function';
+  if (gen3) {
+    addHookForEnrollProfileForm(signIn);
+    addHookForIdentifyRecoveryForm(signIn);
+    addHookForIdentifyForm(signIn);
+    addHookForEnrollAuthenticatorForm(signIn);
+    addHookForAllForms(signIn);
+  }
 };

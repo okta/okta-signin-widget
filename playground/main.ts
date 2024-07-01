@@ -10,6 +10,7 @@ import {
   RenderResult,
   RenderResultSuccessNonOIDCSession,
 } from '../src/types';
+import { OktaSignInAPI as OktaSignInAPIV3 } from '../src/v3/src/types';
 import { assertNoEnglishLeaks } from '../playground/LocaleUtils';
 import Util from '../src/util/Util';
 import { addAfterTransformHooks, addHookOptions } from './hooks';
@@ -158,7 +159,7 @@ const renderPlaygroundWidget = (options: WidgetOptions & { assertNoEnglishLeaks?
     console.log(JSON.stringify(error));
   });
 
-  addAfterTransformHooks(signIn);
+  addAfterTransformHooks(signIn as OktaSignInAPIV3);
 };
 
 window.getWidgetInstance = getWidgetInstance;
