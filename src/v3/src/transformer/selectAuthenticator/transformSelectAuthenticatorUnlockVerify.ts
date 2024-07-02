@@ -11,6 +11,7 @@
  */
 
 import { IdxMessage, NextStep } from '@okta/okta-auth-js';
+import { IDX_STEP } from 'src/constants';
 
 import {
   AuthenticatorButtonListElement,
@@ -32,10 +33,12 @@ import { getUIElementWithName } from '../utils';
 import { getAuthenticatorVerifyButtonElements } from './utils';
 
 export const transformSelectAuthenticatorUnlockVerify: IdxStepTransformer = ({
+  prevTransaction,
   transaction,
   formBag,
   widgetProps,
 }) => {
+  const { nextStep: { name: prevStepName } = {} as NextStep } = prevTransaction ?? {};
   const { nextStep: { inputs, name: stepName } = {} as NextStep } = transaction;
   const { uischema, data } = formBag;
   const { features, username } = widgetProps;
@@ -48,20 +51,6 @@ export const transformSelectAuthenticatorUnlockVerify: IdxStepTransformer = ({
     authenticator.options,
     stepName,
   );
-
-  const identifierContainer: IdentifierContainerElement = {
-    type: 'IdentifierContainer',
-    options: {
-      identifier: data.identifier as string,
-    },
-  };
-
-  const unlockAccountTitle: TitleElement = {
-    type: 'Title',
-    options: {
-      content: loc('unlockaccount', 'login'),
-    },
-  };
 
   const verifyTitle: TitleElement = {
     type: 'Title',
@@ -78,7 +67,35 @@ export const transformSelectAuthenticatorUnlockVerify: IdxStepTransformer = ({
     },
   };
 
+  const authenticatorList: AuthenticatorButtonListElement = {
+    type: 'AuthenticatorButtonList',
+    options: { buttons: authenticatorButtons, dataSe: 'authenticator-verify-list' },
+  };
+
   const identifier = getUIElementWithName('identifier', uischema.elements) as FieldElement;
+
+  // TODO: OKTA-741832 Remove this fork once AUTH_POLICY_FOR_ACCOUNT_MANAGEMENT monolith FF goes GA
+  // Identifier-first unlock account flow was initially 'faked' in this transformer and released
+  // w/o backend changes. The backend changes ensure that this transformer is never hit with
+  // an identifier UI schema element in the IDX response, so this can be used as a logical fork
+  if (!identifier || prevStepName === IDX_STEP.UNLOCK_ACCOUNT) {
+    uischema.elements.unshift(verifyTitle, verifySubtitle, authenticatorList);
+    return formBag;
+  }
+
+  const identifierContainer: IdentifierContainerElement = {
+    type: 'IdentifierContainer',
+    options: {
+      identifier: data.identifier as string,
+    },
+  };
+
+  const unlockAccountTitle: TitleElement = {
+    type: 'Title',
+    options: {
+      content: loc('account.unlock.title', 'login'),
+    },
+  };
 
   if (identifier) {
     // add username/identifier from config if provided
@@ -94,17 +111,11 @@ export const transformSelectAuthenticatorUnlockVerify: IdxStepTransformer = ({
     }
   }
 
-  const authenticatorList: AuthenticatorButtonListElement = {
-    type: 'AuthenticatorButtonList',
-    options: { buttons: authenticatorButtons, dataSe: 'authenticator-verify-list' },
-  };
-
   const identifyWithUsernameLayout: UISchemaLayout = {
     type: UISchemaLayoutType.VERTICAL,
     elements: [],
   };
 
-  // TODO: Refactor transformer once we have backend support for this Stepper flow - OKTA-657627
   const nextButton: StepperButtonElement = {
     type: 'StepperButton',
     label: loc('oform.next', 'login'),

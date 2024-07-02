@@ -114,7 +114,7 @@ describe('Unlock Verification Authenticator Selector Tests', () => {
 
     expect(identifyWithUsernameElements.length).toBe(3);
     expect((identifyWithUsernameElements[0] as TitleElement).options.content)
-      .toBe('unlockaccount');
+      .toBe('account.unlock.title');
     expect((identifyWithUsernameElements[1] as FieldElement).options?.inputMeta.name)
       .toBe('identifier');
     expect((identifyWithUsernameElements[2] as StepperButtonElement).label)

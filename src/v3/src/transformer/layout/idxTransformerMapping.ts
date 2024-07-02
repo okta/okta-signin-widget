@@ -87,6 +87,7 @@ import {
   transformSecurityQuestionVerify,
 } from './securityQuestion';
 import { transformSymantecVipAuthenticator } from './symantecVip';
+import { transformUnlockAccount } from './unlockAccount';
 
 /**
  * TransformerMap
@@ -547,6 +548,11 @@ const TransformerMap: {
     [AUTHENTICATOR_KEY.DEFAULT]: {
       transform: transformSafeModePoll,
       buttonConfig: { showDefaultSubmit: false },
+    },
+  },
+  [IDX_STEP.UNLOCK_ACCOUNT]: {
+    [AUTHENTICATOR_KEY.DEFAULT]: {
+      transform: transformUnlockAccount,
     },
   },
   [IDX_STEP.USER_CODE]: {

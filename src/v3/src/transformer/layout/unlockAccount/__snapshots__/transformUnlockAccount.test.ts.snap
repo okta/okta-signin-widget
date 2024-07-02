@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`transformUnlockAccount Tests should build unlock account view elements 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "account.unlock.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "inputMeta": Object {
+            "name": "identifier",
+          },
+        },
+        "type": "Field",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
