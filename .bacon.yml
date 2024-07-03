@@ -96,14 +96,14 @@ test_suites:
   - name: e2e-saucelabs
     script_path: /root/okta/okta-signin-widget/scripts
     sort_order: '14'
-    timeout: '20'
+    timeout: '30'
     script_name: e2e-saucelabs
     criteria: MERGE
     queue_name: small
   - name: e2e-saucelabs-v3
     script_path: /root/okta/okta-signin-widget/scripts
-    sort_order: '12'
-    timeout: '20'
+    sort_order: '15'
+    timeout: '30'
     script_name: e2e-saucelabs-v3
     criteria: MERGE
     queue_name: small
