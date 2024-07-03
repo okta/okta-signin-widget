@@ -65,7 +65,8 @@ class TestAppPage {
 
   async setConfig(config) {
     await waitForLoad(this.configEditor);
-    await this.configEditor.then(el => el.setValue(JSON.stringify(config)));
+    const $configEditor = await this.configEditor;
+    await $configEditor.setValue(JSON.stringify(config));
   }
 
   async getCspErrors() {

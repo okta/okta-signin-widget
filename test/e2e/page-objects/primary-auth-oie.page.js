@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import { waitForLoad } from '../util/waitUtil';
+import { waitForLoad, waitForText } from '../util/waitUtil';
 
 const { BUNDLE } = process.env;
 
@@ -24,10 +24,7 @@ class PrimaryAuthOIEPage {
 
   async waitForForgotPassword() {
     if (BUNDLE === 'next') {
-      await browser.waitUntil(async () => {
-        const formTitle = await this.formTitle;
-        return (await formTitle.isDisplayed()) && (await formTitle.getText()) === 'Reset your password';
-      }, 10_000, 'wait for page title');
+      await waitForText(this.formTitle, 'Reset your password');
     } else {
       await waitForLoad(this.forgotPassword);
     }
@@ -83,10 +80,7 @@ class PrimaryAuthOIEPage {
 
   async waitForSignupForm() {
     if (BUNDLE === 'next') {
-      await browser.waitUntil(async () => {
-        const formTitle = await this.formTitle;
-        return (await formTitle.isDisplayed()) && (await formTitle.getText()) === 'Sign up';
-      }, 10_000, 'wait for page title');
+      await waitForText(this.formTitle, 'Sign up');
     } else {
       await waitForLoad(this.signupForm);
     }
@@ -94,10 +88,7 @@ class PrimaryAuthOIEPage {
 
   async waitForUnlockAccountForm() {
     if (BUNDLE === 'next') {
-      await browser.waitUntil(async () => {
-        const formTitle = await this.formTitle;
-        return (await formTitle.isDisplayed()) && (await formTitle.getText()) === 'Unlock account?';
-      }, 10_000, 'wait for page title');
+      await waitForText(this.formTitle, 'Unlock account?');
     } else {
       await waitForLoad(this.unlockAccountForm);
     }

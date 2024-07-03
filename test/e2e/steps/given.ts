@@ -177,7 +177,7 @@ Given(
         await TestAppPage.showSignInToGetTokens.click();
         break;
     }
-    this.saveScreenshot(`user-opens-login-page-using-${buttonName}`);
+    await this.saveScreenshot(`user-opens-login-page-using-${buttonName}`);
     return await waitForLoad(TestAppPage.widget);
   }
 );
