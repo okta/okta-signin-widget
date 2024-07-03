@@ -2,10 +2,16 @@
 const path = require('path');
 require('@okta/env').config();
 
+// You can use Firefox for e2e testing locally if there is an issue with `chromedriver`
+// You need to have `geckodriver` process running (https://github.com/mozilla/geckodriver/releases)
+const USE_FIREFOX = !!process.env.USE_FIREFOX;
 const CI = process.env.CI;
 const logLevel = 'warn';
-const browserOptions = {
-    args: []
+const chromeOptions = {
+  args: []
+};
+const firefoxOptions = {
+  args: []
 };
 
 const IS_RELEASE_BRANCH = process.env.BRANCH &&
@@ -25,24 +31,29 @@ if (process.env.DEBUG) {
 }
 
 if (process.env.CHROMIUM_BINARY) {
-  browserOptions.binary = process.env.CHROMIUM_BINARY;
+  chromeOptions.binary = process.env.CHROMIUM_BINARY;
 }
 
-if (process.env.CI || process.env.CHROME_HEADLESS) {
-    browserOptions.args = browserOptions.args.concat([
-        '--headless',
-        '--disable-gpu',
-        '--window-size=1600x1200',
-        '--no-sandbox',
-        '--whitelisted-ips',
-        '--disable-extensions',
-        '--verbose',
-        '--disable-dev-shm-usage'
-    ]);
+if (CI || process.env.CHROME_HEADLESS) {
+  chromeOptions.args = chromeOptions.args.concat([
+    '--headless',
+    '--disable-gpu',
+    '--window-size=1600x1200',
+    '--no-sandbox',
+    '--whitelisted-ips',
+    '--disable-extensions',
+    '--verbose',
+    '--disable-dev-shm-usage'
+  ]);
+}
+if (CI) {
+  firefoxOptions.args = firefoxOptions.args.concat([
+    '-headless'
+  ]);
 }
 
 const CHROMEDRIVER_VERSION = process.env.CHROMEDRIVER_VERSION || '89.0.4389.23';
-const drivers = {
+const drivers = USE_FIREFOX ? undefined : {
   chrome: { version: CHROMEDRIVER_VERSION }
 };
 
@@ -105,8 +116,9 @@ const conf = {
         // grid with only 5 firefox instances available you can make sure that not more than
         // 5 instances get started at a time.
         maxInstances: 1, // all tests use the same user and local storage. they must run in series
-        browserName: 'chrome',
-        'goog:chromeOptions': browserOptions
+        browserName: USE_FIREFOX ? 'firefox' : 'chrome',
+        'goog:chromeOptions': chromeOptions,
+        'moz:firefoxOptions': firefoxOptions,
         // If outputDir is provided WebdriverIO can capture driver session logs
         // it is possible to configure which logTypes to include/exclude.
         // excludeDriverLogs: ['*'], // pass '*' to exclude all driver session logs
@@ -159,7 +171,7 @@ const conf = {
     // Services take over a specific job you don't want to take care of. They enhance
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
-    services: [
+    services: USE_FIREFOX ? [] : [
         ['selenium-standalone', {
             installArgs: {
                 drivers
