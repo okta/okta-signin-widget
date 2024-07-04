@@ -68,10 +68,15 @@ export class WidgetHooks {
     const idxContext = idxTransaction?.context;
     const currentAuthenticator = idxContext?.currentAuthenticator?.value;
     const currentAuthenticatorEnrollment = idxContext?.currentAuthenticatorEnrollment?.value;
-    const formName = getFormNameForTransaction(idxTransaction);
+    let formName = getFormNameForTransaction(idxTransaction);
     if (!formName || !formBag.uischema.elements.length) {
       // initial loading state
       return;
+    }
+    const isTerminal = formBag.uischema.elements.length === 1
+      && formBag.uischema.elements[0].type === 'InfoBox';
+    if (isTerminal) {
+      formName = 'terminal';
     }
     const userInfo = idxContext?.user?.value;
     const context: TransformHookContext = {

@@ -1,7 +1,7 @@
 /*** enroll form ***/
 
 /* custom description */
-[data-se="o-form-explain"] {
+.siw-customized [data-se="o-form-explain"] {
   width: 100%;
 }
 .my-enroll-description {
@@ -51,12 +51,12 @@
 /*** identify form ***/
 
 /* title */
-.MuiBox-root:has(> [data-se="o-form-head"]) {
+.siw-customized .MuiBox-root:has(> [data-se="o-form-head"]) {
   justify-content: center !important;
 }
 
 /* bottom links */
-.MuiBox-root:has(> .MuiBox-root > [data-se="help"]) {
+.siw-customized .MuiBox-root:has(> .MuiBox-root > [data-se="help"]) {
   border: 1px solid gray !important;
   border-radius: 9px;
   overflow: hidden;
@@ -65,11 +65,11 @@
   font-size: 13px;
   padding: 0;
 }
-.MuiBox-root:has(> .MuiBox-root > [data-se="help"]) > .MuiBox-root {
+.siw-customized .MuiBox-root:has(> .MuiBox-root > [data-se="help"]) > .MuiBox-root {
   padding: 6px !important;
   margin: 0 !important;
 }
-.MuiBox-root:has(> .MuiBox-root > [data-se="help"]) > .MuiBox-root:hover {
+.siw-customized .MuiBox-root:has(> .MuiBox-root > [data-se="help"]) > .MuiBox-root:hover {
   background-color: lightblue;
 }
 
@@ -77,10 +77,10 @@
 /*** all forms ***/
 
 /* custom terms of service link */
-a[data-se="factorPageHelpLink"] {
+.siw-customized a[data-se="customLink"] {
   color: purple !important;
 }
-.MuiBox-root:has(> [data-se="factorPageHelpLink"]) {
+.siw-customized .MuiBox-root:has(> [data-se="customLink"]) {
   justify-content: center !important;
   display: flex;
 }

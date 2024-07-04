@@ -31,7 +31,7 @@ yarn test:e2e
 yarn dev # follow the below instructions to set env vars before running the development server
 ```
 
-Open your browser to http://localhost:8080 (default port).
+Open your browser to http://localhost:3000 (default port).
 
 ### Test Org
 
@@ -42,7 +42,7 @@ Follow [these instructions to create an OIE Preview Org](https://oktawiki.atlass
    1. Create an OIDC App
    2. Use Single-Page Application (SPA)
    3. There are many options that can be changed later. A good place to start is with “Authorization Code” and “Interaction Code” grant types selected.
-   4. Add `localhost:8080` or your local widget hostname to the "Base URIs" list
+   4. Add `localhost:3000` or your local widget hostname to the "Base URIs" list
 3. Copy the Client ID value to your widget configuration. The Issuer value is https://${yourOieOrg}.oktapreview.com/oauth2/default.
 4. You should be able to run the widget locally (with mocks turned off) and login to your OIE org now.
 
@@ -54,7 +54,7 @@ By default, a simple authentication scenario is mocked. If you would like to loa
 
 **Example**
 
-To load a scenario called `authenticator-verification-email`, navigate to the URL `http://localhost:8080/?siw-use-mocks=true&siw-mock-scenario=authenticator-verification-email`.
+To load a scenario called `authenticator-verification-email`, navigate to the URL `http://localhost:3000/?siw-use-mocks=true&siw-mock-scenario=authenticator-verification-email`.
 
 #### Defining a new mock scenario
 
@@ -115,5 +115,51 @@ E2E
 Mocks
 
 > Start the app locally
-> Use this URL to test the **Enrollment Flow** _http://localhost:8080?siw-use-mocks=true&siw-mock-scenario=webauthn-enroll-mfa_
-> Use this URL to test the **Verification Flow** _http://localhost:8080?siw-use-mocks=true&siw-mock-scenario=webauthn-verify-mfa_ But please note, as mentioned above, the verification flow will give an error in the Browser prompt that the Identity could not be verified preventing you from authenticating.
+> Use this URL to test the **Enrollment Flow** _http://localhost:3000?siw-use-mocks=true&siw-mock-scenario=webauthn-enroll-mfa_
+> Use this URL to test the **Verification Flow** _http://localhost:3000?siw-use-mocks=true&siw-mock-scenario=webauthn-verify-mfa_ But please note, as mentioned above, the verification flow will give an error in the Browser prompt that the Identity could not be verified preventing you from authenticating.
+
+### Customizations
+
+SIW Next uses React. 
+If you want to customize the appearence of widget, using [before](/README.md#before) and [after](/README.md#after) hooks to manipulate DOM is not suitable. 
+Instead you can use new `afterTransform` hook to manipulate state of SIW to be rendered. 
+
+Example:
+
+```js
+signIn.afterTransform('*', (formBag, context) => {
+  const customLink = {
+    type: 'Link',
+    contentType: 'footer',
+    options: {
+      href: 'https://www.okta.com/terms-of-service/',
+      target: '_blank',
+      step: '',
+      label: 'Terms of Service',
+      dataSe: 'customLink',
+    },
+  };
+  formBag.uischema.elements.push(customLink);
+});
+```
+
+This hook adds custom link to the bottom of every page (because `*` is used as first parameter). 
+If you want to apply hook to a specific form, put its name instead of `*` as first parameter. 
+`context` object includes useful metadata: `formName`, optional `userInfo`, `currentAuthenticator`. 
+
+See example of `afterTransform` hooks usage for different pages in [the playground](/playground/hooks/index.ts).  
+Use this URL to activate hooks in the playground: `http://localhost:3000/?customize=1`  
+
+Example of style customizations in the playground: see [customize.css](/playground/hooks/customize.css)
+
+#### `formBag` format
+
+To see demonstration of different elements can be used in `formBag.uischema.elements`:
+
+- Add `'_ui-demo'` as first element of `idx['/idp/idx/introspect']` in [responseConfig](/playground/mocks/config/responseConfig.js)
+- Run `yarn workspace v3 dev`
+- Open `http://localhost:3000/`
+
+Source: see [transformEnumerateComponents](/src/v3/src/transformer/layout/development/transformEnumerateComponents.ts)  
+Components to be rendered by type: see [renderers](/src/v3/src/components/Form/renderers.tsx)  
+
