@@ -115,6 +115,13 @@ test_suites:
     script_name: e2e-saucelabs-mobile
     criteria: OPTIONAL
     queue_name: small
+  - name: e2e-saucelabs-mobile-v3
+    script_path: /root/okta/okta-signin-widget/scripts
+    sort_order: '13'
+    timeout: '20'
+    script_name: e2e-saucelabs-mobile-v3
+    criteria: OPTIONAL
+    queue_name: small
   - name: tsd
     script_path: /root/okta/okta-signin-widget/scripts
     sort_order: '16'

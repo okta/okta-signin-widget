@@ -31,7 +31,7 @@ const getTask = ({ bundle }) => {
           console.log('RUN_FEATURE_TESTS is true, using configuration: cucumber.wdio.conf.ts');
           wdioConfig = path.resolve(__dirname, 'cucumber.wdio.conf.ts');  
         } else if (process.env.RUN_SAUCE_TESTS) {
-          console.log('RUN_SAUCE_TESTS is true, using configuration: sauce.wdio.conf.ts');
+          console.log(`RUN_SAUCE_TESTS is ${process.env.RUN_SAUCE_TESTS}, using configuration: sauce.wdio.conf.ts`);
           wdioConfig = path.resolve(__dirname, 'sauce.wdio.conf.ts');
         } else {
           console.log('Using default wdio configuration: wdio.conf.js');
