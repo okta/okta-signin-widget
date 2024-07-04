@@ -45,8 +45,8 @@ After(async function(this: ActionContext) {
 After(async function(this: ActionContext) {
   if (this.scenario?.gherkinDocument?.feature?.name !== 'Widget Flows') {
     await TestAppPage.ssoLogout();
+    await this.saveScreenshot('ssoLogout');
   }
-  await this.saveScreenshot('ssoLogout');
 });
 
 After(async () => {
