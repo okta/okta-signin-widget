@@ -4,7 +4,6 @@ export CI=true
 source $OKTA_HOME/$REPO/scripts/setup.sh
 
 setup_service java 1.8.222
-setup_service google-chrome-stable 89.0.4389.72-1
 
 export RUN_SAUCE_TESTS=mobile
 export SAUCE_USERNAME=OktaSignInWidget
