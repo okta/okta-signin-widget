@@ -6,8 +6,7 @@ source $OKTA_HOME/$REPO/scripts/setup.sh
 setup_service java 1.8.222
 setup_service google-chrome-stable 89.0.4389.72-1
 
-export RUN_SAUCE_TESTS=true
-export MOBILE_BROWSER_TESTS=true
+export RUN_SAUCE_TESTS=mobile
 export SAUCE_USERNAME=OktaSignInWidget
 get_vault_secret_key devex/sauce-labs accessKey SAUCE_ACCESS_KEY
 export TEST_SUITE_TYPE="junit"

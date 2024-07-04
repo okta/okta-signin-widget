@@ -6,7 +6,7 @@ source $OKTA_HOME/$REPO/scripts/setup.sh
 setup_service java 1.8.222
 setup_service google-chrome-stable 89.0.4389.72-1
 
-export RUN_SAUCE_TESTS=true
+export RUN_SAUCE_TESTS=ie11
 export SAUCE_USERNAME=OktaSignInWidget
 get_vault_secret_key devex/sauce-labs accessKey SAUCE_ACCESS_KEY
 export TEST_SUITE_TYPE="junit"
@@ -36,6 +36,7 @@ if ! setup_service node v14.18.2 &> /dev/null; then
   exit ${FAILED_SETUP}
 fi
 
+# Run tests
 export DISABLE_CSP=1
 export CDN_ONLY=1
 export BUNDLE="next"
