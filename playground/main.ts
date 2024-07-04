@@ -62,11 +62,14 @@ if (typeof window.OktaSignIn === 'undefined') {
   // Make sure OktaSignIn is available
   setTimeout(() => window.location.reload(), 2 * 1000);
 }
-const renderPlaygroundWidget = (options: WidgetOptions & { assertNoEnglishLeaks?: boolean } = {}) => {
+const renderPlaygroundWidget = (options: WidgetOptions & { assertNoEnglishLeaks?: boolean, customize?: boolean } = {}) => {
   // Okta-hosted widget page has this value set for CSP
   window.cspNonce = 'playground';
 
-  addHookOptions(options as any as WidgetOptionsV3);
+  if (customize) {
+    document.querySelector('#okta-login-container').classList.add('siw-customized');
+    addHookOptions(options as any as WidgetOptionsV3);
+  }
 
   createWidgetInstance(options);
 
@@ -162,7 +165,9 @@ const renderPlaygroundWidget = (options: WidgetOptions & { assertNoEnglishLeaks?
     console.log(JSON.stringify(error));
   });
 
-  addAfterTransformHooks(signIn as OktaSignInAPIV3);
+  if (customize) {
+    addAfterTransformHooks(signIn as OktaSignInAPIV3);
+  }
 };
 
 window.getWidgetInstance = getWidgetInstance;
@@ -171,6 +176,7 @@ window.renderPlaygroundWidget = renderPlaygroundWidget;
 
 let render = true;
 let preventRedirect = false;
+let customize = false;
 if (typeof URL !== 'undefined') {
   const searchParams = new URL(window.location.href).searchParams;
   if (searchParams.get('render') === '0' || searchParams.get('render') === 'false') {
@@ -178,6 +184,9 @@ if (typeof URL !== 'undefined') {
   }
   if (searchParams.get('preventRedirect') === '1' || searchParams.get('preventRedirect') === 'true') {
     preventRedirect = true;
+  }
+  if (searchParams.get('customize') === '1' || searchParams.get('customize') === 'true') {
+    customize = true;
   }
 }
 
@@ -210,6 +219,10 @@ if (!IE11_COMPAT_MODE) {
 
 preRenderTasks.then(() => {
   if (render) {
-    renderPlaygroundWidget(window.additionalOptions ?? {});
+    const options = {
+      ...(window.additionalOptions ?? {}),
+      customize,
+    };
+    renderPlaygroundWidget(options);
   }
 });

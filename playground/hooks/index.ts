@@ -36,42 +36,39 @@ import { IdxMessage, IdxMessages } from '@okta/okta-auth-js';
 
 
 export const addHookOptions = (options: WidgetOptionsV3 = {}) => {
-  const gen3 = !!window.OktaSignIn['__version'];
-  if (gen3) {
-    options.registration = {
-      parseSchema: (schema: RegistrationElementSchema[], onSuccess) => {
-        // Note: custom fields added here would not be saved to backend
-        if (!schema.find(f => f.name.includes('custom_bool'))) {
-          schema.push({
-            label: 'Custom bool',
-            name: 'custom_bool',
-            type: 'boolean',
-            required: true,
-            options: [{
-              label: 'display',
+  options.registration = {
+    parseSchema: (schema: RegistrationElementSchema[], onSuccess) => {
+      // Note: custom fields added here would not be saved to backend
+      if (!schema.find(f => f.name.includes('custom_bool'))) {
+        schema.push({
+          label: 'Custom bool',
+          name: 'custom_bool',
+          type: 'boolean',
+          required: true,
+          options: [{
+            label: 'display',
+            value: {
+              type: 'object',
               value: {
-                type: 'object',
-                value: {
-                  inputType: 'checkbox'
-                }
-              } as any
-            }]
-          });
-        }
-        if (!schema.find(f => f.name.includes('custom_string'))) {
-          schema.push({
-            label: 'Custom string',
-            name: 'custom_string',
-            type: 'string',
-            required: true,
-            minLength: 9,
-            maxLength: 9,
-          });
-        }
-        onSuccess(schema);
-      },
-    };
-  }
+                inputType: 'checkbox'
+              }
+            } as any
+          }]
+        });
+      }
+      if (!schema.find(f => f.name.includes('custom_string'))) {
+        schema.push({
+          label: 'Custom string',
+          name: 'custom_string',
+          type: 'string',
+          required: true,
+          minLength: 9,
+          maxLength: 9,
+        });
+      }
+      onSuccess(schema);
+    },
+  };
 };
 
 const addHookForEnrollProfileForm = (signIn: OktaSignInAPIV3) => {
@@ -323,10 +320,8 @@ const addHookForAllForms = (signIn: OktaSignInAPIV3) => {
           target: '_blank',
           step: '',
           label: 'Terms of Service',
-          dataSe: 'factorPageHelpLink',
+          dataSe: 'customLink',
         },
-        id: 'terms-of-service-0',
-        key: 'terms-of-service',
       };
       formBag.uischema.elements.push(customLink);
     }
