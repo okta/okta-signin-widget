@@ -233,8 +233,11 @@ if (process.env.TEST_LANG) {
 }
 
 // overrides for saucelabs test
-if (process.env.MOBILE_BROWSER_TESTS) {
-    conf.capabilities = [
+if (process.env.RUN_SAUCE_TESTS) {
+  conf.capabilities = [];
+  const testTypes = process.env.RUN_SAUCE_TESTS.split(',');
+  if (testTypes.includes('mobile')) {
+    conf.capabilities.push(...[
       {
         platformName: 'iOS',
         browserName: 'Safari',
@@ -258,40 +261,41 @@ if (process.env.MOBILE_BROWSER_TESTS) {
       //     name: "Android-Widget-Test",
       //   }
       // }
-    ];
-} else if (process.env.RUN_SAUCE_TESTS) {
-    conf.capabilities = [
-      {
-        maxInstances: 1, // all tests use the same user and local storage. they must run in series
-        browserName: 'internet explorer',
-        browserVersion: 'latest',
-        platformName: 'Windows 10',
-        "se:ieOptions": {
-            acceptUntrustedCertificates: true,
-            "ie.ensureCleanSession": true
-        },
-        timeouts: { "implicit": 20_000 }
+    ]);
+  }
+  if (testTypes.includes('ie11')) {
+    conf.capabilities.push({
+      maxInstances: 1, // all tests use the same user and local storage. they must run in series
+      browserName: 'internet explorer',
+      browserVersion: 'latest',
+      platformName: 'Windows 10',
+      "se:ieOptions": {
+          acceptUntrustedCertificates: true,
+          "ie.ensureCleanSession": true
       },
-      {
-        platformName: 'iOS',
-        browserName: 'Safari',
-        'appium:deviceName': 'iPad Pro (12.9 inch) (5th generation) Simulator',
-        'appium:platformVersion': '15.4',
-        'sauce:options': {
-          appiumVersion: '1.22.3',
-          build: "iOS-Widget-Build",
-          name: "iOS-Widget-Test",
-        }
+      timeouts: {
+        implicit: 20_000,
+        script: 40_000,
+        pageLoad: 300_000,
       },
-      {
-        maxInstances: 1, // all tests use the same user and local storage. they must run in series
-        browserName: 'MicrosoftEdge',
-        browserVersion: 'latest',
-        platformName: 'Windows 10',
-        "ms:edgeOptions": {} // don't delete this line, edge tests won't run
+    });
+  }
+  if (testTypes.includes('edge')) {
+    conf.capabilities.push({
+      maxInstances: 1, // all tests use the same user and local storage. they must run in series
+      browserName: 'MicrosoftEdge',
+      browserVersion: 'latest',
+      platformName: 'Windows 10',
+      "ms:edgeOptions": {}, // don't delete this line, edge tests won't run
+      timeouts: {
+        implicit: 20_000,
+        script: 40_000,
+        pageLoad: 300_000,
       },
-    ];
+    });
+  }
 }
+
 
 // Enable skipping certain tests when running against local monolith
 // Can be removed when epic is complete: https://oktainc.atlassian.net/browse/OKTA-528454
