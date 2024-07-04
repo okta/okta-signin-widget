@@ -3,6 +3,7 @@
 import { WidgetOptions } from '../../src/types';
 import {
   OktaSignInAPI as OktaSignInAPIV3,
+  WidgetOptions as WidgetOptionsV3,
   ButtonElement, CustomLayout, DescriptionElement, DividerElement, FieldElement, LinkElement, 
   RegistrationElementSchema, ReminderElement, StepperLayout, TitleElement, UISchemaElement, 
   UISchemaLayout, UISchemaLayoutType, WidgetMessage,
@@ -34,7 +35,7 @@ import { IdxMessage, IdxMessages } from '@okta/okta-auth-js';
  */
 
 
-export const addHookOptions = (options: WidgetOptions = {}) => {
+export const addHookOptions = (options: WidgetOptionsV3 = {}) => {
   const gen3 = !!window.OktaSignIn['__version'];
   if (gen3) {
     options.registration = {
