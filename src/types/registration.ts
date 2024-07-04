@@ -1,8 +1,8 @@
-import { APIError, Input } from '@okta/okta-auth-js';
-import type { IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
+import { APIError } from '@okta/okta-auth-js';
 import {
   SimpleCallback
 } from './results';
+
 
 // Registration
 
@@ -88,7 +88,7 @@ export type Field =
   FieldBoolean |
   FieldArray;
 
-interface RegistrationSchemaV1 {
+export interface RegistrationSchema {
   lastUpdate: number;
   policyId: string;
   profileSchema: {
@@ -99,20 +99,6 @@ interface RegistrationSchemaV1 {
     fieldOrder: Array<string>;
   };
 }
-
-// Utility to modify interfaces / types
-type Modify<T, R> = Omit<T, keyof R> & R;
-
-export type RegistrationElementSchema = Modify<Input, {
-  'label-top'?: boolean;
-  placeholder?: string;
-  'data-se'?: string;
-  options?: IdxOption[] | Record<string, string>;
-  sublabel?: string;
-  wide?: boolean;
-}>;
-
-export type RegistrationSchema = RegistrationSchemaV1 | RegistrationElementSchema[];
 
 type FieldValue = string | boolean | number | Array<string | number> | null;
 
