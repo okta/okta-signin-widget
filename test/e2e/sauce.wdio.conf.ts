@@ -22,7 +22,7 @@ exports.config = {
   key: process.env.SAUCE_ACCESS_KEY,
   cucumberOpts: {...conf.cucumberOpts, timeout: 30000},
   maxInstances: 1,
-  waitforTimeout: 25000,
+  waitforTimeout: 20000,
   specs: [
     path.resolve(__dirname, 'features/**/widget-flows.feature')
   ],
