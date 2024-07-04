@@ -154,12 +154,14 @@ Example of style customizations in the playground: see [customize.css](/playgrou
 
 #### `formBag` format
 
+Type definition: [FormBag](/src/v3/src/types/schema.ts).  
+
 To see demonstration of different elements can be used in `formBag.uischema.elements`:
 
 - Add `'_ui-demo'` as first element of `idx['/idp/idx/introspect']` in [responseConfig](/playground/mocks/config/responseConfig.js)
 - Run `yarn workspace v3 dev`
 - Open `http://localhost:3000/`
+- Source: see [transformEnumerateComponents](/src/v3/src/transformer/layout/development/transformEnumerateComponents.ts)
 
-Source: see [transformEnumerateComponents](/src/v3/src/transformer/layout/development/transformEnumerateComponents.ts)  
-Components to be rendered by type: see [renderers](/src/v3/src/components/Form/renderers.tsx)  
+React components to be rendered by type: see [renderers](/src/v3/src/components/Form/renderers.tsx)  
 
