@@ -67,6 +67,8 @@ export class WidgetHooks {
   ) {
     const idxContext = idxTransaction?.context;
     const currentAuthenticator = idxContext?.currentAuthenticator?.value;
+    // @ts-expect-error Property 'deviceEnrollment' does not exist on type 'IdxContext' ts(2339)
+    const deviceEnrollment = idxContext?.deviceEnrollment?.value;
     const currentAuthenticatorEnrollment = idxContext?.currentAuthenticatorEnrollment?.value;
     let formName = getFormNameForTransaction(idxTransaction);
     if (!formName || !formBag.uischema.elements.length) {
@@ -83,6 +85,9 @@ export class WidgetHooks {
       formName,
       userInfo,
       currentAuthenticator: currentAuthenticator ?? currentAuthenticatorEnrollment,
+      deviceEnrollment,
+      nextStep: idxTransaction?.nextStep,
+      idxContext,
     };
     const hooksToExecute = [
       ...(this.hooks.get(formName)?.get('afterTransform') || []),

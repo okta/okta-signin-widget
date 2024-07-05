@@ -10,16 +10,29 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxAuthenticator } from '@okta/okta-auth-js';
+import { IdxAuthenticator, IdxContext, NextStep } from '@okta/okta-auth-js';
 
 import { HookDefinition as BaseHookDefinition, HookFunction, HookType as BaseHookType } from '../../../types';
 import { FormBag } from './schema';
 import { UserInfo } from './userInfo';
 
+export interface DeviceEnrollment {
+  name: string;
+  platform: string;
+  vendor?: string;
+  signInUrl?: string;
+  enrollmentLink?: string;
+  challengeMethod?: string;
+  orgName?: string;
+}
+
 export interface TransformHookContext {
   formName: string;
   currentAuthenticator?: IdxAuthenticator;
   userInfo?: UserInfo;
+  deviceEnrollment?: DeviceEnrollment;
+  nextStep?: NextStep;
+  idxContext?: IdxContext;
 }
 
 export type TransformHookFunction = (formBag: FormBag, context: TransformHookContext) => void;
