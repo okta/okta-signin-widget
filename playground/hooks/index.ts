@@ -6,7 +6,7 @@ import {
   WidgetOptions as WidgetOptionsV3,
   ButtonElement, CustomLayout, DescriptionElement, DividerElement, FieldElement, LinkElement, 
   RegistrationElementSchema, ReminderElement, StepperLayout, TitleElement, UISchemaElement, 
-  UISchemaLayout, UISchemaLayoutType, WidgetMessage,
+  UISchemaLayout, UISchemaLayoutType, WidgetMessage, StepperRadioElement,
 } from '../../src/v3/src/types';
 import { IdxMessage, IdxMessages } from '@okta/okta-auth-js';
 
@@ -279,15 +279,15 @@ const addHookForEnrollAuthenticatorForm = (signIn: OktaSignInAPIV3) => {
   signIn.afterTransform('enroll-authenticator', (formBag, { currentAuthenticator, userInfo }) => {
     const stepper = formBag.uischema.elements.find(ele => ele.type === 'Stepper') as StepperLayout;
     if (stepper) {
-      // Show 'Enter code' form imediately
-      stepper.elements.shift();
-      // Customize texts
-      const verifyLayout = stepper.elements[0] as UISchemaLayout;
-      const reminder = verifyLayout.elements.find(ele => ele.type === 'Reminder') as ReminderElement;
-      const title = verifyLayout.elements.find(ele => ele.type === 'Title') as TitleElement;
-      const description = verifyLayout.elements.find(ele => ele.type === 'Description') as DescriptionElement;
-      const input = verifyLayout.elements.find(ele => ele.type === 'Field') as FieldElement;
       if (currentAuthenticator.type === 'email') {
+        // Show 'Enter code' form imediately
+        stepper.elements.shift();
+        // Customize texts
+        const layout = stepper.elements[0] as UISchemaLayout;
+        const reminder = layout.elements.find(ele => ele.type === 'Reminder') as ReminderElement;
+        const title = layout.elements.find(ele => ele.type === 'Title') as TitleElement;
+        const description = layout.elements.find(ele => ele.type === 'Description') as DescriptionElement;
+        const input = layout.elements.find(ele => ele.type === 'Field') as FieldElement;
         const emailAddress = userInfo?.profile?.email || userInfo.identifier;
         title.options.content = 'Verify your email';
         description.options.content = `Click the verification link in the email we've sent to ${emailAddress} or enter the code below`;
@@ -296,6 +296,34 @@ const addHookForEnrollAuthenticatorForm = (signIn: OktaSignInAPIV3) => {
           reminder.options.content = 'Haven\'t received email?';
           reminder.options.buttonText = 'Resend';
         }
+      } else if (currentAuthenticator.type === 'security_question') {
+        // Allow only pre-defined security questions
+        stepper.elements.pop();
+        const layout = stepper.elements[0] as UISchemaLayout;
+        const stepperRadio = layout.elements.find((ele) => ele.type === 'StepperRadio') as StepperRadioElement;
+        // Hide question type switcher (`display: none` is set via CSS), but don't remove
+        stepperRadio.options.name = 'hideQuestionTypeStepper';
+        // Don't mask answer
+        const answer = layout.elements.find<FieldElement>((ele): ele is FieldElement =>
+          ele.type === 'Field'
+          && (ele as FieldElement).options.type === 'string'
+          && (ele as FieldElement).options.inputMeta.name === 'credentials.answer'
+        );
+        answer.options.inputMeta.secret = false;
+        // Answer validation
+        const origValidate = formBag.dataSchema['credentials.answer'].validate;
+        formBag.dataSchema['credentials.answer'].validate = (formData) => {
+          const validationMessages = origValidate(formData);
+          const value = formData['credentials.answer'] as string;
+          if (value && !validationMessages?.length) {
+            if (!value.match(/^[\w\d\s\-]{3,20}$/)) {
+              validationMessages.push({
+                message: 'Answer should have length from 3 to 20 and not contain special characters'
+              });
+            }
+          }
+          return validationMessages;
+        };
       }
     }
   });

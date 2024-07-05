@@ -74,6 +74,13 @@
 }
 
 
+/*** setup security question form ***/
+
+.MuiBox-root:has(> fieldset [data-se="hideQuestionTypeStepper"]) {
+  display: none;
+}
+
+
 /*** all forms ***/
 
 /* custom terms of service link */
