@@ -145,7 +145,7 @@ signIn.afterTransform('*', (formBag, context) => {
 
 This hook adds custom link to the bottom of every page (because `*` is used as first parameter). 
 If you want to apply hook to a specific form, put its name instead of `*` as first parameter. 
-`context` object includes useful metadata: `formName`, optional `userInfo`, `currentAuthenticator`. 
+`context` object includes useful metadata: `formName`, optional `userInfo`, `currentAuthenticator`, `deviceEnrollment`, `nextStep`, `idxContext`. 
 
 See example of `afterTransform` hooks usage for different pages in [the playground](/playground/hooks/index.ts).  
 Use this URL to activate hooks in the playground: `http://localhost:3000/?customize=1`  
@@ -154,11 +154,11 @@ Example of style customizations in the playground: see [customize.css](/playgrou
 
 #### `formBag` format
 
-Type definition: [FormBag](/src/v3/src/types/schema.ts).  
+Type definition: [FormBag](/src/v3/src/types/schema.ts#L43).  
 
 To see demonstration of different elements can be used in `formBag.uischema.elements`:
 
-- Add `'_ui-demo'` as first element of `idx['/idp/idx/introspect']` in [responseConfig](/playground/mocks/config/responseConfig.js)
+- Add `'_ui-demo'` as first element of `idx['/idp/idx/introspect']` in [responseConfig](/playground/mocks/config/responseConfig.js#L22)
 - Run `yarn workspace v3 dev`
 - Open `http://localhost:3000/`
 - Source: see [transformEnumerateComponents](/src/v3/src/transformer/layout/development/transformEnumerateComponents.ts)
