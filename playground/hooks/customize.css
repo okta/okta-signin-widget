@@ -66,11 +66,17 @@
   padding: 0;
 }
 .siw-customized .MuiBox-root:has(> .MuiBox-root > [data-se="help"]) > .MuiBox-root {
+  flex-grow: 1;
+  text-align: center;
   padding: 6px !important;
   margin: 0 !important;
 }
 .siw-customized .MuiBox-root:has(> .MuiBox-root > [data-se="help"]) > .MuiBox-root:hover {
   background-color: lightblue;
+}
+.siw-customized .MuiBox-root:has(> .MuiBox-root > [data-se="help"]) > .MuiBox-root > * {
+  width: 100% !important;
+  display: inline-block;
 }
 
 
