@@ -4,6 +4,7 @@ import BasePageObject from './BasePageObject';
 const ANSWER_FIELD = 'credentials.answer';
 const QUESTION_FIELD = 'credentials.question';
 const QUESTION_KEY_FIELD = 'credentials.questionKey';
+const QUESTION_TYPE = 'questionType';
 
 export default class EnrollSecurityQuestionPageObject extends BasePageObject {
   constructor(t) {
@@ -35,6 +36,10 @@ export default class EnrollSecurityQuestionPageObject extends BasePageObject {
 
   isSecurityQuestionDropdownVisible() {
     return this.form.findFormFieldInput(QUESTION_KEY_FIELD).visible;
+  }
+
+  isSecurityQuestionTypeSelectVisible() {
+    return this.form.findFormFieldInput(QUESTION_TYPE).visible;
   }
 
   setMyOwnSecurityQuestion(question) {

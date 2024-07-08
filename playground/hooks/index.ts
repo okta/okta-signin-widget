@@ -275,8 +275,8 @@ const addHookForIdentifyForm = (signIn: OktaSignInAPIV3) => {
   });
 };
 
-const addHookForEnrollAuthenticatorForm = (signIn: OktaSignInAPIV3) => {
-  signIn.afterTransform('enroll-authenticator', (formBag, { currentAuthenticator, userInfo }) => {
+const addHookForChallengeAuthenticatorForm = (signIn: OktaSignInAPIV3) => {
+  signIn.afterTransform('challenge-authenticator', (formBag, { currentAuthenticator, userInfo }) => {
     const stepper = formBag.uischema.elements.find(ele => ele.type === 'Stepper') as StepperLayout;
     if (stepper) {
       if (currentAuthenticator.type === 'email') {
@@ -296,7 +296,16 @@ const addHookForEnrollAuthenticatorForm = (signIn: OktaSignInAPIV3) => {
           reminder.options.content = 'Haven\'t received email?';
           reminder.options.buttonText = 'Resend';
         }
-      } else if (currentAuthenticator.type === 'security_question') {
+      }
+    }
+  });
+};
+
+const addHookForEnrollAuthenticatorForm = (signIn: OktaSignInAPIV3) => {
+  signIn.afterTransform('enroll-authenticator', (formBag, { currentAuthenticator }) => {
+    const stepper = formBag.uischema.elements.find(ele => ele.type === 'Stepper') as StepperLayout;
+    if (stepper) {
+      if (currentAuthenticator.type === 'security_question') {
         // Allow only pre-defined security questions
         stepper.elements.pop();
         const layout = stepper.elements[0] as UISchemaLayout;
@@ -371,6 +380,7 @@ export const addAfterTransformHooks = (signIn: OktaSignInAPIV3) => {
     addHookForEnrollProfileForm(signIn);
     addHookForIdentifyRecoveryForm(signIn);
     addHookForIdentifyForm(signIn);
+    addHookForChallengeAuthenticatorForm(signIn);
     addHookForEnrollAuthenticatorForm(signIn);
     addHookForAllForms(signIn);
   }
