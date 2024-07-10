@@ -16,15 +16,22 @@ fi
 # get latest
 git fetch origin && \
 
-# weekly release branch
+# release branch
 git checkout $RELEASE_BRANCH
 
 # update files
 npm config set @okta:registry ${INTERNAL_REGISTRY}
-yarn global add @okta/siw-platform-scripts@0.12.0
+yarn global add @okta/siw-platform-scripts@0.13.0
 
-if ! siw-platform weekly-release-update --ver=$RELEASE_VERSION --repoPath=$REPO_PATH ; then
-	echo "weekly-release-update script failed : repo path: $REPO_PATH : release version: $RELEASE_VERSION"
+cd ${REPO_PATH}
+tmp=$(mktemp)
+
+jq --arg RELEASE_VERSION "${RELEASE_VERSION}" '.version=$RELEASE_VERSION' package.json > "$tmp" && mv "$tmp" package.json
+yarn install --frozen-lockfile
+yarn build:release
+
+if ! siw-platform release-update --ver=$RELEASE_VERSION --repoPath=$REPO_PATH ; then
+	echo "release-update script failed : repo path: $REPO_PATH : release version: $RELEASE_VERSION"
 	exit ${FAILED_SETUP}
 fi
 
