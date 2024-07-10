@@ -30,7 +30,7 @@ export default View.extend({
         </ul>
       {{/if}}
       {{#if deviceMap.setupOVUrl}}
-        <div class="sameDevice-setup{{#if sameDeviceOVEnrollmentEnabled}} ov-enrolment-enabled{{/if}}">        
+        <div class="sameDevice-setup{{#if sameDeviceOVEnrollmentEnabled}} ov-enrollment-enabled{{/if}}">        
           <p class="explanation" data-se="subheader">
             {{#if deviceMap.isDesktop}}
               <div class="desktop-instructions ov-info">
