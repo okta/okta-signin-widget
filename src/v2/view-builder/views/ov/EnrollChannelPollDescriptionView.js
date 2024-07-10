@@ -30,7 +30,7 @@ export default View.extend({
         </ul>
       {{/if}}
       {{#if deviceMap.setupOVUrl}}
-        <div class="sameDevice-setup">        
+        <div class="sameDevice-setup{{#if sameDeviceOVEnrollmentEnabled}} ov-enrollment-enabled{{/if}}">        
           <p class="explanation" data-se="subheader">
             {{#if deviceMap.isDesktop}}
               <div class="desktop-instructions ov-info">
@@ -38,8 +38,13 @@ export default View.extend({
                 bundle="login" $1="<span class='semi-strong'>$1</span>"}}
               </div>              
               <div class="desktop-instructions">
-                {{i18n code="oie.enroll.okta_verify.setup.customUri.noPrompt"
-                bundle="login" $1="<span class='semi-strong'>$1</span>"}}
+                {{#if sameDeviceOVEnrollmentEnabled}}
+                  {{i18n code="customUri.required.content.prompt"
+                  bundle="login" $1="<span>$1</span>"}}
+                {{else}}
+                  {{i18n code="oie.enroll.okta_verify.setup.customUri.noPrompt"
+                  bundle="login" $1="<span class='semi-strong'>$1</span>"}}
+                {{/if}}
               </div>
               {{#unless sameDeviceOVEnrollmentEnabled}}
                 <div class="desktop-instructions">

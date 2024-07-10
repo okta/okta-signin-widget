@@ -317,6 +317,7 @@ const sameDeviceOVEnrollmentInstructions3 = 'set up Okta Verify on another mobil
 const sameDeviceOVEnrollmentDesktopInstructions1 = 'Click "Open Okta Verify" on the browser prompt to set up Okta Verify.';
 const sameDeviceOVEnrollmentDesktopInstructions2 = 'Didn\'t see the prompt?';
 const sameDeviceOVEnrollmentDesktopInstructions3 = 'Make sure you have Okta Verify installed.';
+const sameDeviceOVEnrollmentDesktopInstructions4 = 'Didn’t get a prompt?';
 const sameDeviceOVEnrollmentAppleLink = 'https://apps.apple.com/us/app/okta-verify/id490179405';
 const sameDeviceOVEnrollmentAndroidLink = 'https://play.google.com/store/apps/details?id=com.okta.android.auth';
 const sameDeviceOVEnrollmentWindowsLink = 'https://microsoft.com/app/ov';
@@ -1085,6 +1086,7 @@ test
       });
       await checkA11y(t);
       await t.expect(enrollOktaVerifyPage.getFormTitle()).eql(sameDeviceOVEnrollmentTitle);
+      await t.expect(await enrollOktaVerifyPage.getDesktopNoPromptText()).eql(sameDeviceOVEnrollmentDesktopInstructions4);
       const downloadInstruction = await enrollOktaVerifyPage.getSameDeviceDownloadText();
       await t.expect(downloadInstruction).contains('Don’t have Okta Verify?');
       await t.expect(downloadInstruction).contains('Download here');
@@ -1116,6 +1118,7 @@ test
       });
       await checkA11y(t);
       await t.expect(enrollOktaVerifyPage.getFormTitle()).eql(sameDeviceOVEnrollmentTitle);
+      await t.expect(await enrollOktaVerifyPage.getDesktopNoPromptText()).eql(sameDeviceOVEnrollmentDesktopInstructions4);
       const downloadInstruction = await enrollOktaVerifyPage.getSameDeviceDownloadText();
       await t.expect(downloadInstruction).contains('Don’t have Okta Verify?');
       await t.expect(downloadInstruction).contains('Download here');
