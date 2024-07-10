@@ -19,7 +19,8 @@ const idx = {
   ],
 
   '/idp/idx/introspect': [
-    'identify',
+    'authenticator-enroll-ov-same-device-ios-any-security',
+    // 'identify',
     // 'error-identify-multiple-errors',
     // 'authenticator-enroll-ov-qr-enable-biometrics',
     // 'authenticator-verification-okta-verify-push',
@@ -114,6 +115,8 @@ const idx = {
     // 'authenticator-verification-custom-app-push',
     // 'authenticator-enroll-custom-app-push',
     // 'request-activation-email'    
+    // 'authenticator-enroll-google-authenticator',
+    // 'authenticator-enroll-ov-via-sms',
   ],
   '/idp/idx/enroll': [
     'enroll-profile-new',
@@ -122,11 +125,11 @@ const idx = {
     // 'enroll-profile-with-idps'
   ],
   '/idp/idx/credential/enroll': [
-    // 'authenticator-enroll-ov-via-sms',
+    'authenticator-enroll-ov-via-sms',
     // 'authenticator-enroll-security-question',
     // 'authenticator-enroll-google-authenticator',
     // 'authenticator-enroll-email-first-emailmagiclink-true',
-    'error-authenticator-enroll-phone-invalid-number',
+    // 'error-authenticator-enroll-phone-invalid-number',
   ],
   '/idp/idx/identify': [
     // 'authenticator-verification-data-ov-only-without-device-known',
@@ -172,7 +175,7 @@ const idx = {
     // 'authenticator-verification-phone-voice'
   ],
   '/idp/idx/challenge/poll': [
-    'authenticator-verification-email',
+    // 'authenticator-verification-email',
     // 'success',
     // 'authenticator-verification-email-polling-long',
     // 'error-429-too-many-request',
@@ -182,7 +185,7 @@ const idx = {
     // 'authenticator-enroll-email-emailmagiclink-true',
     // 'authenticator-enroll-email-emailmagiclink-false',
     // 'authenticator-verification-okta-verify-push',
-    // 'authenticator-verification-custom-app-push',
+    'authenticator-verification-custom-app-push',
     // 'authenticator-verification-custom-app-push-reject',
     // 'authenticator-enroll-ov-sms-enable-biometrics',
     // 'okta-verify-version-upgrade',
@@ -219,6 +222,9 @@ const idx = {
   '/idp/idx/device/activate': [
     'identify-with-password',
     // 'error-invalid-device-code',
+  ],
+  '/idp/idx/authenticators/poll/cancel': [
+    'identify',
   ]
 };
 

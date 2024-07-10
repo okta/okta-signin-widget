@@ -154,6 +154,11 @@ export default class EnrollOktaVerifyPageObject extends BasePageObject {
     return this.getNthInstructionBulletPoint(3);
   }
 
+  async getSameDeviceDownloadText() {
+    return this.form.getElement('#download-ov').parent().innerText;
+
+  }
+
   async sameDeviceSetupOnMobileTextExist() {
     if (userVariables.gen3) {
       return this.form.getLink(SETUP_ON_ANOTHER_MOBILE_DEVICE_TEXT).exists;
@@ -299,5 +304,9 @@ export default class EnrollOktaVerifyPageObject extends BasePageObject {
       return this.form.getSubtitle(5);
     }
     return this.getTextContent(CLOSING_CLASS);
+  }
+
+  async appStoreElementExists() {
+    return this.form.el.find(APP_STORE_LINK_CLASS).exists;
   }
 }
