@@ -1061,7 +1061,7 @@ test
     }
   });
 
-test.only
+test
   .requestHooks(logger, enrollSameDeviceWindowsWithHighSecurity)('should be able to see OV same device enrollment instructions on HIGH security level (Windows)', async t => {
     const enrollOktaVerifyPage = await setup(t);
 
@@ -1094,7 +1094,7 @@ test.only
     }
   });
 
-test.only
+test
   .requestHooks(logger, enrollSameDeviceOsxWithAnySecurity)('should be able to see OV same device enrollment instructions on ANY security level (OSX)', async t => {
     const enrollOktaVerifyPage = await setup(t);
 
