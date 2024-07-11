@@ -30,7 +30,7 @@ export default View.extend({
         </ul>
       {{/if}}
       {{#if deviceMap.setupOVUrl}}
-        <div class="sameDevice-setup">        
+        <div class="sameDevice-setup{{#if sameDeviceOVEnrollmentEnabled}} ov-enrollment-enabled{{/if}}">        
           <p class="explanation" data-se="subheader">
             {{#if deviceMap.isDesktop}}
               <div class="desktop-instructions ov-info">
@@ -38,35 +38,52 @@ export default View.extend({
                 bundle="login" $1="<span class='semi-strong'>$1</span>"}}
               </div>              
               <div class="desktop-instructions">
-                {{i18n code="oie.enroll.okta_verify.setup.customUri.noPrompt"
-                bundle="login" $1="<span class='semi-strong'>$1</span>"}}
+                {{#if sameDeviceOVEnrollmentEnabled}}
+                  {{i18n code="customUri.required.content.prompt"
+                  bundle="login" $1="<span>$1</span>"}}
+                {{else}}
+                  {{i18n code="oie.enroll.okta_verify.setup.customUri.noPrompt"
+                  bundle="login" $1="<span class='semi-strong'>$1</span>"}}
+                {{/if}}
               </div>
-              <div class="desktop-instructions">
-                {{i18n code="oie.enroll.okta_verify.setup.customUri.makeSureHaveOV" bundle="login"}}
-              </div>            
+              {{#unless sameDeviceOVEnrollmentEnabled}}
+                <div class="desktop-instructions">
+                  {{i18n code="oie.enroll.okta_verify.setup.customUri.makeSureHaveOV" bundle="login"}}
+                </div>
+              {{/unless}}
             {{else}}
               {{i18n code="oie.enroll.okta_verify.setup.customUri.makeSureHaveOVToContinue" bundle="login"}}
             {{/if}}
           </p>      
           <ol class="ov-info">
-            {{#if deviceMap.platformLC}}
+            {{#unless sameDeviceOVEnrollmentEnabled}}
+              {{#if deviceMap.platformLC}}
+                <li>
+                  <a aria-label='{{i18n code="customUri.required.content.download.linkText" bundle="login"}}'
+                  href="{{deviceMap.downloadHref}}"
+                  class="app-store-logo {{deviceMap.platformLC}}-app-store-logo"></a>
+                </li>
+              {{/if}}            
+                          
               <li>
-                <a aria-label='{{i18n code="customUri.required.content.download.linkText" bundle="login"}}'
-                href="{{deviceMap.downloadHref}}"
-                class="app-store-logo {{deviceMap.platformLC}}-app-store-logo"></a>
-              </li>
-            {{/if}}            
-                        
-            <li>
-              {{i18n code="oie.enroll.okta_verify.setup.customUri.setup"
-              bundle="login" $1="<span class='semi-strong'>$1</span>"}}
-            </li>            
-            
+                {{i18n code="oie.enroll.okta_verify.setup.customUri.setup"
+                bundle="login" $1="<span class='semi-strong'>$1</span>"}}
+              </li>     
+            {{/unless}}
             <li>
               <a href="{{deviceMap.setupOVUrl}}" class="button button-primary setup-button">
               {{i18n code="oie.enroll.okta_verify.setup.title" bundle="login"}}
               </a>
             </li>
+
+            {{#if sameDeviceOVEnrollmentEnabled}}
+              <li>
+                <span>{{i18n code="customUri.required.content.download.title" bundle="login"}}</span>&nbsp;
+                <a href="{{deviceMap.downloadHref}}" target="_blank" id="download-ov" class="orOnMobileLink">
+                  {{i18n code="customUri.required.content.download.linkText" bundle="login"}}
+                </a>
+              </li>
+            {{/if}}
 
             {{#if showAnotherDeviceLink}}
               <li>
@@ -157,6 +174,9 @@ export default View.extend({
     if (deviceMap.securityLevel && deviceMap.securityLevel === 'ANY') {
       showAnotherDeviceLink = true;
     }
+
+    const sameDeviceOVEnrollmentEnabled = this.options.settings.get('features.sameDeviceOVEnrollmentEnabled');
+
     return {
       href: contextualData.qrcode?.href,
       email: _.escape(contextualData?.email),
@@ -166,6 +186,7 @@ export default View.extend({
       enrolledDeviceName: enrolledDeviceName,
       deviceMap: deviceMap,
       showAnotherDeviceLink: showAnotherDeviceLink,
+      sameDeviceOVEnrollmentEnabled,
     };
   },
   postRender: function() {

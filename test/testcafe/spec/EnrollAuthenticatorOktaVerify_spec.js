@@ -317,6 +317,7 @@ const sameDeviceOVEnrollmentInstructions3 = 'set up Okta Verify on another mobil
 const sameDeviceOVEnrollmentDesktopInstructions1 = 'Click "Open Okta Verify" on the browser prompt to set up Okta Verify.';
 const sameDeviceOVEnrollmentDesktopInstructions2 = 'Didn\'t see the prompt?';
 const sameDeviceOVEnrollmentDesktopInstructions3 = 'Make sure you have Okta Verify installed.';
+const sameDeviceOVEnrollmentDesktopInstructions4 = 'Didn’t get a prompt?';
 const sameDeviceOVEnrollmentAppleLink = 'https://apps.apple.com/us/app/okta-verify/id490179405';
 const sameDeviceOVEnrollmentAndroidLink = 'https://play.google.com/store/apps/details?id=com.okta.android.auth';
 const sameDeviceOVEnrollmentWindowsLink = 'https://microsoft.com/app/ov';
@@ -1014,6 +1015,19 @@ test
     await t.expect(await enrollOktaVerifyPage.getSameDeviceSetupOnMobileText()).contains(sameDeviceOVEnrollmentInstructions3);
 
     await t.expect(await enrollOktaVerifyPage.orAnotherMobileDeviceLinkExists()).eql(true);
+
+    if (!userVariables.gen3) {
+      // re-render widget with sameDeviceOVEnrollmentEnabled FF on
+      await rerenderWidget({
+        features: { sameDeviceOVEnrollmentEnabled: true }
+      });
+      await checkA11y(t);
+      await t.expect(enrollOktaVerifyPage.getFormTitle()).eql(sameDeviceOVEnrollmentTitle);
+      const downloadInstruction = await enrollOktaVerifyPage.getSameDeviceDownloadText();
+      await t.expect(downloadInstruction).contains('Don’t have Okta Verify?');
+      await t.expect(downloadInstruction).contains('Download here');
+      await t.expect(await enrollOktaVerifyPage.appStoreElementExists()).eql(false);
+    }
   });
 
 test
@@ -1031,6 +1045,19 @@ test
     await t.expect(enrollOktaVerifyPage.getAppStoreHref()).eql(sameDeviceOVEnrollmentAndroidLink);
     if (!userVariables.gen3) {
       await t.expect(enrollOktaVerifyPage.getOVSetupHref()).eql(sameDeviceOVEnrollmentSetupLink);
+    }
+
+    if (!userVariables.gen3) {
+      // re-render widget with sameDeviceOVEnrollmentEnabled FF on
+      await rerenderWidget({
+        features: { sameDeviceOVEnrollmentEnabled: true }
+      });
+      await checkA11y(t);
+      await t.expect(enrollOktaVerifyPage.getFormTitle()).eql(sameDeviceOVEnrollmentTitle);
+      const downloadInstruction = await enrollOktaVerifyPage.getSameDeviceDownloadText();
+      await t.expect(downloadInstruction).contains('Don’t have Okta Verify?');
+      await t.expect(downloadInstruction).contains('Download here');
+      await t.expect(await enrollOktaVerifyPage.appStoreElementExists()).eql(false);
     }
   });
 
@@ -1051,6 +1078,20 @@ test
     if (!userVariables.gen3) {
       await t.expect(enrollOktaVerifyPage.getOVSetupHref()).eql(sameDeviceOVEnrollmentDesktopSetupLink);
     }
+    
+    if (!userVariables.gen3) {
+      // re-render widget with sameDeviceOVEnrollmentEnabled FF on
+      await rerenderWidget({
+        features: { sameDeviceOVEnrollmentEnabled: true }
+      });
+      await checkA11y(t);
+      await t.expect(enrollOktaVerifyPage.getFormTitle()).eql(sameDeviceOVEnrollmentTitle);
+      await t.expect(await enrollOktaVerifyPage.getDesktopNoPromptText()).eql(sameDeviceOVEnrollmentDesktopInstructions4);
+      const downloadInstruction = await enrollOktaVerifyPage.getSameDeviceDownloadText();
+      await t.expect(downloadInstruction).contains('Don’t have Okta Verify?');
+      await t.expect(downloadInstruction).contains('Download here');
+      await t.expect(await enrollOktaVerifyPage.appStoreElementExists()).eql(false);
+    }
   });
 
 test
@@ -1068,5 +1109,19 @@ test
     await t.expect(enrollOktaVerifyPage.getAppStoreHref()).eql(sameDeviceOVEnrollmentAppleLink);
     if (!userVariables.gen3) {
       await t.expect(enrollOktaVerifyPage.getOVSetupHref()).eql(sameDeviceOVEnrollmentDesktopSetupLink);
+    }
+
+    if (!userVariables.gen3) {
+      // re-render widget with sameDeviceOVEnrollmentEnabled FF on
+      await rerenderWidget({
+        features: { sameDeviceOVEnrollmentEnabled: true }
+      });
+      await checkA11y(t);
+      await t.expect(enrollOktaVerifyPage.getFormTitle()).eql(sameDeviceOVEnrollmentTitle);
+      await t.expect(await enrollOktaVerifyPage.getDesktopNoPromptText()).eql(sameDeviceOVEnrollmentDesktopInstructions4);
+      const downloadInstruction = await enrollOktaVerifyPage.getSameDeviceDownloadText();
+      await t.expect(downloadInstruction).contains('Don’t have Okta Verify?');
+      await t.expect(downloadInstruction).contains('Download here');
+      await t.expect(await enrollOktaVerifyPage.appStoreElementExists()).eql(false);
     }
   });
