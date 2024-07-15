@@ -5,15 +5,9 @@ import { FORMS as RemediationForms } from '../../../ion/RemediationConstants';
 export default View.extend({
   className: 'ov-same-device-enroll-text',
   template: hbs `
-      {{#if sameDeviceOVEnrollmentEnabled}}
         {{{i18n code="oie.enroll.okta_verify.select.channel.ovOnThisDevice"
         bundle="login" $1="<a class='ov-same-device-enroll-link' href='#'>$1</a>"}}}
-      {{/if}}`,
-  getTemplateData() {
-    return {
-      sameDeviceOVEnrollmentEnabled: this.settings.get('features.sameDeviceOVEnrollmentEnabled'),
-    };
-  },
+      `,
   postRender: function() {
     const appState = this.options && this.options.appState;
     const model = this.model;
