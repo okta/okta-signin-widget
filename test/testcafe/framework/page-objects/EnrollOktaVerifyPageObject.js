@@ -293,7 +293,7 @@ export default class EnrollOktaVerifyPageObject extends BasePageObject {
   }
 
   setupOnThisDeviceLinkExists() {
-    return this.getSetupOnThisDeviceLink().exists
+    return this.getSetupOnThisDeviceLink().exists;
   }
 
   async clickSetupOnThisDeviceLink() {
