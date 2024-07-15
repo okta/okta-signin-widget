@@ -35,6 +35,16 @@ import type { IdxMessage, IdxMessages } from '@okta/okta-auth-js';
 
 
 export const addHookOptions = (options: WidgetOptionsV3 = {}) => {
+  options.i18n = {
+    ...options.i18n,
+    en: {
+      ...(options.i18n?.en ?? {}),
+      'custom.validation.field.blank': 'Custom field {0} should be specified',
+      'custom.validation.field.terms.required': 'You should agree to the Terms and Conditions',
+      'custom.validation.field.tin.incorrect': 'TIN should be a 9-digit number',
+    }
+  };
+
   options.registration = {
     parseSchema: (schema: RegistrationElementSchema[], onSuccess) => {
       // Note: custom fields added here would not be saved to backend
@@ -111,13 +121,14 @@ const addHookForEnrollProfileForm = (signIn: OktaSignInAPIV3) => {
         fieldsToExclude.push(customStringName);
       }
       // validation
-      const mapCustomStringError = (msg?: WidgetMessage) => {
+      const mapCustomStringError = (msg?: WidgetMessage): WidgetMessage => {
         if (msg?.i18n?.key === 'model.validation.field.blank') {
           return {
             ...msg,
-            // will trigger warn "Avoid rendering unlocalized text sent from the API:"
-            i18n: undefined,
-            message: 'TIN should be specified',
+            i18n: {
+              key: 'custom.validation.field.blank',
+              params: [ 'TIN' ]
+            },
           };
         }
         return msg;
@@ -129,7 +140,9 @@ const addHookForEnrollProfileForm = (signIn: OktaSignInAPIV3) => {
         if (value && !validationMessages?.length) {
           if (!value.match(/^\d{9}$/)) {
             validationMessages.push({
-              message: 'TIN should be a 9-digit number'
+              i18n: {
+                key: 'custom.validation.field.tin.incorrect'
+              }
             });
           }
         }
@@ -169,13 +182,13 @@ const addHookForEnrollProfileForm = (signIn: OktaSignInAPIV3) => {
       formBag.uischema.elements.splice(customBoolIndex, 0, customBoolTitle);
       // validation
       const origCustomBoolValidate = formBag.dataSchema[customBoolName].validate;
-      const mapCustomBoolError = (msg?: WidgetMessage) => {
+      const mapCustomBoolError = (msg?: WidgetMessage): WidgetMessage => {
         if (msg?.i18n?.key === 'platform.cvd.profile.property.constraint.violation.required.true') {
           return {
             ...msg,
-            // will trigger warn "Avoid rendering unlocalized text sent from the API:"
-            i18n: undefined,
-            message: 'You should agree to the Terms and Conditions',
+            i18n: {
+              key: 'custom.validation.field.terms.required'
+            },
           };
         }
         return msg;
@@ -186,8 +199,9 @@ const addHookForEnrollProfileForm = (signIn: OktaSignInAPIV3) => {
         if (!value && !validationMessages?.length) {
           // This field was added with `registration.parseSchema` hook, not in admin panel, so it won't be validated
           validationMessages.push({
-            // will trigger warn "Avoid rendering unlocalized text sent from the API:"
-            message: 'You should agree to the Terms and Conditions'
+            i18n: {
+              key: 'custom.validation.field.terms.required'
+            },
           });
         }
         return validationMessages;
