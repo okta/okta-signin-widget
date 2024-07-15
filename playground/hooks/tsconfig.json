@@ -13,14 +13,14 @@
       "@okta/handlebars-inline-precompile": ["../../scripts/buildtools/tsc/handlebars-inline-precompile"],
       "util/*": ["../../src/util/*"],
       "models/*": ["../../src/models/*"],
-      "config/*": ["../../src/config/*"],
+      "config/*": ["../../src/config/*"]
     }
   },
   "files": [
-    "./index.ts",
+    "./index.ts"
   ],
   "include": [
   ],
   "exclude": [
-  ],
+  ]
 }
