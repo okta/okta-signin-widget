@@ -42,6 +42,7 @@ export const addHookOptions = (options: WidgetOptionsV3 = {}) => {
       'custom.validation.field.blank': 'Custom field {0} should be specified',
       'custom.validation.field.terms.required': 'You should agree to the Terms and Conditions',
       'custom.validation.field.tin.incorrect': 'TIN should be a 9-digit number',
+      'custom.validation.security_question.answer': 'Answer should have length from 3 to 20 and not contain special characters',
     }
   };
 
@@ -340,7 +341,9 @@ const addHookForEnrollAuthenticatorForm = (signIn: OktaSignInAPIV3) => {
           if (value && !validationMessages?.length) {
             if (!value.match(/^[\w\d\s\-]{3,20}$/)) {
               validationMessages.push({
-                message: 'Answer should have length from 3 to 20 and not contain special characters'
+                i18n: {
+                  key: 'custom.validation.security_question.answer'
+                }
               });
             }
           }
