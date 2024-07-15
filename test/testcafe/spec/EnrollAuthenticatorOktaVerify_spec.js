@@ -8,6 +8,7 @@ import EnrollOVViaSMSPageObject from '../framework/page-objects/EnrollOVViaSMSPa
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import { checkConsoleMessages, oktaDashboardContent, renderWidget as rerenderWidget } from '../framework/shared';
 import xhrAuthenticatorEnrollOktaVerifyQr from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-qr.json';
+import xhrAuthenticatorEnrollOktaVerifyQrWithSameDeviceOption from '@okta/mocks/data/idp/idx/authenticator-enroll-ov-qr-with-same-device';
 import xhrAuthenticatorEnrollOktaVerifySameDevice from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-same-device.json';
 import xhrAuthenticatorEnrollOktaVerifyIosSameDeviceAnySecurity from '@okta/mocks/data/idp/idx/authenticator-enroll-ov-same-device-ios-any-security.json';
 import xhrAuthenticatorEnrollOktaVerifyAndroidSameDeviceHighSecurity from '@okta/mocks/data/idp/idx/authenticator-enroll-ov-same-device-android-high-security.json';
@@ -103,6 +104,14 @@ if (userVariables.gen3) {
     .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
     .respond(xhrAuthenticatorEnrollOktaVerifyWindowsSameDeviceHighSecurity);
 }
+
+const enrollViaQRcodeWithSameDeviceOptionMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrAuthenticatorEnrollOktaVerifyQrWithSameDeviceOption)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
+  .respond(xhrAuthenticatorEnrollOktaVerifyQrWithSameDeviceOption)
+  .onRequestTo('http://localhost:3000/idp/idx/credential/enroll')
+  .respond(xhrAuthenticatorEnrollOktaVerifyOsxSameDeviceAnySecurity);
 
 // this mock doesn't need poll to return successful response
 const enrollDeviceBootstrapMocks = RequestMock()
@@ -1124,4 +1133,24 @@ test
       await t.expect(downloadInstruction).contains('Download here');
       await t.expect(await enrollOktaVerifyPage.appStoreElementExists()).eql(false);
     }
+  });
+
+  test
+  .requestHooks(logger, enrollViaQRcodeWithSameDeviceOptionMock)('channel selection screen view should have the set up OV on this device link with same device enrollment on ANY security', async t => {
+    const enrollOktaVerifyPage = await setup(t);
+
+    await rerenderWidget({
+      features: { sameDeviceOVEnrollmentEnabled: true }
+    });
+
+    await checkA11y(t);
+
+    await t.expect(enrollOktaVerifyPage.getFormTitle()).eql(sameDeviceOVEnrollmentTitle);
+    await enrollOktaVerifyPage.clickTryDifferentWay();
+    
+    await t.expect(enrollOktaVerifyPage.getFormTitle()).eql('Set up Okta Verify on another mobile device');
+    await t.expect(enrollOktaVerifyPage.setupOnThisDeviceLinkExists()).eql(true);
+    await enrollOktaVerifyPage.clickSetupOnThisDeviceLink();
+
+    await t.expect(enrollOktaVerifyPage.getFormTitle()).eql(sameDeviceOVEnrollmentTitle);
   });
