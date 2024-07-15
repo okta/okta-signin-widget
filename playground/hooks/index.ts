@@ -1,14 +1,13 @@
 /* eslint no-console: 0 */
 
-import { WidgetOptions } from '../../src/types';
-import {
+import type {
   OktaSignInAPI as OktaSignInAPIV3,
   WidgetOptions as WidgetOptionsV3,
   ButtonElement, CustomLayout, DescriptionElement, DividerElement, FieldElement, LinkElement, 
   RegistrationElementSchema, ReminderElement, StepperLayout, TitleElement, UISchemaElement, 
   UISchemaLayout, UISchemaLayoutType, WidgetMessage, StepperRadioElement,
 } from '../../src/v3/src/types';
-import { IdxMessage, IdxMessages } from '@okta/okta-auth-js';
+import type { IdxMessage, IdxMessages } from '@okta/okta-auth-js';
 
 /**
  *  Notes
@@ -260,7 +259,7 @@ const addHookForIdentifyForm = (signIn: OktaSignInAPIV3) => {
       type: 'Divider',
     };
     const newLinks: CustomLayout = {
-      type: UISchemaLayoutType.HORIZONTAL,
+      type: 'HorizontalLayout' as UISchemaLayoutType, // UISchemaLayoutType.HORIZONTAL,
       elements: [
         unlock,
         forgot,
