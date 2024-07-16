@@ -22,19 +22,29 @@
  *    See `./customize.css`
  *
  */
-export const addHookOptions = (options = {}) => {
-    options.i18n = {
-        ...options.i18n,
+export const addHookOptions = (config = {}) => {
+    // Tips for Sign-in page code editor: 
+    //  1. Paste content of `hooks/customize.css` inside `<style nonce="{{nonceValue}}">`
+    //  2. Paste the following line after `oktaSignIn.renderEl(...)`
+    document.querySelector('#okta-login-container').classList.add('siw-customized');
+    // Tip for Sign-in page code editor: 
+    //  Paste this code after `config = OktaUtil.getSignInWidgetConfig();`
+    config.i18n = {
+        ...config.i18n,
         en: {
-            ...(options.i18n?.en ?? {}),
+            ...(config.i18n?.en ?? {}),
             'custom.validation.field.blank': 'Custom field {0} should be specified',
             'custom.validation.field.terms.required': 'You should agree to the Terms and Conditions',
             'custom.validation.field.tin.incorrect': 'TIN should be a 9-digit number',
+            'custom.validation.security_question.answer': 'Answer should have length from 3 to 20 and not contain special characters',
         }
     };
-    options.registration = {
+    // Tip for Sign-in page code editor: 
+    //  Don't paste this code! It's used only for playground.
+    //  Custom fields added with `parseSchema` hook would not be saved to Okta backend.
+    //  Please add custom profile fields in Okta admin panel instead (/admin/universaldirectory)
+    config.registration = {
         parseSchema: (schema, onSuccess) => {
-            // Note: custom fields added here would not be saved to backend
             if (!schema.find(f => f.name.includes('custom_bool'))) {
                 schema.push({
                     label: 'Custom bool',
@@ -66,8 +76,21 @@ export const addHookOptions = (options = {}) => {
         },
     };
 };
-const addHookForEnrollProfileForm = (signIn) => {
-    signIn.afterTransform('enroll-profile', (formBag) => {
+export const addAfterTransformHooks = (oktaSignIn) => {
+    // Tip for Sign-in page code editor: 
+    //  Paste this code after `oktaSignIn = new OktaSignIn(config);`
+    const gen3 = typeof oktaSignIn.afterTransform === 'function';
+    if (gen3) {
+        addHookForEnrollProfileForm(oktaSignIn);
+        addHookForIdentifyRecoveryForm(oktaSignIn);
+        addHookForIdentifyForm(oktaSignIn);
+        addHookForChallengeAuthenticatorForm(oktaSignIn);
+        addHookForEnrollAuthenticatorForm(oktaSignIn);
+        addHookForAllForms(oktaSignIn);
+    }
+};
+const addHookForEnrollProfileForm = (oktaSignIn) => {
+    oktaSignIn.afterTransform('enroll-profile', (formBag) => {
         // Change title
         const titleIndex = formBag.uischema.elements.findIndex(ele => ele.type === 'Title');
         const title = formBag.uischema.elements[titleIndex];
@@ -190,8 +213,8 @@ const addHookForEnrollProfileForm = (signIn) => {
         formBag.dataSchema.fieldsToExclude = () => fieldsToExclude;
     });
 };
-const addHookForIdentifyRecoveryForm = (signIn) => {
-    signIn.afterTransform('identify-recovery', (formBag) => {
+const addHookForIdentifyRecoveryForm = (oktaSignIn) => {
+    oktaSignIn.afterTransform('identify-recovery', (formBag) => {
         // Change title
         const titleIndex = formBag.uischema.elements.findIndex(ele => ele.type === 'Title');
         const title = formBag.uischema.elements[titleIndex];
@@ -212,8 +235,8 @@ const addHookForIdentifyRecoveryForm = (signIn) => {
         formBag.uischema.elements.splice(titleIndex + 1, 0, descr);
     });
 };
-const addHookForIdentifyForm = (signIn) => {
-    signIn.afterTransform('identify', (formBag) => {
+const addHookForIdentifyForm = (oktaSignIn) => {
+    oktaSignIn.afterTransform('identify', (formBag) => {
         // Change title
         const titleIndex = formBag.uischema.elements.findIndex(ele => ele.type === 'Title');
         const title = formBag.uischema.elements[titleIndex];
@@ -226,7 +249,7 @@ const addHookForIdentifyForm = (signIn) => {
         const submit = formBag.uischema.elements[submitIndex];
         submit.label = 'Login';
         const signupWrapper = formBag.uischema.elements.find(ele => ele.type === 'HorizontalLayout' && ele.elements.find(ele => ele.type === 'Link' && ele.options.dataSe === 'enroll'));
-        const signup = signupWrapper.elements.find(ele => ele.type === 'Link');
+        const signup = signupWrapper?.elements.find(ele => ele.type === 'Link');
         formBag.uischema.elements = formBag.uischema.elements.filter((ele) => ele.type !== 'Divider'
             && ![help, unlock, forgot, signupWrapper].includes(ele));
         const newDivider = {
@@ -246,8 +269,8 @@ const addHookForIdentifyForm = (signIn) => {
         return;
     });
 };
-const addHookForChallengeAuthenticatorForm = (signIn) => {
-    signIn.afterTransform('challenge-authenticator', (formBag, { currentAuthenticator, userInfo }) => {
+const addHookForChallengeAuthenticatorForm = (oktaSignIn) => {
+    oktaSignIn.afterTransform('challenge-authenticator', (formBag, { currentAuthenticator, userInfo }) => {
         const stepper = formBag.uischema.elements.find(ele => ele.type === 'Stepper');
         if (stepper) {
             if (currentAuthenticator.type === 'email') {
@@ -271,8 +294,8 @@ const addHookForChallengeAuthenticatorForm = (signIn) => {
         }
     });
 };
-const addHookForEnrollAuthenticatorForm = (signIn) => {
-    signIn.afterTransform('enroll-authenticator', (formBag, { currentAuthenticator }) => {
+const addHookForEnrollAuthenticatorForm = (oktaSignIn) => {
+    oktaSignIn.afterTransform('enroll-authenticator', (formBag, { currentAuthenticator }) => {
         const stepper = formBag.uischema.elements.find(ele => ele.type === 'Stepper');
         if (stepper) {
             if (currentAuthenticator.type === 'security_question') {
@@ -295,7 +318,9 @@ const addHookForEnrollAuthenticatorForm = (signIn) => {
                     if (value && !validationMessages?.length) {
                         if (!value.match(/^[\w\d\s\-]{3,20}$/)) {
                             validationMessages.push({
-                                message: 'Answer should have length from 3 to 20 and not contain special characters'
+                                i18n: {
+                                    key: 'custom.validation.security_question.answer'
+                                }
                             });
                         }
                     }
@@ -305,8 +330,8 @@ const addHookForEnrollAuthenticatorForm = (signIn) => {
         }
     });
 };
-const addHookForAllForms = (signIn) => {
-    signIn.afterTransform('*', (formBag, context) => {
+const addHookForAllForms = (oktaSignIn) => {
+    oktaSignIn.afterTransform('*', (formBag, context) => {
         const { formName } = context;
         // Add Terms of Service link
         const formsWithTermsLink = [
@@ -336,15 +361,4 @@ const addHookForAllForms = (signIn) => {
         }
         console.log('>>> playground afterTransform hook for', formName, formBag, ' context:', context);
     });
-};
-export const addAfterTransformHooks = (signIn) => {
-    const gen3 = typeof signIn.afterTransform === 'function';
-    if (gen3) {
-        addHookForEnrollProfileForm(signIn);
-        addHookForIdentifyRecoveryForm(signIn);
-        addHookForIdentifyForm(signIn);
-        addHookForChallengeAuthenticatorForm(signIn);
-        addHookForEnrollAuthenticatorForm(signIn);
-        addHookForAllForms(signIn);
-    }
 };
