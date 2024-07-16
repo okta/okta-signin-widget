@@ -1,4 +1,4 @@
-import { View, _ } from '@okta/courage';
+import { View } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
 import { FORMS as RemediationForms } from '../../../ion/RemediationConstants';
 
@@ -26,18 +26,18 @@ export default View.extend({
       if (!selectEnrollmentChannelRemediation) {
         return;
       }
-      const idField = _.find(selectEnrollmentChannelRemediation.uiSchema, (schema) =>
+      const idField = selectEnrollmentChannelRemediation.uiSchema?.find((schema) =>
         schema.name === 'authenticator.id');
       if (!idField) {
         return;
       }
       // filter selected channel
-      const sameDeviceChannelField = _.find(selectEnrollmentChannelRemediation.uiSchema, (schema) =>
+      const sameDeviceChannelField = selectEnrollmentChannelRemediation.uiSchema?.find((schema) =>
         schema.name === 'authenticator.channel');
       if (!sameDeviceChannelField) {
         return;
       }
-      sameDeviceChannelField.options = _.filter(sameDeviceChannelField?.options, (option) =>
+      sameDeviceChannelField.options = sameDeviceChannelField.options?.filter((option) =>
         option.value === sameDeviceChannel);
       sameDeviceChannelField.value = sameDeviceChannelField.options[0]?.value || sameDeviceChannel;
       sameDeviceChannelField.sublabel = null;
