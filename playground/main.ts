@@ -67,7 +67,6 @@ const renderPlaygroundWidget = (options: WidgetOptions & { assertNoEnglishLeaks?
   window.cspNonce = 'playground';
 
   if (customize) {
-    document.querySelector('#okta-login-container').classList.add('siw-customized');
     addHookOptions(options as any as WidgetOptionsV3);
   }
 
