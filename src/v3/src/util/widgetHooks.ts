@@ -13,7 +13,8 @@
 import { IdxTransaction } from '@okta/okta-auth-js';
 
 import {
-  AnyHookFunction, HooksMap, BaseHookType, FormHooksMap, HooksOptions, HookType, TransformHookContext,
+  AnyHookFunction, BaseHookType, FormHooksMap, HooksMap, HooksOptions, HookType,
+  TransformHookContext,
 } from '../types/hooks';
 import { FormBag } from '../types/schema';
 import { getFormNameForTransaction } from './getEventContext';
