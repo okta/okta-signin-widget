@@ -59,6 +59,6 @@ export interface FormHooksMap extends Map<string, AnyHookFunction[]> {
   get(k: string): AnyHookFunction[];
 }
 
-export type AllHooksMap = Map<string, FormHooksMap>;
+export type HooksMap = Map<string, FormHooksMap>;
 
 export type { BaseHookType };

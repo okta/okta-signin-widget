@@ -12,10 +12,8 @@
 
 import { IdxTransaction } from '@okta/okta-auth-js';
 
-import { HookFunction } from '../../../types';
 import {
-  AllHooksMap, BaseHookType, FormHooksMap, HooksOptions, HookType, TransformHookContext,
-  TransformHookFunction,
+  AnyHookFunction, HooksMap, BaseHookType, FormHooksMap, HooksOptions, HookType, TransformHookContext,
 } from '../types/hooks';
 import { FormBag } from '../types/schema';
 import { getFormNameForTransaction } from './getEventContext';
@@ -23,7 +21,7 @@ import { getFormNameForTransaction } from './getEventContext';
 const hookTypes: HookType[] = ['before', 'after', 'afterTransform'];
 
 export class WidgetHooks {
-  private hooks: AllHooksMap;
+  private hooks: HooksMap;
 
   /* eslint-disable no-restricted-syntax */
   constructor(hooksOptions?: HooksOptions) {
@@ -39,7 +37,7 @@ export class WidgetHooks {
     }
   }
 
-  public addHook(hookType: HookType, formName: string, hook: TransformHookFunction | HookFunction) {
+  public addHook(hookType: HookType, formName: string, hook: AnyHookFunction) {
     const formHooks: FormHooksMap = this.hooks.get(formName) || new Map();
     const hooksByType = formHooks.get(hookType) || [];
     hooksByType.push(hook);
