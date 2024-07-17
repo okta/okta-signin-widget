@@ -120,9 +120,9 @@ Mocks
 
 ### Customizations
 
-SIW Next uses React. 
-If you want to customize the appearence of widget, using [before](/README.md#before) and [after](/README.md#after) hooks to manipulate DOM is not suitable. 
-Instead you can use new `afterTransform` hook to manipulate state of SIW to be rendered. 
+SIW Next uses React.  
+If you want to customize the appearence of widget, using [before](/README.md#before) and [after](/README.md#after) hooks to manipulate DOM is not suitable.  
+Instead you can use new `afterTransform` hook to manipulate state of SIW to be rendered.  
 
 Example:
 
@@ -164,4 +164,23 @@ To see demonstration of different elements can be used in `formBag.uischema.elem
 - Source: see [transformEnumerateComponents](/src/v3/src/transformer/layout/development/transformEnumerateComponents.ts)
 
 React components to be rendered by type: see [renderers](/src/v3/src/components/Form/renderers.tsx)  
+
+#### Custom profile fields for user registration
+
+Custom profile fields should be added in Okta admin panel (`/admin/universaldirectory`) if value needs to be saved.  
+Custom profile fields display can be configured at `/admin/authn/policies` page.  
+See [Create a custom profile enrollment form](https://help.okta.com/oie/en-us/content/topics/identity-engine/policies/create-profile-enrollment-form.htm).  
+Eg. hook for [enroll-profile](../../playground/hooks/pages/enroll-profile.ts) page expects custom string profile field with name `custom_string` to be added with Okta admin panel.  
+
+Fake custom profile fields (value of those can't be saved) can be added with `registration.parseSchema` callback.  
+Eg. checkbox to agree to terms and conditions could be added with this callback without saving value to backend
+  (see `custom_bool` in [hooks/pages/enroll-profile.ts](../../playground/hooks/pages/enroll-profile.ts)).  
+
+#### Style customizations
+
+CSS selectors for style customizations can be tricky to write cause Gen3 doesn't use classes for key elements.  
+But you can use `data-se` attribute for key elements and `:has()` selector for their parents/ancestors.  
+See [customize.css](../../playground/hooks/css/customize.css).  
+
+#### Using hooks in Sign-in page code editor for custom domain
 

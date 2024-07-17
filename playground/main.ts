@@ -16,7 +16,7 @@ import {
 } from '../src/v3/src/types';
 import { assertNoEnglishLeaks } from '../playground/LocaleUtils';
 import Util from '../src/util/Util';
-import { addAfterTransformHooks, addHookOptions } from './hooks';
+import { customizeWidgetOptionsForHooks, addAfterTransformHooks } from './hooks';
 
 declare global {
   const IE11_COMPAT_MODE: boolean;
@@ -67,7 +67,7 @@ const renderPlaygroundWidget = (options: WidgetOptions & { assertNoEnglishLeaks?
   window.cspNonce = 'playground';
 
   if (customize) {
-    addHookOptions(options as any as WidgetOptionsV3);
+    customizeWidgetOptionsForHooks(options as any as WidgetOptionsV3);
   }
 
   createWidgetInstance(options);
