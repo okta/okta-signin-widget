@@ -10,7 +10,7 @@ export default View.extend({
   initialize() {
     let deviceMap = getDeviceMap(this.options.appState);
 
-    // automatically trigger the Open Okta Verify button on same device enrollment view
+    // automatically trigger the Set up Okta Verify button on same device enrollment view
     if (deviceMap && deviceMap.setupOVUrl && getDeviceIsDesktop(deviceMap)) {
       this.ulDom && this.ulDom.remove();
       const IframeView = createInvisibleIFrame('custom-uri-container', deviceMap.setupOVUrl);
