@@ -197,6 +197,7 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
               undefined,
               { $1: { element: 'span', attributes: { class: 'strong' } } },
             ),
+            bottomMargin: 2,
           },
         } as DescriptionElement,
         {
