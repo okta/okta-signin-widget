@@ -73,7 +73,9 @@ export const transformOktaVerifyChannelSelection: IdxStepTransformer = ({
     }));
   elements.push(channelSelectionElement);
 
-  data['authenticator.channel'] = channelSelectionElement.options.customOptions[0].value;
+  if (channelSelectionElement.options.customOptions.length > 0) {
+    data['authenticator.channel'] = channelSelectionElement.options.customOptions[0].value;
+  }
 
   const submitButton: ButtonElement = {
     type: 'Button',
