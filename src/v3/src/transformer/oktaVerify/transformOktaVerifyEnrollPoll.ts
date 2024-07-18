@@ -189,7 +189,6 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
       sameDeviceOVElements.push(
         {
           type: 'Description',
-          noMargin: true,
           options: {
             content: loc(
               'oie.enroll.okta_verify.setup.customUri.prompt',
@@ -197,7 +196,6 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
               undefined,
               { $1: { element: 'span', attributes: { class: 'strong' } } },
             ),
-            bottomMargin: 2,
           },
         } as DescriptionElement,
         {
@@ -275,7 +273,6 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
     sameDeviceOVElements.push(
       {
         type: 'Description',
-        noMargin: true,
         options: {
           content: loc(
             'oie.enroll.okta_verify.setup.customUri.setup',
@@ -283,7 +280,6 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
             undefined,
             { $1: { element: 'span', attributes: { class: 'strong' } } },
           ),
-          bottomMargin: 2,
         },
       } as DescriptionElement,
     );

@@ -35,7 +35,6 @@ const InformationalText: UISchemaElementComponent<{
     content,
     dataSe,
     variant,
-    bottomMargin,
   } = uischema.options;
   const parsedContent = useHtmlContentParser(content, uischema.parserOptions);
 
@@ -43,7 +42,6 @@ const InformationalText: UISchemaElementComponent<{
     <Box
       display="flex"
       justifyContent="flex-start"
-      marginBlockEnd={bottomMargin || undefined}
     >
       <Typography
         component="p"

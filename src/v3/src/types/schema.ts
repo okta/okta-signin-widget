@@ -423,7 +423,6 @@ export interface DescriptionElement extends UISchemaElement {
     content: string;
     dataSe?: string;
     variant?: 'body1' | 'subtitle1' | 'legend';
-    bottomMargin?: number;
   };
 }
 
