@@ -43,7 +43,7 @@ const InformationalText: UISchemaElementComponent<{
     <Box
       display="flex"
       justifyContent="flex-start"
-      marginBlockEnd={bottomMargin ? bottomMargin : undefined}
+      marginBlockEnd={bottomMargin || undefined}
     >
       <Typography
         component="p"
