@@ -37,7 +37,6 @@ export const transformOktaVerifyChannelSelection: IdxStepTransformer = ({
   const { context } = prevTransaction || {};
   const { context: currentTransactionContext } = transaction;
   const { data, uischema } = formBag;
-  let sameDeviceChannelAvailable = false;
 
   const isAndroidOrIOSView = isAndroidOrIOS();
   // Checking first if it's in the prev transaction otherwise, pulling from the current
@@ -65,16 +64,9 @@ export const transformOktaVerifyChannelSelection: IdxStepTransformer = ({
   channelSelectionElement.label = loc('oie.enroll.okta_verify.select.channel.subtitle', 'login');
   channelSelectionElement.options.format = 'radio';
   const { options: { inputMeta: { options = [] } } } = channelSelectionElement;
+  // filter out the samedevice channel so it is not displayed as a radio since it will be displayed as a link instead
   channelSelectionElement.options.customOptions = options
-    .filter((opt) => {
-      if (opt.value === 'samedevice') {
-        // filter out the samedevice channel so it is not displayed as a radio
-        // and set flag to true so we know to add it as a link instead
-        sameDeviceChannelAvailable = true;
-        return false;
-      }
-      return opt.value !== lastSelectedChannel;
-    })
+    .filter((opt) => opt.value !== lastSelectedChannel && opt.value !== 'samedevice')
     .map((opt) => ({
       value: opt.value as string,
       label: loc(CHANNEL_TO_LABEL_KEY_MAP[opt.value as string], 'login'),
@@ -93,6 +85,7 @@ export const transformOktaVerifyChannelSelection: IdxStepTransformer = ({
   };
   elements.push(submitButton);
 
+  const sameDeviceChannelAvailable = options.some((opt) => opt.value === 'samedevice');
   if (sameDeviceChannelAvailable) {
     const setupOnSameDeviceLink: TextWithActionLinkElement = {
       type: 'TextWithActionLink',
