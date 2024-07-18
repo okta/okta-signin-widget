@@ -99,7 +99,7 @@ export default View.extend({
             {{#if sameDeviceOVEnrollmentEnabled}}
               <li>
                 <span>{{i18n code="customUri.required.content.download.title" bundle="login"}}</span>&nbsp;
-                <a href="{{deviceMap.downloadHref}}" target="_blank" id="download-ov" class="orOnMobileLink">
+                <a href="{{deviceMap.downloadHref}}" target="_blank" id="download-ov" class="download-ov-link">
                   {{i18n code="customUri.required.content.download.linkText" bundle="login"}}
                 </a>
               </li>
