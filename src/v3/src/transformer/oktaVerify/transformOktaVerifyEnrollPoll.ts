@@ -10,14 +10,13 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import Util from '../../../../util/Util';
 import {
   AppleStoreIcon,
   GoogleStoreIcon,
   OSXStoreIcon,
   WindowsStoreIcon,
 } from '../../components/Icon';
-import { IDX_STEP } from '../../constants';
+import { CHALLENGE_METHOD, IDX_STEP } from '../../constants';
 import {
   ButtonElement,
   ButtonType,
@@ -25,6 +24,7 @@ import {
   IdxStepTransformer,
   ImageLinkElement,
   ListElement,
+  OpenOktaVerifyFPButtonElement,
   QRCodeElement,
   ReminderElement,
   StepperLayout,
@@ -35,7 +35,7 @@ import {
   UISchemaLayout,
   UISchemaLayoutType,
 } from '../../types';
-import { copyToClipboard, isAndroid, loc } from '../../util';
+import { copyToClipboard, loc } from '../../util';
 
 const STEPS = {
   QR_POLLING: 0,
@@ -289,21 +289,15 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
     if (deviceMap.setupOVUrl) {
       sameDeviceOVElements.push(
         {
-          type: 'Button',
-          label: loc('oie.enroll.okta_verify.setup.title', 'login'),
+          type: 'OpenOktaVerifyFPButton',
           options: {
             step: '',
-            type: ButtonType.BUTTON,
-            variant: 'primary',
-            onClick: () => {
-              if (isAndroid()) {
-                Util.redirectWithFormGet(deviceMap.setupOVUrl);
-              } else {
-                window.location.assign(deviceMap.setupOVUrl!);
-              }
-            },
+            href: deviceMap.setupOVUrl,
+            challengeMethod: deviceMap.isDesktop
+              ? CHALLENGE_METHOD.CUSTOM_URI
+              : CHALLENGE_METHOD.UNIVERSAL_LINK,
           },
-        } as ButtonElement,
+        } as OpenOktaVerifyFPButtonElement,
       );
     }
 

@@ -1,5 +1,5 @@
 /* eslint max-statements: [2, 22] */
-import { $, View } from '@okta/courage';
+import { $ } from '@okta/courage';
 import { BaseFormWithPolling } from '../internals';
 import Logger from 'util/Logger';
 import {
@@ -8,7 +8,11 @@ import {
   CHALLENGE_TIMEOUT,
 } from '../utils/Constants';
 import BrowserFeatures from 'util/BrowserFeatures';
-import { doChallenge, cancelPollingWithParams } from '../utils/ChallengeViewUtil';
+import { 
+  doChallenge,
+  cancelPollingWithParams,
+  createInvisibleIFrame,
+} from '../utils/ChallengeViewUtil';
 
 const request = (opts) => {
   const ajaxOptions = Object.assign({
@@ -222,19 +226,5 @@ const Body = BaseFormWithPolling.extend({
     this.probingXhr && this.probingXhr.abort();
   },
 });
-
-function createInvisibleIFrame(iFrameId, iFrameSrc) {
-  const iFrameView = View.extend({
-    tagName: 'iframe',
-    id: iFrameId,
-    attributes: {
-      src: iFrameSrc,
-    },
-    initialize() {
-      this.el.style.display = 'none';
-    }
-  });
-  return iFrameView;
-}
 
 export default Body;

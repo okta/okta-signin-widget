@@ -1,11 +1,22 @@
 import { View, _, loc, internal} from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
 import { FORMS as RemediationForms } from '../../../ion/RemediationConstants';
+import { createInvisibleIFrame } from '../../utils/ChallengeViewUtil';
 
 const { Notification } = internal.views.components;
 const { Clipboard } = internal.util;
 
 export default View.extend({
+  initialize() {
+    let deviceMap = getDeviceMap(this.options.appState);
+
+    // automatically trigger the Open Okta Verify button on same device enrollment view
+    if (deviceMap && deviceMap.setupOVUrl && getDeviceIsDesktop(deviceMap)) {
+      this.ulDom && this.ulDom.remove();
+      const IframeView = createInvisibleIFrame('custom-uri-container', deviceMap.setupOVUrl);
+      this.ulDom = this.add(IframeView).last();
+    }
+  },
   template: hbs`
       {{#if href}}
         <ol class="qrcode-info ov-info">
@@ -160,7 +171,7 @@ export default View.extend({
   getTemplateData() {
     const contextualData = this.options.appState.get('currentAuthenticator').contextualData;
     let enrolledDeviceName = '';
-    let deviceMap = {};
+    let deviceMap = getDeviceMap(this.options.appState);
     let showAnotherDeviceLink = false;
     if (contextualData) {
       if (contextualData?.devicebootstrap && contextualData?.devicebootstrap.enrolledDevices) {
@@ -168,16 +179,11 @@ export default View.extend({
         enrolledDeviceName = Array.isArray(enrolledDevices) && !_.isEmpty(enrolledDevices) ?
           enrolledDevices[0] : enrolledDevices;
       }
-      if (contextualData.samedevice && contextualData.samedevice?.setupOVUrl) {
-        deviceMap = contextualData.samedevice;
-      } else if (contextualData.devicebootstrap && contextualData.devicebootstrap?.setupOVUrl) {
-        deviceMap = contextualData.devicebootstrap;
-      }
     }
 
     if (deviceMap.platform) {
       deviceMap.platformLC = deviceMap.platform.toLowerCase();
-      deviceMap.isDesktop = !(deviceMap.platformLC === 'ios' || deviceMap.platformLC === 'android');
+      deviceMap.isDesktop = getDeviceIsDesktop(deviceMap);
     }
 
     if (deviceMap.securityLevel && deviceMap.securityLevel === 'ANY') {
@@ -246,4 +252,25 @@ export default View.extend({
       return false;
     });
   },
-});
+})
+
+function getDeviceMap(appState) {
+  if (!appState) {
+    return null;
+  }
+
+  const contextualData = appState.get('currentAuthenticator').contextualData;
+  let deviceMap = {};
+  if (contextualData.samedevice && contextualData.samedevice?.setupOVUrl) {
+    deviceMap = contextualData.samedevice;
+  } else if (contextualData.devicebootstrap && contextualData.devicebootstrap?.setupOVUrl) {
+    deviceMap = contextualData.devicebootstrap;
+  }
+
+  return deviceMap;
+};
+
+function getDeviceIsDesktop(deviceMap) {
+  return deviceMap && !(deviceMap.platform.toLowerCase() === 'ios' 
+    || deviceMap.platform.toLowerCase() === 'android');
+}
