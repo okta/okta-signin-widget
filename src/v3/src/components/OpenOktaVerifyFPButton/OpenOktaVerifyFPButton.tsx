@@ -40,11 +40,10 @@ const OpenOktaVerifyFPButton: UISchemaElementComponent<{
       step,
       href,
       challengeMethod,
-      label,
     },
   } = uischema;
   const [key, setKey] = useState<number>(0);
-  const btnLabel = label || getTranslation(translations, 'label');
+  const label = getTranslation(translations, 'label');
   const { loginHint, widgetProps } = useWidgetContext();
   const urlObj = new URL(href as string, getBaseUrl(widgetProps));
   const loginHintQueryParam = loginHint ? { login_hint: loginHint } : undefined;
@@ -52,7 +51,7 @@ const OpenOktaVerifyFPButton: UISchemaElementComponent<{
 
   const buttonUiSchema: ButtonElement = {
     type: 'Button',
-    label: btnLabel,
+    label,
     focus,
     ariaDescribedBy,
     options: {

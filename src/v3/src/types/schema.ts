@@ -373,7 +373,7 @@ export interface OpenOktaVerifyFPButtonElement extends UISchemaElement {
     step: string;
     href?: string;
     challengeMethod?: string;
-    label?: string;
+    i18nKey?: string;
   };
 }
 
