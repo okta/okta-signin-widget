@@ -252,7 +252,7 @@ export default View.extend({
       return false;
     });
   },
-})
+});
 
 function getDeviceMap(appState) {
   if (!appState) {
@@ -268,7 +268,7 @@ function getDeviceMap(appState) {
   }
 
   return deviceMap;
-};
+}
 
 function getDeviceIsDesktop(deviceMap) {
   return deviceMap && !(deviceMap.platform.toLowerCase() === 'ios' 
