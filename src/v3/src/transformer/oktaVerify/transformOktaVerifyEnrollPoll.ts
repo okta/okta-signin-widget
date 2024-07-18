@@ -292,6 +292,7 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
           type: 'OpenOktaVerifyFPButton',
           options: {
             step: '',
+            label: loc('oie.enroll.okta_verify.setup.title', 'login'),
             href: deviceMap.setupOVUrl,
             challengeMethod: deviceMap.isDesktop
               ? CHALLENGE_METHOD.CUSTOM_URI
