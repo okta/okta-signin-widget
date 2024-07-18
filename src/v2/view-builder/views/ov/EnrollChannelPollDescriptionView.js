@@ -11,7 +11,7 @@ export default View.extend({
     let deviceMap = getDeviceMap(this.options.appState);
 
     // automatically trigger the Set up Okta Verify button on same device enrollment view
-    if (deviceMap && deviceMap.setupOVUrl && getDeviceIsDesktop(deviceMap)) {
+    if (deviceMap && deviceMap.setupOVUrl && deviceMap.isDesktop) {
       this.ulDom && this.ulDom.remove();
       const IframeView = createInvisibleIFrame('custom-uri-container', deviceMap.setupOVUrl);
       this.ulDom = this.add(IframeView).last();
@@ -181,11 +181,6 @@ export default View.extend({
       }
     }
 
-    if (deviceMap.platform) {
-      deviceMap.platformLC = deviceMap.platform.toLowerCase();
-      deviceMap.isDesktop = getDeviceIsDesktop(deviceMap);
-    }
-
     if (deviceMap.securityLevel && deviceMap.securityLevel === 'ANY') {
       showAnotherDeviceLink = true;
     }
@@ -261,16 +256,16 @@ function getDeviceMap(appState) {
 
   const contextualData = appState.get('currentAuthenticator').contextualData;
   let deviceMap = {};
-  if (contextualData.samedevice && contextualData.samedevice?.setupOVUrl) {
+  if (contextualData.samedevice?.setupOVUrl) {
     deviceMap = contextualData.samedevice;
-  } else if (contextualData.devicebootstrap && contextualData.devicebootstrap?.setupOVUrl) {
+  } else if (contextualData.devicebootstrap?.setupOVUrl) {
     deviceMap = contextualData.devicebootstrap;
   }
 
-  return deviceMap;
-}
+  if (deviceMap.platform) {
+    deviceMap.platformLC = deviceMap.platform.toLowerCase();
+    deviceMap.isDesktop = !(deviceMap.platformLC === 'ios' || deviceMap.platformLC === 'android');
+  }
 
-function getDeviceIsDesktop(deviceMap) {
-  return deviceMap && !(deviceMap.platform.toLowerCase() === 'ios' 
-    || deviceMap.platform.toLowerCase() === 'android');
+  return deviceMap;
 }
