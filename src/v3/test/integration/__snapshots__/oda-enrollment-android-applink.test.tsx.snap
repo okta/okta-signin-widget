@@ -395,11 +395,7 @@ exports[`oda-enrollment-android-applink should render view when "No, I don’t h
                           <li
                             class="MuiListItem-root emotion-21"
                           >
-                            <span
-                              class="MuiBox-root emotion-1"
-                            >
-                              Finish setting up your account in Okta Verify, then try signing in again.
-                            </span>
+                            Finish setting up your account in Okta Verify, then try signing in again.
                           </li>
                         </ol>
                       </div>
@@ -408,7 +404,7 @@ exports[`oda-enrollment-android-applink should render view when "No, I don’t h
                       class="MuiBox-root emotion-12"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-45"
+                        class="MuiTypography-root MuiTypography-body1 MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-44"
                         role="link"
                       >
                         Back

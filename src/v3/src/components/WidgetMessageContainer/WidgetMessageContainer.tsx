@@ -16,8 +16,8 @@ import { HTMLReactParserOptions } from 'html-react-parser';
 import { FunctionComponent, h } from 'preact';
 import React from 'preact/compat';
 
-import { useHtmlContentParser } from '../../hooks';
 import { ListStyleType, WidgetMessage, WidgetMessageLink } from '../../types';
+import { parseHtmlContent } from '../../util';
 
 const WidgetMessageContainer: FunctionComponent<{
   message?: WidgetMessage,
@@ -113,7 +113,7 @@ const WidgetMessageContainer: FunctionComponent<{
     </Box>
   );
 
-  const parsedContent = useHtmlContentParser(typeof message?.message === 'string' ? message.message : '', parserOptions);
+  const parsedContent = parseHtmlContent(typeof message?.message === 'string' ? message.message : '', parserOptions);
   if (typeof message !== 'undefined') {
     return (
       <React.Fragment>

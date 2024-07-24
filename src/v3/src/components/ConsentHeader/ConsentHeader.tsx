@@ -17,8 +17,12 @@ import { Fragment, FunctionComponent, h } from 'preact';
 
 import { IDX_STEP } from '../../constants';
 import { useWidgetContext } from '../../contexts';
-import { useHtmlContentParser } from '../../hooks';
-import { getAppInfo, getHeadingReplacerFn, loc } from '../../util';
+import {
+  getAppInfo,
+  getHeadingReplacerFn,
+  loc,
+  parseHtmlContent,
+} from '../../util';
 import Image from '../Image';
 
 const ConsentHeader: FunctionComponent = () => {
@@ -36,7 +40,7 @@ const ConsentHeader: FunctionComponent = () => {
       $2: { element: 'p' },
     },
   );
-  const parsedGranularConsentTitle = useHtmlContentParser(
+  const parsedGranularConsentTitle = parseHtmlContent(
     granularConsentTitle,
     { replace: getHeadingReplacerFn({}, 'h2', 2, 6) },
   );

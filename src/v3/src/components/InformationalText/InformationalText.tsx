@@ -14,8 +14,8 @@ import { Box } from '@mui/material';
 import { Typography, TypographyVariantValue } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 
-import { useHtmlContentParser } from '../../hooks';
 import { DescriptionElement, UISchemaElementComponent } from '../../types';
+import { parseHtmlContent } from '../../util';
 
 const odyTypographyVariantMapping: Record<
 'body1' | 'subtitle1' | 'legend',
@@ -36,7 +36,7 @@ const InformationalText: UISchemaElementComponent<{
     dataSe,
     variant,
   } = uischema.options;
-  const parsedContent = useHtmlContentParser(content, uischema.parserOptions);
+  const parsedContent = parseHtmlContent(content, uischema.parserOptions);
 
   return (
     <Box

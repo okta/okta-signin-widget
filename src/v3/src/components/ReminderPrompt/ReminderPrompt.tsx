@@ -17,9 +17,9 @@ import { h } from 'preact';
 import { useEffect, useRef, useState } from 'preact/hooks';
 
 import { useWidgetContext } from '../../contexts';
-import { useHtmlContentParser, useOnSubmit } from '../../hooks';
+import { useOnSubmit } from '../../hooks';
 import { ReminderElement, UISchemaElementComponent } from '../../types';
-import { getLinkReplacerFn, SessionStorage } from '../../util';
+import { getLinkReplacerFn, parseHtmlContent, SessionStorage } from '../../util';
 import TextWithActionLink from '../TextWithActionLink';
 
 export const DEFAULT_TIMEOUT_MS = 30_000;
@@ -41,7 +41,7 @@ const ReminderPrompt: UISchemaElementComponent<{
     contentHasHtml,
   } = uischema.options;
   const onSubmitHandler = useOnSubmit();
-  const parsedContent = useHtmlContentParser(content, uischema.parserOptions);
+  const parsedContent = parseHtmlContent(content, uischema.parserOptions);
   const tokens = useOdysseyDesignTokens();
 
   const [show, setShow] = useState<boolean>(false);

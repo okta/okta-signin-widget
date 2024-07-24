@@ -15,16 +15,12 @@ import { h } from 'preact';
 import { buildFieldLevelErrorMessages } from 'src/util/buildFieldLevelErrorMessages';
 
 import { useWidgetContext } from '../../contexts';
-import {
-  useAutoFocus,
-  useHtmlContentParser,
-  useValue,
-} from '../../hooks';
+import { useAutoFocus, useValue } from '../../hooks';
 import {
   ChangeEvent,
   UISchemaElementComponent, UISchemaElementComponentWithValidationProps,
 } from '../../types';
-import { getTranslation } from '../../util';
+import { getTranslation, parseHtmlContent } from '../../util';
 import { withFormValidationState } from '../hocs';
 
 const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidationProps> = ({
@@ -50,7 +46,7 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
   } = uischema.options;
   const { autocomplete, inputmode } = attributes || {};
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
-  const parsedExplainContent = useHtmlContentParser(explain, parserOptions);
+  const parsedExplainContent = parseHtmlContent(explain, parserOptions);
   const { errorMessage, errorMessageList } = buildFieldLevelErrorMessages(errors);
 
   return (
