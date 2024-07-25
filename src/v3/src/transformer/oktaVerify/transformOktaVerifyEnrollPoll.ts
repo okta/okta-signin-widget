@@ -384,7 +384,7 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
     );
   } else if (qrCodeHref) {
     listItems.push(
-      loc('oie.enroll.okta_verify.qrcode.step1.updated', 'login'),
+      loc('oie.enroll.okta_verify.qrcode.step1', 'login'),
       loc('oie.enroll.okta_verify.qrcode.step2', 'login'),
       loc(
         'oie.enroll.okta_verify.qrcode.step3.updated',

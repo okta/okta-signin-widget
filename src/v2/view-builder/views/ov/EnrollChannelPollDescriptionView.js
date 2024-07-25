@@ -20,7 +20,7 @@ export default View.extend({
   template: hbs`
       {{#if href}}
         <ol class="qrcode-info ov-info">
-          <li>{{i18n code="oie.enroll.okta_verify.qrcode.step1.updated" bundle="login"}}</li>
+          <li>{{i18n code="oie.enroll.okta_verify.qrcode.step1" bundle="login"}}</li>
           <li>{{i18n code="oie.enroll.okta_verify.qrcode.step2" bundle="login"}}</li>
           <li>
             {{i18n code="oie.enroll.okta_verify.qrcode.step3.updated"
