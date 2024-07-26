@@ -1200,7 +1200,11 @@ test
     await checkA11y(t);
 
     await t.expect(enrollOktaVerifyPage.getFormTitle()).eql(sameDeviceOVEnrollmentTitle);
-    await enrollOktaVerifyPage.clickTryDifferentWay();
+    if (userVariables.mobile) {
+      // Special case: Okta Verify: show select enrollment channel instead of QR code on mobile
+    } else {
+      await enrollOktaVerifyPage.clickTryDifferentWay();
+    }
     
     await t.expect(enrollOktaVerifyPage.getFormTitle()).eql(userVariables.mobile ? 'Set up Okta Verify' : 'Set up Okta Verify on another mobile device');
     await t.expect(enrollOktaVerifyPage.setupOnThisDeviceLinkExists()).eql(true);
