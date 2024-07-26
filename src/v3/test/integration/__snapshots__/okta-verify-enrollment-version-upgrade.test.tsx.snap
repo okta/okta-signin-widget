@@ -209,7 +209,13 @@ exports[`okta-verify-enrollment-version-upgrade should render form 1`] = `
                           <li
                             class="MuiListItem-root emotion-33"
                           >
-                            When prompted, tap Scan a QR code, then scan the QR code below:
+                            When prompted, tap 
+                            <span
+                              class="strong"
+                            >
+                              Scan a QR code
+                            </span>
+                            , then scan the QR code below:
                           </li>
                         </ol>
                       </div>

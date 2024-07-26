@@ -10,14 +10,13 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import Util from '../../../../util/Util';
 import {
   AppleStoreIcon,
   GoogleStoreIcon,
   OSXStoreIcon,
   WindowsStoreIcon,
 } from '../../components/Icon';
-import { IDX_STEP } from '../../constants';
+import { CHALLENGE_METHOD, IDX_STEP } from '../../constants';
 import {
   ButtonElement,
   ButtonType,
@@ -25,6 +24,7 @@ import {
   IdxStepTransformer,
   ImageLinkElement,
   ListElement,
+  OpenOktaVerifyFPButtonElement,
   QRCodeElement,
   ReminderElement,
   StepperLayout,
@@ -35,7 +35,7 @@ import {
   UISchemaLayout,
   UISchemaLayoutType,
 } from '../../types';
-import { copyToClipboard, isAndroid, loc } from '../../util';
+import { copyToClipboard, loc } from '../../util';
 
 const STEPS = {
   QR_POLLING: 0,
@@ -189,7 +189,6 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
       sameDeviceOVElements.push(
         {
           type: 'Description',
-          noMargin: true,
           options: {
             content: loc(
               'oie.enroll.okta_verify.setup.customUri.prompt',
@@ -274,7 +273,6 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
     sameDeviceOVElements.push(
       {
         type: 'Description',
-        noMargin: true,
         options: {
           content: loc(
             'oie.enroll.okta_verify.setup.customUri.setup',
@@ -289,21 +287,16 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
     if (deviceMap.setupOVUrl) {
       sameDeviceOVElements.push(
         {
-          type: 'Button',
-          label: loc('oie.enroll.okta_verify.setup.title', 'login'),
+          type: 'OpenOktaVerifyFPButton',
           options: {
             step: '',
-            type: ButtonType.BUTTON,
-            variant: 'primary',
-            onClick: () => {
-              if (isAndroid()) {
-                Util.redirectWithFormGet(deviceMap.setupOVUrl);
-              } else {
-                window.location.assign(deviceMap.setupOVUrl!);
-              }
-            },
+            i18nKey: 'oie.enroll.okta_verify.setup.title',
+            href: deviceMap.setupOVUrl,
+            challengeMethod: deviceMap.isDesktop
+              ? CHALLENGE_METHOD.CUSTOM_URI
+              : CHALLENGE_METHOD.UNIVERSAL_LINK,
           },
-        } as ButtonElement,
+        } as OpenOktaVerifyFPButtonElement,
       );
     }
 
@@ -393,7 +386,12 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
     listItems.push(
       loc('oie.enroll.okta_verify.qrcode.step1', 'login'),
       loc('oie.enroll.okta_verify.qrcode.step2', 'login'),
-      loc('oie.enroll.okta_verify.qrcode.step3', 'login'),
+      loc(
+        'oie.enroll.okta_verify.qrcode.step3.updated',
+        'login',
+        undefined,
+        { $1: { element: 'span', attributes: { class: 'strong' } } },
+      ),
     );
   }
 
@@ -439,7 +437,7 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
 
   const stepper: StepperLayout = {
     type: UISchemaLayoutType.STEPPER,
-    key: `stepper_${channelType}`,
+    key: 'stepper_' + channelType,
     elements: [
       // QR code
       {
@@ -469,7 +467,7 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
             type: 'Description',
             contentType: 'subtitle',
             options: {
-              content: loc('oie.enroll.okta_verify.email.info', 'login', [email]),
+              content: loc('oie.enroll.okta_verify.email.info.updated', 'login', [email], tokenReplacement),
             },
           } as DescriptionElement,
           switchChannelButton('oie.enroll.okta_verify.switch.channel.link.text'),
@@ -485,7 +483,7 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
             type: 'Description',
             contentType: 'subtitle',
             options: {
-              content: loc('oie.enroll.okta_verify.sms.info', 'login', [phoneNumber]),
+              content: loc('oie.enroll.okta_verify.sms.info.updated', 'login', [phoneNumber], tokenReplacement),
             },
           } as DescriptionElement,
           switchChannelButton('oie.enroll.okta_verify.switch.channel.link.text'),

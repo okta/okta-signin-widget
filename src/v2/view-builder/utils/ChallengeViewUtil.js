@@ -209,3 +209,17 @@ export function getBiometricsErrorOptions(error, isMessageObj) {
 
   return options;
 }
+
+export function createInvisibleIFrame(iFrameId, iFrameSrc) {
+  const iFrameView = View.extend({
+    tagName: 'iframe',
+    id: iFrameId,
+    attributes: {
+      src: iFrameSrc,
+    },
+    initialize() {
+      this.el.style.display = 'none';
+    }
+  });
+  return iFrameView;
+}

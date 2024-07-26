@@ -1,5 +1,90 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`TransformOktaVerifyChannelSelection Tests should append same device enroll link when SAMEDEVICE is included as a channel option 1`] = `
+Object {
+  "data": Object {
+    "authenticator.channel": "sms",
+  },
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.enroll.okta_verify.select.channel.title.updated",
+        },
+        "type": "Title",
+      },
+      Object {
+        "label": "oie.enroll.okta_verify.select.channel.subtitle",
+        "options": Object {
+          "customOptions": Array [
+            Object {
+              "label": "oie.enroll.okta_verify.select.channel.sms.label",
+              "value": "sms",
+            },
+            Object {
+              "label": "oie.enroll.okta_verify.select.channel.email.label",
+              "value": "email",
+            },
+          ],
+          "format": "radio",
+          "inputMeta": Object {
+            "name": "authenticator.channel",
+            "options": Array [
+              Object {
+                "label": "QRCode",
+                "value": "qrcode",
+              },
+              Object {
+                "label": "SMS",
+                "value": "sms",
+              },
+              Object {
+                "label": "EMAIL",
+                "value": "email",
+              },
+              Object {
+                "label": "SAMEDEVICE",
+                "value": "samedevice",
+              },
+            ],
+          },
+        },
+        "type": "Field",
+      },
+      Object {
+        "label": "oform.next",
+        "options": Object {
+          "step": "select-enrollment-channel",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+      Object {
+        "options": Object {
+          "actionParams": Object {
+            "authenticator.channel": "samedevice",
+          },
+          "content": "oie.enroll.okta_verify.select.channel.ovOnThisDevice",
+          "contentClassname": "ov-same-device-enroll-link",
+          "step": "select-enrollment-channel",
+        },
+        "type": "TextWithActionLink",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
 exports[`TransformOktaVerifyChannelSelection Tests should only append (qrcode/email) channel options when NOT on mobile and sms is the selectedChannel 1`] = `
 Object {
   "data": Object {
@@ -18,12 +103,12 @@ Object {
     "elements": Array [
       Object {
         "options": Object {
-          "content": "oie.enroll.okta_verify.select.channel.title",
+          "content": "oie.enroll.okta_verify.select.channel.title.updated",
         },
         "type": "Title",
       },
       Object {
-        "label": "oie.enroll.okta_verify.select.channel.description",
+        "label": "oie.enroll.okta_verify.select.channel.subtitle",
         "options": Object {
           "customOptions": Array [
             Object {
@@ -88,12 +173,12 @@ Object {
     "elements": Array [
       Object {
         "options": Object {
-          "content": "oie.enroll.okta_verify.select.channel.title",
+          "content": "oie.enroll.okta_verify.select.channel.title.updated",
         },
         "type": "Title",
       },
       Object {
-        "label": "oie.enroll.okta_verify.select.channel.description",
+        "label": "oie.enroll.okta_verify.select.channel.subtitle",
         "options": Object {
           "customOptions": Array [
             Object {
@@ -158,12 +243,12 @@ Object {
     "elements": Array [
       Object {
         "options": Object {
-          "content": "oie.enroll.okta_verify.select.channel.title",
+          "content": "oie.enroll.okta_verify.select.channel.title.updated",
         },
         "type": "Title",
       },
       Object {
-        "label": "oie.enroll.okta_verify.select.channel.description",
+        "label": "oie.enroll.okta_verify.select.channel.subtitle",
         "options": Object {
           "customOptions": Array [
             Object {
@@ -241,7 +326,7 @@ Object {
         "type": "Title",
       },
       Object {
-        "label": "oie.enroll.okta_verify.select.channel.description",
+        "label": "oie.enroll.okta_verify.select.channel.subtitle",
         "options": Object {
           "customOptions": Array [
             Object {
@@ -311,7 +396,7 @@ Object {
         "type": "Title",
       },
       Object {
-        "label": "oie.enroll.okta_verify.select.channel.description",
+        "label": "oie.enroll.okta_verify.select.channel.subtitle",
         "options": Object {
           "customOptions": Array [
             Object {
@@ -389,7 +474,7 @@ Object {
         "type": "Title",
       },
       Object {
-        "label": "oie.enroll.okta_verify.select.channel.description",
+        "label": "oie.enroll.okta_verify.select.channel.subtitle",
         "options": Object {
           "customOptions": Array [
             Object {

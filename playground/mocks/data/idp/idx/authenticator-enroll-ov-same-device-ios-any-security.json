@@ -55,6 +55,14 @@
                     "visible": true,
                     "options": [
                       {
+                        "label": "EMAIL",
+                        "value": "email"
+                      },
+                      {
+                          "label": "SMS",
+                          "value": "sms"
+                      },
+                      {
                         "value": "samedevice",
                         "label": "SAMEDEVICE"
                       }
@@ -124,7 +132,18 @@
                         "name": "methodType",
                         "required": false,
                         "options": [
-                            { "label": "SAMEDEVICE", "value": "samedevice" }
+                          {
+                              "label": "EMAIL",
+                              "value": "email"
+                          },
+                          {
+                              "label": "SMS",
+                              "value": "sms"
+                          },
+                          {
+                              "label": "SAMEDEVICE",
+                              "value": "samedevice"
+                          }
                         ]
                     },
                     {

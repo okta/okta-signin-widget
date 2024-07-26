@@ -11,6 +11,7 @@
  */
 
 import {
+  OpenOktaVerifyFPButtonElement,
   TransformStepFn,
 } from '../../types';
 import { traverseLayout } from '../util';
@@ -25,11 +26,21 @@ export const transformOpenOktaVerifyFPButton: TransformStepFn = (
     layout: uischema,
     predicate: (element) => element.type === 'OpenOktaVerifyFPButton',
     callback: (element) => {
-      addTranslation({
-        element,
-        name: 'label',
-        i18nKey: 'oktaVerify.open.button',
-      });
+      const openOktaVerifyButtonElement = (element as OpenOktaVerifyFPButtonElement);
+      const { options: { i18nKey } } = openOktaVerifyButtonElement;
+      if (i18nKey) {
+        addTranslation({
+          element,
+          name: 'label',
+          i18nKey,
+        });
+      } else {
+        addTranslation({
+          element,
+          name: 'label',
+          i18nKey: 'oktaVerify.open.button',
+        });
+      }
     },
   });
 

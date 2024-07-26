@@ -8,6 +8,7 @@ import EnrollOVViaSMSPageObject from '../framework/page-objects/EnrollOVViaSMSPa
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import { checkConsoleMessages, oktaDashboardContent, renderWidget as rerenderWidget } from '../framework/shared';
 import xhrAuthenticatorEnrollOktaVerifyQr from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-qr.json';
+import xhrAuthenticatorEnrollOktaVerifyQrWithSameDeviceOption from '@okta/mocks/data/idp/idx/authenticator-enroll-ov-qr-with-same-device';
 import xhrAuthenticatorEnrollOktaVerifySameDevice from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-same-device.json';
 import xhrAuthenticatorEnrollOktaVerifyIosSameDeviceAnySecurity from '@okta/mocks/data/idp/idx/authenticator-enroll-ov-same-device-ios-any-security.json';
 import xhrAuthenticatorEnrollOktaVerifyAndroidSameDeviceHighSecurity from '@okta/mocks/data/idp/idx/authenticator-enroll-ov-same-device-android-high-security.json';
@@ -103,6 +104,14 @@ if (userVariables.gen3) {
     .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
     .respond(xhrAuthenticatorEnrollOktaVerifyWindowsSameDeviceHighSecurity);
 }
+
+const enrollViaQRcodeWithSameDeviceOptionMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrAuthenticatorEnrollOktaVerifyQrWithSameDeviceOption)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
+  .respond(xhrAuthenticatorEnrollOktaVerifyQrWithSameDeviceOption)
+  .onRequestTo('http://localhost:3000/idp/idx/credential/enroll')
+  .respond(xhrAuthenticatorEnrollOktaVerifyOsxSameDeviceAnySecurity);
 
 // this mock doesn't need poll to return successful response
 const enrollDeviceBootstrapMocks = RequestMock()
@@ -299,9 +308,9 @@ const enrollViaSMSEnableBiometricsMocks = pollResponse => RequestMock()
 const enrollViaSMSEnableBiometricsMocks1 = enrollViaSMSEnableBiometricsMocks(!userVariables.gen3 ? xhrSuccess : xhrAuthenticatorEnrollOktaVerifyQr);
 const enrollViaSMSEnableBiometricsMocks2 = enrollViaSMSEnableBiometricsMocks(xhrSuccess);
 
-const smsInstruction1 = 'We sent an SMS to +18008885555 with an Okta Verify setup link. To continue, open the link on your mobile device.';
+const smsInstruction1 = 'We sent an SMS to +18008885555 with an Okta Verify setup link. To continue, open the link on your receiving device.';
 const smsInstruction2 = 'Or try a different way to set up Okta Verify.';
-const emailInstruction1 = 'We sent an email to joy@okta.com with an Okta Verify setup link. To continue, open the link on your mobile device.';
+const emailInstruction1 = 'We sent an email to joy@okta.com with an Okta Verify setup link. To continue, open the link on your receiving device.';
 const emailInstruction2 = 'Or try a different way to set up Okta Verify.';
 const qrCodeInstruction1 = 'On your mobile device, download the Okta Verify app from the App Store (iPhone and iPad) or Google Play (Android devices).';
 const qrCodeInstruction2 = 'Open the app and follow the instructions to add your account';
@@ -399,7 +408,7 @@ test.requestHooks(mock1)('should render switch channel view when Can\'t scan is 
   await t.expect(enrollOktaVerifyPage.getSwitchChannelText()).eql('Can\'t scan?');
   await enrollOktaVerifyPage.clickSwitchChannel();
   const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
-  await t.expect(switchChannelPageObject.getFormTitle()).eql('More options');
+  await t.expect(switchChannelPageObject.getFormTitle()).eql('Set up Okta Verify on another mobile device');
   await t.expect(switchChannelPageObject.getOptionCount()).eql(2);
   await t.expect(switchChannelPageObject.getOptionLabel(0))
     .eql('Text me a setup link');
@@ -418,7 +427,7 @@ test.requestHooks(resendEmailMocks)('should render switch channel view when "try
   await t.expect(enrollOktaVerifyPage.getTryDifferentWayText()).eql('try a different way');
   await enrollOktaVerifyPage.clickTryDifferentWay();
   const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
-  await t.expect(switchChannelPageObject.getFormTitle()).eql('More options');
+  await t.expect(switchChannelPageObject.getFormTitle()).eql('Set up Okta Verify on another mobile device');
   await t.expect(switchChannelPageObject.getOptionCount()).eql(2);
   await t.expect(switchChannelPageObject.getOptionLabel(0))
     .eql('Scan a QR code');
@@ -436,7 +445,7 @@ test.requestHooks(resendSmsMocks)('should render switch channel view when "try d
   await checkA11y(t);
   await enrollOktaVerifyPage.clickTryDifferentWay();
   const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
-  await t.expect(switchChannelPageObject.getFormTitle()).eql('More options');
+  await t.expect(switchChannelPageObject.getFormTitle()).eql('Set up Okta Verify on another mobile device');
   await t.expect(switchChannelPageObject.getOptionCount()).eql(2);
   await t.expect(switchChannelPageObject.getOptionLabel(0))
     .eql('Scan a QR code');
@@ -450,7 +459,7 @@ test.requestHooks(enrollViaEmailMocks1)('should be able enroll via email', async
   await checkA11y(t);
   await enrollOktaVerifyPage.clickSwitchChannel();
   const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
-  await t.expect(switchChannelPageObject.getFormTitle()).eql('More options');
+  await t.expect(switchChannelPageObject.getFormTitle()).eql('Set up Okta Verify on another mobile device');
   await t.expect(switchChannelPageObject.getOptionCount()).eql(2);
   await t.expect(switchChannelPageObject.isRadioButtonChecked('sms')).eql(true);
   await switchChannelPageObject.selectChannelOption(1);
@@ -499,7 +508,7 @@ test.requestHooks(logger, enrollViaSmsMocks1)('should be able enroll via sms', a
   await checkA11y(t);
   await enrollOktaVerifyPage.clickSwitchChannel();
   const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
-  await t.expect(switchChannelPageObject.getFormTitle()).eql('More options');
+  await t.expect(switchChannelPageObject.getFormTitle()).eql('Set up Okta Verify on another mobile device');
   await t.expect(switchChannelPageObject.getOptionCount()).eql(2);
   await t.expect(switchChannelPageObject.isRadioButtonChecked('sms')).eql(true);
   await switchChannelPageObject.clickNextButton();
@@ -581,7 +590,7 @@ const testSmsMsg = async (t, isIos) => {
   await checkA11y(t);
   await enrollOktaVerifyPage.clickSwitchChannel();
   const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
-  await t.expect(switchChannelPageObject.getFormTitle()).eql('More options');
+  await t.expect(switchChannelPageObject.getFormTitle()).eql('Set up Okta Verify on another mobile device');
   await t.expect(switchChannelPageObject.getOptionCount()).eql(2);
   await t.expect(switchChannelPageObject.isRadioButtonChecked('sms')).eql(true);
   await switchChannelPageObject.clickNextButton();
@@ -641,7 +650,7 @@ const testEmailMsg = async (t, isIos) => {
   await checkA11y(t);
   await enrollOktaVerifyPage.clickSwitchChannel();
   const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
-  await t.expect(switchChannelPageObject.getFormTitle()).eql('More options');
+  await t.expect(switchChannelPageObject.getFormTitle()).eql('Set up Okta Verify on another mobile device');
   await t.expect(switchChannelPageObject.getOptionCount()).eql(2);
   await t.expect(switchChannelPageObject.isRadioButtonChecked('sms')).eql(true);
   await switchChannelPageObject.selectChannelOption(1);
@@ -744,7 +753,7 @@ test.requestHooks(logger, enrollViaSmsVersionUpgradeMocksGoBack1)('should not sh
   await checkA11y(t);
   await enrollOktaVerifyPage.clickSwitchChannel();
   const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
-  await t.expect(switchChannelPageObject.getFormTitle()).eql('More options');
+  await t.expect(switchChannelPageObject.getFormTitle()).eql('Set up Okta Verify on another mobile device');
   await t.expect(switchChannelPageObject.getOptionCount()).eql(2);
   await t.expect(switchChannelPageObject.isRadioButtonChecked('sms')).eql(true);
   await switchChannelPageObject.clickNextButton();
@@ -824,7 +833,7 @@ test.requestHooks(enrollViaEmailEnableBiometricsMocks1)('should see ov enable bi
   await checkA11y(t);
   await enrollOktaVerifyPage.clickSwitchChannel();
   const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
-  await t.expect(switchChannelPageObject.getFormTitle()).eql('More options');
+  await t.expect(switchChannelPageObject.getFormTitle()).eql('Set up Okta Verify on another mobile device');
   await t.expect(switchChannelPageObject.getOptionCount()).eql(2);
   await t.expect(switchChannelPageObject.isRadioButtonChecked('sms')).eql(true);
   await switchChannelPageObject.selectChannelOption(1);
@@ -862,7 +871,7 @@ test
     await checkA11y(t);
     await enrollOktaVerifyPage.clickSwitchChannel();
     const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
-    await t.expect(switchChannelPageObject.getFormTitle()).eql('More options');
+    await t.expect(switchChannelPageObject.getFormTitle()).eql('Set up Okta Verify on another mobile device');
     await t.expect(switchChannelPageObject.getOptionCount()).eql(2);
     await t.expect(switchChannelPageObject.isRadioButtonChecked('sms')).eql(true);
     await switchChannelPageObject.clickNextButton();
@@ -1124,4 +1133,24 @@ test
       await t.expect(downloadInstruction).contains('Download here');
       await t.expect(await enrollOktaVerifyPage.appStoreElementExists()).eql(false);
     }
+  });
+
+test
+  .requestHooks(logger, enrollViaQRcodeWithSameDeviceOptionMock)('channel selection screen view should have the set up OV on this device link with same device enrollment on ANY security', async t => {
+    const enrollOktaVerifyPage = await setup(t);
+
+    await rerenderWidget({
+      features: { sameDeviceOVEnrollmentEnabled: true }
+    });
+
+    await checkA11y(t);
+
+    await t.expect(enrollOktaVerifyPage.getFormTitle()).eql(sameDeviceOVEnrollmentTitle);
+    await enrollOktaVerifyPage.clickTryDifferentWay();
+    
+    await t.expect(enrollOktaVerifyPage.getFormTitle()).eql('Set up Okta Verify on another mobile device');
+    await t.expect(enrollOktaVerifyPage.setupOnThisDeviceLinkExists()).eql(true);
+    await enrollOktaVerifyPage.clickSetupOnThisDeviceLink();
+
+    await t.expect(enrollOktaVerifyPage.getFormTitle()).eql(sameDeviceOVEnrollmentTitle);
   });

@@ -55,8 +55,8 @@ const Body = BaseForm.extend({
 
     const description = {
       View: this.options.appState.get('currentAuthenticator').contextualData.selectedChannel === 'email' ?
-        loc('oie.enroll.okta_verify.channel.email.description', 'login'):
-        loc('oie.enroll.okta_verify.channel.sms.description', 'login'),
+        loc('oie.enroll.okta_verify.enroll.channel.email.subtitle', 'login'):
+        loc('oie.enroll.okta_verify.channel.sms.description.updated', 'login'),
       selector: '.o-form-fieldset-container',
     };
 
@@ -122,8 +122,6 @@ export default BaseAuthenticatorView.extend({
     });
   },
   postRender() {
-    if (!this.settings.get('features.sameDeviceOVEnrollmentEnabled')) {
-      this.add(SwitchEnrollChannelLinkView, 'form');
-    }
+    this.add(SwitchEnrollChannelLinkView, 'form');
   },
 });

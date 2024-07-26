@@ -11,14 +11,16 @@
  */
 
 import { Link, Typography } from '@mui/material';
-import {
+import dompurify from 'dompurify';
+import HtmlReactParser,
+{
   attributesToProps,
   DOMNode,
   domToReact,
   Element,
   HTMLReactParserOptions,
 } from 'html-react-parser';
-import { h } from 'preact';
+import * as preact from 'preact';
 
 export const getLinkReplacerFn = (
   parserOptions: HTMLReactParserOptions,
@@ -80,3 +82,25 @@ export const getHeadingReplacerFn = (
 );
 
 export const wrapInTranslateNo = (string: string): string => `<span translate="no">${string}</span>`;
+
+export const parseHtmlContent = (
+  content: string | undefined,
+  options?: HTMLReactParserOptions,
+): string | preact.JSX.Element | preact.JSX.Element[] | undefined => {
+  if (typeof content === 'undefined') {
+    return undefined;
+  }
+
+  const parserOptions: HTMLReactParserOptions = {
+    ...options,
+    library: preact,
+  };
+
+  if (typeof parserOptions.replace === 'undefined') {
+    // default link replacer function
+    parserOptions.replace = getLinkReplacerFn(parserOptions);
+  }
+
+  const sanitizedContent = dompurify.sanitize(content, { ADD_ATTR: ['target'] });
+  return HtmlReactParser(sanitizedContent, parserOptions);
+};

@@ -14,11 +14,12 @@ import { Box } from '@mui/material';
 import { h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
-import { useHtmlContentParser, useOnSubmit } from '../../hooks';
+import { useOnSubmit } from '../../hooks';
 import {
   TextWithActionLinkElement,
   UISchemaElementComponent,
 } from '../../types';
+import { parseHtmlContent } from '../../util';
 
 const TextWithActionLink: UISchemaElementComponent<{
   uischema: TextWithActionLinkElement
@@ -35,7 +36,7 @@ const TextWithActionLink: UISchemaElementComponent<{
     isActionStep,
   } = uischema.options;
   const onSubmitHandler = useOnSubmit();
-  const parsedContent = useHtmlContentParser(content, uischema.parserOptions);
+  const parsedContent = parseHtmlContent(content, uischema.parserOptions);
 
   const handleClick = async (e: Event) => {
     e.preventDefault();

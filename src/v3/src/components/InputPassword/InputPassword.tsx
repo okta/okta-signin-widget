@@ -15,18 +15,14 @@ import { h } from 'preact';
 import { buildFieldLevelErrorMessages } from 'src/util/buildFieldLevelErrorMessages';
 
 import { useWidgetContext } from '../../contexts';
-import {
-  useAutoFocus,
-  useHtmlContentParser,
-  useValue,
-} from '../../hooks';
+import { useAutoFocus, useValue } from '../../hooks';
 import {
   AutoCompleteValue,
   ChangeEvent,
   UISchemaElementComponent,
   UISchemaElementComponentWithValidationProps,
 } from '../../types';
-import { getTranslation } from '../../util';
+import { getTranslation, parseHtmlContent } from '../../util';
 import { withFormValidationState } from '../hocs';
 
 type PasswordAutoCompleteValue = Extract<AutoCompleteValue, 'current-password' | 'new-password'> | undefined;
@@ -60,7 +56,7 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
   const hint = getTranslation(translations, 'hint');
   const explain = getTranslation(translations, 'bottomExplain');
   const focusRef = useAutoFocus<HTMLInputElement>(focus);
-  const parsedExplainContent = useHtmlContentParser(explain, parserOptions);
+  const parsedExplainContent = parseHtmlContent(explain, parserOptions);
   const { errorMessage, errorMessageList } = buildFieldLevelErrorMessages(errors);
 
   return (

@@ -72,7 +72,7 @@ describe('TransformOktaVerifyEnrollChannel Tests', () => {
     expect((updatedFormBag.uischema.elements[1] as FieldElement).options.inputMeta.name)
       .toBe('email');
     expect((updatedFormBag.uischema.elements[2] as TitleElement).options.content)
-      .toBe('oie.enroll.okta_verify.channel.email.description');
+      .toBe('oie.enroll.okta_verify.enroll.channel.email.subtitle');
     expect((updatedFormBag.uischema.elements[3] as ButtonElement).label)
       .toBe('oie.enroll.okta_verify.setupLink');
     expect((updatedFormBag.uischema.elements[3] as ButtonElement).options.type)
@@ -107,7 +107,7 @@ describe('TransformOktaVerifyEnrollChannel Tests', () => {
     expect((updatedFormBag.uischema.elements[1] as FieldElement).options.inputMeta.name)
       .toBe('phoneNumber');
     expect((updatedFormBag.uischema.elements[2] as TitleElement).options.content)
-      .toBe('oie.enroll.okta_verify.channel.sms.description');
+      .toBe('oie.enroll.okta_verify.channel.sms.description.updated');
     expect((updatedFormBag.uischema.elements[3] as ButtonElement).label)
       .toBe('oie.enroll.okta_verify.setupLink');
     expect((updatedFormBag.uischema.elements[3] as ButtonElement).options.type)

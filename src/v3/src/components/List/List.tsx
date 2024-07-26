@@ -23,7 +23,7 @@ import {
   UISchemaElementComponent,
   UISchemaLayout,
 } from '../../types';
-import { getElementKey } from '../../util';
+import { getElementKey, parseHtmlContent } from '../../util';
 import Button from '../Button';
 import InformationalText from '../InformationalText';
 
@@ -102,7 +102,7 @@ const List: UISchemaElementComponent<{
               // TODO: OKTA-577905 - (textAlign: 'start') Temporary fix until we can upgrade to the latest version of Odyssey
               sx={{ display: 'list-item', textAlign: 'start' }}
             >
-              {typeof item === 'string' ? item : renderLayout(item) }
+              {typeof item === 'string' ? parseHtmlContent(item) : renderLayout(item) }
             </ListItem>
           ))
         }

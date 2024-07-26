@@ -14,8 +14,8 @@ import { Box } from '@mui/material';
 import { Typography, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 
-import { useHtmlContentParser } from '../../hooks';
 import { HeadingElement, UISchemaElementComponent } from '../../types';
+import { parseHtmlContent } from '../../util';
 
 const Heading: UISchemaElementComponent<{
   uischema: HeadingElement
@@ -30,7 +30,7 @@ const Heading: UISchemaElementComponent<{
     },
   } = uischema;
   const tokens = useOdysseyDesignTokens();
-  const parsedContent = useHtmlContentParser(content, parserOptions);
+  const parsedContent = parseHtmlContent(content, parserOptions);
 
   return (
     <Box

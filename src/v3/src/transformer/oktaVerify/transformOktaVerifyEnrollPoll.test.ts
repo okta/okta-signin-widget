@@ -88,7 +88,7 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
       .toEqual([
         'oie.enroll.okta_verify.qrcode.step1',
         'oie.enroll.okta_verify.qrcode.step2',
-        'oie.enroll.okta_verify.qrcode.step3',
+        'oie.enroll.okta_verify.qrcode.step3.updated',
       ]);
     expect(layoutOne.elements[3].type).toBe('QRCode');
     expect((layoutOne.elements[3] as QRCodeElement).options.data)
@@ -116,7 +116,7 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
     expect((layoutTwo.elements[1] as TitleElement).options.content)
       .toBe('oie.enroll.okta_verify.setup.sms.title');
     expect((layoutTwo.elements[2] as DescriptionElement).options.content)
-      .toBe('oie.enroll.okta_verify.email.info');
+      .toBe('oie.enroll.okta_verify.email.info.updated');
     expect(layoutTwo.elements[3].type).toBe('TextWithActionLink');
     expect((layoutTwo.elements[3] as TextWithActionLinkElement).options.content)
       .toBe('oie.enroll.okta_verify.switch.channel.link.text');
@@ -141,7 +141,7 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
     expect((layoutThree.elements[1] as TitleElement).options.content)
       .toBe('oie.enroll.okta_verify.setup.sms.title');
     expect((layoutThree.elements[2] as DescriptionElement).options.content)
-      .toBe('oie.enroll.okta_verify.sms.info');
+      .toBe('oie.enroll.okta_verify.sms.info.updated');
     expect(layoutThree.elements[3].type).toBe('TextWithActionLink');
     expect((layoutThree.elements[3] as TextWithActionLinkElement).options.content)
       .toBe('oie.enroll.okta_verify.switch.channel.link.text');
@@ -199,7 +199,7 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
       .toEqual([
         'oie.enroll.okta_verify.qrcode.step1',
         'oie.enroll.okta_verify.qrcode.step2',
-        'oie.enroll.okta_verify.qrcode.step3',
+        'oie.enroll.okta_verify.qrcode.step3.updated',
       ]);
     expect(layoutOne.elements[3].type).toBe('QRCode');
     expect((layoutOne.elements[3] as QRCodeElement).options.data)
@@ -227,7 +227,7 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
     expect((layoutTwo.elements[1] as TitleElement).options.content)
       .toBe('oie.enroll.okta_verify.setup.email.title');
     expect((layoutTwo.elements[2] as DescriptionElement).options.content)
-      .toBe('oie.enroll.okta_verify.email.info');
+      .toBe('oie.enroll.okta_verify.email.info.updated');
     expect(layoutTwo.elements[3].type).toBe('TextWithActionLink');
     expect((layoutTwo.elements[3] as TextWithActionLinkElement).options.content)
       .toBe('oie.enroll.okta_verify.switch.channel.link.text');
@@ -252,7 +252,7 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
     expect((layoutThree.elements[1] as TitleElement).options.content)
       .toBe('oie.enroll.okta_verify.setup.email.title');
     expect((layoutThree.elements[2] as DescriptionElement).options.content)
-      .toBe('oie.enroll.okta_verify.sms.info');
+      .toBe('oie.enroll.okta_verify.sms.info.updated');
     expect(layoutThree.elements[3].type).toBe('TextWithActionLink');
     expect((layoutThree.elements[3] as TextWithActionLinkElement).options.content)
       .toBe('oie.enroll.okta_verify.switch.channel.link.text');
@@ -299,7 +299,7 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
       .toEqual([
         'oie.enroll.okta_verify.qrcode.step1',
         'oie.enroll.okta_verify.qrcode.step2',
-        'oie.enroll.okta_verify.qrcode.step3',
+        'oie.enroll.okta_verify.qrcode.step3.updated',
       ]);
     expect(layoutOne.elements[2].type).toBe('QRCode');
     expect((layoutOne.elements[2] as QRCodeElement).options.data)
@@ -317,7 +317,7 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
     expect((layoutTwo.elements[0] as TitleElement).options.content)
       .toBe('oie.enroll.okta_verify.setup.title');
     expect((layoutTwo.elements[1] as DescriptionElement).options.content)
-      .toBe('oie.enroll.okta_verify.email.info');
+      .toBe('oie.enroll.okta_verify.email.info.updated');
     expect(layoutTwo.elements[2].type).toBe('TextWithActionLink');
     expect((layoutTwo.elements[2] as TextWithActionLinkElement).options.content)
       .toBe('oie.enroll.okta_verify.switch.channel.link.text');
@@ -332,7 +332,7 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
     expect((layoutThree.elements[0] as TitleElement).options.content)
       .toBe('oie.enroll.okta_verify.setup.title');
     expect((layoutThree.elements[1] as DescriptionElement).options.content)
-      .toBe('oie.enroll.okta_verify.sms.info');
+      .toBe('oie.enroll.okta_verify.sms.info.updated');
     expect(layoutThree.elements[2].type).toBe('TextWithActionLink');
     expect((layoutThree.elements[2] as TextWithActionLinkElement).options.content)
       .toBe('oie.enroll.okta_verify.switch.channel.link.text');

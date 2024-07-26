@@ -14,13 +14,18 @@ import { Checkbox as OdyCheckbox, CheckboxGroup } from '@okta/odyssey-react-mui'
 import { h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
-import { useAutoFocus, useHtmlContentParser, useValue } from '../../hooks';
+import { useAutoFocus, useValue } from '../../hooks';
 import {
   ChangeEvent,
   UISchemaElementComponent,
   UISchemaElementComponentWithValidationProps,
 } from '../../types';
-import { buildFieldLevelErrorMessages, getTranslationInfo, wrapInTranslateNo } from '../../util';
+import {
+  buildFieldLevelErrorMessages,
+  getTranslationInfo,
+  parseHtmlContent,
+  wrapInTranslateNo,
+} from '../../util';
 import { withFormValidationState } from '../hocs';
 
 const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationProps> = ({
@@ -40,11 +45,11 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
   const isReadOnly = mutable === false;
   const checkboxId = `${name}-checkbox`;
   const labelInfo = getTranslationInfo(translations, 'label');
-  const label = useHtmlContentParser(labelInfo?.noTranslate
+  const label = parseHtmlContent(labelInfo?.noTranslate
     ? wrapInTranslateNo(labelInfo.value)
     : labelInfo?.value) as string | undefined;
   const descriptionInfo = getTranslationInfo(translations, 'description');
-  const description = useHtmlContentParser(descriptionInfo?.noTranslate
+  const description = parseHtmlContent(descriptionInfo?.noTranslate
     ? wrapInTranslateNo(descriptionInfo.value)
     : descriptionInfo?.value) as string | undefined;
   const focusRef = useAutoFocus<HTMLInputElement>(focus);

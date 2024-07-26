@@ -1,17 +1,31 @@
 import { View, _, loc, internal} from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
 import { FORMS as RemediationForms } from '../../../ion/RemediationConstants';
+import { createInvisibleIFrame } from '../../utils/ChallengeViewUtil';
 
 const { Notification } = internal.views.components;
 const { Clipboard } = internal.util;
 
 export default View.extend({
+  initialize() {
+    let deviceMap = getDeviceMap(this.options.appState);
+
+    // automatically trigger the Set up Okta Verify button on same device enrollment view
+    if (deviceMap && deviceMap.setupOVUrl && deviceMap.isDesktop) {
+      this.ulDom && this.ulDom.remove();
+      const IframeView = createInvisibleIFrame('custom-uri-container', deviceMap.setupOVUrl);
+      this.ulDom = this.add(IframeView).last();
+    }
+  },
   template: hbs`
       {{#if href}}
         <ol class="qrcode-info ov-info">
           <li>{{i18n code="oie.enroll.okta_verify.qrcode.step1" bundle="login"}}</li>
           <li>{{i18n code="oie.enroll.okta_verify.qrcode.step2" bundle="login"}}</li>
-          <li>{{i18n code="oie.enroll.okta_verify.qrcode.step3" bundle="login"}}</li>
+          <li>
+            {{i18n code="oie.enroll.okta_verify.qrcode.step3.updated"
+            bundle="login" $1="<span class='strong'>$1</span>"}}
+          </li>
         </ol>
         <div class="qrcode-container">
           <img class="qrcode" src={{href}} alt="{{i18n code="mfa.altQrCode" bundle="login" }}"></img>
@@ -19,13 +33,19 @@ export default View.extend({
       {{/if}}
       {{#if email}}
         <ul class="email-info ov-info">
-          <li>{{{i18n code="oie.enroll.okta_verify.email.info" bundle="login" arguments="email"}}}</li>
+          <li>
+            {{{i18n code="oie.enroll.okta_verify.email.info.updated"
+            bundle="login" arguments="email" $1="<span class='strong'>$1</span>"}}}
+          </li>
           <li class="switch-channel-content"></li>
         </ul>
       {{/if}}
       {{#if phoneNumber}}
         <ul class="sms-info ov-info">
-          <li>{{{i18n code="oie.enroll.okta_verify.sms.info" bundle="login" arguments="phoneNumber"}}}</li>
+          <li>
+            {{{i18n code="oie.enroll.okta_verify.sms.info.updated"
+            bundle="login" arguments="phoneNumber" $1="<span class='strong'>$1</span>"}}}
+          </li>
           <li class="switch-channel-content"></li>
         </ul>
       {{/if}}
@@ -79,7 +99,7 @@ export default View.extend({
             {{#if sameDeviceOVEnrollmentEnabled}}
               <li>
                 <span>{{i18n code="customUri.required.content.download.title" bundle="login"}}</span>&nbsp;
-                <a href="{{deviceMap.downloadHref}}" target="_blank" id="download-ov" class="orOnMobileLink">
+                <a href="{{deviceMap.downloadHref}}" target="_blank" id="download-ov" class="download-ov-link">
                   {{i18n code="customUri.required.content.download.linkText" bundle="login"}}
                 </a>
               </li>
@@ -151,7 +171,7 @@ export default View.extend({
   getTemplateData() {
     const contextualData = this.options.appState.get('currentAuthenticator').contextualData;
     let enrolledDeviceName = '';
-    let deviceMap = {};
+    let deviceMap = getDeviceMap(this.options.appState);
     let showAnotherDeviceLink = false;
     if (contextualData) {
       if (contextualData?.devicebootstrap && contextualData?.devicebootstrap.enrolledDevices) {
@@ -159,16 +179,6 @@ export default View.extend({
         enrolledDeviceName = Array.isArray(enrolledDevices) && !_.isEmpty(enrolledDevices) ?
           enrolledDevices[0] : enrolledDevices;
       }
-      if (contextualData.samedevice && contextualData.samedevice?.setupOVUrl) {
-        deviceMap = contextualData.samedevice;
-      } else if (contextualData.devicebootstrap && contextualData.devicebootstrap?.setupOVUrl) {
-        deviceMap = contextualData.devicebootstrap;
-      }
-    }
-
-    if (deviceMap.platform) {
-      deviceMap.platformLC = deviceMap.platform.toLowerCase();
-      deviceMap.isDesktop = !(deviceMap.platformLC === 'ios' || deviceMap.platformLC === 'android');
     }
 
     if (deviceMap.securityLevel && deviceMap.securityLevel === 'ANY') {
@@ -238,3 +248,24 @@ export default View.extend({
     });
   },
 });
+
+function getDeviceMap(appState) {
+  if (!appState) {
+    return null;
+  }
+
+  const contextualData = appState.get('currentAuthenticator').contextualData;
+  let deviceMap = {};
+  if (contextualData.samedevice?.setupOVUrl) {
+    deviceMap = contextualData.samedevice;
+  } else if (contextualData.devicebootstrap?.setupOVUrl) {
+    deviceMap = contextualData.devicebootstrap;
+  }
+
+  if (deviceMap.platform) {
+    deviceMap.platformLC = deviceMap.platform.toLowerCase();
+    deviceMap.isDesktop = !(deviceMap.platformLC === 'ios' || deviceMap.platformLC === 'android');
+  }
+
+  return deviceMap;
+}
