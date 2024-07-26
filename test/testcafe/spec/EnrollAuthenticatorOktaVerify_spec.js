@@ -1191,7 +1191,7 @@ test
 
 test
   .requestHooks(logger, enrollViaQRcodeWithSameDeviceOptionMock)('channel selection screen view should have the set up OV on this device link with same device enrollment on ANY security', async t => {
-    const enrollOktaVerifyPage = await setup(t);
+    const enrollOktaVerifyPage = await setup(t, true);
 
     await rerenderWidget({
       features: { sameDeviceOVEnrollmentEnabled: true }
