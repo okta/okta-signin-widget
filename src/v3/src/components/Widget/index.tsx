@@ -295,7 +295,9 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     // so we force them to select either email / sms for enrollment
     if (idxTransaction.context.currentAuthenticator?.value.key === AuthenticatorKey.OKTA_VERIFY
       && idxTransaction.nextStep.name === 'enroll-poll'
-      && isAndroidOrIOS()) {
+      && isAndroidOrIOS()
+      && idxTransaction.context?.currentAuthenticator?.value?.contextualData?.selectedChannel === 'qrcode'
+    ) {
       step = 'select-enrollment-channel';
     }
     return transformIdxTransaction({

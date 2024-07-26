@@ -351,23 +351,37 @@ const oktaVerifyAppStoreDownloadUrl = 'https://apps.apple.com/us/app/okta-verify
 
 fixture('Enroll Okta Verify Authenticator');
 
-async function setup(t) {
+async function setup(t, isQrCodeSelected = false) {
+  // NOTE: `isQrCodeSelected` should be true if introspect response
+  //  contains "selectedChannel": "qrcode" in "currentAuthenticator" object
+  //  (eg. `authenticator-enroll-ov-qr` mock)
+  const expectChannelSelection = isQrCodeSelected && userVariables.mobile && !userVariables.gen3;
   const enrollOktaVerifyPage = new EnrollOktaVerifyPageObject(t);
   await enrollOktaVerifyPage.navigateToPage();
   await t.expect(enrollOktaVerifyPage.formExists()).eql(true);
   await checkConsoleMessages({
     controller: null,
-    formName: 'enroll-poll',
+    formName: expectChannelSelection ? 'select-enrollment-channel' : 'enroll-poll',
     authenticatorKey: 'okta_verify',
   });
 
   return enrollOktaVerifyPage;
 }
 
-test.requestHooks(logger, enrollViaQRcodeMocks1)('should be able to enroll via qrcode', async t => {
-  const enrollOktaVerifyPage = await setup(t);
+test.requestHooks(logger, enrollViaQRcodeMocks1)('should be able to enroll via qrcode', async (t) => {
+  const enrollOktaVerifyPage = await setup(t, true);
   await checkA11y(t);
   await t.expect(enrollOktaVerifyPage.getFormTitle()).eql('Set up Okta Verify');
+  if (userVariables.mobile) {
+    // Special case: Okta Verify: show select enrollment channel instead of QR code on mobile
+    const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
+    await t.expect(switchChannelPageObject.getOptionCount()).eql(2);
+    await t.expect(switchChannelPageObject.getOptionLabel(0))
+      .eql('Text me a setup link');
+    await t.expect(switchChannelPageObject.getOptionLabel(1))
+      .eql('Email me a setup link');
+    return;
+  }
   await t.expect(await enrollOktaVerifyPage.hasEnrollViaQRInstruction()).eql(true);
   await t.expect(await enrollOktaVerifyPage.hasEnrollViaEmailInstruction()).eql(false);
   await t.expect(await enrollOktaVerifyPage.hasEnrollViaSmsInstruction()).eql(false);
@@ -403,12 +417,17 @@ test.requestHooks(logger, enrollViaQRcodeMocks1)('should be able to enroll via q
 });
 
 test.requestHooks(mock1)('should render switch channel view when Can\'t scan is clicked in qr code flow', async t => {
-  const enrollOktaVerifyPage = await setup(t);
+  const enrollOktaVerifyPage = await setup(t, true);
   await checkA11y(t);
-  await t.expect(enrollOktaVerifyPage.getSwitchChannelText()).eql('Can\'t scan?');
-  await enrollOktaVerifyPage.clickSwitchChannel();
+  if (userVariables.mobile) {
+    // Special case: Okta Verify: show select enrollment channel instead of QR code on mobile
+  } else {
+    await t.expect(enrollOktaVerifyPage.getSwitchChannelText()).eql('Can\'t scan?');
+    await enrollOktaVerifyPage.clickSwitchChannel();
+  }
+
   const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
-  await t.expect(switchChannelPageObject.getFormTitle()).eql('Set up Okta Verify on another mobile device');
+  await t.expect(switchChannelPageObject.getFormTitle()).eql(userVariables.mobile ? 'Set up Okta Verify on another mobile device' : 'More options');
   await t.expect(switchChannelPageObject.getOptionCount()).eql(2);
   await t.expect(switchChannelPageObject.getOptionLabel(0))
     .eql('Text me a setup link');
@@ -427,7 +446,7 @@ test.requestHooks(resendEmailMocks)('should render switch channel view when "try
   await t.expect(enrollOktaVerifyPage.getTryDifferentWayText()).eql('try a different way');
   await enrollOktaVerifyPage.clickTryDifferentWay();
   const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
-  await t.expect(switchChannelPageObject.getFormTitle()).eql('Set up Okta Verify on another mobile device');
+  await t.expect(switchChannelPageObject.getFormTitle()).eql(userVariables.mobile ? 'Set up Okta Verify on another mobile device' : 'More options');
   await t.expect(switchChannelPageObject.getOptionCount()).eql(2);
   await t.expect(switchChannelPageObject.getOptionLabel(0))
     .eql('Scan a QR code');
@@ -445,7 +464,7 @@ test.requestHooks(resendSmsMocks)('should render switch channel view when "try d
   await checkA11y(t);
   await enrollOktaVerifyPage.clickTryDifferentWay();
   const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
-  await t.expect(switchChannelPageObject.getFormTitle()).eql('Set up Okta Verify on another mobile device');
+  await t.expect(switchChannelPageObject.getFormTitle()).eql(userVariables.mobile ? 'Set up Okta Verify on another mobile device' : 'More options');
   await t.expect(switchChannelPageObject.getOptionCount()).eql(2);
   await t.expect(switchChannelPageObject.getOptionLabel(0))
     .eql('Scan a QR code');
@@ -455,11 +474,15 @@ test.requestHooks(resendSmsMocks)('should render switch channel view when "try d
 });
 
 test.requestHooks(enrollViaEmailMocks1)('should be able enroll via email', async t => {
-  const enrollOktaVerifyPage = await setup(t);
+  const enrollOktaVerifyPage = await setup(t, true);
   await checkA11y(t);
-  await enrollOktaVerifyPage.clickSwitchChannel();
+  if (userVariables.mobile) {
+    // Special case: Okta Verify: show select enrollment channel instead of QR code on mobile
+  } else {
+    await enrollOktaVerifyPage.clickSwitchChannel();
+  }
   const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
-  await t.expect(switchChannelPageObject.getFormTitle()).eql('Set up Okta Verify on another mobile device');
+  await t.expect(switchChannelPageObject.getFormTitle()).eql(userVariables.mobile ? 'Set up Okta Verify on another mobile device' : 'More options');
   await t.expect(switchChannelPageObject.getOptionCount()).eql(2);
   await t.expect(switchChannelPageObject.isRadioButtonChecked('sms')).eql(true);
   await switchChannelPageObject.selectChannelOption(1);
@@ -504,11 +527,15 @@ test.requestHooks(resendEmailMocks)('after timeout should be able see and click 
 });
 
 test.requestHooks(logger, enrollViaSmsMocks1)('should be able enroll via sms', async t => {
-  const enrollOktaVerifyPage = await setup(t);
+  const enrollOktaVerifyPage = await setup(t, true);
   await checkA11y(t);
-  await enrollOktaVerifyPage.clickSwitchChannel();
+  if (userVariables.mobile) {
+    // Special case: Okta Verify: show select enrollment channel instead of QR code on mobile
+  } else {
+    await enrollOktaVerifyPage.clickSwitchChannel();
+  }
   const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
-  await t.expect(switchChannelPageObject.getFormTitle()).eql('Set up Okta Verify on another mobile device');
+  await t.expect(switchChannelPageObject.getFormTitle()).eql(userVariables.mobile ? 'Set up Okta Verify on another mobile device' : 'More options');
   await t.expect(switchChannelPageObject.getOptionCount()).eql(2);
   await t.expect(switchChannelPageObject.isRadioButtonChecked('sms')).eql(true);
   await switchChannelPageObject.clickNextButton();
@@ -543,11 +570,15 @@ test.requestHooks(logger, enrollViaSmsMocks1)('should be able enroll via sms', a
 });
 
 test.requestHooks(logger, enrollViaSmsMocks1)('respects settings.defaultCountryCode', async t => {
-  const enrollOktaVerifyPage = await setup(t);
+  const enrollOktaVerifyPage = await setup(t, true);
   await checkA11y(t);
 
   // drive to SMS page (click next)
-  await enrollOktaVerifyPage.clickSwitchChannel();
+  if (userVariables.mobile) {
+    // Special case: Okta Verify: show select enrollment channel instead of QR code on mobile
+  } else {
+    await enrollOktaVerifyPage.clickSwitchChannel();
+  }
   const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
   await switchChannelPageObject.clickNextButton();
   const enrollViaSMSPageObject = new EnrollOVViaSMSPageObject(t);
@@ -560,7 +591,9 @@ test.requestHooks(logger, enrollViaSmsMocks1)('respects settings.defaultCountryC
     defaultCountryCode: 'GB'  // United Kingdom
   });
   // drive to SMS page (click next) - required again after rerender
-  await enrollOktaVerifyPage.clickSwitchChannel();
+  if (!userVariables.mobile) {
+    await enrollOktaVerifyPage.clickSwitchChannel();
+  }
   await switchChannelPageObject.clickNextButton();
 
   // United Kingdom (+44)
@@ -586,11 +619,15 @@ test.requestHooks(resendSmsMocks)('after timeout should be able see and click se
 
 const testSmsMsg = async (t, isIos) => {
   const message = isIos ? fipsUpgradeMessage: fipsUpgradeMessageNonIos;
-  const enrollOktaVerifyPage = await setup(t);
+  const enrollOktaVerifyPage = await setup(t, true);
   await checkA11y(t);
-  await enrollOktaVerifyPage.clickSwitchChannel();
+  if (userVariables.mobile) {
+    // Special case: Okta Verify: show select enrollment channel instead of QR code on mobile
+  } else {
+    await enrollOktaVerifyPage.clickSwitchChannel();
+  }
   const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
-  await t.expect(switchChannelPageObject.getFormTitle()).eql('Set up Okta Verify on another mobile device');
+  await t.expect(switchChannelPageObject.getFormTitle()).eql(userVariables.mobile ? 'Set up Okta Verify on another mobile device' : 'More options');
   await t.expect(switchChannelPageObject.getOptionCount()).eql(2);
   await t.expect(switchChannelPageObject.isRadioButtonChecked('sms')).eql(true);
   await switchChannelPageObject.clickNextButton();
@@ -646,11 +683,15 @@ test
 
 const testEmailMsg = async (t, isIos) => {
   const message = isIos ? fipsUpgradeMessage: fipsUpgradeMessageNonIos;
-  const enrollOktaVerifyPage = await setup(t);
+  const enrollOktaVerifyPage = await setup(t, true);
   await checkA11y(t);
-  await enrollOktaVerifyPage.clickSwitchChannel();
+  if (userVariables.mobile) {
+    // Special case: Okta Verify: show select enrollment channel instead of QR code on mobile
+  } else {
+    await enrollOktaVerifyPage.clickSwitchChannel();
+  }
   const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
-  await t.expect(switchChannelPageObject.getFormTitle()).eql('Set up Okta Verify on another mobile device');
+  await t.expect(switchChannelPageObject.getFormTitle()).eql(userVariables.mobile ? 'Set up Okta Verify on another mobile device' : 'More options');
   await t.expect(switchChannelPageObject.getOptionCount()).eql(2);
   await t.expect(switchChannelPageObject.isRadioButtonChecked('sms')).eql(true);
   await switchChannelPageObject.selectChannelOption(1);
@@ -697,7 +738,7 @@ test
 
 const testQRcodeMsg = async (t, isIos) => {
   const message = isIos ? fipsUpgradeMessage: fipsUpgradeMessageNonIos;
-  const enrollOktaVerifyPage = await setup(t);
+  const enrollOktaVerifyPage = await setup(t, true);
   await checkA11y(t);
   await t.expect(enrollOktaVerifyPage.getFormTitle(1)).eql('Set up Okta Verify');
   await t.expect(await enrollOktaVerifyPage.hasEnrollViaQRInstruction()).eql(true);
@@ -712,6 +753,7 @@ const testQRcodeMsg = async (t, isIos) => {
   await t.expect(qrInstructionBullet1).contains(qrCodeInstruction1);
   await t.expect(qrInstructionBullet2).contains(qrCodeInstruction2);
   await t.expect(qrInstructionBullet3).contains(qrCodeInstruction3);
+
   const errorBox = enrollOktaVerifyPage.getErrorBox();
   await t.expect(errorBox.innerText).contains(message);
   const errorTitle = enrollOktaVerifyPage.getErrorTitle();
@@ -740,20 +782,24 @@ const testQRcodeMsg = async (t, isIos) => {
     .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
 };
 
-test.requestHooks(logger, enrollViaQRcodeVersionUpgradeMocks1)('should see ov upgrade error message during enroll via qrcode', async t => {
+test.meta('mobile', false).requestHooks(logger, enrollViaQRcodeVersionUpgradeMocks1)('should see ov upgrade error message during enroll via qrcode', async t => {
   await testQRcodeMsg(t, true);
 });
 
-test.requestHooks(logger, enrollViaQRcodeVersionUpgradeMocksNonIos1)('should see ov upgrade error message during enroll via qrcode for non ios devices', async t => {
+test.meta('mobile', false).requestHooks(logger, enrollViaQRcodeVersionUpgradeMocksNonIos1)('should see ov upgrade error message during enroll via qrcode for non ios devices', async t => {
   await testQRcodeMsg(t, false);
 });
 
 test.requestHooks(logger, enrollViaSmsVersionUpgradeMocksGoBack1)('should not show version upgrade message after user hits go back', async t => {
-  const enrollOktaVerifyPage = await setup(t);
+  const enrollOktaVerifyPage = await setup(t, true);
   await checkA11y(t);
-  await enrollOktaVerifyPage.clickSwitchChannel();
+  if (userVariables.mobile) {
+    // Special case: Okta Verify: show select enrollment channel instead of QR code on mobile
+  } else {
+    await enrollOktaVerifyPage.clickSwitchChannel();
+  }
   const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
-  await t.expect(switchChannelPageObject.getFormTitle()).eql('Set up Okta Verify on another mobile device');
+  await t.expect(switchChannelPageObject.getFormTitle()).eql(userVariables.mobile ? 'Set up Okta Verify on another mobile device' : 'More options');
   await t.expect(switchChannelPageObject.getOptionCount()).eql(2);
   await t.expect(switchChannelPageObject.isRadioButtonChecked('sms')).eql(true);
   await switchChannelPageObject.clickNextButton();
@@ -792,8 +838,8 @@ test.requestHooks(logger, enrollViaSmsVersionUpgradeMocksGoBack1)('should not sh
   await t.expect(errorBox.exists).notOk;
 });
 
-test.requestHooks(logger, enrollViaQRcodeEnableBiometricsMocks1)('should see ov enable biometrics message during enroll via QR code', async t => {
-  const enrollOktaVerifyPage = await setup(t);
+test.meta('mobile', false).requestHooks(logger, enrollViaQRcodeEnableBiometricsMocks1)('should see ov enable biometrics message during enroll via QR code', async t => {
+  const enrollOktaVerifyPage = await setup(t, true);
   await checkA11y(t);
   await t.expect(enrollOktaVerifyPage.getFormTitle(1)).eql('Set up Okta Verify');
   await t.expect(await enrollOktaVerifyPage.hasEnrollViaQRInstruction()).eql(true);
@@ -829,11 +875,15 @@ test.requestHooks(logger, enrollViaQRcodeEnableBiometricsMocks1)('should see ov 
 });
 
 test.requestHooks(enrollViaEmailEnableBiometricsMocks1)('should see ov enable biometrics message during enroll via email', async t => {
-  const enrollOktaVerifyPage = await setup(t);
+  const enrollOktaVerifyPage = await setup(t, true);
   await checkA11y(t);
-  await enrollOktaVerifyPage.clickSwitchChannel();
+  if (userVariables.mobile) {
+    // Special case: Okta Verify: show select enrollment channel instead of QR code on mobile
+  } else {
+    await enrollOktaVerifyPage.clickSwitchChannel();
+  }
   const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
-  await t.expect(switchChannelPageObject.getFormTitle()).eql('Set up Okta Verify on another mobile device');
+  await t.expect(switchChannelPageObject.getFormTitle()).eql(userVariables.mobile ? 'Set up Okta Verify on another mobile device' : 'More options');
   await t.expect(switchChannelPageObject.getOptionCount()).eql(2);
   await t.expect(switchChannelPageObject.isRadioButtonChecked('sms')).eql(true);
   await switchChannelPageObject.selectChannelOption(1);
@@ -867,11 +917,15 @@ test.requestHooks(enrollViaEmailEnableBiometricsMocks1)('should see ov enable bi
 
 test
   .requestHooks(logger, enrollViaSMSEnableBiometricsMocks1)('should see ov enable biometrics message during enroll via sms', async t => {
-    const enrollOktaVerifyPage = await setup(t);
+    const enrollOktaVerifyPage = await setup(t, true);
     await checkA11y(t);
-    await enrollOktaVerifyPage.clickSwitchChannel();
+    if (userVariables.mobile) {
+      // Special case: Okta Verify: show select enrollment channel instead of QR code on mobile
+    } else {
+      await enrollOktaVerifyPage.clickSwitchChannel();
+    }
     const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
-    await t.expect(switchChannelPageObject.getFormTitle()).eql('Set up Okta Verify on another mobile device');
+    await t.expect(switchChannelPageObject.getFormTitle()).eql(userVariables.mobile ? 'Set up Okta Verify on another mobile device' : 'More options');
     await t.expect(switchChannelPageObject.getOptionCount()).eql(2);
     await t.expect(switchChannelPageObject.isRadioButtonChecked('sms')).eql(true);
     await switchChannelPageObject.clickNextButton();

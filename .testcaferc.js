@@ -53,6 +53,9 @@ const {
   OKTA_SIW_GEN3,
   OKTA_SIW_EN_LEAKS,
   UPDATE_SCREENSHOTS,
+  OKTA_SIW_MOBILE,
+  CI,
+  CHROME_HEADLESS,
 } = process.env;
 
 // Normalize process.env to type 'boolean'
@@ -61,17 +64,28 @@ const env = {
   OKTA_SIW_SKIP_FLAKY: OKTA_SIW_SKIP_FLAKY === 'true',
   OKTA_SIW_GEN3: OKTA_SIW_GEN3 === 'true',
   OKTA_SIW_EN_LEAKS: OKTA_SIW_EN_LEAKS === 'true',
+  OKTA_SIW_MOBILE: OKTA_SIW_MOBILE === 'true',
+  CHROME_HEADLESS: (CHROME_HEADLESS === 'true' || CI === 'true'),
+  CI: CI === 'true',
   UPDATE_SCREENSHOTS: UPDATE_SCREENSHOTS === 'true',
 };
 
+const chromeName = env.CHROME_HEADLESS ? 'chrome:headless' : 'chrome';
+const chromeOptions = env.OKTA_SIW_MOBILE ? ':emulation:device=iphone X' : '';
+const chromeFlags = env.CHROME_HEADLESS ? '' : ' --disable-search-engine-choice-screen';
+const chromeFullName = `${chromeName}${chromeOptions}${chromeFlags}`;
+
 const config = {
-  browsers: [ 'chrome:headless' ],
+  browsers: [chromeFullName],
+  hostname: env.CHROME_HEADLESS ? undefined : 'localhost',
   clientScripts: env.OKTA_SIW_EN_LEAKS ? [
   ] : [
     { module: 'axe-core/axe.min.js' },
     { module: '@testing-library/dom/dist/@testing-library/dom.umd.js' }
   ],
-  src: env.OKTA_SIW_EN_LEAKS ? [
+  src: env.OKTA_SIW_MOBILE ? [
+    'test/testcafe/spec/EnrollAuthenticatorOktaVerify_spec.js',
+  ] : env.OKTA_SIW_EN_LEAKS ? [
     'test/testcafe/spec-en-leaks/*_spec.js',
   ] : [
     'test/testcafe/spec/*_spec.js',
@@ -87,6 +101,7 @@ const config = {
   },
   userVariables: {
     gen3: env.OKTA_SIW_GEN3,
+    mobile: env.OKTA_SIW_MOBILE,
     updateScreenshots: env.UPDATE_SCREENSHOTS,
   },
   // OKTA-575629 Remove this when gen3 parity test flakiness is resolved
@@ -95,7 +110,7 @@ const config = {
   }),
 
   // limit concurrency when running flaky tests
-  concurrency: OKTA_SIW_ONLY_FLAKY ? 1 : undefined,
+  concurrency: OKTA_SIW_ONLY_FLAKY || !env.CHROME_HEADLESS ? 1 : (env.OKTA_SIW_EN_LEAKS ? 2 : 4),
 
   // retry failed tests
   quarantineMode: env.OKTA_SIW_EN_LEAKS ? false : {
@@ -144,6 +159,11 @@ const config = {
     if (fixtureMeta.flaky || testMeta.flaky) {
       // OKTA_SIW_ONLY_FLAKY supercedes OKTA_SIW_SKIP_FLAKY
       return env.OKTA_SIW_ONLY_FLAKY || !env.OKTA_SIW_SKIP_FLAKY;
+    }
+
+    // skip tests that are not intended to work on mobile devices
+    if (testMeta.mobile === false) {
+      return !env.OKTA_SIW_MOBILE;
     }
 
     return true;
