@@ -41,6 +41,14 @@ else
   echo "Fail to upload okta-signin-widget job data artifact_version=${artifact_version} to s3!" >&2
 fi
 
+prev_release_siw_artifact_version=$(node ./scripts/get-prev-release-siw-version.js)
+if upload_job_data global prev_release_siw_artifact_version ${prev_release_siw_artifact_version}; then
+  echo "Upload okta-signin-widget previous release artifact job data artifact_version=${prev_release_siw_artifact_version}!"
+else
+  # only echo the info since the upload is not crucial
+  echo "Fail to upload okta-signin-widget previous release job data artifact_version=${prev_release_siw_artifact_version}!" >&2
+fi
+
 FINAL_PUBLISHED_VERSIONS=$(echo "console.log(require('./package.json').version)" | node -)
 log_custom_message "Published Version" "${FINAL_PUBLISHED_VERSIONS}"
 
