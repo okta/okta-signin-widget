@@ -12,7 +12,7 @@
 
 import { IdxAuthenticator, IdxContext, NextStep } from '@okta/okta-auth-js';
 
-import { HookDefinition as BaseHookDefinition, HookFunction, HookType as BaseHookType } from '../../../types';
+import { EventContext, HookDefinition as BaseHookDefinition, HookFunction } from '../../../types';
 import { FormBag } from './schema';
 import { UserInfo } from './userInfo';
 
@@ -26,8 +26,8 @@ export interface DeviceEnrollment {
   orgName?: string;
 }
 
-export interface TransformHookContext {
-  formName: string;
+export interface TransformHookContext extends EventContext {
+  formBag: FormBag;
   currentAuthenticator?: IdxAuthenticator;
   userInfo?: UserInfo;
   deviceEnrollment?: DeviceEnrollment;
@@ -35,15 +35,13 @@ export interface TransformHookContext {
   idxContext?: IdxContext;
 }
 
-export type TransformHookFunction = (formBag: FormBag, context: TransformHookContext) => void;
-
-export interface TransformHookDefinition {
-  afterTransform?: TransformHookFunction[];
+export interface TransformHookFunction extends HookFunction {
+  (context: TransformHookContext): void;
 }
 
-export type TransformHookType = keyof TransformHookDefinition;
-
-export interface HookDefinition extends BaseHookDefinition, TransformHookDefinition {}
+export interface HookDefinition extends BaseHookDefinition {
+  afterTransform?: TransformHookFunction[];
+}
 
 export type HookType = keyof HookDefinition;
 
@@ -51,14 +49,9 @@ export interface HooksOptions {
   [name: string]: HookDefinition;
 }
 
-export type AnyHookFunction = TransformHookFunction | HookFunction;
-
-export interface FormHooksMap extends Map<string, AnyHookFunction[]> {
-  get(k: BaseHookType): HookFunction[];
-  get(k: TransformHookType): TransformHookFunction[];
-  get(k: string): AnyHookFunction[];
+export interface FormHooksMap extends Map<string, HookFunction[]> {
+  get(k: 'afterTransform'): TransformHookFunction[];
+  get(k: string): HookFunction[];
 }
 
 export type HooksMap = Map<string, FormHooksMap>;
-
-export type { BaseHookType };

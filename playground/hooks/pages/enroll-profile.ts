@@ -68,7 +68,7 @@ export const customizeWidgetOptionsForHForEnrollProfileForm = (config: WidgetOpt
 export const addHookForEnrollProfileForm = (oktaSignIn: OktaSignInAPIV3) => {
   // Tip for Sign-in page code editor: 
   //  Paste this code after `oktaSignIn = new OktaSignIn(config);`
-  oktaSignIn.afterTransform('enroll-profile', (formBag) => {
+  oktaSignIn.afterTransform('enroll-profile', ({ formBag }) => {
     // Change title
     const titleIndex = formBag.uischema.elements.findIndex(ele => ele.type === 'Title');
     const title: TitleElement = formBag.uischema.elements[titleIndex] as TitleElement;

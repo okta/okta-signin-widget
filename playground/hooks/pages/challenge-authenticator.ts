@@ -6,7 +6,7 @@ import type {
 export const addHookForChallengeAuthenticatorForm = (oktaSignIn: OktaSignInAPIV3) => {
   // Tip for Sign-in page code editor: 
   //  Paste this code after `oktaSignIn = new OktaSignIn(config);`
-  oktaSignIn.afterTransform('challenge-authenticator', (formBag, { currentAuthenticator, userInfo }) => {
+  oktaSignIn.afterTransform('challenge-authenticator', ({ formBag, currentAuthenticator, userInfo }) => {
     const stepper = formBag.uischema.elements.find(ele => ele.type === 'Stepper') as StepperLayout;
     if (stepper) {
       if (currentAuthenticator.type === 'email') {

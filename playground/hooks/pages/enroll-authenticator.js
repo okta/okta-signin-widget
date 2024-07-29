@@ -12,7 +12,7 @@ export const customizeWidgetOptionsForEnrollAuthenticatorForm = (config = {}) =>
 export const addHookForEnrollAuthenticatorForm = (oktaSignIn) => {
     // Tip for Sign-in page code editor: 
     //  Paste this code after `oktaSignIn = new OktaSignIn(config);`
-    oktaSignIn.afterTransform('enroll-authenticator', (formBag, { currentAuthenticator }) => {
+    oktaSignIn.afterTransform('enroll-authenticator', ({ formBag, currentAuthenticator }) => {
         const stepper = formBag.uischema.elements.find(ele => ele.type === 'Stepper');
         if (stepper) {
             if (currentAuthenticator.type === 'security_question') {
