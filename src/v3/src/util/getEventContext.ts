@@ -15,6 +15,8 @@ import { IdxTransaction } from '@okta/okta-auth-js';
 import { EventContext } from '../../../types';
 import { getV1ClassName } from '../../../v2/ion/ViewClassNamesFactory';
 import { IDX_STEP } from '../constants';
+import { TransformHookContext } from '../types/hooks';
+import { FormBag } from '../types/schema';
 import { getAuthenticatorKey } from './getAuthenticatorKey';
 import { getAuthenticatorMethod } from './getAuthenticatorMethod';
 import { isPasswordRecovery } from './isPasswordRecovery';
@@ -76,5 +78,37 @@ export const getEventContext = (transaction?: IdxTransaction): EventContext => {
     formName,
     authenticatorKey,
     methodType,
+  };
+};
+
+export const getTransformHookContext = (
+  formBag: FormBag,
+  idxTransaction?: IdxTransaction,
+): TransformHookContext => {
+  const idxContext = idxTransaction?.context;
+  const currentAuthenticator = idxContext?.currentAuthenticator?.value;
+  // @ts-expect-error Property 'deviceEnrollment' does not exist on type 'IdxContext' ts(2339)
+  const deviceEnrollment = idxContext?.deviceEnrollment?.value;
+  const currentAuthenticatorEnrollment = idxContext?.currentAuthenticatorEnrollment?.value;
+  let formName = getFormNameForTransaction(idxTransaction);
+  if (!formBag.uischema.elements.length) {
+    // initial loading state
+    formName = undefined;
+  }
+  const isTerminal = formBag.uischema.elements.length === 1
+    && formBag.uischema.elements[0].type === 'InfoBox';
+  if (isTerminal) {
+    formName = 'terminal';
+  }
+  const userInfo = idxContext?.user?.value;
+  return {
+    ...getEventContext(idxTransaction),
+    formName,
+    formBag,
+    userInfo,
+    currentAuthenticator: currentAuthenticator ?? currentAuthenticatorEnrollment,
+    deviceEnrollment,
+    nextStep: idxTransaction?.nextStep,
+    idxContext,
   };
 };

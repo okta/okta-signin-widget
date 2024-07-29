@@ -127,7 +127,7 @@ Instead you can use new `afterTransform` hook to manipulate state of SIW to be r
 Example:
 
 ```js
-signIn.afterTransform('*', (formBag, context) => {
+signIn.afterTransform('*', ({ formBag }) => {
   const customLink = {
     type: 'Link',
     contentType: 'footer',

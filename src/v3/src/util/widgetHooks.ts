@@ -12,12 +12,12 @@
 
 import { IdxTransaction } from '@okta/okta-auth-js';
 
+import { HookFunction, HookType as BaseHookType } from '../../../types';
 import {
-  AnyHookFunction, BaseHookType, FormHooksMap, HooksMap, HooksOptions, HookType,
-  TransformHookContext,
+  FormHooksMap, HooksMap, HooksOptions, HookType,
 } from '../types/hooks';
 import { FormBag } from '../types/schema';
-import { getFormNameForTransaction } from './getEventContext';
+import { getFormNameForTransaction, getTransformHookContext } from './getEventContext';
 
 const hookTypes: HookType[] = ['before', 'after', 'afterTransform'];
 
@@ -38,7 +38,7 @@ export class WidgetHooks {
     }
   }
 
-  public addHook(hookType: HookType, formName: string, hook: AnyHookFunction) {
+  public addHook(hookType: HookType, formName: string, hook: HookFunction) {
     const formHooks: FormHooksMap = this.hooks.get(formName) || new Map();
     const hooksByType = formHooks.get(hookType) || [];
     hooksByType.push(hook);
@@ -64,36 +64,17 @@ export class WidgetHooks {
     formBag: FormBag,
     idxTransaction?: IdxTransaction,
   ) {
-    const idxContext = idxTransaction?.context;
-    const currentAuthenticator = idxContext?.currentAuthenticator?.value;
-    // @ts-expect-error Property 'deviceEnrollment' does not exist on type 'IdxContext' ts(2339)
-    const deviceEnrollment = idxContext?.deviceEnrollment?.value;
-    const currentAuthenticatorEnrollment = idxContext?.currentAuthenticatorEnrollment?.value;
-    let formName = getFormNameForTransaction(idxTransaction);
-    if (!formName || !formBag.uischema.elements.length) {
+    const context = getTransformHookContext(formBag, idxTransaction);
+    if (!context.formName) {
       // initial loading state
       return;
     }
-    const isTerminal = formBag.uischema.elements.length === 1
-      && formBag.uischema.elements[0].type === 'InfoBox';
-    if (isTerminal) {
-      formName = 'terminal';
-    }
-    const userInfo = idxContext?.user?.value;
-    const context: TransformHookContext = {
-      formName,
-      userInfo,
-      currentAuthenticator: currentAuthenticator ?? currentAuthenticatorEnrollment,
-      deviceEnrollment,
-      nextStep: idxTransaction?.nextStep,
-      idxContext,
-    };
     const hooksToExecute = [
-      ...(this.hooks.get(formName)?.get('afterTransform') || []),
+      ...(this.hooks.get(context.formName!)?.get('afterTransform') || []),
       ...(this.hooks.get('*')?.get('afterTransform') || []),
     ];
     for (const hook of hooksToExecute) {
-      hook(formBag, context);
+      hook(context);
     }
   }
 }

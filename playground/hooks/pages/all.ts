@@ -6,8 +6,8 @@ import type {
 export const addHookForAllForms = (oktaSignIn: OktaSignInAPIV3) => {
   // Tip for Sign-in page code editor: 
   //  Paste this code after `oktaSignIn = new OktaSignIn(config);`
-  oktaSignIn.afterTransform('*', (formBag, context) => {
-    const { formName } = context;
+  oktaSignIn.afterTransform('*', (context) => {
+    const { formBag, formName } = context;
     // Add Terms of Service link
     const formsWithTermsLink = [
       'identify',
