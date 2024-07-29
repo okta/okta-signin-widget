@@ -4,8 +4,8 @@ import type {
   OktaSignInAPI as OktaSignInAPIV3,
   WidgetOptions as WidgetOptionsV3,
 } from '../../src/v3/src/types';
-import { addHookForEnrollProfileForm, customizeWidgetOptionsForHForEnrollProfileForm } from './pages/enroll-profile';
-import { addHookForEnrollAuthenticatorForm, customizeWidgetOptionsForEnrollAuthenticatorForm } from './pages/enroll-authenticator';
+import { addHookForEnrollProfileForm, customizeWidgetOptionsForEnrollProfileForm } from './pages/enroll-profile';
+import { addHookForEnrollAuthenticatorForm } from './pages/enroll-authenticator';
 import { addHookForIdentifyRecoveryForm } from './pages/identify-recovery';
 import { addHookForIdentifyForm } from './pages/identify';
 import { addHookForChallengeAuthenticatorForm } from './pages/challenge-authenticator';
@@ -19,8 +19,7 @@ export const customizeWidgetOptionsForHooks = (config: WidgetOptionsV3 = {}) => 
   //  2. Paste the following line after `oktaSignIn.renderEl(...)`
   document.querySelector('#okta-login-container').classList.add('siw-customized');
 
-  customizeWidgetOptionsForEnrollAuthenticatorForm(config);
-  customizeWidgetOptionsForHForEnrollProfileForm(config);
+  customizeWidgetOptionsForEnrollProfileForm(config);
 };
 
 export const addAfterTransformHooks = (oktaSignIn: OktaSignInAPIV3) => {

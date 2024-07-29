@@ -1,20 +1,7 @@
 import type {
   OktaSignInAPI as OktaSignInAPIV3,
-  WidgetOptions as WidgetOptionsV3,
   StepperLayout, FieldElement, UISchemaLayout, StepperRadioElement,
 } from '../../../src/v3/src/types';
-
-export const customizeWidgetOptionsForEnrollAuthenticatorForm = (config: WidgetOptionsV3 = {}) => {
-  // Tip for Sign-in page code editor: 
-  //  Paste this code after `config = OktaUtil.getSignInWidgetConfig();`
-  config.i18n = {
-    ...config.i18n,
-    en: {
-      ...(config.i18n?.en ?? {}),
-      'custom.validation.security_question.answer': 'Answer should have length from 3 to 20 and not contain special characters',
-    }
-  };
-};
 
 export const addHookForEnrollAuthenticatorForm = (oktaSignIn: OktaSignInAPIV3) => {
   // Tip for Sign-in page code editor: 
@@ -36,22 +23,6 @@ export const addHookForEnrollAuthenticatorForm = (oktaSignIn: OktaSignInAPIV3) =
           && (ele as FieldElement).options.inputMeta.name === 'credentials.answer'
         );
         answer.options.inputMeta.secret = false;
-        // Answer validation
-        const origValidate = formBag.dataSchema['credentials.answer'].validate;
-        formBag.dataSchema['credentials.answer'].validate = (formData) => {
-          const validationMessages = origValidate(formData);
-          const value = formData['credentials.answer'] as string;
-          if (value && !validationMessages?.length) {
-            if (!value.match(/^[\w\d\s\-]{3,20}$/)) {
-              validationMessages.push({
-                i18n: {
-                  key: 'custom.validation.security_question.answer'
-                }
-              });
-            }
-          }
-          return validationMessages;
-        };
       }
     }
   });
