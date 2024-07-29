@@ -30,7 +30,7 @@ export class WidgetHooks {
     if (hooksOptions) {
       for (const [formName, formHooks] of Object.entries(hooksOptions)) {
         for (const hookType of hookTypes) {
-          for (const hook of (formHooks[hookType] || [])) {
+          for (const hook of (formHooks[hookType] || []) as HookFunction[]) {
             this.addHook(hookType, formName, hook);
           }
         }

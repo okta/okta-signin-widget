@@ -69,16 +69,7 @@ test.requestHooks(authenticatorEnrollSecurityQuestionMock)('should customize enr
   // assert Question type select and Custom Question textbox don't show up
   await t.expect(enrollSecurityQuestionPage.isSecurityQuestionTypeSelectVisible()).notOk();
   await t.expect(enrollSecurityQuestionPage.isCreateMyOwnSecurityQuestionTextBoxVisible()).notOk();
-
-  // select security question and type answer
-  await enrollSecurityQuestionPage.selectSecurityQuestion(1);
-  await enrollSecurityQuestionPage.setAnswerValue('aa');
-  await enrollSecurityQuestionPage.clickVerifyButton();
-
-  // should show custom validation message
-  await t.expect(enrollSecurityQuestionPage.getAnswerInlineError()).match(/Answer should have length from 3 to 20 and not contain special characters/);
 });
-
 
 test.requestHooks(enrollProfileMock)('should customize enroll profile form', async t => {
   const enrollProfilePage = await setupEnrollProfile(t);
@@ -98,30 +89,27 @@ test.requestHooks(enrollProfileMock)('should customize enroll profile form', asy
   await t.expect(await enrollProfilePage.formFieldExistsByLabel('TIN')).eql(true);
   await t.expect(enrollProfilePage.getCustomBoolLabelText()).eql('Terms and Conditions');
 
-  // Fill in attribute fields and click Register
+  // Fill in default attribute fields and check error messages
   await enrollProfilePage.setTextBoxValue('userProfile.firstName', 'John');
   await enrollProfilePage.setTextBoxValue('userProfile.lastName', 'Doe');
   await enrollProfilePage.setTextBoxValue('userProfile.email', 'john@acme.com');
   await enrollProfilePage.form.clickSaveButton('Register');
   await enrollProfilePage.form.waitForErrorBox();
-
-  // Check custom error messages
-  const boolErrorMessage = await enrollProfilePage.form.getTextBoxErrorMessage('custom_bool');
-  await t.expect(boolErrorMessage).contains('You should agree to the Terms and Conditions');
   const tinErrorMessage = await enrollProfilePage.form.getTextBoxErrorMessage('custom_string');
-  await t.expect(tinErrorMessage).contains('TIN should be specified');
+  await t.expect(tinErrorMessage).contains('This field cannot be left blank');
 
-  // Fill in custom attribute fields
+  // Fill in custom attribute fields and check error messages
+  await enrollProfilePage.setTextBoxValue('custom_string', '111');
+  await enrollProfilePage.form.clickSaveButton('Register');
+  await enrollProfilePage.form.waitForErrorBox();
+  const tinErrorMessage2 = await enrollProfilePage.form.getTextBoxErrorMessage('custom_string');
+  await t.expect(tinErrorMessage2).contains('This field cannot be less than the minimum required characters');
+
+  // Fill in custom attribute fields with correct values
   await enrollProfilePage.setCheckbox('custom_bool');
-  await enrollProfilePage.setTextBoxValue('custom_string', 'aaabbbccc');
+  await enrollProfilePage.setTextBoxValue('custom_string', '999888777');
   await enrollProfilePage.form.clickSaveButton('Register');
   await enrollProfilePage.form.waitForErrorBox();
   await t.expect(await enrollProfilePage.form.hasTextBoxErrorMessage('custom_bool')).eql(false);
-  const tinErrorMessage2 = await enrollProfilePage.form.getTextBoxErrorMessage('custom_string');
-  await t.expect(tinErrorMessage2).contains('TIN should be a 9-digit number');
-
-  // Fill in correct TIN
-  await enrollProfilePage.setTextBoxValue('custom_string', '999888777');
-  await enrollProfilePage.form.clickSaveButton('Register');
   await t.expect(await enrollProfilePage.form.hasTextBoxErrorMessage('custom_string')).eql(false);
 });

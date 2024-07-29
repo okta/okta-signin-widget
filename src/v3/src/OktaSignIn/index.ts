@@ -224,12 +224,12 @@ export default class OktaSignIn implements OktaSignInAPI {
     this.widgetHooks.addHook('before', formName, hook);
   }
 
-  afterTransform(formName: string, transformHook: TransformHookFunction): void {
-    this.widgetHooks.addHook('afterTransform', formName, transformHook);
-  }
-
   after(formName: string, hook: HookFunction): void {
     this.widgetHooks.addHook('after', formName, hook);
+  }
+
+  afterTransform(formName: string, transformHook: TransformHookFunction): void {
+    this.widgetHooks.addHook('afterTransform', formName, transformHook as HookFunction);
   }
 
   hide(): void {

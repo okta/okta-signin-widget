@@ -13,6 +13,7 @@
 import { IdxAuthenticator, IdxContext, NextStep } from '@okta/okta-auth-js';
 
 import { EventContext, HookDefinition as BaseHookDefinition, HookFunction } from '../../../types';
+import type { loc } from '../util/locUtil';
 import { FormBag } from './schema';
 import { UserInfo } from './userInfo';
 
@@ -26,16 +27,19 @@ export interface DeviceEnrollment {
   orgName?: string;
 }
 
+export type SafeFormBag = Omit<FormBag, 'dataSchema'>;
+
 export interface TransformHookContext extends EventContext {
-  formBag: FormBag;
+  formBag: SafeFormBag;
   currentAuthenticator?: IdxAuthenticator;
   userInfo?: UserInfo;
   deviceEnrollment?: DeviceEnrollment;
   nextStep?: NextStep;
   idxContext?: IdxContext;
+  loc?: typeof loc,
 }
 
-export interface TransformHookFunction extends HookFunction {
+export interface TransformHookFunction {
   (context: TransformHookContext): void;
 }
 

@@ -20,6 +20,7 @@ import { FormBag } from '../types/schema';
 import { getAuthenticatorKey } from './getAuthenticatorKey';
 import { getAuthenticatorMethod } from './getAuthenticatorMethod';
 import { isPasswordRecovery } from './isPasswordRecovery';
+import { loc } from './locUtil';
 
 export const getFormNameForTransaction = (transaction?: IdxTransaction): string | undefined => {
   if (!transaction) {
@@ -101,14 +102,18 @@ export const getTransformHookContext = (
     formName = 'terminal';
   }
   const userInfo = idxContext?.user?.value;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { dataSchema, ...safeFormBag } = formBag;
+
   return {
     ...getEventContext(idxTransaction),
     formName,
-    formBag,
+    formBag: safeFormBag,
     userInfo,
     currentAuthenticator: currentAuthenticator ?? currentAuthenticatorEnrollment,
     deviceEnrollment,
     nextStep: idxTransaction?.nextStep,
     idxContext,
+    loc,
   };
 };
