@@ -1,3 +1,4 @@
+
 test_suites:
   - name: publish
     script_path: /root/okta/okta-signin-widget/scripts
@@ -177,3 +178,9 @@ test_suites:
     script_name: vrt-v3-get-screenshots
     criteria: OPTIONAL
     queue_name: small
+
+downstream_artifacts:
+  - upstream_artifact: okta-signin-widget
+    downstream_artifact: monolith
+    create_commit_script: /root/okta/okta-core/scripts/docker-ci/build-test-scripts/downstream/create_downstream_for_okta-signin-widget-prev-release.sh
+    downstream_artifact_base_branch: sw-siw-prev-downstream-OKTA-738534
