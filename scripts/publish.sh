@@ -10,6 +10,15 @@ export PATH="${PATH}:$(yarn global bin)"
 export TEST_SUITE_TYPE="build"
 export PUBLISH_REGISTRY="${ARTIFACTORY_URL}/api/npm/npm-topic"
 
+# upload prev release version to eng prod s3 to be used by downstream jobs
+prev_release_siw_artifact_version=$(node ./scripts/get-prev-release-siw-version.js)
+if upload_job_data global prev_release_siw_artifact_version ${prev_release_siw_artifact_version}; then
+  echo "Upload okta-signin-widget previous release job data prev_release_siw_artifact_version=${prev_release_siw_artifact_version}!"
+else
+  # only echo the info since the upload is not crucial
+  echo "Fail to upload okta-signin-widget previous release job data prev_release_siw_artifact_version=${prev_release_siw_artifact_version}!" >&2
+fi
+
 # Append a SHA to the version in package.json 
 if ! ci-append-sha; then
   echo "ci-append-sha failed! Exiting..."
@@ -39,14 +48,6 @@ if upload_job_data global artifact_version ${artifact_version}; then
 else
   # only echo the info since the upload is not crucial
   echo "Fail to upload okta-signin-widget job data artifact_version=${artifact_version} to s3!" >&2
-fi
-
-prev_release_siw_artifact_version=$(node ./scripts/get-prev-release-siw-version.js)
-if upload_job_data global prev_release_siw_artifact_version ${prev_release_siw_artifact_version}; then
-  echo "Upload okta-signin-widget previous release artifact job data artifact_version=${prev_release_siw_artifact_version}!"
-else
-  # only echo the info since the upload is not crucial
-  echo "Fail to upload okta-signin-widget previous release job data artifact_version=${prev_release_siw_artifact_version}!" >&2
 fi
 
 FINAL_PUBLISHED_VERSIONS=$(echo "console.log(require('./package.json').version)" | node -)
