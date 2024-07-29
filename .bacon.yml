@@ -184,3 +184,7 @@ downstream_artifacts:
     downstream_artifact: monolith
     create_commit_script: /root/okta/okta-core/scripts/docker-ci/build-test-scripts/downstream/create_downstream_for_okta-signin-widget-prev-release.sh
     downstream_artifact_base_branch: sw-siw-prev-downstream-OKTA-738534
+  - upstream_artifact: okta-signin-widget
+    downstream_artifact: monolith
+    create_commit_script: /root/okta/okta-core/scripts/docker-ci/build-test-scripts/downstream/create_downstream_for_okta-signin-widget.sh
+    downstream_artifact_base_branch: master
