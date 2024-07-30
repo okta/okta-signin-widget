@@ -23,6 +23,7 @@ import resUnauthenticated from 'helpers/xhr/UNAUTHENTICATED';
 import resUnauthorized from 'helpers/xhr/UNAUTHORIZED_ERROR';
 import resSecurityImage from 'helpers/xhr/security_image';
 import resSecurityImageFail from 'helpers/xhr/security_image_fail';
+import resSecurityImageError from 'helpers/xhr/security_image_error';
 import PrimaryAuth from 'v1/models/PrimaryAuth';
 import Q from 'q';
 import $sandbox from 'sandbox';
@@ -1878,6 +1879,22 @@ Expect.describe('PrimaryAuth', function() {
           expect(err instanceof UnsupportedBrowserError).toBe(true);
           expect(err.name).toBe('UNSUPPORTED_BROWSER_ERROR');
           expect(err.message).toEqual('There was an error sending the request - have you enabled CORS?');
+        });
+    });
+    it('calls globalErrorFn handler if security image fetch failed with error', function() {
+      return setup({
+        features: { securityImage: true },
+      })
+        .then(function(test) {
+          spyOn(test.router.settings, 'callGlobalError');
+          test.setNextResponse(resSecurityImageError);
+          test.form.setUsername('testuser');
+          return Expect.waitForSpyCall(test.router.settings.callGlobalError, test);
+        })
+        .then(function(test) {
+          expect(test.router.settings.callGlobalError.calls.count()).toBe(1);
+          const err = test.router.settings.callGlobalError.calls.mostRecent().args[0];
+          expect(err.message).toEqual('Failed to fetch security image: error');
         });
     });
     itp('has username in field if rememberMe is available', function() {
