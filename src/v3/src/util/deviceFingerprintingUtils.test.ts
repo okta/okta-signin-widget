@@ -17,6 +17,10 @@ describe('DeviceFingerprintingUtils', () => {
   let authClient: OktaAuthIdxInterface;
 
   beforeAll(() => {
+    const mockForm = document.createElement('form');
+    mockForm.setAttribute('data-se', 'o-form');
+    document.body.append(mockForm);
+
     authClient = new OktaAuth({
       issuer: window.location.origin,
     }) as OktaAuthIdxInterface;
@@ -49,6 +53,9 @@ describe('DeviceFingerprintingUtils', () => {
     expect(iframe).not.toBeNull();
     expect(iframe).not.toBeVisible();
     expect(iframe?.getAttribute('src')).toBe(window.location.origin + '/auth/services/devicefingerprint');
+    const form = document.querySelector('form[data-se="o-form"]');
+    expect(form).not.toBeNull();
+    expect(form?.contains(iframe)).toBe(true);
     mockIFrameMessages(true);
     await fingerprintPromise;
     iframe = document.querySelector('iframe');
@@ -113,4 +120,22 @@ describe('DeviceFingerprintingUtils', () => {
     const iframe = document.querySelector('iframe');
     expect(iframe).toBeNull();
   });
+
+  it('attaches the iframe to body if there is no form to attach to', async () => {
+    const form = document.querySelector('form[data-se="o-form"]');
+    expect(form).not.toBeNull();
+    document.body.removeChild(form!);
+    const fingerprintPromise = DeviceFingerprintingUtils.generateDeviceFingerprint(authClient, 1000);     
+    mockIFrameMessages(true);
+    let iframe = document.querySelector('iframe');
+    expect(iframe).not.toBeNull();
+    expect(iframe).not.toBeVisible();
+    expect(document.body.contains(iframe)).toBe(true);
+    await fingerprintPromise;
+    iframe = document.querySelector('iframe');
+    expect(iframe).toBeNull();
+  });
 });
+
+
+

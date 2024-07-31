@@ -1,16 +1,14 @@
 import $sandbox from 'sandbox';
+import { OktaAuth } from '@okta/okta-auth-js';
 import DeviceFingerprinting from 'v2/view-builder/utils/DeviceFingerprinting';
 
 describe('DeviceFingerprinting', () => {
   const testContext = {};
 
   beforeEach(() => {
-    testContext.fingerprintData = {
-      // HACK - mock events do not have the "origin". We can get around this by setting the
-      // checked domain to an empty string.
-      oktaDomainUrl: '',
-      element: $sandbox,
-    };
+    testContext.authClient = new OktaAuth({
+      issuer: window.location.origin,
+    });
   });
 
   afterEach(() => {
@@ -22,56 +20,56 @@ describe('DeviceFingerprinting', () => {
       ? { type: 'FingerprintAvailable', fingerprint: 'thisIsTheFingerprint' }
       : errorMessage;
 
-    // TODO (jest): event is missing `origin` property
-    window.postMessage(JSON.stringify(message), '*');
+    const iframe = document.querySelector('iframe');
+    window.dispatchEvent(new MessageEvent('message', {
+      source: iframe?.contentWindow,
+      origin: window.location.origin,
+      data: JSON.stringify(message)
+    }));
   }
 
   function mockUserAgent(userAgent) {
     jest.spyOn(navigator, 'userAgent', 'get').mockReturnValue(userAgent);
   }
 
-  function bypassMessageSourceCheck() {
-    jest.spyOn(DeviceFingerprinting, 'isMessageFromCorrectSource').mockReturnValue(true);
-  }
-
   it('creates hidden iframe during fingerprint generation', async () => {
+    const fingerprintPromise = DeviceFingerprinting.generateDeviceFingerprint(testContext.authClient, $sandbox);
     mockIFrameMessages(true);
-    bypassMessageSourceCheck();
-    const fingerprintPromise = DeviceFingerprinting.generateDeviceFingerprint(testContext.fingerprintData);
     let $iFrame = $sandbox.find('iframe');
     expect($iFrame.length).toBe(1);
     expect($iFrame.is(':hidden')).toBe(true);
-    expect($iFrame.attr('src')).toBe('/auth/services/devicefingerprint');
+    expect($iFrame.attr('src')).toBe(window.location.origin + '/auth/services/devicefingerprint');
     await fingerprintPromise;
     $iFrame = $sandbox.find('iframe');
     expect($iFrame.length).toBe(0);
   });
 
   it('returns a fingerprint if the communication with the iframe is successful', async () => {
+    const fingerprintPromise = DeviceFingerprinting.generateDeviceFingerprint(testContext.authClient, $sandbox);
     mockIFrameMessages(true);
-    bypassMessageSourceCheck();
-    const fingerprint = await DeviceFingerprinting.generateDeviceFingerprint(testContext.fingerprintData);
+    const fingerprint = await fingerprintPromise;
     expect(fingerprint).toBe('thisIsTheFingerprint');
   });
 
   it('fails if the iframe does not load', async () => {
     try {
-      await DeviceFingerprinting.generateDeviceFingerprint(testContext.fingerprintData);
+      const fingerprintPromise = DeviceFingerprinting.generateDeviceFingerprint(testContext.authClient, $sandbox);
+      await fingerprintPromise;
       fail('Fingerprint promise should have been rejected');
-    } catch (reason) {
-      expect(reason).toBe('service not available');
+    } catch (e) {
+      expect(e.message).toBe('Fingerprinting timed out');
       const $iFrame = $sandbox.find('iframe');
       expect($iFrame.length).toBe(0);
     }
   });
 
   it('clears iframe timeout once the iframe loads', async () => {
+    const fingerprintPromise = DeviceFingerprinting.generateDeviceFingerprint(testContext.authClient, $sandbox);
     mockIFrameMessages(true);
-    bypassMessageSourceCheck();
 
     const clearTimeoutSpy = jest.spyOn(window, 'clearTimeout');
 
-    return DeviceFingerprinting.generateDeviceFingerprint(testContext.fingerprintData)
+    return fingerprintPromise
       .then(fingerprint => {
         expect(fingerprint).toBe('thisIsTheFingerprint');
         expect(clearTimeoutSpy).toHaveBeenCalled();
@@ -79,27 +77,27 @@ describe('DeviceFingerprinting', () => {
   });
 
   it('fails if there is a problem with communicating with the iframe', async () => {
+    const fingerprintPromise = DeviceFingerprinting.generateDeviceFingerprint(testContext.authClient, $sandbox);
     mockIFrameMessages(false);
-    bypassMessageSourceCheck();
     try {
-      await DeviceFingerprinting.generateDeviceFingerprint(testContext.fingerprintData);
+      await fingerprintPromise;
       fail('Fingerprint promise should have been rejected');
-    } catch (reason) {
-      expect(reason).toBe('no data');
+    } catch (e) {
+      expect(e.message).toBe('Fingerprinting timed out');
       const $iFrame = $sandbox.find('iframe');
       expect($iFrame.length).toBe(0);
     }
   });
 
   it('fails if there iframe sends and invalid message content', async () => {
+    const fingerprintPromise = DeviceFingerprinting.generateDeviceFingerprint(testContext.authClient, $sandbox);
     mockIFrameMessages(false, { type: 'InvalidMessageType' });
-    bypassMessageSourceCheck();
 
     try {
-      await DeviceFingerprinting.generateDeviceFingerprint(testContext.fingerprintData);
+      await fingerprintPromise;
       fail('Fingerprint promise should have been rejected');
-    } catch (reason) {
-      expect(reason).toBe('no data');
+    } catch (e) {
+      expect(e.message).toBe('No data');
       const $iFrame = $sandbox.find('iframe');
       expect($iFrame.length).toBe(0);
     }
@@ -107,29 +105,31 @@ describe('DeviceFingerprinting', () => {
 
   it('fails if user agent is not defined', async () => {
     mockUserAgent();
+    const fingerprintPromise = DeviceFingerprinting.generateDeviceFingerprint(testContext.authClient, $sandbox);
     mockIFrameMessages(true);
     try {
-      await DeviceFingerprinting.generateDeviceFingerprint(testContext.fingerprintData);
+      await fingerprintPromise;
       fail('Fingerprint promise should have been rejected');
-    } catch (reason) {
+    } catch (e) {
       const $iFrame = $sandbox.find('iframe');
 
       expect($iFrame.length).toBe(0);
-      expect(reason).toBe('user agent is not defined');
+      expect(e.message).toBe('Fingerprinting is not supported on this device');
     }
   });
 
   it('fails if it is called from a Windows phone', async () => {
     mockUserAgent('Windows Phone');
+    const fingerprintPromise = DeviceFingerprinting.generateDeviceFingerprint(testContext.authClient, $sandbox);
     mockIFrameMessages(true);
     try {
-      await DeviceFingerprinting.generateDeviceFingerprint(testContext.fingerprintData);
+      await fingerprintPromise;
       fail('Fingerprint promise should have been rejected');
-    } catch (reason) {
+    } catch (e) {
       const $iFrame = $sandbox.find('iframe');
 
       expect($iFrame.length).toBe(0);
-      expect(reason).toBe('device fingerprint is not supported on Windows phones');
+      expect(e.message).toBe('Fingerprinting is not supported on this device');
     }
   });
 });
