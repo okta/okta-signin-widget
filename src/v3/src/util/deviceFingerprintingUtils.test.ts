@@ -35,7 +35,7 @@ describe('DeviceFingerprintingUtils', () => {
       ? { type: 'FingerprintAvailable', fingerprint: 'thisIsTheFingerprint' }
       : errorMessage;
 
-    const iframe = document.querySelector('iframe');
+    const iframe = document.querySelector('iframe:last-child') as HTMLIFrameElement;
     window.dispatchEvent(new MessageEvent('message', {
       source: iframe?.contentWindow,
       origin: window.location.origin,
@@ -49,7 +49,7 @@ describe('DeviceFingerprintingUtils', () => {
 
   it('creates hidden iframe during fingerprint generation', async () => {
     const fingerprintPromise = DeviceFingerprintingUtils.generateDeviceFingerprint(authClient);
-    let iframe = document.querySelector('iframe');
+    let iframe = document.querySelector('iframe:last-child');
     expect(iframe).not.toBeNull();
     expect(iframe).not.toBeVisible();
     expect(iframe?.getAttribute('src')).toBe(window.location.origin + '/auth/services/devicefingerprint');
@@ -58,7 +58,7 @@ describe('DeviceFingerprintingUtils', () => {
     expect(form?.contains(iframe)).toBe(true);
     mockIFrameMessages(true);
     await fingerprintPromise;
-    iframe = document.querySelector('iframe');
+    iframe = document.querySelector('iframe:last-child');
     expect(iframe).toBeNull();
   });
 
@@ -75,7 +75,7 @@ describe('DeviceFingerprintingUtils', () => {
     await expect(fingerprintPromise)
       .rejects
       .toThrow('Fingerprinting timed out');
-    const iframe = document.querySelector('iframe');
+    const iframe = document.querySelector('iframe:last-child');
     expect(iframe).toBeNull();
   });
 
@@ -85,7 +85,7 @@ describe('DeviceFingerprintingUtils', () => {
     await expect(fingerprintPromise)
       .rejects
       .toThrow('No data');
-    const iframe = document.querySelector('iframe');
+    const iframe = document.querySelector('iframe:last-child');
     expect(iframe).toBeNull();
   });
 
@@ -96,7 +96,7 @@ describe('DeviceFingerprintingUtils', () => {
     await expect(fingerprintPromise)
       .rejects
       .toThrow('Fingerprinting is not supported on this device');
-    const iframe = document.querySelector('iframe');
+    const iframe = document.querySelector('iframe:last-child');
     expect(iframe).toBeNull();
   });
 
@@ -107,7 +107,7 @@ describe('DeviceFingerprintingUtils', () => {
     await expect(fingerprintPromise)
       .rejects
       .toThrow('Fingerprinting is not supported on this device');
-    const iframe = document.querySelector('iframe');
+    const iframe = document.querySelector('iframe:last-child');
     expect(iframe).toBeNull();
   });
 
@@ -117,7 +117,7 @@ describe('DeviceFingerprintingUtils', () => {
     await expect(fingerprintPromise)
       .rejects
       .toThrow('Fingerprinting timed out');
-    const iframe = document.querySelector('iframe');
+    const iframe = document.querySelector('iframe:last-child');
     expect(iframe).toBeNull();
   });
 
@@ -127,12 +127,12 @@ describe('DeviceFingerprintingUtils', () => {
     document.body.removeChild(form!);
     const fingerprintPromise = DeviceFingerprintingUtils.generateDeviceFingerprint(authClient, 1000);     
     mockIFrameMessages(true);
-    let iframe = document.querySelector('iframe');
+    let iframe = document.querySelector('iframe:last-child');
     expect(iframe).not.toBeNull();
     expect(iframe).not.toBeVisible();
     expect(document.body.contains(iframe)).toBe(true);
     await fingerprintPromise;
-    iframe = document.querySelector('iframe');
+    iframe = document.querySelector('iframe:last-child');
     expect(iframe).toBeNull();
   });
 });

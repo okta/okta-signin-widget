@@ -106,7 +106,7 @@ export default BaseLoginController.extend({
         const self = this;
 
         this.options.appState.trigger('loading', true);
-        DeviceFingerprint.generateDeviceFingerprint(this.settings.get('baseUrl'), this.$el)
+        DeviceFingerprint.generateDeviceFingerprint(this.settings.getAuthClient(), this.$el[0])
           .then(function(fingerprint) {
             self.options.appState.set('deviceFingerprint', fingerprint);
             self.options.appState.set('username', self.model.get('username'));
