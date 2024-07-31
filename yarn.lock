@@ -3904,10 +3904,10 @@
     ts-node "^10.9.1"
     word-wrap "~1.2.5"
 
-"@okta/okta-auth-js@7.8.0-g0ed15f1":
-  version "7.8.0-g0ed15f1"
-  resolved "https://artifactory.prod.aue1k.saasure.net/artifactory/api/npm/npm-topic/@okta/okta-auth-js/-/@okta/okta-auth-js-7.8.0-g0ed15f1.tgz#aa5708f0331f40ae02e7e6356c349fbc36c3e1e2"
-  integrity sha512-2Q9aY0Vsy+Z1Fts4xWJ1PeWtuB95r5FaUmPR4zxOyyr8rsNu5hq/p9om15bjOIE4PDDObQm0FvZJUgJ03R1hoA==
+"@okta/okta-auth-js@7.8.0-g0f95e73":
+  version "7.8.0-g0f95e73"
+  resolved "https://artifactory.prod.aue1k.saasure.net/artifactory/api/npm/npm-topic/@okta/okta-auth-js/-/@okta/okta-auth-js-7.8.0-g0f95e73.tgz#f9c16c1fbfb002f92fa7362e14fcb6714a448cc9"
+  integrity sha512-TvPr6QxMM/xyzcuafu0IPk0zRsLui/daqEeJXpXnxhyC3Ch2+Nb4HgYG+hFLlmZIZCIXTx3yr82rGp/HRjMFhA==
   dependencies:
     "@babel/runtime" "^7.12.5"
     "@peculiar/webcrypto" "^1.4.0"
