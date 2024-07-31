@@ -11,6 +11,7 @@
  */
 
 import { OktaAuth, OktaAuthIdxInterface } from '@okta/okta-auth-js';
+
 import * as DeviceFingerprintingUtils from './deviceFingerprintingUtils';
 
 describe('DeviceFingerprintingUtils', () => {
@@ -39,7 +40,7 @@ describe('DeviceFingerprintingUtils', () => {
     window.dispatchEvent(new MessageEvent('message', {
       source: iframe?.contentWindow,
       origin: window.location.origin,
-      data: JSON.stringify(message)
+      data: JSON.stringify(message),
     }));
   };
 
@@ -52,7 +53,7 @@ describe('DeviceFingerprintingUtils', () => {
     let iframe = document.querySelector('iframe:last-child');
     expect(iframe).not.toBeNull();
     expect(iframe).not.toBeVisible();
-    expect(iframe?.getAttribute('src')).toBe(window.location.origin + '/auth/services/devicefingerprint');
+    expect(iframe?.getAttribute('src')).toBe(`${window.location.origin}/auth/services/devicefingerprint`);
     const form = document.querySelector('form[data-se="o-form"]');
     expect(form).not.toBeNull();
     expect(form?.contains(iframe)).toBe(true);
@@ -111,6 +112,7 @@ describe('DeviceFingerprintingUtils', () => {
     expect(iframe).toBeNull();
   });
 
+  /* eslint max-len: [2, 120] */
   it('fails if the iframe does not receive any messages', async () => {
     // Not sending any mock messages should trigger a timeout
     const fingerprintPromise = DeviceFingerprintingUtils.generateDeviceFingerprint(authClient, 1000);
@@ -121,11 +123,12 @@ describe('DeviceFingerprintingUtils', () => {
     expect(iframe).toBeNull();
   });
 
+  /* eslint max-len: [2, 120] */
   it('attaches the iframe to body if there is no form to attach to', async () => {
     const form = document.querySelector('form[data-se="o-form"]');
     expect(form).not.toBeNull();
     document.body.removeChild(form!);
-    const fingerprintPromise = DeviceFingerprintingUtils.generateDeviceFingerprint(authClient, 1000);     
+    const fingerprintPromise = DeviceFingerprintingUtils.generateDeviceFingerprint(authClient, 1000);
     mockIFrameMessages(true);
     let iframe = document.querySelector('iframe:last-child');
     expect(iframe).not.toBeNull();
@@ -136,6 +139,3 @@ describe('DeviceFingerprintingUtils', () => {
     expect(iframe).toBeNull();
   });
 });
-
-
-
