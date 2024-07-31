@@ -64,7 +64,8 @@ export default Form.extend({
 
       if (this.settings.get('features.deviceFingerprinting')) {
         try {
-          const fingerprint = await DeviceFingerprint.generateDeviceFingerprint(this.settings.get('baseUrl'), this.$el);
+          const fingerprint = await DeviceFingerprint.generateDeviceFingerprint(
+            this.settings.getAuthClient(), this.$el[0]);
           appState.set('deviceFingerprint', fingerprint);
         } catch {
           // Keep going even if device fingerprint fails
