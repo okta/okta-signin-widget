@@ -133,7 +133,7 @@ export default Model.extend({
             if (BrowserFeatures.corsIsNotEnabled(jqXhr)) {
               self.settings.callGlobalError(new UnsupportedBrowserError(loc('error.enabled.cors')));
             } else {
-              throw jqXhr;
+              self.settings.callGlobalError(new Error(`Failed to fetch security image: ${jqXhr.statusText}`));
             }
           })
           .done();
