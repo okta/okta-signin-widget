@@ -29,7 +29,6 @@ import { MessageType } from '../types';
 import {
   areTransactionsEqual,
   containsMessageKey,
-  getBaseUrl,
   getErrorEventContext,
   getImmutableData,
   isConfigRecoverFlow,
