@@ -16,9 +16,9 @@ export const generateDeviceFingerprint = (
   authClient: OktaAuthIdxInterface,
   timeoutDuration?: number,
 ): Promise<string> => {
-  const formElement = document.querySelector('form[data-se="o-form"]');
+  const container = document.querySelector('form[data-se="o-form"]');
   return authClient.fingerprint({
     timeout: timeoutDuration || 2000,
-    element: formElement,
+    container,
   });
 };
