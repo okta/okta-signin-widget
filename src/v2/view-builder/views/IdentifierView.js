@@ -64,7 +64,7 @@ const Body = BaseForm.extend({
     // For certain flows, we need to generate a device fingerprint
     // to determine if we need to send a "New Device Sign-on Notification".
     const authClient = this.settings.getAuthClient();
-    DeviceFingerprinting.generateDeviceFingerprint(authClient, this.$el)
+    DeviceFingerprinting.generateDeviceFingerprint(authClient, this.$el[0])
       .then(fingerprint => {
         this.options.appState.set('deviceFingerprint', fingerprint);
       })

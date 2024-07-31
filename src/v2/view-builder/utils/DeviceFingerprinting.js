@@ -14,7 +14,7 @@ export default {
   generateDeviceFingerprint(authClient, container) {
     return authClient.fingerprint({
       timeout: 2000,
-      element: container,
+      container,
     });
   }
 };

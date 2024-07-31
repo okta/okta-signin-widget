@@ -33,7 +33,7 @@ describe('DeviceFingerprinting', () => {
   }
 
   it('creates hidden iframe during fingerprint generation', async () => {
-    const fingerprintPromise = DeviceFingerprinting.generateDeviceFingerprint(testContext.authClient, $sandbox);
+    const fingerprintPromise = DeviceFingerprinting.generateDeviceFingerprint(testContext.authClient, $sandbox[0]);
     mockIFrameMessages(true);
     let $iFrame = $sandbox.find('iframe');
     expect($iFrame.length).toBe(1);
@@ -45,7 +45,7 @@ describe('DeviceFingerprinting', () => {
   });
 
   it('returns a fingerprint if the communication with the iframe is successful', async () => {
-    const fingerprintPromise = DeviceFingerprinting.generateDeviceFingerprint(testContext.authClient, $sandbox);
+    const fingerprintPromise = DeviceFingerprinting.generateDeviceFingerprint(testContext.authClient, $sandbox[0]);
     mockIFrameMessages(true);
     const fingerprint = await fingerprintPromise;
     expect(fingerprint).toBe('thisIsTheFingerprint');
@@ -53,7 +53,7 @@ describe('DeviceFingerprinting', () => {
 
   it('fails if the iframe does not load', async () => {
     try {
-      const fingerprintPromise = DeviceFingerprinting.generateDeviceFingerprint(testContext.authClient, $sandbox);
+      const fingerprintPromise = DeviceFingerprinting.generateDeviceFingerprint(testContext.authClient, $sandbox[0]);
       await fingerprintPromise;
       fail('Fingerprint promise should have been rejected');
     } catch (e) {
@@ -64,7 +64,7 @@ describe('DeviceFingerprinting', () => {
   });
 
   it('clears iframe timeout once the iframe loads', async () => {
-    const fingerprintPromise = DeviceFingerprinting.generateDeviceFingerprint(testContext.authClient, $sandbox);
+    const fingerprintPromise = DeviceFingerprinting.generateDeviceFingerprint(testContext.authClient, $sandbox[0]);
     mockIFrameMessages(true);
 
     const clearTimeoutSpy = jest.spyOn(window, 'clearTimeout');
@@ -77,7 +77,7 @@ describe('DeviceFingerprinting', () => {
   });
 
   it('fails if there is a problem with communicating with the iframe', async () => {
-    const fingerprintPromise = DeviceFingerprinting.generateDeviceFingerprint(testContext.authClient, $sandbox);
+    const fingerprintPromise = DeviceFingerprinting.generateDeviceFingerprint(testContext.authClient, $sandbox[0]);
     mockIFrameMessages(false);
     try {
       await fingerprintPromise;
@@ -90,7 +90,7 @@ describe('DeviceFingerprinting', () => {
   });
 
   it('fails if there iframe sends and invalid message content', async () => {
-    const fingerprintPromise = DeviceFingerprinting.generateDeviceFingerprint(testContext.authClient, $sandbox);
+    const fingerprintPromise = DeviceFingerprinting.generateDeviceFingerprint(testContext.authClient, $sandbox[0]);
     mockIFrameMessages(false, { type: 'InvalidMessageType' });
 
     try {
@@ -105,7 +105,7 @@ describe('DeviceFingerprinting', () => {
 
   it('fails if user agent is not defined', async () => {
     mockUserAgent();
-    const fingerprintPromise = DeviceFingerprinting.generateDeviceFingerprint(testContext.authClient, $sandbox);
+    const fingerprintPromise = DeviceFingerprinting.generateDeviceFingerprint(testContext.authClient, $sandbox[0]);
     mockIFrameMessages(true);
     try {
       await fingerprintPromise;
@@ -120,7 +120,7 @@ describe('DeviceFingerprinting', () => {
 
   it('fails if it is called from a Windows phone', async () => {
     mockUserAgent('Windows Phone');
-    const fingerprintPromise = DeviceFingerprinting.generateDeviceFingerprint(testContext.authClient, $sandbox);
+    const fingerprintPromise = DeviceFingerprinting.generateDeviceFingerprint(testContext.authClient, $sandbox[0]);
     mockIFrameMessages(true);
     try {
       await fingerprintPromise;
