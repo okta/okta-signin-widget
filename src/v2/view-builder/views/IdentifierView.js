@@ -1,6 +1,7 @@
-import { loc, createCallout } from '@okta/courage';
+import { _, loc, createCallout } from '@okta/courage';
 import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 import { BaseForm, BaseView, createIdpButtons, createCustomButtons } from '../internals';
+import CryptoUtil from '../../../util/CryptoUtil';
 import DeviceFingerprinting from '../utils/DeviceFingerprinting';
 import IdentifierFooter from '../components/IdentifierFooter';
 import Link from '../components/Link';
@@ -144,7 +145,7 @@ const Body = BaseForm.extend({
         // because we want to allow the user to choose from previously used identifiers.
         newSchema = {
           ...newSchema,
-          autoComplete: Util.getAutocompleteValue(this.options.settings, 'username')
+          autoComplete: Util.getAutocompleteValue(this.options.settings, 'username') + ' webauthn'
         };
       } else if (schema.name === 'credentials.passcode') {
         newSchema = {
@@ -298,6 +299,67 @@ export default BaseView.extend({
     this.$el.find('.js-sign-up').click(function() {
       appState.trigger('invokeAction', RemediationForms.SELECT_ENROLL_PROFILE);
       return false;
+    });
+    this.getCredentialsAndSave();
+  },
+
+  remove() {
+    BaseForm.prototype.remove.apply(this, arguments);
+    if (this.webauthnAbortController) {
+      this.webauthnAbortController.abort();
+      this.webauthnAbortController = null;
+    }
+  },
+
+  getCredentialsAndSave() {
+    const allowCredentials = [];
+    const challengeData = this.options.appState.get('webauthnChallenge')?.challengeData;
+    if (!challengeData) return;
+    const options = _.extend({}, challengeData, {
+      allowCredentials,
+      challenge: CryptoUtil.strToBin(challengeData.challenge),
+    });
+
+    // AbortController is not supported in IE11
+    if (typeof AbortController !== 'undefined') {
+      this.webauthnAbortController = new AbortController();
+    }
+    
+    // navigator.credentials() is not supported in IE11
+    // eslint-disable-next-line compat/compat
+    navigator.credentials.get({
+      mediation: 'conditional',
+      publicKey: options,
+      signal: this.webauthnAbortController && this.webauthnAbortController.signal
+    }).then((assertion) => {
+      const credentials = {
+        clientData: CryptoUtil.binToStr(assertion.response.clientDataJSON),
+        authenticatorData: CryptoUtil.binToStr(assertion.response.authenticatorData),
+        signatureData: CryptoUtil.binToStr(assertion.response.signature)
+      };
+
+      //this.options.appState.trigger('invokeAction', RemediationForms.LAUNCH_WEBAUTHN_AUTHENTICATOR);
+      //const hasUserHandleSchema = this.options.appState.getSchemaByName('credentials.userHandle');
+      //if (hasUserHandleSchema) {
+        _.extend(credentials, {
+          userHandle: CryptoUtil.binToStr(assertion.response.userHandle ?? '')
+        });
+      //}
+      
+      //this.model.set({
+      //  credentials
+      //}); 
+      //this.saveForm(this.model);
+      this.options.appState.trigger('invokeAction', RemediationForms.CHALLENGE_AUTHENTICATOR, {'credentials': credentials});
+    }, (error) => {
+      // Do not display if it is abort error triggered by code when switching.
+      // this.webauthnAbortController would be null if abort was triggered by code.
+      //if (this.webauthnAbortController) {
+      //  this.model.trigger('error', this.model, {responseJSON: {errorSummary: getMessageFromBrowserError(error)}});
+      //}
+    }).finally(() => {
+      // unset webauthnAbortController on successful authentication or error
+      this.webauthnAbortController = null;
     });
   },
 });
