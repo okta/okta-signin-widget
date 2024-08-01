@@ -10,81 +10,15 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { getUserAgent, isWindowsPhone } from './browserUtils';
+import { OktaAuthIdxInterface } from '@okta/okta-auth-js';
 
-export const isMessageFromCorrectSource = (iframe: HTMLIFrameElement, event: MessageEvent)
-: boolean => event.source === iframe.contentWindow;
-
-// NOTE: This utility is similar to the DeviceFingerprinting.js file used for V2 authentication flows.
 export const generateDeviceFingerprint = (
-  oktaDomainUrl: string,
+  authClient: OktaAuthIdxInterface,
   timeoutDuration?: number,
 ): Promise<string> => {
-  const userAgent = getUserAgent();
-  if (!userAgent) {
-    return Promise.reject(new Error('User agent is not defined'));
-  }
-  if (isWindowsPhone(userAgent)) {
-    return Promise.reject(new Error('Device fingerprint is not supported on Windows phones'));
-  }
-
-  let timeout: NodeJS.Timeout;
-  let iframe: HTMLIFrameElement;
-  let listener: (this: Window, ev: MessageEvent) => void;
-  let msg;
-  const formElement = document.querySelector('form[data-se="o-form"]');
-  return new Promise<string>((resolve, reject) => {
-    iframe = document.createElement('iframe');
-    iframe.style.display = 'none';
-    iframe.id = 'device-fingerprint-container';
-
-    listener = (event: MessageEvent) => {
-      if (!isMessageFromCorrectSource(iframe, event)) {
-        return undefined;
-      }
-
-      if (!event || !event.data || event.origin !== oktaDomainUrl) {
-        return reject(new Error('No data'));
-      }
-
-      try {
-        msg = JSON.parse(event.data);
-      } catch (err) {
-        // iframe messages should all be parsable, skip not parsable messages that come from other
-        // sources in the same origin (browser extensions)
-        return undefined;
-      }
-
-      if (!msg) { return undefined; }
-      if (msg.type === 'FingerprintAvailable') {
-        return resolve(msg.fingerprint as string);
-      } if (msg.type === 'FingerprintServiceReady') {
-        const win = iframe.contentWindow;
-        win?.postMessage(JSON.stringify({
-          type: 'GetFingerprint',
-        }), event.origin );
-      } else {
-        return reject(new Error('No data'));
-      }
-      return undefined;
-    };
-    window.addEventListener('message', listener, false);
-
-    iframe.src = `${oktaDomainUrl}/auth/services/devicefingerprint`;
-    if (formElement === null) {
-      reject(new Error('Form does not exist'));
-    }
-    formElement!.appendChild(iframe);
-
-    timeout = setTimeout(() => {
-      // If the iframe does not load, receive the right message type, or there is a slow connection, throw an error
-      reject(new Error('Device fingerprinting timed out'));
-    }, timeoutDuration || 2000);
-  }).finally(() => {
-    clearTimeout(timeout);
-    window.removeEventListener('message', listener);
-    if (formElement?.contains(iframe)) {
-      iframe.parentElement?.removeChild(iframe);
-    }
+  const container = document.querySelector('form[data-se="o-form"]');
+  return authClient.fingerprint({
+    timeout: timeoutDuration || 2000,
+    container,
   });
 };
