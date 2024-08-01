@@ -25,7 +25,6 @@ import {
   ButtonElement,
   ButtonType,
   DescriptionElement,
-  InfoboxElement,
   IWidgetContext,
   LaunchAuthenticatorButtonElement,
   PhoneVerificationMethodType,
@@ -298,8 +297,9 @@ export const getBiometricsErrorMessageElement = (
   };
 };
 
-export const buildEndUserRemediationError = (messages: IdxMessage[]) :
-InfoboxElement | undefined => {
+export const buildEndUserRemediationMessages = (
+  messages: IdxMessage[],
+) : WidgetMessage[] | undefined => {
   if (messages.length === 0) {
     return undefined;
   }
@@ -346,20 +346,13 @@ InfoboxElement | undefined => {
       }
       return;
     } else {
-      widgetMsg.message = loc(key, 'login');
+      widgetMsg.message = loc(key, 'login', params);
     }
 
     resultMessageArray.push(widgetMsg);
   });
 
-  return {
-    type: 'InfoBox',
-    options: {
-      message: resultMessageArray,
-      class: 'ERROR',
-      dataSe: 'callout',
-    },
-  } as InfoboxElement;
+  return resultMessageArray;
 };
 
 export const shouldHideIdentifier = (
