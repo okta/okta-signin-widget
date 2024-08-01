@@ -1,0 +1,146 @@
+{
+  "version": "1.0.0",
+  "stateHandle": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
+  "expiresAt": "2024-07-31T22:56:22.000Z",
+  "intent": "LOGIN",
+  "remediation": {
+      "type": "array",
+      "value": [
+          {
+              "rel": [
+                  "create-form"
+              ],
+              "name": "device-assurance-grace-period",
+              "href": "http://localhost:3000/idp/idx/skip",
+              "method": "POST",
+              "produces": "application/ion+json; okta-version=1.0.0",
+              "value": [
+                  {
+                      "name": "stateHandle",
+                      "required": true,
+                      "value": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
+                      "visible": false,
+                      "mutable": false
+                  }
+              ],
+              "accepts": "application/json; okta-version=1.0.0"
+          }
+      ]
+  },
+  "messages": {
+      "type": "array",
+      "value": [
+          {
+              "message": "To prevent account lockout, resolve the issues by 08/01/2024",
+              "i18n": {
+                  "key": "idx.device_assurance.grace_period.due_by_date_warning",
+                  "params": [
+                    "08/01/2024"
+                  ]
+              },
+              "class": "WARNING"
+          },
+          {
+              "message": "Your device does not meet the security requirements. To resolve now, pick an option and make the updates. Otherwise, continue to your app.",
+              "i18n": {
+                  "key": "idx.device_assurance.grace_period.explanation_multiple_rules"
+              },
+              "class": "ERROR"
+          },
+          {
+            "message": "Option 1:",
+            "i18n": {
+              "key": "idx.error.code.access_denied.device_assurance.remediation.option_index",
+              "params": ["1"]
+            },
+            "class": "ERROR"
+          },
+          {
+            "links": [
+              {"url": "https://okta.com/android-upgrade-os"}
+            ],
+            "message": "Update to Android 100",
+            "i18n": {
+              "key": "idx.error.code.access_denied.device_assurance.remediation.android.upgrade_os_version",
+              "params": ["100"]
+            },
+            "class": "ERROR"
+          },
+          {
+            "links": [
+              {"url": "https://okta.com/android-biometric-lock"}
+            ],
+            "message": "Enable lock screen and biometrics",
+            "i18n": {
+              "key": "idx.error.code.access_denied.device_assurance.remediation.android.use_biometric_lock_screen"
+            },
+            "class": "ERROR"
+          },
+          {
+            "message": "Option 2:",
+            "i18n": {
+              "key": "idx.error.code.access_denied.device_assurance.remediation.option_index",
+              "params": ["2"]
+            },
+            "class": "ERROR"
+          },
+          {
+            "links": [
+              {"url": "https://okta.com/android-lock-screen"}
+            ],
+            "message": "Enable lock screen",
+            "i18n": {
+              "key": "idx.error.code.access_denied.device_assurance.remediation.android.use_lock_screen"
+            },
+            "class": "ERROR"
+          },
+          {
+            "links": [
+              {"url": "https://okta.com/android-disk-encrypted"}
+            ],
+            "message": "Encrypt your device",
+            "i18n": {
+              "key": "idx.error.code.access_denied.device_assurance.remediation.android.device_disk_encrypted"
+            },
+            "class": "ERROR"
+          },
+          {
+            "links": [
+              {"url": "https://okta.com/help"}
+            ],
+            "message": "For more information, follow the instructions on the help page or contact your administrator for help",
+            "i18n": {
+              "key": "idx.error.code.access_denied.device_assurance.remediation.additional_help_default"
+            },
+            "class": "ERROR"
+          }
+      ]
+  },
+  "cancel": {
+      "rel": [
+          "create-form"
+      ],
+      "name": "cancel",
+      "href": "http://localhost:3000/idp/idx/cancel",
+      "method": "POST",
+      "produces": "application/ion+json; okta-version=1.0.0",
+      "value": [
+          {
+              "name": "stateHandle",
+              "required": true,
+              "value": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
+              "visible": false,
+              "mutable": false
+          }
+      ],
+      "accepts": "application/json; okta-version=1.0.0"
+  },
+  "app": {
+      "type": "object",
+      "value": {
+          "name": "okta_enduser",
+          "label": "Okta Dashboard",
+          "id": "0oa95jo1PTrdxHjaZ0g4"
+      }
+  }
+}

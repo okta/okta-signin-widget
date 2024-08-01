@@ -1,6 +1,6 @@
 $margin-spacing: 8px;
 
-.end-user-remediation-terminal-view {
+.end-user-remediation-messages-view {
 
   >div:not(:last-child) {
     margin-bottom: $margin-spacing;
@@ -22,5 +22,9 @@ $margin-spacing: 8px;
       display: list-item;
       margin-left: 18px;
     }
+  }
+
+  a {
+    color: $primary-color;
   }
 }

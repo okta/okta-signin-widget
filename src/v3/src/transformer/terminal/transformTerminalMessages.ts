@@ -23,7 +23,7 @@ import {
   WidgetMessage,
 } from '../../types';
 import {
-  buildEndUserRemediationError,
+  buildEndUserRemediationMessages,
   containsMessageKey, containsMessageKeyPrefix, containsOneOfMessageKeys, loc,
 } from '../../util';
 import { transactionMessageTransformer } from '../i18n';
@@ -147,10 +147,15 @@ export const transformTerminalMessages: TerminalKeyTransformer = (transaction, f
   } else if (
     containsMessageKeyPrefix(TERMINAL_KEY.END_USER_REMEDIATION_ERROR_PREFIX, displayedMessages)
   ) {
-    // OKTA-630044 - messages from rawIdxState are used until this issue is solved
-    const userRemediationErrorElement = buildEndUserRemediationError(
-      transaction.rawIdxState.messages?.value || [],
-    );
+    const resultMessageArray = buildEndUserRemediationMessages(transaction.messages || []);
+    const userRemediationErrorElement = {
+      type: 'InfoBox',
+      options: {
+        message: resultMessageArray,
+        class: 'ERROR',
+        dataSe: 'callout',
+      },
+    } as InfoboxElement;
     if (userRemediationErrorElement) {
       uischema.elements.push(userRemediationErrorElement);
     }

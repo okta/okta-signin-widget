@@ -2,12 +2,14 @@ import { View } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
 import { getMessage } from '../../../ion/i18nTransformer';
 
-const I18N_KEY_PREFIX = 'idx.error.code.access_denied.device_assurance.remediation';
-const HELP_AND_CONTACT_KEY_PREFIX = `${I18N_KEY_PREFIX}.additional_help_`;
-const CUSTOM_URL_ADDITIONAL_HELP_KEY = `${I18N_KEY_PREFIX}.additional_help_custom`;
-const REMEDIATION_OPTION_INDEX_KEY = `${I18N_KEY_PREFIX}.option_index`;
-const TITLE_KEY = `${I18N_KEY_PREFIX}.title`;
-const EXPLANATION_KEY_PREFIX = `${I18N_KEY_PREFIX}.explanation_`;
+const I18N_ACCESS_DENIED_KEY_PREFIX = 'idx.error.code.access_denied.device_assurance.remediation';
+const I18N_GRACE_PERIOD_KEY_PREFIX = 'idx.device_assurance.grace_period';
+const HELP_AND_CONTACT_KEY_PREFIX = `${I18N_ACCESS_DENIED_KEY_PREFIX}.additional_help_`;
+const CUSTOM_URL_ADDITIONAL_HELP_KEY = `${I18N_ACCESS_DENIED_KEY_PREFIX}.additional_help_custom`;
+const REMEDIATION_OPTION_INDEX_KEY = `${I18N_ACCESS_DENIED_KEY_PREFIX}.option_index`;
+const TITLE_KEY = `${I18N_ACCESS_DENIED_KEY_PREFIX}.title`;
+const ACCESS_DENIED_EXPLANATION_KEY_PREFIX = `${I18N_ACCESS_DENIED_KEY_PREFIX}.explanation_`;
+const GRACE_PERIOD_EXPLANATION_KEY_PREFIX = `${I18N_GRACE_PERIOD_KEY_PREFIX}.explanation_`;
 
 function buildRemediationOptionBlockMessage(message) {
   let link = null;
@@ -26,7 +28,7 @@ function buildRemediationOptionBlockMessage(message) {
 }
 
 export default View.extend({
-  className: 'end-user-remediation-terminal-view',
+  className: 'end-user-remediation-messages-view',
   template: hbs`
     {{#if title}}
       <div class="end-user-remediation-title">{{title}}</div>
@@ -64,7 +66,7 @@ export default View.extend({
     </div>
   `,
   getTemplateData() {
-    const messages = this.options.messages.value;
+    const messages = this.options.messages;
     const remediationOptions = [];
     let title = null;
     let explanation = null;
@@ -73,7 +75,8 @@ export default View.extend({
     messages.forEach((message) => {
       if (message.i18n.key === TITLE_KEY) {
         title = getMessage(message);
-      } else if (message.i18n.key.startsWith(EXPLANATION_KEY_PREFIX)) {
+      } else if (message.i18n.key.startsWith(ACCESS_DENIED_EXPLANATION_KEY_PREFIX)
+        || message.i18n.key.startsWith(GRACE_PERIOD_EXPLANATION_KEY_PREFIX)) {
         explanation = getMessage(message);
       } else if (message.i18n.key.startsWith(HELP_AND_CONTACT_KEY_PREFIX)) {
         useCustomHelpText = message.i18n.key === CUSTOM_URL_ADDITIONAL_HELP_KEY;

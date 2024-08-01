@@ -1,0 +1,94 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`transformDeviceAssuranceGracePeriod Tests should build device assurance grace period view elements 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "idx.device_assurance.grace_period.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "class": "WARNING",
+          "dataSe": "callout",
+          "message": Object {
+            "class": "WARNING",
+            "i18n": Object {
+              "key": "idx.device_assurance.grace_period.due_by_days_warning",
+              "params": Array [
+                7,
+              ],
+            },
+            "message": "<strong>To prevent account lockout, resolve the issues within 7 days</strong>",
+          },
+        },
+        "type": "InfoBox",
+      },
+      Object {
+        "options": Object {
+          "component": <WidgetMessageContainer
+            message={
+              Object {
+                "links": Array [
+                  Object {
+                    "label": "Update to Android 100",
+                    "url": "https://okta.com/android-upgrade-os",
+                  },
+                ],
+                "listStyleType": "disc",
+                "message": "idx.device_assurance.grace_period.explanation_one_rule",
+              }
+            }
+            parserOptions={
+              Object {
+                "replace": [Function],
+              }
+            }
+          />,
+        },
+        "type": "View",
+      },
+      Object {
+        "options": Object {
+          "component": <WidgetMessageContainer
+            message={
+              Object {
+                "listStyleType": "disc",
+                "message": "idx.error.code.access_denied.device_assurance.remediation.additional_help_default",
+              }
+            }
+            parserOptions={
+              Object {
+                "replace": [Function],
+              }
+            }
+          />,
+        },
+        "type": "View",
+      },
+      Object {
+        "label": "idx.device_assurance.grace_period.continue_to_app",
+        "options": Object {
+          "step": "skip",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
