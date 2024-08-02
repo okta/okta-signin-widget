@@ -12,13 +12,17 @@
 
 import { IdxTransaction } from '@okta/okta-auth-js';
 
-import { HookFunction, HooksOptions, HookType } from '../../../types';
-import { getFormNameForTransaction } from './getEventContext';
+import { HookFunction, HookType as BaseHookType } from '../../../types';
+import {
+  FormHooksMap, HooksMap, HooksOptions, HookType,
+} from '../types/hooks';
+import { FormBag } from '../types/schema';
+import { getFormNameForTransaction, getTransformHookContext } from './getEventContext';
 
-const hookTypes: HookType[] = ['before', 'after'];
+const hookTypes: HookType[] = ['before', 'after', 'afterTransform'];
 
 export class WidgetHooks {
-  private hooks: Map<string, Map<string, HookFunction[]>>;
+  private hooks: HooksMap;
 
   /* eslint-disable no-restricted-syntax */
   constructor(hooksOptions?: HooksOptions) {
@@ -34,8 +38,8 @@ export class WidgetHooks {
     }
   }
 
-  public addHook(hookType: HookType, formName: string, hook: HookFunction): void {
-    const formHooks = this.hooks.get(formName) || new Map<string, HookFunction[]>();
+  public addHook(hookType: HookType, formName: string, hook: HookFunction) {
+    const formHooks: FormHooksMap = this.hooks.get(formName) || new Map();
     const hooksByType = formHooks.get(hookType) || [];
     hooksByType.push(hook);
     formHooks.set(hookType, hooksByType);
@@ -44,7 +48,7 @@ export class WidgetHooks {
 
   /* eslint-disable no-await-in-loop */
   public async callHooks(
-    hookType: HookType,
+    hookType: BaseHookType,
     idxTransaction?: IdxTransaction,
   ): Promise<void> {
     const formName = getFormNameForTransaction(idxTransaction);
@@ -53,6 +57,24 @@ export class WidgetHooks {
       for (const hook of hooksToExecute) {
         await hook();
       }
+    }
+  }
+
+  public transformFormBagWithHooks(
+    formBag: FormBag,
+    idxTransaction?: IdxTransaction,
+  ) {
+    const context = getTransformHookContext(formBag, idxTransaction);
+    if (!context.formName) {
+      // initial loading state
+      return;
+    }
+    const hooksToExecute = [
+      ...(this.hooks.get(context.formName!)?.get('afterTransform') || []),
+      ...(this.hooks.get('*')?.get('afterTransform') || []),
+    ];
+    for (const hook of hooksToExecute) {
+      hook(context);
     }
   }
 }
