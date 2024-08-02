@@ -49,6 +49,10 @@
         "title": "Email",
         "format": "email",
         "default": "Email"
+      },
+      "custom_bool": {
+        "type": "boolean",
+        "title": "Custom bool"
       }
     },
     "required": [
