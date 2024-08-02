@@ -1,0 +1,17 @@
+{
+  "commitPrefix": "chore: ",
+  "resourceFilePath": "packages/@okta/i18n/src/properties",
+  "resourceFile": "login.properties",
+  "translationsFilePath": "packages/@okta/i18n/src/properties",
+  "reviewers": [
+    "lesterchoi-okta",
+    "jaredperreault-okta",
+    "glenfannin-okta",
+    "shawyu-okta",
+    "shuowu-okta",
+    "trevoring-okta",
+    "denysoblohin-okta"
+  ],
+  "slackChannel": "eng-sign-in-widget",
+  "guardian": "widget-coordinator"
+}
