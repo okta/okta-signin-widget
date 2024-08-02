@@ -11,4 +11,4 @@ try {
 
 // get the first occurance without '-' (n-1 published version)
 const lastPublishedVersion = versions.reverse().find(v => !v.includes('-'));
-console.log(lastPublishedVersion);
+console.log(`@okta/okta-signin-widget@${lastPublishedVersion}`);
