@@ -59,6 +59,7 @@
     "generate-phone-codes": "node scripts/buildtools generate-phone-codes",
     "generate-config": "node scripts/buildtools generate-language-config",
     "release-update": "./scripts/release-update.sh",
+    "find-prev-release-version": "node scripts/find-prev-release-version",
     "retirejs": "retire --js --jspath target/js --package",
     "lint:ci": "yarn codegen && yarn lint",
     "lint:esm": "eslint --no-ignore --no-eslintrc --no-inline-config --config scripts/buildtools/eslint/.eslintrc.esm.js --ext .js target/esm",
