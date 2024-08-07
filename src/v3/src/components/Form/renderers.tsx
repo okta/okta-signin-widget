@@ -58,6 +58,7 @@ import StepperNavigator from '../StepperNavigator';
 import StepperRadio from '../StepperRadio';
 import TextWithActionLink from '../TextWithActionLink';
 import Title from '../Title';
+import View from '../View';
 import WebAuthNSubmitButton from '../WebAuthNSubmitButton';
 
 /**
@@ -223,5 +224,9 @@ export default [
   {
     tester: ({ type }) => type === 'IdentifierContainer',
     renderer: IdentifierContainer,
+  },
+  {
+    tester: ({ type }) => type === 'View',
+    renderer: View,
   },
 ] as Renderer[];

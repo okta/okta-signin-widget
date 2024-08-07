@@ -180,6 +180,11 @@ export const createThemeAndTokens = (
             paddingInlineEnd: mergedTokens.Spacing5,
             flexShrink: 0,
           },
+          message: {
+            '& .MuiLink-root': {
+
+            },
+          },
         },
       },
       MuiButton: {

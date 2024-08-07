@@ -4,7 +4,7 @@ import { getBackToSignInLink, getSkipSetupLink, getReloadPageButtonLink } from '
 import EmailAuthenticatorHeader from '../components/EmailAuthenticatorHeader';
 import { OTPInformationTerminalView } from './consent/EmailMagicLinkOTPTerminalView';
 import CustomAccessDeniedErrorMessage from './shared/CustomAccessDeniedErrorMessage';
-import EndUserRemediationTerminalMessage from './end-user-remediation/EndUserRemediationTerminalMessage';
+import EndUserRemediationMessages from './end-user-remediation/EndUserRemediationMessages';
 
 const RETURN_LINK_EXPIRED_KEY = 'idx.return.link.expired';
 const IDX_RETURN_LINK_OTP_ONLY = 'idx.enter.otp.in.original.tab';
@@ -134,7 +134,7 @@ const Body = BaseForm.extend({
     } else if (this.options.appState.containsMessageStartingWithI18nKey(END_USER_REMEDIATION_KEY_PREFIX)) {
       this.add(createCallout({
         type: 'error',
-        content: new EndUserRemediationTerminalMessage({messages: messagesObjs}),
+        content: new EndUserRemediationMessages({messages: messagesObjs.value}),
       }));
       hasCustomView = true;
     }
