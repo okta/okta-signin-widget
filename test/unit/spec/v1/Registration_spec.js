@@ -69,6 +69,10 @@ const testData = {
       preferredLanguage: {
         type: 'language_code',
       },
+      agreement: {
+        type: 'boolean',
+        description: 'I agreee to the Terms and Conditions'
+      },
       password: {
         type: 'string',
         description: 'Password',
@@ -96,7 +100,7 @@ const testData = {
         ],
       },
     },
-    required: ['firstName', 'lastName', 'userName', 'password', 'referrer'],
+    required: ['firstName', 'lastName', 'userName', 'password', 'referrer', 'agreement'],
     fieldOrder: [
       'userName',
       'password',
@@ -106,6 +110,7 @@ const testData = {
       'referrer',
       'preferredLanguage',
       'countryCode',
+      'agreement',
     ],
   },
 };
@@ -262,6 +267,7 @@ Expect.describe('Registration', function() {
         test.form.setFirstname('firstName');
         test.form.setLastname('lastName');
         test.form.setReferrer('referrer');
+        test.form.setAgreement(true);
         test.setNextResponse(resErrorNotUnique);
         test.form.submit();
         Util.callAllTimeouts();
@@ -280,6 +286,7 @@ Expect.describe('Registration', function() {
       test.form.setFirstname('firstName');
       test.form.setLastname('lastName');
       test.form.setReferrer('referrer');
+      test.form.setAgreement(true);
       test.setNextResponse(resErrorInvalidEmailDomain);
       test.form.submit();
       Util.callAllTimeouts();
@@ -365,6 +372,14 @@ Expect.describe('Registration', function() {
         expect(password.attr('type')).toEqual('password');
       });
     });
+    itp('has an agreement field', function() {
+      return setup().then(function(test) {
+        const agreement = test.form.agreementField();
+
+        expect(agreement.length).toBe(1);
+        expect(agreement.attr('type')).toEqual('checkbox');
+      });
+    });
     itp('shows label for required field', function() {
       return setup().then(function(test) {
         const requiredLabel = test.form.requiredFieldLabel();
@@ -408,6 +423,12 @@ Expect.describe('Registration', function() {
         test.form.setFirstname(Util.LoremIpsum);
         test.form.submit();
         expect(test.form.firstnameErrorField().length).toBe(1);
+      });
+    });
+    itp('shows an error if agreement is not true', function() {
+      return setup().then(function(test) {
+        test.form.submit();
+        expect(test.form.agreementErrorField().length).toBe(1);
       });
     });
   });
@@ -912,6 +933,7 @@ Expect.describe('Registration', function() {
           test.form.setFirstname('firstName');
           test.form.setLastname('lastName');
           test.form.setReferrer('referrer');
+          test.form.setAgreement(true);
           test.form.submit();
           return Expect.waitForRegistrationComplete(test);
         })
@@ -1080,6 +1102,7 @@ Expect.describe('Registration', function() {
           test.form.setFirstname('firstName');
           test.form.setLastname('lastName');
           test.form.setReferrer('referrer');
+          test.form.setAgreement(true);
           expect($('input.button-primary').length).toBe(1);
           expect($('input.button-primary.btn-disabled').length).toBe(0);
           test.form.submit();

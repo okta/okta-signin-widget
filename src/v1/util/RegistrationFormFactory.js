@@ -14,6 +14,7 @@
 import { _, internal, $ } from '@okta/courage';
 import TextBox from 'v1/views/shared/TextBox';
 let { SchemaFormFactory } = internal.views.forms.helpers;
+let { CheckBox } = internal.views.forms.inputs;
 
 const getParts = function(username) {
   const usernameArr = username.split('');
@@ -149,6 +150,10 @@ const checkSubSchemas = function(fieldName, model, subSchemas, showError) {
 
 const fnCreateInputOptions = function(schemaProperty) {
   let inputOptions = SchemaFormFactory.createInputOptions(schemaProperty);
+  if (schemaProperty.options?.type === 'boolean') {
+    // change BooleanSelect to CheckBox
+    inputOptions.input = CheckBox;
+  }
 
   if (inputOptions.type === 'select') {
     inputOptions = _.extend(inputOptions, {

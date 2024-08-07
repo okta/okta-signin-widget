@@ -5,6 +5,7 @@ const USERNAME_FIELD = 'userName';
 const EMAIL_FIELD = 'email';
 const PASSWORD_FIELD = 'password';
 const REFERRER_FIELD = 'referrer';
+const AGREEMENT_FIELD = 'agreement';
 export default Form.extend({
   firstnameField: function() {
     return this.input(FIRSTNAME_FIELD);
@@ -46,6 +47,21 @@ export default Form.extend({
 
   setReferrer: function(val) {
     const field = this.referrerField();
+
+    field.val(val);
+    field.trigger('change');
+  },
+
+  agreementField: function() {
+    return this.input(AGREEMENT_FIELD);
+  },
+
+  agreementErrorField: function() {
+    return this.error(AGREEMENT_FIELD);
+  },
+
+  setAgreement: function(val) {
+    const field = this.agreementField();
 
     field.val(val);
     field.trigger('change');
