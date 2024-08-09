@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import i18next from 'i18next';
+import { odysseyTranslate } from '@okta/odyssey-react-mui';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { TokenReplacement } from '../types';
@@ -31,16 +31,23 @@ export const loc = (
   tokenReplacement?: TokenReplacement,
 ): string => {
   const paramsObj = Object.fromEntries(params?.map((v, i) => [i, v]) || []);
-  const count = params?.find(p => typeof p === 'number');
-  const localizedText: string = i18next.t(`${bundleName}:${key}`, {
+  const count = params?.find((p) => typeof p === 'number');
+  const localizedText: string = odysseyTranslate(`${bundleName}:${key}`, {
     ...paramsObj,
     count,
     interpolation: {
       prefix: '{',
       suffix: '}',
-      escapeValue: true,
+      // No need to escape
+      // Need to use raw value for phone numbers containing `&lrm;`
+      // React is already safe from XSS
+      escapeValue: false,
     },
   });
+
+  if (!localizedText) {
+    return key;
+  }
 
   if (typeof tokenReplacement !== 'undefined') {
     let updatedText = localizedText;
