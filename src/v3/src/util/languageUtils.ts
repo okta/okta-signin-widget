@@ -37,6 +37,8 @@ export const loadLanguage = async (widgetProps: WidgetProps): Promise<void> => {
 
   i18next.init({
     fallbackLng: 'en',
+    ns: ['login', 'country'],
+    defaultNS: 'login',
   });
 
   i18next.addResources(languageCode, 'login', Bundles.login);
