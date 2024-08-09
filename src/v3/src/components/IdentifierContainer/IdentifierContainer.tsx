@@ -49,6 +49,7 @@ const IdentifierContainer: UISchemaElementComponent<{
                 width: tokens.Spacing4,
                 height: tokens.Spacing4,
               }}
+              aria-label={loc('identifier.icon.alt.text', 'login')}
             />
           </Box>
         )}
