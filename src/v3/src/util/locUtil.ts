@@ -10,9 +10,12 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { odysseyTranslate } from '@okta/odyssey-react-mui';
+
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { loc as localize } from '../../../util/loc';
+import { emitL10nError } from '../../../util/loc';
 import { TokenReplacement } from '../types';
+import Bundles from '../../../util/Bundles';
 
 /**
  *
@@ -25,11 +28,33 @@ import { TokenReplacement } from '../types';
  */
 export const loc = (
   key: string,
-  bundleName?: string,
-  params?: Array<string | number | boolean | unknown>,
+  bundleName = 'login',
+  params?: Array<string | number | boolean | undefined>,
   tokenReplacement?: TokenReplacement,
 ): string => {
-  const localizedText: string = localize(key, bundleName, params);
+  const paramsObj = Object.fromEntries(params?.map((v, i) => [i, v]) || []);
+  const count = params?.find((p) => typeof p === 'number');
+  // If there are no plural forms for current language,
+  //  don't fallback to plural forms in default language
+  const hasPluralForms = count !== undefined && bundleName === 'login'
+    && Object.keys(Bundles.login).findIndex((k) => k.startsWith(`${k}_`)) > 0;
+  const localizedText: string = odysseyTranslate(`${bundleName}:${key}`, {
+    ...paramsObj,
+    count: hasPluralForms ? count : undefined,
+    interpolation: {
+      prefix: '{',
+      suffix: '}',
+      // No need to escape
+      // Need to use raw value for phone numbers containing `&lrm;`
+      // React is already safe from XSS
+      escapeValue: false,
+    },
+  });
+
+  if (!localizedText || localizedText === key) {
+    emitL10nError(key, bundleName, 'key');
+    return 'L10N_ERROR[' + key + ']';
+  }
 
   if (typeof tokenReplacement !== 'undefined') {
     let updatedText = localizedText;

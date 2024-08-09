@@ -128,7 +128,7 @@ function getRawLocale() {
  * @param {String} bundleName The i18n bundle name
  * @param {String} reason Could be 'bundle' (Bundle not found), 'key' (Key not found) or 'parameters' (Parameters mismatch).
  */
-function emitL10nError(key: string, bundleName: string, reason: string) {
+export function emitL10nError(key: string, bundleName: string, reason: string) {
   const event = createCustomEvent('okta-i18n-error', {
     detail: {
       type: 'l10n-error',

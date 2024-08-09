@@ -11,6 +11,9 @@
  */
 
 import { OdysseyI18nResourceKeys, odysseyI18nResourceKeysList } from '@okta/odyssey-react-mui';
+// i18next is already included in Odyssey
+// eslint-disable-next-line import/no-extraneous-dependencies
+import i18next from 'i18next';
 
 import Bundles from '../../../util/Bundles';
 import { WidgetProps } from '../types';
@@ -21,6 +24,9 @@ export const loadLanguage = async (widgetProps: WidgetProps): Promise<void> => {
   const languageCode = getLanguageCode(widgetProps);
   const supportedLanguages = getSupportedLanguages(widgetProps);
 
+  // Odyssey language codes use '_' instead of '-' (e.g. zh-CN -> zh_CN)
+  const odyLanguageCode: string = languageCode.replace('-', '_');
+
   // NOTE: If assets.baseUrl equals "/", SIW will incorrectly try to load language files
   // from URL http://labels/json/login_xx.json
   // Remove trailing slashes to match Gen2 behavior
@@ -29,10 +35,13 @@ export const loadLanguage = async (widgetProps: WidgetProps): Promise<void> => {
     assetsBaseUrl = assetsBaseUrl.substring(0, assetsBaseUrl.length - 1);
   }
 
-  return Bundles.loadLanguage(languageCode, i18n, {
+  await Bundles.loadLanguage(languageCode, i18n, {
     baseUrl: assetsBaseUrl,
     rewrite: rewrite ?? ((val) => val),
   }, supportedLanguages);
+
+  i18next.addResourceBundle(odyLanguageCode, 'login', Bundles.login);
+  i18next.addResourceBundle(odyLanguageCode, 'country', Bundles.country);
 };
 
 export const getOdysseyTranslationOverrides = (): Partial<OdysseyI18nResourceKeys> => (
