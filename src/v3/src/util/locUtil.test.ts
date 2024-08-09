@@ -21,12 +21,27 @@ describe('locUtil Tests', () => {
   };
 
   beforeEach(() => {
+    jest.unmock('@okta/odyssey-react-mui');
     // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
-    const mockedLoc = require('util/loc');
-    mockedLoc.loc = jest.fn().mockImplementation(
-      // eslint-disable-next-line no-unused-vars
-      (key, _, params) => MockedBundle[key].replace('{0}', params?.[0]),
-    );
+    jest.mock('@okta/odyssey-react-mui', () => {
+      const originalModule = jest.requireActual('@okta/odyssey-react-mui');
+      return {
+        __esModule: true,
+        ...originalModule,
+        odysseyTranslate: jest.fn().mockImplementation(
+          (origKey, params) => {
+            const bundleAndKey = origKey.split(':');
+            let bundle, key = origKey;
+            if (bundleAndKey.length === 2) {
+              ([bundle, key] = bundleAndKey);
+              return MockedBundle[key].replace('{0}', params?.[0]);
+            } else {
+              return originalModule.odysseyTranslate(origKey, params);
+            }
+          }
+        ),
+      };
+    });
   });
 
   it('should return simple translated string', () => {

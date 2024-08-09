@@ -33,7 +33,7 @@ type Options = CreateAuthClientOptions & {
  * According to jest documentation, must use the unmock function below
  * https://jestjs.io/docs/manual-mocks#examples
 */
-jest.unmock('util/loc');
+jest.unmock('@okta/odyssey-react-mui');
 
 export async function setup(options: Options): Promise<RenderResult & {
   authClient: OktaAuth;

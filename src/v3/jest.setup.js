@@ -48,10 +48,10 @@ jest.mock('@okta/odyssey-react-mui', () => {
     odysseyTranslate: jest.fn().mockImplementation(
       // eslint-disable-next-line no-unused-vars
       (origKey, params) => {
-        const keyAndBundle = origKey.split(':');
+        const bundleAndKey = origKey.split(':');
         let bundle, key = origKey;
-        if (keyAndBundle.length === 2) {
-          ([bundle, key] = keyAndBundle);
+        if (bundleAndKey.length === 2) {
+          ([bundle, key] = bundleAndKey);
           return mockBundles[bundle][key] ? key : new Error(`Invalid i18n key: ${key}`);
         } else {
           return originalModule.odysseyTranslate(origKey, params);
