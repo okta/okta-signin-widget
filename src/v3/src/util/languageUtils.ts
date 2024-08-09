@@ -22,6 +22,9 @@ export const loadLanguage = async (widgetProps: WidgetProps): Promise<void> => {
   const languageCode = getLanguageCode(widgetProps);
   const supportedLanguages = getSupportedLanguages(widgetProps);
 
+  // Odyssey language codes use '_' instead of '-' (e.g. zh-CN -> zh_CN)
+  const odyLanguageCode: string = languageCode.replace('-', '_');
+
   // NOTE: If assets.baseUrl equals "/", SIW will incorrectly try to load language files
   // from URL http://labels/json/login_xx.json
   // Remove trailing slashes to match Gen2 behavior
@@ -35,16 +38,8 @@ export const loadLanguage = async (widgetProps: WidgetProps): Promise<void> => {
     rewrite: rewrite ?? ((val) => val),
   }, supportedLanguages);
 
-  i18next.init({
-    fallbackLng: 'en',
-    ns: ['login', 'country'],
-    defaultNS: 'login',
-  });
-
-  i18next.addResources(languageCode, 'login', Bundles.login);
-  i18next.addResources(languageCode, 'country', Bundles.country);
-
-  i18next.changeLanguage(languageCode);
+  i18next.addResources(odyLanguageCode, 'login', Bundles.login);
+  i18next.addResources(odyLanguageCode, 'country', Bundles.country);
 };
 
 export const getOdysseyTranslationOverrides = (): Partial<OdysseyI18nResourceKeys> => (
