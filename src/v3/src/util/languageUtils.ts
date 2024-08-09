@@ -43,6 +43,8 @@ export const loadLanguage = async (widgetProps: WidgetProps): Promise<void> => {
 
   i18next.addResources(languageCode, 'login', Bundles.login);
   i18next.addResources(languageCode, 'country', Bundles.country);
+
+  i18next.changeLanguage(languageCode);
 };
 
 export const getOdysseyTranslationOverrides = (): Partial<OdysseyI18nResourceKeys> => (
