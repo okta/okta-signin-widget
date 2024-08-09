@@ -49,7 +49,7 @@ export const loc = (
       // React is already safe from XSS
       escapeValue: false,
     },
-    defaultValue: "",
+    defaultValue: '',
   });
 
   if (!localizedText) {
