@@ -37,7 +37,7 @@ export const loc = (
   // If there are no plural forms for current language,
   //  don't fallback to plural forms in default language
   const hasPluralForms = count !== undefined && bundleName === 'login'
-    && Object.keys(Bundles.login).findIndex((k) => k.startsWith(`${k}_`)) > 0;
+    && Object.keys(Bundles.login).findIndex((k) => k.startsWith(`${key}_`)) > 0;
   const localizedText: string = odysseyTranslate(`${bundleName}:${key}`, {
     ...paramsObj,
     count: hasPluralForms ? count : undefined,
