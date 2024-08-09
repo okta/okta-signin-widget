@@ -31,8 +31,8 @@ export const loc = (
   tokenReplacement?: TokenReplacement,
 ): string => {
   const paramsObj = Object.fromEntries(params?.map((v, i) => [i, v]) || []);
-  const count = params?.find(p => typeof p === "number");
-  const localizedText: string = i18next.t(bundleName + ":" + key, {
+  const count = params?.find(p => typeof p === 'number');
+  const localizedText: string = i18next.t(`${bundleName}:${key}`, {
     ...paramsObj,
     count,
     interpolation: {
