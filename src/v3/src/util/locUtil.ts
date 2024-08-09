@@ -14,6 +14,7 @@ import { odysseyTranslate } from '@okta/odyssey-react-mui';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { TokenReplacement } from '../types';
+import Bundles from '../../../util/Bundles';
 
 /**
  *
@@ -32,9 +33,13 @@ export const loc = (
 ): string => {
   const paramsObj = Object.fromEntries(params?.map((v, i) => [i, v]) || []);
   const count = params?.find((p) => typeof p === 'number');
+  // If there are no plural forms for current language,
+  //  don't fallback to plural forms in default language
+  const hasPluralForms = count !== undefined && bundleName === 'login'
+    && Object.keys(Bundles.login).findIndex((k) => k.startsWith(`${k}_`)) > 0;
   const localizedText: string = odysseyTranslate(`${bundleName}:${key}`, {
     ...paramsObj,
-    count,
+    count: hasPluralForms ? count : undefined,
     interpolation: {
       prefix: '{',
       suffix: '}',
