@@ -15,7 +15,7 @@ import { loc } from './locUtil';
 
 export const getPasswordExpiryContentTitleAndParams = (daysToExpiry = -1): TitleElement['options'] => {
   if (daysToExpiry > 0) {
-    return { content: loc('password.expiring.title', 'login', [`${daysToExpiry}`]) };
+    return { content: loc('password.expiring.title', 'login', [daysToExpiry]) };
   }
 
   if (daysToExpiry === 0) {

@@ -10,8 +10,9 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import i18next from 'i18next';
+
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { loc as localize } from '../../../util/loc';
 import { TokenReplacement } from '../types';
 
 /**
@@ -26,10 +27,20 @@ import { TokenReplacement } from '../types';
 export const loc = (
   key: string,
   bundleName?: string,
-  params?: Array<string | number | boolean | unknown>,
+  params?: Array<string | number | boolean | undefined>,
   tokenReplacement?: TokenReplacement,
 ): string => {
-  const localizedText: string = localize(key, bundleName, params);
+  const paramsObj = Object.fromEntries(params?.map((v, i) => [i, v]) || []);
+  const count = params?.find(p => typeof p === "number");
+  const localizedText: string = i18next.t(bundleName + ":" + key, {
+    ...paramsObj,
+    count,
+    interpolation: {
+      prefix: '{',
+      suffix: '}',
+      escapeValue: true,
+    },
+  });
 
   if (typeof tokenReplacement !== 'undefined') {
     let updatedText = localizedText;
