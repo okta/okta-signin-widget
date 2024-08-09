@@ -40,9 +40,23 @@ global.DEBUG = false;
 
 expect.addSnapshotSerializer(createSerializer({ includeStyles: false }));
 
-jest.mock('util/loc', () => ({
-  loc: jest.fn().mockImplementation(
-    // eslint-disable-next-line no-unused-vars
-    (key, bundle, params) => (mockBundles.login[key] ? key : new Error(`Invalid i18n key: ${key}`)),
-  ),
-}));
+jest.mock('@okta/odyssey-react-mui', () => {
+  const originalModule = jest.requireActual('@okta/odyssey-react-mui');
+  return {
+    __esModule: true,
+    ...originalModule,
+    odysseyTranslate: jest.fn().mockImplementation(
+      // eslint-disable-next-line no-unused-vars
+      (origKey, params) => {
+        const keyAndBundle = origKey.split(':');
+        let bundle, key = origKey;
+        if (keyAndBundle.length === 2) {
+          ([bundle, key] = keyAndBundle);
+          return mockBundles[bundle][key] ? key : new Error(`Invalid i18n key: ${key}`);
+        } else {
+          return originalModule.odysseyTranslate(origKey, params);
+        }
+      }
+    ),
+  };
+});

@@ -49,9 +49,10 @@ export const loc = (
       // React is already safe from XSS
       escapeValue: false,
     },
+    defaultValue: "",
   });
 
-  if (!localizedText || localizedText === key) {
+  if (!localizedText) {
     emitL10nError(key, bundleName, 'key');
     return `L10N_ERROR[${key}]`;
   }
