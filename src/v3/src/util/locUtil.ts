@@ -12,10 +12,10 @@
 
 import { odysseyTranslate } from '@okta/odyssey-react-mui';
 
+import Bundles from '../../../util/Bundles';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { emitL10nError } from '../../../util/loc';
 import { TokenReplacement } from '../types';
-import Bundles from '../../../util/Bundles';
 
 /**
  *
@@ -53,7 +53,7 @@ export const loc = (
 
   if (!localizedText || localizedText === key) {
     emitL10nError(key, bundleName, 'key');
-    return 'L10N_ERROR[' + key + ']';
+    return `L10N_ERROR[${key}]`;
   }
 
   if (typeof tokenReplacement !== 'undefined') {
