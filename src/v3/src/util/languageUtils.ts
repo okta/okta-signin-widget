@@ -11,6 +11,8 @@
  */
 
 import { OdysseyI18nResourceKeys, odysseyI18nResourceKeysList } from '@okta/odyssey-react-mui';
+// i18next is already included in Odyssey
+// eslint-disable-next-line import/no-extraneous-dependencies
 import i18next from 'i18next';
 
 import Bundles from '../../../util/Bundles';
