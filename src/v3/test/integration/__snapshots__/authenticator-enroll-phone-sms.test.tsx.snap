@@ -61,6 +61,7 @@ exports[`authenticator-enroll-phone-sms Send correct payload when back to authen
                           class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-13"
                         >
                           <svg
+                            aria-label="User"
                             class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-14"
                             fill="none"
                             focusable="false"
@@ -731,6 +732,7 @@ exports[`authenticator-enroll-phone-sms should render form 1`] = `
                           class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-14"
                         >
                           <svg
+                            aria-label="User"
                             class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-15"
                             fill="none"
                             focusable="false"

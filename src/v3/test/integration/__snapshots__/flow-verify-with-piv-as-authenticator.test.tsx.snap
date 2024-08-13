@@ -96,6 +96,7 @@ exports[`flow-verify-with-piv-as-authenticator should render select authenticato
                           class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-14"
                         >
                           <svg
+                            aria-label="User"
                             class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-15"
                             fill="none"
                             focusable="false"

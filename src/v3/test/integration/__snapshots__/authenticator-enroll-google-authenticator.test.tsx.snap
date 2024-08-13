@@ -112,6 +112,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders QR code 
                           class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-14"
                         >
                           <svg
+                            aria-label="User"
                             class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-15"
                             fill="none"
                             focusable="false"
@@ -373,6 +374,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders challeng
                           class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-14"
                         >
                           <svg
+                            aria-label="User"
                             class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-15"
                             fill="none"
                             focusable="false"
@@ -625,6 +627,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                           class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-14"
                         >
                           <svg
+                            aria-label="User"
                             class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-15"
                             fill="none"
                             focusable="false"
@@ -872,6 +875,7 @@ exports[`authenticator-enroll-google-authenticator renders form renders secret k
                           class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-14"
                         >
                           <svg
+                            aria-label="User"
                             class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-15"
                             fill="none"
                             focusable="false"

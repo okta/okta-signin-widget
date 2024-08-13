@@ -61,6 +61,7 @@ exports[`error-authenticator-enrollment-not-allowed should render form 1`] = `
                           class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-13"
                         >
                           <svg
+                            aria-label="User"
                             class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-14"
                             fill="none"
                             focusable="false"

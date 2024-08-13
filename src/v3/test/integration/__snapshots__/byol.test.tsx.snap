@@ -102,6 +102,7 @@ exports[`byol loading custom language should load custom language with "language
                           class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-14"
                         >
                           <svg
+                            aria-label="User"
                             class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-15"
                             fill="none"
                             focusable="false"
@@ -1683,6 +1684,7 @@ exports[`byol loading custom language should load custom language with assets.ba
                           class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-14"
                         >
                           <svg
+                            aria-label="User"
                             class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-15"
                             fill="none"
                             focusable="false"
@@ -3264,6 +3266,7 @@ exports[`byol loading default language should not load custom language when the 
                           class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-14"
                         >
                           <svg
+                            aria-label="User"
                             class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-15"
                             fill="none"
                             focusable="false"
@@ -4845,6 +4848,7 @@ exports[`byol loading default language should not load custom language with "lan
                           class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-14"
                         >
                           <svg
+                            aria-label="User"
                             class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-15"
                             fill="none"
                             focusable="false"
