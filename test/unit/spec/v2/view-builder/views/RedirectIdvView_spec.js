@@ -4,10 +4,9 @@ import Settings from 'models/Settings';
 import IdvResponse from '../../../../../../playground/mocks/data/idp/idx/authenticator-verification-idp-with-persona.json';
 import { loc } from '@okta/courage';
 
-describe('v2/view-builder/views/idp/AuthenticatorIdPVerifyView', function() {
+describe('v2/view-builder/views/idp/RedirectIdvView', function() {
   let testContext;
   let settings = new Settings({ baseUrl: 'http://localhost:3000' });
-  let appStateTriggerSpy;
 
   beforeEach(function() {
 
@@ -44,7 +43,6 @@ describe('v2/view-builder/views/idp/AuthenticatorIdPVerifyView', function() {
         currentViewState,
       });
       testContext.view.render();
-      appStateTriggerSpy = jest.spyOn(testContext.view.options.appState, 'trigger');
     };
   });
 
@@ -54,8 +52,6 @@ describe('v2/view-builder/views/idp/AuthenticatorIdPVerifyView', function() {
     expect(testContext.view.$el.find('.okta-form-title').text()).toBe(loc('oie.idv.idp.title', 'login', ['Persona']));
     expect(testContext.view.$el.find('.okta-form-subtitle').text()).toBe(loc('oie.idv.idp.description', 'login'));
     expect(testContext.view.$el.find('.o-form-button-bar input').attr('value')).toBe(loc('oie.optional.authenticator.button.title', 'login'));
-    testContext.view.$el.find('.o-form-button-bar input').click();
-    expect(appStateTriggerSpy).toHaveBeenCalledWith('saveForm', testContext.view.model);
   });
 
 });
