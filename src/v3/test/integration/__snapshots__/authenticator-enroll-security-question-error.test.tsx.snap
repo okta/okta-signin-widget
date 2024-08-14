@@ -135,6 +135,7 @@ exports[`authenticator-enroll-security-question-error custom question should sho
                           class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-21"
                         >
                           <svg
+                            aria-label="User"
                             class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-22"
                             fill="none"
                             focusable="false"
@@ -534,6 +535,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                           class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-21"
                         >
                           <svg
+                            aria-label="User"
                             class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-22"
                             fill="none"
                             focusable="false"
@@ -1003,6 +1005,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                           class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-14"
                         >
                           <svg
+                            aria-label="User"
                             class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-15"
                             fill="none"
                             focusable="false"
@@ -1552,6 +1555,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                           class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-21"
                         >
                           <svg
+                            aria-label="User"
                             class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-22"
                             fill="none"
                             focusable="false"
