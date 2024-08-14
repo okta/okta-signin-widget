@@ -10,15 +10,15 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import Util from "../../../../../util/Util";
+import Util from '../../../../../util/Util';
 import {
   ButtonElement,
   ButtonType,
   DescriptionElement,
   IdxStepTransformer,
-  TitleElement
-} from "../../../types";
-import { getIDVDisplayName, loc } from "../../../util";
+  TitleElement,
+} from '../../../types';
+import { getIDVDisplayName, loc } from '../../../util';
 
 export const transformIdvIdpAuthenticator: IdxStepTransformer = ({
   formBag,
@@ -29,31 +29,31 @@ export const transformIdvIdpAuthenticator: IdxStepTransformer = ({
   const displayName = getIDVDisplayName(transaction);
 
   const titleElement: TitleElement = {
-    type: "Title",
+    type: 'Title',
     options: {
-      content: loc("oie.idv.idp.title", "login", [displayName])
-    }
+      content: loc('oie.idv.idp.title', 'login', [displayName]),
+    },
   };
 
   const descriptionElement: DescriptionElement = {
-    type: "Description",
-    contentType: "subtitle",
+    type: 'Description',
+    contentType: 'subtitle',
     options: {
-      content: loc("oie.idv.idp.description", "login")
-    }
+      content: loc('oie.idv.idp.description', 'login'),
+    },
   };
 
   const submitButton: ButtonElement = {
-    type: "Button",
-    label: loc("oie.optional.authenticator.button.title", "login"),
+    type: 'Button',
+    label: loc('oie.optional.authenticator.button.title', 'login'),
     options: {
       type: ButtonType.BUTTON,
       step: nextStep!.name,
       isActionStep: false,
       onClick: () => {
         Util.redirectWithFormGet(nextStep?.href);
-      }
-    }
+      },
+    },
   };
 
   uischema.elements = [titleElement, descriptionElement, submitButton];

@@ -458,6 +458,4 @@ export const isValidPhoneMethodType = (
   typeof methodType !== 'undefined' && (methodType === 'sms' || methodType === 'voice')
 );
 
-export const getIDVDisplayName = (transaction: IdxTransaction): string | undefined => {
-  return transaction.nextStep?.idp?.name;
-};
+export const getIDVDisplayName = (transaction: IdxTransaction): string | undefined => transaction.nextStep?.idp?.name;
