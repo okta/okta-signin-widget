@@ -67,6 +67,7 @@ export const IDX_STEP: Record<string, string> = {
   PIV_IDP: 'piv-idp',
   POLL: 'poll',
   REDIRECT_IDP: 'redirect-idp',
+  REDIRECT_IDVERIFY: 'redirect-idverify',
   REENROLL_AUTHENTICATOR: 'reenroll-authenticator',
   REENROLL_AUTHENTICATOR_WARNING: 'reenroll-authenticator-warning',
   REENROLL_CUSTOM_PASSWORD_EXPIRY: 'reenroll-custom-password-expiry',
