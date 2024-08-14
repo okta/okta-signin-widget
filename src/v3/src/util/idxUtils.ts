@@ -459,6 +459,5 @@ export const isValidPhoneMethodType = (
 );
 
 export const getIDVDisplayName = (
-  transaction: IdxTransaction
+  transaction: IdxTransaction,
 ): string | undefined => transaction.nextStep?.idp?.name;
-
