@@ -58,25 +58,24 @@ const Body = BaseForm.extend(Object.assign(
       const enterCodeText = loc('oie.phone.verify.enterCodeText', 'login');
       const carrierChargesText = loc('oie.phone.carrier.charges', 'login');
       const isPhoneNumberAvailable = this.model.get('phoneNumber') !== loc('oie.phone.alternate.title', 'login');
-      let nicknameText = isPhoneNumberAvailable ? this.model.get('nickname') : '';
-      let extraNicknameCssClasses = '';
-      if (nicknameText !== '') {
-        nicknameText = ' (' + nicknameText + ')';
-        extraNicknameCssClasses = 'no-translate authenticator-verify-nickname';
-      }
+      const strongClass = isPhoneNumberAvailable ? 'strong no-translate nowrap' : '';
+      
+      const nickname = isPhoneNumberAvailable ? this.model.get('nickname') : '';
+      const nicknameText = nickname ? ` (${nickname})` : '';
+      const extraNicknameCssClasses = nicknameText ? 'no-translate authenticator-verify-nickname' : '';
 
-      const nicknameTemplate = nicknameText ? `<span ${ extraNicknameCssClasses ? 'class="' + 
-      extraNicknameCssClasses + '"' : ''}>
-      ${nicknameText}.</span>` : '<span class="no-translate">.</span>';
-      const strongClass = this.model.get('phoneNumber') !== loc('oie.phone.alternate.title', 'login') ?
-        'strong no-translate nowrap' : '';
+      const nicknameTemplate = nicknameText 
+        ? `<span${extraNicknameCssClasses ? ` class="${extraNicknameCssClasses}"` : ''}>${nicknameText}.</span>`
+        : '<span class="no-translate">.</span>';
+      
       // Courage doesn't support HTML, hence creating a subtitle here.
-      this.add(`<div class="okta-form-subtitle" data-se="o-form-explain">
-        ${sendText}&nbsp;<span class='${strongClass}'>${this.model.escape('phoneNumber')}</span>
-        ${nicknameTemplate}
-        &nbsp;${enterCodeText}
-        <p>${carrierChargesText}</p>
-        </div>`, {
+      this.add('<div class="okta-form-subtitle" data-se="o-form-explain">' + 
+        `${sendText} ` + 
+        `<span class="${strongClass}">${this.model.escape('phoneNumber')}</span>` + 
+        `${nicknameTemplate}` + 
+        `&nbsp;${enterCodeText}` + 
+        `<p>${carrierChargesText}</p>` + 
+        '</div>', {
         prepend: true,
         selector: '.o-form-fieldset-container',
       });

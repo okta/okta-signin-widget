@@ -6,7 +6,7 @@ const Body = BaseForm.extend(
   {
     className: 'phone-authenticator-challenge',
     events: {
-      'click a.phone-authenticator-challenge__link' : 'handleSecondaryLinkClick'
+      'click a.phone-authenticator-challenge__link': 'handleSecondaryLinkClick'
     },
 
     title() {
@@ -32,27 +32,29 @@ const Body = BaseForm.extend(
       // Then the user clicks primary button (say sms) and right methodType needs to be sent.
       this.model.on('error', () => this.model.set('authenticator.methodType', this.model.get('primaryMode')));
       BaseForm.prototype.initialize.apply(this, arguments);
-      const sendText = ( this.model.get('primaryMode') === 'sms' )
+      const sendText = (this.model.get('primaryMode') === 'sms')
         ? loc('oie.phone.verify.sms.sendText', 'login')
         : loc('oie.phone.verify.call.sendText', 'login');
       const carrierChargesText = loc('oie.phone.carrier.charges', 'login');
       const isPhoneNumberAvailable = this.model.get('phoneNumber') !== loc('oie.phone.alternate.title', 'login');
       const extraCssClasses = isPhoneNumberAvailable ? 'strong no-translate nowrap' : '';
-      let nicknameText = isPhoneNumberAvailable ? this.model.get('nickname') : '';
-      let extraNicknameCssClasses = '';
-      if (nicknameText !== '') {
-        nicknameText = ' (' + nicknameText + ')';
-        extraNicknameCssClasses = 'strong no-translate authenticator-verify-nickname';
-      }
-      const nicknameTemplate = nicknameText ? `<span ${ extraNicknameCssClasses ? 
-        'class="' + extraNicknameCssClasses + '"' : ''}>
-      ${nicknameText}.</span>` : '<span class="no-translate">.</span>';
+      
+      const nickname = isPhoneNumberAvailable ? this.model.get('nickname') : '';
+      const nicknameText = nickname ? ` (${nickname})` : '';
+      const extraNicknameCssClasses = nicknameText ? 'no-translate authenticator-verify-nickname' : '';
+
+      const nicknameTemplate = nicknameText 
+        ? `<span ${extraNicknameCssClasses ? ` class="${extraNicknameCssClasses}"` : ''}>${nicknameText}.</span>`
+        : '<span class="no-translate">.</span>';
       // Courage doesn't support HTML, hence creating a subtitle here.
-      this.add(`<div class="okta-form-subtitle" data-se="o-form-explain">${sendText}
-        <span ${ extraCssClasses ? 'class="' + extraCssClasses + '"' : ''}>
-        ${this.model.escape('phoneNumber')}</span>${nicknameTemplate}
-        <p>${carrierChargesText}</p>
-      </div>`);
+      const content = `${sendText} ` + 
+        `<span ${extraCssClasses ? ` class="${extraCssClasses}"` : ''}>${this.model.escape('phoneNumber')}</span>` + 
+        `${nicknameTemplate}`;
+      this.add('<div class="okta-form-subtitle" data-se="o-form-explain">' + 
+        `${content}` + 
+        `<p>${carrierChargesText}</p>` + 
+        '</div>'
+      );
     },
 
     getUISchema() {
