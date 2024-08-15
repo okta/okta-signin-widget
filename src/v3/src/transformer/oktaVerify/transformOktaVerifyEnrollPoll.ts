@@ -160,7 +160,7 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
     },
   };
 
-  const tokenReplacement: TokenReplacement = { $1: { element: 'span', attributes: { class: 'strong no-translate' } } };
+  const tokenReplacement: TokenReplacement = { $1: { element: 'span', attributes: { class: 'strong' } } };
 
   const canBeClosed = {
     type: 'Description',
