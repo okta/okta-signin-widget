@@ -256,7 +256,7 @@ To embed the Sign-in Widget via CDN, include links to the JS and CSS files in yo
 
 ```html
 <!-- Latest CDN production Javascript and CSS -->
-<script src="https://global.oktacdn.com/okta-signin-widget/7.21.1/js/okta-sign-in.min.js" type="text/javascript" integrity="sha384-2UbltH7hlb+idcZFVHBOtYj/pblojDs4Ot0AhVOGaYJk3pKUSB2NCMh3Cisgmegz" crossorigin="anonymous"></script>
+<script src="https://global.oktacdn.com/okta-signin-widget/7.21.1/js/okta-sign-in.min.js" type="text/javascript" integrity="sha384-Uws8joGIx3vVkc1LzPRqKC/V81JCk1RWuKZY0f3OwVEDhP7A5t2+B98TUdHLjkcD" crossorigin="anonymous"></script>
 
 <link href="https://global.oktacdn.com/okta-signin-widget/7.21.1/css/okta-sign-in.min.css" type="text/css" rel="stylesheet" integrity="sha384-4uhmz2DL6Vq5PMlOMfAKISTUvy/NexXakc1Ii9kYuovUFrKZ4IjX9IaYbDSiJWdw" crossorigin="anonymous" />
 ```
