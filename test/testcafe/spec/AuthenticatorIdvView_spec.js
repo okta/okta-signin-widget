@@ -31,15 +31,14 @@ async function setup(t, widgetOptions = undefined) {
   return pageObject;
 }
 
-fixture('ID Verification using Persona');
+fixture('ID Verification');
 test
-  .requestHooks(logger, idvMock)('verify ID', async t => {
+  .requestHooks(logger, idvMock)('validate content on verify page', async t => {
     const pageObject = await setup(t);
     await checkA11y(t);
     console.log(pageObject.getFormTitle());
     await t.expect(pageObject.getFormTitle()).eql('Verify your identity with Persona');
     await t.expect(pageObject.getPageSubtitle()).eql('Verify your identity before setting up account to ensure that only the real you has access.');
-    // await t.expect(pageObject.getBeaconSelector()).contains('mfa-custom-factor');
     await pageObject.submit('Continue');
 
     const pageUrl = await pageObject.getPageUrl();

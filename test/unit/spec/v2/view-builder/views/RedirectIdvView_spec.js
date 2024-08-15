@@ -37,7 +37,6 @@ describe('v2/view-builder/views/idp/RedirectIdvView', function() {
         },
       };
       testContext.view = new RedirectIdvView({
-        // el: $sandbox,
         appState,
         settings,
         currentViewState,
