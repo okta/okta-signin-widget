@@ -31,7 +31,7 @@ describe('IDV IDP Authenticator transformer Tests', () => {
     transaction.nextStep = {
       name: IDX_STEP.REDIRECT_IDVERIFY,
       href:
-        'http://localhost:3000/sso/idps/mockedIdp123?stateToken=mockedStateToken124',
+        'http://localhost:3000/idp/identity-verification?stateToken=mockedStateToken124',
       idp: {
         id: 'ID_PROOFING',
         name: 'Persona',
