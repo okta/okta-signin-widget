@@ -44,6 +44,7 @@ describe('IDV IDP Authenticator transformer Tests', () => {
     const updatedFormBag = transformIdvIdpAuthenticator({
       formBag,
       transaction,
+      widgetProps: {},
     });
     expect(updatedFormBag.uischema.elements.length).toBe(3);
     expect(updatedFormBag).toMatchSnapshot();

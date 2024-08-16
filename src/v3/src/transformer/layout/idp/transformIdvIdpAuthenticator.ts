@@ -16,6 +16,7 @@ import {
   ButtonType,
   DescriptionElement,
   IdxStepTransformer,
+  IWidgetContext,
   TitleElement,
 } from '../../../types';
 import { getIDVDisplayName, loc } from '../../../util';
@@ -50,7 +51,8 @@ export const transformIdvIdpAuthenticator: IdxStepTransformer = ({
       type: ButtonType.BUTTON,
       step: nextStep!.name,
       isActionStep: false,
-      onClick: () => {
+      onClick: (widgetContext?: IWidgetContext) => {
+        widgetContext?.setLoading?.(true);
         Util.redirectWithFormGet(nextStep?.href);
       },
     },

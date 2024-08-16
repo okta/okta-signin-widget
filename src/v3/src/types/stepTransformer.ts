@@ -20,7 +20,7 @@ type IdxStepTransformerOptions = {
   transaction: IdxTransaction;
   prevTransaction?: IdxTransaction;
   formBag: FormBag;
-  widgetProps?: WidgetProps;
+  widgetProps: WidgetProps;
 };
 
 // TODO: remove
