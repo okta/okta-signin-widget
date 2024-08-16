@@ -95,6 +95,7 @@ function createButton(options) {
         this.disable();
 
         if (options.type === 'save') {
+          clearTimeout(timeoutId);
           timeoutId = setTimeout(oktaUnderscore.bind(this.__changeSaveText, this), 1000);
         }
       });
@@ -110,6 +111,7 @@ function createButton(options) {
     },
     __changeSaveText: function () {
       phaseCount = 0;
+      clearInterval(intervalId);
       intervalId = setInterval(oktaUnderscore.bind(this.__showLoadingText, this), 200);
     },
     __showLoadingText: function () {
