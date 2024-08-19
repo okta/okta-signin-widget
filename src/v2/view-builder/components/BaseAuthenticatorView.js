@@ -11,7 +11,7 @@ export const BaseAuthenticatorBeacon = HeaderBeacon.extend({
 
   getBeaconClassName: function() {
     const authenticatorKey = _.result(this, 'authenticatorKey');
-    return getIconClassNameForBeacon(authenticatorKey);
+    return getIconClassNameForBeacon(authenticatorKey, this.options.appState.get('remediations'));
   },
 });
 
