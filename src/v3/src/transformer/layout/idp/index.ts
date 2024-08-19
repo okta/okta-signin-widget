@@ -12,3 +12,4 @@
 
 export * from './transformIdpAuthenticator';
 export * from './transformIdpRedirect';
+export * from './transformIdvIdpAuthenticator';

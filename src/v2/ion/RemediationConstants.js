@@ -57,6 +57,7 @@ const FORMS = {
   FAILURE_REDIRECT: 'failure-redirect',
   SUCCESS_REDIRECT: 'success-redirect',
   REDIRECT_IDP: 'redirect-idp',
+  REDIRECT_IDVERIFY: 'redirect-idverify',
   PIV_IDP: 'piv-idp',
 
   DEVICE_CHALLENGE_POLL: 'device-challenge-poll',
