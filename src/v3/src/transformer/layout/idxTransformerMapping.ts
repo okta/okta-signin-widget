@@ -67,6 +67,7 @@ import {
 import {
   transformIdpAuthenticator,
   transformIdpRedirect,
+  transformIdvIdpAuthenticator,
 } from './idp';
 import { transformKeepMeSignedIn } from './keepMeSignedIn';
 import {
@@ -451,6 +452,12 @@ const TransformerMap: {
   [IDX_STEP.REDIRECT_IDP]: {
     [AUTHENTICATOR_KEY.DEFAULT]: {
       transform: transformIdpRedirect,
+      buttonConfig: { showDefaultSubmit: false },
+    },
+  },
+  [IDX_STEP.REDIRECT_IDVERIFY]: {
+    [AUTHENTICATOR_KEY.DEFAULT]: {
+      transform: transformIdvIdpAuthenticator,
       buttonConfig: { showDefaultSubmit: false },
     },
   },

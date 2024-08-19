@@ -1,0 +1,69 @@
+{
+    "version": "1.0.0",
+    "stateHandle": "02.id.94zt8uHWhX3pnDTehDQyqBGcoUhlDrEDvrwOIUYe",
+    "expiresAt": "2024-08-01T17:57:28.000Z",
+    "intent": "CREDENTIAL_ENROLLMENT",
+    "remediation": {
+        "type": "array",
+        "value": [ 
+            {
+                "name": "redirect-idverify",
+                "type": "ID_PROOFING",
+                "href": "http://localhost:3000/idp/identity-verification?stateTokenExternalId=bzJOSnhodWVNZjZuVEsrUj",
+                "method": "GET",
+                "idp": {
+                    "id": "IDV_PERSONA",
+                    "name": "Persona"
+                }
+            }
+        ]
+    },
+    "user": {
+        "type": "object",
+        "value": {
+            "id": "00ujkgu115wtBLr0Z0g4",
+            "identifier": "admin@idp.com",
+            "profile": {
+                "firstName": "admin",
+                "lastName": "admin",
+                "timeZone": "America/Los_Angeles",
+                "locale": "en_US",
+                "email": "a***n@idp.com"
+            }
+        }
+    },
+    "cancel": {
+        "rel": [
+            "create-form"
+        ],
+        "name": "cancel",
+        "href": "https://idp.okta1.com/idp/idx/cancel",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+            {
+                "name": "stateHandle",
+                "required": true,
+                "value": "02.id.94zt8uHWhX3pnDTehDQyqBGcoUhlDrEDvrwOIUYe",
+                "visible": false,
+                "mutable": false
+            }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+    },
+    "app": {
+        "type": "object",
+        "value": {
+            "name": "okta_enduser",
+            "label": "Okta Dashboard",
+            "id": "DEFAULT_APP"
+        }
+    },
+    "authentication": {
+        "type": "object",
+        "value": {
+            "protocol": "URL",
+            "request": {}
+        }
+    }
+}
