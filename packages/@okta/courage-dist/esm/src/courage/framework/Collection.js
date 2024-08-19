@@ -83,11 +83,13 @@ function setLinkHeadersPagination(collection, xhr) {
 function parseQuery(url) {
   var params = {};
   var rawQueryStr = url && url.split('?')[1];
-  var queryString = rawQueryStr && decodeURIComponent(rawQueryStr.split('#')[0]).replace(/\+/g, ' ');
+  var queryString = rawQueryStr && rawQueryStr.split('#')[0]; // Do not decode queryString before split by '&' because '&' can be found in value
+
   var props = queryString ? queryString.split('&') : [];
 
   for (var i = 0; i < props.length; i++) {
-    var parts = props[i].split('=');
+    var decode = decodeURIComponent(props[i]).replace(/\+/g, ' ');
+    var parts = decode.split('=');
     params[parts.shift()] = parts.join('=');
   }
 
