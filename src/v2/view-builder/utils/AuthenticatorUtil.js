@@ -12,7 +12,7 @@
 import _ from 'underscore';
 import { loc } from '../../../util/loc';
 import FactorUtil from 'util/FactorUtil';
-import { AUTHENTICATOR_KEY, ID_PROOFING_TYPE, FORMS as REMEDIATION_FORMS } from '../../ion/RemediationConstants';
+import { AUTHENTICATOR_KEY, ID_PROOFING_TYPE } from '../../ion/RemediationConstants';
 
 const { getPasswordComplexityDescriptionForHtmlList } = FactorUtil;
 
