@@ -261,13 +261,10 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
   return authenticatorData;
 };
 
-const getIDProofingData = function(remediations) {
+const getIDProofingData = function(idvName) {
   let idProofingData = {};
-  const redirectIDVerifyRemediation = remediations?.find((remediation) => {
-    return remediation.name === REMEDIATION_FORMS.REDIRECT_IDVERIFY;
-  });
-
-  switch (redirectIDVerifyRemediation?.idp?.id) {
+ 
+  switch (idvName) {
   case ID_PROOFING_TYPE.IDV_PERSONA:
     idProofingData = {
       iconClassName: 'mfa-idv-persona',
@@ -313,8 +310,8 @@ export function getAuthenticatorDataForVerification(authenticator) {
   return getAuthenticatorData(authenticator, true);
 }
 
-export function getIconClassNameForBeacon(authenticatorKey, remediations) {
-  return getAuthenticatorData({ authenticatorKey }).iconClassName || getIDProofingData(remediations)?.iconClassName;
+export function getIconClassNameForBeacon(authenticatorKey, idvName) {
+  return getAuthenticatorData({ authenticatorKey }).iconClassName || getIDProofingData(idvName)?.iconClassName;
 }
 
 export function removeRequirementsFromError(errorJSON) {
