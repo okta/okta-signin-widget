@@ -65,7 +65,7 @@ const Body = BaseForm.extend(Object.assign(
       const extraNicknameCssClasses = nicknameText ? 'no-translate authenticator-verify-nickname' : '';
 
       const nicknameTemplate = nicknameText 
-        ? `<span${extraNicknameCssClasses ? ` class="${extraNicknameCssClasses}"` : ''}>${nicknameText}.</span>`
+        ? `<span class="${extraNicknameCssClasses || ''}"}>${nicknameText}.</span>`
         : '<span class="no-translate">.</span>';
       
       // Courage doesn't support HTML, hence creating a subtitle here.
