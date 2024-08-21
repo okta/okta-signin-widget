@@ -28,7 +28,7 @@ Object {
             Object {
               "links": Array [
                 Object {
-                  "label": "Update to Android 100",
+                  "label": "idx.error.code.access_denied.device_assurance.remediation.android.upgrade_os_version",
                   "url": "https://okta.com/android-upgrade-os",
                 },
               ],
