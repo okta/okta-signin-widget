@@ -1,4 +1,4 @@
-import { RequestMock, RequestLogger } from 'testcafe';
+import { RequestMock, RequestLogger, userVariables } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 import { renderWidget } from '../framework/shared';
 import IdPAuthenticatorPageObject from '../framework/page-objects/IdPAuthenticatorPageObject';
@@ -38,7 +38,11 @@ test
     await checkA11y(t);
     console.log(pageObject.getFormTitle());
     await t.expect(pageObject.getFormTitle()).eql('Verify your identity with Persona');
-    await t.expect(pageObject.getPageSubtitle()).eql('Verify your identity before setting up account to ensure that only the real you has access.');
+    await t.expect(pageObject.getPageSubtitle()).eql('This strengthens security by validating your identity with official documentation.');
+    // GEN 3 does not have logo in this redirect page
+    if(!userVariables.gen3) {
+      await t.expect(pageObject.getBeaconSelector()).contains('mfa-idv-persona');
+    }
     await pageObject.submit('Continue');
 
     const pageUrl = await pageObject.getPageUrl();

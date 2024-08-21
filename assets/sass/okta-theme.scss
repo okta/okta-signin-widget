@@ -711,6 +711,10 @@
     }
   }
 
+  .mfa-idv-persona {
+    background-image: url('../img/icons/login/persona.svg');
+  }
+
   .button {
     /* -- Buttons' Colors -- */
     @include light-button-template($button-bg-color);
