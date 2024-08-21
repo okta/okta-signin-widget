@@ -311,7 +311,7 @@ export function getAuthenticatorDataForVerification(authenticator) {
 }
 
 export function getIconClassNameForBeacon(authenticatorKey, idvName) {
-  return getAuthenticatorData({ authenticatorKey }).iconClassName || getIDProofingData(idvName)?.iconClassName;
+  return getAuthenticatorData({ authenticatorKey }).iconClassName || getIDProofingData(idvName).iconClassName;
 }
 
 export function removeRequirementsFromError(errorJSON) {
