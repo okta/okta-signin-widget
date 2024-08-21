@@ -31,21 +31,14 @@
       "type": "array",
       "value": [
           {
-              "message": "To prevent account lockout, resolve the issues by 08/01/2024",
-              "i18n": {
-                  "key": "idx.device_assurance.grace_period.due_by_date_warning",
-                  "params": [
-                    "08/01/2024"
-                  ]
-              },
-              "class": "WARNING"
-          },
-          {
-              "message": "Your device does not meet the security requirements. To resolve now, pick an option and make the updates. Otherwise, continue to your app.",
-              "i18n": {
-                  "key": "idx.device_assurance.grace_period.explanation_multiple_rules"
-              },
-              "class": "ERROR"
+            "message": "Your device doesn't meet the security requirements. Fix the issue by 08/01/2024 to prevent lockout.",
+            "i18n": {
+                "key": "idx.device_assurance.grace_period.warning.title.due_by_date",
+                "params": [
+                  "08/01/2024"
+                ]
+            },
+            "class": "WARNING"
           },
           {
             "message": "Option 1:",

@@ -10,18 +10,14 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { h } from 'preact';
-import WidgetMessageContainer from 'src/components/WidgetMessageContainer';
-
 import {
   ButtonElement,
   ButtonType,
   IdxStepTransformer,
   InfoboxElement,
   TitleElement,
-  ViewElement,
 } from '../../../types';
-import { buildEndUserRemediationMessages, getLinkReplacerFn, loc } from '../../../util';
+import { buildEndUserRemediationMessages, loc } from '../../../util';
 
 export const transformDeviceAssuranceGracePeriod: IdxStepTransformer = ({
   formBag,
@@ -29,8 +25,7 @@ export const transformDeviceAssuranceGracePeriod: IdxStepTransformer = ({
 }) => {
   const { uischema } = formBag;
   const { messages = [] } = transaction;
-  const warningMessage = messages.find((message) => message?.class === 'WARNING');
-  const errorMessages = messages.filter((message) => message.class === 'ERROR');
+  const remediationMessages = buildEndUserRemediationMessages(messages);
 
   const titleElement: TitleElement = {
     type: 'Title',
@@ -39,29 +34,16 @@ export const transformDeviceAssuranceGracePeriod: IdxStepTransformer = ({
 
   uischema.elements.push(titleElement);
 
-  if (warningMessage) {
-    warningMessage.message = `<strong>${warningMessage.message}</strong>`;
+  if (remediationMessages) {
     uischema.elements.push({
       type: 'InfoBox',
       options: {
-        message: { ...warningMessage },
+        message: remediationMessages,
         class: 'WARNING',
         dataSe: 'callout',
       },
     } as InfoboxElement);
   }
-
-  const remediationMessages = buildEndUserRemediationMessages(errorMessages);
-  const remediationMessagesElements: ViewElement[] = remediationMessages?.map((msg) => ({
-    type: 'View',
-    options: {
-      component: h(WidgetMessageContainer, {
-        key: msg.message,
-        message: msg,
-        parserOptions: { replace: getLinkReplacerFn({} ) },
-      }),
-    },
-  } as ViewElement)) ?? [];
 
   const continueButtonElement: ButtonElement = {
     type: 'Button',
@@ -72,7 +54,7 @@ export const transformDeviceAssuranceGracePeriod: IdxStepTransformer = ({
     },
   };
 
-  uischema.elements.push(...remediationMessagesElements, continueButtonElement);
+  uischema.elements.push(continueButtonElement);
 
   return formBag;
 };

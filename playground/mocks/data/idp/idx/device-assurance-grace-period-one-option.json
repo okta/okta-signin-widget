@@ -31,21 +31,14 @@
       "type": "array",
       "value": [
           {
-              "message": "To prevent account lockout, resolve the issues within 7 days",
-              "i18n": {
-                  "key": "idx.device_assurance.grace_period.due_by_days_warning",
-                  "params": [
-                      7
-                  ]
-              },
-              "class": "WARNING"
-          },
-          {
-              "message": "Your device does not meet the security requirements. To resolve now, make the following updates. Otherwise, continue to your app.",
-              "i18n": {
-                  "key": "idx.device_assurance.grace_period.explanation_one_rule"
-              },
-              "class": "ERROR"
+            "message": "Your device doesn't meet the security requirements. Fix the issue within 7 days to prevent lockout.",
+            "i18n": {
+                "key": "idx.device_assurance.grace_period.warning.title.due_by_days",
+                "params": [
+                    7
+                ]
+            },
+            "class": "WARNING"
           },
           {
             "links": [

@@ -14,7 +14,7 @@
 // We need to emit a CSS file, even if it's empty, to prevent a 404 on the Okta-hosted login page.
 import './style.scss';
 
-import { CssBaseline, OdysseyProvider, TranslationOverrides } from '@okta/odyssey-react-mui';
+import { OdysseyProvider, TranslationOverrides } from '@okta/odyssey-react-mui';
 import {
   AuthApiError,
   AuthenticatorKey,
@@ -516,7 +516,6 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         nonce={cspNonce}
         stylisPlugins={stylisPlugins}
       >
-        <CssBaseline />
         <GlobalStyles />
         {/* the style is to allow the widget to inherit the parent's bg color */}
         <AuthContainer hide={hide}>

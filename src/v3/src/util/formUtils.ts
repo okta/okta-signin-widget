@@ -304,10 +304,12 @@ export const buildEndUserRemediationMessages = (
     return undefined;
   }
 
-  const I18N_KEY_PREFIX = TERMINAL_KEY.END_USER_REMEDIATION_ERROR_PREFIX;
-  const HELP_AND_CONTACT_KEY_PREFIX = `${I18N_KEY_PREFIX}.additional_help_`;
-  const REMEDIATION_OPTION_INDEX_KEY = `${I18N_KEY_PREFIX}.option_index`;
-  const TITLE_KEY = `${I18N_KEY_PREFIX}.title`;
+  const ACCESS_DENIED_I18N_KEY_PREFIX = TERMINAL_KEY.END_USER_REMEDIATION_ERROR_PREFIX;
+  const GRACE_PERIOD_I18N_KEY_PREFIX = 'idx.device_assurance.grace_period.warning';
+  const HELP_AND_CONTACT_KEY_PREFIX = `${ACCESS_DENIED_I18N_KEY_PREFIX}.additional_help_`;
+  const REMEDIATION_OPTION_INDEX_KEY = `${ACCESS_DENIED_I18N_KEY_PREFIX}.option_index`;
+  const ACCESS_DENIED_TITLE_KEY = `${ACCESS_DENIED_I18N_KEY_PREFIX}.title`;
+  const GRACE_PERIOD_TITLE_KEY = `${GRACE_PERIOD_I18N_KEY_PREFIX}.title`;
   const resultMessageArray: WidgetMessage[] = [];
 
   messages.forEach((msg) => {
@@ -315,8 +317,8 @@ export const buildEndUserRemediationMessages = (
     const { i18n: { key, params }, links, message } = msg;
 
     const widgetMsg = { listStyleType: 'disc' } as WidgetMessage;
-    if (key === TITLE_KEY) {
-      widgetMsg.title = loc(TITLE_KEY, 'login');
+    if (key === ACCESS_DENIED_TITLE_KEY || key.startsWith(GRACE_PERIOD_TITLE_KEY)) {
+      widgetMsg.title = loc(key, 'login', params);
     } else if (key === REMEDIATION_OPTION_INDEX_KEY) {
       widgetMsg.title = loc(REMEDIATION_OPTION_INDEX_KEY, 'login', params);
     } else if (key.startsWith(HELP_AND_CONTACT_KEY_PREFIX)) {

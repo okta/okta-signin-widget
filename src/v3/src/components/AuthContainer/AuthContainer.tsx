@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box } from '@mui/material';
-import { ScopedCssBaseline, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
+import { Box, ScopedCssBaseline } from '@mui/material';
+import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';

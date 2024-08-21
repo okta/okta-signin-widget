@@ -15,8 +15,9 @@ import { IDX_STEP } from 'src/constants';
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
   ButtonElement,
-  FormBag, InfoboxElement, TitleElement, ViewElement, WidgetProps,
+  FormBag, InfoboxElement, TitleElement, WidgetProps,
 } from 'src/types';
+import { buildEndUserRemediationMessages } from 'src/util';
 
 import { transformDeviceAssuranceGracePeriod } from './transformDeviceAssuranceGracePeriod';
 
@@ -28,19 +29,12 @@ describe('transformDeviceAssuranceGracePeriod Tests', () => {
   beforeEach(() => {
     transaction.messages = [
       {
-        message: 'To prevent account lockout, resolve the issues within 7 days',
+        message: 'Your device doesn\'t meet the security requirements. Fix the issue within 7 days to prevent lockout.',
         i18n: {
-          key: 'idx.device_assurance.grace_period.due_by_days_warning',
+          key: 'idx.device_assurance.grace_period.warning.title.due_by_days',
           params: [
             7,
           ],
-        },
-        class: 'WARNING',
-      },
-      {
-        message: 'Your device does not meet the security requirements. To resolve now, make the following updates. Otherwise, continue to your app.',
-        i18n: {
-          key: 'idx.device_assurance.grace_period.explanation_one_rule',
         },
         class: 'ERROR',
       },
@@ -76,36 +70,17 @@ describe('transformDeviceAssuranceGracePeriod Tests', () => {
       formBag,
       widgetProps,
     });
+    const remediationMessages = buildEndUserRemediationMessages(transaction.messages!);
 
-    expect(updatedFormBag.uischema.elements.length).toBe(5);
+    expect(updatedFormBag.uischema.elements.length).toBe(3);
     expect(updatedFormBag).toMatchSnapshot();
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
       .toEqual('idx.device_assurance.grace_period.title');
     expect((updatedFormBag.uischema.elements[1] as InfoboxElement).options.message)
-      .toEqual({
-        message: '<strong>To prevent account lockout, resolve the issues within 7 days</strong>',
-        i18n: {
-          key: 'idx.device_assurance.grace_period.due_by_days_warning',
-          params: [
-            7,
-          ],
-        },
-        class: 'WARNING',
-      });
-    expect((updatedFormBag.uischema.elements[2] as ViewElement).options.component.key)
-      .toEqual('idx.device_assurance.grace_period.explanation_one_rule');
-    expect((updatedFormBag.uischema.elements[2] as ViewElement)
-      // @ts-expect-error message does not exist on type ComponentChildren since View element does not know its props' type
-      .options.component.props.message.links[0])
-      .toEqual({
-        url: 'https://okta.com/android-upgrade-os',
-        label: 'Update to Android 100',
-      });
-    expect((updatedFormBag.uischema.elements[3] as ViewElement).options.component.key)
-      .toEqual('idx.error.code.access_denied.device_assurance.remediation.additional_help_default');
-    expect((updatedFormBag.uischema.elements[4] as ButtonElement).label)
+      .toEqual(remediationMessages);
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).label)
       .toEqual('idx.device_assurance.grace_period.continue_to_app');
-    expect((updatedFormBag.uischema.elements[4] as ButtonElement).options.step)
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).options.step)
       .toEqual(IDX_STEP.SKIP);
   });
 });

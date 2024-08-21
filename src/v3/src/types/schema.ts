@@ -20,7 +20,7 @@ import {
 } from '@okta/okta-auth-js';
 import { IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
 import { HTMLReactParserOptions } from 'html-react-parser';
-import { FunctionComponent, VNode } from 'preact';
+import { FunctionComponent } from 'preact';
 import { Ref } from 'preact/hooks';
 import ReCAPTCHA from 'react-google-recaptcha';
 
@@ -648,12 +648,5 @@ export interface IdentifierContainerElement extends UISchemaElement {
   type: 'IdentifierContainer';
   options: {
     identifier: string;
-  };
-}
-
-export interface ViewElement extends UISchemaElement {
-  type: 'View';
-  options: {
-    component: VNode;
   };
 }

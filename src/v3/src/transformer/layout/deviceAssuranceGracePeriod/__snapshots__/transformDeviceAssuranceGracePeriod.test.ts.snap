@@ -24,60 +24,24 @@ Object {
         "options": Object {
           "class": "WARNING",
           "dataSe": "callout",
-          "message": Object {
-            "class": "WARNING",
-            "i18n": Object {
-              "key": "idx.device_assurance.grace_period.due_by_days_warning",
-              "params": Array [
-                7,
+          "message": Array [
+            Object {
+              "links": Array [
+                Object {
+                  "label": "Update to Android 100",
+                  "url": "https://okta.com/android-upgrade-os",
+                },
               ],
+              "listStyleType": "disc",
+              "title": "idx.device_assurance.grace_period.warning.title.due_by_days",
             },
-            "message": "<strong>To prevent account lockout, resolve the issues within 7 days</strong>",
-          },
+            Object {
+              "listStyleType": "disc",
+              "message": "idx.error.code.access_denied.device_assurance.remediation.additional_help_default",
+            },
+          ],
         },
         "type": "InfoBox",
-      },
-      Object {
-        "options": Object {
-          "component": <WidgetMessageContainer
-            message={
-              Object {
-                "links": Array [
-                  Object {
-                    "label": "Update to Android 100",
-                    "url": "https://okta.com/android-upgrade-os",
-                  },
-                ],
-                "listStyleType": "disc",
-                "message": "idx.device_assurance.grace_period.explanation_one_rule",
-              }
-            }
-            parserOptions={
-              Object {
-                "replace": [Function],
-              }
-            }
-          />,
-        },
-        "type": "View",
-      },
-      Object {
-        "options": Object {
-          "component": <WidgetMessageContainer
-            message={
-              Object {
-                "listStyleType": "disc",
-                "message": "idx.error.code.access_denied.device_assurance.remediation.additional_help_default",
-              }
-            }
-            parserOptions={
-              Object {
-                "replace": [Function],
-              }
-            }
-          />,
-        },
-        "type": "View",
       },
       Object {
         "label": "idx.device_assurance.grace_period.continue_to_app",

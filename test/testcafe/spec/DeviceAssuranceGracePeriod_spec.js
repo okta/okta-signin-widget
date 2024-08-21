@@ -44,9 +44,8 @@ test.requestHooks(dueByDateMock)('should render correct messaging and navigate t
   await t.expect(deviceAssuranceGracePeriodPage.form.getNthTitle(0)).eql('Device assurance reminder');
   const warningBox = deviceAssuranceGracePeriodPage.getWarningBox();
   await t.expect(warningBox.visible).ok();
-  await t.expect(warningBox.withText('To prevent account lockout, resolve the issues by 08/01/2024').exists).eql(true);
 
-  await t.expect(deviceAssuranceGracePeriodPage.hasText('Your device does not meet the security requirements. To resolve now, pick an option and make the updates. Otherwise, continue to your app.')).eql(true);
+  await t.expect(deviceAssuranceGracePeriodPage.hasText('Your device doesn\'t meet the security requirements. Fix the issue by 08/01/2024 to prevent lockout.')).eql(true);
 
   await t.expect(deviceAssuranceGracePeriodPage.getOptionHeading(0)).eql('Option 1:');
   await t.expect(deviceAssuranceGracePeriodPage.getAnchor('https://okta.com/android-upgrade-os').withExactText('Update to Android 100').exists).eql(true);
@@ -73,9 +72,8 @@ test.requestHooks(dueByDaysMock)('should render correct messaging and navigate t
   await t.expect(deviceAssuranceGracePeriodPage.form.getNthTitle(0)).eql('Device assurance reminder');
   const warningBox = deviceAssuranceGracePeriodPage.getWarningBox();
   await t.expect(warningBox.visible).ok();
-  await t.expect(warningBox.withText('To prevent account lockout, resolve the issues within 7 days').exists).eql(true);
 
-  await t.expect(deviceAssuranceGracePeriodPage.hasText('Your device does not meet the security requirements. To resolve now, pick an option and make the updates. Otherwise, continue to your app.')).eql(true);
+  await t.expect(deviceAssuranceGracePeriodPage.hasText('Your device doesn\'t meet the security requirements. Fix the issue within 7 days to prevent lockout.')).eql(true);
 
   await t.expect(deviceAssuranceGracePeriodPage.getOptionHeading(0)).eql('Option 1:');
   await t.expect(deviceAssuranceGracePeriodPage.getAnchor('https://okta.com/android-upgrade-os').withExactText('Update to Android 100').exists).eql(true);
@@ -102,9 +100,8 @@ test.requestHooks(oneOptionMock)('should render correct messaging for grace peri
   await t.expect(deviceAssuranceGracePeriodPage.getFormTitle()).eql('Device assurance reminder');
   const warningBox = deviceAssuranceGracePeriodPage.getWarningBox();
   await t.expect(warningBox.visible).ok();
-  await t.expect(warningBox.withText('To prevent account lockout, resolve the issues within 7 days').exists).eql(true);
 
-  await t.expect(deviceAssuranceGracePeriodPage.hasText('Your device does not meet the security requirements. To resolve now, make the following updates. Otherwise, continue to your app.')).eql(true);
+  await t.expect(deviceAssuranceGracePeriodPage.hasText('Your device doesn\'t meet the security requirements. Fix the within 7 days to prevent lockout.')).eql(true);
 
   await t.expect(deviceAssuranceGracePeriodPage.getAnchor('https://okta.com/android-upgrade-os').withExactText('Update to Android 100').exists).eql(true);
   await t.expect(deviceAssuranceGracePeriodPage.getAnchor('https://okta.com/android-biometric-lock').withExactText('Enable lock screen and biometrics').exists).eql(true);
