@@ -97,7 +97,7 @@ test.requestHooks(oneOptionMock)('should render correct messaging for grace peri
   const deviceAssuranceGracePeriodPage = await setup(t);
   await checkA11y(t);
 
-  await t.expect(deviceAssuranceGracePeriodPage.getFormTitle()).eql('Device assurance reminder');
+  await t.expect(deviceAssuranceGracePeriodPage.form.getNthTitle(0)).eql('Device assurance reminder');
   const warningBox = deviceAssuranceGracePeriodPage.getWarningBox();
   await t.expect(warningBox.visible).ok();
 
