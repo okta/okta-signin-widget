@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { transactionMessageTransformer } from 'src/transformer/i18n';
+
 import {
   ButtonElement,
   ButtonType,
@@ -25,6 +27,11 @@ export const transformDeviceAssuranceGracePeriod: IdxStepTransformer = ({
 }) => {
   const { uischema } = formBag;
   const { messages = [] } = transaction;
+
+  // Normally, the transactionMessageTransformer runs after this transformer, but buildEndUserRemediationMessages()
+  // expects localized transaction messages so we have to call this transformer here.
+  transactionMessageTransformer(transaction);
+
   const remediationMessages = buildEndUserRemediationMessages(messages);
 
   const titleElement: TitleElement = {

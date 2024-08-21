@@ -180,6 +180,7 @@ export const createThemeAndTokens = (
             paddingInlineEnd: mergedTokens.Spacing5,
             flexShrink: 0,
           },
+          // OKTA-795806 This theme override can be removed after Odyssey is bumped to latest
           message: {
             '& .MuiLink-root': {
 

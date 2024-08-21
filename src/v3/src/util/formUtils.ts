@@ -314,13 +314,14 @@ export const buildEndUserRemediationMessages = (
 
   messages.forEach((msg) => {
     // @ts-expect-error OKTA-630508 links is missing from IdxMessage type
-    const { i18n: { key, params }, links, message } = msg;
+    const { i18n: { key }, links, message } = msg;
 
     const widgetMsg = { listStyleType: 'disc' } as WidgetMessage;
-    if (key === ACCESS_DENIED_TITLE_KEY || key.startsWith(GRACE_PERIOD_TITLE_KEY)) {
-      widgetMsg.title = loc(key, 'login', params);
-    } else if (key === REMEDIATION_OPTION_INDEX_KEY) {
-      widgetMsg.title = loc(REMEDIATION_OPTION_INDEX_KEY, 'login', params);
+    if (key === ACCESS_DENIED_TITLE_KEY || key.startsWith(GRACE_PERIOD_TITLE_KEY)
+      || key === REMEDIATION_OPTION_INDEX_KEY) {
+      // `messages` will already be localized at this point by transactionMessageTransformer, so we can directly set
+      // widgetMsg.title equal to `message`
+      widgetMsg.title = message;
     } else if (key.startsWith(HELP_AND_CONTACT_KEY_PREFIX)) {
       widgetMsg.message = loc(
         key,
@@ -348,7 +349,7 @@ export const buildEndUserRemediationMessages = (
       }
       return;
     } else {
-      widgetMsg.message = loc(key, 'login', params);
+      widgetMsg.message = message;
     }
 
     resultMessageArray.push(widgetMsg);

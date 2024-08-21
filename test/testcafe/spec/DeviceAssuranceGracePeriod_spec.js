@@ -101,7 +101,7 @@ test.requestHooks(oneOptionMock)('should render correct messaging for grace peri
   const warningBox = deviceAssuranceGracePeriodPage.getWarningBox();
   await t.expect(warningBox.visible).ok();
 
-  await t.expect(deviceAssuranceGracePeriodPage.hasText('Your device doesn\'t meet the security requirements. Fix the within 7 days to prevent lockout.')).eql(true);
+  await t.expect(deviceAssuranceGracePeriodPage.hasText('Your device doesn\'t meet the security requirements. Fix the issue within 7 days to prevent lockout.')).eql(true);
 
   await t.expect(deviceAssuranceGracePeriodPage.getAnchor('https://okta.com/android-upgrade-os').withExactText('Update to Android 100').exists).eql(true);
   await t.expect(deviceAssuranceGracePeriodPage.getAnchor('https://okta.com/android-biometric-lock').withExactText('Enable lock screen and biometrics').exists).eql(true);
