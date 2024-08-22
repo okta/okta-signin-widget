@@ -65,8 +65,7 @@ const Body = BaseFormWithPolling.extend(Object.assign(
         shouldStartPolling = true;
       } else if (['samedevice', 'devicebootstrap'].includes(selectedChannel)) { 
         // no selector if the channel is same device or device bootstrap
-        // additionally, stop polling as it should be a terminal page
-        shouldStartPolling = false;
+        shouldStartPolling = true;
       }
       
       schema.push({
