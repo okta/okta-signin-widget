@@ -88,7 +88,7 @@ class PrimaryAuthOIEPage {
 
   async waitForUnlockAccountForm() {
     if (BUNDLE === 'next') {
-      await waitForText(this.formTitle, 'Unlock account?');
+      await waitForText(this.formTitle, 'Unlock account');
     } else {
       await waitForLoad(this.unlockAccountForm);
     }
