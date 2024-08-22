@@ -8,14 +8,16 @@ import type {
 export const customizeWidgetOptionsForEnrollProfileForm = (config: WidgetOptionsV3 = {}) => {
   // Tip for Sign-in page code editor: 
   //  Paste this code after `config = OktaUtil.getSignInWidgetConfig();`
-  config.i18n = {
-    ...config.i18n,
-    en: {
-      ...(config.i18n?.en ?? {}),
-      'custom.field.terms.label': 'I agree',
-      'custom.field.tin.label': 'TIN',
-    }
-  };
+  if (config.i18n) {
+    config.i18n = {
+      ...config.i18n,
+      en: {
+        ...(config.i18n?.en ?? {}),
+        'custom.field.terms.label': 'I agree',
+        'custom.field.tin.label': 'TIN',
+      }
+    };
+  }
 
   // Tip for Sign-in page code editor: 
   //  You can paste this code after `config = OktaUtil.getSignInWidgetConfig();`
@@ -66,7 +68,7 @@ export const customizeWidgetOptionsForEnrollProfileForm = (config: WidgetOptions
 export const addHookForEnrollProfileForm = (oktaSignIn: OktaSignInAPIV3) => {
   // Tip for Sign-in page code editor: 
   //  Paste this code after `oktaSignIn = new OktaSignIn(config);`
-  oktaSignIn.afterTransform('enroll-profile', ({ formBag, loc }) => {
+  oktaSignIn.afterTransform?.('enroll-profile', ({ formBag, loc }) => {
     // Change title
     const titleIndex = formBag.uischema.elements.findIndex(ele => ele.type === 'Title');
     const title: TitleElement = formBag.uischema.elements[titleIndex] as TitleElement;
@@ -96,8 +98,9 @@ export const addHookForEnrollProfileForm = (oktaSignIn: OktaSignInAPIV3) => {
       && (ele as FieldElement).options.type === 'string'
       && (ele as FieldElement).options.inputMeta.name.includes('custom')
     );
-    if (customString) {
-      customString.translations.find(t => t.name === 'label').value = loc('custom.field.tin.label');
+    const labelTranslation = customString?.translations?.find(t => t.name === 'label');
+    if (labelTranslation) {
+      labelTranslation.value = loc('custom.field.tin.label');
     }
 
     // Customize custom boolean field (`custom_bool`) - add title, change label (with i18n support)
@@ -108,7 +111,10 @@ export const addHookForEnrollProfileForm = (oktaSignIn: OktaSignInAPIV3) => {
     );
     if (customBoolIndex != -1) {
       const customBool = formBag.uischema.elements[customBoolIndex] as FieldElement;
-      customBool.translations.find(t => t.name === 'label').value = loc('custom.field.terms.label');
+      const labelTranslation = customBool.translations?.find(t => t.name === 'label');
+      if (labelTranslation) {
+        labelTranslation.value = loc('custom.field.terms.label');
+      }
       const customBoolTitle = {
         type: 'Description',
         noMargin: true,

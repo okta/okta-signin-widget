@@ -36,7 +36,7 @@ export interface TransformHookContext extends EventContext {
   deviceEnrollment?: DeviceEnrollment;
   nextStep?: NextStep;
   idxContext?: IdxContext;
-  loc?: typeof loc,
+  loc: typeof loc,
 }
 
 export interface TransformHookFunction {

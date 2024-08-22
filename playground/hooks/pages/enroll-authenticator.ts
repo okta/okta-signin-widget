@@ -6,10 +6,10 @@ import type {
 export const addHookForEnrollAuthenticatorForm = (oktaSignIn: OktaSignInAPIV3) => {
   // Tip for Sign-in page code editor: 
   //  Paste this code after `oktaSignIn = new OktaSignIn(config);`
-  oktaSignIn.afterTransform('enroll-authenticator', ({ formBag, currentAuthenticator }) => {
+  oktaSignIn.afterTransform?.('enroll-authenticator', ({ formBag, currentAuthenticator }) => {
     const stepper = formBag.uischema.elements.find(ele => ele.type === 'Stepper') as StepperLayout;
     if (stepper) {
-      if (currentAuthenticator.type === 'security_question') {
+      if (currentAuthenticator?.type === 'security_question') {
         // Allow only pre-defined security questions
         stepper.elements.pop();
         const layout = stepper.elements[0] as UISchemaLayout;
@@ -22,7 +22,9 @@ export const addHookForEnrollAuthenticatorForm = (oktaSignIn: OktaSignInAPIV3) =
           && (ele as FieldElement).options.type === 'string'
           && (ele as FieldElement).options.inputMeta.name === 'credentials.answer'
         );
-        answer.options.inputMeta.secret = false;
+        if (answer) {
+          answer.options.inputMeta.secret = false;
+        }
       }
     }
   });

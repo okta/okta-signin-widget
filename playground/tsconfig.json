@@ -1,5 +1,23 @@
 {
   "compilerOptions": {
-    "sourceMap": true
-  }
+    "noEmit": true,
+    "sourceMap": false,
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "paths": {
+      "@okta/okta-i18n-bundles": ["../src/util/Bundles.ts"],
+      "@okta/handlebars-inline-precompile": ["../scripts/buildtools/tsc/handlebars-inline-precompile"],
+      "util/*": ["../src/util/*"],
+      "models/*": ["../src/models/*"],
+      "config/*": ["../src/config/*"]
+    }
+  },
+  "files": [
+    "main.ts"
+  ]
 }

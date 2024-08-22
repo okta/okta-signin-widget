@@ -98,7 +98,7 @@ const renderPlaygroundWidget = (options: WidgetOptions & { assertNoEnglishLeaks?
       //    that needs to be exchanged for an okta session
       if (isSuccessNonOIDC(res)) {
         console.log(res.user);
-        res.session.setCookieAndRedirect(signinWidgetOptions.baseUrl + '/app/UserHome');
+        res.session?.setCookieAndRedirect(signinWidgetOptions.baseUrl + '/app/UserHome');
         return;
       }
 
@@ -137,12 +137,12 @@ const renderPlaygroundWidget = (options: WidgetOptions & { assertNoEnglishLeaks?
     // assert english leaks if locale set to ok-PL
     if (options?.assertNoEnglishLeaks !== false && signinWidgetOptions.language === 'ok-PL') {
       //Use innerText to avoid including hidden elements
-      let viewText = document.getElementById('okta-sign-in').innerText;
-      viewText = viewText.split('\n').join(' ');
+      let viewText = document.getElementById('okta-sign-in')?.innerText;
+      viewText = viewText?.split('\n').join(' ');
 
       const noTranslationContentExists = document.querySelectorAll(NO_TRANSLATE_SELECTOR).length;
 
-      const noTranslationContent = [];
+      const noTranslationContent: string[] = [];
       /* eslint max-depth: [2, 3] */
       if (noTranslationContentExists) {
         const noTranslateElems = document.querySelectorAll(NO_TRANSLATE_SELECTOR);

@@ -1,7 +1,7 @@
 export const addHookForAllForms = (oktaSignIn) => {
     // Tip for Sign-in page code editor: 
     //  Paste this code after `oktaSignIn = new OktaSignIn(config);`
-    oktaSignIn.afterTransform('*', (context) => {
+    oktaSignIn.afterTransform?.('*', (context) => {
         const { formBag, formName } = context;
         // Add Terms of Service link
         const formsWithTermsLink = [

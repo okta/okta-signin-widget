@@ -7,7 +7,7 @@ import type {
 export const addHookForIdentifyForm = (oktaSignIn: OktaSignInAPIV3) => {
   // Tip for Sign-in page code editor: 
   //  Paste this code after `oktaSignIn = new OktaSignIn(config);`
-  oktaSignIn.afterTransform('identify', ({ formBag }) => {
+  oktaSignIn.afterTransform?.('identify', ({ formBag }) => {
     // Change title
     const titleIndex = formBag.uischema.elements.findIndex(ele => ele.type === 'Title');
     const title = formBag.uischema.elements[titleIndex] as TitleElement;

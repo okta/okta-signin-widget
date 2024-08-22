@@ -4,6 +4,6 @@
   "description": "## The playground App",
   "main": "main.ts",
   "scripts": {
-    "generate:hooks:js": "../node_modules/.bin/tsc -p ./hooks/tsconfig.json && cp -r ./hooks/js/playground/hooks/pages ./hooks && rm -rf ./hooks/js"
+    "generate:hooks:js": "tsc --noEmit false --outDir ./js && cp -r ./js/playground/hooks/pages/*.js ./hooks/pages && rm -rf ./js"
   }
 }

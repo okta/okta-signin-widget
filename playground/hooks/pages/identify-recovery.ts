@@ -6,7 +6,7 @@ import type {
 export const addHookForIdentifyRecoveryForm = (oktaSignIn: OktaSignInAPIV3) => {
   // Tip for Sign-in page code editor: 
   //  Paste this code after `oktaSignIn = new OktaSignIn(config);`
-  oktaSignIn.afterTransform('identify-recovery', ({ formBag }) => {
+  oktaSignIn.afterTransform?.('identify-recovery', ({ formBag }) => {
     // Change title
     const titleIndex = formBag.uischema.elements.findIndex(ele => ele.type === 'Title');
     const title = formBag.uischema.elements[titleIndex] as TitleElement;
