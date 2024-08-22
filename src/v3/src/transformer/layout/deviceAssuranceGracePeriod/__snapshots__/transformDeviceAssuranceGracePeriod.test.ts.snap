@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`transformDeviceAssuranceGracePeriod Tests should build device assurance grace period view elements 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "idx.device_assurance.grace_period.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "class": "WARNING",
+          "dataSe": "callout",
+          "message": Array [
+            Object {
+              "links": Array [
+                Object {
+                  "label": "idx.error.code.access_denied.device_assurance.remediation.android.upgrade_os_version",
+                  "url": "https://okta.com/android-upgrade-os",
+                },
+              ],
+              "listStyleType": "disc",
+              "title": "idx.device_assurance.grace_period.warning.title.due_by_days",
+            },
+            Object {
+              "listStyleType": "disc",
+              "message": "idx.error.code.access_denied.device_assurance.remediation.additional_help_default",
+            },
+          ],
+        },
+        "type": "InfoBox",
+      },
+      Object {
+        "label": "idx.device_assurance.grace_period.continue_to_app",
+        "options": Object {
+          "step": "skip",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

@@ -25,7 +25,6 @@ import {
   ButtonElement,
   ButtonType,
   DescriptionElement,
-  InfoboxElement,
   IWidgetContext,
   LaunchAuthenticatorButtonElement,
   PhoneVerificationMethodType,
@@ -298,27 +297,31 @@ export const getBiometricsErrorMessageElement = (
   };
 };
 
-export const buildEndUserRemediationError = (messages: IdxMessage[]) :
-InfoboxElement | undefined => {
+export const buildEndUserRemediationMessages = (
+  messages: IdxMessage[],
+) : WidgetMessage[] | undefined => {
   if (messages.length === 0) {
     return undefined;
   }
 
-  const I18N_KEY_PREFIX = TERMINAL_KEY.END_USER_REMEDIATION_ERROR_PREFIX;
-  const HELP_AND_CONTACT_KEY_PREFIX = `${I18N_KEY_PREFIX}.additional_help_`;
-  const REMEDIATION_OPTION_INDEX_KEY = `${I18N_KEY_PREFIX}.option_index`;
-  const TITLE_KEY = `${I18N_KEY_PREFIX}.title`;
+  const ACCESS_DENIED_I18N_KEY_PREFIX = TERMINAL_KEY.END_USER_REMEDIATION_ERROR_PREFIX;
+  const GRACE_PERIOD_I18N_KEY_PREFIX = 'idx.device_assurance.grace_period.warning';
+  const HELP_AND_CONTACT_KEY_PREFIX = `${ACCESS_DENIED_I18N_KEY_PREFIX}.additional_help_`;
+  const REMEDIATION_OPTION_INDEX_KEY = `${ACCESS_DENIED_I18N_KEY_PREFIX}.option_index`;
+  const ACCESS_DENIED_TITLE_KEY = `${ACCESS_DENIED_I18N_KEY_PREFIX}.title`;
+  const GRACE_PERIOD_TITLE_KEY = `${GRACE_PERIOD_I18N_KEY_PREFIX}.title`;
   const resultMessageArray: WidgetMessage[] = [];
 
   messages.forEach((msg) => {
     // @ts-expect-error OKTA-630508 links is missing from IdxMessage type
-    const { i18n: { key, params }, links, message } = msg;
+    const { i18n: { key }, links, message } = msg;
 
     const widgetMsg = { listStyleType: 'disc' } as WidgetMessage;
-    if (key === TITLE_KEY) {
-      widgetMsg.title = loc(TITLE_KEY, 'login');
-    } else if (key === REMEDIATION_OPTION_INDEX_KEY) {
-      widgetMsg.title = loc(REMEDIATION_OPTION_INDEX_KEY, 'login', params);
+    if (key === ACCESS_DENIED_TITLE_KEY || key.startsWith(GRACE_PERIOD_TITLE_KEY)
+      || key === REMEDIATION_OPTION_INDEX_KEY) {
+      // `messages` will already be localized at this point by transactionMessageTransformer, so we can directly set
+      // widgetMsg.title equal to `message`
+      widgetMsg.title = message;
     } else if (key.startsWith(HELP_AND_CONTACT_KEY_PREFIX)) {
       widgetMsg.message = loc(
         key,
@@ -346,20 +349,13 @@ InfoboxElement | undefined => {
       }
       return;
     } else {
-      widgetMsg.message = loc(key, 'login');
+      widgetMsg.message = message;
     }
 
     resultMessageArray.push(widgetMsg);
   });
 
-  return {
-    type: 'InfoBox',
-    options: {
-      message: resultMessageArray,
-      class: 'ERROR',
-      dataSe: 'callout',
-    },
-  } as InfoboxElement;
+  return resultMessageArray;
 };
 
 export const shouldHideIdentifier = (
