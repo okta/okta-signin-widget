@@ -127,8 +127,8 @@ Instead you can use new `afterTransform` hook to manipulate state of SIW to be r
 Example:
 
 ```js
-signIn.afterTransform('*', ({ formBag }) => {
-  const customLink = {
+signIn.afterTransform('*', function (context) {
+  var customLink = {
     type: 'Link',
     contentType: 'footer',
     options: {
@@ -139,12 +139,14 @@ signIn.afterTransform('*', ({ formBag }) => {
       dataSe: 'customLink',
     },
   };
-  formBag.uischema.elements.push(customLink);
+  context.formBag.uischema.elements.push(customLink);
 });
 ```
 
 This hook adds custom link to the bottom of every page (because `*` is used as first parameter).  
 If you want to apply hook to a specific form only, put its [name](#form-name) instead of `*` as first parameter.  
+
+NOTE: the `*` is an exact match string. It does not perform custom wildcard matching, e.g., `challenge-*` will not match anything. Instead use `*` and `context.formName.test(/^challenge-.+/)` in the method body.  
 
 See [`formBag`](#formbag) section for decription of the form bag object.  
 
