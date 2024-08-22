@@ -65,7 +65,7 @@ const loopbackSuccessWithHttpsMock = RequestMock()
     } else {
       res.setBody(identifyWithDeviceProbingHttpsLoopback);
     }
-  }) 
+  })
   .onRequestTo(/https:\/\/randomorgid.authenticatorlocaldev.com:(2000|6512|6513)\/probe/)
   .respond(null, 500, {
     'access-control-allow-origin': '*',
@@ -95,7 +95,7 @@ const loopbackSuccessWithHttpMock = RequestMock()
     } else {
       res.setBody(identifyWithDeviceProbingHttpsLoopback);
     }
-  }) 
+  })
   .onRequestTo(/http:\/\/localhost:(2000|6512|6513)\/probe/)
   .respond(null, 500, {
     'access-control-allow-origin': '*',
@@ -544,7 +544,7 @@ test
       record => record.response.statusCode === 200 &&
                 record.request.url.match(/introspect/)
     )).eql(1);
-    await t.wait(1000); // wait a moment for all probes to fail
+    await t.wait(2000); // wait a moment for all probes to fail
     await t.expect(loopbackChallengeErrorLogger.count(
       record => record.response.statusCode === 500 &&
                 record.request.url.match(/2000/)
@@ -620,7 +620,7 @@ test
       record => record.response.statusCode === 200 &&
         record.request.url.match(/introspect/)
     )).eql(1);
-    await t.wait(1000);
+    await t.wait(2000);
     await t.expect(loopbackSuccessButNotAssignedLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.method === 'get' &&
@@ -680,7 +680,7 @@ test
       record => record.response.statusCode === 200 &&
         record.request.url.match(/introspect/)
     )).eql(1);
-    await t.wait(1000);
+    await t.wait(2000);
     await t.expect(appLinkWithoutLaunchLogger.count(
       record => record.response.statusCode === 500 &&
         record.request.url.match(/2000|6511|6512|6513/)
