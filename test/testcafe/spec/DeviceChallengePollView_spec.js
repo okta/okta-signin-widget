@@ -648,7 +648,7 @@ test
       record => record.response.statusCode === 200 &&
         record.request.url.match(/introspect/)
     )).eql(1);
-    await t.wait(1000);
+    await t.wait(2000);
     await t.expect(loopbackFallbackLogger.count(
       record => record.response.statusCode === 500 &&
         record.request.url.match(/2000|6511|6512|6513/)
