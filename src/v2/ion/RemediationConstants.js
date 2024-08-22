@@ -57,6 +57,7 @@ const FORMS = {
   FAILURE_REDIRECT: 'failure-redirect',
   SUCCESS_REDIRECT: 'success-redirect',
   REDIRECT_IDP: 'redirect-idp',
+  REDIRECT_IDVERIFY: 'redirect-idverify',
   PIV_IDP: 'piv-idp',
 
   DEVICE_CHALLENGE_POLL: 'device-challenge-poll',
@@ -163,6 +164,10 @@ const ATTR_FORMAT = {
   COUNTRY_CODE: 'country-code',
 };
 
+const ID_PROOFING_TYPE = {
+  IDV_PERSONA: 'IDV_PERSONA'
+};
+
 export {
   ACTIONS,
   ORG_PASSWORD_RECOVERY_LINK,
@@ -178,4 +183,5 @@ export {
   IDP_FORM_TYPE,
   INTERSTITIAL_REDIRECT_VIEW,
   ATTR_FORMAT,
+  ID_PROOFING_TYPE,
 };

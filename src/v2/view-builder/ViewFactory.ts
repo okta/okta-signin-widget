@@ -5,6 +5,8 @@ import { BaseView } from './internals';
 // Identify
 import IdentifierView from './views/IdentifierView';
 import RedirectIdPView from './views/RedirectIdPView';
+import RedirectIdvView from './views/idp/RedirectIdvView';
+
 import IdentifyRecoveryView from './views/IdentifyRecoveryView';
 
 // Terminal & Auto-Redirect
@@ -271,6 +273,9 @@ const VIEWS_MAPPING = {
   },
   [RemediationForms.REDIRECT_IDP]: {
     [DEFAULT]: RedirectIdPView,
+  },
+  [RemediationForms.REDIRECT_IDVERIFY]: {
+    [DEFAULT]: RedirectIdvView,
   },
   [RemediationForms.PIV_IDP]: {
     [DEFAULT]: ChallengePIVView,

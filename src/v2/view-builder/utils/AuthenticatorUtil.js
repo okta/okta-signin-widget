@@ -12,7 +12,7 @@
 import _ from 'underscore';
 import { loc } from '../../../util/loc';
 import FactorUtil from 'util/FactorUtil';
-import { AUTHENTICATOR_KEY } from '../../ion/RemediationConstants';
+import { AUTHENTICATOR_KEY, ID_PROOFING_TYPE } from '../../ion/RemediationConstants';
 
 const { getPasswordComplexityDescriptionForHtmlList } = FactorUtil;
 
@@ -261,6 +261,19 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
   return authenticatorData;
 };
 
+const getIDProofingData = function(idvName) {
+  let idProofingData = {};
+ 
+  switch (idvName) {
+  case ID_PROOFING_TYPE.IDV_PERSONA:
+    idProofingData = {
+      iconClassName: 'mfa-idv-persona',
+    };
+    break;
+  }
+  return idProofingData;
+};
+
 export function getVerifyEmailAriaLabel(email) {
   return email
     ? loc('oie.select.authenticator.verify.email.with.email.label', 'login', [email])
@@ -297,8 +310,8 @@ export function getAuthenticatorDataForVerification(authenticator) {
   return getAuthenticatorData(authenticator, true);
 }
 
-export function getIconClassNameForBeacon(authenticatorKey) {
-  return getAuthenticatorData({ authenticatorKey }).iconClassName;
+export function getIconClassNameForBeacon(authenticatorKey, idvName) {
+  return getAuthenticatorData({ authenticatorKey }).iconClassName || getIDProofingData(idvName).iconClassName;
 }
 
 export function removeRequirementsFromError(errorJSON) {
