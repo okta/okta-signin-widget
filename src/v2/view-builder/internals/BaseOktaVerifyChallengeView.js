@@ -105,6 +105,7 @@ const Body = BaseFormWithPolling.extend({
 
     const onFailure = () => {
       Logger.error(`Something unexpected happened while we were checking port ${currentPort}.`);
+      return $.Deferred().reject();
     };
 
     const doProbing = (domainUrl) => {
