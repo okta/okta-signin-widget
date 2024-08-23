@@ -24,7 +24,7 @@ describe('getLinkParams', () => {
         ...databag,
         linkParams: undefined
       } as Databag;
-      expect(getLinkParams(testData)).toEqual({});
+      expect(getLinkParams(testData)).toEqual(undefined);
     });
 
     it('builds linkParams when linkParams is avaliable in databag', () => {

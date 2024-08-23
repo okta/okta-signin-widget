@@ -1,6 +1,7 @@
-import { Databag } from '@/types';
+import type { Databag } from '@/types';
+import type { Link } from '@okta/okta-signin-widget';
 
-export const getCustomLinks = (databag: Databag) => {
+export const getCustomLinks = (databag: Databag): Link[] => {
   const {
     orgLoginPageSettings: {
       customLinkOneText,
@@ -9,18 +10,18 @@ export const getCustomLinks = (databag: Databag) => {
       customLinkTwoHref,
     }
   } = databag;
-  const res = [];
+  const res: Link[] = [];
 
   if (customLinkOneText) {
     res.push({
       text: customLinkOneText,
-      href: customLinkOneHref,
+      href: customLinkOneHref as string,
     });
   }
   if (customLinkTwoText) {
     res.push({
       text: customLinkTwoText,
-      href: customLinkTwoHref,
+      href: customLinkTwoHref as string,
     });
   }
 

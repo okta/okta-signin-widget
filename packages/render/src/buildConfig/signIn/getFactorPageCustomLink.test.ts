@@ -4,7 +4,7 @@ import { getFactorPageCustomLink } from './getFactorPageCustomLink';
 describe('getFactorPageCustomLink', () => {
   it('returns empty object when no factorPageCustomLinkText exist', () => {
     const databag = { orgLoginPageSettings: {} } as Databag;
-    expect(getFactorPageCustomLink(databag)).toEqual({});
+    expect(getFactorPageCustomLink(databag)).toEqual(undefined);
   });
 
   it('matches snapshot when factorPageCustomLinkText exist', () => {

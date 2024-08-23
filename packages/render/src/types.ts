@@ -1,6 +1,7 @@
 export type FeatureFlags = string[];
 
-export type Databag = {
+// databag from controller model
+type ModelDatabag = {
   featureFlags: FeatureFlags;
   orgLoginPageSettings: {
     customLinkOneText?: string;
@@ -24,9 +25,16 @@ export type Databag = {
     oktaHelpLabel: string;
     footerHelpTitle: string;
     recoveryFlowPlaceholder: string;
+    'kmsiPrompt.title'?: string;
+    'kmsiPrompt.subtitle'?: string;
+    'kmsiPrompt.acceptButtonText'?: string;
+    'kmsiPrompt.rejectButtonText'?: string;
+  },
+  orgOptionalUserAccountFields?: {
+    hideSecurityImage: boolean;
   },
   linkParams?: Record<string, string>,
-  fromUri: string;
+  fromURI?: string;
   backToSignInLink: string;
   vendor?: string;
   thirdPartyEnrollmentUrl?: string;
@@ -40,37 +48,23 @@ export type Databag = {
     challengeMethod: string;
   },
   usingDeviceFlow: boolean;
-  idpDiscovery?: {
-    requestContext: string;
-  },
+  idpDiscovery?: boolean,
   consentCancelUrl?: string;
   registrationEnabledForSignInWidget?: boolean;
   overrideExistingStateToken?: boolean;
   orgSyncToAccountChooserEnabled?: boolean;
   isMfaAttestation?: boolean;
-  disableNewLoginPage?: boolean;
   interstitialBeforeLoginRedirect?: string;
   repost?: boolean;
   accountChooserDiscoveryUrl: string;
   isMobileClientLogin: boolean;
-  isMobileSSO: boolean;
-  disableiPadCheck: boolean;
-  enableiPadLoginReload: boolean;
-  hasChromeOSFeature: boolean;
-  showLinkToAppStore: boolean;
   enrollingFactor: boolean;
-  showInactiveTabIfDocumentIsHidden: boolean;
-  avoidPageRefresh: boolean;
   sdkBaseURL: string;
   expiresAt: number;
   refreshWindowMs: number;
   baseUrl: string;
   stateToken: string;
   username: string;
-  rememberMe: boolean;
-  smsRecovery: boolean;
-  callRecovery: boolean;
-  emailRecovery: boolean;
   suppliedRedirectUri: string;
   showX509button: boolean;
   pivCardButton: string;
@@ -79,18 +73,11 @@ export type Databag = {
   isCustomDomain: boolean;
   customDomain: string;
   orgSupportPhoneNumber: string;
-  hideSignOutForMFA: boolean;
+  hideSignOutLinkInMFA: boolean;
   hideBackToSignInForReset: boolean;
   signOutUrl: string;
-  hasPasswordlessPolicy: boolean;
-  securityImage: boolean;
-  selfServiceUnlock: boolean;
-  redirectByFormSubmit: boolean;
-  autoPush: boolean;
-  orgName: string;
+  passwordlessAuth: boolean;
   orgLogo: string;
-  enableDeviceFingerprinting: boolean;
-  useFingerprintForSecImage: boolean;
   brandName?: string;
   brandPrimaryColor?: string;
   brandPrimaryColorContrast?: string;
@@ -98,10 +85,44 @@ export type Databag = {
   brandSecondaryColorContrast?: string;
   useSiwGen3: boolean;
   i18nTest: Record<string, string>;
-  CNCountryValue: Record<string, string>;
-  HKCountryValue: Record<string, string>;
-  MOCountryValue: Record<string, string>;
-  TWCountryValue: Record<string, string>;
-  invalidTokenErrorMsg: string;
   countryIso?: string;
+  isSamlForceAuthnPrompt: boolean;
+  smsSelfServiceEnabled: boolean;
+  callSelfServiceEnabled: boolean;
+  emailSelfServiceEnabled: boolean;
+  selfServiceUnlockEnabled: boolean;
+  useDeviceFingerprintForSecurityImage: boolean;
+  refreshPageWhenPageBecomesActive: boolean;
+  redirectByFormSubmit: boolean;
+  customSignOutUrl: string;
+  orgctx: {
+    org?: {
+      rememberMeEnabled: boolean;
+      name: string;
+    }
+  };
+  appProperties: {
+    accountChooserDiscoveryUrl: string;
+  };
+  i18n: {
+    idpBasedPivCardButton: string;
+    invalidTokenErrorMsg: string;
+    pivCardButton: string;
+    countryTranslationJabil: {
+      CN: string;
+      HK: string;
+      MO: string;
+      TW: string;
+    };
+  }
 };
+
+// JSP page variables
+export type JSPDatabag = {
+  isMobileSSO: boolean;
+  hasChromeOSFeature: boolean;
+  showLinkToAppStore: boolean;
+  showInactiveTabIfDocumentIsHidden: boolean;
+}
+
+export type Databag = ModelDatabag & JSPDatabag;

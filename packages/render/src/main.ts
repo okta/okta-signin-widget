@@ -1,19 +1,16 @@
-import type { Databag } from './types';
-
-// @ts-expect-error no type export from @okta/loginpage
-import { OktaLogin } from '@okta/loginpage';
-// @ts-expect-error no type export from @okta/loginpage
-import { OktaLogin as OktaLoginLegacy } from '@okta/loginpage-legacy';
+import type { Databag, JSPDatabag } from './types';
 
 import { registerListeners } from './registerListeners';
 import { buildConfig } from './buildConfig';
 import { hasFeature, isOldWebBrowserControl } from './utils';
 
-export const render = (databag: string) => {
-  let parsedDatabag: Databag;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const render = (databag: string, jspPageDatabag: JSPDatabag, runLoginPage: any) => {
+  let combinedDatabag: Databag;
 
   try {
-    parsedDatabag = JSON.parse(databag);
+    const parsedDatabag = JSON.parse(databag);
+    combinedDatabag = { ...parsedDatabag, ...jspPageDatabag };
   } catch (err) {
     // This error should never happen, otherwise loginpage won't render
     // throw directly to catch issue as early as possible
@@ -21,7 +18,7 @@ export const render = (databag: string) => {
     throw new Error('Invalid databag');
   }
 
-  const { featureFlags, isMfaAttestation, disableNewLoginPage } = parsedDatabag;
+  const { featureFlags, isMfaAttestation } = combinedDatabag;
 
   registerListeners();
 
@@ -39,11 +36,13 @@ export const render = (databag: string) => {
     unsupportedContainer?.removeAttribute('style');
   } else {
     unsupportedContainer?.parentNode?.removeChild(unsupportedContainer);
-    const config = buildConfig(parsedDatabag);
-    const loginModule = disableNewLoginPage ? OktaLoginLegacy : OktaLogin;
-    const res = loginModule.initLoginPage(config);
-    if (hasFeature('SIW_PLUGIN_A11Y', featureFlags) && res.oktaSignIn && window.OktaPluginA11y) {
-      window.OktaPluginA11y.init(res.oktaSignIn);
-    }
+    const config = buildConfig(combinedDatabag);
+
+    runLoginPage(function () {
+      const res = window.OktaLogin.initLoginPage(config);
+      if (hasFeature('SIW_PLUGIN_A11Y', featureFlags) && res.oktaSignIn && window.OktaPluginA11y) {
+        window.OktaPluginA11y.init(res.oktaSignIn);
+      }
+    });
   }
 };

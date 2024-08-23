@@ -10,10 +10,10 @@ export const getLinkParams = (databag: Databag) => {
     'OMM_DEVICE_TRUST_ANDROID_DEVICE',
     'THIRD_PARTY_DEVICE_TRUST_ANDROID_DEVICE',
   ], featureFlags)) {
-    return;
+    return undefined;
   }
 
-  let res = {};
+  let res;
   if (linkParams) {
     res = {
       ...linkParams,

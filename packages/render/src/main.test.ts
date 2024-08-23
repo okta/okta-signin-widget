@@ -1,21 +1,7 @@
-const oktaLoginStub = jest.fn();
-const oktaLoginLegacyStub = jest.fn();
-
-import { databagString, databag } from '@okta/loginpage-mock';
+import { databagString, databag, jspPageDatabag } from '@okta/loginpage-mock';
 import { registerListeners } from './registerListeners';
 import * as utils from './utils';
 import { render } from './main';
-
-jest.mock('@okta/loginpage', () => ({
-  OktaLogin: {
-    initLoginPage: oktaLoginStub
-  }
-}));
-jest.mock('@okta/loginpage-legacy', () => ({
-  OktaLogin: {
-    initLoginPage: oktaLoginLegacyStub,
-  }
-}));
 
 jest.mock('./registerListeners', () => ({
   registerListeners: jest.fn(),
@@ -36,6 +22,8 @@ jest.mock('./utils', () => {
 });
 
 describe('main', () => {
+  const runLoginPage = jest.fn();
+
   beforeEach(() => {
     window.okta = {
       locale: 'en'
@@ -55,7 +43,7 @@ describe('main', () => {
     const unsupportedContainer = document.getElementById('okta-sign-in');
     const unsupportedOnedrive = document.getElementById('unsupported-onedrive');
 
-    render(databagString);
+    render(databagString, jspPageDatabag, runLoginPage);
 
     expect(registerListeners).toHaveBeenCalledTimes(1);
     expect(unsupportedContainer?.hasAttribute('style')).toBe(false);
@@ -72,7 +60,7 @@ describe('main', () => {
     const unsupportedCookie = document.getElementById('unsupported-cookie');
 
     const newDatabag = { ...databag, failIfCookiesDisabled: true };
-    render(JSON.stringify(newDatabag));
+    render(JSON.stringify(newDatabag), jspPageDatabag, runLoginPage);
 
     expect(registerListeners).toHaveBeenCalledTimes(1);
     expect(unsupportedContainer?.hasAttribute('style')).toBe(false);
@@ -81,50 +69,40 @@ describe('main', () => {
 
 
   describe('renders login page', () => {
+    const runLoginPage = jest.fn().mockImplementation((fn) => fn());
+    const oktaSignInMock = {};
+
     beforeEach(() => {
+      window.OktaLogin = {
+        initLoginPage: jest.fn().mockReturnValue({
+          oktaSignIn: oktaSignInMock,
+        }),
+      };
+      window.OktaPluginA11y = {
+        init: jest.fn()
+      };
+
       jest.spyOn(utils, 'isOldWebBrowserControl').mockReturnValueOnce(false);
       jest.spyOn(window.navigator, 'cookieEnabled', 'get').mockReturnValue(true);
     });
 
-    it('uses legacy OktaLogin bundle when has disableNewLoginPage', () => {
-      const newDatabag = { ...databag, disableNewLoginPage: true };
-      render(JSON.stringify(newDatabag));
+    it('calls passed in runLoginPage fn', () => {
+      render(databagString, { ...jspPageDatabag }, runLoginPage);
 
       const unsupportedContainer = document.getElementById('okta-sign-in');
       // element is removed
       expect(unsupportedContainer).toBe(null);
-      // uses legacy okta login bundle
-      expect(oktaLoginLegacyStub.mock.calls[0]).toMatchSnapshot();
-      expect(oktaLoginStub).not.toHaveBeenCalled();
+      expect(runLoginPage).toHaveBeenCalled();
     });
-
-    it('uses OktaLogin bundle when has no disableNewLoginPage', () => {
-      const newDatabag = { ...databag };
-      render(JSON.stringify(newDatabag));
-
-      const unsupportedContainer = document.getElementById('okta-sign-in');
-      // element is removed
-      expect(unsupportedContainer).toBe(null);
-      // uses legacy okta login bundle
-      expect(oktaLoginStub.mock.calls[0]).toMatchSnapshot();
-      expect(oktaLoginLegacyStub).not.toHaveBeenCalled();
-    });
-
 
     it('sets up OktaPluginA11y when has SIW_PLUGIN_A11Y FF', () => {
-      window.OktaPluginA11y = {
-        init: jest.fn()
-      };
-      const oktaSignInMock = {};
-      oktaLoginStub.mockReturnValueOnce({ oktaSignIn: oktaSignInMock });
-
       const newDatabag = {
         ...databag,
         featureFlags: [...databag.featureFlags, 'SIW_PLUGIN_A11Y']
       };
-      render(JSON.stringify(newDatabag));
+      render(JSON.stringify(newDatabag), jspPageDatabag, runLoginPage);
 
-      expect(window.OktaPluginA11y.init).toHaveBeenCalledWith(oktaSignInMock);
+      expect(window.OktaPluginA11y?.init).toHaveBeenCalledWith(oktaSignInMock);
     });
   });
 });

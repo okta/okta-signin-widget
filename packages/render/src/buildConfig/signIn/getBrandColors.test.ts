@@ -4,7 +4,7 @@ import { getBrandColors } from './getBrandColors';
 describe('getBrandColors', () => {
   it('returns undefined when not use siw gen3', () => {
     const databag = {
-      useSiwGen3: false
+      useSiwGen3: false,
     } as Databag;
     expect(getBrandColors(databag)).toBeUndefined();
   });

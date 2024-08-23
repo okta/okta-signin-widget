@@ -5,13 +5,9 @@ const INVALID_TOKEN_ERROR_CODE = 'errors.E0000011';
 
 export const getI18n = ({
   featureFlags,
+  i18n,
   i18nTest = {},
   orgLoginPageSettings,
-  CNCountryValue,
-  HKCountryValue,
-  MOCountryValue,
-  TWCountryValue,
-  invalidTokenErrorMsg,
 }: Databag) => {
   const locale = window.okta.locale;
   const {
@@ -26,6 +22,8 @@ export const getI18n = ({
     footerHelpTitle,
     recoveryFlowPlaceholder,
   } = orgLoginPageSettings;
+  const { countryTranslationJabil, invalidTokenErrorMsg } = i18n;
+  
   const res = {
     ...i18nTest,
     'primaryauth.username.placeholder': usernameLabel,
@@ -44,10 +42,10 @@ export const getI18n = ({
     'account.unlock.email.or.username.tooltip': recoveryFlowPlaceholder,
 
     ...(hasFeature('ENG_UPDATE_COUNTRY_TRANSLATION_JABIL', featureFlags) && {
-      'country.CN': CNCountryValue,
-      'country.HK': HKCountryValue,
-      'country.MO': MOCountryValue,
-      'country.TW': TWCountryValue,
+      'country.CN': countryTranslationJabil.CN,
+      'country.HK': countryTranslationJabil.HK,
+      'country.MO': countryTranslationJabil.MO,
+      'country.TW': countryTranslationJabil.TW,
     }),
 
     // When STAF is enabled and the token is not valid, the Widget must be reloaded to obtain a new stateToken. We're updating
@@ -55,7 +53,15 @@ export const getI18n = ({
     // See : OKTA-376620, Feature flag : ENG_CHANGE_INVALID_TOKEN_MESSAGE
     ...(hasFeature('ENG_CHANGE_INVALID_TOKEN_MESSAGE', featureFlags) && {
       [INVALID_TOKEN_ERROR_CODE]: invalidTokenErrorMsg
-    })
+    }),
+
+    // Override labels for KMSI on SIW when FF is enabled
+    ...(hasFeature('POST_AUTH_KMSI_IN_AUTH_POLICY', featureFlags) && {
+      'oie.kmsi.title': orgLoginPageSettings['kmsiPrompt.title'],
+      'oie.kmsi.subtitle': orgLoginPageSettings['kmsiPrompt.subtitle'],
+      'oie.kmsi.accept': orgLoginPageSettings['kmsiPrompt.acceptButtonText'],
+      'oie.kmsi.reject': orgLoginPageSettings['kmsiPrompt.rejectButtonText'],
+    }),
   };
 
   return { [locale]: res };

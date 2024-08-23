@@ -3,18 +3,16 @@ import type { Databag } from '@/types';
 import { getPivProperties } from './getPivProperties';
 
 describe('getPivProperties', () => {
-  it('returns empty object when showX509button is falsy or no X509_LOGIN_BUTTON_IN_SIGN_IN_WIDGET FF', () => {
+  it('returns undefined when no X509_LOGIN_BUTTON_IN_SIGN_IN_WIDGET FF', () => {
     const databag = {
       featureFlags: ['random-ff'],
-      showX509button: false,
     } as Databag;
-    expect(getPivProperties(databag)).toEqual({});
+    expect(getPivProperties(databag)).toEqual(undefined);
   });
 
-  describe('showX509button is truthy and has X509_LOGIN_BUTTON_IN_SIGN_IN_WIDGET FF', () => {
+  describe('with X509_LOGIN_BUTTON_IN_SIGN_IN_WIDGET FF', () => {
     const databag = {
       featureFlags: ['X509_LOGIN_BUTTON_IN_SIGN_IN_WIDGET'],
-      showX509button: true,
     } as Databag;
 
     it('populates correct data', () => {
@@ -23,7 +21,6 @@ describe('getPivProperties', () => {
       expect(getPivProperties(testData)).toMatchInlineSnapshot(`
         {
           "certAuthUrl": "http://mock-certAuthUrl",
-          "isCustomDomain": false,
         }
       `);
 
@@ -39,7 +36,6 @@ describe('getPivProperties', () => {
       expect(getPivProperties(testData)).toMatchInlineSnapshot(`
         {
           "certAuthUrl": "http://mock-certAuthUrl",
-          "isCustomDomain": false,
         }
       `);
 
@@ -48,7 +44,6 @@ describe('getPivProperties', () => {
         {
           "certAuthUrl": "http://mock-certAuthUrl",
           "customDomain": "customdomain.com",
-          "isCustomDomain": false,
         }
       `);
     });

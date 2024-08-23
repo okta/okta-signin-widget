@@ -5,22 +5,20 @@ import { getRedirectUri } from './getRedirectUri';
 import { getBackToSignInLink } from './getBackToSignInLink';
 import { getLinkParams } from './getLinkParams';
 import { getSignInConfig } from './signIn';
+import { getAccountChooserDiscoveryUrl } from './getAccountChooserDiscoveryUrl';
 
 export const buildConfig = (databag: Databag) => {
   const {
     featureFlags,
     repost = false,
-    fromUri,
-    accountChooserDiscoveryUrl,
+    fromURI,
     isMobileClientLogin,
     isMobileSSO,
-    disableiPadCheck,
-    enableiPadLoginReload,
     hasChromeOSFeature,
     showLinkToAppStore,
     enrollingFactor,
     showInactiveTabIfDocumentIsHidden,
-    avoidPageRefresh,
+    refreshPageWhenPageBecomesActive,
     expiresAt,
     refreshWindowMs,
     orgSyncToAccountChooserEnabled,
@@ -31,10 +29,14 @@ export const buildConfig = (databag: Databag) => {
   const linkParams = getLinkParams(databag);
   const hasMfaAttestationFeature = hasFeature('MFA_ATTESTATION', featureFlags);
   const isPersonalOktaOrg = hasFeature('ENG_OKTA_PERSONAL_ENDUSER_DASHBOARD_UI', featureFlags);
+  const accountChooserDiscoveryUrl = getAccountChooserDiscoveryUrl(databag);
+  const disableiPadCheck = hasFeature('ENG_DISABLE_IPAD_CHECK', featureFlags);
+  const enableiPadLoginReload = hasFeature('ENG_ENABLE_IPAD_LOGIN_RELOAD', featureFlags);
+  const avoidPageRefresh = !refreshPageWhenPageBecomesActive;
   const signIn = getSignInConfig(databag);
 
   const loginPageConfig = {
-    fromUri,
+    fromUri: fromURI,
     repost,
     redirectUri,
     backToSignInLink,

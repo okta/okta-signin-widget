@@ -1,11 +1,7 @@
 import { Databag } from '@/types';
 import { hasFeature } from '@/utils';
 
-type IdpDiscovery = {
-  requestContext?: string;
-}
-
-const getStateTokenAllFlows = (databag: Databag) => {
+export const getStateTokenAllFlows = (databag: Databag) => {
   const { featureFlags, usingDeviceFlow } = databag;
 
   if (hasFeature('STATE_TOKEN_ALL_FLOWS', featureFlags)) {
@@ -21,28 +17,22 @@ const getStateTokenAllFlows = (databag: Databag) => {
 };
 
 
-const getIdpDiscoveryRequestContext = (databag: Databag) => {
-  const { fromUri, stateToken } = databag;
+export const getIdpDiscoveryRequestContext = (databag: Databag) => {
+  const { featureFlags, idpDiscovery, fromURI, stateToken } = databag;
+
+  if (!hasFeature('IDP_DISCOVERY', featureFlags) || !idpDiscovery) {
+    return undefined;
+  }
+
   const stateTokenAllFlows = getStateTokenAllFlows(databag);
-  const idpDiscoveryRequestContext = stateTokenAllFlows && stateToken
-    ? stateToken : fromUri;
+  const idpDiscoveryRequestContext = (stateTokenAllFlows && stateToken)
+    ? stateToken : fromURI;
   return idpDiscoveryRequestContext;
 };
 
 
 export const getIdpDiscovery = (databag: Databag) => {
   const { featureFlags, idpDiscovery } = databag;
-  const res = {} as IdpDiscovery;
 
-  const requestContext = getIdpDiscoveryRequestContext(databag);
-
-  if (requestContext) {
-    res.requestContext = requestContext;
-  }
-
-  if (!hasFeature('IDP_DISCOVERY', featureFlags)) {
-    return res;
-  }
-
-  return { ...res, ...idpDiscovery };
+  return !!(hasFeature('IDP_DISCOVERY', featureFlags) && idpDiscovery);
 };

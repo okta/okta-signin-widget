@@ -4,21 +4,26 @@ import { getCustomButtons } from './getCustomButtons';
 
 describe('getCustomButtons', () => {
   it('returns empty array when showX509button is not truthy', () => {
-    const databag = { showX509button: false } as Databag;
+    const databag = { showX509button: false, i18n: {} } as Databag;
     expect(getCustomButtons(databag)).toEqual([]);
   });
 
   it('returns empty array when has X509_LOGIN_BUTTON_IN_SIGN_IN_WIDGET feature flag', () => {
-    const databag = { featureFlags: ['X509_LOGIN_BUTTON_IN_SIGN_IN_WIDGET'] } as Databag;
+    const databag = { 
+      featureFlags: ['X509_LOGIN_BUTTON_IN_SIGN_IN_WIDGET'],
+      i18n: {}
+    } as Databag;
     expect(getCustomButtons(databag)).toEqual([]);
   });
 
   describe('showX509button is truthy and not has X509_LOGIN_BUTTON_IN_SIGN_IN_WIDGET FF', () => {
     const databag = {
       featureFlags: ['some-random-ff'],
-      pivCardButton: 'mock-pivCardButton',
-      idpBasedPivCardButton: 'mock-idpBasedPivCardButton',
       showX509button: true,
+      i18n: {
+        pivCardButton: 'mock-pivCardButton',
+        idpBasedPivCardButton: 'mock-idpBasedPivCardButton',
+      },
     } as Databag;
 
     it('uses pivCardButton value when not has FF IDP_BASED_SIGN_ON_POLICY', () => {

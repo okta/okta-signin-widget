@@ -1,4 +1,5 @@
 const { resolve } = require('path');
+const pkg = require('./package.json');
 
 const babelOptions = {
   sourceType: 'unambiguous',
@@ -32,11 +33,15 @@ module.exports = (_, argv) => {
     mode: argv.mode === 'development' ? 'development' : 'production',
     devtool: 'source-map',
     entry: {
-      'okta-loginpage-render': './src/main.ts'
+      'okta-loginpage-render': './src/main.ts',
+      ...(argv.mode === 'production' && { 'okta-loginpage-render-with-version': './src/main.ts' }),
     },
     output: {
       path: resolve(__dirname, 'dist'),
-      filename: '[name].js',
+      filename: ({ runtime }) => {
+        // use versioned bundle for cache busting
+        return runtime === 'okta-loginpage-render-with-version' ? `okta-loginpage-render-${pkg.version}.js` : 'okta-loginpage-render.js';
+      },
       iife: true,
       library: {
         name: 'OktaLoginPageRender',
@@ -45,14 +50,6 @@ module.exports = (_, argv) => {
     },
     module: {
       rules: [
-        {
-          test: require.resolve('@okta/loginpage/dist/js/initLoginPage.pack.js'),
-          use: 'exports-loader?type=commonjs&exports=OktaLogin',
-        },
-        {
-          test: require.resolve('@okta/loginpage/legacy/js/initLoginPage.pack.js'),
-          use: 'exports-loader?type=commonjs&exports=OktaLogin',
-        },
         {
           test: /\.[jt]sx?$/,
           loader: 'babel-loader',
@@ -68,8 +65,6 @@ module.exports = (_, argv) => {
     },
     resolve: {
       alias: {
-        '@okta/loginpage': resolve(__dirname, 'node_modules/@okta/loginpage/dist/js/initLoginPage.pack.js'),
-        '@okta/loginpage-legacy': resolve(__dirname, 'node_modules/@okta/loginpage/legacy/js/initLoginPage.pack.js'),
         '@': resolve(__dirname, 'src')
       },
       extensions: ['.ts', '.tsx', '.js', '.jsx'],

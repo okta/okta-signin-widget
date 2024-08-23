@@ -10,6 +10,10 @@
   <body>
     <div id="signin-container"></div>
     <script src="https://global.oktacdn.com/okta-signin-widget/7.17.1/js/okta-sign-in.min.js" type="text/javascript"></script>
+
+    <!-- JIRA: OKTA-796130 -->
+    <!-- TODO: @okta/loginpage is exposed via global variable instead of module export, find better way to include @okta/loginpage in playground -->
+    <script src="/initLoginPage.pack.js" type="text/javascript"></script>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

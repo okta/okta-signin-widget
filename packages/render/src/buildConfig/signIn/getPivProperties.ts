@@ -1,24 +1,21 @@
 import type { Databag } from '@/types';
+import type { WidgetOptions } from '@okta/okta-signin-widget';
 
 import { hasFeature } from '@/utils';
 
-type PivProperties = {
-  certAuthUrl?: string;
-  isCustomDomain?: boolean;
-  customDomain?: string;
-}
-
-export const getPivProperties = (databag: Databag) => {
-  const { featureFlags, certAuthUrl, isCustomDomain, customDomain, showX509button } = databag;
-  const res = {} as PivProperties;
-
-  if (!showX509button || !hasFeature('X509_LOGIN_BUTTON_IN_SIGN_IN_WIDGET', featureFlags)) {
-    return res;
+export const getPivProperties = (databag: Databag): WidgetOptions['piv'] => {
+  const { featureFlags, certAuthUrl, isCustomDomain, customDomain } = databag;
+  
+  if (!hasFeature('X509_LOGIN_BUTTON_IN_SIGN_IN_WIDGET', featureFlags)) {
+    return undefined;
   }
-
-  res.isCustomDomain = !!isCustomDomain;
+  
+  const res = {} as NonNullable<WidgetOptions['piv']> & { customDomain?: string };
   if (certAuthUrl) {
     res.certAuthUrl = certAuthUrl;
+  }
+  if (isCustomDomain) {
+    res.isCustomDomain = !!isCustomDomain;
   }
   if (customDomain) {
     res.customDomain = customDomain;

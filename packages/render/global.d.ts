@@ -10,4 +10,6 @@ interface Window {
   }
   cspNonce: string;
   okta: Okta;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  OktaLogin: any;
 }

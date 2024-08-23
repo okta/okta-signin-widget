@@ -1,10 +1,5 @@
 import { Databag } from '@/types';
 
-type FactorPageCustomLink = {
-  text: string;
-  href: string;
-}
-
 export const getFactorPageCustomLink = (databag: Databag) => {
   const {
     orgLoginPageSettings: {
@@ -13,10 +8,12 @@ export const getFactorPageCustomLink = (databag: Databag) => {
     }
   } = databag;
 
-  const res = {} as FactorPageCustomLink;
+  let res;
   if (factorPageCustomLinkText) {
-    res.text = factorPageCustomLinkText;
-    res.href = factorPageCustomLinkHref as string;
+    res = {
+      text: factorPageCustomLinkText,
+      href: factorPageCustomLinkHref as string,
+    };
   }
 
   return res;

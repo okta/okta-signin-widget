@@ -2,7 +2,9 @@ import { Databag } from '@/types';
 import { hasFeature } from '@/utils';
 
 export const getCustomButtons = (databag: Databag) => {
-  const { fromUri, showX509button, featureFlags, pivCardButton, idpBasedPivCardButton, repost } = databag;
+  const { fromURI = '', showX509button, featureFlags, i18n, repost } = databag;
+  const { idpBasedPivCardButton, pivCardButton } = i18n;
+  
   if (!showX509button || hasFeature('X509_LOGIN_BUTTON_IN_SIGN_IN_WIDGET', featureFlags)) {
     return [];
   }
@@ -23,7 +25,7 @@ export const getCustomButtons = (databag: Databag) => {
       if (repost) {
         (document.getElementById('x509_login') as HTMLFormElement).submit();
       } else {
-        window.location.href = '/login/cert?fromURI=' + encodeURIComponent(fromUri);
+        window.location.href = '/login/cert?fromURI=' + encodeURIComponent(fromURI);
       }
     }
   }];

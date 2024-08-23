@@ -1,12 +1,12 @@
 import type { Databag } from '@/types';
 
-import { hasFeature } from '@/utils';
+import { hasAnyFeature, hasFeature } from '@/utils';
 import { getCustomButtons } from './getCustomButtons';
 import { getPivProperties } from './getPivProperties';
 import { getCustomLinks } from './getCustomLinks';
 import { getFactorPageCustomLink } from './getFactorPageCustomLink';
 import { getProxyIdxResponse } from './getProxyIdxResponse';
-import { getIdpDiscovery } from './getIdpDiscovery';
+import { getIdpDiscovery, getIdpDiscoveryRequestContext } from './getIdpDiscovery';
 import { getShowPasswordToggleOnSignInPage } from './getShowPasswordToggleOnSignInPage';
 import { getShowIdentifier } from './getShowIdentifier';
 import { getConsentFunc } from './getConsentFunc';
@@ -15,34 +15,50 @@ import { getBrandColors } from './getBrandColors';
 import { getI18n } from './getI18n';
 import { getLogoText } from './getLogoText';
 import { getHCaptcha } from './getHCaptcha';
+import { getRememberMe } from './getRememberMe';
 
-export const getSignInConfig = (databag: Databag) => {
+import type { WidgetOptions } from '@okta/okta-signin-widget';
+import { getSecurityImage } from './getSecurityImage';
+import { getBrandName } from './getBrandName';
+
+// Adding extra types to WidgetOptions to work with both gen2 & gen3
+type Config = WidgetOptions & { 
+  authScheme?: string;
+  overrideExistingStateToken?: boolean;
+  interstitialBeforeLoginRedirect?: string;
+  brandColors?: {
+    primaryColor?: string;
+    primaryColorContrast?: string;
+    secondaryColor?: string;
+    secondaryColorContrast?: string;
+  },
+  cspNonce?: string;
+};
+
+export const getSignInConfig = (databag: Databag): Config => {
   const {
     featureFlags,
     baseUrl,
     stateToken,
-    fromUri,
+    fromURI,
     username,
-    rememberMe,
-    smsRecovery,
-    callRecovery,
-    emailRecovery,
     orgSupportPhoneNumber,
-    hideSignOutForMFA = false,
+    hideSignOutLinkInMFA = false,
     hideBackToSignInForReset = false,
     signOutUrl,
-    hasPasswordlessPolicy,
-    securityImage = true,
-    selfServiceUnlock = false,
-    redirectByFormSubmit = false,
-    autoPush = false,
+    passwordlessAuth = false,
     orgLogo,
-    enableDeviceFingerprinting,
-    useFingerprintForSecImage,
+    useDeviceFingerprintForSecurityImage = true,
     interstitialBeforeLoginRedirect,
     orgLoginPageSettings,
     sdkBaseURL,
     overrideExistingStateToken,
+    orgctx,
+    smsSelfServiceEnabled = false,
+    callSelfServiceEnabled = false,
+    emailSelfServiceEnabled = false,
+    selfServiceUnlockEnabled = false,
+    redirectByFormSubmit = false,
   } = databag;
 
   const proxyIdxResponse = getProxyIdxResponse(databag);
@@ -65,11 +81,20 @@ export const getSignInConfig = (databag: Databag) => {
   const brandColors = getBrandColors(databag);
   const i18n = getI18n(databag);
   const hcaptcha = getHCaptcha(databag);
+  const rememberMe = getRememberMe(databag);
+  const smsRecovery = !orgctx.org || smsSelfServiceEnabled;
+  const callRecovery = !orgctx.org || callSelfServiceEnabled;
+  const emailRecovery = !orgctx.org || emailSelfServiceEnabled;
+  const securityImage = getSecurityImage(databag);
+  const autoPush = hasFeature('OKTA_VERIFY_AUTO_PUSH', featureFlags);
+  const brandName = getBrandName(databag);
+  const idpDiscoveryRequestContext = getIdpDiscoveryRequestContext(databag);
+  const enableDeviceFingerprinting = hasAnyFeature(['SEND_EMAIL_FOR_SIGNON_FROM_NEW_DEVICE', 'VALIDATED_SESSION_EVENT_FIRING'], featureFlags);
 
   return {
     el: '#signin-container',
     baseUrl: baseUrl,
-    brandName: 'Okta',
+    brandName,
     logo: orgLogo,
     logoText,
     helpSupportNumber: orgSupportPhoneNumber,
@@ -78,11 +103,13 @@ export const getSignInConfig = (databag: Databag) => {
     signOutLink: signOutUrl,
     consent: consentFunc,
     authScheme: 'OAUTH2',
-    relayState: fromUri,
+    relayState: fromURI,
     proxyIdxResponse: proxyIdxResponse,
     overrideExistingStateToken: overrideExistingStateToken,
     interstitialBeforeLoginRedirect,
-    idpDiscovery,
+    idpDiscovery: {
+      requestContext: idpDiscoveryRequestContext
+    },
     features: {
       router: true,
       securityImage: securityImage,
@@ -92,18 +119,19 @@ export const getSignInConfig = (databag: Databag) => {
       smsRecovery: smsRecovery,
       callRecovery: callRecovery,
       emailRecovery: emailRecovery,
-      selfServiceUnlock: selfServiceUnlock,
+      selfServiceUnlock: selfServiceUnlockEnabled,
       multiOptionalFactorEnroll: true,
+      sameDeviceOVEnrollmentEnabled,
       deviceFingerprinting: enableDeviceFingerprinting,
-      useDeviceFingerprintForSecurityImage: useFingerprintForSecImage,
+      useDeviceFingerprintForSecurityImage: useDeviceFingerprintForSecurityImage,
       trackTypingPattern: false,
-      hideSignOutLinkInMFA: hideSignOutForMFA,
+      hideSignOutLinkInMFA: hideSignOutLinkInMFA,
       hideBackToSignInForReset: hideBackToSignInForReset,
       rememberMyUsernameOnOIE: rememberMyUsernameOnOIE,
       engFastpassMultipleAccounts: true,
       customExpiredPassword: true,
       idpDiscovery: idpDiscovery,
-      passwordlessAuth: hasPasswordlessPolicy,
+      passwordlessAuth: passwordlessAuth,
       consent: hasOAuth2ConsentFeature,
       skipIdpFactorVerificationBtn: hasSkipIdpFactorVerificationButton,
       showPasswordToggleOnSignInPage,
@@ -112,7 +140,6 @@ export const getSignInConfig = (databag: Databag) => {
       redirectByFormSubmit,
       showPasswordRequirementsAsHtmlList: true,
       showSessionRevocation,
-      sameDeviceOVEnrollmentEnabled,
     },
 
     assets: {

@@ -17,20 +17,30 @@ describe('getRedirectUri', () => {
     } as Databag;
 
     it('returns fromUri if it\'s absolute uri', () => {
-      const testData = {
+      const testData: Databag = {
         ...databag,
-        fromUri: 'https://fake-absolute-fromuri'
+        fromURI: 'https://fake-absolute-fromuri'
       };
       expect(getRedirectUri(testData)).toBe('https://fake-absolute-fromuri');
     });
 
     it('appends baseUrl if fromUri is not absolute uri', () => {
-      const testData = {
+      const testData: Databag = {
         ...databag,
-        fromUri: '/fake-relative-fromuri',
+        fromURI: '/fake-relative-fromuri',
         baseUrl: 'http://baseUrl.com'
       };
       expect(getRedirectUri(testData)).toBe('http://baseUrl.com/fake-relative-fromuri');
     });
+
+    it('can handle undefined fromURI', () => {
+      const testData: Databag = {
+        ...databag,
+        baseUrl: 'http://baseUrl.com'
+      } as Databag;
+      expect(getRedirectUri(testData)).toBe('http://baseUrl.com');
+    });
   });
+
+  
 });

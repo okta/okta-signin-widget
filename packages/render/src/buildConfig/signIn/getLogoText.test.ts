@@ -5,7 +5,11 @@ describe('getLogoText', () => {
   it('uses orgName when MULTIBRAND FF not exist', () => {
     const databag = {
       featureFlags: ['fake-ff'],
-      orgName: 'fake-orgname'
+      orgctx: {
+        org: {
+          name: 'fake-orgname', 
+        }
+      }
     } as Databag;
     expect(getLogoText(databag)).toBe('fake-orgname logo');
   });
@@ -13,7 +17,11 @@ describe('getLogoText', () => {
   it('uses orgName when MULTIBRAND FF and brandName exist', () => {
     const databag = {
       featureFlags: ['MULTIBRAND'],
-      orgName: 'fake-orgname',
+      orgctx: {
+        org: {
+          name: 'fake-orgname', 
+        }
+      },
       brandName: 'fake-brandname'
     } as Databag;
     expect(getLogoText(databag)).toBe('fake-brandname logo');
