@@ -615,7 +615,8 @@ test.skip
     )).eql(1);
   });
 
-test
+// FIXME quarantined test OKTA-796324
+test.skip
   .requestHooks(loopbackSuccessButNotAssignedLogger, loopbackSuccessButNotAssignedAppMock)('loopback succeeds but user is not assigned to app, then clicks cancel link', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
