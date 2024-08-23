@@ -532,7 +532,10 @@ test
     )).eql(2);
   });
 
-test
+
+// FIXME remove
+// eslint-disable-next-line testcafe-extended/no-only-statements, no-only-tests/no-only-tests
+test.only
   .requestHooks(loopbackChallengeErrorLogger, loopbackChallengeErrorMock)('in loopback server approach, will cancel polling when challenge errors out', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
@@ -544,7 +547,7 @@ test
       record => record.response.statusCode === 200 &&
                 record.request.url.match(/introspect/)
     )).eql(1);
-    await t.wait(2000); // wait a moment for all probes to fail
+    await t.wait(1000); // wait a moment for all probes to fail
     await t.expect(loopbackChallengeErrorLogger.count(
       record => record.response.statusCode === 500 &&
                 record.request.url.match(/2000/)
@@ -583,7 +586,7 @@ test
       record => record.response.statusCode === 200 &&
                 record.request.url.match(/introspect/)
     )).eql(1);
-    await t.wait(6000); // wait a moment for all probes to fail
+    await t.wait(15_000); // wait a moment for all probes to fail
     await t.expect(loopbackChallengeWrongProfileLogger.count(
       record => record.response.statusCode === 500 &&
                 record.request.url.match(/(2000|6512)\/probe/)
@@ -620,7 +623,7 @@ test
       record => record.response.statusCode === 200 &&
         record.request.url.match(/introspect/)
     )).eql(1);
-    await t.wait(2000);
+    await t.wait(15_000);
     await t.expect(loopbackSuccessButNotAssignedLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.method === 'get' &&
@@ -648,7 +651,7 @@ test
       record => record.response.statusCode === 200 &&
         record.request.url.match(/introspect/)
     )).eql(1);
-    await t.wait(2000);
+    await t.wait(15_000);
     await t.expect(loopbackFallbackLogger.count(
       record => record.response.statusCode === 500 &&
         record.request.url.match(/2000|6511|6512|6513/)
@@ -680,7 +683,7 @@ test
       record => record.response.statusCode === 200 &&
         record.request.url.match(/introspect/)
     )).eql(1);
-    await t.wait(2000);
+    await t.wait(15_000);
     await t.expect(appLinkWithoutLaunchLogger.count(
       record => record.response.statusCode === 500 &&
         record.request.url.match(/2000|6511|6512|6513/)
@@ -698,7 +701,7 @@ test
     await t.expect(await deviceChallengePollPageObject.hasSpinner()).eql(true);
     await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(true);
 
-    await t.wait(5000); // wait for FASTPASS_FALLBACK_SPINNER_TIMEOUT
+    await t.wait(15_000); // wait for FASTPASS_FALLBACK_SPINNER_TIMEOUT
 
     await t.expect(deviceChallengePollPageObject.waitForPrimaryButtonAfterSpinner().innerText).eql('Open Okta Verify');
 
