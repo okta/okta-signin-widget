@@ -8,16 +8,14 @@ import type {
 export const customizeWidgetOptionsForEnrollProfileForm = (config: WidgetOptionsV3 = {}) => {
   // Tip for Sign-in page code editor: 
   //  Paste this code after `config = OktaUtil.getSignInWidgetConfig();`
-  if (config.i18n) {
-    config.i18n = {
-      ...config.i18n,
-      en: {
-        ...(config.i18n?.en ?? {}),
-        'custom.field.terms.label': 'I agree',
-        'custom.field.tin.label': 'TIN',
-      }
-    };
-  }
+  config.i18n = {
+    ...config.i18n,
+    en: {
+      ...(config.i18n?.en ?? {}),
+      'custom.field.terms.label': 'I agree',
+      'custom.field.tin.label': 'TIN',
+    }
+  };
 
   // Tip for Sign-in page code editor: 
   //  You can paste this code after `config = OktaUtil.getSignInWidgetConfig();`
