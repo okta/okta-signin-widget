@@ -40,7 +40,7 @@ export const loc = (
     && Object.keys(Bundles.login).findIndex((k) => k.startsWith(`${key}_`)) > 0;
   const localizedText: string = odysseyTranslate(`${bundleName}:${key}`, {
     ...paramsObj,
-    count: hasPluralForms ? count : undefined,
+    ...(hasPluralForms ? { count } : {}),
     interpolation: {
       prefix: '{',
       suffix: '}',

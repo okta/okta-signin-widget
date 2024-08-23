@@ -49,6 +49,10 @@ export const getSupportedLanguages = (widgetProps: WidgetProps): string[] => {
   );
 };
 
+export const getDefaultLanguage = (): LanguageCode => {
+  return config.defaultLanguage as LanguageCode;
+};
+
 export const getLanguageCode = (widgetProps: WidgetProps): LanguageCode => {
   const { language } = widgetProps;
   const supportedLanguages = getSupportedLanguages(widgetProps);

@@ -15,17 +15,28 @@ import { OdysseyI18nResourceKeys, odysseyI18nResourceKeysList } from '@okta/odys
 // eslint-disable-next-line import/no-extraneous-dependencies
 import i18next from 'i18next';
 
+import { LanguageCode } from '../../../types';
 import Bundles from '../../../util/Bundles';
 import { WidgetProps } from '../types';
-import { getLanguageCode, getSupportedLanguages } from './settingsUtils';
+import { getDefaultLanguage, getLanguageCode, getSupportedLanguages } from './settingsUtils';
+
+export const loadDefaultLanguage = () => {
+  const defaultLanguage = getDefaultLanguage();
+  if (!Bundles.currentLanguage && !i18next.hasResourceBundle(defaultLanguage, 'login')) {
+    i18next.addResourceBundle(defaultLanguage, 'login', Bundles.login);
+    i18next.addResourceBundle(defaultLanguage, 'country', Bundles.country);
+  }
+};
+
+export const getOdyLanguageCode = (languageCode: LanguageCode): string => {
+  // Odyssey language codes use '_' instead of '-' (e.g. zh-CN -> zh_CN)
+  return languageCode.replace('-', '_');
+};
 
 export const loadLanguage = async (widgetProps: WidgetProps): Promise<void> => {
   const { i18n = {}, assets: { baseUrl, rewrite } = {} } = widgetProps;
   const languageCode = getLanguageCode(widgetProps);
   const supportedLanguages = getSupportedLanguages(widgetProps);
-
-  // Odyssey language codes use '_' instead of '-' (e.g. zh-CN -> zh_CN)
-  const odyLanguageCode: string = languageCode.replace('-', '_');
 
   // NOTE: If assets.baseUrl equals "/", SIW will incorrectly try to load language files
   // from URL http://labels/json/login_xx.json
@@ -40,8 +51,15 @@ export const loadLanguage = async (widgetProps: WidgetProps): Promise<void> => {
     rewrite: rewrite ?? ((val) => val),
   }, supportedLanguages);
 
+  const odyLanguageCode: string = getOdyLanguageCode(languageCode);
   i18next.addResourceBundle(odyLanguageCode, 'login', Bundles.login);
   i18next.addResourceBundle(odyLanguageCode, 'country', Bundles.country);
+};
+
+export const unloadLanguage = (languageCode: LanguageCode) => {
+  const odyLanguageCode: string = getOdyLanguageCode(languageCode);
+  i18next.removeResourceBundle(odyLanguageCode, 'login');
+  i18next.removeResourceBundle(odyLanguageCode, 'country');
 };
 
 export const getOdysseyTranslationOverrides = (): Partial<OdysseyI18nResourceKeys> => (

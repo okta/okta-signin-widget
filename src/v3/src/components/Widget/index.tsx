@@ -63,15 +63,18 @@ import {
   extractPageTitle,
   getLanguageCode,
   getLanguageDirection,
+  getOdyLanguageCode,
   getOdysseyTranslationOverrides,
   isAndroidOrIOS,
   isAuthClientSet,
   isConfigRegisterFlow,
   isConsentStep,
   isOauth2Enabled,
+  loadDefaultLanguage,
   loadLanguage,
   SessionStorage,
   triggerEmailVerifyCallback,
+  unloadLanguage,
 } from '../../util';
 import { getEventContext } from '../../util/getEventContext';
 import { stylisPlugins } from '../../util/stylisPlugins';
@@ -135,8 +138,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const { stateHandle, unsetStateHandle } = useStateHandle(widgetProps);
   const [odyTranslationOverrides, setOdyTranslationOverrides] = useState<
   TranslationOverrides<string> | undefined>();
-  // Odyssey language codes use '_' instead of '-' (e.g. zh-CN -> zh_CN)
-  const odyLanguageCode: string = languageCode.replace('-', '_');
+  const odyLanguageCode = getOdyLanguageCode(languageCode);
 
   const { theme, tokens } = useMemo(() => {
     const { themeOverride, tokensOverride } = createThemeAndTokens(
@@ -149,10 +151,16 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     };
   }, [brandColors, customTheme, languageDirection]);
 
+  // init default language
+  if (!Bundles.isLoaded(languageCode)) {
+    loadDefaultLanguage();
+  }
+
   // on unmount, remove the language
   useEffect(() => () => {
     if (Bundles.isLoaded(languageCode)) {
       Bundles.remove();
+      unloadLanguage(languageCode);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
