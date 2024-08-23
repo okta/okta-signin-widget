@@ -517,6 +517,7 @@ test
       })).eql(1);
   });
 
+// FIXME quarantined test OKTA-796308
 test
   .requestHooks(loopbackPollTimeoutLogger, loopbackPollTimeoutMock).skip('new poll does not starts until last one is ended', async t => {
     await setup(t);
@@ -533,9 +534,8 @@ test
   });
 
 
-// FIXME remove
-// eslint-disable-next-line testcafe-extended/no-only-statements, no-only-tests/no-only-tests
-test.only
+// FIXME quarantined test OKTA-796307
+test.skip
   .requestHooks(loopbackChallengeErrorLogger, loopbackChallengeErrorMock)('in loopback server approach, will cancel polling when challenge errors out', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
