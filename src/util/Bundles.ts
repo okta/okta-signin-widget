@@ -226,8 +226,13 @@ export default {
     const lowerCaseLanguage = language.toLowerCase();
     const bundles = await getBundles(language, assets, supportedLanguages);
     // Always extend from the built in defaults in the event that some
-    // properties are not translated
-    this.login = _.extend({}, login, bundles.login);
+    // properties are not translated.
+    // But don't reuse plural forms in English for other languages.
+    // See https://www.i18next.com/translation-function/plurals
+    const pluralSuffixes = ['_one', '_other'];
+    const loginTranslationsWithoutPlural = _.omit(login, (_, k) =>
+      pluralSuffixes.some(s => k.endsWith(s)));
+    this.login = _.extend({}, loginTranslationsWithoutPlural, bundles.login);
     this.country = _.extend({}, country, bundles.country);
     this.courage = _.extend({}, login, bundles.login);
     if (parsedOverrides[lowerCaseLanguage]) {

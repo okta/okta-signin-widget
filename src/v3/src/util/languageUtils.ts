@@ -28,10 +28,9 @@ export const loadDefaultLanguage = () => {
   }
 };
 
-export const getOdyLanguageCode = (languageCode: LanguageCode): string => {
+export const getOdyLanguageCode = (languageCode: LanguageCode): string =>
   // Odyssey language codes use '_' instead of '-' (e.g. zh-CN -> zh_CN)
-  return languageCode.replace('-', '_');
-};
+  languageCode.replace('-', '_');
 
 export const loadLanguage = async (widgetProps: WidgetProps): Promise<void> => {
   const { i18n = {}, assets: { baseUrl, rewrite } = {} } = widgetProps;

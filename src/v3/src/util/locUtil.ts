@@ -35,7 +35,8 @@ export const loc = (
   const paramsObj = Object.fromEntries(params?.map((v, i) => [i, v]) || []);
   const count = params?.find((p) => typeof p === 'number');
   // If there are no plural forms for current language,
-  //  don't fallback to plural forms in default language
+  //  don't fallback to plural forms in default language.
+  // See https://www.i18next.com/translation-function/plurals
   const hasPluralForms = count !== undefined && bundleName === 'login'
     && Object.keys(Bundles.login).findIndex((k) => k.startsWith(`${key}_`)) > 0;
   const localizedText: string = odysseyTranslate(`${bundleName}:${key}`, {

@@ -23,12 +23,13 @@ jest.mock('@okta/odyssey-react-mui', () => {
       // eslint-disable-next-line no-unused-vars
       (origKey, params) => {
         const bundleAndKey = origKey.split(':');
-        let bundle, key = origKey;
+        let bundle;
+        let key = origKey;
         if (bundleAndKey.length === 2) {
           ([bundle, key] = bundleAndKey);
         }
         return key;
-      }
+      },
     ),
   };
 });

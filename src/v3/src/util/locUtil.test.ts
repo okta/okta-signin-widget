@@ -31,14 +31,14 @@ describe('locUtil Tests', () => {
         odysseyTranslate: jest.fn().mockImplementation(
           (origKey, params) => {
             const bundleAndKey = origKey.split(':');
-            let bundle, key = origKey;
+            let bundle;
+            let key = origKey;
             if (bundleAndKey.length === 2) {
               ([bundle, key] = bundleAndKey);
               return MockedBundle[key].replace('{0}', params?.[0]);
-            } else {
-              return originalModule.odysseyTranslate(origKey, params);
             }
-          }
+            return originalModule.odysseyTranslate(origKey, params);
+          },
         ),
       };
     });
