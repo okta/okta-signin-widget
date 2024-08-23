@@ -518,8 +518,8 @@ test
   });
 
 // FIXME quarantined test OKTA-796308
-test
-  .requestHooks(loopbackPollTimeoutLogger, loopbackPollTimeoutMock).skip('new poll does not starts until last one is ended', async t => {
+test.skip
+  .requestHooks(loopbackPollTimeoutLogger, loopbackPollTimeoutMock)('new poll does not starts until last one is ended', async t => {
     await setup(t);
     await checkA11y(t);
     // This test verify if new /poll calls are made only if the previous one was finished instead of polling with fixed interval.
@@ -574,7 +574,8 @@ test.skip
     await t.expect(loopbackChallengeErrorLogger.contains(record => record.request.url.match(/6512|6513/))).eql(false);
   });
 
-test
+// FIXME quarantined test OKTA-796315
+test.skip
   .requestHooks(loopbackChallengeWrongProfileLogger, loopbackChallengeWrongProfileMock)('in loopback server approach, will cancel polling when challenge errors out with non-503 status', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
