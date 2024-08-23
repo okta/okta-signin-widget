@@ -10,12 +10,11 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { odysseyTranslate } from '@okta/odyssey-react-mui';
-
 import Bundles from '../../../util/Bundles';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { emitL10nError } from '../../../util/loc';
 import { TokenReplacement } from '../types';
+import { i18next } from './languageUtils';
 
 /**
  *
@@ -33,23 +32,15 @@ export const loc = (
   tokenReplacement?: TokenReplacement,
 ): string => {
   const paramsObj = Object.fromEntries(params?.map((v, i) => [i, v]) || []);
-  const count = params?.find((p) => typeof p === 'number');
+  const count = params?.find((p): p is number => typeof p === 'number');
   // If there are no plural forms for current language,
   //  don't fallback to plural forms in default language.
   // See https://www.i18next.com/translation-function/plurals
   const hasPluralForms = count !== undefined && bundleName === 'login'
     && Object.keys(Bundles.login).findIndex((k) => k.startsWith(`${key}_`)) > 0;
-  const localizedText: string = odysseyTranslate(`${bundleName}:${key}`, {
+  const localizedText = i18next?.t(`${bundleName}:${key}`, {
     ...paramsObj,
     ...(hasPluralForms ? { count } : {}),
-    interpolation: {
-      prefix: '{',
-      suffix: '}',
-      // No need to escape
-      // Need to use raw value for phone numbers containing `&lrm;`
-      // React is already safe from XSS
-      escapeValue: false,
-    },
     defaultValue: '',
   });
 

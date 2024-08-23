@@ -63,14 +63,13 @@ import {
   extractPageTitle,
   getLanguageCode,
   getLanguageDirection,
-  getOdyLanguageCode,
   getOdysseyTranslationOverrides,
+  initDefaultLanguage,
   isAndroidOrIOS,
   isAuthClientSet,
   isConfigRegisterFlow,
   isConsentStep,
   isOauth2Enabled,
-  loadDefaultLanguage,
   loadLanguage,
   SessionStorage,
   triggerEmailVerifyCallback,
@@ -138,7 +137,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const { stateHandle, unsetStateHandle } = useStateHandle(widgetProps);
   const [odyTranslationOverrides, setOdyTranslationOverrides] = useState<
   TranslationOverrides<string> | undefined>();
-  const odyLanguageCode = getOdyLanguageCode(languageCode);
+  // Odyssey language codes use '_' instead of '-' (e.g. zh-CN -> zh_CN)
+  const odyLanguageCode: string = languageCode.replace('-', '_');
 
   const { theme, tokens } = useMemo(() => {
     const { themeOverride, tokensOverride } = createThemeAndTokens(
@@ -151,10 +151,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     };
   }, [brandColors, customTheme, languageDirection]);
 
-  // init default language
-  if (!Bundles.isLoaded(languageCode)) {
-    loadDefaultLanguage();
-  }
+  // create i18next instance and load default language (once)
+  initDefaultLanguage();
 
   // on unmount, remove the language
   useEffect(() => () => {
