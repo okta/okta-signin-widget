@@ -16,12 +16,10 @@ import config from '../../../config/config.json';
 import { LanguageCode } from '../../../types';
 import Bundles from '../../../util/Bundles';
 import { WidgetProps } from '../types';
-import { i18next, initI18next } from './i18next';
+import { i18next } from './i18next';
 import { getLanguageCode, getSupportedLanguages } from './settingsUtils';
 
 export const initDefaultLanguage = () => {
-  initI18next();
-
   // Load translations for default language from Bundles to i18next
   const languageCode = Bundles.currentLanguage ?? config.defaultLanguage;
   const isDefaultLanguage = !Bundles.currentLanguage;

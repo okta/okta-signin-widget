@@ -14,38 +14,27 @@ import i18next from 'i18next';
 
 import config from '../../../config/config.json';
 
-// Instance of i18next
-let i18ni: ReturnType<typeof i18next['createInstance']> | undefined;
+const i18ni = i18next.createInstance();
 
-// eslint-disable-next-line import/no-mutable-exports
+const ns = ['login', 'country'];
+const defaultNS = 'login';
+
+i18ni.init({
+  defaultNS,
+  ns,
+  fallbackLng: config.defaultLanguage,
+  load: 'currentOnly',
+  keySeparator: false,
+  nsSeparator: ':',
+  interpolation: {
+    prefix: '{',
+    suffix: '}',
+    // No need to escape
+    // Need to use raw value for phone numbers containing `&lrm;`
+    // React is already safe from XSS
+    escapeValue: false,
+    skipOnVariables: false, // to handle translations that use nesting
+  },
+});
+
 export { i18ni as i18next };
-
-export const initI18next = () => {
-  if (i18ni) {
-    // Already initialized
-    return;
-  }
-
-  const ns = ['login', 'country'];
-  const defaultNS = 'login';
-
-  // Create and init i18next instance
-  i18ni = i18next.createInstance();
-  i18ni.init({
-    defaultNS,
-    ns,
-    fallbackLng: config.defaultLanguage,
-    load: 'currentOnly',
-    keySeparator: false,
-    nsSeparator: ':',
-    interpolation: {
-      prefix: '{',
-      suffix: '}',
-      // No need to escape
-      // Need to use raw value for phone numbers containing `&lrm;`
-      // React is already safe from XSS
-      escapeValue: false,
-      skipOnVariables: false, // to handle translations that use nesting
-    },
-  });
-};

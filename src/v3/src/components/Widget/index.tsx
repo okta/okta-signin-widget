@@ -151,7 +151,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     };
   }, [brandColors, customTheme, languageDirection]);
 
-  // create i18next instance and load default language (once)
+  // load default 'en' language (once)
   initDefaultLanguage();
 
   // on unmount, remove the language
