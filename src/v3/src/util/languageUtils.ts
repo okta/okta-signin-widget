@@ -11,52 +11,24 @@
  */
 
 import { OdysseyI18nResourceKeys, odysseyI18nResourceKeysList } from '@okta/odyssey-react-mui';
-import i18next from 'i18next';
 
+import config from '../../../config/config.json';
 import { LanguageCode } from '../../../types';
 import Bundles from '../../../util/Bundles';
 import { WidgetProps } from '../types';
-import { getDefaultLanguage, getLanguageCode, getSupportedLanguages } from './settingsUtils';
-
-// Instance of i18next
-let i18ni: ReturnType<typeof i18next['createInstance']> | undefined;
-
-export { i18ni as i18next };
+import { i18next, initI18next } from './i18next';
+import { getLanguageCode, getSupportedLanguages } from './settingsUtils';
 
 export const initDefaultLanguage = () => {
-  if (i18ni) {
-    // Already initialized
-    return;
-  }
-
-  const defaultLanguage = getDefaultLanguage();
-  const ns = ['login', 'country'];
-  const defaultNS = 'login';
-
-  // Create and init i18next instance
-  i18ni = i18next.createInstance();
-  i18ni.init({
-    defaultNS,
-    ns,
-    fallbackLng: defaultLanguage,
-    load: 'currentOnly',
-    keySeparator: false,
-    nsSeparator: ':',
-    interpolation: {
-      prefix: '{',
-      suffix: '}',
-      // No need to escape
-      // Need to use raw value for phone numbers containing `&lrm;`
-      // React is already safe from XSS
-      escapeValue: false,
-      skipOnVariables: false, // to handle translations that use nesting
-    },
-  });
+  initI18next();
 
   // Load translations for default language from Bundles to i18next
-  const languageCode = Bundles.currentLanguage ?? defaultLanguage;
-  i18ni.addResourceBundle(languageCode, 'login', Bundles.login);
-  i18ni.addResourceBundle(languageCode, 'country', Bundles.country);
+  const languageCode = Bundles.currentLanguage ?? config.defaultLanguage;
+  const isDefaultLanguage = !Bundles.currentLanguage;
+  if (isDefaultLanguage && !i18next?.hasResourceBundle(languageCode, 'login')) {
+    i18next?.addResourceBundle(languageCode, 'login', Bundles.login);
+    i18next?.addResourceBundle(languageCode, 'country', Bundles.country);
+  }
 };
 
 export const loadLanguage = async (widgetProps: WidgetProps): Promise<void> => {
@@ -78,19 +50,18 @@ export const loadLanguage = async (widgetProps: WidgetProps): Promise<void> => {
   }, supportedLanguages);
 
   // Load translations from Bundles to i18next and change language
-  i18ni?.addResourceBundle(languageCode, 'login', Bundles.login);
-  i18ni?.addResourceBundle(languageCode, 'country', Bundles.country);
-  i18ni?.changeLanguage(languageCode);
+  i18next?.addResourceBundle(languageCode, 'login', Bundles.login);
+  i18next?.addResourceBundle(languageCode, 'country', Bundles.country);
+  i18next?.changeLanguage(languageCode);
 };
 
 export const unloadLanguage = (languageCode: LanguageCode) => {
   // Remove translations from i18next
-  const defaultLanguage = getDefaultLanguage();
-  if (languageCode !== defaultLanguage) {
-    i18ni?.removeResourceBundle(languageCode, 'login');
-    i18ni?.removeResourceBundle(languageCode, 'country');
+  if (languageCode !== config.defaultLanguage) {
+    i18next?.removeResourceBundle(languageCode, 'login');
+    i18next?.removeResourceBundle(languageCode, 'country');
   }
-  i18ni?.changeLanguage(undefined);
+  i18next?.changeLanguage(undefined);
 };
 
 export const getOdysseyTranslationOverrides = (): Partial<OdysseyI18nResourceKeys> => (

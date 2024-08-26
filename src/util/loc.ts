@@ -83,6 +83,21 @@ export const loc = function (
 };
 
 /**
+ * Add ability to override global `loc` util used in `v2/ion/*`
+ */
+type LocUtil = (
+  key: string,
+  bundleName?: string,
+  params?: Array<string | number | boolean | undefined>
+) => string;
+let locUtil: LocUtil = loc;
+
+export const getLocUtil = () => locUtil;
+export const setLocUtil = (newLocUtil: LocUtil) => {
+  locUtil = newLocUtil;
+};
+
+/**
 * Converts the locale code identifier from "${languageCode}-${countryCode}" to "${languageCode}_${countryCode}"
 * Follows the ISO-639-1 language code and 2-letter ISO-3166-1-alpha-2 country code structure.
 * @param {String} locale code identifier

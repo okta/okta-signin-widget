@@ -219,6 +219,9 @@ export default {
 
   remove: function(): void {
     this.currentLanguage = null;
+    this.login = login;
+    this.country = country;
+    this.courage = login;
   },
 
   loadLanguage: async function(language: string, overrides: i18nOptions, assets: Assets, supportedLanguages: string[]): Promise<void> {

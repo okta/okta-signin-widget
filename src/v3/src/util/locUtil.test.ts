@@ -31,10 +31,11 @@ describe('locUtil Tests', () => {
         odysseyTranslate: jest.fn().mockImplementation(
           (origKey, params) => {
             const bundleAndKey = origKey.split(':');
-            let bundle;
+            let _bundle;
             let key = origKey;
             if (bundleAndKey.length === 2) {
-              ([bundle, key] = bundleAndKey);
+              // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+              ([_bundle, key] = bundleAndKey);
               return MockedBundle[key].replace('{0}', params?.[0]);
             }
             return originalModule.odysseyTranslate(origKey, params);

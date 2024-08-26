@@ -12,9 +12,9 @@
 
 import Bundles from '../../../util/Bundles';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { emitL10nError } from '../../../util/loc';
+import { emitL10nError, setLocUtil } from '../../../util/loc';
 import { TokenReplacement } from '../types';
-import { i18next } from './languageUtils';
+import { i18next } from './i18next';
 
 /**
  *
@@ -68,3 +68,6 @@ export const loc = (
 
   return localizedText;
 };
+
+// Override global `loc` util
+setLocUtil(loc);

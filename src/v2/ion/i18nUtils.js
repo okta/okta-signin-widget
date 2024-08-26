@@ -15,7 +15,7 @@
 
 import Bundles from 'util/Bundles';
 import Logger from 'util/Logger';
-import { loc } from '../../util/loc';
+import { getLocUtil } from '../../util/loc';
 import { getAuthenticatorDisplayName } from '../view-builder/utils/AuthenticatorUtil';
 import { FORMS, AUTHENTICATOR_KEY } from './RemediationConstants';
 import { I18N_BASE_ATTRIBUTE_ENROLL_PROFILE_MAPPINGS } from '../view-builder/views/enroll-profile/i18nBaseAttributeMappings';
@@ -281,6 +281,7 @@ const doesI18NKeyExist = (i18nKey) => {
  * @param {string[]} params
  */
 const getI18NValue = (i18nPath, defaultValue, params = []) => {
+  const loc = getLocUtil();
   const i18nKey = getI18nKey(i18nPath);
   if (i18nKey) {
     return loc(i18nKey, 'login', params);
@@ -308,6 +309,7 @@ const isWebAuthnAPIError = (i18nKey) => i18nKey.startsWith(WEBAUTHN_API_GENERIC_
  * @param {Message} message
  */
 const getMessage = (message) => {
+  const loc = getLocUtil();
   if (message.i18n?.key) {
     let i18nKey = message.i18n.key;
     let i18nParams = message.i18n.params || [];
@@ -349,6 +351,7 @@ const getMessage = (message) => {
  * @param {Object} error
  */
 const getMessageFromBrowserError = (error) => {
+  const loc = getLocUtil();
   if (error.name) {
     const key = `oie.browser.error.${error.name}`;
     if (Bundles.login[key]) {
