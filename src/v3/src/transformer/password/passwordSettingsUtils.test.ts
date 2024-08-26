@@ -14,25 +14,11 @@ import { PASSWORD_REQUIREMENTS_KEYS } from '../../constants';
 import { ComplexityRequirements } from '../../types';
 import { getComplexityItems } from './passwordSettingsUtils';
 
-jest.mock('@okta/odyssey-react-mui', () => {
-  const originalModule = jest.requireActual('@okta/odyssey-react-mui');
-  return {
-    __esModule: true,
-    ...originalModule,
-    odysseyTranslate: jest.fn().mockImplementation(
-      // eslint-disable-next-line no-unused-vars
-      (origKey, params) => {
-        const bundleAndKey = origKey.split(':');
-        let bundle;
-        let key = origKey;
-        if (bundleAndKey.length === 2) {
-          ([bundle, key] = bundleAndKey);
-        }
-        return key;
-      },
-    ),
-  };
-});
+jest.mock('../../util/locUtil', () => ({
+  loc: jest.fn().mockImplementation(
+    (key) => key,
+  ),
+}));
 
 describe('getComplexityItems', () => {
   it('should return excludeFirstName item', () => {

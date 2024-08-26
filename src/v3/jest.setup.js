@@ -17,6 +17,7 @@ import {
   toHaveBeenCalledBefore,
 } from 'jest-extended';
 import mockBundles from '../util/Bundles.ts';
+import { setLocUtil } from '../util/loc.ts';
 
 expect.extend({
   toBeFalse,
@@ -40,23 +41,12 @@ global.DEBUG = false;
 
 expect.addSnapshotSerializer(createSerializer({ includeStyles: false }));
 
-jest.mock('@okta/odyssey-react-mui', () => {
-  const originalModule = jest.requireActual('@okta/odyssey-react-mui');
-  return {
-    __esModule: true,
-    ...originalModule,
-    odysseyTranslate: jest.fn().mockImplementation(
-      // eslint-disable-next-line no-unused-vars
-      (origKey, params) => {
-        const bundleAndKey = origKey.split(':');
-        let bundle;
-        let key = origKey;
-        if (bundleAndKey.length === 2) {
-          ([bundle, key] = bundleAndKey);
-          return mockBundles[bundle][key] ? key : new Error(`Invalid i18n key: ${key}`);
-        }
-        return originalModule.odysseyTranslate(origKey, params);
-      },
-    ),
-  };
+jest.mock('src/util/locUtil', () => {
+  const originalModule = jest.requireActual('src/util/locUtil');
+  const loc = jest.fn().mockImplementation(
+    // eslint-disable-next-line no-unused-vars
+    (key, bundle, params) => (mockBundles.login[key] ? key : new Error(`Invalid i18n key: ${key}`)),
+  );
+  setLocUtil(loc);
+  return { ...originalModule, loc };
 });

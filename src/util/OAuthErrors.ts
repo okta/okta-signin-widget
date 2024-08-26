@@ -1,4 +1,4 @@
-import { loc } from './loc';
+import { getLocUtil } from './loc';
 
 import { AuthSdkError, OAuthError as SdkOAuthError} from '@okta/okta-auth-js';
 import { OAuthError } from './Errors';
@@ -58,6 +58,7 @@ class ClockDriftError extends RecoverableError<TerminalErrorType> {
   }
 
   getErrorSummary(): string {
+    const loc = getLocUtil();
     return loc('error.unsynced.clock', 'login');
   }
 }
@@ -73,6 +74,7 @@ class JITProfileProvisioningError extends RecoverableError<InlineErrorType> {
     super(error, InlineErrorType);
   }
   getErrorSummary(): string {
+    const loc = getLocUtil();
     return loc('error.jit_failure', 'login');
   }
 }
@@ -83,6 +85,7 @@ class MfaRequiredError extends NonRecoverableError<InlineErrorType> {
   }
 
   getErrorSummary(): string {
+    const loc = getLocUtil();
     return loc('error.mfa.required', 'login');
   }
 }
