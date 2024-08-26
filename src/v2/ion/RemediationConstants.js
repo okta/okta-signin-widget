@@ -73,6 +73,8 @@ const FORMS = {
 
   KEEP_ME_SIGNED_IN: 'keep-me-signed-in',
 
+  DEVICE_ASSURANCE_GRACE_PERIOD: 'device-assurance-grace-period',
+
   // 'terminal` is not ION Form name but only coined in widget
   // for rendering a page that user has nothing to remediate.
   TERMINAL: 'terminal',

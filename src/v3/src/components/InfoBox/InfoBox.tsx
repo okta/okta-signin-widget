@@ -43,7 +43,6 @@ const InfoBox: UISchemaElementComponent<{
 
   return loading ? null : (
     <Box
-      marginBlockEnd={tokens.Spacing4}
       width={1}
       data-se={`infobox-${messageClass.toLowerCase()}`}
     >

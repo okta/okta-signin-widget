@@ -61,6 +61,7 @@ exports[`enroll-profile-update-optional-fields should render form with one requi
                           class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-13"
                         >
                           <svg
+                            aria-label="User"
                             class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-14"
                             fill="none"
                             focusable="false"

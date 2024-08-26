@@ -53,6 +53,7 @@ import { transformYubikeyOtpAuthenticator } from '../yubikey';
 import { transformAdminConsent, transformEnduserConsent, transformGranularConsent } from './consent';
 import { transformEnumerateComponents } from './development';
 import { transformDeviceCodeAuthenticator } from './device';
+import { transformDeviceAssuranceGracePeriod } from './deviceAssuranceGracePeriod';
 import { transformDuoAuthenticator } from './duo';
 import {
   transformEmailAuthenticatorEnroll,
@@ -262,6 +263,14 @@ const TransformerMap: {
     [AUTHENTICATOR_KEY.OV]: {
       transform: transformAppleSsoExtension,
       buttonConfig: { showDefaultSubmit: false },
+    },
+  },
+  [IDX_STEP.DEVICE_ASSURANCE_GRACE_PERIOD]: {
+    [AUTHENTICATOR_KEY.DEFAULT]: {
+      transform: transformDeviceAssuranceGracePeriod,
+      buttonConfig: {
+        showDefaultSubmit: false,
+      },
     },
   },
   [IDX_STEP.DEVICE_CHALLENGE_POLL]: {

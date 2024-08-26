@@ -104,6 +104,7 @@ exports[`enroll-profile-update-required-field fails client side validation with 
                           class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-20"
                         >
                           <svg
+                            aria-label="User"
                             class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-21"
                             fill="none"
                             focusable="false"
@@ -392,6 +393,7 @@ exports[`enroll-profile-update-required-field should render form with one requir
                           class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-13"
                         >
                           <svg
+                            aria-label="User"
                             class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-14"
                             fill="none"
                             focusable="false"

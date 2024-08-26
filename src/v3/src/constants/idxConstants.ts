@@ -50,6 +50,7 @@ export const IDX_STEP: Record<string, string> = {
   CONSENT_ENDUSER: 'consent',
   CONSENT_GRANULAR: 'granular-consent',
   DEVICE_APPLE_SSO_EXTENSION: 'device-apple-sso-extension',
+  DEVICE_ASSURANCE_GRACE_PERIOD: 'device-assurance-grace-period',
   DEVICE_CHALLENGE_POLL: 'device-challenge-poll',
   DEVICE_ENROLLMENT_TERMINAL: 'device-enrollment-terminal',
   ENROLLMENT_CHANNEL_DATA: 'enrollment-channel-data',

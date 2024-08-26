@@ -123,6 +123,9 @@ import PostAuthKeepMeSignedInView from './views/keep-me-signed-in/PostAuthKeepMe
 // unlock account
 import UnlockAccountView from './views/authenticator/UnlockAccountView'
 
+// device assurance grace period
+import DeviceAssuranceGracePeriodView from './views/device-assurance-grace-period/DeviceAssuranceGracePeriodView'
+
 const DEFAULT = '_';
 
 const VIEWS_MAPPING = {
@@ -288,6 +291,9 @@ const VIEWS_MAPPING = {
   },
   [RemediationForms.TERMINAL]: {
     [DEFAULT]: TerminalView,
+  },
+  [RemediationForms.DEVICE_ASSURANCE_GRACE_PERIOD]: {
+    [DEFAULT]: DeviceAssuranceGracePeriodView,
   },
 };
 
