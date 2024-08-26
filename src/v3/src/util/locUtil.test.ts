@@ -21,24 +21,23 @@ describe('locUtil Tests', () => {
   };
 
   beforeEach(() => {
-    jest.unmock('@okta/odyssey-react-mui');
+    jest.unmock('./locUtil');
     // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
-    jest.mock('@okta/odyssey-react-mui', () => {
-      const originalModule = jest.requireActual('@okta/odyssey-react-mui');
+    jest.mock('./i18next', () => {
       return {
-        __esModule: true,
-        ...originalModule,
-        odysseyTranslate: jest.fn().mockImplementation(
+        t: jest.fn().mockImplementation(
           (origKey, params) => {
             const bundleAndKey = origKey.split(':');
-            let _bundle;
+            let bundle;
             let key = origKey;
             if (bundleAndKey.length === 2) {
               // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-              ([_bundle, key] = bundleAndKey);
-              return MockedBundle[key].replace('{0}', params?.[0]);
+              ([bundle, key] = bundleAndKey);
+              if (bundle === 'login') {
+                return MockedBundle[key].replace('{0}', params?.[0]);
+              }
             }
-            return originalModule.odysseyTranslate(origKey, params);
+            return origKey;
           },
         ),
       };

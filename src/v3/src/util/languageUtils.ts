@@ -43,10 +43,16 @@ export const loadLanguage = async (widgetProps: WidgetProps): Promise<void> => {
     assetsBaseUrl = assetsBaseUrl.substring(0, assetsBaseUrl.length - 1);
   }
 
+  // Don't reuse plural forms in English for other languages.
+  // See https://www.i18next.com/translation-function/plurals
+  const pluralSuffixes = ['_one', '_other'];
+  const omitDefaultKeys = (key: string) => {
+    return pluralSuffixes.some(s => key.endsWith(s))
+  };
   await Bundles.loadLanguage(languageCode, i18n, {
     baseUrl: assetsBaseUrl,
     rewrite: rewrite ?? ((val) => val),
-  }, supportedLanguages);
+  }, supportedLanguages, omitDefaultKeys);
 
   // Load translations from Bundles to i18next and change language
   i18next?.addResourceBundle(languageCode, 'login', Bundles.login);
