@@ -19,7 +19,6 @@ const MockedBundle: Record<string, string> = {
   'some.key.with.multiple.tokens': 'This is some test string with multiple tokens: <$1> <$2> here is a test string </$2> </$1>',
 };
 
-// eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
 jest.mock('./i18next', () => ({
   i18next: {
     t: jest.fn().mockImplementation(
@@ -37,11 +36,11 @@ jest.mock('./i18next', () => ({
         return '';
       },
     ),
-  }
+  },
 }));
 
+// eslint-disable-next-line import/first
 import { loc } from './locUtil';
-
 
 describe('locUtil Tests', () => {
   it('should return simple translated string', () => {
