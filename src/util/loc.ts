@@ -83,7 +83,7 @@ export const loc = function (
 };
 
 /**
- * Add ability to override global `loc` util used in `v2/ion/*`
+ * Add ability to override global `loc` util used in `v2/ion/*`, `util/*` etc.
  */
 type LocUtil = (
   key: string,

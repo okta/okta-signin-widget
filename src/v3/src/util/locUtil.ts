@@ -34,7 +34,7 @@ export const loc = (
   const count = params?.find((p): p is number => typeof p === 'number');
   const localizedText = i18next?.t(`${bundleName}:${key}`, {
     ...paramsObj,
-    ...(count ? { count } : {}),
+    ...(count !== undefined ? { count } : {}),
     defaultValue: '',
   });
 

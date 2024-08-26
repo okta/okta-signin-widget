@@ -151,7 +151,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     };
   }, [brandColors, customTheme, languageDirection]);
 
-  // load default 'en' language (once)
+  // load default language (once)
   initDefaultLanguage();
 
   // on unmount, remove the language

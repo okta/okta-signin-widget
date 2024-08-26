@@ -229,7 +229,7 @@ export default {
     const lowerCaseLanguage = language.toLowerCase();
     const bundles = await getBundles(language, assets, supportedLanguages);
     // Always extend from the built in defaults in the event that some
-    // properties are not translated.
+    // properties are not translated
     const loginFiltered = omitDefaultKeys ? _.omit(login, (_, k) => omitDefaultKeys(k)) : login;
     this.login = _.extend({}, loginFiltered, bundles.login);
     this.country = _.extend({}, country, bundles.country);
