@@ -10,40 +10,40 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+jest.unmock('./locUtil');
+
+const MockedBundle: Record<string, string> = {
+  'some.basic.key': 'This is a key without params',
+  'some.key.with.$1.token': 'This is a key with a token <$1>This is some text</$1>',
+  'some.key.with.plain.html': 'This is a key with a token <span class="strong">This is some text</span>',
+  'some.key.with.multiple.tokens': 'This is some test string with multiple tokens: <$1> <$2> here is a test string </$2> </$1>',
+};
+
+// eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
+jest.mock('./i18next', () => ({
+  i18next: {
+    t: jest.fn().mockImplementation(
+      (origKey, params) => {
+        const bundleAndKey = origKey.split(':');
+        let bundle;
+        let key = origKey;
+        if (bundleAndKey.length === 2) {
+          // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+          ([bundle, key] = bundleAndKey);
+          if (bundle === 'login' && MockedBundle[key]) {
+            return MockedBundle[key].replace('{0}', params?.[0]);
+          }
+        }
+        return '';
+      },
+    ),
+  }
+}));
+
 import { loc } from './locUtil';
 
+
 describe('locUtil Tests', () => {
-  const MockedBundle: Record<string, string> = {
-    'some.basic.key': 'This is a key without params',
-    'some.key.with.$1.token': 'This is a key with a token <$1>This is some text</$1>',
-    'some.key.with.plain.html': 'This is a key with a token <span class="strong">This is some text</span>',
-    'some.key.with.multiple.tokens': 'This is some test string with multiple tokens: <$1> <$2> here is a test string </$2> </$1>',
-  };
-
-  beforeEach(() => {
-    jest.unmock('./locUtil');
-    // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
-    jest.mock('./i18next', () => {
-      return {
-        t: jest.fn().mockImplementation(
-          (origKey, params) => {
-            const bundleAndKey = origKey.split(':');
-            let bundle;
-            let key = origKey;
-            if (bundleAndKey.length === 2) {
-              // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-              ([bundle, key] = bundleAndKey);
-              if (bundle === 'login') {
-                return MockedBundle[key].replace('{0}', params?.[0]);
-              }
-            }
-            return origKey;
-          },
-        ),
-      };
-    });
-  });
-
   it('should return simple translated string', () => {
     const localizedText = loc('some.basic.key', 'login');
     expect(localizedText).toBe('This is a key without params');
