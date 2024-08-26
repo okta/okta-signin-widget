@@ -16,6 +16,7 @@ import config from '../../../config/config.json';
 import { LanguageCode } from '../../../types';
 import Bundles from '../../../util/Bundles';
 import { WidgetProps } from '../types';
+import { isDevelopmentEnvironment } from './environmentUtils';
 import { i18next } from './i18next';
 import { getLanguageCode, getSupportedLanguages } from './settingsUtils';
 
@@ -55,7 +56,10 @@ export const loadLanguage = async (widgetProps: WidgetProps): Promise<void> => {
 
 export const unloadLanguage = (languageCode: LanguageCode) => {
   // Remove translations from i18next
-  if (languageCode !== config.defaultLanguage) {
+  if (languageCode !== config.defaultLanguage && !isDevelopmentEnvironment()) {
+    // For dev environment with HMR don't clear translations.
+    // Otherwise during HMR widget language will be reset to default one.
+    // `Bundles.remove()` also doesn't reset bundles to default language.
     i18next?.removeResourceBundle(languageCode, 'login');
     i18next?.removeResourceBundle(languageCode, 'country');
   }
