@@ -221,18 +221,17 @@ export default {
     this.currentLanguage = null;
   },
 
-  loadLanguage: async function(language: string, overrides: i18nOptions, assets: Assets, supportedLanguages: string[]): Promise<void> {
+  loadLanguage: async function(
+    language: string, overrides: i18nOptions, assets: Assets, supportedLanguages: string[],
+    omitDefaultKeys?: (key: string) => boolean
+  ): Promise<void> {
     const parsedOverrides = parseOverrides(overrides);
     const lowerCaseLanguage = language.toLowerCase();
     const bundles = await getBundles(language, assets, supportedLanguages);
     // Always extend from the built in defaults in the event that some
     // properties are not translated.
-    // But don't reuse plural forms in English for other languages.
-    // See https://www.i18next.com/translation-function/plurals
-    const pluralSuffixes = ['_one', '_other'];
-    const loginTranslationsWithoutPlural = _.omit(login, (_, k) =>
-      pluralSuffixes.some(s => k.endsWith(s)));
-    this.login = _.extend({}, loginTranslationsWithoutPlural, bundles.login);
+    const loginFiltered = omitDefaultKeys ? _.omit(login, (_, k) => omitDefaultKeys(k)) : login;
+    this.login = _.extend({}, loginFiltered, bundles.login);
     this.country = _.extend({}, country, bundles.country);
     this.courage = _.extend({}, login, bundles.login);
     if (parsedOverrides[lowerCaseLanguage]) {
