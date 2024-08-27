@@ -151,15 +151,17 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     };
   }, [brandColors, customTheme, languageDirection]);
 
-  // load default language (once)
-  initDefaultLanguage();
+  useEffect(() => {
+    // load default language once
+    initDefaultLanguage();
 
-  // on unmount, remove the language
-  useEffect(() => () => {
-    if (Bundles.isLoaded(languageCode)) {
-      Bundles.remove();
-      unloadLanguage(languageCode);
-    }
+    // on unmount, remove the language
+    return () => {
+      if (Bundles.isLoaded(languageCode)) {
+        Bundles.remove();
+        unloadLanguage(languageCode);
+      }
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
