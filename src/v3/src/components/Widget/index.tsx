@@ -151,17 +151,17 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     };
   }, [brandColors, customTheme, languageDirection]);
 
-  useEffect(() => {
-    // load default language once
+  useOnce(() => {
+    // Load default language.
+    // Should be called before initial render
     initDefaultLanguage();
+  });
 
-    // on unmount, remove the language
-    return () => {
-      if (Bundles.isLoaded(languageCode)) {
-        Bundles.remove();
-        unloadLanguage(languageCode);
-      }
-    };
+  useEffect(() => () => {
+    if (Bundles.isLoaded(languageCode)) {
+      Bundles.remove();
+      unloadLanguage(languageCode);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
