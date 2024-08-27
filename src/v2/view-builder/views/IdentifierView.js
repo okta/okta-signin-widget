@@ -117,7 +117,7 @@ const Body = BaseForm.extend({
     // When a user enters invalid credentials, /introspect returns an error,
     // along with a user object containing the identifier entered by the user.
     this.$el.find('.identifier-container').remove();
-    this.getWebauthnAutofillUICredentialsAndSave();
+    this.getWebauthnAutofillCredentialsAndSave();
   },
 
   /**
@@ -147,7 +147,7 @@ const Body = BaseForm.extend({
         // because we want to allow the user to choose from previously used identifiers.
         newSchema = {
           ...newSchema,
-          autoComplete: Util.getAutocompleteValue(this.options.settings, 'username') + this.options.appState.get('webauthnAutofillUIChallenge')?.challengeData ? ' webauthn' : ''
+          autoComplete: Util.getAutocompleteValue(this.options.settings, 'username') + this.options.appState.get('webauthnAutofillChallenge')?.challengeData ? ' webauthn' : ''
         };
       } else if (schema.name === 'credentials.passcode') {
         newSchema = {
@@ -258,8 +258,8 @@ const Body = BaseForm.extend({
     }
   },
 
-  getWebauthnAutofillUICredentialsAndSave() {
-    const challengeData = this.options.appState.get('webauthnAutofillUIChallenge')?.challengeData;
+  getWebauthnAutofillCredentialsAndSave() {
+    const challengeData = this.options.appState.get('webauthnAutofillChallenge')?.challengeData;
     if (!challengeData) return;
     const options = _.extend({}, challengeData, {
       challenge: CryptoUtil.strToBin(challengeData.challenge),
@@ -286,8 +286,8 @@ const Body = BaseForm.extend({
         userHandle
       };
 
-      //TODO, is there a better way for this?
-      this.options.appState.trigger('invokeAction', RemediationForms.CHALLENGE_AUTHENTICATOR, {'credentials': credentials});
+      this.options.appState.trigger('invokeAction', RemediationForms.CHALLENGE_WEBAUTHN_AUTOFILL_AUTHENTICATOR, {'credentials': credentials});
+      //this.options.appState.trigger('invokeAction', RemediationForms.CHALLENGE_AUTHENTICATOR, {'credentials': credentials});
     }, (error) => {
       // Do not display if it is abort error triggered by code when switching.
       // this.webauthnAbortController would be null if abort was triggered by code.

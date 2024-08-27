@@ -188,8 +188,9 @@ export default Controller.extend({
 
     // Build options to invoke or throw error for invalid action
     //Passkey experience
-    const userHandle = (actionParams as any)?.credentials?.userHandle;
-    const isPasskey = FORMS.CHALLENGE_AUTHENTICATOR === actionPath && !_.isEmpty(userHandle);
+    //const userHandle = (actionParams as any)?.credentials?.userHandle;
+    //const isPasskey = FORMS.CHALLENGE_AUTHENTICATOR === actionPath && !_.isEmpty(userHandle);
+    const isPasskey = FORMS.CHALLENGE_WEBAUTHN_AUTOFILL_AUTHENTICATOR === actionPath;
     if ((FORMS.LAUNCH_AUTHENTICATOR === actionPath || isPasskey) && actionParams) {
       //https://oktainc.atlassian.net/browse/OKTA-562885  a temp solution to send rememberMe when click the launch OV buttion.
       //will redesign to handle FastPass silent probing case where no username and rememberMe opiton at all.
