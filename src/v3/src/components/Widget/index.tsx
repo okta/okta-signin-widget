@@ -157,6 +157,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     initDefaultLanguage();
   });
 
+  // on unmount, remove the language
   useEffect(() => () => {
     if (Bundles.isLoaded(languageCode)) {
       Bundles.remove();
