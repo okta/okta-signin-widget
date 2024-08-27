@@ -24,9 +24,9 @@ export const initDefaultLanguage = () => {
   // Load translations for default language from Bundles to i18next
   const languageCode = Bundles.currentLanguage ?? config.defaultLanguage;
   const isDefaultLanguage = !Bundles.currentLanguage;
-  if (isDefaultLanguage && !i18next?.hasResourceBundle(languageCode, 'login')) {
-    i18next?.addResourceBundle(languageCode, 'login', Bundles.login);
-    i18next?.addResourceBundle(languageCode, 'country', Bundles.country);
+  if (isDefaultLanguage && !i18next.hasResourceBundle(languageCode, 'login')) {
+    i18next.addResourceBundle(languageCode, 'login', Bundles.login);
+    i18next.addResourceBundle(languageCode, 'country', Bundles.country);
   }
 };
 
@@ -53,9 +53,9 @@ export const loadLanguage = async (widgetProps: WidgetProps): Promise<void> => {
   }, supportedLanguages, omitDefaultKeys);
 
   // Load translations from Bundles to i18next and change language
-  i18next?.addResourceBundle(languageCode, 'login', Bundles.login);
-  i18next?.addResourceBundle(languageCode, 'country', Bundles.country);
-  i18next?.changeLanguage(languageCode);
+  i18next.addResourceBundle(languageCode, 'login', Bundles.login);
+  i18next.addResourceBundle(languageCode, 'country', Bundles.country);
+  i18next.changeLanguage(languageCode);
 };
 
 export const unloadLanguage = (languageCode: LanguageCode) => {
@@ -64,10 +64,10 @@ export const unloadLanguage = (languageCode: LanguageCode) => {
     // For dev environment with HMR don't clear translations.
     // Otherwise during HMR widget language will be reset to default one.
     // `Bundles.remove()` also doesn't reset bundles to default language.
-    i18next?.removeResourceBundle(languageCode, 'login');
-    i18next?.removeResourceBundle(languageCode, 'country');
+    i18next.removeResourceBundle(languageCode, 'login');
+    i18next.removeResourceBundle(languageCode, 'country');
   }
-  i18next?.changeLanguage(undefined);
+  i18next.changeLanguage(undefined);
 };
 
 export const getOdysseyTranslationOverrides = (): Partial<OdysseyI18nResourceKeys> => (
