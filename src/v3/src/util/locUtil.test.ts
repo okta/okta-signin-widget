@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import type { loc as origLoc } from './locUtil';
 import * as OrigLanguageUtils from './languageUtils';
+import type { loc as origLoc } from './locUtil';
 
 jest.unmock('./locUtil');
 
@@ -86,30 +86,30 @@ describe('locUtil Tests', () => {
       expect(localizedText).toBe('This is some test string with multiple tokens: <a href="#"> <span class="strong"> here is a test string </span> </a>');
     });
   });
-  
+
   // https://www.i18next.com/translation-function/plurals
   describe('Pluralization', () => {
     const MockedLogin: Record<string, Record<string, string>> = {
       en: {
-        'item_one': 'one item',
-        'item_other': '{0} items',
-        'apple_one': 'one apple',
-        'apple_other': '{0} apples',
-        'pear_one': 'one pear',
-        'pear_other': '{0} pears',
+        item_one: 'one item',
+        item_other: '{0} items',
+        apple_one: 'one apple',
+        apple_other: '{0} apples',
+        pear_one: 'one pear',
+        pear_other: '{0} pears',
       },
       ro: {
-        'item_one': 'un articol',
-        'item_few': '{0} articole',
-        'item_other': '{0} de articole',
+        item_one: 'un articol',
+        item_few: '{0} articole',
+        item_other: '{0} de articole',
         // 'apple_one': 'un măr', // missing translation
-        'apple_few': '{0} mere',
-        'apple_other': '{0} de mere',
-        'apple': '{0} de mere', // will be used as fallback
-        'pear_few': '{0} pere', // no fallback
+        apple_few: '{0} mere',
+        apple_other: '{0} de mere',
+        apple: '{0} de mere', // will be used as fallback
+        pear_few: '{0} pere', // no fallback
       },
     };
-  
+
     beforeEach(() => {
       jest.resetModules();
       jest.unmock('./i18next');
@@ -124,10 +124,7 @@ describe('locUtil Tests', () => {
           login: MockedLogin.en,
           country: {},
           loadLanguage: jest.fn().mockImplementation(
-            // eslint-disable-next-line no-unused-vars
-            async (language: string, overrides: any, assets: Record<string, string>,
-              supportedLanguages: string[], omitDefaultKeys?: (key: string) => boolean
-            ) => {
+            async (language: string) => {
               Bundles.currentLanguage = language;
               Bundles.login = MockedLogin[language] ?? {};
               Bundles.country = {};
@@ -144,44 +141,56 @@ describe('locUtil Tests', () => {
     it('can localize singular/plural in English', () => {
       languageUtils.initDefaultLanguage();
       const localizedTextOne = loc('item', 'login', [1]);
-      expect(localizedTextOne).toBe('one item');
+      expect(localizedTextOne).toBe('one item'); // item_one
       const localizedTextTwo = loc('item', 'login', [2]);
-      expect(localizedTextTwo).toBe('2 items');
+      expect(localizedTextTwo).toBe('2 items'); // item_other
     });
 
     it('can localize multiple plurals in other languages', async () => {
       languageUtils.initDefaultLanguage();
       await languageUtils.loadLanguage({ language: 'ro' });
       const localizedText1 = loc('item', 'login', [1]);
-      expect(localizedText1).toBe('un articol');
+      expect(localizedText1).toBe('un articol'); // item_one
       const localizedText2 = loc('item', 'login', [2]);
-      expect(localizedText2).toBe('2 articole');
+      expect(localizedText2).toBe('2 articole'); // item_few
       const localizedText20 = loc('item', 'login', [20]);
-      expect(localizedText20).toBe('20 de articole');
+      expect(localizedText20).toBe('20 de articole'); // item_other
     });
 
     it('can fallback to default form if some plural form translation is missing', async () => {
       languageUtils.initDefaultLanguage();
       await languageUtils.loadLanguage({ language: 'ro' });
       const localizedText2 = loc('apple', 'login', [2]);
-      expect(localizedText2).toBe('2 mere');
-      // fallback
+      expect(localizedText2).toBe('2 mere'); // apple_few
+      // no 'apple_one' => fallback to 'apple'
       const localizedText1 = loc('apple', 'login', [1]);
-      expect(localizedText1).toBe('1 de mere');
+      expect(localizedText1).toBe('1 de mere'); // apple
     });
 
     it('will fallback to English if some plural form translation is missing and there is no fallback', async () => {
       languageUtils.initDefaultLanguage();
       await languageUtils.loadLanguage({ language: 'ro' });
       const localizedText2 = loc('pear', 'login', [2]);
-      expect(localizedText2).toBe('2 pere');
-      // fallback to English
+      expect(localizedText2).toBe('2 pere'); // pear_few
+      // no 'pear_one', no fallback to 'pear' => fallback to English 'pear_one'
       const localizedText1 = loc('pear', 'login', [1]);
       expect(localizedText1).toBe('one pear');
     });
 
-    // todo: unload lang
-
-    // todo: L10N_ERROR
+    it('emits error event if requested key is missing in bundle', () => {
+      // spy on emitting of CustomEvent with type 'okta-i18n-error' in `loc()` util
+      const dispatchEventSpy = jest.spyOn(document, 'dispatchEvent');
+      languageUtils.initDefaultLanguage();
+      const localizedText2 = loc('missing_key', 'login');
+      expect(localizedText2).toBe('L10N_ERROR[missing_key]');
+      expect(dispatchEventSpy).toHaveBeenCalledWith(new CustomEvent('okta-i18n-error', {
+        detail: {
+          type: 'l10n-error',
+          key: 'missing_key',
+          bundleName: 'login',
+          reason: 'key',
+        },
+      }));
+    });
   });
 });
