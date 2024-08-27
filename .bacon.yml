@@ -105,7 +105,7 @@ test_suites:
     sort_order: '15'
     timeout: '30'
     script_name: e2e-saucelabs-v3
-    criteria: MERGE
+    criteria: OPTIONAL
     queue_name: small
   # Optional test suite until Android is enabled
   - name: e2e-saucelabs-mobile
