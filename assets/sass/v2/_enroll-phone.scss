@@ -2,21 +2,6 @@
   .okta-form-subtitle {
     text-align: center;
   }
-  &__phone {
-    &--small {
-      display: inline-block;
-      max-width: 70%;
-    }
-  }
-  &__phone-ext {
-    display: inline-block;
-    position: absolute;
-    width: 27%;
-    margin-left: 3%;
-  }
-  &__phone-ext.o-form-fieldset:last-child {
-    margin-bottom: 0;
-  }
   &__phone-code {
     min-width: 3rem;
     text-align: center;

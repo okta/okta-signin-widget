@@ -19,24 +19,6 @@ const Body = BaseForm.extend({
 
   render() {
     BaseForm.prototype.render.apply(this, arguments);
-    const selectedMethod = this.model.get('authenticator.methodType');
-    const phoneField = this.el.querySelector('.phone-authenticator-enroll__phone');
-    const extensionField = this.el.querySelector('.phone-authenticator-enroll__phone-ext');
-
-    if (selectedMethod === 'voice') {
-      if (!phoneField.classList.contains('phone-authenticator-enroll__phone--small')) {
-        phoneField.classList.add('phone-authenticator-enroll__phone--small');
-      }
-      extensionField.classList.remove('hide');
-    }
-
-    if (selectedMethod === 'sms') {
-      phoneField.classList.remove('phone-authenticator-enroll__phone--small');
-      if (!extensionField.classList.contains('hide')) {
-        extensionField.classList.add('hide');
-      }
-    }
-
     this.el.querySelector('.phone-authenticator-enroll__phone-code').innerText = `+${this.model.get('phoneCode')}`;
   },
 
@@ -92,15 +74,12 @@ const Body = BaseForm.extend({
     const extensionUISchema = {
       label: loc('phone.extention.label', 'login'),
       type: 'text',
-      // Need to manually hide and show
-      // - toggleWhen puts display: block on the element when it unhides hence can't be used.
-      //   Because in this case, the element needs to be rendered as an inline-block.
-      // - showWhen has an animation on the element when unhiding
-      //   The animation makes the element look weird because of the way it is positioned,
-      //   hence can't be used
-      className: 'phone-authenticator-enroll__phone-ext hide',
+      className: 'phone-authenticator-enroll__phone-ext',
       'label-top': true,
       name: 'extension',
+      showWhen: {
+        'authenticator.methodType': 'voice'
+      }
     };
 
     if (phoneNumberUISchemaIndex !== -1) {
@@ -120,9 +99,14 @@ const Body = BaseForm.extend({
     return uiSchemas;
   },
 
+  updateConditionalText() {
+    this.el.querySelector('.okta-form-subtitle').innerText = this.subtitle();
+    this.el.querySelector('input[type="submit"]').value = this.save();
+  },
+
   initialize() {
     BaseForm.prototype.initialize.apply(this, arguments);
-    this.listenTo(this.model, 'change:authenticator.methodType', this.render.bind(this));
+    this.listenTo(this.model, 'change:authenticator.methodType', this.updateConditionalText);
     this.listenTo(this.model, 'change:phoneCode', this.handlePhoneCodeChange.bind(this));
   },
 });

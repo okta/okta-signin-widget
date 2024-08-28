@@ -3,7 +3,6 @@ import { userVariables } from 'testcafe';
 import { within } from '@testing-library/testcafe';
 
 const PASSCODE_FIELD_NAME = 'credentials.passcode';
-const PHONE_NUMBER_SELECTOR = '.phone-authenticator-enroll__phone';
 const PHONE_NUMBER_EXTENSION_SELECTOR = '.phone-authenticator-enroll__phone-ext';
 const PHONE_FIELD_NAME = 'authenticator\\.phoneNumber';
 const PHONE_CODE_FIELD_NAME = 'phoneCode';
@@ -25,7 +24,8 @@ export default class EnrollAuthenticatorPhonePageObject extends BasePageObject {
       const exists = await this.form.fieldByLabelExists('Extension');
       return !exists;
     }
-    return this.form.getElement(PHONE_NUMBER_EXTENSION_SELECTOR).hasClass('hide');
+    const display = await this.form.getElement(PHONE_NUMBER_EXTENSION_SELECTOR).getStyleProperty('display');
+    return display === 'none';
   }
 
   getElement(selector) {
@@ -59,14 +59,6 @@ export default class EnrollAuthenticatorPhonePageObject extends BasePageObject {
 
   fillPhoneNumber(value) {
     return this.form.setTextBoxValue(PHONE_FIELD_NAME, value);
-  }
-
-  phoneNumberFieldIsSmall() {
-    if (userVariables.gen3) {
-      return this.form.elementExist('[inputmode="tel"]');
-    }
-    return this.form.getElement(PHONE_NUMBER_SELECTOR)
-      .hasClass('phone-authenticator-enroll__phone--small');
   }
 
   clickNextButton() {
