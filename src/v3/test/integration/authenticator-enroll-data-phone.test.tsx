@@ -79,21 +79,6 @@ describe('authenticator-enroll-data-phone', () => {
     );
   });
 
-  it('phone number and extension fields should be ltr even when a rtl language is set', async () => {
-    const {
-      user, findByLabelText,
-    } = await setup({ mockResponse, widgetOptions: { language: 'ar' } });
-
-    const phoneNumberEle = await findByLabelText('Phone number') as HTMLInputElement;
-
-    const methodType = await findByLabelText(/Voice call/);
-    await user.click(methodType);
-    const extensionEle = await findByLabelText('Extension') as HTMLInputElement;
-
-    expect(phoneNumberEle.parentElement).toHaveStyle('direction: ltr');
-    expect(extensionEle.parentElement).toHaveStyle('direction: ltr');
-  });
-
   it('should send correct payload when selecting voice', async () => {
     const {
       authClient, user, findByText, findByLabelText, container,
@@ -107,7 +92,7 @@ describe('authenticator-enroll-data-phone', () => {
 
     const submitButton = await findByText('Receive a code via voice call');
     const phoneNumberEle = await findByLabelText('Phone number') as HTMLInputElement;
-    const extensionEle = await findByLabelText('Extension') as HTMLInputElement;
+    const extensionEle = await findByLabelText('ExtensionOptional') as HTMLInputElement;
 
     expect(container).toMatchSnapshot();
 

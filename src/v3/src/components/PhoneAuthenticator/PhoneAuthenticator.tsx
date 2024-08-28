@@ -11,7 +11,7 @@
  */
 
 import { Box, SelectChangeEvent } from '@mui/material';
-import { NativeSelect, TextField, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
+import { NativeSelect, TextField } from '@okta/odyssey-react-mui';
 import { IdxMessage } from '@okta/okta-auth-js';
 import { h } from 'preact';
 import {
@@ -43,7 +43,6 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
     dataSchemaRef,
     loading,
     widgetProps,
-    languageDirection,
   } = useWidgetContext();
   const {
     translations = [],
@@ -76,7 +75,6 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
   const onChangeHandler = useOnChange(uischema);
   const focusRef = useAutoFocus<HTMLSelectElement>(focus);
   const { errorMessage, errorMessageList } = buildFieldLevelErrorMessages(errors);
-  const tokens = useOdysseyDesignTokens();
 
   const formatPhone = (
     phoneNumber: string,
@@ -120,104 +118,87 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
 
   const renderExtension = () => (
     showExtension && (
-      <Box width={0.25}>
-        <TextField
-          autoCompleteType={disableAutocomplete ? 'off' : 'tel-extension'}
-          id="phoneExtension"
-          isDisabled={loading}
-          label={extensionLabel ?? ''}
-          name="extension"
-          onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-            setExtension(e.currentTarget.value);
-          }}
-          testId="extension"
-          value={extension}
-        />
-      </Box>
+      <TextField
+        autoCompleteType={disableAutocomplete ? 'off' : 'tel-extension'}
+        id="phoneExtension"
+        isDisabled={loading}
+        isOptional
+        label={extensionLabel ?? ''}
+        name="extension"
+        onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+          setExtension(e.currentTarget.value);
+        }}
+        testId="extension"
+        value={extension}
+      />
     )
   );
 
   const renderCountrySelect = () => (
-    <Box marginBlockEnd={4}>
-      <NativeSelect
-        autoCompleteType={disableAutocomplete ? 'off' : 'tel-country-code'}
-        id="country"
-        inputRef={focusRef}
-        isDisabled={loading}
-        isOptional={required === false}
-        label={countryLabel}
-        onChange={(e: SelectChangeEvent<string>) => {
-          const selectTarget = (
-            e?.target as SelectChangeEvent['target'] & { value: string; name: string; }
-          );
-          setPhoneCode(`+${CountryUtil.getCallingCodeForCountry(selectTarget.value)}`);
-        }}
-        testId="country"
-      >
-        {
-          Object.entries(countries).map(([code, name]) => (
-            <option
-              key={code}
-              value={code}
-              selected={code === defaultCountryCode}
-            >
-              {name}
-            </option>
-          ))
-        }
-      </NativeSelect>
-    </Box>
+    <NativeSelect
+      autoCompleteType={disableAutocomplete ? 'off' : 'tel-country-code'}
+      id="country"
+      inputRef={focusRef}
+      isDisabled={loading}
+      isOptional={required === false}
+      label={countryLabel}
+      onChange={(e: SelectChangeEvent<string>) => {
+        const selectTarget = (
+          e?.target as SelectChangeEvent['target'] & { value: string; name: string; }
+        );
+        setPhoneCode(`+${CountryUtil.getCallingCodeForCountry(selectTarget.value)}`);
+      }}
+      testId="country"
+    >
+      {
+        Object.entries(countries).map(([code, name]) => (
+          <option
+            key={code}
+            value={code}
+            selected={code === defaultCountryCode}
+          >
+            {name}
+          </option>
+        ))
+      }
+    </NativeSelect>
   );
 
   return (
     <Box>
       {renderCountrySelect()}
-      <Box
-        display="flex"
-        justifyContent="space-between"
-        flexWrap="wrap"
-        flexDirection={languageDirection === 'rtl' ? 'row-reverse' : 'row'}
-      >
-        <Box
-          width={showExtension ? 0.7 : 1}
-          sx={{
-            marginRight: showExtension ? tokens.Spacing2 : tokens.Spacing0,
-          }}
-        >
-          <TextField
-            autoCompleteType={autocomplete}
-            errorMessage={errorMessage}
-            errorMessageList={errorMessageList}
-            id={fieldName}
-            inputMode={inputmode}
-            isDisabled={loading}
-            isFullWidth
-            isOptional={required === false}
-            label={mainLabel ?? ''}
-            name={fieldName}
-            onBlur={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-              const formattedPhone = formatPhone(e?.currentTarget?.value, phoneCode, extension);
-              handleBlur?.(formattedPhone);
-            }}
-            onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-              // Set new phone value without phone code
-              setPhone(e.currentTarget.value);
-              setPhoneChanged(true);
-            }}
-            startAdornment={(
-              <Box
-                component="span"
-                translate="no"
-              >
-                {phoneCode}
-              </Box>
-            )}
-            testId={fieldName}
-            type="tel"
-          />
-        </Box>
-        {renderExtension()}
-      </Box>
+      <TextField
+        autoCompleteType={autocomplete}
+        errorMessage={errorMessage}
+        errorMessageList={errorMessageList}
+        id={fieldName}
+        inputMode={inputmode}
+        isDisabled={loading}
+        isFullWidth
+        isOptional={required === false}
+        label={mainLabel ?? ''}
+        name={fieldName}
+        onBlur={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+          const formattedPhone = formatPhone(e?.currentTarget?.value, phoneCode, extension);
+          handleBlur?.(formattedPhone);
+        }}
+        onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+          // Set new phone value without phone code
+          setPhone(e.currentTarget.value);
+          setPhoneChanged(true);
+        }}
+        startAdornment={(
+          <Box
+            component="span"
+            translate="no"
+          >
+            {phoneCode}
+          </Box>
+        )}
+        testId={fieldName}
+        type="tel"
+      />
+      {renderExtension()}
     </Box>
   );
 };

@@ -72,9 +72,6 @@ test.requestHooks(mock)('voice mode click and extension will get shown', async t
   // Default country code US
   const countryCodeText = await enrollPhonePage.getCountryCodeValue();
   await t.expect(countryCodeText).match(/\+1/);
-
-  // Phone Number input field is rendered small
-  await t.expect(enrollPhonePage.phoneNumberFieldIsSmall()).eql(true);
 });
 
 test.requestHooks(mock)('phone number is required', async t => {
@@ -127,8 +124,6 @@ test.requestHooks(voiceOnlyOptionMock)('default is voice mode', async t => {
 
   // Extension field is not hidden
   await t.expect(await enrollPhonePage.extensionIsHidden()).eql(false);
-  // Phone field is rendered small
-  await t.expect(enrollPhonePage.phoneNumberFieldIsSmall()).eql(true);
 });
 
 test.requestHooks(voiceOnlyOptionMock)('should succeed when values are filled when in voice only mode', async t => {
