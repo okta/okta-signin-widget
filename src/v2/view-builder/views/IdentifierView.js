@@ -147,7 +147,8 @@ const Body = BaseForm.extend({
         // because we want to allow the user to choose from previously used identifiers.
         newSchema = {
           ...newSchema,
-          autoComplete: Util.getAutocompleteValue(this.options.settings, 'username') + this.options.appState.get('webauthnAutofillChallenge')?.challengeData ? ' webauthn' : ''
+          autoComplete: Util.getAutocompleteValue(this.options.settings, 'username')
+          + this.options.appState.get('webauthnAutofillChallenge')?.challengeData ? ' webauthn' : ''
         };
       } else if (schema.name === 'credentials.passcode') {
         newSchema = {
@@ -260,7 +261,9 @@ const Body = BaseForm.extend({
 
   getWebauthnAutofillCredentialsAndSave() {
     const challengeData = this.options.appState.get('webauthnAutofillChallenge')?.challengeData;
-    if (!challengeData) return;
+    if (!challengeData) {
+      return;
+    }
     const options = _.extend({}, challengeData, {
       challenge: CryptoUtil.strToBin(challengeData.challenge),
     });
@@ -269,6 +272,8 @@ const Body = BaseForm.extend({
       this.webauthnAbortController = new AbortController();
     }
     
+    // navigator.credentials() is not supported in IE11
+    // eslint-disable-next-line compat/compat
     navigator.credentials.get({
       mediation: 'conditional',
       publicKey: options,
@@ -286,8 +291,10 @@ const Body = BaseForm.extend({
         userHandle
       };
 
-      this.options.appState.trigger('invokeAction', RemediationForms.CHALLENGE_WEBAUTHN_AUTOFILL_AUTHENTICATOR, {'credentials': credentials});
-      //this.options.appState.trigger('invokeAction', RemediationForms.CHALLENGE_AUTHENTICATOR, {'credentials': credentials});
+      this.options.appState.trigger('invokeAction', RemediationForms.CHALLENGE_WEBAUTHN_AUTOFILL_AUTHENTICATOR, 
+      {'credentials': credentials});
+      //this.options.appState.trigger('invokeAction', RemediationForms.CHALLENGE_AUTHENTICATOR, 
+      //{'credentials': credentials});
     }, (error) => {
       // Do not display if it is abort error triggered by code when switching.
       // this.webauthnAbortController would be null if abort was triggered by code.
