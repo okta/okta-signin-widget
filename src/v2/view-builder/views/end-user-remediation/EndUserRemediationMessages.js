@@ -1,6 +1,8 @@
 import { View } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
 import { getMessage } from '../../../ion/i18nTransformer';
+import TimeUtil from 'util/TimeUtil';
+import { loc } from 'util/loc';
 
 const I18N_ACCESS_DENIED_KEY_PREFIX = 'idx.error.code.access_denied.device_assurance.remediation';
 const I18N_GRACE_PERIOD_KEY_PREFIX = 'idx.device_assurance.grace_period.warning';
@@ -10,6 +12,8 @@ const REMEDIATION_OPTION_INDEX_KEY = `${I18N_ACCESS_DENIED_KEY_PREFIX}.option_in
 const ACCESS_DENIED_TITLE_KEY = `${I18N_ACCESS_DENIED_KEY_PREFIX}.title`;
 const GRACE_PERIOD_TITLE_KEY = `${I18N_GRACE_PERIOD_KEY_PREFIX}.title`;
 const ACCESS_DENIED_EXPLANATION_KEY_PREFIX = `${I18N_ACCESS_DENIED_KEY_PREFIX}.explanation_`;
+const GRACE_PERIOD_DUE_BY_DATE_SUFFIX = '.due_by_date';
+const GRACE_PERIOD_DUE_BY_DAYS_SUFFIX = '.due_by_days';
 
 function buildRemediationOptionBlockMessage(message) {
   let link = null;
@@ -72,18 +76,36 @@ export default View.extend({
     let explanation = null;
     let useCustomHelpText = false;
 
-    messages.forEach((message) => {
-      if (message.i18n.key === ACCESS_DENIED_TITLE_KEY || message.i18n.key.startsWith(GRACE_PERIOD_TITLE_KEY)) {
-        title = getMessage(message);
-      } else if (message.i18n.key.startsWith(ACCESS_DENIED_EXPLANATION_KEY_PREFIX)) {
-        explanation = getMessage(message);
-      } else if (message.i18n.key.startsWith(HELP_AND_CONTACT_KEY_PREFIX)) {
-        useCustomHelpText = message.i18n.key === CUSTOM_URL_ADDITIONAL_HELP_KEY;
-        if (message.links && message.links[0] && message.links[0].url) {
-          this.additionalHelpUrl = message.links[0].url;
+    // eslint-disable-next-line complexity
+    messages.forEach((msg) => {
+      const { i18n: { key, params = [] }, links } = msg;
+  
+      if (key === ACCESS_DENIED_TITLE_KEY) {
+        title = getMessage(msg);
+      } else if (key.startsWith(GRACE_PERIOD_TITLE_KEY)) {
+        if (params.length > 0) {
+          let localizedExpiry;
+          const expiry = params[0];
+          // eslint-disable-next-line max-depth
+          switch (key.split(GRACE_PERIOD_TITLE_KEY)[1]) {
+          case GRACE_PERIOD_DUE_BY_DATE_SUFFIX:
+            localizedExpiry = TimeUtil.formatUnixEpochToDeviceAssuranceGracePeriodDueDate(expiry);
+            break;
+          case GRACE_PERIOD_DUE_BY_DAYS_SUFFIX: 
+            localizedExpiry = TimeUtil.formatUnixEpochToDeviceAssuranceGracePeriodDueDays(expiry);
+            break;
+          }
+          title = loc(key, 'login', localizedExpiry ? [localizedExpiry] : []);
+        }
+      } else if (key.startsWith(ACCESS_DENIED_EXPLANATION_KEY_PREFIX)) {
+        explanation = getMessage(msg);
+      } else if (key.startsWith(HELP_AND_CONTACT_KEY_PREFIX)) {
+        useCustomHelpText = key === CUSTOM_URL_ADDITIONAL_HELP_KEY;
+        if (links && links[0] && links[0].url) {
+          this.additionalHelpUrl = links[0].url;
         }
       } else {
-        remediationOptions.push(buildRemediationOptionBlockMessage(message));
+        remediationOptions.push(buildRemediationOptionBlockMessage(msg));
       }
     });
 

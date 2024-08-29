@@ -93,4 +93,31 @@ export default {
       unit: convertMomentUnits(highestUnit),
     };
   },
+
+  /**
+   * @method formatUnixEpochToDeviceAssuranceGracePeriodDueDate
+   * Conversion from a Unix epoch in milliseconds to a MM/DD/YYYY format in the local timezone
+   * e.g. 1725667200000 -> 09/06/2024 if the local timezone is EST
+   *
+   * @param {number} epoch The epoch in milliseconds
+   * @return {String} The formatted MM/DD/YYY string
+   */
+  formatUnixEpochToDeviceAssuranceGracePeriodDueDate: function(epoch) {
+    const date = new Date(epoch);
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // getMonth() is zero-based
+    const day = String(date.getDate()).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${month}/${day}/${year}`;
+  },
+
+  /**
+   * @method formatUnixEpochToDeviceAssuranceGracePeriodDueDays
+   * Conversion from a Unix epoch in milliseconds to the # of days between the time in the local timezone and the epoch
+   *
+   * @param {number} epoch The epoch in milliseconds
+   * @return {number} The # of days between the time in the local timezone and the epoch
+   */
+  formatUnixEpochToDeviceAssuranceGracePeriodDueDays: function(epoch) {
+    return Math.max(0, Math.floor((epoch - new Date().getTime()) / (1000 * 3600 * 24)));
+  }
 };

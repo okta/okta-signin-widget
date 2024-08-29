@@ -31,11 +31,11 @@
       "type": "array",
       "value": [
           {
-            "message": "Your device doesn't meet the security requirements. Fix the issue within 7 days to prevent lockout.",
+            "message": "Your device doesn't meet the security requirements. Fix the issue by 1725667200000 to prevent lockout.",
             "i18n": {
-                "key": "idx.device_assurance.grace_period.warning.title.due_by_days",
+                "key": "idx.device_assurance.grace_period.warning.title.due_by_date",
                 "params": [
-                    7
+                  1725667200000
                 ]
             },
             "class": "WARNING"

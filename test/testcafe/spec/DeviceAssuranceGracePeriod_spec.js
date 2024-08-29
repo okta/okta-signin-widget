@@ -7,6 +7,7 @@ import deviceAssuranceGracePeriodDueByDaysResponse from '../../../playground/moc
 import deviceAssuranceGracePeriodOneOptionResponse from '../../../playground/mocks/data/idp/idx/device-assurance-grace-period-one-option.json';
 import { oktaDashboardContent } from '../framework/shared';
 import DeviceAssuranceGracePeriodPageObject from '../framework/page-objects/DeviceAssuranceGracePeriodPageObject';
+import TimeUtil from '../../../src/util/TimeUtil';
 
 const dueByDateMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -39,13 +40,15 @@ async function setup(t) {
 
 test.requestHooks(dueByDateMock)('should render correct messaging and navigate to dashboard after clicking continue button for due by date grace period', async t => {
   const deviceAssuranceGracePeriodPage = await setup(t);
+  const dueByDateString = TimeUtil.formatUnixEpochToDeviceAssuranceGracePeriodDueDate(1725667200000);
   await checkA11y(t);
 
   await t.expect(deviceAssuranceGracePeriodPage.form.getNthTitle(0)).eql('Device assurance reminder');
   const warningBox = deviceAssuranceGracePeriodPage.getWarningBox();
   await t.expect(warningBox.visible).ok();
+  
 
-  await t.expect(deviceAssuranceGracePeriodPage.hasText('Your device doesn\'t meet the security requirements. Fix the issue by 08/01/2024 to prevent lockout.')).eql(true);
+  await t.expect(deviceAssuranceGracePeriodPage.hasText(`Your device doesn't meet the security requirements. Fix the issue by ${dueByDateString} to prevent lockout.`)).eql(true);
 
   await t.expect(deviceAssuranceGracePeriodPage.getOptionHeading(0)).eql('Option 1:');
   await t.expect(deviceAssuranceGracePeriodPage.getAnchor('https://okta.com/android-upgrade-os').withExactText('Update to Android 100').exists).eql(true);
@@ -67,13 +70,14 @@ test.requestHooks(dueByDateMock)('should render correct messaging and navigate t
 
 test.requestHooks(dueByDaysMock)('should render correct messaging and navigate to dashboard after clicking continue button for due by days grace period', async t => {
   const deviceAssuranceGracePeriodPage = await setup(t);
+  const dueByDaysString = TimeUtil.formatUnixEpochToDeviceAssuranceGracePeriodDueDays(1725667200000);
   await checkA11y(t);
 
   await t.expect(deviceAssuranceGracePeriodPage.form.getNthTitle(0)).eql('Device assurance reminder');
   const warningBox = deviceAssuranceGracePeriodPage.getWarningBox();
   await t.expect(warningBox.visible).ok();
 
-  await t.expect(deviceAssuranceGracePeriodPage.hasText('Your device doesn\'t meet the security requirements. Fix the issue within 7 days to prevent lockout.')).eql(true);
+  await t.expect(deviceAssuranceGracePeriodPage.hasText(`Your device doesn't meet the security requirements. Fix the issue within ${dueByDaysString} days to prevent lockout.`)).eql(true);
 
   await t.expect(deviceAssuranceGracePeriodPage.getOptionHeading(0)).eql('Option 1:');
   await t.expect(deviceAssuranceGracePeriodPage.getAnchor('https://okta.com/android-upgrade-os').withExactText('Update to Android 100').exists).eql(true);
@@ -95,13 +99,14 @@ test.requestHooks(dueByDaysMock)('should render correct messaging and navigate t
 
 test.requestHooks(oneOptionMock)('should render correct messaging for grace period with one option', async t => {
   const deviceAssuranceGracePeriodPage = await setup(t);
+  const dueByDaysString = TimeUtil.formatUnixEpochToDeviceAssuranceGracePeriodDueDate(1725667200000);
   await checkA11y(t);
 
   await t.expect(deviceAssuranceGracePeriodPage.form.getNthTitle(0)).eql('Device assurance reminder');
   const warningBox = deviceAssuranceGracePeriodPage.getWarningBox();
   await t.expect(warningBox.visible).ok();
 
-  await t.expect(deviceAssuranceGracePeriodPage.hasText('Your device doesn\'t meet the security requirements. Fix the issue within 7 days to prevent lockout.')).eql(true);
+  await t.expect(deviceAssuranceGracePeriodPage.hasText(`Your device doesn't meet the security requirements. Fix the issue by ${dueByDaysString} to prevent lockout.`)).eql(true);
 
   await t.expect(deviceAssuranceGracePeriodPage.getAnchor('https://okta.com/android-upgrade-os').withExactText('Update to Android 100').exists).eql(true);
   await t.expect(deviceAssuranceGracePeriodPage.getAnchor('https://okta.com/android-biometric-lock').withExactText('Enable lock screen and biometrics').exists).eql(true);

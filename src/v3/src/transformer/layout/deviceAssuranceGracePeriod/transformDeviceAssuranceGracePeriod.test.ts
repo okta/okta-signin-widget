@@ -29,11 +29,11 @@ describe('transformDeviceAssuranceGracePeriod Tests', () => {
   beforeEach(() => {
     transaction.messages = [
       {
-        message: 'Your device doesn\'t meet the security requirements. Fix the issue within 7 days to prevent lockout.',
+        message: 'Your device doesn\'t meet the security requirements. Fix the issue within 1725667200000 days to prevent lockout.',
         i18n: {
           key: 'idx.device_assurance.grace_period.warning.title.due_by_days',
           params: [
-            7,
+            1725667200000,
           ],
         },
         class: 'ERROR',

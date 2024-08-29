@@ -16,6 +16,7 @@ import {
 } from '@okta/okta-auth-js';
 
 import IDP from '../../../util/IDP';
+import TimeUtil from '../../../util/TimeUtil';
 import Util from '../../../util/Util';
 import {
   CUSTOM_APP_UV_ENABLE_BIOMETRIC_SERVER_KEY, IDX_STEP, SOCIAL_IDP_TYPE_TO_I18KEY, TERMINAL_KEY,
@@ -310,18 +311,39 @@ export const buildEndUserRemediationMessages = (
   const REMEDIATION_OPTION_INDEX_KEY = `${ACCESS_DENIED_I18N_KEY_PREFIX}.option_index`;
   const ACCESS_DENIED_TITLE_KEY = `${ACCESS_DENIED_I18N_KEY_PREFIX}.title`;
   const GRACE_PERIOD_TITLE_KEY = `${GRACE_PERIOD_I18N_KEY_PREFIX}.title`;
+  const GRACE_PERIOD_DUE_BY_DATE_SUFFIX = '.due_by_date';
+  const GRACE_PERIOD_DUE_BY_DAYS_SUFFIX = '.due_by_days';
   const resultMessageArray: WidgetMessage[] = [];
 
   messages.forEach((msg) => {
     // @ts-expect-error OKTA-630508 links is missing from IdxMessage type
-    const { i18n: { key }, links, message } = msg;
+    const { i18n: { key, params = [] }, links, message } = msg;
 
     const widgetMsg = { listStyleType: 'disc' } as WidgetMessage;
-    if (key === ACCESS_DENIED_TITLE_KEY || key.startsWith(GRACE_PERIOD_TITLE_KEY)
-      || key === REMEDIATION_OPTION_INDEX_KEY) {
+    if (key === ACCESS_DENIED_TITLE_KEY || key === REMEDIATION_OPTION_INDEX_KEY) {
       // `messages` will already be localized at this point by transactionMessageTransformer, so we can directly set
       // widgetMsg.title equal to `message`
       widgetMsg.title = message;
+    } else if (key.startsWith(GRACE_PERIOD_TITLE_KEY)) {
+      if (params.length > 0) {
+        const expiry = params[0];
+        let localizedExpiry;
+        switch (key.split(GRACE_PERIOD_TITLE_KEY)[1]) {
+          case GRACE_PERIOD_DUE_BY_DATE_SUFFIX:
+            localizedExpiry = TimeUtil.formatUnixEpochToDeviceAssuranceGracePeriodDueDate(
+              expiry as number,
+            );
+            break;
+          case GRACE_PERIOD_DUE_BY_DAYS_SUFFIX:
+            localizedExpiry = TimeUtil.formatUnixEpochToDeviceAssuranceGracePeriodDueDays(
+              expiry as number,
+            );
+            break;
+          default:
+            break;
+        }
+        widgetMsg.title = loc(key, 'login', localizedExpiry ? [localizedExpiry] : []);
+      }
     } else if (key.startsWith(HELP_AND_CONTACT_KEY_PREFIX)) {
       widgetMsg.message = loc(
         key,
