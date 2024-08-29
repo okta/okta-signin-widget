@@ -102,7 +102,7 @@ export default {
    * @param {number} epoch The epoch in milliseconds
    * @return {String} The formatted MM/DD/YYY string
    */
-  formatUnixEpochToDeviceAssuranceGracePeriodDueDate: function(epoch) {
+  formatUnixEpochToDeviceAssuranceGracePeriodDueDate: (epoch) => {
     const date = new Date(epoch);
     const month = String(date.getMonth() + 1).padStart(2, '0'); // getMonth() is zero-based
     const day = String(date.getDate()).padStart(2, '0');
@@ -117,7 +117,7 @@ export default {
    * @param {number} epoch The epoch in milliseconds
    * @return {number} The # of days between the time in the local timezone and the epoch
    */
-  formatUnixEpochToDeviceAssuranceGracePeriodDueDays: function(epoch) {
+  formatUnixEpochToDeviceAssuranceGracePeriodDueDays: (epoch) => {
     return Math.max(0, Math.floor((epoch - new Date().getTime()) / (1000 * 3600 * 24)));
   }
 };
