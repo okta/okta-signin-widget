@@ -257,9 +257,9 @@ function getDeviceMap(appState) {
   const contextualData = appState.get('currentAuthenticator').contextualData;
   let deviceMap = {};
   if (contextualData.samedevice?.setupOVUrl) {
-    deviceMap = contextualData.samedevice;
+    deviceMap = {...contextualData.samedevice};
   } else if (contextualData.devicebootstrap?.setupOVUrl) {
-    deviceMap = contextualData.devicebootstrap;
+    deviceMap = {...contextualData.devicebootstrap};
   }
 
   if (deviceMap.platform) {

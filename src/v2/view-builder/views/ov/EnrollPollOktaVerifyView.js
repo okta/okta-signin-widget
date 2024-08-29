@@ -63,9 +63,11 @@ const Body = BaseFormWithPolling.extend(Object.assign(
       } else if (['email', 'sms'].includes(selectedChannel)) {
         selector = '.switch-channel-content';
         shouldStartPolling = true;
-      } else if (['samedevice', 'devicebootstrap'].includes(selectedChannel)) { 
-        // no selector if the channel is same device or device bootstrap
-        // additionally, stop polling as it should be a terminal page
+      } else if (['samedevice'].includes(selectedChannel)) {
+        // no selector if the channel is same device
+        shouldStartPolling = true;
+      } else if (['devicebootstrap'].includes(selectedChannel)) {
+        // no selector if the channel is device bootstrap
         shouldStartPolling = false;
       }
       
