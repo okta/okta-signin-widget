@@ -325,6 +325,7 @@ export const buildEndUserRemediationMessages = (
       // widgetMsg.title equal to `message`
       widgetMsg.title = message;
     } else if (key.startsWith(GRACE_PERIOD_TITLE_KEY)) {
+      // OKTA-798446 TODO: Migrate to i18next datetime localization after it is merged to gen3
       if (params.length > 0) {
         const expiry = params[0];
         let localizedExpiry;
