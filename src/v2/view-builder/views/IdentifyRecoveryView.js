@@ -17,10 +17,6 @@ const Body = BaseForm.extend({
     const identifier = this.options.appState.get('lastIdentifier');
     if (identifier) {
       this.model.set('identifier', identifier);
-      // Toggle Form saving status (e.g. disabling save button, etc)
-      this.model.trigger('request');
-      // Auto submit
-      this.trigger('save', this.model);
     }
   },
 
