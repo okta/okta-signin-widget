@@ -176,7 +176,6 @@ export default Controller.extend({
       settings.getAuthClient().transactionManager.clear({ clearIdxResponse: false });
       sessionStorageHelper.removeStateHandle();
       appState.clearAppStateCache();
-      appState.unset('lastIdentifier');
 
       if (settings.get('oauth2Enabled')) {
         // In this case we need to restart login flow and recreate transaction meta
@@ -374,7 +373,6 @@ export default Controller.extend({
    */
   async showFormErrors(model, error, form) {
     /* eslint max-statements: [2, 24] */
-    const formName = model.get('formName');
     let errorObj;
     let idxStateError;
     let showErrorBanner = true;
@@ -408,14 +406,6 @@ export default Controller.extend({
     idxStateError = Object.assign({}, idxStateError, {hasFormError: true});
 
     // OKTA-725716: Don't save failed IDX response to state
-
-    // Save identifier to be auto filled on EnrollProfileView and IdentifyRecoveryView
-    if (formName === FORMS.IDENTIFY) {
-      const identifier = model.get('identifier');
-      this.options.appState.set('lastIdentifier', identifier);
-    } else {
-      this.options.appState.unset('lastIdentifier');
-    }
   },
 
   async handleIdxResponse(idxResp) {

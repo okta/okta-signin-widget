@@ -12,14 +12,6 @@ const Body = BaseForm.extend({
     return loc('oform.next', 'login');
   },
 
-  initialize() {
-    BaseForm.prototype.initialize.apply(this, arguments);
-    const identifier = this.options.appState.get('lastIdentifier');
-    if (identifier) {
-      this.model.set('identifier', identifier);
-    }
-  },
-
   getUISchema() {
     const schemas = BaseForm.prototype.getUISchema.apply(this, arguments);
     let newSchemas = schemas.map(schema => {
