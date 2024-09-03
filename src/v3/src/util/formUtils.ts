@@ -14,10 +14,11 @@ import {
   IdxAuthenticator,
   IdxMessage, IdxRemediation, IdxTransaction, NextStep,
 } from '@okta/okta-auth-js';
+import TimeUtil from 'util/TimeUtil';
 
+import { LanguageCode } from '../../../types';
 import IDP from '../../../util/IDP';
 import Util from '../../../util/Util';
-import TimeUtil from 'util/TimeUtil';
 import {
   CUSTOM_APP_UV_ENABLE_BIOMETRIC_SERVER_KEY, IDX_STEP, SOCIAL_IDP_TYPE_TO_I18KEY, TERMINAL_KEY,
 } from '../constants';
@@ -35,7 +36,6 @@ import {
 } from '../types';
 import { idpIconMap } from './idpIconMap';
 import { loc } from './locUtil';
-import { LanguageCode } from '../../../types';
 
 export type PhoneVerificationStep = typeof IDX_STEP.CHALLENGE_AUTHENTICATOR
 | typeof IDX_STEP.AUTHENTICATOR_VERIFICATION_DATA;

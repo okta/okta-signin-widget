@@ -33,7 +33,7 @@ describe('transformDeviceAssuranceGracePeriod Tests', () => {
         i18n: {
           key: 'idx.device_assurance.grace_period.warning.title.due_by_date',
           params: [
-            "2024-09-05T00:00:00.000Z",
+            '2024-09-05T00:00:00.000Z',
           ],
         },
         class: 'ERROR',
