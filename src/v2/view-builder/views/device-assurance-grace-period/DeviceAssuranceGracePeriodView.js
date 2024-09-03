@@ -14,9 +14,10 @@ const DeviceAssuranceGracePeriodView = BaseForm.extend(
 
     showMessages() {
       const messages = this.options.appState.get('messages').value;
+      const languageCode = this.settings.get('languageCode');
       if (messages) {
         this.add(createCallout({
-          content: new EndUserRemediationMessages({ messages }),
+          content: new EndUserRemediationMessages({ messages, languageCode }),
           type: 'warning',
         }));
       }

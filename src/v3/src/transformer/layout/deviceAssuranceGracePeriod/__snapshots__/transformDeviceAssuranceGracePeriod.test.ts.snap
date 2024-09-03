@@ -33,7 +33,7 @@ Object {
                 },
               ],
               "listStyleType": "disc",
-              "title": "idx.device_assurance.grace_period.warning.title.due_by_days",
+              "title": "idx.device_assurance.grace_period.warning.title.due_by_date",
             },
             Object {
               "listStyleType": "disc",

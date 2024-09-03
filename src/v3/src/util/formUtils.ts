@@ -16,8 +16,8 @@ import {
 } from '@okta/okta-auth-js';
 
 import IDP from '../../../util/IDP';
-import TimeUtil from '../../../util/TimeUtil';
 import Util from '../../../util/Util';
+import TimeUtil from 'util/TimeUtil';
 import {
   CUSTOM_APP_UV_ENABLE_BIOMETRIC_SERVER_KEY, IDX_STEP, SOCIAL_IDP_TYPE_TO_I18KEY, TERMINAL_KEY,
 } from '../constants';
@@ -35,6 +35,7 @@ import {
 } from '../types';
 import { idpIconMap } from './idpIconMap';
 import { loc } from './locUtil';
+import { LanguageCode } from '../../../types';
 
 export type PhoneVerificationStep = typeof IDX_STEP.CHALLENGE_AUTHENTICATOR
 | typeof IDX_STEP.AUTHENTICATOR_VERIFICATION_DATA;
@@ -300,6 +301,7 @@ export const getBiometricsErrorMessageElement = (
 
 export const buildEndUserRemediationMessages = (
   messages: IdxMessage[],
+  languageCode?: LanguageCode,
 ) : WidgetMessage[] | undefined => {
   if (messages.length === 0) {
     return undefined;
@@ -311,8 +313,6 @@ export const buildEndUserRemediationMessages = (
   const REMEDIATION_OPTION_INDEX_KEY = `${ACCESS_DENIED_I18N_KEY_PREFIX}.option_index`;
   const ACCESS_DENIED_TITLE_KEY = `${ACCESS_DENIED_I18N_KEY_PREFIX}.title`;
   const GRACE_PERIOD_TITLE_KEY = `${GRACE_PERIOD_I18N_KEY_PREFIX}.title`;
-  const GRACE_PERIOD_DUE_BY_DATE_SUFFIX = '.due_by_date';
-  const GRACE_PERIOD_DUE_BY_DAYS_SUFFIX = '.due_by_days';
   const resultMessageArray: WidgetMessage[] = [];
 
   messages.forEach((msg) => {
@@ -327,23 +327,14 @@ export const buildEndUserRemediationMessages = (
     } else if (key.startsWith(GRACE_PERIOD_TITLE_KEY)) {
       // OKTA-798446 TODO: Migrate to i18next datetime localization after it is merged to gen3
       if (params.length > 0) {
+        // Should be an ISO8601 format string
         const expiry = params[0];
-        let localizedExpiry;
-        switch (key.split(GRACE_PERIOD_TITLE_KEY)[1]) {
-          case GRACE_PERIOD_DUE_BY_DATE_SUFFIX:
-            localizedExpiry = TimeUtil.formatUnixEpochToDeviceAssuranceGracePeriodDueDate(
-              expiry as number,
-            );
-            break;
-          case GRACE_PERIOD_DUE_BY_DAYS_SUFFIX:
-            localizedExpiry = TimeUtil.formatUnixEpochToDeviceAssuranceGracePeriodDueDays(
-              expiry as number,
-            );
-            break;
-          default:
-            break;
+        const expiryDate = new Date(expiry as string);
+        // Invalid Date objects will return NaN for valueOf()
+        if (!isNaN(expiryDate.valueOf())) {
+          const localizedExpiry = TimeUtil.formatDateToDeviceAssuranceGracePeriodExpiryLocaleString(expiryDate, languageCode);
+          widgetMsg.title = loc(key, 'login', localizedExpiry ? [localizedExpiry] : []);
         }
-        widgetMsg.title = loc(key, 'login', localizedExpiry ? [localizedExpiry] : []);
       }
     } else if (key.startsWith(HELP_AND_CONTACT_KEY_PREFIX)) {
       widgetMsg.message = loc(

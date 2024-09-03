@@ -29,11 +29,11 @@ describe('transformDeviceAssuranceGracePeriod Tests', () => {
   beforeEach(() => {
     transaction.messages = [
       {
-        message: 'Your device doesn\'t meet the security requirements. Fix the issue within 1725667200000 days to prevent lockout.',
+        message: 'Your device doesn\'t meet the security requirements. Fix the issue by 09/05/2024, 12:00 AM UTC to prevent lockout.',
         i18n: {
-          key: 'idx.device_assurance.grace_period.warning.title.due_by_days',
+          key: 'idx.device_assurance.grace_period.warning.title.due_by_date',
           params: [
-            1725667200000,
+            "2024-09-05T00:00:00.000Z",
           ],
         },
         class: 'ERROR',
@@ -70,7 +70,7 @@ describe('transformDeviceAssuranceGracePeriod Tests', () => {
       formBag,
       widgetProps,
     });
-    const remediationMessages = buildEndUserRemediationMessages(transaction.messages!);
+    const remediationMessages = buildEndUserRemediationMessages(transaction.messages!, 'en');
 
     expect(updatedFormBag.uischema.elements.length).toBe(3);
     expect(updatedFormBag).toMatchSnapshot();

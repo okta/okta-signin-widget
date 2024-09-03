@@ -12,8 +12,6 @@ const REMEDIATION_OPTION_INDEX_KEY = `${I18N_ACCESS_DENIED_KEY_PREFIX}.option_in
 const ACCESS_DENIED_TITLE_KEY = `${I18N_ACCESS_DENIED_KEY_PREFIX}.title`;
 const GRACE_PERIOD_TITLE_KEY = `${I18N_GRACE_PERIOD_KEY_PREFIX}.title`;
 const ACCESS_DENIED_EXPLANATION_KEY_PREFIX = `${I18N_ACCESS_DENIED_KEY_PREFIX}.explanation_`;
-const GRACE_PERIOD_DUE_BY_DATE_SUFFIX = '.due_by_date';
-const GRACE_PERIOD_DUE_BY_DAYS_SUFFIX = '.due_by_days';
 
 function buildRemediationOptionBlockMessage(message) {
   let link = null;
@@ -84,18 +82,17 @@ export default View.extend({
         title = getMessage(msg);
       } else if (key.startsWith(GRACE_PERIOD_TITLE_KEY)) {
         if (params.length > 0) {
-          let localizedExpiry;
           const expiry = params[0];
+          const expiryDate = new Date(expiry);
+          // Invalid Date objects will return NaN for valueOf()
           // eslint-disable-next-line max-depth
-          switch (key.split(GRACE_PERIOD_TITLE_KEY)[1]) {
-          case GRACE_PERIOD_DUE_BY_DATE_SUFFIX:
-            localizedExpiry = TimeUtil.formatUnixEpochToDeviceAssuranceGracePeriodDueDate(expiry);
-            break;
-          case GRACE_PERIOD_DUE_BY_DAYS_SUFFIX: 
-            localizedExpiry = TimeUtil.formatUnixEpochToDeviceAssuranceGracePeriodDueDays(expiry);
-            break;
+          if (!isNaN(expiryDate.valueOf())) {
+            const localizedExpiry = TimeUtil.formatDateToDeviceAssuranceGracePeriodExpiryLocaleString(
+              expiryDate,
+              this.options.languageCode
+            );
+            title = loc(key, 'login', localizedExpiry ? [localizedExpiry] : []);
           }
-          title = loc(key, 'login', localizedExpiry ? [localizedExpiry] : []);
         }
       } else if (key.startsWith(ACCESS_DENIED_EXPLANATION_KEY_PREFIX)) {
         explanation = getMessage(msg);
