@@ -117,7 +117,7 @@ const Body = BaseForm.extend({
     // When a user enters invalid credentials, /introspect returns an error,
     // along with a user object containing the identifier entered by the user.
     this.$el.find('.identifier-container').remove();
-    this.getWebauthnAutofillCredentialsAndSave();
+    this.getWebauthnAutofillUICredentialsAndSave();
   },
 
   /**
@@ -147,8 +147,8 @@ const Body = BaseForm.extend({
         // because we want to allow the user to choose from previously used identifiers.
         newSchema = {
           ...newSchema,
-          autoComplete: Util.getAutocompleteValue(this.options.settings, 'username')
-          + this.options.appState.get('webauthnAutofillChallenge')?.challengeData ? ' webauthn' : ''
+          autoComplete: this.options.appState.get('webauthnAutofillUIChallenge')?.challengeData ? 
+          'webauthn' : Util.getAutocompleteValue(this.options.settings, 'username')
         };
       } else if (schema.name === 'credentials.passcode') {
         newSchema = {
@@ -259,8 +259,8 @@ const Body = BaseForm.extend({
     }
   },
 
-  getWebauthnAutofillCredentialsAndSave() {
-    const challengeData = this.options.appState.get('webauthnAutofillChallenge')?.challengeData;
+  getWebauthnAutofillUICredentialsAndSave() {
+    const challengeData = this.options.appState.get('webauthnAutofillUIChallenge')?.challengeData;
     if (!challengeData) {
       return;
     }
@@ -291,7 +291,7 @@ const Body = BaseForm.extend({
         userHandle
       };
 
-      this.options.appState.trigger('invokeAction', RemediationForms.CHALLENGE_WEBAUTHN_AUTOFILL_AUTHENTICATOR, 
+      this.options.appState.trigger('invokeAction', RemediationForms.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR, 
       {'credentials': credentials});
       //this.options.appState.trigger('invokeAction', RemediationForms.CHALLENGE_AUTHENTICATOR, 
       //{'credentials': credentials});
