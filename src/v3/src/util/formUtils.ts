@@ -14,10 +14,10 @@ import {
   IdxAuthenticator,
   IdxMessage, IdxRemediation, IdxTransaction, NextStep,
 } from '@okta/okta-auth-js';
-import TimeUtil from 'util/TimeUtil';
 
 import { LanguageCode } from '../../../types';
 import IDP from '../../../util/IDP';
+import TimeUtil from '../../../util/TimeUtil';
 import Util from '../../../util/Util';
 import {
   CUSTOM_APP_UV_ENABLE_BIOMETRIC_SERVER_KEY, IDX_STEP, SOCIAL_IDP_TYPE_TO_I18KEY, TERMINAL_KEY,
@@ -330,11 +330,10 @@ export const buildEndUserRemediationMessages = (
         // Should be an ISO8601 format string
         const expiry = params[0];
         const expiryDate = new Date(expiry as string);
-        // Invalid Date objects will return NaN for valueOf()
-        if (!isNaN(expiryDate.valueOf())) {
-          const localizedExpiry = TimeUtil.formatDateToDeviceAssuranceGracePeriodExpiryLocaleString(expiryDate, languageCode);
-          widgetMsg.title = loc(key, 'login', localizedExpiry ? [localizedExpiry] : []);
-        }
+        const localizedExpiry = TimeUtil.formatDateToDeviceAssuranceGracePeriodExpiryLocaleString(
+          expiryDate, languageCode,
+        );
+        widgetMsg.title = localizedExpiry ? loc(key, 'login', [localizedExpiry]) : message;
       }
     } else if (key.startsWith(HELP_AND_CONTACT_KEY_PREFIX)) {
       widgetMsg.message = loc(

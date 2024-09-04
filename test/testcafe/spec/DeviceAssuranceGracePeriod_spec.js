@@ -31,7 +31,7 @@ async function setup(t) {
 
 test.requestHooks(multipleOptionsMock)('should render correct messaging and navigate to dashboard after clicking continue button for grace period with multiple options', async t => {
   const deviceAssuranceGracePeriodPage = await setup(t);
-  const expiryLocaleString = TimeUtil.formatDateToDeviceAssuranceGracePeriodExpiryLocaleString(new Date('2024-09-05T00:00:00.000Z'));
+  const expiryLocaleString = TimeUtil.formatDateToDeviceAssuranceGracePeriodExpiryLocaleString(new Date('2024-09-05T00:00:00.000Z'), 'en');
   await checkA11y(t);
 
   await t.expect(deviceAssuranceGracePeriodPage.form.getNthTitle(0)).eql('Device assurance reminder');
@@ -61,7 +61,7 @@ test.requestHooks(multipleOptionsMock)('should render correct messaging and navi
 
 test.requestHooks(oneOptionMock)('should render correct messaging for grace period with one option', async t => {
   const deviceAssuranceGracePeriodPage = await setup(t);
-  const expiryLocaleString = TimeUtil.formatDateToDeviceAssuranceGracePeriodExpiryLocaleString(new Date('2024-09-05T00:00:00.000Z'));
+  const expiryLocaleString = TimeUtil.formatDateToDeviceAssuranceGracePeriodExpiryLocaleString(new Date('2024-09-05T00:00:00.000Z'), 'en');
   await checkA11y(t);
 
   await t.expect(deviceAssuranceGracePeriodPage.form.getNthTitle(0)).eql('Device assurance reminder');

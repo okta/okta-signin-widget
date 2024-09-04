@@ -76,7 +76,7 @@ export default View.extend({
 
     // eslint-disable-next-line complexity
     messages.forEach((msg) => {
-      const { i18n: { key, params = [] }, links } = msg;
+      const { i18n: { key, params = [] }, links, message } = msg;
   
       if (key === ACCESS_DENIED_TITLE_KEY) {
         title = getMessage(msg);
@@ -84,15 +84,11 @@ export default View.extend({
         if (params.length > 0) {
           const expiry = params[0];
           const expiryDate = new Date(expiry);
-          // Invalid Date objects will return NaN for valueOf()
-          // eslint-disable-next-line max-depth
-          if (!isNaN(expiryDate.valueOf())) {
-            const localizedExpiry = TimeUtil.formatDateToDeviceAssuranceGracePeriodExpiryLocaleString(
-              expiryDate,
-              this.options.languageCode
-            );
-            title = loc(key, 'login', localizedExpiry ? [localizedExpiry] : []);
-          }
+          const localizedExpiry = TimeUtil.formatDateToDeviceAssuranceGracePeriodExpiryLocaleString(
+            expiryDate,
+            this.options.languageCode
+          );
+          title = localizedExpiry ? loc(key, 'login', [localizedExpiry]) : message;
         }
       } else if (key.startsWith(ACCESS_DENIED_EXPLANATION_KEY_PREFIX)) {
         explanation = getMessage(msg);

@@ -104,4 +104,38 @@ describe('util/TimeUtil', function() {
       });
     });
   });
+
+  describe('formatDateToDeviceAssuranceGracePeriodExpiryLocaleString', () => {
+    const languageCode = 'en';
+
+    it('formats modern date', () => {
+      expect(TimeUtil.formatDateToDeviceAssuranceGracePeriodExpiryLocaleString(new Date('2024-09-05T00:00:00Z'), languageCode)).toEqual('09/05/2024, 12:00 AM UTC');
+    });
+
+    it('falls back to default locale if `languageCode` is undefined', () => {
+      expect(TimeUtil.formatDateToDeviceAssuranceGracePeriodExpiryLocaleString(new Date('2024-09-05T00:00:00Z'), undefined)).toEqual('09/05/2024, 12:00 AM UTC');
+    });
+
+    it('returns null if Date object is invalid', () => {
+      expect(TimeUtil.formatDateToDeviceAssuranceGracePeriodExpiryLocaleString(new Date('invalid'), languageCode)).toBeNull();
+    });
+
+    it('returns null if Date object is null', () => {
+      expect(TimeUtil.formatDateToDeviceAssuranceGracePeriodExpiryLocaleString(null, languageCode)).toBeNull();
+    });
+
+    it('returns null if Date object is undefined', () => {
+      expect(TimeUtil.formatDateToDeviceAssuranceGracePeriodExpiryLocaleString(undefined, languageCode)).toBeNull();
+    });
+
+    it('returns null if `languageCode` is null', () => {
+      expect(TimeUtil.formatDateToDeviceAssuranceGracePeriodExpiryLocaleString(new Date('2024-09-05T00:00:00Z'), null)).toBeNull();
+    });
+
+    it('returns null if `languageCode` is syntactically invalid and throws RangeError', () => {
+      expect(TimeUtil.formatDateToDeviceAssuranceGracePeriodExpiryLocaleString(new Date('2024-09-05T00:00:00Z'), '')).toBeNull();
+      expect(TimeUtil.formatDateToDeviceAssuranceGracePeriodExpiryLocaleString(new Date('2024-09-05T00:00:00Z'), 'a')).toBeNull();
+      expect(TimeUtil.formatDateToDeviceAssuranceGracePeriodExpiryLocaleString(new Date('2024-09-05T00:00:00Z'), 'aaaaaaaaa')).toBeNull();
+    });
+  });
 });

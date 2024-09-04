@@ -50,8 +50,9 @@ module.exports = {
     '^LoginRouter$': `${ROOT}/src/LoginRouter`,
   },
   setupFiles: [
-    '<rootDir>/test/unit/jest/jest-setup-global.js'
+    '<rootDir>/test/unit/jest/jest-setup.js'
   ],
+  globalSetup: '<rootDir>/test/unit/jest/jest-global-setup.js',
   testMatch: [
     '**/test/unit/spec/**/*.{js,ts}'
   ],

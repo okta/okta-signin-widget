@@ -101,14 +101,23 @@ export default {
    *
    * @param {Date} date The Date object for the grace period expiry
    * @param {LanguageCode} languageCode The user's language code / locale
-   * @return {String} The formatted `short-with-timezone` local string
+   * @return {string} The formatted `short-with-timezone` local string
    */
-  formatDateToDeviceAssuranceGracePeriodExpiryLocaleString: (date, languageCode) => date.toLocaleString(languageCode, {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: 'numeric',
-    minute: 'numeric',
-    timeZoneName: 'short',
-  }),
+  formatDateToDeviceAssuranceGracePeriodExpiryLocaleString: (date, languageCode) => {
+    try {
+    // Invalid Date objects will return NaN for valueOf()
+      return date && !isNaN(date.valueOf()) && languageCode !== null ? date.toLocaleString(languageCode, {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: 'numeric',
+        minute: 'numeric',
+        timeZoneName: 'short',
+      })
+        : null;
+    } catch (e) {
+      // If `languageCode` isn't in a valid format `toLocaleString()` will throw a `RangeError`
+      return null;
+    }
+  }
 };
