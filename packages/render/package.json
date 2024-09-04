@@ -1,6 +1,6 @@
 {
   "name": "@okta/loginpage-render",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "main": "./dist/okta-loginpage-render.js",
   "types": "./src/types.ts",
   "repository": "https://github.com/atko-eng/loginpage.git",

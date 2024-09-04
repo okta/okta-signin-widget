@@ -50,7 +50,7 @@ describe('main', () => {
     expect(unsupportedOnedrive?.hasAttribute('style')).toBe(false);
   });
 
-  it('updates style when cookie is disabled', () => {
+  it('updates style when cookie is disabled and isMfaAttestation is falsy', () => {
     jest.spyOn(window.navigator, 'cookieEnabled', 'get').mockReturnValue(false);
     document.body.innerHTML = `
       <div id="okta-sign-in" style="width:330px;"></div>
@@ -59,7 +59,7 @@ describe('main', () => {
     const unsupportedContainer = document.getElementById('okta-sign-in');
     const unsupportedCookie = document.getElementById('unsupported-cookie');
 
-    const newDatabag = { ...databag, failIfCookiesDisabled: true };
+    const newDatabag = { ...databag, isMfaAttestation: undefined };
     render(JSON.stringify(newDatabag), jspPageDatabag, runLoginPage);
 
     expect(registerListeners).toHaveBeenCalledTimes(1);

@@ -23,7 +23,7 @@ export const render = (databag: string, jspPageDatabag: JSPDatabag, runLoginPage
   registerListeners();
 
   const unsupportedContainer = document.getElementById('okta-sign-in') as HTMLElement;
-  const failIfCookiesDisabled = !(hasFeature('ENG_DISABLE_COOKIE_CHECK_DURING_OIDC_MFA_ATTESTATION_FLOW', featureFlags) && isMfaAttestation);
+  const failIfCookiesDisabled = !isMfaAttestation;
 
   // Old versions of WebBrowser Controls (specifically, OneDrive) render in IE7 browser
   // mode, with no way to override the documentMode. In this case, inform the user they need
