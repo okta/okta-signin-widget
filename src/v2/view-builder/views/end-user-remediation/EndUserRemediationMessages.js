@@ -1,6 +1,8 @@
 import { View } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
 import { getMessage } from '../../../ion/i18nTransformer';
+import TimeUtil from 'util/TimeUtil';
+import { loc } from 'util/loc';
 
 const I18N_ACCESS_DENIED_KEY_PREFIX = 'idx.error.code.access_denied.device_assurance.remediation';
 const I18N_GRACE_PERIOD_KEY_PREFIX = 'idx.device_assurance.grace_period.warning';
@@ -72,18 +74,31 @@ export default View.extend({
     let explanation = null;
     let useCustomHelpText = false;
 
-    messages.forEach((message) => {
-      if (message.i18n.key === ACCESS_DENIED_TITLE_KEY || message.i18n.key.startsWith(GRACE_PERIOD_TITLE_KEY)) {
-        title = getMessage(message);
-      } else if (message.i18n.key.startsWith(ACCESS_DENIED_EXPLANATION_KEY_PREFIX)) {
-        explanation = getMessage(message);
-      } else if (message.i18n.key.startsWith(HELP_AND_CONTACT_KEY_PREFIX)) {
-        useCustomHelpText = message.i18n.key === CUSTOM_URL_ADDITIONAL_HELP_KEY;
-        if (message.links && message.links[0] && message.links[0].url) {
-          this.additionalHelpUrl = message.links[0].url;
+    // eslint-disable-next-line complexity
+    messages.forEach((msg) => {
+      const { i18n: { key, params = [] }, links, message } = msg;
+  
+      if (key === ACCESS_DENIED_TITLE_KEY) {
+        title = getMessage(msg);
+      } else if (key.startsWith(GRACE_PERIOD_TITLE_KEY)) {
+        if (params.length > 0) {
+          const expiry = params[0];
+          const expiryDate = new Date(expiry);
+          const localizedExpiry = TimeUtil.formatDateToDeviceAssuranceGracePeriodExpiryLocaleString(
+            expiryDate,
+            this.options.languageCode
+          );
+          title = localizedExpiry ? loc(key, 'login', [localizedExpiry]) : message;
+        }
+      } else if (key.startsWith(ACCESS_DENIED_EXPLANATION_KEY_PREFIX)) {
+        explanation = getMessage(msg);
+      } else if (key.startsWith(HELP_AND_CONTACT_KEY_PREFIX)) {
+        useCustomHelpText = key === CUSTOM_URL_ADDITIONAL_HELP_KEY;
+        if (links && links[0] && links[0].url) {
+          this.additionalHelpUrl = links[0].url;
         }
       } else {
-        remediationOptions.push(buildRemediationOptionBlockMessage(message));
+        remediationOptions.push(buildRemediationOptionBlockMessage(msg));
       }
     });
 

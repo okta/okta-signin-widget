@@ -437,7 +437,7 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
 
   const stepper: StepperLayout = {
     type: UISchemaLayoutType.STEPPER,
-    key: 'stepper_' + channelType,
+    key: `stepper_${channelType}`,
     elements: [
       // QR code
       {

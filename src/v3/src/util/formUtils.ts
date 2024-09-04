@@ -15,7 +15,9 @@ import {
   IdxMessage, IdxRemediation, IdxTransaction, NextStep,
 } from '@okta/okta-auth-js';
 
+import { LanguageCode } from '../../../types';
 import IDP from '../../../util/IDP';
+import TimeUtil from '../../../util/TimeUtil';
 import Util from '../../../util/Util';
 import {
   CUSTOM_APP_UV_ENABLE_BIOMETRIC_SERVER_KEY, IDX_STEP, SOCIAL_IDP_TYPE_TO_I18KEY, TERMINAL_KEY,
@@ -299,6 +301,7 @@ export const getBiometricsErrorMessageElement = (
 
 export const buildEndUserRemediationMessages = (
   messages: IdxMessage[],
+  languageCode?: LanguageCode,
 ) : WidgetMessage[] | undefined => {
   if (messages.length === 0) {
     return undefined;
@@ -314,14 +317,24 @@ export const buildEndUserRemediationMessages = (
 
   messages.forEach((msg) => {
     // @ts-expect-error OKTA-630508 links is missing from IdxMessage type
-    const { i18n: { key }, links, message } = msg;
+    const { i18n: { key, params = [] }, links, message } = msg;
 
     const widgetMsg = { listStyleType: 'disc' } as WidgetMessage;
-    if (key === ACCESS_DENIED_TITLE_KEY || key.startsWith(GRACE_PERIOD_TITLE_KEY)
-      || key === REMEDIATION_OPTION_INDEX_KEY) {
+    if (key === ACCESS_DENIED_TITLE_KEY || key === REMEDIATION_OPTION_INDEX_KEY) {
       // `messages` will already be localized at this point by transactionMessageTransformer, so we can directly set
       // widgetMsg.title equal to `message`
       widgetMsg.title = message;
+    } else if (key.startsWith(GRACE_PERIOD_TITLE_KEY)) {
+      // OKTA-798446 TODO: Migrate to i18next datetime localization after it is merged to gen3
+      if (params.length > 0) {
+        // Should be an ISO8601 format string
+        const expiry = params[0];
+        const expiryDate = new Date(expiry as string);
+        const localizedExpiry = TimeUtil.formatDateToDeviceAssuranceGracePeriodExpiryLocaleString(
+          expiryDate, languageCode,
+        );
+        widgetMsg.title = localizedExpiry ? loc(key, 'login', [localizedExpiry]) : message;
+      }
     } else if (key.startsWith(HELP_AND_CONTACT_KEY_PREFIX)) {
       widgetMsg.message = loc(
         key,
