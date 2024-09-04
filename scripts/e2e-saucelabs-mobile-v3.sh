@@ -25,7 +25,7 @@ get_vault_secret_key devex/auth-js-sdk-vars a18n_api_key A18N_API_KEY
 get_vault_secret_key devex/okta-signin-widget test_org_okta_api_key OKTA_CLIENT_TOKEN
 
 # Build
-if ! yarn build:release; then
+if ! yarn workspace v3 build:release; then
   echo "build failed! Exiting..."
   exit ${TEST_FAILURE}
 fi
@@ -35,10 +35,15 @@ if ! setup_service node v14.18.2 &> /dev/null; then
   exit ${FAILED_SETUP}
 fi
 
+# Run tests
+export DISABLE_CSP=1
 export CDN_ONLY=1
+export BUNDLE="next"
 export TARGET="CROSS_BROWSER"
+export USE_MIN=1
+
 if ! yarn test:e2e; then
-  echo "e2e sauce.baconlabs mobile test failed! Exiting..."
+  echo "e2e saucelabs test failed! Exiting..."
   exit ${PUBLISH_TYPE_AND_RESULT_DIR_BUT_ALWAYS_FAIL}
 fi
 

@@ -184,7 +184,7 @@ When(
       emailMagicLink = await this.a18nClient!.getEmailMagicLink(this.credentials.profileId!);
     }
     await browser.url(emailMagicLink);
-    this.saveScreenshot('click-magic-link');
+    await this.saveScreenshot('click-magic-link');
   }
 );
 

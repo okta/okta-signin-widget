@@ -1,3 +1,11 @@
 export const waitForLoad = async (element) => {
-  await browser.waitUntil(async () => element.then(el => el.isDisplayed()), 5000, 'wait for element to load');
+  const $element = await element;
+  await $element.waitForDisplayed({ timeout: 20_000 });
+};
+
+export const waitForText = async (element, expectedText) => {
+  await browser.waitUntil(async () => {
+    const $element = await element;
+    return (await $element.isDisplayed()) && (await $element.getText()) === expectedText;
+  }, 20_000, `wait for element to load and have text: ${expectedText}`);
 };

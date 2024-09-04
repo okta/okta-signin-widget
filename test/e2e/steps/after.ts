@@ -20,7 +20,7 @@ import TestAppPage from '../page-objects/test-app.page';
 
 // eslint-disable-next-line no-unused-vars
 AfterStep(async function (this: ActionContext) {
-  this.saveScreenshot('afterStep');
+  await this.saveScreenshot('afterStep');
 });
 
 After(deleteUserAndCredentials);
@@ -41,10 +41,14 @@ After(async function(this: ActionContext) {
   }
 });
 
-After(() => browser.deleteCookies());
-
 // eslint-disable-next-line no-unused-vars
 After(async function(this: ActionContext) {
-  await TestAppPage.ssoLogout();
+  if (this.scenario?.gherkinDocument?.feature?.name !== 'Widget Flows') {
+    await TestAppPage.ssoLogout();
+    await this.saveScreenshot('ssoLogout');
+  }
 });
 
+After(async () => {
+  await browser.deleteCookies();
+});
