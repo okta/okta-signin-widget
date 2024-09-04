@@ -36,3 +36,11 @@ test_suites:
     script_name: semgrep
     criteria: MERGE
     queue_name: small
+  - name: dependency_scan
+    script_path: /root/okta/loginpage/.bacon
+    sort_order: '5'
+    timeout: '200'
+    script_name: dependency_scan
+    criteria: MAINLINE
+    queue_name: small
+    trigger: AUTO
