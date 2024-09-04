@@ -97,6 +97,7 @@ export default {
   /**
    * @method formatDateToDeviceAssuranceGracePeriodExpiryLocaleString
    * Conversion from a Date object to a locale string that mimics Okta's `short-with-timezone` format
+   * but rounded down to the nearest hour
    * e.g. new Date(2024-09-05T00:00:00.000Z) -> 09/05/2024, 8:00 PM EDT
    *
    * @param {Date} date The Date object for the grace period expiry
@@ -106,15 +107,20 @@ export default {
   formatDateToDeviceAssuranceGracePeriodExpiryLocaleString: (date, languageCode) => {
     try {
     // Invalid Date objects will return NaN for valueOf()
-      return date && !isNaN(date.valueOf()) && languageCode !== null ? date.toLocaleString(languageCode, {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: 'numeric',
-        minute: 'numeric',
-        timeZoneName: 'short',
-      })
-        : null;
+      if (date && !isNaN(date.valueOf()) && languageCode !== null) {
+        // Round down the date to the nearest hour
+        date.setMinutes(0, 0, 0);
+        return date.toLocaleString(languageCode, {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          timeZoneName: 'short',
+        });
+      } else {
+        return null;
+      }
     } catch (e) {
       // If `languageCode` isn't in a valid format `toLocaleString()` will throw a `RangeError`
       return null;
