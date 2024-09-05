@@ -245,7 +245,7 @@ export type Feature =
   'showPasswordRequirementsAsHtmlList' |
   'mfaOnlyFlow';
 
-export type HookFunction = () => Promise<void>;
+export type HookFunction = () => Promise<void> | void;
 export interface HookDefinition {
   before?: HookFunction[];
   after?: HookFunction[];

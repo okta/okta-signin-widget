@@ -10,8 +10,13 @@ import {
   RenderResult,
   RenderResultSuccessNonOIDCSession,
 } from '../src/types';
+import {
+  OktaSignInAPI as OktaSignInAPIV3,
+  WidgetOptions as WidgetOptionsV3,
+} from '../src/v3/src/types';
 import { assertNoEnglishLeaks } from '../playground/LocaleUtils';
 import Util from '../src/util/Util';
+import { customizeWidgetOptionsForHooks, addAfterTransformHooks } from './hooks';
 
 declare global {
   const IE11_COMPAT_MODE: boolean;
@@ -57,9 +62,13 @@ if (typeof window.OktaSignIn === 'undefined') {
   // Make sure OktaSignIn is available
   setTimeout(() => window.location.reload(), 2 * 1000);
 }
-const renderPlaygroundWidget = (options: WidgetOptions & { assertNoEnglishLeaks?: boolean } = {}) => {
+const renderPlaygroundWidget = (options: WidgetOptions & { assertNoEnglishLeaks?: boolean, customize?: boolean } = {}) => {
   // Okta-hosted widget page has this value set for CSP
   window.cspNonce = 'playground';
+
+  if (customize) {
+    customizeWidgetOptionsForHooks(options as any as WidgetOptionsV3);
+  }
 
   createWidgetInstance(options);
 
@@ -89,7 +98,7 @@ const renderPlaygroundWidget = (options: WidgetOptions & { assertNoEnglishLeaks?
       //    that needs to be exchanged for an okta session
       if (isSuccessNonOIDC(res)) {
         console.log(res.user);
-        res.session.setCookieAndRedirect(signinWidgetOptions.baseUrl + '/app/UserHome');
+        res.session?.setCookieAndRedirect(signinWidgetOptions.baseUrl + '/app/UserHome');
         return;
       }
 
@@ -128,12 +137,12 @@ const renderPlaygroundWidget = (options: WidgetOptions & { assertNoEnglishLeaks?
     // assert english leaks if locale set to ok-PL
     if (options?.assertNoEnglishLeaks !== false && signinWidgetOptions.language === 'ok-PL') {
       //Use innerText to avoid including hidden elements
-      let viewText = document.getElementById('okta-sign-in').innerText;
-      viewText = viewText.split('\n').join(' ');
+      let viewText = document.getElementById('okta-sign-in')?.innerText;
+      viewText = viewText?.split('\n').join(' ');
 
       const noTranslationContentExists = document.querySelectorAll(NO_TRANSLATE_SELECTOR).length;
 
-      const noTranslationContent = [];
+      const noTranslationContent: string[] = [];
       /* eslint max-depth: [2, 3] */
       if (noTranslationContentExists) {
         const noTranslateElems = document.querySelectorAll(NO_TRANSLATE_SELECTOR);
@@ -155,6 +164,9 @@ const renderPlaygroundWidget = (options: WidgetOptions & { assertNoEnglishLeaks?
     console.log(JSON.stringify(error));
   });
 
+  if (customize) {
+    addAfterTransformHooks(signIn as OktaSignInAPIV3);
+  }
 };
 
 window.getWidgetInstance = getWidgetInstance;
@@ -163,6 +175,7 @@ window.renderPlaygroundWidget = renderPlaygroundWidget;
 
 let render = true;
 let preventRedirect = false;
+let customize = false;
 if (typeof URL !== 'undefined') {
   const searchParams = new URL(window.location.href).searchParams;
   if (searchParams.get('render') === '0' || searchParams.get('render') === 'false') {
@@ -170,6 +183,9 @@ if (typeof URL !== 'undefined') {
   }
   if (searchParams.get('preventRedirect') === '1' || searchParams.get('preventRedirect') === 'true') {
     preventRedirect = true;
+  }
+  if (searchParams.get('customize') === '1' || searchParams.get('customize') === 'true') {
+    customize = true;
   }
 }
 
@@ -202,6 +218,10 @@ if (!IE11_COMPAT_MODE) {
 
 preRenderTasks.then(() => {
   if (render) {
-    renderPlaygroundWidget(window.additionalOptions ?? {});
+    const options = {
+      ...(window.additionalOptions ?? {}),
+      customize,
+    };
+    renderPlaygroundWidget(options);
   }
 });

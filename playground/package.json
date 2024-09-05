@@ -2,5 +2,8 @@
   "name": "@okta/okta-signin-widget-playground",
   "version": "1.0.0",
   "description": "## The playground App",
-  "main": "main.ts"
+  "main": "main.ts",
+  "scripts": {
+    "generate:hooks:js": "tsc --noEmit false --outDir ./js && cp -r ./js/playground/hooks/pages/*.js ./hooks/pages && rm -rf ./js"
+  }
 }

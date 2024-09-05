@@ -328,6 +328,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
 
   // update dataSchemaRef in context
   useEffect(() => {
+    widgetHooks.transformFormBagWithHooks(formBag, idxTransaction);
+
     dataSchemaRef.current = formBag.dataSchema;
     if (isClientTransaction) {
       setData((prev) => ({
@@ -338,6 +340,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       setData(formBag.data);
     }
     setUischema(formBag.uischema);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formBag, isClientTransaction]);
 
   const resume = useCallback(async () => {

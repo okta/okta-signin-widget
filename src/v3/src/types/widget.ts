@@ -35,7 +35,7 @@ import {
   UserOperation,
 } from '../../../types';
 import { InterstitialRedirectView } from '../constants';
-import { WidgetHooks } from '../util/widgetHooks';
+import type { WidgetHooks } from '../util/widgetHooks';
 import { OktaSignInAPI } from './api';
 import { JsonObject } from './json';
 import { Modify } from './jsonforms';

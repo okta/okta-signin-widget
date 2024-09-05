@@ -17,6 +17,7 @@ export * from './component';
 export * from './context';
 export * from './error';
 export * from './handlers';
+export * from './hooks';
 export * from './image';
 export * from './ion';
 export * from './json';
