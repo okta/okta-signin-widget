@@ -105,13 +105,14 @@ const Body = BaseFormWithPolling.extend({
 
     const onFailure = () => {
       Logger.error(`Something unexpected happened while we were checking port ${currentPort}.`);
+      return $.Deferred().reject();
     };
 
     const doProbing = (domainUrl) => {
       return checkPort(getAuthenticatorUrl('probe', domainUrl))
-        .done(() => {
+        .then(() => {
           return onPortFound(getAuthenticatorUrl('challenge', domainUrl))
-            .done(() => {
+            .then(() => {
               foundPort = true;
               if (deviceChallenge.enhancedPollingEnabled !== false) {
                 // this way we can gurantee that
@@ -131,7 +132,7 @@ const Body = BaseFormWithPolling.extend({
               // to make the authentication flow goes faster 
               return this.trigger('save', this.model);
             })
-            .fail((xhr) => {
+            .catch((xhr) => {
               countFailedPorts++;
               // Windows and MacOS return status code 503 when 
               // there are multiple profiles on the device and
@@ -160,7 +161,7 @@ const Body = BaseFormWithPolling.extend({
               }
             });
         })
-        .fail(onFailure);
+        .catch(onFailure);
     };
 
     let probeChain = Promise.resolve();
