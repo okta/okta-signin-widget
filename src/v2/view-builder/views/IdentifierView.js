@@ -147,8 +147,8 @@ const Body = BaseForm.extend({
         // because we want to allow the user to choose from previously used identifiers.
         newSchema = {
           ...newSchema,
-          autoComplete: this.options.appState.get('webauthnAutofillUIChallenge')?.challengeData ? 
-          'webauthn' : Util.getAutocompleteValue(this.options.settings, 'username')
+          autoComplete: this.options.appState.hasRemediationObject(RemediationForms.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR)
+          ? 'webauthn' : Util.getAutocompleteValue(this.options.settings, 'username')
         };
       } else if (schema.name === 'credentials.passcode') {
         newSchema = {
