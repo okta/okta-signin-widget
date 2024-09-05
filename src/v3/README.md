@@ -118,11 +118,42 @@ Mocks
 > Use this URL to test the **Enrollment Flow** _http://localhost:3000?siw-use-mocks=true&siw-mock-scenario=webauthn-enroll-mfa_
 > Use this URL to test the **Verification Flow** _http://localhost:3000?siw-use-mocks=true&siw-mock-scenario=webauthn-verify-mfa_ But please note, as mentioned above, the verification flow will give an error in the Browser prompt that the Identity could not be verified preventing you from authenticating.
 
-### Customizations
+### afterTransform (customizations)
 
-SIW Next uses React.  
-If you want to customize the appearence of widget, using [before](/README.md#before) and [after](/README.md#after) hooks to manipulate DOM is not suitable.  
-Instead you can use new `afterTransform` hook to manipulate state of SIW to be rendered.  
+The `afterTransform` hook is the recommended way to apply DOM customizations in
+SIW Gen3.
+
+The change from a jQuery-based architecture (SIW Gen2) to a Preact-based
+architecture (SIW Gen3) means the way DOM manipulations are performed has to
+change as well. Because SIW Gen3 is built on Preact, using the
+[before](/README.md#before) and [after](/README.md#after) hooks to manipulate
+the DOM directly will not work as expected.
+
+While the `afterRender` function is simple to understand and works well with the
+architecture of SIW Gen2, it leads to unexpected behavior if the provided
+callback contains DOM-manipulating side-effects in SIW Gen3 like this:
+
+```js
+// works on SIW Gen2, misbehaves on SIW Gen3
+signIn.on('afterRender', function (context) {
+  if (context.controller === 'forgot-password') {
+    var button = document.querySelector('[data-se="save"]');
+    if (button) {
+      // original text: "Next"
+      button.innerText = 'Custom Button Text';
+    }
+  }
+})
+```
+
+> In SIW Gen2, you would see the button text changed to "Custom Button Text" (as
+expected). In SIW Gen3, you would see the button text set to "Custom Button
+Text" initially, but changed to "NextCustom Button Text" with every user
+interaction.
+
+Instead of making updates to the DOM _after_ components are already rendered, the
+`afterTransform` hook allows you to modify the `formBag` prop sent _to_ the
+components to control what they render.
 
 Example:
 
@@ -143,23 +174,23 @@ signIn.afterTransform('*', function (context) {
 });
 ```
 
-This hook adds custom link to the bottom of every page (because `*` is used as first parameter).  
-If you want to apply hook to a specific form only, put its [name](#form-name) instead of `*` as first parameter.  
+This hook adds custom link to the bottom of every page (because `*` is used as the first parameter).
+If you want to apply hook to a specific form, put its [name](#form-name) instead of `*` as first parameter.
 
-NOTE: the `*` is an exact match string. It does not perform custom wildcard matching, e.g., `challenge-*` will not match anything. Instead use `*` and `context.formName.test(/^challenge-.+/)` in the method body.  
+NOTE: the `*` is an exact match string. It does not perform custom wildcard matching, e.g., `challenge-*` will not match anything. Instead use `*` and `context.formName.test(/^challenge-.+/)` in the method body.
 
-See [`formBag`](#formbag) section for decription of the form bag object.  
+See [`formBag`](#formbag) section for decription of the form bag object.
 
-`context` object includes useful metadata: `formName` (see [Form name](#form-name)), optional `userInfo`, `currentAuthenticator`, `deviceEnrollment`, `nextStep`, `idxContext`.  
+The `context` object includes useful metadata: `formName` (see [Form name](#form-name)), optional `userInfo`, `currentAuthenticator`, `deviceEnrollment`, `nextStep`, `idxContext`.
 
-See examples of `afterTransform` hooks usage for different pages in [the playground](/playground/hooks/index.ts).  
-Use this URL to activate hooks in the playground: `http://localhost:3000/?customize=1`  
+See examples of `afterTransform` hooks usage for different pages in [the playground](/playground/hooks/index.ts).
+Use this URL to activate hooks in the playground: `http://localhost:3000/?customize=1`
 
 #### Form name
 
-- If IDX response contains no remediatons or only one skip remediation:
-  - If IDX response contains error message, then form name is `terminal`
-  - If raw IDX response contains `deviceEnrollment`, then form name is `device-enrollment-terminal`
+- If the IDX response contains no remediatons or only one skip remediation:
+  - If the IDX response contains error message, the form name is `terminal`
+  - If the raw IDX response contains `deviceEnrollment`, the form name is `device-enrollment-terminal`
 - In other cases form name equals `remediation.value[0].name` from IDX response
 
 Examples:
@@ -169,11 +200,11 @@ Examples:
 - [`terminal`](/playground/mocks/data/idp/idx/safe-mode-optional-enrollment.json)
 - [`device-enrollment-terminal`](/playground/mocks/data/idp/idx/oda-enrollment-android.json)
 
-(For the source code see function [`getFormNameForTransaction`](/src/v3/src/util/getEventContext.ts)).  
+(For the source code see function [`getFormNameForTransaction`](/src/v3/src/util/getEventContext.ts)).
 
 #### `formBag`
 
-Type definition: [FormBag](/src/v3/src/types/schema.ts#L43).  
+Type definition: [FormBag](/src/v3/src/types/schema.ts#L43).
 
 To see demonstration of different elements can be used in `formBag.uischema.elements`:
 
@@ -183,39 +214,13 @@ To see demonstration of different elements can be used in `formBag.uischema.elem
 
 (For the source code of this demo see [transformEnumerateComponents](/src/v3/src/transformer/layout/development/transformEnumerateComponents.ts))
 
-React components to be rendered by type: see [renderers](/src/v3/src/components/Form/renderers.tsx)  
+Preact components to be rendered by type: see [renderers](/src/v3/src/components/Form/renderers.tsx)
 
 #### Custom profile fields for user registration
 
-Custom profile fields should be added in Okta admin panel (`Directory -> Profile Editor`) if value needs to be saved.  
-Custom profile fields display can be configured at `Security -> Profile Enrollment` page.  
-See [Create a custom profile enrollment form](https://help.okta.com/oie/en-us/content/topics/identity-engine/policies/create-profile-enrollment-form.htm).  
-Eg. hook for [enroll-profile](/playground/hooks/pages/enroll-profile.ts) page expects custom string profile field with name `custom_string` to be added with Okta admin panel.  
+Adding custom profile fields using `afterTransform` without adding a corresponding
+update in the admin dashboard will not be saved and will throw an error.
 
-Fake custom profile fields (value of those can't be saved) can be added with [`registration.parseSchema`](/README.md#parseschema) callback.  
-Eg. checkbox to agree to terms and conditions could be added with this callback without saving value to backend
-  (see `custom_bool` in [hooks/pages/enroll-profile.ts](/playground/hooks/pages/enroll-profile.ts)).  
-
-#### Style customizations
-
-CSS selectors for style customizations can be tricky to write cause Gen3 doesn't use classes for key elements.  
-But you can use `data-se` attribute for key elements and `:has()` selector for their parents/ancestors.  
-
-Example of style customizations in the playground: see [customize.css](/playground/hooks/css/customize.css)  
-
-#### Using hooks in Sign-in page code editor for custom domain
-
-To customize styling:
-
-1. Paste content of [customize.css](/playground/hooks/css/customize.css)  inside `<style nonce="{{nonceValue}}">`
-
-2. Paste the following line after `oktaSignIn.renderEl(...)`:
-
-   ```js
-   document.querySelector('#okta-login-container').classList.add('siw-customized');
-   ```
-
-`afterTransform` hooks should be added after creating instance of `OktaSignIn` (`oktaSignIn = new OktaSignIn(config);`).
-
-To copy hook code examples and paste into code editor please use JS version of code.  
-For example [enroll-authenticator.ts](/playground/hooks/pages/enroll-authenticator.ts) (TS version) is used for the playground, but [enroll-authenticator.js](/playground/hooks/pages/enroll-authenticator.js) (JS version) can be used for copy-pasting.  
+#### Examples
+To copy hook code examples and paste into code editor please use JS version of code.
+For example [enroll-authenticator.ts](/playground/hooks/pages/enroll-authenticator.ts) (TS version) is used for the playground, but [enroll-authenticator.js](/playground/hooks/pages/enroll-authenticator.js) (JS version) can be used for copy-pasting.
