@@ -49,26 +49,22 @@ const Body = BaseForm.extend({
   },
 
   saveForm() {
+    // Before the XHR is made for "identify", we'll generate one-time use fingerprint via
+    // a hidden-iframe (similar to authn/v1 flows)
+
     // Ideally this can be added to a "preSaveForm" handler - but keeping this here for now.
     if (!this.settings.get('features.deviceFingerprinting')) {
       BaseForm.prototype.saveForm.apply(this, arguments);
       return;
     }
 
-    // Before the XHR is made for "identify", we'll generate this one-time use fingerprint via
-    // a hidden-iframe (similar to authn/v1 flows)
-    const fingerprintData = {
-      oktaDomainUrl: this.settings.get('baseUrl'),
-      element: this.$el,
-    };
-
     // Toggle Form saving status (e.g. disabling save button, etc)
     this.model.trigger('request');
 
     // For certain flows, we need to generate a device fingerprint
     // to determine if we need to send a "New Device Sign-on Notification".
-    // In the future, this should be handled completely by okta-auth-js OKTA-418160
-    DeviceFingerprinting.generateDeviceFingerprint(fingerprintData)
+    const authClient = this.settings.getAuthClient();
+    DeviceFingerprinting.generateDeviceFingerprint(authClient, this.$el[0])
       .then(fingerprint => {
         this.options.appState.set('deviceFingerprint', fingerprint);
       })

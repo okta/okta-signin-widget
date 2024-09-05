@@ -8,7 +8,7 @@ const apis = [
       // invisible iframe and generates a unique identifier for New Device Notifications
       return `
         <html>
-          <script>
+          <script nonce="playground">
             const message = JSON.stringify({
               type: 'FingerprintAvailable',
               fingerprint: 'mock-device-fingerprint',

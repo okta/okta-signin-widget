@@ -3904,10 +3904,10 @@
     ts-node "^10.9.1"
     word-wrap "~1.2.5"
 
-"@okta/okta-auth-js@^7.7.0":
-  version "7.7.0"
-  resolved "https://registry.yarnpkg.com/@okta/okta-auth-js/-/okta-auth-js-7.7.0.tgz#daac09294316a69d996a33232eb25032d1b85d70"
-  integrity sha512-m+WlI9TJ3J2uHI+W9Uc7zinE4CQLS2JC6AQYPJ0KHxaVE5lwPDLFleapPNfNWzYGr/30GV7oBzJMU+8+UQEsPA==
+"@okta/okta-auth-js@^7.8.0":
+  version "7.8.0"
+  resolved "https://registry.yarnpkg.com/@okta/okta-auth-js/-/okta-auth-js-7.8.0.tgz#1ab69c47cbf6fd7f3ce9f6caed2e05685f5bb22d"
+  integrity sha512-yFjv0wD9T5GYcFg6zzQ0M/WGdq2IMoaI/SK/0s9AqazZ6ILv6eyZq47L2nJJ7xld5DBFUhVewnD6BS3Ee7Im1A==
   dependencies:
     "@babel/runtime" "^7.12.5"
     "@peculiar/webcrypto" "^1.4.0"
