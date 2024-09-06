@@ -1,5 +1,6 @@
 import { BaseForm } from '../../internals';
 import BaseAuthenticatorView from 'v2/view-builder/components/BaseAuthenticatorView';
+import { FORMS as REMEDIATION_FORMS } from 'v2/ion/RemediationConstants';
 
 export const BaseIdPAuthenticatorBody =  BaseForm.extend({
   initialize() {
@@ -16,8 +17,11 @@ export const BaseIdpAuthenticatorView = BaseAuthenticatorView.extend({
     const messages = this.options.appState.get('messages') || {};
     // In case of failure, don't auto-redirect which will result in infinite redirects.
     // so catch the error and render to the user.
-    if (this.settings.get('features.skipIdpFactorVerificationBtn') && !Array.isArray(messages.value)) {
-      this.$('.o-form-button-bar').hide();
+    if (
+      this.settings.get('features.skipIdpFactorVerificationBtn') &&
+      !Array.isArray(messages.value) &&
+      this.model.get('formName') !== REMEDIATION_FORMS.REDIRECT_IDVERIFY
+    ) {  this.$('.o-form-button-bar').hide();
       this.$('.okta-waiting-spinner').show();
       this.form.trigger('save', this.model);
     } else {
