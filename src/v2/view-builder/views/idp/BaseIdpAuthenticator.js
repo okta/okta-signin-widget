@@ -21,7 +21,8 @@ export const BaseIdpAuthenticatorView = BaseAuthenticatorView.extend({
       this.settings.get('features.skipIdpFactorVerificationBtn') &&
       !Array.isArray(messages.value) &&
       this.model.get('formName') !== REMEDIATION_FORMS.REDIRECT_IDVERIFY
-    ) {  this.$('.o-form-button-bar').hide();
+    ) { 
+      this.$('.o-form-button-bar').hide();
       this.$('.okta-waiting-spinner').show();
       this.form.trigger('save', this.model);
     } else {
