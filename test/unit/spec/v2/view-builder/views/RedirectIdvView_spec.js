@@ -6,6 +6,7 @@ import { loc } from '@okta/courage';
 
 describe('v2/view-builder/views/idp/RedirectIdvView', function() {
   let testContext;
+  let appStateTriggerSpy;
 
   beforeEach(function() {
 
@@ -28,6 +29,8 @@ describe('v2/view-builder/views/idp/RedirectIdvView', function() {
         }
         return [];
       });
+
+      appStateTriggerSpy = jest.spyOn(appState, 'trigger');
 
       const currentViewState = {
         name: 'redirect-idverify',
@@ -52,6 +55,7 @@ describe('v2/view-builder/views/idp/RedirectIdvView', function() {
   it.each([true, false])('Do not hide button and auto redirect when skipIdpFactorVerificationBtn is %s', async (skipIdpFactorVerificationBtn) => {
     testContext.init(skipIdpFactorVerificationBtn);
     expect(testContext.view.$el.find('.o-form-button-bar').attr('style')).toBeUndefined();
+    expect(appStateTriggerSpy).toHaveBeenCalledTimes(0);
   });
 
 });
