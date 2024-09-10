@@ -381,14 +381,8 @@ async function setupLoopbackFallback(t, widgetOptions) {
   return deviceChallengeFalllbackPage;
 }
 
-const skipTest = () => {
-  return null;
-  // return test.skip;
-};
-
-// TODO: fix quarantined test - OKTA-645716
-skipTest()
-  ?.requestHooks(loopbackSuccessLogger, loopbackSuccessMock)?.('in loopback server approach, probing and polling requests are sent and responded', async t => {
+test
+  .requestHooks(loopbackSuccessLogger, loopbackSuccessMock)('in loopback server approach, probing and polling requests are sent and responded', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
     await t.expect(deviceChallengePollPageObject.getBeaconSelector()).contains(BEACON_CLASS);
