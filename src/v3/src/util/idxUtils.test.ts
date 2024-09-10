@@ -163,18 +163,18 @@ describe('IdxUtils Tests', () => {
     transaction = {
       ...transaction,
       nextStep: {
-        name: "redirect-idverify",
-        type: "ID_PROOFING",
+        name: 'redirect-idverify',
+        type: 'ID_PROOFING',
         href:
-          "http://localhost:3000/idp/identity-verification?stateTokenExternalId=bzJOSnhodWVNZjZuVEsrUj",
-        method: "GET",
+          'http://localhost:3000/idp/identity-verification?stateTokenExternalId=bzJOSnhodWVNZjZuVEsrUj',
+        method: 'GET',
         idp: {
-          id: "IDV_PERSONA",
-          name: "Persona"
-        }
-      }
+          id: 'IDV_PERSONA',
+          name: 'Persona',
+        },
+      },
     };
-    expect(buildAuthCoinProps(transaction)?.authenticatorKey).toBe("IDV_PERSONA");
+    expect(buildAuthCoinProps(transaction)?.authenticatorKey).toBe('IDV_PERSONA');
   });
 
   it('should not perform conversion of Idx Inputs into Registration schema elements when input array is empty', () => {

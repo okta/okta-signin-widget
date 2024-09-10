@@ -1,4 +1,4 @@
-import { RequestMock, RequestLogger, userVariables } from 'testcafe';
+import { RequestMock, RequestLogger } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 import { renderWidget } from '../framework/shared';
 import IdPAuthenticatorPageObject from '../framework/page-objects/IdPAuthenticatorPageObject';

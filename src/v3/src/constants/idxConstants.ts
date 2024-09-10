@@ -91,9 +91,8 @@ export const IDX_STEP: Record<string, string> = {
 };
 
 export const ID_PROOFING_TYPE: Record<string, string> = {
-  IDV_PERSONA: 'IDV_PERSONA'
+  IDV_PERSONA: 'IDV_PERSONA',
 };
-
 
 export const CHALLENGE_METHOD: Record<string, string> = {
   APP_LINK: 'APP_LINK',
