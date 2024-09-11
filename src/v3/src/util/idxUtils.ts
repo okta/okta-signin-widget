@@ -148,8 +148,8 @@ export const buildAuthCoinProps = (
     return { authenticatorKey: IDX_STEP.PIV_IDP };
   }
 
-  if (nextStep?.name === IDX_STEP.REDIRECT_IDVERIFY) {
-    return { authenticatorKey: nextStep?.idp?.id || '' };
+  if (nextStep?.name === IDX_STEP.REDIRECT_IDVERIFY && nextStep?.idp?.id) {
+    return { authenticatorKey: nextStep.idp.id };
   }
 
   // @ts-expect-error Property 'deviceEnrollment' does not exist on type 'IdxContext' ts(2339)
