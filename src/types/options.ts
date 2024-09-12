@@ -178,6 +178,7 @@ export type LanguageCode =
   'es' | // Spanish
   'fi' | // Finnish
   'fr' | // French
+  'ht' | // Haitian Creole
   'hu' | // Hungarian
   'id' | // Indonesian
   'it' | // Italian
