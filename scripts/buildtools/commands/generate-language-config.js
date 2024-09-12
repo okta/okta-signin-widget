@@ -36,12 +36,7 @@ exports.handler = () => {
   });
   // Default language is special - it is just login.json, and is ignored in our glob.
   supportedLanguages.unshift(DEFAULT_LANGUAGE);
-
-  // FIXME OKTA-735346 exclude 'ht' until i18n framework support is added
-  console.warn('NOTE: disable "ht" translation until i18n framework support is added');
-  config.supportedLanguages = supportedLanguages.filter(lang => lang !== 'ht');
-  console.log('config.supportedLanguages:');
-  console.log(config.supportedLanguages.join(', '));
+  config.supportedLanguages = supportedLanguages;
 
   writeFileSync(OUTPUT_FILE, JSON.stringify(config, null, 2));
   console.log('Wrote config to ' + OUTPUT_FILE);
