@@ -61,15 +61,11 @@ const enrollViaQRcodeMocks = pollResponse => RequestMock()
 const enrollViaQRcodeMocks1 = enrollViaQRcodeMocks(!userVariables.gen3 ? xhrSuccess : xhrAuthenticatorEnrollOktaVerifyQr);
 const enrollViaQRcodeMocks2 = enrollViaQRcodeMocks(xhrSuccess);
 
-// this mock doesn't need poll to return successful response
 const enrollSameDeviceMocks = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrAuthenticatorEnrollOktaVerifySameDevice)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
   .respond(xhrAuthenticatorEnrollOktaVerifySameDevice);
-if (userVariables.gen3) {
-  enrollSameDeviceMocks
-    .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
-    .respond(xhrAuthenticatorEnrollOktaVerifySameDevice);
-}
 
 const enrollSameDeviceIosWithAnySecurity = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -968,7 +964,7 @@ test
   });
 
 test
-  .requestHooks(logger, enrollSameDeviceMocks)('should be able to see OV same device enrollment instructions without polling', async t => {
+  .requestHooks(logger, enrollSameDeviceMocks)('should be able to see OV same device enrollment instructions with polling', async t => {
     const enrollOktaVerifyPage = await setup(t);
     await checkA11y(t);
     await t.expect(enrollOktaVerifyPage.getFormTitle()).eql('Set up Okta Verify');
@@ -989,12 +985,13 @@ test
     await t.expect(await enrollOktaVerifyPage.returnToAuthenticatorListLinkExists()).ok();
     await t.expect(await enrollOktaVerifyPage.signoutLinkExists()).ok();
 
-    // expect no polling for same device page
+    // expect polling for same device page
     if (!userVariables.gen3) {
+      await t.wait(4000);
       await t.expect(logger.count(
         record => record.response.statusCode === 200 &&
         record.request.url.match(/poll/)
-      )).eql(0);
+      )).eql(1);
     }
     await enrollOktaVerifyPage.clickReturnToAuthenticatorListLink();
     const selectFactorPageObject = new SelectFactorPageObject(t);
