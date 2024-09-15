@@ -381,6 +381,8 @@ async function setupLoopbackFallback(t, widgetOptions) {
 test
   .meta('gen3', false) // Gen3 does not have the same redundant polling issue as Gen2 and does not need to implement enhancedPollingEnabled, so skip this test
   .requestHooks(loopbackRedundantPollingLogger, loopbackRedundantPollingMock)('in loopback server, redundant polling exists if server returns enhancedPollingEnabled as false', async t => {
+    // In gen3 there is an extra immediate poll request compared to gen2 so start the count at -1
+    loopbackRedundantPollingMockPollCount = userVariables.gen3 ? -1 : 0;
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
     await t.expect(deviceChallengePollPageObject.getBeaconSelector()).contains(BEACON_CLASS);
@@ -425,6 +427,8 @@ test
 
 test
   .requestHooks(loopbackEnhancedPollingLogger, loopbackEnhancedPollingMock)('in loopback server, no redundant polling if server returns enhancedPollingEnabled as true', async t => {
+    // In gen3 there is an extra immediate poll request compared to gen2 so start the count at -1
+    loopbackEnhancedPollingMockPollCount = userVariables.gen3 ? -1 : 0;
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
     await t.expect(deviceChallengePollPageObject.getBeaconSelector()).contains(BEACON_CLASS);
@@ -569,6 +573,8 @@ test
 
 test
   .requestHooks(loopbackFallbackLogger, loopbackFallbackMock)('loopback fails and falls back to custom uri', async t => {
+    // In gen3 there is an extra immediate poll request compared to gen2 so start the count at -1
+    loopbackFallbackMockPollCount = userVariables.gen3 ? -1 : 0;
     await setupLoopbackFallback(t);
     const deviceChallengePollPageObject = new DeviceChallengePollPageObject(t);
     await t.expect(loopbackFallbackLogger.count(

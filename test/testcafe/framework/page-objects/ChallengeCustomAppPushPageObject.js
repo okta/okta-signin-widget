@@ -105,7 +105,7 @@ export default class ChallengeCustomAppPushPageObject extends ChallengeFactorPag
   }
 
   async clickAutoChallengeCheckbox() {
-    await this.t.click(this.form.getCheckbox('Send push automatically'));
+    await this.form.clickCheckboxElement(this.form.getCheckbox('Send push automatically'));
   }
 
   getBeaconSelector() {

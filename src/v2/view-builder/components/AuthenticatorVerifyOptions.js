@@ -53,7 +53,10 @@ const AuthenticatorRow = View.extend({
       attributes: {
         'aria-label': this.model.get('ariaLabel'),
       },
-      click: function() {
+      click: function(e) {
+        e.preventDefault();
+        // Allow click only once
+        this.disable();
         this.model.trigger('selectAuthenticator', this.model.get('value'));
       }
     }), '.authenticator-button']];

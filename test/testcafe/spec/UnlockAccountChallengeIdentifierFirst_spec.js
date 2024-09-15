@@ -16,6 +16,7 @@ import xhrErrorUnlockAccount from '../../../playground/mocks/data/idp/idx/error-
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
 import smartProbingRequired from '../../../playground/mocks/data/idp/idx/smart-probing-required';
 import launchAuthenticatorOption from '../../../playground/mocks/data/idp/idx/identify-with-device-launch-authenticator';
+import xhrEmailVerification from '../../../playground/mocks/data/idp/idx/authenticator-verification-email';
 
 
 const legacyIdentifyLockedUserMock = RequestMock()
@@ -106,6 +107,8 @@ const identifyLockedUserMockWithOneAuthenticator = RequestMock()
   .respond(xhrIdentifyWithUnlock)
   .onRequestTo('http://localhost:3000/idp/idx/unlock-account')
   .respond(xhrUserUnlockIdentifierFirst)
+  .onRequestTo('http://localhost:3000/idp/idx/identify')
+  .respond(xhrEmailVerification)
   .onRequestTo('http://localhost:3000/idp/idx/challenge')
   .respond(xhrUserUnlockEmailChallenge)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')

@@ -129,7 +129,7 @@ export default class BaseFormObject {
 
     const checked = checkbox.checked;
     if (value !== checked) {
-      await this.t.click(checkbox);
+      await this.clickCheckboxElement(checkbox);
     }
   }
 
@@ -478,6 +478,19 @@ export default class BaseFormObject {
     return Selector(selector).addCustomDOMProperties({
       innerHTML: el => el.innerHTML,
     });
+  }
+
+  async clickCheckboxElement(checkboxElement) {
+    // Using `t.click()` in TestCafe 3 produces warning for Gen2:
+    //  TestCafe cannot interact with the <input type="checkbox"> element because another element obstructs it.
+    //  When something overlaps the action target, TestCafe performs the action with the topmost element at the original target's location.
+    //  The following element with a greater z-order replaced the original action target: <label ..>.
+    //  Review your code to prevent this behavior.
+    await this.t.dispatchEvent(checkboxElement, 'click');
+  }
+
+  async clickCheckbox(selector) {
+    await this.clickCheckboxElement(this.el.find(selector));
   }
 
   async clickElement(selector) {
