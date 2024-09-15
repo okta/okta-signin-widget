@@ -89,7 +89,7 @@ export default class EnrollPasswordPageObject extends BasePageObject {
   }
 
   checkSessionRevocationToggle() {
-    return this.form.clickElement(`input[name="${revokeSessionToggle}"]`);
+    return this.form.clickCheckbox(`input[name="${revokeSessionToggle}"]`);
   }
 
   clickChangePasswordButton() {
