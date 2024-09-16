@@ -159,6 +159,41 @@ describe('IdxUtils Tests', () => {
     expect(buildAuthCoinProps(transaction)?.authenticatorKey).toBe(AUTHENTICATOR_KEY.OV);
   });
 
+  it('should build AuthCoin data when Idx transaction denotes IDV Persona', () => {
+    transaction = {
+      ...transaction,
+      nextStep: {
+        name: 'redirect-idverify',
+        type: 'ID_PROOFING',
+        href:
+          'http://localhost:3000/idp/identity-verification?stateTokenExternalId=bzJOSnhodWVNZjZuVEsrUj',
+        method: 'GET',
+        idp: {
+          id: 'IDV_PERSONA',
+          name: 'Persona',
+        },
+      },
+    };
+    expect(buildAuthCoinProps(transaction)?.authenticatorKey).toBe('IDV_PERSONA');
+  });
+
+  it('should build AuthCoin data as undefined when Idx transaction does not have idp id', () => {
+    transaction = {
+      ...transaction,
+      nextStep: {
+        name: 'redirect-idverify',
+        type: 'ID_PROOFING',
+        href:
+          'http://localhost:3000/idp/identity-verification?stateTokenExternalId=bzJOSnhodWVNZjZuVEsrUj',
+        method: 'GET',
+        idp: {
+          name: 'Persona',
+        },
+      },
+    };
+    expect(buildAuthCoinProps(transaction)?.authenticatorKey).toBe(undefined);
+  });
+
   it('should not perform conversion of Idx Inputs into Registration schema elements when input array is empty', () => {
     expect(convertIdxInputsToRegistrationSchema([])).toEqual([]);
   });

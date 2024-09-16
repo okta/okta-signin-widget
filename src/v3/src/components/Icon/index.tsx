@@ -22,6 +22,7 @@ export * from './OktaVerifyIcon';
 export * from './OnPremMFAIcon';
 export * from './OSXStoreIcon';
 export * from './PasswordIcon';
+export * from './PersonaIcon';
 export * from './PhoneIcon';
 export * from './RSAIcon';
 export * from './SecurityKeyOrBiometricsIcon';

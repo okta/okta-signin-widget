@@ -12,7 +12,9 @@
 
 import { FunctionComponent } from 'preact';
 
-import { AUTHENTICATOR_KEY, CHALLENGE_METHOD, IDX_STEP } from '../../constants';
+import {
+  AUTHENTICATOR_KEY, CHALLENGE_METHOD, ID_PROOFING_TYPE, IDX_STEP,
+} from '../../constants';
 import { IconProps } from '../../types';
 import { loc } from '../../util';
 import {
@@ -25,6 +27,7 @@ import {
   OktaVerifyIcon,
   OnPremMFAIcon,
   PasswordIcon,
+  PersonaIcon,
   PhoneIcon,
   RSAIcon,
   SecurityKeyOrBiometricsIcon,
@@ -196,5 +199,12 @@ export const getAuthCoinConfiguration = (): Record<string, AuthCoinConfig> => ({
     customizable: false,
     description: loc('factor.totpSoft.oktaVerify', 'login'),
     iconClassName: 'mfa-okta-verify',
+  },
+  [ID_PROOFING_TYPE.IDV_PERSONA]: {
+    icon: PersonaIcon,
+    name: 'mfa-idv-persona',
+    customizable: false,
+    description: loc('oie.idv.persona', 'login'),
+    iconClassName: 'mfa-idv-persona',
   },
 });
