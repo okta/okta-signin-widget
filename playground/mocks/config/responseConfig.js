@@ -19,7 +19,8 @@ const idx = {
   ],
 
   '/idp/idx/introspect': [
-    'identify',
+    // 'identify',
+    'authenticator-verification-idp'
     // 'error-identify-multiple-errors',
     // 'authenticator-enroll-ov-qr-enable-biometrics',
     // 'authenticator-verification-okta-verify-push',
@@ -1155,5 +1156,6 @@ const redirectOnPoll = {
 };
 
 module.exports = {
-  mocks: idx
+  // mocks: idx
+  mocks: smartCardEnrollOrVerify
 };
