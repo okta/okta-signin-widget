@@ -175,7 +175,7 @@ const dynamicContinuePollingLogger = createRequestLogger();
 const dynamicRefreshIntervalLogger = createRequestLogger();
 const dynamicRefreshShortIntervalMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(emailVerification)
+  .respond(emailVerificationPollingShort)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
   .respond(emailVerificationPollingShort);
 
