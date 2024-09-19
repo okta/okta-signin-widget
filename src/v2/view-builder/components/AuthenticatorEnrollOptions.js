@@ -53,11 +53,8 @@ const AuthenticatorRow = View.extend({
       attributes: {
         'aria-label': this.model.get('ariaLabel'),
       },
-      click: function(e) {
-        e.preventDefault();
-        // Allow click only once
-        this.disable();
-        this.model.trigger('selectAuthenticator', this.model.get('value'));
+      click: function() {
+        this.model.trigger('selectAuthenticator', this.model.get('value'), this);
       }
     }), '.authenticator-button']];
   },
@@ -98,14 +95,22 @@ export default ListView.extend({
   itemSelector: '.list-content',
 
   initialize: function() {
-    this.listenTo(this.collection,'selectAuthenticator', function(data) {
+    this.listenTo(this.collection,'selectAuthenticator', function(data, button) {
+      // Disable button to prevent repeated clicks
+      this.selectedAuthenticatorButton = button;
+      this.selectedAuthenticatorButton?.disable?.();
       this.model.set(this.options.name, data);
       this.options.appState.trigger('saveForm', this.model);
     });
+    this.listenTo(this.model, 'error', this.handleError);
     this.hasOptionalFactors = this.options.appState.hasRemediationObject(RemediationForms.SKIP);
     if (this.hasOptionalFactors) {
       this.add(skipAll);
     }
+  },
+
+  handleError: function() {
+    this.selectedAuthenticatorButton?.enable?.();
   },
 
   template: hbs`<div class="list-content"> <div class="authenticator-list-title"> {{title}} </div> </div>`,
