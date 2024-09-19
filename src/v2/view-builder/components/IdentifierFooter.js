@@ -47,6 +47,7 @@ export default BaseFooter.extend({
         'name': 'help',
         'label': loc('help', 'login'),
         'href': helpLinkHref,
+        'target': '_blank',
       },
     ];
 
