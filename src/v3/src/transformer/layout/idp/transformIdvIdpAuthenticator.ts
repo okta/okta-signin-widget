@@ -44,6 +44,27 @@ export const transformIdvIdpAuthenticator: IdxStepTransformer = ({
     },
   };
 
+  const termsOfUseDescription: DescriptionElement = {
+    type: "Description",
+    contentType: "subtitle",
+    options: {
+      variant: 'subtitle1',
+      content: loc("oie.idv.idp.description.termsOfUse", "login", undefined, {
+        $1: { element: 'a', attributes: { href: 'https://withpersona.com/legal/terms-of-use' , target: '_blank', rel: 'noopener noreferrer' } },
+        $2: { element: 'a', attributes: { href: 'https://withpersona.com/legal/privacy-policy', target: '_blank',  rel: 'noopener noreferrer' } },
+      },)
+    }
+  };
+
+  const agreementDescription: DescriptionElement = {
+    type: 'Description',
+    contentType: 'footer',
+    options: {
+      content: loc('oie.idv.idp.description.agreement', 'login'),
+      variant: 'subtitle1',
+    },
+  };
+
   const submitButton: ButtonElement = {
     type: 'Button',
     label: loc('oie.optional.authenticator.button.title', 'login'),
@@ -58,7 +79,7 @@ export const transformIdvIdpAuthenticator: IdxStepTransformer = ({
     },
   };
 
-  uischema.elements = [titleElement, descriptionElement, submitButton];
+  uischema.elements = [titleElement, descriptionElement, termsOfUseDescription, agreementDescription, submitButton];
 
   return formBag;
 };

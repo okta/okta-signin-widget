@@ -28,6 +28,77 @@ Object {
         "type": "Description",
       },
       Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.idv.idp.description.termsOfUse",
+        },
+        "type": "Description",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.idv.idp.description.agreement",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "oie.optional.authenticator.button.title",
+        "options": Object {
+          "isActionStep": false,
+          "onClick": [Function],
+          "step": "redirect-idverify",
+          "type": "button",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`IDV IDP Authenticator transformer Tests should add correct title, descriptions, and button 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.idv.idp.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.idv.idp.description",
+        },
+        "type": "Description",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.idv.idp.description.termsOfUse",
+        },
+        "type": "Description",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.idv.idp.description.agreement",
+        },
+        "type": "Description",
+      },
+      Object {
         "label": "oie.optional.authenticator.button.title",
         "options": Object {
           "isActionStep": false,

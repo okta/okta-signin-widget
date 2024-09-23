@@ -40,13 +40,13 @@ describe('IDV IDP Authenticator transformer Tests', () => {
     transaction.messages = [];
   });
 
-  it('should add correct title, description, and button', () => {
+  it('should add correct title, descriptions, and button', () => {
     const updatedFormBag = transformIdvIdpAuthenticator({
       formBag,
       transaction,
       widgetProps: {},
     });
-    expect(updatedFormBag.uischema.elements.length).toBe(3);
+    expect(updatedFormBag.uischema.elements.length).toBe(5);
     expect(updatedFormBag).toMatchSnapshot();
     expect(
       (updatedFormBag.uischema.elements[0] as TitleElement).options?.content,
@@ -55,7 +55,19 @@ describe('IDV IDP Authenticator transformer Tests', () => {
       (updatedFormBag.uischema.elements[1] as DescriptionElement).options
         ?.content,
     ).toBe('oie.idv.idp.description');
-    expect((updatedFormBag.uischema.elements[2] as ButtonElement).label).toBe(
+    expect(
+      (updatedFormBag.uischema.elements[2] as DescriptionElement).options
+        ?.content,
+    ).toBe(
+      'oie.idv.idp.description.termsOfUse',
+    );
+    expect(
+      (updatedFormBag.uischema.elements[3] as DescriptionElement).options
+        ?.content,
+    ).toBe(
+      'oie.idv.idp.description.agreement',
+    );
+    expect((updatedFormBag.uischema.elements[4] as ButtonElement).label).toBe(
       'oie.optional.authenticator.button.title',
     );
   });

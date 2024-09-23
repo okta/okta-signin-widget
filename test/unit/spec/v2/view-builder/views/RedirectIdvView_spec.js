@@ -48,7 +48,9 @@ describe('v2/view-builder/views/idp/RedirectIdvView', function() {
     testContext.init();
 
     expect(testContext.view.$el.find('.okta-form-title').text()).toBe(loc('oie.idv.idp.title', 'login', ['Persona']));
-    expect(testContext.view.$el.find('.okta-form-subtitle').text()).toBe(loc('oie.idv.idp.description', 'login'));
+    expect(
+      testContext.view.$el.find('.okta-form-subtitle').html()
+    ).toMatchSnapshot();
     expect(testContext.view.$el.find('.o-form-button-bar input').attr('value')).toBe(loc('oie.optional.authenticator.button.title', 'login'));
   });
 
