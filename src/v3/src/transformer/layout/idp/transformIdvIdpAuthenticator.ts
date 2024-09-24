@@ -52,8 +52,8 @@ export const transformIdvIdpAuthenticator: IdxStepTransformer = ({
     options: {
       variant: 'subtitle1',
       content: loc('oie.idv.idp.description.termsOfUse', 'login', undefined, {
-        $1: { element: 'a', attributes: { href: 'https://withpersona.com/legal/terms-of-use', target: '_blank', rel: 'noopener noreferrer' } },
-        $2: { element: 'a', attributes: { href: 'https://withpersona.com/legal/privacy-policy', target: '_blank', rel: 'noopener noreferrer' } },
+        $1: { element: 'a', attributes: { class:'terms-of-use', href: 'https://withpersona.com/legal/terms-of-use', target: '_blank', rel: 'noopener noreferrer' } },
+        $2: { element: 'a', attributes: { class:'privacy-policy', href: 'https://withpersona.com/legal/privacy-policy', target: '_blank', rel: 'noopener noreferrer' } },
       }),
     },
   };
@@ -104,7 +104,6 @@ export const transformIdvIdpAuthenticator: IdxStepTransformer = ({
     cancelLink,
     termsOfUseDescription,
     agreementDescription,
-    
   ];
 
   return formBag;

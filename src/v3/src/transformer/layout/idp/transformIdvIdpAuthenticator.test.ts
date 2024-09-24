@@ -16,11 +16,6 @@ import {
   getStubTransactionWithNextStep,
 } from 'src/mocks/utils/utils';
 
-import {
-  ButtonElement,
-  DescriptionElement,
-  TitleElement,
-} from '../../../types';
 import { transformIdvIdpAuthenticator } from './transformIdvIdpAuthenticator';
 
 describe('IDV IDP Authenticator transformer Tests', () => {
