@@ -25,6 +25,7 @@ export default View.extend({
       'data-se': this.options.name,
       href: href,
       target: this.options.target,
+      rel: this.options.rel
     };
   },
 

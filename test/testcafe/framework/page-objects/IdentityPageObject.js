@@ -67,7 +67,7 @@ export default class IdentityPageObject extends BasePageObject {
 
   getSeparationLineText() {
     if (userVariables.gen3) {
-      return this.form.getElement('[role="separator"]').textContent;  
+      return this.form.getElement('[role="separator"]').textContent;
     }
     return this.form.getElement('.sign-in-with-device-option .separation-line').textContent;
   }
@@ -178,7 +178,7 @@ export default class IdentityPageObject extends BasePageObject {
     if(userVariables.gen3) {
       return this.form.getButton(name);
     }
-    
+
     return this.form.getLink(name);
   }
 
@@ -231,6 +231,10 @@ export default class IdentityPageObject extends BasePageObject {
     return this.getCustomHelpLink(index, name).getAttribute('target');
   }
 
+  getCustomHelpLinkRel(index, name) {
+    return this.getCustomHelpLink(index, name).getAttribute('rel');
+  }
+
   getCustomHelpLinkLabel(index, name) {
     return this.getCustomHelpLink(index, name).textContent;
   }
@@ -246,7 +250,7 @@ export default class IdentityPageObject extends BasePageObject {
   async clickCustomButtonLink(index) {
     await this.t.click(this.getCustomButton(index));
   }
-  
+
   getCustomButtonText(index) {
     return this.getCustomButton(index).textContent;
   }

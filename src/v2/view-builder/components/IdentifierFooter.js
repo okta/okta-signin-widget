@@ -48,6 +48,7 @@ export default BaseFooter.extend({
         'label': loc('help', 'login'),
         'href': helpLinkHref,
         'target': '_blank',
+        'rel': 'noopener noreferrer'
       },
     ];
 
