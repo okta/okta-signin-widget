@@ -28,6 +28,28 @@ Object {
         "type": "Description",
       },
       Object {
+        "label": "oie.optional.authenticator.button.title",
+        "options": Object {
+          "isActionStep": false,
+          "onClick": [Function],
+          "step": "redirect-idverify",
+          "type": "button",
+        },
+        "type": "Button",
+      },
+      Object {
+        "type": "Divider",
+      },
+      Object {
+        "contentType": "footer",
+        "options": Object {
+          "isActionStep": true,
+          "label": "goback",
+          "step": "cancel",
+        },
+        "type": "Link",
+      },
+      Object {
         "contentType": "subtitle",
         "options": Object {
           "content": "oie.idv.idp.description.termsOfUse",
@@ -42,16 +64,6 @@ Object {
           "variant": "subtitle1",
         },
         "type": "Description",
-      },
-      Object {
-        "label": "oie.optional.authenticator.button.title",
-        "options": Object {
-          "isActionStep": false,
-          "onClick": [Function],
-          "step": "redirect-idverify",
-          "type": "button",
-        },
-        "type": "Button",
       },
     ],
     "type": "VerticalLayout",

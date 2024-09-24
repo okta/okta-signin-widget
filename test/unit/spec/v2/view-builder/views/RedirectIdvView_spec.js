@@ -48,10 +48,10 @@ describe('v2/view-builder/views/idp/RedirectIdvView', function() {
     testContext.init();
 
     expect(testContext.view.$el.find('.okta-form-title').text()).toBe(loc('oie.idv.idp.title', 'login', ['Persona']));
-    expect(
-      testContext.view.$el.find('.okta-form-subtitle').html()
-    ).toMatchSnapshot();
+    expect(testContext.view.$el.find('.okta-form-subtitle').text()).toBe(loc('oie.idv.idp.description', 'login'));
     expect(testContext.view.$el.find('.o-form-button-bar input').attr('value')).toBe(loc('oie.optional.authenticator.button.title', 'login'));
+    expect(testContext.view.$el.find('.auth-footer .terms-of-use').attr('href')).toBe('https://withpersona.com/legal/terms-of-use');
+    expect(testContext.view.$el.find('.auth-footer .privacy-policy').attr('href')).toBe('https://withpersona.com/legal/privacy-policy');
   });
 
   it.each([true, false])('Do not hide button and auto redirect when skipIdpFactorVerificationBtn is %s', async (skipIdpFactorVerificationBtn) => {

@@ -46,29 +46,7 @@ describe('IDV IDP Authenticator transformer Tests', () => {
       transaction,
       widgetProps: {},
     });
-    expect(updatedFormBag.uischema.elements.length).toBe(5);
+    expect(updatedFormBag.uischema.elements.length).toBe(7);
     expect(updatedFormBag).toMatchSnapshot();
-    expect(
-      (updatedFormBag.uischema.elements[0] as TitleElement).options?.content,
-    ).toBe('oie.idv.idp.title');
-    expect(
-      (updatedFormBag.uischema.elements[1] as DescriptionElement).options
-        ?.content,
-    ).toBe('oie.idv.idp.description');
-    expect(
-      (updatedFormBag.uischema.elements[2] as DescriptionElement).options
-        ?.content,
-    ).toBe(
-      'oie.idv.idp.description.termsOfUse',
-    );
-    expect(
-      (updatedFormBag.uischema.elements[3] as DescriptionElement).options
-        ?.content,
-    ).toBe(
-      'oie.idv.idp.description.agreement',
-    );
-    expect((updatedFormBag.uischema.elements[4] as ButtonElement).label).toBe(
-      'oie.optional.authenticator.button.title',
-    );
   });
 });

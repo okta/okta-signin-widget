@@ -2,19 +2,16 @@ import { loc, View } from '@okta/courage';
 import { BaseIdPAuthenticatorBody, BaseIdpAuthenticatorView } from './BaseIdpAuthenticator';
 import { FORMS } from 'v2/ion/RemediationConstants';
 import hbs from '@okta/handlebars-inline-precompile';
+import AuthenticatorFooter from 'v2/view-builder/components/AuthenticatorFooter';
 
-const SubtitleView = View.extend({
+const PrivacyTermsFooterView = View.extend({
   tagName: 'p',
-  className: 'okta-form-subtitle',
-  attributes: {
-    'data-se': 'o-form-explain',
-  },
+  className: 'margin-top-30',
   template: hbs`
-      <p class="margin-btm-30">{{i18n code="oie.idv.idp.description" bundle="login"}}</p>
       <p class="o-form-explain margin-btm-5">{{i18n code="oie.idv.idp.description.termsOfUse" bundle="login" 
-        $1="<a href='https://withpersona.com/legal/terms-of-use' class='terms-of-use' 
+        $1="<a href='https://withpersona.com/legal/terms-of-use' class='terms-of-use inline-link' 
           target='_blank' rel='noopener noreferrer'>$1</a>"
-        $2="<a href='https://withpersona.com/legal/privacy-policy' class='privacy-policy'
+        $2="<a href='https://withpersona.com/legal/privacy-policy' class='privacy-policy inline-link'
            target='_blank' rel='noopener noreferrer'>$2</a>"}}
       </p>
       <p class="o-form-explain">{{i18n code="oie.idv.idp.description.agreement" bundle="login"}}</p>
@@ -24,7 +21,6 @@ const SubtitleView = View.extend({
 const Body = BaseIdPAuthenticatorBody.extend({
   initialize() {
     BaseIdPAuthenticatorBody.prototype.initialize.apply(this, arguments);
-    this.add(SubtitleView);
   },
   title() {
     const redirectIDVerifyRemediation = this.options.appState.get('remediations').find((remediation) => {
@@ -32,11 +28,19 @@ const Body = BaseIdPAuthenticatorBody.extend({
     });
     return loc('oie.idv.idp.title', 'login', [redirectIDVerifyRemediation.idp.name]);
   },
+  subtitle() {
+    return loc('oie.idv.idp.description', 'login');
+  },
   save() {
     return loc('oie.optional.authenticator.button.title', 'login');
   },
 });
 
 export default BaseIdpAuthenticatorView.extend({
-  Body
+  Body,
+  Footer: AuthenticatorFooter.extend({
+    postRender() {
+      this.add(PrivacyTermsFooterView);
+    }
+  }),
 });

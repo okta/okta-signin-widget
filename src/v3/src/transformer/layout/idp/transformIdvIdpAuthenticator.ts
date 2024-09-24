@@ -15,8 +15,10 @@ import {
   ButtonElement,
   ButtonType,
   DescriptionElement,
+  DividerElement,
   IdxStepTransformer,
   IWidgetContext,
+  LinkElement,
   TitleElement,
 } from '../../../types';
 import { getIDVDisplayName, loc } from '../../../util';
@@ -79,12 +81,30 @@ export const transformIdvIdpAuthenticator: IdxStepTransformer = ({
     },
   };
 
+  const divider: DividerElement = {
+    type: 'Divider',
+  };
+  uischema.elements.push(divider);
+
+  const cancelLink: LinkElement = {
+    type: 'Link',
+    contentType: 'footer',
+    options: {
+      label: loc('goback', 'login'),
+      isActionStep: true,
+      step: 'cancel',
+    },
+  };
+
   uischema.elements = [
     titleElement,
     descriptionElement,
+    submitButton,
+    divider,
+    cancelLink,
     termsOfUseDescription,
     agreementDescription,
-    submitButton,
+    
   ];
 
   return formBag;

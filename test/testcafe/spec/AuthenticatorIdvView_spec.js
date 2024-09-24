@@ -36,7 +36,6 @@ test
   .requestHooks(logger, idvMock)('validate content on verify page', async t => {
     const pageObject = await setup(t);
     await checkA11y(t);
-    console.log(pageObject.getFormTitle());
     await t.expect(pageObject.getFormTitle()).eql('Verify your identity with Persona');
     await t.expect(pageObject.getPageSubtitle()).eql('This strengthens security by validating your identity with official documentation.');
     await t.expect(pageObject.getBeaconSelector()).contains('mfa-idv-persona');

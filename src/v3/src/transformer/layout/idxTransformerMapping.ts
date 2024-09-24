@@ -467,7 +467,7 @@ const TransformerMap: {
   [IDX_STEP.REDIRECT_IDVERIFY]: {
     [AUTHENTICATOR_KEY.DEFAULT]: {
       transform: transformIdvIdpAuthenticator,
-      buttonConfig: { showDefaultSubmit: false },
+      buttonConfig: { showDefaultSubmit: false, showDefaultCancel: false },
     },
   },
   [IDX_STEP.REENROLL_AUTHENTICATOR]: {
