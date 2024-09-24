@@ -1,5 +1,4 @@
 import { RequestMock, RequestLogger } from 'testcafe';
-import { checkA11y } from '../framework/a11y';
 import { renderWidget } from '../framework/shared';
 import IdPAuthenticatorPageObject from '../framework/page-objects/IdPAuthenticatorPageObject';
 import IdvResponse from '../../../playground/mocks/data/idp/idx/authenticator-verification-idp-with-persona.json';
