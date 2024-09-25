@@ -24,42 +24,43 @@ export const transformHelpLinks: TransformStepFnWithOptions = ({
 }) => (
   formbag,
 ) => {
-  const shouldAddButton = transaction.availableSteps
-    ?.some(({ name }) => STEPS_REQUIRING_HELP_LINK.includes(name));
-  if (!shouldAddButton) {
+    const shouldAddButton = transaction.availableSteps
+      ?.some(({ name }) => STEPS_REQUIRING_HELP_LINK.includes(name));
+    if (!shouldAddButton) {
+      return formbag;
+    }
+
+    const helpLinkHref = getHelpLink(widgetProps);
+    const helpLink: LinkElement = {
+      type: 'Link',
+      contentType: 'footer',
+      options: {
+        href: helpLinkHref,
+        step: '',
+        label: loc('help', 'login'),
+        dataSe: 'help',
+        target: '_blank',
+      },
+    };
+
+    const transformCustomLink: (link: CustomLink) => LinkElement = ({ href, text, target }) => ({
+      type: 'Link',
+      contentType: 'footer',
+      options: {
+        href,
+        target,
+        step: '',
+        label: text,
+        dataSe: 'custom',
+      },
+    });
+    const customHelpLinks = getCustomHelpLinks(widgetProps).map(transformCustomLink);
+
+    const helpLinks = [
+      helpLink,
+      ...customHelpLinks,
+    ];
+    formbag.uischema.elements.push(...helpLinks);
+
     return formbag;
-  }
-
-  const helpLinkHref = getHelpLink(widgetProps);
-  const helpLink: LinkElement = {
-    type: 'Link',
-    contentType: 'footer',
-    options: {
-      href: helpLinkHref,
-      step: '',
-      label: loc('help', 'login'),
-      dataSe: 'help',
-    },
   };
-
-  const transformCustomLink: (link: CustomLink) => LinkElement = ({ href, text, target }) => ({
-    type: 'Link',
-    contentType: 'footer',
-    options: {
-      href,
-      target,
-      step: '',
-      label: text,
-      dataSe: 'custom',
-    },
-  });
-  const customHelpLinks = getCustomHelpLinks(widgetProps).map(transformCustomLink);
-
-  const helpLinks = [
-    helpLink,
-    ...customHelpLinks,
-  ];
-  formbag.uischema.elements.push(...helpLinks);
-
-  return formbag;
-};
