@@ -39,6 +39,7 @@ export const transformHelpLinks: TransformStepFnWithOptions = ({
       step: '',
       label: loc('help', 'login'),
       dataSe: 'help',
+      target: '_blank',
     },
   };
 

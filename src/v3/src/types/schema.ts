@@ -496,6 +496,7 @@ export interface LinkElement extends UISchemaElement {
     dataSe?: string;
     target?: AnchorTargetType;
     onClick?: (widgetContext?: IWidgetContext) => unknown;
+    rel?: string;
   };
 }
 

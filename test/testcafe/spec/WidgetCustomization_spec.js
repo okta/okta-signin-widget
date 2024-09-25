@@ -99,8 +99,9 @@ test.requestHooks(identifyMock)('should show custom footer links', async t => {
         {
           'text': 'Acme Portal',
           'href': 'https://acme.com',
-          'target': '_blank'
-        }
+          'target': '_blank',
+          'rel': 'noopener noreferrer',
+        },
       ]
     },
   });
@@ -108,10 +109,14 @@ test.requestHooks(identifyMock)('should show custom footer links', async t => {
   await t.expect(identityPage.getCustomForgotPasswordLinkUrl()).eql('https://okta.okta.com/signin/forgot-password');
   await t.expect(identityPage.getHelpLinkUrl()).eql('https://google.com');
   await t.expect(identityPage.getCustomHelpLinkUrl(0, 'What is Okta?')).eql('https://acme.com/what-is-okta');
-  await t.expect(identityPage.getCustomHelpLinkUrl(1, 'Acme Portal')).eql('https://acme.com');
   await t.expect(identityPage.getCustomHelpLinkLabel(0, 'What is Okta?')).eql('What is Okta?');
+  await t.expect(identityPage.getCustomHelpLinkTarget(0, 'What is Okta?')).eql(null);
+  await t.expect(identityPage.getCustomHelpLinkRel(0, 'What is Okta?')).eql(null);
+
+  await t.expect(identityPage.getCustomHelpLinkUrl(1, 'Acme Portal')).eql('https://acme.com');
   await t.expect(identityPage.getCustomHelpLinkLabel(1, 'Acme Portal')).eql('Acme Portal');
   await t.expect(identityPage.getCustomHelpLinkTarget(1, 'Acme Portal')).eql('_blank');
+  await t.expect(identityPage.getCustomHelpLinkRel(1, 'Acme Portal')).eql('noopener noreferrer');
 });
 
 test.requestHooks(xhrSelectAuthenticatorMock)('should show custom signout link', async t => {
