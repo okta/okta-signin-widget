@@ -21,11 +21,12 @@ import {
   LinkElement,
   TitleElement,
 } from '../../../types';
-import { getIDVDisplayName, loc } from '../../../util';
+import { getBackToSignInUri, getIDVDisplayName, loc, shouldShowCancelLink } from '../../../util';
 
 export const transformIdvIdpAuthenticator: IdxStepTransformer = ({
   formBag,
   transaction,
+  widgetProps,
 }) => {
   const { uischema } = formBag;
   const { nextStep } = transaction;
@@ -94,27 +95,34 @@ export const transformIdvIdpAuthenticator: IdxStepTransformer = ({
   const divider: DividerElement = {
     type: 'Divider',
   };
-  uischema.elements.push(divider);
-
-  const cancelLink: LinkElement = {
-    type: 'Link',
-    contentType: 'footer',
-    options: {
-      label: loc('goback', 'login'),
-      isActionStep: true,
-      step: 'cancel',
-    },
-  };
 
   uischema.elements = [
     titleElement,
     descriptionElement,
     submitButton,
     divider,
-    cancelLink,
-    termsOfUseDescription,
-    agreementDescription,
   ];
+
+  if(shouldShowCancelLink(widgetProps?.features)) {
+    const cancelLink: LinkElement = {
+      type: 'Link',
+      contentType: 'footer',
+      options: {
+        label: loc('goback', 'login'),
+        isActionStep: true,
+        step: 'cancel',
+      },
+    };
+    const backToSigninUri = getBackToSignInUri(widgetProps);
+    if (backToSigninUri) {
+      cancelLink.options.href = backToSigninUri;
+    }
+    uischema.elements.push(cancelLink);
+  }
+
+  uischema.elements.push(termsOfUseDescription);
+  uischema.elements.push(agreementDescription);
+  
 
   return formBag;
 };
