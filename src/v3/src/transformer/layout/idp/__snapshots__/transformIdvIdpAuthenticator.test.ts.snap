@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`IDV IDP Authenticator transformer Tests should add correct title, description, and button 1`] = `
+exports[`IDV IDP Authenticator transformer Tests should add correct title, descriptions, and button 1`] = `
 Object {
   "data": Object {},
   "dataSchema": Object {
@@ -36,6 +36,35 @@ Object {
           "type": "button",
         },
         "type": "Button",
+      },
+      Object {
+        "type": "Divider",
+      },
+      Object {
+        "contentType": "footer",
+        "options": Object {
+          "dataSe": "cancel",
+          "isActionStep": true,
+          "label": "goback",
+          "step": "cancel",
+        },
+        "type": "Link",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.idv.idp.description.termsOfUse",
+          "variant": "subtitle1",
+        },
+        "type": "Description",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.idv.idp.description.agreement",
+          "variant": "subtitle1",
+        },
+        "type": "Description",
       },
     ],
     "type": "VerticalLayout",

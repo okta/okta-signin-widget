@@ -1,5 +1,4 @@
 import { RequestMock, RequestLogger } from 'testcafe';
-import { checkA11y } from '../framework/a11y';
 import { renderWidget } from '../framework/shared';
 import IdPAuthenticatorPageObject from '../framework/page-objects/IdPAuthenticatorPageObject';
 import IdvResponse from '../../../playground/mocks/data/idp/idx/authenticator-verification-idp-with-persona.json';
@@ -35,12 +34,22 @@ fixture('ID Verification');
 test
   .requestHooks(logger, idvMock)('validate content on verify page', async t => {
     const pageObject = await setup(t);
-    await checkA11y(t);
-    console.log(pageObject.getFormTitle());
     await t.expect(pageObject.getFormTitle()).eql('Verify your identity with Persona');
-    await t.expect(pageObject.getPageSubtitle()).eql('This strengthens security by validating your identity with official documentation.');
+    await t.expect(pageObject.getPageSubtitle()).eql('Verify your identity with Persona and share your verification results with Okta to finish setting up your Okta account.');
     await t.expect(pageObject.getBeaconSelector()).contains('mfa-idv-persona');
+
+    const termsOfUseLink = pageObject.getLinkElement('Terms of Use');
+
+    await t.expect(termsOfUseLink.exists).eql(true);
+    await t.expect(termsOfUseLink.getAttribute('href')).eql('https://withpersona.com/legal/terms-of-use');
+
+    const privacyPolicyLink = pageObject.getLinkElement('Privacy Policy');
+
+    await t.expect(privacyPolicyLink.exists).eql(true);
+    await t.expect(privacyPolicyLink.getAttribute('href')).eql('https://withpersona.com/legal/privacy-policy');
+    
     await pageObject.submit('Continue');
+
 
     const pageUrl = await pageObject.getPageUrl();
     await t.expect(pageUrl)

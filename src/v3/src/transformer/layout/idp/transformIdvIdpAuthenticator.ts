@@ -15,15 +15,20 @@ import {
   ButtonElement,
   ButtonType,
   DescriptionElement,
+  DividerElement,
   IdxStepTransformer,
   IWidgetContext,
+  LinkElement,
   TitleElement,
 } from '../../../types';
-import { getIDVDisplayName, loc } from '../../../util';
+import {
+  getBackToSignInUri, getIDVDisplayName, loc, shouldShowCancelLink,
+} from '../../../util';
 
 export const transformIdvIdpAuthenticator: IdxStepTransformer = ({
   formBag,
   transaction,
+  widgetProps,
 }) => {
   const { uischema } = formBag;
   const { nextStep } = transaction;
@@ -44,6 +49,37 @@ export const transformIdvIdpAuthenticator: IdxStepTransformer = ({
     },
   };
 
+  const termsOfUseDescription: DescriptionElement = {
+    type: 'Description',
+    contentType: 'subtitle',
+    options: {
+      variant: 'subtitle1',
+      content: loc('oie.idv.idp.description.termsOfUse', 'login', undefined, {
+        $1: {
+          element: 'a',
+          attributes: {
+            href: 'https://withpersona.com/legal/terms-of-use', target: '_blank', rel: 'noopener noreferrer',
+          },
+        },
+        $2: {
+          element: 'a',
+          attributes: {
+            href: 'https://withpersona.com/legal/privacy-policy', target: '_blank', rel: 'noopener noreferrer',
+          },
+        },
+      }),
+    },
+  };
+
+  const agreementDescription: DescriptionElement = {
+    type: 'Description',
+    contentType: 'subtitle',
+    options: {
+      content: loc('oie.idv.idp.description.agreement', 'login'),
+      variant: 'subtitle1',
+    },
+  };
+
   const submitButton: ButtonElement = {
     type: 'Button',
     label: loc('oie.optional.authenticator.button.title', 'login'),
@@ -58,7 +94,37 @@ export const transformIdvIdpAuthenticator: IdxStepTransformer = ({
     },
   };
 
-  uischema.elements = [titleElement, descriptionElement, submitButton];
+  const divider: DividerElement = {
+    type: 'Divider',
+  };
+
+  uischema.elements = [
+    titleElement,
+    descriptionElement,
+    submitButton,
+    divider,
+  ];
+
+  if (shouldShowCancelLink(widgetProps?.features)) {
+    const cancelLink: LinkElement = {
+      type: 'Link',
+      contentType: 'footer',
+      options: {
+        label: loc('goback', 'login'),
+        isActionStep: true,
+        step: 'cancel',
+        dataSe: 'cancel',
+      },
+    };
+    const backToSigninUri = getBackToSignInUri(widgetProps);
+    if (backToSigninUri) {
+      cancelLink.options.href = backToSigninUri;
+    }
+    uischema.elements.push(cancelLink);
+  }
+
+  uischema.elements.push(termsOfUseDescription);
+  uischema.elements.push(agreementDescription);
 
   return formBag;
 };

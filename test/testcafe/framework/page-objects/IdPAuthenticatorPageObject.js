@@ -29,4 +29,8 @@ export default class IdPAuthenticatorPageObject extends BasePageObject {
     }
     return this.beacon.getStyleProperty('background-image');
   }
+
+  getLinkElement(name) {
+    return this.form.getLink(name);
+  }
 }
