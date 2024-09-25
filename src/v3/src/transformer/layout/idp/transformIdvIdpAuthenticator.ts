@@ -21,7 +21,9 @@ import {
   LinkElement,
   TitleElement,
 } from '../../../types';
-import { getBackToSignInUri, getIDVDisplayName, loc, shouldShowCancelLink } from '../../../util';
+import {
+  getBackToSignInUri, getIDVDisplayName, loc, shouldShowCancelLink,
+} from '../../../util';
 
 export const transformIdvIdpAuthenticator: IdxStepTransformer = ({
   formBag,
@@ -103,7 +105,7 @@ export const transformIdvIdpAuthenticator: IdxStepTransformer = ({
     divider,
   ];
 
-  if(shouldShowCancelLink(widgetProps?.features)) {
+  if (shouldShowCancelLink(widgetProps?.features)) {
     const cancelLink: LinkElement = {
       type: 'Link',
       contentType: 'footer',
@@ -122,7 +124,6 @@ export const transformIdvIdpAuthenticator: IdxStepTransformer = ({
 
   uischema.elements.push(termsOfUseDescription);
   uischema.elements.push(agreementDescription);
-  
 
   return formBag;
 };
