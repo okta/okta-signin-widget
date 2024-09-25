@@ -63,4 +63,4 @@ export const transformHelpLinks: TransformStepFnWithOptions = ({
   formbag.uischema.elements.push(...helpLinks);
 
   return formbag;
-  };
+};

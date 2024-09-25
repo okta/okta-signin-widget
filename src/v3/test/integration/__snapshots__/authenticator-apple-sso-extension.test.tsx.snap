@@ -154,23 +154,45 @@ exports[`authenticator-apple-sso-extension calls verify then cancels the transac
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
                       data-se="help"
                       href="http://localhost:3000/help/login"
+                      rel="noopener noreferrer"
+                      target="_blank"
                     >
                       Help
+                      <span
+                        class="Link-indicator"
+                        role="presentation"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-30"
+                          fill="none"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            clip-rule="evenodd"
+                            d="M8.293 14.293 18.586 4H10V2h10.223c.12 0 .262 0 .387.01.145.012.353.042.571.153a1.5 1.5 0 0 1 .655.656c.112.218.142.426.154.571.01.125.01.268.01.387V14h-2V5.414L9.707 15.707l-1.414-1.414Zm7.745 5.74v-7.847l2-2.042v11.89H2.024V5.966h11.828l-2.041 2H4.024v12.068h12.014Z"
+                            fill="currentColor"
+                            fill-rule="evenodd"
+                          />
+                        </svg>
+                      </span>
                     </a>
                   </div>
                   <div
                     class="MuiBox-root emotion-10"
                   >
                     <hr
-                      class="MuiDivider-root MuiDivider-fullWidth emotion-31"
+                      class="MuiDivider-root MuiDivider-fullWidth emotion-32"
                       data-se="separation-line"
                     />
                   </div>
                   <div
-                    class="MuiBox-root emotion-32"
+                    class="MuiBox-root emotion-33"
                   >
                     <div
-                      class="MuiBox-root emotion-33"
+                      class="MuiBox-root emotion-34"
                     >
                       <div
                         class="MuiBox-root emotion-11"
@@ -185,10 +207,10 @@ exports[`authenticator-apple-sso-extension calls verify then cancels the transac
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-33"
+                      class="MuiBox-root emotion-34"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-37"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-38"
                         data-se="enroll"
                         role="link"
                       >
@@ -361,23 +383,45 @@ exports[`authenticator-apple-sso-extension cancels the transaction when sso exte
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
                       data-se="help"
                       href="http://localhost:3000/help/login"
+                      rel="noopener noreferrer"
+                      target="_blank"
                     >
                       Help
+                      <span
+                        class="Link-indicator"
+                        role="presentation"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-30"
+                          fill="none"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            clip-rule="evenodd"
+                            d="M8.293 14.293 18.586 4H10V2h10.223c.12 0 .262 0 .387.01.145.012.353.042.571.153a1.5 1.5 0 0 1 .655.656c.112.218.142.426.154.571.01.125.01.268.01.387V14h-2V5.414L9.707 15.707l-1.414-1.414Zm7.745 5.74v-7.847l2-2.042v11.89H2.024V5.966h11.828l-2.041 2H4.024v12.068h12.014Z"
+                            fill="currentColor"
+                            fill-rule="evenodd"
+                          />
+                        </svg>
+                      </span>
                     </a>
                   </div>
                   <div
                     class="MuiBox-root emotion-10"
                   >
                     <hr
-                      class="MuiDivider-root MuiDivider-fullWidth emotion-31"
+                      class="MuiDivider-root MuiDivider-fullWidth emotion-32"
                       data-se="separation-line"
                     />
                   </div>
                   <div
-                    class="MuiBox-root emotion-32"
+                    class="MuiBox-root emotion-33"
                   >
                     <div
-                      class="MuiBox-root emotion-33"
+                      class="MuiBox-root emotion-34"
                     >
                       <div
                         class="MuiBox-root emotion-11"
@@ -392,10 +436,10 @@ exports[`authenticator-apple-sso-extension cancels the transaction when sso exte
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-33"
+                      class="MuiBox-root emotion-34"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-37"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-38"
                         data-se="enroll"
                         role="link"
                       >
@@ -568,23 +612,45 @@ exports[`authenticator-apple-sso-extension opens the verify url with credential 
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways emotion-29"
                       data-se="help"
                       href="http://localhost:3000/help/login"
+                      rel="noopener noreferrer"
+                      target="_blank"
                     >
                       Help
+                      <span
+                        class="Link-indicator"
+                        role="presentation"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-30"
+                          fill="none"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            clip-rule="evenodd"
+                            d="M8.293 14.293 18.586 4H10V2h10.223c.12 0 .262 0 .387.01.145.012.353.042.571.153a1.5 1.5 0 0 1 .655.656c.112.218.142.426.154.571.01.125.01.268.01.387V14h-2V5.414L9.707 15.707l-1.414-1.414Zm7.745 5.74v-7.847l2-2.042v11.89H2.024V5.966h11.828l-2.041 2H4.024v12.068h12.014Z"
+                            fill="currentColor"
+                            fill-rule="evenodd"
+                          />
+                        </svg>
+                      </span>
                     </a>
                   </div>
                   <div
                     class="MuiBox-root emotion-10"
                   >
                     <hr
-                      class="MuiDivider-root MuiDivider-fullWidth emotion-31"
+                      class="MuiDivider-root MuiDivider-fullWidth emotion-32"
                       data-se="separation-line"
                     />
                   </div>
                   <div
-                    class="MuiBox-root emotion-32"
+                    class="MuiBox-root emotion-33"
                   >
                     <div
-                      class="MuiBox-root emotion-33"
+                      class="MuiBox-root emotion-34"
                     >
                       <div
                         class="MuiBox-root emotion-11"
@@ -599,10 +665,10 @@ exports[`authenticator-apple-sso-extension opens the verify url with credential 
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-33"
+                      class="MuiBox-root emotion-34"
                     >
                       <button
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-37"
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-38"
                         data-se="enroll"
                         role="link"
                       >

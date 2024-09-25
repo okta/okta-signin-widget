@@ -70,21 +70,21 @@ export type WidgetMessageLink = {
 };
 
 export type AutoCompleteValue = 'username'
-  | 'current-password'
-  | 'one-time-code'
-  | 'new-password'
-  | 'tel-national'
-  | 'given-name'
-  | 'family-name'
-  | 'email'
-  | 'off';
+| 'current-password'
+| 'one-time-code'
+| 'new-password'
+| 'tel-national'
+| 'given-name'
+| 'family-name'
+| 'email'
+| 'off';
 
 export type InputModeValue = 'numeric'
-  | 'decimal'
-  | 'tel'
-  | 'email'
-  | 'url'
-  | 'search';
+| 'decimal'
+| 'tel'
+| 'email'
+| 'url'
+| 'search';
 
 export type PhoneVerificationMethodType = 'sms' | 'voice';
 
@@ -132,10 +132,10 @@ export type WebAuthNVerificationPayload = {
 };
 
 export type WebAuthNEnrollmentHandler = (transaction: IdxTransaction) =>
-  Promise<WebAuthNEnrollmentPayload>;
+Promise<WebAuthNEnrollmentPayload>;
 
 export type WebAuthNAuthenticationHandler = (transaction: IdxTransaction) =>
-  Promise<WebAuthNVerificationPayload>;
+Promise<WebAuthNVerificationPayload>;
 
 export type ElementContentType = 'subtitle' | 'footer';
 
