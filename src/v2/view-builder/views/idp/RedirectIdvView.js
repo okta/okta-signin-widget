@@ -8,13 +8,13 @@ const PrivacyTermsFooterView = View.extend({
   tagName: 'p',
   className: 'margin-top-30',
   template: hbs`
-      <p class="o-form-explain margin-btm-5">{{i18n code="oie.idv.idp.description.termsOfUse" bundle="login" 
+      <p class="margin-btm-5">{{i18n code="oie.idv.idp.description.termsOfUse" bundle="login" 
         $1="<a href='https://withpersona.com/legal/terms-of-use' class='terms-of-use inline-link' 
           target='_blank' rel='noopener noreferrer'>$1</a>"
         $2="<a href='https://withpersona.com/legal/privacy-policy' class='privacy-policy inline-link'
            target='_blank' rel='noopener noreferrer'>$2</a>"}}
       </p>
-      <p class="o-form-explain">{{i18n code="oie.idv.idp.description.agreement" bundle="login"}}</p>
+      <p>{{i18n code="oie.idv.idp.description.agreement" bundle="login"}}</p>
     `
 });
 
