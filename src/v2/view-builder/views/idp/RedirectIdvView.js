@@ -2,16 +2,16 @@ import { loc, View } from '@okta/courage';
 import { BaseIdPAuthenticatorBody, BaseIdpAuthenticatorView } from './BaseIdpAuthenticator';
 import { FORMS } from 'v2/ion/RemediationConstants';
 import hbs from '@okta/handlebars-inline-precompile';
-import AuthenticatorFooter from 'v2/view-builder/components/AuthenticatorFooter';
+import { BaseFooter } from 'v2/view-builder/internals';
 
 const PrivacyTermsFooterView = View.extend({
   tagName: 'p',
-  className: 'margin-top-30',
+  className: 'privacy-footer',
   template: hbs`
-      <p class="margin-btm-5">{{i18n code="oie.idv.idp.description.termsOfUse" bundle="login" 
-        $1="<a href='https://withpersona.com/legal/terms-of-use' class='terms-of-use inline-link' 
+      <p>{{i18n code="oie.idv.idp.description.termsOfUse" bundle="login" 
+        $1="<a href='https://withpersona.com/legal/terms-of-use' class='inline-link' data-se='terms-of-use'
           target='_blank' rel='noopener noreferrer'>$1</a>"
-        $2="<a href='https://withpersona.com/legal/privacy-policy' class='privacy-policy inline-link'
+        $2="<a href='https://withpersona.com/legal/privacy-policy' class='inline-link' data-se='privacy-policy'
            target='_blank' rel='noopener noreferrer'>$2</a>"}}
       </p>
       <p>{{i18n code="oie.idv.idp.description.agreement" bundle="login"}}</p>
@@ -35,7 +35,7 @@ const Body = BaseIdPAuthenticatorBody.extend({
 
 export default BaseIdpAuthenticatorView.extend({
   Body,
-  Footer: AuthenticatorFooter.extend({
+  Footer: BaseFooter.extend({
     postRender() {
       this.add(PrivacyTermsFooterView);
     }

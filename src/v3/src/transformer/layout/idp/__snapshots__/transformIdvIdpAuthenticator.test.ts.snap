@@ -43,6 +43,7 @@ Object {
       Object {
         "contentType": "footer",
         "options": Object {
+          "dataSe": "cancel",
           "isActionStep": true,
           "label": "goback",
           "step": "cancel",
