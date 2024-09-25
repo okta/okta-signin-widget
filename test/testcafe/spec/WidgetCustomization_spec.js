@@ -110,6 +110,7 @@ test.requestHooks(identifyMock)('should show custom footer links', async t => {
   await t.expect(identityPage.getHelpLinkUrl()).eql('https://google.com');
   await t.expect(identityPage.getCustomHelpLinkUrl(0, 'What is Okta?')).eql('https://acme.com/what-is-okta');
   await t.expect(identityPage.getCustomHelpLinkLabel(0, 'What is Okta?')).eql('What is Okta?');
+  await t.expect(identityPage.getCustomHelpLinkTarget(0, 'What is Okta?')).eql(null);
   await t.expect(identityPage.getCustomHelpLinkRel(0, 'What is Okta?')).eql(null);
 
   await t.expect(identityPage.getCustomHelpLinkUrl(1, 'Acme Portal')).eql('https://acme.com');
