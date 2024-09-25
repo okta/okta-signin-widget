@@ -21,7 +21,7 @@ export default View.extend({
 
   attributes() {
     let href = this.options.href || '#';
-    const rel = (this.options.target && !this.options.rel)
+    const rel = (this.options.target === '_blank' && !this.options.rel)
       ? 'noopener noreferrer'
       : this.options.rel;
     return {
