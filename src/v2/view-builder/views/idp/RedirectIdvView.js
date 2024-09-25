@@ -19,9 +19,6 @@ const PrivacyTermsFooterView = View.extend({
 });
 
 const Body = BaseIdPAuthenticatorBody.extend({
-  initialize() {
-    BaseIdPAuthenticatorBody.prototype.initialize.apply(this, arguments);
-  },
   title() {
     const redirectIDVerifyRemediation = this.options.appState.get('remediations').find((remediation) => {
       return remediation.name === FORMS.REDIRECT_IDVERIFY;
