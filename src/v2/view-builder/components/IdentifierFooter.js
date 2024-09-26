@@ -7,7 +7,7 @@ import hbs from '@okta/handlebars-inline-precompile';
 
 export default BaseFooter.extend({
 
-  showForgotPasswordLink() { 
+  showForgotPasswordLink() {
     return !this.options.appState.isIdentifierOnlyView();
   },
 
@@ -47,10 +47,11 @@ export default BaseFooter.extend({
         'name': 'help',
         'label': loc('help', 'login'),
         'href': helpLinkHref,
+        'target': '_blank',
       },
     ];
 
-    let forgotPasswordLink = []; 
+    let forgotPasswordLink = [];
     if (this.showForgotPasswordLink()) {
       forgotPasswordLink = getForgotPasswordLink(appState, settings);
     }

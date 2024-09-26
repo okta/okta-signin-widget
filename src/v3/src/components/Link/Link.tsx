@@ -36,6 +36,7 @@ const Link: UISchemaElementComponent<{
       step,
       target,
       onClick: onClickHandler,
+      rel,
     },
   } = uischema;
   const onSubmitHandler = useOnSubmit();
@@ -78,8 +79,7 @@ const Link: UISchemaElementComponent<{
           linkRef={focusRef}
           testId={dataSe}
           target={target}
-          // eslint-disable-next-line react/jsx-props-no-spreading
-          {...(target === '_blank' && { rel: 'noopener noreferrer' })}
+          rel={(target === '_blank' && !rel) ? 'noopener noreferrer' : rel}
         >
           {label}
         </OdyLink>

@@ -21,10 +21,14 @@ export default View.extend({
 
   attributes() {
     let href = this.options.href || '#';
+    const rel = (this.options.target === '_blank' && !this.options.rel)
+      ? 'noopener noreferrer'
+      : this.options.rel;
     return {
       'data-se': this.options.name,
       href: href,
       target: this.options.target,
+      rel: rel
     };
   },
 

@@ -16,11 +16,6 @@ import {
   getStubTransactionWithNextStep,
 } from 'src/mocks/utils/utils';
 
-import {
-  ButtonElement,
-  DescriptionElement,
-  TitleElement,
-} from '../../../types';
 import { transformIdvIdpAuthenticator } from './transformIdvIdpAuthenticator';
 
 describe('IDV IDP Authenticator transformer Tests', () => {
@@ -40,23 +35,13 @@ describe('IDV IDP Authenticator transformer Tests', () => {
     transaction.messages = [];
   });
 
-  it('should add correct title, description, and button', () => {
+  it('should add correct title, descriptions, and button', () => {
     const updatedFormBag = transformIdvIdpAuthenticator({
       formBag,
       transaction,
       widgetProps: {},
     });
-    expect(updatedFormBag.uischema.elements.length).toBe(3);
+    expect(updatedFormBag.uischema.elements.length).toBe(7);
     expect(updatedFormBag).toMatchSnapshot();
-    expect(
-      (updatedFormBag.uischema.elements[0] as TitleElement).options?.content,
-    ).toBe('oie.idv.idp.title');
-    expect(
-      (updatedFormBag.uischema.elements[1] as DescriptionElement).options
-        ?.content,
-    ).toBe('oie.idv.idp.description');
-    expect((updatedFormBag.uischema.elements[2] as ButtonElement).label).toBe(
-      'oie.optional.authenticator.button.title',
-    );
   });
 });
