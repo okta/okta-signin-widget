@@ -33,7 +33,7 @@ const idx = [
   return templateHelper({path});
 });
 
-let verifyRequestTracker = 0;
+let verifyRequestTracker = -1;
 
 const ssoExtension = [
   templateHelper({
@@ -46,9 +46,9 @@ const ssoExtension = [
     path: '/idp/idx/authenticators/sso_extension/transactions/:transactionId/verify',
     method: 'POST',
     status: (req, res, next) => {
-      verifyRequestTracker++;
       res.status(401); // To test biometrics error, change to 400
-      res.append('WWW-Authenticate', 'Oktadevicejwt realm="Okta Device"');
+      verifyRequestTracker++;
+      // res.append('WWW-Authenticate', 'Oktadevicejwt realm="Okta Device"');
       next();
     },
     // TODO: find a way to improve this, now the mock config is not always on responseConfig
@@ -56,7 +56,7 @@ const ssoExtension = [
     // ../../../data/idp/idx/error-400-okta-verify-uv-fastpass-verify-enable-biometrics-mobile
     // ../../../data/idp/idx/error-okta-verify-uv-fastpass-verify-enable-biometrics-desktop
     template() {
-      return verifyRequestTracker === 1 ? verifyProbeTransaction : cancelTransaction;
+      return verifyRequestTracker % 2 === 0 ? verifyProbeTransaction : cancelTransaction;
     }
   })
 ];
