@@ -240,6 +240,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       if (step === IDX_STEP.DEVICE_APPLE_SSO_EXTENSION && newTransaction?.nextStep?.isSSOExtensionVerifyEndpointAlreadyCalled) {
         console.log('make another /verify call', newTransaction);
         newTransaction = await authClient.idx.proceed({
+          step: IDX_STEP.DEVICE_APPLE_SSO_EXTENSION,
           stateHandle: newTransaction?.context.stateHandle,
         });
         console.log('finish call', newTransaction);
