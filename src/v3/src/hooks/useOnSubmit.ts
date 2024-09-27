@@ -237,6 +237,10 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
         });
       }
 
+      if (step === IDX_STEP.DEVICE_APPLE_SSO_EXTENSION && newTransaction?.nextStep?.isSSOExtensionVerifyEndpointAlreadyCalled) {
+        newTransaction = await fn(payload);
+      }
+
       // TODO: OKTA-538791 this is a temp work around until the auth-js fix
       if (!newTransaction.nextStep && newTransaction.availableSteps?.length) {
         [newTransaction.nextStep] = newTransaction.availableSteps;

@@ -1159,13 +1159,14 @@ const appleSSOE = {
     'authenticator-verification-okta-verify-apple-ssoe',
   ],
   '/idp/idx/authenticators/sso_extension/transactions/:transactionId/verify': [
-    'error-401-apple-ssoe',
+    'error-401-apple-ssoe-verify',
+    'apple-ssoe-verify',
   ],
-  '/idp/idx/cancel': [
+  '/idp/idx/authenticators/sso_extension/transactions/:transactionId/verify/cancel': [
     'identify'
   ],
 };
 
 module.exports = {
-  mocks: appleSSOE
+  mocks: idx
 };
