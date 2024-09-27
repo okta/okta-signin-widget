@@ -1168,5 +1168,5 @@ const appleSSOE = {
 };
 
 module.exports = {
-  mocks: appleSSOE
+  mocks: idx
 };
