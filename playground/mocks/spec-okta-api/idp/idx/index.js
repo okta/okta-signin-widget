@@ -65,7 +65,7 @@ const ssoExtension = [
     // To test biometrics error, use below two files
     // ../../../data/idp/idx/error-400-okta-verify-uv-fastpass-verify-enable-biometrics-mobile
     // ../../../data/idp/idx/error-okta-verify-uv-fastpass-verify-enable-biometrics-desktop
-    template: cancelTransaction
+    template: cancelTransaction,
   })
 ];
 

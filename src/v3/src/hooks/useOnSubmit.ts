@@ -237,13 +237,13 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
         });
       }
 
-      if (step === IDX_STEP.DEVICE_APPLE_SSO_EXTENSION && newTransaction?.nextStep?.isSSOExtensionVerifyEndpointAlreadyCalled) {
-        console.log('make another /verify call', newTransaction);
+      if (step === IDX_STEP.DEVICE_APPLE_SSO_EXTENSION 
+          // @ts-expect-error auth-js type errors
+          && newTransaction?.nextStep?.isSSOExtensionVerifyEndpointAlreadyCalled) {
         newTransaction = await authClient.idx.proceed({
           step: IDX_STEP.DEVICE_APPLE_SSO_EXTENSION,
           stateHandle: newTransaction?.context.stateHandle,
         });
-        console.log('finish call', newTransaction);
       }
 
       // TODO: OKTA-538791 this is a temp work around until the auth-js fix
