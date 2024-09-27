@@ -1,5 +1,6 @@
 const templateHelper = require('../../../config/templateHelper');
-const cancelTransaction = require('../../../data/idp/idx/identify-with-no-sso-extension');
+const verifyError = require('../../../data/idp/idx/error-401-apple-ssoe-verify.json');
+const verifyCancel = require('../../../data/idp/idx/apple-ssoe-verify.json');
 
 const idx = [
   '/idp/idx',
@@ -32,6 +33,8 @@ const idx = [
   return templateHelper({path});
 });
 
+let verifyCall = -1;
+
 const ssoExtension = [
   templateHelper({
     path: '/idp/idx/authenticators/sso_extension/transactions/:transactionId/verify',
@@ -43,7 +46,8 @@ const ssoExtension = [
     path: '/idp/idx/authenticators/sso_extension/transactions/:transactionId/verify',
     method: 'POST',
     status: (req, res, next) => {
-      res.status(401); // To test biometrics error, change to 400
+      verifyCall++;
+      res.status(verifyCall % 2 === 0 ? 401 : 200); // To test biometrics error, change to 400
       res.append('WWW-Authenticate', 'Oktadevicejwt realm="Okta Device"');
       next();
     },
@@ -51,7 +55,9 @@ const ssoExtension = [
     // To test biometrics error, use below two files
     // ../../../data/idp/idx/error-400-okta-verify-uv-fastpass-verify-enable-biometrics-mobile
     // ../../../data/idp/idx/error-okta-verify-uv-fastpass-verify-enable-biometrics-desktop
-    template: cancelTransaction,
+    template() {
+      return verifyCall % 2 === 0 ? verifyError : verifyCancel;
+    }
   })
 ];
 
