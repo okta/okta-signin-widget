@@ -33,6 +33,7 @@ const idx = [
   return templateHelper({path});
 });
 
+let verifyRequestTracker = -1;
 const ssoExtension = [
   templateHelper({
     path: '/idp/idx/authenticators/sso_extension/transactions/:transactionId/verify',
@@ -41,27 +42,15 @@ const ssoExtension = [
     template: '<html>Verifying the device...the login flow will be resumed afterwards</html>'
   }),
   templateHelper({
-    path: '/idp/idx/authenticators/sso_extension/transactions/verify_endpoint_not_called/verify',
+    path: '/idp/idx/authenticators/sso_extension/transactions/1234/verify',
     method: 'POST',
     status: (req, res, next) => {
       res.status(401); // To test biometrics error, change to 400
       next();
     },
     template() {
-      console.log('nice call');
-      return verifyProbeTransaction;
-    }
-  }),
-  templateHelper({
-    path: '/idp/idx/authenticators/sso_extension/transactions/verify_endpoint_called/verify',
-    method: 'POST',
-    status: (req, res, next) => {
-      res.status(401); // To test biometrics error, change to 400
-      next();
-    },
-    template() {
-      console.log('nice call 222');
-      return cancelTransaction;
+      verifyRequestTracker++;
+      return verifyRequestTracker % 2 === 0 ? cancelTransaction : verifyProbeTransaction;
     }
   }),
   templateHelper({

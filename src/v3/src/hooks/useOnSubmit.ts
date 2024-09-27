@@ -260,7 +260,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
 
       const onSuccess = (resolve?: (val: unknown) => void) => {
         setIdxTransaction(newTransaction);
-        if (newTransaction.requestDidSucceed === false) {
+        if (newTransaction.requestDidSucceed === false && step !== IDX_STEP.DEVICE_APPLE_SSO_EXTENSION) {
           eventEmitter.emit(
             'afterError',
             getEventContext(newTransaction),
