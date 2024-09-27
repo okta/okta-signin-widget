@@ -1154,6 +1154,18 @@ const redirectOnPoll = {
   ],
 };
 
+const appleSSOE = {
+  '/idp/idx/introspect': [
+    'authenticator-verification-okta-verify-apple-ssoe',
+  ],
+  '/idp/idx/authenticators/sso_extension/transactions/:transactionId/verify': [
+    'error-401-apple-ssoe',
+  ],
+  '/idp/idx/cancel': [
+    'identify'
+  ],
+};
+
 module.exports = {
-  mocks: idx
+  mocks: appleSSOE
 };
