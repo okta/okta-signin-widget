@@ -104,6 +104,7 @@ export interface ActionOptions {
   step: string;
   includeData?: boolean;
   includeImmutableData?: boolean;
+  isSSOExtensionVerifyEndpointAlreadyCalled?: boolean; // for Apple SSOE fix
 }
 
 /**

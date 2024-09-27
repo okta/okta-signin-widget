@@ -52,6 +52,10 @@ export const transformAppleSsoExtension: IdxStepTransformer = ({ formBag, transa
   };
 
   if (stepName === IDX_STEP.DEVICE_APPLE_SSO_EXTENSION) {
+    // Apple SSOE fix
+    const isSSOExtensionVerifyEndpointAlreadyCalled = !!(transaction.nextStep as any)?.['isSSOExtensionVerifyEndpointAlreadyCalled'];
+    autoSubmitElement.options.isSSOExtensionVerifyEndpointAlreadyCalled = isSSOExtensionVerifyEndpointAlreadyCalled;
+
     // transaction nextStep does not contain href and method for some reason so we have to grab it from neededToProceed property
     const nextStepData = neededToProceed?.find(
       (step) => step.name === IDX_STEP.DEVICE_APPLE_SSO_EXTENSION,

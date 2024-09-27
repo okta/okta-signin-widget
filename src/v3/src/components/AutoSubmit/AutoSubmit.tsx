@@ -29,7 +29,7 @@ const AutoSubmit: UISchemaElementComponent<{ uischema: AutoSubmitElement }> = ({
       step: options.step,
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [options.isSSOExtensionVerifyEndpointAlreadyCalled]);
 
   return null;
 };
