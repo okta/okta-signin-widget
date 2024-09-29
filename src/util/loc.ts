@@ -48,7 +48,7 @@ declare global {
  * @param  {Boolean} [ignoreIncorrectParams] If true, a custom 'okta-i18n-error' event would not be dispatched
  * @return {String} The localized value
  */
-export const loc = function (
+const localize = function (
   key: string,
   bundleName: BundleName = 'login',
   params: Array<string | number | boolean | unknown> = [],
@@ -128,7 +128,7 @@ function getRawLocale() {
  * @param {String} bundleName The i18n bundle name
  * @param {String} reason Could be 'bundle' (Bundle not found), 'key' (Key not found) or 'parameters' (Parameters mismatch).
  */
-function emitL10nError(key: string, bundleName: string, reason: string) {
+export function emitL10nError(key: string, bundleName: string, reason: string) {
   const event = createCustomEvent('okta-i18n-error', {
     detail: {
       type: 'l10n-error',
@@ -193,3 +193,20 @@ function sprintf(value: string, params: Array<string | number | boolean | unknow
 
   return newValue;
 }
+
+/**
+ * Add ability to override global `loc` util used in `v2/ion/*`, `util/*` etc.
+ */
+type Loc = (
+  key: string,
+  bundleName?: string,
+  params?: Array<string | number | boolean | undefined>
+) => string;
+
+let loc: Loc = localize;
+
+export const setLocUtil = (newLoc: Loc) => {
+  loc = newLoc;
+};
+
+export { loc };

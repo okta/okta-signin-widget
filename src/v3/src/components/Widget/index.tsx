@@ -64,6 +64,7 @@ import {
   getLanguageCode,
   getLanguageDirection,
   getOdysseyTranslationOverrides,
+  initDefaultLanguage,
   isAndroidOrIOS,
   isAuthClientSet,
   isConfigRegisterFlow,
@@ -72,6 +73,7 @@ import {
   loadLanguage,
   SessionStorage,
   triggerEmailVerifyCallback,
+  unloadLanguage,
 } from '../../util';
 import { getEventContext } from '../../util/getEventContext';
 import { stylisPlugins } from '../../util/stylisPlugins';
@@ -149,10 +151,17 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     };
   }, [brandColors, customTheme, languageDirection]);
 
+  useOnce(() => {
+    // Load default language.
+    // Should be called before initial render
+    initDefaultLanguage();
+  });
+
   // on unmount, remove the language
   useEffect(() => () => {
     if (Bundles.isLoaded(languageCode)) {
       Bundles.remove();
+      unloadLanguage(languageCode);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

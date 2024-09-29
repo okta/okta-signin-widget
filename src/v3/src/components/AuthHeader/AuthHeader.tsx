@@ -22,9 +22,8 @@ import Image from '../Image';
 
 // TODO: maybe extract to util class if used reused
 const shouldRenderAuthCoin = (props?: AuthCoinProps): boolean => {
-  const authCoinConfiguration = getAuthCoinConfiguration();
   const authCoinConfigByAuthKey = props?.authenticatorKey
-    && authCoinConfiguration[props?.authenticatorKey];
+    && getAuthCoinConfiguration()[props.authenticatorKey];
 
   return typeof authCoinConfigByAuthKey !== 'undefined'
     || typeof props?.url !== 'undefined';

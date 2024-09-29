@@ -12,9 +12,23 @@
 
 import { OdysseyI18nResourceKeys, odysseyI18nResourceKeysList } from '@okta/odyssey-react-mui';
 
+import config from '../../../config/config.json';
+import { LanguageCode } from '../../../types';
 import Bundles from '../../../util/Bundles';
 import { WidgetProps } from '../types';
+import { isDevelopmentEnvironment } from './environmentUtils';
+import { i18next } from './i18next';
 import { getLanguageCode, getSupportedLanguages } from './settingsUtils';
+
+export const initDefaultLanguage = () => {
+  // Load translations for default language from Bundles to i18next
+  const languageCode = Bundles.currentLanguage ?? config.defaultLanguage;
+  const isDefaultLanguage = !Bundles.currentLanguage;
+  if (isDefaultLanguage && !i18next.hasResourceBundle(languageCode, 'login')) {
+    i18next.addResourceBundle(languageCode, 'login', Bundles.login);
+    i18next.addResourceBundle(languageCode, 'country', Bundles.country);
+  }
+};
 
 export const loadLanguage = async (widgetProps: WidgetProps): Promise<void> => {
   const { i18n = {}, assets: { baseUrl, rewrite } = {} } = widgetProps;
@@ -29,10 +43,31 @@ export const loadLanguage = async (widgetProps: WidgetProps): Promise<void> => {
     assetsBaseUrl = assetsBaseUrl.substring(0, assetsBaseUrl.length - 1);
   }
 
-  return Bundles.loadLanguage(languageCode, i18n, {
+  // Don't reuse plural forms in English for other languages.
+  // See https://www.i18next.com/translation-function/plurals
+  const pluralSuffixes = ['_one', '_other'];
+  const omitDefaultKeys = (key: string) => pluralSuffixes.some((s) => key.endsWith(s));
+  await Bundles.loadLanguage(languageCode, i18n, {
     baseUrl: assetsBaseUrl,
     rewrite: rewrite ?? ((val) => val),
-  }, supportedLanguages);
+  }, supportedLanguages, omitDefaultKeys);
+
+  // Load translations from Bundles to i18next and change language
+  i18next.addResourceBundle(languageCode, 'login', Bundles.login);
+  i18next.addResourceBundle(languageCode, 'country', Bundles.country);
+  i18next.changeLanguage(languageCode);
+};
+
+export const unloadLanguage = (languageCode: LanguageCode) => {
+  // Remove translations from i18next
+  if (languageCode !== config.defaultLanguage && !isDevelopmentEnvironment()) {
+    // For dev environment with HMR don't clear translations.
+    // Otherwise during HMR widget language will be reset to default one.
+    // `Bundles.remove()` also doesn't reset bundles to default language.
+    i18next.removeResourceBundle(languageCode, 'login');
+    i18next.removeResourceBundle(languageCode, 'country');
+  }
+  i18next.changeLanguage(undefined);
 };
 
 export const getOdysseyTranslationOverrides = (): Partial<OdysseyI18nResourceKeys> => (

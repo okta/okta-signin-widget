@@ -11,8 +11,9 @@
  */
 
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { loc as localize } from '../../../util/loc';
+import { emitL10nError, setLocUtil } from '../../../util/loc';
 import { TokenReplacement } from '../types';
+import { i18next } from './i18next';
 
 /**
  *
@@ -25,11 +26,22 @@ import { TokenReplacement } from '../types';
  */
 export const loc = (
   key: string,
-  bundleName?: string,
-  params?: Array<string | number | boolean | unknown>,
+  bundleName = 'login',
+  params?: Array<string | number | boolean | undefined>,
   tokenReplacement?: TokenReplacement,
 ): string => {
-  const localizedText: string = localize(key, bundleName, params);
+  const paramsObj = Object.fromEntries(params?.map((v, i) => [i, v]) || []);
+  const count = params?.find((p): p is number => typeof p === 'number');
+  const localizedText = i18next?.t(`${bundleName}:${key}`, {
+    ...paramsObj,
+    ...(count !== undefined ? { count } : {}),
+    defaultValue: '',
+  });
+
+  if (!localizedText) {
+    emitL10nError(key, bundleName, 'key');
+    return `L10N_ERROR[${key}]`;
+  }
 
   if (typeof tokenReplacement !== 'undefined') {
     let updatedText = localizedText;
@@ -50,3 +62,6 @@ export const loc = (
 
   return localizedText;
 };
+
+// Override global `loc` util
+setLocUtil(loc);

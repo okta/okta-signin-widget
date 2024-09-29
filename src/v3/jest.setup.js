@@ -17,6 +17,7 @@ import {
   toHaveBeenCalledBefore,
 } from 'jest-extended';
 import mockBundles from '../util/Bundles.ts';
+import { setLocUtil } from '../util/loc.ts';
 
 expect.extend({
   toBeFalse,
@@ -40,9 +41,12 @@ global.DEBUG = false;
 
 expect.addSnapshotSerializer(createSerializer({ includeStyles: false }));
 
-jest.mock('util/loc', () => ({
-  loc: jest.fn().mockImplementation(
+jest.mock('src/util/locUtil', () => {
+  const originalModule = jest.requireActual('src/util/locUtil');
+  const loc = jest.fn().mockImplementation(
     // eslint-disable-next-line no-unused-vars
     (key, bundle, params) => (mockBundles.login[key] ? key : new Error(`Invalid i18n key: ${key}`)),
-  ),
-}));
+  );
+  setLocUtil(loc);
+  return { ...originalModule, loc };
+});

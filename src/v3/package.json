@@ -56,6 +56,7 @@
     "dompurify": "^2.5.5",
     "duo_web_sdk": "https://github.com/duosecurity/duo_web_sdk.git",
     "html-react-parser": "^3.0.9",
+    "i18next": "^23.14.0",
     "js-cookie": "^3.0.1",
     "lodash": "^4.17.21",
     "preact": "^10.20.1",
