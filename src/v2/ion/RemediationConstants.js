@@ -36,6 +36,7 @@ const FORMS = {
 
   AUTHENTICATOR_VERIFICATION_DATA: 'authenticator-verification-data',
   CHALLENGE_AUTHENTICATOR: 'challenge-authenticator',
+  CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR: 'challenge-webauthn-autofillui-authenticator',
   CHALLENGE_POLL: 'challenge-poll',
   RESEND: 'resend',
 

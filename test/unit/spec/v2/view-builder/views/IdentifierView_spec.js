@@ -5,8 +5,10 @@ import Settings from 'models/Settings';
 import XHRIdentifyWithPassword from '../../../../../../playground/mocks/data/idp/idx/identify-with-password.json';
 import XHRIdentifyWithThirdPartyIdps from '../../../../../../playground/mocks/data/idp/idx/identify-with-third-party-idps.json';
 import XHRIdentifyWithWebAuthn from '../../../../../../playground/mocks/data/idp/idx/identify-with-webauthn-launch-authenticator.json';
-import CookieUtil from 'util/CookieUtil';
+import XHRIdentifyWithWebAuthnAutofill from '../../../../../../playground/mocks/data/idp/idx/identify-with-webauthn-autofill.json';
 import Bundles from 'util/Bundles';
+import CookieUtil from 'util/CookieUtil';
+import webauthn from 'util/webauthn';
 import { FORMS } from 'v2/ion/RemediationConstants';
 
 describe('v2/view-builder/views/IdentifierView', function() {
@@ -197,7 +199,9 @@ describe('v2/view-builder/views/IdentifierView', function() {
     settings.set('username', '');
     settings.set('features.rememberMe', true);
 
-    jest.spyOn(AppState.prototype, 'hasRemediationObject').mockReturnValue(true);
+    jest.spyOn(AppState.prototype, 'hasRemediationObject').mockImplementation(remediation => {
+      return [FORMS.LAUNCH_WEBAUTHN_AUTHENTICATOR, FORMS.LAUNCH_AUTHENTICATOR].includes(remediation);
+    });
     jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
     jest.spyOn(AppState.prototype, 'isIdentifierOnlyView').mockReturnValue(false);
     jest.spyOn(CookieUtil, 'getCookieUsername').mockReturnValue('testUsername');
@@ -223,7 +227,9 @@ describe('v2/view-builder/views/IdentifierView', function() {
   it('does not pre-fill identifier form with username from cookie when rememberMe feature is disabled', function() {
     settings.set('username', '');
 
-    jest.spyOn(AppState.prototype, 'hasRemediationObject').mockReturnValue(true);
+    jest.spyOn(AppState.prototype, 'hasRemediationObject').mockImplementation(remediation => {
+      return [FORMS.LAUNCH_WEBAUTHN_AUTHENTICATOR, FORMS.LAUNCH_AUTHENTICATOR].includes(remediation);
+    });
     jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
     jest.spyOn(AppState.prototype, 'isIdentifierOnlyView').mockReturnValue(false);
 
@@ -304,5 +310,27 @@ describe('v2/view-builder/views/IdentifierView', function() {
     testContext.init(XHRIdentifyWithWebAuthn.remediation.value);
 
     expect(testContext.view.$el.find('.sign-in-with-webauthn-option').length).toEqual(1);
+  });      
+      
+  it('should have "webauthn" as the autocomplete attribute on the identifier field on browsers that support webauthn (default)', function() {
+    jest.spyOn(AppState.prototype, 'hasRemediationObject').mockImplementation(remediation => {
+      return remediation === FORMS.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR;
+    });
+    jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
+    jest.spyOn(AppState.prototype, 'isIdentifierOnlyView').mockReturnValue(true);
+    testContext.init(XHRIdentifyWithWebAuthnAutofill.remediation.value);
+    expect(testContext.view.$el.find('input[name="identifier"]').attr('autocomplete')).toEqual('webauthn');
+  });
+  
+  it('should have "username" as the autocomplete attribute on the identifier field on browsers that do not support webauthn', function() {
+    jest.spyOn(AppState.prototype, 'hasRemediationObject').mockImplementation(remediation => {
+      return remediation === FORMS.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR;
+    });
+    jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
+    jest.spyOn(AppState.prototype, 'isIdentifierOnlyView').mockReturnValue(true);
+    // mock a browser that doesn't support webauthn
+    jest.spyOn(webauthn, 'isNewApiAvailable').mockReturnValue(false);
+    testContext.init(XHRIdentifyWithWebAuthnAutofill.remediation.value);
+    expect(testContext.view.$el.find('input[name="identifier"]').attr('autocomplete')).toEqual('username');
   });
 });

@@ -77,6 +77,7 @@ export type AutoCompleteValue = 'username'
 | 'given-name'
 | 'family-name'
 | 'email'
+| 'webauthn'
 | 'off';
 
 export type InputModeValue = 'numeric'

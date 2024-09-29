@@ -10,17 +10,27 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { OktaAuth } from '@okta/okta-auth-js';
+import { ChallengeData, IdxAPI, OktaAuth, ProceedOptions } from '@okta/okta-auth-js';
 import omit from 'lodash/omit';
 
 import { WebAuthNAuthenticationHandler, WebAuthNEnrollmentHandler } from '../types';
+import { IDX_STEP } from 'src/constants';
+import { loc } from 'util/loc';
 
 export const binToStr = (bin: ArrayBuffer): string => btoa(
   new Uint8Array(bin).reduce((s, byte) => s + String.fromCharCode(byte), ''),
 );
 
+export const base64UrlSafeToBase64 = (str: string) => str.replace(new RegExp('_', 'g'), '/').replace(new RegExp('-', 'g'), '+');
+
+export const strToBin = (str: string) => Uint8Array.from(atob(base64UrlSafeToBase64(str)), c => c.charCodeAt(0));
+
 export const isCredentialsApiAvailable = ():
 boolean => !!(navigator && navigator.credentials && navigator.credentials.create);
+
+export interface ChallengeDataWithUserVerification extends Omit<ChallengeData, 'userVerification'> {
+  userVerification: UserVerificationRequirement;
+}
 
 /**
  * Uses the Web Authentication API to generate credentials for enrolling
@@ -96,3 +106,53 @@ export const webAuthNAuthenticationHandler: WebAuthNAuthenticationHandler = asyn
   // for some reason generic remediator does not allow/expect id field and fails when passed
   return { credentials: omit(OktaAuth.webauthn.getAssertion(credentials), ['id']) };
 };
+
+const challengeDataToCredentialRequestOptions = (challengeData: ChallengeDataWithUserVerification): PublicKeyCredentialRequestOptions => {
+  return {
+    ...(challengeData as ChallengeDataWithUserVerification),
+    challenge: strToBin(challengeData.challenge),
+  };
+}
+
+function isAuthenticatorAssertionResponse(response: AuthenticatorAssertionResponse | AuthenticatorResponse): response is AuthenticatorAssertionResponse {
+  return (response as AuthenticatorAssertionResponse).userHandle !== undefined;
+}
+
+export const webAuthNAutofillActionHandler = async (challengeData: ChallengeDataWithUserVerification, idx: IdxAPI, stateHandle: string) => {
+  // if the browser doesn't support WebAuthn and AbortController, no action needs to be taken
+  // as there are other steps the user can take to proceed
+  if (isCredentialsApiAvailable() && typeof AbortController !== 'undefined') {
+    let abortController = new AbortController();
+    try {
+      const credential = await navigator.credentials.get({
+        mediation: 'conditional',
+        publicKey: challengeDataToCredentialRequestOptions(challengeData),
+        signal: abortController.signal
+      }) as PublicKeyCredential;
+
+      if (isAuthenticatorAssertionResponse(credential.response)) {
+        const credentials = {
+          clientData: binToStr(credential.response.clientDataJSON),
+          authenticatorData: binToStr(credential.response.authenticatorData),
+          signatureData: binToStr(credential.response.signature),
+          userHandle: binToStr(credential.response.userHandle as ArrayBuffer),
+        };
+        const proceedOptions: ProceedOptions = {
+          stateHandle,
+          actions: [{
+            name: IDX_STEP.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR,
+            params: { credentials }
+          }],
+        };
+        // TODO: see how to proceed as we can't use the `useOnSubmit` hook here
+        await idx.proceed(proceedOptions);
+      } else {
+        throw new Error(loc('oie.webauthn.error.invalidPasskey', 'login'));
+      }
+    } catch (err) {
+      throw new Error(err as string);
+    } finally {
+      // remove abort controller
+    }
+  }
+}

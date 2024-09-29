@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { IdxAuthenticator } from '@okta/okta-auth-js';
+import { IDX_STEP } from '../../constants';
 import {
   ButtonElement,
   ButtonType,
@@ -18,17 +20,22 @@ import {
   TitleElement,
   UISchemaElement,
 } from '../../types';
-import { getUsernameCookie, isConfigRecoverFlow, loc } from '../../util';
+import { ChallengeDataWithUserVerification, getUsernameCookie, isConfigRecoverFlow, isCredentialsApiAvailable, loc, webAuthNAutofillActionHandler } from '../../util';
 import { transformIdentityRecovery } from '../layout/recovery';
 import { getUIElementWithName, removeUIElementWithName } from '../utils';
+
+interface IdxAuthenticatorWithChallengeData extends IdxAuthenticator {
+  challengeData: ChallengeDataWithUserVerification;
+}
 
 export const transformIdentify: IdxStepTransformer = ({
   formBag,
   widgetProps,
   transaction,
 }) => {
-  const { features, username } = widgetProps;
+  const { features, username, authClient } = widgetProps;
   const { uischema, data } = formBag;
+  const webauthAutofillStep = transaction.availableSteps?.find(({ name }) => name === IDX_STEP.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR);
 
   // TODO
   // OKTA-651781
@@ -55,6 +62,10 @@ export const transformIdentify: IdxStepTransformer = ({
     } else if (typeof features?.rememberMe === 'undefined' || features?.rememberMe === true) {
       const usernameCookie = getUsernameCookie();
       data.identifier = usernameCookie;
+    }
+
+    if (webauthAutofillStep && isCredentialsApiAvailable() && identifierElement.options.attributes) {
+      identifierElement.options.attributes.autocomplete = 'webauthn';
     }
   }
 
@@ -90,6 +101,14 @@ export const transformIdentify: IdxStepTransformer = ({
 
   uischema.elements.unshift(titleElement);
   uischema.elements.push(submitBtnElement);
+
+  if (webauthAutofillStep) {
+    webAuthNAutofillActionHandler(
+      (webauthAutofillStep.relatesTo?.value as IdxAuthenticatorWithChallengeData).challengeData,
+      authClient!.idx,
+      transaction.context.stateHandle,
+    );
+  }
 
   return formBag;
 };
