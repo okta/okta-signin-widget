@@ -33,7 +33,7 @@ const idx = [
   return templateHelper({path});
 });
 
-let verifyCall = -1;
+let verifyCallCount = -1;
 
 const ssoExtension = [
   templateHelper({
@@ -46,8 +46,8 @@ const ssoExtension = [
     path: '/idp/idx/authenticators/sso_extension/transactions/:transactionId/verify',
     method: 'POST',
     status: (req, res, next) => {
-      verifyCall++;
-      res.status(verifyCall % 2 === 0 ? 401 : 200); // To test biometrics error, change to 400
+      verifyCallCount++;
+      res.status(verifyCallCount % 2 === 0 ? 401 : 200); // To test biometrics error, change to 400
       res.append('WWW-Authenticate', 'Oktadevicejwt realm="Okta Device"');
       next();
     },
@@ -56,7 +56,7 @@ const ssoExtension = [
     // ../../../data/idp/idx/error-400-okta-verify-uv-fastpass-verify-enable-biometrics-mobile
     // ../../../data/idp/idx/error-okta-verify-uv-fastpass-verify-enable-biometrics-desktop
     template() {
-      return verifyCall % 2 === 0 ? verifyError : verifyCancel;
+      return verifyCallCount % 2 === 0 ? verifyError : verifyCancel;
     }
   })
 ];
