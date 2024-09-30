@@ -244,6 +244,14 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
           step: IDX_STEP.DEVICE_APPLE_SSO_EXTENSION,
           stateHandle: newTransaction?.context.stateHandle,
         });
+
+        // auth-js only save response with requestDidSucceed === true
+        // manually save here regardless status code to proceed with next call
+        authClient.transactionManager.saveIdxResponse({
+          rawIdxResponse: newTransaction.rawIdxState,
+          requestDidSucceed: false,
+          stateHandle: newTransaction.context?.stateHandle,
+        });
       }
 
       // TODO: OKTA-538791 this is a temp work around until the auth-js fix

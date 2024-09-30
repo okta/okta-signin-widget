@@ -11,17 +11,12 @@ const logger = RequestLogger(/introspect/);
 const credentialSSOExtensionMock = RequestMock()
   .onRequestTo(/idp\/idx\/introspect/)
   .respond(identifyWithAppleRedirectSSOExtension)
-  .onRequestTo('http://localhost:3000/idp/idx/authenticators/sso_extension/transactions/verify_endpoint_not_called/verify')
-  .respond((_, res) => {
-    res.statusCode = '401';
+  .onRequestTo('http://localhost:3000/idp/idx/authenticators/sso_extension/transactions/1234/verify')
+  .respond((req, res) => {
+    res.statusCode = 401;
     res.headers['content-type'] = 'application/json';
-    res.setBody(appleSSOEVerifyProbe);
-  })
-  .onRequestTo('http://localhost:3000/idp/idx/authenticators/sso_extension/transactions/verify_endpoint_called/verify')
-  .respond((_, res) => {
-    res.statusCode = '401';
-    res.headers['content-type'] = 'application/json';
-    res.setBody(appleSSOEVerify);
+    const hasProbe = new URL(req.url).searchParams.get('probe');
+    res.setBody(hasProbe ? appleSSOEVerifyProbe : appleSSOEVerify);
   })
   .onRequestTo('http://localhost:3000/idp/idx/authenticators/sso_extension/transactions/ftDC_dKpmkN6t5hAVtw4fugVm-T_sdTnLu/verify/cancel')
   .respond(identify);
@@ -38,10 +33,8 @@ test
         record.request.url.match(/introspect/)
     )).eql(1);
 
-    debugger;
-
     // verify the end result
     const identityPage = new IdentityPageObject(t);
     await identityPage.fillIdentifierField('Test Identifier');
-    // await t.expect(identityPage.getIdentifierValue()).eql('Test Identifier');
+    await t.expect(identityPage.getIdentifierValue()).eql('Test Identifier');
   });
