@@ -91,6 +91,7 @@ async function setup(t) {
     await t.expect(expiredPasswordPage.getRequirements()).contains('An uppercase letter');
     await t.expect(expiredPasswordPage.getRequirements()).contains('A number');
     await t.expect(expiredPasswordPage.getRequirements()).contains('No parts of your username');
+    await t.expect(expiredPasswordPage.getRequirements()).contains('Maximum 3 consecutive repeating characters');
 
     // Decision was made by design to exclude history and age password requirements in gen3
     if (!userVariables.gen3) {

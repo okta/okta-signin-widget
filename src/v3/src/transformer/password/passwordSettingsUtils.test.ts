@@ -104,4 +104,13 @@ describe('getComplexityItems', () => {
       { ruleKey: 'excludeLastName', label: PASSWORD_REQUIREMENTS_KEYS.complexity.excludeLastName },
     ]);
   });
+
+  it('should return maxConsecutiveRepeatingCharacters item with value', () => {
+    const complexity = {
+      maxConsecutiveRepeatingCharacters: 5,
+    } as unknown as ComplexityRequirements;
+
+    const result = getComplexityItems(complexity);
+    expect(result).toEqual([{ ruleKey: 'maxConsecutiveRepeatingCharacters', label: PASSWORD_REQUIREMENTS_KEYS.complexity.maxConsecutiveRepeatingCharacters }]);
+  });
 });

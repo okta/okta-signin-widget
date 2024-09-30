@@ -409,6 +409,8 @@ fn.getPasswordComplexityDescriptionForHtmlList = function(policy) {
       excludeFirstName: { i18n: 'password.complexity.no_first_name.description' },
       excludeLastName: { i18n: 'password.complexity.no_last_name.description' },
       useADComplexityRequirements: { i18n: 'password.complexity.adRequirements.description' },
+      maxConsecutiveRepeatingCharacters:
+        { i18n: 'password.complexity.maxConsecutiveRepeatingCharacters.description', args: true },
     },
     history: {
       one: { i18n: 'password.complexity.history.one.description' },
@@ -437,6 +439,7 @@ fn.getPasswordComplexityDescription = function(policy) {
       excludeFirstName: { i18n: 'password.complexity.no_first_name' },
       excludeLastName: { i18n: 'password.complexity.no_last_name' },
       useADComplexityRequirements: { i18n: 'password.complexity.adRequirements' },
+      maxConsecutiveRepeatingCharacters: { i18n: 'password.complexity.maxConsecutiveRepeatingCharacters', args: true },
     },
     history: { i18n: 'password.complexity.history' },
     age: {

@@ -27,6 +27,7 @@ const PasswordValidatorFunctionNames: Record<string, string> = Object.freeze({
   ExcludeLastNameValidator: 'excludeLastNameValidator',
   ExcludeAttributesValidator: 'excludeAttributesValidator',
   UseADComplexityRequirementsValidator: 'useADComplexityRequirementsValidator',
+  MaxConsecutiveRepeatingCharactersValidator: 'maxConsecutiveRepeatingCharactersValidator',
 });
 
 const minLengthValidator = (password: string, limit: unknown): boolean => (
@@ -48,6 +49,11 @@ const minNumberValidator = (password: string, limit: unknown): boolean => (
 const minSymbolValidator = (password: string, limit: unknown): boolean => (
   !(limit as number) || (password.match(/["!#$%&'()*+,-./\\:;<=>?@[\]^_`{|}~]/)?.length || 0) >= (limit as number)
 );
+
+const maxConsecutiveRepeatingCharactersValidator = (password: string, limit: unknown): boolean => {
+  const regex = new RegExp(`(.)\\1{${limit}}`);
+  return !(limit as number) || (Boolean(password.length) && !password.match(regex));
+};
 
 /**
  * The MDN recommended expression for escaping all special characters in RegExp
@@ -166,6 +172,8 @@ const ValidatorFunctions = {
   [PasswordValidatorFunctionNames.ExcludeLastNameValidator]: excludeLastNameValidator,
   [PasswordValidatorFunctionNames.UseADComplexityRequirementsValidator]:
     useADComplexityRequirementsValidator,
+  [PasswordValidatorFunctionNames.MaxConsecutiveRepeatingCharactersValidator]:
+    maxConsecutiveRepeatingCharactersValidator,
 };
 
 const excludeAttributes = (

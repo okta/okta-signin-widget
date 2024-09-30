@@ -21,6 +21,7 @@ export const PASSWORD_REQUIREMENTS_KEYS: Record<'complexity' | 'age', { [key: st
     excludeFirstName: 'password.complexity.no_first_name.description',
     excludeLastName: 'password.complexity.no_last_name.description',
     useADComplexityRequirements: 'password.complexity.adRequirements.description',
+    maxConsecutiveRepeatingCharacters: 'password.complexity.maxConsecutiveRepeatingCharacters.description',
   },
   age: {
     minAgeMinutes: 'password.complexity.minAgeMinutes.description',
