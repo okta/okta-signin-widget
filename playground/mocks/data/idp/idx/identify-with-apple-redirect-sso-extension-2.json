@@ -11,7 +11,7 @@
                     "create-form"
                 ],
                 "name": "device-apple-sso-extension",
-                "href": "http://localhost:3000/idp/idx/authenticators/sso_extension/transactions/123/verify",
+                "href": "http://localhost:3000/idp/idx/authenticators/sso_extension/transactions/456/verify",
                 "method": "POST",
                 "produces": "application/ion+json; okta-version=1.0.0",
                 "value": [
