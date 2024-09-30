@@ -1,6 +1,6 @@
 const templateHelper = require('../../../config/templateHelper');
-const verifyError = require('../../../data/idp/idx/error-401-apple-ssoe-verify.json');
-const verifyCancel = require('../../../data/idp/idx/apple-ssoe-verify.json');
+const verifyError = require('../../../data/idp/idx/error-401-apple-sso-extension-verify.json');
+const verifyCancel = require('../../../data/idp/idx/apple-sso-extension-verify-cancel.json');
 
 const idx = [
   '/idp/idx',

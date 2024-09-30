@@ -1156,11 +1156,11 @@ const redirectOnPoll = {
 
 const appleSSOE = {
   '/idp/idx/introspect': [
-    'authenticator-verification-okta-verify-apple-ssoe',
+    'identify-with-apple-redirect-sso-extension-2',
   ],
   '/idp/idx/authenticators/sso_extension/transactions/:transactionId/verify': [
-    'error-401-apple-ssoe-verify',
-    'apple-ssoe-verify',
+    'error-401-apple-sso-extension-verify',
+    'apple-sso-extension-verify-cancel',
   ],
   '/idp/idx/authenticators/sso_extension/transactions/:transactionId/verify/cancel': [
     'identify'
