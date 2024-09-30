@@ -59,8 +59,7 @@ export const transformAppleSsoExtension: IdxStepTransformer = ({ formBag, transa
     const isGetMethod = nextStepData?.method?.toLowerCase() === 'get';
 
     // Apple SSOE fix
-    const isSSOExtensionVerifyEndpointAlreadyCalled = (nextStepData as any)?.isSSOExtensionVerifyEndpointAlreadyCalled;
-    autoSubmitElement.options.isSSOExtensionVerifyEndpointAlreadyCalled = isSSOExtensionVerifyEndpointAlreadyCalled;
+    autoSubmitElement.options.isSSOExtensionVerifyEndpointAlreadyCalled = (nextStepData as any)?.isSSOExtensionVerifyEndpointAlreadyCalled;
 
     if (isGetMethod) {
       uischema.elements.push({
