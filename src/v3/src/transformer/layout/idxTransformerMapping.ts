@@ -576,6 +576,16 @@ const TransformerMap: {
       transform: transformDeviceCodeAuthenticator,
     },
   },
+  [IDX_STEP.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR]: {
+    [AUTHENTICATOR_KEY.DEFAULT]: {
+      transform: transformIdentify,
+      buttonConfig: {
+        showDefaultSubmit: false,
+        showDefaultCancel: false,
+        showForgotPassword: true,
+      },
+    },
+  },
 };
 
 if (isDevelopmentEnvironment() || isTestEnvironment()) {

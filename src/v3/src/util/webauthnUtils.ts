@@ -118,11 +118,10 @@ function isAuthenticatorAssertionResponse(response: AuthenticatorAssertionRespon
   return (response as AuthenticatorAssertionResponse).userHandle !== undefined;
 }
 
-export const webAuthNAutofillActionHandler = async (challengeData: WebAuthNChallengeDataWithUserVerification) => {
+export const webAuthNAutofillActionHandler = async (challengeData: WebAuthNChallengeDataWithUserVerification, abortController: AbortController): Promise<WebAuthNAutofillUICredentials | undefined> => {
   // if the browser doesn't support WebAuthn and AbortController, no action needs to be taken
   // as there are other steps the user can take to proceed
   if (isCredentialsApiAvailable() && typeof AbortController !== 'undefined') {
-    const abortController = new AbortController();
     try {
       const credential = await navigator.credentials.get({
         mediation: 'conditional',

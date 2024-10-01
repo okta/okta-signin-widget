@@ -40,6 +40,7 @@ export const transformIdentify: IdxStepTransformer = ({
   const { features, username } = widgetProps;
   const { uischema, data } = formBag;
   const webauthAutofillStep = transaction.availableSteps?.find(({ name }) => name === IDX_STEP.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR);
+  const identifyStep = transaction.availableSteps?.find(({ name }) => name === IDX_STEP.IDENTIFY);
 
   // TODO
   // OKTA-651781
@@ -78,12 +79,15 @@ export const transformIdentify: IdxStepTransformer = ({
     uischema.elements as UISchemaElement[],
   ) as FieldElement;
 
+  // overriding this as it seems to have a logic flaw and doesn't take the 1st available step as the next
+  const nextStep = webauthAutofillStep && identifyStep ? identifyStep.name : transaction.nextStep!.name;
+
   const submitBtnElement: ButtonElement = {
     type: 'Button',
     label: loc('oform.next', 'login'),
     options: {
       type: ButtonType.SUBMIT,
-      step: transaction.nextStep!.name,
+      step: nextStep,
     },
   };
 
@@ -112,7 +116,7 @@ export const transformIdentify: IdxStepTransformer = ({
       type: 'WebAuthNAutofill',
       options: {
         step: IDX_STEP.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR,
-        onClick: () => webAuthNAutofillActionHandler(challengeData) as Promise<WebAuthNAutofillUICredentials>,
+        getCredentials: (abortController) => webAuthNAutofillActionHandler(challengeData, abortController) as Promise<WebAuthNAutofillUICredentials>,
       },
     };
     uischema.elements.push(webAuthNAutofillEl);

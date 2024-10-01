@@ -17,27 +17,38 @@ import { useEffect } from "preact/hooks";
 import { useOnSubmit } from "../../hooks";
 import { UISchemaElementComponent, WebAuthNAutofillElement } from "../../types";
 import { IDX_STEP } from "../../constants";
+import { useWidgetContext } from "../../contexts";
 
 const WebAuthNAutofill: UISchemaElementComponent<{
   uischema: WebAuthNAutofillElement;
 }> = ({ uischema }) => {
-  const { options } = uischema;
-
+  const { setAbortController } = useWidgetContext();
   const onSubmitHandler = useOnSubmit();
+  const { options } = uischema;
+  
+  const abortController = new AbortController();  
 
   const executeNextStep = async () => {
-    const credentials = await options.onClick();
+    const credentials = await options.getCredentials(abortController);
+
     if (credentials) {
       onSubmitHandler({
         params: { credentials },
         step: IDX_STEP.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR,
-        includeData: true
+        includeData: true,
+        // explicitly set the step to render to IDENTIFY
+        // because the autofill step doesn't have a proper form to render
+        stepToRender: IDX_STEP.IDENTIFY
       });
     }
   };
 
   useEffect(() => {
+    setAbortController(abortController);
     executeNextStep();
+    return () => {
+      abortController?.abort();
+    }
   }, []);
 
   return <Box display="none" />;

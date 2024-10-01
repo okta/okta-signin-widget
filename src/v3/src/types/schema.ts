@@ -376,7 +376,7 @@ export interface WebAuthNAutofillElement extends UISchemaElement {
   type: 'WebAuthNAutofill';
   options: {
     step: string;
-    onClick: (() => Promise<WebAuthNAutofillUICredentials>)
+    getCredentials: ((abortController: AbortController) => Promise<WebAuthNAutofillUICredentials>)
   };
 }
 
