@@ -237,7 +237,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
         });
       }
 
-      if (step === IDX_STEP.DEVICE_APPLE_SSO_EXTENSION 
+      if (step === IDX_STEP.DEVICE_APPLE_SSO_EXTENSION
           // @ts-expect-error auth-js type errors
           && newTransaction?.nextStep?.isSSOExtensionVerifyEndpointAlreadyCalled) {
         newTransaction = await authClient.idx.proceed({
@@ -260,7 +260,8 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
 
       const onSuccess = (resolve?: (val: unknown) => void) => {
         setIdxTransaction(newTransaction);
-        if (newTransaction.requestDidSucceed === false && step !== IDX_STEP.DEVICE_APPLE_SSO_EXTENSION) {
+        if (newTransaction.requestDidSucceed === false
+            && step !== IDX_STEP.DEVICE_APPLE_SSO_EXTENSION) {
           eventEmitter.emit(
             'afterError',
             getEventContext(newTransaction),
