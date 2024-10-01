@@ -59,6 +59,7 @@ import StepperRadio from '../StepperRadio';
 import TextWithActionLink from '../TextWithActionLink';
 import Title from '../Title';
 import WebAuthNSubmitButton from '../WebAuthNSubmitButton';
+import WebAuthNAutofill from '../WebAuthNAutofill';
 
 /**
  * Render registry to match UISchemaElement Component with uischema
@@ -139,6 +140,10 @@ export default [
   {
     tester: ({ type }) => type === 'WebAuthNSubmitButton',
     renderer: WebAuthNSubmitButton,
+  },
+  {
+    tester: ({ type }) => type === 'WebAuthNAutofill',
+    renderer: WebAuthNAutofill,
   },
   {
     tester: ({ type }) => type === 'LoopbackProbe',

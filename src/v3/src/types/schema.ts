@@ -18,7 +18,7 @@ import {
   Input,
   WebauthnVerificationValues,
 } from '@okta/okta-auth-js';
-import { IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
+import { ChallengeData, IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
 import { HTMLReactParserOptions } from 'html-react-parser';
 import { FunctionComponent } from 'preact';
 import { Ref } from 'preact/hooks';
@@ -139,6 +139,21 @@ Promise<WebAuthNEnrollmentPayload>;
 
 export type WebAuthNAuthenticationHandler = (transaction: IdxTransaction) =>
 Promise<WebAuthNVerificationPayload>;
+
+export interface WebAuthNChallengeDataWithUserVerification extends Omit<ChallengeData, 'userVerification'> {
+  userVerification: UserVerificationRequirement;
+}
+
+export interface WebAuthNAutofillUICredentials {
+  clientData: string;
+  authenticatorData: string;
+  signatureData: string;
+  userHandle: string;
+}
+
+export interface IdxAuthenticatorWithChallengeData extends IdxAuthenticator {
+  challengeData: WebAuthNChallengeDataWithUserVerification;
+}
 
 export type ElementContentType = 'subtitle' | 'footer';
 
@@ -354,6 +369,14 @@ export interface WebAuthNButtonElement extends UISchemaElement {
     onClick: (() => Promise<WebAuthNEnrollmentPayload>)
     | (() => Promise<WebAuthNVerificationPayload>)
     submitOnLoad?: boolean;
+  };
+}
+
+export interface WebAuthNAutofillElement extends UISchemaElement {
+  type: 'WebAuthNAutofill';
+  options: {
+    step: string;
+    onClick: (() => Promise<WebAuthNAutofillUICredentials>)
   };
 }
 

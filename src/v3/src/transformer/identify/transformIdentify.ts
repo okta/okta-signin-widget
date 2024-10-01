@@ -10,30 +10,34 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxAuthenticator } from '@okta/okta-auth-js';
 import { IDX_STEP } from '../../constants';
 import {
   ButtonElement,
   ButtonType,
   FieldElement,
+  IdxAuthenticatorWithChallengeData,
   IdxStepTransformer,
   TitleElement,
   UISchemaElement,
+  WebAuthNAutofillElement,
+  WebAuthNAutofillUICredentials,
 } from '../../types';
-import { ChallengeDataWithUserVerification, getUsernameCookie, isConfigRecoverFlow, isCredentialsApiAvailable, loc, webAuthNAutofillActionHandler } from '../../util';
+import {
+  getUsernameCookie,
+  isConfigRecoverFlow,
+  isCredentialsApiAvailable,
+  loc,
+  webAuthNAutofillActionHandler
+} from '../../util';
 import { transformIdentityRecovery } from '../layout/recovery';
 import { getUIElementWithName, removeUIElementWithName } from '../utils';
-
-interface IdxAuthenticatorWithChallengeData extends IdxAuthenticator {
-  challengeData: ChallengeDataWithUserVerification;
-}
 
 export const transformIdentify: IdxStepTransformer = ({
   formBag,
   widgetProps,
   transaction,
 }) => {
-  const { features, username, authClient } = widgetProps;
+  const { features, username } = widgetProps;
   const { uischema, data } = formBag;
   const webauthAutofillStep = transaction.availableSteps?.find(({ name }) => name === IDX_STEP.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR);
 
@@ -103,11 +107,15 @@ export const transformIdentify: IdxStepTransformer = ({
   uischema.elements.push(submitBtnElement);
 
   if (webauthAutofillStep) {
-    webAuthNAutofillActionHandler(
-      (webauthAutofillStep.relatesTo?.value as IdxAuthenticatorWithChallengeData).challengeData,
-      authClient!.idx,
-      transaction.context.stateHandle,
-    );
+    const { challengeData } = webauthAutofillStep.relatesTo?.value as IdxAuthenticatorWithChallengeData;
+    const webAuthNAutofillEl: WebAuthNAutofillElement = {
+      type: 'WebAuthNAutofill',
+      options: {
+        step: IDX_STEP.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR,
+        onClick: () => webAuthNAutofillActionHandler(challengeData) as Promise<WebAuthNAutofillUICredentials>,
+      },
+    };
+    uischema.elements.push(webAuthNAutofillEl);
   }
 
   return formBag;
