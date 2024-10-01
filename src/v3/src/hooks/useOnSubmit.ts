@@ -237,6 +237,15 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
         });
       }
 
+      if (step === IDX_STEP.DEVICE_APPLE_SSO_EXTENSION
+          // @ts-expect-error auth-js type errors
+          && newTransaction?.nextStep?.isSSOExtensionVerifyEndpointAlreadyCalled) {
+        newTransaction = await authClient.idx.proceed({
+          step: IDX_STEP.DEVICE_APPLE_SSO_EXTENSION,
+          stateHandle: newTransaction?.context.stateHandle,
+        });
+      }
+
       // TODO: OKTA-538791 this is a temp work around until the auth-js fix
       if (!newTransaction.nextStep && newTransaction.availableSteps?.length) {
         [newTransaction.nextStep] = newTransaction.availableSteps;
@@ -251,7 +260,8 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
 
       const onSuccess = (resolve?: (val: unknown) => void) => {
         setIdxTransaction(newTransaction);
-        if (newTransaction.requestDidSucceed === false) {
+        if (newTransaction.requestDidSucceed === false
+            && step !== IDX_STEP.DEVICE_APPLE_SSO_EXTENSION) {
           eventEmitter.emit(
             'afterError',
             getEventContext(newTransaction),
@@ -262,7 +272,8 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
         if (isClientTransaction
             && !newTransaction.messages?.length
             // Only display client side validate message when there are remediations
-            && newTransaction.neededToProceed.length > 0) {
+            && newTransaction.neededToProceed.length > 0
+            && step !== IDX_STEP.DEVICE_APPLE_SSO_EXTENSION) {
           setMessage({
             message: loc('oform.errorbanner.title', 'login'),
             class: 'ERROR',
