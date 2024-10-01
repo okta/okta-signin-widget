@@ -33,7 +33,7 @@ const idx = [
   return templateHelper({path});
 });
 
-let verifyRequestTracker = -1;
+let verifyRequestTracker = 0;
 const ssoExtension = [
   templateHelper({
     path: '/idp/idx/authenticators/sso_extension/transactions/:transactionId/verify',
@@ -45,12 +45,19 @@ const ssoExtension = [
     path: '/idp/idx/authenticators/sso_extension/transactions/1234/verify',
     method: 'POST',
     status: (req, res, next) => {
-      res.status(401); // To test biometrics error, change to 400
+      res.status(401);
+      res.append('WWW-Authenticate', 'Oktadevicejwt realm="Okta Device"');
       next();
     },
     template() {
       verifyRequestTracker++;
-      return verifyRequestTracker % 2 === 0 ? cancelTransaction : verifyProbeTransaction;
+
+      if (verifyRequestTracker === 1) {
+        return verifyProbeTransaction;
+      }
+
+      verifyRequestTracker = 0;
+      return cancelTransaction;
     }
   }),
   templateHelper({

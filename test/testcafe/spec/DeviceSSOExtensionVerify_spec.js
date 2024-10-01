@@ -6,7 +6,7 @@ import appleSSOEVerifyProbe from '../../../playground/mocks/data/idp/idx/error-4
 import appleSSOEVerify from '../../../playground/mocks/data/idp/idx/apple-ssoe-verify.json';
 import identify from '../../../playground/mocks/data/idp/idx/identify';
 
-const logger = RequestLogger(/introspect/);
+const logger = RequestLogger(/introspect|verify|cancel/);
 
 const credentialSSOExtensionMock = RequestMock()
   .onRequestTo(/idp\/idx\/introspect/)
@@ -15,6 +15,7 @@ const credentialSSOExtensionMock = RequestMock()
   .respond((req, res) => {
     res.statusCode = 401;
     res.headers['content-type'] = 'application/json';
+    res.headers['WWW-Authenticate'] = 'Oktadevicejwt realm="Okta Device"';
     const hasProbe = new URL(req.url).searchParams.get('probe');
     res.setBody(hasProbe ? appleSSOEVerifyProbe : appleSSOEVerify);
   })
@@ -28,10 +29,20 @@ test
     const ssoExtensionPage = new BasePageObject(t);
     await ssoExtensionPage.navigateToPage();
     await t.expect(ssoExtensionPage.formExists()).ok();
+    
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/introspect/)
     )).eql(1);
+    await t.expect(logger.count(
+      record => record.response.statusCode === 401 &&
+        record.request.url.match(/1234\/verify/)
+    )).eql(2);
+    await t.expect(logger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.url.match(/verify\/cancel/)
+    )).eql(1);
+
 
     // verify the end result
     const identityPage = new IdentityPageObject(t);
