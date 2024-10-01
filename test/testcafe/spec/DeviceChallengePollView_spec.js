@@ -383,6 +383,7 @@ async function setupLoopbackFallback(t, widgetOptions) {
 
 test
   .requestHooks(loopbackSuccessLogger, loopbackSuccessMock)('in loopback server approach, probing and polling requests are sent and responded', async t => {
+    failureCount = 0;
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
     await t.expect(deviceChallengePollPageObject.getBeaconSelector()).contains(BEACON_CLASS);
@@ -612,6 +613,7 @@ test
 
 test
   .requestHooks(loopbackSuccessButNotAssignedLogger, loopbackSuccessButNotAssignedAppMock)('loopback succeeds but user is not assigned to app, then clicks cancel link', async t => {
+    pollingError = false;
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
     await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().visible).eql(true);
@@ -673,6 +675,7 @@ test
 const getPageUrl = ClientFunction(() => window.location.href);
 test
   .requestHooks(appLinkWithoutLaunchLogger, appLinkWithoutLaunchMock)('loopback fails and falls back to app link', async t => {
+    appLinkLoopBackFailed = false;
     const deviceChallengeFalllbackPage = await setupLoopbackFallback(t);
     await t.expect(deviceChallengeFalllbackPage.getFormTitle()).eql('Sign In');
     await t.expect(appLinkWithoutLaunchLogger.count(
