@@ -295,6 +295,8 @@ describe('PasswordUtils Tests', () => {
       .toEqual(false);
     expect(validatePassword('te$$$$t', userInfo, { complexity: { maxConsecutiveRepeatingCharacters: 4 } })?.maxConsecutiveRepeatingCharacters)
       .toEqual(true);
+    expect(validatePassword('te$$$$t', userInfo, { complexity: { maxConsecutiveRepeatingCharacters: undefined } })?.maxConsecutiveRepeatingCharacters)
+      .toEqual(true);
   });
 
   describe('Validate useADComplexityRequirements', () => {

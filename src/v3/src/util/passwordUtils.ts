@@ -51,8 +51,12 @@ const minSymbolValidator = (password: string, limit: unknown): boolean => (
 );
 
 const maxConsecutiveRepeatingCharactersValidator = (password: string, limit: unknown): boolean => {
+  // this case should theoretically never happen
+  if (!Number.isInteger(limit)) {
+    return true;
+  }
   const regex = new RegExp(`(.)\\1{${limit}}`);
-  return !(limit as number) || (Boolean(password.length) && !password.match(regex));
+  return !limit || (password.length > 0 && !password.match(regex));
 };
 
 /**
