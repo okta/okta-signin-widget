@@ -54,6 +54,8 @@ export const getComplexityItems = (complexity?: ComplexityRequirements): ListIte
   }
 
   Object.entries(filteredComplexity).forEach(([key, value]) => {
+    const requirementsWithArgument = ['minLength', 'maxConsecutiveRepeatingCharacters'];
+
     if (key === 'excludeAttributes' && Array.isArray(value) && value.length > 0) {
       value
         .filter((rule) => ['username', 'firstName', 'lastName'].includes(rule))
@@ -64,7 +66,7 @@ export const getComplexityItems = (complexity?: ComplexityRequirements): ListIte
             label: loc(PASSWORD_REQUIREMENTS_KEYS.complexity[ruleExclusionKey], 'login'),
           });
         });
-    } else if (key === 'minLength' && value > 0) {
+    } else if (requirementsWithArgument.includes(key) && value > 0) {
       items.push({
         ruleKey: key,
         label: loc(PASSWORD_REQUIREMENTS_KEYS.complexity[key as ComplexityKeys], 'login', [value]),

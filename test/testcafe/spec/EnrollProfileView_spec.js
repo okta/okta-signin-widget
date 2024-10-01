@@ -238,6 +238,7 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithPasswordMock)('should sh
   await t.expect(enrollProfilePage.hasText('A lowercase letter')).eql(true);
   await t.expect(enrollProfilePage.hasText('A number')).eql(true);
   await t.expect(enrollProfilePage.hasText('No parts of your username')).eql(true);
+  await t.expect(enrollProfilePage.hasText('Maximum 3 consecutive repeating characters')).eql(true);
 
   await t.expect(await enrollProfilePage.signUpButtonExists()).eql(true);
 
@@ -290,7 +291,7 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithPasswordMultipleErrorsMo
   await enrollProfilePage.setTextBoxValue('userProfile.lastName', 'Last');
   // Invalid email provided
   await enrollProfilePage.setTextBoxValue('userProfile.email', 'first@last');
-  await identityPage.fillPasswordField('invalid');
+  await identityPage.fillPasswordField('aaaaa');
   // click Save
   await enrollProfilePage.form.clickSaveButton('Sign Up');
   // Verify error handling
@@ -304,6 +305,7 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithPasswordMultipleErrorsMo
     await t.expect(passwordErrorMessage).contains('A number');
     await t.expect(passwordErrorMessage).contains('At least 8 characters');
     await t.expect(passwordErrorMessage).contains('An uppercase letter');
+    await t.expect(passwordErrorMessage).contains('Maximum 3 consecutive repeating characters');
 
     // v3 implements requirements as a client-side error so we must complete and resubmit for
     // additional errors

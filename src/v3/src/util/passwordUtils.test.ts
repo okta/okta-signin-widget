@@ -278,6 +278,29 @@ describe('PasswordUtils Tests', () => {
       .toEqual(true);
   });
 
+  it('should validate maxConsecutiveRepeatingCharacters', () => {
+    expect(validatePassword('somepass', userInfo, { complexity: { maxConsecutiveRepeatingCharacters: 3 } })?.maxConsecutiveRepeatingCharacters)
+      .toEqual(true);
+    expect(validatePassword('AaAaAaAaAaaAAaaAA', userInfo, { complexity: { maxConsecutiveRepeatingCharacters: 3 } })?.maxConsecutiveRepeatingCharacters)
+      .toEqual(true);
+    expect(validatePassword('tessst', userInfo, { complexity: { maxConsecutiveRepeatingCharacters: 3 } })?.maxConsecutiveRepeatingCharacters)
+      .toEqual(true);
+    expect(validatePassword('tesssst', userInfo, { complexity: { maxConsecutiveRepeatingCharacters: 3 } })?.maxConsecutiveRepeatingCharacters)
+      .toEqual(false);
+    expect(validatePassword('TESSSST', userInfo, { complexity: { maxConsecutiveRepeatingCharacters: 3 } })?.maxConsecutiveRepeatingCharacters)
+      .toEqual(false);
+    expect(validatePassword('test1111', userInfo, { complexity: { maxConsecutiveRepeatingCharacters: 3 } })?.maxConsecutiveRepeatingCharacters)
+      .toEqual(false);
+    expect(validatePassword('te$$$$t', userInfo, { complexity: { maxConsecutiveRepeatingCharacters: 3 } })?.maxConsecutiveRepeatingCharacters)
+      .toEqual(false);
+    expect(validatePassword('te$$$$t', userInfo, { complexity: { maxConsecutiveRepeatingCharacters: 4 } })?.maxConsecutiveRepeatingCharacters)
+      .toEqual(true);
+    expect(validatePassword('te$$$$t', userInfo, { complexity: { maxConsecutiveRepeatingCharacters: undefined } })?.maxConsecutiveRepeatingCharacters)
+      .toEqual(true);
+    expect(validatePassword('te$$$$t', userInfo, { complexity: { maxConsecutiveRepeatingCharacters: 0 } })?.maxConsecutiveRepeatingCharacters)
+      .toEqual(true);
+  });
+
   describe('Validate useADComplexityRequirements', () => {
     it.each`
       pw             | isValid

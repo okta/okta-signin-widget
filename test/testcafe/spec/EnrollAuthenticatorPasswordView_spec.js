@@ -149,6 +149,7 @@ test.requestHooks(errorMock)('should show a callout when server-side field error
     await t.expect(enrollPasswordPage.getRequirements()).contains('A symbol');
     await t.expect(enrollPasswordPage.getRequirements()).contains('Does not include your first name');
     await t.expect(enrollPasswordPage.getRequirements()).contains('Does not include your last name');
+    await t.expect(enrollPasswordPage.getRequirements()).contains('Maximum 3 consecutive repeating characters');
     // In V3, UX made a conscious decision to not include server side requirements in the UI
     // to not confuse users. They are considering additional UI changes OKTA-533383 for server side requirements
     // but for now, it does not display in v3

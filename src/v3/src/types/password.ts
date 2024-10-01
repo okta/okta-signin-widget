@@ -51,6 +51,7 @@ export interface PasswordSettings {
     excludeLastName?: boolean;
     excludeAttributes?: string[];
     useADComplexityRequirements?: boolean;
+    maxConsecutiveRepeatingCharacters?: number;
   };
   age?: {
     historyCount?: number;
