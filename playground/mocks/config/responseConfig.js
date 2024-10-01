@@ -1154,6 +1154,19 @@ const redirectOnPoll = {
   ],
 };
 
+const appleSSOE = {
+  '/idp/idx/introspect': [
+    'identify-with-apple-redirect-sso-extension-2',
+  ],
+  '/idp/idx/authenticators/sso_extension/transactions/:transactionId/verify': [
+    'error-401-apple-sso-extension-verify',
+    'apple-sso-extension-verify-cancel',
+  ],
+  '/idp/idx/authenticators/sso_extension/transactions/:transactionId/verify/cancel': [
+    'identify'
+  ],
+};
+
 module.exports = {
   mocks: idx
 };

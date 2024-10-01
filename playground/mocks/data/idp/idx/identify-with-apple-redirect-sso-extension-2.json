@@ -1,0 +1,79 @@
+{
+    "version": "1.0.0",
+    "stateHandle": "02UmCskhlXcgyjqIAdHxnm02lmg2a2qgMTiFJif3JT",
+    "expiresAt": "2024-09-27T09:43:01.000Z",
+    "intent": "LOGIN",
+    "remediation": {
+        "type": "array",
+        "value": [
+            {
+                "rel": [
+                    "create-form"
+                ],
+                "name": "device-apple-sso-extension",
+                "href": "http://localhost:3000/idp/idx/authenticators/sso_extension/transactions/456/verify",
+                "method": "POST",
+                "produces": "application/ion+json; okta-version=1.0.0",
+                "value": [
+                    {
+                        "name": "stateHandle",
+                        "required": true,
+                        "value": "02UmCskhlXcgyjqIAdHxnm02lmg2a2qgMTiFJif3JT",
+                        "visible": false,
+                        "mutable": false
+                    }
+                ],
+                "accepts": "application/json; okta-version=1.0.0"
+            }
+        ]
+    },
+    "cancel": {
+        "rel": [
+            "create-form"
+        ],
+        "name": "cancel",
+        "href": "http://localhost:3000/idp/idx/cancel",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+            {
+                "name": "stateHandle",
+                "required": true,
+                "value": "02UmCskhlXcgyjqIAdHxnm02lmg2a2qgMTiFJif3JT",
+                "visible": false,
+                "mutable": false
+            }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+    },
+    "app": {
+        "type": "object",
+        "value": {
+            "name": "okta_enduser",
+            "label": "Okta Dashboard",
+            "id": "0oa3f6stfks7Yik9y0x7"
+        }
+    },
+    "authentication": {
+        "type": "object",
+        "value": {
+            "protocol": "OAUTH2.0",
+            "issuer": {
+                "name": "qa-ios-ov-op2",
+                "uri": "http://localhost:3000"
+            },
+            "request": {
+                "max_age": -1,
+                "scope": "openid profile email okta.users.read.self okta.users.manage.self okta.internal.enduser.read okta.internal.enduser.manage okta.enduser.dashboard.read okta.enduser.dashboard.manage okta.myAccount.sessions.manage",
+                "display": "page",
+                "response_type": "code",
+                "redirect_uri": "http://localhost:3000/enduser/callback",
+                "state": "XGtsiTShPXjXBlfUuccdqw9R2WQXuLchZrnUeY2WSKV3upL0PxzERE6k2orenavk",
+                "code_challenge_method": "S256",
+                "nonce": "MZfBArWszZy2avNabFTk5qGps7SVn9GuLFnGkFFg9OnyupM6JlaLgnOp5YKfMI5I",
+                "code_challenge": "NyN5FMlh0xBDAD7CCIdulYKApVzZlu59S1vtwn--HFo",
+                "response_mode": "query"
+            }
+        }
+    }
+ }

@@ -1,5 +1,7 @@
 const templateHelper = require('../../../config/templateHelper');
 const cancelTransaction = require('../../../data/idp/idx/identify-with-no-sso-extension');
+const verifyError = require('../../../data/idp/idx/error-401-apple-sso-extension-verify.json');
+const verifyCancel = require('../../../data/idp/idx/apple-sso-extension-verify-cancel.json');
 
 const idx = [
   '/idp/idx',
@@ -32,12 +34,28 @@ const idx = [
   return templateHelper({path});
 });
 
+let verifyCallCount = -1;
+
 const ssoExtension = [
   templateHelper({
     path: '/idp/idx/authenticators/sso_extension/transactions/:transactionId/verify',
     method: 'GET',
     /* eslint-disable-next-line @okta/okta/no-unlocalized-text-in-templates */
     template: '<html>Verifying the device...the login flow will be resumed afterwards</html>'
+  }),
+
+  templateHelper({
+    path: '/idp/idx/authenticators/sso_extension/transactions/456/verify',
+    method: 'POST',
+    status: (req, res, next) => {
+      res.status(401); // To test biometrics error, change to 400
+      res.append('WWW-Authenticate', 'Oktadevicejwt realm="Okta Device"');
+      next();
+    },
+    template() {
+      verifyCallCount++;
+      return verifyCallCount % 2 === 0 ? verifyError : verifyCancel;
+    },
   }),
   templateHelper({
     path: '/idp/idx/authenticators/sso_extension/transactions/:transactionId/verify',

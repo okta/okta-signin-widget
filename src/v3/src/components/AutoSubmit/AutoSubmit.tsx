@@ -28,8 +28,9 @@ const AutoSubmit: UISchemaElementComponent<{ uischema: AutoSubmitElement }> = ({
       isActionStep: options.isActionStep,
       step: options.step,
     });
+  // TODO - Remove Apple SSOE fix (OKTA-813638)
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [options.isSSOExtensionVerifyEndpointAlreadyCalled]);
 
   return null;
 };

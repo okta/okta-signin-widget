@@ -104,6 +104,8 @@ export interface ActionOptions {
   step: string;
   includeData?: boolean;
   includeImmutableData?: boolean;
+  // TODO - Remove Apple SSOE fix (OKTA-813638)
+  isSSOExtensionVerifyEndpointAlreadyCalled?: boolean;
 }
 
 /**

@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { IdxRemediation } from '@okta/okta-auth-js';
+
 import { IDX_STEP } from '../../constants';
 import {
   AutoSubmitElement,
@@ -19,6 +21,10 @@ import {
   TitleElement,
 } from '../../types';
 import { loc } from '../../util';
+
+interface IdxRemediationSSOE extends IdxRemediation {
+  isSSOExtensionVerifyEndpointAlreadyCalled?: boolean;
+}
 
 export const transformAppleSsoExtension: IdxStepTransformer = ({ formBag, transaction }) => {
   const { uischema } = formBag;
@@ -53,10 +59,14 @@ export const transformAppleSsoExtension: IdxStepTransformer = ({ formBag, transa
 
   if (stepName === IDX_STEP.DEVICE_APPLE_SSO_EXTENSION) {
     // transaction nextStep does not contain href and method for some reason so we have to grab it from neededToProceed property
-    const nextStepData = neededToProceed?.find(
-      (step) => step.name === IDX_STEP.DEVICE_APPLE_SSO_EXTENSION,
+    const nextStepData = neededToProceed?.find<IdxRemediationSSOE>(
+      (step): step is IdxRemediationSSOE => step.name === IDX_STEP.DEVICE_APPLE_SSO_EXTENSION,
     );
     const isGetMethod = nextStepData?.method?.toLowerCase() === 'get';
+
+    // TODO - Remove Apple SSOE fix (OKTA-813638)
+    autoSubmitElement.options.isSSOExtensionVerifyEndpointAlreadyCalled = nextStepData
+      ?.isSSOExtensionVerifyEndpointAlreadyCalled;
 
     if (isGetMethod) {
       uischema.elements.push({
