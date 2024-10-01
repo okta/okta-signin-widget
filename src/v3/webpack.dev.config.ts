@@ -34,7 +34,6 @@ const ASSETS = resolve(__dirname, '../..', 'assets');
 
 const HOST = process.env.OKTA_SIW_HOST || 'localhost';
 const STATIC_DIRS = [PLAYGROUND, TARGET, ASSETS];
-const DISABLE_MOCK_SERVER = process.env.DISABLE_MOCK_SERVER === 'true';
 
 const headers = (() => {
   if (!process.env.DISABLE_CSP) {
@@ -143,7 +142,7 @@ const devConfig: Configuration = mergeWithRules({
       headers,
       compress: true,
       port: DEV_SERVER_PORT,
-      proxy: DISABLE_MOCK_SERVER ? [] : [{
+      proxy: [{
         context: [
           '/oauth2/',
           '/api/v1/',
@@ -159,16 +158,14 @@ const devConfig: Configuration = mergeWithRules({
       }],
       // https://webpack.js.org/configuration/dev-server/#devserversetupmiddlewares
       setupMiddlewares(middlewares) {
-        if (!DISABLE_MOCK_SERVER) {
-          const script = resolve(PLAYGROUND, 'mocks/server.js');
-          const watch = [resolve(PLAYGROUND, 'mocks')];
-          const env = { MOCK_SERVER_PORT, DEV_SERVER_PORT, BASE_URL: require(WIDGET_RC_JS).baseUrl };
+        const script = resolve(PLAYGROUND, 'mocks/server.js');
+        const watch = [resolve(PLAYGROUND, 'mocks')];
+        const env = { MOCK_SERVER_PORT, DEV_SERVER_PORT, BASE_URL: require(WIDGET_RC_JS).baseUrl };
 
-          nodemon({
-            script, watch, env, delay: 50,
-          })
-            ?.on('crash', console.error);
-        }
+        nodemon({
+          script, watch, env, delay: 50,
+        })
+          ?.on('crash', console.error);
 
         return middlewares;
       },
