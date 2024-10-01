@@ -17,7 +17,6 @@ const WIDGET_RC = path.resolve(__dirname, '.widgetrc');
 // run `OKTA_SIW_HOST=0.0.0.0 yarn start --watch` to override the host
 const HOST = process.env.OKTA_SIW_HOST || 'localhost';
 const staticDirs = [PLAYGROUND, TARGET, ASSETS];
-const DISABLE_MOCK_SERVER = process.env.DISABLE_MOCK_SERVER === 'true';
 
 if (!fs.existsSync(WIDGET_RC_JS) && fs.existsSync(WIDGET_RC)) {
   console.error('============================================');
@@ -123,7 +122,7 @@ module.exports = {
     headers,
     compress: true,
     port: DEV_SERVER_PORT,
-    proxy: DISABLE_MOCK_SERVER ? [] : [{
+    proxy: [{
       context: [
         '/oauth2/',
         '/api/v1/',
@@ -139,13 +138,11 @@ module.exports = {
     }],
     // https://webpack.js.org/configuration/dev-server/#devserversetupmiddlewares
     setupMiddlewares(middlewares) {
-      if (!DISABLE_MOCK_SERVER) {
-        const script = path.resolve(__dirname, 'playground/mocks/server.js');
-        const watch = [path.resolve(__dirname, 'playground/mocks')];
-        const env = { MOCK_SERVER_PORT, DEV_SERVER_PORT, BASE_URL: require(WIDGET_RC_JS).baseUrl };
-        nodemon({ script, watch, env, delay: 50 })
-          .on('crash', console.error);
-      }
+      const script = path.resolve(__dirname, 'playground/mocks/server.js');
+      const watch = [path.resolve(__dirname, 'playground/mocks')];
+      const env = { MOCK_SERVER_PORT, DEV_SERVER_PORT, BASE_URL: require(WIDGET_RC_JS).baseUrl };
+      nodemon({ script, watch, env, delay: 50 })
+        .on('crash', console.error);
       return middlewares;
     },
   },

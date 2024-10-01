@@ -9,23 +9,11 @@ const renderWidget = ClientFunction((settings) => {
   window.renderPlaygroundWidget(settings);
 });
 
-const unknownUserImageResponse = {
-  imageDescription: 'Security Image - Unknown',
-  pwdImg: '/img/security/unknown.png',
-  result: 'success'
-};
-
 const authNSuccessMock = RequestMock()
   .onRequestTo('http://localhost:3000/api/v1/authn')
   .respond(authnSuccessResponse)
   .onRequestTo(/^http:\/\/localhost:3000\/.well-known\/webfinger.*/)
   .respond(idpForceResponseOktaIdP);
-
-const userImageMock = RequestMock()
-  .onRequestTo(/^http:\/\/localhost:3000\/login\/getimage/)
-  .respond(unknownUserImageResponse)
-  .onRequestTo(/^http:\/\/localhost:3000\/img\/security\/unknown\.png/)
-  .respond('');
 
 fixture('Primary Auth Form');
 
@@ -129,7 +117,7 @@ test.requestHooks(logger)('Toggles icon when the password toggle button with fea
   await t.expect(primaryAuthForm.getInputField('password').getAttribute('type')).eql('text');
 });
 
-test.requestHooks(logger, userImageMock)('show anti-phishing message when security image is new user', async (t) => {
+test.requestHooks(logger)('show anti-phishing message when security image is new user', async (t) => {
   const config = {
     ...defaultConfig,
     features: {
@@ -149,7 +137,7 @@ test.requestHooks(logger, userImageMock)('show anti-phishing message when securi
   await t.expect(tooltip.textContent).contains('This is the first time you are connecting to');
 });
 
-test.requestHooks(logger, userImageMock)('show anti-phishing message if security image become visible', async (t) => {
+test.requestHooks(logger)('show anti-phishing message if security image become visible', async (t) => {
   const toggleBeacon = ClientFunction((show = true) => {
     document.querySelector('.beacon-container').style.display = show ? 'block' : 'none';
   });
@@ -181,7 +169,7 @@ test.requestHooks(logger, userImageMock)('show anti-phishing message if security
   await t.expect(primaryAuthForm.getSecurityImageTooltip().visible).eql(true);
 });
 
-test.requestHooks(logger, userImageMock)('does not show anti-phishing message if security image is hidden', async (t) => {
+test.requestHooks(logger)('does not show anti-phishing message if security image is hidden', async (t) => {
   const toggleBeacon = ClientFunction((show = true) => {
     document.querySelector('.beacon-container').style.display = show ? 'block' : 'none';
   });
@@ -207,7 +195,7 @@ test.requestHooks(logger, userImageMock)('does not show anti-phishing message if
   await t.expect(primaryAuthForm.getSecurityImageTooltip().visible).eql(false);
 });
 
-test.requestHooks(logger, userImageMock)('removes anti-phishing message if help link is clicked', async (t) => {
+test.requestHooks(logger)('removes anti-phishing message if help link is clicked', async (t) => {
   const config = {
     ...defaultConfig,
     features: {

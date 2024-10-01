@@ -1,6 +1,6 @@
-import { ClientFunction, userVariables } from 'testcafe';
+import { ClientFunction, RequestMock, userVariables } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
-import { checkConsoleMessages, RequestMock } from '../framework/shared';
+import { checkConsoleMessages } from '../framework/shared';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import xhrIdentifyWithPassword from '../../../playground/mocks/data/idp/idx/identify-with-password';
