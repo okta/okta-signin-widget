@@ -10,25 +10,15 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IDX_STEP } from '../../constants';
 import {
   ButtonElement,
   ButtonType,
   FieldElement,
-  IdxAuthenticatorWithChallengeData,
   IdxStepTransformer,
   TitleElement,
   UISchemaElement,
-  WebAuthNAutofillElement,
-  WebAuthNAutofillUICredentials,
 } from '../../types';
-import {
-  getUsernameCookie,
-  isConfigRecoverFlow,
-  isCredentialsApiAvailable,
-  loc,
-  webAuthNAutofillActionHandler
-} from '../../util';
+import { getUsernameCookie, isConfigRecoverFlow, loc } from '../../util';
 import { transformIdentityRecovery } from '../layout/recovery';
 import { getUIElementWithName, removeUIElementWithName } from '../utils';
 
@@ -39,8 +29,6 @@ export const transformIdentify: IdxStepTransformer = ({
 }) => {
   const { features, username } = widgetProps;
   const { uischema, data } = formBag;
-  const webauthAutofillStep = transaction.availableSteps?.find(({ name }) => name === IDX_STEP.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR);
-  const identifyStep = transaction.availableSteps?.find(({ name }) => name === IDX_STEP.IDENTIFY);
 
   // TODO
   // OKTA-651781
@@ -68,10 +56,6 @@ export const transformIdentify: IdxStepTransformer = ({
       const usernameCookie = getUsernameCookie();
       data.identifier = usernameCookie;
     }
-
-    if (webauthAutofillStep && isCredentialsApiAvailable() && identifierElement.options.attributes) {
-      identifierElement.options.attributes.autocomplete = 'username webauthn';
-    }
   }
 
   const passwordElement = getUIElementWithName(
@@ -79,15 +63,12 @@ export const transformIdentify: IdxStepTransformer = ({
     uischema.elements as UISchemaElement[],
   ) as FieldElement;
 
-  // overriding this as it seems to have a logic flaw and doesn't take the 1st available step as the next
-  const nextStep = webauthAutofillStep && identifyStep ? identifyStep.name : transaction.nextStep!.name;
-
   const submitBtnElement: ButtonElement = {
     type: 'Button',
     label: loc('oform.next', 'login'),
     options: {
       type: ButtonType.SUBMIT,
-      step: nextStep,
+      step: transaction.nextStep!.name,
     },
   };
 
@@ -109,18 +90,6 @@ export const transformIdentify: IdxStepTransformer = ({
 
   uischema.elements.unshift(titleElement);
   uischema.elements.push(submitBtnElement);
-
-  if (webauthAutofillStep && isCredentialsApiAvailable()) {
-    const { challengeData } = webauthAutofillStep.relatesTo?.value as IdxAuthenticatorWithChallengeData;
-    const webAuthNAutofillEl: WebAuthNAutofillElement = {
-      type: 'WebAuthNAutofill',
-      options: {
-        step: IDX_STEP.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR,
-        getCredentials: (abortController) => webAuthNAutofillActionHandler(challengeData, abortController) as Promise<WebAuthNAutofillUICredentials>,
-      },
-    };
-    uischema.elements.push(webAuthNAutofillEl);
-  }
 
   return formBag;
 };
