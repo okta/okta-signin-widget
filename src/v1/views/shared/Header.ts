@@ -146,6 +146,7 @@ export default class Header extends View {
         })
         .done(); // TODO: can this be removed if fadeOut returns standard ES6 Promise?
     case 'swap':
+      const wasLoading = isLoadingBeacon(this.currentBeacon);
       return Animations.swapBeacons({
         $el: container,
         swap: () => {
@@ -154,7 +155,7 @@ export default class Header extends View {
           // Order of these calls is important for -
           // loader --> security/factor beacon swap.
           removeBeacon(this);
-          if (isLoading) {
+          if (wasLoading || isLoading) {
             container.removeClass(LOADING_BEACON_CLS);
             this.$el.removeClass(NO_BEACON_CLS);
           }
@@ -177,10 +178,12 @@ export default class Header extends View {
 
   // Show the loading beacon when the security image feature is not enabled.
   setLoadingBeacon(isLoading) {
-    if (!isLoading || isLoadingBeacon(this.currentBeacon)) {
-      return;
+    if (!isLoading && isLoadingBeacon(this.currentBeacon)) {
+      this.setBeacon(null, {});
     }
-    this.setBeacon(LoadingBeacon, { loading: true });
+    if (isLoading && !isLoadingBeacon(this.currentBeacon)) {
+      this.setBeacon(LoadingBeacon, { loading: true });
+    }
   }
 
   // Hide the beacon on primary auth failure. On primary auth success, setBeacon does this job.
