@@ -58,8 +58,8 @@ import StepperNavigator from '../StepperNavigator';
 import StepperRadio from '../StepperRadio';
 import TextWithActionLink from '../TextWithActionLink';
 import Title from '../Title';
-import WebAuthNSubmitButton from '../WebAuthNSubmitButton';
 import WebAuthNAutofill from '../WebAuthNAutofill';
+import WebAuthNSubmitButton from '../WebAuthNSubmitButton';
 
 /**
  * Render registry to match UISchemaElement Component with uischema

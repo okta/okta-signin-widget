@@ -10,18 +10,20 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IDX_STEP } from "../../constants";
-import { ButtonElement, FieldElement, IdxAuthenticatorWithChallengeData, TransformStepFnWithOptions, WebAuthNAutofillElement, WebAuthNAutofillUICredentials } from "../../types";
-import { isConditionalMediationAvailable, webAuthNAutofillActionHandler } from "../../util";
-import { traverseLayout } from "../util";
-import { getUIElementWithName } from "../utils";
+import { IDX_STEP } from '../../constants';
+import {
+  ButtonElement, FieldElement, IdxAuthenticatorWithChallengeData, TransformStepFnWithOptions, WebAuthNAutofillElement, WebAuthNAutofillUICredentials,
+} from '../../types';
+import { isConditionalMediationAvailable, webAuthNAutofillActionHandler } from '../../util';
+import { traverseLayout } from '../util';
+import { getUIElementWithName } from '../utils';
 
 export const addWebAuthNAutofillHandler: TransformStepFnWithOptions = ({
   transaction,
-  widgetProps
-}) => formbag => {
+  widgetProps,
+}) => (formbag) => {
   const webauthAutofillStep = transaction.availableSteps?.find(
-    ({ name }) => name === IDX_STEP.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR
+    ({ name }) => name === IDX_STEP.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR,
   );
   const { features: { disableAutocomplete } = {} } = widgetProps;
   // only apply this transformation if the remediation contains CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR
@@ -33,9 +35,9 @@ export const addWebAuthNAutofillHandler: TransformStepFnWithOptions = ({
   const identifierElement = getUIElementWithName('identifier', formbag.uischema.elements) as FieldElement;
   if (identifierElement?.options?.attributes) {
     identifierElement.options.attributes.autocomplete = 'username webauthn';
-    
+
     const identifyStep = transaction.availableSteps?.find(
-      ({ name }) => name === IDX_STEP.IDENTIFY
+      ({ name }) => name === IDX_STEP.IDENTIFY,
     );
 
     if (identifyStep) {
@@ -44,7 +46,7 @@ export const addWebAuthNAutofillHandler: TransformStepFnWithOptions = ({
         predicate: (el) => (el.type === 'Button' && el.key == 'challenge-webauthn-autofillui-authenticator_Button'),
         callback: (el) => {
           const submitBtnElement = el as ButtonElement;
-          submitBtnElement.options.step = identifyStep.name
+          submitBtnElement.options.step = identifyStep.name;
           submitBtnElement.key = `${identifyStep.name}_Button`;
         },
       });
@@ -61,7 +63,7 @@ export const addWebAuthNAutofillHandler: TransformStepFnWithOptions = ({
       };
       formbag.uischema.elements.push(webAuthNAutofillEl);
     }
-  }  
+  }
 
   return formbag;
 };

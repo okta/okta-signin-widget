@@ -17,9 +17,8 @@ import {
   WebAuthNAuthenticationHandler,
   WebAuthNAutofillUICredentials,
   WebAuthNChallengeDataWithUserVerification,
-  WebAuthNEnrollmentHandler
+  WebAuthNEnrollmentHandler,
 } from '../types';
-import { loc } from 'util/loc';
 
 export const binToStr = (bin: ArrayBuffer): string => btoa(
   new Uint8Array(bin).reduce((s, byte) => s + String.fromCharCode(byte), ''),
@@ -27,13 +26,12 @@ export const binToStr = (bin: ArrayBuffer): string => btoa(
 
 export const base64UrlSafeToBase64 = (str: string) => str.replace(new RegExp('_', 'g'), '/').replace(new RegExp('-', 'g'), '+');
 
-export const strToBin = (str: string) => Uint8Array.from(atob(base64UrlSafeToBase64(str)), c => c.charCodeAt(0));
+export const strToBin = (str: string) => Uint8Array.from(atob(base64UrlSafeToBase64(str)), (c) => c.charCodeAt(0));
 
 export const isCredentialsApiAvailable = ():
 boolean => !!(navigator && navigator.credentials && navigator.credentials.create);
 
-export const isConditionalMediationAvailable = () =>
-  typeof PublicKeyCredential !== 'undefined'
+export const isConditionalMediationAvailable = () => typeof PublicKeyCredential !== 'undefined'
     && typeof PublicKeyCredential.isConditionalMediationAvailable !== 'undefined';
 
 // checks if the browser supports passkey autofill by making sure it supports conditional mediation
@@ -45,7 +43,7 @@ export const isPasskeyAutofillAvailable = async () => {
     isAvailable = await PublicKeyCredential.isConditionalMediationAvailable();
   }
   return isAvailable;
-}
+};
 
 /**
  * Uses the Web Authentication API to generate credentials for enrolling
@@ -122,12 +120,10 @@ export const webAuthNAuthenticationHandler: WebAuthNAuthenticationHandler = asyn
   return { credentials: omit(OktaAuth.webauthn.getAssertion(credentials), ['id']) };
 };
 
-const challengeDataToCredentialRequestOptions = (challengeData: WebAuthNChallengeDataWithUserVerification): PublicKeyCredentialRequestOptions => {
-  return {
-    ...challengeData,
-    challenge: strToBin(challengeData.challenge),
-  };
-}
+const challengeDataToCredentialRequestOptions = (challengeData: WebAuthNChallengeDataWithUserVerification): PublicKeyCredentialRequestOptions => ({
+  ...challengeData,
+  challenge: strToBin(challengeData.challenge),
+});
 
 function isAuthenticatorAssertionResponse(response: AuthenticatorAssertionResponse | AuthenticatorResponse): response is AuthenticatorAssertionResponse {
   return (response as AuthenticatorAssertionResponse).userHandle instanceof ArrayBuffer;
@@ -143,7 +139,7 @@ export const webAuthNAutofillActionHandler = async (challengeData: WebAuthNChall
       const credential = await navigator.credentials.get({
         mediation: 'conditional',
         publicKey: challengeDataToCredentialRequestOptions(challengeData),
-        signal: abortController.signal
+        signal: abortController.signal,
       }) as PublicKeyCredential;
 
       if (isAuthenticatorAssertionResponse(credential.response)) {
@@ -159,4 +155,4 @@ export const webAuthNAutofillActionHandler = async (challengeData: WebAuthNChall
       // TODO: OKTA-814898 - add appropriate error handling
     }
   }
-}
+};

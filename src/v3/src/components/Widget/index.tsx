@@ -517,7 +517,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       languageCode,
       languageDirection,
       setAbortController,
-      abortController
+      abortController,
     }}
     >
       <OdysseyProvider

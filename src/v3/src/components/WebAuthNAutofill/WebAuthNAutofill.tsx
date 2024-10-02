@@ -10,14 +10,14 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { h } from "preact";
-import { useEffect } from "preact/hooks";
+import { h } from 'preact';
+import { useEffect } from 'preact/hooks';
 
-import { useOnSubmit } from "../../hooks";
-import { UISchemaElementComponent, WebAuthNAutofillElement } from "../../types";
-import { IDX_STEP } from "../../constants";
-import { useWidgetContext } from "../../contexts";
-import { isPasskeyAutofillAvailable } from "../../util";
+import { IDX_STEP } from '../../constants';
+import { useWidgetContext } from '../../contexts';
+import { useOnSubmit } from '../../hooks';
+import { UISchemaElementComponent, WebAuthNAutofillElement } from '../../types';
+import { isPasskeyAutofillAvailable } from '../../util';
 
 const WebAuthNAutofill: UISchemaElementComponent<{
   uischema: WebAuthNAutofillElement;
@@ -27,15 +27,15 @@ const WebAuthNAutofill: UISchemaElementComponent<{
   const { options } = uischema;
 
   let abortController: AbortController;
-  
+
   if (typeof AbortController !== 'undefined') {
-    abortController = new AbortController();  
+    abortController = new AbortController();
   }
 
   const executeNextStep = async () => {
     if (await isPasskeyAutofillAvailable()) {
       const credentials = await options.getCredentials(abortController);
-  
+
       if (credentials) {
         onSubmitHandler({
           params: { credentials },
@@ -43,7 +43,7 @@ const WebAuthNAutofill: UISchemaElementComponent<{
           includeData: true,
           // explicitly set the step to render to IDENTIFY
           // because the autofill step doesn't have a proper form to render
-          stepToRender: IDX_STEP.IDENTIFY
+          stepToRender: IDX_STEP.IDENTIFY,
         });
       }
     }
@@ -54,7 +54,7 @@ const WebAuthNAutofill: UISchemaElementComponent<{
     executeNextStep();
     return () => {
       abortController?.abort();
-    }
+    };
   }, []);
 
   return null;
