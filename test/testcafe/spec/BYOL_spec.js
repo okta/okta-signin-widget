@@ -2,7 +2,7 @@ import BYOLPageObject from '../framework/page-objects/BYOLPageObject';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import xhrAuthenticatorEnrollDataPhone from '../../../playground/mocks/data/idp/idx/authenticator-enroll-data-phone.json';
 import xhrIdentify from '../../../playground/mocks/data/idp/idx/identify.json';
-import { ClientFunction, RequestMock, Selector } from 'testcafe';
+import { ClientFunction, RequestMock } from 'testcafe';
 
 const mockIdentify = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -16,7 +16,7 @@ const mockIdentify = RequestMock()
       res.setBody({ 'primaryauth.title': 'Signin', 'primaryauth.submit': 'Submit' });
       resolve(res);
     }, 500));
-  })
+  });
 
 const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
