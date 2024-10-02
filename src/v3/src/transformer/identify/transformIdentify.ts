@@ -70,7 +70,7 @@ export const transformIdentify: IdxStepTransformer = ({
     }
 
     if (webauthAutofillStep && isCredentialsApiAvailable() && identifierElement.options.attributes) {
-      identifierElement.options.attributes.autocomplete = 'webauthn';
+      identifierElement.options.attributes.autocomplete = 'username webauthn';
     }
   }
 

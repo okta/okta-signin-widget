@@ -312,24 +312,24 @@ describe('v2/view-builder/views/IdentifierView', function() {
     expect(testContext.view.$el.find('.sign-in-with-webauthn-option').length).toEqual(1);
   });      
       
-  it('should have "webauthn" as the autocomplete attribute on the identifier field on browsers that support webauthn (default)', function() {
+  it('should have "webauthn" as the autocomplete attribute on the identifier field on browsers that support passkey autofill', function() {
     jest.spyOn(AppState.prototype, 'hasRemediationObject').mockImplementation(remediation => {
       return remediation === FORMS.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR;
     });
     jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
     jest.spyOn(AppState.prototype, 'isIdentifierOnlyView').mockReturnValue(true);
+    jest.spyOn(webauthn, 'isConditionalMediationAvailable').mockReturnValue(true);
     testContext.init(XHRIdentifyWithWebAuthnAutofill.remediation.value);
-    expect(testContext.view.$el.find('input[name="identifier"]').attr('autocomplete')).toEqual('webauthn');
+    expect(testContext.view.$el.find('input[name="identifier"]').attr('autocomplete')).toEqual('username webauthn');
   });
   
-  it('should have "username" as the autocomplete attribute on the identifier field on browsers that do not support webauthn', function() {
+  it('should have "username" as the autocomplete attribute on the identifier field on browsers that do not support passkey autofill', function() {
     jest.spyOn(AppState.prototype, 'hasRemediationObject').mockImplementation(remediation => {
       return remediation === FORMS.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR;
     });
     jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
     jest.spyOn(AppState.prototype, 'isIdentifierOnlyView').mockReturnValue(true);
-    // mock a browser that doesn't support webauthn
-    jest.spyOn(webauthn, 'isNewApiAvailable').mockReturnValue(false);
+    jest.spyOn(webauthn, 'isConditionalMediationAvailable').mockReturnValue(false);
     testContext.init(XHRIdentifyWithWebAuthnAutofill.remediation.value);
     expect(testContext.view.$el.find('input[name="identifier"]').attr('autocomplete')).toEqual('username');
   });

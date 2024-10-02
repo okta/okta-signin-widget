@@ -143,7 +143,7 @@ const Body = BaseForm.extend({
           this.options.appState.hasRemediationObject(RemediationForms.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR);
         // Setting the autocomplete value to 'webauthn' allows the browser to list passkeys alongside usernames
         const autoCompleteDefaultValue = isAutoFillUIChallenge && webauthn.isConditionalMediationAvailable()
-          ? 'webauthn'
+          ? 'username webauthn'
           : 'username';
         // We enable the browser's autocomplete for the identifier input
         // because we want to allow the user to choose from previously used identifiers.
