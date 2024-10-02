@@ -79,6 +79,7 @@ export default {
     return this.isNewApiAvailable() || FidoUtil.isU2fAvailable();
   },
   isConditionalMediationAvailable: function() {
+    // eslint-disable-next-line compat/compat, no-undef
     return typeof PublicKeyCredential !== 'undefined'
       // eslint-disable-next-line compat/compat, no-undef
       && typeof PublicKeyCredential.isConditionalMediationAvailable !== 'undefined';
@@ -88,7 +89,7 @@ export default {
   isPasskeyAutofillAvailable: async function() {
     let isAvailable = false;
     if (this.isConditionalMediationAvailable()) {
-      // eslint-disable-next-line no-undef
+      // eslint-disable-next-line compat/compat, no-undef
       isAvailable = await PublicKeyCredential.isConditionalMediationAvailable();
     }
     return isAvailable;

@@ -31,7 +31,9 @@ export const strToBin = (str: string) => Uint8Array.from(atob(base64UrlSafeToBas
 export const isCredentialsApiAvailable = ():
 boolean => !!(navigator && navigator.credentials && navigator.credentials.create);
 
+// eslint-disable-next-line compat/compat, no-undef
 export const isConditionalMediationAvailable = () => typeof PublicKeyCredential !== 'undefined'
+    // eslint-disable-next-line compat/compat, no-undef
     && typeof PublicKeyCredential.isConditionalMediationAvailable !== 'undefined';
 
 // checks if the browser supports passkey autofill by making sure it supports conditional mediation
@@ -39,7 +41,7 @@ export const isConditionalMediationAvailable = () => typeof PublicKeyCredential 
 export const isPasskeyAutofillAvailable = async () => {
   let isAvailable = false;
   if (isConditionalMediationAvailable()) {
-    // eslint-disable-next-line no-undef
+    // eslint-disable-next-line compat/compat, no-undef
     isAvailable = await PublicKeyCredential.isConditionalMediationAvailable();
   }
   return isAvailable;
