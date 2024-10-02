@@ -126,7 +126,7 @@ const challengeDataToCredentialRequestOptions = (challengeData: WebAuthNChalleng
 }
 
 function isAuthenticatorAssertionResponse(response: AuthenticatorAssertionResponse | AuthenticatorResponse): response is AuthenticatorAssertionResponse {
-  return (response as AuthenticatorAssertionResponse).userHandle !== undefined;
+  return (response as AuthenticatorAssertionResponse).userHandle instanceof ArrayBuffer;
 }
 
 export const webAuthNAutofillActionHandler = async (challengeData: WebAuthNChallengeDataWithUserVerification, abortController: AbortController): Promise<WebAuthNAutofillUICredentials | undefined> => {
