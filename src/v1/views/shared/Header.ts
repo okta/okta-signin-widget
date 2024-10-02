@@ -146,7 +146,6 @@ export default class Header extends View {
         })
         .done(); // TODO: can this be removed if fadeOut returns standard ES6 Promise?
     case 'swap':
-      const wasLoading = isLoadingBeacon(this.currentBeacon);
       return Animations.swapBeacons({
         $el: container,
         swap: () => {
@@ -155,9 +154,9 @@ export default class Header extends View {
           // Order of these calls is important for -
           // loader --> security/factor beacon swap.
           removeBeacon(this);
-          if (wasLoading || isLoading) {
+          this.$el.removeClass(NO_BEACON_CLS);
+          if (isLoading) {
             container.removeClass(LOADING_BEACON_CLS);
-            this.$el.removeClass(NO_BEACON_CLS);
           }
           addBeacon(this, NextBeacon, selector, options);
         },
