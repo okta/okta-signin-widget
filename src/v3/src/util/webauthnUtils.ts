@@ -32,6 +32,17 @@ export const strToBin = (str: string) => Uint8Array.from(atob(base64UrlSafeToBas
 export const isCredentialsApiAvailable = ():
 boolean => !!(navigator && navigator.credentials && navigator.credentials.create);
 
+// checks if the browser supports passkey autofill by making sure it supports conditional mediation
+// https://passkeys.dev/docs/reference/terms/#autofill-ui
+export const isPasskeyAutofillAvailable = async () => {
+  let isAvailable = false;
+  if (typeof PublicKeyCredential !== 'undefined' && typeof PublicKeyCredential.isConditionalMediationAvailable !== 'undefined') {
+    // eslint-disable-next-line no-undef
+    isAvailable = await PublicKeyCredential.isConditionalMediationAvailable();
+  }
+  return isAvailable;
+}
+
 /**
  * Uses the Web Authentication API to generate credentials for enrolling
  * a user into the WebAuthN flow
@@ -109,7 +120,7 @@ export const webAuthNAuthenticationHandler: WebAuthNAuthenticationHandler = asyn
 
 const challengeDataToCredentialRequestOptions = (challengeData: WebAuthNChallengeDataWithUserVerification): PublicKeyCredentialRequestOptions => {
   return {
-    ...(challengeData as WebAuthNChallengeDataWithUserVerification),
+    ...challengeData,
     challenge: strToBin(challengeData.challenge),
   };
 }
@@ -119,9 +130,11 @@ function isAuthenticatorAssertionResponse(response: AuthenticatorAssertionRespon
 }
 
 export const webAuthNAutofillActionHandler = async (challengeData: WebAuthNChallengeDataWithUserVerification, abortController: AbortController): Promise<WebAuthNAutofillUICredentials | undefined> => {
-  // if the browser doesn't support WebAuthn and AbortController, no action needs to be taken
+  // if the browser doesn't support Passkey autofill and AbortController, no action needs to be taken
   // as there are other steps the user can take to proceed
-  if (isCredentialsApiAvailable() && typeof AbortController !== 'undefined') {
+  const supportsPasskeyAutofill = await isPasskeyAutofillAvailable();
+  const supportsAbortController = typeof AbortController !== 'undefined';
+  if (supportsPasskeyAutofill && supportsAbortController) {
     try {
       const credential = await navigator.credentials.get({
         mediation: 'conditional',
@@ -137,11 +150,11 @@ export const webAuthNAutofillActionHandler = async (challengeData: WebAuthNChall
           userHandle: binToStr(credential.response.userHandle as ArrayBuffer),
         };
         return credentials;
-      } else {
+      }
+    } catch {
+      if (!abortController.signal.aborted) {
         throw new Error(loc('oie.webauthn.error.invalidPasskey', 'login'));
       }
-    } catch (err) {
-      throw new Error(err as string);
     }
   }
 }

@@ -142,7 +142,7 @@ const Body = BaseForm.extend({
         const isAutoFillUIChallenge =
           this.options.appState.hasRemediationObject(RemediationForms.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR);
         // Setting the autocomplete value to 'webauthn' allows the browser to list passkeys alongside usernames
-        const autoCompleteDefaultValue = isAutoFillUIChallenge && this._isModernBrowser()
+        const autoCompleteDefaultValue = isAutoFillUIChallenge && webauthn.isConditionalMediationAvailable()
           ? 'webauthn'
           : 'username';
         // We enable the browser's autocomplete for the identifier input
@@ -210,9 +210,10 @@ const Body = BaseForm.extend({
     }
   },
 
-  getCredentialsAndInvokeAction() {
+  async getCredentialsAndInvokeAction() {
     const challengeData = this.options.appState.get('webauthnAutofillUIChallenge')?.challengeData;
-    if (!challengeData || !this._isModernBrowser()) {
+    const isPasskeyAutofillAvailable = await webauthn.isPasskeyAutofillAvailable();
+    if (!challengeData || !isPasskeyAutofillAvailable || typeof AbortController === 'undefined') {
       return;
     }
 
@@ -260,14 +261,6 @@ const Body = BaseForm.extend({
       // unset webauthnAbortController on successful authentication or error
       this.webauthnAbortController = null;
     });
-  },
-
-  _isAbortControllerSupported() {
-    return typeof AbortController !== 'undefined';
-  },
-
-  _isModernBrowser() {
-    return webauthn.isNewApiAvailable() && this._isAbortControllerSupported();
   },
 
   _generateErrorObject(errorSummary) {

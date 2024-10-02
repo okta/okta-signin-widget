@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box } from "@mui/material";
 import { h } from "preact";
 import { useEffect } from "preact/hooks";
 
@@ -18,6 +17,7 @@ import { useOnSubmit } from "../../hooks";
 import { UISchemaElementComponent, WebAuthNAutofillElement } from "../../types";
 import { IDX_STEP } from "../../constants";
 import { useWidgetContext } from "../../contexts";
+import { isPasskeyAutofillAvailable } from "../../util";
 
 const WebAuthNAutofill: UISchemaElementComponent<{
   uischema: WebAuthNAutofillElement;
@@ -25,21 +25,27 @@ const WebAuthNAutofill: UISchemaElementComponent<{
   const { setAbortController } = useWidgetContext();
   const onSubmitHandler = useOnSubmit();
   const { options } = uischema;
+
+  let abortController: AbortController;
   
-  const abortController = new AbortController();  
+  if (typeof AbortController !== 'undefined') {
+    abortController = new AbortController();  
+  }
 
   const executeNextStep = async () => {
-    const credentials = await options.getCredentials(abortController);
-
-    if (credentials) {
-      onSubmitHandler({
-        params: { credentials },
-        step: IDX_STEP.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR,
-        includeData: true,
-        // explicitly set the step to render to IDENTIFY
-        // because the autofill step doesn't have a proper form to render
-        stepToRender: IDX_STEP.IDENTIFY
-      });
+    if (await isPasskeyAutofillAvailable()) {
+      const credentials = await options.getCredentials(abortController);
+  
+      if (credentials) {
+        onSubmitHandler({
+          params: { credentials },
+          step: IDX_STEP.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR,
+          includeData: true,
+          // explicitly set the step to render to IDENTIFY
+          // because the autofill step doesn't have a proper form to render
+          stepToRender: IDX_STEP.IDENTIFY
+        });
+      }
     }
   };
 
@@ -51,7 +57,7 @@ const WebAuthNAutofill: UISchemaElementComponent<{
     }
   }, []);
 
-  return <Box display="none" />;
+  return null;
 };
 
 export default WebAuthNAutofill;

@@ -110,7 +110,7 @@ export const transformIdentify: IdxStepTransformer = ({
   uischema.elements.unshift(titleElement);
   uischema.elements.push(submitBtnElement);
 
-  if (webauthAutofillStep) {
+  if (webauthAutofillStep && isCredentialsApiAvailable()) {
     const { challengeData } = webauthAutofillStep.relatesTo?.value as IdxAuthenticatorWithChallengeData;
     const webAuthNAutofillEl: WebAuthNAutofillElement = {
       type: 'WebAuthNAutofill',
