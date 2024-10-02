@@ -11,7 +11,6 @@ import xhrAuthenticatorOVTotp from '../../../playground/mocks/data/idp/idx/authe
 import xhrIdentifyWithUser from '../../../playground/mocks/data/idp/idx/identify-with-user';
 import xhrErrorIdentifyMultipleErrors from '../../../playground/mocks/data/idp/idx/error-identify-multiple-errors';
 import xhrOAuthError from '../../../playground/mocks/data/idp/idx/error-feature-not-enabled';
-import xhrIdentifyWithWebAuthNAutofill from '../../../playground/mocks/data/idp/idx/identify-with-webauthn-autofill';
 
 import config from '../../../src/config/config.json';
 
@@ -120,10 +119,6 @@ const errorsIdentifyMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrErrorIdentifyMultipleErrors);
 
-const identifyWithWebAuthNAutofillMock = RequestMock()
-  .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(xhrIdentifyWithWebAuthNAutofill);
-
 const identifyRequestLogger = RequestLogger(
   /idx\/identify|\/challenge/,
   {
@@ -143,7 +138,7 @@ const deviceFingerprintRequestLogger = RequestLogger(
 
 fixture('Identify');
 
-async function setup(t, widgetOptions, checkConsole = true) {
+async function setup(t, widgetOptions) {
   const options = widgetOptions ? { render: false } : {};
   const identityPage = new IdentityPageObject(t);
   await identityPage.navigateToPage(options);
@@ -151,12 +146,10 @@ async function setup(t, widgetOptions, checkConsole = true) {
     await rerenderWidget(widgetOptions);
   }
   await t.expect(identityPage.formExists()).eql(true);
-  if (checkConsole) {
-    await checkConsoleMessages({
-      controller: 'primary-auth',
-      formName: 'identify',
-    });
-  }
+  await checkConsoleMessages({
+    controller: 'primary-auth',
+    formName: 'identify',
+  });
 
   return identityPage;
 }
@@ -570,20 +563,4 @@ test.requestHooks(identifyRequestLogger, baseIdentifyMock)('should set autocompl
   await t.expect(identityPage.getFormTitle()).eql('Sign In');
   const userNameField = identityPage.getTextField('Username');
   await t.expect(userNameField.getAttribute('autocomplete')).eql('off');
-});
-
-// eslint-disable-next-line testcafe-extended/no-only-statements, no-only-tests/no-only-tests
-test.only.requestHooks(identifyRequestLogger, identifyWithWebAuthNAutofillMock)('should something, let\'s see', async t => {
-  const identityPage = await setup(t, {
-    features: {
-      disableAutocomplete: false,
-    }
-  }, false);
-
-  await checkA11y(t);
-  await t.expect(identityPage.getFormTitle()).eql('Sign In');
-  const userNameField = identityPage.getTextField('Username');
-  await t.debug();
-  await t.expect(userNameField.getAttribute('autocomplete')).eql('webauthn');
-  await t.debug();
 });
