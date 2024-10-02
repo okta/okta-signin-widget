@@ -178,16 +178,18 @@ export default class Header extends View {
 
   // Show the loading beacon when the security image feature is not enabled.
   setLoadingBeacon(isLoading) {
-    if (!isLoading && isLoadingBeacon(this.currentBeacon)) {
-      this.setBeacon(null, {});
+    if (!isLoading || isLoadingBeacon(this.currentBeacon)) {
+      return;
     }
-    if (isLoading && !isLoadingBeacon(this.currentBeacon)) {
-      this.setBeacon(LoadingBeacon, { loading: true });
-    }
+    this.setBeacon(LoadingBeacon, { loading: true });
   }
 
   // Hide the beacon on primary auth failure. On primary auth success, setBeacon does this job.
   removeLoadingBeacon() {
+    if (!isLoadingBeacon(this.currentBeacon)) {
+      return;
+    }
+
     const container = this.$('[data-type="beacon-container"]');
 
     return Animations.implode(container)
