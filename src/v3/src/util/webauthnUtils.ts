@@ -156,9 +156,7 @@ export const webAuthNAutofillActionHandler = async (challengeData: WebAuthNChall
         return credentials;
       }
     } catch {
-      if (!abortController.signal.aborted) {
-        throw new Error(loc('oie.webauthn.error.invalidPasskey', 'login'));
-      }
+      // TODO: OKTA-814898 - add appropriate error handling
     }
   }
 }
