@@ -21,6 +21,8 @@ module.exports = {
       'URL.host',
       'URL.hash',
       'URLSearchParams.get',
+      // API availability is checked at runtime
+      'PublicKeyCredential',
     ],
   }
 };

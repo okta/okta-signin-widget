@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { h } from 'preact';
 import { useEffect } from 'preact/hooks';
 
 import { IDX_STEP } from '../../constants';
@@ -55,7 +54,7 @@ const WebAuthNAutofill: UISchemaElementComponent<{
     return () => {
       abortController?.abort();
     };
-  }, []);
+  });
 
   return null;
 };

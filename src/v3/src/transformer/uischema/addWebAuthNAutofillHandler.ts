@@ -12,7 +12,12 @@
 
 import { IDX_STEP } from '../../constants';
 import {
-  ButtonElement, FieldElement, IdxAuthenticatorWithChallengeData, TransformStepFnWithOptions, WebAuthNAutofillElement, WebAuthNAutofillUICredentials,
+  ButtonElement,
+  FieldElement,
+  IdxAuthenticatorWithChallengeData,
+  TransformStepFnWithOptions,
+  WebAuthNAutofillElement,
+  WebAuthNAutofillUICredentials,
 } from '../../types';
 import { isConditionalMediationAvailable, webAuthNAutofillActionHandler } from '../../util';
 import { traverseLayout } from '../util';
@@ -43,7 +48,10 @@ export const addWebAuthNAutofillHandler: TransformStepFnWithOptions = ({
     if (identifyStep) {
       traverseLayout({
         layout: formbag.uischema,
-        predicate: (el) => (el.type === 'Button' && el.key == 'challenge-webauthn-autofillui-authenticator_Button'),
+        predicate: (el) => (
+          el.type === 'Button'
+          && el.key === 'challenge-webauthn-autofillui-authenticator_Button'
+        ),
         callback: (el) => {
           const submitBtnElement = el as ButtonElement;
           submitBtnElement.options.step = identifyStep.name;
@@ -53,12 +61,17 @@ export const addWebAuthNAutofillHandler: TransformStepFnWithOptions = ({
     }
 
     if (webauthAutofillStep && isConditionalMediationAvailable()) {
-      const { challengeData } = webauthAutofillStep.relatesTo?.value as IdxAuthenticatorWithChallengeData;
+      const { challengeData } =
+        webauthAutofillStep.relatesTo?.value as IdxAuthenticatorWithChallengeData;
       const webAuthNAutofillEl: WebAuthNAutofillElement = {
         type: 'WebAuthNAutofill',
         options: {
           step: IDX_STEP.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR,
-          getCredentials: (abortController) => webAuthNAutofillActionHandler(challengeData, abortController) as Promise<WebAuthNAutofillUICredentials>,
+          getCredentials: (abortController) =>
+            webAuthNAutofillActionHandler(
+              challengeData,
+              abortController
+            ) as Promise<WebAuthNAutofillUICredentials>,
         },
       };
       formbag.uischema.elements.push(webAuthNAutofillEl);

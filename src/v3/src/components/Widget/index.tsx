@@ -322,7 +322,11 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   useEffect(() => {
     // only abort if the steps don't contain webauthn autofill
     // in order to have the browser suggestion popup work on clicking the username input field
-    if (!idxTransaction?.availableSteps?.find(({ name }) => name === IDX_STEP.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR)) {
+    if (
+      !idxTransaction?.availableSteps?.find(
+        ({ name }) => name === IDX_STEP.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR,
+      )
+    ) {
       abortController?.abort();
     }
 
@@ -331,7 +335,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     if (idxTransaction && !idxTransaction.nextStep?.canResend) {
       SessionStorage.removeResendTimestamp();
     }
-  }, [idxTransaction]);
+  }, [idxTransaction, abortController]);
 
   // update dataSchemaRef in context
   useEffect(() => {
