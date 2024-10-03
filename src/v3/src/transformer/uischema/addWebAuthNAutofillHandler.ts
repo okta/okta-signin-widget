@@ -61,17 +61,18 @@ export const addWebAuthNAutofillHandler: TransformStepFnWithOptions = ({
     }
 
     if (webauthAutofillStep && isConditionalMediationAvailable()) {
-      const { challengeData } =
-        webauthAutofillStep.relatesTo?.value as IdxAuthenticatorWithChallengeData;
+      const { challengeData } = webauthAutofillStep
+        .relatesTo?.value as IdxAuthenticatorWithChallengeData;
       const webAuthNAutofillEl: WebAuthNAutofillElement = {
         type: 'WebAuthNAutofill',
         options: {
           step: IDX_STEP.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR,
-          getCredentials: (abortController) =>
+          getCredentials: (abortController) => (
             webAuthNAutofillActionHandler(
               challengeData,
-              abortController
-            ) as Promise<WebAuthNAutofillUICredentials>,
+              abortController,
+            ) as Promise<WebAuthNAutofillUICredentials>
+          ),
         },
       };
       formbag.uischema.elements.push(webAuthNAutofillEl);
