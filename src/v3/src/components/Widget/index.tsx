@@ -135,6 +135,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const { stateHandle, unsetStateHandle } = useStateHandle(widgetProps);
   const [odyTranslationOverrides, setOdyTranslationOverrides] = useState<
   TranslationOverrides<string> | undefined>();
+  const [abortController, setAbortController] = useState<AbortController | undefined>();
   // Odyssey language codes use '_' instead of '-' (e.g. zh-CN -> zh_CN)
   const odyLanguageCode: string = languageCode.replace('-', '_');
 
@@ -319,12 +320,22 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
 
   // track previous idxTransaction
   useEffect(() => {
+    // only abort if the steps don't contain webauthn autofill
+    // in order to have the browser suggestion popup work on clicking the username input field
+    if (
+      !idxTransaction?.availableSteps?.find(
+        ({ name }) => name === IDX_STEP.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR,
+      )
+    ) {
+      abortController?.abort();
+    }
+
     prevIdxTransactionRef.current = idxTransaction;
     // clear the resend reminder time stamp in session storage if current transaction does not have resend option
     if (idxTransaction && !idxTransaction.nextStep?.canResend) {
       SessionStorage.removeResendTimestamp();
     }
-  }, [idxTransaction]);
+  }, [idxTransaction, abortController]);
 
   // update dataSchemaRef in context
   useEffect(() => {
@@ -509,6 +520,8 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       setloginHint,
       languageCode,
       languageDirection,
+      setAbortController,
+      abortController,
     }}
     >
       <OdysseyProvider

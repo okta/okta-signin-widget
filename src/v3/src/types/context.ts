@@ -45,6 +45,8 @@ export type IWidgetContext = {
   setloginHint: StateUpdater<string | null>;
   languageCode: string;
   languageDirection: LanguageDirection;
+  setAbortController: StateUpdater<AbortController | undefined>;
+  abortController: AbortController | undefined;
 };
 
 // Stepper context

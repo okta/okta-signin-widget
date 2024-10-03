@@ -78,4 +78,20 @@ export default {
   isWebauthnOrU2fAvailable: function() {
     return this.isNewApiAvailable() || FidoUtil.isU2fAvailable();
   },
+  isConditionalMediationAvailable: function() {
+    // eslint-disable-next-line compat/compat, no-undef
+    return typeof PublicKeyCredential !== 'undefined'
+      // eslint-disable-next-line compat/compat, no-undef
+      && typeof PublicKeyCredential.isConditionalMediationAvailable !== 'undefined';
+  },
+  // checks if the browser supports passkey autofill by making sure it supports conditional mediation
+  // https://passkeys.dev/docs/reference/terms/#autofill-ui
+  isPasskeyAutofillAvailable: async function() {
+    let isAvailable = false;
+    if (this.isConditionalMediationAvailable()) {
+      // eslint-disable-next-line compat/compat, no-undef
+      isAvailable = await PublicKeyCredential.isConditionalMediationAvailable();
+    }
+    return isAvailable;
+  }
 };

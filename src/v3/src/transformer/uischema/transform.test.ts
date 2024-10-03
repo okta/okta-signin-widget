@@ -42,6 +42,9 @@ jest.mock('./overwriteAutocomplete', () => ({
 jest.mock('./createIdentifierContainer', () => ({
   createIdentifierContainer: () => () => ({}),
 }));
+jest.mock('./addWebAuthNAutofillHandler', () => ({
+  addWebAuthNAutofillHandler: () => () => ({}),
+}));
 
 /* eslint-disable global-require */
 const mocked = {
@@ -54,6 +57,7 @@ const mocked = {
   updatePasswordEle: require('./updatePasswordDescribedByValue'),
   overwriteAutocomplete: require('./overwriteAutocomplete'),
   createIdentifierContainer: require('./createIdentifierContainer'),
+  addWebAuthNAutofillHandler: require('./addWebAuthNAutofillHandler'),
 };
 /* eslint-enable global-require */
 
@@ -68,6 +72,7 @@ describe('UISchema transformer', () => {
     jest.spyOn(mocked.updatePasswordEle, 'updatePasswordDescribedByValue');
     jest.spyOn(mocked.overwriteAutocomplete, 'overwriteAutocomplete');
     jest.spyOn(mocked.createIdentifierContainer, 'createIdentifierContainer');
+    jest.spyOn(mocked.addWebAuthNAutofillHandler, 'addWebAuthNAutofillHandler');
 
     const formBag = getStubFormBag();
     const mockOptions = {
@@ -92,5 +97,6 @@ describe('UISchema transformer', () => {
     expect(mocked.updatePasswordEle.updatePasswordDescribedByValue).toHaveBeenCalled();
     expect(mocked.overwriteAutocomplete.overwriteAutocomplete).toHaveBeenCalled();
     expect(mocked.createIdentifierContainer.createIdentifierContainer).toHaveBeenCalled();
+    expect(mocked.addWebAuthNAutofillHandler.addWebAuthNAutofillHandler).toHaveBeenCalled();
   });
 });

@@ -16,6 +16,7 @@ import {
   TransformStepFnWithOptions,
 } from '../../types';
 import { addIdToElements } from './addIdToElements';
+import { addWebAuthNAutofillHandler } from './addWebAuthNAutofillHandler';
 import { applyAsteriskToFieldElements } from './applyAsteriskToFieldElements';
 import { createIdentifierContainer } from './createIdentifierContainer';
 import { createTextElementKeys } from './createTextElementKeys';
@@ -39,4 +40,5 @@ export const transformUISchema: TransformStepFnWithOptions = (
   // OKTA-586475: Please keep this as the last function to be executed since we want to ensure
   // that the identifier container is always positioned at the top of a view
   createIdentifierContainer(options),
+  addWebAuthNAutofillHandler(options),
 )(formbag);

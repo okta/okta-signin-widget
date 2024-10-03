@@ -13,14 +13,42 @@
 import { OktaAuth } from '@okta/okta-auth-js';
 import omit from 'lodash/omit';
 
-import { WebAuthNAuthenticationHandler, WebAuthNEnrollmentHandler } from '../types';
+import {
+  WebAuthNAuthenticationHandler,
+  WebAuthNAutofillUICredentials,
+  WebAuthNChallengeDataWithUserVerification,
+  WebAuthNEnrollmentHandler,
+} from '../types';
 
 export const binToStr = (bin: ArrayBuffer): string => btoa(
   new Uint8Array(bin).reduce((s, byte) => s + String.fromCharCode(byte), ''),
 );
 
-export const isCredentialsApiAvailable = ():
-boolean => !!(navigator && navigator.credentials && navigator.credentials.create);
+export const base64UrlSafeToBase64 = (str: string) => str.replace(new RegExp('_', 'g'), '/').replace(new RegExp('-', 'g'), '+');
+
+export const strToBin = (str: string) => (
+  Uint8Array.from(atob(base64UrlSafeToBase64(str)), (c) => c.charCodeAt(0))
+);
+
+export const isCredentialsApiAvailable = (): boolean => (
+  !!(navigator && navigator.credentials && navigator.credentials.create)
+);
+
+// eslint-disable-next-line compat/compat, no-undef
+export const isConditionalMediationAvailable = () => typeof PublicKeyCredential !== 'undefined'
+  // eslint-disable-next-line compat/compat, no-undef
+  && typeof PublicKeyCredential.isConditionalMediationAvailable !== 'undefined';
+
+// checks if the browser supports passkey autofill by making sure it supports conditional mediation
+// https://passkeys.dev/docs/reference/terms/#autofill-ui
+export const isPasskeyAutofillAvailable = async () => {
+  let isAvailable = false;
+  if (isConditionalMediationAvailable()) {
+    // eslint-disable-next-line compat/compat, no-undef
+    isAvailable = await PublicKeyCredential.isConditionalMediationAvailable();
+  }
+  return isAvailable;
+};
 
 /**
  * Uses the Web Authentication API to generate credentials for enrolling
@@ -95,4 +123,48 @@ export const webAuthNAuthenticationHandler: WebAuthNAuthenticationHandler = asyn
   // Extracts the key properties from the credentials object and returns.
   // for some reason generic remediator does not allow/expect id field and fails when passed
   return { credentials: omit(OktaAuth.webauthn.getAssertion(credentials), ['id']) };
+};
+
+const challengeDataToCredentialRequestOptions = (
+  challengeData: WebAuthNChallengeDataWithUserVerification,
+): PublicKeyCredentialRequestOptions => ({
+  ...challengeData,
+  challenge: strToBin(challengeData.challenge),
+});
+
+function isAuthenticatorAssertionResponse(
+  response: AuthenticatorAssertionResponse | AuthenticatorResponse,
+): response is AuthenticatorAssertionResponse {
+  return (
+    (response as AuthenticatorAssertionResponse).userHandle
+    instanceof ArrayBuffer
+  );
+}
+
+export const webAuthNAutofillActionHandler = async (
+  challengeData: WebAuthNChallengeDataWithUserVerification,
+  abortController: AbortController,
+): Promise<WebAuthNAutofillUICredentials | undefined> => {
+  // if the browser doesn't support Passkey autofill and AbortController,
+  // no action needs to be taken as there are other steps the user can take to proceed
+  const supportsPasskeyAutofill = await isPasskeyAutofillAvailable();
+  const supportsAbortController = typeof AbortController !== 'undefined';
+  if (supportsPasskeyAutofill && supportsAbortController) {
+    const credential = (await navigator.credentials.get({
+      mediation: 'conditional',
+      publicKey: challengeDataToCredentialRequestOptions(challengeData),
+      signal: abortController.signal,
+    })) as PublicKeyCredential;
+
+    if (isAuthenticatorAssertionResponse(credential.response)) {
+      const credentials: WebAuthNAutofillUICredentials = {
+        clientData: binToStr(credential.response.clientDataJSON),
+        authenticatorData: binToStr(credential.response.authenticatorData),
+        signatureData: binToStr(credential.response.signature),
+        userHandle: binToStr(credential.response.userHandle as ArrayBuffer),
+      };
+      return credentials;
+    }
+  }
+  return undefined;
 };

@@ -44,6 +44,7 @@ export const IDX_STEP: Record<string, string> = {
   AUTHENTICATOR_VERIFICATION_DATA: 'authenticator-verification-data',
   CANCEL_TRANSACTION: 'cancel-transaction',
   CHALLENGE_AUTHENTICATOR: 'challenge-authenticator',
+  CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR: 'challenge-webauthn-autofillui-authenticator',
   CHALLENGE_POLL: 'challenge-poll',
   CONSENT_ADMIN: 'admin-consent',
   CONSENT_EMAIL_CHALLENGE: 'email-challenge-consent',
