@@ -16,12 +16,12 @@ import { IDX_STEP } from '../../constants';
 import { useWidgetContext } from '../../contexts';
 import { useOnSubmit } from '../../hooks';
 import { UISchemaElementComponent, WebAuthNAutofillElement } from '../../types';
-import { isPasskeyAutofillAvailable } from '../../util';
+import { isPasskeyAutofillAvailable, loc } from '../../util';
 
 const WebAuthNAutofill: UISchemaElementComponent<{
   uischema: WebAuthNAutofillElement;
 }> = ({ uischema }) => {
-  const { setAbortController } = useWidgetContext();
+  const { setAbortController, setMessage } = useWidgetContext();
   const onSubmitHandler = useOnSubmit();
   const { options } = uischema;
 
@@ -33,16 +33,24 @@ const WebAuthNAutofill: UISchemaElementComponent<{
 
   const executeNextStep = async () => {
     if (await isPasskeyAutofillAvailable()) {
-      const credentials = await options.getCredentials(abortController);
+      try {
+        const credentials = await options.getCredentials(abortController);
 
-      if (credentials) {
-        onSubmitHandler({
-          params: { credentials },
-          step: IDX_STEP.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR,
-          includeData: true,
-          // explicitly set the step to render to IDENTIFY
-          // because the autofill step doesn't have a proper form to render
-          stepToRender: IDX_STEP.IDENTIFY,
+        if (credentials) {
+          onSubmitHandler({
+            params: { credentials },
+            step: IDX_STEP.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR,
+            includeData: true,
+            // explicitly set the step to render to IDENTIFY
+            // because the autofill step doesn't have a proper form to render
+            stepToRender: IDX_STEP.IDENTIFY,
+          });
+        }
+      } catch {
+        setMessage({
+          message: loc('oie.webauthn.error.invalidPasskey', 'login'),
+          class: 'ERROR',
+          i18n: { key: 'oie.webauthn.error.invalidPasskey' },
         });
       }
     }

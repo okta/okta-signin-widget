@@ -150,24 +150,20 @@ export const webAuthNAutofillActionHandler = async (
   const supportsPasskeyAutofill = await isPasskeyAutofillAvailable();
   const supportsAbortController = typeof AbortController !== 'undefined';
   if (supportsPasskeyAutofill && supportsAbortController) {
-    try {
-      const credential = (await navigator.credentials.get({
-        mediation: 'conditional',
-        publicKey: challengeDataToCredentialRequestOptions(challengeData),
-        signal: abortController.signal,
-      })) as PublicKeyCredential;
+    const credential = (await navigator.credentials.get({
+      mediation: 'conditional',
+      publicKey: challengeDataToCredentialRequestOptions(challengeData),
+      signal: abortController.signal,
+    })) as PublicKeyCredential;
 
-      if (isAuthenticatorAssertionResponse(credential.response)) {
-        const credentials: WebAuthNAutofillUICredentials = {
-          clientData: binToStr(credential.response.clientDataJSON),
-          authenticatorData: binToStr(credential.response.authenticatorData),
-          signatureData: binToStr(credential.response.signature),
-          userHandle: binToStr(credential.response.userHandle as ArrayBuffer),
-        };
-        return credentials;
-      }
-    } catch {
-      // TODO: OKTA-814898 - add appropriate error handling
+    if (isAuthenticatorAssertionResponse(credential.response)) {
+      const credentials: WebAuthNAutofillUICredentials = {
+        clientData: binToStr(credential.response.clientDataJSON),
+        authenticatorData: binToStr(credential.response.authenticatorData),
+        signatureData: binToStr(credential.response.signature),
+        userHandle: binToStr(credential.response.userHandle as ArrayBuffer),
+      };
+      return credentials;
     }
   }
   return undefined;

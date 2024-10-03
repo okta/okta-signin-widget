@@ -36,6 +36,10 @@ export const addWebAuthNAutofillHandler: TransformStepFnWithOptions = ({
   if (!webauthAutofillStep || disableAutocomplete) {
     return formbag;
   }
+  // if the browser doesn't support passkey autofill, ignore the transformation
+  if (!isConditionalMediationAvailable()) {
+    return formbag;
+  }
 
   const identifierElement = getUIElementWithName('identifier', formbag.uischema.elements) as FieldElement;
   if (identifierElement?.options?.attributes) {
@@ -60,7 +64,7 @@ export const addWebAuthNAutofillHandler: TransformStepFnWithOptions = ({
       });
     }
 
-    if (webauthAutofillStep && isConditionalMediationAvailable()) {
+    if (webauthAutofillStep) {
       const { challengeData } = webauthAutofillStep
         .relatesTo?.value as IdxAuthenticatorWithChallengeData;
       const webAuthNAutofillEl: WebAuthNAutofillElement = {
