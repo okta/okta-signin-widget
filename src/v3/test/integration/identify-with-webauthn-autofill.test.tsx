@@ -13,9 +13,12 @@
 import { setup } from './util';
 import mockResponse from '../../src/mocks/response/idp/idx/introspect/identify-with-webauthn-autofill.json';
 
+const originalPublicKeyCredential = global.PublicKeyCredential;
+
 describe('identify-with-webauthn-autofill', () => {
   afterEach(() => {
     jest.resetAllMocks();
+    global.PublicKeyCredential = originalPublicKeyCredential;
   });
 
   it('should have "username webauthn" as the autocomplete attribute on the identifier field if passkeys are available in the browser', async () => {
@@ -28,7 +31,6 @@ describe('identify-with-webauthn-autofill', () => {
     });
 
     const identifierInput = await findByLabelText('Username');
-
     expect(identifierInput).toHaveAttribute('autocomplete', 'username webauthn');
   });
 
@@ -43,7 +45,6 @@ describe('identify-with-webauthn-autofill', () => {
     });
 
     const identifierInput = await findByLabelText('Username');
-
     expect(identifierInput).toHaveAttribute('autocomplete', 'username');
   });
 });

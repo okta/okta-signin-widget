@@ -11,9 +11,8 @@ import CookieUtil from 'util/CookieUtil';
 import webauthn from 'util/webauthn';
 import { FORMS } from 'v2/ion/RemediationConstants';
 
-global.PublicKeyCredential = {
-  isConditionalMediationAvailable: jest.fn(),
-};
+
+const originalPublicKeyCredential = global.PublicKeyCredential;
 
 describe('v2/view-builder/views/IdentifierView', function() {
   let originalLoginEnBundle;
@@ -24,9 +23,13 @@ describe('v2/view-builder/views/IdentifierView', function() {
   });
 
   beforeAll(() => {
+    global.PublicKeyCredential = {
+      isConditionalMediationAvailable: jest.fn(),
+    };
     originalLoginEnBundle = Bundles.login_en;
   });
   afterAll(() => {
+    global.PublicKeyCredential = originalPublicKeyCredential;
     Bundles['login_en'] = originalLoginEnBundle;
     originalLoginEnBundle = null;
   });
