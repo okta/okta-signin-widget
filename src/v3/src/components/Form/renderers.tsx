@@ -58,6 +58,7 @@ import StepperNavigator from '../StepperNavigator';
 import StepperRadio from '../StepperRadio';
 import TextWithActionLink from '../TextWithActionLink';
 import Title from '../Title';
+import WebAuthNAutofill from '../WebAuthNAutofill';
 import WebAuthNSubmitButton from '../WebAuthNSubmitButton';
 
 /**
@@ -139,6 +140,10 @@ export default [
   {
     tester: ({ type }) => type === 'WebAuthNSubmitButton',
     renderer: WebAuthNSubmitButton,
+  },
+  {
+    tester: ({ type }) => type === 'WebAuthNAutofill',
+    renderer: WebAuthNAutofill,
   },
   {
     tester: ({ type }) => type === 'LoopbackProbe',
