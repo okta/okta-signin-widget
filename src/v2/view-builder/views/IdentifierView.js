@@ -1,6 +1,7 @@
-import { loc, createCallout } from '@okta/courage';
+import { _, loc, createCallout } from '@okta/courage';
 import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 import { BaseForm, BaseView, createIdpButtons, createCustomButtons } from '../internals';
+import CryptoUtil from '../../../util/CryptoUtil';
 import DeviceFingerprinting from '../utils/DeviceFingerprinting';
 import IdentifierFooter from '../components/IdentifierFooter';
 import Link from '../components/Link';
@@ -13,6 +14,7 @@ import { getForgotPasswordLink } from '../utils/LinksUtil';
 import CookieUtil from 'util/CookieUtil';
 import CustomAccessDeniedErrorMessage from './shared/CustomAccessDeniedErrorMessage';
 import Util from 'util/Util';
+import { getMessageFromBrowserError } from '../../ion/i18nTransformer';
 
 const CUSTOM_ACCESS_DENIED_KEY = 'security.access_denied_custom_message';
 
@@ -111,6 +113,7 @@ const Body = BaseForm.extend({
     // When a user enters invalid credentials, /introspect returns an error,
     // along with a user object containing the identifier entered by the user.
     this.$el.find('.identifier-container').remove();
+    this.getWebauthnAutofillUICredentialsAndSave();
   },
 
   /**
@@ -140,7 +143,8 @@ const Body = BaseForm.extend({
         // because we want to allow the user to choose from previously used identifiers.
         newSchema = {
           ...newSchema,
-          autoComplete: Util.getAutocompleteValue(this.options.settings, 'username')
+          autoComplete: this.options.appState.hasRemediationObject(RemediationForms.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR)
+          ? 'webauthn' : Util.getAutocompleteValue(this.options.settings, 'username')
         };
       } else if (schema.name === 'credentials.passcode') {
         newSchema = {
@@ -241,6 +245,62 @@ const Body = BaseForm.extend({
     if (cookieUsername) {
       this.model.set('identifier', cookieUsername);
     }
+  },
+
+  remove() {
+    BaseForm.prototype.remove.apply(this, arguments);
+    if (this.webauthnAbortController) {
+      this.webauthnAbortController.abort();
+      this.webauthnAbortController = null;
+    }
+  },
+
+  getWebauthnAutofillUICredentialsAndSave() {
+    const challengeData = this.options.appState.get('webauthnAutofillUIChallenge')?.challengeData;
+    if (!challengeData) {
+      return;
+    }
+    const options = _.extend({}, challengeData, {
+      challenge: CryptoUtil.strToBin(challengeData.challenge),
+    });
+
+    if (typeof AbortController !== 'undefined') {
+      this.webauthnAbortController = new AbortController();
+    }
+    
+    // navigator.credentials() is not supported in IE11
+    // eslint-disable-next-line compat/compat
+    navigator.credentials.get({
+      mediation: 'conditional',
+      publicKey: options,
+      signal: this.webauthnAbortController && this.webauthnAbortController.signal
+    }).then((assertion) => {
+      const userHandle = CryptoUtil.binToStr(assertion.response.userHandle ?? '');
+      if (_.isEmpty(userHandle)) {
+        this.model.trigger('error', this.model, {responseJSON: {errorSummary: 'Invalid Passkey'}});
+        return;
+      }
+      const credentials = {
+        clientData: CryptoUtil.binToStr(assertion.response.clientDataJSON),
+        authenticatorData: CryptoUtil.binToStr(assertion.response.authenticatorData),
+        signatureData: CryptoUtil.binToStr(assertion.response.signature),
+        userHandle
+      };
+
+      this.options.appState.trigger('invokeAction', RemediationForms.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR, 
+      {'credentials': credentials});
+      //this.options.appState.trigger('invokeAction', RemediationForms.CHALLENGE_AUTHENTICATOR, 
+      //{'credentials': credentials});
+    }, (error) => {
+      // Do not display if it is abort error triggered by code when switching.
+      // this.webauthnAbortController would be null if abort was triggered by code.
+      if (this.webauthnAbortController) {
+        this.model.trigger('error', this.model, {responseJSON: {errorSummary: getMessageFromBrowserError(error)}});
+      }
+    }).finally(() => {
+      // unset webauthnAbortController on successful authentication or error
+      this.webauthnAbortController = null;
+    });
   }
 });
 
