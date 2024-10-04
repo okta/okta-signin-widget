@@ -465,22 +465,22 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
 
       expect(updatedFormBag).toMatchSnapshot();
       const [stepperLayout] = updatedFormBag.uischema.elements;
-      const layoutSix = (stepperLayout as StepperLayout).elements[5];
+      const sameDeviceEnrollmentLayout = (stepperLayout as StepperLayout).elements[5];
 
-      expect(layoutSix.elements.length).toBe(5);
-      expect((layoutSix.elements[0] as TitleElement).options.content)
+      expect(sameDeviceEnrollmentLayout.elements.length).toBe(5);
+      expect((sameDeviceEnrollmentLayout.elements[0] as TitleElement).options.content)
         .toBe('oie.enroll.okta_verify.setup.title');
-      expect((layoutSix.elements[1] as DescriptionElement).options.content)
+      expect((sameDeviceEnrollmentLayout.elements[1] as DescriptionElement).options.content)
         .toBe('oie.enroll.okta_verify.setup.customUri.makeSureHaveOVToContinue');
-      expect((layoutSix.elements[2] as ImageLinkElement).options.href)
+      expect((sameDeviceEnrollmentLayout.elements[2] as ImageLinkElement).options.href)
         .toBe('https://apps.test.com/us/app/okta-verify/id490179405');
-      expect((layoutSix.elements[3] as DescriptionElement).options.content)
+      expect((sameDeviceEnrollmentLayout.elements[3] as DescriptionElement).options.content)
         .toBe('oie.enroll.okta_verify.setup.customUri.setup');
-      expect((layoutSix.elements[4] as OpenOktaVerifyFPButtonElement).options.i18nKey)
+      expect((sameDeviceEnrollmentLayout.elements[4] as OpenOktaVerifyFPButtonElement).options.i18nKey)
         .toBe('oie.enroll.okta_verify.setup.title');
-      expect((layoutSix.elements[4] as OpenOktaVerifyFPButtonElement).options.href)
+      expect((sameDeviceEnrollmentLayout.elements[4] as OpenOktaVerifyFPButtonElement).options.href)
         .toBe('www.testSetupUrl.com');
-      expect((layoutSix.elements[4] as OpenOktaVerifyFPButtonElement).options.challengeMethod)
+      expect((sameDeviceEnrollmentLayout.elements[4] as OpenOktaVerifyFPButtonElement).options.challengeMethod)
         .toBe(CHALLENGE_METHOD.APP_LINK);
     });
 });
