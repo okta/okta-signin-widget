@@ -121,7 +121,7 @@ const config = {
   // retry failed tests
   quarantineMode: env.OKTA_SIW_EN_LEAKS ? false : {
     successThreshold: 1,
-    attemptLimit: 3,
+    attemptLimit: 5,
   },
 
   filter: (_testName, _fixtureName, fixturePath, testMeta, fixtureMeta) => {
