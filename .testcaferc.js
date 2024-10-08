@@ -116,7 +116,7 @@ const config = {
   // !OKTA_SIW_EN_LEAKS: 4 ← most tests
   concurrency: (OKTA_SIW_ONLY_FLAKY || !env.CHROME_HEADLESS) 
     ? 1 
-    : (env.OKTA_SIW_EN_LEAKS ? 2 : 6),
+    : (env.OKTA_SIW_EN_LEAKS ? 2 : 4),
 
   // retry failed tests
   quarantineMode: env.OKTA_SIW_EN_LEAKS ? false : {
