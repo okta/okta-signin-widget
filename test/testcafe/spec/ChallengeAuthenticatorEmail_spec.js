@@ -577,13 +577,14 @@ test
 test
   .requestHooks(dynamicContinuePollingLogger, dynamicRefreshShortIntervalMock)('continue polling on form error with dynamic polling', async t => {
     const challengeEmailPageObject = await setup(t);
+    const pollStartDate = new Date();
     await checkA11y(t);
     await challengeEmailPageObject.clickEnterCodeLink();
 
     await t.expect(await challengeEmailPageObject.resendEmailExists()).eql(false);
 
     // 2 poll requests in 2 seconds at 1 sec interval (Cumulative Request: 2)
-    await t.wait(2000);
+    await t.wait(Math.max(2000 - (new Date() - pollStartDate), 0));
     await t.expect(dynamicContinuePollingLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/poll/)
