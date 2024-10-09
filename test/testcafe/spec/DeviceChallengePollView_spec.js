@@ -363,10 +363,13 @@ const LoginHintAppLinkMock = RequestMock()
 
 fixture('Device Challenge Polling View with the Loopback Server, Custom URI, App Link, and Universal Link approaches');
 
-async function setup(t) {
+async function setup(t, waitForFormExists = true) {
   const deviceChallengePollPage = new DeviceChallengePollPageObject(t);
-  await deviceChallengePollPage.navigateToPage();
-  await t.expect(deviceChallengePollPage.formExists()).eql(true);
+  await deviceChallengePollPage.navigateToPage({ render: false });
+  await renderWidget();
+  if (waitForFormExists) {
+    await t.expect(deviceChallengePollPage.formExists()).eql(true);
+  }
   return deviceChallengePollPage;
 }
 
@@ -381,14 +384,9 @@ async function setupLoopbackFallback(t, widgetOptions) {
   return deviceChallengeFalllbackPage;
 }
 
-const skipTest = () => {
-  return null;
-  // return test.skip;
-};
-
-// TODO: fix quarantined test - OKTA-645716
-skipTest()
-  ?.requestHooks(loopbackSuccessLogger, loopbackSuccessMock)?.('in loopback server approach, probing and polling requests are sent and responded', async t => {
+test
+  .requestHooks(loopbackSuccessLogger, loopbackSuccessMock)('in loopback server approach, probing and polling requests are sent and responded', async t => {
+    failureCount = 0;
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
     await t.expect(deviceChallengePollPageObject.getBeaconSelector()).contains(BEACON_CLASS);
@@ -522,10 +520,10 @@ test
       })).eql(1);
   });
 
-// FIXME quarantined test OKTA-796308
-skipTest()
-  ?.requestHooks?.(loopbackPollTimeoutLogger, loopbackPollTimeoutMock)?.('new poll does not starts until last one is ended', async t => {
-    await setup(t);
+test
+  .requestHooks(loopbackPollTimeoutLogger, loopbackPollTimeoutMock)('new poll does not starts until last one is ended', async t => {
+    // For Gen3 first /poll call is performed at widget bootstrap
+    await setup(t, !userVariables.gen3);
     await checkA11y(t);
     // This test verify if new /poll calls are made only if the previous one was finished instead of polling with fixed interval.
     // Updating /poll response to take 5 sec to response.
@@ -538,9 +536,7 @@ skipTest()
     )).eql(2);
   });
 
-
-// FIXME quarantined test OKTA-796307
-test.skip
+test
   .requestHooks(loopbackChallengeErrorLogger, loopbackChallengeErrorMock)('in loopback server approach, will cancel polling when challenge errors out', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
@@ -579,8 +575,7 @@ test.skip
     await t.expect(loopbackChallengeErrorLogger.contains(record => record.request.url.match(/6512|6513/))).eql(false);
   });
 
-// FIXME quarantined test OKTA-796315
-test.skip
+test
   .requestHooks(loopbackChallengeWrongProfileLogger, loopbackChallengeWrongProfileMock)('in loopback server approach, will cancel polling when challenge errors out with non-503 status', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
@@ -620,9 +615,9 @@ test.skip
     )).eql(1);
   });
 
-// FIXME quarantined test OKTA-796324
-test.skip
+test
   .requestHooks(loopbackSuccessButNotAssignedLogger, loopbackSuccessButNotAssignedAppMock)('loopback succeeds but user is not assigned to app, then clicks cancel link', async t => {
+    pollingError = false;
     const deviceChallengePollPageObject = await setup(t);
     await checkA11y(t);
     await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().visible).eql(true);
@@ -684,6 +679,7 @@ test
 const getPageUrl = ClientFunction(() => window.location.href);
 test
   .requestHooks(appLinkWithoutLaunchLogger, appLinkWithoutLaunchMock)('loopback fails and falls back to app link', async t => {
+    appLinkLoopBackFailed = false;
     const deviceChallengeFalllbackPage = await setupLoopbackFallback(t);
     await t.expect(deviceChallengeFalllbackPage.getFormTitle()).eql('Sign In');
     await t.expect(appLinkWithoutLaunchLogger.count(

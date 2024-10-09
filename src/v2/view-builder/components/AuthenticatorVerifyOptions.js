@@ -54,7 +54,7 @@ const AuthenticatorRow = View.extend({
         'aria-label': this.model.get('ariaLabel'),
       },
       click: function() {
-        this.model.trigger('selectAuthenticator', this.model.get('value'));
+        this.model.trigger('selectAuthenticator', this.model.get('value'), this);
       }
     }), '.authenticator-button']];
   },
@@ -74,9 +74,15 @@ export default ListView.extend({
   initialize: function() {
     this.listenTo(this.collection,'selectAuthenticator', this.handleSelect);
     this.listenTo(this.model, 'invalid', this.handleModelInvalid);
+    this.listenTo(this.model, 'error', this.handleError);
+  },
+
+  handleError: function() {
+    this.selectedAuthenticatorButton?.enable?.();
   },
   
   handleModelInvalid(data, error) {
+    this.selectedAuthenticatorButton?.enable?.();
     if (this.options.name in error && !this.model.get(this.options.name)) {
       this.showAuthenticatorRequiredError();
     }
@@ -89,7 +95,10 @@ export default ListView.extend({
     this.model.trigger('error', this.model, { responseJSON: { errorSummary } });
   },
 
-  handleSelect(data) {
+  handleSelect(data, button) {
+    // Disable button to prevent repeated clicks
+    this.selectedAuthenticatorButton = button;
+    this.selectedAuthenticatorButton?.disable?.();
     //If schema contains a required identifier to fill first then validate the form
     const validationError = this.model.validateField('identifier');
     this.model.trigger('clearFormError');

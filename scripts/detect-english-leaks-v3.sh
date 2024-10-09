@@ -1,6 +1,6 @@
 #!/bin/bash
 export CHROME_HEADLESS=true
-setup_service google-chrome-stable 119.0.6045.105-1
+setup_service google-chrome-stable 121.0.6167.85-1
 
 source $OKTA_HOME/$REPO/scripts/setup.sh
 

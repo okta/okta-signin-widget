@@ -7,7 +7,7 @@ export TEST_RESULT_FILE_DIR="${REPO}/src/v3/build2/reports/vrt"
 echo $TEST_SUITE_TYPE > $TEST_SUITE_TYPE_FILE
 echo $TEST_RESULT_FILE_DIR > $TEST_RESULT_FILE_DIR_FILE
 
-setup_service google-chrome-stable 119.0.6045.105-1
+setup_service google-chrome-stable 121.0.6167.85-1
 
 echo 'Starting vrt get base screenshots suite'
 if ! yarn workspace v3 test:vrt-update-screenshots --no-color; then
