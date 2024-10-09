@@ -30,6 +30,13 @@ function goToFactorActivation(view, step) {
   view.options.appState.trigger('navigate', url);
 }
 
+const sharedSecretIsDefined = {
+  sharedSecret: function(val) {
+    return !_.isUndefined(val);
+  },
+  activationType: 'MANUAL'
+};
+
 function setStateValues(view) {
   let userPhoneNumber;
   let userCountryCode;
@@ -207,7 +214,7 @@ export default FormController.extend({
           View: View.extend({
             template: hbs('<div data-type="next-button-wrap"></div>'),
           }),
-          showWhen: { activationType: 'MANUAL' },
+          showWhen: sharedSecretIsDefined,
         }),
         FormType.Button(
           {
