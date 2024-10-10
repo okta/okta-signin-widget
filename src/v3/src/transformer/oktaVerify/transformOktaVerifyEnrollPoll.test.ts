@@ -15,7 +15,9 @@ import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/
 import {
   ButtonElement,
   DescriptionElement,
+  ImageLinkElement,
   ListElement,
+  OpenOktaVerifyFPButtonElement,
   QRCodeElement,
   ReminderElement,
   StepperLayout,
@@ -25,6 +27,7 @@ import {
   WidgetProps,
 } from 'src/types';
 
+import { CHALLENGE_METHOD } from '../../constants';
 import { transformOktaVerifyEnrollPoll } from './transformOktaVerifyEnrollPoll';
 
 describe('TransformOktaVerifyEnrollPoll Tests', () => {
@@ -438,4 +441,46 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
     expect((layoutFive.elements[3] as DescriptionElement).options.content)
       .toBe('oie.enroll.okta_verify.setup.skipAuth.canBeClosed');
   });
+
+  it('Setup OV button should use APP_LINK challenge method when selectedChannel is samedevice and platform is android',
+    () => {
+      transaction.context = {
+      // TODO: OKTA-503490 temporary sln access missing relatesTo obj
+        currentAuthenticator: {
+          value: {
+            contextualData: {
+              samedevice: {
+                orgUrl: 'okta.okta.com',
+                setupOVUrl: 'www.testSetupUrl.com',
+                downloadHref: 'https://apps.test.com/us/app/okta-verify/id490179405',
+                platform: 'android',
+              },
+              selectedChannel: 'samedevice',
+            },
+          },
+        },
+      } as unknown as IdxContext;
+
+      const updatedFormBag = transformOktaVerifyEnrollPoll({ transaction, formBag, widgetProps });
+
+      expect(updatedFormBag).toMatchSnapshot();
+      const [stepperLayout] = updatedFormBag.uischema.elements;
+      const sameDeviceEnrollmentLayout = (stepperLayout as StepperLayout).elements[5];
+
+      expect(sameDeviceEnrollmentLayout.elements.length).toBe(5);
+      expect((sameDeviceEnrollmentLayout.elements[0] as TitleElement).options.content)
+        .toBe('oie.enroll.okta_verify.setup.title');
+      expect((sameDeviceEnrollmentLayout.elements[1] as DescriptionElement).options.content)
+        .toBe('oie.enroll.okta_verify.setup.customUri.makeSureHaveOVToContinue');
+      expect((sameDeviceEnrollmentLayout.elements[2] as ImageLinkElement).options.href)
+        .toBe('https://apps.test.com/us/app/okta-verify/id490179405');
+      expect((sameDeviceEnrollmentLayout.elements[3] as DescriptionElement).options.content)
+        .toBe('oie.enroll.okta_verify.setup.customUri.setup');
+      expect((sameDeviceEnrollmentLayout.elements[4] as OpenOktaVerifyFPButtonElement).options.i18nKey)
+        .toBe('oie.enroll.okta_verify.setup.title');
+      expect((sameDeviceEnrollmentLayout.elements[4] as OpenOktaVerifyFPButtonElement).options.href)
+        .toBe('www.testSetupUrl.com');
+      expect((sameDeviceEnrollmentLayout.elements[4] as OpenOktaVerifyFPButtonElement).options.challengeMethod)
+        .toBe(CHALLENGE_METHOD.APP_LINK);
+    });
 });

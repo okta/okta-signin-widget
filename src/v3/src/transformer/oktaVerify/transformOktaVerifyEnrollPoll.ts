@@ -285,6 +285,16 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
     );
 
     if (deviceMap.setupOVUrl) {
+      let challengeMethod;
+      if (deviceMap.isDesktop) {
+        challengeMethod = CHALLENGE_METHOD.CUSTOM_URI;
+      } else if (deviceMap.platformLC === 'android') {
+        challengeMethod = CHALLENGE_METHOD.APP_LINK;
+      } else {
+        challengeMethod = CHALLENGE_METHOD.UNIVERSAL_LINK;
+      }
+
+      // Setup Okta Verify on same device button
       sameDeviceOVElements.push(
         {
           type: 'OpenOktaVerifyFPButton',
@@ -292,9 +302,7 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
             step: '',
             i18nKey: 'oie.enroll.okta_verify.setup.title',
             href: deviceMap.setupOVUrl,
-            challengeMethod: deviceMap.isDesktop
-              ? CHALLENGE_METHOD.CUSTOM_URI
-              : CHALLENGE_METHOD.UNIVERSAL_LINK,
+            challengeMethod,
           },
         } as OpenOktaVerifyFPButtonElement,
       );
