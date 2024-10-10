@@ -1139,6 +1139,8 @@ test
     await t.expect(await enrollOktaVerifyPage.sameDeviceSetupOnMobileTextExist()).eql(false);
 
     await t.expect(enrollOktaVerifyPage.getAppStoreHref()).eql(sameDeviceOVEnrollmentWindowsLink);
+    
+    // desktop platform auto-launches CUSTOM_URI on page load, so we expect 1 here
     await t.expect(customURILogger.count(
       record => record.request.url.match(/okta-verify.html/)
     )).eql(1);
@@ -1179,6 +1181,7 @@ test
 
     await t.expect(enrollOktaVerifyPage.getAppStoreHref()).eql(sameDeviceOVEnrollmentAppleLink);
 
+    // desktop platform auto-launches CUSTOM_URI on page load, so we expect 1 here
     await t.expect(customURILogger.count(
       record => record.request.url.match(/okta-verify.html/)
     )).eql(1);
