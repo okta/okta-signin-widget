@@ -312,7 +312,7 @@ export default class EnrollOktaVerifyPageObject extends BasePageObject {
 
   async clickOVSetupButton() {
     if (userVariables.gen3) {
-      await this.t.click(this.form.getButton("Set up Okta Verify"));
+      await this.t.click(this.form.getButton(SETUP_OV_BUTTON_TEXT));
     } else {
       await this.t.click(this.form.el.find(OV_SETUP_LINK_CLASS));
     }

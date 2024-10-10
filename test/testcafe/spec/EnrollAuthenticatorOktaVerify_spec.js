@@ -332,8 +332,6 @@ const sameDeviceOVEnrollmentDesktopInstructions4 = 'Didn’t get a prompt?';
 const sameDeviceOVEnrollmentAppleLink = 'https://apps.apple.com/us/app/okta-verify/id490179405';
 const sameDeviceOVEnrollmentAndroidLink = 'https://play.google.com/store/apps/details?id=com.okta.android.auth';
 const sameDeviceOVEnrollmentWindowsLink = 'https://microsoft.com/app/ov';
-const sameDeviceOVEnrollmentSetupLink = 'https://login.okta.com/actions/enroll?display_url=okta.okta.com&login_hint=testUser@okta.com&pipeline=idx&app_name=office%20365';
-const sameDeviceOVEnrollmentDesktopSetupLink = 'com-okta-authenticator://actions/enroll?display_url=okta.okta.com&login_hint=testUser@okta.com&pipeline=idx';
 const deviceBootstrapSubtitle = 'To set up Okta Verify on additional devices, you can copy an existing Okta Verify account onto a new device.';
 const deviceBootstrapInstruction1 = 'Open Okta Verify on any of your other Okta Verify devices (Such as your testDevice1).';
 const deviceBootstrapInstruction2 = 'In the app, select your account.';
@@ -1139,7 +1137,7 @@ test
     await t.expect(await enrollOktaVerifyPage.sameDeviceSetupOnMobileTextExist()).eql(false);
 
     await t.expect(enrollOktaVerifyPage.getAppStoreHref()).eql(sameDeviceOVEnrollmentWindowsLink);
-    
+
     // desktop platform auto-launches CUSTOM_URI on page load, so we expect 1 here
     await t.expect(customURILogger.count(
       record => record.request.url.match(/okta-verify.html/)
