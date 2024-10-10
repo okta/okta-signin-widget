@@ -202,7 +202,7 @@
           "orgUrl": "okta.okta.com",
           "downloadHref": "https://microsoft.com/app/ov",
           "platform": "WINDOWS",
-          "setupOVUrl": "com-okta-authenticator://actions/enroll?display_url=okta.okta.com&login_hint=testUser@okta.com&pipeline=idx",
+          "setupOVUrl": "okta-verify.html",
           "securityLevel": "HIGH"
         },
         "selectedChannel": "samedevice"
