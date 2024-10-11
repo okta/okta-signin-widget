@@ -202,7 +202,7 @@
           "orgUrl": "okta.okta.com",
           "downloadHref": "https://play.google.com/store/apps/details?id=com.okta.android.auth",
           "platform": "ANDROID",
-          "setupOVUrl": "https://login.okta.com/actions/enroll?display_url=okta.okta.com&login_hint=testUser@okta.com&pipeline=idx&app_name=office%20365",
+          "setupOVUrl": "okta-verify.html",
           "securityLevel": "HIGH"
         },
         "selectedChannel": "samedevice"

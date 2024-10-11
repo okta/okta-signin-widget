@@ -40,6 +40,8 @@ const logger = RequestLogger(/introspect|poll|send|enroll/, {
   stringifyRequestBody: true,
 });
 
+const customURILogger = RequestLogger(/okta-verify.html/);
+
 const mock = pollResponse => RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorEnrollOktaVerifyQr)
@@ -330,8 +332,6 @@ const sameDeviceOVEnrollmentDesktopInstructions4 = 'Didn’t get a prompt?';
 const sameDeviceOVEnrollmentAppleLink = 'https://apps.apple.com/us/app/okta-verify/id490179405';
 const sameDeviceOVEnrollmentAndroidLink = 'https://play.google.com/store/apps/details?id=com.okta.android.auth';
 const sameDeviceOVEnrollmentWindowsLink = 'https://microsoft.com/app/ov';
-const sameDeviceOVEnrollmentSetupLink = 'https://login.okta.com/actions/enroll?display_url=okta.okta.com&login_hint=testUser@okta.com&pipeline=idx&app_name=office%20365';
-const sameDeviceOVEnrollmentDesktopSetupLink = 'com-okta-authenticator://actions/enroll?display_url=okta.okta.com&login_hint=testUser@okta.com&pipeline=idx';
 const deviceBootstrapSubtitle = 'To set up Okta Verify on additional devices, you can copy an existing Okta Verify account onto a new device.';
 const deviceBootstrapInstruction1 = 'Open Okta Verify on any of your other Okta Verify devices (Such as your testDevice1).';
 const deviceBootstrapInstruction2 = 'In the app, select your account.';
@@ -1070,10 +1070,6 @@ test
     await t.expect(enrollOktaVerifyPage.getAppStoreHref()).eql(sameDeviceOVEnrollmentAppleLink);
     await t.expect(await enrollOktaVerifyPage.hasOVSetupButton()).eql(true);
 
-    if (!userVariables.gen3) {
-      await t.expect(enrollOktaVerifyPage.getOVSetupHref()).eql(sameDeviceOVEnrollmentSetupLink);
-    }
-
     await t.expect(await enrollOktaVerifyPage.getSameDeviceReturnAndSetupText()).eql(sameDeviceOVEnrollmentInstructions1);
     await t.expect(await enrollOktaVerifyPage.getSameDeviceSetupOnMobileText()).contains(sameDeviceOVEnrollmentInstructions3);
 
@@ -1091,6 +1087,9 @@ test
       await t.expect(downloadInstruction).contains('Download here');
       await t.expect(await enrollOktaVerifyPage.appStoreElementExists()).eql(false);
     }
+
+    await enrollOktaVerifyPage.clickOVSetupButton();
+    await t.expect(await enrollOktaVerifyPage.getPageUrl()).contains('okta-verify.html');
   });
 
 test
@@ -1106,9 +1105,6 @@ test
     await t.expect(await enrollOktaVerifyPage.sameDeviceSetupOnMobileTextExist()).eql(false);
 
     await t.expect(enrollOktaVerifyPage.getAppStoreHref()).eql(sameDeviceOVEnrollmentAndroidLink);
-    if (!userVariables.gen3) {
-      await t.expect(enrollOktaVerifyPage.getOVSetupHref()).eql(sameDeviceOVEnrollmentSetupLink);
-    }
 
     if (!userVariables.gen3) {
       // re-render widget with sameDeviceOVEnrollmentEnabled FF on
@@ -1122,10 +1118,13 @@ test
       await t.expect(downloadInstruction).contains('Download here');
       await t.expect(await enrollOktaVerifyPage.appStoreElementExists()).eql(false);
     }
+
+    await enrollOktaVerifyPage.clickOVSetupButton();
+    await t.expect(await enrollOktaVerifyPage.getPageUrl()).contains('okta-verify.html');
   });
 
 test
-  .requestHooks(logger, enrollSameDeviceWindowsWithHighSecurity)('should be able to see OV same device enrollment instructions on HIGH security level (Windows)', async t => {
+  .requestHooks(logger, customURILogger, enrollSameDeviceWindowsWithHighSecurity)('should be able to see OV same device enrollment instructions on HIGH security level (Windows)', async t => {
     const enrollOktaVerifyPage = await setup(t);
 
     await checkA11y(t);
@@ -1138,9 +1137,11 @@ test
     await t.expect(await enrollOktaVerifyPage.sameDeviceSetupOnMobileTextExist()).eql(false);
 
     await t.expect(enrollOktaVerifyPage.getAppStoreHref()).eql(sameDeviceOVEnrollmentWindowsLink);
-    if (!userVariables.gen3) {
-      await t.expect(enrollOktaVerifyPage.getOVSetupHref()).eql(sameDeviceOVEnrollmentDesktopSetupLink);
-    }
+
+    // desktop platform auto-launches CUSTOM_URI on page load, so we expect 1 here
+    await t.expect(customURILogger.count(
+      record => record.request.url.match(/okta-verify.html/)
+    )).eql(1);
     
     if (!userVariables.gen3) {
       // re-render widget with sameDeviceOVEnrollmentEnabled FF on
@@ -1155,10 +1156,17 @@ test
       await t.expect(downloadInstruction).contains('Download here');
       await t.expect(await enrollOktaVerifyPage.appStoreElementExists()).eql(false);
     }
+
+    customURILogger.clear();
+    await enrollOktaVerifyPage.clickOVSetupButton();
+
+    await t.expect(customURILogger.count(
+      record => record.request.url.match(/okta-verify.html/)
+    )).eql(1);
   });
 
 test
-  .requestHooks(logger, enrollSameDeviceOsxWithAnySecurity)('should be able to see OV same device enrollment instructions on ANY security level (OSX)', async t => {
+  .requestHooks(logger, customURILogger, enrollSameDeviceOsxWithAnySecurity)('should be able to see OV same device enrollment instructions on ANY security level (OSX)', async t => {
     const enrollOktaVerifyPage = await setup(t);
 
     await checkA11y(t);
@@ -1170,9 +1178,11 @@ test
     await t.expect(await enrollOktaVerifyPage.getDesktopEnsureOVInstalledText()).eql(sameDeviceOVEnrollmentDesktopInstructions3);
 
     await t.expect(enrollOktaVerifyPage.getAppStoreHref()).eql(sameDeviceOVEnrollmentAppleLink);
-    if (!userVariables.gen3) {
-      await t.expect(enrollOktaVerifyPage.getOVSetupHref()).eql(sameDeviceOVEnrollmentDesktopSetupLink);
-    }
+
+    // desktop platform auto-launches CUSTOM_URI on page load, so we expect 1 here
+    await t.expect(customURILogger.count(
+      record => record.request.url.match(/okta-verify.html/)
+    )).eql(1);
 
     if (!userVariables.gen3) {
       // re-render widget with sameDeviceOVEnrollmentEnabled FF on
@@ -1187,6 +1197,13 @@ test
       await t.expect(downloadInstruction).contains('Download here');
       await t.expect(await enrollOktaVerifyPage.appStoreElementExists()).eql(false);
     }
+
+    customURILogger.clear();
+    await enrollOktaVerifyPage.clickOVSetupButton();
+
+    await t.expect(customURILogger.count(
+      record => record.request.url.match(/okta-verify.html/)
+    )).eql(1);
   });
 
 test

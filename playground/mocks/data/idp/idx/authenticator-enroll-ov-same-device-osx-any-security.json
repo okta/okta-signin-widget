@@ -229,7 +229,7 @@
           "orgUrl": "okta.okta.com",
           "downloadHref": "https://apps.apple.com/us/app/okta-verify/id490179405",
           "platform": "OSX",
-          "setupOVUrl": "com-okta-authenticator://actions/enroll?display_url=okta.okta.com&login_hint=testUser@okta.com&pipeline=idx",
+          "setupOVUrl": "okta-verify.html",
           "securityLevel": "ANY"
         },
         "selectedChannel": "samedevice"

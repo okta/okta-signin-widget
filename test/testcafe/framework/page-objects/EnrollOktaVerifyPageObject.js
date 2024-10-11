@@ -310,6 +310,14 @@ export default class EnrollOktaVerifyPageObject extends BasePageObject {
     await this.form.clickElement(BACK_LINK_CLASS);
   }
 
+  async clickOVSetupButton() {
+    if (userVariables.gen3) {
+      await this.t.click(this.form.getButton(SETUP_OV_BUTTON_TEXT));
+    } else {
+      await this.t.click(this.form.el.find(OV_SETUP_LINK_CLASS));
+    }
+  }
+
   async nthDesktopInstructions(index) {
     return Selector(DESKTOP_INSTRUCTIONS_CLASS).nth(index).innerText;
   }

@@ -221,7 +221,7 @@
           "orgUrl": "okta.okta.com",
           "downloadHref": "https://apps.apple.com/us/app/okta-verify/id490179405",
           "platform": "IOS",
-          "setupOVUrl": "https://login.okta.com/actions/enroll?display_url=okta.okta.com&login_hint=testUser@okta.com&pipeline=idx&app_name=office%20365",
+          "setupOVUrl": "okta-verify.html",
           "securityLevel": "ANY"
         },
         "selectedChannel": "samedevice"
