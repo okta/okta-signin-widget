@@ -295,6 +295,14 @@ export default class BasePageObject {
     return Selector('.spinner').exists;
   }
 
+  loadingBeaconExists() {
+    if(userVariables.gen3) {
+      return this.form.getSpinner().exists;
+    }
+
+    return Selector('.beacon-loading').exists;
+  }
+
   getSpinnerStyle() {
     return Selector('.spinner').getStyleProperty('display');
   }

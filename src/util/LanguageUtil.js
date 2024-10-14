@@ -19,6 +19,7 @@ function loadLanguage(appState, settings) {
   }, supportedLanguages).then(function() {
     clearTimeout(timeout);
     appState.trigger('loading', false);
+    appState.trigger('removeLoading');
   });
   // TODO: what if load language error?
 }
