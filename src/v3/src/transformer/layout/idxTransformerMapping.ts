@@ -91,6 +91,25 @@ import {
 import { transformSymantecVipAuthenticator } from './symantecVip';
 import { transformUnlockAccount } from './unlockAccount';
 
+const IdentifyTransformerSettings = {
+  [AUTHENTICATOR_KEY.DEFAULT]: {
+    transform: transformIdentify,
+    buttonConfig: {
+      showDefaultSubmit: false,
+      showDefaultCancel: false,
+      showForgotPassword: true,
+    },
+  },
+  [AUTHENTICATOR_KEY.PASSWORD]: {
+    transform: transformIdentify,
+    buttonConfig: {
+      showDefaultSubmit: false,
+      showDefaultCancel: false,
+      showForgotPassword: true,
+    },
+  },
+};
+
 /**
  * TransformerMap
  *
@@ -403,24 +422,7 @@ const TransformerMap: {
       },
     },
   },
-  [IDX_STEP.IDENTIFY]: {
-    [AUTHENTICATOR_KEY.DEFAULT]: {
-      transform: transformIdentify,
-      buttonConfig: {
-        showDefaultSubmit: false,
-        showDefaultCancel: false,
-        showForgotPassword: true,
-      },
-    },
-    [AUTHENTICATOR_KEY.PASSWORD]: {
-      transform: transformIdentify,
-      buttonConfig: {
-        showDefaultSubmit: false,
-        showDefaultCancel: false,
-        showForgotPassword: true,
-      },
-    },
-  },
+  [IDX_STEP.IDENTIFY]: IdentifyTransformerSettings,
   [IDX_STEP.IDENTIFY_RECOVERY]: {
     [AUTHENTICATOR_KEY.DEFAULT]: {
       transform: transformIdentityRecovery,
@@ -576,6 +578,10 @@ const TransformerMap: {
       transform: transformDeviceCodeAuthenticator,
     },
   },
+  // Because the CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR step
+  // does not contain the sign in form elements and should be treated
+  // as the Identify step for rendering purposes, we use the same transformer settings
+  [IDX_STEP.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR]: IdentifyTransformerSettings,
 };
 
 if (isDevelopmentEnvironment() || isTestEnvironment()) {

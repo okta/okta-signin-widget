@@ -144,7 +144,11 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       payload.identifier = transformIdentifier(widgetProps, step, payload.identifier as string);
 
       // Widget rememberMe feature stores the entered identifier in a cookie, to pre-fill the form on subsequent visits to page
-      if (features?.rememberMe) {
+      if (
+        features?.rememberMe
+        && typeof payload.identifier === 'string'
+        && payload.identifier !== 'undefined'
+      ) {
         setUsernameCookie(payload.identifier as string);
       } else {
         removeUsernameCookie();

@@ -12,7 +12,11 @@
 
 import { useEffect } from 'preact/hooks';
 
-import { IDX_STEP } from '../../constants';
+import {
+  ABORT_REASON_CLEANUP,
+  ABORT_REASON_WEBAUTHN_AUTOFILLUI_STEP_NOT_FOUND,
+  IDX_STEP
+} from '../../constants';
 import { useWidgetContext } from '../../contexts';
 import { useOnSubmit } from '../../hooks';
 import { UISchemaElementComponent, WebAuthNAutofillElement } from '../../types';
@@ -41,12 +45,20 @@ const WebAuthNAutofill: UISchemaElementComponent<{
             params: { credentials },
             step: IDX_STEP.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR,
             includeData: true,
-            // explicitly set the step to render to IDENTIFY
-            // because the autofill step doesn't have a proper form to render
-            stepToRender: IDX_STEP.IDENTIFY,
           });
         }
-      } catch {
+      } catch (err) {
+        // if we explicitly abort with the following messages
+        // there is no need to display any kind of error to the user as
+        // this is expected behavior
+        const ignoredErrors = [
+          ABORT_REASON_CLEANUP,
+          ABORT_REASON_WEBAUTHN_AUTOFILLUI_STEP_NOT_FOUND,
+        ];
+        if (ignoredErrors.includes(err as string)) {
+          return;
+        }
+
         setMessage({
           message: loc('oie.webauthn.error.invalidPasskey', 'login'),
           class: 'ERROR',
@@ -60,7 +72,7 @@ const WebAuthNAutofill: UISchemaElementComponent<{
     setAbortController(abortController);
     executeNextStep();
     return () => {
-      abortController?.abort();
+      abortController?.abort(ABORT_REASON_CLEANUP);
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
