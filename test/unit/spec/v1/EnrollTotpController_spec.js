@@ -584,6 +584,7 @@ Expect.describe('EnrollTotp', function() {
           test.setNextResponse(resTotpEnrollSuccess);
           test.setNextResponse(resAllFactors);
           test.manualSetupForm.selectManualOption();
+          Expect.isNotVisible(test.manualSetupForm.nextButton());
           return test.manualSetupForm.waitForManual(test);
         })
         .then(function(test) {
