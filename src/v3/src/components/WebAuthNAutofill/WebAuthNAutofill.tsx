@@ -44,7 +44,7 @@ const WebAuthNAutofill: UISchemaElementComponent<{
           onSubmitHandler({
             params: { credentials },
             step: IDX_STEP.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR,
-            includeData: true,
+            includeData: false,
           });
         }
       } catch (err) {
