@@ -35,7 +35,10 @@ import { mergeThemes } from 'src/util/mergeThemes';
 
 import Bundles from '../../../../util/Bundles';
 import Logger from '../../../../util/Logger';
-import { IDX_STEP } from '../../constants';
+import {
+  ABORT_REASON_WEBAUTHN_AUTOFILLUI_STEP_NOT_FOUND,
+  IDX_STEP,
+} from '../../constants';
 import { WidgetContextProvider } from '../../contexts';
 import {
   useInteractionCodeFlow,
@@ -327,7 +330,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
         ({ name }) => name === IDX_STEP.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR,
       )
     ) {
-      abortController?.abort();
+      abortController?.abort(ABORT_REASON_WEBAUTHN_AUTOFILLUI_STEP_NOT_FOUND);
     }
 
     prevIdxTransactionRef.current = idxTransaction;
