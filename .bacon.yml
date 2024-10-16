@@ -149,7 +149,7 @@ test_suites:
     sort_order: '19'
     timeout: '20'
     script_name: verify-registry-install
-    criteria: OPTIONAL
+    criteria: MERGE
     queue_name: small
   - name: find-internal-packages
     script_path: /root/okta/okta-signin-widget/scripts
