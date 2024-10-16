@@ -89,6 +89,7 @@ describe('WebAuthNAutofill', () => {
       },
     };
     render(<WebAuthNAutofill uischema={uischemaWithError} />);
+    await new Promise(process.nextTick);
 
     expect(setMessageSpy).not.toHaveBeenCalled();
   });
