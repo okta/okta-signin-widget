@@ -37,7 +37,7 @@ import Bundles from '../../../../util/Bundles';
 import Logger from '../../../../util/Logger';
 import {
   ABORT_REASON_WEBAUTHN_AUTOFILLUI_STEP_NOT_FOUND,
-  IDX_STEP
+  IDX_STEP,
 } from '../../constants';
 import { WidgetContextProvider } from '../../contexts';
 import {

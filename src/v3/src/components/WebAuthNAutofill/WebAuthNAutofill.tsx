@@ -15,7 +15,7 @@ import { useEffect } from 'preact/hooks';
 import {
   ABORT_REASON_CLEANUP,
   ABORT_REASON_WEBAUTHN_AUTOFILLUI_STEP_NOT_FOUND,
-  IDX_STEP
+  IDX_STEP,
 } from '../../constants';
 import { useWidgetContext } from '../../contexts';
 import { useOnSubmit } from '../../hooks';
