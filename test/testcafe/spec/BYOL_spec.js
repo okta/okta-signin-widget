@@ -1,7 +1,22 @@
 import BYOLPageObject from '../framework/page-objects/BYOLPageObject';
+import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import xhrAuthenticatorEnrollDataPhone from '../../../playground/mocks/data/idp/idx/authenticator-enroll-data-phone.json';
+import xhrIdentify from '../../../playground/mocks/data/idp/idx/identify.json';
 import { ClientFunction, RequestMock } from 'testcafe';
 
+const mockIdentify = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrIdentify)
+  .onRequestTo('http://localhost:3000/mocks/labels/json/login_foo.json')
+  .respond((_req, res) => {
+    // delay should be > 200 (see timeout in loadLanguage util)
+    return new Promise((resolve) => setTimeout(function() {
+      res.statusCode = '200';
+      res.headers['content-type'] = 'application/json';
+      res.setBody({ 'primaryauth.title': 'Signin', 'primaryauth.submit': 'Submit' });
+      resolve(res);
+    }, 500));
+  });
 
 const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -51,7 +66,25 @@ async function setup(t, options = {}) {
   await pageObject.mockCrypto();
   await renderWidget({
     stateToken: 'abc',
-    ...options
+    ...options,
+  });
+  await t.expect(pageObject.formExists()).eql(true);
+
+  return pageObject;
+}
+
+async function setupIdentify(t, options = {}) {
+  const pageObject = new IdentityPageObject(t);
+  await pageObject.navigateToPage({ render: false });
+
+  // Render the widget for interaction code flow
+  await pageObject.mockCrypto();
+  await renderWidget({
+    stateToken: 'abc',
+    features: {
+      securityImage: false,
+    },
+    ...options,
   });
   await t.expect(pageObject.formExists()).eql(true);
 
@@ -113,4 +146,19 @@ test.requestHooks(mock)('unsupported language from navigator.languages will load
   await t.expect(pageObject.getFormTitle()).eql('Set up foo authentication');
   // Check country dropdown (country_foo.json)
   await t.expect(await pageObject.countryDropdownHasSelectedText('Foonited States')).eql(true);
+});
+
+test.requestHooks(mockIdentify)('shows spinner while translations are loading', async t => {
+  const pageObject = await setupIdentify(t, {
+    language: 'foo',
+    assets: {
+      baseUrl: '/mocks'
+    }
+  });
+
+  // Check title (login_foo.json)
+  await t.expect(pageObject.getFormTitle()).eql('Signin');
+
+  // Check loading beacon
+  await t.expect(pageObject.loadingBeaconExists()).eql(false);
 });

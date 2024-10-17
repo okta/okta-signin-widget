@@ -154,9 +154,9 @@ export default class Header extends View {
           // Order of these calls is important for -
           // loader --> security/factor beacon swap.
           removeBeacon(this);
+          this.$el.removeClass(NO_BEACON_CLS);
           if (isLoading) {
             container.removeClass(LOADING_BEACON_CLS);
-            this.$el.removeClass(NO_BEACON_CLS);
           }
           addBeacon(this, NextBeacon, selector, options);
         },
@@ -185,6 +185,10 @@ export default class Header extends View {
 
   // Hide the beacon on primary auth failure. On primary auth success, setBeacon does this job.
   removeLoadingBeacon() {
+    if (!isLoadingBeacon(this.currentBeacon)) {
+      return;
+    }
+
     const container = this.$('[data-type="beacon-container"]');
 
     return Animations.implode(container)

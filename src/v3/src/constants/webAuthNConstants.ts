@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022-present, Okta, Inc. and/or its affiliates. All rights reserved.
+ * Copyright (c) 2024-present, Okta, Inc. and/or its affiliates. All rights reserved.
  * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
  *
  * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-export * from './idxConstants';
-export * from './passwordConstants';
-export * from './webAuthNConstants';
+import { IDX_STEP } from './idxConstants';
+
+export const ABORT_REASON_CLEANUP = 'WebAuthNAutofill component cleanup';
+export const ABORT_REASON_WEBAUTHN_AUTOFILLUI_STEP_NOT_FOUND = `${IDX_STEP.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR} not found in available steps`;
