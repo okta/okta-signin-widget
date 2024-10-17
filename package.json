@@ -2,7 +2,7 @@
   "name": "@okta/loginpage-render",
   "private": true,
   "description": "The Okta loginpage render repository",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "repository": "https://github.com/atko-eng/loginpage.git",
   "license": "UNLICENSED",
   "engines": {
