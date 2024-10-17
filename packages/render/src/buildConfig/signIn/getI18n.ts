@@ -57,10 +57,10 @@ export const getI18n = ({
 
     // Override labels for KMSI on SIW when FF is enabled
     ...(hasFeature('POST_AUTH_KMSI_IN_AUTH_POLICY', featureFlags) && {
-      'oie.kmsi.title': orgLoginPageSettings['kmsiPrompt.title'],
-      'oie.kmsi.subtitle': orgLoginPageSettings['kmsiPrompt.subtitle'],
-      'oie.kmsi.accept': orgLoginPageSettings['kmsiPrompt.acceptButtonText'],
-      'oie.kmsi.reject': orgLoginPageSettings['kmsiPrompt.rejectButtonText'],
+      'oie.kmsi.title': orgLoginPageSettings?.postAuthKeepMeSignedInPrompt?.title,
+      'oie.kmsi.subtitle': orgLoginPageSettings?.postAuthKeepMeSignedInPrompt?.subtitle,
+      'oie.kmsi.accept': orgLoginPageSettings?.postAuthKeepMeSignedInPrompt?.acceptButtonText,
+      'oie.kmsi.reject': orgLoginPageSettings?.postAuthKeepMeSignedInPrompt?.rejectButtonText,
     }),
   };
 

@@ -13,7 +13,7 @@
   "dependencies": {
     "@okta/loginpage-render": "*",
     "@okta/loginpage-mock": "*",
-    "@okta/loginpage": "latest"
+    "@okta/loginpage": "0.0.1-8915-ga9f17dd"
   },
   "devDependencies": {
     "@okta/okta-signin-widget": "https://github.com/okta/okta-signin-widget.git",

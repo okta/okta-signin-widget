@@ -25,10 +25,12 @@ type ModelDatabag = {
     oktaHelpLabel: string;
     footerHelpTitle: string;
     recoveryFlowPlaceholder: string;
-    'kmsiPrompt.title'?: string;
-    'kmsiPrompt.subtitle'?: string;
-    'kmsiPrompt.acceptButtonText'?: string;
-    'kmsiPrompt.rejectButtonText'?: string;
+    postAuthKeepMeSignedInPrompt?: {
+      title?: string;
+      subtitle?: string;
+      acceptButtonText?: string;
+      rejectButtonText?: string;
+    }
   },
   orgOptionalUserAccountFields?: {
     hideSecurityImage: boolean;

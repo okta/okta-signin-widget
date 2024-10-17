@@ -150,4 +150,44 @@ describe('getI18n', () => {
 }
 `);
   });
+
+  it('populates oie.kmsi when has POST_AUTH_KMSI_IN_AUTH_POLICY FF enabled', () => {
+    const testData = {
+      ...databag,
+      featureFlags: ['POST_AUTH_KMSI_IN_AUTH_POLICY'],
+      orgLoginPageSettings: {
+        postAuthKeepMeSignedInPrompt: {
+          title: 'mock-title',
+          subtitle: 'mock-subtitle',
+          acceptButtonText: 'mock-acceptButtonText',
+          rejectButtonText: 'mock-rejectButtonText',
+        }
+      },
+    } as Databag;
+    expect(getI18n(testData)).toMatchInlineSnapshot(`
+{
+  "en": {
+    "account.unlock.email.or.username.placeholder": undefined,
+    "account.unlock.email.or.username.tooltip": undefined,
+    "forgotpassword": undefined,
+    "help": undefined,
+    "mfa.challenge.password.placeholder": undefined,
+    "needhelp": undefined,
+    "oie.kmsi.accept": "mock-acceptButtonText",
+    "oie.kmsi.reject": "mock-rejectButtonText",
+    "oie.kmsi.subtitle": "mock-subtitle",
+    "oie.kmsi.title": "mock-title",
+    "password.forgot.email.or.username.placeholder": undefined,
+    "password.forgot.email.or.username.tooltip": undefined,
+    "primaryauth.password.placeholder": undefined,
+    "primaryauth.password.tooltip": undefined,
+    "primaryauth.title": undefined,
+    "primaryauth.username.placeholder": undefined,
+    "primaryauth.username.tooltip": undefined,
+    "unlockaccount": undefined,
+  },
+}
+`);
+  });
+
 });
