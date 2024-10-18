@@ -237,7 +237,7 @@
     "webpack-dev-server": "^4.15.2"
   },
   "dependencies": {
-    "@okta/okta-auth-js": "^7.8.0",
+    "@okta/okta-auth-js": "^7.8.1",
     "@sindresorhus/to-milliseconds": "^1.0.0",
     "@types/backbone": "^1.4.15",
     "@types/eslint-scope": "^3.7.3",
