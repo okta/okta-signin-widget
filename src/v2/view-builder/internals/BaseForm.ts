@@ -164,24 +164,25 @@ export default Form.extend({
     const messages = this.options.appState.get('messages') || {};
     const errContainer = '.o-form-error-container';
     if (Array.isArray(messages.value) && !(options instanceof View)) {
-      const infoMessages = messages.value.filter(obj => (!obj?.class || obj.class === INFO_MESSAGE_CLASS));
-      const callouts = messages.value.filter(obj => !infoMessages.includes(obj));
-      // Add messages as plain text
-      const ionMessages = infoMessages.map(obj => `<p>${obj.message}</p>`).join('');
-      this.add(`<div class="ion-messages-container">${ionMessages}</div>`, errContainer);
-      callouts.forEach(obj => {
-        const errorObj = {
-          class: obj?.class ?? '',
-          message: obj?.message,
-          title: '',
-          ...options
-        };
-        this.add(createCallout({
-          content: errorObj.message,
-          type: errorObj.class.toLowerCase(),
-          title: errorObj.title
-        }), errContainer);
-        options = null; // prevent repeating first error message
+      this.add('<div class="ion-messages-container"></div>', errContainer);
+      messages.value.forEach(obj => {
+        if(!obj?.class || obj.class === INFO_MESSAGE_CLASS) {
+          // add message as plain text
+          this.add(`<p>${obj.message}</p>`, '.ion-messages-container');
+        } else {
+          const errorObj = {
+            class: obj?.class ?? '',
+            message: obj?.message,
+            title: '',
+            ...options
+          };
+          this.add(createCallout({
+            content: errorObj.message,
+            type: errorObj.class.toLowerCase(),
+            title: errorObj.title
+          }), errContainer);
+          options = null; // prevent repeating first error message
+        }
       });
     } else if (options instanceof View) {
       // if callee is showCustomFormErrorCallout. show custom error views
