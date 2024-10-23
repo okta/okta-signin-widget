@@ -146,15 +146,15 @@
   resolved "https://registry.yarnpkg.com/@babel/compat-data/-/compat-data-7.20.5.tgz#86f172690b093373a933223b4745deeb6049e733"
   integrity sha512-KZXo2t10+/jxmkhNXc7pZTqRvSOIvVv/+lJwHS+B2rErwOyjuVRh60yVpb7liQ1U5t7lLJ1bz+t8tSypUZdm0g==
 
-"@babel/compat-data@^7.20.5", "@babel/compat-data@^7.22.6", "@babel/compat-data@^7.25.2", "@babel/compat-data@^7.25.4":
-  version "7.25.4"
-  resolved "https://registry.yarnpkg.com/@babel/compat-data/-/compat-data-7.25.4.tgz#7d2a80ce229890edcf4cc259d4d696cb4dae2fcb"
-  integrity sha512-+LGRog6RAsCJrrrg/IO6LGmpphNe5DiK30dGjCoxxeGv49B10/3XYGxPsAwrDlMFcFEvdAUavDT8r9k/hSyQqQ==
-
 "@babel/compat-data@^7.22.5":
   version "7.22.5"
   resolved "https://registry.yarnpkg.com/@babel/compat-data/-/compat-data-7.22.5.tgz#b1f6c86a02d85d2dd3368a2b67c09add8cd0c255"
   integrity sha512-4Jc/YuIaYqKnDDz892kPIledykKg12Aw1PYX5i/TY28anJtacvM1Rrr8wbieB9GfEJwlzqT0hUEao0CxEebiDA==
+
+"@babel/compat-data@^7.22.6", "@babel/compat-data@^7.25.2", "@babel/compat-data@^7.25.4":
+  version "7.25.4"
+  resolved "https://registry.yarnpkg.com/@babel/compat-data/-/compat-data-7.25.4.tgz#7d2a80ce229890edcf4cc259d4d696cb4dae2fcb"
+  integrity sha512-+LGRog6RAsCJrrrg/IO6LGmpphNe5DiK30dGjCoxxeGv49B10/3XYGxPsAwrDlMFcFEvdAUavDT8r9k/hSyQqQ==
 
 "@babel/core@^7.1.0":
   version "7.13.8"
@@ -1455,16 +1455,6 @@
     "@babel/helper-remap-async-to-generator" "^7.18.9"
     "@babel/plugin-syntax-async-generators" "^7.8.4"
 
-"@babel/plugin-proposal-async-generator-functions@^7.20.7":
-  version "7.20.7"
-  resolved "https://registry.yarnpkg.com/@babel/plugin-proposal-async-generator-functions/-/plugin-proposal-async-generator-functions-7.20.7.tgz#bfb7276d2d573cb67ba379984a2334e262ba5326"
-  integrity sha512-xMbiLsn/8RK7Wq7VeVytytS2L6qE69bXPB10YCmMdDZbKF4okCqY74pI/jJQ/8U0b/F6NrT2+14b8/P9/3AMGA==
-  dependencies:
-    "@babel/helper-environment-visitor" "^7.18.9"
-    "@babel/helper-plugin-utils" "^7.20.2"
-    "@babel/helper-remap-async-to-generator" "^7.18.9"
-    "@babel/plugin-syntax-async-generators" "^7.8.4"
-
 "@babel/plugin-proposal-class-properties@^7.16.7", "@babel/plugin-proposal-class-properties@^7.18.6":
   version "7.18.6"
   resolved "https://registry.yarnpkg.com/@babel/plugin-proposal-class-properties/-/plugin-proposal-class-properties-7.18.6.tgz#b110f59741895f7ec21a6fff696ec46265c446a3"
@@ -1549,17 +1539,6 @@
     "@babel/helper-plugin-utils" "^7.20.2"
     "@babel/plugin-syntax-object-rest-spread" "^7.8.3"
     "@babel/plugin-transform-parameters" "^7.20.1"
-
-"@babel/plugin-proposal-object-rest-spread@^7.20.7":
-  version "7.20.7"
-  resolved "https://registry.yarnpkg.com/@babel/plugin-proposal-object-rest-spread/-/plugin-proposal-object-rest-spread-7.20.7.tgz#aa662940ef425779c75534a5c41e9d936edc390a"
-  integrity sha512-d2S98yCiLxDVmBmE8UjGcfPvNEUbA1U5q5WxaWFUGRzJSVAZqm5W6MbPct0jxnegUZ0niLeNX+IOzEs7wYg9Dg==
-  dependencies:
-    "@babel/compat-data" "^7.20.5"
-    "@babel/helper-compilation-targets" "^7.20.7"
-    "@babel/helper-plugin-utils" "^7.20.2"
-    "@babel/plugin-syntax-object-rest-spread" "^7.8.3"
-    "@babel/plugin-transform-parameters" "^7.20.7"
 
 "@babel/plugin-proposal-optional-catch-binding@^7.18.6":
   version "7.18.6"
@@ -2286,7 +2265,7 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.20.2"
 
-"@babel/plugin-transform-parameters@^7.20.7", "@babel/plugin-transform-parameters@^7.24.7":
+"@babel/plugin-transform-parameters@^7.24.7":
   version "7.24.7"
   resolved "https://registry.yarnpkg.com/@babel/plugin-transform-parameters/-/plugin-transform-parameters-7.24.7.tgz#5881f0ae21018400e320fc7eb817e529d1254b68"
   integrity sha512-yGWW5Rr+sQOhK0Ot8hjDJuxU3XLRQGflvT4lhlSY0DFvdb3TwKaY26CJzHtYllU0vT9j58hc37ndFPsqT1SrzA==
@@ -5517,6 +5496,13 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-18.11.9.tgz#02d013de7058cea16d36168ef2fc653464cfbad4"
   integrity sha512-CRpX21/kGdzjOpFsZSkcrXMGIBWMGNIHXXBVFSH+ggkftxg+XYP20TESbh+zFvFj3EQOl5byk0HTRn1IL6hbqg==
 
+"@types/node@20.14.5":
+  version "20.14.5"
+  resolved "https://artifacts.aue1e.internal/artifactory/api/npm/npm-okta-master/@types/node/-/node-20.14.5.tgz#fe35e3022ebe58b8f201580eb24e1fcfc0f2487d"
+  integrity sha512-aoRR+fJkZT2l0aGOJhuA8frnCSoNX6W7U2mpNq63+BxBIj5BQFt8rHy627kijCmm63ijdSdwvGgpUsU6MBsZZA==
+  dependencies:
+    undici-types "~5.26.4"
+
 "@types/node@^15.0.1":
   version "15.14.9"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-15.14.9.tgz#bc43c990c3c9be7281868bbc7b8fdd6e2b57adfa"
@@ -5531,13 +5517,6 @@
   version "17.0.45"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.45.tgz#2c0fafd78705e7a18b7906b5201a522719dc5190"
   integrity sha512-w+tIMs3rq2afQdsPJlODhoUEKzFP1ayaoyl1CcnwtIlsVe7K7bA1NGm4s3PraqTLlXnbIN84zuBlxBWo1u9BLw==
-
-"@types/node@^20.14.5":
-  version "20.16.5"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.16.5.tgz#d43c7f973b32ffdf9aa7bd4f80e1072310fd7a53"
-  integrity sha512-VwYCweNo3ERajwy0IUlqqcyZ8/A7Zwa9ZP3MnENWcB11AejO+tLy3pu850goUW2FC/IJMdZUfKpX/yxL1gymCA==
-  dependencies:
-    undici-types "~6.19.2"
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.1"
@@ -19809,10 +19788,10 @@ testcafe-browser-tools@2.0.26:
     read-file-relative "^1.2.0"
     which-promise "^1.0.0"
 
-testcafe-hammerhead@31.7.2:
-  version "31.7.2"
-  resolved "https://registry.yarnpkg.com/testcafe-hammerhead/-/testcafe-hammerhead-31.7.2.tgz#bbe09be27f19216dd119cf065b80644df5cbf257"
-  integrity sha512-wjZ3Y4fXnew6WaoMhD7jTe/zrzSYJMLZulX+/pXS6xed9meUx7zzCSc5epPJEW8Xy3Zo09n7w+m7+2SDej0/Iw==
+testcafe-hammerhead@31.7.3:
+  version "31.7.3"
+  resolved "https://artifacts.aue1e.internal/artifactory/api/npm/npm-okta-master/testcafe-hammerhead/-/testcafe-hammerhead-31.7.3.tgz#46e72e153a8ea7804571bb1e6adc48d2b60dff80"
+  integrity sha512-LmldhnuUUNcel66z8hjwPkxGrA6jaGt6K9B8iuxOVVRuhpqFfmP3do5MeplK9NyPbIjkAW6WsHDu+nUM88IUsA==
   dependencies:
     "@adobe/css-tools" "^4.3.0-rc.1"
     "@electron/asar" "^3.2.3"
@@ -19914,32 +19893,28 @@ testcafe-reporter-xunit@^2.2.1:
   resolved "https://registry.yarnpkg.com/testcafe-reporter-xunit/-/testcafe-reporter-xunit-2.2.1.tgz#674b6551bec88829d4ed08af43e7838793cf714e"
   integrity sha512-ge1msi8RyNVyK0QrsmC79zedV7jHasKpBPeOUZd/ORpbYLeYDnprjIeOuIukw0knnTieeYsOK29/ZD+UI7/tdw==
 
-testcafe-safe-storage@^1.1.1:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/testcafe-safe-storage/-/testcafe-safe-storage-1.1.2.tgz#dacfda9a51c77f61f11b13506d4004dd7f27eb73"
-  integrity sha512-6km7D26+KCQGeFlSQ9fVEU7tD8qdioSpqzxU8CCZkd2KzBS0jTFkqaJ54rPaLdd5+wdhgO3+as3LMm4F0EDeYA==
-
 testcafe-selector-generator@^0.1.0:
   version "0.1.0"
   resolved "https://registry.npmjs.org/testcafe-selector-generator/-/testcafe-selector-generator-0.1.0.tgz#852c86f71565e5d9320da625c2260d040cbed786"
   integrity sha512-MTw+RigHsEYmFgzUFNErDxui1nTYUk6nm2bmfacQiKPdhJ9AHW/wue4J/l44mhN8x3E8NgOUkHHOI+1TDFXiLQ==
 
-testcafe@^3.6.2:
-  version "3.6.2"
-  resolved "https://registry.yarnpkg.com/testcafe/-/testcafe-3.6.2.tgz#53d5391d65a7b64a2eb14ec053266dc00d69bce2"
-  integrity sha512-y7PGzuSQt82iSJNYkN7/78PsviyFZOSQDYkHXb8UFj7BKCgrLONxZ+WZ5uk5tb1tHU/sKTHkWTwVJHkGXIamVg==
+testcafe@^3.7.0-rc.1:
+  version "3.7.0-rc.1"
+  resolved "https://artifacts.aue1e.internal/artifactory/api/npm/npm-okta-master/testcafe/-/testcafe-3.7.0-rc.1.tgz#11fd425ff8c5b202a3a6d0936b1fd4f58f9ff834"
+  integrity sha512-HzrKpix9q+PzlcnTWETvlLfPwTZtVBvoWO/IOvHU5pZXkSML9Ii6/2lergBU40iH9chDIRqhbE/rpjbxjj332w==
   dependencies:
     "@babel/core" "^7.23.2"
-    "@babel/plugin-proposal-async-generator-functions" "^7.20.7"
-    "@babel/plugin-proposal-class-properties" "^7.18.6"
     "@babel/plugin-proposal-decorators" "^7.23.2"
-    "@babel/plugin-proposal-object-rest-spread" "^7.20.7"
-    "@babel/plugin-proposal-private-methods" "^7.18.6"
     "@babel/plugin-syntax-dynamic-import" "^7.8.3"
     "@babel/plugin-syntax-import-meta" "^7.10.4"
+    "@babel/plugin-transform-async-generator-functions" "^7.25.4"
     "@babel/plugin-transform-async-to-generator" "^7.22.5"
+    "@babel/plugin-transform-class-properties" "^7.25.4"
+    "@babel/plugin-transform-class-static-block" "^7.24.7"
     "@babel/plugin-transform-exponentiation-operator" "^7.22.5"
     "@babel/plugin-transform-for-of" "^7.22.15"
+    "@babel/plugin-transform-object-rest-spread" "^7.24.7"
+    "@babel/plugin-transform-private-methods" "^7.25.4"
     "@babel/plugin-transform-runtime" "7.23.3"
     "@babel/preset-env" "^7.23.2"
     "@babel/preset-flow" "^7.22.15"
@@ -19947,7 +19922,7 @@ testcafe@^3.6.2:
     "@babel/runtime" "^7.23.2"
     "@devexpress/bin-v8-flags-filter" "^1.3.0"
     "@devexpress/callsite-record" "^4.1.6"
-    "@types/node" "^20.14.5"
+    "@types/node" "20.14.5"
     address "^2.0.2"
     async-exit-hook "^1.1.2"
     babel-plugin-module-resolver "5.0.0"
@@ -20010,14 +19985,13 @@ testcafe@^3.6.2:
     source-map-support "^0.5.16"
     strip-bom "^2.0.0"
     testcafe-browser-tools "2.0.26"
-    testcafe-hammerhead "31.7.2"
+    testcafe-hammerhead "31.7.3"
     testcafe-legacy-api "5.1.8"
     testcafe-reporter-json "^2.1.0"
     testcafe-reporter-list "^2.2.0"
     testcafe-reporter-minimal "^2.2.0"
     testcafe-reporter-spec "^2.2.0"
     testcafe-reporter-xunit "^2.2.1"
-    testcafe-safe-storage "^1.1.1"
     testcafe-selector-generator "^0.1.0"
     time-limit-promise "^1.0.2"
     tmp "0.0.28"
@@ -20547,10 +20521,10 @@ underscore@~1.12.1:
   resolved "https://registry.npmjs.org/underscore/-/underscore-1.12.1.tgz#7bb8cc9b3d397e201cf8553336d262544ead829e"
   integrity sha512-hEQt0+ZLDVUMhebKxL4x1BTtDY7bavVofhZ9KZ4aI26X9SRaE+Y3m83XUL1UP2jn8ynjndwCCpEHdUG+9pP1Tw==
 
-undici-types@~6.19.2:
-  version "6.19.8"
-  resolved "https://registry.yarnpkg.com/undici-types/-/undici-types-6.19.8.tgz#35111c9d1437ab83a7cdc0abae2f26d88eda0a02"
-  integrity sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw==
+undici-types@~5.26.4:
+  version "5.26.5"
+  resolved "https://artifacts.aue1e.internal/artifactory/api/npm/npm-okta-master/undici-types/-/undici-types-5.26.5.tgz#bcd539893d00b56e964fd2657a4866b221a65617"
+  integrity sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==
 
 unicode-canonical-property-names-ecmascript@^2.0.0:
   version "2.0.0"
