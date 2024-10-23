@@ -221,7 +221,7 @@ export default class AppState extends Model {
     const currentFormName = this.get('currentFormName');
     const currentViewState = transformedResponse.remediations.filter(r => r.name === currentFormName)[0];
     // Get new refresh interval for either: remediations, authenticator, or authenticator enrollment
-    return currentViewState?.refresh ||
+    return currentViewState.refresh ||
       transformedResponse.currentAuthenticatorEnrollment?.poll?.refresh ||
       transformedResponse.currentAuthenticator?.poll?.refresh;
   }
