@@ -30,21 +30,44 @@ async function setup(t) {
   return enrollWebauthnPage;
 }
 
-// This is the only test we can perform in testcafe as webauthn api is not available in the version of chrome/chromeheadless
-// that testcafe loads.
+// This is the only test we can perform in TestCafe without Native Automation as WebAuthn API is not available 
+//  in the version of chrome/chromeheadless that TestCafe loads
 test('should have webauthn not supported error if browser doesnt support', async t => {
+  if (t.browser.nativeAutomation) {
+    return;
+  }
+
   const enrollWebauthnPage = await setup(t);
   await checkA11y(t);
   await t.expect(enrollWebauthnPage.getFormTitle()).eql('Set up security key or biometric authenticator');
 
-  if (t.browser.nativeAutomation) {
-    await t.expect(enrollWebauthnPage.hasEnrollInstruction()).eql(true);
-    await t.expect(await enrollWebauthnPage.hasWebauthnNotSupportedError()).notOk();
-  } else {
-    await t.expect(enrollWebauthnPage.hasEnrollInstruction()).eql(false);
-    await t.expect(enrollWebauthnPage.getWebauthnNotSupportedError())
-      .contains('Security key or biometric authenticator is not supported on this browser. Contact your admin for assistance.');  
+  // check webauthn not supported error
+  await t.expect(enrollWebauthnPage.hasEnrollInstruction()).eql(false);
+  await t.expect(enrollWebauthnPage.getWebauthnNotSupportedError())
+    .contains('Security key or biometric authenticator is not supported on this browser. Contact your admin for assistance.');  
+
+  // signout link at enroll page
+  await t.expect(await enrollWebauthnPage.signoutLinkExists()).ok();
+
+  // assert switch authenticator link shows up
+  await t.expect(await enrollWebauthnPage.returnToAuthenticatorListLinkExists()).ok();
+  await t.expect(enrollWebauthnPage.getSwitchAuthenticatorLinkText()).eql('Return to authenticator list');
+});
+
+// TestCafe 3 with Native Automation enabled uses native CDP (Chrome DevTools Protocol) with enabled WebAuthn API
+test('should show enroll instructions and setup button when browser supports webauthn', async t => {
+  if (!t.browser.nativeAutomation) {
+    return;
   }
+
+  const enrollWebauthnPage = await setup(t);
+  await checkA11y(t);
+  await t.expect(enrollWebauthnPage.getFormTitle()).eql('Set up security key or biometric authenticator');
+
+  // check enroll instructions and setup button
+  await t.expect(enrollWebauthnPage.hasEnrollInstruction()).eql(true);
+  await t.expect(await enrollWebauthnPage.hasWebauthnNotSupportedError()).notOk();
+  await t.expect(enrollWebauthnPage.setupButtonExists()).eql(true);
 
   // signout link at enroll page
   await t.expect(await enrollWebauthnPage.signoutLinkExists()).ok();

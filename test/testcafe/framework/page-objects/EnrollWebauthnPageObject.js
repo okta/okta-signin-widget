@@ -26,4 +26,8 @@ export default class EnrollWebauthnPageObject extends BasePageObject {
     }
     return this.form.el.find('.webauthn-not-supported').innerText;
   }
+
+  setupButtonExists() {
+    return this.form.getButton('Set up').exists;
+  }
 }
