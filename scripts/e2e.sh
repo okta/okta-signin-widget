@@ -63,8 +63,8 @@ fi
 
 # Run feature tests
 export RUN_FEATURE_TESTS=true
-get_vault_secret_key devex/auth-js-sdk-vars a18n_api_key A18N_API_KEY
-get_vault_secret_key devex/okta-signin-widget test_org_okta_api_key OKTA_CLIENT_TOKEN
+get_terminus_secret "/" A18N_API_KEY A18N_API_KEY
+get_terminus_secret "/" OKTA_CLIENT_TOKEN OKTA_CLIENT_TOKEN
 
 if ! yarn test:e2e; then
   echo "e2e feature tests failed! Exiting..."
