@@ -12,16 +12,16 @@ export TEST_RESULT_FILE_DIR="${REPO}/build2"
 echo $TEST_SUITE_TYPE > $TEST_SUITE_TYPE_FILE
 echo $TEST_RESULT_FILE_DIR > $TEST_RESULT_FILE_DIR_FILE
 
-get_vault_secret_key repo_gh-okta-okta-signin-widget/default WIDGET_BASIC_USER WIDGET_BASIC_USER
-get_vault_secret_key repo_gh-okta-okta-signin-widget/default WIDGET_BASIC_PASSWORD WIDGET_BASIC_PASSWORD
-get_vault_secret_key repo_gh-okta-okta-signin-widget/default WIDGET_BASIC_USER_2 WIDGET_BASIC_USER_2
-get_vault_secret_key repo_gh-okta-okta-signin-widget/default WIDGET_BASIC_PASSWORD_2 WIDGET_BASIC_PASSWORD_2
-get_vault_secret_key repo_gh-okta-okta-signin-widget/default WIDGET_BASIC_USER_3 WIDGET_BASIC_USER_3
-get_vault_secret_key repo_gh-okta-okta-signin-widget/default WIDGET_BASIC_PASSWORD_3 WIDGET_BASIC_PASSWORD_3
-get_vault_secret_key repo_gh-okta-okta-signin-widget/default WIDGET_BASIC_USER_4 WIDGET_BASIC_USER_4
-get_vault_secret_key repo_gh-okta-okta-signin-widget/default WIDGET_BASIC_PASSWORD_4 WIDGET_BASIC_PASSWORD_4
-get_vault_secret_key repo_gh-okta-okta-signin-widget/default WIDGET_BASIC_USER_5 WIDGET_BASIC_USER_5
-get_vault_secret_key repo_gh-okta-okta-signin-widget/default WIDGET_BASIC_PASSWORD_5 WIDGET_BASIC_PASSWORD_5
+get_terminus_secret "/" WIDGET_BASIC_USER WIDGET_BASIC_USER
+get_terminus_secret "/" WIDGET_BASIC_PASSWORD WIDGET_BASIC_PASSWORD
+get_terminus_secret "/" WIDGET_BASIC_USER_2 WIDGET_BASIC_USER_2
+get_terminus_secret "/" WIDGET_BASIC_PASSWORD_2 WIDGET_BASIC_PASSWORD_2
+get_terminus_secret "/" WIDGET_BASIC_USER_3 WIDGET_BASIC_USER_3
+get_terminus_secret "/" WIDGET_BASIC_PASSWORD_3 WIDGET_BASIC_PASSWORD_3
+get_terminus_secret "/" WIDGET_BASIC_USER_4 WIDGET_BASIC_USER_4
+get_terminus_secret "/" WIDGET_BASIC_PASSWORD_4 WIDGET_BASIC_PASSWORD_4
+get_terminus_secret "/" WIDGET_BASIC_USER_5 WIDGET_BASIC_USER_5
+get_terminus_secret "/" WIDGET_BASIC_PASSWORD_5 WIDGET_BASIC_PASSWORD_5
 
 # We use the below OIE enabled org and clients for OIE tests
 export WIDGET_TEST_SERVER=https://oie-signin-widget.okta.com
@@ -63,8 +63,8 @@ fi
 
 # Run feature tests
 export RUN_FEATURE_TESTS=true
-get_vault_secret_key devex/auth-js-sdk-vars a18n_api_key A18N_API_KEY
-get_vault_secret_key devex/okta-signin-widget test_org_okta_api_key OKTA_CLIENT_TOKEN
+get_terminus_secret "/" A18N_API_KEY A18N_API_KEY
+get_terminus_secret "/" OKTA_CLIENT_TOKEN OKTA_CLIENT_TOKEN
 
 if ! yarn test:e2e; then
   echo "e2e feature tests failed! Exiting..."

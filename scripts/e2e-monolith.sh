@@ -50,7 +50,7 @@ finish_log_group $?
 # Run feature tests
 export RUN_FEATURE_TESTS=true
 create_log_group "Feature E2E"
-#get_vault_secret_key devex/auth-js-sdk-vars a18n_api_key A18N_API_KEY
+# get_terminus_secret "/" A18N_API_KEY A18N_API_KEY
 if ! yarn test:e2e; then
   echo "e2e feature tests failed! Exiting..."
   move_logs_tmp_api
