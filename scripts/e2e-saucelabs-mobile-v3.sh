@@ -7,7 +7,7 @@ setup_service java 1.8.222
 
 export RUN_SAUCE_TESTS=mobile
 export SAUCE_USERNAME=OktaSignInWidget
-get_vault_secret_key devex/sauce-labs accessKey SAUCE_ACCESS_KEY
+get_terminus_secret "/" SAUCE_ACCESS_KEY SAUCE_ACCESS_KEY
 export TEST_SUITE_TYPE="junit"
 export TEST_RESULT_FILE_DIR="${REPO}/build2"
 echo ${TEST_SUITE_TYPE} > ${TEST_SUITE_TYPE_FILE}
@@ -18,11 +18,11 @@ export WIDGET_TEST_SERVER=https://oie-signin-widget.okta.com
 export WIDGET_SPA_CLIENT_ID=0oa8lrg7ojTsbJgRQ696
 export WIDGET_WEB_CLIENT_ID=0oa8ls36zUZj7oFJ2696
 export WIDGET_BASIC_USER=testuser
-get_vault_secret_key devex/okta-signin-widget widget_basic_password WIDGET_BASIC_PASSWORD
+get_terminus_secret "/" WIDGET_BASIC_PASSWORD WIDGET_BASIC_PASSWORD
 
 export ORG_OIE_ENABLED=true
-get_vault_secret_key devex/auth-js-sdk-vars a18n_api_key A18N_API_KEY
-get_vault_secret_key devex/okta-signin-widget test_org_okta_api_key OKTA_CLIENT_TOKEN
+get_terminus_secret "/" A18N_API_KEY A18N_API_KEY
+get_terminus_secret "/" OKTA_CLIENT_TOKEN OKTA_CLIENT_TOKEN
 
 # Build
 if ! yarn workspace v3 build:release; then
