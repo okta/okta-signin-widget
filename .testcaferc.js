@@ -109,6 +109,11 @@ const config = {
       assertionTimeout: 20000,
   }),
 
+  // TestCafe 3 with Native Automation enabled causes errors on tests for Gen2
+  //  that expect rendering of form messages in `BaseForm.showMessages()`
+  // See https://github.com/okta/okta-signin-widget/pull/3714#discussion_r1755234838
+  disableNativeAutomation: !env.OKTA_SIW_GEN3,
+
   // limit concurrency when running flaky tests
   // OKTA_SIW_ONLY_FLAKY: 1 ← flaky
   // !CHROME_HEADLESS: 1 ← for debugging tests
