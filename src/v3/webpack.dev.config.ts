@@ -159,17 +159,16 @@ const devConfig: Configuration = mergeWithRules({
       }],
       // https://webpack.js.org/configuration/dev-server/#devserversetupmiddlewares
       setupMiddlewares(middlewares) {
-        if (!DISABLE_MOCK_SERVER) {
-          const script = resolve(PLAYGROUND, 'mocks/server.js');
-          const watch = [resolve(PLAYGROUND, 'mocks')];
-          const env = { MOCK_SERVER_PORT, DEV_SERVER_PORT, BASE_URL: require(WIDGET_RC_JS).baseUrl };
-
-          nodemon({
-            script, watch, env, delay: 50,
-          })
-            ?.on('crash', console.error);
+        if (DISABLE_MOCK_SERVER) {
+          return middlewares;
         }
-
+        const script = resolve(PLAYGROUND, 'mocks/server.js');
+        const watch = [resolve(PLAYGROUND, 'mocks')];
+        const env = { MOCK_SERVER_PORT, DEV_SERVER_PORT, BASE_URL: require(WIDGET_RC_JS).baseUrl };
+        nodemon({
+          script, watch, env, delay: 50,
+        })
+          ?.on('crash', console.error);
         return middlewares;
       },
     },
