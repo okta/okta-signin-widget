@@ -45,6 +45,11 @@ const WebAuthNAutofill: UISchemaElementComponent<{
             params: { credentials },
             step: IDX_STEP.CHALLENGE_WEBAUTHN_AUTOFILLUI_AUTHENTICATOR,
             includeData: false,
+            // Explicitly set the step to render to IDENTIFY
+            // because the autofill step doesn't have a proper form to render.
+            // This fixes a problem when a user tries to log in with a saved Passkey
+            // that has since been unenrolled from the enduser settings page.
+            stepToRender: IDX_STEP.IDENTIFY,
           });
         }
       } catch (err) {

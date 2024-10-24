@@ -93,4 +93,23 @@ describe('WebAuthNAutofill', () => {
 
     expect(setMessageSpy).not.toHaveBeenCalled();
   });
+
+  it('should call the onSubmit handler with the correct options', async () => {
+    const onSubmitMock = jest.fn();
+    (useOnSubmit as jest.Mock).mockReturnValue(onSubmitMock);
+    const setMessageSpy = jest.spyOn(mockWidgetContext, 'setMessage');
+    render(<WebAuthNAutofill uischema={uischema} />);
+    await new Promise(process.nextTick);
+
+    expect(onSubmitMock).toHaveBeenCalledWith({
+      includeData: false,
+      params: {
+        credentials: {}
+      },
+      step: 'challenge-webauthn-autofillui-authenticator',
+      // it's important that we render the 'identify' step
+      // as the autofillui remediation doesn't contain a form to render
+      stepToRender: 'identify',
+    });
+  });
 });
