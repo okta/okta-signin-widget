@@ -46,6 +46,21 @@ const createRequestLogger = () => RequestLogger(/challenge|challenge\/poll|chall
   }
 );
 
+const createWaiter = (t) => {
+  const startDate = new Date();
+  let totalTimeToBeElapsedSinceStart = 0;
+
+  return {
+    wait: async (timeToWait) => {
+      totalTimeToBeElapsedSinceStart += timeToWait;
+      const timeElapsedSinceStart = new Date() - startDate;
+      const realTimeToWait = Math.max(totalTimeToBeElapsedSinceStart - timeElapsedSinceStart, 0);
+      await t.wait(realTimeToWait);
+    },
+  };
+};
+
+
 const sendEmailMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(emailVerificationSendEmailData)
@@ -175,7 +190,7 @@ const dynamicContinuePollingLogger = createRequestLogger();
 const dynamicRefreshIntervalLogger = createRequestLogger();
 const dynamicRefreshShortIntervalMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(emailVerification)
+  .respond(emailVerificationPollingShort)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
   .respond(emailVerificationPollingShort);
 
@@ -576,37 +591,39 @@ test
 
 test
   .requestHooks(dynamicContinuePollingLogger, dynamicRefreshShortIntervalMock)('continue polling on form error with dynamic polling', async t => {
+    dynamicContinuePollingLogger.clear();
     const challengeEmailPageObject = await setup(t);
+    const waiter = createWaiter(t);
     await checkA11y(t);
     await challengeEmailPageObject.clickEnterCodeLink();
 
     await t.expect(await challengeEmailPageObject.resendEmailExists()).eql(false);
 
     // 2 poll requests in 2 seconds at 1 sec interval (Cumulative Request: 2)
-    await t.wait(2000);
+    await waiter.wait(1000);
+    // change mocks after 1st poll request so 2 sec interval will be applied after 2nd poll request
+    await t.removeRequestHooks(dynamicRefreshShortIntervalMock);
+    await t.addRequestHooks(invalidOTPMockContinuePoll);
+    await waiter.wait(1000);
     await t.expect(dynamicContinuePollingLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/poll/)
     )).eql(2);
-    dynamicContinuePollingLogger.clear();
 
-    await t.removeRequestHooks(dynamicRefreshShortIntervalMock);
-    await t.addRequestHooks(invalidOTPMockContinuePoll);
-
-    // 1 poll requests in 2 seconds at 2 sec interval (Cumulative Request: 3)
-    await t.wait(2000);
+    // 1 poll request in 2 seconds at 2 sec interval (Cumulative Request: 3)
+    await waiter.wait(2000);
     await t.expect(dynamicContinuePollingLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/poll/)
     )).eql(3);
-    dynamicContinuePollingLogger.clear();
 
     await challengeEmailPageObject.verifyFactor('credentials.passcode', 'xyz');
     await challengeEmailPageObject.clickNextButton('Verify');
     await challengeEmailPageObject.waitForErrorBox();
     await t.expect(challengeEmailPageObject.getInvalidOTPFieldError()).contains('Invalid code. Try again.');
     await t.expect(challengeEmailPageObject.getInvalidOTPError()).contains('We found some errors.');
-    await t.wait(5000);
+    await waiter.wait(4000);
+
     // In v3 there is an extra poll request compared to v2
     const expectedPollCount = userVariables.gen3 ? 5 : 4;
     await t.expect(dynamicContinuePollingLogger.count(

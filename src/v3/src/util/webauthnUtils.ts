@@ -110,10 +110,10 @@ export const webAuthNAuthenticationHandler: WebAuthNAuthenticationHandler = asyn
   // Generates a CredentialRequestOptions Object for the Web Auth API to
   // generate a PublicKeyCredential instance for use by IDX verify the user
   const options = (
-    challengeData && authenticatorEnrollments?.value
+    challengeData
   ) && OktaAuth.webauthn.buildCredentialRequestOptions(
     challengeData,
-    authenticatorEnrollments.value,
+    authenticatorEnrollments?.value ?? [],
   );
 
   // Triggers a browser prompt allowing the user to provide consent based on the options

@@ -2,6 +2,7 @@ import { RequestLogger, RequestMock } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import loopbackChallengeNotReceived from '../../../playground/mocks/data/idp/idx/identify-with-device-probing-loopback-challenge-not-received-with-remember-me';
+import launchAuthenticatorOption from '../../../playground/mocks/data/idp/idx/identify-with-device-launch-authenticator';
 
 const logger = RequestLogger('http://localhost:3000/idp/idx/authenticators/okta-verify/launch', {logRequestBody: true, stringifyRequestBody: true});
 
@@ -9,7 +10,7 @@ const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(loopbackChallengeNotReceived)
   .onRequestTo('http://localhost:3000/idp/idx/authenticators/okta-verify/launch')
-  .respond('');
+  .respond(launchAuthenticatorOption);
 
 fixture('Launch OV with rememberMe')
   .requestHooks(logger, mock);

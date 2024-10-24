@@ -119,6 +119,19 @@ const mockChallengeOVFastPass = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrSelectAuthenticatorsOktaVerify)
   .onRequestTo('http://localhost:3000/idp/idx/challenge')
+  .respond(xhrAuthenticatorOVFastPass)
+  .onRequestTo(/6512\/probe/)
+  .respond(null, 200, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
+  })
+  .onRequestTo(/6512\/challenge/)
+  .respond(null, 200, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'Origin, X-Requested-With, Content-Type, Accept, X-Okta-Xsrftoken',
+    'access-control-allow-methods': 'POST, OPTIONS'
+  })
+  .onRequestTo('http://localhost:3000/idp/idx/authenticators/poll')
   .respond(xhrAuthenticatorOVFastPass);
 
 const mockChallengeOnPremMFA = RequestMock()
@@ -763,7 +776,7 @@ test.requestHooks(requestLogger, mockChallengeOVFastPass)('should navigate to ok
   const challengeFactorPage = new ChallengeFactorPageObject(t);
   await t.expect(challengeFactorPage.getFormTitle()).eql('Verifying your identity');
 
-  await t.expect(requestLogger.count(() => true)).eql(2);
+  await t.expect(requestLogger.count((req) => req.request.url.startsWith('http://localhost:3000'))).eql(2);
   const req1 = requestLogger.requests[0].request;
   await t.expect(req1.url).eql('http://localhost:3000/idp/idx/introspect');
 
