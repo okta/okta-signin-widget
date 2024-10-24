@@ -5498,7 +5498,7 @@
 
 "@types/node@20.14.5":
   version "20.14.5"
-  resolved "https://artifacts.aue1e.internal/artifactory/api/npm/npm-okta-master/@types/node/-/node-20.14.5.tgz#fe35e3022ebe58b8f201580eb24e1fcfc0f2487d"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.14.5.tgz#fe35e3022ebe58b8f201580eb24e1fcfc0f2487d"
   integrity sha512-aoRR+fJkZT2l0aGOJhuA8frnCSoNX6W7U2mpNq63+BxBIj5BQFt8rHy627kijCmm63ijdSdwvGgpUsU6MBsZZA==
   dependencies:
     undici-types "~5.26.4"
@@ -19790,7 +19790,7 @@ testcafe-browser-tools@2.0.26:
 
 testcafe-hammerhead@31.7.3:
   version "31.7.3"
-  resolved "https://artifacts.aue1e.internal/artifactory/api/npm/npm-okta-master/testcafe-hammerhead/-/testcafe-hammerhead-31.7.3.tgz#46e72e153a8ea7804571bb1e6adc48d2b60dff80"
+  resolved "https://registry.yarnpkg.com/testcafe-hammerhead/-/testcafe-hammerhead-31.7.3.tgz#46e72e153a8ea7804571bb1e6adc48d2b60dff80"
   integrity sha512-LmldhnuUUNcel66z8hjwPkxGrA6jaGt6K9B8iuxOVVRuhpqFfmP3do5MeplK9NyPbIjkAW6WsHDu+nUM88IUsA==
   dependencies:
     "@adobe/css-tools" "^4.3.0-rc.1"
@@ -19900,7 +19900,7 @@ testcafe-selector-generator@^0.1.0:
 
 testcafe@^3.7.0-rc.1:
   version "3.7.0-rc.1"
-  resolved "https://artifacts.aue1e.internal/artifactory/api/npm/npm-okta-master/testcafe/-/testcafe-3.7.0-rc.1.tgz#11fd425ff8c5b202a3a6d0936b1fd4f58f9ff834"
+  resolved "https://registry.yarnpkg.com/testcafe/-/testcafe-3.7.0-rc.1.tgz#11fd425ff8c5b202a3a6d0936b1fd4f58f9ff834"
   integrity sha512-HzrKpix9q+PzlcnTWETvlLfPwTZtVBvoWO/IOvHU5pZXkSML9Ii6/2lergBU40iH9chDIRqhbE/rpjbxjj332w==
   dependencies:
     "@babel/core" "^7.23.2"
@@ -20523,7 +20523,7 @@ underscore@~1.12.1:
 
 undici-types@~5.26.4:
   version "5.26.5"
-  resolved "https://artifacts.aue1e.internal/artifactory/api/npm/npm-okta-master/undici-types/-/undici-types-5.26.5.tgz#bcd539893d00b56e964fd2657a4866b221a65617"
+  resolved "https://registry.yarnpkg.com/undici-types/-/undici-types-5.26.5.tgz#bcd539893d00b56e964fd2657a4866b221a65617"
   integrity sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==
 
 unicode-canonical-property-names-ecmascript@^2.0.0:
