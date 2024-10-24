@@ -165,10 +165,12 @@ const devConfig: Configuration = mergeWithRules({
         const script = resolve(PLAYGROUND, 'mocks/server.js');
         const watch = [resolve(PLAYGROUND, 'mocks')];
         const env = { MOCK_SERVER_PORT, DEV_SERVER_PORT, BASE_URL: require(WIDGET_RC_JS).baseUrl };
+
         nodemon({
           script, watch, env, delay: 50,
         })
           ?.on('crash', console.error);
+
         return middlewares;
       },
     },

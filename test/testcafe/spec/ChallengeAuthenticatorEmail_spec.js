@@ -599,12 +599,11 @@ test
 
     await t.expect(await challengeEmailPageObject.resendEmailExists()).eql(false);
 
-    // change mocks after 1st poll request so 2 sec interval will be applied after 2nd poll request
+    // 2 poll requests in 2 seconds at 1 sec interval (Cumulative Request: 2)
     await waiter.wait(1000);
+    // change mocks after 1st poll request so 2 sec interval will be applied after 2nd poll request
     await t.removeRequestHooks(dynamicRefreshShortIntervalMock);
     await t.addRequestHooks(invalidOTPMockContinuePoll);
-  
-    // 2 poll requests in 2 seconds at 1 sec interval (Cumulative Request: 2)
     await waiter.wait(1000);
     await t.expect(dynamicContinuePollingLogger.count(
       record => record.response.statusCode === 200 &&
