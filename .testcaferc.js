@@ -112,8 +112,6 @@ const config = {
   // TestCafe 3 with Native Automation enabled causes errors in tests for Gen2 that:
   //  - render form messages in `BaseForm.showMessages()`
   //  - click authenticator button in authenticator list (double click issue)
-  // Also note that TestCafe <3.7 with Native Automation causes issues with Chrome 130
-  //  so you might need to disbale it if you run tests locally
   disableNativeAutomation: !env.OKTA_SIW_GEN3,
 
   // limit concurrency when running flaky tests

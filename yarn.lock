@@ -19898,10 +19898,10 @@ testcafe-selector-generator@^0.1.0:
   resolved "https://registry.npmjs.org/testcafe-selector-generator/-/testcafe-selector-generator-0.1.0.tgz#852c86f71565e5d9320da625c2260d040cbed786"
   integrity sha512-MTw+RigHsEYmFgzUFNErDxui1nTYUk6nm2bmfacQiKPdhJ9AHW/wue4J/l44mhN8x3E8NgOUkHHOI+1TDFXiLQ==
 
-testcafe@^3.7.0-rc.1:
-  version "3.7.0-rc.1"
-  resolved "https://registry.yarnpkg.com/testcafe/-/testcafe-3.7.0-rc.1.tgz#11fd425ff8c5b202a3a6d0936b1fd4f58f9ff834"
-  integrity sha512-HzrKpix9q+PzlcnTWETvlLfPwTZtVBvoWO/IOvHU5pZXkSML9Ii6/2lergBU40iH9chDIRqhbE/rpjbxjj332w==
+testcafe@^3.7.0-rc.2:
+  version "3.7.0-rc.2"
+  resolved "https://registry.npmjs.org/testcafe/-/testcafe-3.7.0-rc.2.tgz#e79ceb89f70018322f4af22f713b20ee964cf8b4"
+  integrity sha512-+7SaKtXFOdtLNnjpWvoQ4jXP4GOyYD4rHY4Bm2GW+TYx3s+/PVlEv3AwM7Kmb4W4cLDtnN1EtCDIAtrJ+Y7fTw==
   dependencies:
     "@babel/core" "^7.23.2"
     "@babel/plugin-proposal-decorators" "^7.23.2"
