@@ -2126,17 +2126,17 @@ Expect.describe('MFA Verify', function() {
           }
         }
       })
-      .then(function(test) {
-        test.setNextResponse(resInvalidTotp);
-        test.form.setAnswer('wrong');
-        test.form.submit();
-        return Expect.waitForFormError(test.form, test);
-      })
-      .then(function(test) {
-        expect(test.form.hasErrors()).toBe(true);
-        expect(test.form.errorMessage()).toBe('Invalid passcode!');
-        expect(dispatchEventSpy).not.toHaveBeenCalled();
-      });
+        .then(function(test) {
+          test.setNextResponse(resInvalidTotp);
+          test.form.setAnswer('wrong');
+          test.form.submit();
+          return Expect.waitForFormError(test.form, test);
+        })
+        .then(function(test) {
+          expect(test.form.hasErrors()).toBe(true);
+          expect(test.form.errorMessage()).toBe('Invalid passcode!');
+          expect(dispatchEventSpy).not.toHaveBeenCalled();
+        });
     });
     itp('shows errors if verify button is clicked and answer is empty', function() {
       return setupFn()
@@ -2315,17 +2315,17 @@ Expect.describe('MFA Verify', function() {
           }
         }
       })
-      .then(function(test) {
-        test.setNextResponse(resInvalidPassword);
-        test.form.setPassword('wrong');
-        test.form.submit();
-        return Expect.waitForFormError(test.form, test);
-      })
-      .then(function(test) {
-        expect(test.form.hasErrors()).toBe(true);
-        expect(test.form.errorMessage()).toBe('Invalid password!');
-        expect(dispatchEventSpy).not.toHaveBeenCalled();
-      });
+        .then(function(test) {
+          test.setNextResponse(resInvalidPassword);
+          test.form.setPassword('wrong');
+          test.form.submit();
+          return Expect.waitForFormError(test.form, test);
+        })
+        .then(function(test) {
+          expect(test.form.hasErrors()).toBe(true);
+          expect(test.form.errorMessage()).toBe('Invalid password!');
+          expect(dispatchEventSpy).not.toHaveBeenCalled();
+        });
     });
     itp('shows errors if verify button is clicked and password is empty', function() {
       return setupFn()
