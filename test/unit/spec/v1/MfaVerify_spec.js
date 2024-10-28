@@ -1132,6 +1132,28 @@ Expect.describe('MFA Verify', function() {
           expect(dispatchEventSpy).not.toHaveBeenCalled();
         });
     });
+    itp('shows a custom error if there is an overridden translation for error E0000068', function() {
+      // spy on emitting of CustomEvent with type 'okta-i18n-error' in `loc()` util
+      const dispatchEventSpy = jest.spyOn(document, 'dispatchEvent');
+      return setupFn({
+        i18n: {
+          en: {
+            'errors.E0000068': 'Invalid answer!'
+          }
+        }
+      })
+        .then(function(test) {
+          test.setNextResponse(resInvalid);
+          test.form.setAnswer('wrong');
+          test.form.submit();
+          return Expect.waitForFormError(test.form, test);
+        })
+        .then(function(test) {
+          expect(test.form.hasErrors()).toBe(true);
+          expect(test.form.errorMessage()).toBe('Invalid answer!');
+          expect(dispatchEventSpy).not.toHaveBeenCalled();
+        });
+    });
     itp('shows errors if verify button is clicked and answer is empty', function() {
       return setupFn()
         .then(function(test) {
@@ -2094,6 +2116,28 @@ Expect.describe('MFA Verify', function() {
           expect(dispatchEventSpy).not.toHaveBeenCalled();
         });
     });
+    itp('shows a custom error if there is an overridden translation for error E0000068', function() {
+      // spy on emitting of CustomEvent with type 'okta-i18n-error' in `loc()` util
+      const dispatchEventSpy = jest.spyOn(document, 'dispatchEvent');
+      return setupFn({
+        i18n: {
+          en: {
+            'errors.E0000068': 'Invalid answer!'
+          }
+        }
+      })
+      .then(function(test) {
+        test.setNextResponse(resInvalidTotp);
+        test.form.setAnswer('wrong');
+        test.form.submit();
+        return Expect.waitForFormError(test.form, test);
+      })
+      .then(function(test) {
+        expect(test.form.hasErrors()).toBe(true);
+        expect(test.form.errorMessage()).toBe('Invalid answer!');
+        expect(dispatchEventSpy).not.toHaveBeenCalled();
+      });
+    });
     itp('shows errors if verify button is clicked and answer is empty', function() {
       return setupFn()
         .then(function(test) {
@@ -2260,6 +2304,28 @@ Expect.describe('MFA Verify', function() {
           });
           expect(dispatchEventSpy).not.toHaveBeenCalled();
         });
+    });
+    itp('shows a custom error if there is an overridden translation for error E0000068', function() {
+      // spy on emitting of CustomEvent with type 'okta-i18n-error' in `loc()` util
+      const dispatchEventSpy = jest.spyOn(document, 'dispatchEvent');
+      return setupFn({
+        i18n: {
+          en: {
+            'errors.E0000068': 'Invalid password!'
+          }
+        }
+      })
+      .then(function(test) {
+        test.setNextResponse(resInvalidPassword);
+        test.form.setPassword('wrong');
+        test.form.submit();
+        return Expect.waitForFormError(test.form, test);
+      })
+      .then(function(test) {
+        expect(test.form.hasErrors()).toBe(true);
+        expect(test.form.errorMessage()).toBe('Invalid password!');
+        expect(dispatchEventSpy).not.toHaveBeenCalled();
+      });
     });
     itp('shows errors if verify button is clicked and password is empty', function() {
       return setupFn()
