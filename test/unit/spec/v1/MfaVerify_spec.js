@@ -2122,7 +2122,7 @@ Expect.describe('MFA Verify', function() {
       return setupFn({
         i18n: {
           en: {
-            'errors.E0000068': 'Invalid answer!'
+            'errors.E0000068': 'Invalid passcode!'
           }
         }
       })
@@ -2134,7 +2134,7 @@ Expect.describe('MFA Verify', function() {
       })
       .then(function(test) {
         expect(test.form.hasErrors()).toBe(true);
-        expect(test.form.errorMessage()).toBe('Invalid answer!');
+        expect(test.form.errorMessage()).toBe('Invalid passcode!');
         expect(dispatchEventSpy).not.toHaveBeenCalled();
       });
     });
@@ -2600,12 +2600,6 @@ Expect.describe('MFA Verify', function() {
     });
 
     Expect.describe('TOTP', function() {
-      beforeEach(() => {
-        // BaseLoginRouter will render twice if language bundles are not loaded:
-        // https://github.com/okta/okta-signin-widget/blob/master/src/util/BaseLoginRouter.js#L202
-        // We are not testing i18n, so we can mock language bundles as loaded
-        Util.mockBundles();
-      });
       testGoogleTOTP(setupGoogleTOTP, 'testStateToken');
       itp('shows the right beacon for Okta TOTP', function() {
         return setupOktaTOTP().then(function(test) {
@@ -4866,12 +4860,6 @@ Expect.describe('MFA Verify', function() {
       });
     });
     Expect.describe('Password', function() {
-      beforeEach(() => {
-        // BaseLoginRouter will render twice if language bundles are not loaded:
-        // https://github.com/okta/okta-signin-widget/blob/master/src/util/BaseLoginRouter.js#L202
-        // We are not testing i18n, so we can mock language bundles as loaded
-        Util.mockBundles();
-      });
       testPassword(setupPassword, 'testStateToken');
     });
   });
