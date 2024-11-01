@@ -22,10 +22,16 @@ import { renderWidget } from '../framework/shared';
 
 const BEACON_CLASS = 'mfa-okta-verify';
 
-// In gen3 there is an extra immediate poll request compared to gen2 so start the count at -1
-let loopbackRedundantPollingMockPollCount = userVariables.gen3 ? -1 : 0;
-let loopbackEnhancedPollingMockPollCount = userVariables.gen3 ? -1 : 0;
-let loopbackFallbackMockPollCount = userVariables.gen3 ? -1 : 0;
+const pollCounters = {
+  loopbackRedundantPolling: userVariables.gen3 ? -1 : 0,
+  loopbackEnhancedPolling: userVariables.gen3 ? -1 : 0,
+  loopbackFallback: userVariables.gen3 ? -1 : 0,
+};
+
+const resetPollCounter = (mockKey) => {
+  // In gen3 there is an extra immediate poll request compared to gen2 so start the count at -1
+  pollCounters[mockKey] = userVariables.gen3 ? -1 : 0;
+};
 
 const loopbackSuccessLogger = RequestLogger(/introspect|probe|challenge/, { logRequestBody: true, stringifyRequestBody: true });
 const loopbackSuccessInitialPollMock = RequestMock()
@@ -68,7 +74,7 @@ const loopbackRedundantPollingMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
   .respond(async (req, res) => {
     res.headers['content-type'] = 'application/json';
-    switch (loopbackRedundantPollingMockPollCount++) {
+    switch (pollCounters.loopbackRedundantPolling++) {
     case -1:
       res.statusCode = '200';
       res.setBody(identifyWithUserVerificationLoopback);
@@ -138,7 +144,7 @@ const loopbackEnhancedPollingMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
   .respond(async (req, res) => {
     res.headers['content-type'] = 'application/json';
-    switch (loopbackEnhancedPollingMockPollCount++) {
+    switch (pollCounters.loopbackEnhancedPolling++) {
     case -1:
       res.statusCode = '200';
       res.setBody(identifyWithUserVerificationLoopbackWithEnhancedPolling);
@@ -278,7 +284,7 @@ const loopbackFallbackMock = RequestMock()
   .respond((req, res) => {
     res.statusCode = '200';
     res.headers['content-type'] = 'application/json';
-    switch (loopbackFallbackMockPollCount++) {
+    switch (pollCounters.loopbackFallback++) {
     case -1:
       res.setBody(identifyWithUserVerificationLoopback);
       break;
@@ -360,14 +366,20 @@ const userVerificationAppLinkBiometricsError = RequestMock()
 
 fixture('Device Challenge Polling View for user verification and MFA with the Loopback Server, Custom URI and Universal Link approaches');
 
-async function setup(t) {
+async function setup(t, mockKey) {
+  if (mockKey) {
+    resetPollCounter(mockKey);
+  }
   const deviceChallengePollPage = new DeviceChallengePollPageObject(t);
   await deviceChallengePollPage.navigateToPage();
   await t.expect(deviceChallengePollPage.formExists()).eql(true);
   return deviceChallengePollPage;
 }
 
-async function setupLoopbackFallback(t, widgetOptions) {
+async function setupLoopbackFallback(t, widgetOptions, mockKey) {
+  if (mockKey) {
+    resetPollCounter(mockKey);
+  }
   const options = widgetOptions ? { render: false } : {};
   const deviceChallengeFalllbackPage = new IdentityPageObject(t);
   await deviceChallengeFalllbackPage.navigateToPage(options);
@@ -381,7 +393,7 @@ async function setupLoopbackFallback(t, widgetOptions) {
 test
   .meta('gen3', false) // Gen3 does not have the same redundant polling issue as Gen2 and does not need to implement enhancedPollingEnabled, so skip this test
   .requestHooks(loopbackRedundantPollingLogger, loopbackRedundantPollingMock)('in loopback server, redundant polling exists if server returns enhancedPollingEnabled as false', async t => {
-    const deviceChallengePollPageObject = await setup(t);
+    const deviceChallengePollPageObject = await setup(t, 'loopbackRedundantPolling');
     await checkA11y(t);
     await t.expect(deviceChallengePollPageObject.getBeaconSelector()).contains(BEACON_CLASS);
     await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Verifying your identity');
@@ -425,7 +437,7 @@ test
 
 test
   .requestHooks(loopbackEnhancedPollingLogger, loopbackEnhancedPollingMock)('in loopback server, no redundant polling if server returns enhancedPollingEnabled as true', async t => {
-    const deviceChallengePollPageObject = await setup(t);
+    const deviceChallengePollPageObject = await setup(t, 'loopbackEnhancedPolling');
     await checkA11y(t);
     await t.expect(deviceChallengePollPageObject.getBeaconSelector()).contains(BEACON_CLASS);
     await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Verifying your identity');
@@ -569,7 +581,7 @@ test
 
 test
   .requestHooks(loopbackFallbackLogger, loopbackFallbackMock)('loopback fails and falls back to custom uri', async t => {
-    await setupLoopbackFallback(t);
+    await setupLoopbackFallback(t, null, 'loopbackFallback');
     const deviceChallengePollPageObject = new DeviceChallengePollPageObject(t);
     await t.expect(loopbackFallbackLogger.count(
       record => record.response.statusCode === 200 &&

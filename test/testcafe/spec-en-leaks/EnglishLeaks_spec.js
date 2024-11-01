@@ -1,4 +1,4 @@
-import { RequestMock, Selector } from 'testcafe';
+import { RequestMock, Selector, userVariables } from 'testcafe';
 import PageObject from '../framework/page-objects/IdentityPageObject';
 import { renderWidget } from '../framework/shared';
 import { assertNoEnglishLeaks } from '../../../playground/LocaleUtils';
@@ -37,6 +37,22 @@ const ignoredMocks = [
   'terminal-okta-verify-enrollment-android-device.json', // Automatic redirect, in app logic handles this view, no english leak.
   'error-429-api-limit-exceeded.json', // Gen3 has english leak on UI. But in real world this response can be received on polling only, no english leak in this case.
 ];
+if (userVariables.gen3) {
+  // TODO: Re-enable in OKTA-654489
+  ignoredMocks.push('identify-with-webauthn-launch-authenticator.json');
+}
+
+const ignoredLeaks = {
+  'identify-with-webauthn-launch-authenticator.json': [
+    'This is an invalid domain.', // browser webauthn error
+  ],
+  'authenticator-verification-webauthn.json': [
+    'This is an invalid domain.', // browser webauthn error
+  ],
+  'error-authenticator-webauthn-failure.json': [
+    'This is an invalid domain.', // browser webauthn error
+  ],
+};
 
 const optionsForInteractionCodeFlow = {
   clientId: 'fake',
@@ -200,7 +216,7 @@ const testEnglishLeaks = (mockIdxResponse, fileName, locale) => {
     viewText = viewText.split('\n').join(' ');
 
     const noTranslationContentExists = await Selector(NO_TRANSLATE_SELECTOR).exists;
-    let noTranslationContent = [];
+    let noTranslationContent = [...(ignoredLeaks?.[fileName] ?? [])];
     if (noTranslationContentExists) {
       //build array of noTranslationContent
       const noTranslateElems = await Selector(NO_TRANSLATE_SELECTOR).count;

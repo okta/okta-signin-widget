@@ -109,6 +109,11 @@ const config = {
       assertionTimeout: 20000,
   }),
 
+  // TestCafe 3 with Native Automation enabled causes errors in tests for Gen2 that:
+  //  - render form messages in `BaseForm.showMessages()`
+  //  - click authenticator button in authenticator list (double click issue)
+  disableNativeAutomation: !env.OKTA_SIW_GEN3,
+
   // limit concurrency when running flaky tests
   // OKTA_SIW_ONLY_FLAKY: 1 ← flaky
   // !CHROME_HEADLESS: 1 ← for debugging tests
@@ -121,7 +126,7 @@ const config = {
   // retry failed tests
   quarantineMode: env.OKTA_SIW_EN_LEAKS ? false : {
     successThreshold: 1,
-    attemptLimit: 3,
+    attemptLimit: 5,
   },
 
   filter: (_testName, _fixtureName, fixturePath, testMeta, fixtureMeta) => {

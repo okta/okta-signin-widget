@@ -8,7 +8,7 @@ echo $TEST_SUITE_TYPE > $TEST_SUITE_TYPE_FILE
 echo $TEST_RESULT_FILE_DIR > $TEST_RESULT_FILE_DIR_FILE
 
 export VRT_CI=true
-setup_service google-chrome-stable 119.0.6045.105-1
+setup_service google-chrome-stable 121.0.6167.85-1
 
 echo 'Starting vrt test suite'
 if ! yarn workspace v3 test:vrt --no-color; then
