@@ -3,6 +3,7 @@
 # NOTE: MUST BE RAN *AFTER* THE PUBLISH SUITE
 
 export PUBLISH_REGISTRY="${ARTIFACTORY_URL}/npm-topic"
+export PUBLIC_REGISTRY="https://registry.yarnpkg.com"
 
 cd ${OKTA_HOME}/${REPO}
 
@@ -22,6 +23,8 @@ if ! ci-append-sha; then
   echo "ci-append-sha failed! Exiting..."
   exit $FAILED_SETUP
 fi
+
+npm config set registry ${PUBLIC_REGISTRY}
 
 # NOTE: hyphen rather than '@'
 artifact_version="$(ci-pkginfo -t pkgname)-$(ci-pkginfo -t pkgsemver)"

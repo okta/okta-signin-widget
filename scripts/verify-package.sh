@@ -125,6 +125,10 @@ if ! setup_service node v14.18.2 &> /dev/null; then
   exit ${FAILED_SETUP}
 fi
 
+# ensure registry is configured after node verison is changed
+npm config set @okta:registry ${PUBLIC_REGISTRY}
+npm config set registry ${PUBLIC_REGISTRY}
+
 pushd dist
 npm pack --dry-run --json > ../test-reports/verify-package/pack-report.json
 popd
@@ -160,6 +164,11 @@ if [ -n "${TEST_SUITE_ID}" ]; then
   # Verify minimum supported version of yarn
   setup_service yarn 1.22.19
   export PATH="${PATH}:$(yarn global bin)"
+
+  # ensure registry is configured after node verison is changed
+  npm config set @okta:registry ${PUBLIC_REGISTRY}
+  npm config set registry ${PUBLIC_REGISTRY}
+
   set -e
 fi
 
