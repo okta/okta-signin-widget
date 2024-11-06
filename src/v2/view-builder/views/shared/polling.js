@@ -9,12 +9,12 @@ export default {
     this.countDownCounterValue = Math.ceil(this.pollingInterval / MS_PER_SEC);
     // this._bindWindowFocusListener();
 
-    console.log('polling started')
+    console.log('polling started');
 
     this._handleWindowUnfocusWhilePolling();
     this.listenToOnce(this.model, 'error', (event) => {
       if (this.pausedForWindowUnfocus) {
-        console.log('ignoring polling error due to tab focus')
+        console.log('ignoring polling error due to tab focus');
         event.stopImmediatePropagation();
       }
     });
@@ -37,13 +37,12 @@ export default {
   _handleWindowUnfocusWhilePolling() {
     // The only issue with timeout throttling when the tab is not active has been reported in iOS18
     // for now, this logic will only apply to that environment
-    // if (BrowserFeatures.isIOS()) {
-    if (true) {
+    if (BrowserFeatures.isIOS()) {
       const pageVisibilityHandler = () => {
         if (document.hidden && this.polling) {
           // prevent the next poll network request from being sent
           this.stopPolling();
-          console.log('POLLING PAUSED')
+          console.log('POLLING PAUSED');
           this.pausedForWindowUnfocus = true;
           this._handleWindowRefocusWhilePolling();
         }
@@ -58,12 +57,12 @@ export default {
     const pageVisibilityHandler = () => {
       if (!document.hidden && this.pausedForWindowUnfocus) {
         this.pausedForWindowUnfocus = false;
-        console.log('POLLING RESTARTED')
+        console.log('POLLING RESTARTED');
         this.startPolling(this.options.appState.get('dynamicRefreshInterval'));
       }
 
       document.removeEventListener('visibilitychange', pageVisibilityHandler);
-    }
+    };
 
     document.addEventListener('visibilitychange', pageVisibilityHandler);
   },
@@ -147,7 +146,7 @@ export default {
   },
 
   stopPolling() {
-    console.log('stop polling called')
+    console.log('stop polling called');
 
     if (this.polling) {
       clearTimeout(this.polling);
