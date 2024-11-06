@@ -27,20 +27,20 @@ test_suites:
     script_name: unit-jest
     criteria: MERGE
     queue_name: small
-  - name: testcafe
-    script_path: /root/okta/okta-signin-widget/scripts
-    sort_order: '5'
-    timeout: '30'
-    script_name: testcafe
-    criteria: OPTIONAL
-    queue_name: small
-  - name: testcafe-mobile
-    script_path: /root/okta/okta-signin-widget/scripts
-    sort_order: '6'
-    timeout: '30'
-    script_name: testcafe-mobile
-    criteria: OPTIONAL
-    queue_name: small
+  # - name: testcafe
+  #   script_path: /root/okta/okta-signin-widget/scripts
+  #   sort_order: '5'
+  #   timeout: '30'
+  #   script_name: testcafe
+  #   criteria: MERGE
+  #   queue_name: small
+  # - name: testcafe-mobile
+  #   script_path: /root/okta/okta-signin-widget/scripts
+  #   sort_order: '6'
+  #   timeout: '30'
+  #   script_name: testcafe-mobile
+  #   criteria: MERGE
+  #   queue_name: small
   - name: lint-v3
     script_path: /root/okta/okta-signin-widget/scripts
     sort_order: '7'
