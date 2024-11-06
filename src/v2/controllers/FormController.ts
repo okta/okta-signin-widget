@@ -394,6 +394,7 @@ export default Controller.extend({
       errorObj = { responseJSON: error };
     } else {
       Util.logConsoleError(error);
+      // Current value: There was an unsupported response from server.
       errorObj = { responseJSON: { errorSummary: loc('error.unsupported.response', 'login')}};
     }
 
