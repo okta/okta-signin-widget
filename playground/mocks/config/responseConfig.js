@@ -19,7 +19,7 @@ const idx = {
   ],
 
   '/idp/idx/introspect': [
-    'identify',
+    // 'identify',
     // 'error-identify-multiple-errors',
     // 'authenticator-enroll-ov-qr-enable-biometrics',
     // 'authenticator-verification-okta-verify-push',
@@ -79,7 +79,7 @@ const idx = {
     // 'identify-with-apple-credential-sso-extension',
     // 'identify-with-apple-redirect-sso-extension',
     // 'identify-with-apple-sso-extension-fallback',
-    // 'identify-with-device-launch-authenticator',
+    'identify-with-device-launch-authenticator',
     // 'identify-with-device-probing-loopback',
     // 'identify-with-device-probing-loopback-2',
     // 'identify-with-device-probing-loopback-3',
@@ -170,6 +170,9 @@ const idx = {
   '/idp/idx/challenge/resend': [
     'authenticator-enroll-ov-sms',
     // 'authenticator-verification-phone-voice'
+  ],
+  '/idp/idx/authenticators/poll': [
+    'identify-with-device-launch-authenticator',
   ],
   '/idp/idx/challenge/poll': [
     'authenticator-verification-email',
