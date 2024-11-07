@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box, List, ListItem } from '@mui/material';
+import { Box, Link as MuiLink, List, ListItem } from '@mui/material';
 import { Link, Typography, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { HTMLReactParserOptions } from 'html-react-parser';
 import { FunctionComponent, h } from 'preact';
@@ -54,14 +54,33 @@ const WidgetMessageContainer: FunctionComponent<{
           }}
           key={link.url}
         >
-          <Link
-            href={link.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            variant={linkVariant}
-          >
-            {link.label}
-          </Link>
+          {typeof link.url === 'undefined' ? (
+            // @ts-expect-error error due to variant type applied, can be ignored
+            <MuiLink
+              component="button"
+              role="link"
+              onClick={link.onClick}
+              // @ts-expect-error MUI variant type does not include monochrome but functions appropriately when set
+              variant={linkVariant}
+              sx={{
+                textAlign: 'left',
+                fontSize: tokens.TypographySizeBody,
+                verticalAlign: 'text-top',
+              }}
+              data-se={link.dataSe}
+            >
+              {link.label}
+            </MuiLink>
+          ) : (
+            <Link
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              variant={linkVariant}
+            >
+              {link.label}
+            </Link>
+          )}
         </ListItem>
       ))}
     </List>
