@@ -1,4 +1,5 @@
 {
+  "namespace": "enduser",
   "commitPrefix": "chore: ",
   "resourceFilePath": "packages/@okta/i18n/src/properties",
   "resourceFile": "login.properties",
