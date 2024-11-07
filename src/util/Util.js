@@ -13,7 +13,7 @@
 
 /* eslint complexity: [2, 13], max-depth: [2, 3] */
 import _ from 'underscore';
-import { loc } from './loc';
+import { loc, doesTranslationExist } from './loc';
 import Enums from './Enums';
 import Logger from './Logger';
 import BrowserFeatures from './BrowserFeatures';
@@ -100,13 +100,7 @@ Util.transformErrorXHR = function(xhr) {
   // Replace error messages
   if (!_.isEmpty(xhr.responseJSON)) {
     const { errorCode } = xhr.responseJSON;
-    const untranslatedErrorCodes = [
-      // API already provides localized and factor specific error message in errorCauses
-      'E0000068',
-      // API provides localized error message for password requirements in errorCauses
-      'E0000014',
-    ];
-    const errorMsg = errorCode && !untranslatedErrorCodes.includes(errorCode)
+    const errorMsg = errorCode && doesTranslationExist('errors.' + errorCode, 'login')
       // We don't pass parameters to the `loc()` util
       // However some i18n keys like `errors.E0000001` require one parameter
       // Don't dispatch custom 'okta-i18n-error' event in this case

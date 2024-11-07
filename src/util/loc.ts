@@ -41,6 +41,20 @@ declare global {
 }
 
 /**
+ * Checks whether a translation for key exists in the bundle
+ * @param  {String} key The key
+ * @param  {String} [bundle="login"] The name of the i18n bundle. Defaults to "login".
+ * @return {Boolean}
+ */
+export const doesTranslationExist = (
+  key: string,
+  bundleName: BundleName = 'login'
+) => {
+  const bundle = getBundle(bundleName);
+  return !!bundle?.[key];
+};
+
+/**
  * Translate a key to the localized value
  * @param  {String} key The key
  * @param  {String} [bundle="login"] The name of the i18n bundle. Defaults to "login".
