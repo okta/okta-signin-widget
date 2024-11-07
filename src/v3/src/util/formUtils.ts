@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import fetch from 'cross-fetch';
 import {
   IdxAuthenticator,
   IdxMessage, IdxRemediation, IdxTransaction, NextStep,
@@ -17,6 +18,7 @@ import {
 
 import { LanguageCode } from '../../../types';
 import IDP from '../../../util/IDP';
+import Logger from '../../../util/Logger';
 import TimeUtil from '../../../util/TimeUtil';
 import Util from '../../../util/Util';
 import {
@@ -27,6 +29,7 @@ import {
   ButtonElement,
   ButtonType,
   DescriptionElement,
+  DeviceRemediation,
   IWidgetContext,
   LaunchAuthenticatorButtonElement,
   PhoneVerificationMethodType,
@@ -36,6 +39,8 @@ import {
 } from '../types';
 import { idpIconMap } from './idpIconMap';
 import { loc } from './locUtil';
+
+const ADP_INSTALL_FALLBACK_REMEDIATION_KEY = 'idx.error.code.access_denied.device_assurance.remediation.android.zero.trust.android_device_policy_app_required_manual_install';
 
 export type PhoneVerificationStep = typeof IDX_STEP.CHALLENGE_AUTHENTICATOR
 | typeof IDX_STEP.AUTHENTICATOR_VERIFICATION_DATA;
@@ -299,6 +304,29 @@ export const getBiometricsErrorMessageElement = (
   };
 };
 
+const buildEnduserRemediationWidgetMessageLink = (
+  links: WidgetMessageLink[],
+  deviceRemediation: DeviceRemediation,
+  message: string): WidgetMessageLink | undefined  => {
+  if (links?.[0]?.url) {
+    return {
+      url: links[0].url,
+      label: message,
+    };
+  } else if (deviceRemediation.action) {
+    return {
+      label: message,
+      onClick: () => {
+        console.log('clicked the device remediation link button, triggering loopback...');
+        probeLoopbackAndExecute(deviceRemediation);
+      },
+      dataSe: deviceRemediation.action,
+    };
+  }
+  // this should not happen since we assert at least one of links/deviceRemediation will be set
+  return undefined;
+};
+
 export const buildEndUserRemediationMessages = (
   messages: IdxMessage[],
   languageCode?: LanguageCode,
@@ -316,8 +344,14 @@ export const buildEndUserRemediationMessages = (
   const resultMessageArray: WidgetMessage[] = [];
 
   messages.forEach((msg) => {
-    // @ts-expect-error OKTA-630508 links is missing from IdxMessage type
-    const { i18n: { key, params = [] }, links, message } = msg;
+    const {
+      i18n: { key, params = [] },
+      // @ts-expect-error OKTA-630508 links is missing from IdxMessage type
+      links,
+      // @ts-expect-error deviceRemediation is missing from IdxMessage type
+      deviceRemediation,
+      message,
+    } = msg;
 
     const widgetMsg = { listStyleType: 'disc' } as WidgetMessage;
     if (key === ACCESS_DENIED_TITLE_KEY || key === REMEDIATION_OPTION_INDEX_KEY) {
@@ -344,17 +378,18 @@ export const buildEndUserRemediationMessages = (
           $1: { element: 'a', attributes: { href: links[0].url, target: '_blank', rel: 'noopener noreferrer' } },
         },
       );
-    } else if (links && links[0] && links[0].url) {
+    } else if (links?.[0]?.url || deviceRemediation?.value) {
       // each link is inside an individual message
       // We find the last message which contains the option title key and insert the link into that message
       const lastIndex = resultMessageArray.length - 1;
       if (lastIndex < 0) {
         return;
       }
-      const linkObject: WidgetMessageLink = {
-        url: links[0].url,
-        label: message,
-      };
+      const linkObject = buildEnduserRemediationWidgetMessageLink(links, deviceRemediation?.value, message);
+      if (linkObject === undefined) {
+        return;
+      }
+
       if (resultMessageArray[lastIndex].links) {
         resultMessageArray[lastIndex].links?.push(linkObject);
       } else {
@@ -476,9 +511,7 @@ export const buildPhoneVerificationSubtitleElement = (
   const phoneNumber = typeof idxAuthenticator?.profile?.phoneNumber !== 'undefined'
     ? idxAuthenticator?.profile?.phoneNumber as string
     : undefined;
-  // @ts-expect-error OKTA-661650 nickname missing from IdxAuthenticator type
   const nickname = typeof idxAuthenticator?.nickname !== 'undefined'
-    // @ts-expect-error OKTA-661650 nickname missing from IdxAuthenticator type
     ? idxAuthenticator?.nickname as string
     : undefined;
   const subtitleElement: DescriptionElement = {
@@ -491,4 +524,145 @@ export const buildPhoneVerificationSubtitleElement = (
   };
 
   return subtitleElement;
+};
+
+type RequestOptions = {
+  url: string;
+  timeout: number;
+  method: 'GET' | 'POST';
+  data?: string;
+};
+
+/**
+* Temporary request client can be removed if this functionality is added
+* to auth-js library.
+* @see https://oktainc.atlassian.net/browse/OKTA-561852
+* @returns Promise<Response>
+*/
+export const makeRequest = async ({
+ url, timeout, method, data,
+}: RequestOptions) => {
+ // Modern browsers support AbortController, so use it
+ if (window?.AbortController) {
+   const controller = new AbortController();
+   const id = setTimeout(() => controller.abort(), timeout);
+
+   const response = await fetch(url, {
+     method,
+     headers: {
+       'Content-Type': 'application/json',
+     },
+     ...(typeof data === 'string' ? { body: data } : {}),
+     signal: controller.signal,
+   });
+
+   clearTimeout(id);
+
+   return response;
+ }
+
+ // IE11 does not support AbortController, so use an alternate
+ // timeout mechanism
+ const responsePromise = fetch(url, {
+   method,
+   headers: {
+     'Content-Type': 'application/json',
+   },
+   ...(typeof data === 'string' ? { body: data } : {}),
+ });
+ const timeoutPromise = new Promise<Response>((_, reject) => {
+   setTimeout(() => {
+     const abortError = new Error('Aborted');
+     abortError.name = 'AbortError';
+     reject(abortError);
+   }, timeout);
+ });
+
+ return Promise.race([responsePromise, timeoutPromise]);
+};
+
+const getMessage = (fallback: DeviceRemediation['fallback']) => {
+  switch (fallback.message?.i18n?.key) {
+    case ADP_INSTALL_FALLBACK_REMEDIATION_KEY:
+      // ADP fallback message has additional formatting
+      return loc(
+        fallback.message.i18n.key,
+        'login',
+        fallback.message.i18n.params,
+        { $1: { element: 'span', attributes: { class: 'strong nowrap' } } },
+      );
+    default:
+      return loc(fallback.message!.i18n.key, 'login', fallback.message?.i18n.params);
+  }
+};
+
+const executeDeviceRemediationFallback = (fallback: DeviceRemediation['fallback'], action: string) => {
+  switch (fallback.type) {
+    case 'APP_LINK':
+      // If/when loopback fails auto launch app link to install
+      Util.executeOnVisiblePage(() => {
+        Util.redirectWithFormGet(fallback.href);
+      });
+      break;
+    case 'MESSAGE':
+      // display updated message in place
+      const elements = document.querySelectorAll(`[data-se="${action}"]`);
+      if (elements?.[0]) {
+        elements[0].outerHTML = getMessage(fallback);
+      }
+      break;
+    default: // Do nothing
+  }
+};
+
+export const probeLoopbackAndExecute = async (deviceRemediation: DeviceRemediation) => {
+  let remediationSucceeded = false;
+
+  const baseUrls = deviceRemediation.ports.map((port) => `${deviceRemediation.domain}:${port}`);
+
+  for (const baseUrl of baseUrls) {
+    try {
+      // probe the port
+      const probeResponse = await makeRequest({
+        method: 'GET',
+        timeout: deviceRemediation.probeTimeoutMillis,
+        url: `${baseUrl}/probe`,
+      });
+
+      if (!probeResponse.ok) {
+        Logger.error(`Loopback is not listening on: ${baseUrl}.`);
+        continue;
+      }
+
+      // attempt the remediation request with found port
+      const remediationResponse = await makeRequest({
+        url: `${baseUrl}/${deviceRemediation.action}`,
+        method: 'GET',
+        timeout: 300_000,
+      });
+
+      if (!remediationResponse.ok) {
+        if (remediationResponse.status !== 503) {
+          // return immediately
+          return;
+        }
+
+        // try the next domain:port
+        continue;
+      }
+      // remediation response was a 2xx, end probing
+      remediationSucceeded = true;
+      break;
+    } catch (e) {
+      // only for unexpected error conditions (e.g. fetch throws an error)
+      Logger.error(`Something unexpected happened while we were checking url ${baseUrl}`);
+    }
+  }
+
+  if (!remediationSucceeded) {
+    // if remediation request was not made after probe, utilize fallback mechanism
+    Logger.error('No available ports. Loopback server failed, triggering fallback.');
+
+    executeDeviceRemediationFallback(deviceRemediation.fallback, deviceRemediation.action);
+  }
 };

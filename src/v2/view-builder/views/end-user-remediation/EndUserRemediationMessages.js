@@ -1,8 +1,9 @@
-import { View } from '@okta/courage';
+import { View, $ } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
 import { getMessage } from '../../../ion/i18nTransformer';
 import TimeUtil from 'util/TimeUtil';
 import { loc } from 'util/loc';
+import { probeLoopbackAndExecute } from '../../../view-builder/utils/EndUserRemediationMessageViewUtil';
 
 const I18N_ACCESS_DENIED_KEY_PREFIX = 'idx.error.code.access_denied.device_assurance.remediation';
 const I18N_GRACE_PERIOD_KEY_PREFIX = 'idx.device_assurance.grace_period.warning';
@@ -15,12 +16,16 @@ const ACCESS_DENIED_EXPLANATION_KEY_PREFIX = `${I18N_ACCESS_DENIED_KEY_PREFIX}.e
 
 function buildRemediationOptionBlockMessage(message) {
   let link = null;
+  let deviceRemediationAction = null;
   if (message.links && message.links[0] && message.links[0].url) {
     link = message.links[0].url;
+  } else if (message.deviceRemediation && message.deviceRemediation.value) {
+    deviceRemediationAction = message.deviceRemediation.value.action;
   }
   return {
     message: getMessage(message),
     link,
+    deviceRemediationAction,
     className: (
       message.i18n.key === REMEDIATION_OPTION_INDEX_KEY ?
         'end-user-remediation-option' :
@@ -45,7 +50,13 @@ export default View.extend({
         {{#if link}}
           <a href="{{link}}" target="_blank" rel="noopener noreferrer">{{message}}</a>
         {{else}}
-          {{message}}
+          {{#if deviceRemediationAction}}
+            <a href="#" id="{{deviceRemediationAction}}" data-se="{{deviceRemediationAction}}">
+              {{message}}
+            </a>
+          {{else}}
+            {{message}}
+          {{/if}}
         {{/if}}
         </div>
       {{/each}}
@@ -114,5 +125,24 @@ export default View.extend({
     if (this.additionalHelpUrl) {
       this.$el.find('.additional-help').attr('href', this.additionalHelpUrl);
     }
+  },
+
+  postRender() {
+    if (!Array.isArray(this.options.messages)) {
+      return;
+    }
+
+    const deviceRemediations = this.options.messages
+      .filter(message => message.deviceRemediation
+        && message.deviceRemediation.value
+        && message.deviceRemediation.value.action)
+      .map(message => message.deviceRemediation.value);
+    
+    deviceRemediations.forEach(deviceRemediation => {
+      this.$(`#${deviceRemediation.action}`).click(function(event) {
+        event.preventDefault();
+        probeLoopbackAndExecute(deviceRemediation);
+      });
+    });
   },
 });

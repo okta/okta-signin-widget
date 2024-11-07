@@ -64,9 +64,30 @@ export type WidgetMessage = Modify<IdxMessage, {
 
 export type ListStyleType = 'circle' | 'disc' | 'square' | 'decimal';
 
+/**
+ * When URL is missing from object, link will be treated as a button link
+ * utilizing the onClick handler
+ */
 export type WidgetMessageLink = {
   label: string,
-  url: string,
+  url?: string,
+  onClick?: () => void;
+  dataSe?: string;
+};
+
+export type DeviceRemediationFallBackType = 'MESSAGE' | 'APP_LINK';
+export type DeviceRemediation = {
+  name: string;
+  action: string;
+  platform: string;
+  domain: string;
+  ports: number[];
+  probeTimeoutMillis: number;
+  fallback: {
+    type: DeviceRemediationFallBackType;
+    href?: string;
+    message?: IdxMessage;
+  };
 };
 
 export type AutoCompleteValue = 'username'

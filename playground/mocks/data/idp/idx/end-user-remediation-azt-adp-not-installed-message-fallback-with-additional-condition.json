@@ -1,0 +1,77 @@
+{
+    "version": "1.0.0",
+    "stateHandle": "02.id.2RzUQXbif3P9zZA5W7NUMVmdflWEZe6H86bIoBsD~c.FL1qlDsi4ONl7Brh7bbr75zmp5TnNJHjlRU1eVlT2EWWB3QcE99Jral0ToGtA0bGVsImg7iBZ2ITUW9NCBuHB6qqXN9rGF9wjV-fU3jWi_nsYKWfUGBYZZRc0v4ClZ_Jsn9mYawWnsEyvbQs1vYP7KjwB0j5-9bQZee6yZcmMtyAn-FJAj51kbTK92J7PX26bE9Ie6fFhp8U6q8Nhw0EfwG2PJGxfz6D3tUryVLugPHTU6L-bPYLUlJnXrKgGzFeLpwyCdTJWC7wvsoQKeJADBcUYAfaMXoirY3m_ibAn57gzXspH4UJWE1hKTRXDdbLcIxdA5DFjFM3n-hWoKZJRDO4ZFR60aXXtAVSNFH_kWY1PJJGTzYzpB36dIVBs2Hm__ICXqG6IHivnkUdYW-2shXtz7i6ViuMa5c79c1Kwyx9jNg6TCG8wFrgxsMOyjv55qumxpn97VULGkpSQ5HiWxLUp54AAduffJkdvwoQ-j7xFoOLnoNMV37e4YfA5mr-Kw8IlbMm3I1Wh9G_Au5YeOzcqAcprJ7obGqap92vbie9uzBAX_vLjxHE2u2u77At81dw7EslUlNeCrgabkK8ou7iei3e4tUztPjFbpUZqFtf5mcRvkE8FAQvaHqOULPWZ8occGgGB3r5NjdhWl2ByHmATBJIo-XKPtqjEHKXHZl_YnR8vPDJU0xLIjxdi8YTupgk-hFtyGJOG_WDQQL36y_qeMITvaWXwPCkLvveSa2t42HvZJnTid7TWEZBR5jLNnbqYO4M4iAez5cZHRPBxAgM6t54rI2EJmJfg_SZBLkD1BW4HRhZR6WZcbzkbaV8bYnRlHIoCEJFQxP8Lad6CWg5WKHXVn6LK91803HRgE69Te6pSCXG4RYM9N6RRacbjX41DrtXFrZoHLckvl1ZONABc7ln6Eo-3IicqOvWIk0sZLLDafCYnn6mIy4N3lJA8PGMwVE5aNFc4je7jk96GTEZ8vGFxUHdNpKmUz6wrh6hUpq90AbZtmZJkLtN9tB-crGTGW320w6EDCGntqHQxr31XiktRFfw1pCbopfMw64lcONr16gnfxR7VIu1yhoxtfEUfZ-m0PGNYr-EPsiM4WX1BXlNv6kdcgdDJ8y4RZwB1zyo1yrZPPqKP8uLtUkaimP6-l_47apHO-EkFxXtSaQXoschsnOv7QuLEKFZZpHa7vobZuc5qYdf9iRYh2XDwWCqRMxkQGTGKHdOQ2XJ2YqtpEhQn3qkgXSH-eUmGs7bEvjwmkookct1wvd_mw1GFmTNV4HE3rnJn3yqhnHyzGAANriL3f2keq2TWhSRgAKzG-5XY069KFL4LYJAGok8SrIn8AqITcf8pQJdAycSIVU2QUpewzxnlsqqjkkQcxo7sisj0ZsEYVJufbACnMSQDoGu8b9hZdAyai17mPSwMuxUApVNnvTugvvj1AWycf6wdqxDm7W_VIvfFyTbUmqbsHc7grk6ANJG93YQGtp95gzh5H4UhOIUou7TJLAhaRd72H87oTKXWGngeC3HMst2wUhqC_UZNR6wFagBd3G0S8WvA_X9OgI43CF6uGleuAhIu5QLTdpvG2T5EWdU7qZiNiRwv2ZvjwYvwl22ei7kCGR0XjuiIX9PDRJIbqRLybcxyhL-oQMhJgKGb16P-W2FnkckbR9avpjz-129N-8-7wjMig8wCGvylogZ0xxnh3dJNtliM6L346yxB5_W46IeklYwfqTGhwuT6Rfh55v79dapMl-KIqWMK3QgIztDoQquAAyYWbQw_vT0ER7VlemcXWhjbTnTJxTkiRFOvyVpcc9Gd-yZutrBtPzPTzFuCNwN-535C9eg0yAufkI4eiCNwHi4qsCdMWHIrFd-8vMBz9hg8wzuJMOVOl06pB_i8p8",
+    "expiresAt": "2024-11-06T00:53:40.000Z",
+    "intent": "LOGIN",
+    "messages": {
+      "type": "array",
+      "value": [
+        {
+          "message": "Your device doesn't meet the security requirements",
+          "i18n": {
+            "key": "idx.error.code.access_denied.device_assurance.remediation.title"
+          },
+          "class": "ERROR"
+        },
+        {
+          "message": "To sign in, make the following updates. Then, access the app again.",
+          "i18n": {
+            "key": "idx.error.code.access_denied.device_assurance.remediation.explanation_one_rule"
+          },
+          "class": "ERROR"
+        },
+        {
+          "message": "Device integrity not met.",
+          "i18n": {
+            "key": "idx.error.code.access_denied.device_assurance.remediation.android.zero.trust.device_integrity_not_met"
+          },
+          "links": [
+            {
+              "url": "https://help.okta.com/okta_help.htm?type=eu&id=csh-ov-device-remediation-andr&locale=en"
+            }
+          ],
+          "class": "ERROR"
+        },
+        {
+          "message": "Install the Android Device Policy app on this device",
+          "i18n": {
+            "key": "idx.error.code.access_denied.device_assurance.remediation.android.zero.trust.android_device_policy_app_required"
+          },
+          "deviceRemediation": {
+            "type": "object",
+            "value": {
+              "name": "device-assurance-device-policy-app-required",
+              "action": "android-device-policy-not-installed",
+              "platform": "ANDROID",
+              "domain": "https://00o12c42BcZRRmRrt0g4.authenticatorlocaldev.com",
+              "ports": ["8769", "65111", "65121", "65131", "65141", "65151"],
+              "probeTimeoutMillis": 3000,
+              "fallback": {
+                "type": "MESSAGE",
+                "message": {
+                    "message": "Go to Settings in Okta Verify and follow the instructions to install the Android Device Policy app",
+                    "i18n": {
+                        "key": "idx.error.code.access_denied.device_assurance.remediation.android.zero.trust.android_device_policy_app_required_manual_install"
+                    }
+                }
+              }
+            }
+          },
+          "class": "ERROR"
+        },
+        {
+          "message": "For more information, follow the instructions on the help page or contact your administrator for help",
+          "i18n": {
+            "key": "idx.error.code.access_denied.device_assurance.remediation.additional_help_default"
+          },
+          "links": [
+            {
+              "url": "https://help.okta.com/okta_help.htm?type=eu&id=csh-ov-device-remediation&locale=en"
+            }
+          ],
+          "class": "ERROR"
+        }
+      ]
+    }
+  }
+  
