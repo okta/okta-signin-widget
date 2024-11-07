@@ -25,6 +25,7 @@ import { CONFIGURED_FLOW } from '../client/constants';
 import { ConfigError } from 'util/Errors';
 import { updateAppState } from 'v2/client';
 import CookieUtil from '../../util/CookieUtil';
+import { ACTION_PARAMS_IGNORE_FORM_ERRORS } from '../view-builder/utils/Constants';
 
 export interface ContextData {
   controller: string;
@@ -209,7 +210,10 @@ export default Controller.extend({
     } else {
       error = new ConfigError(`Invalid action selected: ${actionPath}`);
       this.options.settings.callGlobalError(error);
-      await this.showFormErrors(this.formView.model, error, this.formView.form);
+      // only show form errors when not intentionally ignored from actionParams
+      if (!actionParams[ACTION_PARAMS_IGNORE_FORM_ERRORS]) {
+        await this.showFormErrors(this.formView.model, error, this.formView.form);
+      }
       return;
     }
 
