@@ -16,7 +16,7 @@ import { HTMLReactParserOptions } from 'html-react-parser';
 import { FunctionComponent, h } from 'preact';
 import React from 'preact/compat';
 
-import { ListStyleType, WidgetMessage, WidgetMessageLink } from '../../types';
+import { ClickEvent, ListStyleType, WidgetMessage, WidgetMessageLink } from '../../types';
 import { parseHtmlContent } from '../../util';
 
 const WidgetMessageContainer: FunctionComponent<{
@@ -59,11 +59,14 @@ const WidgetMessageContainer: FunctionComponent<{
             <MuiLink
               component="button"
               role="link"
-              onClick={link.onClick}
+              onClick={(event: ClickEvent) => {
+                event.preventDefault();
+                link.onClick!();
+              }}
               // @ts-expect-error MUI variant type does not include monochrome but functions appropriately when set
               variant={linkVariant}
               sx={{
-                textAlign: 'left',
+                textAlign: 'start',
                 fontSize: tokens.TypographySizeBody,
                 verticalAlign: 'text-top',
               }}

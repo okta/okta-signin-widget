@@ -141,7 +141,9 @@ export default View.extend({
     deviceRemediations.forEach(deviceRemediation => {
       this.$(`#${deviceRemediation.action}`).click(function(event) {
         event.preventDefault();
-        probeLoopbackAndExecute(deviceRemediation);
+        if (deviceRemediation.remediationType === 'LOOPBACK') {
+          probeLoopbackAndExecute(deviceRemediation);
+        }
       });
     });
   },
