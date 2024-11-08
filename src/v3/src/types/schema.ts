@@ -75,10 +75,12 @@ export type WidgetMessageLink = {
   dataSe?: string;
 };
 
+export type DeviceRemediationType = 'LOOPBACK';
 export type DeviceRemediationFallBackType = 'MESSAGE' | 'APP_LINK';
 export type DeviceRemediation = {
   name: string;
   action: string;
+  remediationType: DeviceRemediationType;
   platform: string;
   domain: string;
   ports: number[];

@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 import { $ } from '@okta/courage';
+import Enums from 'util/Enums';
 import hbs from '@okta/handlebars-inline-precompile';
 import Logger from 'util/Logger';
 import Util from 'util/Util';
@@ -89,9 +90,14 @@ const executeDeviceRemediationFallback = (fallback, action) => {
       break;
     case 'MESSAGE':
       // display updated message in place
-      const adpRemediationEl = document.getElementById(action);
-      if (adpRemediationEl) {
-        adpRemediationEl.outerHTML = getFallbackMessage(fallback);
+      const siwContainer = document.getElementById(Enums.WIDGET_CONTAINER_ID);
+      if (!siwContainer) {
+        Logger.error('Cannot find okta-sign-in container to display message');
+        return;
+      }
+      const remediationMsgElements = siwContainer.querySelectorAll(`[data-se="${action}"]`);
+      if (remediationMsgElements && remediationMsgElements[0]) {
+        remediationMsgElements[0].outerHTML = getFallbackMessage(fallback);
       }
       break;
     default: // Do nothing

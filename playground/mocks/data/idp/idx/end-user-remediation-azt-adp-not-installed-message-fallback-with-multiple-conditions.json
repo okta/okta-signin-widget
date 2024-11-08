@@ -1,0 +1,78 @@
+{
+    "version": "1.0.0",
+    "stateHandle": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz83",
+    "expiresAt": "2024-11-06T00:53:40.000Z",
+    "intent": "LOGIN",
+    "messages": {
+      "type": "array",
+      "value": [
+        {
+          "message": "Your device doesn't meet the security requirements",
+          "i18n": {
+            "key": "idx.error.code.access_denied.device_assurance.remediation.title"
+          },
+          "class": "ERROR"
+        },
+        {
+          "message": "To sign in, make the following updates. Then, access the app again.",
+          "i18n": {
+            "key": "idx.error.code.access_denied.device_assurance.remediation.explanation_one_rule"
+          },
+          "class": "ERROR"
+        },
+        {
+          "message": "Enable lock screen",
+          "i18n": {
+            "key": "idx.error.code.access_denied.device_assurance.remediation.android.use_lock_screen"
+          },
+          "links": [
+            {
+              "url": "https://help.okta.com/okta_help.htm?type=eu&id=csh-ov-device-remediation-andr&locale=en"
+            }
+          ],
+          "class": "ERROR"
+        },
+        {
+          "message": "Install the Android Device Policy app on this device",
+          "i18n": {
+            "key": "idx.error.code.access_denied.device_assurance.remediation.android.zero.trust.android_device_policy_app_required"
+          },
+          "deviceRemediation": {
+            "type": "object",
+            "value": {
+              "name": "device-assurance-device-policy-app-required",
+              "action": "android-device-policy-not-installed",
+              "remediationType": "LOOPBACK",
+              "platform": "ANDROID",
+              "domain": "https://randomOrgId.authenticatorlocaldev.com",
+              "ports": ["8769", "65111", "65121", "65131", "65141", "65151"],
+              "probeTimeoutMillis": 3000,
+              "fallback": {
+                "type": "MESSAGE",
+                "message": {
+                    "message": "Go to Settings in Okta Verify and follow the instructions to install the Android Device Policy app",
+                    "i18n": {
+                        "key": "idx.error.code.access_denied.device_assurance.remediation.android.zero.trust.android_device_policy_app_required_manual_install"
+                    }
+                }
+              }
+            }
+          },
+          "class": "ERROR"
+        },
+        {
+          "message": "For more information, follow the instructions on the help page or contact your administrator for help",
+          "i18n": {
+            "key": "idx.error.code.access_denied.device_assurance.remediation.additional_help_default"
+          },
+          "links": [
+            {
+              "url": "https://help.okta.com/okta_help.htm?type=eu&id=csh-ov-device-remediation&locale=en"
+            }
+          ],
+          "class": "ERROR"
+        }
+      ]
+    }
+  }
+  
