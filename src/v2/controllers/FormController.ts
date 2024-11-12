@@ -153,6 +153,9 @@ export default Controller.extend({
   // eslint-disable-next-line max-statements
   async handleInvokeAction(actionPath = '', actionParams = {}) {
     const { appState, settings } = this.options;
+    const ignoreFormErrors = (actionParams as any)[ACTION_PARAMS_IGNORE_FORM_ERRORS];
+    // prevent passing ACTION_PARAMS_IGNORE_FORM_ERRORS in network payload
+    delete actionParams[ACTION_PARAMS_IGNORE_FORM_ERRORS];
 
     // For self-hosted scenario we need to start reset flow at identify page from scratch.
     //  (Reusing state handle of transaction after failed sign-in attempt for reset flow is error prone)
@@ -211,7 +214,7 @@ export default Controller.extend({
       error = new ConfigError(`Invalid action selected: ${actionPath}`);
       this.options.settings.callGlobalError(error);
       // only show form errors when not intentionally ignored from actionParams
-      if (!actionParams[ACTION_PARAMS_IGNORE_FORM_ERRORS]) {
+      if (!ignoreFormErrors) {
         await this.showFormErrors(this.formView.model, error, this.formView.form);
       }
       return;
