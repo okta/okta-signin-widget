@@ -19,6 +19,7 @@ import {
 import { TERMINAL_KEY } from '../constants';
 import { FormBag, WidgetOptions } from '../types';
 import { containsMessageKey, isPollingStep } from '../util';
+import BrowserFeatures from 'util/BrowserFeatures';
 
 const DEFAULT_TIMEOUT = 4000;
 
@@ -85,46 +86,67 @@ export const usePolling = (
 
     // one time request
     // the following polling requests will be triggered based on idxTransaction update
-    timerRef.current = setTimeout(async () => {
-      let payload: IdxActionParams = {};
-      const autoChallenge = getAutoChallengeValue(idxTransaction, data);
-      if (autoChallenge !== undefined) {
-        payload.autoChallenge = autoChallenge;
-      }
-      // POLL_STEPS are not an action, so must treat as such
-      if (isPollingStep(name)) {
-        payload.step = name;
-      } else {
-        payload = { actions: [{ name, params: payload }] };
-      }
-      // TODO: Revert to use action once this fix is completed OKTA-512706
-      const newTransaction = await authClient?.idx.proceed({
-        stateHandle: stateToken && idxTransaction?.context?.stateHandle,
-        ...payload,
-      });
-
-      // error code E0000047 is from a standard API error (unhandled)
-      // TERMINAL_KEY.TOO_MANY_REQUESTS is error key from IDX API error message
-      // check that there is no errorIntent to make sure it is not a standard IDX message error
-      // @ts-expect-error OKTA-585869 errorCode & errorIntent properties missing from context type
-      if ((newTransaction?.context?.errorCode === 'E0000047' && !newTransaction?.context?.errorIntent)
-        || containsMessageKey(TERMINAL_KEY.TOO_MANY_REQUESTS, newTransaction?.messages)) {
-        // When polling encounter rate limit error, wait 60 sec for rate limit bucket to reset before polling again
-        const clonedTransaction = cloneDeep(idxTransaction);
-        const clonedPollingStep = getPollingStep(clonedTransaction);
-        if (clonedPollingStep !== undefined) {
-          clonedPollingStep.refresh = 60000;
+    const queuePollRequest = () => {
+      timerRef.current = setTimeout(async () => {
+        let payload: IdxActionParams = {};
+        const autoChallenge = getAutoChallengeValue(idxTransaction, data);
+        if (autoChallenge !== undefined) {
+          payload.autoChallenge = autoChallenge;
         }
-        setTransaction(clonedTransaction);
-        return;
+        // POLL_STEPS are not an action, so must treat as such
+        if (isPollingStep(name)) {
+          payload.step = name;
+        } else {
+          payload = { actions: [{ name, params: payload }] };
+        }
+        // TODO: Revert to use action once this fix is completed OKTA-512706
+        const newTransaction = await authClient?.idx.proceed({
+          stateHandle: stateToken && idxTransaction?.context?.stateHandle,
+          ...payload,
+        });
+  
+        // error code E0000047 is from a standard API error (unhandled)
+        // TERMINAL_KEY.TOO_MANY_REQUESTS is error key from IDX API error message
+        // check that there is no errorIntent to make sure it is not a standard IDX message error
+        // @ts-expect-error OKTA-585869 errorCode & errorIntent properties missing from context type
+        if ((newTransaction?.context?.errorCode === 'E0000047' && !newTransaction?.context?.errorIntent)
+          || containsMessageKey(TERMINAL_KEY.TOO_MANY_REQUESTS, newTransaction?.messages)) {
+          // When polling encounter rate limit error, wait 60 sec for rate limit bucket to reset before polling again
+          const clonedTransaction = cloneDeep(idxTransaction);
+          const clonedPollingStep = getPollingStep(clonedTransaction);
+          if (clonedPollingStep !== undefined) {
+            clonedPollingStep.refresh = 60000;
+          }
+          setTransaction(clonedTransaction);
+          return;
+        }
+  
+        setTransaction(newTransaction);
+      }, refresh);
+    };
+    queuePollRequest();
+
+    let visListener: (() => void) | null = null;
+    if (BrowserFeatures.isIOS()) {
+      visListener = () => {
+        if (document.hidden && timerRef.current) {
+          clearTimeout(timerRef.current);
+        }
+
+        if (!document.hidden) {
+          queuePollRequest();
+        }
       }
 
-      setTransaction(newTransaction);
-    }, refresh);
+      document.addEventListener('visibilitychange', visListener);
+    }
 
     return () => {
       if (timerRef.current) {
         clearTimeout(timerRef.current);
+      }
+      if (visListener) {
+        document.removeEventListener('visibilitychange', visListener);
       }
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps

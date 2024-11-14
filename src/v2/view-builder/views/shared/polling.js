@@ -7,14 +7,10 @@ export default {
     this.fixedPollingInterval = this.options.currentViewState.refresh;
     this.dynamicPollingInterval = newRefreshInterval;
     this.countDownCounterValue = Math.ceil(this.pollingInterval / MS_PER_SEC);
-    // this._bindWindowFocusListener();
-
-    console.log('polling started');
 
     this._handleWindowUnfocusWhilePolling();
     this.listenToOnce(this.model, 'error', (event) => {
       if (this.pausedForWindowUnfocus) {
-        console.log('ignoring polling error due to tab focus');
         event.stopImmediatePropagation();
       }
     });
@@ -42,7 +38,6 @@ export default {
         if (document.hidden && this.polling) {
           // prevent the next poll network request from being sent
           this.stopPolling();
-          console.log('POLLING PAUSED');
           this.pausedForWindowUnfocus = true;
           this._handleWindowRefocusWhilePolling();
         }
@@ -57,8 +52,7 @@ export default {
     const pageVisibilityHandler = () => {
       if (!document.hidden && this.pausedForWindowUnfocus) {
         this.pausedForWindowUnfocus = false;
-        console.log('POLLING RESTARTED');
-        this.startPolling(this.options.appState.get('dynamicRefreshInterval'));
+        this.startPolling(100);
       }
 
       document.removeEventListener('visibilitychange', pageVisibilityHandler);
@@ -66,45 +60,6 @@ export default {
 
     document.addEventListener('visibilitychange', pageVisibilityHandler);
   },
-
-  // _bindWindowFocusListener () {
-  //   if (BrowserFeatures.isIOS()) {
-  //     const pollInterval = this.fixedPollingInterval ?
-  //       this.dynamicPollingInterval || this.fixedPollingInterval :
-  //       this.dynamicPollingInterval || authenticator?.poll?.refresh;
-
-  //     let visibilityTimeoutId;
-  //     this._visibilityChangeListener = () => {
-  //       if (!document.hidden) {
-  //         if (this.polling) {
-  //           visibilityTimeoutId = setTimeout(() => {
-  //             // if polling stops, restart it after a delay
-  //             this.stopPolling();
-  //             this.startPolling();
-  //           }, pollInterval + 100);
-  //         }
-  //         else {
-  //           // if no polling is active, restart it
-  //           this.startPolling();
-  //         }
-  //       }
-  //     };
-  //     document.addEventListener('visibilitychange', this._visibilityChangeListener);
-
-  //     const onPendingRequestResolves = () => {
-  //       clearTimeout(visibilityTimeoutId);
-  //     };
-
-  //     this.listenToOnce(this.options.appState, 'saveForm', onPendingRequestResolves);
-  //     this.listenToOnce(this.options.appState, 'invokeAction', onPendingRequestResolves);
-  //     this.listenToOnce(this.options.appState, 'error', () => {
-  //       onPendingRequestResolves();
-  //       // if form submission errors (because network request fails), restart polling
-  //       this.stopPolling();
-  //       this.startPolling();
-  //     });
-  //   }
-  // },
 
   _startAuthenticatorPolling() {
     console.log('queued poll action');
@@ -119,9 +74,6 @@ export default {
         const pollInterval = this.dynamicPollingInterval || authenticator?.poll?.refresh;
         if (_.isNumber(pollInterval)) {
           this.polling = setTimeout(()=>{
-            // NOTE: listener bound to appState in form controller (L41)
-            // this.polling = null;
-            console.log('invoking action');
             this.options.appState.trigger('invokeAction', authenticatorPollAction);
           }, pollInterval);
         }
@@ -133,21 +85,15 @@ export default {
   },
 
   _startRemediationPolling() {
-    console.log('queued poll remediation');
     const pollInterval = this.dynamicPollingInterval || this.fixedPollingInterval;
     if (_.isNumber(pollInterval)) {
       this.polling = setTimeout(() => {
-        // NOTE: listener bound to appState in form controller (L41)
-        // this.polling = null;
-        console.log('invoking remediation');
         this.options.appState.trigger('saveForm', this.model);
       }, pollInterval);
     }
   },
 
   stopPolling() {
-    console.log('stop polling called');
-
     if (this.polling) {
       clearTimeout(this.polling);
       this.polling = null;
