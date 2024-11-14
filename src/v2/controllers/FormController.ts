@@ -25,7 +25,6 @@ import { CONFIGURED_FLOW } from '../client/constants';
 import { ConfigError } from 'util/Errors';
 import { updateAppState } from 'v2/client';
 import CookieUtil from '../../util/CookieUtil';
-import { ACTION_PARAMS_IGNORE_FORM_ERRORS } from '../view-builder/utils/Constants';
 
 export interface ContextData {
   controller: string;
