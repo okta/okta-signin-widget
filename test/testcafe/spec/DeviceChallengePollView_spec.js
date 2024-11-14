@@ -389,10 +389,9 @@ const loopbackEarlyCancelChallengeErrorMock = RequestMock()
   .onRequestTo({ url: /challenge/, method: 'POST'})
   .respond((req, res) => {
     return new Promise((resolve) => setTimeout(function() {
-      res.statusCode = '400';
+      res.statusCode = 400;
       res.headers['access-control-allow-origin'] = '*';
       res.headers['access-control-allow-headers'] = 'X-Okta-Xsrftoken, Content-Type';
-      res.statusCode = '400';
       res.setBody({});
       resolve(res);
     }, EARLY_CANCEL_CHALLENGE_REQUEST_WAIT_TIME));
@@ -898,4 +897,9 @@ test
     await t.expect(identifyPageObject.getFormTitle()).eql('Sign In');
     // no errors in form
     await t.expect(identifyPageObject.getErrorBoxText().exists).notOk();
+    await t.expect(loopbackEarlyCancelChallengeErrorLogger.count(
+      record => record.response.statusCode === 400 && 
+        record.request.method === 'post' &&
+        record.request.url.match(/challenge/)
+    )).eql(1);
   });
