@@ -20,7 +20,6 @@ import {
   OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP, 
   OV_UV_ENABLE_BIOMETRICS_FASTPASS_MOBILE,
   REQUEST_PARAM_AUTHENTICATION_CANCEL_REASON,
-  ACTION_PARAMS_IGNORE_FORM_ERRORS,
 } from '../utils/Constants';
 
 export function appendLoginHint(deviceChallengeUrl, loginHint) {
@@ -166,8 +165,7 @@ export function cancelPollingWithParams(appState, pollingCancelAction, cancelRea
   const actionParams = {};
   actionParams[REQUEST_PARAM_AUTHENTICATION_CANCEL_REASON] = cancelReason;
   actionParams[LOOPBACK_RESPONSE_STATUS_CODE] = statusCode;
-  actionParams[ACTION_PARAMS_IGNORE_FORM_ERRORS] = !!ignoreFormErrors;
-  appState.trigger('invokeAction', pollingCancelAction, actionParams);
+  appState.trigger('invokeAction', pollingCancelAction, actionParams, ignoreFormErrors);
 }
 
 export function getBiometricsErrorOptions(error, isMessageObj) {
