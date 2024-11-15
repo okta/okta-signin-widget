@@ -28,6 +28,7 @@ Object {
             Object {
               "links": Array [
                 Object {
+                  "isLinkButton": false,
                   "label": "idx.error.code.access_denied.device_assurance.remediation.android.upgrade_os_version",
                   "url": "https://okta.com/android-upgrade-os",
                 },
@@ -47,7 +48,7 @@ Object {
         "label": "idx.device_assurance.grace_period.continue_to_app",
         "options": Object {
           "step": "skip",
-          "type": "submit",
+          "type": "button",
         },
         "type": "Button",
       },

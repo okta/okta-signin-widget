@@ -1,4 +1,4 @@
-import { View, $ } from '@okta/courage';
+import { View } from '@okta/courage';
 import hbs from '@okta/handlebars-inline-precompile';
 import { getMessage } from '../../../ion/i18nTransformer';
 import TimeUtil from 'util/TimeUtil';
@@ -139,7 +139,7 @@ export default View.extend({
       .map(message => message.deviceRemediation.value);
     
     deviceRemediations.forEach(deviceRemediation => {
-      this.$(`#${deviceRemediation.action}`).click(function(event) {
+      this.$el.find(`#${deviceRemediation.action}`).click(function(event) {
         event.preventDefault();
         if (deviceRemediation.remediationType === 'LOOPBACK') {
           probeLoopbackAndExecute(deviceRemediation);

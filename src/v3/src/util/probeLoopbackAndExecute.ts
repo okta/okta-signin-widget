@@ -10,15 +10,21 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { DeviceRemediation } from '../types';
-import { loc } from './locUtil';
 import Logger from '../../../util/Logger';
 import Util from '../../../util/Util';
+import { DeviceRemediation } from '../types';
+import { loc } from './locUtil';
 import { makeRequest } from './makeRequest';
 
+type ProbeDetails = {
+  actionPath: string;
+  probeTimeoutMillis: number;
+  isSuccess: boolean;
+};
+const PROBE_PATH = 'probe';
 const ADP_INSTALL_FALLBACK_REMEDIATION_KEY = 'idx.error.code.access_denied.device_assurance.remediation.android.zero.trust.android_device_policy_app_required_manual_install';
 
-const getMessage = (fallback: DeviceRemediation['fallback']) => {
+const getMessage = (fallback: DeviceRemediation['fallback']): string => {
   switch (fallback.message?.i18n?.key) {
     case ADP_INSTALL_FALLBACK_REMEDIATION_KEY:
       // ADP fallback message has additional formatting
@@ -33,74 +39,96 @@ const getMessage = (fallback: DeviceRemediation['fallback']) => {
   }
 };
 
-const executeDeviceRemediationFallback = (fallback: DeviceRemediation['fallback'], action: string) => {
+const executeDeviceRemediationFallback = (
+  fallback: DeviceRemediation['fallback'],
+  action: string,
+): void => {
   switch (fallback.type) {
-    case 'APP_LINK':
+    case 'APP_LINK': {
       // If/when loopback fails auto launch app link to install
       Util.executeOnVisiblePage(() => {
-        Util.redirectWithFormGet(fallback.href);
+        Util.redirect(fallback.href, window, true);
       });
       break;
-    case 'MESSAGE':
+    }
+    case 'MESSAGE': {
       // display updated message in place
       const siwContainer = document.getElementById('okta-sign-in');
-      const elements = siwContainer?.querySelectorAll(`[data-se="${action}"]`);
+      const elements = siwContainer?.querySelectorAll(`[data-se='${action}']`);
       if (elements?.[0]) {
         elements[0].outerHTML = getMessage(fallback);
       }
       break;
-    default: // Do nothing
+    }
+    default: // do nothing
   }
 };
 
-export const probeLoopbackAndExecute = async (deviceRemediation: DeviceRemediation) => {
-  let remediationSucceeded = false;
+const checkPort = (
+  url: string,
+  probeTimeoutMillis: number,
+): Promise<Response> => makeRequest({
+  method: 'GET',
+  timeout: probeTimeoutMillis,
+  url,
+});
 
-  const baseUrls = deviceRemediation.ports.map((port) => `${deviceRemediation.domain}:${port}`);
+const onPortFound = (url: string, timeout: number): Promise<Response> => makeRequest({
+  method: 'GET',
+  url,
+  timeout,
+});
 
-  for (const baseUrl of baseUrls) {
-    try {
-      // probe the port
-      const probeResponse = await makeRequest({
-        method: 'GET',
-        timeout: deviceRemediation.probeTimeoutMillis,
-        url: `${baseUrl}/probe`,
-      });
+const probe = (baseUrl: string, probeDetails: ProbeDetails): Promise<void> => (
+  checkPort(`${baseUrl}/${PROBE_PATH}`, probeDetails.probeTimeoutMillis)
+    .then(() => (
+      onPortFound(`${baseUrl}/${probeDetails.actionPath}`, probeDetails.probeTimeoutMillis)
+        .then(() => {
+          // eslint-disable-next-line no-param-reassign
+          probeDetails.isSuccess = true;
+        })))
+    .catch(() => {
+      Logger.error(`Something unexpected happened while we were checking url: ${baseUrl}.`);
+      return Promise.reject();
+    }));
 
-      if (!probeResponse.ok) {
-        Logger.error(`Loopback is not listening on: ${baseUrl}.`);
-        continue;
-      }
+export const probeLoopbackAndExecute = async (
+  deviceRemediation: DeviceRemediation,
+): Promise<void> => {
+  const {
+    action: actionPath,
+    domain,
+    ports,
+    probeTimeoutMillis,
+  } = deviceRemediation;
+  const probeDetails: ProbeDetails = {
+    actionPath,
+    probeTimeoutMillis,
+    isSuccess: false,
+  };
+  const totalPortCount = ports.length;
+  let failedPortCount = 0;
 
-      // attempt the remediation request with found port
-      const remediationResponse = await makeRequest({
-        url: `${baseUrl}/${deviceRemediation.action}`,
-        method: 'GET',
-        timeout: 300_000,
-      });
-
-      if (!remediationResponse.ok) {
-        if (remediationResponse.status !== 503) {
-          // return immediately
-          return;
-        }
-
-        // try the next domain:port
-        continue;
-      }
-      // remediation response was a 2xx, end probing
-      remediationSucceeded = true;
-      break;
-    } catch (e) {
-      // only for unexpected error conditions (e.g. fetch throws an error)
-      Logger.error(`Something unexpected happened while we were checking url ${baseUrl}`);
+  let probeChain = Promise.resolve();
+  const baseUrls = ports.map((port) => `${domain}:${port}`);
+  baseUrls.forEach((baseUrl) => {
+    // no need to continue if we found the port and made a successful request
+    if (probeDetails.isSuccess) {
+      return;
     }
-  }
 
-  if (!remediationSucceeded) {
-    // if remediation request was not made after probe, utilize fallback mechanism
-    Logger.error('No available ports. Loopback server failed, triggering fallback.');
-
-    executeDeviceRemediationFallback(deviceRemediation.fallback, deviceRemediation.action);
-  }
+    probeChain = probeChain
+      .then(() => probe(baseUrl, probeDetails))
+      .catch((e) => {
+        failedPortCount += 1;
+        Logger.error(`Authenticator is not listening on: ${baseUrl}.`, e);
+        if (failedPortCount >= totalPortCount && !probeDetails.isSuccess) {
+          Logger.error('No available ports. Loopback server failed and using fallback mechanism.');
+          executeDeviceRemediationFallback(
+            deviceRemediation.fallback,
+            deviceRemediation.action,
+          );
+        }
+      });
+  });
 };
