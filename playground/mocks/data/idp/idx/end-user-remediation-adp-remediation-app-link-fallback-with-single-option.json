@@ -1,6 +1,6 @@
 {
     "version": "1.0.0",
-    "stateHandle": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz83",
+    "stateHandle": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz84",
     "expiresAt": "2024-11-06T00:53:40.000Z",
     "intent": "LOGIN",
     "messages": {
@@ -27,7 +27,7 @@
           },
           "links": [
             {
-              "url": "https://help.okta.com/okta_help.htm?type=eu&id=csh-ov-device-remediation-andr&locale=en"
+              "url": "https://okta.com/android-lock-screen"
             }
           ],
           "class": "ERROR"
@@ -40,21 +40,16 @@
           "deviceRemediation": {
             "type": "object",
             "value": {
-              "name": "device-assurance-device-policy-app-required",
-              "action": "android-device-policy-not-installed",
+              "name": "device-assurance-android-device-policy-app-required",
+              "action": "install-android-device-policy",
               "remediationType": "LOOPBACK",
               "platform": "ANDROID",
               "domain": "https://randomOrgId.authenticatorlocaldev.com",
-              "ports": ["8769", "65111", "65121", "65131", "65141", "65151"],
-              "probeTimeoutMillis": 3000,
+              "ports": [ "6511", "6512", "2000", "6513" ],
+              "probeTimeoutMillis": 10,
               "fallback": {
-                "type": "MESSAGE",
-                "message": {
-                    "message": "Go to Settings in Okta Verify and follow the instructions to install the Android Device Policy app",
-                    "i18n": {
-                        "key": "idx.error.code.access_denied.device_assurance.remediation.android.zero.trust.android_device_policy_app_required_manual_install"
-                    }
-                }
+                "type": "APP_LINK",
+                "href": "okta-verify.html"
               }
             }
           },
@@ -67,7 +62,7 @@
           },
           "links": [
             {
-              "url": "https://help.okta.com/okta_help.htm?type=eu&id=csh-ov-device-remediation&locale=en"
+              "url": "https://okta.com/help"
             }
           ],
           "class": "ERROR"

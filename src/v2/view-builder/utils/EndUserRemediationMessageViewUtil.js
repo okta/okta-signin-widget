@@ -17,6 +17,7 @@ import Util from 'util/Util';
 import { getMessage } from '../../ion/i18nTransformer';
 
 const PROBE_PATH = 'probe';
+// eslint-disable-next-line max-len
 const ADP_INSTALL_FALLBACK_REMEDIATION_KEY = 'idx.error.code.access_denied.device_assurance.remediation.android.zero.trust.android_device_policy_app_required_manual_install';
 
 const ajaxRequest = (requestOptions) => {
@@ -42,22 +43,50 @@ const onPortFound = (url, timeout) => {
   });
 };
 
+const getFallbackMessage = (fallbackObj) => {
+  switch (fallbackObj.message.i18n.key) {
+  case ADP_INSTALL_FALLBACK_REMEDIATION_KEY:
+    // ADP fallback message has additional formatting
+    // eslint-disable-next-line max-len
+    return hbs`{{i18n code="idx.error.code.access_denied.device_assurance.remediation.android.zero.trust.android_device_policy_app_required_manual_install"
+      bundle="login"
+      $1="<span class='strong'>$1</span>"
+    }}`();
+  default:
+    return getMessage(fallbackObj.message);
+  }
+};
+
+const executeDeviceRemediationFallback = (fallback, action) => {
+  switch (fallback.type) {
+  case 'APP_LINK': {
+    // If/When loopback fails auto launch app link to install
+    Util.executeOnVisiblePage(() => {
+      Util.redirect(fallback.href, window, true);
+    });
+    break;
+  }
+  case 'MESSAGE': {
+    // display updated message in place
+    const siwContainer = document.getElementById(Enums.WIDGET_CONTAINER_ID);
+    if (!siwContainer) {
+      Logger.error('Cannot find okta-sign-in container to display message');
+      return;
+    }
+    const remediationMsgElements = siwContainer.querySelectorAll(`[data-se="${action}"]`);
+    if (remediationMsgElements && remediationMsgElements[0]) {
+      remediationMsgElements[0].outerHTML = getFallbackMessage(fallback);
+    }
+    break;
+  }}
+};
+
 const probe = (baseUrl, probeDetails) => {
   return checkPort(`${baseUrl}/${PROBE_PATH}`, probeDetails.probeTimeoutMillis)
     .then(() => {
-      return onPortFound(`${baseUrl}/${probeDetails.actionPath}`)
+      return onPortFound(`${baseUrl}/${probeDetails.actionPath}`, probeDetails.probeTimeoutMillis)
         .then(() => {
-          probeDetails.foundPort = true;
-        })
-        .catch((xhr) => {
-          probeDetails.failedPortCount++;
-          if (xhr.status !== 503) {
-            // for service unavailable error statuses
-            // stop the remaining probing
-            probeDetails.probingFailed = true;
-          } else if (probeDetails.failedPortCount === probeDetails.totalPortCount) {
-            probeDetails.probingFailed = true;
-          }
+          probeDetails.isSuccess = true;
         });
     })
     .catch(() => {
@@ -66,68 +95,28 @@ const probe = (baseUrl, probeDetails) => {
     });
 };
 
-const getFallbackMessage = (fallbackObj) => {
-  switch (fallbackObj.message.i18n.key) {
-    case ADP_INSTALL_FALLBACK_REMEDIATION_KEY:
-      // ADP fallback message has additional formatting
-      return hbs`{{i18n 
-        code="idx.error.code.access_denied.device_assurance.remediation.android.zero.trust.android_device_policy_app_required_manual_install"
-        bundle="login"
-        $1="<span class='strong'>$1</span>"
-      }}`();
-    default:
-      return getMessage(fallbackObj.message);
-  }
-};
-
-const executeDeviceRemediationFallback = (fallback, action) => {
-  switch (fallback.type) {
-    case 'APP_LINK':
-      // If/When loopback fails auto launch app link to install
-      Util.executeOnVisiblePage(() => {
-        Util.redirectWithFormGet(fallback.href);
-      });
-      break;
-    case 'MESSAGE':
-      // display updated message in place
-      const siwContainer = document.getElementById(Enums.WIDGET_CONTAINER_ID);
-      if (!siwContainer) {
-        Logger.error('Cannot find okta-sign-in container to display message');
-        return;
-      }
-      const remediationMsgElements = siwContainer.querySelectorAll(`[data-se="${action}"]`);
-      if (remediationMsgElements && remediationMsgElements[0]) {
-        remediationMsgElements[0].outerHTML = getFallbackMessage(fallback);
-      }
-      break;
-    default: // Do nothing
-  }
-};
-
 export const probeLoopbackAndExecute = (deviceRemediation) => {
   const domain = deviceRemediation.domain;
   const ports = deviceRemediation.ports;
+  const totalPortCount = ports.length;
+  let failedPortCount = 0;
   const probeDetails = {
     actionPath:  deviceRemediation.action,
     probeTimeoutMillis: deviceRemediation.probeTimeoutMillis,
-    totalPortCount: ports.length,
-    failedPortCount: 0,
-    foundPort: false,
-    probingFailed: false,
+    isSuccess: false,
   };
 
   let probeChain = Promise.resolve();
   const baseUrls = ports.map((port) => `${domain}:${port}`);
   baseUrls.forEach(baseUrl => {
-    probeChain = probeChain.then(() => {
-      if (!(probeDetails.foundPort || probeDetails.probingFailed)) {
-        return probe(baseUrl, probeDetails);
-      }
-    })
-    .catch((e) => {
-      probeDetails.failedPortCount++;
+    // no need to continue if we found the port and made a successful request
+    if (probeDetails.isSuccess) {
+      return;
+    }
+    probeChain = probeChain.then(() => probe(baseUrl, probeDetails)).catch(() => {
+      failedPortCount += 1;
       Logger.error(`Authenticator is not listening on: ${baseUrl}.`);
-      if (probeDetails.failedPortCount === probeDetails.totalPortCount) {
+      if (failedPortCount >= totalPortCount && !probeDetails.isSuccess) {
         Logger.error('No available ports. Loopback server failed and using fallback mechanism.');
         executeDeviceRemediationFallback(deviceRemediation.fallback, deviceRemediation.action);
       }

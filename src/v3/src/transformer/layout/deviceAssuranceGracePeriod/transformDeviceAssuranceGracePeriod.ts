@@ -58,7 +58,7 @@ export const transformDeviceAssuranceGracePeriod: IdxStepTransformer = ({
     type: 'Button',
     label: loc('idx.device_assurance.grace_period.continue_to_app', 'login'),
     options: {
-      type: ButtonType.SUBMIT,
+      type: ButtonType.BUTTON,
       step: transaction.nextStep!.name,
     },
   };
