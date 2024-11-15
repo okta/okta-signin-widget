@@ -150,7 +150,7 @@ export default Controller.extend({
   },
 
   // eslint-disable-next-line max-statements
-  async handleInvokeAction(actionPath = '', actionParams = {}) {
+  async handleInvokeAction(actionPath = '', actionParams = {}, ignoreFormErrors = false) {
     const { appState, settings } = this.options;
 
     // For self-hosted scenario we need to start reset flow at identify page from scratch.
@@ -209,6 +209,10 @@ export default Controller.extend({
     } else {
       error = new ConfigError(`Invalid action selected: ${actionPath}`);
       this.options.settings.callGlobalError(error);
+      // return early when form error should be ignored
+      if (ignoreFormErrors) {
+        return;
+      }
       await this.showFormErrors(this.formView.model, error, this.formView.form);
       return;
     }

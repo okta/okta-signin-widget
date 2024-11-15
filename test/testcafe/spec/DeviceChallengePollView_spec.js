@@ -5,6 +5,7 @@ import DeviceChallengePollPageObject from '../framework/page-objects/DeviceChall
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import identify from '../../../playground/mocks/data/idp/idx/identify';
 import identifyWithDeviceProbingLoopback from '../../../playground/mocks/data/idp/idx/identify-with-device-probing-loopback';
+import identifyWithDeviceProbingLoopback4 from '../../../playground/mocks/data/idp/idx/identify-with-device-probing-loopback-4';
 import identifyWithDeviceProbingHttpsLoopback from '../../../playground/mocks/data/idp/idx/identify-with-device-probing-https-loopback';
 import loopbackChallengeNotReceived from '../../../playground/mocks/data/idp/idx/identify-with-device-probing-loopback-challenge-not-received';
 import identifyWithLoopbackFallbackAndroidWithoutLink from '../../../playground/mocks/data/idp/idx/identify-with-device-probing-loopback-challenge-not-received-android-no-link';
@@ -16,6 +17,7 @@ import identifyWithLaunchAppLink from '../../../playground/mocks/data/idp/idx/id
 import userIsNotAssignedError from '../../../playground/mocks/data/idp/idx/error-user-is-not-assigned.json';
 
 const BEACON_CLASS = 'mfa-okta-verify';
+const EARLY_CANCEL_CHALLENGE_REQUEST_WAIT_TIME = 4000;
 
 let failureCount = 0, pollingError = false, appLinkLoopBackFailed = false;
 const loopbackSuccessLogger = RequestLogger(/introspect|probe|challenge/, { logRequestBody: true, stringifyRequestBody: true });
@@ -360,6 +362,40 @@ const LoginHintAppLinkMock = RequestMock()
   .respond(identifyWithLaunchAppLink)
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
   .respond(identifyWithLaunchAppLink);
+
+const loopbackEarlyCancelChallengeErrorLogger = RequestLogger(/introspect|probe|cancel|poll|challenge/, { logRequestBody: true, stringifyRequestBody: true });
+const loopbackEarlyCancelChallengeErrorMock = RequestMock()
+  .onRequestTo(/\/idp\/idx\/introspect/)
+  .respond(identifyWithDeviceProbingLoopback4)
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll\/cancel/)
+  .respond(identify)
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
+  .respond(identifyWithDeviceProbingLoopback4)
+  .onRequestTo({ url: /probe/, method: 'OPTIONS' })
+  .respond(null, 200, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
+  })
+  .onRequestTo({ url: /probe/, method: 'GET' })
+  .respond(null, 200, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
+  })
+  .onRequestTo({ url: /challenge/, method: 'OPTIONS'})
+  .respond(null, 200, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
+  })
+  .onRequestTo({ url: /challenge/, method: 'POST'})
+  .respond((req, res) => {
+    return new Promise((resolve) => setTimeout(function() {
+      res.statusCode = 400;
+      res.headers['access-control-allow-origin'] = '*';
+      res.headers['access-control-allow-headers'] = 'X-Okta-Xsrftoken, Content-Type';
+      res.setBody({});
+      resolve(res);
+    }, EARLY_CANCEL_CHALLENGE_REQUEST_WAIT_TIME));
+  });
 
 fixture('Device Challenge Polling View with the Loopback Server, Custom URI, App Link, and Universal Link approaches');
 
@@ -843,4 +879,23 @@ test
     deviceChallengePollPageObject.clickLaunchOktaVerifyButton();
     // verify login_hint has been appended to the app link url
     await t.expect(getPageUrl()).contains('login_hint='+encodeURIComponent(username));
+  });
+
+test
+  .requestHooks(loopbackEarlyCancelChallengeErrorLogger, loopbackEarlyCancelChallengeErrorMock)('expect no error message in view', async t => {
+    const deviceChallengePollPageObject = await setup(t);
+    await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Verifying your identity');
+    
+    await deviceChallengePollPageObject.clickCancelAndGoBackLink();
+    await t.wait(EARLY_CANCEL_CHALLENGE_REQUEST_WAIT_TIME + 1000); // wait for delayed challenge request
+    
+    const identifyPageObject = new IdentityPageObject(t);
+    await t.expect(identifyPageObject.getFormTitle()).eql('Sign In');
+    // no errors in form
+    await t.expect(identifyPageObject.getErrorBoxText().exists).notOk();
+    await t.expect(loopbackEarlyCancelChallengeErrorLogger.count(
+      record => record.response.statusCode === 400 && 
+        record.request.method === 'post' &&
+        record.request.url.match(/challenge/)
+    )).eql(1);
   });
