@@ -881,16 +881,17 @@ test
     await t.expect(getPageUrl()).contains('login_hint='+encodeURIComponent(username));
   });
 
-test
+test.only
   .requestHooks(loopbackEarlyCancelChallengeErrorLogger, loopbackEarlyCancelChallengeErrorMock)('expect no error message in view', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Verifying your identity');
     
     await deviceChallengePollPageObject.clickCancelAndGoBackLink();
-    await t.wait(EARLY_CANCEL_CHALLENGE_REQUEST_WAIT_TIME + 1000); // wait for delayed challenge request
-    
     const identifyPageObject = new IdentityPageObject(t);
     await t.expect(identifyPageObject.getFormTitle()).eql('Sign In');
+
+    await t.wait(EARLY_CANCEL_CHALLENGE_REQUEST_WAIT_TIME + 1000); // wait for delayed challenge request
+    
     // no errors in form
     await t.expect(identifyPageObject.getErrorBoxText().exists).notOk();
     await t.expect(loopbackEarlyCancelChallengeErrorLogger.count(
