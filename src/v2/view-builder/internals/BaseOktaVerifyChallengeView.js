@@ -27,8 +27,6 @@ const Body = BaseFormWithPolling.extend({
 
   className: 'ion-form device-challenge-poll',
 
-  removed: false,
-
   events: {
     'click #launch-ov': function(e) {
       e.preventDefault();
@@ -40,7 +38,6 @@ const Body = BaseFormWithPolling.extend({
 
   initialize() {
     BaseFormWithPolling.prototype.initialize.apply(this, arguments);
-    this.removed = false;
     this.listenTo(this.model, 'error', this.onPollingFail);
     this.doChallenge();
     this.startPolling();
@@ -57,7 +54,6 @@ const Body = BaseFormWithPolling.extend({
 
   remove() {
     BaseFormWithPolling.prototype.remove.apply(this, arguments);
-    this.removed = true;
     this.stopProbing();
     this.stopPolling();
   },
@@ -150,8 +146,7 @@ const Body = BaseFormWithPolling.extend({
                   this.options.appState,
                   this.pollingCancelAction,
                   AUTHENTICATION_CANCEL_REASONS.OV_ERROR,
-                  xhr.status,
-                  this.removed,
+                  xhr.status
                 );
               } else if (countFailedPorts === maxNumberOfPorts) {
                 // when challenge is responded by the wrong OS profile and
@@ -161,8 +156,7 @@ const Body = BaseFormWithPolling.extend({
                   this.options.appState,
                   this.pollingCancelAction,
                   AUTHENTICATION_CANCEL_REASONS.LOOPBACK_FAILURE,
-                  null,
-                  this.removed,
+                  null
                 );
               }
             });
@@ -193,8 +187,7 @@ const Body = BaseFormWithPolling.extend({
               this.options.appState,
               this.pollingCancelAction,
               AUTHENTICATION_CANCEL_REASONS.LOOPBACK_FAILURE,
-              null,
-              this.removed,
+              null
             );
           }
         });

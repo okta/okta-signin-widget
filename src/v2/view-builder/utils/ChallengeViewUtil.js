@@ -161,11 +161,11 @@ export function doChallenge(view, fromView) {
   }
 }
 
-export function cancelPollingWithParams(appState, pollingCancelAction, cancelReason, statusCode, ignoreFormErrors) {
+export function cancelPollingWithParams(appState, pollingCancelAction, cancelReason, statusCode) {
   const actionParams = {};
   actionParams[REQUEST_PARAM_AUTHENTICATION_CANCEL_REASON] = cancelReason;
   actionParams[LOOPBACK_RESPONSE_STATUS_CODE] = statusCode;
-  appState.trigger('invokeAction', pollingCancelAction, actionParams, ignoreFormErrors);
+  appState.trigger('invokeAction', pollingCancelAction, actionParams);
 }
 
 export function getBiometricsErrorOptions(error, isMessageObj) {
