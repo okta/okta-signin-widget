@@ -881,7 +881,7 @@ test
     await t.expect(getPageUrl()).contains('login_hint='+encodeURIComponent(username));
   });
 
-test.only
+test
   .requestHooks(loopbackEarlyCancelChallengeErrorLogger, loopbackEarlyCancelChallengeErrorMock)('expect no error message in view', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await t.expect(deviceChallengePollPageObject.getFormTitle()).eql('Verifying your identity');
