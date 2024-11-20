@@ -1,7 +1,7 @@
 import { Collection } from '@okta/courage';
 import * as FormInputFactory from 'v2/view-builder/internals/FormInputFactory';
 import AuthenticatorVerifyOptions from 'v2/view-builder/components/AuthenticatorVerifyOptions';
-import AuthenticatorEnrollOptions from 'v2/view-builder/components/AuthenticatorEnrollOptions';
+import AuthenticatorEnrollOptionsContainer from 'v2/view-builder/components/AuthenticatorEnrollOptionsContainer';
 
 describe('v2/view-builder/internals/FormInputFactory', function() {
   it('handles authenticatorVerify Select type', function() {
@@ -959,9 +959,10 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
     const opt = JSON.parse(JSON.stringify(input));
     const result = FormInputFactory.create(opt);
     expect(result).toEqual({
-      View: AuthenticatorEnrollOptions,
+      View: AuthenticatorEnrollOptionsContainer,
       options: {
         collection: jasmine.anything(),
+        optionItems: jasmine.anything(),
         name: 'authenticator',
       },
     });
