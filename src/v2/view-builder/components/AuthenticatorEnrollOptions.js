@@ -11,8 +11,8 @@
  */
 import { ListView, loc, View, createButton } from '@okta/courage';
 import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
-import skipAll from './SkipOptionalEnrollmentButton';
 import hbs from '@okta/handlebars-inline-precompile';
+import TimeUtil from 'util/TimeUtil';
 import { AUTHENTICATOR_ALLOWED_FOR_OPTIONS } from '../utils/Constants';
 
 const AuthenticatorRow = View.extend({
@@ -29,11 +29,23 @@ const AuthenticatorRow = View.extend({
     </div>
     <div class="authenticator-description">
       <h3 class="authenticator-label no-translate">{{label}}</h3>
-      {{#if description}}
-        <p class="authenticator-description--text">{{description}}</p>
-      {{/if}}
-      {{#if authenticatorUsageText}}
-        <p class="authenticator-usage-text">{{authenticatorUsageText}}</p>
+      {{#if gracePeriodRequiredDescription}}
+        <span class="authenticator-grace-period-required-icon"></span>
+        <div class="authenticator-grace-period-text-container">
+          <p class="authenticator-grace-period-required-description">
+            {{gracePeriodRequiredDescription}}
+          </p>
+          {{#if gracePeriodExpiry}}
+            <p class="authenticator-grace-period-expiry-date">{{gracePeriodExpiry}}</p>
+          {{/if}}
+        </div>
+      {{else}}
+        {{#if description}}
+          <p class="authenticator-description--text">{{description}}</p>
+        {{/if}}
+        {{#if authenticatorUsageText}}
+          <p class="authenticator-usage-text">{{authenticatorUsageText}}</p>
+        {{/if}}
       {{/if}}
       <div class="authenticator-button" {{#if buttonDataSeAttr}}data-se="{{buttonDataSeAttr}}"{{/if}}></div>
     </div>
@@ -80,6 +92,35 @@ const AuthenticatorRow = View.extend({
     }
 
     const data = View.prototype.getTemplateData.apply(this, arguments);
+
+    const currentTimestampMs = new Date().getTime();
+    const gracePeriodEpochTimestampMs = parseInt(this.model.get('relatesTo')?.gracePeriod?.expiry || 0) * 1000;
+    if (currentTimestampMs < gracePeriodEpochTimestampMs) {
+      const remainingGracePeriodDays = TimeUtil.calculateDaysBetweenEpochTimestamps(
+        currentTimestampMs,
+        gracePeriodEpochTimestampMs
+      );
+
+      if (remainingGracePeriodDays === 1) {
+        data.gracePeriodRequiredDescription = loc('oie.enrollment.policy.grace.period.required.in.one.day', 'login');
+      } else if (remainingGracePeriodDays > 1) {
+        data.gracePeriodRequiredDescription= loc(
+          'oie.enrollment.policy.grace.period.required.in.days',
+          'login',
+          [remainingGracePeriodDays]
+        );
+      } else {
+        data.gracePeriodRequiredDescription = loc('oie.enrollment.policy.grace.period.required.today', 'login');
+      }
+
+      if (gracePeriodEpochTimestampMs) {
+        data.gracePeriodExpiry = TimeUtil.formatDateToDeviceAssuranceGracePeriodExpiryLocaleString(
+          new Date(gracePeriodEpochTimestampMs),
+          this.settings.get('languageCode'),
+        );
+      }
+    }
+
     data.authenticatorUsageText = authenticatorUsageText;
 
     return data;
@@ -100,9 +141,6 @@ export default ListView.extend({
       this.options.appState.trigger('saveForm', this.model);
     });
     this.hasOptionalFactors = this.options.appState.hasRemediationObject(RemediationForms.SKIP);
-    if (this.hasOptionalFactors) {
-      this.add(skipAll);
-    }
   },
 
   template: hbs`<div class="list-content"> <div class="authenticator-list-title"> {{title}} </div> </div>`,
@@ -110,9 +148,8 @@ export default ListView.extend({
   getTemplateData() {
     // presence of the skip remediation form tells us that the authenticators are all optional
     const title = this.hasOptionalFactors? loc('oie.setup.optional', 'login'):loc('oie.setup.required', 'login');
-
     return {
-      title
+      title: this.options.listTitle || title,
     };
   }
 

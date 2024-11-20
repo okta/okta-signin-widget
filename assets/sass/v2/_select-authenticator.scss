@@ -105,6 +105,25 @@
     }
   }
 
+  .authenticator-grace-period-text-container {
+    display: inline-block;
+  }
+
+  .authenticator-grace-period-required-description {
+    color: $text-color-warning;
+  }
+
+  .authenticator-grace-period-required-icon {
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 5px;
+    margin-top: 2px;
+
+    &::before {
+      content: url('../img/ui/indicators/clock.png');
+    }
+  }
+
   .authenticator-icon-container {
     align-self: flex-start;
     margin-right: 20px;
