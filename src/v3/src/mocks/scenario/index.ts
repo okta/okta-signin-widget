@@ -48,6 +48,7 @@ import './resetpassword-email-google-auth-verify';
 import './resetpassword-email-securityquestion';
 import './securityquestion-enroll-mfa';
 import './select-authenticator';
+import './select-required-authenticator-with-grace-period-and-skip';
 import './terminal-enduser-email-consent-denied';
 import './terminal-invalid-forgot-password-token';
 import './terminal-invalid-reset-password-token';
