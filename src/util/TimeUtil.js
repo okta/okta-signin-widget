@@ -125,5 +125,31 @@ export default {
       // If `languageCode` isn't in a valid format `toLocaleString()` will throw a `RangeError`
       return null;
     }
+  },
+  
+  /**
+   * @method calculateDaysBetweenEpochTimestamps
+   * Calculate the number of days between two epoch milliseconds timestamps
+   * rounded down to the nearest day
+   *
+   * @param {Integer} epoch1 epoch timestamp in milliseconds as an integer
+   * @param {Integer} epoch2 epoch timestamp in milliseconds as an integer
+   * @return {Integer} The number of days between the two epoch timestamps
+   */
+  calculateDaysBetweenEpochTimestamps(epoch1, epoch2) {
+    try {
+      if (Number.isInteger(epoch1) && Number.isInteger(epoch2)) {
+        const diffInMs = Math.abs(epoch2 - epoch1);
+      
+        const msPerDay = 60 * 60 * 24 * 1000;
+        const days = Math.floor(diffInMs / msPerDay);
+    
+        return days;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      return null;
+    }
   }
 };
