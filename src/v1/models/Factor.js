@@ -310,9 +310,9 @@ const FactorFactor = BaseLoginModel.extend({
         // In Okta verify case we initiate poll.
         if ((trans.status === 'MFA_CHALLENGE' && trans.poll) || (trans.status === 'FACTOR_CHALLENGE' && trans.poll)) {
           const deferred = Q.defer();
-          const initiatePollTimout = Util.callAfterTimeout(deferred.resolve, PUSH_INTERVAL);
+          const cancelPollInitiation = Util.callAfterTimeoutOrWindowRefocus(deferred.resolve, PUSH_INTERVAL);
           self.listenToOnce(self.options.appState, 'factorSwitched', () => {
-            clearTimeout(initiatePollTimout);
+            cancelPollInitiation();
             deferred.reject(new AuthStopPollInitiationError());
           });
           return deferred.promise.then(function() {

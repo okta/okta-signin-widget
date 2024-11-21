@@ -41,24 +41,15 @@ export default {
           this.pausedForWindowUnfocus = true;
           this._handleWindowRefocusWhilePolling();
         }
-        document.removeEventListener('visibilitychange', pageVisibilityHandler);
+        else if (!document.hidden && this.pausedForWindowUnfocus) {
+          document.removeEventListener('visibilitychange', pageVisibilityHandler);
+          this.pausedForWindowUnfocus = false;
+          this.startPolling(100);
+        }
       };
 
       document.addEventListener('visibilitychange', pageVisibilityHandler);
     }
-  },
-
-  _handleWindowRefocusWhilePolling() {
-    const pageVisibilityHandler = () => {
-      if (!document.hidden && this.pausedForWindowUnfocus) {
-        this.pausedForWindowUnfocus = false;
-        this.startPolling(100);
-      }
-
-      document.removeEventListener('visibilitychange', pageVisibilityHandler);
-    };
-
-    document.addEventListener('visibilitychange', pageVisibilityHandler);
   },
 
   _startAuthenticatorPolling() {
