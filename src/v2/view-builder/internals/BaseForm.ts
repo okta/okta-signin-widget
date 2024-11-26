@@ -83,7 +83,12 @@ export default Form.extend({
      * invalid form submissions. For eg resend-warning callout should not be cleared upon invalid form submit.
      * Rerender would clear infoContainer or views classes can clear it explicitly.
      */
-    const infoContainer= '<div class=\'o-form-info-container\'></div>';
+    let infoContainer = this.$el.find('.o-form-info-container');
+    if (!infoContainer.length) {
+      this.add('<div class="o-form-info-container"></div>');
+      infoContainer = this.$el.find('.o-form-info-container');
+    }
+
     this.$el.find('.o-form-error-container')
       .attr('role', 'alert')
       .before(infoContainer);

@@ -10,7 +10,10 @@ const ResendView = BaseResendView.extend(
     events: {
       'click a.resend-link': 'handleResendLink'
     },
-
+    modelEvents: {
+      'error': 'handleError'
+    },
+    
     // Override this to change the resend action location from response
     resendActionKey: 'currentAuthenticatorEnrollment-resend',
 
@@ -27,13 +30,21 @@ const ResendView = BaseResendView.extend(
       }));
     },
 
-    handleResendLink() {
-      this.options.appState.trigger('invokeAction', this.resendActionKey);
+    hideResendViewAndShowAfterTimeout() {
       // Hide warning, but start a timeout again..
       if (!this.el.classList.contains('hide')) {
         this.el.classList.add('hide');
       }
       this.showCalloutAfterTimeout();
+    },
+
+    handleResendLink() {
+      this.options.appState.trigger('invokeAction', this.resendActionKey);
+      this.hideResendViewAndShowAfterTimeout();
+    },
+
+    handleError() {
+      this.hideResendViewAndShowAfterTimeout();
     },
   },
 );
