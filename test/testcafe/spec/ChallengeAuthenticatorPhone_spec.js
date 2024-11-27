@@ -611,7 +611,7 @@ test
   });
 
 test
-  .requestHooks(invalidCodeMock)('Entering invalid passcode results in an error', async t => {
+  .requestHooks(invalidCodeMock)('Entering invalid passcode results in an error, resend callout should appear after 30 seconds', async t => {
     const challengePhonePageObject = await setup(t);
     await checkA11y(t);
     await challengePhonePageObject.verifyFactor('credentials.passcode', 'abcd');
@@ -619,15 +619,21 @@ test
     await challengePhonePageObject.waitForErrorBox();
     await t.expect(challengePhonePageObject.getInvalidOTPFieldError()).contains('Invalid code. Try again.');
     await t.expect(challengePhonePageObject.getInvalidOTPError()).contains('We found some errors.');
-    await t.wait(60500);
+
+    // Resend callout should be hidden but appear after 30s
+    await t.expect(await challengePhonePageObject.resendCodeExists(1)).eql(false);
+    await t.wait(25000);
+    await t.expect(await challengePhonePageObject.resendCodeExists(1)).eql(false);
+    await t.wait(5500);
     await t.expect(await challengePhonePageObject.resendCodeExists(1)).eql(true);
+
     const resendCodeText = await challengePhonePageObject.resendCodeText(1);
     await t.expect(resendCodeText).contains('Haven\'t received an SMS?');
     await t.expect(resendCodeText).contains('Send again');
   });
 
 test
-  .requestHooks(logger, smsPrimaryMock)('Callout appears after 30 seconds in sms mode enter code screen', async t => {
+  .requestHooks(logger, smsPrimaryMock)('Callout appears after 30 seconds in sms mode enter code screen, hides after entering invalid passcode', async t => {
     const challengePhonePageObject = await setup(t);
     await checkA11y(t);
     await challengePhonePageObject.clickNextButton('Receive a code via SMS');
@@ -637,6 +643,18 @@ test
     const resendCodeText = await challengePhonePageObject.resendCodeText();
     await t.expect(resendCodeText).contains('Haven\'t received an SMS?');
     await t.expect(resendCodeText).contains('Send again');
+
+    // After submitting invalid passcode resend callout should be hidden but appear again after 30s
+    await t.removeRequestHooks(smsPrimaryMock);
+    await t.addRequestHooks(invalidCodeMock);
+    await challengePhonePageObject.verifyFactor('credentials.passcode', 'abcd');
+    await challengePhonePageObject.clickVerifyButton();
+    await challengePhonePageObject.waitForErrorBox();
+    await t.expect(challengePhonePageObject.getInvalidOTPFieldError()).contains('Invalid code. Try again.');
+    await t.expect(challengePhonePageObject.getInvalidOTPError()).contains('We found some errors.');
+    await t.expect(await challengePhonePageObject.resendCodeExists(1)).eql(false);
+    await t.wait(30500);
+    await t.expect(await challengePhonePageObject.resendCodeExists()).eql(true);
   });
 
 test
