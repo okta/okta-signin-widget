@@ -654,7 +654,7 @@ test
     await t.expect(challengePhonePageObject.getInvalidOTPError()).contains('We found some errors.');
     await t.expect(await challengePhonePageObject.resendCodeExists(1)).eql(false);
     await t.wait(30500);
-    await t.expect(await challengePhonePageObject.resendCodeExists()).eql(true);
+    await t.expect(await challengePhonePageObject.resendCodeExists(1)).eql(true);
   });
 
 test

@@ -645,11 +645,11 @@ test
     await t.expect(challengeEmailPageObject.getInvalidOTPError()).contains('We found some errors.');
 
     // Resend callout should be hidden but appear after 30s
-    await t.expect(await challengeEmailPageObject.resendEmailExists()).eql(false);
+    await t.expect(await challengeEmailPageObject.resendEmailExists(1)).eql(false);
     await t.wait(25000);
-    await t.expect(await challengeEmailPageObject.resendEmailExists()).eql(false);
+    await t.expect(await challengeEmailPageObject.resendEmailExists(1)).eql(false);
     await t.wait(5500);
-    await t.expect(await challengeEmailPageObject.resendEmailExists()).eql(true);
+    await t.expect(await challengeEmailPageObject.resendEmailExists(1)).eql(true);
   });
 
 test
@@ -670,9 +670,9 @@ test
     await challengeEmailPageObject.waitForErrorBox();
     await t.expect(challengeEmailPageObject.getInvalidOTPFieldError()).contains('Invalid code. Try again.');
     await t.expect(challengeEmailPageObject.getInvalidOTPError()).contains('We found some errors.');
-    await t.expect(await challengeEmailPageObject.resendEmailExists()).eql(false);
+    await t.expect(await challengeEmailPageObject.resendEmailExists(1)).eql(false);
     await t.wait(31000);
-    await t.expect(await challengeEmailPageObject.resendEmailExists()).eql(true);
+    await t.expect(await challengeEmailPageObject.resendEmailExists(1)).eql(true);
   });
 
 test
