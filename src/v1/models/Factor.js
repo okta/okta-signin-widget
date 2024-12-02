@@ -334,17 +334,12 @@ const FactorFactor = BaseLoginModel.extend({
             if (BrowserFeatures.isIOS()) {
               let cancelRedundantPoll;
               innerPromise = Q.race([
-                (() => {
-                  console.log('1st poll firing!')
-                  return trans.poll(options)
-                })(),
+                trans.poll(options),
                 (() => {
                   const _deferred = Q.defer();
-                  cancelRedundantPoll = Util.callAfterTimeoutOrWindowRefocus(_deferred.resolve, 1250, true);
+                  cancelRedundantPoll = Util.callAfterTimeoutOrWindowRefocus(_deferred.resolve, 2000, true);
                   return _deferred.promise.then(() => {
-                    console.log('redundant timeout triggered!')
                     if (!pollingHasStarted) {
-                      console.log('2nd poll firing!')
                       return trans.poll(options);
                     }
                     return Q.defer().promise;   // never resolve this promise
