@@ -15,6 +15,7 @@ import Q from 'q';
 import { AuthStopPollInitiationError } from 'util/Errors';
 import factorUtil from 'util/FactorUtil';
 import Util from 'util/Util';
+import BrowserFeatures from 'util/BrowserFeatures';
 import BaseLoginModel from './BaseLoginModel';
 const PUSH_INTERVAL = 4000;
 
@@ -299,9 +300,11 @@ const FactorFactor = BaseLoginModel.extend({
       this.trigger('save');
 
       return promise.then(function(trans) {
+        let pollingHasStarted = false;
         const options = {
           delay: PUSH_INTERVAL,
           transactionCallBack: transaction => {
+            pollingHasStarted = true;
             self.options.appState.set('lastAuthResponse', transaction);
           },
         };
@@ -326,7 +329,38 @@ const FactorFactor = BaseLoginModel.extend({
                 return self.get('rememberDevice');
               };
             }
-            return trans.poll(options).then(function(trans) {
+
+            let innerPromise;
+            if (BrowserFeatures.isIOS()) {
+              let cancelRedundantPoll;
+              innerPromise = Q.race([
+                (() => {
+                  console.log('1st poll firing!')
+                  return trans.poll(options)
+                })(),
+                (() => {
+                  const _deferred = Q.defer();
+                  cancelRedundantPoll = Util.callAfterTimeoutOrWindowRefocus(_deferred.resolve, 1250, true);
+                  return _deferred.promise.then(() => {
+                    console.log('redundant timeout triggered!')
+                    if (!pollingHasStarted) {
+                      console.log('2nd poll firing!')
+                      return trans.poll(options);
+                    }
+                    return Q.defer().promise;   // never resolve this promise
+                  });
+                })()
+              ])
+              .then(result => {
+                cancelRedundantPoll();
+                return result;
+              });
+            }
+            else {
+              innerPromise = trans.poll(options);
+            }
+
+            return innerPromise.then(function(trans) {
               self.options.appState.set('lastAuthResponse', trans.data);
               setTransaction(trans);
             });
