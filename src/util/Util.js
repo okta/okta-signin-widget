@@ -166,7 +166,7 @@ Util.callAfterTimeout = function(callback, time) {
 // Invokes the callback after a delay, if the window remains in focus
 // If the window becomes unfocused, the callback execution is delayed until
 // focus has been returned to the window
-Util.callAfterTimeoutOrWindowRefocus = function (callback, time) {
+Util.callAfterTimeoutOrWindowRefocus = function (callback, time, delayAfterRefocus = false) {
   let timeoutId;
   let visHandler;
 
@@ -174,7 +174,12 @@ Util.callAfterTimeoutOrWindowRefocus = function (callback, time) {
     document.removeEventListener('visibilitychange', visHandler);
     // [OKTA-823470] - this setTimeout is required in order for this method to
     // work on safari on iOS18, without fetch requests never fulfill
-    setTimeout(callback(), 200);
+    // setTimeout(callback(), 200);
+    if (!delayAfterRefocus) {
+      return callback();
+    }
+
+    setTimeout(callback, time);
   }
 
   visHandler = () => {
