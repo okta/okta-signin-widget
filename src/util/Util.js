@@ -160,7 +160,7 @@ Util.callAfterTimeout = function(callback, time) {
 // Invokes the callback after a delay, if the window remains in focus
 // If the window becomes unfocused, the callback execution is delayed until
 // focus has been returned to the window
-Util.callAfterTimeoutOrWindowRefocus = function (callback, time, delayAfterRefocus = false) {
+Util.callAfterTimeoutOrWindowRefocus = function(callback, time, delayAfterRefocus = false) {
   let timeoutId;
   let visHandler;
 
@@ -174,7 +174,7 @@ Util.callAfterTimeoutOrWindowRefocus = function (callback, time, delayAfterRefoc
     }
 
     setTimeout(callback, time);
-  }
+  };
 
   visHandler = () => {
     if (document.hidden) {

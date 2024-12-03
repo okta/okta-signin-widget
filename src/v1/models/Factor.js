@@ -346,10 +346,10 @@ const FactorFactor = BaseLoginModel.extend({
                   });
                 })()
               ])
-              .then(result => {
-                cancelRedundantPoll();
-                return result;
-              });
+                .then(result => {
+                  cancelRedundantPoll();
+                  return result;
+                });
             }
             else {
               innerPromise = trans.poll(options);

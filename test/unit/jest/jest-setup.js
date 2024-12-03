@@ -15,6 +15,7 @@ global.getJasmineRequireObj = function jestSetupGlobalJasmine() {
   return jasmine;
 };
 global.jasmine = jasmine;
+global.hidden = false;
 
 navigator.credentials = {
   create: function() {
