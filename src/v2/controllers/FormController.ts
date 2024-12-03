@@ -209,7 +209,6 @@ export default Controller.extend({
     } else {
       error = new ConfigError(`Invalid action selected: ${actionPath}`);
       this.options.settings.callGlobalError(error);
-      // return early when form error should be ignored
       if (showFormErrors) {
         await this.showFormErrors(this.formView.model, error, this.formView.form);
       }
