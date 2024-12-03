@@ -151,7 +151,7 @@ const Body = BaseFormWithPolling.extend({
                   this.pollingCancelAction,
                   AUTHENTICATION_CANCEL_REASONS.OV_ERROR,
                   xhr.status,
-                  this.removed,
+                  !this.removed,
                 );
               } else if (countFailedPorts === maxNumberOfPorts) {
                 // when challenge is responded by the wrong OS profile and
@@ -162,7 +162,7 @@ const Body = BaseFormWithPolling.extend({
                   this.pollingCancelAction,
                   AUTHENTICATION_CANCEL_REASONS.LOOPBACK_FAILURE,
                   null,
-                  this.removed,
+                  !this.removed,
                 );
               }
             });
@@ -194,7 +194,7 @@ const Body = BaseFormWithPolling.extend({
               this.pollingCancelAction,
               AUTHENTICATION_CANCEL_REASONS.LOOPBACK_FAILURE,
               null,
-              this.removed,
+              !this.removed,
             );
           }
         });
