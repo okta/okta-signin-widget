@@ -42,7 +42,7 @@ export function doChallenge(view, fromView) {
       template: hbs`<div class="spinner"></div>`
     }));
     // Hackathon experiment, we do not doLoopback but doWebExtMessaging
-    if (deviceChallenge.isPluginNativeMsg) {
+    if (deviceChallenge.pluginNativeMsg) {
       view.doWebExtMessaging(deviceChallenge);
     } else {
       view.doLoopback(deviceChallenge);
