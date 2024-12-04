@@ -9,7 +9,10 @@ const ResendView = BaseResendView.extend(
   {
     className: 'hide resend-email-view',
     events: {
-      'click a.resend-link' : 'handelResendLink'
+      'click a.resend-link' : 'handleResendLink'
+    },
+    modelEvents: {
+      'error': 'handleError'
     },
 
     initialize() {
@@ -20,13 +23,21 @@ const ResendView = BaseResendView.extend(
       }));
     },
 
-    handelResendLink() {
-      this.options.appState.trigger('invokeAction', this.options.resendEmailAction);
+    hideResendViewAndShowAfterTimeout() {
       // Hide warning, but reinitiate to show warning again after some threshold of polling
       if (!this.$el.hasClass('hide')) {
         this.$el.addClass('hide');
       }
       this.showCalloutAfterTimeout();
+    },
+
+    handleResendLink() {
+      this.options.appState.trigger('invokeAction', this.options.resendEmailAction);
+      this.hideResendViewAndShowAfterTimeout();
+    },
+
+    handleError() {
+      this.hideResendViewAndShowAfterTimeout();
     },
   },
 );
@@ -47,7 +58,7 @@ const Body = BaseFormWithPolling.extend(Object.assign(
       // Add 1 instance of resend view
       if (!this.$el.find('.resend-email-view').length) {
         this.add(ResendView, {
-          selector: '.o-form-error-container',
+          selector: '.o-form-info-container',
           prepend: true,
           options: {
             resendEmailAction: this.resendEmailAction,

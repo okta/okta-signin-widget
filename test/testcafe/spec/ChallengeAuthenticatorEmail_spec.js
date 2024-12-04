@@ -633,6 +633,49 @@ test
   });
 
 test
+  .requestHooks(invalidOTPMock)('Entering invalid passcode results in an error, resend callout should appear after 30 seconds', async t => {
+    const challengeEmailPageObject = await setup(t);
+    await checkA11y(t);
+    await challengeEmailPageObject.clickEnterCodeLink();
+
+    await challengeEmailPageObject.verifyFactor('credentials.passcode', 'xyz');
+    await challengeEmailPageObject.clickNextButton('Verify');
+    await challengeEmailPageObject.waitForErrorBox();
+    await t.expect(challengeEmailPageObject.getInvalidOTPFieldError()).contains('Invalid code. Try again.');
+    await t.expect(challengeEmailPageObject.getInvalidOTPError()).contains('We found some errors.');
+
+    // Resend callout should be hidden but appear after 30s
+    await t.expect(await challengeEmailPageObject.resendEmailExists(1)).eql(false);
+    await t.wait(25000);
+    await t.expect(await challengeEmailPageObject.resendEmailExists(1)).eql(false);
+    await t.wait(5500);
+    await t.expect(await challengeEmailPageObject.resendEmailExists(1)).eql(true);
+  });
+
+test
+  .requestHooks(invalidOTPMock)('Callout appears after 30 seconds, hides after entering invalid passcode', async t => {
+    const challengeEmailPageObject = await setup(t);
+    await checkA11y(t);
+    await challengeEmailPageObject.clickEnterCodeLink();
+
+    await t.expect(await challengeEmailPageObject.resendEmailExists()).eql(false);
+    await t.wait(31000);
+    await t.expect(await challengeEmailPageObject.resendEmailExists()).eql(true);
+    const resendEmailViewText = challengeEmailPageObject.resendEmailViewText();
+    await t.expect(resendEmailViewText).contains('Haven\'t received an email?');
+
+    // After submitting invalid passcode resend callout should be hidden but appear again after 30s
+    await challengeEmailPageObject.verifyFactor('credentials.passcode', 'xyz');
+    await challengeEmailPageObject.clickNextButton('Verify');
+    await challengeEmailPageObject.waitForErrorBox();
+    await t.expect(challengeEmailPageObject.getInvalidOTPFieldError()).contains('Invalid code. Try again.');
+    await t.expect(challengeEmailPageObject.getInvalidOTPError()).contains('We found some errors.');
+    await t.expect(await challengeEmailPageObject.resendEmailExists(1)).eql(false);
+    await t.wait(31000);
+    await t.expect(await challengeEmailPageObject.resendEmailExists(1)).eql(true);
+  });
+
+test
   .requestHooks(validOTPResendLogger, validOTPmock)('resend after 30 seconds', async t => {
     const challengeEmailPageObject = await setup(t);
     await checkA11y(t);

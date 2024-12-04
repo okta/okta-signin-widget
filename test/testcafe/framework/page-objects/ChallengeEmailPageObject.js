@@ -15,9 +15,9 @@ export default class ChallengeEmailPageObject extends ChallengeFactorPageObject 
     return this.form.getElement(RESEND_EMAIL_VIEW_SELECTOR).innerText;
   }
 
-  async resendEmailExists() {
+  async resendEmailExists(index = 0) {
     if (userVariables.gen3) {
-      return this.form.hasAlertBox();
+      return this.form.hasAlertBox(index);
     }
 
     const isHidden = await this.form.getElement(RESEND_EMAIL_VIEW_SELECTOR).hasClass('hide');
