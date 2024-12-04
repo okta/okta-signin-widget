@@ -899,6 +899,7 @@ Documentation for configuring the Okta Sign-in Widget for the [interaction code]
   - `es` - Spanish
   - `fi` - Finnish
   - `fr` - French
+  - `ht` - Haitian Creole
   - `hu` - Hungarian
   - `id` - Indonesian
   - `it` - Italian
