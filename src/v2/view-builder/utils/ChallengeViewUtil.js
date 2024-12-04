@@ -47,7 +47,6 @@ export function doChallenge(view, fromView) {
     } else {
       view.doLoopback(deviceChallenge);
     }
-    view.doWebExtMessaging(deviceChallenge);
     break;
   case Enums.CUSTOM_URI_CHALLENGE:
     view.title = loc('customUri.title', 'login');
