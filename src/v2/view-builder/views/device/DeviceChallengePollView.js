@@ -18,16 +18,6 @@ const Body = BaseOktaVerifyChallengeView.extend({
   pollingCancelAction: CANCEL_POLLING_ACTION,
 
   getDeviceChallengePayload() {
-    if (chrome && chrome.runtime && chrome.runtime.sendMessage) {
-      // can use WebExt API
-      const WebExtUUID = 'kpkilehcpjaeglkmjmodnbijmcphnmfm'; // replace with your own UUID
-      chrome.runtime.sendMessage(WebExtUUID, {
-        type: 'WebApp-Message',
-        data: {
-          deviceChallengePayload: this.options.currentViewState.relatesTo.value
-        }
-      });
-    }
     return this.options.currentViewState.relatesTo.value;
   },
 
