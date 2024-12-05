@@ -18,13 +18,16 @@ import {
   DescriptionElement,
   IdxStepTransformer,
   ImageWithTextElement,
+  IWidgetContext,
   LinkElement,
   TextWithActionLinkElement,
   TitleElement,
   UISchemaElement,
 } from '../../types';
-import { loc } from '../../util';
+import { loc, updateTransactionWithNextStep } from '../../util';
 import { getUIElementWithName } from '../utils';
+import Util from 'util/Util';
+import { useWidgetContext } from 'src/contexts';
 
 const CHANNELS = ['phoneNumber', 'email'];
 const CHANNEL_TO_KEY_MAP: {
@@ -48,18 +51,17 @@ export const transformMDLEnroll: IdxStepTransformer = ({
 
   const metaTag = document.createElement('meta');
   metaTag.httpEquiv = 'origin-trial';
-  metaTag.content = 'Ai/6IZrwQetGr3t4gXaWD3u8Rt1zJl7lBuLjmf/bjotL6i+ngVkodPptJ8KbzoZxhyEWPh+ltVIgCg25EDDb/AcAAABreyJvcmlnaW4iOiJodHRwczovL2pheWhlLW9rdGEuZ2l0aHViLmlvOjQ0MyIsImZlYXR1cmUiOiJXZWJJZGVudGl0eURpZ2l0YWxDcmVkZW50aWFscyIsImV4cGlyeSI6MTc0NDc2MTU5OX0=';
+  metaTag.content = 'AsChGYp2wAAqZSFsw9hnSwVq4DMziuxxN4NpcOt+rKpE40YoTo1vnFUJ3X+vNV3f33nHJJlz40NLK9EnvP+k0w4AAABleyJvcmlnaW4iOiJodHRwczovL2F0a28ub2t0YTEuY29tOjQ0MyIsImZlYXR1cmUiOiJXZWJJZGVudGl0eURpZ2l0YWxDcmVkZW50aWFscyIsImV4cGlyeSI6MTc0NDc2MTU5OX0=';
   document.head.appendChild(metaTag);
 
-  const { context, nextStep: { name } = {} } = transaction;
-  console.log({name})
+  const { context, nextStep: { name, href } = {} } = transaction;
+  const ovStep = transaction.availableSteps?.find(({ name }) => name === IDX_STEP.SELECT_AUTHENTICATOR_ENROLL);
   // const authenticator = context.currentAuthenticator.value;
   const { uischema } = formBag;
   // const selectedChannel = authenticator.contextualData?.selectedChannel;
   // if (!selectedChannel) {
   //   return formBag;
   // }
-  console.log("INSIDE TRANSFORMER")
   const elements: UISchemaElement[] = [];
 
   elements.push({
@@ -69,15 +71,15 @@ export const transformMDLEnroll: IdxStepTransformer = ({
     },
   } as TitleElement);
 
-  CHANNELS.forEach((channelName) => {
-    const element = getUIElementWithName(
-      channelName,
-      uischema.elements as UISchemaElement[],
-    );
-    if (element) {
-      elements.push(element);
-    }
-  });
+  // CHANNELS.forEach((channelName) => {
+  //   const element = getUIElementWithName(
+  //     channelName,
+  //     uischema.elements as UISchemaElement[],
+  //   );
+  //   if (element) {
+  //     elements.push(element);
+  //   }
+  // });
 
   const imageElement: ImageWithTextElement = {
     type: 'ImageWithText',
@@ -90,13 +92,73 @@ export const transformMDLEnroll: IdxStepTransformer = ({
 
   elements.push(imageElement)
 
-  elements.push({
-    type: 'Button',
-    label: 'Continue',
+  // elements.push({
+  //   type: 'Button',
+  //   label: 'Continue',
+  //   options: {
+  //     type: ButtonType.BUTTON,
+  //     step: name,
+  //     // onClick: () => {
+  //     //   Util.redirectWithForm(href, 'POST');
+  //     // },
+  //     // type: ButtonType.SUBMIT,
+  //     // step: name,
+  //     onClick: async (widgetContext?: IWidgetContext) => {
+  //       debugger
+  //       try {
+  //       // const { data: mdlData } = await navigator?.credentials?.get({
+  //       //   digital: {
+  //       //       providers: [{
+  //       //           protocol: "preview",
+  //       //           request: {
+  //       //     "selector": {
+  //       //       "format": ["mdoc"],
+  //       //       "doctype": "org.iso.18013.5.1.mDL",
+  //       //       "fields": [
+  //       //         {
+  //       //           "namespace": "org.iso.18013.5.1",
+  //       //           "name": "family_name",
+  //       //           "intentToRetain": false
+  //       //         },
+  //       //         {
+  //       //           "namespace": "org.iso.18013.5.1",
+  //       //           "name": "given_name",
+  //       //           "intentToRetain": false
+  //       //         },
+  //       //         {
+  //       //           "namespace": "org.iso.18013.5.1",
+  //       //           "name": "age_over_21",
+  //       //           "intentToRetain": false
+  //       //         }
+  //       //       ]
+  //       //     },
+  //       //     "nonce": "R3kjldEu4cWYiUcQeqqmZH502Vl9pob_v99jdNjuTJE=",
+  //       //     "readerPublicKey": "BJulzAA82EZt372Z1LUnfBsKaMq0xlRGnFAmPUe0MQLmwyph_vbyPgpP8_QUuTTAO4H49T8HkzSrEdvMP1JpFV4="
+  //       //   }
+  //       //       }]
+  //       //   }
+  //       // })
+  //       // console.log({mdlData})
+  //     } catch (e) {
+  //       console.error(e)
+  //     } finally {
+  //         console.log('done')
+  //         debugger
+  //         // updateTransactionWithNextStep(transaction, ovStep, widgetContext);
+  //       }
+  //     }
+  //   },
+  // } as ButtonElement);
+  const listLink: LinkElement = {
+    type: 'Link',
+    contentType: 'footer',
     options: {
-      type: ButtonType.BUTTON,
+      label: 'Continue',
       step: name,
-      onClick: async () => {
+      onClick: async (widgetContext?: IWidgetContext): unknown => {
+        if (typeof widgetContext === 'undefined') {
+          return;
+        }
         try {
         const { data: mdlData } = await navigator?.credentials?.get({
           digital: {
@@ -132,28 +194,14 @@ export const transformMDLEnroll: IdxStepTransformer = ({
         })
         console.log({mdlData})
       } catch (e) {
-        console.log(e)
-      } finally {
-          console.log('done')
-        }
-      }
-    },
-  } as ButtonElement);
-
-
-  const cancelLink: LinkElement = {
-    type: 'Link',
-    contentType: 'footer',
-    options: {
-      label: loc('goback', 'login'),
-      isActionStep: true,
-      step: 'cancel',
-      dataSe: 'cancel',
+        console.error(e)
+      } 
+        window.isMDLSuccess = true;
+        updateTransactionWithNextStep(transaction, ovStep, {...widgetContext, isMDLSuccess: true});
+      },
     },
   };
-  uischema.elements.push(cancelLink);
-
-
+  elements.push(listLink);
   uischema.elements = elements;
 
   return formBag;

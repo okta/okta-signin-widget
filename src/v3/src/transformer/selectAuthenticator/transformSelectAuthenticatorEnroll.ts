@@ -23,6 +23,7 @@ import {
 } from '../../types';
 import { loc } from '../../util';
 import { getAuthenticatorEnrollButtonElements } from './utils';
+import { useWidgetContext } from 'src/contexts';
 
 const getContentDescrAndParams = (brandName?: string): TitleElement['options'] => {
   if (brandName) {
@@ -57,13 +58,13 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
     authenticatorEnrollments?.value,
   );
   const skipStep = availableSteps?.find(({ name }) => name === 'skip');
-
   const title: TitleElement = {
     type: 'Title',
     options: {
       content: loc('oie.select.authenticators.enroll.title', 'login'),
     },
   };
+
   const informationalText: DescriptionElement = {
     type: 'Description',
     contentType: 'subtitle',
@@ -92,11 +93,26 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
 
   uischema.elements = [
     title,
+  ];
+
+  if (window.isMDLSuccess) {
+    uischema.elements.push({type: 'InfoBox',
+      options: {
+        message: {
+          class: 'SUCCESS',
+          i18n: { key: '' },
+          message: 'mDL verification complete',
+        },
+        class: 'SUCCESS',
+      }})
+  }
+
+  uischema.elements.push(...[
     informationalText,
     description,
     authenticatorListElement,
     ...(skipStep ? [skipButton] : []),
-  ];
+  ])
 
   return formBag;
 };
