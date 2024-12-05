@@ -17,6 +17,7 @@ import {
   ButtonType,
   DescriptionElement,
   IdxStepTransformer,
+  ImageWithTextElement,
   LinkElement,
   TextWithActionLinkElement,
   TitleElement,
@@ -51,6 +52,7 @@ export const transformMDLEnroll: IdxStepTransformer = ({
   document.head.appendChild(metaTag);
 
   const { context, nextStep: { name } = {} } = transaction;
+  console.log({name})
   // const authenticator = context.currentAuthenticator.value;
   const { uischema } = formBag;
   // const selectedChannel = authenticator.contextualData?.selectedChannel;
@@ -77,16 +79,16 @@ export const transformMDLEnroll: IdxStepTransformer = ({
     }
   });
 
-  // const imageElement: ImageWithTextElement = {
-  //   type: 'ImageWithText',
-  //   options: {
-  //     id: 'mdl',
-  //     SVGIcon: MDLImage,
-  //     alignment: 'center',
-  //   },
-  // };
+  const imageElement: ImageWithTextElement = {
+    type: 'ImageWithText',
+    options: {
+      id: 'mdl',
+      SVGIcon: MDLImage,
+      alignment: 'center',
+    },
+  };
 
-  // elements.push(imageElement)
+  elements.push(imageElement)
 
   elements.push({
     type: 'Button',
@@ -95,6 +97,7 @@ export const transformMDLEnroll: IdxStepTransformer = ({
       type: ButtonType.BUTTON,
       step: name,
       onClick: async () => {
+        try {
         const { data: mdlData } = await navigator?.credentials?.get({
           digital: {
               providers: [{
@@ -128,6 +131,11 @@ export const transformMDLEnroll: IdxStepTransformer = ({
           }
         })
         console.log({mdlData})
+      } catch (e) {
+        console.log(e)
+      } finally {
+          console.log('done')
+        }
       }
     },
   } as ButtonElement);
