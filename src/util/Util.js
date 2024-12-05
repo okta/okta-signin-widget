@@ -157,6 +157,41 @@ Util.callAfterTimeout = function(callback, time) {
   return setTimeout(callback, time);
 };
 
+// Invokes the callback after a delay, if the window remains in focus
+// If the window becomes unfocused, the callback execution is delayed until
+// focus has been returned to the window
+Util.callAfterTimeoutOrWindowRefocus = function(callback, time, delayAfterRefocus = false) {
+  let timeoutId;
+  let visHandler;
+
+  const invokeCallbackFn = () => {
+    document.removeEventListener('visibilitychange', visHandler);
+    if (!delayAfterRefocus) {
+      return callback();
+    }
+
+    setTimeout(callback, time);
+  };
+
+  visHandler = () => {
+    if (document.hidden) {
+      clearTimeout(timeoutId);
+    }
+    else {
+      invokeCallbackFn();
+    }
+  };
+
+  document.addEventListener('visibilitychange', visHandler);
+  timeoutId = setTimeout(invokeCallbackFn, time);
+
+  // returns a "cancel" function, so the execution of the callback can be prevented
+  return () => {
+    clearTimeout(timeoutId);
+    document.removeEventListener('visibilitychange', visHandler);
+  };
+};
+
 // Helper function to provide consistent formatting of template literals
 // that are logged when in development mode.
 Util.debugMessage = function(message) {
