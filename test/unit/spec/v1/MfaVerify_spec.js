@@ -569,6 +569,18 @@ Expect.describe('MFA Verify', function() {
     return test;
   }
 
+  function togglePageVisibility() {
+    document.hidden = !document.hidden;
+    document.dispatchEvent(new Event('visibilitychange'));
+  }
+
+  // see https://stackoverflow.com/a/52196951 for more info about jest/promises/timers
+  async function advanceTestTimers() {
+    jest.runOnlyPendingTimers();
+    // flushes promise queue
+    return new Promise(resolve => setImmediate(resolve));
+  }
+
   function getInitialChallengeResponse(options) {
     const initResponse = deepClone(resChallengeClaimsProvider);
 
@@ -3603,6 +3615,49 @@ Expect.describe('MFA Verify', function() {
                   expect(test.form.submitButton().prop('disabled')).toBe(false);
                   expect(test.form.hasWarningMessage()).toBe(false);
                 });
+            });
+          });
+
+          Expect.describe('iOS18 polling while backgrounded', function() {
+            beforeEach(() => {
+              jest.useRealTimers();
+            });
+            afterAll(() => {
+              jest.useRealTimers();
+            });
+
+            itp('delays polling until page is visible', async function() {
+              jest.spyOn(BrowserFeatures, 'isIOS').mockReturnValue(true);
+              expect(document.hidden).toBe(false);
+  
+              const test = await setupOktaPushWithIntrospect();
+              jest.useFakeTimers();   // don't toggle to faker timers until after setup
+  
+              Util.resetAjaxRequests();
+              test.setNextResponse(resChallengePush);
+              test.form.submit();
+              
+              togglePageVisibility();     // page is now hidden
+              await advanceTestTimers();
+
+              const transaction = test.router.controller.model.appState.get('transaction');
+              expect(transaction.status).toEqual('MFA_CHALLENGE');
+              // trans.poll will be called in `Promise.race`, but won't fulfill until page is visible
+              spyOn(transaction, 'poll').and.callFake(() => new Promise((resolve) => {}));
+              expect(document.hidden).toBe(true);
+              expect(transaction.poll).not.toHaveBeenCalled();
+
+              await advanceTestTimers();
+              // tracks first `trans.poll` call
+              expect(transaction.poll).toHaveBeenCalledTimes(1);
+              transaction.poll.calls.reset();
+  
+              // tracks 2nd `trans.poll` call (2nd promise in `Promise.race`)
+              togglePageVisibility();     // page is now visible
+              await advanceTestTimers();
+
+              expect(document.hidden).toBe(false);
+              expect(transaction.poll).toHaveBeenCalled();
             });
           });
         });

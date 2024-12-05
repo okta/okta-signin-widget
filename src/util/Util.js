@@ -166,9 +166,6 @@ Util.callAfterTimeoutOrWindowRefocus = function(callback, time, delayAfterRefocu
 
   const invokeCallbackFn = () => {
     document.removeEventListener('visibilitychange', visHandler);
-    // [OKTA-823470] - this setTimeout is required in order for this method to
-    // work on safari on iOS18, without fetch requests never fulfill
-    // setTimeout(callback(), 200);
     if (!delayAfterRefocus) {
       return callback();
     }
