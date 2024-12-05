@@ -172,6 +172,7 @@ const idx = {
     // 'authenticator-verification-phone-voice'
   ],
   '/idp/idx/challenge/poll': [
+    // 'authenticator-verification-email2',
     'authenticator-verification-email',
     // 'success',
     // 'authenticator-verification-email-polling-long',
