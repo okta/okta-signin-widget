@@ -51,7 +51,7 @@ export const transformEnumerateComponents: IdxStepTransformer = ({
   formBag,
 }) => {
   const { uischema, dataSchema, data } = formBag;
-
+  debugger
   const reminderElement: ReminderElement = {
     type: 'Reminder',
     options: {

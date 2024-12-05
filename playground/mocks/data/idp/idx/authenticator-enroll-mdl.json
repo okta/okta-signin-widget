@@ -1,0 +1,55 @@
+{
+    "intent": "LOGIN",
+    "remediation": {
+        "type": "array",
+        "value": [
+            {
+                "rel": [
+                    "create-form"
+                ],
+                "name": "verify-mdl",
+                "href": "https://oie-local.okta1.com/idp/idx/verify-mdl",
+                "method": "POST",
+                "produces": "application/ion+json; okta-version=1.0.0",
+                "value": [
+                    {
+                        "name": "firstName",
+                        "label": "firstName",
+                        "required": true,
+                        "visible": false
+                    },
+                    {
+                        "name": "lastName",
+                        "label": "lastName",
+                        "required": true,
+                        "visible": false
+                    },
+                    {
+                        "name": "email",
+                        "label": "email",
+                        "required": true,
+                        "visible": false
+                    },
+                    {
+                        "name": "stateHandle",
+                        "required": true,
+                        "value": "",
+                        "visible": false,
+                        "mutable": false
+                    }
+                ],
+                "accepts": "application/json; okta-version=1.0.0"
+            }
+        ]
+    },
+    "authenticators": {},
+    "app": {},
+    "mdlChallenge": {
+        "type": "object",
+        "value": {
+            "nonce": "R3kjldEu4cWYiUcQeqqmZH502Vl9pob_v99jdNjuTJE=",
+            "alg": "ES256",
+            "pubKey": "BJulzAA82EZt372Z1LUnfBsKaMq0xlRGnFAmPUe0MQLmwyph_vbyPgpP8_QUuTTAO4H49T8HkzSrEdvMP1JpFV4="
+        }
+    }
+}

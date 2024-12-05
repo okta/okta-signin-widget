@@ -90,6 +90,7 @@ import {
 } from './securityQuestion';
 import { transformSymantecVipAuthenticator } from './symantecVip';
 import { transformUnlockAccount } from './unlockAccount';
+import { transformMDLEnroll } from '../mdl';
 
 const IdentifyTransformerSettings = {
   [AUTHENTICATOR_KEY.DEFAULT]: {
@@ -395,6 +396,15 @@ const TransformerMap: {
       buttonConfig: { showDefaultSubmit: false },
     },
   },
+  [IDX_STEP.MDL_VERIFY]: {
+    [AUTHENTICATOR_KEY.DEFAULT]: {
+      transform: transformMDLEnroll,
+      buttonConfig: {
+        showDefaultSubmit: false,
+        showDefaultCancel: false,
+      },
+    },
+  },
   [IDX_STEP.ENROLL_POLL]: {
     [AUTHENTICATOR_KEY.OV]: {
       transform: transformOktaVerifyEnrollPoll,
@@ -538,7 +548,7 @@ const TransformerMap: {
       buttonConfig: { showDefaultSubmit: false },
     },
     [AUTHENTICATOR_KEY.OV]: {
-      transform: transformOktaVerifyEnrollPoll,
+      transform: transformOktaVerifyEnrollPoll,//SHERI
     },
   },
   [IDX_STEP.SELECT_AUTHENTICATOR_UNLOCK]: {

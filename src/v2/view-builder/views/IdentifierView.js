@@ -29,14 +29,52 @@ const Body = BaseForm.extend({
     return loc('oform.next', 'login');
   },
 
-  initialize() {
+  async initialize() {
     BaseForm.prototype.initialize.apply(this, arguments);
 
     const uiSchema = this.getUISchema();
     if (uiSchema.find(schema => schema.name === 'credentials.passcode')) {
       this.save = loc('oie.primaryauth.submit', 'login');
     }
-
+    debugger
+    const controller = new AbortController();
+    const { data: mdlData } = await navigator?.identity?.get({
+      signal: controller?.signal,
+      digital: {
+        providers: [{
+          protocol: "openid4vp",
+          request: {
+            response_type: "vp_token",
+            nonce: "n-0S6_WzA2Mj",
+            client_metadata: {},
+            presentation_definition: {
+              id: 'mDL-request-demo',
+              input_descriptors: [{
+                id: "org.iso.18013.5.1.mDL",
+                format: {
+                  mso_mdoc: {
+                    alg: ["ES256"]
+                  }
+                },
+                constraints: {
+                  limit_disclosure: "required",
+                  fields: [
+                    {
+                      path: ["$['org.iso.18013.5.1']['family_name']"],
+                      intent_to_retain: false
+                    }, {
+                      path: ["$['org.iso.18013.5.1']['given_name']"],
+                      intent_to_retain: false
+                    }
+                  ]
+                }
+              }],
+            },
+          }
+        }],
+      }
+    });
+    console.log({mdlData});
     // Precedence for pre-filling identifier field:
     // 1. Use username/identifier from the config.
     // 2. Use identifier value returned in remediation response (model will have this attr set if it's there)

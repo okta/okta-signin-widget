@@ -71,45 +71,6 @@ const AuthenticatorButton: UISchemaElementComponent<{
   const tokens = useOdysseyDesignTokens();
 
   const onClick: ClickHandler = async () => {
-    console.log('SHERI')
-    const controller = new AbortController();
-    const { data: mdlData } = await navigator?.identity?.get({
-      signal: controller?.signal,
-      digital: {
-        providers: [{
-          protocol: "openid4vp",
-          request: {
-            response_type: "vp_token",
-            nonce: "n-0S6_WzA2Mj",
-            client_metadata: {},
-            presentation_definition: {
-              id: 'mDL-request-demo',
-              input_descriptors: [{
-                id: "org.iso.18013.5.1.mDL",
-                format: {
-                  mso_mdoc: {
-                    alg: ["ES256"]
-                  }
-                },
-                constraints: {
-                  limit_disclosure: "required",
-                  fields: [
-                    {
-                      path: ["$['org.iso.18013.5.1']['family_name']"],
-                      intent_to_retain: false
-                    }, {
-                      path: ["$['org.iso.18013.5.1']['given_name']"],
-                      intent_to_retain: false
-                    }
-                  ]
-                }
-              }],
-            },
-          }
-        }],
-      }
-    });
-    console.log({mdlData});
     const dataSchema = dataSchemaRef.current!;
     const errorMessages = getValidationMessages(
       dataSchema,

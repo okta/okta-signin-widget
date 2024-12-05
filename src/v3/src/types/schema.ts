@@ -573,6 +573,10 @@ export interface SpinnerElement extends UISchemaElement {
   type: 'Spinner';
 }
 
+export interface MDLElement extends UISchemaElement {
+  type: 'MDL';
+}
+
 export interface InfoboxElement extends UISchemaElement {
   type: 'InfoBox',
   options: {

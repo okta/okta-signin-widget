@@ -10,9 +10,4 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-export * from './AppIcon';
-export * from './DeviceIcon';
-export * from './LocationIcon';
-export * from './PhoneIcon';
-export * from './YubikeyDemoImage';
-export * from './MDLImage';
+export * from './transformMDLEnroll';

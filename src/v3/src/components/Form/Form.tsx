@@ -37,7 +37,6 @@ const Form: FunctionComponent<{
   } = useWidgetContext();
   const onSubmitHandler = useOnSubmit();
   const onValidationHandler = useOnSubmitValidation();
-  console.log('SHERI')
 
   useEffect(() => {
     setWidgetRendered(true);
