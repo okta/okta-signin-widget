@@ -3,7 +3,11 @@ import hbs from '@okta/handlebars-inline-precompile';
 import { getMessage } from '../../../ion/i18nTransformer';
 import TimeUtil from 'util/TimeUtil';
 import { loc } from 'util/loc';
-import { probeLoopbackAndExecute } from '../../../view-builder/utils/EndUserRemediationMessageViewUtil';
+import {
+  hasDeviceRemediationAction,
+  isLoopbackDeviceRemediation,
+  probeLoopbackAndExecute,
+} from '../../../view-builder/utils/EndUserRemediationMessageViewUtil';
 
 const I18N_ACCESS_DENIED_KEY_PREFIX = 'idx.error.code.access_denied.device_assurance.remediation';
 const I18N_GRACE_PERIOD_KEY_PREFIX = 'idx.device_assurance.grace_period.warning';
@@ -19,7 +23,7 @@ function buildRemediationOptionBlockMessage(message) {
   let deviceRemediationAction = null;
   if (message.links && message.links[0] && message.links[0].url) {
     link = message.links[0].url;
-  } else if (message.deviceRemediation && message.deviceRemediation.value) {
+  } else if (hasDeviceRemediationAction(message)) {
     deviceRemediationAction = message.deviceRemediation.value.action;
   }
   return {
@@ -133,15 +137,13 @@ export default View.extend({
     }
 
     const deviceRemediations = this.options.messages
-      .filter(message => message.deviceRemediation
-        && message.deviceRemediation.value
-        && message.deviceRemediation.value.action)
+      .filter(message => hasDeviceRemediationAction(message))
       .map(message => message.deviceRemediation.value);
     
     deviceRemediations.forEach(deviceRemediation => {
       this.$el.find(`#${deviceRemediation.action}`).click(function(event) {
         event.preventDefault();
-        if (deviceRemediation.remediationType === 'LOOPBACK') {
+        if (isLoopbackDeviceRemediation(deviceRemediation)) {
           probeLoopbackAndExecute(deviceRemediation);
         }
       });

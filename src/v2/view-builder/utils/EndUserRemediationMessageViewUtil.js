@@ -95,6 +95,16 @@ const probe = (baseUrl, probeDetails) => {
     });
 };
 
+export const hasDeviceRemediationAction = (message) => {
+  return message.deviceRemediation
+    && message.deviceRemediation.value
+    && message.deviceRemediation.value.action;
+};
+
+export const isLoopbackDeviceRemediation = (deviceRemediation) => {
+  return deviceRemediation && deviceRemediation.remediationType === 'LOOPBACK';
+};
+
 export const probeLoopbackAndExecute = (deviceRemediation) => {
   const domain = deviceRemediation.domain;
   const ports = deviceRemediation.ports;
