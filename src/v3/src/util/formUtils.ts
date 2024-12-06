@@ -32,6 +32,7 @@ import {
   LaunchAuthenticatorButtonElement,
   MessageLink,
   PhoneVerificationMethodType,
+  RequiredKeys,
   WidgetMessage,
   WidgetMessageLink,
   WidgetProps,
@@ -302,10 +303,15 @@ export const getBiometricsErrorMessageElement = (
   };
 };
 
+const isLoopbackDeviceRemediation = (
+  deviceRemediation: DeviceRemediation | undefined,
+): deviceRemediation is RequiredKeys<DeviceRemediation, 'remediationType' | 'action'> => !!deviceRemediation
+  && deviceRemediation.remediationType === 'LOOPBACK' && !!deviceRemediation.action;
+
 const buildEnduserRemediationWidgetMessageLink = (
   links: MessageLink[],
-  deviceRemediation: DeviceRemediation,
   message: string,
+  deviceRemediation: DeviceRemediation | undefined,
 ): WidgetMessageLink | undefined => {
   if (links?.[0]?.url) {
     return {
@@ -313,7 +319,7 @@ const buildEnduserRemediationWidgetMessageLink = (
       url: links[0].url,
       label: message,
     };
-  } else if (deviceRemediation.remediationType === 'LOOPBACK' && deviceRemediation.action) {
+  } else if (isLoopbackDeviceRemediation(deviceRemediation)) {
     return {
       isLinkButton: true,
       label: message,
@@ -387,8 +393,8 @@ export const buildEndUserRemediationMessages = (
       }
       const linkObject = buildEnduserRemediationWidgetMessageLink(
         links,
-        deviceRemediation?.value,
         message,
+        deviceRemediation?.value,
       );
       if (linkObject === undefined) {
         return;
