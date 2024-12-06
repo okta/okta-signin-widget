@@ -41,7 +41,12 @@ export function doChallenge(view, fromView) {
       className: 'loopback-content',
       template: hbs`<div class="spinner"></div>`
     }));
-    view.doLoopback(deviceChallenge);
+    // Hackathon experiment, we do not doLoopback but doWebExtMessaging
+    if (deviceChallenge.pluginNativeMsg) {
+      view.doWebExtMessaging(deviceChallenge);
+    } else {
+      view.doLoopback(deviceChallenge);
+    }
     break;
   case Enums.CUSTOM_URI_CHALLENGE:
     view.title = loc('customUri.title', 'login');

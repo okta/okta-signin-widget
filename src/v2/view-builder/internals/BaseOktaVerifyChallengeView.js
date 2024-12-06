@@ -66,6 +66,20 @@ const Body = BaseFormWithPolling.extend({
     throw new Error('getDeviceChallengePayload needs to be implemented');
   },
 
+  doWebExtMessaging(deviceChallenge) {
+    if (chrome && chrome.runtime && chrome.runtime.sendMessage) {
+      // can use WebExt API
+      const WebExtUUID = 'kpkilehcpjaeglkmjmodnbijmcphnmfm'; // replace with your own UUID
+      const challenge = this.options.currentViewState.relatesTo.value.challengeRequest;
+      chrome.runtime.sendMessage(WebExtUUID, {
+        type: 'SIW-Challenge-Message',
+        data: deviceChallenge
+      });
+      return;
+    }
+    console.warn('you don not have web ext API');
+  },
+
   doLoopback(deviceChallenge) {
     let authenticatorDomainUrl = deviceChallenge.domain !== undefined ? deviceChallenge.domain : '';
     let authenticatorHttpsDomainUrl = deviceChallenge.httpsDomain !== undefined ? deviceChallenge.httpsDomain : '';
