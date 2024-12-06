@@ -55,4 +55,21 @@ export default class TerminalPageObject extends BasePageObject {
     const pageUrl = await ClientFunction(() => window.location.href)();
     return pageUrl;
   }
+
+  getADPInstallRemediationLink() {
+    return this.form.getLink('Install the Android Device Policy app on this device');
+  }
+
+  async adpOVInstallInstructionsMessageExists() {
+    return this.form.getByTextFn((_, element) =>
+      element.textContent === 'Go to Settings in Okta Verify and follow the instructions to install the Android Device Policy app').exists;
+  }
+
+  async adpInstallRemediationLinkExists() {
+    return this.getADPInstallRemediationLink().exists;
+  }
+
+  async clickADPInstallRememdiationLink() {
+    await this.t.click(this.getADPInstallRemediationLink());
+  }
 }

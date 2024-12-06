@@ -10,13 +10,23 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box, List, ListItem } from '@mui/material';
+import {
+  Box,
+  Link as MuiLink,
+  List,
+  ListItem,
+} from '@mui/material';
 import { Link, Typography, useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
 import { HTMLReactParserOptions } from 'html-react-parser';
 import { FunctionComponent, h } from 'preact';
 import React from 'preact/compat';
 
-import { ListStyleType, WidgetMessage, WidgetMessageLink } from '../../types';
+import {
+  ClickEvent,
+  ListStyleType,
+  WidgetMessage,
+  WidgetMessageLink,
+} from '../../types';
 import { parseHtmlContent } from '../../util';
 
 const WidgetMessageContainer: FunctionComponent<{
@@ -52,16 +62,38 @@ const WidgetMessageContainer: FunctionComponent<{
             paddingLeft: 0,
             display: 'list-item',
           }}
-          key={link.url}
+          key={link.label}
         >
-          <Link
-            href={link.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            variant={linkVariant}
-          >
-            {link.label}
-          </Link>
+          {link.isLinkButton ? (
+            // @ts-expect-error error due to variant type applied, can be ignored
+            <MuiLink
+              component="button"
+              role="link"
+              onClick={(event: ClickEvent) => {
+                event.preventDefault();
+                link.onClick();
+              }}
+              // @ts-expect-error MUI variant type does not include monochrome but functions appropriately when set
+              variant={linkVariant}
+              sx={{
+                textAlign: 'start',
+                fontSize: tokens.TypographySizeBody,
+                verticalAlign: 'text-top',
+              }}
+              data-se={link.dataSe}
+            >
+              {link.label}
+            </MuiLink>
+          ) : (
+            <Link
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              variant={linkVariant}
+            >
+              {link.label}
+            </Link>
+          )}
         </ListItem>
       ))}
     </List>

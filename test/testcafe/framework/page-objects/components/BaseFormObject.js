@@ -222,6 +222,10 @@ export default class BaseFormObject {
     return within(this.el).getByText(text, options);
   }
 
+  getByTextFn(textFn) {
+    return within(this.el).getByText(textFn);
+  }
+
   getCancelButtonLabel() {
     // in v3 buttons dont have a value prop
     if (userVariables.gen3) {
