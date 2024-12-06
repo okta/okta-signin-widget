@@ -195,6 +195,20 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
     break;
   }
 
+  case AUTHENTICATOR_KEY.NFC: {
+    Object.assign(authenticatorData, {
+      description: isVerifyAuthenticator
+        ? ''
+        : loc('oie.nfc.description', 'login'),
+      iconClassName: 'mfa-nfc',
+      buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+      ariaLabel: isVerifyAuthenticator
+        ? loc('oie.select.authenticator.verify.named.authenticator.label', 'login', [authenticator.label])
+        : loc('oie.select.authenticator.enroll.named.authenticator.label', 'login', [authenticator.label])
+    });
+    break;
+  }
+
   case AUTHENTICATOR_KEY.SYMANTEC_VIP: {
     const appName =  authenticator.relatesTo?.displayName;
     Object.assign(authenticatorData, {
