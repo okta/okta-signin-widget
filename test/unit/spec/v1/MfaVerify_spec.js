@@ -86,6 +86,8 @@ function deepClone(res) {
   return JSON.parse(JSON.stringify(res));
 }
 
+jest.spyOn(BrowserFeatures, 'isIOS').mockReturnValue(false);
+
 Expect.describe('MFA Verify', function() {
 
   const configWithCustomLink = {
@@ -567,6 +569,18 @@ Expect.describe('MFA Verify', function() {
     return test;
   }
 
+  function togglePageVisibility() {
+    document.hidden = !document.hidden;
+    document.dispatchEvent(new Event('visibilitychange'));
+  }
+
+  // see https://stackoverflow.com/a/52196951 for more info about jest/promises/timers
+  async function advanceTestTimers() {
+    jest.runOnlyPendingTimers();
+    // flushes promise queue
+    return new Promise(resolve => setImmediate(resolve));
+  }
+
   function getInitialChallengeResponse(options) {
     const initResponse = deepClone(resChallengeClaimsProvider);
 
@@ -700,6 +714,10 @@ Expect.describe('MFA Verify', function() {
     // This is to reduce delay before initiating polling in the tests.
     spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function() {
       return setTimeout(arguments[0]);
+    });
+    spyOn(LoginUtil, 'callAfterTimeoutOrWindowRefocus').and.callFake(function() {
+      const timeoutId = setTimeout(arguments[0]);
+      return function() { clearTimeout(timeoutId); };
     });
     Util.resetAjaxRequests();
 
@@ -3172,8 +3190,8 @@ Expect.describe('MFA Verify', function() {
 
             return setupOktaPushWithIntrospect()
               .then(function(test) {
-                spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function(pullPromiseResolver) {
-                  // setup a deterministic callAfterTimeout stub
+                spyOn(LoginUtil, 'callAfterTimeoutOrWindowRefocus').and.callFake(function(pullPromiseResolver) {
+                  // setup a deterministic callAfterTimeoutOrWindowRefocus stub
                   callAfterTimeoutStub = function() {
                     pullPromiseResolver();
                   };
@@ -3184,12 +3202,12 @@ Expect.describe('MFA Verify', function() {
                 test.form.submit();
 
                 // clear up the showWarning timer which isn't the concern of this test.
-                LoginUtil.callAfterTimeout.calls.reset();
-                // wait for callAfterTimeout to be called at `models/Factor#save`
-                return Expect.waitForSpyCall(LoginUtil.callAfterTimeout, test);
+                LoginUtil.callAfterTimeoutOrWindowRefocus.calls.reset();
+                // wait for callAfterTimeoutOrWindowRefocus to be called at `models/Factor#save`
+                return Expect.waitForSpyCall(LoginUtil.callAfterTimeoutOrWindowRefocus, test);
               })
               .then(function(test) {
-                expect(LoginUtil.callAfterTimeout.calls.argsFor(0)[1]).toBe(4000);
+                expect(LoginUtil.callAfterTimeoutOrWindowRefocus.calls.argsFor(0)[1]).toBe(4000);
                 expect(test.router.controller.model.appState.get('transaction').status).toBe('MFA_CHALLENGE');
                 const transaction = test.router.controller.model.appState.get('transaction');
 
@@ -3209,9 +3227,12 @@ Expect.describe('MFA Verify', function() {
           itp('does not start polling if factor was switched before the initial poll delay', function() {
             return setupOktaPushWithTOTP()
               .then(function(test) {
-                spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function() {
+                spyOn(LoginUtil, 'callAfterTimeoutOrWindowRefocus').and.callFake(function() {
                   // reducing the timeout to 100 so that test is fast.
-                  return setTimeout(arguments[0], 100);
+                  const timeoutId = setTimeout(arguments[0], 100);
+                  return function() {
+                    clearInterval(timeoutId);
+                  };
                 });
                 Util.resetAjaxRequests();
                 test.setNextResponse([resChallengePush, resAllFactors, resInvalid]);
@@ -3237,7 +3258,7 @@ Expect.describe('MFA Verify', function() {
               });
           });
           itp('stops listening on factorSwitched when we start polling', function() {
-            spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function() {
+            spyOn(LoginUtil, 'callAfterTimeoutOrWindowRefocus').and.callFake(function() {
               return setTimeout(arguments[0]);
             });
             let stopListening;
@@ -3450,7 +3471,7 @@ Expect.describe('MFA Verify', function() {
           itp('re-enables submit and displays an error when request fails', function() {
             function setupFailurePolling(test) {
               // This is to reduce delay before initiating polling in the tests.
-              spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function() {
+              spyOn(LoginUtil, 'callAfterTimeoutOrWindowRefocus').and.callFake(function() {
                 return setTimeout(arguments[0]);
               });
               const failureResponse = { status: 0, response: {} };
@@ -3525,7 +3546,7 @@ Expect.describe('MFA Verify', function() {
           });
           itp('removes warnings and displays error when an error occurs', function() {
             function setupFailurePolling(test) {
-              spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function() {
+              spyOn(LoginUtil, 'callAfterTimeoutOrWindowRefocus').and.callFake(function() {
                 return setTimeout(arguments[0]);
               });
               const failureResponse = { status: 0, response: {} };
@@ -3594,6 +3615,49 @@ Expect.describe('MFA Verify', function() {
                   expect(test.form.submitButton().prop('disabled')).toBe(false);
                   expect(test.form.hasWarningMessage()).toBe(false);
                 });
+            });
+          });
+
+          Expect.describe('iOS18 polling while backgrounded', function() {
+            beforeEach(() => {
+              jest.useRealTimers();
+            });
+            afterAll(() => {
+              jest.useRealTimers();
+            });
+
+            itp('delays polling until page is visible', async function() {
+              jest.spyOn(BrowserFeatures, 'isIOS').mockReturnValue(true);
+              expect(document.hidden).toBe(false);
+  
+              const test = await setupOktaPushWithIntrospect();
+              jest.useFakeTimers();   // don't toggle to faker timers until after setup
+  
+              Util.resetAjaxRequests();
+              test.setNextResponse(resChallengePush);
+              test.form.submit();
+              
+              togglePageVisibility();     // page is now hidden
+              await advanceTestTimers();
+
+              const transaction = test.router.controller.model.appState.get('transaction');
+              expect(transaction.status).toEqual('MFA_CHALLENGE');
+              // trans.poll will be called in `Promise.race`, but won't fulfill until page is visible
+              spyOn(transaction, 'poll').and.callFake(() => new Promise((resolve) => {}));
+              expect(document.hidden).toBe(true);
+              expect(transaction.poll).not.toHaveBeenCalled();
+
+              await advanceTestTimers();
+              // tracks first `trans.poll` call
+              expect(transaction.poll).toHaveBeenCalledTimes(1);
+              transaction.poll.calls.reset();
+  
+              // tracks 2nd `trans.poll` call (2nd promise in `Promise.race`)
+              togglePageVisibility();     // page is now visible
+              await advanceTestTimers();
+
+              expect(document.hidden).toBe(false);
+              expect(transaction.poll).toHaveBeenCalled();
             });
           });
         });

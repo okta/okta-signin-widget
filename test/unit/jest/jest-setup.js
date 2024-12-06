@@ -15,6 +15,14 @@ global.getJasmineRequireObj = function jestSetupGlobalJasmine() {
   return jasmine;
 };
 global.jasmine = jasmine;
+if (global.document) {
+  let docHidden = false;
+  Object.defineProperty(global.document, 'hidden', {
+    configurable: true,
+    get() { return docHidden; },
+    set(bool) { docHidden = Boolean(bool); }
+  });
+}
 
 navigator.credentials = {
   create: function() {
