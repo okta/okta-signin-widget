@@ -94,6 +94,21 @@ test.requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionMock)(
   await t.expect(req.url).eql('http://localhost:3000/idp/idx/challenge/answer');
 });
 
+test
+  .meta('gen3', false) // Gen3 uses controlled select component which doesn't have such bug
+  .requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionMock)('shoud hide security question options dropdown after changing page', async t => {
+    const enrollSecurityQuestionPage = await setup(t);
+    await checkA11y(t);
+
+    await enrollSecurityQuestionPage.clickChooseSecurityQuestion();
+    await t.expect(await enrollSecurityQuestionPage.returnToAuthenticatorListLinkExists()).ok();
+    await t.expect(enrollSecurityQuestionPage.getSwitchAuthenticatorLinkText()).eql('Return to authenticator list');
+
+    await enrollSecurityQuestionPage.openSecurityQuestionDropdown();
+    await enrollSecurityQuestionPage.clickReturnToAuthenticatorListLink();
+    await t.expect(enrollSecurityQuestionPage.isSecurityQuestionDropdownOpened()).notOk();
+});
+
 test.requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionMock)('enroll custom security question', async t => {
   const enrollSecurityQuestionPage = await setup(t);
   await checkA11y(t);

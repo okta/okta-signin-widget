@@ -95,7 +95,7 @@ export default Controller.extend({
   },
 
   handleFormNameChange() {
-    // Fix: close opened select
+    // Fix: close opened dropdown
     this.$el.click();
 
     this.render();
