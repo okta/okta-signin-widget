@@ -5,6 +5,27 @@ import Logger from 'util/Logger';
 import Util from 'util/Util';
 import BrowserFeatures from '../../../src/util/BrowserFeatures';
 
+const authenticationForAndroidOVEnrollment = {
+  protocol: 'OAUTH2.0',
+  issuer: {
+    name: 'Test App',
+    uri: 'http://localhost:3000'
+  },
+  request: {
+    max_age: -1,
+    scope: 'openid profile email okta.authenticators.read okta.authenticators.manage.self',
+    display: 'page',
+    response_type: 'code',
+    redirect_uri: 'https://login.okta.com/oauth/callback',
+    state: 'i41VVuProw96htTUmvRP9A',
+    code_challenge_method: 'S256',
+    nonce: 'ASDF4343SDFS3-GhS8SQCw',
+    code_challenge: 'abcd_8asd8asdf8as98fasdf_-_9sadif9rasd9fasdf-cc',
+    response_mode: 'query'
+  }
+};
+
+
 describe('util/Util', () => {
   describe('transformErrorXHR', () => {
     it('errorSummary shows network connection error when status is 0', () => {
@@ -358,62 +379,36 @@ describe('util/Util', () => {
 
     it('Test is Android and OV Enrollment', () => {
       jest.spyOn(BrowserFeatures, 'isAndroid').mockReturnValue(true);
-      Object.defineProperty(window, 'location', {
-        value: {
-          href: 'https://org.com/oauth2/v1/authorize?response_type=code&state=state' +
-            '&code_challenge_method=S256&redirect_uri=https%3A%2F%2Flogin.okta.com%2Foauth%2Fcallback&nonce=nonce' +
-            '&code_challenge=challenge&client_id=id',
-        },
-        writeable: true,
-        configurable: true
-      });
-
-      expect(Util.isAndroidOVEnrollment()).toBe(true);
+      expect(Util.isAndroidOVEnrollment(authenticationForAndroidOVEnrollment)).toBe(true);
     });
 
     it('Test is Android and not OV Enrollment', () => {
       jest.spyOn(BrowserFeatures, 'isAndroid').mockReturnValue(true);
-      Object.defineProperty(window, 'location', {
-        value: {
-          href: 'https://org.com/oauth2/v1/authorize?response_type=code&state=state' +
-            '&code_challenge_method=S256&redirect_uri=https%3A%2F%2Forg.com%2Fenduser%2Fcallback&nonce=nonce' +
-            '&code_challenge=challenge&client_id=id',
-        },
-        writeable: true,
-        configurable: true
-      });
+      const authentication = {
+        protocol: 'OAUTH2.0',
+        issuer: {
+          uri: 'http://localhost:3000'
+        }
+      };
 
-      expect(Util.isAndroidOVEnrollment()).toBe(false);
+      expect(Util.isAndroidOVEnrollment(authentication)).toBe(false);
     });
 
     it('Test is not Android and is OV Enrollment', () => {
       jest.spyOn(BrowserFeatures, 'isAndroid').mockReturnValue(false);
-      Object.defineProperty(window, 'location', {
-        value: {
-          href: 'https://org.com/oauth2/v1/authorize?response_type=code&state=state' +
-            '&code_challenge_method=S256&redirect_uri=https%3A%2F%2Flogin.okta.com%2Foauth%2Fcallback&nonce=nonce' +
-            '&code_challenge=challenge&client_id=id',
-        },
-        writeable: true,
-        configurable: true
-      });
-
-      expect(Util.isAndroidOVEnrollment()).toBe(false);
+      expect(Util.isAndroidOVEnrollment(authenticationForAndroidOVEnrollment)).toBe(false);
     });
 
     it('Test is not Android and not OV Enrollment', () => {
       jest.spyOn(BrowserFeatures, 'isAndroid').mockReturnValue(false);
-      Object.defineProperty(window, 'location', {
-        value: {
-          href: 'https://org.com/oauth2/v1/authorize?response_type=code&state=state' +
-            '&code_challenge_method=S256&redirect_uri=https%3A%2F%2Forg.com%2Fenduser%2Fcallback&nonce=nonce' +
-            '&code_challenge=challenge&client_id=id',
-        },
-        writeable: true,
-        configurable: true
-      });
+      const authentication = {
+        protocol: 'OAUTH2.0',
+        issuer: {
+          uri: 'http://localhost:3000'
+        }
+      };
 
-      expect(Util.isAndroidOVEnrollment()).toBe(false);
+      expect(Util.isAndroidOVEnrollment(authentication)).toBe(false);
     });
   });
 
