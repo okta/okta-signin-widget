@@ -16,7 +16,7 @@ exports[`v2/view-builder/views/AutoRedirectView Android OV Enrollment Do not add
       action="/"
       class="ion-form o-form o-form-edit-mode"
       data-se="o-form"
-      id="form158"
+      id="form161"
       method="POST"
       slot="content"
     >
@@ -77,7 +77,31 @@ exports[`v2/view-builder/views/AutoRedirectView Android OV Enrollment should add
   <div
     class="siw-main-header"
   >
-    <div />
+    <div>
+      <div>
+        <div
+          class="beacon-container"
+          data-type="beacon-container"
+          style="transform: scale(1, 1); text-indent: 1px;"
+        >
+          <div
+            class="beacon-blank auth-beacon"
+          >
+            <div
+              class="beacon-blank js-blank-beacon-border auth-beacon-border"
+            />
+          </div>
+          <div
+            class="bg-helper auth-beacon auth-beacon-factor mfa-okta-verify"
+            data-se="factor-beacon"
+          >
+            <div
+              class="okta-sign-in-beacon-border auth-beacon-border"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <div
     class="siw-main-body"
@@ -86,7 +110,7 @@ exports[`v2/view-builder/views/AutoRedirectView Android OV Enrollment should add
       action="/"
       class="ion-form o-form o-form-edit-mode"
       data-se="o-form"
-      id="form117"
+      id="form119"
       method="POST"
       slot="content"
     >
@@ -152,7 +176,31 @@ exports[`v2/view-builder/views/AutoRedirectView Android OV Enrollment should add
   <div
     class="siw-main-header"
   >
-    <div />
+    <div>
+      <div>
+        <div
+          class="beacon-container"
+          data-type="beacon-container"
+          style="transform: scale(1, 1); text-indent: 1px;"
+        >
+          <div
+            class="beacon-blank auth-beacon"
+          >
+            <div
+              class="beacon-blank js-blank-beacon-border auth-beacon-border"
+            />
+          </div>
+          <div
+            class="bg-helper auth-beacon auth-beacon-factor mfa-okta-verify"
+            data-se="factor-beacon"
+          >
+            <div
+              class="okta-sign-in-beacon-border auth-beacon-border"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <div
     class="siw-main-body"
@@ -161,7 +209,7 @@ exports[`v2/view-builder/views/AutoRedirectView Android OV Enrollment should add
       action="/"
       class="ion-form o-form o-form-edit-mode"
       data-se="o-form"
-      id="form96"
+      id="form97"
       method="POST"
       slot="content"
     >
@@ -227,7 +275,31 @@ exports[`v2/view-builder/views/AutoRedirectView Android OV Enrollment should add
   <div
     class="siw-main-header"
   >
-    <div />
+    <div>
+      <div>
+        <div
+          class="beacon-container"
+          data-type="beacon-container"
+          style="transform: scale(1, 1); text-indent: 1px;"
+        >
+          <div
+            class="beacon-blank auth-beacon"
+          >
+            <div
+              class="beacon-blank js-blank-beacon-border auth-beacon-border"
+            />
+          </div>
+          <div
+            class="bg-helper auth-beacon auth-beacon-factor mfa-okta-verify"
+            data-se="factor-beacon"
+          >
+            <div
+              class="okta-sign-in-beacon-border auth-beacon-border"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <div
     class="siw-main-body"
@@ -236,7 +308,7 @@ exports[`v2/view-builder/views/AutoRedirectView Android OV Enrollment should add
       action="/"
       class="ion-form o-form o-form-edit-mode"
       data-se="o-form"
-      id="form138"
+      id="form141"
       method="POST"
       slot="content"
     >

@@ -7,6 +7,12 @@ import { INTERSTITIAL_REDIRECT_VIEW } from 'v2/ion/RemediationConstants';
 import utilSpy from '../../../../../../src/util/Util';
 
 describe('v2/view-builder/views/AutoRedirectView', function() {
+  const wait = (timeout) => {
+    return new Promise((resolve) => {
+      setTimeout(resolve, timeout);
+    });
+  };
+
   let testContext;
   let settings = new Settings({
     baseUrl: 'http://localhost:3000',
@@ -127,13 +133,14 @@ describe('v2/view-builder/views/AutoRedirectView', function() {
       'NONE',
       'DEFAULT',
       null,
-    ])('should add user gesture if OV enrollment on Android with interstitialBeforeLoginRedirect = "%s"', function(interstitialBeforeLoginRedirect) {
+    ])('should add user gesture if OV enrollment on Android with interstitialBeforeLoginRedirect = "%s"', async function(interstitialBeforeLoginRedirect) {
       settings = new Settings({
         baseUrl: 'http://localhost:3000',
         'interstitialBeforeLoginRedirect': interstitialBeforeLoginRedirect,
       });
       jest.spyOn(utilSpy, 'isAndroidOVEnrollment').mockReturnValue(true);
       testContext.init();
+      await wait(300); // wait for beacon animation
       expect(testContext.view.el).toMatchSnapshot('should show user gesture');
     });
 
