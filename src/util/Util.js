@@ -19,7 +19,7 @@ import Logger from './Logger';
 import BrowserFeatures from './BrowserFeatures';
 
 const Util = {};
-const ovDeepLink = 'redirect_uri=https://login.okta.com/oauth/callback';
+const ovDeepLink = 'https://login.okta.com/oauth/callback';
 
 const buildInputForParameter = function(name, value) {
   const input = document.createElement('input');
@@ -248,8 +248,9 @@ Util.executeOnVisiblePage = function(cb) {
   }
 };
 
-Util.isAndroidOVEnrollment = function() {
-  const ovEnrollment = decodeURIComponent(window.location.href).includes(ovDeepLink);
+Util.isAndroidOVEnrollment = function(authentication) {
+  const redirectUri = authentication?.request?.redirect_uri;
+  const ovEnrollment = redirectUri?.includes(ovDeepLink);
   return BrowserFeatures.isAndroid() && ovEnrollment;
 };
 
