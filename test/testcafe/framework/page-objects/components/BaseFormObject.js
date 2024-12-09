@@ -384,6 +384,21 @@ export default class BaseFormObject {
     await this.t.click(option);
   }
 
+  async openChozenDropdown(fieldName) {
+    if (userVariables.gen3) {
+      const selectEle = this.el.find(`[id="${fieldName}"]`);
+      await this.t.click(selectEle);
+    } else {
+      const selectContainer = await this.findFormFieldInput(fieldName)
+        .find('.chzn-container');
+      await this.t.click(selectContainer);
+    }
+  }
+
+  isChozenDropdownOpened() {
+    return Selector('.chzn-container').exists;
+  }
+
   // =====================================
   // radio button
   // =====================================
