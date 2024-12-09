@@ -1,4 +1,4 @@
-/* eslint max-len: [2, 140] */
+/* eslint max-len: [2, 140], camelcase: 0 */
 import { $ } from '@okta/courage';
 import $sandbox from 'sandbox';
 import Logger from 'util/Logger';

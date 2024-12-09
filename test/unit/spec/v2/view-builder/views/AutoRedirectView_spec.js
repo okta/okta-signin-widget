@@ -10,7 +10,7 @@ describe('v2/view-builder/views/AutoRedirectView', function() {
   const wait = (timeout) => {
     return new Promise((resolve) => {
       setTimeout(resolve, timeout);
-    })
+    });
   };
 
   let testContext;
