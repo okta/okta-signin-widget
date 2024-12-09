@@ -40,7 +40,7 @@ export const redirectTransformer = (
   const { context } = transaction;
 
   // OKTA-635926: add user gesture for ov enrollment on android
-  if (Util.isAndroidOVEnrollment()) {
+  if (Util.isAndroidOVEnrollment(context?.authentication?.value)) {
     createIdentifierContainer({
       transaction,
       widgetProps,
