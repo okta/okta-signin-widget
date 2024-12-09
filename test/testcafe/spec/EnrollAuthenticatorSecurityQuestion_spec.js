@@ -107,7 +107,7 @@ test
     await enrollSecurityQuestionPage.openSecurityQuestionDropdown();
     await enrollSecurityQuestionPage.clickReturnToAuthenticatorListLink();
     await t.expect(enrollSecurityQuestionPage.isSecurityQuestionDropdownOpened()).notOk();
-});
+  });
 
 test.requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionMock)('enroll custom security question', async t => {
   const enrollSecurityQuestionPage = await setup(t);
