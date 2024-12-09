@@ -20,10 +20,12 @@ import { loc } from '../../util';
 import {
   CustomAppIcon,
   CustomOTPIcon,
+  ClearIcon,
   DuoIcon,
   EmailIcon,
   GoogleOTPIcon,
   IDPIcon,
+  IncodeIcon,
   OktaVerifyIcon,
   OnPremMFAIcon,
   PasswordIcon,
@@ -206,5 +208,19 @@ export const getAuthCoinConfiguration = (): Record<string, AuthCoinConfig> => ({
     customizable: false,
     description: loc('oie.idv.persona', 'login'),
     iconClassName: 'mfa-idv-persona',
+  },
+  [ID_PROOFING_TYPE.IDV_CLEAR]: {
+    icon: ClearIcon,
+    name: 'mfa-idv-clear',
+    customizable: false,
+    description: loc('oie.idv.clear', 'login'),
+    iconClassName: 'mfa-idv-clear',
+  },
+  [ID_PROOFING_TYPE.IDV_INCODE]: {
+    icon: IncodeIcon,
+    name: 'mfa-idv-incode',
+    customizable: false,
+    description: loc('oie.idv.incode', 'login'),
+    iconClassName: 'mfa-idv-incode',
   },
 });

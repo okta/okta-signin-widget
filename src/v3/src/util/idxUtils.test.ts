@@ -177,6 +177,42 @@ describe('IdxUtils Tests', () => {
     expect(buildAuthCoinProps(transaction)?.authenticatorKey).toBe('IDV_PERSONA');
   });
 
+  it('should build AuthCoin data when Idx transaction denotes IDV Clear', () => {
+    transaction = {
+      ...transaction,
+      nextStep: {
+        name: 'redirect-idverify',
+        type: 'ID_PROOFING',
+        href:
+          'http://localhost:3000/idp/identity-verification?stateTokenExternalId=bzJOSnhodWVNZjZuVEsrUj',
+        method: 'GET',
+        idp: {
+          id: 'IDV_CLEAR',
+          name: 'Clear',
+        },
+      },
+    };
+    expect(buildAuthCoinProps(transaction)?.authenticatorKey).toBe('IDV_CLEAR');
+  });
+
+  it('should build AuthCoin data when Idx transaction denotes IDV Incode', () => {
+    transaction = {
+      ...transaction,
+      nextStep: {
+        name: 'redirect-idverify',
+        type: 'ID_PROOFING',
+        href:
+          'http://localhost:3000/idp/identity-verification?stateTokenExternalId=bzJOSnhodWVNZjZuVEsrUj',
+        method: 'GET',
+        idp: {
+          id: 'IDV_INCODE',
+          name: 'Incode',
+        },
+      },
+    };
+    expect(buildAuthCoinProps(transaction)?.authenticatorKey).toBe('IDV_INCODE');
+  });
+
   it('should build AuthCoin data as undefined when Idx transaction does not have idp id', () => {
     transaction = {
       ...transaction,

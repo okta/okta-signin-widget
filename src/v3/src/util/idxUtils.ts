@@ -54,6 +54,13 @@ import { resetMessagesToInputs } from './resetMessagesToInputs';
 
 type RegistrationFieldError = FieldError & { property: string };
 
+
+type IdvDisplayInfo = {
+  idpName?: string;
+  termsOfUse?: string;
+  privacyPolicy?: string;
+};
+
 export const getUserInfo = (transaction: IdxTransaction): UserInfo => {
   const { context: { user } } = transaction;
 
@@ -462,6 +469,28 @@ export const isValidPhoneMethodType = (
   typeof methodType !== 'undefined' && (methodType === 'sms' || methodType === 'voice')
 );
 
-export const getIDVDisplayName = (
-  transaction: IdxTransaction,
-): string | undefined => transaction.nextStep?.idp?.name;
+export const getIDVDisplayInfo = (
+  transaction: IdxTransaction
+): IdvDisplayInfo => {
+  const idpName = transaction.nextStep?.idp?.name;
+  let termsOfUse, privacyPolicy;
+  switch (idpName) {
+    case "Persona":
+      termsOfUse = "https://withpersona.com/legal/terms-of-use";
+      privacyPolicy = "https://withpersona.com/legal/privacy-policy";
+      break;
+    case "Clear":
+      termsOfUse = "https://www.clearme.com/member-terms";
+      privacyPolicy = "https://www.clearme.com/privacy-policy";
+      break;
+    case "Incode":
+      termsOfUse = "https://incode.id/terms";
+      privacyPolicy = "https://incode.id/privacy";
+      break;
+  }
+  return {
+    idpName,
+    privacyPolicy,
+    termsOfUse
+  };
+};
