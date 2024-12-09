@@ -251,7 +251,7 @@ Util.executeOnVisiblePage = function(cb) {
 Util.isAndroidOVEnrollment = function(authentication) {
   const redirectUri = authentication?.request?.redirect_uri;
   const ovEnrollment = redirectUri?.includes(ovDeepLink);
-  return BrowserFeatures.isAndroid() && ovEnrollment;
+  return BrowserFeatures.isAndroid() && !!ovEnrollment;
 };
 
 /**

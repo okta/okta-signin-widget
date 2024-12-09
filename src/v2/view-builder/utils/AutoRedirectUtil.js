@@ -12,8 +12,8 @@ function getHeader() {
         this.HeaderBeacon = BaseAuthenticatorBeacon.extend({
           authenticatorKey: AUTHENTICATOR_KEY.OV,
         });
-        this.add(this.HeaderBeacon);
       }
+      BaseHeader.prototype.initialize.apply(this, arguments);
     },
   });
 }
