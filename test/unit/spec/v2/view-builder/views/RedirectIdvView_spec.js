@@ -13,7 +13,7 @@ describe('v2/view-builder/views/idp/RedirectIdvView', function() {
   beforeEach(function() {
 
     testContext = {};
-    testContext.init = (skipIdpFactorVerificationBtn = false, idvName) => {
+    testContext.init = (skipIdpFactorVerificationBtn = false, idvName = 'Persona') => {
       let currentAuthenticator =  [];
       let authenticatorEnrollments = {};
       let settings = new Settings({ baseUrl: 'http://localhost:3000', 'features.skipIdpFactorVerificationBtn': skipIdpFactorVerificationBtn });
@@ -69,7 +69,7 @@ describe('v2/view-builder/views/idp/RedirectIdvView', function() {
   });
 
   it.each([true, false])('Do not hide button and auto redirect when skipIdpFactorVerificationBtn is %s', async (skipIdpFactorVerificationBtn) => {
-    testContext.init(skipIdpFactorVerificationBtn, 'Persona');
+    testContext.init(skipIdpFactorVerificationBtn);
     expect(testContext.view.$el.find('.o-form-button-bar').attr('style')).toBeUndefined();
     expect(appStateTriggerSpy).toHaveBeenCalledTimes(0);
   });
