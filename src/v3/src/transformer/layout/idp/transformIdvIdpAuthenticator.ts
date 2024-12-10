@@ -22,7 +22,7 @@ import {
   TitleElement,
 } from '../../../types';
 import {
-  getBackToSignInUri, getIDVDisplayName, loc, shouldShowCancelLink,
+  getBackToSignInUri, getIDVDisplayInfo, loc, shouldShowCancelLink,
 } from '../../../util';
 
 export const transformIdvIdpAuthenticator: IdxStepTransformer = ({
@@ -32,12 +32,12 @@ export const transformIdvIdpAuthenticator: IdxStepTransformer = ({
 }) => {
   const { uischema } = formBag;
   const { nextStep } = transaction;
-  const displayName = getIDVDisplayName(transaction);
+  const { idpName, privacyPolicy, termsOfUse } = getIDVDisplayInfo(transaction);
 
   const titleElement: TitleElement = {
     type: 'Title',
     options: {
-      content: loc('oie.idv.idp.title', 'login', [displayName]),
+      content: loc('oie.idv.idp.title', 'login', [idpName]),
     },
   };
 
@@ -45,7 +45,7 @@ export const transformIdvIdpAuthenticator: IdxStepTransformer = ({
     type: 'Description',
     contentType: 'subtitle',
     options: {
-      content: loc('oie.idv.idp.description', 'login'),
+      content: loc('oie.idv.idp.desc', 'login', [idpName]),
     },
   };
 
@@ -54,17 +54,17 @@ export const transformIdvIdpAuthenticator: IdxStepTransformer = ({
     contentType: 'subtitle',
     options: {
       variant: 'subtitle1',
-      content: loc('oie.idv.idp.description.termsOfUse', 'login', undefined, {
+      content: loc('oie.idv.idp.desc.termsOfUse', 'login', [idpName], {
         $1: {
           element: 'a',
           attributes: {
-            href: 'https://withpersona.com/legal/terms-of-use', target: '_blank', rel: 'noopener noreferrer',
+            href: termsOfUse, target: '_blank', rel: 'noopener noreferrer',
           },
         },
         $2: {
           element: 'a',
           attributes: {
-            href: 'https://withpersona.com/legal/privacy-policy', target: '_blank', rel: 'noopener noreferrer',
+            href: privacyPolicy, target: '_blank', rel: 'noopener noreferrer',
           },
         },
       }),
@@ -75,7 +75,7 @@ export const transformIdvIdpAuthenticator: IdxStepTransformer = ({
     type: 'Description',
     contentType: 'subtitle',
     options: {
-      content: loc('oie.idv.idp.description.agreement', 'login'),
+      content: loc('oie.idv.idp.desc.agreement', 'login', [idpName]),
       variant: 'subtitle1',
     },
   };
