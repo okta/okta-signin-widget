@@ -95,6 +95,9 @@ export default Controller.extend({
   },
 
   handleFormNameChange() {
+    // OKTA-803760 - Fix: close opened dropdown
+    this.$el.click();
+
     this.render();
   },
 
