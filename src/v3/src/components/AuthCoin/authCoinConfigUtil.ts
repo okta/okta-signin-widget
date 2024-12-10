@@ -18,9 +18,9 @@ import {
 import { IconProps } from '../../types';
 import { loc } from '../../util';
 import {
+  ClearIcon,
   CustomAppIcon,
   CustomOTPIcon,
-  ClearIcon,
   DuoIcon,
   EmailIcon,
   GoogleOTPIcon,

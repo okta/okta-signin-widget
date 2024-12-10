@@ -11,9 +11,9 @@
  */
 
 export * from './AppleStoreIcon';
+export * from './ClearIcon';
 export * from './CustomAppIcon';
 export * from './CustomOTPIcon';
-export * from './ClearIcon';
 export * from './DuoIcon';
 export * from './EmailIcon';
 export * from './GoogleOTPIcon';

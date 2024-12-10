@@ -32,7 +32,7 @@ export const transformIdvIdpAuthenticator: IdxStepTransformer = ({
 }) => {
   const { uischema } = formBag;
   const { nextStep } = transaction;
-  const  { idpName, privacyPolicy, termsOfUse } = getIDVDisplayInfo(transaction);
+  const { idpName, privacyPolicy, termsOfUse } = getIDVDisplayInfo(transaction);
 
   const titleElement: TitleElement = {
     type: 'Title',
