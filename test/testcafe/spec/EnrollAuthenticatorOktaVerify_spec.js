@@ -36,7 +36,7 @@ import xhrAuthenticatorEnrollEnableBiometricsSMS from '../../../playground/mocks
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success.json';
 
 const POLLING_INTERVAL = 4000;
-const RESEND_REMINDER_PROMPT_INTERVAL = 30000
+const RESEND_REMINDER_PROMPT_INTERVAL = 30000;
 
 const logger = RequestLogger(/introspect|poll|send|enroll/, {
   logRequestBody: true,
