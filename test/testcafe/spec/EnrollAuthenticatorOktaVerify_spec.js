@@ -35,6 +35,9 @@ import xhrAuthenticatorEnrollEnableBiometricsSMS from '../../../playground/mocks
 
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success.json';
 
+const POLLING_INTERVAL = 4000;
+const RESEND_REMINDER_PROMPT_INTERVAL = 30000;
+
 const logger = RequestLogger(/introspect|poll|send|enroll/, {
   logRequestBody: true,
   stringifyRequestBody: true,
@@ -61,15 +64,11 @@ const enrollViaQRcodeMocks = pollResponse => RequestMock()
 const enrollViaQRcodeMocks1 = enrollViaQRcodeMocks(!userVariables.gen3 ? xhrSuccess : xhrAuthenticatorEnrollOktaVerifyQr);
 const enrollViaQRcodeMocks2 = enrollViaQRcodeMocks(xhrSuccess);
 
-// this mock doesn't need poll to return successful response
 const enrollSameDeviceMocks = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrAuthenticatorEnrollOktaVerifySameDevice)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
   .respond(xhrAuthenticatorEnrollOktaVerifySameDevice);
-if (userVariables.gen3) {
-  enrollSameDeviceMocks
-    .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
-    .respond(xhrAuthenticatorEnrollOktaVerifySameDevice);
-}
 
 const enrollSameDeviceIosWithAnySecurity = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -401,7 +400,7 @@ test.requestHooks(logger, enrollViaQRcodeMocks1)('should be able to enroll via q
     await t.removeRequestHooks(enrollViaQRcodeMocks1);
     await t.addRequestHooks(enrollViaQRcodeMocks2);
   }
-  await t.wait(4000);
+  await t.wait(POLLING_INTERVAL);
   // V3 - higher poll requests ~ 7
   if (!userVariables.gen3) {
     await t.expect(logger.count(
@@ -516,7 +515,7 @@ test.requestHooks(resendEmailMocks)('after timeout should be able see and click 
   await t.expect(enrollOktaVerifyPage.getEmailInstruction()).contains(emailInstruction1);
   await t.expect(enrollOktaVerifyPage.getEmailInstruction()).contains(emailInstruction2);
   await t.expect(enrollOktaVerifyPage.resendViewExists()).notOk();
-  await t.wait(30000);
+  await t.wait(RESEND_REMINDER_PROMPT_INTERVAL);
   await t.expect(enrollOktaVerifyPage.resendViewExists()).ok();
   const resendView = enrollOktaVerifyPage.resendView();
   await t.expect(resendView.innerText).contains('Haven’t received an email? Check your spam folder or send again');
@@ -607,7 +606,7 @@ test.requestHooks(resendSmsMocks)('after timeout should be able see and click se
   await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction1);
   await t.expect(await enrollOktaVerifyPage.getSmsInstruction()).contains(smsInstruction2);
   await t.expect(enrollOktaVerifyPage.resendView().visible).notOk();
-  await t.wait(30000);
+  await t.wait(RESEND_REMINDER_PROMPT_INTERVAL);
   await t.expect(enrollOktaVerifyPage.resendViewExists()).ok();
   const resendView = enrollOktaVerifyPage.resendView();
   await t.expect(resendView.innerText).contains('Haven’t received an SMS? Send again');
@@ -761,7 +760,7 @@ const testQRcodeMsg = async (t, isIos) => {
 
   // v3 - logger.count = 0
   if (!userVariables.gen3) {
-    await t.wait(4000);
+    await t.wait(POLLING_INTERVAL);
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
       record.request.url.match(/poll/)
@@ -857,7 +856,7 @@ test.meta('mobile', false).requestHooks(logger, enrollViaQRcodeEnableBiometricsM
   const errorTitle = enrollOktaVerifyPage.getErrorTitle();
   await t.expect(errorTitle.innerText).contains(enableBiometricsMessageTitle);
   if (!userVariables.gen3) {
-    await t.wait(4000);
+    await t.wait(POLLING_INTERVAL);
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
       record.request.url.match(/poll/)
@@ -968,7 +967,7 @@ test
   });
 
 test
-  .requestHooks(logger, enrollSameDeviceMocks)('should be able to see OV same device enrollment instructions without polling', async t => {
+  .requestHooks(logger, enrollSameDeviceMocks)('should be able to see OV same device enrollment instructions with polling', async t => {
     const enrollOktaVerifyPage = await setup(t);
     await checkA11y(t);
     await t.expect(enrollOktaVerifyPage.getFormTitle()).eql('Set up Okta Verify');
@@ -989,12 +988,13 @@ test
     await t.expect(await enrollOktaVerifyPage.returnToAuthenticatorListLinkExists()).ok();
     await t.expect(await enrollOktaVerifyPage.signoutLinkExists()).ok();
 
-    // expect no polling for same device page
+    // expect polling for same device page
     if (!userVariables.gen3) {
+      await t.wait(POLLING_INTERVAL);
       await t.expect(logger.count(
         record => record.response.statusCode === 200 &&
         record.request.url.match(/poll/)
-      )).eql(0);
+      )).eql(1);
     }
     await enrollOktaVerifyPage.clickReturnToAuthenticatorListLink();
     const selectFactorPageObject = new SelectFactorPageObject(t);
