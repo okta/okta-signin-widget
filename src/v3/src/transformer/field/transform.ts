@@ -136,11 +136,10 @@ export const transformStepInputs = (
 
   const { inputs = [] } = step;
 
-  return inputs
-    .reduce((acc: Input[], input: Input) => {
-      const flattenedInputs = flattenInputs(input);
-      return [...acc, ...flattenedInputs];
-    }, [])
+  const flattenedInputs = inputs
+    .reduce((acc: Input[], input: Input) => [...acc, ...flattenInputs(input)], []);
+
+  const formBag = flattenedInputs
     .filter((input) => input.visible === true
         || (input.visible !== false && input.mutable !== false))
     .reduce((acc: FormBag, input: Input) => {
@@ -178,6 +177,23 @@ export const transformStepInputs = (
 
       return acc;
     }, formbag);
+
+  // Build set of optional input names for quick lookup below
+  const optionalInputNames = new Set(
+    flattenedInputs
+      .filter((input) => !input.required)
+      .map((input) => input.name),
+  );
+
+  // Mark optional fields with empty string values as fieldsToExclude when submitting form data
+  formBag.dataSchema.fieldsToExclude = (data: FormBag['data']) => Object.entries(data).reduce((acc: string[], [fieldName, value]) => {
+    if (typeof value === 'string' && value.trim().length === 0 && optionalInputNames.has(fieldName)) {
+      acc.push(fieldName);
+    }
+    return acc;
+  }, []);
+
+  return formBag;
 };
 
 export const transformFields: TransformStepFnWithOptions = ({

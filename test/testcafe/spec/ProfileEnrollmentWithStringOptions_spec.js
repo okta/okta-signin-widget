@@ -56,7 +56,7 @@ test.requestHooks(requestLogger, ProfileEnrollmentSignUpWithStringFieldsMock)('s
   await t.expect(await profileEnrollmentString.form.getButton('Sign Up').exists).eql(true);
 });
 
-test.requestHooks(requestLogger, ProfileEnrollmentSignUpWithStringFieldsMock)('should submit form when all optional fields are empty', async t => {
+test.requestHooks(requestLogger, ProfileEnrollmentSignUpWithStringFieldsMock)('should submit form and remove empty optional fields from payload', async t => {
   const profileEnrollmentString = new ProfileEnrollmentStringOptionsViewPageObject(t);
   const identityPage = await setup(t);
   await checkA11y(t);
@@ -65,7 +65,10 @@ test.requestHooks(requestLogger, ProfileEnrollmentSignUpWithStringFieldsMock)('s
   await profileEnrollmentString.fillEmailField('test.carlos@mycompany.com');
   await profileEnrollmentString.fillFirstNameField('Test Carlos');
   await profileEnrollmentString.fillLastNameField('Test');
-  await profileEnrollmentString.fillOptionalField('');
+  // To properly test this scenario for both gen2 and gen3, we must explicitly enter a value and then delete it
+  await profileEnrollmentString.fillOptionalField('Value to Delete');
+  // Delete the original string but leave some whitespace to ensure that it is trimmed and deemed an empty string
+  await profileEnrollmentString.fillOptionalField(' ');
 
   requestLogger.clear();
   await profileEnrollmentString.clickSignUpButton();
