@@ -142,6 +142,7 @@ export const TERMINAL_KEY: Record<string, string> = {
   TOO_MANY_REQUESTS: 'tooManyRequests',
   UNLOCK_ACCOUNT_FAILED_PERMISSIONS_KEY: 'oie.selfservice.unlock_user.challenge.failed.permissions',
   UNLOCK_ACCOUNT_KEY: 'oie.selfservice.unlock_user.success.message',
+  VERIFICATION_TIMED_OUT: 'core.system.transaction_resource_not_found',
   SIGNED_NONCE_ERROR: 'core.auth.factor.signedNonce.error',
   END_USER_REMEDIATION_ERROR_PREFIX: 'idx.error.code.access_denied.device_assurance.remediation',
 };
