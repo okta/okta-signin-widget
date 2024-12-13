@@ -187,7 +187,11 @@ export const transformStepInputs = (
 
   // Mark optional fields with empty string values as fieldsToExclude when submitting form data
   formBag.dataSchema.fieldsToExclude = (data: FormBag['data']) => Object.entries(data).reduce((acc: string[], [fieldName, value]) => {
-    if (typeof value === 'string' && value.trim().length === 0 && optionalInputNames.has(fieldName)) {
+    // Special case for update profile view with all optional fields. Backend expects that secondEmail should be sent with an empty
+    // string (which is set in transformEnrollProfileUpdate), so we should not remove it from the payload here
+    if (fieldName === 'userProfile.secondEmail') {
+      return acc;
+    } else if (typeof value === 'string' && value.trim().length === 0 && optionalInputNames.has(fieldName)) {
       acc.push(fieldName);
     }
     return acc;
