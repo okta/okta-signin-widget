@@ -18,3 +18,4 @@ export * from './transformExpiredPasswordAuthenticator';
 export * from './transformExpiredPasswordWarningAuthenticator';
 export * from './transformPasswordChallenge';
 export * from './transformResetPasswordAuthenticator';
+export * from './transformChangePassword';

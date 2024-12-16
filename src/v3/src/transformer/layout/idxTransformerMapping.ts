@@ -32,6 +32,7 @@ import {
   transformExpiredPasswordWarningAuthenticator,
   transformPasswordChallenge,
   transformResetPasswordAuthenticator,
+  transformChangePassword,
 } from '../password';
 import {
   transformPhoneChallenge,
@@ -254,6 +255,12 @@ const TransformerMap: {
         showVerifyWithOtherLink: false,
       },
     },
+  },
+  [IDX_STEP.CHANGE_PASSWORD]: {
+    [AUTHENTICATOR_KEY.PASSWORD]: {
+      transform: transformChangePassword,
+      buttonConfig: { showDefaultSubmit: false },
+    }
   },
   [IDX_STEP.DEVICE_APPLE_SSO_EXTENSION]: {
     [AUTHENTICATOR_KEY.DEFAULT]: {

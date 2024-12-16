@@ -45,6 +45,7 @@ export const IDX_STEP: Record<string, string> = {
   CANCEL_TRANSACTION: 'cancel-transaction',
   CHALLENGE_AUTHENTICATOR: 'challenge-authenticator',
   CHALLENGE_POLL: 'challenge-poll',
+  CHANGE_PASSWORD: 'change-password',
   CONSENT_ADMIN: 'admin-consent',
   CONSENT_EMAIL_CHALLENGE: 'email-challenge-consent',
   CONSENT_ENDUSER: 'consent',
