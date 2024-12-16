@@ -55,9 +55,12 @@ export default View.extend({
           <a href="{{link}}" target="_blank" rel="noopener noreferrer">{{message}}</a>
         {{else}}
           {{#if deviceRemediationAction}}
-            <a href="#" id="{{deviceRemediationAction}}" data-se="{{deviceRemediationAction}}">
-              {{message}}
-            </a>
+            <button
+              class="enduser-remediation-button-link"
+              id="{{deviceRemediationAction}}"
+              data-se="{{deviceRemediationAction}}">
+                {{message}}
+            </button>
           {{else}}
             {{message}}
           {{/if}}

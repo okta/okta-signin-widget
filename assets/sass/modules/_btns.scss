@@ -347,3 +347,17 @@ $od-secondary-button-action-text-color: #124a94;
 .social-auth-quickbooks-button {
   @include social-auth-button-colorless-template(url('../img/icons/login/quickbooks_logo.png'));
 }
+
+.enduser-remediation-button-link {
+  color: $primary-color;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font: inherit;
+  cursor: pointer;
+  vertical-align: top;
+  background: transparent;
+  text-align: start;
+  text-decoration: underline;
+}

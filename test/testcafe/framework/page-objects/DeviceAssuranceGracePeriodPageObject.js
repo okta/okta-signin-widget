@@ -33,7 +33,12 @@ export default class DeviceAssuranceGracePeriodPageObject extends BasePageObject
   }
 
   getADPInstallRemediationLink() {
-    return this.form.getLink('Install the Android Device Policy app on this device');
+    const labelText = 'Install the Android Device Policy app on this device';
+    if (userVariables.gen3) {
+      return this.form.getLink(labelText);
+    } else {
+      return this.form.getAllButtons().withExactText(labelText);
+    }
   }
 
   async adpOVInstallInstructionsMessageExists() {
