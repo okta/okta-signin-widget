@@ -102,14 +102,18 @@ export default {
    *
    * @param {Date} date The Date object for the grace period expiry
    * @param {LanguageCode} languageCode The user's language code / locale
+   * @param {RoundDownToNearestHour} boolean Whether to round down to nearest hour. Defaults to true
    * @return {string} The formatted `short-with-timezone` local string
    */
-  formatDateToDeviceAssuranceGracePeriodExpiryLocaleString: (date, languageCode) => {
+  formatDateToDeviceAssuranceGracePeriodExpiryLocaleString: (date, languageCode, roundDownToNearestHour = true) => {
     try {
     // Invalid Date objects will return NaN for valueOf()
       if (date && !isNaN(date.valueOf()) && languageCode !== null) {
-        // Round down the date to the nearest hour
-        date.setMinutes(0, 0, 0);
+        // eslint-disable-next-line max-depth
+        if (roundDownToNearestHour) {
+          // Round down the date to the nearest hour
+          date.setMinutes(0, 0, 0);
+        }
         return date.toLocaleString(languageCode, {
           year: 'numeric',
           month: '2-digit',

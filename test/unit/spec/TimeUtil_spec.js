@@ -118,6 +118,12 @@ describe('util/TimeUtil', function() {
       expect(TimeUtil.formatDateToDeviceAssuranceGracePeriodExpiryLocaleString(new Date('2024-09-05T23:59:59Z'), languageCode)).toEqual('09/05/2024, 11:00 PM UTC');
     });
 
+    it('doesnt round down to the nearest hour when param false', () => {
+      expect(TimeUtil.formatDateToDeviceAssuranceGracePeriodExpiryLocaleString(new Date('2024-09-05T00:01:01Z'), languageCode, false)).toEqual('09/05/2024, 12:01 AM UTC');
+      expect(TimeUtil.formatDateToDeviceAssuranceGracePeriodExpiryLocaleString(new Date('2024-09-05T00:30:30Z'), languageCode, false)).toEqual('09/05/2024, 12:30 AM UTC');
+      expect(TimeUtil.formatDateToDeviceAssuranceGracePeriodExpiryLocaleString(new Date('2024-09-05T23:59:59Z'), languageCode, false)).toEqual('09/05/2024, 11:59 PM UTC');
+    });
+
 
     it('falls back to default locale if `languageCode` is undefined', () => {
       expect(TimeUtil.formatDateToDeviceAssuranceGracePeriodExpiryLocaleString(new Date('2024-09-05T00:00:00Z'), undefined)).toEqual('09/05/2024, 12:00 AM UTC');
