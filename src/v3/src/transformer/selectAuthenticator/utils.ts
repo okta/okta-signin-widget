@@ -12,6 +12,7 @@
 
 import { IdxAuthenticator, Input } from '@okta/okta-auth-js';
 import { IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
+import TimeUtil from 'util/TimeUtil';
 
 import {
   AUTHENTICATOR_ALLOWED_FOR_OPTIONS,
@@ -148,6 +149,19 @@ const getAuthenticatorLabel = (
     default:
       return option.label;
   }
+};
+
+const getGracePeriodRequiredDescription = (remainingGracePeriodDays: number) => {
+  if (remainingGracePeriodDays === 1) {
+    return loc('oie.enrollment.policy.grace.period.required.in.one.day', 'login');
+  } if (remainingGracePeriodDays > 1) {
+    return loc(
+      'oie.enrollment.policy.grace.period.required.in.days',
+      'login',
+      [remainingGracePeriodDays],
+    );
+  }
+  return loc('oie.enrollment.policy.grace.period.required.today', 'login');
 };
 
 const getAuthenticatorDescriptionParams = (
@@ -315,6 +329,7 @@ const formatAuthenticatorOptions = (
   options: IdxOption[],
   step: string,
   isEnroll?: boolean,
+  locale?: string,
   authenticatorEnrollments?: IdxAuthenticator[],
 ): AuthenticatorButtonElement[] => {
   const authenticatorOptionSet = new Set<string>();
@@ -360,6 +375,30 @@ const formatAuthenticatorOptions = (
         AUTHENTICATOR_KEY.PHONE,
       ];
 
+      // @ts-ignore ADD MESSAGE ABOUT ADDING GRACE PERIOD TO auth-js sdk
+      const date = new Date(authenticator?.gracePeriod?.expiry);
+      const gracePeriodEpochTimestampMs = !isNaN(date.getTime()) ? date.getTime() : 0; // jake test this with bad values
+
+      // Calculate grace period info - refactor to new method
+      // if (hasGracePeriods && authenticator?.gracePeriod?.expiry) {
+      const currentTimestampMs = new Date().getTime();
+      
+      let remainingGracePeriodDays = 0;
+      let hasGracePeriods = false;
+      if (currentTimestampMs < gracePeriodEpochTimestampMs) {
+        remainingGracePeriodDays = TimeUtil.calculateDaysBetweenEpochTimestamps(
+          currentTimestampMs,
+          gracePeriodEpochTimestampMs,
+        );
+        hasGracePeriods = true;
+      }
+
+      const gracePeriodExpiry = (hasGracePeriods && locale && TimeUtil.formatDateToDeviceAssuranceGracePeriodExpiryLocaleString(
+        new Date(gracePeriodEpochTimestampMs),
+        locale,
+      )) || undefined;
+      const gracePeriodRequiredDescription = (gracePeriodExpiry && getGracePeriodRequiredDescription(remainingGracePeriodDays)) || undefined;
+
       return {
         type: 'AuthenticatorButton',
         label: getAuthenticatorLabel(option, authenticatorKey),
@@ -390,6 +429,8 @@ const formatAuthenticatorOptions = (
               : undefined,
             'authenticator.enrollmentId': enrollmentId,
           },
+          gracePeriodExpiry,
+          gracePeriodRequiredDescription,
           step,
           includeData: true,
           includeImmutableData: false,
@@ -409,10 +450,11 @@ const getAuthenticatorButtonElements = (
   options: IdxOption[],
   step: string,
   isEnroll?: boolean,
+  locale?: string,
   authenticatorEnrollments?: IdxAuthenticator[],
 ): AuthenticatorButtonElement[] => {
   const formattedOptions = formatAuthenticatorOptions(
-    options, step, isEnroll, authenticatorEnrollments,
+    options, step, isEnroll, locale, authenticatorEnrollments,
   );
 
   // appending OV options back to its original spot
@@ -500,10 +542,12 @@ export const getAuthenticatorVerifyButtonElements = (
 export const getAuthenticatorEnrollButtonElements = (
   authenticatorOptions: IdxOption[],
   step: string,
+  locale?: string, // this can probably be somewhere else
   authenticatorEnrollments?: IdxAuthenticator[],
 ): AuthenticatorButtonElement[] => getAuthenticatorButtonElements(
   authenticatorOptions,
   step,
   true,
+  locale,
   authenticatorEnrollments,
 );
