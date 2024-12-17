@@ -11,6 +11,7 @@
  */
 
 import { NextStep } from '@okta/okta-auth-js';
+import { IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
 
 import {
   AuthenticatorButtonListElement,
@@ -21,7 +22,7 @@ import {
   IdxStepTransformer,
   TitleElement,
 } from '../../types';
-import { loc } from '../../util';
+import { getLanguageCode, loc } from '../../util';
 import { getAuthenticatorEnrollButtonElements } from './utils';
 
 const getContentDescrAndParams = (brandName?: string): TitleElement['options'] => {
@@ -31,6 +32,12 @@ const getContentDescrAndParams = (brandName?: string): TitleElement['options'] =
     };
   }
   return { content: loc('oie.select.authenticators.enroll.subtitle', 'login') };
+};
+
+const isGracePeriodStillActive = (expiry: string): boolean => {
+  const currentTimestampMs = new Date().getTime();
+  const gracePeriod = new Date(expiry);
+  return !Number.isNaN(gracePeriod.getTime()) && currentTimestampMs < gracePeriod.getTime();
 };
 
 export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
@@ -51,9 +58,32 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
   if (!authenticator?.options?.length) {
     return formBag;
   }
-  const authenticatorButtons = getAuthenticatorEnrollButtonElements(
-    authenticator.options,
+
+  const langaugeCode = getLanguageCode(widgetProps);
+  const authenticatorsWithGracePeriod : IdxOption[] = [];
+  const authenticatorsDueNow : IdxOption[] = [];
+  authenticator.options.forEach((option) => {
+    // @ts-ignore TODO: Add grace period fields to auth-js SDK https://oktainc.atlassian.net/browse/OKTA-848910
+    if (option.relatesTo?.gracePeriod?.expiry
+      // @ts-ignore TODO: Add grace period fields to auth-js SDK https://oktainc.atlassian.net/browse/OKTA-848910
+      && isGracePeriodStillActive(option.relatesTo?.gracePeriod?.expiry)) {
+      authenticatorsWithGracePeriod.push(option);
+    } else {
+      authenticatorsDueNow.push(option);
+    }
+  });
+
+  const authenticatorButtonsWithGracePeriod = getAuthenticatorEnrollButtonElements(
+    authenticatorsWithGracePeriod,
     stepName,
+    langaugeCode,
+    authenticatorEnrollments?.value,
+  );
+
+  const authenticatorButtonsDueNow = getAuthenticatorEnrollButtonElements(
+    authenticatorsDueNow,
+    stepName,
+    langaugeCode,
     authenticatorEnrollments?.value,
   );
   const skipStep = availableSteps?.find(({ name }) => name === 'skip');
@@ -64,12 +94,33 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
       content: loc('oie.select.authenticators.enroll.title', 'login'),
     },
   };
-  const informationalText: DescriptionElement = {
+  const description: DescriptionElement = {
     type: 'Description',
     contentType: 'subtitle',
     options: getContentDescrAndParams(brandName),
   };
-  const description: HeadingElement = {
+
+  const headingRequiredNow: HeadingElement = {
+    type: 'Heading',
+    options: {
+      content: loc('oie.setup.required.now', 'login'),
+      level: 3,
+      visualLevel: 6,
+      dataSe: 'authenticator-list-title',
+    },
+  };
+
+  const headingRequiredSoon: HeadingElement = {
+    type: 'Heading',
+    options: {
+      content: loc('oie.setup.required.soon', 'login'),
+      level: 3,
+      visualLevel: 6,
+      dataSe: 'authenticator-list-title',
+    },
+  };
+
+  const headingNoGracePeriod: HeadingElement = {
     type: 'Heading',
     options: {
       content: skipStep ? loc('oie.setup.optional', 'login') : loc('oie.setup.required', 'login'),
@@ -77,10 +128,31 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
       visualLevel: 6,
     },
   };
-  const authenticatorListElement: AuthenticatorButtonListElement = {
-    type: 'AuthenticatorButtonList',
-    options: { buttons: authenticatorButtons, dataSe: 'authenticator-enroll-list' },
+
+  const descriptionGracePeriod: DescriptionElement = {
+    type: 'Description',
+    contentType: 'subtitle',
+    options: {
+      content: loc('oie.setup.required.soon.description', 'login'),
+    },
   };
+
+  const authenticatorListElementWithGracePeriod: AuthenticatorButtonListElement[] = [];
+  if (authenticatorButtonsWithGracePeriod.length) {
+    authenticatorListElementWithGracePeriod.push({
+      type: 'AuthenticatorButtonList',
+      options: { buttons: authenticatorButtonsWithGracePeriod, dataSe: 'authenticator-enroll-list-grace-period' },
+    });
+  }
+
+  const authenticatorListElementDueNow: AuthenticatorButtonListElement[] = [];
+  if (authenticatorButtonsDueNow.length) {
+    authenticatorListElementDueNow.push({
+      type: 'AuthenticatorButtonList',
+      options: { buttons: authenticatorButtonsDueNow, dataSe: 'authenticator-enroll-list' },
+    });
+  }
+
   const skipButton: ButtonElement = {
     type: 'Button',
     label: loc('oie.optional.authenticator.button.title', 'login'),
@@ -90,13 +162,37 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
     },
   };
 
-  uischema.elements = [
-    title,
-    informationalText,
-    description,
-    authenticatorListElement,
-    ...(skipStep ? [skipButton] : []),
-  ];
+  // 3 situations - required soon + required now, all required soon, all required now
+  // when grace periods are past required and should be treated as normal required
+  if (authenticatorListElementDueNow.length && authenticatorListElementWithGracePeriod.length) {
+    uischema.elements = [
+      title,
+      description,
+      headingRequiredNow,
+      ...authenticatorListElementDueNow,
+      headingRequiredSoon,
+      descriptionGracePeriod,
+      ...authenticatorListElementWithGracePeriod,
+      ...(skipStep ? [skipButton] : []),
+    ];
+  } else if (authenticatorListElementWithGracePeriod.length) {
+    uischema.elements = [
+      title,
+      description,
+      headingRequiredSoon,
+      descriptionGracePeriod,
+      ...authenticatorListElementWithGracePeriod,
+      ...(skipStep ? [skipButton] : []),
+    ];
+  } else {
+    uischema.elements = [
+      title,
+      description,
+      headingNoGracePeriod,
+      ...authenticatorListElementDueNow,
+      ...(skipStep ? [skipButton] : []),
+    ];
+  }
 
   return formBag;
 };
