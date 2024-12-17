@@ -1,5 +1,246 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Select Authenticator Utility Tests getAuthenticatorEnrollButtonElements Tests Correctly displays options for grace periods 1`] = `
+Array [
+  Object {
+    "dir": undefined,
+    "id": "auth_btn_okta_password_1234abc",
+    "label": "Password",
+    "noTranslate": false,
+    "options": Object {
+      "actionParams": Object {
+        "authenticator.enrollmentId": undefined,
+        "authenticator.id": "1234abc",
+        "authenticator.methodType": undefined,
+      },
+      "ariaLabel": "oie.select.authenticator.enroll.password.label",
+      "authenticator": Object {
+        "displayName": "Okta Password",
+        "gracePeriod": Object {
+          "expiry": "2035-09-27 18:00:00.000.",
+          "id": "gpe4hiasrPJX4zwZY123",
+        },
+        "id": "",
+        "key": "okta_password",
+        "methods": Array [
+          Object {
+            "type": "password",
+          },
+        ],
+        "type": "password",
+      },
+      "ctaLabel": "oie.enroll.authenticator.button.text",
+      "dataSe": "okta_password",
+      "description": "oie.password.authenticator.description",
+      "gracePeriodExpiry": "09/27/2035, 06:00 PM EDT",
+      "gracePeriodRequiredDescription": "oie.enrollment.policy.grace.period.required.in.days",
+      "iconName": "okta_password_0",
+      "includeData": true,
+      "includeImmutableData": false,
+      "isAdditionalEnroll": false,
+      "isEnroll": true,
+      "key": "okta_password",
+      "logoUri": undefined,
+      "nickname": undefined,
+      "step": "select-authenticator-authenticate",
+      "type": "button",
+      "usageDescription": undefined,
+    },
+    "type": "AuthenticatorButton",
+  },
+  Object {
+    "dir": undefined,
+    "id": "auth_btn_okta_email_1235abc",
+    "label": "Email",
+    "noTranslate": false,
+    "options": Object {
+      "actionParams": Object {
+        "authenticator.enrollmentId": undefined,
+        "authenticator.id": "1235abc",
+        "authenticator.methodType": undefined,
+      },
+      "ariaLabel": "oie.select.authenticator.enroll.email.label",
+      "authenticator": Object {
+        "displayName": "Okta Email",
+        "gracePeriod": Object {
+          "expiry": "2022-09-27 18:00:00.000.",
+          "id": "gpe4hiasrPJX4zwZY123",
+        },
+        "id": "",
+        "key": "okta_email",
+        "methods": Array [
+          Object {
+            "type": "email",
+          },
+        ],
+        "type": "email",
+      },
+      "ctaLabel": "oie.enroll.authenticator.button.text",
+      "dataSe": "okta_email",
+      "description": "oie.email.authenticator.description",
+      "gracePeriodExpiry": undefined,
+      "gracePeriodRequiredDescription": undefined,
+      "iconName": "okta_email_1",
+      "includeData": true,
+      "includeImmutableData": false,
+      "isAdditionalEnroll": false,
+      "isEnroll": true,
+      "key": "okta_email",
+      "logoUri": undefined,
+      "nickname": undefined,
+      "step": "select-authenticator-authenticate",
+      "type": "button",
+      "usageDescription": undefined,
+    },
+    "type": "AuthenticatorButton",
+  },
+  Object {
+    "dir": undefined,
+    "id": "auth_btn_phone_number_1235abc",
+    "label": "Phone",
+    "noTranslate": false,
+    "options": Object {
+      "actionParams": Object {
+        "authenticator.enrollmentId": undefined,
+        "authenticator.id": "1235abc",
+        "authenticator.methodType": undefined,
+      },
+      "ariaLabel": "oie.select.authenticator.enroll.phone.label",
+      "authenticator": Object {
+        "displayName": "Phone",
+        "id": "",
+        "key": "phone_number",
+        "methods": Array [
+          Object {
+            "type": "phone",
+          },
+        ],
+        "type": "phone",
+      },
+      "ctaLabel": "oie.enroll.authenticator.button.text",
+      "dataSe": "phone_number",
+      "description": "oie.phone.authenticator.description",
+      "gracePeriodExpiry": undefined,
+      "gracePeriodRequiredDescription": undefined,
+      "iconName": "phone_number_2",
+      "includeData": true,
+      "includeImmutableData": false,
+      "isAdditionalEnroll": false,
+      "isEnroll": true,
+      "key": "phone_number",
+      "logoUri": undefined,
+      "nickname": undefined,
+      "step": "select-authenticator-authenticate",
+      "type": "button",
+      "usageDescription": undefined,
+    },
+    "type": "AuthenticatorButton",
+  },
+]
+`;
+
+exports[`Select Authenticator Utility Tests getAuthenticatorEnrollButtonElements Tests Does not display options when grace period date badly formatted 1`] = `
+Array [
+  Object {
+    "dir": undefined,
+    "id": "auth_btn_okta_password_1234abc",
+    "label": "Password",
+    "noTranslate": false,
+    "options": Object {
+      "actionParams": Object {
+        "authenticator.enrollmentId": undefined,
+        "authenticator.id": "1234abc",
+        "authenticator.methodType": undefined,
+      },
+      "ariaLabel": "oie.select.authenticator.enroll.password.label",
+      "authenticator": Object {
+        "displayName": "Okta Password",
+        "gracePeriod": Object {
+          "expiry": "BAD",
+          "id": "gpe4hiasrPJX4zwZY123",
+        },
+        "id": "",
+        "key": "okta_password",
+        "methods": Array [
+          Object {
+            "type": "password",
+          },
+        ],
+        "type": "password",
+      },
+      "ctaLabel": "oie.enroll.authenticator.button.text",
+      "dataSe": "okta_password",
+      "description": "oie.password.authenticator.description",
+      "gracePeriodExpiry": undefined,
+      "gracePeriodRequiredDescription": undefined,
+      "iconName": "okta_password_0",
+      "includeData": true,
+      "includeImmutableData": false,
+      "isAdditionalEnroll": false,
+      "isEnroll": true,
+      "key": "okta_password",
+      "logoUri": undefined,
+      "nickname": undefined,
+      "step": "select-authenticator-authenticate",
+      "type": "button",
+      "usageDescription": undefined,
+    },
+    "type": "AuthenticatorButton",
+  },
+]
+`;
+
+exports[`Select Authenticator Utility Tests getAuthenticatorEnrollButtonElements Tests Does not display options when locale not supplied 1`] = `
+Array [
+  Object {
+    "dir": undefined,
+    "id": "auth_btn_okta_password_1234abc",
+    "label": "Password",
+    "noTranslate": false,
+    "options": Object {
+      "actionParams": Object {
+        "authenticator.enrollmentId": undefined,
+        "authenticator.id": "1234abc",
+        "authenticator.methodType": undefined,
+      },
+      "ariaLabel": "oie.select.authenticator.enroll.password.label",
+      "authenticator": Object {
+        "displayName": "Okta Password",
+        "gracePeriod": Object {
+          "expiry": "2035-09-27 18:00:00.000.",
+          "id": "gpe4hiasrPJX4zwZY123",
+        },
+        "id": "",
+        "key": "okta_password",
+        "methods": Array [
+          Object {
+            "type": "password",
+          },
+        ],
+        "type": "password",
+      },
+      "ctaLabel": "oie.enroll.authenticator.button.text",
+      "dataSe": "okta_password",
+      "description": "oie.password.authenticator.description",
+      "gracePeriodExpiry": undefined,
+      "gracePeriodRequiredDescription": undefined,
+      "iconName": "okta_password_0",
+      "includeData": true,
+      "includeImmutableData": false,
+      "isAdditionalEnroll": false,
+      "isEnroll": true,
+      "key": "okta_password",
+      "logoUri": undefined,
+      "nickname": undefined,
+      "step": "select-authenticator-authenticate",
+      "type": "button",
+      "usageDescription": undefined,
+    },
+    "type": "AuthenticatorButton",
+  },
+]
+`;
+
 exports[`Select Authenticator Utility Tests getAuthenticatorEnrollButtonElements Tests should detect authenticator options for additional enroll 1`] = `
 Array [
   Object {
@@ -28,6 +269,8 @@ Array [
       "ctaLabel": "oie.enroll.authenticator.button.text",
       "dataSe": "okta_password",
       "description": "oie.password.authenticator.description",
+      "gracePeriodExpiry": undefined,
+      "gracePeriodRequiredDescription": undefined,
       "iconName": "okta_password_0",
       "includeData": true,
       "includeImmutableData": false,
@@ -68,6 +311,8 @@ Array [
       "ctaLabel": "enroll.choices.setup.another",
       "dataSe": "okta_email",
       "description": "oie.email.authenticator.description",
+      "gracePeriodExpiry": undefined,
+      "gracePeriodRequiredDescription": undefined,
       "iconName": "okta_email_1",
       "includeData": true,
       "includeImmutableData": false,
@@ -113,6 +358,8 @@ Array [
       "ctaLabel": "oie.enroll.authenticator.button.text",
       "dataSe": "onprem_mfa-onprem_mfa",
       "description": "oie.on_prem.authenticator.description",
+      "gracePeriodExpiry": undefined,
+      "gracePeriodRequiredDescription": undefined,
       "iconName": "onprem_mfa_0",
       "includeData": true,
       "includeImmutableData": false,
@@ -262,6 +509,8 @@ Array [
       "ctaLabel": "oie.verify.authenticator.button.text",
       "dataSe": "phone_number",
       "description": "216XXXXX43",
+      "gracePeriodExpiry": undefined,
+      "gracePeriodRequiredDescription": undefined,
       "iconName": "phone_number_1",
       "includeData": true,
       "includeImmutableData": false,
@@ -307,6 +556,8 @@ Array [
       "ctaLabel": "oie.verify.authenticator.button.text",
       "dataSe": "okta_verify-signed_nonce",
       "description": "Okta Verify",
+      "gracePeriodExpiry": undefined,
+      "gracePeriodRequiredDescription": undefined,
       "iconName": "okta_verify_0",
       "includeData": true,
       "includeImmutableData": false,
@@ -350,6 +601,8 @@ Array [
       "ctaLabel": "oie.verify.authenticator.button.text",
       "dataSe": "phone_number",
       "description": "216XXXXX43",
+      "gracePeriodExpiry": undefined,
+      "gracePeriodRequiredDescription": undefined,
       "iconName": "phone_number_1",
       "includeData": true,
       "includeImmutableData": false,
@@ -523,6 +776,8 @@ Array [
       "ctaLabel": "oie.verify.authenticator.button.text",
       "dataSe": "phone_number",
       "description": "216XXXXX43",
+      "gracePeriodExpiry": undefined,
+      "gracePeriodRequiredDescription": undefined,
       "iconName": "phone_number_1",
       "includeData": true,
       "includeImmutableData": false,
@@ -619,6 +874,8 @@ Array [
       "ctaLabel": "oie.verify.authenticator.button.text",
       "dataSe": "phone_number",
       "description": "216XXXXX43",
+      "gracePeriodExpiry": undefined,
+      "gracePeriodRequiredDescription": undefined,
       "iconName": "phone_number_1",
       "includeData": true,
       "includeImmutableData": false,
