@@ -1,0 +1,116 @@
+{
+    "version": "1.0.0",
+    "stateHandle": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
+    "expiresAt": "2024-07-31T22:56:22.000Z",
+    "intent": "LOGIN",
+    "remediation": {
+        "type": "array",
+        "value": [
+            {
+                "rel": [
+                    "create-form"
+                ],
+                "name": "device-assurance-grace-period",
+                "href": "http://localhost:3000/idp/idx/skip",
+                "method": "POST",
+                "produces": "application/ion+json; okta-version=1.0.0",
+                "value": [
+                    {
+                        "name": "stateHandle",
+                        "required": true,
+                        "value": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
+                        "visible": false,
+                        "mutable": false
+                    }
+                ],
+                "accepts": "application/json; okta-version=1.0.0"
+            }
+        ]
+    },
+    "messages": {
+        "type": "array",
+        "value": [
+            {
+              "message": "Your device doesn't meet the security requirements. Fix the issue by 09/05/2024, 12:00 AM UTC to prevent lockout.",
+              "i18n": {
+                  "key": "idx.device_assurance.grace_period.warning.title.due_by_date",
+                  "params": [
+                    "2024-09-05T00:00:00.000Z"
+                  ]
+              },
+              "class": "WARNING"
+            },
+            {
+              "links": [
+                {"url": "https://okta.com/android-upgrade-os"}
+              ],
+              "message": "Update to Android 100",
+              "i18n": {
+                "key": "idx.error.code.access_denied.device_assurance.remediation.android.upgrade_os_version",
+                "params": ["100"]
+              },
+              "class": "ERROR"
+            },
+            {
+                "message": "Install the Android Device Policy app on this device",
+                "i18n": {
+                  "key": "idx.error.code.access_denied.device_assurance.remediation.android.zero.trust.android_device_policy_app_required"
+                },
+                "deviceRemediation": {
+                  "type": "object",
+                  "value": {
+                    "name": "device-assurance-android-device-policy-app-required",
+                    "action": "install-android-device-policy",
+                    "remediationType": "LOOPBACK",
+                    "platform": "ANDROID",
+                    "domain": "https://randomOrgId.authenticatorlocaldev.com",
+                    "ports": [ "6511", "6512", "2000", "6513" ],
+                    "probeTimeoutMillis": 10,
+                    "fallback": {
+                      "type": "APP_LINK",
+                      "href": "okta-verify.html"
+                    }
+                  }
+                },
+                "class": "ERROR"
+              },
+            {
+              "links": [
+                {"url": "https://okta.com/help"}
+              ],
+              "message": "For more information, follow the instructions on the help page or contact your administrator for help",
+              "i18n": {
+                "key": "idx.error.code.access_denied.device_assurance.remediation.additional_help_default"
+              },
+              "class": "ERROR"
+            }
+        ]
+    },
+    "cancel": {
+        "rel": [
+            "create-form"
+        ],
+        "name": "cancel",
+        "href": "http://localhost:3000/idp/idx/cancel",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+            {
+                "name": "stateHandle",
+                "required": true,
+                "value": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
+                "visible": false,
+                "mutable": false
+            }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+    },
+    "app": {
+        "type": "object",
+        "value": {
+            "name": "okta_enduser",
+            "label": "Okta Dashboard",
+            "id": "0oa95jo1PTrdxHjaZ0g4"
+        }
+    }
+  }
