@@ -100,6 +100,8 @@ export const usePolling = (
       // TODO: Revert to use action once this fix is completed OKTA-512706
       const newTransaction = await authClient?.idx.proceed({
         stateHandle: stateToken && idxTransaction?.context?.stateHandle,
+        // Required to prevent auth-js from clearing sessionStorage and breaking interaction code flow
+        exchangeCodeForTokens: false,
         ...payload,
       });
 

@@ -101,6 +101,15 @@ export const useInteractionCodeFlow = (
     // Operating in "relying-party" mode. The widget owns this transaction.
     // Complete the transaction client-side and call success/resolve promise
     if (!transactionMeta) {
+      if (transaction.status === IdxStatus.SUCCESS) {
+        // auth-js have already exchanged code for tokens and cleared storage
+        onSuccess?.({
+          status: IdxStatus.SUCCESS,
+          tokens: transaction.tokens,
+        });
+        setFormBag(undefined);
+        return;
+      }
       throw new Error('Could not load transaction data from storage');
     }
 
