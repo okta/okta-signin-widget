@@ -14,6 +14,7 @@ import { Input } from '@okta/okta-auth-js';
 import { IdxAuthenticator, IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
 import { AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP, AUTHENTICATOR_KEY, IDX_STEP } from 'src/constants';
 import { ButtonType } from 'src/types';
+import TimeUtil from 'util/TimeUtil';
 
 import {
   getAppAuthenticatorMethodButtonElements,
@@ -803,7 +804,7 @@ describe('Select Authenticator Utility Tests', () => {
     });
 
     it('Correctly displays options for grace periods', () => {
-      const mockDate = jest.spyOn(Date.prototype, 'toLocaleTimeString').mockReturnValue('09/27/2035, 06:00 PM EDT');
+      const mockDate = jest.spyOn(TimeUtil, 'formatDateToDeviceAssuranceGracePeriodExpiryLocaleString').mockReturnValue('09/27/2035, 06:00 PM EDT');
       const authenticatorEnrollments: IdxAuthenticator[] = [];
       const options: IdxOption[] = [
         {
