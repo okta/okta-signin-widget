@@ -28,7 +28,7 @@ const factorSelectButtonSelector = userVariables.gen3
 const factorUsageTextSelector = userVariables.gen3
   ? `${factorListRowSelector} [data-se="authenticator-button-usage-text"]`
   : `${factorListRowSelector} .authenticator-usage-text`;
-const skipOptionalEnrollmentSelector = '.authenticator-list .skip-all';
+const skipOptionalEnrollmentSelector = '.authenticator-enroll-list-container .skip-all';
 const CUSTOM_SIGN_OUT_LINK_SELECTOR = userVariables.gen3 ? '[data-se="cancel"]' : '.auth-footer .js-cancel';
 const CUSTOM_OTP_BUTTON_SELECTOR = '.authenticator-list .authenticator-row:nth-child(12) .authenticator-button a';
 const IDENTIFIER_FIELD = 'identifier';
