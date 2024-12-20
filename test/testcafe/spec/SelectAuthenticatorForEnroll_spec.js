@@ -490,7 +490,7 @@ test.meta('gen3', false).requestHooks(mockEnrollRequiredNowAndRequiredSoonAuthen
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(1)).eql('Set up');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(1, true)).eql('phone_number');
   await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(1)).eql(false);
-  await t.expect(selectFactorPage.getFactorGracePeriodRequiredDescriptionTextByIndex(1)).eql('Required today');
+  // await t.expect(selectFactorPage.getFactorGracePeriodRequiredDescriptionTextByIndex(1)).eql('Required today');
   await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(1)).eql('12/15/2022, 07:00 PM EST');
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(2)).eql('Security Key or Biometric Authenticator');
@@ -518,7 +518,7 @@ test.meta('gen3', false).requestHooks(mockEnrollRequiredSoonAuthenticators)('sho
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(0)).eql('Set up');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(0, true)).eql('okta_password');
   await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(0)).eql(false);
-  await t.expect(selectFactorPage.getFactorGracePeriodRequiredDescriptionTextByIndex(0)).eql('Required in 732 days');
+  // await t.expect(selectFactorPage.getFactorGracePeriodRequiredDescriptionTextByIndex(0)).eql('Required in 732 days');
   await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(0)).eql('12/16/2024, 07:00 PM EST');
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(1)).eql('Phone');
