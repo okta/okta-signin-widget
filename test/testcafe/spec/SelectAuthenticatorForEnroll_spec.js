@@ -9,6 +9,8 @@ import FactorEnrollPhonePageObject from '../framework/page-objects/FactorEnrollP
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 
 import xhrSelectAuthenticators from '../../../playground/mocks/data/idp/idx/authenticator-enroll-select-authenticator';
+import xhrSelectRequiredNowAndRequiredSoonAuthenticators from '../../../playground/mocks/data/idp/idx/authenticator-enroll-grace-period.json';
+import xhrSelectRequiredSoonAuthenticators from '../../../playground/mocks/data/idp/idx/authenticator-enroll-grace-period-with-skip.json';
 import xhrSelectAuthenticatorsWithUsageInfo from '../../../playground/mocks/data/idp/idx/authenticator-enroll-select-authenticator-with-usage-info';
 import xhrSelectAuthenticatorsWithCustomApp from '../../../playground/mocks/data/idp/idx/authenticator-enroll-custom-app-push';
 import xhrAuthenticatorEnrollPassword from '../../../playground/mocks/data/idp/idx/authenticator-enroll-password';
@@ -51,6 +53,14 @@ const mockEnrollAuthenticatorWithUsageInfo = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrSelectAuthenticatorsWithUsageInfo);
 
+const mockEnrollRequiredNowAndRequiredSoonAuthenticators = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrSelectRequiredNowAndRequiredSoonAuthenticators);
+
+const mockEnrollRequiredSoonAuthenticators = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrSelectRequiredSoonAuthenticators);
+
 const mockOptionalAuthenticatorEnrollment = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrSelectAuthenticatorsWithSkip)
@@ -72,6 +82,12 @@ const mockEnrollAuthenticatorCustomOTP = RequestMock()
 const mockEnrollAuthenticatorWithCustomApp = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrSelectAuthenticatorsWithCustomApp);
+
+const mockTodayDate = `
+  Date.now = function () {
+    return new Date('December 15, 2022').getTime();
+  };
+  `;
 
 const requestLogger = RequestLogger(
   /idx\/introspect|\/credential\/enroll/,
@@ -435,3 +451,79 @@ test.requestHooks(mockEnrollAuthenticatorWithCustomApp)('should load select auth
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(4, true)).eql('webauthn');
   await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(4)).eql(false);
 });
+
+test.requestHooks(mockEnrollRequiredNowAndRequiredSoonAuthenticators)('should load select required now and required soon authenticator lists', async t => {
+  const selectFactorPage = await setup(t);
+  await checkA11y(t);
+  await t.expect(selectFactorPage.getFormTitle()).eql('Set up security methods');
+  await t.expect(selectFactorPage.getFormSubtitle()).eql(
+    'Security methods help protect your account by ensuring only you have access.');
+  await t.expect(selectFactorPage.getFactorsCount()).eql(3);
+
+  await t.expect(selectFactorPage.getAuthenticatorListTitleTextByIndex(0)).eql('Required now');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(0)).eql('Password');
+  await t.expect(selectFactorPage.getFactorIconSelectorByIndex(0)).contains('mfa-okta-password');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(0)).eql('Set up');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(0, true)).eql('okta_password');
+  await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(0)).eql(false);
+  await t.expect(await selectFactorPage.factorGracePeriodRequiredDescriptionExistsByIndex(0)).eql(false);
+  await t.expect(await selectFactorPage.factorGracePeriodExpiryExistsByIndex(0)).eql(false);
+
+  await t.expect(selectFactorPage.getAuthenticatorListTitleTextByIndex(1)).eql('Required soon');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(1)).eql('Phone');
+  await t.expect(selectFactorPage.getFactorIconSelectorByIndex(1)).contains('mfa-okta-phone');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(1)).eql('Set up');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(1, true)).eql('phone_number');
+  await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(1)).eql(false);
+  await t.expect(selectFactorPage.getFactorGracePeriodRequiredDescriptionTextByIndex(1)).eql('Required today');
+  await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(1)).eql('12/15/2022, 04:00 PM PST');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(2)).eql('Security Key or Biometric Authenticator');
+  await t.expect(selectFactorPage.getFactorIconSelectorByIndex(2)).contains('mfa-webauthn');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(2)).eql('Set up');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(2, true)).eql('webauthn');
+  await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(2)).eql(false);
+  await t.expect(selectFactorPage.getFactorGracePeriodRequiredDescriptionTextByIndex(2)).eql('Required in 1 day');
+  await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(2)).eql('12/16/2022, 04:00 PM PST');
+}).clientScripts({ content: mockTodayDate });
+
+
+test.requestHooks(mockEnrollRequiredSoonAuthenticators)('should load select optional required soon authenticator lists', async t => {
+  const selectFactorPage = await setup(t);
+  await checkA11y(t);
+  await t.expect(selectFactorPage.getFormTitle()).eql('Set up security methods');
+  await t.expect(selectFactorPage.getFormSubtitle()).eql(
+    'Security methods help protect your account by ensuring only you have access.');
+  await t.expect(selectFactorPage.getFactorsCount()).eql(3);
+
+  await t.expect(selectFactorPage.getAuthenticatorListTitleTextByIndex(0)).eql('Required soon');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(0)).eql('Password');
+  await t.expect(selectFactorPage.getFactorIconSelectorByIndex(0)).contains('mfa-okta-password');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(0)).eql('Set up');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(0, true)).eql('okta_password');
+  await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(0)).eql(false);
+  await t.expect(selectFactorPage.getFactorGracePeriodRequiredDescriptionTextByIndex(0)).eql('Required in 732 days');
+  await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(0)).eql('12/16/2024, 04:00 PM PST');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(1)).eql('Phone');
+  await t.expect(selectFactorPage.getFactorIconSelectorByIndex(1)).contains('mfa-okta-phone');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(1)).eql('Set up');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(1, true)).eql('phone_number');
+  await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(1)).eql(false);
+  await t.expect(selectFactorPage.getFactorGracePeriodRequiredDescriptionTextByIndex(1)).eql('Required today');
+  await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(1)).eql('12/15/2022, 04:00 PM PST');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(2)).eql('Security Key or Biometric Authenticator');
+  await t.expect(selectFactorPage.getFactorIconSelectorByIndex(2)).contains('mfa-webauthn');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(2)).eql('Set up');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(2, true)).eql('webauthn');
+  await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(2)).eql(false);
+  await t.expect(selectFactorPage.getFactorGracePeriodRequiredDescriptionTextByIndex(2)).eql('Required in 1 day');
+  await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(2)).eql('12/16/2022, 04:00 PM PST');
+
+  await t.expect(await selectFactorPage.skipButtonExists()).eql(true);
+}).clientScripts({ content: mockTodayDate });
+
