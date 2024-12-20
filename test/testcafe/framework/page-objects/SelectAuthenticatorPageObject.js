@@ -28,6 +28,9 @@ const factorSelectButtonSelector = userVariables.gen3
 const factorUsageTextSelector = userVariables.gen3
   ? `${factorListRowSelector} [data-se="authenticator-button-usage-text"]`
   : `${factorListRowSelector} .authenticator-usage-text`;
+const authenticatorGracePeriodRequiredDescriptionSelector = '.authenticator-grace-period-required-description';
+const authenticatorGracePeriodExpirySelector = '.authenticator-grace-period-expiry-date';
+const authenticatorListTitleSelector = '.authenticator-list .authenticator-list-title';
 const skipOptionalEnrollmentSelector = '.authenticator-enroll-list-container .skip-all';
 const CUSTOM_SIGN_OUT_LINK_SELECTOR = userVariables.gen3 ? '[data-se="cancel"]' : '.auth-footer .js-cancel';
 const CUSTOM_OTP_BUTTON_SELECTOR = '.authenticator-list .authenticator-row:nth-child(12) .authenticator-button a';
@@ -183,6 +186,33 @@ export default class SelectFactorPageObject extends BasePageObject {
 
   async factorUsageTextExistsByIndex(index) {
     const elCount = await this.getFactorUsageTextElementByIndex(index).count;
+    return elCount === 1;
+  }
+
+  getFactorGracePeriodRequiredDescriptionTextByIndex(index) {
+    return this.getFactorButtons().nth(index).find(authenticatorGracePeriodRequiredDescriptionSelector).textContent;
+  }
+
+  async factorGracePeriodRequiredDescriptionExistsByIndex(index) {
+    const elCount = await this.getFactorButtons().nth(index).find(authenticatorGracePeriodRequiredDescriptionSelector).count;
+    return elCount === 1;
+  }
+
+  getFactorGracePeriodExpiryTextByIndex(index) {
+    return this.getFactorButtons().nth(index).find(authenticatorGracePeriodExpirySelector).textContent;
+  }
+
+  async factorGracePeriodExpiryExistsByIndex(index) {
+    const elCount = await this.getFactorButtons().nth(index).find(authenticatorGracePeriodExpirySelector).count;
+    return elCount === 1;
+  }
+
+  getAuthenticatorListTitleTextByIndex(index) {
+    return this.form.getElement(authenticatorListTitleSelector).nth(index).textContent;
+  }
+
+  async skipButtonExists() {
+    const elCount = await this.form.getElement(skipOptionalEnrollmentSelector).count;
     return elCount === 1;
   }
 
