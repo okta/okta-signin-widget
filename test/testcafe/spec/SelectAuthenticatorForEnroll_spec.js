@@ -97,9 +97,21 @@ const requestLogger = RequestLogger(
   }
 );
 
+function getChromeClient(t) {
+  // Get internal Chrome DevTools client
+  const openedBrowsers = t.testRun.browserConnection.provider.plugin.openedBrowsers;
+  const openedBrowser = openedBrowsers[Object.keys(openedBrowsers)[0]];
+  const clients = openedBrowser.browserClient._clients;
+  const client = clients[Object.keys(clients)[0]].client;
+  return client;
+}
+
 fixture('Select Authenticator for enrollment Form');
 
 async function setup(t) {
+  const client = getChromeClient(t);
+  // need to set standard timezone across environments for grace period timezone check
+  client.Emulation.setTimezoneOverride({ timezoneId: 'America/New_York' });
   const selectFactorPageObject = new SelectFactorPageObject(t);
   await selectFactorPageObject.navigateToPage();
   await t.expect(selectFactorPageObject.formExists()).ok();
@@ -452,7 +464,8 @@ test.requestHooks(mockEnrollAuthenticatorWithCustomApp)('should load select auth
   await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(4)).eql(false);
 });
 
-test.requestHooks(mockEnrollRequiredNowAndRequiredSoonAuthenticators)('should load select required now and required soon authenticator lists', async t => {
+// re-enable with gen 3 changes
+test.meta('gen3', false).requestHooks(mockEnrollRequiredNowAndRequiredSoonAuthenticators)('should load select required now and required soon authenticator lists', async t => {
   const selectFactorPage = await setup(t);
   await checkA11y(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Set up security methods');
@@ -478,7 +491,7 @@ test.requestHooks(mockEnrollRequiredNowAndRequiredSoonAuthenticators)('should lo
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(1, true)).eql('phone_number');
   await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(1)).eql(false);
   await t.expect(selectFactorPage.getFactorGracePeriodRequiredDescriptionTextByIndex(1)).eql('Required today');
-  await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(1)).eql('12/15/2022, 04:00 PM PST');
+  await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(1)).eql('12/15/2022, 07:00 PM EST');
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(2)).eql('Security Key or Biometric Authenticator');
   await t.expect(selectFactorPage.getFactorIconSelectorByIndex(2)).contains('mfa-webauthn');
@@ -486,11 +499,11 @@ test.requestHooks(mockEnrollRequiredNowAndRequiredSoonAuthenticators)('should lo
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(2, true)).eql('webauthn');
   await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(2)).eql(false);
   await t.expect(selectFactorPage.getFactorGracePeriodRequiredDescriptionTextByIndex(2)).eql('Required in 1 day');
-  await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(2)).eql('12/16/2022, 04:00 PM PST');
+  await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(2)).eql('12/16/2022, 07:00 PM EST');
 }).clientScripts({ content: mockTodayDate });
 
-
-test.requestHooks(mockEnrollRequiredSoonAuthenticators)('should load select optional required soon authenticator lists', async t => {
+// re-enable with gen 3 changes
+test.meta('gen3', false).requestHooks(mockEnrollRequiredSoonAuthenticators)('should load select optional required soon authenticator lists', async t => {
   const selectFactorPage = await setup(t);
   await checkA11y(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Set up security methods');
@@ -506,7 +519,7 @@ test.requestHooks(mockEnrollRequiredSoonAuthenticators)('should load select opti
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(0, true)).eql('okta_password');
   await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(0)).eql(false);
   await t.expect(selectFactorPage.getFactorGracePeriodRequiredDescriptionTextByIndex(0)).eql('Required in 732 days');
-  await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(0)).eql('12/16/2024, 04:00 PM PST');
+  await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(0)).eql('12/16/2024, 07:00 PM EST');
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(1)).eql('Phone');
   await t.expect(selectFactorPage.getFactorIconSelectorByIndex(1)).contains('mfa-okta-phone');
@@ -514,7 +527,7 @@ test.requestHooks(mockEnrollRequiredSoonAuthenticators)('should load select opti
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(1, true)).eql('phone_number');
   await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(1)).eql(false);
   await t.expect(selectFactorPage.getFactorGracePeriodRequiredDescriptionTextByIndex(1)).eql('Required today');
-  await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(1)).eql('12/15/2022, 04:00 PM PST');
+  await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(1)).eql('12/15/2022, 07:00 PM EST');
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(2)).eql('Security Key or Biometric Authenticator');
   await t.expect(selectFactorPage.getFactorIconSelectorByIndex(2)).contains('mfa-webauthn');
@@ -522,7 +535,7 @@ test.requestHooks(mockEnrollRequiredSoonAuthenticators)('should load select opti
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(2, true)).eql('webauthn');
   await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(2)).eql(false);
   await t.expect(selectFactorPage.getFactorGracePeriodRequiredDescriptionTextByIndex(2)).eql('Required in 1 day');
-  await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(2)).eql('12/16/2022, 04:00 PM PST');
+  await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(2)).eql('12/16/2022, 07:00 PM EST');
 
   await t.expect(await selectFactorPage.skipButtonExists()).eql(true);
 }).clientScripts({ content: mockTodayDate });
