@@ -111,24 +111,6 @@
             "mutable": false
           }
         ]
-      },
-      {
-        "rel": [
-          "create-form"
-        ],
-        "name": "skip",
-        "href": "http://localhost:3000/idp/idx/skip",
-        "method": "POST",
-        "accepts": "application/json; okta-version=1.0.0",
-        "value": [
-          {
-            "name": "stateHandle",
-            "required": true,
-            "value": "02vWoN3BXxJ9oeJA05wdCO2sp1q-RimAkwgnN-6xaW",
-            "visible": false,
-            "mutable": false
-          }
-        ]
       }
     ]
   },
@@ -140,11 +122,7 @@
         "type": "password",
         "key": "okta_password",
         "id": "password-enroll-id-123",
-        "authenticatorsId": "autwa6eD9o02iBbtv0g3",
-        "gracePeriod": {
-          "id": "gpe4hiasrPJX4zwZY123",
-          "expiry": "1733444928"
-        }
+        "authenticatorsId": "autwa6eD9o02iBbtv0g3"
       },
       {
         "displayName": "Security Key or Biometric Authenticator (FIDO2)",
@@ -154,7 +132,7 @@
         "authenticatorId": "aidtheidkwh282hv8g3",
         "gracePeriod": {
           "id": "gpe4hiasrPJX4zwZY789",
-          "expiry": "1733444928"
+          "expiry": "2024-12-31T08:00:00.000Z"
         }
       },
       {
@@ -165,7 +143,7 @@
         "authenticatorId": "aid568g3mXgtID0X1SLH",
         "gracePeriod": {
           "id": "gpe4hiasrPJX4zwZY456",
-          "expiry": "1733444928"
+          "expiry": "2024-12-30T08:00:00.000Z"
         }
       }
     ]
@@ -173,8 +151,15 @@
   "user": {
     "type": "object",
     "value": {
-      "id": "00utjm1GstPjCF9Ad0g3",
-      "identifier": "testUser@okta.com"
+      "id": "I9bvFiq01cRFgbn",
+      "identifier": "testUser@okta.com",
+      "profile": {
+        "login": "foo@example.com",
+        "firstName": "Foo",
+        "lastName": "Bar",
+        "locale": "en-us",
+        "timeZone": "UTC"
+      }
     }
   },
   "cancel": {

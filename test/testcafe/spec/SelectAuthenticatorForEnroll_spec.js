@@ -85,7 +85,7 @@ const mockEnrollAuthenticatorWithCustomApp = RequestMock()
 
 const mockTodayDate = `
   Date.now = function () {
-    return new Date('December 15, 2022').getTime();
+    return new Date('December 15, 2022 07:00:00 AM EST').getTime();
   };
 
   Date.prototype.toLocaleString = function (locale, options) {
@@ -483,16 +483,16 @@ test.meta('gen3', false).requestHooks(mockEnrollRequiredNowAndRequiredSoonAuthen
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(1)).eql('Set up');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(1, true)).eql('phone_number');
   await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(1)).eql(false);
-  // await t.expect(selectFactorPage.getFactorGracePeriodRequiredDescriptionTextByIndex(1)).eql('Required today');
-  await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(1)).eql('12/15/2022, 07:00 PM EST');
+  await t.expect(selectFactorPage.getFactorGracePeriodRequiredDescriptionTextByIndex(1)).eql('Required today');
+  await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(1)).eql('12/16/2022, 12:00 AM EST');
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(2)).eql('Security Key or Biometric Authenticator');
   await t.expect(selectFactorPage.getFactorIconSelectorByIndex(2)).contains('mfa-webauthn');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(2)).eql('Set up');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(2, true)).eql('webauthn');
   await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(2)).eql(false);
-  // await t.expect(selectFactorPage.getFactorGracePeriodRequiredDescriptionTextByIndex(2)).eql('Required in 1 day');
-  await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(2)).eql('12/16/2022, 07:00 PM EST');
+  await t.expect(selectFactorPage.getFactorGracePeriodRequiredDescriptionTextByIndex(2)).eql('Required in 1 day');
+  await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(2)).eql('12/17/2022, 12:00 AM EST');
 }).clientScripts({ content: mockTodayDate });
 
 // re-enable with gen 3 changes
@@ -511,24 +511,24 @@ test.meta('gen3', false).requestHooks(mockEnrollRequiredSoonAuthenticators)('sho
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(0)).eql('Set up');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(0, true)).eql('okta_password');
   await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(0)).eql(false);
-  // await t.expect(selectFactorPage.getFactorGracePeriodRequiredDescriptionTextByIndex(0)).eql('Required in 732 days');
-  await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(0)).eql('12/16/2024, 07:00 PM EST');
+  await t.expect(selectFactorPage.getFactorGracePeriodRequiredDescriptionTextByIndex(0)).eql('Required in 732 days');
+  await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(0)).eql('12/17/2024, 12:00 AM EST');
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(1)).eql('Phone');
   await t.expect(selectFactorPage.getFactorIconSelectorByIndex(1)).contains('mfa-okta-phone');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(1)).eql('Set up');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(1, true)).eql('phone_number');
   await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(1)).eql(false);
-  // await t.expect(selectFactorPage.getFactorGracePeriodRequiredDescriptionTextByIndex(1)).eql('Required today');
-  await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(1)).eql('12/15/2022, 07:00 PM EST');
+  await t.expect(selectFactorPage.getFactorGracePeriodRequiredDescriptionTextByIndex(1)).eql('Required today');
+  await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(1)).eql('12/16/2022, 12:00 AM EST');
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(2)).eql('Security Key or Biometric Authenticator');
   await t.expect(selectFactorPage.getFactorIconSelectorByIndex(2)).contains('mfa-webauthn');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(2)).eql('Set up');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(2, true)).eql('webauthn');
   await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(2)).eql(false);
-  // await t.expect(selectFactorPage.getFactorGracePeriodRequiredDescriptionTextByIndex(2)).eql('Required in 1 day');
-  await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(2)).eql('12/16/2022, 07:00 PM EST');
+  await t.expect(selectFactorPage.getFactorGracePeriodRequiredDescriptionTextByIndex(2)).eql('Required in 1 day');
+  await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(2)).eql('12/17/2022, 12:00 AM EST');
 
   await t.expect(await selectFactorPage.skipButtonExists()).eql(true);
 }).clientScripts({ content: mockTodayDate });

@@ -94,8 +94,8 @@ const AuthenticatorRow = View.extend({
     const data = View.prototype.getTemplateData.apply(this, arguments);
 
     const currentTimestampMs = new Date(Date.now()).getTime();
-    const gracePeriodEpochTimestampMs = parseInt(this.model.get('relatesTo')?.gracePeriod?.expiry || 0) * 1000;
-    if (currentTimestampMs < gracePeriodEpochTimestampMs) {
+    const gracePeriodEpochTimestampMs = new Date(this.model.get('relatesTo')?.gracePeriod?.expiry).getTime();
+    if (!Number.isNaN(gracePeriodEpochTimestampMs) && currentTimestampMs < gracePeriodEpochTimestampMs) {
       const remainingGracePeriodDays = TimeUtil.calculateDaysBetweenEpochTimestamps(
         currentTimestampMs,
         gracePeriodEpochTimestampMs
