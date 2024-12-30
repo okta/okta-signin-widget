@@ -132,7 +132,7 @@
         "authenticatorId": "aidtheidkwh282hv8g3",
         "gracePeriod": {
           "id": "gpe4hiasrPJX4zwZY789",
-          "expiry": "1671235200"
+          "expiry": "2022-12-17T05:00:00.000Z"
         }
       },
       {
@@ -143,7 +143,7 @@
         "authenticatorId": "aid568g3mXgtID0X1SLH",
         "gracePeriod": {
           "id": "gpe4hiasrPJX4zwZY456",
-          "expiry": "1671148800"
+          "expiry": "2022-12-16T05:00:00.000Z"
         }
       }
     ]
