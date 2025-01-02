@@ -488,8 +488,8 @@ export const getIDVDisplayInfo = (
       privacyPolicy = 'https://incode.id/privacy';
       break;
     default:
-      termsOfUse = '';
-      privacyPolicy = '';
+      termsOfUse = undefined;
+      privacyPolicy = undefined;
       break;
   }
   return {
