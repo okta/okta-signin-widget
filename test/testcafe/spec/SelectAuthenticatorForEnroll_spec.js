@@ -83,7 +83,7 @@ const mockEnrollAuthenticatorWithCustomApp = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrSelectAuthenticatorsWithCustomApp);
 
-const mockTodayDate = `
+const mockDate = `
   Date.now = function () {
     return new Date('December 15, 2022 07:00:00 AM EST').getTime();
   };
@@ -92,7 +92,7 @@ const mockTodayDate = `
     options = {...options, timeZone: 'America/New_York'}
     return new Intl.DateTimeFormat(locale, options).format(this);
   };
-  `;
+`;
 
 const requestLogger = RequestLogger(
   /idx\/introspect|\/credential\/enroll/,
@@ -493,7 +493,9 @@ test.meta('gen3', false).requestHooks(mockEnrollRequiredNowAndRequiredSoonAuthen
   await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(2)).eql(false);
   await t.expect(selectFactorPage.getFactorGracePeriodRequiredDescriptionTextByIndex(2)).eql('Required in 1 day');
   await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(2)).eql('12/17/2022, 12:00 AM EST');
-}).clientScripts({ content: mockTodayDate });
+
+  await t.expect(await selectFactorPage.skipButtonExists()).eql(false);
+}).clientScripts({ content: mockDate });
 
 // re-enable with gen 3 changes
 test.meta('gen3', false).requestHooks(mockEnrollRequiredSoonAuthenticators)('should load select optional required soon authenticator lists', async t => {
@@ -531,5 +533,5 @@ test.meta('gen3', false).requestHooks(mockEnrollRequiredSoonAuthenticators)('sho
   await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(2)).eql('12/17/2022, 12:00 AM EST');
 
   await t.expect(await selectFactorPage.skipButtonExists()).eql(true);
-}).clientScripts({ content: mockTodayDate });
+}).clientScripts({ content: mockDate });
 

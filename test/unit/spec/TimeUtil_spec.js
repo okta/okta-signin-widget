@@ -159,7 +159,7 @@ describe('util/TimeUtil', function() {
       expect(TimeUtil.calculateDaysBetweenEpochTimestamps(epoch1, epoch2)).toEqual(6);
     });
 
-    it('returns null when less than a day', () => {
+    it('returns 0 when less than a day', () => {
       const epoch1 = 1741564800000; // March 10, 2025 00:00:00 GMT
       const epoch2 = 1741651199000; // March 10, 2025 23:59:59 GMT
       expect(TimeUtil.calculateDaysBetweenEpochTimestamps(epoch1, epoch2)).toBe(0);
