@@ -11,6 +11,7 @@
  */
 
 export * from './AppleStoreIcon';
+export * from './ClearIcon';
 export * from './CustomAppIcon';
 export * from './CustomOTPIcon';
 export * from './DuoIcon';
@@ -18,6 +19,7 @@ export * from './EmailIcon';
 export * from './GoogleOTPIcon';
 export * from './GoogleStoreIcon';
 export * from './IDPIcon';
+export * from './IncodeIcon';
 export * from './OktaVerifyIcon';
 export * from './OnPremMFAIcon';
 export * from './OSXStoreIcon';

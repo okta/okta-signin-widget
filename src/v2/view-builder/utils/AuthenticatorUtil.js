@@ -270,6 +270,16 @@ const getIDProofingData = function(idvName) {
       iconClassName: 'mfa-idv-persona',
     };
     break;
+  case ID_PROOFING_TYPE.IDV_CLEAR:
+    idProofingData = {
+      iconClassName: 'mfa-idv-clear',
+    };
+    break;
+  case ID_PROOFING_TYPE.IDV_INCODE:
+    idProofingData = {
+      iconClassName: 'mfa-idv-incode',
+    };
+    break;
   }
   return idProofingData;
 };

@@ -23,7 +23,7 @@ Object {
       Object {
         "contentType": "subtitle",
         "options": Object {
-          "content": "oie.idv.idp.description",
+          "content": "oie.idv.idp.desc",
         },
         "type": "Description",
       },
@@ -53,7 +53,7 @@ Object {
       Object {
         "contentType": "subtitle",
         "options": Object {
-          "content": "oie.idv.idp.description.termsOfUse",
+          "content": "oie.idv.idp.desc.termsOfUse",
           "variant": "subtitle1",
         },
         "type": "Description",
@@ -61,7 +61,7 @@ Object {
       Object {
         "contentType": "subtitle",
         "options": Object {
-          "content": "oie.idv.idp.description.agreement",
+          "content": "oie.idv.idp.desc.agreement",
           "variant": "subtitle1",
         },
         "type": "Description",

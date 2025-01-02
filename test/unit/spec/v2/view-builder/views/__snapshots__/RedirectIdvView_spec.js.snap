@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`v2/view-builder/views/idp/RedirectIdvView view renders content correctly for Redirect IDV page for Clear 1`] = `"https://www.clearme.com/member-terms"`;
+
+exports[`v2/view-builder/views/idp/RedirectIdvView view renders content correctly for Redirect IDV page for Clear 2`] = `"https://www.clearme.com/privacy-policy"`;
+
+exports[`v2/view-builder/views/idp/RedirectIdvView view renders content correctly for Redirect IDV page for Incode 1`] = `"https://incode.id/terms"`;
+
+exports[`v2/view-builder/views/idp/RedirectIdvView view renders content correctly for Redirect IDV page for Incode 2`] = `"https://incode.id/privacy"`;
+
+exports[`v2/view-builder/views/idp/RedirectIdvView view renders content correctly for Redirect IDV page for Persona 1`] = `"https://withpersona.com/legal/terms-of-use"`;
+
+exports[`v2/view-builder/views/idp/RedirectIdvView view renders content correctly for Redirect IDV page for Persona 2`] = `"https://withpersona.com/legal/privacy-policy"`;
