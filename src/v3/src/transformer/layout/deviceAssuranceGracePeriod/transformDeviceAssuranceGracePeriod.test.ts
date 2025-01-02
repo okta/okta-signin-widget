@@ -15,6 +15,7 @@ import { IDX_STEP } from 'src/constants';
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
   ButtonElement,
+  ButtonType,
   FormBag, InfoboxElement, TitleElement, WidgetProps,
 } from 'src/types';
 import { buildEndUserRemediationMessages } from 'src/util';
@@ -23,7 +24,7 @@ import { transformDeviceAssuranceGracePeriod } from './transformDeviceAssuranceG
 
 describe('transformDeviceAssuranceGracePeriod Tests', () => {
   const transaction: IdxTransaction = getStubTransactionWithNextStep(IDX_STEP.SKIP);
-  const widgetProps: WidgetProps = {};
+  const widgetProps: WidgetProps = {} as WidgetProps;
   const formBag: FormBag = getStubFormBag();
 
   beforeEach(() => {
@@ -80,6 +81,8 @@ describe('transformDeviceAssuranceGracePeriod Tests', () => {
       .toEqual(remediationMessages);
     expect((updatedFormBag.uischema.elements[2] as ButtonElement).label)
       .toEqual('idx.device_assurance.grace_period.continue_to_app');
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).options.type)
+      .toEqual(ButtonType.BUTTON);
     expect((updatedFormBag.uischema.elements[2] as ButtonElement).options.step)
       .toEqual(IDX_STEP.SKIP);
   });

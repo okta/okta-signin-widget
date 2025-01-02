@@ -11,69 +11,13 @@
  */
 
 import { IdxActionParams } from '@okta/okta-auth-js';
-import fetch from 'cross-fetch';
 import { FunctionComponent } from 'preact';
 import { useEffect } from 'preact/hooks';
 
 import Logger from '../../../../util/Logger';
 import { useWidgetContext } from '../../contexts';
 import { ActionParams, LoopbackProbeElement } from '../../types';
-import { isAndroid } from '../../util';
-
-type RequestOptions = {
-  url: string;
-  timeout: number;
-  method: 'GET' | 'POST';
-  data?: string;
-};
-
-/**
- * Temporary request client can be removed if this functionality is added
- * to auth-js library.
- * @see https://oktainc.atlassian.net/browse/OKTA-561852
- * @returns Promise<Response>
- */
-const makeRequest = async ({
-  url, timeout, method, data,
-}: RequestOptions) => {
-  // Modern browsers support AbortController, so use it
-  if (window?.AbortController) {
-    const controller = new AbortController();
-    const id = setTimeout(() => controller.abort(), timeout);
-
-    const response = await fetch(url, {
-      method,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      ...(typeof data === 'string' ? { body: data } : {}),
-      signal: controller.signal,
-    });
-
-    clearTimeout(id);
-
-    return response;
-  }
-
-  // IE11 does not support AbortController, so use an alternate
-  // timeout mechanism
-  const responsePromise = fetch(url, {
-    method,
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    ...(typeof data === 'string' ? { body: data } : {}),
-  });
-  const timeoutPromise = new Promise<Response>((_, reject) => {
-    setTimeout(() => {
-      const abortError = new Error('Aborted');
-      abortError.name = 'AbortError';
-      reject(abortError);
-    }, timeout);
-  });
-
-  return Promise.race([responsePromise, timeoutPromise]);
-};
+import { isAndroid, makeRequest } from '../../util';
 
 const LoopbackProbe: FunctionComponent<{ uischema: LoopbackProbeElement }> = ({
   uischema: {

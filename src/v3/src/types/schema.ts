@@ -64,9 +64,43 @@ export type WidgetMessage = Modify<IdxMessage, {
 
 export type ListStyleType = 'circle' | 'disc' | 'square' | 'decimal';
 
-export type WidgetMessageLink = {
-  label: string,
-  url: string,
+export type MessageLink = {
+  label: string;
+  url: string;
+};
+
+/**
+ * When URL is missing from object, link will be treated as a button link
+ * utilizing the onClick handler
+ */
+export type WidgetMessageLink<TIsLinkButton = boolean> = TIsLinkButton extends true
+  ? {
+    isLinkButton: TIsLinkButton;
+    label: MessageLink['label'];
+    onClick: () => void;
+    dataSe: string;
+  }
+  : {
+    isLinkButton: TIsLinkButton;
+    label: MessageLink['label'];
+    url: MessageLink['url'];
+  };
+
+export type DeviceRemediationType = 'LOOPBACK';
+export type DeviceRemediationFallBackType = 'MESSAGE' | 'APP_LINK';
+export type DeviceRemediation = {
+  name: string;
+  action: string;
+  remediationType: DeviceRemediationType;
+  platform: string;
+  domain: string;
+  ports: number[];
+  probeTimeoutMillis: number;
+  fallback: {
+    type: DeviceRemediationFallBackType;
+    href?: string;
+    message?: IdxMessage;
+  };
 };
 
 export type AutoCompleteValue = 'username'

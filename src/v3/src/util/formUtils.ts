@@ -27,15 +27,19 @@ import {
   ButtonElement,
   ButtonType,
   DescriptionElement,
+  DeviceRemediation,
   IWidgetContext,
   LaunchAuthenticatorButtonElement,
+  MessageLink,
   PhoneVerificationMethodType,
+  RequiredKeys,
   WidgetMessage,
   WidgetMessageLink,
   WidgetProps,
 } from '../types';
 import { idpIconMap } from './idpIconMap';
 import { loc } from './locUtil';
+import { probeLoopbackAndExecute } from './probeLoopbackAndExecute';
 
 export type PhoneVerificationStep = typeof IDX_STEP.CHALLENGE_AUTHENTICATOR
 | typeof IDX_STEP.AUTHENTICATOR_VERIFICATION_DATA;
@@ -299,6 +303,36 @@ export const getBiometricsErrorMessageElement = (
   };
 };
 
+const isLoopbackDeviceRemediation = (
+  deviceRemediation: DeviceRemediation | undefined,
+): deviceRemediation is RequiredKeys<DeviceRemediation, 'remediationType' | 'action'> => !!deviceRemediation
+  && deviceRemediation.remediationType === 'LOOPBACK' && !!deviceRemediation.action;
+
+const buildEnduserRemediationWidgetMessageLink = (
+  links: MessageLink[],
+  message: string,
+  deviceRemediation: DeviceRemediation | undefined,
+): WidgetMessageLink | undefined => {
+  if (links?.[0]?.url) {
+    return {
+      isLinkButton: false,
+      url: links[0].url,
+      label: message,
+    };
+  } else if (isLoopbackDeviceRemediation(deviceRemediation)) {
+    return {
+      isLinkButton: true,
+      label: message,
+      onClick: () => {
+        probeLoopbackAndExecute(deviceRemediation);
+      },
+      dataSe: deviceRemediation.action,
+    };
+  }
+  // this should not happen since we assert at least one of links/deviceRemediation will be set
+  return undefined;
+};
+
 export const buildEndUserRemediationMessages = (
   messages: IdxMessage[],
   languageCode?: LanguageCode,
@@ -316,8 +350,14 @@ export const buildEndUserRemediationMessages = (
   const resultMessageArray: WidgetMessage[] = [];
 
   messages.forEach((msg) => {
-    // @ts-expect-error OKTA-630508 links is missing from IdxMessage type
-    const { i18n: { key, params = [] }, links, message } = msg;
+    const {
+      i18n: { key, params = [] },
+      // @ts-expect-error OKTA-630508 links is missing from IdxMessage type
+      links,
+      // @ts-expect-error deviceRemediation is missing from IdxMessage type
+      deviceRemediation,
+      message,
+    } = msg;
 
     const widgetMsg = { listStyleType: 'disc' } as WidgetMessage;
     if (key === ACCESS_DENIED_TITLE_KEY || key === REMEDIATION_OPTION_INDEX_KEY) {
@@ -344,17 +384,22 @@ export const buildEndUserRemediationMessages = (
           $1: { element: 'a', attributes: { href: links[0].url, target: '_blank', rel: 'noopener noreferrer' } },
         },
       );
-    } else if (links && links[0] && links[0].url) {
+    } else if (links?.[0]?.url || deviceRemediation?.value) {
       // each link is inside an individual message
       // We find the last message which contains the option title key and insert the link into that message
       const lastIndex = resultMessageArray.length - 1;
       if (lastIndex < 0) {
         return;
       }
-      const linkObject: WidgetMessageLink = {
-        url: links[0].url,
-        label: message,
-      };
+      const linkObject = buildEnduserRemediationWidgetMessageLink(
+        links,
+        message,
+        deviceRemediation?.value,
+      );
+      if (linkObject === undefined) {
+        return;
+      }
+
       if (resultMessageArray[lastIndex].links) {
         resultMessageArray[lastIndex].links?.push(linkObject);
       } else {
@@ -476,9 +521,7 @@ export const buildPhoneVerificationSubtitleElement = (
   const phoneNumber = typeof idxAuthenticator?.profile?.phoneNumber !== 'undefined'
     ? idxAuthenticator?.profile?.phoneNumber as string
     : undefined;
-  // @ts-expect-error OKTA-661650 nickname missing from IdxAuthenticator type
   const nickname = typeof idxAuthenticator?.nickname !== 'undefined'
-    // @ts-expect-error OKTA-661650 nickname missing from IdxAuthenticator type
     ? idxAuthenticator?.nickname as string
     : undefined;
   const subtitleElement: DescriptionElement = {
