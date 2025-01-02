@@ -39,9 +39,9 @@ Object {
         "focus": true,
         "options": Object {
           "dataSe": "cancel",
-          "href": undefined,
           "isActionStep": true,
           "label": "goback",
+          "onClick": [Function],
           "step": "cancel",
         },
         "type": "Link",
@@ -52,7 +52,7 @@ Object {
 }
 `;
 
-exports[`Terminal Transaction Transformer Tests should add back to signin link for tooManyRequests message key when baseUrl not provided 1`] = `
+exports[`Terminal Transaction Transformer Tests should add back to signin link with click handler for rebootstrapping widget as fallback for embedded and Okta-hosted 1`] = `
 Object {
   "data": Object {},
   "dataSchema": Object {
@@ -65,9 +65,9 @@ Object {
         "focus": true,
         "options": Object {
           "dataSe": "cancel",
-          "href": "http://localhost:3000/",
           "isActionStep": true,
           "label": "goback",
+          "onClick": [Function],
           "step": "cancel",
         },
         "type": "Link",
@@ -111,9 +111,9 @@ Object {
         "focus": true,
         "options": Object {
           "dataSe": "cancel",
-          "href": undefined,
           "isActionStep": true,
           "label": "goback",
+          "onClick": [Function],
           "step": "cancel",
         },
         "type": "Link",
