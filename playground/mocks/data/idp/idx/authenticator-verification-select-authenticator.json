@@ -406,6 +406,28 @@
                    }
                 },
                 "relatesTo":"$.authenticatorEnrollments.value[16]"
+              },
+              {
+                "label": "NFC Authenticator",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "autx7fdyRt87txnAs0g3",
+                        "mutable": false
+                      },
+                      {
+                        "name": "enrollmentId",
+                        "required": true,
+                        "value": "paexaoLGpTBjbyhBF0g3",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticatorEnrollments.value[17]"
               }
             ]
           },
@@ -614,6 +636,12 @@
             "type":"push"
           }
         ]
+      },
+      {
+        "type": "security_key",
+        "key": "nfc",
+        "id": "aut11ceMaP0B0EzMI0g5",
+        "displayName": "NFC/PIN Authenticator"
       }
     ]
   },
