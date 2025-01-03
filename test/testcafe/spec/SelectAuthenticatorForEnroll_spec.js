@@ -458,7 +458,7 @@ test.requestHooks(mockEnrollAuthenticatorWithCustomApp)('should load select auth
 });
 
 // re-enable with gen 3 changes
-test.meta('gen3', false).requestHooks(mockEnrollRequiredNowAndRequiredSoonAuthenticators)('should load select required now and required soon authenticator lists', async t => {
+test.requestHooks(mockEnrollRequiredNowAndRequiredSoonAuthenticators)('should load select required now and required soon authenticator lists', async t => {
   const selectFactorPage = await setup(t);
   await checkA11y(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Set up security methods');
@@ -498,7 +498,7 @@ test.meta('gen3', false).requestHooks(mockEnrollRequiredNowAndRequiredSoonAuthen
 }).clientScripts({ content: mockDate });
 
 // re-enable with gen 3 changes
-test.meta('gen3', false).requestHooks(mockEnrollRequiredSoonAuthenticators)('should load select optional required soon authenticator lists', async t => {
+test.requestHooks(mockEnrollRequiredSoonAuthenticators)('should load select optional required soon authenticator lists', async t => {
   const selectFactorPage = await setup(t);
   await checkA11y(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Set up security methods');

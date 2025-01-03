@@ -376,9 +376,9 @@ const formatAuthenticatorOptions = (
         AUTHENTICATOR_KEY.PHONE,
       ];
 
-      // @ts-ignore ADD MESSAGE ABOUT ADDING GRACE PERIOD TO auth-js sdk
+      // @ts-ignore TODO: Add grace period fields to auth-js SDK
       const date = new Date(authenticator?.gracePeriod?.expiry);
-      const gracePeriodEpochTimestampMs = !Number.isNaN(date.getTime()) ? date.getTime() : 0; // jake test this with bad values
+      const gracePeriodEpochTimestampMs = !Number.isNaN(date.getTime()) ? date.getTime() : 0;
 
       // Calculate grace period info - refactor to new method
       // if (hasGracePeriods && authenticator?.gracePeriod?.expiry) {
@@ -545,7 +545,7 @@ export const getAuthenticatorVerifyButtonElements = (
 export const getAuthenticatorEnrollButtonElements = (
   authenticatorOptions: IdxOption[],
   step: string,
-  locale?: string, // this can probably be somewhere else
+  locale?: string,
   authenticatorEnrollments?: IdxAuthenticator[],
 ): AuthenticatorButtonElement[] => getAuthenticatorButtonElements(
   authenticatorOptions,

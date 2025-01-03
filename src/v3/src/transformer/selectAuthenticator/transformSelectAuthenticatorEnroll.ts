@@ -69,9 +69,9 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
   const authenticatorsWithGracePeriod : IdxOption[] = [];
   const authenticatorsDueNow : IdxOption[] = [];
   authenticator.options.forEach((option) => {
-    // @ts-ignore ADD MESSAGE ABOUT ADDING GRACE PERIOD TO auth-js sdk
+    // @ts-ignore TODO: Add grace period fields to auth-js SDK
     if (option.relatesTo?.gracePeriod?.expiry
-      // @ts-ignore ADD MESSAGE ABOUT ADDING GRACE PERIOD TO auth-js sdk
+      // @ts-ignore TODO: Add grace period fields to auth-js SDK
       && isGracePeriodStillActive(option.relatesTo?.gracePeriod?.expiry)) {
       authenticatorsWithGracePeriod.push(option);
     } else {
