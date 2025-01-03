@@ -1,6 +1,6 @@
 import { Collection, _, loc, createButton, InputOptions } from '@okta/courage';
 
-import AuthenticatorEnrollOptions from '../components/AuthenticatorEnrollOptions';
+import AuthenticatorEnrollOptionsContainer from '../components/AuthenticatorEnrollOptionsContainer';
 import AuthenticatorVerifyOptions from '../components/AuthenticatorVerifyOptions';
 import { getAuthenticatorDataForEnroll, getAuthenticatorDataForVerification } from '../utils/AuthenticatorUtil';
 import { AUTHENTICATOR_KEY, FORMS as RemediationForms } from '../../ion/RemediationConstants';
@@ -31,9 +31,10 @@ const createAuthenticatorEnrollSelectView = (opt) => {
       return Object.assign({}, opt, getAuthenticatorDataForEnroll(opt));
     });
   return {
-    View: AuthenticatorEnrollOptions,
+    View: AuthenticatorEnrollOptionsContainer,
     options: {
       name: opt.name,
+      optionItems: optionItems,
       collection: new Collection(optionItems),
     }
   };
