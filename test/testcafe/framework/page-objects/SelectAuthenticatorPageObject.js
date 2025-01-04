@@ -2,7 +2,6 @@ import { Selector, userVariables } from 'testcafe';
 import { within } from '@testing-library/testcafe';
 import BasePageObject from './BasePageObject';
 
-userVariables.gen3 = true
 const factorListRowSelector = userVariables.gen3 ? '[data-se="authenticator-button"]' : '.authenticator-list .authenticator-row';
 const factorLabelSelector = `${factorListRowSelector} .authenticator-label`;
 const factorDescriptionSelector = userVariables.gen3

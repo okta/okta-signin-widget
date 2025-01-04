@@ -117,7 +117,6 @@ const requestLogger = RequestLogger(
 fixture('Select Authenticator for enrollment Form');
 
 async function setup(t) {
-  userVariables.gen3 = true
   const selectFactorPageObject = new SelectFactorPageObject(t);
   await selectFactorPageObject.navigateToPage();
   await t.expect(selectFactorPageObject.formExists()).ok();
@@ -473,7 +472,6 @@ test.requestHooks(mockEnrollAuthenticatorWithCustomApp)('should load select auth
 // re-enable with gen 3 changes
 test.requestHooks(mockEnrollRequiredNowAndRequiredSoonAuthenticators)('should load select required now and required soon authenticator lists', async t => {
   const selectFactorPage = await setup(t);
-  userVariables.gen3 = true
   await checkA11y(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Set up security methods');
   await t.expect(selectFactorPage.getFormSubtitle()).eql(
