@@ -12,8 +12,6 @@
 
 import { NextStep } from '@okta/okta-auth-js';
 import { IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
-// eslint-disable-next-line import/no-unresolved
-import TimeUtil from 'util/TimeUtil';
 
 import {
   AuthenticatorButtonListElement,
@@ -108,7 +106,7 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
       content: loc('oie.setup.required.now', 'login'),
       level: 3,
       visualLevel: 6,
-      dataSe: 'authenticator-list-title'
+      dataSe: 'authenticator-list-title',
     },
   };
 
@@ -118,7 +116,7 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
       content: loc('oie.setup.required.soon', 'login'),
       level: 3,
       visualLevel: 6,
-      dataSe: 'authenticator-list-title'
+      dataSe: 'authenticator-list-title',
     },
   };
 
