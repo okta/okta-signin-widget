@@ -376,12 +376,9 @@ const formatAuthenticatorOptions = (
         AUTHENTICATOR_KEY.PHONE,
       ];
 
-      // @ts-ignore TODO: Add grace period fields to auth-js SDK
+      // @ts-ignore TODO: Add grace period fields to auth-js SDK https://oktainc.atlassian.net/browse/OKTA-848910
       const date = new Date(authenticator?.gracePeriod?.expiry);
       const gracePeriodEpochTimestampMs = !Number.isNaN(date.getTime()) ? date.getTime() : 0;
-
-      // Calculate grace period info - refactor to new method
-      // if (hasGracePeriods && authenticator?.gracePeriod?.expiry) {
       const currentTimestampMs = new Date().getTime();
 
       let remainingGracePeriodDays = 0;

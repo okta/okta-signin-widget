@@ -39,11 +39,7 @@ const getContentDescrAndParams = (brandName?: string): TitleElement['options'] =
 const isGracePeriodStillActive = (expiry: string): boolean => {
   const currentTimestampMs = new Date().getTime();
   const gracePeriod = new Date(expiry);
-  if (!Number.isNaN(gracePeriod.getTime()) && currentTimestampMs < gracePeriod.getTime()) {
-    return !!(TimeUtil
-      .calculateDaysBetweenEpochTimestamps(currentTimestampMs, gracePeriod.getTime()) > 0);
-  }
-  return false;
+  return !Number.isNaN(gracePeriod.getTime()) && currentTimestampMs < gracePeriod.getTime();
 };
 
 export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
@@ -69,9 +65,9 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
   const authenticatorsWithGracePeriod : IdxOption[] = [];
   const authenticatorsDueNow : IdxOption[] = [];
   authenticator.options.forEach((option) => {
-    // @ts-ignore TODO: Add grace period fields to auth-js SDK
+    // @ts-ignore TODO: Add grace period fields to auth-js SDK https://oktainc.atlassian.net/browse/OKTA-848910
     if (option.relatesTo?.gracePeriod?.expiry
-      // @ts-ignore TODO: Add grace period fields to auth-js SDK
+      // @ts-ignore TODO: Add grace period fields to auth-js SDK https://oktainc.atlassian.net/browse/OKTA-848910
       && isGracePeriodStillActive(option.relatesTo?.gracePeriod?.expiry)) {
       authenticatorsWithGracePeriod.push(option);
     } else {
@@ -112,6 +108,7 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
       content: loc('oie.setup.required.now', 'login'),
       level: 3,
       visualLevel: 6,
+      dataSe: 'authenticator-list-title'
     },
   };
 
@@ -121,6 +118,7 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
       content: loc('oie.setup.required.soon', 'login'),
       level: 3,
       visualLevel: 6,
+      dataSe: 'authenticator-list-title'
     },
   };
 

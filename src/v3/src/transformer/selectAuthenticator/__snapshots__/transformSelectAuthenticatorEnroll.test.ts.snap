@@ -94,6 +94,7 @@ Object {
       Object {
         "options": Object {
           "content": "oie.setup.required.soon",
+          "dataSe": "authenticator-list-title",
           "level": 3,
           "visualLevel": 6,
         },
@@ -165,6 +166,7 @@ Object {
       Object {
         "options": Object {
           "content": "oie.setup.required.now",
+          "dataSe": "authenticator-list-title",
           "level": 3,
           "visualLevel": 6,
         },
@@ -196,6 +198,7 @@ Object {
       Object {
         "options": Object {
           "content": "oie.setup.required.soon",
+          "dataSe": "authenticator-list-title",
           "level": 3,
           "visualLevel": 6,
         },

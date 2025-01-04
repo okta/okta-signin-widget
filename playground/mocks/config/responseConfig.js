@@ -19,7 +19,7 @@ const idx = {
   ],
 
   '/idp/idx/introspect': [
-    'identify',
+    // 'identify',
     // 'error-identify-multiple-errors',
     // 'authenticator-enroll-ov-qr-enable-biometrics',
     // 'authenticator-verification-okta-verify-push',
@@ -53,7 +53,7 @@ const idx = {
     // 'error-internal-server-error',
     // 'authenticator-enroll-security-question',
     // 'authenticator-enroll-select-authenticator',
-    'authenticator-enroll-select-authenticator-with-skip',
+    // 'authenticator-enroll-select-authenticator-with-skip',
     // 'authenticator-enroll-webauthn',
     // 'authenticator-verification-data-phone-sms-then-voice',
     // 'authenticator-verification-data-phone-voice-only',
@@ -113,8 +113,9 @@ const idx = {
     // 'ws1-device-integration-mobile-enrollment',
     // 'authenticator-verification-custom-app-push',
     // 'authenticator-enroll-custom-app-push',
-    // 'request-activation-email'
-    // 'authenticator-enroll-grace-period-with-skip'
+    // 'request-activation-email',
+    // 'authenticator-enroll-grace-period-with-skip',
+    // 'authenticator-enroll-grace-period',
   ],
   '/idp/idx/enroll': [
     'enroll-profile-new',
@@ -127,7 +128,7 @@ const idx = {
     // 'authenticator-enroll-security-question',
     // 'authenticator-enroll-google-authenticator',
     // 'authenticator-enroll-email-first-emailmagiclink-true',
-    'error-authenticator-enroll-phone-invalid-number',
+    // 'error-authenticator-enroll-phone-invalid-number',
   ],
   '/idp/idx/identify': [
     // 'authenticator-verification-data-ov-only-without-device-known',

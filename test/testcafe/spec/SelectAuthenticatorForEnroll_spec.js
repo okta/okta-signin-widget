@@ -84,6 +84,18 @@ const mockEnrollAuthenticatorWithCustomApp = RequestMock()
   .respond(xhrSelectAuthenticatorsWithCustomApp);
 
 const mockDate = `
+  const OriginalDate = Date;
+
+  globalThis.Date = function(...args) {
+    // If no arguments are provided, use a hardcoded default date
+    if (args.length === 0) {
+      return new OriginalDate('December 15, 2022 07:00:00 AM EST'); // hardcoded date
+    }
+    
+    // Otherwise, use the provided arguments (mimicking the default Date constructor)
+    return new OriginalDate(...args);
+  } ;
+
   Date.now = function () {
     return new Date('December 15, 2022 07:00:00 AM EST').getTime();
   };
@@ -105,6 +117,7 @@ const requestLogger = RequestLogger(
 fixture('Select Authenticator for enrollment Form');
 
 async function setup(t) {
+  userVariables.gen3 = true
   const selectFactorPageObject = new SelectFactorPageObject(t);
   await selectFactorPageObject.navigateToPage();
   await t.expect(selectFactorPageObject.formExists()).ok();
@@ -460,6 +473,7 @@ test.requestHooks(mockEnrollAuthenticatorWithCustomApp)('should load select auth
 // re-enable with gen 3 changes
 test.requestHooks(mockEnrollRequiredNowAndRequiredSoonAuthenticators)('should load select required now and required soon authenticator lists', async t => {
   const selectFactorPage = await setup(t);
+  userVariables.gen3 = true
   await checkA11y(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Set up security methods');
   await t.expect(selectFactorPage.getFormSubtitle()).eql(
@@ -497,7 +511,6 @@ test.requestHooks(mockEnrollRequiredNowAndRequiredSoonAuthenticators)('should lo
   await t.expect(await selectFactorPage.skipButtonExists()).eql(false);
 }).clientScripts({ content: mockDate });
 
-// re-enable with gen 3 changes
 test.requestHooks(mockEnrollRequiredSoonAuthenticators)('should load select optional required soon authenticator lists', async t => {
   const selectFactorPage = await setup(t);
   await checkA11y(t);

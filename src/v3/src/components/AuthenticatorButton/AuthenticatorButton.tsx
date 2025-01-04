@@ -203,6 +203,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
             >
               <Typography
                 paragraph
+                data-se='authenticator-grace-period-required-description'
                 sx={{
                   fontSize: tokens.TypographySizeSubordinate,
                   fontWeight: tokens.TypographyWeightBodyBold,
@@ -215,6 +216,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
               </Typography>
               <Typography
                 paragraph
+                data-se='authenticator-grace-period-expiry-date'
                 sx={{
                   fontSize: tokens.TypographySizeSubordinate,
                   fontWeight: tokens.TypographyWeightBody,
