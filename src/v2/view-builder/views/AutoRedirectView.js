@@ -16,7 +16,7 @@ const Body = BaseForm.extend({
     const user = this.options.appState.get('user');
 
     // OKTA-635926: add user gesture for ov enrollment on android
-    if (Util.isAndroidOVEnrollment()) {
+    if (Util.isAndroidOVEnrollment(this.options.appState.get('authentication'))) {
       titleString = loc('oie.success.text.signingIn.with.appName.android.ov.enrollment', 'login');
       return titleString;
     }
@@ -76,7 +76,7 @@ const Body = BaseForm.extend({
 
   render() {
     BaseForm.prototype.render.apply(this, arguments);
-    if (Util.isAndroidOVEnrollment()) {
+    if (Util.isAndroidOVEnrollment(this.options.appState.get('authentication'))) {
       const currentViewState = this.options.appState.getCurrentViewState();
       this.add(createButton({
         className: 'ul-button button button-wide button-primary hide-underline',

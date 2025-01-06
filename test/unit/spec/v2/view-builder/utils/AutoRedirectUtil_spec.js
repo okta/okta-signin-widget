@@ -17,7 +17,10 @@ describe('v2/view-builder/utils/AutoRedirectUtil', () => {
 
   it('Not Android OV Enrollment', ()=> {
     jest.spyOn(Util, 'isAndroidOVEnrollment').mockReturnValue(false);
-    expect(getHeader()).toBe(BaseHeader);
+    const beaconHeader = BaseHeader.extend({
+      HeaderBeacon: null
+    });
+    expect(getHeader().toString()).toBe(beaconHeader.toString());
   });
 
 });

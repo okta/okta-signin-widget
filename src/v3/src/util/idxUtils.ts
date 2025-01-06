@@ -140,7 +140,7 @@ export const buildAuthCoinProps = (
   }
 
   const { nextStep, messages } = transaction;
-  if (Util.isAndroidOVEnrollment()
+  if (Util.isAndroidOVEnrollment(transaction.context?.authentication?.value)
     && transaction.context.success?.name === IDX_STEP.SUCCESS_REDIRECT) {
     return { authenticatorKey: AUTHENTICATOR_KEY.OV };
   }
