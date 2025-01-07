@@ -169,6 +169,11 @@ exports[`v2/view-builder/components/AuthenticatorEnrollOptionsContainer renders 
       >
         Required soon
       </div>
+      <p
+        class="authenticator-list-subtitle"
+      >
+        When the deadline passes, you won’t be able to sign in until you complete setup.
+      </p>
       <div
         class="authenticator-row clearfix"
       >
@@ -527,6 +532,11 @@ exports[`v2/view-builder/components/AuthenticatorEnrollOptionsContainer renders 
       >
         Required soon
       </div>
+      <p
+        class="authenticator-list-subtitle"
+      >
+        When the deadline passes, you won’t be able to sign in until you complete setup.
+      </p>
       <div
         class="authenticator-row clearfix"
       >
