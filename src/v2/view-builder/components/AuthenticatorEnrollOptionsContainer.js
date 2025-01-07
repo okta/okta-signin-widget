@@ -52,6 +52,7 @@ export default View.extend({
         collection: new Collection(authenticatorsWithGracePeriod),
         optionItems: authenticatorsWithGracePeriod,
         listTitle: loc('oie.setup.required.soon', 'login'),
+        listSubtitle: loc('oie.setup.required.soon.description', 'login'),
       }));
     }
 

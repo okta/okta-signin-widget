@@ -86,6 +86,7 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
     expect(testContext.view.el).toMatchSnapshot();
     expect(testContext.view.$('.authenticator-list-title').length).toBe(1);
     expect(testContext.view.$('.authenticator-list-title').text()).toBe('Required now');
+    expect(testContext.view.$('.authenticator-list-subtitle').length).toBe(0);
     expect(testContext.view.$('.authenticator-row').length).toBe(2);
     expect(testContext.view.$('.authenticator-usage-text').length).toBe(2);
     expect(testContext.view.$('.authenticator-grace-period-text-container').length).toBe(0);
@@ -139,6 +140,7 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
     expect(testContext.view.el).toMatchSnapshot();
     expect(testContext.view.$('.authenticator-list-title').length).toBe(1);
     expect(testContext.view.$('.authenticator-list-title').text()).toBe('Required soon');
+    expect(testContext.view.$('.authenticator-list-subtitle').length).toBe(1);
     expect(testContext.view.$('.authenticator-row').length).toBe(2);
     expect(testContext.view.$('.authenticator-usage-text').length).toBe(0);
     expect(testContext.view.$('.authenticator-grace-period-text-container').length).toBe(2);
@@ -194,6 +196,7 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
     expect(testContext.view.$('.authenticator-list-title').length).toBe(2);
     expect(testContext.view.$('.authenticator-list-title')[0].textContent).toBe('Required now');
     expect(testContext.view.$('.authenticator-list-title')[1].textContent).toBe('Required soon');
+    expect(testContext.view.$('.authenticator-list-subtitle').length).toBe(1);
     expect(testContext.view.$('.authenticator-row').length).toBe(2);
     expect(testContext.view.$('.authenticator-usage-text').length).toBe(1);
     expect(testContext.view.$('.authenticator-grace-period-text-container').length).toBe(1);
@@ -239,6 +242,7 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
     expect(testContext.view.el).toMatchSnapshot();
     expect(testContext.view.$('.authenticator-list-title').length).toBe(1);
     expect(testContext.view.$('.authenticator-list-title')[0].textContent).toBe('Required now');
+    expect(testContext.view.$('.authenticator-list-subtitle').length).toBe(0);
     expect(testContext.view.$('.authenticator-row').length).toBe(2);
     expect(testContext.view.$('.authenticator-usage-text').length).toBe(2);
     expect(testContext.view.$('.authenticator-grace-period-text-container').length).toBe(0);
@@ -292,6 +296,7 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
     expect(testContext.view.el).toMatchSnapshot();
     expect(testContext.view.$('.authenticator-list-title').length).toBe(1);
     expect(testContext.view.$('.authenticator-list-title')[0].textContent).toBe('Required now');
+    expect(testContext.view.$('.authenticator-list-subtitle').length).toBe(0);
     expect(testContext.view.$('.authenticator-row').length).toBe(2);
     expect(testContext.view.$('.authenticator-usage-text').length).toBe(2);
     expect(testContext.view.$('.authenticator-grace-period-text-container').length).toBe(0);
@@ -337,6 +342,7 @@ describe('v2/view-builder/components/AuthenticatorEnrollOptionsContainer', funct
     expect(testContext.view.el).toMatchSnapshot();
     expect(testContext.view.$('.authenticator-list-title').length).toBe(1);
     expect(testContext.view.$('.authenticator-list-title')[0].textContent).toBe('Optional');
+    expect(testContext.view.$('.authenticator-list-subtitle').length).toBe(0);
     expect(testContext.view.$('.authenticator-row').length).toBe(2);
     expect(testContext.view.$('.authenticator-usage-text').length).toBe(2);
     expect(testContext.view.$('.authenticator-grace-period-text-container').length).toBe(0);

@@ -144,13 +144,23 @@ export default ListView.extend({
     this.hasOptionalFactors = this.options.appState.hasRemediationObject(RemediationForms.SKIP);
   },
 
-  template: hbs`<div class="list-content"> <div class="authenticator-list-title"> {{title}} </div> </div>`,
+  template: hbs`<div class="list-content">
+    <div class="authenticator-list-title">
+      {{title}}
+    </div>
+    {{#if subtitle}}
+      <p class="authenticator-list-subtitle">
+        {{subtitle}}
+      </p>
+    {{/if}}
+  </div>`,
 
   getTemplateData() {
     // presence of the skip remediation form tells us that the authenticators are all optional
     const title = this.hasOptionalFactors? loc('oie.setup.optional', 'login'):loc('oie.setup.required', 'login');
     return {
       title: this.options.listTitle || title,
+      subtitle: this.options.listSubtitle || null,
     };
   }
 
