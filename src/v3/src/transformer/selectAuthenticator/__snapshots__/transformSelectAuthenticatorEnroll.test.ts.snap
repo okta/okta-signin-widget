@@ -29,7 +29,7 @@ Object {
       },
       Object {
         "options": Object {
-          "content": "oie.setup.required",
+          "content": "oie.setup.optional",
           "level": 3,
           "visualLevel": 6,
         },
@@ -57,6 +57,14 @@ Object {
           "dataSe": "authenticator-enroll-list",
         },
         "type": "AuthenticatorButtonList",
+      },
+      Object {
+        "label": "oie.optional.authenticator.button.title",
+        "options": Object {
+          "step": "skip",
+          "type": "submit",
+        },
+        "type": "Button",
       },
     ],
     "type": "VerticalLayout",
