@@ -155,8 +155,8 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
 
   const skipButton: ButtonElement = {
     type: 'Button',
-    label: authenticatorListElementWithGracePeriod.length 
-      ? loc('oie.setup.remind.me.later', 'login') 
+    label: authenticatorListElementWithGracePeriod.length
+      ? loc('oie.setup.remind.me.later', 'login')
       : loc('oie.optional.authenticator.button.title', 'login'),
     options: {
       type: ButtonType.SUBMIT,
