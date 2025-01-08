@@ -330,32 +330,7 @@ const FactorFactor = BaseLoginModel.extend({
               };
             }
 
-            let innerPromise;
-            if (BrowserFeatures.isIOS()) {
-              let cancelRedundantPoll;
-              innerPromise = Q.race([
-                trans.poll(options),
-                (() => {
-                  const _deferred = Q.defer();
-                  cancelRedundantPoll = Util.callAfterTimeoutOrWindowRefocus(_deferred.resolve, 2000, true);
-                  return _deferred.promise.then(() => {
-                    if (!pollingHasStarted) {
-                      return trans.poll(options);
-                    }
-                    return Q.defer().promise;   // never resolve this promise
-                  });
-                })()
-              ])
-                .then(result => {
-                  cancelRedundantPoll();
-                  return result;
-                });
-            }
-            else {
-              innerPromise = trans.poll(options);
-            }
-
-            return innerPromise.then(function(trans) {
+            return trans.poll(options).then(function(trans) {
               self.options.appState.set('lastAuthResponse', trans.data);
               setTransaction(trans);
             });
