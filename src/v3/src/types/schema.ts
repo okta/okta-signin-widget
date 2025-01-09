@@ -385,6 +385,8 @@ export interface AuthenticatorButtonElement extends UISchemaElement {
     logoUri?: string;
     iconName?: string;
     iconDescr?: string;
+    gracePeriodExpiry?: string;
+    gracePeriodRequiredDescription?: string;
   };
 }
 

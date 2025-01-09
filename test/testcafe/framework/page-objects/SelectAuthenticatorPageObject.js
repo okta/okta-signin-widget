@@ -20,7 +20,7 @@ const factorSelectForVerificationButtonDiv = userVariables.gen3
   ? `${factorListRowSelector} > div:last-child`
   : `${factorListRowSelector} .authenticator-button`;
 const factorSelectForEnrollButtonDiv = userVariables.gen3
-  ? `${factorListRowSelector} [data-se="authenticator-button-content"] > div`
+  ? `${factorListRowSelector} [data-se="authenticator-button-content"] > div:last-child`
   : `${factorListRowSelector} .authenticator-button`;
 const factorSelectButtonSelector = userVariables.gen3
   ? `${factorListRowSelector} [data-se="cta-button-icon"]`
@@ -28,7 +28,18 @@ const factorSelectButtonSelector = userVariables.gen3
 const factorUsageTextSelector = userVariables.gen3
   ? `${factorListRowSelector} [data-se="authenticator-button-usage-text"]`
   : `${factorListRowSelector} .authenticator-usage-text`;
-const skipOptionalEnrollmentSelector = '.authenticator-list .skip-all';
+const authenticatorGracePeriodRequiredDescriptionSelector = userVariables.gen3
+  ? '[data-se="authenticator-grace-period-required-description"]'
+  : '.authenticator-grace-period-required-description';
+const authenticatorGracePeriodExpirySelector = userVariables.gen3
+  ? '[data-se="authenticator-grace-period-expiry-date"]'
+  : '.authenticator-grace-period-expiry-date';
+const authenticatorListTitleSelector = userVariables.gen3 
+  ? '[data-se="authenticator-list-title"]'
+  : '.authenticator-list .authenticator-list-title';
+const skipOptionalEnrollmentSelector = userVariables.gen3
+  ? '[data-se="save"]'
+  : '.authenticator-enroll-list-container .skip-all';
 const CUSTOM_SIGN_OUT_LINK_SELECTOR = userVariables.gen3 ? '[data-se="cancel"]' : '.auth-footer .js-cancel';
 const CUSTOM_OTP_BUTTON_SELECTOR = '.authenticator-list .authenticator-row:nth-child(12) .authenticator-button a';
 const IDENTIFIER_FIELD = 'identifier';
@@ -183,6 +194,33 @@ export default class SelectFactorPageObject extends BasePageObject {
 
   async factorUsageTextExistsByIndex(index) {
     const elCount = await this.getFactorUsageTextElementByIndex(index).count;
+    return elCount === 1;
+  }
+
+  getFactorGracePeriodRequiredDescriptionTextByIndex(index) {
+    return this.getFactorButtons().nth(index).find(authenticatorGracePeriodRequiredDescriptionSelector).textContent;
+  }
+
+  async factorGracePeriodRequiredDescriptionExistsByIndex(index) {
+    const elCount = await this.getFactorButtons().nth(index).find(authenticatorGracePeriodRequiredDescriptionSelector).count;
+    return elCount === 1;
+  }
+
+  getFactorGracePeriodExpiryTextByIndex(index) {
+    return this.getFactorButtons().nth(index).find(authenticatorGracePeriodExpirySelector).textContent;
+  }
+
+  async factorGracePeriodExpiryExistsByIndex(index) {
+    const elCount = await this.getFactorButtons().nth(index).find(authenticatorGracePeriodExpirySelector).count;
+    return elCount === 1;
+  }
+
+  getAuthenticatorListTitleTextByIndex(index) {
+    return this.form.getElement(authenticatorListTitleSelector).nth(index).textContent;
+  }
+
+  async skipButtonExists() {
+    const elCount = await this.form.getElement(skipOptionalEnrollmentSelector).count;
     return elCount === 1;
   }
 

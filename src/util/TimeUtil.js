@@ -102,14 +102,18 @@ export default {
    *
    * @param {Date} date The Date object for the grace period expiry
    * @param {LanguageCode} languageCode The user's language code / locale
+   * @param {RoundDownToNearestHour} boolean Whether to round down to nearest hour. Defaults to true
    * @return {string} The formatted `short-with-timezone` local string
    */
-  formatDateToDeviceAssuranceGracePeriodExpiryLocaleString: (date, languageCode) => {
+  formatDateToDeviceAssuranceGracePeriodExpiryLocaleString: (date, languageCode, roundDownToNearestHour = true) => {
     try {
     // Invalid Date objects will return NaN for valueOf()
       if (date && !isNaN(date.valueOf()) && languageCode !== null) {
-        // Round down the date to the nearest hour
-        date.setMinutes(0, 0, 0);
+        // eslint-disable-next-line max-depth
+        if (roundDownToNearestHour) {
+          // Round down the date to the nearest hour
+          date.setMinutes(0, 0, 0);
+        }
         return date.toLocaleString(languageCode, {
           year: 'numeric',
           month: '2-digit',
@@ -123,6 +127,32 @@ export default {
       }
     } catch (e) {
       // If `languageCode` isn't in a valid format `toLocaleString()` will throw a `RangeError`
+      return null;
+    }
+  },
+  
+  /**
+   * @method calculateDaysBetweenEpochTimestamps
+   * Calculate the number of days between two epoch milliseconds timestamps
+   * rounded down to the nearest day
+   *
+   * @param {Integer} epoch1 epoch timestamp in milliseconds as an integer
+   * @param {Integer} epoch2 epoch timestamp in milliseconds as an integer
+   * @return {Integer} The number of days between the two epoch timestamps
+   */
+  calculateDaysBetweenEpochTimestamps(epoch1, epoch2) {
+    try {
+      if (Number.isInteger(epoch1) && Number.isInteger(epoch2)) {
+        const diffInMs = Math.abs(epoch2 - epoch1);
+      
+        const msPerDay = 60 * 60 * 24 * 1000;
+        const days = Math.floor(diffInMs / msPerDay);
+    
+        return days;
+      } else {
+        return null;
+      }
+    } catch (e) {
       return null;
     }
   }
