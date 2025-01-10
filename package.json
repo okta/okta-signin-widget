@@ -2,7 +2,7 @@
   "private": true,
   "name": "@okta/okta-signin-widget",
   "description": "The Okta Sign-In Widget",
-  "version": "7.27.1",
+  "version": "7.27.2",
   "homepage": "https://github.com/okta/okta-signin-widget",
   "license": "Apache-2.0",
   "repository": {
@@ -237,7 +237,7 @@
     "webpack-dev-server": "^4.15.2"
   },
   "dependencies": {
-    "@okta/okta-auth-js": "^7.9.0",
+    "@okta/okta-auth-js": "^7.10.0",
     "@sindresorhus/to-milliseconds": "^1.0.0",
     "@types/backbone": "^1.4.15",
     "@types/eslint-scope": "^3.7.3",
