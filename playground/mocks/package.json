@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "private": "true",
   "main": "server.js",
-  "dependencies": {
+  "devDependencies": {
     "cors": "^2.8.5",
-    "express": "^4.21.1"
+    "express": "^4.21.2"
   }
 }
