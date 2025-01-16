@@ -77,7 +77,7 @@ const renderPlaygroundWidget = (options: WidgetOptions & { assertNoEnglishLeaks?
   }
 
   signIn.renderEl(
-    { el: '#okta-login-container' },
+    { el: '#signin-container' },
 
     function success(res) {
       // Password recovery flow

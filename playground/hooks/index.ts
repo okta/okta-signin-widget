@@ -17,7 +17,7 @@ export const customizeWidgetOptionsForHooks = (config: WidgetOptionsV3 = {}) => 
   //  To customize styling:
   //  1. Paste content of `hooks/css/customize.css` inside `<style nonce="{{nonceValue}}">`
   //  2. Paste the following line after `oktaSignIn.renderEl(...)`
-  document.querySelector('#okta-login-container').classList.add('siw-customized');
+  document.querySelector('#signin-container').classList.add('siw-customized');
 
   customizeWidgetOptionsForEnrollProfileForm(config);
 };
