@@ -561,7 +561,7 @@ test.requestHooks(mockEnrollRequiredSoonAuthenticators)('should load select opti
   await t.expect(await selectFactorPage.skipButtonExists()).eql(true);
 }).clientScripts({ content: mockDate });
 
-test.requestHooks(mockEnrollRequiredSoonAuthenticators)('should load grace period dates in formats based on user locale', async t => {
+test.requestHooks(mockEnrollRequiredSoonAuthenticators)('should load grace period dates in formats based on user locale ja', async t => {
   const selectFactorPage = await setup(t, { language: 'ja' });
   await checkA11y(t);
 
@@ -571,14 +571,17 @@ test.requestHooks(mockEnrollRequiredSoonAuthenticators)('should load grace perio
   await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(0)).eql('2024/12/17 00:00 GMT-5');
   await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(1)).eql('2022/12/16 00:00 GMT-5');
   await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(2)).eql('2022/12/17 00:00 GMT-5');
+}).clientScripts({ content: mockDate });
 
-  await rerenderWidget({ language: 'da' });
+test.requestHooks(mockEnrollRequiredSoonAuthenticators)('should load grace period dates in formats based on user locale cs', async t => {
+  const selectFactorPage = await setup(t, { language: 'cs' });
+  await checkA11y(t);
 
   await t.expect(selectFactorPage.getFactorsCount()).eql(3);
 
-  // timezone is still in EST, but date format should follow da (Denmark) locale where date is first and dots are used as separators
-  await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(0)).eql('17.12.2024, 00.00 GMT-5');
-  await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(1)).eql('16.12.2022, 00.00 GMT-5');
-  await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(2)).eql('17.12.2022, 00.00 GMT-5');
+  // timezone is still in EST, but date format should follow cs (Czech) locale where date is first and dots are used as separators
+  await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(0)).eql('17. 12. 2024 00:00 EST');
+  await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(1)).eql('16. 12. 2022 00:00 EST');
+  await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(2)).eql('17. 12. 2022 00:00 EST');
 }).clientScripts({ content: mockDate });
 
