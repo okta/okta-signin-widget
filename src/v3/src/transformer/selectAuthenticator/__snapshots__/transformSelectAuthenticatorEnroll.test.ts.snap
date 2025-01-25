@@ -29,7 +29,7 @@ Object {
       },
       Object {
         "options": Object {
-          "content": "oie.setup.optional",
+          "content": "oie.setup.optional.short",
           "level": 3,
           "visualLevel": 6,
         },
@@ -277,7 +277,7 @@ Object {
       },
       Object {
         "options": Object {
-          "content": "oie.setup.required",
+          "content": "oie.setup.required.now",
           "level": 3,
           "visualLevel": 6,
         },
@@ -341,7 +341,7 @@ Object {
       },
       Object {
         "options": Object {
-          "content": "oie.setup.optional",
+          "content": "oie.setup.optional.short",
           "level": 3,
           "visualLevel": 6,
         },
@@ -413,7 +413,7 @@ Object {
       },
       Object {
         "options": Object {
-          "content": "oie.setup.optional",
+          "content": "oie.setup.optional.short",
           "level": 3,
           "visualLevel": 6,
         },
@@ -485,7 +485,7 @@ Object {
       },
       Object {
         "options": Object {
-          "content": "oie.setup.required",
+          "content": "oie.setup.required.now",
           "level": 3,
           "visualLevel": 6,
         },
@@ -549,7 +549,7 @@ Object {
       },
       Object {
         "options": Object {
-          "content": "oie.setup.required",
+          "content": "oie.setup.required.now",
           "level": 3,
           "visualLevel": 6,
         },

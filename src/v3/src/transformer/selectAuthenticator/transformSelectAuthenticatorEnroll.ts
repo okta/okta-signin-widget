@@ -123,7 +123,7 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
   const headingNoGracePeriod: HeadingElement = {
     type: 'Heading',
     options: {
-      content: skipStep ? loc('oie.setup.optional', 'login') : loc('oie.setup.required', 'login'),
+      content: skipStep ? loc('oie.setup.optional.short', 'login') : loc('oie.setup.required.now', 'login'),
       level: 3,
       visualLevel: 6,
     },

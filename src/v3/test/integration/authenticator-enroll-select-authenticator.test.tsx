@@ -18,7 +18,7 @@ describe('authenticator-enroll-select-authenticator', () => {
   it('renders form', async () => {
     const { container, findByText } = await setup({ mockResponse });
     await findByText(/Set up security methods/);
-    await findByText(/Set up required/);
+    await findByText(/Required now/);
     expect(container).toMatchSnapshot();
   });
 

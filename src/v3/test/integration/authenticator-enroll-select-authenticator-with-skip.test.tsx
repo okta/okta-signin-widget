@@ -18,7 +18,7 @@ describe('authenticator-enroll-select-authenticator', () => {
   it('renders form', async () => {
     const { container, findByText } = await setup({ mockResponse });
     expect(await findByText(/Set up security methods/)).toBeInTheDocument();
-    expect(await findByText(/Set up optional/)).toBeInTheDocument();
+    expect(await findByText(/Optional/)).toBeInTheDocument();
     expect(container).toMatchSnapshot();
   });
 

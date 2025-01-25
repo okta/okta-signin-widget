@@ -126,7 +126,7 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
       .toBe('oie.select.authenticators.enroll.subtitle');
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
-      .toBe('oie.setup.optional');
+      .toBe('oie.setup.optional.short');
     expect(updatedFormBag.uischema.elements[3].type).toBe('AuthenticatorButtonList');
     expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonListElement)
       .options.buttons.length)).toBe(1);
@@ -160,7 +160,7 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
       .toBe('oie.select.authenticators.enroll.subtitle');
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
-      .toBe('oie.setup.required');
+      .toBe('oie.setup.required.now');
     expect(updatedFormBag.uischema.elements[3].type).toBe('AuthenticatorButtonList');
     expect((updatedFormBag.uischema.elements[3] as AuthenticatorButtonListElement)
       .options.buttons.length).toBe(1);
@@ -193,7 +193,7 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
       .toBe('oie.select.authenticators.enroll.subtitle.custom');
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
-      .toBe('oie.setup.optional');
+      .toBe('oie.setup.optional.short');
     expect(updatedFormBag.uischema.elements[3].type).toBe('AuthenticatorButtonList');
     expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonListElement)
       .options.dataSe)).toBe('authenticator-enroll-list');
@@ -376,7 +376,7 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
     expect(updatedFormBag.uischema.elements[1].options.content).toBe('oie.select.authenticators.enroll.subtitle');
     expect(updatedFormBag.uischema.elements[2].type).toBe('Heading');
     // @ts-ignore TODO: Add grace period fields to auth-js SDK https://oktainc.atlassian.net/browse/OKTA-848910
-    expect(updatedFormBag.uischema.elements[2].options.content).toBe('oie.setup.required');
+    expect(updatedFormBag.uischema.elements[2].options.content).toBe('oie.setup.required.now');
     expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonListElement)
       .options.dataSe)).toBe('authenticator-enroll-list');
     expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonListElement)
@@ -431,7 +431,7 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
     expect(updatedFormBag.uischema.elements[1].options.content).toBe('oie.select.authenticators.enroll.subtitle');
     expect(updatedFormBag.uischema.elements[2].type).toBe('Heading');
     // @ts-ignore TODO: Add grace period fields to auth-js SDK https://oktainc.atlassian.net/browse/OKTA-848910
-    expect(updatedFormBag.uischema.elements[2].options.content).toBe('oie.setup.optional');
+    expect(updatedFormBag.uischema.elements[2].options.content).toBe('oie.setup.optional.short');
     expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonListElement)
       .options.dataSe)).toBe('authenticator-enroll-list');
     expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonListElement)
@@ -488,7 +488,7 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
     expect(updatedFormBag.uischema.elements[1].options.content).toBe('oie.select.authenticators.enroll.subtitle');
     expect(updatedFormBag.uischema.elements[2].type).toBe('Heading');
     // @ts-ignore TODO: Add grace period fields to auth-js SDK https://oktainc.atlassian.net/browse/OKTA-848910
-    expect(updatedFormBag.uischema.elements[2].options.content).toBe('oie.setup.required');
+    expect(updatedFormBag.uischema.elements[2].options.content).toBe('oie.setup.required.now');
     expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonListElement)
       .options.dataSe)).toBe('authenticator-enroll-list');
     expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonListElement)
