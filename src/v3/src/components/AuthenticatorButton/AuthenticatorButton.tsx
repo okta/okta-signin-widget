@@ -103,7 +103,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
     }
     return <ArrowRightIcon titleAccess={ctaLabel} />;
   }
-  
+
   function renderDescription() {
     if (gracePeriodRequiredDescription && gracePeriodExpiry) {
       return (
@@ -153,8 +153,9 @@ const AuthenticatorButton: UISchemaElementComponent<{
           </Box>
         </Box>
       );
-    } else if (description) {
-      return (
+    }
+    return description
+      && (
         <Typography
           paragraph
           id={`${iconName}-description`}
@@ -174,7 +175,6 @@ const AuthenticatorButton: UISchemaElementComponent<{
           {description}
         </Typography>
       );
-    }
   }
 
   return (
