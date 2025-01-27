@@ -21,6 +21,7 @@ import {
   HeadingElement,
   IdxStepTransformer,
   TitleElement,
+  UISchemaElement,
 } from '../../types';
 import { getLanguageCode, loc } from '../../util';
 import { getAuthenticatorEnrollButtonElements } from './utils';
@@ -35,9 +36,9 @@ const getContentDescrAndParams = (brandName?: string): TitleElement['options'] =
 };
 
 const isGracePeriodStillActive = (expiry: string): boolean => {
-  const currentTimestampMs = new Date().getTime();
-  const gracePeriod = new Date(expiry);
-  return !Number.isNaN(gracePeriod.getTime()) && currentTimestampMs < gracePeriod.getTime();
+  const currentTimestampMs = Date.now();
+  const gracePeriodTimestampMs = new Date(expiry).getTime();
+  return !Number.isNaN(gracePeriodTimestampMs) && currentTimestampMs < gracePeriodTimestampMs;
 };
 
 export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
@@ -166,35 +167,32 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
 
   // 3 situations - required soon + required now, all required soon, all required now
   // when grace periods are past required and should be treated as normal required
+  const elements: UISchemaElement[] = [title, description];
   if (authenticatorListElementDueNow.length && authenticatorListElementWithGracePeriod.length) {
-    uischema.elements = [
-      title,
-      description,
+    elements.push(
       headingRequiredNow,
       ...authenticatorListElementDueNow,
       headingRequiredSoon,
       descriptionGracePeriod,
       ...authenticatorListElementWithGracePeriod,
-      ...(skipStep ? [skipButton] : []),
-    ];
+    );
   } else if (authenticatorListElementWithGracePeriod.length) {
-    uischema.elements = [
-      title,
-      description,
+    elements.push(
       headingRequiredSoon,
       descriptionGracePeriod,
       ...authenticatorListElementWithGracePeriod,
-      ...(skipStep ? [skipButton] : []),
-    ];
+    );
   } else {
-    uischema.elements = [
-      title,
-      description,
+    elements.push(
       headingNoGracePeriod,
       ...authenticatorListElementDueNow,
-      ...(skipStep ? [skipButton] : []),
-    ];
+    );
   }
+  if (skipStep) {
+    elements.push(skipButton);
+  }
+
+  uischema.elements = elements;
 
   return formBag;
 };

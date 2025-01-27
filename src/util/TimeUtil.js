@@ -1,6 +1,8 @@
 import toMilliseconds from '@sindresorhus/to-milliseconds';
 import parseMs from 'parse-ms';
 
+const MS_PER_DAY = 60 * 60 * 24 * 1000;
+
 const MOMENT_UNIT = {
   MILLISECOND: 'milliseconds',
   SECOND: 'seconds',
@@ -132,7 +134,7 @@ export default {
   },
   
   /**
-   * @method calculateDaysBetweenEpochTimestamps
+   * @method calculateDaysBetween
    * Calculate the number of days between two epoch milliseconds timestamps
    * rounded down to the nearest day
    *
@@ -140,20 +142,18 @@ export default {
    * @param {Integer} epoch2 epoch timestamp in milliseconds as an integer
    * @return {Integer} The number of days between the two epoch timestamps
    */
-  calculateDaysBetweenEpochTimestamps(epoch1, epoch2) {
+  calculateDaysBetween(epoch1, epoch2) {
     try {
       if (Number.isInteger(epoch1) && Number.isInteger(epoch2)) {
         const diffInMs = Math.abs(epoch2 - epoch1);
       
-        const msPerDay = 60 * 60 * 24 * 1000;
-        const days = Math.floor(diffInMs / msPerDay);
+        const days = Math.floor(diffInMs / MS_PER_DAY);
     
         return days;
-      } else {
-        return null;
       }
     } catch (e) {
-      return null;
+      // continue even with error
     }
+    return null;
   }
 };

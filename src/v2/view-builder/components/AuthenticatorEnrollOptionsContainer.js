@@ -25,7 +25,7 @@ export default View.extend({
 
     this.options.optionItems.forEach((authenticator) => {
       if (authenticator.relatesTo?.gracePeriod?.expiry
-        && new Date(authenticator.relatesTo?.gracePeriod?.expiry).getTime() > (new Date(Date.now()).getTime())) {
+        && new Date(authenticator.relatesTo?.gracePeriod?.expiry).getTime() > Date.now()) {
         authenticatorsWithGracePeriod.push(authenticator);
       } else {
         authenticators.push(authenticator);
