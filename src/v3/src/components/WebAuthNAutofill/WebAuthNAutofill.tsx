@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { useEffect } from 'preact/hooks';
 import { isEmpty } from 'lodash';
+import { useEffect } from 'preact/hooks';
 
 import {
   ABORT_REASON_CLEANUP,
