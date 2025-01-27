@@ -79,7 +79,7 @@ describe('WebAuthNAutofill', () => {
     });
   });
 
-  it.each([ABORT_REASON_CLEANUP, ABORT_REASON_WEBAUTHN_AUTOFILLUI_STEP_NOT_FOUND])('should not call the setMessage method for ignored error "%s"', async (err) => {
+  it.each([ABORT_REASON_CLEANUP, ABORT_REASON_WEBAUTHN_AUTOFILLUI_STEP_NOT_FOUND, {}])('should not call the setMessage method for ignored error "%s"', async (err) => {
     const setMessageSpy = jest.spyOn(mockWidgetContext, 'setMessage');
     const uischemaWithError: WebAuthNAutofillElement = {
       ...uischema,
