@@ -794,13 +794,13 @@ describe('Select Authenticator Utility Tests', () => {
       expect(authenticatorOptionValues[0].options.key).toBe(AUTHENTICATOR_KEY.PASSWORD);
       expect(authenticatorOptionValues[0].label).toBe('Password');
       expect(authenticatorOptionValues[0].options.ctaLabel).toBe('oie.enroll.authenticator.button.text');
-      expect(authenticatorOptionValues[0].options.gracePeriodExpiry).toBeUndefined();
-      expect(authenticatorOptionValues[0].options.gracePeriodRequiredDescription).toBeUndefined();
+      expect(authenticatorOptionValues[0].options.gracePeriodExpiry).toBeNull();
+      expect(authenticatorOptionValues[0].options.gracePeriodRequiredDescription).toBeNull();
       expect(authenticatorOptionValues[1].options.key).toBe(AUTHENTICATOR_KEY.EMAIL);
       expect(authenticatorOptionValues[1].label).toBe('Email');
       expect(authenticatorOptionValues[1].options.ctaLabel).toBe('enroll.choices.setup.another');
-      expect(authenticatorOptionValues[1].options.gracePeriodExpiry).toBeUndefined();
-      expect(authenticatorOptionValues[1].options.gracePeriodRequiredDescription).toBeUndefined();
+      expect(authenticatorOptionValues[1].options.gracePeriodExpiry).toBeNull();
+      expect(authenticatorOptionValues[1].options.gracePeriodRequiredDescription).toBeNull();
     });
 
     it('Correctly displays options for grace periods', () => {
@@ -875,14 +875,14 @@ describe('Select Authenticator Utility Tests', () => {
       expect(authenticatorOptionValues[1].options.key).toBe(AUTHENTICATOR_KEY.EMAIL);
       expect(authenticatorOptionValues[1].label).toBe('Email');
       expect(authenticatorOptionValues[1].options.ctaLabel).toBe('oie.enroll.authenticator.button.text');
-      expect(authenticatorOptionValues[1].options.gracePeriodExpiry).toBeUndefined();
-      expect(authenticatorOptionValues[1].options.gracePeriodRequiredDescription).toBeUndefined();
+      expect(authenticatorOptionValues[1].options.gracePeriodExpiry).toBeNull();
+      expect(authenticatorOptionValues[1].options.gracePeriodRequiredDescription).toBeNull();
 
       expect(authenticatorOptionValues[2].options.key).toBe(AUTHENTICATOR_KEY.PHONE);
       expect(authenticatorOptionValues[2].label).toBe('Phone');
       expect(authenticatorOptionValues[2].options.ctaLabel).toBe('oie.enroll.authenticator.button.text');
-      expect(authenticatorOptionValues[2].options.gracePeriodExpiry).toBeUndefined();
-      expect(authenticatorOptionValues[2].options.gracePeriodRequiredDescription).toBeUndefined();
+      expect(authenticatorOptionValues[2].options.gracePeriodExpiry).toBeNull();
+      expect(authenticatorOptionValues[2].options.gracePeriodRequiredDescription).toBeNull();
       mockDate.mockRestore();
     });
 
@@ -918,8 +918,8 @@ describe('Select Authenticator Utility Tests', () => {
       expect(authenticatorOptionValues[0].options.key).toBe(AUTHENTICATOR_KEY.PASSWORD);
       expect(authenticatorOptionValues[0].label).toBe('Password');
       expect(authenticatorOptionValues[0].options.ctaLabel).toBe('oie.enroll.authenticator.button.text');
-      expect(authenticatorOptionValues[0].options.gracePeriodExpiry).toBeUndefined();
-      expect(authenticatorOptionValues[0].options.gracePeriodRequiredDescription).toBeUndefined();
+      expect(authenticatorOptionValues[0].options.gracePeriodExpiry).toBeNull();
+      expect(authenticatorOptionValues[0].options.gracePeriodRequiredDescription).toBeNull();
     });
 
     it('Does not display options when grace period date badly formatted', () => {
@@ -954,8 +954,8 @@ describe('Select Authenticator Utility Tests', () => {
       expect(authenticatorOptionValues[0].options.key).toBe(AUTHENTICATOR_KEY.PASSWORD);
       expect(authenticatorOptionValues[0].label).toBe('Password');
       expect(authenticatorOptionValues[0].options.ctaLabel).toBe('oie.enroll.authenticator.button.text');
-      expect(authenticatorOptionValues[0].options.gracePeriodExpiry).toBeUndefined();
-      expect(authenticatorOptionValues[0].options.gracePeriodRequiredDescription).toBeUndefined();
+      expect(authenticatorOptionValues[0].options.gracePeriodExpiry).toBeNull();
+      expect(authenticatorOptionValues[0].options.gracePeriodRequiredDescription).toBeNull();
     });
   });
 });

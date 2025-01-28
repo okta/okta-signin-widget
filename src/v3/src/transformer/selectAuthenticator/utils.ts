@@ -396,9 +396,9 @@ const formatAuthenticatorOptions = (
           new Date(gracePeriodEpochTimestampMs),
           locale,
           false,
-        )) || undefined;
+        )) || null;
       const gracePeriodRequiredDescription = (gracePeriodExpiry
-        && getGracePeriodRequiredDescription(remainingGracePeriodDays)) || undefined;
+        && getGracePeriodRequiredDescription(remainingGracePeriodDays)) || null;
 
       return {
         type: 'AuthenticatorButton',
