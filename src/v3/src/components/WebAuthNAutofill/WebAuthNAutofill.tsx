@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { isEmpty } from 'lodash';
 import { useEffect } from 'preact/hooks';
 
 import {
@@ -48,6 +49,10 @@ const WebAuthNAutofill: UISchemaElementComponent<{
           });
         }
       } catch (err) {
+        // iOS Safari throws an empty object when the user does not use passkey autofill
+        if (isEmpty(err)) {
+          return;
+        }
         // if we explicitly abort with the following messages
         // there is no need to display any kind of error to the user as
         // this is expected behavior
