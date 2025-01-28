@@ -38,7 +38,7 @@ const getContentDescrAndParams = (brandName?: string): TitleElement['options'] =
 const isGracePeriodStillActive = (expiry: string): boolean => {
   const currentTimestampMs = Date.now();
   const gracePeriodTimestampMs = new Date(expiry).getTime();
-  return !Number.isNaN(gracePeriodTimestampMs) && currentTimestampMs < gracePeriodTimestampMs;
+  return !isNaN(gracePeriodTimestampMs) && currentTimestampMs < gracePeriodTimestampMs;
 };
 
 export const transformSelectAuthenticatorEnroll: IdxStepTransformer = ({
