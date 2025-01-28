@@ -74,6 +74,7 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
   let widgetProps: WidgetProps;
 
   beforeEach(() => {
+    jest.spyOn(Date, 'now').mockReturnValue(new Date('12/30/2024').getTime());
     formBag.uischema.elements = [];
     transaction.availableSteps = [];
     transaction.nextStep = {
