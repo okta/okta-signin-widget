@@ -46,6 +46,46 @@ const WidgetMessageContainer: FunctionComponent<{
     </Typography>
   ));
 
+  const getLinkElement = (link: WidgetMessageLink) => {
+    if (link.isLinkButton) {
+      return (
+        // @ts-expect-error error due to variant type applied, can be ignored
+        <MuiLink
+          component="button"
+          role="link"
+          onClick={(event: ClickEvent) => {
+            event.preventDefault();
+            link.onClick();
+          }}
+          // @ts-expect-error MUI variant type does not include monochrome but functions appropriately when set
+          variant={linkVariant}
+          sx={{
+            textAlign: 'start',
+            fontSize: tokens.TypographySizeBody,
+            verticalAlign: 'text-top',
+          }}
+          data-se={link.dataSe}
+        >
+          {link.label}
+        </MuiLink>
+      );
+    } if (link.url) {
+      return (
+        <Link
+          href={link.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          variant={linkVariant}
+        >
+          {link.label}
+        </Link>
+      );
+    }
+
+    // Custom error remediation allows admins to define a message without a URL
+    return link.label;
+  };
+
   const renderLinks = (links?: WidgetMessageLink[], listStyleType?: ListStyleType) => (links && (
     <List
       data-se="custom-links"
@@ -64,36 +104,7 @@ const WidgetMessageContainer: FunctionComponent<{
           }}
           key={link.label}
         >
-          {link.isLinkButton ? (
-            // @ts-expect-error error due to variant type applied, can be ignored
-            <MuiLink
-              component="button"
-              role="link"
-              onClick={(event: ClickEvent) => {
-                event.preventDefault();
-                link.onClick();
-              }}
-              // @ts-expect-error MUI variant type does not include monochrome but functions appropriately when set
-              variant={linkVariant}
-              sx={{
-                textAlign: 'start',
-                fontSize: tokens.TypographySizeBody,
-                verticalAlign: 'text-top',
-              }}
-              data-se={link.dataSe}
-            >
-              {link.label}
-            </MuiLink>
-          ) : (
-            <Link
-              href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              variant={linkVariant}
-            >
-              {link.label}
-            </Link>
-          )}
+          {getLinkElement(link)}
         </ListItem>
       ))}
     </List>

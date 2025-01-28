@@ -83,7 +83,7 @@ export type WidgetMessageLink<TIsLinkButton = boolean> = TIsLinkButton extends t
   : {
     isLinkButton: TIsLinkButton;
     label: MessageLink['label'];
-    url: MessageLink['url'];
+    url?: MessageLink['url'];
   };
 
 export type DeviceRemediationType = 'LOOPBACK';
