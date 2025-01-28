@@ -38,6 +38,8 @@ const getContentDescrAndParams = (brandName?: string): TitleElement['options'] =
 const isGracePeriodStillActive = (expiry: string): boolean => {
   const currentTimestampMs = Date.now();
   const gracePeriodTimestampMs = new Date(expiry).getTime();
+  // using isNaN as ie11 does not support Number.isNaN
+  // eslint-disable-next-line no-restricted-globals
   return !isNaN(gracePeriodTimestampMs) && currentTimestampMs < gracePeriodTimestampMs;
 };
 

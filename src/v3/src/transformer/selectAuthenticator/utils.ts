@@ -378,6 +378,8 @@ const formatAuthenticatorOptions = (
 
       // @ts-ignore TODO: Add grace period fields to auth-js SDK https://oktainc.atlassian.net/browse/OKTA-848910
       const dateMs = new Date(authenticator?.gracePeriod?.expiry).getTime();
+      // using isNaN as ie11 does not support Number.isNaN
+      // eslint-disable-next-line no-restricted-globals
       const gracePeriodEpochTimestampMs = isNaN(dateMs) ? 0 : dateMs;
       const currentTimestampMs = Date.now();
 
