@@ -484,7 +484,6 @@ test.requestHooks(mockEnrollAuthenticatorWithCustomApp)('should load select auth
   await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(4)).eql(false);
 });
 
-// re-enable with gen 3 changes
 test.requestHooks(mockEnrollRequiredNowAndRequiredSoonAuthenticators)('should load select required now and required soon authenticator lists', async t => {
   const selectFactorPage = await setup(t);
   await checkA11y(t);

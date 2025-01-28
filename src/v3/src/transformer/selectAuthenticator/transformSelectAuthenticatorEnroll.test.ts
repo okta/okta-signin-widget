@@ -221,7 +221,7 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
         value: 'okta_email',
         relatesTo: {
           gracePeriod: {
-            expiry: '2045-09-27 18:00:00.000.',
+            expiry: '2045-09-27T18:00:00.000Z',
           },
         },
       } as unknown as IdxOption,
@@ -230,7 +230,7 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
         value: 'okta_email',
         relatesTo: {
           gracePeriod: {
-            expiry: '2030-09-27 18:00:00.000.',
+            expiry: '2030-09-27T18:00:00.000Z',
           },
         },
       } as unknown as IdxOption,
@@ -286,7 +286,7 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
             value: 'okta_email',
             relatesTo: {
               gracePeriod: {
-                expiry: '2022-09-27 18:00:00.000.',
+                expiry: '2022-09-27T18:00:00.000Z',
               },
             },
           } as unknown as IdxOption,
@@ -295,7 +295,7 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
             value: 'okta_email',
             relatesTo: {
               gracePeriod: {
-                expiry: '2030-09-27 18:00:00.000.',
+                expiry: '2030-09-27T18:00:00.000Z',
               },
             },
           } as unknown as IdxOption,
@@ -391,14 +391,14 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
       {
         relatesTo: {
           gracePeriod: {
-            expiry: '2020-09-27 18:00:00.000.',
+            expiry: '2020-09-27T18:00:00.000Z',
           },
         },
       } as unknown as IdxOption,
       {
         relatesTo: {
           gracePeriod: {
-            expiry: '2020-9-27 18:00:00.000.',
+            expiry: '2020-09-27T18:00:00.000Z',
           },
         },
       } as unknown as IdxOption,
