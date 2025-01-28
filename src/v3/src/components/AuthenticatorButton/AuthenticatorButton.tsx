@@ -94,7 +94,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
     });
   };
 
-  function createCtaIcon() {
+  const createCtaIcon = () => {
     if (isAdditionalEnroll) {
       return <AddIcon titleAccess={ctaLabel} />;
     }
@@ -102,9 +102,9 @@ const AuthenticatorButton: UISchemaElementComponent<{
       return <ArrowLeftIcon titleAccess={ctaLabel} />;
     }
     return <ArrowRightIcon titleAccess={ctaLabel} />;
-  }
+  };
 
-  function renderDescription() {
+  const renderDescription = () => {
     if (gracePeriodRequiredDescription && gracePeriodExpiry) {
       return (
         <Box
@@ -153,9 +153,8 @@ const AuthenticatorButton: UISchemaElementComponent<{
           </Box>
         </Box>
       );
-    }
-    return description
-      && (
+    } else if (description) {
+      return (
         <Typography
           paragraph
           id={`${iconName}-description`}
@@ -175,7 +174,9 @@ const AuthenticatorButton: UISchemaElementComponent<{
           {description}
         </Typography>
       );
-  }
+    }
+    return null;
+  };
 
   return (
     <Box
