@@ -144,7 +144,7 @@ export default {
    */
   calculateDaysBetween(epoch1, epoch2) {
     try {
-      if (!isNaN(epoch1) && !isNaN(epoch2)) {
+      if (typeof epoch1 === 'number' && typeof epoch2 === 'number') {
         const diffInMs = Math.abs(epoch2 - epoch1);
       
         const days = Math.floor(diffInMs / MS_PER_DAY);
