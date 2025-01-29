@@ -1,0 +1,89 @@
+{
+  "stateHandle": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
+  "version": "1.0.0",
+  "expiresAt": "2020-05-18T20:42:23.000Z",
+
+  "intent": "LOGIN",
+  "messages": {
+    "type": "array",
+    "value": [
+      {
+        "message": "Your device doesn't meet the security requirements",
+        "i18n": {
+          "key": "idx.error.code.access_denied.device_assurance.remediation.title"
+        },
+        "class": "ERROR"
+      },
+      {
+        "message": "To sign in, pick an option and make the updates. Then, access the app again.",
+        "i18n": {
+          "key": "idx.error.code.access_denied.device_assurance.remediation.explanation_multiple_rules"
+        },
+        "class": "ERROR"
+      },
+      {
+        "message": "Option 1:",
+        "i18n": {
+          "key": "idx.error.code.access_denied.device_assurance.remediation.option_index",
+          "params": ["1"]
+        },
+        "class": "ERROR"
+      },
+      {
+        "links": [
+          {"url": "https://myremediationurl.com/docs"}
+        ],
+        "message": "It's our company policy that you upgrade your Android OS",
+        "i18n": {
+          "key": "device.assurance.custom.remediation.idx.error.code.access_denied.device_assurance.remediation.android.upgrade_os_version"
+        },
+        "class": "ERROR"
+      },
+      {
+        "links": [
+          {"url": "https://okta.com/android-biometric-lock"}
+        ],
+        "message": "Enable lock screen and biometrics",
+        "i18n": {
+          "key": "idx.error.code.access_denied.device_assurance.remediation.android.use_biometric_lock_screen"
+        },
+        "class": "ERROR"
+      },
+      {
+        "message": "Option 2:",
+        "i18n": {
+          "key": "idx.error.code.access_denied.device_assurance.remediation.option_index",
+          "params": ["2"]
+        },
+        "class": "ERROR"
+      },
+      {
+        "links": [
+          {"url": "https://okta.com/android-lock-screen"}
+        ],
+        "message": "Enable lock screen",
+        "i18n": {
+          "key": "idx.error.code.access_denied.device_assurance.remediation.android.use_lock_screen"
+        },
+        "class": "ERROR"
+      },
+      {
+        "message": "It's our company policy that your Android device cannot be rooted",
+        "i18n": {
+          "key": "device.assurance.custom.remediation.ANDROID.Okta:DeviceAssurance.Jailbreak"
+        },
+        "class": "ERROR"
+      },
+      {
+        "links": [
+          {"url": "https://okta.com/help"}
+        ],
+        "message": "For more information, follow the instructions on the help page or contact your administrator for help",
+        "i18n": {
+          "key": "idx.error.code.access_denied.device_assurance.remediation.additional_help_default"
+        },
+        "class": "ERROR"
+      }
+    ]
+  }
+}

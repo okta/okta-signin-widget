@@ -312,6 +312,7 @@ const buildEnduserRemediationWidgetMessageLink = (
   links: MessageLink[],
   message: string,
   deviceRemediation: DeviceRemediation | undefined,
+  isLinklessMessage: boolean,
 ): WidgetMessageLink | undefined => {
   if (links?.[0]?.url) {
     return {
@@ -328,7 +329,15 @@ const buildEnduserRemediationWidgetMessageLink = (
       },
       dataSe: deviceRemediation.action,
     };
+  } else if (isLinklessMessage) {
+    // Custom error remediation allows admins to define a message without a URL
+    return {
+      isLinkButton: false,
+      url: undefined,
+      label: message,
+    };
   }
+
   // this should not happen since we assert at least one of links/deviceRemediation will be set
   return undefined;
 };
@@ -347,6 +356,7 @@ export const buildEndUserRemediationMessages = (
   const REMEDIATION_OPTION_INDEX_KEY = `${ACCESS_DENIED_I18N_KEY_PREFIX}.option_index`;
   const ACCESS_DENIED_TITLE_KEY = `${ACCESS_DENIED_I18N_KEY_PREFIX}.title`;
   const GRACE_PERIOD_TITLE_KEY = `${GRACE_PERIOD_I18N_KEY_PREFIX}.title`;
+  const DEVICE_ASSURANCE_CUSTOM_REMEDIATION_I18N_KEY_PREFIX = 'device.assurance.custom.remediation.';
   const resultMessageArray: WidgetMessage[] = [];
 
   messages.forEach((msg) => {
@@ -360,6 +370,9 @@ export const buildEndUserRemediationMessages = (
     } = msg;
 
     const widgetMsg = { listStyleType: 'disc' } as WidgetMessage;
+    const isLinklessMessage = key.startsWith(DEVICE_ASSURANCE_CUSTOM_REMEDIATION_I18N_KEY_PREFIX)
+      && !Array.isArray(links);
+
     if (key === ACCESS_DENIED_TITLE_KEY || key === REMEDIATION_OPTION_INDEX_KEY) {
       // `messages` will already be localized at this point by transactionMessageTransformer, so we can directly set
       // widgetMsg.title equal to `message`
@@ -384,7 +397,7 @@ export const buildEndUserRemediationMessages = (
           $1: { element: 'a', attributes: { href: links[0].url, target: '_blank', rel: 'noopener noreferrer' } },
         },
       );
-    } else if (links?.[0]?.url || deviceRemediation?.value) {
+    } else if (links?.[0]?.url || deviceRemediation?.value || isLinklessMessage) {
       // each link is inside an individual message
       // We find the last message which contains the option title key and insert the link into that message
       const lastIndex = resultMessageArray.length - 1;
@@ -395,6 +408,7 @@ export const buildEndUserRemediationMessages = (
         links,
         message,
         deviceRemediation?.value,
+        isLinklessMessage,
       );
       if (linkObject === undefined) {
         return;
