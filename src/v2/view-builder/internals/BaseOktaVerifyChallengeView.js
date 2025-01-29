@@ -1,6 +1,6 @@
 /* eslint max-statements: [2, 22] */
 import { $ } from '@okta/courage';
-import { BaseFormWithPolling } from '../internals';
+import BaseFormWithPolling from '../internals/BaseFormWithPolling';
 import Logger from 'util/Logger';
 import {
   AUTHENTICATOR_CANCEL_ACTION,
