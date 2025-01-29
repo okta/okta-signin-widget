@@ -256,9 +256,9 @@ To embed the Sign-in Widget via CDN, include links to the JS and CSS files in yo
 
 ```html
 <!-- Latest CDN production Javascript and CSS -->
-<script src="https://global.oktacdn.com/okta-signin-widget/7.27.3/js/okta-sign-in.min.js" type="text/javascript" integrity="sha384-HkTvsen5LB+Dz1e3d1W0MUbtT3EosKtssDx7SLw8yxXK3vIkKjiaT1j+oAJClfc2" crossorigin="anonymous"></script>
+<script src="https://global.oktacdn.com/okta-signin-widget/7.28.0/js/okta-sign-in.min.js" type="text/javascript" integrity="sha384-Mwp+pgrhUfdpt1Eb2hQFbuo/yT58Nx97OgSmBSB47XRAoV+N5n1QHYdJzydxbAHC" crossorigin="anonymous"></script>
 
-<link href="https://global.oktacdn.com/okta-signin-widget/7.27.3/css/okta-sign-in.min.css" type="text/css" rel="stylesheet" integrity="sha384-EP+bLgs/1lgPpgiooihtXIaWRObg9E6WzegmmFcj54sEnISxo9rYjjI25Yl7tWWU" crossorigin="anonymous" />
+<link href="https://global.oktacdn.com/okta-signin-widget/7.28.0/css/okta-sign-in.min.css" type="text/css" rel="stylesheet" integrity="sha384-hWO50VHqC4T+PDnYbDX7gbW0OrGRVz4SfhJd9fnSqNeeTu86P4T71K1r3zw9QvgH" crossorigin="anonymous" />
 ```
 
 **NOTE:** The CDN URLs contain a version number. This number should be the same for both the Javascript and the CSS file and match a version on the [releases page](https://github.com/okta/okta-signin-widget/releases). We recommend using the latest widget version.
@@ -268,13 +268,13 @@ When using one of the bundles without the polyfill included, you may want to con
 
 ```html
 <!-- Polyfill for older browsers -->
-<script src="https://global.oktacdn.com/okta-signin-widget/7.27.3/js/okta-sign-in.polyfill.min.js" type="text/javascript" integrity="sha384-QzQIGwIndxyBdHRQOwgjmQJLod6LRMchZyYg7RUq8FUECvPvreqauQhkU2FF9EGD" crossorigin="anonymous"></script>
+<script src="https://global.oktacdn.com/okta-signin-widget/7.28.0/js/okta-sign-in.polyfill.min.js" type="text/javascript" integrity="sha384-QzQIGwIndxyBdHRQOwgjmQJLod6LRMchZyYg7RUq8FUECvPvreqauQhkU2FF9EGD" crossorigin="anonymous"></script>
 
 <!-- Widget bundle for Okta Identity Engine -->
-<script src="https://global.oktacdn.com/okta-signin-widget/7.27.3/js/okta-sign-in.oie.min.js" type="text/javascript" integrity="sha384-a83MMowaugHX+at0Bo8G3Bq412YXrb9FSiSnPZ4Zo/kW7ORPJ5N7PxsxfLSKKWLb" crossorigin="anonymous"></script>
+<script src="https://global.oktacdn.com/okta-signin-widget/7.28.0/js/okta-sign-in.oie.min.js" type="text/javascript" integrity="sha384-McsmoBSFOBJNLdMLnVbYV8qvm0sdnzchsk9IAFL3fDM48AFlNQdae1Tje05fQkOp" crossorigin="anonymous"></script>
 
 <!-- CSS for widget -->
-<link href="https://global.oktacdn.com/okta-signin-widget/7.27.3/css/okta-sign-in.min.css" type="text/css" rel="stylesheet" integrity="sha384-EP+bLgs/1lgPpgiooihtXIaWRObg9E6WzegmmFcj54sEnISxo9rYjjI25Yl7tWWU" crossorigin="anonymous" />
+<link href="https://global.oktacdn.com/okta-signin-widget/7.28.0/css/okta-sign-in.min.css" type="text/css" rel="stylesheet" integrity="sha384-hWO50VHqC4T+PDnYbDX7gbW0OrGRVz4SfhJd9fnSqNeeTu86P4T71K1r3zw9QvgH" crossorigin="anonymous" />
 ```
 
 
