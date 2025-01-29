@@ -118,6 +118,12 @@ describe('util/TimeUtil', function() {
       expect(TimeUtil.formatDateToDeviceAssuranceGracePeriodExpiryLocaleString(new Date('2024-09-05T23:59:59Z'), languageCode)).toEqual('09/05/2024, 11:00 PM UTC');
     });
 
+    it('doesnt round down to the nearest hour when param false', () => {
+      expect(TimeUtil.formatDateToDeviceAssuranceGracePeriodExpiryLocaleString(new Date('2024-09-05T00:01:01Z'), languageCode, false)).toEqual('09/05/2024, 12:01 AM UTC');
+      expect(TimeUtil.formatDateToDeviceAssuranceGracePeriodExpiryLocaleString(new Date('2024-09-05T00:30:30Z'), languageCode, false)).toEqual('09/05/2024, 12:30 AM UTC');
+      expect(TimeUtil.formatDateToDeviceAssuranceGracePeriodExpiryLocaleString(new Date('2024-09-05T23:59:59Z'), languageCode, false)).toEqual('09/05/2024, 11:59 PM UTC');
+    });
+
 
     it('falls back to default locale if `languageCode` is undefined', () => {
       expect(TimeUtil.formatDateToDeviceAssuranceGracePeriodExpiryLocaleString(new Date('2024-09-05T00:00:00Z'), undefined)).toEqual('09/05/2024, 12:00 AM UTC');
@@ -143,6 +149,44 @@ describe('util/TimeUtil', function() {
       expect(TimeUtil.formatDateToDeviceAssuranceGracePeriodExpiryLocaleString(new Date('2024-09-05T00:00:00Z'), '')).toBeNull();
       expect(TimeUtil.formatDateToDeviceAssuranceGracePeriodExpiryLocaleString(new Date('2024-09-05T00:00:00Z'), 'a')).toBeNull();
       expect(TimeUtil.formatDateToDeviceAssuranceGracePeriodExpiryLocaleString(new Date('2024-09-05T00:00:00Z'), 'aaaaaaaaa')).toBeNull();
+    });
+  });
+
+  describe('calculateDaysBetween', () => {
+    it('calculates days between epoch timestamps', () => {
+      const epoch1 = 1741564800000; // March 10, 2025 00:00:00 GMT
+      const epoch2 = 1742169600000; // March 17, 2025 00:00:00 GMT
+      expect(TimeUtil.calculateDaysBetween(epoch1, epoch2)).toEqual(7);
+    });
+
+    it('rounds down to the nearest day', () => {
+      const epoch1 = 1741564800000; // March 10, 2025 00:00:00 GMT
+      const epoch2 = 1742169599000; // March 16, 2025 23:59:59 GMT
+      expect(TimeUtil.calculateDaysBetween(epoch1, epoch2)).toEqual(6);
+    });
+
+    it('returns 0 when less than a day', () => {
+      const epoch1 = 1741564800000; // March 10, 2025 00:00:00 GMT
+      const epoch2 = 1741651199000; // March 10, 2025 23:59:59 GMT
+      expect(TimeUtil.calculateDaysBetween(epoch1, epoch2)).toBe(0);
+    });
+
+    it('returns null when a param is undefined', () => {
+      const epoch1 = 1741564800000; // March 10, 2025 12:00 GMT
+      const epoch2 = undefined;
+      expect(TimeUtil.calculateDaysBetween(epoch1, epoch2)).toBeNull();
+    });
+
+    it('returns null when a param is null', () => {
+      const epoch1 = 1741564800000; // March 10, 2025 12:00 GMT
+      const epoch2 = null;
+      expect(TimeUtil.calculateDaysBetween(epoch1, epoch2)).toBeNull();
+    });
+
+    it('returns null when a param invalid', () => {
+      const epoch1 = 1741564800000; // March 10, 2025 12:00 GMT
+      const epoch2 = 'abc';
+      expect(TimeUtil.calculateDaysBetween(epoch1, epoch2)).toBeNull();
     });
   });
 });

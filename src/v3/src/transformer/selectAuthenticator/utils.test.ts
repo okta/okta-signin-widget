@@ -14,6 +14,7 @@ import { Input } from '@okta/okta-auth-js';
 import { IdxAuthenticator, IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
 import { AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP, AUTHENTICATOR_KEY, IDX_STEP } from 'src/constants';
 import { ButtonType } from 'src/types';
+import TimeUtil from 'util/TimeUtil';
 
 import {
   getAppAuthenticatorMethodButtonElements,
@@ -785,7 +786,7 @@ describe('Select Authenticator Utility Tests', () => {
       ];
 
       const authenticatorOptionValues = getAuthenticatorEnrollButtonElements(
-        options, stepName, authenticatorEnrollments,
+        options, stepName, 'en-us', authenticatorEnrollments,
       );
 
       expect(authenticatorOptionValues).toMatchSnapshot();
@@ -793,9 +794,168 @@ describe('Select Authenticator Utility Tests', () => {
       expect(authenticatorOptionValues[0].options.key).toBe(AUTHENTICATOR_KEY.PASSWORD);
       expect(authenticatorOptionValues[0].label).toBe('Password');
       expect(authenticatorOptionValues[0].options.ctaLabel).toBe('oie.enroll.authenticator.button.text');
+      expect(authenticatorOptionValues[0].options.gracePeriodExpiry).toBeNull();
+      expect(authenticatorOptionValues[0].options.gracePeriodRequiredDescription).toBeNull();
       expect(authenticatorOptionValues[1].options.key).toBe(AUTHENTICATOR_KEY.EMAIL);
       expect(authenticatorOptionValues[1].label).toBe('Email');
       expect(authenticatorOptionValues[1].options.ctaLabel).toBe('enroll.choices.setup.another');
+      expect(authenticatorOptionValues[1].options.gracePeriodExpiry).toBeNull();
+      expect(authenticatorOptionValues[1].options.gracePeriodRequiredDescription).toBeNull();
+    });
+
+    it('Correctly displays options for grace periods', () => {
+      const mockDate = jest.spyOn(TimeUtil, 'formatDateToDeviceAssuranceGracePeriodExpiryLocaleString').mockReturnValue('09/27/2035, 06:00 PM EDT');
+      const authenticatorEnrollments: IdxAuthenticator[] = [];
+      const options: IdxOption[] = [
+        {
+          label: 'Password',
+          value: [
+            { name: 'methodType', value: 'password' },
+            { name: 'id', value: '1234abc' },
+          ],
+          relatesTo: {
+            id: '',
+            type: 'password',
+            methods: [{ type: 'password' }],
+            displayName: 'Okta Password',
+            key: AUTHENTICATOR_KEY.PASSWORD,
+            gracePeriod: {
+              id: 'gpe4hiasrPJX4zwZY123',
+              expiry: '2035-09-27 18:00:00.000.',
+            },
+          },
+        },
+        {
+          label: 'Email',
+          value: [
+            { name: 'methodType', value: 'email' },
+            { name: 'id', value: '1235abc' },
+          ],
+          relatesTo: {
+            id: '',
+            type: 'email',
+            methods: [{ type: 'email' }],
+            displayName: 'Okta Email',
+            key: AUTHENTICATOR_KEY.EMAIL,
+            gracePeriod: {
+              id: 'gpe4hiasrPJX4zwZY123',
+              expiry: '2022-09-27 18:00:00.000.',
+            },
+          },
+        },
+        {
+          label: 'Phone',
+          value: [
+            { name: 'methodType', value: 'phone' },
+            { name: 'id', value: '1235abc' },
+          ],
+          relatesTo: {
+            id: '',
+            type: 'phone',
+            methods: [{ type: 'phone' }],
+            displayName: 'Phone',
+            key: AUTHENTICATOR_KEY.PHONE,
+          },
+        },
+      ];
+
+      const authenticatorOptionValues = getAuthenticatorEnrollButtonElements(
+        options, stepName, 'en-us', authenticatorEnrollments,
+      );
+
+      expect(authenticatorOptionValues).toMatchSnapshot();
+      expect(authenticatorOptionValues.length).toBe(3);
+      expect(authenticatorOptionValues[0].options.key).toBe(AUTHENTICATOR_KEY.PASSWORD);
+      expect(authenticatorOptionValues[0].label).toBe('Password');
+      expect(authenticatorOptionValues[0].options.ctaLabel).toBe('oie.enroll.authenticator.button.text');
+      expect(authenticatorOptionValues[0].options.gracePeriodExpiry).toBe('09/27/2035, 06:00 PM EDT');
+      expect(authenticatorOptionValues[0].options.gracePeriodRequiredDescription).toBe('oie.enrollment.policy.grace.period.required.in.days');
+
+      // Expired grace period will render without them
+      expect(authenticatorOptionValues[1].options.key).toBe(AUTHENTICATOR_KEY.EMAIL);
+      expect(authenticatorOptionValues[1].label).toBe('Email');
+      expect(authenticatorOptionValues[1].options.ctaLabel).toBe('oie.enroll.authenticator.button.text');
+      expect(authenticatorOptionValues[1].options.gracePeriodExpiry).toBeNull();
+      expect(authenticatorOptionValues[1].options.gracePeriodRequiredDescription).toBeNull();
+
+      expect(authenticatorOptionValues[2].options.key).toBe(AUTHENTICATOR_KEY.PHONE);
+      expect(authenticatorOptionValues[2].label).toBe('Phone');
+      expect(authenticatorOptionValues[2].options.ctaLabel).toBe('oie.enroll.authenticator.button.text');
+      expect(authenticatorOptionValues[2].options.gracePeriodExpiry).toBeNull();
+      expect(authenticatorOptionValues[2].options.gracePeriodRequiredDescription).toBeNull();
+      mockDate.mockRestore();
+    });
+
+    it('Does not display options when locale not supplied', () => {
+      const authenticatorEnrollments: IdxAuthenticator[] = [];
+      const options: IdxOption[] = [
+        {
+          label: 'Password',
+          value: [
+            { name: 'methodType', value: 'password' },
+            { name: 'id', value: '1234abc' },
+          ],
+          relatesTo: {
+            id: '',
+            type: 'password',
+            methods: [{ type: 'password' }],
+            displayName: 'Okta Password',
+            key: AUTHENTICATOR_KEY.PASSWORD,
+            gracePeriod: {
+              id: 'gpe4hiasrPJX4zwZY123',
+              expiry: '2035-09-27 18:00:00.000.',
+            },
+          },
+        },
+      ];
+
+      const authenticatorOptionValues = getAuthenticatorEnrollButtonElements(
+        options, stepName, 'NOT_REAL', authenticatorEnrollments,
+      );
+
+      expect(authenticatorOptionValues).toMatchSnapshot();
+      expect(authenticatorOptionValues.length).toBe(1);
+      expect(authenticatorOptionValues[0].options.key).toBe(AUTHENTICATOR_KEY.PASSWORD);
+      expect(authenticatorOptionValues[0].label).toBe('Password');
+      expect(authenticatorOptionValues[0].options.ctaLabel).toBe('oie.enroll.authenticator.button.text');
+      expect(authenticatorOptionValues[0].options.gracePeriodExpiry).toBeNull();
+      expect(authenticatorOptionValues[0].options.gracePeriodRequiredDescription).toBeNull();
+    });
+
+    it('Does not display options when grace period date badly formatted', () => {
+      const authenticatorEnrollments: IdxAuthenticator[] = [];
+      const options: IdxOption[] = [
+        {
+          label: 'Password',
+          value: [
+            { name: 'methodType', value: 'password' },
+            { name: 'id', value: '1234abc' },
+          ],
+          relatesTo: {
+            id: '',
+            type: 'password',
+            methods: [{ type: 'password' }],
+            displayName: 'Okta Password',
+            key: AUTHENTICATOR_KEY.PASSWORD,
+            gracePeriod: {
+              id: 'gpe4hiasrPJX4zwZY123',
+              expiry: 'BAD',
+            },
+          },
+        },
+      ];
+
+      const authenticatorOptionValues = getAuthenticatorEnrollButtonElements(
+        options, stepName, 'en_us', authenticatorEnrollments,
+      );
+
+      expect(authenticatorOptionValues).toMatchSnapshot();
+      expect(authenticatorOptionValues.length).toBe(1);
+      expect(authenticatorOptionValues[0].options.key).toBe(AUTHENTICATOR_KEY.PASSWORD);
+      expect(authenticatorOptionValues[0].label).toBe('Password');
+      expect(authenticatorOptionValues[0].options.ctaLabel).toBe('oie.enroll.authenticator.button.text');
+      expect(authenticatorOptionValues[0].options.gracePeriodExpiry).toBeNull();
+      expect(authenticatorOptionValues[0].options.gracePeriodRequiredDescription).toBeNull();
     });
   });
 });

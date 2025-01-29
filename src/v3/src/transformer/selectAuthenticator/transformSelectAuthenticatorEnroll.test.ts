@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
+import { IdxAuthenticator, IdxOption } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
 import { AUTHENTICATOR_KEY, IDX_STEP } from 'src/constants';
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
@@ -45,11 +45,27 @@ const getMockAuthenticatorButtons = (): AuthenticatorButtonElement[] => {
   return authenticators;
 };
 
+const mockGetAuthenticatorEnrollButtonElementsFn = jest.fn().mockImplementation((
+  options: IdxOption[],
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
+  _step: string, _locale?: string, _authenticatorEnrollments?: IdxAuthenticator[],
+) => (options.length ? getMockAuthenticatorButtons() : []));
 jest.mock('./utils', () => ({
-  getAuthenticatorEnrollButtonElements: (
-    options: IdxOption[],
-  ) => (options.length ? getMockAuthenticatorButtons() : []),
+  getAuthenticatorEnrollButtonElements: (options: IdxOption[],
+    step: string,
+    locale?: string,
+    /* eslint-disable max-len */
+    authenticatorEnrollments?: IdxAuthenticator[]) => mockGetAuthenticatorEnrollButtonElementsFn(options, step, locale, authenticatorEnrollments),
 }));
+
+jest.mock('../../util', () => {
+  const originalModule = jest.requireActual('../../util');
+  return {
+    ...originalModule,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
+    getLanguageCode: jest.fn().mockImplementation((_widgetProps: WidgetProps) => 'ok_pl'),
+  };
+});
 
 describe('Enroll Authenticator Selector Transformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
@@ -58,6 +74,7 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
   let widgetProps: WidgetProps;
 
   beforeEach(() => {
+    jest.spyOn(Date, 'now').mockReturnValue(new Date('12/30/2024').getTime());
     formBag.uischema.elements = [];
     transaction.availableSteps = [];
     transaction.nextStep = {
@@ -74,6 +91,10 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
       }],
     };
     widgetProps = {} as unknown as WidgetProps;
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   it('should not transform elements when IDX Step does not exist in remediations', () => {
@@ -106,7 +127,7 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
       .toBe('oie.select.authenticators.enroll.subtitle');
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
-      .toBe('oie.setup.optional');
+      .toBe('oie.setup.optional.short');
     expect(updatedFormBag.uischema.elements[3].type).toBe('AuthenticatorButtonList');
     expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonListElement)
       .options.buttons.length)).toBe(1);
@@ -122,6 +143,8 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
       .toBe(ButtonType.SUBMIT);
     expect((updatedFormBag.uischema.elements[4] as ButtonElement).options.step)
       .toBe('skip');
+    expect((updatedFormBag.uischema.elements[4] as ButtonElement).label)
+      .toBe('oie.optional.authenticator.button.title');
   });
 
   it('should transform authenticator elements when step is not skippable', () => {
@@ -138,7 +161,7 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
       .toBe('oie.select.authenticators.enroll.subtitle');
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
-      .toBe('oie.setup.required');
+      .toBe('oie.setup.required.now');
     expect(updatedFormBag.uischema.elements[3].type).toBe('AuthenticatorButtonList');
     expect((updatedFormBag.uischema.elements[3] as AuthenticatorButtonListElement)
       .options.buttons.length).toBe(1);
@@ -171,7 +194,7 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
       .toBe('oie.select.authenticators.enroll.subtitle.custom');
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
-      .toBe('oie.setup.optional');
+      .toBe('oie.setup.optional.short');
     expect(updatedFormBag.uischema.elements[3].type).toBe('AuthenticatorButtonList');
     expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonListElement)
       .options.dataSe)).toBe('authenticator-enroll-list');
@@ -189,5 +212,287 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
       .toBe('oie.optional.authenticator.button.title');
     expect((updatedFormBag.uischema.elements[4] as ButtonElement).options.type)
       .toBe(ButtonType.SUBMIT);
+  });
+
+  it('should transform authenticator elements when all elements have non-expired grace periods', () => {
+    const options = [
+      {
+        label: 'Email',
+        value: 'okta_email',
+        relatesTo: {
+          gracePeriod: {
+            expiry: '2045-09-27T18:00:00.000Z',
+          },
+        },
+      } as unknown as IdxOption,
+      {
+        label: 'Email',
+        value: 'okta_email',
+        relatesTo: {
+          gracePeriod: {
+            expiry: '2030-09-27T18:00:00.000Z',
+          },
+        },
+      } as unknown as IdxOption,
+    ];
+
+    transaction.nextStep = {
+      name: IDX_STEP.SELECT_AUTHENTICATOR_ENROLL,
+      canSkip: isSkippable.mockReturnValue(true)(),
+      inputs: [{
+        name: 'authenticator',
+        options,
+      }],
+    };
+
+    transaction.availableSteps = [{ name: 'skip', action: jest.fn() }];
+
+    const updatedFormBag = transformSelectAuthenticatorEnroll({
+      transaction, formBag, widgetProps,
+    });
+
+    expect(updatedFormBag).toMatchSnapshot();
+    expect(mockGetAuthenticatorEnrollButtonElementsFn).toBeCalledTimes(2);
+    expect(mockGetAuthenticatorEnrollButtonElementsFn).toBeCalledWith([], 'select-authenticator-enroll', 'ok_pl', undefined);
+    expect(mockGetAuthenticatorEnrollButtonElementsFn).toBeCalledWith(options, 'select-authenticator-enroll', 'ok_pl', undefined);
+    expect(updatedFormBag.uischema.elements.length).toBe(6);
+    expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
+    // @ts-ignore TODO: Add grace period fields to auth-js SDK https://oktainc.atlassian.net/browse/OKTA-848910
+    expect(updatedFormBag.uischema.elements[0].options.content).toBe('oie.select.authenticators.enroll.title');
+    expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
+    // @ts-ignore TODO: Add grace period fields to auth-js SDK https://oktainc.atlassian.net/browse/OKTA-848910
+    expect(updatedFormBag.uischema.elements[1].options.content).toBe('oie.select.authenticators.enroll.subtitle');
+    expect(updatedFormBag.uischema.elements[2].type).toBe('Heading');
+    // @ts-ignore TODO: Add grace period fields to auth-js SDK https://oktainc.atlassian.net/browse/OKTA-848910
+    expect(updatedFormBag.uischema.elements[2].options.content).toBe('oie.setup.required.soon');
+    expect(updatedFormBag.uischema.elements[3].type).toBe('Description');
+    // @ts-ignore TODO: Add grace period fields to auth-js SDK https://oktainc.atlassian.net/browse/OKTA-848910
+    expect(updatedFormBag.uischema.elements[3].options.content).toBe('oie.setup.required.soon.description');
+    expect(((updatedFormBag.uischema.elements[4] as AuthenticatorButtonListElement)
+      .options.dataSe)).toBe('authenticator-enroll-list-grace-period');
+    expect(((updatedFormBag.uischema.elements[4] as AuthenticatorButtonListElement)
+      .options.buttons[0] as AuthenticatorButtonElement).options.type).toBe(ButtonType.BUTTON);
+    expect(((updatedFormBag.uischema.elements[4] as AuthenticatorButtonListElement)
+      .options.buttons[0] as AuthenticatorButtonElement).label).toBe('Email');
+    expect((updatedFormBag.uischema.elements[5] as ButtonElement).options.step)
+      .toBe('skip');
+  });
+
+  it('should transform authenticator elements when mix of expired grace period and non-expired grace periods', () => {
+    transaction.nextStep = {
+      name: IDX_STEP.SELECT_AUTHENTICATOR_ENROLL,
+      canSkip: isSkippable.mockReturnValue(false)(),
+      inputs: [{
+        name: 'authenticator',
+        options: [
+          {
+            label: 'Email',
+            value: 'okta_email',
+            relatesTo: {
+              gracePeriod: {
+                expiry: '2022-09-27T18:00:00.000Z',
+              },
+            },
+          } as unknown as IdxOption,
+          {
+            label: 'Email',
+            value: 'okta_email',
+            relatesTo: {
+              gracePeriod: {
+                expiry: '2030-09-27T18:00:00.000Z',
+              },
+            },
+          } as unknown as IdxOption,
+        ],
+      }],
+    };
+
+    const updatedFormBag = transformSelectAuthenticatorEnroll({
+      transaction, formBag, widgetProps,
+    });
+
+    expect(updatedFormBag).toMatchSnapshot();
+
+    expect(updatedFormBag.uischema.elements.length).toBe(7);
+    expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
+    // @ts-ignore TODO: Add grace period fields to auth-js SDK https://oktainc.atlassian.net/browse/OKTA-848910
+    expect(updatedFormBag.uischema.elements[0].options.content).toBe('oie.select.authenticators.enroll.title');
+    expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
+    // @ts-ignore TODO: Add grace period fields to auth-js SDK https://oktainc.atlassian.net/browse/OKTA-848910
+    expect(updatedFormBag.uischema.elements[1].options.content).toBe('oie.select.authenticators.enroll.subtitle');
+    expect(updatedFormBag.uischema.elements[2].type).toBe('Heading');
+    // @ts-ignore TODO: Add grace period fields to auth-js SDK https://oktainc.atlassian.net/browse/OKTA-848910
+    expect(updatedFormBag.uischema.elements[2].options.content).toBe('oie.setup.required.now');
+    expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonListElement)
+      .options.dataSe)).toBe('authenticator-enroll-list');
+    expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonListElement)
+      .options.buttons[0] as AuthenticatorButtonElement).options.type).toBe(ButtonType.BUTTON);
+    expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonListElement)
+      .options.buttons[0] as AuthenticatorButtonElement).label).toBe('Email');
+    expect(updatedFormBag.uischema.elements[4].type).toBe('Heading');
+    // @ts-ignore TODO: Add grace period fields to auth-js SDK https://oktainc.atlassian.net/browse/OKTA-848910
+    expect(updatedFormBag.uischema.elements[4].options.content).toBe('oie.setup.required.soon');
+    expect(updatedFormBag.uischema.elements[5].type).toBe('Description');
+    // @ts-ignore TODO: Add grace period fields to auth-js SDK https://oktainc.atlassian.net/browse/OKTA-848910
+    expect(updatedFormBag.uischema.elements[5].options.content).toBe('oie.setup.required.soon.description');
+    expect(((updatedFormBag.uischema.elements[6] as AuthenticatorButtonListElement)
+      .options.dataSe)).toBe('authenticator-enroll-list-grace-period');
+    expect(((updatedFormBag.uischema.elements[6] as AuthenticatorButtonListElement)
+      .options.buttons[0] as AuthenticatorButtonElement).options.type).toBe(ButtonType.BUTTON);
+    expect(((updatedFormBag.uischema.elements[6] as AuthenticatorButtonListElement)
+      .options.buttons[0] as AuthenticatorButtonElement).label).toBe('Email');
+  });
+
+  it('should transform authenticator elemtns when no elements have grace periods', () => {
+    const options = [
+      {
+        label: 'Email',
+        value: 'okta_email',
+      } as unknown as IdxOption,
+      {
+        label: 'Email',
+        value: 'okta_email',
+      } as unknown as IdxOption,
+    ];
+
+    transaction.nextStep = {
+      name: IDX_STEP.SELECT_AUTHENTICATOR_ENROLL,
+      canSkip: isSkippable.mockReturnValue(false)(),
+      inputs: [{
+        name: 'authenticator',
+        options,
+      }],
+    };
+
+    const updatedFormBag = transformSelectAuthenticatorEnroll({
+      transaction, formBag, widgetProps,
+    });
+
+    expect(mockGetAuthenticatorEnrollButtonElementsFn).toBeCalledTimes(2);
+    expect(mockGetAuthenticatorEnrollButtonElementsFn).toBeCalledWith([], 'select-authenticator-enroll', 'ok_pl', undefined);
+    expect(mockGetAuthenticatorEnrollButtonElementsFn).toBeCalledWith(options, 'select-authenticator-enroll', 'ok_pl', undefined);
+    expect(updatedFormBag).toMatchSnapshot();
+    expect(updatedFormBag.uischema.elements.length).toBe(4);
+    expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
+    // @ts-ignore TODO: Add grace period fields to auth-js SDK https://oktainc.atlassian.net/browse/OKTA-848910
+    expect(updatedFormBag.uischema.elements[0].options.content).toBe('oie.select.authenticators.enroll.title');
+    expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
+    // @ts-ignore TODO: Add grace period fields to auth-js SDK https://oktainc.atlassian.net/browse/OKTA-848910
+    expect(updatedFormBag.uischema.elements[1].options.content).toBe('oie.select.authenticators.enroll.subtitle');
+    expect(updatedFormBag.uischema.elements[2].type).toBe('Heading');
+    // @ts-ignore TODO: Add grace period fields to auth-js SDK https://oktainc.atlassian.net/browse/OKTA-848910
+    expect(updatedFormBag.uischema.elements[2].options.content).toBe('oie.setup.required.now');
+    expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonListElement)
+      .options.dataSe)).toBe('authenticator-enroll-list');
+    expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonListElement)
+      .options.buttons[0] as AuthenticatorButtonElement).options.type).toBe(ButtonType.BUTTON);
+    expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonListElement)
+      .options.buttons[0] as AuthenticatorButtonElement).label).toBe('Email');
+  });
+
+  it('should transform authenticator elements when all elements have expired grace periods', () => {
+    const options = [
+      {
+        relatesTo: {
+          gracePeriod: {
+            expiry: '2020-09-27T18:00:00.000Z',
+          },
+        },
+      } as unknown as IdxOption,
+      {
+        relatesTo: {
+          gracePeriod: {
+            expiry: '2020-09-27T18:00:00.000Z',
+          },
+        },
+      } as unknown as IdxOption,
+    ];
+
+    transaction.nextStep = {
+      name: IDX_STEP.SELECT_AUTHENTICATOR_ENROLL,
+      canSkip: isSkippable.mockReturnValue(false)(),
+      inputs: [{
+        name: 'authenticator',
+        options,
+      }],
+    };
+
+    const updatedFormBag = transformSelectAuthenticatorEnroll({
+      transaction, formBag, widgetProps,
+    });
+
+    expect(updatedFormBag).toMatchSnapshot();
+    expect(mockGetAuthenticatorEnrollButtonElementsFn).toBeCalledTimes(2);
+    expect(mockGetAuthenticatorEnrollButtonElementsFn).toBeCalledWith([], 'select-authenticator-enroll', 'ok_pl', undefined);
+    expect(mockGetAuthenticatorEnrollButtonElementsFn).toBeCalledWith(options, 'select-authenticator-enroll', 'ok_pl', undefined);
+    expect(updatedFormBag.uischema.elements.length).toBe(4);
+    expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
+    // @ts-ignore TODO: Add grace period fields to auth-js SDK https://oktainc.atlassian.net/browse/OKTA-848910
+    expect(updatedFormBag.uischema.elements[0].options.content).toBe('oie.select.authenticators.enroll.title');
+    expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
+    // @ts-ignore TODO: Add grace period fields to auth-js SDK https://oktainc.atlassian.net/browse/OKTA-848910
+    expect(updatedFormBag.uischema.elements[1].options.content).toBe('oie.select.authenticators.enroll.subtitle');
+    expect(updatedFormBag.uischema.elements[2].type).toBe('Heading');
+    // @ts-ignore TODO: Add grace period fields to auth-js SDK https://oktainc.atlassian.net/browse/OKTA-848910
+    expect(updatedFormBag.uischema.elements[2].options.content).toBe('oie.setup.required.now');
+    expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonListElement)
+      .options.dataSe)).toBe('authenticator-enroll-list');
+    expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonListElement)
+      .options.buttons[0] as AuthenticatorButtonElement).options.type).toBe(ButtonType.BUTTON);
+    expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonListElement)
+      .options.buttons[0] as AuthenticatorButtonElement).label).toBe('Email');
+  });
+
+  it('should treat authenticator elements as due now when badly formatted dates', () => {
+    const options = [
+      {
+        relatesTo: {
+          gracePeriod: {
+            expiry: 'balsjfjaskldj',
+          },
+        },
+      } as unknown as IdxOption,
+      {
+        relatesTo: {
+          gracePeriod: {
+            expiry: '',
+          },
+        },
+      } as unknown as IdxOption,
+    ];
+
+    transaction.nextStep = {
+      name: IDX_STEP.SELECT_AUTHENTICATOR_ENROLL,
+      canSkip: isSkippable.mockReturnValue(false)(),
+      inputs: [{
+        name: 'authenticator',
+        options,
+      }],
+    };
+
+    const updatedFormBag = transformSelectAuthenticatorEnroll({
+      transaction, formBag, widgetProps,
+    });
+
+    expect(updatedFormBag).toMatchSnapshot();
+    expect(mockGetAuthenticatorEnrollButtonElementsFn).toBeCalledTimes(2);
+    expect(mockGetAuthenticatorEnrollButtonElementsFn).toBeCalledWith([], 'select-authenticator-enroll', 'ok_pl', undefined);
+    expect(mockGetAuthenticatorEnrollButtonElementsFn).toBeCalledWith(options, 'select-authenticator-enroll', 'ok_pl', undefined);
+    expect(updatedFormBag.uischema.elements.length).toBe(4);
+    expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
+    // @ts-ignore TODO: Add grace period fields to auth-js SDK https://oktainc.atlassian.net/browse/OKTA-848910
+    expect(updatedFormBag.uischema.elements[0].options.content).toBe('oie.select.authenticators.enroll.title');
+    expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
+    // @ts-ignore TODO: Add grace period fields to auth-js SDK https://oktainc.atlassian.net/browse/OKTA-848910
+    expect(updatedFormBag.uischema.elements[1].options.content).toBe('oie.select.authenticators.enroll.subtitle');
+    expect(updatedFormBag.uischema.elements[2].type).toBe('Heading');
+    // @ts-ignore TODO: Add grace period fields to auth-js SDK https://oktainc.atlassian.net/browse/OKTA-848910
+    expect(updatedFormBag.uischema.elements[2].options.content).toBe('oie.setup.required.now');
+    expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonListElement)
+      .options.dataSe)).toBe('authenticator-enroll-list');
+    expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonListElement)
+      .options.buttons[0] as AuthenticatorButtonElement).options.type).toBe(ButtonType.BUTTON);
+    expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonListElement)
+      .options.buttons[0] as AuthenticatorButtonElement).label).toBe('Email');
   });
 });

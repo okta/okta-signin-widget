@@ -1,0 +1,650 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`v2/view-builder/components/AuthenticatorEnrollOptionsContainer renders optional authenticators 1`] = `
+<div
+  class="authenticator-enroll-list-container"
+>
+  <div
+    class="authenticator-enroll-list authenticator-list"
+  >
+    <div
+      class="list-content"
+    >
+      <div
+        class="authenticator-list-title"
+      >
+        Optional
+      </div>
+      <div
+        class="authenticator-row clearfix"
+      >
+        <div
+          class="authenticator-icon-container"
+        >
+          <div
+            aria-label="Authenticator logo"
+            class="factor-icon authenticator-icon "
+            role="img"
+          />
+        </div>
+        <div
+          class="authenticator-description"
+        >
+          <h3
+            class="authenticator-label no-translate"
+          >
+            Okta Phone
+          </h3>
+          <p
+            class="authenticator-usage-text"
+          >
+            Used for access or recovery
+          </p>
+          <div
+            class="authenticator-button"
+          >
+            <a
+              class="button select-factor link-button"
+              data-se="button"
+              href="#"
+            >
+              Set up
+            </a>
+          </div>
+        </div>
+      </div>
+      <div
+        class="authenticator-row clearfix"
+      >
+        <div
+          class="authenticator-icon-container"
+        >
+          <div
+            aria-label="Authenticator logo"
+            class="factor-icon authenticator-icon "
+            role="img"
+          />
+        </div>
+        <div
+          class="authenticator-description"
+        >
+          <h3
+            class="authenticator-label no-translate"
+          >
+            Security Key or Biometric Authenticator
+          </h3>
+          <p
+            class="authenticator-usage-text"
+          >
+            Used for access or recovery
+          </p>
+          <div
+            class="authenticator-button"
+          >
+            <a
+              class="button select-factor link-button"
+              data-se="button"
+              href="#"
+            >
+              Set up
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <a
+    class="button-primary button skip-all link-button"
+    data-se="button"
+    href="#"
+  >
+    Continue
+  </a>
+</div>
+`;
+
+exports[`v2/view-builder/components/AuthenticatorEnrollOptionsContainer renders required now and required soon for expired and non-expired grace periods 1`] = `
+<div
+  class="authenticator-enroll-list-container"
+>
+  <div
+    class="authenticator-enroll-list authenticator-list"
+  >
+    <div
+      class="list-content"
+    >
+      <div
+        class="authenticator-list-title"
+      >
+        Required now
+      </div>
+      <div
+        class="authenticator-row clearfix"
+      >
+        <div
+          class="authenticator-icon-container"
+        >
+          <div
+            aria-label="Authenticator logo"
+            class="factor-icon authenticator-icon "
+            role="img"
+          />
+        </div>
+        <div
+          class="authenticator-description"
+        >
+          <h3
+            class="authenticator-label no-translate"
+          >
+            Okta Phone
+          </h3>
+          <p
+            class="authenticator-usage-text"
+          >
+            Used for access or recovery
+          </p>
+          <div
+            class="authenticator-button"
+          >
+            <a
+              class="button select-factor link-button"
+              data-se="button"
+              href="#"
+            >
+              Set up
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="authenticator-enroll-list authenticator-list"
+  >
+    <div
+      class="list-content"
+    >
+      <div
+        class="authenticator-list-title"
+      >
+        Required soon
+      </div>
+      <p
+        class="authenticator-list-subtitle"
+      >
+        When the deadline passes, you won’t be able to sign in until you complete setup.
+      </p>
+      <div
+        class="authenticator-row clearfix"
+      >
+        <div
+          class="authenticator-icon-container"
+        >
+          <div
+            aria-label="Authenticator logo"
+            class="factor-icon authenticator-icon "
+            role="img"
+          />
+        </div>
+        <div
+          class="authenticator-description"
+        >
+          <h3
+            class="authenticator-label no-translate"
+          >
+            Security Key or Biometric Authenticator
+          </h3>
+          <span
+            class="authenticator-grace-period-required-icon"
+          />
+          <div
+            class="authenticator-grace-period-text-container"
+          >
+            <p
+              class="authenticator-grace-period-required-description"
+            >
+              Required in 718 days
+            </p>
+            <p
+              class="authenticator-grace-period-expiry-date"
+            >
+              12/17/2025, 05:00 AM UTC
+            </p>
+          </div>
+          <div
+            class="authenticator-button"
+          >
+            <a
+              class="button select-factor link-button"
+              data-se="button"
+              href="#"
+            >
+              Set up
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`v2/view-builder/components/AuthenticatorEnrollOptionsContainer renders required now list for all expired grace periods 1`] = `
+<div
+  class="authenticator-enroll-list-container"
+>
+  <div
+    class="authenticator-enroll-list authenticator-list"
+  >
+    <div
+      class="list-content"
+    >
+      <div
+        class="authenticator-list-title"
+      >
+        Required now
+      </div>
+      <div
+        class="authenticator-row clearfix"
+      >
+        <div
+          class="authenticator-icon-container"
+        >
+          <div
+            aria-label="Authenticator logo"
+            class="factor-icon authenticator-icon "
+            role="img"
+          />
+        </div>
+        <div
+          class="authenticator-description"
+        >
+          <h3
+            class="authenticator-label no-translate"
+          >
+            Okta Phone
+          </h3>
+          <p
+            class="authenticator-usage-text"
+          >
+            Used for access or recovery
+          </p>
+          <div
+            class="authenticator-button"
+          >
+            <a
+              class="button select-factor link-button"
+              data-se="button"
+              href="#"
+            >
+              Set up
+            </a>
+          </div>
+        </div>
+      </div>
+      <div
+        class="authenticator-row clearfix"
+      >
+        <div
+          class="authenticator-icon-container"
+        >
+          <div
+            aria-label="Authenticator logo"
+            class="factor-icon authenticator-icon "
+            role="img"
+          />
+        </div>
+        <div
+          class="authenticator-description"
+        >
+          <h3
+            class="authenticator-label no-translate"
+          >
+            Security Key or Biometric Authenticator
+          </h3>
+          <p
+            class="authenticator-usage-text"
+          >
+            Used for access or recovery
+          </p>
+          <div
+            class="authenticator-button"
+          >
+            <a
+              class="button select-factor link-button"
+              data-se="button"
+              href="#"
+            >
+              Set up
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`v2/view-builder/components/AuthenticatorEnrollOptionsContainer renders required now list for badly formatted grace period dates 1`] = `
+<div
+  class="authenticator-enroll-list-container"
+>
+  <div
+    class="authenticator-enroll-list authenticator-list"
+  >
+    <div
+      class="list-content"
+    >
+      <div
+        class="authenticator-list-title"
+      >
+        Required now
+      </div>
+      <div
+        class="authenticator-row clearfix"
+      >
+        <div
+          class="authenticator-icon-container"
+        >
+          <div
+            aria-label="Authenticator logo"
+            class="factor-icon authenticator-icon "
+            role="img"
+          />
+        </div>
+        <div
+          class="authenticator-description"
+        >
+          <h3
+            class="authenticator-label no-translate"
+          >
+            Okta Phone
+          </h3>
+          <p
+            class="authenticator-usage-text"
+          >
+            Used for access or recovery
+          </p>
+          <div
+            class="authenticator-button"
+          >
+            <a
+              class="button select-factor link-button"
+              data-se="button"
+              href="#"
+            >
+              Set up
+            </a>
+          </div>
+        </div>
+      </div>
+      <div
+        class="authenticator-row clearfix"
+      >
+        <div
+          class="authenticator-icon-container"
+        >
+          <div
+            aria-label="Authenticator logo"
+            class="factor-icon authenticator-icon "
+            role="img"
+          />
+        </div>
+        <div
+          class="authenticator-description"
+        >
+          <h3
+            class="authenticator-label no-translate"
+          >
+            Security Key or Biometric Authenticator
+          </h3>
+          <p
+            class="authenticator-usage-text"
+          >
+            Used for access or recovery
+          </p>
+          <div
+            class="authenticator-button"
+          >
+            <a
+              class="button select-factor link-button"
+              data-se="button"
+              href="#"
+            >
+              Set up
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`v2/view-builder/components/AuthenticatorEnrollOptionsContainer renders required now list for no grace periods 1`] = `
+<div
+  class="authenticator-enroll-list-container"
+>
+  <div
+    class="authenticator-enroll-list authenticator-list"
+  >
+    <div
+      class="list-content"
+    >
+      <div
+        class="authenticator-list-title"
+      >
+        Required now
+      </div>
+      <div
+        class="authenticator-row clearfix"
+      >
+        <div
+          class="authenticator-icon-container"
+        >
+          <div
+            aria-label="Authenticator logo"
+            class="factor-icon authenticator-icon "
+            role="img"
+          />
+        </div>
+        <div
+          class="authenticator-description"
+        >
+          <h3
+            class="authenticator-label no-translate"
+          >
+            Okta Phone
+          </h3>
+          <p
+            class="authenticator-usage-text"
+          >
+            Used for access or recovery
+          </p>
+          <div
+            class="authenticator-button"
+          >
+            <a
+              class="button select-factor link-button"
+              data-se="button"
+              href="#"
+            >
+              Set up
+            </a>
+          </div>
+        </div>
+      </div>
+      <div
+        class="authenticator-row clearfix"
+      >
+        <div
+          class="authenticator-icon-container"
+        >
+          <div
+            aria-label="Authenticator logo"
+            class="factor-icon authenticator-icon "
+            role="img"
+          />
+        </div>
+        <div
+          class="authenticator-description"
+        >
+          <h3
+            class="authenticator-label no-translate"
+          >
+            Security Key or Biometric Authenticator
+          </h3>
+          <p
+            class="authenticator-usage-text"
+          >
+            Used for access or recovery
+          </p>
+          <div
+            class="authenticator-button"
+          >
+            <a
+              class="button select-factor link-button"
+              data-se="button"
+              href="#"
+            >
+              Set up
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`v2/view-builder/components/AuthenticatorEnrollOptionsContainer renders required soon list for all non-expired grace periods 1`] = `
+<div
+  class="authenticator-enroll-list-container"
+>
+  <div
+    class="authenticator-enroll-list authenticator-list"
+  >
+    <div
+      class="list-content"
+    >
+      <div
+        class="authenticator-list-title"
+      >
+        Required soon
+      </div>
+      <p
+        class="authenticator-list-subtitle"
+      >
+        When the deadline passes, you won’t be able to sign in until you complete setup.
+      </p>
+      <div
+        class="authenticator-row clearfix"
+      >
+        <div
+          class="authenticator-icon-container"
+        >
+          <div
+            aria-label="Authenticator logo"
+            class="factor-icon authenticator-icon "
+            role="img"
+          />
+        </div>
+        <div
+          class="authenticator-description"
+        >
+          <h3
+            class="authenticator-label no-translate"
+          >
+            Okta Phone
+          </h3>
+          <span
+            class="authenticator-grace-period-required-icon"
+          />
+          <div
+            class="authenticator-grace-period-text-container"
+          >
+            <p
+              class="authenticator-grace-period-required-description"
+            >
+              Required in 1 day
+            </p>
+            <p
+              class="authenticator-grace-period-expiry-date"
+            >
+              12/31/2023, 05:00 AM UTC
+            </p>
+          </div>
+          <div
+            class="authenticator-button"
+          >
+            <a
+              class="button select-factor link-button"
+              data-se="button"
+              href="#"
+            >
+              Set up
+            </a>
+          </div>
+        </div>
+      </div>
+      <div
+        class="authenticator-row clearfix"
+      >
+        <div
+          class="authenticator-icon-container"
+        >
+          <div
+            aria-label="Authenticator logo"
+            class="factor-icon authenticator-icon "
+            role="img"
+          />
+        </div>
+        <div
+          class="authenticator-description"
+        >
+          <h3
+            class="authenticator-label no-translate"
+          >
+            Security Key or Biometric Authenticator
+          </h3>
+          <span
+            class="authenticator-grace-period-required-icon"
+          />
+          <div
+            class="authenticator-grace-period-text-container"
+          >
+            <p
+              class="authenticator-grace-period-required-description"
+            >
+              Required today
+            </p>
+            <p
+              class="authenticator-grace-period-expiry-date"
+            >
+              12/30/2023, 11:00 PM UTC
+            </p>
+          </div>
+          <div
+            class="authenticator-button"
+          >
+            <a
+              class="button select-factor link-button"
+              data-se="button"
+              href="#"
+            >
+              Set up
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <a
+    class="button-primary button skip-all link-button"
+    data-se="button"
+    href="#"
+  >
+    Remind me later
+  </a>
+</div>
+`;

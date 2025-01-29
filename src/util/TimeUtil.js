@@ -1,6 +1,8 @@
 import toMilliseconds from '@sindresorhus/to-milliseconds';
 import parseMs from 'parse-ms';
 
+const MS_PER_DAY = 60 * 60 * 24 * 1000;
+
 const MOMENT_UNIT = {
   MILLISECOND: 'milliseconds',
   SECOND: 'seconds',
@@ -102,14 +104,18 @@ export default {
    *
    * @param {Date} date The Date object for the grace period expiry
    * @param {LanguageCode} languageCode The user's language code / locale
+   * @param {RoundDownToNearestHour} boolean Whether to round down to nearest hour. Defaults to true
    * @return {string} The formatted `short-with-timezone` local string
    */
-  formatDateToDeviceAssuranceGracePeriodExpiryLocaleString: (date, languageCode) => {
+  formatDateToDeviceAssuranceGracePeriodExpiryLocaleString: (date, languageCode, roundDownToNearestHour = true) => {
     try {
     // Invalid Date objects will return NaN for valueOf()
       if (date && !isNaN(date.valueOf()) && languageCode !== null) {
-        // Round down the date to the nearest hour
-        date.setMinutes(0, 0, 0);
+        // eslint-disable-next-line max-depth
+        if (roundDownToNearestHour) {
+          // Round down the date to the nearest hour
+          date.setMinutes(0, 0, 0);
+        }
         return date.toLocaleString(languageCode, {
           year: 'numeric',
           month: '2-digit',
@@ -125,5 +131,29 @@ export default {
       // If `languageCode` isn't in a valid format `toLocaleString()` will throw a `RangeError`
       return null;
     }
+  },
+  
+  /**
+   * @method calculateDaysBetween
+   * Calculate the number of days between two epoch milliseconds timestamps
+   * rounded down to the nearest day
+   *
+   * @param {Integer} epoch1 epoch timestamp in milliseconds as an integer
+   * @param {Integer} epoch2 epoch timestamp in milliseconds as an integer
+   * @return {Integer} The number of days between the two epoch timestamps
+   */
+  calculateDaysBetween(epoch1, epoch2) {
+    try {
+      if (typeof epoch1 === 'number' && typeof epoch2 === 'number') {
+        const diffInMs = Math.abs(epoch2 - epoch1);
+      
+        const days = Math.floor(diffInMs / MS_PER_DAY);
+    
+        return days;
+      }
+    } catch (e) {
+      // continue even with error
+    }
+    return null;
   }
 };

@@ -13,7 +13,8 @@
   }
 }
 
-.authenticator-enroll-list {
+.authenticator-enroll-list,
+.authenticator-enroll-list-container {
   .authenticator-description {
     width: 100%;
   }
@@ -21,6 +22,9 @@
     .authenticator-list-title {
       margin-bottom: $font-size-header;
       font-weight: $font-weight-labels;
+    }
+    .authenticator-list-subtitle {
+      margin-bottom: $font-size-header;
     }
   }
   .skip-all {
@@ -102,6 +106,25 @@
         width: 100%;
         text-align: center;
       }
+    }
+  }
+
+  .authenticator-grace-period-text-container {
+    display: inline-block;
+  }
+
+  .authenticator-grace-period-required-description {
+    color: $text-color-warning;
+  }
+
+  .authenticator-grace-period-required-icon {
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 5px;
+    margin-top: 2px;
+
+    &::before {
+      content: url('../img/ui/indicators/clock.png');
     }
   }
 

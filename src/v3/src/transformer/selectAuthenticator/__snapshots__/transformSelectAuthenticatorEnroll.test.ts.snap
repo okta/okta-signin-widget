@@ -1,5 +1,253 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Enroll Authenticator Selector Transformer Tests should transform authenticator elements when all elements have expired grace periods 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.select.authenticators.enroll.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.select.authenticators.enroll.subtitle",
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.setup.required.now",
+          "level": 3,
+          "visualLevel": 6,
+        },
+        "type": "Heading",
+      },
+      Object {
+        "options": Object {
+          "buttons": Array [
+            Object {
+              "label": "Email",
+              "options": Object {
+                "actionParams": Object {
+                  "authenticator.id": "123abc",
+                },
+                "ariaLabel": "Select email.",
+                "ctaLabel": "Select",
+                "description": "Enroll in email authenticator",
+                "key": "okta_email",
+                "step": "select-authenticator-enroll",
+                "type": "button",
+              },
+              "type": "AuthenticatorButton",
+            },
+          ],
+          "dataSe": "authenticator-enroll-list",
+        },
+        "type": "AuthenticatorButtonList",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Enroll Authenticator Selector Transformer Tests should transform authenticator elements when all elements have non-expired grace periods 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.select.authenticators.enroll.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.select.authenticators.enroll.subtitle",
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.setup.required.soon",
+          "dataSe": "authenticator-list-title",
+          "level": 3,
+          "visualLevel": 6,
+        },
+        "type": "Heading",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.setup.required.soon.description",
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "buttons": Array [
+            Object {
+              "label": "Email",
+              "options": Object {
+                "actionParams": Object {
+                  "authenticator.id": "123abc",
+                },
+                "ariaLabel": "Select email.",
+                "ctaLabel": "Select",
+                "description": "Enroll in email authenticator",
+                "key": "okta_email",
+                "step": "select-authenticator-enroll",
+                "type": "button",
+              },
+              "type": "AuthenticatorButton",
+            },
+          ],
+          "dataSe": "authenticator-enroll-list-grace-period",
+        },
+        "type": "AuthenticatorButtonList",
+      },
+      Object {
+        "label": "oie.setup.remind.me.later",
+        "options": Object {
+          "step": "skip",
+          "type": "submit",
+        },
+        "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Enroll Authenticator Selector Transformer Tests should transform authenticator elements when mix of expired grace period and non-expired grace periods 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.select.authenticators.enroll.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.select.authenticators.enroll.subtitle",
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.setup.required.now",
+          "dataSe": "authenticator-list-title",
+          "level": 3,
+          "visualLevel": 6,
+        },
+        "type": "Heading",
+      },
+      Object {
+        "options": Object {
+          "buttons": Array [
+            Object {
+              "label": "Email",
+              "options": Object {
+                "actionParams": Object {
+                  "authenticator.id": "123abc",
+                },
+                "ariaLabel": "Select email.",
+                "ctaLabel": "Select",
+                "description": "Enroll in email authenticator",
+                "key": "okta_email",
+                "step": "select-authenticator-enroll",
+                "type": "button",
+              },
+              "type": "AuthenticatorButton",
+            },
+          ],
+          "dataSe": "authenticator-enroll-list",
+        },
+        "type": "AuthenticatorButtonList",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.setup.required.soon",
+          "dataSe": "authenticator-list-title",
+          "level": 3,
+          "visualLevel": 6,
+        },
+        "type": "Heading",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.setup.required.soon.description",
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "buttons": Array [
+            Object {
+              "label": "Email",
+              "options": Object {
+                "actionParams": Object {
+                  "authenticator.id": "123abc",
+                },
+                "ariaLabel": "Select email.",
+                "ctaLabel": "Select",
+                "description": "Enroll in email authenticator",
+                "key": "okta_email",
+                "step": "select-authenticator-enroll",
+                "type": "button",
+              },
+              "type": "AuthenticatorButton",
+            },
+          ],
+          "dataSe": "authenticator-enroll-list-grace-period",
+        },
+        "type": "AuthenticatorButtonList",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
 exports[`Enroll Authenticator Selector Transformer Tests should transform authenticator elements when step is not skippable 1`] = `
 Object {
   "data": Object {},
@@ -29,7 +277,7 @@ Object {
       },
       Object {
         "options": Object {
-          "content": "oie.setup.required",
+          "content": "oie.setup.required.now",
           "level": 3,
           "visualLevel": 6,
         },
@@ -93,7 +341,7 @@ Object {
       },
       Object {
         "options": Object {
-          "content": "oie.setup.optional",
+          "content": "oie.setup.optional.short",
           "level": 3,
           "visualLevel": 6,
         },
@@ -165,7 +413,7 @@ Object {
       },
       Object {
         "options": Object {
-          "content": "oie.setup.optional",
+          "content": "oie.setup.optional.short",
           "level": 3,
           "visualLevel": 6,
         },
@@ -201,6 +449,134 @@ Object {
           "type": "submit",
         },
         "type": "Button",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Enroll Authenticator Selector Transformer Tests should transform authenticator elemtns when no elements have grace periods 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.select.authenticators.enroll.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.select.authenticators.enroll.subtitle",
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.setup.required.now",
+          "level": 3,
+          "visualLevel": 6,
+        },
+        "type": "Heading",
+      },
+      Object {
+        "options": Object {
+          "buttons": Array [
+            Object {
+              "label": "Email",
+              "options": Object {
+                "actionParams": Object {
+                  "authenticator.id": "123abc",
+                },
+                "ariaLabel": "Select email.",
+                "ctaLabel": "Select",
+                "description": "Enroll in email authenticator",
+                "key": "okta_email",
+                "step": "select-authenticator-enroll",
+                "type": "button",
+              },
+              "type": "AuthenticatorButton",
+            },
+          ],
+          "dataSe": "authenticator-enroll-list",
+        },
+        "type": "AuthenticatorButtonList",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`Enroll Authenticator Selector Transformer Tests should treat authenticator elements as due now when badly formatted dates 1`] = `
+Object {
+  "data": Object {},
+  "dataSchema": Object {
+    "fieldsToExclude": [Function],
+    "fieldsToTrim": Array [],
+    "fieldsToValidate": Array [],
+    "submit": Object {
+      "step": "challenge-authenticator",
+    },
+  },
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.select.authenticators.enroll.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "contentType": "subtitle",
+        "options": Object {
+          "content": "oie.select.authenticators.enroll.subtitle",
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.setup.required.now",
+          "level": 3,
+          "visualLevel": 6,
+        },
+        "type": "Heading",
+      },
+      Object {
+        "options": Object {
+          "buttons": Array [
+            Object {
+              "label": "Email",
+              "options": Object {
+                "actionParams": Object {
+                  "authenticator.id": "123abc",
+                },
+                "ariaLabel": "Select email.",
+                "ctaLabel": "Select",
+                "description": "Enroll in email authenticator",
+                "key": "okta_email",
+                "step": "select-authenticator-enroll",
+                "type": "button",
+              },
+              "type": "AuthenticatorButton",
+            },
+          ],
+          "dataSe": "authenticator-enroll-list",
+        },
+        "type": "AuthenticatorButtonList",
       },
     ],
     "type": "VerticalLayout",

@@ -1,7 +1,7 @@
 import { RequestMock, RequestLogger, userVariables } from 'testcafe';
 import { checkA11y } from '../framework/a11y';
 
-import { oktaDashboardContent } from '../framework/shared';
+import { oktaDashboardContent, renderWidget as rerenderWidget } from '../framework/shared';
 
 import SelectFactorPageObject from '../framework/page-objects/SelectAuthenticatorPageObject';
 import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
@@ -9,6 +9,8 @@ import FactorEnrollPhonePageObject from '../framework/page-objects/FactorEnrollP
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 
 import xhrSelectAuthenticators from '../../../playground/mocks/data/idp/idx/authenticator-enroll-select-authenticator';
+import xhrSelectRequiredNowAndRequiredSoonAuthenticators from '../../../playground/mocks/data/idp/idx/authenticator-enroll-grace-period.json';
+import xhrSelectRequiredSoonAuthenticators from '../../../playground/mocks/data/idp/idx/authenticator-enroll-grace-period-with-skip.json';
 import xhrSelectAuthenticatorsWithUsageInfo from '../../../playground/mocks/data/idp/idx/authenticator-enroll-select-authenticator-with-usage-info';
 import xhrSelectAuthenticatorsWithCustomApp from '../../../playground/mocks/data/idp/idx/authenticator-enroll-custom-app-push';
 import xhrAuthenticatorEnrollPassword from '../../../playground/mocks/data/idp/idx/authenticator-enroll-password';
@@ -51,6 +53,14 @@ const mockEnrollAuthenticatorWithUsageInfo = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrSelectAuthenticatorsWithUsageInfo);
 
+const mockEnrollRequiredNowAndRequiredSoonAuthenticators = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrSelectRequiredNowAndRequiredSoonAuthenticators);
+
+const mockEnrollRequiredSoonAuthenticators = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrSelectRequiredSoonAuthenticators);
+
 const mockOptionalAuthenticatorEnrollment = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrSelectAuthenticatorsWithSkip)
@@ -73,6 +83,41 @@ const mockEnrollAuthenticatorWithCustomApp = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrSelectAuthenticatorsWithCustomApp);
 
+const mockDate = `
+  const OriginalDate = Date;
+
+  // Handle gen 3 TS Date constructor mocking 
+  globalThis.Date = function(...args) {
+    // If no arguments are provided, use a hardcoded default date
+    if (args.length === 0) {
+      return new OriginalDate('December 15, 2022 07:00:00 AM EST'); // hardcoded date
+    }
+    
+    // Otherwise, use the provided arguments (mimicking the default Date constructor)
+    return new OriginalDate(...args);
+  } ;
+
+  // Handle gen 2 JS Date mocking
+  Date.now = function () {
+    return new Date('December 15, 2022 07:00:00 AM EST').getTime();
+  };
+
+  Date.prototype.toLocaleString = function (locale, options) {
+    options = {...options, timeZone: 'America/New_York'}
+    return new Intl.DateTimeFormat(locale, options).format(this);
+  };
+
+  // Handle gen 3 TS Date mocking
+  OriginalDate.now = function () {
+    return new Date('December 15, 2022 07:00:00 AM EST').getTime();
+  };
+
+  OriginalDate.prototype.toLocaleString = function (locale, options) {
+    options = {...options, timeZone: 'America/New_York'}
+    return new Intl.DateTimeFormat(locale, options).format(this);
+  };
+`;
+
 const requestLogger = RequestLogger(
   /idx\/introspect|\/credential\/enroll/,
   {
@@ -83,9 +128,12 @@ const requestLogger = RequestLogger(
 
 fixture('Select Authenticator for enrollment Form');
 
-async function setup(t) {
+async function setup(t, widgetOptions) {
   const selectFactorPageObject = new SelectFactorPageObject(t);
   await selectFactorPageObject.navigateToPage();
+  if (widgetOptions) {
+    await rerenderWidget(widgetOptions);
+  }
   await t.expect(selectFactorPageObject.formExists()).ok();
   return selectFactorPageObject;
 }
@@ -435,3 +483,104 @@ test.requestHooks(mockEnrollAuthenticatorWithCustomApp)('should load select auth
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(4, true)).eql('webauthn');
   await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(4)).eql(false);
 });
+
+test.requestHooks(mockEnrollRequiredNowAndRequiredSoonAuthenticators)('should load select required now and required soon authenticator lists', async t => {
+  const selectFactorPage = await setup(t);
+  await checkA11y(t);
+  await t.expect(selectFactorPage.getFormTitle()).eql('Set up security methods');
+  await t.expect(selectFactorPage.getFormSubtitle()).eql(
+    'Security methods help protect your account by ensuring only you have access.');
+  await t.expect(selectFactorPage.getFactorsCount()).eql(3);
+
+  await t.expect(selectFactorPage.getAuthenticatorListTitleTextByIndex(0)).eql('Required now');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(0)).eql('Password');
+  await t.expect(selectFactorPage.getFactorIconSelectorByIndex(0)).contains('mfa-okta-password');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(0)).eql('Set up');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(0, true)).eql('okta_password');
+  await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(0)).eql(false);
+  await t.expect(await selectFactorPage.factorGracePeriodRequiredDescriptionExistsByIndex(0)).eql(false);
+  await t.expect(await selectFactorPage.factorGracePeriodExpiryExistsByIndex(0)).eql(false);
+
+  await t.expect(selectFactorPage.getAuthenticatorListTitleTextByIndex(1)).eql('Required soon');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(1)).eql('Phone');
+  await t.expect(selectFactorPage.getFactorIconSelectorByIndex(1)).contains('mfa-okta-phone');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(1)).eql('Set up');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(1, true)).eql('phone_number');
+  await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(1)).eql(false);
+  await t.expect(selectFactorPage.getFactorGracePeriodRequiredDescriptionTextByIndex(1)).eql('Required today');
+  await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(1)).eql('12/16/2022, 12:00 AM EST');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(2)).eql('Security Key or Biometric Authenticator');
+  await t.expect(selectFactorPage.getFactorIconSelectorByIndex(2)).contains('mfa-webauthn');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(2)).eql('Set up');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(2, true)).eql('webauthn');
+  await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(2)).eql(false);
+  await t.expect(selectFactorPage.getFactorGracePeriodRequiredDescriptionTextByIndex(2)).eql('Required in 1 day');
+  await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(2)).eql('12/17/2022, 12:00 AM EST');
+
+  await t.expect(await selectFactorPage.skipButtonExists()).eql(false);
+}).clientScripts({ content: mockDate });
+
+test.requestHooks(mockEnrollRequiredSoonAuthenticators)('should load select optional required soon authenticator lists', async t => {
+  const selectFactorPage = await setup(t);
+  await checkA11y(t);
+  await t.expect(selectFactorPage.getFormTitle()).eql('Set up security methods');
+  await t.expect(selectFactorPage.getFormSubtitle()).eql(
+    'Security methods help protect your account by ensuring only you have access.');
+  await t.expect(selectFactorPage.getFactorsCount()).eql(3);
+
+  await t.expect(selectFactorPage.getAuthenticatorListTitleTextByIndex(0)).eql('Required soon');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(0)).eql('Password');
+  await t.expect(selectFactorPage.getFactorIconSelectorByIndex(0)).contains('mfa-okta-password');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(0)).eql('Set up');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(0, true)).eql('okta_password');
+  await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(0)).eql(false);
+  await t.expect(selectFactorPage.getFactorGracePeriodRequiredDescriptionTextByIndex(0)).eql('Required in 732 days');
+  await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(0)).eql('12/17/2024, 12:00 AM EST');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(1)).eql('Phone');
+  await t.expect(selectFactorPage.getFactorIconSelectorByIndex(1)).contains('mfa-okta-phone');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(1)).eql('Set up');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(1, true)).eql('phone_number');
+  await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(1)).eql(false);
+  await t.expect(selectFactorPage.getFactorGracePeriodRequiredDescriptionTextByIndex(1)).eql('Required today');
+  await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(1)).eql('12/16/2022, 12:00 AM EST');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(2)).eql('Security Key or Biometric Authenticator');
+  await t.expect(selectFactorPage.getFactorIconSelectorByIndex(2)).contains('mfa-webauthn');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(2)).eql('Set up');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(2, true)).eql('webauthn');
+  await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(2)).eql(false);
+  await t.expect(selectFactorPage.getFactorGracePeriodRequiredDescriptionTextByIndex(2)).eql('Required in 1 day');
+  await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(2)).eql('12/17/2022, 12:00 AM EST');
+
+  await t.expect(await selectFactorPage.skipButtonExists()).eql(true);
+}).clientScripts({ content: mockDate });
+
+test.requestHooks(mockEnrollRequiredSoonAuthenticators)('should load grace period dates in formats based on user locale ja', async t => {
+  const selectFactorPage = await setup(t, { language: 'ja' });
+  await checkA11y(t);
+
+  await t.expect(selectFactorPage.getFactorsCount()).eql(3);
+
+  // timezone is still in EST, but date format should follow ja (Japan) locale where year is first
+  await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(0)).eql('2024/12/17 00:00 GMT-5');
+  await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(1)).eql('2022/12/16 00:00 GMT-5');
+  await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(2)).eql('2022/12/17 00:00 GMT-5');
+}).clientScripts({ content: mockDate });
+
+test.requestHooks(mockEnrollRequiredSoonAuthenticators)('should load grace period dates in formats based on user locale cs', async t => {
+  const selectFactorPage = await setup(t, { language: 'cs' });
+  await checkA11y(t);
+
+  await t.expect(selectFactorPage.getFactorsCount()).eql(3);
+
+  // timezone is still in EST, but date format should follow cs (Czech) locale where date is first and dots are used as separators
+  await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(0)).eql('17. 12. 2024 00:00 EST');
+  await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(1)).eql('16. 12. 2022 00:00 EST');
+  await t.expect(selectFactorPage.getFactorGracePeriodExpiryTextByIndex(2)).eql('17. 12. 2022 00:00 EST');
+}).clientScripts({ content: mockDate });
+

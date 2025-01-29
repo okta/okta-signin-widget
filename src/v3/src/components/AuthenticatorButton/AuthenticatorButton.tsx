@@ -12,7 +12,9 @@
 
 import { Box, Typography } from '@mui/material';
 import { useOdysseyDesignTokens } from '@okta/odyssey-react-mui';
-import { AddIcon, ArrowLeftIcon, ArrowRightIcon } from '@okta/odyssey-react-mui/icons';
+import {
+  AddIcon, ArrowLeftIcon, ArrowRightIcon, ClockIcon,
+} from '@okta/odyssey-react-mui/icons';
 import { h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
@@ -51,6 +53,8 @@ const AuthenticatorButton: UISchemaElementComponent<{
       includeData,
       includeImmutableData,
       ariaLabel,
+      gracePeriodExpiry,
+      gracePeriodRequiredDescription,
     },
   } = uischema;
   const label = getTranslation(translations, 'label') ?? uischema.label;
@@ -90,7 +94,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
     });
   };
 
-  function createCtaIcon() {
+  const createCtaIcon = () => {
     if (isAdditionalEnroll) {
       return <AddIcon titleAccess={ctaLabel} />;
     }
@@ -98,7 +102,81 @@ const AuthenticatorButton: UISchemaElementComponent<{
       return <ArrowLeftIcon titleAccess={ctaLabel} />;
     }
     return <ArrowRightIcon titleAccess={ctaLabel} />;
-  }
+  };
+
+  const renderDescription = () => {
+    if (gracePeriodRequiredDescription && gracePeriodExpiry) {
+      return (
+        <Box
+          sx={{
+            display: 'flex',
+            margin: tokens.Spacing0,
+            marginBlockStart: tokens.Spacing1,
+          }}
+        >
+          <ClockIcon
+            sx={{
+              color: tokens.TypographyColorWarning,
+            }}
+          />
+          <Box
+            sx={{
+              marginLeft: tokens.Spacing1,
+            }}
+          >
+            <Typography
+              paragraph
+              data-se="authenticator-grace-period-required-description"
+              sx={{
+                fontSize: tokens.TypographySizeSubordinate,
+                fontWeight: tokens.TypographyWeightBodyBold,
+                color: tokens.TypographyColorWarning,
+                margin: tokens.Spacing0,
+                textAlign: 'start',
+              }}
+            >
+              {gracePeriodRequiredDescription}
+            </Typography>
+            <Typography
+              paragraph
+              data-se="authenticator-grace-period-expiry-date"
+              sx={{
+                fontSize: tokens.TypographySizeSubordinate,
+                fontWeight: tokens.TypographyWeightBody,
+                color: tokens.TypographyColorSubordinate,
+                margin: tokens.Spacing0,
+                textAlign: 'start',
+              }}
+            >
+              {gracePeriodExpiry}
+            </Typography>
+          </Box>
+        </Box>
+      );
+    } else if (description) {
+      return (
+        <Typography
+          paragraph
+          id={`${iconName}-description`}
+          sx={{
+            fontSize: tokens.TypographySizeSubordinate,
+            fontWeight: tokens.TypographyWeightBody,
+            color: tokens.TypographyColorSubordinate,
+            margin: tokens.Spacing0,
+            marginBlockStart: tokens.Spacing1,
+            textAlign: 'start',
+          }}
+          data-se="authenticator-button-description"
+          aria-label={punctuate(description)}
+          dir={dir}
+          translate={noTranslate ? 'no' : undefined}
+        >
+          {description}
+        </Typography>
+      );
+    }
+    return null;
+  };
 
   return (
     <Box
@@ -179,26 +257,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
         >
           {label}
         </Typography>
-        {description && (
-          <Typography
-            paragraph
-            id={`${iconName}-description`}
-            sx={{
-              fontSize: tokens.TypographySizeSubordinate,
-              fontWeight: tokens.TypographyWeightBody,
-              color: tokens.TypographyColorSubordinate,
-              margin: tokens.Spacing0,
-              marginBlockStart: tokens.Spacing1,
-              textAlign: 'start',
-            }}
-            data-se="authenticator-button-description"
-            aria-label={punctuate(description)}
-            dir={dir}
-            translate={noTranslate ? 'no' : undefined}
-          >
-            {description}
-          </Typography>
-        )}
+        { renderDescription() }
         {nickname && (
           <Typography
             paragraph

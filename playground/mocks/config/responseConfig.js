@@ -55,6 +55,8 @@ const idx = {
     // 'authenticator-enroll-select-authenticator',
     // 'authenticator-enroll-select-authenticator-with-skip',
     // 'authenticator-enroll-webauthn',
+    // 'authenticator-enroll-grace-period-with-skip',
+    // 'authenticator-enroll-grace-period',
     // 'authenticator-verification-data-phone-sms-then-voice',
     // 'authenticator-verification-data-phone-voice-only',
     // 'authenticator-verification-data-phone-voice-then-sms',
@@ -113,7 +115,7 @@ const idx = {
     // 'ws1-device-integration-mobile-enrollment',
     // 'authenticator-verification-custom-app-push',
     // 'authenticator-enroll-custom-app-push',
-    // 'request-activation-email'    
+    // 'request-activation-email'
   ],
   '/idp/idx/enroll': [
     'enroll-profile-new',

@@ -126,10 +126,10 @@ exports[`authenticator-enroll-select-authenticator renders form 1`] = `
                     >
                       <h3
                         class="MuiTypography-root MuiTypography-h6 emotion-24"
-                        data-se="select-authenticator-enroll_Heading_Set_up_optional_3"
+                        data-se="select-authenticator-enroll_Heading_Optional_3"
                         tabindex="-1"
                       >
-                        Set up optional
+                        Optional
                       </h3>
                     </div>
                   </div>
