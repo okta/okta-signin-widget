@@ -25,7 +25,6 @@ import {
 import { IdxForm } from '@okta/okta-auth-js/types/lib/idx/types/idx-js';
 import { StateUpdater } from 'preact/hooks';
 
-import Util from '../../../util/Util';
 import { getMessage } from '../../../v2/ion/i18nUtils';
 import {
   AUTHENTICATOR_KEY,
@@ -140,11 +139,6 @@ export const buildAuthCoinProps = (
   }
 
   const { nextStep, messages } = transaction;
-  if (Util.isAndroidOVEnrollment(transaction.context?.authentication?.value)
-    && transaction.context.success?.name === IDX_STEP.SUCCESS_REDIRECT) {
-    return { authenticatorKey: AUTHENTICATOR_KEY.OV };
-  }
-
   if (containsOneOfMessageKeys(EMAIL_AUTHENTICATOR_TERMINAL_KEYS, messages)
     || nextStep?.name === IDX_STEP.CONSENT_EMAIL_CHALLENGE) {
     return { authenticatorKey: AUTHENTICATOR_KEY.EMAIL };
