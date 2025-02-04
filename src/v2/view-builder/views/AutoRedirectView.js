@@ -83,7 +83,7 @@ const Body = BaseForm.extend({
     // Do not show "Open Okta Verify" button for "redirect-idp" remediation
     //  converted to "success-redirect" with `convertRedirectIdPToSuccessRedirectIffOneIdp()`
     // (Which can happen if there is a IdP route configured for a user)
-    const isSuccessRedirect = idx.context?.success;
+    const isSuccessRedirect = idx?.context?.success;
     return isAndroidOVEnrollment && isSuccessRedirect;
   },
 

@@ -133,7 +133,7 @@ test
       .eql('http://localhost:3000/idp/identity-verification?stateTokenExternalId=bzJOSnhodWVNZjZuVEsrUj');
   });
 
-  test
+test
   .requestHooks(logger, personaIdvForOvEnrollmentAndroidMock)('should redirect after verification with Persona for OV enrollment on Android', async t => {
     const pageObject = await setup(t);
     await t.expect(pageObject.getFormTitle()).eql('Verify your identity with Persona');
