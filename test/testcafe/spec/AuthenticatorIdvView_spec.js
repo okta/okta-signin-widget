@@ -4,6 +4,7 @@ import IdPAuthenticatorPageObject from '../framework/page-objects/IdPAuthenticat
 import PersonaIdvResponse from '../../../playground/mocks/data/idp/idx/authenticator-verification-idp-with-persona.json';
 import ClearIdvResponse from '../../../playground/mocks/data/idp/idx/authenticator-verification-idp-with-clear.json';
 import IncodeIdvResponse from '../../../playground/mocks/data/idp/idx/authenticator-verification-idp-with-incode.json';
+import PersonaIdvForOvEnrollmentAndroidResponse from '../../../playground/mocks/data/idp/idx/authenticator-verification-idp-with-persona-for-ov-enrollment-on-android.json';
 
 const logger = RequestLogger(/introspect/,
   {
@@ -33,6 +34,14 @@ const incodeIdvMock = RequestMock()
   .respond(IncodeIdvResponse)
   .onRequestTo('http://localhost:3000/idp/idx/credential/enroll')
   .respond(IncodeIdvResponse)
+  .onRequestTo('http://localhost:3000/idp/identity-verification?stateTokenExternalId=bzJOSnhodWVNZjZuVEsrUj')
+  .respond('<html><h1>An external IdP login page for testcafe testing</h1></html>');
+
+const personaIdvForOvEnrollmentAndroidMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(PersonaIdvForOvEnrollmentAndroidResponse)
+  .onRequestTo('http://localhost:3000/idp/idx/credential/enroll')
+  .respond(PersonaIdvForOvEnrollmentAndroidResponse)
   .onRequestTo('http://localhost:3000/idp/identity-verification?stateTokenExternalId=bzJOSnhodWVNZjZuVEsrUj')
   .respond('<html><h1>An external IdP login page for testcafe testing</h1></html>');
 
@@ -119,6 +128,16 @@ test
     await pageObject.submit('Continue');
 
 
+    const pageUrl = await pageObject.getPageUrl();
+    await t.expect(pageUrl)
+      .eql('http://localhost:3000/idp/identity-verification?stateTokenExternalId=bzJOSnhodWVNZjZuVEsrUj');
+  });
+
+  test
+  .requestHooks(logger, personaIdvForOvEnrollmentAndroidMock)('should redirect after verification with Persona for OV enrollment on Android', async t => {
+    const pageObject = await setup(t);
+    await t.expect(pageObject.getFormTitle()).eql('Verify your identity with Persona');
+    await pageObject.submit('Continue');
     const pageUrl = await pageObject.getPageUrl();
     await t.expect(pageUrl)
       .eql('http://localhost:3000/idp/identity-verification?stateTokenExternalId=bzJOSnhodWVNZjZuVEsrUj');
