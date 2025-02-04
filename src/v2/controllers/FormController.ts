@@ -259,9 +259,10 @@ export default Controller.extend({
       // Because SIW sort of finished its current /transaction/
       sessionStorageHelper.removeStateHandle();
 
-      // OKTA-635926: do not redirect without user gesture for ov enrollment on android
-      // if Util.isAndroidOVEnrollment() returns true we use a user gesture to complete the redirect in AutoRedirectView    
-      if (!Util.isAndroidOVEnrollment(this.options.appState.get('authentication'))) {
+      if (model.get('useRedirectButton')) {
+        // OKTA-635926: do not redirect without user gesture for ov enrollment on android
+        // We use a user gesture to complete the redirect in AutoRedirectView
+      } else {
         const currentViewState = this.options.appState.getCurrentViewState();
         // OKTA-702402: redirect only if/when the page is visible
         Util.executeOnVisiblePage(() => {

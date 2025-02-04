@@ -16,7 +16,7 @@ const Body = BaseForm.extend({
     const user = this.options.appState.get('user');
 
     // OKTA-635926: add user gesture for ov enrollment on android
-    if (Util.isAndroidOVEnrollment(this.options.appState.get('authentication'))) {
+    if (this.useRedirectButton()) {
       titleString = loc('oie.success.text.signingIn.with.appName.android.ov.enrollment', 'login');
       return titleString;
     }
@@ -71,12 +71,25 @@ const Body = BaseForm.extend({
     BaseForm.prototype.initialize.apply(this, arguments);
     this.redirectView = this.settings.get('interstitialBeforeLoginRedirect');
     this.model.set('useRedirect', true);
+    if (this.useRedirectButton()) {
+      this.model.set('useRedirectButton', true);
+    }
     this.trigger('save', this.model);
+  },
+
+  useRedirectButton() {
+    const idx = this.options.appState.get('idx');
+    const isAndroidOVEnrollment = Util.isAndroidOVEnrollment(this.options.appState.get('authentication'));
+    // Do not show "Open Okta Verify" button for "redirect-idp" remediation
+    //  converted to "success-redirect" with `convertRedirectIdPToSuccessRedirectIffOneIdp()`
+    // (Which can happen if there is a IdP route configured for a user)
+    const isSuccessRedirect = idx.context?.success;
+    return isAndroidOVEnrollment && isSuccessRedirect;
   },
 
   render() {
     BaseForm.prototype.render.apply(this, arguments);
-    if (Util.isAndroidOVEnrollment(this.options.appState.get('authentication'))) {
+    if (this.useRedirectButton()) {
       const currentViewState = this.options.appState.getCurrentViewState();
       this.add(createButton({
         className: 'ul-button button button-wide button-primary hide-underline',
