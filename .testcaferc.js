@@ -86,6 +86,7 @@ const config = {
   src: env.OKTA_SIW_MOBILE ? [
     'test/testcafe/spec/EnrollAuthenticatorOktaVerify_spec.js',
     'test/testcafe/spec/AuthenticatorIdvView_spec.js',
+    'test/testcafe/spec/AuthenticatorIdPView_spec.js',
   ] : env.OKTA_SIW_EN_LEAKS ? [
     'test/testcafe/spec-en-leaks/*_spec.js',
   ] : [

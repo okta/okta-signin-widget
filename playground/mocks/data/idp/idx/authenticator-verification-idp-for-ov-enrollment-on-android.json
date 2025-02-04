@@ -1,0 +1,126 @@
+{
+    "stateHandle": "02TptqPN4BOLIwMAGUVLPlZVJEnONAq7xkg19dy6Gk",
+    "version": "1.0.0",
+    "expiresAt": "2021-01-19T15:10:35.000Z",
+    "intent": "LOGIN",
+    "remediation": {
+      "type": "array",
+      "value": [
+        {
+          "name": "redirect-idp",
+          "type": "OIDC",
+          "idp": {
+            "id": "0oa69chx4bZyx8O7l0g4",
+            "name": "IDP Authenticator"
+          },
+          "href": "http://localhost:3000/sso/idps/0oa69chx4bZyx8O7l0g4?stateToken=02TptqPN4BOLIwMAGUVLPlZVJEnONAq7xkg19dy6Gk",
+          "method": "GET",
+          "relatesTo" : [ "$.currentAuthenticatorEnrollment" ]
+        }
+      ]
+    },
+    "currentAuthenticatorEnrollment": {
+      "type": "object",
+      "value": {
+        "key": "external_idp",
+        "type": "federated",
+        "id": "aut4mhtS1b84AR0iQ0g4",
+        "displayName": "IDP Authenticator",
+        "methods": [
+          { "type": "idp" }
+        ]
+      }
+    },
+    "currentAuthenticator": {
+      "type": "object",
+      "value": {
+        "key": "external_idp",
+        "type": "federated",
+        "id": "aut4mhtS1b84AR0iQ0g4",
+        "displayName": "IDP Authenticator",
+        "methods": [
+          { "type": "idp" }
+        ]
+      }
+    },
+    "authenticators": {
+      "type": "array",
+      "value": [
+        {
+          "key": "external_idp",
+          "type": "federated",
+          "id": "aut4mhtS1b84AR0iQ0g4",
+          "displayName": "IDP Authenticator",
+          "methods": [
+            { "type": "idp" }
+          ]
+        }
+      ]
+    },
+    "authenticatorEnrollments": {
+      "type": "array",
+      "value": [
+        {
+          "profile": { "provider": "Custom OIDC Provider" },
+          "type": "federated",
+          "key": "external_idp",
+          "id": "aut4mhtS1b84AR0iQ0g4",
+          "displayName": "IDP Authenticator",
+          "methods": [
+            { "type": "idp" }
+          ]
+        }
+      ]
+    },
+    "user": {
+      "type": "object",
+      "value": { "id": "00u2m55pu8UZyeMMl0g4", "identifier": "testUser@okta.com" }
+    },
+    "cancel": {
+      "rel": [ "create-form" ],
+      "name": "cancel",
+      "href": "http://localhost:3000/idp/idx/cancel",
+      "method": "POST",
+      "value": [
+        {
+          "name": "stateHandle",
+          "required": true,
+          "value": "02TptqPN4BOLIwMAGUVLPlZVJEnONAq7xkg19dy6Gk",
+          "visible": false,
+          "mutable": false
+        }
+      ],
+      "accepts": "application/ion+json; okta-version=1.0.0"
+    },
+    "app": {
+        "type": "object",
+        "value": {
+            "name": "Okta_Authenticator",
+            "label": "Okta Authenticator",
+            "id": "BDSC3453323dsdfS"
+        }
+    },
+    "authentication": {
+        "type": "object",
+        "value": {
+            "protocol": "OAUTH2.0",
+            "issuer": {
+                "name": "Test App",
+                "uri": "http://localhost:3000"
+            },
+            "request": {
+                "max_age": -1,
+                "scope": "openid profile email okta.authenticators.read okta.authenticators.manage.self",
+                "display": "page",
+                "response_type": "code",
+                "redirect_uri": "https://login.okta.com/oauth/callback",
+                "state": "i41VVuProw96htTUmvRP9A",
+                "code_challenge_method": "S256",
+                "nonce": "ASDF4343SDFS3-GhS8SQCw",
+                "code_challenge": "abcd_8asd8asdf8as98fasdf_-_9sadif9rasd9fasdf-cc",
+                "response_mode": "query"
+            }
+        }
+    }
+  }
+  

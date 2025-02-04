@@ -11,6 +11,7 @@ import xhrVerifyIdPAuthenticatorCustomLogo from '../../../playground/mocks/data/
 import xhrVerifyIdPAuthenticatorSingleRemediation from '../../../playground/mocks/data/idp/idx/authenticator-verification-idp-single-remediation.json';
 import xhrVerifyIdPAuthenticatorError from '../../../playground/mocks/data/idp/idx/error-authenticator-verification-idp.json';
 import xhrVerifyIdpAuthentiatorErrorCustomLogo from '../../../playground/mocks/data/idp/idx/error-authenticator-verification-idp-custom-logo.json';
+import xhrVerifyIdPAuthenticatorForOvEnrollmentAndroid from '../../../playground/mocks/data/idp/idx/authenticator-verification-idp-for-ov-enrollment-on-android.json';
 
 const logger = RequestLogger(/introspect/,
   {
@@ -74,6 +75,10 @@ const verifyErrorMock = RequestMock()
 const verifyErrorCustomLogoMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrVerifyIdpAuthentiatorErrorCustomLogo);
+
+const verifyIdPAuthenticatorForOvEnrollmentAndroid = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrVerifyIdPAuthenticatorForOvEnrollmentAndroid);
 
 async function setup(t, {isVerify, expectAutoRedirect} = {}, widgetOptions = undefined) {
   const options = widgetOptions ? { render: false } : {};
@@ -309,4 +314,18 @@ test
       await t.expect(logoBgImage).match(/^url\(".*\/img\/logos\/default\.png"\)$/);
       await t.expect(pageObject.getBeaconSelector()).contains('custom-app-logo');
     }
+  });
+
+test
+  .requestHooks(logger, verifyIdPAuthenticatorForOvEnrollmentAndroid)('verify with IdP authenticator for OV enrollment on Android', async t => {
+    const pageObject = await setup(t, {isVerify: true});
+    await checkA11y(t);
+
+    await t.expect(pageObject.getFormTitle()).eql('Verify with IDP Authenticator');
+    await t.expect(pageObject.getPageSubtitle()).eql('You will be redirected to verify with IDP Authenticator');
+    await pageObject.submit('Verify');
+
+    const pageUrl = await pageObject.getPageUrl();
+    await t.expect(pageUrl)
+      .eql('http://localhost:3000/sso/idps/0oa69chx4bZyx8O7l0g4?stateToken=02TptqPN4BOLIwMAGUVLPlZVJEnONAq7xkg19dy6Gk');
   });
