@@ -71,7 +71,7 @@ const env = {
 };
 
 const chromeName = env.CHROME_HEADLESS ? 'chrome:headless' : 'chrome';
-const chromeOptions = env.OKTA_SIW_MOBILE ? ':emulation:device=iphone X' : '';
+const chromeOptions = env.OKTA_SIW_MOBILE ? ':emulation:device=pixel' : '';
 const chromeFlags = env.CHROME_HEADLESS ? '' : ' --disable-search-engine-choice-screen';
 const chromeFullName = `${chromeName}${chromeOptions}${chromeFlags}`;
 
@@ -85,6 +85,7 @@ const config = {
   ],
   src: env.OKTA_SIW_MOBILE ? [
     'test/testcafe/spec/EnrollAuthenticatorOktaVerify_spec.js',
+    'test/testcafe/spec/AuthenticatorIdvView_spec.js',
   ] : env.OKTA_SIW_EN_LEAKS ? [
     'test/testcafe/spec-en-leaks/*_spec.js',
   ] : [
