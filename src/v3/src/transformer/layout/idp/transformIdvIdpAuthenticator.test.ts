@@ -41,7 +41,22 @@ describe('IDV IDP Authenticator transformer Tests', () => {
       transaction,
       widgetProps: {},
     });
+    expect(updatedFormBag.uischema.elements.length).toBe(6);
+    expect(updatedFormBag).toMatchSnapshot();
+  });
+
+  it('should add back to signin link', () => {
+    transaction.availableSteps = [
+      { name: 'cancel' },
+    ];
+    const updatedFormBag = transformIdvIdpAuthenticator({
+      formBag,
+      transaction,
+      widgetProps: {},
+    });
     expect(updatedFormBag.uischema.elements.length).toBe(7);
     expect(updatedFormBag).toMatchSnapshot();
   });
+
+
 });
