@@ -57,6 +57,4 @@ describe('IDV IDP Authenticator transformer Tests', () => {
     expect(updatedFormBag.uischema.elements.length).toBe(7);
     expect(updatedFormBag).toMatchSnapshot();
   });
-
-
 });
