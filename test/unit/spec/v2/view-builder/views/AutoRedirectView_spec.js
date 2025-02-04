@@ -25,6 +25,10 @@ describe('v2/view-builder/views/AutoRedirectView', function() {
       const appState = new AppState({}, {});
       appState.set('user', user);
       appState.set('app', app);
+      appState.set('idx', {
+        context: SuccessWithAppUser,
+        rawIdxState: SuccessWithAppUser,
+      });
 
       testContext.view = new AutoRedirectView({
         appState,
