@@ -25,7 +25,7 @@ import {
   ClickEvent,
   ListStyleType,
   WidgetMessage,
-  WidgetMessageLink,
+  WidgetMessageOption,
 } from '../../types';
 import { parseHtmlContent } from '../../util';
 
@@ -46,49 +46,54 @@ const WidgetMessageContainer: FunctionComponent<{
     </Typography>
   ));
 
-  const getLinkElement = (link: WidgetMessageLink) => {
-    if (link.isLinkButton) {
-      return (
-        // @ts-expect-error error due to variant type applied, can be ignored
-        <MuiLink
-          component="button"
-          role="link"
-          onClick={(event: ClickEvent) => {
-            event.preventDefault();
-            link.onClick();
-          }}
-          // @ts-expect-error MUI variant type does not include monochrome but functions appropriately when set
-          variant={linkVariant}
-          sx={{
-            textAlign: 'start',
-            fontSize: tokens.TypographySizeBody,
-            verticalAlign: 'text-top',
-          }}
-          data-se={link.dataSe}
-        >
-          {link.label}
-        </MuiLink>
-      );
-    } if (link.url) {
-      return (
-        <Link
-          href={link.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          variant={linkVariant}
-        >
-          {link.label}
-        </Link>
-      );
+  const getOptionElement = (option: WidgetMessageOption) => {
+    switch (option.type) {
+      case 'button':
+        return (
+          // @ts-expect-error error due to variant type applied, can be ignored
+          <MuiLink
+            component="button"
+            role="link"
+            onClick={(event: ClickEvent) => {
+              event.preventDefault();
+              option.onClick();
+            }}
+            // @ts-expect-error MUI variant type does not include monochrome but functions appropriately when set
+            variant={linkVariant}
+            sx={{
+              textAlign: 'start',
+              fontSize: tokens.TypographySizeBody,
+              verticalAlign: 'text-top',
+            }}
+            data-se={option.dataSe}
+          >
+            {option.label}
+          </MuiLink>
+        );
+      case 'link':
+        return (
+          <Link
+            href={option.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            variant={linkVariant}
+          >
+            {option.label}
+          </Link>
+        );
+      default:
+      case 'text':
+        // Custom error remediation allows admins to define a message without a URL
+        return option.label;
     }
-
-    // Custom error remediation allows admins to define a message without a URL
-    return link.label;
   };
 
-  const renderLinks = (links?: WidgetMessageLink[], listStyleType?: ListStyleType) => (links && (
+  const renderOptions = (
+    options?: WidgetMessageOption[],
+    listStyleType?: ListStyleType,
+  ) => (options && (
     <List
-      data-se="custom-links"
+      data-se="custom-options"
       disablePadding
       dense
       sx={{
@@ -96,15 +101,15 @@ const WidgetMessageContainer: FunctionComponent<{
         listStyle: listStyleType ?? 'none',
       }}
     >
-      {links.map((link) => (
+      {options.map((option) => (
         <ListItem
           sx={{
             paddingLeft: 0,
             display: 'list-item',
           }}
-          key={link.label}
+          key={option.label}
         >
-          {getLinkElement(link)}
+          {getOptionElement(option)}
         </ListItem>
       ))}
     </List>
@@ -162,7 +167,8 @@ const WidgetMessageContainer: FunctionComponent<{
       <React.Fragment>
         {renderTitle(message.title)}
         {Array.isArray(message.message) ? createListMessages(message) : parsedContent}
-        {renderLinks(message.links, message.listStyleType)}
+        {/* `message.options` is an augmented version of `message.links`, so they are mutually exclusive */}
+        {renderOptions(message.options ?? message.links?.map((link) => ({ type: 'link', ...link })), message.listStyleType)}
       </React.Fragment>
     );
   }

@@ -26,14 +26,14 @@ Object {
           "dataSe": "callout",
           "message": Array [
             Object {
-              "links": Array [
+              "listStyleType": "disc",
+              "options": Array [
                 Object {
-                  "isLinkButton": false,
                   "label": "idx.error.code.access_denied.device_assurance.remediation.android.upgrade_os_version",
+                  "type": "link",
                   "url": "https://okta.com/android-upgrade-os",
                 },
               ],
-              "listStyleType": "disc",
               "title": "idx.device_assurance.grace_period.warning.title.due_by_date",
             },
             Object {
