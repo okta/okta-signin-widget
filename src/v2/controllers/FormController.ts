@@ -255,14 +255,14 @@ export default Controller.extend({
 
     // Use full page redirection if necessary
     if (model.get('useRedirect')) {
-      // Clear when navigates away from SIW page, e.g. success, IdP Authenticator.
-      // Because SIW sort of finished its current /transaction/
-      sessionStorageHelper.removeStateHandle();
-
       if (model.get('useRedirectButton')) {
         // OKTA-635926: do not redirect without user gesture for ov enrollment on android
         // We use a user gesture to complete the redirect in AutoRedirectView
       } else {
+        // Clear when navigates away from SIW page, e.g. success, IdP Authenticator.
+        // Because SIW sort of finished its current /transaction/
+        sessionStorageHelper.removeStateHandle();
+
         const currentViewState = this.options.appState.getCurrentViewState();
         // OKTA-702402: redirect only if/when the page is visible
         Util.executeOnVisiblePage(() => {
