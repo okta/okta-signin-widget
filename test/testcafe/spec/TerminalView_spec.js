@@ -21,6 +21,10 @@ import endUserRemediationOneOption from '../../../playground/mocks/data/idp/idx/
 import endUserRemediationMultipleOptions from '../../../playground/mocks/data/idp/idx/end-user-remediation-multiple-options.json';
 import endUserRemediationMultipleOptionsWithCustomHelpUrl from '../../../playground/mocks/data/idp/idx/end-user-remediation-multiple-options-with-custom-help-url.json';
 import endUserRemediationNoOptions from '../../../playground/mocks/data/idp/idx/end-user-remediation-no-options.json';
+import endUserRemediationMultipleOptionsWithCustomRemediation from '../../../playground/mocks/data/idp/idx/end-user-remediation-custom-message-multiple-options.json';
+import endUserRemediationCustomMessageCustomUrl from '../../../playground/mocks/data/idp/idx/end-user-remediation-custom-message-custom-url.json';
+import endUserRemediationCustomMessageNoUrl from '../../../playground/mocks/data/idp/idx/end-user-remediation-custom-message-no-url.json';
+import endUserRemediationDefaultMessageCustomUrl from '../../../playground/mocks/data/idp/idx/end-user-remediation-default-message-custom-url.json';
 import { within } from '@testing-library/testcafe';
 
 const terminalTransferredEmailMock = RequestMock()
@@ -94,6 +98,22 @@ const endUserRemediationMultipleOptionsWithCustomHelpUrlMock = RequestMock()
 const endUserRemediationNoOptionsMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(endUserRemediationNoOptions);  
+
+const endUserRemediationMultipleOptionsWithCustomRemediationMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(endUserRemediationMultipleOptionsWithCustomRemediation);
+
+const endUserRemediationCustomMessageCustomUrlMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(endUserRemediationCustomMessageCustomUrl);
+
+const endUserRemediationCustomMessageNoUrlMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(endUserRemediationCustomMessageNoUrl);
+
+const endUserRemediationDefaultMessageCustomUrlMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(endUserRemediationDefaultMessageCustomUrl);
 
 fixture('Terminal view');
 
@@ -300,5 +320,66 @@ test.requestHooks(endUserRemediationNoOptionsMock)('should render end user remed
   await t.expect(terminalViewPage.form.getErrorBoxCallout().withText('To sign in, make the following updates. Then, access the app again.').exists).eql(false);
 
   await t.expect(terminalViewPage.form.getErrorBoxCallout().withText('follow the instructions on your organization\'s help page').find('a[href="https://okta1.com/custom-help-me"]').exists).eql(true);
+  await t.expect(terminalViewPage.form.getAnchorsWithBlankTargetsWithoutRelevantAttributes().exists).eql(false);
+});
+
+test.requestHooks(endUserRemediationMultipleOptionsWithCustomRemediationMock)('should render end user remediation when there are multiple options with custom messages and URLs', async t => {
+  const terminalViewPage = await setup(t);
+  await checkA11y(t);
+
+  await t.expect(terminalViewPage.form.getErrorBoxCallout().withText('Your device doesn\'t meet the security requirements').exists).eql(true);
+  await t.expect(terminalViewPage.form.getErrorBoxCallout().withText('To sign in, pick an option and make the updates. Then, access the app again.').exists).eql(true);
+
+  await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://myremediationurl.com/docs').withExactText('It\'s our company policy that you upgrade your Android OS').exists).eql(true);
+  await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://okta.com/android-biometric-lock').withExactText('Enable lock screen and biometrics').exists).eql(true);
+
+  await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://okta.com/android-lock-screen').withExactText('Enable lock screen').exists).eql(true);
+  await t.expect(terminalViewPage.getErrorBoxAnchorsWithText('It\'s our company policy that your Android device cannot be rooted').exists).eql(false);
+  await t.expect(terminalViewPage.form.getErrorBoxCallout().withText('It\'s our company policy that your Android device cannot be rooted').exists).eql(true);
+
+  await t.expect(terminalViewPage.form.getErrorBoxCallout().withText('follow the instructions on the help page').find('a[href="https://okta.com/help"]').exists).eql(true);
+  await t.expect(terminalViewPage.form.getAnchorsWithBlankTargetsWithoutRelevantAttributes().exists).eql(false);
+});
+
+test.requestHooks(endUserRemediationCustomMessageCustomUrlMock)('should render end user remediation when there is an option with a custom message and custom URL', async t => {
+  const terminalViewPage = await setup(t);
+  await checkA11y(t);
+
+  await t.expect(terminalViewPage.form.getErrorBoxCallout().withText('Your device doesn\'t meet the security requirements').exists).eql(true);
+  await t.expect(terminalViewPage.form.getErrorBoxCallout().withText('To sign in, make the following updates. Then, access the app again.').exists).eql(true);
+
+  await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://myremediationurl.com/docs').withExactText('It\'s our company policy that you upgrade your Android OS').exists).eql(true);
+  await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://okta.com/android-biometric-lock').withExactText('Enable lock screen and biometrics').exists).eql(true);
+
+  await t.expect(terminalViewPage.form.getErrorBoxCallout().withText('follow the instructions on the help page').find('a[href="https://okta.com/help"]').exists).eql(true);
+  await t.expect(terminalViewPage.form.getAnchorsWithBlankTargetsWithoutRelevantAttributes().exists).eql(false);
+});
+
+test.requestHooks(endUserRemediationCustomMessageNoUrlMock)('should render end user remediation when there is an option with a custom message and no URL', async t => {
+  const terminalViewPage = await setup(t);
+  await checkA11y(t);
+
+  await t.expect(terminalViewPage.form.getErrorBoxCallout().withText('Your device doesn\'t meet the security requirements').exists).eql(true);
+  await t.expect(terminalViewPage.form.getErrorBoxCallout().withText('To sign in, make the following updates. Then, access the app again.').exists).eql(true);
+
+  await t.expect(terminalViewPage.getErrorBoxAnchorsWithText('It\'s our company policy that your Android device cannot be rooted').exists).eql(false);
+  await t.expect(terminalViewPage.form.getErrorBoxCallout().withText('It\'s our company policy that your Android device cannot be rooted').exists).eql(true);
+  await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://okta.com/android-biometric-lock').withExactText('Enable lock screen and biometrics').exists).eql(true);
+
+  await t.expect(terminalViewPage.form.getErrorBoxCallout().withText('follow the instructions on the help page').find('a[href="https://okta.com/help"]').exists).eql(true);
+  await t.expect(terminalViewPage.form.getAnchorsWithBlankTargetsWithoutRelevantAttributes().exists).eql(false);
+});
+
+test.requestHooks(endUserRemediationDefaultMessageCustomUrlMock)('should render end user remediation when there is an option with a default message and custom URL', async t => {
+  const terminalViewPage = await setup(t);
+  await checkA11y(t);
+
+  await t.expect(terminalViewPage.form.getErrorBoxCallout().withText('Your device doesn\'t meet the security requirements').exists).eql(true);
+  await t.expect(terminalViewPage.form.getErrorBoxCallout().withText('To sign in, make the following updates. Then, access the app again.').exists).eql(true);
+
+  await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://myremediationurl.com/docs').withExactText('Update to Android 100').exists).eql(true);
+  await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://okta.com/android-biometric-lock').withExactText('Enable lock screen and biometrics').exists).eql(true);
+
+  await t.expect(terminalViewPage.form.getErrorBoxCallout().withText('follow the instructions on the help page').find('a[href="https://okta.com/help"]').exists).eql(true);
   await t.expect(terminalViewPage.form.getAnchorsWithBlankTargetsWithoutRelevantAttributes().exists).eql(false);
 });

@@ -1,0 +1,57 @@
+{
+  "stateHandle": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
+  "version": "1.0.0",
+  "expiresAt": "2020-05-18T20:42:23.000Z",
+
+  "intent": "LOGIN",
+  "messages": {
+    "type": "array",
+    "value": [
+      {
+        "message": "Your device doesn't meet the security requirements",
+        "i18n": {
+          "key": "idx.error.code.access_denied.device_assurance.remediation.title"
+        },
+        "class": "ERROR"
+      },
+      {
+        "message": "To sign in, make the following updates. Then, access the app again.",
+        "i18n": {
+          "key": "idx.error.code.access_denied.device_assurance.remediation.explanation_one_rule"
+        },
+        "class": "ERROR"
+      },
+      {
+        "links": [
+          {"url": "https://myremediationurl.com/docs"}
+        ],
+        "message": "Update to Android 100",
+        "i18n": {
+          "key": "idx.error.code.access_denied.device_assurance.remediation.android.upgrade_os_version",
+          "params": ["100"]
+        },
+        "class": "ERROR"
+      },
+      {
+        "links": [
+          {"url": "https://okta.com/android-biometric-lock"}
+        ],
+        "message": "Enable lock screen and biometrics",
+        "i18n": {
+          "key": "idx.error.code.access_denied.device_assurance.remediation.android.use_biometric_lock_screen"
+        },
+        "class": "ERROR"
+      },
+      {
+        "links": [
+          {"url": "https://okta.com/help"}
+        ],
+        "message": "For more information, follow the instructions on the help page or contact your administrator for help",
+        "i18n": {
+          "key": "idx.error.code.access_denied.device_assurance.remediation.additional_help_default"
+        },
+        "class": "ERROR"
+      }
+    ]
+  }
+}

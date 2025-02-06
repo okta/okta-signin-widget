@@ -191,7 +191,9 @@ export const transformStepInputs = (
     // string (which is set in transformEnrollProfileUpdate), so we should not remove it from the payload here
     if (fieldName === 'userProfile.secondEmail') {
       return acc;
-    } else if (typeof value === 'string' && value.trim().length === 0 && optionalInputNames.has(fieldName)) {
+    }
+
+    if (typeof value === 'string' && value.trim().length === 0 && optionalInputNames.has(fieldName)) {
       acc.push(fieldName);
     }
     return acc;

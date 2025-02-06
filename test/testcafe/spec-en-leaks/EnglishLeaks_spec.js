@@ -36,6 +36,9 @@ const ignoredMocks = [
   'enroll-profile-new-custom-labels.json', // custom message/label
   'terminal-okta-verify-enrollment-android-device.json', // Automatic redirect, in app logic handles this view, no english leak.
   'error-429-api-limit-exceeded.json', // Gen3 has english leak on UI. But in real world this response can be received on polling only, no english leak in this case.
+  'end-user-remediation-custom-message-custom-url.json', // custom error remediation message
+  'end-user-remediation-custom-message-multiple-options.json', // custom error remediation message
+  'end-user-remediation-custom-message-no-url.json' // custom error remediation message
 ];
 if (userVariables.gen3) {
   // TODO: Re-enable in OKTA-654489
