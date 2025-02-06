@@ -30,11 +30,11 @@ import {
   DeviceRemediation,
   IWidgetContext,
   LaunchAuthenticatorButtonElement,
-  MessageLink,
   PhoneVerificationMethodType,
   RequiredKeys,
   WidgetMessage,
   WidgetMessageLink,
+  WidgetMessageOption,
   WidgetProps,
 } from '../types';
 import { idpIconMap } from './idpIconMap';
@@ -308,27 +308,35 @@ const isLoopbackDeviceRemediation = (
 ): deviceRemediation is RequiredKeys<DeviceRemediation, 'remediationType' | 'action'> => !!deviceRemediation
   && deviceRemediation.remediationType === 'LOOPBACK' && !!deviceRemediation.action;
 
-const buildEnduserRemediationWidgetMessageLink = (
-  links: MessageLink[],
+const buildEnduserRemediationWidgetMessageOption = (
+  links: WidgetMessageLink[],
   message: string,
   deviceRemediation: DeviceRemediation | undefined,
-): WidgetMessageLink | undefined => {
+  isLinklessMessage: boolean,
+): WidgetMessageOption | undefined => {
   if (links?.[0]?.url) {
     return {
-      isLinkButton: false,
+      type: 'link',
       url: links[0].url,
       label: message,
     };
-  } else if (isLoopbackDeviceRemediation(deviceRemediation)) {
+  } if (isLoopbackDeviceRemediation(deviceRemediation)) {
     return {
-      isLinkButton: true,
+      type: 'button',
       label: message,
       onClick: () => {
         probeLoopbackAndExecute(deviceRemediation);
       },
       dataSe: deviceRemediation.action,
     };
+  } if (isLinklessMessage) {
+    // Custom error remediation allows admins to define a message without a URL
+    return {
+      type: 'text',
+      label: message,
+    };
   }
+
   // this should not happen since we assert at least one of links/deviceRemediation will be set
   return undefined;
 };
@@ -347,6 +355,7 @@ export const buildEndUserRemediationMessages = (
   const REMEDIATION_OPTION_INDEX_KEY = `${ACCESS_DENIED_I18N_KEY_PREFIX}.option_index`;
   const ACCESS_DENIED_TITLE_KEY = `${ACCESS_DENIED_I18N_KEY_PREFIX}.title`;
   const GRACE_PERIOD_TITLE_KEY = `${GRACE_PERIOD_I18N_KEY_PREFIX}.title`;
+  const DEVICE_ASSURANCE_CUSTOM_REMEDIATION_I18N_KEY_PREFIX = 'device.assurance.custom.remediation.';
   const resultMessageArray: WidgetMessage[] = [];
 
   messages.forEach((msg) => {
@@ -360,6 +369,9 @@ export const buildEndUserRemediationMessages = (
     } = msg;
 
     const widgetMsg = { listStyleType: 'disc' } as WidgetMessage;
+    const isLinklessMessage = key.startsWith(DEVICE_ASSURANCE_CUSTOM_REMEDIATION_I18N_KEY_PREFIX)
+      && !Array.isArray(links);
+
     if (key === ACCESS_DENIED_TITLE_KEY || key === REMEDIATION_OPTION_INDEX_KEY) {
       // `messages` will already be localized at this point by transactionMessageTransformer, so we can directly set
       // widgetMsg.title equal to `message`
@@ -384,26 +396,27 @@ export const buildEndUserRemediationMessages = (
           $1: { element: 'a', attributes: { href: links[0].url, target: '_blank', rel: 'noopener noreferrer' } },
         },
       );
-    } else if (links?.[0]?.url || deviceRemediation?.value) {
+    } else if (links?.[0]?.url || deviceRemediation?.value || isLinklessMessage) {
       // each link is inside an individual message
       // We find the last message which contains the option title key and insert the link into that message
       const lastIndex = resultMessageArray.length - 1;
       if (lastIndex < 0) {
         return;
       }
-      const linkObject = buildEnduserRemediationWidgetMessageLink(
+      const optionObject = buildEnduserRemediationWidgetMessageOption(
         links,
         message,
         deviceRemediation?.value,
+        isLinklessMessage,
       );
-      if (linkObject === undefined) {
+      if (optionObject === undefined) {
         return;
       }
 
-      if (resultMessageArray[lastIndex].links) {
-        resultMessageArray[lastIndex].links?.push(linkObject);
+      if (resultMessageArray[lastIndex].options) {
+        resultMessageArray[lastIndex].options?.push(optionObject);
       } else {
-        resultMessageArray[lastIndex].links = [linkObject];
+        resultMessageArray[lastIndex].options = [optionObject];
       }
       return;
     } else {

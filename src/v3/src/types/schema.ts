@@ -58,7 +58,8 @@ export type WidgetMessage = Modify<IdxMessage, {
   title?: string;
   name?: string;
   description?: string;
-  links?: WidgetMessageLink[];
+  links?: MessageLink[];
+  options?: WidgetMessageOption[];
   listStyleType?: ListStyleType,
 }>;
 
@@ -69,22 +70,27 @@ export type MessageLink = {
   url: string;
 };
 
-/**
- * When URL is missing from object, link will be treated as a button link
- * utilizing the onClick handler
- */
-export type WidgetMessageLink<TIsLinkButton = boolean> = TIsLinkButton extends true
-  ? {
-    isLinkButton: TIsLinkButton;
-    label: MessageLink['label'];
-    onClick: () => void;
-    dataSe: string;
-  }
-  : {
-    isLinkButton: TIsLinkButton;
-    label: MessageLink['label'];
-    url: MessageLink['url'];
-  };
+export type WidgetMessageOption = WidgetMessageLinkButton | WidgetMessageLink | WidgetMessageText;
+
+type BaseWidgetMessageOption = {
+  type: 'link' | 'button' | 'text';
+  label: string;
+};
+
+export type WidgetMessageLinkButton = BaseWidgetMessageOption & {
+  type: 'button';
+  onClick: () => void;
+  dataSe: string;
+};
+
+export type WidgetMessageLink = BaseWidgetMessageOption & {
+  type: 'link';
+  url: string;
+};
+
+export type WidgetMessageText = BaseWidgetMessageOption & {
+  type: 'text';
+};
 
 export type DeviceRemediationType = 'LOOPBACK';
 export type DeviceRemediationFallBackType = 'MESSAGE' | 'APP_LINK';

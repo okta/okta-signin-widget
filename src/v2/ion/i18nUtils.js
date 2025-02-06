@@ -21,6 +21,7 @@ import { FORMS, AUTHENTICATOR_KEY } from './RemediationConstants';
 import { I18N_BASE_ATTRIBUTE_ENROLL_PROFILE_MAPPINGS } from '../view-builder/views/enroll-profile/i18nBaseAttributeMappings';
 
 const WEBAUTHN_API_GENERIC_ERROR_KEY = 'authfactor.webauthn.error';
+const DEVICE_ASSURANCE_CUSTOM_REMEDIATION_I18N_KEY_PREFIX = 'device.assurance.custom.remediation.';
 
 const SECURITY_QUESTION_PREFIXES = [
   'enroll-authenticator.security_question.credentials.questionKey.',
@@ -338,6 +339,11 @@ const getMessage = (message) => {
       // The WebAuthn api error doesn't make much sense to a typical end user, but useful for developer.
       // So keep the api message in response, but show a generic error message on UI.
       return loc(WEBAUTHN_API_GENERIC_ERROR_KEY, 'login');
+    }
+
+    // Return unlocalized IDX `message.message` for admin-defined custom device assurance remediation keys
+    if (i18nKey.startsWith(DEVICE_ASSURANCE_CUSTOM_REMEDIATION_I18N_KEY_PREFIX)) {
+      return message.message;
     }
   }
 

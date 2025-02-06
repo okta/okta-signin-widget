@@ -77,4 +77,8 @@ export default class TerminalPageObject extends BasePageObject {
   async clickADPInstallRememdiationLink() {
     await this.t.click(this.getADPInstallRemediationLink());
   }
+
+  getErrorBoxAnchorsWithText(text) {
+    return Selector('a').withText(text);
+  }
 }
