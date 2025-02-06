@@ -65,25 +65,31 @@ export type WidgetMessage = Modify<IdxMessage, {
 
 export type ListStyleType = 'circle' | 'disc' | 'square' | 'decimal';
 
-export type WidgetMessageOption = WidgetMessageLinkButton | WidgetMessageLink | WidgetMessageText;
-
 export type MessageLink = {
   label: string;
   url: string;
 };
 
-export type WidgetMessageLinkButton = {
+export type WidgetMessageOption = WidgetMessageLinkButton | WidgetMessageLink | WidgetMessageText;
+
+type BaseWidgetMessageOption = {
+  type: 'link' | 'button' | 'text';
+  label: string;
+};
+
+export type WidgetMessageLinkButton = BaseWidgetMessageOption & {
   type: 'button';
-  label: MessageLink['label'];
   onClick: () => void;
   dataSe: string;
 };
 
-export type WidgetMessageLink = MessageLink & { type: 'link' };
+export type WidgetMessageLink = BaseWidgetMessageOption & {
+  type: 'link';
+  url: string;
+};
 
-export type WidgetMessageText = {
+export type WidgetMessageText = BaseWidgetMessageOption & {
   type: 'text';
-  label: MessageLink['label'],
 };
 
 export type DeviceRemediationType = 'LOOPBACK';

@@ -334,6 +334,7 @@ test.requestHooks(endUserRemediationMultipleOptionsWithCustomRemediationMock)('s
   await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://okta.com/android-biometric-lock').withExactText('Enable lock screen and biometrics').exists).eql(true);
 
   await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://okta.com/android-lock-screen').withExactText('Enable lock screen').exists).eql(true);
+  await t.expect(terminalViewPage.getErrorBoxAnchorsWithText('It\'s our company policy that your Android device cannot be rooted').exists).eql(false);
   await t.expect(terminalViewPage.form.getErrorBoxCallout().withText('It\'s our company policy that your Android device cannot be rooted').exists).eql(true);
 
   await t.expect(terminalViewPage.form.getErrorBoxCallout().withText('follow the instructions on the help page').find('a[href="https://okta.com/help"]').exists).eql(true);
@@ -361,6 +362,7 @@ test.requestHooks(endUserRemediationCustomMessageNoUrlMock)('should render end u
   await t.expect(terminalViewPage.form.getErrorBoxCallout().withText('Your device doesn\'t meet the security requirements').exists).eql(true);
   await t.expect(terminalViewPage.form.getErrorBoxCallout().withText('To sign in, make the following updates. Then, access the app again.').exists).eql(true);
 
+  await t.expect(terminalViewPage.getErrorBoxAnchorsWithText('It\'s our company policy that your Android device cannot be rooted').exists).eql(false);
   await t.expect(terminalViewPage.form.getErrorBoxCallout().withText('It\'s our company policy that your Android device cannot be rooted').exists).eql(true);
   await t.expect(terminalViewPage.form.getErrorBoxAnchor('https://okta.com/android-biometric-lock').withExactText('Enable lock screen and biometrics').exists).eql(true);
 
