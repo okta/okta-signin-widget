@@ -16,6 +16,14 @@ import {
   getStubTransactionWithNextStep,
 } from 'src/mocks/utils/utils';
 
+import {
+  ButtonElement,
+  DescriptionElement,
+  DividerElement,
+  LinkElement,
+  TitleElement,
+} from '../../../types';
+
 import { transformIdvIdpAuthenticator } from './transformIdvIdpAuthenticator';
 
 describe('IDV IDP Authenticator transformer Tests', () => {
@@ -43,6 +51,28 @@ describe('IDV IDP Authenticator transformer Tests', () => {
     });
     expect(updatedFormBag.uischema.elements.length).toBe(6);
     expect(updatedFormBag).toMatchSnapshot();
+    expect(
+      (updatedFormBag.uischema.elements[0] as TitleElement).options?.content,
+    ).toBe('oie.idv.idp.title');
+    expect(
+      (updatedFormBag.uischema.elements[1] as DescriptionElement).options
+        ?.content,
+    ).toBe('oie.idv.idp.desc');
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).label).toBe(
+      'oie.optional.authenticator.button.title',
+    );
+    expect((updatedFormBag.uischema.elements[3] as DividerElement).type)
+    .toBe('Divider');
+    expect((updatedFormBag.uischema.elements[4] as LinkElement).type)
+    .not.toBe('Link');
+    expect(
+      (updatedFormBag.uischema.elements[4] as DescriptionElement).options
+        ?.content,
+    ).toBe('oie.idv.idp.desc.termsOfUse');
+    expect(
+      (updatedFormBag.uischema.elements[5] as DescriptionElement).options
+        ?.content,
+    ).toBe('oie.idv.idp.desc.agreement');
   });
 
   it('should add back to signin link', () => {
@@ -56,5 +86,27 @@ describe('IDV IDP Authenticator transformer Tests', () => {
     });
     expect(updatedFormBag.uischema.elements.length).toBe(7);
     expect(updatedFormBag).toMatchSnapshot();
+    expect(
+      (updatedFormBag.uischema.elements[0] as TitleElement).options?.content,
+    ).toBe('oie.idv.idp.title');
+    expect(
+      (updatedFormBag.uischema.elements[1] as DescriptionElement).options
+        ?.content,
+    ).toBe('oie.idv.idp.desc');
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).label).toBe(
+      'oie.optional.authenticator.button.title',
+    );
+    expect((updatedFormBag.uischema.elements[3] as DividerElement).type)
+    .toBe('Divider');
+    expect((updatedFormBag.uischema.elements[4] as LinkElement).options.label) 
+    .toBe('goback'); 
+    expect(
+      (updatedFormBag.uischema.elements[5] as DescriptionElement).options
+        ?.content,
+    ).toBe('oie.idv.idp.desc.termsOfUse');
+    expect(
+      (updatedFormBag.uischema.elements[6] as DescriptionElement).options
+        ?.content,
+    ).toBe('oie.idv.idp.desc.agreement');
   });
 });
