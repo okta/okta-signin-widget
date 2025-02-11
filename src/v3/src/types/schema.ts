@@ -474,6 +474,13 @@ export interface TitleElement extends UISchemaElement {
   };
 }
 
+export interface SubtitleElement extends UISchemaElement {
+  type: 'Subtitle';
+  options: {
+    content: string;
+  };
+}
+
 export interface HeadingElement extends UISchemaElement {
   type: 'Heading';
   options: {

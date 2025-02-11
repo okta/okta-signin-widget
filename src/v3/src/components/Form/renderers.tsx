@@ -60,6 +60,7 @@ import TextWithActionLink from '../TextWithActionLink';
 import Title from '../Title';
 import WebAuthNAutofill from '../WebAuthNAutofill';
 import WebAuthNSubmitButton from '../WebAuthNSubmitButton';
+import Subtitle from '../Subtitle/Subtitle';
 
 /**
  * Render registry to match UISchemaElement Component with uischema
@@ -168,6 +169,10 @@ export default [
   {
     tester: ({ type }) => type === 'Title',
     renderer: Title,
+  },
+  {
+    tester: ({ type }) => type === 'Subtitle',
+    renderer: Subtitle,
   },
   {
     tester: ({ type }) => type === 'Description',
