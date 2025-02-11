@@ -23,7 +23,6 @@ import {
   LinkElement,
   TitleElement,
 } from '../../../types';
-
 import { transformIdvIdpAuthenticator } from './transformIdvIdpAuthenticator';
 
 describe('IDV IDP Authenticator transformer Tests', () => {
@@ -62,9 +61,9 @@ describe('IDV IDP Authenticator transformer Tests', () => {
       'oie.optional.authenticator.button.title',
     );
     expect((updatedFormBag.uischema.elements[3] as DividerElement).type)
-    .toBe('Divider');
+      .toBe('Divider');
     expect((updatedFormBag.uischema.elements[4] as LinkElement).type)
-    .not.toBe('Link');
+      .not.toBe('Link');
     expect(
       (updatedFormBag.uischema.elements[4] as DescriptionElement).options
         ?.content,
@@ -97,9 +96,9 @@ describe('IDV IDP Authenticator transformer Tests', () => {
       'oie.optional.authenticator.button.title',
     );
     expect((updatedFormBag.uischema.elements[3] as DividerElement).type)
-    .toBe('Divider');
-    expect((updatedFormBag.uischema.elements[4] as LinkElement).options.label) 
-    .toBe('goback'); 
+      .toBe('Divider');
+    expect((updatedFormBag.uischema.elements[4] as LinkElement).options.label)
+      .toBe('goback');
     expect(
       (updatedFormBag.uischema.elements[5] as DescriptionElement).options
         ?.content,
