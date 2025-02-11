@@ -104,8 +104,8 @@ export const transformIdvIdpAuthenticator: IdxStepTransformer = ({
     submitButton,
     divider,
   ];
-
-  if (shouldShowCancelLink(widgetProps?.features)) {
+  const cancelStep = transaction.availableSteps?.find(({ name }) => name === 'cancel');
+  if (shouldShowCancelLink(widgetProps?.features) && cancelStep) {
     const cancelLink: LinkElement = {
       type: 'Link',
       contentType: 'footer',
