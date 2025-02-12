@@ -69,7 +69,7 @@ const idx = {
     // 'authenticator-verification-select-authenticator-ov-m2',
     // 'authenticator-verification-webauthn',
     // 'authenticator-reset-password',
-    // 'authenticator-expired-password',
+    'authenticator-expired-password',
     // 'authenticator-expired-password-no-complexity',
     // 'authenticator-expired-password-with-enrollment-authenticator',
     // 'authenticator-expiry-warning-password',

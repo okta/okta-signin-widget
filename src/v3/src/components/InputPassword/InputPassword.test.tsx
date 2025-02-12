@@ -1,10 +1,9 @@
-import { h } from 'preact';
-import { render, fireEvent, waitFor } from '@testing-library/preact';
+import { render } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
-import { PasswordField } from '@okta/odyssey-react-mui';
 import { useWidgetContext } from '../../contexts';
-import { useValue, useFormFieldValidation, useOnChange } from '../../hooks';
+import { useValue, useFormFieldValidation } from '../../hooks';
 import InputPassword from './InputPassword';
+import { FieldElement, UISchemaElement } from 'src/types';
 
 // Mock the useWidgetContext hook
 jest.mock('../../contexts', () => ({
@@ -34,7 +33,7 @@ describe('InputPassword', () => {
         attributes: {},
         inputMeta: { name: 'password', required: true },
       },
-    },
+    } as unknown as UISchemaElement & FieldElement,
     errors: [],
     describedByIds: 'test-id',
   };
@@ -65,6 +64,8 @@ describe('InputPassword', () => {
     const input = getByLabelText('MockPasswordField');
     const outsideElement = getByTestId('outside-element');
 
+    expect(input).toHaveFocus();
+
     // click outside element to trigger input blur event
     await user.click(outsideElement);
 
@@ -72,20 +73,41 @@ describe('InputPassword', () => {
     expect(mockOnValidateHandler).toHaveBeenCalled();
   });
 
-  it('should not call handleBlur when onBlur event is triggered by a button', async () => {
+  it('should not call handleBlur when onBlur event is triggered by a link button', async () => {
     const user = userEvent.setup();
     const { getByLabelText, getByTestId } = render(
       <div>
         <InputPassword {...defaultProps} />
-        <button data-se="forgot-pass">Forgot password</button>
+        <button data-se="forgot-pass" role="link">Forgot password</button>
       </div>
     );
     const input = getByLabelText('MockPasswordField');
     const button = getByTestId('forgot-pass');
 
+    expect(input).toHaveFocus();
+
     // click outside element to trigger input blur event
     await user.click(button);
 
     expect(mockOnValidateHandler).not.toHaveBeenCalled();
+  });
+
+  it('should call handleBlur when onBlur event is triggered by a non-link button', async () => {
+    const user = userEvent.setup();
+    const { getByLabelText, getByTestId } = render(
+      <div>
+        <InputPassword {...defaultProps} />
+        <button data-se="show-pass">Show password</button>
+      </div>
+    );
+    const input = getByLabelText('MockPasswordField');
+    const button = getByTestId('show-pass');
+
+    expect(input).toHaveFocus();
+
+    // click outside element to trigger input blur event
+    await user.click(button);
+
+    expect(mockOnValidateHandler).toHaveBeenCalled();
   });
 });
