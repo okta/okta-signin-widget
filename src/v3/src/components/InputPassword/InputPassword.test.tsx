@@ -91,7 +91,7 @@ describe('InputPassword', () => {
     const { getByLabelText, getByTestId } = render(
       <div>
         <InputPassword {...defaultProps} />
-        <button data-se="forgot-pass" role="link">Forgot password</button>
+        <button data-se="forgot-pass" type="button" role="link">Forgot password</button>
       </div>,
     );
     const input = getByLabelText('MockPasswordField');
@@ -110,7 +110,7 @@ describe('InputPassword', () => {
     const { getByLabelText, getByTestId } = render(
       <div>
         <InputPassword {...defaultProps} />
-        <button data-se="show-pass">Show password</button>
+        <button data-se="show-pass" type="button">Show password</button>
       </div>,
     );
     const input = getByLabelText('MockPasswordField');
