@@ -23,6 +23,7 @@ import {
   OpenOktaVerifyFPButtonElement,
   SpinnerElement,
   StepperNavigatorElement,
+  SubtitleElement,
   TitleElement,
   UISchemaElement,
   UISchemaLayout,
@@ -30,23 +31,44 @@ import {
 } from '../../../types';
 import { hasMinAuthenticatorOptions, loc, updateTransactionWithNextStep } from '../../../util';
 
-const getTitleText = (challengeMethod: string) => {
+const getTitleElement = (challengeMethod: string): TitleElement | SubtitleElement => {
   switch (challengeMethod) {
     case CHALLENGE_METHOD.APP_LINK:
-      return loc('appLink.title', 'login');
-
+      return {
+        type: 'Title',
+        options: {
+          content: loc('appLink.title', 'login'),
+        },
+      };
     case CHALLENGE_METHOD.CHROME_DTC:
       // reusing the existing message for Chrome DTC
-      return loc('deviceTrust.sso.redirectText', 'login');
-
+      return {
+        type: 'Subtitle',
+        options: {
+          content: loc('deviceTrust.sso.redirectText', 'login'),
+        },
+      };
     case CHALLENGE_METHOD.CUSTOM_URI:
-      return loc('customUri.title', 'login');
-
+      return {
+        type: 'Title',
+        options: {
+          content: loc('customUri.title', 'login'),
+        },
+      };
     case CHALLENGE_METHOD.UNIVERSAL_LINK:
-      return loc('universalLink.title', 'login');
-
+      return {
+        type: 'Title',
+        options: {
+          content: loc('universalLink.title', 'login'),
+        },
+      };
     default:
-      return '';
+      return {
+        type: 'Title',
+        options: {
+          content: '',
+        },
+      };
   }
 };
 
@@ -80,12 +102,7 @@ export const transformOktaVerifyDeviceChallengePoll: IdxStepTransformer = ({
     : transaction.nextStep?.relatesTo?.value?.contextualData?.challenge?.value;
   const { challengeMethod, href, downloadHref } = deviceChallengePayload;
 
-  const titleElement: TitleElement = {
-    type: 'Title',
-    options: {
-      content: getTitleText(challengeMethod),
-    },
-  };
+  const titleElement = getTitleElement(challengeMethod);
 
   const descriptionElement: DescriptionElement = {
     type: 'Description',

@@ -328,7 +328,7 @@ Object {
         "options": Object {
           "content": "deviceTrust.sso.redirectText",
         },
-        "type": "Title",
+        "type": "Subtitle",
       },
       Object {
         "type": "Spinner",
