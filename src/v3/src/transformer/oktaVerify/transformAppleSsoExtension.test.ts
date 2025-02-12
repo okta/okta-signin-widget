@@ -19,7 +19,7 @@ import {
   FormBag,
   RedirectElement,
   SpinnerElement,
-  TitleElement,
+  SubtitleElement,
   WidgetProps,
 } from '../../types';
 import { transformAppleSsoExtension } from './transformAppleSsoExtension';
@@ -40,9 +40,8 @@ describe('SSO extension Transformer Tests', () => {
 
     expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(3);
-    expect((updatedFormBag.uischema.elements[0] as TitleElement).type)
-      .toBe('Title');
-    expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+    expect(updatedFormBag.uischema.elements[0]).toBeElementType('Subtitle');
+    expect((updatedFormBag.uischema.elements[0] as SubtitleElement).options.content)
       .toBe('deviceTrust.sso.redirectText');
     expect((updatedFormBag.uischema.elements[1] as SpinnerElement).type)
       .toBe('Spinner');

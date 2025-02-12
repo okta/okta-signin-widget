@@ -18,7 +18,7 @@ import {
   IdxStepTransformer,
   RedirectElement,
   SpinnerElement,
-  TitleElement,
+  SubtitleElement,
 } from '../../types';
 import { loc } from '../../util';
 
@@ -34,8 +34,8 @@ export const transformAppleSsoExtension: IdxStepTransformer = ({ formBag, transa
     return formBag;
   }
 
-  const titleElement: TitleElement = {
-    type: 'Title',
+  const titleElement: SubtitleElement = {
+    type: 'Subtitle',
     options: {
       content: loc('deviceTrust.sso.redirectText', 'login'),
     },
