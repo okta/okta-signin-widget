@@ -1,9 +1,22 @@
+/*
+ * Copyright (c) 2022-present, Okta, Inc. and/or its affiliates. All rights reserved.
+ * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
+ *
+ * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *
+ * See the License for the specific language governing permissions and limitations under the License.
+ */
+
 import { render } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
-import { useWidgetContext } from '../../contexts';
-import { useValue, useFormFieldValidation } from '../../hooks';
-import InputPassword from './InputPassword';
 import { FieldElement, UISchemaElement } from 'src/types';
+
+import { useWidgetContext } from '../../contexts';
+import { useFormFieldValidation, useValue } from '../../hooks';
+import InputPassword from './InputPassword';
 
 // Mock the useWidgetContext hook
 jest.mock('../../contexts', () => ({
@@ -17,7 +30,7 @@ jest.mock('../../hooks', () => {
     ...actualHooks,
     useValue: jest.fn(),
     useFormFieldValidation: jest.fn(),
-  }
+  };
 });
 
 describe('InputPassword', () => {
@@ -39,18 +52,18 @@ describe('InputPassword', () => {
   };
 
   beforeEach(() => {
-    jest.clearAllMocks();    
+    jest.clearAllMocks();
     (useWidgetContext as jest.Mock).mockReturnValue({
       loading: false,
-      widgetProps: { 
-        features: { 
-          showPasswordToggleOnSignInPage: true, 
-          autoFocus: true, 
-        } 
+      widgetProps: {
+        features: {
+          showPasswordToggleOnSignInPage: true,
+          autoFocus: true,
+        },
       },
     });
     (useValue as jest.Mock).mockReturnValue('');
-    (useFormFieldValidation as jest.Mock).mockReturnValue(mockOnValidateHandler)
+    (useFormFieldValidation as jest.Mock).mockReturnValue(mockOnValidateHandler);
   });
 
   it('should call handleBlur when onBlur event is triggered', async () => {
@@ -59,7 +72,7 @@ describe('InputPassword', () => {
       <div>
         <InputPassword {...defaultProps} />
         <div data-se="outside-element">Outside Element</div>
-      </div>
+      </div>,
     );
     const input = getByLabelText('MockPasswordField');
     const outsideElement = getByTestId('outside-element');
@@ -79,7 +92,7 @@ describe('InputPassword', () => {
       <div>
         <InputPassword {...defaultProps} />
         <button data-se="forgot-pass" role="link">Forgot password</button>
-      </div>
+      </div>,
     );
     const input = getByLabelText('MockPasswordField');
     const button = getByTestId('forgot-pass');
@@ -98,7 +111,7 @@ describe('InputPassword', () => {
       <div>
         <InputPassword {...defaultProps} />
         <button data-se="show-pass">Show password</button>
-      </div>
+      </div>,
     );
     const input = getByLabelText('MockPasswordField');
     const button = getByTestId('show-pass');
