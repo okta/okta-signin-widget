@@ -20,10 +20,8 @@ import { ActionPendingElement, UISchemaElementComponent } from '../../types';
 import { loc } from 'util/loc';
 
 /**
- * Display component used to indicate to the user that they should wait for an action to complete.
+ * Render component used to indicate to the user that they should wait for an action to complete.
  * The component shows text describing the action that is pending as well as a spinner.
- * @param param0 
- * @returns 
  */
 const ActionPending: UISchemaElementComponent<{
   uischema: ActionPendingElement
