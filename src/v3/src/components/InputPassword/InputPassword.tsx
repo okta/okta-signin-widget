@@ -78,6 +78,9 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
         handleChange?.(e.currentTarget.value);
       }}
       onBlur={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        if (e.relatedTarget?.tagName === 'BUTTON') {
+          return;
+        }
         handleBlur?.(e?.currentTarget?.value);
       }}
       testId={name}
