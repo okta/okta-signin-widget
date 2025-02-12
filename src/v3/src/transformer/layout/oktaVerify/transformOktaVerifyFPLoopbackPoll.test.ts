@@ -14,7 +14,11 @@ import { IDX_STEP } from 'src/constants';
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 
 import {
-  LinkElement, LoopbackProbeElement, SpinnerElement, SubtitleElement, WidgetProps,
+  ActionPendingElement,
+  LinkElement,
+  LoopbackProbeElement,
+  SpinnerElement,
+  WidgetProps,
 } from '../../../types';
 import * as utils from '../../../util/idxUtils';
 import { transformOktaVerifyFPLoopbackPoll } from './transformOktaVerifyFPLoopbackPoll';
@@ -51,8 +55,8 @@ describe('Transform Okta Verify FP Loopback Poll', () => {
 
       expect(updatedFormBag).toMatchSnapshot();
       expect(updatedFormBag.uischema.elements.length).toBe(5);
-      expect(updatedFormBag.uischema.elements[0]).toBeElementType('Subtitle');
-      expect((updatedFormBag.uischema.elements[0] as SubtitleElement).options.content)
+      expect(updatedFormBag.uischema.elements[0]).toBeElementType('ActionPending');
+      expect((updatedFormBag.uischema.elements[0] as ActionPendingElement).options.content)
         .toBe('deviceTrust.sso.redirectText');
       expect((updatedFormBag.uischema.elements[1] as SpinnerElement).type)
         .toBe('Spinner');
@@ -110,8 +114,8 @@ describe('Transform Okta Verify FP Loopback Poll', () => {
 
       expect(updatedFormBag).toMatchSnapshot();
       expect(updatedFormBag.uischema.elements.length).toBe(5);
-      expect(updatedFormBag.uischema.elements[0]).toBeElementType('Subtitle');
-      expect((updatedFormBag.uischema.elements[0] as SubtitleElement).options.content)
+      expect(updatedFormBag.uischema.elements[0]).toBeElementType('ActionPending');
+      expect((updatedFormBag.uischema.elements[0] as ActionPendingElement).options.content)
         .toBe('deviceTrust.sso.redirectText');
       expect((updatedFormBag.uischema.elements[1] as SpinnerElement).type)
         .toBe('Spinner');

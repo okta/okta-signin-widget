@@ -14,6 +14,7 @@ import { NextStep } from '@okta/okta-auth-js';
 
 import { CHALLENGE_METHOD, IDX_STEP } from '../../../constants';
 import {
+  ActionPendingElement,
   ChromeDtcContainerElement,
   DescriptionElement,
   IdxStepTransformer,
@@ -23,7 +24,6 @@ import {
   OpenOktaVerifyFPButtonElement,
   SpinnerElement,
   StepperNavigatorElement,
-  SubtitleElement,
   TitleElement,
   UISchemaElement,
   UISchemaLayout,
@@ -31,7 +31,7 @@ import {
 } from '../../../types';
 import { hasMinAuthenticatorOptions, loc, updateTransactionWithNextStep } from '../../../util';
 
-const getTitleElement = (challengeMethod: string): TitleElement | SubtitleElement => {
+const getTitleElement = (challengeMethod: string): TitleElement | ActionPendingElement => {
   switch (challengeMethod) {
     case CHALLENGE_METHOD.APP_LINK:
       return {
@@ -43,7 +43,7 @@ const getTitleElement = (challengeMethod: string): TitleElement | SubtitleElemen
     case CHALLENGE_METHOD.CHROME_DTC:
       // reusing the existing message for Chrome DTC
       return {
-        type: 'Subtitle',
+        type: 'ActionPending',
         options: {
           content: loc('deviceTrust.sso.redirectText', 'login'),
         },

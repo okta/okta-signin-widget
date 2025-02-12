@@ -11,15 +11,22 @@
  */
 
 import { Box } from '@mui/material';
-import { Typography } from '@okta/odyssey-react-mui';
+import { CircularProgress, Typography } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 import { useEffect, useRef } from 'preact/hooks';
 
 import { useWidgetContext } from '../../contexts';
-import { SubtitleElement, UISchemaElementComponent } from '../../types';
+import { ActionPendingElement, UISchemaElementComponent } from '../../types';
+import { loc } from 'util/loc';
 
-const Title: UISchemaElementComponent<{
-  uischema: SubtitleElement
+/**
+ * Display component used to indicate to the user that they should wait for an action to complete.
+ * The component shows text describing the action that is pending as well as a spinner.
+ * @param param0 
+ * @returns 
+ */
+const ActionPending: UISchemaElementComponent<{
+  uischema: ActionPendingElement
 }> = (
   { uischema: { options } },
 ) => {
@@ -37,7 +44,10 @@ const Title: UISchemaElementComponent<{
   return (
     <Box
       display="flex"
+      flexDirection="column"
       justifyContent="center"
+      alignItems="center"
+      testId={options.dataSe}
     >
       <Typography
         component="h3"
@@ -46,8 +56,10 @@ const Title: UISchemaElementComponent<{
       >
         {options.content}
       </Typography>
+      <CircularProgress ariaLabel={loc('processing.alt.text', 'login')}
+      />
     </Box>
   );
 };
 
-export default Title;
+export default ActionPending;

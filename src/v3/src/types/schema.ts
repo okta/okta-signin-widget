@@ -474,10 +474,11 @@ export interface TitleElement extends UISchemaElement {
   };
 }
 
-export interface SubtitleElement extends UISchemaElement {
-  type: 'Subtitle';
+export interface ActionPendingElement extends UISchemaElement {
+  type: 'ActionPending';
   options: {
     content: string;
+    dataSe?: string;
   };
 }
 

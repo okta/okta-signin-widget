@@ -60,7 +60,7 @@ import TextWithActionLink from '../TextWithActionLink';
 import Title from '../Title';
 import WebAuthNAutofill from '../WebAuthNAutofill';
 import WebAuthNSubmitButton from '../WebAuthNSubmitButton';
-import Subtitle from '../Subtitle/Subtitle';
+import ActionPending from '../ActionPending/ActionPending';
 
 /**
  * Render registry to match UISchemaElement Component with uischema
@@ -171,8 +171,8 @@ export default [
     renderer: Title,
   },
   {
-    tester: ({ type }) => type === 'Subtitle',
-    renderer: Subtitle,
+    tester: ({ type }) => type === 'ActionPending',
+    renderer: ActionPending,
   },
   {
     tester: ({ type }) => type === 'Description',
