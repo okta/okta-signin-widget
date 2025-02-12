@@ -18,10 +18,29 @@ import {
 } from 'jest-extended';
 import mockBundles from '../util/Bundles.ts';
 
+const toBeElementType = (receivedElement, expectedType) => {
+  if (typeof expectedType !== 'string') {
+    throw new TypeError('Expected type must be a string');
+  }
+  const receivedType = receivedElement?.type;
+  const pass = receivedType === expectedType;
+  if (pass) {
+    return {
+      pass: true,
+      message: () => `Expected element type not to be ${expectedType}. Received: ${receivedType}`,
+    };
+  }
+  return {
+    pass: false,
+    message: () => `Expected element type to be ${expectedType}. Received: ${receivedType}`,
+  };
+};
+
 expect.extend({
   toBeFalse,
   toBeTrue,
   toHaveBeenCalledBefore,
+  toBeElementType,
 });
 
 require('@testing-library/jest-dom');
