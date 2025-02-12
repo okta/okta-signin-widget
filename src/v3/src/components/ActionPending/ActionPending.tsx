@@ -50,7 +50,7 @@ const ActionPending: UISchemaElementComponent<{
       testId={options.dataSe}
     >
       <Typography
-        component="h3"
+        component="h2"
         variant="h5"
         typographyRef={titleRef}
       >
