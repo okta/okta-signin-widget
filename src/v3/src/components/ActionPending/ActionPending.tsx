@@ -11,17 +11,16 @@
  */
 
 import { Box } from '@mui/material';
-import { CircularProgress, Typography } from '@okta/odyssey-react-mui';
+import { Typography } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 import { useEffect, useRef } from 'preact/hooks';
 
 import { useWidgetContext } from '../../contexts';
 import { ActionPendingElement, UISchemaElementComponent } from '../../types';
-import { loc } from 'util/loc';
 
 /**
  * Render component used to indicate to the user that they should wait for an action to complete.
- * The component shows text describing the action that is pending as well as a spinner.
+ * The component shows text describing the action that is pending.
  */
 const ActionPending: UISchemaElementComponent<{
   uischema: ActionPendingElement
@@ -54,8 +53,6 @@ const ActionPending: UISchemaElementComponent<{
       >
         {options.content}
       </Typography>
-      <CircularProgress ariaLabel={loc('processing.alt.text', 'login')}
-      />
     </Box>
   );
 };
