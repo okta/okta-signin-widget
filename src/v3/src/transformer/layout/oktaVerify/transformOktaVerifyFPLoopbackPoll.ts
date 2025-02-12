@@ -17,7 +17,7 @@ import {
   LinkElement,
   LoopbackProbeElement,
   SpinnerElement,
-  TitleElement,
+  SubtitleElement,
 } from '../../../types';
 import { hasMinAuthenticatorOptions, loc, updateTransactionWithNextStep } from '../../../util';
 
@@ -28,9 +28,9 @@ export const transformOktaVerifyFPLoopbackPoll: IdxStepTransformer = ({
   const { uischema } = formBag;
 
   uischema.elements.unshift({
-    type: 'Title',
+    type: 'Subtitle',
     options: { content: loc('deviceTrust.sso.redirectText', 'login') },
-  } as TitleElement);
+  } as SubtitleElement);
 
   uischema.elements.push({
     type: 'Spinner',
