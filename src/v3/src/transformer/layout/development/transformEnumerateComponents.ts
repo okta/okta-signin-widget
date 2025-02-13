@@ -93,7 +93,7 @@ export const transformEnumerateComponents: IdxStepTransformer = ({
   const actionPendingElement: ActionPendingElement = {
     type: 'ActionPending',
     options: {
-      content: 'Heading with descripton of pending action...',
+      content: 'Heading with description of pending action...',
     },
   };
   uischema.elements.push(actionPendingElement);
