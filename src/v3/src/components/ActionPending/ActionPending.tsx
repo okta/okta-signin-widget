@@ -44,11 +44,13 @@ const ActionPending: UISchemaElementComponent<{
       flexDirection="column"
       justifyContent="center"
       alignItems="center"
+      textAlign="center"
       testId={options.dataSe}
     >
       <Typography
         component="h2"
         variant="h5"
+        testId="o-form-head"
         typographyRef={titleRef}
       >
         {options.content}
