@@ -15,6 +15,7 @@ import { IdxTransaction } from '@okta/okta-auth-js';
 import Util from '../../../../util/Util';
 import { InterstitialRedirectView } from '../../constants';
 import {
+  ActionPendingElement,
   ButtonElement,
   ButtonType,
   DescriptionElement,
@@ -86,10 +87,10 @@ export const redirectTransformer = (
   if (!interstitialBeforeLoginRedirect
     || interstitialBeforeLoginRedirect === InterstitialRedirectView.NONE) {
     uischema.elements.unshift({
-      type: 'Description',
+      type: 'ActionPending',
       contentType: 'subtitle',
       options: { content: loc('oie.success.text.signingIn.with.ellipsis', 'login') },
-    } as DescriptionElement);
+    } as ActionPendingElement);
     return formBag;
   }
 
@@ -101,22 +102,22 @@ export const redirectTransformer = (
   // so no need to display again in the login text
   if (appName && identifier && !features?.showIdentifier) {
     uischema.elements.unshift({
-      type: 'Description',
+      type: 'ActionPending',
       contentType: 'subtitle',
       options: { content: loc('oie.success.text.signingIn.with.appName.and.identifier', 'login', [appName, identifier]) },
-    } as DescriptionElement);
+    } as ActionPendingElement);
   } else if (appName) {
     uischema.elements.unshift({
-      type: 'Description',
+      type: 'ActionPending',
       contentType: 'subtitle',
       options: { content: loc('oie.success.text.signingIn.with.appName', 'login', [appName]) },
-    } as DescriptionElement);
+    } as ActionPendingElement);
   } else {
     uischema.elements.unshift({
-      type: 'Description',
+      type: 'ActionPending',
       contentType: 'subtitle',
       options: { content: loc('oie.success.text.signingIn', 'login') },
-    } as DescriptionElement);
+    } as ActionPendingElement);
   }
 
   return formBag;

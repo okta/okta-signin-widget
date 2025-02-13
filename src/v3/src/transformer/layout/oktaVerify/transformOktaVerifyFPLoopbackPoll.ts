@@ -12,12 +12,12 @@
 
 import { IDX_STEP } from '../../../constants';
 import {
+  ActionPendingElement,
   IdxStepTransformer,
   IWidgetContext,
   LinkElement,
   LoopbackProbeElement,
   SpinnerElement,
-  TitleElement,
 } from '../../../types';
 import { hasMinAuthenticatorOptions, loc, updateTransactionWithNextStep } from '../../../util';
 
@@ -28,9 +28,9 @@ export const transformOktaVerifyFPLoopbackPoll: IdxStepTransformer = ({
   const { uischema } = formBag;
 
   uischema.elements.unshift({
-    type: 'Title',
+    type: 'ActionPending',
     options: { content: loc('deviceTrust.sso.redirectText', 'login') },
-  } as TitleElement);
+  } as ActionPendingElement);
 
   uischema.elements.push({
     type: 'Spinner',

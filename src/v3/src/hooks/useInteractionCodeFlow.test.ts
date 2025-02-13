@@ -18,7 +18,7 @@ import { renderHook } from '@testing-library/preact-hooks';
 
 import { ClockDriftError, RecoverableError, UserNotAssignedError } from '../../../util/OAuthErrors';
 import { getStubTransaction, getStubTransactionWithNextStep } from '../mocks/utils/utils';
-import { DescriptionElement, RedirectElement, WidgetProps } from '../types';
+import { ActionPendingElement, DescriptionElement, RedirectElement, WidgetProps } from '../types';
 import { useInteractionCodeFlow } from './useInteractionCodeFlow';
 
 describe('interactionCodeFlow Hook Tests', () => {
@@ -145,10 +145,10 @@ describe('interactionCodeFlow Hook Tests', () => {
     expect(result.current?.uischema.elements?.length).toBe(2);
     expect(result.current?.uischema.elements).toEqual([
       {
-        type: 'Description',
+        type: 'ActionPending',
         contentType: 'subtitle',
         options: { content: 'oie.success.text.signingIn.with.ellipsis' },
-      } as DescriptionElement,
+      } as ActionPendingElement,
       {
         type: 'Redirect',
         options: { url: 'http://localhost:3000/success?interaction_code=abcde12345&state=abc123' },

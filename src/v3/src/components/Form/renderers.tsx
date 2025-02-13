@@ -20,6 +20,7 @@ import {
   isRadioFieldElement,
   isSelectFieldElement,
 } from '../../util';
+import ActionPending from '../ActionPending/ActionPending';
 import AuthenticatorButtonList from '../AuthenticatorButton';
 import AutoSubmit from '../AutoSubmit';
 import Button from '../Button';
@@ -168,6 +169,10 @@ export default [
   {
     tester: ({ type }) => type === 'Title',
     renderer: Title,
+  },
+  {
+    tester: ({ type }) => type === 'ActionPending',
+    renderer: ActionPending,
   },
   {
     tester: ({ type }) => type === 'Description',

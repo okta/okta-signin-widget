@@ -15,11 +15,11 @@ import { IDX_STEP } from 'src/constants';
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 
 import {
+  ActionPendingElement,
   AutoSubmitElement,
   FormBag,
   RedirectElement,
   SpinnerElement,
-  TitleElement,
   WidgetProps,
 } from '../../types';
 import { transformAppleSsoExtension } from './transformAppleSsoExtension';
@@ -40,9 +40,8 @@ describe('SSO extension Transformer Tests', () => {
 
     expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(3);
-    expect((updatedFormBag.uischema.elements[0] as TitleElement).type)
-      .toBe('Title');
-    expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+    expect(updatedFormBag.uischema.elements[0].type).toBe('ActionPending');
+    expect((updatedFormBag.uischema.elements[0] as ActionPendingElement).options.content)
       .toBe('deviceTrust.sso.redirectText');
     expect((updatedFormBag.uischema.elements[1] as SpinnerElement).type)
       .toBe('Spinner');
