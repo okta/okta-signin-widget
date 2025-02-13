@@ -40,12 +40,12 @@ const ActionPending: UISchemaElementComponent<{
 
   return (
     <Box
-      display="flex"
-      flexDirection="column"
-      justifyContent="center"
-      alignItems="center"
       textAlign="center"
       testId={options.dataSe}
+      sx={{
+        overflowWrap: 'break-word',
+        textWrap: 'balance',
+      }}
     >
       <Typography
         component="h2"
