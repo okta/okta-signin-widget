@@ -12,16 +12,3 @@
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 import 'jest-extended';
-import { UISchemaElement } from 'src/types';
-
-declare global {
-  namespace jest {
-    interface Matchers<R> {
-      /**
-       * Use `toBeElementType` when checking if a UISchemaElement is of a specific type.
-       * @param {string} expectedType
-       */
-      toBeElementType(expectedType: string): CustomMatcherResult;
-    }
-  }
-}

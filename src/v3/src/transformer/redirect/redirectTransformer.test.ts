@@ -108,7 +108,7 @@ describe('Success Redirect Transform Tests', () => {
     );
 
     expect(formBag.uischema.elements.length).toBe(3);
-    expect(formBag.uischema.elements[0]).toBeElementType('ActionPending');
+    expect(formBag.uischema.elements[0].type).toBe('ActionPending');
     expect((formBag.uischema.elements[0] as ActionPendingElement).options?.content)
       .toBe('oie.success.text.signingIn');
     expect(formBag.uischema.elements[1].type).toBe('Redirect');
@@ -135,7 +135,7 @@ describe('Success Redirect Transform Tests', () => {
     );
 
     expect(formBag.uischema.elements.length).toBe(3);
-    expect(formBag.uischema.elements[0]).toBeElementType('ActionPending');
+    expect(formBag.uischema.elements[0].type).toBe('ActionPending');
     expect((formBag.uischema.elements[0] as ActionPendingElement).options?.content)
       .toBe('oie.success.text.signingIn.with.appName');
     expect(formBag.uischema.elements[1].type).toBe('Redirect');
@@ -165,7 +165,7 @@ describe('Success Redirect Transform Tests', () => {
     );
 
     expect(formBag.uischema.elements.length).toBe(2);
-    expect(formBag.uischema.elements[0]).toBeElementType('Description');
+    expect(formBag.uischema.elements[0].type).toBe('Description');
     expect((formBag.uischema.elements[0] as DescriptionElement).options?.content)
       .toBe('oie.success.text.signingIn.with.appName.android.ov.enrollment');
     expect(formBag.uischema.elements[1].type).toBe('Button');

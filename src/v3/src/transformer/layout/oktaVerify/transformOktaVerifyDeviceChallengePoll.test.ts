@@ -60,7 +60,7 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
 
       expect(updatedFormBag).toMatchSnapshot();
       expect(updatedFormBag.uischema.elements.length).toBe(7);
-      expect(updatedFormBag.uischema.elements[0]).toBeElementType('Title');
+      expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
       expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
         .toBe('customUri.title');
       expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
@@ -92,7 +92,7 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
 
       expect(updatedFormBag).toMatchSnapshot();
       expect(updatedFormBag.uischema.elements.length).toBe(2);
-      expect(updatedFormBag.uischema.elements[0]).toBeElementType('Title');
+      expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
       expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
         .toBe('appLink.title');
       expect((updatedFormBag.uischema.elements[1] as StepperLayout).type)
@@ -135,7 +135,7 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
 
       expect(updatedFormBag).toMatchSnapshot();
       expect(updatedFormBag.uischema.elements.length).toBe(6);
-      expect(updatedFormBag.uischema.elements[0]).toBeElementType('Title');
+      expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
       expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
         .toBe('universalLink.title');
       expect((updatedFormBag.uischema.elements[1] as SpinnerElement).type)
@@ -164,7 +164,7 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
 
       expect(updatedFormBag).toMatchSnapshot();
       expect(updatedFormBag.uischema.elements.length).toBe(4);
-      expect(updatedFormBag.uischema.elements[0]).toBeElementType('ActionPending');
+      expect(updatedFormBag.uischema.elements[0].type).toBe('ActionPending');
       expect((updatedFormBag.uischema.elements[0] as ActionPendingElement).options.content)
         .toBe('deviceTrust.sso.redirectText');
       expect((updatedFormBag.uischema.elements[1] as SpinnerElement).type)
@@ -211,7 +211,7 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
 
       expect(updatedFormBag).toMatchSnapshot();
       expect(updatedFormBag.uischema.elements.length).toBe(7);
-      expect(updatedFormBag.uischema.elements[0]).toBeElementType('Title');
+      expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
       expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
         .toBe('customUri.title');
       expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
@@ -243,7 +243,7 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
 
       expect(updatedFormBag).toMatchSnapshot();
       expect(updatedFormBag.uischema.elements.length).toBe(6);
-      expect(updatedFormBag.uischema.elements[0]).toBeElementType('Title');
+      expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
       expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
         .toBe('appLink.title');
       expect((updatedFormBag.uischema.elements[1] as SpinnerElement).type)
@@ -271,7 +271,7 @@ describe('Transform Okta Verify Device Challenge Poll Tests', () => {
 
       expect(updatedFormBag).toMatchSnapshot();
       expect(updatedFormBag.uischema.elements.length).toBe(6);
-      expect(updatedFormBag.uischema.elements[0]).toBeElementType('Title');
+      expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
       expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
         .toBe('universalLink.title');
       expect((updatedFormBag.uischema.elements[1] as SpinnerElement).type)

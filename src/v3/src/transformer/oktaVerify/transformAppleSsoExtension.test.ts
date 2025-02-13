@@ -40,7 +40,7 @@ describe('SSO extension Transformer Tests', () => {
 
     expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(3);
-    expect(updatedFormBag.uischema.elements[0]).toBeElementType('ActionPending');
+    expect(updatedFormBag.uischema.elements[0].type).toBe('ActionPending');
     expect((updatedFormBag.uischema.elements[0] as ActionPendingElement).options.content)
       .toBe('deviceTrust.sso.redirectText');
     expect((updatedFormBag.uischema.elements[1] as SpinnerElement).type)
