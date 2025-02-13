@@ -4637,10 +4637,10 @@
     ts-node "^10.9.1"
     word-wrap "~1.2.5"
 
-"@okta/okta-auth-js@^7.10.1":
-  version "7.10.1"
-  resolved "https://registry.yarnpkg.com/@okta/okta-auth-js/-/okta-auth-js-7.10.1.tgz#d72365ce126bc8a4c92c6620fd52807c17fd13bc"
-  integrity sha512-xCjSlz0G1StNCbSJjyX8e2dq38miW7fprOhaf51QXqPUQMnV1tjwvjRDUF20mtkaRio1ObsnqcKI4xXPA3YYew==
+"@okta/okta-auth-js@7.11.0-g5977029":
+  version "7.11.0-g5977029"
+  resolved "https://artifacts.aue1e.internal/artifactory/api/npm/npm-okta-all/@okta/okta-auth-js/-/@okta/okta-auth-js-7.11.0-g5977029.tgz#147ee653d7b0ae035b89443e3f4b39f0086ce39e"
+  integrity sha512-rEKlaFhu2PfVQQb5aXHPyTdyo+oOHwMb/LJJdSxcrecaeuNpqVQrgjXt01twohOEkPLgFtMaPhJR+6LkmhWYqQ==
   dependencies:
     "@babel/runtime" "^7.12.5"
     "@peculiar/webcrypto" "^1.4.0"

@@ -121,6 +121,7 @@ export default class OktaSignIn implements OktaSignInAPI {
         idx: {
           useGenericRemediator: true,
         },
+        pollDelay: 500,
       };
 
       // set default issuer using baseUrl
