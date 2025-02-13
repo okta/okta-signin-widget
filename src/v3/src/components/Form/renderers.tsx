@@ -20,6 +20,7 @@ import {
   isRadioFieldElement,
   isSelectFieldElement,
 } from '../../util';
+import ActionPending from '../ActionPending/ActionPending';
 import AuthenticatorButtonList from '../AuthenticatorButton';
 import AutoSubmit from '../AutoSubmit';
 import Button from '../Button';
@@ -60,7 +61,6 @@ import TextWithActionLink from '../TextWithActionLink';
 import Title from '../Title';
 import WebAuthNAutofill from '../WebAuthNAutofill';
 import WebAuthNSubmitButton from '../WebAuthNSubmitButton';
-import ActionPending from '../ActionPending/ActionPending';
 
 /**
  * Render registry to match UISchemaElement Component with uischema
