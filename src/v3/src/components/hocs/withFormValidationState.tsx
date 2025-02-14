@@ -63,7 +63,15 @@ export const withFormValidationState: WrappedFunctionComponent<
       onChangeHandler(value);
     };
 
-    const handleBlur = (value: string | number | boolean) => {
+    const handleBlur = (value: string | number | boolean, e: FocusEvent) => {
+      const target = e.relatedTarget as HTMLElement;
+      if (target
+        && target.tagName === 'BUTTON'
+        && target.getAttribute('role') === 'link'
+        && target.getAttribute('type') !== 'submit') {
+        return;
+      }
+
       setTouched?.(true);
       onValidateHandler?.(setErrors, value);
     };

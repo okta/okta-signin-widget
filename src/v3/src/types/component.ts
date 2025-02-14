@@ -24,6 +24,8 @@ export type TesterFunction = (
   uiElement: UISchemaElement | FieldElement | ButtonElement
 ) => boolean;
 
+export type HandleBlurFunction = (value: string | number | boolean, event: FocusEvent) => void;
+
 export type UISchemaElementComponentWithValidationProps = {
   uischema: FieldElement;
   type?: string;
@@ -35,7 +37,7 @@ export type UISchemaElementComponentWithValidationProps = {
     value?: string | boolean | number,
   ) => void,
   handleChange?: (value: string | number | boolean) => void;
-  handleBlur?: (value: string | number | boolean) => void;
+  handleBlur?:HandleBlurFunction;
   describedByIds?: string;
 };
 

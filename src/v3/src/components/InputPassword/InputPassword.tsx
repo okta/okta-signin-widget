@@ -77,13 +77,8 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
       onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         handleChange?.(e.currentTarget.value);
       }}
-      onBlur={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        // NOTE: only skip onBlur handler for link button to avoid breaking existing a11y functionalities
-        // @ts-expect-error - preact does not have FocusEvent
-        if (e.relatedTarget?.tagName === 'BUTTON' && e.relatedTarget?.getAttribute('role') === 'link') {
-          return;
-        }
-        handleBlur?.(e?.currentTarget?.value);
+      onBlur={(e: FocusEvent) => {
+        handleBlur?.((e?.currentTarget as HTMLInputElement)?.value, e);
       }}
       testId={name}
       translate={noTranslate ? 'no' : undefined}

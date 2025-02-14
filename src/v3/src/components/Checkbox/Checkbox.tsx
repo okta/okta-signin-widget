@@ -70,8 +70,8 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
         isDisabled={loading || isReadOnly}
         label={label}
         name={name}
-        onBlur={(e: ChangeEvent<HTMLInputElement>) => {
-          handleBlur?.(e?.currentTarget?.checked);
+        onBlur={(e: FocusEvent) => {
+          handleBlur?.((e?.currentTarget as HTMLInputElement)?.checked, e as FocusEvent);
         }}
         onChange={(e: ChangeEvent<HTMLInputElement>) => {
           handleChange?.(e.currentTarget.checked);

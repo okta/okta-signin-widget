@@ -178,9 +178,13 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
         isOptional={required === false}
         label={mainLabel ?? ''}
         name={fieldName}
-        onBlur={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-          const formattedPhone = formatPhone(e?.currentTarget?.value, phoneCode, extension);
-          handleBlur?.(formattedPhone);
+        onBlur={(e: FocusEvent) => {
+          const formattedPhone = formatPhone(
+            (e?.currentTarget as HTMLInputElement)?.value,
+            phoneCode,
+            extension,
+          );
+          handleBlur?.(formattedPhone, e);
         }}
         onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
           // Set new phone value without phone code

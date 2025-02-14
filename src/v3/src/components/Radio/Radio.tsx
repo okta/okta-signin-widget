@@ -69,8 +69,8 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
             isDisabled={loading}
             key={item.value}
             label={item.label}
-            onBlur={(e: ChangeEvent<HTMLInputElement>) => {
-              handleBlur?.(e?.currentTarget?.value);
+            onBlur={(e: FocusEvent) => {
+              handleBlur?.((e?.currentTarget as HTMLInputElement)?.value, e);
             }}
             value={typeof item.value === 'string' ? item.value : ''}
             // eslint-disable-next-line react/jsx-props-no-spreading
