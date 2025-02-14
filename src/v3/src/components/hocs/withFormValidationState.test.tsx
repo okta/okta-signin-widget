@@ -1,8 +1,21 @@
-import { h } from 'preact';
-import { render, fireEvent } from '@testing-library/preact';
+/*
+ * Copyright (c) 2025-present, Okta, Inc. and/or its affiliates. All rights reserved.
+ * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
+ *
+ * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *
+ * See the License for the specific language governing permissions and limitations under the License.
+ */
+
+import { render } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
+import { h } from 'preact';
+
 import { useFormFieldValidation, useOnChange } from '../../hooks';
-import { FieldElement, UISchemaElementComponent } from '../../types';
+import { FieldElement, UISchemaElementComponent, UISchemaElementComponentWithValidationProps } from '../../types';
 import { withFormValidationState } from './withFormValidationState';
 
 // Mock the hooks
@@ -32,12 +45,12 @@ describe('withFormValidationState', () => {
   const TestComponent: UISchemaElementComponent<{ uischema: FieldElement }> = ({
     handleBlur,
     handleChange,
-  }) => (
+  }: UISchemaElementComponentWithValidationProps) => (
     <input
       data-se="test-input"
       name="testField"
       onBlur={(e) => {
-        handleBlur?.(e.currentTarget.value, e)
+        handleBlur?.(e.currentTarget.value, e);
       }}
       onChange={(e) => handleChange?.(e.currentTarget.value)}
     />
@@ -51,11 +64,11 @@ describe('withFormValidationState', () => {
       <div>
         <WrappedComponent {...defaultProps} />
         <div data-se="outside-element">Outside Element</div>
-      </div>
-    );  
+      </div>,
+    );
     const input = getByTestId('test-input');
     const button = getByTestId('outside-element');
-    
+
     await user.click(input);
     await user.type(input, 'test value');
     expect(input).toHaveFocus();
@@ -72,12 +85,12 @@ describe('withFormValidationState', () => {
       <div>
         <WrappedComponent {...defaultProps} />
         <button data-se="outside-element" type="button" role="link">Link Button</button>
-      </div>
+      </div>,
     );
 
     const input = getByTestId('test-input');
     const button = getByTestId('outside-element');
-    
+
     await user.click(input);
     await user.type(input, 'test value');
     expect(input).toHaveFocus();
@@ -94,19 +107,18 @@ describe('withFormValidationState', () => {
       <div>
         <WrappedComponent {...defaultProps} />
         <button data-se="outside-element" type="button">Link Button</button>
-      </div>
+      </div>,
     );
 
     const input = getByTestId('test-input');
     const button = getByTestId('outside-element');
-    
+
     await user.click(input);
     await user.type(input, 'test value');
     expect(input).toHaveFocus();
 
     await user.click(button);
     expect(input).not.toHaveFocus();
-
 
     expect(mockOnValidateHandler).toHaveBeenCalledWith(expect.any(Function), 'test value');
   });
