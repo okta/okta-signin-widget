@@ -8,6 +8,7 @@ describe('v2/view-builder/internals/BaseModel', function() {
       {
         formName: 'string',
         useRedirect: 'boolean',
+        useRedirectButton: 'boolean',
         ...local
       }
     );

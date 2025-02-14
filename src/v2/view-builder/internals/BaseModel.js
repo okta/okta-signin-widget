@@ -73,6 +73,8 @@ const create = function(remediation = {}, optionUiSchemaConfig = {}) {
     formName: 'string',
     // use full page redirect instead of AJAX
     useRedirect: 'boolean',
+    // use a special button to perform redirect on click instead of doing this automatically
+    useRedirectButton: 'boolean',
   };
   createPropsAndLocals(
     remediation,
