@@ -64,8 +64,8 @@ export const withFormValidationState: WrappedFunctionComponent<
     };
 
     const handleBlur = (value: string | number | boolean, e: FocusEvent) => {
-      const target = e.relatedTarget as HTMLElement;
-      if (target
+      const target = e.relatedTarget;
+      if (target instanceof HTMLElement
         && target.tagName === 'BUTTON'
         && target.getAttribute('role') === 'link'
         && target.getAttribute('type') !== 'submit') {
