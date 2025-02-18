@@ -19,6 +19,7 @@ import { useAutoFocus, useValue } from '../../hooks';
 import {
   AutoCompleteValue,
   ChangeEvent,
+  FocusEvent,
   UISchemaElementComponent,
   UISchemaElementComponentWithValidationProps,
 } from '../../types';
@@ -77,8 +78,8 @@ const InputPassword: UISchemaElementComponent<UISchemaElementComponentWithValida
       onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         handleChange?.(e.currentTarget.value);
       }}
-      onBlur={(e: FocusEvent) => {
-        handleBlur?.((e?.currentTarget as HTMLInputElement)?.value, e);
+      onBlur={(e: FocusEvent<HTMLInputElement>) => {
+        handleBlur?.(e.currentTarget.value, e);
       }}
       testId={name}
       translate={noTranslate ? 'no' : undefined}

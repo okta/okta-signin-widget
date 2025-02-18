@@ -14,7 +14,9 @@ import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 
 import { useFormFieldValidation, useOnChange } from '../../hooks';
-import { FieldElement, UISchemaElementComponent, WidgetMessage } from '../../types';
+import {
+  BlurHandler, FieldElement, FocusEvent, UISchemaElementComponent, WidgetMessage,
+} from '../../types';
 import { convertIdxMessageToWidgetMessage } from '../../util';
 import { getDisplayName } from './getDisplayName';
 
@@ -63,7 +65,7 @@ export const withFormValidationState: WrappedFunctionComponent<
       onChangeHandler(value);
     };
 
-    const handleBlur = (value: string | number | boolean, e: FocusEvent) => {
+    const handleBlur: BlurHandler = (value: string | number | boolean, e: FocusEvent) => {
       const target = e.relatedTarget;
       if (target instanceof HTMLElement
         && target.tagName === 'BUTTON'

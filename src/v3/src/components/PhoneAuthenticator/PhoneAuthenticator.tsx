@@ -25,6 +25,7 @@ import { useWidgetContext } from '../../contexts';
 import { useAutoFocus, useOnChange } from '../../hooks';
 import {
   ChangeEvent,
+  FocusEvent,
   FormBag,
   UISchemaElementComponent,
   UISchemaElementComponentWithValidationProps,
@@ -178,9 +179,9 @@ const PhoneAuthenticator: UISchemaElementComponent<UISchemaElementComponentWithV
         isOptional={required === false}
         label={mainLabel ?? ''}
         name={fieldName}
-        onBlur={(e: FocusEvent) => {
+        onBlur={(e: FocusEvent<HTMLInputElement>) => {
           const formattedPhone = formatPhone(
-            (e?.currentTarget as HTMLInputElement)?.value,
+            e.currentTarget.value,
             phoneCode,
             extension,
           );

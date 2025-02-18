@@ -18,6 +18,7 @@ import { useWidgetContext } from '../../contexts';
 import { useAutoFocus, useValue } from '../../hooks';
 import {
   ChangeEvent,
+  FocusEvent,
   UISchemaElementComponent, UISchemaElementComponentWithValidationProps,
 } from '../../types';
 import { getTranslation, parseHtmlContent } from '../../util';
@@ -66,8 +67,8 @@ const InputText: UISchemaElementComponent<UISchemaElementComponentWithValidation
       onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         handleChange?.(e.currentTarget.value);
       }}
-      onBlur={(e: FocusEvent) => {
-        handleBlur?.((e?.currentTarget as HTMLInputElement)?.value, e);
+      onBlur={(e: FocusEvent<HTMLInputElement>) => {
+        handleBlur?.(e.currentTarget.value, e);
       }}
       testId={dataSe}
       type="text"

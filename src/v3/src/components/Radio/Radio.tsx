@@ -18,6 +18,7 @@ import { useWidgetContext } from '../../contexts';
 import { useAutoFocus, useValue } from '../../hooks';
 import {
   ChangeEvent,
+  FocusEvent,
   UISchemaElementComponent,
   UISchemaElementComponentWithValidationProps,
 } from '../../types';
@@ -69,8 +70,8 @@ const Radio: UISchemaElementComponent<UISchemaElementComponentWithValidationProp
             isDisabled={loading}
             key={item.value}
             label={item.label}
-            onBlur={(e: FocusEvent) => {
-              handleBlur?.((e?.currentTarget as HTMLInputElement)?.value, e);
+            onBlur={(e: FocusEvent<HTMLInputElement>) => {
+              handleBlur?.(e.currentTarget.value, e);
             }}
             value={typeof item.value === 'string' ? item.value : ''}
             // eslint-disable-next-line react/jsx-props-no-spreading
