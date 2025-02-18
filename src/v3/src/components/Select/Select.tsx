@@ -79,11 +79,8 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
         );
         handleChange?.(selectTarget.value);
       }}
-      onBlur={(e: FocusEvent) => {
-        const selectTarget = (
-          e?.target as SelectChangeEvent['target'] & { value: string; name: string; }
-        );
-        handleBlur?.(selectTarget.value, e);
+      onBlur={(e: FocusEvent<HTMLSelectElement>) => {
+        handleBlur?.(e.currentTarget.value, e);
       }}
       testId={name}
       value={value as string ?? ''}
