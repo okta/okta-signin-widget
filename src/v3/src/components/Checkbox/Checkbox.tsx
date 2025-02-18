@@ -17,6 +17,7 @@ import { useWidgetContext } from '../../contexts';
 import { useAutoFocus, useValue } from '../../hooks';
 import {
   ChangeEvent,
+  FocusEvent,
   UISchemaElementComponent,
   UISchemaElementComponentWithValidationProps,
 } from '../../types';
@@ -70,8 +71,8 @@ const Checkbox: UISchemaElementComponent<UISchemaElementComponentWithValidationP
         isDisabled={loading || isReadOnly}
         label={label}
         name={name}
-        onBlur={(e: ChangeEvent<HTMLInputElement>) => {
-          handleBlur?.(e?.currentTarget?.checked);
+        onBlur={(e: FocusEvent<HTMLInputElement>) => {
+          handleBlur?.(e.currentTarget.checked, e);
         }}
         onChange={(e: ChangeEvent<HTMLInputElement>) => {
           handleChange?.(e.currentTarget.checked);

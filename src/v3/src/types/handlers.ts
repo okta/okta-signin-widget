@@ -14,9 +14,11 @@ import { h } from 'preact';
 
 export type ClickHandler<T extends EventTarget = HTMLButtonElement> = h.JSX.MouseEventHandler<T>;
 export type ChangeHandler<T extends EventTarget = HTMLInputElement> = h.JSX.TargetedEvent<T>;
+export type BlurHandler = (value: string | number | boolean, event: FocusEvent) => void;
 
 type E<T extends EventTarget> = h.JSX.TargetedEvent<T> & { target: T };
 
 export type SubmitEvent = h.JSX.TargetedEvent<HTMLFormElement, Event>;
 export type ClickEvent<T extends EventTarget = HTMLButtonElement> = E<T>;
 export type ChangeEvent<T extends EventTarget = HTMLFormElement> = h.JSX.TargetedEvent<T, Event>;
+export type FocusEvent<T extends EventTarget = HTMLElement> = h.JSX.TargetedFocusEvent<T>;
