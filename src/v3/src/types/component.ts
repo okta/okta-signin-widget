@@ -13,6 +13,7 @@
 import { FunctionComponent } from 'preact';
 import { StateUpdater } from 'preact/hooks';
 
+import { BlurHandler } from './handlers';
 import {
   ButtonElement,
   FieldElement,
@@ -23,8 +24,6 @@ import {
 export type TesterFunction = (
   uiElement: UISchemaElement | FieldElement | ButtonElement
 ) => boolean;
-
-export type HandleBlurFunction = (value: string | number | boolean, event: FocusEvent) => void;
 
 export type UISchemaElementComponentWithValidationProps = {
   uischema: FieldElement;
@@ -37,7 +36,7 @@ export type UISchemaElementComponentWithValidationProps = {
     value?: string | boolean | number,
   ) => void,
   handleChange?: (value: string | number | boolean) => void;
-  handleBlur?:HandleBlurFunction;
+  handleBlur?: BlurHandler;
   describedByIds?: string;
 };
 
