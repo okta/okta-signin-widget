@@ -19,6 +19,7 @@ import {
 import { AUTHENTICATOR_KEY } from 'src/constants';
 
 import {
+  ActionPendingElement,
   AuthenticatorButtonListElement,
   ButtonElement,
   ButtonType,
@@ -88,6 +89,14 @@ export const transformEnumerateComponents: IdxStepTransformer = ({
     },
   };
   uischema.elements.push(subtitleElement);
+
+  const actionPendingElement: ActionPendingElement = {
+    type: 'ActionPending',
+    options: {
+      content: 'Heading with description of pending action...',
+    },
+  };
+  uischema.elements.push(actionPendingElement);
 
   const inputTextElement: FieldElement = {
     type: 'Field',

@@ -474,6 +474,14 @@ export interface TitleElement extends UISchemaElement {
   };
 }
 
+export interface ActionPendingElement extends UISchemaElement {
+  type: 'ActionPending';
+  options: {
+    content: string;
+    dataSe?: string;
+  };
+}
+
 export interface HeadingElement extends UISchemaElement {
   type: 'Heading';
   options: {
