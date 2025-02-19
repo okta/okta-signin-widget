@@ -18,7 +18,7 @@ import { renderHook } from '@testing-library/preact-hooks';
 
 import { ClockDriftError, RecoverableError, UserNotAssignedError } from '../../../util/OAuthErrors';
 import { getStubTransaction, getStubTransactionWithNextStep } from '../mocks/utils/utils';
-import { ActionPendingElement, DescriptionElement, RedirectElement, WidgetProps } from '../types';
+import { ActionPendingElement, RedirectElement, WidgetProps } from '../types';
 import { useInteractionCodeFlow } from './useInteractionCodeFlow';
 
 describe('interactionCodeFlow Hook Tests', () => {
