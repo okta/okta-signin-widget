@@ -14,11 +14,11 @@ import { IdxRemediation } from '@okta/okta-auth-js';
 
 import { IDX_STEP } from '../../constants';
 import {
+  ActionPendingElement,
   AutoSubmitElement,
   IdxStepTransformer,
   RedirectElement,
   SpinnerElement,
-  TitleElement,
 } from '../../types';
 import { loc } from '../../util';
 
@@ -34,8 +34,8 @@ export const transformAppleSsoExtension: IdxStepTransformer = ({ formBag, transa
     return formBag;
   }
 
-  const titleElement: TitleElement = {
-    type: 'Title',
+  const titleElement: ActionPendingElement = {
+    type: 'ActionPending',
     options: {
       content: loc('deviceTrust.sso.redirectText', 'login'),
     },

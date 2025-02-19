@@ -18,6 +18,7 @@ import { h } from 'preact';
 import { useWidgetContext } from '../../contexts';
 import { useAutoFocus, useValue } from '../../hooks';
 import {
+  FocusEvent,
   UISchemaElementComponent,
   UISchemaElementComponentWithValidationProps,
 } from '../../types';
@@ -78,11 +79,8 @@ const Select: UISchemaElementComponent<UISchemaElementComponentWithValidationPro
         );
         handleChange?.(selectTarget.value);
       }}
-      onBlur={(e: SelectChangeEvent<string>) => {
-        const selectTarget = (
-          e?.target as SelectChangeEvent['target'] & { value: string; name: string; }
-        );
-        handleBlur?.(selectTarget.value);
+      onBlur={(e: FocusEvent<HTMLSelectElement>) => {
+        handleBlur?.(e.currentTarget.value, e);
       }}
       testId={name}
       value={value as string ?? ''}

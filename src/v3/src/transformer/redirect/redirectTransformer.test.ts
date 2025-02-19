@@ -15,6 +15,7 @@ import { IdxTransaction } from '@okta/okta-auth-js';
 import { IDX_STEP, InterstitialRedirectView } from '../../constants';
 import { getStubTransaction } from '../../mocks/utils/utils';
 import {
+  ActionPendingElement,
   ButtonElement,
   DescriptionElement,
   RedirectElement,
@@ -41,8 +42,8 @@ describe('Success Redirect Transform Tests', () => {
     const formBag = redirectTransformer(transaction, REDIRECT_URL, widgetProps);
 
     expect(formBag.uischema.elements.length).toBe(2);
-    expect(formBag.uischema.elements[0].type).toBe('Description');
-    expect((formBag.uischema.elements[0] as DescriptionElement).options?.content)
+    expect(formBag.uischema.elements[0].type).toBe('ActionPending');
+    expect((formBag.uischema.elements[0] as ActionPendingElement).options?.content)
       .toBe('oie.success.text.signingIn.with.ellipsis');
     expect(formBag.uischema.elements[1].type).toBe('Redirect');
     expect((formBag.uischema.elements[1] as RedirectElement).options?.url).toBe(REDIRECT_URL);
@@ -55,8 +56,8 @@ describe('Success Redirect Transform Tests', () => {
     const formBag = redirectTransformer(transaction, REDIRECT_URL, widgetProps);
 
     expect(formBag.uischema.elements.length).toBe(2);
-    expect(formBag.uischema.elements[0].type).toBe('Description');
-    expect((formBag.uischema.elements[0] as DescriptionElement).options?.content)
+    expect(formBag.uischema.elements[0].type).toBe('ActionPending');
+    expect((formBag.uischema.elements[0] as ActionPendingElement).options?.content)
       .toBe('oie.success.text.signingIn.with.ellipsis');
     expect(formBag.uischema.elements[1].type).toBe('Redirect');
     expect((formBag.uischema.elements[1] as RedirectElement).options?.url).toBe(REDIRECT_URL);
@@ -84,8 +85,8 @@ describe('Success Redirect Transform Tests', () => {
     );
 
     expect(formBag.uischema.elements.length).toBe(3);
-    expect(formBag.uischema.elements[0].type).toBe('Description');
-    expect((formBag.uischema.elements[0] as DescriptionElement).options?.content)
+    expect(formBag.uischema.elements[0].type).toBe('ActionPending');
+    expect((formBag.uischema.elements[0] as ActionPendingElement).options?.content)
       .toBe('oie.success.text.signingIn.with.appName.and.identifier');
     expect(formBag.uischema.elements[1].type).toBe('Redirect');
     expect((formBag.uischema.elements[1] as RedirectElement).options?.url).toBe(REDIRECT_URL);
@@ -107,8 +108,8 @@ describe('Success Redirect Transform Tests', () => {
     );
 
     expect(formBag.uischema.elements.length).toBe(3);
-    expect(formBag.uischema.elements[0].type).toBe('Description');
-    expect((formBag.uischema.elements[0] as DescriptionElement).options?.content)
+    expect(formBag.uischema.elements[0].type).toBe('ActionPending');
+    expect((formBag.uischema.elements[0] as ActionPendingElement).options?.content)
       .toBe('oie.success.text.signingIn');
     expect(formBag.uischema.elements[1].type).toBe('Redirect');
     expect((formBag.uischema.elements[1] as RedirectElement).options?.url).toBe(REDIRECT_URL);
@@ -134,8 +135,8 @@ describe('Success Redirect Transform Tests', () => {
     );
 
     expect(formBag.uischema.elements.length).toBe(3);
-    expect(formBag.uischema.elements[0].type).toBe('Description');
-    expect((formBag.uischema.elements[0] as DescriptionElement).options?.content)
+    expect(formBag.uischema.elements[0].type).toBe('ActionPending');
+    expect((formBag.uischema.elements[0] as ActionPendingElement).options?.content)
       .toBe('oie.success.text.signingIn.with.appName');
     expect(formBag.uischema.elements[1].type).toBe('Redirect');
     expect((formBag.uischema.elements[1] as RedirectElement).options?.url).toBe(REDIRECT_URL);
