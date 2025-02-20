@@ -22,6 +22,7 @@ export const buildConfig = (databag: Databag) => {
     expiresAt,
     refreshWindowMs,
     orgSyncToAccountChooserEnabled,
+    isCookieCheckingKSEnabled,
   } = databag;
 
   const redirectUri = getRedirectUri(databag);
@@ -60,6 +61,7 @@ export const buildConfig = (databag: Databag) => {
       avoidPageRefresh
     },
     signIn,
+    isCookieCheckingKSEnabled,
   };
 
   return loginPageConfig;

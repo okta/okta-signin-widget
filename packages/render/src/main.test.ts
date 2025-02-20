@@ -50,21 +50,27 @@ describe('main', () => {
     expect(unsupportedOnedrive?.hasAttribute('style')).toBe(false);
   });
 
-  it('updates style when cookie is disabled and isMfaAttestation is falsy', () => {
-    jest.spyOn(window.navigator, 'cookieEnabled', 'get').mockReturnValue(false);
-    document.body.innerHTML = `
-      <div id="okta-sign-in" style="width:330px;"></div>
-      <div id="unsupported-cookie" style="width:330px;"></div>
-    `;
-    const unsupportedContainer = document.getElementById('okta-sign-in');
-    const unsupportedCookie = document.getElementById('unsupported-cookie');
+  it.each([[true,true], [true,false], [false,true],[false, false]])(
+    'updates style when ksEnabled is %s and cookie is %s and isMfaAttestation is falsy',
+    (ksEnabled, cookiesEnabled) => {
+      jspPageDatabag.isCookieCheckingKSEnabled = ksEnabled;
+      const cookieEnabledSpy = jest.spyOn(utils, 'areCookiesEnabled').mockReturnValueOnce(cookiesEnabled);
+      const navigatorSpy = jest.spyOn(window.navigator, 'cookieEnabled', 'get').mockReturnValueOnce(cookiesEnabled);
+      document.body.innerHTML = `
+        <div id="okta-sign-in" style="width:330px;"></div>
+        <div id="unsupported-cookie" style="width:330px;"></div>
+      `;
+      const unsupportedContainer = document.getElementById('okta-sign-in');
+      const unsupportedCookie = document.getElementById('unsupported-cookie');
 
-    const newDatabag = { ...databag, isMfaAttestation: undefined };
-    render(JSON.stringify(newDatabag), jspPageDatabag, runLoginPage);
+      const newDatabag = { ...databag, isMfaAttestation: undefined };
+      render(JSON.stringify(newDatabag), jspPageDatabag, runLoginPage);
 
-    expect(registerListeners).toHaveBeenCalledTimes(1);
-    expect(unsupportedContainer?.hasAttribute('style')).toBe(false);
-    expect(unsupportedCookie?.hasAttribute('style')).toBe(false);
+      expect(registerListeners).toHaveBeenCalledTimes(1);
+      expect(cookieEnabledSpy).toHaveBeenCalledTimes(ksEnabled ? 1 : 0);
+      expect(navigatorSpy).toHaveBeenCalledTimes(ksEnabled ? 0 : 1);
+      expect(unsupportedContainer?.hasAttribute('style')).toBe(cookiesEnabled);
+      expect(unsupportedCookie?.hasAttribute('style')).toBe(cookiesEnabled);
   });
 
 

@@ -97,6 +97,7 @@ export const databag: Databag = {
   isSamlForceAuthnPrompt: false,
   refreshPageWhenPageBecomesActive: false,
   customSignOutUrl: 'mock-customSignOutUrl',
+  isCookieCheckingKSEnabled: false,
   i18n: {
     idpBasedPivCardButton: 'mock-idpBasedPivCardButton',
     invalidTokenErrorMsg: 'mock-invalidTokenErrorMsg',
@@ -116,6 +117,7 @@ export const jspPageDatabag = {
   showLinkToAppStore: false,
   showInactiveTabIfDocumentIsHidden: false,
   enableDeviceFingerprinting: false,
+  isCookieCheckingKSEnabled: false,
 };
 
 export const databagString = JSON.stringify(databag);

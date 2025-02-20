@@ -125,6 +125,7 @@ export type JSPDatabag = {
   hasChromeOSFeature: boolean;
   showLinkToAppStore: boolean;
   showInactiveTabIfDocumentIsHidden: boolean;
+  isCookieCheckingKSEnabled: boolean;
 }
 
 export type Databag = ModelDatabag & JSPDatabag;
