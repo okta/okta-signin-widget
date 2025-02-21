@@ -3,7 +3,7 @@ import { areCookiesEnabled } from './areCookiesEnabled';
 describe('areCookiesEnabled', () => {
 
   it('should return true when cookies are enabled', () => {
-    jest.spyOn(document, 'cookie', 'get').mockReturnValue('testcookie=1; SameSite=Lax');
+    jest.spyOn(document, 'cookie', 'get').mockReturnValue('okta-cookie-validation=1; SameSite=Lax');
     const result = areCookiesEnabled();
     expect(result).toBe(true);
   });
