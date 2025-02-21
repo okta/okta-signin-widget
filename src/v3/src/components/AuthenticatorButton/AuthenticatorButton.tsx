@@ -320,7 +320,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
               id={`${iconName}-ctaLabel`}
               sx={{
                 fontWeight: tokens.TypographyWeightBodyBold,
-                fontSize: tokens.TypographySizeBody,
+                fontSize: tokens.TypographySizeSubordinate,
                 order: isAdditionalEnroll ? 1 : 0,
               }}
               data-se="cta-button-label"
