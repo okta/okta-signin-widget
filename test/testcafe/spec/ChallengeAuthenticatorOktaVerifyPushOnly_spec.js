@@ -71,7 +71,8 @@ test.requestHooks(requestLogger, mockChallengeOVSendPush)(
 
     challengeOktaVerifyPushPageObject.clickSendPushButton();
     const challengeFactorPage = new ChallengeFactorPageObject(t);
-    await t.expect(challengeFactorPage.getFormTitle()).eql('Get a push notification');
+    await t.expect(challengeFactorPage.getFormTitle()).eql('Push notification sent');
+    await t.expect(challengeFactorPage.getFormSubtitle()).eql('Respond on your mobile device to continue.');
 
     await t.expect(requestLogger.count(() => true)).eql(2);
     const req1 = requestLogger.requests[0].request;
