@@ -4639,8 +4639,8 @@
 
 "@okta/okta-auth-js@7.11.0":
   version "7.11.0"
-  resolved "https://artifacts.aue1e.internal/artifactory/api/npm/npm-okta-all/@okta/okta-auth-js/-/@okta/okta-auth-js-7.11.0.tgz#a23452dd018d020ac09cd6527f9cf78bf48056e8"
-  integrity sha1-ojRS3QGNAgrAnNZSf5z3i/SAVug=
+  resolved "https://registry.yarnpkg.com/@okta/okta-auth-js/-/okta-auth-js-7.11.0.tgz#a23452dd018d020ac09cd6527f9cf78bf48056e8"
+  integrity sha512-YL+TRH6gb5Odg6MlVv8i6LQ0VpXNZx2W0p5uf1TUsFl/MYXlCuK9JCuHQCXh9ZOHdHFmD4cHTQbI3s9ctScARQ==
   dependencies:
     "@babel/runtime" "^7.12.5"
     "@peculiar/webcrypto" "^1.4.0"
