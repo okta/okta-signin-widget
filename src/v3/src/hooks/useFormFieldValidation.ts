@@ -10,22 +10,24 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { StateUpdater, useCallback } from 'preact/hooks';
+import { Dispatch, StateUpdater, useCallback } from 'preact/hooks';
 
 import { useWidgetContext } from '../contexts';
 import { DataSchema, FieldElement, WidgetMessage } from '../types';
 import { convertIdxMessageToWidgetMessage } from '../util';
 
+type SetErrorsFunction = Dispatch<StateUpdater<WidgetMessage[] | undefined>>;
+
 export const useFormFieldValidation = (
   uischema: FieldElement,
 ): (
-  setErrors?: StateUpdater<WidgetMessage[] | undefined>, value?: string | boolean | number
+  setErrors?: SetErrorsFunction, value?: string | boolean | number
   ) => void => {
   const { name } = uischema.options.inputMeta;
   const { dataSchemaRef, data } = useWidgetContext();
 
   return useCallback((
-    setErrors?: StateUpdater<WidgetMessage[] | undefined>,
+    setErrors?: SetErrorsFunction,
     value?: string | boolean | number,
   ) => {
     const validator = dataSchemaRef.current?.[name] as DataSchema;

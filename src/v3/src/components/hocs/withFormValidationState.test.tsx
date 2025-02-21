@@ -92,7 +92,6 @@ describe('withFormValidationState', () => {
     const button = getByTestId('outside-element');
 
     await user.click(input);
-    await user.type(input, 'test value');
     expect(input).toHaveFocus();
 
     await user.click(button);
@@ -120,6 +119,16 @@ describe('withFormValidationState', () => {
     await user.click(button);
     expect(input).not.toHaveFocus();
 
+    expect(mockOnValidateHandler).toHaveBeenCalledWith(expect.any(Function), 'test value');
+  });
+
+  it('should call onValidateHandler when handleChange is triggered', async () => {
+    const user = userEvent.setup();
+    const { getByTestId } = render(<WrappedComponent {...defaultProps} />);
+    const input = getByTestId('test-input');
+
+    await user.type(input, 'test value');
+    expect(mockOnChangeHandler).toHaveBeenCalledWith('test value');
     expect(mockOnValidateHandler).toHaveBeenCalledWith(expect.any(Function), 'test value');
   });
 });

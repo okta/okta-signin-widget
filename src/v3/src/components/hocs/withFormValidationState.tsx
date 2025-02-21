@@ -61,8 +61,9 @@ export const withFormValidationState: WrappedFunctionComponent<
     const onChangeHandler = useOnChange(uischema);
 
     const handleChange = (value: string | number | boolean) => {
-      setTouched?.(true);
+      setTouched(true);
       onChangeHandler(value);
+      onValidateHandler(setErrors, value);
     };
 
     const handleBlur: BlurHandler = (value: string | number | boolean, e: FocusEvent) => {
@@ -74,8 +75,8 @@ export const withFormValidationState: WrappedFunctionComponent<
         return;
       }
 
-      setTouched?.(true);
-      onValidateHandler?.(setErrors, value);
+      setTouched(true);
+      onValidateHandler(setErrors, value);
     };
 
     // For server side errors, need to reset the touched value
