@@ -35,6 +35,7 @@ export default function getAuthClientInstance(
       codeChallengeMethod,
       transformErrorXHR: Util.transformErrorXHR,
       recoveryToken,
+      pollDelay: 500,
       ...authParams
     };
 
