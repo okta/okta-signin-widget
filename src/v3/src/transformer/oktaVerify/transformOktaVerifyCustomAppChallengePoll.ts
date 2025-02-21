@@ -121,20 +121,19 @@ export const transformOktaVerifyCustomAppChallengePoll: IdxStepTransformer = (op
         },
       } as ReminderElement);
       uischema.elements.unshift({
+        type: 'Description',
+        options: {
+          content: loc('oie.okta_verify.push.sent.respond_to_continue', 'login')
+        },
+      } as DescriptionElement);
+      uischema.elements.unshift({
         type: 'Title',
         options: {
           content: isOV
-            ? loc('oie.okta_verify.push.title', 'login')
-            : loc('oie.verify.custom_app.title', 'login', [getDisplayName(transaction)]),
+            ? loc('oie.okta_verify.push.sent', 'login')
+            : loc('oie.custom_app.push.sent', 'login'),
         },
       } as TitleElement);
-      uischema.elements.push({
-        type: 'Button',
-        label: isOV
-          ? loc('oie.okta_verify.push.sent', 'login')
-          : loc('oie.custom_app.push.sent', 'login'),
-        options: { disabled: true },
-      } as ButtonElement);
     }
 
     // Since this transformer is shared, we have to add applicable buttons manually
