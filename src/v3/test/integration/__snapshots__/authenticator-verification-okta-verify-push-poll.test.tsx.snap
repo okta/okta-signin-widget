@@ -126,8 +126,23 @@ exports[`authenticator-verification-okta-verify-push should render polling form 
                         data-se="o-form-head"
                         tabindex="-1"
                       >
-                        Get a push notification
+                        Push notification sent
                       </h2>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiBox-root emotion-11"
+                  >
+                    <div
+                      class="MuiBox-root emotion-18"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 emotion-22"
+                        data-se="o-form-explain"
+                        tabindex="-1"
+                      >
+                        Respond on your mobile device to continue.
+                      </p>
                     </div>
                   </div>
                   <div
@@ -137,10 +152,10 @@ exports[`authenticator-verification-okta-verify-push should render polling form 
                     class="MuiBox-root emotion-11"
                   >
                     <fieldset
-                      class="MuiFormControl-root MuiFormControl-marginNormal emotion-22"
+                      class="MuiFormControl-root MuiFormControl-marginNormal emotion-25"
                     >
                       <legend
-                        class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-23"
+                        class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-26"
                       >
                         
                          
@@ -148,18 +163,18 @@ exports[`authenticator-verification-okta-verify-push should render polling form 
                       </legend>
                       <div
                         aria-labelledby="autoChallenge-label"
-                        class="MuiFormGroup-root emotion-24"
+                        class="MuiFormGroup-root emotion-27"
                         id="autoChallenge"
                       >
                         <label
-                          class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-25"
+                          class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-28"
                           id="autoChallenge-checkbox"
                         >
                           <span
-                            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-26"
+                            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall emotion-29"
                           >
                             <input
-                              class="PrivateSwitchBase-input emotion-27"
+                              class="PrivateSwitchBase-input emotion-30"
                               data-indeterminate="false"
                               data-se="autoChallenge"
                               name="autoChallenge"
@@ -167,7 +182,7 @@ exports[`authenticator-verification-okta-verify-push should render polling form 
                             />
                           </span>
                           <span
-                            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-28"
+                            class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-22"
                           >
                             Send push automatically
                           </span>
@@ -179,19 +194,7 @@ exports[`authenticator-verification-okta-verify-push should render polling form 
                     class="MuiBox-root emotion-11"
                   >
                     <button
-                      class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth Mui-disabled MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-30"
-                      disabled=""
-                      tabindex="-1"
-                      type="button"
-                    >
-                      Push notification sent
-                    </button>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <button
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-32"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-33"
                       data-se="switchAuthenticator"
                       role="link"
                     >
@@ -202,7 +205,7 @@ exports[`authenticator-verification-okta-verify-push should render polling form 
                     class="MuiBox-root emotion-11"
                   >
                     <button
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-32"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-33"
                       data-se="cancel"
                       role="link"
                     >

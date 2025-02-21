@@ -18,9 +18,15 @@ Object {
     "elements": Array [
       Object {
         "options": Object {
-          "content": "oie.verify.custom_app.title",
+          "content": "oie.custom_app.push.sent",
         },
         "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.okta_verify.push.sent.respond_to_continue",
+        },
+        "type": "Description",
       },
       Object {
         "noMargin": true,
@@ -28,13 +34,6 @@ Object {
           "content": "oie.custom_app.push.warning",
         },
         "type": "Reminder",
-      },
-      Object {
-        "label": "oie.custom_app.push.sent",
-        "options": Object {
-          "disabled": true,
-        },
-        "type": "Button",
       },
       Object {
         "contentType": "footer",
@@ -69,9 +68,15 @@ Object {
     "elements": Array [
       Object {
         "options": Object {
-          "content": "oie.verify.custom_app.title",
+          "content": "oie.custom_app.push.sent",
         },
         "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.okta_verify.push.sent.respond_to_continue",
+        },
+        "type": "Description",
       },
       Object {
         "noMargin": true,
@@ -79,13 +84,6 @@ Object {
           "content": "oie.custom_app.push.warning",
         },
         "type": "Reminder",
-      },
-      Object {
-        "label": "oie.custom_app.push.sent",
-        "options": Object {
-          "disabled": true,
-        },
-        "type": "Button",
       },
       Object {
         "contentType": "footer",
@@ -129,9 +127,15 @@ Object {
     "elements": Array [
       Object {
         "options": Object {
-          "content": "oie.verify.custom_app.title",
+          "content": "oie.custom_app.push.sent",
         },
         "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.okta_verify.push.sent.respond_to_continue",
+        },
+        "type": "Description",
       },
       Object {
         "noMargin": true,
@@ -139,13 +143,6 @@ Object {
           "content": "oie.custom_app.push.warning",
         },
         "type": "Reminder",
-      },
-      Object {
-        "label": "oie.custom_app.push.sent",
-        "options": Object {
-          "disabled": true,
-        },
-        "type": "Button",
       },
       Object {
         "contentType": "footer",
@@ -382,9 +379,15 @@ Object {
     "elements": Array [
       Object {
         "options": Object {
-          "content": "oie.okta_verify.push.title",
+          "content": "oie.okta_verify.push.sent",
         },
         "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.okta_verify.push.sent.respond_to_continue",
+        },
+        "type": "Description",
       },
       Object {
         "noMargin": true,
@@ -392,13 +395,6 @@ Object {
           "content": "oktaverify.warning",
         },
         "type": "Reminder",
-      },
-      Object {
-        "label": "oie.okta_verify.push.sent",
-        "options": Object {
-          "disabled": true,
-        },
-        "type": "Button",
       },
       Object {
         "contentType": "footer",
@@ -433,9 +429,15 @@ Object {
     "elements": Array [
       Object {
         "options": Object {
-          "content": "oie.okta_verify.push.title",
+          "content": "oie.okta_verify.push.sent",
         },
         "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.okta_verify.push.sent.respond_to_continue",
+        },
+        "type": "Description",
       },
       Object {
         "noMargin": true,
@@ -443,13 +445,6 @@ Object {
           "content": "oktaverify.warning",
         },
         "type": "Reminder",
-      },
-      Object {
-        "label": "oie.okta_verify.push.sent",
-        "options": Object {
-          "disabled": true,
-        },
-        "type": "Button",
       },
       Object {
         "contentType": "footer",
