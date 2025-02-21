@@ -13,7 +13,6 @@
 import { IdxAuthenticator } from '@okta/okta-auth-js';
 import { getStubFormBag, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
-  ButtonElement,
   DescriptionElement,
   ImageWithTextElement,
   LinkElement,
@@ -139,7 +138,7 @@ describe('Transform Okta Verify Challenge Poll Tests', () => {
       .toBe('oie.okta_verify.push.sent');
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
       .toBe('oie.okta_verify.push.sent.respond_to_continue');
-      expect((updatedFormBag.uischema.elements[2] as ReminderElement).options.content)
+    expect((updatedFormBag.uischema.elements[2] as ReminderElement).options.content)
       .toBe('oktaverify.warning');
     expect((updatedFormBag.uischema.elements[3] as LinkElement).options.label)
       .toBe('oie.verification.switch.authenticator');

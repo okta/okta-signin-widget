@@ -15,7 +15,6 @@ import { NextStep } from '@okta/okta-auth-js';
 import { PhoneIcon } from '../../components/Images';
 import { AUTHENTICATOR_KEY, CHALLENGE_METHOD, IDX_STEP } from '../../constants';
 import {
-  ButtonElement,
   DescriptionElement,
   FieldElement,
   IdxStepTransformer,
@@ -123,7 +122,7 @@ export const transformOktaVerifyCustomAppChallengePoll: IdxStepTransformer = (op
       uischema.elements.unshift({
         type: 'Description',
         options: {
-          content: loc('oie.okta_verify.push.sent.respond_to_continue', 'login')
+          content: loc('oie.okta_verify.push.sent.respond_to_continue', 'login'),
         },
       } as DescriptionElement);
       uischema.elements.unshift({
