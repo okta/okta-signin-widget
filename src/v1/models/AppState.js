@@ -125,7 +125,6 @@ export default Model.extend({
       const self = this;
 
       this.listenTo(this, 'change:username', function(model, username) {
-        console.log('get security image', username);
         getSecurityImage(this.get('baseUrl'), username, this.get('deviceFingerprint'))
           .then(function(image) {
             model.set('securityImage', image.securityImage);
