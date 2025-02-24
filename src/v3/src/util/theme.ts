@@ -191,7 +191,6 @@ export const createThemeAndTokens = (
       MuiButton: {
         styleOverrides: {
           root: ({ ownerState }) => ({
-            fontSize: mergedTokens.TypographySizeSubordinate,
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
@@ -227,7 +226,6 @@ export const createThemeAndTokens = (
       MuiChip: {
         styleOverrides: {
           root: {
-            fontSize: mergedTokens.TypographySizeSubordinate,
             lineHeight: 'normal',
           },
         },
@@ -258,7 +256,6 @@ export const createThemeAndTokens = (
       MuiInputBase: {
         styleOverrides: {
           root: ({ ownerState }) => ({
-            fontSize: mergedTokens.TypographySizeSubordinate,
             width: '100%',
             // Odyssey sets flex: "1" but that results in the following IE11 flexbug
             // https://github.com/philipwalton/flexbugs?tab=readme-ov-file#flexbug-7
@@ -302,7 +299,6 @@ export const createThemeAndTokens = (
       MuiInputLabel: {
         styleOverrides: {
           root: ({ ownerState }) => ({
-            fontSize: mergedTokens.TypographySizeSubordinate,
             wordBreak: 'break-word',
             whiteSpace: 'normal',
             ...(ownerState.formControl && {
@@ -345,16 +341,12 @@ export const createThemeAndTokens = (
       MuiScopedCssBaseline: {
         styleOverrides: {
           root: {
-            fontSize: mergedTokens.TypographySizeSubordinate,
             figure: {},
           },
         },
       },
       MuiTypography: {
         styleOverrides: {
-          body1: {
-            fontSize: mergedTokens.TypographySizeSubordinate,
-          },
           root: {
             '&[data-se="o-form-head"]': {
               outline: 'none',
