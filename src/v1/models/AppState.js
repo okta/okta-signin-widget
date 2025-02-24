@@ -11,7 +11,6 @@
  */
 
 import { _, $, loc, Model } from '@okta/courage';
-import hbs from '@okta/handlebars-inline-precompile';
 import Factor from 'v1/models/Factor';
 import Q from 'q';
 import BrowserFeatures from 'util/BrowserFeatures';
@@ -29,7 +28,12 @@ const NEW_USER = '/img/security/unknown-device.png';
 const NEW_USER_IMAGE_DESCRIPTION = '';
 const UNDEFINED_USER_IMAGE_DESCRIPTION = '';
 const UNKNOWN_IMAGE_DESCRIPTION = '';
-const securityImageUrlTpl = hbs('{{baseUrl}}/login/getimage?username={{username}}');
+
+export function getSecurityImageUrl(baseUrl, username) {
+  const encodedUsername = encodeURIComponent(username);
+  const url = `${baseUrl}/login/getimage?username=${encodedUsername}`;
+  return url;
+}
 
 function getSecurityImage(baseUrl, username, deviceFingerprint) {
   // When the username is empty, we want to show the default image.
@@ -41,8 +45,7 @@ function getSecurityImage(baseUrl, username, deviceFingerprint) {
   }
 
   // Reserved characters in the username must be escaped before the query can be safely executed
-  username = encodeURIComponent(username);
-  const url = securityImageUrlTpl({ baseUrl: baseUrl, username: username });
+  const url = getSecurityImageUrl(baseUrl, username);
   const data = {
     url: url,
     dataType: 'json',
@@ -122,6 +125,7 @@ export default Model.extend({
       const self = this;
 
       this.listenTo(this, 'change:username', function(model, username) {
+        console.log('get security image', username);
         getSecurityImage(this.get('baseUrl'), username, this.get('deviceFingerprint'))
           .then(function(image) {
             model.set('securityImage', image.securityImage);
