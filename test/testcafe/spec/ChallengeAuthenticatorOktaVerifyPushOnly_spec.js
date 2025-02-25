@@ -74,7 +74,7 @@ test.requestHooks(requestLogger, mockChallengeOVSendPush)(
     if(userVariables.gen3) {
       await t.expect(challengeFactorPage.getFormTitle()).eql('Push notification sent');
     } else {
-      await t.expect(challengeFactorPage.getFormTitle()).eql('Verify with Custom Push');
+      await t.expect(challengeFactorPage.getFormTitle()).eql('Get a push notification');
     }
 
     await t.expect(requestLogger.count(() => true)).eql(2);
