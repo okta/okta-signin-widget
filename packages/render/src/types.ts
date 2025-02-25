@@ -126,6 +126,7 @@ export type JSPDatabag = {
   showLinkToAppStore: boolean;
   showInactiveTabIfDocumentIsHidden: boolean;
   isCookieCheckingKSEnabled: boolean;
+  disableSiwPollDelay?: boolean;
 }
 
 export type Databag = ModelDatabag & JSPDatabag;

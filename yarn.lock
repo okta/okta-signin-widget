@@ -1673,10 +1673,10 @@
   resolved "https://artifacts.aue1e.internal/artifactory/api/npm/npm-okta-all/@okta/loginpage/-/@okta/loginpage-0.0.1-8915-ga9f17dd.tgz#da58c852b955e48beed5181bff02ff762fea0911"
   integrity sha512-orUCGlNq9i5wjRrkRMyjjAa42JO0YklCIq/x0iaDtCb2JqjZJbTJRb2zjiEhCcNdgATS0Y9eDzp/kYFhMtKpqA==
 
-"@okta/okta-auth-js@^7.8.0":
-  version "7.8.0"
-  resolved "https://artifacts.aue1e.internal/artifactory/api/npm/npm-okta-all/@okta/okta-auth-js/-/@okta/okta-auth-js-7.8.0.tgz#1ab69c47cbf6fd7f3ce9f6caed2e05685f5bb22d"
-  integrity sha1-GracR8v2/X886fbK7S4FaF9bsi0=
+"@okta/okta-auth-js@^7.10.1":
+  version "7.11.0"
+  resolved "https://artifactory.es.atko.services/artifactory/api/npm/npm-okta-master/@okta/okta-auth-js/-/@okta/okta-auth-js-7.11.0.tgz#a23452dd018d020ac09cd6527f9cf78bf48056e8"
+  integrity sha1-ojRS3QGNAgrAnNZSf5z3i/SAVug=
   dependencies:
     "@babel/runtime" "^7.12.5"
     "@peculiar/webcrypto" "^1.4.0"
@@ -1684,11 +1684,10 @@
     atob "^2.1.2"
     broadcast-channel "~5.3.0"
     btoa "^1.2.1"
-    core-js "^3.6.5"
+    core-js "^3.39.0"
     cross-fetch "^3.1.5"
     fast-text-encoding "^1.0.6"
     js-cookie "^3.0.1"
-    jsonpath-plus "^6.0.1"
     node-cache "^5.1.2"
     p-cancelable "^2.0.0"
     tiny-emitter "1.1.0"
@@ -1717,12 +1716,12 @@
     webcrypto-shim "^0.1.5"
     xhr2 "0.1.3"
 
-"@okta/okta-signin-widget@^7.24.1":
-  version "7.24.1"
-  resolved "https://artifacts.aue1e.internal/artifactory/api/npm/npm-okta-all/@okta/okta-signin-widget/-/@okta/okta-signin-widget-7.24.1.tgz#02b8eeea9cb67958db0fd14f6a73e8deede4c870"
-  integrity sha1-Arju6py2eVjbD9FPanPo3u3kyHA=
+"@okta/okta-signin-widget@^7.28.2":
+  version "7.28.2"
+  resolved "https://artifactory.es.atko.services/artifactory/api/npm/npm-okta-master/@okta/okta-signin-widget/-/@okta/okta-signin-widget-7.28.2.tgz#6fa1426dea35fe7c95ee3802d2a3f7585c6c622c"
+  integrity sha1-b6FCbeo1/nyV7jgC0qP3WFxsYiw=
   dependencies:
-    "@okta/okta-auth-js" "^7.8.0"
+    "@okta/okta-auth-js" "^7.10.1"
     "@sindresorhus/to-milliseconds" "^1.0.0"
     "@types/backbone" "^1.4.15"
     "@types/eslint-scope" "^3.7.3"
@@ -3146,6 +3145,11 @@ core-js-compat@^3.33.1:
   integrity sha512-vYq4L+T8aS5UuFg4UwDhc7YNRWVeVZwltad9C/jV3R2LgVOpS9BDr7l/WL6BN0dbV3k1XejPTHqqEzJgsa0frA==
   dependencies:
     browserslist "^4.23.0"
+
+core-js@^3.39.0:
+  version "3.40.0"
+  resolved "https://artifactory.es.atko.services/artifactory/api/npm/npm-okta-master/core-js/-/core-js-3.40.0.tgz#2773f6b06877d8eda102fc42f828176437062476"
+  integrity sha512-7vsMc/Lty6AGnn7uFpYT56QesI5D2Y/UkgKounk87OP9Z2H9Z8kj6jzcSGAxFmUtDOS0ntK6lbQz+Nsa0Jj6mQ==
 
 core-js@^3.6.5:
   version "3.37.0"

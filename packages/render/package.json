@@ -43,6 +43,6 @@
     "ts-jest": "^29.1.2",
     "@types/jest": "^29.5.12",
     "@okta/loginpage-mock": "*",
-    "@okta/okta-signin-widget": "^7.24.1"
+    "@okta/okta-signin-widget": "^7.28.2"
   }
 }

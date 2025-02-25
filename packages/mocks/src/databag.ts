@@ -118,6 +118,7 @@ export const jspPageDatabag = {
   showInactiveTabIfDocumentIsHidden: false,
   enableDeviceFingerprinting: false,
   isCookieCheckingKSEnabled: false,
+  disableSiwPollDelay: false,
 };
 
 export const databagString = JSON.stringify(databag);

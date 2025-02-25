@@ -59,6 +59,7 @@ export const getSignInConfig = (databag: Databag): Config => {
     emailSelfServiceEnabled = false,
     selfServiceUnlockEnabled = false,
     redirectByFormSubmit = false,
+    disableSiwPollDelay = false,
   } = databag;
 
   const proxyIdxResponse = getProxyIdxResponse(databag);
@@ -91,7 +92,7 @@ export const getSignInConfig = (databag: Databag): Config => {
   const idpDiscoveryRequestContext = getIdpDiscoveryRequestContext(databag);
   const enableDeviceFingerprinting = hasAnyFeature(['SEND_EMAIL_FOR_SIGNON_FROM_NEW_DEVICE', 'VALIDATED_SESSION_EVENT_FIRING'], featureFlags);
 
-  return {
+  const config: Config = {
     el: '#signin-container',
     baseUrl: baseUrl,
     brandName,
@@ -168,4 +169,13 @@ export const getSignInConfig = (databag: Databag): Config => {
 
     hcaptcha,
   };
+
+  if (disableSiwPollDelay) {
+    // @ts-expect-error authParams.issuer is incorrectly marked as required
+    config.authParams = {
+      pollDelay: 0,
+    };
+  }
+
+  return config;
 };
