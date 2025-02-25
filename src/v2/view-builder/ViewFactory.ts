@@ -109,6 +109,9 @@ import ChallengePIVView from './views/piv/ChallengePIVView';
 // YubiKey
 import AuthenticatorYubiKeyView from './views/yubikey/AuthenticatorYubiKeyView';
 
+// NFC
+import ChallengeNFCAuthenticatorView from './views/nfc/ChallengeNFCAuthenticatorView';
+
 // custom app
 import ChallengePushView from './views/shared/ChallengePushView';
 import ChallengeCustomAppResendPushView from './views/custom-app/ChallengeCustomAppResendPushView';
@@ -208,6 +211,7 @@ const VIEWS_MAPPING = {
     [AUTHENTICATOR_KEY.SYMANTEC_VIP]: AuthenticatorSymantecView,
     [AUTHENTICATOR_KEY.WEBAUTHN]: ChallengeWebauthnView,
     [AUTHENTICATOR_KEY.YUBIKEY]: AuthenticatorYubiKeyView,
+    [AUTHENTICATOR_KEY.NFC]: ChallengeNFCAuthenticatorView,
   },
   [RemediationForms.ENROLL_POLL]: {
     [AUTHENTICATOR_KEY.OV]: EnrollPollOktaVerifyView,
