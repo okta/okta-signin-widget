@@ -128,16 +128,19 @@ test
     });
 
     const pageTitle = challengeCustomAppPushPageObject.getFormTitle();
+    const pageSubtitle = challengeCustomAppPushPageObject.getFormSubtitle();
     const pushBtn = challengeCustomAppPushPageObject.getPushButton();
     const a11ySpan = challengeCustomAppPushPageObject.getA11ySpan();
-    await t.expect(pushBtn.textContent).contains('Push notification sent');
     // no a11y span in gen 3
     if (!userVariables.gen3) {
+      await t.expect(pushBtn.textContent).contains('Push notification sent');
       await t.expect(a11ySpan.textContent).contains('Push notification sent');
+      await t.expect(challengeCustomAppPushPageObject.isPushButtonDisabled()).eql(true);
+      await t.expect(pageTitle).contains('Verify with Custom Push');
+    } else {
+      await t.expect(pageTitle).contains('Push notification sent');
+      await t.expect(pageSubtitle).contains('Respond on your mobile device to continue.');
     }
-    await t.expect(challengeCustomAppPushPageObject.isPushButtonDisabled()).eql(true);
-
-    await t.expect(pageTitle).contains('Verify with Custom Push');
 
     // Verify links
     await t.expect(await challengeCustomAppPushPageObject.verifyWithSomethingElseLinkExists()).ok();
@@ -158,16 +161,22 @@ test
     });
 
     const pageTitle = challengeCustomAppPushPageObject.getFormTitle();
+    const pageSubtitle = challengeCustomAppPushPageObject.getFormSubtitle();
     const pushBtn = challengeCustomAppPushPageObject.getPushButton();
     const a11ySpan = challengeCustomAppPushPageObject.getA11ySpan();
     const logoSelector = challengeCustomAppPushPageObject.getBeaconSelector();
     const logoBgImage = challengeCustomAppPushPageObject.getBeaconBgImage();
-    await t.expect(pushBtn.textContent).contains('Push notification sent');
     // no a11y span in gen 3
     if (!userVariables.gen3) {
+      await t.expect(pushBtn.textContent).contains('Push notification sent');
       await t.expect(a11ySpan.textContent).contains('Push notification sent');
+      await t.expect(challengeCustomAppPushPageObject.isPushButtonDisabled()).eql(true);
+      await t.expect(pageTitle).contains('Verify with Custom Push Authenticator');
+    } else {
+      await t.expect(pageTitle).contains('Push notification sent');
+      await t.expect(pageSubtitle).contains('Respond on your mobile device to continue.');
     }
-    await t.expect(challengeCustomAppPushPageObject.isPushButtonDisabled()).eql(true);
+    
     await t.expect(logoSelector).contains('custom-app-logo');
     // gen 3 uses img element with src attribute while gen 2 uses background-image style prop
     if(userVariables.gen3) {
@@ -176,7 +185,6 @@ test
       await t.expect(logoBgImage).match(/^url\(".*\/img\/icons\/mfa\/customPushLogo\.svg"\)$/);
     }
 
-    await t.expect(pageTitle).contains('Verify with Custom Push Authenticator');
     await t.expect(await challengeCustomAppPushPageObject.autoChallengeInputExists()).eql(true);
     await t.expect(challengeCustomAppPushPageObject.isAutoChallengeChecked()).ok();
 
@@ -201,16 +209,21 @@ test
     
     // all UI elements should be present except the checkbox
     const pageTitle = challengeCustomAppPushPageObject.getFormTitle();
+    const pageSubtitle = challengeCustomAppPushPageObject.getFormSubtitle();
     const pushBtn = challengeCustomAppPushPageObject.getPushButton();
     const a11ySpan = challengeCustomAppPushPageObject.getA11ySpan();
     const logoSelector = challengeCustomAppPushPageObject.getBeaconSelector();
     const logoBgImage = challengeCustomAppPushPageObject.getBeaconBgImage();
-    await t.expect(pushBtn.textContent).contains('Push notification sent');
     // no a11y span in gen 3
     if (!userVariables.gen3) {
+      await t.expect(pushBtn.textContent).contains('Push notification sent');
       await t.expect(a11ySpan.textContent).contains('Push notification sent');
+      await t.expect(challengeCustomAppPushPageObject.isPushButtonDisabled()).eql(true);
+      await t.expect(pageTitle).contains('Verify with Custom Push');
+    } else {
+      await t.expect(pageTitle).contains('Push notification sent');
+      await t.expect(pageSubtitle).contains('Respond on your mobile device to continue.');
     }
-    await t.expect(challengeCustomAppPushPageObject.isPushButtonDisabled()).eql(true);
     await t.expect(logoSelector).contains('custom-app-logo');
     // gen 3 uses img element with src attribute while gen 2 uses background-image style prop
     if(userVariables.gen3) {
@@ -218,7 +231,6 @@ test
     } else {
       await t.expect(logoBgImage).match(/^url\(".*\/img\/icons\/mfa\/customPushLogo\.svg"\)$/);
     }
-    await t.expect(pageTitle).contains('Verify with Custom Push');
 
     // Verify links
     await t.expect(await challengeCustomAppPushPageObject.verifyWithSomethingElseLinkExists()).ok();
@@ -242,16 +254,21 @@ test
     });
 
     const pageTitle = challengeCustomAppPushPageObject.getFormTitle();
+    const pageSubtitle = challengeCustomAppPushPageObject.getFormSubtitle();
     const pushBtn = challengeCustomAppPushPageObject.getPushButton();
     const a11ySpan = challengeCustomAppPushPageObject.getA11ySpan();
     const logoSelector = challengeCustomAppPushPageObject.getBeaconSelector();
     const logoBgImage = challengeCustomAppPushPageObject.getBeaconBgImage();
-    await t.expect(pushBtn.textContent).contains('Push notification sent');
     // no a11y span in gen 3
     if (!userVariables.gen3) {
+      await t.expect(pushBtn.textContent).contains('Push notification sent');
       await t.expect(a11ySpan.textContent).contains('Push notification sent');
+      await t.expect(challengeCustomAppPushPageObject.isPushButtonDisabled()).eql(true);
+      await t.expect(pageTitle).contains('Verify with Custom Push');
+    } else {
+      await t.expect(pageTitle).contains('Push notification sent');
+      await t.expect(pageSubtitle).contains('Respond on your mobile device to continue.');
     }
-    await t.expect(challengeCustomAppPushPageObject.isPushButtonDisabled()).eql(true );
     await t.expect(logoSelector).contains('custom-app-logo');
     // gen 3 uses img element with src attribute while gen 2 uses background-image style prop
     if(userVariables.gen3) {
@@ -260,7 +277,6 @@ test
       await t.expect(logoBgImage).match(/^url\(".*\/img\/icons\/mfa\/customPushLogo\.svg"\)$/);
       await t.expect(logoSelector).contains('mfa-custom-app');
     }
-    await t.expect(pageTitle).contains('Verify with Custom Push');
     await t.expect(await challengeCustomAppPushPageObject.autoChallengeInputExists()).notOk();
 
     // Verify links
@@ -278,17 +294,21 @@ test
     
     // all UI elements should be present except the checkbox
     const pageTitle = challengeCustomAppPushPageObject.getFormTitle();
+    const pageSubtitle = challengeCustomAppPushPageObject.getFormSubtitle();
     const pushBtn = challengeCustomAppPushPageObject.getPushButton();
     const a11ySpan = challengeCustomAppPushPageObject.getA11ySpan();
     const logoSelector = challengeCustomAppPushPageObject.getBeaconSelector();
-    await t.expect(pushBtn.textContent).contains('Push notification sent');
     // no a11y span in gen 3
     if (!userVariables.gen3) {
+      await t.expect(pushBtn.textContent).contains('Push notification sent');
       await t.expect(a11ySpan.textContent).contains('Push notification sent');
+      await t.expect(challengeCustomAppPushPageObject.isPushButtonDisabled()).eql(true);
+      await t.expect(pageTitle).contains('Verify with Custom Push');
+    } else {
+      await t.expect(pageTitle).contains('Push notification sent');
+      await t.expect(pageSubtitle).contains('Respond on your mobile device to continue.');
     }
-    await t.expect(challengeCustomAppPushPageObject.isPushButtonDisabled()).eql(true);
     await t.expect(logoSelector).contains('custom-app-logo');
-    await t.expect(pageTitle).contains('Verify with Custom Push');
 
     // Verify links
     await t.expect(await challengeCustomAppPushPageObject.verifyWithSomethingElseLinkExists()).ok();

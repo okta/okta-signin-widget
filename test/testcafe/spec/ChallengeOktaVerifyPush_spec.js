@@ -70,18 +70,22 @@ test
     });
 
     const pageTitle = challengeOktaVerifyPushPageObject.getFormTitle();
+    const pageSubtitle = challengeOktaVerifyPushPageObject.getFormSubtitle();
     const pushBtn = challengeOktaVerifyPushPageObject.getPushButton();
     const a11ySpan = challengeOktaVerifyPushPageObject.getA11ySpan();
     const logoSelector = challengeOktaVerifyPushPageObject.getBeaconSelector();
-    await t.expect(pushBtn.textContent).contains('Push notification sent');
     if (!userVariables.gen3) {
+      await t.expect(pushBtn.textContent).contains('Push notification sent');
       await t.expect(a11ySpan.textContent).contains('Push notification sent');
+      await t.expect(await challengeOktaVerifyPushPageObject.isPushButtonDisabled()).ok();
+      await t.expect(pageTitle).contains('Get a push notification');
+    } else {
+      await t.expect(pageTitle).contains('Push notification sent');
+      await t.expect(pageSubtitle).contains('Respond on your mobile device to continue.');
     }
 
-    await t.expect(await challengeOktaVerifyPushPageObject.isPushButtonDisabled()).ok();
     await t.expect(logoSelector).contains('mfa-okta-verify');
     await t.expect(logoSelector).notContains('custom-app-logo');
-    await t.expect(pageTitle).contains('Get a push notification');
     await t.expect(await challengeOktaVerifyPushPageObject.autoChallengeInputExists()).notOk();
 
     // Verify links
@@ -102,17 +106,21 @@ test
     });
 
     const pageTitle = challengeOktaVerifyPushPageObject.getFormTitle();
+    const pageSubtitle = challengeOktaVerifyPushPageObject.getFormSubtitle();
     const pushBtn = challengeOktaVerifyPushPageObject.getPushButton();
     const a11ySpan = challengeOktaVerifyPushPageObject.getA11ySpan();
     const checkbox = challengeOktaVerifyPushPageObject.getAutoChallengeCheckbox();
     const checkboxLabelText = challengeOktaVerifyPushPageObject.getAutoChallengeCheckboxLabelText();
-    await t.expect(pushBtn.textContent).contains('Push notification sent');
     if (!userVariables.gen3) {
+      await t.expect(pushBtn.textContent).contains('Push notification sent');
       await t.expect(a11ySpan.textContent).contains('Push notification sent');
+      await t.expect(await challengeOktaVerifyPushPageObject.isPushButtonDisabled()).ok();
+      await t.expect(pageTitle).contains('Get a push notification');
+    } else {
+      await t.expect(pageTitle).contains('Push notification sent');
+      await t.expect(pageSubtitle).contains('Respond on your mobile device to continue.');
     }
 
-    await t.expect(await challengeOktaVerifyPushPageObject.isPushButtonDisabled()).ok();
-    await t.expect(pageTitle).contains('Get a push notification');
     await t.expect(await challengeOktaVerifyPushPageObject.autoChallengeInputExists()).ok();
     await t.expect(checkbox.checked).ok();
     await t.expect(checkboxLabelText).eql('Send push automatically');

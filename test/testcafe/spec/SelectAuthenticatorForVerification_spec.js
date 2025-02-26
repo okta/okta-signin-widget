@@ -747,7 +747,11 @@ test.requestHooks(requestLogger, mockChallengeOVPush)('should navigate to okta v
 
   selectFactorPage.selectFactorByIndex(0);
   const challengeFactorPage = new ChallengeFactorPageObject(t);
-  await t.expect(challengeFactorPage.getFormTitle()).eql('Get a push notification');
+  if(userVariables.gen3) {
+    await t.expect(challengeFactorPage.getFormTitle()).eql('Push notification sent');
+  } else {
+    await t.expect(challengeFactorPage.getFormTitle()).eql('Get a push notification');
+  }
 
   await t.expect(requestLogger.count(() => true)).eql(2);
   const req1 = requestLogger.requests[0].request;
@@ -872,5 +876,9 @@ test.requestHooks(mockChallengeCustomApp)('should navigate to Custom App challen
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with a security method');
   selectFactorPage.selectFactorByIndex(9);
   const challengeFactorPage = new ChallengeFactorPageObject(t);
-  await t.expect(challengeFactorPage.getFormTitle()).eql('Verify with Custom Push');
+  if(userVariables.gen3) {
+    await t.expect(challengeFactorPage.getFormTitle()).eql('Push notification sent');
+  } else {
+    await t.expect(challengeFactorPage.getFormTitle()).eql('Verify with Custom Push');
+  }
 });
