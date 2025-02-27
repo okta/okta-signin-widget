@@ -277,7 +277,7 @@ test.requestHooks(identifyRequestLogger, identifyMock)('should store transformed
 
   await t
     .expect(cookie[0].name).eql('ln')
-    .expect(cookie[0].value).eql('TestIdentifier@acme.com');
+    .expect(cookie[0].value).eql('TestIdentifier');
 });
 
 test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('transformUsername should map identifier in request, but only display user typed identifier in form', async t => {
