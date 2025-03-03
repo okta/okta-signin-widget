@@ -273,8 +273,10 @@ export default Controller.extend({
     }
 
     const payload = transformPayload(formName, model);
+    // NOTE: this line should be called before triggering transformIdentifier
+    const originalIdentifier = payload.identifier;
     // Run hook: transform the user name (a.k.a identifier)
-    const [values, originalIdentifier] = this.transformIdentifier(formName, payload);
+    const values = this.transformIdentifier(formName, payload);
 
     // widget rememberMe feature stores the entered identifier in a cookie, to pre-fill the form on subsequent visits to page
     if (this.options.settings.get('features.rememberMe')) {
@@ -356,7 +358,6 @@ export default Controller.extend({
   },
 
   transformIdentifier(formName, modelJSON) {
-    const originalIdentifier = modelJSON.identifier;
     if (Object.prototype.hasOwnProperty.call(modelJSON, 'identifier')) {
       // The callback function is passed two arguments:
       // 1) username: The name entered by the user
@@ -367,7 +368,7 @@ export default Controller.extend({
       const operation = FORM_NAME_TO_OPERATION_MAP[formName];
       modelJSON.identifier = this.settings.transformUsername(modelJSON.identifier, operation);
     }
-    return [modelJSON, originalIdentifier];
+    return modelJSON;
   },
 
   /**
