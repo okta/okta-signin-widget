@@ -15,9 +15,9 @@ import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 
 import { WidgetProps } from '../types';
 import {
-  getBackToSignInUri, getBaseUrl, getCustomHelpLinks, getDefaultCountryCode,
-  getFactorPageCustomLink, getForgotPasswordUri, getHelpLink, getLanguageCode, getPageTitle,
-  getUnlockAccountUri, transformIdentifier,
+  getBackToSignInUri, getCustomHelpLinks, getDefaultCountryCode, getFactorPageCustomLink,
+  getForgotPasswordUri, getHelpLink, getLanguageCode, getPageTitle, getUnlockAccountUri,
+  transformIdentifier,
 } from './settingsUtils';
 
 jest.mock('../../../util/BrowserFeatures', () => ({
@@ -83,26 +83,6 @@ describe('Settings Utils Tests', () => {
     };
     const identifier = 'testuser@okta1.com';
     expect(transformIdentifier(widgetProps, 'identify', identifier)).toBe('testuser');
-  });
-
-  it('should construct baseUrl from issuerOrigin if baseUrl is undefined', () => {
-    const mockIssuerOrigin = 'http://localhost:3000';
-    const mockAuthClient: any = { getIssuerOrigin: () => mockIssuerOrigin };
-    widgetProps = {
-      baseUrl: undefined,
-      authClient: mockAuthClient,
-    } as unknown as WidgetProps;
-    expect(getBaseUrl(widgetProps)).toBe(mockIssuerOrigin);
-  });
-
-  it('should construct baseUrl from issuer if baseUrl and authClient are undefined', () => {
-    const mockOktaDomain = 'http://localhost:3000';
-    widgetProps = {
-      baseUrl: undefined,
-      authClient: undefined,
-      issuer: `${mockOktaDomain}/oauth2/default`,
-    } as unknown as WidgetProps;
-    expect(getBaseUrl(widgetProps)).toBe(mockOktaDomain);
   });
 
   it('should return help links', () => {
