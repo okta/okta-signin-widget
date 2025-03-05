@@ -3,27 +3,6 @@ import { $ } from '@okta/courage';
 import $sandbox from 'sandbox';
 import Logger from 'util/Logger';
 import Util from 'util/Util';
-import BrowserFeatures from '../../../src/util/BrowserFeatures';
-
-const authenticationForAndroidOVEnrollment = {
-  protocol: 'OAUTH2.0',
-  issuer: {
-    name: 'Test App',
-    uri: 'http://localhost:3000'
-  },
-  request: {
-    max_age: -1,
-    scope: 'openid profile email okta.authenticators.read okta.authenticators.manage.self',
-    display: 'page',
-    response_type: 'code',
-    redirect_uri: 'https://login.okta.com/oauth/callback',
-    state: 'i41VVuProw96htTUmvRP9A',
-    code_challenge_method: 'S256',
-    nonce: 'ASDF4343SDFS3-GhS8SQCw',
-    code_challenge: 'abcd_8asd8asdf8as98fasdf_-_9sadif9rasd9fasdf-cc',
-    response_mode: 'query'
-  }
-};
 
 
 describe('util/Util', () => {
@@ -368,47 +347,6 @@ describe('util/Util', () => {
       expect($('#okta-sign-in form').length).toBe(0);
       expect(Logger.error).toHaveBeenCalledTimes(1);
       expect(Logger.error).toHaveBeenCalledWith('Cannot redirect to empty URL: ()');
-    });
-  });
-
-  describe('Test isAndroidOVEnrollment', () => {
-
-    beforeEach(() => {
-      delete window.location;
-    });
-
-    it('Test is Android and OV Enrollment', () => {
-      jest.spyOn(BrowserFeatures, 'isAndroid').mockReturnValue(true);
-      expect(Util.isAndroidOVEnrollment(authenticationForAndroidOVEnrollment)).toBe(true);
-    });
-
-    it('Test is Android and not OV Enrollment', () => {
-      jest.spyOn(BrowserFeatures, 'isAndroid').mockReturnValue(true);
-      const authentication = {
-        protocol: 'OAUTH2.0',
-        issuer: {
-          uri: 'http://localhost:3000'
-        }
-      };
-
-      expect(Util.isAndroidOVEnrollment(authentication)).toBe(false);
-    });
-
-    it('Test is not Android and is OV Enrollment', () => {
-      jest.spyOn(BrowserFeatures, 'isAndroid').mockReturnValue(false);
-      expect(Util.isAndroidOVEnrollment(authenticationForAndroidOVEnrollment)).toBe(false);
-    });
-
-    it('Test is not Android and not OV Enrollment', () => {
-      jest.spyOn(BrowserFeatures, 'isAndroid').mockReturnValue(false);
-      const authentication = {
-        protocol: 'OAUTH2.0',
-        issuer: {
-          uri: 'http://localhost:3000'
-        }
-      };
-
-      expect(Util.isAndroidOVEnrollment(authentication)).toBe(false);
     });
   });
 
