@@ -34,6 +34,7 @@ import {
   containsMessageKeyPrefix,
   containsOneOfMessageKeys,
   getBackToSignInUri,
+  getBaseUrl,
   isOauth2Enabled,
   loc,
   SessionStorage,
@@ -116,13 +117,15 @@ const appendViewLinks = (
     const backToSigninUri = getBackToSignInUri(widgetProps);
     if (backToSigninUri) {
       cancelLink.options.href = backToSigninUri;
-    } else {
+    } else if (isOauth2Enabled(widgetProps)) {
       cancelLink.options.onClick = async () => {
         authClient?.transactionManager.clear();
         // We have to directly delete the recoveryToken since it is set once upon authClient instantiation
         delete authClient?.options.recoveryToken;
         await bootstrapFn();
       };
+    } else {
+      cancelLink.options.href = getBaseUrl(widgetProps);
     }
     uischema.elements.push(cancelLink);
   }

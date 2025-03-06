@@ -277,5 +277,45 @@ test.requestHooks(identifyRequestLogger, identifyMock)('should store transformed
 
   await t
     .expect(cookie[0].name).eql('ln')
-    .expect(cookie[0].value).eql('TestIdentifier@acme.com');
+    .expect(cookie[0].value).eql('TestIdentifier');
+});
+
+test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('transformUsername should map identifier in request, but only display user typed identifier in form', async t => {
+  const identityPage = await setup(t, { render: false });
+
+  await t.setCookies({name: 'ln', value: 'PREFILL VALUE', httpOnly: false});
+
+  await rerenderWidget({
+    features: {
+      rememberMe: true
+    },
+    transformUsername: (username) => {
+      // This example will append the '@acme.com' domain if the user has
+      // not entered it
+      return username.includes('@acme.com')
+        ? username
+        : username + '@acme.com';
+    }
+  });
+  await t.expect(identityPage.formExists()).ok();
+
+  await t.expect(identityPage.getIdentifierValue()).eql('PREFILL VALUE');
+
+  await identityPage.fillIdentifierField('test.identifier');
+  await identityPage.fillPasswordField('password');
+  await identityPage.clickSignInButton();
+
+  await t.expect(identifyRequestLogger.count(() => true)).eql(1);
+  const req = identifyRequestLogger.requests[0].request;
+  const reqBody = JSON.parse(req.body);
+  await t.expect(reqBody.identifier).eql('test.identifier@acme.com');
+  await t.expect(req.method).eql('post');
+  await t.expect(req.url).eql('http://localhost:3000/idp/idx/identify');
+
+  // Ensure identifier field is pre-filled with saved username cookie
+  await identityPage.navigateToPage({ render: false });
+  await rerenderWidget(baseConfig);
+  await t.expect(identityPage.formExists()).ok();
+  const identifier = identityPage.getIdentifierValue();
+  await t.expect(identifier).eql('test.identifier');
 });
