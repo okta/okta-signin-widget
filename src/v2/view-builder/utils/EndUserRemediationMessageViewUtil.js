@@ -17,6 +17,7 @@ import Util from 'util/Util';
 import { getMessage } from '../../ion/i18nTransformer';
 
 const PROBE_PATH = 'probe';
+const REMEDIATION_PATH = 'remediation';
 // eslint-disable-next-line max-len
 const ADP_INSTALL_FALLBACK_REMEDIATION_KEY = 'idx.error.code.access_denied.device_assurance.remediation.android.zero.trust.android_device_policy_app_required_manual_install';
 
@@ -84,7 +85,8 @@ const executeDeviceRemediationFallback = (fallback, action) => {
 const probe = (baseUrl, probeDetails) => {
   return checkPort(`${baseUrl}/${PROBE_PATH}`, probeDetails.probeTimeoutMillis)
     .then(() => {
-      return onPortFound(`${baseUrl}/${probeDetails.actionPath}`, probeDetails.probeTimeoutMillis)
+      const loopbackRemediationPath = `${baseUrl}/${REMEDIATION_PATH}?action=${probeDetails.actionPath}`;
+      return onPortFound(loopbackRemediationPath, probeDetails.probeTimeoutMillis)
         .then(() => {
           probeDetails.isSuccess = true;
         });

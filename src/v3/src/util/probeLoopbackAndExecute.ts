@@ -22,6 +22,7 @@ type ProbeDetails = {
   isSuccess: boolean;
 };
 const PROBE_PATH = 'probe';
+const REMEDIATION_PATH = 'remediation';
 const ADP_INSTALL_FALLBACK_REMEDIATION_KEY = 'idx.error.code.access_denied.device_assurance.remediation.android.zero.trust.android_device_policy_app_required_manual_install';
 
 const getMessage = (fallback: DeviceRemediation['fallback']): string => {
@@ -82,7 +83,7 @@ const onPortFound = (url: string, timeout: number): Promise<Response> => makeReq
 const probe = (baseUrl: string, probeDetails: ProbeDetails): Promise<void> => (
   checkPort(`${baseUrl}/${PROBE_PATH}`, probeDetails.probeTimeoutMillis)
     .then(() => (
-      onPortFound(`${baseUrl}/${probeDetails.actionPath}`, probeDetails.probeTimeoutMillis)
+      onPortFound(`${baseUrl}/${REMEDIATION_PATH}?action=${probeDetails.actionPath}`, probeDetails.probeTimeoutMillis)
         .then(() => {
           // eslint-disable-next-line no-param-reassign
           probeDetails.isSuccess = true;
