@@ -213,6 +213,7 @@ exports[`authenticator-apple-sso-extension calls verify then cancels the transac
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-38"
                         data-se="enroll"
                         role="link"
+                        type="button"
                       >
                         Sign up
                       </button>
@@ -442,6 +443,7 @@ exports[`authenticator-apple-sso-extension cancels the transaction when sso exte
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-38"
                         data-se="enroll"
                         role="link"
+                        type="button"
                       >
                         Sign up
                       </button>
@@ -671,6 +673,7 @@ exports[`authenticator-apple-sso-extension opens the verify url with credential 
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-38"
                         data-se="enroll"
                         role="link"
+                        type="button"
                       >
                         Sign up
                       </button>

@@ -215,6 +215,7 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-34"
                       data-se="switchAuthenticator"
                       role="link"
+                      type="button"
                     >
                       Return to authenticator list
                     </button>
@@ -226,6 +227,7 @@ exports[`okta-verify-email-channel-enrollment should render email channel form a
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-34"
                       data-se="cancel"
                       role="link"
+                      type="button"
                     >
                       Back to sign in
                     </button>

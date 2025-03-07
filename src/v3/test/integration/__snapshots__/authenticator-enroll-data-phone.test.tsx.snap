@@ -1544,6 +1544,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-52"
                       data-se="switchAuthenticator"
                       role="link"
+                      type="button"
                     >
                       Return to authenticator list
                     </button>
@@ -1555,6 +1556,7 @@ exports[`authenticator-enroll-data-phone should render form 1`] = `
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-52"
                       data-se="cancel"
                       role="link"
+                      type="button"
                     >
                       Back to sign in
                     </button>
@@ -3114,6 +3116,7 @@ exports[`authenticator-enroll-data-phone should render form without an autoFocus
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-52"
                       data-se="switchAuthenticator"
                       role="link"
+                      type="button"
                     >
                       Return to authenticator list
                     </button>
@@ -3125,6 +3128,7 @@ exports[`authenticator-enroll-data-phone should render form without an autoFocus
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-52"
                       data-se="cancel"
                       role="link"
+                      type="button"
                     >
                       Back to sign in
                     </button>
@@ -4718,6 +4722,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-57"
                       data-se="switchAuthenticator"
                       role="link"
+                      type="button"
                     >
                       Return to authenticator list
                     </button>
@@ -4729,6 +4734,7 @@ exports[`authenticator-enroll-data-phone should send correct payload when select
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-57"
                       data-se="cancel"
                       role="link"
+                      type="button"
                     >
                       Back to sign in
                     </button>
