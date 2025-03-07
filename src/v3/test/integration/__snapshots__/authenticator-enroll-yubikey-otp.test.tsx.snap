@@ -274,6 +274,7 @@ exports[`authenticator-enroll-yubikey-otp renders form 1`] = `
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-37"
                       data-se="switchAuthenticator"
                       role="link"
+                      type="button"
                     >
                       Return to authenticator list
                     </button>
@@ -285,6 +286,7 @@ exports[`authenticator-enroll-yubikey-otp renders form 1`] = `
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-37"
                       data-se="cancel"
                       role="link"
+                      type="button"
                     >
                       Back to sign in
                     </button>

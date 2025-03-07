@@ -184,6 +184,7 @@ exports[`authenticator-verification-okta-verify-totp should have autocomplete at
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-28"
                       data-se="switchAuthenticator"
                       role="link"
+                      type="button"
                     >
                       Verify with something else
                     </button>
@@ -195,6 +196,7 @@ exports[`authenticator-verification-okta-verify-totp should have autocomplete at
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-28"
                       data-se="cancel"
                       role="link"
+                      type="button"
                     >
                       Back to sign in
                     </button>
@@ -394,6 +396,7 @@ exports[`authenticator-verification-okta-verify-totp should render form 1`] = `
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-28"
                       data-se="switchAuthenticator"
                       role="link"
+                      type="button"
                     >
                       Verify with something else
                     </button>
@@ -405,6 +408,7 @@ exports[`authenticator-verification-okta-verify-totp should render form 1`] = `
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-28"
                       data-se="cancel"
                       role="link"
+                      type="button"
                     >
                       Back to sign in
                     </button>
