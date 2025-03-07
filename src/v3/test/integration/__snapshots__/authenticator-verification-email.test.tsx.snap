@@ -180,6 +180,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-28"
                       data-se="cancel"
                       role="link"
+                      type="button"
                     >
                       Back to sign in
                     </button>
@@ -429,6 +430,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-37"
                       data-se="cancel"
                       role="link"
+                      type="button"
                     >
                       Back to sign in
                     </button>
@@ -660,6 +662,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-33"
                       data-se="cancel"
                       role="link"
+                      type="button"
                     >
                       Back to sign in
                     </button>
@@ -951,6 +954,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-43"
                       data-se="switchAuthenticator"
                       role="link"
+                      type="button"
                     >
                       Verify with something else
                     </button>
@@ -962,6 +966,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-43"
                       data-se="cancel"
                       role="link"
+                      type="button"
                     >
                       Back to sign in
                     </button>
@@ -1307,6 +1312,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-52"
                       data-se="switchAuthenticator"
                       role="link"
+                      type="button"
                     >
                       Verify with something else
                     </button>
@@ -1318,6 +1324,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-52"
                       data-se="cancel"
                       role="link"
+                      type="button"
                     >
                       Back to sign in
                     </button>
@@ -1433,6 +1440,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-19"
                       data-se="cancel"
                       role="link"
+                      type="button"
                     >
                       Back to sign in
                     </button>
@@ -1664,6 +1672,7 @@ exports[`Email authenticator verification when email magic link = undefined shou
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-33"
                       data-se="cancel"
                       role="link"
+                      type="button"
                     >
                       Back to sign in
                     </button>

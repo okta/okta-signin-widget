@@ -222,6 +222,7 @@ exports[`enroll-profile-new should render form 1`] = `
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-40"
                         data-se="back"
                         role="link"
+                        type="button"
                       >
                         Sign In
                       </button>
