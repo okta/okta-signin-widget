@@ -53,7 +53,7 @@
     "@okta/okta-auth-js": "7.11.0",
     "chroma-js": "^2.4.2",
     "cross-fetch": "^3.1.5",
-    "dompurify": "^2.5.5",
+    "dompurify": "^3.2.4",
     "duo_web_sdk": "https://github.com/duosecurity/duo_web_sdk.git",
     "html-react-parser": "^3.0.9",
     "js-cookie": "^3.0.1",
