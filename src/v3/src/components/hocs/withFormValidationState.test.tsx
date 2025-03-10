@@ -45,16 +45,23 @@ describe('withFormValidationState', () => {
   const TestComponent: UISchemaElementComponent<{ uischema: FieldElement }> = ({
     handleBlur,
     handleChange,
-  }: UISchemaElementComponentWithValidationProps) => (
-    <input
-      data-se="test-input"
-      name="testField"
-      onBlur={(e) => {
-        handleBlur?.(e.currentTarget.value, e);
-      }}
-      onChange={(e) => handleChange?.(e.currentTarget.value)}
-    />
-  );
+    errors,
+  }: UISchemaElementComponentWithValidationProps) => {
+    const message = errors?.[0].message;
+    return (
+      <>
+        <input
+          data-se="test-input"
+          name="testField"
+          onBlur={(e) => {
+            handleBlur?.(e.currentTarget.value, e);
+          }}
+          onChange={(e) => handleChange?.(e.currentTarget.value)}
+        />
+        {message && <span>{message}</span>}
+      </>
+    );
+  }
 
   const WrappedComponent = withFormValidationState(TestComponent);
 
@@ -130,5 +137,47 @@ describe('withFormValidationState', () => {
     await user.type(input, 'test value');
     expect(mockOnChangeHandler).toHaveBeenCalledWith('test value');
     expect(mockOnValidateHandler).toHaveBeenCalledWith(expect.any(Function), 'test value');
+  });
+
+  it('should render server-side error message and persist after user interaction', async () => {
+    const user = userEvent.setup();
+    const { getByTestId, getByText } = render(
+      <div>
+        <WrappedComponent
+          {...defaultProps}
+          uischema={{
+            ...defaultProps.uischema,
+            options: {
+              inputMeta: {
+                // @ts-expect-error OKTA-539834 - messages missing from type
+                messages: {
+                  value: [
+                    {
+                      "message": "A user with this Email already exists",
+                      "class": "ERROR"
+                    }
+                  ]
+                }
+              }
+            }
+          }}
+        />
+        <button data-se="outside-element" type="button">Link Button</button>
+      </div>
+    );
+
+    // Verify if message is rendered
+    expect(getByText('A user with this Email already exists')).toBeInTheDocument();
+
+    const input = getByTestId('test-input');
+    await user.click(input);
+    expect(input).toHaveFocus();
+
+    const button = getByTestId('outside-element');
+    await user.click(button);
+    expect(input).not.toHaveFocus();
+
+    // Validate message still there
+    expect(getByText('A user with this Email already exists')).toBeInTheDocument();
   });
 });
