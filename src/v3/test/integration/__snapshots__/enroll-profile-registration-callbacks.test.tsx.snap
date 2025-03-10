@@ -288,6 +288,7 @@ exports[`enroll-profile-with-password should add new field to view and remove it
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-50"
                         data-se="back"
                         role="link"
+                        type="button"
                       >
                         Sign In
                       </button>
@@ -619,6 +620,7 @@ exports[`enroll-profile-with-password should show custom error message and preve
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-55"
                         data-se="back"
                         role="link"
+                        type="button"
                       >
                         Sign In
                       </button>
@@ -950,6 +952,7 @@ exports[`enroll-profile-with-password should show custom field level error messa
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-55"
                         data-se="back"
                         role="link"
+                        type="button"
                       >
                         Sign In
                       </button>
@@ -1264,6 +1267,7 @@ exports[`enroll-profile-with-password should show generic error message and prev
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-52"
                         data-se="back"
                         role="link"
+                        type="button"
                       >
                         Sign In
                       </button>
@@ -1696,6 +1700,7 @@ exports[`enroll-profile-with-password should show validation error messages on a
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-72"
                         data-se="back"
                         role="link"
+                        type="button"
                       >
                         Sign In
                       </button>

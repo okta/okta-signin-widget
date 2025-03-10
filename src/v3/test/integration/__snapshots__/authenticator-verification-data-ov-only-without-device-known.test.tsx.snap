@@ -443,6 +443,7 @@ exports[`authenticator-verification-data-ov-only-without-device-known should ren
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-56"
                       data-se="cancel"
                       role="link"
+                      type="button"
                     >
                       Back to sign in
                     </button>
