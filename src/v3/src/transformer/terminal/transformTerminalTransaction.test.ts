@@ -55,13 +55,14 @@ jest.mock('../../util', () => {
 
 describe('Terminal Transaction Transformer Tests', () => {
   let transaction: IdxTransaction;
+  let mockAuthClient: any;
   let widgetProps: WidgetProps;
   const mockBootstrapFn = jest.fn();
 
   beforeEach(() => {
     transaction = getStubTransaction(IdxStatus.TERMINAL);
     transaction.messages = [];
-    widgetProps = {} as unknown as WidgetProps;
+    widgetProps = {};
   });
 
   afterEach(() => {
@@ -71,7 +72,7 @@ describe('Terminal Transaction Transformer Tests', () => {
   it('should add return empty formbag when interaction code flow transaction', () => {
     transaction.messages = undefined;
     transaction.interactionCode = '123456789aabbcc';
-    widgetProps = { clientId: 'abcd1234', authScheme: 'oauth2' } as unknown as WidgetProps;
+    widgetProps = { clientId: 'abcd1234', authScheme: 'oauth2' };
     const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
     expect(formBag).toMatchSnapshot();
@@ -203,12 +204,15 @@ describe('Terminal Transaction Transformer Tests', () => {
       .toBe(TERMINAL_TITLE_KEY[TERMINAL_KEY.UNLOCK_ACCOUNT_KEY]);
   });
 
-  it('should add back to signin link with click handler for rebootstrapping widget as fallback for embedded and Okta-hosted', () => {
-    const mockErrorMessage = 'Verification timed out. Please try again';
+  it('should add back to signin link for tooManyRequests message key when baseUrl not provided', () => {
+    const mockIssueOrigin = 'http://localhost:3000/';
+    mockAuthClient = { getIssuerOrigin: () => mockIssueOrigin };
+    widgetProps = { authClient: mockAuthClient };
+    const mockErrorMessage = 'Too many requests';
     transaction.messages?.push(getMockMessage(
       mockErrorMessage,
       'ERROR',
-      TERMINAL_KEY.VERIFICATION_TIMED_OUT,
+      TERMINAL_KEY.TOO_MANY_REQUESTS,
     ));
     const formBag = transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
@@ -216,12 +220,11 @@ describe('Terminal Transaction Transformer Tests', () => {
     expect(formBag.uischema.elements.length).toBe(1);
     expect(formBag.uischema.elements[0].type).toBe('Link');
     expect((formBag.uischema.elements[0] as LinkElement).options?.label).toBe('goback');
-    expect((formBag.uischema.elements[0] as LinkElement).options?.href).toBeUndefined();
-    expect((formBag.uischema.elements[0] as LinkElement).options?.onClick).toBeDefined();
+    expect((formBag.uischema.elements[0] as LinkElement).options?.href).toBe(mockIssueOrigin);
   });
 
   it('should not add back to sign in link when cancel is not available', () => {
-    widgetProps = { features: { hideSignOutLinkInMFA: true } } as unknown as WidgetProps;
+    widgetProps = { features: { hideSignOutLinkInMFA: true } };
     const mockErrorMessage = 'Session expired';
     transaction.messages?.push(getMockMessage(
       mockErrorMessage,
@@ -234,7 +237,7 @@ describe('Terminal Transaction Transformer Tests', () => {
   });
 
   it('should add back to sign in link with href when backToSigninUri is set in widget options', () => {
-    widgetProps = { backToSignInLink: '/' } as unknown as WidgetProps;
+    widgetProps = { backToSignInLink: '/' };
     const mockErrorMessage = 'Session expired';
     transaction.messages?.push(getMockMessage(
       mockErrorMessage,
@@ -269,7 +272,7 @@ describe('Terminal Transaction Transformer Tests', () => {
         href: 'www.failure.com',
       },
     } as unknown as IdxContext;
-    widgetProps = { clientId: 'abcd1234', authScheme: 'oauth2' } as unknown as WidgetProps;
+    widgetProps = { clientId: 'abcd1234', authScheme: 'oauth2' };
     transformTerminalTransaction(transaction, widgetProps, mockBootstrapFn);
 
     expect(redirectTransformer).not.toHaveBeenCalled();
