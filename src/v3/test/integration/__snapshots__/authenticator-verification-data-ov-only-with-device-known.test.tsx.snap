@@ -157,7 +157,7 @@ exports[`authenticator-verification-data-ov-only-with-device-known should render
                       >
                         <button
                           aria-describedby="okta_verify_2-description"
-                          aria-label="Select Okta FastPass."
+                          aria-label="Select Okta Verify."
                           class="MuiBox-root emotion-26"
                           data-se="authenticator-button"
                           tabindex="0"
