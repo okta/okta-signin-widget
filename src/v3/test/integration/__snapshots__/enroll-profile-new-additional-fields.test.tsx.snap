@@ -1872,6 +1872,7 @@ exports[`enroll-profile-new-additional-fields fails client side validation with 
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-82"
                         data-se="back"
                         role="link"
+                        type="button"
                       >
                         Sign In
                       </button>
@@ -3615,6 +3616,7 @@ exports[`enroll-profile-new-additional-fields should render form 1`] = `
                         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-57"
                         data-se="back"
                         role="link"
+                        type="button"
                       >
                         Sign In
                       </button>

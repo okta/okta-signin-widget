@@ -125,6 +125,7 @@ exports[`unlock-account-success renders form 1`] = `
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-23"
                       data-se="cancel"
                       role="link"
+                      type="button"
                     >
                       Back to sign in
                     </button>

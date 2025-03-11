@@ -66,6 +66,7 @@ const Link: UISchemaElementComponent<{
       <MuiLink
         component="button"
         role="link"
+        type="button" // Explicitly set type to "button"
         onClick={onClick}
         ref={focusRef}
         data-se={dataSe}
