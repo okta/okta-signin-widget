@@ -17,12 +17,12 @@ import { loc } from './locUtil';
 import { makeRequest } from './makeRequest';
 
 type ProbeDetails = {
+  remediationPath: string;
   actionPath: string;
   probeTimeoutMillis: number;
   isSuccess: boolean;
 };
 const PROBE_PATH = 'probe';
-const REMEDIATION_PATH = 'remediation';
 const ADP_INSTALL_FALLBACK_REMEDIATION_KEY = 'idx.error.code.access_denied.device_assurance.remediation.android.zero.trust.android_device_policy_app_required_manual_install';
 
 const getMessage = (fallback: DeviceRemediation['fallback']): string => {
@@ -83,7 +83,7 @@ const onPortFound = (url: string, timeout: number): Promise<Response> => makeReq
 const probe = (baseUrl: string, probeDetails: ProbeDetails): Promise<void> => (
   checkPort(`${baseUrl}/${PROBE_PATH}`, probeDetails.probeTimeoutMillis)
     .then(() => (
-      onPortFound(`${baseUrl}/${REMEDIATION_PATH}?action=${probeDetails.actionPath}`, probeDetails.probeTimeoutMillis)
+      onPortFound(`${baseUrl}/${probeDetails.remediationPath}/${probeDetails.actionPath}`, probeDetails.probeTimeoutMillis)
         .then(() => {
           // eslint-disable-next-line no-param-reassign
           probeDetails.isSuccess = true;
@@ -97,12 +97,14 @@ export const probeLoopbackAndExecute = async (
   deviceRemediation: DeviceRemediation,
 ): Promise<void> => {
   const {
+    remediationPath,
     action: actionPath,
     domain,
     ports,
     probeTimeoutMillis,
   } = deviceRemediation;
   const probeDetails: ProbeDetails = {
+    remediationPath,
     actionPath,
     probeTimeoutMillis,
     isSuccess: false,

@@ -13,7 +13,7 @@ const oktaVerifyAppContent = `
 `;
 
 const ovAppLogger = RequestLogger(/okta-verify.html/);
-const loopbackServerLogger = RequestLogger(/probe|remediation/,
+const loopbackServerLogger = RequestLogger(/probe|azt\/install-android-device-policy/,
   { logRequestBody: true, stringifyRequestBody: true });
 
 const singleOptionRemediationSuccessfulLoopbackMock = RequestMock()
@@ -29,7 +29,7 @@ const singleOptionRemediationSuccessfulLoopbackMock = RequestMock()
     'access-control-allow-origin': '*',
     'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
   })
-  .onRequestTo(/2000\/remediation/)
+  .onRequestTo(/2000\/azt\/install-android-device-policy/)
   .respond(null, 200, { 
     'access-control-allow-origin': '*',
     'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
@@ -50,7 +50,7 @@ const singleRemediationOptionMultipleLoopbackPortsFoundOnlyOneSuccessRequestMock
     'access-control-allow-origin': '*',
     'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
   })
-  .onRequestTo(/6513\/remediation/)
+  .onRequestTo(/6513\/azt\/install-android-device-policy/)
   .respond(null, 500, { 
     'access-control-allow-origin': '*',
     'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
@@ -60,7 +60,7 @@ const singleRemediationOptionMultipleLoopbackPortsFoundOnlyOneSuccessRequestMock
     'access-control-allow-origin': '*',
     'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
   })
-  .onRequestTo(/2000\/remediation/)
+  .onRequestTo(/2000\/azt\/install-android-device-policy/)
   .respond(null, 200, { 
     'access-control-allow-origin': '*',
     'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
@@ -143,7 +143,7 @@ test.requestHooks(loopbackServerLogger, singleOptionRemediationSuccessfulLoopbac
   await t.expect(loopbackServerLogger.contains(
     record => record.response.statusCode === 200 &&
       record.request.method === 'get' &&
-      record.request.url.match(/remediation/)
+      record.request.url.match(/azt\/install-android-device-policy/)
   )).eql(true);
 });
 
@@ -168,7 +168,7 @@ test.requestHooks(loopbackServerLogger, singleRemediationOptionMultipleLoopbackP
   await t.expect(loopbackServerLogger.contains(
     record => record.response.statusCode === 200 &&
       record.request.method === 'get' &&
-      record.request.url.match(/remediation/)
+      record.request.url.match(/azt\/install-android-device-policy/)
   )).eql(true);
 });
 
