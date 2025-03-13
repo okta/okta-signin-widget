@@ -58,6 +58,17 @@ export const transformIdentify: IdxStepTransformer = ({
     }
   }
 
+  const rememberMeElement = getUIElementWithName(
+    'rememberMe',
+    uischema.elements as UISchemaElement[],
+  ) as FieldElement;
+  if (rememberMeElement && features?.showKeepMeSignedIn !== false) {
+    if (rememberMeElement.options.inputMeta.value) {
+      // IDX response contains true value if FF ENG_SET_REMEMBER_ME_BY_DEFAULT is enbaled
+      data.rememberMe = true;
+    }
+  }
+
   const passwordElement = getUIElementWithName(
     'credentials.passcode',
     uischema.elements as UISchemaElement[],
