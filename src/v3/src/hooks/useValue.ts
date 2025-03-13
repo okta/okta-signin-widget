@@ -14,9 +14,9 @@ import { useWidgetContext } from '../contexts';
 import { FieldElement } from '../types';
 
 export const useValue = (uischema: FieldElement): unknown => {
-  const { name } = uischema.options.inputMeta;
+  const { name, value } = uischema.options.inputMeta;
 
   const { data } = useWidgetContext();
 
-  return data[name];
+  return data[name] ?? value;
 };
