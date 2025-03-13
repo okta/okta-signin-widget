@@ -218,7 +218,7 @@ test.requestHooks(mockChallengePassword)('should load select authenticator list'
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(5)).eql('security_question');
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(6)).eql(userVariables.gen3 ? 'Okta Verify' : 'Use Okta FastPass');
-  await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(6)).eql('Select Okta FastPass.');
+  await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(6)).eql('Select Okta Verify.');
   await t.expect(selectFactorPage.getFactorDescriptionByIndex(6)).eql(userVariables.gen3 ? 'Use Okta FastPass' : 'Okta Verify');
   await t.expect(selectFactorPage.getFactorIconSelectorByIndex(6)).contains('mfa-okta-verify');
   await t.expect(await selectFactorPage.factorCustomLogoExist(6)).eql(false);
@@ -632,7 +632,7 @@ test.requestHooks(mockChallengeOVTotp)(`should load signed_nonce at bottom when 
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(2)).eql('Select');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(2)).eql('okta_password');
 
-  await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(3)).eql('Select Okta FastPass.');
+  await t.expect(await selectFactorPage.getFactorButtonAriaLabelByIndex(3)).eql('Select Okta Verify.');
   await t.expect(selectFactorPage.getFactorLabelByIndex(3)).eql(userVariables.gen3 ? 'Okta Verify' : 'Use Okta FastPass');
   await t.expect(selectFactorPage.getFactorDescriptionByIndex(3)).eql(userVariables.gen3 ? 'Use Okta FastPass' : 'Okta Verify');
   await t.expect(selectFactorPage.getFactorIconSelectorByIndex(3)).contains('mfa-okta-verify');
