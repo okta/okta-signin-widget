@@ -1,0 +1,705 @@
+{
+    "version": "1.0.0",
+    "stateHandle": "02.id.MkkO15Z2LESoXTLr88Syha1GarULwKyabEiW4f3A~c.HDQXxH6QkdXMsbJSjaLuY91LqfL7u9X7qVyFA3je-wK9sManWjE2Kq3sB-r1dmqhldKgP2cWSykGWUedXVl1S58IQSw0ydHjM5LPYzTFSPLJSGdIbZr8blflkA_o2siB94MAfLVXJLfNsWoVJhdJJI96bdEUV-jNoDfTjAfBRWonW6QaiynQak54CtbZwVMPa1Tbpu748Pu5b5IYoUN4JBLH8xBfmpTXWnF4buAS8AiKvKgvLZdWtn09SVe8doa6xBrTj3R4-9Lq7syj4QDuiOm65m1RFQBaA1zc21N6inho3lVc6JWY9JQ5dDajnfAYYJqhy4ZBr0Y2xn1SGluYCSOsyngweWWmTfyWmo0SvVITYzAD4QPc4tibkGsmyKIlfrCg8dQgTexy-yLkG8iI2Hw69Omz3QP9McE_hO1imRDTSVcgzEtdl2sbBgYIYz8o0f5wirSLd9y1Qyzy0OHWteQyWdqkNZLPrJree8jM3J5kG7yDRsAx__YODqio-EIePUzWtnWx8htRSmphWbjHBDKSN4Yx_faTi6zQ_q9mEQqOtE8WWTrlI98P3JT298_l2IztuvpoDRqnkos5FcZMhFUKDn4qSvq3j4SF0zxU9SfjTPnYp9khTI-ayKfSCgVn1G66a0su3ndYLhe-dovycv8m8gbIA8FE4rRQ69XZtueXiK0mkN09rwDV0-tTMaGSJJruiau8yUonliGMh-YOSwGc14gqPv7-nex6N8iF0XdYJK4px7gha-6w5mpIE9YSuHJ2Bks_ncpuXnEv5A1KpFJQ3QZ12XofwilZ3c9z9oIl2kJGcv_9U1nBHFFTV16sqa3X-XuTyScGefUrnZ6EgRN5XBYWFcXEXiJ1JcyVLw0SOmrHhWVtcMqsOD7p6TpyEDaiYaj0EoGfQxv7JdS_3xMO6HXns9nU48uoCKn5-gWTD7UhhlHa-ku89Q5onvyejc5YY2lgdnAbSNzQeaUuPjg48oJEKCNrmJtVeyEbOQT_yyeRKBqsIeSzZnwD663x1gm_JIHN-sX93_TH2t5D74XjjmvvBu0zIr2F-VIeLWlX_kCuzK0L35Njq1MW9N_uxAtw2RYfM2N21n282NUKiC3a3KdKl0-S8nVsfvh02wNwKsVW4h8VNOjBcz-vpxVjMBEZnUHpu2k5Q-wJouhQWMHhrqpQVE5jZ9xl3szKpm-mV-WZpvEZzeTSaG5FOxHI",
+    "expiresAt": "2024-12-06T01:11:17.000Z",
+    "intent": "LOGIN",
+    "remediation": {
+        "type": "array",
+        "value": [
+            {
+                "rel": [
+                    "create-form"
+                ],
+                "name": "challenge-authenticator",
+                "relatesTo": [
+                    "$.currentAuthenticatorEnrollment"
+                ],
+                "href": "https://localhost:3000/idp/idx/challenge/answer",
+                "method": "POST",
+                "produces": "application/ion+json; okta-version=1.0.0",
+                "value": [
+                    {
+                        "name": "credentials",
+                        "type": "object",
+                        "form": {
+                            "value": [
+                                {
+                                    "name": "passcode",
+                                    "label": "Enter 6 Digit Pin"
+                                }
+                            ]
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "stateHandle",
+                        "required": true,
+                        "value": "02.id.MkkO15Z2LESoXTLr88Syha1GarULwKyabEiW4f3A~c.HDQXxH6QkdXMsbJSjaLuY91LqfL7u9X7qVyFA3je-wK9sManWjE2Kq3sB-r1dmqhldKgP2cWSykGWUedXVl1S58IQSw0ydHjM5LPYzTFSPLJSGdIbZr8blflkA_o2siB94MAfLVXJLfNsWoVJhdJJI96bdEUV-jNoDfTjAfBRWonW6QaiynQak54CtbZwVMPa1Tbpu748Pu5b5IYoUN4JBLH8xBfmpTXWnF4buAS8AiKvKgvLZdWtn09SVe8doa6xBrTj3R4-9Lq7syj4QDuiOm65m1RFQBaA1zc21N6inho3lVc6JWY9JQ5dDajnfAYYJqhy4ZBr0Y2xn1SGluYCSOsyngweWWmTfyWmo0SvVITYzAD4QPc4tibkGsmyKIlfrCg8dQgTexy-yLkG8iI2Hw69Omz3QP9McE_hO1imRDTSVcgzEtdl2sbBgYIYz8o0f5wirSLd9y1Qyzy0OHWteQyWdqkNZLPrJree8jM3J5kG7yDRsAx__YODqio-EIePUzWtnWx8htRSmphWbjHBDKSN4Yx_faTi6zQ_q9mEQqOtE8WWTrlI98P3JT298_l2IztuvpoDRqnkos5FcZMhFUKDn4qSvq3j4SF0zxU9SfjTPnYp9khTI-ayKfSCgVn1G66a0su3ndYLhe-dovycv8m8gbIA8FE4rRQ69XZtueXiK0mkN09rwDV0-tTMaGSJJruiau8yUonliGMh-YOSwGc14gqPv7-nex6N8iF0XdYJK4px7gha-6w5mpIE9YSuHJ2Bks_ncpuXnEv5A1KpFJQ3QZ12XofwilZ3c9z9oIl2kJGcv_9U1nBHFFTV16sqa3X-XuTyScGefUrnZ6EgRN5XBYWFcXEXiJ1JcyVLw0SOmrHhWVtcMqsOD7p6TpyEDaiYaj0EoGfQxv7JdS_3xMO6HXns9nU48uoCKn5-gWTD7UhhlHa-ku89Q5onvyejc5YY2lgdnAbSNzQeaUuPjg48oJEKCNrmJtVeyEbOQT_yyeRKBqsIeSzZnwD663x1gm_JIHN-sX93_TH2t5D74XjjmvvBu0zIr2F-VIeLWlX_kCuzK0L35Njq1MW9N_uxAtw2RYfM2N21n282NUKiC3a3KdKl0-S8nVsfvh02wNwKsVW4h8VNOjBcz-vpxVjMBEZnUHpu2k5Q-wJouhQWMHhrqpQVE5jZ9xl3szKpm-mV-WZpvEZzeTSaG5FOxHI",
+                        "visible": false,
+                        "mutable": false
+                    }
+                ],
+                "accepts": "application/json; okta-version=1.0.0"
+            },
+            {
+                "rel": [
+                    "create-form"
+                ],
+                "name": "select-authenticator-authenticate",
+                "href": "https://localhost:3000/idp/idx/challenge",
+                "method": "POST",
+                "produces": "application/ion+json; okta-version=1.0.0",
+                "value": [
+                    {
+                        "name": "authenticator",
+                        "type": "object",
+                        "options": [
+                            {
+                                "label": "NFC + PIN Authenticator",
+                                "value": {
+                                    "form": {
+                                        "value": [
+                                            {
+                                                "name": "id",
+                                                "required": true,
+                                                "value": "aut39884OLfC5C5eW0g5",
+                                                "mutable": false
+                                            },
+                                            {
+                                                "name": "methodType",
+                                                "required": false,
+                                                "value": "nfc",
+                                                "mutable": false
+                                            }
+                                        ]
+                                    }
+                                },
+                                "relatesTo": "$.authenticatorEnrollments.value[0]"
+                            },
+                            {
+                                "label": "NFC + PIN Authenticator",
+                                "value": {
+                                    "form": {
+                                        "value": [
+                                            {
+                                                "name": "id",
+                                                "required": true,
+                                                "value": "aut39884OLfC5C5eW0g5",
+                                                "mutable": false
+                                            },
+                                            {
+                                                "name": "methodType",
+                                                "required": false,
+                                                "value": "nfc",
+                                                "mutable": false
+                                            }
+                                        ]
+                                    }
+                                },
+                                "relatesTo": "$.authenticatorEnrollments.value[1]"
+                            },
+                            {
+                                "label": "NFC + PIN Authenticator",
+                                "value": {
+                                    "form": {
+                                        "value": [
+                                            {
+                                                "name": "id",
+                                                "required": true,
+                                                "value": "aut39884OLfC5C5eW0g5",
+                                                "mutable": false
+                                            },
+                                            {
+                                                "name": "methodType",
+                                                "required": false,
+                                                "value": "nfc",
+                                                "mutable": false
+                                            }
+                                        ]
+                                    }
+                                },
+                                "relatesTo": "$.authenticatorEnrollments.value[2]"
+                            },
+                            {
+                                "label": "NFC + PIN Authenticator",
+                                "value": {
+                                    "form": {
+                                        "value": [
+                                            {
+                                                "name": "id",
+                                                "required": true,
+                                                "value": "aut39884OLfC5C5eW0g5",
+                                                "mutable": false
+                                            },
+                                            {
+                                                "name": "methodType",
+                                                "required": false,
+                                                "value": "nfc",
+                                                "mutable": false
+                                            }
+                                        ]
+                                    }
+                                },
+                                "relatesTo": "$.authenticatorEnrollments.value[3]"
+                            },
+                            {
+                                "label": "NFC + PIN Authenticator",
+                                "value": {
+                                    "form": {
+                                        "value": [
+                                            {
+                                                "name": "id",
+                                                "required": true,
+                                                "value": "aut39884OLfC5C5eW0g5",
+                                                "mutable": false
+                                            },
+                                            {
+                                                "name": "methodType",
+                                                "required": false,
+                                                "value": "nfc",
+                                                "mutable": false
+                                            }
+                                        ]
+                                    }
+                                },
+                                "relatesTo": "$.authenticatorEnrollments.value[4]"
+                            },
+                            {
+                                "label": "NFC + PIN Authenticator",
+                                "value": {
+                                    "form": {
+                                        "value": [
+                                            {
+                                                "name": "id",
+                                                "required": true,
+                                                "value": "aut39884OLfC5C5eW0g5",
+                                                "mutable": false
+                                            },
+                                            {
+                                                "name": "methodType",
+                                                "required": false,
+                                                "value": "nfc",
+                                                "mutable": false
+                                            }
+                                        ]
+                                    }
+                                },
+                                "relatesTo": "$.authenticatorEnrollments.value[5]"
+                            },
+                            {
+                                "label": "NFC + PIN Authenticator",
+                                "value": {
+                                    "form": {
+                                        "value": [
+                                            {
+                                                "name": "id",
+                                                "required": true,
+                                                "value": "aut39884OLfC5C5eW0g5",
+                                                "mutable": false
+                                            },
+                                            {
+                                                "name": "methodType",
+                                                "required": false,
+                                                "value": "nfc",
+                                                "mutable": false
+                                            }
+                                        ]
+                                    }
+                                },
+                                "relatesTo": "$.authenticatorEnrollments.value[6]"
+                            },
+                            {
+                                "label": "NFC + PIN Authenticator",
+                                "value": {
+                                    "form": {
+                                        "value": [
+                                            {
+                                                "name": "id",
+                                                "required": true,
+                                                "value": "aut39884OLfC5C5eW0g5",
+                                                "mutable": false
+                                            },
+                                            {
+                                                "name": "methodType",
+                                                "required": false,
+                                                "value": "nfc",
+                                                "mutable": false
+                                            }
+                                        ]
+                                    }
+                                },
+                                "relatesTo": "$.authenticatorEnrollments.value[7]"
+                            },
+                            {
+                                "label": "NFC + PIN Authenticator",
+                                "value": {
+                                    "form": {
+                                        "value": [
+                                            {
+                                                "name": "id",
+                                                "required": true,
+                                                "value": "aut39884OLfC5C5eW0g5",
+                                                "mutable": false
+                                            },
+                                            {
+                                                "name": "methodType",
+                                                "required": false,
+                                                "value": "nfc",
+                                                "mutable": false
+                                            }
+                                        ]
+                                    }
+                                },
+                                "relatesTo": "$.authenticatorEnrollments.value[8]"
+                            },
+                            {
+                                "label": "NFC + PIN Authenticator",
+                                "value": {
+                                    "form": {
+                                        "value": [
+                                            {
+                                                "name": "id",
+                                                "required": true,
+                                                "value": "aut39884OLfC5C5eW0g5",
+                                                "mutable": false
+                                            },
+                                            {
+                                                "name": "methodType",
+                                                "required": false,
+                                                "value": "nfc",
+                                                "mutable": false
+                                            }
+                                        ]
+                                    }
+                                },
+                                "relatesTo": "$.authenticatorEnrollments.value[9]"
+                            },
+                            {
+                                "label": "NFC + PIN Authenticator",
+                                "value": {
+                                    "form": {
+                                        "value": [
+                                            {
+                                                "name": "id",
+                                                "required": true,
+                                                "value": "aut39884OLfC5C5eW0g5",
+                                                "mutable": false
+                                            },
+                                            {
+                                                "name": "methodType",
+                                                "required": false,
+                                                "value": "nfc",
+                                                "mutable": false
+                                            }
+                                        ]
+                                    }
+                                },
+                                "relatesTo": "$.authenticatorEnrollments.value[10]"
+                            },
+                            {
+                                "label": "NFC + PIN Authenticator",
+                                "value": {
+                                    "form": {
+                                        "value": [
+                                            {
+                                                "name": "id",
+                                                "required": true,
+                                                "value": "aut39884OLfC5C5eW0g5",
+                                                "mutable": false
+                                            },
+                                            {
+                                                "name": "methodType",
+                                                "required": false,
+                                                "value": "nfc",
+                                                "mutable": false
+                                            }
+                                        ]
+                                    }
+                                },
+                                "relatesTo": "$.authenticatorEnrollments.value[11]"
+                            },
+                            {
+                                "label": "NFC + PIN Authenticator",
+                                "value": {
+                                    "form": {
+                                        "value": [
+                                            {
+                                                "name": "id",
+                                                "required": true,
+                                                "value": "aut39884OLfC5C5eW0g5",
+                                                "mutable": false
+                                            },
+                                            {
+                                                "name": "methodType",
+                                                "required": false,
+                                                "value": "nfc",
+                                                "mutable": false
+                                            }
+                                        ]
+                                    }
+                                },
+                                "relatesTo": "$.authenticatorEnrollments.value[12]"
+                            },
+                            {
+                                "label": "NFC + PIN Authenticator",
+                                "value": {
+                                    "form": {
+                                        "value": [
+                                            {
+                                                "name": "id",
+                                                "required": true,
+                                                "value": "aut39884OLfC5C5eW0g5",
+                                                "mutable": false
+                                            },
+                                            {
+                                                "name": "methodType",
+                                                "required": false,
+                                                "value": "nfc",
+                                                "mutable": false
+                                            }
+                                        ]
+                                    }
+                                },
+                                "relatesTo": "$.authenticatorEnrollments.value[13]"
+                            },
+                            {
+                                "label": "NFC + PIN Authenticator",
+                                "value": {
+                                    "form": {
+                                        "value": [
+                                            {
+                                                "name": "id",
+                                                "required": true,
+                                                "value": "aut39884OLfC5C5eW0g5",
+                                                "mutable": false
+                                            },
+                                            {
+                                                "name": "methodType",
+                                                "required": false,
+                                                "value": "nfc",
+                                                "mutable": false
+                                            }
+                                        ]
+                                    }
+                                },
+                                "relatesTo": "$.authenticatorEnrollments.value[14]"
+                            },
+                            {
+                                "label": "Smart Card Authenticator",
+                                "value": {
+                                    "form": {
+                                        "value": [
+                                            {
+                                                "name": "id",
+                                                "required": true,
+                                                "value": "aut2smrxSheamoxun0g5",
+                                                "mutable": false
+                                            },
+                                            {
+                                                "name": "methodType",
+                                                "required": false,
+                                                "value": "mfc",
+                                                "mutable": false
+                                            }
+                                        ]
+                                    }
+                                },
+                                "relatesTo": "$.authenticators.value[1]"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "stateHandle",
+                        "required": true,
+                        "value": "02.id.MkkO15Z2LESoXTLr88Syha1GarULwKyabEiW4f3A~c.HDQXxH6QkdXMsbJSjaLuY91LqfL7u9X7qVyFA3je-wK9sManWjE2Kq3sB-r1dmqhldKgP2cWSykGWUedXVl1S58IQSw0ydHjM5LPYzTFSPLJSGdIbZr8blflkA_o2siB94MAfLVXJLfNsWoVJhdJJI96bdEUV-jNoDfTjAfBRWonW6QaiynQak54CtbZwVMPa1Tbpu748Pu5b5IYoUN4JBLH8xBfmpTXWnF4buAS8AiKvKgvLZdWtn09SVe8doa6xBrTj3R4-9Lq7syj4QDuiOm65m1RFQBaA1zc21N6inho3lVc6JWY9JQ5dDajnfAYYJqhy4ZBr0Y2xn1SGluYCSOsyngweWWmTfyWmo0SvVITYzAD4QPc4tibkGsmyKIlfrCg8dQgTexy-yLkG8iI2Hw69Omz3QP9McE_hO1imRDTSVcgzEtdl2sbBgYIYz8o0f5wirSLd9y1Qyzy0OHWteQyWdqkNZLPrJree8jM3J5kG7yDRsAx__YODqio-EIePUzWtnWx8htRSmphWbjHBDKSN4Yx_faTi6zQ_q9mEQqOtE8WWTrlI98P3JT298_l2IztuvpoDRqnkos5FcZMhFUKDn4qSvq3j4SF0zxU9SfjTPnYp9khTI-ayKfSCgVn1G66a0su3ndYLhe-dovycv8m8gbIA8FE4rRQ69XZtueXiK0mkN09rwDV0-tTMaGSJJruiau8yUonliGMh-YOSwGc14gqPv7-nex6N8iF0XdYJK4px7gha-6w5mpIE9YSuHJ2Bks_ncpuXnEv5A1KpFJQ3QZ12XofwilZ3c9z9oIl2kJGcv_9U1nBHFFTV16sqa3X-XuTyScGefUrnZ6EgRN5XBYWFcXEXiJ1JcyVLw0SOmrHhWVtcMqsOD7p6TpyEDaiYaj0EoGfQxv7JdS_3xMO6HXns9nU48uoCKn5-gWTD7UhhlHa-ku89Q5onvyejc5YY2lgdnAbSNzQeaUuPjg48oJEKCNrmJtVeyEbOQT_yyeRKBqsIeSzZnwD663x1gm_JIHN-sX93_TH2t5D74XjjmvvBu0zIr2F-VIeLWlX_kCuzK0L35Njq1MW9N_uxAtw2RYfM2N21n282NUKiC3a3KdKl0-S8nVsfvh02wNwKsVW4h8VNOjBcz-vpxVjMBEZnUHpu2k5Q-wJouhQWMHhrqpQVE5jZ9xl3szKpm-mV-WZpvEZzeTSaG5FOxHI",
+                        "visible": false,
+                        "mutable": false
+                    }
+                ],
+                "accepts": "application/json; okta-version=1.0.0"
+            }
+        ]
+    },
+    "currentAuthenticatorEnrollment": {
+        "type": "object",
+        "value": {
+            "type": "security_key",
+            "key": "nfc",
+            "id": "nfc3bgiogYdqZ6GBj0g5",
+            "displayName": "NFC + PIN Authenticator",
+            "methods": [
+                {
+                    "type": "nfc"
+                }
+            ]
+        }
+    },
+    "authenticators": {
+        "type": "array",
+        "value": [
+            {
+                "type": "security_key",
+                "key": "nfc",
+                "id": "aut39884OLfC5C5eW0g5",
+                "displayName": "NFC + PIN Authenticator",
+                "methods": [
+                    {
+                        "type": "nfc"
+                    }
+                ],
+                "allowedFor": "none"
+            },
+            {
+                "type": "federated",
+                "key": "smart_card_idp",
+                "id": "aut2smrxSheamoxun0g5",
+                "displayName": "Smart Card Authenticator",
+                "methods": [
+                    {
+                        "type": "mfc"
+                    }
+                ],
+                "allowedFor": "none"
+            }
+        ]
+    },
+    "authenticatorEnrollments": {
+        "type": "array",
+        "value": [
+            {
+                "type": "security_key",
+                "key": "nfc",
+                "id": "nfc3b6tuCEv3qwkN20g5",
+                "displayName": "NFC + PIN Authenticator",
+                "methods": [
+                    {
+                        "type": "nfc"
+                    }
+                ]
+            },
+            {
+                "type": "security_key",
+                "key": "nfc",
+                "id": "nfc3b6ttHzTVSLeJb0g5",
+                "displayName": "NFC + PIN Authenticator",
+                "methods": [
+                    {
+                        "type": "nfc"
+                    }
+                ]
+            },
+            {
+                "type": "security_key",
+                "key": "nfc",
+                "id": "nfc3b5ooCxqlfFqnM0g5",
+                "displayName": "NFC + PIN Authenticator",
+                "methods": [
+                    {
+                        "type": "nfc"
+                    }
+                ]
+            },
+            {
+                "type": "security_key",
+                "key": "nfc",
+                "id": "nfc3b4ai57CyDK07o0g5",
+                "displayName": "NFC + PIN Authenticator",
+                "methods": [
+                    {
+                        "type": "nfc"
+                    }
+                ]
+            },
+            {
+                "type": "security_key",
+                "key": "nfc",
+                "id": "nfc3b5riy4b4KkzVU0g5",
+                "displayName": "NFC + PIN Authenticator",
+                "methods": [
+                    {
+                        "type": "nfc"
+                    }
+                ]
+            },
+            {
+                "type": "security_key",
+                "key": "nfc",
+                "id": "nfc3b5srt6XYFXcQ70g5",
+                "displayName": "NFC + PIN Authenticator",
+                "methods": [
+                    {
+                        "type": "nfc"
+                    }
+                ]
+            },
+            {
+                "type": "security_key",
+                "key": "nfc",
+                "id": "nfc3b5x4GzyZHjitO0g5",
+                "displayName": "NFC + PIN Authenticator",
+                "methods": [
+                    {
+                        "type": "nfc"
+                    }
+                ]
+            },
+            {
+                "type": "security_key",
+                "key": "nfc",
+                "id": "nfc3b5x5SxkmCQcTX0g5",
+                "displayName": "NFC + PIN Authenticator",
+                "methods": [
+                    {
+                        "type": "nfc"
+                    }
+                ]
+            },
+            {
+                "type": "security_key",
+                "key": "nfc",
+                "id": "nfc3b57xORq0nCd020g5",
+                "displayName": "NFC + PIN Authenticator",
+                "methods": [
+                    {
+                        "type": "nfc"
+                    }
+                ]
+            },
+            {
+                "type": "security_key",
+                "key": "nfc",
+                "id": "nfc3b5x6a3UdxH23V0g5",
+                "displayName": "NFC + PIN Authenticator",
+                "methods": [
+                    {
+                        "type": "nfc"
+                    }
+                ]
+            },
+            {
+                "type": "security_key",
+                "key": "nfc",
+                "id": "nfc3b6r0BtrdiNREL0g5",
+                "displayName": "NFC + PIN Authenticator",
+                "methods": [
+                    {
+                        "type": "nfc"
+                    }
+                ]
+            },
+            {
+                "type": "security_key",
+                "key": "nfc",
+                "id": "nfc3b5lvIk9RSPkin0g5",
+                "displayName": "NFC + PIN Authenticator",
+                "methods": [
+                    {
+                        "type": "nfc"
+                    }
+                ]
+            },
+            {
+                "type": "security_key",
+                "key": "nfc",
+                "id": "nfc3b6wpIU91whUUu0g5",
+                "displayName": "NFC + PIN Authenticator",
+                "methods": [
+                    {
+                        "type": "nfc"
+                    }
+                ]
+            },
+            {
+                "type": "security_key",
+                "key": "nfc",
+                "id": "nfc3b5opaPsuFaPlE0g5",
+                "displayName": "NFC + PIN Authenticator",
+                "methods": [
+                    {
+                        "type": "nfc"
+                    }
+                ]
+            },
+            {
+                "type": "security_key",
+                "key": "nfc",
+                "id": "nfc3b5zznP0fsqwnn0g5",
+                "displayName": "NFC + PIN Authenticator",
+                "methods": [
+                    {
+                        "type": "nfc"
+                    }
+                ]
+            },
+            {
+                "profile": {
+                    "idpAppInstanceId": "0oa2rq3rRZl8gFmvf0g5"
+                },
+                "type": "federated",
+                "key": "smart_card_idp",
+                "id": "piv36jsrXHUt61oqw0g5",
+                "displayName": "Smart Card Authenticator",
+                "methods": [
+                    {
+                        "type": "mfc"
+                    }
+                ]
+            }
+        ]
+    },
+    "user": {
+        "type": "object",
+        "value": {
+            "identifier": "michael.scott@hybridaccess.org"
+        }
+    },
+    "cancel": {
+        "rel": [
+            "create-form"
+        ],
+        "name": "cancel",
+        "href": "https://localhost:3000/idp/idx/cancel",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+            {
+                "name": "stateHandle",
+                "required": true,
+                "value": "02.id.MkkO15Z2LESoXTLr88Syha1GarULwKyabEiW4f3A~c.HDQXxH6QkdXMsbJSjaLuY91LqfL7u9X7qVyFA3je-wK9sManWjE2Kq3sB-r1dmqhldKgP2cWSykGWUedXVl1S58IQSw0ydHjM5LPYzTFSPLJSGdIbZr8blflkA_o2siB94MAfLVXJLfNsWoVJhdJJI96bdEUV-jNoDfTjAfBRWonW6QaiynQak54CtbZwVMPa1Tbpu748Pu5b5IYoUN4JBLH8xBfmpTXWnF4buAS8AiKvKgvLZdWtn09SVe8doa6xBrTj3R4-9Lq7syj4QDuiOm65m1RFQBaA1zc21N6inho3lVc6JWY9JQ5dDajnfAYYJqhy4ZBr0Y2xn1SGluYCSOsyngweWWmTfyWmo0SvVITYzAD4QPc4tibkGsmyKIlfrCg8dQgTexy-yLkG8iI2Hw69Omz3QP9McE_hO1imRDTSVcgzEtdl2sbBgYIYz8o0f5wirSLd9y1Qyzy0OHWteQyWdqkNZLPrJree8jM3J5kG7yDRsAx__YODqio-EIePUzWtnWx8htRSmphWbjHBDKSN4Yx_faTi6zQ_q9mEQqOtE8WWTrlI98P3JT298_l2IztuvpoDRqnkos5FcZMhFUKDn4qSvq3j4SF0zxU9SfjTPnYp9khTI-ayKfSCgVn1G66a0su3ndYLhe-dovycv8m8gbIA8FE4rRQ69XZtueXiK0mkN09rwDV0-tTMaGSJJruiau8yUonliGMh-YOSwGc14gqPv7-nex6N8iF0XdYJK4px7gha-6w5mpIE9YSuHJ2Bks_ncpuXnEv5A1KpFJQ3QZ12XofwilZ3c9z9oIl2kJGcv_9U1nBHFFTV16sqa3X-XuTyScGefUrnZ6EgRN5XBYWFcXEXiJ1JcyVLw0SOmrHhWVtcMqsOD7p6TpyEDaiYaj0EoGfQxv7JdS_3xMO6HXns9nU48uoCKn5-gWTD7UhhlHa-ku89Q5onvyejc5YY2lgdnAbSNzQeaUuPjg48oJEKCNrmJtVeyEbOQT_yyeRKBqsIeSzZnwD663x1gm_JIHN-sX93_TH2t5D74XjjmvvBu0zIr2F-VIeLWlX_kCuzK0L35Njq1MW9N_uxAtw2RYfM2N21n282NUKiC3a3KdKl0-S8nVsfvh02wNwKsVW4h8VNOjBcz-vpxVjMBEZnUHpu2k5Q-wJouhQWMHhrqpQVE5jZ9xl3szKpm-mV-WZpvEZzeTSaG5FOxHI",
+                "visible": false,
+                "mutable": false
+            }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+    },
+    "app": {
+        "type": "object",
+        "value": {
+            "name": "okta_enduser",
+            "label": "Okta Dashboard",
+            "id": "0oa14w0mpazTWEPBW0g4"
+        }
+    },
+    "authentication": {
+        "type": "object",
+        "value": {
+            "protocol": "OAUTH2.0",
+            "issuer": {
+                "name": "Local SP",
+                "uri": "https://localhost:3000"
+            },
+            "request": {
+                "max_age": -1,
+                "scope": "openid profile email okta.users.read.self okta.users.manage.self okta.internal.enduser.read okta.internal.enduser.manage okta.enduser.dashboard.read okta.enduser.dashboard.manage okta.myAccount.sessions.manage",
+                "display": "page",
+                "response_type": "code",
+                "redirect_uri": "https://localhost:3000/enduser/callback",
+                "state": "hn2XWKCGhf2pt3xLL11s7zOchgGcHNAEjCxgQgGprwYOMJaennJz69K0vOuelQiJ",
+                "code_challenge_method": "S256",
+                "nonce": "A3FRP75SBh4jQoBYOBvuV47HctQnQRG4KKBXoW9b9J9uLI7sw3N2p25r2os4MeTa",
+                "code_challenge": "ylAVkOCotzoNcxGPBUR9t-hVpkbVbZVk2CjvSUmiNh8",
+                "response_mode": "query"
+            }
+        }
+    }
+}
