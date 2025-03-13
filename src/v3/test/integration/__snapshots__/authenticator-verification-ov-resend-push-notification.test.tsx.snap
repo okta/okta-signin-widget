@@ -149,6 +149,7 @@ exports[`authenticator-verification-ov-resend-push-notification renders form 1`]
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-23"
                       data-se="switchAuthenticator"
                       role="link"
+                      type="button"
                     >
                       Verify with something else
                     </button>
@@ -160,6 +161,7 @@ exports[`authenticator-verification-ov-resend-push-notification renders form 1`]
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-23"
                       data-se="cancel"
                       role="link"
+                      type="button"
                     >
                       Back to sign in
                     </button>

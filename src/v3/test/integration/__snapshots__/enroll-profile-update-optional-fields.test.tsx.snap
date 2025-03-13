@@ -261,6 +261,7 @@ exports[`enroll-profile-update-optional-fields should render form with one requi
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-44"
                       data-se="skip"
                       role="link"
+                      type="button"
                     >
                       Skip Profile
                     </button>
@@ -272,6 +273,7 @@ exports[`enroll-profile-update-optional-fields should render form with one requi
                       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-44"
                       data-se="cancel"
                       role="link"
+                      type="button"
                     >
                       Back to sign in
                     </button>
