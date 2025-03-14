@@ -247,12 +247,15 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       );
       const isClientTransaction = (!newTransaction.requestDidSucceed
           // do not preserve field data on token change errors
-          && !containsMessageKey(ON_PREM_TOKEN_CHANGE_ERROR_KEY, newTransaction.messages))
-        || (areTransactionsEqual(currTransaction, newTransaction) && transactionHasWarning);
+          && !containsMessageKey(ON_PREM_TOKEN_CHANGE_ERROR_KEY, newTransaction.messages)
+          // do not preserve field data when auth-js sets `stepUp` for expected 401 error used by Apple SSOE flow
+          && !newTransaction.stepUp
+      ) || (areTransactionsEqual(currTransaction, newTransaction) && transactionHasWarning);
 
       const onSuccess = (resolve?: (val: unknown) => void) => {
         setIdxTransaction(newTransaction);
-        if (newTransaction.requestDidSucceed === false) {
+        // Do not emit errors when auth-js sets `stepUp` for expected 401 error used by Apple SSOE flow
+        if (newTransaction.requestDidSucceed === false && !newTransaction.stepUp) {
           eventEmitter.emit(
             'afterError',
             getEventContext(newTransaction),
