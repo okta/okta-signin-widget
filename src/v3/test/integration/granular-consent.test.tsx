@@ -26,7 +26,9 @@ describe('granular-consent', () => {
         },
       },
     };
-    const { container, findByRole, findByLabelText, queryByAltText } = await setup({
+    const {
+      container, findByRole, findByLabelText, queryByAltText,
+    } = await setup({
       mockResponse: granularConsentResponseWithLogo,
     });
     const appNameHeading = await findByRole('heading', { level: 2 });

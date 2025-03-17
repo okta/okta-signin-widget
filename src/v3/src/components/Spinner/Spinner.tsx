@@ -46,12 +46,14 @@ const Spinner: FunctionComponent<SpinnerProps | SpinnerElement> = (
       role="status"
       aria-live="polite"
     >
-      {showProgress && (<CircularProgress
+      {showProgress && (
+      <CircularProgress
         testId={dataSe}
         // Using loc here because this component is not only used by transformers
         // but also directly in widget component
         ariaLabel={loc('processing.alt.text', 'login')}
-      />)}
+      />
+      )}
     </Box>
   );
 };

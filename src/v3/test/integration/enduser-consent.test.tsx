@@ -16,7 +16,9 @@ import enduserConsentResponse from '../../../../playground/mocks/data/idp/idx/co
 
 describe('enduser-consent', () => {
   it('should render form with logo', async () => {
-    const { container, findByRole, findByLabelText, queryByAltText } = await setup({
+    const {
+      container, findByRole, findByLabelText, queryByAltText,
+    } = await setup({
       mockResponse: enduserConsentResponse,
     });
     const appNameHeading = await findByRole('heading', { level: 2 });

@@ -12,8 +12,8 @@
 
 import { IdxTransaction } from '@okta/okta-auth-js';
 import { render, waitFor } from '@testing-library/preact';
-import { act } from 'preact/test-utils';
 import { h } from 'preact';
+import { act } from 'preact/test-utils';
 import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 
 import {

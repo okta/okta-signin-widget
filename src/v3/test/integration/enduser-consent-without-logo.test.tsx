@@ -23,7 +23,9 @@ describe('enduser-consent-without-logo', () => {
         value: { ...enduserConsentResponse.app.value, logo: undefined },
       },
     };
-    const { container, findByRole, findByLabelText, queryByAltText } = await setup({
+    const {
+      container, findByRole, findByLabelText, queryByAltText,
+    } = await setup({
       mockResponse: enduserConsentResponseWithoutLogo,
     });
     const appNameHeading = await findByRole('heading', { level: 2 });
