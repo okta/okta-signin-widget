@@ -61,7 +61,9 @@ exports[`enduser-consent-without-logo should render form 1`] = `
                 </span>
               </div>
               <div
+                aria-live="polite"
                 class="MuiBox-root emotion-13"
+                role="status"
               >
                 <span
                   aria-label="Processing..."

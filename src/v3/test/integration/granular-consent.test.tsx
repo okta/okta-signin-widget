@@ -26,7 +26,7 @@ describe('granular-consent', () => {
         },
       },
     };
-    const { container, findByRole, queryByAltText } = await setup({
+    const { container, findByRole, findByLabelText, queryByAltText } = await setup({
       mockResponse: granularConsentResponseWithLogo,
     });
     const appNameHeading = await findByRole('heading', { level: 2 });
@@ -34,6 +34,8 @@ describe('granular-consent', () => {
 
     expect(logo).toBeDefined();
     expect(appNameHeading.textContent).toBe('Native client');
+    // Wait for Spinner to appear
+    await findByLabelText('Processing...');
     expect(container).toMatchSnapshot();
   });
 

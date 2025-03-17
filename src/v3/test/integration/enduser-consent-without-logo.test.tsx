@@ -23,7 +23,7 @@ describe('enduser-consent-without-logo', () => {
         value: { ...enduserConsentResponse.app.value, logo: undefined },
       },
     };
-    const { container, findByRole, queryByAltText } = await setup({
+    const { container, findByRole, findByLabelText, queryByAltText } = await setup({
       mockResponse: enduserConsentResponseWithoutLogo,
     });
     const appNameHeading = await findByRole('heading', { level: 2 });
@@ -31,6 +31,8 @@ describe('enduser-consent-without-logo', () => {
 
     expect(logo).toBeNull();
     expect(appNameHeading.textContent).toBe('Native client');
+    // Wait for Spinner to appear
+    await findByLabelText('Processing...');
     expect(container).toMatchSnapshot();
   });
 });

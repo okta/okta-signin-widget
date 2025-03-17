@@ -1363,7 +1363,9 @@ exports[`authenticator-enroll-security-question-error predefined question should
                           class="MuiButton-startIcon MuiButton-iconSizeMedium emotion-52"
                         >
                           <div
+                            aria-live="polite"
                             class="MuiBox-root emotion-53"
+                            role="status"
                           >
                             <span
                               aria-label="Processing..."

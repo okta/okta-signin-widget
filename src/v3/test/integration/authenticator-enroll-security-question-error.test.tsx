@@ -11,7 +11,7 @@
  */
 
 import { HttpRequestClient } from '@okta/okta-auth-js';
-import { waitFor } from '@testing-library/preact';
+import { act, waitFor } from '@testing-library/preact';
 import { createAuthJsPayloadArgs, setup, updateStateHandleInMock } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/credential/enroll/securityquestion-enroll-mfa.json';
@@ -20,6 +20,7 @@ import responseWithCharacterLimitError from '../../src/mocks/response/idp/idx/ch
 describe('authenticator-enroll-security-question-error', () => {
   let mockRequestClientWithError: HttpRequestClient;
   beforeEach(() => {
+    jest.useFakeTimers();
     mockRequestClientWithError = jest.fn().mockImplementation((_, url, options) => {
       updateStateHandleInMock(mockResponse);
       updateStateHandleInMock(responseWithCharacterLimitError);
@@ -122,6 +123,10 @@ describe('authenticator-enroll-security-question-error', () => {
         }),
       );
       expect(answerEle).toHaveErrorMessage(/The security question answer must be at least 4 characters in length/);
+      await act(() => {
+        // Wait for Spinner to appear
+        jest.runAllTimers();
+      });
       expect(container).toMatchSnapshot();
     });
 
