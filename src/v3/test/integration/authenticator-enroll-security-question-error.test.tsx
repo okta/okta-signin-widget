@@ -20,7 +20,6 @@ import responseWithCharacterLimitError from '../../src/mocks/response/idp/idx/ch
 describe('authenticator-enroll-security-question-error', () => {
   let mockRequestClientWithError: HttpRequestClient;
   beforeEach(() => {
-    jest.useFakeTimers();
     mockRequestClientWithError = jest.fn().mockImplementation((_, url, options) => {
       updateStateHandleInMock(mockResponse);
       updateStateHandleInMock(responseWithCharacterLimitError);
@@ -60,11 +59,15 @@ describe('authenticator-enroll-security-question-error', () => {
     });
   });
 
-  afterEach(() => {
-    jest.useRealTimers();
-  });
-
   describe('predefined question', () => {
+    beforeEach(() => {
+      jest.useFakeTimers();
+    });
+  
+    afterEach(() => {
+      jest.useRealTimers();
+    });
+
     it('should show field level character count error message when invalid number of characters are sent and field should retain characters', async () => {
       const {
         user, authClient, container, findByText, findByLabelText,
