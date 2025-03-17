@@ -11,7 +11,7 @@
  */
 
 import { HttpRequestClient } from '@okta/okta-auth-js';
-import { act, waitFor } from '@testing-library/preact';
+import { waitFor } from '@testing-library/preact';
 import { createAuthJsPayloadArgs, setup, updateStateHandleInMock } from './util';
 
 import mockResponse from '../../src/mocks/response/idp/idx/credential/enroll/securityquestion-enroll-mfa.json';
