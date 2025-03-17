@@ -3,5 +3,10 @@
     "component": "jquery",
     "version": "1.12.4",
     "justification": "CVE issues (CVE-2019-11358, CVE-2020-11023) have been mitigated with a patched version of jQuery (packages/@okta/courage-dist/esm/src/courage/vendor/lib/jquery-1.12.4.js)"
+  },
+  {
+    "component": "dompurify",
+    "version": "2.5.8",
+    "justification": "CVE-2025-26791 has been patched locally within patches/dompurify+2.5.8.patch compared fix (https://github.com/cure53/DOMPurify/commit/d18ffcb554e0001748865da03ac75dd7829f0f02#diff-8e647ca2a1d9380f03114f7df5e6a70563c9cb40b03dca353a43ce84b974c2cdR6)"
   }
 ]
