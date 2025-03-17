@@ -60,6 +60,14 @@ describe('authenticator-enroll-security-question-error', () => {
   });
 
   describe('predefined question', () => {
+    beforeEach(() => {
+      jest.useFakeTimers();
+    });
+  
+    afterEach(() => {
+      jest.useRealTimers();
+    });
+
     it('should show field level character count error message when invalid number of characters are sent and field should retain characters', async () => {
       const {
         user, authClient, container, findByText, findByLabelText,
@@ -90,48 +98,43 @@ describe('authenticator-enroll-security-question-error', () => {
     });
 
     it('should show field level character count error message on multiple attempts to submit with invalid character count', async () => {
-      jest.useFakeTimers();
-      try {
-        const {
-          user, authClient, container, findByLabelText, findByText,
-        } = await setup({ mockRequestClient: mockRequestClientWithError });
+      const {
+        user, authClient, container, findByLabelText, findByText,
+      } = await setup({ mockRequestClient: mockRequestClientWithError });
 
-        expect(await findByText(/Set up security question/)).toBeInTheDocument();
-        const submitButton = await findByText('Verify', { selector: 'button' });
-        const answerEle = await findByLabelText('Answer') as HTMLInputElement;
+      expect(await findByText(/Set up security question/)).toBeInTheDocument();
+      const submitButton = await findByText('Verify', { selector: 'button' });
+      const answerEle = await findByLabelText('Answer') as HTMLInputElement;
 
-        const answer = 'pi';
-        await user.type(answerEle, answer);
-        expect(answerEle.value).toEqual(answer);
+      const answer = 'pi';
+      await user.type(answerEle, answer);
+      expect(answerEle.value).toEqual(answer);
 
-        await user.click(submitButton);
-        expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-          ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/answer', {
-            credentials: {
-              questionKey: 'disliked_food',
-              answer,
-            },
-          }),
-        );
-        await waitFor(() => expect(answerEle).toHaveErrorMessage(/The security question answer must be at least 4 characters in length/));
-        await user.click(await findByText('Verify', { selector: 'button' }));
-        expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
-          ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/answer', {
-            credentials: {
-              questionKey: 'disliked_food',
-              answer,
-            },
-          }),
-        );
-        expect(answerEle).toHaveErrorMessage(/The security question answer must be at least 4 characters in length/);
-        await act(() => {
-          // Wait for Spinner to appear
-          jest.runAllTimers();
-        });
-        expect(container).toMatchSnapshot();
-      } finally {
-        jest.useRealTimers();
-      }
+      await user.click(submitButton);
+      expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
+        ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/answer', {
+          credentials: {
+            questionKey: 'disliked_food',
+            answer,
+          },
+        }),
+      );
+      await waitFor(() => expect(answerEle).toHaveErrorMessage(/The security question answer must be at least 4 characters in length/));
+      await user.click(await findByText('Verify', { selector: 'button' }));
+      expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
+        ...createAuthJsPayloadArgs('POST', 'idp/idx/challenge/answer', {
+          credentials: {
+            questionKey: 'disliked_food',
+            answer,
+          },
+        }),
+      );
+      expect(answerEle).toHaveErrorMessage(/The security question answer must be at least 4 characters in length/);
+      await act(() => {
+        // Wait for Spinner to appear
+        jest.runAllTimers();
+      });
+      expect(container).toMatchSnapshot();
     });
 
     it('should send correct payload when toggling between question types and submitted form with incorrect number of characters', async () => {
