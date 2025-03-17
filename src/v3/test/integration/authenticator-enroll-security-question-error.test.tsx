@@ -60,6 +60,10 @@ describe('authenticator-enroll-security-question-error', () => {
     });
   });
 
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
   describe('predefined question', () => {
     it('should show field level character count error message when invalid number of characters are sent and field should retain characters', async () => {
       const {
