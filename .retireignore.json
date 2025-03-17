@@ -8,5 +8,10 @@
     "component": "dompurify",
     "version": "2.5.8",
     "justification": "CVE-2025-26791 has been patched locally within patches/dompurify+2.5.8.patch compared fix (https://github.com/cure53/DOMPurify/commit/d18ffcb554e0001748865da03ac75dd7829f0f02#diff-8e647ca2a1d9380f03114f7df5e6a70563c9cb40b03dca353a43ce84b974c2cdR6)"
+  },
+  {
+    "component": "DOMPurify",
+    "version": "2.5.8",
+    "justification": "CVE-2025-26791 has been patched locally within patches/dompurify+2.5.8.patch compared fix (https://github.com/cure53/DOMPurify/commit/d18ffcb554e0001748865da03ac75dd7829f0f02#diff-8e647ca2a1d9380f03114f7df5e6a70563c9cb40b03dca353a43ce84b974c2cdR6)"
   }
 ]
