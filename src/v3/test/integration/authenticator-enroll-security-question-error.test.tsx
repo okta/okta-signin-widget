@@ -60,14 +60,6 @@ describe('authenticator-enroll-security-question-error', () => {
   });
 
   describe('predefined question', () => {
-    beforeEach(() => {
-      jest.useFakeTimers();
-    });
-  
-    afterEach(() => {
-      jest.useRealTimers();
-    });
-
     it('should show field level character count error message when invalid number of characters are sent and field should retain characters', async () => {
       const {
         user, authClient, container, findByText, findByLabelText,
@@ -99,7 +91,7 @@ describe('authenticator-enroll-security-question-error', () => {
 
     it('should show field level character count error message on multiple attempts to submit with invalid character count', async () => {
       const {
-        user, authClient, container, findByLabelText, findByText,
+        user, authClient, container, findByLabelText, findByText, queryByLabelText,
       } = await setup({ mockRequestClient: mockRequestClientWithError });
 
       expect(await findByText(/Set up security question/)).toBeInTheDocument();
@@ -129,11 +121,9 @@ describe('authenticator-enroll-security-question-error', () => {
           },
         }),
       );
-      expect(answerEle).toHaveErrorMessage(/The security question answer must be at least 4 characters in length/);
-      await act(() => {
-        // Wait for Spinner to appear
-        jest.runAllTimers();
-      });
+      await waitFor(() => expect(answerEle).toHaveErrorMessage(/The security question answer must be at least 4 characters in length/));
+      // Wait for Spinner to disappear
+      await waitFor(() => queryByLabelText('Processing...') !== null);
       expect(container).toMatchSnapshot();
     });
 
