@@ -121,7 +121,9 @@ describe('authenticator-enroll-security-question-error', () => {
           },
         }),
       );
-      expect(answerEle).toHaveErrorMessage(/The security question answer must be at least 4 characters in length/);
+      await waitFor(() => expect(answerEle).toHaveErrorMessage(/The security question answer must be at least 4 characters in length/));
+      // Wait for Spinner to disappear
+      await waitFor(() => expect(queryByLabelText('Processing...')).toBeNull());
       expect(container).toMatchSnapshot();
     });
 

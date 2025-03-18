@@ -993,24 +993,67 @@ exports[`authenticator-enroll-security-question-error predefined question should
                   class="MuiBox-root emotion-10"
                 >
                   <div
-                    class="MuiBox-root emotion-11"
+                    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-calloutError MuiAlert-callout emotion-11"
+                    role="alert"
                   >
                     <div
-                      class="MuiBox-root emotion-12"
+                      class="MuiAlert-icon emotion-12"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-13"
+                        fill="none"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          clip-rule="evenodd"
+                          d="M9.879 1.707a3 3 0 0 1 4.242 0l8.172 8.172a3 3 0 0 1 0 4.242l-8.172 8.172a3 3 0 0 1-4.242 0L1.707 14.12a3 3 0 0 1 0-4.242L9.88 1.707ZM12 13a1 1 0 0 1-1-1V7h2v5a1 1 0 0 1-1 1Zm0 1.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z"
+                          fill="currentColor"
+                          fill-rule="evenodd"
+                        />
+                      </svg>
+                    </div>
+                    <div
+                      class="MuiAlert-message emotion-14"
+                    >
+                      <span
+                        class="MuiBox-root emotion-15"
+                        translate="no"
+                      >
+                        error
+                      </span>
+                      <div
+                        class="MuiBox-root emotion-1"
+                      >
+                        We found some errors. Please review the form and make corrections.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="MuiBox-root emotion-17"
+                >
+                  <div
+                    class="MuiBox-root emotion-18"
+                  >
+                    <div
+                      class="MuiBox-root emotion-19"
                       data-se="identifier-container"
                       title="tester35@test.com"
                     >
                       <div
-                        class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-13"
+                        class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault emotion-20"
                         data-se="identifier"
                         translate="no"
                       >
                         <div
-                          class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-14"
+                          class="MuiChip-icon MuiChip-iconMedium MuiChip-iconColorDefault MuiBox-root emotion-21"
                         >
                           <svg
                             aria-label="User"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-15"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-22"
                             fill="none"
                             focusable="false"
                             role="img"
@@ -1029,7 +1072,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                           </svg>
                         </div>
                         <span
-                          class="MuiChip-label MuiChip-labelMedium emotion-16"
+                          class="MuiChip-label MuiChip-labelMedium emotion-23"
                         >
                           tester35@test.com
                         </span>
@@ -1037,16 +1080,16 @@ exports[`authenticator-enroll-security-question-error predefined question should
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root emotion-10"
+                    class="MuiBox-root emotion-17"
                   >
                     <div
-                      class="MuiBox-root emotion-11"
+                      class="MuiBox-root emotion-18"
                     >
                       <div
-                        class="MuiBox-root emotion-19"
+                        class="MuiBox-root emotion-26"
                       >
                         <h2
-                          class="MuiTypography-root MuiTypography-h4 emotion-20"
+                          class="MuiTypography-root MuiTypography-h4 emotion-27"
                           data-se="o-form-head"
                           tabindex="-1"
                         >
@@ -1055,64 +1098,58 @@ exports[`authenticator-enroll-security-question-error predefined question should
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-11"
+                      class="MuiBox-root emotion-18"
                     >
                       <fieldset
-                        class="MuiFormControl-root MuiFormControl-marginNormal emotion-22"
+                        class="MuiFormControl-root MuiFormControl-marginNormal emotion-29"
                       >
                         <legend
-                          class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-23"
+                          class="MuiFormLabel-root MuiFormLabel-colorPrimary emotion-30"
                         >
                           
                            
                         </legend>
                         <div
                           aria-labelledby="questionType-label"
-                          class="MuiFormGroup-root emotion-24"
+                          class="MuiFormGroup-root emotion-31"
                           data-se="questionType"
                           id="questionType"
                           role="radiogroup"
                         >
                           <label
-                            class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-25"
+                            class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-32"
                           >
                             <span
-                              aria-disabled="true"
-                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-disabled PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-checked Mui-disabled MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-26"
-                              tabindex="-1"
+                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-checked MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-33"
                             >
                               <input
-                                class="PrivateSwitchBase-input emotion-27"
-                                disabled=""
+                                class="PrivateSwitchBase-input emotion-34"
                                 name="questionType"
                                 type="radio"
                                 value="predefined"
                               />
                             </span>
                             <span
-                              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-28"
+                              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-35"
                             >
                               Choose a security question
                             </span>
                           </label>
                           <label
-                            class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd emotion-25"
+                            class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd emotion-32"
                           >
                             <span
-                              aria-disabled="true"
-                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-disabled PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-disabled MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-26"
-                              tabindex="-1"
+                              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall emotion-33"
                             >
                               <input
-                                class="PrivateSwitchBase-input emotion-27"
-                                disabled=""
+                                class="PrivateSwitchBase-input emotion-34"
                                 name="questionType"
                                 type="radio"
                                 value="custom"
                               />
                             </span>
                             <span
-                              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled emotion-28"
+                              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label emotion-35"
                             >
                               Create my own security question
                             </span>
@@ -1121,13 +1158,13 @@ exports[`authenticator-enroll-security-question-error predefined question should
                       </fieldset>
                     </div>
                     <div
-                      class="MuiBox-root emotion-11"
+                      class="MuiBox-root emotion-18"
                     >
                       <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal emotion-22"
+                        class="MuiFormControl-root MuiFormControl-marginNormal emotion-29"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-disabled MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-35"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-42"
                           data-shrink="false"
                           for="credentials.questionKey"
                           id="credentials.questionKey-label"
@@ -1137,14 +1174,13 @@ exports[`authenticator-enroll-security-question-error predefined question should
                           </span>
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-formControl  emotion-36"
+                          class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary MuiInputBase-formControl  emotion-43"
                         >
                           <select
                             aria-invalid="false"
                             aria-labelledby="credentials.questionKey-label"
-                            class="MuiNativeSelect-select MuiNativeSelect-standard Mui-disabled MuiInputBase-input MuiInput-input Mui-disabled emotion-37"
+                            class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input emotion-44"
                             data-se="credentials.questionKey"
-                            disabled=""
                             id="credentials.questionKey"
                             name="credentials.questionKey"
                           >
@@ -1251,7 +1287,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                           </select>
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconStandard Mui-disabled emotion-38"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit MuiNativeSelect-icon MuiNativeSelect-iconStandard emotion-45"
                             fill="none"
                             focusable="false"
                             viewBox="0 0 24 24"
@@ -1268,13 +1304,13 @@ exports[`authenticator-enroll-security-question-error predefined question should
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-11"
+                      class="MuiBox-root emotion-18"
                     >
                       <div
-                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-40"
+                        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth emotion-47"
                       >
                         <label
-                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-disabled Mui-error MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-35"
+                          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-sizeMedium MuiInputLabel-outlined emotion-42"
                           data-shrink="false"
                           for="credentials.answer"
                           id="credentials.answer-label"
@@ -1284,7 +1320,7 @@ exports[`authenticator-enroll-security-question-error predefined question should
                           </span>
                         </label>
                         <div
-                          class="MuiInputBase-root MuiInputBase-colorPrimary Mui-disabled Mui-error MuiInputBase-formControl MuiInputBase-adornedEnd emotion-42"
+                          class="MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl MuiInputBase-adornedEnd emotion-49"
                           required="true"
                           translate="no"
                         >
@@ -1294,9 +1330,8 @@ exports[`authenticator-enroll-security-question-error predefined question should
                             aria-invalid="true"
                             aria-labelledby="credentials.answer-label"
                             autocomplete="off"
-                            class="MuiInputBase-input Mui-disabled MuiInputBase-inputAdornedEnd emotion-43"
+                            class="MuiInputBase-input MuiInputBase-inputAdornedEnd emotion-50"
                             data-se="credentials.answer"
-                            disabled=""
                             id="credentials.answer"
                             name="credentials.answer"
                             required=""
@@ -1304,19 +1339,19 @@ exports[`authenticator-enroll-security-question-error predefined question should
                             type="password"
                           />
                           <div
-                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium emotion-44"
+                            class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium emotion-51"
                           >
                             <button
                               aria-controls="credentials.answer"
                               aria-label="Show password"
                               aria-pressed="false"
-                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-45"
+                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium emotion-52"
                               tabindex="0"
                               type="button"
                             >
                               <svg
                                 aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-46"
+                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-13"
                                 fill="none"
                                 focusable="false"
                                 viewBox="0 0 24 24"
@@ -1333,11 +1368,11 @@ exports[`authenticator-enroll-security-question-error predefined question should
                           </div>
                         </div>
                         <p
-                          class="MuiFormHelperText-root Mui-disabled Mui-error MuiFormHelperText-sizeMedium MuiFormHelperText-filled emotion-47"
+                          class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium MuiFormHelperText-filled emotion-54"
                           id="credentials.answer-error"
                         >
                           <span
-                            class="MuiBox-root emotion-48"
+                            class="MuiBox-root emotion-15"
                           >
                             Error:
                           </span>
@@ -1350,32 +1385,23 @@ exports[`authenticator-enroll-security-question-error predefined question should
                       </div>
                     </div>
                     <div
-                      class="MuiBox-root emotion-11"
+                      class="MuiBox-root emotion-18"
                     >
                       <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth Mui-disabled MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-51"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth emotion-58"
                         data-se="save"
-                        disabled=""
-                        tabindex="-1"
+                        tabindex="0"
                         type="submit"
                       >
-                        <span
-                          class="MuiButton-startIcon MuiButton-iconSizeMedium emotion-52"
-                        >
-                          <div
-                            class="MuiBox-root emotion-53"
-                            role="status"
-                          />
-                        </span>
                         Verify
                       </button>
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root emotion-11"
+                    class="MuiBox-root emotion-18"
                   >
                     <button
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-55"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-60"
                       data-se="switchAuthenticator"
                       role="link"
                       type="button"
@@ -1384,10 +1410,10 @@ exports[`authenticator-enroll-security-question-error predefined question should
                     </button>
                   </div>
                   <div
-                    class="MuiBox-root emotion-11"
+                    class="MuiBox-root emotion-18"
                   >
                     <button
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-55"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button emotion-60"
                       data-se="cancel"
                       role="link"
                       type="button"
