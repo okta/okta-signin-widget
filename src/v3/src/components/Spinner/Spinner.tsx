@@ -44,7 +44,6 @@ const Spinner: FunctionComponent<SpinnerProps | SpinnerElement> = (
       justifyContent="center"
       alignItems="center"
       role="status"
-      aria-live="polite"
     >
       {showProgress && (
         <CircularProgress

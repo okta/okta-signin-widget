@@ -101,7 +101,6 @@ exports[`enduser-consent should render form with logo 1`] = `
                 </span>
               </div>
               <div
-                aria-live="polite"
                 class="MuiBox-root emotion-17"
                 role="status"
               >
