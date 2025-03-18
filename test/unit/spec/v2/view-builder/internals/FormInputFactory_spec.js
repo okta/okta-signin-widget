@@ -480,7 +480,7 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
         buttonDataSeAttr: 'okta_verify-push',
       },
       {
-        ariaLabel: 'Select Okta FastPass.',
+        ariaLabel: 'Select Okta Verify.',
         label: 'Use Okta FastPass',
         value: {
           id: 'auttheidkwh282hv8g3',

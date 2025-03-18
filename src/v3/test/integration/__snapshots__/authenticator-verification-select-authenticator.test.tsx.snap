@@ -730,7 +730,7 @@ exports[`authenticator-verification-select-authenticator renders form 1`] = `
                       >
                         <button
                           aria-describedby="okta_verify_6-description"
-                          aria-label="Select Okta FastPass."
+                          aria-label="Select Okta Verify."
                           class="MuiBox-root emotion-25"
                           data-se="authenticator-button"
                           tabindex="0"
