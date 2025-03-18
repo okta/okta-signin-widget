@@ -27,7 +27,7 @@ const oktaVerifyAppContent = `
 `;
 
 const ovAppLogger = RequestLogger(/okta-verify.html/);
-const loopbackServerLogger = RequestLogger(/probe|install-android-device-policy/,
+const loopbackServerLogger = RequestLogger(/probe|azt\/install-android-device-policy/,
   { logRequestBody: true, stringifyRequestBody: true });
 const singleOptionAdpGracePeriodRemediationSuccessfulLoopbackMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -42,7 +42,7 @@ const singleOptionAdpGracePeriodRemediationSuccessfulLoopbackMock = RequestMock(
     'access-control-allow-origin': '*',
     'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
   })
-  .onRequestTo(/2000\/install-android-device-policy/)
+  .onRequestTo(/2000\/azt\/install-android-device-policy/)
   .respond(null, 200, { 
     'access-control-allow-origin': '*',
     'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
@@ -154,7 +154,7 @@ test.requestHooks(loopbackServerLogger, singleOptionAdpGracePeriodRemediationSuc
   await t.expect(loopbackServerLogger.contains(
     record => record.response.statusCode === 200 &&
       record.request.method === 'get' &&
-      record.request.url.match(/install-android-device-policy/)
+      record.request.url.match(/azt\/install-android-device-policy/)
   )).eql(true);
 });
 
