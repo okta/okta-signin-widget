@@ -1179,6 +1179,7 @@ exports[`authenticator-piv-cac-verification should render PIV/CAC view when clic
                     >
                       <div
                         class="MuiBox-root emotion-19"
+                        role="status"
                       >
                         <span
                           aria-label="Processing..."

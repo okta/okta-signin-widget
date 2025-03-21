@@ -39,7 +39,7 @@ describe('authenticator-piv-cac-verification', () => {
 
   it('should render PIV/CAC view when clicking PIV button', async () => {
     const {
-      container, user, findByRole,
+      container, user, findByRole, findByLabelText,
     } = await setup({ mockResponse });
 
     const pivButton = await findByRole('button', { name: 'Sign in with PIV / CAC card' });
@@ -48,6 +48,8 @@ describe('authenticator-piv-cac-verification', () => {
 
     const heading = await findByRole('heading', { level: 2 });
     expect(heading.textContent).toBe('PIV / CAC card');
+    // Wait for Spinner to appear
+    await findByLabelText('Processing...');
     expect(container).toMatchSnapshot();
   });
 });

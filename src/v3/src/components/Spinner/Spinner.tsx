@@ -13,6 +13,7 @@
 import { Box } from '@mui/material';
 import { CircularProgress } from '@okta/odyssey-react-mui';
 import { FunctionComponent, h } from 'preact';
+import { useEffect, useState } from 'preact/hooks';
 
 import { SpinnerElement } from '../../types';
 import { loc } from '../../util';
@@ -24,19 +25,34 @@ const Spinner: FunctionComponent<SpinnerProps | SpinnerElement> = (
   const { dataSe = undefined } = 'type' in props
     ? {}
     : props as SpinnerProps;
+
+  const [showProgress, setShowProgress] = useState<boolean>(false);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setShowProgress(true);
+    }, 10);
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, []);
+
   return (
     <Box
       display="flex"
       flexDirection="column"
       justifyContent="center"
       alignItems="center"
+      role="status"
     >
-      <CircularProgress
-        testId={dataSe}
-        // Using loc here because this component is not only used by transformers
-        // but also directly in widget component
-        ariaLabel={loc('processing.alt.text', 'login')}
-      />
+      {showProgress && (
+        <CircularProgress
+          testId={dataSe}
+          // Using loc here because this component is not only used by transformers
+          // but also directly in widget component
+          ariaLabel={loc('processing.alt.text', 'login')}
+        />
+      )}
     </Box>
   );
 };
