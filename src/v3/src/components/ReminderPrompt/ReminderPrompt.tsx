@@ -18,7 +18,7 @@ import { useEffect, useRef, useState } from 'preact/hooks';
 
 import { useWidgetContext } from '../../contexts';
 import { useOnSubmit } from '../../hooks';
-import { ReminderElement, UISchemaElementComponent, ClickHandler } from '../../types';
+import { ClickHandler, ReminderElement, UISchemaElementComponent } from '../../types';
 import { getLinkReplacerFn, parseHtmlContent, SessionStorage } from '../../util';
 import TextWithActionLink from '../TextWithActionLink';
 

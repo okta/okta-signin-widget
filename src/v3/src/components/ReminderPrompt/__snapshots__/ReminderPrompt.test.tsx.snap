@@ -45,7 +45,7 @@ exports[`ReminderPrompt should show prompt with working link after default timeo
           </div>
           <a
             class="MuiTypography-root MuiTypography-monochrome MuiLink-root MuiLink-underlineAlways emotion-8"
-            href="javascript:void(0);"
+            href="#"
           >
             Send again?
           </a>
