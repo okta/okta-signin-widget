@@ -366,7 +366,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                               </div>
                               <a
                                 class="MuiTypography-root MuiTypography-monochrome MuiLink-root MuiLink-underlineAlways emotion-27"
-                                href="javascript:void(0);"
+                                href="#"
                               >
                                 Send again
                               </a>
@@ -1195,7 +1195,7 @@ exports[`Email authenticator verification when email magic link = undefined rend
                               </div>
                               <a
                                 class="MuiTypography-root MuiTypography-monochrome MuiLink-root MuiLink-underlineAlways emotion-34"
-                                href="javascript:void(0);"
+                                href="#"
                               >
                                 Send again
                               </a>

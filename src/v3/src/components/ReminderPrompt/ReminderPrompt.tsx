@@ -18,7 +18,7 @@ import { useEffect, useRef, useState } from 'preact/hooks';
 
 import { useWidgetContext } from '../../contexts';
 import { useOnSubmit } from '../../hooks';
-import { ReminderElement, UISchemaElementComponent } from '../../types';
+import { ClickHandler, ReminderElement, UISchemaElementComponent } from '../../types';
 import { getLinkReplacerFn, parseHtmlContent, SessionStorage } from '../../util';
 import TextWithActionLink from '../TextWithActionLink';
 
@@ -79,7 +79,8 @@ const ReminderPrompt: UISchemaElementComponent<{
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const resendHandler = async () => {
+  const resendHandler: ClickHandler<HTMLAnchorElement> = async (e) => {
+    e.preventDefault();
     if (loading) {
       return;
     }
@@ -96,10 +97,9 @@ const ReminderPrompt: UISchemaElementComponent<{
     return (
       // eslint-disable-next-line jsx-a11y/anchor-is-valid
       <Link
-        // eslint-disable-next-line no-script-url
-        href="javascript:void(0);"
+        href="#"
         variant="monochrome"
-        onClick={() => resendHandler()}
+        onClick={resendHandler}
       >
         {buttonText}
       </Link>
