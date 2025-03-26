@@ -245,6 +245,10 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
       const transactionHasWarning = (newTransaction.messages || []).some(
         (message) => message.class === MessageType.WARNING.toString(),
       );
+
+      // A client transaction is an interaction where we hit the server and the server gives a failure response (hence !newTransaction.requestDidSucceed),
+      // but the response is remediable and requires the SIW to render a client-side message
+      // E.g: User attempts to create a new profile w/ existing email and server responds w/ failure but SIW must display: "A user with this Email already exists"
       const isClientTransaction = (!newTransaction.requestDidSucceed
           // do not preserve field data on token change errors
           && !containsMessageKey(ON_PREM_TOKEN_CHANGE_ERROR_KEY, newTransaction.messages)

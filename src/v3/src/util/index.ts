@@ -27,6 +27,7 @@ export * from './generateRandomString';
 export * from './getAuthenticatorKey';
 export * from './getCurrentAuthenticator';
 export * from './getElementKey';
+export * from './getEventContext';
 export * from './getImmutableData';
 export * from './getLanguageDirection';
 export * from './getPasswordExpiryContentTitleAndParams';
