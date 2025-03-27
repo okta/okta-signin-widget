@@ -31,9 +31,10 @@ const ResendView = BaseResendView.extend(
       this.showCalloutAfterTimeout();
     },
 
-    handleResendLink() {
+    handleResendLink(ev) {
       this.options.appState.trigger('invokeAction', this.options.resendEmailAction);
       this.hideResendViewAndShowAfterTimeout();
+      ev?.preventDefault();
     },
 
     handleError() {
