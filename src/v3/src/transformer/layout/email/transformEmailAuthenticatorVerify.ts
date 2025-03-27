@@ -111,8 +111,8 @@ export const transformEmailAuthenticatorVerify: IdxStepTransformer = ({ transact
   };
 
   const codeEntryDisplayElements: UISchemaElement[] = [
-    ...(reminderElement ? [reminderElement] : []),
     titleElement,
+    ...(reminderElement ? [reminderElement] : []),
     informationalText,
     passcodeElement!,
     submitButtonElement,
@@ -140,8 +140,8 @@ export const transformEmailAuthenticatorVerify: IdxStepTransformer = ({ transact
       {
         type: UISchemaLayoutType.VERTICAL,
         elements: [
-          ...(reminderElement ? [reminderElement] : []),
           titleElement,
+          ...(reminderElement ? [reminderElement] : []),
           informationalText,
           showCodeStepperButton,
         ].map((ele: UISchemaElement) => ({ ...ele, viewIndex: 0 })),
