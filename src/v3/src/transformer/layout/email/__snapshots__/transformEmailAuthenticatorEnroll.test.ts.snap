@@ -16,6 +16,12 @@ Object {
     "elements": Array [
       Object {
         "options": Object {
+          "content": "oie.email.mfa.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
           "actionParams": Object {
             "resend": true,
           },
@@ -25,12 +31,6 @@ Object {
           "step": "resend",
         },
         "type": "Reminder",
-      },
-      Object {
-        "options": Object {
-          "content": "oie.email.mfa.title",
-        },
-        "type": "Title",
       },
       Object {
         "options": Object {
@@ -126,6 +126,12 @@ Object {
     "elements": Array [
       Object {
         "options": Object {
+          "content": "oie.email.mfa.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
           "actionParams": Object {
             "resend": true,
           },
@@ -135,12 +141,6 @@ Object {
           "step": "resend",
         },
         "type": "Reminder",
-      },
-      Object {
-        "options": Object {
-          "content": "oie.email.mfa.title",
-        },
-        "type": "Title",
       },
       Object {
         "options": Object {
@@ -191,6 +191,12 @@ Object {
             "elements": Array [
               Object {
                 "options": Object {
+                  "content": "oie.email.mfa.title",
+                },
+                "type": "Title",
+              },
+              Object {
+                "options": Object {
                   "actionParams": Object {
                     "resend": true,
                   },
@@ -200,12 +206,6 @@ Object {
                   "step": "resend",
                 },
                 "type": "Reminder",
-              },
-              Object {
-                "options": Object {
-                  "content": "oie.email.mfa.title",
-                },
-                "type": "Title",
               },
               Object {
                 "options": Object {
@@ -229,6 +229,12 @@ Object {
             "elements": Array [
               Object {
                 "options": Object {
+                  "content": "oie.email.mfa.title",
+                },
+                "type": "Title",
+              },
+              Object {
+                "options": Object {
                   "actionParams": Object {
                     "resend": true,
                   },
@@ -238,12 +244,6 @@ Object {
                   "step": "resend",
                 },
                 "type": "Reminder",
-              },
-              Object {
-                "options": Object {
-                  "content": "oie.email.mfa.title",
-                },
-                "type": "Title",
               },
               Object {
                 "options": Object {
@@ -385,6 +385,12 @@ Object {
             "elements": Array [
               Object {
                 "options": Object {
+                  "content": "oie.email.mfa.title",
+                },
+                "type": "Title",
+              },
+              Object {
+                "options": Object {
                   "actionParams": Object {
                     "resend": true,
                   },
@@ -394,12 +400,6 @@ Object {
                   "step": "resend",
                 },
                 "type": "Reminder",
-              },
-              Object {
-                "options": Object {
-                  "content": "oie.email.mfa.title",
-                },
-                "type": "Title",
               },
               Object {
                 "options": Object {
@@ -423,6 +423,12 @@ Object {
             "elements": Array [
               Object {
                 "options": Object {
+                  "content": "oie.email.mfa.title",
+                },
+                "type": "Title",
+              },
+              Object {
+                "options": Object {
                   "actionParams": Object {
                     "resend": true,
                   },
@@ -432,12 +438,6 @@ Object {
                   "step": "resend",
                 },
                 "type": "Reminder",
-              },
-              Object {
-                "options": Object {
-                  "content": "oie.email.mfa.title",
-                },
-                "type": "Title",
               },
               Object {
                 "options": Object {
@@ -490,6 +490,12 @@ Object {
     "elements": Array [
       Object {
         "options": Object {
+          "content": "oie.email.mfa.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
           "actionParams": Object {
             "resend": true,
           },
@@ -499,12 +505,6 @@ Object {
           "step": "resend",
         },
         "type": "Reminder",
-      },
-      Object {
-        "options": Object {
-          "content": "oie.email.mfa.title",
-        },
-        "type": "Title",
       },
       Object {
         "options": Object {
@@ -600,6 +600,12 @@ Object {
     "elements": Array [
       Object {
         "options": Object {
+          "content": "oie.email.mfa.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
           "actionParams": Object {
             "resend": true,
           },
@@ -609,12 +615,6 @@ Object {
           "step": "resend",
         },
         "type": "Reminder",
-      },
-      Object {
-        "options": Object {
-          "content": "oie.email.mfa.title",
-        },
-        "type": "Title",
       },
       Object {
         "options": Object {
