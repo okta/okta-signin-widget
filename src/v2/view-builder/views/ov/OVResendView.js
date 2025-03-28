@@ -19,7 +19,8 @@ export default BaseResendView.extend({
     }));
   },
 
-  handelResendLink() {
+  handelResendLink(ev) {
+    ev?.preventDefault();
     this.options.appState.trigger('invokeAction', 'currentAuthenticator-resend');
     //hide warning, but reinitiate to show warning again after some threshold of polling
     this.$el.addClass('hide');
