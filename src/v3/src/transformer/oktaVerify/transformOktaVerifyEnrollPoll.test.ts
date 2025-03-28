@@ -71,18 +71,18 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
     const [layoutOne, layoutTwo, layoutThree] = (stepperLayout as StepperLayout).elements;
 
     expect(layoutOne.elements.length).toBe(5);
-    expect((layoutOne.elements[0] as ReminderElement).options.content)
-      .toBe('oie.enroll.okta_verify.sms.notReceived');
-    expect((layoutOne.elements[0] as ReminderElement).options.contentClassname)
-      .toBe('resend-link');
-    expect((layoutOne.elements[0] as ReminderElement).options.contentHasHtml)
-      .toBe(true);
-    expect((layoutOne.elements[0] as ReminderElement).options.isActionStep)
-      .toBe(true);
-    expect((layoutOne.elements[0] as ReminderElement).options.step)
-      .toBe('resend');
-    expect((layoutOne.elements[1] as TitleElement).options.content)
+    expect((layoutOne.elements[0] as TitleElement).options.content)
       .toBe('oie.enroll.okta_verify.setup.sms.title');
+    expect((layoutOne.elements[1] as ReminderElement).options.content)
+      .toBe('oie.enroll.okta_verify.sms.notReceived');
+    expect((layoutOne.elements[1] as ReminderElement).options.contentClassname)
+      .toBe('resend-link');
+    expect((layoutOne.elements[1] as ReminderElement).options.contentHasHtml)
+      .toBe(true);
+    expect((layoutOne.elements[1] as ReminderElement).options.isActionStep)
+      .toBe(true);
+    expect((layoutOne.elements[1] as ReminderElement).options.step)
+      .toBe('resend');
     expect(layoutOne.elements[2].type)
       .toBe('List');
     expect((layoutOne.elements[2] as ListElement).options.type)
@@ -106,18 +106,18 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
       .toBe('select-enrollment-channel');
 
     expect(layoutTwo.elements.length).toBe(4);
-    expect((layoutTwo.elements[0] as ReminderElement).options.content)
-      .toBe('oie.enroll.okta_verify.sms.notReceived');
-    expect((layoutTwo.elements[0] as ReminderElement).options.contentClassname)
-      .toBe('resend-link');
-    expect((layoutTwo.elements[0] as ReminderElement).options.contentHasHtml)
-      .toBe(true);
-    expect((layoutTwo.elements[0] as ReminderElement).options.isActionStep)
-      .toBe(true);
-    expect((layoutTwo.elements[0] as ReminderElement).options.step)
-      .toBe('resend');
-    expect((layoutTwo.elements[1] as TitleElement).options.content)
+    expect((layoutTwo.elements[0] as TitleElement).options.content)
       .toBe('oie.enroll.okta_verify.setup.sms.title');
+    expect((layoutTwo.elements[1] as ReminderElement).options.content)
+      .toBe('oie.enroll.okta_verify.sms.notReceived');
+    expect((layoutTwo.elements[1] as ReminderElement).options.contentClassname)
+      .toBe('resend-link');
+    expect((layoutTwo.elements[1] as ReminderElement).options.contentHasHtml)
+      .toBe(true);
+    expect((layoutTwo.elements[1] as ReminderElement).options.isActionStep)
+      .toBe(true);
+    expect((layoutTwo.elements[1] as ReminderElement).options.step)
+      .toBe('resend');
     expect((layoutTwo.elements[2] as DescriptionElement).options.content)
       .toBe('oie.enroll.okta_verify.email.info.updated');
     expect(layoutTwo.elements[3].type).toBe('TextWithActionLink');
@@ -131,18 +131,18 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
       .toBe('select-enrollment-channel');
 
     expect(layoutThree.elements.length).toBe(4);
-    expect((layoutThree.elements[0] as ReminderElement).options.content)
-      .toBe('oie.enroll.okta_verify.sms.notReceived');
-    expect((layoutThree.elements[0] as ReminderElement).options.contentClassname)
-      .toBe('resend-link');
-    expect((layoutThree.elements[0] as ReminderElement).options.contentHasHtml)
-      .toBe(true);
-    expect((layoutThree.elements[0] as ReminderElement).options.isActionStep)
-      .toBe(true);
-    expect((layoutThree.elements[0] as ReminderElement).options.step)
-      .toBe('resend');
-    expect((layoutThree.elements[1] as TitleElement).options.content)
+    expect((layoutThree.elements[0] as TitleElement).options.content)
       .toBe('oie.enroll.okta_verify.setup.sms.title');
+    expect((layoutThree.elements[1] as ReminderElement).options.content)
+      .toBe('oie.enroll.okta_verify.sms.notReceived');
+    expect((layoutThree.elements[1] as ReminderElement).options.contentClassname)
+      .toBe('resend-link');
+    expect((layoutThree.elements[1] as ReminderElement).options.contentHasHtml)
+      .toBe(true);
+    expect((layoutThree.elements[1] as ReminderElement).options.isActionStep)
+      .toBe(true);
+    expect((layoutThree.elements[1] as ReminderElement).options.step)
+      .toBe('resend');
     expect((layoutThree.elements[2] as DescriptionElement).options.content)
       .toBe('oie.enroll.okta_verify.sms.info.updated');
     expect(layoutThree.elements[3].type).toBe('TextWithActionLink');
@@ -182,18 +182,18 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
     const [layoutOne, layoutTwo, layoutThree] = (stepperLayout as StepperLayout).elements;
 
     expect(layoutOne.elements.length).toBe(5);
-    expect((layoutOne.elements[0] as ReminderElement).options.content)
-      .toBe('oie.enroll.okta_verify.email.notReceived');
-    expect((layoutOne.elements[0] as ReminderElement).options.contentClassname)
-      .toBe('resend-link');
-    expect((layoutOne.elements[0] as ReminderElement).options.contentHasHtml)
-      .toBe(true);
-    expect((layoutOne.elements[0] as ReminderElement).options.isActionStep)
-      .toBe(true);
-    expect((layoutOne.elements[0] as ReminderElement).options.step)
-      .toBe('resend');
-    expect((layoutOne.elements[1] as TitleElement).options.content)
+    expect((layoutOne.elements[0] as TitleElement).options.content)
       .toBe('oie.enroll.okta_verify.setup.email.title');
+    expect((layoutOne.elements[1] as ReminderElement).options.content)
+      .toBe('oie.enroll.okta_verify.email.notReceived');
+    expect((layoutOne.elements[1] as ReminderElement).options.contentClassname)
+      .toBe('resend-link');
+    expect((layoutOne.elements[1] as ReminderElement).options.contentHasHtml)
+      .toBe(true);
+    expect((layoutOne.elements[1] as ReminderElement).options.isActionStep)
+      .toBe(true);
+    expect((layoutOne.elements[1] as ReminderElement).options.step)
+      .toBe('resend');
     expect(layoutOne.elements[2].type)
       .toBe('List');
     expect((layoutOne.elements[2] as ListElement).options.type)
@@ -217,18 +217,18 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
       .toBe('select-enrollment-channel');
 
     expect(layoutTwo.elements.length).toBe(4);
-    expect((layoutTwo.elements[0] as ReminderElement).options.content)
-      .toBe('oie.enroll.okta_verify.email.notReceived');
-    expect((layoutTwo.elements[0] as ReminderElement).options.contentClassname)
-      .toBe('resend-link');
-    expect((layoutTwo.elements[0] as ReminderElement).options.contentHasHtml)
-      .toBe(true);
-    expect((layoutTwo.elements[0] as ReminderElement).options.isActionStep)
-      .toBe(true);
-    expect((layoutTwo.elements[0] as ReminderElement).options.step)
-      .toBe('resend');
-    expect((layoutTwo.elements[1] as TitleElement).options.content)
+    expect((layoutTwo.elements[0] as TitleElement).options.content)
       .toBe('oie.enroll.okta_verify.setup.email.title');
+    expect((layoutTwo.elements[1] as ReminderElement).options.content)
+      .toBe('oie.enroll.okta_verify.email.notReceived');
+    expect((layoutTwo.elements[1] as ReminderElement).options.contentClassname)
+      .toBe('resend-link');
+    expect((layoutTwo.elements[1] as ReminderElement).options.contentHasHtml)
+      .toBe(true);
+    expect((layoutTwo.elements[1] as ReminderElement).options.isActionStep)
+      .toBe(true);
+    expect((layoutTwo.elements[1] as ReminderElement).options.step)
+      .toBe('resend');
     expect((layoutTwo.elements[2] as DescriptionElement).options.content)
       .toBe('oie.enroll.okta_verify.email.info.updated');
     expect(layoutTwo.elements[3].type).toBe('TextWithActionLink');
@@ -242,18 +242,18 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
       .toBe('select-enrollment-channel');
 
     expect(layoutThree.elements.length).toBe(4);
-    expect((layoutThree.elements[0] as ReminderElement).options.content)
-      .toBe('oie.enroll.okta_verify.email.notReceived');
-    expect((layoutThree.elements[0] as ReminderElement).options.contentClassname)
-      .toBe('resend-link');
-    expect((layoutThree.elements[0] as ReminderElement).options.contentHasHtml)
-      .toBe(true);
-    expect((layoutThree.elements[0] as ReminderElement).options.isActionStep)
-      .toBe(true);
-    expect((layoutThree.elements[0] as ReminderElement).options.step)
-      .toBe('resend');
-    expect((layoutThree.elements[1] as TitleElement).options.content)
+    expect((layoutThree.elements[0] as TitleElement).options.content)
       .toBe('oie.enroll.okta_verify.setup.email.title');
+    expect((layoutThree.elements[1] as ReminderElement).options.content)
+      .toBe('oie.enroll.okta_verify.email.notReceived');
+    expect((layoutThree.elements[1] as ReminderElement).options.contentClassname)
+      .toBe('resend-link');
+    expect((layoutThree.elements[1] as ReminderElement).options.contentHasHtml)
+      .toBe(true);
+    expect((layoutThree.elements[1] as ReminderElement).options.isActionStep)
+      .toBe(true);
+    expect((layoutThree.elements[1] as ReminderElement).options.step)
+      .toBe('resend');
     expect((layoutThree.elements[2] as DescriptionElement).options.content)
       .toBe('oie.enroll.okta_verify.sms.info.updated');
     expect(layoutThree.elements[3].type).toBe('TextWithActionLink');

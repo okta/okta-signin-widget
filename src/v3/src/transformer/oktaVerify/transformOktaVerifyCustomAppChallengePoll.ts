@@ -54,11 +54,6 @@ export const transformOktaVerifyCustomAppChallengePoll: IdxStepTransformer = (op
     const correctAnswer = relatesTo?.value?.contextualData?.correctAnswer;
 
     if (correctAnswer) {
-      uischema.elements.unshift({
-        type: 'Title',
-        options: { content: loc('oie.okta_verify.push.sent', 'login') },
-      } as TitleElement);
-
       const resendStep = availableSteps?.find(({ name }) => name?.endsWith('resend'));
       if (resendStep) {
         const { name } = resendStep;
@@ -80,6 +75,11 @@ export const transformOktaVerifyCustomAppChallengePoll: IdxStepTransformer = (op
           },
         } as ReminderElement);
       }
+
+      uischema.elements.unshift({
+        type: 'Title',
+        options: { content: loc('oie.okta_verify.push.sent', 'login') },
+      } as TitleElement);
 
       const phoneIconImage: ImageWithTextElement = {
         type: 'ImageWithText',
@@ -111,6 +111,12 @@ export const transformOktaVerifyCustomAppChallengePoll: IdxStepTransformer = (op
     } else {
       const isOV = getAuthenticatorKey(transaction) === AUTHENTICATOR_KEY.OV;
       uischema.elements.unshift({
+        type: 'Description',
+        options: {
+          content: loc('oie.okta_verify.push.sent.respond_to_continue', 'login'),
+        },
+      } as DescriptionElement);
+      uischema.elements.unshift({
         type: 'Reminder',
         noMargin: true,
         options: {
@@ -119,12 +125,6 @@ export const transformOktaVerifyCustomAppChallengePoll: IdxStepTransformer = (op
             : loc('oie.custom_app.push.warning', 'login', [getDisplayName(transaction)]),
         },
       } as ReminderElement);
-      uischema.elements.unshift({
-        type: 'Description',
-        options: {
-          content: loc('oie.okta_verify.push.sent.respond_to_continue', 'login'),
-        },
-      } as DescriptionElement);
       uischema.elements.unshift({
         type: 'Title',
         options: {

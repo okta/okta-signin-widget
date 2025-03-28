@@ -90,11 +90,11 @@ export const transformPhoneCodeEnrollment: IdxStepTransformer = ({ transaction, 
   // 1. Title 2. Description ... Button is last element
   uischema.elements.unshift(carrierChargeDisclaimerText);
   uischema.elements.unshift(informationalTextElement);
-  uischema.elements.unshift(titleElement);
-  uischema.elements.push(submitButton);
   if (reminderElement) {
     uischema.elements.unshift(reminderElement);
   }
+  uischema.elements.unshift(titleElement);
+  uischema.elements.push(submitButton);
 
   return formBag;
 };

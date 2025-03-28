@@ -116,21 +116,36 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                     </div>
                   </div>
                   <div
+                    class="MuiBox-root emotion-11"
+                  >
+                    <div
+                      class="MuiBox-root emotion-18"
+                    >
+                      <h2
+                        class="MuiTypography-root MuiTypography-h4 emotion-19"
+                        data-se="o-form-head"
+                        tabindex="-1"
+                      >
+                        Push notification sent
+                      </h2>
+                    </div>
+                  </div>
+                  <div
                     class="MuiBox-root emotion-1"
                   >
                     <div
                       class="MuiBox-root emotion-11"
                     >
                       <div
-                        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-calloutWarning MuiAlert-callout emotion-19"
+                        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-calloutWarning MuiAlert-callout emotion-22"
                         role="alert"
                       >
                         <div
-                          class="MuiAlert-icon emotion-20"
+                          class="MuiAlert-icon emotion-23"
                         >
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-21"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-24"
                             fill="none"
                             focusable="false"
                             viewBox="0 0 24 24"
@@ -145,10 +160,10 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                           </svg>
                         </div>
                         <div
-                          class="MuiAlert-message emotion-22"
+                          class="MuiAlert-message emotion-25"
                         >
                           <span
-                            class="MuiBox-root emotion-23"
+                            class="MuiBox-root emotion-26"
                             translate="no"
                           >
                             warning
@@ -161,7 +176,7 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                             >
                               Haven't received a push notification yet? Try opening the Okta Verify app on your device, or 
                               <a
-                                class="MuiTypography-root MuiTypography-monochrome MuiLink-root MuiLink-underlineAlways resend-number-challenge emotion-26"
+                                class="MuiTypography-root MuiTypography-monochrome MuiLink-root MuiLink-underlineAlways resend-number-challenge emotion-29"
                                 href="#"
                               >
                                 resend the push notification
@@ -171,21 +186,6 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root emotion-11"
-                  >
-                    <div
-                      class="MuiBox-root emotion-28"
-                    >
-                      <h2
-                        class="MuiTypography-root MuiTypography-h4 emotion-29"
-                        data-se="o-form-head"
-                        tabindex="-1"
-                      >
-                        Push notification sent
-                      </h2>
                     </div>
                   </div>
                   <div
@@ -234,7 +234,7 @@ exports[`authenticator-verification-okta-verify-push-code Polling should display
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="MuiBox-root emotion-28"
+                      class="MuiBox-root emotion-18"
                     >
                       <p
                         class="MuiTypography-root MuiTypography-body1 emotion-37"
@@ -455,16 +455,13 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root emotion-1"
-                  />
-                  <div
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="MuiBox-root emotion-19"
+                      class="MuiBox-root emotion-18"
                     >
                       <h2
-                        class="MuiTypography-root MuiTypography-h4 emotion-20"
+                        class="MuiTypography-root MuiTypography-h4 emotion-19"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
@@ -472,6 +469,9 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                       </h2>
                     </div>
                   </div>
+                  <div
+                    class="MuiBox-root emotion-1"
+                  />
                   <div
                     class="MuiBox-root emotion-11"
                   >
@@ -518,7 +518,7 @@ exports[`authenticator-verification-okta-verify-push-code should render form 1`]
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="MuiBox-root emotion-19"
+                      class="MuiBox-root emotion-18"
                     >
                       <p
                         class="MuiTypography-root MuiTypography-body1 emotion-28"

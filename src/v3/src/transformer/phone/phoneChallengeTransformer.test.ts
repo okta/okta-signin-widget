@@ -55,10 +55,10 @@ describe('PhoneChallengeTransformer Tests', () => {
 
     expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(5);
-    expect((updatedFormBag.uischema.elements[0] as ReminderElement).options.content)
-      .toBe('oie.phone.verify.sms.resendText');
-    expect((updatedFormBag.uischema.elements[1] as TitleElement).options.content)
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
       .toBe('oie.phone.verify.title');
+    expect((updatedFormBag.uischema.elements[1] as ReminderElement).options.content)
+      .toBe('oie.phone.verify.sms.resendText');
     const subtitleKey = 'oie.phone.verify.sms.codeSentText.with.phone.without.nickname';
     expect(updatedFormBag.uischema.elements[2].type).toBe('Description');
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)

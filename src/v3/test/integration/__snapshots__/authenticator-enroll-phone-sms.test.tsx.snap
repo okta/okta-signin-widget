@@ -762,15 +762,12 @@ exports[`authenticator-enroll-phone-sms should render form 1`] = `
                   </div>
                   <div
                     class="MuiBox-root emotion-11"
-                  />
-                  <div
-                    class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="MuiBox-root emotion-19"
+                      class="MuiBox-root emotion-18"
                     >
                       <h2
-                        class="MuiTypography-root MuiTypography-h4 emotion-20"
+                        class="MuiTypography-root MuiTypography-h4 emotion-19"
                         data-se="o-form-head"
                         tabindex="-1"
                       >
@@ -780,9 +777,12 @@ exports[`authenticator-enroll-phone-sms should render form 1`] = `
                   </div>
                   <div
                     class="MuiBox-root emotion-11"
+                  />
+                  <div
+                    class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="MuiBox-root emotion-19"
+                      class="MuiBox-root emotion-18"
                     >
                       <p
                         class="MuiTypography-root MuiTypography-body1 emotion-23"
@@ -797,7 +797,7 @@ exports[`authenticator-enroll-phone-sms should render form 1`] = `
                     class="MuiBox-root emotion-11"
                   >
                     <div
-                      class="MuiBox-root emotion-19"
+                      class="MuiBox-root emotion-18"
                     >
                       <p
                         class="MuiTypography-root MuiTypography-body1 emotion-23"

@@ -23,17 +23,17 @@ Object {
         "type": "Title",
       },
       Object {
-        "options": Object {
-          "content": "oie.okta_verify.push.sent.respond_to_continue",
-        },
-        "type": "Description",
-      },
-      Object {
         "noMargin": true,
         "options": Object {
           "content": "oie.custom_app.push.warning",
         },
         "type": "Reminder",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.okta_verify.push.sent.respond_to_continue",
+        },
+        "type": "Description",
       },
       Object {
         "contentType": "footer",
@@ -73,17 +73,17 @@ Object {
         "type": "Title",
       },
       Object {
-        "options": Object {
-          "content": "oie.okta_verify.push.sent.respond_to_continue",
-        },
-        "type": "Description",
-      },
-      Object {
         "noMargin": true,
         "options": Object {
           "content": "oie.custom_app.push.warning",
         },
         "type": "Reminder",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.okta_verify.push.sent.respond_to_continue",
+        },
+        "type": "Description",
       },
       Object {
         "contentType": "footer",
@@ -132,17 +132,17 @@ Object {
         "type": "Title",
       },
       Object {
-        "options": Object {
-          "content": "oie.okta_verify.push.sent.respond_to_continue",
-        },
-        "type": "Description",
-      },
-      Object {
         "noMargin": true,
         "options": Object {
           "content": "oie.custom_app.push.warning",
         },
         "type": "Reminder",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.okta_verify.push.sent.respond_to_continue",
+        },
+        "type": "Description",
       },
       Object {
         "contentType": "footer",
@@ -231,6 +231,12 @@ Object {
   "uischema": Object {
     "elements": Array [
       Object {
+        "options": Object {
+          "content": "oie.okta_verify.push.sent",
+        },
+        "type": "Title",
+      },
+      Object {
         "noMargin": true,
         "options": Object {
           "actionParams": Object {
@@ -243,12 +249,6 @@ Object {
           "step": "resend",
         },
         "type": "Reminder",
-      },
-      Object {
-        "options": Object {
-          "content": "oie.okta_verify.push.sent",
-        },
-        "type": "Title",
       },
       Object {
         "contentType": "subtitle",
@@ -300,6 +300,12 @@ Object {
   "uischema": Object {
     "elements": Array [
       Object {
+        "options": Object {
+          "content": "oie.okta_verify.push.sent",
+        },
+        "type": "Title",
+      },
+      Object {
         "noMargin": true,
         "options": Object {
           "actionParams": Object {
@@ -312,12 +318,6 @@ Object {
           "step": "resend",
         },
         "type": "Reminder",
-      },
-      Object {
-        "options": Object {
-          "content": "oie.okta_verify.push.sent",
-        },
-        "type": "Title",
       },
       Object {
         "contentType": "subtitle",
@@ -384,17 +384,17 @@ Object {
         "type": "Title",
       },
       Object {
-        "options": Object {
-          "content": "oie.okta_verify.push.sent.respond_to_continue",
-        },
-        "type": "Description",
-      },
-      Object {
         "noMargin": true,
         "options": Object {
           "content": "oktaverify.warning",
         },
         "type": "Reminder",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.okta_verify.push.sent.respond_to_continue",
+        },
+        "type": "Description",
       },
       Object {
         "contentType": "footer",
@@ -434,17 +434,17 @@ Object {
         "type": "Title",
       },
       Object {
-        "options": Object {
-          "content": "oie.okta_verify.push.sent.respond_to_continue",
-        },
-        "type": "Description",
-      },
-      Object {
         "noMargin": true,
         "options": Object {
           "content": "oktaverify.warning",
         },
         "type": "Reminder",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.okta_verify.push.sent.respond_to_continue",
+        },
+        "type": "Description",
       },
       Object {
         "contentType": "footer",

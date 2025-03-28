@@ -85,10 +85,10 @@ export const transformPhoneChallenge: IdxStepTransformer = ({ transaction, formB
       ),
     );
   }
-  uischema.elements.unshift(titleElement);
   if (reminderElement) {
     uischema.elements.unshift(reminderElement);
   }
+  uischema.elements.unshift(titleElement);
 
   return formBag;
 };

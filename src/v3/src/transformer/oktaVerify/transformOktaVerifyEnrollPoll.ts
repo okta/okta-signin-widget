@@ -451,8 +451,8 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
       {
         type: UISchemaLayoutType.VERTICAL,
         elements: [
-          ...(reminder ? [reminder] : []),
           title,
+          ...(reminder ? [reminder] : []),
           {
             type: 'List',
             noMargin: true,
@@ -469,8 +469,8 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
       {
         type: UISchemaLayoutType.VERTICAL,
         elements: [
-          ...(reminder ? [reminder] : []),
           title,
+          ...(reminder ? [reminder] : []),
           {
             type: 'Description',
             contentType: 'subtitle',
@@ -485,8 +485,8 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
       {
         type: UISchemaLayoutType.VERTICAL,
         elements: [
-          ...(reminder ? [reminder] : []),
           title,
+          ...(reminder ? [reminder] : []),
           {
             type: 'Description',
             contentType: 'subtitle',
@@ -501,8 +501,8 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
       {
         type: UISchemaLayoutType.VERTICAL,
         elements: [
-          ...(reminder ? [reminder] : []),
           title,
+          ...(reminder ? [reminder] : []),
           {
             type: 'Description',
             contentType: 'subtitle',
@@ -527,8 +527,8 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
       {
         type: UISchemaLayoutType.VERTICAL,
         elements: [
-          ...(reminder ? [reminder] : []),
           title,
+          ...(reminder ? [reminder] : []),
           {
             type: 'Description',
             contentType: 'subtitle',

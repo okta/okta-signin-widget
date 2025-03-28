@@ -89,10 +89,10 @@ describe('Transform Okta Verify Challenge Poll Tests', () => {
     expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
       .toBe('oie.okta_verify.push.sent');
-    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
-      .toBe('oie.okta_verify.push.sent.respond_to_continue');
-    expect((updatedFormBag.uischema.elements[2] as ReminderElement).options.content)
+    expect((updatedFormBag.uischema.elements[1] as ReminderElement).options.content)
       .toBe('oktaverify.warning');
+    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
+      .toBe('oie.okta_verify.push.sent.respond_to_continue');
     expect((updatedFormBag.uischema.elements[3] as LinkElement).options.label)
       .toBe('goback');
   });
@@ -116,10 +116,10 @@ describe('Transform Okta Verify Challenge Poll Tests', () => {
     expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
       .toBe('oie.custom_app.push.sent');
-    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
-      .toBe('oie.okta_verify.push.sent.respond_to_continue');
-    expect((updatedFormBag.uischema.elements[2] as ReminderElement).options.content)
+    expect((updatedFormBag.uischema.elements[1] as ReminderElement).options.content)
       .toBe('oie.custom_app.push.warning');
+    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
+      .toBe('oie.okta_verify.push.sent.respond_to_continue');
     expect((updatedFormBag.uischema.elements[3] as LinkElement).options.label)
       .toBe('goback');
   });
@@ -136,10 +136,10 @@ describe('Transform Okta Verify Challenge Poll Tests', () => {
     expect(updatedFormBag.uischema.elements.length).toBe(5);
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
       .toBe('oie.okta_verify.push.sent');
-    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
-      .toBe('oie.okta_verify.push.sent.respond_to_continue');
-    expect((updatedFormBag.uischema.elements[2] as ReminderElement).options.content)
+    expect((updatedFormBag.uischema.elements[1] as ReminderElement).options.content)
       .toBe('oktaverify.warning');
+    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
+      .toBe('oie.okta_verify.push.sent.respond_to_continue');
     expect((updatedFormBag.uischema.elements[3] as LinkElement).options.label)
       .toBe('oie.verification.switch.authenticator');
     expect((updatedFormBag.uischema.elements[4] as LinkElement).options.label)
@@ -171,14 +171,14 @@ describe('Transform Okta Verify Challenge Poll Tests', () => {
     });
     expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(5);
-    expect((updatedFormBag.uischema.elements[0] as ReminderElement).options.content)
-      .toBe('oie.numberchallenge.warning');
-    expect((updatedFormBag.uischema.elements[0] as ReminderElement).options.isActionStep)
-      .toBe(true);
-    expect((updatedFormBag.uischema.elements[0] as ReminderElement).options.step)
-      .toBe('resend');
-    expect((updatedFormBag.uischema.elements[1] as TitleElement).options.content)
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
       .toBe('oie.okta_verify.push.sent');
+    expect((updatedFormBag.uischema.elements[1] as ReminderElement).options.content)
+      .toBe('oie.numberchallenge.warning');
+    expect((updatedFormBag.uischema.elements[1] as ReminderElement).options.isActionStep)
+      .toBe(true);
+    expect((updatedFormBag.uischema.elements[1] as ReminderElement).options.step)
+      .toBe('resend');
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
       .toBe('oie.numberchallenge.instruction');
     expect((updatedFormBag.uischema.elements[3] as ImageWithTextElement).type)
@@ -216,14 +216,14 @@ describe('Transform Okta Verify Challenge Poll Tests', () => {
 
     expect(updatedFormBag).toMatchSnapshot();
     expect(updatedFormBag.uischema.elements.length).toBe(6);
-    expect((updatedFormBag.uischema.elements[0] as ReminderElement).options.content)
-      .toBe('oie.numberchallenge.warning');
-    expect((updatedFormBag.uischema.elements[0] as ReminderElement).options.isActionStep)
-      .toBe(true);
-    expect((updatedFormBag.uischema.elements[0] as ReminderElement).options.step)
-      .toBe('resend');
-    expect((updatedFormBag.uischema.elements[1] as TitleElement).options.content)
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
       .toBe('oie.okta_verify.push.sent');
+    expect((updatedFormBag.uischema.elements[1] as ReminderElement).options.content)
+      .toBe('oie.numberchallenge.warning');
+    expect((updatedFormBag.uischema.elements[1] as ReminderElement).options.isActionStep)
+      .toBe(true);
+    expect((updatedFormBag.uischema.elements[1] as ReminderElement).options.step)
+      .toBe('resend');
     expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
       .toBe('oie.numberchallenge.instruction');
     expect((updatedFormBag.uischema.elements[3] as ImageWithTextElement).type)
@@ -353,10 +353,10 @@ describe('Transform Custom App Challenge Poll Tests', () => {
     expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
       .toBe('oie.custom_app.push.sent');
-    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
-      .toBe('oie.okta_verify.push.sent.respond_to_continue');
-    expect((updatedFormBag.uischema.elements[2] as ReminderElement).options.content)
+    expect((updatedFormBag.uischema.elements[1] as ReminderElement).options.content)
       .toBe('oie.custom_app.push.warning');
+    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
+      .toBe('oie.okta_verify.push.sent.respond_to_continue');
     expect((updatedFormBag.uischema.elements[3] as LinkElement).options.label)
       .toBe('goback');
   });
@@ -373,10 +373,10 @@ describe('Transform Custom App Challenge Poll Tests', () => {
     expect(updatedFormBag.uischema.elements.length).toBe(5);
     expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
       .toBe('oie.custom_app.push.sent');
-    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
-      .toBe('oie.okta_verify.push.sent.respond_to_continue');
-    expect((updatedFormBag.uischema.elements[2] as ReminderElement).options.content)
+    expect((updatedFormBag.uischema.elements[1] as ReminderElement).options.content)
       .toBe('oie.custom_app.push.warning');
+    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
+      .toBe('oie.okta_verify.push.sent.respond_to_continue');
     expect((updatedFormBag.uischema.elements[3] as LinkElement).options.label)
       .toBe('oie.verification.switch.authenticator');
     expect((updatedFormBag.uischema.elements[4] as LinkElement).options.label)

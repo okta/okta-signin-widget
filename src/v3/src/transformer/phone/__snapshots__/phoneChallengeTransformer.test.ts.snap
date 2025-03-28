@@ -163,6 +163,12 @@ Object {
     "elements": Array [
       Object {
         "options": Object {
+          "content": "oie.phone.verify.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
           "actionParams": Object {
             "resend": true,
           },
@@ -172,12 +178,6 @@ Object {
           "step": "resend",
         },
         "type": "Reminder",
-      },
-      Object {
-        "options": Object {
-          "content": "oie.phone.verify.title",
-        },
-        "type": "Title",
       },
       Object {
         "contentType": "subtitle",

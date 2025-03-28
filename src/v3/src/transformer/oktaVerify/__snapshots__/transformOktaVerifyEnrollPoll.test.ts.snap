@@ -1225,6 +1225,13 @@ Object {
             "elements": Array [
               Object {
                 "options": Object {
+                  "content": "oie.enroll.okta_verify.setup.email.title",
+                },
+                "type": "Title",
+                "viewIndex": 0,
+              },
+              Object {
+                "options": Object {
                   "actionParams": Object {
                     "resend": true,
                   },
@@ -1235,13 +1242,6 @@ Object {
                   "step": "resend",
                 },
                 "type": "Reminder",
-                "viewIndex": 0,
-              },
-              Object {
-                "options": Object {
-                  "content": "oie.enroll.okta_verify.setup.email.title",
-                },
-                "type": "Title",
                 "viewIndex": 0,
               },
               Object {
@@ -1283,6 +1283,13 @@ Object {
             "elements": Array [
               Object {
                 "options": Object {
+                  "content": "oie.enroll.okta_verify.setup.email.title",
+                },
+                "type": "Title",
+                "viewIndex": 1,
+              },
+              Object {
+                "options": Object {
                   "actionParams": Object {
                     "resend": true,
                   },
@@ -1293,13 +1300,6 @@ Object {
                   "step": "resend",
                 },
                 "type": "Reminder",
-                "viewIndex": 1,
-              },
-              Object {
-                "options": Object {
-                  "content": "oie.enroll.okta_verify.setup.email.title",
-                },
-                "type": "Title",
                 "viewIndex": 1,
               },
               Object {
@@ -1327,6 +1327,13 @@ Object {
             "elements": Array [
               Object {
                 "options": Object {
+                  "content": "oie.enroll.okta_verify.setup.email.title",
+                },
+                "type": "Title",
+                "viewIndex": 2,
+              },
+              Object {
+                "options": Object {
                   "actionParams": Object {
                     "resend": true,
                   },
@@ -1337,13 +1344,6 @@ Object {
                   "step": "resend",
                 },
                 "type": "Reminder",
-                "viewIndex": 2,
-              },
-              Object {
-                "options": Object {
-                  "content": "oie.enroll.okta_verify.setup.email.title",
-                },
-                "type": "Title",
                 "viewIndex": 2,
               },
               Object {
@@ -1371,6 +1371,13 @@ Object {
             "elements": Array [
               Object {
                 "options": Object {
+                  "content": "oie.enroll.okta_verify.setup.email.title",
+                },
+                "type": "Title",
+                "viewIndex": 3,
+              },
+              Object {
+                "options": Object {
                   "actionParams": Object {
                     "resend": true,
                   },
@@ -1381,13 +1388,6 @@ Object {
                   "step": "resend",
                 },
                 "type": "Reminder",
-                "viewIndex": 3,
-              },
-              Object {
-                "options": Object {
-                  "content": "oie.enroll.okta_verify.setup.email.title",
-                },
-                "type": "Title",
                 "viewIndex": 3,
               },
               Object {
@@ -1427,6 +1427,13 @@ Object {
             "elements": Array [
               Object {
                 "options": Object {
+                  "content": "oie.enroll.okta_verify.setup.email.title",
+                },
+                "type": "Title",
+                "viewIndex": 4,
+              },
+              Object {
+                "options": Object {
                   "actionParams": Object {
                     "resend": true,
                   },
@@ -1437,13 +1444,6 @@ Object {
                   "step": "resend",
                 },
                 "type": "Reminder",
-                "viewIndex": 4,
-              },
-              Object {
-                "options": Object {
-                  "content": "oie.enroll.okta_verify.setup.email.title",
-                },
-                "type": "Title",
                 "viewIndex": 4,
               },
               Object {
@@ -1524,6 +1524,13 @@ Object {
             "elements": Array [
               Object {
                 "options": Object {
+                  "content": "oie.enroll.okta_verify.setup.sms.title",
+                },
+                "type": "Title",
+                "viewIndex": 0,
+              },
+              Object {
+                "options": Object {
                   "actionParams": Object {
                     "resend": true,
                   },
@@ -1534,13 +1541,6 @@ Object {
                   "step": "resend",
                 },
                 "type": "Reminder",
-                "viewIndex": 0,
-              },
-              Object {
-                "options": Object {
-                  "content": "oie.enroll.okta_verify.setup.sms.title",
-                },
-                "type": "Title",
                 "viewIndex": 0,
               },
               Object {
@@ -1582,6 +1582,13 @@ Object {
             "elements": Array [
               Object {
                 "options": Object {
+                  "content": "oie.enroll.okta_verify.setup.sms.title",
+                },
+                "type": "Title",
+                "viewIndex": 1,
+              },
+              Object {
+                "options": Object {
                   "actionParams": Object {
                     "resend": true,
                   },
@@ -1592,13 +1599,6 @@ Object {
                   "step": "resend",
                 },
                 "type": "Reminder",
-                "viewIndex": 1,
-              },
-              Object {
-                "options": Object {
-                  "content": "oie.enroll.okta_verify.setup.sms.title",
-                },
-                "type": "Title",
                 "viewIndex": 1,
               },
               Object {
@@ -1626,6 +1626,13 @@ Object {
             "elements": Array [
               Object {
                 "options": Object {
+                  "content": "oie.enroll.okta_verify.setup.sms.title",
+                },
+                "type": "Title",
+                "viewIndex": 2,
+              },
+              Object {
+                "options": Object {
                   "actionParams": Object {
                     "resend": true,
                   },
@@ -1636,13 +1643,6 @@ Object {
                   "step": "resend",
                 },
                 "type": "Reminder",
-                "viewIndex": 2,
-              },
-              Object {
-                "options": Object {
-                  "content": "oie.enroll.okta_verify.setup.sms.title",
-                },
-                "type": "Title",
                 "viewIndex": 2,
               },
               Object {
@@ -1670,6 +1670,13 @@ Object {
             "elements": Array [
               Object {
                 "options": Object {
+                  "content": "oie.enroll.okta_verify.setup.sms.title",
+                },
+                "type": "Title",
+                "viewIndex": 3,
+              },
+              Object {
+                "options": Object {
                   "actionParams": Object {
                     "resend": true,
                   },
@@ -1680,13 +1687,6 @@ Object {
                   "step": "resend",
                 },
                 "type": "Reminder",
-                "viewIndex": 3,
-              },
-              Object {
-                "options": Object {
-                  "content": "oie.enroll.okta_verify.setup.sms.title",
-                },
-                "type": "Title",
                 "viewIndex": 3,
               },
               Object {
@@ -1726,6 +1726,13 @@ Object {
             "elements": Array [
               Object {
                 "options": Object {
+                  "content": "oie.enroll.okta_verify.setup.sms.title",
+                },
+                "type": "Title",
+                "viewIndex": 4,
+              },
+              Object {
+                "options": Object {
                   "actionParams": Object {
                     "resend": true,
                   },
@@ -1736,13 +1743,6 @@ Object {
                   "step": "resend",
                 },
                 "type": "Reminder",
-                "viewIndex": 4,
-              },
-              Object {
-                "options": Object {
-                  "content": "oie.enroll.okta_verify.setup.sms.title",
-                },
-                "type": "Title",
                 "viewIndex": 4,
               },
               Object {
