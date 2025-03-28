@@ -82,16 +82,16 @@ describe('Email Authenticator Verify Transformer Tests', () => {
       expect(layoutOne.type).toBe(UISchemaLayoutType.VERTICAL);
       expect(layoutOne.elements.length).toBe(4);
 
-      expect((layoutOne.elements[0] as ReminderElement).options?.content)
-        .toBe('email.code.not.received');
-      expect((layoutOne.elements[0] as ReminderElement).options?.actionParams?.resend)
-        .toBe(true);
-      expect((layoutOne.elements[0] as ReminderElement).options?.step)
-        .toBe('resend');
-      expect((layoutOne.elements[0] as ReminderElement).options?.isActionStep)
-        .toBe(true);
-      expect((layoutOne.elements[1] as DescriptionElement).options?.content)
+      expect((layoutOne.elements[0] as DescriptionElement).options?.content)
         .toBe('oie.email.mfa.title');
+      expect((layoutOne.elements[1] as ReminderElement).options?.content)
+        .toBe('email.code.not.received');
+      expect((layoutOne.elements[1] as ReminderElement).options?.actionParams?.resend)
+        .toBe(true);
+      expect((layoutOne.elements[1] as ReminderElement).options?.step)
+        .toBe('resend');
+      expect((layoutOne.elements[1] as ReminderElement).options?.isActionStep)
+        .toBe(true);
       expect(layoutOne.elements[2].type).toBe('Description');
       expect((layoutOne.elements[2] as DescriptionElement).options?.content)
         .toBe('oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions');
@@ -103,16 +103,16 @@ describe('Email Authenticator Verify Transformer Tests', () => {
 
       expect(layoutTwo.type).toBe(UISchemaLayoutType.VERTICAL);
       expect(layoutTwo.elements.length).toBe(5);
-      expect((layoutTwo.elements[0] as ReminderElement).options?.content)
-        .toBe('email.code.not.received');
-      expect((layoutTwo.elements[0] as ReminderElement).options?.actionParams?.resend)
-        .toBe(true);
-      expect((layoutTwo.elements[0] as ReminderElement).options?.step)
-        .toBe('resend');
-      expect((layoutTwo.elements[0] as ReminderElement).options?.isActionStep)
-        .toBe(true);
-      expect((layoutTwo.elements[1] as DescriptionElement).options?.content)
+      expect((layoutTwo.elements[0] as DescriptionElement).options?.content)
         .toBe('oie.email.mfa.title');
+      expect((layoutTwo.elements[1] as ReminderElement).options?.content)
+        .toBe('email.code.not.received');
+      expect((layoutTwo.elements[1] as ReminderElement).options?.actionParams?.resend)
+        .toBe(true);
+      expect((layoutTwo.elements[1] as ReminderElement).options?.step)
+        .toBe('resend');
+      expect((layoutTwo.elements[1] as ReminderElement).options?.isActionStep)
+        .toBe(true);
       expect(layoutTwo.elements[2].type).toBe('Description');
       expect((layoutTwo.elements[2] as DescriptionElement).options?.content)
         .toBe('oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions');
@@ -146,16 +146,16 @@ describe('Email Authenticator Verify Transformer Tests', () => {
       expect(layoutOne.type).toBe(UISchemaLayoutType.VERTICAL);
       expect(layoutOne.elements.length).toBe(4);
 
-      expect((layoutOne.elements[0] as ReminderElement).options?.content)
-        .toBe('email.code.not.received');
-      expect((layoutOne.elements[0] as ReminderElement).options?.actionParams?.resend)
-        .toBe(true);
-      expect((layoutOne.elements[0] as ReminderElement).options?.step)
-        .toBe('resend');
-      expect((layoutOne.elements[0] as ReminderElement).options?.isActionStep)
-        .toBe(true);
-      expect((layoutOne.elements[1] as DescriptionElement).options?.content)
+      expect((layoutOne.elements[0] as DescriptionElement).options?.content)
         .toBe('oie.email.mfa.title');
+      expect((layoutOne.elements[1] as ReminderElement).options?.content)
+        .toBe('email.code.not.received');
+      expect((layoutOne.elements[1] as ReminderElement).options?.actionParams?.resend)
+        .toBe(true);
+      expect((layoutOne.elements[1] as ReminderElement).options?.step)
+        .toBe('resend');
+      expect((layoutOne.elements[1] as ReminderElement).options?.isActionStep)
+        .toBe(true);
       expect(layoutOne.elements[2].type).toBe('Description');
       expect((layoutOne.elements[2] as DescriptionElement).options?.content)
         .toBe('oie.email.verify.alternate.magicLinkToYourEmailoie.email.verify.alternate.instructions');
@@ -167,16 +167,16 @@ describe('Email Authenticator Verify Transformer Tests', () => {
 
       expect(layoutTwo.type).toBe(UISchemaLayoutType.VERTICAL);
       expect(layoutTwo.elements.length).toBe(5);
-      expect((layoutTwo.elements[0] as ReminderElement).options?.content)
-        .toBe('email.code.not.received');
-      expect((layoutTwo.elements[0] as ReminderElement).options?.actionParams?.resend)
-        .toBe(true);
-      expect((layoutTwo.elements[0] as ReminderElement).options?.step)
-        .toBe('resend');
-      expect((layoutTwo.elements[0] as ReminderElement).options?.isActionStep)
-        .toBe(true);
-      expect((layoutTwo.elements[1] as DescriptionElement).options?.content)
+      expect((layoutTwo.elements[0] as DescriptionElement).options?.content)
         .toBe('oie.email.mfa.title');
+      expect((layoutTwo.elements[1] as ReminderElement).options?.content)
+        .toBe('email.code.not.received');
+      expect((layoutTwo.elements[1] as ReminderElement).options?.actionParams?.resend)
+        .toBe(true);
+      expect((layoutTwo.elements[1] as ReminderElement).options?.step)
+        .toBe('resend');
+      expect((layoutTwo.elements[1] as ReminderElement).options?.isActionStep)
+        .toBe(true);
       expect(layoutTwo.elements[2].type).toBe('Description');
       expect((layoutTwo.elements[2] as DescriptionElement).options?.content)
         .toBe('oie.email.verify.alternate.magicLinkToYourEmailoie.email.verify.alternate.instructions');
@@ -276,16 +276,16 @@ describe('Email Authenticator Verify Transformer Tests', () => {
 
       expect(updatedFormBag).toMatchSnapshot();
       expect(updatedFormBag.uischema.elements.length).toBe(5);
-      expect((updatedFormBag.uischema.elements[0] as ReminderElement).options?.content)
-        .toBe('email.code.not.received');
-      expect((updatedFormBag.uischema.elements[0] as ReminderElement).options?.actionParams?.resend)
-        .toBe(true);
-      expect((updatedFormBag.uischema.elements[0] as ReminderElement).options?.step)
-        .toBe('resend');
-      expect((updatedFormBag.uischema.elements[0] as ReminderElement).options?.isActionStep)
-        .toBe(true);
-      expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
+      expect((updatedFormBag.uischema.elements[0] as DescriptionElement).options?.content)
         .toBe('oie.email.mfa.title');
+      expect((updatedFormBag.uischema.elements[1] as ReminderElement).options?.content)
+        .toBe('email.code.not.received');
+      expect((updatedFormBag.uischema.elements[1] as ReminderElement).options?.actionParams?.resend)
+        .toBe(true);
+      expect((updatedFormBag.uischema.elements[1] as ReminderElement).options?.step)
+        .toBe('resend');
+      expect((updatedFormBag.uischema.elements[1] as ReminderElement).options?.isActionStep)
+        .toBe(true);
       expect(updatedFormBag.uischema.elements[2].type).toBe('Description');
       expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)
         .toBe('oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.verificationCode.instructions');
@@ -314,16 +314,16 @@ describe('Email Authenticator Verify Transformer Tests', () => {
 
       expect(updatedFormBag).toMatchSnapshot();
       expect(updatedFormBag.uischema.elements.length).toBe(5);
-      expect((updatedFormBag.uischema.elements[0] as ReminderElement).options?.content)
-        .toBe('email.code.not.received');
-      expect((updatedFormBag.uischema.elements[0] as ReminderElement).options?.actionParams?.resend)
-        .toBe(true);
-      expect((updatedFormBag.uischema.elements[0] as ReminderElement).options?.step)
-        .toBe('resend');
-      expect((updatedFormBag.uischema.elements[0] as ReminderElement).options?.isActionStep)
-        .toBe(true);
-      expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
+      expect((updatedFormBag.uischema.elements[0] as DescriptionElement).options?.content)
         .toBe('oie.email.mfa.title');
+      expect((updatedFormBag.uischema.elements[1] as ReminderElement).options?.content)
+        .toBe('email.code.not.received');
+      expect((updatedFormBag.uischema.elements[1] as ReminderElement).options?.actionParams?.resend)
+        .toBe(true);
+      expect((updatedFormBag.uischema.elements[1] as ReminderElement).options?.step)
+        .toBe('resend');
+      expect((updatedFormBag.uischema.elements[1] as ReminderElement).options?.isActionStep)
+        .toBe(true);
       expect(updatedFormBag.uischema.elements[2].type).toBe('Description');
       expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)
         .toBe('oie.email.verify.alternate.magicLinkToYourEmailoie.email.verify.alternate.verificationCode.instructions');
@@ -410,16 +410,16 @@ describe('Email Authenticator Verify Transformer Tests', () => {
       expect(layoutOne.type).toBe(UISchemaLayoutType.VERTICAL);
       expect(layoutOne.elements.length).toBe(4);
 
-      expect((layoutOne.elements[0] as ReminderElement).options?.content)
-        .toBe('email.code.not.received');
-      expect((layoutOne.elements[0] as ReminderElement).options?.actionParams?.resend)
-        .toBe(true);
-      expect((layoutOne.elements[0] as ReminderElement).options?.step)
-        .toBe('resend');
-      expect((layoutOne.elements[0] as ReminderElement).options?.isActionStep)
-        .toBe(true);
-      expect((layoutOne.elements[1] as DescriptionElement).options?.content)
+      expect((layoutOne.elements[0] as DescriptionElement).options?.content)
         .toBe('oie.email.mfa.title');
+      expect((layoutOne.elements[1] as ReminderElement).options?.content)
+        .toBe('email.code.not.received');
+      expect((layoutOne.elements[1] as ReminderElement).options?.actionParams?.resend)
+        .toBe(true);
+      expect((layoutOne.elements[1] as ReminderElement).options?.step)
+        .toBe('resend');
+      expect((layoutOne.elements[1] as ReminderElement).options?.isActionStep)
+        .toBe(true);
       expect(layoutOne.elements[2].type).toBe('Description');
       expect((layoutOne.elements[2] as DescriptionElement).options?.content)
         .toBe('oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions');
@@ -431,16 +431,16 @@ describe('Email Authenticator Verify Transformer Tests', () => {
 
       expect(layoutTwo.type).toBe(UISchemaLayoutType.VERTICAL);
       expect(layoutTwo.elements.length).toBe(5);
-      expect((layoutTwo.elements[0] as ReminderElement).options?.content)
-        .toBe('email.code.not.received');
-      expect((layoutTwo.elements[0] as ReminderElement).options?.actionParams?.resend)
-        .toBe(true);
-      expect((layoutTwo.elements[0] as ReminderElement).options?.step)
-        .toBe('resend');
-      expect((layoutTwo.elements[0] as ReminderElement).options?.isActionStep)
-        .toBe(true);
-      expect((layoutTwo.elements[1] as DescriptionElement).options?.content)
+      expect((layoutTwo.elements[0] as DescriptionElement).options?.content)
         .toBe('oie.email.mfa.title');
+      expect((layoutTwo.elements[1] as ReminderElement).options?.content)
+        .toBe('email.code.not.received');
+      expect((layoutTwo.elements[1] as ReminderElement).options?.actionParams?.resend)
+        .toBe(true);
+      expect((layoutTwo.elements[1] as ReminderElement).options?.step)
+        .toBe('resend');
+      expect((layoutTwo.elements[1] as ReminderElement).options?.isActionStep)
+        .toBe(true);
       expect(layoutTwo.elements[2].type).toBe('Description');
       expect((layoutTwo.elements[2] as DescriptionElement).options?.content)
         .toBe('oie.email.verify.alternate.magicLinkToEmailAddressoie.email.verify.alternate.instructions');
@@ -474,16 +474,16 @@ describe('Email Authenticator Verify Transformer Tests', () => {
       expect(layoutOne.type).toBe(UISchemaLayoutType.VERTICAL);
       expect(layoutOne.elements.length).toBe(4);
 
-      expect((layoutOne.elements[0] as ReminderElement).options?.content)
-        .toBe('email.code.not.received');
-      expect((layoutOne.elements[0] as ReminderElement).options?.actionParams?.resend)
-        .toBe(true);
-      expect((layoutOne.elements[0] as ReminderElement).options?.step)
-        .toBe('resend');
-      expect((layoutOne.elements[0] as ReminderElement).options?.isActionStep)
-        .toBe(true);
-      expect((layoutOne.elements[1] as DescriptionElement).options?.content)
+      expect((layoutOne.elements[0] as DescriptionElement).options?.content)
         .toBe('oie.email.mfa.title');
+      expect((layoutOne.elements[1] as ReminderElement).options?.content)
+        .toBe('email.code.not.received');
+      expect((layoutOne.elements[1] as ReminderElement).options?.actionParams?.resend)
+        .toBe(true);
+      expect((layoutOne.elements[1] as ReminderElement).options?.step)
+        .toBe('resend');
+      expect((layoutOne.elements[1] as ReminderElement).options?.isActionStep)
+        .toBe(true);
       expect(layoutOne.elements[2].type).toBe('Description');
       expect((layoutOne.elements[2] as DescriptionElement).options?.content)
         .toBe('oie.email.verify.alternate.magicLinkToYourEmailoie.email.verify.alternate.instructions');
@@ -495,16 +495,16 @@ describe('Email Authenticator Verify Transformer Tests', () => {
 
       expect(layoutTwo.type).toBe(UISchemaLayoutType.VERTICAL);
       expect(layoutTwo.elements.length).toBe(5);
-      expect((layoutTwo.elements[0] as ReminderElement).options?.content)
-        .toBe('email.code.not.received');
-      expect((layoutTwo.elements[0] as ReminderElement).options?.actionParams?.resend)
-        .toBe(true);
-      expect((layoutTwo.elements[0] as ReminderElement).options?.step)
-        .toBe('resend');
-      expect((layoutTwo.elements[0] as ReminderElement).options?.isActionStep)
-        .toBe(true);
-      expect((layoutTwo.elements[1] as DescriptionElement).options?.content)
+      expect((layoutTwo.elements[0] as DescriptionElement).options?.content)
         .toBe('oie.email.mfa.title');
+      expect((layoutTwo.elements[1] as ReminderElement).options?.content)
+        .toBe('email.code.not.received');
+      expect((layoutTwo.elements[1] as ReminderElement).options?.actionParams?.resend)
+        .toBe(true);
+      expect((layoutTwo.elements[1] as ReminderElement).options?.step)
+        .toBe('resend');
+      expect((layoutTwo.elements[1] as ReminderElement).options?.isActionStep)
+        .toBe(true);
       expect(layoutTwo.elements[2].type).toBe('Description');
       expect((layoutTwo.elements[2] as DescriptionElement).options?.content)
         .toBe('oie.email.verify.alternate.magicLinkToYourEmailoie.email.verify.alternate.instructions');
