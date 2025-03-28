@@ -39,9 +39,9 @@ const ResendView = BaseResendView.extend(
     },
 
     handleResendLink(ev) {
+      ev?.preventDefault();
       this.options.appState.trigger('invokeAction', this.resendActionKey);
       this.hideResendViewAndShowAfterTimeout();
-      ev?.preventDefault();
     },
 
     handleError() {
