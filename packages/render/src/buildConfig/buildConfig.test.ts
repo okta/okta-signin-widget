@@ -23,7 +23,6 @@ describe('buildConfig', () => {
     "elementId": "inactive-tab-main-div",
     "enabled": false,
   },
-  "isCookieCheckingKSEnabled": false,
   "isMobileClientLogin": false,
   "isMobileSSO": false,
   "isPersonalOktaOrg": false,

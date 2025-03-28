@@ -2,7 +2,7 @@ import type { Databag, JSPDatabag } from './types';
 
 import { registerListeners } from './registerListeners';
 import { buildConfig } from './buildConfig';
-import { hasFeature, isOldWebBrowserControl, areCookiesEnabled } from './utils';
+import { hasFeature, isOldWebBrowserControl } from './utils';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const render = (databag: string, jspPageDatabag: JSPDatabag, runLoginPage: any) => {
@@ -18,7 +18,7 @@ export const render = (databag: string, jspPageDatabag: JSPDatabag, runLoginPage
     throw new Error('Invalid databag');
   }
 
-  const { featureFlags, isMfaAttestation, isCookieCheckingKSEnabled } = combinedDatabag;
+  const { featureFlags, isMfaAttestation } = combinedDatabag;
 
   registerListeners();
 
@@ -31,7 +31,7 @@ export const render = (databag: string, jspPageDatabag: JSPDatabag, runLoginPage
   if (isOldWebBrowserControl()) {
     (window.document.getElementById('unsupported-onedrive') as HTMLElement).removeAttribute('style');
     unsupportedContainer?.removeAttribute('style');
-  } else if (failIfCookiesDisabled && ((!isCookieCheckingKSEnabled && !navigator.cookieEnabled) || (isCookieCheckingKSEnabled && !areCookiesEnabled()))) {
+  } else if (failIfCookiesDisabled && !navigator.cookieEnabled) {
     (document.getElementById('unsupported-cookie') as HTMLElement).removeAttribute('style');
     unsupportedContainer?.removeAttribute('style');
   } else {
