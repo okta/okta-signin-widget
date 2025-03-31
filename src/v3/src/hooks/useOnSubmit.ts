@@ -30,6 +30,7 @@ import {
   areTransactionsEqual,
   containsMessageKey,
   getErrorEventContext,
+  getEventContext,
   getImmutableData,
   isConfigRecoverFlow,
   isOauth2Enabled,
@@ -43,7 +44,6 @@ import {
   transformIdentifier,
   triggerRegistrationErrorMessages,
 } from '../util';
-import { getEventContext } from '../util/getEventContext';
 
 type OnSubmitHandlerOptions = {
   includeData?: boolean;

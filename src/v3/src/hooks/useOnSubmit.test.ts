@@ -15,8 +15,7 @@ import {
 } from '@okta/okta-auth-js';
 import { renderHook } from '@testing-library/preact-hooks';
 import { WidgetProps } from 'src/types';
-import { getErrorEventContext } from 'src/util';
-import { getEventContext } from 'src/util/getEventContext';
+import { getErrorEventContext, getEventContext } from 'src/util';
 
 import { useWidgetContext } from '../contexts';
 import { useOnSubmit } from './useOnSubmit';
@@ -35,6 +34,7 @@ jest.mock('../contexts', () => ({
 jest.mock('../util', () => ({
   getImmutableData: jest.fn().mockReturnValue({}),
   getErrorEventContext: jest.fn().mockReturnValue({}),
+  getEventContext: jest.fn().mockReturnValue({}),
   toNestedObject: jest.fn().mockReturnValue({}),
   SessionStorage: {
     removeStateHandle: jest.fn(),
@@ -43,10 +43,6 @@ jest.mock('../util', () => ({
   isConfigRecoverFlow: jest.fn().mockReturnValue(false),
   areTransactionsEqual: jest.fn().mockReturnValue(false),
   containsMessageKey: jest.fn().mockReturnValue(false),
-}));
-
-jest.mock('../util/getEventContext', () => ({
-  getEventContext: jest.fn().mockReturnValue({}),
 }));
 
 type MockOktaAuthIdxInterface = {
