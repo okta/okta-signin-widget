@@ -12,7 +12,7 @@
 
 // eslint-disable-next-line import/prefer-default-export
 export const mockMathRandom = () => {
-  let count = 1;
+  let count = 0;
   jest.spyOn(Math, 'random').mockImplementation(() => {
     count += 1;
     return count;
