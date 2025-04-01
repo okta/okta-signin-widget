@@ -31,7 +31,7 @@ import { mergeThemes } from './mergeThemes';
   + color: rgba(0, 0, 0, 0.6);
   + display: block;
 */
-test.skip('mergeThemes()', () => {
+test('mergeThemes()', () => {
   const odysseyTheme = createOdysseyMuiTheme({ odysseyTokens: Tokens });
 
   const merged = mergeThemes(
